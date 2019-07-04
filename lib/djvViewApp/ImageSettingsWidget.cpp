@@ -142,22 +142,22 @@ namespace djv
 
         struct ImageColorSpaceSettingsWidget::Private
         {
-            std::shared_ptr<ColorSpaceModel> colorSpaceModel;
+            std::shared_ptr<ColorSpaceModel> model;
 
-            std::shared_ptr<UI::ComboBox> inputColorSpaceComboBox;
-            std::shared_ptr<UI::ComboBox> colorDisplayComboBox;
-            std::shared_ptr<UI::ComboBox> colorViewComboBox;
+            std::shared_ptr<UI::ComboBox> inputComboBox;
+            std::shared_ptr<UI::ComboBox> displayComboBox;
+            std::shared_ptr<UI::ComboBox> viewComboBox;
             std::shared_ptr<UI::FormLayout> formLayout;
 
             std::shared_ptr<ListObserver<std::string> > colorSpacesObserver;
-            std::shared_ptr<ListObserver<std::string> > colorDisplaysObserver;
-            std::shared_ptr<ListObserver<std::string> > colorViewsObserver;
-            std::shared_ptr<ValueObserver<std::string> > inputColorSpaceObserver;
-            std::shared_ptr<ValueObserver<std::string> > inputColorSpaceObserver2;
-            std::shared_ptr<ValueObserver<std::string> > colorDisplayObserver;
-            std::shared_ptr<ValueObserver<std::string> > colorDisplayObserver2;
-            std::shared_ptr<ValueObserver<std::string> > colorViewObserver;
-            std::shared_ptr<ValueObserver<std::string> > colorViewObserver2;
+            std::shared_ptr<ListObserver<std::string> > displaysObserver;
+            std::shared_ptr<ListObserver<std::string> > viewsObserver;
+            std::shared_ptr<ValueObserver<std::string> > colorSpaceObserver;
+            std::shared_ptr<ValueObserver<std::string> > colorSpaceObserver2;
+            std::shared_ptr<ValueObserver<std::string> > displayObserver;
+            std::shared_ptr<ValueObserver<std::string> > displayObserver2;
+            std::shared_ptr<ValueObserver<std::string> > viewObserver;
+            std::shared_ptr<ValueObserver<std::string> > viewObserver2;
         };
 
         void ImageColorSpaceSettingsWidget::_init(Context* context)
@@ -167,22 +167,22 @@ namespace djv
 
             setClassName("djv::ViewApp::ImageColorSpaceSettingsWidget");
 
-            p.colorSpaceModel = ColorSpaceModel::create(context);
+            p.model = ColorSpaceModel::create(context);
 
-            p.inputColorSpaceComboBox = UI::ComboBox::create(context);
-            p.colorDisplayComboBox = UI::ComboBox::create(context);
-            p.colorViewComboBox = UI::ComboBox::create(context);
+            p.inputComboBox = UI::ComboBox::create(context);
+            p.displayComboBox = UI::ComboBox::create(context);
+            p.viewComboBox = UI::ComboBox::create(context);
 
             p.formLayout = UI::FormLayout::create(context);
-            p.formLayout->addChild(p.inputColorSpaceComboBox);
-            p.formLayout->addChild(p.colorDisplayComboBox);
-            p.formLayout->addChild(p.colorViewComboBox);
+            p.formLayout->addChild(p.inputComboBox);
+            p.formLayout->addChild(p.displayComboBox);
+            p.formLayout->addChild(p.viewComboBox);
             addChild(p.formLayout);
 
             _widgetUpdate();
 
             auto weak = std::weak_ptr<ImageColorSpaceSettingsWidget>(std::dynamic_pointer_cast<ImageColorSpaceSettingsWidget>(shared_from_this()));
-            p.inputColorSpaceComboBox->setCallback(
+            p.inputComboBox->setCallback(
                 [weak, context](int value)
                 {
                     if (auto widget = weak.lock())
@@ -190,12 +190,12 @@ namespace djv
                         auto settingsSystem = context->getSystemT<UI::Settings::System>();
                         if (auto imageSettings = settingsSystem->getSettingsT<ImageSettings>())
                         {
-                            imageSettings->setColorSpace(widget->_p->colorSpaceModel->indexToColorSpace(value));
+                            imageSettings->setColorSpace(widget->_p->model->indexToColorSpace(value));
                         }
                     }
                 });
 
-            p.colorDisplayComboBox->setCallback(
+            p.displayComboBox->setCallback(
                 [weak, context](int value)
                 {
                     if (auto widget = weak.lock())
@@ -203,12 +203,12 @@ namespace djv
                         auto settingsSystem = context->getSystemT<UI::Settings::System>();
                         if (auto imageSettings = settingsSystem->getSettingsT<ImageSettings>())
                         {
-                            imageSettings->setColorDisplay(widget->_p->colorSpaceModel->indexToDisplay(value));
+                            imageSettings->setColorDisplay(widget->_p->model->indexToDisplay(value));
                         }
                     }
                 });
 
-            p.colorViewComboBox->setCallback(
+            p.viewComboBox->setCallback(
                 [weak, context](int value)
                 {
                     if (auto widget = weak.lock())
@@ -216,101 +216,101 @@ namespace djv
                         auto settingsSystem = context->getSystemT<UI::Settings::System>();
                         if (auto imageSettings = settingsSystem->getSettingsT<ImageSettings>())
                         {
-                            imageSettings->setColorView(widget->_p->colorSpaceModel->indexToView(value));
+                            imageSettings->setColorView(widget->_p->model->indexToView(value));
                         }
                     }
                 });
 
             p.colorSpacesObserver = ListObserver<std::string>::create(
-                p.colorSpaceModel->observeColorSpaces(),
-                [weak](const std::vector<std::string>& value)
+                p.model->observeColorSpaces(),
+                [weak](const std::vector<std::string>&)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->inputColorSpaceComboBox->setItems(value);
+                        widget->_widgetUpdate();
                     }
                 });
 
-            p.colorDisplaysObserver = ListObserver<std::string>::create(
-                p.colorSpaceModel->observeDisplays(),
-                [weak](const std::vector<std::string>& value)
+            p.displaysObserver = ListObserver<std::string>::create(
+                p.model->observeDisplays(),
+                [weak](const std::vector<std::string>&)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->colorDisplayComboBox->setItems(value);
+                        widget->_widgetUpdate();
                     }
                 });
 
-            p.colorViewsObserver = ListObserver<std::string>::create(
-                p.colorSpaceModel->observeViews(),
-                [weak](const std::vector<std::string>& value)
+            p.viewsObserver = ListObserver<std::string>::create(
+                p.model->observeViews(),
+                [weak](const std::vector<std::string>&)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->colorViewComboBox->setItems(value);
+                        widget->_widgetUpdate();
                     }
                 });
 
-            p.inputColorSpaceObserver = ValueObserver<std::string>::create(
-                p.colorSpaceModel->observeColorSpace(),
-                [weak](const std::string& value)
+            p.colorSpaceObserver = ValueObserver<std::string>::create(
+                p.model->observeColorSpace(),
+                [weak](const std::string&)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->inputColorSpaceComboBox->setCurrentItem(widget->_p->colorSpaceModel->colorSpaceToIndex(value));
+                        widget->_widgetUpdate();
                     }
                 });
 
-            p.colorDisplayObserver = ValueObserver<std::string>::create(
-                p.colorSpaceModel->observeDisplay(),
-                [weak](const std::string& value)
+            p.displayObserver = ValueObserver<std::string>::create(
+                p.model->observeDisplay(),
+                [weak](const std::string&)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->colorDisplayComboBox->setCurrentItem(widget->_p->colorSpaceModel->displayToIndex(value));
+                        widget->_widgetUpdate();
                     }
                 });
 
-            p.colorViewObserver = ValueObserver<std::string>::create(
-                p.colorSpaceModel->observeView(),
-                [weak](const std::string& value)
+            p.viewObserver = ValueObserver<std::string>::create(
+                p.model->observeView(),
+                [weak](const std::string&)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->colorViewComboBox->setCurrentItem(widget->_p->colorSpaceModel->viewToIndex(value));
+                        widget->_widgetUpdate();
                     }
                 });
 
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
             if (auto imageSettings = settingsSystem->getSettingsT<ImageSettings>())
             {
-                p.inputColorSpaceObserver2 = ValueObserver<std::string>::create(
+                p.colorSpaceObserver2 = ValueObserver<std::string>::create(
                     imageSettings->observeColorSpace(),
                     [weak](const std::string& value)
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->colorSpaceModel->setColorSpace(value);
+                            widget->_p->model->setColorSpace(value);
                         }
                     });
 
-                p.colorDisplayObserver2 = ValueObserver<std::string>::create(
+                p.displayObserver2 = ValueObserver<std::string>::create(
                     imageSettings->observeColorDisplay(),
                     [weak](const std::string& value)
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->colorSpaceModel->setDisplay(value);
+                            widget->_p->model->setDisplay(value);
                         }
                     });
 
-                p.colorViewObserver2 = ValueObserver<std::string>::create(
+                p.viewObserver2 = ValueObserver<std::string>::create(
                     imageSettings->observeColorView(),
                     [weak](const std::string& value)
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->colorSpaceModel->setView(value);
+                            widget->_p->model->setView(value);
                         }
                     });
             }
@@ -345,15 +345,38 @@ namespace djv
         void ImageColorSpaceSettingsWidget::_localeEvent(Event::Locale& event)
         {
             ISettingsWidget::_localeEvent(event);
+            DJV_PRIVATE_PTR();
+            p.formLayout->setText(p.inputComboBox, _getText(DJV_TEXT("Input")) + ":");
+            p.formLayout->setText(p.displayComboBox, _getText(DJV_TEXT("Display")) + ":");
+            p.formLayout->setText(p.viewComboBox, _getText(DJV_TEXT("View")) + ":");
             _widgetUpdate();
         }
 
         void ImageColorSpaceSettingsWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.formLayout->setText(p.inputColorSpaceComboBox, _getText(DJV_TEXT("Input color space")) + ":");
-            p.formLayout->setText(p.colorDisplayComboBox, _getText(DJV_TEXT("Color display")) + ":");
-            p.formLayout->setText(p.colorViewComboBox, _getText(DJV_TEXT("Color view")) + ":");
+            auto context = getContext();
+            p.inputComboBox->clearItems();
+            for (const auto& i : p.model->observeColorSpaces()->get())
+            {
+                p.inputComboBox->addItem(!i.empty() ? i : "-");
+            }
+            const std::string& colorSpace = p.model->observeColorSpace()->get();
+            p.inputComboBox->setCurrentItem(p.model->colorSpaceToIndex(colorSpace));
+
+            p.displayComboBox->clearItems();
+            for (const auto& i : p.model->observeDisplays()->get())
+            {
+                p.displayComboBox->addItem(!i.empty() ? i : "-");
+            }
+            p.displayComboBox->setCurrentItem(p.model->displayToIndex(p.model->observeDisplay()->get()));
+
+            p.viewComboBox->clearItems();
+            for (const auto& i : p.model->observeViews()->get())
+            {
+                p.viewComboBox->addItem(!i.empty() ? i : "-");
+            }
+            p.viewComboBox->setCurrentItem(p.model->viewToIndex(p.model->observeView()->get()));
         }
 
         struct ImageRotateSettingsWidget::Private

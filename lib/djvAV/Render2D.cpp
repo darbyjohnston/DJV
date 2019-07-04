@@ -202,7 +202,8 @@ namespace djv
                 public:
                     LUT3D(size_t edgeLen = lut3DSize) :
                         _edgeLen(edgeLen),
-                        _data(new float[3 * edgeLen * edgeLen * edgeLen])
+                        _size(3 * edgeLen * edgeLen * edgeLen),
+                        _data(new float[_size])
                     {
                         glGenTextures(1, &_id);
                         glBindTexture(GL_TEXTURE_3D, _id);
@@ -235,7 +236,8 @@ namespace djv
                         delete[] _data;
                     }
 
-                    int getEdgeLen() const { return _edgeLen; }
+                    size_t getEdgeLen() const { return _edgeLen; }
+                    size_t getSize() const { return _size; }
                     float* getData() { return _data; }
                     const float* getData() const { return _data; }
                     GLuint getID() const { return _id; }
@@ -268,15 +270,17 @@ namespace djv
 
                 private:
                     size_t _edgeLen = 0;
+                    size_t _size = 0;
                     float* _data = nullptr;
                     GLuint _id = 0;
                 };
 
                 struct ColorXFormData
                 {
-                    AV::Render::ColorXForm xform;
-                    std::string            shaderSource;
-                    std::shared_ptr<LUT3D> lut3D;
+                    std::string             colorSpace;
+                    std::string             displayColorSpace;
+                    std::string             shaderSource;
+                    std::shared_ptr<LUT3D>  lut3D;
                 };
 
                 struct Render
@@ -328,21 +332,21 @@ namespace djv
                         }
                     }
 
-                    BBox2f                                           viewport;
-                    std::vector<Primitive*>                          primitives;
-                    PrimitiveData                                    primitiveData;
-                    std::shared_ptr<TextureAtlas>                    textureAtlas;
-                    std::map<UID, uint64_t>                          textureIDs;
-                    std::map<UID, uint64_t>                          glyphTextureIDs;
-                    std::map<UID, std::shared_ptr<OpenGL::Texture> > dynamicTextureCache;
-                    std::vector<ColorXFormData>                      colorXFormCache;
-                    std::vector<uint8_t>                             vboData;
-                    size_t                                           vboDataSize = 0;
-                    std::shared_ptr<OpenGL::VBO>                     vbo;
-                    std::shared_ptr<OpenGL::VAO>                     vao;
-                    std::string                                      vertexSource;
-                    std::string                                      fragmentSource;
-                    GLint                                            mvpLoc = 0;
+                    BBox2f                                              viewport;
+                    std::vector<Primitive*>                             primitives;
+                    PrimitiveData                                       primitiveData;
+                    std::shared_ptr<TextureAtlas>                       textureAtlas;
+                    std::map<UID, uint64_t>                             textureIDs;
+                    std::map<UID, uint64_t>                             glyphTextureIDs;
+                    std::map<UID, std::shared_ptr<OpenGL::Texture> >    dynamicTextureCache;
+                    std::vector<ColorXFormData>                         colorXFormCache;
+                    std::vector<uint8_t>                                vboData;
+                    size_t                                              vboDataSize = 0;
+                    std::shared_ptr<OpenGL::VBO>                        vbo;
+                    std::shared_ptr<OpenGL::VAO>                        vao;
+                    std::string                                         vertexSource;
+                    std::string                                         fragmentSource;
+                    GLint                                               mvpLoc = 0;
                 };
 
                 BBox2f flip(const BBox2f& value, const Image::Size& size)
@@ -1396,7 +1400,9 @@ namespace djv
                         textureV.min = 1.f - textureV.min;
                         textureV.max = 1.f - textureV.max;
                     }
-                    if (!options.colorXForm.first.empty() && !options.colorXForm.second.empty())
+                    const std::string& colorSpace = !options.colorSpace.empty() ? options.colorSpace : image->getColorSpace();
+                    const std::string& displayColorSpace = options.displayColorSpace;
+                    if (!colorSpace.empty() && !displayColorSpace.empty())
                     {
                         ColorXFormData xformData;
                         const size_t size = render->colorXFormCache.size();
@@ -1404,8 +1410,7 @@ namespace djv
                         for (; i < size; ++i)
                         {
                             auto& item = render->colorXFormCache[i];
-                            if (options.colorXForm.first == item.xform.first &&
-                                options.colorXForm.second == item.xform.second)
+                            if (colorSpace == item.colorSpace && displayColorSpace == item.displayColorSpace)
                             {
                                 xformData = item;
                                 break;
@@ -1415,10 +1420,11 @@ namespace djv
                         {
                             try
                             {
-                                xformData.xform = options.colorXForm;
+                                xformData.colorSpace = colorSpace;
+                                xformData.displayColorSpace = displayColorSpace;
                                 xformData.lut3D.reset(new LUT3D);
                                 auto config = OCIO::GetCurrentConfig();
-                                auto processor = config->getProcessor(options.colorXForm.first.c_str(), options.colorXForm.second.c_str());
+                                auto processor = config->getProcessor(colorSpace.c_str(), displayColorSpace.c_str());
                                 OCIO::GpuShaderDesc shaderDesc;
                                 shaderDesc.setLanguage(OCIO::GPU_LANGUAGE_GLSL_1_3);
                                 std::stringstream ss;
@@ -1431,8 +1437,10 @@ namespace djv
                                 {
                                     xformData.shaderSource.replace(index, std::string("texture3D").size(), "texture");
                                 }
-                                processor->getGpuLut3D(xformData.lut3D->getData(), shaderDesc);
+                                auto data = xformData.lut3D->getData();
+                                processor->getGpuLut3D(data, shaderDesc);
                                 xformData.lut3D->copy();
+                                ColorXFormData colorXFormData;
                                 render->colorXFormCache.push_back(xformData);
                             }
                             catch (const std::exception& e)
@@ -1440,8 +1448,11 @@ namespace djv
                                 system->_log(e.what());
                             }
                         }
-                        primitive->colorXForm = 1 + i;
-                        primitive->colorXFormID = xformData.lut3D->getID();
+                        if (xformData.lut3D)
+                        {
+                            primitive->colorXForm = 1 + i;
+                            primitive->colorXFormID = xformData.lut3D->getID();
+                        }
                     }
                     primitive->vaoOffset = render->vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
                     primitive->vaoSize = 6;

@@ -34,13 +34,9 @@
 #include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/WindowSystem.h>
 
-#include <djvUI/ButtonGroup.h>
+#include <djvUI/ComboBox.h>
 #include <djvUI/FormLayout.h>
-#include <djvUI/Label.h>
-#include <djvUI/ListButton.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/ScrollWidget.h>
-#include <djvUI/TabWidget.h>
 
 #include <djvAV/OCIOSystem.h>
 #include <djvAV/Render2D.h>
@@ -57,21 +53,10 @@ namespace djv
             std::shared_ptr<MediaWidget> activeWidget;
             std::string emptyLabel;
 
-            std::shared_ptr<UI::ButtonGroup> colorSpaceButtonGroup;
-            std::shared_ptr<UI::ButtonGroup> displayButtonGroup;
-            std::shared_ptr<UI::ButtonGroup> viewButtonGroup;
-            std::shared_ptr<UI::TabWidget> tabWidget;
-            std::map<std::string, size_t> tabIDs;
-            std::shared_ptr<UI::ScrollWidget> colorSpaceScrollWidget;
-            std::shared_ptr<UI::ScrollWidget> displayScrollWidget;
-            std::shared_ptr<UI::ScrollWidget> viewScrollWidget;
-            std::shared_ptr<UI::Label> inputColorSpaceLabel;
-            std::shared_ptr<UI::Label> outputColorSpaceLabel;
-            std::shared_ptr<UI::FormLayout> formLayout;
-            std::shared_ptr<UI::VerticalLayout> colorSpaceLayout;
-            std::shared_ptr<UI::VerticalLayout> displayLayout;
-            std::shared_ptr<UI::VerticalLayout> viewLayout;
-            std::shared_ptr<UI::VerticalLayout> layout;
+            std::shared_ptr<UI::ComboBox> colorSpaceComboBox;
+            std::shared_ptr<UI::ComboBox> displayComboBox;
+            std::shared_ptr<UI::ComboBox> viewComboBox;
+            std::shared_ptr<UI::FormLayout> layout;
 
             std::shared_ptr<ListObserver<std::string> > colorSpacesObserver;
             std::shared_ptr<ListObserver<std::string> > displaysObserver;
@@ -94,58 +79,22 @@ namespace djv
             setClassName("djv::ViewApp::ColorSpaceWidget");
             p.model = ColorSpaceModel::create(context);
 
-            p.colorSpaceButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Exclusive);
-            p.displayButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Exclusive);
-            p.viewButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Exclusive);
+            p.colorSpaceComboBox = UI::ComboBox::create(context);
+            p.displayComboBox = UI::ComboBox::create(context);
+            p.viewComboBox = UI::ComboBox::create(context);
 
-            p.colorSpaceLayout = UI::VerticalLayout::create(context);
-            p.colorSpaceLayout->setSpacing(UI::MetricsRole::None);
-            p.colorSpaceScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            p.colorSpaceScrollWidget->setBorder(false);
-            p.colorSpaceScrollWidget->setShadowOverlay({ UI::Side::Top });
-            p.colorSpaceScrollWidget->addChild(p.colorSpaceLayout);
-
-            p.displayLayout = UI::VerticalLayout::create(context);
-            p.displayLayout->setSpacing(UI::MetricsRole::None);
-            p.displayScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            p.displayScrollWidget->setBorder(false);
-            p.displayScrollWidget->setShadowOverlay({ UI::Side::Top });
-            p.displayScrollWidget->addChild(p.displayLayout);
-
-            p.viewLayout = UI::VerticalLayout::create(context);
-            p.viewLayout->setSpacing(UI::MetricsRole::None);
-            p.viewScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            p.viewScrollWidget->setBorder(false);
-            p.viewScrollWidget->setShadowOverlay({ UI::Side::Top });
-            p.viewScrollWidget->addChild(p.viewLayout);
-
-            p.tabWidget = UI::TabWidget::create(context);
-            p.tabWidget->setShadowOverlay({ UI::Side::Top });
-            p.tabIDs["ColorSpace"] = p.tabWidget->addTab(std::string(), p.colorSpaceScrollWidget);
-            p.tabIDs["Display"] = p.tabWidget->addTab(std::string(), p.displayScrollWidget);
-            p.tabIDs["View"] = p.tabWidget->addTab(std::string(), p.viewScrollWidget);
-
-            p.inputColorSpaceLabel = UI::Label::create(context);
-            p.inputColorSpaceLabel->setTextHAlign(UI::TextHAlign::Left);
-            p.outputColorSpaceLabel = UI::Label::create(context);
-            p.outputColorSpaceLabel->setTextHAlign(UI::TextHAlign::Left);
-
-            p.formLayout = UI::FormLayout::create(context);
-            p.formLayout->setMargin(UI::MetricsRole::Margin);
-            p.formLayout->setShadowOverlay({ UI::Side::Top });
-            p.formLayout->addChild(p.inputColorSpaceLabel);
-            p.formLayout->addChild(p.outputColorSpaceLabel);
-
-            p.layout = UI::VerticalLayout::create(context);
-            p.layout->setSpacing(UI::MetricsRole::None);
-            p.layout->addChild(p.tabWidget);
-            p.layout->addChild(p.formLayout);
+            p.layout = UI::FormLayout::create(context);
+            p.layout->setMargin(UI::MetricsRole::Margin);
+            p.layout->setShadowOverlay({ UI::Side::Top });
+            p.layout->addChild(p.colorSpaceComboBox);
+            p.layout->addChild(p.displayComboBox);
+            p.layout->addChild(p.viewComboBox);
             addChild(p.layout);
 
             _widgetUpdate();
 
             auto weak = std::weak_ptr<ColorSpaceWidget>(std::dynamic_pointer_cast<ColorSpaceWidget>(shared_from_this()));
-            p.colorSpaceButtonGroup->setExclusiveCallback(
+            p.colorSpaceComboBox->setCallback(
                 [weak](int value)
                 {
                     if (auto widget = weak.lock())
@@ -154,7 +103,7 @@ namespace djv
                     }
                 });
 
-            p.displayButtonGroup->setExclusiveCallback(
+            p.displayComboBox->setCallback(
                 [weak](int value)
                 {
                     if (auto widget = weak.lock())
@@ -163,7 +112,7 @@ namespace djv
                     }
                 });
 
-            p.viewButtonGroup->setExclusiveCallback(
+            p.viewComboBox->setCallback(
                 [weak](int value)
                 {
                     if (auto widget = weak.lock())
@@ -212,7 +161,7 @@ namespace djv
                         {
                             auto imageView = activeWidget->getImageView();
                             AV::Render::ImageOptions imageOptions = imageView->observeImageOptions()->get();
-                            imageOptions.colorXForm.first = value;
+                            imageOptions.colorSpace = value;
                             imageView->setImageOptions(imageOptions);
                         }
                         widget->_widgetUpdate();
@@ -259,7 +208,7 @@ namespace djv
                         {
                             auto imageView = activeWidget->getImageView();
                             AV::Render::ImageOptions imageOptions = imageView->observeImageOptions()->get();
-                            imageOptions.colorXForm.second = value;
+                            imageOptions.displayColorSpace = value;
                             imageView->setImageOptions(imageOptions);
                         }
                         widget->_widgetUpdate();
@@ -284,7 +233,7 @@ namespace djv
                                     {
                                         if (auto widget = weak.lock())
                                         {
-                                            widget->_p->model->setColorSpace(value.colorXForm.first);
+                                            widget->_p->model->setColorSpace(value.colorSpace);
                                         }
                                     });
                                 widget->_p->displayObserver2 = ValueObserver<std::string>::create(
@@ -338,11 +287,9 @@ namespace djv
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Color Space")));
             p.emptyLabel = _getText(DJV_TEXT("(empty)"));
-            p.formLayout->setText(p.inputColorSpaceLabel, _getText(DJV_TEXT("Input:")));
-            p.formLayout->setText(p.outputColorSpaceLabel, _getText(DJV_TEXT("Output:")));
-            p.tabWidget->setText(p.tabIDs["ColorSpace"], _getText(DJV_TEXT("Color Space")));
-            p.tabWidget->setText(p.tabIDs["Display"], _getText(DJV_TEXT("Display")));
-            p.tabWidget->setText(p.tabIDs["View"], _getText(DJV_TEXT("View")));
+            p.layout->setText(p.colorSpaceComboBox, _getText(DJV_TEXT("Input:")));
+            p.layout->setText(p.displayComboBox, _getText(DJV_TEXT("Display:")));
+            p.layout->setText(p.viewComboBox, _getText(DJV_TEXT("View:")));
             _widgetUpdate();
         }
 
@@ -350,47 +297,27 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
-            const bool activeWidget = p.activeWidget.get();
-            p.colorSpaceButtonGroup->clearButtons();
-            p.colorSpaceLayout->clearChildren();
+            p.colorSpaceComboBox->clearItems();
             for (const auto& i : p.model->observeColorSpaces()->get())
             {
-                auto button = UI::ListButton::create(context);
-                button->setText(i);
-                button->setEnabled(activeWidget);
-                p.colorSpaceLayout->addChild(button);
-                p.colorSpaceButtonGroup->addButton(button);
+                p.colorSpaceComboBox->addItem(!i.empty() ? i : "-");
             }
             const std::string& colorSpace = p.model->observeColorSpace()->get();
-            p.colorSpaceButtonGroup->setChecked(p.model->colorSpaceToIndex(colorSpace));
+            p.colorSpaceComboBox->setCurrentItem(p.model->colorSpaceToIndex(colorSpace));
 
-            p.displayButtonGroup->clearButtons();
-            p.displayLayout->clearChildren();
+            p.displayComboBox->clearItems();
             for (const auto& i : p.model->observeDisplays()->get())
             {
-                auto button = UI::ListButton::create(context);
-                button->setText(i);
-                button->setEnabled(activeWidget);
-                p.displayLayout->addChild(button);
-                p.displayButtonGroup->addButton(button);
+                p.displayComboBox->addItem(!i.empty() ? i : "-");
             }
-            p.displayButtonGroup->setChecked(p.model->displayToIndex(p.model->observeDisplay()->get()));
+            p.displayComboBox->setCurrentItem(p.model->displayToIndex(p.model->observeDisplay()->get()));
 
-            p.viewButtonGroup->clearButtons();
-            p.viewLayout->clearChildren();
+            p.viewComboBox->clearItems();
             for (const auto& i : p.model->observeViews()->get())
             {
-                auto button = UI::ListButton::create(context);
-                button->setText(i);
-                button->setEnabled(activeWidget);
-                p.viewLayout->addChild(button);
-                p.viewButtonGroup->addButton(button);
+                p.viewComboBox->addItem(!i.empty() ? i : "-");
             }
-            p.viewButtonGroup->setChecked(p.model->viewToIndex(p.model->observeView()->get()));
-
-            p.inputColorSpaceLabel->setText(!colorSpace.empty() ? colorSpace : p.emptyLabel);
-            const std::string& outputColorSpace = p.model->observeOutputColorSpace()->get();
-            p.outputColorSpaceLabel->setText(!outputColorSpace.empty() ? outputColorSpace : p.emptyLabel);
+            p.viewComboBox->setCurrentItem(p.model->viewToIndex(p.model->observeView()->get()));
         }
 
     } // namespace ViewApp

@@ -89,6 +89,7 @@ namespace djv
                     if (auto model = weak.lock())
                     {
                         std::vector<std::string> colorSpaces;
+                        colorSpaces.push_back("");
                         std::string current;
                         for (const auto& j : value)
                         {
@@ -109,7 +110,12 @@ namespace djv
                 {
                     if (auto model = weak.lock())
                     {
-                        model->_p->ocioDisplays = value;
+                        model->_p->ocioDisplays.clear();
+                        model->_p->ocioDisplays.push_back(AV::OCIODisplay());
+                        for (const auto& i : value)
+                        {
+                            model->_p->ocioDisplays.push_back(i);
+                        }
                         model->_modelUpdate();
                     }
                 });

@@ -161,6 +161,7 @@ namespace djv
                     Image::Info imageInfo = info.video[std::min(_layer, info.video.size() - 1)].info;
                     std::shared_ptr<Image::Image> out = Image::Image::create(imageInfo);
                     out->setTags(info.tags);
+                    out->setColorSpace("lnh");
                     const uint8_t channels = Image::getChannelCount(imageInfo.type);
                     const uint8_t channelByteCount = Image::getByteCount(getDataType(imageInfo.type));
                     const uint8_t cb = channels * channelByteCount;

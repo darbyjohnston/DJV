@@ -55,8 +55,12 @@ namespace djv
                 const Tags& getTags() const;
                 void setTags(const Tags&);
 
+                const std::string& getColorSpace() const;
+                void setColorSpace(const std::string&);
+
             private:
                 Tags _tags;
+                std::string _colorSpace;
             };
 
         } // namespace Image

@@ -74,8 +74,8 @@ namespace djv
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
             auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
             AV::Render::ImageOptions imageOptions;
-            imageOptions.colorXForm.first = imageSettings->observeColorSpace()->get();
-            imageOptions.colorXForm.second = imageSettings->observeOutputColorSpace()->get();
+            imageOptions.colorSpace = imageSettings->observeColorSpace()->get();
+            imageOptions.displayColorSpace = imageSettings->observeOutputColorSpace()->get();
             p.imageOptions = ValueSubject<AV::Render::ImageOptions>::create(imageOptions);
             p.colorDisplay = ValueSubject<std::string>::create(imageSettings->observeColorDisplay()->get());
             p.colorView = ValueSubject<std::string>::create(imageSettings->observeColorView()->get());

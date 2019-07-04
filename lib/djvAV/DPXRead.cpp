@@ -79,6 +79,7 @@ namespace djv
                     const auto info = _open(fileName, io);
                     auto out = Image::Image::create(info.video[0].info);
                     out->setTags(info.tags);
+                    out->setColorSpace("lg10");
                     const size_t size = std::min(out->getDataByteCount(), io.getSize() - io.getPos());
                     memcpy(out->getData(), io.mmapP(), size);
                     return out;

@@ -270,6 +270,11 @@ namespace djv
                 p.actionGroup->setChecked(p.currentItem);
                 p.button->setText(p.items[p.currentItem]);
             }
+            else
+            {
+                p.actionGroup->setChecked(-1);
+                p.button->setText("-");
+            }
         }
 
     } // namespace UI

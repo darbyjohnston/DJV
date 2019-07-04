@@ -63,6 +63,16 @@ namespace djv
                 _tags = value;
             }
 
+            const std::string& Image::getColorSpace() const
+            {
+                return _colorSpace;
+            }
+
+            void Image::setColorSpace(const std::string& value)
+            {
+                _colorSpace = value;
+            }
+
         } // namespace Image
     } // namespace AV
 } // namespace djv
