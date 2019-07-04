@@ -45,10 +45,6 @@ namespace djv
     {
         struct ImageSettings::Private
         {
-            std::shared_ptr<ValueSubject<std::string> > colorSpace;
-            std::shared_ptr<ValueSubject<std::string> > colorDisplay;
-            std::shared_ptr<ValueSubject<std::string> > colorView;
-            std::shared_ptr<ValueSubject<std::string> > outputColorSpace;
             std::shared_ptr<ValueSubject<ImageRotate> > rotate;
             std::shared_ptr<ValueSubject<ImageAspectRatio> > aspectRatio;
         };
@@ -58,12 +54,6 @@ namespace djv
             ISettings::_init("djv::ViewApp::ImageSettings", context);
 
             DJV_PRIVATE_PTR();
-            p.colorSpace = ValueSubject<std::string>::create();
-            auto ocioSystem = context->getSystemT<AV::OCIOSystem>();
-            p.colorDisplay = ValueSubject<std::string>::create(ocioSystem->getDefaultDisplay());
-            p.colorView = ValueSubject<std::string>::create(ocioSystem->getDefaultView());
-            p.outputColorSpace = ValueSubject<std::string>::create(_getOutputColorSpace());
-
             p.rotate = ValueSubject<ImageRotate>::create(ImageRotate::_0);
             p.aspectRatio = ValueSubject<ImageAspectRatio>::create(ImageAspectRatio::Default);
             _load();
@@ -78,47 +68,6 @@ namespace djv
             auto out = std::shared_ptr<ImageSettings>(new ImageSettings);
             out->_init(context);
             return out;
-        }
-
-        std::shared_ptr<Core::IValueSubject<std::string> > ImageSettings::observeColorSpace() const
-        {
-            return _p->colorSpace;
-        }
-
-        std::shared_ptr<Core::IValueSubject<std::string> > ImageSettings::observeColorDisplay() const
-        {
-            return _p->colorDisplay;
-        }
-
-        std::shared_ptr<Core::IValueSubject<std::string> > ImageSettings::observeColorView() const
-        {
-            return _p->colorView;
-        }
-
-        std::shared_ptr<Core::IValueSubject<std::string> > ImageSettings::observeOutputColorSpace() const
-        {
-            return _p->outputColorSpace;
-        }
-
-        void ImageSettings::setColorSpace(const std::string& value)
-        {
-            _p->colorSpace->setIfChanged(value);
-        }
-
-        void ImageSettings::setColorDisplay(const std::string& value)
-        {
-            if (_p->colorDisplay->setIfChanged(value))
-            {
-                _p->outputColorSpace->setIfChanged(_getOutputColorSpace());
-            }
-        }
-
-        void ImageSettings::setColorView(const std::string& value)
-        {
-            if (_p->colorView->setIfChanged(value))
-            {
-                _p->outputColorSpace->setIfChanged(_getOutputColorSpace());
-            }
         }
 
         std::shared_ptr<IValueSubject<ImageRotate> > ImageSettings::observeImageRotate() const
@@ -147,9 +96,6 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const auto & object = value.get<picojson::object>();
-                UI::Settings::read("ColorSpace", object, p.colorSpace);
-                UI::Settings::read("ColorDisplay", object, p.colorDisplay);
-                UI::Settings::read("ColorView", object, p.colorView);
                 UI::Settings::read("Rotate", object, p.rotate);
                 UI::Settings::read("AspectRatio", object, p.aspectRatio);
             }
@@ -160,33 +106,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             picojson::value out(picojson::object_type, true);
             auto & object = out.get<picojson::object>();
-            UI::Settings::write("ColorSpace", p.colorSpace->get(), object);
-            UI::Settings::write("ColorDisplay", p.colorDisplay->get(), object);
-            UI::Settings::write("ColorView", p.colorView->get(), object);
             UI::Settings::write("Rotate", p.rotate->get(), object);
             UI::Settings::write("AspectRatio", p.aspectRatio->get(), object);
-            return out;
-        }
-
-        std::string ImageSettings::_getOutputColorSpace() const
-        {
-            DJV_PRIVATE_PTR();
-            std::string out;
-            auto ocioSystem = getContext()->getSystemT<AV::OCIOSystem>();
-            for (const auto& i : ocioSystem->observeDisplays()->get())
-            {
-                if (p.colorDisplay->get() == i.name)
-                {
-                    for (const auto& j : i.views)
-                    {
-                        if (p.colorView->get() == j.name)
-                        {
-                            out = j.colorSpace;
-                            break;
-                        }
-                    }
-                }
-            }
             return out;
         }
 

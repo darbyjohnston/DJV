@@ -580,6 +580,7 @@ namespace djv
                         const auto info = Image::Info(size, type);
                         auto tmp = Image::Image::create(info);
                         tmp->setTags(image->getTags());
+                        tmp->setColorSpace(image->getColorSpace());
                         convert->process(*image, info, *tmp);
                         image = tmp;
                     }

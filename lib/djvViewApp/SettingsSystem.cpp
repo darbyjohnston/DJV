@@ -36,6 +36,7 @@
 #include <djvViewApp/SettingsDialog.h>
 #include <djvViewApp/UISettingsWidget.h>
 
+#include <djvUIComponents/ColorSpaceSettingsWidget.h>
 #include <djvUIComponents/DisplaySettingsWidget.h>
 #include <djvUIComponents/LanguageSettingsWidget.h>
 #include <djvUIComponents/PPMSettingsWidget.h>
@@ -130,6 +131,7 @@ namespace djv
                 UI::LanguageSettingsWidget::create(context),
                 UI::DisplaySizeSettingsWidget::create(context),
                 UI::DisplayPaletteSettingsWidget::create(context),
+                UI::ColorSpaceSettingsWidget::create(context),
                 UI::PPMSettingsWidget::create(context),
                 UI::TimeSettingsWidget::create(context),
                 UI::TooltipsSettingsWidget::create(context),
@@ -140,7 +142,6 @@ namespace djv
                 UI::TIFFSettingsWidget::create(context),
 #endif
                 ImageAspectRatioSettingsWidget::create(context),
-                ImageColorSpaceSettingsWidget::create(context),
                 ImageRotateSettingsWidget::create(context),
                 ImageViewBackgroundSettingsWidget::create(context),
                 NUXSettingsWidget::create(context),

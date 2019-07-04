@@ -29,61 +29,60 @@
 
 #pragma once
 
-#include <djvAV/AV.h>
+#include <djvUI/UI.h>
 
-#include <djvCore/ISystem.h>
 #include <djvCore/ListObserver.h>
 #include <djvCore/ValueObserver.h>
 
+#include <string>
+
 namespace djv
 {
-    namespace AV
+    namespace Core
     {
-        //! This struct provides information about a view.
-        struct OCIOView
+        class Context;
+
+    } // namespace Core
+
+    namespace UI
+    {
+        class ColorSpaceModel : public std::enable_shared_from_this<ColorSpaceModel>
         {
-            std::string name;
-            std::string colorSpace;
-            std::string looks;
-
-            bool operator == (const OCIOView&) const;
-        };
-
-        //! This struct provides information about a display.
-        struct OCIODisplay
-        {
-            std::string name;
-            std::string defaultView;
-            std::vector<OCIOView> views;
-
-            bool operator == (const OCIODisplay&) const;
-        };
-
-        //! This class provides information about the available color spaces,
-        //! displays, and views.
-        class OCIOSystem : public Core::ISystem
-        {
-            DJV_NON_COPYABLE(OCIOSystem);
+            DJV_NON_COPYABLE(ColorSpaceModel);
 
         protected:
             void _init(Core::Context *);
-            OCIOSystem();
+            ColorSpaceModel();
 
         public:
-            ~OCIOSystem() override;
-            static std::shared_ptr<OCIOSystem> create(Core::Context *);
+            ~ColorSpaceModel();
+
+            static std::shared_ptr<ColorSpaceModel> create(Core::Context *);
 
             std::shared_ptr<Core::IListSubject<std::string> > observeColorSpaces() const;
-            std::shared_ptr<Core::IListSubject<OCIODisplay> > observeDisplays() const;
+            std::shared_ptr<Core::IListSubject<std::string> > observeDisplays() const;
+            std::shared_ptr<Core::IListSubject<std::string> > observeViews() const;
+            std::shared_ptr<Core::IValueSubject<std::string> > observeColorSpace() const;
+            std::shared_ptr<Core::IValueSubject<std::string> > observeDisplay() const;
+            std::shared_ptr<Core::IValueSubject<std::string> > observeView() const;
+            std::shared_ptr<Core::IValueSubject<std::string> > observeOutputColorSpace() const;
+            void setColorSpace(const std::string&);
+            void setDisplay(const std::string&);
+            void setView(const std::string&);
 
-            const std::string& getDefaultDisplay() const;
-            const std::string& getDefaultView() const;
-
-            std::string getColorSpace(const std::string& display, const std::string& view) const;
+            int colorSpaceToIndex(const std::string&) const;
+            int displayToIndex(const std::string&) const;
+            int viewToIndex(const std::string&) const;
+            std::string indexToColorSpace(int) const;
+            std::string indexToDisplay(int) const;
+            std::string indexToView(int) const;
 
         private:
+            void _modelUpdate();
+
             DJV_PRIVATE();
         };
 
-    } // namespace AV
+    } // namespace UI
 } // namespace djv
+

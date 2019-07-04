@@ -33,6 +33,7 @@
 #include <djvViewApp/ImageViewSettings.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/ColorSpaceSettings.h>
 #include <djvUI/SettingsSystem.h>
 
 #include <djvAV/Image.h>
@@ -72,13 +73,14 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto colorSpaceSettings = settingsSystem->getSettingsT<UI::Settings::ColorSpace>();
             auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
             AV::Render::ImageOptions imageOptions;
-            imageOptions.colorSpace = imageSettings->observeColorSpace()->get();
-            imageOptions.displayColorSpace = imageSettings->observeOutputColorSpace()->get();
+            imageOptions.colorSpace = colorSpaceSettings->observeColorSpace()->get();
+            imageOptions.displayColorSpace = colorSpaceSettings->observeOutputColorSpace()->get();
             p.imageOptions = ValueSubject<AV::Render::ImageOptions>::create(imageOptions);
-            p.colorDisplay = ValueSubject<std::string>::create(imageSettings->observeColorDisplay()->get());
-            p.colorView = ValueSubject<std::string>::create(imageSettings->observeColorView()->get());
+            p.colorDisplay = ValueSubject<std::string>::create(colorSpaceSettings->observeColorDisplay()->get());
+            p.colorView = ValueSubject<std::string>::create(colorSpaceSettings->observeColorView()->get());
             p.imagePos = ValueSubject<glm::vec2>::create();
             p.imageZoom = ValueSubject<float>::create();
             p.imageRotate = ValueSubject<ImageRotate>::create(imageSettings->observeImageRotate()->get());

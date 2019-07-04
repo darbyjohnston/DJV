@@ -62,7 +62,6 @@ namespace djv
 
                 const Core::FileSystem::Path& getPath() const;
                 void setPath(const Core::FileSystem::Path&);
-
                 void setCallback(const std::function<void(const Core::FileSystem::FileInfo&)>&);
 
             protected:

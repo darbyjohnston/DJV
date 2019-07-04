@@ -29,7 +29,9 @@
 
 #include <djvUIComponents/FileBrowserItemView.h>
 
+#include <djvUI/ColorSpaceSettings.h>
 #include <djvUI/IconSystem.h>
+#include <djvUI/SettingsSystem.h>
 
 #include <djvAV/AVSystem.h>
 #include <djvAV/IO.h>
@@ -76,6 +78,8 @@ namespace djv
                 std::map<size_t, std::string> sizeText;
                 std::map<size_t, std::string> timeText;
                 std::vector<float> split = { .7f, .8f, 1.f };
+                std::string colorSpace;
+                std::shared_ptr<ValueObserver<std::string> > colorSpaceObserver;
 
                 size_t hover = invalid;
                 size_t grab = invalid;
@@ -87,7 +91,22 @@ namespace djv
             void ItemView::_init(Context * context)
             {
                 UI::Widget::_init(context);
+                DJV_PRIVATE_PTR();
                 setClassName("djv::UI::FileBrowser::ItemView");
+
+                auto settingsSystem = context->getSystemT<Settings::System>();
+                auto colorSpaceSettings = settingsSystem->getSettingsT<Settings::ColorSpace>();
+                auto weak = std::weak_ptr<ItemView>(std::dynamic_pointer_cast<ItemView>(shared_from_this()));
+                p.colorSpaceObserver = ValueObserver<std::string>::create(
+                    colorSpaceSettings->observeOutputColorSpace(),
+                    [weak](const std::string& value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->colorSpace = value;
+                            widget->_itemsUpdate();
+                        }
+                    });
             }
 
             ItemView::ItemView() :
@@ -131,7 +150,7 @@ namespace djv
                 if (value == p.split)
                     return;
                 p.split = value;
-                _redraw();
+                _resize();
             }
 
             void ItemView::setItems(const std::vector<FileSystem::FileInfo> & value)
@@ -411,7 +430,9 @@ namespace djv
                                     default: break;
                                     }
                                     render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f, opacity));
-                                    render->drawImage(j->second, pos);
+                                    AV::Render::ImageOptions options;
+                                    options.displayColorSpace = p.colorSpace;
+                                    render->drawImage(j->second, pos, options);
                                 }
                             }
                         }

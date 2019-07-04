@@ -3,6 +3,8 @@ find_package(TIFF)
 
 set(header
     ColorPicker.h
+    ColorSpaceModel.h
+    ColorSpaceSettingsWidget.h
     DisplaySettingsWidget.h
     FileBrowser.h
     FileBrowserDialog.h
@@ -21,6 +23,8 @@ set(header
     UIComponentsSystem.h)
 set(source
     ColorPicker.cpp
+    ColorSpaceModel.cpp
+    ColorSpaceSettingsWidget.cpp
     DisplaySettingsWidget.cpp
     FileBrowser.cpp
     FileBrowserDialog.cpp

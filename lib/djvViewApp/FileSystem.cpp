@@ -34,6 +34,7 @@
 #include <djvViewApp/Media.h>
 #include <djvViewApp/RecentFilesDialog.h>
 #include <djvViewApp/WindowSystem.h>
+#include <djvViewApp/WindowSystem.h>
 
 #include <djvUIComponents/FileBrowserDialog.h>
 

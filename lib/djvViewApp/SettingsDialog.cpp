@@ -36,7 +36,7 @@
 #include <djvUI/GroupBox.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
-#include <djvUI/TabWidget.h>//#include <djvUI/ToolButton.h>
+#include <djvUI/TabWidget.h>
 
 #include <djvCore/Context.h>
 

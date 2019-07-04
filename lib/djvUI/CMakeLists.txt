@@ -6,6 +6,7 @@ set(header
     Bellows.h
     Border.h
     ButtonGroup.h
+	ColorSpaceSettings.h
     ColorSwatch.h
     ComboBox.h
     DialogSystem.h
@@ -82,6 +83,7 @@ set(source
     Bellows.cpp
     Border.cpp
     ButtonGroup.cpp
+	ColorSpaceSettings.cpp
     ColorSwatch.cpp
     ComboBox.cpp
     DialogSystem.cpp

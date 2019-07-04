@@ -29,10 +29,11 @@
 
 #include <djvViewApp/ColorSpaceWidget.h>
 
-#include <djvViewApp/ColorSpaceModel.h>
 #include <djvViewApp/ImageView.h>
 #include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/WindowSystem.h>
+
+#include <djvUIComponents/ColorSpaceModel.h>
 
 #include <djvUI/ComboBox.h>
 #include <djvUI/FormLayout.h>
@@ -49,7 +50,7 @@ namespace djv
     {
         struct ColorSpaceWidget::Private
         {
-            std::shared_ptr<ColorSpaceModel> model;
+            std::shared_ptr<UI::ColorSpaceModel> model;
             std::shared_ptr<MediaWidget> activeWidget;
             std::string emptyLabel;
 
@@ -77,7 +78,7 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             setClassName("djv::ViewApp::ColorSpaceWidget");
-            p.model = ColorSpaceModel::create(context);
+            p.model = UI::ColorSpaceModel::create(context);
 
             p.colorSpaceComboBox = UI::ComboBox::create(context);
             p.displayComboBox = UI::ComboBox::create(context);

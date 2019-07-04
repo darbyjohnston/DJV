@@ -6,7 +6,6 @@ set(header
 	AudioSystem.h
     ColorPickerSystem.h
     ColorPickerWidget.h
-	ColorSpaceModel.h
 	ColorSpaceWidget.h
     DebugWidget.h
     Enum.h
@@ -56,7 +55,6 @@ set(source
 	AudioSystem.cpp
     ColorPickerSystem.cpp
     ColorPickerWidget.cpp
-	ColorSpaceModel.cpp
 	ColorSpaceWidget.cpp
     DebugWidget.cpp
     Enum.cpp

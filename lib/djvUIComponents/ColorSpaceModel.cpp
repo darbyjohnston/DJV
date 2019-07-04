@@ -27,10 +27,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewApp/ColorSpaceModel.h>
+#include <djvUIComponents/ColorSpaceModel.h>
 
-#include <djvViewApp/ImageSettings.h>
-
+#include <djvUI/ColorSpaceSettings.h>
 #include <djvUI/SettingsSystem.h>
 
 #include <djvAV/OCIOSystem.h>
@@ -42,7 +41,7 @@ using namespace djv::Core;
 
 namespace djv
 {
-    namespace ViewApp
+    namespace UI
     {
         struct ColorSpaceModel::Private
         {
@@ -71,14 +70,12 @@ namespace djv
             p.view = ValueSubject<std::string>::create();
             p.outputColorSpace = ValueSubject<std::string>::create();
 
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
-            if (auto imageSettings = settingsSystem->getSettingsT<ImageSettings>())
-            {
-                p.colorSpace->setIfChanged(imageSettings->observeColorSpace()->get());
-                p.display->setIfChanged(imageSettings->observeColorDisplay()->get());
-                p.view->setIfChanged(imageSettings->observeColorView()->get());
-                p.outputColorSpace->setIfChanged(imageSettings->observeOutputColorSpace()->get());
-            }
+            auto settingsSystem = context->getSystemT<Settings::System>();
+            auto colorSpaceSettings = settingsSystem->getSettingsT<Settings::ColorSpace>();
+            p.colorSpace->setIfChanged(colorSpaceSettings->observeColorSpace()->get());
+            p.display->setIfChanged(colorSpaceSettings->observeColorDisplay()->get());
+            p.view->setIfChanged(colorSpaceSettings->observeColorView()->get());
+            p.outputColorSpace->setIfChanged(colorSpaceSettings->observeOutputColorSpace()->get());
 
             auto weak = std::weak_ptr<ColorSpaceModel>(std::dynamic_pointer_cast<ColorSpaceModel>(shared_from_this()));
             auto ocioSystem = context->getSystemT<AV::OCIOSystem>();
@@ -269,6 +266,6 @@ namespace djv
             p.outputColorSpace->setIfChanged(outputColorSpace);
         }
 
-    } // namespace ViewApp
+    } // namespace UI
 } // namespace djv
 

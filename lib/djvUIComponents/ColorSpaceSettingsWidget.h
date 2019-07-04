@@ -29,61 +29,36 @@
 
 #pragma once
 
-#include <djvAV/AV.h>
-
-#include <djvCore/ISystem.h>
-#include <djvCore/ListObserver.h>
-#include <djvCore/ValueObserver.h>
+#include <djvUIComponents/ISettingsWidget.h>
 
 namespace djv
 {
-    namespace AV
+    namespace UI
     {
-        //! This struct provides information about a view.
-        struct OCIOView
+        class ColorSpaceSettingsWidget : public ISettingsWidget
         {
-            std::string name;
-            std::string colorSpace;
-            std::string looks;
-
-            bool operator == (const OCIOView&) const;
-        };
-
-        //! This struct provides information about a display.
-        struct OCIODisplay
-        {
-            std::string name;
-            std::string defaultView;
-            std::vector<OCIOView> views;
-
-            bool operator == (const OCIODisplay&) const;
-        };
-
-        //! This class provides information about the available color spaces,
-        //! displays, and views.
-        class OCIOSystem : public Core::ISystem
-        {
-            DJV_NON_COPYABLE(OCIOSystem);
+            DJV_NON_COPYABLE(ColorSpaceSettingsWidget);
 
         protected:
-            void _init(Core::Context *);
-            OCIOSystem();
+            void _init(Core::Context*);
+            ColorSpaceSettingsWidget();
 
         public:
-            ~OCIOSystem() override;
-            static std::shared_ptr<OCIOSystem> create(Core::Context *);
+            static std::shared_ptr<ColorSpaceSettingsWidget> create(Core::Context*);
 
-            std::shared_ptr<Core::IListSubject<std::string> > observeColorSpaces() const;
-            std::shared_ptr<Core::IListSubject<OCIODisplay> > observeDisplays() const;
+            std::string getSettingsName() const override;
+            std::string getSettingsGroup() const override;
+            std::string getSettingsSortKey() const override;
 
-            const std::string& getDefaultDisplay() const;
-            const std::string& getDefaultView() const;
-
-            std::string getColorSpace(const std::string& display, const std::string& view) const;
+        protected:
+            void _localeEvent(Core::Event::Locale&) override;
 
         private:
+            void _widgetUpdate();
+
             DJV_PRIVATE();
         };
 
-    } // namespace AV
+    } // namespace UI
 } // namespace djv
+

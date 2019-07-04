@@ -29,60 +29,47 @@
 
 #pragma once
 
-#include <djvViewApp/ViewApp.h>
+#include <djvUI/ISettings.h>
 
-#include <djvCore/ListObserver.h>
 #include <djvCore/ValueObserver.h>
-
-#include <string>
 
 namespace djv
 {
-    namespace Core
+    namespace UI
     {
-        class Context;
-
-    } // namespace Core
-
-    namespace ViewApp
-    {
-        class ColorSpaceModel : public std::enable_shared_from_this<ColorSpaceModel>
+        namespace Settings
         {
-            DJV_NON_COPYABLE(ColorSpaceModel);
+            //! This class provides color space settings.
+            class ColorSpace : public ISettings
+            {
+                DJV_NON_COPYABLE(ColorSpace);
 
-        protected:
-            void _init(Core::Context *);
-            ColorSpaceModel();
+            protected:
+                void _init(Core::Context *);
+                ColorSpace();
 
-        public:
-            ~ColorSpaceModel();
+            public:
+                virtual ~ColorSpace();
 
-            static std::shared_ptr<ColorSpaceModel> create(Core::Context *);
+                static std::shared_ptr<ColorSpace> create(Core::Context *);
 
-            std::shared_ptr<Core::IListSubject<std::string> > observeColorSpaces() const;
-            std::shared_ptr<Core::IListSubject<std::string> > observeDisplays() const;
-            std::shared_ptr<Core::IListSubject<std::string> > observeViews() const;
-            std::shared_ptr<Core::IValueSubject<std::string> > observeColorSpace() const;
-            std::shared_ptr<Core::IValueSubject<std::string> > observeDisplay() const;
-            std::shared_ptr<Core::IValueSubject<std::string> > observeView() const;
-            std::shared_ptr<Core::IValueSubject<std::string> > observeOutputColorSpace() const;
-            void setColorSpace(const std::string&);
-            void setDisplay(const std::string&);
-            void setView(const std::string&);
+                std::shared_ptr<Core::IValueSubject<std::string> > observeColorSpace() const;
+                std::shared_ptr<Core::IValueSubject<std::string> > observeColorDisplay() const;
+                std::shared_ptr<Core::IValueSubject<std::string> > observeColorView() const;
+                std::shared_ptr<Core::IValueSubject<std::string> > observeOutputColorSpace() const;
+                void setColorSpace(const std::string&);
+                void setColorDisplay(const std::string&);
+                void setColorView(const std::string&);
 
-            int colorSpaceToIndex(const std::string&) const;
-            int displayToIndex(const std::string&) const;
-            int viewToIndex(const std::string&) const;
-            std::string indexToColorSpace(int) const;
-            std::string indexToDisplay(int) const;
-            std::string indexToView(int) const;
+                void load(const picojson::value &) override;
+                picojson::value save() override;
 
-        private:
-            void _modelUpdate();
+            private:
+                std::string _getOutputColorSpace() const;
 
-            DJV_PRIVATE();
-        };
+                DJV_PRIVATE();
+            };
 
-    } // namespace ViewApp
+        } // namespace Settings
+    } // namespace UI
 } // namespace djv
-

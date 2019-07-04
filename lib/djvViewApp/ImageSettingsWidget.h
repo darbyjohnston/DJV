@@ -59,30 +59,6 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        class ImageColorSpaceSettingsWidget : public UI::ISettingsWidget
-        {
-            DJV_NON_COPYABLE(ImageColorSpaceSettingsWidget);
-
-        protected:
-            void _init(Core::Context*);
-            ImageColorSpaceSettingsWidget();
-
-        public:
-            static std::shared_ptr<ImageColorSpaceSettingsWidget> create(Core::Context*);
-
-            std::string getSettingsName() const override;
-            std::string getSettingsGroup() const override;
-            std::string getSettingsSortKey() const override;
-
-        protected:
-            void _localeEvent(Core::Event::Locale&) override;
-
-        private:
-            void _widgetUpdate();
-
-            DJV_PRIVATE();
-        };
-
         class ImageRotateSettingsWidget : public UI::ISettingsWidget
         {
             DJV_NON_COPYABLE(ImageRotateSettingsWidget);
