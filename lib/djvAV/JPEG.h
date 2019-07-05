@@ -57,8 +57,8 @@ namespace djv
                 static const std::string pluginName = "JPEG";
                 static const std::set<std::string> fileExtensions = { ".jpeg", ".jpg", ".jfif" };
 
-                //! This struct provides the JPEG file I/O settings.
-                struct Settings
+                //! This struct provides the JPEG file I/O options.
+                struct Options
                 {
                     int quality = 90;
                 };
@@ -110,8 +110,8 @@ namespace djv
 
                     static std::shared_ptr<Write> create(
                         const std::string & fileName,
-                        const Settings &,
                         const Info &,
+                        const Options&,
                         const std::shared_ptr<Core::ResourceSystem>&,
                         const std::shared_ptr<Core::LogSystem>&);
 
@@ -159,10 +159,10 @@ namespace djv
         } // namespace IO
     } // namespace AV
 
-    picojson::value toJSON(const AV::IO::JPEG::Settings &);
+    picojson::value toJSON(const AV::IO::JPEG::Options&);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value &, AV::IO::JPEG::Settings &);
+    void fromJSON(const picojson::value &, AV::IO::JPEG::Options&);
 
 } // namespace djv

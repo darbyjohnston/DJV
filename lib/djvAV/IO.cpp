@@ -315,6 +315,7 @@ namespace djv
 
             struct System::Private
             {
+                std::shared_ptr<ValueSubject<bool> > optionsChanged;
                 std::map<std::string, std::shared_ptr<IPlugin> > plugins;
             };
 
@@ -325,6 +326,8 @@ namespace djv
                 DJV_PRIVATE_PTR();
 
                 addDependency(context->getSystemT<CoreSystem>());
+
+                p.optionsChanged = ValueSubject<bool>::create();
 
                 auto logSystem = context->getSystemT<LogSystem>();
                 auto resourceSystem = context->getSystemT<ResourceSystem>();
@@ -400,7 +403,13 @@ namespace djv
                 if (i != p.plugins.end())
                 {
                     i->second->setOptions(value);
+                    p.optionsChanged->setAlways(true);
                 }
+            }
+
+            std::shared_ptr<IValueSubject<bool> > System::observeOptionsChanged() const
+            {
+                return _p->optionsChanged;
             }
 
             bool System::canRead(const std::string & fileName) const

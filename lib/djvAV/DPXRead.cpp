@@ -44,6 +44,7 @@ namespace djv
                 struct Read::Private
                 {
                     ColorProfile colorProfile = ColorProfile::FilmPrint;
+                    Options options;
                 };
 
                 Read::Read() :
@@ -58,10 +59,12 @@ namespace djv
                 std::shared_ptr<Read> Read::create(
                     const std::string & fileName,
                     size_t layer,
+                    const Options& options,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Read>(new Read);
+                    out->_p->options = options;
                     out->_init(fileName, layer, resourceSystem, logSystem);
                     return out;
                 }
@@ -79,7 +82,10 @@ namespace djv
                     const auto info = _open(fileName, io);
                     auto out = Image::Image::create(info.video[0].info);
                     out->setTags(info.tags);
-                    out->setColorSpace("lg10");
+                    if (ColorProfile::FilmPrint == p.colorProfile)
+                    {
+                        out->setColorSpace(p.options.colorSpace);
+                    }
                     const size_t size = std::min(out->getDataByteCount(), io.getSize() - io.getPos());
                     memcpy(out->getData(), io.mmapP(), size);
                     return out;

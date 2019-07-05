@@ -73,7 +73,12 @@ namespace djv
                 p.label = Label::create(context);
                 p.label->setHAlign(HAlign::Left);
                 p.label->setMargin(MetricsRole::MarginSmall);
-                p.label->hide();
+                switch (menuStyle)
+                {
+                case MenuStyle::Flat:
+                case MenuStyle::Tool: p.label->hide(); break;
+                default: break;
+                }
 
                 p.popupIcon = Icon::create(context);
                 p.popupIcon->setVAlign(VAlign::Center);
@@ -147,7 +152,13 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 p.label->setText(value);
-                p.label->setVisible(!value.empty());
+                switch (p.menuStyle)
+                {
+                case MenuStyle::Flat:
+                case MenuStyle::Tool:       p.label->setVisible(!value.empty());    break;
+                case MenuStyle::ComboBox:   p.label->show();                        break;
+                default: break;
+                }
             }
 
             void Menu::setFontSizeRole(MetricsRole value)

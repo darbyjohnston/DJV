@@ -44,7 +44,7 @@ namespace djv
             {
                 struct Write::Private
                 {
-                    Settings settings;
+                    Options options;
                 };
 
                 Write::Write() :
@@ -58,13 +58,13 @@ namespace djv
 
                 std::shared_ptr<Write> Write::create(
                     const std::string& fileName,
-                    const Settings& settings,
                     const Info& info,
+                    const Options& options,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Write>(new Write);
-                    out->_p->settings = settings;
+                    out->_p->options = options;
                     out->_init(fileName, info, resourceSystem, logSystem);
                     return out;
                 }
@@ -113,7 +113,7 @@ namespace djv
                         jpeg_compress_struct* jpeg,
                         const Image::Info& info,
                         const Tags& tags,
-                        const Settings& settings,
+                        const Options& options,
                         JPEGErrorStruct* error)
                     {
                         if (setjmp(error->jump))
@@ -134,7 +134,7 @@ namespace djv
                             jpeg->in_color_space = JCS_RGB;
                         }
                         jpeg_set_defaults(jpeg);
-                        jpeg_set_quality(jpeg, settings.quality, static_cast<boolean>(1));
+                        jpeg_set_quality(jpeg, options.quality, static_cast<boolean>(1));
                         jpeg_start_compress(jpeg, static_cast<boolean>(1));
                         std::string tag = tags.getTag("Description");
                         if (tag.length())
@@ -233,7 +233,7 @@ namespace djv
                     }
 
                     const auto& info = image->getInfo();
-                    if (!jpegOpen(f.f, &f.jpeg, info, _info.tags, _p->settings, &f.jpegError))
+                    if (!jpegOpen(f.f, &f.jpeg, info, _info.tags, _p->options, &f.jpegError))
                     {
                         std::stringstream s;
                         s << pluginName << " " << DJV_TEXT("The file") <<

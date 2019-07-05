@@ -180,7 +180,9 @@ namespace djv
             Memory::Cache<size_t, IO::Info> infoCache;
             std::atomic<float> infoCachePercentage;
             Memory::Cache<size_t, std::shared_ptr<Image::Image> > imageCache;
+            std::atomic<bool> imageCacheClear;
             std::atomic<float> imageCachePercentage;
+            std::shared_ptr<ValueObserver<bool> > ioOptionsObserver;
 
             GLFWwindow * glfwWindow = nullptr;
             std::shared_ptr<Time::Timer> statsTimer;
@@ -202,6 +204,7 @@ namespace djv
             p.infoCachePercentage = 0.f;
             p.imageCache.setMax(imageCacheMax);
             p.imageCachePercentage = 0.f;
+            p.imageCacheClear = false;
 
 #if defined(DJV_OPENGL_ES2)
             glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
@@ -267,6 +270,11 @@ namespace djv
                     const auto timeout = Time::getValue(Time::TimerValue::Medium);
                     while (p.running)
                     {
+                        if (p.imageCacheClear)
+                        {
+                            p.imageCache.clear();
+                        }
+
                         bool infoRequests  = p.pendingInfoRequests.size();
                         bool imageRequests = p.pendingImageRequests.size();
                         {
@@ -299,6 +307,17 @@ namespace djv
                     logSystem->log("djv::AV::ThumbnailSystem", e.what(), LogLevel::Error);
                 }
             });
+
+            auto weak = std::weak_ptr<ThumbnailSystem>(std::dynamic_pointer_cast<ThumbnailSystem>(shared_from_this()));
+            p.ioOptionsObserver = ValueObserver<bool>::create(
+                io->observeOptionsChanged(),
+                [weak](bool value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->imageCacheClear = true;
+                    }
+                });
         }
 
         ThumbnailSystem::ThumbnailSystem() :

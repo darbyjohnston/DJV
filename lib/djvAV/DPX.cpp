@@ -893,7 +893,7 @@ namespace djv
 
                 struct Plugin::Private
                 {
-                    Settings settings;
+                    Options options;
                 };
 
                 Plugin::Plugin() :
@@ -916,22 +916,22 @@ namespace djv
 
                 picojson::value Plugin::getOptions() const
                 {
-                    return toJSON(_p->settings);
+                    return toJSON(_p->options);
                 }
 
                 void Plugin::setOptions(const picojson::value & value)
                 {
-                    fromJSON(value, _p->settings);
+                    fromJSON(value, _p->options);
                 }
 
                 std::shared_ptr<IRead> Plugin::read(const std::string & fileName, size_t layer) const
                 {
-                    return Read::create(fileName, layer, _resourceSystem, _logSystem);
+                    return Read::create(fileName, layer, _p->options, _resourceSystem, _logSystem);
                 }
 
                 std::shared_ptr<IWrite> Plugin::write(const std::string & fileName, const Info & info) const
                 {
-                    return Write::create(fileName, _p->settings, info, _resourceSystem, _logSystem);
+                    return Write::create(fileName, info, _p->options, _resourceSystem, _logSystem);
                 }
 
             } // namespace DPX
@@ -951,28 +951,26 @@ namespace djv
         DJV_TEXT("MSB"),
         DJV_TEXT("LSB"));
 
-    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        AV::IO::DPX,
-        ColorProfile,
-        DJV_TEXT("Raw"),
-        DJV_TEXT("FilmPrint"));
-
-    picojson::value toJSON(const AV::IO::DPX::Settings& value)
+    picojson::value toJSON(const AV::IO::DPX::Options& value)
     {
         picojson::value out(picojson::object_type, true);
         {
             {
                 std::stringstream ss;
-                ss << value.colorProfile;
+                ss << value.version;
                 out.get<picojson::object>()["Version"] = picojson::value(ss.str());
-                out.get<picojson::object>()["Endian"] = picojson::value(ss.str());
-                out.get<picojson::object>()["ColorProfile"] = picojson::value(ss.str());
             }
+            {
+                std::stringstream ss;
+                ss << value.endian;
+                out.get<picojson::object>()["Endian"] = picojson::value(ss.str());
+            }
+            out.get<picojson::object>()["ColorSpace"] = toJSON(value.colorSpace);
         }
         return out;
     }
 
-    void fromJSON(const picojson::value& value, AV::IO::DPX::Settings& out)
+    void fromJSON(const picojson::value& value, AV::IO::DPX::Options& out)
     {
         if (value.is<picojson::object>())
         {
@@ -988,10 +986,9 @@ namespace djv
                     std::stringstream ss(i.second.get<std::string>());
                     ss >> out.endian;
                 }
-                else if ("ColorProfile" == i.first)
+                else if ("ColorSpace" == i.first)
                 {
-                    std::stringstream ss(i.second.get<std::string>());
-                    ss >> out.colorProfile;
+                    fromJSON(i.second, out.colorSpace);
                 }
             }
         }

@@ -38,6 +38,7 @@
 #include <djvCore/PicoJSON.h>
 #include <djvCore/Speed.h>
 #include <djvCore/Time.h>
+#include <djvCore/ValueObserver.h>
 
 #include <future>
 #include <mutex>
@@ -319,6 +320,8 @@ namespace djv
                 //! Throws:
                 //! - std::exception
                 void setOptions(const std::string & pluginName, const picojson::value &);
+
+                std::shared_ptr<Core::IValueSubject<bool> > observeOptionsChanged() const;
 
                 bool canRead(const std::string &) const;
                 bool canWrite(const std::string &, const Info &) const;

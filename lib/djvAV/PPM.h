@@ -58,8 +58,8 @@ namespace djv
                 };
                 DJV_ENUM_HELPERS(Data);
 
-                //! This struct provides the PPM file I/O settings.
-                struct Settings
+                //! This struct provides the PPM file I/O options.
+                struct Options
                 {
                     Data data = Data::Binary;
                 };
@@ -122,8 +122,8 @@ namespace djv
 
                     static std::shared_ptr<Write> create(
                         const std::string & fileName,
-                        const Settings &,
                         const Info &,
+                        const Options&,
                         const std::shared_ptr<Core::ResourceSystem>&,
                         const std::shared_ptr<Core::LogSystem>&);
 
@@ -165,10 +165,10 @@ namespace djv
 
     DJV_ENUM_SERIALIZE_HELPERS(AV::IO::PPM::Data);
     
-    picojson::value toJSON(const AV::IO::PPM::Settings &);
+    picojson::value toJSON(const AV::IO::PPM::Options &);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value &, AV::IO::PPM::Settings &);
+    void fromJSON(const picojson::value &, AV::IO::PPM::Options &);
 
 } // namespace djv

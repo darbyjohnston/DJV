@@ -273,7 +273,6 @@ namespace djv
             else
             {
                 p.actionGroup->setChecked(-1);
-                p.button->setText("-");
             }
         }
 

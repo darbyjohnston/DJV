@@ -36,9 +36,12 @@
 #include <djvViewApp/SettingsDialog.h>
 #include <djvViewApp/UISettingsWidget.h>
 
+#include <djvUIComponents/CineonSettingsWidget.h>
 #include <djvUIComponents/ColorSpaceSettingsWidget.h>
+#include <djvUIComponents/DPXSettingsWidget.h>
 #include <djvUIComponents/DisplaySettingsWidget.h>
 #include <djvUIComponents/LanguageSettingsWidget.h>
+#include <djvUIComponents/OpenEXRSettingsWidget.h>
 #include <djvUIComponents/PPMSettingsWidget.h>
 #include <djvUIComponents/TimeSettingsWidget.h>
 #include <djvUIComponents/TooltipsSettingsWidget.h>
@@ -131,7 +134,10 @@ namespace djv
                 UI::LanguageSettingsWidget::create(context),
                 UI::DisplaySizeSettingsWidget::create(context),
                 UI::DisplayPaletteSettingsWidget::create(context),
-                UI::ColorSpaceSettingsWidget::create(context),
+                UI::PPMSettingsWidget::create(context),
+                UI::CineonSettingsWidget::create(context),
+                UI::DPXSettingsWidget::create(context),
+                UI::OpenEXRSettingsWidget::create(context),
                 UI::PPMSettingsWidget::create(context),
                 UI::TimeSettingsWidget::create(context),
                 UI::TooltipsSettingsWidget::create(context),

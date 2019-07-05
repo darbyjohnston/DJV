@@ -68,10 +68,11 @@ namespace djv
             p.comboBox->setCallback(
                 [weak, context](int value)
             {
-                AV::IO::PPM::Settings settings;
-                settings.data = static_cast<AV::IO::PPM::Data>(value);
                 auto io = context->getSystemT<AV::IO::System>();
-                io->setOptions(AV::IO::PPM::pluginName, toJSON(settings));
+                AV::IO::PPM::Options options;
+                fromJSON(io->getOptions(AV::IO::PPM::pluginName), options);
+                options.data = static_cast<AV::IO::PPM::Data>(value);
+                io->setOptions(AV::IO::PPM::pluginName, toJSON(options));
             });
         }
 
@@ -112,6 +113,11 @@ namespace djv
         void PPMSettingsWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
+            auto context = getContext();
+            auto io = context->getSystemT<AV::IO::System>();
+            AV::IO::PPM::Options options;
+            fromJSON(io->getOptions(AV::IO::PPM::pluginName), options);
+
             p.comboBox->clearItems();
             for (auto i : AV::IO::PPM::getDataEnums())
             {
@@ -119,11 +125,7 @@ namespace djv
                 ss << i;
                 p.comboBox->addItem(_getText(ss.str()));
             }
-            AV::IO::PPM::Settings settings;
-            auto context = getContext();
-            auto io = context->getSystemT<AV::IO::System>();
-            fromJSON(io->getOptions(AV::IO::PPM::pluginName), settings);
-            p.comboBox->setCurrentItem(static_cast<int>(settings.data));
+            p.comboBox->setCurrentItem(static_cast<int>(options.data));
         }
 
     } // namespace UI

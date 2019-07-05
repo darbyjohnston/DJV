@@ -68,6 +68,7 @@ namespace djv
                     Count,
                     First = None
                 };
+                DJV_ENUM_HELPERS(Channels);
 
                 //! This struct provides an OpenEXR image channel.
                 struct Channel
@@ -112,6 +113,7 @@ namespace djv
                     Count,
                     First = None
                 };
+                DJV_ENUM_HELPERS(Compression);
 
                 //! Get a layer name from a list of channel names.
                 std::string getLayerName(const std::vector<std::string>&);
@@ -143,13 +145,14 @@ namespace djv
                 //! Convert from an Imf channel.
                 Channel fromImf(const std::string& name, const Imf::Channel&);
 
-                //! This struct provides the OpenEXR file I/O settings.
-                struct Settings
+                //! This struct provides the OpenEXR file I/O optioms.
+                struct Options
                 {
                     size_t      threadCount         = 1;
                     Channels    channels            = Channels::Known;
                     Compression compression         = Compression::None;
                     float       dwaCompressionLevel = 45.f;
+                    std::string colorSpace;
                 };
 
                 //! This class provides a memory-mapped input stream.
@@ -185,7 +188,7 @@ namespace djv
                     static std::shared_ptr<Read> create(
                         const std::string & fileName,
                         size_t layer,
-                        const Settings&,
+                        const Options&,
                         const std::shared_ptr<Core::ResourceSystem>&,
                         const std::shared_ptr<Core::LogSystem>&);
 
@@ -214,7 +217,7 @@ namespace djv
                     static std::shared_ptr<Write> create(
                         const std::string & fileName,
                         const Info&,
-                        const Settings &,
+                        const Options&,
                         const std::shared_ptr<Core::ResourceSystem>&,
                         const std::shared_ptr<Core::LogSystem>&);
 
@@ -257,10 +260,10 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS(AV::IO::OpenEXR::Compression);
     DJV_ENUM_SERIALIZE_HELPERS(AV::IO::OpenEXR::Channels);
 
-    picojson::value toJSON(const AV::IO::OpenEXR::Settings &);
+    picojson::value toJSON(const AV::IO::OpenEXR::Options&);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value &, AV::IO::OpenEXR::Settings &);
+    void fromJSON(const picojson::value &, AV::IO::OpenEXR::Options&);
 
 } // namespace djv

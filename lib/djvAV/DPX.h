@@ -80,7 +80,6 @@ namespace djv
                     Count,
                     First = Raw
                 };
-                DJV_ENUM_HELPERS(ColorProfile);
 
                 //! This constant provides the DPX file magic numbers.
                 static const char magic[][5] =
@@ -314,12 +313,12 @@ namespace djv
                 //! Finish writing the DPX file header after image data is written.
                 void writeFinish(Core::FileSystem::FileIO&);
 
-                //! This struct provides the DPX file I/O settings.
-                struct Settings
+                //! This struct provides the DPX file I/O options.
+                struct Options
                 {
                     Version         version         = Version::_2_0;
                     Endian          endian          = Endian::Auto;
-                    ColorProfile    colorProfile    = ColorProfile::FilmPrint;
+                    std::string     colorSpace;
                 };
 
                 //! This class provides the DPX file reader.
@@ -336,6 +335,7 @@ namespace djv
                     static std::shared_ptr<Read> create(
                         const std::string & fileName,
                         size_t layer,
+                        const Options&,
                         const std::shared_ptr<Core::ResourceSystem>&,
                         const std::shared_ptr<Core::LogSystem>&);
 
@@ -362,8 +362,8 @@ namespace djv
 
                     static std::shared_ptr<Write> create(
                         const std::string & fileName,
-                        const Settings&,
                         const Info &,
+                        const Options&,
                         const std::shared_ptr<Core::ResourceSystem>&,
                         const std::shared_ptr<Core::LogSystem>&);
 
@@ -405,12 +405,11 @@ namespace djv
 
     DJV_ENUM_SERIALIZE_HELPERS(AV::IO::DPX::Version);
     DJV_ENUM_SERIALIZE_HELPERS(AV::IO::DPX::Endian);
-    DJV_ENUM_SERIALIZE_HELPERS(AV::IO::DPX::ColorProfile);
 
-    picojson::value toJSON(const AV::IO::DPX::Settings&);
+    picojson::value toJSON(const AV::IO::DPX::Options&);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value&, AV::IO::DPX::Settings&);
+    void fromJSON(const picojson::value&, AV::IO::DPX::Options&);
 
 } // namespace djv

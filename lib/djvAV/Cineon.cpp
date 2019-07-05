@@ -43,109 +43,6 @@ namespace djv
         {
             namespace Cineon
             {
-                bool LinearToFilmPrint::operator == (const LinearToFilmPrint& other) const
-                {
-                    return
-                        black == other.black &&
-                        white == other.white &&
-                        gamma == other.gamma;
-                }
-
-                bool LinearToFilmPrint::operator != (const LinearToFilmPrint& other) const
-                {
-                    return !(*this == other);
-                }
-
-                std::shared_ptr<Image::Data> linearToFilmPrintLut(const LinearToFilmPrint& value)
-                {
-                    static const uint16_t size = 1024;
-                    auto out = Image::Data::create(Image::Info(size, 1, Image::Type::L_F32));
-                    Image::F32_T* data = reinterpret_cast<Image::F32_T*>(out->getData());
-                    const float gain =
-                        1.f / (
-                            1.f - powf(
-                                powf(10.f, (value.black - value.white) * .002f / .6f),
-                                value.gamma / 1.7f));
-                    const float offset = gain - 1.f;
-                    for (uint16_t i = 0; i < size; ++i)
-                    {
-                        data[i] = i / Image::F32_T(size - 1);
-                    }
-                    for (int i = 0; i < size; ++i)
-                    {
-                        data[i] = Image::F32_T(
-                            value.white / 1023.f +
-                            log10f(
-                                powf((data[i] + offset) / gain, 1.7f / value.gamma)) /
-                                (2.048f / .6f));
-                    }
-                    return out;
-                }
-
-                bool FilmPrintToLinear::operator == (const FilmPrintToLinear& other) const
-                {
-                    return
-                        black == other.black &&
-                        white == other.white &&
-                        gamma == other.gamma &&
-                        softClip == other.softClip;
-                }
-
-                bool FilmPrintToLinear::operator != (const FilmPrintToLinear& other) const
-                {
-                    return !(*this == other);
-                }
-
-                std::shared_ptr<Image::Data> filmPrintToLinearLut(const FilmPrintToLinear& value)
-                {
-                    static const uint16_t size = 1024;
-                    auto out = Image::Data::create(Image::Info(size, 1, Image::Type::L_F32));
-                    Image::F32_T* data = reinterpret_cast<Image::F32_T*>(out->getData());
-                    const float gain =
-                        1.f / (
-                            1.f - powf(
-                                powf(10.f, (value.black - value.white) * .002f / .6f),
-                                value.gamma / 1.7f));
-                    const float offset = gain - 1.f;
-                    const int breakPoint = value.white - value.softClip;
-                    const float kneeOffset =
-                        powf(
-                            powf(10.f, (breakPoint - value.white) * .002f / .6f),
-                            value.gamma / 1.7f
-                        ) *
-                        gain - offset;
-                    const float kneeGain =
-                        (
-                        (255 - (kneeOffset * 255)) /
-                            powf(5.f * value.softClip, value.softClip / 100.f)
-                            ) / 255.f;
-                    for (uint16_t i = 0; i < size; ++i)
-                    {
-                        data[i] = i / static_cast<Image::F32_T>(size - 1);
-                    }
-                    for (uint16_t i = 0; i < size; ++i)
-                    {
-                        const uint16_t tmp = static_cast<int>(data[i] * 1023.f);
-                        if (tmp < value.black)
-                        {
-                            data[i] = 0.f;
-                        }
-                        else if (tmp > breakPoint)
-                        {
-                            data[i] = (powf(static_cast<float>(tmp - breakPoint),
-                                value.softClip / 100.f) *
-                                kneeGain * 255 + kneeOffset * 255) / 255.f;
-                        }
-                        else
-                        {
-                            data[i] = (powf(
-                                powf(10.f, (tmp - value.white) * .002f / .6f),
-                                value.gamma / 1.7f) * gain - offset);
-                        }
-                    }
-                    return out;
-                }
-
                 namespace
                 {
                     void zero(int32_t* value)
@@ -689,7 +586,7 @@ namespace djv
 
                 struct Plugin::Private
                 {
-                    Settings settings;
+                    Options options;
                 };
 
                 Plugin::Plugin() :
@@ -712,173 +609,48 @@ namespace djv
 
                 picojson::value Plugin::getOptions() const
                 {
-                    return toJSON(_p->settings);
+                    return toJSON(_p->options);
                 }
 
                 void Plugin::setOptions(const picojson::value & value)
                 {
-                    fromJSON(value, _p->settings);
+                    fromJSON(value, _p->options);
                 }
 
                 std::shared_ptr<IRead> Plugin::read(const std::string & fileName, size_t layer) const
                 {
-                    return Read::create(fileName, layer, _resourceSystem, _logSystem);
+                    return Read::create(fileName, layer, _p->options, _resourceSystem, _logSystem);
                 }
 
                 std::shared_ptr<IWrite> Plugin::write(const std::string & fileName, const Info & info) const
                 {
-                    return Write::create(fileName, _p->settings, info, _resourceSystem, _logSystem);
+                    return Write::create(fileName, info, _p->options, _resourceSystem, _logSystem);
                 }
 
             } // namespace Cineon
         } // namespace IO
     } // namespace AV
 
-    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        AV::IO::Cineon,
-        ColorProfile,
-        DJV_TEXT("Raw"),
-        DJV_TEXT("FilmPrint"));
-
-    picojson::value toJSON(const AV::IO::Cineon::LinearToFilmPrint& value)
+    picojson::value toJSON(const AV::IO::Cineon::Options& value)
     {
         picojson::value out(picojson::object_type, true);
         {
             {
-                std::stringstream ss;
-                ss << value.black;
-                out.get<picojson::object>()["Black"] = picojson::value(ss.str());
-            }
-            {
-                std::stringstream ss;
-                ss << value.white;
-                out.get<picojson::object>()["White"] = picojson::value(ss.str());
-            }
-            {
-                std::stringstream ss;
-                ss << value.gamma;
-                out.get<picojson::object>()["Gamma"] = picojson::value(ss.str());
+                out.get<picojson::object>()["ColorSpace"] = toJSON(value.colorSpace);
             }
         }
         return out;
     }
 
-    picojson::value toJSON(const AV::IO::Cineon::FilmPrintToLinear& value)
-    {
-        picojson::value out(picojson::object_type, true);
-        {
-            {
-                std::stringstream ss;
-                ss << value.black;
-                out.get<picojson::object>()["Black"] = picojson::value(ss.str());
-            }
-            {
-                std::stringstream ss;
-                ss << value.white;
-                out.get<picojson::object>()["White"] = picojson::value(ss.str());
-            }
-            {
-                std::stringstream ss;
-                ss << value.gamma;
-                out.get<picojson::object>()["Gamma"] = picojson::value(ss.str());
-            }
-            {
-                std::stringstream ss;
-                ss << static_cast<uint16_t>(value.softClip);
-                out.get<picojson::object>()["SoftClip"] = picojson::value(ss.str());
-            }
-        }
-        return out;
-    }
-
-    picojson::value toJSON(const AV::IO::Cineon::Settings& value)
-    {
-        picojson::value out(picojson::object_type, true);
-        {
-            {
-                std::stringstream ss;
-                ss << value.colorProfile;
-                out.get<picojson::object>()["ColorProfile"] = picojson::value(ss.str());
-            }
-        }
-        return out;
-    }
-
-    void fromJSON(const picojson::value& value, AV::IO::Cineon::LinearToFilmPrint& out)
+    void fromJSON(const picojson::value& value, AV::IO::Cineon::Options& out)
     {
         if (value.is<picojson::object>())
         {
             for (const auto& i : value.get<picojson::object>())
             {
-                if ("Black" == i.first)
+                if ("ColorSpace" == i.first)
                 {
-                    std::stringstream ss(i.second.get<std::string>());
-                    ss >> out.black;
-                }
-                else if ("White" == i.first)
-                {
-                    std::stringstream ss(i.second.get<std::string>());
-                    ss >> out.white;
-                }
-                else if ("Gamma" == i.first)
-                {
-                    std::stringstream ss(i.second.get<std::string>());
-                    ss >> out.gamma;
-                }
-            }
-        }
-        else
-        {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
-        }
-    }
-
-    void fromJSON(const picojson::value& value, AV::IO::Cineon::FilmPrintToLinear& out)
-    {
-        if (value.is<picojson::object>())
-        {
-            for (const auto& i : value.get<picojson::object>())
-            {
-                if ("Black" == i.first)
-                {
-                    std::stringstream ss(i.second.get<std::string>());
-                    ss >> out.black;
-                }
-                else if ("White" == i.first)
-                {
-                    std::stringstream ss(i.second.get<std::string>());
-                    ss >> out.white;
-                }
-                else if ("Gamma" == i.first)
-                {
-                    std::stringstream ss(i.second.get<std::string>());
-                    ss >> out.gamma;
-                }
-                else if ("SoftClip" == i.first)
-                {
-                    std::stringstream ss(i.second.get<std::string>());
-                    uint16_t tmp = 0;
-                    ss >> tmp;
-                    out.softClip = static_cast<uint8_t>(tmp);
-                }
-            }
-        }
-        else
-        {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
-        }
-    }
-
-    void fromJSON(const picojson::value& value, AV::IO::Cineon::Settings& out)
-    {
-        if (value.is<picojson::object>())
-        {
-            for (const auto& i : value.get<picojson::object>())
-            {
-                if ("ColorProfile" == i.first)
-                {
-                    std::stringstream ss(i.second.get<std::string>());
-                    ss >> out.colorProfile;
+                    fromJSON(i.second, out.colorSpace);
                 }
             }
         }

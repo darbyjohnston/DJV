@@ -35,16 +35,16 @@ namespace djv
 {
     namespace UI
     {
-        class TIFFSettingsWidget : public ISettingsWidget
+        class DPXSettingsWidget : public ISettingsWidget
         {
-            DJV_NON_COPYABLE(TIFFSettingsWidget);
+            DJV_NON_COPYABLE(DPXSettingsWidget);
 
         protected:
             void _init(Core::Context *);
-            TIFFSettingsWidget();
+            DPXSettingsWidget();
 
         public:
-            static std::shared_ptr<TIFFSettingsWidget> create(Core::Context *);
+            static std::shared_ptr<DPXSettingsWidget> create(Core::Context *);
 
             std::string getSettingsName() const override;
             std::string getSettingsGroup() const override;

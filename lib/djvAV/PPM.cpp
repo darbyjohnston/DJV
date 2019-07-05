@@ -121,7 +121,7 @@ namespace djv
 
                 struct Plugin::Private
                 {
-                    Settings settings;
+                    Options options;
                 };
 
                 Plugin::Plugin() :
@@ -144,12 +144,12 @@ namespace djv
 
                 picojson::value Plugin::getOptions() const
                 {
-                    return toJSON(_p->settings);
+                    return toJSON(_p->options);
                 }
 
                 void Plugin::setOptions(const picojson::value & value)
                 {
-                    fromJSON(value, _p->settings);
+                    fromJSON(value, _p->options);
                 }
 
                 std::shared_ptr<IRead> Plugin::read(const std::string & fileName, size_t layer) const
@@ -159,14 +159,14 @@ namespace djv
 
                 std::shared_ptr<IWrite> Plugin::write(const std::string & fileName, const Info & info) const
                 {
-                    return Write::create(fileName, _p->settings, info, _resourceSystem, _logSystem);
+                    return Write::create(fileName, info, _p->options, _resourceSystem, _logSystem);
                 }
 
             } // namespace PPM
         } // namespace IO
     } // namespace AV
     
-    picojson::value toJSON(const AV::IO::PPM::Settings & value)
+    picojson::value toJSON(const AV::IO::PPM::Options & value)
     {
         picojson::value out(picojson::object_type, true);
         {
@@ -177,7 +177,7 @@ namespace djv
         return out;
     }
 
-    void fromJSON(const picojson::value & value, AV::IO::PPM::Settings & out)
+    void fromJSON(const picojson::value & value, AV::IO::PPM::Options & out)
     {
         if (value.is<picojson::object>())
         {

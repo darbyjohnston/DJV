@@ -35,16 +35,16 @@ namespace djv
 {
     namespace UI
     {
-        class TIFFSettingsWidget : public ISettingsWidget
+        class CineonSettingsWidget : public ISettingsWidget
         {
-            DJV_NON_COPYABLE(TIFFSettingsWidget);
+            DJV_NON_COPYABLE(CineonSettingsWidget);
 
         protected:
             void _init(Core::Context *);
-            TIFFSettingsWidget();
+            CineonSettingsWidget();
 
         public:
-            static std::shared_ptr<TIFFSettingsWidget> create(Core::Context *);
+            static std::shared_ptr<CineonSettingsWidget> create(Core::Context *);
 
             std::string getSettingsName() const override;
             std::string getSettingsGroup() const override;

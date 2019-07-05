@@ -41,7 +41,7 @@ namespace djv
             {
                 struct Write::Private
                 {
-                    Settings settings;
+                    Options options;
                 };
 
                 Write::Write() :
@@ -56,12 +56,12 @@ namespace djv
                 std::shared_ptr<Write> Write::create(
                     const std::string & fileName,
                     const Info & info,
-                    const Settings& settings,
+                    const Options& options,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Write>(new Write);
-                    out->_p->settings = settings;
+                    out->_p->options = options;
                     out->_init(fileName, info, resourceSystem, logSystem);
                     return out;
                 }

@@ -583,7 +583,7 @@ namespace djv
 
                 struct Plugin::Private
                 {
-                    Settings settings;
+                    Options options;
                 };
 
                 Plugin::Plugin() :
@@ -595,6 +595,7 @@ namespace djv
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Plugin>(new Plugin);
+                    Imf::setGlobalThreadCount(out->_p->options.threadCount);
                     out->_init(
                         pluginName,
                         DJV_TEXT("This plugin provides OpenEXR file I/O."),
@@ -606,22 +607,24 @@ namespace djv
 
                 picojson::value Plugin::getOptions() const
                 {
-                    return toJSON(_p->settings);
+                    return toJSON(_p->options);
                 }
 
                 void Plugin::setOptions(const picojson::value & value)
                 {
-                    fromJSON(value, _p->settings);
+                    DJV_PRIVATE_PTR();
+                    fromJSON(value, p.options);
+                    Imf::setGlobalThreadCount(p.options.threadCount);
                 }
 
                 std::shared_ptr<IRead> Plugin::read(const std::string & fileName, size_t layer) const
                 {
-                    return Read::create(fileName, layer, _p->settings, _resourceSystem, _logSystem);
+                    return Read::create(fileName, layer, _p->options, _resourceSystem, _logSystem);
                 }
 
                 std::shared_ptr<IWrite> Plugin::write(const std::string & fileName, const Info & info) const
                 {
-                    return Write::create(fileName, info, _p->settings, _resourceSystem, _logSystem);
+                    return Write::create(fileName, info, _p->options, _resourceSystem, _logSystem);
                 }
 
             } // namespace OpenEXR
@@ -649,7 +652,7 @@ namespace djv
         DJV_TEXT("DWAA"),
         DJV_TEXT("DWAB"));
 
-    picojson::value toJSON(const AV::IO::OpenEXR::Settings & value)
+    picojson::value toJSON(const AV::IO::OpenEXR::Options & value)
     {
         picojson::value out(picojson::object_type, true);
         {
@@ -665,11 +668,12 @@ namespace djv
                 out.get<picojson::object>()["Compression"] = picojson::value(ss.str());
             }
             out.get<picojson::object>()["DWACompressionLevel"] = toJSON(value.dwaCompressionLevel);
+            out.get<picojson::object>()["ColorSpace"] = toJSON(value.colorSpace);
         }
         return out;
     }
 
-    void fromJSON(const picojson::value & value, AV::IO::OpenEXR::Settings & out)
+    void fromJSON(const picojson::value & value, AV::IO::OpenEXR::Options & out)
     {
         if (value.is<picojson::object>())
         {
@@ -692,6 +696,10 @@ namespace djv
                 else if ("DWACompressionLevel" == i.first)
                 {
                     fromJSON(i.second, out.dwaCompressionLevel);
+                }
+                else if ("ColorSpace" == i.first)
+                {
+                    fromJSON(i.second, out.colorSpace);
                 }
             }
         }

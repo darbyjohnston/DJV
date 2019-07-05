@@ -2,9 +2,11 @@ find_package(JPEG)
 find_package(TIFF)
 
 set(header
+	CineonSettingsWidget.h
     ColorPicker.h
     ColorSpaceModel.h
     ColorSpaceSettingsWidget.h
+	DPXSettingsWidget.h
     DisplaySettingsWidget.h
     FileBrowser.h
     FileBrowserDialog.h
@@ -15,6 +17,7 @@ set(header
     LanguageSettingsWidget.h
 	LineGraphWidget.h
     ListViewHeader.h
+	OpenEXRSettingsWidget.h
     PPMSettingsWidget.h
     SearchBox.h
 	ThermometerWidget.h
@@ -22,9 +25,11 @@ set(header
     TooltipsSettingsWidget.h
     UIComponentsSystem.h)
 set(source
+	CineonSettingsWidget.cpp
     ColorPicker.cpp
     ColorSpaceModel.cpp
     ColorSpaceSettingsWidget.cpp
+	DPXSettingsWidget.cpp
     DisplaySettingsWidget.cpp
     FileBrowser.cpp
     FileBrowserDialog.cpp
@@ -38,6 +43,7 @@ set(source
     LanguageSettingsWidget.cpp
 	LineGraphWidget.cpp
     ListViewHeader.cpp
+	OpenEXRSettingsWidget.cpp
     PPMSettingsWidget.cpp
     SearchBox.cpp
 	ThermometerWidget.cpp

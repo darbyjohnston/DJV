@@ -41,14 +41,12 @@ namespace djv
             {
                 struct Write::Private
                 {
-                    Settings settings;
+                    Options options;
                 };
 
-                Write::Write(const Settings & settings) :
+                Write::Write() :
                     _p(new Private)
-                {
-                    _p->settings = settings;
-                }
+                {}
 
                 Write::~Write()
                 {
@@ -57,12 +55,13 @@ namespace djv
 
                 std::shared_ptr<Write> Write::create(
                     const std::string & fileName,
-                    const Settings & settings,
                     const Info & info,
+                    const Options& options,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
-                    auto out = std::shared_ptr<Write>(new Write(settings));
+                    auto out = std::shared_ptr<Write>(new Write);
+                    out->_p->options = options;
                     out->_init(fileName, info, resourceSystem, logSystem);
                     return out;
                 }
@@ -188,7 +187,7 @@ namespace djv
                         break;
                     default: break;
                     }
-                    switch (_p->settings.compression)
+                    switch (_p->options.compression)
                     {
                     case Compression::None:
                         compression = COMPRESSION_NONE;

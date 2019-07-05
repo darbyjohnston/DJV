@@ -301,7 +301,7 @@ namespace djv
             p.colorSpaceComboBox->clearItems();
             for (const auto& i : p.model->observeColorSpaces()->get())
             {
-                p.colorSpaceComboBox->addItem(!i.empty() ? i : "-");
+                p.colorSpaceComboBox->addItem(i);
             }
             const std::string& colorSpace = p.model->observeColorSpace()->get();
             p.colorSpaceComboBox->setCurrentItem(p.model->colorSpaceToIndex(colorSpace));
@@ -309,14 +309,14 @@ namespace djv
             p.displayComboBox->clearItems();
             for (const auto& i : p.model->observeDisplays()->get())
             {
-                p.displayComboBox->addItem(!i.empty() ? i : "-");
+                p.displayComboBox->addItem(i);
             }
             p.displayComboBox->setCurrentItem(p.model->displayToIndex(p.model->observeDisplay()->get()));
 
             p.viewComboBox->clearItems();
             for (const auto& i : p.model->observeViews()->get())
             {
-                p.viewComboBox->addItem(!i.empty() ? i : "-");
+                p.viewComboBox->addItem(i);
             }
             p.viewComboBox->setCurrentItem(p.model->viewToIndex(p.model->observeView()->get()));
         }

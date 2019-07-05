@@ -55,47 +55,6 @@ namespace djv
                     Count,
                     First = Raw
                 };
-                DJV_ENUM_HELPERS(ColorProfile);
-
-                //! This struct provides options to convert from linear color space to
-                //! the Cineon film print color space.
-                //!
-                //! - Black point range = 0 - 1023, default value = 95
-                //! - White point range = 0 - 1023, default value = 685
-                //! - Gamma range = 0.01 - 4.0, default value = 1.7
-                struct LinearToFilmPrint
-                {
-                    uint16_t black = 95;
-                    uint16_t white = 685;
-                    float    gamma = 1.7f;
-
-                    bool operator == (const LinearToFilmPrint&) const;
-                    bool operator != (const LinearToFilmPrint&) const;
-                };
-
-                //! Create a linear color space to Cineon film print color space LUT.
-                std::shared_ptr<Image::Data> linearToFilmPrintLut(const LinearToFilmPrint&);
-
-                //! This struct provides options to convert from the Cineon film print
-                //! color space to a linear color space.
-                //!
-                //! - Black point range = 0 - 1023, default value = 95
-                //! - White point range = 0 - 1023, default value = 685
-                //! - Gamma range = 0.01 - 4.0, default value = 1.7
-                //! - Soft clip range = 0 - 50, default value = 0
-                struct FilmPrintToLinear
-                {
-                    uint16_t black    = 95;
-                    uint16_t white    = 685;
-                    float    gamma    = 1.7f;
-                    uint8_t  softClip = 0;
-
-                    bool operator == (const FilmPrintToLinear&) const;
-                    bool operator != (const FilmPrintToLinear&) const;
-                };
-
-                //! Create a Cineon film print color space to linear space LUT.
-                std::shared_ptr<Image::Data> filmPrintToLinearLut(const FilmPrintToLinear&);
 
                 //! This constant provides the Cineon file header magic numbers.
                 const uint32_t magic[] =
@@ -232,10 +191,10 @@ namespace djv
                 //! Finish writing the Cineon file header after image data is written.
                 void writeFinish(Core::FileSystem::FileIO&);
 
-                //! This struct provides the Cineon file I/O settings.
-                struct Settings
+                //! This struct provides the Cineon file I/O options.
+                struct Options
                 {
-                    ColorProfile colorProfile = ColorProfile::FilmPrint;
+                    std::string colorSpace;
                 };
 
                 //! This class provides the Cineon file reader.
@@ -252,6 +211,7 @@ namespace djv
                     static std::shared_ptr<Read> create(
                         const std::string & fileName,
                         size_t layer,
+                        const Options&,
                         const std::shared_ptr<Core::ResourceSystem>&,
                         const std::shared_ptr<Core::LogSystem>&);
 
@@ -278,8 +238,8 @@ namespace djv
 
                     static std::shared_ptr<Write> create(
                         const std::string & fileName,
-                        const Settings&,
                         const Info &,
+                        const Options&,
                         const std::shared_ptr<Core::ResourceSystem>&,
                         const std::shared_ptr<Core::LogSystem>&);
 
@@ -319,22 +279,10 @@ namespace djv
         } // namespace IO
     } // namespace AV
 
-    DJV_ENUM_SERIALIZE_HELPERS(AV::IO::Cineon::ColorProfile);
-
-    picojson::value toJSON(const AV::IO::Cineon::FilmPrintToLinear&);
-    picojson::value toJSON(const AV::IO::Cineon::LinearToFilmPrint&);
-    picojson::value toJSON(const AV::IO::Cineon::Settings&);
+    picojson::value toJSON(const AV::IO::Cineon::Options&);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value&, AV::IO::Cineon::LinearToFilmPrint&);
-
-    //! Throws:
-    //! - std::exception
-    void fromJSON(const picojson::value&, AV::IO::Cineon::FilmPrintToLinear&);
-
-    //! Throws:
-    //! - std::exception
-    void fromJSON(const picojson::value&, AV::IO::Cineon::Settings&);
+    void fromJSON(const picojson::value&, AV::IO::Cineon::Options&);
 
 } // namespace djv

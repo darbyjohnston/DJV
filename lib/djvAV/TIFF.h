@@ -60,8 +60,8 @@ namespace djv
                 };
                 DJV_ENUM_HELPERS(Compression);
 
-                //! This struct provides the TIFF file I/O settings.
-                struct Settings
+                //! This struct provides the TIFF file I/O options.
+                struct Options
                 {
                     Compression compression = Compression::LZW;
                 };
@@ -107,15 +107,15 @@ namespace djv
                     DJV_NON_COPYABLE(Write);
 
                 protected:
-                    Write(const Settings &);
+                    Write();
 
                 public:
                     ~Write() override;
 
                     static std::shared_ptr<Write> create(
                         const std::string & fileName,
-                        const Settings &,
                         const Info &,
+                        const Options&,
                         const std::shared_ptr<Core::ResourceSystem>&,
                         const std::shared_ptr<Core::LogSystem>&);
 
@@ -157,10 +157,10 @@ namespace djv
 
     DJV_ENUM_SERIALIZE_HELPERS(AV::IO::TIFF::Compression);
 
-    picojson::value toJSON(const AV::IO::TIFF::Settings &);
+    picojson::value toJSON(const AV::IO::TIFF::Options &);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value &, AV::IO::TIFF::Settings &);
+    void fromJSON(const picojson::value &, AV::IO::TIFF::Options &);
 
 } // namespace djv

@@ -43,7 +43,7 @@ namespace djv
             {
                 struct Write::Private
                 {
-                    Settings settings;
+                    Options options;
                 };
 
                 Write::Write() :
@@ -57,13 +57,13 @@ namespace djv
 
                 std::shared_ptr<Write> Write::create(
                     const std::string & fileName,
-                    const Settings& settings,
                     const Info & info,
+                    const Options& options,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Write>(new Write);
-                    out->_p->settings = settings;
+                    out->_p->options = options;
                     out->_init(fileName, info, resourceSystem, logSystem);
                     return out;
                 }
@@ -89,7 +89,7 @@ namespace djv
                     Info info;
                     info.video.push_back(image->getInfo());
                     info.tags = image->getTags();
-                    write(io, info, p.settings.colorProfile);
+                    write(io, info, p.options.colorSpace.empty() ? ColorProfile::Raw : ColorProfile::FilmPrint);
                     io.write(image->getData(), image->getDataByteCount());
                     writeFinish(io);
                 }

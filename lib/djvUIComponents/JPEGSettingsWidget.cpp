@@ -45,7 +45,6 @@ namespace djv
     {
         struct JPEGSettingsWidget::Private
         {
-            AV::IO::JPEG::Settings settings;
             std::shared_ptr<IntSlider> qualitySlider;
             std::shared_ptr<FormLayout> layout;
         };
@@ -59,17 +58,12 @@ namespace djv
 
             p.qualitySlider = IntSlider::create(context);
             p.qualitySlider->setRange(IntRange(0, 100));
-            p.qualitySlider->setMargin(MetricsRole::MarginSmall);
 
             p.layout = FormLayout::create(context);
             p.layout->addChild(p.qualitySlider);
             addChild(p.layout);
 
-            if (auto io = context->getSystemT<AV::IO::System>())
-            {
-                fromJSON(io->getOptions(AV::IO::JPEG::pluginName), p.settings);
-                p.qualitySlider->setValue(p.settings.quality);
-            }
+            _widgetUpdate();
 
             auto weak = std::weak_ptr<JPEGSettingsWidget>(std::dynamic_pointer_cast<JPEGSettingsWidget>(shared_from_this()));
             p.qualitySlider->setValueCallback(
@@ -77,11 +71,11 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    if (auto io = context->getSystemT<AV::IO::System>())
-                    {
-                        widget->_p->settings.quality = value;
-                        io->setOptions(AV::IO::JPEG::pluginName, toJSON(widget->_p->settings));
-                    }
+                    auto io = context->getSystemT<AV::IO::System>();
+                    AV::IO::JPEG::Options options;
+                    fromJSON(io->getOptions(AV::IO::JPEG::pluginName), options);
+                    options.quality = value;
+                    io->setOptions(AV::IO::JPEG::pluginName, toJSON(options));
                 }
             });
         }
@@ -117,6 +111,16 @@ namespace djv
             ISettingsWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
             p.layout->setText(p.qualitySlider, _getText(DJV_TEXT("Compression quality:")));
+        }
+
+        void JPEGSettingsWidget::_widgetUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            auto context = getContext();
+            auto io = context->getSystemT<AV::IO::System>();
+            AV::IO::JPEG::Options options;
+            fromJSON(io->getOptions(AV::IO::JPEG::pluginName), options);
+            p.qualitySlider->setValue(options.quality);
         }
 
     } // namespace UI

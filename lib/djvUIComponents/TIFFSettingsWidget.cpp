@@ -61,17 +61,18 @@ namespace djv
             p.layout->addChild(p.compressionComboBox);
             addChild(p.layout);
 
+            _widgetUpdate();
+
             auto weak = std::weak_ptr<TIFFSettingsWidget>(std::dynamic_pointer_cast<TIFFSettingsWidget>(shared_from_this()));
             p.compressionComboBox->setCallback(
                 [weak, context](int value)
-            {
-                if (auto io = context->getSystemT<AV::IO::System>())
                 {
-                    AV::IO::TIFF::Settings settings;
-                    settings.compression = static_cast<AV::IO::TIFF::Compression>(value);
-                    io->setOptions(AV::IO::TIFF::pluginName, toJSON(settings));
-                }
-            });
+                    auto io = context->getSystemT<AV::IO::System>();
+                    AV::IO::TIFF::Options options;
+                    fromJSON(io->getOptions(AV::IO::TIFF::pluginName), options);
+                    options.compression = static_cast<AV::IO::TIFF::Compression>(value);
+                    io->setOptions(AV::IO::TIFF::pluginName, toJSON(options));
+                });
         }
 
         TIFFSettingsWidget::TIFFSettingsWidget() :
@@ -111,6 +112,11 @@ namespace djv
         void TIFFSettingsWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
+            auto context = getContext();
+            auto io = context->getSystemT<AV::IO::System>();
+            AV::IO::TIFF::Options options;
+            fromJSON(io->getOptions(AV::IO::TIFF::pluginName), options);
+
             p.compressionComboBox->clearItems();
             for (auto i : AV::IO::TIFF::getCompressionEnums())
             {
@@ -118,18 +124,7 @@ namespace djv
                 ss << i;
                 p.compressionComboBox->addItem(_getText(ss.str()));
             }
-            _currentItemUpdate();
-        }
-
-        void TIFFSettingsWidget::_currentItemUpdate()
-        {
-            DJV_PRIVATE_PTR();
-            if (auto io = getContext()->getSystemT<AV::IO::System>())
-            {
-                AV::IO::TIFF::Settings settings;
-                fromJSON(io->getOptions(AV::IO::TIFF::pluginName), settings);
-                p.compressionComboBox->setCurrentItem(static_cast<int>(settings.compression));
-            }
+            p.compressionComboBox->setCurrentItem(static_cast<int>(options.compression));
         }
 
     } // namespace UI

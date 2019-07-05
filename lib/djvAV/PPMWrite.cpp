@@ -43,7 +43,7 @@ namespace djv
             {
                 struct Write::Private
                 {
-                    Settings settings;
+                    Options options;
                 };
 
                 Write::Write() :
@@ -57,13 +57,13 @@ namespace djv
 
                 std::shared_ptr<Write> Write::create(
                     const std::string & fileName,
-                    const Settings & settings,
                     const Info & info,
+                    const Options& options,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Write>(new Write);
-                    out->_p->settings = settings;
+                    out->_p->options = options;
                     out->_init(fileName, info, resourceSystem, logSystem);
                     return out;
                 }
@@ -102,7 +102,7 @@ namespace djv
                 Image::Layout Write::_getImageLayout() const
                 {
                     Image::Layout out;
-                    out.endian = _p->settings.data != Data::ASCII ? Memory::Endian::MSB : Memory::getEndian();
+                    out.endian = _p->options.data != Data::ASCII ? Memory::Endian::MSB : Memory::getEndian();
                     return out;
                 }
                 
@@ -111,7 +111,7 @@ namespace djv
                     DJV_PRIVATE_PTR();
 
                     const auto& info = image->getInfo();
-                    int ppmType = Data::ASCII == p.settings.data ? 2 : 5;
+                    int ppmType = Data::ASCII == p.options.data ? 2 : 5;
                     const uint8_t channelCount = Image::getChannelCount(info.type);
                     if (3 == channelCount)
                     {
@@ -134,7 +134,7 @@ namespace djv
                     io.write(s.str());
                     io.writeU8('\n');
 
-                    switch (p.settings.data)
+                    switch (p.options.data)
                     {
                     case Data::ASCII:
                     {
