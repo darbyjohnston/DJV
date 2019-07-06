@@ -67,7 +67,7 @@ namespace djv
 
                     static std::shared_ptr<Read> create(
                         const std::string & fileName,
-                        size_t layer,
+                        const ReadOptions&,
                         const std::shared_ptr<Core::ResourceSystem>&,
                         const std::shared_ptr<Core::LogSystem>&);
 
@@ -94,6 +94,7 @@ namespace djv
                     static std::shared_ptr<Write> create(
                         const std::string & fileName,
                         const Info &,
+                        const WriteOptions&,
                         const std::shared_ptr<Core::ResourceSystem>&,
                         const std::shared_ptr<Core::LogSystem>&);
 
@@ -118,8 +119,8 @@ namespace djv
                         const std::shared_ptr<Core::ResourceSystem>&,
                         const std::shared_ptr<Core::LogSystem>&);
 
-                    std::shared_ptr<IRead> read(const std::string & fileName, size_t layer = 0) const override;
-                    std::shared_ptr<IWrite> write(const std::string & fileName, const Info &) const override;
+                    std::shared_ptr<IRead> read(const std::string & fileName, const ReadOptions&) const override;
+                    std::shared_ptr<IWrite> write(const std::string & fileName, const Info &, const WriteOptions&) const override;
                 };
 
                 extern "C"

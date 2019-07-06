@@ -148,7 +148,7 @@ namespace djv
                 //! This struct provides the OpenEXR file I/O optioms.
                 struct Options
                 {
-                    size_t      threadCount         = 1;
+                    size_t      threadCount         = 4;
                     Channels    channels            = Channels::Known;
                     Compression compression         = Compression::None;
                     float       dwaCompressionLevel = 45.f;
@@ -187,7 +187,7 @@ namespace djv
 
                     static std::shared_ptr<Read> create(
                         const std::string & fileName,
-                        size_t layer,
+                        const ReadOptions&,
                         const Options&,
                         const std::shared_ptr<Core::ResourceSystem>&,
                         const std::shared_ptr<Core::LogSystem>&);
@@ -217,6 +217,7 @@ namespace djv
                     static std::shared_ptr<Write> create(
                         const std::string & fileName,
                         const Info&,
+                        const WriteOptions&,
                         const Options&,
                         const std::shared_ptr<Core::ResourceSystem>&,
                         const std::shared_ptr<Core::LogSystem>&);
@@ -246,8 +247,8 @@ namespace djv
                     picojson::value getOptions() const override;
                     void setOptions(const picojson::value &) override;
 
-                    std::shared_ptr<IRead> read(const std::string & fileName, size_t layer = 0) const override;
-                    std::shared_ptr<IWrite> write(const std::string & fileName, const Info &) const override;
+                    std::shared_ptr<IRead> read(const std::string & fileName, const ReadOptions&) const override;
+                    std::shared_ptr<IWrite> write(const std::string & fileName, const Info &, const WriteOptions&) const override;
 
                 private:
                     DJV_PRIVATE();

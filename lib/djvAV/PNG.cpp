@@ -58,14 +58,14 @@ namespace djv
                     return out;
                 }
 
-                std::shared_ptr<IRead> Plugin::read(const std::string & fileName, size_t layer) const
+                std::shared_ptr<IRead> Plugin::read(const std::string & fileName, const ReadOptions& options) const
                 {
-                    return Read::create(fileName, layer, _resourceSystem, _logSystem);
+                    return Read::create(fileName, options, _resourceSystem, _logSystem);
                 }
 
-                std::shared_ptr<IWrite> Plugin::write(const std::string & fileName, const Info & info) const
+                std::shared_ptr<IWrite> Plugin::write(const std::string & fileName, const Info & info, const WriteOptions& options) const
                 {
-                    return Write::create(fileName, info, _resourceSystem, _logSystem);
+                    return Write::create(fileName, info, options, _resourceSystem, _logSystem);
                 }
 
                 extern "C"

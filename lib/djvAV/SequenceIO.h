@@ -47,7 +47,7 @@ namespace djv
             protected:
                 void _init(
                     const std::string & fileName,
-                    size_t layer,
+                    const ReadOptions&,
                     const std::shared_ptr<Core::ResourceSystem>&,
                     const std::shared_ptr<Core::LogSystem>&);
                 ISequenceRead();
@@ -81,6 +81,7 @@ namespace djv
                 void _init(
                     const std::string &,
                     const Info &,
+                    const WriteOptions&,
                     const std::shared_ptr<Core::ResourceSystem>&,
                     const std::shared_ptr<Core::LogSystem>&);
                 ISequenceWrite();

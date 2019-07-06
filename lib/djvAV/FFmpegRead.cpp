@@ -477,6 +477,7 @@ namespace djv
                     p.running = false;
                     if (p.thread.joinable())
                     {
+						//! \todo How do we safely detach the thread here so we don't block?
                         p.thread.join();
                     }
                 }

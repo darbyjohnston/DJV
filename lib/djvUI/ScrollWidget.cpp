@@ -502,6 +502,7 @@ namespace djv
                         {
                         case ScrollType::Both:
                             contentsSize = glm::max(contentsSize, ms);
+                            contentsSize = glm::max(contentsSize, glm::vec2(gw, gh));
                             break;
                         case ScrollType::Horizontal:
                             contentsSize.x = std::max(contentsSize.x, ms.x);

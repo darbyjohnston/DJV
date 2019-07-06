@@ -54,7 +54,7 @@ namespace djv
             namespace
             {
                 //! \todo [1.0 S] Should this be configurable?
-                const size_t threadCount = 4;
+                const size_t threadCount = 8;
 
             } // namespace
 
@@ -69,11 +69,11 @@ namespace djv
 
             void ISequenceRead::_init(
                 const std::string & fileName,
-                size_t layer,
+                const ReadOptions& options,
                 const std::shared_ptr<ResourceSystem>& resourceSystem,
                 const std::shared_ptr<LogSystem>& logSystem)
             {
-                IRead::_init(fileName, layer, resourceSystem, logSystem);
+                IRead::_init(fileName, options, resourceSystem, logSystem);
                 _speed = Time::Speed();
                 _p->running = true;
                 _p->thread = std::thread(
@@ -255,6 +255,7 @@ namespace djv
                 p.running = false;
                 if (p.thread.joinable())
                 {
+                    //! \todo How do we safely detach the thread here so we don't block?
                     p.thread.join();
                 }
             }
@@ -272,10 +273,11 @@ namespace djv
             void ISequenceWrite::_init(
                 const std::string& fileName,
                 const Info& info,
+                const WriteOptions& options,
                 const std::shared_ptr<ResourceSystem>& resourceSystem,
                 const std::shared_ptr<LogSystem>& logSystem)
             {
-                IWrite::_init(fileName, info, resourceSystem, logSystem);
+                IWrite::_init(fileName, info, options, resourceSystem, logSystem);
 
                 DJV_PRIVATE_PTR();
 
@@ -471,6 +473,7 @@ namespace djv
                 p.running = false;
                 if (p.thread.joinable())
                 {
+                    //! \todo How do we safely detach the thread here so we don't block?
                     p.thread.join();
                 }
                 if (p.glfwWindow)

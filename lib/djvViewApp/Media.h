@@ -62,6 +62,7 @@ namespace djv
 
             const std::string & getFileName() const;
             std::shared_ptr<Core::IValueSubject<AV::IO::Info> > observeInfo() const;
+            std::shared_ptr<Core::IValueSubject<size_t> > observeLayer() const;
             std::shared_ptr<Core::IValueSubject<Core::Time::Speed> > observeSpeed() const;
             std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > observeDuration() const;
             std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > observeCurrentTime() const;
@@ -80,6 +81,10 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<size_t> > observeAudioQueueCount() const;
             std::shared_ptr<Core::IValueSubject<size_t> > observeALQueueCount() const;
 
+            void reload();
+            void setLayer(size_t);
+            void nextLayer();
+            void prevLayer();
             void setSpeed(const Core::Time::Speed&);
             void setCurrentTime(Core::Time::Timestamp);
             void setPlayback(Playback);
@@ -101,6 +106,7 @@ namespace djv
         private:
             DJV_PRIVATE();
 
+            void _open();
             void _playbackUpdate();
             void _playbackTick();
             void _timeUpdate();

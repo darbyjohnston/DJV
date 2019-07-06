@@ -51,7 +51,6 @@ namespace djv
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
-            std::shared_ptr<AnnotateWidget> annotateWidget;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };

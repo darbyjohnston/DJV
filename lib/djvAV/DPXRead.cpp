@@ -58,14 +58,14 @@ namespace djv
 
                 std::shared_ptr<Read> Read::create(
                     const std::string & fileName,
-                    size_t layer,
+                    const ReadOptions& readOptions,
                     const Options& options,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Read>(new Read);
                     out->_p->options = options;
-                    out->_init(fileName, layer, resourceSystem, logSystem);
+                    out->_init(fileName, readOptions, resourceSystem, logSystem);
                     return out;
                 }
 
@@ -97,7 +97,6 @@ namespace djv
                     io.open(fileName, FileSystem::FileIO::Mode::Read);
                     Info info;
                     info.video.resize(1);
-                    info.video[0].info.name = fileName;
                     read(io, info, p.colorProfile);
                     info.video[0].duration = _duration;
                     return info;

@@ -23,6 +23,7 @@ set(header
 	ImageViewSettingsWidget.h
     ImageViewSystem.h
     InformationWidget.h
+	LayersWidget.h
 	MDIWidget.h
     MagnifierSystem.h
     MagnifierWidget.h
@@ -72,6 +73,7 @@ set(source
 	ImageViewSettingsWidget.cpp
     ImageViewSystem.cpp
     InformationWidget.cpp
+	LayersWidget.cpp
 	MDIWidget.cpp
     MagnifierSystem.cpp
     MagnifierWidget.cpp

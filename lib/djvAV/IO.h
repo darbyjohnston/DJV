@@ -120,10 +120,10 @@ namespace djv
                 DJV_NON_COPYABLE(VideoQueue);
 
             public:
-                //! \todo [1.0 S] What is a good default for this value?
-                VideoQueue(size_t max = 10);
+                VideoQueue();
 
                 inline size_t getMax() const;
+                void setMax(size_t);
 
                 inline bool hasFrames() const;
                 inline size_t getFrameCount() const;
@@ -157,10 +157,10 @@ namespace djv
                 DJV_NON_COPYABLE(AudioQueue);
 
             public:
-                //! \todo [1.0 S] What is a good default for this value?
-                AudioQueue(size_t max = 10);
+                AudioQueue();
 
                 inline size_t getMax() const;
+                void setMax(size_t);
 
                 inline bool hasFrames() const;
                 inline size_t getFrameCount() const;
@@ -179,6 +179,14 @@ namespace djv
                 bool _finished = false;
             };
 
+            //! This class provides I/O options.
+            struct IOOptions
+            {
+                size_t videoQueueSize = 1;
+                //! \todo [1.0 S] What is a good default for this value?
+                size_t audioQueueSize = 30;
+            };
+
             //! This class provides an interface for I/O.
             class IIO : public std::enable_shared_from_this<IIO>
             {
@@ -187,6 +195,7 @@ namespace djv
             protected:
                 void _init(
                     const std::string & fileName,
+                    const IOOptions&,
                     const std::shared_ptr<Core::ResourceSystem>&,
                     const std::shared_ptr<Core::LogSystem>&);
                 IIO();
@@ -209,6 +218,12 @@ namespace djv
                 AudioQueue _audioQueue;
             };
 
+            //! This class provides options for reading.
+            struct ReadOptions : IOOptions
+            {
+                size_t layer = 0;
+            };
+
             //! This class provides an interface for reading.
             class IRead : public IIO
             {
@@ -217,7 +232,7 @@ namespace djv
             protected:
                 void _init(
                     const std::string & fileName,
-                    size_t layer,
+                    const ReadOptions&,
                     const std::shared_ptr<Core::ResourceSystem>&,
                     const std::shared_ptr<Core::LogSystem>&);
                 IRead();
@@ -230,8 +245,12 @@ namespace djv
                 virtual void seek(Core::Time::Timestamp) = 0;
 
             protected:
-                size_t _layer = 0;
+                ReadOptions _options;
             };
+
+            //! This class provides options for writing.
+            struct WriteOptions : IOOptions
+            {};
 
             //! This class provides an interface for writing.
             class IWrite : public IIO
@@ -242,6 +261,7 @@ namespace djv
                 void _init(
                     const std::string &,
                     const Info &,
+                    const WriteOptions&,
                     const std::shared_ptr<Core::ResourceSystem>&,
                     const std::shared_ptr<Core::LogSystem>&);
                 IWrite();
@@ -251,6 +271,7 @@ namespace djv
 
             protected:
                 Info _info;
+                WriteOptions _options;
             };
 
             //! This class provides an interface for I/O plugins.
@@ -285,11 +306,11 @@ namespace djv
 
                 //! Throws:
                 //! - std::exception
-                virtual std::shared_ptr<IRead> read(const std::string& fileName, size_t layer = 0) const;
+                virtual std::shared_ptr<IRead> read(const std::string& fileName, const ReadOptions&) const;
 
                 //! Throws:
                 //! - std::exception
-                virtual std::shared_ptr<IWrite> write(const std::string& fileName, const Info&) const;
+                virtual std::shared_ptr<IWrite> write(const std::string& fileName, const Info&, const WriteOptions&) const;
 
             protected:
                 std::shared_ptr<Core::LogSystem> _logSystem;
@@ -328,11 +349,11 @@ namespace djv
 
                 //! Throws:
                 //! - std::exception
-                std::shared_ptr<IRead> read(const std::string & fileName);
+                std::shared_ptr<IRead> read(const std::string & fileName, const ReadOptions& = ReadOptions());
 
                 //! Throws:
                 //! - std::exception
-                std::shared_ptr<IWrite> write(const std::string & fileName, const Info &);
+                std::shared_ptr<IWrite> write(const std::string & fileName, const Info &, const WriteOptions& = WriteOptions());
 
             private:
                 DJV_PRIVATE();

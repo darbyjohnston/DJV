@@ -135,9 +135,13 @@ namespace djv
                 image(image)
             {}
 
-            VideoQueue::VideoQueue(size_t max) :
-                _max(max)
+            VideoQueue::VideoQueue()
             {}
+
+            void VideoQueue::setMax(size_t value)
+            {
+                _max = value;
+            }
 
             void VideoQueue::addFrame(const VideoFrame& value)
             {
@@ -173,9 +177,13 @@ namespace djv
                 audio(audio)
             {}
 
-            AudioQueue::AudioQueue(size_t max) :
-                _max(max)
+            AudioQueue::AudioQueue()
             {}
+
+            void AudioQueue::setMax(size_t value)
+            {
+                _max = value;
+            }
 
             void AudioQueue::addFrame(const AudioFrame& value)
             {
@@ -205,12 +213,15 @@ namespace djv
 
             void IIO::_init(
                 const std::string & fileName,
+                const IOOptions& options,
                 const std::shared_ptr<ResourceSystem>& resourceSystem,
                 const std::shared_ptr<LogSystem>& logSystem)
             {
                 _logSystem      = logSystem;
                 _resourceSystem = resourceSystem;
                 _fileName       = fileName;
+                _videoQueue.setMax(options.videoQueueSize);
+                _audioQueue.setMax(options.audioQueueSize);
             }
 
             IIO::IIO()
@@ -221,12 +232,12 @@ namespace djv
 
             void IRead::_init(
                 const std::string & fileName,
-                size_t layer,
+                const ReadOptions& options,
                 const std::shared_ptr<ResourceSystem>& resourceSystem,
                 const std::shared_ptr<LogSystem>& logSystem)
             {
-                IIO::_init(fileName, resourceSystem, logSystem);
-                _layer = layer;
+                IIO::_init(fileName, options, resourceSystem, logSystem);
+                _options = options;
             }
 
             IRead::IRead()
@@ -241,10 +252,11 @@ namespace djv
             void IWrite::_init(
                 const std::string & fileName,
                 const Info & info,
+                const WriteOptions& options,
                 const std::shared_ptr<ResourceSystem>& resourceSystem,
                 const std::shared_ptr<LogSystem>& logSystem)
             {
-                IIO::_init(fileName, resourceSystem, logSystem);
+                IIO::_init(fileName, options, resourceSystem, logSystem);
                 _info = info;
             }
 
@@ -303,12 +315,12 @@ namespace djv
             void IPlugin::setOptions(const picojson::value &)
             {}
 
-            std::shared_ptr<IRead> IPlugin::read(const std::string& fileName, size_t layer) const
+            std::shared_ptr<IRead> IPlugin::read(const std::string& fileName, const ReadOptions&) const
             {
                 return nullptr;
             }
 
-            std::shared_ptr<IWrite> IPlugin::write(const std::string& fileName, const Info&) const
+            std::shared_ptr<IWrite> IPlugin::write(const std::string& fileName, const Info&, const WriteOptions&) const
             {
                 return nullptr;
             }
@@ -438,14 +450,14 @@ namespace djv
                 return false;
             }
 
-            std::shared_ptr<IRead> System::read(const std::string & fileName)
+            std::shared_ptr<IRead> System::read(const std::string & fileName, const ReadOptions& options)
             {
                 DJV_PRIVATE_PTR();
                 for (const auto & i : p.plugins)
                 {
                     if (i.second->canRead(fileName))
                     {
-                        return i.second->read(fileName);
+                        return i.second->read(fileName, options);
                     }
                 }
                 std::stringstream s;
@@ -454,14 +466,14 @@ namespace djv
                 return nullptr;
             }
 
-            std::shared_ptr<IWrite> System::write(const std::string & fileName, const Info & info)
+            std::shared_ptr<IWrite> System::write(const std::string & fileName, const Info & info, const WriteOptions& options)
             {
                 DJV_PRIVATE_PTR();
                 for (const auto & i : p.plugins)
                 {
                     if (i.second->canWrite(fileName, info))
                     {
-                        return i.second->write(fileName, info);
+                        return i.second->write(fileName, info, options);
                     }
                 }
                 std::stringstream s;

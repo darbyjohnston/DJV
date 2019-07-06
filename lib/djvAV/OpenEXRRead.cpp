@@ -137,14 +137,14 @@ namespace djv
 
                 std::shared_ptr<Read> Read::create(
                     const std::string & fileName,
-                    size_t layer,
+                    const ReadOptions& readOptions,
                     const Options& options,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Read>(new Read);
                     out->_p->options = options;
-                    out->_init(fileName, layer, resourceSystem, logSystem);
+                    out->_init(fileName, readOptions, resourceSystem, logSystem);
                     return out;
                 }
 
@@ -158,7 +158,7 @@ namespace djv
                 {
                     File f;
                     Info info = _open(fileName, f);
-                    Image::Info imageInfo = info.video[std::min(_layer, info.video.size() - 1)].info;
+                    Image::Info imageInfo = info.video[std::min(_options.layer, info.video.size() - 1)].info;
                     std::shared_ptr<Image::Image> out = Image::Image::create(imageInfo);
                     out->setTags(info.tags);
                     out->setColorSpace("lnh");
@@ -171,8 +171,8 @@ namespace djv
                         Imf::FrameBuffer frameBuffer;
                         for (uint8_t c = 0; c < channels; ++c)
                         {
-                            const std::string& name = f.layers[_layer].channels[c].name;
-                            const glm::ivec2& sampling = f.layers[_layer].channels[c].sampling;
+                            const std::string& name = f.layers[_options.layer].channels[c].name;
+                            const glm::ivec2& sampling = f.layers[_options.layer].channels[c].sampling;
                             frameBuffer.insert(
                                 name.c_str(),
                                 Imf::Slice(
@@ -193,8 +193,8 @@ namespace djv
                         std::vector<char> buf(f.dataWindow.w() * cb);
                         for (int c = 0; c < channels; ++c)
                         {
-                            const std::string& name = f.layers[_layer].channels[c].name;
-                            const glm::ivec2& sampling = f.layers[_layer].channels[c].sampling;
+                            const std::string& name = f.layers[_options.layer].channels[c].name;
+                            const glm::ivec2& sampling = f.layers[_options.layer].channels[c].sampling;
                             frameBuffer.insert(
                                 name.c_str(),
                                 Imf::Slice(

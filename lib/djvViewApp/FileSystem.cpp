@@ -31,10 +31,9 @@
 
 #include <djvViewApp/Application.h>
 #include <djvViewApp/FileSettings.h>
+#include <djvViewApp/LayersWidget.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/RecentFilesDialog.h>
-#include <djvViewApp/WindowSystem.h>
-#include <djvViewApp/WindowSystem.h>
 
 #include <djvUIComponents/FileBrowserDialog.h>
 
@@ -98,10 +97,8 @@ namespace djv
             p.actions["Recent"] = UI::Action::create();
             p.actions["Recent"]->setIcon("djvIconFileRecent");
             p.actions["Recent"]->setShortcut(GLFW_KEY_T, UI::Shortcut::getSystemModifier());
-            //! \todo Implement me!
             p.actions["Reload"] = UI::Action::create();
             p.actions["Reload"]->setShortcut(GLFW_KEY_R, UI::Shortcut::getSystemModifier());
-            p.actions["Reload"]->setEnabled(false);
             p.actions["Close"] = UI::Action::create();
             p.actions["Close"]->setIcon("djvIconFileClose");
             p.actions["Close"]->setShortcut(GLFW_KEY_E, UI::Shortcut::getSystemModifier());
@@ -115,18 +112,13 @@ namespace djv
             p.actions["Next"]->setShortcut(GLFW_KEY_PAGE_DOWN);
             p.actions["Prev"] = UI::Action::create();
             p.actions["Prev"]->setShortcut(GLFW_KEY_PAGE_UP);
-            //! \todo Implement me!
-            p.actions["Layers"] = UI::Action::create();
-            p.actions["Layers"]->setShortcut(GLFW_KEY_L, UI::Shortcut::getSystemModifier());
-            p.actions["Layers"]->setEnabled(false);
-            //! \todo Implement me!
+            p.actions["LayersWidget"] = UI::Action::create();
+            p.actions["LayersWidget"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["LayersWidget"]->setShortcut(GLFW_KEY_L, UI::Shortcut::getSystemModifier());
             p.actions["NextLayer"] = UI::Action::create();
             p.actions["NextLayer"]->setShortcut(GLFW_KEY_EQUAL, UI::Shortcut::getSystemModifier());
-            p.actions["NextLayer"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["PrevLayer"] = UI::Action::create();
             p.actions["PrevLayer"]->setShortcut(GLFW_KEY_MINUS, UI::Shortcut::getSystemModifier());
-            p.actions["PrevLayer"]->setEnabled(false);
             //! \todo Implement me!
             p.actions["8BitConversion"] = UI::Action::create();
             p.actions["8BitConversion"]->setButtonType(UI::ButtonType::Toggle);
@@ -151,7 +143,9 @@ namespace djv
             p.menu->addAction(p.actions["Next"]);
             p.menu->addAction(p.actions["Prev"]);
             p.menu->addSeparator();
-            p.menu->addAction(p.actions["Layers"]);
+            p.menu->addAction(p.actions["NextLayer"]);
+            p.menu->addAction(p.actions["PrevLayer"]);
+            p.menu->addAction(p.actions["LayersWidget"]);
             p.menu->addSeparator();
             p.menu->addAction(p.actions["8BitConversion"]);
             p.menu->addSeparator();
@@ -165,6 +159,19 @@ namespace djv
             _actionsUpdate();
 
             auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
+            _setCloseWidgetCallback(
+                [weak](const std::string& name)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        const auto i = system->_p->actions.find(name);
+                        if (i != system->_p->actions.end())
+                        {
+                            i->second->setChecked(false);
+                        }
+                    }
+                });
+
             p.recentFilesObserver = ListObserver<Core::FileSystem::FileInfo>::create(
                 p.settings->observeRecentFiles(),
                 [weak](const std::vector<Core::FileSystem::FileInfo> & value)
@@ -200,15 +207,31 @@ namespace djv
             p.clickedObservers["Recent"] = ValueObserver<bool>::create(
                 p.actions["Recent"]->observeClicked(),
                 [weak](bool value)
-            {
-                if (value)
                 {
-                    if (auto system = weak.lock())
+                    if (value)
                     {
-                        system->_showRecentFilesDialog();
+                        if (auto system = weak.lock())
+                        {
+                            system->_showRecentFilesDialog();
+                        }
                     }
-                }
-            });
+                });
+
+            p.clickedObservers["Reload"] = ValueObserver<bool>::create(
+                p.actions["Reload"]->observeClicked(),
+                [weak](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (auto media = system->_p->currentMedia->get())
+                            {
+                                media->reload();
+                            }
+                        }
+                    }
+                });
 
             p.clickedObservers["Close"] = ValueObserver<bool>::create(
                 p.actions["Close"]->observeClicked(),
@@ -247,19 +270,22 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        const size_t size = system->_p->media->getSize();
-                        if (size > 1)
+                        if (auto media = system->_p->currentMedia->get())
                         {
-                            size_t index = system->_p->media->indexOf(system->_p->currentMedia->get());
-                            if (index < size - 1)
+                            const size_t size = system->_p->media->getSize();
+                            if (size > 1)
                             {
-                                ++index;
+                                size_t index = system->_p->media->indexOf(system->_p->currentMedia->get());
+                                if (index < size - 1)
+                                {
+                                    ++index;
+                                }
+                                else
+                                {
+                                    index = 0;
+                                }
+                                system->_p->currentMedia->setIfChanged(system->_p->media->getItem(index));
                             }
-                            else
-                            {
-                                index = 0;
-                            }
-                            system->_p->currentMedia->setIfChanged(system->_p->media->getItem(index));
                         }
                     }
                 }
@@ -290,6 +316,65 @@ namespace djv
                     }
                 }
             });
+
+            p.clickedObservers["NextLayer"] = ValueObserver<bool>::create(
+                p.actions["NextLayer"]->observeClicked(),
+                [weak, context](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (auto media = system->_p->currentMedia->get())
+                            {
+                                media->nextLayer();
+                            }
+                        }
+                    }
+                });
+
+            p.clickedObservers["PrevLayer"] = ValueObserver<bool>::create(
+                p.actions["PrevLayer"]->observeClicked(),
+                [weak, context](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (auto media = system->_p->currentMedia->get())
+                            {
+                                media->prevLayer();
+                            }
+                        }
+                    }
+                });
+
+            p.clickedObservers["LayersWidget"] = ValueObserver<bool>::create(
+                p.actions["LayersWidget"]->observeChecked(),
+                [weak, context](bool value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        if (value)
+                        {
+                            system->_openWidget("LayersWidget", LayersWidget::create(context));
+                        }
+                        else
+                        {
+                            system->_closeWidget("LayersWidget");
+                        }
+                    }
+                });
+
+            p.clickedObservers["Exit"] = ValueObserver<bool>::create(
+                p.actions["Exit"]->observeClicked(),
+                [weak, context](bool value)
+                {
+                    if (value)
+                    {
+                        dynamic_cast<Application*>(context)->exit();
+                    }
+                });
 
             p.clickedObservers["Exit"] = ValueObserver<bool>::create(
                 p.actions["Exit"]->observeClicked(),
@@ -360,22 +445,6 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
-            if (auto windowSystem = context->getSystemT<WindowSystem>())
-            {
-                if (windowSystem->observeMaximized()->get())
-                {
-                    if (auto media = p.currentMedia->get())
-                    {
-                        const size_t index = p.media->indexOf(media);
-                        if (index != invalidListIndex)
-                        {
-                            p.media->removeItem(index);
-                            p.closed->setIfChanged(media);
-                            p.closed->setIfChanged(nullptr);
-                        }
-                    }
-                }
-            }
             auto media = Media::create(fileName, context);
             p.media->pushBack(media);
             p.opened->setIfChanged(media);
@@ -391,22 +460,6 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
-            if (auto windowSystem = context->getSystemT<WindowSystem>())
-            {
-                if (windowSystem->observeMaximized()->get())
-                {
-                    if (auto media = p.currentMedia->get())
-                    {
-                        const size_t index = p.media->indexOf(media);
-                        if (index != invalidListIndex)
-                        {
-                            p.media->removeItem(index);
-                            p.closed->setIfChanged(media);
-                            p.closed->setIfChanged(nullptr);
-                        }
-                    }
-                }
-            }
             auto media = Media::create(fileName, context);
             p.media->pushBack(media);
             p.opened2->setIfChanged(std::make_pair(media, pos));
@@ -481,6 +534,8 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const size_t size = p.media->getSize();
+            p.actions["NextLayer"]->setEnabled(size);
+            p.actions["PrevLayer"]->setEnabled(size);
             p.actions["Close"]->setEnabled(size);
             p.actions["CloseAll"]->setEnabled(size);
             p.actions["Export"]->setEnabled(size);
@@ -507,8 +562,12 @@ namespace djv
             p.actions["Next"]->setTooltip(_getText(DJV_TEXT("Next tooltip")));
             p.actions["Prev"]->setText(_getText(DJV_TEXT("Previous")));
             p.actions["Prev"]->setTooltip(_getText(DJV_TEXT("Prev tooltip")));
-            p.actions["Layers"]->setText(_getText(DJV_TEXT("Layers")));
-            p.actions["Layers"]->setTooltip(_getText(DJV_TEXT("Layers tooltip")));
+            p.actions["LayersWidget"]->setText(_getText(DJV_TEXT("Layers Widget")));
+            p.actions["LayersWidget"]->setTooltip(_getText(DJV_TEXT("Layers widget tooltip")));
+            p.actions["NextLayer"]->setText(_getText(DJV_TEXT("Next layer widget")));
+            p.actions["NextLayer"]->setTooltip(_getText(DJV_TEXT("Next layer tooltip")));
+            p.actions["PrevLayer"]->setText(_getText(DJV_TEXT("Previous Layer")));
+            p.actions["PrevLayer"]->setTooltip(_getText(DJV_TEXT("Previous layer tooltip")));
             p.actions["8BitConversion"]->setText(_getText(DJV_TEXT("8-Bit Conversion")));
             p.actions["8BitConversion"]->setTooltip(_getText(DJV_TEXT("8-bit conversion tooltip")));
             p.actions["MemoryCache"]->setText(_getText(DJV_TEXT("Memory Cache")));

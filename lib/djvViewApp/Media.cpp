@@ -47,6 +47,7 @@ namespace djv
         {
             //! \todo [1.0 S] Should this be configurable?
             const size_t bufferCount = 30;
+            const size_t videoQueueSize = 10;
 
         } // namespace
 
@@ -58,6 +59,7 @@ namespace djv
             std::shared_ptr<ValueSubject<AV::IO::Info> > info;
             AV::IO::VideoInfo videoInfo;
             AV::IO::AudioInfo audioInfo;
+            std::shared_ptr<ValueSubject<size_t> > layer;
             std::shared_ptr<ValueSubject<Time::Speed> > speed;
             std::shared_ptr<ValueSubject<Time::Timestamp> > duration;
             std::shared_ptr<ValueSubject<Time::Timestamp> > currentTime;
@@ -100,6 +102,7 @@ namespace djv
 
             p.fileName = fileName;
             p.info = ValueSubject<AV::IO::Info>::create();
+            p.layer = ValueSubject<size_t>::create();
             p.speed = ValueSubject<Time::Speed>::create();
             p.duration = ValueSubject<Time::Timestamp>::create();
             p.currentTime = ValueSubject<Time::Timestamp>::create();
@@ -156,114 +159,7 @@ namespace djv
                 }
             }
 
-            try
-            {
-                auto io = context->getSystemT<AV::IO::System>();
-                p.read = io->read(fileName);
-                p.infoFuture = p.read->getInfo();
-
-                const auto timeout = Time::getMilliseconds(Time::TimerValue::Fast);
-                auto weak = std::weak_ptr<Media>(std::dynamic_pointer_cast<Media>(shared_from_this()));
-                p.infoTimer->start(
-                    timeout,
-                    [weak, fileName, context](float)
-                {
-                    if (auto media = weak.lock())
-                    {
-                        try
-                        {
-                            if (media->_p->infoFuture.valid() &&
-                                media->_p->infoFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
-                            {
-                                media->_p->infoTimer->stop();
-                                const auto info = media->_p->infoFuture.get();
-                                Time::Speed speed;
-                                Time::Timestamp duration = 0;
-                                const auto& video = info.video;
-                                if (video.size())
-                                {
-                                    media->_p->videoInfo = video[0];
-                                    speed = video[0].speed;
-                                    duration = std::max(duration, video[0].duration);
-                                }
-                                const auto& audio = info.audio;
-                                if (audio.size())
-                                {
-                                    media->_p->audioInfo = audio[0];
-                                    duration = std::max(duration, audio[0].duration);
-                                }
-                                {
-                                    std::stringstream ss;
-                                    ss << fileName << " duration: " << duration;
-                                    auto logSystem = context->getSystemT<LogSystem>();
-                                    logSystem->log("djv::ViewApp::Media", ss.str());
-                                }
-                                media->_p->info->setIfChanged(info);
-                                media->_p->speed->setIfChanged(speed);
-                                media->_p->duration->setIfChanged(duration);
-                            }
-                        }
-                        catch (const std::exception& e)
-                        {
-                            auto logSystem = context->getSystemT<LogSystem>();
-                            logSystem->log("djv::ViewApp::Media", e.what());
-                        }
-                    }
-                });
-
-                p.queueTimer->start(
-                    timeout,
-                    [weak, timeout](float)
-                {
-                    if (auto media = weak.lock())
-                    {
-                        std::unique_lock<std::mutex> lock(media->_p->read->getMutex());
-                        if (media->_p->queueCV.wait_for(
-                            lock,
-                            timeout,
-                            [weak]
-                        {
-                            bool out = false;
-                            if (auto media = weak.lock())
-                            {
-                                out = media->_p->read->getVideoQueue().hasFrames();
-                            }
-                            return out;
-                        }))
-                        {
-                            media->_p->currentImage->setIfChanged(media->_p->read->getVideoQueue().getFrame().image);
-                        }
-                    }
-                });
-
-                p.debugTimer->start(
-                    Time::getMilliseconds(Time::TimerValue::Medium),
-                    [weak](float)
-                {
-                    if (auto media = weak.lock())
-                    {
-                        {
-                            std::lock_guard<std::mutex> lock(media->_p->read->getMutex());
-                            auto& videoQueue = media->_p->read->getVideoQueue();
-                            auto& audioQueue = media->_p->read->getAudioQueue();
-                            media->_p->videoQueueMax->setAlways(videoQueue.getMax());
-                            media->_p->audioQueueMax->setAlways(audioQueue.getMax());
-                            media->_p->videoQueueCount->setAlways(videoQueue.getFrameCount());
-                            media->_p->audioQueueCount->setAlways(videoQueue.getFrameCount());
-                        }
-                        ALint queued = 0;
-                        alGetSourcei(media->_p->alSource, AL_BUFFERS_QUEUED, &queued);
-                        media->_p->alQueueCount->setAlways(queued);
-                    }
-                });
-            }
-            catch (const std::exception & e)
-            {
-                std::stringstream ss;
-                ss << "djv::ViewApp::Media " << DJV_TEXT("cannot open") << " '" << fileName << "'. " << e.what();
-                auto logSystem = context->getSystemT<LogSystem>();
-                logSystem->log("djv::ViewApp::Media", ss.str(), LogLevel::Error);
-            }
+            _open();
         }
 
         Media::Media() :
@@ -308,6 +204,11 @@ namespace djv
         std::shared_ptr<IValueSubject<AV::IO::Info> > Media::observeInfo() const
         {
             return _p->info;
+        }
+
+        std::shared_ptr<IValueSubject<size_t> > Media::observeLayer() const
+        {
+            return _p->layer;
         }
 
         std::shared_ptr<IValueSubject<Time::Speed> > Media::observeSpeed() const
@@ -388,6 +289,49 @@ namespace djv
         std::shared_ptr<IValueSubject<size_t> > Media::observeALQueueCount() const
         {
             return _p->alQueueCount;
+        }
+
+        void Media::reload()
+        {
+            _open();
+        }
+
+        void Media::setLayer(size_t value)
+        {
+            if (_p->layer->setIfChanged(value))
+            {
+                _open();
+            }
+        }
+
+        void Media::nextLayer()
+        {
+            size_t layer = _p->layer->get();
+            ++layer;
+            if (layer >= _p->info->get().video.size())
+            {
+                layer = 0;
+            }
+            setLayer(layer);
+        }
+
+        void Media::prevLayer()
+        {
+            size_t layer = _p->layer->get();
+            const size_t size = _p->info->get().video.size();
+            if (layer > 0)
+            {
+                --layer;
+            }
+            else if (size > 0)
+            {
+                layer = size - 1;
+            }
+            else
+            {
+                layer = 0;
+            }
+            setLayer(layer);
         }
 
         void Media::setSpeed(const Time::Speed& value)
@@ -479,6 +423,126 @@ namespace djv
             if (_p->mute->setIfChanged(value))
             {
                 _volumeUpdate();
+            }
+        }
+
+        void Media::_open()
+        {
+            DJV_PRIVATE_PTR();
+            auto context = p.context;
+            try
+            {
+                auto io = context->getSystemT<AV::IO::System>();
+                AV::IO::ReadOptions options;
+                options.layer = p.layer->get();
+                options.videoQueueSize = videoQueueSize;
+                p.read = io->read(p.fileName, options);
+                p.infoFuture = p.read->getInfo();
+
+                const auto timeout = Time::getMilliseconds(Time::TimerValue::Fast);
+                const std::string& fileName = p.fileName;
+                auto weak = std::weak_ptr<Media>(std::dynamic_pointer_cast<Media>(shared_from_this()));
+                p.infoTimer->start(
+                    timeout,
+                    [weak, fileName, context](float)
+                    {
+                        if (auto media = weak.lock())
+                        {
+                            try
+                            {
+                                if (media->_p->infoFuture.valid() &&
+                                    media->_p->infoFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                                {
+                                    media->_p->infoTimer->stop();
+                                    const auto info = media->_p->infoFuture.get();
+                                    Time::Speed speed;
+                                    Time::Timestamp duration = 0;
+                                    const auto& video = info.video;
+                                    if (video.size())
+                                    {
+                                        media->_p->videoInfo = video[0];
+                                        speed = video[0].speed;
+                                        duration = std::max(duration, video[0].duration);
+                                    }
+                                    const auto& audio = info.audio;
+                                    if (audio.size())
+                                    {
+                                        media->_p->audioInfo = audio[0];
+                                        duration = std::max(duration, audio[0].duration);
+                                    }
+                                    {
+                                        std::stringstream ss;
+                                        ss << fileName << " duration: " << duration;
+                                        auto logSystem = context->getSystemT<LogSystem>();
+                                        logSystem->log("djv::ViewApp::Media", ss.str());
+                                    }
+                                    media->_p->info->setIfChanged(info);
+                                    media->_p->speed->setIfChanged(speed);
+                                    media->_p->duration->setIfChanged(duration);
+                                }
+                            }
+                            catch (const std::exception& e)
+                            {
+                                auto logSystem = context->getSystemT<LogSystem>();
+                                logSystem->log("djv::ViewApp::Media", e.what());
+                            }
+                        }
+                    });
+
+                p.queueTimer->start(
+                    timeout,
+                    [weak, timeout](float)
+                    {
+                        if (auto media = weak.lock())
+                        {
+                            std::unique_lock<std::mutex> lock(media->_p->read->getMutex());
+                            if (media->_p->queueCV.wait_for(
+                                lock,
+                                timeout,
+                                [weak]
+                                {
+                                    bool out = false;
+                                    if (auto media = weak.lock())
+                                    {
+                                        out = media->_p->read->getVideoQueue().hasFrames();
+                                    }
+                                    return out;
+                                }))
+                            {
+                                auto& queue = media->_p->read->getVideoQueue();
+                                auto frame = queue.getFrame();
+                                media->_p->currentImage->setIfChanged(frame.image);
+                            }
+                        }
+                    });
+
+                p.debugTimer->start(
+                    Time::getMilliseconds(Time::TimerValue::Medium),
+                    [weak](float)
+                    {
+                        if (auto media = weak.lock())
+                        {
+                            {
+                                std::lock_guard<std::mutex> lock(media->_p->read->getMutex());
+                                auto& videoQueue = media->_p->read->getVideoQueue();
+                                auto& audioQueue = media->_p->read->getAudioQueue();
+                                media->_p->videoQueueMax->setAlways(videoQueue.getMax());
+                                media->_p->audioQueueMax->setAlways(audioQueue.getMax());
+                                media->_p->videoQueueCount->setAlways(videoQueue.getFrameCount());
+                                media->_p->audioQueueCount->setAlways(videoQueue.getFrameCount());
+                            }
+                            ALint queued = 0;
+                            alGetSourcei(media->_p->alSource, AL_BUFFERS_QUEUED, &queued);
+                            media->_p->alQueueCount->setAlways(queued);
+                        }
+                    });
+            }
+            catch (const std::exception& e)
+            {
+                std::stringstream ss;
+                ss << "djv::ViewApp::Media " << DJV_TEXT("cannot open") << " '" << p.fileName << "'. " << e.what();
+                auto logSystem = context->getSystemT<LogSystem>();
+                logSystem->log("djv::ViewApp::Media", ss.str(), LogLevel::Error);
             }
         }
 
