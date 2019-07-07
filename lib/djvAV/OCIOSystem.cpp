@@ -77,12 +77,15 @@ namespace djv
             std::vector<OCIODisplay> displays;
             try
             {
-                p.ocioConfig = OCIO::GetCurrentConfig();
+                OCIO::SetLoggingLevel(OCIO::LOGGING_LEVEL_NONE);
+
                 {
                     std::stringstream ss;
                     ss << "Version: " << OCIO::GetVersion();
                     _log(ss.str());
                 }
+
+                p.ocioConfig = OCIO::GetCurrentConfig();
                 {
                     std::stringstream ss;
                     ss << "Config description: " << p.ocioConfig->getDescription();
