@@ -70,7 +70,6 @@ namespace djv
             }
 
             p.tabWidget = UI::TabWidget::create(context);
-            p.tabWidget->setShadowOverlay({ UI::Side::Top });
 
             for (const auto& i : p.widgets)
             {

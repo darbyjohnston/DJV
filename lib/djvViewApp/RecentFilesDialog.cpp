@@ -95,13 +95,7 @@ namespace djv
             p.actions["IncreaseThumbnailSize"]->setShortcut(GLFW_KEY_EQUAL);
             p.actions["DecreaseThumbnailSize"] = UI::Action::create();
             p.actions["DecreaseThumbnailSize"]->setShortcut(GLFW_KEY_MINUS);
-            for (auto action : p.actions)
-            {
-                addAction(action.second);
-            }
-
             p.searchBox = UI::SearchBox::create(context);
-            addTitleBarWidget(p.searchBox);
 
             p.thumbnailSizeSlider = UI::IntSlider::create(context);
             p.thumbnailSizeSlider->setRange(UI::FileBrowser::thumbnailSizeRange);
@@ -109,14 +103,17 @@ namespace djv
             p.thumbnailSizeSlider->setMargin(UI::MetricsRole::MarginSmall);
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
-            vLayout->setBackgroundRole(UI::ColorRole::BackgroundToolBar);
             vLayout->addChild(UI::ActionButton::create(p.actions["IncreaseThumbnailSize"], context));
             vLayout->addChild(UI::ActionButton::create(p.actions["DecreaseThumbnailSize"], context));
             vLayout->addChild(p.thumbnailSizeSlider);
             p.settingsPopupWidget = UI::PopupWidget::create(context);
             p.settingsPopupWidget->setIcon("djvIconSettings");
             p.settingsPopupWidget->addChild(vLayout);
-            addTitleBarWidget(p.settingsPopupWidget);
+
+            auto toolBar = UI::ToolBar::create(context);
+            toolBar->addExpander();
+            toolBar->addChild(p.searchBox);
+            toolBar->addChild(p.settingsPopupWidget);
 
             p.itemView = UI::FileBrowser::ItemView::create(context);
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
@@ -130,7 +127,16 @@ namespace djv
             p.itemCountLabel->setMargin(UI::MetricsRole::Margin);
 
             p.layout = UI::StackLayout::create(context);
-            p.layout->addChild(scrollWidget);
+            for (auto action : p.actions)
+            {
+                p.layout->addAction(action.second);
+            }
+            vLayout = UI::VerticalLayout::create(context);
+            vLayout->setSpacing(UI::MetricsRole::None);
+            vLayout->addChild(toolBar);
+            vLayout->addChild(scrollWidget);
+            vLayout->setStretch(scrollWidget, UI::RowStretch::Expand);
+            p.layout->addChild(vLayout);
             p.layout->addChild(p.itemCountLabel);
             addChild(p.layout);
             setStretch(p.layout, UI::RowStretch::Expand);

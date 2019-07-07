@@ -329,7 +329,7 @@ namespace djv
                     float x = i.second->geom.min.x + m;
                     float y = 0.f;
 
-                    render->setColorMult(!i.second->enabled ? Style::disabledColorMult : 1.f);
+                    render->setAlphaMult(i.second->enabled ? 1.f : style->getPalette().getDisabledMult());
 
                     if (i.second->checked)
                     {

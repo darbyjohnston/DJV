@@ -47,6 +47,7 @@ namespace djv
             struct Palette::Private
             {
                 std::map<ColorRole, AV::Image::Color> colors;
+                float disabledMult = .65f;
             };
 
             Palette::Palette() :
@@ -58,8 +59,8 @@ namespace djv
                     // These colors should be specified as RGBA F32.
                     { ColorRole::None, AV::Image::Color(0.f, 0.f, 0.f, 0.f) },
                     { ColorRole::Background, AV::Image::Color(.18f, .18f, .18f, 1.f) },
-                    { ColorRole::BackgroundBellows, AV::Image::Color(.3f, .3f, .3f, 1.f) },
                     { ColorRole::BackgroundHeader, AV::Image::Color(.4f, .4f, .4f, 1.f) },
+                    { ColorRole::BackgroundBellows, AV::Image::Color(.3f, .3f, .3f, 1.f) },
                     { ColorRole::BackgroundToolBar, AV::Image::Color(.35f, .35f, .35f, 1.f) },
                     { ColorRole::Foreground, AV::Image::Color(1.f, 1.f, 1.f, 1.f) },
                     { ColorRole::ForegroundDim, AV::Image::Color(.67f, .67f, .67f, 1.f) },
@@ -72,6 +73,7 @@ namespace djv
                     { ColorRole::TooltipBackground, AV::Image::Color(1.f, 1.f, .75f, 1.f) },
                     { ColorRole::TooltipForeground, AV::Image::Color(0.f, 0.f, 0.f, 1.f) },
                     { ColorRole::Overlay, AV::Image::Color(0.f, 0.f, 0.f, .5f) },
+                    { ColorRole::OverlayLight, AV::Image::Color(0.f, 0.f, 0.f, .5f) },
                     { ColorRole::Shadow, AV::Image::Color(0.f, 0.f, 0.f, .16f) },
                     { ColorRole::Handle, AV::Image::Color(.18f, .32f, .38f, 1.f) }
                 };
@@ -99,14 +101,25 @@ namespace djv
 
             void Palette::setColor(ColorRole role, const AV::Image::Color & value)
             {
-                _p->colors[role] = value.getType() !=  AV::Image::Type::None ?
+                _p->colors[role] = value.getType() != AV::Image::Type::None ?
                     value.convert(AV::Image::Type::RGBA_F32) :
                     AV::Image::Color(AV::Image::Type::RGBA_F32);
             }
 
+            float Palette::getDisabledMult() const
+            {
+                return _p->disabledMult;
+            }
+
+            void Palette::setDisabledMult(float value)
+            {
+                _p->disabledMult = value;
+            }
+
             bool Palette::operator == (const Palette & other) const
             {
-                return _p->colors == other._p->colors;
+                return _p->colors == other._p->colors &&
+                    _p->disabledMult == other._p->disabledMult;
             }
 
             struct Metrics::Private
@@ -338,6 +351,7 @@ namespace djv
                 object.get<picojson::object>()[ss.str()] = picojson::value(ss2.str());
             }
             out.get<picojson::object>()["Roles"] = object;
+            out.get<picojson::object>()["DisabledMult"] = toJSON(value.getDisabledMult());
         }
         return out;
     }
@@ -392,6 +406,12 @@ namespace djv
                         throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
                     }
                 }
+                else if ("DisabledMult" == i.first)
+                {
+                    float v = 0.f;
+                    fromJSON(i.second, v);
+                    out.setDisabledMult(v);
+                }
             }
         }
         else
@@ -443,8 +463,8 @@ namespace djv
         ColorRole,
         DJV_TEXT("None"),
         DJV_TEXT("Background"),
-        DJV_TEXT("BackgroundBellows"),
         DJV_TEXT("BackgroundHeader"),
+        DJV_TEXT("BackgroundBellows"),
         DJV_TEXT("BackgroundToolBar"),
         DJV_TEXT("Foreground"),
         DJV_TEXT("ForegroundDim"),
@@ -457,6 +477,7 @@ namespace djv
         DJV_TEXT("TooltipBackground"),
         DJV_TEXT("TooltipForeground"),
         DJV_TEXT("Overlay"),
+        DJV_TEXT("OverlayLight"),
         DJV_TEXT("Shadow"),
         DJV_TEXT("Handle"));
 

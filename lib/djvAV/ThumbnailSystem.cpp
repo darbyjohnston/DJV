@@ -586,15 +586,24 @@ namespace djv
                     if (i->size != image->getSize() || i->type != Image::Type::None)
                     {
                         Image::Size size = i->size;
-                        const float aspect = image->getAspectRatio();
-                        if (0 == size.w)
+                        const float aspect = size.h != 0 ? (size.w / static_cast<float>(size.h)) : 1.f;
+                        const float imageAspect = image->getAspectRatio();
+                        if (imageAspect < aspect)
                         {
-                            size.w = static_cast<uint16_t>(size.h * aspect);
+                            size.w = static_cast<uint16_t>(size.h * imageAspect);
                         }
-                        else if (0 == size.w && aspect > 0.f)
+                        else
                         {
-                            size.h = static_cast<int>(size.w / aspect);
+                            size.h = static_cast<int>(size.w / imageAspect);
                         }
+                        /*if (0 == size.w)
+                        {
+                            size.w = static_cast<uint16_t>(size.h * imageAspect);
+                        }
+                        else if (0 == size.h && imageAspect > 0.f)
+                        {
+                            size.h = static_cast<int>(size.w / imageAspect);
+                        }*/
                         const auto type = i->type != Image::Type::None ? i->type : image->getType();
                         const auto info = Image::Info(size, type);
                         auto tmp = Image::Image::create(info);

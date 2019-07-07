@@ -564,7 +564,7 @@ namespace djv
             p.actions["Prev"]->setTooltip(_getText(DJV_TEXT("Prev tooltip")));
             p.actions["LayersWidget"]->setText(_getText(DJV_TEXT("Layers Widget")));
             p.actions["LayersWidget"]->setTooltip(_getText(DJV_TEXT("Layers widget tooltip")));
-            p.actions["NextLayer"]->setText(_getText(DJV_TEXT("Next layer widget")));
+            p.actions["NextLayer"]->setText(_getText(DJV_TEXT("Next layer")));
             p.actions["NextLayer"]->setTooltip(_getText(DJV_TEXT("Next layer tooltip")));
             p.actions["PrevLayer"]->setText(_getText(DJV_TEXT("Previous Layer")));
             p.actions["PrevLayer"]->setTooltip(_getText(DJV_TEXT("Previous layer tooltip")));

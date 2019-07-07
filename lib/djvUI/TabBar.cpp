@@ -139,7 +139,7 @@ namespace djv
                 const BBox2f & g = getGeometry();
                 auto render = _getRender();
                 const auto& style = _getStyle();
-                render->setFillColor(style->getColor(_isToggled() ? ColorRole::Background : ColorRole::Trough));
+                render->setFillColor(style->getColor(_isToggled() ? ColorRole::Background : ColorRole::BackgroundToolBar));
                 render->drawRect(g);
                 if (_isHovered() && !_isToggled())
                 {

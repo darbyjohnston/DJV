@@ -145,10 +145,10 @@ namespace djv
                 const glm::vec2 pos(x, g2.min.y + r);
                 auto color = style->getColor(ColorRole::Border);
                 render->setFillColor(color);
-                render->drawCircle(pos, r - b);
+                render->drawCircle(pos, r);
                 color = style->getColor(ColorRole::Button);
                 render->setFillColor(color);
-                render->drawCircle(pos, r - b * 2.f);
+                render->drawCircle(pos, r - b);
                 if (_isPressed())
                 {
                     render->setFillColor(style->getColor(ColorRole::Pressed));

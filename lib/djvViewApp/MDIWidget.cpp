@@ -77,7 +77,7 @@ namespace djv
             p.childLayout->setPointerEnabled(true);
 
             auto layout = UI::VerticalLayout::create(context);
-            layout->setBackgroundRole(UI::ColorRole::Overlay);
+            layout->setBackgroundRole(UI::ColorRole::OverlayLight);
             layout->setSpacing(UI::MetricsRole::None);
             layout->addChild(p.titleBar);
             layout->addChild(p.childLayout);

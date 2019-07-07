@@ -79,11 +79,9 @@ namespace djv
 
             p.rgbSliders = UI::RGBColorSliders::create(context);
             p.rgbSliders->setMargin(UI::MetricsRole::MarginSmall);
-            p.rgbSliders->setShadowOverlay({ UI::Side::Top });
 
             p.hsvSliders = UI::HSVColorSliders::create(context);
             p.hsvSliders->setMargin(UI::MetricsRole::MarginSmall);
-            p.hsvSliders->setShadowOverlay({ UI::Side::Top });
 
             p.tabWidget = UI::TabWidget::create(context);
             p.tabWidget->setShadowOverlay({ UI::Side::Top });

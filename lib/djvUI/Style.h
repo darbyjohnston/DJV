@@ -65,6 +65,7 @@ namespace djv
                 TooltipBackground,
                 TooltipForeground,
                 Overlay,
+                OverlayLight,
                 Shadow,
                 Handle,
 
@@ -72,9 +73,6 @@ namespace djv
                 First = None
             };
             DJV_ENUM_HELPERS(ColorRole);
-
-            //! This constant provides the multiplier for disabled colors.
-            const float disabledColorMult = .65f;
 
             //! This enumeration provides the metrics roles.
             enum class MetricsRole
@@ -129,6 +127,9 @@ namespace djv
 
                 const AV::Image::Color & getColor(ColorRole) const;
                 void setColor(ColorRole, const AV::Image::Color &);
+
+                float getDisabledMult() const;
+                void setDisabledMult(float);
 
                 bool operator == (const Palette &) const;
 

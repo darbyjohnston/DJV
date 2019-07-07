@@ -103,7 +103,7 @@ namespace djv
                 _timeLabel = UI::Label::create(context);
                 _timeLabel->setVAlign(UI::VAlign::Bottom);
                 _timeLabel->setMargin(UI::MetricsRole::MarginSmall);
-                _timeLabel->setBackgroundRole(UI::ColorRole::Overlay);
+                _timeLabel->setBackgroundRole(UI::ColorRole::OverlayLight);
 
                 _layout = UI::StackLayout::create(context);
                 _layout->addChild(_imageWidget);

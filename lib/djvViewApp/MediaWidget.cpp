@@ -295,7 +295,7 @@ namespace djv
             p.closeButton->setInsideMargin(UI::MetricsRole::MarginSmall);
 
             p.titleBar = UI::HorizontalLayout::create(context);
-            p.titleBar->setBackgroundRole(UI::ColorRole::Overlay);
+            p.titleBar->setBackgroundRole(UI::ColorRole::OverlayLight);
             p.titleBar->setSpacing(UI::MetricsRole::None);
             p.titleBar->addChild(p.titleLabel);
             p.titleBar->setStretch(p.titleLabel, UI::RowStretch::Expand);
@@ -333,6 +333,7 @@ namespace djv
             p.audioPopupWidget->addChild(vLayout);
 
             auto toolbar = UI::ToolBar::create(context);
+            toolbar->setBackgroundRole(UI::ColorRole::None);
             toolbar->addAction(p.actions["Reverse"]);
             toolbar->addAction(p.actions["Forward"]);
             toolbar->addAction(p.actions["InPoint"]);
@@ -342,7 +343,7 @@ namespace djv
 
             p.playbackLayout = UI::GridLayout::create(context);
             p.playbackLayout->setSpacing(UI::MetricsRole::None);
-            p.playbackLayout->setBackgroundRole(UI::ColorRole::Overlay);
+            p.playbackLayout->setBackgroundRole(UI::ColorRole::OverlayLight);
             p.playbackLayout->addChild(toolbar);
             p.playbackLayout->setGridPos(toolbar, 0, 0);
             auto hLayout = UI::HorizontalLayout::create(context);

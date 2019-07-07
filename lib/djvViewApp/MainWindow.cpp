@@ -162,7 +162,7 @@ namespace djv
             p.settingsButton->setIcon("djvIconSettings");
 
             p.menuBar = UI::MenuBar::create(context);
-            p.menuBar->setBackgroundRole(UI::ColorRole::Overlay);
+            p.menuBar->setBackgroundRole(UI::ColorRole::OverlayLight);
             for (auto i : menus)
             {
                 p.menuBar->addChild(i.second);

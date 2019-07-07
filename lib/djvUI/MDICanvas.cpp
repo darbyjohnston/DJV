@@ -338,6 +338,7 @@ namespace djv
                     if (p.activeWidget)
                     {
                         p.activeWidget->_setActiveWidget(false);
+                        p.activeWidget->_setMaximized(0.f);
                     }
                     p.activeWidget = widget;
                     p.activeWidget->_setActiveWidget(true);
@@ -368,12 +369,14 @@ namespace djv
                         if (p.activeWidget)
                         {
                             p.activeWidget->_setActiveWidget(false);
+                            p.activeWidget->_setMaximized(0.f);
                         }
                         const auto & children = getChildrenT<IWidget>();
                         p.activeWidget = children.size() ? children.back() : nullptr;
                         if (p.activeWidget)
                         {
                             p.activeWidget->_setActiveWidget(true);
+                            p.activeWidget->_setMaximized(p.maximized);
                         }
                         if (p.activeCallback)
                         {
@@ -400,8 +403,8 @@ namespace djv
                     {
                         if (p.activeWidget)
                         {
-                            p.activeWidget->_setMaximized(0.f);
                             p.activeWidget->_setActiveWidget(false);
+                            p.activeWidget->_setMaximized(0.f);
                             const auto i = p.widgetToGeometry.find(p.activeWidget);
                             if (i != p.widgetToGeometry.end())
                             {

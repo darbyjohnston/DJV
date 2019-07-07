@@ -257,8 +257,6 @@ namespace djv
                 p.settingsPopupWidget->addChild(vLayout);
 
                 auto toolBar = ToolBar::create(context);
-                toolBar->setBackgroundRole(ColorRole::BackgroundToolBar);
-                toolBar->setShadowOverlay({ Side::Top });
                 toolBar->addChild(p.shortcutsPopupWidget);
                 toolBar->addAction(p.actions["Up"]);
                 toolBar->addAction(p.actions["Back"]);

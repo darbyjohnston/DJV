@@ -118,8 +118,8 @@ namespace djv
             layout->addChild(scrollWidget);
             layout->setStretch(scrollWidget, UI::RowStretch::Expand);
             auto hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setBackgroundRole(UI::ColorRole::BackgroundToolBar);
             hLayout->setMargin(UI::MetricsRole::MarginSmall);
-            hLayout->setShadowOverlay({ UI::Side::Top });
             hLayout->addExpander();
             hLayout->addChild(p.copyButton);
             hLayout->addChild(p.reloadButton);

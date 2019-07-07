@@ -1116,6 +1116,7 @@ namespace djv
 
                     auto layout = VerticalLayout::create(context);
                     layout->setMargin(MetricsRole::Margin);
+                    layout->setShadowOverlay({ UI::Side::Top });
                     layout->addChild(_colorPicker);
                     auto hLayout = HorizontalLayout::create(context);
                     hLayout->addExpander();

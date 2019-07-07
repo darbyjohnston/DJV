@@ -68,6 +68,7 @@ namespace djv
 
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
             scrollWidget->setBorder(false);
+            scrollWidget->setShadowOverlay({ UI::Side::Top });
             scrollWidget->addChild(p.layout);
             addChild(scrollWidget);
 

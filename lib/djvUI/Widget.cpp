@@ -449,8 +449,9 @@ namespace djv
                     }
                     if (!_visibleInit)
                     {
-                        _render->setColorMult(!isEnabled(true) ? Style::disabledColorMult : 1.f);
-                        _render->setAlphaMult(getOpacity(true));
+                        float opacity = getOpacity(true);
+                        opacity *= isEnabled(true) ? 1.f : _style->getPalette().getDisabledMult();
+                        _render->setAlphaMult(opacity);
                         _paintEvent(static_cast<Event::Paint &>(event));
                     }
                     break;

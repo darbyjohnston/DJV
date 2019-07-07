@@ -54,7 +54,7 @@ namespace djv
                 IDialog::_init(context);
 
                 DJV_PRIVATE_PTR();
-                setClassName("djv::UIComponents::Dialog");
+                setClassName("djv::UIComponents::FileBrowser::Dialog");
 
                 p.fileBrowser = FileBrowser::create(context);
                 p.fileBrowser->setPath(FileSystem::Path("."));
