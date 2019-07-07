@@ -596,14 +596,6 @@ namespace djv
                         {
                             size.h = static_cast<int>(size.w / imageAspect);
                         }
-                        /*if (0 == size.w)
-                        {
-                            size.w = static_cast<uint16_t>(size.h * imageAspect);
-                        }
-                        else if (0 == size.h && imageAspect > 0.f)
-                        {
-                            size.h = static_cast<int>(size.w / imageAspect);
-                        }*/
                         const auto type = i->type != Image::Type::None ? i->type : image->getType();
                         const auto info = Image::Info(size, type);
                         auto tmp = Image::Image::create(info);
