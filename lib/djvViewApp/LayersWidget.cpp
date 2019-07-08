@@ -32,10 +32,7 @@
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/Media.h>
 
-#include <djvUI/ButtonGroup.h>
-#include <djvUI/ListButton.h>
-#include <djvUI/RowLayout.h>
-#include <djvUI/ScrollWidget.h>
+#include <djvUI/ListWidget.h>
 
 using namespace djv::Core;
 
@@ -48,8 +45,7 @@ namespace djv
             std::shared_ptr<Media> currentMedia;
             AV::IO::Info info;
             size_t layer = 0;
-            std::shared_ptr<UI::ButtonGroup> buttonGroup;
-            std::shared_ptr<UI::VerticalLayout> layout;
+            std::shared_ptr<UI::ListWidget> listWidget;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
             std::shared_ptr<ValueObserver<size_t> > layerObserver;
@@ -61,19 +57,11 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::LayersWidget");
 
-            p.buttonGroup = UI::ButtonGroup::create(UI::ButtonType::Radio);
-
-            p.layout = UI::VerticalLayout::create(context);
-            p.layout->setSpacing(UI::MetricsRole::None);
-
-            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
-            scrollWidget->setBorder(false);
-            scrollWidget->setShadowOverlay({ UI::Side::Top });
-            scrollWidget->addChild(p.layout);
-            addChild(scrollWidget);
+            p.listWidget = UI::ListWidget::create(context);
+            addChild(p.listWidget);
 
             auto weak = std::weak_ptr<LayersWidget>(std::dynamic_pointer_cast<LayersWidget>(shared_from_this()));
-            p.buttonGroup->setRadioCallback(
+            p.listWidget->setCallback(
                 [weak](int value)
                 {
                     if (auto system = weak.lock())
@@ -154,17 +142,12 @@ namespace djv
         void LayersWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
-            auto context = getContext();
-            p.buttonGroup->clearButtons();
-            p.layout->clearChildren();
+            p.listWidget->clearItems();
             for (const auto& i : p.info.video)
             {
-                auto button = UI::ListButton::create(context);
-                button->setText(_getText(i.info.name));
-                p.buttonGroup->addButton(button);
-                p.layout->addChild(button);
+                p.listWidget->addItem(_getText(i.info.name));
             }
-            p.buttonGroup->setChecked(p.layer);
+            p.listWidget->setCurrentItem(p.layer);
         }
 
     } // namespace ViewApp

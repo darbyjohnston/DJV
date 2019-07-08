@@ -207,16 +207,6 @@ namespace djv
                 }
             }
 
-            void ActionButton::_keyPressEvent(Event::KeyPress& event)
-            {
-                event.accept();
-            }
-
-            void ActionButton::_keyReleaseEvent(Event::KeyRelease& event)
-            {
-                event.accept();
-            }
-
             void ActionButton::_actionUpdate()
             {
                 DJV_PRIVATE_PTR();

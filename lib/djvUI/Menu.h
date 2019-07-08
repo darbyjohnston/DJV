@@ -80,7 +80,9 @@ namespace djv
             void popup(const glm::vec2 &);
             void popup(const std::weak_ptr<Button::Menu> & button);
             void popup(const std::weak_ptr<Button::Menu> & button, const std::weak_ptr<Widget> & anchor);
-            void hide();
+
+            bool isOpen() const;
+            void close();
 
             void setCloseCallback(const std::function<void(void)> &);
 

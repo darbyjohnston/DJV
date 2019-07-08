@@ -694,7 +694,6 @@ namespace djv
                 _menuWidget = MenuWidget::create(context);
 
                 _scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
-                _scrollWidget->setBorder(false);
                 _scrollWidget->addChild(_menuWidget);
                 addChild(_scrollWidget);
             }
@@ -1038,7 +1037,12 @@ namespace djv
             }
         }
 
-        void Menu::hide()
+        bool Menu::isOpen() const
+        {
+            return _p->overlay.get();
+        }
+
+        void Menu::close()
         {
             DJV_PRIVATE_PTR();
             if (p.overlay)
@@ -1088,7 +1092,7 @@ namespace djv
             {
                 if (auto menu = weak.lock())
                 {
-                    menu->hide();
+                    menu->close();
                 }
             });
 
@@ -1097,7 +1101,7 @@ namespace djv
             {
                 if (auto menu = weak.lock())
                 {
-                    menu->hide();
+                    menu->close();
                 }
             });
         }

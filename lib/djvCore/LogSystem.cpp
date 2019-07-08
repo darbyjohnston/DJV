@@ -108,7 +108,7 @@ namespace djv
                 {}
 
                 std::stringstream s;
-                s << "Path: " << p.path;
+                s << "Log file path: " << p.path;
                 log("djv::Core::LogSystem", s.str());
 
                 const auto timeout = Time::getValue(Time::TimerValue::Slow);

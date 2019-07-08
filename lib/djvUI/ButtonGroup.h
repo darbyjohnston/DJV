@@ -42,7 +42,7 @@ namespace djv
                 void setButtonType(ButtonType);
 
                 int getChecked() const;
-                void setChecked(int, bool = true);
+                void setChecked(int, bool = true, Callback = Callback::Suppress);
 
                 void setPushCallback(const std::function<void(int)> &);
                 void setToggleCallback(const std::function<void(int, bool)> &);

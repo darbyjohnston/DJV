@@ -167,7 +167,7 @@ namespace djv
                     {
                         if (auto system = weak.lock())
                         {
-                            system->_moveImage(glm::vec2(1.f, 0.f));
+                            system->_panImage(glm::vec2(1.f, 0.f));
                         }
                     }
                 });
@@ -180,7 +180,7 @@ namespace djv
                         if (auto system = weak.lock())
                         {
                             system->_p->settings->setLock(ImageViewLock::None);
-                            system->_moveImage(glm::vec2(-1.f, 0.f));
+                            system->_panImage(glm::vec2(-1.f, 0.f));
                         }
                     }
                 });
@@ -193,7 +193,7 @@ namespace djv
                         if (auto system = weak.lock())
                         {
                             system->_p->settings->setLock(ImageViewLock::None);
-                            system->_moveImage(glm::vec2(0.f, 1.f));
+                            system->_panImage(glm::vec2(0.f, 1.f));
                         }
                     }
                 });
@@ -206,7 +206,7 @@ namespace djv
                         if (auto system = weak.lock())
                         {
                             system->_p->settings->setLock(ImageViewLock::None);
-                            system->_moveImage(glm::vec2(0.f, -1.f));
+                            system->_panImage(glm::vec2(0.f, -1.f));
                         }
                     }
                 });
@@ -219,7 +219,7 @@ namespace djv
                         if (auto system = weak.lock())
                         {
                             system->_p->settings->setLock(ImageViewLock::None);
-                            system->_moveImage(glm::vec2(1.f, 1.f));
+                            system->_panImage(glm::vec2(1.f, 1.f));
                         }
                     }
                 });
@@ -232,7 +232,7 @@ namespace djv
                         if (auto system = weak.lock())
                         {
                             system->_p->settings->setLock(ImageViewLock::None);
-                            system->_moveImage(glm::vec2(-1.f, 1.f));
+                            system->_panImage(glm::vec2(-1.f, 1.f));
                         }
                     }
                 });
@@ -245,7 +245,7 @@ namespace djv
                         if (auto system = weak.lock())
                         {
                             system->_p->settings->setLock(ImageViewLock::None);
-                            system->_moveImage(glm::vec2(-1.f, -1.f));
+                            system->_panImage(glm::vec2(-1.f, -1.f));
                         }
                     }
                 });
@@ -258,7 +258,7 @@ namespace djv
                         if (auto system = weak.lock())
                         {
                             system->_p->settings->setLock(ImageViewLock::None);
-                            system->_moveImage(glm::vec2(1.f, -1.f));
+                            system->_panImage(glm::vec2(1.f, -1.f));
                         }
                     }
                 });
@@ -481,7 +481,7 @@ namespace djv
             };
         }
 
-        void ImageViewSystem::_moveImage(const glm::vec2& value)
+        void ImageViewSystem::_panImage(const glm::vec2& value)
         {
             DJV_PRIVATE_PTR();
             if (auto widget = p.activeWidget)
@@ -539,8 +539,8 @@ namespace djv
         void ImageViewSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.actions["Tool"]->setText(_getText(DJV_TEXT("Move View")));
-            p.actions["Tool"]->setTooltip(_getText(DJV_TEXT("Move view tooltip")));
+            p.actions["Tool"]->setText(_getText(DJV_TEXT("Pan View")));
+            p.actions["Tool"]->setTooltip(_getText(DJV_TEXT("Pan view tooltip")));
             p.actions["Left"]->setText(_getText(DJV_TEXT("Left")));
             p.actions["Left"]->setTooltip(_getText(DJV_TEXT("Left tooltip")));
             p.actions["Right"]->setText(_getText(DJV_TEXT("Right")));

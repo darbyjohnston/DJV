@@ -49,6 +49,7 @@ namespace djv
                 std::function<void(int, bool)> toggleCallback;
                 std::function<void(int)> radioCallback;
                 std::function<void(int)> exclusiveCallback;
+                Callback callback = Callback::Trigger;
             };
 
             Group::Group() :
@@ -139,7 +140,7 @@ namespace djv
                             switch (group->_p->buttonType)
                             {
                             case ButtonType::Toggle:
-                                if (group->_p->toggleCallback)
+                                if (group->_p->toggleCallback && Callback::Trigger == group->_p->callback)
                                 {
                                     group->_p->toggleCallback(index, value);
                                 }
@@ -149,7 +150,7 @@ namespace djv
                                 {
                                     group->_p->buttons[i]->setChecked(i == index);
                                 }
-                                if (value && group->_p->radioCallback)
+                                if (value && group->_p->radioCallback && Callback::Trigger == group->_p->callback)
                                 {
                                     group->_p->radioCallback(index);
                                 }
@@ -162,7 +163,7 @@ namespace djv
                                         group->_p->buttons[i]->setChecked(i == index);
                                     }
                                 }
-                                if (group->_p->exclusiveCallback)
+                                if (group->_p->exclusiveCallback && Callback::Trigger == group->_p->callback)
                                 {
                                     group->_p->exclusiveCallback(value ? index : -1);
                                 }
@@ -246,9 +247,10 @@ namespace djv
                 return -1;
             }
 
-            void Group::setChecked(int index, bool value)
+            void Group::setChecked(int index, bool value, Callback callback)
             {
                 DJV_PRIVATE_PTR();
+                p.callback = callback;
                 if (index >= 0 && index < static_cast<int>(p.buttons.size()))
                 {
                     switch (p.buttonType)
@@ -281,6 +283,7 @@ namespace djv
                     default: break;
                     }
                 }
+                p.callback = Callback::Trigger;
             }
 
             void Group::setPushCallback(const std::function<void(int)> & callback)

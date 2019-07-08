@@ -29,48 +29,55 @@
 
 #pragma once
 
-#include <djvViewApp/Enum.h>
-#include <djvViewApp/IToolSystem.h>
-
-#include <djvCore/ValueObserver.h>
-
-#include <glm/vec2.hpp>
+#include <djvUI/Widget.h>
 
 namespace djv
 {
-    namespace ViewApp
+    namespace UI
     {
-        class ImageViewSystem : public IToolSystem
+        //! This class provides a list widget.
+        //!
+        //! \todo Add support for icons. Should we use actions instead of items?
+        //! \todo Keep the current item visible in the scroll widget.
+        class ListWidget : public Widget
         {
-            DJV_NON_COPYABLE(ImageViewSystem);
+            DJV_NON_COPYABLE(ListWidget);
 
         protected:
             void _init(Core::Context *);
-            ImageViewSystem();
+            ListWidget();
 
         public:
-            ~ImageViewSystem() override;
+            virtual ~ListWidget();
+            static std::shared_ptr<ListWidget> create(Core::Context *);
+            static std::shared_ptr<ListWidget> create(const std::vector<std::string> &, Core::Context *);
 
-            static std::shared_ptr<ImageViewSystem> create(Core::Context *);
+            const std::vector<std::string> & getItems() const;
+            void setItems(const std::vector<std::string> &);
+            void addItem(const std::string &);
+            void clearItems(Callback = Callback::Suppress);
 
-            std::shared_ptr<Core::IValueSubject<ImageViewLock> > observeLock() const;
+            int getCurrentItem() const;
+            void setCurrentItem(int, Callback = Callback::Suppress);
+            void firstItem(Callback = Callback::Suppress);
+            void lastItem(Callback = Callback::Suppress);
+            void prevItem(Callback = Callback::Suppress);
+            void nextItem(Callback = Callback::Suppress);
 
-            ToolActionData getToolAction() const override;
-            void setCurrentTool(bool) override;
+            void setCallback(const std::function<void(int)> &);
 
-            std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
-            MenuData getMenu() const override;
+        protected:
+            void _preLayoutEvent(Core::Event::PreLayout &) override;
+            void _layoutEvent(Core::Event::Layout &) override;
+            void _keyPressEvent(Core::Event::KeyPress&) override;
 
         private:
-            void _panImage(const glm::vec2&);
-            void _zoomImage(float);
-
-            void _actionUpdate();
-            void _textUpdate();
+            void _updateItems();
+            void _updateCurrentItem(Callback);
 
             DJV_PRIVATE();
         };
 
-    } // namespace ViewApp
+    } // namespace UI
 } // namespace djv
 

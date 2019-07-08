@@ -32,17 +32,17 @@
 precision mediump float;
 varying vec2 Texture;
 
-uniform int imageFormat;
+uniform int imageChannels;
 uniform int imageChannel;
 uniform int colorMode;
 uniform vec4 color;
 uniform sampler2D textureSampler;
 
-// djv::AV::Render::ImageFormat
-#define IMAGE_FORMAT_L    0
-#define IMAGE_FORMAT_LA   1
-#define IMAGE_FORMAT_RGB  2
-#define IMAGE_FORMAT_RGBA 3
+// djv::AV::Image::Channels
+#define IMAGE_CHANNELS_L    1
+#define IMAGE_CHANNELS_LA   2
+#define IMAGE_CHANNELS_RGB  3
+#define IMAGE_CHANNELS_RGBA 4
 
 // djv::AV::Render::ImageChannel
 #define IMAGE_CHANNEL_COLOR 0
@@ -101,19 +101,19 @@ void main()
     else if (COLOR_MODE_COLOR_AND_TEXTURE == colorMode)
     {
 	    vec4 t = texture2D(textureSampler, Texture);
-		if (IMAGE_FORMAT_L == imageFormat)
+		if (IMAGE_CHANNELS_L == imageChannels)
 		{
 			t.g = t.r;
 			t.b = t.r;
 			t.a = 1.0;
 		}
-		else if (IMAGE_FORMAT_LA == imageFormat)
+		else if (IMAGE_CHANNELS_LA == imageChannels)
 		{
 			t.a = t.g;
 			t.g = t.r;
 			t.b = t.r;
 		}
-		else if (IMAGE_FORMAT_RGB == imageFormat)
+		else if (IMAGE_CHANNELS_RGB == imageChannels)
 		{
 			t.a = 1.0;
 		}

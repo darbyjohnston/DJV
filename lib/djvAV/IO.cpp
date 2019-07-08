@@ -365,7 +365,7 @@ namespace djv
                 for (const auto & i : p.plugins)
                 {
                     std::stringstream s;
-                    s << "Plugin: " << i.second->getPluginName() << '\n';
+                    s << "I/O plugin: " << i.second->getPluginName() << '\n';
                     s << "    Information: " << i.second->getPluginInfo() << '\n';
                     s << "    File extensions: " << String::joinSet(i.second->getFileExtensions(), ", ") << '\n';
                     _log(s.str());

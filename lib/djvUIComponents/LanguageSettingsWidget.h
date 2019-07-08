@@ -56,7 +56,6 @@ namespace djv
 
         private:
             void _widgetUpdate();
-            void _currentItemUpdate();
 
             DJV_PRIVATE();
         };

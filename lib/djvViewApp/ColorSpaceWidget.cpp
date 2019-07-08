@@ -162,7 +162,7 @@ namespace djv
                         {
                             auto imageView = activeWidget->getImageView();
                             AV::Render::ImageOptions imageOptions = imageView->observeImageOptions()->get();
-                            imageOptions.colorSpace = value;
+                            imageOptions.colorSpace.input = value;
                             imageView->setImageOptions(imageOptions);
                         }
                         widget->_widgetUpdate();
@@ -209,7 +209,7 @@ namespace djv
                         {
                             auto imageView = activeWidget->getImageView();
                             AV::Render::ImageOptions imageOptions = imageView->observeImageOptions()->get();
-                            imageOptions.displayColorSpace = value;
+                            imageOptions.colorSpace.output = value;
                             imageView->setImageOptions(imageOptions);
                         }
                         widget->_widgetUpdate();
@@ -234,7 +234,7 @@ namespace djv
                                     {
                                         if (auto widget = weak.lock())
                                         {
-                                            widget->_p->model->setColorSpace(value.colorSpace);
+                                            widget->_p->model->setColorSpace(value.colorSpace.input);
                                         }
                                     });
                                 widget->_p->displayObserver2 = ValueObserver<std::string>::create(

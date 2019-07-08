@@ -662,7 +662,6 @@ namespace djv
             layout->addChild(p.bellows["Media"]);
 
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            scrollWidget->setBorder(false);
             scrollWidget->setShadowOverlay({ UI::Side::Top });
             scrollWidget->addChild(layout);
             addChild(scrollWidget);

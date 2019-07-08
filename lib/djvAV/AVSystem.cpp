@@ -63,7 +63,7 @@ namespace djv
             p.timeUnits = ValueSubject<TimeUnits>::create(TimeUnits::First);
 
             auto ioSystem = IO::System::create(context);
-            auto ocioSystem = OCIOSystem::create(context);
+            auto ocioSystem = OCIO::System::create(context);
             auto fontSystem = Font::System::create(context);
             auto thumbnailSystem = ThumbnailSystem::create(context);
             auto render2D = Render::Render2D::create(context);

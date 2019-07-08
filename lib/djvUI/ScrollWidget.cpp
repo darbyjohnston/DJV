@@ -615,6 +615,7 @@ namespace djv
             layout->setGridPos(p.scrollBars[Orientation::Vertical], glm::ivec2(1, 0));
 
             p.border = Border::create(context);
+            p.border->setBorderColorRole(ColorRole::Trough);
             p.border->addChild(layout);
             Widget::addChild(p.border);
 
@@ -766,14 +767,9 @@ namespace djv
             _resize();
         }
 
-        bool ScrollWidget::hasBorder() const
+        void ScrollWidget::setBorderColorRole(ColorRole value)
         {
-            return _p->border->getBorderSize() != MetricsRole::None;
-        }
-
-        void ScrollWidget::setBorder(bool value)
-        {
-            _p->border->setBorderSize(value ? MetricsRole::Border : MetricsRole::None);
+            _p->border->setBorderColorRole(value);
         }
 
         MetricsRole ScrollWidget::getMinimumSizeRole() const

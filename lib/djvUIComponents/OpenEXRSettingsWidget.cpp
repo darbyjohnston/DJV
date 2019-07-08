@@ -222,7 +222,7 @@ namespace djv
 
             p.dwaCompressionLevelSlider->setValue(options.dwaCompressionLevel);
 
-            auto ocioSystem = context->getSystemT<AV::OCIOSystem>();
+            auto ocioSystem = context->getSystemT<AV::OCIO::System>();
             p.colorSpaces.clear();
             p.colorSpaces.push_back(std::string());
             for (const auto& i : ocioSystem->observeColorSpaces()->get())

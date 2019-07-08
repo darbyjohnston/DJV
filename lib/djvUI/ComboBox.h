@@ -37,9 +37,9 @@ namespace djv
     {
         //! This class provides a combo box widget.
         //!
-        //! \todo Add support for icons.
+        //! \todo Add support for icons. Should we use actions instead of items?
         //! \todo When the combo box is opened position the current item under the pointer.
-        //! \todo Add keyboard shortcuts.
+        //! \todo Don't close the combo box when the current item is changed with a keyboard shortcut?
         class ComboBox : public Widget
         {
             DJV_NON_COPYABLE(ComboBox);
@@ -56,10 +56,18 @@ namespace djv
             const std::vector<std::string> & getItems() const;
             void setItems(const std::vector<std::string> &);
             void addItem(const std::string &);
-            void clearItems();
+            void clearItems(Callback = Callback::Suppress);
 
             int getCurrentItem() const;
-            void setCurrentItem(int);
+            void setCurrentItem(int, Callback = Callback::Suppress);
+            void firstItem(Callback = Callback::Suppress);
+            void lastItem(Callback = Callback::Suppress);
+            void prevItem(Callback = Callback::Suppress);
+            void nextItem(Callback = Callback::Suppress);
+
+            bool isOpen() const;
+            void open();
+            void close();
 
             void setFont(int, const std::string &);
             void setFontSizeRole(MetricsRole);
@@ -69,10 +77,13 @@ namespace djv
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;
             void _layoutEvent(Core::Event::Layout &) override;
+            void _keyPressEvent(Core::Event::KeyPress&) override;
+            void _textFocusEvent(Core::Event::TextFocus&) override;
+            void _textFocusLostEvent(Core::Event::TextFocusLost&) override;
 
         private:
             void _updateItems();
-            void _updateCurrentItem();
+            void _updateCurrentItem(Callback);
 
             DJV_PRIVATE();
         };

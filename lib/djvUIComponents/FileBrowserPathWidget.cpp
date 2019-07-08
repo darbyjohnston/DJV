@@ -90,7 +90,7 @@ namespace djv
                 p.lineEditBase->setVAlign(VAlign::Fill);
                 p.lineEditBase->installEventFilter(shared_from_this());
                 p.lineEditBorder = Border::create(context);
-                p.lineEditBorder->setBorderColorRole(ColorRole::None);
+                p.lineEditBorder->setBorderColorRole(ColorRole::Trough);
                 p.lineEditBorder->addChild(p.lineEditBase);
 
                 p.layout = HorizontalLayout::create(context);
@@ -116,7 +116,7 @@ namespace djv
                         {
                             widget->_p->historyIndexCallback(static_cast<size_t>(value));
                         }
-                        widget->_p->historyMenu->hide();
+                        widget->_p->historyMenu->close();
                     }
                 });
 
@@ -134,7 +134,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->historyMenu->hide();
+                        widget->_p->historyMenu->close();
                         if (value)
                         {
                             widget->_p->historyMenu->popup(widget->_p->historyButton);
@@ -159,7 +159,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->lineEditBorder->setBorderColorRole(value ? ColorRole::Checked : ColorRole::None);
+                        widget->_p->lineEditBorder->setBorderColorRole(value ? ColorRole::TextFocus : ColorRole::Trough);
                     }
                 });
             }

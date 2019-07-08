@@ -36,6 +36,7 @@ set(header
     Label.h
 	LayoutUtil.h
     ListButton.h
+    ListWidget.h
     LineEdit.h
     LineEditBase.h
     MDICanvas.h
@@ -111,6 +112,7 @@ set(source
     Label.cpp
 	LayoutUtil.cpp
     ListButton.cpp
+    ListWidget.cpp
     LineEdit.cpp
     LineEditBase.cpp
     MDICanvas.cpp

@@ -47,6 +47,12 @@ namespace djv
     {
         namespace Settings
         {
+            namespace
+            {
+                const size_t settingsVersion = 1;
+
+            } // namespace
+
             void System::_init(Core::Context * context)
             {
                 ISystem::_init("djv::UI::Settings::System", context);
@@ -116,6 +122,7 @@ namespace djv
             void System::_saveSettings()
             {
                 picojson::value object(picojson::object_type, true);
+                object.get<picojson::object>()["SettingsVersion"] = toJSON(settingsVersion);
 
                 // Serialize the settings.
                 for (const auto & settings : _settings)
@@ -153,9 +160,21 @@ namespace djv
                         if (v.is<picojson::object>())
                         {
                             const auto & object = v.get<picojson::object>();
-                            for (const auto & value : object)
+                            size_t readSettingsVersion = 0;
+                            for (const auto& value : object)
                             {
-                                out[value.first] = value.second;
+                                if ("SettingsVersion" == value.first)
+                                {
+                                    fromJSON(value.second, readSettingsVersion);
+                                    break;
+                                }
+                            }
+                            if (readSettingsVersion >= settingsVersion)
+                            {
+                                for (const auto& value : object)
+                                {
+                                    out[value.first] = value.second;
+                                }
                             }
                         }
                     }

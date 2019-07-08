@@ -326,6 +326,10 @@ namespace djv
                 {
                     auto & parentChangedEvent = static_cast<Event::ParentChanged &>(event);
                     _clipped = parentChangedEvent.getNewParent() ? true : false;
+                    if (_clipped)
+                    {
+                        releaseTextFocus();
+                    }
                     _clipRect = BBox2f(0.f, 0.f, 0.f, 0.f);
                     _redraw();
                     break;
@@ -433,6 +437,7 @@ namespace djv
                             i.second.tooltip = nullptr;
                             i.second.timer   = _updateTime;
                         }
+                        releaseTextFocus();
                     }
                     _clipEvent(clipEvent);
                     break;

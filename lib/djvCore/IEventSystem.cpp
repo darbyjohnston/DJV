@@ -299,19 +299,26 @@ namespace djv
                 auto info = p.pointerInfo;
                 info.buttons[button] = true;
                 ButtonPress event(info);
-                auto object = p.hover->get();
-                while (object)
+                if (auto grab = p.grab->get())
                 {
-                    if (object->isEnabled())
+                    grab->event(event);
+                }
+                else
+                {
+                    auto object = p.hover->get();
+                    while (object)
                     {
-                        object->event(event);
-                        if (event.isAccepted())
+                        if (object->isEnabled())
                         {
-                            p.grab->setIfChanged(object);
-                            break;
+                            object->event(event);
+                            if (event.isAccepted())
+                            {
+                                p.grab->setIfChanged(object);
+                                break;
+                            }
                         }
+                        object = object->getParent().lock();
                     }
-                    object = object->getParent().lock();
                 }
             }
 
@@ -324,7 +331,15 @@ namespace djv
                 if (auto grab = p.grab->get())
                 {
                     grab->event(event);
-                    p.grab->setIfChanged(nullptr);
+                    bool pressed = false;
+                    for (const auto& i : info.buttons)
+                    {
+                        pressed |= i.second;
+                    }
+                    if (!pressed)
+                    {
+                        p.grab->setIfChanged(nullptr);
+                    }
                 }
             }
 

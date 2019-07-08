@@ -80,8 +80,8 @@ namespace djv
             };
             DJV_ENUM_HELPERS(Type);
 
-            //! This enumeration provides the image channel types.
-            enum class ChannelType
+            //! This enumeration provides the image channels.
+            enum class Channels
             {
                 None,
                 L,
@@ -92,7 +92,7 @@ namespace djv
                 Count,
                 First = None
             };
-            DJV_ENUM_HELPERS(ChannelType);
+            DJV_ENUM_HELPERS(Channels);
 
             //! This enumeration provides the image data types.
             enum class DataType
@@ -155,7 +155,7 @@ namespace djv
             typedef U10_S_LSB U10_S;
 #endif
 
-            inline ChannelType getChannelType(Type);
+            inline Channels getChannels(Type);
             inline uint8_t getChannelCount(Type);
             inline DataType getDataType(Type);
             inline uint8_t getBitDepth(Type);
@@ -221,7 +221,7 @@ namespace djv
     } // namespace AV
 
     DJV_ENUM_SERIALIZE_HELPERS(AV::Image::Type);
-    DJV_ENUM_SERIALIZE_HELPERS(AV::Image::ChannelType);
+    DJV_ENUM_SERIALIZE_HELPERS(AV::Image::Channels);
     DJV_ENUM_SERIALIZE_HELPERS(AV::Image::DataType);
 
 } // namespace djv

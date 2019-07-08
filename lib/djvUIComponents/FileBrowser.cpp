@@ -217,7 +217,6 @@ namespace djv
                 vLayout->addSeparator();
                 vLayout->addChild(p.drivesWidget);
                 auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-                scrollWidget->setBorder(false);
                 scrollWidget->addChild(vLayout);
                 p.shortcutsPopupWidget = PopupWidget::create(context);
                 p.shortcutsPopupWidget->setIcon("djvIconBookmark");
@@ -269,10 +268,8 @@ namespace djv
 
                 p.listViewHeader = ListViewHeader::create(context);
                 p.listViewHeader->setText({ std::string(), std::string(), std::string() });
-                p.listViewHeader->setShadowOverlay({ Side::Top });
                 p.itemView = ItemView::create(context);
                 p.scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
-                p.scrollWidget->setBorder(false);
                 p.scrollWidget->addChild(p.itemView);
                 p.scrollWidget->setShadowOverlay({ Side::Top });
 

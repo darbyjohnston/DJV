@@ -78,7 +78,7 @@ namespace djv
                     }
             });
 
-            auto ocioSystem = context->getSystemT<AV::OCIOSystem>();
+            auto ocioSystem = context->getSystemT<AV::OCIO::System>();
             ListObserver<std::string>::create(
                 ocioSystem->observeColorSpaces(),
                 [weak, context](const std::vector<std::string>&)
@@ -132,7 +132,7 @@ namespace djv
             AV::IO::DPX::Options options;
             fromJSON(io->getOptions(AV::IO::DPX::pluginName), options);
 
-            auto ocioSystem = context->getSystemT<AV::OCIOSystem>();
+            auto ocioSystem = context->getSystemT<AV::OCIO::System>();
             p.colorSpaces.clear();
             p.colorSpaces.push_back(std::string());
             for (const auto& i : ocioSystem->observeColorSpaces()->get())

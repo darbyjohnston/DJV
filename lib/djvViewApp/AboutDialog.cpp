@@ -254,7 +254,6 @@ namespace djv
             textLayout->addChild(vLayout);
 
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            scrollWidget->setBorder(false);
             scrollWidget->setShadowOverlay({ UI::Side::Top });
             scrollWidget->addChild(textLayout);
             addChild(scrollWidget);

@@ -62,36 +62,36 @@ namespace djv
                 return !(*this == value);
             }
 
-            inline ChannelType getChannelType(Type value)
+            inline Channels getChannels(Type value)
             {
-                const ChannelType data[] =
+                const Channels data[] =
                 {
-                    ChannelType::None,
+                    Channels::None,
                     
-                    ChannelType::L,
-                    ChannelType::L,
-                    ChannelType::L,
-                    ChannelType::L,
-                    ChannelType::L,
+                    Channels::L,
+                    Channels::L,
+                    Channels::L,
+                    Channels::L,
+                    Channels::L,
 
-                    ChannelType::LA,
-                    ChannelType::LA,
-                    ChannelType::LA,
-                    ChannelType::LA,
-                    ChannelType::LA,
+                    Channels::LA,
+                    Channels::LA,
+                    Channels::LA,
+                    Channels::LA,
+                    Channels::LA,
 
-                    ChannelType::RGB,
-                    ChannelType::RGB,
-                    ChannelType::RGB,
-                    ChannelType::RGB,
-                    ChannelType::RGB,
-                    ChannelType::RGB,
+                    Channels::RGB,
+                    Channels::RGB,
+                    Channels::RGB,
+                    Channels::RGB,
+                    Channels::RGB,
+                    Channels::RGB,
 
-                    ChannelType::RGBA,
-                    ChannelType::RGBA,
-                    ChannelType::RGBA,
-                    ChannelType::RGBA,
-                    ChannelType::RGBA
+                    Channels::RGBA,
+                    Channels::RGBA,
+                    Channels::RGBA,
+                    Channels::RGBA,
+                    Channels::RGBA
                 };
                 DJV_ASSERT(sizeof(data) / sizeof(data[0]) == static_cast<size_t>(Type::Count));
                 return data[static_cast<size_t>(value)];

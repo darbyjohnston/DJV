@@ -430,8 +430,11 @@ namespace djv
                 }
                 break;
             case GLFW_KEY_ESCAPE:
-                event.accept();
-                releaseTextFocus();
+                if (hasTextFocus())
+                {
+                    event.accept();
+                    releaseTextFocus();
+                }
                 break;
             case GLFW_KEY_UP:
             case GLFW_KEY_DOWN:

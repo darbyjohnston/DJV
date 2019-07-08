@@ -598,7 +598,7 @@ namespace djv
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         AV::Image,
-        ChannelType,
+        Channels,
         DJV_TEXT("None"),
         DJV_TEXT("L"),
         DJV_TEXT("LA"),

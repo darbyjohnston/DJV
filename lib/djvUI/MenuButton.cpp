@@ -52,6 +52,7 @@ namespace djv
                 std::shared_ptr<Icon> icon;
                 std::shared_ptr<Label> label;
                 std::shared_ptr<Icon> popupIcon;
+                ColorRole borderColorRole = ColorRole::Border;
                 std::shared_ptr<HorizontalLayout> layout;
                 std::function<void(bool)> checkedCallback;
             };
@@ -167,6 +168,12 @@ namespace djv
                 p.label->setFontSizeRole(value);
             }
 
+            void Menu::setBorderColorRole(ColorRole value)
+            {
+                _p->borderColorRole = value;
+                _redraw();
+            }
+
             bool Menu::isChecked() const
             {
                 return _p->checked;
@@ -245,7 +252,7 @@ namespace djv
                     }
                     break;
                 case MenuStyle::ComboBox:
-                    render->setFillColor(style->getColor(ColorRole::Border));
+                    render->setFillColor(style->getColor(p.borderColorRole));
                     render->drawPill(g);
                     render->setFillColor(style->getColor(getBackgroundRole()));
                     render->drawPill(g.margin(-b));

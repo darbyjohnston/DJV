@@ -127,10 +127,12 @@ namespace djv
                 inline uint16_t getWidth() const;
                 inline uint16_t getHeight() const;
                 inline float getAspectRatio() const;
+
                 inline Type getType() const;
                 inline GLenum getGLFormat() const;
                 inline GLenum getGLType() const;
                 inline const Layout & getLayout() const;
+
                 inline bool isValid() const;
                 inline uint8_t getPixelByteCount() const;
                 inline size_t getScanlineByteCount() const;

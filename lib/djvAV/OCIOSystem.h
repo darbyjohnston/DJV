@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvAV/AV.h>
+#include <djvAV/OCIO.h>
 
 #include <djvCore/ISystem.h>
 #include <djvCore/ListObserver.h>
@@ -39,51 +39,34 @@ namespace djv
 {
     namespace AV
     {
-        //! This struct provides information about a view.
-        struct OCIOView
+        namespace OCIO
         {
-            std::string name;
-            std::string colorSpace;
-            std::string looks;
+            //! This class provides information about the available color spaces,
+            //! displays, and views.
+            class System : public Core::ISystem
+            {
+                DJV_NON_COPYABLE(System);
 
-            bool operator == (const OCIOView&) const;
-        };
+            protected:
+                void _init(Core::Context*);
+                System();
 
-        //! This struct provides information about a display.
-        struct OCIODisplay
-        {
-            std::string name;
-            std::string defaultView;
-            std::vector<OCIOView> views;
+            public:
+                ~System() override;
+                static std::shared_ptr<System> create(Core::Context*);
 
-            bool operator == (const OCIODisplay&) const;
-        };
+                std::shared_ptr<Core::IListSubject<std::string> > observeColorSpaces() const;
+                std::shared_ptr<Core::IListSubject<Display> > observeDisplays() const;
 
-        //! This class provides information about the available color spaces,
-        //! displays, and views.
-        class OCIOSystem : public Core::ISystem
-        {
-            DJV_NON_COPYABLE(OCIOSystem);
+                const std::string& getDefaultDisplay() const;
+                const std::string& getDefaultView() const;
 
-        protected:
-            void _init(Core::Context *);
-            OCIOSystem();
+                std::string getColorSpace(const std::string& display, const std::string& view) const;
 
-        public:
-            ~OCIOSystem() override;
-            static std::shared_ptr<OCIOSystem> create(Core::Context *);
+            private:
+                DJV_PRIVATE();
+            };
 
-            std::shared_ptr<Core::IListSubject<std::string> > observeColorSpaces() const;
-            std::shared_ptr<Core::IListSubject<OCIODisplay> > observeDisplays() const;
-
-            const std::string& getDefaultDisplay() const;
-            const std::string& getDefaultView() const;
-
-            std::string getColorSpace(const std::string& display, const std::string& view) const;
-
-        private:
-            DJV_PRIVATE();
-        };
-
+        } // namespace OCIO
     } // namespace AV
 } // namespace djv

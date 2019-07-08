@@ -215,7 +215,7 @@ namespace djv
                             fileSystem->setCurrentMedia(widget->_p->media[value]);
                         }
                     }
-                    widget->_p->mediaMenu->hide();
+                    widget->_p->mediaMenu->close();
                 }
             });
 
@@ -233,7 +233,7 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    widget->_p->mediaMenu->hide();
+                    widget->_p->mediaMenu->close();
                     if (value)
                     {
                         widget->_p->mediaMenu->popup(widget->_p->mediaButton);

@@ -50,8 +50,8 @@ namespace djv
             struct ColorSpace::Private
             {
                 std::shared_ptr<ValueSubject<std::string> > colorSpace;
-                std::shared_ptr<ValueSubject<std::string> > colorDisplay;
-                std::shared_ptr<ValueSubject<std::string> > colorView;
+                std::shared_ptr<ValueSubject<std::string> > display;
+                std::shared_ptr<ValueSubject<std::string> > view;
                 std::shared_ptr<ValueSubject<std::string> > outputColorSpace;
             };
 
@@ -60,9 +60,9 @@ namespace djv
                 ISettings::_init("djv::UI::Settings::ColorSpace", context);
                 DJV_PRIVATE_PTR();
                 p.colorSpace = ValueSubject<std::string>::create();
-                auto ocioSystem = context->getSystemT<AV::OCIOSystem>();
-                p.colorDisplay = ValueSubject<std::string>::create(ocioSystem->getDefaultDisplay());
-                p.colorView = ValueSubject<std::string>::create(ocioSystem->getDefaultView());
+                auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                p.display = ValueSubject<std::string>::create(ocioSystem->getDefaultDisplay());
+                p.view = ValueSubject<std::string>::create(ocioSystem->getDefaultView());
                 p.outputColorSpace = ValueSubject<std::string>::create(_getOutputColorSpace());
                 _load();
             }
@@ -86,14 +86,14 @@ namespace djv
                 return _p->colorSpace;
             }
 
-            std::shared_ptr<Core::IValueSubject<std::string> > ColorSpace::observeColorDisplay() const
+            std::shared_ptr<Core::IValueSubject<std::string> > ColorSpace::observeDisplay() const
             {
-                return _p->colorDisplay;
+                return _p->display;
             }
 
-            std::shared_ptr<Core::IValueSubject<std::string> > ColorSpace::observeColorView() const
+            std::shared_ptr<Core::IValueSubject<std::string> > ColorSpace::observeView() const
             {
-                return _p->colorView;
+                return _p->view;
             }
 
             std::shared_ptr<Core::IValueSubject<std::string> > ColorSpace::observeOutputColorSpace() const
@@ -106,17 +106,17 @@ namespace djv
                 _p->colorSpace->setIfChanged(value);
             }
 
-            void ColorSpace::setColorDisplay(const std::string& value)
+            void ColorSpace::setDisplay(const std::string& value)
             {
-                if (_p->colorDisplay->setIfChanged(value))
+                if (_p->display->setIfChanged(value))
                 {
                     _p->outputColorSpace->setIfChanged(_getOutputColorSpace());
                 }
             }
 
-            void ColorSpace::setColorView(const std::string& value)
+            void ColorSpace::setView(const std::string& value)
             {
-                if (_p->colorView->setIfChanged(value))
+                if (_p->view->setIfChanged(value))
                 {
                     _p->outputColorSpace->setIfChanged(_getOutputColorSpace());
                 }
@@ -129,8 +129,8 @@ namespace djv
                 {
                     const auto & object = value.get<picojson::object>();
                     UI::Settings::read("ColorSpace", object, p.colorSpace);
-                    UI::Settings::read("ColorDisplay", object, p.colorDisplay);
-                    UI::Settings::read("ColorView", object, p.colorView);
+                    UI::Settings::read("Display", object, p.display);
+                    UI::Settings::read("View", object, p.view);
                 }
             }
 
@@ -140,8 +140,8 @@ namespace djv
                 picojson::value out(picojson::object_type, true);
                 auto & object = out.get<picojson::object>();
                 UI::Settings::write("ColorSpace", p.colorSpace->get(), object);
-                UI::Settings::write("ColorDisplay", p.colorDisplay->get(), object);
-                UI::Settings::write("ColorView", p.colorView->get(), object);
+                UI::Settings::write("Display", p.display->get(), object);
+                UI::Settings::write("View", p.view->get(), object);
                 return out;
             }
 
@@ -149,14 +149,14 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 std::string out;
-                auto ocioSystem = getContext()->getSystemT<AV::OCIOSystem>();
+                auto ocioSystem = getContext()->getSystemT<AV::OCIO::System>();
                 for (const auto& i : ocioSystem->observeDisplays()->get())
                 {
-                    if (p.colorDisplay->get() == i.name)
+                    if (p.display->get() == i.name)
                     {
                         for (const auto& j : i.views)
                         {
-                            if (p.colorView->get() == j.name)
+                            if (p.view->get() == j.name)
                             {
                                 out = j.colorSpace;
                                 break;

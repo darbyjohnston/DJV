@@ -31,8 +31,6 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
-#include <djvUI/Icon.h>
-#include <djvUI/Label.h>
 #include <djvUI/Menu.h>
 #include <djvUI/MenuButton.h>
 #include <djvUI/RowLayout.h>
@@ -82,7 +80,7 @@ namespace djv
             p.button->setBackgroundRole(ColorRole::Button);
             addChild(p.button);
 
-            _updateCurrentItem();
+            _updateCurrentItem(Callback::Suppress);
 
             auto weak = std::weak_ptr<ComboBox>(std::dynamic_pointer_cast<ComboBox>(shared_from_this()));
             p.actionGroup->setRadioCallback(
@@ -91,7 +89,7 @@ namespace djv
                 if (auto widget = weak.lock())
                 {
                     widget->setCurrentItem(value);
-                    widget->_p->menu->hide();
+                    widget->_p->menu->close();
                     if (widget->_p->callback)
                     {
                         widget->_p->callback(value);
@@ -110,21 +108,17 @@ namespace djv
             });
 
             p.button->setCheckedCallback(
-                [weak](bool value)
+                [weak, context](bool value)
             {
                 if (auto widget = weak.lock())
                 {
                     if (!value)
                     {
-                        widget->_p->menu->hide();
+                        widget->close();
                     }
                     if (value && widget->_p->currentItem >= 0 && widget->_p->currentItem < widget->_p->items.size())
                     {
-                        if (auto window = widget->getWindow())
-                        {
-                            widget->_p->closeAction->setEnabled(true);
-                            widget->_p->menu->popup(widget->_p->button);
-                        }
+                        widget->open();
                     }
                 }
             });
@@ -139,7 +133,7 @@ namespace djv
                     {
                         widget->_p->closeAction->setEnabled(false);
                         widget->_p->button->setChecked(false);
-                        widget->_p->menu->hide();
+                        widget->_p->menu->close();
                     }
                 }
             });
@@ -190,7 +184,7 @@ namespace djv
             p.menu->addAction(action);
         }
 
-        void ComboBox::clearItems()
+        void ComboBox::clearItems(Callback callback)
         {
             DJV_PRIVATE_PTR();
             if (p.items.size())
@@ -198,7 +192,7 @@ namespace djv
                 p.items.clear();
                 _updateItems();
                 p.currentItem = -1;
-                _updateCurrentItem();
+                _updateCurrentItem(callback);
             }
         }
 
@@ -207,14 +201,78 @@ namespace djv
             return _p->currentItem;
         }
 
-        void ComboBox::setCurrentItem(int value)
+        void ComboBox::setCurrentItem(int value, Callback callback)
         {
             DJV_PRIVATE_PTR();
             const int tmp = Math::clamp(value, 0, static_cast<int>(p.items.size()) - 1);
             if (tmp == p.currentItem)
                 return;
             p.currentItem = tmp;
-            _updateCurrentItem();
+            _updateCurrentItem(callback);
+        }
+
+        void ComboBox::firstItem(Callback callback)
+        {
+            DJV_PRIVATE_PTR();
+            const size_t size = p.items.size();
+            if (size)
+            {
+                setCurrentItem(0, callback);
+            }
+        }
+
+        void ComboBox::lastItem(Callback callback)
+        {
+            DJV_PRIVATE_PTR();
+            const size_t size = p.items.size();
+            if (size)
+            {
+                setCurrentItem(size - 1, callback);
+            }
+        }
+
+        void ComboBox::prevItem(Callback callback)
+        {
+            DJV_PRIVATE_PTR();
+            const size_t size = p.items.size();
+            if (size && p.currentItem > 0)
+            {
+                setCurrentItem(p.currentItem - 1, callback);
+            }
+        }
+
+        void ComboBox::nextItem(Callback callback)
+        {
+            DJV_PRIVATE_PTR();
+            const size_t size = p.items.size();
+            if (size && p.currentItem >= 0 && p.currentItem < size - 1)
+            {
+                setCurrentItem(p.currentItem + 1, callback);
+            }
+        }
+
+        bool ComboBox::isOpen() const
+        {
+            return _p->menu->isOpen();
+        }
+
+        void ComboBox::open()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.currentItem >= 0 && p.currentItem < p.items.size())
+            {
+                if (auto window = getWindow())
+                {
+                    takeTextFocus();
+                    p.closeAction->setEnabled(true);
+                    p.menu->popup(p.button);
+                }
+            }
+        }
+
+        void ComboBox::close()
+        {
+            _p->menu->close();
         }
 
         void ComboBox::setFont(int index, const std::string & font)
@@ -240,12 +298,79 @@ namespace djv
 
         void ComboBox::_preLayoutEvent(Event::PreLayout & event)
         {
-            _setMinimumSize(_p->button->getMinimumSize());
+            const auto& style = _getStyle();
+            const float b = style->getMetric(MetricsRole::Border);
+            _setMinimumSize(_p->button->getMinimumSize() + b * 2.f);
         }
 
         void ComboBox::_layoutEvent(Event::Layout & event)
         {
-            _p->button->setGeometry(getGeometry());
+            const auto& style = _getStyle();
+            const float b = style->getMetric(MetricsRole::Border);
+            _p->button->setGeometry(getGeometry().margin(-b));
+        }
+
+        void ComboBox::_keyPressEvent(Event::KeyPress& event)
+        {
+            DJV_PRIVATE_PTR();
+            const int currentItem = p.currentItem;
+            switch (event.getKey())
+            {
+            case GLFW_KEY_ENTER:
+            case GLFW_KEY_SPACE:
+                event.accept();
+                if (isOpen())
+                {
+                    close();
+                }
+                else
+                {
+                    open();
+                }
+                break;
+            case GLFW_KEY_HOME:
+                event.accept();
+                firstItem(Callback::Trigger);
+                break;
+            case GLFW_KEY_END:
+                event.accept();
+                lastItem(Callback::Trigger);
+                break;
+            case GLFW_KEY_UP:
+                event.accept();
+                prevItem(Callback::Trigger);
+                break;
+            case GLFW_KEY_DOWN:
+                event.accept();
+                nextItem(Callback::Trigger);
+                break;
+            case GLFW_KEY_ESCAPE:
+                if (p.menu->isOpen())
+                {
+                    event.accept();
+                    p.menu->close();
+                }
+                else if (hasTextFocus())
+                {
+                    event.accept();
+                    releaseTextFocus();
+                }
+                break;
+            }
+            if (currentItem != p.currentItem && p.callback)
+            {
+                p.callback(p.currentItem);
+            }
+        }
+
+        void ComboBox::_textFocusEvent(Event::TextFocus&)
+        {
+            _p->button->setBorderColorRole(ColorRole::TextFocus);
+        }
+
+        void ComboBox::_textFocusLostEvent(Event::TextFocusLost&)
+        {
+            _p->button->setBorderColorRole(ColorRole::Border);
         }
 
         void ComboBox::_updateItems()
@@ -262,17 +387,17 @@ namespace djv
             }
         }
 
-        void ComboBox::_updateCurrentItem()
+        void ComboBox::_updateCurrentItem(Callback callback)
         {
             DJV_PRIVATE_PTR();
             if (p.currentItem >= 0 && p.currentItem < p.items.size())
             {
-                p.actionGroup->setChecked(p.currentItem);
+                p.actionGroup->setChecked(p.currentItem, true, callback);
                 p.button->setText(p.items[p.currentItem]);
             }
             else
             {
-                p.actionGroup->setChecked(-1);
+                p.actionGroup->setChecked(-1, true, callback);
             }
         }
 

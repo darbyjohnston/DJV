@@ -27,50 +27,60 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvAV/OCIO.h>
 
-#include <djvViewApp/Enum.h>
-#include <djvViewApp/IToolSystem.h>
+#include <tuple>
 
-#include <djvCore/ValueObserver.h>
-
-#include <glm/vec2.hpp>
+using namespace djv::Core;
 
 namespace djv
 {
-    namespace ViewApp
+    namespace AV
     {
-        class ImageViewSystem : public IToolSystem
+        namespace OCIO
         {
-            DJV_NON_COPYABLE(ImageViewSystem);
+            Convert::Convert()
+            {}
 
-        protected:
-            void _init(Core::Context *);
-            ImageViewSystem();
+            Convert::Convert(const std::string& input, const std::string& output) :
+                input(input),
+                output(output)
+            {}
 
-        public:
-            ~ImageViewSystem() override;
+            bool Convert::isValid() const
+            {
+                return !(input.empty() || output.empty());
+            }
 
-            static std::shared_ptr<ImageViewSystem> create(Core::Context *);
+            bool Convert::operator == (const Convert& other) const
+            {
+                return
+                    input == other.input &&
+                    output == other.output;
+            }
 
-            std::shared_ptr<Core::IValueSubject<ImageViewLock> > observeLock() const;
+            bool Convert::operator < (const Convert& other) const
+            {
+                return std::tie(input, output) < std::tie(other.input, other.output);
+            }
 
-            ToolActionData getToolAction() const override;
-            void setCurrentTool(bool) override;
+            bool View::operator == (const View& other) const
+            {
+                return
+                    name == other.name &&
+                    colorSpace == other.colorSpace &&
+                    looks == other.looks;
+            }
 
-            std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
-            MenuData getMenu() const override;
+            bool Display::operator == (const Display& other) const
+            {
+                return
+                    name == other.name &&
+                    defaultView == other.defaultView &&
+                    views == other.views;
+            }
 
-        private:
-            void _panImage(const glm::vec2&);
-            void _zoomImage(float);
-
-            void _actionUpdate();
-            void _textUpdate();
-
-            DJV_PRIVATE();
-        };
-
-    } // namespace ViewApp
+        } // namespace OCIO
+    } // namespace AV
 } // namespace djv
 

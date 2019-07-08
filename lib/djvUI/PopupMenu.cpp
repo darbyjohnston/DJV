@@ -179,7 +179,7 @@ namespace djv
             if (p.menu)
             {
                 p.closeAction->setEnabled(false);
-                p.menu->hide();
+                p.menu->close();
                 p.button->setChecked(false);
             }
         }

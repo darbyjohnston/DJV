@@ -33,19 +33,19 @@ in vec2 Texture;
 
 out vec4 FragColor;
 
-uniform int imageFormat;
+uniform int imageChannels;
 uniform int imageChannel;
 uniform int colorMode;
 uniform vec4 color;
 uniform sampler2D textureSampler;
-uniform int colorXForm = 0;
-uniform sampler3D colorXFormSampler;
+uniform int colorSpace = 0;
+uniform sampler3D colorSpaceSampler;
 
-// djv::AV::Render::ImageFormat
-#define IMAGE_FORMAT_L    0
-#define IMAGE_FORMAT_LA   1
-#define IMAGE_FORMAT_RGB  2
-#define IMAGE_FORMAT_RGBA 3
+// djv::AV::Image::Channels
+#define IMAGE_CHANNELS_L    1
+#define IMAGE_CHANNELS_LA   2
+#define IMAGE_CHANNELS_RGB  3
+#define IMAGE_CHANNELS_RGBA 4
 
 // djv::AV::Render::ImageChannel
 #define IMAGE_CHANNEL_COLOR 0
@@ -63,7 +63,7 @@ uniform sampler3D colorXFormSampler;
 #define COLOR_MODE_COLOR_AND_TEXTURE          5
 #define COLOR_MODE_SHADOW                     6
 
-//$colorXFormFunctions
+//$colorSpaceFunctions
 
 void main()
 {
@@ -109,25 +109,22 @@ void main()
 		vec4 t = texture(textureSampler, Texture);
 		
 		// Swizzle the channels for the given image format.
-		if (IMAGE_FORMAT_L == imageFormat)
+		if (IMAGE_CHANNELS_L == imageChannels)
 		{
 			t.g = t.b = t.r;
 			t.a = 1.0;
 		}
-		else if (IMAGE_FORMAT_LA == imageFormat)
+		else if (IMAGE_CHANNELS_LA == imageChannels)
 		{
 			t.a = t.g;
 			t.g = t.b = t.r;
 		}
-		else if (IMAGE_FORMAT_RGB == imageFormat)
+		else if (IMAGE_CHANNELS_RGB == imageChannels)
 		{
 			t.a = 1.0;
 		}
-		else if (IMAGE_FORMAT_RGBA == imageFormat)
-		{
-		}
 		
-//$colorXFormBody
+//$colorSpaceBody
 
         // Swizzle the channels for the given image channel configuration.
         if (IMAGE_CHANNEL_RED == imageChannel)

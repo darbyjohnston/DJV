@@ -62,6 +62,7 @@ namespace djv
                 Hovered,
                 Pressed,
                 Checked,
+                TextFocus,
                 TooltipBackground,
                 TooltipForeground,
                 Overlay,

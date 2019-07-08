@@ -29,48 +29,52 @@
 
 #pragma once
 
-#include <djvViewApp/Enum.h>
-#include <djvViewApp/IToolSystem.h>
+#include <djvAV/AV.h>
 
-#include <djvCore/ValueObserver.h>
-
-#include <glm/vec2.hpp>
+#include <string>
+#include <vector>
 
 namespace djv
 {
-    namespace ViewApp
+    namespace AV
     {
-        class ImageViewSystem : public IToolSystem
+        namespace OCIO
         {
-            DJV_NON_COPYABLE(ImageViewSystem);
+            //! This struct provides a color space conversion.
+            struct Convert
+            {
+                Convert();
+                Convert(const std::string&, const std::string&);
 
-        protected:
-            void _init(Core::Context *);
-            ImageViewSystem();
+                std::string input;
+                std::string output;
 
-        public:
-            ~ImageViewSystem() override;
+                bool isValid() const;
 
-            static std::shared_ptr<ImageViewSystem> create(Core::Context *);
+                bool operator == (const Convert&) const;
+                bool operator < (const Convert&) const;
+            };
 
-            std::shared_ptr<Core::IValueSubject<ImageViewLock> > observeLock() const;
+            //! This struct provides information about a view.
+            struct View
+            {
+                std::string name;
+                std::string colorSpace;
+                std::string looks;
 
-            ToolActionData getToolAction() const override;
-            void setCurrentTool(bool) override;
+                bool operator == (const View&) const;
+            };
 
-            std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
-            MenuData getMenu() const override;
+            //! This struct provides information about a display.
+            struct Display
+            {
+                std::string name;
+                std::string defaultView;
+                std::vector<View> views;
 
-        private:
-            void _panImage(const glm::vec2&);
-            void _zoomImage(float);
+                bool operator == (const Display&) const;
+            };
 
-            void _actionUpdate();
-            void _textUpdate();
-
-            DJV_PRIVATE();
-        };
-
-    } // namespace ViewApp
+        } // namespace OCIO
+    } // namespace AV
 } // namespace djv
-

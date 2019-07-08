@@ -76,11 +76,12 @@ namespace djv
             auto colorSpaceSettings = settingsSystem->getSettingsT<UI::Settings::ColorSpace>();
             auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
             AV::Render::ImageOptions imageOptions;
-            imageOptions.colorSpace = colorSpaceSettings->observeColorSpace()->get();
-            imageOptions.displayColorSpace = colorSpaceSettings->observeOutputColorSpace()->get();
+            imageOptions.colorSpace = AV::OCIO::Convert(
+                colorSpaceSettings->observeColorSpace()->get(),
+                colorSpaceSettings->observeOutputColorSpace()->get());
             p.imageOptions = ValueSubject<AV::Render::ImageOptions>::create(imageOptions);
-            p.colorDisplay = ValueSubject<std::string>::create(colorSpaceSettings->observeColorDisplay()->get());
-            p.colorView = ValueSubject<std::string>::create(colorSpaceSettings->observeColorView()->get());
+            p.colorDisplay = ValueSubject<std::string>::create(colorSpaceSettings->observeDisplay()->get());
+            p.colorView = ValueSubject<std::string>::create(colorSpaceSettings->observeView()->get());
             p.imagePos = ValueSubject<glm::vec2>::create();
             p.imageZoom = ValueSubject<float>::create();
             p.imageRotate = ValueSubject<ImageRotate>::create(imageSettings->observeImageRotate()->get());

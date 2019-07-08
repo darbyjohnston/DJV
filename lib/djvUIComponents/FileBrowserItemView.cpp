@@ -431,7 +431,7 @@ namespace djv
                                     }
                                     render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f, opacity));
                                     AV::Render::ImageOptions options;
-                                    options.displayColorSpace = p.colorSpace;
+                                    options.colorSpace.output = p.colorSpace;
                                     render->drawImage(j->second, pos, options);
                                 }
                             }

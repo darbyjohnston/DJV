@@ -40,7 +40,6 @@ namespace djv
                     premultAlpha == other.premultAlpha &&
                     mirror == other.mirror &&
                     colorSpace == other.colorSpace &&
-                    displayColorSpace == other.displayColorSpace &&
                     cache == other.cache;
             }
 

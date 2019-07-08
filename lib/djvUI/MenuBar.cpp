@@ -174,7 +174,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto menu = std::dynamic_pointer_cast<Menu>(value))
             {
-                menu->hide();
+                menu->close();
                 menu->setMinimumSizeRole(MetricsRole::Menu);
                 p.menus.push_back(menu);
 
@@ -331,7 +331,7 @@ namespace djv
         {
             for (auto & i : menus)
             {
-                i->hide();
+                i->close();
             }
             menuOpen.reset();
         }

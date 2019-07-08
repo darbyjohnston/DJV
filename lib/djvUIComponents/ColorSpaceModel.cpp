@@ -45,7 +45,7 @@ namespace djv
     {
         struct ColorSpaceModel::Private
         {
-            std::vector<AV::OCIODisplay> ocioDisplays;
+            std::vector<AV::OCIO::Display> ocioDisplays;
 
             std::shared_ptr<ListSubject<std::string> > colorSpaces;
             std::shared_ptr<ListSubject<std::string> > displays;
@@ -56,7 +56,7 @@ namespace djv
             std::shared_ptr<ValueSubject<std::string> > outputColorSpace;
 
             std::shared_ptr<ListObserver<std::string> > colorSpacesObserver;
-            std::shared_ptr<ListObserver<AV::OCIODisplay> > colorDisplaysObserver;
+            std::shared_ptr<ListObserver<AV::OCIO::Display> > colorDisplaysObserver;
         };
 
         void ColorSpaceModel::_init(Context* context)
@@ -73,12 +73,12 @@ namespace djv
             auto settingsSystem = context->getSystemT<Settings::System>();
             auto colorSpaceSettings = settingsSystem->getSettingsT<Settings::ColorSpace>();
             p.colorSpace->setIfChanged(colorSpaceSettings->observeColorSpace()->get());
-            p.display->setIfChanged(colorSpaceSettings->observeColorDisplay()->get());
-            p.view->setIfChanged(colorSpaceSettings->observeColorView()->get());
+            p.display->setIfChanged(colorSpaceSettings->observeDisplay()->get());
+            p.view->setIfChanged(colorSpaceSettings->observeView()->get());
             p.outputColorSpace->setIfChanged(colorSpaceSettings->observeOutputColorSpace()->get());
 
             auto weak = std::weak_ptr<ColorSpaceModel>(std::dynamic_pointer_cast<ColorSpaceModel>(shared_from_this()));
-            auto ocioSystem = context->getSystemT<AV::OCIOSystem>();
+            auto ocioSystem = context->getSystemT<AV::OCIO::System>();
             p.colorSpacesObserver = ListObserver<std::string>::create(
                 ocioSystem->observeColorSpaces(),
                 [weak](const std::vector<std::string>& value)
@@ -101,14 +101,14 @@ namespace djv
                     }
                 });
 
-            p.colorDisplaysObserver = ListObserver<AV::OCIODisplay>::create(
+            p.colorDisplaysObserver = ListObserver<AV::OCIO::Display>::create(
                 ocioSystem->observeDisplays(),
-                [weak](const std::vector<AV::OCIODisplay>& value)
+                [weak](const std::vector<AV::OCIO::Display>& value)
                 {
                     if (auto model = weak.lock())
                     {
                         model->_p->ocioDisplays.clear();
-                        model->_p->ocioDisplays.push_back(AV::OCIODisplay());
+                        model->_p->ocioDisplays.push_back(AV::OCIO::Display());
                         for (const auto& i : value)
                         {
                             model->_p->ocioDisplays.push_back(i);

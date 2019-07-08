@@ -93,7 +93,7 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    widget->_p->border->setBorderColorRole(value ? ColorRole::Checked : ColorRole::None);
+                    widget->_p->border->setBorderColorRole(value ? ColorRole::TextFocus : ColorRole::Trough);
                 }
             });
 

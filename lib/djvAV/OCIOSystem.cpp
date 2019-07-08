@@ -35,190 +35,177 @@
 #include <OpenColorIO/OpenColorIO.h>
 
 using namespace djv::Core;
-namespace OCIO = OCIO_NAMESPACE;
+namespace _OCIO = OCIO_NAMESPACE;
 
 namespace djv
 {
     namespace AV
     {
-        bool OCIOView::operator == (const OCIOView& other) const
+        namespace OCIO
         {
-            return
-                name == other.name &&
-                colorSpace == other.colorSpace &&
-                looks == other.looks;
-        }
-
-        bool OCIODisplay::operator == (const OCIODisplay& other) const
-        {
-            return
-                name == other.name &&
-                defaultView == other.defaultView &&
-                views == other.views;
-        }
-
-        struct OCIOSystem::Private
-        {
-            OCIO::ConstConfigRcPtr ocioConfig;
-            std::shared_ptr<ListSubject<std::string> > colorSpaces;
-            std::shared_ptr<ListSubject<OCIODisplay> > displays;
-            std::string defaultDisplay;
-            std::string defaultView;
-        };
-
-        void OCIOSystem::_init(Core::Context * context)
-        {
-            ISystem::_init("djv::AV::OCIOSystem", context);
-
-            addDependency(context->getSystemT<CoreSystem>());
-
-            DJV_PRIVATE_PTR();
-            std::vector<std::string> colorSpaces;
-            std::vector<OCIODisplay> displays;
-            try
+            struct System::Private
             {
-                OCIO::SetLoggingLevel(OCIO::LOGGING_LEVEL_NONE);
+                _OCIO::ConstConfigRcPtr ocioConfig;
+                std::shared_ptr<ListSubject<std::string> > colorSpaces;
+                std::shared_ptr<ListSubject<Display> > displays;
+                std::string defaultDisplay;
+                std::string defaultView;
+            };
 
-                {
-                    std::stringstream ss;
-                    ss << "Version: " << OCIO::GetVersion();
-                    _log(ss.str());
-                }
+            void System::_init(Core::Context* context)
+            {
+                ISystem::_init("djv::AV::OCIO::System", context);
 
-                p.ocioConfig = OCIO::GetCurrentConfig();
-                {
-                    std::stringstream ss;
-                    ss << "Config description: " << p.ocioConfig->getDescription();
-                    _log(ss.str());
-                }
+                addDependency(context->getSystemT<CoreSystem>());
 
-                for (int i = 0; i < p.ocioConfig->getNumColorSpaces(); ++i)
+                DJV_PRIVATE_PTR();
+                std::vector<std::string> colorSpaces;
+                std::vector<Display> displays;
+                try
                 {
-                    const char* colorSpace = p.ocioConfig->getColorSpaceNameByIndex(i);
-                    colorSpaces.push_back(colorSpace);
-                    std::stringstream ss;
-                    ss << "Color space: " << colorSpace;
-                    _log(ss.str());
-                }
+                    _OCIO::SetLoggingLevel(_OCIO::LOGGING_LEVEL_NONE);
 
-                p.defaultDisplay = p.ocioConfig->getDefaultDisplay();
-                {
-                    std::stringstream ss;
-                    ss << "Default display: " << p.defaultDisplay;
-                    _log(ss.str());
-                }
-
-                for (int i = 0; i < p.ocioConfig->getNumDisplays(); ++i)
-                {
-                    const char* displayName = p.ocioConfig->getDisplay(i);
-                    OCIODisplay display;
-                    display.name = displayName;
-                    display.defaultView = p.ocioConfig->getDefaultView(displayName);
-                    if (display.name == p.defaultDisplay)
-                    {
-                        p.defaultView = display.defaultView;
-                    }
                     {
                         std::stringstream ss;
-                        ss << "Display: " << display.name;
+                        ss << "OCIO version: " << _OCIO::GetVersion();
                         _log(ss.str());
                     }
+
+                    p.ocioConfig = _OCIO::GetCurrentConfig();
                     {
                         std::stringstream ss;
-                        ss << "    Default view: " << display.defaultView;
+                        ss << "OCIO config description: " << p.ocioConfig->getDescription();
                         _log(ss.str());
                     }
-                    for (int j = 0; j < p.ocioConfig->getNumViews(displayName); ++j)
+
+                    for (int i = 0; i < p.ocioConfig->getNumColorSpaces(); ++i)
                     {
-                        const char* viewName = p.ocioConfig->getView(displayName, j);
-                        OCIOView view;
-                        view.name = viewName;
-                        view.colorSpace = p.ocioConfig->getDisplayColorSpaceName(displayName, viewName);
-                        view.looks = p.ocioConfig->getDisplayLooks(displayName, viewName);
-                        {
-                            std::stringstream ss;
-                            ss << "    View: " << view.name;
-                            _log(ss.str());
-                        }
-                        {
-                            std::stringstream ss;
-                            ss << "        Color space: " << view.colorSpace;
-                            _log(ss.str());
-                        }
-                        {
-                            std::stringstream ss;
-                            ss << "        Looks: " << view.looks;
-                            _log(ss.str());
-                        }
-                        display.views.push_back(view);
+                        const char* colorSpace = p.ocioConfig->getColorSpaceNameByIndex(i);
+                        colorSpaces.push_back(colorSpace);
+                        std::stringstream ss;
+                        ss << "Color space: " << colorSpace;
+                        _log(ss.str());
                     }
-                    displays.push_back(display);
+
+                    p.defaultDisplay = p.ocioConfig->getDefaultDisplay();
+                    {
+                        std::stringstream ss;
+                        ss << "Default display: " << p.defaultDisplay;
+                        _log(ss.str());
+                    }
+
+                    for (int i = 0; i < p.ocioConfig->getNumDisplays(); ++i)
+                    {
+                        const char* displayName = p.ocioConfig->getDisplay(i);
+                        Display display;
+                        display.name = displayName;
+                        display.defaultView = p.ocioConfig->getDefaultView(displayName);
+                        if (display.name == p.defaultDisplay)
+                        {
+                            p.defaultView = display.defaultView;
+                        }
+                        {
+                            std::stringstream ss;
+                            ss << "Display: " << display.name;
+                            _log(ss.str());
+                        }
+                        {
+                            std::stringstream ss;
+                            ss << "    Default view: " << display.defaultView;
+                            _log(ss.str());
+                        }
+                        for (int j = 0; j < p.ocioConfig->getNumViews(displayName); ++j)
+                        {
+                            const char* viewName = p.ocioConfig->getView(displayName, j);
+                            View view;
+                            view.name = viewName;
+                            view.colorSpace = p.ocioConfig->getDisplayColorSpaceName(displayName, viewName);
+                            view.looks = p.ocioConfig->getDisplayLooks(displayName, viewName);
+                            {
+                                std::stringstream ss;
+                                ss << "    View: " << view.name;
+                                _log(ss.str());
+                            }
+                            {
+                                std::stringstream ss;
+                                ss << "        Color space: " << view.colorSpace;
+                                _log(ss.str());
+                            }
+                            {
+                                std::stringstream ss;
+                                ss << "        Looks: " << view.looks;
+                                _log(ss.str());
+                            }
+                            display.views.push_back(view);
+                        }
+                        displays.push_back(display);
+                    }
                 }
-            }
-            catch (const std::exception& e)
-            {
-                std::stringstream ss;
-                ss << e.what();
-                _log(ss.str(), LogLevel::Error);
-            }
-
-            p.colorSpaces = ListSubject<std::string>::create(colorSpaces);
-            p.displays = ListSubject<OCIODisplay>::create(displays);
-        }
-
-        OCIOSystem::OCIOSystem() :
-            _p(new Private)
-        {}
-
-        OCIOSystem::~OCIOSystem()
-        {}
-
-        std::shared_ptr<OCIOSystem> OCIOSystem::create(Core::Context * context)
-        {
-            auto out = std::shared_ptr<OCIOSystem>(new OCIOSystem);
-            out->_init(context);
-            return out;
-        }
-
-        std::shared_ptr<Core::IListSubject<std::string> > OCIOSystem::observeColorSpaces() const
-        {
-            return _p->colorSpaces;
-        }
-
-        std::shared_ptr<Core::IListSubject<OCIODisplay> > OCIOSystem::observeDisplays() const
-        {
-            return _p->displays;
-        }
-
-        const std::string& OCIOSystem::getDefaultDisplay() const
-        {
-            return _p->defaultDisplay;
-        }
-
-        const std::string& OCIOSystem::getDefaultView() const
-        {
-            return _p->defaultView;
-        }
-
-        std::string OCIOSystem::getColorSpace(const std::string& display, const std::string& view) const
-        {
-            DJV_PRIVATE_PTR();
-            for (const auto& i : p.displays->get())
-            {
-                if (display == i.name)
+                catch (const std::exception& e)
                 {
-                    for (const auto& j : i.views)
+                    std::stringstream ss;
+                    ss << e.what();
+                    _log(ss.str(), LogLevel::Error);
+                }
+
+                p.colorSpaces = ListSubject<std::string>::create(colorSpaces);
+                p.displays = ListSubject<Display>::create(displays);
+            }
+
+            System::System() :
+                _p(new Private)
+            {}
+
+            System::~System()
+            {}
+
+            std::shared_ptr<System> System::create(Core::Context* context)
+            {
+                auto out = std::shared_ptr<System>(new System);
+                out->_init(context);
+                return out;
+            }
+
+            std::shared_ptr<Core::IListSubject<std::string> > System::observeColorSpaces() const
+            {
+                return _p->colorSpaces;
+            }
+
+            std::shared_ptr<Core::IListSubject<Display> > System::observeDisplays() const
+            {
+                return _p->displays;
+            }
+
+            const std::string& System::getDefaultDisplay() const
+            {
+                return _p->defaultDisplay;
+            }
+
+            const std::string& System::getDefaultView() const
+            {
+                return _p->defaultView;
+            }
+
+            std::string System::getColorSpace(const std::string& display, const std::string& view) const
+            {
+                DJV_PRIVATE_PTR();
+                for (const auto& i : p.displays->get())
+                {
+                    if (display == i.name)
                     {
-                        if (view == j.name)
+                        for (const auto& j : i.views)
                         {
-                            return j.colorSpace;
+                            if (view == j.name)
+                            {
+                                return j.colorSpace;
+                            }
                         }
                     }
                 }
+                return std::string();
             }
-            return std::string();
-        }
 
+        } // namespace OCIO
     } // namespace AV
 } // namespace djv
 

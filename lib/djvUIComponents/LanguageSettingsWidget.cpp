@@ -93,7 +93,7 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->locale = value;
-                        widget->_currentItemUpdate();
+                        widget->_widgetUpdate();
                     }
                 });
             }
@@ -151,40 +151,32 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
-            if (auto textSystem = context->getSystemT<TextSystem>())
+            p.comboBox->clearItems();
+            auto textSystem = _getTextSystem();
+            const auto& locales = textSystem->getLocales();
+            size_t j = 0;
+            for (const auto& i : locales)
             {
-                p.comboBox->clearItems();
-                const auto& locales = textSystem->getLocales();
-                size_t j = 0;
-                for (const auto& i : locales)
+                std::string font;
+                auto k = p.localeFonts.find(i);
+                if (k != p.localeFonts.end())
                 {
-                    std::string font;
-                    auto k = p.localeFonts.find(i);
+                    font = k->second;
+                }
+                else
+                {
+                    k = p.localeFonts.find("Default");
                     if (k != p.localeFonts.end())
                     {
                         font = k->second;
                     }
-                    else
-                    {
-                        k = p.localeFonts.find("Default");
-                        if (k != p.localeFonts.end())
-                        {
-                            font = k->second;
-                        }
-                    }
-                    p.comboBox->addItem(_getText(i));
-                    p.comboBox->setFont(j, font);
-                    p.indexToLocale[j] = i;
-                    p.localeToIndex[i] = j;
-                    ++j;
                 }
-                _currentItemUpdate();
+                p.comboBox->addItem(_getText(i));
+                p.comboBox->setFont(j, font);
+                p.indexToLocale[j] = i;
+                p.localeToIndex[i] = j;
+                ++j;
             }
-        }
-
-        void LanguageWidget::_currentItemUpdate()
-        {
-            DJV_PRIVATE_PTR();
             const auto i = p.localeToIndex.find(p.locale);
             if (i != p.localeToIndex.end())
             {

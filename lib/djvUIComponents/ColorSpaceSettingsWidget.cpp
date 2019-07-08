@@ -106,7 +106,7 @@ namespace djv
                     {
                         auto settingsSystem = context->getSystemT<Settings::System>();
                         auto colorSpaceSettings = settingsSystem->getSettingsT<Settings::ColorSpace>();
-                        colorSpaceSettings->setColorDisplay(widget->_p->model->indexToDisplay(value));
+                        colorSpaceSettings->setDisplay(widget->_p->model->indexToDisplay(value));
                     }
                 });
 
@@ -117,7 +117,7 @@ namespace djv
                     {
                         auto settingsSystem = context->getSystemT<Settings::System>();
                         auto colorSpaceSettings = settingsSystem->getSettingsT<Settings::ColorSpace>();
-                        colorSpaceSettings->setColorView(widget->_p->model->indexToView(value));
+                        colorSpaceSettings->setView(widget->_p->model->indexToView(value));
                     }
                 });
 
@@ -194,7 +194,7 @@ namespace djv
                 });
 
             p.displayObserver2 = ValueObserver<std::string>::create(
-                colorSpaceSettings->observeColorDisplay(),
+                colorSpaceSettings->observeDisplay(),
                 [weak](const std::string& value)
                 {
                     if (auto widget = weak.lock())
@@ -204,7 +204,7 @@ namespace djv
                 });
 
             p.viewObserver2 = ValueObserver<std::string>::create(
-                colorSpaceSettings->observeColorView(),
+                colorSpaceSettings->observeView(),
                 [weak](const std::string& value)
                 {
                     if (auto widget = weak.lock())
