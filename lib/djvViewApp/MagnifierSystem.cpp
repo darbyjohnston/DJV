@@ -58,12 +58,9 @@ namespace djv
             IToolSystem::_init("djv::ViewApp::MagnifierSystem", context);
 
             DJV_PRIVATE_PTR();
-            p.actions["Tool"] = UI::Action::create();
-            p.actions["Tool"]->setIcon("djvIconMagnifier");
-            p.actions["Tool"]->setShortcut(GLFW_KEY_3);
-            p.actions["Widget"] = UI::Action::create();
-            p.actions["Widget"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["Widget"]->setShortcut(GLFW_KEY_3, GLFW_MOD_SHIFT);
+            p.actions["Magnifier"] = UI::Action::create();
+            p.actions["Magnifier"]->setIcon("djvIconMagnifier");
+            p.actions["Magnifier"]->setShortcut(GLFW_KEY_3);
 
             auto weak = std::weak_ptr<MagnifierSystem>(std::dynamic_pointer_cast<MagnifierSystem>(shared_from_this()));
             _setCloseWidgetCallback(
@@ -75,23 +72,6 @@ namespace djv
                     if (i != system->_p->actions.end())
                     {
                         i->second->setChecked(false);
-                    }
-                }
-            });
-
-            p.clickedObservers["Widget"] = ValueObserver<bool>::create(
-                p.actions["Widget"]->observeChecked(),
-                [weak, context](bool value)
-            {
-                if (auto system = weak.lock())
-                {
-                    if (value)
-                    {
-                        system->_openWidget("Magnifier", MagnifierWidget::create(context));
-                    }
-                    else
-                    {
-                        system->_closeWidget("Magnifier");
                     }
                 }
             });
@@ -125,23 +105,21 @@ namespace djv
         {
             return
             {
-                _p->actions["Tool"],
-                "C"
-            };
-        }
-
-        ToolActionData MagnifierSystem::getToolWidgetAction() const
-        {
-            return
-            {
-                _p->actions["Widget"],
+                _p->actions["Magnifier"],
                 "C"
             };
         }
 
         void MagnifierSystem::setCurrentTool(bool value)
         {
-
+            if (value)
+            {
+                _openWidget("Magnifier", MagnifierWidget::create(getContext()));
+            }
+            else
+            {
+                _closeWidget("Magnifier");
+            }
         }
 
         std::map<std::string, std::shared_ptr<UI::Action> > MagnifierSystem::getActions() const
@@ -152,10 +130,8 @@ namespace djv
         void MagnifierSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.actions["Tool"]->setText(_getText(DJV_TEXT("Magnifier")));
-            p.actions["Tool"]->setTooltip(_getText(DJV_TEXT("Magnifier tooltip")));
-            p.actions["Widget"]->setText(_getText(DJV_TEXT("Magnifier Widget")));
-            p.actions["Widget"]->setTooltip(_getText(DJV_TEXT("Magnifier widget tooltip")));
+            p.actions["Magnifier"]->setText(_getText(DJV_TEXT("Magnifier")));
+            p.actions["Magnifier"]->setTooltip(_getText(DJV_TEXT("Magnifier tooltip")));
         }
 
     } // namespace ViewApp

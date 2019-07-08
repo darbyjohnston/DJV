@@ -139,7 +139,7 @@ namespace djv
                 public:
                     ColorMode       colorMode           = ColorMode::SolidColor;
                     Image::Channels imageChannels       = Image::Channels::RGBA;
-                    ImageChannel    imageChannel        = ImageChannel::Color;
+                    ImageChannel    imageChannel        = ImageChannel::None;
                     ImageCache      imageCache          = ImageCache::Atlas;
                     uint8_t         atlasIndex          = 0;
                     GLuint          textureID           = 0;

@@ -584,46 +584,41 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
-            if (auto eventSystem = context->getSystemT<UI::EventSystem>())
+            auto eventSystem = context->getSystemT<UI::EventSystem>();
+            if (auto window = eventSystem->getCurrentWindow().lock())
             {
-                if (auto window = eventSystem->getCurrentWindow().lock())
+                p.fileBrowserDialog = UI::FileBrowser::Dialog::create(context);
+                p.fileBrowserDialog->setPath(p.fileBrowserPath);
+                auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
+                p.fileBrowserDialog->setCallback(
+                    [weak](const Core::FileSystem::FileInfo & value)
                 {
-                    if (!p.fileBrowserDialog)
+                    if (auto system = weak.lock())
                     {
-                        p.fileBrowserDialog = UI::FileBrowser::Dialog::create(context);
-                        p.fileBrowserDialog->setPath(p.fileBrowserPath);
-                        auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
-                        p.fileBrowserDialog->setCallback(
-                            [weak](const Core::FileSystem::FileInfo & value)
+                        if (auto parent = system->_p->fileBrowserDialog->getParent().lock())
                         {
-                            if (auto system = weak.lock())
-                            {
-                                if (auto parent = system->_p->fileBrowserDialog->getParent().lock())
-                                {
-                                    parent->removeChild(system->_p->fileBrowserDialog);
-                                }
-                                system->_p->fileBrowserPath = system->_p->fileBrowserDialog->getPath();
-                                system->_p->fileBrowserDialog.reset();
-                                system->open(value);
-                            }
-                        });
-                        p.fileBrowserDialog->setCloseCallback(
-                            [weak]
-                        {
-                            if (auto system = weak.lock())
-                            {
-                                if (auto parent = system->_p->fileBrowserDialog->getParent().lock())
-                                {
-                                    parent->removeChild(system->_p->fileBrowserDialog);
-                                }
-                                system->_p->fileBrowserPath = system->_p->fileBrowserDialog->getPath();
-                                system->_p->fileBrowserDialog.reset();
-                            }
-                        });
+                            parent->removeChild(system->_p->fileBrowserDialog);
+                        }
+                        system->_p->fileBrowserPath = system->_p->fileBrowserDialog->getPath();
+                        system->_p->fileBrowserDialog.reset();
+                        system->open(value);
                     }
-                    window->addChild(p.fileBrowserDialog);
-                    p.fileBrowserDialog->show();
-                }
+                });
+                p.fileBrowserDialog->setCloseCallback(
+                    [weak]
+                {
+                    if (auto system = weak.lock())
+                    {
+                        if (auto parent = system->_p->fileBrowserDialog->getParent().lock())
+                        {
+                            parent->removeChild(system->_p->fileBrowserDialog);
+                        }
+                        system->_p->fileBrowserPath = system->_p->fileBrowserDialog->getPath();
+                        system->_p->fileBrowserDialog.reset();
+                    }
+                });
+                window->addChild(p.fileBrowserDialog);
+                p.fileBrowserDialog->show();
             }
         }
 

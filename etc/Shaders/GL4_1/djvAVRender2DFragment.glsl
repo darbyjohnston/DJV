@@ -48,7 +48,7 @@ uniform sampler3D colorSpaceSampler;
 #define IMAGE_CHANNELS_RGBA 4
 
 // djv::AV::Render::ImageChannel
-#define IMAGE_CHANNEL_COLOR 0
+#define IMAGE_CHANNEL_NONE  0
 #define IMAGE_CHANNEL_RED   1
 #define IMAGE_CHANNEL_GREEN 2
 #define IMAGE_CHANNEL_BLUE  3

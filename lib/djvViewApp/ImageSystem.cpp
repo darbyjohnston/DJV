@@ -96,8 +96,6 @@ namespace djv
 
             p.actions["ColorSpace"] = UI::Action::create();
             p.actions["ColorSpace"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["ColorChannels"] = UI::Action::create();
-            p.actions["ColorChannels"]->setShortcut(GLFW_KEY_C);
             p.actions["RedChannel"] = UI::Action::create();
             p.actions["RedChannel"]->setShortcut(GLFW_KEY_R);
             p.actions["GreenChannel"] = UI::Action::create();
@@ -106,8 +104,7 @@ namespace djv
             p.actions["BlueChannel"]->setShortcut(GLFW_KEY_B);
             p.actions["AlphaChannel"] = UI::Action::create();
             p.actions["AlphaChannel"]->setShortcut(GLFW_KEY_A);
-            p.channelActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
-            p.channelActionGroup->addAction(p.actions["ColorChannels"]);
+            p.channelActionGroup = UI::ActionGroup::create(UI::ButtonType::Exclusive);
             p.channelActionGroup->addAction(p.actions["RedChannel"]);
             p.channelActionGroup->addAction(p.actions["GreenChannel"]);
             p.channelActionGroup->addAction(p.actions["BlueChannel"]);
@@ -153,7 +150,6 @@ namespace djv
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["ColorSpace"]);
             p.menu->addSeparator();
-            p.menu->addAction(p.actions["ColorChannels"]);
             p.menu->addAction(p.actions["RedChannel"]);
             p.menu->addAction(p.actions["GreenChannel"]);
             p.menu->addAction(p.actions["BlueChannel"]);
@@ -178,15 +174,15 @@ namespace djv
             p.menu->addAction(p.actions["FrameStoreEnabled"]);
             p.menu->addAction(p.actions["LoadFrameStore"]);
 
-            _actionUpdate();
+            _actionsUpdate();
 
             auto weak = std::weak_ptr<ImageSystem>(std::dynamic_pointer_cast<ImageSystem>(shared_from_this()));
-            p.channelActionGroup->setRadioCallback(
+            p.channelActionGroup->setExclusiveCallback(
                 [weak](int value)
                 {
                     if (auto system = weak.lock())
                     {
-                        system->_p->imageOptions.channel = static_cast<AV::Render::ImageChannel>(value);
+                        system->_p->imageOptions.channel = static_cast<AV::Render::ImageChannel>(value + 1);
                         if (system->_p->activeWidget)
                         {
                             system->_p->activeWidget->getImageView()->setImageOptions(system->_p->imageOptions);
@@ -319,7 +315,7 @@ namespace djv
                                         if (auto system = weak.lock())
                                         {
                                             system->_p->currentImage = value;
-                                            system->_actionUpdate();
+                                            system->_actionsUpdate();
                                         }
                                     });
                             }
@@ -327,7 +323,7 @@ namespace djv
                             {
                                 system->_p->currentImage.reset();
                                 system->_p->currentImageObserver.reset();
-                                system->_actionUpdate();
+                                system->_actionsUpdate();
                             }
                         }
                     });
@@ -351,7 +347,7 @@ namespace djv
                                         if (auto system = weak.lock())
                                         {
                                             system->_p->imageOptions = value;
-                                            system->_actionUpdate();
+                                            system->_actionsUpdate();
                                         }
                                     });
                                 system->_p->imageRotateObserver = ValueObserver<ImageRotate>::create(
@@ -361,7 +357,7 @@ namespace djv
                                         if (auto system = weak.lock())
                                         {
                                             system->_p->imageRotate = value;
-                                            system->_actionUpdate();
+                                            system->_actionsUpdate();
                                         }
                                     });
                                 system->_p->imageAspectRatioObserver = ValueObserver<ImageAspectRatio>::create(
@@ -371,7 +367,7 @@ namespace djv
                                         if (auto system = weak.lock())
                                         {
                                             system->_p->imageAspectRatio = value;
-                                            system->_actionUpdate();
+                                            system->_actionsUpdate();
                                         }
                                     });
                             }
@@ -381,7 +377,7 @@ namespace djv
                                 system->_p->imageRotateObserver.reset();
                                 system->_p->imageAspectRatioObserver.reset();
                             }
-                            system->_actionUpdate();
+                            system->_actionsUpdate();
                         }
                     });
             }
@@ -435,11 +431,10 @@ namespace djv
             };
         }
 
-        void ImageSystem::_actionUpdate()
+        void ImageSystem::_actionsUpdate()
         {
             DJV_PRIVATE_PTR();
             const bool activeWidget = p.activeWidget.get();
-            p.actions["ColorChannels"]->setEnabled(activeWidget);
             p.actions["RedChannel"]->setEnabled(activeWidget);
             p.actions["GreenChannel"]->setEnabled(activeWidget);
             p.actions["BlueChannel"]->setEnabled(activeWidget);
@@ -456,7 +451,7 @@ namespace djv
             p.actions["AspectRatio_1_85"]->setEnabled(activeWidget);
             p.actions["AspectRatio_2_35"]->setEnabled(activeWidget);
 
-            p.channelActionGroup->setChecked(static_cast<int>(p.imageOptions.channel));
+            p.channelActionGroup->setChecked(static_cast<int>(p.imageOptions.channel) - 1);
             p.rotateActionGroup->setChecked(static_cast<int>(p.imageRotate));
             p.aspectRatioActionGroup->setChecked(static_cast<int>(p.imageAspectRatio));
         }
@@ -466,8 +461,6 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.actions["ColorSpace"]->setText(_getText(DJV_TEXT("Color Space Widget")));
             p.actions["ColorSpace"]->setTooltip(_getText(DJV_TEXT("Color space widget tooltip")));
-            p.actions["ColorChannels"]->setText(_getText(DJV_TEXT("Color Channels")));
-            p.actions["ColorChannels"]->setTooltip(_getText(DJV_TEXT("Color channels tooltip")));
             p.actions["RedChannel"]->setText(_getText(DJV_TEXT("Red Channel")));
             p.actions["RedChannel"]->setTooltip(_getText(DJV_TEXT("Red channel tooltip")));
             p.actions["GreenChannel"]->setText(_getText(DJV_TEXT("Green Channel")));

@@ -49,7 +49,6 @@ namespace djv
             static std::shared_ptr<ColorPickerSystem> create(Core::Context *);
 
             ToolActionData getToolAction() const override;
-            ToolActionData getToolWidgetAction() const override;
             void setCurrentTool(bool) override;
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;

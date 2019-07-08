@@ -29,6 +29,7 @@
 
 #include <djvUI/PushButton.h>
 
+#include <djvUI/Border.h>
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
@@ -55,6 +56,7 @@ namespace djv
                 std::string fontFace;
                 MetricsRole fontSizeRole = MetricsRole::FontMedium;
                 std::shared_ptr<HorizontalLayout> layout;
+                std::shared_ptr<Border> border;
             };
 
             void Push::_init(Context * context)
@@ -69,7 +71,10 @@ namespace djv
                 p.layout = HorizontalLayout::create(context);
                 p.layout->setMargin(Layout::Margin(MetricsRole::MarginLarge, MetricsRole::MarginLarge, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
 
-                addChild(p.layout);
+                p.border = Border::create(context);
+                p.border->setBorderColorRole(ColorRole::BorderButton);
+                p.border->addChild(p.layout);
+                addChild(p.border);
             }
 
             Push::Push() :
@@ -248,43 +253,40 @@ namespace djv
 
             void Push::_preLayoutEvent(Event::PreLayout & event)
             {
-                glm::vec2 size = _p->layout->getMinimumSize();
+                glm::vec2 size = _p->border->getMinimumSize();
                 _setMinimumSize(size);
             }
 
             void Push::_layoutEvent(Event::Layout &)
             {
                 const BBox2f& g = getGeometry();
-                _p->layout->setGeometry(g);
+                _p->border->setGeometry(g);
             }
 
             void Push::_paintEvent(Event::Paint& event)
             {
                 const auto& style = _getStyle();
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
-                const float b = style->getMetric(MetricsRole::Border);
                 auto render = _getRender();
-                render->setFillColor(style->getColor(ColorRole::Border));
-                render->drawPill(g);
                 if (_isToggled())
                 {
                     render->setFillColor(style->getColor(ColorRole::Checked));
-                    render->drawPill(g.margin(-b));
+                    render->drawRect(g);
                 }
                 else
                 {
                     render->setFillColor(style->getColor(getBackgroundRole()));
-                    render->drawPill(g.margin(-b));
+                    render->drawRect(g);
                 }
                 if (_isPressed())
                 {
                     render->setFillColor(style->getColor(ColorRole::Pressed));
-                    render->drawPill(g);
+                    render->drawRect(g);
                 }
                 else if (_isHovered())
                 {
                     render->setFillColor(style->getColor(ColorRole::Hovered));
-                    render->drawPill(g);
+                    render->drawRect(g);
                 }
             }
 

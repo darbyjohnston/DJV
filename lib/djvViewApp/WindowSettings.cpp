@@ -31,6 +31,7 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
+#include <djvCore/ResourceSystem.h>
 
 // These need to be included last on OSX.
 #include <djvCore/PicoJSONTemplates.h>
@@ -45,6 +46,8 @@ namespace djv
         struct WindowSettings::Private
         {
             std::shared_ptr<ValueSubject<bool> > maximized;
+            std::shared_ptr<ValueSubject<std::string> > backgroundImage;
+            std::shared_ptr<ValueSubject<bool> > backgroundImageColorize;
         };
 
         void WindowSettings::_init(Context * context)
@@ -53,6 +56,10 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             p.maximized = ValueSubject<bool>::create(true);
+            auto resourceSystem = context->getSystemT<Core::ResourceSystem>();
+            const auto& iconsPath = resourceSystem->getPath(FileSystem::ResourcePath::IconsDirectory);
+            p.backgroundImage = ValueSubject<std::string>::create(FileSystem::Path(iconsPath, "djvLogo512.png"));
+            p.backgroundImageColorize = ValueSubject<bool>::create(true);
             _load();
         }
 
@@ -80,6 +87,26 @@ namespace djv
             _p->maximized->setIfChanged(value);
         }
 
+        std::shared_ptr<IValueSubject<std::string> > WindowSettings::observeBackgroundImage() const
+        {
+            return _p->backgroundImage;
+        }
+
+        std::shared_ptr<IValueSubject<bool> > WindowSettings::observeBackgroundImageColorize() const
+        {
+            return _p->backgroundImageColorize;
+        }
+
+        void WindowSettings::setBackgroundImageColorize(bool value)
+        {
+            _p->backgroundImageColorize->setIfChanged(value);
+        }
+
+        void WindowSettings::setBackgroundImage(const std::string& value)
+        {
+            _p->backgroundImage->setIfChanged(value);
+        }
+
         void WindowSettings::load(const picojson::value & value)
         {
             if (value.is<picojson::object>())
@@ -87,6 +114,8 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const auto & object = value.get<picojson::object>();
                 UI::Settings::read("Maximized", object, p.maximized);
+                UI::Settings::read("BackgroundImage", object, p.backgroundImage);
+                UI::Settings::read("BackgroundImageColorize", object, p.backgroundImageColorize);
             }
         }
 
@@ -95,7 +124,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             picojson::value out(picojson::object_type, true);
             auto & object = out.get<picojson::object>();
-            UI::Settings::write("Maximized", p.maximized->get(), object);
+            UI::Settings::write("BackgroundImage", p.backgroundImage->get(), object);
+            UI::Settings::write("BackgroundImageColorize", p.backgroundImageColorize->get(), object);
             return out;
         }
 

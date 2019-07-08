@@ -29,17 +29,22 @@
 
 #include <djvViewApp/SystemLogWidget.h>
 
+#include <djvDesktopApp/GLFWSystem.h>
+
 #include <djvUI/PushButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/TextBlock.h>
 #include <djvUI/StackLayout.h>
+#include <djvUI/Window.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/FileIO.h>
 #include <djvCore/Path.h>
 #include <djvCore/ResourceSystem.h>
 #include <djvCore/String.h>
+
+#include <GLFW/glfw3.h>
 
 using namespace djv::Core;
 
@@ -84,6 +89,7 @@ namespace djv
 
         struct SystemLogWidget::Private
         {
+            std::vector<std::string> log;
             bool shown = false;
             std::shared_ptr<UI::TextBlock> textBlock;
             std::shared_ptr<UI::PushButton> copyButton;
@@ -106,9 +112,7 @@ namespace djv
             scrollWidget->setShadowOverlay({ UI::Side::Top });
             scrollWidget->addChild(p.textBlock);
 
-            //! \todo Implement me!
             p.copyButton = UI::PushButton::create(context);
-            p.copyButton->setEnabled(false);
             p.reloadButton = UI::PushButton::create(context);
             p.clearButton = UI::PushButton::create(context);
 
@@ -130,14 +134,24 @@ namespace djv
             addChild(stackLayout);
 
             auto weak = std::weak_ptr<SystemLogWidget>(std::dynamic_pointer_cast<SystemLogWidget>(shared_from_this()));
+            p.copyButton->setClickedCallback(
+                [weak, context]
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        auto glfwSystem = context->getSystemT<Desktop::GLFWSystem>();
+                        auto glfwWindow = glfwSystem->getGLFWWindow();
+                        glfwSetClipboardString(glfwWindow, String::join(widget->_p->log, '\n').c_str());
+                    }
+                });
             p.reloadButton->setClickedCallback(
                 [weak]
-            {
-                if (auto widget = weak.lock())
                 {
-                    widget->reloadLog();
-                }
-            });
+                    if (auto widget = weak.lock())
+                    {
+                        widget->reloadLog();
+                    }
+                });
             p.clearButton->setClickedCallback(
                 [weak]
             {
@@ -164,10 +178,11 @@ namespace djv
 
         void SystemLogWidget::reloadLog()
         {
+            DJV_PRIVATE_PTR();
             try
             {
-                const auto log = FileSystem::FileIO::readLines(_getResourceSystem()->getPath(FileSystem::ResourcePath::LogFile));
-                _p->textBlock->setText(String::join(log, '\n'));
+                p.log = FileSystem::FileIO::readLines(_getResourceSystem()->getPath(FileSystem::ResourcePath::LogFile));
+                p.textBlock->setText(String::join(p.log, '\n'));
             }
             catch (const std::exception & e)
             {
@@ -177,7 +192,9 @@ namespace djv
 
         void SystemLogWidget::clearLog()
         {
-            _p->textBlock->setText(std::string());
+            DJV_PRIVATE_PTR();
+            p.log.clear();
+            p.textBlock->setText(std::string());
         }
 
         void SystemLogWidget::_localeEvent(Event::Locale & event)

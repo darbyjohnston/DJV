@@ -1000,7 +1000,6 @@ namespace djv
             p.typeWidget = ColorTypeWidget::create(context);
 
             p.layout = HorizontalLayout::create(context);
-            p.layout->setSpacing(MetricsRole::None);
             p.layout->addChild(p.colorSwatch);
             auto vLayout = VerticalLayout::create(context);
             vLayout->setSpacing(MetricsRole::None);

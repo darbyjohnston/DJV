@@ -78,6 +78,7 @@ namespace djv
             p.button = Button::Menu::create(Button::MenuStyle::ComboBox, context);
             p.button->setPopupIcon("djvIconPopupMenu");
             p.button->setBackgroundRole(ColorRole::Button);
+            p.button->setBorderColorRole(ColorRole::BorderButton);
             addChild(p.button);
 
             _updateCurrentItem(Callback::Suppress);
@@ -370,7 +371,7 @@ namespace djv
 
         void ComboBox::_textFocusLostEvent(Event::TextFocusLost&)
         {
-            _p->button->setBorderColorRole(ColorRole::Border);
+            _p->button->setBorderColorRole(ColorRole::BorderButton);
         }
 
         void ComboBox::_updateItems()

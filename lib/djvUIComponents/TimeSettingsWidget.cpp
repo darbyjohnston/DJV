@@ -206,12 +206,12 @@ namespace djv
 
         std::string TimeSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("UI");
+            return DJV_TEXT("General");
         }
 
         std::string TimeSettingsWidget::getSettingsSortKey() const
         {
-            return "B";
+            return "A";
         }
 
         void TimeSettingsWidget::_localeEvent(Event::Locale & event)

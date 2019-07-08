@@ -35,6 +35,7 @@
 #include <djvViewApp/PlaybackSettingsWidget.h>
 #include <djvViewApp/SettingsDialog.h>
 #include <djvViewApp/UISettingsWidget.h>
+#include <djvViewApp/WindowSettingsWidget.h>
 
 #include <djvUIComponents/CineonSettingsWidget.h>
 #include <djvUIComponents/ColorSpaceSettingsWidget.h>
@@ -147,6 +148,7 @@ namespace djv
 #if defined(TIFF_FOUND)
                 UI::TIFFSettingsWidget::create(context),
 #endif
+                BackgroundImageSettingsWidget::create(context),
                 ImageAspectRatioSettingsWidget::create(context),
                 ImageRotateSettingsWidget::create(context),
                 ImageViewBackgroundSettingsWidget::create(context),

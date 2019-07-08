@@ -56,7 +56,6 @@ namespace djv
         void IViewSystem::_init(const std::string & name, Context * context)
         {
             ISystem::_init(name, context);
-
             addDependency(context->getSystemT<UI::UIComponentsSystem>());
         }
             

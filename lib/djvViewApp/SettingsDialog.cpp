@@ -33,6 +33,7 @@
 
 #include <djvUIComponents/ISettingsWidget.h>
 
+#include <djvUI/FlowLayout.h>
 #include <djvUI/GroupBox.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
@@ -75,20 +76,20 @@ namespace djv
             {
                 if (i.second.size())
                 {
-                    auto vLayout = UI::VerticalLayout::create(context);
-                    vLayout->setMargin(UI::MetricsRole::MarginLarge);
-                    vLayout->setSpacing(UI::MetricsRole::SpacingLarge);
+                    auto flowLayout = UI::FlowLayout::create(context);
+                    flowLayout->setMargin(UI::MetricsRole::MarginLarge);
+                    flowLayout->setSpacing(UI::MetricsRole::SpacingLarge);
                     for (const auto& j : i.second)
                     {
                         auto groupBox = UI::GroupBox::create(context);
                         groupBox->addChild(j);
                         p.groupBoxes[j] = groupBox;
-                        vLayout->addChild(groupBox);
+                        flowLayout->addChild(groupBox);
                     }
 
                     auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
                     scrollWidget->setShadowOverlay({ UI::Side::Top });
-                    scrollWidget->addChild(vLayout);
+                    scrollWidget->addChild(flowLayout);
 
                     size_t id = p.tabWidget->addTab(i.second[0]->getSettingsGroup(), scrollWidget);
                     p.tabs[id] = i.second[0];

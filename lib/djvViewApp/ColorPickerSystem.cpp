@@ -58,12 +58,9 @@ namespace djv
             IToolSystem::_init("djv::ViewApp::ColorPickerSystem", context);
 
             DJV_PRIVATE_PTR();
-            p.actions["Tool"] = UI::Action::create();
-            p.actions["Tool"]->setIcon("djvIconColorPicker");
-            p.actions["Tool"]->setShortcut(GLFW_KEY_2);
-            p.actions["Widget"] = UI::Action::create();
-            p.actions["Widget"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["Widget"]->setShortcut(GLFW_KEY_2, GLFW_MOD_SHIFT);
+            p.actions["ColorPicker"] = UI::Action::create();
+            p.actions["ColorPicker"]->setIcon("djvIconColorPicker");
+            p.actions["ColorPicker"]->setShortcut(GLFW_KEY_2);
 
             auto weak = std::weak_ptr<ColorPickerSystem>(std::dynamic_pointer_cast<ColorPickerSystem>(shared_from_this()));
             _setCloseWidgetCallback(
@@ -75,23 +72,6 @@ namespace djv
                     if (i != system->_p->actions.end())
                     {
                         i->second->setChecked(false);
-                    }
-                }
-            });
-
-            p.clickedObservers["Widget"] = ValueObserver<bool>::create(
-                p.actions["Widget"]->observeChecked(),
-                [weak, context](bool value)
-            {
-                if (auto system = weak.lock())
-                {
-                    if (value)
-                    {
-                        system->_openWidget("ColorPicker", ColorPickerWidget::create(context));
-                    }
-                    else
-                    {
-                        system->_closeWidget("ColorPicker");
                     }
                 }
             });
@@ -125,23 +105,21 @@ namespace djv
         {
             return
             {
-                _p->actions["Tool"],
-                "B"
-            };
-        }
-
-        ToolActionData ColorPickerSystem::getToolWidgetAction() const
-        {
-            return
-            {
-                _p->actions["Widget"],
+                _p->actions["ColorPicker"],
                 "B"
             };
         }
 
         void ColorPickerSystem::setCurrentTool(bool value)
         {
-
+            if (value)
+            {
+                _openWidget("ColorPicker", ColorPickerWidget::create(getContext()));
+            }
+            else
+            {
+                _closeWidget("ColorPicker");
+            }
         }
 
         std::map<std::string, std::shared_ptr<UI::Action> > ColorPickerSystem::getActions() const
@@ -152,10 +130,8 @@ namespace djv
         void ColorPickerSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.actions["Tool"]->setText(_getText(DJV_TEXT("Color Picker")));
-            p.actions["Tool"]->setTooltip(_getText(DJV_TEXT("Color picker tooltip")));
-            p.actions["Widget"]->setText(_getText(DJV_TEXT("Color Picker Widget")));
-            p.actions["Widget"]->setTooltip(_getText(DJV_TEXT("Color picker widget tooltip")));
+            p.actions["ColorPicker"]->setText(_getText(DJV_TEXT("Color Picker")));
+            p.actions["ColorPicker"]->setTooltip(_getText(DJV_TEXT("Color picker tooltip")));
         }
 
     } // namespace ViewApp

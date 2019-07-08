@@ -56,6 +56,8 @@ namespace djv
         {
             std::shared_ptr<PlaybackSettings> settings;
             std::shared_ptr<Media> currentMedia;
+            Time::Speed speed;
+            Time::Timestamp duration = 0;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> playbackActionGroup;
             std::shared_ptr<UI::ActionGroup> playbackModeActionGroup;
@@ -64,6 +66,8 @@ namespace djv
             std::shared_ptr<ValueObserver<Playback> > playbackObserver;
             std::shared_ptr<ValueObserver<PlaybackMode> > playbackModeObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
+            std::shared_ptr<ValueObserver<Time::Speed> > speedObserver;
+            std::shared_ptr<ValueObserver<Time::Timestamp> > durationObserver;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
@@ -182,6 +186,8 @@ namespace djv
             p.menu->addAction(p.actions["SetOutPoint"]);
             p.menu->addAction(p.actions["ResetInPoint"]);
             p.menu->addAction(p.actions["ResetOutPoint"]);
+
+            _actionsUpdate();
 
             auto weak = std::weak_ptr<PlaybackSystem>(std::dynamic_pointer_cast<PlaybackSystem>(shared_from_this()));
             p.playbackActionGroup->setExclusiveCallback(
@@ -351,19 +357,7 @@ namespace djv
                     if (auto system = weak.lock())
                     {
                         system->_p->currentMedia = value;
-                        system->_p->actions["Forward"]->setEnabled(value ? true : false);
-                        system->_p->actions["Reverse"]->setEnabled(value ? true : false);
-                        system->_p->actions["PlayOnce"]->setEnabled(value ? true : false);
-                        system->_p->actions["PlayLoop"]->setEnabled(value ? true : false);
-                        system->_p->actions["PlayPingPong"]->setEnabled(value ? true : false);
-                        system->_p->actions["StartFrame"]->setEnabled(value ? true : false);
-                        system->_p->actions["EndFrame"]->setEnabled(value ? true : false);
-                        system->_p->actions["NextFrame"]->setEnabled(value ? true : false);
-                        system->_p->actions["NextFrame10"]->setEnabled(value ? true : false);
-                        system->_p->actions["NextFrame100"]->setEnabled(value ? true : false);
-                        system->_p->actions["PrevFrame"]->setEnabled(value ? true : false);
-                        system->_p->actions["PrevFrame10"]->setEnabled(value ? true : false);
-                        system->_p->actions["PrevFrame100"]->setEnabled(value ? true : false);
+                        system->_actionsUpdate();
                         if (value)
                         {
                             system->_p->playbackObserver = ValueObserver<Playback>::create(
@@ -391,13 +385,37 @@ namespace djv
                                     system->_p->playbackModeActionGroup->setChecked(static_cast<int>(value), true);
                                 }
                             });
+                            system->_p->speedObserver = ValueObserver<Time::Speed>::create(
+                                value->observeSpeed(),
+                                [weak](const Time::Speed& value)
+                                {
+                                    if (auto system = weak.lock())
+                                    {
+                                        system->_p->speed = value;
+                                        system->_actionsUpdate();
+                                    }
+                                });
+                            system->_p->durationObserver = ValueObserver<Time::Timestamp>::create(
+                                value->observeDuration(),
+                                [weak](const Time::Timestamp& value)
+                                {
+                                    if (auto system = weak.lock())
+                                    {
+                                        system->_p->duration = value;
+                                        system->_actionsUpdate();
+                                    }
+                                });
                         }
                         else
                         {
+                            system->_p->speed = Time::Speed();
+                            system->_p->duration = 0;
                             system->_p->playbackActionGroup->setChecked(0, false);
                             system->_p->playbackActionGroup->setChecked(1, false);
                             system->_p->playbackObserver.reset();
                             system->_p->playbackModeObserver.reset();
+                            system->_p->speedObserver.reset();
+                            system->_p->durationObserver.reset();
                         }
                     }
                 });
@@ -489,6 +507,27 @@ namespace djv
             p.actions["ResetOutPoint"]->setTooltip(_getText(DJV_TEXT("Reset out point tooltip")));
 
             p.menu->setText(_getText(DJV_TEXT("Playback")));
+        }
+
+        void PlaybackSystem::_actionsUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            const bool playable = 
+                (p.currentMedia ? true : false) &&
+                (p.duration > Time::scale(1, p.speed.swap(), Time::getTimebaseRational()));
+            p.actions["Forward"]->setEnabled(playable);
+            p.actions["Reverse"]->setEnabled(playable);
+            p.actions["PlayOnce"]->setEnabled(playable);
+            p.actions["PlayLoop"]->setEnabled(playable);
+            p.actions["PlayPingPong"]->setEnabled(playable);
+            p.actions["StartFrame"]->setEnabled(playable);
+            p.actions["EndFrame"]->setEnabled(playable);
+            p.actions["NextFrame"]->setEnabled(playable);
+            p.actions["NextFrame10"]->setEnabled(playable);
+            p.actions["NextFrame100"]->setEnabled(playable);
+            p.actions["PrevFrame"]->setEnabled(playable);
+            p.actions["PrevFrame10"]->setEnabled(playable);
+            p.actions["PrevFrame100"]->setEnabled(playable);
         }
 
     } // namespace ViewApp

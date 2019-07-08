@@ -29,33 +29,29 @@
 
 #pragma once
 
-#include <djvViewApp/IViewSystem.h>
+#include <djvViewApp/ViewApp.h>
 
-#include <djvCore/Time.h>
+#include <djvUI/Widget.h>
 
 namespace djv
 {
     namespace ViewApp
     {
-        class PlaybackSystem : public IViewSystem
+        class BackgroundImageWidget : public UI::Widget
         {
-            DJV_NON_COPYABLE(PlaybackSystem);
+            DJV_NON_COPYABLE(BackgroundImageWidget);
 
         protected:
             void _init(Core::Context *);
-            PlaybackSystem();
+            BackgroundImageWidget();
 
         public:
-            ~PlaybackSystem() override;
+            ~BackgroundImageWidget() override;
 
-            static std::shared_ptr<PlaybackSystem> create(Core::Context *);
-
-            std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
-            MenuData getMenu() const override;
+            static std::shared_ptr<BackgroundImageWidget> create(Core::Context *);
 
         protected:
-            void _textUpdate();
-            void _actionsUpdate();
+            void _paintEvent(Core::Event::Paint &) override;
 
         private:
             DJV_PRIVATE();

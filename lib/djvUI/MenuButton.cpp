@@ -29,11 +29,14 @@
 
 #include <djvUI/MenuButton.h>
 
+#include <djvUI/Border.h>
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
 
 #include <djvAV/Render2D.h>
+
+#include <GLFW/glfw3.h>
 
 //#pragma optimize("", off)
 
@@ -52,7 +55,7 @@ namespace djv
                 std::shared_ptr<Icon> icon;
                 std::shared_ptr<Label> label;
                 std::shared_ptr<Icon> popupIcon;
-                ColorRole borderColorRole = ColorRole::Border;
+                std::shared_ptr<Border> border;
                 std::shared_ptr<HorizontalLayout> layout;
                 std::function<void(bool)> checkedCallback;
             };
@@ -103,7 +106,18 @@ namespace djv
                 p.layout->addChild(p.label);
                 p.layout->setStretch(p.label, RowStretch::Expand);
                 p.layout->addChild(p.popupIcon);
-                addChild(p.layout);
+
+                p.border = Border::create(context);
+                switch (menuStyle)
+                {
+                case MenuStyle::Flat:
+                case MenuStyle::Tool:
+                    p.border->setBorderSize(MetricsRole::None);
+                    break;
+                default: break;
+                }
+                p.border->addChild(p.layout);
+                addChild(p.border);
             }
 
             Menu::Menu() :
@@ -170,8 +184,7 @@ namespace djv
 
             void Menu::setBorderColorRole(ColorRole value)
             {
-                _p->borderColorRole = value;
-                _redraw();
+                _p->border->setBorderColorRole(value);
             }
 
             bool Menu::isChecked() const
@@ -201,7 +214,7 @@ namespace djv
             void Menu::_preLayoutEvent(Event::PreLayout &)
             {
                 DJV_PRIVATE_PTR();
-                glm::vec2 size = p.layout->getMinimumSize();
+                glm::vec2 size = p.border->getMinimumSize();
                 const auto& style = _getStyle();
                 _setMinimumSize(size + getMargin().getSize(style));
             }
@@ -211,12 +224,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
-                switch (p.menuStyle)
-                {
-                default:
-                    _p->layout->setGeometry(g);
-                    break;
-                }
+                _p->border->setGeometry(g);
             }
 
             void Menu::_clipEvent(Event::Clip& event)
@@ -229,17 +237,15 @@ namespace djv
 
             void Menu::_paintEvent(Event::Paint & event)
             {
+                Widget::_paintEvent(event);
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
-                const float b = style->getMetric(MetricsRole::Border);
                 auto render = _getRender();
                 switch (p.menuStyle)
                 {
                 case MenuStyle::Flat:
                 case MenuStyle::Tool:
-                    render->setFillColor(style->getColor(getBackgroundRole()));
-                    render->drawRect(g);
                     if (p.checked)
                     {
                         render->setFillColor(style->getColor(ColorRole::Pressed));
@@ -252,19 +258,15 @@ namespace djv
                     }
                     break;
                 case MenuStyle::ComboBox:
-                    render->setFillColor(style->getColor(p.borderColorRole));
-                    render->drawPill(g);
-                    render->setFillColor(style->getColor(getBackgroundRole()));
-                    render->drawPill(g.margin(-b));
                     if (p.checked)
                     {
                         render->setFillColor(style->getColor(ColorRole::Pressed));
-                        render->drawPill(g);
+                        render->drawRect(g);
                     }
                     else if (_isHovered())
                     {
                         render->setFillColor(style->getColor(ColorRole::Hovered));
-                        render->drawPill(g);
+                        render->drawRect(g);
                     }
                     break;
                 }
@@ -315,6 +317,14 @@ namespace djv
                 if (p.checked)
                 {
                     event.accept();
+                    if (GLFW_KEY_ESCAPE == event.getKey())
+                    {
+                        setChecked(false);
+                        if (p.checkedCallback)
+                        {
+                            p.checkedCallback(p.checked);
+                        }
+                    }
                 }
             }
 

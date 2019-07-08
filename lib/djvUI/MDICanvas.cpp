@@ -217,31 +217,31 @@ namespace djv
                     const float sh = style->getMetric(MetricsRole::Shadow);
                     const BBox2f canvasGeometry = getGeometry().margin(sh);
                     p.maximizedWidget = p.activeWidget;
-                    auto maximizedWidget = p.activeWidget;
+                    auto maximizedWeak = p.maximizedWidget;
                     const BBox2f maximizedWidgetGeometry = i->second;
                     auto weak = std::weak_ptr<Canvas>(std::dynamic_pointer_cast<Canvas>(shared_from_this()));
                     p.maximizedAnimation->start(
                         p.maximized ? 0.f : 1.f,
                         p.maximized ? 1.f : 0.f,
                         std::chrono::milliseconds(maximizedAnimationDuration),
-                        [weak, canvasGeometry, maximizedWidget, maximizedWidgetGeometry](float value)
+                        [weak, canvasGeometry, maximizedWeak, maximizedWidgetGeometry](float value)
                     {
                         if (auto canvas = weak.lock())
                         {
                             canvas->_p->maximizedValue = value;
-                            if (maximizedWidget)
+                            if (auto maximizedWidget = maximizedWeak.lock())
                             {
                                 maximizedWidget->_setMaximized(value);
                                 maximizedWidget->setGeometry(lerp(value, maximizedWidgetGeometry, canvasGeometry));
                             }
                         }
                     },
-                        [weak, canvasGeometry, maximizedWidget, maximizedWidgetGeometry](float value)
+                        [weak, canvasGeometry, maximizedWeak, maximizedWidgetGeometry](float value)
                     {
                         if (auto canvas = weak.lock())
                         {
                             canvas->_p->maximizedValue = value;
-                            if (maximizedWidget)
+                            if (auto maximizedWidget = maximizedWeak.lock())
                             {
                                 maximizedWidget->_setMaximized(value);
                                 maximizedWidget->setGeometry(lerp(value, maximizedWidgetGeometry, canvasGeometry));
@@ -383,10 +383,19 @@ namespace djv
                             p.activeCallback(p.activeWidget);
                         }
                     }
-                    const auto i = p.widgetToGeometry.find(widget);
-                    if (i != p.widgetToGeometry.end())
                     {
-                        p.widgetToGeometry.erase(i);
+                        const auto i = p.widgetInit.find(widget);
+                        if (i != p.widgetInit.end())
+                        {
+                            p.widgetInit.erase(i);
+                        }
+                    }
+                    {
+                        const auto i = p.widgetToGeometry.find(widget);
+                        if (i != p.widgetToGeometry.end())
+                        {
+                            p.widgetToGeometry.erase(i);
+                        }
                     }
                     _resize();
                 }

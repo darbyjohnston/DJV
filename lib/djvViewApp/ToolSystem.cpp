@@ -64,19 +64,18 @@ namespace djv
 
             DJV_PRIVATE_PTR();
 
+            std::map<std::string, std::shared_ptr<IToolSystem> > toolSystems;
             std::map<std::string, std::shared_ptr<UI::Action> > toolActions;
-            std::map<std::string, std::shared_ptr<UI::Action> > toolWidgetActions;
             auto systems = context->getSystemsT<IToolSystem>();
             for (const auto& i : systems)
             {
                 auto data = i->getToolAction();
+                toolSystems[data.sortKey] = i;
                 toolActions[data.sortKey] = data.action;
-                auto widgetData = i->getToolWidgetAction();
-                if (widgetData.action)
-                {
-                    toolWidgetActions[widgetData.sortKey] = widgetData.action;
-                }
-                p.toolSystems.push_back(i);
+            }
+            for (const auto& i : toolSystems)
+            {
+                p.toolSystems.push_back(i.second);
             }
 
             p.toolActionGroup = UI::ActionGroup::create(UI::ButtonType::Exclusive);
@@ -87,11 +86,6 @@ namespace djv
 
             p.menu = UI::Menu::create(context);
             for (const auto& i : toolActions)
-            {
-                p.menu->addAction(i.second);
-            }
-            p.menu->addSeparator();
-            for (const auto& i : toolWidgetActions)
             {
                 p.menu->addAction(i.second);
             }

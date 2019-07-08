@@ -106,12 +106,12 @@ namespace djv
 
         std::string TooltipsSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("UI");
+            return DJV_TEXT("General");
         }
 
         std::string TooltipsSettingsWidget::getSettingsSortKey() const
         {
-            return "B";
+            return "A";
         }
 
         void TooltipsSettingsWidget::_localeEvent(Event::Locale & event)

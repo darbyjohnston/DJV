@@ -156,7 +156,7 @@ namespace djv
             p.menu->addAction(p.actions["Grid"]);
             p.menu->addAction(p.actions["HUD"]);
 
-            _actionUpdate();
+            _actionsUpdate();
 
             auto weak = std::weak_ptr<ImageViewSystem>(std::dynamic_pointer_cast<ImageViewSystem>(shared_from_this()));
             p.clickedObservers["Left"] = ValueObserver<bool>::create(
@@ -385,7 +385,7 @@ namespace djv
                                 system->_p->hoverObserver.reset();
                                 system->_p->dragObserver.reset();
                             }
-                            system->_actionUpdate();
+                            system->_actionsUpdate();
                         }
                     });
             }
@@ -516,7 +516,7 @@ namespace djv
             }
         }
 
-        void ImageViewSystem::_actionUpdate()
+        void ImageViewSystem::_actionsUpdate()
         {
             DJV_PRIVATE_PTR();
             const bool activeWidget = p.activeWidget.get();

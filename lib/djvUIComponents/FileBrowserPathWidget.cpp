@@ -90,7 +90,6 @@ namespace djv
                 p.lineEditBase->setVAlign(VAlign::Fill);
                 p.lineEditBase->installEventFilter(shared_from_this());
                 p.lineEditBorder = Border::create(context);
-                p.lineEditBorder->setBorderColorRole(ColorRole::Trough);
                 p.lineEditBorder->addChild(p.lineEditBase);
 
                 p.layout = HorizontalLayout::create(context);
@@ -159,7 +158,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->lineEditBorder->setBorderColorRole(value ? ColorRole::TextFocus : ColorRole::Trough);
+                        widget->_p->lineEditBorder->setBorderColorRole(value ? ColorRole::TextFocus : ColorRole::Border);
                     }
                 });
             }

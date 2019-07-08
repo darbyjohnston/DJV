@@ -64,6 +64,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
 
                 setClassName("djv::UI::Button::Tool");
+                setVAlign(VAlign::Center);
 
                 p.layout = HorizontalLayout::create(context);
                 p.layout->setMargin(MetricsRole::MarginSmall);

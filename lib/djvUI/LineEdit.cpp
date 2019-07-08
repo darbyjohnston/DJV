@@ -56,7 +56,6 @@ namespace djv
             p.lineEditBase = LineEditBase::create(context);
 
             p.border = Border::create(context);
-            p.border->setBorderColorRole(ColorRole::Trough);
             p.border->addChild(p.lineEditBase);
             addChild(p.border);
 
@@ -66,7 +65,7 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    widget->_p->border->setBorderColorRole(value ? ColorRole::TextFocus : ColorRole::Trough);
+                    widget->_p->border->setBorderColorRole(value ? ColorRole::TextFocus : ColorRole::Border);
                 }
             });
         }

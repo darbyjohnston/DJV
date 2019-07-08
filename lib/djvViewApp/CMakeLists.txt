@@ -4,6 +4,7 @@ set(header
 	AnnotateWidget.h
     Application.h
 	AudioSystem.h
+	BackgroundImageWidget.h
     ColorPickerSystem.h
     ColorPickerWidget.h
 	ColorSpaceWidget.h
@@ -47,6 +48,7 @@ set(header
 	UISettingsWidget.h
     ViewApp.h
 	WindowSettings.h
+	WindowSettingsWidget.h
     WindowSystem.h)
 set(source
     AboutDialog.cpp
@@ -54,6 +56,7 @@ set(source
 	AnnotateWidget.cpp
     Application.cpp
 	AudioSystem.cpp
+	BackgroundImageWidget.cpp
     ColorPickerSystem.cpp
     ColorPickerWidget.cpp
 	ColorSpaceWidget.cpp
@@ -96,6 +99,7 @@ set(source
 	UISettings.cpp
 	UISettingsWidget.cpp
 	WindowSettings.cpp
+	WindowSettingsWidget.cpp
     WindowSystem.cpp)
 
 add_library(djvViewApp ${header} ${source})

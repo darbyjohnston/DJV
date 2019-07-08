@@ -55,6 +55,8 @@ protected:
     MDIWidget();
 
 public:
+    ~MDIWidget() override;
+
     static std::shared_ptr<MDIWidget> create(const std::string & title, Core::Context *);
 
     void setClosedCallback(const std::function<void(void)> &);
@@ -95,7 +97,6 @@ void MDIWidget::_init(const std::string & title, Core::Context * context)
     textBlock->setMargin(UI::MetricsRole::Margin);
 
     auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-    scrollWidget->setBorder(false);
     scrollWidget->addChild(textBlock);
 
     auto layout = UI::VerticalLayout::create(context);
@@ -112,6 +113,9 @@ void MDIWidget::_init(const std::string & title, Core::Context * context)
 }
 
 MDIWidget::MDIWidget()
+{}
+
+MDIWidget::~MDIWidget()
 {}
 
 std::shared_ptr<MDIWidget> MDIWidget::create(const std::string & title, Core::Context * context)
@@ -158,14 +162,18 @@ int main(int argc, char ** argv)
             auto widget = MDIWidget::create(ss.str(), app.get());
             widget->resize(glm::vec2(600.f, 400.f));
             canvas->addChild(widget);
+            auto weak = std::weak_ptr<MDIWidget>(std::dynamic_pointer_cast<MDIWidget>(widget));
             widget->setClosedCallback(
-                [widget]
-            {
-                if (auto parent = widget->getParent().lock())
+                [weak]
                 {
-                    parent->removeChild(widget);
-                }
-            });
+                    if (auto widget = weak.lock())
+                    {
+                        if (auto parent = widget->getParent().lock())
+                        {
+                            parent->removeChild(widget);
+                        }
+                    }
+                });
             canvas->setWidgetPos(widget, pos);
             pos += glm::vec2(100.f, 100.f);
         }

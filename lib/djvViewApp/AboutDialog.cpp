@@ -68,7 +68,7 @@ namespace djv
             for (auto& i : p.headers)
             {
                 i.second->setTextHAlign(UI::TextHAlign::Left);
-                i.second->setFontSizeRole(UI::MetricsRole::FontLarge);
+                i.second->setFontSizeRole(UI::MetricsRole::FontHeader);
             }
 
             p.textBlocks["Credits1"] = UI::TextBlock::create(context);

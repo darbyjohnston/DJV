@@ -57,6 +57,7 @@ namespace djv
                 Foreground,
                 ForegroundDim,
                 Border,
+                BorderButton,
                 Trough,
                 Button,
                 Hovered,

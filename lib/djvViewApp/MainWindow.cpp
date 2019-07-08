@@ -30,6 +30,7 @@
 #include <djvViewApp/MainWindow.h>
 
 #include <djvViewApp/Application.h>
+#include <djvViewApp/BackgroundImageWidget.h>
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/IToolSystem.h>
 #include <djvViewApp/ImageViewSystem.h>
@@ -50,14 +51,13 @@
 #include <djvUI/MenuBar.h>
 #include <djvUI/MenuButton.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/SettingsSystem.h>
 #include <djvUI/Shortcut.h>
 #include <djvUI/SoloLayout.h>
-#include <djvUI/StackLayout.h>
 #include <djvUI/ToolBar.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvCore/FileInfo.h>
-#include <djvCore/Path.h>
 
 #include <GLFW/glfw3.h>
 
@@ -78,7 +78,6 @@ namespace djv
             std::shared_ptr<UI::MenuBar> menuBar;
             std::shared_ptr<MediaCanvas> mediaCanvas;
             std::shared_ptr<UI::MDI::Canvas> canvas;
-            std::shared_ptr<UI::StackLayout> stackLayout;
             std::shared_ptr<ValueObserver<bool> > closeToolActionObserver;
             std::shared_ptr<ListObserver<std::shared_ptr<Media> > > mediaObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
@@ -86,7 +85,7 @@ namespace djv
             std::shared_ptr<ValueObserver<float> > fadeObserver;
         };
         
-        void MainWindow::_init(Core::Context * context)
+        void MainWindow::_init(Context * context)
         {
             UI::Window::_init(context);
 
@@ -171,17 +170,25 @@ namespace djv
             p.menuBar->addChild(p.mediaButton);
             p.menuBar->setStretch(p.mediaButton, UI::RowStretch::Expand, UI::Side::Right);
             p.menuBar->addSeparator(UI::Side::Right);
+            auto hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setSpacing(UI::MetricsRole::None);
             for (const auto& i : toolButtons)
             {
-                p.menuBar->addChild(i.second);
+                hLayout->addChild(i.second);
             }
+            p.menuBar->addChild(hLayout);
             p.menuBar->addSeparator(UI::Side::Right);
-            p.menuBar->addChild(viewLockFitButton);
-            p.menuBar->addChild(viewLockCenterButton);
+            hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setSpacing(UI::MetricsRole::None);
+            hLayout->addChild(viewLockFitButton);
+            hLayout->addChild(viewLockCenterButton);
+            p.menuBar->addChild(hLayout);
             p.menuBar->addSeparator(UI::Side::Right);
             p.menuBar->addChild(maximizedButton);
             p.menuBar->addSeparator(UI::Side::Right);
             p.menuBar->addChild(p.settingsButton);
+
+            auto backgroundImageWidget = BackgroundImageWidget::create(context);
 
             p.mediaCanvas = MediaCanvas::create(context);
 
@@ -190,17 +197,16 @@ namespace djv
             {
                 system->setCanvas(p.canvas);
             }
-            
-            p.stackLayout = UI::StackLayout::create(context);
+
             auto soloLayout = UI::SoloLayout::create(context);
-            p.stackLayout->addChild(p.mediaCanvas);
+            addChild(backgroundImageWidget);
+            addChild(p.mediaCanvas);
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addChild(p.menuBar);
             vLayout->addExpander();
-            p.stackLayout->addChild(vLayout);
-            p.stackLayout->addChild(p.canvas);
-            addChild(p.stackLayout);
+            addChild(vLayout);
+            addChild(p.canvas);
 
             auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
             p.mediaActionGroup->setRadioCallback(
@@ -246,10 +252,8 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    if (auto settingsSystem = context->getSystemT<SettingsSystem>())
-                    {
-                        settingsSystem->showSettingsDialog();
-                    }
+                    auto settingsSystem = context->getSystemT<SettingsSystem>();
+                    settingsSystem->showSettingsDialog();
                 }
             });
 
@@ -344,7 +348,7 @@ namespace djv
         MainWindow::~MainWindow()
         {}
 
-        std::shared_ptr<MainWindow> MainWindow::create(Core::Context * context)
+        std::shared_ptr<MainWindow> MainWindow::create(Context * context)
         {
             auto out = std::shared_ptr<MainWindow>(new MainWindow);
             out->_init(context);
@@ -356,7 +360,7 @@ namespace djv
             return _p->mediaCanvas;
         }
 
-        void MainWindow::_dropEvent(Core::Event::Drop & event)
+        void MainWindow::_dropEvent(Event::Drop & event)
         {
             const auto& style = _getStyle();
             const float s = style->getMetric(UI::MetricsRole::SpacingLarge);
@@ -369,7 +373,7 @@ namespace djv
             }
         }
 
-        void MainWindow::_localeEvent(Core::Event::Locale & event)
+        void MainWindow::_localeEvent(Event::Locale & event)
         {
             _textUpdate();
         }

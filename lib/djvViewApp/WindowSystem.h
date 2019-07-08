@@ -77,7 +77,7 @@ namespace djv
 
         protected:
             void _pointerUpdate(const Core::Event::PointerInfo&);
-            void _actionUpdate();
+            void _actionsUpdate();
             void _textUpdate();
 
         private:

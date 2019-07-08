@@ -116,12 +116,12 @@ namespace djv
 
         std::string UISettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("UI");
+            return DJV_TEXT("General");
         }
 
         std::string UISettingsWidget::getSettingsSortKey() const
         {
-            return "B";
+            return "A";
         }
 
         void UISettingsWidget::_localeEvent(Event::Locale& event)

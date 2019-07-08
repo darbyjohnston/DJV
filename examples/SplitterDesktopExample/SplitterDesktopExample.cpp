@@ -56,7 +56,6 @@ int main(int argc, char ** argv)
             textBlock->setMargin(UI::MetricsRole::Margin);
 
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, app.get());
-            scrollWidget->setBorder(false);
             scrollWidget->addChild(textBlock);
 
             splitter->addChild(scrollWidget);

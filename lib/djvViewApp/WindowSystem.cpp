@@ -124,7 +124,7 @@ namespace djv
             p.menu->addAction(p.actions["FullScreen"]);
             p.menu->addAction(p.actions["Maximized"]);
 
-            _actionUpdate();
+            _actionsUpdate();
 
             auto weak = std::weak_ptr<WindowSystem>(std::dynamic_pointer_cast<WindowSystem>(shared_from_this()));
             p.fullScreenObserver = ValueObserver<bool>::create(
@@ -229,7 +229,7 @@ namespace djv
                         {
                             if (system->_p->activeWidget->setIfChanged(value))
                             {
-                                system->_actionUpdate();
+                                system->_actionsUpdate();
                             }
                         }
                     });
@@ -252,7 +252,7 @@ namespace djv
             if (p.maximized->setIfChanged(value))
             {
                 p.settings->setMaximized(value);
-                _actionUpdate();
+                _actionsUpdate();
             }
         }
 
@@ -359,7 +359,7 @@ namespace djv
             }
         }
 
-        void WindowSystem::_actionUpdate()
+        void WindowSystem::_actionsUpdate()
         {
             DJV_PRIVATE_PTR();
             p.actions["Maximized"]->setChecked(static_cast<int>(p.maximized->get()));
@@ -378,46 +378,44 @@ namespace djv
 
         void WindowSystem::Private::setFullScreen(bool value, Context * context)
         {
-            if (auto glfwSystem = context->getSystemT<Desktop::GLFWSystem>())
+            auto glfwSystem = context->getSystemT<Desktop::GLFWSystem>();
+            auto glfwWindow = glfwSystem->getGLFWWindow();
+            auto glfwMonitor = glfwGetWindowMonitor(glfwWindow);
+            if (value && !glfwMonitor)
             {
-                auto glfwWindow = glfwSystem->getGLFWWindow();
-                auto glfwMonitor = glfwGetWindowMonitor(glfwWindow);
-                if (value && !glfwMonitor)
-                {
-                    glfwMonitor = glfwGetPrimaryMonitor();
-                    auto glfwMonitorMode = glfwGetVideoMode(glfwMonitor);
-                    monitorSize.x = glfwMonitorMode->width;
-                    monitorSize.y = glfwMonitorMode->height;
-                    monitorRefresh = glfwMonitorMode->refreshRate;
+                glfwMonitor = glfwGetPrimaryMonitor();
+                auto glfwMonitorMode = glfwGetVideoMode(glfwMonitor);
+                monitorSize.x = glfwMonitorMode->width;
+                monitorSize.y = glfwMonitorMode->height;
+                monitorRefresh = glfwMonitorMode->refreshRate;
 
-                    int x = 0;
-                    int y = 0;
-                    int w = 0;
-                    int h = 0;
-                    glfwGetWindowPos(glfwWindow, &x, &y);
-                    glfwGetWindowSize(glfwWindow, &w, &h);
-                    windowGeom = BBox2i(x, y, w, h);
+                int x = 0;
+                int y = 0;
+                int w = 0;
+                int h = 0;
+                glfwGetWindowPos(glfwWindow, &x, &y);
+                glfwGetWindowSize(glfwWindow, &w, &h);
+                windowGeom = BBox2i(x, y, w, h);
 
-                    glfwSetWindowMonitor(
-                        glfwWindow,
-                        glfwMonitor,
-                        0,
-                        0,
-                        glfwMonitorMode->width,
-                        glfwMonitorMode->height,
-                        glfwMonitorMode->refreshRate);
-                }
-                else if (!value && glfwMonitor)
-                {
-                    glfwSetWindowMonitor(
-                        glfwWindow,
-                        NULL,
-                        windowGeom.x(),
-                        windowGeom.y(),
-                        windowGeom.w(),
-                        windowGeom.h(),
-                        0);
-                }
+                glfwSetWindowMonitor(
+                    glfwWindow,
+                    glfwMonitor,
+                    0,
+                    0,
+                    glfwMonitorMode->width,
+                    glfwMonitorMode->height,
+                    glfwMonitorMode->refreshRate);
+            }
+            else if (!value && glfwMonitor)
+            {
+                glfwSetWindowMonitor(
+                    glfwWindow,
+                    NULL,
+                    windowGeom.x(),
+                    windowGeom.y(),
+                    windowGeom.w(),
+                    windowGeom.h(),
+                    0);
             }
         }
 

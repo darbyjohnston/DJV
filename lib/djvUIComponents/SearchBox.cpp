@@ -83,7 +83,7 @@ namespace djv
             
             p.border = Border::create(context);
             p.border->setBorderColorRole(ColorRole::None);
-            p.border->setMargin(MetricsRole::MarginSmall);
+            p.border->setMargin(MetricsRole::Border);
             p.border->addChild(layout);
             addChild(p.border);
 
@@ -93,7 +93,7 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    widget->_p->border->setBorderColorRole(value ? ColorRole::TextFocus : ColorRole::Trough);
+                    widget->_p->border->setBorderColorRole(value ? ColorRole::TextFocus : ColorRole::Border);
                 }
             });
 

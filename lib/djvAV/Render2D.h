@@ -56,7 +56,7 @@ namespace djv
             //! This enumeration provides which image channels are displayed.
             enum class ImageChannel
             {
-                Color,
+                None,
                 Red,
                 Green,
                 Blue,
@@ -73,7 +73,7 @@ namespace djv
             //! This struct provides image options.
             struct ImageOptions
             {
-                ImageChannel      channel       = ImageChannel::Color;
+                ImageChannel      channel       = ImageChannel::None;
                 bool              premultAlpha  = true;
                 AV::Image::Mirror mirror;
                 AV::OCIO::Convert colorSpace;

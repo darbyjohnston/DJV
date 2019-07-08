@@ -66,7 +66,7 @@ namespace djv
             MenuData getMenu() const override;
 
         private:
-            void _actionUpdate();
+            void _actionsUpdate();
             void _textUpdate();
 
             DJV_PRIVATE();

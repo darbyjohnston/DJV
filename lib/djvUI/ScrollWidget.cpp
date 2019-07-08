@@ -615,7 +615,6 @@ namespace djv
             layout->setGridPos(p.scrollBars[Orientation::Vertical], glm::ivec2(1, 0));
 
             p.border = Border::create(context);
-            p.border->setBorderColorRole(ColorRole::Trough);
             p.border->addChild(layout);
             Widget::addChild(p.border);
 

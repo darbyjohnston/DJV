@@ -50,7 +50,6 @@ namespace djv
             void IWidget::_init(Context* context)
             {
                 Widget::_init(context);
-
                 setPointerEnabled(true);
             }
 

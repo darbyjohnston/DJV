@@ -62,7 +62,7 @@ namespace djv
             const std::shared_ptr<MediaCanvas>& getMediaCanvas() const;
 
         protected:
-            void _dropEvent(Core::Event::Drop &) override;
+            void _dropEvent(Core::Event::Drop&) override;
 
             void _localeEvent(Core::Event::Locale &) override;
 

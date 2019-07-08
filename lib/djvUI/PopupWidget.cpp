@@ -30,6 +30,7 @@
 #include <djvUI/PopupWidget.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/Border.h>
 #include <djvUI/EventSystem.h>
 #include <djvUI/LayoutUtil.h>
 #include <djvUI/MenuButton.h>
@@ -71,6 +72,7 @@ namespace djv
 
             private:
                 std::shared_ptr<StackLayout> _layout;
+                std::shared_ptr<Border> _border;
             };
 
             void OverlayWidget::_init(Context * context)
@@ -81,7 +83,10 @@ namespace djv
                 setPointerEnabled(true);
 
                 _layout = StackLayout::create(context);
-                Widget::addChild(_layout);
+
+                _border = Border::create(context);
+                _border->addChild(_layout);
+                Widget::addChild(_border);
             }
 
             OverlayWidget::OverlayWidget()
@@ -116,12 +121,12 @@ namespace djv
 
             void OverlayWidget::_preLayoutEvent(Event::PreLayout &)
             {
-                _setMinimumSize(_layout->getMinimumSize());
+                _setMinimumSize(_border->getMinimumSize());
             }
 
             void OverlayWidget::_layoutEvent(Event::Layout &)
             {
-                _layout->setGeometry(getGeometry());
+                _border->setGeometry(getGeometry());
             }
 
             class OverlayLayout : public Widget

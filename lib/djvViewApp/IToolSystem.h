@@ -53,7 +53,6 @@ namespace djv
             ~IToolSystem() override;
 
             virtual ToolActionData getToolAction() const = 0;
-            virtual ToolActionData getToolWidgetAction() const { return ToolActionData(); }
 
             virtual void setCurrentTool(bool) = 0;
 
