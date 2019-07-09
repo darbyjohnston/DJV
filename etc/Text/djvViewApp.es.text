@@ -1,1838 +1,2162 @@
 [
     {
         "source": "Show Annotations", 
-        "text": "Mostrar anotaciones", 
+        "description": "", 
         "id": "Show Annotations", 
-        "description": ""
+        "text": "Mostrar anotaciones"
     }, 
     {
         "source": "Annotate", 
-        "text": "Anotar", 
+        "description": "", 
         "id": "Annotate", 
-        "description": ""
+        "text": "Anotar"
     }, 
     {
         "source": "Increase Volume", 
-        "text": "Aumenta el volumen", 
+        "description": "", 
         "id": "Increase Volume", 
-        "description": ""
+        "text": "Aumenta el volumen"
     }, 
     {
         "source": "Increase volume tooltip", 
-        "text": "Aumentar el volumen de informaci\u00f3n sobre herramientas", 
+        "description": "", 
         "id": "Increase volume tooltip", 
-        "description": ""
+        "text": "Aumentar el volumen de informaci\u00f3n sobre herramientas"
     }, 
     {
         "source": "Decrease Volume", 
-        "text": "Disminuir volumen", 
+        "description": "", 
         "id": "Decrease Volume", 
-        "description": ""
+        "text": "Disminuir volumen"
     }, 
     {
         "source": "Decrease volume tooltip", 
-        "text": "Disminuir el volumen de informaci\u00f3n sobre herramientas", 
+        "description": "", 
         "id": "Decrease volume tooltip", 
-        "description": ""
+        "text": "Disminuir el volumen de informaci\u00f3n sobre herramientas"
     }, 
     {
         "source": "Mute", 
-        "text": "Mudo", 
+        "description": "", 
         "id": "Mute", 
-        "description": ""
+        "text": "Mudo"
     }, 
     {
         "source": "Mute tooltip", 
-        "text": "Informaci\u00f3n sobre herramientas de silencio", 
+        "description": "", 
         "id": "Mute tooltip", 
-        "description": ""
+        "text": "Informaci\u00f3n sobre herramientas de silencio"
     }, 
     {
         "source": "Audio", 
-        "text": "Audio", 
+        "description": "", 
         "id": "Audio", 
-        "description": ""
+        "text": "Audio"
     }, 
     {
         "source": "Close tooltip", 
-        "text": "Cerrar informaci\u00f3n sobre herramientas", 
+        "description": "", 
         "id": "Close tooltip", 
-        "description": ""
+        "text": "Cerrar informaci\u00f3n sobre herramientas"
     }, 
     {
         "source": "Documentation", 
-        "text": "Documentaci\u00f3n", 
+        "description": "", 
         "id": "Documentation", 
-        "description": ""
+        "text": "Documentaci\u00f3n"
     }, 
     {
         "source": "Documentation tooltip", 
-        "text": "Informaci\u00f3n sobre la documentaci\u00f3n", 
+        "description": "", 
         "id": "Documentation tooltip", 
-        "description": ""
+        "text": "Informaci\u00f3n sobre la documentaci\u00f3n"
     }, 
     {
         "source": "About", 
-        "text": "Acerca de", 
+        "description": "", 
         "id": "About", 
-        "description": ""
+        "text": "Acerca de"
     }, 
     {
         "source": "About tooltip", 
-        "text": "Acerca de informaci\u00f3n sobre herramientas", 
+        "description": "", 
         "id": "About tooltip", 
-        "description": ""
+        "text": "Acerca de informaci\u00f3n sobre herramientas"
     }, 
     {
         "source": "System Log", 
-        "text": "Registro del sistema", 
+        "description": "", 
         "id": "System Log", 
-        "description": ""
+        "text": "Registro del sistema"
     }, 
     {
         "source": "System log tooltip", 
-        "text": "Herramienta de registro del sistema", 
+        "description": "", 
         "id": "System log tooltip", 
-        "description": ""
+        "text": "Herramienta de registro del sistema"
     }, 
     {
         "source": "Help", 
-        "text": "Ayuda", 
+        "description": "", 
         "id": "Help", 
-        "description": ""
+        "text": "Ayuda"
     }, 
     {
         "source": "Histogram", 
-        "text": "Histograma", 
+        "description": "", 
         "id": "Histogram", 
-        "description": ""
+        "text": "Histograma"
     }, 
     {
         "source": "Recent Files", 
-        "text": "Archivos recientes", 
+        "description": "", 
         "id": "Recent Files", 
-        "description": ""
+        "text": "Archivos recientes"
     }, 
     {
         "source": "Increase Thumbnail Size", 
-        "text": "Aumentar el tama\u00f1o de la miniatura", 
+        "description": "", 
         "id": "Increase Thumbnail Size", 
-        "description": ""
+        "text": "Aumentar el tama\u00f1o de la miniatura"
     }, 
     {
         "source": "Recent files increase thumbnail size tooltip", 
-        "text": "Los archivos recientes aumentan la informaci\u00f3n sobre el tama\u00f1o de miniatura", 
+        "description": "", 
         "id": "Recent files increase thumbnail size tooltip", 
-        "description": ""
+        "text": "Los archivos recientes aumentan la informaci\u00f3n sobre el tama\u00f1o de miniatura"
     }, 
     {
         "source": "Decrease Thumbnail Size", 
-        "text": "Disminuir el tama\u00f1o de la miniatura", 
+        "description": "", 
         "id": "Decrease Thumbnail Size", 
-        "description": ""
+        "text": "Disminuir el tama\u00f1o de la miniatura"
     }, 
     {
         "source": "Recent files decrease thumbnail size tooltip", 
-        "text": "Los archivos recientes disminuyen la informaci\u00f3n sobre el tama\u00f1o de la miniatura", 
+        "description": "", 
         "id": "Recent files decrease thumbnail size tooltip", 
-        "description": ""
+        "text": "Los archivos recientes disminuyen la informaci\u00f3n sobre el tama\u00f1o de la miniatura"
     }, 
     {
         "source": "Recent files search tooltip", 
-        "text": "Herramienta de b\u00fasqueda de archivos recientes", 
+        "description": "", 
         "id": "Recent files search tooltip", 
-        "description": ""
+        "text": "Herramienta de b\u00fasqueda de archivos recientes"
     }, 
     {
         "source": "Recent files settings tooltip", 
-        "text": "Herramienta de configuraci\u00f3n de archivos recientes", 
+        "description": "", 
         "id": "Recent files settings tooltip", 
-        "description": ""
+        "text": "Herramienta de configuraci\u00f3n de archivos recientes"
     }, 
     {
         "source": "Items", 
-        "text": "Art\u00edculos", 
+        "description": "", 
         "id": "Items", 
-        "description": ""
+        "text": "Art\u00edculos"
     }, 
     {
         "source": "Forward", 
-        "text": "Adelante", 
+        "description": "", 
         "id": "Forward", 
-        "description": ""
+        "text": "Adelante"
     }, 
     {
         "source": "Forward tooltip", 
-        "text": "Herramienta de avance", 
+        "description": "", 
         "id": "Forward tooltip", 
-        "description": ""
+        "text": "Herramienta de avance"
     }, 
     {
         "source": "Reverse", 
-        "text": "Marcha atr\u00e1s", 
+        "description": "", 
         "id": "Reverse", 
-        "description": ""
+        "text": "Marcha atr\u00e1s"
     }, 
     {
         "source": "Reverse tooltip", 
-        "text": "Sugerencia inversa", 
+        "description": "", 
         "id": "Reverse tooltip", 
-        "description": ""
+        "text": "Sugerencia inversa"
     }, 
     {
         "source": "Play Once", 
-        "text": "Jugar una vez", 
+        "description": "", 
         "id": "Play Once", 
-        "description": ""
+        "text": "Jugar una vez"
     }, 
     {
         "source": "Play once tooltip", 
-        "text": "Jugar una vez informaci\u00f3n sobre herramientas", 
+        "description": "", 
         "id": "Play once tooltip", 
-        "description": ""
+        "text": "Jugar una vez informaci\u00f3n sobre herramientas"
     }, 
     {
         "source": "Loop", 
-        "text": "Lazo", 
+        "description": "", 
         "id": "Loop", 
-        "description": ""
+        "text": "Lazo"
     }, 
     {
         "source": "Loop tooltip", 
-        "text": "Descripci\u00f3n de bucle", 
+        "description": "", 
         "id": "Loop tooltip", 
-        "description": ""
+        "text": "Descripci\u00f3n de bucle"
     }, 
     {
         "source": "Ping Pong", 
-        "text": "Ping pong", 
+        "description": "", 
         "id": "Ping Pong", 
-        "description": ""
+        "text": "Ping pong"
     }, 
     {
         "source": "Ping pong tooltip", 
-        "text": "Herramienta de ping pong", 
+        "description": "", 
         "id": "Ping pong tooltip", 
-        "description": ""
+        "text": "Herramienta de ping pong"
     }, 
     {
         "source": "Play Every Frame", 
-        "text": "Jugar cada cuadro", 
+        "description": "", 
         "id": "Play Every Frame", 
-        "description": ""
+        "text": "Jugar cada cuadro"
     }, 
     {
         "source": "Play every frame tooltip", 
-        "text": "Juega cada cuadro de ayuda", 
+        "description": "", 
         "id": "Play every frame tooltip", 
-        "description": ""
+        "text": "Juega cada cuadro de ayuda"
     }, 
     {
         "source": "Go to In Point", 
-        "text": "Ir al punto de entrada", 
+        "description": "", 
         "id": "Go to In Point", 
-        "description": ""
+        "text": "Ir al punto de entrada"
     }, 
     {
         "source": "Go to in point tooltip", 
-        "text": "Ir al punto de informaci\u00f3n sobre herramientas", 
+        "description": "", 
         "id": "Go to in point tooltip", 
-        "description": ""
+        "text": "Ir al punto de informaci\u00f3n sobre herramientas"
     }, 
     {
         "source": "Go to Out Point", 
-        "text": "Ir al punto de salida", 
+        "description": "", 
         "id": "Go to Out Point", 
-        "description": ""
+        "text": "Ir al punto de salida"
     }, 
     {
         "source": "Go to out point tooltip", 
-        "text": "Ir a la sugerencia de punto de salida", 
+        "description": "", 
         "id": "Go to out point tooltip", 
-        "description": ""
+        "text": "Ir a la sugerencia de punto de salida"
     }, 
     {
         "source": "Go to Start Frame", 
-        "text": "Ir al cuadro de inicio", 
+        "description": "", 
         "id": "Go to Start Frame", 
-        "description": ""
+        "text": "Ir al cuadro de inicio"
     }, 
     {
         "source": "Go to start frame tooltip", 
-        "text": "Ir a la herramienta de inicio de marco", 
+        "description": "", 
         "id": "Go to start frame tooltip", 
-        "description": ""
+        "text": "Ir a la herramienta de inicio de marco"
     }, 
     {
         "source": "Go to End Frame", 
-        "text": "Ir al cuadro final", 
+        "description": "", 
         "id": "Go to End Frame", 
-        "description": ""
+        "text": "Ir al cuadro final"
     }, 
     {
         "source": "Go to end frame tooltip", 
-        "text": "Ir al final de la herramienta de marco", 
+        "description": "", 
         "id": "Go to end frame tooltip", 
-        "description": ""
+        "text": "Ir al final de la herramienta de marco"
     }, 
     {
         "source": "Next Frame", 
-        "text": "Siguiente fotograma", 
+        "description": "", 
         "id": "Next Frame", 
-        "description": ""
+        "text": "Siguiente fotograma"
     }, 
     {
         "source": "Next frame tooltip", 
-        "text": "Herramienta de marco siguiente", 
+        "description": "", 
         "id": "Next frame tooltip", 
-        "description": ""
+        "text": "Herramienta de marco siguiente"
     }, 
     {
         "source": "Next Frame X10", 
-        "text": "Siguiente fotograma X10", 
+        "description": "", 
         "id": "Next Frame X10", 
-        "description": ""
+        "text": "Siguiente fotograma X10"
     }, 
     {
         "source": "Next frame X10 tooltip", 
-        "text": "Siguiente marco X10 informaci\u00f3n sobre herramientas", 
+        "description": "", 
         "id": "Next frame X10 tooltip", 
-        "description": ""
+        "text": "Siguiente marco X10 informaci\u00f3n sobre herramientas"
     }, 
     {
         "source": "Next Frame X100", 
-        "text": "Siguiente fotograma X100", 
+        "description": "", 
         "id": "Next Frame X100", 
-        "description": ""
+        "text": "Siguiente fotograma X100"
     }, 
     {
         "source": "Next frame X100 tooltip", 
-        "text": "Siguiente marco X100 informaci\u00f3n sobre herramientas", 
+        "description": "", 
         "id": "Next frame X100 tooltip", 
-        "description": ""
+        "text": "Siguiente marco X100 informaci\u00f3n sobre herramientas"
     }, 
     {
         "source": "Previous Frame", 
-        "text": "Marco anterior", 
+        "description": "", 
         "id": "Previous Frame", 
-        "description": ""
+        "text": "Marco anterior"
     }, 
     {
         "source": "Previous frame tooltip", 
-        "text": "Herramienta de marco anterior", 
+        "description": "", 
         "id": "Previous frame tooltip", 
-        "description": ""
+        "text": "Herramienta de marco anterior"
     }, 
     {
         "source": "Previous Frame X10", 
-        "text": "Marco anterior X10", 
+        "description": "", 
         "id": "Previous Frame X10", 
-        "description": ""
+        "text": "Marco anterior X10"
     }, 
     {
         "source": "Previous frame X10 tooltip", 
-        "text": "Descripci\u00f3n del cuadro anterior X10", 
+        "description": "", 
         "id": "Previous frame X10 tooltip", 
-        "description": ""
+        "text": "Descripci\u00f3n del cuadro anterior X10"
     }, 
     {
         "source": "Previous Frame X100", 
-        "text": "Marco anterior X100", 
+        "description": "", 
         "id": "Previous Frame X100", 
-        "description": ""
+        "text": "Marco anterior X100"
     }, 
     {
         "source": "Previous frame X100 tooltip", 
-        "text": "Descripci\u00f3n del cuadro anterior X100", 
+        "description": "", 
         "id": "Previous frame X100 tooltip", 
-        "description": ""
+        "text": "Descripci\u00f3n del cuadro anterior X100"
     }, 
     {
         "source": "Enable In/Out Points", 
-        "text": "Habilitar puntos de entrada / salida", 
+        "description": "", 
         "id": "Enable In/Out Points", 
-        "description": ""
+        "text": "Habilitar puntos de entrada / salida"
     }, 
     {
         "source": "Enable in/out points tooltip", 
-        "text": "Habilitar informaci\u00f3n de herramientas de puntos de entrada / salida", 
+        "description": "", 
         "id": "Enable in/out points tooltip", 
-        "description": ""
+        "text": "Habilitar informaci\u00f3n de herramientas de puntos de entrada / salida"
     }, 
     {
         "source": "Set In Point", 
-        "text": "Punto de entrada", 
+        "description": "", 
         "id": "Set In Point", 
-        "description": ""
+        "text": "Punto de entrada"
     }, 
     {
         "source": "Set in point tooltip", 
-        "text": "Establecer en el punto de informaci\u00f3n sobre herramientas", 
+        "description": "", 
         "id": "Set in point tooltip", 
-        "description": ""
+        "text": "Establecer en el punto de informaci\u00f3n sobre herramientas"
     }, 
     {
         "source": "Set Out Point", 
-        "text": "Punto de salida", 
+        "description": "", 
         "id": "Set Out Point", 
-        "description": ""
+        "text": "Punto de salida"
     }, 
     {
         "source": "Set out point tooltip", 
-        "text": "Punto de ayuda de la herramienta", 
+        "description": "", 
         "id": "Set out point tooltip", 
-        "description": ""
+        "text": "Punto de ayuda de la herramienta"
     }, 
     {
         "source": "Reset In Point", 
-        "text": "Restablecer el punto de entrada", 
+        "description": "", 
         "id": "Reset In Point", 
-        "description": ""
+        "text": "Restablecer el punto de entrada"
     }, 
     {
         "source": "Reset in point tooltip", 
-        "text": "Restablecer en la descripci\u00f3n del punto", 
+        "description": "", 
         "id": "Reset in point tooltip", 
-        "description": ""
+        "text": "Restablecer en la descripci\u00f3n del punto"
     }, 
     {
         "source": "Reset Out Point", 
-        "text": "Restablecer el punto de salida", 
+        "description": "", 
         "id": "Reset Out Point", 
-        "description": ""
+        "text": "Restablecer el punto de salida"
     }, 
     {
         "source": "Reset out point tooltip", 
-        "text": "Punto de reposici\u00f3n", 
+        "description": "", 
         "id": "Reset out point tooltip", 
-        "description": ""
+        "text": "Punto de reposici\u00f3n"
     }, 
     {
         "source": "Playback", 
-        "text": "Reproducci\u00f3n", 
+        "description": "", 
         "id": "Playback", 
-        "description": ""
+        "text": "Reproducci\u00f3n"
     }, 
     {
         "source": "Image", 
-        "text": "Imagen", 
+        "description": "", 
         "id": "Image", 
-        "description": ""
+        "text": "Imagen"
     }, 
     {
         "source": "DJV", 
-        "text": "DJV", 
+        "description": "", 
         "id": "DJV", 
-        "description": ""
+        "text": "DJV"
     }, 
     {
         "source": "Rotate", 
-        "text": "Girar", 
+        "description": "", 
         "id": "Rotate", 
-        "description": ""
+        "text": "Girar"
     }, 
     {
         "source": "Aspect ratio", 
-        "text": "Relaci\u00f3n de aspecto", 
+        "description": "", 
         "id": "Aspect ratio", 
-        "description": ""
+        "text": "Relaci\u00f3n de aspecto"
     }, 
     {
         "source": "Settings", 
-        "text": "Ajustes", 
+        "description": "", 
         "id": "Settings", 
-        "description": ""
+        "text": "Ajustes"
     }, 
     {
         "source": "Information", 
-        "text": "Informaci\u00f3n", 
+        "description": "", 
         "id": "Information", 
-        "description": ""
+        "text": "Informaci\u00f3n"
     }, 
     {
         "source": "Choose your language", 
-        "text": "Elige tu idioma", 
+        "description": "", 
         "id": "Choose your language", 
-        "description": ""
+        "text": "Elige tu idioma"
     }, 
     {
         "source": "Choose a display size", 
-        "text": "Elija un tama\u00f1o de pantalla", 
+        "description": "", 
         "id": "Choose a display size", 
-        "description": ""
+        "text": "Elija un tama\u00f1o de pantalla"
     }, 
     {
         "source": "Choose a palette", 
-        "text": "Elige una paleta", 
+        "description": "", 
         "id": "Choose a palette", 
-        "description": ""
+        "text": "Elige una paleta"
     }, 
     {
         "source": "Next", 
-        "text": "Siguiente", 
+        "description": "", 
         "id": "Next", 
-        "description": ""
+        "text": "Siguiente"
     }, 
     {
         "source": "Previous", 
-        "text": "Anterior", 
+        "description": "", 
         "id": "Previous", 
-        "description": ""
+        "text": "Anterior"
     }, 
     {
         "source": "Finish", 
-        "text": "Terminar", 
+        "description": "", 
         "id": "Finish", 
-        "description": ""
+        "text": "Terminar"
     }, 
     {
         "source": "Color Manager", 
-        "text": "Gestor de color", 
+        "description": "", 
         "id": "Color Manager", 
-        "description": ""
+        "text": "Gestor de color"
     }, 
     {
         "source": "Color manager tooltip", 
-        "text": "Descripci\u00f3n del gestor de color", 
+        "description": "", 
         "id": "Color manager tooltip", 
-        "description": ""
+        "text": "Descripci\u00f3n del gestor de color"
     }, 
     {
         "source": "Color Channels", 
-        "text": "Canales de color", 
+        "description": "", 
         "id": "Color Channels", 
-        "description": ""
+        "text": "Canales de color"
     }, 
     {
         "source": "Color channels tooltip", 
-        "text": "Descripci\u00f3n de los canales de color", 
+        "description": "", 
         "id": "Color channels tooltip", 
-        "description": ""
+        "text": "Descripci\u00f3n de los canales de color"
     }, 
     {
         "source": "Red Channel", 
-        "text": "Canal rojo", 
+        "description": "", 
         "id": "Red Channel", 
-        "description": ""
+        "text": "Canal rojo"
     }, 
     {
         "source": "Red channel tooltip", 
-        "text": "Descripci\u00f3n del canal rojo", 
+        "description": "", 
         "id": "Red channel tooltip", 
-        "description": ""
+        "text": "Descripci\u00f3n del canal rojo"
     }, 
     {
         "source": "Green Channel", 
-        "text": "Canal verde", 
+        "description": "", 
         "id": "Green Channel", 
-        "description": ""
+        "text": "Canal verde"
     }, 
     {
         "source": "Green channel tooltip", 
-        "text": "Descripci\u00f3n del canal verde", 
+        "description": "", 
         "id": "Green channel tooltip", 
-        "description": ""
+        "text": "Descripci\u00f3n del canal verde"
     }, 
     {
         "source": "Blue Channel", 
-        "text": "Canal azul", 
+        "description": "", 
         "id": "Blue Channel", 
-        "description": ""
+        "text": "Canal azul"
     }, 
     {
         "source": "Blue channel tooltip", 
-        "text": "Descripci\u00f3n del canal azul", 
+        "description": "", 
         "id": "Blue channel tooltip", 
-        "description": ""
+        "text": "Descripci\u00f3n del canal azul"
     }, 
     {
         "source": "Alpha Channel", 
-        "text": "Canal alfa", 
+        "description": "", 
         "id": "Alpha Channel", 
-        "description": ""
+        "text": "Canal alfa"
     }, 
     {
         "source": "Alpha channel tooltip", 
-        "text": "Informaci\u00f3n sobre el canal alfa", 
+        "description": "", 
         "id": "Alpha channel tooltip", 
-        "description": ""
+        "text": "Informaci\u00f3n sobre el canal alfa"
     }, 
     {
         "source": "Premultiplied Alpha", 
-        "text": "Alfa premultiplicada", 
+        "description": "", 
         "id": "Premultiplied Alpha", 
-        "description": ""
+        "text": "Alfa premultiplicada"
     }, 
     {
         "source": "Premultiplied alpha tooltip", 
-        "text": "Herramienta alfa premultiplicada", 
+        "description": "", 
         "id": "Premultiplied alpha tooltip", 
-        "description": ""
+        "text": "Herramienta alfa premultiplicada"
     }, 
     {
         "source": "Mirror Horizontal", 
-        "text": "Espejo horizontal", 
+        "description": "", 
         "id": "Mirror Horizontal", 
-        "description": ""
+        "text": "Espejo horizontal"
     }, 
     {
         "source": "Mirror horizontal tooltip", 
-        "text": "Espejo de herramienta horizontal", 
+        "description": "", 
         "id": "Mirror horizontal tooltip", 
-        "description": ""
+        "text": "Espejo de herramienta horizontal"
     }, 
     {
         "source": "Mirror Vertical", 
-        "text": "Espejo vertical", 
+        "description": "", 
         "id": "Mirror Vertical", 
-        "description": ""
+        "text": "Espejo vertical"
     }, 
     {
         "source": "Mirror vertical tooltip", 
-        "text": "Espejo de herramienta vertical", 
+        "description": "", 
         "id": "Mirror vertical tooltip", 
-        "description": ""
+        "text": "Espejo de herramienta vertical"
     }, 
     {
         "source": "Rotate 0", 
-        "text": "Girar 0", 
+        "description": "", 
         "id": "Rotate 0", 
-        "description": ""
+        "text": "Girar 0"
     }, 
     {
         "source": "Rotate 0 tooltip", 
-        "text": "Rotar 0 tooltip", 
+        "description": "", 
         "id": "Rotate 0 tooltip", 
-        "description": ""
+        "text": "Rotar 0 tooltip"
     }, 
     {
         "source": "Rotate 90", 
-        "text": "Girar 90", 
+        "description": "", 
         "id": "Rotate 90", 
-        "description": ""
+        "text": "Girar 90"
     }, 
     {
         "source": "Rotate 90 tooltip", 
-        "text": "Rotar 90 informaci\u00f3n sobre herramientas", 
+        "description": "", 
         "id": "Rotate 90 tooltip", 
-        "description": ""
+        "text": "Rotar 90 informaci\u00f3n sobre herramientas"
     }, 
     {
         "source": "Rotate 180", 
-        "text": "Girar 180", 
+        "description": "", 
         "id": "Rotate 180", 
-        "description": ""
+        "text": "Girar 180"
     }, 
     {
         "source": "Rotate 180 tooltip", 
-        "text": "Girar 180 tooltip", 
+        "description": "", 
         "id": "Rotate 180 tooltip", 
-        "description": ""
+        "text": "Girar 180 tooltip"
     }, 
     {
         "source": "Rotate 270", 
-        "text": "Girar 270", 
+        "description": "", 
         "id": "Rotate 270", 
-        "description": ""
+        "text": "Girar 270"
     }, 
     {
         "source": "Rotate 270 tooltip", 
-        "text": "Rotar 270 informaci\u00f3n sobre herramientas", 
+        "description": "", 
         "id": "Rotate 270 tooltip", 
-        "description": ""
+        "text": "Rotar 270 informaci\u00f3n sobre herramientas"
     }, 
     {
         "source": "Default Aspect Ratio", 
-        "text": "Relaci\u00f3n de aspecto por defecto", 
+        "description": "", 
         "id": "Default Aspect Ratio", 
-        "description": ""
+        "text": "Relaci\u00f3n de aspecto por defecto"
     }, 
     {
         "source": "Default aspect ratio tooltip", 
-        "text": "Informaci\u00f3n sobre la relaci\u00f3n de aspecto predeterminada", 
+        "description": "", 
         "id": "Default aspect ratio tooltip", 
-        "description": ""
+        "text": "Informaci\u00f3n sobre la relaci\u00f3n de aspecto predeterminada"
     }, 
     {
         "source": "Automatic Aspect Ratio", 
-        "text": "Ratio de aspecto autom\u00e1tico", 
+        "description": "", 
         "id": "Automatic Aspect Ratio", 
-        "description": ""
+        "text": "Ratio de aspecto autom\u00e1tico"
     }, 
     {
         "source": "Automatic aspect ratio tooltip", 
-        "text": "Descripci\u00f3n autom\u00e1tica de la relaci\u00f3n de aspecto", 
+        "description": "", 
         "id": "Automatic aspect ratio tooltip", 
-        "description": ""
+        "text": "Descripci\u00f3n autom\u00e1tica de la relaci\u00f3n de aspecto"
     }, 
     {
         "source": "16:9", 
-        "text": "16: 9", 
+        "description": "", 
         "id": "16:9", 
-        "description": ""
+        "text": "16: 9"
     }, 
     {
         "source": "16:9 aspect ratio tooltip", 
-        "text": "Descripci\u00f3n de la relaci\u00f3n de aspecto 16: 9", 
+        "description": "", 
         "id": "16:9 aspect ratio tooltip", 
-        "description": ""
+        "text": "Descripci\u00f3n de la relaci\u00f3n de aspecto 16: 9"
     }, 
     {
         "source": "1.85", 
-        "text": "1.85", 
+        "description": "", 
         "id": "1.85", 
-        "description": ""
+        "text": "1.85"
     }, 
     {
         "source": "1.85 aspect ratio tooltip", 
-        "text": "1.85 tooltip relaci\u00f3n de aspecto", 
+        "description": "", 
         "id": "1.85 aspect ratio tooltip", 
-        "description": ""
+        "text": "1.85 tooltip relaci\u00f3n de aspecto"
     }, 
     {
         "source": "2.35", 
-        "text": "2,35", 
+        "description": "", 
         "id": "2.35", 
-        "description": ""
+        "text": "2,35"
     }, 
     {
         "source": "2.35 aspect ratio tooltip", 
-        "text": "2.35 tooltip relaci\u00f3n de aspecto", 
+        "description": "", 
         "id": "2.35 aspect ratio tooltip", 
-        "description": ""
+        "text": "2.35 tooltip relaci\u00f3n de aspecto"
     }, 
     {
         "source": "Frame Store", 
-        "text": "Tienda de cuadros", 
+        "description": "", 
         "id": "Frame Store", 
-        "description": ""
+        "text": "Tienda de cuadros"
     }, 
     {
         "source": "Frame store tooltip", 
-        "text": "Informaci\u00f3n sobre el almac\u00e9n de marcos", 
+        "description": "", 
         "id": "Frame store tooltip", 
-        "description": ""
+        "text": "Informaci\u00f3n sobre el almac\u00e9n de marcos"
     }, 
     {
         "source": "Load Frame Store", 
-        "text": "Cargar marco de tienda", 
+        "description": "", 
         "id": "Load Frame Store", 
-        "description": ""
+        "text": "Cargar marco de tienda"
     }, 
     {
         "source": "Load frame store tooltip", 
-        "text": "Descripci\u00f3n de la herramienta de almacenamiento de marco de carga", 
+        "description": "", 
         "id": "Load frame store tooltip", 
-        "description": ""
+        "text": "Descripci\u00f3n de la herramienta de almacenamiento de marco de carga"
     }, 
     {
         "source": "Show timeline PIP", 
-        "text": "Mostrar l\u00ednea de tiempo PIP", 
+        "description": "", 
         "id": "Show timeline PIP", 
-        "description": ""
+        "text": "Mostrar l\u00ednea de tiempo PIP"
     }, 
     {
         "source": "Media popup tooltip", 
-        "text": "Herramienta emergente de medios", 
+        "description": "", 
         "id": "Media popup tooltip", 
-        "description": ""
+        "text": "Herramienta emergente de medios"
     }, 
     {
         "source": "Settings tooltip", 
-        "text": "Herramienta de configuraci\u00f3n", 
+        "description": "", 
         "id": "Settings tooltip", 
-        "description": ""
+        "text": "Herramienta de configuraci\u00f3n"
     }, 
     {
         "source": "Copy", 
-        "text": "Dupdo", 
+        "description": "", 
         "id": "Copy", 
-        "description": ""
+        "text": "Dupdo"
     }, 
     {
         "source": "Reload", 
-        "text": "Recargar", 
+        "description": "", 
         "id": "Reload", 
-        "description": ""
+        "text": "Recargar"
     }, 
     {
         "source": "Clear", 
-        "text": "Claro", 
+        "description": "", 
         "id": "Clear", 
-        "description": ""
+        "text": "Claro"
     }, 
     {
         "source": "Cannot parse the value.", 
-        "text": "No se puede analizar el valor.", 
+        "description": "", 
         "id": "Cannot parse the value.", 
-        "description": ""
+        "text": "No se puede analizar el valor."
     }, 
     {
         "source": "None", 
-        "text": "Ninguna", 
+        "description": "", 
         "id": "None", 
-        "description": ""
+        "text": "Ninguna"
     }, 
     {
         "source": "Fit", 
-        "text": "Ajuste", 
+        "description": "", 
         "id": "Fit", 
-        "description": ""
+        "text": "Ajuste"
     }, 
     {
         "source": "Center", 
-        "text": "Centrar", 
+        "description": "", 
         "id": "Center", 
-        "description": ""
+        "text": "Centrar"
     }, 
     {
         "source": "0", 
-        "text": "0", 
+        "description": "", 
         "id": "0", 
-        "description": ""
+        "text": "0"
     }, 
     {
         "source": "90", 
-        "text": "90", 
+        "description": "", 
         "id": "90", 
-        "description": ""
+        "text": "90"
     }, 
     {
         "source": "180", 
-        "text": "180", 
+        "description": "", 
         "id": "180", 
-        "description": ""
+        "text": "180"
     }, 
     {
         "source": "270", 
-        "text": "270", 
+        "description": "", 
         "id": "270", 
-        "description": ""
+        "text": "270"
     }, 
     {
         "source": "Default", 
-        "text": "Defecto", 
+        "description": "", 
         "id": "Default", 
-        "description": ""
+        "text": "Defecto"
     }, 
     {
         "source": "Auto", 
-        "text": "Auto", 
+        "description": "", 
         "id": "Auto", 
-        "description": ""
+        "text": "Auto"
     }, 
     {
         "source": "Stop", 
-        "text": "Detener", 
+        "description": "", 
         "id": "Stop", 
-        "description": ""
+        "text": "Detener"
     }, 
     {
         "source": "Once", 
-        "text": "Una vez", 
+        "description": "", 
         "id": "Once", 
-        "description": ""
+        "text": "Una vez"
     }, 
     {
         "source": "PingPong", 
-        "text": "PingPong", 
+        "description": "", 
         "id": "PingPong", 
-        "description": ""
+        "text": "PingPong"
     }, 
     {
         "source": "Open", 
-        "text": "Abierto", 
+        "description": "", 
         "id": "Open", 
-        "description": ""
+        "text": "Abierto"
     }, 
     {
         "source": "Open tooltip", 
-        "text": "Abrir informaci\u00f3n sobre herramientas", 
+        "description": "", 
         "id": "Open tooltip", 
-        "description": ""
+        "text": "Abrir informaci\u00f3n sobre herramientas"
     }, 
     {
         "source": "Recent", 
-        "text": "Reciente", 
+        "description": "", 
         "id": "Recent", 
-        "description": ""
+        "text": "Reciente"
     }, 
     {
         "source": "Recent tooltip", 
-        "text": "Informaci\u00f3n sobre herramientas reciente", 
+        "description": "", 
         "id": "Recent tooltip", 
-        "description": ""
+        "text": "Informaci\u00f3n sobre herramientas reciente"
     }, 
     {
         "source": "Reload tooltip", 
-        "text": "Recargar informaci\u00f3n sobre herramientas", 
+        "description": "", 
         "id": "Reload tooltip", 
-        "description": ""
+        "text": "Recargar informaci\u00f3n sobre herramientas"
     }, 
     {
         "source": "Close", 
-        "text": "Cerrar", 
+        "description": "", 
         "id": "Close", 
-        "description": ""
+        "text": "Cerrar"
     }, 
     {
         "source": "Close All", 
-        "text": "Cierra todo", 
+        "description": "", 
         "id": "Close All", 
-        "description": ""
+        "text": "Cierra todo"
     }, 
     {
         "source": "Close all tooltip", 
-        "text": "Cerrar todas las sugerencias", 
+        "description": "", 
         "id": "Close all tooltip", 
-        "description": ""
+        "text": "Cerrar todas las sugerencias"
     }, 
     {
         "source": "Export", 
-        "text": "Exportar", 
+        "description": "", 
         "id": "Export", 
-        "description": ""
+        "text": "Exportar"
     }, 
     {
         "source": "Export tooltip", 
-        "text": "Informaci\u00f3n sobre herramientas de exportaci\u00f3n", 
+        "description": "", 
         "id": "Export tooltip", 
-        "description": ""
+        "text": "Informaci\u00f3n sobre herramientas de exportaci\u00f3n"
     }, 
     {
         "source": "Next tooltip", 
-        "text": "Siguiente informaci\u00f3n sobre herramientas", 
+        "description": "", 
         "id": "Next tooltip", 
-        "description": ""
+        "text": "Siguiente informaci\u00f3n sobre herramientas"
     }, 
     {
         "source": "Prev tooltip", 
-        "text": "Descripci\u00f3n anterior", 
+        "description": "", 
         "id": "Prev tooltip", 
-        "description": ""
+        "text": "Descripci\u00f3n anterior"
     }, 
     {
         "source": "Layers", 
-        "text": "Capas", 
+        "description": "", 
         "id": "Layers", 
-        "description": ""
+        "text": "Capas"
     }, 
     {
         "source": "Layers tooltip", 
-        "text": "Descripci\u00f3n de capas", 
+        "description": "", 
         "id": "Layers tooltip", 
-        "description": ""
+        "text": "Descripci\u00f3n de capas"
     }, 
     {
         "source": "8-Bit Conversion", 
-        "text": "Conversi\u00f3n de 8 bits", 
+        "description": "", 
         "id": "8-Bit Conversion", 
-        "description": ""
+        "text": "Conversi\u00f3n de 8 bits"
     }, 
     {
         "source": "8-bit conversion tooltip", 
-        "text": "Informaci\u00f3n sobre herramientas de conversi\u00f3n de 8 bits", 
+        "description": "", 
         "id": "8-bit conversion tooltip", 
-        "description": ""
+        "text": "Informaci\u00f3n sobre herramientas de conversi\u00f3n de 8 bits"
     }, 
     {
         "source": "Memory Cache", 
-        "text": "Memoria cach\u00e9", 
+        "description": "", 
         "id": "Memory Cache", 
-        "description": ""
+        "text": "Memoria cach\u00e9"
     }, 
     {
         "source": "Memory cache tooltip", 
-        "text": "Informaci\u00f3n sobre la memoria cach\u00e9", 
+        "description": "", 
         "id": "Memory cache tooltip", 
-        "description": ""
+        "text": "Informaci\u00f3n sobre la memoria cach\u00e9"
     }, 
     {
         "source": "Clear Memory Cache", 
-        "text": "Borrar memoria cach\u00e9", 
+        "description": "", 
         "id": "Clear Memory Cache", 
-        "description": ""
+        "text": "Borrar memoria cach\u00e9"
     }, 
     {
         "source": "Clear cache tooltip", 
-        "text": "Borrar la informaci\u00f3n sobre la cach\u00e9", 
+        "description": "", 
         "id": "Clear cache tooltip", 
-        "description": ""
+        "text": "Borrar la informaci\u00f3n sobre la cach\u00e9"
     }, 
     {
         "source": "Exit", 
-        "text": "Salida", 
+        "description": "", 
         "id": "Exit", 
-        "description": ""
+        "text": "Salida"
     }, 
     {
         "source": "Exit tooltip", 
-        "text": "Exit tooltip", 
+        "description": "", 
         "id": "Exit tooltip", 
-        "description": ""
+        "text": "Exit tooltip"
     }, 
     {
         "source": "File", 
-        "text": "Expediente", 
+        "description": "", 
         "id": "File", 
-        "description": ""
+        "text": "Expediente"
     }, 
     {
         "source": "NUX", 
-        "text": "NUX", 
+        "description": "", 
         "id": "NUX", 
-        "description": ""
+        "text": "NUX"
     }, 
     {
         "source": "Enable new-user experience on startup", 
-        "text": "Habilitar la experiencia de nuevo usuario en el inicio", 
+        "description": "", 
         "id": "Enable new-user experience on startup", 
-        "description": ""
+        "text": "Habilitar la experiencia de nuevo usuario en el inicio"
     }, 
     {
         "source": "Color Picker", 
-        "text": "Selector de color", 
+        "description": "", 
         "id": "Color Picker", 
-        "description": ""
+        "text": "Selector de color"
     }, 
     {
         "source": "Background color", 
-        "text": "Color de fondo", 
+        "description": "", 
         "id": "Background color", 
-        "description": ""
+        "text": "Color de fondo"
     }, 
     {
         "source": "User Interface", 
-        "text": "Interfaz de usuario", 
+        "description": "", 
         "id": "User Interface", 
-        "description": ""
+        "text": "Interfaz de usuario"
     }, 
     {
         "source": "General", 
-        "text": "General", 
+        "description": "", 
         "id": "General", 
-        "description": ""
+        "text": "General"
     }, 
     {
         "source": "Automatically hide the user interface", 
-        "text": "Ocultar autom\u00e1ticamente la interfaz de usuario", 
+        "description": "", 
         "id": "Automatically hide the user interface", 
-        "description": ""
+        "text": "Ocultar autom\u00e1ticamente la interfaz de usuario"
     }, 
     {
         "source": "Full Screen", 
-        "text": "Pantalla completa", 
+        "description": "", 
         "id": "Full Screen", 
-        "description": ""
+        "text": "Pantalla completa"
     }, 
     {
         "source": "Full screen tooltip", 
-        "text": "Informaci\u00f3n de pantalla completa", 
+        "description": "", 
         "id": "Full screen tooltip", 
-        "description": ""
+        "text": "Informaci\u00f3n de pantalla completa"
     }, 
     {
         "source": "Maximized", 
-        "text": "Maximizado", 
+        "description": "", 
         "id": "Maximized", 
-        "description": ""
+        "text": "Maximizado"
     }, 
     {
         "source": "Maximized tooltip", 
-        "text": "Informaci\u00f3n sobre herramientas maximizada", 
+        "description": "", 
         "id": "Maximized tooltip", 
-        "description": ""
+        "text": "Informaci\u00f3n sobre herramientas maximizada"
     }, 
     {
         "source": "Window", 
-        "text": "Ventana", 
+        "description": "", 
         "id": "Window", 
-        "description": ""
+        "text": "Ventana"
     }, 
     {
         "source": "FPS", 
-        "text": "FPS", 
+        "description": "", 
         "id": "FPS", 
-        "description": ""
+        "text": "FPS"
     }, 
     {
         "source": "Object count", 
-        "text": "Recuento de objetos", 
+        "description": "", 
         "id": "Object count", 
-        "description": ""
+        "text": "Recuento de objetos"
     }, 
     {
         "source": "Widget count", 
-        "text": "Cuenta de widgets", 
+        "description": "", 
         "id": "Widget count", 
-        "description": ""
+        "text": "Cuenta de widgets"
     }, 
     {
         "source": "Font system glyph cache", 
-        "text": "Sistema de fuentes glifo cach\u00e9", 
+        "description": "", 
         "id": "Font system glyph cache", 
-        "description": ""
+        "text": "Sistema de fuentes glifo cach\u00e9"
     }, 
     {
         "source": "Thumbnail system information cache", 
-        "text": "Cach\u00e9 de informaci\u00f3n del sistema de miniaturas", 
+        "description": "", 
         "id": "Thumbnail system information cache", 
-        "description": ""
+        "text": "Cach\u00e9 de informaci\u00f3n del sistema de miniaturas"
     }, 
     {
         "source": "Thumbnail system image cache", 
-        "text": "Imagen en miniatura del sistema de cach\u00e9", 
+        "description": "", 
         "id": "Thumbnail system image cache", 
-        "description": ""
+        "text": "Imagen en miniatura del sistema de cach\u00e9"
     }, 
     {
         "source": "Icon system cache", 
-        "text": "Sistema de iconos de cach\u00e9", 
+        "description": "", 
         "id": "Icon system cache", 
-        "description": ""
+        "text": "Sistema de iconos de cach\u00e9"
     }, 
     {
         "source": "Texture atlas", 
-        "text": "Atlas de textura", 
+        "description": "", 
         "id": "Texture atlas", 
-        "description": ""
+        "text": "Atlas de textura"
     }, 
     {
         "source": "Dynamic texture count", 
-        "text": "Recuento din\u00e1mico de texturas", 
+        "description": "", 
         "id": "Dynamic texture count", 
-        "description": ""
+        "text": "Recuento din\u00e1mico de texturas"
     }, 
     {
         "source": "VBO size", 
-        "text": "Tama\u00f1o de VBO", 
+        "description": "", 
         "id": "VBO size", 
-        "description": ""
+        "text": "Tama\u00f1o de VBO"
     }, 
     {
         "source": "Video queue", 
-        "text": "Cola de videos", 
+        "description": "", 
         "id": "Video queue", 
-        "description": ""
+        "text": "Cola de videos"
     }, 
     {
         "source": "Audio queue", 
-        "text": "Cola de audio", 
+        "description": "", 
         "id": "Audio queue", 
-        "description": ""
+        "text": "Cola de audio"
     }, 
     {
         "source": "OpenAL queue", 
-        "text": "Cola abierta", 
+        "description": "", 
         "id": "OpenAL queue", 
-        "description": ""
+        "text": "Cola abierta"
     }, 
     {
         "source": "Current time", 
-        "text": "Tiempo actual", 
+        "description": "", 
         "id": "Current time", 
-        "description": ""
+        "text": "Tiempo actual"
     }, 
     {
         "source": "Debugging", 
-        "text": "Depuraci\u00f3n", 
+        "description": "", 
         "id": "Debugging", 
-        "description": ""
+        "text": "Depuraci\u00f3n"
     }, 
     {
         "source": "Render", 
-        "text": "Hacer", 
+        "description": "", 
         "id": "Render", 
-        "description": ""
+        "text": "Hacer"
     }, 
     {
         "source": "Media", 
-        "text": "Medios de comunicaci\u00f3n", 
+        "description": "", 
         "id": "Media", 
-        "description": ""
+        "text": "Medios de comunicaci\u00f3n"
     }, 
     {
         "source": "Magnifier", 
-        "text": "Lupa", 
+        "description": "", 
         "id": "Magnifier", 
-        "description": ""
+        "text": "Lupa"
     }, 
     {
         "source": "Magnifier tooltip", 
-        "text": "Descripci\u00f3n de la lupa", 
+        "description": "", 
         "id": "Magnifier tooltip", 
-        "description": ""
+        "text": "Descripci\u00f3n de la lupa"
     }, 
     {
         "source": "Color picker tooltip", 
-        "text": "Informaci\u00f3n sobre el selector de color", 
+        "description": "", 
         "id": "Color picker tooltip", 
-        "description": ""
+        "text": "Informaci\u00f3n sobre el selector de color"
     }, 
     {
         "source": "Histogram tooltip", 
-        "text": "Descripci\u00f3n del histograma", 
+        "description": "", 
         "id": "Histogram tooltip", 
-        "description": ""
+        "text": "Descripci\u00f3n del histograma"
     }, 
     {
         "source": "Information tooltip", 
-        "text": "Informaci\u00f3n sobre herramientas", 
+        "description": "", 
         "id": "Information tooltip", 
-        "description": ""
+        "text": "Informaci\u00f3n sobre herramientas"
     }, 
     {
         "source": "Debugging tooltip", 
-        "text": "Herramienta de depuraci\u00f3n", 
+        "description": "", 
         "id": "Debugging tooltip", 
-        "description": ""
+        "text": "Herramienta de depuraci\u00f3n"
     }, 
     {
         "source": "Tools", 
-        "text": "Herramientas", 
+        "description": "", 
         "id": "Tools", 
-        "description": ""
+        "text": "Herramientas"
     }, 
     {
         "source": "DJV Imaging", 
-        "text": "DJV Imaging", 
+        "description": "", 
         "id": "About Title", 
-        "description": ""
+        "text": "DJV Imaging"
     }, 
     {
         "source": "Copyright and License", 
-        "text": "Copyright y licencia", 
+        "description": "", 
         "id": "Copyright and License", 
-        "description": ""
+        "text": "Copyright y licencia"
     }, 
     {
         "source": "Contributors", 
-        "text": "Contribuyentes", 
+        "description": "", 
         "id": "Contributors", 
-        "description": ""
+        "text": "Contribuyentes"
     }, 
     {
         "source": "Third Party Software", 
-        "text": "Software de terceros", 
+        "description": "", 
         "id": "Third Party", 
-        "description": ""
+        "text": "Software de terceros"
     }, 
     {
         "source": "Trademarks", 
-        "text": "Marcas comerciales", 
+        "description": "", 
         "id": "Trademarks", 
-        "description": ""
+        "text": "Marcas comerciales"
     }, 
     {
         "source": "Copyright (c) 2004-2019 Darby Johnston. All rights reserved.", 
-        "text": "Derechos de autor (c) 2004-2019 Darby Johnston. Todos los derechos reservados.", 
+        "description": "", 
         "id": "Copyright", 
-        "description": ""
+        "text": "Derechos de autor (c) 2004-2019 Darby Johnston. Todos los derechos reservados."
     }, 
     {
         "source": "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:", 
-        "text": "Se permite la redistribuci\u00f3n y el uso en formas fuente y binaria, con o sin modificaci\u00f3n, siempre que se cumplan las siguientes condiciones:", 
+        "description": "", 
         "id": "License 1", 
-        "description": ""
+        "text": "Se permite la redistribuci\u00f3n y el uso en formas fuente y binaria, con o sin modificaci\u00f3n, siempre que se cumplan las siguientes condiciones:"
     }, 
     {
         "source": "* Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.", 
-        "text": "* Las redistribuciones del c\u00f3digo fuente deben conservar el aviso de copyright anterior, esta lista de condiciones y el siguiente descargo de responsabilidad.", 
+        "description": "", 
         "id": "License 2", 
-        "description": ""
+        "text": "* Las redistribuciones del c\u00f3digo fuente deben conservar el aviso de copyright anterior, esta lista de condiciones y el siguiente descargo de responsabilidad."
     }, 
     {
         "source": "* Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution.", 
-        "text": "* Las redistribuciones en formato binario deben reproducir el aviso de copyright anterior, esta lista de condiciones y el siguiente descargo de responsabilidad en la documentaci\u00f3n y / u otros materiales proporcionados con la distribuci\u00f3n.", 
+        "description": "", 
         "id": "License 3", 
-        "description": ""
+        "text": "* Las redistribuciones en formato binario deben reproducir el aviso de copyright anterior, esta lista de condiciones y el siguiente descargo de responsabilidad en la documentaci\u00f3n y / u otros materiales proporcionados con la distribuci\u00f3n."
     }, 
     {
         "source": "* Neither the names of the copyright holders nor the names of any contributors may be used to endorse or promote products derived from this software without specific prior written permission.", 
-        "text": "* Ni los nombres de los titulares de los derechos de autor ni los nombres de los contribuyentes pueden usarse para respaldar o promocionar productos derivados de este software sin un permiso previo espec\u00edfico por escrito.", 
+        "description": "", 
         "id": "License 4", 
-        "description": ""
+        "text": "* Ni los nombres de los titulares de los derechos de autor ni los nombres de los contribuyentes pueden usarse para respaldar o promocionar productos derivados de este software sin un permiso previo espec\u00edfico por escrito."
     }, 
     {
         "source": "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.", 
-        "text": "ESTE SOFTWARE ES PROPORCIONADO POR LOS PROPIETARIOS Y CONTRIBUYENTES DE LOS DERECHOS DE AUTOR &quot;TAL CUAL&quot; Y CUALQUIER GARANT\u00cdA EXPRESA O IMPL\u00cdCITA, INCLUIDAS, PERO NO LIMITADAS A, LAS GARANT\u00cdAS IMPL\u00cdCITAS DE COMERCIABILIDAD Y ADECUACI\u00d3N PARA UN PROP\u00d3SITO PARTICULAR SON DISPONIBLES EN PROP\u00d3SITO. EN NING\u00daN CASO, EL TITULAR DE LOS DERECHOS DE AUTOR O LOS CONTRIBUYENTES SER\u00c1N RESPONSABLES POR CUALQUIER DA\u00d1O DIRECTO, INDIRECTO, INCIDENTAL, ESPECIAL, EJEMPLAR O CONSECUENTE (INCLUYENDO, PERO NO EST\u00c1 LIMITADO A, PROCESO DE BIENES O SERVICIOS SUBSTITUIDOS; O INTERRUPCI\u00d3N COMERCIAL) SIEMPRE CAUSADA Y EN CUALQUIER TEOR\u00cdA DE RESPONSABILIDAD, YA SEA CONTRATO, ESTE ESTRICTO DE RESPONSABILIDAD O CORTE (INCLUYENDO NEGLIGENCIA U OTRA MANERA) DERIVADO DE CUALQUIER MANERA FUERA DE LA UTILIZACI\u00d3N DE ESTE SOFTWARE, INCLUSO SI SE AVANZA DE LA POSIBILIDAD DE LA POSTALIZACI\u00d3N DE LA SE\u00d1AL", 
+        "description": "", 
         "id": "License 5", 
-        "description": ""
+        "text": "ESTE SOFTWARE ES PROPORCIONADO POR LOS PROPIETARIOS Y CONTRIBUYENTES DE LOS DERECHOS DE AUTOR &quot;TAL CUAL&quot; Y CUALQUIER GARANT\u00cdA EXPRESA O IMPL\u00cdCITA, INCLUIDAS, PERO NO LIMITADAS A, LAS GARANT\u00cdAS IMPL\u00cdCITAS DE COMERCIABILIDAD Y ADECUACI\u00d3N PARA UN PROP\u00d3SITO PARTICULAR SON DISPONIBLES EN PROP\u00d3SITO. EN NING\u00daN CASO, EL TITULAR DE LOS DERECHOS DE AUTOR O LOS CONTRIBUYENTES SER\u00c1N RESPONSABLES POR CUALQUIER DA\u00d1O DIRECTO, INDIRECTO, INCIDENTAL, ESPECIAL, EJEMPLAR O CONSECUENTE (INCLUYENDO, PERO NO EST\u00c1 LIMITADO A, PROCESO DE BIENES O SERVICIOS SUBSTITUIDOS; O INTERRUPCI\u00d3N COMERCIAL) SIEMPRE CAUSADA Y EN CUALQUIER TEOR\u00cdA DE RESPONSABILIDAD, YA SEA CONTRATO, ESTE ESTRICTO DE RESPONSABILIDAD O CORTE (INCLUYENDO NEGLIGENCIA U OTRA MANERA) DERIVADO DE CUALQUIER MANERA FUERA DE LA UTILIZACI\u00d3N DE ESTE SOFTWARE, INCLUSO SI SE AVANZA DE LA POSIBILIDAD DE LA POSTALIZACI\u00d3N DE LA SE\u00d1AL"
     }, 
     {
         "source": "Portions of this software are copyright (in alphabetical order):", 
-        "text": "Algunas partes de este software tienen derechos de autor (en orden alfab\u00e9tico):", 
+        "description": "", 
         "id": "Contributors Text", 
-        "description": ""
+        "text": "Algunas partes de este software tienen derechos de autor (en orden alfab\u00e9tico):"
     }, 
     {
         "source": "* Copyright (c) 2004-2019 Darby Johnston. All rights reserved.", 
-        "text": "* Derechos de autor (c) 2004-2019 Darby Johnston. Todos los derechos reservados.", 
+        "description": "", 
         "id": "Contributors Darby Johnston", 
-        "description": ""
+        "text": "* Derechos de autor (c) 2004-2019 Darby Johnston. Todos los derechos reservados."
     }, 
     {
         "source": "* Copyright (c) 2008-2009 Mikael Sundell. All rights reserved.", 
-        "text": "* Copyright (c) 2008-2009 Mikael Sundell. Todos los derechos reservados.", 
+        "description": "", 
         "id": "Contributors Mikael Sundell", 
-        "description": ""
+        "text": "* Copyright (c) 2008-2009 Mikael Sundell. Todos los derechos reservados."
     }, 
     {
         "source": "This software is based in part on the works of (in alphabetical order):", 
-        "text": "Este software se basa en parte en los trabajos de (en orden alfab\u00e9tico):", 
+        "description": "", 
         "id": "Third Party Text", 
-        "description": ""
+        "text": "Este software se basa en parte en los trabajos de (en orden alfab\u00e9tico):"
     }, 
     {
         "source": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium. All rights reserved.", 
-        "text": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium. Todos los derechos reservados.", 
+        "description": "", 
         "id": "Third Party CMake", 
-        "description": ""
+        "text": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium. Todos los derechos reservados."
     }, 
     {
         "source": "* dr_libs, http://github.com/mackron/dr_libs, David Reid", 
-        "text": "* dr_libs, http://github.com/mackron/dr_libs, David Reid", 
+        "description": "", 
         "id": "Third Party dr_libs", 
-        "description": ""
+        "text": "* dr_libs, http://github.com/mackron/dr_libs, David Reid"
     }, 
     {
         "source": "* FFMpeg, http://www.ffmpeg.org, Licensed under the LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html", 
-        "text": "* FFMpeg, http://www.ffmpeg.org, Licenciado bajo LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html", 
+        "description": "", 
         "id": "Third Party FFMpeg", 
-        "description": ""
+        "text": "* FFMpeg, http://www.ffmpeg.org, Licenciado bajo LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html"
     }, 
     {
         "source": "* FreeType, http://www.freetype.org, Copyright (c) 2018, The FreeType Project", 
-        "text": "* FreeType, http://www.freetype.org, Copyright (c) 2018, The FreeType Project", 
+        "description": "", 
         "id": "Third Party FreeType", 
-        "description": ""
+        "text": "* FreeType, http://www.freetype.org, Copyright (c) 2018, The FreeType Project"
     }, 
     {
         "source": "* GLFW, http://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla L\u00f6wy <elmindreda@glfw.org>", 
-        "text": "* GLFW, http://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla L\u00f6wy <elmindreda@glfw.org>", 
+        "description": "", 
         "id": "Third Party GLFW", 
-        "description": ""
+        "text": "* GLFW, http://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla L\u00f6wy <elmindreda@glfw.org>"
     }, 
     {
         "source": "* GLM, http://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation", 
-        "text": "* GLM, http://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 Creaci\u00f3n de G-Truc", 
+        "description": "", 
         "id": "Third Party GLM", 
-        "description": ""
+        "text": "* GLM, http://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 Creaci\u00f3n de G-Truc"
     }, 
     {
         "source": "* glad, http://github.com/Dav1dde/glad, Copyright (c) 2013-2018 David Herberth", 
-        "text": "* contento, http://github.com/Dav1dde/glad, Copyright (c) 2013-2018 David Herberth", 
+        "description": "", 
         "id": "Third Party glad", 
-        "description": ""
+        "text": "* contento, http://github.com/Dav1dde/glad, Copyright (c) 2013-2018 David Herberth"
     }, 
     {
         "source": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding", 
-        "text": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding", 
+        "description": "", 
         "id": "Third Party libjpeg", 
-        "description": ""
+        "text": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding"
     }, 
     {
         "source": "* libjpeg-turbo, http://libjpeg-turbo.org, Copyright (C)2009-2019 D. R. Commander. All Rights Reserved. Copyright (C)2015 Viktor Szathm\u00e1ry. All Rights Reserved.", 
-        "text": "* libjpeg-turbo, http://libjpeg-turbo.org, Copyright (C) 2009-2019 DR Commander. Todos los derechos reservados. Derechos de autor (C) 2015 Viktor Szathm\u00e1ry. Todos los derechos reservados.", 
+        "description": "", 
         "id": "Third Party libjpeg-turbo", 
-        "description": ""
+        "text": "* libjpeg-turbo, http://libjpeg-turbo.org, Copyright (C) 2009-2019 DR Commander. Todos los derechos reservados. Derechos de autor (C) 2015 Viktor Szathm\u00e1ry. Todos los derechos reservados."
     }, 
     {
         "source": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson", 
-        "text": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson", 
+        "description": "", 
         "id": "Third Party libpng", 
-        "description": ""
+        "text": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson"
     }, 
     {
         "source": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc", 
-        "text": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc", 
+        "description": "", 
         "id": "Third Party libtiff", 
-        "description": ""
+        "text": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc"
     }, 
     {
         "source": "* OpenAL, http://www.openal.org, Copyright (C) 1999-2000 by Loki Software", 
-        "text": "* OpenAL, http://www.openal.org, Copyright (C) 1999-2000 por Loki Software", 
+        "description": "", 
         "id": "Third Party OpenAL", 
-        "description": ""
+        "text": "* OpenAL, http://www.openal.org, Copyright (C) 1999-2000 por Loki Software"
     }, 
     {
         "source": "* OpenColorIO, http://opencolorio.org, Copyright (c) 2003-2010 Sony Pictures Imageworks Inc., et al. All rights reserved.", 
-        "text": "* OpenColorIO, http://opencolorio.org, Copyright (c) 2003-2010 Sony Pictures Imageworks Inc., et al. Todos los derechos reservados.", 
+        "description": "", 
         "id": "Third Party OpenColorIO", 
-        "description": ""
+        "text": "* OpenColorIO, http://opencolorio.org, Copyright (c) 2003-2010 Sony Pictures Imageworks Inc., et al. Todos los derechos reservados."
     }, 
     {
         "source": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, a division of Lucasfilm Entertainment Company Ltd.", 
-        "text": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, una divisi\u00f3n de Lucasfilm Entertainment Company Ltd.", 
+        "description": "", 
         "id": "Third Party OpenEXR", 
-        "description": ""
+        "text": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, una divisi\u00f3n de Lucasfilm Entertainment Company Ltd."
     }, 
     {
         "source": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler", 
-        "text": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly y Mark Adler", 
+        "description": "", 
         "id": "Third Party zlib", 
-        "description": ""
+        "text": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly y Mark Adler"
     }, 
     {
         "source": "Trademarks named in the documentation (in alphabetical order):", 
-        "text": "Marcas registradas nombradas en la documentaci\u00f3n (en orden alfab\u00e9tico):", 
+        "description": "", 
         "id": "Trademarks Text", 
-        "description": ""
+        "text": "Marcas registradas nombradas en la documentaci\u00f3n (en orden alfab\u00e9tico):"
     }, 
     {
         "source": "* Apple, OS X, ProRes, and QuickTime are registered trademarks of Apple, Inc.", 
-        "text": "* Apple, OS X, ProRes y QuickTime son marcas comerciales registradas de Apple, Inc.", 
+        "description": "", 
         "id": "Trademarks Apple", 
-        "description": ""
+        "text": "* Apple, OS X, ProRes y QuickTime son marcas comerciales registradas de Apple, Inc."
     }, 
     {
         "source": "* AMD and ATI are registered trademarks of Advanced Micro Devices, Inc.", 
-        "text": "* AMD y ATI son marcas registradas de Advanced Micro Devices, Inc.", 
+        "description": "", 
         "id": "Trademarks AMD", 
-        "description": ""
+        "text": "* AMD y ATI son marcas registradas de Advanced Micro Devices, Inc."
     }, 
     {
         "source": "* Autodesk, Inferno, Maya, Softimage, and XSI are registered trademarks of Autodesk, Inc.", 
-        "text": "* Autodesk, Inferno, Maya, Softimage y XSI son marcas registradas de Autodesk, Inc.", 
+        "description": "", 
         "id": "Trademarks Autodesk", 
-        "description": ""
+        "text": "* Autodesk, Inferno, Maya, Softimage y XSI son marcas registradas de Autodesk, Inc."
     }, 
     {
         "source": "* Debian is a registered trademark of Software in the Public Interest, Inc.", 
-        "text": "* Debian es una marca registrada de Software en Public Interest, Inc.", 
+        "description": "", 
         "id": "Trademarks Debian", 
-        "description": ""
+        "text": "* Debian es una marca registrada de Software en Public Interest, Inc."
     }, 
     {
         "source": "* FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project", 
-        "text": "* FFmpeg es una marca comercial de Fabrice Bellard, creador del proyecto FFmpeg", 
+        "description": "", 
         "id": "Trademarks FFmpeg", 
-        "description": ""
+        "text": "* FFmpeg es una marca comercial de Fabrice Bellard, creador del proyecto FFmpeg"
     }, 
     {
         "source": "* FreeBSD is a registered trademark of The FreeBSD Foundation", 
-        "text": "* FreeBSD es una marca registrada de The FreeBSD Foundation", 
+        "description": "", 
         "id": "Trademarks FreeBSD", 
-        "description": ""
+        "text": "* FreeBSD es una marca registrada de The FreeBSD Foundation"
     }, 
     {
         "source": "* Intel is a registered trademark of Intel Corporation", 
-        "text": "* Intel es una marca registrada de Intel Corporation.", 
+        "description": "", 
         "id": "Trademarks Intel", 
-        "description": ""
+        "text": "* Intel es una marca registrada de Intel Corporation."
     }, 
     {
         "source": "* Industrial Light and Magic and ILM are registered trademarks of Lucasfilm Ltd.", 
-        "text": "* Industrial Light and Magic e ILM son marcas registradas de Lucasfilm Ltd.", 
+        "description": "", 
         "id": "Trademarks Lucasfilm", 
-        "description": ""
+        "text": "* Industrial Light and Magic e ILM son marcas registradas de Lucasfilm Ltd."
     }, 
     {
         "source": "* Kodak and Cineon are a registered trademarks of the Eastman Kodak Company", 
-        "text": "* Kodak y Cineon son marcas comerciales registradas de Eastman Kodak Company", 
+        "description": "", 
         "id": "Trademarks Kodak", 
-        "description": ""
+        "text": "* Kodak y Cineon son marcas comerciales registradas de Eastman Kodak Company"
     }, 
     {
         "source": "* Linux is a registered trademark of Linus Torvalds", 
-        "text": "* Linux es una marca registrada de Linus Torvalds.", 
+        "description": "", 
         "id": "Trademarks Linux", 
-        "description": ""
+        "text": "* Linux es una marca registrada de Linus Torvalds."
     }, 
     {
         "source": "* Microsoft and Microsoft Windows are registered trademarks of Microsoft, Inc.", 
-        "text": "* Microsoft y Microsoft Windows son marcas registradas de Microsoft, Inc.", 
+        "description": "", 
         "id": "Trademarks Microsoft", 
-        "description": ""
+        "text": "* Microsoft y Microsoft Windows son marcas registradas de Microsoft, Inc."
     }, 
     {
         "source": "* MIPS is a registered trademark of MIPS Technologies, Inc.", 
-        "text": "* MIPS es una marca registrada de MIPS Technologies, Inc.", 
+        "description": "", 
         "id": "Trademarks MIPS", 
-        "description": ""
+        "text": "* MIPS es una marca registrada de MIPS Technologies, Inc."
     }, 
     {
         "source": "* NVIDIA is a registered trademark of NVIDIA Corporation", 
-        "text": "* NVIDIA es una marca registrada de NVIDIA Corporation", 
+        "description": "", 
         "id": "Trademarks NVIDIA", 
-        "description": ""
+        "text": "* NVIDIA es una marca registrada de NVIDIA Corporation"
     }, 
     {
         "source": "* Red Hat and Fedora are registered trademarks of Red Hat, Inc.", 
-        "text": "* Red Hat y Fedora son marcas registradas de Red Hat, Inc.", 
+        "description": "", 
         "id": "Trademarks Red Hat", 
-        "description": ""
+        "text": "* Red Hat y Fedora son marcas registradas de Red Hat, Inc."
     }, 
     {
         "source": "* Silicon Graphics, SGI, IRIX, and OpenGL are registered trademarks of Silicon Graphics International Corp.", 
-        "text": "* Silicon Graphics, SGI, IRIX y OpenGL son marcas comerciales registradas de Silicon Graphics International Corp.", 
+        "description": "", 
         "id": "Trademarks SGI", 
-        "description": ""
+        "text": "* Silicon Graphics, SGI, IRIX y OpenGL son marcas comerciales registradas de Silicon Graphics International Corp."
     }, 
     {
         "source": "* SMPTE is a registered trademark of the Society of Motion Picture and Television Engineers", 
-        "text": "* SMPTE es una marca registrada de la Society of Motion Picture and Television Engineers", 
+        "description": "", 
         "id": "Trademarks SMPTE", 
-        "description": ""
+        "text": "* SMPTE es una marca registrada de la Society of Motion Picture and Television Engineers"
     }, 
     {
         "source": "* SourceForge.net is a registered trademark of VA Software Corporation", 
-        "text": "* SourceForge.net es una marca registrada de VA Software Corporation", 
+        "description": "", 
         "id": "Trademarks SourceForge", 
-        "description": ""
+        "text": "* SourceForge.net es una marca registrada de VA Software Corporation"
     }, 
     {
         "source": "* SuSE is a registered trademark of Novell, Inc.", 
-        "text": "* SuSE es una marca registrada de Novell, Inc.", 
+        "description": "", 
         "id": "Trademarks SuSE", 
-        "description": ""
+        "text": "* SuSE es una marca registrada de Novell, Inc."
     }, 
     {
         "source": "* Ubuntu is a registered trademark of Canonical Ltd.", 
-        "text": "* Ubuntu es una marca registrada de Canonical Ltd.", 
+        "description": "", 
         "id": "Trademarks Ubuntu", 
-        "description": ""
+        "text": "* Ubuntu es una marca registrada de Canonical Ltd."
     }, 
     {
         "source": "* UNIX is a registered trademark of The Open Group", 
-        "text": "* UNIX es una marca registrada de The Open Group", 
+        "description": "", 
         "id": "Trademarks UNIX", 
-        "description": ""
+        "text": "* UNIX es una marca registrada de The Open Group"
     }, 
     {
         "source": "All other products named in the documentation are trademarks of their respective owners.", 
-        "text": "Todos los dem\u00e1s productos mencionados en la documentaci\u00f3n son marcas comerciales de sus respectivos propietarios.", 
+        "description": "", 
         "id": "Trademarks End", 
-        "description": ""
+        "text": "Todos los dem\u00e1s productos mencionados en la documentaci\u00f3n son marcas comerciales de sus respectivos propietarios."
     }, 
     {
         "source": "Made in Berkeley, CA, USA", 
-        "text": "Hecho en Berkeley, CA, EE.UU.", 
+        "description": "", 
         "id": "Made In", 
-        "description": ""
+        "text": "Hecho en Berkeley, CA, EE.UU."
     }, 
     {
         "source": "Lock Color Type", 
-        "text": "Tipo de color de bloqueo", 
+        "description": "", 
         "id": "Lock Color Type", 
-        "description": ""
+        "text": "Tipo de color de bloqueo"
     }, 
     {
         "source": "Color picker lock color type tooltip", 
-        "text": "Selector de color tipo de herramienta de bloqueo de color", 
+        "description": "", 
         "id": "Color picker lock color type tooltip", 
-        "description": ""
+        "text": "Selector de color tipo de herramienta de bloqueo de color"
     }, 
     {
         "source": "Enable Color Profile", 
-        "text": "Habilitar perfil de color", 
+        "description": "", 
         "id": "Enable Color Profile", 
-        "description": ""
+        "text": "Habilitar perfil de color"
     }, 
     {
         "source": "Color picker enable color profile tooltip", 
-        "text": "Selector de color habilitar la descripci\u00f3n del perfil de color", 
+        "description": "", 
         "id": "Color picker enable color profile tooltip", 
-        "description": ""
+        "text": "Selector de color habilitar la descripci\u00f3n del perfil de color"
     }, 
     {
         "source": "Enable Display Profile", 
-        "text": "Habilitar perfil de visualizaci\u00f3n", 
+        "description": "", 
         "id": "Enable Display Profile", 
-        "description": ""
+        "text": "Habilitar perfil de visualizaci\u00f3n"
     }, 
     {
         "source": "Color picker enable display profile tooltip", 
-        "text": "Selector de color habilitar la descripci\u00f3n del perfil de visualizaci\u00f3n", 
+        "description": "", 
         "id": "Color picker enable display profile tooltip", 
-        "description": ""
+        "text": "Selector de color habilitar la descripci\u00f3n del perfil de visualizaci\u00f3n"
     }, 
     {
         "source": "RGB", 
-        "text": "RGB", 
+        "description": "", 
         "id": "RGB", 
-        "description": ""
+        "text": "RGB"
     }, 
     {
         "source": "HSV", 
-        "text": "HSV", 
+        "description": "", 
         "id": "HSV", 
-        "description": ""
+        "text": "HSV"
     }, 
     {
         "source": "Color picker sample size tooltip", 
-        "text": "Sugerencia de tama\u00f1o de muestra del selector de color", 
+        "description": "", 
         "id": "Color picker sample size tooltip", 
-        "description": ""
+        "text": "Sugerencia de tama\u00f1o de muestra del selector de color"
     }, 
     {
         "source": "Left", 
-        "text": "Izquierda", 
+        "description": "", 
         "id": "Left", 
-        "description": ""
+        "text": "Izquierda"
     }, 
     {
         "source": "Left tooltip", 
-        "text": "Descripci\u00f3n de la izquierda", 
+        "description": "", 
         "id": "Left tooltip", 
-        "description": ""
+        "text": "Descripci\u00f3n de la izquierda"
     }, 
     {
         "source": "Right", 
-        "text": "Derecha", 
+        "description": "", 
         "id": "Right", 
-        "description": ""
+        "text": "Derecha"
     }, 
     {
         "source": "Right tooltip", 
-        "text": "Tooltip derecho", 
+        "description": "", 
         "id": "Right tooltip", 
-        "description": ""
+        "text": "Tooltip derecho"
     }, 
     {
         "source": "Up", 
-        "text": "Arriba", 
+        "description": "", 
         "id": "Up", 
-        "description": ""
+        "text": "Arriba"
     }, 
     {
         "source": "Up tooltip", 
-        "text": "Subir informaci\u00f3n sobre herramientas", 
+        "description": "", 
         "id": "Up tooltip", 
-        "description": ""
+        "text": "Subir informaci\u00f3n sobre herramientas"
     }, 
     {
         "source": "Down", 
-        "text": "Abajo", 
+        "description": "", 
         "id": "Down", 
-        "description": ""
+        "text": "Abajo"
     }, 
     {
         "source": "Down tooltip", 
-        "text": "Abajo informaci\u00f3n sobre herramientas", 
+        "description": "", 
         "id": "Down tooltip", 
-        "description": ""
+        "text": "Abajo informaci\u00f3n sobre herramientas"
     }, 
     {
         "source": "North West", 
-        "text": "noroeste", 
+        "description": "", 
         "id": "North West", 
-        "description": ""
+        "text": "noroeste"
     }, 
     {
         "source": "North west tooltip", 
-        "text": "Informaci\u00f3n sobre herramientas del noroeste", 
+        "description": "", 
         "id": "North west tooltip", 
-        "description": ""
+        "text": "Informaci\u00f3n sobre herramientas del noroeste"
     }, 
     {
         "source": "North East", 
-        "text": "Noreste", 
+        "description": "", 
         "id": "North East", 
-        "description": ""
+        "text": "Noreste"
     }, 
     {
         "source": "North east tooltip", 
-        "text": "Informaci\u00f3n sobre las herramientas del noreste", 
+        "description": "", 
         "id": "North east tooltip", 
-        "description": ""
+        "text": "Informaci\u00f3n sobre las herramientas del noreste"
     }, 
     {
         "source": "South east", 
-        "text": "Sureste", 
+        "description": "", 
         "id": "South east", 
-        "description": ""
+        "text": "Sureste"
     }, 
     {
         "source": "South east tooltip", 
-        "text": "Tooltip Sureste", 
+        "description": "", 
         "id": "South east tooltip", 
-        "description": ""
+        "text": "Tooltip Sureste"
     }, 
     {
         "source": "South West", 
-        "text": "Sur oeste", 
+        "description": "", 
         "id": "South West", 
-        "description": ""
+        "text": "Sur oeste"
     }, 
     {
         "source": "South west tooltip", 
-        "text": "Informaci\u00f3n sobre herramientas del suroeste", 
+        "description": "", 
         "id": "South west tooltip", 
-        "description": ""
+        "text": "Informaci\u00f3n sobre herramientas del suroeste"
     }, 
     {
         "source": "Zoom In", 
-        "text": "Acercarse", 
+        "description": "", 
         "id": "Zoom In", 
-        "description": ""
+        "text": "Acercarse"
     }, 
     {
         "source": "Zoom in tooltip", 
-        "text": "Ampliar la informaci\u00f3n sobre herramientas", 
+        "description": "", 
         "id": "Zoom in tooltip", 
-        "description": ""
+        "text": "Ampliar la informaci\u00f3n sobre herramientas"
     }, 
     {
         "source": "Zoom Out", 
-        "text": "Disminuir el zoom", 
+        "description": "", 
         "id": "Zoom Out", 
-        "description": ""
+        "text": "Disminuir el zoom"
     }, 
     {
         "source": "Zoom out tooltip", 
-        "text": "Reducir la informaci\u00f3n sobre herramientas", 
+        "description": "", 
         "id": "Zoom out tooltip", 
-        "description": ""
+        "text": "Reducir la informaci\u00f3n sobre herramientas"
     }, 
     {
         "source": "Fit To Image", 
-        "text": "Ajustar a la imagen", 
+        "description": "", 
         "id": "Fit To Image", 
-        "description": ""
+        "text": "Ajustar a la imagen"
     }, 
     {
         "source": "Fit to image tooltip", 
-        "text": "Ajustar a la descripci\u00f3n de la imagen", 
+        "description": "", 
         "id": "Fit to image tooltip", 
-        "description": ""
+        "text": "Ajustar a la descripci\u00f3n de la imagen"
     }, 
     {
         "source": "Center image tooltip", 
-        "text": "Herramienta de imagen del centro", 
+        "description": "", 
         "id": "Center image tooltip", 
-        "description": ""
+        "text": "Herramienta de imagen del centro"
     }, 
     {
         "source": "Lock Fit To Image", 
-        "text": "Ajuste de bloqueo a la imagen", 
+        "description": "", 
         "id": "Lock Fit To Image", 
-        "description": ""
+        "text": "Ajuste de bloqueo a la imagen"
     }, 
     {
         "source": "Lock fit to image tooltip", 
-        "text": "Bloqueo de ajuste a la descripci\u00f3n de la imagen", 
+        "description": "", 
         "id": "Lock fit to image tooltip", 
-        "description": ""
+        "text": "Bloqueo de ajuste a la descripci\u00f3n de la imagen"
     }, 
     {
         "source": "Lock Center", 
-        "text": "Centro de bloqueo", 
+        "description": "", 
         "id": "Lock Center", 
-        "description": ""
+        "text": "Centro de bloqueo"
     }, 
     {
         "source": "Lock center image tooltip", 
-        "text": "Herramienta de bloqueo de imagen central", 
+        "description": "", 
         "id": "Lock center image tooltip", 
-        "description": ""
+        "text": "Herramienta de bloqueo de imagen central"
     }, 
     {
         "source": "Grid", 
-        "text": "Cuadr\u00edcula", 
+        "description": "", 
         "id": "Grid", 
-        "description": ""
+        "text": "Cuadr\u00edcula"
     }, 
     {
         "source": "Grid tooltip", 
-        "text": "Informaci\u00f3n sobre la red", 
+        "description": "", 
         "id": "Grid tooltip", 
-        "description": ""
+        "text": "Informaci\u00f3n sobre la red"
     }, 
     {
         "source": "HUD", 
-        "text": "HUD", 
+        "description": "", 
         "id": "HUD", 
-        "description": ""
+        "text": "HUD"
     }, 
     {
         "source": "HUD tooltip", 
-        "text": "Informaci\u00f3n sobre herramientas de HUD", 
+        "description": "", 
         "id": "HUD tooltip", 
-        "description": ""
+        "text": "Informaci\u00f3n sobre herramientas de HUD"
     }, 
     {
         "source": "View", 
-        "text": "Ver", 
+        "description": "", 
         "id": "View", 
-        "description": ""
+        "text": "Ver"
     }, 
     {
         "source": "Maximize tooltip", 
-        "text": "Maximizar informaci\u00f3n sobre herramientas", 
+        "description": "", 
         "id": "Maximize tooltip", 
-        "description": ""
+        "text": "Maximizar informaci\u00f3n sobre herramientas"
     }, 
     {
         "source": "Speed tooltip", 
-        "text": "Descripci\u00f3n de velocidad", 
+        "description": "", 
         "id": "Speed tooltip", 
-        "description": ""
+        "text": "Descripci\u00f3n de velocidad"
     }, 
     {
         "source": "Current time tooltip", 
-        "text": "Informaci\u00f3n sobre el tiempo actual", 
+        "description": "", 
         "id": "Current time tooltip", 
-        "description": ""
+        "text": "Informaci\u00f3n sobre el tiempo actual"
     }, 
     {
         "source": "Duration tooltip", 
-        "text": "Herramienta de duraci\u00f3n", 
+        "description": "", 
         "id": "Duration tooltip", 
-        "description": ""
+        "text": "Herramienta de duraci\u00f3n"
     }, 
     {
         "source": "Audio popup tooltip", 
-        "text": "Herramienta emergente de audio", 
+        "description": "", 
         "id": "Audio popup tooltip", 
-        "description": ""
+        "text": "Herramienta emergente de audio"
     }, 
     {
         "source": "Volume tooltip", 
-        "text": "Informaci\u00f3n sobre el volumen", 
+        "description": "", 
         "id": "Volume tooltip", 
-        "description": ""
+        "text": "Informaci\u00f3n sobre el volumen"
     }, 
     {
         "source": "Magnifier enable color profile tooltip", 
-        "text": "Ampliador habilitar la descripci\u00f3n del perfil de color.", 
+        "description": "", 
         "id": "Magnifier enable color profile tooltip", 
-        "description": ""
+        "text": "Ampliador habilitar la descripci\u00f3n del perfil de color."
     }, 
     {
         "source": "Magnifier enable display profile tooltip", 
-        "text": "Ampliador habilitar la descripci\u00f3n del perfil de visualizaci\u00f3n", 
+        "description": "", 
         "id": "Magnifier enable display profile tooltip", 
-        "description": ""
+        "text": "Ampliador habilitar la descripci\u00f3n del perfil de visualizaci\u00f3n"
     }, 
     {
         "source": "Magnifier zoom in tooltip", 
-        "text": "Ampliaci\u00f3n de la lupa en informaci\u00f3n sobre herramientas", 
+        "description": "", 
         "id": "Magnifier zoom in tooltip", 
-        "description": ""
+        "text": "Ampliaci\u00f3n de la lupa en informaci\u00f3n sobre herramientas"
     }, 
     {
         "source": "Magnifier zoom out tooltip", 
-        "text": "Ampliaci\u00f3n de la lupa de informaci\u00f3n sobre herramientas", 
+        "description": "", 
         "id": "Magnifier zoom out tooltip", 
-        "description": ""
+        "text": "Ampliaci\u00f3n de la lupa de informaci\u00f3n sobre herramientas"
     }, 
     {
         "source": "cannot create OpenAL source", 
-        "text": "no se puede crear una fuente OpenAL", 
+        "description": "", 
         "id": "cannot create OpenAL source", 
-        "description": ""
+        "text": "no se puede crear una fuente OpenAL"
     }, 
     {
         "source": "cannot create OpenAL buffers", 
-        "text": "no se pueden crear buffers de OpenAL", 
+        "description": "", 
         "id": "cannot create OpenAL buffers", 
-        "description": ""
+        "text": "no se pueden crear buffers de OpenAL"
     }, 
     {
         "source": "cannot open", 
-        "text": "no puedo abrir", 
+        "description": "", 
         "id": "cannot open", 
+        "text": "no puedo abrir"
+    }, 
+    {
+        "source": "Hover", 
+        "text": "Flotar", 
+        "id": "Hover", 
+        "description": ""
+    }, 
+    {
+        "source": "Grab", 
+        "text": "Agarrar", 
+        "id": "Grab", 
+        "description": ""
+    }, 
+    {
+        "source": "Key grab", 
+        "text": "Agarre clave", 
+        "id": "Key grab", 
+        "description": ""
+    }, 
+    {
+        "source": "Debug", 
+        "text": "Depurar", 
+        "id": "Debug", 
+        "description": ""
+    }, 
+    {
+        "source": "Debug Widget", 
+        "text": "Widget de depuraci\u00f3n", 
+        "id": "Debug Widget", 
+        "description": ""
+    }, 
+    {
+        "source": "Debug widget tooltip", 
+        "text": "Descripci\u00f3n del widget de depuraci\u00f3n", 
+        "id": "Debug widget tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Color Space", 
+        "text": "Espacio de color", 
+        "id": "Color Space", 
+        "description": ""
+    }, 
+    {
+        "source": "(empty)", 
+        "text": "(vac\u00edo)", 
+        "id": "(empty)", 
+        "description": ""
+    }, 
+    {
+        "source": "Input:", 
+        "text": "Entrada:", 
+        "id": "Input:", 
+        "description": ""
+    }, 
+    {
+        "source": "Display:", 
+        "text": "Monitor:", 
+        "id": "Display:", 
+        "description": ""
+    }, 
+    {
+        "source": "View:", 
+        "text": "Ver:", 
+        "id": "View:", 
+        "description": ""
+    }, 
+    {
+        "source": "Aspect Ratio", 
+        "text": "Relaci\u00f3n de aspecto", 
+        "id": "Aspect Ratio", 
+        "description": ""
+    }, 
+    {
+        "source": "Color Space Widget", 
+        "text": "Widget de espacio de color", 
+        "id": "Color Space Widget", 
+        "description": ""
+    }, 
+    {
+        "source": "Color space widget tooltip", 
+        "text": "Descripci\u00f3n del widget de espacio de color", 
+        "id": "Color space widget tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Pan View", 
+        "text": "Vista panor\u00e1mica", 
+        "id": "Pan View", 
+        "description": ""
+    }, 
+    {
+        "source": "Pan view tooltip", 
+        "text": "Descripci\u00f3n de la vista panor\u00e1mica", 
+        "id": "Pan view tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Layers Widget", 
+        "text": "Widget de capas", 
+        "id": "Layers Widget", 
+        "description": ""
+    }, 
+    {
+        "source": "Layers widget tooltip", 
+        "text": "Widget de capas tooltip", 
+        "id": "Layers widget tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Next layer", 
+        "text": "Siguiente capa", 
+        "id": "Next layer", 
+        "description": ""
+    }, 
+    {
+        "source": "Next layer tooltip", 
+        "text": "Descripci\u00f3n de la capa siguiente", 
+        "id": "Next layer tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Previous Layer", 
+        "text": "Capa Anterior", 
+        "id": "Previous Layer", 
+        "description": ""
+    }, 
+    {
+        "source": "Previous layer tooltip", 
+        "text": "Descripci\u00f3n de la capa anterior", 
+        "id": "Previous layer tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Background Color", 
+        "text": "Color de fondo", 
+        "id": "Background Color", 
+        "description": ""
+    }, 
+    {
+        "source": "Auto hide tooltip", 
+        "text": "Ocultar autom\u00e1ticamente informaci\u00f3n sobre herramientas", 
+        "id": "Auto hide tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "File name", 
+        "text": "Nombre del archivo", 
+        "id": "File name", 
+        "description": ""
+    }, 
+    {
+        "source": "Name", 
+        "text": "Nombre", 
+        "id": "Name", 
+        "description": ""
+    }, 
+    {
+        "source": "Size", 
+        "text": "tama\u00f1o", 
+        "id": "Size", 
+        "description": ""
+    }, 
+    {
+        "source": "Type", 
+        "text": "Tipo", 
+        "id": "Type", 
+        "description": ""
+    }, 
+    {
+        "source": "Speed", 
+        "text": "Velocidad", 
+        "id": "Speed", 
+        "description": ""
+    }, 
+    {
+        "source": "Duration", 
+        "text": "Duraci\u00f3n", 
+        "id": "Duration", 
+        "description": ""
+    }, 
+    {
+        "source": "Video track", 
+        "text": "Pista de video", 
+        "id": "Video track", 
+        "description": ""
+    }, 
+    {
+        "source": "Channels", 
+        "text": "Los canales", 
+        "id": "Channels", 
+        "description": ""
+    }, 
+    {
+        "source": "kHz", 
+        "text": "kHz", 
+        "id": "kHz", 
+        "description": ""
+    }, 
+    {
+        "source": "Sample rate", 
+        "text": "Frecuencia de muestreo", 
+        "id": "Sample rate", 
+        "description": ""
+    }, 
+    {
+        "source": "Audio track", 
+        "text": "Pista de audio", 
+        "id": "Audio track", 
+        "description": ""
+    }, 
+    {
+        "source": "Tags", 
+        "text": "Etiquetas", 
+        "id": "Tags", 
+        "description": ""
+    }, 
+    {
+        "source": "Credits", 
+        "text": "Creditos", 
+        "id": "Credits", 
+        "description": ""
+    }, 
+    {
+        "source": "Sponsors", 
+        "text": "Los patrocinadores", 
+        "id": "Sponsors", 
+        "description": ""
+    }, 
+    {
+        "source": "Darby Johnston", 
+        "text": "Darby Johnston", 
+        "id": "Credits Darby Johnston", 
+        "description": ""
+    }, 
+    {
+        "source": "Principal author", 
+        "text": "Autor principal", 
+        "id": "Credits Darby Johnston Text", 
+        "description": ""
+    }, 
+    {
+        "source": "Kent Oberheu https://semafore.com", 
+        "text": "Kent Oberheu https://semafore.com", 
+        "id": "Credits Kent Oberheu", 
+        "description": ""
+    }, 
+    {
+        "source": "Identity, Iconography, UI / UX design", 
+        "text": "Identidad, Iconograf\u00eda, Dise\u00f1o UI / UX.", 
+        "id": "Credits Kent Oberheu Text", 
+        "description": ""
+    }, 
+    {
+        "source": "Mikael Sundell", 
+        "text": "Mikael Sundell", 
+        "id": "Credits Mikael Sundell", 
+        "description": ""
+    }, 
+    {
+        "source": "IFF image file format support, example images", 
+        "text": "Soporte de formato de archivo de imagen IFF, ejemplo de im\u00e1genes", 
+        "id": "Credits Mikael Sundell Text", 
+        "description": ""
+    }, 
+    {
+        "source": "unexpected GmbH https://www.unexpected.de", 
+        "text": "inesperado GmbH https://www.unexpected.de", 
+        "id": "Sponsors unexpected", 
+        "description": ""
+    }, 
+    {
+        "source": "* Copyright (c) 2019 Kent Oberheu. All rights reserved.", 
+        "text": "* Derechos de autor (c) 2019 Kent Oberheu. Todos los derechos reservados.", 
+        "id": "Contributors Kent Oberheu", 
+        "description": ""
+    }, 
+    {
+        "source": "Annotate tooltip", 
+        "text": "Anotar informaci\u00f3n sobre herramientas", 
+        "id": "Annotate tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Information Widget", 
+        "text": "Widget de informaci\u00f3n", 
+        "id": "Information Widget", 
+        "description": ""
+    }, 
+    {
+        "source": "Information widget tooltip", 
+        "text": "Informaci\u00f3n sobre herramientas de widget de informaci\u00f3n", 
+        "id": "Information widget tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Auto Hide", 
+        "text": "Ocultar autom\u00e1ticamente", 
+        "id": "Auto Hide", 
+        "description": ""
+    }, 
+    {
+        "source": "Background Image", 
+        "text": "Imagen de fondo", 
+        "id": "Background Image", 
+        "description": ""
+    }, 
+    {
+        "source": "Open the file browser", 
+        "text": "Abre el buscador de archivos", 
+        "id": "Open the file browser", 
+        "description": ""
+    }, 
+    {
+        "source": "Clear the background image", 
+        "text": "Borrar la imagen de fondo", 
+        "id": "Clear the background image", 
+        "description": ""
+    }, 
+    {
+        "source": "Colorize with the UI style", 
+        "text": "Colorear con el estilo UI", 
+        "id": "Colorize with the UI style", 
         "description": ""
     }
 ]

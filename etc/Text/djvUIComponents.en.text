@@ -1,52 +1,12 @@
 [
     {
-        "text": "Display", 
-        "id": "Display", 
+        "text": "Time", 
+        "id": "Time", 
         "description": ""
     }, 
     {
         "text": "General", 
         "id": "General", 
-        "description": ""
-    }, 
-    {
-        "text": "Size", 
-        "id": "Size", 
-        "description": ""
-    }, 
-    {
-        "text": "Palette", 
-        "id": "Palette", 
-        "description": ""
-    }, 
-    {
-        "text": "JPEG", 
-        "id": "JPEG", 
-        "description": ""
-    }, 
-    {
-        "text": "I/O", 
-        "id": "I/O", 
-        "description": ""
-    }, 
-    {
-        "text": "Compression quality:", 
-        "id": "Compression quality:", 
-        "description": ""
-    }, 
-    {
-        "text": "TIFF", 
-        "id": "TIFF", 
-        "description": ""
-    }, 
-    {
-        "text": "File compression:", 
-        "id": "File compression:", 
-        "description": ""
-    }, 
-    {
-        "text": "Time", 
-        "id": "Time", 
         "description": ""
     }, 
     {
@@ -62,6 +22,21 @@
     {
         "text": "Enable tooltips", 
         "id": "Enable tooltips", 
+        "description": ""
+    }, 
+    {
+        "text": "Cineon", 
+        "id": "Cineon", 
+        "description": ""
+    }, 
+    {
+        "text": "I/O", 
+        "id": "I/O", 
+        "description": ""
+    }, 
+    {
+        "text": "Color space", 
+        "id": "Color space", 
         "description": ""
     }, 
     {
@@ -157,6 +132,41 @@
     {
         "text": "Close", 
         "id": "Close", 
+        "description": ""
+    }, 
+    {
+        "text": "Color Space", 
+        "id": "Color Space", 
+        "description": ""
+    }, 
+    {
+        "text": "Input", 
+        "id": "Input", 
+        "description": ""
+    }, 
+    {
+        "text": "Display", 
+        "id": "Display", 
+        "description": ""
+    }, 
+    {
+        "text": "View", 
+        "id": "View", 
+        "description": ""
+    }, 
+    {
+        "text": "DPX", 
+        "id": "DPX", 
+        "description": ""
+    }, 
+    {
+        "text": "Display Size", 
+        "id": "Display Size", 
+        "description": ""
+    }, 
+    {
+        "text": "Palette", 
+        "id": "Palette", 
         "description": ""
     }, 
     {
@@ -365,18 +375,8 @@
         "description": ""
     }, 
     {
-        "text": "Language", 
-        "id": "Language", 
-        "description": ""
-    }, 
-    {
-        "text": "PPM", 
-        "id": "PPM", 
-        "description": ""
-    }, 
-    {
-        "text": "Data type", 
-        "id": "Data type", 
+        "text": "Size", 
+        "id": "Size", 
         "description": ""
     }, 
     {
@@ -387,6 +387,11 @@
     {
         "text": "Video track", 
         "id": "Video track", 
+        "description": ""
+    }, 
+    {
+        "text": "Name", 
+        "id": "Name", 
         "description": ""
     }, 
     {
@@ -435,6 +440,21 @@
         "description": ""
     }, 
     {
+        "text": "JPEG", 
+        "id": "JPEG", 
+        "description": ""
+    }, 
+    {
+        "text": "Compression quality:", 
+        "id": "Compression quality:", 
+        "description": ""
+    }, 
+    {
+        "text": "Language", 
+        "id": "Language", 
+        "description": ""
+    }, 
+    {
         "text": "Min", 
         "id": "Min", 
         "description": ""
@@ -447,6 +467,56 @@
     {
         "text": "Current", 
         "id": "Current", 
+        "description": ""
+    }, 
+    {
+        "text": "OpenEXR", 
+        "id": "OpenEXR", 
+        "description": ""
+    }, 
+    {
+        "text": "Thread count", 
+        "id": "Thread count", 
+        "description": ""
+    }, 
+    {
+        "text": "Channel grouping", 
+        "id": "Channel grouping", 
+        "description": ""
+    }, 
+    {
+        "text": "File compression", 
+        "id": "File compression", 
+        "description": ""
+    }, 
+    {
+        "text": "DWA compression level", 
+        "id": "DWA compression level", 
+        "description": ""
+    }, 
+    {
+        "text": "Color profile", 
+        "id": "Color profile", 
+        "description": ""
+    }, 
+    {
+        "text": "PPM", 
+        "id": "PPM", 
+        "description": ""
+    }, 
+    {
+        "text": "Data type", 
+        "id": "Data type", 
+        "description": ""
+    }, 
+    {
+        "text": "TIFF", 
+        "id": "TIFF", 
+        "description": ""
+    }, 
+    {
+        "text": "File compression:", 
+        "id": "File compression:", 
         "description": ""
     }
 ]
