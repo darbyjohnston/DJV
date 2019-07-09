@@ -26,8 +26,8 @@ set(header
     InfoWidget.h
 	LayersWidget.h
 	MDIWidget.h
-    MagnifierSystem.h
-    MagnifierWidget.h
+    MagnifySystem.h
+    MagnifyWidget.h
     MainWindow.h
     Media.h
 	MediaCanvas.h
@@ -78,8 +78,8 @@ set(source
     InfoWidget.cpp
 	LayersWidget.cpp
 	MDIWidget.cpp
-    MagnifierSystem.cpp
-    MagnifierWidget.cpp
+    MagnifySystem.cpp
+    MagnifyWidget.cpp
     MainWindow.cpp
     Media.cpp
 	MediaCanvas.cpp

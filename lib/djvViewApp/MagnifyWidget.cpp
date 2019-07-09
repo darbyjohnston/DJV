@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewApp/MagnifierWidget.h>
+#include <djvViewApp/MagnifyWidget.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/ImageWidget.h>
@@ -41,7 +41,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        struct MagnifierWidget::Private
+        struct MagnifyWidget::Private
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ImageWidget> imageWidget;
@@ -50,12 +50,12 @@ namespace djv
             std::shared_ptr<UI::ToolButton> zoomOutButton;
         };
 
-        void MagnifierWidget::_init(Context * context)
+        void MagnifyWidget::_init(Context * context)
         {
             MDIWidget::_init(context);
 
             DJV_PRIVATE_PTR();
-            setClassName("djv::ViewApp::MagnifierWidget");
+            setClassName("djv::ViewApp::MagnifyWidget");
 
             p.imageWidget = UI::ImageWidget::create(context);
             p.imageWidget->setSizeRole(UI::MetricsRole::Swatch);
@@ -85,29 +85,29 @@ namespace djv
             addChild(layout);
         }
 
-        MagnifierWidget::MagnifierWidget() :
+        MagnifyWidget::MagnifyWidget() :
             _p(new Private)
         {}
 
-        MagnifierWidget::~MagnifierWidget()
+        MagnifyWidget::~MagnifyWidget()
         {}
 
-        std::shared_ptr<MagnifierWidget> MagnifierWidget::create(Context * context)
+        std::shared_ptr<MagnifyWidget> MagnifyWidget::create(Context * context)
         {
-            auto out = std::shared_ptr<MagnifierWidget>(new MagnifierWidget);
+            auto out = std::shared_ptr<MagnifyWidget>(new MagnifyWidget);
             out->_init(context);
             return out;
         }
 
-        void MagnifierWidget::_localeEvent(Event::Locale & event)
+        void MagnifyWidget::_localeEvent(Event::Locale & event)
         {
             MDIWidget::_localeEvent(event);
 
             DJV_PRIVATE_PTR();
-            setTitle(_getText(DJV_TEXT("Magnifier")));
+            setTitle(_getText(DJV_TEXT("Magnify")));
 
-            p.zoomInButton->setTooltip(_getText(DJV_TEXT("Magnifier zoom in tooltip")));
-            p.zoomOutButton->setTooltip(_getText(DJV_TEXT("Magnifier zoom out tooltip")));
+            p.zoomInButton->setTooltip(_getText(DJV_TEXT("Magnify zoom in tooltip")));
+            p.zoomOutButton->setTooltip(_getText(DJV_TEXT("Magnify zoom out tooltip")));
         }
 
     } // namespace ViewApp

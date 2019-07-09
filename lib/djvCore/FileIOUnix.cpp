@@ -43,6 +43,7 @@
 #include <sys/types.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <string.h>
 #include <unistd.h>
 
 #define _STAT     struct stat
@@ -84,10 +85,10 @@ namespace djv
                 if (-1 == _f)
                 {
                     char buf[String::cStringLength] = "";
-                    strerror_r(errno, buf, String::cStringLength);
-                    std::stringstream s;
-                    s << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ". " << buf;
-                    throw std::runtime_error(s.str());
+                    char* s = strerror_r(errno, buf, String::cStringLength);
+                    std::stringstream ss;
+                    ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ". " << s;
+                    throw std::runtime_error(ss.str());
                 }
 
                 // Stat the file.
@@ -96,10 +97,10 @@ namespace djv
                 if (_STAT_FNC(fileName.c_str(), &info) != 0)
                 {
                     char buf[String::cStringLength] = "";
-                    strerror_r(errno, buf, String::cStringLength);
-                    std::stringstream s;
-                    s << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be queried") << ". " << buf;
-                    throw std::runtime_error(s.str());
+                    char* s = strerror_r(errno, buf, String::cStringLength);
+                    std::stringstream ss;
+                    ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be queried") << ". " << s;
+                    throw std::runtime_error(ss.str());
                 }
                 _fileName = fileName;
                 _mode     = mode;
@@ -113,10 +114,10 @@ namespace djv
                     if (_mmap == (void *) - 1)
                     {
                         char buf[String::cStringLength] = "";
-                        strerror_r(errno, buf, String::cStringLength);
-                        std::stringstream s;
-                        s << DJV_TEXT("The file") << " '" << _fileName << "' " << DJV_TEXT("cannot be mapped") << ". " << buf;
-                        throw std::runtime_error(s.str());
+                        char* s = strerror_r(errno, buf, String::cStringLength);
+                        std::stringstream ss;
+                        ss << DJV_TEXT("The file") << " '" << _fileName << "' " << DJV_TEXT("cannot be mapped") << ". " << s;
+                        throw std::runtime_error(ss.str());
                     }
                     _mmapStart = reinterpret_cast<const uint8_t *>(_mmap);
                     _mmapEnd   = _mmapStart + _size;
@@ -138,10 +139,10 @@ namespace djv
                 if (-1 == _f)
                 {
                     char buf[String::cStringLength] = "";
-                    strerror_r(errno, buf, String::cStringLength);
-                    std::stringstream s;
-                    s << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ". " << buf;
-                    throw std::runtime_error(s.str());
+                    char* s = strerror_r(errno, buf, String::cStringLength);
+                    std::stringstream ss;
+                    ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ". " << s;
+                    throw std::runtime_error(ss.str());
                 }
 
                 // Stat the file.
@@ -150,10 +151,10 @@ namespace djv
                 if (_STAT_FNC(buf.data(), &info) != 0)
                 {
                     char buf[String::cStringLength] = "";
-                    strerror_r(errno, buf, String::cStringLength);
-                    std::stringstream s;
-                    s << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be queried") << ". " << buf;
-                    throw std::runtime_error(s.str());
+                    char* s = strerror_r(errno, buf, String::cStringLength);
+                    std::stringstream ss;
+                    ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be queried") << ". " << s;
+                    throw std::runtime_error(ss.str());
                 }
                 _fileName = std::string(buf.data());
                 _mode     = Mode::ReadWrite;
@@ -169,10 +170,10 @@ namespace djv
                     if (-1 == r)
                     {
                         char buf[String::cStringLength] = "";
-                        strerror_r(errno, buf, String::cStringLength);
-                        std::stringstream s;
-                        s << DJV_TEXT("The file") << " '" << _fileName << "' " << DJV_TEXT("cannot be unmapped") << ". " << buf;
-                        throw std::runtime_error(s.str());
+                        char* s = strerror_r(errno, buf, String::cStringLength);
+                        std::stringstream ss;
+                        ss << DJV_TEXT("The file") << " '" << _fileName << "' " << DJV_TEXT("cannot be unmapped") << ". " << s;
+                        throw std::runtime_error(ss.str());
                     }
                     _mmap = (void *)-1;
                 }
@@ -184,10 +185,10 @@ namespace djv
                     if (-1 == r)
                     {
                         char buf[String::cStringLength] = "";
-                        strerror_r(errno, buf, String::cStringLength);
-                        std::stringstream s;
-                        s << DJV_TEXT("The file") << " '" << _fileName << "' " << DJV_TEXT("cannot be closed") << ". " << buf;
-                        throw std::runtime_error(s.str());
+                        char* s = strerror_r(errno, buf, String::cStringLength);
+                        std::stringstream ss;
+                        ss << DJV_TEXT("The file") << " '" << _fileName << "' " << DJV_TEXT("cannot be closed") << ". " << s;
+                        throw std::runtime_error(ss.str());
                     }
                     _f = -1;
                 }
@@ -226,10 +227,10 @@ namespace djv
                     if (r != size * wordSize)
                     {
                         char buf[String::cStringLength] = "";
-                        strerror_r(errno, buf, String::cStringLength);
-                        std::stringstream s;
-                        s << DJV_TEXT("The file") << " '" << _fileName << "' " << DJV_TEXT("cannot be read") << ".";
-                        throw std::runtime_error(s.str());
+                        char* s = strerror_r(errno, buf, String::cStringLength);
+                        std::stringstream ss;
+                        ss << DJV_TEXT("The file") << " '" << _fileName << "' " << DJV_TEXT("cannot be read") << ". " << s;
+                        throw std::runtime_error(ss.str());
                     }
                     if (_endian && wordSize > 1)
                     {
@@ -255,10 +256,10 @@ namespace djv
                 if (::write(_f, inP, size * wordSize) == -1)
                 {
                     char buf[String::cStringLength] = "";
-                    strerror_r(errno, buf, String::cStringLength);
-                    std::stringstream s;
-                        s << DJV_TEXT("The file") << " '" << _fileName << "' " << DJV_TEXT("cannot be written") << ".";
-                    throw std::runtime_error(s.str());
+                    char* s = strerror_r(errno, buf, String::cStringLength);
+                    std::stringstream ss;
+                    ss << DJV_TEXT("The file") << " '" << _fileName << "' " << DJV_TEXT("cannot be written") << ". " << s;
+                    throw std::runtime_error(ss.str());
                 }
                 _pos += size * wordSize;
                 _size = std::max(_pos, _size);
@@ -304,10 +305,10 @@ namespace djv
                     if (::lseek(_f, in, ! seek ? SEEK_SET : SEEK_CUR) == (off_t) - 1)
                     {
                         char buf[String::cStringLength] = "";
-                        strerror_r(errno, buf, String::cStringLength);
-                        std::stringstream s;
-                        s << DJV_TEXT("The file") << " '" << _fileName << "' " << DJV_TEXT("cannot be written") << ". " << buf;
-                        throw std::runtime_error(s.str());
+                        char* s = strerror_r(errno, buf, String::cStringLength);
+                        std::stringstream ss;
+                        ss << DJV_TEXT("The file") << " '" << _fileName << "' " << DJV_TEXT("cannot be written") << ". " << s;
+                        throw std::runtime_error(ss.str());
                     }
                     break;
                 default: break;

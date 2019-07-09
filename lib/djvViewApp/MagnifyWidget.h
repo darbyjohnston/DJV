@@ -29,32 +29,27 @@
 
 #pragma once
 
-#include <djvViewApp/IToolSystem.h>
+#include <djvViewApp/MDIWidget.h>
 
 namespace djv
 {
     namespace ViewApp
     {
-        class MagnifierSystem : public IToolSystem
+        class MagnifyWidget : public MDIWidget
         {
-            DJV_NON_COPYABLE(MagnifierSystem);
+            DJV_NON_COPYABLE(MagnifyWidget);
 
         protected:
             void _init(Core::Context *);
-            MagnifierSystem();
+            MagnifyWidget();
 
         public:
-            ~MagnifierSystem() override;
+            ~MagnifyWidget() override;
 
-            static std::shared_ptr<MagnifierSystem> create(Core::Context *);
-
-            ToolActionData getToolAction() const override;
-            void setCurrentTool(bool) override;
-
-            std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
+            static std::shared_ptr<MagnifyWidget> create(Core::Context *);
 
         protected:
-            void _textUpdate();
+            void _localeEvent(Core::Event::Locale &) override;
 
         private:
             DJV_PRIVATE();

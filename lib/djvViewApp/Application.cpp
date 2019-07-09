@@ -36,7 +36,7 @@
 #include <djvViewApp/HelpSystem.h>
 #include <djvViewApp/ImageSystem.h>
 #include <djvViewApp/ImageViewSystem.h>
-#include <djvViewApp/MagnifierSystem.h>
+#include <djvViewApp/MagnifySystem.h>
 #include <djvViewApp/MainWindow.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/NUXSystem.h>
@@ -80,7 +80,7 @@ namespace djv
             p.systems.push_back(AudioSystem::create(this));
             p.systems.push_back(AnnotateSystem::create(this));
             p.systems.push_back(ColorPickerSystem::create(this));
-            p.systems.push_back(MagnifierSystem::create(this));
+            p.systems.push_back(MagnifySystem::create(this));
             p.systems.push_back(ToolSystem::create(this));
             p.systems.push_back(HelpSystem::create(this));
             auto nuxSystem = NUXSystem::create(this);
