@@ -50,11 +50,13 @@ namespace djv
         struct AudioSystem::Private
         {
             std::shared_ptr<Media> currentMedia;
+            AV::IO::Info info;
             float volume = 1.f;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
+            std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
             std::shared_ptr<ValueObserver<float> > volumeObserver;
             std::shared_ptr<ValueObserver<bool> > muteObserver;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
@@ -136,6 +138,16 @@ namespace djv
                         system->_p->actions["Mute"]->setEnabled(value ? true : false);
                         if (value)
                         {
+                            system->_p->infoObserver = ValueObserver<AV::IO::Info>::create(
+                                value->observeInfo(),
+                                [weak](const AV::IO::Info& value)
+                                {
+                                    if (auto system = weak.lock())
+                                    {
+                                        system->_p->info = value;
+                                        system->_actionsUpdate();
+                                    }
+                                });
                             system->_p->volumeObserver = ValueObserver<float>::create(
                                 value->observeVolume(),
                                 [weak](float value)
@@ -143,8 +155,7 @@ namespace djv
                                 if (auto system = weak.lock())
                                 {
                                     system->_p->volume = value;
-                                    system->_p->actions["IncreaseVolume"]->setEnabled(system->_p->volume < 1.f);
-                                    system->_p->actions["DecreaseVolume"]->setEnabled(system->_p->volume > 0.f);
+                                    system->_actionsUpdate();
                                 }
                             });
                             system->_p->muteObserver = ValueObserver<bool>::create(
@@ -159,8 +170,10 @@ namespace djv
                         }
                         else
                         {
+                            system->_p->infoObserver.reset();
                             system->_p->volumeObserver.reset();
                             system->_p->muteObserver.reset();
+                            system->_actionsUpdate();
                         }
                     }
                 });
@@ -216,6 +229,15 @@ namespace djv
             p.actions["Mute"]->setTooltip(_getText(DJV_TEXT("Mute tooltip")));
 
             p.menu->setText(_getText(DJV_TEXT("Audio")));
+        }
+
+        void AudioSystem::_actionsUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            const bool hasAudio = p.info.audio.size();
+            p.actions["IncreaseVolume"]->setEnabled(hasAudio && p.volume < 1.f);
+            p.actions["DecreaseVolume"]->setEnabled(hasAudio && p.volume > 0.f);
+            p.actions["Mute"]->setEnabled(hasAudio);
         }
 
     } // namespace ViewApp

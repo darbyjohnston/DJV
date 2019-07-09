@@ -40,6 +40,7 @@
 #include <djvViewApp/SettingsDialog.h>
 #include <djvViewApp/SettingsSystem.h>
 #include <djvViewApp/WindowSystem.h>
+#include <djvViewApp/UISettings.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionButton.h>
@@ -74,6 +75,7 @@ namespace djv
             std::shared_ptr<UI::ActionGroup> mediaActionGroup;
             std::shared_ptr<UI::Menu> mediaMenu;
             std::shared_ptr<UI::Button::Menu> mediaButton;
+            std::shared_ptr<UI::ToolButton> autoHideButton;
             std::shared_ptr<UI::ToolButton> settingsButton;
             std::shared_ptr<UI::MenuBar> menuBar;
             std::shared_ptr<MediaCanvas> mediaCanvas;
@@ -83,6 +85,7 @@ namespace djv
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<bool> > maximizedObserver;
             std::shared_ptr<ValueObserver<float> > fadeObserver;
+            std::shared_ptr<ValueObserver<bool> > autoHideObserver;
         };
         
         void MainWindow::_init(Context * context)
@@ -157,6 +160,10 @@ namespace djv
                 maximizedButton->addAction(windowSystem->getActions()["Maximized"]);
             }
 
+            p.autoHideButton = UI::ToolButton::create(context);
+            p.autoHideButton->setButtonType(UI::ButtonType::Toggle);
+            p.autoHideButton->setIcon("djvIconAutoHide");
+
             p.settingsButton = UI::ToolButton::create(context);
             p.settingsButton->setIcon("djvIconSettings");
 
@@ -186,7 +193,11 @@ namespace djv
             p.menuBar->addSeparator(UI::Side::Right);
             p.menuBar->addChild(maximizedButton);
             p.menuBar->addSeparator(UI::Side::Right);
-            p.menuBar->addChild(p.settingsButton);
+            hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setSpacing(UI::MetricsRole::None);
+            hLayout->addChild(p.autoHideButton);
+            hLayout->addChild(p.settingsButton);
+            p.menuBar->addChild(hLayout);
 
             auto backgroundImageWidget = BackgroundImageWidget::create(context);
 
@@ -247,15 +258,26 @@ namespace djv
                 }
             });
 
+            p.autoHideButton->setCheckedCallback(
+                [weak, context](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto uiSettings = settingsSystem->getSettingsT<UISettings>();
+                        uiSettings->setAutoHide(value);
+                    }
+                });
+
             p.settingsButton->setClickedCallback(
                 [weak, context]
-            {
-                if (auto widget = weak.lock())
                 {
-                    auto settingsSystem = context->getSystemT<SettingsSystem>();
-                    settingsSystem->showSettingsDialog();
-                }
-            });
+                    if (auto widget = weak.lock())
+                    {
+                        auto settingsSystem = context->getSystemT<SettingsSystem>();
+                        settingsSystem->showSettingsDialog();
+                    }
+                });
 
             p.closeToolActionObserver = ValueObserver<bool>::create(
                 p.actions["CloseTool"]->observeClicked(),
@@ -339,6 +361,18 @@ namespace djv
                     }
                 });
             }
+
+            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto uiSettings = settingsSystem->getSettingsT<UISettings>();
+            p.autoHideObserver = ValueObserver<bool>::create(
+                uiSettings->observeAutoHide(),
+                [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->autoHideButton->setChecked(value);
+                    }
+                });
         }
 
         MainWindow::MainWindow() :
@@ -382,6 +416,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             p.mediaButton->setTooltip(_getText(DJV_TEXT("Media popup tooltip")));
+            p.autoHideButton->setTooltip(_getText(DJV_TEXT("Auto hide tooltip")));
             p.settingsButton->setTooltip(_getText(DJV_TEXT("Settings tooltip")));
         }
 

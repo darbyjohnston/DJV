@@ -230,6 +230,8 @@ namespace djv
                     Header out;
                     zero(out);
 
+                    info.fileName = io.getFileName();
+
                     // Read the file section of the header.
                     io.read(&out.file, sizeof(Header::File));
 

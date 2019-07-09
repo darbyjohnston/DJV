@@ -35,6 +35,11 @@ namespace djv
     {
         const std::string Tags::_empty;
 
+        size_t Tags::getTagsCount() const
+        {
+            return _tags.size();
+        }
+
         const std::map<std::string, std::string> & Tags::getTags() const
         {
             return _tags;

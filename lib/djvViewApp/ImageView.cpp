@@ -61,6 +61,7 @@ namespace djv
             ImageViewLock lock = ImageViewLock::None;
             AV::Image::Color backgroundColor = AV::Image::Color(0.f, 0.f, 0.f);
             glm::vec2 pressedImagePos = glm::vec2(0.f, 0.f);
+            bool viewInit = true;
             std::shared_ptr<ValueObserver<ImageViewLock> > lockObserver;
             std::shared_ptr<ValueObserver<AV::Image::Color> > backgroundColorObserver;
         };
@@ -314,7 +315,13 @@ namespace djv
             {
             case ImageViewLock::Fit:    imageFit();    break;
             case ImageViewLock::Center: imageCenter(); break;
-            default: break;
+            default:
+                if (p.image && p.viewInit)
+                {
+                    p.viewInit = false;
+                    imageFit();
+                }
+                break;
             }
         }
 

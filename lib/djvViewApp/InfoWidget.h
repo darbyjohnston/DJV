@@ -35,23 +35,25 @@ namespace djv
 {
     namespace ViewApp
     {
-        class InformationWidget : public MDIWidget
+        class InfoWidget : public MDIWidget
         {
-            DJV_NON_COPYABLE(InformationWidget);
+            DJV_NON_COPYABLE(InfoWidget);
 
         protected:
             void _init(Core::Context *);
-            InformationWidget();
+            InfoWidget();
 
         public:
-            ~InformationWidget() override;
+            ~InfoWidget() override;
 
-            static std::shared_ptr<InformationWidget> create(Core::Context *);
+            static std::shared_ptr<InfoWidget> create(Core::Context *);
 
         protected:
             void _localeEvent(Core::Event::Locale &) override;
 
         private:
+            void _widgetUpdate();
+
             DJV_PRIVATE();
         };
 

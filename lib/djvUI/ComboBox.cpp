@@ -300,15 +300,12 @@ namespace djv
         void ComboBox::_preLayoutEvent(Event::PreLayout & event)
         {
             const auto& style = _getStyle();
-            const float b = style->getMetric(MetricsRole::Border);
-            _setMinimumSize(_p->button->getMinimumSize() + b * 2.f);
+            _setMinimumSize(_p->button->getMinimumSize());
         }
 
         void ComboBox::_layoutEvent(Event::Layout & event)
         {
-            const auto& style = _getStyle();
-            const float b = style->getMetric(MetricsRole::Border);
-            _p->button->setGeometry(getGeometry().margin(-b));
+            _p->button->setGeometry(getGeometry());
         }
 
         void ComboBox::_keyPressEvent(Event::KeyPress& event)

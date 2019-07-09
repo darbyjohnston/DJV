@@ -30,6 +30,7 @@
 #include <djvViewApp/ToolSystem.h>
 
 #include <djvViewApp/IToolSystem.h>
+#include <djvViewApp/InfoWidget.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
@@ -83,12 +84,16 @@ namespace djv
             {
                 p.toolActionGroup->addAction(i.second);
             }
+            p.actions["Info"] = UI::Action::create();
+            p.actions["Info"]->setButtonType(UI::ButtonType::Toggle);
 
             p.menu = UI::Menu::create(context);
             for (const auto& i : toolActions)
             {
                 p.menu->addAction(i.second);
             }
+            p.menu->addSeparator();
+            p.menu->addAction(p.actions["Info"]);
 
             auto weak = std::weak_ptr<ToolSystem>(std::dynamic_pointer_cast<ToolSystem>(shared_from_this()));
             _setCloseWidgetCallback(
@@ -117,6 +122,23 @@ namespace djv
                         if (system->_p->currentToolSystem >= 0 && system->_p->currentToolSystem < system->_p->toolSystems.size())
                         {
                             system->_p->toolSystems[system->_p->currentToolSystem]->setCurrentTool(true);
+                        }
+                    }
+                });
+
+            p.clickedObservers["Info"] = ValueObserver<bool>::create(
+                p.actions["Info"]->observeChecked(),
+                [weak, context](bool value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        if (value)
+                        {
+                            system->_openWidget("Info", InfoWidget::create(context));
+                        }
+                        else
+                        {
+                            system->_closeWidget("Info");
                         }
                     }
                 });
@@ -164,6 +186,8 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             p.menu->setText(_getText(DJV_TEXT("Tools")));
+            p.actions["Info"]->setText(_getText(DJV_TEXT("Information Widget")));
+            p.actions["Info"]->setTooltip(_getText(DJV_TEXT("Information widget tooltip")));
         }
 
     } // namespace ViewApp

@@ -65,6 +65,8 @@ namespace djv
 
             std::shared_ptr<UI::ImageWidget> imageWidget;
             std::shared_ptr<UI::LineEdit> lineEdit;
+            std::shared_ptr<UI::ToolButton> openButton;
+            std::shared_ptr<UI::ToolButton> closeButton;
             std::shared_ptr<UI::ToggleButton> colorizeButton;
             std::shared_ptr<UI::Label> colorizeLabel;
             std::shared_ptr<UI::HorizontalLayout> layout;
@@ -88,10 +90,10 @@ namespace djv
 
             p.lineEdit = UI::LineEdit::create(context);
 
-            auto openButton = UI::ToolButton::create(context);
-            openButton->setIcon("djvIconFile");
-            auto closeButton = UI::ToolButton::create(context);
-            closeButton->setIcon("djvIconClose");
+            p.openButton = UI::ToolButton::create(context);
+            p.openButton->setIcon("djvIconFile");
+            p.closeButton = UI::ToolButton::create(context);
+            p.closeButton->setIcon("djvIconClose");
 
             p.colorizeButton = UI::ToggleButton::create(context);
             p.colorizeLabel = UI::Label::create(context);
@@ -104,8 +106,8 @@ namespace djv
             hLayout->setStretch(p.lineEdit, UI::RowStretch::Expand);
             auto hLayout2 = UI::HorizontalLayout::create(context);
             hLayout2->setSpacing(UI::MetricsRole::None);
-            hLayout2->addChild(openButton);
-            hLayout2->addChild(closeButton);
+            hLayout2->addChild(p.openButton);
+            hLayout2->addChild(p.closeButton);
             hLayout->addChild(hLayout2);
             vLayout->addChild(hLayout);
             hLayout = UI::HorizontalLayout::create(context);
@@ -133,7 +135,7 @@ namespace djv
                     }
                 });
 
-            openButton->setClickedCallback(
+            p.openButton->setClickedCallback(
                 [weak, context]
                 {
                     if (auto widget = weak.lock())
@@ -180,7 +182,7 @@ namespace djv
                     }
                 });
 
-            closeButton->setClickedCallback(
+            p.closeButton->setClickedCallback(
                 [context]
                 {
                     auto settingsSystem = context->getSystemT<UI::Settings::System>();
@@ -257,6 +259,8 @@ namespace djv
         {
             ISettingsWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
+            p.openButton->setTooltip(_getText(DJV_TEXT("Open the file browser")));
+            p.closeButton->setTooltip(_getText(DJV_TEXT("Clear the background image")));
             p.colorizeLabel->setText(_getText(DJV_TEXT("Colorize with the UI style")));
         }
 

@@ -53,6 +53,7 @@ namespace djv
 
         protected:
             void _textUpdate();
+            void _actionsUpdate();
 
         private:
             DJV_PRIVATE();

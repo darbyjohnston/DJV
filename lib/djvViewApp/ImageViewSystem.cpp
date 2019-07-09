@@ -384,8 +384,8 @@ namespace djv
                             {
                                 system->_p->hoverObserver.reset();
                                 system->_p->dragObserver.reset();
+                                system->_actionsUpdate();
                             }
-                            system->_actionsUpdate();
                         }
                     });
             }

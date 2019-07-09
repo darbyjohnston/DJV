@@ -70,10 +70,6 @@ namespace djv
 
             p.actions["Lock"] = UI::Action::create();
             p.actions["Lock"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["ColorProfile"] = UI::Action::create();
-            p.actions["ColorProfile"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["DisplayProfile"] = UI::Action::create();
-            p.actions["DisplayProfile"]->setButtonType(UI::ButtonType::Toggle);
 
             p.colorSwatch = UI::ColorSwatch::create(context);
 
@@ -97,8 +93,6 @@ namespace djv
             p.menu = UI::Menu::create(context);
             p.menu->setIcon("djvIconSettings");
             p.menu->addAction(p.actions["Lock"]);
-            p.menu->addAction(p.actions["ColorProfile"]);
-            p.menu->addAction(p.actions["DisplayProfile"]);
             p.popupMenu = UI::PopupMenu::create(context);
             p.popupMenu->setMenu(p.menu);
 
@@ -177,10 +171,6 @@ namespace djv
 
             p.actions["Lock"]->setText(_getText(DJV_TEXT("Lock Color Type")));
             p.actions["Lock"]->setTooltip(_getText(DJV_TEXT("Color picker lock color type tooltip")));
-            p.actions["ColorProfile"]->setText(_getText(DJV_TEXT("Enable Color Profile")));
-            p.actions["ColorProfile"]->setTooltip(_getText(DJV_TEXT("Color picker enable color profile tooltip")));
-            p.actions["DisplayProfile"]->setText(_getText(DJV_TEXT("Enable Display Profile")));
-            p.actions["DisplayProfile"]->setTooltip(_getText(DJV_TEXT("Color picker enable display profile tooltip")));
 
             p.tabWidget->setText(p.tabText["RGB"], _getText(DJV_TEXT("RGB")));
             p.tabWidget->setText(p.tabText["HSV"], _getText(DJV_TEXT("HSV")));

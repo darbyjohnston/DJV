@@ -32,8 +32,6 @@
 #include <djvUI/Action.h>
 #include <djvUI/ImageWidget.h>
 #include <djvUI/IntSlider.h>
-#include <djvUI/Menu.h>
-#include <djvUI/PopupMenu.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ToolButton.h>
 
@@ -50,8 +48,6 @@ namespace djv
             std::shared_ptr<UI::IntSlider> magnificationSlider;
             std::shared_ptr<UI::ToolButton> zoomInButton;
             std::shared_ptr<UI::ToolButton> zoomOutButton;
-            std::shared_ptr<UI::Menu> menu;
-            std::shared_ptr<UI::PopupMenu> popupMenu;
         };
 
         void MagnifierWidget::_init(Context * context)
@@ -60,11 +56,6 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::MagnifierWidget");
-
-            p.actions["ColorProfile"] = UI::Action::create();
-            p.actions["ColorProfile"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["DisplayProfile"] = UI::Action::create();
-            p.actions["DisplayProfile"]->setButtonType(UI::ButtonType::Toggle);
 
             p.imageWidget = UI::ImageWidget::create(context);
             p.imageWidget->setSizeRole(UI::MetricsRole::Swatch);
@@ -80,13 +71,6 @@ namespace djv
             p.zoomOutButton = UI::ToolButton::create(context);
             p.zoomOutButton->setIcon("djvIconSubtract");
 
-            p.menu = UI::Menu::create(context);
-            p.menu->setIcon("djvIconSettings");
-            p.menu->addAction(p.actions["ColorProfile"]);
-            p.menu->addAction(p.actions["DisplayProfile"]);
-            p.popupMenu = UI::PopupMenu::create(context);
-            p.popupMenu->setMenu(p.menu);
-
             auto layout = UI::VerticalLayout::create(context);
             layout->setSpacing(UI::MetricsRole::None);
             layout->addChild(p.imageWidget);
@@ -97,7 +81,6 @@ namespace djv
             hLayout->setStretch(p.magnificationSlider, UI::RowStretch::Expand);
             hLayout->addChild(p.zoomInButton);
             hLayout->addChild(p.zoomOutButton);
-            hLayout->addChild(p.popupMenu);
             layout->addChild(hLayout);
             addChild(layout);
         }
@@ -122,11 +105,6 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Magnifier")));
-
-            p.actions["ColorProfile"]->setText(_getText(DJV_TEXT("Enable Color Profile")));
-            p.actions["ColorProfile"]->setTooltip(_getText(DJV_TEXT("Magnifier enable color profile tooltip")));
-            p.actions["DisplayProfile"]->setText(_getText(DJV_TEXT("Enable Display Profile")));
-            p.actions["DisplayProfile"]->setTooltip(_getText(DJV_TEXT("Magnifier enable display profile tooltip")));
 
             p.zoomInButton->setTooltip(_getText(DJV_TEXT("Magnifier zoom in tooltip")));
             p.zoomOutButton->setTooltip(_getText(DJV_TEXT("Magnifier zoom out tooltip")));

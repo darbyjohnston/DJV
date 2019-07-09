@@ -416,6 +416,7 @@ namespace djv
                             system->_p->playbackModeObserver.reset();
                             system->_p->speedObserver.reset();
                             system->_p->durationObserver.reset();
+                            system->_actionsUpdate();
                         }
                     }
                 });

@@ -81,21 +81,17 @@ namespace djv
                 }
             });
 
-            if (auto settingsSystem = context->getSystemT<UI::Settings::System>())
+            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto uiSettings = settingsSystem->getSettingsT<UISettings>();
+            p.autoHideObserver = ValueObserver<bool>::create(
+                uiSettings->observeAutoHide(),
+                [weak](bool value)
             {
-                if (auto uiSettings = settingsSystem->getSettingsT<UISettings>())
+                if (auto widget = weak.lock())
                 {
-                    p.autoHideObserver = ValueObserver<bool>::create(
-                        uiSettings->observeAutoHide(),
-                        [weak](bool value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->autoHideButton->setChecked(value);
-                        }
-                    });
+                    widget->_p->autoHideButton->setChecked(value);
                 }
-            }
+            });
         }
 
         UISettingsWidget::UISettingsWidget() :

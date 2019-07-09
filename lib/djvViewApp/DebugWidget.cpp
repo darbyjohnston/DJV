@@ -685,7 +685,7 @@ namespace djv
         {
             MDIWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
-            setTitle(_getText(DJV_TEXT("Debugging")));
+            setTitle(_getText(DJV_TEXT("Debug")));
             p.bellows["General"]->setText(_getText(DJV_TEXT("General")));
             p.bellows["Render"]->setText(_getText(DJV_TEXT("Render")));
             p.bellows["Media"]->setText(_getText(DJV_TEXT("Media")));

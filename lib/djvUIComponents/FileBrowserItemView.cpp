@@ -864,7 +864,7 @@ namespace djv
                     ss << _getText(DJV_TEXT("Channels")) << ": " << static_cast<int>(audioInfo.info.channelCount) << '\n';
                     ss << _getText(DJV_TEXT("Type")) << ": " << audioInfo.info.type << '\n';
                     ss << _getText(DJV_TEXT("Sample rate")) << ": " <<
-                        audioInfo.info.sampleRate / 1000.f << DJV_TEXT("kHz") << '\n';
+                        audioInfo.info.sampleRate / 1000.f << _getText(DJV_TEXT("kHz")) << '\n';
                     ss << _getText(DJV_TEXT("Duration")) << ": " <<
                         Time::getLabel(Time::timestampToSeconds(audioInfo.duration));
                     ++track;
