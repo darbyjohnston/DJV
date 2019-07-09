@@ -69,7 +69,7 @@ namespace djv
                 Widget::_init(context);
 
                 DJV_PRIVATE_PTR();
-                setClassName("djv::UI::ActionButton");
+                setClassName("djv::UI::Button::ActionButton");
 
                 p.icon = Icon::create(context);
                 p.textLabel = Label::create(context);
