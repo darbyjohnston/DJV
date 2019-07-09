@@ -65,7 +65,7 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
-            setClassName("djv::Ui::ColorTypeWidget");
+            setClassName("djv::UI::ColorTypeWidget");
             setVAlign(VAlign::Center);
 
             p.comboBox = ComboBox::create(context);
@@ -173,7 +173,7 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
-            setClassName("djv::Ui::RGBColorSliders");
+            setClassName("djv::UI::RGBColorSliders");
 
             p.layout = GridLayout::create(context);
             addChild(p.layout);
@@ -569,7 +569,7 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
-            setClassName("djv::Ui::HSVColorSliders");
+            setClassName("djv::UI::HSVColorSliders");
 
             p.layout = GridLayout::create(context);
             addChild(p.layout);
@@ -990,7 +990,7 @@ namespace djv
             Widget::_init(context);
 
             DJV_PRIVATE_PTR();
-            setClassName("djv::Ui::ColorPicker");
+            setClassName("djv::UI::ColorPicker");
 
             p.colorSwatch = ColorSwatch::create(context);
 

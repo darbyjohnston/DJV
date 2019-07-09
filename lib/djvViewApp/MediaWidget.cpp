@@ -39,15 +39,17 @@
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
 #include <djvUI/Border.h>
-#include <djvUI/FloatEdit.h>
+#include <djvUI/ButtonGroup.h>
 #include <djvUI/FloatSlider.h>
 #include <djvUI/GridLayout.h>
 #include <djvUI/Label.h>
+#include <djvUI/ListButton.h>
 #include <djvUI/MDICanvas.h>
 #include <djvUI/MDIWidget.h>
 #include <djvUI/PopupWidget.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/StackLayout.h>
+#include <djvUI/ToggleButton.h>
 #include <djvUI/ToolBar.h>
 #include <djvUI/ToolButton.h>
 
@@ -208,7 +210,11 @@ namespace djv
 
             std::shared_ptr<Media> media;
             std::shared_ptr<AV::Image::Image> image;
+            std::vector<Time::Speed> speeds;
+            Time::Speed defaultSpeed;
             Time::Speed speed;
+            float realSpeed = 0.f;
+            bool frameLock = false;
             Time::Timestamp duration = 0;
             Time::Timestamp currentTime = 0;
             AV::TimeUnits timeUnits = AV::TimeUnits::First;
@@ -226,14 +232,18 @@ namespace djv
             std::shared_ptr<UI::HorizontalLayout> titleBar;
             std::shared_ptr<PointerWidget> pointerWidget;
             std::shared_ptr<ImageView> imageView;
-            //std::shared_ptr<UI::FloatEdit> speedEdit;
-            std::shared_ptr<UI::ToolButton> speedButton;
+            std::shared_ptr<UI::ButtonGroup> speedButtonGroup;
+            std::shared_ptr<UI::VerticalLayout> speedButtonLayout;
+            std::shared_ptr<UI::ToggleButton> frameLockButton;
+            std::shared_ptr<UI::Label> frameLockLabel;
+            std::shared_ptr<UI::PopupWidget> speedPopupWidget;
+            std::shared_ptr<UI::Label> realSpeedLabel;
             std::shared_ptr<UI::Label> currentTimeLabel;
             std::shared_ptr<UI::Label> durationLabel;
             std::shared_ptr<TimelineSlider> timelineSlider;
-            std::shared_ptr<UI::PopupWidget> audioPopupWidget;
             std::shared_ptr<UI::BasicFloatSlider> volumeSlider;
             std::shared_ptr<UI::ToolButton> muteButton;
+            std::shared_ptr<UI::PopupWidget> audioPopupWidget;
             std::shared_ptr<UI::GridLayout> playbackLayout;
             std::shared_ptr<UI::StackLayout> layout;
 
@@ -242,6 +252,8 @@ namespace djv
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
             std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
             std::shared_ptr<ValueObserver<Time::Speed> > speedObserver;
+            std::shared_ptr<ValueObserver<float> > realSpeedObserver;
+            std::shared_ptr<ValueObserver<bool> > frameLockObserver;
             std::shared_ptr<ValueObserver<Time::Timestamp> > durationObserver;
             std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver2;
             std::shared_ptr<ValueObserver<Playback> > playbackObserver;
@@ -306,9 +318,24 @@ namespace djv
 
             p.imageView = ImageView::create(context);
 
-            //p.speedEdit = UI::FloatEdit::create(context);
-            //p.speedEdit->setRange(FloatRange(0.f, 1000.f));
-            p.speedButton = UI::ToolButton::create(context);
+            p.speedButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
+            p.speedButtonLayout = UI::VerticalLayout::create(context);
+            p.speedButtonLayout->setSpacing(UI::MetricsRole::None);
+            p.frameLockButton = UI::ToggleButton::create(context);
+            p.frameLockLabel = UI::Label::create(context);
+            auto vLayout = UI::VerticalLayout::create(context);
+            vLayout->setSpacing(UI::MetricsRole::None);
+            vLayout->addChild(p.speedButtonLayout);
+            vLayout->addSeparator();
+            auto hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setMargin(UI::MetricsRole::MarginSmall);
+            hLayout->setSpacing(UI::MetricsRole::None);
+            hLayout->addChild(p.frameLockLabel);
+            hLayout->addChild(p.frameLockButton);
+            vLayout->addChild(hLayout);
+            p.speedPopupWidget = UI::PopupWidget::create(context);
+            p.speedPopupWidget->addChild(vLayout);
+            p.realSpeedLabel = UI::Label::create(context);
 
             p.currentTimeLabel = UI::Label::create(context);
             p.currentTimeLabel->setMargin(UI::MetricsRole::MarginSmall);
@@ -324,7 +351,7 @@ namespace djv
             p.muteButton = UI::ToolButton::create(context);
             p.muteButton->setIcon("djvIconAudioMute");
             p.muteButton->setButtonType(UI::ButtonType::Toggle);
-            auto vLayout = UI::VerticalLayout::create(context);
+            vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addChild(p.volumeSlider);
             vLayout->addChild(p.muteButton);
@@ -346,7 +373,7 @@ namespace djv
             p.playbackLayout->setBackgroundRole(UI::ColorRole::OverlayLight);
             p.playbackLayout->addChild(toolbar);
             p.playbackLayout->setGridPos(toolbar, 0, 0);
-            auto hLayout = UI::HorizontalLayout::create(context);
+            hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::MetricsRole::None);
             hLayout->addChild(p.timelineSlider);
             hLayout->setStretch(p.timelineSlider, UI::RowStretch::Expand);
@@ -355,7 +382,8 @@ namespace djv
             p.playbackLayout->setGridPos(hLayout, 1, 0);
             p.playbackLayout->setStretch(hLayout, UI::GridStretch::Horizontal);
             hLayout = UI::HorizontalLayout::create(context);
-            hLayout->addChild(p.speedButton);
+            hLayout->addChild(p.speedPopupWidget);
+            hLayout->addChild(p.realSpeedLabel);
             p.playbackLayout->addChild(hLayout);
             p.playbackLayout->setGridPos(hLayout, 0, 1);
             hLayout = UI::HorizontalLayout::create(context);
@@ -421,17 +449,33 @@ namespace djv
                     }
                 });
 
-            /*p.speedEdit->setValueCallback(
-                [weak](float value)
+            p.speedButtonGroup->setPushCallback(
+                [weak](int value)
             {
                 if (auto widget = weak.lock())
                 {
                     if (auto media = widget->_p->media)
                     {
-                        media->setSpeed(Time::Speed::fromFloat(value));
+                        const auto speed =
+                            value >= 0 && value < widget->_p->speeds.size() ?
+                            widget->_p->speeds[value] :
+                            Time::Speed();
+                        media->setSpeed(speed);
                     }
                 }
-            });*/
+            });
+
+            p.frameLockButton->setCheckedCallback(
+                [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        if (auto media = widget->_p->media)
+                        {
+                            media->setFrameLock(value);
+                        }
+                    }
+                });
 
             p.volumeSlider->setValueCallback(
                 [weak](float value)
@@ -521,13 +565,13 @@ namespace djv
                     {
                         if (value.video.size())
                         {
-                            widget->_p->speed = value.video[0].speed;
+                            widget->_p->defaultSpeed = value.video[0].speed;
                             const int64_t f = Time::scale(1, value.video[0].speed.swap(), Time::getTimebaseRational());
                             widget->_p->playbackLayout->setVisible(value.video[0].duration > f);
                         }
                         else
                         {
-                            widget->_p->speed = Time::Speed();
+                            widget->_p->defaultSpeed = Time::Speed();
                             widget->_p->playbackLayout->hide();
                         }
                         widget->_widgetUpdate();
@@ -541,6 +585,29 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->speed = value;
+                        widget->_widgetUpdate();
+                        widget->_speedUpdate();
+                    }
+                });
+
+            p.realSpeedObserver = ValueObserver<float>::create(
+                p.media->observeRealSpeed(),
+                [weak](float value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->realSpeed = value;
+                        widget->_speedUpdate();
+                    }
+                });
+
+            p.frameLockObserver = ValueObserver<bool>::create(
+                p.media->observeFrameLock(),
+                [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->frameLock = value;
                         widget->_widgetUpdate();
                         widget->_speedUpdate();
                     }
@@ -725,7 +792,8 @@ namespace djv
             p.maximizeButton->setTooltip(_getText(DJV_TEXT("Maximize tooltip")));
             p.closeButton->setTooltip(_getText(DJV_TEXT("Close tooltip")));
 
-            p.speedButton->setTooltip(_getText(DJV_TEXT("Speed tooltip")));
+            p.frameLockButton->setTooltip(_getText(DJV_TEXT("Frame lock tooltip")));
+            p.speedPopupWidget->setTooltip(_getText(DJV_TEXT("Speed popup tooltip")));
             p.currentTimeLabel->setTooltip(_getText(DJV_TEXT("Current time tooltip")));
             p.durationLabel->setTooltip(_getText(DJV_TEXT("Duration tooltip")));
 
@@ -759,8 +827,6 @@ namespace djv
             default: break;
             }
 
-            p.speedButton->setEnabled(p.media.get());
-
             auto avSystem = getContext()->getSystemT<AV::AVSystem>();
             p.currentTimeLabel->setText(avSystem->getLabel(p.currentTime, p.speed));
             p.currentTimeLabel->setEnabled(p.media.get());
@@ -781,12 +847,56 @@ namespace djv
         void MediaWidget::_speedUpdate()
         {
             DJV_PRIVATE_PTR();
-            //p.speedEdit->setValue(Time::Speed::toFloat(p.speed));
+            auto context = getContext();
+            p.speedButtonGroup->clearButtons();
+            p.speedButtonLayout->clearChildren();
+            p.speeds =
+            {
+                Time::Speed(240),
+                Time::Speed(120),
+                Time::Speed(60),
+                Time::Speed(48),
+                Time::Speed(30),
+                Time::Speed(30000, 1001),
+                Time::Speed(25),
+                Time::Speed(24),
+                Time::Speed(24000, 1001),
+                Time::Speed(16)
+            };
+            for (const auto& i : p.speeds)
+            {
+                auto button = UI::ListButton::create(context);
+                std::stringstream ss;
+                ss.precision(3);
+                ss << std::fixed << Time::Speed::toFloat(i);
+                button->setText(ss.str());
+                p.speedButtonGroup->addButton(button);
+                p.speedButtonLayout->addChild(button);
+            }
+            p.speedButtonLayout->addSeparator();
+            auto button = UI::ListButton::create(context);
+            std::stringstream ss;
+            ss << _getText(DJV_TEXT("Default")) << ": ";
+            ss.precision(3);
+            ss << std::fixed << Time::Speed::toFloat(p.defaultSpeed);
+            button->setText(ss.str());
+            p.speedButtonGroup->addButton(button);
+            p.speedButtonLayout->addChild(button);
+
+            p.frameLockLabel->setText(_getText(DJV_TEXT("Frame lock")) + ": ");
             {
                 std::stringstream ss;
-                ss.precision(2);
-                ss << DJV_TEXT("FPS") << ": " << std::fixed << Time::Speed::toFloat(p.speed);
-                p.speedButton->setText(ss.str());
+                ss.precision(3);
+                ss << _getText(DJV_TEXT("FPS")) << ": " << std::fixed << Time::Speed::toFloat(p.speed);
+                p.speedPopupWidget->setText(ss.str());
+            }
+            p.speedPopupWidget->setEnabled(p.media.get());
+
+            {
+                std::stringstream ss;
+                ss.precision(3);
+                ss << std::fixed << p.realSpeed;
+                p.realSpeedLabel->setText(ss.str());
             }
         }
 

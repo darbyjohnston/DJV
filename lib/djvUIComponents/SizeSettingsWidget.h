@@ -33,36 +33,50 @@
 
 namespace djv
 {
-    namespace ViewApp
+    namespace UI
     {
-        class BackgroundImageSettingsWidget : public UI::ISettingsWidget
+        class SizeWidget : public Widget
         {
-            DJV_NON_COPYABLE(BackgroundImageSettingsWidget);
+            DJV_NON_COPYABLE(SizeWidget);
 
         protected:
             void _init(Core::Context*);
-            BackgroundImageSettingsWidget();
+            SizeWidget();
 
         public:
-            static std::shared_ptr<BackgroundImageSettingsWidget> create(Core::Context*);
+            static std::shared_ptr<SizeWidget> create(Core::Context*);
+
+        protected:
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
+            void _localeEvent(Core::Event::Locale&) override;
+
+        private:
+            void _widgetUpdate();
+            void _currentItemUpdate();
+
+            DJV_PRIVATE();
+        };
+
+        class SizeSettingsWidget : public ISettingsWidget
+        {
+            DJV_NON_COPYABLE(SizeSettingsWidget);
+
+        protected:
+            void _init(Core::Context*);
+            SizeSettingsWidget();
+
+        public:
+            static std::shared_ptr<SizeSettingsWidget> create(Core::Context*);
 
             std::string getSettingsName() const override;
             std::string getSettingsGroup() const override;
             std::string getSettingsSortKey() const override;
 
-        protected:
-            void _styleEvent(Core::Event::Style&) override;
-
-            void _localeEvent(Core::Event::Locale&) override;
-            void _updateEvent(Core::Event::Update&) override;
-
         private:
-            void _widgetUpdate();
-            void _imageUpdate();
-
             DJV_PRIVATE();
         };
 
-    } // namespace ViewApp
+    } // namespace UI
 } // namespace djv
 

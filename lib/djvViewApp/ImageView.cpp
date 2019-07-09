@@ -78,7 +78,7 @@ namespace djv
             auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
             AV::Render::ImageOptions imageOptions;
             imageOptions.colorSpace = AV::OCIO::Convert(
-                colorSpaceSettings->observeColorSpace()->get(),
+                colorSpaceSettings->observeDefaultColorSpace()->get(),
                 colorSpaceSettings->observeOutputColorSpace()->get());
             p.imageOptions = ValueSubject<AV::Render::ImageOptions>::create(imageOptions);
             p.colorDisplay = ValueSubject<std::string>::create(colorSpaceSettings->observeDisplay()->get());

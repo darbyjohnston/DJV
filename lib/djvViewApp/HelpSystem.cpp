@@ -37,6 +37,7 @@
 #include <djvUI/EventSystem.h>
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/Shortcut.h>
 #include <djvUI/Window.h>
 
 #include <djvCore/Context.h>
@@ -73,6 +74,7 @@ namespace djv
             p.actions["SystemLog"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["Debug"] = UI::Action::create();
             p.actions["Debug"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["Debug"]->setShortcut(GLFW_KEY_G, UI::Shortcut::getSystemModifier());
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Documentation"]);

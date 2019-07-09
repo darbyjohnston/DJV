@@ -33,7 +33,8 @@
 #include <djvViewApp/WindowSystem.h>
 
 #include <djvUIComponents/LanguageSettingsWidget.h>
-#include <djvUIComponents/DisplaySettingsWidget.h>
+#include <djvUIComponents/PaletteSettingsWidget.h>
+#include <djvUIComponents/SizeSettingsWidget.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionButton.h>
@@ -233,9 +234,9 @@ namespace djv
             DJV_PRIVATE_PTR();
             auto languageWidget = UI::LanguageWidget::create(context);
             languageWidget->setHAlign(UI::HAlign::Fill);
-            auto displaySizeWidget = UI::DisplaySizeWidget::create(context);
+            auto displaySizeWidget = UI::SizeWidget::create(context);
             displaySizeWidget->setHAlign(UI::HAlign::Fill);
-            auto displayPaletteWidget = UI::DisplayPaletteWidget::create(context);
+            auto displayPaletteWidget = UI::PaletteWidget::create(context);
             displayPaletteWidget->setHAlign(UI::HAlign::Fill);
 
             p.logoIcon = UI::Icon::create(context);
@@ -419,7 +420,7 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             p.labels["Language"]->setText(_getText(DJV_TEXT("Choose your language")) + ": ");
-            p.labels["DisplaySize"]->setText(_getText(DJV_TEXT("Choose a display size")) + ": ");
+            p.labels["DisplaySize"]->setText(_getText(DJV_TEXT("Choose a user interface size")) + ": ");
             p.labels["DisplayPalette"]->setText(_getText(DJV_TEXT("Choose a palette")) + ": ");
             p.buttons["Next"]->setText(_getText(DJV_TEXT("Next")));
             p.buttons["Prev"]->setText(_getText(DJV_TEXT("Previous")));

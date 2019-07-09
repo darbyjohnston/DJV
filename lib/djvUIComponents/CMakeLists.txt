@@ -7,7 +7,6 @@ set(header
     ColorSpaceModel.h
     ColorSpaceSettingsWidget.h
 	DPXSettingsWidget.h
-    DisplaySettingsWidget.h
     FileBrowser.h
     FileBrowserDialog.h
     FileBrowserItemView.h
@@ -19,7 +18,9 @@ set(header
     ListViewHeader.h
 	OpenEXRSettingsWidget.h
     PPMSettingsWidget.h
+    PaletteSettingsWidget.h
     SearchBox.h
+    SizeSettingsWidget.h
 	ThermometerWidget.h
 	TimeSettingsWidget.h
     TooltipsSettingsWidget.h
@@ -30,7 +31,6 @@ set(source
     ColorSpaceModel.cpp
     ColorSpaceSettingsWidget.cpp
 	DPXSettingsWidget.cpp
-    DisplaySettingsWidget.cpp
     FileBrowser.cpp
     FileBrowserDialog.cpp
     FileBrowserDrivesWidget.cpp
@@ -45,7 +45,9 @@ set(source
     ListViewHeader.cpp
 	OpenEXRSettingsWidget.cpp
     PPMSettingsWidget.cpp
+    PaletteSettingsWidget.cpp
     SearchBox.cpp
+    SizeSettingsWidget.cpp
 	ThermometerWidget.cpp
 	TimeSettingsWidget.cpp
     TooltipsSettingsWidget.cpp

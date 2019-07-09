@@ -50,7 +50,7 @@ namespace djv
         {
             std::shared_ptr<ColorSpaceModel> model;
 
-            std::shared_ptr<ComboBox> inputComboBox;
+            std::shared_ptr<ComboBox> defaultColorSpaceComboBox;
             std::shared_ptr<ComboBox> displayComboBox;
             std::shared_ptr<ComboBox> viewComboBox;
             std::shared_ptr<FormLayout> formLayout;
@@ -58,8 +58,8 @@ namespace djv
             std::shared_ptr<ListObserver<std::string> > colorSpacesObserver;
             std::shared_ptr<ListObserver<std::string> > displaysObserver;
             std::shared_ptr<ListObserver<std::string> > viewsObserver;
+            std::shared_ptr<ValueObserver<std::string> > defaultColorSpaceObserver;
             std::shared_ptr<ValueObserver<std::string> > colorSpaceObserver;
-            std::shared_ptr<ValueObserver<std::string> > colorSpaceObserver2;
             std::shared_ptr<ValueObserver<std::string> > displayObserver;
             std::shared_ptr<ValueObserver<std::string> > displayObserver2;
             std::shared_ptr<ValueObserver<std::string> > viewObserver;
@@ -75,12 +75,12 @@ namespace djv
 
             p.model = ColorSpaceModel::create(context);
 
-            p.inputComboBox = ComboBox::create(context);
+            p.defaultColorSpaceComboBox = ComboBox::create(context);
             p.displayComboBox = ComboBox::create(context);
             p.viewComboBox = ComboBox::create(context);
 
             p.formLayout = FormLayout::create(context);
-            p.formLayout->addChild(p.inputComboBox);
+            p.formLayout->addChild(p.defaultColorSpaceComboBox);
             p.formLayout->addChild(p.displayComboBox);
             p.formLayout->addChild(p.viewComboBox);
             addChild(p.formLayout);
@@ -88,14 +88,14 @@ namespace djv
             _widgetUpdate();
 
             auto weak = std::weak_ptr<ColorSpaceSettingsWidget>(std::dynamic_pointer_cast<ColorSpaceSettingsWidget>(shared_from_this()));
-            p.inputComboBox->setCallback(
+            p.defaultColorSpaceComboBox->setCallback(
                 [weak, context](int value)
                 {
                     if (auto widget = weak.lock())
                     {
                         auto settingsSystem = context->getSystemT<Settings::System>();
                         auto colorSpaceSettings = settingsSystem->getSettingsT<Settings::ColorSpace>();
-                        colorSpaceSettings->setColorSpace(widget->_p->model->indexToColorSpace(value));
+                        colorSpaceSettings->setDefaultColorSpace(widget->_p->model->indexToColorSpace(value));
                     }
                 });
 
@@ -183,8 +183,8 @@ namespace djv
 
             auto settingsSystem = context->getSystemT<Settings::System>();
             auto colorSpaceSettings = settingsSystem->getSettingsT<Settings::ColorSpace>();
-            p.colorSpaceObserver2 = ValueObserver<std::string>::create(
-                colorSpaceSettings->observeColorSpace(),
+            p.defaultColorSpaceObserver = ValueObserver<std::string>::create(
+                colorSpaceSettings->observeDefaultColorSpace(),
                 [weak](const std::string& value)
                 {
                     if (auto widget = weak.lock())
@@ -244,7 +244,7 @@ namespace djv
         {
             ISettingsWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
-            p.formLayout->setText(p.inputComboBox, _getText(DJV_TEXT("Input")) + ":");
+            p.formLayout->setText(p.defaultColorSpaceComboBox, _getText(DJV_TEXT("Default")) + ":");
             p.formLayout->setText(p.displayComboBox, _getText(DJV_TEXT("Display")) + ":");
             p.formLayout->setText(p.viewComboBox, _getText(DJV_TEXT("View")) + ":");
             _widgetUpdate();
@@ -254,13 +254,13 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
-            p.inputComboBox->clearItems();
+            p.defaultColorSpaceComboBox->clearItems();
             for (const auto& i : p.model->observeColorSpaces()->get())
             {
-                p.inputComboBox->addItem(i);
+                p.defaultColorSpaceComboBox->addItem(i);
             }
             const std::string& colorSpace = p.model->observeColorSpace()->get();
-            p.inputComboBox->setCurrentItem(p.model->colorSpaceToIndex(colorSpace));
+            p.defaultColorSpaceComboBox->setCurrentItem(p.model->colorSpaceToIndex(colorSpace));
 
             p.displayComboBox->clearItems();
             for (const auto& i : p.model->observeDisplays()->get())

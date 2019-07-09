@@ -1389,8 +1389,9 @@ namespace djv
                         textureV.min = 1.f - textureV.min;
                         textureV.max = 1.f - textureV.max;
                     }
+                    const std::string& imageColorSpace = image->getColorSpace();
                     const OCIO::Convert colorSpace(
-                        !options.colorSpace.input.empty() ? options.colorSpace.input : image->getColorSpace(),
+                        !imageColorSpace.empty() ? imageColorSpace : options.colorSpace.input,
                         options.colorSpace.output);
                     if (colorSpace.isValid())
                     {

@@ -36,6 +36,7 @@
 #include <djvUI/ActionGroup.h>
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/Shortcut.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/TextSystem.h>
@@ -86,6 +87,7 @@ namespace djv
             }
             p.actions["Info"] = UI::Action::create();
             p.actions["Info"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["Info"]->setShortcut(GLFW_KEY_N, UI::Shortcut::getSystemModifier());
 
             p.menu = UI::Menu::create(context);
             for (const auto& i : toolActions)

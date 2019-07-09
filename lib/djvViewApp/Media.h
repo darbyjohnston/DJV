@@ -64,6 +64,8 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<AV::IO::Info> > observeInfo() const;
             std::shared_ptr<Core::IValueSubject<size_t> > observeLayer() const;
             std::shared_ptr<Core::IValueSubject<Core::Time::Speed> > observeSpeed() const;
+            std::shared_ptr<Core::IValueSubject<float> > observeRealSpeed() const;
+            std::shared_ptr<Core::IValueSubject<bool> > observeFrameLock() const;
             std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > observeDuration() const;
             std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > observeCurrentTime() const;
             std::shared_ptr<Core::IValueSubject<std::shared_ptr<AV::Image::Image> > > observeCurrentImage() const;
@@ -86,6 +88,7 @@ namespace djv
             void nextLayer();
             void prevLayer();
             void setSpeed(const Core::Time::Speed&);
+            void setFrameLock(bool);
             void setCurrentTime(Core::Time::Timestamp);
             void setPlayback(Playback);
             void setPlaybackMode(PlaybackMode);

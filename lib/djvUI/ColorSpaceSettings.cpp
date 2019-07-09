@@ -49,7 +49,7 @@ namespace djv
         {
             struct ColorSpace::Private
             {
-                std::shared_ptr<ValueSubject<std::string> > colorSpace;
+                std::shared_ptr<ValueSubject<std::string> > defaultColorSpace;
                 std::shared_ptr<ValueSubject<std::string> > display;
                 std::shared_ptr<ValueSubject<std::string> > view;
                 std::shared_ptr<ValueSubject<std::string> > outputColorSpace;
@@ -59,7 +59,7 @@ namespace djv
             {
                 ISettings::_init("djv::UI::Settings::ColorSpace", context);
                 DJV_PRIVATE_PTR();
-                p.colorSpace = ValueSubject<std::string>::create();
+                p.defaultColorSpace = ValueSubject<std::string>::create();
                 auto ocioSystem = context->getSystemT<AV::OCIO::System>();
                 p.display = ValueSubject<std::string>::create(ocioSystem->getDefaultDisplay());
                 p.view = ValueSubject<std::string>::create(ocioSystem->getDefaultView());
@@ -81,9 +81,9 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<Core::IValueSubject<std::string> > ColorSpace::observeColorSpace() const
+            std::shared_ptr<Core::IValueSubject<std::string> > ColorSpace::observeDefaultColorSpace() const
             {
-                return _p->colorSpace;
+                return _p->defaultColorSpace;
             }
 
             std::shared_ptr<Core::IValueSubject<std::string> > ColorSpace::observeDisplay() const
@@ -101,9 +101,9 @@ namespace djv
                 return _p->outputColorSpace;
             }
 
-            void ColorSpace::setColorSpace(const std::string& value)
+            void ColorSpace::setDefaultColorSpace(const std::string& value)
             {
-                _p->colorSpace->setIfChanged(value);
+                _p->defaultColorSpace->setIfChanged(value);
             }
 
             void ColorSpace::setDisplay(const std::string& value)
@@ -128,7 +128,7 @@ namespace djv
                 if (value.is<picojson::object>())
                 {
                     const auto & object = value.get<picojson::object>();
-                    UI::Settings::read("ColorSpace", object, p.colorSpace);
+                    UI::Settings::read("DefaultColorSpace", object, p.defaultColorSpace);
                     UI::Settings::read("Display", object, p.display);
                     UI::Settings::read("View", object, p.view);
                 }
@@ -139,7 +139,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 picojson::value out(picojson::object_type, true);
                 auto & object = out.get<picojson::object>();
-                UI::Settings::write("ColorSpace", p.colorSpace->get(), object);
+                UI::Settings::write("DefaultColorSpace", p.defaultColorSpace->get(), object);
                 UI::Settings::write("Display", p.display->get(), object);
                 UI::Settings::write("View", p.view->get(), object);
                 return out;

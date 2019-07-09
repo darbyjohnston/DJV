@@ -120,6 +120,7 @@ namespace djv
             addChild(p.layout);
 
             _widgetUpdate();
+            _imageUpdate();
 
             auto weak = std::weak_ptr<BackgroundImageSettingsWidget>(std::dynamic_pointer_cast<BackgroundImageSettingsWidget>(shared_from_this()));
             p.lineEdit->setTextFinishedCallback(
@@ -213,6 +214,7 @@ namespace djv
                         {
                             widget->_p->fileName = value;
                             widget->_widgetUpdate();
+                            widget->_imageUpdate();
                         }
                     });
 
@@ -255,6 +257,12 @@ namespace djv
             return "B";
         }
 
+        void BackgroundImageSettingsWidget::_styleEvent(Event::Style& event)
+        {
+            ISettingsWidget::_styleEvent(event);
+            _imageUpdate();
+        }
+
         void BackgroundImageSettingsWidget::_localeEvent(Event::Locale& event)
         {
             ISettingsWidget::_localeEvent(event);
@@ -287,11 +295,16 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             p.lineEdit->setText(p.fileName);
+            p.colorizeButton->setChecked(p.colorize);
+        }
+
+        void BackgroundImageSettingsWidget::_imageUpdate()
+        {
+            DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const float s = style->getMetric(UI::MetricsRole::TextColumn);
             auto thumbnailSystem = getContext()->getSystemT<AV::ThumbnailSystem>();
             p.imageFuture = thumbnailSystem->getImage(p.fileName, AV::Image::Size(s, s));
-            p.colorizeButton->setChecked(p.colorize);
         }
 
     } // namespace ViewApp

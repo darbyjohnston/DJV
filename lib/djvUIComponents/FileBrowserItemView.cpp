@@ -78,8 +78,9 @@ namespace djv
                 std::map<size_t, std::string> sizeText;
                 std::map<size_t, std::string> timeText;
                 std::vector<float> split = { .7f, .8f, 1.f };
-                std::string colorSpace;
-                std::shared_ptr<ValueObserver<std::string> > colorSpaceObserver;
+                AV::OCIO::Convert colorSpace;
+                std::shared_ptr<ValueObserver<std::string> > defaultColorSpaceObserver;
+                std::shared_ptr<ValueObserver<std::string> > outputColorSpaceObserver;
 
                 size_t hover = invalid;
                 size_t grab = invalid;
@@ -97,13 +98,23 @@ namespace djv
                 auto settingsSystem = context->getSystemT<Settings::System>();
                 auto colorSpaceSettings = settingsSystem->getSettingsT<Settings::ColorSpace>();
                 auto weak = std::weak_ptr<ItemView>(std::dynamic_pointer_cast<ItemView>(shared_from_this()));
-                p.colorSpaceObserver = ValueObserver<std::string>::create(
+                p.defaultColorSpaceObserver = ValueObserver<std::string>::create(
+                    colorSpaceSettings->observeDefaultColorSpace(),
+                    [weak](const std::string& value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->colorSpace.input = value;
+                            widget->_itemsUpdate();
+                        }
+                    });
+                p.outputColorSpaceObserver = ValueObserver<std::string>::create(
                     colorSpaceSettings->observeOutputColorSpace(),
                     [weak](const std::string& value)
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->colorSpace = value;
+                            widget->_p->colorSpace.output = value;
                             widget->_itemsUpdate();
                         }
                     });
@@ -431,7 +442,7 @@ namespace djv
                                     }
                                     render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f, opacity));
                                     AV::Render::ImageOptions options;
-                                    options.colorSpace.output = p.colorSpace;
+                                    options.colorSpace = p.colorSpace;
                                     render->drawImage(j->second, pos, options);
                                 }
                             }

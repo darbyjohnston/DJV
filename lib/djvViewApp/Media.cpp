@@ -61,6 +61,9 @@ namespace djv
             AV::IO::AudioInfo audioInfo;
             std::shared_ptr<ValueSubject<size_t> > layer;
             std::shared_ptr<ValueSubject<Time::Speed> > speed;
+            std::shared_ptr<ValueSubject<float> > realSpeed;
+            size_t realSpeedFrameCount = 0;
+            std::shared_ptr<ValueSubject<bool> > frameLock;
             std::shared_ptr<ValueSubject<Time::Timestamp> > duration;
             std::shared_ptr<ValueSubject<Time::Timestamp> > currentTime;
             std::shared_ptr<ValueSubject<std::shared_ptr<AV::Image::Image> > > currentImage;
@@ -104,6 +107,8 @@ namespace djv
             p.info = ValueSubject<AV::IO::Info>::create();
             p.layer = ValueSubject<size_t>::create();
             p.speed = ValueSubject<Time::Speed>::create();
+            p.realSpeed = ValueSubject<float>::create();
+            p.frameLock = ValueSubject<bool>::create();
             p.duration = ValueSubject<Time::Timestamp>::create();
             p.currentTime = ValueSubject<Time::Timestamp>::create();
             p.currentImage = ValueSubject<std::shared_ptr<AV::Image::Image> >::create();
@@ -214,6 +219,16 @@ namespace djv
         std::shared_ptr<IValueSubject<Time::Speed> > Media::observeSpeed() const
         {
             return _p->speed;
+        }
+
+        std::shared_ptr<IValueSubject<float> > Media::observeRealSpeed() const
+        {
+            return _p->realSpeed;
+        }
+
+        std::shared_ptr<IValueSubject<bool> > Media::observeFrameLock() const
+        {
+            return _p->frameLock;
         }
 
         std::shared_ptr<IValueSubject<Time::Timestamp> > Media::observeDuration() const
@@ -337,6 +352,11 @@ namespace djv
         void Media::setSpeed(const Time::Speed& value)
         {
             _p->speed->setIfChanged(value);
+        }
+
+        void Media::setFrameLock(bool value)
+        {
+            _p->frameLock->setIfChanged(value);
         }
 
         void Media::setCurrentTime(Time::Timestamp value)
@@ -569,11 +589,12 @@ namespace djv
             case Playback::Reverse:
             {
                 p.timeOffset = p.currentTime->get();
+                p.realSpeedFrameCount = 0;
                 _timeUpdate();
                 p.startTime = std::chrono::system_clock::now();
                 auto weak = std::weak_ptr<Media>(std::dynamic_pointer_cast<Media>(shared_from_this()));
                 p.playbackTimer->start(
-                    Time::getMilliseconds(Time::TimerValue::Fast),
+                    Time::getMilliseconds(Time::TimerValue::VeryFast),
                     [weak](float)
                 {
                     if (auto media = weak.lock())
@@ -638,6 +659,11 @@ namespace djv
                 else
                 {
                     time = p.framePts;
+
+                    const auto now = std::chrono::system_clock::now();
+                    const std::chrono::duration<double> delta = now - p.startTime;
+                    p.realSpeed->setIfChanged(delta.count() ? (p.realSpeedFrameCount / static_cast<float>(delta.count())) : 0.f);
+
                     /*const auto now = std::chrono::system_clock::now();
                     const std::chrono::duration<double> delta = now - p.startTime;
                     Time::Timestamp pts = static_cast<Time::Timestamp>(delta.count() * Math::Rational::toFloat(speed));
@@ -714,7 +740,7 @@ namespace djv
                     }
                 }
                 p.currentTime->setIfChanged(time);
-                if (p.read && Playback::Reverse == playback)
+                //if (p.read && Playback::Reverse == playback)
                 {
                     p.read->seek(time);
                 }
@@ -748,6 +774,7 @@ namespace djv
                         {
                             auto frame = queue.popFrame();
                             p.framePts = frame.timestamp;
+                            ++p.realSpeedFrameCount;
                         }
                     }
                     //p.readFinished |= queue.isFinished();
