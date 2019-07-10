@@ -364,9 +364,9 @@ namespace djv
             DJV_PRIVATE_PTR();
             Time::Timestamp start = 0;
             const auto& speed = p.speed->get();
-            const int64_t f = Time::scale(1, speed.swap(), Time::getTimebaseRational());
+            const int64_t f = 0;
             const Time::Timestamp duration = p.duration->get();
-            Time::Timestamp end = duration - f;
+            Time::Timestamp end = duration - 1;
             if (p.inOutPointsEnabled->get())
             {
                 start = p.inPoint->get();
@@ -400,21 +400,21 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const auto& speed = p.speed->get();
-            setCurrentTime(p.duration->get() - Time::scale(1, speed.swap(), Time::getTimebaseRational()));
+            setCurrentTime(p.duration->get() - 1);
         }
 
         void Media::nextFrame(size_t value)
         {
             DJV_PRIVATE_PTR();
             const auto& speed = p.speed->get();
-            setCurrentTime(p.currentTime->get() + Time::scale(value, speed.swap(), Time::getTimebaseRational()));
+            setCurrentTime(p.currentTime->get() + 1);
         }
 
         void Media::prevFrame(size_t value)
         {
             DJV_PRIVATE_PTR();
             const auto& speed = p.speed->get();
-            setCurrentTime(p.currentTime->get() - Time::scale(value, speed.swap(), Time::getTimebaseRational()));
+            setCurrentTime(p.currentTime->get() - 1);
         }
 
         void Media::setPlayback(Playback value)
@@ -639,7 +639,6 @@ namespace djv
 
                 Time::Timestamp time = 0;
                 const auto& speed = p.speed->get();
-                const int64_t f = Time::scale(1, speed.swap(), Time::getTimebaseRational());
                 const Time::Timestamp duration = p.duration->get();
                 if (Playback::Forward == playback && p.audioInfo.info.isValid() && p.alSource)
                 {
@@ -661,16 +660,16 @@ namespace djv
                     time = p.framePts;
 
                     const auto now = std::chrono::system_clock::now();
-                    const std::chrono::duration<double> delta = now - p.startTime;
+                    std::chrono::duration<double> delta = now - p.startTime;
                     p.realSpeed->setIfChanged(delta.count() ? (p.realSpeedFrameCount / static_cast<float>(delta.count())) : 0.f);
 
-                    /*const auto now = std::chrono::system_clock::now();
-                    const std::chrono::duration<double> delta = now - p.startTime;
-                    Time::Timestamp pts = static_cast<Time::Timestamp>(delta.count() * Math::Rational::toFloat(speed));
+                    //const auto now = std::chrono::system_clock::now();
+                    //const std::chrono::duration<double> delta = now - p.startTime;
+                    /*Time::Timestamp pts = static_cast<Time::Timestamp>(delta.count() * Math::Rational::toFloat(speed));
                     switch (playback)
                     {
-                    case Playback::Forward: time = p.timeOffset + Time::scale(pts, speed.swap(), Time::getTimebaseRational()); break;
-                    case Playback::Reverse: time = p.timeOffset - Time::scale(pts, speed.swap(), Time::getTimebaseRational()); break;
+                    case Playback::Forward: time = p.timeOffset + pts; break;
+                    case Playback::Reverse: time = p.timeOffset - pts; break;
                     default: break;
                     }*/
 
@@ -687,8 +686,8 @@ namespace djv
                     }*/
                 }
 
-                Time::Timestamp start = 0;
-                Time::Timestamp end = duration - f;
+                /*Time::Timestamp start = 0;
+                Time::Timestamp end = duration - 1;
                 if (p.inOutPointsEnabled->get())
                 {
                     start = p.inPoint->get();
@@ -738,9 +737,9 @@ namespace djv
                     }
                     default: break;
                     }
-                }
+                }*/
                 p.currentTime->setIfChanged(time);
-                //if (p.read && Playback::Reverse == playback)
+                if (p.read && Playback::Reverse == playback)
                 {
                     p.read->seek(time);
                 }
@@ -771,10 +770,11 @@ namespace djv
                     else
                     {
                         if (queue.getFrameCount() > 1)
+                        //while (queue.hasFrames() && queue.getFrame().timestamp < p.currentTime->get())
                         {
                             auto frame = queue.popFrame();
                             p.framePts = frame.timestamp;
-                            ++p.realSpeedFrameCount;
+                            p.realSpeedFrameCount = p.realSpeedFrameCount + 1;
                         }
                     }
                     //p.readFinished |= queue.isFinished();

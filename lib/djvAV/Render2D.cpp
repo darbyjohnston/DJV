@@ -336,6 +336,7 @@ namespace djv
                 std::shared_ptr<OpenGL::VAO>                        vao;
                 std::string                                         vertexSource;
                 std::string                                         fragmentSource;
+                std::shared_ptr<OpenGL::Shader>                     shader;
                 GLint                                               mvpLoc              = 0;
 
                 std::shared_ptr<Time::Timer>                        statsTimer;
@@ -470,17 +471,20 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
 
-                auto shader = OpenGL::Shader::create(Shader::create(p.vertexSource, p.getFragmentSource()));
-                shader->bind();
-                const auto program = shader->getProgram();
-                p.mvpLoc = glGetUniformLocation(program, "transform.mvp");
-                p.primitiveData.imageChannelsLoc = glGetUniformLocation(program, "imageChannels");
-                p.primitiveData.imageChannelLoc = glGetUniformLocation(program, "imageChannel");
-                p.primitiveData.colorModeLoc = glGetUniformLocation(program, "colorMode");
-                p.primitiveData.colorLoc = glGetUniformLocation(program, "color");
-                p.primitiveData.textureSamplerLoc = glGetUniformLocation(program, "textureSampler");
-                p.primitiveData.colorSpaceLoc = glGetUniformLocation(program, "colorSpace");
-                p.primitiveData.colorSpaceSamplerLoc = glGetUniformLocation(program, "colorSpaceSampler");
+                if (!p.shader)
+                {
+                    p.shader = OpenGL::Shader::create(Shader::create(p.vertexSource, p.getFragmentSource()));
+                    const auto program = p.shader->getProgram();
+                    p.mvpLoc = glGetUniformLocation(program, "transform.mvp");
+                    p.primitiveData.imageChannelsLoc = glGetUniformLocation(program, "imageChannels");
+                    p.primitiveData.imageChannelLoc = glGetUniformLocation(program, "imageChannel");
+                    p.primitiveData.colorModeLoc = glGetUniformLocation(program, "colorMode");
+                    p.primitiveData.colorLoc = glGetUniformLocation(program, "color");
+                    p.primitiveData.textureSamplerLoc = glGetUniformLocation(program, "textureSampler");
+                    p.primitiveData.colorSpaceLoc = glGetUniformLocation(program, "colorSpace");
+                    p.primitiveData.colorSpaceSamplerLoc = glGetUniformLocation(program, "colorSpaceSampler");
+                }
+                p.shader->bind();
 
 #if defined(DJV_OPENGL_ES2)
 #else // DJV_OPENGL_ES2
@@ -509,7 +513,7 @@ namespace djv
                     p.viewport.max.y,
                     p.viewport.min.y,
                     -1.f, 1.f);
-                shader->setUniform(p.mvpLoc, viewMatrix);
+                p.shader->setUniform(p.mvpLoc, viewMatrix);
 
                 const auto& atlasTextures = p.textureAtlas->getTextures();
                 for (GLuint i = 0; i < static_cast<GLuint>(atlasTextures.size()); ++i)
@@ -536,7 +540,7 @@ namespace djv
                         static_cast<GLint>(clipRect.min.y),
                         static_cast<GLsizei>(clipRect.w()),
                         static_cast<GLsizei>(clipRect.h()));
-                    primitive->bind(p.primitiveData, shader);
+                    primitive->bind(p.primitiveData, p.shader);
                     p.vao->draw(primitive->vaoOffset, primitive->vaoSize);
                 }
 
@@ -563,6 +567,7 @@ namespace djv
                 while (p.colorSpaceCache.size() > colorSpaceCacheMax)
                 {
                     p.colorSpaceCache.erase(p.colorSpaceCache.begin());
+                    p.shader.reset();
                 }
             }
 
@@ -1425,6 +1430,7 @@ namespace djv
                                 processor->getGpuLut3D(data, shaderDesc);
                                 colorSpaceData.lut3D->copy();
                                 colorSpaceCache[colorSpace] = colorSpaceData;
+                                shader.reset();
                             }
                             catch (const std::exception& e)
                             {

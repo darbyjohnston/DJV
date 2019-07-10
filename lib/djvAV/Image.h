@@ -44,13 +44,14 @@ namespace djv
                 DJV_NON_COPYABLE(Image);
 
             protected:
-                void _init(const Info &);
+                void _init(const Info &, const std::shared_ptr<Core::FileSystem::FileIO>&);
                 Image();
 
             public:
                 ~Image();
 
-                static std::shared_ptr<Image> create(const Info &);
+                static std::shared_ptr<Image> create(const Info&);
+                static std::shared_ptr<Image> create(const Info&, const std::shared_ptr<Core::FileSystem::FileIO>&);
 
                 const Tags& getTags() const;
                 void setTags(const Tags&);

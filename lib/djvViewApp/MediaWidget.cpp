@@ -566,8 +566,7 @@ namespace djv
                         if (value.video.size())
                         {
                             widget->_p->defaultSpeed = value.video[0].speed;
-                            const int64_t f = Time::scale(1, value.video[0].speed.swap(), Time::getTimebaseRational());
-                            widget->_p->playbackLayout->setVisible(value.video[0].duration > f);
+                            widget->_p->playbackLayout->setVisible(value.video[0].duration > 1);
                         }
                         else
                         {
@@ -852,6 +851,7 @@ namespace djv
             p.speedButtonLayout->clearChildren();
             p.speeds =
             {
+                Time::Speed(2400),
                 Time::Speed(240),
                 Time::Speed(120),
                 Time::Speed(60),

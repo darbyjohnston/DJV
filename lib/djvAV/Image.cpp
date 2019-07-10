@@ -35,9 +35,9 @@ namespace djv
     {
         namespace Image
         {
-            void Image::_init(const Info & value)
+            void Image::_init(const Info & value, const std::shared_ptr<Core::FileSystem::FileIO>& io)
             {
-                Data::_init(value);
+                Data::_init(value, io);
             }
 
             Image::Image()
@@ -49,7 +49,14 @@ namespace djv
             std::shared_ptr<Image> Image::create(const Info & value)
             {
                 auto out = std::shared_ptr<Image>(new Image);
-                out->_init(value);
+                out->_init(value, nullptr);
+                return out;
+            }
+
+            std::shared_ptr<Image> Image::create(const Info& value, const std::shared_ptr<Core::FileSystem::FileIO>& io)
+            {
+                auto out = std::shared_ptr<Image>(new Image);
+                out->_init(value, io);
                 return out;
             }
 

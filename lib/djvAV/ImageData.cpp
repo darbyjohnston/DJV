@@ -29,20 +29,27 @@
 
 #include <djvAV/ImageData.h>
 
+#include <djvCore/FileIO.h>
+
 namespace djv
 {
     namespace AV
     {
         namespace Image
         {
-            void Data::_init(const Info & info)
+            void Data::_init(const Info & info, const std::shared_ptr<Core::FileSystem::FileIO>& fileIO)
             {
                 _uid = Core::createUID();
                 _info = info;
                 _pixelByteCount = info.getPixelByteCount();
                 _scanlineByteCount = info.getScanlineByteCount();
                 _dataByteCount = info.getDataByteCount();
-                if (_dataByteCount)
+                _fileIO = fileIO;
+                if (_fileIO)
+                {
+                    _p = _fileIO->mmapP();
+                }
+                else if (_dataByteCount)
                 {
                     _data = new uint8_t[_dataByteCount];
                     _p = _data;
@@ -54,15 +61,23 @@ namespace djv
                 delete[] _data;
             }
 
-            std::shared_ptr<Data> Data::create(const Info & info)
+            std::shared_ptr<Data> Data::create(const Info& info)
             {
                 auto out = std::shared_ptr<Data>(new Data);
-                out->_init(info);
+                out->_init(info, nullptr);
+                return out;
+            }
+
+            std::shared_ptr<Data> Data::create(const Info& info, const std::shared_ptr<Core::FileSystem::FileIO>& fileIO)
+            {
+                auto out = std::shared_ptr<Data>(new Data);
+                out->_init(info, fileIO);
                 return out;
             }
 
             void Data::zero()
             {
+                _detach();
                 memset(_data, 0, _dataByteCount);
             }
 
@@ -96,6 +111,17 @@ namespace djv
 #endif
                 }
                 return false;
+            }
+
+            void Data::_detach()
+            {
+                if (_fileIO)
+                {
+                    _data = new uint8_t[_dataByteCount];
+                    memcpy(_data, _fileIO->mmapP(), std::min(_fileIO->getSize() - _fileIO->getPos(), _dataByteCount));
+                    _p = _data;
+                    _fileIO.reset();
+                }
             }
 
         } // namespace Image

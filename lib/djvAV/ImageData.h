@@ -39,6 +39,15 @@
 
 namespace djv
 {
+    namespace Core
+    {
+        namespace FileSystem
+        {
+            class FileIO;
+    
+        } // namespace FileSystem
+    } // namespace Core
+
     namespace AV
     {
         namespace Image
@@ -112,13 +121,14 @@ namespace djv
                 DJV_NON_COPYABLE(Data);
 
             protected:
-                void _init(const Info &);
+                void _init(const Info &, const std::shared_ptr<Core::FileSystem::FileIO>&);
                 inline Data();
 
             public:
                 ~Data();
 
-                static std::shared_ptr<Data> create(const Info &);
+                static std::shared_ptr<Data> create(const Info&);
+                static std::shared_ptr<Data> create(const Info&, const std::shared_ptr<Core::FileSystem::FileIO>&);
 
                 inline Core::UID getUID() const;
 
@@ -151,6 +161,8 @@ namespace djv
                 bool operator != (const Data &) const;
 
             private:
+                void _detach();
+
                 Core::UID _uid = 0;
                 Info _info;
                 uint8_t _pixelByteCount = 0;
@@ -158,6 +170,7 @@ namespace djv
                 size_t _dataByteCount = 0;
                 uint8_t * _data = nullptr;
                 const uint8_t * _p = nullptr;
+                std::shared_ptr<Core::FileSystem::FileIO> _fileIO;
             };
 
         } // namespace Image

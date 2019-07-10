@@ -105,11 +105,12 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             std::string out;
-            Frame::Index frame = Time::timestampToFrame(value, speed);
+            Frame::Index frame = value;
             switch (p.timeUnits->get())
             {
             case TimeUnits::Timecode:
             {
+                frame = Time::timestampToFrame(value, speed);
                 const float speedF = Math::Rational::toFloat(speed);
                 const int hours = static_cast<int>(frame / (speedF * 60 * 60));
                 frame -= static_cast<int64_t>(hours * static_cast<double>(speedF)) * 60 * 60;

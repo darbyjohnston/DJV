@@ -69,24 +69,25 @@ namespace djv
 
                 std::shared_ptr<Image::Image> Read::_readImage(const std::string & fileName)
                 {
-                    FileSystem::FileIO io;
+                    auto io = std::shared_ptr<FileSystem::FileIO>(new FileSystem::FileIO);
                     Data data = Data::First;
-                    const auto info = _open(fileName, io, data);
-                    auto out = Image::Image::create(info.video[0].info);
+                    const auto info = _open(fileName, *io, data);
+                    std::shared_ptr<Image::Image> out;
                     switch (data)
                     {
                     case Data::ASCII:
                     {
+                        out = Image::Image::create(info.video[0].info);
                         const size_t channelCount = Image::getChannelCount(info.video[0].info.type);
                         const size_t bitDepth = Image::getBitDepth(info.video[0].info.type);
                         for (uint16_t y = 0; y < info.video[0].info.size.h; ++y)
                         {
-                            readASCII(io, out->getData(y), info.video[0].info.size.w * channelCount, bitDepth);
+                            readASCII(*io, out->getData(y), info.video[0].info.size.w * channelCount, bitDepth);
                         }
                         break;
                     }
                     case Data::Binary:
-                        io.read(out->getData(), info.video[0].info.getDataByteCount());
+                        out = Image::Image::create(info.video[0].info, io);
                         break;
                     default: break;
                     }

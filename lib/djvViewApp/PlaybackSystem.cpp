@@ -513,9 +513,9 @@ namespace djv
         void PlaybackSystem::_actionsUpdate()
         {
             DJV_PRIVATE_PTR();
-            const bool playable = 
+            const bool playable =
                 (p.currentMedia ? true : false) &&
-                (p.duration > Time::scale(1, p.speed.swap(), Time::getTimebaseRational()));
+                (p.duration > 1);
             p.actions["Forward"]->setEnabled(playable);
             p.actions["Reverse"]->setEnabled(playable);
             p.actions["PlayOnce"]->setEnabled(playable);

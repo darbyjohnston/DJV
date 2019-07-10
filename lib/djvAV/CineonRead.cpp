@@ -78,16 +78,14 @@ namespace djv
                 std::shared_ptr<Image::Image> Read::_readImage(const std::string & fileName)
                 {
                     DJV_PRIVATE_PTR();
-                    FileSystem::FileIO io;
-                    const auto info = _open(fileName, io);
-                    auto out = Image::Image::create(info.video[0].info);
+                    auto io = std::shared_ptr<FileSystem::FileIO>(new FileSystem::FileIO);
+                    const auto info = _open(fileName, *io);
+                    auto out = Image::Image::create(info.video[0].info, io);
                     out->setTags(info.tags);
                     if (ColorProfile::FilmPrint == p.colorProfile)
                     {
                         out->setColorSpace(p.options.colorSpace);
                     }
-                    const size_t size = std::min(out->getDataByteCount(), io.getSize() - io.getPos());
-                    memcpy(out->getData(), io.mmapP(), size);
                     return out;
                 }
 

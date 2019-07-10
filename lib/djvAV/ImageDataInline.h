@@ -245,16 +245,19 @@ namespace djv
 
             inline uint8_t * Data::getData()
             {
+                const_cast<Data*>(this)->_detach();
                 return _data;
             }
 
             inline uint8_t * Data::getData(uint16_t y)
             {
+                const_cast<Data*>(this)->_detach();
                 return _data + y * _scanlineByteCount;
             }
 
             inline uint8_t * Data::getData(uint16_t x, uint16_t y)
             {
+                const_cast<Data*>(this)->_detach();
                 return _data + y * _scanlineByteCount + x * static_cast<size_t>(_pixelByteCount);
             }
 
