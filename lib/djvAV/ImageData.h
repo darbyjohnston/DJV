@@ -146,7 +146,7 @@ namespace djv
                 inline bool isValid() const;
                 inline uint8_t getPixelByteCount() const;
                 inline size_t getScanlineByteCount() const;
-                inline size_t getDataByteCount() const;
+                size_t getDataByteCount() const;
 
                 inline const uint8_t * getData() const;
                 inline const uint8_t * getData(uint16_t y) const;

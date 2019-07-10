@@ -75,6 +75,11 @@ namespace djv
                 return out;
             }
 
+            size_t Data::getDataByteCount() const
+            {
+                return _fileIO ? (_fileIO->getSize() - _fileIO->getPos()) : _dataByteCount;
+            }
+
             void Data::zero()
             {
                 _detach();

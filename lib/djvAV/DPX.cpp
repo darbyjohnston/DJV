@@ -589,7 +589,7 @@ namespace djv
 
                     header.image.elemSize = 1;
                     header.image.size[0]  = info.video[0].info.size.w;
-                    header.image.size[1]  = info.video[0].info.size.w;
+                    header.image.size[1]  = info.video[0].info.size.h;
                     header.image.orient   = static_cast<uint16_t>(Orient::LeftRightTopBottom);
 
                     switch (info.video[0].info.type)

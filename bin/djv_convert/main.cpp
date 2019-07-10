@@ -62,7 +62,10 @@ namespace djv
                 _parseArgs();
 
                 auto io = getSystemT<AV::IO::System>();
-                _read = io->read(argv[1]);
+                AV::IO::ReadOptions readOptions;
+                //! \todo What's a good default for this?
+                readOptions.videoQueueSize = 10;
+                _read = io->read(argv[1], readOptions);
                 auto info = _read->getInfo().get();
                 auto & video = info.video;
                 if (!video.size())

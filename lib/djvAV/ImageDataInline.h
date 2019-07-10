@@ -215,17 +215,12 @@ namespace djv
 
             inline uint8_t Data::getPixelByteCount() const
             {
-                return _info.getPixelByteCount();
+                return _pixelByteCount;
             }
 
             inline size_t Data::getScanlineByteCount() const
             {
-                return _info.getScanlineByteCount();
-            }
-
-            inline size_t Data::getDataByteCount() const
-            {
-                return _info.getDataByteCount();
+                return _scanlineByteCount;
             }
 
             inline const uint8_t * Data::getData() const
