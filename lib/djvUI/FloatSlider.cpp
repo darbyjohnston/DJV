@@ -176,6 +176,7 @@ namespace djv
             const BBox2f & g = getMargin().bbox(getGeometry(), style);
             const glm::vec2 c = g.getCenter();
             const float m = style->getMetric(MetricsRole::MarginSmall);
+            const float b = style->getMetric(MetricsRole::Border);
             auto render = _getRender();
             if (p.value > 0.f && p.model)
             {
@@ -258,17 +259,20 @@ namespace djv
                 default: break;
                 }
                 const float r = ceilf(p.handleWidth / 2.f - 1.f);
+                const BBox2f handleBBox = BBox2f(pos.x - r, pos.y - r, r * 2.f, r * 2.f);
+                render->setFillColor(style->getColor(ColorRole::Border));
+                render->drawRect(handleBBox);
                 render->setFillColor(style->getColor(ColorRole::Button));
-                render->drawCircle(pos, r);
+                render->drawRect(handleBBox.margin(-b));
                 if (p.pressedID != Event::InvalidID)
                 {
                     render->setFillColor(style->getColor(ColorRole::Pressed));
-                    render->drawCircle(pos, r);
+                    render->drawRect(handleBBox);
                 }
                 else if (_getPointerHover().size())
                 {
                     render->setFillColor(style->getColor(ColorRole::Hovered));
-                    render->drawCircle(pos, r);
+                    render->drawRect(handleBBox);
                 }
             }
         }

@@ -259,19 +259,20 @@ namespace djv
                 default: break;
                 }
                 const float r = ceilf(p.handleWidth / 2.f - 1.f);
+                const BBox2f handleBBox = BBox2f(pos.x - r, pos.y - r, r * 2.f, r * 2.f);
                 render->setFillColor(style->getColor(ColorRole::Border));
-                render->drawCircle(pos, r);
+                render->drawRect(handleBBox);
                 render->setFillColor(style->getColor(ColorRole::Button));
-                render->drawCircle(pos, r - b);
+                render->drawRect(handleBBox.margin(-b));
                 if (p.pressedID != Event::InvalidID)
                 {
                     render->setFillColor(style->getColor(ColorRole::Pressed));
-                    render->drawCircle(pos, r);
+                    render->drawRect(handleBBox);
                 }
                 else if (_getPointerHover().size())
                 {
                     render->setFillColor(style->getColor(ColorRole::Hovered));
-                    render->drawCircle(pos, r);
+                    render->drawRect(handleBBox);
                 }
             }
         }

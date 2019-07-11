@@ -132,27 +132,27 @@ namespace djv
                 const BBox2f g1 = g.margin(-m);
                 auto render = _getRender();
                 render->setFillColor(style->getColor(_isToggled() ? ColorRole::Checked : ColorRole::Trough));
-                render->drawPill(g1);
+                render->drawRect(g1);
                 if (_isHovered())
                 {
                     render->setFillColor(style->getColor(ColorRole::Hovered));
-                    render->drawPill(g1);
+                    render->drawRect(g1);
                 }
 
                 const BBox2f g2 = g1.margin(-b);
                 const float r = g2.h() / 2.f;
                 const float x = Math::lerp(p.animationValue, g2.min.x + r, g2.max.x - r);
-                const glm::vec2 pos(x, g2.min.y + r);
+                const BBox2f handleBBox(x - r, g2.min.y, r * 2.f, r * 2.f);
                 auto color = style->getColor(ColorRole::Border);
                 render->setFillColor(color);
-                render->drawCircle(pos, r);
+                render->drawRect(handleBBox);
                 color = style->getColor(ColorRole::Button);
                 render->setFillColor(color);
-                render->drawCircle(pos, r - b);
+                render->drawRect(handleBBox.margin(-b));
                 if (_isPressed())
                 {
                     render->setFillColor(style->getColor(ColorRole::Pressed));
-                    render->drawCircle(pos, r - b);
+                    render->drawRect(handleBBox);
                 }
             }
 
