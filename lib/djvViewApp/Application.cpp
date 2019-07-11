@@ -29,6 +29,8 @@
 
 #include <djvViewApp/Application.h>
 
+#include <djvDesktopApp/GLFWSystem.h>
+
 #include <djvViewApp/AnnotateSystem.h>
 #include <djvViewApp/AudioSystem.h>
 #include <djvViewApp/ColorPickerSystem.h>
@@ -48,6 +50,16 @@
 
 #include <djvUIComponents/UIComponentsSystem.h>
 
+#include <djvAV/AVSystem.h>
+#include <djvAV/IO.h>
+#include <djvAV/Render2D.h>
+
+#include <djvCore/LogSystem.h>
+#include <djvCore/ResourceSystem.h>
+#include <djvCore/Timer.h>
+
+#include <GLFW/glfw3.h>
+
 using namespace djv::Core;
 
 namespace djv
@@ -56,8 +68,12 @@ namespace djv
     {
         struct Application::Private
         {
-            std::shared_ptr<UISettings> uiSettings;
             std::vector<std::shared_ptr<ISystem> > systems;
+
+            std::vector<std::shared_ptr<AV::IO::IRead> > read;
+            std::vector<std::shared_ptr<AV::Image::Image> > icons;
+            std::shared_ptr<Time::Timer> timer;
+
             std::shared_ptr<MainWindow> mainWindow;
             std::shared_ptr<NUXWidget> nuxWidget;
         };
@@ -69,7 +85,7 @@ namespace djv
             UI::UIComponentsSystem::create(this);
 
             DJV_PRIVATE_PTR();
-            p.uiSettings = UISettings::create(this);
+            UISettings::create(this);
 
             p.systems.push_back(FileSystem::create(this));
             auto windowSystem = WindowSystem::create(this);
@@ -102,6 +118,71 @@ namespace djv
                     _p->nuxWidget.reset();
                 });
             }
+
+            try
+            {
+                auto io = getSystemT<AV::IO::System>();
+                auto resourceSystem = getSystemT<Core::ResourceSystem>();
+                const auto& iconsPath = resourceSystem->getPath(Core::FileSystem::ResourcePath::IconsDirectory);
+                p.read.push_back(io->read(Core::FileSystem::Path(iconsPath, "djv-reel-16.png")));
+                p.read.push_back(io->read(Core::FileSystem::Path(iconsPath, "djv-reel-32.png")));
+                p.read.push_back(io->read(Core::FileSystem::Path(iconsPath, "djv-reel-64.png")));
+                p.read.push_back(io->read(Core::FileSystem::Path(iconsPath, "djv-reel-128.png")));
+                p.read.push_back(io->read(Core::FileSystem::Path(iconsPath, "djv-reel-256.png")));
+                p.read.push_back(io->read(Core::FileSystem::Path(iconsPath, "djv-reel-512.png")));
+                p.read.push_back(io->read(Core::FileSystem::Path(iconsPath, "djv-reel-1024.png")));
+            }
+            catch (const std::exception& e)
+            {
+                auto logSystem = getSystemT<LogSystem>();
+                logSystem->log("djv::ViewApp::Application", e.what());
+            }
+            p.timer = Time::Timer::create(this);
+            p.timer->setRepeating(true);
+            p.timer->start(
+                Time::getMilliseconds(Time::TimerValue::Fast),
+                [this](float value)
+                {
+                    DJV_PRIVATE_PTR();
+                    auto i = p.read.begin();
+                    while (i != p.read.end())
+                    {
+                        bool erase = false;
+                        {
+                            std::unique_lock<std::mutex> lock((*i)->getMutex());
+                            auto& queue = (*i)->getVideoQueue();
+                            if (queue.hasFrames())
+                            {
+                                erase = true;
+                                p.icons.push_back(queue.popFrame().image);
+                            }
+                            else if (queue.isFinished())
+                            {
+                                erase = true;
+                            }
+                        }
+                        if (erase)
+                        {
+                            i = p.read.erase(i);
+                        }
+                        else
+                        {
+                            ++i;
+                        }
+                    }
+                    if (!p.read.size())
+                    {
+                        p.timer->stop();
+                        auto glfwSystem = getSystemT<Desktop::GLFWSystem>();
+                        auto glfwWindow = glfwSystem->getGLFWWindow();
+                        std::vector<GLFWimage> glfwImages;
+                        for (const auto& i : p.icons)
+                        {
+                            glfwImages.push_back(GLFWimage{ i->getWidth(), i->getHeight(), i->getData() });
+                        }
+                        glfwSetWindowIcon(glfwWindow, glfwImages.size(), glfwImages.data());
+                    }
+                });
 
             p.mainWindow->show();
         }
