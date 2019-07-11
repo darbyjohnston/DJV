@@ -31,6 +31,14 @@
 
 #include <djvCore/Error.h>
 
+#if defined(DJV_PLATFORM_WINDOWS)
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif // WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#include <tchar.h>
+#endif // DJV_WINDOWS
+
 using namespace djv;
 
 int main(int argc, char ** argv)
@@ -46,3 +54,10 @@ int main(int argc, char ** argv)
     }
     return r;
 }
+
+#if defined(DJV_PLATFORM_WINDOWS)
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
+{
+    return main(__argc, __argv);
+}
+#endif // DJV_WINDOWS
