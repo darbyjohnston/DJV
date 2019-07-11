@@ -74,7 +74,7 @@ namespace djv
             p.actions["SystemLog"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["Debug"] = UI::Action::create();
             p.actions["Debug"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["Debug"]->setShortcut(GLFW_KEY_G, UI::Shortcut::getSystemModifier());
+            p.actions["Debug"]->setShortcut(GLFW_KEY_D, UI::Shortcut::getSystemModifier());
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Documentation"]);
