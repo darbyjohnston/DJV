@@ -275,7 +275,9 @@ namespace djv
                     label->setText(i.second);
                     label->setHAlign(UI::HAlign::Left);
                     formLayout->addChild(label);
-                    formLayout->setText(label, i.first);
+                    std::stringstream ss;
+                    ss << i.first << ": ";
+                    formLayout->setText(label, ss.str());
                 }
 
                 auto bellows = UI::Bellows::create(context);
