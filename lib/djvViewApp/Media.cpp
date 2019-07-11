@@ -77,8 +77,8 @@ namespace djv
             std::shared_ptr<ValueSubject<bool> > mute;
 
             std::shared_ptr<ValueSubject<size_t> > videoQueueMax;
-            std::shared_ptr<ValueSubject<size_t> > audioQueueMax;
             std::shared_ptr<ValueSubject<size_t> > videoQueueCount;
+            std::shared_ptr<ValueSubject<size_t> > audioQueueMax;
             std::shared_ptr<ValueSubject<size_t> > audioQueueCount;
             std::shared_ptr<ValueSubject<size_t> > alQueueCount;
             std::shared_ptr<Time::Timer> queueTimer;
@@ -100,7 +100,7 @@ namespace djv
             std::shared_ptr<Time::Timer> debugTimer;
         };
 
-        void Media::_init(const std::string & fileName, size_t videoMax, size_t audioMax, Context * context)
+        void Media::_init(const std::string & fileName, Context * context)
         {
             DJV_PRIVATE_PTR();
             p.context = context;
@@ -193,14 +193,7 @@ namespace djv
         std::shared_ptr<Media> Media::create(const std::string& fileName, Context* context)
         {
             auto out = std::shared_ptr<Media>(new Media);
-            out->_init(fileName, 30, 30, context);
-            return out;
-        }
-
-        std::shared_ptr<Media> Media::create(const std::string& fileName, size_t videoMax, size_t audioMax, Context* context)
-        {
-            auto out = std::shared_ptr<Media>(new Media);
-            out->_init(fileName, videoMax, audioMax, context);
+            out->_init(fileName, context);
             return out;
         }
 
@@ -573,9 +566,9 @@ namespace djv
                                 auto& videoQueue = media->_p->read->getVideoQueue();
                                 auto& audioQueue = media->_p->read->getAudioQueue();
                                 media->_p->videoQueueMax->setAlways(videoQueue.getMax());
-                                media->_p->audioQueueMax->setAlways(audioQueue.getMax());
                                 media->_p->videoQueueCount->setAlways(videoQueue.getFrameCount());
-                                media->_p->audioQueueCount->setAlways(videoQueue.getFrameCount());
+                                media->_p->audioQueueMax->setAlways(audioQueue.getMax());
+                                media->_p->audioQueueCount->setAlways(audioQueue.getFrameCount());
                             }
                             ALint queued = 0;
                             alGetSourcei(media->_p->alSource, AL_BUFFERS_QUEUED, &queued);

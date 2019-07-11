@@ -412,8 +412,8 @@ namespace djv
                 Time::Timestamp _duration = 0;
                 Time::Timestamp _currentTime = 0;
                 size_t _videoQueueMax = 0;
-                size_t _audioQueueMax = 0;
                 size_t _videoQueueCount = 0;
+                size_t _audioQueueMax = 0;
                 size_t _audioQueueCount = 0;
                 size_t _alQueueCount = 0;
                 std::map<std::string, std::shared_ptr<UI::Label> > _labels;
@@ -423,8 +423,8 @@ namespace djv
                 std::shared_ptr<ValueObserver<Time::Timestamp> > _durationObserver;
                 std::shared_ptr<ValueObserver<Time::Timestamp> > _currentTimeObserver;
                 std::shared_ptr<ValueObserver<size_t> > _videoQueueMaxObserver;
-                std::shared_ptr<ValueObserver<size_t> > _audioQueueMaxObserver;
                 std::shared_ptr<ValueObserver<size_t> > _videoQueueCountObserver;
+                std::shared_ptr<ValueObserver<size_t> > _audioQueueMaxObserver;
                 std::shared_ptr<ValueObserver<size_t> > _audioQueueCountObserver;
                 std::shared_ptr<ValueObserver<size_t> > _alQueueCountObserver;
             };
@@ -511,6 +511,17 @@ namespace djv
                                         widget->_widgetUpdate();
                                     }
                                 });
+                                widget->_videoQueueCountObserver = ValueObserver<size_t>::create(
+                                    value->observeVideoQueueCount(),
+                                    [weak](size_t value)
+                                    {
+                                        if (auto widget = weak.lock())
+                                        {
+                                            widget->_videoQueueCount = value;
+                                            widget->_lineGraphs["VideoQueue"]->addSample(value);
+                                            widget->_widgetUpdate();
+                                        }
+                                    });
                                 widget->_audioQueueMaxObserver = ValueObserver<size_t>::create(
                                     value->observeAudioQueueMax(),
                                     [weak](size_t value)
@@ -518,17 +529,6 @@ namespace djv
                                     if (auto widget = weak.lock())
                                     {
                                         widget->_audioQueueMax = value;
-                                        widget->_widgetUpdate();
-                                    }
-                                });
-                                widget->_videoQueueCountObserver = ValueObserver<size_t>::create(
-                                    value->observeVideoQueueCount(),
-                                    [weak](size_t value)
-                                {
-                                    if (auto widget = weak.lock())
-                                    {
-                                        widget->_videoQueueCount = value;
-                                        widget->_lineGraphs["VideoQueue"]->addSample(value);
                                         widget->_widgetUpdate();
                                     }
                                 });
@@ -560,15 +560,15 @@ namespace djv
                                 widget->_duration = 0;
                                 widget->_currentTime = 0;
                                 widget->_videoQueueMax = 0;
-                                widget->_audioQueueMax = 0;
                                 widget->_videoQueueCount = 0;
+                                widget->_audioQueueMax = 0;
                                 widget->_audioQueueCount = 0;
                                 widget->_alQueueCount = 0;
                                 widget->_durationObserver.reset();
                                 widget->_currentTimeObserver.reset();
                                 widget->_videoQueueMaxObserver.reset();
-                                widget->_audioQueueMaxObserver.reset();
                                 widget->_videoQueueCountObserver.reset();
+                                widget->_audioQueueMaxObserver.reset();
                                 widget->_audioQueueCountObserver.reset();
                                 widget->_alQueueCountObserver.reset();
                                 widget->_widgetUpdate();

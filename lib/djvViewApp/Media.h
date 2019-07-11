@@ -51,14 +51,13 @@ namespace djv
             DJV_NON_COPYABLE(Media);
 
         protected:
-            void _init(const std::string &, size_t videoMax, size_t audioMax, Core::Context *);
+            void _init(const std::string &, Core::Context *);
             Media();
 
         public:
             ~Media();
 
             static std::shared_ptr<Media> create(const std::string&, Core::Context*);
-            static std::shared_ptr<Media> create(const std::string&, size_t videoMax, size_t audioMax, Core::Context*);
 
             const std::string & getFileName() const;
 

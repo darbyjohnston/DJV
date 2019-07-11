@@ -125,7 +125,7 @@ namespace djv
                 _fileName = value;
                 if (!_fileName.empty())
                 {
-                    _media = Media::create(_fileName, 1, 0, getContext());
+                    _media = Media::create(_fileName, getContext());
 
                     auto weak = std::weak_ptr<PIPWidget>(std::dynamic_pointer_cast<PIPWidget>(shared_from_this()));
                     _speedObserver = ValueObserver<Time::Speed>::create(
