@@ -38,6 +38,8 @@
 
 #include <djvAV/Render2D.h>
 
+#include <GLFW/glfw3.h>
+
 #include <glm/geometric.hpp>
 
 #include <list>
@@ -624,53 +626,53 @@ namespace djv
             p.scrollArea->setScrollPosCallback(
                 [weak](const glm::vec2 & value)
             {
-                if (auto scroll = weak.lock())
+                if (auto widget = weak.lock())
                 {
-                    scroll->_p->scrollBars[Orientation::Horizontal]->setScrollPos(value.x);
-                    scroll->_p->scrollBars[Orientation::Vertical]->setScrollPos(value.y);
+                    widget->_p->scrollBars[Orientation::Horizontal]->setScrollPos(value.x);
+                    widget->_p->scrollBars[Orientation::Vertical]->setScrollPos(value.y);
 
-                    const BBox2f & g = scroll->_p->scrollArea->getGeometry();
-                    const glm::vec2 & contentsSize = scroll->_p->scrollArea->getContentsSize();
+                    const BBox2f & g = widget->_p->scrollArea->getGeometry();
+                    const glm::vec2 & contentsSize = widget->_p->scrollArea->getContentsSize();
                     if (value.x <= 0.f || value.x >= contentsSize.x - g.w())
                     {
-                        scroll->_p->swipeVelocity.x = 0.f;
+                        widget->_p->swipeVelocity.x = 0.f;
                     }
                     if (value.y <= 0.f || value.y >= contentsSize.y - g.h())
                     {
-                        scroll->_p->swipeVelocity.y = 0.f;
+                        widget->_p->swipeVelocity.y = 0.f;
                     }
                 }
             });
             p.scrollArea->setContentsSizeCallback(
                 [weak](const glm::vec2 & value)
             {
-                if (auto scroll = weak.lock())
+                if (auto widget = weak.lock())
                 {
-                    scroll->_updateScrollBars(value);
+                    widget->_updateScrollBars(value);
                 }
             });
 
             p.scrollBars[Orientation::Horizontal]->setScrollPosCallback(
                 [weak](float value)
             {
-                if (auto scroll = weak.lock())
+                if (auto widget = weak.lock())
                 {
-                    glm::vec2 scrollPos = scroll->_p->scrollArea->getScrollPos();
+                    glm::vec2 scrollPos = widget->_p->scrollArea->getScrollPos();
                     scrollPos.x = value;
-                    scroll->_p->scrollArea->setScrollPos(scrollPos);
-                    scroll->_p->swipeVelocity = glm::vec2(0.f, 0.f);
+                    widget->_p->scrollArea->setScrollPos(scrollPos);
+                    widget->_p->swipeVelocity = glm::vec2(0.f, 0.f);
                 }
             });
 
             p.scrollBars[Orientation::Vertical]->setScrollPosCallback(
                 [weak](float value)
             {
-                if (auto scroll = weak.lock())
+                if (auto widget = weak.lock())
                 {
-                    glm::vec2 scrollPos = scroll->_p->scrollArea->getScrollPos();
+                    glm::vec2 scrollPos = widget->_p->scrollArea->getScrollPos();
                     scrollPos.y = value;
-                    scroll->_p->scrollArea->setScrollPos(scrollPos);
-                    scroll->_p->swipeVelocity = glm::vec2(0.f, 0.f);
+                    widget->_p->scrollArea->setScrollPos(scrollPos);
+                    widget->_p->swipeVelocity = glm::vec2(0.f, 0.f);
                 }
             });
 
@@ -750,6 +752,73 @@ namespace djv
         void ScrollWidget::setScrollPos(const glm::vec2 & value)
         {
             _p->scrollArea->setScrollPos(value);
+        }
+
+        void ScrollWidget::moveToBegin()
+        {
+            DJV_PRIVATE_PTR();
+            const glm::vec2& scrollPos = p.scrollArea->getScrollPos();
+            setScrollPos(glm::vec2(scrollPos.x, 0.f));
+        }
+
+        void ScrollWidget::moveToEnd()
+        {
+            DJV_PRIVATE_PTR();
+            const glm::vec2& scrollPos = p.scrollArea->getScrollPos();
+            const glm::vec2& contentsSize = p.scrollArea->getContentsSize();
+            setScrollPos(glm::vec2(scrollPos.x, contentsSize.y));
+        }
+
+        void ScrollWidget::movePageUp()
+        {
+            DJV_PRIVATE_PTR();
+            const glm::vec2& scrollPos = p.scrollArea->getScrollPos();
+            const glm::vec2& scrollSize = p.scrollArea->getSize();
+            setScrollPos(glm::vec2(scrollPos.x, scrollPos.y - scrollSize.y));
+        }
+
+        void ScrollWidget::movePageDown()
+        {
+            DJV_PRIVATE_PTR();
+            const glm::vec2& scrollPos = p.scrollArea->getScrollPos();
+            const glm::vec2& scrollSize = p.scrollArea->getSize();
+            setScrollPos(glm::vec2(scrollPos.x, scrollPos.y + scrollSize.y));
+        }
+
+        void ScrollWidget::moveUp()
+        {
+            DJV_PRIVATE_PTR();
+            const auto& style = _getStyle();
+            const float m = style->getMetric(MetricsRole::Move);
+            const glm::vec2& scrollPos = p.scrollArea->getScrollPos();
+            setScrollPos(glm::vec2(scrollPos.x, scrollPos.y - m));
+        }
+
+        void ScrollWidget::moveDown()
+        {
+            DJV_PRIVATE_PTR();
+            const auto& style = _getStyle();
+            const float m = style->getMetric(MetricsRole::Move);
+            const glm::vec2& scrollPos = p.scrollArea->getScrollPos();
+            setScrollPos(glm::vec2(scrollPos.x, scrollPos.y + m));
+        }
+
+        void ScrollWidget::moveLeft()
+        {
+            DJV_PRIVATE_PTR();
+            const auto& style = _getStyle();
+            const float m = style->getMetric(MetricsRole::Move);
+            const glm::vec2& scrollPos = p.scrollArea->getScrollPos();
+            setScrollPos(glm::vec2(scrollPos.x - m, scrollPos.y));
+        }
+
+        void ScrollWidget::moveRight()
+        {
+            DJV_PRIVATE_PTR();
+            const auto& style = _getStyle();
+            const float m = style->getMetric(MetricsRole::Move);
+            const glm::vec2& scrollPos = p.scrollArea->getScrollPos();
+            setScrollPos(glm::vec2(scrollPos.x + m, scrollPos.y));
         }
 
         bool ScrollWidget::hasAutoHideScrollBars() const
@@ -908,6 +977,46 @@ namespace djv
                         }
                     }
                     return true;
+                }
+                break;
+            }
+            case Event::Type::KeyPress:
+            {
+                auto& keyEvent = static_cast<Event::KeyPress&>(event);
+                switch (keyEvent.getKey())
+                {
+                case GLFW_KEY_HOME:
+                    keyEvent.accept();
+                    moveToBegin();
+                    break;
+                case GLFW_KEY_END:
+                    keyEvent.accept();
+                    moveToEnd();
+                    break;
+                case GLFW_KEY_PAGE_UP:
+                    keyEvent.accept();
+                    movePageUp();
+                    break;
+                case GLFW_KEY_PAGE_DOWN:
+                    keyEvent.accept();
+                    movePageDown();
+                    break;
+                case GLFW_KEY_UP:
+                    keyEvent.accept();
+                    moveUp();
+                    break;
+                case GLFW_KEY_DOWN:
+                    keyEvent.accept();
+                    moveDown();
+                    break;
+                case GLFW_KEY_LEFT:
+                    keyEvent.accept();
+                    moveLeft();
+                    break;
+                case GLFW_KEY_RIGHT:
+                    keyEvent.accept();
+                    moveRight();
+                    break;
                 }
                 break;
             }

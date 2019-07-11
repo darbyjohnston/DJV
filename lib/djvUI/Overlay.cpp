@@ -53,7 +53,6 @@ namespace djv
                 bool fadeIn = true;
                 std::shared_ptr<Animation::Animation> fadeAnimation;
                 std::map<Event::PointerID, bool> pressedIDs;
-                bool keyPress = false;
                 std::function<void(void)> closeCallback;
                 std::shared_ptr<ValueObserver<bool> > closeObserver;
             };
@@ -264,17 +263,6 @@ namespace djv
                 if (p.captureKeyboard)
                 {
                     event.accept();
-                    p.keyPress = true;
-                }
-            }
-
-            void Overlay::_keyReleaseEvent(Event::KeyRelease & event)
-            {
-                DJV_PRIVATE_PTR();
-                if (p.keyPress)
-                {
-                    event.accept();
-                    p.keyPress = false;
                 }
             }
 

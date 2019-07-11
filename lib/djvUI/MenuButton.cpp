@@ -328,15 +328,6 @@ namespace djv
                 }
             }
 
-            void Menu::_keyReleaseEvent(Event::KeyRelease& event)
-            {
-                DJV_PRIVATE_PTR();
-                if (p.checked)
-                {
-                    event.accept();
-                }
-            }
-
             bool Menu::_isHovered() const
             {
                 return isEnabled(true) && _getPointerHover().size();

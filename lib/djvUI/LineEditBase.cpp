@@ -450,7 +450,7 @@ namespace djv
             }
         }
 
-        void LineEditBase::_textFocusEvent(Event::TextFocus & event)
+        void LineEditBase::_textFocusEvent(Event::TextFocus& event)
         {
             DJV_PRIVATE_PTR();
             event.accept();

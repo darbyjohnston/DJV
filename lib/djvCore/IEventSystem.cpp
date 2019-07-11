@@ -399,19 +399,6 @@ namespace djv
                     keyGrab->event(event);
                     p.keyGrab->setIfChanged(nullptr);
                 }
-                else
-                {
-                    auto object = p.hover->get();
-                    while (object)
-                    {
-                        object->event(event);
-                        if (event.isAccepted())
-                        {
-                            break;
-                        }
-                        object = object->getParent().lock();
-                    }
-                }
             }
 
             void IEventSystem::_text(const std::string & text, int modifiers)

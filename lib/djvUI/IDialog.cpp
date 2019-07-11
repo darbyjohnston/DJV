@@ -269,10 +269,5 @@ namespace djv
             event.accept();
         }
 
-        void IDialog::_keyReleaseEvent(Event::KeyRelease & event)
-        {
-            event.accept();
-        }
-
     } // namespace UI
 } // namespace djv

@@ -86,7 +86,7 @@ namespace djv
             void _pointerMoveEvent(Core::Event::PointerMove &) override;
             void _buttonPressEvent(Core::Event::ButtonPress &) override;
             void _buttonReleaseEvent(Core::Event::ButtonRelease &) override;
-            void _keyPressEvent(Core::Event::KeyPress &) override;
+            void _keyPressEvent(Core::Event::KeyPress&) override;
             void _textFocusEvent(Core::Event::TextFocus &) override;
             void _textFocusLostEvent(Core::Event::TextFocusLost &) override;
             void _textEvent(Core::Event::Text &) override;

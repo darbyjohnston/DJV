@@ -77,7 +77,6 @@ namespace djv
             void _pointerLeaveEvent(Core::Event::PointerLeave &) override;
             void _pointerMoveEvent(Core::Event::PointerMove &) override;
             void _keyPressEvent(Core::Event::KeyPress &) override;
-            void _keyReleaseEvent(Core::Event::KeyRelease &) override;
 
         private:
             DJV_PRIVATE();

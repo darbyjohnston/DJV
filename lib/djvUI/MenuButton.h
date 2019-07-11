@@ -63,7 +63,6 @@ namespace djv
                 void _buttonPressEvent(Core::Event::ButtonPress&) override;
                 void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;
                 void _keyPressEvent(Core::Event::KeyPress&) override;
-                void _keyReleaseEvent(Core::Event::KeyRelease&) override;
 
             private:
                 bool _isHovered() const;

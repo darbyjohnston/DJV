@@ -73,6 +73,14 @@ namespace djv
 
             const glm::vec2 & getScrollPos() const;
             void setScrollPos(const glm::vec2 &);
+            void moveToBegin();
+            void moveToEnd();
+            void movePageUp();
+            void movePageDown();
+            void moveUp();
+            void moveDown();
+            void moveLeft();
+            void moveRight();
 
             bool hasAutoHideScrollBars() const;
             void setAutoHideScrollBars(bool);
