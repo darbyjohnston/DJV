@@ -164,14 +164,7 @@ namespace djv
 
             void OffscreenBuffer::bind()
             {
-                glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_restore);
                 glBindFramebuffer(GL_FRAMEBUFFER, _id);
-            }
-
-            void OffscreenBuffer::unbind()
-            {
-                glBindFramebuffer(GL_FRAMEBUFFER, _restore);
-                _restore = 0;
             }
 
             OffscreenBufferBinding::OffscreenBufferBinding(const std::shared_ptr<OffscreenBuffer> & buffer) :
@@ -181,9 +174,7 @@ namespace djv
             }
 
             OffscreenBufferBinding::~OffscreenBufferBinding()
-            {
-                _buffer->unbind();
-            }
+            {}
 
         } // namespace OpenGL
     } // namespace AV

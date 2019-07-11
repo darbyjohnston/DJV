@@ -48,17 +48,20 @@ namespace djv
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filterMin);
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filterMax);
-                GLenum internalFormat = GL_RGBA;
-                glTexImage2D(
-                    GL_TEXTURE_2D,
-                    0,
-                    internalFormat,
-                    _info.size.w,
-                    _info.size.h,
-                    0,
-                    _info.getGLFormat(),
-                    _info.getGLType(),
-                    0);
+                if (info.isValid())
+                {
+                    GLenum internalFormat = GL_RGBA;
+                    glTexImage2D(
+                        GL_TEXTURE_2D,
+                        0,
+                        internalFormat,
+                        _info.size.w,
+                        _info.size.h,
+                        0,
+                        _info.getGLFormat(),
+                        _info.getGLType(),
+                        0);
+                }
                 glGenBuffers(1, &_pbo);
             }
 
@@ -83,6 +86,25 @@ namespace djv
                 return out;
             }
 
+            void Texture::set(const Image::Info& info)
+            {
+                if (info == _info)
+                    return;
+                _info = info;
+                glBindTexture(GL_TEXTURE_2D, _id);
+                GLenum internalFormat = GL_RGBA;
+                glTexImage2D(
+                    GL_TEXTURE_2D,
+                    0,
+                    internalFormat,
+                    _info.size.w,
+                    _info.size.h,
+                    0,
+                    _info.getGLFormat(),
+                    _info.getGLType(),
+                    0);
+            }
+
             void Texture::copy(const Image::Data & data)
             {
                 const auto & info = data.getInfo();
@@ -102,7 +124,7 @@ namespace djv
                     data.getData());
 #else // DJV_OPENGL_ES2
                 glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
-                glBufferData(GL_PIXEL_UNPACK_BUFFER, info.getDataByteCount(), data.getData(), GL_DYNAMIC_DRAW);
+                glBufferData(GL_PIXEL_UNPACK_BUFFER, info.getDataByteCount(), data.getData(), GL_STATIC_DRAW);
                 glBindTexture(GL_TEXTURE_2D, _id);
                 glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);
                 glPixelStorei(GL_UNPACK_SWAP_BYTES, info.layout.endian != Memory::getEndian());

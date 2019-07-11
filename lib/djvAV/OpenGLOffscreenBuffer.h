@@ -62,14 +62,12 @@ namespace djv
                 inline GLuint getTextureID() const;
 
                 void bind();
-                void unbind();
 
             private:
                 Image::Info _info;
                 OffscreenType _type = OffscreenType::Default;
                 GLuint _id = 0;
                 GLuint _textureID = 0;
-                GLint _restore = 0;
             };
 
             //! This class provides a wrapper for automatically binding and unbinding an

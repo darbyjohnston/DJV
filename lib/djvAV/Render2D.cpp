@@ -68,6 +68,7 @@ namespace djv
                 //! \todo [1.0 S] Should this be configurable?
                 const size_t textureAtlasCount      = 4;
                 const size_t textureAtlasSize       = 8192;
+                const size_t dynamicTextureIDCount  = 32;
                 const size_t dynamicTextureCacheMax = 32;
                 const size_t lut3DSize              = 32;
                 const size_t colorSpaceCacheMax     = 32;
@@ -328,6 +329,7 @@ namespace djv
                 std::shared_ptr<TextureAtlas>                       textureAtlas;
                 std::map<UID, uint64_t>                             textureIDs;
                 std::map<UID, uint64_t>                             glyphTextureIDs;
+                std::vector<std::shared_ptr<OpenGL::Texture> >      dynamicTextureIDs;
                 std::map<UID, std::shared_ptr<OpenGL::Texture> >    dynamicTextureCache;
                 std::map<OCIO::Convert, ColorSpaceData>             colorSpaceCache;
                 std::vector<uint8_t>                                vboData;
@@ -394,6 +396,11 @@ namespace djv
                     GL_NEAREST,
                     0));
                 p.primitiveData.textureAtlasCount = _textureAtlasCount;
+
+                for (size_t i = 0; i < dynamicTextureIDCount; ++i)
+                {
+                    p.dynamicTextureIDs.push_back(AV::OpenGL::Texture::create(AV::Image::Info(), GL_LINEAR, GL_NEAREST));
+                }
 
                 auto resourceSystem = context->getSystemT<ResourceSystem>();
                 const FileSystem::Path shaderPath = resourceSystem->getPath(FileSystem::ResourcePath::ShadersDirectory);
@@ -562,7 +569,13 @@ namespace djv
                 p.vboDataSize = 0;
                 while (p.dynamicTextureCache.size() > dynamicTextureCacheMax)
                 {
-                    p.dynamicTextureCache.erase(p.dynamicTextureCache.begin());
+                    auto texture = p.dynamicTextureCache.begin();
+                    p.dynamicTextureIDs.push_back(texture->second);
+                    p.dynamicTextureCache.erase(texture);
+                }
+                while (p.dynamicTextureIDs.size() > dynamicTextureIDCount)
+                {
+                    p.dynamicTextureIDs.pop_back();
                 }
                 while (p.colorSpaceCache.size() > colorSpaceCacheMax)
                 {
@@ -1355,7 +1368,17 @@ namespace djv
                         }
                         else
                         {
-                            auto texture = OpenGL::Texture::create(image->getInfo(), GL_LINEAR, GL_NEAREST);
+                            std::shared_ptr<OpenGL::Texture> texture;
+                            if (dynamicTextureIDs.size())
+                            {
+                                texture = dynamicTextureIDs.back();
+                                dynamicTextureIDs.pop_back();
+                                texture->set(image->getInfo());
+                            }
+                            else
+                            {
+                                texture = OpenGL::Texture::create(image->getInfo(), GL_LINEAR, GL_NEAREST);
+                            }
                             texture->copy(*image);
                             dynamicTextureCache[uid] = texture;
                             primitive->textureID = texture->getID();

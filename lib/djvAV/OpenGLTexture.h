@@ -59,6 +59,7 @@ namespace djv
                 inline const Image::Info& getInfo() const;
                 inline GLuint getID() const;
 
+                void set(const Image::Info&);
                 void copy(const Image::Data&);
                 void copy(const Image::Data&, uint16_t x, uint16_t y);
 

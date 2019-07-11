@@ -145,14 +145,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.resizeRequest)
             {
-#if defined(DJV_OPENGL_ES2)
                 p.offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(
-                    AV::Image::Info(p.resize, AV::Image::Type::RGBA_U8));
-#else
-                p.offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(
-                    AV::Image::Info(p.resize.x, p.resize.y, AV::Image::Type::RGBA_U8),
-                    AV::OpenGL::OffscreenType::MultiSample);
-#endif
+                    AV::Image::Info(p.resize.x, p.resize.y, AV::Image::Type::RGBA_U8));
             }
             auto rootObject = getRootObject();
         
@@ -216,7 +210,7 @@ namespace djv
                         }
                     }
                     p.render->endFrame();
-                    p.offscreenBuffer->unbind();
+                    glBindFramebuffer(GL_FRAMEBUFFER, 0);
                     _redraw();
                 }
             }
