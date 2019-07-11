@@ -860,6 +860,7 @@ namespace djv
 
             p.frameLockButton->setTooltip(_getText(DJV_TEXT("Frame lock tooltip")));
             p.speedPopupWidget->setTooltip(_getText(DJV_TEXT("Speed popup tooltip")));
+            p.realSpeedLabel->setTooltip(_getText(DJV_TEXT("Real speed tooltip")));
             p.currentTimeLabel->setTooltip(_getText(DJV_TEXT("Current time tooltip")));
             p.durationLabel->setTooltip(_getText(DJV_TEXT("Duration tooltip")));
 
@@ -894,9 +895,9 @@ namespace djv
             }
 
             auto avSystem = getContext()->getSystemT<AV::AVSystem>();
-            p.currentTimeLabel->setText(avSystem->getLabel(p.currentTime, p.speed));
+            p.currentTimeLabel->setText(avSystem->getLabel(p.currentTime, p.defaultSpeed));
             p.currentTimeLabel->setEnabled(p.media.get());
-            p.durationLabel->setText(avSystem->getLabel(p.duration, p.speed));
+            p.durationLabel->setText(avSystem->getLabel(p.duration, p.defaultSpeed));
             p.durationLabel->setEnabled(p.media.get());
 
             p.timelineSlider->setEnabled(p.media.get());
@@ -918,7 +919,6 @@ namespace djv
             p.speedButtonLayout->clearChildren();
             p.speeds =
             {
-                Time::Speed(2400),
                 Time::Speed(240),
                 Time::Speed(120),
                 Time::Speed(60),

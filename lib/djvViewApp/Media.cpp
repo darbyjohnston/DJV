@@ -87,16 +87,15 @@ namespace djv
             bool readFinished = false;
             std::future<AV::IO::Info> infoFuture;
             std::shared_ptr<Time::Timer> infoTimer;
-            std::chrono::system_clock::time_point startTime;
-            std::chrono::system_clock::time_point frameTime;
-            
+
             ALuint alSource = 0;
             std::vector<ALuint> alBuffers;
             int64_t alBytes = 0;
             Time::Timestamp timeOffset = 0;
-            Time::Timestamp framePts = 0;
-
+            std::chrono::system_clock::time_point startTime;
+            std::chrono::system_clock::time_point realSpeedTime;
             std::shared_ptr<Time::Timer> playbackTimer;
+            std::shared_ptr<Time::Timer> realSpeedTimer;
             std::shared_ptr<Time::Timer> debugTimer;
         };
 
@@ -135,6 +134,8 @@ namespace djv
 
             p.playbackTimer = Time::Timer::create(context);
             p.playbackTimer->setRepeating(true);
+            p.realSpeedTimer = Time::Timer::create(context);
+            p.realSpeedTimer->setRepeating(true);
             p.debugTimer = Time::Timer::create(context);
             p.debugTimer->setRepeating(true);
 
@@ -358,6 +359,7 @@ namespace djv
                 p.timeOffset = p.currentTime->get();
                 p.realSpeedFrameCount = 0;
                 p.startTime = std::chrono::system_clock::now();
+                p.realSpeedTime = p.startTime;
             }
         }
 
@@ -597,19 +599,21 @@ namespace djv
                     p.alBytes = 0;
                 }
                 p.playbackTimer->stop();
+                p.realSpeedTimer->stop();
                 _timeUpdate();
                 if (p.read)
                 {
                     p.read->seek(p.currentTime->get());
                 }
-                p.readFinished = false;
                 break;
             case Playback::Forward:
             case Playback::Reverse:
             {
+                p.readFinished = false;
                 p.timeOffset = p.currentTime->get();
-                p.realSpeedFrameCount = 0;
                 p.startTime = std::chrono::system_clock::now();
+                p.realSpeedTime = p.startTime;
+                p.realSpeedFrameCount = 0;
                 auto weak = std::weak_ptr<Media>(std::dynamic_pointer_cast<Media>(shared_from_this()));
                 p.playbackTimer->start(
                     Time::getMilliseconds(Time::TimerValue::VeryFast),
@@ -620,6 +624,19 @@ namespace djv
                         media->_playbackTick();
                     }
                 });
+                p.realSpeedTimer->start(
+                    Time::getMilliseconds(Time::TimerValue::Slow),
+                    [weak](float)
+                    {
+                        if (auto media = weak.lock())
+                        {
+                            const auto now = std::chrono::system_clock::now();
+                            std::chrono::duration<double> delta = now - media->_p->realSpeedTime;
+                            media->_p->realSpeed->setIfChanged(delta.count() ? (media->_p->realSpeedFrameCount / static_cast<float>(delta.count())) : 0.f);
+                            media->_p->realSpeedTime = now;
+                            media->_p->realSpeedFrameCount = 0;
+                        }
+                    });
                 break;
             }
             default: break;
@@ -677,8 +694,6 @@ namespace djv
                 {
                     const auto now = std::chrono::system_clock::now();
                     std::chrono::duration<double> delta = now - p.startTime;
-                    p.realSpeed->setIfChanged(delta.count() ? (p.realSpeedFrameCount / static_cast<float>(delta.count())) : 0.f);
-
                     Time::Timestamp pts = Time::scale(
                         static_cast<Time::Timestamp>(delta.count() * speed.toFloat()),
                         p.speed->get().swap(),
@@ -784,10 +799,9 @@ namespace djv
                     while (queue.hasFrames() && queue.getFrame().timestamp < p.currentTime->get())
                     {
                         auto frame = queue.popFrame();
-                        p.framePts = frame.timestamp;
                         p.realSpeedFrameCount = p.realSpeedFrameCount + 1;
                     }
-                    //p.readFinished |= queue.isFinished();
+                    p.readFinished |= queue.isFinished();
                 }
 
                 // Unqueue the processed OpenAL buffers.
