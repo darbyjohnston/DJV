@@ -89,7 +89,7 @@ namespace djv
                         if (_frames.size())
                         {
                             frameIndex = 0;
-                            _duration = _frames.size();
+                            _duration = frameToTimestamp(_frames.size(), _speed);
                         }
                     }
 
@@ -152,7 +152,7 @@ namespace djv
                         }
                         if (seek != -1)
                         {
-                            frameIndex = seek;
+                            frameIndex = Time::timestampToFrame(seek, _speed);
                             /*{
                                 std::stringstream ss;
                                 ss << _fileName << ": seek " << frameIndex;
@@ -175,7 +175,7 @@ namespace djv
                                 frameNumber = Frame::getFrame(_frames, frameIndex);
                                 ++frameIndex;
                             }
-                            Time::Timestamp pts = frameNumber;
+                            Time::Timestamp pts = frameToTimestamp(frameNumber, _speed);
                             /*{
                                 std::stringstream ss;
                                 ss << _fileName << ": read frame " << pts;

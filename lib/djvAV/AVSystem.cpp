@@ -111,7 +111,7 @@ namespace djv
             case TimeUnits::Timecode:
             {
                 frame = Time::timestampToFrame(value, speed);
-                const float speedF = Math::Rational::toFloat(speed);
+                const float speedF = speed.toFloat();
                 const int hours = static_cast<int>(frame / (speedF * 60 * 60));
                 frame -= static_cast<int64_t>(hours * static_cast<double>(speedF)) * 60 * 60;
                 const int minutes = static_cast<int>(frame / (speedF * 60));

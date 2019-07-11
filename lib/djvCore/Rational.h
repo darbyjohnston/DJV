@@ -50,7 +50,7 @@ namespace djv
                 inline int getDen() const;
                 inline bool isValid() const;
 
-                static float toFloat(const Rational&);
+                float toFloat() const;
                 static Rational fromFloat(float);
 
                 inline Rational swap() const;

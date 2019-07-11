@@ -61,9 +61,11 @@ namespace djv
             static std::shared_ptr<Media> create(const std::string&, size_t videoMax, size_t audioMax, Core::Context*);
 
             const std::string & getFileName() const;
+
             std::shared_ptr<Core::IValueSubject<AV::IO::Info> > observeInfo() const;
             std::shared_ptr<Core::IValueSubject<size_t> > observeLayer() const;
             std::shared_ptr<Core::IValueSubject<Core::Time::Speed> > observeSpeed() const;
+            std::shared_ptr<Core::IValueSubject<Core::Time::Speed> > observeDefaultSpeed() const;
             std::shared_ptr<Core::IValueSubject<float> > observeRealSpeed() const;
             std::shared_ptr<Core::IValueSubject<bool> > observeFrameLock() const;
             std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > observeDuration() const;
@@ -118,4 +120,3 @@ namespace djv
 
     } // namespace ViewApp
 } // namespace djv
-

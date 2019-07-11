@@ -174,7 +174,7 @@ namespace djv
                 label = UI::Label::create(context);
                 {
                     std::stringstream ss;
-                    ss << Math::Rational::toFloat(i.speed);
+                    ss << i.speed.toFloat();
                     label->setText(ss.str());
                 }
                 label->setHAlign(UI::HAlign::Left);

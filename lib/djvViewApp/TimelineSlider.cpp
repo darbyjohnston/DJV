@@ -397,7 +397,7 @@ namespace djv
                 }
             }
             {
-                const Time::Timestamp t = Time::scale(Math::Rational::toFloat(p.speed), p.speed.swap(), Time::getTimebaseRational());
+                const Time::Timestamp t = Time::scale(p.speed.toFloat(), p.speed.swap(), Time::getTimebaseRational());
                 if (_timeToPos(t) - _timeToPos(0) > b * 2.f)
                 {
                     auto color = style->getColor(UI::ColorRole::Foreground);
@@ -412,7 +412,7 @@ namespace djv
                 }
             }
             {
-                const Time::Timestamp t = Time::scale(60.f * static_cast<double>(Math::Rational::toFloat(p.speed)), p.speed.swap(), Time::getTimebaseRational());
+                const Time::Timestamp t = Time::scale(60.f * static_cast<double>(p.speed.toFloat()), p.speed.swap(), Time::getTimebaseRational());
                 if (_timeToPos(t) - _timeToPos(0) > b * 2.f)
                 {
                     auto color = style->getColor(UI::ColorRole::Foreground);

@@ -262,6 +262,7 @@ namespace djv
             std::shared_ptr<ValueObserver<float> > fadeObserver;
             std::shared_ptr<ValueObserver<bool> > frameStoreEnabledObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > frameStoreObserver;
+            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
         };
 
         void MediaWidget::_init(const std::shared_ptr<Media>& media, Context* context)
@@ -407,6 +408,7 @@ namespace djv
 
             _widgetUpdate();
             _speedUpdate();
+            _realSpeedUpdate();
             _opacityUpdate();
 
             auto weak = std::weak_ptr<MediaWidget>(std::dynamic_pointer_cast<MediaWidget>(shared_from_this()));
@@ -462,6 +464,7 @@ namespace djv
                             Time::Speed();
                         media->setSpeed(speed);
                     }
+                    widget->_p->speedPopupWidget->close();
                 }
             });
 
@@ -519,6 +522,70 @@ namespace djv
                 {
                     auto fileSystem = context->getSystemT<FileSystem>();
                     fileSystem->close(media);
+                });
+
+            p.clickedObservers["InPoint"] = ValueObserver<bool>::create(
+                p.actions["InPoint"]->observeClicked(),
+                [weak](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            if (auto media = widget->_p->media)
+                            {
+                                media->inPoint();
+                            }
+                        }
+                    }
+                });
+
+            p.clickedObservers["PrevFrame"] = ValueObserver<bool>::create(
+                p.actions["PrevFrame"]->observeClicked(),
+                [weak](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            if (auto media = widget->_p->media)
+                            {
+                                media->prevFrame();
+                            }
+                        }
+                    }
+                });
+
+            p.clickedObservers["NextFrame"] = ValueObserver<bool>::create(
+                p.actions["NextFrame"]->observeClicked(),
+                [weak](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            if (auto media = widget->_p->media)
+                            {
+                                media->nextFrame();
+                            }
+                        }
+                    }
+                });
+
+            p.clickedObservers["OutPoint"] = ValueObserver<bool>::create(
+                p.actions["OutPoint"]->observeClicked(),
+                [weak](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            if (auto media = widget->_p->media)
+                            {
+                                media->outPoint();
+                            }
+                        }
+                    }
                 });
 
             p.currentTimeObserver = ValueObserver<Time::Timestamp>::create(
@@ -596,7 +663,7 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->realSpeed = value;
-                        widget->_speedUpdate();
+                        widget->_realSpeedUpdate();
                     }
                 });
 
@@ -868,7 +935,7 @@ namespace djv
                 auto button = UI::ListButton::create(context);
                 std::stringstream ss;
                 ss.precision(3);
-                ss << std::fixed << Time::Speed::toFloat(i);
+                ss << std::fixed << i.toFloat();
                 button->setText(ss.str());
                 p.speedButtonGroup->addButton(button);
                 p.speedButtonLayout->addChild(button);
@@ -878,7 +945,7 @@ namespace djv
             std::stringstream ss;
             ss << _getText(DJV_TEXT("Default")) << ": ";
             ss.precision(3);
-            ss << std::fixed << Time::Speed::toFloat(p.defaultSpeed);
+            ss << std::fixed << p.defaultSpeed.toFloat();
             button->setText(ss.str());
             p.speedButtonGroup->addButton(button);
             p.speedButtonLayout->addChild(button);
@@ -887,11 +954,15 @@ namespace djv
             {
                 std::stringstream ss;
                 ss.precision(3);
-                ss << _getText(DJV_TEXT("FPS")) << ": " << std::fixed << Time::Speed::toFloat(p.speed);
+                ss << _getText(DJV_TEXT("FPS")) << ": " << std::fixed << p.speed.toFloat();
                 p.speedPopupWidget->setText(ss.str());
             }
             p.speedPopupWidget->setEnabled(p.media.get());
+        }
 
+        void MediaWidget::_realSpeedUpdate()
+        {
+            DJV_PRIVATE_PTR();
             {
                 std::stringstream ss;
                 ss.precision(3);

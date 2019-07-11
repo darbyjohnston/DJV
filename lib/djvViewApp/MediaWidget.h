@@ -93,6 +93,7 @@ namespace djv
             void _widgetUpdate();
             void _imageUpdate();
             void _speedUpdate();
+            void _realSpeedUpdate();
             void _opacityUpdate();
 
             DJV_PRIVATE();
