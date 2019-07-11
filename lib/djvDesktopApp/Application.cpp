@@ -93,6 +93,7 @@ namespace djv
                 p.read.push_back(io->read(FileSystem::Path(iconsPath, "djv-reel-128.png")));
                 p.read.push_back(io->read(FileSystem::Path(iconsPath, "djv-reel-256.png")));
                 p.read.push_back(io->read(FileSystem::Path(iconsPath, "djv-reel-512.png")));
+                p.read.push_back(io->read(FileSystem::Path(iconsPath, "djv-reel-1024.png")));
             }
             catch (const std::exception& e)
             {

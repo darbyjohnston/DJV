@@ -140,7 +140,7 @@ namespace djv
                             {
                                 read = std::min(
                                     std::min(_videoQueue.getMax() - _videoQueue.getFrameCount(), threadCount),
-                                    frameIndex != Frame::Invalid ? (_frames.size() - frameIndex) : 1);
+                                    frameIndex != Frame::Invalid ? (_frames.size() - static_cast<size_t>(frameIndex)) : 1);
                                 if (p.seek != -1)
                                 {
                                     seek = p.seek;

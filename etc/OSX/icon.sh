@@ -1,1 +1,1 @@
-iconutil -c icns djv_view.iconset
+iconutil -c icns djv.iconset

@@ -9,4 +9,4 @@ djv_resources="$djv_bundle/Contents/Resources"
 
 export "DYLD_FALLBACK_LIBRARY_PATH=$djv_resources/lib"
 
-exec "$djv_resources/bin/djv_view" "$@"
+exec "$djv_resources/bin/djv" "$@"

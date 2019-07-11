@@ -1,9 +1,9 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
-Icon=djv_view
-Exec=@CPACK_PACKAGING_INSTALL_PREFIX@/bin/djv_view.sh %U
-Name=djv_view
+Icon=djv
+Exec=@CPACK_PACKAGING_INSTALL_PREFIX@/bin/djv.sh %U
+Name=djv
 Comment=Professional media review software for VFX, animation, and film production
 Categories=Graphics
 Terminal=false

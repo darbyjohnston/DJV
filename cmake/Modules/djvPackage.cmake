@@ -4,68 +4,68 @@ if (WIN32)
     set(CMAKE_INSTALL_DEBUG_LIBRARIES true)	
 	include(InstallRequiredSystemLibraries)
     	
-    set(CPACK_NSIS_MUI_ICON ${PROJECT_SOURCE_DIR}/etc/Windows/djv_view.ico)
-    set(CPACK_NSIS_MUI_UNICON ${PROJECT_SOURCE_DIR}/etc/Windows/djv_view.ico)
+    set(CPACK_NSIS_MUI_ICON ${PROJECT_SOURCE_DIR}/etc/Windows/djv.ico)
+    set(CPACK_NSIS_MUI_UNICON ${PROJECT_SOURCE_DIR}/etc/Windows/djv.ico)
     set(CPACK_NSIS_INSTALL_ROOT "$PROGRAMFILES64")
 
     # \todo How can we ask the user if they want these file associations?    
 	set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "
 	
-		WriteRegStr HKCR '.cin' '' 'djv_view'
+		WriteRegStr HKCR '.cin' '' 'djv'
 
-		WriteRegStr HKCR '.dpx' '' 'djv_view'
+		WriteRegStr HKCR '.dpx' '' 'djv'
 
-		WriteRegStr HKCR '.iff' '' 'djv_view'
-		WriteRegStr HKCR '.z' '' 'djv_view'
+		WriteRegStr HKCR '.iff' '' 'djv'
+		WriteRegStr HKCR '.z' '' 'djv'
 
-		WriteRegStr HKCR '.ifl' '' 'djv_view'
+		WriteRegStr HKCR '.ifl' '' 'djv'
 		
-		WriteRegStr HKCR '.jpeg' '' 'djv_view'
-		WriteRegStr HKCR '.jpg' '' 'djv_view'
-		WriteRegStr HKCR '.jfif' '' 'djv_view'
+		WriteRegStr HKCR '.jpeg' '' 'djv'
+		WriteRegStr HKCR '.jpg' '' 'djv'
+		WriteRegStr HKCR '.jfif' '' 'djv'
 
-		WriteRegStr HKCR '.lut' '' 'djv_view'
-		WriteRegStr HKCR '.1dl' '' 'djv_view'
+		WriteRegStr HKCR '.lut' '' 'djv'
+		WriteRegStr HKCR '.1dl' '' 'djv'
 
-		WriteRegStr HKCR '.exr' '' 'djv_view'
+		WriteRegStr HKCR '.exr' '' 'djv'
 
-		WriteRegStr HKCR '.pic' '' 'djv_view'
+		WriteRegStr HKCR '.pic' '' 'djv'
 		
-		WriteRegStr HKCR '.png' '' 'djv_view'
+		WriteRegStr HKCR '.png' '' 'djv'
 
-		WriteRegStr HKCR '.ppm' '' 'djv_view'
-		WriteRegStr HKCR '.pnm' '' 'djv_view'
-		WriteRegStr HKCR '.pgm' '' 'djv_view'
-		WriteRegStr HKCR '.pbm' '' 'djv_view'
+		WriteRegStr HKCR '.ppm' '' 'djv'
+		WriteRegStr HKCR '.pnm' '' 'djv'
+		WriteRegStr HKCR '.pgm' '' 'djv'
+		WriteRegStr HKCR '.pbm' '' 'djv'
 
-		WriteRegStr HKCR '.avi' '' 'djv_view'
-		WriteRegStr HKCR '.dv' '' 'djv_view'
-		WriteRegStr HKCR '.gif' '' 'djv_view'
-		WriteRegStr HKCR '.flv' '' 'djv_view'
-		WriteRegStr HKCR '.mkv' '' 'djv_view'
-		WriteRegStr HKCR '.mov' '' 'djv_view'
-		WriteRegStr HKCR '.mpg' '' 'djv_view'
-		WriteRegStr HKCR '.mpeg' '' 'djv_view'
-		WriteRegStr HKCR '.mp4' '' 'djv_view'
-		WriteRegStr HKCR '.m4v' '' 'djv_view'
-		WriteRegStr HKCR '.mxf' '' 'djv_view'
+		WriteRegStr HKCR '.avi' '' 'djv'
+		WriteRegStr HKCR '.dv' '' 'djv'
+		WriteRegStr HKCR '.gif' '' 'djv'
+		WriteRegStr HKCR '.flv' '' 'djv'
+		WriteRegStr HKCR '.mkv' '' 'djv'
+		WriteRegStr HKCR '.mov' '' 'djv'
+		WriteRegStr HKCR '.mpg' '' 'djv'
+		WriteRegStr HKCR '.mpeg' '' 'djv'
+		WriteRegStr HKCR '.mp4' '' 'djv'
+		WriteRegStr HKCR '.m4v' '' 'djv'
+		WriteRegStr HKCR '.mxf' '' 'djv'
 
-		WriteRegStr HKCR '.rla' '' 'djv_view'
-		WriteRegStr HKCR '.rpf' '' 'djv_view'
+		WriteRegStr HKCR '.rla' '' 'djv'
+		WriteRegStr HKCR '.rpf' '' 'djv'
 
-		WriteRegStr HKCR '.sgi' '' 'djv_view'
-		WriteRegStr HKCR '.rgba' '' 'djv_view'
-		WriteRegStr HKCR '.rgb' '' 'djv_view'
-		WriteRegStr HKCR '.bw' '' 'djv_view'
+		WriteRegStr HKCR '.sgi' '' 'djv'
+		WriteRegStr HKCR '.rgba' '' 'djv'
+		WriteRegStr HKCR '.rgb' '' 'djv'
+		WriteRegStr HKCR '.bw' '' 'djv'
 
-		WriteRegStr HKCR '.tga' '' 'djv_view'
+		WriteRegStr HKCR '.tga' '' 'djv'
 		
-		WriteRegStr HKCR '.tiff' '' 'djv_view'
-		WriteRegStr HKCR '.tif' '' 'djv_view'
+		WriteRegStr HKCR '.tiff' '' 'djv'
+		WriteRegStr HKCR '.tif' '' 'djv'
 		
-		WriteRegStr HKCR 'djv_view' '' 'djv_view'
-		WriteRegStr HKCR 'djv_view\\\\shell' '' 'open'
-		WriteRegStr HKCR 'djv_view\\\\shell\\\\open\\\\command' '' '$INSTDIR\\\\bin\\\\djv_view.exe \\\"%1\\\"'
+		WriteRegStr HKCR 'djv' '' 'djv'
+		WriteRegStr HKCR 'djv\\\\shell' '' 'open'
+		WriteRegStr HKCR 'djv\\\\shell\\\\open\\\\command' '' '$INSTDIR\\\\bin\\\\djv.exe \\\"%1\\\"'
 		")
 
 	set(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "
@@ -121,7 +121,7 @@ if (WIN32)
 		DeleteRegKey HKCR '.tiff'
 		DeleteRegKey HKCR '.tif'
 
-        DeleteRegKey HKCR 'djv_view'
+        DeleteRegKey HKCR 'djv'
 	    ")
     
     set(CPACK_PACKAGE_INSTALL_DIRECTORY ${PROJECT_NAME})
@@ -137,9 +137,9 @@ elseif (APPLE)
         ${PROJECT_SOURCE_DIR}/etc/OSX/Info.plist.in
         ${PROJECT_BINARY_DIR}/Info.plist)
         
-    set(CPACK_PACKAGE_ICON ${PROJECT_SOURCE_DIR}/etc/OSX/djv_view.icns)
+    set(CPACK_PACKAGE_ICON ${PROJECT_SOURCE_DIR}/etc/OSX/djv.icns)
     set(CPACK_BUNDLE_NAME ${PROJECT_NAME})
-    set(CPACK_BUNDLE_ICON ${PROJECT_SOURCE_DIR}/etc/OSX/djv_view.icns)
+    set(CPACK_BUNDLE_ICON ${PROJECT_SOURCE_DIR}/etc/OSX/djv.icns)
     set(CPACK_BUNDLE_PLIST ${PROJECT_BINARY_DIR}/Info.plist)
     set(CPACK_BUNDLE_STARTUP_COMMAND ${PROJECT_BINARY_DIR}/startup.sh)
 
@@ -194,6 +194,6 @@ elseif (UNIX)
 
 endif (WIN32)
 
-set(CPACK_PACKAGE_EXECUTABLES djv_view djv_view)
+set(CPACK_PACKAGE_EXECUTABLES djv djv)
 set(CPACK_RESOURCE_FILE_LICENSE ${PROJECT_SOURCE_DIR}/LICENSE.txt)
 

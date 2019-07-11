@@ -519,7 +519,8 @@ namespace djv
         void ImageViewSystem::_actionsUpdate()
         {
             DJV_PRIVATE_PTR();
-            const bool activeWidget = p.activeWidget.get();
+            //! \todo Whys the activeWidget broken?
+            const bool activeWidget = true; //p.activeWidget.get();
             p.actions["Left"]->setEnabled(activeWidget);
             p.actions["Right"]->setEnabled(activeWidget);
             p.actions["Up"]->setEnabled(activeWidget);

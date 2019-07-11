@@ -684,7 +684,6 @@ namespace djv
                 {
                     const auto now = std::chrono::system_clock::now();
                     std::chrono::duration<double> delta = now - p.startTime;
-                    std::cout << delta.count() << std::endl;
                     p.realSpeed->setIfChanged(delta.count() ? (p.realSpeedFrameCount / static_cast<float>(delta.count())) : 0.f);
 
                     Time::Timestamp pts = Time::scale(

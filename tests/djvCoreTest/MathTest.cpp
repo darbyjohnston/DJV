@@ -60,7 +60,7 @@ namespace djv
             }
             {
                 const Core::Math::Rational r(2, 2);
-                const float f = Core::Math::Rational::toFloat(r);
+                const float f = r.toFloat();
                 DJV_ASSERT(1.f == f);
                 DJV_ASSERT(Core::Math::Rational(1, 1) == Core::Math::Rational::fromFloat(f));
             }
