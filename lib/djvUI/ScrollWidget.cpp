@@ -835,9 +835,9 @@ namespace djv
             _resize();
         }
 
-        void ScrollWidget::setBorderColorRole(ColorRole value)
+        void ScrollWidget::setBorder(bool value)
         {
-            _p->border->setBorderColorRole(value);
+            _p->border->setBorderSize(value ? MetricsRole::Border : MetricsRole::None);
         }
 
         MetricsRole ScrollWidget::getMinimumSizeRole() const

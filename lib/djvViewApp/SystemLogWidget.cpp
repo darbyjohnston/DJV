@@ -109,6 +109,7 @@ namespace djv
             p.textBlock->setMargin(UI::MetricsRole::Margin);
 
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            scrollWidget->setBorder(false);
             scrollWidget->setShadowOverlay({ UI::Side::Top });
             scrollWidget->addChild(p.textBlock);
 

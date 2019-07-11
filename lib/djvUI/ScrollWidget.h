@@ -54,7 +54,6 @@ namespace djv
         //! This class provides a scroll widget.
         //!
         //! \bug [1.0 M] Add a minimum scroll bar handle size.
-        //! \todo Add keyboard shortcuts (page up, page down, etc.).
         class ScrollWidget : public Widget
         {
             DJV_NON_COPYABLE(ScrollWidget);
@@ -85,7 +84,7 @@ namespace djv
             bool hasAutoHideScrollBars() const;
             void setAutoHideScrollBars(bool);
 
-            void setBorderColorRole(ColorRole);
+            void setBorder(bool);
 
             MetricsRole getMinimumSizeRole() const;
             void setMinimumSizeRole(MetricsRole);

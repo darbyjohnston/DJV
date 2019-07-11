@@ -65,6 +65,8 @@ namespace djv
             p.layout->setSpacing(UI::MetricsRole::None);
 
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
+            scrollWidget->setBorder(false);
+            scrollWidget->setShadowOverlay({ UI::Side::Top });
             scrollWidget->addChild(p.layout);
             addChild(scrollWidget);
 

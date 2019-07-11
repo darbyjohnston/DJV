@@ -62,6 +62,7 @@ namespace djv
             p.layout = VerticalLayout::create(context);
             p.layout->setSpacing(MetricsRole::None);
             p.layout->addChild(p.tabBar);
+            p.layout->addSeparator();
             p.layout->addChild(p.soloLayout);
             p.layout->setStretch(p.soloLayout, RowStretch::Expand);
             addChild(p.layout);

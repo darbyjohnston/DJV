@@ -71,22 +71,22 @@ namespace djv
 
                 UI::Style::Palette palette;
                 palette.setColor(ColorRole::Background, AV::Image::Color(.92f, .92f, .92f, 1.f));
-                palette.setColor(ColorRole::BackgroundBellows, AV::Image::Color(.9f, .9f, .9f, 1.f));
+                palette.setColor(ColorRole::BackgroundBellows, AV::Image::Color(.85f, .85f, .85f, 1.f));
                 palette.setColor(ColorRole::BackgroundHeader, AV::Image::Color(.8f, .8f, .8f, 1.f));
                 palette.setColor(ColorRole::BackgroundToolBar, AV::Image::Color(.88f, .88f, .88f, 1.f));
                 palette.setColor(ColorRole::Border, AV::Image::Color(.65f, .65f, .65f, 1.f));
                 palette.setColor(ColorRole::BorderButton, AV::Image::Color(.85f, .85f, .85f, 1.f));
                 palette.setColor(ColorRole::Button, AV::Image::Color(1.f, 1.f, 1.f, 1.f));
-                palette.setColor(ColorRole::Checked, AV::Image::Color(.48f, .62f, .68f, 1.f));
+                palette.setColor(ColorRole::Checked, AV::Image::Color(.48f, .72f, .78f, 1.f));
                 palette.setColor(ColorRole::TextFocus, AV::Image::Color(.28f, .52f, .68f, 1.f));
                 palette.setColor(ColorRole::Foreground, AV::Image::Color(0.f, 0.f, 0.f, 1.f));
                 palette.setColor(ColorRole::ForegroundDim, AV::Image::Color(.5f, .5f, .5f, 1.f));
-                palette.setColor(ColorRole::Handle, AV::Image::Color(.48f, .62f, .68f, 1.f));
+                palette.setColor(ColorRole::Handle, AV::Image::Color(.48f, .72f, .78f, 1.f));
                 palette.setColor(ColorRole::Hovered, AV::Image::Color(0.f, 0.f, 0.f, .06f));
                 palette.setColor(ColorRole::Overlay, AV::Image::Color(0.f, 0.f, 0.f, .5f));
                 palette.setColor(ColorRole::OverlayLight, AV::Image::Color(1.f, 1.f, 1.f, .6f));
                 palette.setColor(ColorRole::Pressed, AV::Image::Color(0.f, 0.f, 0.f, .1f));
-                palette.setColor(ColorRole::Shadow, AV::Image::Color(0.f, 0.f, 0.f, .16f));
+                palette.setColor(ColorRole::Shadow, AV::Image::Color(0.f, 0.f, 0.f, .12f));
                 palette.setColor(ColorRole::Trough, AV::Image::Color(.75f, .75f, .75f, 1.f));
                 palette.setDisabledMult(.5f);
                 palettes[DJV_TEXT("Light")] = palette;

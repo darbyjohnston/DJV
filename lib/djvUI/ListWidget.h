@@ -63,8 +63,9 @@ namespace djv
             void lastItem(Callback = Callback::Suppress);
             void prevItem(Callback = Callback::Suppress);
             void nextItem(Callback = Callback::Suppress);
-
             void setCallback(const std::function<void(int)> &);
+
+            void setBorder(bool);
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;

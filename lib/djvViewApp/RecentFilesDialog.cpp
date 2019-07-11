@@ -117,6 +117,7 @@ namespace djv
 
             p.itemView = UI::FileBrowser::ItemView::create(context);
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            scrollWidget->setBorder(false);
             scrollWidget->setShadowOverlay({ UI::Side::Top });
             scrollWidget->addChild(p.itemView);
 
@@ -133,6 +134,7 @@ namespace djv
             vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addChild(toolBar);
+            vLayout->addSeparator();
             vLayout->addChild(scrollWidget);
             vLayout->setStretch(scrollWidget, UI::RowStretch::Expand);
             p.layout->addChild(vLayout);

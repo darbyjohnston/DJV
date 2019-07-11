@@ -80,6 +80,7 @@ namespace djv
             layout->setBackgroundRole(UI::ColorRole::OverlayLight);
             layout->setSpacing(UI::MetricsRole::None);
             layout->addChild(p.titleBar);
+            layout->addSeparator();
             layout->addChild(p.childLayout);
             layout->setStretch(p.childLayout, UI::RowStretch::Expand);
 

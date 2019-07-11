@@ -126,6 +126,7 @@ namespace djv
             hLayout->addChild(p.titleBarLayout);
             hLayout->addChild(p.closeButton);
             layout->addChild(hLayout);
+            layout->addSeparator();
             layout->addChild(p.childLayout);
             layout->setStretch(p.childLayout, RowStretch::Expand);
             p.layout->addChild(layout);

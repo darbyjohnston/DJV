@@ -202,6 +202,11 @@ namespace djv
             _p->callback = value;
         }
 
+        void ListWidget::setBorder(bool value)
+        {
+            _p->scrollWidget->setBorder(value);
+        }
+
         void ListWidget::_preLayoutEvent(Event::PreLayout & event)
         {
             const auto& style = _getStyle();
