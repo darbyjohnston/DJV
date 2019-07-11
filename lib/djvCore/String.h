@@ -79,7 +79,7 @@ namespace djv
 
             ///@}
 
-            //! \name Conversion
+            //! \name Comparison
             ///@{
 
             bool match(const std::string & value, const std::string & expression);

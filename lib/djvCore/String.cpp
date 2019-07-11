@@ -86,7 +86,7 @@ namespace djv
                 std::smatch m;
                 try
                 {
-                    std::regex r(expression);
+                    std::regex r(expression, std::regex_constants::icase);
                     std::regex_search(value, m, r);
                 }
                 catch (const std::exception &)
