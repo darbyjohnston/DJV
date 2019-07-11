@@ -134,17 +134,21 @@ namespace djv
                         auto i = widget->_read.begin();
                         while (i != widget->_read.end())
                         {
-                            bool image = false;
+                            bool erase = false;
                             {
                                 std::unique_lock<std::mutex> lock((*i)->getMutex());
                                 auto& queue = (*i)->getVideoQueue();
                                 if (queue.hasFrames())
                                 {
-                                    image = true;
+                                    erase = true;
                                     widget->_images.push_back(queue.popFrame().image);
                                 }
+                                else if (queue.isFinished())
+                                {
+                                    erase = true;
+                                }
                             }
-                            if (image)
+                            if (erase)
                             {
                                 i = widget->_read.erase(i);
                             }

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   viewBox="0 0 128 128"
+   version="1.1"
+   id="svg5700"
+   sodipodi:docname="djv-app-icon-128.svg"
+   inkscape:export-filename="C:\dev\djv-git\etc\Icons\djv-app-icon-128.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
+  <metadata
+     id="metadata5706">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs5704" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1137"
+     id="namedview5702"
+     showgrid="false"
+     inkscape:zoom="1.84375"
+     inkscape:cx="-26.305085"
+     inkscape:cy="64"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg5700" />
+  <title
+     id="title5695">djv-app-icon-128</title>
+  <g
+     id="Layer_2"
+     data-name="Layer 2"
+     style="fill:#000000;fill-opacity:1">
+    <g
+       id="icon_designs.00"
+       data-name="icon designs.00"
+       style="fill:#000000;fill-opacity:1">
+      <path
+         id="djv-app-icon-128"
+         d="M128,64A64,64,0,1,1,64,0,64,64,0,0,1,128,64ZM85.78,50.1l13.79-3.34A11.35,11.35,0,0,0,107.16,31,31.84,31.84,0,0,0,82.1,12.74a11.33,11.33,0,0,0-12.69,12.1L70.49,39A12.4,12.4,0,0,0,85.78,50.1ZM69.72,9.84a5.72,5.72,0,1,0-11.44,0c0,2.42,2.3,4.91,4.07,7.48a2,2,0,0,0,3.3,0C67.42,14.75,69.72,12.26,69.72,9.84ZM117.28,52.7a5.72,5.72,0,1,0-3.53-10.88c-2.31.75-4,3.71-5.86,6.19a2,2,0,0,0,1,3.13C111.89,52,115,53.45,117.28,52.7ZM91.21,111.18a5.72,5.72,0,1,0,9.26-6.72c-1.43-2-4.76-2.63-7.7-3.66a2,2,0,0,0-2.67,1.93C90.18,105.85,89.78,109.22,91.21,111.18Zm-63.68-6.72a5.72,5.72,0,0,0,9.26,6.72c1.43-2,1-5.33,1.11-8.45a2,2,0,0,0-2.67-1.93C32.29,101.83,29,102.5,27.53,104.46ZM14.25,41.82A5.72,5.72,0,1,0,10.72,52.7c2.3.75,5.39-.67,8.38-1.56a2,2,0,0,0,1-3.13C18.22,45.53,16.56,42.57,14.25,41.82ZM84,80.42,91.39,92.5a11.34,11.34,0,0,0,17.38,2.34,31.88,31.88,0,0,0,9.58-29.47A11.35,11.35,0,0,0,102.92,57l-13.13,5.4A12.41,12.41,0,0,0,84,80.42ZM54.55,88,45.36,98.86a11.34,11.34,0,0,0,3.15,17.25,31.85,31.85,0,0,0,31,0,11.34,11.34,0,0,0,3.15-17.25L73.45,88A12.41,12.41,0,0,0,54.55,88ZM38.21,62.44,25.08,57A11.35,11.35,0,0,0,9.65,65.37a31.88,31.88,0,0,0,9.58,29.47A11.34,11.34,0,0,0,36.61,92.5l7.44-12.08A12.41,12.41,0,0,0,38.21,62.44ZM57.51,39l1.08-14.15A11.33,11.33,0,0,0,45.9,12.74,31.84,31.84,0,0,0,20.84,31a11.35,11.35,0,0,0,7.59,15.81L42.22,50.1A12.4,12.4,0,0,0,57.51,39ZM64,46.72a4.48,4.48,0,1,0,4.48,4.48A4.49,4.49,0,0,0,64,46.72ZM80.43,58.66a4.48,4.48,0,1,0-2.87,5.64A4.48,4.48,0,0,0,80.43,58.66ZM74.16,78a4.48,4.48,0,1,0-6.26-1A4.49,4.49,0,0,0,74.16,78ZM53.84,78a4.48,4.48,0,1,0-1-6.26A4.49,4.49,0,0,0,53.84,78ZM47.57,58.66a4.48,4.48,0,1,0,5.64-2.88A4.47,4.47,0,0,0,47.57,58.66Z"
+         style="fill:#000000;fill-opacity:1" />
+    </g>
+  </g>
+</svg>
