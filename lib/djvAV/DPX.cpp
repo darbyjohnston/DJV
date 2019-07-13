@@ -296,6 +296,7 @@ namespace djv
                         case Descriptor::L:    channels = 1; break;
                         case Descriptor::RGB:  channels = 3; break;
                         case Descriptor::RGBA: channels = 4; break;
+                        default: break;
                         }
                         info.video[0].info.type = Image::getIntType(channels, out.image.elem[0].bitDepth);
                     }
@@ -318,12 +319,14 @@ namespace djv
                             case Descriptor::L:    channels = 1; break;
                             case Descriptor::RGB:  channels = 3; break;
                             case Descriptor::RGBA: channels = 4; break;
+                            default: break;
                             }
                             info.video[0].info.type = Image::getIntType(channels, out.image.elem[0].bitDepth);
                         }
                         break;
                         }
                         break;
+                    default: break;
                     }
                     if (Image::Type::None == info.video[0].info.type)
                     {
@@ -576,6 +579,7 @@ namespace djv
                     {
                     case Version::_1_0: memcpy(header.file.version, "V1.0", 4); break;
                     case Version::_2_0: memcpy(header.file.version, "V2.0", 4); break;
+                    default: break;
                     }
 
                     fromString(info.fileName, header.file.name, 100, false);
