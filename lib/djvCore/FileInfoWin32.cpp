@@ -105,9 +105,9 @@ namespace djv
                     {
                         _type = FileType::Directory;
                     }
-                    _permissions |= (info.st_mode & _S_IREAD) ? static_cast<int>(FilePermissions::Read) : 0;
+                    _permissions |= (info.st_mode & _S_IREAD)  ? static_cast<int>(FilePermissions::Read) : 0;
                     _permissions |= (info.st_mode & _S_IWRITE) ? static_cast<int>(FilePermissions::Write) : 0;
-                    _permissions |= (info.st_mode & _S_IEXEC) ? static_cast<int>(FilePermissions::Exec) : 0;
+                    _permissions |= (info.st_mode & _S_IEXEC)  ? static_cast<int>(FilePermissions::Exec) : 0;
                 }
                 return true;
             }
