@@ -33,6 +33,8 @@
 
 #include <djvCore/BBox.h>
 
+#include <memory>
+
 namespace djv
 {
     namespace AV
