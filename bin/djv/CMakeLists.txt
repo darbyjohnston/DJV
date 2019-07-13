@@ -40,7 +40,7 @@ if(UNIX)
             FILES ../../etc/Linux/djv.mime.xml
             DESTINATION /usr/share/mime/packages)
         install(
-            FILES ../../doc/images/djv-reel-1024.svg
+            FILES ../../etc/Icons/djv-reel-1024.svg
             DESTINATION /usr/share/icons/hicolor/scalable/apps
             RENAME djv.svg)
     endif()
