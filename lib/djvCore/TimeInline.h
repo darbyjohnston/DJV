@@ -35,10 +35,10 @@ namespace djv
         {
             inline void secondsToTime(double in, int& hour, int& minute, double& seconds)
             {
-                hour     = static_cast<int>(in / 60) * 60;
-                in      -= static_cast<int64_t>(hour) * static_cast<int64_t>(60) * static_cast<int64_t>(60);
+                hour     = static_cast<int>(in / 3600);
+                in      -= static_cast<int64_t>(hour * 3600);
                 minute   = in / 60;
-                in      -= static_cast<int64_t>(minute) * static_cast<int64_t>(60);
+                in      -= static_cast<int64_t>(minute * 60);
                 seconds  = in;
             }
 
