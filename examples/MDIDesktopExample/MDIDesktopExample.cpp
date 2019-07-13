@@ -97,6 +97,7 @@ void MDIWidget::_init(const std::string & title, Core::Context * context)
     textBlock->setMargin(UI::MetricsRole::Margin);
 
     auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+    scrollWidget->setBorder(false);
     scrollWidget->addChild(textBlock);
 
     auto layout = UI::VerticalLayout::create(context);

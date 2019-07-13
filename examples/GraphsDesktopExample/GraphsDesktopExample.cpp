@@ -45,12 +45,15 @@ int main(int argc, char ** argv)
     int r = 0;
     try
     {
+        // Create an application.
         auto app = Desktop::Application::create(argc, argv);
 
+        // Create a top-level layout.
         auto layout = UI::VerticalLayout::create(app.get());
         layout->setMargin(UI::MetricsRole::MarginLarge);
         layout->setSpacing(UI::MetricsRole::SpacingLarge);
 
+        // Create some line graph widgets.
         std::vector<std::shared_ptr<UI::LineGraphWidget> > lineGraphWidgets;
         auto vLayout = UI::VerticalLayout::create(app.get());
         for (size_t i = 0; i < 3; ++i)
@@ -59,19 +62,21 @@ int main(int argc, char ** argv)
             lineGraphWidgets.push_back(lineGraphWidget);
             vLayout->addChild(lineGraphWidget);
         }
-        auto groupBox = UI::GroupBox::create("LINE GRAPHS", app.get());
+        auto groupBox = UI::GroupBox::create("Line Graphs", app.get());
         groupBox->addChild(vLayout);
         layout->addChild(groupBox);
 
+        // Create a window and show it.
         auto window = UI::Window::create(app.get());
         window->addChild(layout);
         window->show();
 
+        // Start a timer to drive the line graphs.
         float v = 0.f;
         auto timer = Core::Time::Timer::create(app.get());
         timer->setRepeating(true);
         timer->start(
-            std::chrono::milliseconds(40),
+            std::chrono::milliseconds(30),
             [lineGraphWidgets, &v](float diff)
         {
             float f = 5.f;

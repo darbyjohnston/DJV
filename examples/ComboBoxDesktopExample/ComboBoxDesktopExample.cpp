@@ -43,25 +43,32 @@ int main(int argc, char ** argv)
     int r = 0;
     try
     {
+        // Create an application.
         auto app = Desktop::Application::create(argc, argv);
 
+        // Create some combo box widgets.
         auto comboBox0 = UI::ComboBox::create(app.get());
         comboBox0->setItems(Core::String::getRandomNames(5));
+        comboBox0->setCurrentItem(0);
         comboBox0->setHAlign(UI::HAlign::Left);
         comboBox0->setVAlign(UI::VAlign::Top);
         auto comboBox1 = UI::ComboBox::create(app.get());
         comboBox1->setItems(Core::String::getRandomNames(25));
+        comboBox1->setCurrentItem(0);
         comboBox1->setHAlign(UI::HAlign::Right);
         comboBox1->setVAlign(UI::VAlign::Top);
         auto comboBox2 = UI::ComboBox::create(app.get());
         comboBox2->setItems(Core::String::getRandomNames(5));
+        comboBox2->setCurrentItem(0);
         comboBox2->setHAlign(UI::HAlign::Left);
         comboBox2->setVAlign(UI::VAlign::Bottom);
         auto comboBox3 = UI::ComboBox::create(app.get());
         comboBox3->setItems(Core::String::getRandomNames(25));
+        comboBox3->setCurrentItem(0);
         comboBox3->setHAlign(UI::HAlign::Right);
         comboBox3->setVAlign(UI::VAlign::Bottom);
 
+        // Create a layout for the widgets.
         auto layout = UI::GridLayout::create(app.get());
         layout->setMargin(UI::MetricsRole::MarginLarge);
         layout->addChild(comboBox0);
@@ -76,6 +83,8 @@ int main(int argc, char ** argv)
         layout->addChild(comboBox3);
         layout->setGridPos(comboBox3, glm::ivec2(1, 1));
         layout->setStretch(comboBox3, UI::GridStretch::Both);
+
+        // Create a window and show it.
         auto window = UI::Window::create(app.get());
         window->addChild(layout);
         window->show();

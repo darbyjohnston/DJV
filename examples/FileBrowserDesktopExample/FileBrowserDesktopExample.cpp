@@ -44,10 +44,13 @@ int main(int argc, char ** argv)
     int r = 0;
     try
     {
+        // Create an application.
         auto app = Desktop::Application::create(argc, argv);
 
-        auto uiComponentsSystem = UI::UIComponentsSystem::create(app.get());
+        // Create the UI components system.
+        UI::UIComponentsSystem::create(app.get());
 
+        // Create a file browser.
         auto fileBrowser = UI::FileBrowser::FileBrowser::create(app.get());
         fileBrowser->setPath(Core::FileSystem::Path("."));
         fileBrowser->setCallback(
@@ -56,6 +59,7 @@ int main(int argc, char ** argv)
             std::cout << value << std::endl;
         });
 
+        // Create a window and show it.
         auto window = UI::Window::create(app.get());
         window->addChild(fileBrowser);
         window->show();

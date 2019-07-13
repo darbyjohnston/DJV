@@ -53,14 +53,15 @@ struct Circle
             Core::Math::getRandom(0.f, 1.f),
             Core::Math::getRandom(0.f, 1.f),
             1.f);
-        radiusRate = Core::Math::getRandom(.1f, 1.f);
+        radiusRate = Core::Math::getRandom(.1f, 10.f);
         alphaRate = Core::Math::getRandom(.001f, .01f);
     }
-    glm::vec2 pos;
-    float radius = 0.f;
-    float radiusRate;
-    AV::Image::Color color;
-    float alphaRate;
+
+    glm::vec2           pos;
+    float               radius      = 0.f;
+    float               radiusRate;
+    AV::Image::Color    color;
+    float               alphaRate;
 };
 
 class Application : public CmdLine::Application

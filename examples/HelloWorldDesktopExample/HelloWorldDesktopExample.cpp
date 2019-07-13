@@ -29,7 +29,7 @@
 
 #include <djvDesktopApp/Application.h>
 
-#include <djvUI/PushButton.h>
+#include <djvUI/Label.h>
 #include <djvUI/Window.h>
 
 #include <djvCore/Error.h>
@@ -41,16 +41,19 @@ int main(int argc, char ** argv)
     int r = 0;
     try
     {
+        // Create an application.
         auto app = Desktop::Application::create(argc, argv);
 
-        auto button = UI::PushButton::create(app.get());
-        button->setText("Hello world!");
-        button->setFontSizeRole(UI::MetricsRole::FontLarge);
-        button->setHAlign(UI::HAlign::Center);
-        button->setVAlign(UI::VAlign::Center);
+        // Create a label.
+        auto label = UI::Label::create(app.get());
+        label->setText("Hello world!");
+        label->setFontSizeRole(UI::MetricsRole::FontHeader);
+        label->setHAlign(UI::HAlign::Center);
+        label->setVAlign(UI::VAlign::Center);
 
+        // Create a window and show it.
         auto window = UI::Window::create(app.get());
-        window->addChild(button);
+        window->addChild(label);
         window->show();
 
         return app->run();

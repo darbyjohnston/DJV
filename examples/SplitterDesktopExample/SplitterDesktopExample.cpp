@@ -44,10 +44,13 @@ int main(int argc, char ** argv)
     int r = 0;
     try
     {
+        // Create an application.
         auto app = Desktop::Application::create(argc, argv);
 
+        // Create a splitter.
         auto splitter = UI::Layout::Splitter::create(UI::Orientation::Horizontal, app.get());
 
+        // Create some widgets and add them to the splitter.
         for (size_t i = 0; i < 3; ++i)
         {
             auto textBlock = UI::TextBlock::create(app.get());
@@ -61,6 +64,7 @@ int main(int argc, char ** argv)
             splitter->addChild(scrollWidget);
         }
 
+        // Create a window and show it.
         auto window = UI::Window::create(app.get());
         window->addChild(splitter);
         window->show();

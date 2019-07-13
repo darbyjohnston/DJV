@@ -47,12 +47,15 @@ int main(int argc, char ** argv)
     int r = 0;
     try
     {
+        // Create an application.
         auto app = Desktop::Application::create(argc, argv);
 
+        // Create a top-level layout.
         auto layout = UI::VerticalLayout::create(app.get());
         layout->setMargin(UI::MetricsRole::MarginLarge);
         layout->setSpacing(UI::MetricsRole::SpacingLarge);
 
+        // Create some integer sliders.
         auto vLayout = UI::VerticalLayout::create(app.get());
         vLayout->setMargin(UI::MetricsRole::Margin);
         const std::vector<Core::IntRange> intRange =
@@ -76,6 +79,7 @@ int main(int argc, char ** argv)
         groupBox->addChild(vLayout);
         layout->addChild(groupBox);
         
+        // Create some floating-point sliders.
         vLayout = UI::VerticalLayout::create(app.get());
         vLayout->setMargin(UI::MetricsRole::Margin);
         const std::vector<Core::FloatRange> floatRange =
@@ -99,6 +103,7 @@ int main(int argc, char ** argv)
         groupBox->addChild(vLayout);
         layout->addChild(groupBox);
 
+        // Create a window and show it.
         auto window = UI::Window::create(app.get());
         window->addChild(layout);
         window->show();
