@@ -95,8 +95,9 @@ namespace djv
                     void seek(Core::Time::Timestamp) override;
 
                 private:
-                    Core::Time::Timestamp _decodeVideo(AVPacket *, bool seek = false);
-                    Core::Time::Timestamp _decodeAudio(AVPacket *, bool seek = false);
+                    int _decodeVideo(AVPacket*);
+                    int _decodeAudio(AVPacket*);
+                    int _seek(AVPacket*, int stream, Core::Time::Timestamp&);
 
                     DJV_PRIVATE();
                 };

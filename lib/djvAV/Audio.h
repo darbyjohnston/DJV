@@ -35,6 +35,7 @@
 
 #include <AL/al.h>
 #include <AL/alc.h>
+#include <AL/alext.h>
 
 #include <limits>
 
@@ -79,21 +80,21 @@ namespace djv
             inline ALenum getALType(uint8_t channels, Type);
             std::string getALErrorString(ALenum);
 
-            inline void U8ToS16(U8_T, S16_T &);
-            inline void U8ToS32(U8_T, S32_T &);
+            inline void U8ToS16(U8_T, S16_T&);
+            inline void U8ToS32(U8_T, S32_T&);
             inline void U8ToF32(U8_T, F32_T &);
 
-            inline void S16ToU8(S16_T, U8_T &);
-            inline void S16ToS32(S16_T, S32_T &);
+            inline void S16ToU8(S16_T, U8_T&);
+            inline void S16ToS32(S16_T, S32_T&);
             inline void S16ToF32(S16_T, F32_T &);
 
-            inline void S32ToU8(S32_T, U8_T &);
-            inline void S32ToS16(S32_T, S16_T &);
-            inline void S32ToF32(S32_T, F32_T &);
+            inline void S32ToU8(S32_T, U8_T&);
+            inline void S32ToS16(S32_T, S16_T&);
+            inline void S32ToF32(S32_T, F32_T&);
 
-            inline void F32ToU8(F32_T, U8_T &);
-            inline void F32ToS16(F32_T, S16_T &);
-            inline void F32ToS32(F32_T, S32_T &);
+            inline void F32ToU8(F32_T, U8_T&);
+            inline void F32ToS16(F32_T, S16_T&);
+            inline void F32ToS32(F32_T, S32_T&);
 
         } // namespace Audio
     } // namespace AV

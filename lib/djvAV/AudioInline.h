@@ -43,7 +43,7 @@ namespace djv
 
             inline Type getIntType(uint8_t value)
             {
-                const Type data[] = { Type::None, Type::U8, Type::S16, Type::None, Type::S32 };
+                const Type data[] = { Type::None, Type::U8, Type::S16, Type::S32, Type::None };
                 return value < sizeof(data) / sizeof(data[0]) ? data[value] : Type::None;
             }
 
@@ -61,14 +61,45 @@ namespace djv
                 case 1:
                     switch (type)
                     {
+                    case Type::U8: out = AL_FORMAT_MONO8; break;
                     case Type::S16: out = AL_FORMAT_MONO16; break;
+                    case Type::F32: out = AL_FORMAT_MONO_FLOAT32; break;
                     default: break;
                     }
                     break;
                 case 2:
                     switch (type)
                     {
+                    case Type::U8: out = AL_FORMAT_STEREO8; break;
                     case Type::S16: out = AL_FORMAT_STEREO16; break;
+                    case Type::F32: out = AL_FORMAT_STEREO_FLOAT32; break;
+                    default: break;
+                    }
+                    break;
+                case 6:
+                    switch (type)
+                    {
+                    case Type::U8: out = AL_FORMAT_51CHN8; break;
+                    case Type::S16: out = AL_FORMAT_51CHN16; break;
+                    case Type::F32: out = AL_FORMAT_51CHN32; break;
+                    default: break;
+                    }
+                    break;
+                case 7:
+                    switch (type)
+                    {
+                    case Type::U8: out = AL_FORMAT_61CHN8; break;
+                    case Type::S16: out = AL_FORMAT_61CHN16; break;
+                    case Type::F32: out = AL_FORMAT_61CHN32; break;
+                    default: break;
+                    }
+                    break;
+                case 8:
+                    switch (type)
+                    {
+                    case Type::U8: out = AL_FORMAT_71CHN8; break;
+                    case Type::S16: out = AL_FORMAT_71CHN16; break;
+                    case Type::F32: out = AL_FORMAT_71CHN32; break;
                     default: break;
                     }
                     break;
@@ -81,7 +112,7 @@ namespace djv
                 out = (value << 8) - S16Min;
             }
 
-            inline void U8ToS32(U8_T value, S32_T & out)
+            inline void U8ToS32(U8_T value, S32_T& out)
             {
                 out = (value << 24) - S32Min;
             }
@@ -96,7 +127,7 @@ namespace djv
                 out = (value - S16Min) >> 8;
             }
 
-            inline void S16ToS32(S16_T value, S32_T & out)
+            inline void S16ToS32(S16_T value, S32_T& out)
             {
                 out = value << 16;
             }
@@ -106,17 +137,17 @@ namespace djv
                 out = value / static_cast<float>(S16Max);
             }
 
-            inline void S32ToU8(S32_T value, U8_T & out)
+            inline void S32ToU8(S32_T value, U8_T& out)
             {
                 out = (value - S32Min) >> 24;
             }
 
-            inline void S32ToS16(S32_T value, S16_T & out)
+            inline void S32ToS16(S32_T value, S16_T& out)
             {
                 out = value >> 16;
             }
 
-            inline void S32ToF32(S32_T value, F32_T & out)
+            inline void S32ToF32(S32_T value, F32_T& out)
             {
                 out = value / static_cast<float>(S32Max);
             }
@@ -137,7 +168,7 @@ namespace djv
                     static_cast<int32_t>(S16Max)));
             }
 
-            inline void F32ToS32(F32_T value, S32_T & out)
+            inline void F32ToS32(F32_T value, S32_T& out)
             {
                 out = static_cast<S32_T>(Core::Math::clamp(
                     static_cast<int64_t>(static_cast<int64_t>(value) * S32Max),

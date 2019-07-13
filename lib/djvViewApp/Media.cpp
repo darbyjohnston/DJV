@@ -679,7 +679,7 @@ namespace djv
                 {
                     ALint offset = 0;
                     alGetSourcei(p.alSource, AL_BYTE_OFFSET, &offset);
-                    Time::Timestamp pts = (p.alBytes + offset) / AV::Audio::getByteCount(p.audioInfo.info.type);
+                    Time::Timestamp pts = (p.alBytes + offset) / p.audioInfo.info.channelCount / AV::Audio::getByteCount(p.audioInfo.info.type);
                     time = p.timeOffset + Time::scale(
                         pts,
                         Math::Rational(1, static_cast<int>(p.audioInfo.info.sampleRate)),
@@ -843,8 +843,13 @@ namespace djv
                     }
                     for (size_t i = 0; i < frames.size(); ++i)
                     {
-                        auto data = AV::Audio::Data::convert(frames[i].audio, AV::Audio::Type::S16);
-                        const auto info = data->getInfo();
+                        auto data = frames[i].audio;
+                        AV::Audio::DataInfo info = data->getInfo();
+                        if (AV::Audio::Type::S32 == info.type)
+                        {
+                            info.type = AV::Audio::Type::S16;
+                            data = AV::Audio::Data::convert(data, info.type);
+                        }
                         auto buffer = p.alBuffers.back();
                         p.alBuffers.pop_back();
                         alBufferData(

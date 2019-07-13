@@ -376,16 +376,17 @@ namespace djv
                                             }
                                             if (p.avVideoStream == packet.stream_index)
                                             {
-                                                Time::Timestamp r = _decodeVideo(&packet, true);
-                                                if (r < 0)
+                                                Time::Timestamp t = 0;
+                                                if (_seek(&packet, packet.stream_index, t) < 0)
                                                 {
                                                     throw std::exception();
                                                 }
-                                                pts = r;
+                                                pts = t;
                                             }
                                             else if (p.avAudioStream == packet.stream_index)
                                             {
-                                                if (_decodeAudio(&packet, true) < 0)
+                                                Time::Timestamp t = 0;
+                                                if (_seek(&packet, packet.stream_index, t) < 0)
                                                 {
                                                     throw std::exception();
                                                 }
@@ -513,28 +514,25 @@ namespace djv
                     p.queueCV.notify_one();
                 }
 
-                Time::Timestamp Read::_decodeVideo(AVPacket * packet, bool seek)
+                int Read::_decodeVideo(AVPacket * packet)
                 {
                     DJV_PRIVATE_PTR();
                     int r = avcodec_send_packet(p.avCodecContext[p.avVideoStream], packet);
-                    if (r < 0)
-                    {
-                        return r;
-                    }
-                    Time::Timestamp pts = 0;
                     while (r >= 0)
                     {
                         r = avcodec_receive_frame(p.avCodecContext[p.avVideoStream], p.avFrame);
                         if (AVERROR(EAGAIN) == r)
                         {
-                            return pts;
+                            r = 0;
+                            break;
+                            return 0;
                         }
                         else if (r < 0)
                         {
-                            return r;
+                            break;
                         }
-
-                        pts = av_rescale_q(
+                        
+                        const Time::Timestamp pts = av_rescale_q(
                             p.avFrame->pts,
                             p.avFormatContext->streams[p.avVideoStream]->time_base,
                             av_get_time_base_q());
@@ -546,99 +544,119 @@ namespace djv
                             _logSystem->log("djv::AV::IO::FFmpeg::Read", ss.str());
                         }*/
 
-                        if (!seek)
+                        auto image = Image::Image::create(p.videoInfo.info);
+                        av_image_fill_arrays(
+                            p.avFrameRgb->data,
+                            p.avFrameRgb->linesize,
+                            image->getData(),
+                            AV_PIX_FMT_RGBA,
+                            image->getWidth(),
+                            image->getHeight(),
+                            1);
+                        sws_scale(
+                            p.swsContext,
+                            (uint8_t const * const *)p.avFrame->data,
+                            p.avFrame->linesize,
+                            0,
+                            p.avCodecParameters[p.avVideoStream]->height,
+                            p.avFrameRgb->data,
+                            p.avFrameRgb->linesize);
                         {
-                            auto image = Image::Image::create(p.videoInfo.info);
-                            av_image_fill_arrays(
-                                p.avFrameRgb->data,
-                                p.avFrameRgb->linesize,
-                                image->getData(),
-                                AV_PIX_FMT_RGBA,
-                                image->getWidth(),
-                                image->getHeight(),
-                                1);
-                            sws_scale(
-                                p.swsContext,
-                                (uint8_t const * const *)p.avFrame->data,
-                                p.avFrame->linesize,
-                                0,
-                                p.avCodecParameters[p.avVideoStream]->height,
-                                p.avFrameRgb->data,
-                                p.avFrameRgb->linesize);
-                            {
-                                std::lock_guard<std::mutex> lock(_mutex);
-                                _videoQueue.addFrame(VideoFrame(pts, image));
-                            }
+                            std::lock_guard<std::mutex> lock(_mutex);
+                            _videoQueue.addFrame(VideoFrame(pts, image));
                         }
                     }
-                    return pts;
+                    return r;
                 }
 
-                Time::Timestamp Read::_decodeAudio(AVPacket * packet, bool seek)
+                int Read::_decodeAudio(AVPacket * packet)
                 {
                     DJV_PRIVATE_PTR();
                     int r = avcodec_send_packet(p.avCodecContext[p.avAudioStream], packet);
-                    if (r < 0)
-                    {
-                        return r;
-                    }
-                    Time::Timestamp pts = 0;
                     while (r >= 0)
                     {
                         r = avcodec_receive_frame(p.avCodecContext[p.avAudioStream], p.avFrame);
                         if (r == AVERROR(EAGAIN))
                         {
-                            return pts;
+                            r = 0;
+                            break;
                         }
                         else if (r < 0)
                         {
-                            return r;
+                            break;
                         }
 
-                        pts = av_rescale_q(
+                        const Time::Timestamp pts = av_rescale_q(
                             p.avFrame->pts,
                             p.avFormatContext->streams[p.avAudioStream]->time_base,
                             av_get_time_base_q());
 
-                        if (!seek)
+                        const auto & info = p.audioInfo.info;
+                        auto audioData = Audio::Data::create(info, p.avFrame->nb_samples * info.channelCount);
+                        switch (p.avCodecParameters[p.avAudioStream]->format)
                         {
-                            const auto & info = p.audioInfo.info;
-                            auto audioData = Audio::Data::create(info, p.avFrame->nb_samples * info.channelCount);
-                            switch (p.avCodecParameters[p.avAudioStream]->format)
+                        case AV_SAMPLE_FMT_U8:
+                        case AV_SAMPLE_FMT_S16:
+                        case AV_SAMPLE_FMT_S32:
+                        case AV_SAMPLE_FMT_FLT:
+                            memcpy(audioData->getData(), p.avFrame->data[0], audioData->getByteCount());
+                            break;
+                        case AV_SAMPLE_FMT_U8P:
+                        case AV_SAMPLE_FMT_S16P:
+                        case AV_SAMPLE_FMT_S32P:
+                        case AV_SAMPLE_FMT_FLTP:
+                        {
+                            const size_t channelCount = info.channelCount;
+                            const float ** c = new const float * [channelCount];
+                            for (size_t i = 0; i < channelCount; ++i)
                             {
-                            case AV_SAMPLE_FMT_U8:
-                            case AV_SAMPLE_FMT_S16:
-                            case AV_SAMPLE_FMT_S32:
-                            case AV_SAMPLE_FMT_FLT:
-                                memcpy(audioData->getData(), p.avFrame->data[0], audioData->getByteCount());
-                                break;
-                            case AV_SAMPLE_FMT_U8P:
-                            case AV_SAMPLE_FMT_S16P:
-                            case AV_SAMPLE_FMT_S32P:
-                            case AV_SAMPLE_FMT_FLTP:
-                            {
-                                const size_t channelCount = info.channelCount;
-                                const float ** c = new const float * [channelCount];
-                                for (size_t i = 0; i < channelCount; ++i)
-                                {
-                                    c[i] = reinterpret_cast<float *>(p.avFrame->data[i]);
-                                }
-                                Audio::Data::planarInterleave(
-                                    c,
-                                    reinterpret_cast<float *>(audioData->getData()),
-                                    audioData->getSampleCount(),
-                                    channelCount);
-                                break;
+                                c[i] = reinterpret_cast<float *>(p.avFrame->data[i]);
                             }
-                            default: break;
-                            }
-                            {
-                                std::lock_guard<std::mutex> lock(_mutex);
-                                _audioQueue.addFrame(AudioFrame(pts, audioData));
-                            }
+                            Audio::Data::planarInterleave(
+                                c,
+                                reinterpret_cast<float *>(audioData->getData()),
+                                audioData->getSampleCount(),
+                                channelCount);
+                            break;
+                        }
+                        default: break;
+                        }
+                        {
+                            std::lock_guard<std::mutex> lock(_mutex);
+                            _audioQueue.addFrame(AudioFrame(pts, audioData));
                         }
                     }
-                    return pts;
+                    return r;
+                }
+
+                int Read::_seek(AVPacket* packet, int stream, Time::Timestamp& pts)
+                {
+                    DJV_PRIVATE_PTR();
+                    int r = avcodec_send_packet(p.avCodecContext[stream], packet);
+                    while (r >= 0)
+                    {
+                        r = avcodec_receive_frame(p.avCodecContext[stream], p.avFrame);
+                        if (AVERROR(EAGAIN) == r)
+                        {
+                            r = 0;
+                            break;
+                        }
+                        else if (r < 0)
+                        {
+                            break;
+                        }
+                        pts = av_rescale_q(
+                            p.avFrame->pts,
+                            p.avFormatContext->streams[stream]->time_base,
+                            av_get_time_base_q());
+                        /*if (auto context = _context.lock())
+                        {
+                            std::stringstream ss;
+                            ss << _fileInfo << ", decoded frame: " << pts;
+                            _logSystem->log("djv::AV::IO::FFmpeg::Read", ss.str());
+                        }*/
+                    }
+                    return r;
                 }
 
             } // namespace FFmpeg
