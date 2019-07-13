@@ -2,7 +2,7 @@
 
 dpiList="96 120 144 168 192 216 240 264 288"
 
-for svg in *.svg
+for svg in djvIcon.svg
 do
     for dpi in ${dpiList}
     do

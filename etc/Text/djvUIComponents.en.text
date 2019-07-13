@@ -1,30 +1,5 @@
 [
     {
-        "text": "Time", 
-        "id": "Time", 
-        "description": ""
-    }, 
-    {
-        "text": "General", 
-        "id": "General", 
-        "description": ""
-    }, 
-    {
-        "text": "Units", 
-        "id": "Units", 
-        "description": ""
-    }, 
-    {
-        "text": "Tooltips", 
-        "id": "Tooltips", 
-        "description": ""
-    }, 
-    {
-        "text": "Enable tooltips", 
-        "id": "Enable tooltips", 
-        "description": ""
-    }, 
-    {
         "text": "Cineon", 
         "id": "Cineon", 
         "description": ""
@@ -140,8 +115,13 @@
         "description": ""
     }, 
     {
-        "text": "Input", 
-        "id": "Input", 
+        "text": "General", 
+        "id": "General", 
+        "description": ""
+    }, 
+    {
+        "text": "Default", 
+        "id": "Default", 
         "description": ""
     }, 
     {
@@ -157,16 +137,6 @@
     {
         "text": "DPX", 
         "id": "DPX", 
-        "description": ""
-    }, 
-    {
-        "text": "Display Size", 
-        "id": "Display Size", 
-        "description": ""
-    }, 
-    {
-        "text": "Palette", 
-        "id": "Palette", 
         "description": ""
     }, 
     {
@@ -510,6 +480,11 @@
         "description": ""
     }, 
     {
+        "text": "Palette", 
+        "id": "Palette", 
+        "description": ""
+    }, 
+    {
         "text": "TIFF", 
         "id": "TIFF", 
         "description": ""
@@ -517,6 +492,26 @@
     {
         "text": "File compression:", 
         "id": "File compression:", 
+        "description": ""
+    }, 
+    {
+        "text": "Time", 
+        "id": "Time", 
+        "description": ""
+    }, 
+    {
+        "text": "Units", 
+        "id": "Units", 
+        "description": ""
+    }, 
+    {
+        "text": "Tooltips", 
+        "id": "Tooltips", 
+        "description": ""
+    }, 
+    {
+        "text": "Enable tooltips", 
+        "id": "Enable tooltips", 
         "description": ""
     }
 ]
