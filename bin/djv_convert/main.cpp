@@ -65,7 +65,7 @@ namespace djv
                 AV::IO::ReadOptions readOptions;
                 //! \todo What's a good default for this?
                 readOptions.videoQueueSize = 10;
-                _read = io->read(argv[1], readOptions);
+                _read = io->read(std::string(argv[1]), readOptions);
                 auto info = _read->getInfo().get();
                 auto & video = info.video;
                 if (!video.size())
@@ -78,7 +78,7 @@ namespace djv
                     video[0].info.size = *_resize;
                 }
                 const auto duration = videoInfo.duration;
-                _write = io->write(argv[2], info);
+                _write = io->write(std::string(argv[2]), info);
 
                 _statsTimer = Core::Time::Timer::create(this);
                 _statsTimer->setRepeating(true);
