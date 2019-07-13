@@ -60,11 +60,10 @@ namespace djv
 
             p.lineEditBase = LineEditBase::create(context);
             p.lineEditBase->setTextSizeRole(MetricsRole::SearchBox);
-            p.lineEditBase->setBackgroundRole(ColorRole::None);
             
             auto searchIcon = Icon::create(context);
             searchIcon->setIcon("djvIconSearch");
-            searchIcon->setIconColorRole(ColorRole::Button);
+            searchIcon->setIconColorRole(ColorRole::Foreground);
             
             auto clearButton = ToolButton::create(context);
             clearButton->setIcon("djvIconClear");
@@ -73,7 +72,6 @@ namespace djv
             
             auto layout = HorizontalLayout::create(context);
             layout->setSpacing(MetricsRole::None);
-            layout->setBackgroundRole(ColorRole::Trough);
             layout->addChild(p.lineEditBase);
             layout->setStretch(p.lineEditBase, RowStretch::Expand);
             p.soloLayout = SoloLayout::create(context);
@@ -82,7 +80,6 @@ namespace djv
             layout->addChild(p.soloLayout);
             
             p.border = Border::create(context);
-            p.border->setBorderColorRole(ColorRole::None);
             p.border->setMargin(MetricsRole::Border);
             p.border->addChild(layout);
             addChild(p.border);

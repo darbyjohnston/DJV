@@ -29,6 +29,8 @@
 
 #include <djvUI/ToggleButton.h>
 
+#include <djvUI/DrawUtil.h>
+
 #include <djvAV/Render2D.h>
 
 #include <djvCore/Animation.h>
@@ -52,7 +54,8 @@ namespace djv
 
             struct Toggle::Private
             {
-                float lineHeight = 0.f;
+                AV::Font::Metrics fontMetrics;
+                std::future<AV::Font::Metrics> fontMetricsFuture;
                 float animationValue = 0.f;
                 std::shared_ptr<Animation::Animation> animation;
             };
@@ -105,17 +108,33 @@ namespace djv
                 }
             }
 
-            void Toggle::_preLayoutEvent(Event::PreLayout & event)
+            void Toggle::_styleEvent(Event::Style& event)
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
-                const float m = style->getMetric(Style::MetricsRole::MarginSmall);
                 auto fontSystem = _getFontSystem();
-                const auto fontMetrics = fontSystem->getMetrics(style->getFontInfo(AV::Font::faceDefault, Style::MetricsRole::FontMedium)).get();
-                p.lineHeight = static_cast<float>(fontMetrics.lineHeight);
+                p.fontMetricsFuture = fontSystem->getMetrics(style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium));
+            }
+
+            void Toggle::_preLayoutEvent(Event::PreLayout & event)
+            {
+                DJV_PRIVATE_PTR();
+                if (p.fontMetricsFuture.valid())
+                {
+                    try
+                    {
+                        p.fontMetrics = p.fontMetricsFuture.get();
+                    }
+                    catch (const std::exception& e)
+                    {
+                        _log(e.what(), LogLevel::Error);
+                    }
+                }
+                const auto& style = _getStyle();
+                const float m = style->getMetric(Style::MetricsRole::MarginSmall);
                 glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
-                minimumSize.x = p.lineHeight * 2.f + m * 2.f;
-                minimumSize.y = p.lineHeight + m * 2.f;
+                minimumSize.x = p.fontMetrics.lineHeight * 2.f + m * 2.f;
+                minimumSize.y = p.fontMetrics.lineHeight + m * 2.f;
                 _setMinimumSize(minimumSize);
             }
 
@@ -129,20 +148,20 @@ namespace djv
                 const float m = style->getMetric(Style::MetricsRole::MarginSmall);
                 const BBox2f & g = getGeometry();
 
-                const BBox2f g1 = g.margin(-m);
                 auto render = _getRender();
-                render->setFillColor(style->getColor(_isToggled() ? ColorRole::Checked : ColorRole::Trough));
-                render->drawRect(g1);
-                if (_isHovered())
+                render->setFillColor(style->getColor(ColorRole::Border));
+                const BBox2f g1 = g.margin(-m);
+                drawBorder(render, g1, b);
+
+                if (isChecked())
                 {
-                    render->setFillColor(style->getColor(ColorRole::Hovered));
-                    render->drawRect(g1);
+                    render->setFillColor(style->getColor(ColorRole::Checked));
+                    render->drawRect(g1.margin(-b));
                 }
 
-                const BBox2f g2 = g1.margin(-b);
-                const float r = g2.h() / 2.f;
-                const float x = Math::lerp(p.animationValue, g2.min.x + r, g2.max.x - r);
-                const BBox2f handleBBox(x - r, g2.min.y, r * 2.f, r * 2.f);
+                const float r = g1.h() / 2.f;
+                const float x = Math::lerp(p.animationValue, g1.min.x + r, g1.max.x - r);
+                const BBox2f handleBBox(x - r, g1.min.y, r * 2.f, r * 2.f);
                 auto color = style->getColor(ColorRole::Border);
                 render->setFillColor(color);
                 render->drawRect(handleBBox);
@@ -152,6 +171,11 @@ namespace djv
                 if (_isPressed())
                 {
                     render->setFillColor(style->getColor(ColorRole::Pressed));
+                    render->drawRect(handleBBox);
+                }
+                else if (_isHovered())
+                {
+                    render->setFillColor(style->getColor(ColorRole::Hovered));
                     render->drawRect(handleBBox);
                 }
             }

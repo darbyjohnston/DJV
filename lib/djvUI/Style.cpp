@@ -74,8 +74,8 @@ namespace djv
                     { ColorRole::TextFocus, AV::Image::Color(.58f, .32f, .18f, 1.f) },
                     { ColorRole::TooltipBackground, AV::Image::Color(1.f, 1.f, .75f, 1.f) },
                     { ColorRole::TooltipForeground, AV::Image::Color(0.f, 0.f, 0.f, 1.f) },
-                    { ColorRole::Overlay, AV::Image::Color(0.f, 0.f, 0.f, .5f) },
-                    { ColorRole::OverlayLight, AV::Image::Color(0.f, 0.f, 0.f, .5f) },
+                    { ColorRole::Overlay, AV::Image::Color(0.f, 0.f, 0.f, .87f) },
+                    { ColorRole::OverlayLight, AV::Image::Color(0.f, 0.f, 0.f, .87f) },
                     { ColorRole::Shadow, AV::Image::Color(0.f, 0.f, 0.f, .16f) },
                     { ColorRole::Handle, AV::Image::Color(.18f, .32f, .38f, 1.f) }
                 };
@@ -178,7 +178,7 @@ namespace djv
                     { MetricsRole::Shadow, 20.f },
                     { MetricsRole::ShadowSmall, 10.f },
                     { MetricsRole::TooltipOffset, 10.f },
-                    { MetricsRole::Handle, 15.f },
+                    { MetricsRole::Handle, 10.f },
                     { MetricsRole::Move, 10.f }
                 };
             }

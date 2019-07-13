@@ -10,6 +10,7 @@ set(header
     ColorSwatch.h
     ComboBox.h
     DialogSystem.h
+	DrawUtil.h
     Drawer.h
     Enum.h
     EventSystem.h
@@ -88,6 +89,7 @@ set(source
     ColorSwatch.cpp
     ComboBox.cpp
     DialogSystem.cpp
+	DrawUtil.cpp
     Drawer.cpp
     Enum.cpp
     EventSystem.cpp

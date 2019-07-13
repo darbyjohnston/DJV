@@ -71,6 +71,7 @@ namespace djv
             void setModel(const std::shared_ptr<Core::FloatValueModel> &);
 
         protected:
+            void _styleEvent(Core::Event::Style&) override;
             void _preLayoutEvent(Core::Event::PreLayout &) override;
             void _paintEvent(Core::Event::Paint &) override;
             void _pointerEnterEvent(Core::Event::PointerEnter &) override;

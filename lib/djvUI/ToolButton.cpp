@@ -48,7 +48,9 @@ namespace djv
         {
             struct Tool::Private
             {
-                std::shared_ptr<Icon> icon;
+                std::string icon;
+                std::string checkedIcon;
+                std::shared_ptr<Icon> iconWidget;
                 std::shared_ptr<Label> label;
                 TextHAlign textHAlign = TextHAlign::Left;
                 std::string font;
@@ -102,32 +104,38 @@ namespace djv
                 return out;
             }
 
-            std::string Tool::getIcon() const
-            {
-                DJV_PRIVATE_PTR();
-                return p.icon ? p.icon->getIcon() : std::string();
-            }
-
             void Tool::setIcon(const std::string & value)
             {
                 DJV_PRIVATE_PTR();
+                if (value == p.icon)
+                    return;
+                p.icon = value;
                 if (!value.empty())
                 {
-                    if (!p.icon)
+                    if (!p.iconWidget)
                     {
-                        p.icon = Icon::create(getContext());
-                        p.icon->setVAlign(VAlign::Center);
-                        p.icon->setIconColorRole(isChecked() ? ColorRole::Checked : getForegroundColorRole());
-                        p.layout->addChild(p.icon);
-                        p.icon->moveToFront();
+                        p.iconWidget = Icon::create(getContext());
+                        p.iconWidget->setVAlign(VAlign::Center);
+                        p.iconWidget->setIconColorRole(isChecked() ? ColorRole::Checked : getForegroundColorRole());
+                        p.layout->addChild(p.iconWidget);
+                        p.iconWidget->moveToFront();
                     }
-                    p.icon->setIcon(value);
+                    _iconUpdate();
                 }
                 else
                 {
-                    p.layout->removeChild(p.icon);
-                    p.icon.reset();
+                    p.layout->removeChild(p.iconWidget);
+                    p.iconWidget.reset();
                 }
+            }
+
+            void Tool::setCheckedIcon(const std::string& value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.checkedIcon)
+                    return;
+                p.checkedIcon = value;
+                _iconUpdate();
             }
 
             std::string Tool::getText() const
@@ -232,17 +240,23 @@ namespace djv
                 _p->layout->setMargin(value);
             }
 
+            void Tool::setChecked(bool value)
+            {
+                IButton::setChecked(value);
+                _iconUpdate();
+            }
+
             void Tool::setForegroundColorRole(ColorRole value)
             {
                 IButton::setForegroundColorRole(value);
                 DJV_PRIVATE_PTR();
-                if (p.icon)
+                if (p.iconWidget)
                 {
-                    p.icon->setIconColorRole(isChecked() ? ColorRole::Checked : getForegroundColorRole());
+                    p.iconWidget->setIconColorRole(value);
                 }
                 if (p.label)
                 {
-                    p.label->setTextColorRole(isChecked() ? ColorRole::Checked : getForegroundColorRole());
+                    p.label->setTextColorRole(value);
                 }
             }
 
@@ -276,6 +290,15 @@ namespace djv
                 {
                     render->setFillColor(style->getColor(ColorRole::Hovered));
                     render->drawRect(g);
+                }
+            }
+
+            void ToolButton::_iconUpdate()
+            {
+                DJV_PRIVATE_PTR();
+                if (p.iconWidget)
+                {
+                    p.iconWidget->setIcon(isChecked() && !p.checkedIcon.empty() ? p.checkedIcon : p.icon);
                 }
             }
 

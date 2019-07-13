@@ -79,7 +79,6 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             setClassName("djv::UI::LineEditBase");
-            setBackgroundRole(ColorRole::Trough);
             setVAlign(VAlign::Center);
             setPointerEnabled(true);
 

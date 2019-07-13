@@ -29,6 +29,7 @@
 
 #include <djvUI/Border.h>
 
+#include <djvUI/DrawUtil.h>
 #include <djvUI/StackLayout.h>
 
 #include <djvAV/Render2D.h>
@@ -142,21 +143,10 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
-                const float borderSize = style->getMetric(p.borderSize);
+                const float b = style->getMetric(p.borderSize);
                 auto render = _getRender();
                 render->setFillColor(style->getColor(p.borderColor));
-                render->drawRect(BBox2f(
-                    glm::vec2(g.min.x, g.min.y),
-                    glm::vec2(g.max.x, g.min.y + borderSize)));
-                render->drawRect(BBox2f(
-                    glm::vec2(g.min.x, g.max.y - borderSize),
-                    glm::vec2(g.max.x, g.max.y)));
-                render->drawRect(BBox2f(
-                    glm::vec2(g.min.x, g.min.y + borderSize),
-                    glm::vec2(g.min.x + borderSize, g.max.y - borderSize)));
-                render->drawRect(BBox2f(
-                    glm::vec2(g.max.x - borderSize, g.min.y + borderSize),
-                    glm::vec2(g.max.x, g.max.y - borderSize)));
+                drawBorder(render, g, b);
             }
 
         } // namespace Layout

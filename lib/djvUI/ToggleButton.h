@@ -30,6 +30,7 @@ namespace djv
                 void setChecked(bool) override;
 
             protected:
+                void _styleEvent(Core::Event::Style&) override;
                 void _preLayoutEvent(Core::Event::PreLayout &) override;
                 void _paintEvent(Core::Event::Paint&) override;
 

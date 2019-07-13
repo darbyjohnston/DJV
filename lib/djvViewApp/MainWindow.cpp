@@ -162,7 +162,8 @@ namespace djv
 
             p.autoHideButton = UI::ToolButton::create(context);
             p.autoHideButton->setButtonType(UI::ButtonType::Toggle);
-            p.autoHideButton->setIcon("djvIconAutoHide");
+            p.autoHideButton->setCheckedIcon("djvIconVisible");
+            p.autoHideButton->setIcon("djvIconHidden");
 
             p.settingsButton = UI::ToolButton::create(context);
             p.settingsButton->setIcon("djvIconSettings");

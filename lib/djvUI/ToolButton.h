@@ -29,8 +29,8 @@ namespace djv
                 static std::shared_ptr<Tool> create(const std::string &, Core::Context *);
                 static std::shared_ptr<Tool> create(const std::string &, const std::string & icon, Core::Context *);
 
-                std::string getIcon() const;
                 void setIcon(const std::string &);
+                void setCheckedIcon(const std::string&);
 
                 std::string getText() const;
                 void setText(const std::string &);
@@ -48,6 +48,7 @@ namespace djv
                 const Layout::Margin & getInsideMargin() const;
                 void setInsideMargin(const Layout::Margin &);
 
+                void setChecked(bool) override;
                 void setForegroundColorRole(ColorRole) override;
 
             protected:
@@ -56,6 +57,8 @@ namespace djv
                 void _paintEvent(Core::Event::Paint&) override;
 
             private:
+                void _iconUpdate();
+
                 DJV_PRIVATE();
             };
 

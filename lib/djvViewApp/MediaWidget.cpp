@@ -250,8 +250,8 @@ namespace djv
             std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver;
             std::shared_ptr<ValueObserver<AV::TimeUnits> > timeUnitsObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
-            std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
             std::shared_ptr<ValueObserver<Time::Speed> > speedObserver;
+            std::shared_ptr<ValueObserver<Time::Speed> > defaultSpeedObserver;
             std::shared_ptr<ValueObserver<float> > realSpeedObserver;
             std::shared_ptr<ValueObserver<bool> > frameLockObserver;
             std::shared_ptr<ValueObserver<Time::Timestamp> > durationObserver;
@@ -624,26 +624,6 @@ namespace djv
                     }
                 });
 
-            p.infoObserver = ValueObserver<AV::IO::Info>::create(
-                p.media->observeInfo(),
-                [weak](const AV::IO::Info& value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        if (value.video.size())
-                        {
-                            widget->_p->defaultSpeed = value.video[0].speed;
-                            widget->_p->playbackLayout->setVisible(value.video[0].duration > 1);
-                        }
-                        else
-                        {
-                            widget->_p->defaultSpeed = Time::Speed();
-                            widget->_p->playbackLayout->hide();
-                        }
-                        widget->_widgetUpdate();
-                    }
-                });
-
             p.speedObserver = ValueObserver<Time::Speed>::create(
                 p.media->observeSpeed(),
                 [weak](const Time::Speed& value)
@@ -651,6 +631,18 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->speed = value;
+                        widget->_widgetUpdate();
+                        widget->_speedUpdate();
+                    }
+                });
+
+            p.defaultSpeedObserver = ValueObserver<Time::Speed>::create(
+                p.media->observeSpeed(),
+                [weak](const Time::Speed& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->defaultSpeed = value;
                         widget->_widgetUpdate();
                         widget->_speedUpdate();
                     }
@@ -901,6 +893,9 @@ namespace djv
             p.durationLabel->setEnabled(p.media.get());
 
             p.timelineSlider->setEnabled(p.media.get());
+
+            const int64_t f = Time::scale(1, p.defaultSpeed.swap(), Time::getTimebaseRational());
+            p.playbackLayout->setVisible(p.duration > f);
 
             p.audioPopupWidget->setEnabled(p.media.get());
         }
