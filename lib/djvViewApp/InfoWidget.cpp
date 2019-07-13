@@ -226,7 +226,7 @@ namespace djv
                 label = UI::Label::create(context);
                 {
                     std::stringstream ss;
-                    ss << static_cast<int>(i.info.type);
+                    ss << i.info.type;
                     label->setText(ss.str());
                 }
                 label->setHAlign(UI::HAlign::Left);
