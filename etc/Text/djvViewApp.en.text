@@ -1,1025 +1,5 @@
 [
     {
-        "text": "FPS", 
-        "id": "FPS", 
-        "description": ""
-    }, 
-    {
-        "text": "Object count", 
-        "id": "Object count", 
-        "description": ""
-    }, 
-    {
-        "text": "Widget count", 
-        "id": "Widget count", 
-        "description": ""
-    }, 
-    {
-        "text": "Hover", 
-        "id": "Hover", 
-        "description": ""
-    }, 
-    {
-        "text": "None", 
-        "id": "None", 
-        "description": ""
-    }, 
-    {
-        "text": "Grab", 
-        "id": "Grab", 
-        "description": ""
-    }, 
-    {
-        "text": "Key grab", 
-        "id": "Key grab", 
-        "description": ""
-    }, 
-    {
-        "text": "Font system glyph cache", 
-        "id": "Font system glyph cache", 
-        "description": ""
-    }, 
-    {
-        "text": "Thumbnail system information cache", 
-        "id": "Thumbnail system information cache", 
-        "description": ""
-    }, 
-    {
-        "text": "Thumbnail system image cache", 
-        "id": "Thumbnail system image cache", 
-        "description": ""
-    }, 
-    {
-        "text": "Icon system cache", 
-        "id": "Icon system cache", 
-        "description": ""
-    }, 
-    {
-        "text": "Texture atlas", 
-        "id": "Texture atlas", 
-        "description": ""
-    }, 
-    {
-        "text": "Dynamic texture count", 
-        "id": "Dynamic texture count", 
-        "description": ""
-    }, 
-    {
-        "text": "VBO size", 
-        "id": "VBO size", 
-        "description": ""
-    }, 
-    {
-        "text": "Video queue", 
-        "id": "Video queue", 
-        "description": ""
-    }, 
-    {
-        "text": "Audio queue", 
-        "id": "Audio queue", 
-        "description": ""
-    }, 
-    {
-        "text": "OpenAL queue", 
-        "id": "OpenAL queue", 
-        "description": ""
-    }, 
-    {
-        "text": "Current time", 
-        "id": "Current time", 
-        "description": ""
-    }, 
-    {
-        "text": "Debug", 
-        "id": "Debug", 
-        "description": ""
-    }, 
-    {
-        "text": "General", 
-        "id": "General", 
-        "description": ""
-    }, 
-    {
-        "text": "Render", 
-        "id": "Render", 
-        "description": ""
-    }, 
-    {
-        "text": "Media", 
-        "id": "Media", 
-        "description": ""
-    }, 
-    {
-        "text": "Increase Volume", 
-        "id": "Increase Volume", 
-        "description": ""
-    }, 
-    {
-        "text": "Increase volume tooltip", 
-        "id": "Increase volume tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Decrease Volume", 
-        "id": "Decrease Volume", 
-        "description": ""
-    }, 
-    {
-        "text": "Decrease volume tooltip", 
-        "id": "Decrease volume tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Mute", 
-        "id": "Mute", 
-        "description": ""
-    }, 
-    {
-        "text": "Mute tooltip", 
-        "id": "Mute tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Audio", 
-        "id": "Audio", 
-        "description": ""
-    }, 
-    {
-        "text": "Color Picker", 
-        "id": "Color Picker", 
-        "description": ""
-    }, 
-    {
-        "text": "Color picker tooltip", 
-        "id": "Color picker tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot parse the value.", 
-        "id": "Cannot parse the value.", 
-        "description": ""
-    }, 
-    {
-        "text": "Fit", 
-        "id": "Fit", 
-        "description": ""
-    }, 
-    {
-        "text": "Center", 
-        "id": "Center", 
-        "description": ""
-    }, 
-    {
-        "text": "0", 
-        "id": "0", 
-        "description": ""
-    }, 
-    {
-        "text": "90", 
-        "id": "90", 
-        "description": ""
-    }, 
-    {
-        "text": "180", 
-        "id": "180", 
-        "description": ""
-    }, 
-    {
-        "text": "270", 
-        "id": "270", 
-        "description": ""
-    }, 
-    {
-        "text": "Default", 
-        "id": "Default", 
-        "description": ""
-    }, 
-    {
-        "text": "Auto", 
-        "id": "Auto", 
-        "description": ""
-    }, 
-    {
-        "text": "16:9", 
-        "id": "16:9", 
-        "description": ""
-    }, 
-    {
-        "text": "1.85", 
-        "id": "1.85", 
-        "description": ""
-    }, 
-    {
-        "text": "2.35", 
-        "id": "2.35", 
-        "description": ""
-    }, 
-    {
-        "text": "Stop", 
-        "id": "Stop", 
-        "description": ""
-    }, 
-    {
-        "text": "Forward", 
-        "id": "Forward", 
-        "description": ""
-    }, 
-    {
-        "text": "Reverse", 
-        "id": "Reverse", 
-        "description": ""
-    }, 
-    {
-        "text": "Once", 
-        "id": "Once", 
-        "description": ""
-    }, 
-    {
-        "text": "Loop", 
-        "id": "Loop", 
-        "description": ""
-    }, 
-    {
-        "text": "PingPong", 
-        "id": "PingPong", 
-        "description": ""
-    }, 
-    {
-        "text": "Documentation", 
-        "id": "Documentation", 
-        "description": ""
-    }, 
-    {
-        "text": "Documentation tooltip", 
-        "id": "Documentation tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "About", 
-        "id": "About", 
-        "description": ""
-    }, 
-    {
-        "text": "About tooltip", 
-        "id": "About tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "System Log", 
-        "id": "System Log", 
-        "description": ""
-    }, 
-    {
-        "text": "System log tooltip", 
-        "id": "System log tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Debug Widget", 
-        "id": "Debug Widget", 
-        "description": ""
-    }, 
-    {
-        "text": "Debug widget tooltip", 
-        "id": "Debug widget tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Help", 
-        "id": "Help", 
-        "description": ""
-    }, 
-    {
-        "text": "Layers", 
-        "id": "Layers", 
-        "description": ""
-    }, 
-    {
-        "text": "Color Space", 
-        "id": "Color Space", 
-        "description": ""
-    }, 
-    {
-        "text": "(empty)", 
-        "id": "(empty)", 
-        "description": ""
-    }, 
-    {
-        "text": "Input:", 
-        "id": "Input:", 
-        "description": ""
-    }, 
-    {
-        "text": "Display:", 
-        "id": "Display:", 
-        "description": ""
-    }, 
-    {
-        "text": "View:", 
-        "id": "View:", 
-        "description": ""
-    }, 
-    {
-        "text": "Histogram", 
-        "id": "Histogram", 
-        "description": ""
-    }, 
-    {
-        "text": "Aspect Ratio", 
-        "id": "Aspect Ratio", 
-        "description": ""
-    }, 
-    {
-        "text": "Image", 
-        "id": "Image", 
-        "description": ""
-    }, 
-    {
-        "text": "Rotate", 
-        "id": "Rotate", 
-        "description": ""
-    }, 
-    {
-        "text": "Color Space Widget", 
-        "id": "Color Space Widget", 
-        "description": ""
-    }, 
-    {
-        "text": "Color space widget tooltip", 
-        "id": "Color space widget tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Red Channel", 
-        "id": "Red Channel", 
-        "description": ""
-    }, 
-    {
-        "text": "Red channel tooltip", 
-        "id": "Red channel tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Green Channel", 
-        "id": "Green Channel", 
-        "description": ""
-    }, 
-    {
-        "text": "Green channel tooltip", 
-        "id": "Green channel tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Blue Channel", 
-        "id": "Blue Channel", 
-        "description": ""
-    }, 
-    {
-        "text": "Blue channel tooltip", 
-        "id": "Blue channel tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Alpha Channel", 
-        "id": "Alpha Channel", 
-        "description": ""
-    }, 
-    {
-        "text": "Alpha channel tooltip", 
-        "id": "Alpha channel tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Premultiplied Alpha", 
-        "id": "Premultiplied Alpha", 
-        "description": ""
-    }, 
-    {
-        "text": "Premultiplied alpha tooltip", 
-        "id": "Premultiplied alpha tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Mirror Horizontal", 
-        "id": "Mirror Horizontal", 
-        "description": ""
-    }, 
-    {
-        "text": "Mirror horizontal tooltip", 
-        "id": "Mirror horizontal tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Mirror Vertical", 
-        "id": "Mirror Vertical", 
-        "description": ""
-    }, 
-    {
-        "text": "Mirror vertical tooltip", 
-        "id": "Mirror vertical tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Rotate 0", 
-        "id": "Rotate 0", 
-        "description": ""
-    }, 
-    {
-        "text": "Rotate 0 tooltip", 
-        "id": "Rotate 0 tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Rotate 90", 
-        "id": "Rotate 90", 
-        "description": ""
-    }, 
-    {
-        "text": "Rotate 90 tooltip", 
-        "id": "Rotate 90 tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Rotate 180", 
-        "id": "Rotate 180", 
-        "description": ""
-    }, 
-    {
-        "text": "Rotate 180 tooltip", 
-        "id": "Rotate 180 tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Rotate 270", 
-        "id": "Rotate 270", 
-        "description": ""
-    }, 
-    {
-        "text": "Rotate 270 tooltip", 
-        "id": "Rotate 270 tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Default Aspect Ratio", 
-        "id": "Default Aspect Ratio", 
-        "description": ""
-    }, 
-    {
-        "text": "Default aspect ratio tooltip", 
-        "id": "Default aspect ratio tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Automatic Aspect Ratio", 
-        "id": "Automatic Aspect Ratio", 
-        "description": ""
-    }, 
-    {
-        "text": "Automatic aspect ratio tooltip", 
-        "id": "Automatic aspect ratio tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "16:9 aspect ratio tooltip", 
-        "id": "16:9 aspect ratio tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "1.85 aspect ratio tooltip", 
-        "id": "1.85 aspect ratio tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "2.35 aspect ratio tooltip", 
-        "id": "2.35 aspect ratio tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Frame Store", 
-        "id": "Frame Store", 
-        "description": ""
-    }, 
-    {
-        "text": "Frame store tooltip", 
-        "id": "Frame store tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Load Frame Store", 
-        "id": "Load Frame Store", 
-        "description": ""
-    }, 
-    {
-        "text": "Load frame store tooltip", 
-        "id": "Load frame store tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Pan View", 
-        "id": "Pan View", 
-        "description": ""
-    }, 
-    {
-        "text": "Pan view tooltip", 
-        "id": "Pan view tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Left", 
-        "id": "Left", 
-        "description": ""
-    }, 
-    {
-        "text": "Left tooltip", 
-        "id": "Left tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Right", 
-        "id": "Right", 
-        "description": ""
-    }, 
-    {
-        "text": "Right tooltip", 
-        "id": "Right tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Up", 
-        "id": "Up", 
-        "description": ""
-    }, 
-    {
-        "text": "Up tooltip", 
-        "id": "Up tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Down", 
-        "id": "Down", 
-        "description": ""
-    }, 
-    {
-        "text": "Down tooltip", 
-        "id": "Down tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "North West", 
-        "id": "North West", 
-        "description": ""
-    }, 
-    {
-        "text": "North west tooltip", 
-        "id": "North west tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "North East", 
-        "id": "North East", 
-        "description": ""
-    }, 
-    {
-        "text": "North east tooltip", 
-        "id": "North east tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "South east", 
-        "id": "South east", 
-        "description": ""
-    }, 
-    {
-        "text": "South east tooltip", 
-        "id": "South east tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "South West", 
-        "id": "South West", 
-        "description": ""
-    }, 
-    {
-        "text": "South west tooltip", 
-        "id": "South west tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Zoom In", 
-        "id": "Zoom In", 
-        "description": ""
-    }, 
-    {
-        "text": "Zoom in tooltip", 
-        "id": "Zoom in tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Zoom Out", 
-        "id": "Zoom Out", 
-        "description": ""
-    }, 
-    {
-        "text": "Zoom out tooltip", 
-        "id": "Zoom out tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Fit To Image", 
-        "id": "Fit To Image", 
-        "description": ""
-    }, 
-    {
-        "text": "Fit to image tooltip", 
-        "id": "Fit to image tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Center image tooltip", 
-        "id": "Center image tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Lock Fit To Image", 
-        "id": "Lock Fit To Image", 
-        "description": ""
-    }, 
-    {
-        "text": "Lock fit to image tooltip", 
-        "id": "Lock fit to image tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Lock Center", 
-        "id": "Lock Center", 
-        "description": ""
-    }, 
-    {
-        "text": "Lock center image tooltip", 
-        "id": "Lock center image tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Grid", 
-        "id": "Grid", 
-        "description": ""
-    }, 
-    {
-        "text": "Grid tooltip", 
-        "id": "Grid tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "HUD", 
-        "id": "HUD", 
-        "description": ""
-    }, 
-    {
-        "text": "HUD tooltip", 
-        "id": "HUD tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "View", 
-        "id": "View", 
-        "description": ""
-    }, 
-    {
-        "text": "Magnifier", 
-        "id": "Magnifier", 
-        "description": ""
-    }, 
-    {
-        "text": "Magnifier zoom in tooltip", 
-        "id": "Magnifier zoom in tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Magnifier zoom out tooltip", 
-        "id": "Magnifier zoom out tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Open", 
-        "id": "Open", 
-        "description": ""
-    }, 
-    {
-        "text": "Open tooltip", 
-        "id": "Open tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Recent", 
-        "id": "Recent", 
-        "description": ""
-    }, 
-    {
-        "text": "Recent tooltip", 
-        "id": "Recent tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Reload", 
-        "id": "Reload", 
-        "description": ""
-    }, 
-    {
-        "text": "Reload tooltip", 
-        "id": "Reload tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Close", 
-        "id": "Close", 
-        "description": ""
-    }, 
-    {
-        "text": "Close tooltip", 
-        "id": "Close tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Close All", 
-        "id": "Close All", 
-        "description": ""
-    }, 
-    {
-        "text": "Close all tooltip", 
-        "id": "Close all tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Export", 
-        "id": "Export", 
-        "description": ""
-    }, 
-    {
-        "text": "Export tooltip", 
-        "id": "Export tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Next", 
-        "id": "Next", 
-        "description": ""
-    }, 
-    {
-        "text": "Next tooltip", 
-        "id": "Next tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Previous", 
-        "id": "Previous", 
-        "description": ""
-    }, 
-    {
-        "text": "Prev tooltip", 
-        "id": "Prev tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Layers Widget", 
-        "id": "Layers Widget", 
-        "description": ""
-    }, 
-    {
-        "text": "Layers widget tooltip", 
-        "id": "Layers widget tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Next layer", 
-        "id": "Next layer", 
-        "description": ""
-    }, 
-    {
-        "text": "Next layer tooltip", 
-        "id": "Next layer tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Previous Layer", 
-        "id": "Previous Layer", 
-        "description": ""
-    }, 
-    {
-        "text": "Previous layer tooltip", 
-        "id": "Previous layer tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "8-Bit Conversion", 
-        "id": "8-Bit Conversion", 
-        "description": ""
-    }, 
-    {
-        "text": "8-bit conversion tooltip", 
-        "id": "8-bit conversion tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Memory Cache", 
-        "id": "Memory Cache", 
-        "description": ""
-    }, 
-    {
-        "text": "Memory cache tooltip", 
-        "id": "Memory cache tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Clear Memory Cache", 
-        "id": "Clear Memory Cache", 
-        "description": ""
-    }, 
-    {
-        "text": "Clear cache tooltip", 
-        "id": "Clear cache tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Exit", 
-        "id": "Exit", 
-        "description": ""
-    }, 
-    {
-        "text": "Exit tooltip", 
-        "id": "Exit tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "File", 
-        "id": "File", 
-        "description": ""
-    }, 
-    {
-        "text": "Magnifier tooltip", 
-        "id": "Magnifier tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Background Color", 
-        "id": "Background Color", 
-        "description": ""
-    }, 
-    {
-        "text": "Media popup tooltip", 
-        "id": "Media popup tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Auto hide tooltip", 
-        "id": "Auto hide tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Settings tooltip", 
-        "id": "Settings tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "cannot create OpenAL source", 
-        "id": "cannot create OpenAL source", 
-        "description": ""
-    }, 
-    {
-        "text": "cannot create OpenAL buffers", 
-        "id": "cannot create OpenAL buffers", 
-        "description": ""
-    }, 
-    {
-        "text": "cannot open", 
-        "id": "cannot open", 
-        "description": ""
-    }, 
-    {
-        "text": "Information", 
-        "id": "Information", 
-        "description": ""
-    }, 
-    {
-        "text": "File name", 
-        "id": "File name", 
-        "description": ""
-    }, 
-    {
-        "text": "Name", 
-        "id": "Name", 
-        "description": ""
-    }, 
-    {
-        "text": "Size", 
-        "id": "Size", 
-        "description": ""
-    }, 
-    {
-        "text": "Type", 
-        "id": "Type", 
-        "description": ""
-    }, 
-    {
-        "text": "Speed", 
-        "id": "Speed", 
-        "description": ""
-    }, 
-    {
-        "text": "Duration", 
-        "id": "Duration", 
-        "description": ""
-    }, 
-    {
-        "text": "Video track", 
-        "id": "Video track", 
-        "description": ""
-    }, 
-    {
-        "text": "Channels", 
-        "id": "Channels", 
-        "description": ""
-    }, 
-    {
-        "text": "kHz", 
-        "id": "kHz", 
-        "description": ""
-    }, 
-    {
-        "text": "Sample rate", 
-        "id": "Sample rate", 
-        "description": ""
-    }, 
-    {
-        "text": "Audio track", 
-        "id": "Audio track", 
-        "description": ""
-    }, 
-    {
-        "text": "Tags", 
-        "id": "Tags", 
-        "description": ""
-    }, 
-    {
-        "text": "Forward tooltip", 
-        "id": "Forward tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Reverse tooltip", 
-        "id": "Reverse tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Go to in point tooltip", 
-        "id": "Go to in point tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Next frame tooltip", 
-        "id": "Next frame tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Previous frame tooltip", 
-        "id": "Previous frame tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Go to out point tooltip", 
-        "id": "Go to out point tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Maximize tooltip", 
-        "id": "Maximize tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Speed tooltip", 
-        "id": "Speed tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Current time tooltip", 
-        "id": "Current time tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Duration tooltip", 
-        "id": "Duration tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Audio popup tooltip", 
-        "id": "Audio popup tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Volume tooltip", 
-        "id": "Volume tooltip", 
-        "description": ""
-    }, 
-    {
         "text": "DJV Imaging", 
         "id": "About Title", 
         "description": ""
@@ -1345,6 +325,51 @@
         "description": ""
     }, 
     {
+        "text": "Increase Volume", 
+        "id": "Increase Volume", 
+        "description": ""
+    }, 
+    {
+        "text": "Increase volume tooltip", 
+        "id": "Increase volume tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Decrease Volume", 
+        "id": "Decrease Volume", 
+        "description": ""
+    }, 
+    {
+        "text": "Decrease volume tooltip", 
+        "id": "Decrease volume tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Mute", 
+        "id": "Mute", 
+        "description": ""
+    }, 
+    {
+        "text": "Mute tooltip", 
+        "id": "Mute tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Audio", 
+        "id": "Audio", 
+        "description": ""
+    }, 
+    {
+        "text": "Color Picker", 
+        "id": "Color Picker", 
+        "description": ""
+    }, 
+    {
+        "text": "Color picker tooltip", 
+        "id": "Color picker tooltip", 
+        "description": ""
+    }, 
+    {
         "text": "Lock Color Type", 
         "id": "Lock Color Type", 
         "description": ""
@@ -1370,6 +395,996 @@
         "description": ""
     }, 
     {
+        "text": "Color Space", 
+        "id": "Color Space", 
+        "description": ""
+    }, 
+    {
+        "text": "(empty)", 
+        "id": "(empty)", 
+        "description": ""
+    }, 
+    {
+        "text": "Input:", 
+        "id": "Input:", 
+        "description": ""
+    }, 
+    {
+        "text": "Display:", 
+        "id": "Display:", 
+        "description": ""
+    }, 
+    {
+        "text": "View:", 
+        "id": "View:", 
+        "description": ""
+    }, 
+    {
+        "text": "FPS", 
+        "id": "FPS", 
+        "description": ""
+    }, 
+    {
+        "text": "Object count", 
+        "id": "Object count", 
+        "description": ""
+    }, 
+    {
+        "text": "Widget count", 
+        "id": "Widget count", 
+        "description": ""
+    }, 
+    {
+        "text": "Hover", 
+        "id": "Hover", 
+        "description": ""
+    }, 
+    {
+        "text": "None", 
+        "id": "None", 
+        "description": ""
+    }, 
+    {
+        "text": "Grab", 
+        "id": "Grab", 
+        "description": ""
+    }, 
+    {
+        "text": "Key grab", 
+        "id": "Key grab", 
+        "description": ""
+    }, 
+    {
+        "text": "Font system glyph cache", 
+        "id": "Font system glyph cache", 
+        "description": ""
+    }, 
+    {
+        "text": "Thumbnail system information cache", 
+        "id": "Thumbnail system information cache", 
+        "description": ""
+    }, 
+    {
+        "text": "Thumbnail system image cache", 
+        "id": "Thumbnail system image cache", 
+        "description": ""
+    }, 
+    {
+        "text": "Icon system cache", 
+        "id": "Icon system cache", 
+        "description": ""
+    }, 
+    {
+        "text": "Texture atlas", 
+        "id": "Texture atlas", 
+        "description": ""
+    }, 
+    {
+        "text": "Dynamic texture count", 
+        "id": "Dynamic texture count", 
+        "description": ""
+    }, 
+    {
+        "text": "VBO size", 
+        "id": "VBO size", 
+        "description": ""
+    }, 
+    {
+        "text": "Video queue", 
+        "id": "Video queue", 
+        "description": ""
+    }, 
+    {
+        "text": "Audio queue", 
+        "id": "Audio queue", 
+        "description": ""
+    }, 
+    {
+        "text": "OpenAL queue", 
+        "id": "OpenAL queue", 
+        "description": ""
+    }, 
+    {
+        "text": "Current time", 
+        "id": "Current time", 
+        "description": ""
+    }, 
+    {
+        "text": "Debug", 
+        "id": "Debug", 
+        "description": ""
+    }, 
+    {
+        "text": "General", 
+        "id": "General", 
+        "description": ""
+    }, 
+    {
+        "text": "Render", 
+        "id": "Render", 
+        "description": ""
+    }, 
+    {
+        "text": "Media", 
+        "id": "Media", 
+        "description": ""
+    }, 
+    {
+        "text": "Cannot parse the value.", 
+        "id": "Cannot parse the value.", 
+        "description": ""
+    }, 
+    {
+        "text": "Fit", 
+        "id": "Fit", 
+        "description": ""
+    }, 
+    {
+        "text": "Center", 
+        "id": "Center", 
+        "description": ""
+    }, 
+    {
+        "text": "0", 
+        "id": "0", 
+        "description": ""
+    }, 
+    {
+        "text": "90", 
+        "id": "90", 
+        "description": ""
+    }, 
+    {
+        "text": "180", 
+        "id": "180", 
+        "description": ""
+    }, 
+    {
+        "text": "270", 
+        "id": "270", 
+        "description": ""
+    }, 
+    {
+        "text": "Default", 
+        "id": "Default", 
+        "description": ""
+    }, 
+    {
+        "text": "Auto", 
+        "id": "Auto", 
+        "description": ""
+    }, 
+    {
+        "text": "16:9", 
+        "id": "16:9", 
+        "description": ""
+    }, 
+    {
+        "text": "1.85", 
+        "id": "1.85", 
+        "description": ""
+    }, 
+    {
+        "text": "2.35", 
+        "id": "2.35", 
+        "description": ""
+    }, 
+    {
+        "text": "Stop", 
+        "id": "Stop", 
+        "description": ""
+    }, 
+    {
+        "text": "Forward", 
+        "id": "Forward", 
+        "description": ""
+    }, 
+    {
+        "text": "Reverse", 
+        "id": "Reverse", 
+        "description": ""
+    }, 
+    {
+        "text": "Once", 
+        "id": "Once", 
+        "description": ""
+    }, 
+    {
+        "text": "Loop", 
+        "id": "Loop", 
+        "description": ""
+    }, 
+    {
+        "text": "PingPong", 
+        "id": "PingPong", 
+        "description": ""
+    }, 
+    {
+        "text": "Open", 
+        "id": "Open", 
+        "description": ""
+    }, 
+    {
+        "text": "Open tooltip", 
+        "id": "Open tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Recent", 
+        "id": "Recent", 
+        "description": ""
+    }, 
+    {
+        "text": "Recent tooltip", 
+        "id": "Recent tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Reload", 
+        "id": "Reload", 
+        "description": ""
+    }, 
+    {
+        "text": "Reload tooltip", 
+        "id": "Reload tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Close", 
+        "id": "Close", 
+        "description": ""
+    }, 
+    {
+        "text": "Close tooltip", 
+        "id": "Close tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Close All", 
+        "id": "Close All", 
+        "description": ""
+    }, 
+    {
+        "text": "Close all tooltip", 
+        "id": "Close all tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Export", 
+        "id": "Export", 
+        "description": ""
+    }, 
+    {
+        "text": "Export tooltip", 
+        "id": "Export tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Next", 
+        "id": "Next", 
+        "description": ""
+    }, 
+    {
+        "text": "Next tooltip", 
+        "id": "Next tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Previous", 
+        "id": "Previous", 
+        "description": ""
+    }, 
+    {
+        "text": "Prev tooltip", 
+        "id": "Prev tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Layers Widget", 
+        "id": "Layers Widget", 
+        "description": ""
+    }, 
+    {
+        "text": "Layers widget tooltip", 
+        "id": "Layers widget tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Next layer", 
+        "id": "Next layer", 
+        "description": ""
+    }, 
+    {
+        "text": "Next layer tooltip", 
+        "id": "Next layer tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Previous Layer", 
+        "id": "Previous Layer", 
+        "description": ""
+    }, 
+    {
+        "text": "Previous layer tooltip", 
+        "id": "Previous layer tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "8-Bit Conversion", 
+        "id": "8-Bit Conversion", 
+        "description": ""
+    }, 
+    {
+        "text": "8-bit conversion tooltip", 
+        "id": "8-bit conversion tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Memory Cache", 
+        "id": "Memory Cache", 
+        "description": ""
+    }, 
+    {
+        "text": "Memory cache tooltip", 
+        "id": "Memory cache tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Clear Memory Cache", 
+        "id": "Clear Memory Cache", 
+        "description": ""
+    }, 
+    {
+        "text": "Clear cache tooltip", 
+        "id": "Clear cache tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Exit", 
+        "id": "Exit", 
+        "description": ""
+    }, 
+    {
+        "text": "Exit tooltip", 
+        "id": "Exit tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "File", 
+        "id": "File", 
+        "description": ""
+    }, 
+    {
+        "text": "Documentation", 
+        "id": "Documentation", 
+        "description": ""
+    }, 
+    {
+        "text": "Documentation tooltip", 
+        "id": "Documentation tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "About", 
+        "id": "About", 
+        "description": ""
+    }, 
+    {
+        "text": "About tooltip", 
+        "id": "About tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "System Log", 
+        "id": "System Log", 
+        "description": ""
+    }, 
+    {
+        "text": "System log tooltip", 
+        "id": "System log tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Debug Widget", 
+        "id": "Debug Widget", 
+        "description": ""
+    }, 
+    {
+        "text": "Debug widget tooltip", 
+        "id": "Debug widget tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Help", 
+        "id": "Help", 
+        "description": ""
+    }, 
+    {
+        "text": "Histogram", 
+        "id": "Histogram", 
+        "description": ""
+    }, 
+    {
+        "text": "Aspect Ratio", 
+        "id": "Aspect Ratio", 
+        "description": ""
+    }, 
+    {
+        "text": "Image", 
+        "id": "Image", 
+        "description": ""
+    }, 
+    {
+        "text": "Rotate", 
+        "id": "Rotate", 
+        "description": ""
+    }, 
+    {
+        "text": "Color Space Widget", 
+        "id": "Color Space Widget", 
+        "description": ""
+    }, 
+    {
+        "text": "Color space widget tooltip", 
+        "id": "Color space widget tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Red Channel", 
+        "id": "Red Channel", 
+        "description": ""
+    }, 
+    {
+        "text": "Red channel tooltip", 
+        "id": "Red channel tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Green Channel", 
+        "id": "Green Channel", 
+        "description": ""
+    }, 
+    {
+        "text": "Green channel tooltip", 
+        "id": "Green channel tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Blue Channel", 
+        "id": "Blue Channel", 
+        "description": ""
+    }, 
+    {
+        "text": "Blue channel tooltip", 
+        "id": "Blue channel tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Alpha Channel", 
+        "id": "Alpha Channel", 
+        "description": ""
+    }, 
+    {
+        "text": "Alpha channel tooltip", 
+        "id": "Alpha channel tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Premultiplied Alpha", 
+        "id": "Premultiplied Alpha", 
+        "description": ""
+    }, 
+    {
+        "text": "Premultiplied alpha tooltip", 
+        "id": "Premultiplied alpha tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Mirror Horizontal", 
+        "id": "Mirror Horizontal", 
+        "description": ""
+    }, 
+    {
+        "text": "Mirror horizontal tooltip", 
+        "id": "Mirror horizontal tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Mirror Vertical", 
+        "id": "Mirror Vertical", 
+        "description": ""
+    }, 
+    {
+        "text": "Mirror vertical tooltip", 
+        "id": "Mirror vertical tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Rotate 0", 
+        "id": "Rotate 0", 
+        "description": ""
+    }, 
+    {
+        "text": "Rotate 0 tooltip", 
+        "id": "Rotate 0 tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Rotate 90", 
+        "id": "Rotate 90", 
+        "description": ""
+    }, 
+    {
+        "text": "Rotate 90 tooltip", 
+        "id": "Rotate 90 tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Rotate 180", 
+        "id": "Rotate 180", 
+        "description": ""
+    }, 
+    {
+        "text": "Rotate 180 tooltip", 
+        "id": "Rotate 180 tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Rotate 270", 
+        "id": "Rotate 270", 
+        "description": ""
+    }, 
+    {
+        "text": "Rotate 270 tooltip", 
+        "id": "Rotate 270 tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Default Aspect Ratio", 
+        "id": "Default Aspect Ratio", 
+        "description": ""
+    }, 
+    {
+        "text": "Default aspect ratio tooltip", 
+        "id": "Default aspect ratio tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Automatic Aspect Ratio", 
+        "id": "Automatic Aspect Ratio", 
+        "description": ""
+    }, 
+    {
+        "text": "Automatic aspect ratio tooltip", 
+        "id": "Automatic aspect ratio tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "16:9 aspect ratio tooltip", 
+        "id": "16:9 aspect ratio tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "1.85 aspect ratio tooltip", 
+        "id": "1.85 aspect ratio tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "2.35 aspect ratio tooltip", 
+        "id": "2.35 aspect ratio tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Frame Store", 
+        "id": "Frame Store", 
+        "description": ""
+    }, 
+    {
+        "text": "Frame store tooltip", 
+        "id": "Frame store tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Load Frame Store", 
+        "id": "Load Frame Store", 
+        "description": ""
+    }, 
+    {
+        "text": "Load frame store tooltip", 
+        "id": "Load frame store tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Background Color", 
+        "id": "Background Color", 
+        "description": ""
+    }, 
+    {
+        "text": "View", 
+        "id": "View", 
+        "description": ""
+    }, 
+    {
+        "text": "Pan View", 
+        "id": "Pan View", 
+        "description": ""
+    }, 
+    {
+        "text": "Pan view tooltip", 
+        "id": "Pan view tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Left", 
+        "id": "Left", 
+        "description": ""
+    }, 
+    {
+        "text": "Left tooltip", 
+        "id": "Left tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Right", 
+        "id": "Right", 
+        "description": ""
+    }, 
+    {
+        "text": "Right tooltip", 
+        "id": "Right tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Up", 
+        "id": "Up", 
+        "description": ""
+    }, 
+    {
+        "text": "Up tooltip", 
+        "id": "Up tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Down", 
+        "id": "Down", 
+        "description": ""
+    }, 
+    {
+        "text": "Down tooltip", 
+        "id": "Down tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "North West", 
+        "id": "North West", 
+        "description": ""
+    }, 
+    {
+        "text": "North west tooltip", 
+        "id": "North west tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "North East", 
+        "id": "North East", 
+        "description": ""
+    }, 
+    {
+        "text": "North east tooltip", 
+        "id": "North east tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "South east", 
+        "id": "South east", 
+        "description": ""
+    }, 
+    {
+        "text": "South east tooltip", 
+        "id": "South east tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "South West", 
+        "id": "South West", 
+        "description": ""
+    }, 
+    {
+        "text": "South west tooltip", 
+        "id": "South west tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Zoom In", 
+        "id": "Zoom In", 
+        "description": ""
+    }, 
+    {
+        "text": "Zoom in tooltip", 
+        "id": "Zoom in tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Zoom Out", 
+        "id": "Zoom Out", 
+        "description": ""
+    }, 
+    {
+        "text": "Zoom out tooltip", 
+        "id": "Zoom out tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Fit To Image", 
+        "id": "Fit To Image", 
+        "description": ""
+    }, 
+    {
+        "text": "Fit to image tooltip", 
+        "id": "Fit to image tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Center image tooltip", 
+        "id": "Center image tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Lock Fit To Image", 
+        "id": "Lock Fit To Image", 
+        "description": ""
+    }, 
+    {
+        "text": "Lock fit to image tooltip", 
+        "id": "Lock fit to image tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Lock Center", 
+        "id": "Lock Center", 
+        "description": ""
+    }, 
+    {
+        "text": "Lock center image tooltip", 
+        "id": "Lock center image tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Grid", 
+        "id": "Grid", 
+        "description": ""
+    }, 
+    {
+        "text": "Grid tooltip", 
+        "id": "Grid tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "HUD", 
+        "id": "HUD", 
+        "description": ""
+    }, 
+    {
+        "text": "HUD tooltip", 
+        "id": "HUD tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Information", 
+        "id": "Information", 
+        "description": ""
+    }, 
+    {
+        "text": "File name", 
+        "id": "File name", 
+        "description": ""
+    }, 
+    {
+        "text": "Name", 
+        "id": "Name", 
+        "description": ""
+    }, 
+    {
+        "text": "Size", 
+        "id": "Size", 
+        "description": ""
+    }, 
+    {
+        "text": "Type", 
+        "id": "Type", 
+        "description": ""
+    }, 
+    {
+        "text": "Speed", 
+        "id": "Speed", 
+        "description": ""
+    }, 
+    {
+        "text": "Duration", 
+        "id": "Duration", 
+        "description": ""
+    }, 
+    {
+        "text": "Video track", 
+        "id": "Video track", 
+        "description": ""
+    }, 
+    {
+        "text": "Channels", 
+        "id": "Channels", 
+        "description": ""
+    }, 
+    {
+        "text": "kHz", 
+        "id": "kHz", 
+        "description": ""
+    }, 
+    {
+        "text": "Sample rate", 
+        "id": "Sample rate", 
+        "description": ""
+    }, 
+    {
+        "text": "Audio track", 
+        "id": "Audio track", 
+        "description": ""
+    }, 
+    {
+        "text": "Tags", 
+        "id": "Tags", 
+        "description": ""
+    }, 
+    {
+        "text": "Layers", 
+        "id": "Layers", 
+        "description": ""
+    }, 
+    {
+        "text": "Magnify", 
+        "id": "Magnify", 
+        "description": ""
+    }, 
+    {
+        "text": "Magnify tooltip", 
+        "id": "Magnify tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Magnify zoom in tooltip", 
+        "id": "Magnify zoom in tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Magnify zoom out tooltip", 
+        "id": "Magnify zoom out tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Media popup tooltip", 
+        "id": "Media popup tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Auto hide tooltip", 
+        "id": "Auto hide tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Settings tooltip", 
+        "id": "Settings tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot create OpenAL source", 
+        "id": "cannot create OpenAL source", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot create OpenAL buffers", 
+        "id": "cannot create OpenAL buffers", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot open", 
+        "id": "cannot open", 
+        "description": ""
+    }, 
+    {
+        "text": "Forward tooltip", 
+        "id": "Forward tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Reverse tooltip", 
+        "id": "Reverse tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Go to in point tooltip", 
+        "id": "Go to in point tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Next frame tooltip", 
+        "id": "Next frame tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Previous frame tooltip", 
+        "id": "Previous frame tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Go to out point tooltip", 
+        "id": "Go to out point tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Maximize tooltip", 
+        "id": "Maximize tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Frame lock tooltip", 
+        "id": "Frame lock tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Speed popup tooltip", 
+        "id": "Speed popup tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Real speed tooltip", 
+        "id": "Real speed tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Current time tooltip", 
+        "id": "Current time tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Duration tooltip", 
+        "id": "Duration tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Audio popup tooltip", 
+        "id": "Audio popup tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Volume tooltip", 
+        "id": "Volume tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Frame lock", 
+        "id": "Frame lock", 
+        "description": ""
+    }, 
+    {
         "text": "NUX", 
         "id": "NUX", 
         "description": ""
@@ -1385,8 +1400,8 @@
         "description": ""
     }, 
     {
-        "text": "Choose a display size", 
-        "id": "Choose a display size", 
+        "text": "Choose a user interface size", 
+        "id": "Choose a user interface size", 
         "description": ""
     }, 
     {

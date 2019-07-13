@@ -7,7 +7,7 @@ if (WIN32)
     set(source
         ${source}
         win.rc)
-endif (WIN32)
+endif()
 
 add_executable(djv WIN32 ${header} ${source})
 target_link_libraries(djv djvViewApp)
@@ -20,15 +20,7 @@ set_target_properties(
 install(
     TARGETS djv
     RUNTIME DESTINATION ${DJV_INSTALL_BIN})
-if (APPLE)
-    configure_file(
-        ${CMAKE_CURRENT_SOURCE_DIR}/djv_osx.sh.in
-        ${CMAKE_CURRENT_BINARY_DIR}/djv.sh
-        @ONLY)
-    install(
-        PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/djv.sh
-        DESTINATION ${DJV_INSTALL_BIN})
-elseif (UNIX)
+if(UNIX)
     configure_file(
         ${CMAKE_CURRENT_SOURCE_DIR}/djv_linux.sh.in
         ${CMAKE_CURRENT_BINARY_DIR}/djv.sh
@@ -48,8 +40,8 @@ elseif (UNIX)
             FILES ../../etc/Linux/djv.mime.xml
             DESTINATION /usr/share/mime/packages)
         install(
-            FILES ../../doc/images/djv-reel-1024.svg
+            FILES ../../etc/Icons/djv-reel-1024.svg
             DESTINATION /usr/share/icons/hicolor/scalable/apps
             RENAME djv.svg)
     endif()
-endif (APPLE)
+endif()
