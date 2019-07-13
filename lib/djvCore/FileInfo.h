@@ -113,7 +113,8 @@ namespace djv
             {
             public:
                 inline FileInfo();
-                inline FileInfo(const Path &, bool stat = true);
+                inline FileInfo(const Path&, bool stat = true);
+                inline FileInfo(const Path&, FileType, bool stat = true);
                 inline FileInfo(const std::string &, bool stat = true);
 
                 //! \name Path
@@ -121,8 +122,8 @@ namespace djv
 
                 inline const Path& getPath() const;
                 inline bool isEmpty() const;
-                void setPath(const Path &, bool stat = true);
-                void setPath(const std::string &, bool stat = true);
+                void setPath(const Path&, bool stat = true);
+                void setPath(const Path&, FileType, bool stat = true);
 
                 ///@}
 
@@ -199,11 +200,21 @@ namespace djv
 
     } // namespace FileSystem
 
+    picojson::value toJSON(Core::FileSystem::FileType);
     picojson::value toJSON(Core::FileSystem::DirectoryListSort);
+    picojson::value toJSON(const Core::FileSystem::FileInfo&);
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value &, Core::FileSystem::DirectoryListSort &);
+    void fromJSON(const picojson::value&, Core::FileSystem::FileType&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const picojson::value&, Core::FileSystem::DirectoryListSort&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const picojson::value&, Core::FileSystem::FileInfo&);
 
     DJV_ENUM_SERIALIZE_HELPERS(Core::FileSystem::FileType);
     DJV_ENUM_SERIALIZE_HELPERS(Core::FileSystem::DirectoryListSort);

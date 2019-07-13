@@ -68,7 +68,7 @@ namespace djv
 
                 InfoRequest(InfoRequest && other) noexcept :
                     uid(other.uid),
-                    path(other.path),
+                    fileInfo(other.fileInfo),
                     read(std::move(other.read)),
                     infoFuture(std::move(other.infoFuture)),
                     promise(std::move(other.promise))
@@ -79,7 +79,7 @@ namespace djv
                     if (this != &other)
                     {
                         uid = other.uid;
-                        path = other.path;
+                        fileInfo = other.fileInfo;
                         read = std::move(other.read);
                         infoFuture = std::move(other.infoFuture);
                         promise = std::move(other.promise);
@@ -88,7 +88,7 @@ namespace djv
                 }
 
                 UID uid = 0;
-                FileSystem::Path path;
+                FileSystem::FileInfo fileInfo;
                 std::shared_ptr<IO::IRead> read;
                 std::future<IO::Info> infoFuture;
                 std::promise<IO::Info> promise;
@@ -102,7 +102,7 @@ namespace djv
 
                 ImageRequest(ImageRequest && other) noexcept :
                     uid(other.uid),
-                    path(other.path),
+                    fileInfo(other.fileInfo),
                     size(std::move(other.size)),
                     type(std::move(other.type)),
                     read(std::move(other.read)),
@@ -114,7 +114,7 @@ namespace djv
                     if (this != &other)
                     {
                         uid = other.uid;
-                        path = other.path;
+                        fileInfo = other.fileInfo;
                         size = std::move(other.size);
                         type = std::move(other.type);
                         read = std::move(other.read);
@@ -124,24 +124,24 @@ namespace djv
                 }
 
                 UID uid = 0;
-                FileSystem::Path path;
+                FileSystem::FileInfo fileInfo;
                 Image::Size size;
                 Image::Type type = Image::Type::None;
                 std::shared_ptr<IO::IRead> read;
                 std::promise<std::shared_ptr<Image::Image> > promise;
             };
 
-            size_t getInfoCacheKey(const FileSystem::Path & path)
+            size_t getInfoCacheKey(const FileSystem::FileInfo & fileInfo)
             {
                 size_t out = 0;
-                Memory::hashCombine(out, path.get());
+                Memory::hashCombine(out, fileInfo.getFileName());
                 return out;
             }
 
-            size_t getImageCacheKey(const FileSystem::Path & path, const Image::Size& size, Image::Type type)
+            size_t getImageCacheKey(const FileSystem::FileInfo& fileInfo, const Image::Size& size, Image::Type type)
             {
                 size_t out = 0;
-                Memory::hashCombine(out, path.get());
+                Memory::hashCombine(out, fileInfo.getFileName());
                 Memory::hashCombine(out, size.w);
                 Memory::hashCombine(out, size.h);
                 Memory::hashCombine(out, type);
@@ -345,11 +345,11 @@ namespace djv
             return out;
         }
 
-        ThumbnailSystem::InfoFuture ThumbnailSystem::getInfo(const FileSystem::Path & path)
+        ThumbnailSystem::InfoFuture ThumbnailSystem::getInfo(const FileSystem::FileInfo & fileInfo)
         {
             DJV_PRIVATE_PTR();
             InfoRequest request;
-            request.path = path;
+            request.fileInfo = fileInfo;
             auto future = request.promise.get_future();
             {
                 std::unique_lock<std::mutex> lock(p.requestMutex);
@@ -379,13 +379,13 @@ namespace djv
         }
 
         ThumbnailSystem::ImageFuture ThumbnailSystem::getImage(
-            const FileSystem::Path & path,
-            const Image::Size&       size,
-            Image::Type              type)
+            const FileSystem::FileInfo& fileInfo,
+            const Image::Size&          size,
+            Image::Type                 type)
         {
             DJV_PRIVATE_PTR();
             ImageRequest request;
-            request.path = path;
+            request.fileInfo = fileInfo;
             request.size = size;
             request.type = type;
             auto future = request.promise.get_future();
@@ -446,7 +446,7 @@ namespace djv
                         break;
                     }
                 }
-                const auto key = getInfoCacheKey(i.path);
+                const auto key = getInfoCacheKey(i.fileInfo);
                 IO::Info info;
                 const bool cached = p.infoCache.get(key, info);
                 if (cached)
@@ -457,7 +457,7 @@ namespace djv
                 {
                     try
                     {
-                        i.read = p.io->read(i.path);
+                        i.read = p.io->read(i.fileInfo);
                         i.infoFuture = i.read->getInfo();
                         p.pendingInfoRequests.push_back(std::move(i));
                     }
@@ -486,7 +486,7 @@ namespace djv
                     try
                     {
                         const auto info = i->infoFuture.get();
-                        p.infoCache.add(getInfoCacheKey(i->path), info);
+                        p.infoCache.add(getInfoCacheKey(i->fileInfo), info);
                         p.infoCachePercentage = p.infoCache.getPercentageUsed();
                         i->promise.set_value(info);
                     }
@@ -531,7 +531,7 @@ namespace djv
                         break;
                     }
                 }
-                const auto key = getImageCacheKey(i.path, i.size, i.type);
+                const auto key = getImageCacheKey(i.fileInfo, i.size, i.type);
                 std::shared_ptr<Image::Image> image;
                 p.imageCache.get(key, image);
                 if (image)
@@ -542,7 +542,7 @@ namespace djv
                 {
                     try
                     {
-                        i.read = p.io->read(i.path);
+                        i.read = p.io->read(i.fileInfo);
                         const auto info = i.read->getInfo().get();
                         if (info.video.size() > 0)
                         {
@@ -604,7 +604,7 @@ namespace djv
                         convert->process(*image, info, *tmp);
                         image = tmp;
                     }
-                    p.imageCache.add(getImageCacheKey(i->path, i->size, i->type), image);
+                    p.imageCache.add(getImageCacheKey(i->fileInfo, i->size, i->type), image);
                     p.imageCachePercentage = p.imageCache.getPercentageUsed();
                     i->promise.set_value(image);
                     i = p.pendingImageRequests.erase(i);

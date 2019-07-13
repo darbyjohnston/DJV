@@ -441,33 +441,33 @@ namespace djv
             _showFileBrowserDialog();
         }
 
-        void FileSystem::open(const std::string& fileName)
+        void FileSystem::open(const Core::FileSystem::FileInfo& fileInfo)
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
-            auto media = Media::create(fileName, context);
+            auto media = Media::create(fileInfo, context);
             p.media->pushBack(media);
             p.opened->setIfChanged(media);
             // Reset the observer so we don't have an extra shared_ptr holding
             // onto the media object.
             p.opened->setIfChanged(nullptr);
             p.currentMedia->setIfChanged(media);
-            p.recentFilesModel->addFile(fileName);
+            p.recentFilesModel->addFile(fileInfo);
             _actionsUpdate();
         }
 
-        void FileSystem::open(const std::string& fileName, const glm::vec2& pos)
+        void FileSystem::open(const Core::FileSystem::FileInfo& fileInfo, const glm::vec2& pos)
         {
             DJV_PRIVATE_PTR();
             auto context = getContext();
-            auto media = Media::create(fileName, context);
+            auto media = Media::create(fileInfo, context);
             p.media->pushBack(media);
             p.opened2->setIfChanged(std::make_pair(media, pos));
             // Reset the observer so we don't have an extra shared_ptr holding
             // onto the media object.
             p.opened2->setIfChanged(std::make_pair(nullptr, glm::ivec2(0, 0)));
             p.currentMedia->setIfChanged(media);
-            p.recentFilesModel->addFile(fileName);
+            p.recentFilesModel->addFile(fileInfo);
             _actionsUpdate();
         }
 

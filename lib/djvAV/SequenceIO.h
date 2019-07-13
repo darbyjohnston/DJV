@@ -46,7 +46,7 @@ namespace djv
 
             protected:
                 void _init(
-                    const std::string & fileName,
+                    const Core::FileSystem::FileInfo&,
                     const ReadOptions&,
                     const std::shared_ptr<Core::ResourceSystem>&,
                     const std::shared_ptr<Core::LogSystem>&);
@@ -79,7 +79,7 @@ namespace djv
 
             protected:
                 void _init(
-                    const std::string &,
+                    const Core::FileSystem::FileInfo&,
                     const Info &,
                     const WriteOptions&,
                     const std::shared_ptr<Core::ResourceSystem>&,

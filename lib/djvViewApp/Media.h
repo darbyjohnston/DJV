@@ -42,6 +42,11 @@ namespace djv
     {
         class Context;
 
+        namespace FileSystem
+        {
+            class FileInfo;
+
+        } // namespace FileSystem
     } // namespace Core
 
     namespace ViewApp
@@ -51,15 +56,15 @@ namespace djv
             DJV_NON_COPYABLE(Media);
 
         protected:
-            void _init(const std::string &, Core::Context *);
+            void _init(const Core::FileSystem::FileInfo&, Core::Context *);
             Media();
 
         public:
             ~Media();
 
-            static std::shared_ptr<Media> create(const std::string&, Core::Context*);
+            static std::shared_ptr<Media> create(const Core::FileSystem::FileInfo&, Core::Context*);
 
-            const std::string & getFileName() const;
+            const Core::FileSystem::FileInfo& getFileInfo() const;
 
             std::shared_ptr<Core::IValueSubject<AV::IO::Info> > observeInfo() const;
             std::shared_ptr<Core::IValueSubject<size_t> > observeLayer() const;

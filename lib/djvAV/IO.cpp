@@ -212,14 +212,14 @@ namespace djv
             }
 
             void IIO::_init(
-                const std::string & fileName,
+                const FileSystem::FileInfo& fileInfo,
                 const IOOptions& options,
                 const std::shared_ptr<ResourceSystem>& resourceSystem,
                 const std::shared_ptr<LogSystem>& logSystem)
             {
                 _logSystem      = logSystem;
                 _resourceSystem = resourceSystem;
-                _fileName       = fileName;
+                _fileInfo       = fileInfo;
                 _videoQueue.setMax(options.videoQueueSize);
                 _audioQueue.setMax(options.audioQueueSize);
             }
@@ -231,12 +231,12 @@ namespace djv
             {}
 
             void IRead::_init(
-                const std::string & fileName,
+                const FileSystem::FileInfo & fileInfo,
                 const ReadOptions& options,
                 const std::shared_ptr<ResourceSystem>& resourceSystem,
                 const std::shared_ptr<LogSystem>& logSystem)
             {
-                IIO::_init(fileName, options, resourceSystem, logSystem);
+                IIO::_init(fileInfo, options, resourceSystem, logSystem);
                 _options = options;
             }
 
@@ -250,13 +250,13 @@ namespace djv
             {}
 
             void IWrite::_init(
-                const std::string & fileName,
+                const FileSystem::FileInfo& fileInfo,
                 const Info & info,
                 const WriteOptions& options,
                 const std::shared_ptr<ResourceSystem>& resourceSystem,
                 const std::shared_ptr<LogSystem>& logSystem)
             {
-                IIO::_init(fileName, options, resourceSystem, logSystem);
+                IIO::_init(fileInfo, options, resourceSystem, logSystem);
                 _info = info;
             }
 
@@ -297,12 +297,12 @@ namespace djv
 
             } // namespace
 
-            bool IPlugin::canRead(const std::string & fileInfo) const
+            bool IPlugin::canRead(const FileSystem::FileInfo& fileInfo) const
             {
                 return checkExtension(fileInfo, _fileExtensions);
             }
 
-            bool IPlugin::canWrite(const std::string & fileInfo, const Info & info) const
+            bool IPlugin::canWrite(const FileSystem::FileInfo& fileInfo, const Info & info) const
             {
                 return checkExtension(fileInfo, _fileExtensions);
             }
@@ -315,12 +315,12 @@ namespace djv
             void IPlugin::setOptions(const picojson::value &)
             {}
 
-            std::shared_ptr<IRead> IPlugin::read(const std::string& fileName, const ReadOptions&) const
+            std::shared_ptr<IRead> IPlugin::read(const FileSystem::FileInfo& fileInfo, const ReadOptions&) const
             {
                 return nullptr;
             }
 
-            std::shared_ptr<IWrite> IPlugin::write(const std::string& fileName, const Info&, const WriteOptions&) const
+            std::shared_ptr<IWrite> IPlugin::write(const FileSystem::FileInfo& fileInfo, const Info&, const WriteOptions&) const
             {
                 return nullptr;
             }
@@ -424,12 +424,12 @@ namespace djv
                 return _p->optionsChanged;
             }
 
-            bool System::canRead(const std::string & fileName) const
+            bool System::canRead(const FileSystem::FileInfo& fileInfo) const
             {
                 DJV_PRIVATE_PTR();
                 for (const auto & i : p.plugins)
                 {
-                    if (i.second->canRead(fileName))
+                    if (i.second->canRead(fileInfo))
                     {
                         return true;
                     }
@@ -437,12 +437,12 @@ namespace djv
                 return false;
             }
 
-            bool System::canWrite(const std::string & fileName, const Info & info) const
+            bool System::canWrite(const FileSystem::FileInfo& fileInfo, const Info & info) const
             {
                 DJV_PRIVATE_PTR();
                 for (const auto & i : p.plugins)
                 {
-                    if (i.second->canWrite(fileName, info))
+                    if (i.second->canWrite(fileInfo, info))
                     {
                         return true;
                     }
@@ -450,34 +450,34 @@ namespace djv
                 return false;
             }
 
-            std::shared_ptr<IRead> System::read(const std::string & fileName, const ReadOptions& options)
+            std::shared_ptr<IRead> System::read(const FileSystem::FileInfo& fileInfo, const ReadOptions& options)
             {
                 DJV_PRIVATE_PTR();
                 for (const auto & i : p.plugins)
                 {
-                    if (i.second->canRead(fileName))
+                    if (i.second->canRead(fileInfo))
                     {
-                        return i.second->read(fileName, options);
+                        return i.second->read(fileInfo, options);
                     }
                 }
                 std::stringstream s;
-                s << "The file" << " '" << fileName << "' " << "cannot be read" << ".";
+                s << "The file" << " '" << fileInfo << "' " << "cannot be read" << ".";
                 throw std::runtime_error(s.str());
                 return nullptr;
             }
 
-            std::shared_ptr<IWrite> System::write(const std::string & fileName, const Info & info, const WriteOptions& options)
+            std::shared_ptr<IWrite> System::write(const FileSystem::FileInfo& fileInfo, const Info & info, const WriteOptions& options)
             {
                 DJV_PRIVATE_PTR();
                 for (const auto & i : p.plugins)
                 {
-                    if (i.second->canWrite(fileName, info))
+                    if (i.second->canWrite(fileInfo, info))
                     {
-                        return i.second->write(fileName, info, options);
+                        return i.second->write(fileInfo, info, options);
                     }
                 }
                 std::stringstream s;
-                s << "The file" << " '" << fileName << "' " << "cannot be written" << ".";
+                s << "The file" << " '" << fileInfo << "' " << "cannot be written" << ".";
                 throw std::runtime_error(s.str());
                 return nullptr;
             }

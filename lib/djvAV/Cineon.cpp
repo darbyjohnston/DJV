@@ -619,14 +619,14 @@ namespace djv
                     fromJSON(value, _p->options);
                 }
 
-                std::shared_ptr<IRead> Plugin::read(const std::string & fileName, const ReadOptions& options) const
+                std::shared_ptr<IRead> Plugin::read(const FileSystem::FileInfo & fileInfo, const ReadOptions& options) const
                 {
-                    return Read::create(fileName, options, _p->options, _resourceSystem, _logSystem);
+                    return Read::create(fileInfo, options, _p->options, _resourceSystem, _logSystem);
                 }
 
-                std::shared_ptr<IWrite> Plugin::write(const std::string & fileName, const Info & info, const WriteOptions& options) const
+                std::shared_ptr<IWrite> Plugin::write(const FileSystem::FileInfo& fileInfo, const Info & info, const WriteOptions& options) const
                 {
-                    return Write::create(fileName, info, options, _p->options, _resourceSystem, _logSystem);
+                    return Write::create(fileInfo, info, options, _p->options, _resourceSystem, _logSystem);
                 }
 
             } // namespace Cineon

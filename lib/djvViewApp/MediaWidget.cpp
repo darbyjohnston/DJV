@@ -294,10 +294,10 @@ namespace djv
             p.actions["OutPoint"]->setIcon("djvIconFrameEnd");
 
             p.titleLabel = UI::Label::create(context);
-            p.titleLabel->setText(Core::FileSystem::Path(media->getFileName()).getFileName());
+            p.titleLabel->setText(media->getFileInfo().getFileName(Frame::Invalid, false));
             p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
             p.titleLabel->setMargin(UI::MetricsRole::Margin);
-            p.titleLabel->setTooltip(media->getFileName());
+            p.titleLabel->setTooltip(media->getFileInfo());
 
             p.maximizeButton = UI::ToolButton::create(context);
             p.maximizeButton->setIcon("djvIconSDI");

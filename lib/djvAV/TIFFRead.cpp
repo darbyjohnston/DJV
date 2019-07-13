@@ -67,13 +67,13 @@ namespace djv
                 }
 
                 std::shared_ptr<Read> Read::create(
-                    const std::string & fileName,
+                    const FileSystem::FileInfo& fileInfo,
                     const ReadOptions& readOptions,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Read>(new Read);
-                    out->_init(fileName, readOptions, resourceSystem, logSystem);
+                    out->_init(fileInfo, readOptions, resourceSystem, logSystem);
                     return out;
                 }
 

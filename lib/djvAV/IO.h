@@ -34,6 +34,7 @@
 #include <djvAV/Tags.h>
 
 #include <djvCore/Error.h>
+#include <djvCore/FileInfo.h>
 #include <djvCore/ISystem.h>
 #include <djvCore/PicoJSON.h>
 #include <djvCore/Speed.h>
@@ -194,7 +195,7 @@ namespace djv
 
             protected:
                 void _init(
-                    const std::string & fileName,
+                    const Core::FileSystem::FileInfo&,
                     const IOOptions&,
                     const std::shared_ptr<Core::ResourceSystem>&,
                     const std::shared_ptr<Core::LogSystem>&);
@@ -212,7 +213,7 @@ namespace djv
             protected:
                 std::shared_ptr<Core::LogSystem> _logSystem;
                 std::shared_ptr<Core::ResourceSystem> _resourceSystem;
-                std::string _fileName;
+                Core::FileSystem::FileInfo _fileInfo;
                 std::mutex _mutex;
                 VideoQueue _videoQueue;
                 AudioQueue _audioQueue;
@@ -231,7 +232,7 @@ namespace djv
 
             protected:
                 void _init(
-                    const std::string & fileName,
+                    const Core::FileSystem::FileInfo&,
                     const ReadOptions&,
                     const std::shared_ptr<Core::ResourceSystem>&,
                     const std::shared_ptr<Core::LogSystem>&);
@@ -259,7 +260,7 @@ namespace djv
 
             protected:
                 void _init(
-                    const std::string &,
+                    const Core::FileSystem::FileInfo &,
                     const Info &,
                     const WriteOptions&,
                     const std::shared_ptr<Core::ResourceSystem>&,
@@ -295,8 +296,8 @@ namespace djv
                 inline const std::string & getPluginInfo() const;
                 inline const std::set<std::string> & getFileExtensions() const;
 
-                virtual bool canRead(const std::string &) const;
-                virtual bool canWrite(const std::string &, const Info &) const;
+                virtual bool canRead(const Core::FileSystem::FileInfo&) const;
+                virtual bool canWrite(const Core::FileSystem::FileInfo&, const Info &) const;
 
                 virtual picojson::value getOptions() const;
 
@@ -306,11 +307,11 @@ namespace djv
 
                 //! Throws:
                 //! - std::exception
-                virtual std::shared_ptr<IRead> read(const std::string& fileName, const ReadOptions&) const;
+                virtual std::shared_ptr<IRead> read(const Core::FileSystem::FileInfo&, const ReadOptions&) const;
 
                 //! Throws:
                 //! - std::exception
-                virtual std::shared_ptr<IWrite> write(const std::string& fileName, const Info&, const WriteOptions&) const;
+                virtual std::shared_ptr<IWrite> write(const Core::FileSystem::FileInfo&, const Info&, const WriteOptions&) const;
 
             protected:
                 std::shared_ptr<Core::LogSystem> _logSystem;
@@ -344,16 +345,16 @@ namespace djv
 
                 std::shared_ptr<Core::IValueSubject<bool> > observeOptionsChanged() const;
 
-                bool canRead(const std::string &) const;
-                bool canWrite(const std::string &, const Info &) const;
+                bool canRead(const Core::FileSystem::FileInfo&) const;
+                bool canWrite(const Core::FileSystem::FileInfo&, const Info &) const;
 
                 //! Throws:
                 //! - std::exception
-                std::shared_ptr<IRead> read(const std::string & fileName, const ReadOptions& = ReadOptions());
+                std::shared_ptr<IRead> read(const Core::FileSystem::FileInfo&, const ReadOptions& = ReadOptions());
 
                 //! Throws:
                 //! - std::exception
-                std::shared_ptr<IWrite> write(const std::string & fileName, const Info &, const WriteOptions& = WriteOptions());
+                std::shared_ptr<IWrite> write(const Core::FileSystem::FileInfo&, const Info &, const WriteOptions& = WriteOptions());
 
             private:
                 DJV_PRIVATE();

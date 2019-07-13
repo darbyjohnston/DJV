@@ -73,12 +73,12 @@ namespace djv
                 };
 
                 void Read::_init(
-                    const std::string & fileName,
+                    const FileSystem::FileInfo& fileInfo,
                     const ReadOptions& options,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
-                    IRead::_init(fileName, options, resourceSystem, logSystem);
+                    IRead::_init(fileInfo, options, resourceSystem, logSystem);
                     DJV_PRIVATE_PTR();
                     p.running = true;
                     p.thread = std::thread(
@@ -90,19 +90,19 @@ namespace djv
                             // Open the file.
                             /*{
                                 std::stringstream ss;
-                                ss << "Reading file: " << _fileName;
+                                ss << "Reading file: " << _fileInfo;
                                 _logSystem->log("djv::AV::IO::FFmpeg::Read", ss.str());
                             }*/
                             int r = avformat_open_input(
                                 &p.avFormatContext,
-                                _fileName.c_str(),
+                                _fileInfo.getFileName().c_str(),
                                 nullptr,
                                 nullptr);
                             if (r < 0)
                             {
                                 std::stringstream ss;
                                 ss << DJV_TEXT("The FFMPEG file") <<
-                                    " '" << _fileName << "' " << DJV_TEXT("cannot be opened") << ". " << FFmpeg::getErrorString(r);
+                                    " '" << _fileInfo << "' " << DJV_TEXT("cannot be opened") << ". " << FFmpeg::getErrorString(r);
                                 throw std::runtime_error(ss.str());
                             }
                             r = avformat_find_stream_info(p.avFormatContext, 0);
@@ -110,10 +110,10 @@ namespace djv
                             {
                                 std::stringstream ss;
                                 ss << DJV_TEXT("The FFMPEG file") <<
-                                    " '" << _fileName << "' " << DJV_TEXT("cannot be opened") << ". " << FFmpeg::getErrorString(r);
+                                    " '" << _fileInfo << "' " << DJV_TEXT("cannot be opened") << ". " << FFmpeg::getErrorString(r);
                                 throw std::runtime_error(ss.str());
                             }
-                            av_dump_format(p.avFormatContext, 0, _fileName.c_str(), 0);
+                            av_dump_format(p.avFormatContext, 0, _fileInfo.getFileName().c_str(), 0);
 
                             // Find the first video and audio stream.
                             for (unsigned int i = 0; i < p.avFormatContext->nb_streams; ++i)
@@ -131,12 +131,12 @@ namespace djv
                             {
                                 std::stringstream ss;
                                 ss << DJV_TEXT("The FFMPEG file") <<
-                                    " '" << _fileName << "' " << DJV_TEXT("does not have any video or audio streams") << ".";
+                                    " '" << _fileInfo << "' " << DJV_TEXT("does not have any video or audio streams") << ".";
                                 throw std::runtime_error(ss.str());
                             }
 
                             Info info;
-                            info.fileName = _fileName;
+                            info.fileName = _fileInfo;
 
                             if (p.avVideoStream != -1 || p.avAudioStream != -1)
                             {
@@ -154,7 +154,7 @@ namespace djv
                                 {
                                     std::stringstream ss;
                                     ss << DJV_TEXT("The FFMPEG file") <<
-                                        " '" << _fileName << "' " << DJV_TEXT("does not match any video codecs") << ".";
+                                        " '" << _fileInfo << "' " << DJV_TEXT("does not match any video codecs") << ".";
                                     throw std::runtime_error(ss.str());
                                 }
                                 p.avCodecParameters[p.avVideoStream] = avcodec_parameters_alloc();
@@ -163,7 +163,7 @@ namespace djv
                                 {
                                     std::stringstream ss;
                                     ss << DJV_TEXT("The FFMPEG file")
-                                        << " '" << _fileName << "' " << DJV_TEXT("cannot be opened") << ". " << FFmpeg::getErrorString(r);
+                                        << " '" << _fileInfo << "' " << DJV_TEXT("cannot be opened") << ". " << FFmpeg::getErrorString(r);
                                     throw std::runtime_error(ss.str());
                                 }
                                 p.avCodecContext[p.avVideoStream] = avcodec_alloc_context3(avVideoCodec);
@@ -172,7 +172,7 @@ namespace djv
                                 {
                                     std::stringstream ss;
                                     ss << DJV_TEXT("The FFMPEG file")
-                                        << " '" << _fileName << "' " << DJV_TEXT("cannot be opened") << ". " << FFmpeg::getErrorString(r);
+                                        << " '" << _fileInfo << "' " << DJV_TEXT("cannot be opened") << ". " << FFmpeg::getErrorString(r);
                                     throw std::runtime_error(ss.str());
                                 }
                                 r = avcodec_open2(p.avCodecContext[p.avVideoStream], avVideoCodec, 0);
@@ -180,7 +180,7 @@ namespace djv
                                 {
                                     std::stringstream ss;
                                     ss << DJV_TEXT("The FFMPEG file")
-                                        << " '" << _fileName << "' " << DJV_TEXT("cannot be opened") << ". " << FFmpeg::getErrorString(r);
+                                        << " '" << _fileInfo << "' " << DJV_TEXT("cannot be opened") << ". " << FFmpeg::getErrorString(r);
                                     throw std::runtime_error(ss.str());
                                 }
 
@@ -222,10 +222,10 @@ namespace djv
                                 info.video.push_back(p.videoInfo);
                                 /*{
                                     std::stringstream ss;
-                                    ss << _fileName << ": image size " << pixelDataInfo.size << "\n";
-                                    ss << _fileName << ": pixel type " << pixelDataInfo.type << "\n";
-                                    ss << _fileName << ": duration " << duration << "\n";
-                                    ss << _fileName << ": speed " << speed << "\n";
+                                    ss << _fileInfo << ": image size " << pixelDataInfo.size << "\n";
+                                    ss << _fileInfo << ": pixel type " << pixelDataInfo.type << "\n";
+                                    ss << _fileInfo << ": duration " << duration << "\n";
+                                    ss << _fileInfo << ": speed " << speed << "\n";
                                     _logSystem->log("djv::AV::IO::FFmpeg::Read", ss.str());
                                 }*/
                             }
@@ -249,7 +249,7 @@ namespace djv
                                 {
                                     std::stringstream ss;
                                     ss << DJV_TEXT("The FFMPEG file") <<
-                                        " '" << _fileName << "' " << DJV_TEXT("does not match any audio codecs") << ".";
+                                        " '" << _fileInfo << "' " << DJV_TEXT("does not match any audio codecs") << ".";
                                     throw std::runtime_error(ss.str());
                                 }
                                 p.avCodecParameters[p.avAudioStream] = avcodec_parameters_alloc();
@@ -258,7 +258,7 @@ namespace djv
                                 {
                                     std::stringstream ss;
                                     ss << DJV_TEXT("The FFMPEG file") <<
-                                        " '" << _fileName << "' " << DJV_TEXT("cannot be opened") << ". " << FFmpeg::getErrorString(r);
+                                        " '" << _fileInfo << "' " << DJV_TEXT("cannot be opened") << ". " << FFmpeg::getErrorString(r);
                                     throw std::runtime_error(ss.str());
                                 }
                                 p.avCodecContext[p.avAudioStream] = avcodec_alloc_context3(avAudioCodec);
@@ -267,7 +267,7 @@ namespace djv
                                 {
                                     std::stringstream ss;
                                     ss << DJV_TEXT("The FFMPEG file") <<
-                                        " '" << _fileName << "' " << DJV_TEXT("cannot be opened") << ". " << FFmpeg::getErrorString(r);
+                                        " '" << _fileInfo << "' " << DJV_TEXT("cannot be opened") << ". " << FFmpeg::getErrorString(r);
                                     throw std::runtime_error(ss.str());
                                 }
                                 r = avcodec_open2(p.avCodecContext[p.avAudioStream], avAudioCodec, 0);
@@ -275,7 +275,7 @@ namespace djv
                                 {
                                     std::stringstream ss;
                                     ss << DJV_TEXT("The FFMPEG file") <<
-                                        " '" << _fileName << "' " << DJV_TEXT("cannot be opened") << ". " << FFmpeg::getErrorString(r);
+                                        " '" << _fileInfo << "' " << DJV_TEXT("cannot be opened") << ". " << FFmpeg::getErrorString(r);
                                     throw std::runtime_error(ss.str());
                                 }
 
@@ -338,7 +338,7 @@ namespace djv
                                     {
                                         /*{
                                             std::stringstream ss;
-                                            ss << _fileName << ": seek " << seek;
+                                            ss << _fileInfo << ": seek " << seek;
                                             _logSystem->log("djv::AV::IO::FFmpeg::Read", ss.str());
                                         }*/
                                         if (av_seek_frame(
@@ -430,7 +430,7 @@ namespace djv
                                 {
                                     /*{
                                         std::stringstream ss;
-                                        ss << _fileName << ": finished";
+                                        ss << _fileInfo << ": finished";
                                         _logSystem->log("djv::AV::IO::FFmpeg::Read", ss.str());
                                     }*/
                                     av_packet_unref(&packet);
@@ -483,13 +483,13 @@ namespace djv
                 }
 
                 std::shared_ptr<Read> Read::create(
-                    const std::string & fileName,
+                    const FileSystem::FileInfo& fileInfo,
                     const ReadOptions& readOptions,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Read>(new Read);
-                    out->_init(fileName, readOptions, resourceSystem, logSystem);
+                    out->_init(fileInfo, readOptions, resourceSystem, logSystem);
                     return out;
                 }
 
@@ -542,7 +542,7 @@ namespace djv
                         /*if (auto context = _context.lock())
                         {
                             std::stringstream ss;
-                            ss << _fileName << ", decoded frame: " << pts;
+                            ss << _fileInfo << ", decoded frame: " << pts;
                             _logSystem->log("djv::AV::IO::FFmpeg::Read", ss.str());
                         }*/
 

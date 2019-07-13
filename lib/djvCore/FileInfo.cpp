@@ -85,16 +85,16 @@ namespace djv
                 return s.str();
             }
 
-            void FileInfo::setPath(const Path & value, bool stat)
+            void FileInfo::setPath(const Path& value, bool stat)
             {
-                _path = value;
-                _exists = false;
-                _type = FileType::File;
-                _size = 0;
-                _user = 0;
-                _permissions = 0;
-                _time = 0;
-                _sequence = Frame::Sequence();
+                _path           = value;
+                _exists         = false;
+                _type           = FileType::File;
+                _size           = 0;
+                _user           = 0;
+                _permissions    = 0;
+                _time           = 0;
+                _sequence       = Frame::Sequence();
 
                 // Get information from the file system.
                 if (stat)
@@ -103,9 +103,35 @@ namespace djv
                 }
             }
 
-            void FileInfo::setPath(const std::string & value, bool stat)
+            void FileInfo::setPath(const Path& value, FileType fileType, bool stat)
             {
-                setPath(Path(value), stat);
+                _path           = value;
+                _exists         = false;
+                _type           = fileType;
+                _size           = 0;
+                _user           = 0;
+                _permissions    = 0;
+                _time           = 0;
+                _sequence       = Frame::Sequence();
+
+                if (FileType::Sequence == fileType)
+                {
+                    try
+                    {
+                        std::stringstream s(_path.getNumber());
+                        s >> _sequence;
+                    }
+                    catch (const std::exception&)
+                    {
+                        _sequence = Frame::Sequence();
+                    }
+                }
+
+                // Get information from the file system.
+                if (stat)
+                {
+                    this->stat();
+                }
             }
 
             void FileInfo::setSequence(const Frame::Sequence & in)
@@ -161,6 +187,13 @@ namespace djv
         } // namespace FileSystem
     } // namespace Core
 
+    picojson::value toJSON(Core::FileSystem::FileType value)
+    {
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
+    }
+
     picojson::value toJSON(Core::FileSystem::DirectoryListSort value)
     {
         std::stringstream ss;
@@ -168,12 +201,58 @@ namespace djv
         return picojson::value(ss.str());
     }
 
-    void fromJSON(const picojson::value & value, Core::FileSystem::DirectoryListSort & out)
+    picojson::value toJSON(const Core::FileSystem::FileInfo& value)
+    {
+        picojson::value out(picojson::object_type, true);
+        out.get<picojson::object>()["Path"] = toJSON(value.getPath());
+        out.get<picojson::object>()["Type"] = toJSON(value.getType());
+        return out;
+    }
+
+    void fromJSON(const picojson::value& value, Core::FileSystem::FileType& out)
     {
         if (value.is<std::string>())
         {
             std::stringstream ss(value.get<std::string>());
             ss >> out;
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
+
+    void fromJSON(const picojson::value& value, Core::FileSystem::DirectoryListSort& out)
+    {
+        if (value.is<std::string>())
+        {
+            std::stringstream ss(value.get<std::string>());
+            ss >> out;
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
+
+    void fromJSON(const picojson::value& value, Core::FileSystem::FileInfo& out)
+    {
+        if (value.is<picojson::object>())
+        {
+            Core::FileSystem::Path path;
+            Core::FileSystem::FileType type = Core::FileSystem::FileType::First;
+            for (const auto& i : value.get<picojson::object>())
+            {
+                if ("Path" == i.first)
+                {
+                    fromJSON(i.second, path);
+                }
+                else if ("Type" == i.first)
+                {
+                    fromJSON(i.second, type);
+                }
+            }
+            out = Core::FileSystem::FileInfo(path, type);
         }
         else
         {

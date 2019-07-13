@@ -315,7 +315,7 @@ namespace djv
                         for (const auto& i : widget->_p->media)
                         {
                             auto action = UI::Action::create();
-                            action->setText(Core::FileSystem::Path(i->getFileName()).getFileName());
+                            action->setText(i->getFileInfo().getFileName());
                             widget->_p->mediaActionGroup->addAction(action);
                             widget->_p->mediaMenu->addAction(action);
                         }
@@ -334,8 +334,8 @@ namespace djv
                         {
                             widget->_p->mediaActionGroup->setChecked(i - widget->_p->media.begin());
                         }
-                        widget->_p->mediaButton->setText(value ? Core::FileSystem::Path(value->getFileName()).getFileName() : "-");
-                        widget->_p->mediaButton->setTooltip(value ? value->getFileName() : std::string());
+                        widget->_p->mediaButton->setText(value ? value->getFileInfo().getFileName(Frame::Invalid, false) : "-");
+                        widget->_p->mediaButton->setTooltip(value ? value->getFileInfo() : std::string());
                     }
                 });
             }

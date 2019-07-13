@@ -138,9 +138,9 @@ namespace djv
                     return out;
                 }
 
-                std::shared_ptr<IRead> Plugin::read(const std::string & fileName, const ReadOptions& options) const
+                std::shared_ptr<IRead> Plugin::read(const FileSystem::FileInfo& fileInfo, const ReadOptions& options) const
                 {
-                    return Read::create(fileName, options, _resourceSystem, _logSystem);
+                    return Read::create(fileInfo, options, _resourceSystem, _logSystem);
                 }
 
             } // namespace FFmpeg

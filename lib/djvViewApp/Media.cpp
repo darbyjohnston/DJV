@@ -55,7 +55,7 @@ namespace djv
         {
             Context * context = nullptr;
 
-            std::string fileName;
+            Core::FileSystem::FileInfo fileInfo;
             std::shared_ptr<ValueSubject<AV::IO::Info> > info;
             AV::IO::VideoInfo videoInfo;
             AV::IO::AudioInfo audioInfo;
@@ -99,12 +99,12 @@ namespace djv
             std::shared_ptr<Time::Timer> debugTimer;
         };
 
-        void Media::_init(const std::string & fileName, Context * context)
+        void Media::_init(const Core::FileSystem::FileInfo& fileInfo, Context * context)
         {
             DJV_PRIVATE_PTR();
             p.context = context;
 
-            p.fileName = fileName;
+            p.fileInfo = fileInfo;
             p.info = ValueSubject<AV::IO::Info>::create();
             p.layer = ValueSubject<size_t>::create();
             p.speed = ValueSubject<Time::Speed>::create();
@@ -191,16 +191,16 @@ namespace djv
             }
         }
 
-        std::shared_ptr<Media> Media::create(const std::string& fileName, Context* context)
+        std::shared_ptr<Media> Media::create(const Core::FileSystem::FileInfo& fileInfo, Context* context)
         {
             auto out = std::shared_ptr<Media>(new Media);
-            out->_init(fileName, context);
+            out->_init(fileInfo, context);
             return out;
         }
 
-        const std::string& Media::getFileName() const
+        const Core::FileSystem::FileInfo& Media::getFileInfo() const
         {
-            return _p->fileName;
+            return _p->fileInfo;
         }
 
         std::shared_ptr<IValueSubject<AV::IO::Info> > Media::observeInfo() const
@@ -476,15 +476,15 @@ namespace djv
                 AV::IO::ReadOptions options;
                 options.layer = p.layer->get();
                 options.videoQueueSize = videoQueueSize;
-                p.read = io->read(p.fileName, options);
+                p.read = io->read(p.fileInfo, options);
                 p.infoFuture = p.read->getInfo();
 
                 const auto timeout = Time::getMilliseconds(Time::TimerValue::Fast);
-                const std::string& fileName = p.fileName;
+                const Core::FileSystem::FileInfo& fileInfo = p.fileInfo;
                 auto weak = std::weak_ptr<Media>(std::dynamic_pointer_cast<Media>(shared_from_this()));
                 p.infoTimer->start(
                     timeout,
-                    [weak, fileName, context](float)
+                    [weak, fileInfo, context](float)
                     {
                         if (auto media = weak.lock())
                         {
@@ -512,7 +512,7 @@ namespace djv
                                     }
                                     {
                                         std::stringstream ss;
-                                        ss << fileName << " duration: " << duration;
+                                        ss << fileInfo << " duration: " << duration;
                                         auto logSystem = context->getSystemT<LogSystem>();
                                         logSystem->log("djv::ViewApp::Media", ss.str());
                                     }
@@ -581,7 +581,7 @@ namespace djv
             catch (const std::exception& e)
             {
                 std::stringstream ss;
-                ss << "djv::ViewApp::Media " << DJV_TEXT("cannot open") << " '" << p.fileName << "'. " << e.what();
+                ss << "djv::ViewApp::Media " << DJV_TEXT("cannot open") << " '" << p.fileInfo << "'. " << e.what();
                 auto logSystem = context->getSystemT<LogSystem>();
                 logSystem->log("djv::ViewApp::Media", ss.str(), LogLevel::Error);
             }

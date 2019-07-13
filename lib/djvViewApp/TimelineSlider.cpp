@@ -67,7 +67,7 @@ namespace djv
             public:
                 static std::shared_ptr<PIPWidget> create(Context*);
 
-                void setPIPFileName(const std::string&);
+                void setPIPFileInfo(const Core::FileSystem::FileInfo&);
                 void setPIPPos(const glm::vec2&, Time::Timestamp, const BBox2f&);
 
             protected:
@@ -77,7 +77,7 @@ namespace djv
             private:
                 void _textUpdate();
 
-                std::string _fileName;
+                Core::FileSystem::FileInfo _fileInfo;
                 glm::vec2 _pipPos = glm::vec2(0.f, 0.f);
                 BBox2f _timelineGeometry;
                 std::shared_ptr<Media> _media;
@@ -118,14 +118,14 @@ namespace djv
                 return out;
             }
 
-            void PIPWidget::setPIPFileName(const std::string& value)
+            void PIPWidget::setPIPFileInfo(const Core::FileSystem::FileInfo& value)
             {
-                if (value == _fileName)
+                if (value == _fileInfo)
                     return;
-                _fileName = value;
-                if (!_fileName.empty())
+                _fileInfo = value;
+                if (!_fileInfo.isEmpty())
                 {
-                    _media = Media::create(_fileName, getContext());
+                    _media = Media::create(_fileInfo, getContext());
 
                     auto weak = std::weak_ptr<PIPWidget>(std::dynamic_pointer_cast<PIPWidget>(shared_from_this()));
                     _speedObserver = ValueObserver<Time::Speed>::create(
@@ -301,7 +301,7 @@ namespace djv
             p.media = value;
             if (p.media)
             {
-                p.pipWidget->setPIPFileName(p.media->getFileName());
+                p.pipWidget->setPIPFileInfo(p.media->getFileInfo());
                 
                 auto weak = std::weak_ptr<TimelineSlider>(std::dynamic_pointer_cast<TimelineSlider>(shared_from_this()));
                 p.infoObserver = ValueObserver<AV::IO::Info>::create(
@@ -341,7 +341,7 @@ namespace djv
                 p.currentTime->setIfChanged(0);
                 p.speed = Time::Speed();
 
-                p.pipWidget->setPIPFileName(std::string());
+                p.pipWidget->setPIPFileInfo(Core::FileSystem::FileInfo());
 
                 p.infoObserver.reset();
                 p.durationObserver.reset();

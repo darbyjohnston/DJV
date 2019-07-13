@@ -68,24 +68,22 @@ namespace djv
             };
 
             void ISequenceRead::_init(
-                const std::string & fileName,
+                const FileSystem::FileInfo & fileInfo,
                 const ReadOptions& options,
                 const std::shared_ptr<ResourceSystem>& resourceSystem,
                 const std::shared_ptr<LogSystem>& logSystem)
             {
-                IRead::_init(fileName, options, resourceSystem, logSystem);
+                IRead::_init(fileInfo, options, resourceSystem, logSystem);
                 _speed = Time::Speed();
                 _p->running = true;
                 _p->thread = std::thread(
                     [this]
                 {
                     DJV_PRIVATE_PTR();
-                    FileSystem::FileInfo fileInfo(_fileName);
-                    fileInfo.evalSequence();
                     Frame::Index frameIndex = Frame::Invalid;
-                    if (fileInfo.isSequenceValid())
+                    if (_fileInfo.isSequenceValid())
                     {
-                        _frames = Frame::toFrames(fileInfo.getSequence());
+                        _frames = Frame::toFrames(_fileInfo.getSequence());
                         if (_frames.size())
                         {
                             frameIndex = 0;
@@ -101,7 +99,7 @@ namespace djv
                     Info info;
                     try
                     {
-                        info = _readInfo(fileInfo.getFileName(frameNumber));
+                        info = _readInfo(_fileInfo.getFileName(frameNumber));
                         p.infoPromise.set_value(info);
                     }
                     catch (const std::exception & e)
@@ -181,7 +179,7 @@ namespace djv
                                 ss << _fileName << ": read frame " << pts;
                                 _logSystem->log("djv::AV::IO::ISequenceRead", ss.str());
                             }*/
-                            auto fileName = fileInfo.getFileName(frameNumber);
+                            auto fileName = _fileInfo.getFileName(frameNumber);
                             futures.push_back(std::async(
                                 std::launch::async,
                                 [this, frameNumber, pts, fileName]
@@ -271,13 +269,13 @@ namespace djv
             };
 
             void ISequenceWrite::_init(
-                const std::string& fileName,
+                const FileSystem::FileInfo& fileInfo,
                 const Info& info,
                 const WriteOptions& options,
                 const std::shared_ptr<ResourceSystem>& resourceSystem,
                 const std::shared_ptr<LogSystem>& logSystem)
             {
-                IWrite::_init(fileName, info, options, resourceSystem, logSystem);
+                IWrite::_init(fileInfo, info, options, resourceSystem, logSystem);
 
                 DJV_PRIVATE_PTR();
 
@@ -287,8 +285,7 @@ namespace djv
                     _imageInfo = _info.video[0].info;
                 }
 
-                p.fileInfo.setPath(fileName);
-                p.fileInfo.evalSequence();
+                p.fileInfo = fileInfo;
                 if (p.fileInfo.isSequenceValid())
                 {
                     auto sequence = p.fileInfo.getSequence();

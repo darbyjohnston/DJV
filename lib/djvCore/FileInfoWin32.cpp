@@ -56,33 +56,59 @@ namespace djv
         {
             bool FileInfo::stat()
             {
-                _STAT info;
-                memset(&info, 0, sizeof(_STAT));
-                if (_STAT_FNC(String::toWide(_path.get()).c_str(), &info) != 0)
-                {
-                    std::string err;
-                    char tmp[String::cStringLength] = "";
-                    strerror_s(tmp, String::cStringLength, errno);
-                    err = tmp;
-                    return false;
-                }
-
-                _exists      = true;
-                _size        = info.st_size;
-                _user        = info.st_uid;
+                _exists      = false;
+                _size        = 0;
+                _user        = 0;
                 _permissions = 0;
-                _time        = info.st_mtime;
-                _type        = FileType::File;
+                _time        = 0;
                 _permissions = 0;
-
-                if (info.st_mode & _S_IFDIR)
+                if (FileType::Sequence == _type)
                 {
-                    _type = FileType::Directory;
+                    for (auto i : Frame::toFrames(_sequence))
+                    {
+                        _STAT info;
+                        memset(&info, 0, sizeof(_STAT));
+                        if (_STAT_FNC(String::toWide(getFileName(i)).c_str(), &info) != 0)
+                        {
+                            std::string err;
+                            char tmp[String::cStringLength] = "";
+                            strerror_s(tmp, String::cStringLength, errno);
+                            err = tmp;
+                            return false;
+                        }
+                        _exists = true;
+                        _size   += info.st_size;
+                        _user   = std::min(_user, static_cast<uid_t>(info.st_uid));
+                        _time   = std::max(_time, info.st_mtime);
+                        _permissions |= (info.st_mode & _S_IREAD)  ? static_cast<int>(FilePermissions::Read)  : 0;
+                        _permissions |= (info.st_mode & _S_IWRITE) ? static_cast<int>(FilePermissions::Write) : 0;
+                        _permissions |= (info.st_mode & _S_IEXEC)  ? static_cast<int>(FilePermissions::Exec)  : 0;
+                    }
                 }
-                _permissions |= (info.st_mode & _S_IREAD)  ? static_cast<int>(FilePermissions::Read)  : 0;
-                _permissions |= (info.st_mode & _S_IWRITE) ? static_cast<int>(FilePermissions::Write) : 0;
-                _permissions |= (info.st_mode & _S_IEXEC)  ? static_cast<int>(FilePermissions::Exec)  : 0;
-
+                else
+                {
+                    _STAT info;
+                    memset(&info, 0, sizeof(_STAT));
+                    if (_STAT_FNC(String::toWide(_path.get()).c_str(), &info) != 0)
+                    {
+                        std::string err;
+                        char tmp[String::cStringLength] = "";
+                        strerror_s(tmp, String::cStringLength, errno);
+                        err = tmp;
+                        return false;
+                    }
+                    _exists = true;
+                    _size   = info.st_size;
+                    _user   = info.st_uid;
+                    _time   = info.st_mtime;
+                    if (info.st_mode & _S_IFDIR)
+                    {
+                        _type = FileType::Directory;
+                    }
+                    _permissions |= (info.st_mode & _S_IREAD) ? static_cast<int>(FilePermissions::Read) : 0;
+                    _permissions |= (info.st_mode & _S_IWRITE) ? static_cast<int>(FilePermissions::Write) : 0;
+                    _permissions |= (info.st_mode & _S_IEXEC) ? static_cast<int>(FilePermissions::Exec) : 0;
+                }
                 return true;
             }
 

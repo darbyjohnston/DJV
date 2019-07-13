@@ -36,9 +36,14 @@ namespace djv
             inline FileInfo::FileInfo()
             {}
 
-            inline FileInfo::FileInfo(const Path& path, bool stat)
+            inline FileInfo::FileInfo(const Path & path, bool stat)
             {
                 setPath(path, stat);
+            }
+
+            inline FileInfo::FileInfo(const Path& path, FileType fileType, bool stat)
+            {
+                setPath(path, fileType, stat);
             }
 
             inline FileInfo::FileInfo(const std::string& path, bool stat)

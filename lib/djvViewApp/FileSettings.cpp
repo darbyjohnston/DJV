@@ -88,13 +88,8 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const auto & object = value.get<picojson::object>();
-                std::vector<std::string> tmp;
-                UI::Settings::read("RecentFiles", object, tmp);
-                std::vector<Core::FileSystem::FileInfo> fileInfoList;
-                for (const auto & i : tmp)
-                {
-                    fileInfoList.push_back(i);
-                }
+                std::vector<FileSystem::FileInfo> fileInfoList;
+                UI::Settings::read("RecentFiles", object, fileInfoList);
                 p.recentFiles->setIfChanged(fileInfoList);
             }
         }
@@ -104,12 +99,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             picojson::value out(picojson::object_type, true);
             auto & object = out.get<picojson::object>();
-            std::vector<std::string> tmp;
-            for (const auto & i : p.recentFiles->get())
-            {
-                tmp.push_back(i);
-            }
-            UI::Settings::write("RecentFiles", tmp, object);
+            UI::Settings::write("RecentFiles", p.recentFiles->get(), object);
             return out;
         }
 

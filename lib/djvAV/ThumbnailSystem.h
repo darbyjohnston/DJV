@@ -43,7 +43,7 @@ namespace djv
     {
         namespace FileSystem
         {
-            class Path;
+            class FileInfo;
 
         } // namespace FileSystem
     } // namespace Core
@@ -92,7 +92,7 @@ namespace djv
             };
             
             //! Get information about a file.
-            InfoFuture getInfo(const Core::FileSystem::Path &);
+            InfoFuture getInfo(const Core::FileSystem::FileInfo&);
 
             //! Cancel information about a file.
             void cancelInfo(Core::UID);
@@ -107,9 +107,9 @@ namespace djv
 
             //! Get a thumbnail image for the given file.
             ImageFuture getImage(
-                const Core::FileSystem::Path & path,
-                const Image::Size&             size,
-                Image::Type                    type = Image::Type::None);
+                const Core::FileSystem::FileInfo& path,
+                const Image::Size&                size,
+                Image::Type                       type = Image::Type::None);
 
             //! Cancel a thumbnail image.
             void cancelImage(Core::UID);

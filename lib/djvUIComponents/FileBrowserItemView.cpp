@@ -318,10 +318,9 @@ namespace djv
                                 auto ioSystem = context->getSystemT<AV::IO::System>();
                                 if (thumbnailSystem && ioSystem)
                                 {
-                                    const auto & path = fileInfo.getPath();
-                                    if (ioSystem->canRead(path))
+                                    if (ioSystem->canRead(fileInfo))
                                     {
-                                        p.ioInfoFutures[i.first] = thumbnailSystem->getInfo(path);
+                                        p.ioInfoFutures[i.first] = thumbnailSystem->getInfo(fileInfo);
                                     }
                                 }
                             }
@@ -330,12 +329,11 @@ namespace djv
                         {
                             if (p.thumbnailFutures.find(i.first) == p.thumbnailFutures.end())
                             {
-                                const auto & path = fileInfo.getPath();
                                 auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>();
                                 auto ioSystem = context->getSystemT<AV::IO::System>();
-                                if (thumbnailSystem && ioSystem && ioSystem->canRead(path))
+                                if (thumbnailSystem && ioSystem && ioSystem->canRead(fileInfo))
                                 {
-                                    p.thumbnailFutures[i.first] = thumbnailSystem->getImage(path, p.thumbnailSize);
+                                    p.thumbnailFutures[i.first] = thumbnailSystem->getImage(fileInfo, p.thumbnailSize);
                                 }
                             }
                         }
@@ -951,11 +949,10 @@ namespace djv
                             }
                             if (p.thumbnailFutures.find(i.first) == p.thumbnailFutures.end())
                             {
-                                const auto & path = fileInfo.getPath();
                                 auto ioSystem = context->getSystemT<AV::IO::System>();
-                                if (ioSystem && ioSystem->canRead(path))
+                                if (ioSystem && ioSystem->canRead(fileInfo))
                                 {
-                                    p.thumbnailFutures[i.first] = thumbnailSystem->getImage(path, p.thumbnailSize);
+                                    p.thumbnailFutures[i.first] = thumbnailSystem->getImage(fileInfo, p.thumbnailSize);
                                 }
                             }
                         }
