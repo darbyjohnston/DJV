@@ -95,6 +95,14 @@ namespace djv
                 _p->shortcuts->setIfChanged(shortcuts);
             }
 
+            void ShortcutsModel::removeShortcut(size_t index)
+            {
+                if (index < _p->shortcuts->getSize())
+                {
+                    _p->shortcuts->removeItem(index);
+                }
+            }
+
         } // namespace FileBrowser
     } // namespace UI
 } // namespace djv

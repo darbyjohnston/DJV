@@ -69,7 +69,10 @@ namespace djv
                 static std::shared_ptr<FileBrowser> create(Core::Context *);
 
                 std::shared_ptr<Core::IListSubject<Core::FileSystem::Path> > observeShortcuts() const;
-                void setShortcuts(const std::vector<Core::FileSystem::Path> &);
+                void setShortcuts(const std::vector<Core::FileSystem::Path>&);
+
+                std::shared_ptr<Core::IListSubject<Core::FileSystem::Path> > observeRecentPaths() const;
+                void setRecentPaths(const std::vector<Core::FileSystem::Path>&);
 
                 std::shared_ptr<Core::IValueSubject<ViewType> > observeViewType() const;
                 void setViewType(ViewType);

@@ -45,7 +45,9 @@ namespace djv
     {
         namespace FileSystem
         {
+            class DrivesModel;
             class Path;
+            class RecentFilesModel;
 
         } // namespace FileSystem
     } // namespace Core
@@ -90,7 +92,7 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-            //! This class provides ahe file browser shortcuts model.
+            //! This class provides a file browser shortcuts model.
             class ShortcutsModel : public std::enable_shared_from_this<ShortcutsModel>
             {
                 DJV_NON_COPYABLE(ShortcutsModel);
@@ -107,48 +109,76 @@ namespace djv
                 std::shared_ptr<Core::IListSubject<Core::FileSystem::Path> > observeShortcuts() const;
                 void setShortcuts(const std::vector<Core::FileSystem::Path> &);
                 void addShortcut(const Core::FileSystem::Path &);
+                void removeShortcut(size_t index);
 
             private:
                 DJV_PRIVATE();
             };
 
-            //! This class provides ahe file browser shortcuts widget.
+            //! This class provides a file browser shortcuts widget.
             class ShortcutsWidget : public UI::Widget
             {
                 DJV_NON_COPYABLE(ShortcutsWidget);
 
             protected:
-                void _init(const std::shared_ptr<ShortcutsModel> &, Core::Context *);
+                void _init(const std::shared_ptr<ShortcutsModel>&, Core::Context*);
                 ShortcutsWidget();
 
             public:
                 ~ShortcutsWidget() override;
 
-                static std::shared_ptr<ShortcutsWidget> create(const std::shared_ptr<ShortcutsModel> &, Core::Context *);
+                static std::shared_ptr<ShortcutsWidget> create(const std::shared_ptr<ShortcutsModel>&, Core::Context*);
 
-                void setCallback(const std::function<void(const Core::FileSystem::Path &)> &);
+                void setPath(const Core::FileSystem::Path&);
+                void setCallback(const std::function<void(const Core::FileSystem::Path&)>&);
 
             protected:
-                void _preLayoutEvent(Core::Event::PreLayout &) override;
-                void _layoutEvent(Core::Event::Layout &) override;
+                void _preLayoutEvent(Core::Event::PreLayout&) override;
+                void _layoutEvent(Core::Event::Layout&) override;
+
+                void _localeEvent(Core::Event::Locale&) override;
 
             private:
                 DJV_PRIVATE();
             };
 
-            //! This class provides ahe file browser drives widget.
+            //! This class provides a file browser recent paths widget.
+            class RecentPathsWidget : public UI::Widget
+            {
+                DJV_NON_COPYABLE(RecentPathsWidget);
+
+            protected:
+                void _init(const std::shared_ptr<Core::FileSystem::RecentFilesModel>&, Core::Context*);
+                RecentPathsWidget();
+
+            public:
+                ~RecentPathsWidget() override;
+
+                static std::shared_ptr<RecentPathsWidget> create(const std::shared_ptr<Core::FileSystem::RecentFilesModel>&, Core::Context*);
+
+                void setCallback(const std::function<void(const Core::FileSystem::Path&)>&);
+
+            protected:
+                void _preLayoutEvent(Core::Event::PreLayout&) override;
+                void _layoutEvent(Core::Event::Layout&) override;
+
+            private:
+                DJV_PRIVATE();
+            };
+
+            //! This class provides a file browser drives widget.
             class DrivesWidget : public UI::Widget
             {
                 DJV_NON_COPYABLE(DrivesWidget);
 
             protected:
-                void _init(Core::Context *);
+                void _init(const std::shared_ptr<Core::FileSystem::DrivesModel>&, Core::Context *);
                 DrivesWidget();
 
             public:
                 ~DrivesWidget() override;
 
-                static std::shared_ptr<DrivesWidget> create(Core::Context *);
+                static std::shared_ptr<DrivesWidget> create(const std::shared_ptr<Core::FileSystem::DrivesModel>&, Core::Context *);
 
                 void setCallback(const std::function<void(const Core::FileSystem::Path &)> &);
 

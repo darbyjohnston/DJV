@@ -182,7 +182,7 @@ namespace djv
                 }
             });
             p.recentFilesObserver2 = ListObserver<Core::FileSystem::FileInfo>::create(
-                p.recentFilesModel->getFiles(),
+                p.recentFilesModel->observeFiles(),
                 [weak](const std::vector<Core::FileSystem::FileInfo> & value)
             {
                 if (auto system = weak.lock())

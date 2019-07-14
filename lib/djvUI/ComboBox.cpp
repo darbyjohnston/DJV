@@ -73,6 +73,7 @@ namespace djv
             p.actionGroup = ActionGroup::create(ButtonType::Radio);
 
             p.menu = Menu::create(context);
+            p.menu->setMinimumSizeRole(MetricsRole::Menu);
             addChild(p.menu);
 
             p.button = Button::Menu::create(Button::MenuStyle::ComboBox, context);

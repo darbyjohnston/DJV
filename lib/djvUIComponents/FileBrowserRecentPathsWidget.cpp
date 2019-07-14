@@ -29,13 +29,11 @@
 
 #include <djvUIComponents/FileBrowserPrivate.h>
 
-#include <djvUI/Action.h>
-#include <djvUI/GroupBox.h>
 #include <djvUI/ListButton.h>
 #include <djvUI/RowLayout.h>
 
-#include <djvCore/DrivesModel.h>
 #include <djvCore/FileInfo.h>
+#include <djvCore/RecentFilesModel.h>
 
 using namespace djv::Core;
 
@@ -45,53 +43,47 @@ namespace djv
     {
         namespace FileBrowser
         {
-            struct DrivesWidget::Private
+            struct RecentPathsWidget::Private
             {
-                std::vector<FileSystem::Path> drives;
                 std::shared_ptr<VerticalLayout> layout;
-                std::shared_ptr<VerticalLayout> itemLayout;
-                std::function<void(const FileSystem::Path &)> callback;
-                std::shared_ptr<ListObserver<FileSystem::Path> > drivesObserver;
+                std::function<void(const FileSystem::Path&)> callback;
+                std::shared_ptr<ListObserver<FileSystem::FileInfo> > recentPathsObserver;
             };
 
-            void DrivesWidget::_init(const std::shared_ptr<FileSystem::DrivesModel>& model, Context * context)
+            void RecentPathsWidget::_init(const std::shared_ptr<FileSystem::RecentFilesModel> & model, Context * context)
             {
                 UI::Widget::_init(context);
 
-                setClassName("djv::UI::FileBrowser::DrivesWidget");
-
                 DJV_PRIVATE_PTR();
-
-                p.itemLayout = VerticalLayout::create(context);
-                p.itemLayout->setSpacing(MetricsRole::None);
-
+                setClassName("djv::UI::FileBrowser::RecentPathsWidget");
+                
                 p.layout = VerticalLayout::create(context);
-                p.layout->addChild(p.itemLayout);
-                p.layout->setStretch(p.itemLayout, RowStretch::Expand);
+                p.layout->setSpacing(MetricsRole::None);
                 addChild(p.layout);
 
-                auto weak = std::weak_ptr<DrivesWidget>(std::dynamic_pointer_cast<DrivesWidget>(shared_from_this()));
-                p.drivesObserver = ListObserver<FileSystem::Path>::create(
-                    model->observeDrives(),
-                    [weak, context](const std::vector<FileSystem::Path> & value)
+                auto weak = std::weak_ptr<RecentPathsWidget>(std::dynamic_pointer_cast<RecentPathsWidget>(shared_from_this()));                
+                p.recentPathsObserver = ListObserver<FileSystem::FileInfo>::create(
+                    model->observeFiles(),
+                    [weak, context](const std::vector<FileSystem::FileInfo> & value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->itemLayout->clearChildren();
+                        widget->_p->layout->clearChildren();
                         for (const auto & i : value)
                         {
                             auto button = ListButton::create(context);
-                            std::string s = i.getFileName();
+                            const auto path = i.getPath();
+                            std::string s = path.getFileName();
                             if (s.empty())
                             {
                                 s = i;
                             }
                             button->setText(s);
                             button->setInsideMargin(MetricsRole::Margin);
+                            button->setTooltip(i);
 
-                            widget->_p->itemLayout->addChild(button);
+                            widget->_p->layout->addChild(button);
 
-                            const auto path = i;
                             button->setClickedCallback(
                                 [weak, path]
                             {
@@ -108,31 +100,31 @@ namespace djv
                 });
             }
 
-            DrivesWidget::DrivesWidget() :
+            RecentPathsWidget::RecentPathsWidget() :
                 _p(new Private)
             {}
 
-            DrivesWidget::~DrivesWidget()
+            RecentPathsWidget::~RecentPathsWidget()
             {}
 
-            std::shared_ptr<DrivesWidget> DrivesWidget::create(const std::shared_ptr<FileSystem::DrivesModel>& model, Context * context)
+            std::shared_ptr<RecentPathsWidget> RecentPathsWidget::create(const std::shared_ptr<FileSystem::RecentFilesModel> & model, Context * context)
             {
-                auto out = std::shared_ptr<DrivesWidget>(new DrivesWidget);
+                auto out = std::shared_ptr<RecentPathsWidget>(new RecentPathsWidget);
                 out->_init(model, context);
                 return out;
             }
 
-            void DrivesWidget::setCallback(const std::function<void(const FileSystem::Path &)> & value)
+            void RecentPathsWidget::setCallback(const std::function<void(const FileSystem::Path &)> & value)
             {
                 _p->callback = value;
             }
 
-            void DrivesWidget::_preLayoutEvent(Event::PreLayout & event)
+            void RecentPathsWidget::_preLayoutEvent(Event::PreLayout & event)
             {
                 _setMinimumSize(_p->layout->getMinimumSize());
             }
 
-            void DrivesWidget::_layoutEvent(Event::Layout & event)
+            void RecentPathsWidget::_layoutEvent(Event::Layout & event)
             {
                 _p->layout->setGeometry(getGeometry());
             }

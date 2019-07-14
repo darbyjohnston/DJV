@@ -36,6 +36,7 @@ set(source
     FileBrowserDrivesWidget.cpp
     FileBrowserItemView.cpp
     FileBrowserPathWidget.cpp
+    FileBrowserRecentPathsWidget.cpp
     FileBrowserSettings.cpp
     FileBrowserShortcutsModel.cpp
     FileBrowserShortcutsWidget.cpp

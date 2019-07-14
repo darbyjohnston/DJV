@@ -67,7 +67,7 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<IListSubject<FileInfo> > RecentFilesModel::getFiles() const
+            std::shared_ptr<IListSubject<FileInfo> > RecentFilesModel::observeFiles() const
             {
                 return _p->files;
             }
@@ -99,7 +99,7 @@ namespace djv
                 p.files->setIfChanged(list);
             }
 
-            std::shared_ptr<IValueSubject<size_t> > RecentFilesModel::getFilesMax() const
+            std::shared_ptr<IValueSubject<size_t> > RecentFilesModel::observeFilesMax() const
             {
                 return _p->filesMax;
             }

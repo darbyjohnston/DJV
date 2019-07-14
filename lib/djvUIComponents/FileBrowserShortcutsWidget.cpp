@@ -29,10 +29,11 @@
 
 #include <djvUIComponents/FileBrowserPrivate.h>
 
-#include <djvUI/Action.h>
-#include <djvUI/GroupBox.h>
+#include <djvUI/ButtonGroup.h>
+#include <djvUI/GridLayout.h>
 #include <djvUI/ListButton.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/ToolButton.h>
 
 using namespace djv::Core;
 
@@ -44,8 +45,14 @@ namespace djv
         {
             struct ShortcutsWidget::Private
             {
+                FileSystem::Path path;
+                bool edit = false;
+                std::shared_ptr<ToolButton> addButton;
+                std::shared_ptr<ToolButton> editButton;
+                std::shared_ptr<ButtonGroup> removeButtonGroup;
+                std::shared_ptr<GridLayout> itemLayout;
                 std::shared_ptr<VerticalLayout> layout;
-                std::function<void(const FileSystem::Path &)> callback;
+                std::function<void(const FileSystem::Path&)> callback;
                 std::shared_ptr<ListObserver<FileSystem::Path> > shortcutsObserver;
             };
 
@@ -56,28 +63,88 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 setClassName("djv::UI::FileBrowser::ShortcutsWidget");
 
+                p.addButton = ToolButton::create(context);
+                p.addButton->setIcon("djvIconAdd");
+
+                p.editButton = ToolButton::create(context);
+                p.editButton->setButtonType(ButtonType::Toggle);
+                p.editButton->setIcon("djvIconEdit");
+
+                p.removeButtonGroup = ButtonGroup::create(ButtonType::Push);
+                
                 p.layout = VerticalLayout::create(context);
-                auto itemLayout = VerticalLayout::create(context);
-                itemLayout->setSpacing(MetricsRole::None);
-                p.layout->addChild(itemLayout);
-                p.layout->setStretch(itemLayout, RowStretch::Expand);
+                p.layout->setSpacing(MetricsRole::None);
+                auto hLayout = HorizontalLayout::create(context);
+                hLayout->setSpacing(MetricsRole::None);
+                hLayout->addChild(p.addButton);
+                hLayout->addChild(p.editButton);
+                p.layout->addChild(hLayout);
+                p.layout->addSeparator();
+                p.itemLayout = GridLayout::create(context);
+                p.itemLayout->setSpacing(MetricsRole::None);
+                p.layout->addChild(p.itemLayout);
                 addChild(p.layout);
 
                 auto weak = std::weak_ptr<ShortcutsWidget>(std::dynamic_pointer_cast<ShortcutsWidget>(shared_from_this()));
+                p.addButton->setClickedCallback(
+                    [weak, model]
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            model->addShortcut(widget->_p->path);
+                        }
+                    });
+
+                p.editButton->setCheckedCallback(
+                    [weak](bool value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->edit = value;
+                            for (const auto& i : widget->_p->removeButtonGroup->getButtons())
+                            {
+                                i->setVisible(value);
+                            }
+                        }
+                    });
+                
+                p.removeButtonGroup->setPushCallback(
+                    [model](int value)
+                    {
+                        model->removeShortcut(value);
+                    });
+
                 p.shortcutsObserver = ListObserver<FileSystem::Path>::create(
                     model->observeShortcuts(),
-                    [weak, itemLayout, context](const std::vector<FileSystem::Path> & value)
+                    [weak, context](const std::vector<FileSystem::Path> & value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        itemLayout->clearChildren();
+                        widget->_p->removeButtonGroup->clearButtons();
+                        widget->_p->itemLayout->clearChildren();
+                        size_t j = 0;
                         for (const auto & i : value)
                         {
                             auto button = ListButton::create(context);
-                            button->setText(i.getFileName());
+                            std::string s = i.getFileName();
+                            if (s.empty())
+                            {
+                                s = i;
+                            }
+                            button->setText(s);
+                            button->setInsideMargin(MetricsRole::Margin);
                             button->setTooltip(i);
 
-                            itemLayout->addChild(button);
+                            auto removeButton = ToolButton::create(context);
+                            removeButton->setIcon("djvIconCloseSmall");
+                            removeButton->setVisible(widget->_p->edit);
+                            widget->_p->removeButtonGroup->addButton(removeButton);
+
+                            widget->_p->itemLayout->addChild(button);
+                            widget->_p->itemLayout->setGridPos(button, 0, j);
+                            widget->_p->itemLayout->setStretch(button, GridStretch::Horizontal);
+                            widget->_p->itemLayout->addChild(removeButton);
+                            widget->_p->itemLayout->setGridPos(removeButton, 1, j);
 
                             const auto path = i;
                             button->setClickedCallback(
@@ -91,6 +158,8 @@ namespace djv
                                     }
                                 }
                             });
+
+                            ++j;
                         }
                     }
                 });
@@ -110,6 +179,11 @@ namespace djv
                 return out;
             }
 
+            void ShortcutsWidget::setPath(const FileSystem::Path& value)
+            {
+                _p->path = value;
+            }
+
             void ShortcutsWidget::setCallback(const std::function<void(const FileSystem::Path &)> & value)
             {
                 _p->callback = value;
@@ -123,6 +197,13 @@ namespace djv
             void ShortcutsWidget::_layoutEvent(Event::Layout & event)
             {
                 _p->layout->setGeometry(getGeometry());
+            }
+            
+            void ShortcutsWidget::_localeEvent(Event::Locale&)
+            {
+                DJV_PRIVATE_PTR();
+                p.addButton->setTooltip(_getText(DJV_TEXT("Add shortcut tooltip")));
+                p.editButton->setTooltip(_getText(DJV_TEXT("Edit shortcuts tooltip")));
             }
 
         } // namespace FileBrowser

@@ -50,11 +50,11 @@ namespace djv
             public:
                 static std::shared_ptr<RecentFilesModel> create(Context *);
 
-                std::shared_ptr<IListSubject<FileInfo> > getFiles() const;
+                std::shared_ptr<IListSubject<FileInfo> > observeFiles() const;
                 void setFiles(std::vector<FileInfo>);
                 void addFile(const FileInfo &);
 
-                std::shared_ptr<IValueSubject<size_t> > getFilesMax() const;
+                std::shared_ptr<IValueSubject<size_t> > observeFilesMax() const;
                 void setFilesMax(size_t);
 
             private:

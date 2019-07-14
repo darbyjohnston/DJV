@@ -53,6 +53,7 @@ namespace djv
             struct FileBrowser::Private
             {
                 std::shared_ptr<ListSubject<FileSystem::Path> > shortcuts;
+                std::shared_ptr<ListSubject<FileSystem::Path> > recentPaths;
                 std::shared_ptr<ValueSubject<ViewType> > viewType;
                 std::shared_ptr<ValueSubject<AV::Image::Size> > thumbnailSize;
                 std::shared_ptr<ListSubject<float> > listViewHeaderSplit;
@@ -74,6 +75,7 @@ namespace djv
                     const auto shortcut = OS::getPath(static_cast<OS::DirectoryShortcut>(i));
                     p.shortcuts->pushBack(shortcut);
                 }
+                p.recentPaths = ListSubject<FileSystem::Path>::create();
                 p.viewType = ValueSubject<ViewType>::create(ViewType::Tiles);
                 p.thumbnailSize = ValueSubject<AV::Image::Size>::create(AV::Image::Size(200, 100));
                 p.listViewHeaderSplit = ListSubject<float>::create({ .7f, .8f, 1.f });
@@ -105,10 +107,21 @@ namespace djv
                 return _p->shortcuts;
             }
 
-            void FileBrowser::setShortcuts(const std::vector<FileSystem::Path> & value)
+            void FileBrowser::setShortcuts(const std::vector<FileSystem::Path>& value)
             {
                 DJV_PRIVATE_PTR();
                 p.shortcuts->setIfChanged(value);
+            }
+
+            std::shared_ptr<IListSubject<FileSystem::Path> > FileBrowser::observeRecentPaths() const
+            {
+                return _p->recentPaths;
+            }
+
+            void FileBrowser::setRecentPaths(const std::vector<FileSystem::Path>& value)
+            {
+                DJV_PRIVATE_PTR();
+                p.recentPaths->setIfChanged(value);
             }
 
             std::shared_ptr<IValueSubject<ViewType> > FileBrowser::observeViewType() const
@@ -206,6 +219,7 @@ namespace djv
                     DJV_PRIVATE_PTR();
                     const auto & object = value.get<picojson::object>();
                     read("Shortcuts", object, p.shortcuts);
+                    read("RecentPaths", object, p.recentPaths);
                     read("ViewType", object, p.viewType);
                     read("ThumbnailSize", object, p.thumbnailSize);
                     read("ListViewHeaderSplit", object, p.listViewHeaderSplit);
@@ -223,6 +237,7 @@ namespace djv
                 picojson::value out(picojson::object_type, true);
                 auto & object = out.get<picojson::object>();
                 write("Shortcuts", p.shortcuts->get(), object);
+                write("RecentPaths", p.recentPaths->get(), object);
                 write("ViewType", p.viewType->get(), object);
                 write("ThumbnailSize", p.thumbnailSize->get(), object);
                 write("ListViewHeaderSplit", p.listViewHeaderSplit->get(), object);
