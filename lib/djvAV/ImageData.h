@@ -100,6 +100,7 @@ namespace djv
 
                 std::string name;
                 Size size;
+                float pixelAspectRatio = 1.f;
                 Type type = Type::None;
                 Layout layout;
 

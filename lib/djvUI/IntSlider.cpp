@@ -39,6 +39,8 @@
 #include <djvCore/Timer.h>
 #include <djvCore/ValueObserver.h>
 
+#include <GLFW/glfw3.h>
+
 using namespace djv::Core;
 
 namespace djv
@@ -379,6 +381,58 @@ namespace djv
                 }
                 p.delayTimer->stop();
                 _redraw();
+            }
+        }
+
+        void BasicIntSlider::_keyPressEvent(Event::KeyPress& event)
+        {
+            DJV_PRIVATE_PTR();
+            switch (event.getKey())
+            {
+            case GLFW_KEY_HOME:
+                if (p.model)
+                {
+                    event.accept();
+                    p.model->setMin();
+                }
+                break;
+            case GLFW_KEY_END:
+                if (p.model)
+                {
+                    event.accept();
+                    p.model->setMax();
+                }
+                break;
+            case GLFW_KEY_UP:
+            case GLFW_KEY_RIGHT:
+                if (p.model)
+                {
+                    event.accept();
+                    p.model->incrementSmall();
+                }
+                break;
+            case GLFW_KEY_DOWN:
+            case GLFW_KEY_LEFT:
+                if (p.model)
+                {
+                    event.accept();
+                    p.model->decrementSmall();
+                }
+                break;
+            case GLFW_KEY_PAGE_UP:
+                if (p.model)
+                {
+                    event.accept();
+                    p.model->incrementLarge();
+                }
+                break;
+            case GLFW_KEY_PAGE_DOWN:
+                if (p.model)
+                {
+                    event.accept();
+                    p.model->decrementLarge();
+                }
+                break;
             }
         }
 

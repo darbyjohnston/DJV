@@ -138,8 +138,8 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         ViewApp,
         ImageAspectRatio,
+        DJV_TEXT("Native"),
         DJV_TEXT("Default"),
-        DJV_TEXT("Auto"),
         DJV_TEXT("16:9"),
         DJV_TEXT("1.85"),
         DJV_TEXT("2.35"));

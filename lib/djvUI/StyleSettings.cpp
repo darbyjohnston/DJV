@@ -81,7 +81,7 @@ namespace djv
                 palette.setColor(ColorRole::TextFocus, AV::Image::Color(.49f, .66f, .89f, 1.f));
                 palette.setColor(ColorRole::Foreground, AV::Image::Color(0.f, 0.f, 0.f, 1.f));
                 palette.setColor(ColorRole::ForegroundDim, AV::Image::Color(.5f, .5f, .5f, 1.f));
-                palette.setColor(ColorRole::Handle, AV::Image::Color(.48f, .72f, .78f, 1.f));
+                palette.setColor(ColorRole::Handle, AV::Image::Color(.49f, .66f, .89f, 1.f));
                 palette.setColor(ColorRole::Hovered, AV::Image::Color(0.f, 0.f, 0.f, .06f));
                 palette.setColor(ColorRole::Overlay, AV::Image::Color(0.f, 0.f, 0.f, .87f));
                 palette.setColor(ColorRole::OverlayLight, AV::Image::Color(1.f, 1.f, 1.f, .87f));

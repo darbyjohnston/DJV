@@ -200,7 +200,7 @@ namespace djv
                                     0,
                                     0);
 
-                                // Get file information.
+                                // Get information.
                                 const auto pixelDataInfo = Image::Info(
                                     p.avCodecParameters[p.avVideoStream]->width,
                                     p.avCodecParameters[p.avVideoStream]->height,
@@ -219,6 +219,7 @@ namespace djv
                                 }
                                 const Time::Speed speed(avVideoStream->r_frame_rate.num, avVideoStream->r_frame_rate.den);
                                 p.videoInfo = VideoInfo(pixelDataInfo, speed, duration);
+                                p.videoInfo.codec = std::string(avVideoCodec->long_name);
                                 info.video.push_back(p.videoInfo);
                                 /*{
                                     std::stringstream ss;
@@ -279,7 +280,7 @@ namespace djv
                                     throw std::runtime_error(ss.str());
                                 }
 
-                                // Get file information.
+                                // Get information.
                                 Time::Timestamp duration = 0;
                                 if (avAudioStream->duration != AV_NOPTS_VALUE)
                                 {
@@ -298,8 +299,16 @@ namespace djv
                                         audioType,
                                         p.avCodecParameters[p.avAudioStream]->sample_rate),
                                     duration);
+                                p.videoInfo.codec = std::string(avAudioCodec->long_name);
                                 info.audio.push_back(p.audioInfo);
                             }
+
+                            AVDictionaryEntry* tag = nullptr;
+                            while (tag = av_dict_get(p.avFormatContext->metadata, "", tag, AV_DICT_IGNORE_SUFFIX))
+                            {
+                                info.tags.setTag(tag->key, tag->value);
+                            }
+
                             p.infoPromise.set_value(info);
 
                             while (p.running)
@@ -544,7 +553,13 @@ namespace djv
                             _logSystem->log("djv::AV::IO::FFmpeg::Read", ss.str());
                         }*/
 
-                        auto image = Image::Image::create(p.videoInfo.info);
+                        auto info = p.videoInfo.info;
+                        if (!(0 == p.avFrame->sample_aspect_ratio.num && 1 == p.avFrame->sample_aspect_ratio.den ||
+                              0 == p.avFrame->sample_aspect_ratio.den))
+                        {
+                            info.pixelAspectRatio = p.avFrame->sample_aspect_ratio.num / static_cast<float>(p.avFrame->sample_aspect_ratio.den);
+                        }
+                        auto image = Image::Image::create(info);
                         av_image_fill_arrays(
                             p.avFrameRgb->data,
                             p.avFrameRgb->linesize,

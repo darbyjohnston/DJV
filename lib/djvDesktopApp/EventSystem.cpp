@@ -145,11 +145,19 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.resizeRequest)
             {
-                p.offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(
-                    AV::Image::Info(p.resize.x, p.resize.y, AV::Image::Type::RGBA_U8));
+                const AV::Image::Info info(p.resize.x, p.resize.y, AV::Image::Type::RGBA_U8);
+                if (info.isValid())
+                {
+                    p.offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(info);
+                }
+                else
+                {
+                    p.offscreenBuffer.reset();
+                }
             }
+
             auto rootObject = getRootObject();
-        
+
             /*std::map<std::string, size_t> objectCounts;
             IObject::getObjectCounts(rootObject, objectCounts);
             size_t totalObjectCount = 0;

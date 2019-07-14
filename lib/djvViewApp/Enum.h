@@ -62,14 +62,14 @@ namespace djv
 
         enum class ImageAspectRatio
         {
+            Native,
             Default,
-            Auto,
             _16_9,
             _1_85,
             _2_35,
 
             Count,
-            First = Default
+            First = Native
         };
         DJV_ENUM_HELPERS(ImageAspectRatio);
         float getImageAspectRatio(ImageAspectRatio);

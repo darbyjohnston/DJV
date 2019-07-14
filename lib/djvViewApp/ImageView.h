@@ -99,7 +99,8 @@ namespace djv
             void _paintEvent(Core::Event::Paint &) override;
 
         private:
-            float _getImageAspectRatioScale() const;
+            float _getPixelAspectRatio() const;
+            float _getAspectRatioScale() const;
             std::vector<glm::vec3> _getXFormPoints() const;
             static glm::vec2 _getCenter(const std::vector<glm::vec3>&);
             static Core::BBox2f _getBBox(const std::vector<glm::vec3>&);

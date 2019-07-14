@@ -72,6 +72,7 @@ namespace djv
                 Image::Info info;
                 Core::Time::Speed speed;
                 Core::Time::Timestamp duration = 0;
+                std::string codec;
 
                 bool operator == (const VideoInfo &) const;
             };
@@ -84,6 +85,7 @@ namespace djv
 
                 Audio::DataInfo info;
                 Core::Time::Timestamp duration = 0;
+                std::string codec;
 
                 bool operator == (const AudioInfo &) const;
             };

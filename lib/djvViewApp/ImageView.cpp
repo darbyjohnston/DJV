@@ -340,7 +340,7 @@ namespace djv
                 glm::mat3x3 m(1.f);
                 m = glm::translate(m, g.min + p.imagePos->get());
                 m = glm::rotate(m, Math::deg2rad(getImageRotate(p.imageRotate->get())));
-                m = glm::scale(m, glm::vec2(p.imageZoom->get(), p.imageZoom->get() * _getImageAspectRatioScale()));
+                m = glm::scale(m, glm::vec2(p.imageZoom->get() * _getPixelAspectRatio(), p.imageZoom->get() * _getAspectRatioScale()));
                 render->pushTransform(m);
                 AV::Render::ImageOptions options(p.imageOptions->get());
                 options.cache = AV::Render::ImageCache::Dynamic;
@@ -349,15 +349,26 @@ namespace djv
             }
         }
 
-        float ImageView::_getImageAspectRatioScale() const
+        float ImageView::_getPixelAspectRatio() const
         {
             DJV_PRIVATE_PTR();
             float out = 1.f;
             switch (p.imageAspectRatio->get())
             {
-            case ImageAspectRatio::Auto:
-                //! \todo Automatic aspect ratio.
+            case ImageAspectRatio::Default:
+                out = p.image->getInfo().pixelAspectRatio;
                 break;
+            default: break;
+            }
+            return out;
+        }
+
+        float ImageView::_getAspectRatioScale() const
+        {
+            DJV_PRIVATE_PTR();
+            float out = 1.f;
+            switch (p.imageAspectRatio->get())
+            {
             case ImageAspectRatio::_16_9:
             case ImageAspectRatio::_1_85:
             case ImageAspectRatio::_2_35:
@@ -377,7 +388,7 @@ namespace djv
                 const AV::Image::Size& imageSize = p.image->getSize();
                 glm::mat3x3 m(1.f);
                 m = glm::rotate(m, Math::deg2rad(getImageRotate(p.imageRotate->get())));
-                m = glm::scale(m, glm::vec2(1.f, _getImageAspectRatioScale()));
+                m = glm::scale(m, glm::vec2(_getPixelAspectRatio(), _getAspectRatioScale()));
                 out.resize(4);
                 out[0].x = 0.f;
                 out[0].y = 0.f;

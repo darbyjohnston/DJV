@@ -62,6 +62,8 @@ namespace djv
 
             inline std::shared_ptr<IValueSubject<T> > observeValue() const;
             inline void setValue(T);
+            void setMin();
+            void setMax();
 
             inline std::shared_ptr<IValueSubject<T> > observeSmallIncrement() const;
             inline std::shared_ptr<IValueSubject<T> > observeLargeIncrement() const;

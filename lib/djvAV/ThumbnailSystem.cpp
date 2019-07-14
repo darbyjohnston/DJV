@@ -583,11 +583,13 @@ namespace djv
                 }
                 if (image)
                 {
-                    if (i->size != image->getSize() || i->type != Image::Type::None)
+                    Image::Size imageSize = image->getSize();
+                    imageSize.w *= image->getInfo().pixelAspectRatio;
+                    if (i->size != imageSize || i->type != Image::Type::None)
                     {
                         Image::Size size = i->size;
                         const float aspect = size.h != 0 ? (size.w / static_cast<float>(size.h)) : 1.f;
-                        const float imageAspect = image->getAspectRatio();
+                        const float imageAspect = imageSize.h != 0 ? (imageSize.w / static_cast<float>(imageSize.h)) : 1.f;
                         if (imageAspect < aspect)
                         {
                             size.w = static_cast<uint16_t>(size.h * imageAspect);

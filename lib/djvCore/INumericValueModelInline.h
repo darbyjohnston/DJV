@@ -100,6 +100,18 @@ namespace djv
         }
 
         template<typename T>
+        inline void INumericValueModel<T>::setMin()
+        {
+            setValue(_range->get().min);
+        }
+
+        template<typename T>
+        inline void INumericValueModel<T>::setMax()
+        {
+            setValue(_range->get().max);
+        }
+
+        template<typename T>
         inline std::shared_ptr<IValueSubject<T> > INumericValueModel<T>::observeSmallIncrement() const
         {
             return _smallIncrement;

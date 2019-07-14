@@ -79,6 +79,7 @@ namespace djv
             void _pointerMoveEvent(Core::Event::PointerMove &) override;
             void _buttonPressEvent(Core::Event::ButtonPress &) override;
             void _buttonReleaseEvent(Core::Event::ButtonRelease &) override;
+            void _keyPressEvent(Core::Event::KeyPress&) override;
 
         private:
             float _valueToPos(int) const;

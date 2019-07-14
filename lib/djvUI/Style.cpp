@@ -77,7 +77,7 @@ namespace djv
                     { ColorRole::Overlay, AV::Image::Color(0.f, 0.f, 0.f, .87f) },
                     { ColorRole::OverlayLight, AV::Image::Color(0.f, 0.f, 0.f, .87f) },
                     { ColorRole::Shadow, AV::Image::Color(0.f, 0.f, 0.f, .16f) },
-                    { ColorRole::Handle, AV::Image::Color(.18f, .32f, .38f, 1.f) }
+                    { ColorRole::Handle, AV::Image::Color(.58f, .32f, .18f, 1.f) }
                 };
             }
 

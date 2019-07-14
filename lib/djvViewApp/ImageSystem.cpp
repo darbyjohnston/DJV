@@ -127,16 +127,14 @@ namespace djv
             p.rotateActionGroup->addAction(p.actions["Rotate_90"]);
             p.rotateActionGroup->addAction(p.actions["Rotate_180"]);
             p.rotateActionGroup->addAction(p.actions["Rotate_270"]);
+            p.actions["AspectRatio_Native"] = UI::Action::create();
             p.actions["AspectRatio_Default"] = UI::Action::create();
-            //! \todo Implement me!
-            p.actions["AspectRatio_Auto"] = UI::Action::create();
-            p.actions["AspectRatio_Auto"]->setEnabled(false);
             p.actions["AspectRatio_16_9"] = UI::Action::create();
             p.actions["AspectRatio_1_85"] = UI::Action::create();
             p.actions["AspectRatio_2_35"] = UI::Action::create();
             p.aspectRatioActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
+            p.aspectRatioActionGroup->addAction(p.actions["AspectRatio_Native"]);
             p.aspectRatioActionGroup->addAction(p.actions["AspectRatio_Default"]);
-            p.aspectRatioActionGroup->addAction(p.actions["AspectRatio_Auto"]);
             p.aspectRatioActionGroup->addAction(p.actions["AspectRatio_16_9"]);
             p.aspectRatioActionGroup->addAction(p.actions["AspectRatio_1_85"]);
             p.aspectRatioActionGroup->addAction(p.actions["AspectRatio_2_35"]);
@@ -165,8 +163,8 @@ namespace djv
             p.menu->addAction(p.actions["Rotate_180"]);
             p.menu->addAction(p.actions["Rotate_270"]);
             p.menu->addSeparator();
+            p.menu->addAction(p.actions["AspectRatio_Native"]);
             p.menu->addAction(p.actions["AspectRatio_Default"]);
-            p.menu->addAction(p.actions["AspectRatio_Auto"]);
             p.menu->addAction(p.actions["AspectRatio_16_9"]);
             p.menu->addAction(p.actions["AspectRatio_1_85"]);
             p.menu->addAction(p.actions["AspectRatio_2_35"]);
@@ -445,8 +443,8 @@ namespace djv
             p.actions["Rotate_90"]->setEnabled(activeWidget);
             p.actions["Rotate_180"]->setEnabled(activeWidget);
             p.actions["Rotate_270"]->setEnabled(activeWidget);
+            p.actions["AspectRatio_Native"]->setEnabled(activeWidget);
             p.actions["AspectRatio_Default"]->setEnabled(activeWidget);
-            p.actions["AspectRatio_Auto"]->setEnabled(activeWidget);
             p.actions["AspectRatio_16_9"]->setEnabled(activeWidget);
             p.actions["AspectRatio_1_85"]->setEnabled(activeWidget);
             p.actions["AspectRatio_2_35"]->setEnabled(activeWidget);
@@ -483,10 +481,10 @@ namespace djv
             p.actions["Rotate_180"]->setTooltip(_getText(DJV_TEXT("Rotate 180 tooltip")));
             p.actions["Rotate_270"]->setText(_getText(DJV_TEXT("Rotate 270")));
             p.actions["Rotate_270"]->setTooltip(_getText(DJV_TEXT("Rotate 270 tooltip")));
+            p.actions["AspectRatio_Native"]->setText(_getText(DJV_TEXT("Native Aspect Ratio")));
+            p.actions["AspectRatio_Native"]->setTooltip(_getText(DJV_TEXT("Native aspect ratio tooltip")));
             p.actions["AspectRatio_Default"]->setText(_getText(DJV_TEXT("Default Aspect Ratio")));
             p.actions["AspectRatio_Default"]->setTooltip(_getText(DJV_TEXT("Default aspect ratio tooltip")));
-            p.actions["AspectRatio_Auto"]->setText(_getText(DJV_TEXT("Automatic Aspect Ratio")));
-            p.actions["AspectRatio_Auto"]->setTooltip(_getText(DJV_TEXT("Automatic aspect ratio tooltip")));
             p.actions["AspectRatio_16_9"]->setText(_getText(DJV_TEXT("16:9")));
             p.actions["AspectRatio_16_9"]->setTooltip(_getText(DJV_TEXT("16:9 aspect ratio tooltip")));
             p.actions["AspectRatio_1_85"]->setText(_getText(DJV_TEXT("1.85")));

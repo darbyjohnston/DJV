@@ -264,6 +264,7 @@ namespace djv
                         info.name = layer.name;
                         info.size.w = f.displayWindow.w();
                         info.size.h = f.displayWindow.h();
+                        info.pixelAspectRatio = f.f->header().pixelAspectRatio();
                         switch (layer.channels[0].type)
                         {
                         case Image::DataType::F16:
