@@ -64,6 +64,7 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             setClassName("djv::UI::FloatEdit");
+            setBackgroundRole(ColorRole::Trough);
 
             auto incrementSmallAction = Action::create();
             incrementSmallAction->setShortcut(GLFW_KEY_UP);

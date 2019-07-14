@@ -153,11 +153,8 @@ namespace djv
                 const BBox2f g1 = g.margin(-m);
                 drawBorder(render, g1, b);
 
-                if (isChecked())
-                {
-                    render->setFillColor(style->getColor(ColorRole::Checked));
-                    render->drawRect(g1.margin(-b));
-                }
+                render->setFillColor(style->getColor(isChecked() ? ColorRole::Checked : ColorRole::Trough));
+                render->drawRect(g1.margin(-b));
 
                 const float r = g1.h() / 2.f;
                 const float x = Math::lerp(p.animationValue, g1.min.x + r, g1.max.x - r);

@@ -73,6 +73,7 @@ namespace djv
             setClassName("djv::UI::BasicIntSlider");
             setModel(IntValueModel::create());
             setPointerEnabled(true);
+            setBackgroundRole(ColorRole::Trough);
 
             p.orientation = orientation;
 

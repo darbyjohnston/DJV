@@ -73,6 +73,7 @@ namespace djv
             setClassName("djv::UI::BasicFloatSlider");
             setModel(FloatValueModel::create());
             setPointerEnabled(true);
+            setBackgroundRole(ColorRole::Trough);
 
             p.orientation = orientation;
 

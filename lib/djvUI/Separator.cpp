@@ -48,7 +48,7 @@ namespace djv
             {
                 Widget::_init(context);
                 setClassName("djv::UI::Layout::Separator");
-                setBackgroundRole(ColorRole::Trough);
+                setBackgroundRole(ColorRole::Border);
             }
 
             Separator::Separator() :

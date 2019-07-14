@@ -54,6 +54,7 @@ namespace djv
             setVAlign(VAlign::Center);
 
             p.lineEditBase = LineEditBase::create(context);
+            p.lineEditBase->setBackgroundRole(ColorRole::Trough);
 
             p.border = Border::create(context);
             p.border->addChild(p.lineEditBase);

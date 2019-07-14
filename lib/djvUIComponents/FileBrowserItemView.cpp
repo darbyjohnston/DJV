@@ -483,7 +483,7 @@ namespace djv
                                 if (j != p.names.end() && k != p.nameLines.end())
                                 {
                                     float x = i->second.min.x + m + sh;
-                                    float y = i->second.max.y - p.nameFontMetrics.lineHeight * 2.f - m - sh;
+                                    float y = i->second.max.y - p.nameFontMetrics.lineHeight * k->second.size() - m - sh;
                                     size_t line = 0;
                                     auto l = k->second.begin();
                                     for (; l != k->second.end() && line < 2; ++l, ++line)

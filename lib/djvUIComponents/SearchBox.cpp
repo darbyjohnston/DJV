@@ -72,6 +72,7 @@ namespace djv
             
             auto layout = HorizontalLayout::create(context);
             layout->setSpacing(MetricsRole::None);
+            layout->setBackgroundRole(ColorRole::Trough);
             layout->addChild(p.lineEditBase);
             layout->setStretch(p.lineEditBase, RowStretch::Expand);
             p.soloLayout = SoloLayout::create(context);

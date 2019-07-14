@@ -30,6 +30,7 @@
 #include <djvUI/ScrollWidget.h>
 
 #include <djvUI/Border.h>
+#include <djvUI/DrawUtil.h>
 #include <djvUI/GridLayout.h>
 #include <djvUI/StackLayout.h>
 #include <djvUI/Window.h>
@@ -192,19 +193,21 @@ namespace djv
                     case Orientation::Horizontal:
                     {
                         const float x = _valueToPos(_scrollPos);
-                        handleGeom = BBox2f(x, g.y(), _valueToPos(_scrollPos + _viewSize) - x, g.h()).margin(-b);
+                        handleGeom = BBox2f(x, g.y(), _valueToPos(_scrollPos + _viewSize) - x, g.h());
                         break;
                     }
                     case Orientation::Vertical:
                     {
                         const float y = _valueToPos(_scrollPos);
-                        handleGeom = BBox2f(g.x(), y, g.w(), _valueToPos(_scrollPos + _viewSize) - y).margin(-b);
+                        handleGeom = BBox2f(g.x(), y, g.w(), _valueToPos(_scrollPos + _viewSize) - y);
                         break;
                     }
                     default: break;
                     }
+                    render->setFillColor(style->getColor(ColorRole::Border));
+                    drawBorder(render, handleGeom, b);
                     render->setFillColor(style->getColor(ColorRole::Button));
-                    render->drawRect(handleGeom);
+                    render->drawRect(handleGeom.margin(-b));
 
                     // Draw the pressed and hovered state.
                     if (_pressedID)

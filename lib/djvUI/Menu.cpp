@@ -365,7 +365,7 @@ namespace djv
                     }
                     else
                     {
-                        render->setFillColor(style->getColor(ColorRole::Trough));
+                        render->setFillColor(style->getColor(ColorRole::Border));
                         render->drawRect(i.second->geom);
                     }
                 }
