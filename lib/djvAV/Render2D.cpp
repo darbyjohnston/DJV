@@ -95,13 +95,13 @@ namespace djv
                     size_t textureAtlasCount = 0;
 
                     // Shader uniform variable locations.
-                    GLint colorModeLoc = 0;
-                    GLint colorLoc = 0;
-                    GLint imageChannelsLoc = 0;
-                    GLint imageChannelLoc = 0;
-                    GLint textureSamplerLoc = 0;
-                    GLint colorSpaceLoc = 0;
-                    GLint colorSpaceSamplerLoc = 0;
+                    GLint colorModeLoc          = 0;
+                    GLint colorLoc              = 0;
+                    GLint imageChannelsLoc      = 0;
+                    GLint imageChannelLoc       = 0;
+                    GLint textureSamplerLoc     = 0;
+                    GLint colorSpaceLoc         = 0;
+                    GLint colorSpaceSamplerLoc  = 0;
                 };
 
                 //! This class provides the base functionality for render primitives.
@@ -428,7 +428,11 @@ namespace djv
                         DJV_PRIVATE_PTR();
                         std::stringstream s;
                         s << "Texture atlas: " << p.textureAtlas->getPercentageUsed() << "%\n";
+                        s << "Texture IDs: " << p.textureIDs.size() << "%\n";
+                        s << "Glyph texture IDs: " << p.glyphTextureIDs.size() << "\n";
+                        s << "Dynamic texture IDs: " << p.dynamicTextureIDs.size() << "\n";
                         s << "Dynamic texture cache: " << p.dynamicTextureCache.size() << "\n";
+                        s << "Color space cache: " << p.colorSpaceCache.size() << "\n";
                         s << "VBO size: " << (p.vbo ? p.vbo->getSize() : 0);
                         _log(s.str());
                     });
