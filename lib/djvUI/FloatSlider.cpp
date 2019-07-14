@@ -222,11 +222,12 @@ namespace djv
                     break;
                 case Orientation::Vertical:
                 {
+                    const float h = ceilf((g2.h() - p.handleWidth / 2.f)* v);
                     render->drawRect(BBox2f(
                         g2.min.x,
-                        g2.min.y,
+                        g2.max.y - h,
                         g2.w(),
-                        ceilf((g2.h() - p.handleWidth / 2.f) * v)));
+                        h));
                     break;
                 }
                 default: break;
