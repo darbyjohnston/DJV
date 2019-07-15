@@ -214,7 +214,7 @@ namespace djv
             Time::Speed defaultSpeed;
             Time::Speed speed;
             float realSpeed = 0.f;
-            bool frameLock = false;
+            bool playEveryFrame = false;
             Time::Timestamp duration = 0;
             Time::Timestamp currentTime = 0;
             AV::TimeUnits timeUnits = AV::TimeUnits::First;
@@ -234,8 +234,8 @@ namespace djv
             std::shared_ptr<ImageView> imageView;
             std::shared_ptr<UI::ButtonGroup> speedButtonGroup;
             std::shared_ptr<UI::VerticalLayout> speedButtonLayout;
-            std::shared_ptr<UI::ToggleButton> frameLockButton;
-            std::shared_ptr<UI::Label> frameLockLabel;
+            std::shared_ptr<UI::ToggleButton> playEveryFrameButton;
+            std::shared_ptr<UI::Label> playEveryFrameLabel;
             std::shared_ptr<UI::PopupWidget> speedPopupWidget;
             std::shared_ptr<UI::Label> realSpeedLabel;
             std::shared_ptr<UI::Label> currentTimeLabel;
@@ -253,7 +253,7 @@ namespace djv
             std::shared_ptr<ValueObserver<Time::Speed> > speedObserver;
             std::shared_ptr<ValueObserver<Time::Speed> > defaultSpeedObserver;
             std::shared_ptr<ValueObserver<float> > realSpeedObserver;
-            std::shared_ptr<ValueObserver<bool> > frameLockObserver;
+            std::shared_ptr<ValueObserver<bool> > playEveryFrameObserver;
             std::shared_ptr<ValueObserver<Time::Timestamp> > durationObserver;
             std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver2;
             std::shared_ptr<ValueObserver<Playback> > playbackObserver;
@@ -322,8 +322,10 @@ namespace djv
             p.speedButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
             p.speedButtonLayout = UI::VerticalLayout::create(context);
             p.speedButtonLayout->setSpacing(UI::MetricsRole::None);
-            p.frameLockButton = UI::ToggleButton::create(context);
-            p.frameLockLabel = UI::Label::create(context);
+            //! \todo Implement me!
+            p.playEveryFrameButton = UI::ToggleButton::create(context);
+            p.playEveryFrameButton->setEnabled(false);
+            p.playEveryFrameLabel = UI::Label::create(context);
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addChild(p.speedButtonLayout);
@@ -331,8 +333,8 @@ namespace djv
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setMargin(UI::MetricsRole::MarginSmall);
             hLayout->setSpacing(UI::MetricsRole::None);
-            hLayout->addChild(p.frameLockLabel);
-            hLayout->addChild(p.frameLockButton);
+            hLayout->addChild(p.playEveryFrameLabel);
+            hLayout->addChild(p.playEveryFrameButton);
             vLayout->addChild(hLayout);
             p.speedPopupWidget = UI::PopupWidget::create(context);
             p.speedPopupWidget->addChild(vLayout);
@@ -468,14 +470,14 @@ namespace djv
                 }
             });
 
-            p.frameLockButton->setCheckedCallback(
+            p.playEveryFrameButton->setCheckedCallback(
                 [weak](bool value)
                 {
                     if (auto widget = weak.lock())
                     {
                         if (auto media = widget->_p->media)
                         {
-                            media->setFrameLock(value);
+                            media->setPlayEveryFrame(value);
                         }
                     }
                 });
@@ -659,13 +661,13 @@ namespace djv
                     }
                 });
 
-            p.frameLockObserver = ValueObserver<bool>::create(
-                p.media->observeFrameLock(),
+            p.playEveryFrameObserver = ValueObserver<bool>::create(
+                p.media->observePlayEveryFrame(),
                 [weak](bool value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->frameLock = value;
+                        widget->_p->playEveryFrame = value;
                         widget->_widgetUpdate();
                         widget->_speedUpdate();
                     }
@@ -850,7 +852,7 @@ namespace djv
             p.maximizeButton->setTooltip(_getText(DJV_TEXT("Maximize tooltip")));
             p.closeButton->setTooltip(_getText(DJV_TEXT("Close tooltip")));
 
-            p.frameLockButton->setTooltip(_getText(DJV_TEXT("Frame lock tooltip")));
+            p.playEveryFrameButton->setTooltip(_getText(DJV_TEXT("Play every frame tooltip")));
             p.speedPopupWidget->setTooltip(_getText(DJV_TEXT("Speed popup tooltip")));
             p.realSpeedLabel->setTooltip(_getText(DJV_TEXT("Real speed tooltip")));
             p.currentTimeLabel->setTooltip(_getText(DJV_TEXT("Current time tooltip")));
@@ -945,7 +947,7 @@ namespace djv
             p.speedButtonGroup->addButton(button);
             p.speedButtonLayout->addChild(button);
 
-            p.frameLockLabel->setText(_getText(DJV_TEXT("Frame lock")) + ": ");
+            p.playEveryFrameLabel->setText(_getText(DJV_TEXT("Play every frame")) + ": ");
             {
                 std::stringstream ss;
                 ss.precision(3);

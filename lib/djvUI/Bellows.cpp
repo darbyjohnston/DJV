@@ -190,6 +190,7 @@ namespace djv
                 p.layout = VerticalLayout::create(context);
                 p.layout->setSpacing(MetricsRole::None);
                 p.layout->addChild(p.button);
+                p.layout->addSeparator();
                 p.layout->addChild(p.childLayout);
                 p.layout->setStretch(p.childLayout, RowStretch::Expand);
                 Widget::addChild(p.layout);

@@ -214,13 +214,9 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             p.actions["Documentation"]->setText(_getText(DJV_TEXT("Documentation")));
-            p.actions["Documentation"]->setTooltip(_getText(DJV_TEXT("Documentation tooltip")));
             p.actions["About"]->setText(_getText(DJV_TEXT("About")));
-            p.actions["About"]->setTooltip(_getText(DJV_TEXT("About tooltip")));
             p.actions["SystemLog"]->setText(_getText(DJV_TEXT("System Log")));
-            p.actions["SystemLog"]->setTooltip(_getText(DJV_TEXT("System log tooltip")));
             p.actions["Debug"]->setText(_getText(DJV_TEXT("Debug Widget")));
-            p.actions["Debug"]->setTooltip(_getText(DJV_TEXT("Debug widget tooltip")));
 
             p.menu->setText(_getText(DJV_TEXT("Help")));
         }

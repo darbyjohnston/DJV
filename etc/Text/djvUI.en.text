@@ -115,17 +115,17 @@
         "description": ""
     }, 
     {
-        "text": "BackgroundHeader", 
+        "text": "Background Header", 
         "id": "BackgroundHeader", 
         "description": ""
     }, 
     {
-        "text": "BackgroundBellows", 
+        "text": "Background Bellows", 
         "id": "BackgroundBellows", 
         "description": ""
     }, 
     {
-        "text": "BackgroundToolBar", 
+        "text": "Background ToolBar", 
         "id": "BackgroundToolBar", 
         "description": ""
     }, 
@@ -135,7 +135,7 @@
         "description": ""
     }, 
     {
-        "text": "ForegroundDim", 
+        "text": "Foreground Dim", 
         "id": "ForegroundDim", 
         "description": ""
     }, 
@@ -145,7 +145,7 @@
         "description": ""
     }, 
     {
-        "text": "BorderButton", 
+        "text": "Border Button", 
         "id": "BorderButton", 
         "description": ""
     }, 
@@ -175,7 +175,7 @@
         "description": ""
     }, 
     {
-        "text": "TextFocus", 
+        "text": "Text Focus", 
         "id": "TextFocus", 
         "description": ""
     }, 
@@ -195,7 +195,7 @@
         "description": ""
     }, 
     {
-        "text": "OverlayLight", 
+        "text": "Overlay Light", 
         "id": "OverlayLight", 
         "description": ""
     }, 
@@ -280,7 +280,7 @@
         "description": ""
     }, 
     {
-        "text": "FontTitle", 
+        "text": "Font Title", 
         "id": "FontTitle", 
         "description": ""
     }, 
@@ -310,12 +310,12 @@
         "description": ""
     }, 
     {
-        "text": "TextColumnLarge", 
+        "text": "Text Column Large", 
         "id": "TextColumnLarge", 
         "description": ""
     }, 
     {
-        "text": "SearchBox", 
+        "text": "Search Box", 
         "id": "SearchBox", 
         "description": ""
     }, 
@@ -325,7 +325,7 @@
         "description": ""
     }, 
     {
-        "text": "ShadowSmall", 
+        "text": "Shadow Small", 
         "id": "ShadowSmall", 
         "description": ""
     }, 
@@ -945,7 +945,7 @@
         "description": ""
     }, 
     {
-        "text": "LeftCommand", 
+        "text": "Left Command", 
         "id": "LeftCommand", 
         "description": ""
     }, 
@@ -965,7 +965,7 @@
         "description": ""
     }, 
     {
-        "text": "RightCommand", 
+        "text": "Right Command", 
         "id": "RightCommand", 
         "description": ""
     }, 

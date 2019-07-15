@@ -224,7 +224,7 @@ namespace djv
                     f.f = FileSystem::fopen(fileName.c_str(), "wb");
                     if (!f.f)
                     {
-                        throw std::runtime_error(DJV_TEXT("Canot open file."));
+                        throw std::runtime_error(DJV_TEXT("Cannot open file."));
                     }
 
                     const auto& info = image->getInfo();

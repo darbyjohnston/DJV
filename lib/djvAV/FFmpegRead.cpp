@@ -304,7 +304,7 @@ namespace djv
                             }
 
                             AVDictionaryEntry* tag = nullptr;
-                            while (tag = av_dict_get(p.avFormatContext->metadata, "", tag, AV_DICT_IGNORE_SUFFIX))
+                            while ((tag = av_dict_get(p.avFormatContext->metadata, "", tag, AV_DICT_IGNORE_SUFFIX)))
                             {
                                 info.tags.setTag(tag->key, tag->value);
                             }
@@ -562,7 +562,7 @@ namespace djv
                         }*/
 
                         auto info = p.videoInfo.info;
-                        if (!(0 == p.avFrame->sample_aspect_ratio.num && 1 == p.avFrame->sample_aspect_ratio.den ||
+                        if (!((0 == p.avFrame->sample_aspect_ratio.num && 1 == p.avFrame->sample_aspect_ratio.den) ||
                               0 == p.avFrame->sample_aspect_ratio.den))
                         {
                             info.pixelAspectRatio = p.avFrame->sample_aspect_ratio.num / static_cast<float>(p.avFrame->sample_aspect_ratio.den);

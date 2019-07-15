@@ -64,7 +64,7 @@ namespace djv
             std::shared_ptr<ValueSubject<Time::Speed> > defaultSpeed;
             std::shared_ptr<ValueSubject<float> > realSpeed;
             size_t realSpeedFrameCount = 0;
-            std::shared_ptr<ValueSubject<bool> > frameLock;
+            std::shared_ptr<ValueSubject<bool> > playEveryFrame;
             std::shared_ptr<ValueSubject<Time::Timestamp> > duration;
             std::shared_ptr<ValueSubject<Time::Timestamp> > currentTime;
             std::shared_ptr<ValueSubject<std::shared_ptr<AV::Image::Image> > > currentImage;
@@ -110,7 +110,7 @@ namespace djv
             p.speed = ValueSubject<Time::Speed>::create();
             p.defaultSpeed = ValueSubject<Time::Speed>::create();
             p.realSpeed = ValueSubject<float>::create();
-            p.frameLock = ValueSubject<bool>::create();
+            p.playEveryFrame = ValueSubject<bool>::create();
             p.duration = ValueSubject<Time::Timestamp>::create();
             p.currentTime = ValueSubject<Time::Timestamp>::create();
             p.currentImage = ValueSubject<std::shared_ptr<AV::Image::Image> >::create();
@@ -228,9 +228,9 @@ namespace djv
             return _p->realSpeed;
         }
 
-        std::shared_ptr<IValueSubject<bool> > Media::observeFrameLock() const
+        std::shared_ptr<IValueSubject<bool> > Media::observePlayEveryFrame() const
         {
-            return _p->frameLock;
+            return _p->playEveryFrame;
         }
 
         std::shared_ptr<IValueSubject<Time::Timestamp> > Media::observeDuration() const
@@ -363,9 +363,9 @@ namespace djv
             }
         }
 
-        void Media::setFrameLock(bool value)
+        void Media::setPlayEveryFrame(bool value)
         {
-            _p->frameLock->setIfChanged(value);
+            _p->playEveryFrame->setIfChanged(value);
         }
 
         void Media::setCurrentTime(Time::Timestamp value)

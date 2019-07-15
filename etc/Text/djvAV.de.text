@@ -1,986 +1,1040 @@
 [
     {
+        "id": "None", 
         "source": "None", 
-        "text": "Keiner", 
         "description": "", 
-        "id": "None"
+        "text": "Keiner"
     }, 
     {
+        "id": "Left", 
         "source": "Left", 
-        "text": "Links", 
         "description": "", 
-        "id": "Left"
+        "text": "Links"
     }, 
     {
+        "id": "Top", 
         "source": "Top", 
-        "text": "oben", 
         "description": "", 
-        "id": "Top"
+        "text": "oben"
     }, 
     {
+        "id": "Right", 
         "source": "Right", 
-        "text": "Recht", 
         "description": "", 
-        "id": "Right"
+        "text": "Recht"
     }, 
     {
+        "id": "Bottom", 
         "source": "Bottom", 
-        "text": "Unterseite", 
         "description": "", 
-        "id": "Bottom"
+        "text": "Unterseite"
     }, 
     {
+        "id": "Cannot read", 
         "source": "Cannot read", 
-        "text": "Kann nicht lesen", 
         "description": "", 
-        "id": "Cannot read"
+        "text": "Kann nicht lesen"
     }, 
     {
+        "id": "Cannot write", 
         "source": "Cannot write", 
-        "text": "Kann nicht schreiben", 
         "description": "", 
-        "id": "Cannot write"
+        "text": "Kann nicht schreiben"
     }, 
     {
+        "id": "cannot write", 
         "source": "cannot write", 
-        "text": "kann nicht schreiben", 
         "description": "", 
-        "id": "cannot write"
+        "text": "kann nicht schreiben"
     }, 
     {
+        "id": "Unknown", 
         "source": "Unknown", 
-        "text": "unbekannte", 
         "description": "", 
-        "id": "Unknown"
+        "text": "unbekannte"
     }, 
     {
+        "id": "Out of memory", 
         "source": "Out of memory", 
-        "text": "Kein Speicher mehr", 
         "description": "", 
-        "id": "Out of memory"
+        "text": "Kein Speicher mehr"
     }, 
     {
+        "id": "Invalid value", 
         "source": "Invalid value", 
-        "text": "Ung\u00fcltiger Wert", 
         "description": "", 
-        "id": "Invalid value"
+        "text": "Ung\u00fcltiger Wert"
     }, 
     {
+        "id": "Invalid enum", 
         "source": "Invalid enum", 
-        "text": "Ung\u00fcltige Aufz\u00e4hlung", 
         "description": "", 
-        "id": "Invalid enum"
+        "text": "Ung\u00fcltige Aufz\u00e4hlung"
     }, 
     {
+        "id": "U8", 
         "source": "U8", 
-        "text": "U8", 
         "description": "", 
-        "id": "U8"
+        "text": "U8"
     }, 
     {
+        "id": "S16", 
         "source": "S16", 
-        "text": "S16", 
         "description": "", 
-        "id": "S16"
+        "text": "S16"
     }, 
     {
+        "id": "S32", 
         "source": "S32", 
-        "text": "S32", 
         "description": "", 
-        "id": "S32"
+        "text": "S32"
     }, 
     {
+        "id": "F32", 
         "source": "F32", 
-        "text": "F32", 
         "description": "", 
-        "id": "F32"
+        "text": "F32"
     }, 
     {
+        "id": "Cannot create OpenGL vertex shader.", 
         "source": "Cannot create OpenGL vertex shader.", 
-        "text": "OpenGL-Vertex-Shader kann nicht erstellt werden.", 
         "description": "", 
-        "id": "Cannot create OpenGL vertex shader."
+        "text": "OpenGL-Vertex-Shader kann nicht erstellt werden."
     }, 
     {
+        "id": "Cannot compile OpenGL vertex shader", 
         "source": "Cannot compile OpenGL vertex shader", 
-        "text": "OpenGL-Vertex-Shader kann nicht kompiliert werden", 
         "description": "", 
-        "id": "Cannot compile OpenGL vertex shader"
+        "text": "OpenGL-Vertex-Shader kann nicht kompiliert werden"
     }, 
     {
+        "id": "Cannot create OpenGL fragment shader.", 
         "source": "Cannot create OpenGL fragment shader.", 
-        "text": "OpenGL-Fragment-Shader kann nicht erstellt werden.", 
         "description": "", 
-        "id": "Cannot create OpenGL fragment shader."
+        "text": "OpenGL-Fragment-Shader kann nicht erstellt werden."
     }, 
     {
+        "id": "Cannot compile OpenGL framgent shader", 
         "source": "Cannot compile OpenGL framgent shader", 
-        "text": "OpenGL-Framgent-Shader kann nicht kompiliert werden", 
         "description": "", 
-        "id": "Cannot compile OpenGL framgent shader"
+        "text": "OpenGL-Framgent-Shader kann nicht kompiliert werden"
     }, 
     {
+        "id": "Cannot link program", 
         "source": "Cannot link program", 
-        "text": "Programm kann nicht verkn\u00fcpft werden", 
         "description": "", 
-        "id": "Cannot link program"
+        "text": "Programm kann nicht verkn\u00fcpft werden"
     }, 
     {
+        "id": "cannot read", 
         "source": "cannot read", 
-        "text": "kann nicht lesen", 
         "description": "", 
-        "id": "cannot read"
+        "text": "kann nicht lesen"
     }, 
     {
+        "id": "cannot open", 
         "source": "cannot open", 
-        "text": "nicht \u00f6ffnen k\u00f6nnen", 
         "description": "", 
-        "id": "cannot open"
+        "text": "nicht \u00f6ffnen k\u00f6nnen"
     }, 
     {
+        "id": "Cannot open OpenAL device.", 
         "source": "Cannot open OpenAL device.", 
-        "text": "OpenAL-Ger\u00e4t kann nicht ge\u00f6ffnet werden.", 
         "description": "", 
-        "id": "Cannot open OpenAL device."
+        "text": "OpenAL-Ger\u00e4t kann nicht ge\u00f6ffnet werden."
     }, 
     {
+        "id": "Cannot create OpenAL context.", 
         "source": "Cannot create OpenAL context.", 
-        "text": "OpenAL-Kontext kann nicht erstellt werden.", 
         "description": "", 
-        "id": "Cannot create OpenAL context."
+        "text": "OpenAL-Kontext kann nicht erstellt werden."
     }, 
     {
+        "id": "Cannot make OpenAL context current.", 
         "source": "Cannot make OpenAL context current.", 
-        "text": "Kann den OpenAL-Kontext nicht aktuell machen.", 
         "description": "", 
-        "id": "Cannot make OpenAL context current."
+        "text": "Kann den OpenAL-Kontext nicht aktuell machen."
     }, 
     {
+        "id": "Cannot create GLFW window.", 
         "source": "Cannot create GLFW window.", 
-        "text": "GLFW-Fenster kann nicht erstellt werden.", 
         "description": "", 
-        "id": "Cannot create GLFW window."
-    }, 
-    {
-        "source": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
-        "text": "Dieses Plugin bietet Image-E / A f\u00fcr Portable Network Graphics (PNG).", 
-        "description": "", 
-        "id": "This plugin provides Portable Network Graphics (PNG) image I/O."
-    }, 
-    {
-        "source": "Cannot create shader", 
-        "text": "Shader kann nicht erstellt werden", 
-        "description": "", 
-        "id": "Cannot create shader"
-    }, 
-    {
-        "source": "Float", 
-        "text": "Schweben", 
-        "description": "", 
-        "id": "Float"
-    }, 
-    {
-        "source": "Double", 
-        "text": "Doppelt", 
-        "description": "", 
-        "id": "Double"
-    }, 
-    {
-        "source": "U8 Planar", 
-        "text": "U8 planar", 
-        "description": "", 
-        "id": "U8 Planar"
-    }, 
-    {
-        "source": "S16 Planar", 
-        "text": "S16 planar", 
-        "description": "", 
-        "id": "S16 Planar"
-    }, 
-    {
-        "source": "S32 Planar", 
-        "text": "S32 Planar", 
-        "description": "", 
-        "id": "S32 Planar"
-    }, 
-    {
-        "source": "Float Planar", 
-        "text": "Float Planar", 
-        "description": "", 
-        "id": "Float Planar"
-    }, 
-    {
-        "source": "Double Planar", 
-        "text": "Doppelter Planar", 
-        "description": "", 
-        "id": "Double Planar"
-    }, 
-    {
-        "source": "This plugin provides FFmpeg image and audio I/O.", 
-        "text": "Dieses Plugin bietet FFmpeg-Bild- und -Audio-E / A.", 
-        "description": "", 
-        "id": "This plugin provides FFmpeg image and audio I/O."
-    }, 
-    {
-        "source": "cannot find any streams in", 
-        "text": "kann keine Streams in finden", 
-        "description": "", 
-        "id": "cannot find any streams in"
-    }, 
-    {
-        "source": "cannot find video codec for", 
-        "text": "Video-Codec kann nicht gefunden werden", 
-        "description": "", 
-        "id": "cannot find video codec for"
-    }, 
-    {
-        "source": "unsupported audio format ", 
-        "text": "nicht unterst\u00fctztes Audioformat", 
-        "description": "", 
-        "id": "unsupported audio format "
-    }, 
-    {
-        "source": "cannot find audio codec for", 
-        "text": "Audio-Codec kann nicht gefunden werden", 
-        "description": "", 
-        "id": "cannot find audio codec for"
-    }, 
-    {
-        "source": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
-        "text": "Dieses Plugin bietet Bild-E / A der Joint Photographic Experts Group (JPEG).", 
-        "description": "", 
-        "id": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O."
-    }, 
-    {
-        "source": "Cannot initialize GLFW.", 
-        "text": "GLFW kann nicht initialisiert werden.", 
-        "description": "", 
-        "id": "Cannot initialize GLFW."
-    }, 
-    {
-        "source": "Cannot create OpenGL texture.", 
-        "text": "OpenGL-Textur kann nicht erstellt werden.", 
-        "description": "", 
-        "id": "Cannot create OpenGL texture."
-    }, 
-    {
-        "source": "Cannot create OpenGL frame buffer.", 
-        "text": "OpenGL-Frame-Puffer kann nicht erstellt werden.", 
-        "description": "", 
-        "id": "Cannot create OpenGL frame buffer."
-    }, 
-    {
-        "source": "Cannot initialize OpenGL frame buffer.", 
-        "text": "OpenGL-Frame-Puffer kann nicht initialisiert werden.", 
-        "description": "", 
-        "id": "Cannot initialize OpenGL frame buffer."
-    }, 
-    {
-        "source": "L U8", 
-        "text": "50 U8", 
-        "description": "", 
-        "id": "L_U8"
-    }, 
-    {
-        "source": "L U16", 
-        "text": "L U16", 
-        "description": "", 
-        "id": "L_U16"
-    }, 
-    {
-        "source": "L U32", 
-        "text": "L U32", 
-        "description": "", 
-        "id": "L_U32"
-    }, 
-    {
-        "source": "L F16", 
-        "text": "L F16", 
-        "description": "", 
-        "id": "L_F16"
-    }, 
-    {
-        "source": "L F32", 
-        "text": "L F32", 
-        "description": "", 
-        "id": "L_F32"
-    }, 
-    {
-        "source": "LA U8", 
-        "text": "DIE U8", 
-        "description": "", 
-        "id": "LA_U8"
-    }, 
-    {
-        "source": "LA U16", 
-        "text": "DIE U16", 
-        "description": "", 
-        "id": "LA_U16"
-    }, 
-    {
-        "source": "LA U32", 
-        "text": "DIE U32", 
-        "description": "", 
-        "id": "LA_U32"
-    }, 
-    {
-        "source": "LA F16", 
-        "text": "DAS F16", 
-        "description": "", 
-        "id": "LA_F16"
-    }, 
-    {
-        "source": "LA F32", 
-        "text": "LA F32", 
-        "description": "", 
-        "id": "LA_F32"
-    }, 
-    {
-        "source": "RGB U8", 
-        "text": "RGB U8", 
-        "description": "", 
-        "id": "RGB_U8"
-    }, 
-    {
-        "source": "RGB U10", 
-        "text": "RGB U10", 
-        "description": "", 
-        "id": "RGB_U10"
-    }, 
-    {
-        "source": "RGB U16", 
-        "text": "RGB U16", 
-        "description": "", 
-        "id": "RGB_U16"
-    }, 
-    {
-        "source": "RGB U32", 
-        "text": "RGB U32", 
-        "description": "", 
-        "id": "RGB_U32"
-    }, 
-    {
-        "source": "RGB F16", 
-        "text": "RGB F16", 
-        "description": "", 
-        "id": "RGB_F16"
-    }, 
-    {
-        "source": "RGB F32", 
-        "text": "RGB F32", 
-        "description": "", 
-        "id": "RGB_F32"
-    }, 
-    {
-        "source": "RGBA U8", 
-        "text": "RGBA U8", 
-        "description": "", 
-        "id": "RGBA_U8"
-    }, 
-    {
-        "source": "RGBA U16", 
-        "text": "RGBA U16", 
-        "description": "", 
-        "id": "RGBA_U16"
-    }, 
-    {
-        "source": "RGBA U32", 
-        "text": "RGBA U32", 
-        "description": "", 
-        "id": "RGBA_U32"
-    }, 
-    {
-        "source": "RGBA F16", 
-        "text": "RGBA F16", 
-        "description": "", 
-        "id": "RGBA_F16"
-    }, 
-    {
-        "source": "RGBA F32", 
-        "text": "RGBA F32", 
-        "description": "", 
-        "id": "RGBA_F32"
-    }, 
-    {
-        "source": "U10", 
-        "text": "U10", 
-        "description": "", 
-        "id": "U10"
-    }, 
-    {
-        "source": "U16", 
-        "text": "U16", 
-        "description": "", 
-        "id": "U16"
-    }, 
-    {
-        "source": "U32", 
-        "text": "U32", 
-        "description": "", 
-        "id": "U32"
-    }, 
-    {
-        "source": "F16", 
-        "text": "F16", 
-        "description": "", 
-        "id": "F16"
-    }, 
-    {
-        "source": "Cannot initialize FreeType.", 
-        "text": "FreeType kann nicht initialisiert werden.", 
-        "description": "", 
-        "id": "Cannot initialize FreeType."
-    }, 
-    {
-        "source": "Cannot find any fonts.", 
-        "text": "Kann keine Schriftarten finden.", 
-        "description": "", 
-        "id": "Cannot find any fonts."
-    }, 
-    {
-        "source": "This plugin provides NetPBM image I/O.", 
-        "text": "Dieses Plugin bietet NetPBM-Image-E / A.", 
-        "description": "", 
-        "id": "This plugin provides NetPBM image I/O."
-    }, 
-    {
-        "source": "ASCII", 
-        "text": "ASCII", 
-        "description": "", 
-        "id": "ASCII"
-    }, 
-    {
-        "source": "Binary", 
-        "text": "Bin\u00e4r", 
-        "description": "", 
-        "id": "Binary"
-    }, 
-    {
-        "source": "Cannot parse value.", 
-        "text": "Wert kann nicht analysiert werden", 
-        "description": "", 
-        "id": "Cannot parse value."
-    }, 
-    {
-        "source": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
-        "description": "", 
-        "id": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
-        "text": "Die Datei &quot;)) &lt;&lt;&quot; &#39;&quot;&lt;&lt; Dateiname &lt;&lt;&quot; &quot;&quot; &lt;&lt; DJV_TEXT (&quot;kann nicht gelesen werden"
-    }, 
-    {
-        "source": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
-        "description": "", 
-        "id": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
-        "text": "Die Datei &quot;)) &lt;&lt;&quot; &#39;&quot;&lt;&lt; Dateiname &lt;&lt;&quot; &quot;&quot; &lt;&lt; DJV_TEXT (&quot;kann nicht geschrieben werden"
-    }, 
-    {
-        "source": "The file", 
-        "description": "", 
-        "id": "The file", 
-        "text": "Die Datei"
-    }, 
-    {
-        "source": "cannot be written", 
-        "description": "", 
-        "id": "cannot be written", 
-        "text": "kann nicht geschrieben werden"
-    }, 
-    {
-        "source": "cannot be opened", 
-        "description": "", 
-        "id": "cannot be opened", 
-        "text": "Kann nicht ge\u00f6ffnet werden"
-    }, 
-    {
-        "source": "FreeType cannot be initialized.", 
-        "description": "", 
-        "id": "FreeType cannot be initialized.", 
-        "text": "FreeType kann nicht initialisiert werden."
-    }, 
-    {
-        "source": "No fonts were found.", 
-        "description": "", 
-        "id": "No fonts were found.", 
-        "text": "Es wurden keine Schriftarten gefunden."
-    }, 
-    {
-        "source": "The GLFW window cannot be created.", 
-        "description": "", 
-        "id": "The GLFW window cannot be created.", 
-        "text": "Das GLFW-Fenster kann nicht erstellt werden."
-    }, 
-    {
-        "source": "Cannot parse the value.", 
-        "description": "", 
-        "id": "Cannot parse the value.", 
-        "text": "Der Wert kann nicht analysiert werden."
-    }, 
-    {
-        "source": "The JPEG file", 
-        "description": "", 
-        "id": "The JPEG file", 
-        "text": "Die JPEG-Datei"
-    }, 
-    {
-        "source": "cannot be read", 
-        "description": "", 
-        "id": "cannot be read", 
-        "text": "kann nicht gelesen werden"
-    }, 
-    {
-        "source": "The OpenGL vertex shader cannot be created.", 
-        "description": "", 
-        "id": "The OpenGL vertex shader cannot be created.", 
-        "text": "Der OpenGL-Vertex-Shader kann nicht erstellt werden."
-    }, 
-    {
-        "source": "The OpenGL vertex shader", 
-        "description": "", 
-        "id": "The OpenGL vertex shader", 
-        "text": "Der OpenGL-Vertex-Shader"
-    }, 
-    {
-        "source": "cannot be compiled", 
-        "description": "", 
-        "id": "cannot be compiled", 
-        "text": "kann nicht kompiliert werden"
-    }, 
-    {
-        "source": "The OpenGL fragment shader cannot be created.", 
-        "description": "", 
-        "id": "The OpenGL fragment shader cannot be created.", 
-        "text": "Der OpenGL-Fragment-Shader kann nicht erstellt werden."
-    }, 
-    {
-        "source": "The OpenGL framgent shader", 
-        "description": "", 
-        "id": "The OpenGL framgent shader", 
-        "text": "Der OpenGL-Forward-Shader"
-    }, 
-    {
-        "source": "The program", 
-        "description": "", 
-        "id": "The program", 
-        "text": "Das Programm"
-    }, 
-    {
-        "source": "cannot be linked", 
-        "description": "", 
-        "id": "cannot be linked", 
-        "text": "kann nicht verlinkt werden"
-    }, 
-    {
-        "source": "The FFMPEG file", 
-        "description": "", 
-        "id": "The FFMPEG file", 
-        "text": "Die FFMPEG-Datei"
-    }, 
-    {
-        "source": "does not have any video or audio streams", 
-        "description": "", 
-        "id": "does not have any video or audio streams", 
-        "text": "hat keine Video- oder Audiostr\u00f6me"
-    }, 
-    {
-        "source": "does not match any video codecs", 
-        "description": "", 
-        "id": "does not match any video codecs", 
-        "text": "passt nicht zu Videocodecs"
-    }, 
-    {
-        "source": "The FFMPEG audio format ", 
-        "description": "", 
-        "id": "The FFMPEG audio format ", 
-        "text": "Das FFMPEG-Audioformat"
-    }, 
-    {
-        "source": "is not supported", 
-        "description": "", 
-        "id": "is not supported", 
-        "text": "wird nicht unterst\u00fctzt"
-    }, 
-    {
-        "source": "does not match any audio codecs", 
-        "description": "", 
-        "id": "does not match any audio codecs", 
-        "text": "passt nicht zu Audiocodecs"
-    }, 
-    {
-        "source": "GLFW cannot be initialized.", 
-        "description": "", 
-        "id": "GLFW cannot be initialized.", 
-        "text": "GLFW kann nicht initialisiert werden."
-    }, 
-    {
-        "source": "GLFW window cannot be created.", 
-        "description": "", 
-        "id": "GLFW window cannot be created.", 
         "text": "GLFW-Fenster kann nicht erstellt werden."
     }, 
     {
-        "source": "The OpenAL device cannot be opened.", 
+        "id": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
+        "source": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
         "description": "", 
-        "id": "The OpenAL device cannot be opened.", 
-        "text": "Das OpenAL-Ger\u00e4t kann nicht ge\u00f6ffnet werden."
+        "text": "Dieses Plugin bietet Image-E / A f\u00fcr Portable Network Graphics (PNG)."
+    }, 
+    {
+        "id": "Cannot create shader", 
+        "source": "Cannot create shader", 
+        "description": "", 
+        "text": "Shader kann nicht erstellt werden"
+    }, 
+    {
+        "id": "Float", 
+        "source": "Float", 
+        "description": "", 
+        "text": "Schweben"
+    }, 
+    {
+        "id": "Double", 
+        "source": "Double", 
+        "description": "", 
+        "text": "Doppelt"
+    }, 
+    {
+        "id": "U8 Planar", 
+        "source": "U8 Planar", 
+        "description": "", 
+        "text": "U8 planar"
+    }, 
+    {
+        "id": "S16 Planar", 
+        "source": "S16 Planar", 
+        "description": "", 
+        "text": "S16 planar"
+    }, 
+    {
+        "id": "S32 Planar", 
+        "source": "S32 Planar", 
+        "description": "", 
+        "text": "S32 Planar"
+    }, 
+    {
+        "id": "Float Planar", 
+        "source": "Float Planar", 
+        "description": "", 
+        "text": "Float Planar"
+    }, 
+    {
+        "id": "Double Planar", 
+        "source": "Double Planar", 
+        "description": "", 
+        "text": "Doppelter Planar"
+    }, 
+    {
+        "id": "This plugin provides FFmpeg image and audio I/O.", 
+        "source": "This plugin provides FFmpeg image and audio I/O.", 
+        "description": "", 
+        "text": "Dieses Plugin bietet FFmpeg-Bild- und -Audio-E / A."
+    }, 
+    {
+        "id": "cannot find any streams in", 
+        "source": "cannot find any streams in", 
+        "description": "", 
+        "text": "kann keine Streams in finden"
+    }, 
+    {
+        "id": "cannot find video codec for", 
+        "source": "cannot find video codec for", 
+        "description": "", 
+        "text": "Video-Codec kann nicht gefunden werden"
+    }, 
+    {
+        "id": "unsupported audio format ", 
+        "source": "unsupported audio format ", 
+        "description": "", 
+        "text": "nicht unterst\u00fctztes Audioformat"
+    }, 
+    {
+        "id": "cannot find audio codec for", 
+        "source": "cannot find audio codec for", 
+        "description": "", 
+        "text": "Audio-Codec kann nicht gefunden werden"
+    }, 
+    {
+        "id": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
+        "source": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
+        "description": "", 
+        "text": "Dieses Plugin bietet Bild-E / A der Joint Photographic Experts Group (JPEG)."
+    }, 
+    {
+        "id": "Cannot initialize GLFW.", 
+        "source": "Cannot initialize GLFW.", 
+        "description": "", 
+        "text": "GLFW kann nicht initialisiert werden."
+    }, 
+    {
+        "id": "Cannot create OpenGL texture.", 
+        "source": "Cannot create OpenGL texture.", 
+        "description": "", 
+        "text": "OpenGL-Textur kann nicht erstellt werden."
+    }, 
+    {
+        "id": "Cannot create OpenGL frame buffer.", 
+        "source": "Cannot create OpenGL frame buffer.", 
+        "description": "", 
+        "text": "OpenGL-Frame-Puffer kann nicht erstellt werden."
+    }, 
+    {
+        "id": "Cannot initialize OpenGL frame buffer.", 
+        "source": "Cannot initialize OpenGL frame buffer.", 
+        "description": "", 
+        "text": "OpenGL-Frame-Puffer kann nicht initialisiert werden."
+    }, 
+    {
+        "id": "L_U8", 
+        "source": "L U8", 
+        "description": "", 
+        "text": "50 U8"
+    }, 
+    {
+        "id": "L_U16", 
+        "source": "L U16", 
+        "description": "", 
+        "text": "L U16"
+    }, 
+    {
+        "id": "L_U32", 
+        "source": "L U32", 
+        "description": "", 
+        "text": "L U32"
+    }, 
+    {
+        "id": "L_F16", 
+        "source": "L F16", 
+        "description": "", 
+        "text": "L F16"
+    }, 
+    {
+        "id": "L_F32", 
+        "source": "L F32", 
+        "description": "", 
+        "text": "L F32"
+    }, 
+    {
+        "id": "LA_U8", 
+        "source": "LA U8", 
+        "description": "", 
+        "text": "DIE U8"
+    }, 
+    {
+        "id": "LA_U16", 
+        "source": "LA U16", 
+        "description": "", 
+        "text": "DIE U16"
+    }, 
+    {
+        "id": "LA_U32", 
+        "source": "LA U32", 
+        "description": "", 
+        "text": "DIE U32"
+    }, 
+    {
+        "id": "LA_F16", 
+        "source": "LA F16", 
+        "description": "", 
+        "text": "DAS F16"
+    }, 
+    {
+        "id": "LA_F32", 
+        "source": "LA F32", 
+        "description": "", 
+        "text": "LA F32"
+    }, 
+    {
+        "id": "RGB_U8", 
+        "source": "RGB U8", 
+        "description": "", 
+        "text": "RGB U8"
+    }, 
+    {
+        "id": "RGB_U10", 
+        "source": "RGB U10", 
+        "description": "", 
+        "text": "RGB U10"
+    }, 
+    {
+        "id": "RGB_U16", 
+        "source": "RGB U16", 
+        "description": "", 
+        "text": "RGB U16"
+    }, 
+    {
+        "id": "RGB_U32", 
+        "source": "RGB U32", 
+        "description": "", 
+        "text": "RGB U32"
+    }, 
+    {
+        "id": "RGB_F16", 
+        "source": "RGB F16", 
+        "description": "", 
+        "text": "RGB F16"
+    }, 
+    {
+        "id": "RGB_F32", 
+        "source": "RGB F32", 
+        "description": "", 
+        "text": "RGB F32"
+    }, 
+    {
+        "id": "RGBA_U8", 
+        "source": "RGBA U8", 
+        "description": "", 
+        "text": "RGBA U8"
+    }, 
+    {
+        "id": "RGBA_U16", 
+        "source": "RGBA U16", 
+        "description": "", 
+        "text": "RGBA U16"
+    }, 
+    {
+        "id": "RGBA_U32", 
+        "source": "RGBA U32", 
+        "description": "", 
+        "text": "RGBA U32"
+    }, 
+    {
+        "id": "RGBA_F16", 
+        "source": "RGBA F16", 
+        "description": "", 
+        "text": "RGBA F16"
+    }, 
+    {
+        "id": "RGBA_F32", 
+        "source": "RGBA F32", 
+        "description": "", 
+        "text": "RGBA F32"
+    }, 
+    {
+        "id": "U10", 
+        "source": "U10", 
+        "description": "", 
+        "text": "U10"
+    }, 
+    {
+        "id": "U16", 
+        "source": "U16", 
+        "description": "", 
+        "text": "U16"
+    }, 
+    {
+        "id": "U32", 
+        "source": "U32", 
+        "description": "", 
+        "text": "U32"
+    }, 
+    {
+        "id": "F16", 
+        "source": "F16", 
+        "description": "", 
+        "text": "F16"
+    }, 
+    {
+        "id": "Cannot initialize FreeType.", 
+        "source": "Cannot initialize FreeType.", 
+        "description": "", 
+        "text": "FreeType kann nicht initialisiert werden."
+    }, 
+    {
+        "id": "Cannot find any fonts.", 
+        "source": "Cannot find any fonts.", 
+        "description": "", 
+        "text": "Kann keine Schriftarten finden."
+    }, 
+    {
+        "id": "This plugin provides NetPBM image I/O.", 
+        "source": "This plugin provides NetPBM image I/O.", 
+        "description": "", 
+        "text": "Dieses Plugin bietet NetPBM-Image-E / A."
+    }, 
+    {
+        "id": "ASCII", 
+        "source": "ASCII", 
+        "description": "", 
+        "text": "ASCII"
+    }, 
+    {
+        "id": "Binary", 
+        "source": "Binary", 
+        "description": "", 
+        "text": "Bin\u00e4r"
+    }, 
+    {
+        "id": "Cannot parse value.", 
+        "source": "Cannot parse value.", 
+        "description": "", 
+        "text": "Wert kann nicht analysiert werden"
+    }, 
+    {
+        "source": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "text": "Die Datei &quot;)) &lt;&lt;&quot; &#39;&quot;&lt;&lt; Dateiname &lt;&lt;&quot; &quot;&quot; &lt;&lt; DJV_TEXT (&quot;kann nicht gelesen werden", 
+        "description": "", 
+        "id": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read"
+    }, 
+    {
+        "source": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "text": "Die Datei &quot;)) &lt;&lt;&quot; &#39;&quot;&lt;&lt; Dateiname &lt;&lt;&quot; &quot;&quot; &lt;&lt; DJV_TEXT (&quot;kann nicht geschrieben werden", 
+        "description": "", 
+        "id": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written"
+    }, 
+    {
+        "source": "The file", 
+        "text": "Die Datei", 
+        "description": "", 
+        "id": "The file"
+    }, 
+    {
+        "source": "cannot be written", 
+        "text": "kann nicht geschrieben werden", 
+        "description": "", 
+        "id": "cannot be written"
+    }, 
+    {
+        "source": "cannot be opened", 
+        "text": "Kann nicht ge\u00f6ffnet werden", 
+        "description": "", 
+        "id": "cannot be opened"
+    }, 
+    {
+        "source": "FreeType cannot be initialized.", 
+        "text": "FreeType kann nicht initialisiert werden.", 
+        "description": "", 
+        "id": "FreeType cannot be initialized."
+    }, 
+    {
+        "source": "No fonts were found.", 
+        "text": "Es wurden keine Schriftarten gefunden.", 
+        "description": "", 
+        "id": "No fonts were found."
+    }, 
+    {
+        "source": "The GLFW window cannot be created.", 
+        "text": "Das GLFW-Fenster kann nicht erstellt werden.", 
+        "description": "", 
+        "id": "The GLFW window cannot be created."
+    }, 
+    {
+        "source": "Cannot parse the value.", 
+        "text": "Der Wert kann nicht analysiert werden.", 
+        "description": "", 
+        "id": "Cannot parse the value."
+    }, 
+    {
+        "source": "The JPEG file", 
+        "text": "Die JPEG-Datei", 
+        "description": "", 
+        "id": "The JPEG file"
+    }, 
+    {
+        "source": "cannot be read", 
+        "text": "kann nicht gelesen werden", 
+        "description": "", 
+        "id": "cannot be read"
+    }, 
+    {
+        "source": "The OpenGL vertex shader cannot be created.", 
+        "text": "Der OpenGL-Vertex-Shader kann nicht erstellt werden.", 
+        "description": "", 
+        "id": "The OpenGL vertex shader cannot be created."
+    }, 
+    {
+        "source": "The OpenGL vertex shader", 
+        "text": "Der OpenGL-Vertex-Shader", 
+        "description": "", 
+        "id": "The OpenGL vertex shader"
+    }, 
+    {
+        "source": "cannot be compiled", 
+        "text": "kann nicht kompiliert werden", 
+        "description": "", 
+        "id": "cannot be compiled"
+    }, 
+    {
+        "source": "The OpenGL fragment shader cannot be created.", 
+        "text": "Der OpenGL-Fragment-Shader kann nicht erstellt werden.", 
+        "description": "", 
+        "id": "The OpenGL fragment shader cannot be created."
+    }, 
+    {
+        "source": "The OpenGL framgent shader", 
+        "text": "Der OpenGL-Forward-Shader", 
+        "description": "", 
+        "id": "The OpenGL framgent shader"
+    }, 
+    {
+        "source": "The program", 
+        "text": "Das Programm", 
+        "description": "", 
+        "id": "The program"
+    }, 
+    {
+        "source": "cannot be linked", 
+        "text": "kann nicht verlinkt werden", 
+        "description": "", 
+        "id": "cannot be linked"
+    }, 
+    {
+        "source": "The FFMPEG file", 
+        "text": "Die FFMPEG-Datei", 
+        "description": "", 
+        "id": "The FFMPEG file"
+    }, 
+    {
+        "source": "does not have any video or audio streams", 
+        "text": "hat keine Video- oder Audiostr\u00f6me", 
+        "description": "", 
+        "id": "does not have any video or audio streams"
+    }, 
+    {
+        "source": "does not match any video codecs", 
+        "text": "passt nicht zu Videocodecs", 
+        "description": "", 
+        "id": "does not match any video codecs"
+    }, 
+    {
+        "source": "The FFMPEG audio format ", 
+        "text": "Das FFMPEG-Audioformat", 
+        "description": "", 
+        "id": "The FFMPEG audio format "
+    }, 
+    {
+        "source": "is not supported", 
+        "text": "wird nicht unterst\u00fctzt", 
+        "description": "", 
+        "id": "is not supported"
+    }, 
+    {
+        "source": "does not match any audio codecs", 
+        "text": "passt nicht zu Audiocodecs", 
+        "description": "", 
+        "id": "does not match any audio codecs"
+    }, 
+    {
+        "source": "GLFW cannot be initialized.", 
+        "text": "GLFW kann nicht initialisiert werden.", 
+        "description": "", 
+        "id": "GLFW cannot be initialized."
+    }, 
+    {
+        "source": "GLFW window cannot be created.", 
+        "text": "GLFW-Fenster kann nicht erstellt werden.", 
+        "description": "", 
+        "id": "GLFW window cannot be created."
+    }, 
+    {
+        "source": "The OpenAL device cannot be opened.", 
+        "text": "Das OpenAL-Ger\u00e4t kann nicht ge\u00f6ffnet werden.", 
+        "description": "", 
+        "id": "The OpenAL device cannot be opened."
     }, 
     {
         "source": "The OpenAL context cannot be created.", 
+        "text": "Der OpenAL-Kontext kann nicht erstellt werden.", 
         "description": "", 
-        "id": "The OpenAL context cannot be created.", 
-        "text": "Der OpenAL-Kontext kann nicht erstellt werden."
+        "id": "The OpenAL context cannot be created."
     }, 
     {
         "source": "The OpenAL context cannot be made current.", 
+        "text": "Der OpenAL-Kontext kann nicht aktuell gemacht werden.", 
         "description": "", 
-        "id": "The OpenAL context cannot be made current.", 
-        "text": "Der OpenAL-Kontext kann nicht aktuell gemacht werden."
+        "id": "The OpenAL context cannot be made current."
     }, 
     {
         "source": "The OpenGL texture cannot be created.", 
+        "text": "Die OpenGL-Textur kann nicht erstellt werden.", 
         "description": "", 
-        "id": "The OpenGL texture cannot be created.", 
-        "text": "Die OpenGL-Textur kann nicht erstellt werden."
+        "id": "The OpenGL texture cannot be created."
     }, 
     {
         "source": "The OpenGL frame buffer cannot be created.", 
+        "text": "Der OpenGL-Frame-Puffer kann nicht erstellt werden.", 
         "description": "", 
-        "id": "The OpenGL frame buffer cannot be created.", 
-        "text": "Der OpenGL-Frame-Puffer kann nicht erstellt werden."
+        "id": "The OpenGL frame buffer cannot be created."
     }, 
     {
         "source": "The OpenGL frame buffer cannot be initialized.", 
+        "text": "Der OpenGL-Frame-Puffer kann nicht initialisiert werden.", 
         "description": "", 
-        "id": "The OpenGL frame buffer cannot be initialized.", 
-        "text": "Der OpenGL-Frame-Puffer kann nicht initialisiert werden."
+        "id": "The OpenGL frame buffer cannot be initialized."
     }, 
     {
         "source": "The PNG file", 
+        "text": "Die PNG-Datei", 
         "description": "", 
-        "id": "The PNG file", 
-        "text": "Die PNG-Datei"
+        "id": "The PNG file"
     }, 
     {
         "source": "The PPM file", 
+        "text": "Die PPM-Datei", 
         "description": "", 
-        "id": "The PPM file", 
-        "text": "Die PPM-Datei"
+        "id": "The PPM file"
     }, 
     {
         "source": "The shader cannot be created", 
+        "text": "Der Shader kann nicht erstellt werden", 
         "description": "", 
-        "id": "The shader cannot be created", 
-        "text": "Der Shader kann nicht erstellt werden"
+        "id": "The shader cannot be created"
     }, 
     {
         "source": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
+        "text": "Dieses Plugin bietet Bild-E / A f\u00fcr das Tagged Image File Format (TIFF).", 
         "description": "", 
-        "id": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
-        "text": "Dieses Plugin bietet Bild-E / A f\u00fcr das Tagged Image File Format (TIFF)."
+        "id": "This plugin provides Tagged Image File Format (TIFF) image I/O."
     }, 
     {
         "source": "RLE", 
+        "text": "RLE", 
         "description": "", 
-        "id": "RLE", 
-        "text": "RLE"
+        "id": "RLE"
     }, 
     {
         "source": "LZW", 
+        "text": "LZW", 
         "description": "", 
-        "id": "LZW", 
-        "text": "LZW"
+        "id": "LZW"
     }, 
     {
         "source": "The TIFF file", 
+        "text": "Die TIFF-Datei", 
         "description": "", 
-        "id": "The TIFF file", 
-        "text": "Die TIFF-Datei"
+        "id": "The TIFF file"
     }, 
     {
         "source": "L", 
+        "text": "die", 
         "description": "", 
-        "id": "L", 
-        "text": "die"
+        "id": "L"
     }, 
     {
         "source": "LA", 
+        "text": "LA", 
         "description": "", 
-        "id": "LA", 
-        "text": "LA"
+        "id": "LA"
     }, 
     {
         "source": "RGB", 
+        "text": "RGB", 
         "description": "", 
-        "id": "RGB", 
-        "text": "RGB"
+        "id": "RGB"
     }, 
     {
         "source": "RGBA", 
+        "text": "RGBA", 
         "description": "", 
-        "id": "RGBA", 
-        "text": "RGBA"
+        "id": "RGBA"
     }, 
     {
         "source": "Timecode", 
+        "text": "Timecode", 
         "description": "", 
-        "id": "Timecode", 
-        "text": "Timecode"
+        "id": "Timecode"
     }, 
     {
         "source": "Frames", 
+        "text": "Frames", 
         "description": "", 
-        "id": "Frames", 
-        "text": "Frames"
+        "id": "Frames"
     }, 
     {
+        "id": "Unknown magic number.", 
         "source": "Unknown magic number.", 
-        "text": "Unbekannte magische Zahl.", 
         "description": "", 
-        "id": "Unknown magic number."
+        "text": "Unbekannte magische Zahl."
     }, 
     {
+        "id": "No image channels.", 
         "source": "No image channels.", 
-        "text": "Keine Bildkan\u00e4le.", 
         "description": "", 
-        "id": "No image channels."
+        "text": "Keine Bildkan\u00e4le."
     }, 
     {
+        "id": "Image channels must have the same size and bit depth.", 
         "source": "Image channels must have the same size and bit depth.", 
-        "text": "Bildkan\u00e4le m\u00fcssen die gleiche Gr\u00f6\u00dfe und Bittiefe haben.", 
         "description": "", 
-        "id": "Image channels must have the same size and bit depth."
+        "text": "Bildkan\u00e4le m\u00fcssen die gleiche Gr\u00f6\u00dfe und Bittiefe haben."
     }, 
     {
+        "id": "Unsupported bit depth.", 
         "source": "Unsupported bit depth.", 
-        "text": "Nicht unterst\u00fctzte Bittiefe.", 
         "description": "", 
-        "id": "Unsupported bit depth."
+        "text": "Nicht unterst\u00fctzte Bittiefe."
     }, 
     {
+        "id": "Line padding is unsupported.", 
         "source": "Line padding is unsupported.", 
-        "text": "Zeilenauff\u00fcllung wird nicht unterst\u00fctzt.", 
         "description": "", 
-        "id": "Line padding is unsupported."
+        "text": "Zeilenauff\u00fcllung wird nicht unterst\u00fctzt."
     }, 
     {
+        "id": "Channel padding is unsupported.", 
         "source": "Channel padding is unsupported.", 
-        "text": "Kanalauff\u00fcllung wird nicht unterst\u00fctzt.", 
         "description": "", 
-        "id": "Channel padding is unsupported."
+        "text": "Kanalauff\u00fcllung wird nicht unterst\u00fctzt."
     }, 
     {
+        "id": "This plugin provides Cineon image I/O.", 
         "source": "This plugin provides Cineon image I/O.", 
-        "text": "Dieses Plugin bietet Cineon Image I / O.", 
         "description": "", 
-        "id": "This plugin provides Cineon image I/O."
+        "text": "Dieses Plugin bietet Cineon Image I / O."
     }, 
     {
+        "id": "Auto", 
         "source": "Auto", 
-        "text": "Auto", 
         "description": "", 
-        "id": "Auto"
+        "text": "Auto"
     }, 
     {
+        "id": "Raw", 
         "source": "Raw", 
-        "text": "Roh", 
         "description": "", 
-        "id": "Raw"
+        "text": "Roh"
     }, 
     {
+        "id": "FilmPrint", 
         "source": "FilmPrint", 
-        "text": "Film drucken", 
         "description": "", 
-        "id": "FilmPrint"
+        "text": "Film drucken"
     }, 
     {
+        "id": "SourceOffset", 
         "source": "SourceOffset", 
-        "text": "SourceOffset", 
         "description": "", 
-        "id": "SourceOffset"
+        "text": "SourceOffset"
     }, 
     {
+        "id": "SourceFile", 
         "source": "SourceFile", 
-        "text": "SourceFile", 
         "description": "", 
-        "id": "SourceFile"
+        "text": "SourceFile"
     }, 
     {
+        "id": "SourceTime", 
         "source": "SourceTime", 
-        "text": "SourceTime", 
         "description": "", 
-        "id": "SourceTime"
+        "text": "SourceTime"
     }, 
     {
+        "id": "SourceInputDevice", 
         "source": "SourceInputDevice", 
-        "text": "SourceInputDevice", 
         "description": "", 
-        "id": "SourceInputDevice"
+        "text": "SourceInputDevice"
     }, 
     {
+        "id": "SourceInputModel", 
         "source": "SourceInputModel", 
-        "text": "SourceInputModel", 
         "description": "", 
-        "id": "SourceInputModel"
+        "text": "SourceInputModel"
     }, 
     {
+        "id": "SourceInputSerial", 
         "source": "SourceInputSerial", 
-        "text": "SourceInputSerial", 
         "description": "", 
-        "id": "SourceInputSerial"
+        "text": "SourceInputSerial"
     }, 
     {
+        "id": "SourceInputPitch", 
         "source": "SourceInputPitch", 
-        "text": "SourceInputPitch", 
         "description": "", 
-        "id": "SourceInputPitch"
+        "text": "SourceInputPitch"
     }, 
     {
+        "id": "SourceGamma", 
         "source": "SourceGamma", 
-        "text": "SourceGamma", 
         "description": "", 
-        "id": "SourceGamma"
+        "text": "SourceGamma"
     }, 
     {
+        "id": "FilmFormat", 
         "source": "FilmFormat", 
-        "text": "FilmFormat", 
         "description": "", 
-        "id": "FilmFormat"
+        "text": "FilmFormat"
     }, 
     {
+        "id": "FilmFrame", 
         "source": "FilmFrame", 
-        "text": "Film-Rahmen", 
         "description": "", 
-        "id": "FilmFrame"
+        "text": "Film-Rahmen"
     }, 
     {
+        "id": "FilmFrameRate", 
         "source": "FilmFrameRate", 
-        "text": "Film Framerate", 
         "description": "", 
-        "id": "FilmFrameRate"
+        "text": "Film Framerate"
     }, 
     {
+        "id": "FilmFrameID", 
         "source": "FilmFrameID", 
-        "text": "FilmFrameID", 
         "description": "", 
-        "id": "FilmFrameID"
+        "text": "FilmFrameID"
     }, 
     {
+        "id": "FilmSlate", 
         "source": "FilmSlate", 
-        "text": "FilmSlate", 
         "description": "", 
-        "id": "FilmSlate"
+        "text": "FilmSlate"
     }, 
     {
         "source": "This plugin provides OpenEXR file I/O.", 
+        "text": "Dieses Plugin bietet OpenEXR-Datei-E / A.", 
         "description": "", 
-        "id": "This plugin provides OpenEXR file I/O.", 
-        "text": "Dieses Plugin bietet OpenEXR-Datei-E / A."
+        "id": "This plugin provides OpenEXR file I/O."
     }, 
     {
         "source": "Known", 
+        "text": "Bekannt", 
         "description": "", 
-        "id": "Known", 
-        "text": "Bekannt"
+        "id": "Known"
     }, 
     {
         "source": "All", 
+        "text": "Alles", 
         "description": "", 
-        "id": "All", 
-        "text": "Alles"
+        "id": "All"
     }, 
     {
         "source": "ZIPS", 
+        "text": "ZIPS", 
         "description": "", 
-        "id": "ZIPS", 
-        "text": "ZIPS"
+        "id": "ZIPS"
     }, 
     {
         "source": "ZIP", 
+        "text": "POSTLEITZAHL", 
         "description": "", 
-        "id": "ZIP", 
-        "text": "POSTLEITZAHL"
+        "id": "ZIP"
     }, 
     {
         "source": "PIZ", 
+        "text": "PIZ", 
         "description": "", 
-        "id": "PIZ", 
-        "text": "PIZ"
+        "id": "PIZ"
     }, 
     {
         "source": "PXR24", 
+        "text": "PXR24", 
         "description": "", 
-        "id": "PXR24", 
-        "text": "PXR24"
+        "id": "PXR24"
     }, 
     {
         "source": "B44", 
+        "text": "B44", 
         "description": "", 
-        "id": "B44", 
-        "text": "B44"
+        "id": "B44"
     }, 
     {
         "source": "B44A", 
+        "text": "B44A", 
         "description": "", 
-        "id": "B44A", 
-        "text": "B44A"
+        "id": "B44A"
     }, 
     {
         "source": "DWAA", 
+        "text": "DWAA", 
         "description": "", 
-        "id": "DWAA", 
-        "text": "DWAA"
+        "id": "DWAA"
     }, 
     {
         "source": "DWAB", 
+        "text": "DWAB", 
         "description": "", 
-        "id": "DWAB", 
-        "text": "DWAB"
+        "id": "DWAB"
     }, 
     {
         "source": "The OpenEXR file", 
+        "text": "Die OpenEXR-Datei", 
         "description": "", 
-        "id": "The OpenEXR file", 
-        "text": "Die OpenEXR-Datei"
+        "id": "The OpenEXR file"
     }, 
     {
         "source": "Unsupported file.", 
+        "text": "Nicht unterst\u00fctzte Datei.", 
         "description": "", 
-        "id": "Unsupported file.", 
-        "text": "Nicht unterst\u00fctzte Datei."
+        "id": "Unsupported file."
     }, 
     {
         "source": "This plugin provides DPX image I/O.", 
+        "text": "Dieses Plugin bietet DPX-Image-E / A.", 
         "description": "", 
-        "id": "This plugin provides DPX image I/O.", 
-        "text": "Dieses Plugin bietet DPX-Image-E / A."
+        "id": "This plugin provides DPX image I/O."
     }, 
     {
         "source": "1.0", 
+        "text": "1,0", 
         "description": "", 
-        "id": "1.0", 
-        "text": "1,0"
+        "id": "1.0"
     }, 
     {
         "source": "2.0", 
+        "text": "2,0", 
         "description": "", 
-        "id": "2.0", 
-        "text": "2,0"
+        "id": "2.0"
     }, 
     {
         "source": "MSB", 
+        "text": "MSB", 
         "description": "", 
-        "id": "MSB", 
-        "text": "MSB"
+        "id": "MSB"
     }, 
     {
         "source": "LSB", 
+        "text": "LSB", 
         "description": "", 
-        "id": "LSB", 
-        "text": "LSB"
+        "id": "LSB"
     }, 
     {
         "source": "Default", 
+        "text": "Standard", 
         "description": "", 
-        "id": "Default", 
-        "text": "Standard"
+        "id": "Default"
+    }, 
+    {
+        "source": "Bad magic number.", 
+        "text": "Schlechte magische Zahl.", 
+        "id": "Bad magic number.", 
+        "description": ""
+    }, 
+    {
+        "source": "Incomplete file.", 
+        "text": "Unvollst\u00e4ndige Datei.", 
+        "id": "Incomplete file.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot open file.", 
+        "text": "Kann Datei nicht \u00f6ffnen.", 
+        "id": "Cannot open file.", 
+        "description": ""
+    }, 
+    {
+        "source": "Error reading scanline.", 
+        "text": "Fehler beim Lesen der Scanzeile.", 
+        "id": "Error reading scanline.", 
+        "description": ""
+    }, 
+    {
+        "source": "Unsupported image type.", 
+        "text": "Nicht unterst\u00fctzter Bildtyp.", 
+        "id": "Unsupported image type.", 
+        "description": ""
+    }, 
+    {
+        "source": "The audio format ", 
+        "text": "Das Audioformat", 
+        "id": "The audio format ", 
+        "description": ""
+    }, 
+    {
+        "source": "Unsupported color components.", 
+        "text": "Nicht unterst\u00fctzte Farbkomponenten.", 
+        "id": "Unsupported color components.", 
+        "description": ""
+    }, 
+    {
+        "source": "Error writing scanline.", 
+        "text": "Fehler beim Schreiben der Scanline.", 
+        "id": "Error writing scanline.", 
+        "description": ""
+    }, 
+    {
+        "source": "The file cannot be opened.", 
+        "text": "Die Datei kann nicht ge\u00f6ffnet werden.", 
+        "id": "The file cannot be opened.", 
+        "description": ""
     }
 ]

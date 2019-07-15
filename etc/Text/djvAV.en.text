@@ -5,46 +5,6 @@
         "description": ""
     }, 
     {
-        "text": "Unknown magic number.", 
-        "id": "Unknown magic number.", 
-        "description": ""
-    }, 
-    {
-        "text": "Unsupported file.", 
-        "id": "Unsupported file.", 
-        "description": ""
-    }, 
-    {
-        "text": "This plugin provides DPX image I/O.", 
-        "id": "This plugin provides DPX image I/O.", 
-        "description": ""
-    }, 
-    {
-        "text": "1.0", 
-        "id": "1.0", 
-        "description": ""
-    }, 
-    {
-        "text": "2.0", 
-        "id": "2.0", 
-        "description": ""
-    }, 
-    {
-        "text": "Auto", 
-        "id": "Auto", 
-        "description": ""
-    }, 
-    {
-        "text": "MSB", 
-        "id": "MSB", 
-        "description": ""
-    }, 
-    {
-        "text": "LSB", 
-        "id": "LSB", 
-        "description": ""
-    }, 
-    {
         "text": "None", 
         "id": "None", 
         "description": ""
@@ -80,108 +40,88 @@
         "description": ""
     }, 
     {
-        "text": "U8", 
-        "id": "U8", 
+        "text": "Bad magic number.", 
+        "id": "Bad magic number.", 
         "description": ""
     }, 
     {
-        "text": "S16", 
-        "id": "S16", 
+        "text": "Unsupported file.", 
+        "id": "Unsupported file.", 
         "description": ""
     }, 
     {
-        "text": "S32", 
-        "id": "S32", 
+        "text": "Incomplete file.", 
+        "id": "Incomplete file.", 
         "description": ""
     }, 
     {
-        "text": "Float", 
-        "id": "Float", 
+        "text": "This plugin provides DPX image I/O.", 
+        "id": "This plugin provides DPX image I/O.", 
         "description": ""
     }, 
     {
-        "text": "Double", 
-        "id": "Double", 
+        "text": "1.0", 
+        "id": "1.0", 
         "description": ""
     }, 
     {
-        "text": "U8 Planar", 
-        "id": "U8 Planar", 
+        "text": "2.0", 
+        "id": "2.0", 
         "description": ""
     }, 
     {
-        "text": "S16 Planar", 
-        "id": "S16 Planar", 
+        "text": "Auto", 
+        "id": "Auto", 
         "description": ""
     }, 
     {
-        "text": "S32 Planar", 
-        "id": "S32 Planar", 
+        "text": "MSB", 
+        "id": "MSB", 
         "description": ""
     }, 
     {
-        "text": "Float Planar", 
-        "id": "Float Planar", 
+        "text": "LSB", 
+        "id": "LSB", 
         "description": ""
     }, 
     {
-        "text": "Double Planar", 
-        "id": "Double Planar", 
+        "text": "Cannot open file.", 
+        "id": "Cannot open file.", 
+        "description": ""
+    }, 
+    {
+        "text": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
+        "id": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
+        "description": ""
+    }, 
+    {
+        "text": "This plugin provides NetPBM image I/O.", 
+        "id": "This plugin provides NetPBM image I/O.", 
+        "description": ""
+    }, 
+    {
+        "text": "ASCII", 
+        "id": "ASCII", 
+        "description": ""
+    }, 
+    {
+        "text": "Binary", 
+        "id": "Binary", 
+        "description": ""
+    }, 
+    {
+        "text": "Error reading scanline.", 
+        "id": "Error reading scanline.", 
+        "description": ""
+    }, 
+    {
+        "text": "Unsupported image type.", 
+        "id": "Unsupported image type.", 
         "description": ""
     }, 
     {
         "text": "Unknown", 
         "id": "Unknown", 
-        "description": ""
-    }, 
-    {
-        "text": "This plugin provides FFmpeg image and audio I/O.", 
-        "id": "This plugin provides FFmpeg image and audio I/O.", 
-        "description": ""
-    }, 
-    {
-        "text": "The FFMPEG file", 
-        "id": "The FFMPEG file", 
-        "description": ""
-    }, 
-    {
-        "text": "cannot be opened", 
-        "id": "cannot be opened", 
-        "description": ""
-    }, 
-    {
-        "text": "does not have any video or audio streams", 
-        "id": "does not have any video or audio streams", 
-        "description": ""
-    }, 
-    {
-        "text": "does not match any video codecs", 
-        "id": "does not match any video codecs", 
-        "description": ""
-    }, 
-    {
-        "text": "The FFMPEG audio format ", 
-        "id": "The FFMPEG audio format ", 
-        "description": ""
-    }, 
-    {
-        "text": "is not supported", 
-        "id": "is not supported", 
-        "description": ""
-    }, 
-    {
-        "text": "does not match any audio codecs", 
-        "id": "does not match any audio codecs", 
-        "description": ""
-    }, 
-    {
-        "text": "The file", 
-        "id": "The file", 
-        "description": ""
-    }, 
-    {
-        "text": "cannot be written", 
-        "id": "cannot be written", 
         "description": ""
     }, 
     {
@@ -200,38 +140,98 @@
         "description": ""
     }, 
     {
+        "text": "U8", 
+        "id": "U8", 
+        "description": ""
+    }, 
+    {
+        "text": "S16", 
+        "id": "S16", 
+        "description": ""
+    }, 
+    {
+        "text": "S32", 
+        "id": "S32", 
+        "description": ""
+    }, 
+    {
         "text": "F32", 
         "id": "F32", 
         "description": ""
     }, 
     {
-        "text": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
-        "id": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
+        "text": "No image channels.", 
+        "id": "No image channels.", 
         "description": ""
     }, 
     {
-        "text": "The JPEG file", 
-        "id": "The JPEG file", 
+        "text": "Image channels must have the same size and bit depth.", 
+        "id": "Image channels must have the same size and bit depth.", 
         "description": ""
     }, 
     {
-        "text": "cannot be read", 
-        "id": "cannot be read", 
+        "text": "Unsupported bit depth.", 
+        "id": "Unsupported bit depth.", 
         "description": ""
     }, 
     {
-        "text": "This plugin provides OpenEXR file I/O.", 
-        "id": "This plugin provides OpenEXR file I/O.", 
+        "text": "Line padding is unsupported.", 
+        "id": "Line padding is unsupported.", 
         "description": ""
     }, 
     {
-        "text": "Known", 
-        "id": "Known", 
+        "text": "Channel padding is unsupported.", 
+        "id": "Channel padding is unsupported.", 
         "description": ""
     }, 
     {
-        "text": "All", 
-        "id": "All", 
+        "text": "This plugin provides Cineon image I/O.", 
+        "id": "This plugin provides Cineon image I/O.", 
+        "description": ""
+    }, 
+    {
+        "text": "The file", 
+        "id": "The file", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot be opened", 
+        "id": "cannot be opened", 
+        "description": ""
+    }, 
+    {
+        "text": "does not have any video or audio streams", 
+        "id": "does not have any video or audio streams", 
+        "description": ""
+    }, 
+    {
+        "text": "does not match any video codecs", 
+        "id": "does not match any video codecs", 
+        "description": ""
+    }, 
+    {
+        "text": "The audio format ", 
+        "id": "The audio format ", 
+        "description": ""
+    }, 
+    {
+        "text": "is not supported", 
+        "id": "is not supported", 
+        "description": ""
+    }, 
+    {
+        "text": "does not match any audio codecs", 
+        "id": "does not match any audio codecs", 
+        "description": ""
+    }, 
+    {
+        "text": "Unsupported color components.", 
+        "id": "Unsupported color components.", 
+        "description": ""
+    }, 
+    {
+        "text": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
+        "id": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
         "description": ""
     }, 
     {
@@ -240,48 +240,13 @@
         "description": ""
     }, 
     {
-        "text": "ZIPS", 
-        "id": "ZIPS", 
+        "text": "LZW", 
+        "id": "LZW", 
         "description": ""
     }, 
     {
-        "text": "ZIP", 
-        "id": "ZIP", 
-        "description": ""
-    }, 
-    {
-        "text": "PIZ", 
-        "id": "PIZ", 
-        "description": ""
-    }, 
-    {
-        "text": "PXR24", 
-        "id": "PXR24", 
-        "description": ""
-    }, 
-    {
-        "text": "B44", 
-        "id": "B44", 
-        "description": ""
-    }, 
-    {
-        "text": "B44A", 
-        "id": "B44A", 
-        "description": ""
-    }, 
-    {
-        "text": "DWAA", 
-        "id": "DWAA", 
-        "description": ""
-    }, 
-    {
-        "text": "DWAB", 
-        "id": "DWAB", 
-        "description": ""
-    }, 
-    {
-        "text": "The OpenEXR file", 
-        "id": "The OpenEXR file", 
+        "text": "Error writing scanline.", 
+        "id": "Error writing scanline.", 
         "description": ""
     }, 
     {
@@ -332,36 +297,6 @@
     {
         "text": "cannot be linked", 
         "id": "cannot be linked", 
-        "description": ""
-    }, 
-    {
-        "text": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
-        "id": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
-        "description": ""
-    }, 
-    {
-        "text": "The PNG file", 
-        "id": "The PNG file", 
-        "description": ""
-    }, 
-    {
-        "text": "This plugin provides NetPBM image I/O.", 
-        "id": "This plugin provides NetPBM image I/O.", 
-        "description": ""
-    }, 
-    {
-        "text": "ASCII", 
-        "id": "ASCII", 
-        "description": ""
-    }, 
-    {
-        "text": "Binary", 
-        "id": "Binary", 
-        "description": ""
-    }, 
-    {
-        "text": "The PPM file", 
-        "id": "The PPM file", 
         "description": ""
     }, 
     {
@@ -510,58 +445,128 @@
         "description": ""
     }, 
     {
-        "text": "Cannot create GLFW window.", 
-        "id": "Cannot create GLFW window.", 
-        "description": ""
-    }, 
-    {
         "text": "The shader cannot be created", 
         "id": "The shader cannot be created", 
         "description": ""
     }, 
     {
-        "text": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
-        "id": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
+        "text": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
+        "id": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
         "description": ""
     }, 
     {
-        "text": "LZW", 
-        "id": "LZW", 
+        "text": "This plugin provides OpenEXR file I/O.", 
+        "id": "This plugin provides OpenEXR file I/O.", 
         "description": ""
     }, 
     {
-        "text": "The TIFF file", 
-        "id": "The TIFF file", 
+        "text": "Known", 
+        "id": "Known", 
         "description": ""
     }, 
     {
-        "text": "No image channels.", 
-        "id": "No image channels.", 
+        "text": "All", 
+        "id": "All", 
         "description": ""
     }, 
     {
-        "text": "Image channels must have the same size and bit depth.", 
-        "id": "Image channels must have the same size and bit depth.", 
+        "text": "ZIPS", 
+        "id": "ZIPS", 
         "description": ""
     }, 
     {
-        "text": "Unsupported bit depth.", 
-        "id": "Unsupported bit depth.", 
+        "text": "ZIP", 
+        "id": "ZIP", 
         "description": ""
     }, 
     {
-        "text": "Line padding is unsupported.", 
-        "id": "Line padding is unsupported.", 
+        "text": "PIZ", 
+        "id": "PIZ", 
         "description": ""
     }, 
     {
-        "text": "Channel padding is unsupported.", 
-        "id": "Channel padding is unsupported.", 
+        "text": "PXR24", 
+        "id": "PXR24", 
         "description": ""
     }, 
     {
-        "text": "This plugin provides Cineon image I/O.", 
-        "id": "This plugin provides Cineon image I/O.", 
+        "text": "B44", 
+        "id": "B44", 
+        "description": ""
+    }, 
+    {
+        "text": "B44A", 
+        "id": "B44A", 
+        "description": ""
+    }, 
+    {
+        "text": "DWAA", 
+        "id": "DWAA", 
+        "description": ""
+    }, 
+    {
+        "text": "DWAB", 
+        "id": "DWAB", 
+        "description": ""
+    }, 
+    {
+        "text": "Cannot create GLFW window.", 
+        "id": "Cannot create GLFW window.", 
+        "description": ""
+    }, 
+    {
+        "text": "Float", 
+        "id": "Float", 
+        "description": ""
+    }, 
+    {
+        "text": "Double", 
+        "id": "Double", 
+        "description": ""
+    }, 
+    {
+        "text": "U8 Planar", 
+        "id": "U8 Planar", 
+        "description": ""
+    }, 
+    {
+        "text": "S16 Planar", 
+        "id": "S16 Planar", 
+        "description": ""
+    }, 
+    {
+        "text": "S32 Planar", 
+        "id": "S32 Planar", 
+        "description": ""
+    }, 
+    {
+        "text": "Float Planar", 
+        "id": "Float Planar", 
+        "description": ""
+    }, 
+    {
+        "text": "Double Planar", 
+        "id": "Double Planar", 
+        "description": ""
+    }, 
+    {
+        "text": "This plugin provides FFmpeg image and audio I/O.", 
+        "id": "This plugin provides FFmpeg image and audio I/O.", 
+        "description": ""
+    }, 
+    {
+        "text": "The file cannot be opened.", 
+        "id": "The file cannot be opened.", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot be read", 
+        "id": "cannot be read", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot be written", 
+        "id": "cannot be written", 
         "description": ""
     }, 
     {
