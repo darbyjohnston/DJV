@@ -263,7 +263,7 @@ namespace djv
                         render->setFillColor(style->getColor(p.textColorRole));
                         //! \bug Why the extra subtract by one here?
                         render->drawText(
-                            p.text.substr(line.offset, line.length),
+                            line.text,
                             glm::vec2(floorf(pos.x), floorf(pos.y + p.fontMetrics.ascender - 1.f)));
                     }
                     pos.y += line.size.y;

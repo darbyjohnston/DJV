@@ -490,7 +490,7 @@ namespace djv
                                     {
                                         //! \bug Why the extra subtract by one here?
                                         render->drawText(
-                                            j->second.substr(l->offset, l->length),
+                                            l->text,
                                             glm::vec2(
                                                 //floorf(x + p.thumbnailSize.x / 2.f - l->size.x / 2.f),
                                                 floor(x),

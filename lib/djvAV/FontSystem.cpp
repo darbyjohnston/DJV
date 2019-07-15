@@ -657,10 +657,18 @@ namespace djv
 
                                     if (isNewline(*i))
                                     {
-                                        lines.push_back(TextLine(
-                                            lineBegin - utf32.begin(),
-                                            i - lineBegin,
-                                            glm::vec2(pos.x, font->second->size->metrics.height / 64.f)));
+                                        try
+                                        {
+                                            lines.push_back(TextLine(
+                                                p.utf32.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
+                                                glm::vec2(pos.x, font->second->size->metrics.height / 64.f)));
+                                        }
+                                        catch (const std::exception& e)
+                                        {
+                                            std::stringstream ss;
+                                            ss << "Error converting string" << " '" << request.text << "': " << e.what();
+                                            _log(ss.str(), LogLevel::Error);
+                                        }
                                         pos.x = 0.f;
                                         pos.y += font->second->size->metrics.height / 64.f;
                                         lineBegin = i;
@@ -672,20 +680,36 @@ namespace djv
                                         {
                                             i = textLine;
                                             textLine = utf32.end();
-                                            lines.push_back(TextLine(
-                                                lineBegin - utf32.begin(),
-                                                i - lineBegin,
-                                                glm::vec2(textLineX, font->second->size->metrics.height / 64.f)));
+                                            try
+                                            {
+                                                lines.push_back(TextLine(
+                                                    p.utf32.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
+                                                    glm::vec2(textLineX, font->second->size->metrics.height / 64.f)));
+                                            }
+                                            catch (const std::exception& e)
+                                            {
+                                                std::stringstream ss;
+                                                ss << "Error converting string" << " '" << request.text << "': " << e.what();
+                                                _log(ss.str(), LogLevel::Error);
+                                            }
                                             pos.x = 0.f;
                                             pos.y += font->second->size->metrics.height / 64.f;
                                             lineBegin = i + 1;
                                         }
                                         else
                                         {
-                                            lines.push_back(TextLine(
-                                                lineBegin - utf32.begin(),
-                                                i - lineBegin,
+                                            try
+                                            {
+                                                lines.push_back(TextLine(
+                                                p.utf32.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
                                                 glm::vec2(pos.x, font->second->size->metrics.height / 64.f)));
+                                            }
+                                            catch (const std::exception& e)
+                                            {
+                                                std::stringstream ss;
+                                                ss << "Error converting string" << " '" << request.text << "': " << e.what();
+                                                _log(ss.str(), LogLevel::Error);
+                                            }
                                             pos.x = x;
                                             pos.y += font->second->size->metrics.height / 64.f;
                                             lineBegin = i;
@@ -704,10 +728,18 @@ namespace djv
                                 }
                                 if (i != lineBegin)
                                 {
-                                    lines.push_back(TextLine(
-                                        lineBegin - utf32.begin(),
-                                        i - lineBegin,
+                                    try
+                                    {
+                                        lines.push_back(TextLine(
+                                        p.utf32.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
                                         glm::vec2(pos.x, font->second->size->metrics.height / 64.f)));
+                                    }
+                                    catch (const std::exception& e)
+                                    {
+                                        std::stringstream ss;
+                                        ss << "Error converting string" << " '" << request.text << "': " << e.what();
+                                        _log(ss.str(), LogLevel::Error);
+                                    }
                                 }
                             }
                         }

@@ -62,9 +62,8 @@ namespace djv
             inline TextLine::TextLine()
             {}
 
-            inline TextLine::TextLine(size_t offset, size_t length, const glm::vec2& size) :
-                offset(offset),
-                length(length),
+            inline TextLine::TextLine(const std::string& text, const glm::vec2& size) :
+                text(text),
                 size(size)
             {}
 

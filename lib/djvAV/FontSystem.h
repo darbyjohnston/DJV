@@ -77,11 +77,10 @@ namespace djv
             struct TextLine
             {
                 inline TextLine();
-                inline TextLine(size_t offset, size_t length, const glm::vec2 &);
+                inline TextLine(const std::string&, const glm::vec2 &);
 
-                size_t    offset = 0;
-                size_t    length = 0;
-                glm::vec2 size   = glm::vec2(0.f, 0.f);
+                std::string text;
+                glm::vec2   size = glm::vec2(0.f, 0.f);
             };
 
             //! This struct provides font glyph information.
