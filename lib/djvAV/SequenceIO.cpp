@@ -97,9 +97,10 @@ namespace djv
                         frameNumber = Frame::getFrame(_frames, frameIndex);
                     }
                     Info info;
+                    std::string fileName = _fileInfo.getFileName(frameNumber);
                     try
                     {
-                        info = _readInfo(_fileInfo.getFileName(frameNumber));
+                        info = _readInfo(fileName);
                         p.infoPromise.set_value(info);
                     }
                     catch (const std::exception & e)
@@ -115,10 +116,7 @@ namespace djv
                             p.infoPromise.set_exception(std::current_exception());
                         }
                         catch (const std::exception & e)
-                        {
-                            _logSystem->log("djv::AV::ISequenceRead", e.what(), LogLevel::Error);
-                        }
-                        _logSystem->log("djv::AV::ISequenceRead", e.what(), LogLevel::Error);
+                        {}
                     }
 
                     const auto timeout = Time::getValue(Time::TimerValue::Fast);
@@ -193,7 +191,9 @@ namespace djv
                                     }
                                     catch (const std::exception& e)
                                     {
-                                        _logSystem->log("djv::AV::ISequenceRead", e.what(), LogLevel::Error);
+                                        std::stringstream ss;
+                                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be read") << ". " << e.what();
+                                        _logSystem->log("djv::AV::ISequenceRead", ss.str(), LogLevel::Error);
                                     }
                                     return out;
                                 }));
@@ -364,6 +364,7 @@ namespace djv
                             {
                                 struct Future
                                 {
+                                    std::string fileName;
                                     bool error = false;
                                     std::string errorString;
                                 };
@@ -384,10 +385,9 @@ namespace djv
                                     const Image::Type imageType = _getImageType(image->getType());
                                     if (Image::Type::None == imageType)
                                     {
-                                        std::stringstream s;
-                                        s << DJV_TEXT("The file") <<
-                                            " '" << fileName << "' " << DJV_TEXT("cannot be written") << ".";
-                                        throw std::runtime_error(s.str());
+                                        std::stringstream ss;
+                                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be written") << ".";
+                                        throw std::runtime_error(ss.str());
                                     }
                                     const Image::Layout imageLayout = _getImageLayout();
                                     if (imageType != image->getType() || imageLayout != image->getLayout())
@@ -403,6 +403,7 @@ namespace djv
                                         [this, fileName, image]
                                         {
                                             Future out;
+                                            out.fileName = fileName;
                                             try
                                             {
                                                 _write(fileName, image);
@@ -420,7 +421,10 @@ namespace djv
                                     const auto result = future.get();
                                     if (result.error)
                                     {
-                                        _logSystem->log("djv::AV::ISequenceWrite", result.errorString, LogLevel::Error);
+                                        std::stringstream ss;
+                                        ss << DJV_TEXT("The file") << " '" << result.fileName << "' " <<
+                                            DJV_TEXT("cannot be written") << ". " << result.errorString;
+                                        _logSystem->log("djv::AV::ISequenceWrite", ss.str(), LogLevel::Error);
                                         p.running = false;
                                     }
                                 }

@@ -217,29 +217,20 @@ namespace djv
                     f.jpegError.msg[0] = 0;
                     if (!jpegInit(&f.jpeg, &f.jpegError))
                     {
-                        std::stringstream s;
-                        s << pluginName << " " << DJV_TEXT("The file") <<
-                            " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ". " << f.jpegError.msg;
-                        throw std::runtime_error(s.str());
+                        throw std::runtime_error(f.jpegError.msg);
                     }
                     f.jpegInit = true;
 
                     f.f = FileSystem::fopen(fileName.c_str(), "wb");
                     if (!f.f)
                     {
-                        std::stringstream s;
-                        s << pluginName << " " << DJV_TEXT("The file") <<
-                            " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ".";
-                        throw std::runtime_error(s.str());
+                        throw std::runtime_error(DJV_TEXT("Canot open file."));
                     }
 
                     const auto& info = image->getInfo();
                     if (!jpegOpen(f.f, &f.jpeg, info, _info.tags, _p->options, &f.jpegError))
                     {
-                        std::stringstream s;
-                        s << pluginName << " " << DJV_TEXT("The file") <<
-                            " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ". " << f.jpegError.msg;
-                        throw std::runtime_error(s.str());
+                        throw std::runtime_error(f.jpegError.msg);
                     }
 
                     const uint16_t h = image->getHeight();
@@ -247,19 +238,13 @@ namespace djv
                     {
                         if (!jpegScanline(&f.jpeg, image->getData(y), &f.jpegError))
                         {
-                            std::stringstream s;
-                            s << pluginName << " " << DJV_TEXT("The file") <<
-                                " '" << fileName << "' " << DJV_TEXT("cannot be written") << ". " << f.jpegError.msg;
-                            throw std::runtime_error(s.str());
+                            throw std::runtime_error(f.jpegError.msg);
                         }
                     }
 
                     if (!jpeg_end(&f.jpeg, &f.jpegError))
                     {
-                        std::stringstream s;
-                        s << pluginName << " " << DJV_TEXT("The file") <<
-                            " '" << fileName << "' " << DJV_TEXT("cannot be written") << ". " << f.jpegError.msg;
-                        throw std::runtime_error(s.str());
+                        throw std::runtime_error(f.jpegError.msg);
                     }
                 }
 

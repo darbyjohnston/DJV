@@ -203,26 +203,17 @@ namespace djv
                         djvPngWarning);
                     if (!f.png)
                     {
-                        std::stringstream s;
-                        s << DJV_TEXT("The PNG file") <<
-                            " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ". " << f.pngError.msg;
-                        throw std::runtime_error(s.str());
+                        throw std::runtime_error(f.pngError.msg);
                     }
                     f.f = FileSystem::fopen(fileName.c_str(), "wb");
                     if (!f.f)
                     {
-                        std::stringstream s;
-                        s << DJV_TEXT("The PNG file") <<
-                            " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ".";
-                        throw std::runtime_error(s.str());
+                        throw std::runtime_error(DJV_TEXT("Cannot open file."));
                     }
                     const auto& info = image->getInfo();
                     if (!pngOpen(f.f, f.png, &f.pngInfo, info))
                     {
-                        std::stringstream s;
-                        s << DJV_TEXT("The PNG file") <<
-                            " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ". " << f.pngError.msg;
-                        throw std::runtime_error(s.str());
+                        throw std::runtime_error(f.pngError.msg);
                     }
                     if (Image::getBitDepth(info.type) > 8 && Memory::Endian::LSB == Memory::getEndian())
                     {
@@ -233,18 +224,12 @@ namespace djv
                     {
                         if (!pngScanline(f.png, image->getData(y)))
                         {
-                            std::stringstream s;
-                            s << DJV_TEXT("The PNG file") <<
-                                " '" << fileName << "' " << DJV_TEXT("cannot be written") << ". " << f.pngError.msg;
-                            throw std::runtime_error(s.str());
+                            throw std::runtime_error(f.pngError.msg);
                         }
                     }
                     if (!pngEnd(f.png, f.pngInfo))
                     {
-                        std::stringstream s;
-                        s << DJV_TEXT("The PNG file") <<
-                            " '" << fileName << "' " << DJV_TEXT("cannot be written") << ". " << f.pngError.msg;
-                        throw std::runtime_error(s.str());
+                        throw std::runtime_error(f.pngError.msg);
                     }
                 }
 

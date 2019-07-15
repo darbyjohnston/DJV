@@ -278,10 +278,7 @@ namespace djv
                         }
                         if (Image::Type::None == info.type)
                         {
-                            std::stringstream s;
-                            s << DJV_TEXT("The OpenEXR file") <<
-                                " '" << fileName << "' " << DJV_TEXT("cannot be read") << ".";
-                            throw std::runtime_error(s.str());
+                            throw std::runtime_error(DJV_TEXT("Unsupported image type."));
                         }
                         out.video[i].duration = _duration;
                         out.video[i].speed = _speed;

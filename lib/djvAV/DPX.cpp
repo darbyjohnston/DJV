@@ -242,7 +242,7 @@ namespace djv
                     else
                     {
                         std::stringstream s;
-                        s << DJV_TEXT("Unknown magic number.");
+                        s << DJV_TEXT("Bad magic number.");
                         throw std::runtime_error(s.str());
                     }
 
@@ -260,7 +260,7 @@ namespace djv
                         info.video[0].info.layout.endian = Memory::opposite(Memory::getEndian());
                     }
 
-                    // Collect the information.
+                    // Collect information.
                     if (out.image.elemSize != 1)
                     {
                         std::stringstream s;
@@ -332,6 +332,12 @@ namespace djv
                     {
                         std::stringstream s;
                         s << DJV_TEXT("Unsupported file.");
+                        throw std::runtime_error(s.str());
+                    }
+                    if (io.getSize() - out.file.imageOffset != info.video[0].info.getDataByteCount())
+                    {
+                        std::stringstream s;
+                        s << DJV_TEXT("Incomplete file.");
                         throw std::runtime_error(s.str());
                     }
 
@@ -1000,7 +1006,8 @@ namespace djv
         }
         else
         {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+            
+ std::invalid_argument(DJV_TEXT("Cannot parse the value."));
         }
     }
 

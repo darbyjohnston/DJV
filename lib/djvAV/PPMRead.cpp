@@ -102,10 +102,7 @@ namespace djv
                     io.read(magic, 2);
                     if (magic[0] != 'P')
                     {
-                        std::stringstream s;
-                        s << DJV_TEXT("The PPM file") <<
-                            " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ".";
-                        throw std::runtime_error(s.str());
+                        throw std::runtime_error(DJV_TEXT("Bad magic number."));
                     }
                     switch (magic[1])
                     {
@@ -115,10 +112,7 @@ namespace djv
                     case '6': break;
                     default:
                     {
-                        std::stringstream s;
-                        s << DJV_TEXT("The PPM file") <<
-                            " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ".";
-                        throw std::runtime_error(s.str());
+                        throw std::runtime_error(DJV_TEXT("Bad magic number."));
                     }
                     }
                     const int ppmType = magic[1] - '0';
@@ -143,14 +137,15 @@ namespace djv
                     const auto imageType = Image::getIntType(channelCount, bitDepth);
                     if (Image::Type::None == imageType)
                     {
-                        std::stringstream s;
-                        s << DJV_TEXT("The PPM file") <<
-                            " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ".";
-                        throw std::runtime_error(s.str());
+                        throw std::runtime_error(DJV_TEXT("Unsupported image type."));
                     }
                     Image::Layout layout;
                     layout.endian = data != Data::ASCII ? Memory::Endian::MSB : Memory::getEndian();
                     auto info = Image::Info(w, h, imageType, layout);
+                    if (Data::Binary == data && io.getSize() - io.getPos() != info.getDataByteCount())
+                    {
+                        throw std::runtime_error(DJV_TEXT("Incomplete file."));
+                    }
                     return Info(fileName, VideoInfo(info, _speed, _duration));
                 }
 

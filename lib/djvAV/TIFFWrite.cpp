@@ -132,10 +132,7 @@ namespace djv
 #endif // DJV_WINDOWS
                     if (!f.f)
                     {
-                        std::stringstream s;
-                        s << DJV_TEXT("The TIFF file") <<
-                            " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ".";
-                        throw std::runtime_error(s.str());
+                        throw std::runtime_error(DJV_TEXT("Cannot open file."));
                     }
 
                     const auto& info = image->getInfo();
@@ -237,10 +234,7 @@ namespace djv
                     {
                         if (TIFFWriteScanline(f.f, (tdata_t *)image->getData(y), y) == -1)
                         {
-                            std::stringstream s;
-                            s << DJV_TEXT("The TIFF file") <<
-                                " '" << fileName << "' " << DJV_TEXT("cannot be written") << ".";
-                            throw std::runtime_error(s.str());
+                            throw std::runtime_error(DJV_TEXT("Error writing scanline."));
                         }
                     }
                 }

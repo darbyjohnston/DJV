@@ -180,10 +180,7 @@ namespace djv
                     {
                         if (!pngScanline(f.png, out->getData(y)))
                         {
-                            std::stringstream s;
-                            s << DJV_TEXT("The PNG file") <<
-                                " '" << fileName << "' " << DJV_TEXT("cannot be read") << ". " << f.pngError.msg;
-                            throw std::runtime_error(s.str());
+                            throw std::runtime_error(f.pngError.msg);
                         }
                     }
                     pngEnd(f.png, f.pngInfoEnd);
@@ -199,26 +196,17 @@ namespace djv
                         djvPngWarning);
                     if (!f.png)
                     {
-                        std::stringstream s;
-                        s << DJV_TEXT("The PNG file") <<
-                            " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ". " << f.pngError.msg;
-                        throw std::runtime_error(s.str());
+                        throw std::runtime_error(f.pngError.msg);
                     }
 
                     f.f = FileSystem::fopen(fileName.c_str(), "rb");
                     if (!f.f)
                     {
-                        std::stringstream s;
-                        s << DJV_TEXT("The PNG file") <<
-                            " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ".";
-                        throw std::runtime_error(s.str());
+                        throw std::runtime_error(DJV_TEXT("The file cannot be opened."));
                     }
                     if (!pngOpen(f.f, f.png, &f.pngInfo, &f.pngInfoEnd))
                     {
-                        std::stringstream s;
-                        s << DJV_TEXT("The PNG file") <<
-                            " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ". " << f.pngError.msg;
-                        throw std::runtime_error(s.str());
+                        throw std::runtime_error(f.pngError.msg);
                     }
 
                     int channels = png_get_channels(f.png, f.pngInfo);
@@ -238,10 +226,7 @@ namespace djv
                     Image::Type imageType = Image::getIntType(channels, bitDepth);
                     if (Image::Type::None == imageType)
                     {
-                        std::stringstream s;
-                        s << DJV_TEXT("The PNG file") <<
-                            " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ".";
-                        throw std::runtime_error(s.str());
+                        throw std::runtime_error("Unsupported image type.");
                     }
                     auto info = Image::Info(png_get_image_width(f.png, f.pngInfo), png_get_image_height(f.png, f.pngInfo), imageType);
 

@@ -93,10 +93,7 @@ namespace djv
                     {
                         if (TIFFReadScanline(f.f, (tdata_t *)out->getData(y), y) == -1)
                         {
-                            std::stringstream s;
-                            s << DJV_TEXT("The TIFF file") <<
-                                " '" << fileName << "' " << DJV_TEXT("cannot be read") << ".";
-                            throw std::runtime_error(s.str());
+                            throw std::runtime_error(DJV_TEXT("Error reading scanline."));
                         }
                         if (f.palette)
                         {
@@ -119,10 +116,7 @@ namespace djv
 #endif // DJV_WINDOWS
                     if (!f.f)
                     {
-                        std::stringstream s;
-                        s << DJV_TEXT("The TIFF file") <<
-                            " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ".";
-                        throw std::runtime_error(s.str());
+                        throw std::runtime_error(DJV_TEXT("Cannot open file."));
                     }
 
                     uint32   width            = 0;
@@ -171,10 +165,7 @@ namespace djv
                     }
                     if (Image::Type::None == imageType)
                     {
-                        std::stringstream s;
-                        s << DJV_TEXT("The TIFF file") <<
-                            " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ".";
-                        throw std::runtime_error(s.str());
+                        throw std::runtime_error(DJV_TEXT("Unsupported image type."));
                     }
 
                     Image::Layout layout;

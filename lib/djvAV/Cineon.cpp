@@ -246,7 +246,7 @@ namespace djv
                     else
                     {
                         std::stringstream s;
-                        s << DJV_TEXT("Unknown magic number.");
+                        s << DJV_TEXT("Bad magic number.");
                         throw std::runtime_error(s.str());
                     }
 
@@ -320,10 +320,16 @@ namespace djv
                         throw std::runtime_error(s.str());
                     }
 
-                    // Collect the information.
+                    // Collect information.
                     info.video[0].info.type = imageType;
                     info.video[0].info.size.w = out.image.channel[0].size[0];
                     info.video[0].info.size.h = out.image.channel[0].size[1];
+                    if (io.getSize() - out.file.imageOffset != info.video[0].info.getDataByteCount())
+                    {
+                        std::stringstream s;
+                        s << DJV_TEXT("Incomplete file.");
+                        throw std::runtime_error(s.str());
+                    }
                     switch (static_cast<Orient>(out.image.orient))
                     {
                     case Orient::LeftRightBottomTop:

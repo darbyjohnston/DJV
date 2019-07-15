@@ -29,7 +29,6 @@
 
 #include <djvUI/IntEdit.h>
 
-#include <djvUI/Action.h>
 #include <djvUI/LineEdit.h>
 
 #include <djvCore/NumericValueModels.h>
@@ -50,10 +49,6 @@ namespace djv
             std::function<void(int)> callback;
             std::shared_ptr<ValueObserver<IntRange> > rangeObserver;
             std::shared_ptr<ValueObserver<int> > valueObserver;
-            std::shared_ptr<ValueObserver<bool> > incrementSmallObserver;
-            std::shared_ptr<ValueObserver<bool> > incrementLargeObserver;
-            std::shared_ptr<ValueObserver<bool> > decrementSmallObserver;
-            std::shared_ptr<ValueObserver<bool> > decrementLargeObserver;
         };
 
         void IntEdit::_init(Context * context)
@@ -64,19 +59,6 @@ namespace djv
 
             setClassName("djv::UI::IntEdit");
             setBackgroundRole(ColorRole::Trough);
-
-            auto incrementSmallAction = Action::create();
-            incrementSmallAction->setShortcut(GLFW_KEY_UP);
-            addAction(incrementSmallAction);
-            auto incrementLargeAction = Action::create();
-            incrementLargeAction->setShortcut(GLFW_KEY_PAGE_UP);
-            addAction(incrementLargeAction);
-            auto decrementSmallAction = Action::create();
-            decrementSmallAction->setShortcut(GLFW_KEY_DOWN);
-            addAction(decrementSmallAction);
-            auto decrementLargeAction = Action::create();
-            decrementLargeAction->setShortcut(GLFW_KEY_PAGE_DOWN);
-            addAction(decrementLargeAction);
 
             p.lineEdit = LineEdit::create(context);
             addChild(p.lineEdit);
@@ -98,74 +80,6 @@ namespace djv
                         catch (const std::exception &)
                         {}
                         widget->_textUpdate();
-                        if (widget->_p->callback)
-                        {
-                            widget->_p->callback(widget->_p->model->observeValue()->get());
-                        }
-                    }
-                }
-            });
-
-            p.incrementSmallObserver = ValueObserver<bool>::create(
-                incrementSmallAction->observeClicked(),
-                [weak](bool value)
-            {
-                if (value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->model->incrementSmall();
-                        if (widget->_p->callback)
-                        {
-                            widget->_p->callback(widget->_p->model->observeValue()->get());
-                        }
-                    }
-                }
-            });
-
-            p.incrementLargeObserver = ValueObserver<bool>::create(
-                incrementLargeAction->observeClicked(),
-                [weak](bool value)
-            {
-                if (value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->model->incrementLarge();
-                        if (widget->_p->callback)
-                        {
-                            widget->_p->callback(widget->_p->model->observeValue()->get());
-                        }
-                    }
-                }
-            });
-
-            p.decrementSmallObserver = ValueObserver<bool>::create(
-                decrementSmallAction->observeClicked(),
-                [weak](bool value)
-            {
-                if (value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->model->decrementSmall();
-                        if (widget->_p->callback)
-                        {
-                            widget->_p->callback(widget->_p->model->observeValue()->get());
-                        }
-                    }
-                }
-            });
-
-            p.decrementLargeObserver = ValueObserver<bool>::create(
-                decrementLargeAction->observeClicked(),
-                [weak](bool value)
-            {
-                if (value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->model->decrementLarge();
                         if (widget->_p->callback)
                         {
                             widget->_p->callback(widget->_p->model->observeValue()->get());
@@ -286,6 +200,58 @@ namespace djv
                     }
                     p.lineEdit->setSizeString(sizeString);
                 }
+            }
+        }
+
+        void IntEdit::_keyPressEvent(Event::KeyPress& event)
+        {
+            DJV_PRIVATE_PTR();
+            switch (event.getKey())
+            {
+            case GLFW_KEY_UP:
+                if (p.model)
+                {
+                    event.accept();
+                    p.model->incrementSmall();
+                    if (p.callback)
+                    {
+                        p.callback(p.model->observeValue()->get());
+                    }
+                }
+                break;
+            case GLFW_KEY_PAGE_UP:
+                if (p.model)
+                {
+                    event.accept();
+                    p.model->incrementLarge();
+                    if (p.callback)
+                    {
+                        p.callback(p.model->observeValue()->get());
+                    }
+                }
+                break;
+            case GLFW_KEY_DOWN:
+                if (p.model)
+                {
+                    event.accept();
+                    p.model->decrementSmall();
+                    if (p.callback)
+                    {
+                        p.callback(p.model->observeValue()->get());
+                    }
+                }
+                break;
+            case GLFW_KEY_PAGE_DOWN:
+                if (p.model)
+                {
+                    event.accept();
+                    p.model->decrementLarge();
+                    if (p.callback)
+                    {
+                        p.callback(p.model->observeValue()->get());
+                    }
+                }
+                break;
             }
         }
 

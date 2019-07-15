@@ -139,18 +139,12 @@ namespace djv
                         {
                             if (!jpegScanline(&f.jpeg, out->getData(y), &f.jpegError))
                             {
-                                std::stringstream s;
-                                s << DJV_TEXT("The JPEG file") <<
-                                    " '" << fileName << "' " << DJV_TEXT("cannot be read") << ". " << f.jpegError.msg;
-                                throw std::runtime_error(s.str());
+                                throw std::runtime_error(f.jpegError.msg);
                             }
                         }
                         if (!jpegEnd(&f.jpeg, &f.jpegError))
                         {
-                            std::stringstream s;
-                            s << DJV_TEXT("The JPEG file") <<
-                                " '" << fileName << "' " << DJV_TEXT("cannot be read") << ". " << f.jpegError.msg;
-                            throw std::runtime_error(s.str());
+                            throw std::runtime_error(f.jpegError.msg);
                         }
                     }
                     return out;
@@ -202,36 +196,24 @@ namespace djv
                     f.jpegError.msg[0] = 0;
                     if (!jpegInit(&f.jpeg, &f.jpegError))
                     {
-                        std::stringstream s;
-                        s << DJV_TEXT("The JPEG file") <<
-                            " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ". " << f.jpegError.msg;
-                        throw std::runtime_error(s.str());
+                        throw std::runtime_error(f.jpegError.msg);
                     }
                     f.jpegInit = true;
 
                     f.f = FileSystem::fopen(fileName, "rb");
                     if (!f.f)
                     {
-                        std::stringstream s;
-                        s << DJV_TEXT("The JPEG file") <<
-                            " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ".";
-                        throw std::runtime_error(s.str());
+                        throw std::runtime_error(DJV_TEXT("Cannot open file."));
                     }
                     if (!jpegOpen(f.f, &f.jpeg, &f.jpegError))
                     {
-                        std::stringstream s;
-                        s << DJV_TEXT("The JPEG file") <<
-                            " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ". " << f.jpegError.msg;
-                        throw std::runtime_error(s.str());
+                        throw std::runtime_error(f.jpegError.msg);
                     }
 
                     Image::Type imageType = Image::getIntType(f.jpeg.out_color_components, 8);
                     if (Image::Type::None == imageType)
                     {
-                        std::stringstream s;
-                        s << DJV_TEXT("The JPEG file") <<
-                            " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ".";
-                        throw std::runtime_error(s.str());
+                        throw std::runtime_error(DJV_TEXT("Unsupported color components."));
                     }
                     auto info = Info(fileName, VideoInfo(Image::Info(f.jpeg.output_width, f.jpeg.output_height, imageType), _speed, _duration));
 
