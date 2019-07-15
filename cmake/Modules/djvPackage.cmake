@@ -181,6 +181,7 @@ elseif (UNIX)
         
     set(CPACK_DEBIAN_PACKAGE_NAME ${INSTALL_NAME})
     set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6, libgcc1, libgl1")
+    set(CPACK_DEBIAN_PACKAGE_MAINTAINER darbyjohnston@yahoo.com)
     set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
     configure_file(
         ${PROJECT_SOURCE_DIR}/etc/Linux/postinst.in
