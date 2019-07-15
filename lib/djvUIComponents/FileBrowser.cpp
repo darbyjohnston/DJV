@@ -107,7 +107,6 @@ namespace djv
                 std::shared_ptr<ListObserver<FileSystem::FileInfo> > fileInfoObserver;
                 std::shared_ptr<ValueObserver<bool> > hasUpObserver;
                 std::shared_ptr<ValueObserver<bool> > upObserver;
-                std::shared_ptr<ValueObserver<bool> > currentObserver;
                 std::shared_ptr<ListObserver<FileSystem::Path> > historyObserver;
                 std::shared_ptr<ValueObserver<size_t> > historyIndexObserver;
                 std::shared_ptr<ValueObserver<bool> > hasBackObserver;
@@ -157,8 +156,6 @@ namespace djv
                 p.actions["Up"] = Action::create();
                 p.actions["Up"]->setIcon("djvIconArrowUp");
                 p.actions["Up"]->setShortcut(GLFW_KEY_UP);
-                p.actions["Current"] = Action::create();
-                p.actions["Current"]->setShortcut(GLFW_KEY_PERIOD);
 
                 p.actions["Tiles"] = Action::create();
                 p.actions["Tiles"]->setIcon("djvIconTileView");
@@ -416,19 +413,6 @@ namespace djv
                         if (auto widget = weak.lock())
                         {
                             widget->_p->directoryModel->cdUp();
-                        }
-                    }
-                });
-
-                p.currentObserver = ValueObserver<bool>::create(
-                    p.actions["Current"]->observeClicked(),
-                    [weak](bool value)
-                {
-                    if (value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->directoryModel->setPath(FileSystem::Path("."));
                         }
                     }
                 });
@@ -839,8 +823,6 @@ namespace djv
                 p.actions["Forward"]->setTooltip(_getText(DJV_TEXT("File browser forward tooltip")));
                 p.actions["Up"]->setText(_getText(DJV_TEXT("Up")));
                 p.actions["Up"]->setTooltip(_getText(DJV_TEXT("File browser up tooltip")));
-                p.actions["Current"]->setText(_getText(DJV_TEXT("Current Directory")));
-                p.actions["Current"]->setTooltip(_getText(DJV_TEXT("File browser current directory tooltip")));
 
                 p.actions["Tiles"]->setText(_getText(DJV_TEXT("Tile View")));
                 p.actions["Tiles"]->setTooltip(_getText(DJV_TEXT("File browser tile view tooltip")));

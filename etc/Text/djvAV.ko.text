@@ -1,986 +1,1040 @@
 [
     {
-        "id": "None", 
         "source": "None", 
-        "description": "", 
-        "text": "\uc5c6\uc74c"
+        "text": "\uc5c6\uc74c", 
+        "id": "None", 
+        "description": ""
     }, 
     {
-        "id": "Left", 
         "source": "Left", 
-        "description": "", 
-        "text": "\uc67c\ucabd"
+        "text": "\uc67c\ucabd", 
+        "id": "Left", 
+        "description": ""
     }, 
     {
-        "id": "Top", 
         "source": "Top", 
-        "description": "", 
-        "text": "\uc0c1\ub2e8"
+        "text": "\uc0c1\ub2e8", 
+        "id": "Top", 
+        "description": ""
     }, 
     {
-        "id": "Right", 
         "source": "Right", 
-        "description": "", 
-        "text": "\uad8c\ub9ac"
+        "text": "\uad8c\ub9ac", 
+        "id": "Right", 
+        "description": ""
     }, 
     {
-        "id": "Bottom", 
         "source": "Bottom", 
-        "description": "", 
-        "text": "\ubc14\ub2e5"
+        "text": "\ubc14\ub2e5", 
+        "id": "Bottom", 
+        "description": ""
     }, 
     {
-        "id": "Cannot read", 
         "source": "Cannot read", 
-        "description": "", 
-        "text": "\uc77d\uc744 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4"
+        "text": "\uc77d\uc744 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4", 
+        "id": "Cannot read", 
+        "description": ""
     }, 
     {
-        "id": "Cannot write", 
         "source": "Cannot write", 
+        "text": "\uc4f8 \uc218 \uc5c6\ub2e4.", 
+        "id": "Cannot write", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot write", 
+        "text": "\uc4f8 \uc218 \uc5c6\ub2e4", 
+        "id": "cannot write", 
+        "description": ""
+    }, 
+    {
+        "source": "Unknown", 
+        "text": "\uc54c \uc218 \uc5c6\ub294", 
+        "id": "Unknown", 
+        "description": ""
+    }, 
+    {
+        "source": "Out of memory", 
+        "text": "\uba54\ubaa8\ub9ac \ubd80\uc871", 
+        "id": "Out of memory", 
+        "description": ""
+    }, 
+    {
+        "source": "Invalid value", 
+        "text": "\uc798\ubabb\ub41c \uac12", 
+        "id": "Invalid value", 
+        "description": ""
+    }, 
+    {
+        "source": "Invalid enum", 
+        "text": "\uc720\ud6a8\ud558\uc9c0 \uc54a\uc740 \uc5f4\uac70 \ud615", 
+        "id": "Invalid enum", 
+        "description": ""
+    }, 
+    {
+        "source": "U8", 
+        "text": "U8", 
+        "id": "U8", 
+        "description": ""
+    }, 
+    {
+        "source": "S16", 
+        "text": "S16", 
+        "id": "S16", 
+        "description": ""
+    }, 
+    {
+        "source": "S32", 
+        "text": "S32", 
+        "id": "S32", 
+        "description": ""
+    }, 
+    {
+        "source": "F32", 
+        "text": "F32", 
+        "id": "F32", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot create OpenGL vertex shader.", 
+        "text": "OpenGL \ubc84\ud14d\uc2a4 \uc250\uc774\ub354\ub97c \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
+        "id": "Cannot create OpenGL vertex shader.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot compile OpenGL vertex shader", 
+        "text": "OpenGL \uc815\uc810 \uc170\uc774\ub354\ub97c \ucef4\ud30c\uc77c \ud560 \uc218 \uc5c6\uc74c", 
+        "id": "Cannot compile OpenGL vertex shader", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot create OpenGL fragment shader.", 
+        "text": "OpenGL \uc870\uac01 \uc250\uc774\ub354\ub97c \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
+        "id": "Cannot create OpenGL fragment shader.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot compile OpenGL framgent shader", 
+        "text": "OpenGL \ud504\ub808\uc784 \uc250\uc774\ub354\ub97c \ucef4\ud30c\uc77c \ud560 \uc218 \uc5c6\uc74c", 
+        "id": "Cannot compile OpenGL framgent shader", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot link program", 
+        "text": "\ud504\ub85c\uadf8\ub7a8\uc744 \uc5f0\uacb0\ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
+        "id": "Cannot link program", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot read", 
+        "text": "\uc77d\uc744 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4", 
+        "id": "cannot read", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot open", 
+        "text": "\uc5f4 \uc218 \uc5c6\ub2e4", 
+        "id": "cannot open", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot open OpenAL device.", 
+        "text": "OpenAL \uc7a5\uce58\ub97c \uc5f4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
+        "id": "Cannot open OpenAL device.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot create OpenAL context.", 
+        "text": "OpenAL \ucee8\ud14d\uc2a4\ud2b8\ub97c \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
+        "id": "Cannot create OpenAL context.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot make OpenAL context current.", 
+        "text": "OpenAL \ucee8\ud14d\uc2a4\ud2b8\ub97c \ud604\uc7ac \uc0c1\ud0dc\ub85c \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
+        "id": "Cannot make OpenAL context current.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot create GLFW window.", 
+        "text": "GLFW \ucc3d\uc744 \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
+        "id": "Cannot create GLFW window.", 
+        "description": ""
+    }, 
+    {
+        "source": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
+        "text": "\uc774 \ud50c\ub7ec\uadf8\uc778\uc740 PNG (Portable Network Graphics) \uc774\ubbf8\uc9c0 I / O\ub97c \uc81c\uacf5\ud569\ub2c8\ub2e4.", 
+        "id": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot create shader", 
+        "text": "\uc170\uc774\ub354\ub97c \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
+        "id": "Cannot create shader", 
+        "description": ""
+    }, 
+    {
+        "source": "Float", 
+        "text": "\ud759\uc190", 
+        "id": "Float", 
+        "description": ""
+    }, 
+    {
+        "source": "Double", 
+        "text": "\ub354\ube14", 
+        "id": "Double", 
+        "description": ""
+    }, 
+    {
+        "source": "U8 Planar", 
+        "text": "U8 \ud3c9\uba74", 
+        "id": "U8 Planar", 
+        "description": ""
+    }, 
+    {
+        "source": "S16 Planar", 
+        "text": "S16 \ud3c9\uba74", 
+        "id": "S16 Planar", 
+        "description": ""
+    }, 
+    {
+        "source": "S32 Planar", 
+        "text": "S32 \ud3c9\uba74", 
+        "id": "S32 Planar", 
+        "description": ""
+    }, 
+    {
+        "source": "Float Planar", 
+        "text": "\ud50c\ub85c\ud2b8 \ud3c9\uba74", 
+        "id": "Float Planar", 
+        "description": ""
+    }, 
+    {
+        "source": "Double Planar", 
+        "text": "\ub354\ube14 \ud50c\ub808\uc778", 
+        "id": "Double Planar", 
+        "description": ""
+    }, 
+    {
+        "source": "This plugin provides FFmpeg image and audio I/O.", 
+        "text": "\uc774 \ud50c\ub7ec\uadf8\uc778\uc740 FFmpeg \uc774\ubbf8\uc9c0 \ubc0f \uc624\ub514\uc624 I / O\ub97c \uc81c\uacf5\ud569\ub2c8\ub2e4.", 
+        "id": "This plugin provides FFmpeg image and audio I/O.", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot find any streams in", 
+        "text": "\uc5d0\uc11c \uc2a4\ud2b8\ub9bc\uc744 \ucc3e\uc744 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
+        "id": "cannot find any streams in", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot find video codec for", 
+        "text": "\uc5d0 \ub300\ud55c \ube44\ub514\uc624 \ucf54\ub371\uc744 \ucc3e\uc744 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
+        "id": "cannot find video codec for", 
+        "description": ""
+    }, 
+    {
+        "source": "unsupported audio format ", 
+        "text": "\uc9c0\uc6d0\ub418\uc9c0 \uc54a\ub294 \uc624\ub514\uc624 \ud615\uc2dd", 
+        "id": "unsupported audio format ", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot find audio codec for", 
+        "text": "\uc5d0 \ub300\ud55c \uc624\ub514\uc624 \ucf54\ub371\uc744 \ucc3e\uc744 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
+        "id": "cannot find audio codec for", 
+        "description": ""
+    }, 
+    {
+        "source": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
+        "text": "\uc774 \ud50c\ub7ec\uadf8\uc778\uc740 JPEG (Joint Photographic Experts Group) \uc774\ubbf8\uc9c0 I / O\ub97c \uc81c\uacf5\ud569\ub2c8\ub2e4.", 
+        "id": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot initialize GLFW.", 
+        "text": "GLFW\ub97c \ucd08\uae30\ud654 \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
+        "id": "Cannot initialize GLFW.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot create OpenGL texture.", 
+        "text": "OpenGL \ud14d\uc2a4\ucc98\ub97c \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
+        "id": "Cannot create OpenGL texture.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot create OpenGL frame buffer.", 
+        "text": "OpenGL \ud504\ub808\uc784 \ubc84\ud37c\ub97c \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
+        "id": "Cannot create OpenGL frame buffer.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot initialize OpenGL frame buffer.", 
+        "text": "OpenGL \ud504\ub808\uc784 \ubc84\ud37c\ub97c \ucd08\uae30\ud654 \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
+        "id": "Cannot initialize OpenGL frame buffer.", 
+        "description": ""
+    }, 
+    {
+        "source": "L U8", 
+        "text": "50 U8", 
+        "id": "L_U8", 
+        "description": ""
+    }, 
+    {
+        "source": "L U16", 
+        "text": "L U16", 
+        "id": "L_U16", 
+        "description": ""
+    }, 
+    {
+        "source": "L U32", 
+        "text": "L U32", 
+        "id": "L_U32", 
+        "description": ""
+    }, 
+    {
+        "source": "L F16", 
+        "text": "L F16", 
+        "id": "L_F16", 
+        "description": ""
+    }, 
+    {
+        "source": "L F32", 
+        "text": "L F32", 
+        "id": "L_F32", 
+        "description": ""
+    }, 
+    {
+        "source": "LA U8", 
+        "text": "THE U8", 
+        "id": "LA_U8", 
+        "description": ""
+    }, 
+    {
+        "source": "LA U16", 
+        "text": "THE U16", 
+        "id": "LA_U16", 
+        "description": ""
+    }, 
+    {
+        "source": "LA U32", 
+        "text": "THE U32", 
+        "id": "LA_U32", 
+        "description": ""
+    }, 
+    {
+        "source": "LA F16", 
+        "text": "THE F16", 
+        "id": "LA_F16", 
+        "description": ""
+    }, 
+    {
+        "source": "LA F32", 
+        "text": "\ub77c F32", 
+        "id": "LA_F32", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB U8", 
+        "text": "RGB U8", 
+        "id": "RGB_U8", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB U10", 
+        "text": "RGB U10", 
+        "id": "RGB_U10", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB U16", 
+        "text": "RGB U16", 
+        "id": "RGB_U16", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB U32", 
+        "text": "RGB U32", 
+        "id": "RGB_U32", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB F16", 
+        "text": "RGB F16", 
+        "id": "RGB_F16", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB F32", 
+        "text": "RGB F32", 
+        "id": "RGB_F32", 
+        "description": ""
+    }, 
+    {
+        "source": "RGBA U8", 
+        "text": "RGBA U8", 
+        "id": "RGBA_U8", 
+        "description": ""
+    }, 
+    {
+        "source": "RGBA U16", 
+        "text": "RGBA U16", 
+        "id": "RGBA_U16", 
+        "description": ""
+    }, 
+    {
+        "source": "RGBA U32", 
+        "text": "RGBA U32", 
+        "id": "RGBA_U32", 
+        "description": ""
+    }, 
+    {
+        "source": "RGBA F16", 
+        "text": "RGBA F16", 
+        "id": "RGBA_F16", 
+        "description": ""
+    }, 
+    {
+        "source": "RGBA F32", 
+        "text": "RGBA F32", 
+        "id": "RGBA_F32", 
+        "description": ""
+    }, 
+    {
+        "source": "U10", 
+        "text": "U10", 
+        "id": "U10", 
+        "description": ""
+    }, 
+    {
+        "source": "U16", 
+        "text": "U16", 
+        "id": "U16", 
+        "description": ""
+    }, 
+    {
+        "source": "U32", 
+        "text": "U32", 
+        "id": "U32", 
+        "description": ""
+    }, 
+    {
+        "source": "F16", 
+        "text": "F16", 
+        "id": "F16", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot initialize FreeType.", 
+        "text": "FreeType\uc744 \ucd08\uae30\ud654 \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
+        "id": "Cannot initialize FreeType.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot find any fonts.", 
+        "text": "\uae00\uaf34\uc744 \ucc3e\uc744 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
+        "id": "Cannot find any fonts.", 
+        "description": ""
+    }, 
+    {
+        "source": "This plugin provides NetPBM image I/O.", 
+        "text": "\uc774 \ud50c\ub7ec\uadf8\uc778\uc740 NetPBM \uc774\ubbf8\uc9c0 I / O\ub97c \uc81c\uacf5\ud569\ub2c8\ub2e4.", 
+        "id": "This plugin provides NetPBM image I/O.", 
+        "description": ""
+    }, 
+    {
+        "source": "ASCII", 
+        "text": "ASCII", 
+        "id": "ASCII", 
+        "description": ""
+    }, 
+    {
+        "source": "Binary", 
+        "text": "\uc774\uc9c4", 
+        "id": "Binary", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot parse value.", 
+        "text": "\uac12\uc744 \ud30c\uc2f1 \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
+        "id": "Cannot parse value.", 
+        "description": ""
+    }, 
+    {
+        "id": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "source": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "description": "", 
+        "text": "\ud30c\uc77c &quot;))&quot; &quot; &#39;&quot;&lt;&lt; fileName &lt;&lt; &quot;&quot; &quot;&lt;&lt; DJV_TEXT (&quot;\uc77d\uc744 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4"
+    }, 
+    {
+        "id": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "source": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "description": "", 
+        "text": "\ud30c\uc77c &quot;))&quot; &quot; &#39;&quot;&lt;&lt; fileName &lt;&lt; &quot;&quot; &quot;&lt;&lt; DJV_TEXT (&quot;\uc4f8 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4"
+    }, 
+    {
+        "id": "The file", 
+        "source": "The file", 
+        "description": "", 
+        "text": "\ud30c\uc77c"
+    }, 
+    {
+        "id": "cannot be written", 
+        "source": "cannot be written", 
         "description": "", 
         "text": "\uc4f8 \uc218 \uc5c6\ub2e4."
     }, 
     {
-        "id": "cannot write", 
-        "source": "cannot write", 
+        "id": "cannot be opened", 
+        "source": "cannot be opened", 
         "description": "", 
-        "text": "\uc4f8 \uc218 \uc5c6\ub2e4"
+        "text": "\uc5f4 \uc218 \uc5c6\ub2e4."
     }, 
     {
-        "id": "Unknown", 
-        "source": "Unknown", 
-        "description": "", 
-        "text": "\uc54c \uc218 \uc5c6\ub294"
-    }, 
-    {
-        "id": "Out of memory", 
-        "source": "Out of memory", 
-        "description": "", 
-        "text": "\uba54\ubaa8\ub9ac \ubd80\uc871"
-    }, 
-    {
-        "id": "Invalid value", 
-        "source": "Invalid value", 
-        "description": "", 
-        "text": "\uc798\ubabb\ub41c \uac12"
-    }, 
-    {
-        "id": "Invalid enum", 
-        "source": "Invalid enum", 
-        "description": "", 
-        "text": "\uc720\ud6a8\ud558\uc9c0 \uc54a\uc740 \uc5f4\uac70 \ud615"
-    }, 
-    {
-        "id": "U8", 
-        "source": "U8", 
-        "description": "", 
-        "text": "U8"
-    }, 
-    {
-        "id": "S16", 
-        "source": "S16", 
-        "description": "", 
-        "text": "S16"
-    }, 
-    {
-        "id": "S32", 
-        "source": "S32", 
-        "description": "", 
-        "text": "S32"
-    }, 
-    {
-        "id": "F32", 
-        "source": "F32", 
-        "description": "", 
-        "text": "F32"
-    }, 
-    {
-        "id": "Cannot create OpenGL vertex shader.", 
-        "source": "Cannot create OpenGL vertex shader.", 
-        "description": "", 
-        "text": "OpenGL \ubc84\ud14d\uc2a4 \uc250\uc774\ub354\ub97c \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
-    }, 
-    {
-        "id": "Cannot compile OpenGL vertex shader", 
-        "source": "Cannot compile OpenGL vertex shader", 
-        "description": "", 
-        "text": "OpenGL \uc815\uc810 \uc170\uc774\ub354\ub97c \ucef4\ud30c\uc77c \ud560 \uc218 \uc5c6\uc74c"
-    }, 
-    {
-        "id": "Cannot create OpenGL fragment shader.", 
-        "source": "Cannot create OpenGL fragment shader.", 
-        "description": "", 
-        "text": "OpenGL \uc870\uac01 \uc250\uc774\ub354\ub97c \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
-    }, 
-    {
-        "id": "Cannot compile OpenGL framgent shader", 
-        "source": "Cannot compile OpenGL framgent shader", 
-        "description": "", 
-        "text": "OpenGL \ud504\ub808\uc784 \uc250\uc774\ub354\ub97c \ucef4\ud30c\uc77c \ud560 \uc218 \uc5c6\uc74c"
-    }, 
-    {
-        "id": "Cannot link program", 
-        "source": "Cannot link program", 
-        "description": "", 
-        "text": "\ud504\ub85c\uadf8\ub7a8\uc744 \uc5f0\uacb0\ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
-    }, 
-    {
-        "id": "cannot read", 
-        "source": "cannot read", 
-        "description": "", 
-        "text": "\uc77d\uc744 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4"
-    }, 
-    {
-        "id": "cannot open", 
-        "source": "cannot open", 
-        "description": "", 
-        "text": "\uc5f4 \uc218 \uc5c6\ub2e4"
-    }, 
-    {
-        "id": "Cannot open OpenAL device.", 
-        "source": "Cannot open OpenAL device.", 
-        "description": "", 
-        "text": "OpenAL \uc7a5\uce58\ub97c \uc5f4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
-    }, 
-    {
-        "id": "Cannot create OpenAL context.", 
-        "source": "Cannot create OpenAL context.", 
-        "description": "", 
-        "text": "OpenAL \ucee8\ud14d\uc2a4\ud2b8\ub97c \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
-    }, 
-    {
-        "id": "Cannot make OpenAL context current.", 
-        "source": "Cannot make OpenAL context current.", 
-        "description": "", 
-        "text": "OpenAL \ucee8\ud14d\uc2a4\ud2b8\ub97c \ud604\uc7ac \uc0c1\ud0dc\ub85c \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
-    }, 
-    {
-        "id": "Cannot create GLFW window.", 
-        "source": "Cannot create GLFW window.", 
-        "description": "", 
-        "text": "GLFW \ucc3d\uc744 \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
-    }, 
-    {
-        "id": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
-        "source": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
-        "description": "", 
-        "text": "\uc774 \ud50c\ub7ec\uadf8\uc778\uc740 PNG (Portable Network Graphics) \uc774\ubbf8\uc9c0 I / O\ub97c \uc81c\uacf5\ud569\ub2c8\ub2e4."
-    }, 
-    {
-        "id": "Cannot create shader", 
-        "source": "Cannot create shader", 
-        "description": "", 
-        "text": "\uc170\uc774\ub354\ub97c \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
-    }, 
-    {
-        "id": "Float", 
-        "source": "Float", 
-        "description": "", 
-        "text": "\ud759\uc190"
-    }, 
-    {
-        "id": "Double", 
-        "source": "Double", 
-        "description": "", 
-        "text": "\ub354\ube14"
-    }, 
-    {
-        "id": "U8 Planar", 
-        "source": "U8 Planar", 
-        "description": "", 
-        "text": "U8 \ud3c9\uba74"
-    }, 
-    {
-        "id": "S16 Planar", 
-        "source": "S16 Planar", 
-        "description": "", 
-        "text": "S16 \ud3c9\uba74"
-    }, 
-    {
-        "id": "S32 Planar", 
-        "source": "S32 Planar", 
-        "description": "", 
-        "text": "S32 \ud3c9\uba74"
-    }, 
-    {
-        "id": "Float Planar", 
-        "source": "Float Planar", 
-        "description": "", 
-        "text": "\ud50c\ub85c\ud2b8 \ud3c9\uba74"
-    }, 
-    {
-        "id": "Double Planar", 
-        "source": "Double Planar", 
-        "description": "", 
-        "text": "\ub354\ube14 \ud50c\ub808\uc778"
-    }, 
-    {
-        "id": "This plugin provides FFmpeg image and audio I/O.", 
-        "source": "This plugin provides FFmpeg image and audio I/O.", 
-        "description": "", 
-        "text": "\uc774 \ud50c\ub7ec\uadf8\uc778\uc740 FFmpeg \uc774\ubbf8\uc9c0 \ubc0f \uc624\ub514\uc624 I / O\ub97c \uc81c\uacf5\ud569\ub2c8\ub2e4."
-    }, 
-    {
-        "id": "cannot find any streams in", 
-        "source": "cannot find any streams in", 
-        "description": "", 
-        "text": "\uc5d0\uc11c \uc2a4\ud2b8\ub9bc\uc744 \ucc3e\uc744 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
-    }, 
-    {
-        "id": "cannot find video codec for", 
-        "source": "cannot find video codec for", 
-        "description": "", 
-        "text": "\uc5d0 \ub300\ud55c \ube44\ub514\uc624 \ucf54\ub371\uc744 \ucc3e\uc744 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
-    }, 
-    {
-        "id": "unsupported audio format ", 
-        "source": "unsupported audio format ", 
-        "description": "", 
-        "text": "\uc9c0\uc6d0\ub418\uc9c0 \uc54a\ub294 \uc624\ub514\uc624 \ud615\uc2dd"
-    }, 
-    {
-        "id": "cannot find audio codec for", 
-        "source": "cannot find audio codec for", 
-        "description": "", 
-        "text": "\uc5d0 \ub300\ud55c \uc624\ub514\uc624 \ucf54\ub371\uc744 \ucc3e\uc744 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
-    }, 
-    {
-        "id": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
-        "source": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
-        "description": "", 
-        "text": "\uc774 \ud50c\ub7ec\uadf8\uc778\uc740 JPEG (Joint Photographic Experts Group) \uc774\ubbf8\uc9c0 I / O\ub97c \uc81c\uacf5\ud569\ub2c8\ub2e4."
-    }, 
-    {
-        "id": "Cannot initialize GLFW.", 
-        "source": "Cannot initialize GLFW.", 
-        "description": "", 
-        "text": "GLFW\ub97c \ucd08\uae30\ud654 \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
-    }, 
-    {
-        "id": "Cannot create OpenGL texture.", 
-        "source": "Cannot create OpenGL texture.", 
-        "description": "", 
-        "text": "OpenGL \ud14d\uc2a4\ucc98\ub97c \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
-    }, 
-    {
-        "id": "Cannot create OpenGL frame buffer.", 
-        "source": "Cannot create OpenGL frame buffer.", 
-        "description": "", 
-        "text": "OpenGL \ud504\ub808\uc784 \ubc84\ud37c\ub97c \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
-    }, 
-    {
-        "id": "Cannot initialize OpenGL frame buffer.", 
-        "source": "Cannot initialize OpenGL frame buffer.", 
-        "description": "", 
-        "text": "OpenGL \ud504\ub808\uc784 \ubc84\ud37c\ub97c \ucd08\uae30\ud654 \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
-    }, 
-    {
-        "id": "L_U8", 
-        "source": "L U8", 
-        "description": "", 
-        "text": "50 U8"
-    }, 
-    {
-        "id": "L_U16", 
-        "source": "L U16", 
-        "description": "", 
-        "text": "L U16"
-    }, 
-    {
-        "id": "L_U32", 
-        "source": "L U32", 
-        "description": "", 
-        "text": "L U32"
-    }, 
-    {
-        "id": "L_F16", 
-        "source": "L F16", 
-        "description": "", 
-        "text": "L F16"
-    }, 
-    {
-        "id": "L_F32", 
-        "source": "L F32", 
-        "description": "", 
-        "text": "L F32"
-    }, 
-    {
-        "id": "LA_U8", 
-        "source": "LA U8", 
-        "description": "", 
-        "text": "THE U8"
-    }, 
-    {
-        "id": "LA_U16", 
-        "source": "LA U16", 
-        "description": "", 
-        "text": "THE U16"
-    }, 
-    {
-        "id": "LA_U32", 
-        "source": "LA U32", 
-        "description": "", 
-        "text": "THE U32"
-    }, 
-    {
-        "id": "LA_F16", 
-        "source": "LA F16", 
-        "description": "", 
-        "text": "THE F16"
-    }, 
-    {
-        "id": "LA_F32", 
-        "source": "LA F32", 
-        "description": "", 
-        "text": "\ub77c F32"
-    }, 
-    {
-        "id": "RGB_U8", 
-        "source": "RGB U8", 
-        "description": "", 
-        "text": "RGB U8"
-    }, 
-    {
-        "id": "RGB_U10", 
-        "source": "RGB U10", 
-        "description": "", 
-        "text": "RGB U10"
-    }, 
-    {
-        "id": "RGB_U16", 
-        "source": "RGB U16", 
-        "description": "", 
-        "text": "RGB U16"
-    }, 
-    {
-        "id": "RGB_U32", 
-        "source": "RGB U32", 
-        "description": "", 
-        "text": "RGB U32"
-    }, 
-    {
-        "id": "RGB_F16", 
-        "source": "RGB F16", 
-        "description": "", 
-        "text": "RGB F16"
-    }, 
-    {
-        "id": "RGB_F32", 
-        "source": "RGB F32", 
-        "description": "", 
-        "text": "RGB F32"
-    }, 
-    {
-        "id": "RGBA_U8", 
-        "source": "RGBA U8", 
-        "description": "", 
-        "text": "RGBA U8"
-    }, 
-    {
-        "id": "RGBA_U16", 
-        "source": "RGBA U16", 
-        "description": "", 
-        "text": "RGBA U16"
-    }, 
-    {
-        "id": "RGBA_U32", 
-        "source": "RGBA U32", 
-        "description": "", 
-        "text": "RGBA U32"
-    }, 
-    {
-        "id": "RGBA_F16", 
-        "source": "RGBA F16", 
-        "description": "", 
-        "text": "RGBA F16"
-    }, 
-    {
-        "id": "RGBA_F32", 
-        "source": "RGBA F32", 
-        "description": "", 
-        "text": "RGBA F32"
-    }, 
-    {
-        "id": "U10", 
-        "source": "U10", 
-        "description": "", 
-        "text": "U10"
-    }, 
-    {
-        "id": "U16", 
-        "source": "U16", 
-        "description": "", 
-        "text": "U16"
-    }, 
-    {
-        "id": "U32", 
-        "source": "U32", 
-        "description": "", 
-        "text": "U32"
-    }, 
-    {
-        "id": "F16", 
-        "source": "F16", 
-        "description": "", 
-        "text": "F16"
-    }, 
-    {
-        "id": "Cannot initialize FreeType.", 
-        "source": "Cannot initialize FreeType.", 
+        "id": "FreeType cannot be initialized.", 
+        "source": "FreeType cannot be initialized.", 
         "description": "", 
         "text": "FreeType\uc744 \ucd08\uae30\ud654 \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
     }, 
     {
-        "id": "Cannot find any fonts.", 
-        "source": "Cannot find any fonts.", 
+        "id": "No fonts were found.", 
+        "source": "No fonts were found.", 
         "description": "", 
         "text": "\uae00\uaf34\uc744 \ucc3e\uc744 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
     }, 
     {
-        "id": "This plugin provides NetPBM image I/O.", 
-        "source": "This plugin provides NetPBM image I/O.", 
-        "description": "", 
-        "text": "\uc774 \ud50c\ub7ec\uadf8\uc778\uc740 NetPBM \uc774\ubbf8\uc9c0 I / O\ub97c \uc81c\uacf5\ud569\ub2c8\ub2e4."
-    }, 
-    {
-        "id": "ASCII", 
-        "source": "ASCII", 
-        "description": "", 
-        "text": "ASCII"
-    }, 
-    {
-        "id": "Binary", 
-        "source": "Binary", 
-        "description": "", 
-        "text": "\uc774\uc9c4"
-    }, 
-    {
-        "id": "Cannot parse value.", 
-        "source": "Cannot parse value.", 
-        "description": "", 
-        "text": "\uac12\uc744 \ud30c\uc2f1 \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
-    }, 
-    {
-        "source": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
-        "text": "\ud30c\uc77c &quot;))&quot; &quot; &#39;&quot;&lt;&lt; fileName &lt;&lt; &quot;&quot; &quot;&lt;&lt; DJV_TEXT (&quot;\uc77d\uc744 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4", 
-        "description": "", 
-        "id": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read"
-    }, 
-    {
-        "source": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
-        "text": "\ud30c\uc77c &quot;))&quot; &quot; &#39;&quot;&lt;&lt; fileName &lt;&lt; &quot;&quot; &quot;&lt;&lt; DJV_TEXT (&quot;\uc4f8 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4", 
-        "description": "", 
-        "id": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written"
-    }, 
-    {
-        "source": "The file", 
-        "text": "\ud30c\uc77c", 
-        "description": "", 
-        "id": "The file"
-    }, 
-    {
-        "source": "cannot be written", 
-        "text": "\uc4f8 \uc218 \uc5c6\ub2e4.", 
-        "description": "", 
-        "id": "cannot be written"
-    }, 
-    {
-        "source": "cannot be opened", 
-        "text": "\uc5f4 \uc218 \uc5c6\ub2e4.", 
-        "description": "", 
-        "id": "cannot be opened"
-    }, 
-    {
-        "source": "FreeType cannot be initialized.", 
-        "text": "FreeType\uc744 \ucd08\uae30\ud654 \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
-        "description": "", 
-        "id": "FreeType cannot be initialized."
-    }, 
-    {
-        "source": "No fonts were found.", 
-        "text": "\uae00\uaf34\uc744 \ucc3e\uc744 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
-        "description": "", 
-        "id": "No fonts were found."
-    }, 
-    {
+        "id": "The GLFW window cannot be created.", 
         "source": "The GLFW window cannot be created.", 
-        "text": "GLFW \ucc3d\uc744 \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
         "description": "", 
-        "id": "The GLFW window cannot be created."
+        "text": "GLFW \ucc3d\uc744 \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
     }, 
     {
+        "id": "Cannot parse the value.", 
         "source": "Cannot parse the value.", 
-        "text": "\uac12\uc744 \uad6c\ubb38 \ubd84\uc11d \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
         "description": "", 
-        "id": "Cannot parse the value."
+        "text": "\uac12\uc744 \uad6c\ubb38 \ubd84\uc11d \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
     }, 
     {
+        "id": "The JPEG file", 
         "source": "The JPEG file", 
-        "text": "JPEG \ud30c\uc77c", 
         "description": "", 
-        "id": "The JPEG file"
+        "text": "JPEG \ud30c\uc77c"
     }, 
     {
+        "id": "cannot be read", 
         "source": "cannot be read", 
-        "text": "\uc77d\uc744 \uc218 \uc5c6\ub2e4.", 
         "description": "", 
-        "id": "cannot be read"
+        "text": "\uc77d\uc744 \uc218 \uc5c6\ub2e4."
     }, 
     {
+        "id": "The OpenGL vertex shader cannot be created.", 
         "source": "The OpenGL vertex shader cannot be created.", 
-        "text": "OpenGL \ubc84\ud14d\uc2a4 \uc250\uc774\ub354\ub97c \uc0dd\uc131 \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
         "description": "", 
-        "id": "The OpenGL vertex shader cannot be created."
+        "text": "OpenGL \ubc84\ud14d\uc2a4 \uc250\uc774\ub354\ub97c \uc0dd\uc131 \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
     }, 
     {
+        "id": "The OpenGL vertex shader", 
         "source": "The OpenGL vertex shader", 
-        "text": "OpenGL \ubc84\ud14d\uc2a4 \uc250\uc774\ub354", 
         "description": "", 
-        "id": "The OpenGL vertex shader"
+        "text": "OpenGL \ubc84\ud14d\uc2a4 \uc250\uc774\ub354"
     }, 
     {
+        "id": "cannot be compiled", 
         "source": "cannot be compiled", 
-        "text": "\ucef4\ud30c\uc77c \ud560 \uc218 \uc5c6\ub2e4.", 
         "description": "", 
-        "id": "cannot be compiled"
+        "text": "\ucef4\ud30c\uc77c \ud560 \uc218 \uc5c6\ub2e4."
     }, 
     {
+        "id": "The OpenGL fragment shader cannot be created.", 
         "source": "The OpenGL fragment shader cannot be created.", 
-        "text": "OpenGL \uc870\uac01 \uc170\uc774\ub354\ub97c \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
         "description": "", 
-        "id": "The OpenGL fragment shader cannot be created."
+        "text": "OpenGL \uc870\uac01 \uc170\uc774\ub354\ub97c \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
     }, 
     {
+        "id": "The OpenGL framgent shader", 
         "source": "The OpenGL framgent shader", 
-        "text": "OpenGL \ud3ec\uc6cc\ub4dc \uc170\uc774\ub354", 
         "description": "", 
-        "id": "The OpenGL framgent shader"
+        "text": "OpenGL \ud3ec\uc6cc\ub4dc \uc170\uc774\ub354"
     }, 
     {
+        "id": "The program", 
         "source": "The program", 
-        "text": "\ud504\ub85c\uadf8\ub7a8", 
         "description": "", 
-        "id": "The program"
+        "text": "\ud504\ub85c\uadf8\ub7a8"
     }, 
     {
+        "id": "cannot be linked", 
         "source": "cannot be linked", 
-        "text": "\uc5f0\uacb0\ub420 \uc218 \uc5c6\ub2e4.", 
         "description": "", 
-        "id": "cannot be linked"
+        "text": "\uc5f0\uacb0\ub420 \uc218 \uc5c6\ub2e4."
     }, 
     {
+        "id": "The FFMPEG file", 
         "source": "The FFMPEG file", 
-        "text": "FFMPEG \ud30c\uc77c", 
         "description": "", 
-        "id": "The FFMPEG file"
+        "text": "FFMPEG \ud30c\uc77c"
     }, 
     {
+        "id": "does not have any video or audio streams", 
         "source": "does not have any video or audio streams", 
-        "text": "\ub3d9\uc601\uc0c1 \ub610\ub294 \uc624\ub514\uc624 \uc2a4\ud2b8\ub9bc\uc774 \uc5c6\uc2b5\ub2c8\ub2e4.", 
         "description": "", 
-        "id": "does not have any video or audio streams"
+        "text": "\ub3d9\uc601\uc0c1 \ub610\ub294 \uc624\ub514\uc624 \uc2a4\ud2b8\ub9bc\uc774 \uc5c6\uc2b5\ub2c8\ub2e4."
     }, 
     {
+        "id": "does not match any video codecs", 
         "source": "does not match any video codecs", 
-        "text": "\uc5b4\ub5a4 \ube44\ub514\uc624 \ucf54\ub371\uacfc\ub3c4 \uc77c\uce58\ud558\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4.", 
         "description": "", 
-        "id": "does not match any video codecs"
+        "text": "\uc5b4\ub5a4 \ube44\ub514\uc624 \ucf54\ub371\uacfc\ub3c4 \uc77c\uce58\ud558\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4."
     }, 
     {
+        "id": "The FFMPEG audio format ", 
         "source": "The FFMPEG audio format ", 
-        "text": "FFMPEG \uc624\ub514\uc624 \ud615\uc2dd", 
         "description": "", 
-        "id": "The FFMPEG audio format "
+        "text": "FFMPEG \uc624\ub514\uc624 \ud615\uc2dd"
     }, 
     {
+        "id": "is not supported", 
         "source": "is not supported", 
-        "text": "\uc9c0\uc6d0\ub418\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4.", 
         "description": "", 
-        "id": "is not supported"
+        "text": "\uc9c0\uc6d0\ub418\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4."
     }, 
     {
+        "id": "does not match any audio codecs", 
         "source": "does not match any audio codecs", 
-        "text": "\uc5b4\ub5a4 \uc624\ub514\uc624 \ucf54\ub371\uacfc\ub3c4 \uc77c\uce58\ud558\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4.", 
         "description": "", 
-        "id": "does not match any audio codecs"
+        "text": "\uc5b4\ub5a4 \uc624\ub514\uc624 \ucf54\ub371\uacfc\ub3c4 \uc77c\uce58\ud558\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4."
     }, 
     {
+        "id": "GLFW cannot be initialized.", 
         "source": "GLFW cannot be initialized.", 
-        "text": "GLFW\ub294 \ucd08\uae30\ud654 \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
         "description": "", 
-        "id": "GLFW cannot be initialized."
+        "text": "GLFW\ub294 \ucd08\uae30\ud654 \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
     }, 
     {
+        "id": "GLFW window cannot be created.", 
         "source": "GLFW window cannot be created.", 
-        "text": "GLFW \ucc3d\uc744 \uc0dd\uc131 \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
         "description": "", 
-        "id": "GLFW window cannot be created."
+        "text": "GLFW \ucc3d\uc744 \uc0dd\uc131 \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
     }, 
     {
+        "id": "The OpenAL device cannot be opened.", 
         "source": "The OpenAL device cannot be opened.", 
-        "text": "OpenAL \uc7a5\uce58\ub97c \uc5f4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
         "description": "", 
-        "id": "The OpenAL device cannot be opened."
+        "text": "OpenAL \uc7a5\uce58\ub97c \uc5f4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
     }, 
     {
+        "id": "The OpenAL context cannot be created.", 
         "source": "The OpenAL context cannot be created.", 
-        "text": "OpenAL \ucee8\ud14d\uc2a4\ud2b8\ub97c \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
         "description": "", 
-        "id": "The OpenAL context cannot be created."
+        "text": "OpenAL \ucee8\ud14d\uc2a4\ud2b8\ub97c \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
     }, 
     {
+        "id": "The OpenAL context cannot be made current.", 
         "source": "The OpenAL context cannot be made current.", 
-        "text": "OpenAL \ucee8\ud14d\uc2a4\ud2b8\ub294 \ucd5c\uc2e0 \uc0c1\ud0dc\ub85c \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
         "description": "", 
-        "id": "The OpenAL context cannot be made current."
+        "text": "OpenAL \ucee8\ud14d\uc2a4\ud2b8\ub294 \ucd5c\uc2e0 \uc0c1\ud0dc\ub85c \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
     }, 
     {
+        "id": "The OpenGL texture cannot be created.", 
         "source": "The OpenGL texture cannot be created.", 
-        "text": "OpenGL \ud14d\uc2a4\ucc98\ub97c \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
         "description": "", 
-        "id": "The OpenGL texture cannot be created."
+        "text": "OpenGL \ud14d\uc2a4\ucc98\ub97c \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
     }, 
     {
+        "id": "The OpenGL frame buffer cannot be created.", 
         "source": "The OpenGL frame buffer cannot be created.", 
-        "text": "OpenGL \ud504\ub808\uc784 \ubc84\ud37c\ub97c \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
         "description": "", 
-        "id": "The OpenGL frame buffer cannot be created."
+        "text": "OpenGL \ud504\ub808\uc784 \ubc84\ud37c\ub97c \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
     }, 
     {
+        "id": "The OpenGL frame buffer cannot be initialized.", 
         "source": "The OpenGL frame buffer cannot be initialized.", 
-        "text": "OpenGL \ud504\ub808\uc784 \ubc84\ud37c\ub97c \ucd08\uae30\ud654 \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
         "description": "", 
-        "id": "The OpenGL frame buffer cannot be initialized."
+        "text": "OpenGL \ud504\ub808\uc784 \ubc84\ud37c\ub97c \ucd08\uae30\ud654 \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
     }, 
     {
+        "id": "The PNG file", 
         "source": "The PNG file", 
-        "text": "PNG \ud30c\uc77c", 
         "description": "", 
-        "id": "The PNG file"
+        "text": "PNG \ud30c\uc77c"
     }, 
     {
+        "id": "The PPM file", 
         "source": "The PPM file", 
-        "text": "PPM \ud30c\uc77c", 
         "description": "", 
-        "id": "The PPM file"
+        "text": "PPM \ud30c\uc77c"
     }, 
     {
+        "id": "The shader cannot be created", 
         "source": "The shader cannot be created", 
-        "text": "\uc170\uc774\ub354\ub97c \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
         "description": "", 
-        "id": "The shader cannot be created"
+        "text": "\uc170\uc774\ub354\ub97c \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
     }, 
     {
+        "id": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
         "source": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
-        "text": "\uc774 \ud50c\ub7ec\uadf8\uc778\uc740 TIFF (Tagged Image File Format) \uc774\ubbf8\uc9c0 I / O\ub97c \uc81c\uacf5\ud569\ub2c8\ub2e4.", 
         "description": "", 
-        "id": "This plugin provides Tagged Image File Format (TIFF) image I/O."
+        "text": "\uc774 \ud50c\ub7ec\uadf8\uc778\uc740 TIFF (Tagged Image File Format) \uc774\ubbf8\uc9c0 I / O\ub97c \uc81c\uacf5\ud569\ub2c8\ub2e4."
     }, 
     {
+        "id": "RLE", 
         "source": "RLE", 
-        "text": "RLE", 
         "description": "", 
-        "id": "RLE"
+        "text": "RLE"
     }, 
     {
+        "id": "LZW", 
         "source": "LZW", 
-        "text": "LZW", 
         "description": "", 
-        "id": "LZW"
+        "text": "LZW"
     }, 
     {
+        "id": "The TIFF file", 
         "source": "The TIFF file", 
-        "text": "TIFF \ud30c\uc77c", 
         "description": "", 
-        "id": "The TIFF file"
+        "text": "TIFF \ud30c\uc77c"
     }, 
     {
+        "id": "L", 
         "source": "L", 
-        "text": "", 
         "description": "", 
-        "id": "L"
+        "text": ""
     }, 
     {
+        "id": "LA", 
         "source": "LA", 
-        "text": "LA", 
         "description": "", 
-        "id": "LA"
+        "text": "LA"
     }, 
     {
+        "id": "RGB", 
         "source": "RGB", 
-        "text": "RGB", 
         "description": "", 
-        "id": "RGB"
+        "text": "RGB"
     }, 
     {
+        "id": "RGBA", 
         "source": "RGBA", 
-        "text": "RGBA", 
         "description": "", 
-        "id": "RGBA"
+        "text": "RGBA"
     }, 
     {
+        "id": "Timecode", 
         "source": "Timecode", 
-        "text": "\uc2dc\uac04 \ucf54\ub4dc", 
         "description": "", 
-        "id": "Timecode"
+        "text": "\uc2dc\uac04 \ucf54\ub4dc"
     }, 
     {
+        "id": "Frames", 
         "source": "Frames", 
-        "text": "\ud504\ub808\uc784", 
         "description": "", 
-        "id": "Frames"
+        "text": "\ud504\ub808\uc784"
     }, 
     {
+        "id": "Unknown magic number.", 
         "source": "Unknown magic number.", 
-        "text": "\uc54c \uc218\uc5c6\ub294 \ub9c8\ubc95 \ubc88\ud638.", 
         "description": "", 
-        "id": "Unknown magic number."
+        "text": "\uc54c \uc218\uc5c6\ub294 \ub9c8\ubc95 \ubc88\ud638."
     }, 
     {
+        "id": "No image channels.", 
         "source": "No image channels.", 
-        "text": "\uc774\ubbf8\uc9c0 \ucc44\ub110\uc774 \uc5c6\uc2b5\ub2c8\ub2e4.", 
         "description": "", 
-        "id": "No image channels."
+        "text": "\uc774\ubbf8\uc9c0 \ucc44\ub110\uc774 \uc5c6\uc2b5\ub2c8\ub2e4."
     }, 
     {
+        "id": "Image channels must have the same size and bit depth.", 
         "source": "Image channels must have the same size and bit depth.", 
-        "text": "\uc774\ubbf8\uc9c0 \ucc44\ub110\uc740 \ub3d9\uc77c\ud55c \ud06c\uae30\uc640 \ube44\ud2b8 \uae4a\uc774\ub97c \uac00\uc838\uc57c\ud569\ub2c8\ub2e4.", 
         "description": "", 
-        "id": "Image channels must have the same size and bit depth."
+        "text": "\uc774\ubbf8\uc9c0 \ucc44\ub110\uc740 \ub3d9\uc77c\ud55c \ud06c\uae30\uc640 \ube44\ud2b8 \uae4a\uc774\ub97c \uac00\uc838\uc57c\ud569\ub2c8\ub2e4."
     }, 
     {
+        "id": "Unsupported bit depth.", 
         "source": "Unsupported bit depth.", 
-        "text": "\uc9c0\uc6d0\ub418\uc9c0 \uc54a\ub294 \ube44\ud2b8 \uc2ec\ub3c4.", 
         "description": "", 
-        "id": "Unsupported bit depth."
+        "text": "\uc9c0\uc6d0\ub418\uc9c0 \uc54a\ub294 \ube44\ud2b8 \uc2ec\ub3c4."
     }, 
     {
+        "id": "Line padding is unsupported.", 
         "source": "Line padding is unsupported.", 
-        "text": "\uc904 \ubc14\uafc8\uc740 \uc9c0\uc6d0\ub418\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4.", 
         "description": "", 
-        "id": "Line padding is unsupported."
+        "text": "\uc904 \ubc14\uafc8\uc740 \uc9c0\uc6d0\ub418\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4."
     }, 
     {
+        "id": "Channel padding is unsupported.", 
         "source": "Channel padding is unsupported.", 
-        "text": "\ucc44\ub110 \ud328\ub529\uc740 \uc9c0\uc6d0\ub418\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4.", 
         "description": "", 
-        "id": "Channel padding is unsupported."
+        "text": "\ucc44\ub110 \ud328\ub529\uc740 \uc9c0\uc6d0\ub418\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4."
     }, 
     {
+        "id": "This plugin provides Cineon image I/O.", 
         "source": "This plugin provides Cineon image I/O.", 
-        "text": "\uc774 \ud50c\ub7ec\uadf8\uc778\uc740 Cineon \uc774\ubbf8\uc9c0 I / O\ub97c \uc81c\uacf5\ud569\ub2c8\ub2e4.", 
         "description": "", 
-        "id": "This plugin provides Cineon image I/O."
+        "text": "\uc774 \ud50c\ub7ec\uadf8\uc778\uc740 Cineon \uc774\ubbf8\uc9c0 I / O\ub97c \uc81c\uacf5\ud569\ub2c8\ub2e4."
     }, 
     {
+        "id": "Auto", 
         "source": "Auto", 
-        "text": "\uc790\ub3d9", 
         "description": "", 
-        "id": "Auto"
+        "text": "\uc790\ub3d9"
     }, 
     {
+        "id": "Raw", 
         "source": "Raw", 
-        "text": "\ub178\uace8\uc801\uc778", 
         "description": "", 
-        "id": "Raw"
+        "text": "\ub178\uace8\uc801\uc778"
     }, 
     {
+        "id": "FilmPrint", 
         "source": "FilmPrint", 
-        "text": "\ud544\ub984 \uc778\uc1c4", 
         "description": "", 
-        "id": "FilmPrint"
+        "text": "\ud544\ub984 \uc778\uc1c4"
     }, 
     {
+        "id": "SourceOffset", 
         "source": "SourceOffset", 
-        "text": "SourceOffset", 
         "description": "", 
-        "id": "SourceOffset"
+        "text": "SourceOffset"
     }, 
     {
+        "id": "SourceFile", 
         "source": "SourceFile", 
-        "text": "\uc18c\uc2a4 \ud30c\uc77c", 
         "description": "", 
-        "id": "SourceFile"
+        "text": "\uc18c\uc2a4 \ud30c\uc77c"
     }, 
     {
+        "id": "SourceTime", 
         "source": "SourceTime", 
-        "text": "SourceTime", 
         "description": "", 
-        "id": "SourceTime"
+        "text": "SourceTime"
     }, 
     {
+        "id": "SourceInputDevice", 
         "source": "SourceInputDevice", 
-        "text": "SourceInputDevice", 
         "description": "", 
-        "id": "SourceInputDevice"
+        "text": "SourceInputDevice"
     }, 
     {
+        "id": "SourceInputModel", 
         "source": "SourceInputModel", 
-        "text": "SourceInputModel", 
         "description": "", 
-        "id": "SourceInputModel"
+        "text": "SourceInputModel"
     }, 
     {
+        "id": "SourceInputSerial", 
         "source": "SourceInputSerial", 
-        "text": "SourceInputSerial", 
         "description": "", 
-        "id": "SourceInputSerial"
+        "text": "SourceInputSerial"
     }, 
     {
+        "id": "SourceInputPitch", 
         "source": "SourceInputPitch", 
-        "text": "SourceInputPitch", 
         "description": "", 
-        "id": "SourceInputPitch"
+        "text": "SourceInputPitch"
     }, 
     {
+        "id": "SourceGamma", 
         "source": "SourceGamma", 
-        "text": "SourceGamma", 
         "description": "", 
-        "id": "SourceGamma"
+        "text": "SourceGamma"
     }, 
     {
+        "id": "FilmFormat", 
         "source": "FilmFormat", 
-        "text": "\ud544\ub984 \ud3ec\ub9f7", 
         "description": "", 
-        "id": "FilmFormat"
+        "text": "\ud544\ub984 \ud3ec\ub9f7"
     }, 
     {
+        "id": "FilmFrame", 
         "source": "FilmFrame", 
-        "text": "\ud544\ub984 \ud504\ub808\uc784", 
         "description": "", 
-        "id": "FilmFrame"
+        "text": "\ud544\ub984 \ud504\ub808\uc784"
     }, 
     {
+        "id": "FilmFrameRate", 
         "source": "FilmFrameRate", 
-        "text": "\ud544\ub984 \ud504\ub808\uc784 \uc18d\ub3c4", 
         "description": "", 
-        "id": "FilmFrameRate"
+        "text": "\ud544\ub984 \ud504\ub808\uc784 \uc18d\ub3c4"
     }, 
     {
+        "id": "FilmFrameID", 
         "source": "FilmFrameID", 
-        "text": "FilmFrameID", 
         "description": "", 
-        "id": "FilmFrameID"
+        "text": "FilmFrameID"
     }, 
     {
+        "id": "FilmSlate", 
         "source": "FilmSlate", 
-        "text": "FilmSlate", 
         "description": "", 
-        "id": "FilmSlate"
+        "text": "FilmSlate"
     }, 
     {
         "source": "This plugin provides OpenEXR file I/O.", 
+        "text": "\uc774 \ud50c\ub7ec\uadf8\uc778\uc740 OpenEXR \ud30c\uc77c I / O\ub97c \uc81c\uacf5\ud569\ub2c8\ub2e4.", 
         "description": "", 
-        "id": "This plugin provides OpenEXR file I/O.", 
-        "text": "\uc774 \ud50c\ub7ec\uadf8\uc778\uc740 OpenEXR \ud30c\uc77c I / O\ub97c \uc81c\uacf5\ud569\ub2c8\ub2e4."
+        "id": "This plugin provides OpenEXR file I/O."
     }, 
     {
         "source": "Known", 
+        "text": "\uc54c\ub824\uc9c4", 
         "description": "", 
-        "id": "Known", 
-        "text": "\uc54c\ub824\uc9c4"
+        "id": "Known"
     }, 
     {
         "source": "All", 
+        "text": "\ubaa8\ub4e0", 
         "description": "", 
-        "id": "All", 
-        "text": "\ubaa8\ub4e0"
+        "id": "All"
     }, 
     {
         "source": "ZIPS", 
+        "text": "\uc9c0\ud37c", 
         "description": "", 
-        "id": "ZIPS", 
-        "text": "\uc9c0\ud37c"
+        "id": "ZIPS"
     }, 
     {
         "source": "ZIP", 
+        "text": "\uc9c0\ud37c", 
         "description": "", 
-        "id": "ZIP", 
-        "text": "\uc9c0\ud37c"
+        "id": "ZIP"
     }, 
     {
         "source": "PIZ", 
+        "text": "PIZ", 
         "description": "", 
-        "id": "PIZ", 
-        "text": "PIZ"
+        "id": "PIZ"
     }, 
     {
         "source": "PXR24", 
+        "text": "PXR24", 
         "description": "", 
-        "id": "PXR24", 
-        "text": "PXR24"
+        "id": "PXR24"
     }, 
     {
         "source": "B44", 
+        "text": "B44", 
         "description": "", 
-        "id": "B44", 
-        "text": "B44"
+        "id": "B44"
     }, 
     {
         "source": "B44A", 
+        "text": "B44A", 
         "description": "", 
-        "id": "B44A", 
-        "text": "B44A"
+        "id": "B44A"
     }, 
     {
         "source": "DWAA", 
+        "text": "DWAA", 
         "description": "", 
-        "id": "DWAA", 
-        "text": "DWAA"
+        "id": "DWAA"
     }, 
     {
         "source": "DWAB", 
+        "text": "DWAB", 
         "description": "", 
-        "id": "DWAB", 
-        "text": "DWAB"
+        "id": "DWAB"
     }, 
     {
         "source": "The OpenEXR file", 
+        "text": "OpenEXR \ud30c\uc77c", 
         "description": "", 
-        "id": "The OpenEXR file", 
-        "text": "OpenEXR \ud30c\uc77c"
+        "id": "The OpenEXR file"
     }, 
     {
         "source": "Unsupported file.", 
+        "text": "\uc9c0\uc6d0\ub418\uc9c0 \uc54a\ub294 \ud30c\uc77c\uc785\ub2c8\ub2e4.", 
         "description": "", 
-        "id": "Unsupported file.", 
-        "text": "\uc9c0\uc6d0\ub418\uc9c0 \uc54a\ub294 \ud30c\uc77c\uc785\ub2c8\ub2e4."
+        "id": "Unsupported file."
     }, 
     {
         "source": "This plugin provides DPX image I/O.", 
+        "text": "\uc774 \ud50c\ub7ec\uadf8\uc778\uc740 DPX \uc774\ubbf8\uc9c0 I / O\ub97c \uc81c\uacf5\ud569\ub2c8\ub2e4.", 
         "description": "", 
-        "id": "This plugin provides DPX image I/O.", 
-        "text": "\uc774 \ud50c\ub7ec\uadf8\uc778\uc740 DPX \uc774\ubbf8\uc9c0 I / O\ub97c \uc81c\uacf5\ud569\ub2c8\ub2e4."
+        "id": "This plugin provides DPX image I/O."
     }, 
     {
         "source": "1.0", 
+        "text": "1.0", 
         "description": "", 
-        "id": "1.0", 
-        "text": "1.0"
+        "id": "1.0"
     }, 
     {
         "source": "2.0", 
+        "text": "2.0", 
         "description": "", 
-        "id": "2.0", 
-        "text": "2.0"
+        "id": "2.0"
     }, 
     {
         "source": "MSB", 
+        "text": "MSB", 
         "description": "", 
-        "id": "MSB", 
-        "text": "MSB"
+        "id": "MSB"
     }, 
     {
         "source": "LSB", 
+        "text": "LSB", 
         "description": "", 
-        "id": "LSB", 
-        "text": "LSB"
+        "id": "LSB"
     }, 
     {
         "source": "Default", 
+        "text": "\ud0dc\ub9cc", 
         "description": "", 
-        "id": "Default", 
-        "text": "\ud0dc\ub9cc"
+        "id": "Default"
+    }, 
+    {
+        "source": "Bad magic number.", 
+        "text": "\ub098\uc05c \ub9c8\ubc95\uc758 \uc22b\uc790.", 
+        "id": "Bad magic number.", 
+        "description": ""
+    }, 
+    {
+        "source": "Incomplete file.", 
+        "text": "\ubd88\uc644\uc804\ud55c \ud30c\uc77c.", 
+        "id": "Incomplete file.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot open file.", 
+        "text": "\ud30c\uc77c\uc744 \uc5f4 \uc218 \uc5c6\ub2e4.", 
+        "id": "Cannot open file.", 
+        "description": ""
+    }, 
+    {
+        "source": "Error reading scanline.", 
+        "text": "\uc2a4\uce94 \ub77c\uc778\uc744 \uc77d\ub294 \uc911 \uc624\ub958\uac00 \ubc1c\uc0dd\ud588\uc2b5\ub2c8\ub2e4.", 
+        "id": "Error reading scanline.", 
+        "description": ""
+    }, 
+    {
+        "source": "Unsupported image type.", 
+        "text": "\uc9c0\uc6d0\ub418\uc9c0 \uc54a\ub294 \uc774\ubbf8\uc9c0 \uc720\ud615\uc785\ub2c8\ub2e4.", 
+        "id": "Unsupported image type.", 
+        "description": ""
+    }, 
+    {
+        "source": "The audio format ", 
+        "text": "\uc624\ub514\uc624 \ud3ec\ub9f7", 
+        "id": "The audio format ", 
+        "description": ""
+    }, 
+    {
+        "source": "Unsupported color components.", 
+        "text": "\uc9c0\uc6d0\ub418\uc9c0 \uc54a\ub294 \uc0c9\uc0c1 \uad6c\uc131 \uc694\uc18c.", 
+        "id": "Unsupported color components.", 
+        "description": ""
+    }, 
+    {
+        "source": "Error writing scanline.", 
+        "text": "\uc8fc\uc0ac\uc120 \uc4f0\uae30 \uc624\ub958.", 
+        "id": "Error writing scanline.", 
+        "description": ""
+    }, 
+    {
+        "source": "The file cannot be opened.", 
+        "text": "\ud30c\uc77c\uc744 \uc5f4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
+        "id": "The file cannot be opened.", 
+        "description": ""
     }
 ]

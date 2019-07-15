@@ -1,2216 +1,2258 @@
 [
     {
+        "id": "Show Annotations", 
         "source": "Show Annotations", 
-        "text": "\u663e\u793a\u6ce8\u91ca", 
         "description": "", 
-        "id": "Show Annotations"
+        "text": "\u663e\u793a\u6ce8\u91ca"
     }, 
     {
+        "id": "Annotate", 
         "source": "Annotate", 
-        "text": "\u6ce8\u91ca", 
         "description": "", 
-        "id": "Annotate"
+        "text": "\u6ce8\u91ca"
     }, 
     {
+        "id": "Increase Volume", 
         "source": "Increase Volume", 
-        "text": "\u589e\u52a0\u97f3\u91cf", 
         "description": "", 
-        "id": "Increase Volume"
+        "text": "\u589e\u52a0\u97f3\u91cf"
     }, 
     {
-        "source": "Increase volume tooltip", 
-        "text": "\u589e\u52a0\u97f3\u91cf\u5de5\u5177\u63d0\u793a", 
+        "id": "Increase volume tooltip", 
+        "source": "Increase the audio volume", 
         "description": "", 
-        "id": "Increase volume tooltip"
+        "text": "\u589e\u52a0\u97f3\u91cf"
     }, 
     {
+        "id": "Decrease Volume", 
         "source": "Decrease Volume", 
-        "text": "\u51cf\u5c11\u97f3\u91cf", 
         "description": "", 
-        "id": "Decrease Volume"
+        "text": "\u51cf\u5c11\u97f3\u91cf"
     }, 
     {
-        "source": "Decrease volume tooltip", 
-        "text": "\u51cf\u5c11\u97f3\u91cf\u5de5\u5177\u63d0\u793a", 
+        "id": "Decrease volume tooltip", 
+        "source": "Decrease the audio volume", 
         "description": "", 
-        "id": "Decrease volume tooltip"
+        "text": "\u964d\u4f4e\u97f3\u91cf"
     }, 
     {
+        "id": "Mute", 
         "source": "Mute", 
-        "text": "\u9759\u97f3", 
         "description": "", 
-        "id": "Mute"
+        "text": "\u9759\u97f3"
     }, 
     {
-        "source": "Mute tooltip", 
-        "text": "\u9759\u97f3\u5de5\u5177\u63d0\u793a", 
+        "id": "Mute tooltip", 
+        "source": "Mute the audio", 
         "description": "", 
-        "id": "Mute tooltip"
+        "text": "\u5c06\u97f3\u9891\u9759\u97f3"
     }, 
     {
+        "id": "Audio", 
         "source": "Audio", 
-        "text": "\u97f3\u9891", 
         "description": "", 
-        "id": "Audio"
+        "text": "\u97f3\u9891"
     }, 
     {
-        "source": "Close tooltip", 
-        "text": "\u5173\u95ed\u5de5\u5177\u63d0\u793a", 
+        "id": "Close tooltip", 
+        "source": "Close the current file", 
         "description": "", 
-        "id": "Close tooltip"
+        "text": "\u5173\u95ed\u5f53\u524d\u6587\u4ef6"
     }, 
     {
+        "id": "Documentation", 
         "source": "Documentation", 
-        "text": "\u6587\u6863", 
         "description": "", 
-        "id": "Documentation"
+        "text": "\u6587\u6863"
     }, 
     {
+        "id": "Documentation tooltip", 
         "source": "Documentation tooltip", 
-        "text": "\u6587\u6863\u5de5\u5177\u63d0\u793a", 
         "description": "", 
-        "id": "Documentation tooltip"
+        "text": "\u6587\u6863\u5de5\u5177\u63d0\u793a"
     }, 
     {
+        "id": "About", 
         "source": "About", 
-        "text": "\u5173\u4e8e", 
         "description": "", 
-        "id": "About"
+        "text": "\u5173\u4e8e"
     }, 
     {
+        "id": "About tooltip", 
         "source": "About tooltip", 
-        "text": "\u5173\u4e8e\u5de5\u5177\u63d0\u793a", 
         "description": "", 
-        "id": "About tooltip"
+        "text": "\u5173\u4e8e\u5de5\u5177\u63d0\u793a"
     }, 
     {
+        "id": "System Log", 
         "source": "System Log", 
-        "text": "\u7cfb\u7edf\u65e5\u5fd7", 
         "description": "", 
-        "id": "System Log"
+        "text": "\u7cfb\u7edf\u65e5\u5fd7"
     }, 
     {
+        "id": "System log tooltip", 
         "source": "System log tooltip", 
-        "text": "\u7cfb\u7edf\u65e5\u5fd7\u5de5\u5177\u63d0\u793a", 
         "description": "", 
-        "id": "System log tooltip"
+        "text": "\u7cfb\u7edf\u65e5\u5fd7\u5de5\u5177\u63d0\u793a"
     }, 
     {
+        "id": "Help", 
         "source": "Help", 
-        "text": "\u6551\u547d", 
         "description": "", 
-        "id": "Help"
+        "text": "\u6551\u547d"
     }, 
     {
+        "id": "Histogram", 
         "source": "Histogram", 
-        "text": "\u76f4\u65b9\u56fe", 
         "description": "", 
-        "id": "Histogram"
+        "text": "\u76f4\u65b9\u56fe"
     }, 
     {
+        "id": "Recent Files", 
         "source": "Recent Files", 
-        "text": "\u6700\u8fd1\u7684\u6587\u4ef6", 
         "description": "", 
-        "id": "Recent Files"
+        "text": "\u6700\u8fd1\u7684\u6587\u4ef6"
     }, 
     {
+        "id": "Increase Thumbnail Size", 
         "source": "Increase Thumbnail Size", 
-        "text": "\u589e\u52a0\u7f29\u7565\u56fe\u5927\u5c0f", 
         "description": "", 
-        "id": "Increase Thumbnail Size"
+        "text": "\u589e\u52a0\u7f29\u7565\u56fe\u5927\u5c0f"
     }, 
     {
-        "source": "Recent files increase thumbnail size tooltip", 
-        "text": "\u6700\u8fd1\u7684\u6587\u4ef6\u4f1a\u589e\u52a0\u7f29\u7565\u56fe\u5927\u5c0f\u5de5\u5177\u63d0\u793a", 
+        "id": "Recent files increase thumbnail size tooltip", 
+        "source": "Increase the size of the thumbnails", 
         "description": "", 
-        "id": "Recent files increase thumbnail size tooltip"
+        "text": "\u589e\u52a0\u7f29\u7565\u56fe\u7684\u5927\u5c0f"
     }, 
     {
+        "id": "Decrease Thumbnail Size", 
         "source": "Decrease Thumbnail Size", 
-        "text": "\u51cf\u5c11\u7f29\u7565\u56fe\u5927\u5c0f", 
         "description": "", 
-        "id": "Decrease Thumbnail Size"
+        "text": "\u51cf\u5c11\u7f29\u7565\u56fe\u5927\u5c0f"
     }, 
     {
-        "source": "Recent files decrease thumbnail size tooltip", 
-        "text": "\u6700\u8fd1\u7684\u6587\u4ef6\u51cf\u5c11\u7f29\u7565\u56fe\u5927\u5c0f\u5de5\u5177\u63d0\u793a", 
+        "id": "Recent files decrease thumbnail size tooltip", 
+        "source": "Decrease the size of the thumbnails", 
         "description": "", 
-        "id": "Recent files decrease thumbnail size tooltip"
+        "text": "\u51cf\u5c0f\u7f29\u7565\u56fe\u7684\u5927\u5c0f"
     }, 
     {
-        "source": "Recent files search tooltip", 
-        "text": "\u6700\u8fd1\u7684\u6587\u4ef6\u641c\u7d22\u5de5\u5177\u63d0\u793a", 
+        "id": "Recent files search tooltip", 
+        "source": "Search the recent files", 
         "description": "", 
-        "id": "Recent files search tooltip"
+        "text": "\u641c\u7d22\u6700\u8fd1\u7684\u6587\u4ef6"
     }, 
     {
-        "source": "Recent files settings tooltip", 
-        "text": "\u6700\u8fd1\u7684\u6587\u4ef6\u8bbe\u7f6e\u5de5\u5177\u63d0\u793a", 
+        "id": "Recent files settings tooltip", 
+        "source": "Open the recent files settings", 
         "description": "", 
-        "id": "Recent files settings tooltip"
+        "text": "\u6253\u5f00\u6700\u8fd1\u7684\u6587\u4ef6\u8bbe\u7f6e"
     }, 
     {
+        "id": "Items", 
         "source": "Items", 
-        "text": "\u9879\u76ee", 
         "description": "", 
-        "id": "Items"
+        "text": "\u9879\u76ee"
     }, 
     {
+        "id": "Forward", 
         "source": "Forward", 
-        "text": "\u5411\u524d", 
         "description": "", 
-        "id": "Forward"
+        "text": "\u5411\u524d"
     }, 
     {
-        "source": "Forward tooltip", 
-        "text": "\u8f6c\u53d1\u5de5\u5177\u63d0\u793a", 
+        "id": "Forward tooltip", 
+        "source": "Start forward plaback", 
         "description": "", 
-        "id": "Forward tooltip"
+        "text": "\u5f00\u59cb\u524d\u77bb"
     }, 
     {
+        "id": "Reverse", 
         "source": "Reverse", 
-        "text": "\u76f8\u53cd", 
         "description": "", 
-        "id": "Reverse"
+        "text": "\u76f8\u53cd"
     }, 
     {
-        "source": "Reverse tooltip", 
-        "text": "\u53cd\u5411\u5de5\u5177\u63d0\u793a", 
+        "id": "Reverse tooltip", 
+        "source": "Start reverse playback", 
         "description": "", 
-        "id": "Reverse tooltip"
+        "text": "\u5f00\u59cb\u53cd\u5411\u64ad\u653e"
     }, 
     {
+        "id": "Play Once", 
         "source": "Play Once", 
-        "text": "\u73a9\u4e00\u6b21", 
         "description": "", 
-        "id": "Play Once"
+        "text": "\u73a9\u4e00\u6b21"
     }, 
     {
-        "source": "Play once tooltip", 
-        "text": "\u64ad\u653e\u4e00\u6b21\u5de5\u5177\u63d0\u793a", 
+        "id": "Play once tooltip", 
+        "source": "Play the file once and then stop playback", 
         "description": "", 
-        "id": "Play once tooltip"
+        "text": "\u64ad\u653e\u6587\u4ef6\u4e00\u6b21\u7136\u540e\u505c\u6b62\u64ad\u653e"
     }, 
     {
+        "id": "Loop", 
         "source": "Loop", 
-        "text": "\u73af", 
         "description": "", 
-        "id": "Loop"
+        "text": "\u73af"
     }, 
     {
-        "source": "Loop tooltip", 
-        "text": "\u5faa\u73af\u5de5\u5177\u63d0\u793a", 
+        "id": "Loop tooltip", 
+        "source": "Play the file over and over again", 
         "description": "", 
-        "id": "Loop tooltip"
+        "text": "\u4e00\u904d\u53c8\u4e00\u904d\u5730\u64ad\u653e\u6587\u4ef6"
     }, 
     {
+        "id": "Ping Pong", 
         "source": "Ping Pong", 
-        "text": "\u4e52\u4e53", 
         "description": "", 
-        "id": "Ping Pong"
+        "text": "\u4e52\u4e53"
     }, 
     {
-        "source": "Ping pong tooltip", 
-        "text": "\u4e52\u4e53\u7403\u5de5\u5177\u63d0\u793a", 
+        "id": "Ping pong tooltip", 
+        "source": "Play the file forwards and then backwards", 
         "description": "", 
-        "id": "Ping pong tooltip"
+        "text": "\u5411\u524d\u64ad\u653e\u6587\u4ef6\u7136\u540e\u5411\u540e\u64ad\u653e"
     }, 
     {
+        "id": "Play Every Frame", 
         "source": "Play Every Frame", 
-        "text": "\u64ad\u653e\u6bcf\u4e00\u5e27", 
         "description": "", 
-        "id": "Play Every Frame"
+        "text": "\u64ad\u653e\u6bcf\u4e00\u5e27"
     }, 
     {
-        "source": "Play every frame tooltip", 
-        "text": "\u64ad\u653e\u6bcf\u4e00\u5e27\u5de5\u5177\u63d0\u793a", 
+        "id": "Play every frame tooltip", 
+        "source": "Play every frame even if the proper speed cannot be maintained", 
         "description": "", 
-        "id": "Play every frame tooltip"
+        "text": "\u5373\u4f7f\u65e0\u6cd5\u4fdd\u6301\u9002\u5f53\u7684\u901f\u5ea6\uff0c\u4e5f\u8981\u64ad\u653e\u6bcf\u4e00\u5e27"
     }, 
     {
+        "id": "Go to In Point", 
         "source": "Go to In Point", 
-        "text": "\u8f6c\u5230In Point", 
         "description": "", 
-        "id": "Go to In Point"
+        "text": "\u8f6c\u5230In Point"
     }, 
     {
-        "source": "Go to in point tooltip", 
-        "text": "\u8f6c\u5230\u70b9\u5de5\u5177\u63d0\u793a", 
+        "id": "Go to in point tooltip", 
+        "source": "Go to the playback in point", 
         "description": "", 
-        "id": "Go to in point tooltip"
+        "text": "\u8f6c\u5230\u56de\u653e\u70b9"
     }, 
     {
+        "id": "Go to Out Point", 
         "source": "Go to Out Point", 
-        "text": "\u8f6c\u5230Out Point", 
         "description": "", 
-        "id": "Go to Out Point"
+        "text": "\u8f6c\u5230Out Point"
     }, 
     {
-        "source": "Go to out point tooltip", 
-        "text": "\u8f6c\u5230\u70b9\u5de5\u5177\u63d0\u793a", 
+        "id": "Go to out point tooltip", 
+        "source": "Go to the playback out point", 
         "description": "", 
-        "id": "Go to out point tooltip"
+        "text": "\u8f6c\u5230\u64ad\u653e\u70b9"
     }, 
     {
+        "id": "Go to Start Frame", 
         "source": "Go to Start Frame", 
-        "text": "\u8f6c\u5230\u201c\u5f00\u59cb\u5e27\u201d", 
         "description": "", 
-        "id": "Go to Start Frame"
+        "text": "\u8f6c\u5230\u201c\u5f00\u59cb\u5e27\u201d"
     }, 
     {
-        "source": "Go to start frame tooltip", 
-        "text": "\u8f6c\u5230\u5f00\u59cb\u5e27\u5de5\u5177\u63d0\u793a", 
+        "id": "Go to start frame tooltip", 
+        "source": "Go to the start frame", 
         "description": "", 
-        "id": "Go to start frame tooltip"
+        "text": "\u8f6c\u5230\u5f00\u59cb\u6846\u67b6"
     }, 
     {
+        "id": "Go to End Frame", 
         "source": "Go to End Frame", 
-        "text": "\u8f6c\u5230\u7ed3\u675f\u5e27", 
         "description": "", 
-        "id": "Go to End Frame"
+        "text": "\u8f6c\u5230\u7ed3\u675f\u5e27"
     }, 
     {
-        "source": "Go to end frame tooltip", 
-        "text": "\u8f6c\u5230\u7ed3\u675f\u5e27\u5de5\u5177\u63d0\u793a", 
+        "id": "Go to end frame tooltip", 
+        "source": "Go to the end frame", 
         "description": "", 
-        "id": "Go to end frame tooltip"
+        "text": "\u8f6c\u5230\u7ed3\u675f\u5e27"
     }, 
     {
+        "id": "Next Frame", 
         "source": "Next Frame", 
-        "text": "\u4e0b\u4e00\u5e27", 
         "description": "", 
-        "id": "Next Frame"
+        "text": "\u4e0b\u4e00\u5e27"
     }, 
     {
-        "source": "Next frame tooltip", 
-        "text": "\u4e0b\u4e00\u5e27\u5de5\u5177\u63d0\u793a", 
+        "id": "Next frame tooltip", 
+        "source": "Go to the next frame", 
         "description": "", 
-        "id": "Next frame tooltip"
+        "text": "\u8f6c\u5230\u4e0b\u4e00\u5e27"
     }, 
     {
+        "id": "Next Frame X10", 
         "source": "Next Frame X10", 
-        "text": "\u4e0b\u4e00\u5e27X10", 
         "description": "", 
-        "id": "Next Frame X10"
+        "text": "\u4e0b\u4e00\u5e27X10"
     }, 
     {
-        "source": "Next frame X10 tooltip", 
-        "text": "\u4e0b\u4e00\u5e27X10\u5de5\u5177\u63d0\u793a", 
+        "id": "Next frame X10 tooltip", 
+        "source": "Skip forward 10 frames", 
         "description": "", 
-        "id": "Next frame X10 tooltip"
+        "text": "\u5411\u524d\u8df3\u8fc710\u5e27"
     }, 
     {
+        "id": "Next Frame X100", 
         "source": "Next Frame X100", 
-        "text": "\u4e0b\u4e00\u5e27X100", 
         "description": "", 
-        "id": "Next Frame X100"
+        "text": "\u4e0b\u4e00\u5e27X100"
     }, 
     {
-        "source": "Next frame X100 tooltip", 
-        "text": "\u4e0b\u4e00\u5e27X100\u5de5\u5177\u63d0\u793a", 
+        "id": "Next frame X100 tooltip", 
+        "source": "Skip forward 100 frames", 
         "description": "", 
-        "id": "Next frame X100 tooltip"
+        "text": "\u5411\u524d\u8df3\u8fc7100\u5e27"
     }, 
     {
+        "id": "Previous Frame", 
         "source": "Previous Frame", 
-        "text": "\u4e0a\u4e00\u5e27", 
         "description": "", 
-        "id": "Previous Frame"
+        "text": "\u4e0a\u4e00\u5e27"
     }, 
     {
-        "source": "Previous frame tooltip", 
-        "text": "\u4e0a\u4e00\u5e27\u5de5\u5177\u63d0\u793a", 
+        "id": "Previous frame tooltip", 
+        "source": "Go to the previous frame", 
         "description": "", 
-        "id": "Previous frame tooltip"
+        "text": "\u8f6c\u5230\u4e0a\u4e00\u5e27"
     }, 
     {
+        "id": "Previous Frame X10", 
         "source": "Previous Frame X10", 
-        "text": "\u4e0a\u4e00\u5e27X10", 
         "description": "", 
-        "id": "Previous Frame X10"
+        "text": "\u4e0a\u4e00\u5e27X10"
     }, 
     {
-        "source": "Previous frame X10 tooltip", 
-        "text": "\u4e0a\u4e00\u5e27X10\u5de5\u5177\u63d0\u793a", 
+        "id": "Previous frame X10 tooltip", 
+        "source": "Skip backwards 10 frames", 
         "description": "", 
-        "id": "Previous frame X10 tooltip"
+        "text": "\u5411\u540e\u8df3\u8fc710\u5e27"
     }, 
     {
+        "id": "Previous Frame X100", 
         "source": "Previous Frame X100", 
-        "text": "\u4e0a\u4e00\u5e27X100", 
         "description": "", 
-        "id": "Previous Frame X100"
+        "text": "\u4e0a\u4e00\u5e27X100"
     }, 
     {
-        "source": "Previous frame X100 tooltip", 
-        "text": "\u4e0a\u4e00\u5e27X100\u5de5\u5177\u63d0\u793a", 
+        "id": "Previous frame X100 tooltip", 
+        "source": "Skip backwards 100 frames", 
         "description": "", 
-        "id": "Previous frame X100 tooltip"
+        "text": "\u5411\u540e\u8df3\u8fc7100\u5e27"
     }, 
     {
+        "id": "Enable In/Out Points", 
         "source": "Enable In/Out Points", 
-        "text": "\u542f\u7528\u8f93\u5165/\u8f93\u51fa\u70b9", 
         "description": "", 
-        "id": "Enable In/Out Points"
+        "text": "\u542f\u7528\u8f93\u5165/\u8f93\u51fa\u70b9"
     }, 
     {
-        "source": "Enable in/out points tooltip", 
-        "text": "\u542f\u7528\u8f93\u5165/\u8f93\u51fa\u70b9\u5de5\u5177\u63d0\u793a", 
+        "id": "Enable in/out points tooltip", 
+        "source": "Enable the playback in/out points", 
         "description": "", 
-        "id": "Enable in/out points tooltip"
+        "text": "\u542f\u7528\u64ad\u653e/\u64ad\u653e\u70b9"
     }, 
     {
+        "id": "Set In Point", 
         "source": "Set In Point", 
-        "text": "\u8bbe\u7f6e\u70b9", 
         "description": "", 
-        "id": "Set In Point"
+        "text": "\u8bbe\u7f6e\u70b9"
     }, 
     {
-        "source": "Set in point tooltip", 
-        "text": "\u8bbe\u7f6e\u70b9\u5de5\u5177\u63d0\u793a", 
+        "id": "Set in point tooltip", 
+        "source": "Set the playback in point", 
         "description": "", 
-        "id": "Set in point tooltip"
+        "text": "\u8bbe\u7f6e\u56de\u653e\u70b9"
     }, 
     {
+        "id": "Set Out Point", 
         "source": "Set Out Point", 
-        "text": "\u8bbe\u5b9a\u70b9", 
         "description": "", 
-        "id": "Set Out Point"
+        "text": "\u8bbe\u5b9a\u70b9"
     }, 
     {
-        "source": "Set out point tooltip", 
-        "text": "\u8bbe\u7f6e\u70b9\u5de5\u5177\u63d0\u793a", 
+        "id": "Set out point tooltip", 
+        "source": "Set the playback out point", 
         "description": "", 
-        "id": "Set out point tooltip"
+        "text": "\u8bbe\u7f6e\u64ad\u653e\u8f93\u51fa\u70b9"
     }, 
     {
+        "id": "Reset In Point", 
         "source": "Reset In Point", 
-        "text": "\u91cd\u7f6e\u70b9", 
         "description": "", 
-        "id": "Reset In Point"
+        "text": "\u91cd\u7f6e\u70b9"
     }, 
     {
-        "source": "Reset in point tooltip", 
-        "text": "\u91cd\u7f6e\u70b9\u5de5\u5177\u63d0\u793a", 
+        "id": "Reset in point tooltip", 
+        "source": "Reset the playback in point", 
         "description": "", 
-        "id": "Reset in point tooltip"
+        "text": "\u91cd\u7f6e\u64ad\u653e\u70b9"
     }, 
     {
+        "id": "Reset Out Point", 
         "source": "Reset Out Point", 
-        "text": "\u91cd\u7f6e\u70b9", 
         "description": "", 
-        "id": "Reset Out Point"
+        "text": "\u91cd\u7f6e\u70b9"
     }, 
     {
-        "source": "Reset out point tooltip", 
-        "text": "\u91cd\u7f6e\u70b9\u5de5\u5177\u63d0\u793a", 
+        "id": "Reset out point tooltip", 
+        "source": "Reset the playback out point", 
         "description": "", 
-        "id": "Reset out point tooltip"
+        "text": "\u91cd\u7f6e\u64ad\u653e\u8f93\u51fa\u70b9"
     }, 
     {
+        "id": "Playback", 
         "source": "Playback", 
-        "text": "\u56de\u653e", 
         "description": "", 
-        "id": "Playback"
+        "text": "\u56de\u653e"
     }, 
     {
+        "id": "Image", 
         "source": "Image", 
-        "text": "\u56fe\u7247", 
         "description": "", 
-        "id": "Image"
+        "text": "\u56fe\u7247"
     }, 
     {
+        "id": "DJV", 
         "source": "DJV", 
-        "text": "DJV", 
         "description": "", 
-        "id": "DJV"
+        "text": "DJV"
     }, 
     {
+        "id": "Rotate", 
         "source": "Rotate", 
-        "text": "\u65cb\u8f6c", 
         "description": "", 
-        "id": "Rotate"
+        "text": "\u65cb\u8f6c"
     }, 
     {
+        "id": "Aspect ratio", 
         "source": "Aspect ratio", 
-        "text": "\u5bbd\u9ad8\u6bd4", 
         "description": "", 
-        "id": "Aspect ratio"
-    }, 
-    {
-        "source": "Settings", 
-        "text": "\u8bbe\u7f6e", 
-        "description": "", 
-        "id": "Settings"
-    }, 
-    {
-        "source": "Information", 
-        "text": "\u4fe1\u606f", 
-        "description": "", 
-        "id": "Information"
-    }, 
-    {
-        "source": "Choose your language", 
-        "text": "\u9009\u62e9\u4f60\u7684\u8bed\u8a00", 
-        "description": "", 
-        "id": "Choose your language"
-    }, 
-    {
-        "source": "Choose a display size", 
-        "text": "\u9009\u62e9\u663e\u793a\u5c3a\u5bf8", 
-        "description": "", 
-        "id": "Choose a display size"
-    }, 
-    {
-        "source": "Choose a palette", 
-        "text": "\u9009\u62e9\u4e00\u4e2a\u8c03\u8272\u677f", 
-        "description": "", 
-        "id": "Choose a palette"
-    }, 
-    {
-        "source": "Next", 
-        "text": "\u4e0b\u4e00\u4e2a", 
-        "description": "", 
-        "id": "Next"
-    }, 
-    {
-        "source": "Previous", 
-        "text": "\u4ee5\u524d", 
-        "description": "", 
-        "id": "Previous"
-    }, 
-    {
-        "source": "Finish", 
-        "text": "\u5b8c", 
-        "description": "", 
-        "id": "Finish"
-    }, 
-    {
-        "source": "Color Manager", 
-        "text": "\u8272\u5f69\u7ba1\u7406\u5668", 
-        "description": "", 
-        "id": "Color Manager"
-    }, 
-    {
-        "source": "Color manager tooltip", 
-        "text": "\u989c\u8272\u7ba1\u7406\u5668\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Color manager tooltip"
-    }, 
-    {
-        "source": "Color Channels", 
-        "text": "\u5f69\u8272\u901a\u9053", 
-        "description": "", 
-        "id": "Color Channels"
-    }, 
-    {
-        "source": "Color channels tooltip", 
-        "text": "\u989c\u8272\u901a\u9053\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Color channels tooltip"
-    }, 
-    {
-        "source": "Red Channel", 
-        "text": "\u7ea2\u8272\u901a\u9053", 
-        "description": "", 
-        "id": "Red Channel"
-    }, 
-    {
-        "source": "Red channel tooltip", 
-        "text": "\u7ea2\u8272\u901a\u9053\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Red channel tooltip"
-    }, 
-    {
-        "source": "Green Channel", 
-        "text": "\u7eff\u8272\u901a\u9053", 
-        "description": "", 
-        "id": "Green Channel"
-    }, 
-    {
-        "source": "Green channel tooltip", 
-        "text": "\u7eff\u8272\u901a\u9053\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Green channel tooltip"
-    }, 
-    {
-        "source": "Blue Channel", 
-        "text": "\u84dd\u8272\u901a\u9053", 
-        "description": "", 
-        "id": "Blue Channel"
-    }, 
-    {
-        "source": "Blue channel tooltip", 
-        "text": "\u84dd\u8272\u901a\u9053\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Blue channel tooltip"
-    }, 
-    {
-        "source": "Alpha Channel", 
-        "text": "Alpha\u901a\u9053", 
-        "description": "", 
-        "id": "Alpha Channel"
-    }, 
-    {
-        "source": "Alpha channel tooltip", 
-        "text": "Alpha\u901a\u9053\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Alpha channel tooltip"
-    }, 
-    {
-        "source": "Premultiplied Alpha", 
-        "text": "\u9884\u4e58Alpha", 
-        "description": "", 
-        "id": "Premultiplied Alpha"
-    }, 
-    {
-        "source": "Premultiplied alpha tooltip", 
-        "text": "\u9884\u4e58alpha\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Premultiplied alpha tooltip"
-    }, 
-    {
-        "source": "Mirror Horizontal", 
-        "text": "\u955c\u9762\u6c34\u5e73", 
-        "description": "", 
-        "id": "Mirror Horizontal"
-    }, 
-    {
-        "source": "Mirror horizontal tooltip", 
-        "text": "\u955c\u50cf\u6c34\u5e73\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Mirror horizontal tooltip"
-    }, 
-    {
-        "source": "Mirror Vertical", 
-        "text": "\u955c\u9762\u5782\u76f4", 
-        "description": "", 
-        "id": "Mirror Vertical"
-    }, 
-    {
-        "source": "Mirror vertical tooltip", 
-        "text": "\u955c\u50cf\u5782\u76f4\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Mirror vertical tooltip"
-    }, 
-    {
-        "source": "Rotate 0", 
-        "text": "\u65cb\u8f6c0", 
-        "description": "", 
-        "id": "Rotate 0"
-    }, 
-    {
-        "source": "Rotate 0 tooltip", 
-        "text": "\u65cb\u8f6c0\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Rotate 0 tooltip"
-    }, 
-    {
-        "source": "Rotate 90", 
-        "text": "\u65cb\u8f6c90", 
-        "description": "", 
-        "id": "Rotate 90"
-    }, 
-    {
-        "source": "Rotate 90 tooltip", 
-        "text": "\u65cb\u8f6c90\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Rotate 90 tooltip"
-    }, 
-    {
-        "source": "Rotate 180", 
-        "text": "\u65cb\u8f6c180", 
-        "description": "", 
-        "id": "Rotate 180"
-    }, 
-    {
-        "source": "Rotate 180 tooltip", 
-        "text": "\u65cb\u8f6c180\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Rotate 180 tooltip"
-    }, 
-    {
-        "source": "Rotate 270", 
-        "text": "\u65cb\u8f6c270", 
-        "description": "", 
-        "id": "Rotate 270"
-    }, 
-    {
-        "source": "Rotate 270 tooltip", 
-        "text": "\u65cb\u8f6c270\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Rotate 270 tooltip"
-    }, 
-    {
-        "source": "Default Aspect Ratio", 
-        "text": "\u9ed8\u8ba4\u7eb5\u6a2a\u6bd4", 
-        "description": "", 
-        "id": "Default Aspect Ratio"
-    }, 
-    {
-        "source": "Default aspect ratio tooltip", 
-        "text": "\u9ed8\u8ba4\u5bbd\u9ad8\u6bd4\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Default aspect ratio tooltip"
-    }, 
-    {
-        "source": "Automatic Aspect Ratio", 
-        "text": "\u81ea\u52a8\u5bbd\u9ad8\u6bd4", 
-        "description": "", 
-        "id": "Automatic Aspect Ratio"
-    }, 
-    {
-        "source": "Automatic aspect ratio tooltip", 
-        "text": "\u81ea\u52a8\u5bbd\u9ad8\u6bd4\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Automatic aspect ratio tooltip"
-    }, 
-    {
-        "source": "16:9", 
-        "text": "16\uff1a9", 
-        "description": "", 
-        "id": "16:9"
-    }, 
-    {
-        "source": "16:9 aspect ratio tooltip", 
-        "text": "16\uff1a9\u5bbd\u9ad8\u6bd4\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "16:9 aspect ratio tooltip"
-    }, 
-    {
-        "source": "1.85", 
-        "text": "1.85", 
-        "description": "", 
-        "id": "1.85"
-    }, 
-    {
-        "source": "1.85 aspect ratio tooltip", 
-        "text": "1.85\u5bbd\u9ad8\u6bd4\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "1.85 aspect ratio tooltip"
-    }, 
-    {
-        "source": "2.35", 
-        "text": "2.35", 
-        "description": "", 
-        "id": "2.35"
-    }, 
-    {
-        "source": "2.35 aspect ratio tooltip", 
-        "text": "2.35\u5bbd\u9ad8\u6bd4\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "2.35 aspect ratio tooltip"
-    }, 
-    {
-        "source": "Frame Store", 
-        "text": "\u6846\u67b6\u5546\u5e97", 
-        "description": "", 
-        "id": "Frame Store"
-    }, 
-    {
-        "source": "Frame store tooltip", 
-        "text": "\u6846\u67b6\u5546\u5e97\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Frame store tooltip"
-    }, 
-    {
-        "source": "Load Frame Store", 
-        "text": "\u52a0\u8f7d\u6846\u67b6\u5b58\u50a8", 
-        "description": "", 
-        "id": "Load Frame Store"
-    }, 
-    {
-        "source": "Load frame store tooltip", 
-        "text": "\u52a0\u8f7d\u6846\u67b6\u5b58\u50a8\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Load frame store tooltip"
-    }, 
-    {
-        "source": "Show timeline PIP", 
-        "text": "\u663e\u793a\u65f6\u95f4\u7ebfPIP", 
-        "description": "", 
-        "id": "Show timeline PIP"
-    }, 
-    {
-        "source": "Media popup tooltip", 
-        "text": "\u5a92\u4f53\u5f39\u51fa\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Media popup tooltip"
-    }, 
-    {
-        "source": "Settings tooltip", 
-        "text": "\u8bbe\u7f6e\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Settings tooltip"
-    }, 
-    {
-        "source": "Copy", 
-        "text": "\u590d\u5236", 
-        "description": "", 
-        "id": "Copy"
-    }, 
-    {
-        "source": "Reload", 
-        "text": "\u5237\u65b0", 
-        "description": "", 
-        "id": "Reload"
-    }, 
-    {
-        "source": "Clear", 
-        "text": "\u660e\u786e", 
-        "description": "", 
-        "id": "Clear"
-    }, 
-    {
-        "source": "Cannot parse the value.", 
-        "text": "\u65e0\u6cd5\u89e3\u6790\u8be5\u503c\u3002", 
-        "description": "", 
-        "id": "Cannot parse the value."
-    }, 
-    {
-        "source": "None", 
-        "text": "\u6ca1\u6709", 
-        "description": "", 
-        "id": "None"
-    }, 
-    {
-        "source": "Fit", 
-        "text": "\u9002\u5408", 
-        "description": "", 
-        "id": "Fit"
-    }, 
-    {
-        "source": "Center", 
-        "text": "\u4e2d\u592e", 
-        "description": "", 
-        "id": "Center"
-    }, 
-    {
-        "source": "0", 
-        "text": "0", 
-        "description": "", 
-        "id": "0"
-    }, 
-    {
-        "source": "90", 
-        "text": "90", 
-        "description": "", 
-        "id": "90"
-    }, 
-    {
-        "source": "180", 
-        "text": "180", 
-        "description": "", 
-        "id": "180"
-    }, 
-    {
-        "source": "270", 
-        "text": "270", 
-        "description": "", 
-        "id": "270"
-    }, 
-    {
-        "source": "Default", 
-        "text": "\u9ed8\u8ba4", 
-        "description": "", 
-        "id": "Default"
-    }, 
-    {
-        "source": "Auto", 
-        "text": "\u6c7d\u8f66", 
-        "description": "", 
-        "id": "Auto"
-    }, 
-    {
-        "source": "Stop", 
-        "text": "\u505c\u6b62", 
-        "description": "", 
-        "id": "Stop"
-    }, 
-    {
-        "source": "Once", 
-        "text": "\u4e00\u65e6", 
-        "description": "", 
-        "id": "Once"
-    }, 
-    {
-        "source": "PingPong", 
-        "text": "\u4e52\u4e53", 
-        "description": "", 
-        "id": "PingPong"
-    }, 
-    {
-        "source": "Open", 
-        "text": "\u6253\u5f00", 
-        "description": "", 
-        "id": "Open"
-    }, 
-    {
-        "source": "Open tooltip", 
-        "text": "\u6253\u5f00\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Open tooltip"
-    }, 
-    {
-        "source": "Recent", 
-        "text": "\u6700\u8fd1", 
-        "description": "", 
-        "id": "Recent"
-    }, 
-    {
-        "source": "Recent tooltip", 
-        "text": "\u6700\u8fd1\u7684\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Recent tooltip"
-    }, 
-    {
-        "source": "Reload tooltip", 
-        "text": "\u91cd\u65b0\u52a0\u8f7d\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Reload tooltip"
-    }, 
-    {
-        "source": "Close", 
-        "text": "\u5173", 
-        "description": "", 
-        "id": "Close"
-    }, 
-    {
-        "source": "Close All", 
-        "text": "\u5173\u95ed\u6240\u6709", 
-        "description": "", 
-        "id": "Close All"
-    }, 
-    {
-        "source": "Close all tooltip", 
-        "text": "\u5173\u95ed\u6240\u6709\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Close all tooltip"
-    }, 
-    {
-        "source": "Export", 
-        "text": "\u51fa\u53e3", 
-        "description": "", 
-        "id": "Export"
-    }, 
-    {
-        "source": "Export tooltip", 
-        "text": "\u5bfc\u51fa\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Export tooltip"
-    }, 
-    {
-        "source": "Next tooltip", 
-        "text": "\u4e0b\u4e00\u4e2a\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Next tooltip"
-    }, 
-    {
-        "source": "Prev tooltip", 
-        "text": "\u4e0a\u4e00\u4e2a\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Prev tooltip"
-    }, 
-    {
-        "source": "Layers", 
-        "text": "\u56fe\u5c42", 
-        "description": "", 
-        "id": "Layers"
-    }, 
-    {
-        "source": "Layers tooltip", 
-        "text": "\u56fe\u5c42\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Layers tooltip"
-    }, 
-    {
-        "source": "8-Bit Conversion", 
-        "text": "8\u4f4d\u8f6c\u6362", 
-        "description": "", 
-        "id": "8-Bit Conversion"
-    }, 
-    {
-        "source": "8-bit conversion tooltip", 
-        "text": "8\u4f4d\u8f6c\u6362\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "8-bit conversion tooltip"
-    }, 
-    {
-        "source": "Memory Cache", 
-        "text": "\u5185\u5b58\u7f13\u5b58", 
-        "description": "", 
-        "id": "Memory Cache"
-    }, 
-    {
-        "source": "Memory cache tooltip", 
-        "text": "\u5185\u5b58\u7f13\u5b58\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Memory cache tooltip"
-    }, 
-    {
-        "source": "Clear Memory Cache", 
-        "text": "\u6e05\u9664\u5185\u5b58\u7f13\u5b58", 
-        "description": "", 
-        "id": "Clear Memory Cache"
-    }, 
-    {
-        "source": "Clear cache tooltip", 
-        "text": "\u6e05\u9664\u7f13\u5b58\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Clear cache tooltip"
-    }, 
-    {
-        "source": "Exit", 
-        "text": "\u51fa\u53e3", 
-        "description": "", 
-        "id": "Exit"
-    }, 
-    {
-        "source": "Exit tooltip", 
-        "text": "\u9000\u51fa\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Exit tooltip"
-    }, 
-    {
-        "source": "File", 
-        "text": "\u6587\u4ef6", 
-        "description": "", 
-        "id": "File"
-    }, 
-    {
-        "source": "NUX", 
-        "text": "NUX", 
-        "description": "", 
-        "id": "NUX"
-    }, 
-    {
-        "source": "Enable new-user experience on startup", 
-        "text": "\u542f\u52a8\u65f6\u542f\u7528\u65b0\u7528\u6237\u4f53\u9a8c", 
-        "description": "", 
-        "id": "Enable new-user experience on startup"
-    }, 
-    {
-        "source": "Color Picker", 
-        "text": "\u989c\u8272\u9009\u62e9\u5668", 
-        "description": "", 
-        "id": "Color Picker"
-    }, 
-    {
-        "source": "Background color", 
-        "text": "\u80cc\u666f\u989c\u8272", 
-        "description": "", 
-        "id": "Background color"
-    }, 
-    {
-        "source": "User Interface", 
-        "text": "\u7528\u6237\u754c\u9762", 
-        "description": "", 
-        "id": "User Interface"
-    }, 
-    {
-        "source": "General", 
-        "text": "\u4e00\u822c", 
-        "description": "", 
-        "id": "General"
-    }, 
-    {
-        "source": "Automatically hide the user interface", 
-        "text": "\u81ea\u52a8\u9690\u85cf\u7528\u6237\u754c\u9762", 
-        "description": "", 
-        "id": "Automatically hide the user interface"
-    }, 
-    {
-        "source": "Full Screen", 
-        "text": "\u5168\u5c4f", 
-        "description": "", 
-        "id": "Full Screen"
-    }, 
-    {
-        "source": "Full screen tooltip", 
-        "text": "\u5168\u5c4f\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Full screen tooltip"
-    }, 
-    {
-        "source": "Maximized", 
-        "text": "\u6700\u5927\u5316", 
-        "description": "", 
-        "id": "Maximized"
-    }, 
-    {
-        "source": "Maximized tooltip", 
-        "text": "\u6700\u5927\u5316\u7684\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Maximized tooltip"
-    }, 
-    {
-        "source": "Window", 
-        "text": "\u7a97\u53e3", 
-        "description": "", 
-        "id": "Window"
-    }, 
-    {
-        "source": "FPS", 
-        "text": "FPS", 
-        "description": "", 
-        "id": "FPS"
-    }, 
-    {
-        "source": "Object count", 
-        "text": "\u5bf9\u8c61\u6570", 
-        "description": "", 
-        "id": "Object count"
-    }, 
-    {
-        "source": "Widget count", 
-        "text": "\u5c0f\u5de5\u5177\u6570\u91cf", 
-        "description": "", 
-        "id": "Widget count"
-    }, 
-    {
-        "source": "Font system glyph cache", 
-        "text": "\u5b57\u4f53\u7cfb\u7edf\u5b57\u5f62\u7f13\u5b58", 
-        "description": "", 
-        "id": "Font system glyph cache"
-    }, 
-    {
-        "source": "Thumbnail system information cache", 
-        "text": "\u7f29\u7565\u56fe\u7cfb\u7edf\u4fe1\u606f\u7f13\u5b58", 
-        "description": "", 
-        "id": "Thumbnail system information cache"
-    }, 
-    {
-        "source": "Thumbnail system image cache", 
-        "text": "\u7f29\u7565\u56fe\u7cfb\u7edf\u56fe\u50cf\u7f13\u5b58", 
-        "description": "", 
-        "id": "Thumbnail system image cache"
-    }, 
-    {
-        "source": "Icon system cache", 
-        "text": "\u56fe\u6807\u7cfb\u7edf\u7f13\u5b58", 
-        "description": "", 
-        "id": "Icon system cache"
-    }, 
-    {
-        "source": "Texture atlas", 
-        "text": "\u7eb9\u7406\u56fe\u96c6", 
-        "description": "", 
-        "id": "Texture atlas"
-    }, 
-    {
-        "source": "Dynamic texture count", 
-        "text": "\u52a8\u6001\u7eb9\u7406\u8ba1\u6570", 
-        "description": "", 
-        "id": "Dynamic texture count"
-    }, 
-    {
-        "source": "VBO size", 
-        "text": "VBO\u5927\u5c0f", 
-        "description": "", 
-        "id": "VBO size"
-    }, 
-    {
-        "source": "Video queue", 
-        "text": "\u89c6\u9891\u961f\u5217", 
-        "description": "", 
-        "id": "Video queue"
-    }, 
-    {
-        "source": "Audio queue", 
-        "text": "\u97f3\u9891\u5c3e\u5df4", 
-        "description": "", 
-        "id": "Audio queue"
-    }, 
-    {
-        "source": "OpenAL queue", 
-        "text": "OpenAL\u961f\u5217", 
-        "description": "", 
-        "id": "OpenAL queue"
-    }, 
-    {
-        "source": "Current time", 
-        "text": "\u5f53\u524d\u65f6\u95f4", 
-        "description": "", 
-        "id": "Current time"
-    }, 
-    {
-        "source": "Debugging", 
-        "text": "\u8c03\u8bd5", 
-        "description": "", 
-        "id": "Debugging"
-    }, 
-    {
-        "source": "Render", 
-        "text": "\u7ed9\u4e88", 
-        "description": "", 
-        "id": "Render"
-    }, 
-    {
-        "source": "Media", 
-        "text": "\u5a92\u4f53", 
-        "description": "", 
-        "id": "Media"
-    }, 
-    {
-        "source": "Magnifier", 
-        "text": "\u653e\u5927\u955c", 
-        "description": "", 
-        "id": "Magnifier"
-    }, 
-    {
-        "source": "Magnifier tooltip", 
-        "text": "\u653e\u5927\u955c\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Magnifier tooltip"
-    }, 
-    {
-        "source": "Color picker tooltip", 
-        "text": "\u989c\u8272\u9009\u62e9\u5668\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Color picker tooltip"
-    }, 
-    {
-        "source": "Histogram tooltip", 
-        "text": "\u76f4\u65b9\u56fe\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Histogram tooltip"
-    }, 
-    {
-        "source": "Information tooltip", 
-        "text": "\u4fe1\u606f\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Information tooltip"
-    }, 
-    {
-        "source": "Debugging tooltip", 
-        "text": "\u8c03\u8bd5\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Debugging tooltip"
-    }, 
-    {
-        "source": "Tools", 
-        "text": "\u5de5\u5177", 
-        "description": "", 
-        "id": "Tools"
-    }, 
-    {
-        "source": "DJV Imaging", 
-        "text": "DJV\u6210\u50cf", 
-        "description": "", 
-        "id": "About Title"
-    }, 
-    {
-        "source": "Copyright and License", 
-        "text": "\u7248\u6743\u548c\u8bb8\u53ef", 
-        "description": "", 
-        "id": "Copyright and License"
-    }, 
-    {
-        "source": "Contributors", 
-        "text": "\u8d21\u732e\u8005", 
-        "description": "", 
-        "id": "Contributors"
-    }, 
-    {
-        "source": "Third Party Software", 
-        "text": "\u7b2c\u4e09\u65b9\u8f6f\u4ef6", 
-        "description": "", 
-        "id": "Third Party"
-    }, 
-    {
-        "source": "Trademarks", 
-        "text": "\u5546\u6807", 
-        "description": "", 
-        "id": "Trademarks"
-    }, 
-    {
-        "source": "Copyright (c) 2004-2019 Darby Johnston. All rights reserved.", 
-        "text": "\u7248\u6743\u6240\u6709\uff08c\uff092004-2019 Darby Johnston\u3002\u7248\u6743\u6240\u6709\u3002", 
-        "description": "", 
-        "id": "Copyright"
-    }, 
-    {
-        "source": "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:", 
-        "text": "\u5982\u679c\u6ee1\u8db3\u4ee5\u4e0b\u6761\u4ef6\uff0c\u5219\u5141\u8bb8\u4ee5\u6e90\u4ee3\u7801\u548c\u4e8c\u8fdb\u5236\u5f62\u5f0f\u91cd\u65b0\u5206\u53d1\u548c\u4f7f\u7528\uff0c\u65e0\u8bba\u662f\u5426\u7ecf\u8fc7\u4fee\u6539\uff1a", 
-        "description": "", 
-        "id": "License 1"
-    }, 
-    {
-        "source": "* Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.", 
-        "text": "*\u6e90\u4ee3\u7801\u7684\u91cd\u65b0\u5206\u53d1\u5fc5\u987b\u4fdd\u7559\u4e0a\u8ff0\u7248\u6743\u58f0\u660e\uff0c\u6b64\u6761\u4ef6\u5217\u8868\u4ee5\u53ca\u4ee5\u4e0b\u514d\u8d23\u58f0\u660e\u3002", 
-        "description": "", 
-        "id": "License 2"
-    }, 
-    {
-        "source": "* Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution.", 
-        "text": "*\u4e8c\u8fdb\u5236\u5f62\u5f0f\u7684\u518d\u5206\u53d1\u5fc5\u987b\u5728\u968f\u5206\u53d1\u63d0\u4f9b\u7684\u6587\u6863\u548c/\u6216\u5176\u4ed6\u6750\u6599\u4e2d\u590d\u5236\u4e0a\u8ff0\u7248\u6743\u58f0\u660e\uff0c\u6b64\u6761\u4ef6\u5217\u8868\u4ee5\u53ca\u4ee5\u4e0b\u514d\u8d23\u58f0\u660e\u3002", 
-        "description": "", 
-        "id": "License 3"
-    }, 
-    {
-        "source": "* Neither the names of the copyright holders nor the names of any contributors may be used to endorse or promote products derived from this software without specific prior written permission.", 
-        "text": "*\u672a\u7ecf\u4e8b\u5148\u4e66\u9762\u8bb8\u53ef\uff0c\u4e0d\u5f97\u4f7f\u7528\u7248\u6743\u6240\u6709\u8005\u7684\u59d3\u540d\u6216\u4efb\u4f55\u8d21\u732e\u8005\u7684\u59d3\u540d\u6765\u8ba4\u53ef\u6216\u5ba3\u4f20\u672c\u8f6f\u4ef6\u884d\u751f\u7684\u4ea7\u54c1\u3002", 
-        "description": "", 
-        "id": "License 4"
-    }, 
-    {
-        "source": "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.", 
-        "text": "\u672c\u8f6f\u4ef6\u7531\u7248\u6743\u6240\u6709\u8005\u548c\u8d21\u732e\u8005\u6309\u201c\u539f\u6837\u201d\u63d0\u4f9b\uff0c\u5e76\u4e14\u4e0d\u627f\u62c5\u4efb\u4f55\u660e\u793a\u6216\u6697\u793a\u7684\u62c5\u4fdd\uff0c\u5305\u62ec\u4f46\u4e0d\u9650\u4e8e\u5bf9\u9002\u9500\u6027\u548c\u7279\u5b9a\u7528\u9014\u7684\u9002\u7528\u6027\u7684\u6697\u793a\u62c5\u4fdd\u3002\u5728\u4efb\u4f55\u60c5\u51b5\u4e0b\uff0c\u7248\u6743\u6240\u6709\u8005\u6216\u8d21\u732e\u8005\u5747\u4e0d\u5bf9\u4efb\u4f55\u76f4\u63a5\uff0c\u95f4\u63a5\uff0c\u5076\u7136\uff0c\u7279\u6b8a\uff0c\u60e9\u6212\u6216\u540e\u679c\u6027\u635f\u5bb3\u627f\u62c5\u8d23\u4efb\uff08\u5305\u62ec\u4f46\u4e0d\u9650\u4e8e\u91c7\u8d2d\u66ff\u4ee3\u5546\u54c1\u6216\u670d\u52a1;\u635f\u5931\u4f7f\u7528\uff0c\u6570\u636e\u6216\u5229\u6da6;\u6216\u8005\u5546\u4e1a\u4e2d\u65ad\uff09\u65e0\u8bba\u5982\u4f55\u5f15\u8d77\u5e76\u627f\u62c5\u4efb\u4f55\u8d23\u4efb\u7406\u8bba\uff0c\u65e0\u8bba\u662f\u5728\u4f7f\u7528\u672c\u8f6f\u4ef6\u7684\u4efb\u4f55\u65b9\u5f0f\u4e0b\u4ea7\u751f\u7684\u5408\u540c\uff0c\u4e25\u683c\u8d23\u4efb\u6216\u4fb5\u6743\uff08\u5305\u62ec\u758f\u5ffd\u6216\u5176\u4ed6\uff09\uff0c\u5373\u4f7f\u88ab\u544a\u77e5\u6b64\u7c7b\u635f\u5bb3\u7684\u53ef\u80fd\u6027\u3002", 
-        "description": "", 
-        "id": "License 5"
-    }, 
-    {
-        "source": "Portions of this software are copyright (in alphabetical order):", 
-        "text": "\u672c\u8f6f\u4ef6\u7684\u90e8\u5206\u7248\u6743\uff08\u6309\u5b57\u6bcd\u987a\u5e8f\u6392\u5217\uff09\uff1a", 
-        "description": "", 
-        "id": "Contributors Text"
-    }, 
-    {
-        "source": "* Copyright (c) 2004-2019 Darby Johnston. All rights reserved.", 
-        "text": "*\u7248\u6743\u6240\u6709\uff08c\uff092004-2019 Darby Johnston\u3002\u7248\u6743\u6240\u6709\u3002", 
-        "description": "", 
-        "id": "Contributors Darby Johnston"
-    }, 
-    {
-        "source": "* Copyright (c) 2008-2009 Mikael Sundell. All rights reserved.", 
-        "text": "*\u7248\u6743\u6240\u6709\uff08c\uff092008-2009 Mikael Sundell\u3002\u7248\u6743\u6240\u6709\u3002", 
-        "description": "", 
-        "id": "Contributors Mikael Sundell"
-    }, 
-    {
-        "source": "This software is based in part on the works of (in alphabetical order):", 
-        "text": "\u8be5\u8f6f\u4ef6\u90e8\u5206\u57fa\u4e8e\uff08\u6309\u5b57\u6bcd\u987a\u5e8f\uff09\u7684\u4f5c\u54c1\uff1a", 
-        "description": "", 
-        "id": "Third Party Text"
-    }, 
-    {
-        "source": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium. All rights reserved.", 
-        "text": "* CMake\uff0chttp\uff1a//www.cmake.org\uff0c\u7248\u6743\u6240\u67092000-2011 Kitware\uff0cInc.\uff0cInsight Software Consortium\u3002\u7248\u6743\u6240\u6709\u3002", 
-        "description": "", 
-        "id": "Third Party CMake"
-    }, 
-    {
-        "source": "* dr_libs, http://github.com/mackron/dr_libs, David Reid", 
-        "text": "* dr_libs\uff0chttp\uff1a//github.com/mackron/dr_libs\uff0cDavid Reid", 
-        "description": "", 
-        "id": "Third Party dr_libs"
-    }, 
-    {
-        "source": "* FFMpeg, http://www.ffmpeg.org, Licensed under the LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html", 
-        "text": "* FFMpeg\uff0chttp\uff1a//www.ffmpeg.org\uff0c\u6839\u636eLGPLv2.1\u83b7\u5f97\u8bb8\u53ef\uff0chttp\uff1a//www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html", 
-        "description": "", 
-        "id": "Third Party FFMpeg"
-    }, 
-    {
-        "source": "* FreeType, http://www.freetype.org, Copyright (c) 2018, The FreeType Project", 
-        "text": "* FreeType\uff0chttp\uff1a//www.freetype.org,Copyright\uff08c\uff092018\uff0cFreeType Project", 
-        "description": "", 
-        "id": "Third Party FreeType"
-    }, 
-    {
-        "source": "* GLFW, http://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla L\u00f6wy <elmindreda@glfw.org>", 
-        "text": "* GLFW\uff0chttp\uff1a//www.glfw.org\uff0c\u7248\u6743\u6240\u6709\uff08c\uff092002-2006 Marcus Geelnard\uff0c\u7248\u6743\u6240\u6709\uff08c\uff092006-2016CamillaL\u00f6wy <elmindreda@glfw.org>", 
-        "description": "", 
-        "id": "Third Party GLFW"
-    }, 
-    {
-        "source": "* GLM, http://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation", 
-        "text": "* GLM\uff0chttp\uff1a//glm.g-truc.net/0.9.9/index.html,Copyright\uff08c\uff092005-2017 G-Truc Creation", 
-        "description": "", 
-        "id": "Third Party GLM"
-    }, 
-    {
-        "source": "* glad, http://github.com/Dav1dde/glad, Copyright (c) 2013-2018 David Herberth", 
-        "text": "*\u5f88\u9ad8\u5174\uff0chttp\uff1a//github.com/Dav1dde/glad\uff0c\u7248\u6743\u6240\u6709\uff08c\uff092013-2018 David Herberth", 
-        "description": "", 
-        "id": "Third Party glad"
-    }, 
-    {
-        "source": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding", 
-        "text": "* libjpeg\uff0chttp\uff1a//www.ijg.org,Copyright\uff08c\uff091991-2012\uff0cThomas G. Lane\uff0cGuido Vollbeding", 
-        "description": "", 
-        "id": "Third Party libjpeg"
-    }, 
-    {
-        "source": "* libjpeg-turbo, http://libjpeg-turbo.org, Copyright (C)2009-2019 D. R. Commander. All Rights Reserved. Copyright (C)2015 Viktor Szathm\u00e1ry. All Rights Reserved.", 
-        "text": "* libjpeg-turbo\uff0chttp\uff1a//libjpeg-turbo.org\uff0c\u7248\u6743\u6240\u6709\uff08C\uff092009-2019 DR Commander\u3002\u7248\u6743\u6240\u6709\u3002\u7248\u6743\u6240\u6709\uff08C\uff092015ViktorSzathm\u00e1ry\u3002\u7248\u6743\u6240\u6709\u3002", 
-        "description": "", 
-        "id": "Third Party libjpeg-turbo"
-    }, 
-    {
-        "source": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson", 
-        "text": "* libpng\uff0chttp\uff1a//www.libpng.org\uff0c\u7248\u6743\u6240\u6709\uff08c\uff092004,2006-2012 Glenn Randers-Pehrson", 
-        "description": "", 
-        "id": "Third Party libpng"
-    }, 
-    {
-        "source": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc", 
-        "text": "* libtiff\uff0chttp\uff1a//www.libtiff.org,Copyright\uff08c\uff091988-1997 Sam Leffler\uff0cCopyright\uff08c\uff091991-1997 Silicon Graphics\uff0cInc", 
-        "description": "", 
-        "id": "Third Party libtiff"
-    }, 
-    {
-        "source": "* OpenAL, http://www.openal.org, Copyright (C) 1999-2000 by Loki Software", 
-        "text": "* OpenAL\uff0chttp\uff1a//www.openal.org,Loki Software\u7248\u6743\u6240\u6709\uff08C\uff091999-2000", 
-        "description": "", 
-        "id": "Third Party OpenAL"
-    }, 
-    {
-        "source": "* OpenColorIO, http://opencolorio.org, Copyright (c) 2003-2010 Sony Pictures Imageworks Inc., et al. All rights reserved.", 
-        "text": "* OpenColorIO\uff0chttp\uff1a//opencolorio.org\uff0c\u7248\u6743\u6240\u6709\uff08c\uff092003-2010 Sony Pictures Imageworks Inc.\uff0cet al\u3002\u7248\u6743\u6240\u6709\u3002", 
-        "description": "", 
-        "id": "Third Party OpenColorIO"
-    }, 
-    {
-        "source": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, a division of Lucasfilm Entertainment Company Ltd.", 
-        "text": "* OpenEXR\uff0chttp\uff1a//www.openexr.com\uff0c\u7248\u6743\u6240\u6709\uff08c\uff092006\uff0cIndustrial Light and Magic\uff0cLucasfilm Entertainment Company Ltd.\u7684\u4e00\u4e2a\u90e8\u95e8\u3002", 
-        "description": "", 
-        "id": "Third Party OpenEXR"
-    }, 
-    {
-        "source": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler", 
-        "text": "* zlib\uff0chttp\uff1a//www.zlib.net\uff0c\u7248\u6743\u6240\u6709\uff08c\uff091995-2013 Jean-loup Gailly\u548cMark Adler", 
-        "description": "", 
-        "id": "Third Party zlib"
-    }, 
-    {
-        "source": "Trademarks named in the documentation (in alphabetical order):", 
-        "text": "\u6587\u6863\u4e2d\u547d\u540d\u7684\u5546\u6807\uff08\u6309\u5b57\u6bcd\u987a\u5e8f\u6392\u5217\uff09\uff1a", 
-        "description": "", 
-        "id": "Trademarks Text"
-    }, 
-    {
-        "source": "* Apple, OS X, ProRes, and QuickTime are registered trademarks of Apple, Inc.", 
-        "text": "* Apple\uff0cOS X\uff0cProRes\u548cQuickTime\u662fApple\uff0cInc\u3002\u7684\u6ce8\u518c\u5546\u6807\u3002", 
-        "description": "", 
-        "id": "Trademarks Apple"
-    }, 
-    {
-        "source": "* AMD and ATI are registered trademarks of Advanced Micro Devices, Inc.", 
-        "text": "* AMD\u548cATI\u662fAdvanced Micro Devices\uff0cInc\u3002\u7684\u6ce8\u518c\u5546\u6807\u3002", 
-        "description": "", 
-        "id": "Trademarks AMD"
-    }, 
-    {
-        "source": "* Autodesk, Inferno, Maya, Softimage, and XSI are registered trademarks of Autodesk, Inc.", 
-        "text": "* Autodesk\uff0cInferno\uff0cMaya\uff0cSoftimage\u548cXSI\u662fAutodesk\uff0cInc\u3002\u7684\u6ce8\u518c\u5546\u6807\u3002", 
-        "description": "", 
-        "id": "Trademarks Autodesk"
-    }, 
-    {
-        "source": "* Debian is a registered trademark of Software in the Public Interest, Inc.", 
-        "text": "* Debian\u662fSoftware in Public Interest\uff0cInc\u3002\u7684\u6ce8\u518c\u5546\u6807\u3002", 
-        "description": "", 
-        "id": "Trademarks Debian"
-    }, 
-    {
-        "source": "* FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project", 
-        "text": "* FFmpeg\u662fFFmpeg\u9879\u76ee\u7684\u521b\u59cb\u4ebaFabrice Bellard\u7684\u5546\u6807", 
-        "description": "", 
-        "id": "Trademarks FFmpeg"
-    }, 
-    {
-        "source": "* FreeBSD is a registered trademark of The FreeBSD Foundation", 
-        "text": "* FreeBSD\u662fFreeBSD Foundation\u7684\u6ce8\u518c\u5546\u6807", 
-        "description": "", 
-        "id": "Trademarks FreeBSD"
-    }, 
-    {
-        "source": "* Intel is a registered trademark of Intel Corporation", 
-        "text": "* Intel\u662fIntel Corporation\u7684\u6ce8\u518c\u5546\u6807", 
-        "description": "", 
-        "id": "Trademarks Intel"
-    }, 
-    {
-        "source": "* Industrial Light and Magic and ILM are registered trademarks of Lucasfilm Ltd.", 
-        "text": "* Industrial Light and Magic\u548cILM\u662fLucasfilm Ltd.\u7684\u6ce8\u518c\u5546\u6807\u3002", 
-        "description": "", 
-        "id": "Trademarks Lucasfilm"
-    }, 
-    {
-        "source": "* Kodak and Cineon are a registered trademarks of the Eastman Kodak Company", 
-        "text": "* Kodak\u548cCineon\u662fEastman Kodak Company\u7684\u6ce8\u518c\u5546\u6807", 
-        "description": "", 
-        "id": "Trademarks Kodak"
-    }, 
-    {
-        "source": "* Linux is a registered trademark of Linus Torvalds", 
-        "text": "* Linux\u662fLinus Torvalds\u7684\u6ce8\u518c\u5546\u6807", 
-        "description": "", 
-        "id": "Trademarks Linux"
-    }, 
-    {
-        "source": "* Microsoft and Microsoft Windows are registered trademarks of Microsoft, Inc.", 
-        "text": "* Microsoft\u548cMicrosoft Windows\u662fMicrosoft\uff0cInc\u3002\u7684\u6ce8\u518c\u5546\u6807\u3002", 
-        "description": "", 
-        "id": "Trademarks Microsoft"
-    }, 
-    {
-        "source": "* MIPS is a registered trademark of MIPS Technologies, Inc.", 
-        "text": "* MIPS\u662fMIPS\u79d1\u6280\u516c\u53f8\u7684\u6ce8\u518c\u5546\u6807\u3002", 
-        "description": "", 
-        "id": "Trademarks MIPS"
-    }, 
-    {
-        "source": "* NVIDIA is a registered trademark of NVIDIA Corporation", 
-        "text": "* NVIDIA\u662fNVIDIA Corporation\u7684\u6ce8\u518c\u5546\u6807", 
-        "description": "", 
-        "id": "Trademarks NVIDIA"
-    }, 
-    {
-        "source": "* Red Hat and Fedora are registered trademarks of Red Hat, Inc.", 
-        "text": "* Red Hat\u548cFedora\u662fRed Hat\uff0cInc\u3002\u7684\u6ce8\u518c\u5546\u6807\u3002", 
-        "description": "", 
-        "id": "Trademarks Red Hat"
-    }, 
-    {
-        "source": "* Silicon Graphics, SGI, IRIX, and OpenGL are registered trademarks of Silicon Graphics International Corp.", 
-        "text": "* Silicon Graphics\uff0cSGI\uff0cIRIX\u548cOpenGL\u662fSilicon Graphics International Corp.\u7684\u6ce8\u518c\u5546\u6807\u3002", 
-        "description": "", 
-        "id": "Trademarks SGI"
-    }, 
-    {
-        "source": "* SMPTE is a registered trademark of the Society of Motion Picture and Television Engineers", 
-        "text": "* SMPTE\u662f\u7535\u5f71\u7535\u89c6\u5de5\u7a0b\u5e08\u534f\u4f1a\u7684\u6ce8\u518c\u5546\u6807", 
-        "description": "", 
-        "id": "Trademarks SMPTE"
-    }, 
-    {
-        "source": "* SourceForge.net is a registered trademark of VA Software Corporation", 
-        "text": "* SourceForge.net\u662fVA Software Corporation\u7684\u6ce8\u518c\u5546\u6807", 
-        "description": "", 
-        "id": "Trademarks SourceForge"
-    }, 
-    {
-        "source": "* SuSE is a registered trademark of Novell, Inc.", 
-        "text": "* SuSE\u662fNovell\uff0cInc\u3002\u7684\u6ce8\u518c\u5546\u6807\u3002", 
-        "description": "", 
-        "id": "Trademarks SuSE"
-    }, 
-    {
-        "source": "* Ubuntu is a registered trademark of Canonical Ltd.", 
-        "text": "* Ubuntu\u662fCanonical Ltd.\u7684\u6ce8\u518c\u5546\u6807\u3002", 
-        "description": "", 
-        "id": "Trademarks Ubuntu"
-    }, 
-    {
-        "source": "* UNIX is a registered trademark of The Open Group", 
-        "text": "* UNIX\u662fThe Open Group\u7684\u6ce8\u518c\u5546\u6807", 
-        "description": "", 
-        "id": "Trademarks UNIX"
-    }, 
-    {
-        "source": "All other products named in the documentation are trademarks of their respective owners.", 
-        "text": "\u6587\u6863\u4e2d\u6307\u5b9a\u7684\u6240\u6709\u5176\u4ed6\u4ea7\u54c1\u5747\u4e3a\u5176\u5404\u81ea\u6240\u6709\u8005\u7684\u5546\u6807\u3002", 
-        "description": "", 
-        "id": "Trademarks End"
-    }, 
-    {
-        "source": "Made in Berkeley, CA, USA", 
-        "text": "\u7f8e\u56fd\u52a0\u5229\u798f\u5c3c\u4e9a\u5dde\u4f2f\u514b\u5229\u5236\u9020", 
-        "description": "", 
-        "id": "Made In"
-    }, 
-    {
-        "source": "Lock Color Type", 
-        "text": "\u9501\u5b9a\u989c\u8272\u7c7b\u578b", 
-        "description": "", 
-        "id": "Lock Color Type"
-    }, 
-    {
-        "source": "Color picker lock color type tooltip", 
-        "text": "\u989c\u8272\u9009\u62e9\u5668\u9501\u989c\u8272\u7c7b\u578b\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Color picker lock color type tooltip"
-    }, 
-    {
-        "source": "Enable Color Profile", 
-        "text": "\u542f\u7528\u989c\u8272\u914d\u7f6e\u6587\u4ef6", 
-        "description": "", 
-        "id": "Enable Color Profile"
-    }, 
-    {
-        "source": "Color picker enable color profile tooltip", 
-        "text": "\u989c\u8272\u9009\u62e9\u5668\u542f\u7528\u989c\u8272\u914d\u7f6e\u6587\u4ef6\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Color picker enable color profile tooltip"
-    }, 
-    {
-        "source": "Enable Display Profile", 
-        "text": "\u542f\u7528\u663e\u793a\u914d\u7f6e\u6587\u4ef6", 
-        "description": "", 
-        "id": "Enable Display Profile"
-    }, 
-    {
-        "source": "Color picker enable display profile tooltip", 
-        "text": "\u989c\u8272\u9009\u62e9\u5668\u542f\u7528\u663e\u793a\u914d\u7f6e\u6587\u4ef6\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Color picker enable display profile tooltip"
-    }, 
-    {
-        "source": "RGB", 
-        "text": "RGB", 
-        "description": "", 
-        "id": "RGB"
-    }, 
-    {
-        "source": "HSV", 
-        "text": "HSV", 
-        "description": "", 
-        "id": "HSV"
-    }, 
-    {
-        "source": "Color picker sample size tooltip", 
-        "text": "\u989c\u8272\u9009\u62e9\u5668\u6837\u672c\u5927\u5c0f\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Color picker sample size tooltip"
-    }, 
-    {
-        "source": "Left", 
-        "text": "\u5269\u4e0b", 
-        "description": "", 
-        "id": "Left"
-    }, 
-    {
-        "source": "Left tooltip", 
-        "text": "\u5de6\u4fa7\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Left tooltip"
-    }, 
-    {
-        "source": "Right", 
-        "text": "\u5bf9", 
-        "description": "", 
-        "id": "Right"
-    }, 
-    {
-        "source": "Right tooltip", 
-        "text": "\u6b63\u786e\u7684\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Right tooltip"
-    }, 
-    {
-        "source": "Up", 
-        "text": "\u5411\u4e0a", 
-        "description": "", 
-        "id": "Up"
-    }, 
-    {
-        "source": "Up tooltip", 
-        "text": "\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Up tooltip"
-    }, 
-    {
-        "source": "Down", 
-        "text": "\u4e0b", 
-        "description": "", 
-        "id": "Down"
-    }, 
-    {
-        "source": "Down tooltip", 
-        "text": "\u4e0b\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Down tooltip"
-    }, 
-    {
-        "source": "North West", 
-        "text": "\u897f\u5317", 
-        "description": "", 
-        "id": "North West"
-    }, 
-    {
-        "source": "North west tooltip", 
-        "text": "\u897f\u5317\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "North west tooltip"
-    }, 
-    {
-        "source": "North East", 
-        "text": "\u4e1c\u5317", 
-        "description": "", 
-        "id": "North East"
-    }, 
-    {
-        "source": "North east tooltip", 
-        "text": "\u4e1c\u5317\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "North east tooltip"
-    }, 
-    {
-        "source": "South east", 
-        "text": "\u4e1c\u5357", 
-        "description": "", 
-        "id": "South east"
-    }, 
-    {
-        "source": "South east tooltip", 
-        "text": "\u4e1c\u5357\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "South east tooltip"
-    }, 
-    {
-        "source": "South West", 
-        "text": "\u897f\u5357", 
-        "description": "", 
-        "id": "South West"
-    }, 
-    {
-        "source": "South west tooltip", 
-        "text": "\u897f\u5357\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "South west tooltip"
-    }, 
-    {
-        "source": "Zoom In", 
-        "text": "\u653e\u5927", 
-        "description": "", 
-        "id": "Zoom In"
-    }, 
-    {
-        "source": "Zoom in tooltip", 
-        "text": "\u653e\u5927\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Zoom in tooltip"
-    }, 
-    {
-        "source": "Zoom Out", 
-        "text": "\u7f29\u5c0f", 
-        "description": "", 
-        "id": "Zoom Out"
-    }, 
-    {
-        "source": "Zoom out tooltip", 
-        "text": "\u7f29\u5c0f\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Zoom out tooltip"
-    }, 
-    {
-        "source": "Fit To Image", 
-        "text": "\u9002\u5408\u56fe\u50cf", 
-        "description": "", 
-        "id": "Fit To Image"
-    }, 
-    {
-        "source": "Fit to image tooltip", 
-        "text": "\u9002\u5408\u56fe\u50cf\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Fit to image tooltip"
-    }, 
-    {
-        "source": "Center image tooltip", 
-        "text": "\u4e2d\u5fc3\u56fe\u50cf\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Center image tooltip"
-    }, 
-    {
-        "source": "Lock Fit To Image", 
-        "text": "\u9501\u5b9a\u9002\u5408\u56fe\u50cf", 
-        "description": "", 
-        "id": "Lock Fit To Image"
-    }, 
-    {
-        "source": "Lock fit to image tooltip", 
-        "text": "\u9501\u5b9a\u9002\u5408\u56fe\u50cf\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Lock fit to image tooltip"
-    }, 
-    {
-        "source": "Lock Center", 
-        "text": "\u9501\u4e2d\u5fc3", 
-        "description": "", 
-        "id": "Lock Center"
-    }, 
-    {
-        "source": "Lock center image tooltip", 
-        "text": "\u9501\u5b9a\u4e2d\u5fc3\u56fe\u50cf\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Lock center image tooltip"
-    }, 
-    {
-        "source": "Grid", 
-        "text": "\u683c", 
-        "description": "", 
-        "id": "Grid"
-    }, 
-    {
-        "source": "Grid tooltip", 
-        "text": "\u7f51\u683c\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Grid tooltip"
-    }, 
-    {
-        "source": "HUD", 
-        "text": "HUD", 
-        "description": "", 
-        "id": "HUD"
-    }, 
-    {
-        "source": "HUD tooltip", 
-        "text": "HUD\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "HUD tooltip"
-    }, 
-    {
-        "source": "View", 
-        "text": "\u89c6\u56fe", 
-        "description": "", 
-        "id": "View"
-    }, 
-    {
-        "source": "Maximize tooltip", 
-        "text": "\u6700\u5927\u5316\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Maximize tooltip"
-    }, 
-    {
-        "source": "Speed tooltip", 
-        "text": "\u901f\u5ea6\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Speed tooltip"
-    }, 
-    {
-        "source": "Current time tooltip", 
-        "text": "\u5f53\u524d\u65f6\u95f4\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Current time tooltip"
-    }, 
-    {
-        "source": "Duration tooltip", 
-        "text": "\u6301\u7eed\u65f6\u95f4\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Duration tooltip"
-    }, 
-    {
-        "source": "Audio popup tooltip", 
-        "text": "\u97f3\u9891\u5f39\u51fa\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Audio popup tooltip"
-    }, 
-    {
-        "source": "Volume tooltip", 
-        "text": "\u5377\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Volume tooltip"
-    }, 
-    {
-        "source": "Magnifier enable color profile tooltip", 
-        "text": "\u653e\u5927\u955c\u542f\u7528\u989c\u8272\u914d\u7f6e\u6587\u4ef6\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Magnifier enable color profile tooltip"
-    }, 
-    {
-        "source": "Magnifier enable display profile tooltip", 
-        "text": "\u653e\u5927\u955c\u542f\u7528\u663e\u793a\u914d\u7f6e\u6587\u4ef6\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Magnifier enable display profile tooltip"
-    }, 
-    {
-        "source": "Magnifier zoom in tooltip", 
-        "text": "\u653e\u5927\u955c\u653e\u5927\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Magnifier zoom in tooltip"
-    }, 
-    {
-        "source": "Magnifier zoom out tooltip", 
-        "text": "\u653e\u5927\u955c\u7f29\u5c0f\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Magnifier zoom out tooltip"
-    }, 
-    {
-        "source": "cannot create OpenAL source", 
-        "text": "\u65e0\u6cd5\u521b\u5efaOpenAL\u6e90", 
-        "description": "", 
-        "id": "cannot create OpenAL source"
-    }, 
-    {
-        "source": "cannot create OpenAL buffers", 
-        "text": "\u65e0\u6cd5\u521b\u5efaOpenAL\u7f13\u51b2\u533a", 
-        "description": "", 
-        "id": "cannot create OpenAL buffers"
-    }, 
-    {
-        "source": "cannot open", 
-        "text": "\u4e0d\u80fd\u6253\u5f00", 
-        "description": "", 
-        "id": "cannot open"
-    }, 
-    {
-        "source": "Hover", 
-        "description": "", 
-        "id": "Hover", 
-        "text": "\u5f98\u5f8a"
-    }, 
-    {
-        "source": "Grab", 
-        "description": "", 
-        "id": "Grab", 
-        "text": "\u6293"
-    }, 
-    {
-        "source": "Key grab", 
-        "description": "", 
-        "id": "Key grab", 
-        "text": "\u6293\u4f4f\u94a5\u5319"
-    }, 
-    {
-        "source": "Debug", 
-        "description": "", 
-        "id": "Debug", 
-        "text": "\u8c03\u8bd5"
-    }, 
-    {
-        "source": "Debug Widget", 
-        "description": "", 
-        "id": "Debug Widget", 
-        "text": "\u8c03\u8bd5\u5c0f\u90e8\u4ef6"
-    }, 
-    {
-        "source": "Debug widget tooltip", 
-        "description": "", 
-        "id": "Debug widget tooltip", 
-        "text": "\u8c03\u8bd5\u5c0f\u90e8\u4ef6\u5de5\u5177\u63d0\u793a"
-    }, 
-    {
-        "source": "Color Space", 
-        "description": "", 
-        "id": "Color Space", 
-        "text": "\u8272\u5f69\u7a7a\u95f4"
-    }, 
-    {
-        "source": "(empty)", 
-        "description": "", 
-        "id": "(empty)", 
-        "text": "\uff08\u7a7a\uff09"
-    }, 
-    {
-        "source": "Input:", 
-        "description": "", 
-        "id": "Input:", 
-        "text": "\u8f93\u5165\uff1a"
-    }, 
-    {
-        "source": "Display:", 
-        "description": "", 
-        "id": "Display:", 
-        "text": "\u663e\u793a\uff1a"
-    }, 
-    {
-        "source": "View:", 
-        "description": "", 
-        "id": "View:", 
-        "text": "\u89c6\u56fe\uff1a"
-    }, 
-    {
-        "source": "Aspect Ratio", 
-        "description": "", 
-        "id": "Aspect Ratio", 
         "text": "\u5bbd\u9ad8\u6bd4"
     }, 
     {
-        "source": "Color Space Widget", 
+        "id": "Settings", 
+        "source": "Settings", 
         "description": "", 
-        "id": "Color Space Widget", 
-        "text": "\u8272\u5f69\u7a7a\u95f4\u5c0f\u5de5\u5177"
+        "text": "\u8bbe\u7f6e"
     }, 
     {
-        "source": "Color space widget tooltip", 
+        "id": "Information", 
+        "source": "Information", 
         "description": "", 
-        "id": "Color space widget tooltip", 
-        "text": "\u8272\u5f69\u7a7a\u95f4\u5c0f\u5de5\u5177\u5de5\u5177\u63d0\u793a"
+        "text": "\u4fe1\u606f"
     }, 
     {
-        "source": "Pan View", 
+        "id": "Choose your language", 
+        "source": "Choose your language", 
         "description": "", 
-        "id": "Pan View", 
-        "text": "\u6f58\u89c6\u56fe"
+        "text": "\u9009\u62e9\u4f60\u7684\u8bed\u8a00"
     }, 
     {
-        "source": "Pan view tooltip", 
+        "id": "Choose a display size", 
+        "source": "Choose a display size", 
         "description": "", 
-        "id": "Pan view tooltip", 
-        "text": "\u5e73\u79fb\u89c6\u56fe\u5de5\u5177\u63d0\u793a"
+        "text": "\u9009\u62e9\u663e\u793a\u5c3a\u5bf8"
     }, 
     {
-        "source": "Layers Widget", 
+        "id": "Choose a palette", 
+        "source": "Choose a palette", 
         "description": "", 
-        "id": "Layers Widget", 
-        "text": "\u56fe\u5c42\u5c0f\u5de5\u5177"
+        "text": "\u9009\u62e9\u4e00\u4e2a\u8c03\u8272\u677f"
     }, 
     {
-        "source": "Layers widget tooltip", 
+        "id": "Next", 
+        "source": "Next", 
         "description": "", 
-        "id": "Layers widget tooltip", 
-        "text": "\u56fe\u5c42\u5c0f\u90e8\u4ef6\u5de5\u5177\u63d0\u793a"
+        "text": "\u4e0b\u4e00\u4e2a"
     }, 
     {
-        "source": "Next layer", 
+        "id": "Previous", 
+        "source": "Previous", 
         "description": "", 
-        "id": "Next layer", 
-        "text": "\u4e0b\u4e00\u5c42"
+        "text": "\u4ee5\u524d"
     }, 
     {
-        "source": "Next layer tooltip", 
+        "id": "Finish", 
+        "source": "Finish", 
         "description": "", 
-        "id": "Next layer tooltip", 
-        "text": "\u4e0b\u4e00\u5c42\u5de5\u5177\u63d0\u793a"
+        "text": "\u5b8c"
     }, 
     {
-        "source": "Previous Layer", 
+        "id": "Color Manager", 
+        "source": "Color Manager", 
         "description": "", 
-        "id": "Previous Layer", 
-        "text": "\u4e0a\u4e00\u5c42"
+        "text": "\u8272\u5f69\u7ba1\u7406\u5668"
     }, 
     {
-        "source": "Previous layer tooltip", 
+        "id": "Color manager tooltip", 
+        "source": "Color manager tooltip", 
         "description": "", 
-        "id": "Previous layer tooltip", 
-        "text": "\u4e0a\u4e00\u5c42\u5de5\u5177\u63d0\u793a"
+        "text": "\u989c\u8272\u7ba1\u7406\u5668\u5de5\u5177\u63d0\u793a"
     }, 
     {
-        "source": "Background Color", 
+        "id": "Color Channels", 
+        "source": "Color Channels", 
         "description": "", 
-        "id": "Background Color", 
+        "text": "\u5f69\u8272\u901a\u9053"
+    }, 
+    {
+        "id": "Color channels tooltip", 
+        "source": "Color channels tooltip", 
+        "description": "", 
+        "text": "\u989c\u8272\u901a\u9053\u5de5\u5177\u63d0\u793a"
+    }, 
+    {
+        "id": "Red Channel", 
+        "source": "Red Channel", 
+        "description": "", 
+        "text": "\u7ea2\u8272\u901a\u9053"
+    }, 
+    {
+        "id": "Red channel tooltip", 
+        "source": "Show the image's red channel", 
+        "description": "", 
+        "text": "\u663e\u793a\u56fe\u50cf\u7684\u7ea2\u8272\u901a\u9053"
+    }, 
+    {
+        "id": "Green Channel", 
+        "source": "Green Channel", 
+        "description": "", 
+        "text": "\u7eff\u8272\u901a\u9053"
+    }, 
+    {
+        "id": "Green channel tooltip", 
+        "source": "Show the image's green channel", 
+        "description": "", 
+        "text": "\u663e\u793a\u56fe\u50cf\u7684\u7eff\u8272\u901a\u9053"
+    }, 
+    {
+        "id": "Blue Channel", 
+        "source": "Blue Channel", 
+        "description": "", 
+        "text": "\u84dd\u8272\u901a\u9053"
+    }, 
+    {
+        "id": "Blue channel tooltip", 
+        "source": "Show the image's blue channel", 
+        "description": "", 
+        "text": "\u663e\u793a\u56fe\u50cf\u7684\u84dd\u8272\u901a\u9053"
+    }, 
+    {
+        "id": "Alpha Channel", 
+        "source": "Alpha Channel", 
+        "description": "", 
+        "text": "Alpha\u901a\u9053"
+    }, 
+    {
+        "id": "Alpha channel tooltip", 
+        "source": "Show the image's alpha channel", 
+        "description": "", 
+        "text": "\u663e\u793a\u56fe\u50cf\u7684Alpha\u901a\u9053"
+    }, 
+    {
+        "id": "Premultiplied Alpha", 
+        "source": "Premultiplied Alpha", 
+        "description": "", 
+        "text": "\u9884\u4e58Alpha"
+    }, 
+    {
+        "id": "Premultiplied alpha tooltip", 
+        "source": "Premultiply the color channels by the alpha channel", 
+        "description": "", 
+        "text": "\u901a\u8fc7alpha\u901a\u9053\u9884\u4e58\u989c\u8272\u901a\u9053"
+    }, 
+    {
+        "id": "Mirror Horizontal", 
+        "source": "Mirror Horizontal", 
+        "description": "", 
+        "text": "\u955c\u9762\u6c34\u5e73"
+    }, 
+    {
+        "id": "Mirror horizontal tooltip", 
+        "source": "Mirror the image horizontally", 
+        "description": "", 
+        "text": "\u6c34\u5e73\u955c\u50cf\u56fe\u50cf"
+    }, 
+    {
+        "id": "Mirror Vertical", 
+        "source": "Mirror Vertical", 
+        "description": "", 
+        "text": "\u955c\u9762\u5782\u76f4"
+    }, 
+    {
+        "id": "Mirror vertical tooltip", 
+        "source": "Mirror the image vertically", 
+        "description": "", 
+        "text": "\u5782\u76f4\u955c\u50cf\u56fe\u50cf"
+    }, 
+    {
+        "id": "Rotate 0", 
+        "source": "Rotate 0", 
+        "description": "", 
+        "text": "\u65cb\u8f6c0"
+    }, 
+    {
+        "id": "Rotate 0 tooltip", 
+        "source": "Rotate the image 0 degrees", 
+        "description": "", 
+        "text": "\u5c06\u56fe\u50cf\u65cb\u8f6c0\u5ea6"
+    }, 
+    {
+        "id": "Rotate 90", 
+        "source": "Rotate 90", 
+        "description": "", 
+        "text": "\u65cb\u8f6c90"
+    }, 
+    {
+        "id": "Rotate 90 tooltip", 
+        "source": "Rotate the image 90 degrees", 
+        "description": "", 
+        "text": "\u5c06\u56fe\u50cf\u65cb\u8f6c90\u5ea6"
+    }, 
+    {
+        "id": "Rotate 180", 
+        "source": "Rotate 180", 
+        "description": "", 
+        "text": "\u65cb\u8f6c180"
+    }, 
+    {
+        "id": "Rotate 180 tooltip", 
+        "source": "Rotate the image 180 degrees", 
+        "description": "", 
+        "text": "\u5c06\u56fe\u50cf\u65cb\u8f6c180\u5ea6"
+    }, 
+    {
+        "id": "Rotate 270", 
+        "source": "Rotate 270", 
+        "description": "", 
+        "text": "\u65cb\u8f6c270"
+    }, 
+    {
+        "id": "Rotate 270 tooltip", 
+        "source": "Rotate the image 270 degrees", 
+        "description": "", 
+        "text": "\u5c06\u56fe\u50cf\u65cb\u8f6c270\u5ea6"
+    }, 
+    {
+        "id": "Default Aspect Ratio", 
+        "source": "Default Aspect Ratio", 
+        "description": "", 
+        "text": "\u9ed8\u8ba4\u7eb5\u6a2a\u6bd4"
+    }, 
+    {
+        "id": "Default aspect ratio tooltip", 
+        "source": "Show the image at it's intended resolution", 
+        "description": "", 
+        "text": "\u4ee5\u56fe\u50cf\u7684\u9884\u671f\u5206\u8fa8\u7387\u663e\u793a\u56fe\u50cf"
+    }, 
+    {
+        "id": "Automatic Aspect Ratio", 
+        "source": "Automatic Aspect Ratio", 
+        "description": "", 
+        "text": "\u81ea\u52a8\u5bbd\u9ad8\u6bd4"
+    }, 
+    {
+        "id": "Automatic aspect ratio tooltip", 
+        "source": "Automatic aspect ratio tooltip", 
+        "description": "", 
+        "text": "\u81ea\u52a8\u5bbd\u9ad8\u6bd4\u5de5\u5177\u63d0\u793a"
+    }, 
+    {
+        "id": "16:9", 
+        "source": "16:9", 
+        "description": "", 
+        "text": "16\uff1a9"
+    }, 
+    {
+        "id": "16:9 aspect ratio tooltip", 
+        "source": "Show the image with a 16:9 aspect ratio", 
+        "description": "", 
+        "text": "\u4ee516\uff1a9\u7684\u5bbd\u9ad8\u6bd4\u663e\u793a\u56fe\u50cf"
+    }, 
+    {
+        "id": "1.85", 
+        "source": "1.85", 
+        "description": "", 
+        "text": "1.85"
+    }, 
+    {
+        "id": "1.85 aspect ratio tooltip", 
+        "source": "Show the image with a 1.85 aspect ratio", 
+        "description": "", 
+        "text": "\u4ee51.85\u5bbd\u9ad8\u6bd4\u663e\u793a\u56fe\u50cf"
+    }, 
+    {
+        "id": "2.35", 
+        "source": "2.35", 
+        "description": "", 
+        "text": "2.35"
+    }, 
+    {
+        "id": "2.35 aspect ratio tooltip", 
+        "source": "Show the image with a 2.35 aspect ratio", 
+        "description": "", 
+        "text": "\u4ee52.35\u5bbd\u9ad8\u6bd4\u663e\u793a\u56fe\u50cf"
+    }, 
+    {
+        "id": "Frame Store", 
+        "source": "Frame Store", 
+        "description": "", 
+        "text": "\u6846\u67b6\u5546\u5e97"
+    }, 
+    {
+        "id": "Frame store tooltip", 
+        "source": "Show the frame store", 
+        "description": "", 
+        "text": "\u663e\u793a\u6846\u67b6\u5546\u5e97"
+    }, 
+    {
+        "id": "Load Frame Store", 
+        "source": "Load Frame Store", 
+        "description": "", 
+        "text": "\u52a0\u8f7d\u6846\u67b6\u5b58\u50a8"
+    }, 
+    {
+        "id": "Load frame store tooltip", 
+        "source": "Load the current frame into the frame store", 
+        "description": "", 
+        "text": "\u5c06\u5f53\u524d\u5e27\u52a0\u8f7d\u5230\u5e27\u5b58\u50a8\u4e2d"
+    }, 
+    {
+        "id": "Show timeline PIP", 
+        "source": "Show timeline PIP", 
+        "description": "", 
+        "text": "\u663e\u793a\u65f6\u95f4\u7ebfPIP"
+    }, 
+    {
+        "id": "Media popup tooltip", 
+        "source": "Show the opened files", 
+        "description": "", 
+        "text": "\u663e\u793a\u6253\u5f00\u7684\u6587\u4ef6"
+    }, 
+    {
+        "id": "Settings tooltip", 
+        "source": "Show the settings", 
+        "description": "", 
+        "text": "\u663e\u793a\u8bbe\u7f6e"
+    }, 
+    {
+        "id": "Copy", 
+        "source": "Copy", 
+        "description": "", 
+        "text": "\u590d\u5236"
+    }, 
+    {
+        "id": "Reload", 
+        "source": "Reload", 
+        "description": "", 
+        "text": "\u5237\u65b0"
+    }, 
+    {
+        "id": "Clear", 
+        "source": "Clear", 
+        "description": "", 
+        "text": "\u660e\u786e"
+    }, 
+    {
+        "id": "Cannot parse the value.", 
+        "source": "Cannot parse the value.", 
+        "description": "", 
+        "text": "\u65e0\u6cd5\u89e3\u6790\u8be5\u503c\u3002"
+    }, 
+    {
+        "id": "None", 
+        "source": "None", 
+        "description": "", 
+        "text": "\u6ca1\u6709"
+    }, 
+    {
+        "id": "Fit", 
+        "source": "Fit", 
+        "description": "", 
+        "text": "\u9002\u5408"
+    }, 
+    {
+        "id": "Center", 
+        "source": "Center", 
+        "description": "", 
+        "text": "\u4e2d\u592e"
+    }, 
+    {
+        "id": "0", 
+        "source": "0", 
+        "description": "", 
+        "text": "0"
+    }, 
+    {
+        "id": "90", 
+        "source": "90", 
+        "description": "", 
+        "text": "90"
+    }, 
+    {
+        "id": "180", 
+        "source": "180", 
+        "description": "", 
+        "text": "180"
+    }, 
+    {
+        "id": "270", 
+        "source": "270", 
+        "description": "", 
+        "text": "270"
+    }, 
+    {
+        "id": "Default", 
+        "source": "Default", 
+        "description": "", 
+        "text": "\u9ed8\u8ba4"
+    }, 
+    {
+        "id": "Auto", 
+        "source": "Auto", 
+        "description": "", 
+        "text": "\u6c7d\u8f66"
+    }, 
+    {
+        "id": "Stop", 
+        "source": "Stop", 
+        "description": "", 
+        "text": "\u505c\u6b62"
+    }, 
+    {
+        "id": "Once", 
+        "source": "Once", 
+        "description": "", 
+        "text": "\u4e00\u65e6"
+    }, 
+    {
+        "id": "PingPong", 
+        "source": "Ping Pong", 
+        "description": "", 
+        "text": "\u4e52\u4e53"
+    }, 
+    {
+        "id": "Open", 
+        "source": "Open", 
+        "description": "", 
+        "text": "\u6253\u5f00"
+    }, 
+    {
+        "id": "Open tooltip", 
+        "source": "Open a new file", 
+        "description": "", 
+        "text": "\u6253\u5f00\u4e00\u4e2a\u65b0\u6587\u4ef6"
+    }, 
+    {
+        "id": "Recent", 
+        "source": "Recent", 
+        "description": "", 
+        "text": "\u6700\u8fd1"
+    }, 
+    {
+        "id": "Recent tooltip", 
+        "source": "Show recently opened files", 
+        "description": "", 
+        "text": "\u663e\u793a\u6700\u8fd1\u6253\u5f00\u7684\u6587\u4ef6"
+    }, 
+    {
+        "id": "Reload tooltip", 
+        "source": "Reload the current file", 
+        "description": "", 
+        "text": "\u91cd\u65b0\u52a0\u8f7d\u5f53\u524d\u6587\u4ef6"
+    }, 
+    {
+        "id": "Close", 
+        "source": "Close", 
+        "description": "", 
+        "text": "\u5173"
+    }, 
+    {
+        "id": "Close All", 
+        "source": "Close All", 
+        "description": "", 
+        "text": "\u5173\u95ed\u6240\u6709"
+    }, 
+    {
+        "id": "Close all tooltip", 
+        "source": "Close all open files", 
+        "description": "", 
+        "text": "\u5173\u95ed\u6240\u6709\u6253\u5f00\u7684\u6587\u4ef6"
+    }, 
+    {
+        "id": "Export", 
+        "source": "Export", 
+        "description": "", 
+        "text": "\u51fa\u53e3"
+    }, 
+    {
+        "id": "Export tooltip", 
+        "source": "Export the file", 
+        "description": "", 
+        "text": "\u5bfc\u51fa\u6587\u4ef6"
+    }, 
+    {
+        "id": "Next tooltip", 
+        "source": "Go to the next opened file", 
+        "description": "", 
+        "text": "\u8f6c\u5230\u4e0b\u4e00\u4e2a\u6253\u5f00\u7684\u6587\u4ef6"
+    }, 
+    {
+        "id": "Prev tooltip", 
+        "source": "Go to the previous opened file", 
+        "description": "", 
+        "text": "\u8f6c\u5230\u4e0a\u4e00\u4e2a\u6253\u5f00\u7684\u6587\u4ef6"
+    }, 
+    {
+        "id": "Layers", 
+        "source": "Layers", 
+        "description": "", 
+        "text": "\u56fe\u5c42"
+    }, 
+    {
+        "id": "Layers tooltip", 
+        "source": "Layers tooltip", 
+        "description": "", 
+        "text": "\u56fe\u5c42\u5de5\u5177\u63d0\u793a"
+    }, 
+    {
+        "id": "8-Bit Conversion", 
+        "source": "8-Bit Conversion", 
+        "description": "", 
+        "text": "8\u4f4d\u8f6c\u6362"
+    }, 
+    {
+        "id": "8-bit conversion tooltip", 
+        "source": "Down convert files to 8-bits to conserve memory", 
+        "description": "", 
+        "text": "\u5c06\u6587\u4ef6\u5411\u4e0b\u8f6c\u6362\u4e3a8\u4f4d\u4ee5\u8282\u7701\u5185\u5b58"
+    }, 
+    {
+        "id": "Memory Cache", 
+        "source": "Memory Cache", 
+        "description": "", 
+        "text": "\u5185\u5b58\u7f13\u5b58"
+    }, 
+    {
+        "id": "Memory cache tooltip", 
+        "source": "Keep images in memory", 
+        "description": "", 
+        "text": "\u5c06\u56fe\u50cf\u4fdd\u5b58\u5728\u5185\u5b58\u4e2d"
+    }, 
+    {
+        "id": "Clear Memory Cache", 
+        "source": "Clear Memory Cache", 
+        "description": "", 
+        "text": "\u6e05\u9664\u5185\u5b58\u7f13\u5b58"
+    }, 
+    {
+        "id": "Clear cache tooltip", 
+        "source": "Clear the memory cache", 
+        "description": "", 
+        "text": "\u6e05\u9664\u5185\u5b58\u7f13\u5b58"
+    }, 
+    {
+        "id": "Exit", 
+        "source": "Exit", 
+        "description": "", 
+        "text": "\u51fa\u53e3"
+    }, 
+    {
+        "id": "Exit tooltip", 
+        "source": "Exit the application", 
+        "description": "", 
+        "text": "\u9000\u51fa\u5e94\u7528\u7a0b\u5e8f"
+    }, 
+    {
+        "id": "File", 
+        "source": "File", 
+        "description": "", 
+        "text": "\u6587\u4ef6"
+    }, 
+    {
+        "id": "NUX", 
+        "source": "NUX", 
+        "description": "", 
+        "text": "NUX"
+    }, 
+    {
+        "id": "Enable new-user experience on startup", 
+        "source": "Enable new-user experience on startup", 
+        "description": "", 
+        "text": "\u542f\u52a8\u65f6\u542f\u7528\u65b0\u7528\u6237\u4f53\u9a8c"
+    }, 
+    {
+        "id": "Color Picker", 
+        "source": "Color Picker", 
+        "description": "", 
+        "text": "\u989c\u8272\u9009\u62e9\u5668"
+    }, 
+    {
+        "id": "Background color", 
+        "source": "Background color", 
+        "description": "", 
         "text": "\u80cc\u666f\u989c\u8272"
     }, 
     {
-        "source": "Auto hide tooltip", 
+        "id": "User Interface", 
+        "source": "User Interface", 
         "description": "", 
-        "id": "Auto hide tooltip", 
-        "text": "\u81ea\u52a8\u9690\u85cf\u5de5\u5177\u63d0\u793a"
+        "text": "\u7528\u6237\u754c\u9762"
+    }, 
+    {
+        "id": "General", 
+        "source": "General", 
+        "description": "", 
+        "text": "\u4e00\u822c"
+    }, 
+    {
+        "id": "Automatically hide the user interface", 
+        "source": "Automatically hide the user interface", 
+        "description": "", 
+        "text": "\u81ea\u52a8\u9690\u85cf\u7528\u6237\u754c\u9762"
+    }, 
+    {
+        "id": "Full Screen", 
+        "source": "Full Screen", 
+        "description": "", 
+        "text": "\u5168\u5c4f"
+    }, 
+    {
+        "id": "Full screen tooltip", 
+        "source": "Toggle whether the window is in full screen mode", 
+        "description": "", 
+        "text": "\u5207\u6362\u7a97\u53e3\u662f\u5426\u5904\u4e8e\u5168\u5c4f\u6a21\u5f0f"
+    }, 
+    {
+        "id": "Maximized", 
+        "source": "Maximized", 
+        "description": "", 
+        "text": "\u6700\u5927\u5316"
+    }, 
+    {
+        "id": "Maximized tooltip", 
+        "source": "Maximize the window", 
+        "description": "", 
+        "text": "\u6700\u5927\u5316\u7a97\u53e3"
+    }, 
+    {
+        "id": "Window", 
+        "source": "Window", 
+        "description": "", 
+        "text": "\u7a97\u53e3"
+    }, 
+    {
+        "id": "FPS", 
+        "source": "FPS", 
+        "description": "", 
+        "text": "FPS"
+    }, 
+    {
+        "id": "Object count", 
+        "source": "Object count", 
+        "description": "", 
+        "text": "\u5bf9\u8c61\u6570"
+    }, 
+    {
+        "id": "Widget count", 
+        "source": "Widget count", 
+        "description": "", 
+        "text": "\u5c0f\u5de5\u5177\u6570\u91cf"
+    }, 
+    {
+        "id": "Font system glyph cache", 
+        "source": "Font system glyph cache", 
+        "description": "", 
+        "text": "\u5b57\u4f53\u7cfb\u7edf\u5b57\u5f62\u7f13\u5b58"
+    }, 
+    {
+        "id": "Thumbnail system information cache", 
+        "source": "Thumbnail system information cache", 
+        "description": "", 
+        "text": "\u7f29\u7565\u56fe\u7cfb\u7edf\u4fe1\u606f\u7f13\u5b58"
+    }, 
+    {
+        "id": "Thumbnail system image cache", 
+        "source": "Thumbnail system image cache", 
+        "description": "", 
+        "text": "\u7f29\u7565\u56fe\u7cfb\u7edf\u56fe\u50cf\u7f13\u5b58"
+    }, 
+    {
+        "id": "Icon system cache", 
+        "source": "Icon system cache", 
+        "description": "", 
+        "text": "\u56fe\u6807\u7cfb\u7edf\u7f13\u5b58"
+    }, 
+    {
+        "id": "Texture atlas", 
+        "source": "Texture atlas", 
+        "description": "", 
+        "text": "\u7eb9\u7406\u56fe\u96c6"
+    }, 
+    {
+        "id": "Dynamic texture count", 
+        "source": "Dynamic texture count", 
+        "description": "", 
+        "text": "\u52a8\u6001\u7eb9\u7406\u8ba1\u6570"
+    }, 
+    {
+        "id": "VBO size", 
+        "source": "VBO size", 
+        "description": "", 
+        "text": "VBO\u5927\u5c0f"
+    }, 
+    {
+        "id": "Video queue", 
+        "source": "Video queue", 
+        "description": "", 
+        "text": "\u89c6\u9891\u961f\u5217"
+    }, 
+    {
+        "id": "Audio queue", 
+        "source": "Audio queue", 
+        "description": "", 
+        "text": "\u97f3\u9891\u5c3e\u5df4"
+    }, 
+    {
+        "id": "OpenAL queue", 
+        "source": "OpenAL queue", 
+        "description": "", 
+        "text": "OpenAL\u961f\u5217"
+    }, 
+    {
+        "id": "Current time", 
+        "source": "Current time", 
+        "description": "", 
+        "text": "\u5f53\u524d\u65f6\u95f4"
+    }, 
+    {
+        "id": "Debugging", 
+        "source": "Debugging", 
+        "description": "", 
+        "text": "\u8c03\u8bd5"
+    }, 
+    {
+        "id": "Render", 
+        "source": "Render", 
+        "description": "", 
+        "text": "\u7ed9\u4e88"
+    }, 
+    {
+        "id": "Media", 
+        "source": "Media", 
+        "description": "", 
+        "text": "\u5a92\u4f53"
+    }, 
+    {
+        "id": "Magnifier", 
+        "source": "Magnifier", 
+        "description": "", 
+        "text": "\u653e\u5927\u955c"
+    }, 
+    {
+        "id": "Magnifier tooltip", 
+        "source": "Magnifier tooltip", 
+        "description": "", 
+        "text": "\u653e\u5927\u955c\u5de5\u5177\u63d0\u793a"
+    }, 
+    {
+        "id": "Color picker tooltip", 
+        "source": "Activate the color picker tool", 
+        "description": "", 
+        "text": "\u6fc0\u6d3b\u989c\u8272\u9009\u62e9\u5668\u5de5\u5177"
+    }, 
+    {
+        "id": "Histogram tooltip", 
+        "source": "Histogram tooltip", 
+        "description": "", 
+        "text": "\u76f4\u65b9\u56fe\u5de5\u5177\u63d0\u793a"
+    }, 
+    {
+        "id": "Information tooltip", 
+        "source": "Information tooltip", 
+        "description": "", 
+        "text": "\u4fe1\u606f\u5de5\u5177\u63d0\u793a"
+    }, 
+    {
+        "id": "Debugging tooltip", 
+        "source": "Debugging tooltip", 
+        "description": "", 
+        "text": "\u8c03\u8bd5\u5de5\u5177\u63d0\u793a"
+    }, 
+    {
+        "id": "Tools", 
+        "source": "Tools", 
+        "description": "", 
+        "text": "\u5de5\u5177"
+    }, 
+    {
+        "id": "About Title", 
+        "source": "DJV Imaging", 
+        "description": "", 
+        "text": "DJV\u6210\u50cf"
+    }, 
+    {
+        "id": "Copyright and License", 
+        "source": "Copyright and License", 
+        "description": "", 
+        "text": "\u7248\u6743\u548c\u8bb8\u53ef"
+    }, 
+    {
+        "id": "Contributors", 
+        "source": "Contributors", 
+        "description": "", 
+        "text": "\u8d21\u732e\u8005"
+    }, 
+    {
+        "id": "Third Party", 
+        "source": "Third Party Software", 
+        "description": "", 
+        "text": "\u7b2c\u4e09\u65b9\u8f6f\u4ef6"
+    }, 
+    {
+        "id": "Trademarks", 
+        "source": "Trademarks", 
+        "description": "", 
+        "text": "\u5546\u6807"
+    }, 
+    {
+        "id": "Copyright", 
+        "source": "Copyright (c) 2004-2019 Darby Johnston, All rights reserved", 
+        "description": "", 
+        "text": "\u7248\u6743\u6240\u6709\uff08c\uff092004-2019 Darby Johnston\uff0c\u4fdd\u7559\u6240\u6709\u6743\u5229"
+    }, 
+    {
+        "id": "License 1", 
+        "source": "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:", 
+        "description": "", 
+        "text": "\u5982\u679c\u6ee1\u8db3\u4ee5\u4e0b\u6761\u4ef6\uff0c\u5219\u5141\u8bb8\u4ee5\u6e90\u4ee3\u7801\u548c\u4e8c\u8fdb\u5236\u5f62\u5f0f\u91cd\u65b0\u5206\u53d1\u548c\u4f7f\u7528\uff0c\u65e0\u8bba\u662f\u5426\u7ecf\u8fc7\u4fee\u6539\uff1a"
+    }, 
+    {
+        "id": "License 2", 
+        "source": "* Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.", 
+        "description": "", 
+        "text": "*\u6e90\u4ee3\u7801\u7684\u91cd\u65b0\u5206\u53d1\u5fc5\u987b\u4fdd\u7559\u4e0a\u8ff0\u7248\u6743\u58f0\u660e\uff0c\u6b64\u6761\u4ef6\u5217\u8868\u4ee5\u53ca\u4ee5\u4e0b\u514d\u8d23\u58f0\u660e\u3002"
+    }, 
+    {
+        "id": "License 3", 
+        "source": "* Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution.", 
+        "description": "", 
+        "text": "*\u4e8c\u8fdb\u5236\u5f62\u5f0f\u7684\u518d\u5206\u53d1\u5fc5\u987b\u5728\u968f\u5206\u53d1\u63d0\u4f9b\u7684\u6587\u6863\u548c/\u6216\u5176\u4ed6\u6750\u6599\u4e2d\u590d\u5236\u4e0a\u8ff0\u7248\u6743\u58f0\u660e\uff0c\u6b64\u6761\u4ef6\u5217\u8868\u4ee5\u53ca\u4ee5\u4e0b\u514d\u8d23\u58f0\u660e\u3002"
+    }, 
+    {
+        "id": "License 4", 
+        "source": "* Neither the names of the copyright holders nor the names of any contributors may be used to endorse or promote products derived from this software without specific prior written permission.", 
+        "description": "", 
+        "text": "*\u672a\u7ecf\u4e8b\u5148\u4e66\u9762\u8bb8\u53ef\uff0c\u4e0d\u5f97\u4f7f\u7528\u7248\u6743\u6240\u6709\u8005\u7684\u59d3\u540d\u6216\u4efb\u4f55\u8d21\u732e\u8005\u7684\u59d3\u540d\u6765\u8ba4\u53ef\u6216\u5ba3\u4f20\u672c\u8f6f\u4ef6\u884d\u751f\u7684\u4ea7\u54c1\u3002"
+    }, 
+    {
+        "id": "License 5", 
+        "source": "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.", 
+        "description": "", 
+        "text": "\u672c\u8f6f\u4ef6\u7531\u7248\u6743\u6240\u6709\u8005\u548c\u8d21\u732e\u8005\u6309\u201c\u539f\u6837\u201d\u63d0\u4f9b\uff0c\u5e76\u4e14\u4e0d\u627f\u62c5\u4efb\u4f55\u660e\u793a\u6216\u6697\u793a\u7684\u62c5\u4fdd\uff0c\u5305\u62ec\u4f46\u4e0d\u9650\u4e8e\u5bf9\u9002\u9500\u6027\u548c\u7279\u5b9a\u7528\u9014\u7684\u9002\u7528\u6027\u7684\u6697\u793a\u62c5\u4fdd\u3002\u5728\u4efb\u4f55\u60c5\u51b5\u4e0b\uff0c\u7248\u6743\u6240\u6709\u8005\u6216\u8d21\u732e\u8005\u5747\u4e0d\u5bf9\u4efb\u4f55\u76f4\u63a5\uff0c\u95f4\u63a5\uff0c\u5076\u7136\uff0c\u7279\u6b8a\uff0c\u60e9\u6212\u6216\u540e\u679c\u6027\u635f\u5bb3\u627f\u62c5\u8d23\u4efb\uff08\u5305\u62ec\u4f46\u4e0d\u9650\u4e8e\u91c7\u8d2d\u66ff\u4ee3\u5546\u54c1\u6216\u670d\u52a1;\u635f\u5931\u4f7f\u7528\uff0c\u6570\u636e\u6216\u5229\u6da6;\u6216\u8005\u5546\u4e1a\u4e2d\u65ad\uff09\u65e0\u8bba\u5982\u4f55\u5f15\u8d77\u5e76\u627f\u62c5\u4efb\u4f55\u8d23\u4efb\u7406\u8bba\uff0c\u65e0\u8bba\u662f\u5728\u4f7f\u7528\u672c\u8f6f\u4ef6\u7684\u4efb\u4f55\u65b9\u5f0f\u4e0b\u4ea7\u751f\u7684\u5408\u540c\uff0c\u4e25\u683c\u8d23\u4efb\u6216\u4fb5\u6743\uff08\u5305\u62ec\u758f\u5ffd\u6216\u5176\u4ed6\uff09\uff0c\u5373\u4f7f\u88ab\u544a\u77e5\u6b64\u7c7b\u635f\u5bb3\u7684\u53ef\u80fd\u6027\u3002"
+    }, 
+    {
+        "id": "Contributors Text", 
+        "source": "Portions of this software are copyright (in alphabetical order):", 
+        "description": "", 
+        "text": "\u672c\u8f6f\u4ef6\u7684\u90e8\u5206\u7248\u6743\uff08\u6309\u5b57\u6bcd\u987a\u5e8f\u6392\u5217\uff09\uff1a"
+    }, 
+    {
+        "id": "Contributors Darby Johnston", 
+        "source": "* Copyright (c) 2004-2019 Darby Johnston, All rights reserved", 
+        "description": "", 
+        "text": "*\u7248\u6743\u6240\u6709\uff08c\uff092004-2019 Darby Johnston\uff0c\u4fdd\u7559\u6240\u6709\u6743\u5229"
+    }, 
+    {
+        "id": "Contributors Mikael Sundell", 
+        "source": "* Copyright (c) 2008-2009 Mikael Sundell, All rights reserved", 
+        "description": "", 
+        "text": "*\u7248\u6743\u6240\u6709\uff08c\uff092008-2009 Mikael Sundell\uff0c\u4fdd\u7559\u6240\u6709\u6743\u5229"
+    }, 
+    {
+        "id": "Third Party Text", 
+        "source": "This software is based in part on the works of (in alphabetical order):", 
+        "description": "", 
+        "text": "\u8be5\u8f6f\u4ef6\u90e8\u5206\u57fa\u4e8e\uff08\u6309\u5b57\u6bcd\u987a\u5e8f\uff09\u7684\u4f5c\u54c1\uff1a"
+    }, 
+    {
+        "id": "Third Party CMake", 
+        "source": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium, All rights reserved", 
+        "description": "", 
+        "text": "* CMake\uff0chttp\uff1a//www.cmake.org\uff0c\u7248\u6743\u6240\u67092000-2011 Kitware\uff0cInc.\uff0cInsight Software Consortium\uff0c\u4fdd\u7559\u6240\u6709\u6743\u5229"
+    }, 
+    {
+        "id": "Third Party dr_libs", 
+        "source": "* dr_libs, http://github.com/mackron/dr_libs, David Reid", 
+        "description": "", 
+        "text": "* dr_libs\uff0chttp\uff1a//github.com/mackron/dr_libs\uff0cDavid Reid"
+    }, 
+    {
+        "id": "Third Party FFMpeg", 
+        "source": "* FFMpeg, http://www.ffmpeg.org, Licensed under the LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html", 
+        "description": "", 
+        "text": "* FFMpeg\uff0chttp\uff1a//www.ffmpeg.org\uff0c\u6839\u636eLGPLv2.1\u83b7\u5f97\u8bb8\u53ef\uff0chttp\uff1a//www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html"
+    }, 
+    {
+        "id": "Third Party FreeType", 
+        "source": "* FreeType, http://www.freetype.org, Copyright (c) 2018, The FreeType Project", 
+        "description": "", 
+        "text": "* FreeType\uff0chttp\uff1a//www.freetype.org,Copyright\uff08c\uff092018\uff0cFreeType Project"
+    }, 
+    {
+        "id": "Third Party GLFW", 
+        "source": "* GLFW, http://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla L\u00f6wy <elmindreda@glfw.org>", 
+        "description": "", 
+        "text": "* GLFW\uff0chttp\uff1a//www.glfw.org\uff0c\u7248\u6743\u6240\u6709\uff08c\uff092002-2006 Marcus Geelnard\uff0c\u7248\u6743\u6240\u6709\uff08c\uff092006-2016CamillaL\u00f6wy <elmindreda@glfw.org>"
+    }, 
+    {
+        "id": "Third Party GLM", 
+        "source": "* GLM, http://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation", 
+        "description": "", 
+        "text": "* GLM\uff0chttp\uff1a//glm.g-truc.net/0.9.9/index.html,Copyright\uff08c\uff092005-2017 G-Truc Creation"
+    }, 
+    {
+        "id": "Third Party glad", 
+        "source": "* glad, http://github.com/Dav1dde/glad, Copyright (c) 2013-2018 David Herberth", 
+        "description": "", 
+        "text": "*\u5f88\u9ad8\u5174\uff0chttp\uff1a//github.com/Dav1dde/glad\uff0c\u7248\u6743\u6240\u6709\uff08c\uff092013-2018 David Herberth"
+    }, 
+    {
+        "id": "Third Party libjpeg", 
+        "source": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding", 
+        "description": "", 
+        "text": "* libjpeg\uff0chttp\uff1a//www.ijg.org,Copyright\uff08c\uff091991-2012\uff0cThomas G. Lane\uff0cGuido Vollbeding"
+    }, 
+    {
+        "id": "Third Party libjpeg-turbo", 
+        "source": "* libjpeg-turbo, http://libjpeg-turbo.org, Copyright (C)2009-2019 D. R. Commander, All Rights Reserved, Copyright (C)2015 Viktor Szathm\u00e1ry, All Rights Reserved", 
+        "description": "", 
+        "text": "* libjpeg-turbo\uff0chttp\uff1a//libjpeg-turbo.org\uff0c\u7248\u6743\u6240\u6709\uff08C\uff092009-2019 DR Commander\uff0c\u4fdd\u7559\u6240\u6709\u6743\u5229\uff0c\u7248\u6743\u6240\u6709\uff08C\uff092015ViktorSzathm\u00e1ry\uff0c\u4fdd\u7559\u6240\u6709\u6743\u5229"
+    }, 
+    {
+        "id": "Third Party libpng", 
+        "source": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson", 
+        "description": "", 
+        "text": "* libpng\uff0chttp\uff1a//www.libpng.org\uff0c\u7248\u6743\u6240\u6709\uff08c\uff092004,2006-2012 Glenn Randers-Pehrson"
+    }, 
+    {
+        "id": "Third Party libtiff", 
+        "source": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc", 
+        "description": "", 
+        "text": "* libtiff\uff0chttp\uff1a//www.libtiff.org,Copyright\uff08c\uff091988-1997 Sam Leffler\uff0cCopyright\uff08c\uff091991-1997 Silicon Graphics\uff0cInc"
+    }, 
+    {
+        "id": "Third Party OpenAL", 
+        "source": "* OpenAL, http://www.openal.org, Copyright (C) 1999-2000 by Loki Software", 
+        "description": "", 
+        "text": "* OpenAL\uff0chttp\uff1a//www.openal.org,Loki Software\u7248\u6743\u6240\u6709\uff08C\uff091999-2000"
+    }, 
+    {
+        "id": "Third Party OpenColorIO", 
+        "source": "* OpenColorIO, http://opencolorio.org, Copyright (c) 2003-2010 Sony Pictures Imageworks Inc., et al., All rights reserved", 
+        "description": "", 
+        "text": "* OpenColorIO\uff0chttp\uff1a//opencolorio.org\uff0c\u7248\u6743\u6240\u6709\uff08c\uff092003-2010 Sony Pictures Imageworks Inc.\uff0cet al\u3002\uff0c\u4fdd\u7559\u6240\u6709\u6743\u5229"
+    }, 
+    {
+        "id": "Third Party OpenEXR", 
+        "source": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, a division of Lucasfilm Entertainment Company Ltd.", 
+        "description": "", 
+        "text": "* OpenEXR\uff0chttp\uff1a//www.openexr.com\uff0c\u7248\u6743\u6240\u6709\uff08c\uff092006\uff0cIndustrial Light and Magic\uff0cLucasfilm Entertainment Company Ltd.\u7684\u4e00\u4e2a\u90e8\u95e8\u3002"
+    }, 
+    {
+        "id": "Third Party zlib", 
+        "source": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler", 
+        "description": "", 
+        "text": "* zlib\uff0chttp\uff1a//www.zlib.net\uff0c\u7248\u6743\u6240\u6709\uff08c\uff091995-2013 Jean-loup Gailly\u548cMark Adler"
+    }, 
+    {
+        "id": "Trademarks Text", 
+        "source": "Trademarks named in the documentation (in alphabetical order):", 
+        "description": "", 
+        "text": "\u6587\u6863\u4e2d\u547d\u540d\u7684\u5546\u6807\uff08\u6309\u5b57\u6bcd\u987a\u5e8f\u6392\u5217\uff09\uff1a"
+    }, 
+    {
+        "id": "Trademarks Apple", 
+        "source": "* Apple, OS X, ProRes, and QuickTime are registered trademarks of Apple, Inc.", 
+        "description": "", 
+        "text": "* Apple\uff0cOS X\uff0cProRes\u548cQuickTime\u662fApple\uff0cInc\u3002\u7684\u6ce8\u518c\u5546\u6807\u3002"
+    }, 
+    {
+        "id": "Trademarks AMD", 
+        "source": "* AMD and ATI are registered trademarks of Advanced Micro Devices, Inc.", 
+        "description": "", 
+        "text": "* AMD\u548cATI\u662fAdvanced Micro Devices\uff0cInc\u3002\u7684\u6ce8\u518c\u5546\u6807\u3002"
+    }, 
+    {
+        "id": "Trademarks Autodesk", 
+        "source": "* Autodesk, Inferno, Maya, Softimage, and XSI are registered trademarks of Autodesk, Inc.", 
+        "description": "", 
+        "text": "* Autodesk\uff0cInferno\uff0cMaya\uff0cSoftimage\u548cXSI\u662fAutodesk\uff0cInc\u3002\u7684\u6ce8\u518c\u5546\u6807\u3002"
+    }, 
+    {
+        "id": "Trademarks Debian", 
+        "source": "* Debian is a registered trademark of Software in the Public Interest, Inc.", 
+        "description": "", 
+        "text": "* Debian\u662fSoftware in Public Interest\uff0cInc\u3002\u7684\u6ce8\u518c\u5546\u6807\u3002"
+    }, 
+    {
+        "id": "Trademarks FFmpeg", 
+        "source": "* FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project", 
+        "description": "", 
+        "text": "* FFmpeg\u662fFFmpeg\u9879\u76ee\u7684\u521b\u59cb\u4ebaFabrice Bellard\u7684\u5546\u6807"
+    }, 
+    {
+        "id": "Trademarks FreeBSD", 
+        "source": "* FreeBSD is a registered trademark of The FreeBSD Foundation", 
+        "description": "", 
+        "text": "* FreeBSD\u662fFreeBSD Foundation\u7684\u6ce8\u518c\u5546\u6807"
+    }, 
+    {
+        "id": "Trademarks Intel", 
+        "source": "* Intel is a registered trademark of Intel Corporation", 
+        "description": "", 
+        "text": "* Intel\u662fIntel Corporation\u7684\u6ce8\u518c\u5546\u6807"
+    }, 
+    {
+        "id": "Trademarks Lucasfilm", 
+        "source": "* Industrial Light and Magic and ILM are registered trademarks of Lucasfilm Ltd.", 
+        "description": "", 
+        "text": "* Industrial Light and Magic\u548cILM\u662fLucasfilm Ltd.\u7684\u6ce8\u518c\u5546\u6807\u3002"
+    }, 
+    {
+        "id": "Trademarks Kodak", 
+        "source": "* Kodak and Cineon are a registered trademarks of the Eastman Kodak Company", 
+        "description": "", 
+        "text": "* Kodak\u548cCineon\u662fEastman Kodak Company\u7684\u6ce8\u518c\u5546\u6807"
+    }, 
+    {
+        "id": "Trademarks Linux", 
+        "source": "* Linux is a registered trademark of Linus Torvalds", 
+        "description": "", 
+        "text": "* Linux\u662fLinus Torvalds\u7684\u6ce8\u518c\u5546\u6807"
+    }, 
+    {
+        "id": "Trademarks Microsoft", 
+        "source": "* Microsoft and Microsoft Windows are registered trademarks of Microsoft, Inc.", 
+        "description": "", 
+        "text": "* Microsoft\u548cMicrosoft Windows\u662fMicrosoft\uff0cInc\u3002\u7684\u6ce8\u518c\u5546\u6807\u3002"
+    }, 
+    {
+        "id": "Trademarks MIPS", 
+        "source": "* MIPS is a registered trademark of MIPS Technologies, Inc.", 
+        "description": "", 
+        "text": "* MIPS\u662fMIPS\u79d1\u6280\u516c\u53f8\u7684\u6ce8\u518c\u5546\u6807\u3002"
+    }, 
+    {
+        "id": "Trademarks NVIDIA", 
+        "source": "* NVIDIA is a registered trademark of NVIDIA Corporation", 
+        "description": "", 
+        "text": "* NVIDIA\u662fNVIDIA Corporation\u7684\u6ce8\u518c\u5546\u6807"
+    }, 
+    {
+        "id": "Trademarks Red Hat", 
+        "source": "* Red Hat and Fedora are registered trademarks of Red Hat, Inc.", 
+        "description": "", 
+        "text": "* Red Hat\u548cFedora\u662fRed Hat\uff0cInc\u3002\u7684\u6ce8\u518c\u5546\u6807\u3002"
+    }, 
+    {
+        "id": "Trademarks SGI", 
+        "source": "* Silicon Graphics, SGI, IRIX, and OpenGL are registered trademarks of Silicon Graphics International Corp.", 
+        "description": "", 
+        "text": "* Silicon Graphics\uff0cSGI\uff0cIRIX\u548cOpenGL\u662fSilicon Graphics International Corp.\u7684\u6ce8\u518c\u5546\u6807\u3002"
+    }, 
+    {
+        "id": "Trademarks SMPTE", 
+        "source": "* SMPTE is a registered trademark of the Society of Motion Picture and Television Engineers", 
+        "description": "", 
+        "text": "* SMPTE\u662f\u7535\u5f71\u7535\u89c6\u5de5\u7a0b\u5e08\u534f\u4f1a\u7684\u6ce8\u518c\u5546\u6807"
+    }, 
+    {
+        "id": "Trademarks SourceForge", 
+        "source": "* SourceForge.net is a registered trademark of VA Software Corporation", 
+        "description": "", 
+        "text": "* SourceForge.net\u662fVA Software Corporation\u7684\u6ce8\u518c\u5546\u6807"
+    }, 
+    {
+        "id": "Trademarks SuSE", 
+        "source": "* SuSE is a registered trademark of Novell, Inc.", 
+        "description": "", 
+        "text": "* SuSE\u662fNovell\uff0cInc\u3002\u7684\u6ce8\u518c\u5546\u6807\u3002"
+    }, 
+    {
+        "id": "Trademarks Ubuntu", 
+        "source": "* Ubuntu is a registered trademark of Canonical Ltd.", 
+        "description": "", 
+        "text": "* Ubuntu\u662fCanonical Ltd.\u7684\u6ce8\u518c\u5546\u6807\u3002"
+    }, 
+    {
+        "id": "Trademarks UNIX", 
+        "source": "* UNIX is a registered trademark of The Open Group", 
+        "description": "", 
+        "text": "* UNIX\u662fThe Open Group\u7684\u6ce8\u518c\u5546\u6807"
+    }, 
+    {
+        "id": "Trademarks End", 
+        "source": "All other products named in the documentation are trademarks of their respective owners.", 
+        "description": "", 
+        "text": "\u6587\u6863\u4e2d\u6307\u5b9a\u7684\u6240\u6709\u5176\u4ed6\u4ea7\u54c1\u5747\u4e3a\u5176\u5404\u81ea\u6240\u6709\u8005\u7684\u5546\u6807\u3002"
+    }, 
+    {
+        "id": "Made In", 
+        "source": "Made in Berkeley, CA, USA", 
+        "description": "", 
+        "text": "\u7f8e\u56fd\u52a0\u5229\u798f\u5c3c\u4e9a\u5dde\u4f2f\u514b\u5229\u5236\u9020"
+    }, 
+    {
+        "id": "Lock Color Type", 
+        "source": "Lock Color Type", 
+        "description": "", 
+        "text": "\u9501\u5b9a\u989c\u8272\u7c7b\u578b"
+    }, 
+    {
+        "id": "Color picker lock color type tooltip", 
+        "source": "Don't change the color type to match the image", 
+        "description": "", 
+        "text": "\u8bf7\u52ff\u66f4\u6539\u989c\u8272\u7c7b\u578b\u4ee5\u5339\u914d\u56fe\u50cf"
+    }, 
+    {
+        "id": "Enable Color Profile", 
+        "source": "Enable Color Profile", 
+        "description": "", 
+        "text": "\u542f\u7528\u989c\u8272\u914d\u7f6e\u6587\u4ef6"
+    }, 
+    {
+        "id": "Color picker enable color profile tooltip", 
+        "source": "Color picker enable color profile tooltip", 
+        "description": "", 
+        "text": "\u989c\u8272\u9009\u62e9\u5668\u542f\u7528\u989c\u8272\u914d\u7f6e\u6587\u4ef6\u5de5\u5177\u63d0\u793a"
+    }, 
+    {
+        "id": "Enable Display Profile", 
+        "source": "Enable Display Profile", 
+        "description": "", 
+        "text": "\u542f\u7528\u663e\u793a\u914d\u7f6e\u6587\u4ef6"
+    }, 
+    {
+        "id": "Color picker enable display profile tooltip", 
+        "source": "Color picker enable display profile tooltip", 
+        "description": "", 
+        "text": "\u989c\u8272\u9009\u62e9\u5668\u542f\u7528\u663e\u793a\u914d\u7f6e\u6587\u4ef6\u5de5\u5177\u63d0\u793a"
+    }, 
+    {
+        "id": "RGB", 
+        "source": "RGB", 
+        "description": "", 
+        "text": "RGB"
+    }, 
+    {
+        "id": "HSV", 
+        "source": "HSV", 
+        "description": "", 
+        "text": "HSV"
+    }, 
+    {
+        "id": "Color picker sample size tooltip", 
+        "source": "Set the color picker sample size", 
+        "description": "", 
+        "text": "\u8bbe\u7f6e\u989c\u8272\u9009\u62e9\u5668\u6837\u672c\u5927\u5c0f"
+    }, 
+    {
+        "id": "Left", 
+        "source": "Left", 
+        "description": "", 
+        "text": "\u5269\u4e0b"
+    }, 
+    {
+        "id": "Left tooltip", 
+        "source": "Move the view left", 
+        "description": "", 
+        "text": "\u5411\u5de6\u79fb\u52a8\u89c6\u56fe"
+    }, 
+    {
+        "id": "Right", 
+        "source": "Right", 
+        "description": "", 
+        "text": "\u5bf9"
+    }, 
+    {
+        "id": "Right tooltip", 
+        "source": "Move the view right", 
+        "description": "", 
+        "text": "\u5411\u53f3\u79fb\u52a8\u89c6\u56fe"
+    }, 
+    {
+        "id": "Up", 
+        "source": "Up", 
+        "description": "", 
+        "text": "\u5411\u4e0a"
+    }, 
+    {
+        "id": "Up tooltip", 
+        "source": "Move the view up", 
+        "description": "", 
+        "text": "\u5411\u4e0a\u79fb\u52a8\u89c6\u56fe"
+    }, 
+    {
+        "id": "Down", 
+        "source": "Down", 
+        "description": "", 
+        "text": "\u4e0b"
+    }, 
+    {
+        "id": "Down tooltip", 
+        "source": "Move the view down", 
+        "description": "", 
+        "text": "\u5411\u4e0b\u79fb\u52a8\u89c6\u56fe"
+    }, 
+    {
+        "id": "North West", 
+        "source": "North West", 
+        "description": "", 
+        "text": "\u897f\u5317"
+    }, 
+    {
+        "id": "North west tooltip", 
+        "source": "Move the view Northwest", 
+        "description": "", 
+        "text": "\u79fb\u52a8\u89c6\u56fe\u897f\u5317"
+    }, 
+    {
+        "id": "North East", 
+        "source": "North East", 
+        "description": "", 
+        "text": "\u4e1c\u5317"
+    }, 
+    {
+        "id": "North east tooltip", 
+        "source": "North the view Northeast", 
+        "description": "", 
+        "text": "\u5317\u89c6\u4e1c\u5317"
+    }, 
+    {
+        "id": "South east", 
+        "source": "South east", 
+        "description": "", 
+        "text": "\u4e1c\u5357"
+    }, 
+    {
+        "id": "South east tooltip", 
+        "source": "Move the view Southeast", 
+        "description": "", 
+        "text": "\u79fb\u52a8\u89c6\u56fe\u4e1c\u5357"
+    }, 
+    {
+        "id": "South West", 
+        "source": "South West", 
+        "description": "", 
+        "text": "\u897f\u5357"
+    }, 
+    {
+        "id": "South west tooltip", 
+        "source": "Move the view Southwest", 
+        "description": "", 
+        "text": "\u5c06\u89c6\u56fe\u79fb\u52a8\u5230\u897f\u5357"
+    }, 
+    {
+        "id": "Zoom In", 
+        "source": "Zoom In", 
+        "description": "", 
+        "text": "\u653e\u5927"
+    }, 
+    {
+        "id": "Zoom in tooltip", 
+        "source": "Zoom into the image", 
+        "description": "", 
+        "text": "\u653e\u5927\u56fe\u50cf"
+    }, 
+    {
+        "id": "Zoom Out", 
+        "source": "Zoom Out", 
+        "description": "", 
+        "text": "\u7f29\u5c0f"
+    }, 
+    {
+        "id": "Zoom out tooltip", 
+        "source": "Zoom out of the image", 
+        "description": "", 
+        "text": "\u7f29\u5c0f\u56fe\u50cf"
+    }, 
+    {
+        "id": "Fit To Image", 
+        "source": "Fit To Image", 
+        "description": "", 
+        "text": "\u9002\u5408\u56fe\u50cf"
+    }, 
+    {
+        "id": "Fit to image tooltip", 
+        "source": "Fit the image to the window", 
+        "description": "", 
+        "text": "\u4f7f\u56fe\u50cf\u9002\u5408\u7a97\u53e3"
+    }, 
+    {
+        "id": "Center image tooltip", 
+        "source": "Center the image in the window with a 1:1 zoom", 
+        "description": "", 
+        "text": "\u4f7f\u75281\uff1a1\u7f29\u653e\u5c06\u56fe\u50cf\u7f6e\u4e8e\u7a97\u53e3\u4e2d\u5fc3"
+    }, 
+    {
+        "id": "Lock Fit To Image", 
+        "source": "Lock Fit To Image", 
+        "description": "", 
+        "text": "\u9501\u5b9a\u9002\u5408\u56fe\u50cf"
+    }, 
+    {
+        "id": "Lock fit to image tooltip", 
+        "source": "Lock the image fitted to the window", 
+        "description": "", 
+        "text": "\u9501\u5b9a\u9002\u5408\u7a97\u53e3\u7684\u56fe\u50cf"
+    }, 
+    {
+        "id": "Lock Center", 
+        "source": "Lock Center", 
+        "description": "", 
+        "text": "\u9501\u4e2d\u5fc3"
+    }, 
+    {
+        "id": "Lock center image tooltip", 
+        "source": "Lock the image centered in the window with a 1:1 zoom", 
+        "description": "", 
+        "text": "\u4f7f\u75281\uff1a1\u7f29\u653e\u9501\u5b9a\u7a97\u53e3\u4e2d\u5fc3\u7684\u56fe\u50cf"
+    }, 
+    {
+        "id": "Grid", 
+        "source": "Grid", 
+        "description": "", 
+        "text": "\u683c"
+    }, 
+    {
+        "id": "Grid tooltip", 
+        "source": "Show a grid", 
+        "description": "", 
+        "text": "\u663e\u793a\u7f51\u683c"
+    }, 
+    {
+        "id": "HUD", 
+        "source": "HUD", 
+        "description": "", 
+        "text": "HUD"
+    }, 
+    {
+        "id": "HUD tooltip", 
+        "source": "Show the heads up display", 
+        "description": "", 
+        "text": "\u663e\u793a\u62ac\u5934\u663e\u793a"
+    }, 
+    {
+        "id": "View", 
+        "source": "View", 
+        "description": "", 
+        "text": "\u89c6\u56fe"
+    }, 
+    {
+        "id": "Maximize tooltip", 
+        "source": "Maximize the window", 
+        "description": "", 
+        "text": "\u6700\u5927\u5316\u7a97\u53e3"
+    }, 
+    {
+        "id": "Speed tooltip", 
+        "source": "Speed tooltip", 
+        "description": "", 
+        "text": "\u901f\u5ea6\u5de5\u5177\u63d0\u793a"
+    }, 
+    {
+        "id": "Current time tooltip", 
+        "source": "The current time", 
+        "description": "", 
+        "text": "\u73b0\u5728\u7684\u65f6\u95f4"
+    }, 
+    {
+        "id": "Duration tooltip", 
+        "source": "The playback duration", 
+        "description": "", 
+        "text": "\u64ad\u653e\u6301\u7eed\u65f6\u95f4"
+    }, 
+    {
+        "id": "Audio popup tooltip", 
+        "source": "Show audio settings", 
+        "description": "", 
+        "text": "\u663e\u793a\u97f3\u9891\u8bbe\u7f6e"
+    }, 
+    {
+        "id": "Volume tooltip", 
+        "source": "Set the audio volume", 
+        "description": "", 
+        "text": "\u8bbe\u7f6e\u97f3\u91cf"
+    }, 
+    {
+        "id": "Magnifier enable color profile tooltip", 
+        "source": "Magnifier enable color profile tooltip", 
+        "description": "", 
+        "text": "\u653e\u5927\u955c\u542f\u7528\u989c\u8272\u914d\u7f6e\u6587\u4ef6\u5de5\u5177\u63d0\u793a"
+    }, 
+    {
+        "id": "Magnifier enable display profile tooltip", 
+        "source": "Magnifier enable display profile tooltip", 
+        "description": "", 
+        "text": "\u653e\u5927\u955c\u542f\u7528\u663e\u793a\u914d\u7f6e\u6587\u4ef6\u5de5\u5177\u63d0\u793a"
+    }, 
+    {
+        "id": "Magnifier zoom in tooltip", 
+        "source": "Magnifier zoom in tooltip", 
+        "description": "", 
+        "text": "\u653e\u5927\u955c\u653e\u5927\u5de5\u5177\u63d0\u793a"
+    }, 
+    {
+        "id": "Magnifier zoom out tooltip", 
+        "source": "Magnifier zoom out tooltip", 
+        "description": "", 
+        "text": "\u653e\u5927\u955c\u7f29\u5c0f\u5de5\u5177\u63d0\u793a"
+    }, 
+    {
+        "id": "cannot create OpenAL source", 
+        "source": "cannot create OpenAL source", 
+        "description": "", 
+        "text": "\u65e0\u6cd5\u521b\u5efaOpenAL\u6e90"
+    }, 
+    {
+        "id": "cannot create OpenAL buffers", 
+        "source": "cannot create OpenAL buffers", 
+        "description": "", 
+        "text": "\u65e0\u6cd5\u521b\u5efaOpenAL\u7f13\u51b2\u533a"
+    }, 
+    {
+        "id": "cannot open", 
+        "source": "cannot open", 
+        "description": "", 
+        "text": "\u4e0d\u80fd\u6253\u5f00"
+    }, 
+    {
+        "source": "Hover", 
+        "text": "\u5f98\u5f8a", 
+        "description": "", 
+        "id": "Hover"
+    }, 
+    {
+        "source": "Grab", 
+        "text": "\u6293", 
+        "description": "", 
+        "id": "Grab"
+    }, 
+    {
+        "source": "Key grab", 
+        "text": "\u6293\u4f4f\u94a5\u5319", 
+        "description": "", 
+        "id": "Key grab"
+    }, 
+    {
+        "source": "Debug", 
+        "text": "\u8c03\u8bd5", 
+        "description": "", 
+        "id": "Debug"
+    }, 
+    {
+        "source": "Debug Widget", 
+        "text": "\u8c03\u8bd5\u5c0f\u90e8\u4ef6", 
+        "description": "", 
+        "id": "Debug Widget"
+    }, 
+    {
+        "source": "Debug widget tooltip", 
+        "text": "\u8c03\u8bd5\u5c0f\u90e8\u4ef6\u5de5\u5177\u63d0\u793a", 
+        "description": "", 
+        "id": "Debug widget tooltip"
+    }, 
+    {
+        "source": "Color Space", 
+        "text": "\u8272\u5f69\u7a7a\u95f4", 
+        "description": "", 
+        "id": "Color Space"
+    }, 
+    {
+        "source": "(empty)", 
+        "text": "\uff08\u7a7a\uff09", 
+        "description": "", 
+        "id": "(empty)"
+    }, 
+    {
+        "source": "Input:", 
+        "text": "\u8f93\u5165\uff1a", 
+        "description": "", 
+        "id": "Input:"
+    }, 
+    {
+        "source": "Display:", 
+        "text": "\u663e\u793a\uff1a", 
+        "description": "", 
+        "id": "Display:"
+    }, 
+    {
+        "source": "View:", 
+        "text": "\u89c6\u56fe\uff1a", 
+        "description": "", 
+        "id": "View:"
+    }, 
+    {
+        "source": "Aspect Ratio", 
+        "text": "\u5bbd\u9ad8\u6bd4", 
+        "description": "", 
+        "id": "Aspect Ratio"
+    }, 
+    {
+        "source": "Color Space Widget", 
+        "text": "\u8272\u5f69\u7a7a\u95f4\u5c0f\u5de5\u5177", 
+        "description": "", 
+        "id": "Color Space Widget"
+    }, 
+    {
+        "source": "Show the color space widget", 
+        "text": "\u663e\u793a\u989c\u8272\u7a7a\u95f4\u5c0f\u90e8\u4ef6", 
+        "description": "", 
+        "id": "Color space widget tooltip"
+    }, 
+    {
+        "source": "Pan View", 
+        "text": "\u6f58\u89c6\u56fe", 
+        "description": "", 
+        "id": "Pan View"
+    }, 
+    {
+        "source": "Activate the pan view tool", 
+        "text": "\u6fc0\u6d3b\u5e73\u79fb\u89c6\u56fe\u5de5\u5177", 
+        "description": "", 
+        "id": "Pan view tooltip"
+    }, 
+    {
+        "source": "Layers Widget", 
+        "text": "\u56fe\u5c42\u5c0f\u5de5\u5177", 
+        "description": "", 
+        "id": "Layers Widget"
+    }, 
+    {
+        "source": "Show the layers widget", 
+        "text": "\u663e\u793a\u56fe\u5c42\u5c0f\u90e8\u4ef6", 
+        "description": "", 
+        "id": "Layers widget tooltip"
+    }, 
+    {
+        "source": "Next layer", 
+        "text": "\u4e0b\u4e00\u5c42", 
+        "description": "", 
+        "id": "Next layer"
+    }, 
+    {
+        "source": "Go to the next layer", 
+        "text": "\u8f6c\u5230\u4e0b\u4e00\u5c42", 
+        "description": "", 
+        "id": "Next layer tooltip"
+    }, 
+    {
+        "source": "Previous Layer", 
+        "text": "\u4e0a\u4e00\u5c42", 
+        "description": "", 
+        "id": "Previous Layer"
+    }, 
+    {
+        "source": "Go to the previous layer", 
+        "text": "\u8f6c\u5230\u4e0a\u4e00\u5c42", 
+        "description": "", 
+        "id": "Previous layer tooltip"
+    }, 
+    {
+        "source": "Background Color", 
+        "text": "\u80cc\u666f\u989c\u8272", 
+        "description": "", 
+        "id": "Background Color"
+    }, 
+    {
+        "source": "Automatically hide the user interface when the mouse doesn't move", 
+        "text": "\u9f20\u6807\u4e0d\u79fb\u52a8\u65f6\u81ea\u52a8\u9690\u85cf\u7528\u6237\u754c\u9762", 
+        "description": "", 
+        "id": "Auto hide tooltip"
     }, 
     {
         "source": "File name", 
+        "text": "\u6587\u4ef6\u540d", 
         "description": "", 
-        "id": "File name", 
-        "text": "\u6587\u4ef6\u540d"
+        "id": "File name"
     }, 
     {
         "source": "Name", 
+        "text": "\u540d\u79f0", 
         "description": "", 
-        "id": "Name", 
-        "text": "\u540d\u79f0"
+        "id": "Name"
     }, 
     {
         "source": "Size", 
+        "text": "\u5c3a\u5bf8", 
         "description": "", 
-        "id": "Size", 
-        "text": "\u5c3a\u5bf8"
+        "id": "Size"
     }, 
     {
         "source": "Type", 
+        "text": "\u7c7b\u578b", 
         "description": "", 
-        "id": "Type", 
-        "text": "\u7c7b\u578b"
+        "id": "Type"
     }, 
     {
         "source": "Speed", 
+        "text": "\u901f\u5ea6", 
         "description": "", 
-        "id": "Speed", 
-        "text": "\u901f\u5ea6"
+        "id": "Speed"
     }, 
     {
         "source": "Duration", 
+        "text": "\u6301\u7eed\u65f6\u95f4", 
         "description": "", 
-        "id": "Duration", 
-        "text": "\u6301\u7eed\u65f6\u95f4"
+        "id": "Duration"
     }, 
     {
         "source": "Video track", 
+        "text": "\u89c6\u9891\u8f68\u9053", 
         "description": "", 
-        "id": "Video track", 
-        "text": "\u89c6\u9891\u8f68\u9053"
+        "id": "Video track"
     }, 
     {
         "source": "Channels", 
+        "text": "\u901a\u9053", 
         "description": "", 
-        "id": "Channels", 
-        "text": "\u901a\u9053"
+        "id": "Channels"
     }, 
     {
         "source": "kHz", 
+        "text": "\u5343\u8d6b", 
         "description": "", 
-        "id": "kHz", 
-        "text": "\u5343\u8d6b"
+        "id": "kHz"
     }, 
     {
         "source": "Sample rate", 
+        "text": "\u91c7\u6837\u7387", 
         "description": "", 
-        "id": "Sample rate", 
-        "text": "\u91c7\u6837\u7387"
+        "id": "Sample rate"
     }, 
     {
         "source": "Audio track", 
+        "text": "\u97f3\u8f68", 
         "description": "", 
-        "id": "Audio track", 
-        "text": "\u97f3\u8f68"
+        "id": "Audio track"
     }, 
     {
         "source": "Tags", 
+        "text": "\u6807\u7b7e", 
         "description": "", 
-        "id": "Tags", 
-        "text": "\u6807\u7b7e"
+        "id": "Tags"
     }, 
     {
         "source": "Credits", 
+        "text": "\u79ef\u5206", 
         "description": "", 
-        "id": "Credits", 
-        "text": "\u79ef\u5206"
+        "id": "Credits"
     }, 
     {
         "source": "Sponsors", 
+        "text": "\u8d5e\u52a9\u5546", 
         "description": "", 
-        "id": "Sponsors", 
-        "text": "\u8d5e\u52a9\u5546"
+        "id": "Sponsors"
     }, 
     {
         "source": "Darby Johnston", 
+        "text": "\u8fbe\u6bd4\u7ea6\u7ff0\u65af\u987f", 
         "description": "", 
-        "id": "Credits Darby Johnston", 
-        "text": "\u8fbe\u6bd4\u7ea6\u7ff0\u65af\u987f"
+        "id": "Credits Darby Johnston"
     }, 
     {
         "source": "Principal author", 
+        "text": "\u4e3b\u8981\u4f5c\u8005", 
         "description": "", 
-        "id": "Credits Darby Johnston Text", 
-        "text": "\u4e3b\u8981\u4f5c\u8005"
+        "id": "Credits Darby Johnston Text"
     }, 
     {
         "source": "Kent Oberheu https://semafore.com", 
+        "text": "Kent Oberheu https://semafore.com", 
         "description": "", 
-        "id": "Credits Kent Oberheu", 
-        "text": "Kent Oberheu https://semafore.com"
+        "id": "Credits Kent Oberheu"
     }, 
     {
         "source": "Identity, Iconography, UI / UX design", 
+        "text": "\u8eab\u4efd\uff0c\u56fe\u6807\uff0cUI / UX\u8bbe\u8ba1", 
         "description": "", 
-        "id": "Credits Kent Oberheu Text", 
-        "text": "\u8eab\u4efd\uff0c\u56fe\u6807\uff0cUI / UX\u8bbe\u8ba1"
+        "id": "Credits Kent Oberheu Text"
     }, 
     {
         "source": "Mikael Sundell", 
+        "text": "Mikael Sundell", 
         "description": "", 
-        "id": "Credits Mikael Sundell", 
-        "text": "Mikael Sundell"
+        "id": "Credits Mikael Sundell"
     }, 
     {
         "source": "IFF image file format support, example images", 
+        "text": "IFF\u56fe\u50cf\u6587\u4ef6\u683c\u5f0f\u652f\u6301\uff0c\u793a\u4f8b\u56fe\u50cf", 
         "description": "", 
-        "id": "Credits Mikael Sundell Text", 
-        "text": "IFF\u56fe\u50cf\u6587\u4ef6\u683c\u5f0f\u652f\u6301\uff0c\u793a\u4f8b\u56fe\u50cf"
+        "id": "Credits Mikael Sundell Text"
     }, 
     {
         "source": "unexpected GmbH https://www.unexpected.de", 
+        "text": "unexpected GmbH https://www.unexpected.de", 
         "description": "", 
-        "id": "Sponsors unexpected", 
-        "text": "unexpected GmbH https://www.unexpected.de"
+        "id": "Sponsors unexpected"
     }, 
     {
-        "source": "* Copyright (c) 2019 Kent Oberheu. All rights reserved.", 
+        "source": "* Copyright (c) 2019 Kent Oberheu, All rights reserved", 
+        "text": "*\u7248\u6743\u6240\u6709\uff08c\uff092019 Kent Oberheu\uff0c\u4fdd\u7559\u6240\u6709\u6743\u5229", 
         "description": "", 
-        "id": "Contributors Kent Oberheu", 
-        "text": "*\u7248\u6743\u6240\u6709\uff08c\uff092019 Kent Oberheu\u3002\u7248\u6743\u6240\u6709\u3002"
+        "id": "Contributors Kent Oberheu"
     }, 
     {
-        "source": "Annotate tooltip", 
+        "source": "Activate the annotation tool", 
+        "text": "\u6fc0\u6d3b\u6ce8\u91ca\u5de5\u5177", 
         "description": "", 
-        "id": "Annotate tooltip", 
-        "text": "\u6ce8\u91ca\u5de5\u5177\u63d0\u793a"
+        "id": "Annotate tooltip"
     }, 
     {
         "source": "Information Widget", 
+        "text": "\u4fe1\u606f\u5c0f\u5de5\u5177", 
         "description": "", 
-        "id": "Information Widget", 
-        "text": "\u4fe1\u606f\u5c0f\u5de5\u5177"
+        "id": "Information Widget"
     }, 
     {
-        "source": "Information widget tooltip", 
+        "source": "Show the information widget", 
+        "text": "\u663e\u793a\u4fe1\u606f\u5c0f\u90e8\u4ef6", 
         "description": "", 
-        "id": "Information widget tooltip", 
-        "text": "\u4fe1\u606f\u5c0f\u90e8\u4ef6\u5de5\u5177\u63d0\u793a"
+        "id": "Information widget tooltip"
     }, 
     {
         "source": "Auto Hide", 
+        "text": "\u81ea\u52a8\u9690\u85cf", 
         "description": "", 
-        "id": "Auto Hide", 
-        "text": "\u81ea\u52a8\u9690\u85cf"
+        "id": "Auto Hide"
     }, 
     {
         "source": "Background Image", 
+        "text": "\u80cc\u666f\u56fe\u7247", 
         "description": "", 
-        "id": "Background Image", 
-        "text": "\u80cc\u666f\u56fe\u7247"
+        "id": "Background Image"
     }, 
     {
         "source": "Open the file browser", 
+        "text": "\u6253\u5f00\u6587\u4ef6\u6d4f\u89c8\u5668", 
         "description": "", 
-        "id": "Open the file browser", 
-        "text": "\u6253\u5f00\u6587\u4ef6\u6d4f\u89c8\u5668"
+        "id": "Open the file browser"
     }, 
     {
         "source": "Clear the background image", 
+        "text": "\u6e05\u9664\u80cc\u666f\u56fe\u50cf", 
         "description": "", 
-        "id": "Clear the background image", 
-        "text": "\u6e05\u9664\u80cc\u666f\u56fe\u50cf"
+        "id": "Clear the background image"
     }, 
     {
         "source": "Colorize with the UI style", 
+        "text": "\u4f7f\u7528UI\u6837\u5f0f\u7740\u8272", 
         "description": "", 
-        "id": "Colorize with the UI style", 
-        "text": "\u4f7f\u7528UI\u6837\u5f0f\u7740\u8272"
+        "id": "Colorize with the UI style"
     }, 
     {
         "source": "Magnify", 
-        "text": "\u653e\u5927", 
+        "description": "", 
         "id": "Magnify", 
-        "description": ""
+        "text": "\u653e\u5927"
     }, 
     {
-        "source": "Magnify tooltip", 
-        "text": "\u653e\u5927\u5de5\u5177\u63d0\u793a", 
+        "source": "Activate the magnify tool", 
+        "description": "", 
         "id": "Magnify tooltip", 
-        "description": ""
+        "text": "\u6fc0\u6d3b\u653e\u5927\u5de5\u5177"
     }, 
     {
-        "source": "Magnify zoom in tooltip", 
-        "text": "\u653e\u5927\u7f29\u653e\u5de5\u5177\u63d0\u793a", 
+        "source": "Zoom into the image", 
+        "description": "", 
         "id": "Magnify zoom in tooltip", 
-        "description": ""
+        "text": "\u653e\u5927\u56fe\u50cf"
     }, 
     {
-        "source": "Magnify zoom out tooltip", 
-        "text": "\u653e\u5927\u7f29\u5c0f\u5de5\u5177\u63d0\u793a", 
+        "source": "Zoom out of the image", 
+        "description": "", 
         "id": "Magnify zoom out tooltip", 
-        "description": ""
+        "text": "\u7f29\u5c0f\u56fe\u50cf"
     }, 
     {
         "source": "Frame lock tooltip", 
-        "text": "\u6846\u67b6\u9501\u5de5\u5177\u63d0\u793a", 
+        "description": "", 
         "id": "Frame lock tooltip", 
-        "description": ""
+        "text": "\u6846\u67b6\u9501\u5de5\u5177\u63d0\u793a"
     }, 
     {
-        "source": "Speed popup tooltip", 
-        "text": "\u901f\u5ea6\u5f39\u51fa\u5de5\u5177\u63d0\u793a", 
+        "source": "Show the playback speed settings", 
+        "description": "", 
         "id": "Speed popup tooltip", 
-        "description": ""
+        "text": "\u663e\u793a\u64ad\u653e\u901f\u5ea6\u8bbe\u7f6e"
     }, 
     {
-        "source": "Real speed tooltip", 
-        "text": "\u771f\u6b63\u7684\u901f\u5ea6\u5de5\u5177\u63d0\u793a", 
+        "source": "The actual playback speed", 
+        "description": "", 
         "id": "Real speed tooltip", 
-        "description": ""
+        "text": "\u5b9e\u9645\u64ad\u653e\u901f\u5ea6"
     }, 
     {
         "source": "Frame lock", 
-        "text": "\u6846\u67b6\u9501", 
+        "description": "", 
         "id": "Frame lock", 
-        "description": ""
+        "text": "\u6846\u67b6\u9501"
     }, 
     {
         "source": "Choose a user interface size", 
-        "text": "\u9009\u62e9\u7528\u6237\u754c\u9762\u5927\u5c0f", 
+        "description": "", 
         "id": "Choose a user interface size", 
+        "text": "\u9009\u62e9\u7528\u6237\u754c\u9762\u5927\u5c0f"
+    }, 
+    {
+        "source": "* MbedTLS, http://tls.mbed.org, Copyright \u00a9 2008 - 2016 ARM Limited, All rights reserved", 
+        "text": "* MbedTLS\uff0chttp\uff1a//tls.mbed.org\uff0c\u7248\u6743\u6240\u6709\u00a92008  -  2016 ARM Limited\uff0c\u4fdd\u7559\u6240\u6709\u6743\u5229", 
+        "id": "Third Party MbedTLS", 
+        "description": ""
+    }, 
+    {
+        "source": "* curl, http://curl.haxx.se/libcurl, Copyright (c) 1996 - 2019, Daniel Stenberg, <daniel@haxx.se>, and many contributors, see the THANKS file", 
+        "text": "* curl\uff0chttp\uff1a//curl.haxx.se/libcurl\uff0c\u7248\u6743\u6240\u6709\uff08c\uff091996  -  2019\uff0cDaniel Stenberg\uff0c <daniel@haxx.se>\u548c\u8bb8\u591a\u8d21\u732e\u8005\uff0c\u8bf7\u53c2\u9605THANKS\u6587\u4ef6", 
+        "id": "Third Party curl", 
+        "description": ""
+    }, 
+    {
+        "source": "Native", 
+        "text": "\u672c\u5730\u4eba", 
+        "id": "Native", 
+        "description": ""
+    }, 
+    {
+        "source": "Native Aspect Ratio", 
+        "text": "\u539f\u751f\u5bbd\u9ad8\u6bd4", 
+        "id": "Native Aspect Ratio", 
+        "description": ""
+    }, 
+    {
+        "source": "Show the image at it's native resolution", 
+        "text": "\u4ee5\u539f\u59cb\u5206\u8fa8\u7387\u663e\u793a\u56fe\u50cf", 
+        "id": "Native aspect ratio tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Codec", 
+        "text": "\u7f16\u89e3\u7801\u5668", 
+        "id": "Codec", 
+        "description": ""
+    }, 
+    {
+        "source": "Play every frame", 
+        "text": "\u64ad\u653e\u6bcf\u4e00\u5e27", 
+        "id": "Play every frame", 
         "description": ""
     }
 ]
