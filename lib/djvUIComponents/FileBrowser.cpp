@@ -220,7 +220,7 @@ namespace djv
 
                 auto drivesWidget = DrivesWidget::create(p.drivesModel, context);
                 p.drivesPopupWidget = PopupWidget::create(context);
-                p.drivesPopupWidget->setIcon("djvIconDrive");
+                p.drivesPopupWidget->setIcon("djvIconDrives");
                 p.drivesPopupWidget->addChild(drivesWidget);
 
                 auto vLayout = VerticalLayout::create(context);
