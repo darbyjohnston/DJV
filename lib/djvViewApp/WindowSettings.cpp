@@ -58,7 +58,7 @@ namespace djv
             p.maximized = ValueSubject<bool>::create(true);
             auto resourceSystem = context->getSystemT<Core::ResourceSystem>();
             const auto& iconsPath = resourceSystem->getPath(FileSystem::ResourcePath::IconsDirectory);
-            p.backgroundImage = ValueSubject<std::string>::create(FileSystem::Path(iconsPath, "djvLogo512.png"));
+            p.backgroundImage = ValueSubject<std::string>::create(FileSystem::Path(iconsPath, "djv-tshirt-v02.png"));
             p.backgroundImageColorize = ValueSubject<bool>::create(true);
             _load();
         }
