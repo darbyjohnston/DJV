@@ -70,7 +70,7 @@
         "description": ""
     }, 
     {
-        "text": "Copyright (c) 2004-2019 Darby Johnston. All rights reserved.", 
+        "text": "Copyright (c) 2004-2019 Darby Johnston, All rights reserved", 
         "id": "Copyright", 
         "description": ""
     }, 
@@ -105,17 +105,17 @@
         "description": ""
     }, 
     {
-        "text": "* Copyright (c) 2004-2019 Darby Johnston. All rights reserved.", 
+        "text": "* Copyright (c) 2004-2019 Darby Johnston, All rights reserved", 
         "id": "Contributors Darby Johnston", 
         "description": ""
     }, 
     {
-        "text": "* Copyright (c) 2008-2009 Mikael Sundell. All rights reserved.", 
+        "text": "* Copyright (c) 2008-2009 Mikael Sundell, All rights reserved", 
         "id": "Contributors Mikael Sundell", 
         "description": ""
     }, 
     {
-        "text": "* Copyright (c) 2019 Kent Oberheu. All rights reserved.", 
+        "text": "* Copyright (c) 2019 Kent Oberheu, All rights reserved", 
         "id": "Contributors Kent Oberheu", 
         "description": ""
     }, 
@@ -125,8 +125,13 @@
         "description": ""
     }, 
     {
-        "text": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium. All rights reserved.", 
+        "text": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium, All rights reserved", 
         "id": "Third Party CMake", 
+        "description": ""
+    }, 
+    {
+        "text": "* curl, http://curl.haxx.se/libcurl, Copyright (c) 1996 - 2019, Daniel Stenberg, <daniel@haxx.se>, and many contributors, see the THANKS file", 
+        "id": "Third Party curl", 
         "description": ""
     }, 
     {
@@ -165,7 +170,7 @@
         "description": ""
     }, 
     {
-        "text": "* libjpeg-turbo, http://libjpeg-turbo.org, Copyright (C)2009-2019 D. R. Commander. All Rights Reserved. Copyright (C)2015 Viktor Szathm\u00e1ry. All Rights Reserved.", 
+        "text": "* libjpeg-turbo, http://libjpeg-turbo.org, Copyright (C)2009-2019 D. R. Commander, All Rights Reserved, Copyright (C)2015 Viktor Szathm\u00e1ry, All Rights Reserved", 
         "id": "Third Party libjpeg-turbo", 
         "description": ""
     }, 
@@ -180,12 +185,17 @@
         "description": ""
     }, 
     {
+        "text": "* MbedTLS, http://tls.mbed.org, Copyright © 2008 - 2016 ARM Limited, All rights reserved", 
+        "id": "Third Party MbedTLS", 
+        "description": ""
+    }, 
+    {
         "text": "* OpenAL, http://www.openal.org, Copyright (C) 1999-2000 by Loki Software", 
         "id": "Third Party OpenAL", 
         "description": ""
     }, 
     {
-        "text": "* OpenColorIO, http://opencolorio.org, Copyright (c) 2003-2010 Sony Pictures Imageworks Inc., et al. All rights reserved.", 
+        "text": "* OpenColorIO, http://opencolorio.org, Copyright (c) 2003-2010 Sony Pictures Imageworks Inc., et al., All rights reserved", 
         "id": "Third Party OpenColorIO", 
         "description": ""
     }, 
