@@ -35,6 +35,7 @@ namespace djv
 {
     namespace ViewApp
     {
+        //! This class provides the histogram widget.
         class HistogramWidget : public MDIWidget
         {
             DJV_NON_COPYABLE(HistogramWidget);

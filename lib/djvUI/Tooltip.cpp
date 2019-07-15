@@ -30,6 +30,7 @@
 #include <djvUI/Tooltip.h>
 
 #include <djvUI/Overlay.h>
+#include <djvUI/Style.h>
 #include <djvUI/TextBlock.h>
 #include <djvUI/Window.h>
 

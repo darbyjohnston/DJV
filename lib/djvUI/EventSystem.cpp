@@ -29,9 +29,11 @@
 
 #include <djvUI/EventSystem.h>
 
+#include <djvUI/Style.h>
 #include <djvUI/UISystem.h>
 #include <djvUI/Window.h>
 
+#include <djvCore/Context.h>
 #include <djvCore/Timer.h>
 
 //#pragma optimize("", off)

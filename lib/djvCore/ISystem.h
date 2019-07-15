@@ -44,6 +44,7 @@ namespace djv
         class ResourceSystem;
         class TextSystem;
 
+        //! This class provides the very base functionality for systems.
         class ISystemBase : public std::enable_shared_from_this<ISystemBase>
         {
         protected:
@@ -53,13 +54,19 @@ namespace djv
         public:
             virtual ~ISystemBase() = 0;
 
+            //! Get the system name.
             inline const std::string& getSystemName() const;
 
+            //! Get the context.
             inline Context* getContext() const;
 
+            //! Get the list of system dependencies.
             inline const std::vector<std::shared_ptr<ISystemBase> >& getDependencies() const;
+            
+            //! Add a system dependency.
             void addDependency(const std::shared_ptr<ISystemBase>&);
 
+            //! Override this function to do work each frame.
             virtual void tick(float dt) {};
 
         private:
@@ -68,6 +75,7 @@ namespace djv
             std::vector<std::shared_ptr<ISystemBase> > _dependencies;
         };
 
+        //! This class provides the base functionality for systems.
         class ISystem : public ISystemBase
         {
         protected:
@@ -78,8 +86,13 @@ namespace djv
             ~ISystem() override;
 
         protected:
+            //! Log a message.
             void _log(const std::string& message, Core::LogLevel = Core::LogLevel::Information);
+            
+            //! Get the resource system.
             std::shared_ptr<ResourceSystem> _getResourceSystem() const;
+            
+            //! Translate a text ID.
             const std::string& _getText(const std::string& id) const;
 
         private:

@@ -37,6 +37,7 @@ namespace djv
 {
     namespace UI
     {
+        //! This namespace provides layout functionality.
         namespace Layout
         {
             Core::BBox2f getPopupGeometry(const Core::BBox2f& area, const glm::vec2& pos, const glm::vec2& minimumSize);

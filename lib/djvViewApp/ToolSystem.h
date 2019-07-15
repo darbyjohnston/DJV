@@ -35,6 +35,7 @@ namespace djv
 {
     namespace ViewApp
     {
+        //! This class provides the tool system.
         class ToolSystem : public IViewSystem
         {
             DJV_NON_COPYABLE(ToolSystem);

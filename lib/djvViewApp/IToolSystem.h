@@ -35,12 +35,14 @@ namespace djv
 {
     namespace ViewApp
     {
+        //! This struct provides tool action data.
         struct ToolActionData
         {
             std::shared_ptr<UI::Action> action;
             std::string sortKey;
         };
 
+        //! This class provides the base functionality for tool systems.
         class IToolSystem : public IViewSystem
         {
             DJV_NON_COPYABLE(IToolSystem);

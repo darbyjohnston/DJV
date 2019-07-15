@@ -62,7 +62,7 @@ namespace djv
     {
         namespace
         {
-            //! \todo [1.0 S] Should this be configurable?
+            //! \todo Should this be configurable?
             const size_t fadeTimeout = 3000;
             const size_t fadeInTime  = 200;
             const size_t fadeOutTime = 1000;

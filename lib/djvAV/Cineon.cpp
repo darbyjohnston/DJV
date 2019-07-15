@@ -346,7 +346,7 @@ namespace djv
                     case Orient::TopBottomRightLeft:
                     case Orient::BottomTopLeftRight:
                     case Orient::BottomTopRightLeft:
-                        //! \todo
+                        //! \todo Implement these image orientations.
                     default: break;
                     }
                     if (isValid(out.file.time, 24))

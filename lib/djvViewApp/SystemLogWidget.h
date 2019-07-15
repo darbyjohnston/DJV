@@ -35,6 +35,7 @@ namespace djv
 {
     namespace ViewApp
     {
+        //! This class provides the system log widget.
         class SystemLogWidget : public MDIWidget
         {
             DJV_NON_COPYABLE(SystemLogWidget);

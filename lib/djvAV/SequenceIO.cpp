@@ -53,7 +53,7 @@ namespace djv
         {
             namespace
             {
-                //! \todo [1.0 S] Should this be configurable?
+                //! \todo Should this be configurable?
                 const size_t threadCount = 8;
 
             } // namespace

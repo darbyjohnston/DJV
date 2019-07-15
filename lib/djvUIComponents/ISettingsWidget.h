@@ -37,6 +37,7 @@ namespace djv
 {
     namespace UI
     {
+        //! This class provides the base functionality for settings widgets.
         class ISettingsWidget : public Widget
         {
             DJV_NON_COPYABLE(ISettingsWidget);

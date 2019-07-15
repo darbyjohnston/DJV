@@ -45,6 +45,7 @@
 
 #include <djvAV/Color.h>
 
+#include <djvCore/Context.h>
 #include <djvCore/NumericValueModels.h>
 
 using namespace djv::Core;

@@ -54,7 +54,7 @@ namespace djv
     {
         namespace
         {
-            //! \todo [1.0 S] Should this be configurable?
+            //! \todo Should this be configurable?
             const size_t infoProcessMax  = 4;
             const size_t imageProcessMax = 4;
             const size_t infoCacheMax    = 1000;

@@ -29,6 +29,8 @@
 
 #pragma once
 
+#include <djvDesktopApp/DesktopApp.h>
+
 #include <djvCore/ISystem.h>
 
 struct GLFWwindow;
@@ -37,6 +39,7 @@ namespace djv
 {
     namespace Desktop
     {
+        //! This class provides GLFW functionality.
         class GLFWSystem : public Core::ISystem
         {
             DJV_NON_COPYABLE(GLFWSystem);

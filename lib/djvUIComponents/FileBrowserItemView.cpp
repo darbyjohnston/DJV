@@ -38,6 +38,7 @@
 #include <djvAV/Render2D.h>
 #include <djvAV/ThumbnailSystem.h>
 
+#include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
 
 using namespace djv::Core;
@@ -50,7 +51,7 @@ namespace djv
         {
             namespace
             {
-                //! \todo [1.0 S] Should this be configurable?
+                //! \todo Should this be configurable?
                 const float thumbnailFadeTime = .2f;
 
                 const size_t invalid = static_cast<size_t>(-1);

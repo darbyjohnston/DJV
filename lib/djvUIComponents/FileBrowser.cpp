@@ -59,6 +59,7 @@
 #include <djvAV/IO.h>
 #include <djvAV/ThumbnailSystem.h>
 
+#include <djvCore/Context.h>
 #include <djvCore/DirectoryModel.h>
 #include <djvCore/DrivesModel.h>
 #include <djvCore/FileInfo.h>

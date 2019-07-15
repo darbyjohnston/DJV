@@ -30,14 +30,21 @@
 #pragma once
 
 #include <djvUI/Enum.h>
-#include <djvUI/Style.h>
 
 #include <djvCore/BBox.h>
+
+#include <memory>
 
 namespace djv
 {
     namespace UI
     {
+        namespace Style
+        {
+            class Style;
+            
+        } // namespace Style
+        
         namespace Layout
         {
             //! This class provides margins.
@@ -52,7 +59,7 @@ namespace djv
                 inline void set(MetricsRole);
                 inline void set(MetricsRole left, MetricsRole right, MetricsRole top, MetricsRole bottom);
 
-                inline float get(Side, const std::shared_ptr<Style::Style> &) const;
+                float get(Side, const std::shared_ptr<Style::Style> &) const;
                 inline glm::vec2 getSize(const std::shared_ptr<Style::Style> &) const;
                 inline float getWidth(const std::shared_ptr<Style::Style> &) const;
                 inline float getHeight(const std::shared_ptr<Style::Style> &) const;

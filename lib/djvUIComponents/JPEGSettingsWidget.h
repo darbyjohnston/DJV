@@ -35,6 +35,7 @@ namespace djv
 {
     namespace UI
     {
+        //! This class provides a JPEG settings widget.
         class JPEGSettingsWidget : public ISettingsWidget
         {
             DJV_NON_COPYABLE(JPEGSettingsWidget);

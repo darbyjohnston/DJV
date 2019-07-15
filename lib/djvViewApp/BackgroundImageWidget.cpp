@@ -32,10 +32,12 @@
 #include <djvViewApp/WindowSettings.h>
 
 #include <djvUI/SettingsSystem.h>
+#include <djvUI/Style.h>
 
 #include <djvAV/IO.h>
 #include <djvAV/Render2D.h>
 
+#include <djvCore/Context.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/Timer.h>
 

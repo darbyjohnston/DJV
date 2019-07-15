@@ -35,6 +35,7 @@ namespace djv
 {
     namespace ViewApp
     {
+        //! This class provides the color space widget.
         class ColorSpaceWidget : public MDIWidget
         {
             DJV_NON_COPYABLE(ColorSpaceWidget);

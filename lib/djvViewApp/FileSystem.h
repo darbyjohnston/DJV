@@ -51,6 +51,7 @@ namespace djv
     {
         class Media;
 
+        //! This class provides the file system.
         class FileSystem : public IViewSystem
         {
             DJV_NON_COPYABLE(FileSystem);

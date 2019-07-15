@@ -29,6 +29,8 @@
 
 #include <djvUI/ImageWidget.h>
 
+#include <djvUI/Style.h>
+
 #include <djvAV/Image.h>
 #include <djvAV/Render2D.h>
 

@@ -35,6 +35,7 @@ namespace djv
 {
     namespace UI
     {
+        //! This class provides a color space settings widget.
         class ColorSpaceSettingsWidget : public ISettingsWidget
         {
             DJV_NON_COPYABLE(ColorSpaceSettingsWidget);

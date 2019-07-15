@@ -46,75 +46,6 @@ namespace djv
         //! This namespace provides styling.
         namespace Style
         {
-            //! This enumeration provides the color roles.
-            enum class ColorRole
-            {
-                None,
-                Background,
-                BackgroundHeader,
-                BackgroundBellows,
-                BackgroundToolBar,
-                Foreground,
-                ForegroundDim,
-                Border,
-                BorderButton,
-                Trough,
-                Button,
-                Hovered,
-                Pressed,
-                Checked,
-                TextFocus,
-                TooltipBackground,
-                TooltipForeground,
-                Overlay,
-                OverlayLight,
-                Shadow,
-                Handle,
-
-                Count,
-                First = None
-            };
-            DJV_ENUM_HELPERS(ColorRole);
-
-            //! This enumeration provides the metrics roles.
-            enum class MetricsRole
-            {
-                None,
-                Border,
-                Margin,
-                MarginSmall,
-                MarginLarge,
-                MarginDialog,
-                Spacing,
-                SpacingSmall,
-                SpacingLarge,
-                Drag,
-                Icon,
-                IconSmall,
-                FontSmall,
-                FontMedium,
-                FontLarge,
-                FontHeader,
-                FontTitle,
-                Swatch,
-                Slider,
-                ScrollArea,
-                Menu,
-                TextColumn,
-                TextColumnLarge,
-                SearchBox,
-                Dialog,
-                Shadow,
-                ShadowSmall,
-                TooltipOffset,
-                Handle,
-                Move,
-
-                Count,
-                First = None
-            };
-            DJV_ENUM_HELPERS(MetricsRole);
-
             //! This constant provides the default icon size.
             const uint16_t iconSizeDefault = 24;
 
@@ -219,10 +150,6 @@ namespace djv
             };
 
         } // namespace Style
-
-        using Style::ColorRole;
-        using Style::MetricsRole;
-
     } // namespace UI
 
     picojson::value toJSON(const UI::Style::Palette &);
@@ -231,9 +158,9 @@ namespace djv
     //! Throws:
     //! - std::exception
     void fromJSON(const picojson::value &, UI::Style::Palette &);
-    void fromJSON(const picojson::value &, UI::Style::Metrics &);
 
-    DJV_ENUM_SERIALIZE_HELPERS(UI::Style::ColorRole);
-    DJV_ENUM_SERIALIZE_HELPERS(UI::Style::MetricsRole);
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const picojson::value &, UI::Style::Metrics &);
 
 } // namespace djv

@@ -35,6 +35,7 @@ namespace djv
 {
     namespace UI
     {
+        //! This class provides a palette widget.
         class PaletteWidget : public Widget
         {
             DJV_NON_COPYABLE(PaletteWidget);
@@ -58,6 +59,7 @@ namespace djv
             DJV_PRIVATE();
         };
 
+        //! This class provides a palette settings widget.
         class PaletteSettingsWidget : public ISettingsWidget
         {
             DJV_NON_COPYABLE(PaletteSettingsWidget);

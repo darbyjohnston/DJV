@@ -35,6 +35,7 @@ namespace djv
 {
     namespace ViewApp
     {
+        //! This class provides the settings dialog.
         class SettingsDialog : public UI::IDialog
         {
             DJV_NON_COPYABLE(SettingsDialog);

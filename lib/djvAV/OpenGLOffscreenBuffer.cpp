@@ -45,7 +45,7 @@ namespace djv
         {
             namespace
             {
-                //! [2.0 S] \todo Should this be configurable?
+                //! \todo Should this be configurable?
                 const size_t samples = 4;
 
             } // namespace
@@ -56,7 +56,7 @@ namespace djv
                 _type = type;
 
                 // Create the texture.
-                //! [2.0 S] \bug Fall back to a regular offscreen buffer if multi-sampling is not available.
+                //! \bug Fall back to a regular offscreen buffer if multi-sampling is not available.
                 glGenTextures(1, &_textureID);
                 if (!_textureID)
                 {

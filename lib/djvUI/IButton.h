@@ -16,7 +16,7 @@ namespace djv
         {
             //! This class provides an interface for button widgets.
             //!
-            //! \todo [1.0 S] Add an option for auto-repeat.
+            //! \todo Add an option for auto-repeat.
             class IButton : public Widget
             {
             protected:

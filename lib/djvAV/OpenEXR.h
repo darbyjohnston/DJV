@@ -51,7 +51,6 @@ namespace djv
             //! - http://www.openexr.com
             //!
             //! \todo Add support for writing luminance/chroma images.
-            //! \todo Add support for OpenEXR aspect ratios.
             //! \todo Add better support for tiled images.
             namespace OpenEXR
             {

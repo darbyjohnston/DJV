@@ -38,6 +38,7 @@ namespace djv
         namespace FileSystem
         {
             class FileInfo;
+            class Path;
     
         } // namespace FileSystem
     } // namespace Core

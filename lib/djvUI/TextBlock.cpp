@@ -29,6 +29,8 @@
 
 #include <djvUI/TextBlock.h>
 
+#include <djvUI/Style.h>
+
 #include <djvCore/Cache.h>
 #include <djvCore/Math.h>
 #include <djvCore/Memory.h>

@@ -39,6 +39,7 @@ namespace djv
     {
         namespace Audio
         {
+            //! This class provides an audio system.
             class System : public Core::ISystem
             {
                 DJV_NON_COPYABLE(System);

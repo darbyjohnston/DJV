@@ -29,6 +29,8 @@
 
 #pragma once
 
+#include <djvDesktopApp/DesktopApp.h>
+
 #include <djvUI/EventSystem.h>
 
 #include <glm/vec2.hpp>
@@ -45,6 +47,7 @@ namespace djv
 
     namespace Desktop
     {
+        //! This class provides a desktop application event system.
         class EventSystem : public UI::EventSystem
         {
             DJV_NON_COPYABLE(EventSystem);

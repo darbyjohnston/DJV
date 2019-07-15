@@ -29,33 +29,13 @@
 
 #pragma once
 
-#include <djvCmdLineApp/CmdLineApp.h>
-
-#include <djvCore/Context.h>
-
-struct GLFWwindow;
+#include <djvCore/Core.h>
 
 namespace djv
 {
+    //! This namespaces provides command line application functionality
     namespace CmdLine
     {
-        //! This class provides a command-line application.
-        class Application : public Core::Context
-        {
-            DJV_NON_COPYABLE(Application);
-
-        protected:
-            void _init(int & argc, char * argv[]);
-            Application();
-
-        public:
-            ~Application() override;
-
-            static std::shared_ptr<Application> create(int & argc, char * argv[]);
-
-        private:
-            DJV_PRIVATE();
-        };
-
     } // namespace CmdLine
 } // namespace djv
+

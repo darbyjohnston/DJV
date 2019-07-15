@@ -35,6 +35,7 @@ namespace djv
 {
     namespace ViewApp
     {
+        //! This class provides the layers widget.
         class LayersWidget : public MDIWidget
         {
             DJV_NON_COPYABLE(LayersWidget);

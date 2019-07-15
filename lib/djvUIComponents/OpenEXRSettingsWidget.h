@@ -35,6 +35,7 @@ namespace djv
 {
     namespace UI
     {
+        //! This class provides an OpenEXR settings widget.
         class OpenEXRSettingsWidget : public ISettingsWidget
         {
             DJV_NON_COPYABLE(OpenEXRSettingsWidget);

@@ -35,6 +35,7 @@ namespace djv
 {
     namespace ViewApp
     {
+        //! This class provides a MDI widget.
         class MDIWidget : public UI::MDI::IWidget
         {
             DJV_NON_COPYABLE(MDIWidget);

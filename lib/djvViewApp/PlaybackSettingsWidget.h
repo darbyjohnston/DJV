@@ -35,6 +35,7 @@ namespace djv
 {
     namespace ViewApp
     {
+        //! This class provides the playback settings widget.
         class PlaybackSettingsWidget : public UI::ISettingsWidget
         {
             DJV_NON_COPYABLE(PlaybackSettingsWidget);

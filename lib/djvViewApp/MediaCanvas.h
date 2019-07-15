@@ -37,6 +37,7 @@ namespace djv
     {
         class MediaWidget;
 
+        //! This class provides a MDI canvas for media widgets.
         class MediaCanvas : public UI::Widget
         {
             DJV_NON_COPYABLE(MediaCanvas);

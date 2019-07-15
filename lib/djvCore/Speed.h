@@ -68,6 +68,7 @@ namespace djv
             FPS getGlobalSpeed();
             void setGlobalSpeed(FPS);
 
+            //! This class provides a speed.
             class Speed : public Math::Rational
             {
             public:

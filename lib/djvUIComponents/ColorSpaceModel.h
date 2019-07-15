@@ -46,6 +46,7 @@ namespace djv
 
     namespace UI
     {
+        //! This class provides a model for color spaces.
         class ColorSpaceModel : public std::enable_shared_from_this<ColorSpaceModel>
         {
             DJV_NON_COPYABLE(ColorSpaceModel);

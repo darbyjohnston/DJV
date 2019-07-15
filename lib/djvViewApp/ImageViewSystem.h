@@ -40,6 +40,7 @@ namespace djv
 {
     namespace ViewApp
     {
+        //! This class provides the image view system.
         class ImageViewSystem : public IToolSystem
         {
             DJV_NON_COPYABLE(ImageViewSystem);

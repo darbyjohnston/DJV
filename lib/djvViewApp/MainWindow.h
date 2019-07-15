@@ -46,6 +46,7 @@ namespace djv
     {
         class MediaCanvas;
 
+        //! This class provides the main window.
         class MainWindow : public UI::Window
         {
             DJV_NON_COPYABLE(MainWindow);

@@ -35,6 +35,7 @@ namespace djv
 {
     namespace UI
     {
+        //! This class provides a tooltips settings widget.
         class TooltipsSettingsWidget : public ISettingsWidget
         {
             DJV_NON_COPYABLE(TooltipsSettingsWidget);

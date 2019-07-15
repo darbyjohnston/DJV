@@ -40,6 +40,8 @@
 
 #include <djvAV/AVSystem.h>
 
+#include <djvCore/Context.h>
+
 using namespace djv::Core;
 
 namespace djv

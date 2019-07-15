@@ -34,6 +34,8 @@
 
 #include <djvUI/ListWidget.h>
 
+#include <djvCore/Context.h>
+
 using namespace djv::Core;
 
 namespace djv

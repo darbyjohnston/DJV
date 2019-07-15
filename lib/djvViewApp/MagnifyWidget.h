@@ -35,6 +35,7 @@ namespace djv
 {
     namespace ViewApp
     {
+        //! This class provides the magnify widget.
         class MagnifyWidget : public MDIWidget
         {
             DJV_NON_COPYABLE(MagnifyWidget);

@@ -37,6 +37,8 @@ namespace djv
 {
     namespace UI
     {
+        //! This class provides a widget for displaying a value in a
+        //! "thermometer" style.
         class ThermometerWidget : public Widget
         {
             DJV_NON_COPYABLE(ThermometerWidget);

@@ -39,7 +39,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides image settings.
+        //! This class provides the image settings.
         class ImageSettings : public UI::Settings::ISettings
         {
             DJV_NON_COPYABLE(ImageSettings);

@@ -29,13 +29,12 @@
 
 #pragma once
 
+#include <djvUI/Enum.h>
 #include <djvUI/Margin.h>
-#include <djvUI/Style.h>
 
 #include <djvAV/Enum.h>
 
 #include <djvCore/BBox.h>
-#include <djvCore/Context.h>
 #include <djvCore/Event.h>
 #include <djvCore/IObject.h>
 

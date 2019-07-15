@@ -35,6 +35,7 @@ namespace djv
 {
     namespace UI
     {
+        //! This class provides a DPX settings widget.
         class DPXSettingsWidget : public ISettingsWidget
         {
             DJV_NON_COPYABLE(DPXSettingsWidget);

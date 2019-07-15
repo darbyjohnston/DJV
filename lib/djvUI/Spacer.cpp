@@ -29,6 +29,8 @@
 
 #include <djvUI/Spacer.h>
 
+#include <djvUI/Style.h>
+
 using namespace djv::Core;
 
 namespace djv

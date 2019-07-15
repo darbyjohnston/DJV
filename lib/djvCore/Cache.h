@@ -42,7 +42,7 @@ namespace djv
         {
             //! This class provides a cache.
             //!
-            //! \todo [1.0 M] Return an interator from get() instead of a value.
+            //! \todo Return an interator from get() instead of a value.
             template<typename T, typename U>
             class Cache
             {

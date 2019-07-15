@@ -53,7 +53,7 @@ namespace djv
     {
         namespace
         {
-            //! \todo [1.0 S] Should this be configurable?
+            //! \todo Should this be configurable?
             const size_t velocityTimeout            = 16;    // The timer resolution for velocity updates.
             const float  velocityDecay              = .99f;  // How quickly the velocity decays.
             const float  velocityStopDelta          = 5.f;   // The minimum amount of movement to stop the velocity.

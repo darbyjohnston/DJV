@@ -65,11 +65,7 @@ namespace djv
             
         } // namespace Image
         
-        //! This class provides a system for generating thumbnail images from
-        //! files.
-        //!
-        //! \todo Add support for canceling requests (e.g., for the file
-        //! browser).
+        //! This class provides a system for generating thumbnail images from files.
         class ThumbnailSystem : public Core::ISystem
         {
             DJV_NON_COPYABLE(ThumbnailSystem);
@@ -83,6 +79,7 @@ namespace djv
 
             static std::shared_ptr<ThumbnailSystem> create(Core::Context *);
 
+            //! This structure provides information about a file.
             struct InfoFuture
             {
                 InfoFuture();
@@ -97,6 +94,7 @@ namespace djv
             //! Cancel information about a file.
             void cancelInfo(Core::UID);
 
+            //! This structure provides a thumbnail image for a file.
             struct ImageFuture
             {
                 ImageFuture();

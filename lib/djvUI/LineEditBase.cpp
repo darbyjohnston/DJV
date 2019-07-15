@@ -29,6 +29,8 @@
 
 #include <djvUI/LineEditBase.h>
 
+#include <djvUI/Style.h>
+
 #include <djvAV/Render2D.h>
 
 #include <djvCore/Timer.h>

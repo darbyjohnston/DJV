@@ -43,13 +43,14 @@ namespace djv
             struct PointerInfo;
     
         } // namespace Event
-    } // namespaace Core
+    } // namespace Core
 
     namespace ViewApp
     {
         class MediaCanvas;
         class MediaWidget;
 
+        //! This class provides the window system.
         class WindowSystem : public IViewSystem
         {
             DJV_NON_COPYABLE(WindowSystem);

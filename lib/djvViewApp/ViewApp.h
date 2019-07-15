@@ -33,7 +33,7 @@
 
 namespace djv
 {
-    //! This namespace provides functionality for djv_view.
+    //! This namespace provides functionality for djv.
     namespace ViewApp
     {
     } // namespace ViewApp

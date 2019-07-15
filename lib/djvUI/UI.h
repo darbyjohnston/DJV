@@ -29,14 +29,14 @@
 
 #pragma once
 
-#include <djvAV/AV.h>
+#include <djvCore/Core.h>
 
 namespace djv
 {
     //! This namespace provides user interface functionality.
-    //! \todo [1.0 M] Add a dial widget.
-    //! \todo [1.0 L] Add keyboard navigation.
-    //! \todo [1.0 L] Add audio FX.
+    //! \todo Add a dial widget.
+    //! \todo Add keyboard navigation.
+    //! \todo Add audio FX.
     namespace UI
     {
     } // namespace UI

@@ -39,7 +39,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides window settings.
+        //! This class provides the window settings.
         class WindowSettings : public UI::Settings::ISettings
         {
             DJV_NON_COPYABLE(WindowSettings);

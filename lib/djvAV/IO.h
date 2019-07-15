@@ -186,7 +186,7 @@ namespace djv
             struct IOOptions
             {
                 size_t videoQueueSize = 1;
-                //! \todo [1.0 S] What is a good default for this value?
+                //! \todo What is a good default for this value?
                 size_t audioQueueSize = 30;
             };
 

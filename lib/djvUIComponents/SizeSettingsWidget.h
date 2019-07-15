@@ -35,6 +35,7 @@ namespace djv
 {
     namespace UI
     {
+        //! This class provides a size widget.
         class SizeWidget : public Widget
         {
             DJV_NON_COPYABLE(SizeWidget);
@@ -58,6 +59,7 @@ namespace djv
             DJV_PRIVATE();
         };
 
+        //! This class provides a size settings widget.
         class SizeSettingsWidget : public ISettingsWidget
         {
             DJV_NON_COPYABLE(SizeSettingsWidget);

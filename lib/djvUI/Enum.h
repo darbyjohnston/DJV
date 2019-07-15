@@ -181,6 +181,75 @@ namespace djv
             Suppress
         };
 
+        //! This enumeration provides the color roles.
+        enum class ColorRole
+        {
+            None,
+            Background,
+            BackgroundHeader,
+            BackgroundBellows,
+            BackgroundToolBar,
+            Foreground,
+            ForegroundDim,
+            Border,
+            BorderButton,
+            Trough,
+            Button,
+            Hovered,
+            Pressed,
+            Checked,
+            TextFocus,
+            TooltipBackground,
+            TooltipForeground,
+            Overlay,
+            OverlayLight,
+            Shadow,
+            Handle,
+
+            Count,
+            First = None
+        };
+        DJV_ENUM_HELPERS(ColorRole);
+
+        //! This enumeration provides the metrics roles.
+        enum class MetricsRole
+        {
+            None,
+            Border,
+            Margin,
+            MarginSmall,
+            MarginLarge,
+            MarginDialog,
+            Spacing,
+            SpacingSmall,
+            SpacingLarge,
+            Drag,
+            Icon,
+            IconSmall,
+            FontSmall,
+            FontMedium,
+            FontLarge,
+            FontHeader,
+            FontTitle,
+            Swatch,
+            Slider,
+            ScrollArea,
+            Menu,
+            TextColumn,
+            TextColumnLarge,
+            SearchBox,
+            Dialog,
+            Shadow,
+            ShadowSmall,
+            TooltipOffset,
+            Handle,
+            Move,
+
+            Count,
+            First = None
+        };
+        DJV_ENUM_HELPERS(MetricsRole);
+
     } // namespace UI
 
     picojson::value toJSON(UI::ViewType);
@@ -200,6 +269,8 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS(UI::SortOrder);
     DJV_ENUM_SERIALIZE_HELPERS(UI::ButtonType);
     DJV_ENUM_SERIALIZE_HELPERS(UI::ViewType);
+    DJV_ENUM_SERIALIZE_HELPERS(UI::ColorRole);
+    DJV_ENUM_SERIALIZE_HELPERS(UI::MetricsRole);
 
 } // namespace djv
 

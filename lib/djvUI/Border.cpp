@@ -31,6 +31,7 @@
 
 #include <djvUI/DrawUtil.h>
 #include <djvUI/StackLayout.h>
+#include <djvUI/Style.h>
 
 #include <djvAV/Render2D.h>
 

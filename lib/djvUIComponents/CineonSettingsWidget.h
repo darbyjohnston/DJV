@@ -35,6 +35,7 @@ namespace djv
 {
     namespace UI
     {
+        //! This class provides a Cineon settings widget.
         class CineonSettingsWidget : public ISettingsWidget
         {
             DJV_NON_COPYABLE(CineonSettingsWidget);

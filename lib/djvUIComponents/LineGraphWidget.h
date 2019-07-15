@@ -37,6 +37,7 @@ namespace djv
 {
     namespace UI
     {
+        //! This class provides a widget for displaying an animated line graph.
         class LineGraphWidget : public Widget
         {
             DJV_NON_COPYABLE(LineGraphWidget);

@@ -30,6 +30,7 @@
 #include <djvUI/ToggleButton.h>
 
 #include <djvUI/DrawUtil.h>
+#include <djvUI/Style.h>
 
 #include <djvAV/Render2D.h>
 
@@ -47,7 +48,7 @@ namespace djv
         {
             namespace
             {
-                //! \todo [1.0 S] Should this be configurable?
+                //! \todo Should this be configurable?
                 const size_t animationDuration = 50;
             
             } // namespace
@@ -131,7 +132,7 @@ namespace djv
                     }
                 }
                 const auto& style = _getStyle();
-                const float m = style->getMetric(Style::MetricsRole::MarginSmall);
+                const float m = style->getMetric(MetricsRole::MarginSmall);
                 glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
                 minimumSize.x = p.fontMetrics.lineHeight * 2.f + m * 2.f;
                 minimumSize.y = p.fontMetrics.lineHeight + m * 2.f;
@@ -144,8 +145,8 @@ namespace djv
 
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
-                const float b = style->getMetric(Style::MetricsRole::Border);
-                const float m = style->getMetric(Style::MetricsRole::MarginSmall);
+                const float b = style->getMetric(MetricsRole::Border);
+                const float m = style->getMetric(MetricsRole::MarginSmall);
                 const BBox2f & g = getGeometry();
 
                 auto render = _getRender();

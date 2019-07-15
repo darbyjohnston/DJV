@@ -37,6 +37,7 @@ namespace djv
 {
     namespace ViewApp
     {
+        //! This class provides the playback system.
         class PlaybackSystem : public IViewSystem
         {
             DJV_NON_COPYABLE(PlaybackSystem);

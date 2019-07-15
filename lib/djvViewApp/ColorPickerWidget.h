@@ -35,6 +35,7 @@ namespace djv
 {
     namespace ViewApp
     {
+        //! This class provides the color picker widget.
         class ColorPickerWidget : public MDIWidget
         {
             DJV_NON_COPYABLE(ColorPickerWidget);

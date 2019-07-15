@@ -35,6 +35,7 @@ namespace djv
 {
     namespace UI
     {
+        //! This class provides a time settings widget.
         class TimeSettingsWidget : public ISettingsWidget
         {
             DJV_NON_COPYABLE(TimeSettingsWidget);

@@ -36,6 +36,8 @@
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/ToggleButton.h>
 
+#include <djvCore/Context.h>
+
 using namespace djv::Core;
 
 namespace djv

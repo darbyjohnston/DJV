@@ -35,6 +35,7 @@ namespace djv
 {
     namespace UI
     {
+        //! This class provides a language widget.
         class LanguageWidget : public Widget
         {
             DJV_NON_COPYABLE(LanguageWidget);
@@ -60,6 +61,7 @@ namespace djv
             DJV_PRIVATE();
         };
 
+        //! This class provides a language settings widget.
         class LanguageSettingsWidget : public ISettingsWidget
         {
             DJV_NON_COPYABLE(LanguageSettingsWidget);

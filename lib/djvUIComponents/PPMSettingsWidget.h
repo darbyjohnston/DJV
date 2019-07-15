@@ -35,6 +35,7 @@ namespace djv
 {
     namespace UI
     {
+        //! This class provides a PPM settings widget.
         class PPMSettingsWidget : public ISettingsWidget
         {
             DJV_NON_COPYABLE(PPMSettingsWidget);

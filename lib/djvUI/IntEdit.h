@@ -31,6 +31,8 @@
 
 #include <djvUI/Widget.h>
 
+#include <djvCore/Range.h>
+
 namespace djv
 {
     namespace Core

@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/Style.h>
+#include <djvUI/Enum.h>
 
 #include <djvCore/ListObserver.h>
 #include <djvCore/ValueObserver.h>

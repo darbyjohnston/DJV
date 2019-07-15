@@ -37,6 +37,7 @@
 
 #include <djvAV/Render2D.h>
 
+#include <djvCore/Context.h>
 #include <djvCore/String.h>
 #include <djvCore/TextSystem.h>
 

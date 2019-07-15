@@ -37,6 +37,7 @@ namespace djv
 {
     namespace ViewApp
     {
+        //! This class provides the new user experience widget.
         class NUXWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(NUXWidget);
@@ -62,6 +63,7 @@ namespace djv
             DJV_PRIVATE();
         };
 
+        //! This class provides the new user experience system.
         class NUXSystem : public IViewSystem
         {
             DJV_NON_COPYABLE(NUXSystem);

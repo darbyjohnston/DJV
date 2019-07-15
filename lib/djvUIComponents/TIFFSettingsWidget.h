@@ -35,6 +35,7 @@ namespace djv
 {
     namespace UI
     {
+        //! This class provides a TIFF settings widget.
         class TIFFSettingsWidget : public ISettingsWidget
         {
             DJV_NON_COPYABLE(TIFFSettingsWidget);

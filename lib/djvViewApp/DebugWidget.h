@@ -35,6 +35,7 @@ namespace djv
 {
     namespace ViewApp
     {
+        //! This class provides the debugging widget.
         class DebugWidget : public MDIWidget
         {
             DJV_NON_COPYABLE(DebugWidget);

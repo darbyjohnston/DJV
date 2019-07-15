@@ -35,6 +35,7 @@ namespace djv
 {
     namespace ViewApp
     {
+        //! This class provides the color picker system.
         class ColorPickerSystem : public IToolSystem
         {
             DJV_NON_COPYABLE(ColorPickerSystem);

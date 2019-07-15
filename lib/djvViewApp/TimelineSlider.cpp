@@ -39,12 +39,14 @@
 #include <djvUI/Overlay.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/StackLayout.h>
+#include <djvUI/Style.h>
 #include <djvUI/Window.h>
 
 #include <djvAV/AVSystem.h>
 #include <djvAV/IO.h>
 #include <djvAV/Render2D.h>
 
+#include <djvCore/Context.h>
 #include <djvCore/Math.h>
 
 using namespace djv::Core;

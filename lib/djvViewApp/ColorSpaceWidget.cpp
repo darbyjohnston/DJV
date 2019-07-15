@@ -42,6 +42,8 @@
 #include <djvAV/OCIOSystem.h>
 #include <djvAV/Render2D.h>
 
+#include <djvCore/Context.h>
+
 using namespace djv::Core;
 
 namespace djv

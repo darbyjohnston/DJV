@@ -37,6 +37,7 @@ namespace djv
 {
     namespace ViewApp
     {
+        //! This class provides a background widget for displaying a logo image.
         class BackgroundImageWidget : public UI::Widget
         {
             DJV_NON_COPYABLE(BackgroundImageWidget);

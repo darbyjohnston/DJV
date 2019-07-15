@@ -65,7 +65,7 @@ namespace djv
         {
             namespace
             {
-                //! \todo [1.0 S] Should this be configurable?
+                //! \todo Should this be configurable?
                 const size_t textureAtlasCount      = 4;
                 const size_t textureAtlasSize       = 8192;
                 const size_t dynamicTextureIDCount  = 32;

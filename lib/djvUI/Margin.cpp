@@ -27,35 +27,22 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvUI/Margin.h>
 
-#include <djvCmdLineApp/CmdLineApp.h>
-
-#include <djvCore/Context.h>
-
-struct GLFWwindow;
+#include <djvUI/Style.h>
 
 namespace djv
 {
-    namespace CmdLine
+    namespace UI
     {
-        //! This class provides a command-line application.
-        class Application : public Core::Context
+        namespace Layout
         {
-            DJV_NON_COPYABLE(Application);
+            float Margin::get(Side side, const std::shared_ptr<Style::Style> & style) const
+            {
+                return style->getMetric(_value[static_cast<size_t>(side)]);
+            }
 
-        protected:
-            void _init(int & argc, char * argv[]);
-            Application();
-
-        public:
-            ~Application() override;
-
-            static std::shared_ptr<Application> create(int & argc, char * argv[]);
-
-        private:
-            DJV_PRIVATE();
-        };
-
-    } // namespace CmdLine
+        } // namespace Layout
+    } // namespace UI
 } // namespace djv
+

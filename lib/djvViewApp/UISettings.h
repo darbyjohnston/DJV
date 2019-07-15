@@ -39,7 +39,7 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides user interface settings.
+        //! This class provides the user interface settings.
         class UISettings : public UI::Settings::ISettings
         {
             DJV_NON_COPYABLE(UISettings);

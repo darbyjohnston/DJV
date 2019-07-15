@@ -59,7 +59,7 @@ namespace djv
         {
             namespace
             {
-                //! \todo [1.0 S] Should this be configurable?
+                //! \todo Should this be configurable?
                 const size_t glyphCacheMax = 10000;
 
                 //! \todo Experimental LCD hinting.

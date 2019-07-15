@@ -29,6 +29,8 @@
 
 #pragma once
 
+#include <djvCmdLineApp/CmdLineApp.h>
+
 #include <djvCore/ISystem.h>
 
 struct GLFWwindow;
@@ -37,6 +39,7 @@ namespace djv
 {
     namespace CmdLine
     {
+        //! This class provides a system for GLFW functionality.
         class GLFWSystem : public Core::ISystem
         {
             DJV_NON_COPYABLE(GLFWSystem);

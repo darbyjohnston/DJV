@@ -55,12 +55,14 @@ namespace djv
     {
         class MDIWidget;
 
+        //! This struct provides menu data.
         struct MenuData
         {
             std::shared_ptr<UI::Menu> menu;
             std::string sortKey;
         };
 
+        //! This class provides the base functionality for systems.
         class IViewSystem : public Core::ISystem
         {
             DJV_NON_COPYABLE(IViewSystem);

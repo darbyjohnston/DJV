@@ -35,6 +35,7 @@ namespace djv
 {
     namespace ViewApp
     {
+        //! This class provides the information widget.
         class InfoWidget : public MDIWidget
         {
             DJV_NON_COPYABLE(InfoWidget);

@@ -35,6 +35,7 @@ namespace djv
 {
     namespace ViewApp
     {
+        //! This class provides the image view background settings widget.
         class ImageViewBackgroundSettingsWidget : public UI::ISettingsWidget
         {
             DJV_NON_COPYABLE(ImageViewBackgroundSettingsWidget);

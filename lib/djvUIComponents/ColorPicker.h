@@ -31,6 +31,8 @@
 
 #include <djvUI/Widget.h>
 
+#include <djvAV/Pixel.h>
+
 #include <djvCore/ISystem.h>
 
 namespace djv

@@ -344,7 +344,7 @@ namespace djv
         picojson::value out(picojson::object_type, true);
         {
             picojson::value object(picojson::object_type, true);
-            for (auto role : UI::Style::getColorRoleEnums())
+            for (auto role : UI::getColorRoleEnums())
             {
                 std::stringstream ss;
                 ss << role;
@@ -363,7 +363,7 @@ namespace djv
         picojson::value out(picojson::object_type, true);
         {
             picojson::value object(picojson::object_type, true);
-            for (auto role : UI::Style::getMetricsRoleEnums())
+            for (auto role : UI::getMetricsRoleEnums())
             {
                 std::stringstream ss;
                 ss << role;
@@ -459,65 +459,6 @@ namespace djv
             throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
         }
     }
-
-    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        UI::Style,
-        ColorRole,
-        DJV_TEXT("None"),
-        DJV_TEXT("Background"),
-        DJV_TEXT("BackgroundHeader"),
-        DJV_TEXT("BackgroundBellows"),
-        DJV_TEXT("BackgroundToolBar"),
-        DJV_TEXT("Foreground"),
-        DJV_TEXT("ForegroundDim"),
-        DJV_TEXT("Border"),
-        DJV_TEXT("BorderButton"),
-        DJV_TEXT("Trough"),
-        DJV_TEXT("Button"),
-        DJV_TEXT("Hovered"),
-        DJV_TEXT("Pressed"),
-        DJV_TEXT("Checked"),
-        DJV_TEXT("TextFocus"),
-        DJV_TEXT("TooltipBackground"),
-        DJV_TEXT("TooltipForeground"),
-        DJV_TEXT("Overlay"),
-        DJV_TEXT("OverlayLight"),
-        DJV_TEXT("Shadow"),
-        DJV_TEXT("Handle"));
-
-    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        UI::Style,
-        MetricsRole,
-        DJV_TEXT("None"),
-        DJV_TEXT("Border"),
-        DJV_TEXT("Margin"),
-        DJV_TEXT("MarginSmall"),
-        DJV_TEXT("MarginLarge"),
-        DJV_TEXT("MarginDialog"),
-        DJV_TEXT("Spacing"),
-        DJV_TEXT("SpacingSmall"),
-        DJV_TEXT("SpacingLarge"),
-        DJV_TEXT("Drag"),
-        DJV_TEXT("Icon"),
-        DJV_TEXT("IconSmall"),
-        DJV_TEXT("FontSmall"),
-        DJV_TEXT("FontMedium"),
-        DJV_TEXT("FontLarge"),
-        DJV_TEXT("FontHeader"),
-        DJV_TEXT("FontTitle"),
-        DJV_TEXT("Swatch"),
-        DJV_TEXT("Slider"),
-        DJV_TEXT("ScrollArea"),
-        DJV_TEXT("Menu"),
-        DJV_TEXT("TextColumn"),
-        DJV_TEXT("TextColumnLarge"),
-        DJV_TEXT("SearchBox"),
-        DJV_TEXT("Dialog"),
-        DJV_TEXT("Shadow"),
-        DJV_TEXT("ShadowSmall"),
-        DJV_TEXT("TooltipOffset"),
-        DJV_TEXT("Handle"),
-        DJV_TEXT("Move"));
 
 } // namespace djv
 

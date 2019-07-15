@@ -272,7 +272,7 @@ namespace djv
                         {
                             node->uid = ++_uid;
 
-                            //! \todo [1.0 M] Do we need to zero out the old data?
+                            //! \todo Do we need to zero out the old data?
                             //auto zero = Image::Data::create(Image::Info(data->getSize() + p.border * 2, p.textureType));
                             //zero->zero();
                             //p.textures[node->texture]->copy(zero, node->bbox.min);

@@ -53,7 +53,7 @@ namespace djv
 
         //! This class provides a scroll widget.
         //!
-        //! \bug [1.0 M] Add a minimum scroll bar handle size.
+        //! \todo Add a minimum scroll bar handle size.
         class ScrollWidget : public Widget
         {
             DJV_NON_COPYABLE(ScrollWidget);

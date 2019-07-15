@@ -35,9 +35,12 @@
 #include <djvUI/Action.h>
 #include <djvUI/ColorSpaceSettings.h>
 #include <djvUI/SettingsSystem.h>
+#include <djvUI/Style.h>
 
 #include <djvAV/Image.h>
 #include <djvAV/Render2D.h>
+
+#include <djvCore/Context.h>
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/matrix_transform_2d.hpp>

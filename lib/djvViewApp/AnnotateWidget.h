@@ -35,6 +35,7 @@ namespace djv
 {
     namespace ViewApp
     {
+        //! This class provides the annotation widget.
         class AnnotateWidget : public MDIWidget
         {
             DJV_NON_COPYABLE(AnnotateWidget);

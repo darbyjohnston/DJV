@@ -49,7 +49,7 @@ namespace djv
     {
         namespace
         {
-            //! \todo [1.0 S] Should this be configurable?
+            //! \todo Should this be configurable?
             const glm::ivec2 windowSize(1280, 720);
 
             std::weak_ptr<LogSystem> logSystemWeak;

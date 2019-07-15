@@ -1,5 +1,6 @@
 set(header
     Application.h
+    CmdLineApp.h
 	GLFWSystem.h)
 set(source
     Application.cpp

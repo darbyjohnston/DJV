@@ -51,6 +51,7 @@ namespace djv
 
     namespace ViewApp
     {
+        //! This class provides media functionality.
         class Media : public std::enable_shared_from_this<Media>
         {
             DJV_NON_COPYABLE(Media);
@@ -124,3 +125,4 @@ namespace djv
 
     } // namespace ViewApp
 } // namespace djv
+

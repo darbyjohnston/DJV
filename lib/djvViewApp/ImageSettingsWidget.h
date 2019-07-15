@@ -35,6 +35,7 @@ namespace djv
 {
     namespace ViewApp
     {
+        //! This class provides the image aspect ratio settings widget.
         class ImageAspectRatioSettingsWidget : public UI::ISettingsWidget
         {
             DJV_NON_COPYABLE(ImageAspectRatioSettingsWidget);
@@ -59,6 +60,7 @@ namespace djv
             DJV_PRIVATE();
         };
 
+        //! This class provides the image rotation settings widget.
         class ImageRotateSettingsWidget : public UI::ISettingsWidget
         {
             DJV_NON_COPYABLE(ImageRotateSettingsWidget);

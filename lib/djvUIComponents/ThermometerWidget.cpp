@@ -29,6 +29,8 @@
 
 #include <djvUIComponents/ThermometerWidget.h>
 
+#include <djvUI/Style.h>
+
 #include <djvAV/Render2D.h>
 
 using namespace djv::Core;

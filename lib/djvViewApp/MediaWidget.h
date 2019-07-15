@@ -42,6 +42,7 @@ namespace djv
         class ImageView;
         class Media;
 
+        //! This enumeration provides the pointer state.
         enum class PointerState
         {
             Start,
@@ -49,6 +50,7 @@ namespace djv
             End
         };
 
+        //! This truct provides pointer information.
         struct PointerData
         {
             PointerData();
@@ -60,6 +62,7 @@ namespace djv
             bool operator == (const PointerData&) const;
         };
 
+        //! This class provides a media widget.
         class MediaWidget : public UI::MDI::IWidget
         {
             DJV_NON_COPYABLE(MediaWidget);

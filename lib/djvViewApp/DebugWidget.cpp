@@ -46,6 +46,7 @@
 #include <djvAV/Render2D.h>
 #include <djvAV/ThumbnailSystem.h>
 
+#include <djvCore/Context.h>
 #include <djvCore/IEventSystem.h>
 #include <djvCore/Timer.h>
 

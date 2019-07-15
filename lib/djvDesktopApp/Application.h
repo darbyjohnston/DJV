@@ -29,6 +29,8 @@
 
 #pragma once
 
+#include <djvDesktopApp/DesktopApp.h>
+
 #include <djvCore/Context.h>
 
 struct GLFWwindow;
@@ -37,6 +39,7 @@ namespace djv
 {
     namespace Desktop
     {
+        //! This class provides a desktop application.
         class Application : public Core::Context
         {
             DJV_NON_COPYABLE(Application);

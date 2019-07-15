@@ -57,7 +57,7 @@ namespace djv
 
     namespace ViewApp
     {
-        //! This class provides file settings.
+        //! This class provides the file settings.
         class FileSettings : public UI::Settings::ISettings
         {
             DJV_NON_COPYABLE(FileSettings);

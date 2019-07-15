@@ -36,9 +36,12 @@
 #include <djvUI/MenuButton.h>
 #include <djvUI/Overlay.h>
 #include <djvUI/StackLayout.h>
+#include <djvUI/Style.h>
 #include <djvUI/Window.h>
 
 #include <djvAV/Render2D.h>
+
+#include <djvCore/Context.h>
 
 #include <GLFW/glfw3.h>
 

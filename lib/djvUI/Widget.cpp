@@ -40,6 +40,7 @@
 #include <djvAV/FontSystem.h>
 #include <djvAV/Render2D.h>
 
+#include <djvCore/Context.h>
 #include <djvCore/IEventSystem.h>
 #include <djvCore/Math.h>
 
@@ -55,7 +56,7 @@ namespace djv
     {
         namespace
         {
-            //! \todo [2.0 S] Should this be configurable?
+            //! \todo Should this be configurable?
             const float tooltipTimeout   =  .5f;
             const float tooltipHideDelta = 1.f;
 

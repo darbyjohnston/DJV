@@ -33,6 +33,8 @@
 
 #include <djvCore/Range.h>
 
+#include <chrono>
+
 namespace djv
 {
     namespace Core

@@ -38,6 +38,8 @@
 #include <djvUI/TextBlock.h>
 #include <djvUI/Window.h>
 
+#include <djvCore/Context.h>
+
 using namespace djv::Core;
 
 namespace djv

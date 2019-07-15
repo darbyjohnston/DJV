@@ -35,6 +35,11 @@
 #include <djvUI/UISystem.h>
 #include <djvUI/Window.h>
 
+#include <djvCore/Context.h>
+#include <djvCore/Path.h>
+
+#include <list>
+
 using namespace djv::Core;
 
 namespace djv

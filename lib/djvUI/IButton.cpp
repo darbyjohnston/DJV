@@ -29,6 +29,8 @@
 
 #include <djvUI/IButton.h>
 
+#include <djvUI/Style.h>
+
 #include <djvAV/Render2D.h>
 
 //#pragma optimize("", off)

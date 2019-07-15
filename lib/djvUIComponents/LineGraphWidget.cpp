@@ -30,8 +30,11 @@
 #include <djvUIComponents/LineGraphWidget.h>
 
 #include <djvUI/Label.h>
+#include <djvUI/Style.h>
 
 #include <djvAV/Render2D.h>
+
+#include <list>
 
 using namespace djv::Core;
 

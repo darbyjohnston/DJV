@@ -1,6 +1,6 @@
 set(header
     Application.h
-    Desktop.h
+    DesktopApp.h
     EventSystem.h
     GLFWSystem.h)
 set(source
