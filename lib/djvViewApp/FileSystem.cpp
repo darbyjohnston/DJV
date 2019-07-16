@@ -60,6 +60,7 @@ namespace djv
     {
         struct FileSystem::Private
         {
+            bool cacheEnabled = false;
             std::shared_ptr<FileSettings> settings;
             std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > opened;
             std::shared_ptr<ValueSubject<std::pair<std::shared_ptr<Media>, glm::vec2> > > opened2;
@@ -75,6 +76,7 @@ namespace djv
             std::shared_ptr<ListObserver<Core::FileSystem::FileInfo> > recentFilesObserver;
             std::shared_ptr<ListObserver<Core::FileSystem::FileInfo> > recentFilesObserver2;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
+            std::shared_ptr<ValueObserver<bool> > hasCacheObserver;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
@@ -123,10 +125,8 @@ namespace djv
             p.actions["8BitConversion"] = UI::Action::create();
             p.actions["8BitConversion"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["8BitConversion"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["MemoryCache"] = UI::Action::create();
             p.actions["MemoryCache"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["MemoryCache"]->setEnabled(false);
             //! \todo Implement me!
             p.actions["ClearCache"] = UI::Action::create();
             p.actions["ClearCache"]->setEnabled(false);
@@ -284,7 +284,7 @@ namespace djv
                                 {
                                     index = 0;
                                 }
-                                system->_p->currentMedia->setIfChanged(system->_p->media->getItem(index));
+                                system->setCurrentMedia(system->_p->media->getItem(index));
                             }
                         }
                     }
@@ -311,7 +311,7 @@ namespace djv
                             {
                                 index = size - 1;
                             }
-                            system->_p->currentMedia->setIfChanged(system->_p->media->getItem(index));
+                            system->setCurrentMedia(system->_p->media->getItem(index));
                         }
                     }
                 }
@@ -366,25 +366,29 @@ namespace djv
                     }
                 });
 
-            p.clickedObservers["Exit"] = ValueObserver<bool>::create(
-                p.actions["Exit"]->observeClicked(),
-                [weak, context](bool value)
+            p.clickedObservers["MemoryCache"] = ValueObserver<bool>::create(
+                p.actions["MemoryCache"]->observeChecked(),
+                [weak](bool value)
                 {
-                    if (value)
+                    if (auto system = weak.lock())
                     {
-                        dynamic_cast<Application*>(context)->exit();
+                        system->_p->cacheEnabled = value;
+                        if (auto media = system->_p->currentMedia->get())
+                        {
+                            media->setCacheEnabled(value);
+                        }
                     }
                 });
 
             p.clickedObservers["Exit"] = ValueObserver<bool>::create(
                 p.actions["Exit"]->observeClicked(),
                 [weak, context](bool value)
-            {
-                if (value)
                 {
-                    dynamic_cast<Application *>(context)->exit();
-                }
-            });
+                    if (value)
+                    {
+                        dynamic_cast<Application *>(context)->exit();
+                    }
+                });
 
             p.localeObserver = ValueObserver<std::string>::create(
                 context->getSystemT<TextSystem>()->observeCurrentLocale(),
@@ -451,7 +455,7 @@ namespace djv
             // Reset the observer so we don't have an extra shared_ptr holding
             // onto the media object.
             p.opened->setIfChanged(nullptr);
-            p.currentMedia->setIfChanged(media);
+            setCurrentMedia(media);
             p.recentFilesModel->addFile(fileInfo);
             _actionsUpdate();
         }
@@ -466,7 +470,7 @@ namespace djv
             // Reset the observer so we don't have an extra shared_ptr holding
             // onto the media object.
             p.opened2->setIfChanged(std::make_pair(nullptr, glm::ivec2(0, 0)));
-            p.currentMedia->setIfChanged(media);
+            setCurrentMedia(media);
             p.recentFilesModel->addFile(fileInfo);
             _actionsUpdate();
         }
@@ -490,7 +494,7 @@ namespace djv
                     }
                     current = p.media->getItem(index);
                 }
-                p.currentMedia->setIfChanged(current);
+                setCurrentMedia(current);
                 _actionsUpdate();
             }
         }
@@ -506,14 +510,20 @@ namespace djv
                 p.closed->setIfChanged(media);
                 p.closed->setIfChanged(nullptr);
             }
-            p.currentMedia->setIfChanged(nullptr);
+            setCurrentMedia(nullptr);
             _actionsUpdate();
         }
 
         void FileSystem::setCurrentMedia(const std::shared_ptr<Media> & media)
         {
             DJV_PRIVATE_PTR();
-            p.currentMedia->setIfChanged(media);
+            if (p.currentMedia->setIfChanged(media))
+            {
+                if (auto media = p.currentMedia->get())
+                {
+                    media->setCacheEnabled(p.cacheEnabled);
+                }
+            }
         }
 
         std::map<std::string, std::shared_ptr<UI::Action> > FileSystem::getActions() const

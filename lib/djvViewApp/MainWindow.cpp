@@ -31,6 +31,7 @@
 
 #include <djvViewApp/Application.h>
 #include <djvViewApp/BackgroundImageWidget.h>
+#include <djvViewApp/FileSettings.h>
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/IToolSystem.h>
 #include <djvViewApp/ImageViewSystem.h>
@@ -162,8 +163,8 @@ namespace djv
 
             p.autoHideButton = UI::ToolButton::create(context);
             p.autoHideButton->setButtonType(UI::ButtonType::Toggle);
-            p.autoHideButton->setCheckedIcon("djvIconVisible");
-            p.autoHideButton->setIcon("djvIconHidden");
+            p.autoHideButton->setCheckedIcon("djvIconHidden");
+            p.autoHideButton->setIcon("djvIconVisible");
 
             p.settingsButton = UI::ToolButton::create(context);
             p.settingsButton->setIcon("djvIconSettings");
@@ -402,8 +403,20 @@ namespace djv
             glm::vec2 pos = event.getPointerInfo().projectedPos;
             for (const auto & i : event.getDropPaths())
             {
-                auto fileSystem = getContext()->getSystemT<FileSystem>();
-                fileSystem->open(i, pos);
+                auto context = getContext();
+                auto fileSystem = context->getSystemT<FileSystem>();
+                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                auto fileSettings = settingsSystem->getSettingsT<FileSettings>();
+                Core::FileSystem::FileInfo fileInfo;
+                if (fileSettings->observeAutoDetectSequences()->get())
+                {
+                    fileInfo = Core::FileSystem::FileInfo::getFileSequence(i);
+                }
+                else
+                {
+                    fileInfo = i;
+                }
+                fileSystem->open(fileInfo, pos);
                 pos += s;
             }
         }

@@ -60,6 +60,7 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > observeCurrentTime() const;
 
             void setMedia(const std::shared_ptr<Media>&);
+            void setCachedTimestamps(const std::vector<Core::Time::TimestampRange>&);
 
         protected:
             void _styleEvent(Core::Event::Style &) override;

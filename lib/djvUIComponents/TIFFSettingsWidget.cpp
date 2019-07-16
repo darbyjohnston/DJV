@@ -105,7 +105,7 @@ namespace djv
         {
             ISettingsWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
-            p.layout->setText(p.compressionComboBox, _getText(DJV_TEXT("File compression")) + ": ");
+            p.layout->setText(p.compressionComboBox, _getText(DJV_TEXT("File compression")) + ":");
             _widgetUpdate();
         }
 

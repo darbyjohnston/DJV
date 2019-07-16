@@ -27,9 +27,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewApp/UISettingsWidget.h>
+#include <djvViewApp/FileSettingsWidget.h>
 
-#include <djvViewApp/UISettings.h>
+#include <djvViewApp/FileSettings.h>
 
 #include <djvUI/FormLayout.h>
 #include <djvUI/RowLayout.h>
@@ -45,86 +45,90 @@ namespace djv
 {
     namespace ViewApp
     {
-        struct UISettingsWidget::Private
+        struct FileSettingsWidget::Private
         {
-            std::shared_ptr<UI::ToggleButton> autoHideButton;
+            std::shared_ptr<UI::ToggleButton> autoDetectSequencesButton;
             std::shared_ptr<UI::FormLayout> formLayout;
-            std::shared_ptr<ValueObserver<bool> > autoHideObserver;
+            std::shared_ptr<ValueObserver<bool> > autoDetectSequencesObserver;
         };
 
-        void UISettingsWidget::_init(Context* context)
+        void FileSettingsWidget::_init(Context* context)
         {
             ISettingsWidget::_init(context);
 
             DJV_PRIVATE_PTR();
-            setClassName("djv::ViewApp::UISettingsWidget");
+            setClassName("djv::ViewApp::FileSettingsWidget");
 
-            p.autoHideButton = UI::ToggleButton::create(context);
+            p.autoDetectSequencesButton = UI::ToggleButton::create(context);
 
             p.formLayout = UI::FormLayout::create(context);
-            p.formLayout->addChild(p.autoHideButton);
+            p.formLayout->addChild(p.autoDetectSequencesButton);
             addChild(p.formLayout);
 
-            auto weak = std::weak_ptr<UISettingsWidget>(std::dynamic_pointer_cast<UISettingsWidget>(shared_from_this()));
-            p.autoHideButton->setCheckedCallback(
+            auto weak = std::weak_ptr<FileSettingsWidget>(std::dynamic_pointer_cast<FileSettingsWidget>(shared_from_this()));
+            p.autoDetectSequencesButton->setCheckedCallback(
                 [weak, context](bool value)
             {
                 if (auto widget = weak.lock())
                 {
                     if (auto settingsSystem = context->getSystemT<UI::Settings::System>())
                     {
-                        if (auto uiSettings = settingsSystem->getSettingsT<UISettings>())
+                        if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
                         {
-                            uiSettings->setAutoHide(value);
+                            fileSettings->setAutoDetectSequences(value);
                         }
                     }
                 }
             });
 
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
-            auto uiSettings = settingsSystem->getSettingsT<UISettings>();
-            p.autoHideObserver = ValueObserver<bool>::create(
-                uiSettings->observeAutoHide(),
-                [weak](bool value)
+            if (auto settingsSystem = context->getSystemT<UI::Settings::System>())
             {
-                if (auto widget = weak.lock())
+                if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
                 {
-                    widget->_p->autoHideButton->setChecked(value);
+                    p.autoDetectSequencesObserver = ValueObserver<bool>::create(
+                        fileSettings->observeAutoDetectSequences(),
+                        [weak](bool value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->autoDetectSequencesButton->setChecked(value);
+                        }
+                    });
                 }
-            });
+            }
         }
 
-        UISettingsWidget::UISettingsWidget() :
+        FileSettingsWidget::FileSettingsWidget() :
             _p(new Private)
         {}
 
-        std::shared_ptr<UISettingsWidget> UISettingsWidget::create(Context* context)
+        std::shared_ptr<FileSettingsWidget> FileSettingsWidget::create(Context* context)
         {
-            auto out = std::shared_ptr<UISettingsWidget>(new UISettingsWidget);
+            auto out = std::shared_ptr<FileSettingsWidget>(new FileSettingsWidget);
             out->_init(context);
             return out;
         }
 
-        std::string UISettingsWidget::getSettingsName() const
+        std::string FileSettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("Auto Hide");
+            return DJV_TEXT("File");
         }
 
-        std::string UISettingsWidget::getSettingsGroup() const
+        std::string FileSettingsWidget::getSettingsGroup() const
         {
-            return DJV_TEXT("General");
+            return DJV_TEXT("File");
         }
 
-        std::string UISettingsWidget::getSettingsSortKey() const
+        std::string FileSettingsWidget::getSettingsSortKey() const
         {
-            return "0";
+            return "A";
         }
 
-        void UISettingsWidget::_localeEvent(Event::Locale& event)
+        void FileSettingsWidget::_localeEvent(Event::Locale& event)
         {
             ISettingsWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
-            p.formLayout->setText(p.autoHideButton, _getText(DJV_TEXT("Automatically hide the user interface")) + ":");
+            p.formLayout->setText(p.autoDetectSequencesButton, _getText(DJV_TEXT("Auto-detect file sequences")) + ":");
         }
 
     } // namespace ViewApp

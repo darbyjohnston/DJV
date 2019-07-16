@@ -82,8 +82,19 @@ namespace djv
 
             void Data::zero()
             {
-                _detach();
+                detach();
                 memset(_data, 0, _dataByteCount);
+            }
+
+            void Data::detach()
+            {
+                if (_fileIO)
+                {
+                    _data = new uint8_t[_dataByteCount];
+                    memcpy(_data, _fileIO->mmapP(), std::min(_fileIO->getSize() - _fileIO->getPos(), _dataByteCount));
+                    _p = _data;
+                    _fileIO.reset();
+                }
             }
 
             bool Data::operator == (const Data & other) const
@@ -116,17 +127,6 @@ namespace djv
 #endif
                 }
                 return false;
-            }
-
-            void Data::_detach()
-            {
-                if (_fileIO)
-                {
-                    _data = new uint8_t[_dataByteCount];
-                    memcpy(_data, _fileIO->mmapP(), std::min(_fileIO->getSize() - _fileIO->getPos(), _dataByteCount));
-                    _p = _data;
-                    _fileIO.reset();
-                }
             }
 
         } // namespace Image

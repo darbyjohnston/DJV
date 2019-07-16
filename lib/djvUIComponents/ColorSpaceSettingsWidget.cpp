@@ -237,7 +237,7 @@ namespace djv
 
         std::string ColorSpaceSettingsWidget::getSettingsSortKey() const
         {
-            return "A";
+            return "0";
         }
 
         void ColorSpaceSettingsWidget::_localeEvent(Event::Locale& event)

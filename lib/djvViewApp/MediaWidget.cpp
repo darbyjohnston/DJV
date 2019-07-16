@@ -259,6 +259,7 @@ namespace djv
             std::shared_ptr<ValueObserver<Playback> > playbackObserver;
             std::shared_ptr<ValueObserver<float> > volumeObserver;
             std::shared_ptr<ValueObserver<bool> > muteObserver;
+            std::shared_ptr<ListObserver<Time::TimestampRange> > cachedTimestampsObserver;
             std::shared_ptr<ValueObserver<float> > fadeObserver;
             std::shared_ptr<ValueObserver<bool> > frameStoreEnabledObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > frameStoreObserver;
@@ -756,6 +757,16 @@ namespace djv
                     });
             }
 
+            p.cachedTimestampsObserver = ListObserver<Time::TimestampRange>::create(
+                p.media->observeCachedTimestamps(),
+                [weak](const std::vector<Time::TimestampRange>& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->timelineSlider->setCachedTimestamps(value);
+                    }
+                });
+
             if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
                 p.fadeObserver = ValueObserver<float>::create(
@@ -947,7 +958,7 @@ namespace djv
             p.speedButtonGroup->addButton(button);
             p.speedButtonLayout->addChild(button);
 
-            p.playEveryFrameLabel->setText(_getText(DJV_TEXT("Play every frame")) + ": ");
+            p.playEveryFrameLabel->setText(_getText(DJV_TEXT("Play every frame")) + ":");
             {
                 std::stringstream ss;
                 ss.precision(3);

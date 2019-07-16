@@ -139,7 +139,7 @@ namespace djv
             auto formLayout = UI::FormLayout::create(context);
             formLayout->setMargin(UI::MetricsRole::MarginSmall);
             formLayout->addChild(label);
-            formLayout->setText(label, _getText(DJV_TEXT("File name")) + ": ");
+            formLayout->setText(label, _getText(DJV_TEXT("File name")) + ":");
             p.layout->addChild(formLayout);
 
             size_t j = 0;
@@ -153,7 +153,7 @@ namespace djv
                 label->setText(i.info.name);
                 label->setHAlign(UI::HAlign::Left);
                 formLayout->addChild(label);
-                formLayout->setText(label, _getText(DJV_TEXT("Name")) + ": ");
+                formLayout->setText(label, _getText(DJV_TEXT("Name")) + ":");
 
                 label = UI::Label::create(context);
                 {
@@ -163,7 +163,7 @@ namespace djv
                 }
                 label->setHAlign(UI::HAlign::Left);
                 formLayout->addChild(label);
-                formLayout->setText(label, _getText(DJV_TEXT("Size")) + ": ");
+                formLayout->setText(label, _getText(DJV_TEXT("Size")) + ":");
 
                 label = UI::Label::create(context);
                 {
@@ -173,7 +173,7 @@ namespace djv
                 }
                 label->setHAlign(UI::HAlign::Left);
                 formLayout->addChild(label);
-                formLayout->setText(label, _getText(DJV_TEXT("Type")) + ": ");
+                formLayout->setText(label, _getText(DJV_TEXT("Type")) + ":");
 
                 label = UI::Label::create(context);
                 {
@@ -183,7 +183,7 @@ namespace djv
                 }
                 label->setHAlign(UI::HAlign::Left);
                 formLayout->addChild(label);
-                formLayout->setText(label, _getText(DJV_TEXT("Speed")) + ": ");
+                formLayout->setText(label, _getText(DJV_TEXT("Speed")) + ":");
 
                 label = UI::Label::create(context);
                 {
@@ -194,13 +194,13 @@ namespace djv
                 }
                 label->setHAlign(UI::HAlign::Left);
                 formLayout->addChild(label);
-                formLayout->setText(label, _getText(DJV_TEXT("Duration")) + ": ");
+                formLayout->setText(label, _getText(DJV_TEXT("Duration")) + ":");
 
                 label = UI::Label::create(context);
                 label->setText(i.codec);
                 label->setHAlign(UI::HAlign::Left);
                 formLayout->addChild(label);
-                formLayout->setText(label, _getText(DJV_TEXT("Codec")) + ": ");
+                formLayout->setText(label, _getText(DJV_TEXT("Codec")) + ":");
                 
                 auto bellows = UI::Bellows::create(context);
                 {
@@ -229,7 +229,7 @@ namespace djv
                 }
                 label->setHAlign(UI::HAlign::Left);
                 formLayout->addChild(label);
-                formLayout->setText(label, _getText(DJV_TEXT("Channels")) + ": ");
+                formLayout->setText(label, _getText(DJV_TEXT("Channels")) + ":");
 
                 label = UI::Label::create(context);
                 {
@@ -239,7 +239,7 @@ namespace djv
                 }
                 label->setHAlign(UI::HAlign::Left);
                 formLayout->addChild(label);
-                formLayout->setText(label, _getText(DJV_TEXT("Type")) + ": ");
+                formLayout->setText(label, _getText(DJV_TEXT("Type")) + ":");
 
                 label = UI::Label::create(context);
                 {
@@ -249,7 +249,7 @@ namespace djv
                 }
                 label->setHAlign(UI::HAlign::Left);
                 formLayout->addChild(label);
-                formLayout->setText(label, _getText(DJV_TEXT("Sample rate")) + ": ");
+                formLayout->setText(label, _getText(DJV_TEXT("Sample rate")) + ":");
 
                 label = UI::Label::create(context);
                 {
@@ -259,13 +259,13 @@ namespace djv
                 }
                 label->setHAlign(UI::HAlign::Left);
                 formLayout->addChild(label);
-                formLayout->setText(label, _getText(DJV_TEXT("Duration")) + ": ");
+                formLayout->setText(label, _getText(DJV_TEXT("Duration")) + ":");
 
                 label = UI::Label::create(context);
                 label->setText(i.codec);
                 label->setHAlign(UI::HAlign::Left);
                 formLayout->addChild(label);
-                formLayout->setText(label, _getText(DJV_TEXT("Codec")) + ": ");
+                formLayout->setText(label, _getText(DJV_TEXT("Codec")) + ":");
 
                 auto bellows = UI::Bellows::create(context);
                 {

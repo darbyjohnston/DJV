@@ -34,6 +34,7 @@
 #include <djvViewApp/AnnotateSystem.h>
 #include <djvViewApp/AudioSystem.h>
 #include <djvViewApp/ColorPickerSystem.h>
+#include <djvViewApp/FileSettings.h>
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/HelpSystem.h>
 #include <djvViewApp/ImageSystem.h>
@@ -49,6 +50,8 @@
 #include <djvViewApp/WindowSystem.h>
 
 #include <djvUIComponents/UIComponentsSystem.h>
+
+#include <djvUI/SettingsSystem.h>
 
 #include <djvAV/AVSystem.h>
 #include <djvAV/IO.h>
@@ -68,6 +71,8 @@ namespace djv
     {
         struct Application::Private
         {
+            std::vector<Core::FileSystem::Path> cmdlinePaths;
+
             std::vector<std::shared_ptr<ISystem> > systems;
 
             std::vector<std::shared_ptr<AV::IO::IRead> > read;
@@ -81,13 +86,23 @@ namespace djv
         void Application::_init(int & argc, char ** argv)
         {
             Desktop::Application::_init(argc, argv);
-
-            UI::UIComponentsSystem::create(this);
-
             DJV_PRIVATE_PTR();
-            UISettings::create(this);
 
-            p.systems.push_back(FileSystem::create(this));
+            // Parse the command line.
+            auto args = getArgs();
+            auto arg = args.begin();
+            ++arg;
+            while (arg != args.end())
+            {
+                p.cmdlinePaths.push_back(*arg);
+                ++arg;
+            }
+
+            // Create the systems.
+            UI::UIComponentsSystem::create(this);
+            UISettings::create(this);
+            auto fileSystem = FileSystem::create(this);
+            p.systems.push_back(fileSystem);
             auto windowSystem = WindowSystem::create(this);
             p.systems.push_back(windowSystem);
             p.systems.push_back(ImageViewSystem::create(this));
@@ -103,10 +118,11 @@ namespace djv
             p.systems.push_back(nuxSystem);
             p.systems.push_back(SettingsSystem::create(this));
 
+            // Create the main window.
             p.mainWindow = MainWindow::create(this);
-
             windowSystem->setMediaCanvas(p.mainWindow->getMediaCanvas());
 
+            // NUX.
             p.nuxWidget = nuxSystem->createNUXWidget();
             if (p.nuxWidget)
             {
@@ -119,6 +135,7 @@ namespace djv
                 });
             }
 
+            // Load the application icons.
             try
             {
                 auto io = getSystemT<AV::IO::System>();
@@ -184,6 +201,24 @@ namespace djv
                     }
                 });
 
+            // Open command-line files.
+            auto settingsSystem = getSystemT<UI::Settings::System>();
+            auto fileSettings = settingsSystem->getSettingsT<FileSettings>();
+            for (const auto& i : p.cmdlinePaths)
+            {
+                Core::FileSystem::FileInfo fileInfo;
+                if (fileSettings->observeAutoDetectSequences()->get())
+                {
+                    fileInfo = Core::FileSystem::FileInfo::getFileSequence(i);
+                }
+                else
+                {
+                    fileInfo = i;
+                }
+                fileSystem->open(fileInfo);
+            }
+
+            // Show the main window.
             p.mainWindow->show();
         }
 

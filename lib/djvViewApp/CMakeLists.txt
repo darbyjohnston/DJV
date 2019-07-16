@@ -12,6 +12,7 @@ set(header
     Enum.h
     FileSystem.h
     FileSettings.h
+    FileSettingsWidget.h
     HelpSystem.h
     HistogramWidget.h
     IToolSystem.h
@@ -63,6 +64,7 @@ set(source
     DebugWidget.cpp
     Enum.cpp
     FileSettings.cpp
+    FileSettingsWidget.cpp
     FileSystem.cpp
     HelpSystem.cpp
     HistogramWidget.cpp

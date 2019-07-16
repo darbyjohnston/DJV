@@ -29,54 +29,20 @@
 
 #pragma once
 
-#include <djvUI/ISettings.h>
-
-#include <djvCore/ListObserver.h>
-#include <djvCore/ValueObserver.h>
+#include <djvTestLib/Test.h>
 
 namespace djv
 {
-    namespace Core
+    namespace CoreTest
     {
-        namespace FileSystem
+        class FrameTest : public Test::ITest
         {
-            class FileInfo;
-
-        } // namespace FileSystem
-    } // namespace Core
-
-    namespace ViewApp
-    {
-        //! This class provides the file settings.
-        class FileSettings : public UI::Settings::ISettings
-        {
-            DJV_NON_COPYABLE(FileSettings);
-
-        protected:
-            void _init(Core::Context * context);
-
-            FileSettings();
-
         public:
-            virtual ~FileSettings();
-
-            static std::shared_ptr<FileSettings> create(Core::Context *);
-
-            std::shared_ptr<Core::IListSubject<Core::FileSystem::FileInfo> > observeRecentFiles() const;
-            void setRecentFiles(const std::vector<Core::FileSystem::FileInfo>&);
-
-            std::shared_ptr<Core::IValueSubject<bool> > observeAutoDetectSequences() const;
-            void setAutoDetectSequences(bool);
-
-            void load(const picojson::value &) override;
-            picojson::value save() override;
-
-        private:
-            void _updateCurrentFont();
-
-            DJV_PRIVATE();
+            FrameTest(Core::Context *);
+            
+            void run(int & argc, char ** argv) override;
         };
-
-    } // namespace ViewApp
+        
+    } // namespace CoreTest
 } // namespace djv
 

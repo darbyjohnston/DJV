@@ -75,6 +75,10 @@ namespace djv
             std::shared_ptr<ValueSubject<Time::Timestamp> > outPoint;
             std::shared_ptr<ValueSubject<float> > volume;
             std::shared_ptr<ValueSubject<bool> > mute;
+            std::shared_ptr<ValueSubject<bool> > hasCache;
+            std::shared_ptr<ValueSubject<bool> > cacheEnabled;
+            std::shared_ptr<ValueSubject<size_t> > cacheMax;
+            std::shared_ptr<ListSubject<Time::TimestampRange> > cachedTimestamps;
 
             std::shared_ptr<ValueSubject<size_t> > videoQueueMax;
             std::shared_ptr<ValueSubject<size_t> > videoQueueCount;
@@ -96,6 +100,7 @@ namespace djv
             std::chrono::system_clock::time_point realSpeedTime;
             std::shared_ptr<Time::Timer> playbackTimer;
             std::shared_ptr<Time::Timer> realSpeedTimer;
+            std::shared_ptr<Time::Timer> cachedTimestampsTimer;
             std::shared_ptr<Time::Timer> debugTimer;
         };
 
@@ -121,6 +126,10 @@ namespace djv
             p.outPoint = ValueSubject<Time::Timestamp>::create(0);
             p.volume = ValueSubject<float>::create(1.f);
             p.mute = ValueSubject<bool>::create(false);
+            p.hasCache = ValueSubject<bool>::create(false);
+            p.cacheEnabled = ValueSubject<bool>::create(false);
+            p.cacheMax = ValueSubject<size_t>::create(0);
+            p.cachedTimestamps = ListSubject<Time::TimestampRange>::create();
 
             p.videoQueueMax = ValueSubject<size_t>::create();
             p.audioQueueMax = ValueSubject<size_t>::create();
@@ -136,6 +145,8 @@ namespace djv
             p.playbackTimer->setRepeating(true);
             p.realSpeedTimer = Time::Timer::create(context);
             p.realSpeedTimer->setRepeating(true);
+            p.cachedTimestampsTimer = Time::Timer::create(context);
+            p.cachedTimestampsTimer->setRepeating(true);
             p.debugTimer = Time::Timer::create(context);
             p.debugTimer->setRepeating(true);
 
@@ -268,6 +279,11 @@ namespace djv
             return _p->inPoint;
         }
 
+        std::shared_ptr<IValueSubject<Time::Timestamp> > Media::observeOutPoint() const
+        {
+            return _p->outPoint;
+        }
+
         std::shared_ptr<IValueSubject<float> > Media::observeVolume() const
         {
             return _p->volume;
@@ -278,9 +294,24 @@ namespace djv
             return _p->mute;
         }
 
-        std::shared_ptr<IValueSubject<Time::Timestamp> > Media::observeOutPoint() const
+        std::shared_ptr<Core::IValueSubject<bool> > Media::observeHasCache() const
         {
-            return _p->outPoint;
+            return _p->hasCache;
+        }
+
+        std::shared_ptr<Core::IValueSubject<bool> > Media::observeCacheEnabled() const
+        {
+            return _p->cacheEnabled;
+        }
+
+        std::shared_ptr<Core::IValueSubject<size_t> > Media::observeCacheMax() const
+        {
+            return _p->cacheMax;
+        }
+
+        std::shared_ptr<Core::IListSubject<Time::TimestampRange> > Media::observeCachedTimestamps() const
+        {
+            return _p->cachedTimestamps;
         }
 
         std::shared_ptr<IValueSubject<size_t> > Media::observeVideoQueueMax() const
@@ -310,7 +341,12 @@ namespace djv
 
         void Media::reload()
         {
+            DJV_PRIVATE_PTR();
             _open();
+            if (p.read)
+            {
+                p.read->seek(p.currentTime->get());
+            }
         }
 
         void Media::setLayer(size_t value)
@@ -449,6 +485,31 @@ namespace djv
         {
             _p->playbackMode->setIfChanged(value);
         }
+
+        void Media::setInOutPointsEnabled(bool value)
+        {
+            _p->inOutPointsEnabled->setIfChanged(value);
+        }
+
+        void Media::setInPoint(Time::Timestamp value)
+        {
+            _p->inPoint->setIfChanged(value);
+        }
+
+        void Media::setOutPoint(Time::Timestamp value)
+        {
+            _p->outPoint->setIfChanged(value);
+        }
+
+        void Media::resetInPoint()
+        {
+            _p->inPoint->setIfChanged(0);
+        }
+
+        void Media::resetOutPoint()
+        {
+            _p->outPoint->setIfChanged(0);
+        }
         
         void Media::setVolume(float value)
         {
@@ -466,6 +527,24 @@ namespace djv
             }
         }
 
+        void Media::setCacheEnabled(bool value)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.read && p.cacheEnabled->setIfChanged(value))
+            {
+                p.read->setCacheEnabled(value);
+            }
+        }
+
+        void Media::setCacheMax(size_t value)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.read && p.cacheMax->setIfChanged(value))
+            {
+                p.read->setCacheMax(value);
+            }
+        }
+
         void Media::_open()
         {
             DJV_PRIVATE_PTR();
@@ -478,7 +557,8 @@ namespace djv
                 options.videoQueueSize = videoQueueSize;
                 p.read = io->read(p.fileInfo, options);
                 p.infoFuture = p.read->getInfo();
-
+                p.hasCache->setIfChanged(p.read->hasCache());
+                
                 const auto timeout = Time::getMilliseconds(Time::TimerValue::Fast);
                 const Core::FileSystem::FileInfo& fileInfo = p.fileInfo;
                 auto weak = std::weak_ptr<Media>(std::dynamic_pointer_cast<Media>(shared_from_this()));
@@ -536,23 +616,40 @@ namespace djv
                     {
                         if (auto media = weak.lock())
                         {
-                            std::unique_lock<std::mutex> lock(media->_p->read->getMutex());
-                            if (media->_p->queueCV.wait_for(
-                                lock,
-                                timeout,
-                                [weak]
-                                {
-                                    bool out = false;
-                                    if (auto media = weak.lock())
-                                    {
-                                        out = media->_p->read->getVideoQueue().hasFrames();
-                                    }
-                                    return out;
-                                }))
+                            if (media->_p->read)
                             {
-                                auto& queue = media->_p->read->getVideoQueue();
-                                auto frame = queue.getFrame();
-                                media->_p->currentImage->setIfChanged(frame.image);
+                                std::unique_lock<std::mutex> lock(media->_p->read->getMutex());
+                                if (media->_p->queueCV.wait_for(
+                                    lock,
+                                    timeout,
+                                    [weak]
+                                    {
+                                        bool out = false;
+                                        if (auto media = weak.lock())
+                                        {
+                                            out = media->_p->read->getVideoQueue().hasFrames();
+                                        }
+                                        return out;
+                                    }))
+                                {
+                                    auto& queue = media->_p->read->getVideoQueue();
+                                    auto frame = queue.getFrame();
+                                    media->_p->currentImage->setIfChanged(frame.image);
+                                }
+                            }
+                        }
+                    });
+
+                p.cachedTimestampsTimer->start(
+                    Time::getMilliseconds(Time::TimerValue::Medium),
+                    [weak](float)
+                    {
+                        if (auto media = weak.lock())
+                        {
+                            if (media->_p->read)
+                            {
+                                const auto& frames = media->_p->read->getCachedTimestamps();
+                                media->_p->cachedTimestamps->setIfChanged(frames);
                             }
                         }
                     });

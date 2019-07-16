@@ -223,7 +223,7 @@ namespace djv
 
         std::string LanguageSettingsWidget::getSettingsSortKey() const
         {
-            return "A";
+            return "0";
         }
 
     } // namespace UI

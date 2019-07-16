@@ -203,7 +203,7 @@ namespace djv
 
         std::string SizeSettingsWidget::getSettingsSortKey() const
         {
-            return "A";
+            return "0";
         }
 
     } // namespace UI

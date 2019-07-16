@@ -211,7 +211,7 @@ namespace djv
 
         std::string TimeSettingsWidget::getSettingsSortKey() const
         {
-            return "A";
+            return "0";
         }
 
         void TimeSettingsWidget::_localeEvent(Event::Locale & event)

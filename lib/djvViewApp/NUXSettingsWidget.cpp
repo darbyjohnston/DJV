@@ -120,7 +120,7 @@ namespace djv
 
         std::string NUXSettingsWidget::getSettingsSortKey() const
         {
-            return "A";
+            return "0";
         }
 
         void NUXSettingsWidget::_localeEvent(Event::Locale & event)

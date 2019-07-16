@@ -29,6 +29,7 @@
 
 #include <djvViewApp/SettingsSystem.h>
 
+#include <djvViewApp/FileSettingsWidget.h>
 #include <djvViewApp/ImageSettingsWidget.h>
 #include <djvViewApp/ImageViewSettingsWidget.h>
 #include <djvViewApp/NUXSettingsWidget.h>
@@ -153,6 +154,7 @@ namespace djv
 #endif
 
                 BackgroundImageSettingsWidget::create(context),
+                FileSettingsWidget::create(context),
                 ImageAspectRatioSettingsWidget::create(context),
                 ImageRotateSettingsWidget::create(context),
                 ImageViewBackgroundSettingsWidget::create(context),

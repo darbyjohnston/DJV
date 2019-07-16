@@ -47,14 +47,15 @@ namespace djv
         struct FileSettings::Private
         {
             std::shared_ptr<ListSubject<Core::FileSystem::FileInfo> > recentFiles;
+            std::shared_ptr<ValueSubject<bool> > autoDetectSequences;
         };
 
         void FileSettings::_init(Context * context)
         {
             ISettings::_init("djv::ViewApp::FileSettings", context);
-
             DJV_PRIVATE_PTR();
             p.recentFiles = ListSubject<Core::FileSystem::FileInfo>::create();
+            p.autoDetectSequences = ValueSubject<bool>::create(true);
             _load();
         }
 
@@ -82,15 +83,24 @@ namespace djv
             _p->recentFiles->setIfChanged(value);
         }
 
+        std::shared_ptr<Core::IValueSubject<bool> > FileSettings::observeAutoDetectSequences() const
+        {
+            return _p->autoDetectSequences;
+        }
+
+        void FileSettings::setAutoDetectSequences(bool value)
+        {
+            _p->autoDetectSequences->setIfChanged(value);
+        }
+
         void FileSettings::load(const picojson::value & value)
         {
             if (value.is<picojson::object>())
             {
                 DJV_PRIVATE_PTR();
                 const auto & object = value.get<picojson::object>();
-                std::vector<FileSystem::FileInfo> fileInfoList;
-                UI::Settings::read("RecentFiles", object, fileInfoList);
-                p.recentFiles->setIfChanged(fileInfoList);
+                UI::Settings::read("RecentFiles", object, p.recentFiles);
+                UI::Settings::read("AutoDetectSequences", object, p.autoDetectSequences);
             }
         }
 
@@ -100,6 +110,7 @@ namespace djv
             picojson::value out(picojson::object_type, true);
             auto & object = out.get<picojson::object>();
             UI::Settings::write("RecentFiles", p.recentFiles->get(), object);
+            UI::Settings::write("AutoDetectSequences", p.autoDetectSequences->get(), object);
             return out;
         }
 

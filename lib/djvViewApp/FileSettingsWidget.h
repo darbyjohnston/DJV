@@ -29,51 +29,32 @@
 
 #pragma once
 
-#include <djvUI/ISettings.h>
-
-#include <djvCore/ListObserver.h>
-#include <djvCore/ValueObserver.h>
+#include <djvUIComponents/ISettingsWidget.h>
 
 namespace djv
 {
-    namespace Core
-    {
-        namespace FileSystem
-        {
-            class FileInfo;
-
-        } // namespace FileSystem
-    } // namespace Core
-
     namespace ViewApp
     {
-        //! This class provides the file settings.
-        class FileSettings : public UI::Settings::ISettings
+        //! This class provides the file settings widget.
+        class FileSettingsWidget : public UI::ISettingsWidget
         {
-            DJV_NON_COPYABLE(FileSettings);
+            DJV_NON_COPYABLE(FileSettingsWidget);
 
         protected:
-            void _init(Core::Context * context);
-
-            FileSettings();
+            void _init(Core::Context*);
+            FileSettingsWidget();
 
         public:
-            virtual ~FileSettings();
+            static std::shared_ptr<FileSettingsWidget> create(Core::Context*);
 
-            static std::shared_ptr<FileSettings> create(Core::Context *);
+            std::string getSettingsName() const override;
+            std::string getSettingsGroup() const override;
+            std::string getSettingsSortKey() const override;
 
-            std::shared_ptr<Core::IListSubject<Core::FileSystem::FileInfo> > observeRecentFiles() const;
-            void setRecentFiles(const std::vector<Core::FileSystem::FileInfo>&);
-
-            std::shared_ptr<Core::IValueSubject<bool> > observeAutoDetectSequences() const;
-            void setAutoDetectSequences(bool);
-
-            void load(const picojson::value &) override;
-            picojson::value save() override;
+        protected:
+            void _localeEvent(Core::Event::Locale&) override;
 
         private:
-            void _updateCurrentFont();
-
             DJV_PRIVATE();
         };
 

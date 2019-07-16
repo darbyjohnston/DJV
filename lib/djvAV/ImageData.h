@@ -158,12 +158,12 @@ namespace djv
 
                 void zero();
 
+                void detach();
+
                 bool operator == (const Data &) const;
                 bool operator != (const Data &) const;
 
             private:
-                void _detach();
-
                 Core::UID _uid = 0;
                 Info _info;
                 uint8_t _pixelByteCount = 0;

@@ -247,6 +247,13 @@ namespace djv
 
                 virtual void seek(Core::Time::Timestamp) = 0;
 
+                virtual bool hasCache() const { return false; }
+                virtual bool isCacheEnabled() const  { return false; }
+                virtual void setCacheEnabled(bool) {}
+                virtual size_t getCacheMax() const { return 0; }
+                virtual void setCacheMax(size_t) {}
+                virtual std::vector<Core::Time::TimestampRange> getCachedTimestamps() { return {}; }
+
             protected:
                 ReadOptions _options;
             };

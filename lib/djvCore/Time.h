@@ -44,6 +44,9 @@ namespace djv
             //! This typedef provides a timestamp.
             typedef int64_t Timestamp;
 
+            //! This typedef provides a timestamp range.
+            typedef Core::Range::tRange<Timestamp> TimestampRange;
+
             //! \name Time Conversion
             ///@{
 

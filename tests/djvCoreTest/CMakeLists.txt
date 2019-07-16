@@ -1,6 +1,7 @@
 set(header
 	CacheTest.h
     EnumTest.h
+	FrameTest.h
     MathTest.h
     MemoryTest.h
     ObjectTest.h
@@ -10,6 +11,7 @@ set(header
 set(source
 	CacheTest.cpp
     EnumTest.cpp
+	FrameTest.cpp
     MathTest.cpp
     MemoryTest.cpp
     ObjectTest.cpp

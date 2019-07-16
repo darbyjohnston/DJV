@@ -423,9 +423,9 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
 
-            p.labels["Language"]->setText(_getText(DJV_TEXT("Choose your language")) + ": ");
-            p.labels["DisplaySize"]->setText(_getText(DJV_TEXT("Choose a user interface size")) + ": ");
-            p.labels["DisplayPalette"]->setText(_getText(DJV_TEXT("Choose a palette")) + ": ");
+            p.labels["Language"]->setText(_getText(DJV_TEXT("Choose your language")) + ":");
+            p.labels["DisplaySize"]->setText(_getText(DJV_TEXT("Choose a user interface size")) + ":");
+            p.labels["DisplayPalette"]->setText(_getText(DJV_TEXT("Choose a palette")) + ":");
             p.buttons["Next"]->setText(_getText(DJV_TEXT("Next")));
             p.buttons["Prev"]->setText(_getText(DJV_TEXT("Previous")));
             p.buttons["Finish"]->setText(_getText(DJV_TEXT("Finish")));

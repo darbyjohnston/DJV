@@ -111,7 +111,7 @@ namespace djv
 
         std::string TooltipsSettingsWidget::getSettingsSortKey() const
         {
-            return "A";
+            return "0";
         }
 
         void TooltipsSettingsWidget::_localeEvent(Event::Locale & event)

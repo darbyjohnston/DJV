@@ -228,6 +228,7 @@ namespace djv
             Time::Timestamp duration = 0;
             std::shared_ptr<ValueSubject<Time::Timestamp> > currentTime;
             Time::Speed speed;
+            std::vector<Time::TimestampRange> cachedTimestamps;
             AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;
             uint32_t pressedID = Event::InvalidID;
@@ -352,6 +353,14 @@ namespace djv
             _textUpdate();
         }
 
+        void TimelineSlider::setCachedTimestamps(const std::vector<Time::TimestampRange>& value)
+        {
+            if (value == _p->cachedTimestamps)
+                return;
+            _p->cachedTimestamps = value;
+            _redraw();
+        }
+
         void TimelineSlider::_styleEvent(Event::Style &)
         {
             DJV_PRIVATE_PTR();
@@ -383,6 +392,20 @@ namespace djv
             const BBox2f & hg = _getHandleGeometry();
 
             auto render = _getRender();
+
+            {
+                const Time::Timestamp t = Time::scale(1, p.speed.swap(), Time::getTimebaseRational());
+                auto color = style->getColor(UI::ColorRole::Checked);
+                //color.setF32(color.getF32(3) * .5f, 3);
+                render->setFillColor(color);
+                for (const auto& i : p.cachedTimestamps)
+                {
+                    const float x0 = _timeToPos(i.min);
+                    const float x1 = _timeToPos(i.max + (i.min != i.max ? 0 : t));
+                    render->drawRect(BBox2f(x0, g.max.y - m - b, x1 - x0, b));
+                }
+            }
+
             {
                 const Time::Timestamp t = Time::scale(1, p.speed.swap(), Time::getTimebaseRational());
                 if (_timeToPos(t) - _timeToPos(0) > b * 2.f)
@@ -394,7 +417,7 @@ namespace djv
                     {
                         const float x = _timeToPos(t2);
                         const float h = ceilf(hg.h() * .5f);
-                        render->drawRect(BBox2f(floorf(x), g.max.y - m - h, b, h));
+                        render->drawRect(BBox2f(x, g.max.y - m - h, b, h));
                     }
                 }
             }
@@ -409,7 +432,7 @@ namespace djv
                     {
                         const float x = _timeToPos(t2);
                         const float h = ceilf(hg.h() * .5f);
-                        render->drawRect(BBox2f(floorf(x), g.max.y - m - h, b, h));
+                        render->drawRect(BBox2f(x, g.max.y - m - h, b, h));
                     }
                 }
             }
@@ -424,7 +447,7 @@ namespace djv
                     {
                         const float x = _timeToPos(t2);
                         const float h = ceilf(hg.h() * .5f);
-                        render->drawRect(BBox2f(floorf(x), g.max.y - m - h, b, h));
+                        render->drawRect(BBox2f(x, g.max.y - m - h, b, h));
                     }
                 }
             }
