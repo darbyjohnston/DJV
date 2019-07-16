@@ -97,6 +97,7 @@ namespace djv
             void _preLayoutEvent(Core::Event::PreLayout &) override;
             void _layoutEvent(Core::Event::Layout &) override;
             void _clipEvent(Core::Event::Clip &) override;
+            void _keyPressEvent(Core::Event::KeyPress&) override;
             void _scrollEvent(Core::Event::Scroll &) override;
 
             bool _eventFilter(const std::shared_ptr<IObject> &, Core::Event::Event &) override;

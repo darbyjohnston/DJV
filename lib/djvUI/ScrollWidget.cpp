@@ -893,6 +893,88 @@ namespace djv
             }
         }
 
+        void ScrollWidget::_keyPressEvent(Event::KeyPress& event)
+        {
+            DJV_PRIVATE_PTR();
+            switch (event.getKey())
+            {
+            case GLFW_KEY_HOME:
+                event.accept();
+                moveToBegin();
+                break;
+            case GLFW_KEY_END:
+                event.accept();
+                moveToEnd();
+                break;
+            case GLFW_KEY_PAGE_UP:
+                switch (p.scrollType)
+                {
+                case ScrollType::Vertical:
+                case ScrollType::Both:
+                    event.accept();
+                    movePageUp();
+                    break;
+                default: break;
+                }
+                break;
+            case GLFW_KEY_PAGE_DOWN:
+                switch (p.scrollType)
+                {
+                case ScrollType::Vertical:
+                case ScrollType::Both:
+                    event.accept();
+                    movePageDown();
+                    break;
+                default: break;
+                }
+                break;
+            case GLFW_KEY_UP:
+                switch (p.scrollType)
+                {
+                case ScrollType::Vertical:
+                case ScrollType::Both:
+                    event.accept();
+                    moveUp();
+                    break;
+                default: break;
+                }
+                break;
+            case GLFW_KEY_DOWN:
+                switch (p.scrollType)
+                {
+                case ScrollType::Vertical:
+                case ScrollType::Both:
+                    event.accept();
+                    moveDown();
+                    break;
+                default: break;
+                }
+                break;
+            case GLFW_KEY_LEFT:
+                switch (p.scrollType)
+                {
+                case ScrollType::Horizontal:
+                case ScrollType::Both:
+                    event.accept();
+                    moveLeft();
+                    break;
+                default: break;
+                }
+                break;
+            case GLFW_KEY_RIGHT:
+                switch (p.scrollType)
+                {
+                case ScrollType::Horizontal:
+                case ScrollType::Both:
+                    event.accept();
+                    moveRight();
+                    break;
+                default: break;
+                }
+                break;
+            }
+        }
+
         void ScrollWidget::_scrollEvent(Event::Scroll & event)
         {
             event.accept();
@@ -980,46 +1062,6 @@ namespace djv
                         }
                     }
                     return true;
-                }
-                break;
-            }
-            case Event::Type::KeyPress:
-            {
-                auto& keyEvent = static_cast<Event::KeyPress&>(event);
-                switch (keyEvent.getKey())
-                {
-                case GLFW_KEY_HOME:
-                    keyEvent.accept();
-                    moveToBegin();
-                    break;
-                case GLFW_KEY_END:
-                    keyEvent.accept();
-                    moveToEnd();
-                    break;
-                case GLFW_KEY_PAGE_UP:
-                    keyEvent.accept();
-                    movePageUp();
-                    break;
-                case GLFW_KEY_PAGE_DOWN:
-                    keyEvent.accept();
-                    movePageDown();
-                    break;
-                case GLFW_KEY_UP:
-                    keyEvent.accept();
-                    moveUp();
-                    break;
-                case GLFW_KEY_DOWN:
-                    keyEvent.accept();
-                    moveDown();
-                    break;
-                case GLFW_KEY_LEFT:
-                    keyEvent.accept();
-                    moveLeft();
-                    break;
-                case GLFW_KEY_RIGHT:
-                    keyEvent.accept();
-                    moveRight();
-                    break;
                 }
                 break;
             }
