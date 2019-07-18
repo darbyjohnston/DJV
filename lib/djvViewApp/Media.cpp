@@ -218,126 +218,6 @@ namespace djv
             return _p->info;
         }
 
-        std::shared_ptr<IValueSubject<size_t> > Media::observeLayer() const
-        {
-            return _p->layer;
-        }
-
-        std::shared_ptr<IValueSubject<Time::Speed> > Media::observeSpeed() const
-        {
-            return _p->speed;
-        }
-
-        std::shared_ptr<IValueSubject<Time::Speed> > Media::observeDefaultSpeed() const
-        {
-            return _p->defaultSpeed;
-        }
-
-        std::shared_ptr<IValueSubject<float> > Media::observeRealSpeed() const
-        {
-            return _p->realSpeed;
-        }
-
-        std::shared_ptr<IValueSubject<bool> > Media::observePlayEveryFrame() const
-        {
-            return _p->playEveryFrame;
-        }
-
-        std::shared_ptr<IValueSubject<Time::Timestamp> > Media::observeDuration() const
-        {
-            return _p->duration;
-        }
-
-        std::shared_ptr<IValueSubject<Time::Timestamp> > Media::observeCurrentTime() const
-        {
-            return _p->currentTime;
-        }
-
-        std::shared_ptr<IValueSubject<std::shared_ptr<AV::Image::Image> > > Media::observeCurrentImage() const
-        {
-            return _p->currentImage;
-        }
-
-        std::shared_ptr<IValueSubject<Playback> > Media::observePlayback() const
-        {
-            return _p->playback;
-        }
-
-        std::shared_ptr<IValueSubject<PlaybackMode> > Media::observePlaybackMode() const
-        {
-            return _p->playbackMode;
-        }
-
-        std::shared_ptr<IValueSubject<bool> > Media::observeInOutPointsEnabled() const
-        {
-            return _p->inOutPointsEnabled;
-        }
-
-        std::shared_ptr<IValueSubject<Time::Timestamp> > Media::observeInPoint() const
-        {
-            return _p->inPoint;
-        }
-
-        std::shared_ptr<IValueSubject<Time::Timestamp> > Media::observeOutPoint() const
-        {
-            return _p->outPoint;
-        }
-
-        std::shared_ptr<IValueSubject<float> > Media::observeVolume() const
-        {
-            return _p->volume;
-        }
-
-        std::shared_ptr<IValueSubject<bool> > Media::observeMute() const
-        {
-            return _p->mute;
-        }
-
-        std::shared_ptr<Core::IValueSubject<bool> > Media::observeHasCache() const
-        {
-            return _p->hasCache;
-        }
-
-        std::shared_ptr<Core::IValueSubject<bool> > Media::observeCacheEnabled() const
-        {
-            return _p->cacheEnabled;
-        }
-
-        std::shared_ptr<Core::IValueSubject<float> > Media::observeCacheMax() const
-        {
-            return _p->cacheMax;
-        }
-
-        std::shared_ptr<Core::IListSubject<Time::TimestampRange> > Media::observeCachedTimestamps() const
-        {
-            return _p->cachedTimestamps;
-        }
-
-        std::shared_ptr<IValueSubject<size_t> > Media::observeVideoQueueMax() const
-        {
-            return _p->videoQueueMax;
-        }
-
-        std::shared_ptr<IValueSubject<size_t> > Media::observeAudioQueueMax() const
-        {
-            return _p->audioQueueMax;
-        }
-
-        std::shared_ptr<IValueSubject<size_t> > Media::observeVideoQueueCount() const
-        {
-            return _p->videoQueueCount;
-        }
-
-        std::shared_ptr<IValueSubject<size_t> > Media::observeAudioQueueCount() const
-        {
-            return _p->audioQueueCount;
-        }
-
-        std::shared_ptr<IValueSubject<size_t> > Media::observeALQueueCount() const
-        {
-            return _p->alQueueCount;
-        }
-
         void Media::reload()
         {
             DJV_PRIVATE_PTR();
@@ -346,6 +226,11 @@ namespace djv
             {
                 p.read->seek(p.currentTime->get());
             }
+        }
+
+        std::shared_ptr<IValueSubject<size_t> > Media::observeLayer() const
+        {
+            return _p->layer;
         }
 
         void Media::setLayer(size_t value)
@@ -384,6 +269,66 @@ namespace djv
                 layer = 0;
             }
             setLayer(layer);
+        }
+
+        std::shared_ptr<IValueSubject<std::shared_ptr<AV::Image::Image> > > Media::observeCurrentImage() const
+        {
+            return _p->currentImage;
+        }
+
+        std::shared_ptr<IValueSubject<Time::Speed> > Media::observeSpeed() const
+        {
+            return _p->speed;
+        }
+
+        std::shared_ptr<IValueSubject<Time::Speed> > Media::observeDefaultSpeed() const
+        {
+            return _p->defaultSpeed;
+        }
+
+        std::shared_ptr<IValueSubject<float> > Media::observeRealSpeed() const
+        {
+            return _p->realSpeed;
+        }
+
+        std::shared_ptr<IValueSubject<bool> > Media::observePlayEveryFrame() const
+        {
+            return _p->playEveryFrame;
+        }
+
+        std::shared_ptr<IValueSubject<Time::Timestamp> > Media::observeDuration() const
+        {
+            return _p->duration;
+        }
+
+        std::shared_ptr<IValueSubject<Time::Timestamp> > Media::observeCurrentTime() const
+        {
+            return _p->currentTime;
+        }
+
+        std::shared_ptr<IValueSubject<Playback> > Media::observePlayback() const
+        {
+            return _p->playback;
+        }
+
+        std::shared_ptr<IValueSubject<PlaybackMode> > Media::observePlaybackMode() const
+        {
+            return _p->playbackMode;
+        }
+
+        std::shared_ptr<IValueSubject<bool> > Media::observeInOutPointsEnabled() const
+        {
+            return _p->inOutPointsEnabled;
+        }
+
+        std::shared_ptr<IValueSubject<Time::Timestamp> > Media::observeInPoint() const
+        {
+            return _p->inPoint;
+        }
+
+        std::shared_ptr<IValueSubject<Time::Timestamp> > Media::observeOutPoint() const
+        {
+            return _p->outPoint;
         }
 
         void Media::setSpeed(const Time::Speed& value)
@@ -509,7 +454,17 @@ namespace djv
         {
             _p->outPoint->setIfChanged(0);
         }
-        
+
+        std::shared_ptr<IValueSubject<float> > Media::observeVolume() const
+        {
+            return _p->volume;
+        }
+
+        std::shared_ptr<IValueSubject<bool> > Media::observeMute() const
+        {
+            return _p->mute;
+        }
+
         void Media::setVolume(float value)
         {
             if (_p->volume->setIfChanged(Math::clamp(value, 0.f, 1.f)))
@@ -524,6 +479,26 @@ namespace djv
             {
                 _volumeUpdate();
             }
+        }
+
+        std::shared_ptr<Core::IValueSubject<bool> > Media::observeHasCache() const
+        {
+            return _p->hasCache;
+        }
+
+        std::shared_ptr<Core::IValueSubject<bool> > Media::observeCacheEnabled() const
+        {
+            return _p->cacheEnabled;
+        }
+
+        std::shared_ptr<Core::IValueSubject<float> > Media::observeCacheMax() const
+        {
+            return _p->cacheMax;
+        }
+
+        std::shared_ptr<Core::IListSubject<Time::TimestampRange> > Media::observeCachedTimestamps() const
+        {
+            return _p->cachedTimestamps;
         }
 
         void Media::setCacheEnabled(bool value)
@@ -544,6 +519,31 @@ namespace djv
             }
         }
 
+        std::shared_ptr<IValueSubject<size_t> > Media::observeVideoQueueMax() const
+        {
+            return _p->videoQueueMax;
+        }
+
+        std::shared_ptr<IValueSubject<size_t> > Media::observeAudioQueueMax() const
+        {
+            return _p->audioQueueMax;
+        }
+
+        std::shared_ptr<IValueSubject<size_t> > Media::observeVideoQueueCount() const
+        {
+            return _p->videoQueueCount;
+        }
+
+        std::shared_ptr<IValueSubject<size_t> > Media::observeAudioQueueCount() const
+        {
+            return _p->audioQueueCount;
+        }
+
+        std::shared_ptr<IValueSubject<size_t> > Media::observeALQueueCount() const
+        {
+            return _p->alQueueCount;
+        }
+        
         void Media::_open()
         {
             DJV_PRIVATE_PTR();

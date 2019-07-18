@@ -51,7 +51,7 @@ namespace djv
 
     namespace ViewApp
     {
-        //! This class provides media functionality.
+        //! This class provides a media object.
         class Media : public std::enable_shared_from_this<Media>
         {
             DJV_NON_COPYABLE(Media);
@@ -63,41 +63,53 @@ namespace djv
         public:
             ~Media();
 
+            //! Create a new media object.
             static std::shared_ptr<Media> create(const Core::FileSystem::FileInfo&, Core::Context*);
+
+            //! \name File
+            ///@{
 
             const Core::FileSystem::FileInfo& getFileInfo() const;
 
             std::shared_ptr<Core::IValueSubject<AV::IO::Info> > observeInfo() const;
+
+            void reload();
+
+            ///@}
+
+            //! \name Layers
+            ///@{
+
             std::shared_ptr<Core::IValueSubject<size_t> > observeLayer() const;
+
+            void setLayer(size_t);
+            void nextLayer();
+            void prevLayer();
+
+            ///@}
+
+            //! \name Image
+            ///@{
+
+            std::shared_ptr<Core::IValueSubject<std::shared_ptr<AV::Image::Image> > > observeCurrentImage() const;
+
+            ///@}
+
+            //! \name Playback
+            ///@{
+
             std::shared_ptr<Core::IValueSubject<Core::Time::Speed> > observeSpeed() const;
             std::shared_ptr<Core::IValueSubject<Core::Time::Speed> > observeDefaultSpeed() const;
             std::shared_ptr<Core::IValueSubject<float> > observeRealSpeed() const;
             std::shared_ptr<Core::IValueSubject<bool> > observePlayEveryFrame() const;
             std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > observeDuration() const;
             std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > observeCurrentTime() const;
-            std::shared_ptr<Core::IValueSubject<std::shared_ptr<AV::Image::Image> > > observeCurrentImage() const;
             std::shared_ptr<Core::IValueSubject<Playback> > observePlayback() const;
             std::shared_ptr<Core::IValueSubject<PlaybackMode> > observePlaybackMode() const;
             std::shared_ptr<Core::IValueSubject<bool> > observeInOutPointsEnabled() const;
             std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > observeInPoint() const;
             std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > observeOutPoint() const;
-            std::shared_ptr<Core::IValueSubject<float> > observeVolume() const;
-            std::shared_ptr<Core::IValueSubject<bool> > observeMute() const;
-            std::shared_ptr<Core::IValueSubject<bool> > observeHasCache() const;
-            std::shared_ptr<Core::IValueSubject<bool> > observeCacheEnabled() const;
-            std::shared_ptr<Core::IValueSubject<float> > observeCacheMax() const;
-            std::shared_ptr<Core::IListSubject<Core::Time::TimestampRange> > observeCachedTimestamps() const;
 
-            std::shared_ptr<Core::IValueSubject<size_t> > observeVideoQueueMax() const;
-            std::shared_ptr<Core::IValueSubject<size_t> > observeAudioQueueMax() const;
-            std::shared_ptr<Core::IValueSubject<size_t> > observeVideoQueueCount() const;
-            std::shared_ptr<Core::IValueSubject<size_t> > observeAudioQueueCount() const;
-            std::shared_ptr<Core::IValueSubject<size_t> > observeALQueueCount() const;
-
-            void reload();
-            void setLayer(size_t);
-            void nextLayer();
-            void prevLayer();
             void setSpeed(const Core::Time::Speed&);
             void setPlayEveryFrame(bool);
             void setCurrentTime(Core::Time::Timestamp);
@@ -114,10 +126,43 @@ namespace djv
             void setOutPoint(Core::Time::Timestamp);
             void resetInPoint();
             void resetOutPoint();
+
+            ///@}
+
+            //! \name Audio
+            ///@{
+
+            std::shared_ptr<Core::IValueSubject<float> > observeVolume() const;
+            std::shared_ptr<Core::IValueSubject<bool> > observeMute() const;
+
             void setVolume(float);
             void setMute(bool);
+
+            ///@}
+
+            //! \name Cache
+            ///@{
+
+            std::shared_ptr<Core::IValueSubject<bool> > observeHasCache() const;
+            std::shared_ptr<Core::IValueSubject<bool> > observeCacheEnabled() const;
+            std::shared_ptr<Core::IValueSubject<float> > observeCacheMax() const;
+            std::shared_ptr<Core::IListSubject<Core::Time::TimestampRange> > observeCachedTimestamps() const;
+
             void setCacheEnabled(bool);
             void setCacheMax(float);
+
+            ///@}
+
+            //! \name Debugging
+            ///@{
+
+            std::shared_ptr<Core::IValueSubject<size_t> > observeVideoQueueMax() const;
+            std::shared_ptr<Core::IValueSubject<size_t> > observeAudioQueueMax() const;
+            std::shared_ptr<Core::IValueSubject<size_t> > observeVideoQueueCount() const;
+            std::shared_ptr<Core::IValueSubject<size_t> > observeAudioQueueCount() const;
+            std::shared_ptr<Core::IValueSubject<size_t> > observeALQueueCount() const;
+
+            ///@}
 
         private:
             DJV_PRIVATE();
