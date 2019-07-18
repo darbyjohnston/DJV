@@ -1,878 +1,878 @@
 [
     {
+        "id": "Up", 
         "source": "Up", 
-        "text": "\u5411\u4e0a", 
         "description": "", 
-        "id": "Up"
+        "text": "\u5411\u4e0a"
     }, 
     {
+        "id": "Up Tooltip", 
         "source": "Up Tooltip", 
-        "text": "Up Tooltip", 
         "description": "", 
-        "id": "Up Tooltip"
+        "text": "Up Tooltip"
     }, 
     {
+        "id": "Current Directory", 
         "source": "Current Directory", 
-        "text": "\u5f53\u524d\u76ee\u5f55", 
         "description": "", 
-        "id": "Current Directory"
+        "text": "\u5f53\u524d\u76ee\u5f55"
     }, 
     {
+        "id": "Current Directory Tooltip", 
         "source": "Current Directory Tooltip", 
-        "text": "\u5f53\u524d\u76ee\u5f55\u5de5\u5177\u63d0\u793a", 
         "description": "", 
-        "id": "Current Directory Tooltip"
+        "text": "\u5f53\u524d\u76ee\u5f55\u5de5\u5177\u63d0\u793a"
     }, 
     {
+        "id": "Back", 
         "source": "Back", 
-        "text": "\u80cc\u90e8", 
         "description": "", 
-        "id": "Back"
+        "text": "\u80cc\u90e8"
     }, 
     {
+        "id": "Back Tooltip", 
         "source": "Back Tooltip", 
-        "text": "\u8fd4\u56de\u5de5\u5177\u63d0\u793a", 
         "description": "", 
-        "id": "Back Tooltip"
+        "text": "\u8fd4\u56de\u5de5\u5177\u63d0\u793a"
     }, 
     {
+        "id": "Forward", 
         "source": "Forward", 
-        "text": "\u5411\u524d", 
         "description": "", 
-        "id": "Forward"
+        "text": "\u5411\u524d"
     }, 
     {
+        "id": "Forward Tooltip", 
         "source": "Forward Tooltip", 
-        "text": "\u8f6c\u53d1\u5de5\u5177\u63d0\u793a", 
         "description": "", 
-        "id": "Forward Tooltip"
+        "text": "\u8f6c\u53d1\u5de5\u5177\u63d0\u793a"
     }, 
     {
+        "id": "Large Thumbnails", 
         "source": "Large Thumbnails", 
-        "text": "\u5927\u7f29\u7565\u56fe", 
         "description": "", 
-        "id": "Large Thumbnails"
+        "text": "\u5927\u7f29\u7565\u56fe"
     }, 
     {
+        "id": "Large Thumbnails Tooltip", 
         "source": "Large Thumbnails Tooltip", 
-        "text": "\u5927\u7f29\u7565\u56fe\u5de5\u5177\u63d0\u793a", 
         "description": "", 
-        "id": "Large Thumbnails Tooltip"
+        "text": "\u5927\u7f29\u7565\u56fe\u5de5\u5177\u63d0\u793a"
     }, 
     {
+        "id": "Small Thumbnails", 
         "source": "Small Thumbnails", 
-        "text": "\u5c0f\u7f29\u7565\u56fe", 
         "description": "", 
-        "id": "Small Thumbnails"
+        "text": "\u5c0f\u7f29\u7565\u56fe"
     }, 
     {
+        "id": "Small Thumbnails Tooltip", 
         "source": "Small Thumbnails Tooltip", 
-        "text": "\u5c0f\u7f29\u7565\u56fe\u5de5\u5177\u63d0\u793a", 
         "description": "", 
-        "id": "Small Thumbnails Tooltip"
+        "text": "\u5c0f\u7f29\u7565\u56fe\u5de5\u5177\u63d0\u793a"
     }, 
     {
+        "id": "List View", 
         "source": "List View", 
-        "text": "\u5217\u8868\u663e\u793a", 
         "description": "", 
-        "id": "List View"
+        "text": "\u5217\u8868\u663e\u793a"
     }, 
     {
+        "id": "List View Tooltip", 
         "source": "List View Tooltip", 
-        "text": "\u5217\u8868\u89c6\u56fe\u5de5\u5177\u63d0\u793a", 
         "description": "", 
-        "id": "List View Tooltip"
+        "text": "\u5217\u8868\u89c6\u56fe\u5de5\u5177\u63d0\u793a"
     }, 
     {
+        "id": "File Sequences", 
         "source": "File Sequences", 
-        "text": "\u6587\u4ef6\u5e8f\u5217", 
         "description": "", 
-        "id": "File Sequences"
+        "text": "\u6587\u4ef6\u5e8f\u5217"
     }, 
     {
+        "id": "File Sequences Tooltip", 
         "source": "File Sequences Tooltip", 
-        "text": "\u6587\u4ef6\u5e8f\u5217\u5de5\u5177\u63d0\u793a", 
         "description": "", 
-        "id": "File Sequences Tooltip"
+        "text": "\u6587\u4ef6\u5e8f\u5217\u5de5\u5177\u63d0\u793a"
     }, 
     {
+        "id": "Show Hidden", 
         "source": "Show Hidden", 
-        "text": "\u663e\u793a\u9690\u85cf", 
         "description": "", 
-        "id": "Show Hidden"
+        "text": "\u663e\u793a\u9690\u85cf"
     }, 
     {
+        "id": "Show Hidden Tooltip", 
         "source": "Show Hidden Tooltip", 
-        "text": "\u663e\u793a\u9690\u85cf\u7684\u5de5\u5177\u63d0\u793a", 
         "description": "", 
-        "id": "Show Hidden Tooltip"
+        "text": "\u663e\u793a\u9690\u85cf\u7684\u5de5\u5177\u63d0\u793a"
     }, 
     {
+        "id": "Directory", 
         "source": "Directory", 
-        "text": "\u76ee\u5f55", 
         "description": "", 
-        "id": "Directory"
+        "text": "\u76ee\u5f55"
     }, 
     {
+        "id": "View", 
         "source": "View", 
-        "text": "\u89c6\u56fe", 
         "description": "", 
-        "id": "View"
+        "text": "\u89c6\u56fe"
     }, 
     {
+        "id": "Sort", 
         "source": "Sort", 
-        "text": "\u5206\u7c7b", 
         "description": "", 
-        "id": "Sort"
+        "text": "\u5206\u7c7b"
     }, 
     {
+        "id": "Bookmarks", 
         "source": "Bookmarks", 
-        "text": "\u4e66\u7b7e", 
         "description": "", 
-        "id": "Bookmarks"
+        "text": "\u4e66\u7b7e"
     }, 
     {
+        "id": "items", 
         "source": "items", 
-        "text": "\u9879\u76ee", 
         "description": "", 
-        "id": "items"
-    }, 
-    {
-        "source": "History Tooltip", 
-        "text": "\u5386\u53f2\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "History Tooltip"
-    }, 
-    {
-        "source": "Display", 
-        "text": "\u663e\u793a", 
-        "description": "", 
-        "id": "Display"
-    }, 
-    {
-        "source": "Size", 
-        "text": "\u5c3a\u5bf8", 
-        "description": "", 
-        "id": "Size"
-    }, 
-    {
-        "source": "Last modification time", 
-        "text": "\u6700\u540e\u4fee\u6539\u65f6\u95f4", 
-        "description": "", 
-        "id": "Last modification time"
-    }, 
-    {
-        "source": "Video track", 
-        "text": "\u89c6\u9891\u8f68\u9053", 
-        "description": "", 
-        "id": "Video track"
-    }, 
-    {
-        "source": "Type", 
-        "text": "\u7c7b\u578b", 
-        "description": "", 
-        "id": "Type"
-    }, 
-    {
-        "source": "Speed", 
-        "text": "\u901f\u5ea6", 
-        "description": "", 
-        "id": "Speed"
-    }, 
-    {
-        "source": "FPS", 
-        "text": "FPS", 
-        "description": "", 
-        "id": "FPS"
-    }, 
-    {
-        "source": "Duration", 
-        "text": "\u6301\u7eed\u65f6\u95f4", 
-        "description": "", 
-        "id": "Duration"
-    }, 
-    {
-        "source": "Audio track", 
-        "text": "\u97f3\u8f68", 
-        "description": "", 
-        "id": "Audio track"
-    }, 
-    {
-        "source": "Channels", 
-        "text": "\u901a\u9053", 
-        "description": "", 
-        "id": "Channels"
-    }, 
-    {
-        "source": "Sample rate", 
-        "text": "\u91c7\u6837\u7387", 
-        "description": "", 
-        "id": "Sample rate"
-    }, 
-    {
-        "source": "kHz", 
-        "text": "\u5343\u8d6b", 
-        "description": "", 
-        "id": "kHz"
-    }, 
-    {
-        "source": "JPEG", 
-        "text": "JPEG", 
-        "description": "", 
-        "id": "JPEG"
-    }, 
-    {
-        "source": "I/O", 
-        "text": "I / O.", 
-        "description": "", 
-        "id": "I/O"
-    }, 
-    {
-        "source": "Compression Quality", 
-        "text": "\u538b\u7f29\u8d28\u91cf", 
-        "description": "", 
-        "id": "Compression Quality"
-    }, 
-    {
-        "source": "Language", 
-        "text": "\u8bed\u8a00", 
-        "description": "", 
-        "id": "Language"
-    }, 
-    {
-        "source": "General", 
-        "text": "\u4e00\u822c", 
-        "description": "", 
-        "id": "General"
-    }, 
-    {
-        "source": "PPM", 
-        "text": "PPM", 
-        "description": "", 
-        "id": "PPM"
-    }, 
-    {
-        "source": "Data Type", 
-        "text": "\u6570\u636e\u7c7b\u578b", 
-        "description": "", 
-        "id": "Data Type"
-    }, 
-    {
-        "source": "Palette", 
-        "text": "\u8c03\u8272\u677f", 
-        "description": "", 
-        "id": "Palette"
-    }, 
-    {
-        "source": "Display Size", 
-        "description": "", 
-        "id": "Display Size", 
-        "text": "\u663e\u793a\u5c4f\u5c3a\u5bf8"
-    }, 
-    {
-        "source": "TIFF", 
-        "description": "", 
-        "id": "TIFF", 
-        "text": "TIFF"
-    }, 
-    {
-        "source": "File Compression", 
-        "description": "", 
-        "id": "File Compression", 
-        "text": "\u6587\u4ef6\u538b\u7f29"
-    }, 
-    {
-        "source": "Go back a directory", 
-        "description": "", 
-        "id": "File browser back tooltip", 
-        "text": "\u56de\u5230\u76ee\u5f55"
-    }, 
-    {
-        "source": "Go forward a directory", 
-        "description": "", 
-        "id": "File browser forward tooltip", 
-        "text": "\u524d\u8fdb\u4e00\u4e2a\u76ee\u5f55"
-    }, 
-    {
-        "source": "Go up a directory", 
-        "description": "", 
-        "id": "File browser up tooltip", 
-        "text": "\u4e0a\u4e00\u4e2a\u76ee\u5f55"
-    }, 
-    {
-        "source": "File browser current directory tooltip", 
-        "description": "", 
-        "id": "File browser current directory tooltip", 
-        "text": "\u6587\u4ef6\u6d4f\u89c8\u5668\u5f53\u524d\u76ee\u5f55\u5de5\u5177\u63d0\u793a"
-    }, 
-    {
-        "source": "Edit Path", 
-        "description": "", 
-        "id": "Edit Path", 
-        "text": "\u7f16\u8f91\u8def\u5f84"
-    }, 
-    {
-        "source": "File browser edit path tooltip", 
-        "description": "", 
-        "id": "File browser edit path tooltip", 
-        "text": "\u6587\u4ef6\u6d4f\u89c8\u5668\u7f16\u8f91\u8def\u5f84\u5de5\u5177\u63d0\u793a"
-    }, 
-    {
-        "source": "Add To Shortcuts", 
-        "description": "", 
-        "id": "Add To Shortcuts", 
-        "text": "\u6dfb\u52a0\u5230\u5feb\u6377\u65b9\u5f0f"
-    }, 
-    {
-        "source": "File browser add to shortcuts tooltip", 
-        "description": "", 
-        "id": "File browser add to shortcuts tooltip", 
-        "text": "\u6587\u4ef6\u6d4f\u89c8\u5668\u6dfb\u52a0\u5230\u5feb\u6377\u65b9\u5f0f\u5de5\u5177\u63d0\u793a"
-    }, 
-    {
-        "source": "Tile View", 
-        "description": "", 
-        "id": "Tile View", 
-        "text": "\u5e73\u94fa\u89c6\u56fe"
-    }, 
-    {
-        "source": "Show directory items as tiles", 
-        "description": "", 
-        "id": "File browser tile view tooltip", 
-        "text": "\u5c06\u76ee\u5f55\u9879\u663e\u793a\u4e3a\u5207\u7247"
-    }, 
-    {
-        "source": "Show directory items as a list", 
-        "description": "", 
-        "id": "File browser list view tooltip", 
-        "text": "\u5c06\u76ee\u5f55\u9879\u663e\u793a\u4e3a\u5217\u8868"
-    }, 
-    {
-        "source": "Increase Thumbnail Size", 
-        "description": "", 
-        "id": "Increase Thumbnail Size", 
-        "text": "\u589e\u52a0\u7f29\u7565\u56fe\u5927\u5c0f"
-    }, 
-    {
-        "source": "Increase the size of the thumbnails", 
-        "description": "", 
-        "id": "File browser increase thumbnail size tooltip", 
-        "text": "\u589e\u52a0\u7f29\u7565\u56fe\u7684\u5927\u5c0f"
-    }, 
-    {
-        "source": "Decrease Thumbnail Size", 
-        "description": "", 
-        "id": "Decrease Thumbnail Size", 
-        "text": "\u51cf\u5c11\u7f29\u7565\u56fe\u5927\u5c0f"
-    }, 
-    {
-        "source": "Decrease the size of the thumbnails", 
-        "description": "", 
-        "id": "File browser decrease thumbnail size tooltip", 
-        "text": "\u51cf\u5c0f\u7f29\u7565\u56fe\u7684\u5927\u5c0f"
-    }, 
-    {
-        "source": "Enable File Sequences", 
-        "description": "", 
-        "id": "Enable File Sequences", 
-        "text": "\u542f\u7528\u6587\u4ef6\u5e8f\u5217"
-    }, 
-    {
-        "source": "Show sequences of files as a single item", 
-        "description": "", 
-        "id": "File browser file sequences tooltip", 
-        "text": "\u5c06\u6587\u4ef6\u5e8f\u5217\u663e\u793a\u4e3a\u5355\u4e2a\u9879\u76ee"
-    }, 
-    {
-        "source": "Show Hidden Files", 
-        "description": "", 
-        "id": "Show Hidden Files", 
-        "text": "\u663e\u793a\u9690\u85cf\u6587\u4ef6"
-    }, 
-    {
-        "source": "Show directory items that begin with a '.'", 
-        "description": "", 
-        "id": "File browser show hidden tooltip", 
-        "text": "\u663e\u793a\u4ee5\u201c\u3002\u201d\u5f00\u5934\u7684\u76ee\u5f55\u9879"
-    }, 
-    {
-        "source": "Sort By Name", 
-        "description": "", 
-        "id": "Sort By Name", 
-        "text": "\u6309\u540d\u79f0\u5206\u7c7b"
-    }, 
-    {
-        "source": "Sort directory items by name", 
-        "description": "", 
-        "id": "File browser sort by name tooltip", 
-        "text": "\u6309\u540d\u79f0\u5bf9\u76ee\u5f55\u9879\u8fdb\u884c\u6392\u5e8f"
-    }, 
-    {
-        "source": "Sort By Size", 
-        "description": "", 
-        "id": "Sort By Size", 
-        "text": "\u6309\u5927\u5c0f\u6392\u5e8f"
-    }, 
-    {
-        "source": "Sort directory items by size", 
-        "description": "", 
-        "id": "File browser sort by size tooltip", 
-        "text": "\u6309\u5927\u5c0f\u5bf9\u76ee\u5f55\u9879\u8fdb\u884c\u6392\u5e8f"
-    }, 
-    {
-        "source": "Sort By Time", 
-        "description": "", 
-        "id": "Sort By Time", 
-        "text": "\u6309\u65f6\u95f4\u6392\u5e8f"
-    }, 
-    {
-        "source": "Sort directory items by time", 
-        "description": "", 
-        "id": "File browser sort by time tooltip", 
-        "text": "\u6309\u65f6\u95f4\u6392\u5e8f\u76ee\u5f55\u9879"
-    }, 
-    {
-        "source": "Reverse Sort", 
-        "description": "", 
-        "id": "Reverse Sort", 
-        "text": "\u53cd\u5411\u6392\u5e8f"
-    }, 
-    {
-        "source": "Reverse the direction of sorting", 
-        "description": "", 
-        "id": "File browser reverse sort tooltip", 
-        "text": "\u98a0\u5012\u6392\u5e8f\u65b9\u5411"
-    }, 
-    {
-        "source": "Sort Directories First", 
-        "description": "", 
-        "id": "Sort Directories First", 
-        "text": "\u6392\u5e8f\u76ee\u5f55\u9996\u5148"
-    }, 
-    {
-        "source": "Show directories before files", 
-        "description": "", 
-        "id": "File browser sort directories first tooltip", 
-        "text": "\u5728\u6587\u4ef6\u4e4b\u524d\u663e\u793a\u76ee\u5f55"
-    }, 
-    {
-        "source": "Shortcuts", 
-        "description": "", 
-        "id": "Shortcuts", 
-        "text": "\u5feb\u6377\u952e"
-    }, 
-    {
-        "source": "Drives", 
-        "description": "", 
-        "id": "Drives", 
-        "text": "\u9a71\u52a8\u5668"
-    }, 
-    {
-        "source": "Recent", 
-        "description": "", 
-        "id": "Recent", 
-        "text": "\u6700\u8fd1"
-    }, 
-    {
-        "source": "Name", 
-        "description": "", 
-        "id": "File browser name column", 
-        "text": "\u540d\u79f0"
-    }, 
-    {
-        "source": "Size", 
-        "description": "", 
-        "id": "File browse size column", 
-        "text": "\u5c3a\u5bf8"
-    }, 
-    {
-        "source": "Time", 
-        "description": "", 
-        "id": "File browser time column", 
-        "text": "\u65f6\u95f4"
-    }, 
-    {
-        "source": "Search for items in the directory", 
-        "description": "", 
-        "id": "File browser search tooltip", 
-        "text": "\u641c\u7d22\u76ee\u5f55\u4e2d\u7684\u9879\u76ee"
-    }, 
-    {
-        "source": "Thumbnail Size", 
-        "description": "", 
-        "id": "Thumbnail Size", 
-        "text": "\u7f29\u7565\u56fe\u5927\u5c0f"
-    }, 
-    {
-        "source": "File browser thumbnail size tooltip", 
-        "description": "", 
-        "id": "File browser thumbnail size tooltip", 
-        "text": "\u6587\u4ef6\u6d4f\u89c8\u5668\u7f29\u7565\u56fe\u5927\u5c0f\u5de5\u5177\u63d0\u793a"
-    }, 
-    {
-        "source": "Items", 
-        "description": "", 
-        "id": "Items", 
         "text": "\u9879\u76ee"
     }, 
     {
-        "source": "Open the file browser history", 
+        "id": "History Tooltip", 
+        "source": "History Tooltip", 
         "description": "", 
-        "id": "File browser history tooltip", 
-        "text": "\u6253\u5f00\u6587\u4ef6\u6d4f\u89c8\u5668\u5386\u53f2\u8bb0\u5f55"
+        "text": "\u5386\u53f2\u5de5\u5177\u63d0\u793a"
     }, 
     {
-        "source": "Set the channels and data type of the color", 
-        "text": "\u8bbe\u7f6e\u989c\u8272\u7684\u901a\u9053\u548c\u6570\u636e\u7c7b\u578b", 
+        "id": "Display", 
+        "source": "Display", 
         "description": "", 
-        "id": "Color type widget tooltip"
+        "text": "\u663e\u793a"
     }, 
     {
-        "source": "L", 
-        "text": "\u8be5", 
+        "id": "Size", 
+        "source": "Size", 
         "description": "", 
-        "id": "L"
+        "text": "\u5c3a\u5bf8"
     }, 
     {
-        "source": "Set the luminance value", 
-        "text": "\u8bbe\u7f6e\u4eae\u5ea6\u503c", 
+        "id": "Last modification time", 
+        "source": "Last modification time", 
         "description": "", 
-        "id": "RGB color sliders luminance tooltip"
+        "text": "\u6700\u540e\u4fee\u6539\u65f6\u95f4"
     }, 
     {
-        "source": "A", 
-        "text": "\u4e00\u4e2a", 
+        "id": "Video track", 
+        "source": "Video track", 
         "description": "", 
-        "id": "A"
+        "text": "\u89c6\u9891\u8f68\u9053"
     }, 
     {
-        "source": "Set the alpha value", 
-        "text": "\u8bbe\u7f6ealpha\u503c", 
+        "id": "Type", 
+        "source": "Type", 
         "description": "", 
-        "id": "RGB color sliders alpha tooltip"
+        "text": "\u7c7b\u578b"
     }, 
     {
-        "source": "R", 
-        "text": "[R", 
+        "id": "Speed", 
+        "source": "Speed", 
         "description": "", 
-        "id": "R"
+        "text": "\u901f\u5ea6"
     }, 
     {
-        "source": "G", 
-        "text": "G", 
+        "id": "FPS", 
+        "source": "FPS", 
         "description": "", 
-        "id": "G"
+        "text": "FPS"
     }, 
     {
-        "source": "B", 
-        "text": "\u4e59", 
+        "id": "Duration", 
+        "source": "Duration", 
         "description": "", 
-        "id": "B"
+        "text": "\u6301\u7eed\u65f6\u95f4"
     }, 
     {
-        "source": "Set the red value", 
-        "text": "\u8bbe\u7f6e\u7ea2\u8272\u503c", 
+        "id": "Audio track", 
+        "source": "Audio track", 
         "description": "", 
-        "id": "RGB color sliders red tooltip"
+        "text": "\u97f3\u8f68"
     }, 
     {
-        "source": "Set the green value", 
-        "text": "\u8bbe\u7f6e\u7eff\u8272\u503c", 
+        "id": "Channels", 
+        "source": "Channels", 
         "description": "", 
-        "id": "RGB color sliders green tooltip"
+        "text": "\u901a\u9053"
     }, 
     {
-        "source": "Set the blue value", 
-        "text": "\u8bbe\u7f6e\u84dd\u8272\u503c", 
+        "id": "Sample rate", 
+        "source": "Sample rate", 
         "description": "", 
-        "id": "RGB color sliders blue tooltip"
+        "text": "\u91c7\u6837\u7387"
     }, 
     {
-        "source": "V", 
-        "text": "V", 
+        "id": "kHz", 
+        "source": "kHz", 
         "description": "", 
-        "id": "V"
+        "text": "\u5343\u8d6b"
     }, 
     {
-        "source": "Set the value", 
-        "text": "\u8bbe\u7f6e\u503c", 
+        "id": "JPEG", 
+        "source": "JPEG", 
         "description": "", 
-        "id": "HSV color sliders value tooltip"
+        "text": "JPEG"
     }, 
     {
-        "source": "Set the alpha value", 
-        "text": "\u8bbe\u7f6ealpha\u503c", 
+        "id": "I/O", 
+        "source": "I/O", 
         "description": "", 
-        "id": "HSV color sliders alpha tooltip"
+        "text": "I / O."
     }, 
     {
-        "source": "H", 
-        "text": "H", 
+        "id": "Compression Quality", 
+        "source": "Compression Quality", 
         "description": "", 
-        "id": "H"
+        "text": "\u538b\u7f29\u8d28\u91cf"
     }, 
     {
-        "source": "S", 
-        "text": "\u5c0f\u53f7", 
+        "id": "Language", 
+        "source": "Language", 
         "description": "", 
-        "id": "S"
+        "text": "\u8bed\u8a00"
     }, 
     {
-        "source": "Set the hue", 
-        "text": "\u8bbe\u7f6e\u8272\u8c03", 
+        "id": "General", 
+        "source": "General", 
         "description": "", 
-        "id": "HSV color sliders hue tooltip"
+        "text": "\u4e00\u822c"
     }, 
     {
-        "source": "Set the saturation", 
-        "text": "\u8bbe\u7f6e\u9971\u548c\u5ea6", 
+        "id": "PPM", 
+        "source": "PPM", 
         "description": "", 
-        "id": "HSV color sliders saturation tooltip"
+        "text": "PPM"
     }, 
     {
-        "source": "Compression quality:", 
-        "text": "\u538b\u7f29\u8d28\u91cf\uff1a", 
+        "id": "Data Type", 
+        "source": "Data Type", 
         "description": "", 
-        "id": "Compression quality:"
-    }, 
-    {
-        "source": "Language:", 
-        "text": "\u8bed\u8a00\uff1a", 
-        "description": "", 
-        "id": "Language:"
-    }, 
-    {
-        "source": "Min", 
-        "text": "\u6211", 
-        "description": "", 
-        "id": "Min"
-    }, 
-    {
-        "source": "Max", 
-        "text": "\u9a6c\u514b\u65af", 
-        "description": "", 
-        "id": "Max"
-    }, 
-    {
-        "source": "Value", 
-        "text": "\u503c", 
-        "description": "", 
-        "id": "Value"
-    }, 
-    {
-        "source": "Data type:", 
-        "text": "\u6570\u636e\u7c7b\u578b\uff1a", 
-        "description": "", 
-        "id": "Data type:"
-    }, 
-    {
-        "source": "File compression:", 
-        "text": "\u6587\u4ef6\u538b\u7f29\uff1a", 
-        "description": "", 
-        "id": "File compression:"
-    }, 
-    {
-        "source": "Time", 
-        "text": "\u65f6\u95f4", 
-        "description": "", 
-        "id": "Time"
-    }, 
-    {
-        "source": "Units:", 
-        "text": "\u5355\u4f4d\uff1a", 
-        "description": "", 
-        "id": "Units:"
-    }, 
-    {
-        "id": "Units", 
-        "source": "Units", 
-        "description": "", 
-        "text": "\u5355\u4f4d"
-    }, 
-    {
-        "id": "Tooltips", 
-        "source": "Tooltips", 
-        "description": "", 
-        "text": "\u63d0\u793a"
-    }, 
-    {
-        "id": "Enable tooltips", 
-        "source": "Enable tooltips", 
-        "description": "", 
-        "text": "\u542f\u7528\u5de5\u5177\u63d0\u793a"
-    }, 
-    {
-        "source": "Shortcuts tooltip", 
-        "text": "\u5feb\u6377\u65b9\u5f0f\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Shortcuts tooltip"
-    }, 
-    {
-        "source": "Sort tooltip", 
-        "text": "\u6392\u5e8f\u5de5\u5177\u63d0\u793a", 
-        "description": "", 
-        "id": "Sort tooltip"
-    }, 
-    {
-        "source": "Open the file browser settings", 
-        "text": "\u6253\u5f00\u6587\u4ef6\u6d4f\u89c8\u5668\u8bbe\u7f6e", 
-        "description": "", 
-        "id": "File browser settings tooltip"
-    }, 
-    {
-        "source": "File Browser", 
-        "text": "\u6587\u4ef6\u6d4f\u89c8\u5668", 
-        "description": "", 
-        "id": "File Browser"
-    }, 
-    {
-        "source": "Close", 
-        "description": "", 
-        "id": "Close", 
-        "text": "\u5173"
-    }, 
-    {
-        "source": "Data type", 
-        "description": "", 
-        "id": "Data type", 
         "text": "\u6570\u636e\u7c7b\u578b"
     }, 
     {
-        "id": "Current", 
-        "source": "Current", 
+        "id": "Palette", 
+        "source": "Palette", 
         "description": "", 
-        "text": "\u5f53\u524d"
+        "text": "\u8c03\u8272\u677f"
     }, 
     {
-        "source": "Cineon", 
-        "text": "\u7684Cineon", 
+        "source": "Display Size", 
+        "text": "\u663e\u793a\u5c4f\u5c3a\u5bf8", 
         "description": "", 
-        "id": "Cineon"
+        "id": "Display Size"
     }, 
     {
-        "source": "Color space", 
-        "text": "\u8272\u5f69\u7a7a\u95f4", 
+        "source": "TIFF", 
+        "text": "TIFF", 
         "description": "", 
-        "id": "Color space"
+        "id": "TIFF"
     }, 
     {
-        "source": "Color Space", 
-        "text": "\u8272\u5f69\u7a7a\u95f4", 
+        "source": "File Compression", 
+        "text": "\u6587\u4ef6\u538b\u7f29", 
         "description": "", 
-        "id": "Color Space"
+        "id": "File Compression"
     }, 
     {
-        "source": "Input", 
-        "text": "\u8f93\u5165", 
+        "source": "Go back a directory", 
+        "text": "\u56de\u5230\u76ee\u5f55", 
         "description": "", 
-        "id": "Input"
+        "id": "File browser back tooltip"
     }, 
     {
-        "source": "DPX", 
-        "text": "DPX", 
+        "source": "Go forward a directory", 
+        "text": "\u524d\u8fdb\u4e00\u4e2a\u76ee\u5f55", 
         "description": "", 
-        "id": "DPX"
+        "id": "File browser forward tooltip"
+    }, 
+    {
+        "source": "Go up a directory", 
+        "text": "\u4e0a\u4e00\u4e2a\u76ee\u5f55", 
+        "description": "", 
+        "id": "File browser up tooltip"
+    }, 
+    {
+        "source": "File browser current directory tooltip", 
+        "text": "\u6587\u4ef6\u6d4f\u89c8\u5668\u5f53\u524d\u76ee\u5f55\u5de5\u5177\u63d0\u793a", 
+        "description": "", 
+        "id": "File browser current directory tooltip"
+    }, 
+    {
+        "source": "Edit Path", 
+        "text": "\u7f16\u8f91\u8def\u5f84", 
+        "description": "", 
+        "id": "Edit Path"
+    }, 
+    {
+        "source": "File browser edit path tooltip", 
+        "text": "\u6587\u4ef6\u6d4f\u89c8\u5668\u7f16\u8f91\u8def\u5f84\u5de5\u5177\u63d0\u793a", 
+        "description": "", 
+        "id": "File browser edit path tooltip"
+    }, 
+    {
+        "source": "Add To Shortcuts", 
+        "text": "\u6dfb\u52a0\u5230\u5feb\u6377\u65b9\u5f0f", 
+        "description": "", 
+        "id": "Add To Shortcuts"
+    }, 
+    {
+        "source": "File browser add to shortcuts tooltip", 
+        "text": "\u6587\u4ef6\u6d4f\u89c8\u5668\u6dfb\u52a0\u5230\u5feb\u6377\u65b9\u5f0f\u5de5\u5177\u63d0\u793a", 
+        "description": "", 
+        "id": "File browser add to shortcuts tooltip"
+    }, 
+    {
+        "source": "Tile View", 
+        "text": "\u5e73\u94fa\u89c6\u56fe", 
+        "description": "", 
+        "id": "Tile View"
+    }, 
+    {
+        "source": "Show directory items as tiles", 
+        "text": "\u5c06\u76ee\u5f55\u9879\u663e\u793a\u4e3a\u5207\u7247", 
+        "description": "", 
+        "id": "File browser tile view tooltip"
+    }, 
+    {
+        "source": "Show directory items as a list", 
+        "text": "\u5c06\u76ee\u5f55\u9879\u663e\u793a\u4e3a\u5217\u8868", 
+        "description": "", 
+        "id": "File browser list view tooltip"
+    }, 
+    {
+        "source": "Increase Thumbnail Size", 
+        "text": "\u589e\u52a0\u7f29\u7565\u56fe\u5927\u5c0f", 
+        "description": "", 
+        "id": "Increase Thumbnail Size"
+    }, 
+    {
+        "source": "Increase the size of the thumbnails", 
+        "text": "\u589e\u52a0\u7f29\u7565\u56fe\u7684\u5927\u5c0f", 
+        "description": "", 
+        "id": "File browser increase thumbnail size tooltip"
+    }, 
+    {
+        "source": "Decrease Thumbnail Size", 
+        "text": "\u51cf\u5c11\u7f29\u7565\u56fe\u5927\u5c0f", 
+        "description": "", 
+        "id": "Decrease Thumbnail Size"
+    }, 
+    {
+        "source": "Decrease the size of the thumbnails", 
+        "text": "\u51cf\u5c0f\u7f29\u7565\u56fe\u7684\u5927\u5c0f", 
+        "description": "", 
+        "id": "File browser decrease thumbnail size tooltip"
+    }, 
+    {
+        "source": "Enable File Sequences", 
+        "text": "\u542f\u7528\u6587\u4ef6\u5e8f\u5217", 
+        "description": "", 
+        "id": "Enable File Sequences"
+    }, 
+    {
+        "source": "Show sequences of files as a single item", 
+        "text": "\u5c06\u6587\u4ef6\u5e8f\u5217\u663e\u793a\u4e3a\u5355\u4e2a\u9879\u76ee", 
+        "description": "", 
+        "id": "File browser file sequences tooltip"
+    }, 
+    {
+        "source": "Show Hidden Files", 
+        "text": "\u663e\u793a\u9690\u85cf\u6587\u4ef6", 
+        "description": "", 
+        "id": "Show Hidden Files"
+    }, 
+    {
+        "source": "Show directory items that begin with a '.'", 
+        "text": "\u663e\u793a\u4ee5\u201c\u3002\u201d\u5f00\u5934\u7684\u76ee\u5f55\u9879", 
+        "description": "", 
+        "id": "File browser show hidden tooltip"
+    }, 
+    {
+        "source": "Sort By Name", 
+        "text": "\u6309\u540d\u79f0\u5206\u7c7b", 
+        "description": "", 
+        "id": "Sort By Name"
+    }, 
+    {
+        "source": "Sort directory items by name", 
+        "text": "\u6309\u540d\u79f0\u5bf9\u76ee\u5f55\u9879\u8fdb\u884c\u6392\u5e8f", 
+        "description": "", 
+        "id": "File browser sort by name tooltip"
+    }, 
+    {
+        "source": "Sort By Size", 
+        "text": "\u6309\u5927\u5c0f\u6392\u5e8f", 
+        "description": "", 
+        "id": "Sort By Size"
+    }, 
+    {
+        "source": "Sort directory items by size", 
+        "text": "\u6309\u5927\u5c0f\u5bf9\u76ee\u5f55\u9879\u8fdb\u884c\u6392\u5e8f", 
+        "description": "", 
+        "id": "File browser sort by size tooltip"
+    }, 
+    {
+        "source": "Sort By Time", 
+        "text": "\u6309\u65f6\u95f4\u6392\u5e8f", 
+        "description": "", 
+        "id": "Sort By Time"
+    }, 
+    {
+        "source": "Sort directory items by time", 
+        "text": "\u6309\u65f6\u95f4\u6392\u5e8f\u76ee\u5f55\u9879", 
+        "description": "", 
+        "id": "File browser sort by time tooltip"
+    }, 
+    {
+        "source": "Reverse Sort", 
+        "text": "\u53cd\u5411\u6392\u5e8f", 
+        "description": "", 
+        "id": "Reverse Sort"
+    }, 
+    {
+        "source": "Reverse the direction of sorting", 
+        "text": "\u98a0\u5012\u6392\u5e8f\u65b9\u5411", 
+        "description": "", 
+        "id": "File browser reverse sort tooltip"
+    }, 
+    {
+        "source": "Sort Directories First", 
+        "text": "\u6392\u5e8f\u76ee\u5f55\u9996\u5148", 
+        "description": "", 
+        "id": "Sort Directories First"
+    }, 
+    {
+        "source": "Show directories before files", 
+        "text": "\u5728\u6587\u4ef6\u4e4b\u524d\u663e\u793a\u76ee\u5f55", 
+        "description": "", 
+        "id": "File browser sort directories first tooltip"
+    }, 
+    {
+        "source": "Shortcuts", 
+        "text": "\u5feb\u6377\u952e", 
+        "description": "", 
+        "id": "Shortcuts"
+    }, 
+    {
+        "source": "Drives", 
+        "text": "\u9a71\u52a8\u5668", 
+        "description": "", 
+        "id": "Drives"
+    }, 
+    {
+        "source": "Recent", 
+        "text": "\u6700\u8fd1", 
+        "description": "", 
+        "id": "Recent"
     }, 
     {
         "source": "Name", 
         "text": "\u540d\u79f0", 
         "description": "", 
-        "id": "Name"
+        "id": "File browser name column"
     }, 
     {
+        "source": "Size", 
+        "text": "\u5c3a\u5bf8", 
+        "description": "", 
+        "id": "File browse size column"
+    }, 
+    {
+        "source": "Time", 
+        "text": "\u65f6\u95f4", 
+        "description": "", 
+        "id": "File browser time column"
+    }, 
+    {
+        "source": "Search for items in the directory", 
+        "text": "\u641c\u7d22\u76ee\u5f55\u4e2d\u7684\u9879\u76ee", 
+        "description": "", 
+        "id": "File browser search tooltip"
+    }, 
+    {
+        "source": "Thumbnail Size", 
+        "text": "\u7f29\u7565\u56fe\u5927\u5c0f", 
+        "description": "", 
+        "id": "Thumbnail Size"
+    }, 
+    {
+        "source": "File browser thumbnail size tooltip", 
+        "text": "\u6587\u4ef6\u6d4f\u89c8\u5668\u7f29\u7565\u56fe\u5927\u5c0f\u5de5\u5177\u63d0\u793a", 
+        "description": "", 
+        "id": "File browser thumbnail size tooltip"
+    }, 
+    {
+        "source": "Items", 
+        "text": "\u9879\u76ee", 
+        "description": "", 
+        "id": "Items"
+    }, 
+    {
+        "source": "Open the file browser history", 
+        "text": "\u6253\u5f00\u6587\u4ef6\u6d4f\u89c8\u5668\u5386\u53f2\u8bb0\u5f55", 
+        "description": "", 
+        "id": "File browser history tooltip"
+    }, 
+    {
+        "id": "Color type widget tooltip", 
+        "source": "Set the channels and data type of the color", 
+        "description": "", 
+        "text": "\u8bbe\u7f6e\u989c\u8272\u7684\u901a\u9053\u548c\u6570\u636e\u7c7b\u578b"
+    }, 
+    {
+        "id": "L", 
+        "source": "L", 
+        "description": "", 
+        "text": "\u8be5"
+    }, 
+    {
+        "id": "RGB color sliders luminance tooltip", 
+        "source": "Set the luminance value", 
+        "description": "", 
+        "text": "\u8bbe\u7f6e\u4eae\u5ea6\u503c"
+    }, 
+    {
+        "id": "A", 
+        "source": "A", 
+        "description": "", 
+        "text": "\u4e00\u4e2a"
+    }, 
+    {
+        "id": "RGB color sliders alpha tooltip", 
+        "source": "Set the alpha value", 
+        "description": "", 
+        "text": "\u8bbe\u7f6ealpha\u503c"
+    }, 
+    {
+        "id": "R", 
+        "source": "R", 
+        "description": "", 
+        "text": "[R"
+    }, 
+    {
+        "id": "G", 
+        "source": "G", 
+        "description": "", 
+        "text": "G"
+    }, 
+    {
+        "id": "B", 
+        "source": "B", 
+        "description": "", 
+        "text": "\u4e59"
+    }, 
+    {
+        "id": "RGB color sliders red tooltip", 
+        "source": "Set the red value", 
+        "description": "", 
+        "text": "\u8bbe\u7f6e\u7ea2\u8272\u503c"
+    }, 
+    {
+        "id": "RGB color sliders green tooltip", 
+        "source": "Set the green value", 
+        "description": "", 
+        "text": "\u8bbe\u7f6e\u7eff\u8272\u503c"
+    }, 
+    {
+        "id": "RGB color sliders blue tooltip", 
+        "source": "Set the blue value", 
+        "description": "", 
+        "text": "\u8bbe\u7f6e\u84dd\u8272\u503c"
+    }, 
+    {
+        "id": "V", 
+        "source": "V", 
+        "description": "", 
+        "text": "V"
+    }, 
+    {
+        "id": "HSV color sliders value tooltip", 
+        "source": "Set the value", 
+        "description": "", 
+        "text": "\u8bbe\u7f6e\u503c"
+    }, 
+    {
+        "id": "HSV color sliders alpha tooltip", 
+        "source": "Set the alpha value", 
+        "description": "", 
+        "text": "\u8bbe\u7f6ealpha\u503c"
+    }, 
+    {
+        "id": "H", 
+        "source": "H", 
+        "description": "", 
+        "text": "H"
+    }, 
+    {
+        "id": "S", 
+        "source": "S", 
+        "description": "", 
+        "text": "\u5c0f\u53f7"
+    }, 
+    {
+        "id": "HSV color sliders hue tooltip", 
+        "source": "Set the hue", 
+        "description": "", 
+        "text": "\u8bbe\u7f6e\u8272\u8c03"
+    }, 
+    {
+        "id": "HSV color sliders saturation tooltip", 
+        "source": "Set the saturation", 
+        "description": "", 
+        "text": "\u8bbe\u7f6e\u9971\u548c\u5ea6"
+    }, 
+    {
+        "id": "Compression quality:", 
+        "source": "Compression quality:", 
+        "description": "", 
+        "text": "\u538b\u7f29\u8d28\u91cf\uff1a"
+    }, 
+    {
+        "id": "Language:", 
+        "source": "Language:", 
+        "description": "", 
+        "text": "\u8bed\u8a00\uff1a"
+    }, 
+    {
+        "id": "Min", 
+        "source": "Min", 
+        "description": "", 
+        "text": "\u6211"
+    }, 
+    {
+        "id": "Max", 
+        "source": "Max", 
+        "description": "", 
+        "text": "\u9a6c\u514b\u65af"
+    }, 
+    {
+        "id": "Value", 
+        "source": "Value", 
+        "description": "", 
+        "text": "\u503c"
+    }, 
+    {
+        "id": "Data type:", 
+        "source": "Data type:", 
+        "description": "", 
+        "text": "\u6570\u636e\u7c7b\u578b\uff1a"
+    }, 
+    {
+        "id": "File compression:", 
+        "source": "File compression:", 
+        "description": "", 
+        "text": "\u6587\u4ef6\u538b\u7f29\uff1a"
+    }, 
+    {
+        "id": "Time", 
+        "source": "Time", 
+        "description": "", 
+        "text": "\u65f6\u95f4"
+    }, 
+    {
+        "id": "Units:", 
+        "source": "Units:", 
+        "description": "", 
+        "text": "\u5355\u4f4d\uff1a"
+    }, 
+    {
+        "source": "Units", 
+        "text": "\u5355\u4f4d", 
+        "id": "Units", 
+        "description": ""
+    }, 
+    {
+        "source": "Tooltips", 
+        "text": "\u63d0\u793a", 
+        "id": "Tooltips", 
+        "description": ""
+    }, 
+    {
+        "source": "Enable tooltips", 
+        "text": "\u542f\u7528\u5de5\u5177\u63d0\u793a", 
+        "id": "Enable tooltips", 
+        "description": ""
+    }, 
+    {
+        "id": "Shortcuts tooltip", 
+        "source": "Shortcuts tooltip", 
+        "description": "", 
+        "text": "\u5feb\u6377\u65b9\u5f0f\u5de5\u5177\u63d0\u793a"
+    }, 
+    {
+        "id": "Sort tooltip", 
+        "source": "Sort tooltip", 
+        "description": "", 
+        "text": "\u6392\u5e8f\u5de5\u5177\u63d0\u793a"
+    }, 
+    {
+        "id": "File browser settings tooltip", 
+        "source": "Open the file browser settings", 
+        "description": "", 
+        "text": "\u6253\u5f00\u6587\u4ef6\u6d4f\u89c8\u5668\u8bbe\u7f6e"
+    }, 
+    {
+        "id": "File Browser", 
+        "source": "File Browser", 
+        "description": "", 
+        "text": "\u6587\u4ef6\u6d4f\u89c8\u5668"
+    }, 
+    {
+        "source": "Close", 
+        "text": "\u5173", 
+        "description": "", 
+        "id": "Close"
+    }, 
+    {
+        "source": "Data type", 
+        "text": "\u6570\u636e\u7c7b\u578b", 
+        "description": "", 
+        "id": "Data type"
+    }, 
+    {
+        "source": "Current", 
+        "text": "\u5f53\u524d", 
+        "id": "Current", 
+        "description": ""
+    }, 
+    {
+        "id": "Cineon", 
+        "source": "Cineon", 
+        "description": "", 
+        "text": "\u7684Cineon"
+    }, 
+    {
+        "id": "Color space", 
+        "source": "Color space", 
+        "description": "", 
+        "text": "\u8272\u5f69\u7a7a\u95f4"
+    }, 
+    {
+        "id": "Color Space", 
+        "source": "Color Space", 
+        "description": "", 
+        "text": "\u8272\u5f69\u7a7a\u95f4"
+    }, 
+    {
+        "id": "Input", 
+        "source": "Input", 
+        "description": "", 
+        "text": "\u8f93\u5165"
+    }, 
+    {
+        "id": "DPX", 
+        "source": "DPX", 
+        "description": "", 
+        "text": "DPX"
+    }, 
+    {
+        "id": "Name", 
+        "source": "Name", 
+        "description": "", 
+        "text": "\u540d\u79f0"
+    }, 
+    {
+        "id": "OpenEXR", 
         "source": "OpenEXR", 
-        "text": "\u7684OpenEXR", 
         "description": "", 
-        "id": "OpenEXR"
+        "text": "\u7684OpenEXR"
     }, 
     {
+        "id": "Thread count", 
         "source": "Thread count", 
-        "text": "\u7ebf\u7a0b\u6570", 
         "description": "", 
-        "id": "Thread count"
+        "text": "\u7ebf\u7a0b\u6570"
     }, 
     {
+        "id": "Channel grouping", 
         "source": "Channel grouping", 
-        "text": "\u9891\u9053\u5206\u7ec4", 
         "description": "", 
-        "id": "Channel grouping"
+        "text": "\u9891\u9053\u5206\u7ec4"
     }, 
     {
+        "id": "File compression", 
         "source": "File compression", 
-        "text": "\u6587\u4ef6\u538b\u7f29", 
         "description": "", 
-        "id": "File compression"
+        "text": "\u6587\u4ef6\u538b\u7f29"
     }, 
     {
+        "id": "DWA compression level", 
         "source": "DWA compression level", 
-        "text": "DWA\u538b\u7f29\u7ea7\u522b", 
         "description": "", 
-        "id": "DWA compression level"
+        "text": "DWA\u538b\u7f29\u7ea7\u522b"
     }, 
     {
+        "id": "Color profile", 
         "source": "Color profile", 
-        "text": "\u989c\u8272\u914d\u7f6e\u6587\u4ef6", 
         "description": "", 
-        "id": "Color profile"
+        "text": "\u989c\u8272\u914d\u7f6e\u6587\u4ef6"
     }, 
     {
         "source": "Default", 
+        "text": "\u9ed8\u8ba4", 
         "description": "", 
-        "id": "Default", 
-        "text": "\u9ed8\u8ba4"
+        "id": "Default"
     }, 
     {
         "source": "Compression quality", 
-        "text": "\u538b\u7f29\u8d28\u91cf", 
+        "description": "", 
         "id": "Compression quality", 
-        "description": ""
+        "text": "\u538b\u7f29\u8d28\u91cf"
     }, 
     {
-        "source": "File browser shortcuts tooltip", 
-        "text": "\u6587\u4ef6\u6d4f\u89c8\u5668\u5feb\u6377\u65b9\u5f0f\u5de5\u5177\u63d0\u793a", 
+        "source": "Show the shortcuts", 
+        "description": "", 
         "id": "File browser shortcuts tooltip", 
-        "description": ""
+        "text": "\u663e\u793a\u5feb\u6377\u65b9\u5f0f"
     }, 
     {
-        "source": "File browser recent paths tooltip", 
-        "text": "\u6587\u4ef6\u6d4f\u89c8\u5668\u6700\u8fd1\u8def\u5f84\u5de5\u5177\u63d0\u793a", 
+        "source": "Show recently used directories", 
+        "description": "", 
         "id": "File browser recent paths tooltip", 
-        "description": ""
+        "text": "\u663e\u793a\u6700\u8fd1\u4f7f\u7528\u7684\u76ee\u5f55"
     }, 
     {
-        "source": "File browser drives tooltip", 
-        "text": "\u6587\u4ef6\u6d4f\u89c8\u5668\u9a71\u52a8\u5668\u5de5\u5177\u63d0\u793a", 
+        "source": "Show the drives", 
+        "description": "", 
         "id": "File browser drives tooltip", 
-        "description": ""
+        "text": "\u663e\u793a\u9a71\u52a8\u5668"
     }, 
     {
         "source": "File browser sort tooltip", 
-        "text": "\u6587\u4ef6\u6d4f\u89c8\u5668\u6392\u5e8f\u5de5\u5177\u63d0\u793a", 
+        "description": "", 
         "id": "File browser sort tooltip", 
-        "description": ""
+        "text": "\u6587\u4ef6\u6d4f\u89c8\u5668\u6392\u5e8f\u5de5\u5177\u63d0\u793a"
     }, 
     {
         "source": "The file", 
-        "text": "\u6587\u4ef6", 
+        "description": "", 
         "id": "The file", 
-        "description": ""
+        "text": "\u6587\u4ef6"
     }, 
     {
         "source": "cannot be read", 
-        "text": "\u65e0\u6cd5\u9605\u8bfb", 
+        "description": "", 
         "id": "cannot be read", 
-        "description": ""
+        "text": "\u65e0\u6cd5\u9605\u8bfb"
     }, 
     {
         "source": "Add the current directory to the list sof shortcuts", 
-        "text": "\u5c06\u5f53\u524d\u76ee\u5f55\u6dfb\u52a0\u5230\u5217\u8868sof\u5feb\u6377\u65b9\u5f0f", 
+        "description": "", 
         "id": "Add shortcut tooltip", 
-        "description": ""
+        "text": "\u5c06\u5f53\u524d\u76ee\u5f55\u6dfb\u52a0\u5230\u5217\u8868sof\u5feb\u6377\u65b9\u5f0f"
     }, 
     {
         "source": "Edit the list of shortcuts", 
-        "text": "\u7f16\u8f91\u5feb\u6377\u65b9\u5f0f\u5217\u8868", 
+        "description": "", 
         "id": "Edit shortcuts tooltip", 
-        "description": ""
+        "text": "\u7f16\u8f91\u5feb\u6377\u65b9\u5f0f\u5217\u8868"
     }
 ]

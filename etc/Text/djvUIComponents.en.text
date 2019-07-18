@@ -15,6 +15,91 @@
         "description": ""
     }, 
     {
+        "text": "DPX", 
+        "id": "DPX", 
+        "description": ""
+    }, 
+    {
+        "text": "TIFF", 
+        "id": "TIFF", 
+        "description": ""
+    }, 
+    {
+        "text": "File compression", 
+        "id": "File compression", 
+        "description": ""
+    }, 
+    {
+        "text": "OpenEXR", 
+        "id": "OpenEXR", 
+        "description": ""
+    }, 
+    {
+        "text": "Thread count", 
+        "id": "Thread count", 
+        "description": ""
+    }, 
+    {
+        "text": "Channel grouping", 
+        "id": "Channel grouping", 
+        "description": ""
+    }, 
+    {
+        "text": "DWA compression level", 
+        "id": "DWA compression level", 
+        "description": ""
+    }, 
+    {
+        "text": "Color profile", 
+        "id": "Color profile", 
+        "description": ""
+    }, 
+    {
+        "text": "PPM", 
+        "id": "PPM", 
+        "description": ""
+    }, 
+    {
+        "text": "Data type", 
+        "id": "Data type", 
+        "description": ""
+    }, 
+    {
+        "text": "Time", 
+        "id": "Time", 
+        "description": ""
+    }, 
+    {
+        "text": "General", 
+        "id": "General", 
+        "description": ""
+    }, 
+    {
+        "text": "Units", 
+        "id": "Units", 
+        "description": ""
+    }, 
+    {
+        "text": "Tooltips", 
+        "id": "Tooltips", 
+        "description": ""
+    }, 
+    {
+        "text": "Enable tooltips", 
+        "id": "Enable tooltips", 
+        "description": ""
+    }, 
+    {
+        "text": "Add the current directory to the list sof shortcuts", 
+        "id": "Add shortcut tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Edit the list of shortcuts", 
+        "id": "Edit shortcuts tooltip", 
+        "description": ""
+    }, 
+    {
         "text": "Set the channels and data type of the color", 
         "id": "Color type widget tooltip", 
         "description": ""
@@ -115,11 +200,6 @@
         "description": ""
     }, 
     {
-        "text": "General", 
-        "id": "General", 
-        "description": ""
-    }, 
-    {
         "text": "Default", 
         "id": "Default", 
         "description": ""
@@ -132,126 +212,6 @@
     {
         "text": "View", 
         "id": "View", 
-        "description": ""
-    }, 
-    {
-        "text": "DPX", 
-        "id": "DPX", 
-        "description": ""
-    }, 
-    {
-        "text": "File Browser", 
-        "id": "File Browser", 
-        "description": ""
-    }, 
-    {
-        "text": "Open the file browser history", 
-        "id": "File browser history tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "JPEG", 
-        "id": "JPEG", 
-        "description": ""
-    }, 
-    {
-        "text": "Compression quality", 
-        "id": "Compression quality", 
-        "description": ""
-    }, 
-    {
-        "text": "Language", 
-        "id": "Language", 
-        "description": ""
-    }, 
-    {
-        "text": "Min", 
-        "id": "Min", 
-        "description": ""
-    }, 
-    {
-        "text": "Max", 
-        "id": "Max", 
-        "description": ""
-    }, 
-    {
-        "text": "Current", 
-        "id": "Current", 
-        "description": ""
-    }, 
-    {
-        "text": "OpenEXR", 
-        "id": "OpenEXR", 
-        "description": ""
-    }, 
-    {
-        "text": "Thread count", 
-        "id": "Thread count", 
-        "description": ""
-    }, 
-    {
-        "text": "Channel grouping", 
-        "id": "Channel grouping", 
-        "description": ""
-    }, 
-    {
-        "text": "File compression", 
-        "id": "File compression", 
-        "description": ""
-    }, 
-    {
-        "text": "DWA compression level", 
-        "id": "DWA compression level", 
-        "description": ""
-    }, 
-    {
-        "text": "Color profile", 
-        "id": "Color profile", 
-        "description": ""
-    }, 
-    {
-        "text": "PPM", 
-        "id": "PPM", 
-        "description": ""
-    }, 
-    {
-        "text": "Data type", 
-        "id": "Data type", 
-        "description": ""
-    }, 
-    {
-        "text": "Palette", 
-        "id": "Palette", 
-        "description": ""
-    }, 
-    {
-        "text": "Size", 
-        "id": "Size", 
-        "description": ""
-    }, 
-    {
-        "text": "TIFF", 
-        "id": "TIFF", 
-        "description": ""
-    }, 
-    {
-        "text": "Time", 
-        "id": "Time", 
-        "description": ""
-    }, 
-    {
-        "text": "Units", 
-        "id": "Units", 
-        "description": ""
-    }, 
-    {
-        "text": "Tooltips", 
-        "id": "Tooltips", 
-        "description": ""
-    }, 
-    {
-        "text": "Enable tooltips", 
-        "id": "Enable tooltips", 
         "description": ""
     }, 
     {
@@ -410,17 +370,17 @@
         "description": ""
     }, 
     {
-        "text": "File browser shortcuts tooltip", 
+        "text": "Show the shortcuts", 
         "id": "File browser shortcuts tooltip", 
         "description": ""
     }, 
     {
-        "text": "File browser recent paths tooltip", 
+        "text": "Show recently used directories", 
         "id": "File browser recent paths tooltip", 
         "description": ""
     }, 
     {
-        "text": "File browser drives tooltip", 
+        "text": "Show the drives", 
         "id": "File browser drives tooltip", 
         "description": ""
     }, 
@@ -445,6 +405,11 @@
         "description": ""
     }, 
     {
+        "text": "File Browser", 
+        "id": "File Browser", 
+        "description": ""
+    }, 
+    {
         "text": "The file", 
         "id": "The file", 
         "description": ""
@@ -452,6 +417,11 @@
     {
         "text": "cannot be read", 
         "id": "cannot be read", 
+        "description": ""
+    }, 
+    {
+        "text": "Size", 
+        "id": "Size", 
         "description": ""
     }, 
     {
@@ -510,13 +480,43 @@
         "description": ""
     }, 
     {
-        "text": "Add the current directory to the list sof shortcuts", 
-        "id": "Add shortcut tooltip", 
+        "text": "Open the file browser history", 
+        "id": "File browser history tooltip", 
         "description": ""
     }, 
     {
-        "text": "Edit the list of shortcuts", 
-        "id": "Edit shortcuts tooltip", 
+        "text": "JPEG", 
+        "id": "JPEG", 
+        "description": ""
+    }, 
+    {
+        "text": "Compression quality", 
+        "id": "Compression quality", 
+        "description": ""
+    }, 
+    {
+        "text": "Language", 
+        "id": "Language", 
+        "description": ""
+    }, 
+    {
+        "text": "Min", 
+        "id": "Min", 
+        "description": ""
+    }, 
+    {
+        "text": "Max", 
+        "id": "Max", 
+        "description": ""
+    }, 
+    {
+        "text": "Current", 
+        "id": "Current", 
+        "description": ""
+    }, 
+    {
+        "text": "Palette", 
+        "id": "Palette", 
         "description": ""
     }
 ]

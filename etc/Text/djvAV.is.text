@@ -1,1040 +1,1040 @@
 [
     {
-        "id": "None", 
         "source": "None", 
-        "description": "", 
-        "text": "Enginn"
+        "text": "Enginn", 
+        "id": "None", 
+        "description": ""
     }, 
     {
-        "id": "Left", 
         "source": "Left", 
-        "description": "", 
-        "text": "Vinstri"
+        "text": "Vinstri", 
+        "id": "Left", 
+        "description": ""
     }, 
     {
-        "id": "Top", 
         "source": "Top", 
-        "description": "", 
-        "text": "Efst"
+        "text": "Efst", 
+        "id": "Top", 
+        "description": ""
     }, 
     {
-        "id": "Right", 
         "source": "Right", 
-        "description": "", 
-        "text": "H\u00e6gri"
+        "text": "H\u00e6gri", 
+        "id": "Right", 
+        "description": ""
     }, 
     {
-        "id": "Bottom", 
         "source": "Bottom", 
-        "description": "", 
-        "text": "Ne\u00f0st"
+        "text": "Ne\u00f0st", 
+        "id": "Bottom", 
+        "description": ""
     }, 
     {
-        "id": "Cannot read", 
         "source": "Cannot read", 
-        "description": "", 
-        "text": "Ekki h\u00e6gt a\u00f0 lesa"
+        "text": "Ekki h\u00e6gt a\u00f0 lesa", 
+        "id": "Cannot read", 
+        "description": ""
     }, 
     {
-        "id": "Cannot write", 
         "source": "Cannot write", 
-        "description": "", 
-        "text": "Get ekki skrifa\u00f0"
+        "text": "Get ekki skrifa\u00f0", 
+        "id": "Cannot write", 
+        "description": ""
     }, 
     {
-        "id": "cannot write", 
         "source": "cannot write", 
-        "description": "", 
-        "text": "getur ekki skrifa\u00f0"
+        "text": "getur ekki skrifa\u00f0", 
+        "id": "cannot write", 
+        "description": ""
     }, 
     {
-        "id": "Unknown", 
         "source": "Unknown", 
-        "description": "", 
-        "text": "\u00d3\u00feekktur"
+        "text": "\u00d3\u00feekktur", 
+        "id": "Unknown", 
+        "description": ""
     }, 
     {
-        "id": "Out of memory", 
         "source": "Out of memory", 
-        "description": "", 
-        "text": "B\u00fainn me\u00f0 minni"
+        "text": "B\u00fainn me\u00f0 minni", 
+        "id": "Out of memory", 
+        "description": ""
     }, 
     {
-        "id": "Invalid value", 
         "source": "Invalid value", 
-        "description": "", 
-        "text": "\u00d3gilt gildi"
+        "text": "\u00d3gilt gildi", 
+        "id": "Invalid value", 
+        "description": ""
     }, 
     {
-        "id": "Invalid enum", 
         "source": "Invalid enum", 
-        "description": "", 
-        "text": "\u00d3gilt enum"
+        "text": "\u00d3gilt enum", 
+        "id": "Invalid enum", 
+        "description": ""
     }, 
     {
-        "id": "U8", 
         "source": "U8", 
-        "description": "", 
-        "text": "U8"
+        "text": "U8", 
+        "id": "U8", 
+        "description": ""
     }, 
     {
-        "id": "S16", 
         "source": "S16", 
-        "description": "", 
-        "text": "S16"
+        "text": "S16", 
+        "id": "S16", 
+        "description": ""
     }, 
     {
-        "id": "S32", 
         "source": "S32", 
-        "description": "", 
-        "text": "S32"
+        "text": "S32", 
+        "id": "S32", 
+        "description": ""
     }, 
     {
-        "id": "F32", 
         "source": "F32", 
-        "description": "", 
-        "text": "F32"
+        "text": "F32", 
+        "id": "F32", 
+        "description": ""
     }, 
     {
-        "id": "Cannot create OpenGL vertex shader.", 
         "source": "Cannot create OpenGL vertex shader.", 
-        "description": "", 
-        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til OpenGL hn\u00fataskyggni."
+        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til OpenGL hn\u00fataskyggni.", 
+        "id": "Cannot create OpenGL vertex shader.", 
+        "description": ""
     }, 
     {
-        "id": "Cannot compile OpenGL vertex shader", 
         "source": "Cannot compile OpenGL vertex shader", 
-        "description": "", 
-        "text": "Ekki er h\u00e6gt a\u00f0 safna saman OpenGL hn\u00fataskyggni"
+        "text": "Ekki er h\u00e6gt a\u00f0 safna saman OpenGL hn\u00fataskyggni", 
+        "id": "Cannot compile OpenGL vertex shader", 
+        "description": ""
     }, 
     {
-        "id": "Cannot create OpenGL fragment shader.", 
         "source": "Cannot create OpenGL fragment shader.", 
-        "description": "", 
-        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til OpenGL fragment shader."
+        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til OpenGL fragment shader.", 
+        "id": "Cannot create OpenGL fragment shader.", 
+        "description": ""
     }, 
     {
-        "id": "Cannot compile OpenGL framgent shader", 
         "source": "Cannot compile OpenGL framgent shader", 
-        "description": "", 
-        "text": "Ekki er h\u00e6gt a\u00f0 safna saman OpenGL framhli\u00f0inni"
+        "text": "Ekki er h\u00e6gt a\u00f0 safna saman OpenGL framhli\u00f0inni", 
+        "id": "Cannot compile OpenGL framgent shader", 
+        "description": ""
     }, 
     {
-        "id": "Cannot link program", 
         "source": "Cannot link program", 
-        "description": "", 
-        "text": "Get ekki tengt forriti\u00f0"
+        "text": "Get ekki tengt forriti\u00f0", 
+        "id": "Cannot link program", 
+        "description": ""
     }, 
     {
-        "id": "cannot read", 
         "source": "cannot read", 
-        "description": "", 
-        "text": "ekki h\u00e6gt a\u00f0 lesa"
+        "text": "ekki h\u00e6gt a\u00f0 lesa", 
+        "id": "cannot read", 
+        "description": ""
     }, 
     {
-        "id": "cannot open", 
         "source": "cannot open", 
+        "text": "Ekki er h\u00e6gt a\u00f0 opna", 
+        "id": "cannot open", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot open OpenAL device.", 
+        "text": "Ekki er h\u00e6gt a\u00f0 opna OpenAL t\u00e6ki.", 
+        "id": "Cannot open OpenAL device.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot create OpenAL context.", 
+        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til OpenAL samhengi.", 
+        "id": "Cannot create OpenAL context.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot make OpenAL context current.", 
+        "text": "Ekki er h\u00e6gt a\u00f0 gera OpenAL samhengi n\u00faverandi.", 
+        "id": "Cannot make OpenAL context current.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot create GLFW window.", 
+        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til GLFW glugga.", 
+        "id": "Cannot create GLFW window.", 
+        "description": ""
+    }, 
+    {
+        "source": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
+        "text": "\u00deessi tappi b\u00fd\u00f0ur upp \u00e1 I / O myndav\u00e9l (Portable Network Graphics).", 
+        "id": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot create shader", 
+        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til shader", 
+        "id": "Cannot create shader", 
+        "description": ""
+    }, 
+    {
+        "source": "Float", 
+        "text": "Flj\u00f3ta", 
+        "id": "Float", 
+        "description": ""
+    }, 
+    {
+        "source": "Double", 
+        "text": "Tv\u00f6falt", 
+        "id": "Double", 
+        "description": ""
+    }, 
+    {
+        "source": "U8 Planar", 
+        "text": "U8 Planar", 
+        "id": "U8 Planar", 
+        "description": ""
+    }, 
+    {
+        "source": "S16 Planar", 
+        "text": "S16 Planar", 
+        "id": "S16 Planar", 
+        "description": ""
+    }, 
+    {
+        "source": "S32 Planar", 
+        "text": "S32 Planar", 
+        "id": "S32 Planar", 
+        "description": ""
+    }, 
+    {
+        "source": "Float Planar", 
+        "text": "Flj\u00f3ta Planar", 
+        "id": "Float Planar", 
+        "description": ""
+    }, 
+    {
+        "source": "Double Planar", 
+        "text": "Double Planar", 
+        "id": "Double Planar", 
+        "description": ""
+    }, 
+    {
+        "source": "This plugin provides FFmpeg image and audio I/O.", 
+        "text": "\u00deessi tappi veitir FFmpeg mynd og hlj\u00f3\u00f0 I / O.", 
+        "id": "This plugin provides FFmpeg image and audio I/O.", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot find any streams in", 
+        "text": "getur ekki fundi\u00f0 neinar l\u00e6kir \u00ed", 
+        "id": "cannot find any streams in", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot find video codec for", 
+        "text": "finnur ekki v\u00edde\u00f3 merkjam\u00e1l fyrir", 
+        "id": "cannot find video codec for", 
+        "description": ""
+    }, 
+    {
+        "source": "unsupported audio format ", 
+        "text": "\u00f3studd hlj\u00f3\u00f0form", 
+        "id": "unsupported audio format ", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot find audio codec for", 
+        "text": "getur ekki fundi\u00f0 hlj\u00f3\u00f0merki fyrir", 
+        "id": "cannot find audio codec for", 
+        "description": ""
+    }, 
+    {
+        "source": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
+        "text": "\u00deessi tappi b\u00fd\u00f0ur upp \u00e1 sameiginlega lj\u00f3smyndagagnr\u00fdnih\u00f3p (JPEG) mynd I / O.", 
+        "id": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot initialize GLFW.", 
+        "text": "Ekki er h\u00e6gt a\u00f0 frumstilla GLFW.", 
+        "id": "Cannot initialize GLFW.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot create OpenGL texture.", 
+        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til OpenGL \u00e1fer\u00f0.", 
+        "id": "Cannot create OpenGL texture.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot create OpenGL frame buffer.", 
+        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til OpenGL ramma bi\u00f0minni.", 
+        "id": "Cannot create OpenGL frame buffer.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot initialize OpenGL frame buffer.", 
+        "text": "Ekki er h\u00e6gt a\u00f0 hefja OpenGL ramma bi\u00f0minni.", 
+        "id": "Cannot initialize OpenGL frame buffer.", 
+        "description": ""
+    }, 
+    {
+        "source": "L U8", 
+        "text": "50 U8", 
+        "id": "L_U8", 
+        "description": ""
+    }, 
+    {
+        "source": "L U16", 
+        "text": "L U16", 
+        "id": "L_U16", 
+        "description": ""
+    }, 
+    {
+        "source": "L U32", 
+        "text": "L U32", 
+        "id": "L_U32", 
+        "description": ""
+    }, 
+    {
+        "source": "L F16", 
+        "text": "L F16", 
+        "id": "L_F16", 
+        "description": ""
+    }, 
+    {
+        "source": "L F32", 
+        "text": "L F32", 
+        "id": "L_F32", 
+        "description": ""
+    }, 
+    {
+        "source": "LA U8", 
+        "text": "The U8", 
+        "id": "LA_U8", 
+        "description": ""
+    }, 
+    {
+        "source": "LA U16", 
+        "text": "THE U16", 
+        "id": "LA_U16", 
+        "description": ""
+    }, 
+    {
+        "source": "LA U32", 
+        "text": "U32", 
+        "id": "LA_U32", 
+        "description": ""
+    }, 
+    {
+        "source": "LA F16", 
+        "text": "F16", 
+        "id": "LA_F16", 
+        "description": ""
+    }, 
+    {
+        "source": "LA F32", 
+        "text": "LA F32", 
+        "id": "LA_F32", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB U8", 
+        "text": "RGB U8", 
+        "id": "RGB_U8", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB U10", 
+        "text": "RGB U10", 
+        "id": "RGB_U10", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB U16", 
+        "text": "RGB U16", 
+        "id": "RGB_U16", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB U32", 
+        "text": "RGB U32", 
+        "id": "RGB_U32", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB F16", 
+        "text": "RGB F16", 
+        "id": "RGB_F16", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB F32", 
+        "text": "RGB F32", 
+        "id": "RGB_F32", 
+        "description": ""
+    }, 
+    {
+        "source": "RGBA U8", 
+        "text": "RGBA U8", 
+        "id": "RGBA_U8", 
+        "description": ""
+    }, 
+    {
+        "source": "RGBA U16", 
+        "text": "RGBA U16", 
+        "id": "RGBA_U16", 
+        "description": ""
+    }, 
+    {
+        "source": "RGBA U32", 
+        "text": "RGBA U32", 
+        "id": "RGBA_U32", 
+        "description": ""
+    }, 
+    {
+        "source": "RGBA F16", 
+        "text": "RGBA F16", 
+        "id": "RGBA_F16", 
+        "description": ""
+    }, 
+    {
+        "source": "RGBA F32", 
+        "text": "RGBA F32", 
+        "id": "RGBA_F32", 
+        "description": ""
+    }, 
+    {
+        "source": "U10", 
+        "text": "U10", 
+        "id": "U10", 
+        "description": ""
+    }, 
+    {
+        "source": "U16", 
+        "text": "U16", 
+        "id": "U16", 
+        "description": ""
+    }, 
+    {
+        "source": "U32", 
+        "text": "U32", 
+        "id": "U32", 
+        "description": ""
+    }, 
+    {
+        "source": "F16", 
+        "text": "F16", 
+        "id": "F16", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot initialize FreeType.", 
+        "text": "Ekki er h\u00e6gt a\u00f0 frumstilla FreeType.", 
+        "id": "Cannot initialize FreeType.", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot find any fonts.", 
+        "text": "Get ekki fundi\u00f0 nein leturger\u00f0ir.", 
+        "id": "Cannot find any fonts.", 
+        "description": ""
+    }, 
+    {
+        "source": "This plugin provides NetPBM image I/O.", 
+        "text": "\u00deessi vi\u00f0b\u00f3t veitir NetPBM mynd I / O.", 
+        "id": "This plugin provides NetPBM image I/O.", 
+        "description": ""
+    }, 
+    {
+        "source": "ASCII", 
+        "text": "ASCII", 
+        "id": "ASCII", 
+        "description": ""
+    }, 
+    {
+        "source": "Binary", 
+        "text": "Tv\u00f6faldur", 
+        "id": "Binary", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot parse value.", 
+        "text": "Ekki er h\u00e6gt a\u00f0 flokka gildi.", 
+        "id": "Cannot parse value.", 
+        "description": ""
+    }, 
+    {
+        "id": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "source": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
+        "description": "", 
+        "text": "Skr\u00e1in &quot;)) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; ekki h\u00e6gt a\u00f0 lesa"
+    }, 
+    {
+        "id": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "source": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
+        "description": "", 
+        "text": "Skr\u00e1in &quot;)) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; Ekki er h\u00e6gt a\u00f0 skrifa"
+    }, 
+    {
+        "id": "The file", 
+        "source": "The file", 
+        "description": "", 
+        "text": "Skr\u00e1in"
+    }, 
+    {
+        "id": "cannot be written", 
+        "source": "cannot be written", 
+        "description": "", 
+        "text": "Ekki er h\u00e6gt a\u00f0 skrifa"
+    }, 
+    {
+        "id": "cannot be opened", 
+        "source": "cannot be opened", 
         "description": "", 
         "text": "Ekki er h\u00e6gt a\u00f0 opna"
     }, 
     {
-        "id": "Cannot open OpenAL device.", 
-        "source": "Cannot open OpenAL device.", 
-        "description": "", 
-        "text": "Ekki er h\u00e6gt a\u00f0 opna OpenAL t\u00e6ki."
-    }, 
-    {
-        "id": "Cannot create OpenAL context.", 
-        "source": "Cannot create OpenAL context.", 
-        "description": "", 
-        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til OpenAL samhengi."
-    }, 
-    {
-        "id": "Cannot make OpenAL context current.", 
-        "source": "Cannot make OpenAL context current.", 
-        "description": "", 
-        "text": "Ekki er h\u00e6gt a\u00f0 gera OpenAL samhengi n\u00faverandi."
-    }, 
-    {
-        "id": "Cannot create GLFW window.", 
-        "source": "Cannot create GLFW window.", 
-        "description": "", 
-        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til GLFW glugga."
-    }, 
-    {
-        "id": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
-        "source": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
-        "description": "", 
-        "text": "\u00deessi tappi b\u00fd\u00f0ur upp \u00e1 I / O myndav\u00e9l (Portable Network Graphics)."
-    }, 
-    {
-        "id": "Cannot create shader", 
-        "source": "Cannot create shader", 
-        "description": "", 
-        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til shader"
-    }, 
-    {
-        "id": "Float", 
-        "source": "Float", 
-        "description": "", 
-        "text": "Flj\u00f3ta"
-    }, 
-    {
-        "id": "Double", 
-        "source": "Double", 
-        "description": "", 
-        "text": "Tv\u00f6falt"
-    }, 
-    {
-        "id": "U8 Planar", 
-        "source": "U8 Planar", 
-        "description": "", 
-        "text": "U8 Planar"
-    }, 
-    {
-        "id": "S16 Planar", 
-        "source": "S16 Planar", 
-        "description": "", 
-        "text": "S16 Planar"
-    }, 
-    {
-        "id": "S32 Planar", 
-        "source": "S32 Planar", 
-        "description": "", 
-        "text": "S32 Planar"
-    }, 
-    {
-        "id": "Float Planar", 
-        "source": "Float Planar", 
-        "description": "", 
-        "text": "Flj\u00f3ta Planar"
-    }, 
-    {
-        "id": "Double Planar", 
-        "source": "Double Planar", 
-        "description": "", 
-        "text": "Double Planar"
-    }, 
-    {
-        "id": "This plugin provides FFmpeg image and audio I/O.", 
-        "source": "This plugin provides FFmpeg image and audio I/O.", 
-        "description": "", 
-        "text": "\u00deessi tappi veitir FFmpeg mynd og hlj\u00f3\u00f0 I / O."
-    }, 
-    {
-        "id": "cannot find any streams in", 
-        "source": "cannot find any streams in", 
-        "description": "", 
-        "text": "getur ekki fundi\u00f0 neinar l\u00e6kir \u00ed"
-    }, 
-    {
-        "id": "cannot find video codec for", 
-        "source": "cannot find video codec for", 
-        "description": "", 
-        "text": "finnur ekki v\u00edde\u00f3 merkjam\u00e1l fyrir"
-    }, 
-    {
-        "id": "unsupported audio format ", 
-        "source": "unsupported audio format ", 
-        "description": "", 
-        "text": "\u00f3studd hlj\u00f3\u00f0form"
-    }, 
-    {
-        "id": "cannot find audio codec for", 
-        "source": "cannot find audio codec for", 
-        "description": "", 
-        "text": "getur ekki fundi\u00f0 hlj\u00f3\u00f0merki fyrir"
-    }, 
-    {
-        "id": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
-        "source": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
-        "description": "", 
-        "text": "\u00deessi tappi b\u00fd\u00f0ur upp \u00e1 sameiginlega lj\u00f3smyndagagnr\u00fdnih\u00f3p (JPEG) mynd I / O."
-    }, 
-    {
-        "id": "Cannot initialize GLFW.", 
-        "source": "Cannot initialize GLFW.", 
-        "description": "", 
-        "text": "Ekki er h\u00e6gt a\u00f0 frumstilla GLFW."
-    }, 
-    {
-        "id": "Cannot create OpenGL texture.", 
-        "source": "Cannot create OpenGL texture.", 
-        "description": "", 
-        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til OpenGL \u00e1fer\u00f0."
-    }, 
-    {
-        "id": "Cannot create OpenGL frame buffer.", 
-        "source": "Cannot create OpenGL frame buffer.", 
-        "description": "", 
-        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til OpenGL ramma bi\u00f0minni."
-    }, 
-    {
-        "id": "Cannot initialize OpenGL frame buffer.", 
-        "source": "Cannot initialize OpenGL frame buffer.", 
-        "description": "", 
-        "text": "Ekki er h\u00e6gt a\u00f0 hefja OpenGL ramma bi\u00f0minni."
-    }, 
-    {
-        "id": "L_U8", 
-        "source": "L U8", 
-        "description": "", 
-        "text": "50 U8"
-    }, 
-    {
-        "id": "L_U16", 
-        "source": "L U16", 
-        "description": "", 
-        "text": "L U16"
-    }, 
-    {
-        "id": "L_U32", 
-        "source": "L U32", 
-        "description": "", 
-        "text": "L U32"
-    }, 
-    {
-        "id": "L_F16", 
-        "source": "L F16", 
-        "description": "", 
-        "text": "L F16"
-    }, 
-    {
-        "id": "L_F32", 
-        "source": "L F32", 
-        "description": "", 
-        "text": "L F32"
-    }, 
-    {
-        "id": "LA_U8", 
-        "source": "LA U8", 
-        "description": "", 
-        "text": "The U8"
-    }, 
-    {
-        "id": "LA_U16", 
-        "source": "LA U16", 
-        "description": "", 
-        "text": "THE U16"
-    }, 
-    {
-        "id": "LA_U32", 
-        "source": "LA U32", 
-        "description": "", 
-        "text": "U32"
-    }, 
-    {
-        "id": "LA_F16", 
-        "source": "LA F16", 
-        "description": "", 
-        "text": "F16"
-    }, 
-    {
-        "id": "LA_F32", 
-        "source": "LA F32", 
-        "description": "", 
-        "text": "LA F32"
-    }, 
-    {
-        "id": "RGB_U8", 
-        "source": "RGB U8", 
-        "description": "", 
-        "text": "RGB U8"
-    }, 
-    {
-        "id": "RGB_U10", 
-        "source": "RGB U10", 
-        "description": "", 
-        "text": "RGB U10"
-    }, 
-    {
-        "id": "RGB_U16", 
-        "source": "RGB U16", 
-        "description": "", 
-        "text": "RGB U16"
-    }, 
-    {
-        "id": "RGB_U32", 
-        "source": "RGB U32", 
-        "description": "", 
-        "text": "RGB U32"
-    }, 
-    {
-        "id": "RGB_F16", 
-        "source": "RGB F16", 
-        "description": "", 
-        "text": "RGB F16"
-    }, 
-    {
-        "id": "RGB_F32", 
-        "source": "RGB F32", 
-        "description": "", 
-        "text": "RGB F32"
-    }, 
-    {
-        "id": "RGBA_U8", 
-        "source": "RGBA U8", 
-        "description": "", 
-        "text": "RGBA U8"
-    }, 
-    {
-        "id": "RGBA_U16", 
-        "source": "RGBA U16", 
-        "description": "", 
-        "text": "RGBA U16"
-    }, 
-    {
-        "id": "RGBA_U32", 
-        "source": "RGBA U32", 
-        "description": "", 
-        "text": "RGBA U32"
-    }, 
-    {
-        "id": "RGBA_F16", 
-        "source": "RGBA F16", 
-        "description": "", 
-        "text": "RGBA F16"
-    }, 
-    {
-        "id": "RGBA_F32", 
-        "source": "RGBA F32", 
-        "description": "", 
-        "text": "RGBA F32"
-    }, 
-    {
-        "id": "U10", 
-        "source": "U10", 
-        "description": "", 
-        "text": "U10"
-    }, 
-    {
-        "id": "U16", 
-        "source": "U16", 
-        "description": "", 
-        "text": "U16"
-    }, 
-    {
-        "id": "U32", 
-        "source": "U32", 
-        "description": "", 
-        "text": "U32"
-    }, 
-    {
-        "id": "F16", 
-        "source": "F16", 
-        "description": "", 
-        "text": "F16"
-    }, 
-    {
-        "id": "Cannot initialize FreeType.", 
-        "source": "Cannot initialize FreeType.", 
+        "id": "FreeType cannot be initialized.", 
+        "source": "FreeType cannot be initialized.", 
         "description": "", 
         "text": "Ekki er h\u00e6gt a\u00f0 frumstilla FreeType."
     }, 
     {
-        "id": "Cannot find any fonts.", 
-        "source": "Cannot find any fonts.", 
+        "id": "No fonts were found.", 
+        "source": "No fonts were found.", 
         "description": "", 
-        "text": "Get ekki fundi\u00f0 nein leturger\u00f0ir."
+        "text": "Engar letur fundust."
     }, 
     {
-        "id": "This plugin provides NetPBM image I/O.", 
-        "source": "This plugin provides NetPBM image I/O.", 
+        "id": "The GLFW window cannot be created.", 
+        "source": "The GLFW window cannot be created.", 
         "description": "", 
-        "text": "\u00deessi vi\u00f0b\u00f3t veitir NetPBM mynd I / O."
+        "text": "GLFW glugginn er ekki h\u00e6gt a\u00f0 b\u00faa til."
     }, 
     {
-        "id": "ASCII", 
-        "source": "ASCII", 
-        "description": "", 
-        "text": "ASCII"
-    }, 
-    {
-        "id": "Binary", 
-        "source": "Binary", 
-        "description": "", 
-        "text": "Tv\u00f6faldur"
-    }, 
-    {
-        "id": "Cannot parse value.", 
-        "source": "Cannot parse value.", 
+        "id": "Cannot parse the value.", 
+        "source": "Cannot parse the value.", 
         "description": "", 
         "text": "Ekki er h\u00e6gt a\u00f0 flokka gildi."
     }, 
     {
-        "source": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
-        "text": "Skr\u00e1in &quot;)) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; ekki h\u00e6gt a\u00f0 lesa", 
-        "description": "", 
-        "id": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read"
-    }, 
-    {
-        "source": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
-        "text": "Skr\u00e1in &quot;)) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; Ekki er h\u00e6gt a\u00f0 skrifa", 
-        "description": "", 
-        "id": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written"
-    }, 
-    {
-        "source": "The file", 
-        "text": "Skr\u00e1in", 
-        "description": "", 
-        "id": "The file"
-    }, 
-    {
-        "source": "cannot be written", 
-        "text": "Ekki er h\u00e6gt a\u00f0 skrifa", 
-        "description": "", 
-        "id": "cannot be written"
-    }, 
-    {
-        "source": "cannot be opened", 
-        "text": "Ekki er h\u00e6gt a\u00f0 opna", 
-        "description": "", 
-        "id": "cannot be opened"
-    }, 
-    {
-        "source": "FreeType cannot be initialized.", 
-        "text": "Ekki er h\u00e6gt a\u00f0 frumstilla FreeType.", 
-        "description": "", 
-        "id": "FreeType cannot be initialized."
-    }, 
-    {
-        "source": "No fonts were found.", 
-        "text": "Engar letur fundust.", 
-        "description": "", 
-        "id": "No fonts were found."
-    }, 
-    {
-        "source": "The GLFW window cannot be created.", 
-        "text": "GLFW glugginn er ekki h\u00e6gt a\u00f0 b\u00faa til.", 
-        "description": "", 
-        "id": "The GLFW window cannot be created."
-    }, 
-    {
-        "source": "Cannot parse the value.", 
-        "text": "Ekki er h\u00e6gt a\u00f0 flokka gildi.", 
-        "description": "", 
-        "id": "Cannot parse the value."
-    }, 
-    {
+        "id": "The JPEG file", 
         "source": "The JPEG file", 
-        "text": "JPEG skr\u00e1in", 
         "description": "", 
-        "id": "The JPEG file"
+        "text": "JPEG skr\u00e1in"
     }, 
     {
+        "id": "cannot be read", 
         "source": "cannot be read", 
-        "text": "ekki h\u00e6gt a\u00f0 lesa", 
         "description": "", 
-        "id": "cannot be read"
+        "text": "ekki h\u00e6gt a\u00f0 lesa"
     }, 
     {
+        "id": "The OpenGL vertex shader cannot be created.", 
         "source": "The OpenGL vertex shader cannot be created.", 
-        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til Opentex skygginguna.", 
         "description": "", 
-        "id": "The OpenGL vertex shader cannot be created."
+        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til Opentex skygginguna."
     }, 
     {
+        "id": "The OpenGL vertex shader", 
         "source": "The OpenGL vertex shader", 
-        "text": "The OpenGL hornpunktur shader", 
         "description": "", 
-        "id": "The OpenGL vertex shader"
+        "text": "The OpenGL hornpunktur shader"
     }, 
     {
+        "id": "cannot be compiled", 
         "source": "cannot be compiled", 
-        "text": "Ekki er h\u00e6gt a\u00f0 safna saman", 
         "description": "", 
-        "id": "cannot be compiled"
+        "text": "Ekki er h\u00e6gt a\u00f0 safna saman"
     }, 
     {
+        "id": "The OpenGL fragment shader cannot be created.", 
         "source": "The OpenGL fragment shader cannot be created.", 
-        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til OpenGL brotskj\u00e1inn.", 
         "description": "", 
-        "id": "The OpenGL fragment shader cannot be created."
+        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til OpenGL brotskj\u00e1inn."
     }, 
     {
+        "id": "The OpenGL framgent shader", 
         "source": "The OpenGL framgent shader", 
-        "text": "The OpenGL \u00e1fram shader", 
         "description": "", 
-        "id": "The OpenGL framgent shader"
+        "text": "The OpenGL \u00e1fram shader"
     }, 
     {
+        "id": "The program", 
         "source": "The program", 
-        "text": "Forriti\u00f0", 
         "description": "", 
-        "id": "The program"
+        "text": "Forriti\u00f0"
     }, 
     {
+        "id": "cannot be linked", 
         "source": "cannot be linked", 
-        "text": "Ekki er h\u00e6gt a\u00f0 tengja \u00fea\u00f0", 
         "description": "", 
-        "id": "cannot be linked"
+        "text": "Ekki er h\u00e6gt a\u00f0 tengja \u00fea\u00f0"
     }, 
     {
+        "id": "The FFMPEG file", 
         "source": "The FFMPEG file", 
-        "text": "The FFMPEG skr\u00e1", 
         "description": "", 
-        "id": "The FFMPEG file"
+        "text": "The FFMPEG skr\u00e1"
     }, 
     {
+        "id": "does not have any video or audio streams", 
         "source": "does not have any video or audio streams", 
-        "text": "Hefur engar v\u00edde\u00f3- e\u00f0a hlj\u00f3\u00f0strauma", 
         "description": "", 
-        "id": "does not have any video or audio streams"
+        "text": "Hefur engar v\u00edde\u00f3- e\u00f0a hlj\u00f3\u00f0strauma"
     }, 
     {
+        "id": "does not match any video codecs", 
         "source": "does not match any video codecs", 
-        "text": "Samsvarar ekki v\u00edde\u00f3k\u00f3\u00f0a", 
         "description": "", 
-        "id": "does not match any video codecs"
+        "text": "Samsvarar ekki v\u00edde\u00f3k\u00f3\u00f0a"
     }, 
     {
+        "id": "The FFMPEG audio format ", 
         "source": "The FFMPEG audio format ", 
-        "text": "FFMPEG hlj\u00f3\u00f0formi\u00f0", 
         "description": "", 
-        "id": "The FFMPEG audio format "
+        "text": "FFMPEG hlj\u00f3\u00f0formi\u00f0"
     }, 
     {
+        "id": "is not supported", 
         "source": "is not supported", 
-        "text": "er ekki studd", 
         "description": "", 
-        "id": "is not supported"
+        "text": "er ekki studd"
     }, 
     {
+        "id": "does not match any audio codecs", 
         "source": "does not match any audio codecs", 
-        "text": "passar ekki allir hlj\u00f3\u00f0k\u00f3\u00f0ar", 
         "description": "", 
-        "id": "does not match any audio codecs"
+        "text": "passar ekki allir hlj\u00f3\u00f0k\u00f3\u00f0ar"
     }, 
     {
+        "id": "GLFW cannot be initialized.", 
         "source": "GLFW cannot be initialized.", 
-        "text": "GLFW er ekki h\u00e6gt a\u00f0 frumstilla.", 
         "description": "", 
-        "id": "GLFW cannot be initialized."
+        "text": "GLFW er ekki h\u00e6gt a\u00f0 frumstilla."
     }, 
     {
+        "id": "GLFW window cannot be created.", 
         "source": "GLFW window cannot be created.", 
-        "text": "GLFW gluggi er ekki h\u00e6gt a\u00f0 b\u00faa til.", 
         "description": "", 
-        "id": "GLFW window cannot be created."
+        "text": "GLFW gluggi er ekki h\u00e6gt a\u00f0 b\u00faa til."
     }, 
     {
+        "id": "The OpenAL device cannot be opened.", 
         "source": "The OpenAL device cannot be opened.", 
-        "text": "Ekki er h\u00e6gt a\u00f0 opna OpenAL t\u00e6ki\u00f0.", 
         "description": "", 
-        "id": "The OpenAL device cannot be opened."
+        "text": "Ekki er h\u00e6gt a\u00f0 opna OpenAL t\u00e6ki\u00f0."
     }, 
     {
+        "id": "The OpenAL context cannot be created.", 
         "source": "The OpenAL context cannot be created.", 
-        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til OpenAL samhengi\u00f0.", 
         "description": "", 
-        "id": "The OpenAL context cannot be created."
+        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til OpenAL samhengi\u00f0."
     }, 
     {
+        "id": "The OpenAL context cannot be made current.", 
         "source": "The OpenAL context cannot be made current.", 
-        "text": "OpenAL samhengi\u00f0 er ekki h\u00e6gt a\u00f0 gera n\u00fana.", 
         "description": "", 
-        "id": "The OpenAL context cannot be made current."
+        "text": "OpenAL samhengi\u00f0 er ekki h\u00e6gt a\u00f0 gera n\u00fana."
     }, 
     {
+        "id": "The OpenGL texture cannot be created.", 
         "source": "The OpenGL texture cannot be created.", 
-        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til OpenGL \u00e1fer\u00f0ina.", 
         "description": "", 
-        "id": "The OpenGL texture cannot be created."
+        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til OpenGL \u00e1fer\u00f0ina."
     }, 
     {
+        "id": "The OpenGL frame buffer cannot be created.", 
         "source": "The OpenGL frame buffer cannot be created.", 
-        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til OpenGL ramma bi\u00f0minni.", 
         "description": "", 
-        "id": "The OpenGL frame buffer cannot be created."
+        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til OpenGL ramma bi\u00f0minni."
     }, 
     {
+        "id": "The OpenGL frame buffer cannot be initialized.", 
         "source": "The OpenGL frame buffer cannot be initialized.", 
-        "text": "The OpenGL ramma bi\u00f0minni er ekki h\u00e6gt a\u00f0 frumstilla.", 
         "description": "", 
-        "id": "The OpenGL frame buffer cannot be initialized."
+        "text": "The OpenGL ramma bi\u00f0minni er ekki h\u00e6gt a\u00f0 frumstilla."
     }, 
     {
+        "id": "The PNG file", 
         "source": "The PNG file", 
-        "text": "PNG skr\u00e1na", 
         "description": "", 
-        "id": "The PNG file"
+        "text": "PNG skr\u00e1na"
     }, 
     {
+        "id": "The PPM file", 
         "source": "The PPM file", 
-        "text": "PPM skr\u00e1", 
         "description": "", 
-        "id": "The PPM file"
+        "text": "PPM skr\u00e1"
     }, 
     {
+        "id": "The shader cannot be created", 
         "source": "The shader cannot be created", 
-        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til skyggni\u00f0", 
         "description": "", 
-        "id": "The shader cannot be created"
+        "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til skyggni\u00f0"
     }, 
     {
+        "id": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
         "source": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
-        "text": "\u00deessi tappi b\u00fd\u00f0ur upp \u00e1 Tagged Image File Format (TIFF) mynd I / O.", 
         "description": "", 
-        "id": "This plugin provides Tagged Image File Format (TIFF) image I/O."
+        "text": "\u00deessi tappi b\u00fd\u00f0ur upp \u00e1 Tagged Image File Format (TIFF) mynd I / O."
     }, 
     {
+        "id": "RLE", 
         "source": "RLE", 
-        "text": "RLE", 
         "description": "", 
-        "id": "RLE"
+        "text": "RLE"
     }, 
     {
+        "id": "LZW", 
         "source": "LZW", 
-        "text": "LZW", 
         "description": "", 
-        "id": "LZW"
+        "text": "LZW"
     }, 
     {
+        "id": "The TIFF file", 
         "source": "The TIFF file", 
-        "text": "TIFF skr\u00e1in", 
         "description": "", 
-        "id": "The TIFF file"
+        "text": "TIFF skr\u00e1in"
     }, 
     {
+        "id": "L", 
         "source": "L", 
-        "text": "The", 
         "description": "", 
-        "id": "L"
+        "text": "The"
     }, 
     {
+        "id": "LA", 
         "source": "LA", 
-        "text": "LA", 
         "description": "", 
-        "id": "LA"
+        "text": "LA"
     }, 
     {
+        "id": "RGB", 
         "source": "RGB", 
-        "text": "RGB", 
         "description": "", 
-        "id": "RGB"
+        "text": "RGB"
     }, 
     {
+        "id": "RGBA", 
         "source": "RGBA", 
-        "text": "RGBA", 
         "description": "", 
-        "id": "RGBA"
+        "text": "RGBA"
     }, 
     {
+        "id": "Timecode", 
         "source": "Timecode", 
-        "text": "T\u00edmak\u00f3\u00f0i", 
         "description": "", 
-        "id": "Timecode"
+        "text": "T\u00edmak\u00f3\u00f0i"
     }, 
     {
+        "id": "Frames", 
         "source": "Frames", 
-        "text": "Rammar", 
         "description": "", 
-        "id": "Frames"
+        "text": "Rammar"
     }, 
     {
-        "id": "Unknown magic number.", 
         "source": "Unknown magic number.", 
-        "description": "", 
-        "text": "\u00d3\u00feekkt galdur n\u00famer."
+        "text": "\u00d3\u00feekkt galdur n\u00famer.", 
+        "id": "Unknown magic number.", 
+        "description": ""
     }, 
     {
-        "id": "No image channels.", 
         "source": "No image channels.", 
-        "description": "", 
-        "text": "Engin myndr\u00e1sir."
+        "text": "Engin myndr\u00e1sir.", 
+        "id": "No image channels.", 
+        "description": ""
     }, 
     {
-        "id": "Image channels must have the same size and bit depth.", 
         "source": "Image channels must have the same size and bit depth.", 
-        "description": "", 
-        "text": "Myndr\u00e1sir ver\u00f0a a\u00f0 vera me\u00f0 s\u00f6mu st\u00e6r\u00f0 og sm\u00e1d\u00fdpt."
+        "text": "Myndr\u00e1sir ver\u00f0a a\u00f0 vera me\u00f0 s\u00f6mu st\u00e6r\u00f0 og sm\u00e1d\u00fdpt.", 
+        "id": "Image channels must have the same size and bit depth.", 
+        "description": ""
     }, 
     {
-        "id": "Unsupported bit depth.", 
         "source": "Unsupported bit depth.", 
-        "description": "", 
-        "text": "\u00d3studd bitd\u00fdpt."
+        "text": "\u00d3studd bitd\u00fdpt.", 
+        "id": "Unsupported bit depth.", 
+        "description": ""
     }, 
     {
-        "id": "Line padding is unsupported.", 
         "source": "Line padding is unsupported.", 
-        "description": "", 
-        "text": "Line padding er ekki studd."
+        "text": "Line padding er ekki studd.", 
+        "id": "Line padding is unsupported.", 
+        "description": ""
     }, 
     {
-        "id": "Channel padding is unsupported.", 
         "source": "Channel padding is unsupported.", 
-        "description": "", 
-        "text": "Ekki er h\u00e6gt a\u00f0 sty\u00f0ja vi\u00f0 r\u00e1sir."
+        "text": "Ekki er h\u00e6gt a\u00f0 sty\u00f0ja vi\u00f0 r\u00e1sir.", 
+        "id": "Channel padding is unsupported.", 
+        "description": ""
     }, 
     {
-        "id": "This plugin provides Cineon image I/O.", 
         "source": "This plugin provides Cineon image I/O.", 
-        "description": "", 
-        "text": "\u00deessi tappi veitir Cineon mynd I / O."
+        "text": "\u00deessi tappi veitir Cineon mynd I / O.", 
+        "id": "This plugin provides Cineon image I/O.", 
+        "description": ""
     }, 
     {
-        "id": "Auto", 
         "source": "Auto", 
-        "description": "", 
-        "text": "Sj\u00e1lfvirk"
+        "text": "Sj\u00e1lfvirk", 
+        "id": "Auto", 
+        "description": ""
     }, 
     {
-        "id": "Raw", 
         "source": "Raw", 
-        "description": "", 
-        "text": "Raw"
+        "text": "Raw", 
+        "id": "Raw", 
+        "description": ""
     }, 
     {
-        "id": "FilmPrint", 
         "source": "FilmPrint", 
-        "description": "", 
-        "text": "Myndin Prenta"
+        "text": "Myndin Prenta", 
+        "id": "FilmPrint", 
+        "description": ""
     }, 
     {
-        "id": "SourceOffset", 
         "source": "SourceOffset", 
-        "description": "", 
-        "text": "SourceOffset"
+        "text": "SourceOffset", 
+        "id": "SourceOffset", 
+        "description": ""
     }, 
     {
-        "id": "SourceFile", 
         "source": "SourceFile", 
-        "description": "", 
-        "text": "Uppruna Skr\u00e1"
+        "text": "Uppruna Skr\u00e1", 
+        "id": "SourceFile", 
+        "description": ""
     }, 
     {
-        "id": "SourceTime", 
         "source": "SourceTime", 
-        "description": "", 
-        "text": "SourceTime"
+        "text": "SourceTime", 
+        "id": "SourceTime", 
+        "description": ""
     }, 
     {
-        "id": "SourceInputDevice", 
         "source": "SourceInputDevice", 
-        "description": "", 
-        "text": "SourceInputDevice"
+        "text": "SourceInputDevice", 
+        "id": "SourceInputDevice", 
+        "description": ""
     }, 
     {
-        "id": "SourceInputModel", 
         "source": "SourceInputModel", 
-        "description": "", 
-        "text": "SourceInputModel"
+        "text": "SourceInputModel", 
+        "id": "SourceInputModel", 
+        "description": ""
     }, 
     {
-        "id": "SourceInputSerial", 
         "source": "SourceInputSerial", 
-        "description": "", 
-        "text": "SourceInputSerial"
+        "text": "SourceInputSerial", 
+        "id": "SourceInputSerial", 
+        "description": ""
     }, 
     {
-        "id": "SourceInputPitch", 
         "source": "SourceInputPitch", 
-        "description": "", 
-        "text": "SourceInputPitch"
+        "text": "SourceInputPitch", 
+        "id": "SourceInputPitch", 
+        "description": ""
     }, 
     {
-        "id": "SourceGamma", 
         "source": "SourceGamma", 
-        "description": "", 
-        "text": "SourceGamma"
+        "text": "SourceGamma", 
+        "id": "SourceGamma", 
+        "description": ""
     }, 
     {
-        "id": "FilmFormat", 
         "source": "FilmFormat", 
-        "description": "", 
-        "text": "Myndin sni\u00f0i"
+        "text": "Myndin sni\u00f0i", 
+        "id": "FilmFormat", 
+        "description": ""
     }, 
     {
-        "id": "FilmFrame", 
         "source": "FilmFrame", 
-        "description": "", 
-        "text": "Myndin Frame"
+        "text": "Myndin Frame", 
+        "id": "FilmFrame", 
+        "description": ""
     }, 
     {
-        "id": "FilmFrameRate", 
         "source": "FilmFrameRate", 
-        "description": "", 
-        "text": "Myndin Rammat\u00ed\u00f0ni"
+        "text": "Myndin Rammat\u00ed\u00f0ni", 
+        "id": "FilmFrameRate", 
+        "description": ""
     }, 
     {
-        "id": "FilmFrameID", 
         "source": "FilmFrameID", 
-        "description": "", 
-        "text": "FilmFrameID"
+        "text": "FilmFrameID", 
+        "id": "FilmFrameID", 
+        "description": ""
     }, 
     {
-        "id": "FilmSlate", 
         "source": "FilmSlate", 
-        "description": "", 
-        "text": "FilmSlate"
+        "text": "FilmSlate", 
+        "id": "FilmSlate", 
+        "description": ""
     }, 
     {
+        "id": "This plugin provides OpenEXR file I/O.", 
         "source": "This plugin provides OpenEXR file I/O.", 
-        "text": "\u00deessi tappi b\u00fd\u00f0ur upp \u00e1 OpenEXR skr\u00e1 I / O.", 
         "description": "", 
-        "id": "This plugin provides OpenEXR file I/O."
+        "text": "\u00deessi tappi b\u00fd\u00f0ur upp \u00e1 OpenEXR skr\u00e1 I / O."
     }, 
     {
+        "id": "Known", 
         "source": "Known", 
-        "text": "\u00deekkt", 
         "description": "", 
-        "id": "Known"
+        "text": "\u00deekkt"
     }, 
     {
+        "id": "All", 
         "source": "All", 
-        "text": "Allt", 
         "description": "", 
-        "id": "All"
+        "text": "Allt"
     }, 
     {
+        "id": "ZIPS", 
         "source": "ZIPS", 
-        "text": "\u00fejappa\u00f0ar", 
         "description": "", 
-        "id": "ZIPS"
+        "text": "\u00fejappa\u00f0ar"
     }, 
     {
+        "id": "ZIP", 
         "source": "ZIP", 
-        "text": "ZIP", 
         "description": "", 
-        "id": "ZIP"
+        "text": "ZIP"
     }, 
     {
+        "id": "PIZ", 
         "source": "PIZ", 
-        "text": "Piz", 
         "description": "", 
-        "id": "PIZ"
+        "text": "Piz"
     }, 
     {
+        "id": "PXR24", 
         "source": "PXR24", 
-        "text": "PXR24", 
         "description": "", 
-        "id": "PXR24"
+        "text": "PXR24"
     }, 
     {
+        "id": "B44", 
         "source": "B44", 
-        "text": "B44", 
         "description": "", 
-        "id": "B44"
+        "text": "B44"
     }, 
     {
+        "id": "B44A", 
         "source": "B44A", 
-        "text": "B44A", 
         "description": "", 
-        "id": "B44A"
+        "text": "B44A"
     }, 
     {
+        "id": "DWAA", 
         "source": "DWAA", 
-        "text": "DWAA", 
         "description": "", 
-        "id": "DWAA"
+        "text": "DWAA"
     }, 
     {
+        "id": "DWAB", 
         "source": "DWAB", 
-        "text": "DWAB", 
         "description": "", 
-        "id": "DWAB"
+        "text": "DWAB"
     }, 
     {
+        "id": "The OpenEXR file", 
         "source": "The OpenEXR file", 
-        "text": "The OpenEXR skr\u00e1", 
         "description": "", 
-        "id": "The OpenEXR file"
+        "text": "The OpenEXR skr\u00e1"
     }, 
     {
+        "id": "Unsupported file.", 
         "source": "Unsupported file.", 
-        "text": "\u00d3studd skr\u00e1.", 
         "description": "", 
-        "id": "Unsupported file."
+        "text": "\u00d3studd skr\u00e1."
     }, 
     {
+        "id": "This plugin provides DPX image I/O.", 
         "source": "This plugin provides DPX image I/O.", 
-        "text": "\u00deessi vi\u00f0b\u00f3t veitir DPX mynd I / O.", 
         "description": "", 
-        "id": "This plugin provides DPX image I/O."
+        "text": "\u00deessi vi\u00f0b\u00f3t veitir DPX mynd I / O."
     }, 
     {
+        "id": "1.0", 
         "source": "1.0", 
-        "text": "1,0", 
         "description": "", 
-        "id": "1.0"
+        "text": "1,0"
     }, 
     {
+        "id": "2.0", 
         "source": "2.0", 
-        "text": "2.0", 
         "description": "", 
-        "id": "2.0"
+        "text": "2.0"
     }, 
     {
+        "id": "MSB", 
         "source": "MSB", 
-        "text": "MSB", 
         "description": "", 
-        "id": "MSB"
+        "text": "MSB"
     }, 
     {
+        "id": "LSB", 
         "source": "LSB", 
-        "text": "LSB", 
         "description": "", 
-        "id": "LSB"
+        "text": "LSB"
     }, 
     {
+        "id": "Default", 
         "source": "Default", 
-        "text": "Sj\u00e1lfgefi\u00f0", 
         "description": "", 
-        "id": "Default"
+        "text": "Sj\u00e1lfgefi\u00f0"
     }, 
     {
         "source": "Bad magic number.", 
-        "text": "Sl\u00e6mt galdur n\u00famer.", 
+        "description": "", 
         "id": "Bad magic number.", 
-        "description": ""
+        "text": "Sl\u00e6mt galdur n\u00famer."
     }, 
     {
         "source": "Incomplete file.", 
-        "text": "\u00d3fulln\u00e6gjandi skr\u00e1.", 
+        "description": "", 
         "id": "Incomplete file.", 
-        "description": ""
+        "text": "\u00d3fulln\u00e6gjandi skr\u00e1."
     }, 
     {
         "source": "Cannot open file.", 
-        "text": "Ekki er h\u00e6gt a\u00f0 opna skr\u00e1.", 
+        "description": "", 
         "id": "Cannot open file.", 
-        "description": ""
+        "text": "Ekki er h\u00e6gt a\u00f0 opna skr\u00e1."
     }, 
     {
         "source": "Error reading scanline.", 
-        "text": "Villa vi\u00f0 a\u00f0 lesa sk\u00f6nnun.", 
+        "description": "", 
         "id": "Error reading scanline.", 
-        "description": ""
+        "text": "Villa vi\u00f0 a\u00f0 lesa sk\u00f6nnun."
     }, 
     {
         "source": "Unsupported image type.", 
-        "text": "\u00d3studd myndger\u00f0.", 
+        "description": "", 
         "id": "Unsupported image type.", 
-        "description": ""
+        "text": "\u00d3studd myndger\u00f0."
     }, 
     {
         "source": "The audio format ", 
-        "text": "Hlj\u00f3\u00f0formi\u00f0", 
+        "description": "", 
         "id": "The audio format ", 
-        "description": ""
+        "text": "Hlj\u00f3\u00f0formi\u00f0"
     }, 
     {
         "source": "Unsupported color components.", 
-        "text": "\u00d3studd litareiningar.", 
+        "description": "", 
         "id": "Unsupported color components.", 
-        "description": ""
+        "text": "\u00d3studd litareiningar."
     }, 
     {
         "source": "Error writing scanline.", 
-        "text": "Villa vi\u00f0 a\u00f0 skrifa scanline.", 
+        "description": "", 
         "id": "Error writing scanline.", 
-        "description": ""
+        "text": "Villa vi\u00f0 a\u00f0 skrifa scanline."
     }, 
     {
         "source": "The file cannot be opened.", 
-        "text": "Ekki er h\u00e6gt a\u00f0 opna skr\u00e1na.", 
+        "description": "", 
         "id": "The file cannot be opened.", 
-        "description": ""
+        "text": "Ekki er h\u00e6gt a\u00f0 opna skr\u00e1na."
     }
 ]

@@ -1,878 +1,878 @@
 [
     {
+        "id": "Up", 
         "source": "Up", 
-        "text": "Acima", 
         "description": "", 
-        "id": "Up"
+        "text": "Acima"
     }, 
     {
+        "id": "Up Tooltip", 
         "source": "Up Tooltip", 
-        "text": "Sugest\u00e3o para cima", 
         "description": "", 
-        "id": "Up Tooltip"
+        "text": "Sugest\u00e3o para cima"
     }, 
     {
+        "id": "Current Directory", 
         "source": "Current Directory", 
-        "text": "Diret\u00f3rio atual", 
         "description": "", 
-        "id": "Current Directory"
+        "text": "Diret\u00f3rio atual"
     }, 
     {
+        "id": "Current Directory Tooltip", 
         "source": "Current Directory Tooltip", 
-        "text": "Dica de ferramenta do diret\u00f3rio atual", 
         "description": "", 
-        "id": "Current Directory Tooltip"
+        "text": "Dica de ferramenta do diret\u00f3rio atual"
     }, 
     {
+        "id": "Back", 
         "source": "Back", 
-        "text": "De volta", 
         "description": "", 
-        "id": "Back"
+        "text": "De volta"
     }, 
     {
+        "id": "Back Tooltip", 
         "source": "Back Tooltip", 
-        "text": "Voltar Tooltip", 
         "description": "", 
-        "id": "Back Tooltip"
+        "text": "Voltar Tooltip"
     }, 
     {
+        "id": "Forward", 
         "source": "Forward", 
-        "text": "frente", 
         "description": "", 
-        "id": "Forward"
+        "text": "frente"
     }, 
     {
+        "id": "Forward Tooltip", 
         "source": "Forward Tooltip", 
-        "text": "Sugest\u00e3o para a frente", 
         "description": "", 
-        "id": "Forward Tooltip"
+        "text": "Sugest\u00e3o para a frente"
     }, 
     {
+        "id": "Large Thumbnails", 
         "source": "Large Thumbnails", 
-        "text": "Miniaturas Grandes", 
         "description": "", 
-        "id": "Large Thumbnails"
+        "text": "Miniaturas Grandes"
     }, 
     {
+        "id": "Large Thumbnails Tooltip", 
         "source": "Large Thumbnails Tooltip", 
-        "text": "Dica de Miniatura de Grandes Miniaturas", 
         "description": "", 
-        "id": "Large Thumbnails Tooltip"
+        "text": "Dica de Miniatura de Grandes Miniaturas"
     }, 
     {
+        "id": "Small Thumbnails", 
         "source": "Small Thumbnails", 
-        "text": "Miniaturas Pequenas", 
         "description": "", 
-        "id": "Small Thumbnails"
+        "text": "Miniaturas Pequenas"
     }, 
     {
+        "id": "Small Thumbnails Tooltip", 
         "source": "Small Thumbnails Tooltip", 
-        "text": "Dica de Miniatura de Pequenas Miniaturas", 
         "description": "", 
-        "id": "Small Thumbnails Tooltip"
+        "text": "Dica de Miniatura de Pequenas Miniaturas"
     }, 
     {
+        "id": "List View", 
         "source": "List View", 
-        "text": "Exibi\u00e7\u00e3o de lista", 
         "description": "", 
-        "id": "List View"
+        "text": "Exibi\u00e7\u00e3o de lista"
     }, 
     {
+        "id": "List View Tooltip", 
         "source": "List View Tooltip", 
-        "text": "Dica de vista da lista", 
         "description": "", 
-        "id": "List View Tooltip"
+        "text": "Dica de vista da lista"
     }, 
     {
+        "id": "File Sequences", 
         "source": "File Sequences", 
-        "text": "Sequ\u00eancias de arquivos", 
         "description": "", 
-        "id": "File Sequences"
+        "text": "Sequ\u00eancias de arquivos"
     }, 
     {
+        "id": "File Sequences Tooltip", 
         "source": "File Sequences Tooltip", 
-        "text": "Dica de Seq\u00fc\u00eancias de Arquivo", 
         "description": "", 
-        "id": "File Sequences Tooltip"
+        "text": "Dica de Seq\u00fc\u00eancias de Arquivo"
     }, 
     {
+        "id": "Show Hidden", 
         "source": "Show Hidden", 
-        "text": "Mostrar oculto", 
         "description": "", 
-        "id": "Show Hidden"
+        "text": "Mostrar oculto"
     }, 
     {
+        "id": "Show Hidden Tooltip", 
         "source": "Show Hidden Tooltip", 
-        "text": "Mostrar a dica de ferramenta oculta", 
         "description": "", 
-        "id": "Show Hidden Tooltip"
+        "text": "Mostrar a dica de ferramenta oculta"
     }, 
     {
+        "id": "Directory", 
         "source": "Directory", 
-        "text": "Diret\u00f3rio", 
         "description": "", 
-        "id": "Directory"
+        "text": "Diret\u00f3rio"
     }, 
     {
+        "id": "View", 
         "source": "View", 
-        "text": "Vis\u00e3o", 
         "description": "", 
-        "id": "View"
+        "text": "Vis\u00e3o"
     }, 
     {
+        "id": "Sort", 
         "source": "Sort", 
-        "text": "Ordenar", 
         "description": "", 
-        "id": "Sort"
+        "text": "Ordenar"
     }, 
     {
+        "id": "Bookmarks", 
         "source": "Bookmarks", 
-        "text": "Favoritos", 
         "description": "", 
-        "id": "Bookmarks"
+        "text": "Favoritos"
     }, 
     {
+        "id": "items", 
         "source": "items", 
-        "text": "Unid", 
         "description": "", 
-        "id": "items"
-    }, 
-    {
-        "source": "History Tooltip", 
-        "text": "Dica de Hist\u00f3ria", 
-        "description": "", 
-        "id": "History Tooltip"
-    }, 
-    {
-        "source": "Display", 
-        "text": "Exibi\u00e7\u00e3o", 
-        "description": "", 
-        "id": "Display"
-    }, 
-    {
-        "source": "Size", 
-        "text": "Tamanho", 
-        "description": "", 
-        "id": "Size"
-    }, 
-    {
-        "source": "Last modification time", 
-        "text": "\u00daltima hora da modifica\u00e7\u00e3o", 
-        "description": "", 
-        "id": "Last modification time"
-    }, 
-    {
-        "source": "Video track", 
-        "text": "Faixa de v\u00eddeo", 
-        "description": "", 
-        "id": "Video track"
-    }, 
-    {
-        "source": "Type", 
-        "text": "Tipo", 
-        "description": "", 
-        "id": "Type"
-    }, 
-    {
-        "source": "Speed", 
-        "text": "Rapidez", 
-        "description": "", 
-        "id": "Speed"
-    }, 
-    {
-        "source": "FPS", 
-        "text": "FPS", 
-        "description": "", 
-        "id": "FPS"
-    }, 
-    {
-        "source": "Duration", 
-        "text": "Dura\u00e7\u00e3o", 
-        "description": "", 
-        "id": "Duration"
-    }, 
-    {
-        "source": "Audio track", 
-        "text": "Faixa de \u00e1udio", 
-        "description": "", 
-        "id": "Audio track"
-    }, 
-    {
-        "source": "Channels", 
-        "text": "Canais", 
-        "description": "", 
-        "id": "Channels"
-    }, 
-    {
-        "source": "Sample rate", 
-        "text": "Taxa de amostragem", 
-        "description": "", 
-        "id": "Sample rate"
-    }, 
-    {
-        "source": "kHz", 
-        "text": "kHz", 
-        "description": "", 
-        "id": "kHz"
-    }, 
-    {
-        "source": "JPEG", 
-        "text": "JPEG", 
-        "description": "", 
-        "id": "JPEG"
-    }, 
-    {
-        "source": "I/O", 
-        "text": "E / S", 
-        "description": "", 
-        "id": "I/O"
-    }, 
-    {
-        "source": "Compression Quality", 
-        "text": "Qualidade de Compress\u00e3o", 
-        "description": "", 
-        "id": "Compression Quality"
-    }, 
-    {
-        "source": "Language", 
-        "text": "L\u00edngua", 
-        "description": "", 
-        "id": "Language"
-    }, 
-    {
-        "source": "General", 
-        "text": "Geral", 
-        "description": "", 
-        "id": "General"
-    }, 
-    {
-        "source": "PPM", 
-        "text": "PPM", 
-        "description": "", 
-        "id": "PPM"
-    }, 
-    {
-        "source": "Data Type", 
-        "text": "Tipo de dados", 
-        "description": "", 
-        "id": "Data Type"
-    }, 
-    {
-        "source": "Palette", 
-        "text": "Paleta", 
-        "description": "", 
-        "id": "Palette"
-    }, 
-    {
-        "source": "Display Size", 
-        "description": "", 
-        "id": "Display Size", 
-        "text": "Tamanho da exibi\u00e7\u00e3o"
-    }, 
-    {
-        "source": "TIFF", 
-        "description": "", 
-        "id": "TIFF", 
-        "text": "TIFF"
-    }, 
-    {
-        "source": "File Compression", 
-        "description": "", 
-        "id": "File Compression", 
-        "text": "Compress\u00e3o de arquivos"
-    }, 
-    {
-        "source": "Go back a directory", 
-        "description": "", 
-        "id": "File browser back tooltip", 
-        "text": "Volte um diret\u00f3rio"
-    }, 
-    {
-        "source": "Go forward a directory", 
-        "description": "", 
-        "id": "File browser forward tooltip", 
-        "text": "V\u00e1 adiante um diret\u00f3rio"
-    }, 
-    {
-        "source": "Go up a directory", 
-        "description": "", 
-        "id": "File browser up tooltip", 
-        "text": "Suba um diret\u00f3rio"
-    }, 
-    {
-        "source": "File browser current directory tooltip", 
-        "description": "", 
-        "id": "File browser current directory tooltip", 
-        "text": "Dica de ferramenta do diret\u00f3rio atual do navegador de arquivos"
-    }, 
-    {
-        "source": "Edit Path", 
-        "description": "", 
-        "id": "Edit Path", 
-        "text": "Editar caminho"
-    }, 
-    {
-        "source": "File browser edit path tooltip", 
-        "description": "", 
-        "id": "File browser edit path tooltip", 
-        "text": "Dica de ferramenta do caminho de edi\u00e7\u00e3o do navegador de arquivos"
-    }, 
-    {
-        "source": "Add To Shortcuts", 
-        "description": "", 
-        "id": "Add To Shortcuts", 
-        "text": "Adicionar aos atalhos"
-    }, 
-    {
-        "source": "File browser add to shortcuts tooltip", 
-        "description": "", 
-        "id": "File browser add to shortcuts tooltip", 
-        "text": "Navegador de arquivos adicionar a dicas de ferramenta de atalhos"
-    }, 
-    {
-        "source": "Tile View", 
-        "description": "", 
-        "id": "Tile View", 
-        "text": "Vista da telha"
-    }, 
-    {
-        "source": "Show directory items as tiles", 
-        "description": "", 
-        "id": "File browser tile view tooltip", 
-        "text": "Mostrar itens do diret\u00f3rio como blocos"
-    }, 
-    {
-        "source": "Show directory items as a list", 
-        "description": "", 
-        "id": "File browser list view tooltip", 
-        "text": "Mostrar itens do diret\u00f3rio como uma lista"
-    }, 
-    {
-        "source": "Increase Thumbnail Size", 
-        "description": "", 
-        "id": "Increase Thumbnail Size", 
-        "text": "Aumentar tamanho da miniatura"
-    }, 
-    {
-        "source": "Increase the size of the thumbnails", 
-        "description": "", 
-        "id": "File browser increase thumbnail size tooltip", 
-        "text": "Aumentar o tamanho das miniaturas"
-    }, 
-    {
-        "source": "Decrease Thumbnail Size", 
-        "description": "", 
-        "id": "Decrease Thumbnail Size", 
-        "text": "Diminuir o tamanho da miniatura"
-    }, 
-    {
-        "source": "Decrease the size of the thumbnails", 
-        "description": "", 
-        "id": "File browser decrease thumbnail size tooltip", 
-        "text": "Diminuir o tamanho das miniaturas"
-    }, 
-    {
-        "source": "Enable File Sequences", 
-        "description": "", 
-        "id": "Enable File Sequences", 
-        "text": "Ativar seq\u00fc\u00eancias de arquivos"
-    }, 
-    {
-        "source": "Show sequences of files as a single item", 
-        "description": "", 
-        "id": "File browser file sequences tooltip", 
-        "text": "Mostrar sequ\u00eancias de arquivos como um \u00fanico item"
-    }, 
-    {
-        "source": "Show Hidden Files", 
-        "description": "", 
-        "id": "Show Hidden Files", 
-        "text": "Mostrar arquivos ocultos"
-    }, 
-    {
-        "source": "Show directory items that begin with a '.'", 
-        "description": "", 
-        "id": "File browser show hidden tooltip", 
-        "text": "Mostrar itens de diret\u00f3rio que come\u00e7am com &#39;.&#39;"
-    }, 
-    {
-        "source": "Sort By Name", 
-        "description": "", 
-        "id": "Sort By Name", 
-        "text": "Ordenar por nome"
-    }, 
-    {
-        "source": "Sort directory items by name", 
-        "description": "", 
-        "id": "File browser sort by name tooltip", 
-        "text": "Ordenar itens de diret\u00f3rio por nome"
-    }, 
-    {
-        "source": "Sort By Size", 
-        "description": "", 
-        "id": "Sort By Size", 
-        "text": "Ordenar por tamanho"
-    }, 
-    {
-        "source": "Sort directory items by size", 
-        "description": "", 
-        "id": "File browser sort by size tooltip", 
-        "text": "Ordenar itens de diret\u00f3rio por tamanho"
-    }, 
-    {
-        "source": "Sort By Time", 
-        "description": "", 
-        "id": "Sort By Time", 
-        "text": "Ordenar por hora"
-    }, 
-    {
-        "source": "Sort directory items by time", 
-        "description": "", 
-        "id": "File browser sort by time tooltip", 
-        "text": "Ordenar itens do diret\u00f3rio por hora"
-    }, 
-    {
-        "source": "Reverse Sort", 
-        "description": "", 
-        "id": "Reverse Sort", 
-        "text": "Ordena\u00e7\u00e3o reversa"
-    }, 
-    {
-        "source": "Reverse the direction of sorting", 
-        "description": "", 
-        "id": "File browser reverse sort tooltip", 
-        "text": "Inverta a dire\u00e7\u00e3o da classifica\u00e7\u00e3o"
-    }, 
-    {
-        "source": "Sort Directories First", 
-        "description": "", 
-        "id": "Sort Directories First", 
-        "text": "Ordenar diret\u00f3rios primeiro"
-    }, 
-    {
-        "source": "Show directories before files", 
-        "description": "", 
-        "id": "File browser sort directories first tooltip", 
-        "text": "Mostrar diret\u00f3rios antes dos arquivos"
-    }, 
-    {
-        "source": "Shortcuts", 
-        "description": "", 
-        "id": "Shortcuts", 
-        "text": "Atalhos"
-    }, 
-    {
-        "source": "Drives", 
-        "description": "", 
-        "id": "Drives", 
-        "text": "Drives"
-    }, 
-    {
-        "source": "Recent", 
-        "description": "", 
-        "id": "Recent", 
-        "text": "Recente"
-    }, 
-    {
-        "source": "Name", 
-        "description": "", 
-        "id": "File browser name column", 
-        "text": "Nome"
-    }, 
-    {
-        "source": "Size", 
-        "description": "", 
-        "id": "File browse size column", 
-        "text": "Tamanho"
-    }, 
-    {
-        "source": "Time", 
-        "description": "", 
-        "id": "File browser time column", 
-        "text": "Tempo"
-    }, 
-    {
-        "source": "Search for items in the directory", 
-        "description": "", 
-        "id": "File browser search tooltip", 
-        "text": "Procurar por itens no diret\u00f3rio"
-    }, 
-    {
-        "source": "Thumbnail Size", 
-        "description": "", 
-        "id": "Thumbnail Size", 
-        "text": "Tamanho da Miniatura"
-    }, 
-    {
-        "source": "File browser thumbnail size tooltip", 
-        "description": "", 
-        "id": "File browser thumbnail size tooltip", 
-        "text": "Dica de tamanho de miniatura do navegador de arquivos"
-    }, 
-    {
-        "source": "Items", 
-        "description": "", 
-        "id": "Items", 
         "text": "Unid"
     }, 
     {
-        "source": "Open the file browser history", 
+        "id": "History Tooltip", 
+        "source": "History Tooltip", 
         "description": "", 
-        "id": "File browser history tooltip", 
-        "text": "Abra o hist\u00f3rico do navegador de arquivos"
+        "text": "Dica de Hist\u00f3ria"
     }, 
     {
-        "source": "Set the channels and data type of the color", 
-        "text": "Definir os canais e o tipo de dados da cor", 
+        "id": "Display", 
+        "source": "Display", 
         "description": "", 
-        "id": "Color type widget tooltip"
+        "text": "Exibi\u00e7\u00e3o"
     }, 
     {
-        "source": "L", 
-        "text": "o", 
+        "id": "Size", 
+        "source": "Size", 
         "description": "", 
-        "id": "L"
+        "text": "Tamanho"
     }, 
     {
-        "source": "Set the luminance value", 
-        "text": "Definir o valor de lumin\u00e2ncia", 
+        "id": "Last modification time", 
+        "source": "Last modification time", 
         "description": "", 
-        "id": "RGB color sliders luminance tooltip"
+        "text": "\u00daltima hora da modifica\u00e7\u00e3o"
     }, 
     {
-        "source": "A", 
-        "text": "UMA", 
+        "id": "Video track", 
+        "source": "Video track", 
         "description": "", 
-        "id": "A"
+        "text": "Faixa de v\u00eddeo"
     }, 
     {
-        "source": "Set the alpha value", 
-        "text": "Definir o valor alfa", 
+        "id": "Type", 
+        "source": "Type", 
         "description": "", 
-        "id": "RGB color sliders alpha tooltip"
+        "text": "Tipo"
     }, 
     {
-        "source": "R", 
-        "text": "R", 
+        "id": "Speed", 
+        "source": "Speed", 
         "description": "", 
-        "id": "R"
+        "text": "Rapidez"
     }, 
     {
-        "source": "G", 
-        "text": "G", 
+        "id": "FPS", 
+        "source": "FPS", 
         "description": "", 
-        "id": "G"
+        "text": "FPS"
     }, 
     {
-        "source": "B", 
-        "text": "B", 
+        "id": "Duration", 
+        "source": "Duration", 
         "description": "", 
-        "id": "B"
+        "text": "Dura\u00e7\u00e3o"
     }, 
     {
-        "source": "Set the red value", 
-        "text": "Definir o valor vermelho", 
+        "id": "Audio track", 
+        "source": "Audio track", 
         "description": "", 
-        "id": "RGB color sliders red tooltip"
+        "text": "Faixa de \u00e1udio"
     }, 
     {
-        "source": "Set the green value", 
-        "text": "Definir o valor verde", 
+        "id": "Channels", 
+        "source": "Channels", 
         "description": "", 
-        "id": "RGB color sliders green tooltip"
+        "text": "Canais"
     }, 
     {
-        "source": "Set the blue value", 
-        "text": "Definir o valor azul", 
+        "id": "Sample rate", 
+        "source": "Sample rate", 
         "description": "", 
-        "id": "RGB color sliders blue tooltip"
+        "text": "Taxa de amostragem"
     }, 
     {
-        "source": "V", 
-        "text": "V", 
+        "id": "kHz", 
+        "source": "kHz", 
         "description": "", 
-        "id": "V"
+        "text": "kHz"
     }, 
     {
-        "source": "Set the value", 
-        "text": "Definir o valor", 
+        "id": "JPEG", 
+        "source": "JPEG", 
         "description": "", 
-        "id": "HSV color sliders value tooltip"
+        "text": "JPEG"
     }, 
     {
-        "source": "Set the alpha value", 
-        "text": "Definir o valor alfa", 
+        "id": "I/O", 
+        "source": "I/O", 
         "description": "", 
-        "id": "HSV color sliders alpha tooltip"
+        "text": "E / S"
     }, 
     {
-        "source": "H", 
-        "text": "H", 
+        "id": "Compression Quality", 
+        "source": "Compression Quality", 
         "description": "", 
-        "id": "H"
+        "text": "Qualidade de Compress\u00e3o"
     }, 
     {
-        "source": "S", 
-        "text": "S", 
+        "id": "Language", 
+        "source": "Language", 
         "description": "", 
-        "id": "S"
+        "text": "L\u00edngua"
     }, 
     {
-        "source": "Set the hue", 
-        "text": "Definir o tom", 
+        "id": "General", 
+        "source": "General", 
         "description": "", 
-        "id": "HSV color sliders hue tooltip"
+        "text": "Geral"
     }, 
     {
-        "source": "Set the saturation", 
-        "text": "Definir a satura\u00e7\u00e3o", 
+        "id": "PPM", 
+        "source": "PPM", 
         "description": "", 
-        "id": "HSV color sliders saturation tooltip"
+        "text": "PPM"
     }, 
     {
-        "source": "Compression quality:", 
-        "text": "Qualidade de compress\u00e3o:", 
+        "id": "Data Type", 
+        "source": "Data Type", 
         "description": "", 
-        "id": "Compression quality:"
-    }, 
-    {
-        "source": "Language:", 
-        "text": "L\u00edngua:", 
-        "description": "", 
-        "id": "Language:"
-    }, 
-    {
-        "source": "Min", 
-        "text": "Minuto", 
-        "description": "", 
-        "id": "Min"
-    }, 
-    {
-        "source": "Max", 
-        "text": "Max", 
-        "description": "", 
-        "id": "Max"
-    }, 
-    {
-        "source": "Value", 
-        "text": "Valor", 
-        "description": "", 
-        "id": "Value"
-    }, 
-    {
-        "source": "Data type:", 
-        "text": "Tipo de dados:", 
-        "description": "", 
-        "id": "Data type:"
-    }, 
-    {
-        "source": "File compression:", 
-        "text": "Compress\u00e3o de arquivos:", 
-        "description": "", 
-        "id": "File compression:"
-    }, 
-    {
-        "source": "Time", 
-        "text": "Tempo", 
-        "description": "", 
-        "id": "Time"
-    }, 
-    {
-        "source": "Units:", 
-        "text": "Unidades:", 
-        "description": "", 
-        "id": "Units:"
-    }, 
-    {
-        "id": "Units", 
-        "source": "Units", 
-        "description": "", 
-        "text": "Unidades"
-    }, 
-    {
-        "id": "Tooltips", 
-        "source": "Tooltips", 
-        "description": "", 
-        "text": "Dicas de ferramentas"
-    }, 
-    {
-        "id": "Enable tooltips", 
-        "source": "Enable tooltips", 
-        "description": "", 
-        "text": "Ativar dicas de ferramentas"
-    }, 
-    {
-        "source": "Shortcuts tooltip", 
-        "text": "Dica de atalhos", 
-        "description": "", 
-        "id": "Shortcuts tooltip"
-    }, 
-    {
-        "source": "Sort tooltip", 
-        "text": "Ordenar a dica de ferramenta", 
-        "description": "", 
-        "id": "Sort tooltip"
-    }, 
-    {
-        "source": "Open the file browser settings", 
-        "text": "Abra as configura\u00e7\u00f5es do navegador de arquivos", 
-        "description": "", 
-        "id": "File browser settings tooltip"
-    }, 
-    {
-        "source": "File Browser", 
-        "text": "Navegador de arquivos", 
-        "description": "", 
-        "id": "File Browser"
-    }, 
-    {
-        "source": "Close", 
-        "description": "", 
-        "id": "Close", 
-        "text": "Perto"
-    }, 
-    {
-        "source": "Data type", 
-        "description": "", 
-        "id": "Data type", 
         "text": "Tipo de dados"
     }, 
     {
-        "id": "Current", 
-        "source": "Current", 
+        "id": "Palette", 
+        "source": "Palette", 
         "description": "", 
-        "text": "Atual"
+        "text": "Paleta"
     }, 
     {
-        "source": "Cineon", 
-        "text": "Cineon", 
+        "source": "Display Size", 
+        "text": "Tamanho da exibi\u00e7\u00e3o", 
         "description": "", 
-        "id": "Cineon"
+        "id": "Display Size"
     }, 
     {
-        "source": "Color space", 
-        "text": "Espa\u00e7o colorido", 
+        "source": "TIFF", 
+        "text": "TIFF", 
         "description": "", 
-        "id": "Color space"
+        "id": "TIFF"
     }, 
     {
-        "source": "Color Space", 
-        "text": "Espa\u00e7o colorido", 
+        "source": "File Compression", 
+        "text": "Compress\u00e3o de arquivos", 
         "description": "", 
-        "id": "Color Space"
+        "id": "File Compression"
     }, 
     {
-        "source": "Input", 
-        "text": "Entrada", 
+        "source": "Go back a directory", 
+        "text": "Volte um diret\u00f3rio", 
         "description": "", 
-        "id": "Input"
+        "id": "File browser back tooltip"
     }, 
     {
-        "source": "DPX", 
-        "text": "DPX", 
+        "source": "Go forward a directory", 
+        "text": "V\u00e1 adiante um diret\u00f3rio", 
         "description": "", 
-        "id": "DPX"
+        "id": "File browser forward tooltip"
+    }, 
+    {
+        "source": "Go up a directory", 
+        "text": "Suba um diret\u00f3rio", 
+        "description": "", 
+        "id": "File browser up tooltip"
+    }, 
+    {
+        "source": "File browser current directory tooltip", 
+        "text": "Dica de ferramenta do diret\u00f3rio atual do navegador de arquivos", 
+        "description": "", 
+        "id": "File browser current directory tooltip"
+    }, 
+    {
+        "source": "Edit Path", 
+        "text": "Editar caminho", 
+        "description": "", 
+        "id": "Edit Path"
+    }, 
+    {
+        "source": "File browser edit path tooltip", 
+        "text": "Dica de ferramenta do caminho de edi\u00e7\u00e3o do navegador de arquivos", 
+        "description": "", 
+        "id": "File browser edit path tooltip"
+    }, 
+    {
+        "source": "Add To Shortcuts", 
+        "text": "Adicionar aos atalhos", 
+        "description": "", 
+        "id": "Add To Shortcuts"
+    }, 
+    {
+        "source": "File browser add to shortcuts tooltip", 
+        "text": "Navegador de arquivos adicionar a dicas de ferramenta de atalhos", 
+        "description": "", 
+        "id": "File browser add to shortcuts tooltip"
+    }, 
+    {
+        "source": "Tile View", 
+        "text": "Vista da telha", 
+        "description": "", 
+        "id": "Tile View"
+    }, 
+    {
+        "source": "Show directory items as tiles", 
+        "text": "Mostrar itens do diret\u00f3rio como blocos", 
+        "description": "", 
+        "id": "File browser tile view tooltip"
+    }, 
+    {
+        "source": "Show directory items as a list", 
+        "text": "Mostrar itens do diret\u00f3rio como uma lista", 
+        "description": "", 
+        "id": "File browser list view tooltip"
+    }, 
+    {
+        "source": "Increase Thumbnail Size", 
+        "text": "Aumentar tamanho da miniatura", 
+        "description": "", 
+        "id": "Increase Thumbnail Size"
+    }, 
+    {
+        "source": "Increase the size of the thumbnails", 
+        "text": "Aumentar o tamanho das miniaturas", 
+        "description": "", 
+        "id": "File browser increase thumbnail size tooltip"
+    }, 
+    {
+        "source": "Decrease Thumbnail Size", 
+        "text": "Diminuir o tamanho da miniatura", 
+        "description": "", 
+        "id": "Decrease Thumbnail Size"
+    }, 
+    {
+        "source": "Decrease the size of the thumbnails", 
+        "text": "Diminuir o tamanho das miniaturas", 
+        "description": "", 
+        "id": "File browser decrease thumbnail size tooltip"
+    }, 
+    {
+        "source": "Enable File Sequences", 
+        "text": "Ativar seq\u00fc\u00eancias de arquivos", 
+        "description": "", 
+        "id": "Enable File Sequences"
+    }, 
+    {
+        "source": "Show sequences of files as a single item", 
+        "text": "Mostrar sequ\u00eancias de arquivos como um \u00fanico item", 
+        "description": "", 
+        "id": "File browser file sequences tooltip"
+    }, 
+    {
+        "source": "Show Hidden Files", 
+        "text": "Mostrar arquivos ocultos", 
+        "description": "", 
+        "id": "Show Hidden Files"
+    }, 
+    {
+        "source": "Show directory items that begin with a '.'", 
+        "text": "Mostrar itens de diret\u00f3rio que come\u00e7am com &#39;.&#39;", 
+        "description": "", 
+        "id": "File browser show hidden tooltip"
+    }, 
+    {
+        "source": "Sort By Name", 
+        "text": "Ordenar por nome", 
+        "description": "", 
+        "id": "Sort By Name"
+    }, 
+    {
+        "source": "Sort directory items by name", 
+        "text": "Ordenar itens de diret\u00f3rio por nome", 
+        "description": "", 
+        "id": "File browser sort by name tooltip"
+    }, 
+    {
+        "source": "Sort By Size", 
+        "text": "Ordenar por tamanho", 
+        "description": "", 
+        "id": "Sort By Size"
+    }, 
+    {
+        "source": "Sort directory items by size", 
+        "text": "Ordenar itens de diret\u00f3rio por tamanho", 
+        "description": "", 
+        "id": "File browser sort by size tooltip"
+    }, 
+    {
+        "source": "Sort By Time", 
+        "text": "Ordenar por hora", 
+        "description": "", 
+        "id": "Sort By Time"
+    }, 
+    {
+        "source": "Sort directory items by time", 
+        "text": "Ordenar itens do diret\u00f3rio por hora", 
+        "description": "", 
+        "id": "File browser sort by time tooltip"
+    }, 
+    {
+        "source": "Reverse Sort", 
+        "text": "Ordena\u00e7\u00e3o reversa", 
+        "description": "", 
+        "id": "Reverse Sort"
+    }, 
+    {
+        "source": "Reverse the direction of sorting", 
+        "text": "Inverta a dire\u00e7\u00e3o da classifica\u00e7\u00e3o", 
+        "description": "", 
+        "id": "File browser reverse sort tooltip"
+    }, 
+    {
+        "source": "Sort Directories First", 
+        "text": "Ordenar diret\u00f3rios primeiro", 
+        "description": "", 
+        "id": "Sort Directories First"
+    }, 
+    {
+        "source": "Show directories before files", 
+        "text": "Mostrar diret\u00f3rios antes dos arquivos", 
+        "description": "", 
+        "id": "File browser sort directories first tooltip"
+    }, 
+    {
+        "source": "Shortcuts", 
+        "text": "Atalhos", 
+        "description": "", 
+        "id": "Shortcuts"
+    }, 
+    {
+        "source": "Drives", 
+        "text": "Drives", 
+        "description": "", 
+        "id": "Drives"
+    }, 
+    {
+        "source": "Recent", 
+        "text": "Recente", 
+        "description": "", 
+        "id": "Recent"
     }, 
     {
         "source": "Name", 
         "text": "Nome", 
         "description": "", 
-        "id": "Name"
+        "id": "File browser name column"
     }, 
     {
+        "source": "Size", 
+        "text": "Tamanho", 
+        "description": "", 
+        "id": "File browse size column"
+    }, 
+    {
+        "source": "Time", 
+        "text": "Tempo", 
+        "description": "", 
+        "id": "File browser time column"
+    }, 
+    {
+        "source": "Search for items in the directory", 
+        "text": "Procurar por itens no diret\u00f3rio", 
+        "description": "", 
+        "id": "File browser search tooltip"
+    }, 
+    {
+        "source": "Thumbnail Size", 
+        "text": "Tamanho da Miniatura", 
+        "description": "", 
+        "id": "Thumbnail Size"
+    }, 
+    {
+        "source": "File browser thumbnail size tooltip", 
+        "text": "Dica de tamanho de miniatura do navegador de arquivos", 
+        "description": "", 
+        "id": "File browser thumbnail size tooltip"
+    }, 
+    {
+        "source": "Items", 
+        "text": "Unid", 
+        "description": "", 
+        "id": "Items"
+    }, 
+    {
+        "source": "Open the file browser history", 
+        "text": "Abra o hist\u00f3rico do navegador de arquivos", 
+        "description": "", 
+        "id": "File browser history tooltip"
+    }, 
+    {
+        "id": "Color type widget tooltip", 
+        "source": "Set the channels and data type of the color", 
+        "description": "", 
+        "text": "Definir os canais e o tipo de dados da cor"
+    }, 
+    {
+        "id": "L", 
+        "source": "L", 
+        "description": "", 
+        "text": "o"
+    }, 
+    {
+        "id": "RGB color sliders luminance tooltip", 
+        "source": "Set the luminance value", 
+        "description": "", 
+        "text": "Definir o valor de lumin\u00e2ncia"
+    }, 
+    {
+        "id": "A", 
+        "source": "A", 
+        "description": "", 
+        "text": "UMA"
+    }, 
+    {
+        "id": "RGB color sliders alpha tooltip", 
+        "source": "Set the alpha value", 
+        "description": "", 
+        "text": "Definir o valor alfa"
+    }, 
+    {
+        "id": "R", 
+        "source": "R", 
+        "description": "", 
+        "text": "R"
+    }, 
+    {
+        "id": "G", 
+        "source": "G", 
+        "description": "", 
+        "text": "G"
+    }, 
+    {
+        "id": "B", 
+        "source": "B", 
+        "description": "", 
+        "text": "B"
+    }, 
+    {
+        "id": "RGB color sliders red tooltip", 
+        "source": "Set the red value", 
+        "description": "", 
+        "text": "Definir o valor vermelho"
+    }, 
+    {
+        "id": "RGB color sliders green tooltip", 
+        "source": "Set the green value", 
+        "description": "", 
+        "text": "Definir o valor verde"
+    }, 
+    {
+        "id": "RGB color sliders blue tooltip", 
+        "source": "Set the blue value", 
+        "description": "", 
+        "text": "Definir o valor azul"
+    }, 
+    {
+        "id": "V", 
+        "source": "V", 
+        "description": "", 
+        "text": "V"
+    }, 
+    {
+        "id": "HSV color sliders value tooltip", 
+        "source": "Set the value", 
+        "description": "", 
+        "text": "Definir o valor"
+    }, 
+    {
+        "id": "HSV color sliders alpha tooltip", 
+        "source": "Set the alpha value", 
+        "description": "", 
+        "text": "Definir o valor alfa"
+    }, 
+    {
+        "id": "H", 
+        "source": "H", 
+        "description": "", 
+        "text": "H"
+    }, 
+    {
+        "id": "S", 
+        "source": "S", 
+        "description": "", 
+        "text": "S"
+    }, 
+    {
+        "id": "HSV color sliders hue tooltip", 
+        "source": "Set the hue", 
+        "description": "", 
+        "text": "Definir o tom"
+    }, 
+    {
+        "id": "HSV color sliders saturation tooltip", 
+        "source": "Set the saturation", 
+        "description": "", 
+        "text": "Definir a satura\u00e7\u00e3o"
+    }, 
+    {
+        "id": "Compression quality:", 
+        "source": "Compression quality:", 
+        "description": "", 
+        "text": "Qualidade de compress\u00e3o:"
+    }, 
+    {
+        "id": "Language:", 
+        "source": "Language:", 
+        "description": "", 
+        "text": "L\u00edngua:"
+    }, 
+    {
+        "id": "Min", 
+        "source": "Min", 
+        "description": "", 
+        "text": "Minuto"
+    }, 
+    {
+        "id": "Max", 
+        "source": "Max", 
+        "description": "", 
+        "text": "Max"
+    }, 
+    {
+        "id": "Value", 
+        "source": "Value", 
+        "description": "", 
+        "text": "Valor"
+    }, 
+    {
+        "id": "Data type:", 
+        "source": "Data type:", 
+        "description": "", 
+        "text": "Tipo de dados:"
+    }, 
+    {
+        "id": "File compression:", 
+        "source": "File compression:", 
+        "description": "", 
+        "text": "Compress\u00e3o de arquivos:"
+    }, 
+    {
+        "id": "Time", 
+        "source": "Time", 
+        "description": "", 
+        "text": "Tempo"
+    }, 
+    {
+        "id": "Units:", 
+        "source": "Units:", 
+        "description": "", 
+        "text": "Unidades:"
+    }, 
+    {
+        "source": "Units", 
+        "text": "Unidades", 
+        "id": "Units", 
+        "description": ""
+    }, 
+    {
+        "source": "Tooltips", 
+        "text": "Dicas de ferramentas", 
+        "id": "Tooltips", 
+        "description": ""
+    }, 
+    {
+        "source": "Enable tooltips", 
+        "text": "Ativar dicas de ferramentas", 
+        "id": "Enable tooltips", 
+        "description": ""
+    }, 
+    {
+        "id": "Shortcuts tooltip", 
+        "source": "Shortcuts tooltip", 
+        "description": "", 
+        "text": "Dica de atalhos"
+    }, 
+    {
+        "id": "Sort tooltip", 
+        "source": "Sort tooltip", 
+        "description": "", 
+        "text": "Ordenar a dica de ferramenta"
+    }, 
+    {
+        "id": "File browser settings tooltip", 
+        "source": "Open the file browser settings", 
+        "description": "", 
+        "text": "Abra as configura\u00e7\u00f5es do navegador de arquivos"
+    }, 
+    {
+        "id": "File Browser", 
+        "source": "File Browser", 
+        "description": "", 
+        "text": "Navegador de arquivos"
+    }, 
+    {
+        "source": "Close", 
+        "text": "Perto", 
+        "description": "", 
+        "id": "Close"
+    }, 
+    {
+        "source": "Data type", 
+        "text": "Tipo de dados", 
+        "description": "", 
+        "id": "Data type"
+    }, 
+    {
+        "source": "Current", 
+        "text": "Atual", 
+        "id": "Current", 
+        "description": ""
+    }, 
+    {
+        "id": "Cineon", 
+        "source": "Cineon", 
+        "description": "", 
+        "text": "Cineon"
+    }, 
+    {
+        "id": "Color space", 
+        "source": "Color space", 
+        "description": "", 
+        "text": "Espa\u00e7o colorido"
+    }, 
+    {
+        "id": "Color Space", 
+        "source": "Color Space", 
+        "description": "", 
+        "text": "Espa\u00e7o colorido"
+    }, 
+    {
+        "id": "Input", 
+        "source": "Input", 
+        "description": "", 
+        "text": "Entrada"
+    }, 
+    {
+        "id": "DPX", 
+        "source": "DPX", 
+        "description": "", 
+        "text": "DPX"
+    }, 
+    {
+        "id": "Name", 
+        "source": "Name", 
+        "description": "", 
+        "text": "Nome"
+    }, 
+    {
+        "id": "OpenEXR", 
         "source": "OpenEXR", 
-        "text": "OpenEXR", 
         "description": "", 
-        "id": "OpenEXR"
+        "text": "OpenEXR"
     }, 
     {
+        "id": "Thread count", 
         "source": "Thread count", 
-        "text": "Contagem de fios", 
         "description": "", 
-        "id": "Thread count"
+        "text": "Contagem de fios"
     }, 
     {
+        "id": "Channel grouping", 
         "source": "Channel grouping", 
-        "text": "Agrupamento de canais", 
         "description": "", 
-        "id": "Channel grouping"
+        "text": "Agrupamento de canais"
     }, 
     {
+        "id": "File compression", 
         "source": "File compression", 
-        "text": "Compress\u00e3o de arquivos", 
         "description": "", 
-        "id": "File compression"
+        "text": "Compress\u00e3o de arquivos"
     }, 
     {
+        "id": "DWA compression level", 
         "source": "DWA compression level", 
-        "text": "N\u00edvel de compress\u00e3o DWA", 
         "description": "", 
-        "id": "DWA compression level"
+        "text": "N\u00edvel de compress\u00e3o DWA"
     }, 
     {
+        "id": "Color profile", 
         "source": "Color profile", 
-        "text": "Perfil de cor", 
         "description": "", 
-        "id": "Color profile"
+        "text": "Perfil de cor"
     }, 
     {
         "source": "Default", 
+        "text": "Padr\u00e3o", 
         "description": "", 
-        "id": "Default", 
-        "text": "Padr\u00e3o"
+        "id": "Default"
     }, 
     {
         "source": "Compression quality", 
-        "text": "Qualidade de compress\u00e3o", 
+        "description": "", 
         "id": "Compression quality", 
-        "description": ""
+        "text": "Qualidade de compress\u00e3o"
     }, 
     {
-        "source": "File browser shortcuts tooltip", 
-        "text": "Dica de atalhos do navegador de arquivos", 
+        "source": "Show the shortcuts", 
+        "description": "", 
         "id": "File browser shortcuts tooltip", 
-        "description": ""
+        "text": "Mostrar os atalhos"
     }, 
     {
-        "source": "File browser recent paths tooltip", 
-        "text": "Dica de ferramenta de caminhos recentes do navegador de arquivos", 
+        "source": "Show recently used directories", 
+        "description": "", 
         "id": "File browser recent paths tooltip", 
-        "description": ""
+        "text": "Mostrar diret\u00f3rios usados recentemente"
     }, 
     {
-        "source": "File browser drives tooltip", 
-        "text": "Navegador de arquivos impulsiona a dica de ferramenta", 
+        "source": "Show the drives", 
+        "description": "", 
         "id": "File browser drives tooltip", 
-        "description": ""
+        "text": "Mostrar as unidades"
     }, 
     {
         "source": "File browser sort tooltip", 
-        "text": "Dica de ferramenta de classifica\u00e7\u00e3o do navegador de arquivos", 
+        "description": "", 
         "id": "File browser sort tooltip", 
-        "description": ""
+        "text": "Dica de ferramenta de classifica\u00e7\u00e3o do navegador de arquivos"
     }, 
     {
         "source": "The file", 
-        "text": "O arquivo", 
+        "description": "", 
         "id": "The file", 
-        "description": ""
+        "text": "O arquivo"
     }, 
     {
         "source": "cannot be read", 
-        "text": "n\u00e3o pode ser lido", 
+        "description": "", 
         "id": "cannot be read", 
-        "description": ""
+        "text": "n\u00e3o pode ser lido"
     }, 
     {
         "source": "Add the current directory to the list sof shortcuts", 
-        "text": "Adicione o diret\u00f3rio atual \u00e0 lista de atalhos de sof", 
+        "description": "", 
         "id": "Add shortcut tooltip", 
-        "description": ""
+        "text": "Adicione o diret\u00f3rio atual \u00e0 lista de atalhos de sof"
     }, 
     {
         "source": "Edit the list of shortcuts", 
-        "text": "Edite a lista de atalhos", 
+        "description": "", 
         "id": "Edit shortcuts tooltip", 
-        "description": ""
+        "text": "Edite a lista de atalhos"
     }
 ]
