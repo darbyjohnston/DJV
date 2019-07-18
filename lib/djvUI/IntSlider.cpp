@@ -73,6 +73,12 @@ namespace djv
             setClassName("djv::UI::BasicIntSlider");
             setModel(IntValueModel::create());
             setPointerEnabled(true);
+            switch (orientation)
+            {
+                case Orientation::Horizontal: setVAlign(VAlign::Center); break;
+                case Orientation::Vertical:   setHAlign(HAlign::Center); break;
+                default: break;
+            }
 
             p.orientation = orientation;
 

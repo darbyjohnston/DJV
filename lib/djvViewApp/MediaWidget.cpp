@@ -40,7 +40,6 @@
 #include <djvUI/ActionGroup.h>
 #include <djvUI/Border.h>
 #include <djvUI/ButtonGroup.h>
-#include <djvUI/FloatEdit.h>
 #include <djvUI/FloatSlider.h>
 #include <djvUI/GridLayout.h>
 #include <djvUI/Label.h>
@@ -246,8 +245,7 @@ namespace djv
             std::shared_ptr<UI::BasicFloatSlider> volumeSlider;
             std::shared_ptr<UI::ToolButton> muteButton;
             std::shared_ptr<UI::PopupWidget> audioPopupWidget;
-            std::shared_ptr<UI::BasicFloatSlider> cacheMaxSlider;
-            std::shared_ptr<UI::FloatEdit> cacheMaxEdit;
+            std::shared_ptr<UI::FloatSlider> cacheMaxSlider;
             std::shared_ptr<UI::ToggleButton> cacheEnabledButton;
             std::shared_ptr<UI::PopupWidget> memoryCachePopupWidget;
             std::shared_ptr<UI::GridLayout> playbackLayout;
@@ -268,7 +266,6 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > hasCacheObserver;
             std::shared_ptr<ValueObserver<bool> > cacheEnabledObserver;
             std::shared_ptr<ValueObserver<float> > cacheMaxObserver;
-            std::shared_ptr<ValueObserver<float> > cacheMaxObserver2;
             std::shared_ptr<ListObserver<Time::TimestampRange> > cachedTimestampsObserver;
             std::shared_ptr<ValueObserver<float> > fadeObserver;
             std::shared_ptr<ValueObserver<bool> > frameStoreEnabledObserver;
@@ -360,37 +357,33 @@ namespace djv
             p.timelineSlider = TimelineSlider::create(context);
             p.timelineSlider->setMedia(p.media);
 
-            p.volumeSlider = UI::BasicFloatSlider::create(UI::Orientation::Vertical, context);
+            p.volumeSlider = UI::BasicFloatSlider::create(UI::Orientation::Horizontal, context);
+            p.volumeSlider->setMargin(UI::MetricsRole::MarginSmall);
             p.muteButton = UI::ToolButton::create(context);
             p.muteButton->setIcon("djvIconAudioMute");
             p.muteButton->setButtonType(UI::ButtonType::Toggle);
-            vLayout = UI::VerticalLayout::create(context);
-            vLayout->setMargin(UI::MetricsRole::MarginSmall);
-            vLayout->setSpacing(UI::MetricsRole::SpacingSmall);
-            vLayout->addChild(p.volumeSlider);
-            vLayout->addChild(p.muteButton);
+            hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setSpacing(UI::MetricsRole::None);
+            hLayout->addChild(p.volumeSlider);
+            hLayout->addChild(p.muteButton);
             p.audioPopupWidget = UI::PopupWidget::create(context);
             p.audioPopupWidget->setIcon("djvIconAudio");
-            p.audioPopupWidget->addChild(vLayout);
+            p.audioPopupWidget->addChild(hLayout);
 
-            p.cacheMaxSlider = UI::BasicFloatSlider::create(UI::Orientation::Vertical, context);
+            p.cacheMaxSlider = UI::FloatSlider::create(context);
             p.cacheMaxSlider->setRange(FloatRange(1.f, 64.f));
-            p.cacheMaxSlider->setValue(media ? media->observeCacheMax()->get() : 0.f);
-            p.cacheMaxEdit = UI::FloatEdit::create(context);
-            p.cacheMaxEdit->setModel(p.cacheMaxSlider->getModel());
             p.cacheEnabledButton = UI::ToggleButton::create(context);
             p.cacheEnabledButton->setHAlign(UI::HAlign::Center);
             p.cacheEnabledButton->setMargin(UI::MetricsRole::None);
-            vLayout = UI::VerticalLayout::create(context);
-            vLayout->setMargin(UI::MetricsRole::MarginSmall);
-            vLayout->setSpacing(UI::MetricsRole::SpacingSmall);
-            vLayout->addChild(p.cacheMaxSlider);
-            vLayout->addChild(p.cacheMaxEdit);
-            vLayout->addChild(p.cacheEnabledButton);
+            hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setMargin(UI::MetricsRole::MarginSmall);
+            hLayout->setSpacing(UI::MetricsRole::SpacingSmall);
+            hLayout->addChild(p.cacheMaxSlider);
+            hLayout->addChild(p.cacheEnabledButton);
             p.memoryCachePopupWidget = UI::PopupWidget::create(context);
             p.memoryCachePopupWidget->setIcon("djvIconMemory");
             p.memoryCachePopupWidget->setMargin(UI::MetricsRole::MarginSmall);
-            p.memoryCachePopupWidget->addChild(vLayout);
+            p.memoryCachePopupWidget->addChild(hLayout);
 
             auto toolbar = UI::ToolBar::create(context);
             toolbar->setBackgroundRole(UI::ColorRole::None);
@@ -531,6 +524,18 @@ namespace djv
                         if (auto media = widget->_p->media)
                         {
                             media->setMute(value);
+                        }
+                    }
+                });
+
+            p.cacheMaxSlider->setValueCallback(
+                [weak](float value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        if (auto media = widget->_p->media)
+                        {
+                            media->setCacheMax(value);
                         }
                     }
                 });
@@ -780,7 +785,6 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->cacheMaxSlider->setEnabled(value);
-                        widget->_p->cacheMaxEdit->setEnabled(value);
                         widget->_p->cacheEnabledButton->setEnabled(value);
                     }
                 });
@@ -796,19 +800,6 @@ namespace djv
                 });
 
             p.cacheMaxObserver = ValueObserver<float>::create(
-                p.cacheMaxSlider->getModel()->observeValue(),
-                [weak](float value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        if (auto media = widget->_p->media)
-                        {
-                            media->setCacheMax(value);
-                        }
-                    }
-                });
-
-            p.cacheMaxObserver2 = ValueObserver<float>::create(
                 p.media->observeCacheMax(),
                 [weak](float value)
                 {
@@ -959,7 +950,6 @@ namespace djv
             p.audioPopupWidget->setTooltip(_getText(DJV_TEXT("Audio popup tooltip")));
 
             p.cacheMaxSlider->setTooltip(_getText(DJV_TEXT("Memory cache maximum tooltip")));
-            p.cacheMaxEdit->setTooltip(_getText(DJV_TEXT("Memory cache maximum tooltip")));
             p.cacheEnabledButton->setTooltip(_getText(DJV_TEXT("Memory cache enabled tooltip")));
             p.memoryCachePopupWidget->setTooltip(_getText(DJV_TEXT("Memory cache tooltip")));
 

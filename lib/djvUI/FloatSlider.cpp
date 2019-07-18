@@ -73,7 +73,13 @@ namespace djv
             setClassName("djv::UI::BasicFloatSlider");
             setModel(FloatValueModel::create());
             setPointerEnabled(true);
-
+            switch (orientation)
+            {
+                case Orientation::Horizontal: setVAlign(VAlign::Center); break;
+                case Orientation::Vertical:   setHAlign(HAlign::Center); break;
+                default: break;
+            }
+            
             p.orientation = orientation;
 
             p.delayTimer = Time::Timer::create(context);
