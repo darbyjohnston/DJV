@@ -48,6 +48,8 @@ namespace djv
         {
             std::shared_ptr<ListSubject<Core::FileSystem::FileInfo> > recentFiles;
             std::shared_ptr<ValueSubject<bool> > autoDetectSequences;
+            std::shared_ptr<ValueSubject<bool> > cacheEnabled;
+            std::shared_ptr<ValueSubject<float> > cacheMax;
         };
 
         void FileSettings::_init(Context * context)
@@ -56,6 +58,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.recentFiles = ListSubject<Core::FileSystem::FileInfo>::create();
             p.autoDetectSequences = ValueSubject<bool>::create(true);
+            p.cacheEnabled = ValueSubject<bool>::create(true);
+            p.cacheMax = ValueSubject<float>::create(1.f);
             _load();
         }
 
@@ -83,7 +87,7 @@ namespace djv
             _p->recentFiles->setIfChanged(value);
         }
 
-        std::shared_ptr<Core::IValueSubject<bool> > FileSettings::observeAutoDetectSequences() const
+        std::shared_ptr<IValueSubject<bool> > FileSettings::observeAutoDetectSequences() const
         {
             return _p->autoDetectSequences;
         }
@@ -91,6 +95,26 @@ namespace djv
         void FileSettings::setAutoDetectSequences(bool value)
         {
             _p->autoDetectSequences->setIfChanged(value);
+        }
+
+        std::shared_ptr<IValueSubject<bool> > FileSettings::observeCacheEnabled() const
+        {
+            return _p->cacheEnabled;
+        }
+
+        std::shared_ptr<IValueSubject<float> > FileSettings::observeCacheMax() const
+        {
+            return _p->cacheMax;
+        }
+
+        void FileSettings::setCacheEnabled(bool value)
+        {
+            _p->cacheEnabled->setIfChanged(value);
+        }
+
+        void FileSettings::setCacheMax(float value)
+        {
+            _p->cacheMax->setIfChanged(value);
         }
 
         void FileSettings::load(const picojson::value & value)
@@ -101,6 +125,8 @@ namespace djv
                 const auto & object = value.get<picojson::object>();
                 UI::Settings::read("RecentFiles", object, p.recentFiles);
                 UI::Settings::read("AutoDetectSequences", object, p.autoDetectSequences);
+                UI::Settings::read("CacheEnabled", object, p.cacheEnabled);
+                UI::Settings::read("CacheMax", object, p.cacheMax);
             }
         }
 
@@ -111,6 +137,8 @@ namespace djv
             auto & object = out.get<picojson::object>();
             UI::Settings::write("RecentFiles", p.recentFiles->get(), object);
             UI::Settings::write("AutoDetectSequences", p.autoDetectSequences->get(), object);
+            UI::Settings::write("CacheEnabled", p.cacheEnabled->get(), object);
+            UI::Settings::write("CacheMax", p.cacheMax->get(), object);
             return out;
         }
 

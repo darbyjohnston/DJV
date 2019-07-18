@@ -303,6 +303,12 @@ namespace djv
                 auto render = _getRender();
                 for (const auto & i : _items)
                 {
+                    if (i.second->checked)
+                    {
+                        render->setAlphaMult(i.second->enabled ? 1.f : style->getPalette().getDisabledMult());
+                        render->setFillColor(style->getColor(ColorRole::Checked));
+                        render->drawRect(i.second->geom);
+                    }
                     if (i.second->enabled)
                     {
                         if (i.second == _pressed.second)
@@ -331,13 +337,6 @@ namespace djv
                     float y = 0.f;
 
                     render->setAlphaMult(i.second->enabled ? 1.f : style->getPalette().getDisabledMult());
-
-                    if (i.second->checked)
-                    {
-                        render->setFillColor(style->getColor(ColorRole::Checked));
-                        render->drawRect(i.second->geom);
-                    }
-
                     render->setFillColor(style->getColor(ColorRole::Foreground));
 
                     if (i.second->icon)

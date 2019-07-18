@@ -87,6 +87,7 @@ namespace djv
                 p.buttonLayout->installEventFilter(shared_from_this());
 
                 p.lineEditBase = LineEditBase::create(context);
+                p.lineEditBase->setBackgroundRole(ColorRole::Trough);
                 p.lineEditBase->setVAlign(VAlign::Fill);
                 p.lineEditBase->installEventFilter(shared_from_this());
                 p.lineEditBorder = Border::create(context);

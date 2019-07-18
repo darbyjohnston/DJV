@@ -73,7 +73,6 @@ namespace djv
             setClassName("djv::UI::BasicIntSlider");
             setModel(IntValueModel::create());
             setPointerEnabled(true);
-            setBackgroundRole(ColorRole::Trough);
 
             p.orientation = orientation;
 
@@ -206,6 +205,8 @@ namespace djv
             render->setFillColor(style->getColor(ColorRole::Border));
             drawBorder(render, g, b);
             const BBox2f g2 = g.margin(-b);
+            render->setFillColor(style->getColor(ColorRole::Trough));
+            render->drawRect(g2);
             if (p.model)
             {
                 const auto & range = p.model->observeRange()->get();

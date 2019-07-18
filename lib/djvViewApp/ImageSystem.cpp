@@ -74,7 +74,7 @@ namespace djv
             std::shared_ptr<UI::Menu> menu;
             std::shared_ptr<ColorSpaceWidget> colorSpaceWidget;
 
-            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
+            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > currentImageObserver;
             std::shared_ptr<ValueObserver<AV::Render::ImageOptions> > imageOptionsObserver;
@@ -227,7 +227,7 @@ namespace djv
                     }
                 });
 
-            p.clickedObservers["ColorSpace"] = ValueObserver<bool>::create(
+            p.actionObservers["ColorSpace"] = ValueObserver<bool>::create(
                 p.actions["ColorSpace"]->observeChecked(),
                 [weak, context](bool value)
                 {
@@ -244,7 +244,7 @@ namespace djv
                     }
                 });
 
-            p.clickedObservers["MirrorH"] = ValueObserver<bool>::create(
+            p.actionObservers["MirrorH"] = ValueObserver<bool>::create(
                 p.actions["MirrorH"]->observeChecked(),
                 [weak](bool value)
                 {
@@ -258,7 +258,7 @@ namespace djv
                     }
                 });
 
-            p.clickedObservers["MirrorV"] = ValueObserver<bool>::create(
+            p.actionObservers["MirrorV"] = ValueObserver<bool>::create(
                 p.actions["MirrorV"]->observeChecked(),
                 [weak](bool value)
                 {
@@ -272,7 +272,7 @@ namespace djv
                     }
                 });
 
-            p.clickedObservers["FrameStoreEnabled"] = ValueObserver<bool>::create(
+            p.actionObservers["FrameStoreEnabled"] = ValueObserver<bool>::create(
                 p.actions["FrameStoreEnabled"]->observeChecked(),
                 [weak](bool value)
                 {
@@ -282,7 +282,7 @@ namespace djv
                     }
                 });
 
-            p.clickedObservers["LoadFrameStore"] = ValueObserver<bool>::create(
+            p.actionObservers["LoadFrameStore"] = ValueObserver<bool>::create(
                 p.actions["LoadFrameStore"]->observeClicked(),
                 [weak](bool value)
                 {

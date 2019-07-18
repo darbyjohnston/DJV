@@ -40,6 +40,7 @@
 #include <djvUI/ActionGroup.h>
 #include <djvUI/Border.h>
 #include <djvUI/ButtonGroup.h>
+#include <djvUI/FloatEdit.h>
 #include <djvUI/FloatSlider.h>
 #include <djvUI/GridLayout.h>
 #include <djvUI/Label.h>
@@ -56,6 +57,7 @@
 #include <djvAV/AVSystem.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/NumericValueModels.h>
 #include <djvCore/Path.h>
 #include <djvCore/Timer.h>
 
@@ -244,6 +246,10 @@ namespace djv
             std::shared_ptr<UI::BasicFloatSlider> volumeSlider;
             std::shared_ptr<UI::ToolButton> muteButton;
             std::shared_ptr<UI::PopupWidget> audioPopupWidget;
+            std::shared_ptr<UI::BasicFloatSlider> cacheMaxSlider;
+            std::shared_ptr<UI::FloatEdit> cacheMaxEdit;
+            std::shared_ptr<UI::ToggleButton> cacheEnabledButton;
+            std::shared_ptr<UI::PopupWidget> memoryCachePopupWidget;
             std::shared_ptr<UI::GridLayout> playbackLayout;
             std::shared_ptr<UI::StackLayout> layout;
 
@@ -259,11 +265,15 @@ namespace djv
             std::shared_ptr<ValueObserver<Playback> > playbackObserver;
             std::shared_ptr<ValueObserver<float> > volumeObserver;
             std::shared_ptr<ValueObserver<bool> > muteObserver;
+            std::shared_ptr<ValueObserver<bool> > hasCacheObserver;
+            std::shared_ptr<ValueObserver<bool> > cacheEnabledObserver;
+            std::shared_ptr<ValueObserver<float> > cacheMaxObserver;
+            std::shared_ptr<ValueObserver<float> > cacheMaxObserver2;
             std::shared_ptr<ListObserver<Time::TimestampRange> > cachedTimestampsObserver;
             std::shared_ptr<ValueObserver<float> > fadeObserver;
             std::shared_ptr<ValueObserver<bool> > frameStoreEnabledObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > frameStoreObserver;
-            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
+            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
         };
 
         void MediaWidget::_init(const std::shared_ptr<Media>& media, Context* context)
@@ -351,17 +361,36 @@ namespace djv
             p.timelineSlider->setMedia(p.media);
 
             p.volumeSlider = UI::BasicFloatSlider::create(UI::Orientation::Vertical, context);
-            p.volumeSlider->setMargin(UI::MetricsRole::MarginSmall);
             p.muteButton = UI::ToolButton::create(context);
             p.muteButton->setIcon("djvIconAudioMute");
             p.muteButton->setButtonType(UI::ButtonType::Toggle);
             vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::MetricsRole::None);
+            vLayout->setMargin(UI::MetricsRole::MarginSmall);
+            vLayout->setSpacing(UI::MetricsRole::SpacingSmall);
             vLayout->addChild(p.volumeSlider);
             vLayout->addChild(p.muteButton);
             p.audioPopupWidget = UI::PopupWidget::create(context);
             p.audioPopupWidget->setIcon("djvIconAudio");
             p.audioPopupWidget->addChild(vLayout);
+
+            p.cacheMaxSlider = UI::BasicFloatSlider::create(UI::Orientation::Vertical, context);
+            p.cacheMaxSlider->setRange(FloatRange(1.f, 64.f));
+            p.cacheMaxSlider->setValue(media ? media->observeCacheMax()->get() : 0.f);
+            p.cacheMaxEdit = UI::FloatEdit::create(context);
+            p.cacheMaxEdit->setModel(p.cacheMaxSlider->getModel());
+            p.cacheEnabledButton = UI::ToggleButton::create(context);
+            p.cacheEnabledButton->setHAlign(UI::HAlign::Center);
+            p.cacheEnabledButton->setMargin(UI::MetricsRole::None);
+            vLayout = UI::VerticalLayout::create(context);
+            vLayout->setMargin(UI::MetricsRole::MarginSmall);
+            vLayout->setSpacing(UI::MetricsRole::SpacingSmall);
+            vLayout->addChild(p.cacheMaxSlider);
+            vLayout->addChild(p.cacheMaxEdit);
+            vLayout->addChild(p.cacheEnabledButton);
+            p.memoryCachePopupWidget = UI::PopupWidget::create(context);
+            p.memoryCachePopupWidget->setIcon("djvIconMemory");
+            p.memoryCachePopupWidget->setMargin(UI::MetricsRole::MarginSmall);
+            p.memoryCachePopupWidget->addChild(vLayout);
 
             auto toolbar = UI::ToolBar::create(context);
             toolbar->setBackgroundRole(UI::ColorRole::None);
@@ -377,14 +406,11 @@ namespace djv
             p.playbackLayout->setBackgroundRole(UI::ColorRole::OverlayLight);
             p.playbackLayout->addChild(toolbar);
             p.playbackLayout->setGridPos(toolbar, 0, 0);
-            hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::MetricsRole::None);
-            hLayout->addChild(p.timelineSlider);
-            hLayout->setStretch(p.timelineSlider, UI::RowStretch::Expand);
-            hLayout->addChild(p.audioPopupWidget);
-            p.playbackLayout->addChild(hLayout);
-            p.playbackLayout->setGridPos(hLayout, 1, 0);
-            p.playbackLayout->setStretch(hLayout, UI::GridStretch::Horizontal);
+            p.playbackLayout->addChild(p.timelineSlider);
+            p.playbackLayout->setGridPos(p.timelineSlider, 1, 0);
+            p.playbackLayout->setStretch(p.timelineSlider, UI::GridStretch::Horizontal);
+            p.playbackLayout->addChild(p.audioPopupWidget);
+            p.playbackLayout->setGridPos(p.audioPopupWidget, 2, 0);
             hLayout = UI::HorizontalLayout::create(context);
             hLayout->addChild(p.speedPopupWidget);
             hLayout->addChild(p.realSpeedLabel);
@@ -397,6 +423,8 @@ namespace djv
             hLayout->addChild(p.durationLabel);
             p.playbackLayout->addChild(hLayout);
             p.playbackLayout->setGridPos(hLayout, 1, 1);
+            p.playbackLayout->addChild(p.memoryCachePopupWidget);
+            p.playbackLayout->setGridPos(p.memoryCachePopupWidget, 2, 1);
 
             p.layout = UI::StackLayout::create(context);
             p.layout->addChild(p.imageView);
@@ -507,6 +535,18 @@ namespace djv
                     }
                 });
 
+            p.cacheEnabledButton->setCheckedCallback(
+                [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        if (auto media = widget->_p->media)
+                        {
+                            media->setCacheEnabled(value);
+                        }
+                    }
+                });
+
             p.maximizeButton->setClickedCallback(
                 [weak]
                 {
@@ -527,7 +567,7 @@ namespace djv
                     fileSystem->close(media);
                 });
 
-            p.clickedObservers["InPoint"] = ValueObserver<bool>::create(
+            p.actionObservers["InPoint"] = ValueObserver<bool>::create(
                 p.actions["InPoint"]->observeClicked(),
                 [weak](bool value)
                 {
@@ -543,7 +583,7 @@ namespace djv
                     }
                 });
 
-            p.clickedObservers["PrevFrame"] = ValueObserver<bool>::create(
+            p.actionObservers["PrevFrame"] = ValueObserver<bool>::create(
                 p.actions["PrevFrame"]->observeClicked(),
                 [weak](bool value)
                 {
@@ -559,7 +599,7 @@ namespace djv
                     }
                 });
 
-            p.clickedObservers["NextFrame"] = ValueObserver<bool>::create(
+            p.actionObservers["NextFrame"] = ValueObserver<bool>::create(
                 p.actions["NextFrame"]->observeClicked(),
                 [weak](bool value)
                 {
@@ -575,7 +615,7 @@ namespace djv
                     }
                 });
 
-            p.clickedObservers["OutPoint"] = ValueObserver<bool>::create(
+            p.actionObservers["OutPoint"] = ValueObserver<bool>::create(
                 p.actions["OutPoint"]->observeClicked(),
                 [weak](bool value)
                 {
@@ -733,6 +773,61 @@ namespace djv
                     }
                 });
 
+            p.hasCacheObserver = ValueObserver<bool>::create(
+                p.media->observeHasCache(),
+                [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->cacheMaxSlider->setEnabled(value);
+                        widget->_p->cacheMaxEdit->setEnabled(value);
+                        widget->_p->cacheEnabledButton->setEnabled(value);
+                    }
+                });
+
+            p.cacheEnabledObserver = ValueObserver<bool>::create(
+                p.media->observeCacheEnabled(),
+                [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->cacheEnabledButton->setChecked(value);
+                    }
+                });
+
+            p.cacheMaxObserver = ValueObserver<float>::create(
+                p.cacheMaxSlider->getModel()->observeValue(),
+                [weak](float value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        if (auto media = widget->_p->media)
+                        {
+                            media->setCacheMax(value);
+                        }
+                    }
+                });
+
+            p.cacheMaxObserver2 = ValueObserver<float>::create(
+                p.media->observeCacheMax(),
+                [weak](float value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->cacheMaxSlider->setValue(value);
+                    }
+                });
+
+            p.cachedTimestampsObserver = ListObserver<Time::TimestampRange>::create(
+                p.media->observeCachedTimestamps(),
+                [weak](const std::vector<Time::TimestampRange>& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->timelineSlider->setCachedTimestamps(value);
+                    }
+                });
+
             if (auto imageSystem = context->getSystemT<ImageSystem>())
             {
                 p.frameStoreEnabledObserver = ValueObserver<bool>::create(
@@ -756,16 +851,6 @@ namespace djv
                         }
                     });
             }
-
-            p.cachedTimestampsObserver = ListObserver<Time::TimestampRange>::create(
-                p.media->observeCachedTimestamps(),
-                [weak](const std::vector<Time::TimestampRange>& value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->timelineSlider->setCachedTimestamps(value);
-                    }
-                });
 
             if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
@@ -869,9 +954,14 @@ namespace djv
             p.currentTimeLabel->setTooltip(_getText(DJV_TEXT("Current time tooltip")));
             p.durationLabel->setTooltip(_getText(DJV_TEXT("Duration tooltip")));
 
-            p.audioPopupWidget->setTooltip(_getText(DJV_TEXT("Audio popup tooltip")));
             p.volumeSlider->setTooltip(_getText(DJV_TEXT("Volume tooltip")));
             p.muteButton->setTooltip(_getText(DJV_TEXT("Mute tooltip")));
+            p.audioPopupWidget->setTooltip(_getText(DJV_TEXT("Audio popup tooltip")));
+
+            p.cacheMaxSlider->setTooltip(_getText(DJV_TEXT("Memory cache maximum tooltip")));
+            p.cacheMaxEdit->setTooltip(_getText(DJV_TEXT("Memory cache maximum tooltip")));
+            p.cacheEnabledButton->setTooltip(_getText(DJV_TEXT("Memory cache enabled tooltip")));
+            p.memoryCachePopupWidget->setTooltip(_getText(DJV_TEXT("Memory cache tooltip")));
 
             _speedUpdate();
         }
@@ -911,6 +1001,7 @@ namespace djv
             p.playbackLayout->setVisible(p.duration > f);
 
             p.audioPopupWidget->setEnabled(p.media.get());
+            p.memoryCachePopupWidget->setEnabled(p.media.get());
         }
 
         void MediaWidget::_imageUpdate()

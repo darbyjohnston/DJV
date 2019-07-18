@@ -70,6 +70,7 @@ namespace djv
                 setButtonType(ButtonType::Toggle);
                 setHAlign(HAlign::Left);
                 setVAlign(VAlign::Center);
+                setMargin(MetricsRole::MarginSmall);
                 p.animation = Animation::Animation::create(context);
             }
 
@@ -107,6 +108,10 @@ namespace djv
                         }
                     });
                 }
+                else
+                {
+                    p.animationValue = value ? 1.f : 0.f;
+                }
             }
 
             void Toggle::_styleEvent(Event::Style& event)
@@ -131,12 +136,11 @@ namespace djv
                         _log(e.what(), LogLevel::Error);
                     }
                 }
-                const auto& style = _getStyle();
-                const float m = style->getMetric(MetricsRole::MarginSmall);
                 glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
-                minimumSize.x = p.fontMetrics.lineHeight * 2.f + m * 2.f;
-                minimumSize.y = p.fontMetrics.lineHeight + m * 2.f;
-                _setMinimumSize(minimumSize);
+                minimumSize.x = p.fontMetrics.lineHeight * 2.f;
+                minimumSize.y = p.fontMetrics.lineHeight;
+                const auto& style = _getStyle();
+                _setMinimumSize(minimumSize + getMargin().getSize(style));
             }
 
             void Toggle::_paintEvent(Event::Paint & event)
@@ -146,20 +150,18 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
                 const float b = style->getMetric(MetricsRole::Border);
-                const float m = style->getMetric(MetricsRole::MarginSmall);
-                const BBox2f & g = getGeometry();
+                const BBox2f & g = getMargin().bbox(getGeometry(), style);
 
                 auto render = _getRender();
                 render->setFillColor(style->getColor(ColorRole::Border));
-                const BBox2f g1 = g.margin(-m);
-                drawBorder(render, g1, b);
+                drawBorder(render, g, b);
 
                 render->setFillColor(style->getColor(isChecked() ? ColorRole::Checked : ColorRole::Trough));
-                render->drawRect(g1.margin(-b));
+                render->drawRect(g.margin(-b));
 
-                const float r = g1.h() / 2.f;
-                const float x = Math::lerp(p.animationValue, g1.min.x + r, g1.max.x - r);
-                const BBox2f handleBBox(x - r, g1.min.y, r * 2.f, r * 2.f);
+                const float r = g.h() / 2.f;
+                const float x = Math::lerp(p.animationValue, g.min.x + r, g.max.x - r);
+                const BBox2f handleBBox(x - r, g.min.y, r * 2.f, r * 2.f);
                 auto color = style->getColor(ColorRole::Border);
                 render->setFillColor(color);
                 render->drawRect(handleBBox);

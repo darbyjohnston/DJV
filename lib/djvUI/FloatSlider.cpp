@@ -73,7 +73,6 @@ namespace djv
             setClassName("djv::UI::BasicFloatSlider");
             setModel(FloatValueModel::create());
             setPointerEnabled(true);
-            setBackgroundRole(ColorRole::Trough);
 
             p.orientation = orientation;
 
@@ -195,7 +194,6 @@ namespace djv
 
         void BasicFloatSlider::_paintEvent(Event::Paint & event)
         {
-            Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const BBox2f& g = getMargin().bbox(getGeometry(), style);
@@ -206,6 +204,8 @@ namespace djv
             render->setFillColor(style->getColor(ColorRole::Border));
             drawBorder(render, g, b);
             const BBox2f g2 = g.margin(-b);
+            render->setFillColor(style->getColor(ColorRole::Trough));
+            render->drawRect(g2);
             if (p.model)
             {
                 const auto & range = p.model->observeRange()->get();

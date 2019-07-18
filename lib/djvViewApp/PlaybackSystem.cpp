@@ -62,7 +62,7 @@ namespace djv
             std::shared_ptr<UI::ActionGroup> playbackActionGroup;
             std::shared_ptr<UI::ActionGroup> playbackModeActionGroup;
             std::shared_ptr<UI::Menu> menu;
-            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
+            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<Playback> > playbackObserver;
             std::shared_ptr<ValueObserver<PlaybackMode> > playbackModeObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
@@ -220,7 +220,7 @@ namespace djv
                 }
             });
 
-            p.clickedObservers["StartFrame"] = ValueObserver<bool>::create(
+            p.actionObservers["StartFrame"] = ValueObserver<bool>::create(
                 p.actions["StartFrame"]->observeClicked(),
                 [weak](bool value)
             {
@@ -236,7 +236,7 @@ namespace djv
                 }
             });
 
-            p.clickedObservers["EndFrame"] = ValueObserver<bool>::create(
+            p.actionObservers["EndFrame"] = ValueObserver<bool>::create(
                 p.actions["EndFrame"]->observeClicked(),
                 [weak](bool value)
             {
@@ -252,7 +252,7 @@ namespace djv
                 }
             });
 
-            p.clickedObservers["NextFrame"] = ValueObserver<bool>::create(
+            p.actionObservers["NextFrame"] = ValueObserver<bool>::create(
                 p.actions["NextFrame"]->observeClicked(),
                 [weak](bool value)
             {
@@ -268,7 +268,7 @@ namespace djv
                 }
             });
 
-            p.clickedObservers["NextFrame10"] = ValueObserver<bool>::create(
+            p.actionObservers["NextFrame10"] = ValueObserver<bool>::create(
                 p.actions["NextFrame10"]->observeClicked(),
                 [weak](bool value)
             {
@@ -284,7 +284,7 @@ namespace djv
                 }
             });
 
-            p.clickedObservers["NextFrame100"] = ValueObserver<bool>::create(
+            p.actionObservers["NextFrame100"] = ValueObserver<bool>::create(
                 p.actions["NextFrame100"]->observeClicked(),
                 [weak](bool value)
             {
@@ -300,7 +300,7 @@ namespace djv
                 }
             });
 
-            p.clickedObservers["PrevFrame"] = ValueObserver<bool>::create(
+            p.actionObservers["PrevFrame"] = ValueObserver<bool>::create(
                 p.actions["PrevFrame"]->observeClicked(),
                 [weak](bool value)
             {
@@ -316,7 +316,7 @@ namespace djv
                 }
             });
 
-            p.clickedObservers["PrevFrame10"] = ValueObserver<bool>::create(
+            p.actionObservers["PrevFrame10"] = ValueObserver<bool>::create(
                 p.actions["PrevFrame10"]->observeClicked(),
                 [weak](bool value)
             {
@@ -332,7 +332,7 @@ namespace djv
                 }
             });
 
-            p.clickedObservers["PrevFrame100"] = ValueObserver<bool>::create(
+            p.actionObservers["PrevFrame100"] = ValueObserver<bool>::create(
                 p.actions["PrevFrame100"]->observeClicked(),
                 [weak](bool value)
             {

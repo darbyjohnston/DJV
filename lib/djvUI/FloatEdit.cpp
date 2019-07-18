@@ -59,7 +59,6 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             setClassName("djv::UI::FloatEdit");
-            setBackgroundRole(ColorRole::Trough);
 
             p.lineEdit = LineEdit::create(context);
             addChild(p.lineEdit);

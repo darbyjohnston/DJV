@@ -74,7 +74,7 @@ namespace djv
         struct SettingsSystem::Private
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
-            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
+            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
         };
 
         void SettingsSystem::_init(Context * context)
@@ -154,12 +154,13 @@ namespace djv
 #endif
 
                 BackgroundImageSettingsWidget::create(context),
-                FileSettingsWidget::create(context),
+                CacheSettingsWidget::create(context),
                 ImageAspectRatioSettingsWidget::create(context),
                 ImageRotateSettingsWidget::create(context),
                 ImageViewBackgroundSettingsWidget::create(context),
                 NUXSettingsWidget::create(context),
                 PlaybackSettingsWidget::create(context),
+                SequenceSettingsWidget::create(context),
                 UISettingsWidget::create(context),
             };
         }

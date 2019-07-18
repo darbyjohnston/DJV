@@ -60,7 +60,6 @@ namespace djv
     {
         struct FileSystem::Private
         {
-            bool cacheEnabled = false;
             std::shared_ptr<FileSettings> settings;
             std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > opened;
             std::shared_ptr<ValueSubject<std::pair<std::shared_ptr<Media>, glm::vec2> > > opened2;
@@ -75,8 +74,9 @@ namespace djv
             std::shared_ptr<RecentFilesDialog> recentFilesDialog;
             std::shared_ptr<ListObserver<Core::FileSystem::FileInfo> > recentFilesObserver;
             std::shared_ptr<ListObserver<Core::FileSystem::FileInfo> > recentFilesObserver2;
-            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
             std::shared_ptr<ValueObserver<bool> > hasCacheObserver;
+            std::shared_ptr<ValueObserver<bool> > cacheEnabledObserver;
+            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
@@ -127,9 +127,7 @@ namespace djv
             p.actions["8BitConversion"]->setEnabled(false);
             p.actions["MemoryCache"] = UI::Action::create();
             p.actions["MemoryCache"]->setButtonType(UI::ButtonType::Toggle);
-            //! \todo Implement me!
-            p.actions["ClearCache"] = UI::Action::create();
-            p.actions["ClearCache"]->setEnabled(false);
+            p.actions["MemoryCache"]->setEnabled(false);
             p.actions["Exit"] = UI::Action::create();
             p.actions["Exit"]->setShortcut(GLFW_KEY_Q, UI::Shortcut::getSystemModifier());
 
@@ -150,7 +148,6 @@ namespace djv
             p.menu->addAction(p.actions["8BitConversion"]);
             p.menu->addSeparator();
             p.menu->addAction(p.actions["MemoryCache"]);
-            p.menu->addAction(p.actions["ClearCache"]);
             p.menu->addSeparator();
             p.menu->addAction(p.actions["Exit"]);
 
@@ -174,24 +171,25 @@ namespace djv
 
             p.recentFilesObserver = ListObserver<Core::FileSystem::FileInfo>::create(
                 p.settings->observeRecentFiles(),
-                [weak](const std::vector<Core::FileSystem::FileInfo> & value)
-            {
-                if (auto system = weak.lock())
+                [weak](const std::vector<Core::FileSystem::FileInfo>& value)
                 {
-                    system->_p->recentFilesModel->setFiles(value);
-                }
-            });
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->recentFilesModel->setFiles(value);
+                    }
+                });
+
             p.recentFilesObserver2 = ListObserver<Core::FileSystem::FileInfo>::create(
                 p.recentFilesModel->observeFiles(),
-                [weak](const std::vector<Core::FileSystem::FileInfo> & value)
-            {
-                if (auto system = weak.lock())
+                [weak](const std::vector<Core::FileSystem::FileInfo>& value)
                 {
-                    system->_p->settings->setRecentFiles(value);
-                }
-            });
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->settings->setRecentFiles(value);
+                    }
+                });
 
-            p.clickedObservers["Open"] = ValueObserver<bool>::create(
+            p.actionObservers["Open"] = ValueObserver<bool>::create(
                 p.actions["Open"]->observeClicked(),
                 [weak](bool value)
             {
@@ -204,7 +202,7 @@ namespace djv
                 }
             });
 
-            p.clickedObservers["Recent"] = ValueObserver<bool>::create(
+            p.actionObservers["Recent"] = ValueObserver<bool>::create(
                 p.actions["Recent"]->observeClicked(),
                 [weak](bool value)
                 {
@@ -217,7 +215,7 @@ namespace djv
                     }
                 });
 
-            p.clickedObservers["Reload"] = ValueObserver<bool>::create(
+            p.actionObservers["Reload"] = ValueObserver<bool>::create(
                 p.actions["Reload"]->observeClicked(),
                 [weak](bool value)
                 {
@@ -233,7 +231,7 @@ namespace djv
                     }
                 });
 
-            p.clickedObservers["Close"] = ValueObserver<bool>::create(
+            p.actionObservers["Close"] = ValueObserver<bool>::create(
                 p.actions["Close"]->observeClicked(),
                 [weak](bool value)
             {
@@ -249,7 +247,7 @@ namespace djv
                 }
             });
 
-            p.clickedObservers["CloseAll"] = ValueObserver<bool>::create(
+            p.actionObservers["CloseAll"] = ValueObserver<bool>::create(
                 p.actions["CloseAll"]->observeClicked(),
                 [weak](bool value)
             {
@@ -262,7 +260,7 @@ namespace djv
                 }
             });
 
-            p.clickedObservers["Next"] = ValueObserver<bool>::create(
+            p.actionObservers["Next"] = ValueObserver<bool>::create(
                 p.actions["Next"]->observeClicked(),
                 [weak](bool value)
             {
@@ -291,7 +289,7 @@ namespace djv
                 }
             });
 
-            p.clickedObservers["Prev"] = ValueObserver<bool>::create(
+            p.actionObservers["Prev"] = ValueObserver<bool>::create(
                 p.actions["Prev"]->observeClicked(),
                 [weak](bool value)
             {
@@ -317,7 +315,7 @@ namespace djv
                 }
             });
 
-            p.clickedObservers["NextLayer"] = ValueObserver<bool>::create(
+            p.actionObservers["NextLayer"] = ValueObserver<bool>::create(
                 p.actions["NextLayer"]->observeClicked(),
                 [weak, context](bool value)
                 {
@@ -333,7 +331,7 @@ namespace djv
                     }
                 });
 
-            p.clickedObservers["PrevLayer"] = ValueObserver<bool>::create(
+            p.actionObservers["PrevLayer"] = ValueObserver<bool>::create(
                 p.actions["PrevLayer"]->observeClicked(),
                 [weak, context](bool value)
                 {
@@ -349,7 +347,7 @@ namespace djv
                     }
                 });
 
-            p.clickedObservers["LayersWidget"] = ValueObserver<bool>::create(
+            p.actionObservers["LayersWidget"] = ValueObserver<bool>::create(
                 p.actions["LayersWidget"]->observeChecked(),
                 [weak, context](bool value)
                 {
@@ -366,13 +364,12 @@ namespace djv
                     }
                 });
 
-            p.clickedObservers["MemoryCache"] = ValueObserver<bool>::create(
+            p.actionObservers["MemoryCache"] = ValueObserver<bool>::create(
                 p.actions["MemoryCache"]->observeChecked(),
                 [weak](bool value)
                 {
                     if (auto system = weak.lock())
                     {
-                        system->_p->cacheEnabled = value;
                         if (auto media = system->_p->currentMedia->get())
                         {
                             media->setCacheEnabled(value);
@@ -380,7 +377,7 @@ namespace djv
                     }
                 });
 
-            p.clickedObservers["Exit"] = ValueObserver<bool>::create(
+            p.actionObservers["Exit"] = ValueObserver<bool>::create(
                 p.actions["Exit"]->observeClicked(),
                 [weak, context](bool value)
                 {
@@ -450,6 +447,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             auto context = getContext();
             auto media = Media::create(fileInfo, context);
+            media->setCacheEnabled(p.settings->observeCacheEnabled()->get());
+            media->setCacheMax(p.settings->observeCacheMax()->get());
             p.media->pushBack(media);
             p.opened->setIfChanged(media);
             // Reset the observer so we don't have an extra shared_ptr holding
@@ -457,7 +456,6 @@ namespace djv
             p.opened->setIfChanged(nullptr);
             setCurrentMedia(media);
             p.recentFilesModel->addFile(fileInfo);
-            _actionsUpdate();
         }
 
         void FileSystem::open(const Core::FileSystem::FileInfo& fileInfo, const glm::vec2& pos)
@@ -466,13 +464,14 @@ namespace djv
             auto context = getContext();
             auto media = Media::create(fileInfo, context);
             p.media->pushBack(media);
+            media->setCacheEnabled(p.settings->observeCacheEnabled()->get());
+            media->setCacheMax(p.settings->observeCacheMax()->get());
             p.opened2->setIfChanged(std::make_pair(media, pos));
             // Reset the observer so we don't have an extra shared_ptr holding
             // onto the media object.
             p.opened2->setIfChanged(std::make_pair(nullptr, glm::ivec2(0, 0)));
             setCurrentMedia(media);
             p.recentFilesModel->addFile(fileInfo);
-            _actionsUpdate();
         }
 
         void FileSystem::close(const std::shared_ptr<Media>& media)
@@ -495,7 +494,6 @@ namespace djv
                     current = p.media->getItem(index);
                 }
                 setCurrentMedia(current);
-                _actionsUpdate();
             }
         }
 
@@ -511,7 +509,6 @@ namespace djv
                 p.closed->setIfChanged(nullptr);
             }
             setCurrentMedia(nullptr);
-            _actionsUpdate();
         }
 
         void FileSystem::setCurrentMedia(const std::shared_ptr<Media> & media)
@@ -519,9 +516,33 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.currentMedia->setIfChanged(media))
             {
-                if (auto media = p.currentMedia->get())
+                if (media)
                 {
-                    media->setCacheEnabled(p.cacheEnabled);
+                    auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
+                    p.hasCacheObserver = ValueObserver<bool>::create(
+                        media->observeHasCache(),
+                        [weak](bool value)
+                        {
+                            if (auto system = weak.lock())
+                            {
+                                system->_actionsUpdate();
+                            }
+                        });
+                    p.cacheEnabledObserver = ValueObserver<bool>::create(
+                        media->observeCacheEnabled(),
+                        [weak](bool value)
+                        {
+                            if (auto system = weak.lock())
+                            {
+                                system->_actionsUpdate();
+                            }
+                        });
+                }
+                else
+                {
+                    p.hasCacheObserver.reset();
+                    p.cacheEnabledObserver.reset();
+                    _actionsUpdate();
                 }
             }
         }
@@ -551,6 +572,15 @@ namespace djv
             p.actions["Export"]->setEnabled(size);
             p.actions["Next"]->setEnabled(size > 1);
             p.actions["Prev"]->setEnabled(size > 1);
+            bool hasCache = false;
+            bool cacheEnabled = false;
+            if (auto media = p.currentMedia->get())
+            {
+                hasCache = media->observeHasCache()->get();
+                cacheEnabled = media->observeCacheEnabled()->get();
+            }
+            p.actions["MemoryCache"]->setEnabled(hasCache);
+            p.actions["MemoryCache"]->setChecked(cacheEnabled);
         }
 
         void FileSystem::_textUpdate()
@@ -582,8 +612,6 @@ namespace djv
             p.actions["8BitConversion"]->setTooltip(_getText(DJV_TEXT("8-bit conversion tooltip")));
             p.actions["MemoryCache"]->setText(_getText(DJV_TEXT("Memory Cache")));
             p.actions["MemoryCache"]->setTooltip(_getText(DJV_TEXT("Memory cache tooltip")));
-            p.actions["ClearCache"]->setText(_getText(DJV_TEXT("Clear Memory Cache")));
-            p.actions["ClearCache"]->setTooltip(_getText(DJV_TEXT("Clear cache tooltip")));
             p.actions["Exit"]->setText(_getText(DJV_TEXT("Exit")));
             p.actions["Exit"]->setTooltip(_getText(DJV_TEXT("Exit tooltip")));
 

@@ -35,17 +35,40 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the file settings widget.
-        class FileSettingsWidget : public UI::ISettingsWidget
+        //! This class provides the sequence settings widget.
+        class SequenceSettingsWidget : public UI::ISettingsWidget
         {
-            DJV_NON_COPYABLE(FileSettingsWidget);
+            DJV_NON_COPYABLE(SequenceSettingsWidget);
 
         protected:
             void _init(Core::Context*);
-            FileSettingsWidget();
+            SequenceSettingsWidget();
 
         public:
-            static std::shared_ptr<FileSettingsWidget> create(Core::Context*);
+            static std::shared_ptr<SequenceSettingsWidget> create(Core::Context*);
+
+            std::string getSettingsName() const override;
+            std::string getSettingsGroup() const override;
+            std::string getSettingsSortKey() const override;
+
+        protected:
+            void _localeEvent(Core::Event::Locale&) override;
+
+        private:
+            DJV_PRIVATE();
+        };
+
+        //! This class provides the cache settings widget.
+        class CacheSettingsWidget : public UI::ISettingsWidget
+        {
+            DJV_NON_COPYABLE(CacheSettingsWidget);
+
+        protected:
+            void _init(Core::Context*);
+            CacheSettingsWidget();
+
+        public:
+            static std::shared_ptr<CacheSettingsWidget> create(Core::Context*);
 
             std::string getSettingsName() const override;
             std::string getSettingsGroup() const override;

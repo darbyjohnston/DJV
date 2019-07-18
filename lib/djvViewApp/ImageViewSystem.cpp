@@ -68,7 +68,7 @@ namespace djv
             std::shared_ptr<UI::ActionGroup> lockActionGroup;
             std::shared_ptr<UI::Menu> menu;
             
-            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
+            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
             std::shared_ptr<ValueObserver<ImageViewLock> > lockObserver;
             std::shared_ptr<ValueObserver<PointerData> > hoverObserver;
@@ -159,7 +159,7 @@ namespace djv
             _actionsUpdate();
 
             auto weak = std::weak_ptr<ImageViewSystem>(std::dynamic_pointer_cast<ImageViewSystem>(shared_from_this()));
-            p.clickedObservers["Left"] = ValueObserver<bool>::create(
+            p.actionObservers["Left"] = ValueObserver<bool>::create(
                 p.actions["Left"]->observeClicked(),
                 [weak](bool value)
                 {
@@ -171,7 +171,8 @@ namespace djv
                         }
                     }
                 });
-            p.clickedObservers["Right"] = ValueObserver<bool>::create(
+
+            p.actionObservers["Right"] = ValueObserver<bool>::create(
                 p.actions["Right"]->observeClicked(),
                 [weak](bool value)
                 {
@@ -184,7 +185,8 @@ namespace djv
                         }
                     }
                 });
-            p.clickedObservers["Up"] = ValueObserver<bool>::create(
+
+            p.actionObservers["Up"] = ValueObserver<bool>::create(
                 p.actions["Up"]->observeClicked(),
                 [weak](bool value)
                 {
@@ -197,7 +199,8 @@ namespace djv
                         }
                     }
                 });
-            p.clickedObservers["Down"] = ValueObserver<bool>::create(
+
+            p.actionObservers["Down"] = ValueObserver<bool>::create(
                 p.actions["Down"]->observeClicked(),
                 [weak](bool value)
                 {
@@ -210,7 +213,8 @@ namespace djv
                         }
                     }
                 });
-            p.clickedObservers["NW"] = ValueObserver<bool>::create(
+
+            p.actionObservers["NW"] = ValueObserver<bool>::create(
                 p.actions["NW"]->observeClicked(),
                 [weak](bool value)
                 {
@@ -223,7 +227,8 @@ namespace djv
                         }
                     }
                 });
-            p.clickedObservers["NE"] = ValueObserver<bool>::create(
+
+            p.actionObservers["NE"] = ValueObserver<bool>::create(
                 p.actions["NE"]->observeClicked(),
                 [weak](bool value)
                 {
@@ -236,7 +241,8 @@ namespace djv
                         }
                     }
                 });
-            p.clickedObservers["SE"] = ValueObserver<bool>::create(
+
+            p.actionObservers["SE"] = ValueObserver<bool>::create(
                 p.actions["SE"]->observeClicked(),
                 [weak](bool value)
                 {
@@ -249,7 +255,8 @@ namespace djv
                         }
                     }
                 });
-            p.clickedObservers["SW"] = ValueObserver<bool>::create(
+
+            p.actionObservers["SW"] = ValueObserver<bool>::create(
                 p.actions["SW"]->observeClicked(),
                 [weak](bool value)
                 {
@@ -263,7 +270,7 @@ namespace djv
                     }
                 });
 
-            p.clickedObservers["ZoomIn"] = ValueObserver<bool>::create(
+            p.actionObservers["ZoomIn"] = ValueObserver<bool>::create(
                 p.actions["ZoomIn"]->observeClicked(),
                 [weak](bool value)
                 {
@@ -281,7 +288,8 @@ namespace djv
                         }
                     }
                 });
-            p.clickedObservers["ZoomOut"] = ValueObserver<bool>::create(
+
+            p.actionObservers["ZoomOut"] = ValueObserver<bool>::create(
                 p.actions["ZoomOut"]->observeClicked(),
                 [weak](bool value)
                 {
@@ -300,7 +308,7 @@ namespace djv
                     }
                 });
 
-            p.clickedObservers["Fit"] = ValueObserver<bool>::create(
+            p.actionObservers["Fit"] = ValueObserver<bool>::create(
                 p.actions["Fit"]->observeClicked(),
                 [weak](bool value)
                 {
@@ -317,7 +325,8 @@ namespace djv
                         }
                     }
                 });
-            p.clickedObservers["Center"] = ValueObserver<bool>::create(
+
+            p.actionObservers["Center"] = ValueObserver<bool>::create(
                 p.actions["Center"]->observeClicked(),
                 [weak](bool value)
                 {

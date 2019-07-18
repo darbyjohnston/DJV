@@ -56,7 +56,7 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
             std::shared_ptr<AboutDialog> aboutDialog;
-            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
+            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
@@ -98,7 +98,7 @@ namespace djv
                 }
             });
 
-            p.clickedObservers["About"] = ValueObserver<bool>::create(
+            p.actionObservers["About"] = ValueObserver<bool>::create(
                 p.actions["About"]->observeClicked(),
                 [weak, context](bool value)
             {
@@ -134,7 +134,7 @@ namespace djv
                 }
             });
 
-            p.clickedObservers["SystemLog"] = ValueObserver<bool>::create(
+            p.actionObservers["SystemLog"] = ValueObserver<bool>::create(
                 p.actions["SystemLog"]->observeChecked(),
                 [weak, context](bool value)
                 {
@@ -153,7 +153,7 @@ namespace djv
                     }
                 });
 
-            p.clickedObservers["Debug"] = ValueObserver<bool>::create(
+            p.actionObservers["Debug"] = ValueObserver<bool>::create(
                 p.actions["Debug"]->observeChecked(),
                 [weak, context](bool value)
                 {

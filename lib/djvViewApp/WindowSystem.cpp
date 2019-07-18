@@ -83,7 +83,7 @@ namespace djv
             glm::ivec2 monitorSize = glm::ivec2(0, 0);
             int monitorRefresh = 0;
             BBox2i windowGeom = BBox2i(0, 0, 0, 0);
-            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
+            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<bool> > fullScreenObserver;
             std::shared_ptr<ValueObserver<bool> > maximizedObserver;
             std::shared_ptr<ValueObserver<bool> > maximizedObserver2;

@@ -54,7 +54,7 @@ namespace djv
             float volume = 1.f;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
-            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
+            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
             std::shared_ptr<ValueObserver<float> > volumeObserver;
@@ -82,7 +82,7 @@ namespace djv
             p.actions["Mute"]->setShortcut(GLFW_KEY_0);
 
             auto weak = std::weak_ptr<AudioSystem>(std::dynamic_pointer_cast<AudioSystem>(shared_from_this()));
-            p.clickedObservers["IncreaseVolume"] = ValueObserver<bool>::create(
+            p.actionObservers["IncreaseVolume"] = ValueObserver<bool>::create(
                 p.actions["IncreaseVolume"]->observeClicked(),
                 [weak](bool value)
             {
@@ -98,7 +98,7 @@ namespace djv
                 }
             });
 
-            p.clickedObservers["DecreaseVolume"] = ValueObserver<bool>::create(
+            p.actionObservers["DecreaseVolume"] = ValueObserver<bool>::create(
                 p.actions["DecreaseVolume"]->observeClicked(),
                 [weak](bool value)
             {
@@ -114,7 +114,7 @@ namespace djv
                 }
             });
 
-            p.clickedObservers["Mute"] = ValueObserver<bool>::create(
+            p.actionObservers["Mute"] = ValueObserver<bool>::create(
                 p.actions["Mute"]->observeChecked(),
                 [weak](bool value)
             {

@@ -75,6 +75,11 @@ namespace djv
                 std::vector<Core::Frame::Number> _frames;
 
             private:
+                struct Future;
+                std::future<Future> _getFuture(Core::Frame::Index, std::string fileName);
+                size_t _readQueue(size_t count, bool cacheEnabled);
+                void _readCache(size_t count);
+
                 DJV_PRIVATE();
             };
 

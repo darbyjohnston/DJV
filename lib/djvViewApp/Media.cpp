@@ -77,7 +77,7 @@ namespace djv
             std::shared_ptr<ValueSubject<bool> > mute;
             std::shared_ptr<ValueSubject<bool> > hasCache;
             std::shared_ptr<ValueSubject<bool> > cacheEnabled;
-            std::shared_ptr<ValueSubject<size_t> > cacheMax;
+            std::shared_ptr<ValueSubject<float> > cacheMax;
             std::shared_ptr<ListSubject<Time::TimestampRange> > cachedTimestamps;
 
             std::shared_ptr<ValueSubject<size_t> > videoQueueMax;
@@ -88,7 +88,6 @@ namespace djv
             std::shared_ptr<Time::Timer> queueTimer;
             std::condition_variable queueCV;
             std::shared_ptr<AV::IO::IRead> read;
-            bool readFinished = false;
             std::future<AV::IO::Info> infoFuture;
             std::shared_ptr<Time::Timer> infoTimer;
 
@@ -128,7 +127,7 @@ namespace djv
             p.mute = ValueSubject<bool>::create(false);
             p.hasCache = ValueSubject<bool>::create(false);
             p.cacheEnabled = ValueSubject<bool>::create(false);
-            p.cacheMax = ValueSubject<size_t>::create(0);
+            p.cacheMax = ValueSubject<float>::create(0);
             p.cachedTimestamps = ListSubject<Time::TimestampRange>::create();
 
             p.videoQueueMax = ValueSubject<size_t>::create();
@@ -304,7 +303,7 @@ namespace djv
             return _p->cacheEnabled;
         }
 
-        std::shared_ptr<Core::IValueSubject<size_t> > Media::observeCacheMax() const
+        std::shared_ptr<Core::IValueSubject<float> > Media::observeCacheMax() const
         {
             return _p->cacheMax;
         }
@@ -417,13 +416,13 @@ namespace djv
                 end = p.outPoint->get();
             }
             Time::Timestamp tmp = value;
-            while (duration && tmp > end)
+            if (tmp > end)
             {
-                tmp -= duration;
+                tmp = 0;
             }
-            while (duration && tmp < 0)
+            if (tmp < 0)
             {
-                tmp += duration;
+                tmp = end;
             }
             if (p.currentTime->setIfChanged(tmp))
             {
@@ -530,18 +529,18 @@ namespace djv
         void Media::setCacheEnabled(bool value)
         {
             DJV_PRIVATE_PTR();
-            if (p.read && p.cacheEnabled->setIfChanged(value))
+            if (p.read && p.read->hasCache() && p.cacheEnabled->setIfChanged(value))
             {
                 p.read->setCacheEnabled(value);
             }
         }
 
-        void Media::setCacheMax(size_t value)
+        void Media::setCacheMax(float value)
         {
             DJV_PRIVATE_PTR();
-            if (p.read && p.cacheMax->setIfChanged(value))
+            if (p.read && p.read->hasCache() && p.cacheMax->setIfChanged(value))
             {
-                p.read->setCacheMax(value);
+                p.read->setCacheMax(static_cast<float>(value * Memory::gigabyte));
             }
         }
 
@@ -706,7 +705,10 @@ namespace djv
             case Playback::Forward:
             case Playback::Reverse:
             {
-                p.readFinished = false;
+                if (p.read)
+                {
+                    p.read->seek(p.currentTime->get());
+                }
                 p.timeOffset = p.currentTime->get();
                 p.startTime = std::chrono::system_clock::now();
                 p.realSpeedTime = p.startTime;
@@ -799,6 +801,7 @@ namespace djv
                         pts,
                         p.defaultSpeed->get().swap(),
                         p.speed->get().swap());
+
                     switch (playback)
                     {
                     case Playback::Forward: time = p.timeOffset + pts; break;
@@ -898,7 +901,6 @@ namespace djv
                         auto frame = queue.popFrame();
                         p.realSpeedFrameCount = p.realSpeedFrameCount + 1;
                     }
-                    p.readFinished |= queue.isFinished();
                 }
 
                 // Unqueue the processed OpenAL buffers.
@@ -936,7 +938,6 @@ namespace djv
                         {
                             frames.push_back(queue.popFrame());
                         }
-                        p.readFinished |= queue.isFinished();
                     }
                     for (size_t i = 0; i < frames.size(); ++i)
                     {

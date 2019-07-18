@@ -49,7 +49,7 @@ namespace djv
         struct MagnifySystem::Private
         {
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
-            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > clickedObservers;
+            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 

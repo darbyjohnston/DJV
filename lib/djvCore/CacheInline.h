@@ -133,11 +133,18 @@ namespace djv
                     }
                     while (_map.size() > _max)
                     {
-                        auto i = _map.find(sorted.begin()->second);
-                        _map.erase(i);
-                        auto j = _counts.find(sorted.begin()->second);
-                        _counts.erase(j);
-                        sorted.erase(sorted.begin());
+                        auto begin = sorted.begin();
+                        auto i = _map.find(begin->second);
+                        if (i != _map.end())
+                        {
+                            _map.erase(i);
+                        }
+                        auto j = _counts.find(begin->second);
+                        if (j != _counts.end())
+                        {
+                            _counts.erase(j);
+                        }
+                        sorted.erase(begin);
                     }
                 }
             }

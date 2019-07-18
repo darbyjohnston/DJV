@@ -85,7 +85,7 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<bool> > observeMute() const;
             std::shared_ptr<Core::IValueSubject<bool> > observeHasCache() const;
             std::shared_ptr<Core::IValueSubject<bool> > observeCacheEnabled() const;
-            std::shared_ptr<Core::IValueSubject<size_t> > observeCacheMax() const;
+            std::shared_ptr<Core::IValueSubject<float> > observeCacheMax() const;
             std::shared_ptr<Core::IListSubject<Core::Time::TimestampRange> > observeCachedTimestamps() const;
 
             std::shared_ptr<Core::IValueSubject<size_t> > observeVideoQueueMax() const;
@@ -117,7 +117,7 @@ namespace djv
             void setVolume(float);
             void setMute(bool);
             void setCacheEnabled(bool);
-            void setCacheMax(size_t);
+            void setCacheMax(float);
 
         private:
             DJV_PRIVATE();

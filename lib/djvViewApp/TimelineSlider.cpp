@@ -67,6 +67,9 @@ namespace djv
                 {}
 
             public:
+                ~PIPWidget() override
+                {}
+
                 static std::shared_ptr<PIPWidget> create(Context*);
 
                 void setPIPFileInfo(const Core::FileSystem::FileInfo&);
@@ -97,7 +100,7 @@ namespace djv
             {
                 Widget::_init(context);
 
-                setClassName("djv::ViewApp::TimelineSlider::PIPWidget");
+                setClassName("djv::ViewApp::PIPWidget");
 
                 _imageWidget = UI::ImageWidget::create(context);
                 _imageWidget->setSizeRole(UI::MetricsRole::TextColumn);
@@ -260,20 +263,18 @@ namespace djv
             addChild(p.overlay);
 
             auto weak = std::weak_ptr<TimelineSlider>(std::dynamic_pointer_cast<TimelineSlider>(shared_from_this()));
-            if (auto settingsSystem = context->getSystemT<UI::Settings::System>())
+            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
             {
-                if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
+                p.pipObserver = ValueObserver<bool>::create(
+                    playbackSettings->observePIP(),
+                    [weak](bool value)
                 {
-                    p.pipObserver = ValueObserver<bool>::create(
-                        playbackSettings->observePIP(),
-                        [weak](bool value)
+                    if (auto widget = weak.lock())
                     {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->pip = value;
-                        }
-                    });
-                }
+                        widget->_p->pip = value;
+                    }
+                });
             }
         }
 
@@ -282,7 +283,13 @@ namespace djv
         {}
 
         TimelineSlider::~TimelineSlider()
-        {}
+        {
+            DJV_PRIVATE_PTR();
+            if (auto parent = p.overlay->getParent().lock())
+            {
+                parent->removeChild(p.overlay);
+            }
+        }
 
         std::shared_ptr<TimelineSlider> TimelineSlider::create(Context * context)
         {
