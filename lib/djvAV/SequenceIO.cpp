@@ -237,101 +237,13 @@ namespace djv
                             }*/
                         }
 
+                        // Fill the queue.
                         const size_t read = _readQueue(queueCount, cacheEnabled);
+
+                        // Fill the cache.
                         if (cacheEnabled)
                         {
                             _readCache(threadCount / 2 - read);
-                        }
-                        /*// Get frames to be added to the queue.
-                        std::map<Frame::Index, std::shared_ptr<Image::Image> > images;
-                        std::vector<std::future<Future> > futures;
-                        for (size_t i = 0; i < queueCount; ++i)
-                        {
-                            //const Time::Timestamp timestamp = frameToTimestamp(_frames.size() ? frameIndex : 0, _speed);
-                            //{
-                            //    std::stringstream ss;
-                            //    ss << _fileName << ": read timestamp " << timestamp;
-                            //    _logSystem->log("djv::AV::IO::ISequenceRead", ss.str());
-                            //}
-
-                            std::shared_ptr<Image::Image> cachedImage;
-                            if (cacheEnabled && p.cache.get(frameIndex, cachedImage))
-                            {
-                                images[timestamp] = cachedImage;
-                            }
-                            else
-                            {
-                                Frame::Number frameNumber = Frame::Invalid;
-                                if (_frames.size())
-                                {
-                                    frameNumber = Frame::getFrame(_frames, frameIndex);
-                                }
-                                const std::string fileName = _fileInfo.getFileName(frameNumber);
-                                futures.push_back(_getFuture(frameIndex, fileName));
-                            }
-
-                            if (_frames.size())
-                            {
-                                ++frameIndex;
-                            }
-                        }
-
-                        // If we are not adding frames to the queue, fill up the cache.
-                        if (0 == queueCount &&
-                            _frames.size() > 1 &&
-                            p.cache.getSize() < _frames.size() &&
-                            p.cache.getSize() < p.cache.getMax())
-                        {
-                            Frame::Index i = 0;
-                            for (; i < _frames.size() && futures.size() < threadCount; ++i)
-                            {
-                                if (!p.cache.contains(i))
-                                {
-                                    const std::string fileName = _fileInfo.getFileName(Frame::getFrame(_frames, i));
-                                    futures.push_back(_getFuture(i, fileName));
-                                }
-                            }
-                        }
-
-                        // Get the results.
-                        for (auto& future : futures)
-                        {
-                            const auto result = future.get();
-                            if (result.image)
-                            {
-                                const Time::Timestamp timestamp = frameToTimestamp(result.frameIndex != Frame::Invalid ? result.frameIndex : 0, _speed);
-                                images[timestamp] = result.image;
-                                if (cacheEnabled)
-                                {
-                                    result.image->detach();
-                                    p.cache.add(result.frameIndex, result.image);
-                                }
-                            }
-                        }
-
-                        // Add the frames to the queue.
-                        if (queueCount > 0)
-                        {
-                            for (const auto& i : images)
-                            {
-                                std::lock_guard<std::mutex> lock(_mutex);
-                                if (_videoQueue.getFrameCount() >= _videoQueue.getMax())
-                                {
-                                    break;
-                                }
-                                _videoQueue.addFrame(VideoFrame(i.first, i.second));
-                            }
-                        }
-
-                        if (Frame::Invalid == frameIndex || frameIndex >= static_cast<Frame::Index>(_frames.size()))
-                        {
-                            std::lock_guard<std::mutex> lock(_mutex);
-                            _videoQueue.setFinished(true);
-                        }*/
-
-                        if (0 == read)
-                        {
-                            std::this_thread::sleep_for(std::chrono::milliseconds(timeout));
                         }
                     }
 
