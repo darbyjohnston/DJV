@@ -148,7 +148,8 @@ namespace djv
                             case ButtonType::Radio:
                                 for (size_t i = 0; i < group->_p->buttons.size(); ++i)
                                 {
-                                    group->_p->buttons[i]->setChecked(i == index);
+                                    auto button = group->_p->buttons[i];
+                                    button->setChecked(i == index);
                                 }
                                 if (value && group->_p->radioCallback && Callback::Trigger == group->_p->callback)
                                 {
@@ -160,7 +161,8 @@ namespace djv
                                 {
                                     for (size_t i = 0; i < group->_p->buttons.size(); ++i)
                                     {
-                                        group->_p->buttons[i]->setChecked(i == index);
+                                        auto button = group->_p->buttons[i];
+                                        button->setChecked(i == index);
                                     }
                                 }
                                 if (group->_p->exclusiveCallback && Callback::Trigger == group->_p->callback)
@@ -194,7 +196,8 @@ namespace djv
                         {
                             --index;
                         }
-                        p.buttons[index]->setChecked(true);
+                        auto button = p.buttons[index];
+                        button->setChecked(true);
                         if (p.radioCallback)
                         {
                             p.radioCallback(index);
@@ -256,14 +259,18 @@ namespace djv
                     switch (p.buttonType)
                     {
                     case ButtonType::Toggle:
-                        p.buttons[index]->setChecked(value);
+                    {
+                        auto button = p.buttons[index];
+                        button->setChecked(value);
                         break;
+                    }
                     case ButtonType::Radio:
                         if (value)
                         {
                             for (size_t i = 0; i < p.buttons.size(); ++i)
                             {
-                                p.buttons[i]->setChecked(i == index);
+                                auto button = p.buttons[i];
+                                button->setChecked(i == index);
                             }
                         }
                         break;
@@ -272,12 +279,14 @@ namespace djv
                         {
                             for (size_t i = 0; i < p.buttons.size(); ++i)
                             {
-                                p.buttons[i]->setChecked(i == index);
+                                auto button = p.buttons[i];
+                                button->setChecked(i == index);
                             }
                         }
                         else
                         {
-                            p.buttons[index]->setChecked(false);
+                            auto button = p.buttons[index];
+                            button->setChecked(false);
                         }
                         break;
                     default: break;

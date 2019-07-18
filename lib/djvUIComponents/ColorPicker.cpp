@@ -116,7 +116,7 @@ namespace djv
             if (value == p.type)
                 return;
             p.type = value;
-            _widgetUpdate();
+            p.comboBox->setCurrentItem(static_cast<int>(p.type) - 1);
         }
 
         void ColorTypeWidget::setTypeCallback(const std::function<void(AV::Image::Type)> & callback)

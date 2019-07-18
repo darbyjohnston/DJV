@@ -153,31 +153,31 @@ namespace djv
 
             p.colorSpaceObserver = ValueObserver<std::string>::create(
                 p.model->observeColorSpace(),
-                [weak](const std::string&)
+                [weak](const std::string& value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_widgetUpdate();
+                        widget->_p->defaultColorSpaceComboBox->setCurrentItem(widget->_p->model->colorSpaceToIndex(value));
                     }
                 });
 
             p.displayObserver = ValueObserver<std::string>::create(
                 p.model->observeDisplay(),
-                [weak](const std::string&)
+                [weak](const std::string& value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_widgetUpdate();
+                        widget->_p->displayComboBox->setCurrentItem(widget->_p->model->displayToIndex(value));
                     }
                 });
 
             p.viewObserver = ValueObserver<std::string>::create(
                 p.model->observeView(),
-                [weak](const std::string&)
+                [weak](const std::string& value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_widgetUpdate();
+                        widget->_p->viewComboBox->setCurrentItem(widget->_p->model->viewToIndex(value));
                     }
                 });
 

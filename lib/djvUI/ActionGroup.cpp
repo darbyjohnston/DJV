@@ -132,7 +132,8 @@ namespace djv
                         {
                             for (size_t i = 0; i < group->_p->actions.size(); ++i)
                             {
-                                group->_p->actions[i]->setChecked(i == index);
+                                auto action = group->_p->actions[i];
+                                action->setChecked(i == index);
                             }
                             if (group->_p->radioCallback && Callback::Trigger == group->_p->callback)
                             {
@@ -145,7 +146,8 @@ namespace djv
                         {
                             for (size_t i = 0; i < group->_p->actions.size(); ++i)
                             {
-                                group->_p->actions[i]->setChecked(i == index);
+                                auto action = group->_p->actions[i];
+                                action->setChecked(i == index);
                             }
                         }
                         if (group->_p->exclusiveCallback && Callback::Trigger == group->_p->callback)
@@ -213,7 +215,8 @@ namespace djv
             case ButtonType::Push:
                 if (index >= 0 && index < static_cast<int>(p.actions.size()))
                 {
-                    p.actions[index]->setChecked(value);
+                    auto action = p.actions[index];
+                    action->setChecked(value);
                 }
                 break;
             case ButtonType::Radio:
@@ -221,14 +224,18 @@ namespace djv
                 {
                     for (size_t i = 0; i < p.actions.size(); ++i)
                     {
-                        p.actions[i]->setChecked(i == index);
+                        // Copy the shared pointer in case the callback clears
+                        // the list of actions.
+                        auto action = p.actions[i];
+                        action->setChecked(i == index);
                     }
                 }
                 break;
             case ButtonType::Exclusive:
                 for (size_t i = 0; i < p.actions.size(); ++i)
                 {
-                    p.actions[i]->setChecked(i == index ? value : false);
+                    auto action = p.actions[i];
+                    action->setChecked(i == index ? value : false);
                 }
                 break;
             default: break;
