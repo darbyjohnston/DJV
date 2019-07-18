@@ -1,1040 +1,1040 @@
 [
     {
         "source": "None", 
+        "text": "\u017d\u00e1dn\u00fd", 
         "description": "", 
-        "id": "None", 
-        "text": "\u017d\u00e1dn\u00fd"
+        "id": "None"
     }, 
     {
         "source": "Left", 
+        "text": "Vlevo, odjet", 
         "description": "", 
-        "id": "Left", 
-        "text": "Vlevo, odjet"
+        "id": "Left"
     }, 
     {
         "source": "Top", 
+        "text": "Horn\u00ed", 
         "description": "", 
-        "id": "Top", 
-        "text": "Horn\u00ed"
+        "id": "Top"
     }, 
     {
         "source": "Right", 
+        "text": "\u017de jo", 
         "description": "", 
-        "id": "Right", 
-        "text": "\u017de jo"
+        "id": "Right"
     }, 
     {
         "source": "Bottom", 
+        "text": "Dno", 
         "description": "", 
-        "id": "Bottom", 
-        "text": "Dno"
+        "id": "Bottom"
     }, 
     {
         "source": "Cannot read", 
+        "text": "Neum\u00ed \u010d\u00edst", 
         "description": "", 
-        "id": "Cannot read", 
-        "text": "Neum\u00ed \u010d\u00edst"
+        "id": "Cannot read"
     }, 
     {
         "source": "Cannot write", 
+        "text": "Nelze ps\u00e1t", 
         "description": "", 
-        "id": "Cannot write", 
-        "text": "Nelze ps\u00e1t"
+        "id": "Cannot write"
     }, 
     {
         "source": "cannot write", 
+        "text": "nem\u016f\u017ee ps\u00e1t", 
         "description": "", 
-        "id": "cannot write", 
-        "text": "nem\u016f\u017ee ps\u00e1t"
+        "id": "cannot write"
     }, 
     {
         "source": "Unknown", 
+        "text": "Nezn\u00e1m\u00fd", 
         "description": "", 
-        "id": "Unknown", 
-        "text": "Nezn\u00e1m\u00fd"
+        "id": "Unknown"
     }, 
     {
         "source": "Out of memory", 
+        "text": "Nedostatek pam\u011bti", 
         "description": "", 
-        "id": "Out of memory", 
-        "text": "Nedostatek pam\u011bti"
+        "id": "Out of memory"
     }, 
     {
         "source": "Invalid value", 
+        "text": "neplatn\u00e1 hodnota", 
         "description": "", 
-        "id": "Invalid value", 
-        "text": "neplatn\u00e1 hodnota"
+        "id": "Invalid value"
     }, 
     {
         "source": "Invalid enum", 
+        "text": "Neplatn\u00e9 enum", 
         "description": "", 
-        "id": "Invalid enum", 
-        "text": "Neplatn\u00e9 enum"
+        "id": "Invalid enum"
     }, 
     {
         "source": "U8", 
+        "text": "U8", 
         "description": "", 
-        "id": "U8", 
-        "text": "U8"
+        "id": "U8"
     }, 
     {
         "source": "S16", 
+        "text": "S16", 
         "description": "", 
-        "id": "S16", 
-        "text": "S16"
+        "id": "S16"
     }, 
     {
         "source": "S32", 
+        "text": "S32", 
         "description": "", 
-        "id": "S32", 
-        "text": "S32"
+        "id": "S32"
     }, 
     {
         "source": "F32", 
+        "text": "F32", 
         "description": "", 
-        "id": "F32", 
-        "text": "F32"
+        "id": "F32"
     }, 
     {
         "source": "Cannot create OpenGL vertex shader.", 
+        "text": "Nelze vytvo\u0159it OpenGL vrchol shader.", 
         "description": "", 
-        "id": "Cannot create OpenGL vertex shader.", 
-        "text": "Nelze vytvo\u0159it OpenGL vrchol shader."
+        "id": "Cannot create OpenGL vertex shader."
     }, 
     {
         "source": "Cannot compile OpenGL vertex shader", 
+        "text": "Nelze kompilovat vertik\u00e1ln\u00ed shader OpenGL", 
         "description": "", 
-        "id": "Cannot compile OpenGL vertex shader", 
-        "text": "Nelze kompilovat vertik\u00e1ln\u00ed shader OpenGL"
+        "id": "Cannot compile OpenGL vertex shader"
     }, 
     {
         "source": "Cannot create OpenGL fragment shader.", 
+        "text": "Nelze vytvo\u0159it shader openGL fragmentu.", 
         "description": "", 
-        "id": "Cannot create OpenGL fragment shader.", 
-        "text": "Nelze vytvo\u0159it shader openGL fragmentu."
+        "id": "Cannot create OpenGL fragment shader."
     }, 
     {
         "source": "Cannot compile OpenGL framgent shader", 
+        "text": "Nelze kompilace shaderu OpenGL framgent", 
         "description": "", 
-        "id": "Cannot compile OpenGL framgent shader", 
-        "text": "Nelze kompilace shaderu OpenGL framgent"
+        "id": "Cannot compile OpenGL framgent shader"
     }, 
     {
         "source": "Cannot link program", 
+        "text": "Nelze propojit program", 
         "description": "", 
-        "id": "Cannot link program", 
-        "text": "Nelze propojit program"
+        "id": "Cannot link program"
     }, 
     {
         "source": "cannot read", 
+        "text": "neum\u00ed \u010d\u00edst", 
         "description": "", 
-        "id": "cannot read", 
-        "text": "neum\u00ed \u010d\u00edst"
+        "id": "cannot read"
     }, 
     {
         "source": "cannot open", 
+        "text": "nelze otev\u0159\u00edt", 
         "description": "", 
-        "id": "cannot open", 
-        "text": "nelze otev\u0159\u00edt"
+        "id": "cannot open"
     }, 
     {
         "source": "Cannot open OpenAL device.", 
+        "text": "Nelze otev\u0159\u00edt za\u0159\u00edzen\u00ed OpenAL.", 
         "description": "", 
-        "id": "Cannot open OpenAL device.", 
-        "text": "Nelze otev\u0159\u00edt za\u0159\u00edzen\u00ed OpenAL."
+        "id": "Cannot open OpenAL device."
     }, 
     {
         "source": "Cannot create OpenAL context.", 
+        "text": "Nelze vytvo\u0159it kontext OpenAL.", 
         "description": "", 
-        "id": "Cannot create OpenAL context.", 
-        "text": "Nelze vytvo\u0159it kontext OpenAL."
+        "id": "Cannot create OpenAL context."
     }, 
     {
         "source": "Cannot make OpenAL context current.", 
+        "text": "Kontext OpenAL nelze spustit.", 
         "description": "", 
-        "id": "Cannot make OpenAL context current.", 
-        "text": "Kontext OpenAL nelze spustit."
+        "id": "Cannot make OpenAL context current."
     }, 
     {
         "source": "Cannot create GLFW window.", 
+        "text": "Nelze vytvo\u0159it okno GLFW.", 
         "description": "", 
-        "id": "Cannot create GLFW window.", 
-        "text": "Nelze vytvo\u0159it okno GLFW."
+        "id": "Cannot create GLFW window."
     }, 
     {
         "source": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
+        "text": "Tento plugin poskytuje obraz I / O obrazu z p\u0159enosn\u00e9 s\u00ed\u0165ov\u00e9 grafiky (PNG).", 
         "description": "", 
-        "id": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
-        "text": "Tento plugin poskytuje obraz I / O obrazu z p\u0159enosn\u00e9 s\u00ed\u0165ov\u00e9 grafiky (PNG)."
+        "id": "This plugin provides Portable Network Graphics (PNG) image I/O."
     }, 
     {
         "source": "Cannot create shader", 
+        "text": "Nelze vytvo\u0159it shader", 
         "description": "", 
-        "id": "Cannot create shader", 
-        "text": "Nelze vytvo\u0159it shader"
+        "id": "Cannot create shader"
     }, 
     {
         "source": "Float", 
+        "text": "Plov\u00e1k", 
         "description": "", 
-        "id": "Float", 
-        "text": "Plov\u00e1k"
+        "id": "Float"
     }, 
     {
         "source": "Double", 
+        "text": "Dvojn\u00e1sobek", 
         "description": "", 
-        "id": "Double", 
-        "text": "Dvojn\u00e1sobek"
+        "id": "Double"
     }, 
     {
         "source": "U8 Planar", 
+        "text": "U8 Planar", 
         "description": "", 
-        "id": "U8 Planar", 
-        "text": "U8 Planar"
+        "id": "U8 Planar"
     }, 
     {
         "source": "S16 Planar", 
+        "text": "S16 Planar", 
         "description": "", 
-        "id": "S16 Planar", 
-        "text": "S16 Planar"
+        "id": "S16 Planar"
     }, 
     {
         "source": "S32 Planar", 
+        "text": "S32 Planar", 
         "description": "", 
-        "id": "S32 Planar", 
-        "text": "S32 Planar"
+        "id": "S32 Planar"
     }, 
     {
         "source": "Float Planar", 
+        "text": "Float Planar", 
         "description": "", 
-        "id": "Float Planar", 
-        "text": "Float Planar"
+        "id": "Float Planar"
     }, 
     {
         "source": "Double Planar", 
+        "text": "Double Planar", 
         "description": "", 
-        "id": "Double Planar", 
-        "text": "Double Planar"
+        "id": "Double Planar"
     }, 
     {
         "source": "This plugin provides FFmpeg image and audio I/O.", 
+        "text": "Tento plugin poskytuje obrazov\u00e9 a zvukov\u00e9 vstupy a v\u00fdstupy FFmpeg.", 
         "description": "", 
-        "id": "This plugin provides FFmpeg image and audio I/O.", 
-        "text": "Tento plugin poskytuje obrazov\u00e9 a zvukov\u00e9 vstupy a v\u00fdstupy FFmpeg."
+        "id": "This plugin provides FFmpeg image and audio I/O."
     }, 
     {
         "source": "cannot find any streams in", 
+        "text": "nem\u016f\u017ee naj\u00edt \u017e\u00e1dn\u00e9 proudy", 
         "description": "", 
-        "id": "cannot find any streams in", 
-        "text": "nem\u016f\u017ee naj\u00edt \u017e\u00e1dn\u00e9 proudy"
+        "id": "cannot find any streams in"
     }, 
     {
         "source": "cannot find video codec for", 
+        "text": "nem\u016f\u017ee naj\u00edt video kodek pro", 
         "description": "", 
-        "id": "cannot find video codec for", 
-        "text": "nem\u016f\u017ee naj\u00edt video kodek pro"
+        "id": "cannot find video codec for"
     }, 
     {
         "source": "unsupported audio format ", 
+        "text": "nepodporovan\u00fd form\u00e1t zvuku", 
         "description": "", 
-        "id": "unsupported audio format ", 
-        "text": "nepodporovan\u00fd form\u00e1t zvuku"
+        "id": "unsupported audio format "
     }, 
     {
         "source": "cannot find audio codec for", 
+        "text": "nem\u016f\u017ee naj\u00edt audio kodek pro", 
         "description": "", 
-        "id": "cannot find audio codec for", 
-        "text": "nem\u016f\u017ee naj\u00edt audio kodek pro"
+        "id": "cannot find audio codec for"
     }, 
     {
         "source": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
+        "text": "Tento plugin poskytuje vstupn\u00ed a v\u00fdstupn\u00ed obraz skupiny Joint Photographic Experts Group (JPEG).", 
         "description": "", 
-        "id": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
-        "text": "Tento plugin poskytuje vstupn\u00ed a v\u00fdstupn\u00ed obraz skupiny Joint Photographic Experts Group (JPEG)."
+        "id": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O."
     }, 
     {
         "source": "Cannot initialize GLFW.", 
+        "text": "Nelze inicializovat GLFW.", 
         "description": "", 
-        "id": "Cannot initialize GLFW.", 
-        "text": "Nelze inicializovat GLFW."
+        "id": "Cannot initialize GLFW."
     }, 
     {
         "source": "Cannot create OpenGL texture.", 
+        "text": "Nelze vytvo\u0159it texturu OpenGL.", 
         "description": "", 
-        "id": "Cannot create OpenGL texture.", 
-        "text": "Nelze vytvo\u0159it texturu OpenGL."
+        "id": "Cannot create OpenGL texture."
     }, 
     {
         "source": "Cannot create OpenGL frame buffer.", 
+        "text": "Nelze vytvo\u0159it buffer vyrovn\u00e1vac\u00ed pam\u011bti OpenGL.", 
         "description": "", 
-        "id": "Cannot create OpenGL frame buffer.", 
-        "text": "Nelze vytvo\u0159it buffer vyrovn\u00e1vac\u00ed pam\u011bti OpenGL."
+        "id": "Cannot create OpenGL frame buffer."
     }, 
     {
         "source": "Cannot initialize OpenGL frame buffer.", 
+        "text": "Nelze inicializovat buffer vyrovn\u00e1vac\u00ed pam\u011bti OpenGL.", 
         "description": "", 
-        "id": "Cannot initialize OpenGL frame buffer.", 
-        "text": "Nelze inicializovat buffer vyrovn\u00e1vac\u00ed pam\u011bti OpenGL."
+        "id": "Cannot initialize OpenGL frame buffer."
     }, 
     {
         "source": "L U8", 
+        "text": "50 U8", 
         "description": "", 
-        "id": "L_U8", 
-        "text": "50 U8"
+        "id": "L_U8"
     }, 
     {
         "source": "L U16", 
+        "text": "L U16", 
         "description": "", 
-        "id": "L_U16", 
-        "text": "L U16"
+        "id": "L_U16"
     }, 
     {
         "source": "L U32", 
+        "text": "L U32", 
         "description": "", 
-        "id": "L_U32", 
-        "text": "L U32"
+        "id": "L_U32"
     }, 
     {
         "source": "L F16", 
+        "text": "L F16", 
         "description": "", 
-        "id": "L_F16", 
-        "text": "L F16"
+        "id": "L_F16"
     }, 
     {
         "source": "L F32", 
+        "text": "L F32", 
         "description": "", 
-        "id": "L_F32", 
-        "text": "L F32"
+        "id": "L_F32"
     }, 
     {
         "source": "LA U8", 
+        "text": "U8", 
         "description": "", 
-        "id": "LA_U8", 
-        "text": "U8"
+        "id": "LA_U8"
     }, 
     {
         "source": "LA U16", 
+        "text": "U16", 
         "description": "", 
-        "id": "LA_U16", 
-        "text": "U16"
+        "id": "LA_U16"
     }, 
     {
         "source": "LA U32", 
+        "text": "U32", 
         "description": "", 
-        "id": "LA_U32", 
-        "text": "U32"
+        "id": "LA_U32"
     }, 
     {
         "source": "LA F16", 
+        "text": "F16", 
         "description": "", 
-        "id": "LA_F16", 
-        "text": "F16"
+        "id": "LA_F16"
     }, 
     {
         "source": "LA F32", 
+        "text": "LA F32", 
         "description": "", 
-        "id": "LA_F32", 
-        "text": "LA F32"
+        "id": "LA_F32"
     }, 
     {
         "source": "RGB U8", 
+        "text": "RGB U8", 
         "description": "", 
-        "id": "RGB_U8", 
-        "text": "RGB U8"
+        "id": "RGB_U8"
     }, 
     {
         "source": "RGB U10", 
+        "text": "RGB U10", 
         "description": "", 
-        "id": "RGB_U10", 
-        "text": "RGB U10"
+        "id": "RGB_U10"
     }, 
     {
         "source": "RGB U16", 
+        "text": "RGB U16", 
         "description": "", 
-        "id": "RGB_U16", 
-        "text": "RGB U16"
+        "id": "RGB_U16"
     }, 
     {
         "source": "RGB U32", 
+        "text": "RGB U32", 
         "description": "", 
-        "id": "RGB_U32", 
-        "text": "RGB U32"
+        "id": "RGB_U32"
     }, 
     {
         "source": "RGB F16", 
+        "text": "RGB F16", 
         "description": "", 
-        "id": "RGB_F16", 
-        "text": "RGB F16"
+        "id": "RGB_F16"
     }, 
     {
         "source": "RGB F32", 
+        "text": "RGB F32", 
         "description": "", 
-        "id": "RGB_F32", 
-        "text": "RGB F32"
+        "id": "RGB_F32"
     }, 
     {
         "source": "RGBA U8", 
+        "text": "RGBA U8", 
         "description": "", 
-        "id": "RGBA_U8", 
-        "text": "RGBA U8"
+        "id": "RGBA_U8"
     }, 
     {
         "source": "RGBA U16", 
+        "text": "RGBA U16", 
         "description": "", 
-        "id": "RGBA_U16", 
-        "text": "RGBA U16"
+        "id": "RGBA_U16"
     }, 
     {
         "source": "RGBA U32", 
+        "text": "RGBA U32", 
         "description": "", 
-        "id": "RGBA_U32", 
-        "text": "RGBA U32"
+        "id": "RGBA_U32"
     }, 
     {
         "source": "RGBA F16", 
+        "text": "RGBA F16", 
         "description": "", 
-        "id": "RGBA_F16", 
-        "text": "RGBA F16"
+        "id": "RGBA_F16"
     }, 
     {
         "source": "RGBA F32", 
+        "text": "RGBA F32", 
         "description": "", 
-        "id": "RGBA_F32", 
-        "text": "RGBA F32"
+        "id": "RGBA_F32"
     }, 
     {
         "source": "U10", 
+        "text": "U10", 
         "description": "", 
-        "id": "U10", 
-        "text": "U10"
+        "id": "U10"
     }, 
     {
         "source": "U16", 
+        "text": "U16", 
         "description": "", 
-        "id": "U16", 
-        "text": "U16"
+        "id": "U16"
     }, 
     {
         "source": "U32", 
+        "text": "U32", 
         "description": "", 
-        "id": "U32", 
-        "text": "U32"
+        "id": "U32"
     }, 
     {
         "source": "F16", 
+        "text": "F16", 
         "description": "", 
-        "id": "F16", 
-        "text": "F16"
+        "id": "F16"
     }, 
     {
         "source": "Cannot initialize FreeType.", 
+        "text": "Nelze inicializovat FreeType.", 
         "description": "", 
-        "id": "Cannot initialize FreeType.", 
-        "text": "Nelze inicializovat FreeType."
+        "id": "Cannot initialize FreeType."
     }, 
     {
         "source": "Cannot find any fonts.", 
+        "text": "Nelze naj\u00edt \u017e\u00e1dn\u00e9 p\u00edsma.", 
         "description": "", 
-        "id": "Cannot find any fonts.", 
-        "text": "Nelze naj\u00edt \u017e\u00e1dn\u00e9 p\u00edsma."
+        "id": "Cannot find any fonts."
     }, 
     {
         "source": "This plugin provides NetPBM image I/O.", 
+        "text": "Tento plugin poskytuje I / O obraz NetPBM.", 
         "description": "", 
-        "id": "This plugin provides NetPBM image I/O.", 
-        "text": "Tento plugin poskytuje I / O obraz NetPBM."
+        "id": "This plugin provides NetPBM image I/O."
     }, 
     {
         "source": "ASCII", 
+        "text": "ASCII", 
         "description": "", 
-        "id": "ASCII", 
-        "text": "ASCII"
+        "id": "ASCII"
     }, 
     {
         "source": "Binary", 
+        "text": "Bin\u00e1rn\u00ed", 
         "description": "", 
-        "id": "Binary", 
-        "text": "Bin\u00e1rn\u00ed"
+        "id": "Binary"
     }, 
     {
         "source": "Cannot parse value.", 
+        "text": "Hodnotu nelze analyzovat.", 
         "description": "", 
-        "id": "Cannot parse value.", 
-        "text": "Hodnotu nelze analyzovat."
+        "id": "Cannot parse value."
     }, 
     {
         "source": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
-        "text": "Soubor &quot;)) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; nelze \u010d\u00edst", 
+        "description": "", 
         "id": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
-        "description": ""
+        "text": "Soubor &quot;)) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; nelze \u010d\u00edst"
     }, 
     {
         "source": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
-        "text": "Soubor &quot;)) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; nelze zapsat. &quot;", 
+        "description": "", 
         "id": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
-        "description": ""
+        "text": "Soubor &quot;)) &lt;&lt;&quot; &#39;&quot;&lt;&lt; fileName &lt;&lt;&quot;&#39; &quot;&lt;&lt; DJV_TEXT (&quot; nelze zapsat. &quot;"
     }, 
     {
         "source": "The file", 
-        "text": "Soubor", 
+        "description": "", 
         "id": "The file", 
-        "description": ""
+        "text": "Soubor"
     }, 
     {
         "source": "cannot be written", 
-        "text": "nelze ps\u00e1t", 
+        "description": "", 
         "id": "cannot be written", 
-        "description": ""
+        "text": "nelze ps\u00e1t"
     }, 
     {
         "source": "cannot be opened", 
-        "text": "nelze otev\u0159\u00edt", 
+        "description": "", 
         "id": "cannot be opened", 
-        "description": ""
+        "text": "nelze otev\u0159\u00edt"
     }, 
     {
         "source": "FreeType cannot be initialized.", 
-        "text": "Nelze inicializovat FreeType.", 
+        "description": "", 
         "id": "FreeType cannot be initialized.", 
-        "description": ""
+        "text": "Nelze inicializovat FreeType."
     }, 
     {
         "source": "No fonts were found.", 
-        "text": "Nebyla nalezena \u017e\u00e1dn\u00e1 p\u00edsma.", 
+        "description": "", 
         "id": "No fonts were found.", 
-        "description": ""
+        "text": "Nebyla nalezena \u017e\u00e1dn\u00e1 p\u00edsma."
     }, 
     {
         "source": "The GLFW window cannot be created.", 
-        "text": "Okno GLFW nelze vytvo\u0159it.", 
+        "description": "", 
         "id": "The GLFW window cannot be created.", 
-        "description": ""
+        "text": "Okno GLFW nelze vytvo\u0159it."
     }, 
     {
         "source": "Cannot parse the value.", 
-        "text": "Hodnotu nelze analyzovat.", 
+        "description": "", 
         "id": "Cannot parse the value.", 
-        "description": ""
+        "text": "Hodnotu nelze analyzovat."
     }, 
     {
         "source": "The JPEG file", 
-        "text": "Soubor JPEG", 
+        "description": "", 
         "id": "The JPEG file", 
-        "description": ""
+        "text": "Soubor JPEG"
     }, 
     {
         "source": "cannot be read", 
-        "text": "nelze \u010d\u00edst", 
+        "description": "", 
         "id": "cannot be read", 
-        "description": ""
+        "text": "nelze \u010d\u00edst"
     }, 
     {
         "source": "The OpenGL vertex shader cannot be created.", 
-        "text": "Shader vertexu OpenGL nelze vytvo\u0159it.", 
+        "description": "", 
         "id": "The OpenGL vertex shader cannot be created.", 
-        "description": ""
+        "text": "Shader vertexu OpenGL nelze vytvo\u0159it."
     }, 
     {
         "source": "The OpenGL vertex shader", 
-        "text": "Shader vertexu OpenGL", 
+        "description": "", 
         "id": "The OpenGL vertex shader", 
-        "description": ""
+        "text": "Shader vertexu OpenGL"
     }, 
     {
         "source": "cannot be compiled", 
-        "text": "nelze kompilovat", 
+        "description": "", 
         "id": "cannot be compiled", 
-        "description": ""
+        "text": "nelze kompilovat"
     }, 
     {
         "source": "The OpenGL fragment shader cannot be created.", 
-        "text": "Shader fragmentu OpenGL nelze vytvo\u0159it.", 
+        "description": "", 
         "id": "The OpenGL fragment shader cannot be created.", 
-        "description": ""
+        "text": "Shader fragmentu OpenGL nelze vytvo\u0159it."
     }, 
     {
         "source": "The OpenGL framgent shader", 
-        "text": "OpenGL dop\u0159edn\u00fd shader", 
+        "description": "", 
         "id": "The OpenGL framgent shader", 
-        "description": ""
+        "text": "OpenGL dop\u0159edn\u00fd shader"
     }, 
     {
         "source": "The program", 
-        "text": "Program", 
+        "description": "", 
         "id": "The program", 
-        "description": ""
+        "text": "Program"
     }, 
     {
         "source": "cannot be linked", 
-        "text": "nelze propojit", 
+        "description": "", 
         "id": "cannot be linked", 
-        "description": ""
+        "text": "nelze propojit"
     }, 
     {
         "source": "The FFMPEG file", 
-        "text": "Soubor FFMPEG", 
+        "description": "", 
         "id": "The FFMPEG file", 
-        "description": ""
+        "text": "Soubor FFMPEG"
     }, 
     {
         "source": "does not have any video or audio streams", 
-        "text": "nem\u00e1 \u017e\u00e1dn\u00e9 video ani audio streamy", 
+        "description": "", 
         "id": "does not have any video or audio streams", 
-        "description": ""
+        "text": "nem\u00e1 \u017e\u00e1dn\u00e9 video ani audio streamy"
     }, 
     {
         "source": "does not match any video codecs", 
-        "text": "neodpov\u00edd\u00e1 \u017e\u00e1dn\u00fdm video kodek\u016fm", 
+        "description": "", 
         "id": "does not match any video codecs", 
-        "description": ""
+        "text": "neodpov\u00edd\u00e1 \u017e\u00e1dn\u00fdm video kodek\u016fm"
     }, 
     {
         "source": "The FFMPEG audio format ", 
-        "text": "Zvukov\u00fd form\u00e1t FFMPEG", 
+        "description": "", 
         "id": "The FFMPEG audio format ", 
-        "description": ""
+        "text": "Zvukov\u00fd form\u00e1t FFMPEG"
     }, 
     {
         "source": "is not supported", 
-        "text": "nen\u00ed podporov\u00e1no", 
+        "description": "", 
         "id": "is not supported", 
-        "description": ""
+        "text": "nen\u00ed podporov\u00e1no"
     }, 
     {
         "source": "does not match any audio codecs", 
-        "text": "neodpov\u00edd\u00e1 \u017e\u00e1dn\u00fdm audio kodek\u016fm", 
+        "description": "", 
         "id": "does not match any audio codecs", 
-        "description": ""
+        "text": "neodpov\u00edd\u00e1 \u017e\u00e1dn\u00fdm audio kodek\u016fm"
     }, 
     {
         "source": "GLFW cannot be initialized.", 
-        "text": "GLFW nelze inicializovat.", 
+        "description": "", 
         "id": "GLFW cannot be initialized.", 
-        "description": ""
+        "text": "GLFW nelze inicializovat."
     }, 
     {
         "source": "GLFW window cannot be created.", 
-        "text": "Okno GLFW nelze vytvo\u0159it.", 
+        "description": "", 
         "id": "GLFW window cannot be created.", 
-        "description": ""
+        "text": "Okno GLFW nelze vytvo\u0159it."
     }, 
     {
         "source": "The OpenAL device cannot be opened.", 
-        "text": "Za\u0159\u00edzen\u00ed OpenAL nelze otev\u0159\u00edt.", 
+        "description": "", 
         "id": "The OpenAL device cannot be opened.", 
-        "description": ""
+        "text": "Za\u0159\u00edzen\u00ed OpenAL nelze otev\u0159\u00edt."
     }, 
     {
         "source": "The OpenAL context cannot be created.", 
-        "text": "Nelze vytvo\u0159it kontext OpenAL.", 
+        "description": "", 
         "id": "The OpenAL context cannot be created.", 
-        "description": ""
+        "text": "Nelze vytvo\u0159it kontext OpenAL."
     }, 
     {
         "source": "The OpenAL context cannot be made current.", 
-        "text": "Kontext OpenAL nelze prov\u00e9st jako aktu\u00e1ln\u00ed.", 
+        "description": "", 
         "id": "The OpenAL context cannot be made current.", 
-        "description": ""
+        "text": "Kontext OpenAL nelze prov\u00e9st jako aktu\u00e1ln\u00ed."
     }, 
     {
         "source": "The OpenGL texture cannot be created.", 
-        "text": "Texturu OpenGL nelze vytvo\u0159it.", 
+        "description": "", 
         "id": "The OpenGL texture cannot be created.", 
-        "description": ""
+        "text": "Texturu OpenGL nelze vytvo\u0159it."
     }, 
     {
         "source": "The OpenGL frame buffer cannot be created.", 
-        "text": "Nelze vytvo\u0159it vyrovn\u00e1vac\u00ed pam\u011b\u0165 r\u00e1mc\u016f OpenGL.", 
+        "description": "", 
         "id": "The OpenGL frame buffer cannot be created.", 
-        "description": ""
+        "text": "Nelze vytvo\u0159it vyrovn\u00e1vac\u00ed pam\u011b\u0165 r\u00e1mc\u016f OpenGL."
     }, 
     {
         "source": "The OpenGL frame buffer cannot be initialized.", 
-        "text": "Nelze inicializovat vyrovn\u00e1vac\u00ed pam\u011b\u0165 r\u00e1mce OpenGL.", 
+        "description": "", 
         "id": "The OpenGL frame buffer cannot be initialized.", 
-        "description": ""
+        "text": "Nelze inicializovat vyrovn\u00e1vac\u00ed pam\u011b\u0165 r\u00e1mce OpenGL."
     }, 
     {
         "source": "The PNG file", 
-        "text": "Soubor PNG", 
+        "description": "", 
         "id": "The PNG file", 
-        "description": ""
+        "text": "Soubor PNG"
     }, 
     {
         "source": "The PPM file", 
-        "text": "Soubor PPM", 
+        "description": "", 
         "id": "The PPM file", 
-        "description": ""
+        "text": "Soubor PPM"
     }, 
     {
         "source": "The shader cannot be created", 
-        "text": "Shader nelze vytvo\u0159it", 
+        "description": "", 
         "id": "The shader cannot be created", 
-        "description": ""
+        "text": "Shader nelze vytvo\u0159it"
     }, 
     {
         "source": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
-        "text": "Tento plugin poskytuje tagovan\u00fd obrazov\u00fd form\u00e1t (TIFF).", 
+        "description": "", 
         "id": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
-        "description": ""
+        "text": "Tento plugin poskytuje tagovan\u00fd obrazov\u00fd form\u00e1t (TIFF)."
     }, 
     {
         "source": "RLE", 
-        "text": "RLE", 
+        "description": "", 
         "id": "RLE", 
-        "description": ""
+        "text": "RLE"
     }, 
     {
         "source": "LZW", 
-        "text": "LZW", 
+        "description": "", 
         "id": "LZW", 
-        "description": ""
+        "text": "LZW"
     }, 
     {
         "source": "The TIFF file", 
-        "text": "Soubor TIFF", 
+        "description": "", 
         "id": "The TIFF file", 
-        "description": ""
+        "text": "Soubor TIFF"
     }, 
     {
         "source": "L", 
-        "text": "", 
+        "description": "", 
         "id": "L", 
-        "description": ""
+        "text": ""
     }, 
     {
         "source": "LA", 
-        "text": "LA", 
+        "description": "", 
         "id": "LA", 
-        "description": ""
+        "text": "LA"
     }, 
     {
         "source": "RGB", 
-        "text": "RGB", 
+        "description": "", 
         "id": "RGB", 
-        "description": ""
+        "text": "RGB"
     }, 
     {
         "source": "RGBA", 
-        "text": "RGBA", 
+        "description": "", 
         "id": "RGBA", 
-        "description": ""
+        "text": "RGBA"
     }, 
     {
         "source": "Timecode", 
-        "text": "\u010casov\u00fd k\u00f3d", 
+        "description": "", 
         "id": "Timecode", 
-        "description": ""
+        "text": "\u010casov\u00fd k\u00f3d"
     }, 
     {
         "source": "Frames", 
-        "text": "R\u00e1my", 
+        "description": "", 
         "id": "Frames", 
-        "description": ""
+        "text": "R\u00e1my"
     }, 
     {
         "source": "Unknown magic number.", 
-        "text": "Nezn\u00e1m\u00e9 magick\u00e9 \u010d\u00edslo.", 
+        "description": "", 
         "id": "Unknown magic number.", 
-        "description": ""
+        "text": "Nezn\u00e1m\u00e9 magick\u00e9 \u010d\u00edslo."
     }, 
     {
         "source": "No image channels.", 
-        "text": "\u017d\u00e1dn\u00e9 obrazov\u00e9 kan\u00e1ly.", 
+        "description": "", 
         "id": "No image channels.", 
-        "description": ""
+        "text": "\u017d\u00e1dn\u00e9 obrazov\u00e9 kan\u00e1ly."
     }, 
     {
         "source": "Image channels must have the same size and bit depth.", 
-        "text": "Obrazov\u00e9 kan\u00e1ly mus\u00ed m\u00edt stejnou velikost a bitovou hloubku.", 
+        "description": "", 
         "id": "Image channels must have the same size and bit depth.", 
-        "description": ""
+        "text": "Obrazov\u00e9 kan\u00e1ly mus\u00ed m\u00edt stejnou velikost a bitovou hloubku."
     }, 
     {
         "source": "Unsupported bit depth.", 
-        "text": "Nepodporovan\u00e1 bitov\u00e1 hloubka.", 
+        "description": "", 
         "id": "Unsupported bit depth.", 
-        "description": ""
+        "text": "Nepodporovan\u00e1 bitov\u00e1 hloubka."
     }, 
     {
         "source": "Line padding is unsupported.", 
-        "text": "Linie je nepodporovan\u00e1.", 
+        "description": "", 
         "id": "Line padding is unsupported.", 
-        "description": ""
+        "text": "Linie je nepodporovan\u00e1."
     }, 
     {
         "source": "Channel padding is unsupported.", 
-        "text": "V\u00fdpl\u0148 kan\u00e1lu nen\u00ed podporov\u00e1na.", 
+        "description": "", 
         "id": "Channel padding is unsupported.", 
-        "description": ""
+        "text": "V\u00fdpl\u0148 kan\u00e1lu nen\u00ed podporov\u00e1na."
     }, 
     {
         "source": "This plugin provides Cineon image I/O.", 
-        "text": "Tento plugin poskytuje obrazov\u00fd vstup Cineon.", 
+        "description": "", 
         "id": "This plugin provides Cineon image I/O.", 
-        "description": ""
+        "text": "Tento plugin poskytuje obrazov\u00fd vstup Cineon."
     }, 
     {
         "source": "Auto", 
-        "text": "Auto", 
+        "description": "", 
         "id": "Auto", 
-        "description": ""
+        "text": "Auto"
     }, 
     {
         "source": "Raw", 
-        "text": "Drsn\u00fd", 
+        "description": "", 
         "id": "Raw", 
-        "description": ""
+        "text": "Drsn\u00fd"
     }, 
     {
         "source": "FilmPrint", 
-        "text": "Film Print", 
+        "description": "", 
         "id": "FilmPrint", 
-        "description": ""
+        "text": "Film Print"
     }, 
     {
         "source": "SourceOffset", 
-        "text": "SourceOffset", 
+        "description": "", 
         "id": "SourceOffset", 
-        "description": ""
+        "text": "SourceOffset"
     }, 
     {
         "source": "SourceFile", 
-        "text": "Zdrojov\u00fd soubor", 
+        "description": "", 
         "id": "SourceFile", 
-        "description": ""
+        "text": "Zdrojov\u00fd soubor"
     }, 
     {
         "source": "SourceTime", 
-        "text": "SourceTime", 
+        "description": "", 
         "id": "SourceTime", 
-        "description": ""
+        "text": "SourceTime"
     }, 
     {
         "source": "SourceInputDevice", 
-        "text": "SourceInputDevice", 
+        "description": "", 
         "id": "SourceInputDevice", 
-        "description": ""
+        "text": "SourceInputDevice"
     }, 
     {
         "source": "SourceInputModel", 
-        "text": "SourceInputModel", 
+        "description": "", 
         "id": "SourceInputModel", 
-        "description": ""
+        "text": "SourceInputModel"
     }, 
     {
         "source": "SourceInputSerial", 
-        "text": "SourceInputSerial", 
+        "description": "", 
         "id": "SourceInputSerial", 
-        "description": ""
+        "text": "SourceInputSerial"
     }, 
     {
         "source": "SourceInputPitch", 
-        "text": "SourceInputPitch", 
+        "description": "", 
         "id": "SourceInputPitch", 
-        "description": ""
+        "text": "SourceInputPitch"
     }, 
     {
         "source": "SourceGamma", 
-        "text": "SourceGamma", 
+        "description": "", 
         "id": "SourceGamma", 
-        "description": ""
+        "text": "SourceGamma"
     }, 
     {
         "source": "FilmFormat", 
-        "text": "form\u00e1t filmu", 
+        "description": "", 
         "id": "FilmFormat", 
-        "description": ""
+        "text": "form\u00e1t filmu"
     }, 
     {
         "source": "FilmFrame", 
-        "text": "Film Frame", 
+        "description": "", 
         "id": "FilmFrame", 
-        "description": ""
+        "text": "Film Frame"
     }, 
     {
         "source": "FilmFrameRate", 
-        "text": "Film Frekvence", 
+        "description": "", 
         "id": "FilmFrameRate", 
-        "description": ""
+        "text": "Film Frekvence"
     }, 
     {
         "source": "FilmFrameID", 
-        "text": "FilmFrameID", 
+        "description": "", 
         "id": "FilmFrameID", 
-        "description": ""
+        "text": "FilmFrameID"
     }, 
     {
         "source": "FilmSlate", 
-        "text": "FilmSlate", 
+        "description": "", 
         "id": "FilmSlate", 
+        "text": "FilmSlate"
+    }, 
+    {
+        "source": "This plugin provides OpenEXR file I/O.", 
+        "text": "Tento plugin poskytuje soubor I / O OpenEXR.", 
+        "id": "This plugin provides OpenEXR file I/O.", 
         "description": ""
     }, 
     {
-        "id": "This plugin provides OpenEXR file I/O.", 
-        "source": "This plugin provides OpenEXR file I/O.", 
-        "description": "", 
-        "text": "Tento plugin poskytuje soubor I / O OpenEXR."
-    }, 
-    {
-        "id": "Known", 
         "source": "Known", 
-        "description": "", 
-        "text": "Zn\u00e1m\u00fd"
+        "text": "Zn\u00e1m\u00fd", 
+        "id": "Known", 
+        "description": ""
     }, 
     {
-        "id": "All", 
         "source": "All", 
-        "description": "", 
-        "text": "V\u0161echno"
+        "text": "V\u0161echno", 
+        "id": "All", 
+        "description": ""
     }, 
     {
-        "id": "ZIPS", 
         "source": "ZIPS", 
-        "description": "", 
-        "text": "ZIP"
+        "text": "ZIP", 
+        "id": "ZIPS", 
+        "description": ""
     }, 
     {
-        "id": "ZIP", 
         "source": "ZIP", 
-        "description": "", 
-        "text": "ZIP"
+        "text": "ZIP", 
+        "id": "ZIP", 
+        "description": ""
     }, 
     {
-        "id": "PIZ", 
         "source": "PIZ", 
-        "description": "", 
-        "text": "PIZ"
+        "text": "PIZ", 
+        "id": "PIZ", 
+        "description": ""
     }, 
     {
-        "id": "PXR24", 
         "source": "PXR24", 
-        "description": "", 
-        "text": "PXR24"
+        "text": "PXR24", 
+        "id": "PXR24", 
+        "description": ""
     }, 
     {
-        "id": "B44", 
         "source": "B44", 
-        "description": "", 
-        "text": "B44"
+        "text": "B44", 
+        "id": "B44", 
+        "description": ""
     }, 
     {
-        "id": "B44A", 
         "source": "B44A", 
-        "description": "", 
-        "text": "B44A"
+        "text": "B44A", 
+        "id": "B44A", 
+        "description": ""
     }, 
     {
-        "id": "DWAA", 
         "source": "DWAA", 
-        "description": "", 
-        "text": "DWAA"
+        "text": "DWAA", 
+        "id": "DWAA", 
+        "description": ""
     }, 
     {
-        "id": "DWAB", 
         "source": "DWAB", 
-        "description": "", 
-        "text": "DWAB"
+        "text": "DWAB", 
+        "id": "DWAB", 
+        "description": ""
     }, 
     {
-        "id": "The OpenEXR file", 
         "source": "The OpenEXR file", 
-        "description": "", 
-        "text": "Soubor OpenEXR"
+        "text": "Soubor OpenEXR", 
+        "id": "The OpenEXR file", 
+        "description": ""
     }, 
     {
-        "id": "Unsupported file.", 
         "source": "Unsupported file.", 
-        "description": "", 
-        "text": "Nepodporovan\u00fd soubor."
+        "text": "Nepodporovan\u00fd soubor.", 
+        "id": "Unsupported file.", 
+        "description": ""
     }, 
     {
-        "id": "This plugin provides DPX image I/O.", 
         "source": "This plugin provides DPX image I/O.", 
-        "description": "", 
-        "text": "Tento plugin poskytuje DPX obraz I / O."
+        "text": "Tento plugin poskytuje DPX obraz I / O.", 
+        "id": "This plugin provides DPX image I/O.", 
+        "description": ""
     }, 
     {
-        "id": "1.0", 
         "source": "1.0", 
-        "description": "", 
-        "text": "1,0"
+        "text": "1,0", 
+        "id": "1.0", 
+        "description": ""
     }, 
     {
-        "id": "2.0", 
         "source": "2.0", 
-        "description": "", 
-        "text": "2,0"
+        "text": "2,0", 
+        "id": "2.0", 
+        "description": ""
     }, 
     {
-        "id": "MSB", 
         "source": "MSB", 
-        "description": "", 
-        "text": "MSB"
+        "text": "MSB", 
+        "id": "MSB", 
+        "description": ""
     }, 
     {
-        "id": "LSB", 
         "source": "LSB", 
-        "description": "", 
-        "text": "LSB"
+        "text": "LSB", 
+        "id": "LSB", 
+        "description": ""
     }, 
     {
-        "id": "Default", 
         "source": "Default", 
-        "description": "", 
-        "text": "V\u00fdchoz\u00ed"
+        "text": "V\u00fdchoz\u00ed", 
+        "id": "Default", 
+        "description": ""
     }, 
     {
         "source": "Bad magic number.", 
+        "text": "\u0160patn\u00e9 magick\u00e9 \u010d\u00edslo.", 
         "description": "", 
-        "id": "Bad magic number.", 
-        "text": "\u0160patn\u00e9 magick\u00e9 \u010d\u00edslo."
+        "id": "Bad magic number."
     }, 
     {
         "source": "Incomplete file.", 
+        "text": "Ne\u00fapln\u00fd soubor.", 
         "description": "", 
-        "id": "Incomplete file.", 
-        "text": "Ne\u00fapln\u00fd soubor."
+        "id": "Incomplete file."
     }, 
     {
         "source": "Cannot open file.", 
+        "text": "Nelze otev\u0159\u00edt soubor.", 
         "description": "", 
-        "id": "Cannot open file.", 
-        "text": "Nelze otev\u0159\u00edt soubor."
+        "id": "Cannot open file."
     }, 
     {
         "source": "Error reading scanline.", 
+        "text": "Chyba p\u0159i \u010dten\u00ed scanline.", 
         "description": "", 
-        "id": "Error reading scanline.", 
-        "text": "Chyba p\u0159i \u010dten\u00ed scanline."
+        "id": "Error reading scanline."
     }, 
     {
         "source": "Unsupported image type.", 
+        "text": "Nepodporovan\u00fd typ obr\u00e1zku.", 
         "description": "", 
-        "id": "Unsupported image type.", 
-        "text": "Nepodporovan\u00fd typ obr\u00e1zku."
+        "id": "Unsupported image type."
     }, 
     {
         "source": "The audio format ", 
+        "text": "Zvukov\u00fd form\u00e1t", 
         "description": "", 
-        "id": "The audio format ", 
-        "text": "Zvukov\u00fd form\u00e1t"
+        "id": "The audio format "
     }, 
     {
         "source": "Unsupported color components.", 
+        "text": "Nepodporovan\u00e9 barevn\u00e9 komponenty.", 
         "description": "", 
-        "id": "Unsupported color components.", 
-        "text": "Nepodporovan\u00e9 barevn\u00e9 komponenty."
+        "id": "Unsupported color components."
     }, 
     {
         "source": "Error writing scanline.", 
+        "text": "Chyba p\u0159i z\u00e1pisu scanline.", 
         "description": "", 
-        "id": "Error writing scanline.", 
-        "text": "Chyba p\u0159i z\u00e1pisu scanline."
+        "id": "Error writing scanline."
     }, 
     {
         "source": "The file cannot be opened.", 
+        "text": "Soubor nelze otev\u0159\u00edt.", 
         "description": "", 
-        "id": "The file cannot be opened.", 
-        "text": "Soubor nelze otev\u0159\u00edt."
+        "id": "The file cannot be opened."
     }
 ]

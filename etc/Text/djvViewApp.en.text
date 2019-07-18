@@ -325,7 +325,7 @@
         "description": ""
     }, 
     {
-        "text": "Keep images in memory", 
+        "text": "Show memory cache options", 
         "id": "Memory cache tooltip", 
         "description": ""
     }, 
@@ -1680,12 +1680,12 @@
         "description": ""
     }, 
     {
-        "text": "Memory cache maximum tooltip", 
+        "text": "Set the memory cache size in gigabytes", 
         "id": "Memory cache maximum tooltip", 
         "description": ""
     }, 
     {
-        "text": "Memory cache enabled tooltip", 
+        "text": "Enable the memory cache", 
         "id": "Memory cache enabled tooltip", 
         "description": ""
     }, 
