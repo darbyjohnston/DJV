@@ -42,6 +42,7 @@
 #include <djvUI/ButtonGroup.h>
 #include <djvUI/FloatSlider.h>
 #include <djvUI/GridLayout.h>
+#include <djvUI/IntSlider.h>
 #include <djvUI/Label.h>
 #include <djvUI/ListButton.h>
 #include <djvUI/MDICanvas.h>
@@ -245,7 +246,7 @@ namespace djv
             std::shared_ptr<UI::BasicFloatSlider> volumeSlider;
             std::shared_ptr<UI::ToolButton> muteButton;
             std::shared_ptr<UI::PopupWidget> audioPopupWidget;
-            std::shared_ptr<UI::FloatSlider> cacheMaxSlider;
+            std::shared_ptr<UI::IntSlider> cacheMaxSlider;
             std::shared_ptr<UI::ToggleButton> cacheEnabledButton;
             std::shared_ptr<UI::PopupWidget> memoryCachePopupWidget;
             std::shared_ptr<UI::GridLayout> playbackLayout;
@@ -265,7 +266,7 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > muteObserver;
             std::shared_ptr<ValueObserver<bool> > hasCacheObserver;
             std::shared_ptr<ValueObserver<bool> > cacheEnabledObserver;
-            std::shared_ptr<ValueObserver<float> > cacheMaxObserver;
+            std::shared_ptr<ValueObserver<int> > cacheMaxObserver;
             std::shared_ptr<ListObserver<Time::TimestampRange> > cachedTimestampsObserver;
             std::shared_ptr<ValueObserver<float> > fadeObserver;
             std::shared_ptr<ValueObserver<bool> > frameStoreEnabledObserver;
@@ -371,8 +372,8 @@ namespace djv
             p.audioPopupWidget->setIcon("djvIconAudio");
             p.audioPopupWidget->addChild(hLayout);
 
-            p.cacheMaxSlider = UI::FloatSlider::create(context);
-            p.cacheMaxSlider->setRange(FloatRange(1.f, 64.f));
+            p.cacheMaxSlider = UI::IntSlider::create(context);
+            p.cacheMaxSlider->setRange(IntRange(1, 64));
             p.cacheEnabledButton = UI::ToggleButton::create(context);
             p.cacheEnabledButton->setHAlign(UI::HAlign::Center);
             p.cacheEnabledButton->setMargin(UI::MetricsRole::None);
@@ -530,7 +531,7 @@ namespace djv
                 });
 
             p.cacheMaxSlider->setValueCallback(
-                [weak](float value)
+                [weak](int value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -800,9 +801,9 @@ namespace djv
                     }
                 });
 
-            p.cacheMaxObserver = ValueObserver<float>::create(
+            p.cacheMaxObserver = ValueObserver<int>::create(
                 p.media->observeCacheMax(),
-                [weak](float value)
+                [weak](int value)
                 {
                     if (auto widget = weak.lock())
                     {

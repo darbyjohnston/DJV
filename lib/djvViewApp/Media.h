@@ -146,11 +146,11 @@ namespace djv
 
             std::shared_ptr<Core::IValueSubject<bool> > observeHasCache() const;
             std::shared_ptr<Core::IValueSubject<bool> > observeCacheEnabled() const;
-            std::shared_ptr<Core::IValueSubject<float> > observeCacheMax() const;
+            std::shared_ptr<Core::IValueSubject<int> > observeCacheMax() const;
             std::shared_ptr<Core::IListSubject<Core::Time::TimestampRange> > observeCachedTimestamps() const;
 
             void setCacheEnabled(bool);
-            void setCacheMax(float);
+            void setCacheMax(int);
 
             ///@}
 

@@ -31,7 +31,7 @@
 
 #include <djvViewApp/FileSettings.h>
 
-#include <djvUI/FloatSlider.h>
+#include <djvUI/IntSlider.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
@@ -131,10 +131,10 @@ namespace djv
         struct CacheSettingsWidget::Private
         {
             std::shared_ptr<UI::ToggleButton> enabledButton;
-            std::shared_ptr<UI::FloatSlider> maxSlider;
+            std::shared_ptr<UI::IntSlider> maxSlider;
             std::shared_ptr<UI::FormLayout> formLayout;
             std::shared_ptr<ValueObserver<bool> > enabledObserver;
-            std::shared_ptr<ValueObserver<float> > maxObserver;
+            std::shared_ptr<ValueObserver<int> > maxObserver;
         };
 
         void CacheSettingsWidget::_init(Context* context)
@@ -146,8 +146,8 @@ namespace djv
 
             p.enabledButton = UI::ToggleButton::create(context);
 
-            p.maxSlider = UI::FloatSlider::create(context);
-            p.maxSlider->setRange(FloatRange(1.0f, 64.f));
+            p.maxSlider = UI::IntSlider::create(context);
+            p.maxSlider->setRange(IntRange(1, 64));
 
             p.formLayout = UI::FormLayout::create(context);
             p.formLayout->addChild(p.enabledButton);
@@ -169,7 +169,7 @@ namespace djv
                     }
                 });
             p.maxSlider->setValueCallback(
-                [weak, context](float value)
+                [weak, context](int value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -193,9 +193,9 @@ namespace djv
                             widget->_p->enabledButton->setChecked(value);
                         }
                     });
-                p.maxObserver = ValueObserver<float>::create(
+                p.maxObserver = ValueObserver<int>::create(
                     fileSettings->observeCacheMax(),
-                    [weak](float value)
+                    [weak](int value)
                     {
                         if (auto widget = weak.lock())
                         {

@@ -69,9 +69,9 @@ namespace djv
             void setAutoDetectSequences(bool);
 
             std::shared_ptr<Core::IValueSubject<bool> > observeCacheEnabled() const;
-            std::shared_ptr<Core::IValueSubject<float> > observeCacheMax() const;
+            std::shared_ptr<Core::IValueSubject<int> > observeCacheMax() const;
             void setCacheEnabled(bool);
-            void setCacheMax(float);
+            void setCacheMax(int);
 
             void load(const picojson::value &) override;
             picojson::value save() override;

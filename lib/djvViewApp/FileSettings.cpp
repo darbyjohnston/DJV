@@ -49,7 +49,7 @@ namespace djv
             std::shared_ptr<ListSubject<Core::FileSystem::FileInfo> > recentFiles;
             std::shared_ptr<ValueSubject<bool> > autoDetectSequences;
             std::shared_ptr<ValueSubject<bool> > cacheEnabled;
-            std::shared_ptr<ValueSubject<float> > cacheMax;
+            std::shared_ptr<ValueSubject<int> > cacheMax;
         };
 
         void FileSettings::_init(Context * context)
@@ -59,7 +59,7 @@ namespace djv
             p.recentFiles = ListSubject<Core::FileSystem::FileInfo>::create();
             p.autoDetectSequences = ValueSubject<bool>::create(true);
             p.cacheEnabled = ValueSubject<bool>::create(true);
-            p.cacheMax = ValueSubject<float>::create(1.f);
+            p.cacheMax = ValueSubject<int>::create(4);
             _load();
         }
 
@@ -102,7 +102,7 @@ namespace djv
             return _p->cacheEnabled;
         }
 
-        std::shared_ptr<IValueSubject<float> > FileSettings::observeCacheMax() const
+        std::shared_ptr<IValueSubject<int> > FileSettings::observeCacheMax() const
         {
             return _p->cacheMax;
         }
@@ -112,7 +112,7 @@ namespace djv
             _p->cacheEnabled->setIfChanged(value);
         }
 
-        void FileSettings::setCacheMax(float value)
+        void FileSettings::setCacheMax(int value)
         {
             _p->cacheMax->setIfChanged(value);
         }

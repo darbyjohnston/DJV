@@ -77,7 +77,7 @@ namespace djv
             std::shared_ptr<ValueSubject<bool> > mute;
             std::shared_ptr<ValueSubject<bool> > hasCache;
             std::shared_ptr<ValueSubject<bool> > cacheEnabled;
-            std::shared_ptr<ValueSubject<float> > cacheMax;
+            std::shared_ptr<ValueSubject<int> > cacheMax;
             std::shared_ptr<ListSubject<Time::TimestampRange> > cachedTimestamps;
 
             std::shared_ptr<ValueSubject<size_t> > videoQueueMax;
@@ -129,7 +129,7 @@ namespace djv
             p.mute = ValueSubject<bool>::create(false);
             p.hasCache = ValueSubject<bool>::create(false);
             p.cacheEnabled = ValueSubject<bool>::create(false);
-            p.cacheMax = ValueSubject<float>::create(0.f);
+            p.cacheMax = ValueSubject<int>::create(0);
             p.cachedTimestamps = ListSubject<Time::TimestampRange>::create();
 
             p.videoQueueMax = ValueSubject<size_t>::create();
@@ -493,7 +493,7 @@ namespace djv
             return _p->cacheEnabled;
         }
 
-        std::shared_ptr<Core::IValueSubject<float> > Media::observeCacheMax() const
+        std::shared_ptr<Core::IValueSubject<int> > Media::observeCacheMax() const
         {
             return _p->cacheMax;
         }
@@ -512,7 +512,7 @@ namespace djv
             }
         }
 
-        void Media::setCacheMax(float value)
+        void Media::setCacheMax(int value)
         {
             DJV_PRIVATE_PTR();
             if (p.read && p.read->hasCache() && p.cacheMax->setIfChanged(value))
@@ -551,7 +551,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             auto context = p.context;
             const bool cacheEnabled = p.cacheEnabled->get();
-            const float cacheMax = p.cacheMax->get();
+            const int cacheMax = p.cacheMax->get();
             try
             {
                 AV::IO::ReadOptions options;
