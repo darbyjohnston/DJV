@@ -59,11 +59,11 @@ namespace djv
             std::shared_ptr<ValueSubject<AV::IO::Info> > info;
             AV::IO::VideoInfo videoInfo;
             AV::IO::AudioInfo audioInfo;
+            std::shared_ptr<ValueSubject<bool> > reload;
             std::shared_ptr<ValueSubject<size_t> > layer;
             std::shared_ptr<ValueSubject<Time::Speed> > speed;
             std::shared_ptr<ValueSubject<Time::Speed> > defaultSpeed;
             std::shared_ptr<ValueSubject<float> > realSpeed;
-            size_t realSpeedFrameCount = 0;
             std::shared_ptr<ValueSubject<bool> > playEveryFrame;
             std::shared_ptr<ValueSubject<Time::Timestamp> > duration;
             std::shared_ptr<ValueSubject<Time::Timestamp> > currentTime;
@@ -97,6 +97,7 @@ namespace djv
             Time::Timestamp timeOffset = 0;
             std::chrono::system_clock::time_point startTime;
             std::chrono::system_clock::time_point realSpeedTime;
+            size_t realSpeedFrameCount = 0;
             std::shared_ptr<Time::Timer> playbackTimer;
             std::shared_ptr<Time::Timer> realSpeedTimer;
             std::shared_ptr<Time::Timer> cachedTimestampsTimer;
@@ -110,6 +111,7 @@ namespace djv
 
             p.fileInfo = fileInfo;
             p.info = ValueSubject<AV::IO::Info>::create();
+            p.reload = ValueSubject<bool>::create();
             p.layer = ValueSubject<size_t>::create();
             p.speed = ValueSubject<Time::Speed>::create();
             p.defaultSpeed = ValueSubject<Time::Speed>::create();
@@ -127,7 +129,7 @@ namespace djv
             p.mute = ValueSubject<bool>::create(false);
             p.hasCache = ValueSubject<bool>::create(false);
             p.cacheEnabled = ValueSubject<bool>::create(false);
-            p.cacheMax = ValueSubject<float>::create(0);
+            p.cacheMax = ValueSubject<float>::create(0.f);
             p.cachedTimestamps = ListSubject<Time::TimestampRange>::create();
 
             p.videoQueueMax = ValueSubject<size_t>::create();
@@ -218,14 +220,14 @@ namespace djv
             return _p->info;
         }
 
+        std::shared_ptr<Core::IValueSubject<bool> > Media::observeReload() const
+        {
+            return _p->reload;
+        }
+
         void Media::reload()
         {
-            DJV_PRIVATE_PTR();
             _open();
-            if (p.read)
-            {
-                p.read->seek(p.currentTime->get());
-            }
         }
 
         std::shared_ptr<IValueSubject<size_t> > Media::observeLayer() const
@@ -515,7 +517,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.read && p.read->hasCache() && p.cacheMax->setIfChanged(value))
             {
-                p.read->setCacheMax(static_cast<float>(value * Memory::gigabyte));
+                p.read->setCacheMax(static_cast<size_t>(value * Memory::gigabyte));
             }
         }
 
@@ -548,12 +550,14 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto context = p.context;
+            const bool cacheEnabled = p.cacheEnabled->get();
+            const float cacheMax = p.cacheMax->get();
             try
             {
-                auto io = context->getSystemT<AV::IO::System>();
                 AV::IO::ReadOptions options;
                 options.layer = p.layer->get();
                 options.videoQueueSize = videoQueueSize;
+                auto io = context->getSystemT<AV::IO::System>();
                 p.read = io->read(p.fileInfo, options);
                 p.infoFuture = p.read->getInfo();
                 p.hasCache->setIfChanged(p.read->hasCache());
@@ -681,6 +685,13 @@ namespace djv
                 auto logSystem = context->getSystemT<LogSystem>();
                 logSystem->log("djv::ViewApp::Media", ss.str(), LogLevel::Error);
             }
+            if (p.read)
+            {
+                p.read->setCacheEnabled(cacheEnabled);
+                p.read->setCacheMax(static_cast<size_t>(cacheMax * Memory::gigabyte));
+                p.read->seek(p.currentTime->get());
+            }
+            p.reload->setAlways(true);
         }
 
         void Media::_playbackUpdate()

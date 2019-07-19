@@ -69,7 +69,7 @@ namespace djv
                 setVAlign(VAlign::Center);
 
                 p.layout = HorizontalLayout::create(context);
-                p.layout->setMargin(Layout::Margin(MetricsRole::MarginLarge, MetricsRole::MarginLarge, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
+                p.layout->setMargin(MetricsRole::MarginSmall);
 
                 p.border = Border::create(context);
                 p.border->setBorderColorRole(ColorRole::BorderButton);

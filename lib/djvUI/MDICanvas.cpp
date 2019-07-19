@@ -218,7 +218,12 @@ namespace djv
                     const BBox2f canvasGeometry = getGeometry().margin(sh);
                     p.maximizedWidget = p.activeWidget;
                     auto maximizedWeak = p.maximizedWidget;
-                    const BBox2f maximizedWidgetGeometry = i->second;
+                    const glm::vec2 widgetMinimumSize = p.activeWidget->getMinimumSize();
+                    const BBox2f maximizedWidgetGeometry(
+                        i->second.min.x,
+                        i->second.min.y,
+                        std::max(i->second.w(), widgetMinimumSize.x),
+                        std::max(i->second.h(), widgetMinimumSize.y));
                     auto weak = std::weak_ptr<Canvas>(std::dynamic_pointer_cast<Canvas>(shared_from_this()));
                     p.maximizedAnimation->start(
                         p.maximized ? 0.f : 1.f,

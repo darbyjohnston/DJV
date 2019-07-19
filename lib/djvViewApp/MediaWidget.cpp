@@ -334,6 +334,7 @@ namespace djv
             p.playEveryFrameButton = UI::ToggleButton::create(context);
             p.playEveryFrameButton->setEnabled(false);
             p.playEveryFrameLabel = UI::Label::create(context);
+            p.playEveryFrameLabel->setEnabled(false);
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addChild(p.speedButtonLayout);

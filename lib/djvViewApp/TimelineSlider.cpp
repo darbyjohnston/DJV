@@ -147,13 +147,13 @@ namespace djv
                     _currentTimeObserver = ValueObserver<Time::Timestamp>::create(
                         _media->observeCurrentTime(),
                         [weak](Time::Timestamp value)
-                    {
-                        if (auto widget = weak.lock())
                         {
-                            widget->_currentTime = value;
-                            widget->_textUpdate();
-                        }
-                    });
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_currentTime = value;
+                                widget->_textUpdate();
+                            }
+                        });
 
                     _imageObserver = ValueObserver<std::shared_ptr<AV::Image::Image> >::create(
                         _media->observeCurrentImage(),
@@ -252,7 +252,7 @@ namespace djv
             setClassName("djv::ViewApp::TimelineSlider");
             setPointerEnabled(true);
 
-            p.currentTime = ValueSubject<Time::Timestamp>::create();
+            p.currentTime = ValueSubject<Time::Timestamp>::create(0);
 
             p.pipWidget = PIPWidget::create(context);
             p.overlay = UI::Layout::Overlay::create(context);
@@ -324,6 +324,7 @@ namespace djv
                         widget->_redraw();
                     }
                 });
+
                 p.durationObserver = ValueObserver<Time::Timestamp>::create(
                     p.media->observeDuration(),
                     [weak](Time::Timestamp value)
@@ -334,16 +335,17 @@ namespace djv
                         widget->_redraw();
                     }
                 });
+
                 p.currentTimeObserver = ValueObserver<Time::Timestamp>::create(
                     p.media->observeCurrentTime(),
                     [weak](Time::Timestamp value)
-                {
-                    if (auto widget = weak.lock())
                     {
-                        widget->_p->currentTime->setIfChanged(value);
-                        widget->_redraw();
-                    }
-                });
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->currentTime->setIfChanged(value);
+                            widget->_redraw();
+                        }
+                    });
             }
             else
             {

@@ -72,6 +72,7 @@ namespace djv
             const Core::FileSystem::FileInfo& getFileInfo() const;
 
             std::shared_ptr<Core::IValueSubject<AV::IO::Info> > observeInfo() const;
+            std::shared_ptr<Core::IValueSubject<bool> > observeReload() const;
 
             void reload();
 

@@ -447,8 +447,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             auto context = getContext();
             auto media = Media::create(fileInfo, context);
-            media->setCacheEnabled(p.settings->observeCacheEnabled()->get());
-            media->setCacheMax(p.settings->observeCacheMax()->get());
+            _cacheUpdate(media);
             p.media->pushBack(media);
             p.opened->setIfChanged(media);
             // Reset the observer so we don't have an extra shared_ptr holding
@@ -463,9 +462,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             auto context = getContext();
             auto media = Media::create(fileInfo, context);
+            _cacheUpdate(media);
             p.media->pushBack(media);
-            media->setCacheEnabled(p.settings->observeCacheEnabled()->get());
-            media->setCacheMax(p.settings->observeCacheMax()->get());
             p.opened2->setIfChanged(std::make_pair(media, pos));
             // Reset the observer so we don't have an extra shared_ptr holding
             // onto the media object.
@@ -581,6 +579,13 @@ namespace djv
             }
             p.actions["MemoryCache"]->setEnabled(hasCache);
             p.actions["MemoryCache"]->setChecked(cacheEnabled);
+        }
+
+        void FileSystem::_cacheUpdate(const std::shared_ptr<Media>& value)
+        {
+            DJV_PRIVATE_PTR();
+            value->setCacheEnabled(p.settings->observeCacheEnabled()->get());
+            value->setCacheMax(p.settings->observeCacheMax()->get());
         }
 
         void FileSystem::_textUpdate()

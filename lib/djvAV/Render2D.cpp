@@ -1423,7 +1423,7 @@ namespace djv
                     }
                     const std::string& imageColorSpace = image->getColorSpace();
                     const OCIO::Convert colorSpace(
-                        !imageColorSpace.empty() ? imageColorSpace : options.colorSpace.input,
+                        !options.colorSpace.input.empty() ? options.colorSpace.input : imageColorSpace,
                         options.colorSpace.output);
                     if (colorSpace.isValid())
                     {

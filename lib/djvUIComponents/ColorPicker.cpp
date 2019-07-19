@@ -39,7 +39,6 @@
 #include <djvUI/FloatEdit.h>
 #include <djvUI/FloatSlider.h>
 #include <djvUI/Label.h>
-#include <djvUI/PushButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Window.h>
 
@@ -1112,28 +1111,12 @@ namespace djv
 
                     _colorPicker = ColorPicker::create(context);
 
-                    _closeButton = PushButton::create(context);
-
                     auto layout = VerticalLayout::create(context);
                     layout->setMargin(MetricsRole::Margin);
                     layout->setShadowOverlay({ UI::Side::Top });
                     layout->addChild(_colorPicker);
-                    auto hLayout = HorizontalLayout::create(context);
-                    hLayout->addExpander();
-                    hLayout->addChild(_closeButton);
-                    layout->addChild(hLayout);
                     addChild(layout);
                     setStretch(layout, RowStretch::Expand);
-
-                    auto weak = std::weak_ptr<ColorPickerDialog>(std::dynamic_pointer_cast<ColorPickerDialog>(shared_from_this()));
-                    _closeButton->setClickedCallback(
-                        [weak]
-                        {
-                            if (auto dialog = weak.lock())
-                            {
-                                dialog->_doCloseCallback();
-                            }
-                        });
                 }
 
                 ColorPickerDialog()
@@ -1158,14 +1141,9 @@ namespace djv
                 }
 
             protected:
-                void _localeEvent(Core::Event::Locale&) override
-                {
-                    _closeButton->setText(_getText(DJV_TEXT("Close")));
-                }
 
             private:
                 std::shared_ptr<ColorPicker> _colorPicker;
-                std::shared_ptr<PushButton> _closeButton;
             };
 
         } // namespace

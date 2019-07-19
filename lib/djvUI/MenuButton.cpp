@@ -98,7 +98,7 @@ namespace djv
                     p.layout->setMargin(MetricsRole::MarginSmall);
                     break;
                 case MenuStyle::ComboBox:
-                    p.layout->setMargin(Layout::Margin(MetricsRole::Margin, MetricsRole::Margin, MetricsRole::None, MetricsRole::None));
+                    p.layout->setMargin(MetricsRole::None);
                     break;
                 default: break;
                 }
