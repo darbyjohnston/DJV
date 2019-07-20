@@ -1,26 +1,20 @@
 [
     {
         "source": "Nothing to convert", 
-        "description": "", 
+        "text": "Niente da convertire", 
         "id": "Nothing to convert", 
-        "text": "Niente da convertire"
-    }, 
-    {
-        "source": "Cannot parse option '-resize'", 
-        "description": "", 
-        "id": "Cannot parse option '-resize'", 
-        "text": "Impossibile analizzare l&#39;opzione &#39;-resize&#39;"
-    }, 
-    {
-        "source": "Usage: djv_convert (input) (output)", 
-        "description": "", 
-        "id": "Usage: djv_convert (input) (output)", 
-        "text": "Uso: djv_convert (input) (output)"
+        "description": ""
     }, 
     {
         "source": "Cannot parse the option '-resize'", 
         "text": "Impossibile analizzare l&#39;opzione &#39;-resize&#39;", 
         "id": "Cannot parse the option '-resize'", 
+        "description": ""
+    }, 
+    {
+        "source": "Usage: djv_convert (input) (output)", 
+        "text": "Uso: djv_convert (input) (output)", 
+        "id": "Usage: djv_convert (input) (output)", 
         "description": ""
     }
 ]

@@ -1,44 +1,8 @@
 [
     {
-        "source": "Dark", 
-        "text": "Temn\u00fd", 
-        "id": "Dark", 
-        "description": ""
-    }, 
-    {
-        "source": "Light", 
-        "text": "Sv\u011btlo", 
-        "id": "Light", 
-        "description": ""
-    }, 
-    {
-        "source": "Medium", 
-        "text": "St\u0159edn\u00ed", 
-        "id": "Medium", 
-        "description": ""
-    }, 
-    {
-        "source": "Small", 
-        "text": "Mal\u00fd", 
-        "id": "Small", 
-        "description": ""
-    }, 
-    {
-        "source": "Large", 
-        "text": "Velk\u00fd", 
-        "id": "Large", 
-        "description": ""
-    }, 
-    {
-        "source": "Extra Large", 
-        "text": "Extra velk\u00e9", 
-        "id": "ExtraLarge", 
-        "description": ""
-    }, 
-    {
-        "source": "Default", 
-        "text": "V\u00fdchoz\u00ed nastaven\u00ed", 
-        "id": "Default", 
+        "source": "Cannot parse the value.", 
+        "text": "Nelze analyzovat hodnotu.", 
+        "id": "Cannot parse the value.", 
         "description": ""
     }, 
     {
@@ -103,7 +67,7 @@
     }, 
     {
         "source": "Baseline", 
-        "text": "V\u00fdchoz\u00ed hodnota", 
+        "text": "Z\u00e1kladn\u00ed hodnota", 
         "id": "Baseline", 
         "description": ""
     }, 
@@ -156,21 +120,15 @@
         "description": ""
     }, 
     {
-        "source": "Thumbnails Large", 
-        "text": "N\u00e1hledy velk\u00e9", 
-        "id": "ThumbnailsLarge", 
+        "source": "Tiles", 
+        "text": "Dla\u017edice", 
+        "id": "Tiles", 
         "description": ""
     }, 
     {
-        "source": "Thumbnails Small", 
-        "text": "N\u00e1hledy Mal\u00e9", 
-        "id": "ThumbnailsSmall", 
-        "description": ""
-    }, 
-    {
-        "source": "List View", 
-        "text": "Zobrazen\u00ed seznamu", 
-        "id": "ListView", 
+        "source": "List", 
+        "text": "Seznam", 
+        "id": "List", 
         "description": ""
     }, 
     {
@@ -180,15 +138,45 @@
         "description": ""
     }, 
     {
+        "source": "Background Header", 
+        "text": "Pozad\u00ed z\u00e1hlav\u00ed", 
+        "id": "BackgroundHeader", 
+        "description": ""
+    }, 
+    {
+        "source": "Background Bellows", 
+        "text": "Pozad\u00ed m\u011bchy", 
+        "id": "BackgroundBellows", 
+        "description": ""
+    }, 
+    {
+        "source": "Background ToolBar", 
+        "text": "Pozad\u00ed ToolBar", 
+        "id": "BackgroundToolBar", 
+        "description": ""
+    }, 
+    {
         "source": "Foreground", 
         "text": "Pop\u0159ed\u00ed", 
         "id": "Foreground", 
         "description": ""
     }, 
     {
+        "source": "Foreground Dim", 
+        "text": "Pop\u0159ed\u00ed Dim", 
+        "id": "ForegroundDim", 
+        "description": ""
+    }, 
+    {
         "source": "Border", 
         "text": "okraj", 
         "id": "Border", 
+        "description": ""
+    }, 
+    {
+        "source": "Border Button", 
+        "text": "Hrani\u010dn\u00ed tla\u010d\u00edtko", 
+        "id": "BorderButton", 
         "description": ""
     }, 
     {
@@ -205,13 +193,13 @@
     }, 
     {
         "source": "Hovered", 
-        "text": "Zakryt\u00e9", 
+        "text": "Vzn\u00e1\u0161el se", 
         "id": "Hovered", 
         "description": ""
     }, 
     {
         "source": "Pressed", 
-        "text": "Stla\u010deno", 
+        "text": "Stiskn\u011bte", 
         "id": "Pressed", 
         "description": ""
     }, 
@@ -222,56 +210,20 @@
         "description": ""
     }, 
     {
-        "source": "Disabled", 
-        "text": "Zak\u00e1z\u00e1no", 
-        "id": "Disabled", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Background", 
-        "text": "Z\u00e1hlav\u00ed z\u00e1hlav\u00ed", 
-        "id": "HeaderBackground", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Foreground", 
-        "text": "Z\u00e1hlav\u00ed pop\u0159ed\u00ed", 
-        "id": "HeaderForeground", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Hovered", 
-        "text": "Hlavi\u010dka byla zakryta", 
-        "id": "HeaderHovered", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Pressed", 
-        "text": "Z\u00e1hlav\u00ed stisknut\u00e1", 
-        "id": "HeaderPressed", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Checked", 
-        "text": "Z\u00e1hlav\u00ed kontrolov\u00e1no", 
-        "id": "HeaderChecked", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Disabled", 
-        "text": "Z\u00e1hlav\u00ed zak\u00e1z\u00e1no", 
-        "id": "HeaderDisabled", 
+        "source": "Text Focus", 
+        "text": "Textov\u00e9 zam\u011b\u0159en\u00ed", 
+        "id": "TextFocus", 
         "description": ""
     }, 
     {
         "source": "Tooltip Background", 
-        "text": "Pozad\u00ed n\u00e1stroje", 
+        "text": "Popis pozad\u00ed", 
         "id": "TooltipBackground", 
         "description": ""
     }, 
     {
         "source": "Tooltip Foreground", 
-        "text": "Popisek pop\u0159ed\u00ed", 
+        "text": "Popis pop\u0159ed\u00ed", 
         "id": "TooltipForeground", 
         "description": ""
     }, 
@@ -282,9 +234,21 @@
         "description": ""
     }, 
     {
+        "source": "Overlay Light", 
+        "text": "Overlay Light", 
+        "id": "OverlayLight", 
+        "description": ""
+    }, 
+    {
         "source": "Shadow", 
         "text": "St\u00edn", 
         "id": "Shadow", 
+        "description": ""
+    }, 
+    {
+        "source": "Handle", 
+        "text": "Rukoje\u0165", 
+        "id": "Handle", 
         "description": ""
     }, 
     {
@@ -295,7 +259,7 @@
     }, 
     {
         "source": "Margin Small", 
-        "text": "Okraj mal\u00fd", 
+        "text": "Margin Small", 
         "id": "MarginSmall", 
         "description": ""
     }, 
@@ -307,7 +271,7 @@
     }, 
     {
         "source": "Margin Dialog", 
-        "text": "Dialog okraj\u016f", 
+        "text": "Dialog Margin", 
         "id": "MarginDialog", 
         "description": ""
     }, 
@@ -319,19 +283,19 @@
     }, 
     {
         "source": "Spacing Small", 
-        "text": "Vzd\u00e1lenost mezi mal\u00fdmi", 
+        "text": "Mezery mal\u00e9", 
         "id": "SpacingSmall", 
         "description": ""
     }, 
     {
         "source": "Spacing Large", 
-        "text": "Rozte\u010d velk\u00e1", 
+        "text": "Mezery velk\u00e9", 
         "id": "SpacingLarge", 
         "description": ""
     }, 
     {
         "source": "Drag", 
-        "text": "P\u0159et\u00e1hn\u011bte", 
+        "text": "T\u00e1hnout", 
         "id": "Drag", 
         "description": ""
     }, 
@@ -342,20 +306,20 @@
         "description": ""
     }, 
     {
-        "source": "Icon Large", 
-        "text": "Ikona velk\u00e1", 
-        "id": "IconLarge", 
+        "source": "Icon Small", 
+        "text": "Ikona Mal\u00e1", 
+        "id": "IconSmall", 
         "description": ""
     }, 
     {
         "source": "Font Small", 
-        "text": "P\u00edsmo Mal\u00e9", 
+        "text": "P\u00edsmo mal\u00e9", 
         "id": "FontSmall", 
         "description": ""
     }, 
     {
         "source": "Font Medium", 
-        "text": "P\u00edsmo m\u00e9dium", 
+        "text": "St\u0159edn\u00ed p\u00edsmo", 
         "id": "FontMedium", 
         "description": ""
     }, 
@@ -367,8 +331,14 @@
     }, 
     {
         "source": "Font Header", 
-        "text": "Hlavi\u010dka p\u00edsma", 
+        "text": "Z\u00e1hlav\u00ed p\u00edsma", 
         "id": "FontHeader", 
+        "description": ""
+    }, 
+    {
+        "source": "Font Title", 
+        "text": "N\u00e1zev p\u00edsma", 
+        "id": "FontTitle", 
         "description": ""
     }, 
     {
@@ -378,39 +348,39 @@
         "description": ""
     }, 
     {
-        "source": "Thumbnail Width Small", 
-        "text": "\u0160\u00ed\u0159ka miniatury Mal\u00e1", 
-        "id": "ThumbnailWidthSmall", 
-        "description": ""
-    }, 
-    {
-        "source": "Thumbnail Height Small", 
-        "text": "V\u00fd\u0161ka miniatury Mal\u00e1", 
-        "id": "ThumbnailHeightSmall", 
-        "description": ""
-    }, 
-    {
-        "source": "Thumbnail Width Large", 
-        "text": "\u0160\u00ed\u0159ka miniatury velk\u00e1", 
-        "id": "ThumbnailWidthLarge", 
-        "description": ""
-    }, 
-    {
-        "source": "Thumbnail Height Large", 
-        "text": "V\u00fd\u0161ka miniatury velk\u00e1", 
-        "id": "ThumbnailHeightLarge", 
+        "source": "Slider", 
+        "text": "Posuvn\u00edk", 
+        "id": "Slider", 
         "description": ""
     }, 
     {
         "source": "Scroll Area", 
-        "text": "Oblast posouv\u00e1n\u00ed", 
+        "text": "Posuvn\u00e1 oblast", 
         "id": "ScrollArea", 
         "description": ""
     }, 
     {
+        "source": "Menu", 
+        "text": "J\u00eddeln\u00ed l\u00edstek", 
+        "id": "Menu", 
+        "description": ""
+    }, 
+    {
         "source": "Text Column", 
-        "text": "Textov\u00fd sloupec", 
+        "text": "Sloupec textu", 
         "id": "TextColumn", 
+        "description": ""
+    }, 
+    {
+        "source": "Text Column Large", 
+        "text": "Sloupec textu velk\u00fd", 
+        "id": "TextColumnLarge", 
+        "description": ""
+    }, 
+    {
+        "source": "Search Box", 
+        "text": "Vyhled\u00e1vac\u00ed pole", 
+        "id": "SearchBox", 
         "description": ""
     }, 
     {
@@ -420,15 +390,69 @@
         "description": ""
     }, 
     {
+        "source": "Shadow Small", 
+        "text": "Shadow Small", 
+        "id": "ShadowSmall", 
+        "description": ""
+    }, 
+    {
         "source": "Tooltip Offset", 
-        "text": "Odsazen\u00ed n\u00e1stroje", 
+        "text": "Popis ofsetu", 
         "id": "TooltipOffset", 
         "description": ""
     }, 
     {
-        "source": "Handle", 
-        "text": "Rukoje\u0165", 
-        "id": "Handle", 
+        "source": "Move", 
+        "text": "P\u0159est\u011bhovat se", 
+        "id": "Move", 
+        "description": ""
+    }, 
+    {
+        "source": "Dark", 
+        "text": "Temn\u00fd", 
+        "id": "Dark", 
+        "description": ""
+    }, 
+    {
+        "source": "Light", 
+        "text": "Sv\u011btlo", 
+        "id": "Light", 
+        "description": ""
+    }, 
+    {
+        "source": "Medium", 
+        "text": "St\u0159edn\u00ed", 
+        "id": "Medium", 
+        "description": ""
+    }, 
+    {
+        "source": "Small", 
+        "text": "Mal\u00fd", 
+        "id": "Small", 
+        "description": ""
+    }, 
+    {
+        "source": "Large", 
+        "text": "Velk\u00fd", 
+        "id": "Large", 
+        "description": ""
+    }, 
+    {
+        "source": "Extra Large", 
+        "text": "Extra velk\u00e9", 
+        "id": "ExtraLarge", 
+        "description": ""
+    }, 
+    {
+        "source": "Default", 
+        "text": "V\u00fdchoz\u00ed", 
+        "id": "Default", 
+        "description": ""
+    }, 
+    {
+        "source": "Expand", 
+        "text": "Roz\u0161\u00ed\u0159it", 
+        "id": "Expand", 
         "description": ""
     }, 
     {
@@ -438,33 +462,33 @@
         "description": ""
     }, 
     {
-        "source": "'", 
-        "text": "&quot;", 
-        "id": "'", 
+        "source": "Apostrophe", 
+        "text": "Apostrof", 
+        "id": "Apostrophe", 
         "description": ""
     }, 
     {
-        "source": ",", 
-        "text": ",", 
-        "id": ",", 
+        "source": "Comma", 
+        "text": "\u010d\u00e1rka", 
+        "id": "Comma", 
         "description": ""
     }, 
     {
-        "source": "-", 
-        "text": "-", 
-        "id": "-", 
+        "source": "Minus", 
+        "text": "M\u00ednus", 
+        "id": "Minus", 
         "description": ""
     }, 
     {
-        "source": ".", 
-        "text": ".", 
-        "id": ".", 
+        "source": "Period", 
+        "text": "Doba", 
+        "id": "Period", 
         "description": ""
     }, 
     {
-        "source": "/", 
-        "text": "/", 
-        "id": "/", 
+        "source": "Slash", 
+        "text": "Slash", 
+        "id": "Slash", 
         "description": ""
     }, 
     {
@@ -528,15 +552,15 @@
         "description": ""
     }, 
     {
-        "source": ";", 
-        "text": ";", 
-        "id": ";", 
+        "source": "Semicolon", 
+        "text": "St\u0159edn\u00edk", 
+        "id": "Semicolon", 
         "description": ""
     }, 
     {
-        "source": "=", 
-        "text": "=", 
-        "id": "=", 
+        "source": "Equal", 
+        "text": "Rovnat se", 
+        "id": "Equal", 
         "description": ""
     }, 
     {
@@ -589,7 +613,7 @@
     }, 
     {
         "source": "I", 
-        "text": "I", 
+        "text": "J\u00e1", 
         "id": "I", 
         "description": ""
     }, 
@@ -696,27 +720,27 @@
         "description": ""
     }, 
     {
-        "source": "[", 
-        "text": "[", 
-        "id": "[", 
+        "source": "Left Bracket", 
+        "text": "Lev\u00e1 z\u00e1vorka", 
+        "id": "LeftBracket", 
         "description": ""
     }, 
     {
-        "source": "\\\\", 
-        "text": "\\\\", 
-        "id": "\\\\", 
+        "source": "Backslash", 
+        "text": "Obr\u00e1cen\u00e9 lom\u00edtko", 
+        "id": "Backslash", 
         "description": ""
     }, 
     {
-        "source": "]", 
-        "text": "]", 
-        "id": "]", 
+        "source": "Right Bracket", 
+        "text": "Prav\u00e1 z\u00e1vorka", 
+        "id": "RightBracket", 
         "description": ""
     }, 
     {
-        "source": "`", 
-        "text": "`", 
-        "id": "`", 
+        "source": "Grave Accent", 
+        "text": "V\u00e1\u017en\u00fd p\u0159\u00edzvuk", 
+        "id": "GraveAccent", 
         "description": ""
     }, 
     {
@@ -739,7 +763,7 @@
     }, 
     {
         "source": "Enter", 
-        "text": "Zadejte", 
+        "text": "Vstoupit", 
         "id": "Enter", 
         "description": ""
     }, 
@@ -769,7 +793,7 @@
     }, 
     {
         "source": "Right Arrow", 
-        "text": "\u0160ipka doprava", 
+        "text": "Prav\u00e1 \u0161ipka", 
         "id": "RightArrow", 
         "description": ""
     }, 
@@ -799,7 +823,7 @@
     }, 
     {
         "source": "Page Down", 
-        "text": "Str\u00e1nka dol\u016f", 
+        "text": "Page Down", 
         "id": "PageDown", 
         "description": ""
     }, 
@@ -823,7 +847,7 @@
     }, 
     {
         "source": "Scroll Lock", 
-        "text": "Posunout z\u00e1mek", 
+        "text": "Posu\u0148te z\u00e1mek", 
         "id": "ScrollLock", 
         "description": ""
     }, 
@@ -1051,37 +1075,37 @@
     }, 
     {
         "source": "Key Pad Decimal", 
-        "text": "Desetinn\u00e1 kl\u00e1vesnice", 
+        "text": "Deska kl\u00e1vesnice Des\u00edtkov\u00e1", 
         "id": "KeyPadDecimal", 
         "description": ""
     }, 
     {
         "source": "Key Pad Divide", 
-        "text": "Rozd\u011blit kl\u00e1vesnici na kl\u00e1vesnici", 
+        "text": "Rozd\u011blen\u00ed kl\u00e1vesnice", 
         "id": "KeyPadDivide", 
         "description": ""
     }, 
     {
         "source": "Key Pad Multiply", 
-        "text": "Zes\u00edlen\u00ed kl\u00e1vesnice", 
+        "text": "Key Pad zn\u00e1sobit", 
         "id": "KeyPadMultiply", 
         "description": ""
     }, 
     {
         "source": "Key Pad Substract", 
-        "text": "Vyj\u00edm", 
+        "text": "Key Pad Substract", 
         "id": "KeyPadSubstract", 
         "description": ""
     }, 
     {
         "source": "Key Pad Add", 
-        "text": "P\u0159id\u00e1n\u00ed kl\u00e1vesnice", 
+        "text": "Kl\u00e1vesnice P\u0159idat", 
         "id": "KeyPadAdd", 
         "description": ""
     }, 
     {
         "source": "Key Pad Enter", 
-        "text": "Zadejte kl\u00e1vesnici", 
+        "text": "Kl\u00e1vesnice Enter", 
         "id": "KeyPadEnter", 
         "description": ""
     }, 
@@ -1105,14 +1129,14 @@
     }, 
     {
         "source": "Left Alt", 
-        "text": "Vlevo Alt", 
+        "text": "Lev\u00fd Alt", 
         "id": "LeftAlt", 
         "description": ""
     }, 
     {
-        "source": "Left Super", 
-        "text": "Vlevo Super", 
-        "id": "LeftSuper", 
+        "source": "Left Command", 
+        "text": "Lev\u00e9 velen\u00ed", 
+        "id": "LeftCommand", 
         "description": ""
     }, 
     {
@@ -1123,7 +1147,7 @@
     }, 
     {
         "source": "Right Control", 
-        "text": "Prav\u00e1 kontrola", 
+        "text": "Spr\u00e1vn\u00e9 ovl\u00e1d\u00e1n\u00ed", 
         "id": "RightControl", 
         "description": ""
     }, 
@@ -1134,15 +1158,9 @@
         "description": ""
     }, 
     {
-        "source": "Right Super", 
-        "text": "Spr\u00e1vn\u011b Super", 
-        "id": "RightSuper", 
-        "description": ""
-    }, 
-    {
-        "source": "Menu", 
-        "text": "J\u00eddeln\u00ed l\u00edstek", 
-        "id": "Menu", 
+        "source": "Right Command", 
+        "text": "Spr\u00e1vn\u00e9 velen\u00ed", 
+        "id": "RightCommand", 
         "description": ""
     }, 
     {
@@ -1164,225 +1182,9 @@
         "description": ""
     }, 
     {
-        "source": "Super", 
-        "text": "Super", 
-        "id": "Super", 
-        "description": ""
-    }, 
-    {
-        "source": "Cannot read settings", 
-        "text": "Nelze \u010d\u00edst nastaven\u00ed", 
-        "id": "Cannot read settings", 
-        "description": ""
-    }, 
-    {
-        "source": "Cannot write settings", 
-        "text": "Nelze ps\u00e1t nastaven\u00ed", 
-        "id": "Cannot write settings", 
-        "description": ""
-    }, 
-    {
-        "source": "Expand", 
-        "text": "Roz\u0161\u00ed\u0159it", 
-        "id": "Expand", 
-        "description": ""
-    }, 
-    {
-        "source": "Cannot parse value.", 
-        "text": "Hodnotu nelze analyzovat.", 
-        "id": "Cannot parse value.", 
-        "description": ""
-    }, 
-    {
-        "id": "Cannot parse the value.", 
-        "source": "Cannot parse the value.", 
-        "description": "", 
-        "text": "Hodnotu nelze analyzovat."
-    }, 
-    {
-        "id": "IconSmall", 
-        "source": "Icon Small", 
-        "description": "", 
-        "text": "Ikona Mal\u00e1"
-    }, 
-    {
-        "id": "Apostrophe", 
-        "source": "Apostrophe", 
-        "description": "", 
-        "text": "Apostrof"
-    }, 
-    {
-        "id": "Comma", 
-        "source": "Comma", 
-        "description": "", 
-        "text": "\u010d\u00e1rka"
-    }, 
-    {
-        "id": "Minus", 
-        "source": "Minus", 
-        "description": "", 
-        "text": "Minus"
-    }, 
-    {
-        "id": "Period", 
-        "source": "Period", 
-        "description": "", 
-        "text": "Doba"
-    }, 
-    {
-        "id": "Slash", 
-        "source": "Slash", 
-        "description": "", 
-        "text": "Slash"
-    }, 
-    {
-        "id": "Semicolon", 
-        "source": "Semicolon", 
-        "description": "", 
-        "text": "St\u0159edn\u00edk"
-    }, 
-    {
-        "id": "Equal", 
-        "source": "Equal", 
-        "description": "", 
-        "text": "Rovnat se"
-    }, 
-    {
-        "id": "LeftBracket", 
-        "source": "Left Bracket", 
-        "description": "", 
-        "text": "Lev\u00e1 konzola"
-    }, 
-    {
-        "id": "Backslash", 
-        "source": "Backslash", 
-        "description": "", 
-        "text": "Obr\u00e1cen\u00e9 lom\u00edtko"
-    }, 
-    {
-        "id": "RightBracket", 
-        "source": "Right Bracket", 
-        "description": "", 
-        "text": "Prav\u00e1 konzola"
-    }, 
-    {
-        "id": "GraveAccent", 
-        "source": "Grave Accent", 
-        "description": "", 
-        "text": "V\u00e1\u017en\u00fd p\u0159\u00edzvuk"
-    }, 
-    {
-        "id": "Tiles", 
-        "source": "Tiles", 
-        "description": "", 
-        "text": "Dla\u017edice"
-    }, 
-    {
-        "id": "List", 
-        "source": "List", 
-        "description": "", 
-        "text": "Seznam"
-    }, 
-    {
-        "source": "Header", 
-        "text": "Z\u00e1hlav\u00ed", 
-        "id": "Header", 
-        "description": ""
-    }, 
-    {
-        "source": "Font Title", 
-        "text": "N\u00e1zev p\u00edsma", 
-        "id": "FontTitle", 
-        "description": ""
-    }, 
-    {
-        "source": "Slider", 
-        "text": "Posuvn\u00edk", 
-        "id": "Slider", 
-        "description": ""
-    }, 
-    {
-        "source": "Left Command", 
-        "text": "Lev\u00fd p\u0159\u00edkaz", 
-        "id": "LeftCommand", 
-        "description": ""
-    }, 
-    {
-        "source": "Right Command", 
-        "text": "Prav\u00fd p\u0159\u00edkaz", 
-        "id": "RightCommand", 
-        "description": ""
-    }, 
-    {
         "source": "Command", 
         "text": "P\u0159\u00edkaz", 
         "id": "Command", 
-        "description": ""
-    }, 
-    {
-        "source": "Background Bellows", 
-        "text": "Pozad\u00ed m\u011bch\u016f", 
-        "id": "BackgroundBellows", 
-        "description": ""
-    }, 
-    {
-        "source": "Background Header", 
-        "text": "Z\u00e1hlav\u00ed pozad\u00ed", 
-        "id": "BackgroundHeader", 
-        "description": ""
-    }, 
-    {
-        "source": "Background ToolBar", 
-        "text": "Pozad\u00ed ToolBar", 
-        "id": "BackgroundToolBar", 
-        "description": ""
-    }, 
-    {
-        "source": "Foreground Dim", 
-        "text": "Pop\u0159ed\u00ed Dim", 
-        "id": "ForegroundDim", 
-        "description": ""
-    }, 
-    {
-        "source": "Search Box", 
-        "text": "Vyhled\u00e1vac\u00ed pole", 
-        "id": "SearchBox", 
-        "description": ""
-    }, 
-    {
-        "id": "ShadowSmall", 
-        "source": "Shadow Small", 
-        "description": "", 
-        "text": "St\u00edn mal\u00fd"
-    }, 
-    {
-        "id": "Move", 
-        "source": "Move", 
-        "description": "", 
-        "text": "P\u0159est\u011bhovat se"
-    }, 
-    {
-        "source": "Border Button", 
-        "text": "Tla\u010d\u00edtko ohrani\u010den\u00ed", 
-        "id": "BorderButton", 
-        "description": ""
-    }, 
-    {
-        "source": "Text Focus", 
-        "text": "Zam\u011b\u0159en\u00ed textu", 
-        "id": "TextFocus", 
-        "description": ""
-    }, 
-    {
-        "source": "Overlay Light", 
-        "text": "P\u0159ekr\u00fdt sv\u011btlo", 
-        "id": "OverlayLight", 
-        "description": ""
-    }, 
-    {
-        "source": "Text Column Large", 
-        "text": "Sloupec textu Velk\u00fd", 
-        "id": "TextColumnLarge", 
         "description": ""
     }
 ]

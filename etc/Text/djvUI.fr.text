@@ -1,44 +1,8 @@
 [
     {
-        "source": "Dark", 
-        "text": "Fonc\u00e9", 
-        "id": "Dark", 
-        "description": ""
-    }, 
-    {
-        "source": "Light", 
-        "text": "Lumi\u00e8re", 
-        "id": "Light", 
-        "description": ""
-    }, 
-    {
-        "source": "Medium", 
-        "text": "Moyen", 
-        "id": "Medium", 
-        "description": ""
-    }, 
-    {
-        "source": "Small", 
-        "text": "Petit", 
-        "id": "Small", 
-        "description": ""
-    }, 
-    {
-        "source": "Large", 
-        "text": "Grand", 
-        "id": "Large", 
-        "description": ""
-    }, 
-    {
-        "source": "Extra Large", 
-        "text": "Extra large", 
-        "id": "ExtraLarge", 
-        "description": ""
-    }, 
-    {
-        "source": "Default", 
-        "text": "D\u00e9faut", 
-        "id": "Default", 
+        "source": "Cannot parse the value.", 
+        "text": "Impossible d&#39;analyser la valeur.", 
+        "id": "Cannot parse the value.", 
         "description": ""
     }, 
     {
@@ -156,21 +120,15 @@
         "description": ""
     }, 
     {
-        "source": "Thumbnails Large", 
-        "text": "Vignettes Large", 
-        "id": "ThumbnailsLarge", 
+        "source": "Tiles", 
+        "text": "Carrelage", 
+        "id": "Tiles", 
         "description": ""
     }, 
     {
-        "source": "Thumbnails Small", 
-        "text": "Vignettes Petit", 
-        "id": "ThumbnailsSmall", 
-        "description": ""
-    }, 
-    {
-        "source": "List View", 
-        "text": "Voir la liste", 
-        "id": "ListView", 
+        "source": "List", 
+        "text": "liste", 
+        "id": "List", 
         "description": ""
     }, 
     {
@@ -180,15 +138,45 @@
         "description": ""
     }, 
     {
+        "source": "Background Header", 
+        "text": "En-t\u00eate de fond", 
+        "id": "BackgroundHeader", 
+        "description": ""
+    }, 
+    {
+        "source": "Background Bellows", 
+        "text": "Soufflet de fond", 
+        "id": "BackgroundBellows", 
+        "description": ""
+    }, 
+    {
+        "source": "Background ToolBar", 
+        "text": "Barre d&#39;outils de fond", 
+        "id": "BackgroundToolBar", 
+        "description": ""
+    }, 
+    {
         "source": "Foreground", 
         "text": "Premier plan", 
         "id": "Foreground", 
         "description": ""
     }, 
     {
+        "source": "Foreground Dim", 
+        "text": "Avant-plan dim", 
+        "id": "ForegroundDim", 
+        "description": ""
+    }, 
+    {
         "source": "Border", 
         "text": "Fronti\u00e8re", 
         "id": "Border", 
+        "description": ""
+    }, 
+    {
+        "source": "Border Button", 
+        "text": "Bouton de bordure", 
+        "id": "BorderButton", 
         "description": ""
     }, 
     {
@@ -222,45 +210,9 @@
         "description": ""
     }, 
     {
-        "source": "Disabled", 
-        "text": "d\u00e9sactiv\u00e9", 
-        "id": "Disabled", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Background", 
-        "text": "Fond d&#39;en-t\u00eate", 
-        "id": "HeaderBackground", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Foreground", 
-        "text": "En-t\u00eate au premier plan", 
-        "id": "HeaderForeground", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Hovered", 
-        "text": "En-t\u00eate survol\u00e9", 
-        "id": "HeaderHovered", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Pressed", 
-        "text": "En-t\u00eate press\u00e9", 
-        "id": "HeaderPressed", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Checked", 
-        "text": "En-t\u00eate v\u00e9rifi\u00e9", 
-        "id": "HeaderChecked", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Disabled", 
-        "text": "En-t\u00eate d\u00e9sactiv\u00e9", 
-        "id": "HeaderDisabled", 
+        "source": "Text Focus", 
+        "text": "Focus du texte", 
+        "id": "TextFocus", 
         "description": ""
     }, 
     {
@@ -282,9 +234,21 @@
         "description": ""
     }, 
     {
+        "source": "Overlay Light", 
+        "text": "Superposition de lumi\u00e8re", 
+        "id": "OverlayLight", 
+        "description": ""
+    }, 
+    {
         "source": "Shadow", 
         "text": "Ombre", 
         "id": "Shadow", 
+        "description": ""
+    }, 
+    {
+        "source": "Handle", 
+        "text": "Manipuler", 
+        "id": "Handle", 
         "description": ""
     }, 
     {
@@ -342,9 +306,9 @@
         "description": ""
     }, 
     {
-        "source": "Icon Large", 
-        "text": "Icon Large", 
-        "id": "IconLarge", 
+        "source": "Icon Small", 
+        "text": "Icon Small", 
+        "id": "IconSmall", 
         "description": ""
     }, 
     {
@@ -372,33 +336,21 @@
         "description": ""
     }, 
     {
+        "source": "Font Title", 
+        "text": "Titre de la police", 
+        "id": "FontTitle", 
+        "description": ""
+    }, 
+    {
         "source": "Swatch", 
         "text": "Swatch", 
         "id": "Swatch", 
         "description": ""
     }, 
     {
-        "source": "Thumbnail Width Small", 
-        "text": "Vignette Largeur Petit", 
-        "id": "ThumbnailWidthSmall", 
-        "description": ""
-    }, 
-    {
-        "source": "Thumbnail Height Small", 
-        "text": "Vignette Hauteur Petit", 
-        "id": "ThumbnailHeightSmall", 
-        "description": ""
-    }, 
-    {
-        "source": "Thumbnail Width Large", 
-        "text": "Vignette Largeur Grand", 
-        "id": "ThumbnailWidthLarge", 
-        "description": ""
-    }, 
-    {
-        "source": "Thumbnail Height Large", 
-        "text": "Thumbnail Hauteur Large", 
-        "id": "ThumbnailHeightLarge", 
+        "source": "Slider", 
+        "text": "Curseur", 
+        "id": "Slider", 
         "description": ""
     }, 
     {
@@ -408,9 +360,27 @@
         "description": ""
     }, 
     {
+        "source": "Menu", 
+        "text": "Menu", 
+        "id": "Menu", 
+        "description": ""
+    }, 
+    {
         "source": "Text Column", 
         "text": "Colonne de texte", 
         "id": "TextColumn", 
+        "description": ""
+    }, 
+    {
+        "source": "Text Column Large", 
+        "text": "Colonne de texte grande", 
+        "id": "TextColumnLarge", 
+        "description": ""
+    }, 
+    {
+        "source": "Search Box", 
+        "text": "Barre de recherche", 
+        "id": "SearchBox", 
         "description": ""
     }, 
     {
@@ -420,15 +390,69 @@
         "description": ""
     }, 
     {
+        "source": "Shadow Small", 
+        "text": "Ombre petite", 
+        "id": "ShadowSmall", 
+        "description": ""
+    }, 
+    {
         "source": "Tooltip Offset", 
         "text": "D\u00e9calage d&#39;info-bulle", 
         "id": "TooltipOffset", 
         "description": ""
     }, 
     {
-        "source": "Handle", 
-        "text": "Manipuler", 
-        "id": "Handle", 
+        "source": "Move", 
+        "text": "Bouge toi", 
+        "id": "Move", 
+        "description": ""
+    }, 
+    {
+        "source": "Dark", 
+        "text": "Fonc\u00e9", 
+        "id": "Dark", 
+        "description": ""
+    }, 
+    {
+        "source": "Light", 
+        "text": "Lumi\u00e8re", 
+        "id": "Light", 
+        "description": ""
+    }, 
+    {
+        "source": "Medium", 
+        "text": "Moyen", 
+        "id": "Medium", 
+        "description": ""
+    }, 
+    {
+        "source": "Small", 
+        "text": "Petit", 
+        "id": "Small", 
+        "description": ""
+    }, 
+    {
+        "source": "Large", 
+        "text": "Grand", 
+        "id": "Large", 
+        "description": ""
+    }, 
+    {
+        "source": "Extra Large", 
+        "text": "Extra large", 
+        "id": "ExtraLarge", 
+        "description": ""
+    }, 
+    {
+        "source": "Default", 
+        "text": "D\u00e9faut", 
+        "id": "Default", 
+        "description": ""
+    }, 
+    {
+        "source": "Expand", 
+        "text": "D\u00e9velopper", 
+        "id": "Expand", 
         "description": ""
     }, 
     {
@@ -438,33 +462,33 @@
         "description": ""
     }, 
     {
-        "source": "'", 
-        "text": "&#39;", 
-        "id": "'", 
+        "source": "Apostrophe", 
+        "text": "Apostrophe", 
+        "id": "Apostrophe", 
         "description": ""
     }, 
     {
-        "source": ",", 
-        "text": ",", 
-        "id": ",", 
+        "source": "Comma", 
+        "text": "virgule", 
+        "id": "Comma", 
         "description": ""
     }, 
     {
-        "source": "-", 
-        "text": "-", 
-        "id": "-", 
+        "source": "Minus", 
+        "text": "Moins", 
+        "id": "Minus", 
         "description": ""
     }, 
     {
-        "source": ".", 
-        "text": ".", 
-        "id": ".", 
+        "source": "Period", 
+        "text": "P\u00e9riode", 
+        "id": "Period", 
         "description": ""
     }, 
     {
-        "source": "/", 
-        "text": "/", 
-        "id": "/", 
+        "source": "Slash", 
+        "text": "Sabrer", 
+        "id": "Slash", 
         "description": ""
     }, 
     {
@@ -528,15 +552,15 @@
         "description": ""
     }, 
     {
-        "source": ";", 
-        "text": ";", 
-        "id": ";", 
+        "source": "Semicolon", 
+        "text": "Point-virgule", 
+        "id": "Semicolon", 
         "description": ""
     }, 
     {
-        "source": "=", 
-        "text": "=", 
-        "id": "=", 
+        "source": "Equal", 
+        "text": "\u00c9gal", 
+        "id": "Equal", 
         "description": ""
     }, 
     {
@@ -696,27 +720,27 @@
         "description": ""
     }, 
     {
-        "source": "[", 
-        "text": "[", 
-        "id": "[", 
+        "source": "Left Bracket", 
+        "text": "Support gauche", 
+        "id": "LeftBracket", 
         "description": ""
     }, 
     {
-        "source": "\\\\", 
-        "text": "\\\\", 
-        "id": "\\\\", 
+        "source": "Backslash", 
+        "text": "Barre oblique inverse", 
+        "id": "Backslash", 
         "description": ""
     }, 
     {
-        "source": "]", 
-        "text": "]", 
-        "id": "]", 
+        "source": "Right Bracket", 
+        "text": "Support droit", 
+        "id": "RightBracket", 
         "description": ""
     }, 
     {
-        "source": "`", 
-        "text": "`", 
-        "id": "`", 
+        "source": "Grave Accent", 
+        "text": "Grave Accent", 
+        "id": "GraveAccent", 
         "description": ""
     }, 
     {
@@ -1051,7 +1075,7 @@
     }, 
     {
         "source": "Key Pad Decimal", 
-        "text": "Clavier d\u00e9cimal", 
+        "text": "D\u00e9cimale du clavier", 
         "id": "KeyPadDecimal", 
         "description": ""
     }, 
@@ -1063,7 +1087,7 @@
     }, 
     {
         "source": "Key Pad Multiply", 
-        "text": "Multiplier le clavier", 
+        "text": "Clavier Multiplier", 
         "id": "KeyPadMultiply", 
         "description": ""
     }, 
@@ -1110,9 +1134,9 @@
         "description": ""
     }, 
     {
-        "source": "Left Super", 
-        "text": "Super gauche", 
-        "id": "LeftSuper", 
+        "source": "Left Command", 
+        "text": "Commande de gauche", 
+        "id": "LeftCommand", 
         "description": ""
     }, 
     {
@@ -1134,15 +1158,9 @@
         "description": ""
     }, 
     {
-        "source": "Right Super", 
-        "text": "Droit super", 
-        "id": "RightSuper", 
-        "description": ""
-    }, 
-    {
-        "source": "Menu", 
-        "text": "Menu", 
-        "id": "Menu", 
+        "source": "Right Command", 
+        "text": "Bon commandement", 
+        "id": "RightCommand", 
         "description": ""
     }, 
     {
@@ -1164,225 +1182,9 @@
         "description": ""
     }, 
     {
-        "source": "Super", 
-        "text": "Super", 
-        "id": "Super", 
-        "description": ""
-    }, 
-    {
-        "source": "Cannot read settings", 
-        "text": "Impossible de lire les param\u00e8tres", 
-        "id": "Cannot read settings", 
-        "description": ""
-    }, 
-    {
-        "source": "Cannot write settings", 
-        "text": "Impossible d&#39;\u00e9crire les param\u00e8tres", 
-        "id": "Cannot write settings", 
-        "description": ""
-    }, 
-    {
-        "source": "Expand", 
-        "text": "D\u00e9velopper", 
-        "id": "Expand", 
-        "description": ""
-    }, 
-    {
-        "source": "Cannot parse value.", 
-        "text": "Impossible d&#39;analyser la valeur.", 
-        "id": "Cannot parse value.", 
-        "description": ""
-    }, 
-    {
-        "id": "Cannot parse the value.", 
-        "source": "Cannot parse the value.", 
-        "description": "", 
-        "text": "Impossible d&#39;analyser la valeur."
-    }, 
-    {
-        "id": "IconSmall", 
-        "source": "Icon Small", 
-        "description": "", 
-        "text": "Icon Small"
-    }, 
-    {
-        "id": "Apostrophe", 
-        "source": "Apostrophe", 
-        "description": "", 
-        "text": "Apostrophe"
-    }, 
-    {
-        "id": "Comma", 
-        "source": "Comma", 
-        "description": "", 
-        "text": "virgule"
-    }, 
-    {
-        "id": "Minus", 
-        "source": "Minus", 
-        "description": "", 
-        "text": "Moins"
-    }, 
-    {
-        "id": "Period", 
-        "source": "Period", 
-        "description": "", 
-        "text": "P\u00e9riode"
-    }, 
-    {
-        "id": "Slash", 
-        "source": "Slash", 
-        "description": "", 
-        "text": "Sabrer"
-    }, 
-    {
-        "id": "Semicolon", 
-        "source": "Semicolon", 
-        "description": "", 
-        "text": "Point-virgule"
-    }, 
-    {
-        "id": "Equal", 
-        "source": "Equal", 
-        "description": "", 
-        "text": "\u00c9gal"
-    }, 
-    {
-        "id": "LeftBracket", 
-        "source": "Left Bracket", 
-        "description": "", 
-        "text": "Support gauche"
-    }, 
-    {
-        "id": "Backslash", 
-        "source": "Backslash", 
-        "description": "", 
-        "text": "Barre oblique inverse"
-    }, 
-    {
-        "id": "RightBracket", 
-        "source": "Right Bracket", 
-        "description": "", 
-        "text": "Support droit"
-    }, 
-    {
-        "id": "GraveAccent", 
-        "source": "Grave Accent", 
-        "description": "", 
-        "text": "Grave Accent"
-    }, 
-    {
-        "id": "Tiles", 
-        "source": "Tiles", 
-        "description": "", 
-        "text": "Carrelage"
-    }, 
-    {
-        "id": "List", 
-        "source": "List", 
-        "description": "", 
-        "text": "liste"
-    }, 
-    {
-        "source": "Header", 
-        "text": "Ent\u00eate", 
-        "id": "Header", 
-        "description": ""
-    }, 
-    {
-        "source": "Font Title", 
-        "text": "Titre de la police", 
-        "id": "FontTitle", 
-        "description": ""
-    }, 
-    {
-        "source": "Slider", 
-        "text": "Curseur", 
-        "id": "Slider", 
-        "description": ""
-    }, 
-    {
-        "source": "Left Command", 
-        "text": "Commande de gauche", 
-        "id": "LeftCommand", 
-        "description": ""
-    }, 
-    {
-        "source": "Right Command", 
-        "text": "Bon commandement", 
-        "id": "RightCommand", 
-        "description": ""
-    }, 
-    {
         "source": "Command", 
         "text": "Commander", 
         "id": "Command", 
-        "description": ""
-    }, 
-    {
-        "source": "Background Bellows", 
-        "text": "Soufflet de fond", 
-        "id": "BackgroundBellows", 
-        "description": ""
-    }, 
-    {
-        "source": "Background Header", 
-        "text": "En-t\u00eate de fond", 
-        "id": "BackgroundHeader", 
-        "description": ""
-    }, 
-    {
-        "source": "Background ToolBar", 
-        "text": "Barre d&#39;outils de fond", 
-        "id": "BackgroundToolBar", 
-        "description": ""
-    }, 
-    {
-        "source": "Foreground Dim", 
-        "text": "Avant-plan dim", 
-        "id": "ForegroundDim", 
-        "description": ""
-    }, 
-    {
-        "source": "Search Box", 
-        "text": "Barre de recherche", 
-        "id": "SearchBox", 
-        "description": ""
-    }, 
-    {
-        "id": "ShadowSmall", 
-        "source": "Shadow Small", 
-        "description": "", 
-        "text": "Ombre petite"
-    }, 
-    {
-        "id": "Move", 
-        "source": "Move", 
-        "description": "", 
-        "text": "Bouge toi"
-    }, 
-    {
-        "source": "Border Button", 
-        "text": "Bouton de bordure", 
-        "id": "BorderButton", 
-        "description": ""
-    }, 
-    {
-        "source": "Text Focus", 
-        "text": "Focus du texte", 
-        "id": "TextFocus", 
-        "description": ""
-    }, 
-    {
-        "source": "Overlay Light", 
-        "text": "Superposition de lumi\u00e8re", 
-        "id": "OverlayLight", 
-        "description": ""
-    }, 
-    {
-        "source": "Text Column Large", 
-        "text": "Colonne de texte grande", 
-        "id": "TextColumnLarge", 
         "description": ""
     }
 ]

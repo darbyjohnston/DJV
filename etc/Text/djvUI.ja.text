@@ -1,44 +1,8 @@
 [
     {
-        "source": "Dark", 
-        "text": "\u30c0\u30fc\u30af", 
-        "id": "Dark", 
-        "description": ""
-    }, 
-    {
-        "source": "Light", 
-        "text": "\u5149", 
-        "id": "Light", 
-        "description": ""
-    }, 
-    {
-        "source": "Medium", 
-        "text": "\u4e2d", 
-        "id": "Medium", 
-        "description": ""
-    }, 
-    {
-        "source": "Small", 
-        "text": "\u5c0f\u3055\u3044", 
-        "id": "Small", 
-        "description": ""
-    }, 
-    {
-        "source": "Large", 
-        "text": "\u5927", 
-        "id": "Large", 
-        "description": ""
-    }, 
-    {
-        "source": "Extra Large", 
-        "text": "\u7279\u5927", 
-        "id": "ExtraLarge", 
-        "description": ""
-    }, 
-    {
-        "source": "Default", 
-        "text": "\u30c7\u30d5\u30a9\u30eb\u30c8", 
-        "id": "Default", 
+        "source": "Cannot parse the value.", 
+        "text": "\u5024\u3092\u89e3\u6790\u3067\u304d\u307e\u305b\u3093\u3002", 
+        "id": "Cannot parse the value.", 
         "description": ""
     }, 
     {
@@ -156,21 +120,15 @@
         "description": ""
     }, 
     {
-        "source": "Thumbnails Large", 
-        "text": "\u30b5\u30e0\u30cd\u30a4\u30eb\u5927", 
-        "id": "ThumbnailsLarge", 
+        "source": "Tiles", 
+        "text": "\u30bf\u30a4\u30eb", 
+        "id": "Tiles", 
         "description": ""
     }, 
     {
-        "source": "Thumbnails Small", 
-        "text": "\u30b5\u30e0\u30cd\u30a4\u30eb\u5c0f", 
-        "id": "ThumbnailsSmall", 
-        "description": ""
-    }, 
-    {
-        "source": "List View", 
-        "text": "\u30ea\u30b9\u30c8\u30d3\u30e5\u30fc", 
-        "id": "ListView", 
+        "source": "List", 
+        "text": "\u30ea\u30b9\u30c8", 
+        "id": "List", 
         "description": ""
     }, 
     {
@@ -180,15 +138,45 @@
         "description": ""
     }, 
     {
+        "source": "Background Header", 
+        "text": "\u30d0\u30c3\u30af\u30b0\u30e9\u30a6\u30f3\u30c9\u30d8\u30c3\u30c0", 
+        "id": "BackgroundHeader", 
+        "description": ""
+    }, 
+    {
+        "source": "Background Bellows", 
+        "text": "\u30d0\u30c3\u30af\u30b0\u30e9\u30a6\u30f3\u30c9\u30d9\u30ed\u30fc\u30ba", 
+        "id": "BackgroundBellows", 
+        "description": ""
+    }, 
+    {
+        "source": "Background ToolBar", 
+        "text": "\u80cc\u666f\u30c4\u30fc\u30eb\u30d0\u30fc", 
+        "id": "BackgroundToolBar", 
+        "description": ""
+    }, 
+    {
         "source": "Foreground", 
         "text": "\u524d\u666f", 
         "id": "Foreground", 
         "description": ""
     }, 
     {
+        "source": "Foreground Dim", 
+        "text": "\u524d\u666f\u306e\u6697\u3055", 
+        "id": "ForegroundDim", 
+        "description": ""
+    }, 
+    {
         "source": "Border", 
         "text": "\u5883\u754c", 
         "id": "Border", 
+        "description": ""
+    }, 
+    {
+        "source": "Border Button", 
+        "text": "\u67a0\u30dc\u30bf\u30f3", 
+        "id": "BorderButton", 
         "description": ""
     }, 
     {
@@ -222,45 +210,9 @@
         "description": ""
     }, 
     {
-        "source": "Disabled", 
-        "text": "\u7121\u52b9", 
-        "id": "Disabled", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Background", 
-        "text": "\u30d8\u30c3\u30c0\u30fc\u306e\u80cc\u666f", 
-        "id": "HeaderBackground", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Foreground", 
-        "text": "\u30d8\u30c3\u30c0\u30fc\u524d\u666f", 
-        "id": "HeaderForeground", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Hovered", 
-        "text": "\u30d8\u30c3\u30c0\u30fc\u304c\u8986\u308f\u308c\u3066\u3044\u307e\u3059", 
-        "id": "HeaderHovered", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Pressed", 
-        "text": "\u62bc\u3055\u308c\u305f\u30d8\u30c3\u30c0\u30fc", 
-        "id": "HeaderPressed", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Checked", 
-        "text": "\u30d8\u30c3\u30c0\u30fc\u30c1\u30a7\u30c3\u30af\u6e08\u307f", 
-        "id": "HeaderChecked", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Disabled", 
-        "text": "\u30d8\u30c3\u30c0\u7121\u52b9", 
-        "id": "HeaderDisabled", 
+        "source": "Text Focus", 
+        "text": "\u30c6\u30ad\u30b9\u30c8\u30d5\u30a9\u30fc\u30ab\u30b9", 
+        "id": "TextFocus", 
         "description": ""
     }, 
     {
@@ -282,9 +234,21 @@
         "description": ""
     }, 
     {
+        "source": "Overlay Light", 
+        "text": "\u30aa\u30fc\u30d0\u30fc\u30ec\u30a4\u30e9\u30a4\u30c8", 
+        "id": "OverlayLight", 
+        "description": ""
+    }, 
+    {
         "source": "Shadow", 
         "text": "\u5f71", 
         "id": "Shadow", 
+        "description": ""
+    }, 
+    {
+        "source": "Handle", 
+        "text": "\u30cf\u30f3\u30c9\u30eb", 
+        "id": "Handle", 
         "description": ""
     }, 
     {
@@ -342,9 +306,9 @@
         "description": ""
     }, 
     {
-        "source": "Icon Large", 
-        "text": "\u30a2\u30a4\u30b3\u30f3\u5927", 
-        "id": "IconLarge", 
+        "source": "Icon Small", 
+        "text": "\u30a2\u30a4\u30b3\u30f3\u5c0f", 
+        "id": "IconSmall", 
         "description": ""
     }, 
     {
@@ -355,7 +319,7 @@
     }, 
     {
         "source": "Font Medium", 
-        "text": "\u30d5\u30a9\u30f3\u30c8\u30df\u30c7\u30a3\u30a2\u30e0", 
+        "text": "\u30d5\u30a9\u30f3\u30c8\u5a92\u4f53", 
         "id": "FontMedium", 
         "description": ""
     }, 
@@ -372,33 +336,21 @@
         "description": ""
     }, 
     {
+        "source": "Font Title", 
+        "text": "\u30d5\u30a9\u30f3\u30c8\u306e\u30bf\u30a4\u30c8\u30eb", 
+        "id": "FontTitle", 
+        "description": ""
+    }, 
+    {
         "source": "Swatch", 
         "text": "\u898b\u672c", 
         "id": "Swatch", 
         "description": ""
     }, 
     {
-        "source": "Thumbnail Width Small", 
-        "text": "\u30b5\u30e0\u30cd\u30a4\u30eb\u5e45\u5c0f", 
-        "id": "ThumbnailWidthSmall", 
-        "description": ""
-    }, 
-    {
-        "source": "Thumbnail Height Small", 
-        "text": "\u30b5\u30e0\u30cd\u30a4\u30eb\u9ad8\u3055\u5c0f", 
-        "id": "ThumbnailHeightSmall", 
-        "description": ""
-    }, 
-    {
-        "source": "Thumbnail Width Large", 
-        "text": "\u30b5\u30e0\u30cd\u30a4\u30eb\u5e45\u5927", 
-        "id": "ThumbnailWidthLarge", 
-        "description": ""
-    }, 
-    {
-        "source": "Thumbnail Height Large", 
-        "text": "\u30b5\u30e0\u30cd\u30a4\u30eb\u306e\u9ad8\u3055\u5927", 
-        "id": "ThumbnailHeightLarge", 
+        "source": "Slider", 
+        "text": "\u30b9\u30e9\u30a4\u30c0\u30fc", 
+        "id": "Slider", 
         "description": ""
     }, 
     {
@@ -408,9 +360,27 @@
         "description": ""
     }, 
     {
+        "source": "Menu", 
+        "text": "\u30e1\u30cb\u30e5\u30fc", 
+        "id": "Menu", 
+        "description": ""
+    }, 
+    {
         "source": "Text Column", 
         "text": "\u30c6\u30ad\u30b9\u30c8\u5217", 
         "id": "TextColumn", 
+        "description": ""
+    }, 
+    {
+        "source": "Text Column Large", 
+        "text": "\u30c6\u30ad\u30b9\u30c8\u5217\u5927", 
+        "id": "TextColumnLarge", 
+        "description": ""
+    }, 
+    {
+        "source": "Search Box", 
+        "text": "\u691c\u7d22\u30dc\u30c3\u30af\u30b9", 
+        "id": "SearchBox", 
         "description": ""
     }, 
     {
@@ -420,15 +390,69 @@
         "description": ""
     }, 
     {
+        "source": "Shadow Small", 
+        "text": "\u30b7\u30e3\u30c9\u30fc\u30b9\u30e2\u30fc\u30eb", 
+        "id": "ShadowSmall", 
+        "description": ""
+    }, 
+    {
         "source": "Tooltip Offset", 
         "text": "\u30c4\u30fc\u30eb\u30c1\u30c3\u30d7\u30aa\u30d5\u30bb\u30c3\u30c8", 
         "id": "TooltipOffset", 
         "description": ""
     }, 
     {
-        "source": "Handle", 
-        "text": "\u30cf\u30f3\u30c9\u30eb", 
-        "id": "Handle", 
+        "source": "Move", 
+        "text": "\u79fb\u52d5\u3059\u308b", 
+        "id": "Move", 
+        "description": ""
+    }, 
+    {
+        "source": "Dark", 
+        "text": "\u30c0\u30fc\u30af", 
+        "id": "Dark", 
+        "description": ""
+    }, 
+    {
+        "source": "Light", 
+        "text": "\u5149", 
+        "id": "Light", 
+        "description": ""
+    }, 
+    {
+        "source": "Medium", 
+        "text": "\u4e2d", 
+        "id": "Medium", 
+        "description": ""
+    }, 
+    {
+        "source": "Small", 
+        "text": "\u5c0f\u3055\u3044", 
+        "id": "Small", 
+        "description": ""
+    }, 
+    {
+        "source": "Large", 
+        "text": "\u5927", 
+        "id": "Large", 
+        "description": ""
+    }, 
+    {
+        "source": "Extra Large", 
+        "text": "\u7279\u5927", 
+        "id": "ExtraLarge", 
+        "description": ""
+    }, 
+    {
+        "source": "Default", 
+        "text": "\u30c7\u30d5\u30a9\u30eb\u30c8", 
+        "id": "Default", 
+        "description": ""
+    }, 
+    {
+        "source": "Expand", 
+        "text": "\u5c55\u958b\u3059\u308b", 
+        "id": "Expand", 
         "description": ""
     }, 
     {
@@ -438,33 +462,33 @@
         "description": ""
     }, 
     {
-        "source": "'", 
-        "text": "&#39;", 
-        "id": "'", 
+        "source": "Apostrophe", 
+        "text": "\u30a2\u30dd\u30b9\u30c8\u30ed\u30d5\u30a3", 
+        "id": "Apostrophe", 
         "description": ""
     }, 
     {
-        "source": ",", 
-        "text": "\u3001", 
-        "id": ",", 
+        "source": "Comma", 
+        "text": "\u30b3\u30f3\u30de", 
+        "id": "Comma", 
         "description": ""
     }, 
     {
-        "source": "-", 
-        "text": "-", 
-        "id": "-", 
+        "source": "Minus", 
+        "text": "\u30de\u30a4\u30ca\u30b9", 
+        "id": "Minus", 
         "description": ""
     }, 
     {
-        "source": ".", 
-        "text": "\u3002", 
-        "id": ".", 
+        "source": "Period", 
+        "text": "\u671f\u9593", 
+        "id": "Period", 
         "description": ""
     }, 
     {
-        "source": "/", 
-        "text": "/", 
-        "id": "/", 
+        "source": "Slash", 
+        "text": "\u30b9\u30e9\u30c3\u30b7\u30e5", 
+        "id": "Slash", 
         "description": ""
     }, 
     {
@@ -528,15 +552,15 @@
         "description": ""
     }, 
     {
-        "source": ";", 
-        "text": ";", 
-        "id": ";", 
+        "source": "Semicolon", 
+        "text": "\u30bb\u30df\u30b3\u30ed\u30f3", 
+        "id": "Semicolon", 
         "description": ""
     }, 
     {
-        "source": "=", 
-        "text": "=", 
-        "id": "=", 
+        "source": "Equal", 
+        "text": "\u7b49\u3057\u3044", 
+        "id": "Equal", 
         "description": ""
     }, 
     {
@@ -696,27 +720,27 @@
         "description": ""
     }, 
     {
-        "source": "[", 
-        "text": "[", 
-        "id": "[", 
+        "source": "Left Bracket", 
+        "text": "\u5de6\u30d6\u30e9\u30b1\u30c3\u30c8", 
+        "id": "LeftBracket", 
         "description": ""
     }, 
     {
-        "source": "\\\\", 
-        "text": "\\\\", 
-        "id": "\\\\", 
+        "source": "Backslash", 
+        "text": "\u30d0\u30c3\u30af\u30b9\u30e9\u30c3\u30b7\u30e5", 
+        "id": "Backslash", 
         "description": ""
     }, 
     {
-        "source": "]", 
-        "text": "]", 
-        "id": "]", 
+        "source": "Right Bracket", 
+        "text": "\u53f3\u30d6\u30e9\u30b1\u30c3\u30c8", 
+        "id": "RightBracket", 
         "description": ""
     }, 
     {
-        "source": "`", 
-        "text": "`", 
-        "id": "`", 
+        "source": "Grave Accent", 
+        "text": "\u6df1\u523b\u306a\u30a2\u30af\u30bb\u30f3\u30c8", 
+        "id": "GraveAccent", 
         "description": ""
     }, 
     {
@@ -1087,7 +1111,7 @@
     }, 
     {
         "source": "Key Pad Equal", 
-        "text": "\u540c\u7b49\u306e\u30ad\u30fc\u30d1\u30c3\u30c9", 
+        "text": "\u7b49\u3057\u3044\u30ad\u30fc\u30d1\u30c3\u30c9", 
         "id": "KeyPadEqual", 
         "description": ""
     }, 
@@ -1110,9 +1134,9 @@
         "description": ""
     }, 
     {
-        "source": "Left Super", 
-        "text": "\u5de6\u30b9\u30fc\u30d1\u30fc", 
-        "id": "LeftSuper", 
+        "source": "Left Command", 
+        "text": "\u5de6\u306e\u30b3\u30de\u30f3\u30c9", 
+        "id": "LeftCommand", 
         "description": ""
     }, 
     {
@@ -1134,15 +1158,9 @@
         "description": ""
     }, 
     {
-        "source": "Right Super", 
-        "text": "\u53f3\u30b9\u30fc\u30d1\u30fc", 
-        "id": "RightSuper", 
-        "description": ""
-    }, 
-    {
-        "source": "Menu", 
-        "text": "\u30e1\u30cb\u30e5\u30fc", 
-        "id": "Menu", 
+        "source": "Right Command", 
+        "text": "\u6b63\u3057\u3044\u30b3\u30de\u30f3\u30c9", 
+        "id": "RightCommand", 
         "description": ""
     }, 
     {
@@ -1164,225 +1182,9 @@
         "description": ""
     }, 
     {
-        "source": "Super", 
-        "text": "\u30b9\u30fc\u30d1\u30fc", 
-        "id": "Super", 
-        "description": ""
-    }, 
-    {
-        "source": "Cannot read settings", 
-        "text": "\u8a2d\u5b9a\u3092\u8aad\u307f\u53d6\u308c\u307e\u305b\u3093", 
-        "id": "Cannot read settings", 
-        "description": ""
-    }, 
-    {
-        "source": "Cannot write settings", 
-        "text": "\u8a2d\u5b9a\u3092\u66f8\u304d\u8fbc\u3081\u307e\u305b\u3093", 
-        "id": "Cannot write settings", 
-        "description": ""
-    }, 
-    {
-        "source": "Expand", 
-        "text": "\u5c55\u958b\u3059\u308b", 
-        "id": "Expand", 
-        "description": ""
-    }, 
-    {
-        "source": "Cannot parse value.", 
-        "text": "\u5024\u3092\u89e3\u6790\u3067\u304d\u307e\u305b\u3093\u3002", 
-        "id": "Cannot parse value.", 
-        "description": ""
-    }, 
-    {
-        "id": "Cannot parse the value.", 
-        "source": "Cannot parse the value.", 
-        "description": "", 
-        "text": "\u5024\u3092\u89e3\u6790\u3067\u304d\u307e\u305b\u3093\u3002"
-    }, 
-    {
-        "id": "IconSmall", 
-        "source": "Icon Small", 
-        "description": "", 
-        "text": "\u30a2\u30a4\u30b3\u30f3\u5c0f"
-    }, 
-    {
-        "id": "Apostrophe", 
-        "source": "Apostrophe", 
-        "description": "", 
-        "text": "\u30a2\u30dd\u30b9\u30c8\u30ed\u30d5\u30a3"
-    }, 
-    {
-        "id": "Comma", 
-        "source": "Comma", 
-        "description": "", 
-        "text": "\u30b3\u30f3\u30de"
-    }, 
-    {
-        "id": "Minus", 
-        "source": "Minus", 
-        "description": "", 
-        "text": "\u30de\u30a4\u30ca\u30b9"
-    }, 
-    {
-        "id": "Period", 
-        "source": "Period", 
-        "description": "", 
-        "text": "\u671f\u9593"
-    }, 
-    {
-        "id": "Slash", 
-        "source": "Slash", 
-        "description": "", 
-        "text": "\u30b9\u30e9\u30c3\u30b7\u30e5"
-    }, 
-    {
-        "id": "Semicolon", 
-        "source": "Semicolon", 
-        "description": "", 
-        "text": "\u30bb\u30df\u30b3\u30ed\u30f3"
-    }, 
-    {
-        "id": "Equal", 
-        "source": "Equal", 
-        "description": "", 
-        "text": "\u7b49\u3057\u3044"
-    }, 
-    {
-        "id": "LeftBracket", 
-        "source": "Left Bracket", 
-        "description": "", 
-        "text": "\u5de6\u30d6\u30e9\u30b1\u30c3\u30c8"
-    }, 
-    {
-        "id": "Backslash", 
-        "source": "Backslash", 
-        "description": "", 
-        "text": "\u30d0\u30c3\u30af\u30b9\u30e9\u30c3\u30b7\u30e5"
-    }, 
-    {
-        "id": "RightBracket", 
-        "source": "Right Bracket", 
-        "description": "", 
-        "text": "\u53f3\u30d6\u30e9\u30b1\u30c3\u30c8"
-    }, 
-    {
-        "id": "GraveAccent", 
-        "source": "Grave Accent", 
-        "description": "", 
-        "text": "\u6df1\u523b\u306a\u30a2\u30af\u30bb\u30f3\u30c8"
-    }, 
-    {
-        "id": "Tiles", 
-        "source": "Tiles", 
-        "description": "", 
-        "text": "\u30bf\u30a4\u30eb"
-    }, 
-    {
-        "id": "List", 
-        "source": "List", 
-        "description": "", 
-        "text": "\u30ea\u30b9\u30c8"
-    }, 
-    {
-        "source": "Header", 
-        "text": "\u30d8\u30c3\u30c0", 
-        "id": "Header", 
-        "description": ""
-    }, 
-    {
-        "source": "Font Title", 
-        "text": "\u30d5\u30a9\u30f3\u30c8\u306e\u30bf\u30a4\u30c8\u30eb", 
-        "id": "FontTitle", 
-        "description": ""
-    }, 
-    {
-        "source": "Slider", 
-        "text": "\u30b9\u30e9\u30a4\u30c0\u30fc", 
-        "id": "Slider", 
-        "description": ""
-    }, 
-    {
-        "source": "Left Command", 
-        "text": "\u5de6\u306e\u30b3\u30de\u30f3\u30c9", 
-        "id": "LeftCommand", 
-        "description": ""
-    }, 
-    {
-        "source": "Right Command", 
-        "text": "\u6b63\u3057\u3044\u30b3\u30de\u30f3\u30c9", 
-        "id": "RightCommand", 
-        "description": ""
-    }, 
-    {
         "source": "Command", 
         "text": "\u30b3\u30de\u30f3\u30c9", 
         "id": "Command", 
-        "description": ""
-    }, 
-    {
-        "source": "Background Bellows", 
-        "text": "\u30d0\u30c3\u30af\u30b0\u30e9\u30a6\u30f3\u30c9\u30d9\u30ed\u30fc\u30ba", 
-        "id": "BackgroundBellows", 
-        "description": ""
-    }, 
-    {
-        "source": "Background Header", 
-        "text": "\u30d0\u30c3\u30af\u30b0\u30e9\u30a6\u30f3\u30c9\u30d8\u30c3\u30c0", 
-        "id": "BackgroundHeader", 
-        "description": ""
-    }, 
-    {
-        "source": "Background ToolBar", 
-        "text": "\u80cc\u666f\u30c4\u30fc\u30eb\u30d0\u30fc", 
-        "id": "BackgroundToolBar", 
-        "description": ""
-    }, 
-    {
-        "source": "Foreground Dim", 
-        "text": "\u524d\u666f\u306e\u6697\u3055", 
-        "id": "ForegroundDim", 
-        "description": ""
-    }, 
-    {
-        "source": "Search Box", 
-        "text": "\u691c\u7d22\u30dc\u30c3\u30af\u30b9", 
-        "id": "SearchBox", 
-        "description": ""
-    }, 
-    {
-        "id": "ShadowSmall", 
-        "source": "Shadow Small", 
-        "description": "", 
-        "text": "\u30b7\u30e3\u30c9\u30fc\u30b9\u30e2\u30fc\u30eb"
-    }, 
-    {
-        "id": "Move", 
-        "source": "Move", 
-        "description": "", 
-        "text": "\u79fb\u52d5\u3059\u308b"
-    }, 
-    {
-        "source": "Border Button", 
-        "text": "\u67a0\u30dc\u30bf\u30f3", 
-        "id": "BorderButton", 
-        "description": ""
-    }, 
-    {
-        "source": "Text Focus", 
-        "text": "\u30c6\u30ad\u30b9\u30c8\u30d5\u30a9\u30fc\u30ab\u30b9", 
-        "id": "TextFocus", 
-        "description": ""
-    }, 
-    {
-        "source": "Overlay Light", 
-        "text": "\u30aa\u30fc\u30d0\u30fc\u30ec\u30a4\u30e9\u30a4\u30c8", 
-        "id": "OverlayLight", 
-        "description": ""
-    }, 
-    {
-        "source": "Text Column Large", 
-        "text": "\u30c6\u30ad\u30b9\u30c8\u5217\u5927", 
-        "id": "TextColumnLarge", 
         "description": ""
     }
 ]

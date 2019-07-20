@@ -1,44 +1,8 @@
 [
     {
-        "source": "Dark", 
-        "text": "\uc5b4\ub450\uc6b4", 
-        "id": "Dark", 
-        "description": ""
-    }, 
-    {
-        "source": "Light", 
-        "text": "\ube5b", 
-        "id": "Light", 
-        "description": ""
-    }, 
-    {
-        "source": "Medium", 
-        "text": "\ub9e4\uc9c8", 
-        "id": "Medium", 
-        "description": ""
-    }, 
-    {
-        "source": "Small", 
-        "text": "\uc791\uc740", 
-        "id": "Small", 
-        "description": ""
-    }, 
-    {
-        "source": "Large", 
-        "text": "\ud070", 
-        "id": "Large", 
-        "description": ""
-    }, 
-    {
-        "source": "Extra Large", 
-        "text": "\ud2b9\ub300", 
-        "id": "ExtraLarge", 
-        "description": ""
-    }, 
-    {
-        "source": "Default", 
-        "text": "\ud0dc\ub9cc", 
-        "id": "Default", 
+        "source": "Cannot parse the value.", 
+        "text": "\uac12\uc744 \uad6c\ubb38 \ubd84\uc11d \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
+        "id": "Cannot parse the value.", 
         "description": ""
     }, 
     {
@@ -156,21 +120,15 @@
         "description": ""
     }, 
     {
-        "source": "Thumbnails Large", 
-        "text": "\ud070 \ubbf8\ub9ac\ubcf4\uae30 \uc774\ubbf8\uc9c0", 
-        "id": "ThumbnailsLarge", 
+        "source": "Tiles", 
+        "text": "\ud0c0\uc77c", 
+        "id": "Tiles", 
         "description": ""
     }, 
     {
-        "source": "Thumbnails Small", 
-        "text": "Thumbnails Small", 
-        "id": "ThumbnailsSmall", 
-        "description": ""
-    }, 
-    {
-        "source": "List View", 
-        "text": "\ubaa9\ub85d\ubcf4\uae30", 
-        "id": "ListView", 
+        "source": "List", 
+        "text": "\uba85\ubd80", 
+        "id": "List", 
         "description": ""
     }, 
     {
@@ -180,15 +138,45 @@
         "description": ""
     }, 
     {
+        "source": "Background Header", 
+        "text": "\ubc30\uacbd \ud5e4\ub354", 
+        "id": "BackgroundHeader", 
+        "description": ""
+    }, 
+    {
+        "source": "Background Bellows", 
+        "text": "\ubc30\uacbd \ubca8\ub85c\uc6b0\uc988", 
+        "id": "BackgroundBellows", 
+        "description": ""
+    }, 
+    {
+        "source": "Background ToolBar", 
+        "text": "\ubc30\uacbd \ub3c4\uad6c \ubaa8\uc74c", 
+        "id": "BackgroundToolBar", 
+        "description": ""
+    }, 
+    {
         "source": "Foreground", 
         "text": "\uc804\uacbd", 
         "id": "Foreground", 
         "description": ""
     }, 
     {
+        "source": "Foreground Dim", 
+        "text": "\uc804\uacbd \uc5b4\ub461\uac8c", 
+        "id": "ForegroundDim", 
+        "description": ""
+    }, 
+    {
         "source": "Border", 
         "text": "\uacbd\uacc4", 
         "id": "Border", 
+        "description": ""
+    }, 
+    {
+        "source": "Border Button", 
+        "text": "\ud14c\ub450\ub9ac \ubc84\ud2bc", 
+        "id": "BorderButton", 
         "description": ""
     }, 
     {
@@ -222,45 +210,9 @@
         "description": ""
     }, 
     {
-        "source": "Disabled", 
-        "text": "\uc7a5\uc560\uc778", 
-        "id": "Disabled", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Background", 
-        "text": "\ud5e4\ub354 \ubc30\uacbd", 
-        "id": "HeaderBackground", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Foreground", 
-        "text": "\ud5e4\ub354 \uc804\uacbd", 
-        "id": "HeaderForeground", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Hovered", 
-        "text": "\ud5e4\ub354 \ud638\ubc84 \ub4dc", 
-        "id": "HeaderHovered", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Pressed", 
-        "text": "\ud5e4\ub354 \ub204\ub984", 
-        "id": "HeaderPressed", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Checked", 
-        "text": "\ud5e4\ub354\uac00 \ud655\uc778 \ub428", 
-        "id": "HeaderChecked", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Disabled", 
-        "text": "\ud5e4\ub354 \uc0ac\uc6a9 \ubd88\uac00", 
-        "id": "HeaderDisabled", 
+        "source": "Text Focus", 
+        "text": "\ud14d\uc2a4\ud2b8 \ud3ec\ucee4\uc2a4", 
+        "id": "TextFocus", 
         "description": ""
     }, 
     {
@@ -282,9 +234,21 @@
         "description": ""
     }, 
     {
+        "source": "Overlay Light", 
+        "text": "\uc624\ubc84\ub808\uc774 \ub77c\uc774\ud2b8", 
+        "id": "OverlayLight", 
+        "description": ""
+    }, 
+    {
         "source": "Shadow", 
         "text": "\uadf8\ub9bc\uc790", 
         "id": "Shadow", 
+        "description": ""
+    }, 
+    {
+        "source": "Handle", 
+        "text": "\ud578\ub4e4", 
+        "id": "Handle", 
         "description": ""
     }, 
     {
@@ -342,9 +306,9 @@
         "description": ""
     }, 
     {
-        "source": "Icon Large", 
-        "text": "\ud070 \uc544\uc774\ucf58", 
-        "id": "IconLarge", 
+        "source": "Icon Small", 
+        "text": "\uc791\uc740 \uc544\uc774\ucf58", 
+        "id": "IconSmall", 
         "description": ""
     }, 
     {
@@ -372,33 +336,21 @@
         "description": ""
     }, 
     {
+        "source": "Font Title", 
+        "text": "\uae00\uaf34 \uc81c\ubaa9", 
+        "id": "FontTitle", 
+        "description": ""
+    }, 
+    {
         "source": "Swatch", 
         "text": "\uacac\ubcf8", 
         "id": "Swatch", 
         "description": ""
     }, 
     {
-        "source": "Thumbnail Width Small", 
-        "text": "\ubbf8\ub9ac\ubcf4\uae30 \ub108\ube44 \uc791\uc74c", 
-        "id": "ThumbnailWidthSmall", 
-        "description": ""
-    }, 
-    {
-        "source": "Thumbnail Height Small", 
-        "text": "\uc378\ub124\uc77c \ub192\uc774 \uc791\uc740", 
-        "id": "ThumbnailHeightSmall", 
-        "description": ""
-    }, 
-    {
-        "source": "Thumbnail Width Large", 
-        "text": "\uc378\ub124\uc77c \ub108\ube44\uac00 \ud07c", 
-        "id": "ThumbnailWidthLarge", 
-        "description": ""
-    }, 
-    {
-        "source": "Thumbnail Height Large", 
-        "text": "\uc378\ub124\uc77c \ub192\uc774\uac00 \ud07c", 
-        "id": "ThumbnailHeightLarge", 
+        "source": "Slider", 
+        "text": "\uc2ac\ub77c\uc774\ub354", 
+        "id": "Slider", 
         "description": ""
     }, 
     {
@@ -408,9 +360,27 @@
         "description": ""
     }, 
     {
+        "source": "Menu", 
+        "text": "\uba54\ub274", 
+        "id": "Menu", 
+        "description": ""
+    }, 
+    {
         "source": "Text Column", 
         "text": "\ud14d\uc2a4\ud2b8 \uc5f4", 
         "id": "TextColumn", 
+        "description": ""
+    }, 
+    {
+        "source": "Text Column Large", 
+        "text": "\ud14d\uc2a4\ud2b8 \uc5f4 \ub300", 
+        "id": "TextColumnLarge", 
+        "description": ""
+    }, 
+    {
+        "source": "Search Box", 
+        "text": "\uac80\uc0c9 \ucc3d", 
+        "id": "SearchBox", 
         "description": ""
     }, 
     {
@@ -420,15 +390,69 @@
         "description": ""
     }, 
     {
+        "source": "Shadow Small", 
+        "text": "\uadf8\ub9bc\uc790 \uc791\uc740", 
+        "id": "ShadowSmall", 
+        "description": ""
+    }, 
+    {
         "source": "Tooltip Offset", 
         "text": "\ud234\ud301 \uc624\ud504\uc14b", 
         "id": "TooltipOffset", 
         "description": ""
     }, 
     {
-        "source": "Handle", 
-        "text": "\ud578\ub4e4", 
-        "id": "Handle", 
+        "source": "Move", 
+        "text": "\uc6c0\uc9c1\uc784", 
+        "id": "Move", 
+        "description": ""
+    }, 
+    {
+        "source": "Dark", 
+        "text": "\uc5b4\ub450\uc6b4", 
+        "id": "Dark", 
+        "description": ""
+    }, 
+    {
+        "source": "Light", 
+        "text": "\ube5b", 
+        "id": "Light", 
+        "description": ""
+    }, 
+    {
+        "source": "Medium", 
+        "text": "\ub9e4\uc9c8", 
+        "id": "Medium", 
+        "description": ""
+    }, 
+    {
+        "source": "Small", 
+        "text": "\uc791\uc740", 
+        "id": "Small", 
+        "description": ""
+    }, 
+    {
+        "source": "Large", 
+        "text": "\ud070", 
+        "id": "Large", 
+        "description": ""
+    }, 
+    {
+        "source": "Extra Large", 
+        "text": "\ud2b9\ub300", 
+        "id": "ExtraLarge", 
+        "description": ""
+    }, 
+    {
+        "source": "Default", 
+        "text": "\ud0dc\ub9cc", 
+        "id": "Default", 
+        "description": ""
+    }, 
+    {
+        "source": "Expand", 
+        "text": "\ub113\ud788\ub2e4", 
+        "id": "Expand", 
         "description": ""
     }, 
     {
@@ -438,33 +462,33 @@
         "description": ""
     }, 
     {
-        "source": "'", 
-        "text": "&#39;", 
-        "id": "'", 
+        "source": "Apostrophe", 
+        "text": "\uc544\ud3ec\uc2a4\ud2b8\ub85c\ud53c", 
+        "id": "Apostrophe", 
         "description": ""
     }, 
     {
-        "source": ",", 
-        "text": ",", 
-        "id": ",", 
+        "source": "Comma", 
+        "text": "\ucf64\ub9c8", 
+        "id": "Comma", 
         "description": ""
     }, 
     {
-        "source": "-", 
-        "text": "-", 
-        "id": "-", 
+        "source": "Minus", 
+        "text": "\ub9c8\uc774\ub108\uc2a4", 
+        "id": "Minus", 
         "description": ""
     }, 
     {
-        "source": ".", 
-        "text": ".", 
-        "id": ".", 
+        "source": "Period", 
+        "text": "\uae30\uac04", 
+        "id": "Period", 
         "description": ""
     }, 
     {
-        "source": "/", 
-        "text": "/", 
-        "id": "/", 
+        "source": "Slash", 
+        "text": "\uc0ad\uac10", 
+        "id": "Slash", 
         "description": ""
     }, 
     {
@@ -528,15 +552,15 @@
         "description": ""
     }, 
     {
-        "source": ";", 
-        "text": ";", 
-        "id": ";", 
+        "source": "Semicolon", 
+        "text": "\uc138\ubbf8\ucf5c\ub860", 
+        "id": "Semicolon", 
         "description": ""
     }, 
     {
-        "source": "=", 
-        "text": "=", 
-        "id": "=", 
+        "source": "Equal", 
+        "text": "\uac19\uc740", 
+        "id": "Equal", 
         "description": ""
     }, 
     {
@@ -696,27 +720,27 @@
         "description": ""
     }, 
     {
-        "source": "[", 
-        "text": "[", 
-        "id": "[", 
+        "source": "Left Bracket", 
+        "text": "\uc67c\ucabd \ube0c\ub798\ud0b7", 
+        "id": "LeftBracket", 
         "description": ""
     }, 
     {
-        "source": "\\\\", 
-        "text": "\\\\", 
-        "id": "\\\\", 
+        "source": "Backslash", 
+        "text": "\ubc31 \uc2ac\ub798\uc2dc", 
+        "id": "Backslash", 
         "description": ""
     }, 
     {
-        "source": "]", 
-        "text": "]", 
-        "id": "]", 
+        "source": "Right Bracket", 
+        "text": "\uc624\ub978\ucabd \ube0c\ub798\ud0b7", 
+        "id": "RightBracket", 
         "description": ""
     }, 
     {
-        "source": "`", 
-        "text": "`", 
-        "id": "`", 
+        "source": "Grave Accent", 
+        "text": "\uc2ec\uac01\ud55c \uc545\uc13c\ud2b8", 
+        "id": "GraveAccent", 
         "description": ""
     }, 
     {
@@ -1110,9 +1134,9 @@
         "description": ""
     }, 
     {
-        "source": "Left Super", 
-        "text": "\uc67c\ucabd \uc288\ud37c", 
-        "id": "LeftSuper", 
+        "source": "Left Command", 
+        "text": "\uc67c\ucabd \uba85\ub839", 
+        "id": "LeftCommand", 
         "description": ""
     }, 
     {
@@ -1134,15 +1158,9 @@
         "description": ""
     }, 
     {
-        "source": "Right Super", 
-        "text": "\uc624\ub978\ucabd \uc288\ud37c", 
-        "id": "RightSuper", 
-        "description": ""
-    }, 
-    {
-        "source": "Menu", 
-        "text": "\uba54\ub274", 
-        "id": "Menu", 
+        "source": "Right Command", 
+        "text": "\uc624\ub978\ucabd \uba85\ub839", 
+        "id": "RightCommand", 
         "description": ""
     }, 
     {
@@ -1164,225 +1182,9 @@
         "description": ""
     }, 
     {
-        "source": "Super", 
-        "text": "\uac10\ub3c5\uc790", 
-        "id": "Super", 
-        "description": ""
-    }, 
-    {
-        "source": "Cannot read settings", 
-        "text": "\uc124\uc815\uc744 \uc77d\uc744 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
-        "id": "Cannot read settings", 
-        "description": ""
-    }, 
-    {
-        "source": "Cannot write settings", 
-        "text": "\uc124\uc815\uc744 \uc4f8 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
-        "id": "Cannot write settings", 
-        "description": ""
-    }, 
-    {
-        "source": "Expand", 
-        "text": "\ub113\ud788\ub2e4", 
-        "id": "Expand", 
-        "description": ""
-    }, 
-    {
-        "source": "Cannot parse value.", 
-        "text": "\uac12\uc744 \ud30c\uc2f1 \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
-        "id": "Cannot parse value.", 
-        "description": ""
-    }, 
-    {
-        "id": "Cannot parse the value.", 
-        "source": "Cannot parse the value.", 
-        "description": "", 
-        "text": "\uac12\uc744 \uad6c\ubb38 \ubd84\uc11d \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
-    }, 
-    {
-        "id": "IconSmall", 
-        "source": "Icon Small", 
-        "description": "", 
-        "text": "\uc791\uc740 \uc544\uc774\ucf58"
-    }, 
-    {
-        "id": "Apostrophe", 
-        "source": "Apostrophe", 
-        "description": "", 
-        "text": "\uc544\ud3ec\uc2a4\ud2b8\ub85c\ud53c"
-    }, 
-    {
-        "id": "Comma", 
-        "source": "Comma", 
-        "description": "", 
-        "text": "\ucf64\ub9c8"
-    }, 
-    {
-        "id": "Minus", 
-        "source": "Minus", 
-        "description": "", 
-        "text": "\ub9c8\uc774\ub108\uc2a4"
-    }, 
-    {
-        "id": "Period", 
-        "source": "Period", 
-        "description": "", 
-        "text": "\uae30\uac04"
-    }, 
-    {
-        "id": "Slash", 
-        "source": "Slash", 
-        "description": "", 
-        "text": "\uc0ad\uac10"
-    }, 
-    {
-        "id": "Semicolon", 
-        "source": "Semicolon", 
-        "description": "", 
-        "text": "\uc138\ubbf8\ucf5c\ub860"
-    }, 
-    {
-        "id": "Equal", 
-        "source": "Equal", 
-        "description": "", 
-        "text": "\uac19\uc740"
-    }, 
-    {
-        "id": "LeftBracket", 
-        "source": "Left Bracket", 
-        "description": "", 
-        "text": "\uc67c\ucabd \ube0c\ub798\ud0b7"
-    }, 
-    {
-        "id": "Backslash", 
-        "source": "Backslash", 
-        "description": "", 
-        "text": "\ubc31 \uc2ac\ub798\uc2dc"
-    }, 
-    {
-        "id": "RightBracket", 
-        "source": "Right Bracket", 
-        "description": "", 
-        "text": "\uc624\ub978\ucabd \ube0c\ub798\ud0b7"
-    }, 
-    {
-        "id": "GraveAccent", 
-        "source": "Grave Accent", 
-        "description": "", 
-        "text": "\uc2ec\uac01\ud55c \uc545\uc13c\ud2b8"
-    }, 
-    {
-        "id": "Tiles", 
-        "source": "Tiles", 
-        "description": "", 
-        "text": "\ud0c0\uc77c"
-    }, 
-    {
-        "id": "List", 
-        "source": "List", 
-        "description": "", 
-        "text": "\uba85\ubd80"
-    }, 
-    {
-        "source": "Header", 
-        "text": "\uba38\ub9ac\uae00", 
-        "id": "Header", 
-        "description": ""
-    }, 
-    {
-        "source": "Font Title", 
-        "text": "\uae00\uaf34 \uc81c\ubaa9", 
-        "id": "FontTitle", 
-        "description": ""
-    }, 
-    {
-        "source": "Slider", 
-        "text": "\uc2ac\ub77c\uc774\ub354", 
-        "id": "Slider", 
-        "description": ""
-    }, 
-    {
-        "source": "Left Command", 
-        "text": "\uc67c\ucabd \uba85\ub839", 
-        "id": "LeftCommand", 
-        "description": ""
-    }, 
-    {
-        "source": "Right Command", 
-        "text": "\uc624\ub978\ucabd \uba85\ub839", 
-        "id": "RightCommand", 
-        "description": ""
-    }, 
-    {
         "source": "Command", 
         "text": "\uba85\ub839", 
         "id": "Command", 
-        "description": ""
-    }, 
-    {
-        "source": "Background Bellows", 
-        "text": "\ubc30\uacbd \ubca8\ub85c\uc6b0\uc988", 
-        "id": "BackgroundBellows", 
-        "description": ""
-    }, 
-    {
-        "source": "Background Header", 
-        "text": "\ubc30\uacbd \ud5e4\ub354", 
-        "id": "BackgroundHeader", 
-        "description": ""
-    }, 
-    {
-        "source": "Background ToolBar", 
-        "text": "\ubc30\uacbd \ub3c4\uad6c \ubaa8\uc74c", 
-        "id": "BackgroundToolBar", 
-        "description": ""
-    }, 
-    {
-        "source": "Foreground Dim", 
-        "text": "\uc804\uacbd \uc5b4\ub461\uac8c", 
-        "id": "ForegroundDim", 
-        "description": ""
-    }, 
-    {
-        "source": "Search Box", 
-        "text": "\uac80\uc0c9 \ucc3d", 
-        "id": "SearchBox", 
-        "description": ""
-    }, 
-    {
-        "id": "ShadowSmall", 
-        "source": "Shadow Small", 
-        "description": "", 
-        "text": "\uadf8\ub9bc\uc790 \uc791\uc740"
-    }, 
-    {
-        "id": "Move", 
-        "source": "Move", 
-        "description": "", 
-        "text": "\uc6c0\uc9c1\uc784"
-    }, 
-    {
-        "source": "Border Button", 
-        "text": "\ud14c\ub450\ub9ac \ubc84\ud2bc", 
-        "id": "BorderButton", 
-        "description": ""
-    }, 
-    {
-        "source": "Text Focus", 
-        "text": "\ud14d\uc2a4\ud2b8 \ud3ec\ucee4\uc2a4", 
-        "id": "TextFocus", 
-        "description": ""
-    }, 
-    {
-        "source": "Overlay Light", 
-        "text": "\uc624\ubc84\ub808\uc774 \ub77c\uc774\ud2b8", 
-        "id": "OverlayLight", 
-        "description": ""
-    }, 
-    {
-        "source": "Text Column Large", 
-        "text": "\ud14d\uc2a4\ud2b8 \uc5f4 \ub300", 
-        "id": "TextColumnLarge", 
         "description": ""
     }
 ]

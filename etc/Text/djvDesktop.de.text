@@ -7,7 +7,7 @@
     }, 
     {
         "source": "Cannot create GLFW window.", 
-        "text": "GLFW-Fenster kann nicht erstellt werden.", 
+        "text": "Das GLFW-Fenster kann nicht erstellt werden.", 
         "id": "Cannot create GLFW window.", 
         "description": ""
     }

@@ -1,44 +1,8 @@
 [
     {
-        "source": "Dark", 
-        "text": "\u0422\u0435\u043c\u043d\u043e", 
-        "id": "Dark", 
-        "description": ""
-    }, 
-    {
-        "source": "Light", 
-        "text": "\u0421\u0432\u0435\u0442", 
-        "id": "Light", 
-        "description": ""
-    }, 
-    {
-        "source": "Medium", 
-        "text": "\u0421\u0440\u0435\u0434\u043d\u044f\u044f", 
-        "id": "Medium", 
-        "description": ""
-    }, 
-    {
-        "source": "Small", 
-        "text": "\u041c\u0430\u043b\u0435\u043d\u044c\u043a\u0438\u0439", 
-        "id": "Small", 
-        "description": ""
-    }, 
-    {
-        "source": "Large", 
-        "text": "\u0431\u043e\u043b\u044c\u0448\u043e\u0439", 
-        "id": "Large", 
-        "description": ""
-    }, 
-    {
-        "source": "Extra Large", 
-        "text": "\u041e\u0447\u0435\u043d\u044c \u0431\u043e\u043b\u044c\u0448\u043e\u0439", 
-        "id": "ExtraLarge", 
-        "description": ""
-    }, 
-    {
-        "source": "Default", 
-        "text": "\u041f\u043e \u0443\u043c\u043e\u043b\u0447\u0430\u043d\u0438\u044e", 
-        "id": "Default", 
+        "source": "Cannot parse the value.", 
+        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u043f\u0440\u043e\u0430\u043d\u0430\u043b\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435.", 
+        "id": "Cannot parse the value.", 
         "description": ""
     }, 
     {
@@ -156,21 +120,15 @@
         "description": ""
     }, 
     {
-        "source": "Thumbnails Large", 
-        "text": "\u0411\u043e\u043b\u044c\u0448\u0438\u0435 \u043c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u044b", 
-        "id": "ThumbnailsLarge", 
+        "source": "Tiles", 
+        "text": "\u043f\u043b\u0438\u0442\u043a\u0438", 
+        "id": "Tiles", 
         "description": ""
     }, 
     {
-        "source": "Thumbnails Small", 
-        "text": "\u041c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u044b \u041c\u0430\u043b\u0435\u043d\u044c\u043a\u0438\u0435", 
-        "id": "ThumbnailsSmall", 
-        "description": ""
-    }, 
-    {
-        "source": "List View", 
-        "text": "\u041f\u043e\u0441\u043c\u043e\u0442\u0440\u0435\u0442\u044c \u0441\u043f\u0438\u0441\u043e\u043a", 
-        "id": "ListView", 
+        "source": "List", 
+        "text": "\u0421\u043f\u0438\u0441\u043e\u043a", 
+        "id": "List", 
         "description": ""
     }, 
     {
@@ -180,15 +138,45 @@
         "description": ""
     }, 
     {
+        "source": "Background Header", 
+        "text": "\u0424\u043e\u043d\u043e\u0432\u044b\u0439 \u0437\u0430\u0433\u043e\u043b\u043e\u0432\u043e\u043a", 
+        "id": "BackgroundHeader", 
+        "description": ""
+    }, 
+    {
+        "source": "Background Bellows", 
+        "text": "\u0424\u043e\u043d\u043e\u0432\u044b\u0435 \u0441\u0438\u043b\u044c\u0444\u043e\u043d\u044b", 
+        "id": "BackgroundBellows", 
+        "description": ""
+    }, 
+    {
+        "source": "Background ToolBar", 
+        "text": "\u0424\u043e\u043d\u043e\u0432\u0430\u044f \u043f\u0430\u043d\u0435\u043b\u044c \u0438\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442\u043e\u0432", 
+        "id": "BackgroundToolBar", 
+        "description": ""
+    }, 
+    {
         "source": "Foreground", 
         "text": "\u043f\u0435\u0440\u0435\u0434\u043d\u0438\u0439 \u043f\u043b\u0430\u043d", 
         "id": "Foreground", 
         "description": ""
     }, 
     {
+        "source": "Foreground Dim", 
+        "text": "\u041f\u0435\u0440\u0435\u0434\u043d\u0438\u0439 \u043f\u043b\u0430\u043d \u0442\u0443\u0441\u043a\u043b\u044b\u0439", 
+        "id": "ForegroundDim", 
+        "description": ""
+    }, 
+    {
         "source": "Border", 
         "text": "\u0431\u043e\u0440\u0434\u044e\u0440", 
         "id": "Border", 
+        "description": ""
+    }, 
+    {
+        "source": "Border Button", 
+        "text": "\u041a\u043d\u043e\u043f\u043a\u0430 \u0433\u0440\u0430\u043d\u0438\u0446\u044b", 
+        "id": "BorderButton", 
         "description": ""
     }, 
     {
@@ -222,45 +210,9 @@
         "description": ""
     }, 
     {
-        "source": "Disabled", 
-        "text": "\u0438\u043d\u0432\u0430\u043b\u0438\u0434", 
-        "id": "Disabled", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Background", 
-        "text": "\u0424\u043e\u043d \u0437\u0430\u0433\u043e\u043b\u043e\u0432\u043a\u0430", 
-        "id": "HeaderBackground", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Foreground", 
-        "text": "\u041f\u0435\u0440\u0435\u0434\u043d\u0438\u0439 \u043f\u043b\u0430\u043d \u0437\u0430\u0433\u043e\u043b\u043e\u0432\u043a\u0430", 
-        "id": "HeaderForeground", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Hovered", 
-        "text": "\u0412\u0435\u0440\u0445\u043d\u0438\u0439 \u043a\u043e\u043b\u043b\u0435\u043a\u0442\u043e\u0440", 
-        "id": "HeaderHovered", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Pressed", 
-        "text": "\u0417\u0430\u0433\u043e\u043b\u043e\u0432\u043e\u043a \u043d\u0430\u0436\u0430\u0442\u0430", 
-        "id": "HeaderPressed", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Checked", 
-        "text": "\u0417\u0430\u0433\u043e\u043b\u043e\u0432\u043e\u043a \u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d", 
-        "id": "HeaderChecked", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Disabled", 
-        "text": "\u0417\u0430\u0433\u043e\u043b\u043e\u0432\u043e\u043a \u043e\u0442\u043a\u043b\u044e\u0447\u0435\u043d", 
-        "id": "HeaderDisabled", 
+        "source": "Text Focus", 
+        "text": "\u0424\u043e\u043a\u0443\u0441 \u0442\u0435\u043a\u0441\u0442\u0430", 
+        "id": "TextFocus", 
         "description": ""
     }, 
     {
@@ -282,9 +234,21 @@
         "description": ""
     }, 
     {
+        "source": "Overlay Light", 
+        "text": "\u041d\u0430\u043b\u043e\u0436\u0435\u043d\u0438\u0435 \u0441\u0432\u0435\u0442\u0430", 
+        "id": "OverlayLight", 
+        "description": ""
+    }, 
+    {
         "source": "Shadow", 
         "text": "\u0422\u0435\u043d\u044c", 
         "id": "Shadow", 
+        "description": ""
+    }, 
+    {
+        "source": "Handle", 
+        "text": "\u0421\u043f\u0440\u0430\u0432\u0438\u0442\u044c\u0441\u044f", 
+        "id": "Handle", 
         "description": ""
     }, 
     {
@@ -342,9 +306,9 @@
         "description": ""
     }, 
     {
-        "source": "Icon Large", 
-        "text": "\u0411\u043e\u043b\u044c\u0448\u043e\u0439 \u0437\u043d\u0430\u0447\u043e\u043a", 
-        "id": "IconLarge", 
+        "source": "Icon Small", 
+        "text": "\u0418\u043a\u043e\u043d\u043a\u0430 \u041c\u0430\u043b\u0435\u043d\u044c\u043a\u0430\u044f", 
+        "id": "IconSmall", 
         "description": ""
     }, 
     {
@@ -372,33 +336,21 @@
         "description": ""
     }, 
     {
+        "source": "Font Title", 
+        "text": "\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u0448\u0440\u0438\u0444\u0442\u0430", 
+        "id": "FontTitle", 
+        "description": ""
+    }, 
+    {
         "source": "Swatch", 
         "text": "\u043e\u0431\u0440\u0430\u0437\u0447\u0438\u043a \u0442\u043a\u0430\u043d\u0438", 
         "id": "Swatch", 
         "description": ""
     }, 
     {
-        "source": "Thumbnail Width Small", 
-        "text": "\u041c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u0430 \u0428\u0438\u0440\u0438\u043d\u0430 \u041c\u0430\u043b\u0430\u044f", 
-        "id": "ThumbnailWidthSmall", 
-        "description": ""
-    }, 
-    {
-        "source": "Thumbnail Height Small", 
-        "text": "\u041c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u0430 \u0412\u044b\u0441\u043e\u0442\u0430 \u041c\u0430\u043b\u0435\u043d\u044c\u043a\u0438\u0439", 
-        "id": "ThumbnailHeightSmall", 
-        "description": ""
-    }, 
-    {
-        "source": "Thumbnail Width Large", 
-        "text": "\u041c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u0430 \u0428\u0438\u0440\u0438\u043d\u0430 \u0411\u043e\u043b\u044c\u0448\u0430\u044f", 
-        "id": "ThumbnailWidthLarge", 
-        "description": ""
-    }, 
-    {
-        "source": "Thumbnail Height Large", 
-        "text": "\u041c\u0438\u043d\u0438\u0430\u0442\u044e\u0440\u0430 \u0412\u044b\u0441\u043e\u0442\u0430 \u0411\u043e\u043b\u044c\u0448\u0430\u044f", 
-        "id": "ThumbnailHeightLarge", 
+        "source": "Slider", 
+        "text": "\u043f\u043e\u043b\u0437\u0443\u043d\u043e\u043a", 
+        "id": "Slider", 
         "description": ""
     }, 
     {
@@ -408,9 +360,27 @@
         "description": ""
     }, 
     {
+        "source": "Menu", 
+        "text": "\u041c\u0435\u043d\u044e", 
+        "id": "Menu", 
+        "description": ""
+    }, 
+    {
         "source": "Text Column", 
-        "text": "\u0422\u0435\u043a\u0441\u0442\u043e\u0432\u044b\u0439 \u0441\u0442\u043e\u043b\u0431\u0435\u0446", 
+        "text": "\u0422\u0435\u043a\u0441\u0442\u043e\u0432\u0430\u044f \u043a\u043e\u043b\u043e\u043d\u043a\u0430", 
         "id": "TextColumn", 
+        "description": ""
+    }, 
+    {
+        "source": "Text Column Large", 
+        "text": "\u0411\u043e\u043b\u044c\u0448\u043e\u0439 \u0442\u0435\u043a\u0441\u0442\u043e\u0432\u044b\u0439 \u0441\u0442\u043e\u043b\u0431\u0435\u0446", 
+        "id": "TextColumnLarge", 
+        "description": ""
+    }, 
+    {
+        "source": "Search Box", 
+        "text": "\u041f\u043e\u0438\u0441\u043a\u043e\u0432\u0430\u044f \u0441\u0442\u0440\u043e\u043a\u0430", 
+        "id": "SearchBox", 
         "description": ""
     }, 
     {
@@ -420,15 +390,69 @@
         "description": ""
     }, 
     {
+        "source": "Shadow Small", 
+        "text": "Shadow Small", 
+        "id": "ShadowSmall", 
+        "description": ""
+    }, 
+    {
         "source": "Tooltip Offset", 
         "text": "\u0421\u043c\u0435\u0449\u0435\u043d\u0438\u0435 \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0435\u0439 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438", 
         "id": "TooltipOffset", 
         "description": ""
     }, 
     {
-        "source": "Handle", 
-        "text": "\u0421\u043f\u0440\u0430\u0432\u0438\u0442\u044c\u0441\u044f", 
-        "id": "Handle", 
+        "source": "Move", 
+        "text": "\u041f\u0435\u0440\u0435\u0435\u0445\u0430\u0442\u044c", 
+        "id": "Move", 
+        "description": ""
+    }, 
+    {
+        "source": "Dark", 
+        "text": "\u0422\u0435\u043c\u043d\u043e", 
+        "id": "Dark", 
+        "description": ""
+    }, 
+    {
+        "source": "Light", 
+        "text": "\u0421\u0432\u0435\u0442", 
+        "id": "Light", 
+        "description": ""
+    }, 
+    {
+        "source": "Medium", 
+        "text": "\u0421\u0440\u0435\u0434\u043d\u044f\u044f", 
+        "id": "Medium", 
+        "description": ""
+    }, 
+    {
+        "source": "Small", 
+        "text": "\u041c\u0430\u043b\u0435\u043d\u044c\u043a\u0438\u0439", 
+        "id": "Small", 
+        "description": ""
+    }, 
+    {
+        "source": "Large", 
+        "text": "\u0431\u043e\u043b\u044c\u0448\u043e\u0439", 
+        "id": "Large", 
+        "description": ""
+    }, 
+    {
+        "source": "Extra Large", 
+        "text": "\u041e\u0447\u0435\u043d\u044c \u0431\u043e\u043b\u044c\u0448\u043e\u0439", 
+        "id": "ExtraLarge", 
+        "description": ""
+    }, 
+    {
+        "source": "Default", 
+        "text": "\u041f\u043e \u0443\u043c\u043e\u043b\u0447\u0430\u043d\u0438\u044e", 
+        "id": "Default", 
+        "description": ""
+    }, 
+    {
+        "source": "Expand", 
+        "text": "\u0440\u0430\u0441\u0448\u0438\u0440\u044f\u0442\u044c", 
+        "id": "Expand", 
         "description": ""
     }, 
     {
@@ -438,33 +462,33 @@
         "description": ""
     }, 
     {
-        "source": "'", 
-        "text": "&#39;", 
-        "id": "'", 
+        "source": "Apostrophe", 
+        "text": "\u0410\u043f\u043e\u0441\u0442\u0440\u043e\u0444", 
+        "id": "Apostrophe", 
         "description": ""
     }, 
     {
-        "source": ",", 
-        "text": ",", 
-        "id": ",", 
+        "source": "Comma", 
+        "text": "\u0437\u0430\u043f\u044f\u0442\u0430\u044f", 
+        "id": "Comma", 
         "description": ""
     }, 
     {
-        "source": "-", 
-        "text": "-", 
-        "id": "-", 
+        "source": "Minus", 
+        "text": "\u041c\u0438\u043d\u0443\u0441", 
+        "id": "Minus", 
         "description": ""
     }, 
     {
-        "source": ".", 
-        "text": ",", 
-        "id": ".", 
+        "source": "Period", 
+        "text": "\u043f\u0435\u0440\u0438\u043e\u0434", 
+        "id": "Period", 
         "description": ""
     }, 
     {
-        "source": "/", 
-        "text": "/", 
-        "id": "/", 
+        "source": "Slash", 
+        "text": "\u0420\u0430\u0441\u0441\u0435\u0447\u0435\u043d\u0438\u0435", 
+        "id": "Slash", 
         "description": ""
     }, 
     {
@@ -528,15 +552,15 @@
         "description": ""
     }, 
     {
-        "source": ";", 
-        "text": ";", 
-        "id": ";", 
+        "source": "Semicolon", 
+        "text": "\u0422\u043e\u0447\u043a\u0430 \u0441 \u0437\u0430\u043f\u044f\u0442\u043e\u0439", 
+        "id": "Semicolon", 
         "description": ""
     }, 
     {
-        "source": "=", 
-        "text": "\u0437\u043d\u0430\u043a \u0440\u0430\u0432\u043d\u043e", 
-        "id": "=", 
+        "source": "Equal", 
+        "text": "\u0440\u0430\u0432\u043d\u044b\u0445", 
+        "id": "Equal", 
         "description": ""
     }, 
     {
@@ -696,27 +720,27 @@
         "description": ""
     }, 
     {
-        "source": "[", 
-        "text": "[", 
-        "id": "[", 
+        "source": "Left Bracket", 
+        "text": "\u041b\u0435\u0432\u044b\u0439 \u043a\u0440\u043e\u043d\u0448\u0442\u0435\u0439\u043d", 
+        "id": "LeftBracket", 
         "description": ""
     }, 
     {
-        "source": "\\\\", 
-        "text": "\\\\", 
-        "id": "\\\\", 
+        "source": "Backslash", 
+        "text": "\u0431\u044d\u043a\u0441\u043b\u044d\u0448", 
+        "id": "Backslash", 
         "description": ""
     }, 
     {
-        "source": "]", 
-        "text": "]", 
-        "id": "]", 
+        "source": "Right Bracket", 
+        "text": "\u041f\u0440\u0430\u0432\u0430\u044f \u0441\u043a\u043e\u0431\u043a\u0430", 
+        "id": "RightBracket", 
         "description": ""
     }, 
     {
-        "source": "`", 
-        "text": "`", 
-        "id": "`", 
+        "source": "Grave Accent", 
+        "text": "\u0421\u0435\u0440\u044c\u0435\u0437\u043d\u044b\u0439 \u0410\u043a\u0446\u0435\u043d\u0442", 
+        "id": "GraveAccent", 
         "description": ""
     }, 
     {
@@ -1063,7 +1087,7 @@
     }, 
     {
         "source": "Key Pad Multiply", 
-        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 \u0443\u043c\u043d\u043e\u0436\u0430\u0435\u0442\u0441\u044f", 
+        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 Multiply", 
         "id": "KeyPadMultiply", 
         "description": ""
     }, 
@@ -1110,9 +1134,9 @@
         "description": ""
     }, 
     {
-        "source": "Left Super", 
-        "text": "\u041b\u0435\u0432\u044b\u0439 \u0441\u0443\u043f\u0435\u0440", 
-        "id": "LeftSuper", 
+        "source": "Left Command", 
+        "text": "\u041b\u0435\u0432\u0430\u044f \u043a\u043e\u043c\u0430\u043d\u0434\u0430", 
+        "id": "LeftCommand", 
         "description": ""
     }, 
     {
@@ -1134,15 +1158,9 @@
         "description": ""
     }, 
     {
-        "source": "Right Super", 
-        "text": "\u041f\u0440\u0430\u0432\u043e \u0421\u0443\u043f\u0435\u0440", 
-        "id": "RightSuper", 
-        "description": ""
-    }, 
-    {
-        "source": "Menu", 
-        "text": "\u041c\u0435\u043d\u044e", 
-        "id": "Menu", 
+        "source": "Right Command", 
+        "text": "\u041f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u0430\u044f \u043a\u043e\u043c\u0430\u043d\u0434\u0430", 
+        "id": "RightCommand", 
         "description": ""
     }, 
     {
@@ -1164,225 +1182,9 @@
         "description": ""
     }, 
     {
-        "source": "Super", 
-        "text": "\u0421\u0443\u043f\u0435\u0440", 
-        "id": "Super", 
-        "description": ""
-    }, 
-    {
-        "source": "Cannot read settings", 
-        "text": "\u041d\u0435 \u043c\u043e\u0433\u0443 \u043f\u0440\u043e\u0447\u0438\u0442\u0430\u0442\u044c \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438", 
-        "id": "Cannot read settings", 
-        "description": ""
-    }, 
-    {
-        "source": "Cannot write settings", 
-        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0437\u0430\u043f\u0438\u0441\u0430\u0442\u044c \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438", 
-        "id": "Cannot write settings", 
-        "description": ""
-    }, 
-    {
-        "source": "Expand", 
-        "text": "\u0440\u0430\u0441\u0448\u0438\u0440\u044f\u0442\u044c", 
-        "id": "Expand", 
-        "description": ""
-    }, 
-    {
-        "source": "Cannot parse value.", 
-        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0440\u0430\u0437\u043e\u0431\u0440\u0430\u0442\u044c \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435.", 
-        "id": "Cannot parse value.", 
-        "description": ""
-    }, 
-    {
-        "id": "Cannot parse the value.", 
-        "source": "Cannot parse the value.", 
-        "description": "", 
-        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u043f\u0440\u043e\u0430\u043d\u0430\u043b\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435."
-    }, 
-    {
-        "id": "IconSmall", 
-        "source": "Icon Small", 
-        "description": "", 
-        "text": "\u0418\u043a\u043e\u043d\u043a\u0430 \u041c\u0430\u043b\u0435\u043d\u044c\u043a\u0430\u044f"
-    }, 
-    {
-        "id": "Apostrophe", 
-        "source": "Apostrophe", 
-        "description": "", 
-        "text": "\u0410\u043f\u043e\u0441\u0442\u0440\u043e\u0444"
-    }, 
-    {
-        "id": "Comma", 
-        "source": "Comma", 
-        "description": "", 
-        "text": "\u0437\u0430\u043f\u044f\u0442\u0430\u044f"
-    }, 
-    {
-        "id": "Minus", 
-        "source": "Minus", 
-        "description": "", 
-        "text": "\u041c\u0438\u043d\u0443\u0441"
-    }, 
-    {
-        "id": "Period", 
-        "source": "Period", 
-        "description": "", 
-        "text": "\u043f\u0435\u0440\u0438\u043e\u0434"
-    }, 
-    {
-        "id": "Slash", 
-        "source": "Slash", 
-        "description": "", 
-        "text": "\u0420\u0430\u0441\u0441\u0435\u0447\u0435\u043d\u0438\u0435"
-    }, 
-    {
-        "id": "Semicolon", 
-        "source": "Semicolon", 
-        "description": "", 
-        "text": "\u0422\u043e\u0447\u043a\u0430 \u0441 \u0437\u0430\u043f\u044f\u0442\u043e\u0439"
-    }, 
-    {
-        "id": "Equal", 
-        "source": "Equal", 
-        "description": "", 
-        "text": "\u0440\u0430\u0432\u043d\u044b\u0445"
-    }, 
-    {
-        "id": "LeftBracket", 
-        "source": "Left Bracket", 
-        "description": "", 
-        "text": "\u041b\u0435\u0432\u044b\u0439 \u043a\u0440\u043e\u043d\u0448\u0442\u0435\u0439\u043d"
-    }, 
-    {
-        "id": "Backslash", 
-        "source": "Backslash", 
-        "description": "", 
-        "text": "\u0431\u044d\u043a\u0441\u043b\u044d\u0448"
-    }, 
-    {
-        "id": "RightBracket", 
-        "source": "Right Bracket", 
-        "description": "", 
-        "text": "\u041f\u0440\u0430\u0432\u0430\u044f \u0441\u043a\u043e\u0431\u043a\u0430"
-    }, 
-    {
-        "id": "GraveAccent", 
-        "source": "Grave Accent", 
-        "description": "", 
-        "text": "\u0421\u0435\u0440\u044c\u0435\u0437\u043d\u044b\u0439 \u0410\u043a\u0446\u0435\u043d\u0442"
-    }, 
-    {
-        "id": "Tiles", 
-        "source": "Tiles", 
-        "description": "", 
-        "text": "\u043f\u043b\u0438\u0442\u043a\u0438"
-    }, 
-    {
-        "id": "List", 
-        "source": "List", 
-        "description": "", 
-        "text": "\u0421\u043f\u0438\u0441\u043e\u043a"
-    }, 
-    {
-        "source": "Header", 
-        "text": "\u0437\u0430\u0433\u043e\u043b\u043e\u0432\u043e\u043a", 
-        "id": "Header", 
-        "description": ""
-    }, 
-    {
-        "source": "Font Title", 
-        "text": "\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u0448\u0440\u0438\u0444\u0442\u0430", 
-        "id": "FontTitle", 
-        "description": ""
-    }, 
-    {
-        "source": "Slider", 
-        "text": "\u043f\u043e\u043b\u0437\u0443\u043d\u043e\u043a", 
-        "id": "Slider", 
-        "description": ""
-    }, 
-    {
-        "source": "Left Command", 
-        "text": "\u041b\u0435\u0432\u0430\u044f \u043a\u043e\u043c\u0430\u043d\u0434\u0430", 
-        "id": "LeftCommand", 
-        "description": ""
-    }, 
-    {
-        "source": "Right Command", 
-        "text": "\u041f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u0430\u044f \u043a\u043e\u043c\u0430\u043d\u0434\u0430", 
-        "id": "RightCommand", 
-        "description": ""
-    }, 
-    {
         "source": "Command", 
         "text": "\u043a\u043e\u043c\u0430\u043d\u0434\u0430", 
         "id": "Command", 
-        "description": ""
-    }, 
-    {
-        "source": "Background Bellows", 
-        "text": "\u0424\u043e\u043d\u043e\u0432\u044b\u0435 \u0441\u0438\u043b\u044c\u0444\u043e\u043d\u044b", 
-        "id": "BackgroundBellows", 
-        "description": ""
-    }, 
-    {
-        "source": "Background Header", 
-        "text": "\u0424\u043e\u043d\u043e\u0432\u044b\u0439 \u0437\u0430\u0433\u043e\u043b\u043e\u0432\u043e\u043a", 
-        "id": "BackgroundHeader", 
-        "description": ""
-    }, 
-    {
-        "source": "Background ToolBar", 
-        "text": "\u0424\u043e\u043d\u043e\u0432\u0430\u044f \u043f\u0430\u043d\u0435\u043b\u044c \u0438\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442\u043e\u0432", 
-        "id": "BackgroundToolBar", 
-        "description": ""
-    }, 
-    {
-        "source": "Foreground Dim", 
-        "text": "\u041f\u0435\u0440\u0435\u0434\u043d\u0438\u0439 \u043f\u043b\u0430\u043d \u0442\u0443\u0441\u043a\u043b\u044b\u0439", 
-        "id": "ForegroundDim", 
-        "description": ""
-    }, 
-    {
-        "source": "Search Box", 
-        "text": "\u041f\u043e\u0438\u0441\u043a\u043e\u0432\u0430\u044f \u0441\u0442\u0440\u043e\u043a\u0430", 
-        "id": "SearchBox", 
-        "description": ""
-    }, 
-    {
-        "id": "ShadowSmall", 
-        "source": "Shadow Small", 
-        "description": "", 
-        "text": "Shadow Small"
-    }, 
-    {
-        "id": "Move", 
-        "source": "Move", 
-        "description": "", 
-        "text": "\u041f\u0435\u0440\u0435\u0435\u0445\u0430\u0442\u044c"
-    }, 
-    {
-        "source": "Border Button", 
-        "text": "\u041a\u043d\u043e\u043f\u043a\u0430 \u0433\u0440\u0430\u043d\u0438\u0446\u044b", 
-        "id": "BorderButton", 
-        "description": ""
-    }, 
-    {
-        "source": "Text Focus", 
-        "text": "\u0424\u043e\u043a\u0443\u0441 \u0442\u0435\u043a\u0441\u0442\u0430", 
-        "id": "TextFocus", 
-        "description": ""
-    }, 
-    {
-        "source": "Overlay Light", 
-        "text": "\u041d\u0430\u043b\u043e\u0436\u0435\u043d\u0438\u0435 \u0441\u0432\u0435\u0442\u0430", 
-        "id": "OverlayLight", 
-        "description": ""
-    }, 
-    {
-        "source": "Text Column Large", 
-        "text": "\u0411\u043e\u043b\u044c\u0448\u043e\u0439 \u0442\u0435\u043a\u0441\u0442\u043e\u0432\u044b\u0439 \u0441\u0442\u043e\u043b\u0431\u0435\u0446", 
-        "id": "TextColumnLarge", 
         "description": ""
     }
 ]

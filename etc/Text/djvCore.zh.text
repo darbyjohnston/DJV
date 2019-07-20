@@ -1,197 +1,5 @@
 [
     {
-        "source": "Home", 
-        "text": "\u5bb6", 
-        "id": "Home", 
-        "description": ""
-    }, 
-    {
-        "source": "Desktop", 
-        "text": "\u684c\u9762", 
-        "id": "Desktop", 
-        "description": ""
-    }, 
-    {
-        "source": "Documents", 
-        "text": "\u6587\u4ef6", 
-        "id": "Documents", 
-        "description": ""
-    }, 
-    {
-        "source": "Downloads", 
-        "text": "\u4e0b\u8f7d", 
-        "id": "Downloads", 
-        "description": ""
-    }, 
-    {
-        "source": "Application", 
-        "text": "\u5e94\u7528", 
-        "id": "Application", 
-        "description": ""
-    }, 
-    {
-        "source": "Log File", 
-        "text": "\u65e5\u5fd7\u6587\u4ef6", 
-        "id": "LogFile", 
-        "description": ""
-    }, 
-    {
-        "source": "Settings File", 
-        "text": "\u8bbe\u7f6e\u6587\u4ef6", 
-        "id": "SettingsFile", 
-        "description": ""
-    }, 
-    {
-        "source": "Audio Directory", 
-        "text": "\u97f3\u9891\u76ee\u5f55", 
-        "id": "AudioDirectory", 
-        "description": ""
-    }, 
-    {
-        "source": "Fonts Directory", 
-        "text": "\u5b57\u4f53\u76ee\u5f55", 
-        "id": "FontsDirectory", 
-        "description": ""
-    }, 
-    {
-        "source": "Icons Directory", 
-        "text": "\u56fe\u6807\u76ee\u5f55", 
-        "id": "IconsDirectory", 
-        "description": ""
-    }, 
-    {
-        "source": "Images Directory", 
-        "text": "\u56fe\u50cf\u76ee\u5f55", 
-        "id": "ImagesDirectory", 
-        "description": ""
-    }, 
-    {
-        "source": "Models Directory", 
-        "text": "\u578b\u53f7\u76ee\u5f55", 
-        "id": "ModelsDirectory", 
-        "description": ""
-    }, 
-    {
-        "source": "Shaders Directory", 
-        "text": "\u7740\u8272\u5668\u76ee\u5f55", 
-        "id": "ShadersDirectory", 
-        "description": ""
-    }, 
-    {
-        "source": "Text Directory", 
-        "text": "\u6587\u672c\u76ee\u5f55", 
-        "id": "TextDirectory", 
-        "description": ""
-    }, 
-    {
-        "source": "Cannot parse value", 
-        "text": "\u65e0\u6cd5\u89e3\u6790\u503c", 
-        "id": "Cannot parse value", 
-        "description": ""
-    }, 
-    {
-        "source": "Linear", 
-        "text": "\u7ebf\u6027", 
-        "id": "Linear", 
-        "description": ""
-    }, 
-    {
-        "source": "Ease In", 
-        "text": "\u7f13\u548c", 
-        "id": "EaseIn", 
-        "description": ""
-    }, 
-    {
-        "source": "Ease Out", 
-        "text": "\u7f13\u89e3", 
-        "id": "EaseOut", 
-        "description": ""
-    }, 
-    {
-        "source": "Smooth Step", 
-        "text": "\u987a\u5229\u4e00\u6b65", 
-        "id": "SmoothStep", 
-        "description": ""
-    }, 
-    {
-        "source": "Sine", 
-        "text": "\u5176", 
-        "id": "Sine", 
-        "description": ""
-    }, 
-    {
-        "source": "Error finding change notification for", 
-        "text": "\u627e\u5230\u66f4\u6539\u901a\u77e5\u65f6\u51fa\u9519", 
-        "id": "Error finding change notification for", 
-        "description": ""
-    }, 
-    {
-        "source": "Error watching directory", 
-        "text": "\u89c2\u770b\u76ee\u5f55\u65f6\u51fa\u9519", 
-        "id": "Error watching directory", 
-        "description": ""
-    }, 
-    {
-        "source": "Cannot open file", 
-        "text": "\u4e0d\u80fd\u6253\u5f00\u6587\u4ef6", 
-        "id": "Cannot open file", 
-        "description": ""
-    }, 
-    {
-        "source": "Cannot close file", 
-        "text": "\u65e0\u6cd5\u5173\u95ed\u6587\u4ef6", 
-        "id": "Cannot close file", 
-        "description": ""
-    }, 
-    {
-        "source": "Cannot map file", 
-        "text": "\u65e0\u6cd5\u6620\u5c04\u6587\u4ef6", 
-        "id": "Cannot map file", 
-        "description": ""
-    }, 
-    {
-        "source": "Cannot unmap file", 
-        "text": "\u65e0\u6cd5\u53d6\u6d88\u6620\u5c04\u6587\u4ef6", 
-        "id": "Cannot unmap file", 
-        "description": ""
-    }, 
-    {
-        "source": "Cannot read file", 
-        "text": "\u65e0\u6cd5\u8bfb\u53d6\u6587\u4ef6", 
-        "id": "Cannot read file", 
-        "description": ""
-    }, 
-    {
-        "source": "Cannot write file", 
-        "text": "\u65e0\u6cd5\u5199\u6587\u4ef6", 
-        "id": "Cannot write file", 
-        "description": ""
-    }, 
-    {
-        "source": "Slow", 
-        "text": "\u6162", 
-        "id": "Slow", 
-        "description": ""
-    }, 
-    {
-        "source": "Medium", 
-        "text": "\u4ecb\u8d28", 
-        "id": "Medium", 
-        "description": ""
-    }, 
-    {
-        "source": "Fast", 
-        "text": "\u5feb\u901f", 
-        "id": "Fast", 
-        "description": ""
-    }, 
-    {
-        "source": "Very Fast", 
-        "text": "\u975e\u5e38\u5feb", 
-        "id": "VeryFast", 
-        "description": ""
-    }, 
-    {
         "source": "Parent Changed", 
         "text": "\u5bb6\u957f\u6539\u53d8\u4e86", 
         "id": "ParentChanged", 
@@ -306,27 +114,207 @@
         "description": ""
     }, 
     {
-        "source": "Keyboard Focus", 
-        "text": "\u952e\u76d8\u7126\u70b9", 
-        "id": "KeyboardFocus", 
+        "source": "Key Press", 
+        "text": "\u6309\u952e", 
+        "id": "KeyPress", 
         "description": ""
     }, 
     {
-        "source": "Keyboard Focus Lost", 
-        "text": "\u952e\u76d8\u7126\u70b9\u4e22\u5931", 
-        "id": "KeyboardFocusLost", 
+        "source": "Key Release", 
+        "text": "\u5bc6\u94a5\u53d1\u5e03", 
+        "id": "KeyRelease", 
         "description": ""
     }, 
     {
-        "source": "Key", 
-        "text": "\u952e", 
-        "id": "Key", 
+        "source": "Text Focus", 
+        "text": "\u6587\u5b57\u7126\u70b9", 
+        "id": "TextFocus", 
+        "description": ""
+    }, 
+    {
+        "source": "Text Focus Lost", 
+        "text": "\u6587\u5b57\u7126\u70b9\u4e22\u5931", 
+        "id": "TextFocusLost", 
         "description": ""
     }, 
     {
         "source": "Text", 
         "text": "\u6587\u672c", 
         "id": "Text", 
+        "description": ""
+    }, 
+    {
+        "source": "The file", 
+        "text": "\u6587\u4ef6", 
+        "id": "The file", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot be opened", 
+        "text": "\u65e0\u6cd5\u6253\u5f00", 
+        "id": "cannot be opened", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot be closed", 
+        "text": "\u65e0\u6cd5\u5173\u95ed", 
+        "id": "cannot be closed", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot be mapped", 
+        "text": "\u65e0\u6cd5\u6620\u5c04", 
+        "id": "cannot be mapped", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot be unmapped", 
+        "text": "\u65e0\u6cd5\u53d6\u6d88\u6620\u5c04", 
+        "id": "cannot be unmapped", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot be read", 
+        "text": "\u65e0\u6cd5\u9605\u8bfb", 
+        "id": "cannot be read", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot be written", 
+        "text": "\u4e0d\u80fd\u5199", 
+        "id": "cannot be written", 
+        "description": ""
+    }, 
+    {
+        "source": "Error reading the text file", 
+        "text": "\u8bfb\u53d6\u6587\u672c\u6587\u4ef6\u65f6\u51fa\u9519", 
+        "id": "Error reading the text file", 
+        "description": ""
+    }, 
+    {
+        "source": "MSB", 
+        "text": "MSB", 
+        "id": "MSB", 
+        "description": ""
+    }, 
+    {
+        "source": "LSB", 
+        "text": "LSB", 
+        "id": "LSB", 
+        "description": ""
+    }, 
+    {
+        "source": "Home", 
+        "text": "\u5bb6", 
+        "id": "Home", 
+        "description": ""
+    }, 
+    {
+        "source": "Desktop", 
+        "text": "\u684c\u9762", 
+        "id": "Desktop", 
+        "description": ""
+    }, 
+    {
+        "source": "Documents", 
+        "text": "\u6587\u4ef6", 
+        "id": "Documents", 
+        "description": ""
+    }, 
+    {
+        "source": "Downloads", 
+        "text": "\u4e0b\u8f7d", 
+        "id": "Downloads", 
+        "description": ""
+    }, 
+    {
+        "source": "The directory", 
+        "text": "\u76ee\u5f55", 
+        "id": "The directory", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot be created", 
+        "text": "\u65e0\u6cd5\u521b\u5efa", 
+        "id": "cannot be created", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot parse the value", 
+        "text": "\u65e0\u6cd5\u89e3\u6790\u8be5\u503c", 
+        "id": "Cannot parse the value", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot parse the value.", 
+        "text": "\u65e0\u6cd5\u89e3\u6790\u8be5\u503c\u3002", 
+        "id": "Cannot parse the value.", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot be queried", 
+        "text": "\u65e0\u6cd5\u67e5\u8be2", 
+        "id": "cannot be queried", 
+        "description": ""
+    }, 
+    {
+        "source": "Application", 
+        "text": "\u5e94\u7528", 
+        "id": "Application", 
+        "description": ""
+    }, 
+    {
+        "source": "Log File", 
+        "text": "\u65e5\u5fd7\u6587\u4ef6", 
+        "id": "LogFile", 
+        "description": ""
+    }, 
+    {
+        "source": "Settings File", 
+        "text": "\u8bbe\u7f6e\u6587\u4ef6", 
+        "id": "SettingsFile", 
+        "description": ""
+    }, 
+    {
+        "source": "Audio Directory", 
+        "text": "\u97f3\u9891\u76ee\u5f55", 
+        "id": "AudioDirectory", 
+        "description": ""
+    }, 
+    {
+        "source": "Fonts Directory", 
+        "text": "\u5b57\u4f53\u76ee\u5f55", 
+        "id": "FontsDirectory", 
+        "description": ""
+    }, 
+    {
+        "source": "Icons Directory", 
+        "text": "\u56fe\u6807\u76ee\u5f55", 
+        "id": "IconsDirectory", 
+        "description": ""
+    }, 
+    {
+        "source": "Images Directory", 
+        "text": "\u56fe\u50cf\u76ee\u5f55", 
+        "id": "ImagesDirectory", 
+        "description": ""
+    }, 
+    {
+        "source": "Models Directory", 
+        "text": "\u578b\u53f7\u76ee\u5f55", 
+        "id": "ModelsDirectory", 
+        "description": ""
+    }, 
+    {
+        "source": "Shaders Directory", 
+        "text": "\u7740\u8272\u5668\u76ee\u5f55", 
+        "id": "ShadersDirectory", 
+        "description": ""
+    }, 
+    {
+        "source": "Text Directory", 
+        "text": "\u6587\u672c\u76ee\u5f55", 
+        "id": "TextDirectory", 
         "description": ""
     }, 
     {
@@ -360,33 +348,51 @@
         "description": ""
     }, 
     {
-        "source": "Permissions", 
-        "text": "\u6743\u9650", 
-        "id": "Permissions", 
-        "description": ""
-    }, 
-    {
         "source": "Type", 
         "text": "\u7c7b\u578b", 
         "id": "Type", 
         "description": ""
     }, 
     {
-        "source": "Cannot parse value.", 
-        "text": "\u65e0\u6cd5\u89e3\u6790\u503c\u3002", 
-        "id": "Cannot parse value.", 
+        "source": "Linear", 
+        "text": "\u7ebf\u6027", 
+        "id": "Linear", 
         "description": ""
     }, 
     {
-        "source": "MSB", 
-        "text": "MSB", 
-        "id": "MSB", 
+        "source": "Ease In", 
+        "text": "\u7f13\u548c", 
+        "id": "EaseIn", 
         "description": ""
     }, 
     {
-        "source": "LSB", 
-        "text": "LSB", 
-        "id": "LSB", 
+        "source": "Ease Out", 
+        "text": "\u7f13\u89e3", 
+        "id": "EaseOut", 
+        "description": ""
+    }, 
+    {
+        "source": "Smooth Step", 
+        "text": "\u987a\u5229\u4e00\u6b65", 
+        "id": "SmoothStep", 
+        "description": ""
+    }, 
+    {
+        "source": "Sine", 
+        "text": "\u5176", 
+        "id": "Sine", 
+        "description": ""
+    }, 
+    {
+        "source": "Error finding the change notification for", 
+        "text": "\u627e\u5230\u66f4\u6539\u901a\u77e5\u65f6\u51fa\u9519", 
+        "id": "Error finding the change notification for", 
+        "description": ""
+    }, 
+    {
+        "source": "Error watching the directory", 
+        "text": "\u89c2\u770b\u76ee\u5f55\u65f6\u51fa\u9519", 
+        "id": "Error watching the directory", 
         "description": ""
     }, 
     {
@@ -1567,7 +1573,7 @@
     }, 
     {
         "source": "The embryos hatch in 6 days, and the larvae remain in the safety of the gravel for 7 - 8 days.", 
-        "text": "\u80da\u80ce\u57286\u5929\u5185\u5b75\u5316\uff0c\u5e7c\u866b\u5728\u783e\u77f3\u7684\u5b89\u5168\u4e0b\u4fdd\u63017-8\u5929\u3002", 
+        "text": "\u80da\u80ce\u57286\u5929\u5185\u5b75\u5316\uff0c\u5e7c\u866b\u5728\u783e\u77f3\u7684\u5b89\u5168\u8303\u56f4\u5185\u4fdd\u63017-8\u5929\u3002", 
         "id": "The embryos hatch in 6 days, and the larvae remain in the safety of the gravel for 7 - 8 days.", 
         "description": ""
     }, 
@@ -1590,129 +1596,27 @@
         "description": ""
     }, 
     {
-        "source": "Error reading text file", 
-        "text": "\u8bfb\u53d6\u6587\u672c\u6587\u4ef6\u65f6\u51fa\u9519", 
-        "id": "Error reading text file", 
+        "source": "Slow", 
+        "text": "\u6162", 
+        "id": "Slow", 
         "description": ""
     }, 
     {
-        "source": "Cannot create directory", 
-        "text": "\u65e0\u6cd5\u521b\u5efa\u76ee\u5f55", 
-        "id": "Cannot create directory", 
+        "source": "Medium", 
+        "text": "\u4ecb\u8d28", 
+        "id": "Medium", 
         "description": ""
     }, 
     {
-        "id": "KeyPress", 
-        "source": "Key Press", 
-        "description": "", 
-        "text": "\u6309\u952e"
+        "source": "Fast", 
+        "text": "\u5feb\u901f", 
+        "id": "Fast", 
+        "description": ""
     }, 
     {
-        "id": "KeyRelease", 
-        "source": "Key Release", 
-        "description": "", 
-        "text": "\u5bc6\u94a5\u53d1\u5e03"
-    }, 
-    {
-        "id": "TextFocus", 
-        "source": "Text Focus", 
-        "description": "", 
-        "text": "\u6587\u5b57\u7126\u70b9"
-    }, 
-    {
-        "id": "TextFocusLost", 
-        "source": "Text Focus Lost", 
-        "description": "", 
-        "text": "\u6587\u5b57\u7126\u70b9\u4e22\u5931"
-    }, 
-    {
-        "id": "The file", 
-        "source": "The file", 
-        "description": "", 
-        "text": "\u6587\u4ef6"
-    }, 
-    {
-        "id": "cannot be opened", 
-        "source": "cannot be opened", 
-        "description": "", 
-        "text": "\u65e0\u6cd5\u6253\u5f00"
-    }, 
-    {
-        "id": "cannot be queried", 
-        "source": "cannot be queried", 
-        "description": "", 
-        "text": "\u65e0\u6cd5\u67e5\u8be2"
-    }, 
-    {
-        "id": "cannot be mapped", 
-        "source": "cannot be mapped", 
-        "description": "", 
-        "text": "\u65e0\u6cd5\u6620\u5c04"
-    }, 
-    {
-        "id": "cannot be unmapped", 
-        "source": "cannot be unmapped", 
-        "description": "", 
-        "text": "\u65e0\u6cd5\u53d6\u6d88\u6620\u5c04"
-    }, 
-    {
-        "id": "cannot be closed", 
-        "source": "cannot be closed", 
-        "description": "", 
-        "text": "\u65e0\u6cd5\u5173\u95ed"
-    }, 
-    {
-        "id": "cannot be read", 
-        "source": "cannot be read", 
-        "description": "", 
-        "text": "\u65e0\u6cd5\u9605\u8bfb"
-    }, 
-    {
-        "id": "cannot be written", 
-        "source": "cannot be written", 
-        "description": "", 
-        "text": "\u4e0d\u80fd\u5199"
-    }, 
-    {
-        "id": "Cannot parse the value.", 
-        "source": "Cannot parse the value.", 
-        "description": "", 
-        "text": "\u65e0\u6cd5\u89e3\u6790\u8be5\u503c\u3002"
-    }, 
-    {
-        "id": "The directory", 
-        "source": "The directory", 
-        "description": "", 
-        "text": "\u76ee\u5f55"
-    }, 
-    {
-        "id": "cannot be created", 
-        "source": "cannot be created", 
-        "description": "", 
-        "text": "\u65e0\u6cd5\u521b\u5efa"
-    }, 
-    {
-        "id": "Cannot parse the value", 
-        "source": "Cannot parse the value", 
-        "description": "", 
-        "text": "\u65e0\u6cd5\u89e3\u6790\u8be5\u503c"
-    }, 
-    {
-        "id": "Error reading the text file", 
-        "source": "Error reading the text file", 
-        "description": "", 
-        "text": "\u8bfb\u53d6\u6587\u672c\u6587\u4ef6\u65f6\u51fa\u9519"
-    }, 
-    {
-        "id": "Error finding the change notification for", 
-        "source": "Error finding the change notification for", 
-        "description": "", 
-        "text": "\u627e\u5230\u66f4\u6539\u901a\u77e5\u65f6\u51fa\u9519"
-    }, 
-    {
-        "id": "Error watching the directory", 
-        "source": "Error watching the directory", 
-        "description": "", 
-        "text": "\u89c2\u770b\u76ee\u5f55\u65f6\u51fa\u9519"
+        "source": "Very Fast", 
+        "text": "\u975e\u5e38\u5feb", 
+        "id": "VeryFast", 
+        "description": ""
     }
 ]

@@ -1,873 +1,519 @@
 [
     {
+        "source": "Cannot parse the value.", 
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b1\u03bd\u03ac\u03bb\u03c5\u03c3\u03b7 \u03c4\u03b7\u03c2 \u03c4\u03b9\u03bc\u03ae\u03c2.", 
+        "id": "Cannot parse the value.", 
+        "description": ""
+    }, 
+    {
+        "source": "The file", 
+        "text": "\u03a4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf", 
+        "id": "The file", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot be opened", 
+        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b1\u03bd\u03bf\u03b9\u03c7\u03c4\u03b5\u03af", 
+        "id": "cannot be opened", 
+        "description": ""
+    }, 
+    {
+        "source": "does not have any video or audio streams", 
+        "text": "\u03b4\u03b5\u03bd \u03b4\u03b9\u03b1\u03b8\u03ad\u03c4\u03b5\u03b9 \u03c1\u03bf\u03ad\u03c2 \u03b2\u03af\u03bd\u03c4\u03b5\u03bf \u03ae \u03ae\u03c7\u03bf\u03c5", 
+        "id": "does not have any video or audio streams", 
+        "description": ""
+    }, 
+    {
+        "source": "does not match any video codecs", 
+        "text": "\u03b4\u03b5\u03bd \u03c4\u03b1\u03b9\u03c1\u03b9\u03ac\u03b6\u03b5\u03b9 \u03bc\u03b5 \u03ba\u03b1\u03bd\u03ad\u03bd\u03b1 \u03ba\u03c9\u03b4\u03b9\u03ba\u03bf\u03c0\u03bf\u03b9\u03b7\u03c4\u03ae \u03b2\u03af\u03bd\u03c4\u03b5\u03bf", 
+        "id": "does not match any video codecs", 
+        "description": ""
+    }, 
+    {
+        "source": "The audio format ", 
+        "text": "\u0397 \u03bc\u03bf\u03c1\u03c6\u03ae \u03ae\u03c7\u03bf\u03c5", 
+        "id": "The audio format ", 
+        "description": ""
+    }, 
+    {
+        "source": "is not supported", 
+        "text": "\u03b4\u03b5\u03bd \u03c5\u03c0\u03bf\u03c3\u03c4\u03b7\u03c1\u03af\u03b6\u03b5\u03c4\u03b1\u03b9", 
+        "id": "is not supported", 
+        "description": ""
+    }, 
+    {
+        "source": "does not match any audio codecs", 
+        "text": "\u03b4\u03b5\u03bd \u03c4\u03b1\u03b9\u03c1\u03b9\u03ac\u03b6\u03b5\u03b9 \u03bc\u03b5 \u03ba\u03b1\u03bd\u03ad\u03bd\u03b1 \u03ba\u03c9\u03b4\u03b9\u03ba\u03bf\u03c0\u03bf\u03b9\u03b7\u03c4\u03ae \u03ae\u03c7\u03bf\u03c5", 
+        "id": "does not match any audio codecs", 
+        "description": ""
+    }, 
+    {
         "source": "None", 
         "text": "\u039a\u03b1\u03bd\u03ad\u03bd\u03b1\u03c2", 
-        "description": "", 
-        "id": "None"
+        "id": "None", 
+        "description": ""
     }, 
     {
         "source": "Left", 
         "text": "\u0391\u03c1\u03b9\u03c3\u03c4\u03b5\u03c1\u03ac", 
-        "description": "", 
-        "id": "Left"
+        "id": "Left", 
+        "description": ""
     }, 
     {
         "source": "Top", 
         "text": "\u039c\u03c0\u03bb\u03bf\u03c5\u03b6\u03b1", 
-        "description": "", 
-        "id": "Top"
+        "id": "Top", 
+        "description": ""
     }, 
     {
         "source": "Right", 
         "text": "\u03c3\u03c9\u03c3\u03c4\u03ac", 
-        "description": "", 
-        "id": "Right"
+        "id": "Right", 
+        "description": ""
     }, 
     {
         "source": "Bottom", 
         "text": "\u039a\u03ac\u03c4\u03c9 \u03bc\u03ad\u03c1\u03bf\u03c2", 
-        "description": "", 
-        "id": "Bottom"
+        "id": "Bottom", 
+        "description": ""
     }, 
     {
-        "source": "Cannot read", 
-        "text": "\u0394\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03ce \u03bd\u03b1 \u03b4\u03b9\u03b1\u03b2\u03ac\u03c3\u03c9", 
-        "description": "", 
-        "id": "Cannot read"
+        "source": "Timecode", 
+        "text": "Timecode", 
+        "id": "Timecode", 
+        "description": ""
     }, 
     {
-        "source": "Cannot write", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b5\u03b3\u03b3\u03c1\u03b1\u03c6\u03ae", 
-        "description": "", 
-        "id": "Cannot write"
+        "source": "Frames", 
+        "text": "\u039a\u03bf\u03c1\u03bd\u03af\u03b6\u03b5\u03c2", 
+        "id": "Frames", 
+        "description": ""
     }, 
     {
-        "source": "cannot write", 
-        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b3\u03c1\u03ac\u03c8\u03b5\u03b9", 
-        "description": "", 
-        "id": "cannot write"
+        "source": "Bad magic number.", 
+        "text": "\u039a\u03b1\u03ba\u03cc \u03bc\u03b1\u03b3\u03b9\u03ba\u03cc \u03b1\u03c1\u03b9\u03b8\u03bc\u03cc.", 
+        "id": "Bad magic number.", 
+        "description": ""
     }, 
     {
-        "source": "Unknown", 
-        "text": "\u0391\u03b3\u03bd\u03c9\u03c3\u03c4\u03bf\u03c2", 
-        "description": "", 
-        "id": "Unknown"
+        "source": "Unsupported file.", 
+        "text": "\u039c\u03b7 \u03c5\u03c0\u03bf\u03c3\u03c4\u03b7\u03c1\u03b9\u03b6\u03cc\u03bc\u03b5\u03bd\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf.", 
+        "id": "Unsupported file.", 
+        "description": ""
     }, 
     {
-        "source": "Out of memory", 
-        "text": "\u039c\u03b7 \u03b4\u03b9\u03b1\u03b8\u03ad\u03c3\u03b9\u03bc\u03b7 \u03bc\u03bd\u03ae\u03bc\u03b7", 
-        "description": "", 
-        "id": "Out of memory"
+        "source": "Incomplete file.", 
+        "text": "\u0391\u03c4\u03b5\u03bb\u03ad\u03c2 \u03b1\u03c1\u03c7\u03b5\u03af\u03bf.", 
+        "id": "Incomplete file.", 
+        "description": ""
     }, 
     {
-        "source": "Invalid value", 
-        "text": "\u039c\u03b7 \u03ad\u03b3\u03ba\u03c5\u03c1\u03b7 \u03c4\u03b9\u03bc\u03ae", 
-        "description": "", 
-        "id": "Invalid value"
+        "source": "This plugin provides DPX image I/O.", 
+        "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf \u03c0\u03c1\u03cc\u03c3\u03b8\u03b5\u03c4\u03bf \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 I / O \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1 DPX.", 
+        "id": "This plugin provides DPX image I/O.", 
+        "description": ""
     }, 
     {
-        "source": "Invalid enum", 
-        "text": "\u039c\u03b7 \u03ad\u03b3\u03ba\u03c5\u03c1\u03bf enum", 
-        "description": "", 
-        "id": "Invalid enum"
+        "source": "1.0", 
+        "text": "1.0", 
+        "id": "1.0", 
+        "description": ""
     }, 
     {
-        "source": "U8", 
-        "text": "U8", 
-        "description": "", 
-        "id": "U8"
+        "source": "2.0", 
+        "text": "2.0", 
+        "id": "2.0", 
+        "description": ""
     }, 
     {
-        "source": "S16", 
-        "text": "S16", 
-        "description": "", 
-        "id": "S16"
+        "source": "Auto", 
+        "text": "\u0391\u03c5\u03c4\u03bf", 
+        "id": "Auto", 
+        "description": ""
     }, 
     {
-        "source": "S32", 
-        "text": "S32", 
-        "description": "", 
-        "id": "S32"
+        "source": "MSB", 
+        "text": "MSB", 
+        "id": "MSB", 
+        "description": ""
     }, 
     {
-        "source": "F32", 
-        "text": "F32", 
-        "description": "", 
-        "id": "F32"
+        "source": "LSB", 
+        "text": "LSB", 
+        "id": "LSB", 
+        "description": ""
     }, 
     {
-        "source": "Cannot create OpenGL vertex shader.", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03c4\u03bf\u03c5 shader \u03c4\u03bf\u03c5 Vertex OpenGL.", 
-        "description": "", 
-        "id": "Cannot create OpenGL vertex shader."
-    }, 
-    {
-        "source": "Cannot compile OpenGL vertex shader", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03bc\u03b5\u03c4\u03b1\u03b3\u03bb\u03ce\u03c4\u03c4\u03b9\u03c3\u03b7 \u03c4\u03bf\u03c5 shader \u03c4\u03bf\u03c5 Vertex OpenGL", 
-        "description": "", 
-        "id": "Cannot compile OpenGL vertex shader"
-    }, 
-    {
-        "source": "Cannot create OpenGL fragment shader.", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03c4\u03bf\u03c5 shader \u03c4\u03bf\u03c5 \u03c4\u03bc\u03ae\u03bc\u03b1\u03c4\u03bf\u03c2 OpenGL.", 
-        "description": "", 
-        "id": "Cannot create OpenGL fragment shader."
-    }, 
-    {
-        "source": "Cannot compile OpenGL framgent shader", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03bc\u03b5\u03c4\u03b1\u03b3\u03bb\u03ce\u03c4\u03c4\u03b9\u03c3\u03b7 \u03c4\u03bf\u03c5 shader \u03c4\u03bf\u03c5 OpenGL framgent", 
-        "description": "", 
-        "id": "Cannot compile OpenGL framgent shader"
-    }, 
-    {
-        "source": "Cannot link program", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03c3\u03cd\u03bd\u03b4\u03b5\u03c3\u03b7 \u03c0\u03c1\u03bf\u03b3\u03c1\u03ac\u03bc\u03bc\u03b1\u03c4\u03bf\u03c2", 
-        "description": "", 
-        "id": "Cannot link program"
-    }, 
-    {
-        "source": "cannot read", 
-        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03ce \u03bd\u03b1 \u03b4\u03b9\u03b1\u03b2\u03ac\u03c3\u03c9", 
-        "description": "", 
-        "id": "cannot read"
-    }, 
-    {
-        "source": "cannot open", 
-        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b1\u03bd\u03bf\u03af\u03be\u03b5\u03b9", 
-        "description": "", 
-        "id": "cannot open"
-    }, 
-    {
-        "source": "Cannot open OpenAL device.", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b1\u03bd\u03bf\u03af\u03be\u03b7 \u03c4\u03b7\u03c2 \u03c3\u03c5\u03c3\u03ba\u03b5\u03c5\u03ae\u03c2 OpenAL.", 
-        "description": "", 
-        "id": "Cannot open OpenAL device."
-    }, 
-    {
-        "source": "Cannot create OpenAL context.", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03c0\u03bb\u03b1\u03b9\u03c3\u03af\u03bf\u03c5 OpenAL.", 
-        "description": "", 
-        "id": "Cannot create OpenAL context."
-    }, 
-    {
-        "source": "Cannot make OpenAL context current.", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03c4\u03bf\u03c5 \u03c4\u03c1\u03ad\u03c7\u03bf\u03bd\u03c4\u03bf\u03c2 \u03c0\u03bb\u03b1\u03b9\u03c3\u03af\u03bf\u03c5 OpenAL.", 
-        "description": "", 
-        "id": "Cannot make OpenAL context current."
-    }, 
-    {
-        "source": "Cannot create GLFW window.", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03c0\u03b1\u03c1\u03b1\u03b8\u03cd\u03c1\u03bf\u03c5 GLFW.", 
-        "description": "", 
-        "id": "Cannot create GLFW window."
+        "source": "Cannot open file.", 
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03cc \u03bd\u03b1 \u03b1\u03bd\u03bf\u03af\u03be\u03b5\u03b9 \u03c4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf.", 
+        "id": "Cannot open file.", 
+        "description": ""
     }, 
     {
         "source": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
         "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf \u03c0\u03c1\u03cc\u03c3\u03b8\u03b5\u03c4\u03bf \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 I / O \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1 \u03c6\u03bf\u03c1\u03b7\u03c4\u03bf\u03cd \u03b4\u03b9\u03ba\u03c4\u03cd\u03bf\u03c5 \u03b3\u03c1\u03b1\u03c6\u03b9\u03ba\u03ce\u03bd (PNG).", 
-        "description": "", 
-        "id": "This plugin provides Portable Network Graphics (PNG) image I/O."
-    }, 
-    {
-        "source": "Cannot create shader", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 shader", 
-        "description": "", 
-        "id": "Cannot create shader"
-    }, 
-    {
-        "source": "Float", 
-        "text": "\u03a6\u03bb\u03bf\u03c4\u03ad\u03c1", 
-        "description": "", 
-        "id": "Float"
-    }, 
-    {
-        "source": "Double", 
-        "text": "\u0394\u03b9\u03c0\u03bb\u03cc", 
-        "description": "", 
-        "id": "Double"
-    }, 
-    {
-        "source": "U8 Planar", 
-        "text": "U8 Planar", 
-        "description": "", 
-        "id": "U8 Planar"
-    }, 
-    {
-        "source": "S16 Planar", 
-        "text": "S16 Planar", 
-        "description": "", 
-        "id": "S16 Planar"
-    }, 
-    {
-        "source": "S32 Planar", 
-        "text": "S32 Planar", 
-        "description": "", 
-        "id": "S32 Planar"
-    }, 
-    {
-        "source": "Float Planar", 
-        "text": "Float Planar", 
-        "description": "", 
-        "id": "Float Planar"
-    }, 
-    {
-        "source": "Double Planar", 
-        "text": "\u0394\u03b9\u03c0\u03bb\u03cc Planar", 
-        "description": "", 
-        "id": "Double Planar"
-    }, 
-    {
-        "source": "This plugin provides FFmpeg image and audio I/O.", 
-        "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf plugin \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 FFmpeg \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1 \u03ba\u03b1\u03b9 \u03ae\u03c7\u03bf I / O.", 
-        "description": "", 
-        "id": "This plugin provides FFmpeg image and audio I/O."
-    }, 
-    {
-        "source": "cannot find any streams in", 
-        "text": "\u03b4\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b5\u03cd\u03c1\u03b5\u03c3\u03b7 \u03c1\u03bf\u03ce\u03bd", 
-        "description": "", 
-        "id": "cannot find any streams in"
-    }, 
-    {
-        "source": "cannot find video codec for", 
-        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b2\u03c1\u03b5\u03b9 \u03ba\u03c9\u03b4\u03b9\u03ba\u03bf\u03c0\u03bf\u03b9\u03b7\u03c4\u03ae \u03b2\u03af\u03bd\u03c4\u03b5\u03bf \u03b3\u03b9\u03b1", 
-        "description": "", 
-        "id": "cannot find video codec for"
-    }, 
-    {
-        "source": "unsupported audio format ", 
-        "text": "\u03bc\u03b7 \u03c5\u03c0\u03bf\u03c3\u03c4\u03b7\u03c1\u03b9\u03b6\u03cc\u03bc\u03b5\u03bd\u03b7 \u03bc\u03bf\u03c1\u03c6\u03ae \u03ae\u03c7\u03bf\u03c5", 
-        "description": "", 
-        "id": "unsupported audio format "
-    }, 
-    {
-        "source": "cannot find audio codec for", 
-        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b2\u03c1\u03b5\u03b9 \u03ba\u03c9\u03b4\u03b9\u03ba\u03bf\u03c0\u03bf\u03b9\u03b7\u03c4\u03ae \u03ae\u03c7\u03bf\u03c5 \u03b3\u03b9\u03b1", 
-        "description": "", 
-        "id": "cannot find audio codec for"
-    }, 
-    {
-        "source": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
-        "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf \u03c0\u03c1\u03cc\u03c3\u03b8\u03b5\u03c4\u03bf \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1 I / O \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1\u03c2 \u03bf\u03bc\u03ac\u03b4\u03b1\u03c2 JPEG (Joint Photographic Experts Group).", 
-        "description": "", 
-        "id": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O."
-    }, 
-    {
-        "source": "Cannot initialize GLFW.", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03c0\u03c1\u03bf\u03b5\u03c4\u03bf\u03b9\u03bc\u03b1\u03c3\u03af\u03b1 \u03c4\u03bf\u03c5 GLFW.", 
-        "description": "", 
-        "id": "Cannot initialize GLFW."
-    }, 
-    {
-        "source": "Cannot create OpenGL texture.", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03c4\u03b7\u03c2 \u03c5\u03c6\u03ae\u03c2 OpenGL.", 
-        "description": "", 
-        "id": "Cannot create OpenGL texture."
-    }, 
-    {
-        "source": "Cannot create OpenGL frame buffer.", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03c0\u03c1\u03bf\u03c3\u03c9\u03c1\u03b9\u03bd\u03ae\u03c2 \u03bc\u03bd\u03ae\u03bc\u03b7\u03c2 \u03c0\u03bb\u03b1\u03b9\u03c3\u03af\u03bf\u03c5 OpenGL.", 
-        "description": "", 
-        "id": "Cannot create OpenGL frame buffer."
-    }, 
-    {
-        "source": "Cannot initialize OpenGL frame buffer.", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03c0\u03c1\u03bf\u03b5\u03c4\u03bf\u03b9\u03bc\u03b1\u03c3\u03af\u03b1 \u03c4\u03bf\u03c5 buffer \u03c0\u03bb\u03b1\u03b9\u03c3\u03af\u03bf\u03c5 OpenGL.", 
-        "description": "", 
-        "id": "Cannot initialize OpenGL frame buffer."
-    }, 
-    {
-        "source": "L U8", 
-        "text": "50 U8", 
-        "description": "", 
-        "id": "L_U8"
-    }, 
-    {
-        "source": "L U16", 
-        "text": "L U16", 
-        "description": "", 
-        "id": "L_U16"
-    }, 
-    {
-        "source": "L U32", 
-        "text": "L U32", 
-        "description": "", 
-        "id": "L_U32"
-    }, 
-    {
-        "source": "L F16", 
-        "text": "L F16", 
-        "description": "", 
-        "id": "L_F16"
-    }, 
-    {
-        "source": "L F32", 
-        "text": "L F32", 
-        "description": "", 
-        "id": "L_F32"
-    }, 
-    {
-        "source": "LA U8", 
-        "text": "\u03a4\u039f U8", 
-        "description": "", 
-        "id": "LA_U8"
-    }, 
-    {
-        "source": "LA U16", 
-        "text": "\u03a4\u039f U16", 
-        "description": "", 
-        "id": "LA_U16"
-    }, 
-    {
-        "source": "LA U32", 
-        "text": "\u03a4\u039f U32", 
-        "description": "", 
-        "id": "LA_U32"
-    }, 
-    {
-        "source": "LA F16", 
-        "text": "\u0397 F16", 
-        "description": "", 
-        "id": "LA_F16"
-    }, 
-    {
-        "source": "LA F32", 
-        "text": "LA F32", 
-        "description": "", 
-        "id": "LA_F32"
-    }, 
-    {
-        "source": "RGB U8", 
-        "text": "RGB U8", 
-        "description": "", 
-        "id": "RGB_U8"
-    }, 
-    {
-        "source": "RGB U10", 
-        "text": "RGB U10", 
-        "description": "", 
-        "id": "RGB_U10"
-    }, 
-    {
-        "source": "RGB U16", 
-        "text": "RGB U16", 
-        "description": "", 
-        "id": "RGB_U16"
-    }, 
-    {
-        "source": "RGB U32", 
-        "text": "RGB U32", 
-        "description": "", 
-        "id": "RGB_U32"
-    }, 
-    {
-        "source": "RGB F16", 
-        "text": "RGB F16", 
-        "description": "", 
-        "id": "RGB_F16"
-    }, 
-    {
-        "source": "RGB F32", 
-        "text": "RGB F32", 
-        "description": "", 
-        "id": "RGB_F32"
-    }, 
-    {
-        "source": "RGBA U8", 
-        "text": "RGBA U8", 
-        "description": "", 
-        "id": "RGBA_U8"
-    }, 
-    {
-        "source": "RGBA U16", 
-        "text": "RGBA U16", 
-        "description": "", 
-        "id": "RGBA_U16"
-    }, 
-    {
-        "source": "RGBA U32", 
-        "text": "RGBA U32", 
-        "description": "", 
-        "id": "RGBA_U32"
-    }, 
-    {
-        "source": "RGBA F16", 
-        "text": "RGBA F16", 
-        "description": "", 
-        "id": "RGBA_F16"
-    }, 
-    {
-        "source": "RGBA F32", 
-        "text": "RGBA F32", 
-        "description": "", 
-        "id": "RGBA_F32"
-    }, 
-    {
-        "source": "U10", 
-        "text": "U10", 
-        "description": "", 
-        "id": "U10"
-    }, 
-    {
-        "source": "U16", 
-        "text": "U16", 
-        "description": "", 
-        "id": "U16"
-    }, 
-    {
-        "source": "U32", 
-        "text": "U32", 
-        "description": "", 
-        "id": "U32"
-    }, 
-    {
-        "source": "F16", 
-        "text": "F16", 
-        "description": "", 
-        "id": "F16"
-    }, 
-    {
-        "source": "Cannot initialize FreeType.", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03c0\u03c1\u03bf\u03b5\u03c4\u03bf\u03b9\u03bc\u03b1\u03c3\u03af\u03b1 \u03c4\u03bf\u03c5 FreeType.", 
-        "description": "", 
-        "id": "Cannot initialize FreeType."
-    }, 
-    {
-        "source": "Cannot find any fonts.", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b5\u03cd\u03c1\u03b5\u03c3\u03b7 \u03b3\u03c1\u03b1\u03bc\u03bc\u03b1\u03c4\u03bf\u03c3\u03b5\u03b9\u03c1\u03ce\u03bd.", 
-        "description": "", 
-        "id": "Cannot find any fonts."
+        "id": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
+        "description": ""
     }, 
     {
         "source": "This plugin provides NetPBM image I/O.", 
         "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf \u03c0\u03c1\u03cc\u03c3\u03b8\u03b5\u03c4\u03bf \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 I / O \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1 NetPBM.", 
-        "description": "", 
-        "id": "This plugin provides NetPBM image I/O."
+        "id": "This plugin provides NetPBM image I/O.", 
+        "description": ""
     }, 
     {
         "source": "ASCII", 
         "text": "ASCII", 
-        "description": "", 
-        "id": "ASCII"
+        "id": "ASCII", 
+        "description": ""
     }, 
     {
         "source": "Binary", 
         "text": "\u0394\u03c5\u03ac\u03b4\u03b9\u03ba\u03bf\u03c2", 
-        "description": "", 
-        "id": "Binary"
+        "id": "Binary", 
+        "description": ""
     }, 
     {
-        "source": "Cannot parse value.", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b1\u03bd\u03ac\u03bb\u03c5\u03c3\u03b7 \u03c4\u03b7\u03c2 \u03c4\u03b9\u03bc\u03ae\u03c2.", 
-        "description": "", 
-        "id": "Cannot parse value."
+        "source": "Error reading scanline.", 
+        "text": "\u03a3\u03c6\u03ac\u03bb\u03bc\u03b1 \u03ba\u03b1\u03c4\u03ac \u03c4\u03b7\u03bd \u03b1\u03bd\u03ac\u03b3\u03bd\u03c9\u03c3\u03b7 \u03c4\u03b7\u03c2 \u03c3\u03ac\u03c1\u03c9\u03c3\u03b7\u03c2.", 
+        "id": "Error reading scanline.", 
+        "description": ""
     }, 
     {
-        "source": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
-        "description": "", 
-        "id": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be read", 
-        "text": "\u03a4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf &quot;) &lt;&lt;) &lt;&lt;&quot; &lt;&lt; fileName &lt;&lt; &quot;&#39;&quot; &lt;&lt; DJV_TEXT (&quot;\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b4\u03b9\u03b1\u03b2\u03b1\u03c3\u03c4\u03b5\u03af"
+        "source": "Unsupported image type.", 
+        "text": "\u039c\u03b7 \u03c5\u03c0\u03bf\u03c3\u03c4\u03b7\u03c1\u03b9\u03b6\u03cc\u03bc\u03b5\u03bd\u03bf\u03c2 \u03c4\u03cd\u03c0\u03bf\u03c2 \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1\u03c2.", 
+        "id": "Unsupported image type.", 
+        "description": ""
     }, 
     {
-        "source": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
-        "description": "", 
-        "id": "The file\")) << \" '\" << fileName << \"' \" << DJV_TEXT(\"cannot be written", 
-        "text": "\u03a4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf &quot;) &lt;&lt;) &lt;&lt;&quot; &lt;&lt; fileName &lt;&lt; &quot;&#39;&quot; &lt;&lt; DJV_TEXT (&quot;\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b3\u03c1\u03b1\u03c6\u03c4\u03b5\u03af"
+        "source": "Unknown", 
+        "text": "\u0391\u03b3\u03bd\u03c9\u03c3\u03c4\u03bf\u03c2", 
+        "id": "Unknown", 
+        "description": ""
     }, 
     {
-        "source": "The file", 
-        "description": "", 
-        "id": "The file", 
-        "text": "\u03a4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf"
+        "source": "Out of memory", 
+        "text": "\u039c\u03b7 \u03b4\u03b9\u03b1\u03b8\u03ad\u03c3\u03b9\u03bc\u03b7 \u03bc\u03bd\u03ae\u03bc\u03b7", 
+        "id": "Out of memory", 
+        "description": ""
     }, 
     {
-        "source": "cannot be written", 
-        "description": "", 
-        "id": "cannot be written", 
-        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b3\u03c1\u03b1\u03c6\u03c4\u03b5\u03af"
+        "source": "Invalid value", 
+        "text": "\u039c\u03b7 \u03ad\u03b3\u03ba\u03c5\u03c1\u03b7 \u03c4\u03b9\u03bc\u03ae", 
+        "id": "Invalid value", 
+        "description": ""
     }, 
     {
-        "source": "cannot be opened", 
-        "description": "", 
-        "id": "cannot be opened", 
-        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b1\u03bd\u03bf\u03b9\u03c7\u03c4\u03b5\u03af"
+        "source": "Invalid enum", 
+        "text": "\u039c\u03b7 \u03ad\u03b3\u03ba\u03c5\u03c1\u03bf enum", 
+        "id": "Invalid enum", 
+        "description": ""
     }, 
     {
-        "source": "FreeType cannot be initialized.", 
-        "description": "", 
-        "id": "FreeType cannot be initialized.", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03c0\u03c1\u03bf\u03b5\u03c4\u03bf\u03b9\u03bc\u03b1\u03c3\u03af\u03b1 \u03c4\u03bf\u03c5 FreeType."
+        "source": "U8", 
+        "text": "U8", 
+        "id": "U8", 
+        "description": ""
     }, 
     {
-        "source": "No fonts were found.", 
-        "description": "", 
-        "id": "No fonts were found.", 
-        "text": "\u0394\u03b5\u03bd \u03b2\u03c1\u03ad\u03b8\u03b7\u03ba\u03b1\u03bd \u03b3\u03c1\u03b1\u03bc\u03bc\u03b1\u03c4\u03bf\u03c3\u03b5\u03b9\u03c1\u03ad\u03c2."
+        "source": "S16", 
+        "text": "S16", 
+        "id": "S16", 
+        "description": ""
     }, 
     {
-        "source": "The GLFW window cannot be created.", 
-        "description": "", 
-        "id": "The GLFW window cannot be created.", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03c4\u03bf\u03c5 \u03c0\u03b1\u03c1\u03b1\u03b8\u03cd\u03c1\u03bf\u03c5 GLFW."
+        "source": "S32", 
+        "text": "S32", 
+        "id": "S32", 
+        "description": ""
     }, 
     {
-        "source": "Cannot parse the value.", 
-        "description": "", 
-        "id": "Cannot parse the value.", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b1\u03bd\u03ac\u03bb\u03c5\u03c3\u03b7 \u03c4\u03b7\u03c2 \u03c4\u03b9\u03bc\u03ae\u03c2."
+        "source": "F32", 
+        "text": "F32", 
+        "id": "F32", 
+        "description": ""
     }, 
     {
-        "source": "The JPEG file", 
-        "description": "", 
-        "id": "The JPEG file", 
-        "text": "\u03a4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf JPEG"
-    }, 
-    {
-        "source": "cannot be read", 
-        "description": "", 
-        "id": "cannot be read", 
-        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b4\u03b9\u03b1\u03b2\u03b1\u03c3\u03c4\u03b5\u03af"
-    }, 
-    {
-        "source": "The OpenGL vertex shader cannot be created.", 
-        "description": "", 
-        "id": "The OpenGL vertex shader cannot be created.", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03c4\u03bf\u03c5 shader \u03ba\u03bf\u03c1\u03c5\u03c6\u03ae\u03c2 OpenGL."
-    }, 
-    {
-        "source": "The OpenGL vertex shader", 
-        "description": "", 
-        "id": "The OpenGL vertex shader", 
-        "text": "\u039f \u03c3\u03ba\u03b9\u03b1\u03c3\u03bc\u03cc\u03c2 \u03ba\u03bf\u03c1\u03c5\u03c6\u03ae\u03c2 OpenGL"
-    }, 
-    {
-        "source": "cannot be compiled", 
-        "description": "", 
-        "id": "cannot be compiled", 
-        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03c3\u03c5\u03bd\u03c4\u03b1\u03c7\u03b8\u03b5\u03af"
-    }, 
-    {
-        "source": "The OpenGL fragment shader cannot be created.", 
-        "description": "", 
-        "id": "The OpenGL fragment shader cannot be created.", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03c4\u03bf\u03c5 shader \u03c4\u03bf\u03c5 \u03c4\u03bc\u03ae\u03bc\u03b1\u03c4\u03bf\u03c2 OpenGL."
-    }, 
-    {
-        "source": "The OpenGL framgent shader", 
-        "description": "", 
-        "id": "The OpenGL framgent shader", 
-        "text": "\u039f \u03c3\u03ba\u03b9\u03b1\u03c3\u03bc\u03cc\u03c2 \u03c4\u03bf\u03c5 OpenGL \u03c0\u03c1\u03bf\u03c2 \u03c4\u03b1 \u03b5\u03bc\u03c0\u03c1\u03cc\u03c2"
-    }, 
-    {
-        "source": "The program", 
-        "description": "", 
-        "id": "The program", 
-        "text": "\u03a4\u03bf \u03c0\u03c1\u03cc\u03b3\u03c1\u03b1\u03bc\u03bc\u03b1"
-    }, 
-    {
-        "source": "cannot be linked", 
-        "description": "", 
-        "id": "cannot be linked", 
-        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03c3\u03c5\u03bd\u03b4\u03b5\u03b8\u03b5\u03af"
-    }, 
-    {
-        "source": "The FFMPEG file", 
-        "description": "", 
-        "id": "The FFMPEG file", 
-        "text": "\u03a4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf FFMPEG"
-    }, 
-    {
-        "source": "does not have any video or audio streams", 
-        "description": "", 
-        "id": "does not have any video or audio streams", 
-        "text": "\u03b4\u03b5\u03bd \u03b4\u03b9\u03b1\u03b8\u03ad\u03c4\u03b5\u03b9 \u03c1\u03bf\u03ad\u03c2 \u03b2\u03af\u03bd\u03c4\u03b5\u03bf \u03ae \u03ae\u03c7\u03bf\u03c5"
-    }, 
-    {
-        "source": "does not match any video codecs", 
-        "description": "", 
-        "id": "does not match any video codecs", 
-        "text": "\u03b4\u03b5\u03bd \u03c4\u03b1\u03b9\u03c1\u03b9\u03ac\u03b6\u03b5\u03b9 \u03bc\u03b5 \u03ba\u03b1\u03bd\u03ad\u03bd\u03b1 \u03ba\u03c9\u03b4\u03b9\u03ba\u03bf\u03c0\u03bf\u03b9\u03b7\u03c4\u03ae \u03b2\u03af\u03bd\u03c4\u03b5\u03bf"
-    }, 
-    {
-        "source": "The FFMPEG audio format ", 
-        "description": "", 
-        "id": "The FFMPEG audio format ", 
-        "text": "\u0397 \u03bc\u03bf\u03c1\u03c6\u03ae \u03ae\u03c7\u03bf\u03c5 FFMPEG"
-    }, 
-    {
-        "source": "is not supported", 
-        "description": "", 
-        "id": "is not supported", 
-        "text": "\u03b4\u03b5\u03bd \u03c5\u03c0\u03bf\u03c3\u03c4\u03b7\u03c1\u03af\u03b6\u03b5\u03c4\u03b1\u03b9"
-    }, 
-    {
-        "source": "does not match any audio codecs", 
-        "description": "", 
-        "id": "does not match any audio codecs", 
-        "text": "\u03b4\u03b5\u03bd \u03c4\u03b1\u03b9\u03c1\u03b9\u03ac\u03b6\u03b5\u03b9 \u03bc\u03b5 \u03ba\u03b1\u03bd\u03ad\u03bd\u03b1 \u03ba\u03c9\u03b4\u03b9\u03ba\u03bf\u03c0\u03bf\u03b9\u03b7\u03c4\u03ae \u03ae\u03c7\u03bf\u03c5"
-    }, 
-    {
-        "source": "GLFW cannot be initialized.", 
-        "description": "", 
-        "id": "GLFW cannot be initialized.", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03c0\u03c1\u03bf\u03b5\u03c4\u03bf\u03b9\u03bc\u03b1\u03c3\u03af\u03b1 \u03c4\u03bf\u03c5 GLFW."
-    }, 
-    {
-        "source": "GLFW window cannot be created.", 
-        "description": "", 
-        "id": "GLFW window cannot be created.", 
-        "text": "\u03a4\u03bf \u03c0\u03b1\u03c1\u03ac\u03b8\u03c5\u03c1\u03bf GLFW \u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03b7\u03b8\u03b5\u03af."
-    }, 
-    {
-        "source": "The OpenAL device cannot be opened.", 
-        "description": "", 
-        "id": "The OpenAL device cannot be opened.", 
-        "text": "\u0397 \u03c3\u03c5\u03c3\u03ba\u03b5\u03c5\u03ae OpenAL \u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b1\u03bd\u03bf\u03b9\u03c7\u03c4\u03b5\u03af."
-    }, 
-    {
-        "source": "The OpenAL context cannot be created.", 
-        "description": "", 
-        "id": "The OpenAL context cannot be created.", 
-        "text": "\u03a4\u03bf \u03c0\u03bb\u03b1\u03af\u03c3\u03b9\u03bf OpenAL \u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03b7\u03b8\u03b5\u03af."
-    }, 
-    {
-        "source": "The OpenAL context cannot be made current.", 
-        "description": "", 
-        "id": "The OpenAL context cannot be made current.", 
-        "text": "\u03a4\u03bf \u03c0\u03bb\u03b1\u03af\u03c3\u03b9\u03bf OpenAL \u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b3\u03af\u03bd\u03b5\u03b9 \u03c4\u03c1\u03ad\u03c7\u03bf\u03c5\u03c3\u03b1."
-    }, 
-    {
-        "source": "The OpenGL texture cannot be created.", 
-        "description": "", 
-        "id": "The OpenGL texture cannot be created.", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03c4\u03b7\u03c2 \u03c5\u03c6\u03ae\u03c2 OpenGL."
-    }, 
-    {
-        "source": "The OpenGL frame buffer cannot be created.", 
-        "description": "", 
-        "id": "The OpenGL frame buffer cannot be created.", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03c4\u03bf\u03c5 buffer \u03c4\u03bf\u03c5 \u03c0\u03bb\u03b1\u03b9\u03c3\u03af\u03bf\u03c5 OpenGL."
-    }, 
-    {
-        "source": "The OpenGL frame buffer cannot be initialized.", 
-        "description": "", 
-        "id": "The OpenGL frame buffer cannot be initialized.", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03c0\u03c1\u03bf\u03b5\u03c4\u03bf\u03b9\u03bc\u03b1\u03c3\u03af\u03b1 \u03c4\u03bf\u03c5 buffer \u03c4\u03bf\u03c5 \u03c0\u03bb\u03b1\u03b9\u03c3\u03af\u03bf\u03c5 OpenGL."
-    }, 
-    {
-        "source": "The PNG file", 
-        "description": "", 
-        "id": "The PNG file", 
-        "text": "\u03a4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf PNG"
-    }, 
-    {
-        "source": "The PPM file", 
-        "description": "", 
-        "id": "The PPM file", 
-        "text": "\u03a4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf PPM"
-    }, 
-    {
-        "source": "The shader cannot be created", 
-        "description": "", 
-        "id": "The shader cannot be created", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03c4\u03bf\u03c5 shader"
+        "source": "Unsupported color components.", 
+        "text": "\u039c\u03b7 \u03c5\u03c0\u03bf\u03c3\u03c4\u03b7\u03c1\u03b9\u03b6\u03cc\u03bc\u03b5\u03bd\u03b1 \u03ad\u03b3\u03c7\u03c1\u03c9\u03bc\u03b1 \u03c3\u03c4\u03bf\u03b9\u03c7\u03b5\u03af\u03b1.", 
+        "id": "Unsupported color components.", 
+        "description": ""
     }, 
     {
         "source": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
-        "description": "", 
+        "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf \u03c0\u03c1\u03cc\u03c3\u03b8\u03b5\u03c4\u03bf \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 I / O \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1 \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1\u03c2 \u03bc\u03bf\u03c1\u03c6\u03ae\u03c2 \u03b1\u03c1\u03c7\u03b5\u03af\u03bf\u03c5 \u03b5\u03c4\u03b9\u03ba\u03b5\u03c4\u03ce\u03bd (TIFF).", 
         "id": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
-        "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf \u03c0\u03c1\u03cc\u03c3\u03b8\u03b5\u03c4\u03bf \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 I / O \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1 \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1\u03c2 \u03bc\u03bf\u03c1\u03c6\u03ae\u03c2 \u03b1\u03c1\u03c7\u03b5\u03af\u03bf\u03c5 \u03b5\u03c4\u03b9\u03ba\u03b5\u03c4\u03ce\u03bd (TIFF)."
+        "description": ""
     }, 
     {
         "source": "RLE", 
-        "description": "", 
+        "text": "RLE", 
         "id": "RLE", 
-        "text": "RLE"
+        "description": ""
     }, 
     {
         "source": "LZW", 
-        "description": "", 
+        "text": "LZW", 
         "id": "LZW", 
-        "text": "LZW"
+        "description": ""
     }, 
     {
-        "source": "The TIFF file", 
-        "description": "", 
-        "id": "The TIFF file", 
-        "text": "\u03a4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf TIFF"
+        "source": "The OpenGL texture cannot be created.", 
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03c4\u03b7\u03c2 \u03c5\u03c6\u03ae\u03c2 OpenGL.", 
+        "id": "The OpenGL texture cannot be created.", 
+        "description": ""
+    }, 
+    {
+        "source": "The OpenGL frame buffer cannot be created.", 
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03c4\u03bf\u03c5 buffer \u03c4\u03bf\u03c5 \u03c0\u03bb\u03b1\u03b9\u03c3\u03af\u03bf\u03c5 OpenGL.", 
+        "id": "The OpenGL frame buffer cannot be created.", 
+        "description": ""
+    }, 
+    {
+        "source": "The OpenGL frame buffer cannot be initialized.", 
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03c0\u03c1\u03bf\u03b5\u03c4\u03bf\u03b9\u03bc\u03b1\u03c3\u03af\u03b1 \u03c4\u03bf\u03c5 buffer \u03c4\u03bf\u03c5 \u03c0\u03bb\u03b1\u03b9\u03c3\u03af\u03bf\u03c5 OpenGL.", 
+        "id": "The OpenGL frame buffer cannot be initialized.", 
+        "description": ""
+    }, 
+    {
+        "source": "Error writing scanline.", 
+        "text": "\u03a3\u03c6\u03ac\u03bb\u03bc\u03b1 \u03c3\u03c4\u03b7 \u03b3\u03c1\u03b1\u03c6\u03ae \u03c4\u03b7\u03c2 \u03b3\u03c1\u03b1\u03bc\u03bc\u03ae\u03c2 \u03c3\u03ac\u03c1\u03c9\u03c3\u03b7\u03c2", 
+        "id": "Error writing scanline.", 
+        "description": ""
+    }, 
+    {
+        "source": "The OpenGL vertex shader cannot be created.", 
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03c4\u03bf\u03c5 shader \u03ba\u03bf\u03c1\u03c5\u03c6\u03ae\u03c2 OpenGL.", 
+        "id": "The OpenGL vertex shader cannot be created.", 
+        "description": ""
+    }, 
+    {
+        "source": "The OpenGL vertex shader", 
+        "text": "\u039f \u03c3\u03ba\u03b9\u03b1\u03c3\u03bc\u03cc\u03c2 \u03ba\u03bf\u03c1\u03c5\u03c6\u03ae\u03c2 OpenGL", 
+        "id": "The OpenGL vertex shader", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot be compiled", 
+        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03c3\u03c5\u03bd\u03c4\u03b1\u03c7\u03b8\u03b5\u03af", 
+        "id": "cannot be compiled", 
+        "description": ""
+    }, 
+    {
+        "source": "The OpenGL fragment shader cannot be created.", 
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03c4\u03bf\u03c5 shader \u03c4\u03bf\u03c5 \u03c4\u03bc\u03ae\u03bc\u03b1\u03c4\u03bf\u03c2 OpenGL.", 
+        "id": "The OpenGL fragment shader cannot be created.", 
+        "description": ""
+    }, 
+    {
+        "source": "The OpenGL framgent shader", 
+        "text": "\u039f \u03c3\u03ba\u03b9\u03b1\u03c3\u03bc\u03cc\u03c2 \u03c4\u03bf\u03c5 OpenGL \u03c0\u03c1\u03bf\u03c2 \u03c4\u03b1 \u03b5\u03bc\u03c0\u03c1\u03cc\u03c2", 
+        "id": "The OpenGL framgent shader", 
+        "description": ""
+    }, 
+    {
+        "source": "The program", 
+        "text": "\u03a4\u03bf \u03c0\u03c1\u03cc\u03b3\u03c1\u03b1\u03bc\u03bc\u03b1", 
+        "id": "The program", 
+        "description": ""
+    }, 
+    {
+        "source": "cannot be linked", 
+        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03c3\u03c5\u03bd\u03b4\u03b5\u03b8\u03b5\u03af", 
+        "id": "cannot be linked", 
+        "description": ""
+    }, 
+    {
+        "source": "L U8", 
+        "text": "50 U8", 
+        "id": "L_U8", 
+        "description": ""
+    }, 
+    {
+        "source": "L U16", 
+        "text": "L U16", 
+        "id": "L_U16", 
+        "description": ""
+    }, 
+    {
+        "source": "L U32", 
+        "text": "L U32", 
+        "id": "L_U32", 
+        "description": ""
+    }, 
+    {
+        "source": "L F16", 
+        "text": "L F16", 
+        "id": "L_F16", 
+        "description": ""
+    }, 
+    {
+        "source": "L F32", 
+        "text": "L F32", 
+        "id": "L_F32", 
+        "description": ""
+    }, 
+    {
+        "source": "LA U8", 
+        "text": "\u03a4\u039f U8", 
+        "id": "LA_U8", 
+        "description": ""
+    }, 
+    {
+        "source": "LA U16", 
+        "text": "\u03a4\u039f U16", 
+        "id": "LA_U16", 
+        "description": ""
+    }, 
+    {
+        "source": "LA U32", 
+        "text": "\u03a4\u039f U32", 
+        "id": "LA_U32", 
+        "description": ""
+    }, 
+    {
+        "source": "LA F16", 
+        "text": "\u0397 F16", 
+        "id": "LA_F16", 
+        "description": ""
+    }, 
+    {
+        "source": "LA F32", 
+        "text": "LA F32", 
+        "id": "LA_F32", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB U8", 
+        "text": "RGB U8", 
+        "id": "RGB_U8", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB U10", 
+        "text": "RGB U10", 
+        "id": "RGB_U10", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB U16", 
+        "text": "RGB U16", 
+        "id": "RGB_U16", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB U32", 
+        "text": "RGB U32", 
+        "id": "RGB_U32", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB F16", 
+        "text": "RGB F16", 
+        "id": "RGB_F16", 
+        "description": ""
+    }, 
+    {
+        "source": "RGB F32", 
+        "text": "RGB F32", 
+        "id": "RGB_F32", 
+        "description": ""
+    }, 
+    {
+        "source": "RGBA U8", 
+        "text": "RGBA U8", 
+        "id": "RGBA_U8", 
+        "description": ""
+    }, 
+    {
+        "source": "RGBA U16", 
+        "text": "RGBA U16", 
+        "id": "RGBA_U16", 
+        "description": ""
+    }, 
+    {
+        "source": "RGBA U32", 
+        "text": "RGBA U32", 
+        "id": "RGBA_U32", 
+        "description": ""
+    }, 
+    {
+        "source": "RGBA F16", 
+        "text": "RGBA F16", 
+        "id": "RGBA_F16", 
+        "description": ""
+    }, 
+    {
+        "source": "RGBA F32", 
+        "text": "RGBA F32", 
+        "id": "RGBA_F32", 
+        "description": ""
     }, 
     {
         "source": "L", 
-        "description": "", 
+        "text": "\u03bf", 
         "id": "L", 
-        "text": "\u03bf"
+        "description": ""
     }, 
     {
         "source": "LA", 
-        "description": "", 
+        "text": "LA", 
         "id": "LA", 
-        "text": "LA"
+        "description": ""
     }, 
     {
         "source": "RGB", 
-        "description": "", 
+        "text": "RGB", 
         "id": "RGB", 
-        "text": "RGB"
+        "description": ""
     }, 
     {
         "source": "RGBA", 
-        "description": "", 
+        "text": "RGBA", 
         "id": "RGBA", 
-        "text": "RGBA"
+        "description": ""
     }, 
     {
-        "source": "Timecode", 
-        "description": "", 
-        "id": "Timecode", 
-        "text": "Timecode"
+        "source": "U10", 
+        "text": "U10", 
+        "id": "U10", 
+        "description": ""
     }, 
     {
-        "source": "Frames", 
-        "description": "", 
-        "id": "Frames", 
-        "text": "\u039a\u03bf\u03c1\u03bd\u03af\u03b6\u03b5\u03c2"
+        "source": "U16", 
+        "text": "U16", 
+        "id": "U16", 
+        "description": ""
     }, 
     {
-        "source": "Unknown magic number.", 
-        "description": "", 
-        "id": "Unknown magic number.", 
-        "text": "\u0386\u03b3\u03bd\u03c9\u03c3\u03c4\u03bf\u03c2 \u03bc\u03b1\u03b3\u03b9\u03ba\u03cc\u03c2 \u03b1\u03c1\u03b9\u03b8\u03bc\u03cc\u03c2."
+        "source": "U32", 
+        "text": "U32", 
+        "id": "U32", 
+        "description": ""
     }, 
     {
-        "source": "No image channels.", 
-        "description": "", 
-        "id": "No image channels.", 
-        "text": "\u0394\u03b5\u03bd \u03c5\u03c0\u03ac\u03c1\u03c7\u03bf\u03c5\u03bd \u03ba\u03b1\u03bd\u03ac\u03bb\u03b9\u03b1 \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1\u03c2."
+        "source": "F16", 
+        "text": "F16", 
+        "id": "F16", 
+        "description": ""
     }, 
     {
-        "source": "Image channels must have the same size and bit depth.", 
-        "description": "", 
-        "id": "Image channels must have the same size and bit depth.", 
-        "text": "\u03a4\u03b1 \u03ba\u03b1\u03bd\u03ac\u03bb\u03b9\u03b1 \u03b5\u03b9\u03ba\u03cc\u03bd\u03c9\u03bd \u03c0\u03c1\u03ad\u03c0\u03b5\u03b9 \u03bd\u03b1 \u03ad\u03c7\u03bf\u03c5\u03bd \u03c4\u03bf \u03af\u03b4\u03b9\u03bf \u03bc\u03ad\u03b3\u03b5\u03b8\u03bf\u03c2 \u03ba\u03b1\u03b9 \u03c4\u03bf \u03b2\u03ac\u03b8\u03bf\u03c2 bit."
+        "source": "The shader cannot be created", 
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03c4\u03bf\u03c5 shader", 
+        "id": "The shader cannot be created", 
+        "description": ""
     }, 
     {
-        "source": "Unsupported bit depth.", 
-        "description": "", 
-        "id": "Unsupported bit depth.", 
-        "text": "Unaccepted bit depth."
+        "source": "Cannot create GLFW window.", 
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03c0\u03b1\u03c1\u03b1\u03b8\u03cd\u03c1\u03bf\u03c5 GLFW.", 
+        "id": "Cannot create GLFW window.", 
+        "description": ""
     }, 
     {
-        "source": "Line padding is unsupported.", 
-        "description": "", 
-        "id": "Line padding is unsupported.", 
-        "text": "\u0397 \u03b5\u03c0\u03ad\u03bd\u03b4\u03c5\u03c3\u03b7 \u03b3\u03c1\u03b1\u03bc\u03bc\u03ae\u03c2 \u03b4\u03b5\u03bd \u03c5\u03c0\u03bf\u03c3\u03c4\u03b7\u03c1\u03af\u03b6\u03b5\u03c4\u03b1\u03b9."
-    }, 
-    {
-        "source": "Channel padding is unsupported.", 
-        "description": "", 
-        "id": "Channel padding is unsupported.", 
-        "text": "\u03a4\u03bf \u03ba\u03b1\u03c0\u03ac\u03ba\u03b9 \u03c4\u03bf\u03c5 \u03ba\u03b1\u03bd\u03b1\u03bb\u03b9\u03bf\u03cd \u03b4\u03b5\u03bd \u03c5\u03c0\u03bf\u03c3\u03c4\u03b7\u03c1\u03af\u03b6\u03b5\u03c4\u03b1\u03b9."
-    }, 
-    {
-        "source": "This plugin provides Cineon image I/O.", 
-        "description": "", 
-        "id": "This plugin provides Cineon image I/O.", 
-        "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf \u03c0\u03c1\u03cc\u03c3\u03b8\u03b5\u03c4\u03bf \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1 Cineon I / O."
-    }, 
-    {
-        "source": "Auto", 
-        "description": "", 
-        "id": "Auto", 
-        "text": "\u0391\u03c5\u03c4\u03bf"
-    }, 
-    {
-        "source": "Raw", 
-        "description": "", 
-        "id": "Raw", 
-        "text": "\u0391\u03ba\u03b1\u03c4\u03ad\u03c1\u03b3\u03b1\u03c3\u03c4\u03bf\u03c2"
-    }, 
-    {
-        "source": "FilmPrint", 
-        "description": "", 
-        "id": "FilmPrint", 
-        "text": "\u03c6\u03b9\u03bb\u03bc \u0395\u03ba\u03c4\u03cd\u03c0\u03c9\u03c3\u03b7"
-    }, 
-    {
-        "source": "SourceOffset", 
-        "description": "", 
-        "id": "SourceOffset", 
-        "text": "SourceOffset"
-    }, 
-    {
-        "source": "SourceFile", 
-        "description": "", 
-        "id": "SourceFile", 
-        "text": "SourceFile"
-    }, 
-    {
-        "source": "SourceTime", 
-        "description": "", 
-        "id": "SourceTime", 
-        "text": "SourceTime"
-    }, 
-    {
-        "source": "SourceInputDevice", 
-        "description": "", 
-        "id": "SourceInputDevice", 
-        "text": "SourceInputDevice"
-    }, 
-    {
-        "source": "SourceInputModel", 
-        "description": "", 
-        "id": "SourceInputModel", 
-        "text": "SourceInputModel"
-    }, 
-    {
-        "source": "SourceInputSerial", 
-        "description": "", 
-        "id": "SourceInputSerial", 
-        "text": "SourceInputSerial"
-    }, 
-    {
-        "source": "SourceInputPitch", 
-        "description": "", 
-        "id": "SourceInputPitch", 
-        "text": "SourceInputPitch"
-    }, 
-    {
-        "source": "SourceGamma", 
-        "description": "", 
-        "id": "SourceGamma", 
-        "text": "SourceGamma"
-    }, 
-    {
-        "source": "FilmFormat", 
-        "description": "", 
-        "id": "FilmFormat", 
-        "text": "\u03c6\u03b9\u03bb\u03bc"
-    }, 
-    {
-        "source": "FilmFrame", 
-        "description": "", 
-        "id": "FilmFrame", 
-        "text": "\u03a0\u03bb\u03b1\u03af\u03c3\u03b9\u03bf \u03c4\u03b1\u03b9\u03bd\u03af\u03b1"
-    }, 
-    {
-        "source": "FilmFrameRate", 
-        "description": "", 
-        "id": "FilmFrameRate", 
-        "text": "\u03c4\u03b1\u03b9\u03bd\u03af\u03b1 \u03c4\u03b1\u03c7\u03cd\u03c4\u03b7\u03c4\u03b1 \u03ba\u03b1\u03c1\u03ad"
-    }, 
-    {
-        "source": "FilmFrameID", 
-        "description": "", 
-        "id": "FilmFrameID", 
-        "text": "FilmFrameID"
-    }, 
-    {
-        "source": "FilmSlate", 
-        "description": "", 
-        "id": "FilmSlate", 
-        "text": "FilmSlate"
+        "source": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
+        "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf \u03c0\u03c1\u03cc\u03c3\u03b8\u03b5\u03c4\u03bf \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1 I / O \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1\u03c2 \u03bf\u03bc\u03ac\u03b4\u03b1\u03c2 JPEG (Joint Photographic Experts Group).", 
+        "id": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
+        "description": ""
     }, 
     {
         "source": "This plugin provides OpenEXR file I/O.", 
@@ -936,45 +582,105 @@
         "description": ""
     }, 
     {
-        "source": "The OpenEXR file", 
-        "text": "\u03a4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf OpenEXR", 
-        "id": "The OpenEXR file", 
+        "source": "cannot be read", 
+        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b4\u03b9\u03b1\u03b2\u03b1\u03c3\u03c4\u03b5\u03af", 
+        "id": "cannot be read", 
         "description": ""
     }, 
     {
-        "source": "Unsupported file.", 
-        "text": "\u039c\u03b7 \u03c5\u03c0\u03bf\u03c3\u03c4\u03b7\u03c1\u03b9\u03b6\u03cc\u03bc\u03b5\u03bd\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf.", 
-        "id": "Unsupported file.", 
+        "source": "cannot be written", 
+        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b3\u03c1\u03b1\u03c6\u03c4\u03b5\u03af", 
+        "id": "cannot be written", 
         "description": ""
     }, 
     {
-        "source": "This plugin provides DPX image I/O.", 
-        "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf \u03c0\u03c1\u03cc\u03c3\u03b8\u03b5\u03c4\u03bf \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 I / O \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1 DPX.", 
-        "id": "This plugin provides DPX image I/O.", 
+        "source": "Float", 
+        "text": "\u03a6\u03bb\u03bf\u03c4\u03ad\u03c1", 
+        "id": "Float", 
         "description": ""
     }, 
     {
-        "source": "1.0", 
-        "text": "1.0", 
-        "id": "1.0", 
+        "source": "Double", 
+        "text": "\u0394\u03b9\u03c0\u03bb\u03cc", 
+        "id": "Double", 
         "description": ""
     }, 
     {
-        "source": "2.0", 
-        "text": "2.0", 
-        "id": "2.0", 
+        "source": "U8 Planar", 
+        "text": "U8 Planar", 
+        "id": "U8 Planar", 
         "description": ""
     }, 
     {
-        "source": "MSB", 
-        "text": "MSB", 
-        "id": "MSB", 
+        "source": "S16 Planar", 
+        "text": "S16 Planar", 
+        "id": "S16 Planar", 
         "description": ""
     }, 
     {
-        "source": "LSB", 
-        "text": "LSB", 
-        "id": "LSB", 
+        "source": "S32 Planar", 
+        "text": "S32 Planar", 
+        "id": "S32 Planar", 
+        "description": ""
+    }, 
+    {
+        "source": "Float Planar", 
+        "text": "Float Planar", 
+        "id": "Float Planar", 
+        "description": ""
+    }, 
+    {
+        "source": "Double Planar", 
+        "text": "\u0394\u03b9\u03c0\u03bb\u03cc Planar", 
+        "id": "Double Planar", 
+        "description": ""
+    }, 
+    {
+        "source": "This plugin provides FFmpeg image and audio I/O.", 
+        "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf plugin \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 FFmpeg \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1 \u03ba\u03b1\u03b9 \u03ae\u03c7\u03bf I / O.", 
+        "id": "This plugin provides FFmpeg image and audio I/O.", 
+        "description": ""
+    }, 
+    {
+        "source": "The file cannot be opened.", 
+        "text": "\u03a4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf \u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b1\u03bd\u03bf\u03af\u03be\u03b5\u03b9.", 
+        "id": "The file cannot be opened.", 
+        "description": ""
+    }, 
+    {
+        "source": "No image channels.", 
+        "text": "\u0394\u03b5\u03bd \u03c5\u03c0\u03ac\u03c1\u03c7\u03bf\u03c5\u03bd \u03ba\u03b1\u03bd\u03ac\u03bb\u03b9\u03b1 \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1\u03c2.", 
+        "id": "No image channels.", 
+        "description": ""
+    }, 
+    {
+        "source": "Image channels must have the same size and bit depth.", 
+        "text": "\u03a4\u03b1 \u03ba\u03b1\u03bd\u03ac\u03bb\u03b9\u03b1 \u03b5\u03b9\u03ba\u03cc\u03bd\u03c9\u03bd \u03c0\u03c1\u03ad\u03c0\u03b5\u03b9 \u03bd\u03b1 \u03ad\u03c7\u03bf\u03c5\u03bd \u03c4\u03bf \u03af\u03b4\u03b9\u03bf \u03bc\u03ad\u03b3\u03b5\u03b8\u03bf\u03c2 \u03ba\u03b1\u03b9 \u03c4\u03bf \u03b2\u03ac\u03b8\u03bf\u03c2 bit.", 
+        "id": "Image channels must have the same size and bit depth.", 
+        "description": ""
+    }, 
+    {
+        "source": "Unsupported bit depth.", 
+        "text": "Unaccepted bit depth.", 
+        "id": "Unsupported bit depth.", 
+        "description": ""
+    }, 
+    {
+        "source": "Line padding is unsupported.", 
+        "text": "\u0397 \u03b5\u03c0\u03ad\u03bd\u03b4\u03c5\u03c3\u03b7 \u03b3\u03c1\u03b1\u03bc\u03bc\u03ae\u03c2 \u03b4\u03b5\u03bd \u03c5\u03c0\u03bf\u03c3\u03c4\u03b7\u03c1\u03af\u03b6\u03b5\u03c4\u03b1\u03b9.", 
+        "id": "Line padding is unsupported.", 
+        "description": ""
+    }, 
+    {
+        "source": "Channel padding is unsupported.", 
+        "text": "\u03a4\u03bf \u03ba\u03b1\u03c0\u03ac\u03ba\u03b9 \u03c4\u03bf\u03c5 \u03ba\u03b1\u03bd\u03b1\u03bb\u03b9\u03bf\u03cd \u03b4\u03b5\u03bd \u03c5\u03c0\u03bf\u03c3\u03c4\u03b7\u03c1\u03af\u03b6\u03b5\u03c4\u03b1\u03b9.", 
+        "id": "Channel padding is unsupported.", 
+        "description": ""
+    }, 
+    {
+        "source": "This plugin provides Cineon image I/O.", 
+        "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf \u03c0\u03c1\u03cc\u03c3\u03b8\u03b5\u03c4\u03bf \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1 Cineon I / O.", 
+        "id": "This plugin provides Cineon image I/O.", 
         "description": ""
     }, 
     {
@@ -982,59 +688,5 @@
         "text": "\u03a0\u03c1\u03bf\u03ba\u03b1\u03b8\u03bf\u03c1\u03b9\u03c3\u03bc\u03ad\u03bd\u03bf", 
         "id": "Default", 
         "description": ""
-    }, 
-    {
-        "source": "Bad magic number.", 
-        "text": "\u039a\u03b1\u03ba\u03cc \u03bc\u03b1\u03b3\u03b9\u03ba\u03cc \u03b1\u03c1\u03b9\u03b8\u03bc\u03cc.", 
-        "description": "", 
-        "id": "Bad magic number."
-    }, 
-    {
-        "source": "Incomplete file.", 
-        "text": "\u0391\u03c4\u03b5\u03bb\u03ad\u03c2 \u03b1\u03c1\u03c7\u03b5\u03af\u03bf.", 
-        "description": "", 
-        "id": "Incomplete file."
-    }, 
-    {
-        "source": "Cannot open file.", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03cc \u03bd\u03b1 \u03b1\u03bd\u03bf\u03af\u03be\u03b5\u03b9 \u03c4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf.", 
-        "description": "", 
-        "id": "Cannot open file."
-    }, 
-    {
-        "source": "Error reading scanline.", 
-        "text": "\u03a3\u03c6\u03ac\u03bb\u03bc\u03b1 \u03ba\u03b1\u03c4\u03ac \u03c4\u03b7\u03bd \u03b1\u03bd\u03ac\u03b3\u03bd\u03c9\u03c3\u03b7 \u03c4\u03b7\u03c2 \u03c3\u03ac\u03c1\u03c9\u03c3\u03b7\u03c2.", 
-        "description": "", 
-        "id": "Error reading scanline."
-    }, 
-    {
-        "source": "Unsupported image type.", 
-        "text": "\u039c\u03b7 \u03c5\u03c0\u03bf\u03c3\u03c4\u03b7\u03c1\u03b9\u03b6\u03cc\u03bc\u03b5\u03bd\u03bf\u03c2 \u03c4\u03cd\u03c0\u03bf\u03c2 \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1\u03c2.", 
-        "description": "", 
-        "id": "Unsupported image type."
-    }, 
-    {
-        "source": "The audio format ", 
-        "text": "\u0397 \u03bc\u03bf\u03c1\u03c6\u03ae \u03ae\u03c7\u03bf\u03c5", 
-        "description": "", 
-        "id": "The audio format "
-    }, 
-    {
-        "source": "Unsupported color components.", 
-        "text": "\u039c\u03b7 \u03c5\u03c0\u03bf\u03c3\u03c4\u03b7\u03c1\u03b9\u03b6\u03cc\u03bc\u03b5\u03bd\u03b1 \u03ad\u03b3\u03c7\u03c1\u03c9\u03bc\u03b1 \u03c3\u03c4\u03bf\u03b9\u03c7\u03b5\u03af\u03b1.", 
-        "description": "", 
-        "id": "Unsupported color components."
-    }, 
-    {
-        "source": "Error writing scanline.", 
-        "text": "\u03a3\u03c6\u03ac\u03bb\u03bc\u03b1 \u03c3\u03c4\u03b7 \u03b3\u03c1\u03b1\u03c6\u03ae \u03c4\u03b7\u03c2 \u03b3\u03c1\u03b1\u03bc\u03bc\u03ae\u03c2 \u03c3\u03ac\u03c1\u03c9\u03c3\u03b7\u03c2", 
-        "description": "", 
-        "id": "Error writing scanline."
-    }, 
-    {
-        "source": "The file cannot be opened.", 
-        "text": "\u03a4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf \u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b1\u03bd\u03bf\u03af\u03be\u03b5\u03b9.", 
-        "description": "", 
-        "id": "The file cannot be opened."
     }
 ]

@@ -200,143 +200,8 @@
         "description": ""
     }, 
     {
-        "text": "Open", 
-        "id": "Open", 
-        "description": ""
-    }, 
-    {
-        "text": "Open a new file", 
-        "id": "Open tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Recent", 
-        "id": "Recent", 
-        "description": ""
-    }, 
-    {
-        "text": "Show recently opened files", 
-        "id": "Recent tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Reload", 
-        "id": "Reload", 
-        "description": ""
-    }, 
-    {
-        "text": "Reload the current file", 
-        "id": "Reload tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Close", 
-        "id": "Close", 
-        "description": ""
-    }, 
-    {
-        "text": "Close the current file", 
-        "id": "Close tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Close All", 
-        "id": "Close All", 
-        "description": ""
-    }, 
-    {
-        "text": "Close all open files", 
-        "id": "Close all tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Export", 
-        "id": "Export", 
-        "description": ""
-    }, 
-    {
-        "text": "Export the file", 
-        "id": "Export tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Next", 
-        "id": "Next", 
-        "description": ""
-    }, 
-    {
-        "text": "Go to the next opened file", 
-        "id": "Next tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Previous", 
-        "id": "Previous", 
-        "description": ""
-    }, 
-    {
-        "text": "Go to the previous opened file", 
-        "id": "Prev tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Layers Widget", 
-        "id": "Layers Widget", 
-        "description": ""
-    }, 
-    {
-        "text": "Show the layers widget", 
-        "id": "Layers widget tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Next layer", 
-        "id": "Next layer", 
-        "description": ""
-    }, 
-    {
-        "text": "Go to the next layer", 
-        "id": "Next layer tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Previous Layer", 
-        "id": "Previous Layer", 
-        "description": ""
-    }, 
-    {
-        "text": "Go to the previous layer", 
-        "id": "Previous layer tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "8-Bit Conversion", 
-        "id": "8-Bit Conversion", 
-        "description": ""
-    }, 
-    {
-        "text": "Down convert files to 8-bits to conserve memory", 
-        "id": "8-bit conversion tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Memory Cache", 
-        "id": "Memory Cache", 
-        "description": ""
-    }, 
-    {
-        "text": "Show memory cache options", 
-        "id": "Memory cache tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Exit", 
-        "id": "Exit", 
-        "description": ""
-    }, 
-    {
-        "text": "Exit the application", 
-        "id": "Exit tooltip", 
+        "text": "Sequences", 
+        "id": "Sequences", 
         "description": ""
     }, 
     {
@@ -345,13 +210,13 @@
         "description": ""
     }, 
     {
-        "text": "Sequences", 
-        "id": "Sequences", 
+        "text": "Auto-detect file sequences", 
+        "id": "Auto-detect file sequences", 
         "description": ""
     }, 
     {
-        "text": "Auto-detect file sequences", 
-        "id": "Auto-detect file sequences", 
+        "text": "Memory Cache", 
+        "id": "Memory Cache", 
         "description": ""
     }, 
     {
@@ -610,6 +475,141 @@
         "description": ""
     }, 
     {
+        "text": "Open", 
+        "id": "Open", 
+        "description": ""
+    }, 
+    {
+        "text": "Open a new file", 
+        "id": "Open tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Recent", 
+        "id": "Recent", 
+        "description": ""
+    }, 
+    {
+        "text": "Show recently opened files", 
+        "id": "Recent tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Reload", 
+        "id": "Reload", 
+        "description": ""
+    }, 
+    {
+        "text": "Reload the current file", 
+        "id": "Reload tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Close", 
+        "id": "Close", 
+        "description": ""
+    }, 
+    {
+        "text": "Close the current file", 
+        "id": "Close tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Close All", 
+        "id": "Close All", 
+        "description": ""
+    }, 
+    {
+        "text": "Close all open files", 
+        "id": "Close all tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Export", 
+        "id": "Export", 
+        "description": ""
+    }, 
+    {
+        "text": "Export the file", 
+        "id": "Export tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Next", 
+        "id": "Next", 
+        "description": ""
+    }, 
+    {
+        "text": "Go to the next opened file", 
+        "id": "Next tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Previous", 
+        "id": "Previous", 
+        "description": ""
+    }, 
+    {
+        "text": "Go to the previous opened file", 
+        "id": "Prev tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Layers Widget", 
+        "id": "Layers Widget", 
+        "description": ""
+    }, 
+    {
+        "text": "Show the layers widget", 
+        "id": "Layers widget tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Next layer", 
+        "id": "Next layer", 
+        "description": ""
+    }, 
+    {
+        "text": "Go to the next layer", 
+        "id": "Next layer tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Previous Layer", 
+        "id": "Previous Layer", 
+        "description": ""
+    }, 
+    {
+        "text": "Go to the previous layer", 
+        "id": "Previous layer tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "8-Bit Conversion", 
+        "id": "8-Bit Conversion", 
+        "description": ""
+    }, 
+    {
+        "text": "Down convert files to 8-bits to conserve memory", 
+        "id": "8-bit conversion tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Show memory cache options", 
+        "id": "Memory cache tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Exit", 
+        "id": "Exit", 
+        "description": ""
+    }, 
+    {
+        "text": "Exit the application", 
+        "id": "Exit tooltip", 
+        "description": ""
+    }, 
+    {
         "text": "Aspect Ratio", 
         "id": "Aspect Ratio", 
         "description": ""
@@ -622,6 +622,61 @@
     {
         "text": "Rotate", 
         "id": "Rotate", 
+        "description": ""
+    }, 
+    {
+        "text": "Maximize the window", 
+        "id": "Maximize tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Show the playback speed settings", 
+        "id": "Speed popup tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "The actual playback speed", 
+        "id": "Real speed tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "The current time", 
+        "id": "Current time tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "The playback duration", 
+        "id": "Duration tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Set the audio volume", 
+        "id": "Volume tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Show audio settings", 
+        "id": "Audio popup tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Set the memory cache size in gigabytes", 
+        "id": "Memory cache maximum tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Enable the memory cache", 
+        "id": "Memory cache enabled tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Default", 
+        "id": "Default", 
+        "description": ""
+    }, 
+    {
+        "text": "Play every frame", 
+        "id": "Play every frame", 
         "description": ""
     }, 
     {
@@ -905,8 +960,8 @@
         "description": ""
     }, 
     {
-        "text": "Copyright and License", 
-        "id": "Copyright and License", 
+        "text": "License", 
+        "id": "License", 
         "description": ""
     }, 
     {
@@ -942,6 +997,16 @@
     {
         "text": "Identity, Iconography, UI / UX design", 
         "id": "Credits Kent Oberheu Text", 
+        "description": ""
+    }, 
+    {
+        "text": "Siciliana Johnston", 
+        "id": "Credits Siciliana Johnston", 
+        "description": ""
+    }, 
+    {
+        "text": "Web design", 
+        "id": "Credits Siciliana Johnston Text", 
         "description": ""
     }, 
     {
@@ -1252,11 +1317,6 @@
     {
         "text": "Native", 
         "id": "Native", 
-        "description": ""
-    }, 
-    {
-        "text": "Default", 
-        "id": "Default", 
         "description": ""
     }, 
     {
@@ -1642,56 +1702,6 @@
     {
         "text": "Show the settings", 
         "id": "Settings tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Maximize the window", 
-        "id": "Maximize tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Show the playback speed settings", 
-        "id": "Speed popup tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "The actual playback speed", 
-        "id": "Real speed tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "The current time", 
-        "id": "Current time tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "The playback duration", 
-        "id": "Duration tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Set the audio volume", 
-        "id": "Volume tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Show audio settings", 
-        "id": "Audio popup tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Set the memory cache size in gigabytes", 
-        "id": "Memory cache maximum tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Enable the memory cache", 
-        "id": "Memory cache enabled tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Play every frame", 
-        "id": "Play every frame", 
         "description": ""
     }, 
     {

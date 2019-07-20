@@ -1,44 +1,8 @@
 [
     {
-        "source": "Dark", 
-        "text": "Dunkel", 
-        "id": "Dark", 
-        "description": ""
-    }, 
-    {
-        "source": "Light", 
-        "text": "Licht", 
-        "id": "Light", 
-        "description": ""
-    }, 
-    {
-        "source": "Medium", 
-        "text": "Mittel", 
-        "id": "Medium", 
-        "description": ""
-    }, 
-    {
-        "source": "Small", 
-        "text": "Klein", 
-        "id": "Small", 
-        "description": ""
-    }, 
-    {
-        "source": "Large", 
-        "text": "Gro\u00df", 
-        "id": "Large", 
-        "description": ""
-    }, 
-    {
-        "source": "Extra Large", 
-        "text": "Extra gro\u00df", 
-        "id": "ExtraLarge", 
-        "description": ""
-    }, 
-    {
-        "source": "Default", 
-        "text": "Standard", 
-        "id": "Default", 
+        "source": "Cannot parse the value.", 
+        "text": "Der Wert kann nicht analysiert werden.", 
+        "id": "Cannot parse the value.", 
         "description": ""
     }, 
     {
@@ -156,21 +120,15 @@
         "description": ""
     }, 
     {
-        "source": "Thumbnails Large", 
-        "text": "Miniaturbilder gro\u00df", 
-        "id": "ThumbnailsLarge", 
+        "source": "Tiles", 
+        "text": "Fliesen", 
+        "id": "Tiles", 
         "description": ""
     }, 
     {
-        "source": "Thumbnails Small", 
-        "text": "Miniaturbilder klein", 
-        "id": "ThumbnailsSmall", 
-        "description": ""
-    }, 
-    {
-        "source": "List View", 
-        "text": "Listenansicht", 
-        "id": "ListView", 
+        "source": "List", 
+        "text": "Liste", 
+        "id": "List", 
         "description": ""
     }, 
     {
@@ -180,15 +138,45 @@
         "description": ""
     }, 
     {
+        "source": "Background Header", 
+        "text": "Hintergrund-Header", 
+        "id": "BackgroundHeader", 
+        "description": ""
+    }, 
+    {
+        "source": "Background Bellows", 
+        "text": "Hintergrund-B\u00e4lge", 
+        "id": "BackgroundBellows", 
+        "description": ""
+    }, 
+    {
+        "source": "Background ToolBar", 
+        "text": "Hintergrund-Symbolleiste", 
+        "id": "BackgroundToolBar", 
+        "description": ""
+    }, 
+    {
         "source": "Foreground", 
         "text": "Vordergrund", 
         "id": "Foreground", 
         "description": ""
     }, 
     {
+        "source": "Foreground Dim", 
+        "text": "Vordergrund Abm", 
+        "id": "ForegroundDim", 
+        "description": ""
+    }, 
+    {
         "source": "Border", 
         "text": "Rand", 
         "id": "Border", 
+        "description": ""
+    }, 
+    {
+        "source": "Border Button", 
+        "text": "Border Button", 
+        "id": "BorderButton", 
         "description": ""
     }, 
     {
@@ -222,45 +210,9 @@
         "description": ""
     }, 
     {
-        "source": "Disabled", 
-        "text": "Deaktiviert", 
-        "id": "Disabled", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Background", 
-        "text": "Header-Hintergrund", 
-        "id": "HeaderBackground", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Foreground", 
-        "text": "Header-Vordergrund", 
-        "id": "HeaderForeground", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Hovered", 
-        "text": "Kopfzeile schwebte", 
-        "id": "HeaderHovered", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Pressed", 
-        "text": "Kopfzeile gedr\u00fcckt", 
-        "id": "HeaderPressed", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Checked", 
-        "text": "Header gepr\u00fcft", 
-        "id": "HeaderChecked", 
-        "description": ""
-    }, 
-    {
-        "source": "Header Disabled", 
-        "text": "Header deaktiviert", 
-        "id": "HeaderDisabled", 
+        "source": "Text Focus", 
+        "text": "Text-Fokus", 
+        "id": "TextFocus", 
         "description": ""
     }, 
     {
@@ -282,9 +234,21 @@
         "description": ""
     }, 
     {
+        "source": "Overlay Light", 
+        "text": "\u00dcberlagerungslicht", 
+        "id": "OverlayLight", 
+        "description": ""
+    }, 
+    {
         "source": "Shadow", 
         "text": "Schatten", 
         "id": "Shadow", 
+        "description": ""
+    }, 
+    {
+        "source": "Handle", 
+        "text": "Griff", 
+        "id": "Handle", 
         "description": ""
     }, 
     {
@@ -295,13 +259,13 @@
     }, 
     {
         "source": "Margin Small", 
-        "text": "Marge klein", 
+        "text": "Rand klein", 
         "id": "MarginSmall", 
         "description": ""
     }, 
     {
         "source": "Margin Large", 
-        "text": "Margin gro\u00df", 
+        "text": "Gro\u00dfer Rand", 
         "id": "MarginLarge", 
         "description": ""
     }, 
@@ -342,69 +306,63 @@
         "description": ""
     }, 
     {
-        "source": "Icon Large", 
-        "text": "Symbol gro\u00df", 
-        "id": "IconLarge", 
+        "source": "Icon Small", 
+        "text": "Icon Klein", 
+        "id": "IconSmall", 
         "description": ""
     }, 
     {
         "source": "Font Small", 
-        "text": "Schrift klein", 
+        "text": "Kleine Schrift", 
         "id": "FontSmall", 
         "description": ""
     }, 
     {
         "source": "Font Medium", 
-        "text": "Schriftart Mittel", 
+        "text": "Font Medium", 
         "id": "FontMedium", 
         "description": ""
     }, 
     {
         "source": "Font Large", 
-        "text": "Schrift gro\u00df", 
+        "text": "Gro\u00dfe Schrift", 
         "id": "FontLarge", 
         "description": ""
     }, 
     {
         "source": "Font Header", 
-        "text": "Schriftart-Kopfzeile", 
+        "text": "Schriftkopfzeile", 
         "id": "FontHeader", 
         "description": ""
     }, 
     {
+        "source": "Font Title", 
+        "text": "Schriftarttitel", 
+        "id": "FontTitle", 
+        "description": ""
+    }, 
+    {
         "source": "Swatch", 
-        "text": "Muster", 
+        "text": "Swatch", 
         "id": "Swatch", 
         "description": ""
     }, 
     {
-        "source": "Thumbnail Width Small", 
-        "text": "Miniaturbildbreite klein", 
-        "id": "ThumbnailWidthSmall", 
-        "description": ""
-    }, 
-    {
-        "source": "Thumbnail Height Small", 
-        "text": "Miniaturbildh\u00f6he klein", 
-        "id": "ThumbnailHeightSmall", 
-        "description": ""
-    }, 
-    {
-        "source": "Thumbnail Width Large", 
-        "text": "Breite der Miniaturansicht", 
-        "id": "ThumbnailWidthLarge", 
-        "description": ""
-    }, 
-    {
-        "source": "Thumbnail Height Large", 
-        "text": "Thumbnail-H\u00f6he gro\u00df", 
-        "id": "ThumbnailHeightLarge", 
+        "source": "Slider", 
+        "text": "Schieberegler", 
+        "id": "Slider", 
         "description": ""
     }, 
     {
         "source": "Scroll Area", 
-        "text": "Bereich scrollen", 
+        "text": "Bildlaufbereich", 
         "id": "ScrollArea", 
+        "description": ""
+    }, 
+    {
+        "source": "Menu", 
+        "text": "Speisekarte", 
+        "id": "Menu", 
         "description": ""
     }, 
     {
@@ -414,9 +372,27 @@
         "description": ""
     }, 
     {
+        "source": "Text Column Large", 
+        "text": "Textspalte gro\u00df", 
+        "id": "TextColumnLarge", 
+        "description": ""
+    }, 
+    {
+        "source": "Search Box", 
+        "text": "Suchbox", 
+        "id": "SearchBox", 
+        "description": ""
+    }, 
+    {
         "source": "Dialog", 
         "text": "Dialog", 
         "id": "Dialog", 
+        "description": ""
+    }, 
+    {
+        "source": "Shadow Small", 
+        "text": "Schatten klein", 
+        "id": "ShadowSmall", 
         "description": ""
     }, 
     {
@@ -426,9 +402,57 @@
         "description": ""
     }, 
     {
-        "source": "Handle", 
-        "text": "Griff", 
-        "id": "Handle", 
+        "source": "Move", 
+        "text": "Bewegung", 
+        "id": "Move", 
+        "description": ""
+    }, 
+    {
+        "source": "Dark", 
+        "text": "Dunkel", 
+        "id": "Dark", 
+        "description": ""
+    }, 
+    {
+        "source": "Light", 
+        "text": "Licht", 
+        "id": "Light", 
+        "description": ""
+    }, 
+    {
+        "source": "Medium", 
+        "text": "Mittel", 
+        "id": "Medium", 
+        "description": ""
+    }, 
+    {
+        "source": "Small", 
+        "text": "Klein", 
+        "id": "Small", 
+        "description": ""
+    }, 
+    {
+        "source": "Large", 
+        "text": "Gro\u00df", 
+        "id": "Large", 
+        "description": ""
+    }, 
+    {
+        "source": "Extra Large", 
+        "text": "Extra gro\u00df", 
+        "id": "ExtraLarge", 
+        "description": ""
+    }, 
+    {
+        "source": "Default", 
+        "text": "Standard", 
+        "id": "Default", 
+        "description": ""
+    }, 
+    {
+        "source": "Expand", 
+        "text": "Erweitern", 
+        "id": "Expand", 
         "description": ""
     }, 
     {
@@ -438,33 +462,33 @@
         "description": ""
     }, 
     {
-        "source": "'", 
-        "text": "&#39;", 
-        "id": "'", 
+        "source": "Apostrophe", 
+        "text": "Apostroph", 
+        "id": "Apostrophe", 
         "description": ""
     }, 
     {
-        "source": ",", 
-        "text": ".", 
-        "id": ",", 
+        "source": "Comma", 
+        "text": "Komma", 
+        "id": "Comma", 
         "description": ""
     }, 
     {
-        "source": "-", 
-        "text": "-", 
-        "id": "-", 
+        "source": "Minus", 
+        "text": "Minus", 
+        "id": "Minus", 
         "description": ""
     }, 
     {
-        "source": ".", 
-        "text": ".", 
-        "id": ".", 
+        "source": "Period", 
+        "text": "Zeitraum", 
+        "id": "Period", 
         "description": ""
     }, 
     {
-        "source": "/", 
-        "text": "/", 
-        "id": "/", 
+        "source": "Slash", 
+        "text": "Schr\u00e4gstrich", 
+        "id": "Slash", 
         "description": ""
     }, 
     {
@@ -528,15 +552,15 @@
         "description": ""
     }, 
     {
-        "source": ";", 
-        "text": ";", 
-        "id": ";", 
+        "source": "Semicolon", 
+        "text": "Semikolon", 
+        "id": "Semicolon", 
         "description": ""
     }, 
     {
-        "source": "=", 
-        "text": "=", 
-        "id": "=", 
+        "source": "Equal", 
+        "text": "Gleich", 
+        "id": "Equal", 
         "description": ""
     }, 
     {
@@ -625,7 +649,7 @@
     }, 
     {
         "source": "O", 
-        "text": "O", 
+        "text": "O.", 
         "id": "O", 
         "description": ""
     }, 
@@ -637,7 +661,7 @@
     }, 
     {
         "source": "Q", 
-        "text": "Q", 
+        "text": "Q.", 
         "id": "Q", 
         "description": ""
     }, 
@@ -685,7 +709,7 @@
     }, 
     {
         "source": "Y", 
-        "text": "Y", 
+        "text": "Y.", 
         "id": "Y", 
         "description": ""
     }, 
@@ -696,27 +720,27 @@
         "description": ""
     }, 
     {
-        "source": "[", 
-        "text": "[", 
-        "id": "[", 
+        "source": "Left Bracket", 
+        "text": "Linke Klammer", 
+        "id": "LeftBracket", 
         "description": ""
     }, 
     {
-        "source": "\\\\", 
-        "text": "\\\\", 
-        "id": "\\\\", 
+        "source": "Backslash", 
+        "text": "Backslash", 
+        "id": "Backslash", 
         "description": ""
     }, 
     {
-        "source": "]", 
-        "text": "]", 
-        "id": "]", 
+        "source": "Right Bracket", 
+        "text": "Rechte Klammer", 
+        "id": "RightBracket", 
         "description": ""
     }, 
     {
-        "source": "`", 
-        "text": "`", 
-        "id": "`", 
+        "source": "Grave Accent", 
+        "text": "Ernster Akzent", 
+        "id": "GraveAccent", 
         "description": ""
     }, 
     {
@@ -781,7 +805,7 @@
     }, 
     {
         "source": "Down Arrow", 
-        "text": "Pfeil nach unten", 
+        "text": "Pfeil runter", 
         "id": "DownArrow", 
         "description": ""
     }, 
@@ -793,13 +817,13 @@
     }, 
     {
         "source": "Page Up", 
-        "text": "Bild nach oben", 
+        "text": "Bild auf", 
         "id": "PageUp", 
         "description": ""
     }, 
     {
         "source": "Page Down", 
-        "text": "Seite runter", 
+        "text": "Bild runter", 
         "id": "PageDown", 
         "description": ""
     }, 
@@ -1051,43 +1075,43 @@
     }, 
     {
         "source": "Key Pad Decimal", 
-        "text": "Tastaturbelegung Dezimal", 
+        "text": "Tastatur Dezimal", 
         "id": "KeyPadDecimal", 
         "description": ""
     }, 
     {
         "source": "Key Pad Divide", 
-        "text": "Tastenfeld teilen", 
+        "text": "Tastatur teilen", 
         "id": "KeyPadDivide", 
         "description": ""
     }, 
     {
         "source": "Key Pad Multiply", 
-        "text": "Tastaturblock Multiplizieren", 
+        "text": "Tastatur multiplizieren", 
         "id": "KeyPadMultiply", 
         "description": ""
     }, 
     {
         "source": "Key Pad Substract", 
-        "text": "Tastenfeld subtrahieren", 
+        "text": "Tastaturabzug", 
         "id": "KeyPadSubstract", 
         "description": ""
     }, 
     {
         "source": "Key Pad Add", 
-        "text": "Tastenfeld hinzuf\u00fcgen", 
+        "text": "Tastatur Hinzuf\u00fcgen", 
         "id": "KeyPadAdd", 
         "description": ""
     }, 
     {
         "source": "Key Pad Enter", 
-        "text": "Tastatur Dr\u00fccken Sie die Eingabetaste", 
+        "text": "Tastatur Enter", 
         "id": "KeyPadEnter", 
         "description": ""
     }, 
     {
         "source": "Key Pad Equal", 
-        "text": "Tastaturbelegung gleich", 
+        "text": "Tastatur Gleich", 
         "id": "KeyPadEqual", 
         "description": ""
     }, 
@@ -1105,14 +1129,14 @@
     }, 
     {
         "source": "Left Alt", 
-        "text": "Left Alt", 
+        "text": "Linke Alt", 
         "id": "LeftAlt", 
         "description": ""
     }, 
     {
-        "source": "Left Super", 
-        "text": "Links Super", 
-        "id": "LeftSuper", 
+        "source": "Left Command", 
+        "text": "Linker Befehl", 
+        "id": "LeftCommand", 
         "description": ""
     }, 
     {
@@ -1123,26 +1147,20 @@
     }, 
     {
         "source": "Right Control", 
-        "text": "Rechte Steuerung", 
+        "text": "Rechte Kontrolle", 
         "id": "RightControl", 
         "description": ""
     }, 
     {
         "source": "Right Alt", 
-        "text": "Rechts Alt", 
+        "text": "Richtige Alt", 
         "id": "RightAlt", 
         "description": ""
     }, 
     {
-        "source": "Right Super", 
-        "text": "Richtig super", 
-        "id": "RightSuper", 
-        "description": ""
-    }, 
-    {
-        "source": "Menu", 
-        "text": "Speisekarte", 
-        "id": "Menu", 
+        "source": "Right Command", 
+        "text": "Rechter Befehl", 
+        "id": "RightCommand", 
         "description": ""
     }, 
     {
@@ -1153,7 +1171,7 @@
     }, 
     {
         "source": "Ctrl", 
-        "text": "Ctrl", 
+        "text": "Strg", 
         "id": "Ctrl", 
         "description": ""
     }, 
@@ -1164,225 +1182,9 @@
         "description": ""
     }, 
     {
-        "source": "Super", 
-        "text": "Super", 
-        "id": "Super", 
-        "description": ""
-    }, 
-    {
-        "source": "Cannot read settings", 
-        "text": "Einstellungen k\u00f6nnen nicht gelesen werden", 
-        "id": "Cannot read settings", 
-        "description": ""
-    }, 
-    {
-        "source": "Cannot write settings", 
-        "text": "Einstellungen k\u00f6nnen nicht geschrieben werden", 
-        "id": "Cannot write settings", 
-        "description": ""
-    }, 
-    {
-        "source": "Expand", 
-        "text": "Erweitern", 
-        "id": "Expand", 
-        "description": ""
-    }, 
-    {
-        "source": "Cannot parse value.", 
-        "text": "Wert kann nicht analysiert werden", 
-        "id": "Cannot parse value.", 
-        "description": ""
-    }, 
-    {
-        "id": "Cannot parse the value.", 
-        "source": "Cannot parse the value.", 
-        "description": "", 
-        "text": "Der Wert kann nicht analysiert werden."
-    }, 
-    {
-        "id": "IconSmall", 
-        "source": "Icon Small", 
-        "description": "", 
-        "text": "Symbol klein"
-    }, 
-    {
-        "id": "Apostrophe", 
-        "source": "Apostrophe", 
-        "description": "", 
-        "text": "Apostroph"
-    }, 
-    {
-        "id": "Comma", 
-        "source": "Comma", 
-        "description": "", 
-        "text": "Komma"
-    }, 
-    {
-        "id": "Minus", 
-        "source": "Minus", 
-        "description": "", 
-        "text": "Minus"
-    }, 
-    {
-        "id": "Period", 
-        "source": "Period", 
-        "description": "", 
-        "text": "Zeitraum"
-    }, 
-    {
-        "id": "Slash", 
-        "source": "Slash", 
-        "description": "", 
-        "text": "Schr\u00e4gstrich"
-    }, 
-    {
-        "id": "Semicolon", 
-        "source": "Semicolon", 
-        "description": "", 
-        "text": "Semikolon"
-    }, 
-    {
-        "id": "Equal", 
-        "source": "Equal", 
-        "description": "", 
-        "text": "Gleich"
-    }, 
-    {
-        "id": "LeftBracket", 
-        "source": "Left Bracket", 
-        "description": "", 
-        "text": "Linke Klammer"
-    }, 
-    {
-        "id": "Backslash", 
-        "source": "Backslash", 
-        "description": "", 
-        "text": "Backslash"
-    }, 
-    {
-        "id": "RightBracket", 
-        "source": "Right Bracket", 
-        "description": "", 
-        "text": "Rechte Klammer"
-    }, 
-    {
-        "id": "GraveAccent", 
-        "source": "Grave Accent", 
-        "description": "", 
-        "text": "Ernster Akzent"
-    }, 
-    {
-        "id": "Tiles", 
-        "source": "Tiles", 
-        "description": "", 
-        "text": "Fliesen"
-    }, 
-    {
-        "id": "List", 
-        "source": "List", 
-        "description": "", 
-        "text": "Liste"
-    }, 
-    {
-        "source": "Header", 
-        "text": "Header", 
-        "id": "Header", 
-        "description": ""
-    }, 
-    {
-        "source": "Font Title", 
-        "text": "Schriftarttitel", 
-        "id": "FontTitle", 
-        "description": ""
-    }, 
-    {
-        "source": "Slider", 
-        "text": "Schieberegler", 
-        "id": "Slider", 
-        "description": ""
-    }, 
-    {
-        "source": "Left Command", 
-        "text": "Linker Befehl", 
-        "id": "LeftCommand", 
-        "description": ""
-    }, 
-    {
-        "source": "Right Command", 
-        "text": "Rechter Befehl", 
-        "id": "RightCommand", 
-        "description": ""
-    }, 
-    {
         "source": "Command", 
         "text": "Befehl", 
         "id": "Command", 
-        "description": ""
-    }, 
-    {
-        "source": "Background Bellows", 
-        "text": "Hintergrund-B\u00e4lge", 
-        "id": "BackgroundBellows", 
-        "description": ""
-    }, 
-    {
-        "source": "Background Header", 
-        "text": "Hintergrund-Header", 
-        "id": "BackgroundHeader", 
-        "description": ""
-    }, 
-    {
-        "source": "Background ToolBar", 
-        "text": "Hintergrund-Symbolleiste", 
-        "id": "BackgroundToolBar", 
-        "description": ""
-    }, 
-    {
-        "source": "Foreground Dim", 
-        "text": "Vordergrund Abm", 
-        "id": "ForegroundDim", 
-        "description": ""
-    }, 
-    {
-        "source": "Search Box", 
-        "text": "Suchbox", 
-        "id": "SearchBox", 
-        "description": ""
-    }, 
-    {
-        "id": "ShadowSmall", 
-        "source": "Shadow Small", 
-        "description": "", 
-        "text": "Schatten klein"
-    }, 
-    {
-        "id": "Move", 
-        "source": "Move", 
-        "description": "", 
-        "text": "Bewegung"
-    }, 
-    {
-        "source": "Border Button", 
-        "text": "Border Button", 
-        "id": "BorderButton", 
-        "description": ""
-    }, 
-    {
-        "source": "Text Focus", 
-        "text": "Text-Fokus", 
-        "id": "TextFocus", 
-        "description": ""
-    }, 
-    {
-        "source": "Overlay Light", 
-        "text": "\u00dcberlagerungslicht", 
-        "id": "OverlayLight", 
-        "description": ""
-    }, 
-    {
-        "source": "Text Column Large", 
-        "text": "Textspalte gro\u00df", 
-        "id": "TextColumnLarge", 
         "description": ""
     }
 ]

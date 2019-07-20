@@ -15,6 +15,31 @@
         "description": ""
     }, 
     {
+        "text": "Color Space", 
+        "id": "Color Space", 
+        "description": ""
+    }, 
+    {
+        "text": "General", 
+        "id": "General", 
+        "description": ""
+    }, 
+    {
+        "text": "Input", 
+        "id": "Input", 
+        "description": ""
+    }, 
+    {
+        "text": "Display", 
+        "id": "Display", 
+        "description": ""
+    }, 
+    {
+        "text": "View", 
+        "id": "View", 
+        "description": ""
+    }, 
+    {
         "text": "DPX", 
         "id": "DPX", 
         "description": ""
@@ -27,6 +52,76 @@
     {
         "text": "File compression", 
         "id": "File compression", 
+        "description": ""
+    }, 
+    {
+        "text": "The file", 
+        "id": "The file", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot be read", 
+        "id": "cannot be read", 
+        "description": ""
+    }, 
+    {
+        "text": "Size", 
+        "id": "Size", 
+        "description": ""
+    }, 
+    {
+        "text": "Last modification time", 
+        "id": "Last modification time", 
+        "description": ""
+    }, 
+    {
+        "text": "Video track", 
+        "id": "Video track", 
+        "description": ""
+    }, 
+    {
+        "text": "Name", 
+        "id": "Name", 
+        "description": ""
+    }, 
+    {
+        "text": "Type", 
+        "id": "Type", 
+        "description": ""
+    }, 
+    {
+        "text": "Speed", 
+        "id": "Speed", 
+        "description": ""
+    }, 
+    {
+        "text": "FPS", 
+        "id": "FPS", 
+        "description": ""
+    }, 
+    {
+        "text": "Duration", 
+        "id": "Duration", 
+        "description": ""
+    }, 
+    {
+        "text": "Audio track", 
+        "id": "Audio track", 
+        "description": ""
+    }, 
+    {
+        "text": "Channels", 
+        "id": "Channels", 
+        "description": ""
+    }, 
+    {
+        "text": "Sample rate", 
+        "id": "Sample rate", 
+        "description": ""
+    }, 
+    {
+        "text": "kHz", 
+        "id": "kHz", 
         "description": ""
     }, 
     {
@@ -70,11 +165,6 @@
         "description": ""
     }, 
     {
-        "text": "General", 
-        "id": "General", 
-        "description": ""
-    }, 
-    {
         "text": "Units", 
         "id": "Units", 
         "description": ""
@@ -87,16 +177,6 @@
     {
         "text": "Enable tooltips", 
         "id": "Enable tooltips", 
-        "description": ""
-    }, 
-    {
-        "text": "Add the current directory to the list sof shortcuts", 
-        "id": "Add shortcut tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Edit the list of shortcuts", 
-        "id": "Edit shortcuts tooltip", 
         "description": ""
     }, 
     {
@@ -190,28 +270,13 @@
         "description": ""
     }, 
     {
-        "text": "Close", 
-        "id": "Close", 
+        "text": "Add the current directory to the list sof shortcuts", 
+        "id": "Add shortcut tooltip", 
         "description": ""
     }, 
     {
-        "text": "Color Space", 
-        "id": "Color Space", 
-        "description": ""
-    }, 
-    {
-        "text": "Default", 
-        "id": "Default", 
-        "description": ""
-    }, 
-    {
-        "text": "Display", 
-        "id": "Display", 
-        "description": ""
-    }, 
-    {
-        "text": "View", 
-        "id": "View", 
+        "text": "Edit the list of shortcuts", 
+        "id": "Edit shortcuts tooltip", 
         "description": ""
     }, 
     {
@@ -407,76 +472,6 @@
     {
         "text": "File Browser", 
         "id": "File Browser", 
-        "description": ""
-    }, 
-    {
-        "text": "The file", 
-        "id": "The file", 
-        "description": ""
-    }, 
-    {
-        "text": "cannot be read", 
-        "id": "cannot be read", 
-        "description": ""
-    }, 
-    {
-        "text": "Size", 
-        "id": "Size", 
-        "description": ""
-    }, 
-    {
-        "text": "Last modification time", 
-        "id": "Last modification time", 
-        "description": ""
-    }, 
-    {
-        "text": "Video track", 
-        "id": "Video track", 
-        "description": ""
-    }, 
-    {
-        "text": "Name", 
-        "id": "Name", 
-        "description": ""
-    }, 
-    {
-        "text": "Type", 
-        "id": "Type", 
-        "description": ""
-    }, 
-    {
-        "text": "Speed", 
-        "id": "Speed", 
-        "description": ""
-    }, 
-    {
-        "text": "FPS", 
-        "id": "FPS", 
-        "description": ""
-    }, 
-    {
-        "text": "Duration", 
-        "id": "Duration", 
-        "description": ""
-    }, 
-    {
-        "text": "Audio track", 
-        "id": "Audio track", 
-        "description": ""
-    }, 
-    {
-        "text": "Channels", 
-        "id": "Channels", 
-        "description": ""
-    }, 
-    {
-        "text": "Sample rate", 
-        "id": "Sample rate", 
-        "description": ""
-    }, 
-    {
-        "text": "kHz", 
-        "id": "kHz", 
         "description": ""
     }, 
     {
