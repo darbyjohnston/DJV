@@ -53,11 +53,11 @@ namespace djv
 
                 static std::shared_ptr<ColorSpace> create(Core::Context *);
 
-                std::shared_ptr<Core::IValueSubject<std::string> > observeDefaultColorSpace() const;
+                std::shared_ptr<Core::IValueSubject<std::string> > observeInputColorSpace() const;
                 std::shared_ptr<Core::IValueSubject<std::string> > observeDisplay() const;
                 std::shared_ptr<Core::IValueSubject<std::string> > observeView() const;
                 std::shared_ptr<Core::IValueSubject<std::string> > observeOutputColorSpace() const;
-                void setDefaultColorSpace(const std::string&);
+                void setInputColorSpace(const std::string&);
                 void setDisplay(const std::string&);
                 void setView(const std::string&);
 

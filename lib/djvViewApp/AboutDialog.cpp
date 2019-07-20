@@ -61,8 +61,8 @@ namespace djv
 
             p.headers["Credits"] = UI::Label::create(context);
             p.headers["Sponsors"] = UI::Label::create(context);
+            p.headers["License"] = UI::Label::create(context);
             p.headers["Copyright"] = UI::Label::create(context);
-            p.headers["Contributors"] = UI::Label::create(context);
             p.headers["ThirdParty"] = UI::Label::create(context);
             p.headers["Trademarks"] = UI::Label::create(context);
             for (auto& i : p.headers)
@@ -80,18 +80,21 @@ namespace djv
             p.textBlocks["Credits3"] = UI::TextBlock::create(context);
             p.textBlocks["Credits3"]->setTextSizeRole(UI::MetricsRole::TextColumnLarge);
             p.textBlocks["Credits3Text"] = UI::TextBlock::create(context);
+            p.textBlocks["Credits4"] = UI::TextBlock::create(context);
+            p.textBlocks["Credits4"]->setTextSizeRole(UI::MetricsRole::TextColumnLarge);
+            p.textBlocks["Credits4Text"] = UI::TextBlock::create(context);
             p.textBlocks["Sponsors1"] = UI::TextBlock::create(context);
             p.textBlocks["Sponsors1"]->setTextSizeRole(UI::MetricsRole::TextColumnLarge);
-            p.textBlocks["Copyright"] = UI::TextBlock::create(context);
             p.textBlocks["License1"] = UI::TextBlock::create(context);
             p.textBlocks["License2"] = UI::TextBlock::create(context);
             p.textBlocks["License3"] = UI::TextBlock::create(context);
             p.textBlocks["License4"] = UI::TextBlock::create(context);
             p.textBlocks["License5"] = UI::TextBlock::create(context);
-            p.textBlocks["Contributors1"] = UI::TextBlock::create(context);
-            p.textBlocks["Contributors2"] = UI::TextBlock::create(context);
-            p.textBlocks["Contributors3"] = UI::TextBlock::create(context);
-            p.textBlocks["Contributors4"] = UI::TextBlock::create(context);
+            p.textBlocks["License6"] = UI::TextBlock::create(context);
+            p.textBlocks["Copyright1"] = UI::TextBlock::create(context);
+            p.textBlocks["Copyright2"] = UI::TextBlock::create(context);
+            p.textBlocks["Copyright3"] = UI::TextBlock::create(context);
+            p.textBlocks["Copyright4"] = UI::TextBlock::create(context);
             p.textBlocks["ThirdParty1"] = UI::TextBlock::create(context);
             p.textBlocks["ThirdParty2"] = UI::TextBlock::create(context);
             p.textBlocks["ThirdParty3"] = UI::TextBlock::create(context);
@@ -157,6 +160,10 @@ namespace djv
             gridLayout->setGridPos(p.textBlocks["Credits3"], glm::ivec2(0, 2));
             gridLayout->addChild(p.textBlocks["Credits3Text"]);
             gridLayout->setGridPos(p.textBlocks["Credits3Text"], glm::ivec2(1, 2));
+            gridLayout->addChild(p.textBlocks["Credits4"]);
+            gridLayout->setGridPos(p.textBlocks["Credits4"], glm::ivec2(0, 3));
+            gridLayout->addChild(p.textBlocks["Credits4Text"]);
+            gridLayout->setGridPos(p.textBlocks["Credits4Text"], glm::ivec2(1, 3));
             vLayout->addChild(gridLayout);
             textLayout->addChild(vLayout);
 
@@ -170,28 +177,28 @@ namespace djv
             textLayout->addChild(vLayout);
 
             vLayout = UI::VerticalLayout::create(context);
-            vLayout->addChild(p.headers["Copyright"]);
+            vLayout->addChild(p.headers["License"]);
             vLayout->addSeparator();
-            vLayout->addChild(p.textBlocks["Copyright"]);
             vLayout->addChild(p.textBlocks["License1"]);
+            vLayout->addChild(p.textBlocks["License2"]);
             auto vLayout2 = UI::VerticalLayout::create(context);
             vLayout2->setSpacing(UI::MetricsRole::None);
-            vLayout2->addChild(p.textBlocks["License2"]);
             vLayout2->addChild(p.textBlocks["License3"]);
             vLayout2->addChild(p.textBlocks["License4"]);
+            vLayout2->addChild(p.textBlocks["License5"]);
             vLayout->addChild(vLayout2);
-            vLayout->addChild(p.textBlocks["License5"]);
+            vLayout->addChild(p.textBlocks["License6"]);
             textLayout->addChild(vLayout);
             
             vLayout = UI::VerticalLayout::create(context);
-            vLayout->addChild(p.headers["Contributors"]);
+            vLayout->addChild(p.headers["Copyright"]);
             vLayout->addSeparator();
-            vLayout->addChild(p.textBlocks["Contributors1"]);
+            vLayout->addChild(p.textBlocks["Copyright1"]);
             vLayout2 = UI::VerticalLayout::create(context);
             vLayout2->setSpacing(UI::MetricsRole::None);
-            vLayout2->addChild(p.textBlocks["Contributors2"]);
-            vLayout2->addChild(p.textBlocks["Contributors3"]);
-            vLayout2->addChild(p.textBlocks["Contributors4"]);
+            vLayout2->addChild(p.textBlocks["Copyright2"]);
+            vLayout2->addChild(p.textBlocks["Copyright3"]);
+            vLayout2->addChild(p.textBlocks["Copyright4"]);
             vLayout->addChild(vLayout2);
             textLayout->addChild(vLayout);
             
@@ -293,8 +300,8 @@ namespace djv
 
             p.headers["Credits"]->setText(_getText(DJV_TEXT("Credits")));
             p.headers["Sponsors"]->setText(_getText(DJV_TEXT("Sponsors")));
-            p.headers["Copyright"]->setText(_getText(DJV_TEXT("Copyright and License")));
-            p.headers["Contributors"]->setText(_getText(DJV_TEXT("Contributors")));
+            p.headers["License"]->setText(_getText(DJV_TEXT("License")));
+            p.headers["Copyright"]->setText(_getText(DJV_TEXT("Copyright")));
             p.headers["ThirdParty"]->setText(_getText(DJV_TEXT("Third Party")));
             p.headers["Trademarks"]->setText(_getText(DJV_TEXT("Trademarks")));
 
@@ -302,19 +309,21 @@ namespace djv
             p.textBlocks["Credits1Text"]->setText(_getText(DJV_TEXT("Credits Darby Johnston Text")));
             p.textBlocks["Credits2"]->setText(_getText(DJV_TEXT("Credits Kent Oberheu")));
             p.textBlocks["Credits2Text"]->setText(_getText(DJV_TEXT("Credits Kent Oberheu Text")));
-            p.textBlocks["Credits3"]->setText(_getText(DJV_TEXT("Credits Mikael Sundell")));
-            p.textBlocks["Credits3Text"]->setText(_getText(DJV_TEXT("Credits Mikael Sundell Text")));
+            p.textBlocks["Credits3"]->setText(_getText(DJV_TEXT("Credits Siciliana Johnston")));
+            p.textBlocks["Credits3Text"]->setText(_getText(DJV_TEXT("Credits Siciliana Johnston Text")));
+            p.textBlocks["Credits4"]->setText(_getText(DJV_TEXT("Credits Mikael Sundell")));
+            p.textBlocks["Credits4Text"]->setText(_getText(DJV_TEXT("Credits Mikael Sundell Text")));
             p.textBlocks["Sponsors1"]->setText(_getText(DJV_TEXT("Sponsors unexpected")));
-            p.textBlocks["Copyright"]->setText(_getText(DJV_TEXT("Copyright")));
             p.textBlocks["License1"]->setText(_getText(DJV_TEXT("License 1")));
             p.textBlocks["License2"]->setText(_getText(DJV_TEXT("License 2")));
             p.textBlocks["License3"]->setText(_getText(DJV_TEXT("License 3")));
             p.textBlocks["License4"]->setText(_getText(DJV_TEXT("License 4")));
             p.textBlocks["License5"]->setText(_getText(DJV_TEXT("License 5")));
-            p.textBlocks["Contributors1"]->setText(_getText(DJV_TEXT("Contributors Text")));
-            p.textBlocks["Contributors2"]->setText(_getText(DJV_TEXT("Contributors Darby Johnston")));
-            p.textBlocks["Contributors3"]->setText(_getText(DJV_TEXT("Contributors Kent Oberheu")));
-            p.textBlocks["Contributors4"]->setText(_getText(DJV_TEXT("Contributors Mikael Sundell")));
+            p.textBlocks["License6"]->setText(_getText(DJV_TEXT("License 6")));
+            p.textBlocks["Copyright1"]->setText(_getText(DJV_TEXT("Copyright Text")));
+            p.textBlocks["Copyright2"]->setText(_getText(DJV_TEXT("Copyright Darby Johnston")));
+            p.textBlocks["Copyright3"]->setText(_getText(DJV_TEXT("Copyright Kent Oberheu")));
+            p.textBlocks["Copyright4"]->setText(_getText(DJV_TEXT("Copyright Mikael Sundell")));
             p.textBlocks["ThirdParty1"]->setText(_getText(DJV_TEXT("Third Party Text")));
             p.textBlocks["ThirdParty2"]->setText(_getText(DJV_TEXT("Third Party CMake")));
             p.textBlocks["ThirdParty4"]->setText(_getText(DJV_TEXT("Third Party FFMpeg")));

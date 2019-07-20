@@ -72,7 +72,7 @@ namespace djv
 
             auto settingsSystem = context->getSystemT<Settings::System>();
             auto colorSpaceSettings = settingsSystem->getSettingsT<Settings::ColorSpace>();
-            p.colorSpace->setIfChanged(colorSpaceSettings->observeDefaultColorSpace()->get());
+            p.colorSpace->setIfChanged(colorSpaceSettings->observeInputColorSpace()->get());
             p.display->setIfChanged(colorSpaceSettings->observeDisplay()->get());
             p.view->setIfChanged(colorSpaceSettings->observeView()->get());
             p.outputColorSpace->setIfChanged(colorSpaceSettings->observeOutputColorSpace()->get());

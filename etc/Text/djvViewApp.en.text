@@ -910,8 +910,8 @@
         "description": ""
     }, 
     {
-        "text": "Contributors", 
-        "id": "Contributors", 
+        "text": "Copyright", 
+        "id": "Copyright", 
         "description": ""
     }, 
     {
@@ -961,52 +961,52 @@
     }, 
     {
         "text": "Copyright (c) 2004-2019 Darby Johnston, All rights reserved", 
-        "id": "Copyright", 
-        "description": ""
-    }, 
-    {
-        "text": "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:", 
         "id": "License 1", 
         "description": ""
     }, 
     {
-        "text": "* Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.", 
+        "text": "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:", 
         "id": "License 2", 
         "description": ""
     }, 
     {
-        "text": "* Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution.", 
+        "text": "* Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.", 
         "id": "License 3", 
         "description": ""
     }, 
     {
-        "text": "* Neither the names of the copyright holders nor the names of any contributors may be used to endorse or promote products derived from this software without specific prior written permission.", 
+        "text": "* Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution.", 
         "id": "License 4", 
         "description": ""
     }, 
     {
-        "text": "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.", 
+        "text": "* Neither the names of the copyright holders nor the names of any contributors may be used to endorse or promote products derived from this software without specific prior written permission.", 
         "id": "License 5", 
         "description": ""
     }, 
     {
+        "text": "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.", 
+        "id": "License 6", 
+        "description": ""
+    }, 
+    {
         "text": "Portions of this software are copyright (in alphabetical order):", 
-        "id": "Contributors Text", 
+        "id": "Copyright Text", 
         "description": ""
     }, 
     {
         "text": "* Copyright (c) 2004-2019 Darby Johnston, All rights reserved", 
-        "id": "Contributors Darby Johnston", 
+        "id": "Copyright Darby Johnston", 
         "description": ""
     }, 
     {
         "text": "* Copyright (c) 2019 Kent Oberheu, All rights reserved", 
-        "id": "Contributors Kent Oberheu", 
+        "id": "Copyright Kent Oberheu", 
         "description": ""
     }, 
     {
         "text": "* Copyright (c) 2008-2009 Mikael Sundell, All rights reserved", 
-        "id": "Contributors Mikael Sundell", 
+        "id": "Copyright Mikael Sundell", 
         "description": ""
     }, 
     {

@@ -1,0 +1,49 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="Style.css">
+<title>DJV</title>
+</head>
+<body>
+
+<div class="header">
+<div class="row">
+	<div><img src="images/djv-logo-small.png" align="left"></div>
+</div>
+</div>
+
+<div class="content">
+	
+	<div class="textSmall"><a class="text" href="index.html">Home</a> | <a class="text" href="Documentation.html">Documentation</a> | Color spaces</div>
+	
+	<div class="column" style="margin: 2em 0 0 0">
+		<div class="textLarge">OpenColorIO</div>
+		<div class="textSmall" style="margin: 1em 0 0 0">DJV uses the
+		<a class="text" href="http://github.com/imageworks/OpenColorIO/archive">OpenColorIO</a>
+		library for color space management. See the OpenColorIO documentation for how to setup your
+		configuration.</div>
+	</div>
+
+	<div class="column" style="margin: 2em 0 0 0">
+		<div class="textLarge">Color Space Settings</div>
+		<div class="textSmall" style="margin: 1em 0 0 0">You can set the default color spaces
+		in the settings dialog. You can set the input color space, the display color space,
+		and the view color space.</div>
+		<img src="images/ColorSpaceSettings1.png" width="100%">
+		<div class="textSmall" style="margin: 1em 0 0 0">You can also set the input color space
+		per file type; if you do this make sure the input color space in the "General" settings
+		is left blank.</div>
+		<img src="images/ColorSpaceSettings2.png" width="100%">
+		<div class="textSmall" style="margin: 1em 0 0 0">You can also interactively set the
+		color space settings per file using the "Color Space" widget available from the menu
+		item "Image/Color Space Widget". Using this widget will overide the global color space
+		settings for the current file.</div>
+		<img src="images/ColorSpaceWidget.png" width="100%">
+	</div>
+		
+</div>
+
+<div class="footer" style="margin: 1em 0 0 0">
+Copyright (c) 2004-2019 Darby Johnston
+</div>
+
+</body>

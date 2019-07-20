@@ -1,119 +1,89 @@
-<!-- ---------------------------------------------------------------------------
-  Copyright (c) 2004-2019 Darby Johnston
-  All rights reserved.
-  
-  Redistribution and use in source and binary forms, with or without
-  modification, are permitted provided that the following conditions are met:
-  
-  * Redistributions of source code must retain the above copyright notice,
-    this list of conditions, and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions, and the following disclaimer in the documentation
-    and/or other materials provided with the distribution.
-  * Neither the names of the copyright holders nor the names of any
-    contributors may be used to endorse or promote products derived from this
-    software without specific prior written permission.
-  
-  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
-  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-  SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-  POSSIBILITY OF SUCH DAMAGE.
----------------------------------------------------------------------------- -->
-
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="Style.css">
-<title>DJV Imaging</title>
+<title>DJV</title>
 </head>
 <body>
 
 <div class="header">
-<img class="header" src="images/logo-filmreel.png">DJV Imaging
+<div class="row">
+	<div><img src="images/djv-logo-small.png" align="left"></div>
 </div>
+</div>
+
 <div class="content">
 
-<div class="nav">
-<a href="index.html">Home</a> |
-<a href="Documentation.html">Documentation</a> |
-Building on Windows
-<ul>
-    <li><a href="#Requirements">Requirements</a></li>
-    <li><a href="#ThirdParty">Third Party Libraries</a></li>
-    <li><a href="#Build">Building the Source Code</a></li>
-</ul>
-</div>
+	<div class="textSmall"><a class="text" href="index.html">Home</a> | <a class="text" href="Documentation.html">Documentation</a> | Building on Windows</div>
 
-<h2 class="header"><a name="Requirements">Requirements</a></h2>
-<div class="block">
-<p>Build tools:</p>
-<ul>
-    <li><a href="https://visualstudio.microsoft.com">Visual Studio</a></li>
-    <li><a href="https://cmake.org">CMake 3.12</a></li>
-    <li><a href="https://git-scm.com">git</a></li>
-</ul>
-<p>Libraries:</p>
-<ul>
-    <li><a href="https://www.opengl.org">OpenGL 3.3</a></li>
-    <li><a href="https://glm.g-truc.net/0.9.9/index.html">GLM 0.9.9</a></li>
-    <li><a href="http://www.openexr.com/downloads.html">IlmBase 2.3</a></li>
-</ul>
-<p>Optional libraries:</p>
-<ul>
-    <li><a href="https://www.ijg.org">libjpeg v9b</a></li>
-    <li><a href="http://www.libpng.org/pub/png/libpng.html">libpng 1.6</a></li>
-    <li><a href="http://download.osgeo.org/libtiff">libtiff 4.0</a></li>
-    <li><a href="http://www.openexr.com/downloads.html">OpenEXR 2.3</a></li>
-    <li><a href="https://www.ffmpeg.org">FFmpeg 4.0</a></li>
-</ul>
-</div>
+	<div class="column" style="margin: 2em 0 0 0">
+		<div class="textLarge">Requirements</div>		
+		<div class="textSmall" style="margin: 1em 0 0 0">Build tools:</div>
+		<div class="textSmall">
+		<ul>
+			<li><a class="text" href="https://visualstudio.microsoft.com">Visual Studio 2017 or 2019</a></li>
+			<li><a class="text" href="https://cmake.org">CMake 3.12</a></li>
+			<li><a class="text" href="https://git-scm.com">git</a></li>
+		</ul>
+		</div>
+		<div class="textSmall">Libraries:</div>
+		<div class="textSmall">
+		<ul>
+			<li><a class="text" href="http://glm.g-truc.net/0.9.9/index.html">GLM 0.9.9</a></li>
+			<li><a class="text" href="http://www.openexr.com/downloads.html">IlmBase 2.3</a></li>
+			<li><a class="text" href="http://github.com/imageworks/OpenColorIO/archive">OpenColorIO 1.1.1</a></li>
+			<li><a class="text" href="http://www.opengl.org">OpenGL 3.3</a></li>
+		</ul>
+		</div>
+		<div class="textSmall">Optional libraries:</div>
+		<div class="textSmall">
+		<ul>
+			<li><a class="text" href="http://www.ffmpeg.org">FFmpeg 4.1.3</a></li>
+			<li><a class="text" href="http://www.openexr.com/downloads.html">OpenEXR 2.3</a></li>
+			<li><a class="text" href="http://libjpeg-turbo.org">libjpeg-turbo 2.0</a></li>
+			<li><a class="text" href="http://www.libpng.org/pub/png/libpng.html">libpng 1.6</a></li>
+			<li><a class="text" href="http://download.osgeo.org/libtiff">libtiff 4.0</a></li>
+		</ul>
+		</div>
+	</div>
 
-<h2 class="header"><a name="ThirdParty">Third Party Libraries</a></h2>
-<div class="block">
-<p>First choose a working directory for building the source code. In the
-following steps we will refer to this directory as $BUILD_DIR.</p>
-<p>Open a command prompt and clone the third party repository:</p>
-<pre>
-> git clone git://git.code.sf.net/p/djv/git-third-party djv-git-third-party
-</pre>
-<p>This repository contains the third party libraries DJV depends on, as well
-as minor modifications necessary for building on the various platforms that DJV
-supports.</p>
-<p>Create a new directory for building the third party software and run CMake:</p>
-<pre>
+	<div class="column" style="margin: 2em 0 0 0">
+		<div class="textLarge">Third Party Libraries</div>
+		<div class="textSmall" style="margin: 1em 0 0 0">First choose a working directory for building the
+		source code. In the following steps we will refer to this directory as %BUILD_DIR%.</div>
+		<div class="textSmall" style="margin: .5em 0 0 0">Open a command prompt and clone the third party
+		repository:</div>
+		<pre>
+git clone git://git.code.sf.net/p/djv/git-third-party djv-git-third-party</pre>
+		<div class="textSmall">This repository contains the third party libraries DJV depends on, as well as
+		minor modifications necessary for building on the various platforms that DJV supports.</div>
+		<div class="textSmall" style="margin: .5em 0 0 0">Create a new directory for building the third party
+		software and run CMake:</div>
+		<pre>
 > mkdir djv-git-third-party-Debug
 > cd djv-git-third-party-Debug
-> cmake ../djv-git-third-party \
+> cmake ..\djv-git-third-party \
     -DCMAKE_BUILD_TYPE=Debug \
-    -DCMAKE_PREFIX_PATH=$BUILD_DIR/djv-install-Debug \
-    -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/djv-install-Debug
-</pre>
-<p>Open "djv-third-party.sln" in Visual Studio and build the solution.</p>
-<p>Building FFmpeg on Windows requires some additional steps, namely using the
-Windows Subsystem for Linux to cross-compile FFmpeg for Windows.</p>
-<p>First enable the Windows Subsystem for Linux:</p>
-<ul>
-    <li>Open the Windows control panel and click on "Programs and Features"</li>
-    <li>Click on "Turn Windows features on or off" on the left side of the
-        "Programs and Features" window</li>
-    <li>Check the "Windows Subsystem for Linux" item in the "Windows Features"
-        window</li>
-    <li>Restart your computer</li>
-    <li>Install Ubuntu from the Windows app store</li>
-</ul>
-<p>Start an Ubuntu shell and setup the environment:</p>
-<pre>
-> sudo apt update && sudo apt upgrade
-> sudo apt install build-essential mingw-w64 yasm
-</pre>
-<p>Build FFmpeg:</p>
-<pre>
+    -DCMAKE_PREFIX_PATH=%BUILD_DIR%\djv-install-Debug \
+    -DCMAKE_INSTALL_PREFIX=%BUILD_DIR%\djv-install-Debug</pre>
+		<div class="textSmall">Open "djv-third-party.sln" in Visual Studio and build the solution.</div>
+		<div class="textSmall" style="margin: .5em 0 0 0">Building FFmpeg on Windows requires some additional
+		steps, namely using the Windows Subsystem for Linux to cross-compile FFmpeg for Windows.</div>
+		<div class="textSmall" style="margin: .5em 0 0 0">First enable the Windows Subsystem for Linux:</div>
+		<div class="textSmall">
+		<ul>
+			<li>Open the Windows control panel and click on "Programs and Features"</li>
+			<li>Click on "Turn Windows features on or off" on the left side of the "Programs and Features" window</li>
+			<li>Check the "Windows Subsystem for Linux" item in the "Windows Features" window</li>
+			<li>Restart your computer</li>
+			<li>Install Ubuntu from the Windows app store</li>
+		</ul>
+		</div>
+		<div class="textSmall">Start an Ubuntu shell and setup the environment:</div>
+		<pre>
+> sudo apt update
+> sudo apt install mingw-w64 yasm make unzip</pre>
+		<div class="textSmall">Build FFmpeg:</div>
+		<pre>
 > ./configure \
       --disable-programs \
       --disable-doc \
@@ -125,41 +95,40 @@ Windows Subsystem for Linux to cross-compile FFmpeg for Windows.</p>
       --cross-prefix=x86_64-w64-mingw32- \
       --target-os=mingw32 \
       --enable-cross-compile \
-      --prefix=$BUILD_DIR/djv-install-Debug/ \
+      --prefix=%BUILD_DIR%\djv-install-Debug \
       --enable-shared
 > make
-> make install
-</pre>
-</div>
+> make install</pre>
+	</div>
 
-<h2 class="header"><a name="Build">Building the Source Code</a></h2>
-<div class="block">
-<p>Open a command prompt and clone the DJV repository:</p>
-<pre>
-> git clone https://github.com/darbyjohnston/DJV.git djv-git
-</pre>
-<p>Create a new directory for building the DJV software and run CMake:</p>
-<pre>
+	<div class="column" style="margin: 2em 0 0 0">
+		<div class="textLarge">Building the Source Code</div>	
+		<div class="textSmall" style="margin: 1em 0 0 0">Add the install path to your PATH environment
+		variable in the Windows control panel:</div>
+		<pre>
+%BUILD_DIR%\djv-install-Debug\bin</pre>
+		<div class="textSmall">Open a command prompt and clone the DJV repository:</div>
+		<pre>
+> git clone https://github.com/darbyjohnston/DJV.git djv-git</pre>
+		<div class="textSmall">Create a new directory for building the DJV software and run CMake:</div>
+		<pre>
 > mkdir djv-git-Debug
 > cd djv-git-Debug
-> cmake ../djv-git \
+> cmake ..\djv-git \
     -DCMAKE_BUILD_TYPE=Debug \
-    -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/djv-install-Debug \
-    -DDJV_THIRD_PARTY=$BUILD_DIR/djv-install-Debug
-</pre>
-<p>Add the install path "$BUILD_DIR/djv-install-Debug/bin" to your PATH environment
-variable in the Windows control panel.</p>
-<p>Open "DJV.sln" in Visual Studio and build the solution.</p>
-<p>After the build completes run the confidence tests by building the
-RUN_TESTS target.</p>
-<p>You can also create packages for installation by building the PACKAGE
-target.</p>
-</div>
-
-<div class="footer">
-Copyright (c) 2004-2018 Darby Johnston
-</div>
+    -DCMAKE_INSTALL_PREFIX=%BUILD_DIR%\djv-install-Debug \
+    -DDJV_THIRD_PARTY=%BUILD_DIR%\djv-install-Debug</pre>
+		<div class="textSmall">Open "DJV.sln" in Visual Studio and build the solution.</div>
+		<div class="textSmall" style="margin: .5em 0 0 0">After the build completes run the confidence
+		tests by building the RUN_TESTS target.</div>
+		<div class="textSmall" style="margin: .5em 0 0 0">You can also create packages for installation
+		by building the PACKAGE target.</div>
+	</div>
 
 </div>
+
+<div class="footer" style="margin: 1em 0 0 0">
+Copyright (c) 2004-2019 Darby Johnston
+</div>
+
 </body>
-</html>

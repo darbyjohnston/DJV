@@ -80,7 +80,7 @@ namespace djv
                 std::map<size_t, std::string> timeText;
                 std::vector<float> split = { .7f, .8f, 1.f };
                 AV::OCIO::Convert colorSpace;
-                std::shared_ptr<ValueObserver<std::string> > defaultColorSpaceObserver;
+                std::shared_ptr<ValueObserver<std::string> > inputColorSpaceObserver;
                 std::shared_ptr<ValueObserver<std::string> > outputColorSpaceObserver;
 
                 size_t hover = invalid;
@@ -99,8 +99,8 @@ namespace djv
                 auto settingsSystem = context->getSystemT<Settings::System>();
                 auto colorSpaceSettings = settingsSystem->getSettingsT<Settings::ColorSpace>();
                 auto weak = std::weak_ptr<ItemView>(std::dynamic_pointer_cast<ItemView>(shared_from_this()));
-                p.defaultColorSpaceObserver = ValueObserver<std::string>::create(
-                    colorSpaceSettings->observeDefaultColorSpace(),
+                p.inputColorSpaceObserver = ValueObserver<std::string>::create(
+                    colorSpaceSettings->observeInputColorSpace(),
                     [weak](const std::string& value)
                     {
                         if (auto widget = weak.lock())

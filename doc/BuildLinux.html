@@ -1,119 +1,83 @@
-<!-- ---------------------------------------------------------------------------
-  Copyright (c) 2004-2019 Darby Johnston
-  All rights reserved.
-  
-  Redistribution and use in source and binary forms, with or without
-  modification, are permitted provided that the following conditions are met:
-  
-  * Redistributions of source code must retain the above copyright notice,
-    this list of conditions, and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions, and the following disclaimer in the documentation
-    and/or other materials provided with the distribution.
-  * Neither the names of the copyright holders nor the names of any
-    contributors may be used to endorse or promote products derived from this
-    software without specific prior written permission.
-  
-  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
-  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-  SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-  POSSIBILITY OF SUCH DAMAGE.
----------------------------------------------------------------------------- -->
-
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="Style.css">
-<title>DJV Imaging</title>
+<title>DJV</title>
 </head>
 <body>
 
 <div class="header">
-<img class="header" src="images/logo-filmreel.png">DJV Imaging
+<div class="row">
+	<div><img src="images/djv-logo-small.png" align="left"></div>
 </div>
+</div>
+
 <div class="content">
 
-<div class="nav">
-<a href="index.html">Home</a> |
-<a href="Documentation.html">Documentation</a> |
-Building on Linux
-<ul>
-    <li><a href="#Requirements">Requirements</a></li>
-    <li><a href="#Build">Building the Source Code</a></li>
-    <li><a href="#ThirdParty">Building Third Party Libraries</a></li>
-    <li><a href="#Package">Packaging Releases</a></li>
-</ul>
-</div>
+	<div class="textSmall"><a class="text" href="index.html">Home</a> | <a class="text" href="Documentation.html">Documentation</a> | Building on Linux</div>
 
-<h2 class="header"><a name="Requirements">Requirements</a></h2>
-<div class="block">
-<p>Build tools:</p>
-<ul>
-    <li>C++11 compiler</li>
-    <li><a href="https://cmake.org">CMake 3.12</a></li>
-    <li><a href="https://git-scm.com">git</a></li>
-</ul>
-<p>Libraries:</p>
-<ul>
-    <li><a href="https://www.opengl.org">OpenGL 3.3</a></li>
-    <li><a href="https://glm.g-truc.net/0.9.9/index.html">GLM 0.9.9</a></li>
-    <li><a href="http://www.openexr.com/downloads.html">IlmBase 2.3</a></li>
-</ul>
-<p>Optional libraries:</p>
-<ul>
-    <li><a href="https://www.ijg.org">libjpeg v9b</a></li>
-    <li><a href="http://www.libpng.org/pub/png/libpng.html">libpng 1.6</a></li>
-    <li><a href="http://download.osgeo.org/libtiff">libtiff 4.0</a></li>
-    <li><a href="http://www.openexr.com/downloads.html">OpenEXR 2.3</a></li>
-    <li><a href="https://www.ffmpeg.org">FFmpeg 4.0</a></li>
-</ul>
-</div>
-
-<h2 class="header"><a name="Build">Building the Source Code</a></h2>
-<div class="block">
-<p>Clone the repository:</p>
-<pre>
-> git clone https://github.com/darbyjohnston/DJV.git djv-git
-</pre>
-<p>Create a new sub-directory and start the build:</p>
-<pre>
+	<div class="column" style="margin: 2em 0 0 0">
+		<div class="textLarge">Requirements</div>		
+		<div class="textSmall" style="margin: 1em 0 0 0">Build tools:</div>
+		<div class="textSmall">
+		<ul>
+			<li>C++11 compiler</li>
+			<li><a class="text" href="https://cmake.org">CMake 3.12</a></li>
+			<li><a class="text" href="https://git-scm.com">git</a></li>
+		</ul>
+		</div>
+		<div class="textSmall">Libraries:</div>
+		<div class="textSmall">
+		<ul>
+			<li><a class="text" href="http://glm.g-truc.net/0.9.9/index.html">GLM 0.9.9</a></li>
+			<li><a class="text" href="http://www.openexr.com/downloads.html">IlmBase 2.3</a></li>
+			<li><a class="text" href="http://github.com/imageworks/OpenColorIO/archive">OpenColorIO 1.1.1</a></li>
+			<li><a class="text" href="http://www.opengl.org">OpenGL 3.3</a></li>
+		</ul>
+		</div>
+		<div class="textSmall">Optional libraries:</div>
+		<div class="textSmall">
+		<ul>
+			<li><a class="text" href="http://www.ffmpeg.org">FFmpeg 4.1.3</a></li>
+			<li><a class="text" href="http://www.openexr.com/downloads.html">OpenEXR 2.3</a></li>
+			<li><a class="text" href="http://libjpeg-turbo.org">libjpeg-turbo 2.0</a></li>
+			<li><a class="text" href="http://www.libpng.org/pub/png/libpng.html">libpng 1.6</a></li>
+			<li><a class="text" href="http://download.osgeo.org/libtiff">libtiff 4.0</a></li>
+		</ul>
+		</div>
+	</div>
+	
+	<div class="column" style="margin: 2em 0 0 0">
+		<div class="textLarge">Building the Source Code</div>
+		<div class="textSmall" style="margin: 1em 0 0 0">Clone the repository:</div>
+		<pre>
+> git clone https://github.com/darbyjohnston/DJV.git djv-git</pre>
+		<div class="textSmall">Create a new sub-directory and start the build:</div>
+		<pre>
 > mkdir djv-git-Debug
 > cd djv-git-Debug
-> cmake ../djv-git \
-    -DCMAKE_BUILD_TYPE=Debug
-> make
-</pre>
-<p>After the build completes run the confidence tests:</p>
-<pre>
-> make test
-</pre>
-<p>You can also start the djv_view application:</p>
-<pre>
-> ./build/bin/djv_view
-</pre>
-</div>
-
-<h2 class="header"><a name="ThirdParty">Third Party Libraries</a></h2>
-<div class="block">
-<p>The following steps describe how to compile both the DJV source code
-and the third party libraries that it depends on.</p>
-<p>First choose a working directory for building the source code. In the
-following steps we will refer to this directory as $BUILD_DIR.</p>
-<p>Clone the third party repository:</p>
-<pre>
-> git clone git://git.code.sf.net/p/djv/git-third-party djv-git-third-party
-</pre>
-<p>This repository contains the third party libraries DJV depends on, as well
-as minor modifications necessary for building on the various platforms that DJV
-supports.</p>
-<p>Create a new sub-directory and start the build:</p>
-<pre>
+> cmake ../djv-git -DCMAKE_BUILD_TYPE=Debug
+> make</pre>
+		<div class="textSmall">After the build completes run the confidence tests:</div>
+		<pre>
+> make test</pre>
+		<div class="textSmall">You can also start the djv application:</div>
+		<pre>
+> ./build/bin/djv</pre>
+	</div>
+	
+	<div class="column" style="margin: 2em 0 0 0">
+		<div class="textLarge">Building with Third Party Libraries</div>
+		<div class="textSmall" style="margin: 1em 0 0 0">The following steps describe how to
+		compile both the DJV source code and the third party libraries that it depends on.</div>
+		<div class="textSmall" style="margin: .5em 0 0 0">First choose a working directory for
+		building the source code. In the following steps we will refer to this directory as $BUILD_DIR.</div>
+		<div class="textSmall" style="margin: .5em 0 0 0">Clone the third party repository:</div>
+		<pre>
+git clone git://git.code.sf.net/p/djv/git-third-party djv-git-third-party</pre>
+		<div class="textSmall">This repository contains the third party libraries DJV depends on,
+		as well as minor modifications necessary for building on the various platforms that DJV supports.</div>
+		<div class="textSmall" style="margin: .5em 0 0 0">Create a new sub-directory and start the build:</div>
+		<pre>
 > mkdir djv-git-third-party-Debug
 > cd djv-git-third-party-Debug
 > cmake ../djv-git-third-party \
@@ -121,69 +85,66 @@ supports.</p>
     -DCMAKE_PREFIX_PATH=$BUILD_DIR/djv-install-Debug \
     -DCMAKE_INSTALL_PREFIX=$BUILD_DIR/djv-install-Debug
 > make
-> cd ..
-</pre>
-<p>After the build completes add the install path to your LD_LIBRARY_PATH:</p>
-<pre>
-> export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$BUILD_DIR/djv-install-Debug/lib
-</pre>
-<p>Clone the DJV repository:</p>
-<pre>
-> git clone https://github.com/darbyjohnston/DJV.git djv-git
-</pre>
-<p>Create a new sub-directory and start the build:</p>
-<pre>
+> cd ..</pre>
+		<div class="textSmall">After the build completes add the install path to your LD_LIBRARY_PATH:</pre>
+		<pre>
+> export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$BUILD_DIR/djv-install-Debug/lib</pre>
+		<div class="textSmall">Clone the DJV repository:</div>
+		<pre>
+> git clone https://github.com/darbyjohnston/DJV.git djv-git</div>
+		<div class="textSmall">Create a new sub-directory and start the build:</div>
+		<pre>
 > mkdir djv-git-Debug
 > cd djv-git-Debug
 > cmake ../djv-git \
     -DCMAKE_BUILD_TYPE=Debug \
     -DCMAKE_PREFIX_PATH=$BUILD_DIR/djv-install-Debug \
     -DDJV_THIRD_PARTY=$BUILD_DIR/djv-install-Debug
-> make
-</pre>
-</div>
-
-<h2 class="header"><a name="Package">Packaging Releases</a></h2>
-<div class="block">
-<p>Set the new version in the top-level "CMakeLists.txt" and "Doxyfile" files.</p>
-<p>Update the download information in "doc/Download.html".</p>
-<p>Tag the git repository:</p>
-<pre>
-> git tag -a 1.2.2 -m "Version 1.2.2"
-> git push origin 1.2.2
-</pre>
-<p>Update the web site:</p>
-<pre>
+> make</pre>
+		<div class="textSmall">After the build completes run the confidence tests:</div>
+		<pre>
+> make test</pre>
+		<div class="textSmall">You can also start the djv application:</div>
+		<pre>
+> ./build/bin/djv</pre>
+	</div>
+	
+	<div class="column" style="margin: 2em 0 0 0">
+		<div class="textLarge">Packaging</div>
+		<div class="textSmall" style="margin: 1em 0 0 0">Set the new version in the top-level "CMakeLists.txt" and "Doxyfile" files.</div>
+		<div class="textSmall" style="margin: .5em 0 0 0">Update the download information in "doc/Download.html".</div>
+		<div class="textSmall" style="margin: .5em 0 0 0">Tag the git repository:</div>
+		<pre>
+> git tag -a 2.0.0 -m "Version 2.0.0"
+> git push origin 2.0.0</pre>
+		<div class="textSmall">Update the web site:</div>
+		<pre>
 > ssh -t USERNAME@shell.sourceforge.net create
-> scp file USERNAME@web.sourceforge.net:/home/project-web/djv/htdocs
-</pre>
-<p>Building an RPM package:</p>
-<pre>
+> scp file USERNAME@web.sourceforge.net:/home/project-web/djv/htdocs</pre>
+		<div class="textSmall">Building an RPM package:</div>
+		<pre>
 > cmake ../djv-git \
     -DCPACK_GENERATOR=RPM \
     -DCPACK_PACKAGING_INSTALL_PREFIX=/usr/local/DJV2
-> make package
-</pre>
-<p>Building a Debian package:</p>
-<pre>
+> make package</pre>
+		<div class="textSmall">Building a Debian package:</div>
+		<pre>
 > cmake ../djv-git \
     -DCPACK_GENERATOR=DEB \
     -DCPACK_PACKAGING_INSTALL_PREFIX=/usr/local/DJV2
-> make package
-</pre>
-<p>Building a TGZ package:</p>
-<pre>
+> make package</pre>
+		<div class="textSmall">Building a TGZ package:</div>
+		<pre>
 > cmake ../djv-git \
     -DCPACK_GENERATOR=TGZ \
     -DCPACK_PACKAGING_INSTALL_PREFIX=
-> make package
-</pre>
-</div>
-
-<div class="footer">
-Copyright (c) 2004-2018 Darby Johnston
-</div>
+> make package</pre>
+	</div>
 
 </div>
+
+<div class="footer" style="margin: 1em 0 0 0">
+Copyright (c) 2004-2019 Darby Johnston
+</div>
+
 </body>
-</html>
