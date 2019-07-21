@@ -1,2084 +1,2096 @@
 [
     {
         "source": "cannot create OpenAL source", 
-        "text": "kan inte skapa OpenAL-k\u00e4llan", 
+        "description": "", 
         "id": "cannot create OpenAL source", 
-        "description": ""
+        "text": "kan inte skapa OpenAL-k\u00e4llan"
     }, 
     {
         "source": "cannot create OpenAL buffers", 
-        "text": "kan inte skapa OpenAL buffertar", 
+        "description": "", 
         "id": "cannot create OpenAL buffers", 
-        "description": ""
+        "text": "kan inte skapa OpenAL buffertar"
     }, 
     {
         "source": "cannot open", 
-        "text": "kan inte \u00f6ppna", 
+        "description": "", 
         "id": "cannot open", 
-        "description": ""
+        "text": "kan inte \u00f6ppna"
     }, 
     {
         "source": "Annotate", 
-        "text": "Kommentera", 
+        "description": "", 
         "id": "Annotate", 
-        "description": ""
+        "text": "Kommentera"
     }, 
     {
         "source": "Increase Volume", 
-        "text": "\u00d6ka volymen", 
+        "description": "", 
         "id": "Increase Volume", 
-        "description": ""
+        "text": "\u00d6ka volymen"
     }, 
     {
         "source": "Increase the audio volume", 
-        "text": "\u00d6ka ljudvolymen", 
+        "description": "", 
         "id": "Increase volume tooltip", 
-        "description": ""
+        "text": "\u00d6ka ljudvolymen"
     }, 
     {
         "source": "Decrease Volume", 
-        "text": "Minska volymen", 
+        "description": "", 
         "id": "Decrease Volume", 
-        "description": ""
+        "text": "Minska volymen"
     }, 
     {
         "source": "Decrease the audio volume", 
-        "text": "Minska ljudvolymen", 
+        "description": "", 
         "id": "Decrease volume tooltip", 
-        "description": ""
+        "text": "Minska ljudvolymen"
     }, 
     {
         "source": "Mute", 
-        "text": "Stum", 
+        "description": "", 
         "id": "Mute", 
-        "description": ""
+        "text": "Stum"
     }, 
     {
         "source": "Mute the audio", 
-        "text": "St\u00e4ng av ljudet", 
+        "description": "", 
         "id": "Mute tooltip", 
-        "description": ""
+        "text": "St\u00e4ng av ljudet"
     }, 
     {
         "source": "Audio", 
-        "text": "Audio", 
+        "description": "", 
         "id": "Audio", 
-        "description": ""
+        "text": "Audio"
     }, 
     {
         "source": "Color Picker", 
-        "text": "F\u00e4rgv\u00e4ljare", 
+        "description": "", 
         "id": "Color Picker", 
-        "description": ""
+        "text": "F\u00e4rgv\u00e4ljare"
     }, 
     {
         "source": "Activate the color picker tool", 
-        "text": "Aktivera f\u00e4rgplockarverktyget", 
+        "description": "", 
         "id": "Color picker tooltip", 
-        "description": ""
+        "text": "Aktivera f\u00e4rgplockarverktyget"
     }, 
     {
         "source": "Lock Color Type", 
-        "text": "L\u00e5s f\u00e4rgtyp", 
+        "description": "", 
         "id": "Lock Color Type", 
-        "description": ""
+        "text": "L\u00e5s f\u00e4rgtyp"
     }, 
     {
         "source": "Don't change the color type to match the image", 
-        "text": "\u00c4ndra inte f\u00e4rgtypen f\u00f6r att matcha bilden", 
+        "description": "", 
         "id": "Color picker lock color type tooltip", 
-        "description": ""
+        "text": "\u00c4ndra inte f\u00e4rgtypen f\u00f6r att matcha bilden"
     }, 
     {
         "source": "RGB", 
-        "text": "RGB", 
+        "description": "", 
         "id": "RGB", 
-        "description": ""
+        "text": "RGB"
     }, 
     {
         "source": "HSV", 
-        "text": "HSV", 
+        "description": "", 
         "id": "HSV", 
-        "description": ""
+        "text": "HSV"
     }, 
     {
         "source": "Set the color picker sample size", 
-        "text": "St\u00e4ll in f\u00e4rgv\u00e4ljarens provstorlek", 
+        "description": "", 
         "id": "Color picker sample size tooltip", 
-        "description": ""
+        "text": "St\u00e4ll in f\u00e4rgv\u00e4ljarens provstorlek"
     }, 
     {
         "source": "FPS", 
-        "text": "FPS", 
+        "description": "", 
         "id": "FPS", 
-        "description": ""
+        "text": "FPS"
     }, 
     {
         "source": "Object count", 
-        "text": "Objektr\u00e4kning", 
+        "description": "", 
         "id": "Object count", 
-        "description": ""
+        "text": "Objektr\u00e4kning"
     }, 
     {
         "source": "Widget count", 
-        "text": "Widgetr\u00e4kning", 
+        "description": "", 
         "id": "Widget count", 
-        "description": ""
+        "text": "Widgetr\u00e4kning"
     }, 
     {
         "source": "Hover", 
-        "text": "Sv\u00e4va", 
+        "description": "", 
         "id": "Hover", 
-        "description": ""
+        "text": "Sv\u00e4va"
     }, 
     {
         "source": "None", 
-        "text": "Ingen", 
+        "description": "", 
         "id": "None", 
-        "description": ""
+        "text": "Ingen"
     }, 
     {
         "source": "Grab", 
-        "text": "Hugg", 
+        "description": "", 
         "id": "Grab", 
-        "description": ""
+        "text": "Hugg"
     }, 
     {
         "source": "Key grab", 
-        "text": "Viktig grepp", 
+        "description": "", 
         "id": "Key grab", 
-        "description": ""
+        "text": "Viktig grepp"
     }, 
     {
         "source": "Font system glyph cache", 
-        "text": "Teckensystems glyph cache", 
+        "description": "", 
         "id": "Font system glyph cache", 
-        "description": ""
+        "text": "Teckensystems glyph cache"
     }, 
     {
         "source": "Thumbnail system information cache", 
-        "text": "Miniatyrsysteminformation cache", 
+        "description": "", 
         "id": "Thumbnail system information cache", 
-        "description": ""
+        "text": "Miniatyrsysteminformation cache"
     }, 
     {
         "source": "Thumbnail system image cache", 
-        "text": "Miniatyrsystemets bildcache", 
+        "description": "", 
         "id": "Thumbnail system image cache", 
-        "description": ""
+        "text": "Miniatyrsystemets bildcache"
     }, 
     {
         "source": "Icon system cache", 
-        "text": "Ikonsystem cache", 
+        "description": "", 
         "id": "Icon system cache", 
-        "description": ""
+        "text": "Ikonsystem cache"
     }, 
     {
         "source": "Texture atlas", 
-        "text": "Textureatlas", 
+        "description": "", 
         "id": "Texture atlas", 
-        "description": ""
+        "text": "Textureatlas"
     }, 
     {
         "source": "Dynamic texture count", 
-        "text": "Dynamisk strukturr\u00e4kning", 
+        "description": "", 
         "id": "Dynamic texture count", 
-        "description": ""
+        "text": "Dynamisk strukturr\u00e4kning"
     }, 
     {
         "source": "VBO size", 
-        "text": "VBO-storlek", 
+        "description": "", 
         "id": "VBO size", 
-        "description": ""
+        "text": "VBO-storlek"
     }, 
     {
         "source": "Video queue", 
-        "text": "Videok\u00f6", 
+        "description": "", 
         "id": "Video queue", 
-        "description": ""
+        "text": "Videok\u00f6"
     }, 
     {
         "source": "Audio queue", 
-        "text": "Ljudsvans", 
+        "description": "", 
         "id": "Audio queue", 
-        "description": ""
+        "text": "Ljudsvans"
     }, 
     {
         "source": "OpenAL queue", 
-        "text": "OpenAL k\u00f6", 
+        "description": "", 
         "id": "OpenAL queue", 
-        "description": ""
+        "text": "OpenAL k\u00f6"
     }, 
     {
         "source": "Current time", 
-        "text": "Aktuell tid", 
+        "description": "", 
         "id": "Current time", 
-        "description": ""
+        "text": "Aktuell tid"
     }, 
     {
         "source": "Debug", 
-        "text": "debug", 
+        "description": "", 
         "id": "Debug", 
-        "description": ""
+        "text": "debug"
     }, 
     {
         "source": "General", 
-        "text": "Allm\u00e4n", 
+        "description": "", 
         "id": "General", 
-        "description": ""
+        "text": "Allm\u00e4n"
     }, 
     {
         "source": "Render", 
-        "text": "G\u00f6ra", 
+        "description": "", 
         "id": "Render", 
-        "description": ""
+        "text": "G\u00f6ra"
     }, 
     {
         "source": "Media", 
-        "text": "Media", 
+        "description": "", 
         "id": "Media", 
-        "description": ""
+        "text": "Media"
     }, 
     {
         "source": "Sequences", 
-        "text": "sekvenser", 
+        "description": "", 
         "id": "Sequences", 
-        "description": ""
+        "text": "sekvenser"
     }, 
     {
         "source": "File", 
-        "text": "Fil", 
+        "description": "", 
         "id": "File", 
-        "description": ""
+        "text": "Fil"
     }, 
     {
         "source": "Auto-detect file sequences", 
-        "text": "Autodetektera filsekvenser", 
+        "description": "", 
         "id": "Auto-detect file sequences", 
-        "description": ""
+        "text": "Autodetektera filsekvenser"
     }, 
     {
         "source": "Memory Cache", 
-        "text": "Minne cache", 
+        "description": "", 
         "id": "Memory Cache", 
-        "description": ""
+        "text": "Minne cache"
     }, 
     {
         "source": "Enabled", 
-        "text": "Aktiverad", 
+        "description": "", 
         "id": "Enabled", 
-        "description": ""
+        "text": "Aktiverad"
     }, 
     {
         "source": "Gigabytes", 
-        "text": "gigabyte", 
+        "description": "", 
         "id": "Gigabytes", 
-        "description": ""
+        "text": "gigabyte"
     }, 
     {
         "source": "Documentation", 
-        "text": "Dokumentation", 
+        "description": "", 
         "id": "Documentation", 
-        "description": ""
+        "text": "Dokumentation"
     }, 
     {
         "source": "About", 
-        "text": "Handla om", 
+        "description": "", 
         "id": "About", 
-        "description": ""
+        "text": "Handla om"
     }, 
     {
         "source": "System Log", 
-        "text": "System-logg", 
+        "description": "", 
         "id": "System Log", 
-        "description": ""
+        "text": "System-logg"
     }, 
     {
         "source": "Debug Widget", 
-        "text": "Debug Widget", 
+        "description": "", 
         "id": "Debug Widget", 
-        "description": ""
+        "text": "Debug Widget"
     }, 
     {
         "source": "Help", 
-        "text": "Hj\u00e4lp", 
+        "description": "", 
         "id": "Help", 
-        "description": ""
+        "text": "Hj\u00e4lp"
     }, 
     {
         "source": "Forward", 
-        "text": "Fram\u00e5t", 
+        "description": "", 
         "id": "Forward", 
-        "description": ""
+        "text": "Fram\u00e5t"
     }, 
     {
         "source": "Start forward plaback", 
-        "text": "B\u00f6rja vidare med plaback", 
+        "description": "", 
         "id": "Forward tooltip", 
-        "description": ""
+        "text": "B\u00f6rja vidare med plaback"
     }, 
     {
         "source": "Reverse", 
-        "text": "Omv\u00e4nd", 
+        "description": "", 
         "id": "Reverse", 
-        "description": ""
+        "text": "Omv\u00e4nd"
     }, 
     {
         "source": "Start reverse playback", 
-        "text": "Starta omv\u00e4nd uppspelning", 
+        "description": "", 
         "id": "Reverse tooltip", 
-        "description": ""
+        "text": "Starta omv\u00e4nd uppspelning"
     }, 
     {
         "source": "Play Once", 
-        "text": "Spela en g\u00e5ng", 
+        "description": "", 
         "id": "Play Once", 
-        "description": ""
+        "text": "Spela en g\u00e5ng"
     }, 
     {
         "source": "Play the file once and then stop playback", 
-        "text": "Spela upp filen en g\u00e5ng och stoppa uppspelningen", 
+        "description": "", 
         "id": "Play once tooltip", 
-        "description": ""
+        "text": "Spela upp filen en g\u00e5ng och stoppa uppspelningen"
     }, 
     {
         "source": "Loop", 
-        "text": "Slinga", 
+        "description": "", 
         "id": "Loop", 
-        "description": ""
+        "text": "Slinga"
     }, 
     {
         "source": "Play the file over and over again", 
-        "text": "Spela upp filen om och om igen", 
+        "description": "", 
         "id": "Loop tooltip", 
-        "description": ""
+        "text": "Spela upp filen om och om igen"
     }, 
     {
         "source": "Ping Pong", 
-        "text": "Pingis", 
+        "description": "", 
         "id": "Ping Pong", 
-        "description": ""
+        "text": "Pingis"
     }, 
     {
         "source": "Play the file forwards and then backwards", 
-        "text": "Spela upp filen fram\u00e5t och bak\u00e5t", 
+        "description": "", 
         "id": "Ping pong tooltip", 
-        "description": ""
+        "text": "Spela upp filen fram\u00e5t och bak\u00e5t"
     }, 
     {
         "source": "Play Every Frame", 
-        "text": "Spela varje ram", 
+        "description": "", 
         "id": "Play Every Frame", 
-        "description": ""
+        "text": "Spela varje ram"
     }, 
     {
         "source": "Play every frame even if the proper speed cannot be maintained", 
-        "text": "Spela varje ram \u00e4ven om r\u00e4tt hastighet inte kan bibeh\u00e5llas", 
+        "description": "", 
         "id": "Play every frame tooltip", 
-        "description": ""
+        "text": "Spela varje ram \u00e4ven om r\u00e4tt hastighet inte kan bibeh\u00e5llas"
     }, 
     {
         "source": "Go to In Point", 
-        "text": "G\u00e5 till In Point", 
+        "description": "", 
         "id": "Go to In Point", 
-        "description": ""
+        "text": "G\u00e5 till In Point"
     }, 
     {
         "source": "Go to the playback in point", 
-        "text": "G\u00e5 till uppspelningen i punkten", 
+        "description": "", 
         "id": "Go to in point tooltip", 
-        "description": ""
+        "text": "G\u00e5 till uppspelningen i punkten"
     }, 
     {
         "source": "Go to Out Point", 
-        "text": "G\u00e5 till Out Point", 
+        "description": "", 
         "id": "Go to Out Point", 
-        "description": ""
+        "text": "G\u00e5 till Out Point"
     }, 
     {
         "source": "Go to the playback out point", 
-        "text": "G\u00e5 till uppspelningsutg\u00e5ngspunkten", 
+        "description": "", 
         "id": "Go to out point tooltip", 
-        "description": ""
+        "text": "G\u00e5 till uppspelningsutg\u00e5ngspunkten"
     }, 
     {
         "source": "Go to Start Frame", 
-        "text": "G\u00e5 till Startram", 
+        "description": "", 
         "id": "Go to Start Frame", 
-        "description": ""
+        "text": "G\u00e5 till Startram"
     }, 
     {
         "source": "Go to the start frame", 
-        "text": "G\u00e5 till startramen", 
+        "description": "", 
         "id": "Go to start frame tooltip", 
-        "description": ""
+        "text": "G\u00e5 till startramen"
     }, 
     {
         "source": "Go to End Frame", 
-        "text": "G\u00e5 till Slutramen", 
+        "description": "", 
         "id": "Go to End Frame", 
-        "description": ""
+        "text": "G\u00e5 till Slutramen"
     }, 
     {
         "source": "Go to the end frame", 
-        "text": "G\u00e5 till \u00e4ndramen", 
+        "description": "", 
         "id": "Go to end frame tooltip", 
-        "description": ""
+        "text": "G\u00e5 till \u00e4ndramen"
     }, 
     {
         "source": "Next Frame", 
-        "text": "N\u00e4sta ram", 
+        "description": "", 
         "id": "Next Frame", 
-        "description": ""
+        "text": "N\u00e4sta ram"
     }, 
     {
         "source": "Go to the next frame", 
-        "text": "G\u00e5 till n\u00e4sta ram", 
+        "description": "", 
         "id": "Next frame tooltip", 
-        "description": ""
+        "text": "G\u00e5 till n\u00e4sta ram"
     }, 
     {
         "source": "Next Frame X10", 
-        "text": "N\u00e4sta ram X10", 
+        "description": "", 
         "id": "Next Frame X10", 
-        "description": ""
+        "text": "N\u00e4sta ram X10"
     }, 
     {
         "source": "Skip forward 10 frames", 
-        "text": "Hoppa \u00f6ver 10 ramar fram\u00e5t", 
+        "description": "", 
         "id": "Next frame X10 tooltip", 
-        "description": ""
+        "text": "Hoppa \u00f6ver 10 ramar fram\u00e5t"
     }, 
     {
         "source": "Next Frame X100", 
-        "text": "N\u00e4sta ram X100", 
+        "description": "", 
         "id": "Next Frame X100", 
-        "description": ""
+        "text": "N\u00e4sta ram X100"
     }, 
     {
         "source": "Skip forward 100 frames", 
-        "text": "Hoppa \u00f6ver 100 ramar", 
+        "description": "", 
         "id": "Next frame X100 tooltip", 
-        "description": ""
+        "text": "Hoppa \u00f6ver 100 ramar"
     }, 
     {
         "source": "Previous Frame", 
-        "text": "F\u00f6reg\u00e5ende ram", 
+        "description": "", 
         "id": "Previous Frame", 
-        "description": ""
+        "text": "F\u00f6reg\u00e5ende ram"
     }, 
     {
         "source": "Go to the previous frame", 
-        "text": "G\u00e5 till f\u00f6reg\u00e5ende ram", 
+        "description": "", 
         "id": "Previous frame tooltip", 
-        "description": ""
+        "text": "G\u00e5 till f\u00f6reg\u00e5ende ram"
     }, 
     {
         "source": "Previous Frame X10", 
-        "text": "F\u00f6reg\u00e5ende bild X10", 
+        "description": "", 
         "id": "Previous Frame X10", 
-        "description": ""
+        "text": "F\u00f6reg\u00e5ende bild X10"
     }, 
     {
         "source": "Skip backwards 10 frames", 
-        "text": "Hoppa bak\u00e5t 10 ramar", 
+        "description": "", 
         "id": "Previous frame X10 tooltip", 
-        "description": ""
+        "text": "Hoppa bak\u00e5t 10 ramar"
     }, 
     {
         "source": "Previous Frame X100", 
-        "text": "F\u00f6reg\u00e5ende bild X100", 
+        "description": "", 
         "id": "Previous Frame X100", 
-        "description": ""
+        "text": "F\u00f6reg\u00e5ende bild X100"
     }, 
     {
         "source": "Skip backwards 100 frames", 
-        "text": "Hoppa bak\u00e5t 100 ramar", 
+        "description": "", 
         "id": "Previous frame X100 tooltip", 
-        "description": ""
+        "text": "Hoppa bak\u00e5t 100 ramar"
     }, 
     {
         "source": "Enable In/Out Points", 
-        "text": "Aktivera in / ut-po\u00e4ng", 
+        "description": "", 
         "id": "Enable In/Out Points", 
-        "description": ""
+        "text": "Aktivera in / ut-po\u00e4ng"
     }, 
     {
         "source": "Enable the playback in/out points", 
-        "text": "Aktivera uppspelning in / ut-punkter", 
+        "description": "", 
         "id": "Enable in/out points tooltip", 
-        "description": ""
+        "text": "Aktivera uppspelning in / ut-punkter"
     }, 
     {
         "source": "Set In Point", 
-        "text": "St\u00e4ll in punkt", 
+        "description": "", 
         "id": "Set In Point", 
-        "description": ""
+        "text": "St\u00e4ll in punkt"
     }, 
     {
         "source": "Set the playback in point", 
-        "text": "St\u00e4ll in uppspelningen i punkt", 
+        "description": "", 
         "id": "Set in point tooltip", 
-        "description": ""
+        "text": "St\u00e4ll in uppspelningen i punkt"
     }, 
     {
         "source": "Set Out Point", 
-        "text": "Utg\u00e5ngspunkt", 
+        "description": "", 
         "id": "Set Out Point", 
-        "description": ""
+        "text": "Utg\u00e5ngspunkt"
     }, 
     {
         "source": "Set the playback out point", 
-        "text": "St\u00e4ll in uppspelningsutg\u00e5ngspunkten", 
+        "description": "", 
         "id": "Set out point tooltip", 
-        "description": ""
+        "text": "St\u00e4ll in uppspelningsutg\u00e5ngspunkten"
     }, 
     {
         "source": "Reset In Point", 
-        "text": "\u00c5terst\u00e4ll i punkt", 
+        "description": "", 
         "id": "Reset In Point", 
-        "description": ""
+        "text": "\u00c5terst\u00e4ll i punkt"
     }, 
     {
         "source": "Reset the playback in point", 
-        "text": "\u00c5terst\u00e4ll uppspelningen i punkt", 
+        "description": "", 
         "id": "Reset in point tooltip", 
-        "description": ""
+        "text": "\u00c5terst\u00e4ll uppspelningen i punkt"
     }, 
     {
         "source": "Reset Out Point", 
-        "text": "\u00c5terst\u00e4ll Out Point", 
+        "description": "", 
         "id": "Reset Out Point", 
-        "description": ""
+        "text": "\u00c5terst\u00e4ll Out Point"
     }, 
     {
         "source": "Reset the playback out point", 
-        "text": "\u00c5terst\u00e4ll uppspelningsutg\u00e5ngspunkten", 
+        "description": "", 
         "id": "Reset out point tooltip", 
-        "description": ""
+        "text": "\u00c5terst\u00e4ll uppspelningsutg\u00e5ngspunkten"
     }, 
     {
         "source": "Playback", 
-        "text": "Uppspelning", 
+        "description": "", 
         "id": "Playback", 
-        "description": ""
+        "text": "Uppspelning"
     }, 
     {
         "source": "Histogram", 
-        "text": "Histogram", 
+        "description": "", 
         "id": "Histogram", 
-        "description": ""
+        "text": "Histogram"
     }, 
     {
         "source": "Open", 
-        "text": "\u00d6ppna", 
+        "description": "", 
         "id": "Open", 
-        "description": ""
+        "text": "\u00d6ppna"
     }, 
     {
         "source": "Open a new file", 
-        "text": "\u00d6ppna en ny fil", 
+        "description": "", 
         "id": "Open tooltip", 
-        "description": ""
+        "text": "\u00d6ppna en ny fil"
     }, 
     {
         "source": "Recent", 
-        "text": "Nyligen", 
+        "description": "", 
         "id": "Recent", 
-        "description": ""
+        "text": "Nyligen"
     }, 
     {
         "source": "Show recently opened files", 
-        "text": "Visa nyligen \u00f6ppnade filer", 
+        "description": "", 
         "id": "Recent tooltip", 
-        "description": ""
+        "text": "Visa nyligen \u00f6ppnade filer"
     }, 
     {
         "source": "Reload", 
-        "text": "Ladda om", 
+        "description": "", 
         "id": "Reload", 
-        "description": ""
+        "text": "Ladda om"
     }, 
     {
         "source": "Reload the current file", 
-        "text": "Ladda om aktuell fil", 
+        "description": "", 
         "id": "Reload tooltip", 
-        "description": ""
+        "text": "Ladda om aktuell fil"
     }, 
     {
         "source": "Close", 
-        "text": "St\u00e4nga", 
+        "description": "", 
         "id": "Close", 
-        "description": ""
+        "text": "St\u00e4nga"
     }, 
     {
         "source": "Close the current file", 
-        "text": "St\u00e4ng den aktuella filen", 
+        "description": "", 
         "id": "Close tooltip", 
-        "description": ""
+        "text": "St\u00e4ng den aktuella filen"
     }, 
     {
         "source": "Close All", 
-        "text": "St\u00e4ng alla", 
+        "description": "", 
         "id": "Close All", 
-        "description": ""
+        "text": "St\u00e4ng alla"
     }, 
     {
         "source": "Close all open files", 
-        "text": "St\u00e4ng alla \u00f6ppna filer", 
+        "description": "", 
         "id": "Close all tooltip", 
-        "description": ""
+        "text": "St\u00e4ng alla \u00f6ppna filer"
     }, 
     {
         "source": "Export", 
-        "text": "Exportera", 
+        "description": "", 
         "id": "Export", 
-        "description": ""
+        "text": "Exportera"
     }, 
     {
         "source": "Export the file", 
-        "text": "Exportera filen", 
+        "description": "", 
         "id": "Export tooltip", 
-        "description": ""
+        "text": "Exportera filen"
     }, 
     {
         "source": "Next", 
-        "text": "N\u00e4sta", 
+        "description": "", 
         "id": "Next", 
-        "description": ""
+        "text": "N\u00e4sta"
     }, 
     {
         "source": "Go to the next opened file", 
-        "text": "G\u00e5 till n\u00e4sta \u00f6ppnade fil", 
+        "description": "", 
         "id": "Next tooltip", 
-        "description": ""
+        "text": "G\u00e5 till n\u00e4sta \u00f6ppnade fil"
     }, 
     {
         "source": "Previous", 
-        "text": "Tidigare", 
+        "description": "", 
         "id": "Previous", 
-        "description": ""
+        "text": "Tidigare"
     }, 
     {
         "source": "Go to the previous opened file", 
-        "text": "G\u00e5 till f\u00f6reg\u00e5ende \u00f6ppnade fil", 
+        "description": "", 
         "id": "Prev tooltip", 
-        "description": ""
+        "text": "G\u00e5 till f\u00f6reg\u00e5ende \u00f6ppnade fil"
     }, 
     {
         "source": "Layers Widget", 
-        "text": "Lag Widget", 
+        "description": "", 
         "id": "Layers Widget", 
-        "description": ""
+        "text": "Lag Widget"
     }, 
     {
         "source": "Show the layers widget", 
-        "text": "Visa lag widgeten", 
+        "description": "", 
         "id": "Layers widget tooltip", 
-        "description": ""
+        "text": "Visa lag widgeten"
     }, 
     {
         "source": "Next layer", 
-        "text": "N\u00e4sta lager", 
+        "description": "", 
         "id": "Next layer", 
-        "description": ""
+        "text": "N\u00e4sta lager"
     }, 
     {
         "source": "Go to the next layer", 
-        "text": "G\u00e5 till n\u00e4sta lager", 
+        "description": "", 
         "id": "Next layer tooltip", 
-        "description": ""
+        "text": "G\u00e5 till n\u00e4sta lager"
     }, 
     {
         "source": "Previous Layer", 
-        "text": "F\u00f6reg\u00e5ende lager", 
+        "description": "", 
         "id": "Previous Layer", 
-        "description": ""
+        "text": "F\u00f6reg\u00e5ende lager"
     }, 
     {
         "source": "Go to the previous layer", 
-        "text": "G\u00e5 till f\u00f6reg\u00e5ende lager", 
+        "description": "", 
         "id": "Previous layer tooltip", 
-        "description": ""
+        "text": "G\u00e5 till f\u00f6reg\u00e5ende lager"
     }, 
     {
         "source": "8-Bit Conversion", 
-        "text": "8-bitars konvertering", 
+        "description": "", 
         "id": "8-Bit Conversion", 
-        "description": ""
+        "text": "8-bitars konvertering"
     }, 
     {
         "source": "Down convert files to 8-bits to conserve memory", 
-        "text": "Ned konvertera filer till 8 bitar f\u00f6r att spara minne", 
+        "description": "", 
         "id": "8-bit conversion tooltip", 
-        "description": ""
+        "text": "Ned konvertera filer till 8 bitar f\u00f6r att spara minne"
     }, 
     {
         "source": "Show memory cache options", 
-        "text": "Visa alternativ f\u00f6r minnesbuffert", 
+        "description": "", 
         "id": "Memory cache tooltip", 
-        "description": ""
+        "text": "Visa alternativ f\u00f6r minnesbuffert"
     }, 
     {
         "source": "Exit", 
-        "text": "Utg\u00e5ng", 
+        "description": "", 
         "id": "Exit", 
-        "description": ""
+        "text": "Utg\u00e5ng"
     }, 
     {
         "source": "Exit the application", 
-        "text": "Avsluta ans\u00f6kan", 
+        "description": "", 
         "id": "Exit tooltip", 
-        "description": ""
+        "text": "Avsluta ans\u00f6kan"
     }, 
     {
         "source": "Aspect Ratio", 
-        "text": "Bildf\u00f6rh\u00e5llande", 
+        "description": "", 
         "id": "Aspect Ratio", 
-        "description": ""
+        "text": "Bildf\u00f6rh\u00e5llande"
     }, 
     {
         "source": "Image", 
-        "text": "Bild", 
+        "description": "", 
         "id": "Image", 
-        "description": ""
+        "text": "Bild"
     }, 
     {
         "source": "Rotate", 
-        "text": "Rotera", 
+        "description": "", 
         "id": "Rotate", 
-        "description": ""
+        "text": "Rotera"
     }, 
     {
         "source": "Maximize the window", 
-        "text": "Maximera f\u00f6nstret", 
+        "description": "", 
         "id": "Maximize tooltip", 
-        "description": ""
+        "text": "Maximera f\u00f6nstret"
     }, 
     {
         "source": "Show the playback speed settings", 
-        "text": "Visa inst\u00e4llningarna f\u00f6r uppspelningshastighet", 
+        "description": "", 
         "id": "Speed popup tooltip", 
-        "description": ""
+        "text": "Visa inst\u00e4llningarna f\u00f6r uppspelningshastighet"
     }, 
     {
         "source": "The actual playback speed", 
-        "text": "Den faktiska uppspelningshastigheten", 
+        "description": "", 
         "id": "Real speed tooltip", 
-        "description": ""
+        "text": "Den faktiska uppspelningshastigheten"
     }, 
     {
         "source": "The current time", 
-        "text": "Den aktuella tiden", 
+        "description": "", 
         "id": "Current time tooltip", 
-        "description": ""
+        "text": "Den aktuella tiden"
     }, 
     {
         "source": "The playback duration", 
-        "text": "Uppspelningstiden", 
+        "description": "", 
         "id": "Duration tooltip", 
-        "description": ""
+        "text": "Uppspelningstiden"
     }, 
     {
         "source": "Set the audio volume", 
-        "text": "St\u00e4ll in ljudvolymen", 
+        "description": "", 
         "id": "Volume tooltip", 
-        "description": ""
+        "text": "St\u00e4ll in ljudvolymen"
     }, 
     {
         "source": "Show audio settings", 
-        "text": "Visa ljudinst\u00e4llningar", 
+        "description": "", 
         "id": "Audio popup tooltip", 
-        "description": ""
+        "text": "Visa ljudinst\u00e4llningar"
     }, 
     {
         "source": "Set the memory cache size in gigabytes", 
-        "text": "St\u00e4ll in minnesbuffertstorleken i gigabyte", 
+        "description": "", 
         "id": "Memory cache maximum tooltip", 
-        "description": ""
+        "text": "St\u00e4ll in minnesbuffertstorleken i gigabyte"
     }, 
     {
         "source": "Enable the memory cache", 
-        "text": "Aktivera minnescachen", 
+        "description": "", 
         "id": "Memory cache enabled tooltip", 
-        "description": ""
+        "text": "Aktivera minnescachen"
     }, 
     {
         "source": "Default", 
-        "text": "Standard", 
+        "description": "", 
         "id": "Default", 
-        "description": ""
+        "text": "Standard"
     }, 
     {
         "source": "Play every frame", 
-        "text": "Spela varje ram", 
+        "description": "", 
         "id": "Play every frame", 
-        "description": ""
+        "text": "Spela varje ram"
     }, 
     {
         "source": "Background Color", 
-        "text": "Bakgrundsf\u00e4rg", 
+        "description": "", 
         "id": "Background Color", 
-        "description": ""
+        "text": "Bakgrundsf\u00e4rg"
     }, 
     {
         "source": "View", 
-        "text": "Se", 
+        "description": "", 
         "id": "View", 
-        "description": ""
+        "text": "Se"
     }, 
     {
         "source": "Information", 
-        "text": "Information", 
+        "description": "", 
         "id": "Information", 
-        "description": ""
+        "text": "Information"
     }, 
     {
         "source": "File name", 
-        "text": "Filnamn", 
+        "description": "", 
         "id": "File name", 
-        "description": ""
+        "text": "Filnamn"
     }, 
     {
         "source": "Name", 
-        "text": "namn", 
+        "description": "", 
         "id": "Name", 
-        "description": ""
+        "text": "namn"
     }, 
     {
         "source": "Size", 
-        "text": "Storlek", 
+        "description": "", 
         "id": "Size", 
-        "description": ""
+        "text": "Storlek"
     }, 
     {
         "source": "Type", 
-        "text": "Typ", 
+        "description": "", 
         "id": "Type", 
-        "description": ""
+        "text": "Typ"
     }, 
     {
         "source": "Speed", 
-        "text": "Fart", 
+        "description": "", 
         "id": "Speed", 
-        "description": ""
+        "text": "Fart"
     }, 
     {
         "source": "Duration", 
-        "text": "Varaktighet", 
+        "description": "", 
         "id": "Duration", 
-        "description": ""
+        "text": "Varaktighet"
     }, 
     {
         "source": "Codec", 
-        "text": "codec", 
+        "description": "", 
         "id": "Codec", 
-        "description": ""
+        "text": "codec"
     }, 
     {
         "source": "Video track", 
-        "text": "Videosp\u00e5r", 
+        "description": "", 
         "id": "Video track", 
-        "description": ""
+        "text": "Videosp\u00e5r"
     }, 
     {
         "source": "Channels", 
-        "text": "kanaler", 
+        "description": "", 
         "id": "Channels", 
-        "description": ""
+        "text": "kanaler"
     }, 
     {
         "source": "kHz", 
-        "text": "kHz", 
+        "description": "", 
         "id": "kHz", 
-        "description": ""
+        "text": "kHz"
     }, 
     {
         "source": "Sample rate", 
-        "text": "Samplingshastighet", 
+        "description": "", 
         "id": "Sample rate", 
-        "description": ""
+        "text": "Samplingshastighet"
     }, 
     {
         "source": "Audio track", 
-        "text": "Ljudsp\u00e5r", 
+        "description": "", 
         "id": "Audio track", 
-        "description": ""
+        "text": "Ljudsp\u00e5r"
     }, 
     {
         "source": "Tags", 
-        "text": "Tags", 
+        "description": "", 
         "id": "Tags", 
-        "description": ""
+        "text": "Tags"
     }, 
     {
         "source": "Layers", 
-        "text": "Skikten", 
+        "description": "", 
         "id": "Layers", 
-        "description": ""
+        "text": "Skikten"
     }, 
     {
         "source": "Magnify", 
-        "text": "F\u00f6rstora", 
+        "description": "", 
         "id": "Magnify", 
-        "description": ""
+        "text": "F\u00f6rstora"
     }, 
     {
         "source": "Activate the magnify tool", 
-        "text": "Aktivera f\u00f6rstoringsverktyget", 
+        "description": "", 
         "id": "Magnify tooltip", 
-        "description": ""
+        "text": "Aktivera f\u00f6rstoringsverktyget"
     }, 
     {
         "source": "Zoom into the image", 
-        "text": "Zooma in i bilden", 
+        "description": "", 
         "id": "Magnify zoom in tooltip", 
-        "description": ""
+        "text": "Zooma in i bilden"
     }, 
     {
         "source": "Zoom out of the image", 
-        "text": "Zooma ut ur bilden", 
+        "description": "", 
         "id": "Magnify zoom out tooltip", 
-        "description": ""
+        "text": "Zooma ut ur bilden"
     }, 
     {
         "source": "NUX", 
-        "text": "NUX", 
+        "description": "", 
         "id": "NUX", 
-        "description": ""
+        "text": "NUX"
     }, 
     {
         "source": "Enable new-user experience on startup", 
-        "text": "Aktivera nyanv\u00e4ndarupplevelse vid uppstart", 
+        "description": "", 
         "id": "Enable new-user experience on startup", 
-        "description": ""
+        "text": "Aktivera nyanv\u00e4ndarupplevelse vid uppstart"
     }, 
     {
         "source": "Choose your language", 
-        "text": "V\u00e4lj ditt spr\u00e5k", 
+        "description": "", 
         "id": "Choose your language", 
-        "description": ""
+        "text": "V\u00e4lj ditt spr\u00e5k"
     }, 
     {
         "source": "Choose a user interface size", 
-        "text": "V\u00e4lj en anv\u00e4ndargr\u00e4nssnittstorlek", 
+        "description": "", 
         "id": "Choose a user interface size", 
-        "description": ""
+        "text": "V\u00e4lj en anv\u00e4ndargr\u00e4nssnittstorlek"
     }, 
     {
         "source": "Choose a palette", 
-        "text": "V\u00e4lj en palett", 
+        "description": "", 
         "id": "Choose a palette", 
-        "description": ""
+        "text": "V\u00e4lj en palett"
     }, 
     {
         "source": "Finish", 
-        "text": "Avsluta", 
+        "description": "", 
         "id": "Finish", 
-        "description": ""
+        "text": "Avsluta"
     }, 
     {
         "source": "Show timeline PIP", 
-        "text": "Visa tidslinje PIP", 
+        "description": "", 
         "id": "Show timeline PIP", 
-        "description": ""
+        "text": "Visa tidslinje PIP"
     }, 
     {
         "source": "Recent Files", 
-        "text": "Senaste filer", 
+        "description": "", 
         "id": "Recent Files", 
-        "description": ""
+        "text": "Senaste filer"
     }, 
     {
         "source": "Increase Thumbnail Size", 
-        "text": "\u00d6ka miniatyrstorlek", 
+        "description": "", 
         "id": "Increase Thumbnail Size", 
-        "description": ""
+        "text": "\u00d6ka miniatyrstorlek"
     }, 
     {
         "source": "Increase the size of the thumbnails", 
-        "text": "\u00d6ka storleken p\u00e5 miniatyrerna", 
+        "description": "", 
         "id": "Recent files increase thumbnail size tooltip", 
-        "description": ""
+        "text": "\u00d6ka storleken p\u00e5 miniatyrerna"
     }, 
     {
         "source": "Decrease Thumbnail Size", 
-        "text": "Minska miniatyrstorlek", 
+        "description": "", 
         "id": "Decrease Thumbnail Size", 
-        "description": ""
+        "text": "Minska miniatyrstorlek"
     }, 
     {
         "source": "Decrease the size of the thumbnails", 
-        "text": "Minska storleken p\u00e5 miniatyrerna", 
+        "description": "", 
         "id": "Recent files decrease thumbnail size tooltip", 
-        "description": ""
+        "text": "Minska storleken p\u00e5 miniatyrerna"
     }, 
     {
         "source": "Search the recent files", 
-        "text": "S\u00f6k de senaste filerna", 
+        "description": "", 
         "id": "Recent files search tooltip", 
-        "description": ""
+        "text": "S\u00f6k de senaste filerna"
     }, 
     {
         "source": "Open the recent files settings", 
-        "text": "\u00d6ppna de senaste filinst\u00e4llningarna", 
+        "description": "", 
         "id": "Recent files settings tooltip", 
-        "description": ""
+        "text": "\u00d6ppna de senaste filinst\u00e4llningarna"
     }, 
     {
         "source": "Items", 
-        "text": "artiklar", 
+        "description": "", 
         "id": "Items", 
-        "description": ""
+        "text": "artiklar"
     }, 
     {
         "source": "Settings", 
-        "text": "inst\u00e4llningar", 
+        "description": "", 
         "id": "Settings", 
-        "description": ""
+        "text": "inst\u00e4llningar"
     }, 
     {
         "source": "Copy", 
-        "text": "Kopia", 
+        "description": "", 
         "id": "Copy", 
-        "description": ""
+        "text": "Kopia"
     }, 
     {
         "source": "Clear", 
-        "text": "Klar", 
+        "description": "", 
         "id": "Clear", 
-        "description": ""
+        "text": "Klar"
     }, 
     {
         "source": "Tools", 
-        "text": "Verktyg", 
+        "description": "", 
         "id": "Tools", 
-        "description": ""
+        "text": "Verktyg"
     }, 
     {
         "source": "Information Widget", 
-        "text": "Information Widget", 
+        "description": "", 
         "id": "Information Widget", 
-        "description": ""
+        "text": "Information Widget"
     }, 
     {
         "source": "Show the information widget", 
-        "text": "Visa informations widgeten", 
+        "description": "", 
         "id": "Information widget tooltip", 
-        "description": ""
+        "text": "Visa informations widgeten"
     }, 
     {
         "source": "Auto Hide", 
-        "text": "Automatisk d\u00f6ljning", 
+        "description": "", 
         "id": "Auto Hide", 
-        "description": ""
+        "text": "Automatisk d\u00f6ljning"
     }, 
     {
         "source": "Automatically hide the user interface", 
-        "text": "G\u00f6m automatiskt anv\u00e4ndargr\u00e4nssnittet", 
+        "description": "", 
         "id": "Automatically hide the user interface", 
-        "description": ""
+        "text": "G\u00f6m automatiskt anv\u00e4ndargr\u00e4nssnittet"
     }, 
     {
         "source": "Background Image", 
-        "text": "Bakgrundsbild", 
+        "description": "", 
         "id": "Background Image", 
-        "description": ""
+        "text": "Bakgrundsbild"
     }, 
     {
         "source": "Window", 
-        "text": "F\u00f6nster", 
+        "description": "", 
         "id": "Window", 
-        "description": ""
+        "text": "F\u00f6nster"
     }, 
     {
         "source": "Open the file browser", 
-        "text": "\u00d6ppna filbl\u00e4ddraren", 
+        "description": "", 
         "id": "Open the file browser", 
-        "description": ""
+        "text": "\u00d6ppna filbl\u00e4ddraren"
     }, 
     {
         "source": "Clear the background image", 
-        "text": "Rensa bakgrundsbilden", 
+        "description": "", 
         "id": "Clear the background image", 
-        "description": ""
+        "text": "Rensa bakgrundsbilden"
     }, 
     {
         "source": "Colorize with the UI style", 
-        "text": "F\u00e4rgl\u00e4gg med UI-stilen", 
+        "description": "", 
         "id": "Colorize with the UI style", 
-        "description": ""
+        "text": "F\u00e4rgl\u00e4gg med UI-stilen"
     }, 
     {
         "source": "Full Screen", 
-        "text": "Fullsk\u00e4rm", 
+        "description": "", 
         "id": "Full Screen", 
-        "description": ""
+        "text": "Fullsk\u00e4rm"
     }, 
     {
         "source": "Toggle whether the window is in full screen mode", 
-        "text": "V\u00e4xla om f\u00f6nstret \u00e4r i helsk\u00e4rmsl\u00e4ge", 
+        "description": "", 
         "id": "Full screen tooltip", 
-        "description": ""
+        "text": "V\u00e4xla om f\u00f6nstret \u00e4r i helsk\u00e4rmsl\u00e4ge"
     }, 
     {
         "source": "Maximized", 
-        "text": "Maximerad", 
+        "description": "", 
         "id": "Maximized", 
-        "description": ""
+        "text": "Maximerad"
     }, 
     {
         "source": "Maximize the window", 
-        "text": "Maximera f\u00f6nstret", 
+        "description": "", 
         "id": "Maximized tooltip", 
-        "description": ""
+        "text": "Maximera f\u00f6nstret"
     }, 
     {
         "source": "DJV Imaging", 
-        "text": "DJV Imaging", 
+        "description": "", 
         "id": "About Title", 
-        "description": ""
+        "text": "DJV Imaging"
     }, 
     {
         "source": "Credits", 
-        "text": "Credits", 
+        "description": "", 
         "id": "Credits", 
-        "description": ""
+        "text": "Credits"
     }, 
     {
         "source": "Sponsors", 
-        "text": "sponsorer", 
+        "description": "", 
         "id": "Sponsors", 
-        "description": ""
+        "text": "sponsorer"
     }, 
     {
         "source": "License", 
-        "text": "Licens", 
+        "description": "", 
         "id": "License", 
-        "description": ""
+        "text": "Licens"
     }, 
     {
         "source": "Copyright", 
-        "text": "upphovsr\u00e4tt", 
+        "description": "", 
         "id": "Copyright", 
-        "description": ""
+        "text": "upphovsr\u00e4tt"
     }, 
     {
         "source": "Third Party Software", 
-        "text": "Tredjeparts programvara", 
+        "description": "", 
         "id": "Third Party", 
-        "description": ""
+        "text": "Tredjeparts programvara"
     }, 
     {
         "source": "Trademarks", 
-        "text": "varum\u00e4rken", 
+        "description": "", 
         "id": "Trademarks", 
-        "description": ""
+        "text": "varum\u00e4rken"
     }, 
     {
         "source": "Darby Johnston", 
-        "text": "Darby Johnston", 
+        "description": "", 
         "id": "Credits Darby Johnston", 
-        "description": ""
+        "text": "Darby Johnston"
     }, 
     {
         "source": "Principal author", 
-        "text": "Huvudf\u00f6rfattare", 
+        "description": "", 
         "id": "Credits Darby Johnston Text", 
-        "description": ""
+        "text": "Huvudf\u00f6rfattare"
     }, 
     {
         "source": "Kent Oberheu https://semafore.com", 
-        "text": "Kent Oberheu https://semafore.com", 
+        "description": "", 
         "id": "Credits Kent Oberheu", 
-        "description": ""
+        "text": "Kent Oberheu https://semafore.com"
     }, 
     {
         "source": "Identity, Iconography, UI / UX design", 
-        "text": "Identitet, Iconography, UI / UX design", 
+        "description": "", 
         "id": "Credits Kent Oberheu Text", 
-        "description": ""
+        "text": "Identitet, Iconography, UI / UX design"
     }, 
     {
         "source": "Siciliana Johnston", 
-        "text": "Sicilianska johnston", 
+        "description": "", 
         "id": "Credits Siciliana Johnston", 
-        "description": ""
+        "text": "Sicilianska johnston"
     }, 
     {
         "source": "Web design", 
-        "text": "webbdesign", 
+        "description": "", 
         "id": "Credits Siciliana Johnston Text", 
-        "description": ""
+        "text": "webbdesign"
     }, 
     {
         "source": "Mikael Sundell", 
-        "text": "Mikael Sundell", 
+        "description": "", 
         "id": "Credits Mikael Sundell", 
-        "description": ""
+        "text": "Mikael Sundell"
     }, 
     {
         "source": "IFF image file format support, example images", 
-        "text": "IFF-bildformatst\u00f6d, exempelbilder", 
+        "description": "", 
         "id": "Credits Mikael Sundell Text", 
-        "description": ""
+        "text": "IFF-bildformatst\u00f6d, exempelbilder"
     }, 
     {
         "source": "unexpected GmbH https://www.unexpected.de", 
-        "text": "ov\u00e4ntad GmbH https://www.unexpected.de", 
+        "description": "", 
         "id": "Sponsors unexpected", 
-        "description": ""
+        "text": "ov\u00e4ntad GmbH https://www.unexpected.de"
     }, 
     {
         "source": "Copyright (c) 2004-2019 Darby Johnston, All rights reserved", 
-        "text": "Upphovsr\u00e4tt (c) 2004-2019 Darby Johnston, All rights reserved", 
+        "description": "", 
         "id": "License 1", 
-        "description": ""
+        "text": "Upphovsr\u00e4tt (c) 2004-2019 Darby Johnston, All rights reserved"
     }, 
     {
         "source": "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:", 
-        "text": "Omf\u00f6rdelning och anv\u00e4ndning i k\u00e4ll- och bin\u00e4rform, med eller utan modifiering, \u00e4r till\u00e5ten f\u00f6rutsatt att f\u00f6ljande villkor \u00e4r uppfyllda:", 
+        "description": "", 
         "id": "License 2", 
-        "description": ""
+        "text": "Omf\u00f6rdelning och anv\u00e4ndning i k\u00e4ll- och bin\u00e4rform, med eller utan modifiering, \u00e4r till\u00e5ten f\u00f6rutsatt att f\u00f6ljande villkor \u00e4r uppfyllda:"
     }, 
     {
         "source": "* Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.", 
-        "text": "* Omf\u00f6rdelningen av k\u00e4llkoden m\u00e5ste beh\u00e5lla ovanst\u00e5ende upphovsr\u00e4ttsinformation, denna lista \u00f6ver villkor och f\u00f6ljande ansvarsfriskrivning.", 
+        "description": "", 
         "id": "License 3", 
-        "description": ""
+        "text": "* Omf\u00f6rdelningen av k\u00e4llkoden m\u00e5ste beh\u00e5lla ovanst\u00e5ende upphovsr\u00e4ttsinformation, denna lista \u00f6ver villkor och f\u00f6ljande ansvarsfriskrivning."
     }, 
     {
         "source": "* Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution.", 
-        "text": "* Omf\u00f6rdelningar i bin\u00e4r form m\u00e5ste reproducera ovanst\u00e5ende upphovsr\u00e4ttsinformation, denna lista med villkor och f\u00f6ljande ansvarsfriskrivning i dokumentationen och / eller andra material som levereras med distributionen.", 
+        "description": "", 
         "id": "License 4", 
-        "description": ""
+        "text": "* Omf\u00f6rdelningar i bin\u00e4r form m\u00e5ste reproducera ovanst\u00e5ende upphovsr\u00e4ttsinformation, denna lista med villkor och f\u00f6ljande ansvarsfriskrivning i dokumentationen och / eller andra material som levereras med distributionen."
     }, 
     {
         "source": "* Neither the names of the copyright holders nor the names of any contributors may be used to endorse or promote products derived from this software without specific prior written permission.", 
-        "text": "* Varken upphovsr\u00e4ttsinnehavarnas namn eller namnen p\u00e5 n\u00e5gra bidragsgivare f\u00e5r anv\u00e4ndas f\u00f6r att godk\u00e4nna eller marknadsf\u00f6ra produkter som h\u00e4rr\u00f6r fr\u00e5n denna programvara utan specifikt skriftligt tillst\u00e5nd.", 
+        "description": "", 
         "id": "License 5", 
-        "description": ""
+        "text": "* Varken upphovsr\u00e4ttsinnehavarnas namn eller namnen p\u00e5 n\u00e5gra bidragsgivare f\u00e5r anv\u00e4ndas f\u00f6r att godk\u00e4nna eller marknadsf\u00f6ra produkter som h\u00e4rr\u00f6r fr\u00e5n denna programvara utan specifikt skriftligt tillst\u00e5nd."
     }, 
     {
         "source": "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.", 
-        "text": "DENNA PROGRAMVARA LEVERAS AV UPPHOVSR\u00c4TTARE OCH BIDRAGS\u00c4TTARE &quot;\u00c4R \u00c4R&quot; OCH UTTRYCKLIGA ELLER UNDERFORST\u00c5DA GARANTIER, INKLUSIVE, MEN INTE BEGR\u00c4NSADE TILL, DE UNDERF\u00d6RST\u00c5DA GARANTIERNA F\u00d6R SALGBARHET OCH EGNETHET F\u00d6R S\u00c4RSKILDA SYFTE SKALL FRASKRIVAS. INNEH\u00c5LLSF\u00d6RS\u00c4LJARE ELLER BIDRAGARE \u00c4R INTE H\u00c4NDIGT F\u00d6R ANSVAR F\u00d6R DIREKT, INDIREKT, SKADLIGT, S\u00c4RSKILT, L\u00c4KEMEDEL ELLER F\u00d6LJANDE SKADOR (INKLUSIVE, MEN INTE BEGR\u00c4NSAT TILL, F\u00d6RK\u00d6PNING AV VAROR ELLER TJ\u00c4NSTER AV TJ\u00c4NSTER, TILLDELNING AV ANV\u00c4NDNING, DATA ELLER RESULTAT; ELLER BUSINESS INTERRUPTION) \u00c5TG\u00c4RDER SOM \u00c5TG\u00c4RDER OCH P\u00c5 ALLA ANS\u00c4KRINGSORORIER, OAVSIKTLIGT OM ANSVAR F\u00d6R S\u00c4RSKILDA SKADOR, OM STRAFF, ANSVAR ELLER SKADLIGT (INKLUSIVE N\u00c4GENHET ELLER ANNANS\u00c4TT) SOM \u00c4R INTE P\u00c5 ANV\u00c4NDNINGEN AV DENNA PROGRAMVARA.", 
+        "description": "", 
         "id": "License 6", 
-        "description": ""
+        "text": "DENNA PROGRAMVARA LEVERAS AV UPPHOVSR\u00c4TTARE OCH BIDRAGS\u00c4TTARE &quot;\u00c4R \u00c4R&quot; OCH UTTRYCKLIGA ELLER UNDERFORST\u00c5DA GARANTIER, INKLUSIVE, MEN INTE BEGR\u00c4NSADE TILL, DE UNDERF\u00d6RST\u00c5DA GARANTIERNA F\u00d6R SALGBARHET OCH EGNETHET F\u00d6R S\u00c4RSKILDA SYFTE SKALL FRASKRIVAS. INNEH\u00c5LLSF\u00d6RS\u00c4LJARE ELLER BIDRAGARE \u00c4R INTE H\u00c4NDIGT F\u00d6R ANSVAR F\u00d6R DIREKT, INDIREKT, SKADLIGT, S\u00c4RSKILT, L\u00c4KEMEDEL ELLER F\u00d6LJANDE SKADOR (INKLUSIVE, MEN INTE BEGR\u00c4NSAT TILL, F\u00d6RK\u00d6PNING AV VAROR ELLER TJ\u00c4NSTER AV TJ\u00c4NSTER, TILLDELNING AV ANV\u00c4NDNING, DATA ELLER RESULTAT; ELLER BUSINESS INTERRUPTION) \u00c5TG\u00c4RDER SOM \u00c5TG\u00c4RDER OCH P\u00c5 ALLA ANS\u00c4KRINGSORORIER, OAVSIKTLIGT OM ANSVAR F\u00d6R S\u00c4RSKILDA SKADOR, OM STRAFF, ANSVAR ELLER SKADLIGT (INKLUSIVE N\u00c4GENHET ELLER ANNANS\u00c4TT) SOM \u00c4R INTE P\u00c5 ANV\u00c4NDNINGEN AV DENNA PROGRAMVARA."
     }, 
     {
         "source": "Portions of this software are copyright (in alphabetical order):", 
-        "text": "Delar av denna programvara \u00e4r upphovsr\u00e4tt (i alfabetisk ordning):", 
+        "description": "", 
         "id": "Copyright Text", 
-        "description": ""
+        "text": "Delar av denna programvara \u00e4r upphovsr\u00e4tt (i alfabetisk ordning):"
     }, 
     {
         "source": "* Copyright (c) 2004-2019 Darby Johnston, All rights reserved", 
-        "text": "* Upphovsr\u00e4tt (c) 2004-2019 Darby Johnston, All rights reserved", 
+        "description": "", 
         "id": "Copyright Darby Johnston", 
-        "description": ""
+        "text": "* Upphovsr\u00e4tt (c) 2004-2019 Darby Johnston, All rights reserved"
     }, 
     {
         "source": "* Copyright (c) 2019 Kent Oberheu, All rights reserved", 
-        "text": "* Upphovsr\u00e4tt (c) 2019 Kent Oberheu, All rights reserved", 
+        "description": "", 
         "id": "Copyright Kent Oberheu", 
-        "description": ""
+        "text": "* Upphovsr\u00e4tt (c) 2019 Kent Oberheu, All rights reserved"
     }, 
     {
         "source": "* Copyright (c) 2008-2009 Mikael Sundell, All rights reserved", 
-        "text": "* Upphovsr\u00e4tt (c) 2008-2009 Mikael Sundell, All rights reserved", 
+        "description": "", 
         "id": "Copyright Mikael Sundell", 
-        "description": ""
+        "text": "* Upphovsr\u00e4tt (c) 2008-2009 Mikael Sundell, All rights reserved"
     }, 
     {
         "source": "This software is based in part on the works of (in alphabetical order):", 
-        "text": "Denna programvara \u00e4r delvis baserad p\u00e5 verk av (i alfabetisk ordning):", 
+        "description": "", 
         "id": "Third Party Text", 
-        "description": ""
+        "text": "Denna programvara \u00e4r delvis baserad p\u00e5 verk av (i alfabetisk ordning):"
     }, 
     {
         "source": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium, All rights reserved", 
-        "text": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium, Alla r\u00e4ttigheter f\u00f6rbeh\u00e5llna", 
+        "description": "", 
         "id": "Third Party CMake", 
-        "description": ""
+        "text": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium, Alla r\u00e4ttigheter f\u00f6rbeh\u00e5llna"
     }, 
     {
         "source": "* FFMpeg, http://www.ffmpeg.org, Licensed under the LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html", 
-        "text": "* FFMpeg, http://www.ffmpeg.org, licensierad enligt LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html", 
+        "description": "", 
         "id": "Third Party FFMpeg", 
-        "description": ""
+        "text": "* FFMpeg, http://www.ffmpeg.org, licensierad enligt LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html"
     }, 
     {
         "source": "* FreeType, http://www.freetype.org, Copyright (c) 2018, The FreeType Project", 
-        "text": "* FreeType, http://www.freetype.org, Copyright (c) 2018, The FreeType Project", 
+        "description": "", 
         "id": "Third Party FreeType", 
-        "description": ""
+        "text": "* FreeType, http://www.freetype.org, Copyright (c) 2018, The FreeType Project"
     }, 
     {
         "source": "* GLFW, http://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla L\u00f6wy <elmindreda@glfw.org>", 
-        "text": "* GLFW, http://www.glfw.org, upphovsr\u00e4tt (c) 2002-2006 Marcus Geelnard, upphovsr\u00e4tt (c) 2006-2016 Camilla L\u00f6wy <elmindreda@glfw.org>", 
+        "description": "", 
         "id": "Third Party GLFW", 
-        "description": ""
+        "text": "* GLFW, http://www.glfw.org, upphovsr\u00e4tt (c) 2002-2006 Marcus Geelnard, upphovsr\u00e4tt (c) 2006-2016 Camilla L\u00f6wy <elmindreda@glfw.org>"
     }, 
     {
         "source": "* GLM, http://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation", 
-        "text": "* GLM, http://glm.g-truc.net/0.9.9/index.html, upphovsr\u00e4tt (c) 2005-2017 G-Truc Creation", 
+        "description": "", 
         "id": "Third Party GLM", 
-        "description": ""
+        "text": "* GLM, http://glm.g-truc.net/0.9.9/index.html, upphovsr\u00e4tt (c) 2005-2017 G-Truc Creation"
     }, 
     {
         "source": "* MbedTLS, http://tls.mbed.org, Copyright \u00a9 2008 - 2016 ARM Limited, All rights reserved", 
-        "text": "* MbedTLS, http://tls.mbed.org, Copyright \u00a9 2008 - 2016 ARM Limited, Alla r\u00e4ttigheter f\u00f6rbeh\u00e5llna", 
+        "description": "", 
         "id": "Third Party MbedTLS", 
-        "description": ""
+        "text": "* MbedTLS, http://tls.mbed.org, Copyright \u00a9 2008 - 2016 ARM Limited, Alla r\u00e4ttigheter f\u00f6rbeh\u00e5llna"
     }, 
     {
         "source": "* OpenAL, http://www.openal.org, Copyright (C) 1999-2000 by Loki Software", 
-        "text": "* OpenAL, http://www.openal.org, Copyright (C) 1999-2000 av Loki Software", 
+        "description": "", 
         "id": "Third Party OpenAL", 
-        "description": ""
+        "text": "* OpenAL, http://www.openal.org, Copyright (C) 1999-2000 av Loki Software"
     }, 
     {
         "source": "* OpenColorIO, http://opencolorio.org, Copyright (c) 2003-2010 Sony Pictures Imageworks Inc., et al., All rights reserved", 
-        "text": "* OpenColorIO, http://opencolorio.org, upphovsr\u00e4tt (c) 2003-2010 Sony Pictures Imageworks Inc., et al., Alla r\u00e4ttigheter reserverade", 
+        "description": "", 
         "id": "Third Party OpenColorIO", 
-        "description": ""
+        "text": "* OpenColorIO, http://opencolorio.org, upphovsr\u00e4tt (c) 2003-2010 Sony Pictures Imageworks Inc., et al., Alla r\u00e4ttigheter reserverade"
     }, 
     {
         "source": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, a division of Lucasfilm Entertainment Company Ltd.", 
-        "text": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, en division av Lucasfilm Entertainment Company Ltd.", 
+        "description": "", 
         "id": "Third Party OpenEXR", 
-        "description": ""
+        "text": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, en division av Lucasfilm Entertainment Company Ltd."
     }, 
     {
         "source": "* curl, http://curl.haxx.se/libcurl, Copyright (c) 1996 - 2019, Daniel Stenberg, <daniel@haxx.se>, and many contributors, see the THANKS file", 
-        "text": "* curl, http://curl.haxx.se/libcurl, Copyright (c) 1996 - 2019, Daniel Stenberg, <daniel@haxx.se> , och m\u00e5nga bidragsgivare, se THANKS-filen", 
+        "description": "", 
         "id": "Third Party curl", 
-        "description": ""
+        "text": "* curl, http://curl.haxx.se/libcurl, Copyright (c) 1996 - 2019, Daniel Stenberg, <daniel@haxx.se> , och m\u00e5nga bidragsgivare, se THANKS-filen"
     }, 
     {
         "source": "* dr_libs, http://github.com/mackron/dr_libs, David Reid", 
-        "text": "* dr_libs, http://github.com/mackron/dr_libs, David Reid", 
+        "description": "", 
         "id": "Third Party dr_libs", 
-        "description": ""
+        "text": "* dr_libs, http://github.com/mackron/dr_libs, David Reid"
     }, 
     {
         "source": "* glad, http://github.com/Dav1dde/glad, Copyright (c) 2013-2018 David Herberth", 
-        "text": "* glad, http://github.com/Dav1dde/glad, Copyright (c) 2013-2018 David Herberth", 
+        "description": "", 
         "id": "Third Party glad", 
-        "description": ""
+        "text": "* glad, http://github.com/Dav1dde/glad, Copyright (c) 2013-2018 David Herberth"
     }, 
     {
         "source": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding", 
-        "text": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding", 
+        "description": "", 
         "id": "Third Party libjpeg", 
-        "description": ""
+        "text": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding"
     }, 
     {
         "source": "* libjpeg-turbo, http://libjpeg-turbo.org, Copyright (C)2009-2019 D. R. Commander, All Rights Reserved, Copyright (C)2015 Viktor Szathm\u00e1ry, All Rights Reserved", 
-        "text": "* libjpeg-turbo, http://libjpeg-turbo.org, upphovsr\u00e4tt (C) 2009-2019 DR Commander, All Rights Reserved, Copyright (C) 2015 Viktor Szathm\u00e1ry, All Rights Reserved", 
+        "description": "", 
         "id": "Third Party libjpeg-turbo", 
-        "description": ""
+        "text": "* libjpeg-turbo, http://libjpeg-turbo.org, upphovsr\u00e4tt (C) 2009-2019 DR Commander, All Rights Reserved, Copyright (C) 2015 Viktor Szathm\u00e1ry, All Rights Reserved"
     }, 
     {
         "source": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson", 
-        "text": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson", 
+        "description": "", 
         "id": "Third Party libpng", 
-        "description": ""
+        "text": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson"
     }, 
     {
         "source": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc", 
-        "text": "* libtiff, http://www.libtiff.org, upphovsr\u00e4tt (c) 1988-1997 Sam Leffler, upphovsr\u00e4tt (c) 1991-1997 Silicon Graphics, Inc", 
+        "description": "", 
         "id": "Third Party libtiff", 
-        "description": ""
+        "text": "* libtiff, http://www.libtiff.org, upphovsr\u00e4tt (c) 1988-1997 Sam Leffler, upphovsr\u00e4tt (c) 1991-1997 Silicon Graphics, Inc"
     }, 
     {
         "source": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler", 
-        "text": "* zlib, http://www.zlib.net, upphovsr\u00e4tt (c) 1995-2013 Jean-loup Gailly och Mark Adler", 
+        "description": "", 
         "id": "Third Party zlib", 
-        "description": ""
+        "text": "* zlib, http://www.zlib.net, upphovsr\u00e4tt (c) 1995-2013 Jean-loup Gailly och Mark Adler"
     }, 
     {
         "source": "Trademarks named in the documentation (in alphabetical order):", 
-        "text": "Varum\u00e4rken som anges i dokumentationen (i alfabetisk ordning):", 
+        "description": "", 
         "id": "Trademarks Text", 
-        "description": ""
+        "text": "Varum\u00e4rken som anges i dokumentationen (i alfabetisk ordning):"
     }, 
     {
         "source": "* Apple, OS X, ProRes, and QuickTime are registered trademarks of Apple, Inc.", 
-        "text": "* Apple, OS X, ProRes och QuickTime \u00e4r registrerade varum\u00e4rken som tillh\u00f6r Apple, Inc.", 
+        "description": "", 
         "id": "Trademarks Apple", 
-        "description": ""
+        "text": "* Apple, OS X, ProRes och QuickTime \u00e4r registrerade varum\u00e4rken som tillh\u00f6r Apple, Inc."
     }, 
     {
         "source": "* AMD and ATI are registered trademarks of Advanced Micro Devices, Inc.", 
-        "text": "* AMD och ATI \u00e4r registrerade varum\u00e4rken som tillh\u00f6r Advanced Micro Devices, Inc.", 
+        "description": "", 
         "id": "Trademarks AMD", 
-        "description": ""
+        "text": "* AMD och ATI \u00e4r registrerade varum\u00e4rken som tillh\u00f6r Advanced Micro Devices, Inc."
     }, 
     {
         "source": "* Autodesk, Inferno, Maya, Softimage, and XSI are registered trademarks of Autodesk, Inc.", 
-        "text": "* Autodesk, Inferno, Maya, Softimage och XSI \u00e4r registrerade varum\u00e4rken som tillh\u00f6r Autodesk, Inc.", 
+        "description": "", 
         "id": "Trademarks Autodesk", 
-        "description": ""
+        "text": "* Autodesk, Inferno, Maya, Softimage och XSI \u00e4r registrerade varum\u00e4rken som tillh\u00f6r Autodesk, Inc."
     }, 
     {
         "source": "* Debian is a registered trademark of Software in the Public Interest, Inc.", 
-        "text": "* Debian \u00e4r ett registrerat varum\u00e4rke som tillh\u00f6r Software in Public Interest, Inc.", 
+        "description": "", 
         "id": "Trademarks Debian", 
-        "description": ""
+        "text": "* Debian \u00e4r ett registrerat varum\u00e4rke som tillh\u00f6r Software in Public Interest, Inc."
     }, 
     {
         "source": "* FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project", 
-        "text": "* FFmpeg \u00e4r ett varum\u00e4rke som tillh\u00f6r Fabrice Bellard, som \u00e4r upphovsman till FFmpeg-projektet", 
+        "description": "", 
         "id": "Trademarks FFmpeg", 
-        "description": ""
+        "text": "* FFmpeg \u00e4r ett varum\u00e4rke som tillh\u00f6r Fabrice Bellard, som \u00e4r upphovsman till FFmpeg-projektet"
     }, 
     {
         "source": "* FreeBSD is a registered trademark of The FreeBSD Foundation", 
-        "text": "* FreeBSD \u00e4r ett registrerat varum\u00e4rke som tillh\u00f6r The FreeBSD Foundation", 
+        "description": "", 
         "id": "Trademarks FreeBSD", 
-        "description": ""
+        "text": "* FreeBSD \u00e4r ett registrerat varum\u00e4rke som tillh\u00f6r The FreeBSD Foundation"
     }, 
     {
         "source": "* Intel is a registered trademark of Intel Corporation", 
-        "text": "* Intel \u00e4r ett registrerat varum\u00e4rke som tillh\u00f6r Intel Corporation", 
+        "description": "", 
         "id": "Trademarks Intel", 
-        "description": ""
+        "text": "* Intel \u00e4r ett registrerat varum\u00e4rke som tillh\u00f6r Intel Corporation"
     }, 
     {
         "source": "* Industrial Light and Magic and ILM are registered trademarks of Lucasfilm Ltd.", 
-        "text": "* Industrial Light and Magic och ILM \u00e4r registrerade varum\u00e4rken som tillh\u00f6r Lucasfilm Ltd.", 
+        "description": "", 
         "id": "Trademarks Lucasfilm", 
-        "description": ""
+        "text": "* Industrial Light and Magic och ILM \u00e4r registrerade varum\u00e4rken som tillh\u00f6r Lucasfilm Ltd."
     }, 
     {
         "source": "* Kodak and Cineon are a registered trademarks of the Eastman Kodak Company", 
-        "text": "* Kodak och Cineon \u00e4r ett registrerat varum\u00e4rke som tillh\u00f6r Eastman Kodak Company", 
+        "description": "", 
         "id": "Trademarks Kodak", 
-        "description": ""
+        "text": "* Kodak och Cineon \u00e4r ett registrerat varum\u00e4rke som tillh\u00f6r Eastman Kodak Company"
     }, 
     {
         "source": "* Linux is a registered trademark of Linus Torvalds", 
-        "text": "* Linux \u00e4r ett registrerat varum\u00e4rke som tillh\u00f6r Linus Torvalds", 
+        "description": "", 
         "id": "Trademarks Linux", 
-        "description": ""
+        "text": "* Linux \u00e4r ett registrerat varum\u00e4rke som tillh\u00f6r Linus Torvalds"
     }, 
     {
         "source": "* Microsoft and Microsoft Windows are registered trademarks of Microsoft, Inc.", 
-        "text": "* Microsoft och Microsoft Windows \u00e4r registrerade varum\u00e4rken som tillh\u00f6r Microsoft, Inc.", 
+        "description": "", 
         "id": "Trademarks Microsoft", 
-        "description": ""
+        "text": "* Microsoft och Microsoft Windows \u00e4r registrerade varum\u00e4rken som tillh\u00f6r Microsoft, Inc."
     }, 
     {
         "source": "* MIPS is a registered trademark of MIPS Technologies, Inc.", 
-        "text": "* MIPS \u00e4r ett registrerat varum\u00e4rke som tillh\u00f6r MIPS Technologies, Inc.", 
+        "description": "", 
         "id": "Trademarks MIPS", 
-        "description": ""
+        "text": "* MIPS \u00e4r ett registrerat varum\u00e4rke som tillh\u00f6r MIPS Technologies, Inc."
     }, 
     {
         "source": "* NVIDIA is a registered trademark of NVIDIA Corporation", 
-        "text": "* NVIDIA \u00e4r ett registrerat varum\u00e4rke som tillh\u00f6r NVIDIA Corporation", 
+        "description": "", 
         "id": "Trademarks NVIDIA", 
-        "description": ""
+        "text": "* NVIDIA \u00e4r ett registrerat varum\u00e4rke som tillh\u00f6r NVIDIA Corporation"
     }, 
     {
         "source": "* Red Hat and Fedora are registered trademarks of Red Hat, Inc.", 
-        "text": "* Red Hat och Fedora \u00e4r registrerade varum\u00e4rken som tillh\u00f6r Red Hat, Inc.", 
+        "description": "", 
         "id": "Trademarks Red Hat", 
-        "description": ""
+        "text": "* Red Hat och Fedora \u00e4r registrerade varum\u00e4rken som tillh\u00f6r Red Hat, Inc."
     }, 
     {
         "source": "* Silicon Graphics, SGI, IRIX, and OpenGL are registered trademarks of Silicon Graphics International Corp.", 
-        "text": "* Silicon Graphics, SGI, IRIX och OpenGL \u00e4r registrerade varum\u00e4rken som tillh\u00f6r Silicon Graphics International Corp.", 
+        "description": "", 
         "id": "Trademarks SGI", 
-        "description": ""
+        "text": "* Silicon Graphics, SGI, IRIX och OpenGL \u00e4r registrerade varum\u00e4rken som tillh\u00f6r Silicon Graphics International Corp."
     }, 
     {
         "source": "* SMPTE is a registered trademark of the Society of Motion Picture and Television Engineers", 
-        "text": "* SMPTE \u00e4r ett registrerat varum\u00e4rke till Society of Motion Picture and Television Engineers", 
+        "description": "", 
         "id": "Trademarks SMPTE", 
-        "description": ""
+        "text": "* SMPTE \u00e4r ett registrerat varum\u00e4rke till Society of Motion Picture and Television Engineers"
     }, 
     {
         "source": "* SourceForge.net is a registered trademark of VA Software Corporation", 
-        "text": "* SourceForge.net \u00e4r ett registrerat varum\u00e4rke som tillh\u00f6r VA Software Corporation", 
+        "description": "", 
         "id": "Trademarks SourceForge", 
-        "description": ""
+        "text": "* SourceForge.net \u00e4r ett registrerat varum\u00e4rke som tillh\u00f6r VA Software Corporation"
     }, 
     {
         "source": "* SuSE is a registered trademark of Novell, Inc.", 
-        "text": "* SuSE \u00e4r ett registrerat varum\u00e4rke som tillh\u00f6r Novell, Inc.", 
+        "description": "", 
         "id": "Trademarks SuSE", 
-        "description": ""
+        "text": "* SuSE \u00e4r ett registrerat varum\u00e4rke som tillh\u00f6r Novell, Inc."
     }, 
     {
         "source": "* Ubuntu is a registered trademark of Canonical Ltd.", 
-        "text": "* Ubuntu \u00e4r ett registrerat varum\u00e4rke som tillh\u00f6r Canonical Ltd.", 
+        "description": "", 
         "id": "Trademarks Ubuntu", 
-        "description": ""
+        "text": "* Ubuntu \u00e4r ett registrerat varum\u00e4rke som tillh\u00f6r Canonical Ltd."
     }, 
     {
         "source": "* UNIX is a registered trademark of The Open Group", 
-        "text": "* UNIX \u00e4r ett registrerat varum\u00e4rke f\u00f6r The Open Group", 
+        "description": "", 
         "id": "Trademarks UNIX", 
-        "description": ""
+        "text": "* UNIX \u00e4r ett registrerat varum\u00e4rke f\u00f6r The Open Group"
     }, 
     {
         "source": "All other products named in the documentation are trademarks of their respective owners.", 
-        "text": "Alla andra produkter som n\u00e4mns i dokumentationen \u00e4r varum\u00e4rken som tillh\u00f6r respektive \u00e4gare.", 
+        "description": "", 
         "id": "Trademarks End", 
-        "description": ""
+        "text": "Alla andra produkter som n\u00e4mns i dokumentationen \u00e4r varum\u00e4rken som tillh\u00f6r respektive \u00e4gare."
     }, 
     {
         "source": "Made in Berkeley, CA, USA", 
-        "text": "Gjord i Berkeley, CA, USA", 
+        "description": "", 
         "id": "Made In", 
-        "description": ""
+        "text": "Gjord i Berkeley, CA, USA"
     }, 
     {
         "source": "Cannot parse the value.", 
-        "text": "Kan inte analysera v\u00e4rdet.", 
+        "description": "", 
         "id": "Cannot parse the value.", 
-        "description": ""
+        "text": "Kan inte analysera v\u00e4rdet."
     }, 
     {
         "source": "Fit", 
-        "text": "Passa", 
+        "description": "", 
         "id": "Fit", 
-        "description": ""
+        "text": "Passa"
     }, 
     {
         "source": "Center", 
-        "text": "Centrum", 
+        "description": "", 
         "id": "Center", 
-        "description": ""
+        "text": "Centrum"
     }, 
     {
         "source": "0", 
-        "text": "0", 
+        "description": "", 
         "id": "0", 
-        "description": ""
+        "text": "0"
     }, 
     {
         "source": "90", 
-        "text": "90", 
+        "description": "", 
         "id": "90", 
-        "description": ""
+        "text": "90"
     }, 
     {
         "source": "180", 
-        "text": "180", 
+        "description": "", 
         "id": "180", 
-        "description": ""
+        "text": "180"
     }, 
     {
         "source": "270", 
-        "text": "270", 
+        "description": "", 
         "id": "270", 
-        "description": ""
+        "text": "270"
     }, 
     {
         "source": "Native", 
-        "text": "Inf\u00f6ding", 
+        "description": "", 
         "id": "Native", 
-        "description": ""
+        "text": "Inf\u00f6ding"
     }, 
     {
         "source": "16:9", 
-        "text": "16: 9", 
+        "description": "", 
         "id": "16:9", 
-        "description": ""
+        "text": "16: 9"
     }, 
     {
         "source": "1.85", 
-        "text": "1,85", 
+        "description": "", 
         "id": "1.85", 
-        "description": ""
+        "text": "1,85"
     }, 
     {
         "source": "2.35", 
-        "text": "2,35", 
+        "description": "", 
         "id": "2.35", 
-        "description": ""
+        "text": "2,35"
     }, 
     {
         "source": "Stop", 
-        "text": "Sluta", 
+        "description": "", 
         "id": "Stop", 
-        "description": ""
+        "text": "Sluta"
     }, 
     {
         "source": "Once", 
-        "text": "En g\u00e5ng", 
+        "description": "", 
         "id": "Once", 
-        "description": ""
+        "text": "En g\u00e5ng"
     }, 
     {
         "source": "Ping Pong", 
-        "text": "Pingis", 
+        "description": "", 
         "id": "PingPong", 
-        "description": ""
+        "text": "Pingis"
     }, 
     {
         "source": "Color Space Widget", 
-        "text": "Color Space Widget", 
+        "description": "", 
         "id": "Color Space Widget", 
-        "description": ""
+        "text": "Color Space Widget"
     }, 
     {
         "source": "Show the color space widget", 
-        "text": "Visa widgeten f\u00f6r f\u00e4rgutrymme", 
+        "description": "", 
         "id": "Color space widget tooltip", 
-        "description": ""
+        "text": "Visa widgeten f\u00f6r f\u00e4rgutrymme"
     }, 
     {
         "source": "Red Channel", 
-        "text": "Red Channel", 
+        "description": "", 
         "id": "Red Channel", 
-        "description": ""
+        "text": "Red Channel"
     }, 
     {
         "source": "Show the image's red channel", 
-        "text": "Visa bildens r\u00f6da kanal", 
+        "description": "", 
         "id": "Red channel tooltip", 
-        "description": ""
+        "text": "Visa bildens r\u00f6da kanal"
     }, 
     {
         "source": "Green Channel", 
-        "text": "Green Channel", 
+        "description": "", 
         "id": "Green Channel", 
-        "description": ""
+        "text": "Green Channel"
     }, 
     {
         "source": "Show the image's green channel", 
-        "text": "Visa bildens gr\u00f6na kanal", 
+        "description": "", 
         "id": "Green channel tooltip", 
-        "description": ""
+        "text": "Visa bildens gr\u00f6na kanal"
     }, 
     {
         "source": "Blue Channel", 
-        "text": "Bl\u00e5 kanal", 
+        "description": "", 
         "id": "Blue Channel", 
-        "description": ""
+        "text": "Bl\u00e5 kanal"
     }, 
     {
         "source": "Show the image's blue channel", 
-        "text": "Visa bildens bl\u00e5 kanal", 
+        "description": "", 
         "id": "Blue channel tooltip", 
-        "description": ""
+        "text": "Visa bildens bl\u00e5 kanal"
     }, 
     {
         "source": "Alpha Channel", 
-        "text": "Alpha Channel", 
+        "description": "", 
         "id": "Alpha Channel", 
-        "description": ""
+        "text": "Alpha Channel"
     }, 
     {
         "source": "Show the image's alpha channel", 
-        "text": "Visa bildens alfakanal", 
+        "description": "", 
         "id": "Alpha channel tooltip", 
-        "description": ""
+        "text": "Visa bildens alfakanal"
     }, 
     {
         "source": "Premultiplied Alpha", 
-        "text": "Premultiplied Alpha", 
+        "description": "", 
         "id": "Premultiplied Alpha", 
-        "description": ""
+        "text": "Premultiplied Alpha"
     }, 
     {
         "source": "Premultiply the color channels by the alpha channel", 
-        "text": "Premultiply f\u00e4rgkanalerna genom alfakanalen", 
+        "description": "", 
         "id": "Premultiplied alpha tooltip", 
-        "description": ""
+        "text": "Premultiply f\u00e4rgkanalerna genom alfakanalen"
     }, 
     {
         "source": "Mirror Horizontal", 
-        "text": "Spegel Horisontell", 
+        "description": "", 
         "id": "Mirror Horizontal", 
-        "description": ""
+        "text": "Spegel Horisontell"
     }, 
     {
         "source": "Mirror the image horizontally", 
-        "text": "Mirror bilden horisontellt", 
+        "description": "", 
         "id": "Mirror horizontal tooltip", 
-        "description": ""
+        "text": "Mirror bilden horisontellt"
     }, 
     {
         "source": "Mirror Vertical", 
-        "text": "Spegel Vertikal", 
+        "description": "", 
         "id": "Mirror Vertical", 
-        "description": ""
+        "text": "Spegel Vertikal"
     }, 
     {
         "source": "Mirror the image vertically", 
-        "text": "Spegla bilden vertikalt", 
+        "description": "", 
         "id": "Mirror vertical tooltip", 
-        "description": ""
+        "text": "Spegla bilden vertikalt"
     }, 
     {
         "source": "Rotate 0", 
-        "text": "Rotera 0", 
+        "description": "", 
         "id": "Rotate 0", 
-        "description": ""
+        "text": "Rotera 0"
     }, 
     {
         "source": "Rotate the image 0 degrees", 
-        "text": "Rotera bilden 0 grader", 
+        "description": "", 
         "id": "Rotate 0 tooltip", 
-        "description": ""
+        "text": "Rotera bilden 0 grader"
     }, 
     {
         "source": "Rotate 90", 
-        "text": "Rotera 90", 
+        "description": "", 
         "id": "Rotate 90", 
-        "description": ""
+        "text": "Rotera 90"
     }, 
     {
         "source": "Rotate the image 90 degrees", 
-        "text": "Rotera bilden 90 grader", 
+        "description": "", 
         "id": "Rotate 90 tooltip", 
-        "description": ""
+        "text": "Rotera bilden 90 grader"
     }, 
     {
         "source": "Rotate 180", 
-        "text": "Rotera 180", 
+        "description": "", 
         "id": "Rotate 180", 
-        "description": ""
+        "text": "Rotera 180"
     }, 
     {
         "source": "Rotate the image 180 degrees", 
-        "text": "Rotera bilden 180 grader", 
+        "description": "", 
         "id": "Rotate 180 tooltip", 
-        "description": ""
+        "text": "Rotera bilden 180 grader"
     }, 
     {
         "source": "Rotate 270", 
-        "text": "Rotera 270", 
+        "description": "", 
         "id": "Rotate 270", 
-        "description": ""
+        "text": "Rotera 270"
     }, 
     {
         "source": "Rotate the image 270 degrees", 
-        "text": "Rotera bilden 270 grader", 
+        "description": "", 
         "id": "Rotate 270 tooltip", 
-        "description": ""
+        "text": "Rotera bilden 270 grader"
     }, 
     {
         "source": "Native Aspect Ratio", 
-        "text": "Native Aspect Ratio", 
+        "description": "", 
         "id": "Native Aspect Ratio", 
-        "description": ""
+        "text": "Native Aspect Ratio"
     }, 
     {
         "source": "Show the image at it's native resolution", 
-        "text": "Visa bilden vid den ursprungliga uppl\u00f6sningen", 
+        "description": "", 
         "id": "Native aspect ratio tooltip", 
-        "description": ""
+        "text": "Visa bilden vid den ursprungliga uppl\u00f6sningen"
     }, 
     {
         "source": "Default Aspect Ratio", 
-        "text": "Standard bildf\u00f6rh\u00e5llande", 
+        "description": "", 
         "id": "Default Aspect Ratio", 
-        "description": ""
+        "text": "Standard bildf\u00f6rh\u00e5llande"
     }, 
     {
         "source": "Show the image at it's intended resolution", 
-        "text": "Visa bilden med den avsedda uppl\u00f6sningen", 
+        "description": "", 
         "id": "Default aspect ratio tooltip", 
-        "description": ""
+        "text": "Visa bilden med den avsedda uppl\u00f6sningen"
     }, 
     {
         "source": "Show the image with a 16:9 aspect ratio", 
-        "text": "Visa bilden med ett 16: 9-bildf\u00f6rh\u00e5llande", 
+        "description": "", 
         "id": "16:9 aspect ratio tooltip", 
-        "description": ""
+        "text": "Visa bilden med ett 16: 9-bildf\u00f6rh\u00e5llande"
     }, 
     {
         "source": "Show the image with a 1.85 aspect ratio", 
-        "text": "Visa bilden med ett 1,85 bildf\u00f6rh\u00e5llande", 
+        "description": "", 
         "id": "1.85 aspect ratio tooltip", 
-        "description": ""
+        "text": "Visa bilden med ett 1,85 bildf\u00f6rh\u00e5llande"
     }, 
     {
         "source": "Show the image with a 2.35 aspect ratio", 
-        "text": "Visa bilden med ett 2,35 bildf\u00f6rh\u00e5llande", 
+        "description": "", 
         "id": "2.35 aspect ratio tooltip", 
-        "description": ""
+        "text": "Visa bilden med ett 2,35 bildf\u00f6rh\u00e5llande"
     }, 
     {
         "source": "Frame Store", 
-        "text": "Ramlager", 
+        "description": "", 
         "id": "Frame Store", 
-        "description": ""
+        "text": "Ramlager"
     }, 
     {
         "source": "Show the frame store", 
-        "text": "Visa rambutiken", 
+        "description": "", 
         "id": "Frame store tooltip", 
-        "description": ""
+        "text": "Visa rambutiken"
     }, 
     {
         "source": "Load Frame Store", 
-        "text": "Ladda ramlager", 
+        "description": "", 
         "id": "Load Frame Store", 
-        "description": ""
+        "text": "Ladda ramlager"
     }, 
     {
         "source": "Load the current frame into the frame store", 
-        "text": "Ladda den aktuella ramen i ramverkan", 
+        "description": "", 
         "id": "Load frame store tooltip", 
-        "description": ""
+        "text": "Ladda den aktuella ramen i ramverkan"
     }, 
     {
         "source": "Pan View", 
-        "text": "Pan View", 
+        "description": "", 
         "id": "Pan View", 
-        "description": ""
+        "text": "Pan View"
     }, 
     {
         "source": "Activate the pan view tool", 
-        "text": "Aktivera pan view-verktyget", 
+        "description": "", 
         "id": "Pan view tooltip", 
-        "description": ""
+        "text": "Aktivera pan view-verktyget"
     }, 
     {
         "source": "Left", 
-        "text": "V\u00e4nster", 
+        "description": "", 
         "id": "Left", 
-        "description": ""
+        "text": "V\u00e4nster"
     }, 
     {
         "source": "Move the view left", 
-        "text": "Flytta visningen till v\u00e4nster", 
+        "description": "", 
         "id": "Left tooltip", 
-        "description": ""
+        "text": "Flytta visningen till v\u00e4nster"
     }, 
     {
         "source": "Right", 
-        "text": "H\u00f6ger", 
+        "description": "", 
         "id": "Right", 
-        "description": ""
+        "text": "H\u00f6ger"
     }, 
     {
         "source": "Move the view right", 
-        "text": "Flytta vyn r\u00e4tt", 
+        "description": "", 
         "id": "Right tooltip", 
-        "description": ""
+        "text": "Flytta vyn r\u00e4tt"
     }, 
     {
         "source": "Up", 
-        "text": "Upp", 
+        "description": "", 
         "id": "Up", 
-        "description": ""
+        "text": "Upp"
     }, 
     {
         "source": "Move the view up", 
-        "text": "Flytta upp vyn", 
+        "description": "", 
         "id": "Up tooltip", 
-        "description": ""
+        "text": "Flytta upp vyn"
     }, 
     {
         "source": "Down", 
-        "text": "Ner", 
+        "description": "", 
         "id": "Down", 
-        "description": ""
+        "text": "Ner"
     }, 
     {
         "source": "Move the view down", 
-        "text": "Flytta vyn ned\u00e5t", 
+        "description": "", 
         "id": "Down tooltip", 
-        "description": ""
+        "text": "Flytta vyn ned\u00e5t"
     }, 
     {
         "source": "North West", 
-        "text": "nordv\u00e4st", 
+        "description": "", 
         "id": "North West", 
-        "description": ""
+        "text": "nordv\u00e4st"
     }, 
     {
         "source": "Move the view Northwest", 
-        "text": "Flytta vyn Northwest", 
+        "description": "", 
         "id": "North west tooltip", 
-        "description": ""
+        "text": "Flytta vyn Northwest"
     }, 
     {
         "source": "North East", 
-        "text": "Nord\u00f6stra", 
+        "description": "", 
         "id": "North East", 
-        "description": ""
+        "text": "Nord\u00f6stra"
     }, 
     {
         "source": "North the view Northeast", 
-        "text": "Norr sikten nord\u00f6stra", 
+        "description": "", 
         "id": "North east tooltip", 
-        "description": ""
+        "text": "Norr sikten nord\u00f6stra"
     }, 
     {
         "source": "South east", 
-        "text": "Sydost", 
+        "description": "", 
         "id": "South east", 
-        "description": ""
+        "text": "Sydost"
     }, 
     {
         "source": "Move the view Southeast", 
-        "text": "Flytta utsikten Southeast", 
+        "description": "", 
         "id": "South east tooltip", 
-        "description": ""
+        "text": "Flytta utsikten Southeast"
     }, 
     {
         "source": "South West", 
-        "text": "South West", 
+        "description": "", 
         "id": "South West", 
-        "description": ""
+        "text": "South West"
     }, 
     {
         "source": "Move the view Southwest", 
-        "text": "Flytta vyn Southwest", 
+        "description": "", 
         "id": "South west tooltip", 
-        "description": ""
+        "text": "Flytta vyn Southwest"
     }, 
     {
         "source": "Zoom In", 
-        "text": "Zooma in", 
+        "description": "", 
         "id": "Zoom In", 
-        "description": ""
+        "text": "Zooma in"
     }, 
     {
         "source": "Zoom into the image", 
-        "text": "Zooma in i bilden", 
+        "description": "", 
         "id": "Zoom in tooltip", 
-        "description": ""
+        "text": "Zooma in i bilden"
     }, 
     {
         "source": "Zoom Out", 
-        "text": "Zooma ut", 
+        "description": "", 
         "id": "Zoom Out", 
-        "description": ""
+        "text": "Zooma ut"
     }, 
     {
         "source": "Zoom out of the image", 
-        "text": "Zooma ut ur bilden", 
+        "description": "", 
         "id": "Zoom out tooltip", 
-        "description": ""
+        "text": "Zooma ut ur bilden"
     }, 
     {
         "source": "Fit To Image", 
-        "text": "Passa till bild", 
+        "description": "", 
         "id": "Fit To Image", 
-        "description": ""
+        "text": "Passa till bild"
     }, 
     {
         "source": "Fit the image to the window", 
-        "text": "Montera bilden i f\u00f6nstret", 
+        "description": "", 
         "id": "Fit to image tooltip", 
-        "description": ""
+        "text": "Montera bilden i f\u00f6nstret"
     }, 
     {
         "source": "Center the image in the window with a 1:1 zoom", 
-        "text": "Centrera bilden i f\u00f6nstret med en 1: 1 zoom", 
+        "description": "", 
         "id": "Center image tooltip", 
-        "description": ""
+        "text": "Centrera bilden i f\u00f6nstret med en 1: 1 zoom"
     }, 
     {
         "source": "Lock Fit To Image", 
-        "text": "L\u00e5sa passa till bild", 
+        "description": "", 
         "id": "Lock Fit To Image", 
-        "description": ""
+        "text": "L\u00e5sa passa till bild"
     }, 
     {
         "source": "Lock the image fitted to the window", 
-        "text": "L\u00e5sa bilden monterad i f\u00f6nstret", 
+        "description": "", 
         "id": "Lock fit to image tooltip", 
-        "description": ""
+        "text": "L\u00e5sa bilden monterad i f\u00f6nstret"
     }, 
     {
         "source": "Lock Center", 
-        "text": "L\u00e5scenter", 
+        "description": "", 
         "id": "Lock Center", 
-        "description": ""
+        "text": "L\u00e5scenter"
     }, 
     {
         "source": "Lock the image centered in the window with a 1:1 zoom", 
-        "text": "L\u00e5sa bilden centrerad i f\u00f6nstret med en 1: 1 zoom", 
+        "description": "", 
         "id": "Lock center image tooltip", 
-        "description": ""
+        "text": "L\u00e5sa bilden centrerad i f\u00f6nstret med en 1: 1 zoom"
     }, 
     {
         "source": "Grid", 
-        "text": "Rutn\u00e4t", 
+        "description": "", 
         "id": "Grid", 
-        "description": ""
+        "text": "Rutn\u00e4t"
     }, 
     {
         "source": "Show a grid", 
-        "text": "Visa ett rutn\u00e4t", 
+        "description": "", 
         "id": "Grid tooltip", 
-        "description": ""
+        "text": "Visa ett rutn\u00e4t"
     }, 
     {
         "source": "HUD", 
-        "text": "HUD", 
+        "description": "", 
         "id": "HUD", 
-        "description": ""
+        "text": "HUD"
     }, 
     {
         "source": "Show the heads up display", 
-        "text": "Visa huvuddisplayen", 
+        "description": "", 
         "id": "HUD tooltip", 
-        "description": ""
+        "text": "Visa huvuddisplayen"
     }, 
     {
         "source": "Show the opened files", 
-        "text": "Visa de \u00f6ppna filerna", 
+        "description": "", 
         "id": "Media popup tooltip", 
-        "description": ""
+        "text": "Visa de \u00f6ppna filerna"
     }, 
     {
         "source": "Automatically hide the user interface when the mouse doesn't move", 
-        "text": "G\u00f6m automatiskt anv\u00e4ndargr\u00e4nssnittet n\u00e4r musen inte r\u00f6r sig", 
+        "description": "", 
         "id": "Auto hide tooltip", 
-        "description": ""
+        "text": "G\u00f6m automatiskt anv\u00e4ndargr\u00e4nssnittet n\u00e4r musen inte r\u00f6r sig"
     }, 
     {
         "source": "Show the settings", 
-        "text": "Visa inst\u00e4llningarna", 
+        "description": "", 
         "id": "Settings tooltip", 
-        "description": ""
+        "text": "Visa inst\u00e4llningarna"
     }, 
     {
         "source": "Activate the annotation tool", 
-        "text": "Aktivera anteckningsverktyget", 
+        "description": "", 
         "id": "Annotate tooltip", 
-        "description": ""
+        "text": "Aktivera anteckningsverktyget"
     }, 
     {
         "source": "Color Space", 
-        "text": "F\u00e4rg rymd", 
+        "description": "", 
         "id": "Color Space", 
-        "description": ""
+        "text": "F\u00e4rg rymd"
     }, 
     {
         "source": "(empty)", 
-        "text": "(t\u00f6mma)", 
+        "description": "", 
         "id": "(empty)", 
-        "description": ""
+        "text": "(t\u00f6mma)"
     }, 
     {
         "source": "Input:", 
-        "text": "Inmatning:", 
+        "description": "", 
         "id": "Input:", 
-        "description": ""
+        "text": "Inmatning:"
     }, 
     {
         "source": "Display:", 
-        "text": "Visa:", 
+        "description": "", 
         "id": "Display:", 
-        "description": ""
+        "text": "Visa:"
     }, 
     {
         "source": "View:", 
-        "text": "Se:", 
+        "description": "", 
         "id": "View:", 
+        "text": "Se:"
+    }, 
+    {
+        "source": "Automatically hide the user interface when the mouse doesn't move for awhile", 
+        "text": "G\u00f6m automatiskt anv\u00e4ndargr\u00e4nssnittet n\u00e4r musen inte r\u00f6r sig f\u00f6r ett tag", 
+        "id": "Auto-hide tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Auto-Hide", 
+        "text": "Auto-Hide", 
+        "id": "Auto-Hide", 
         "description": ""
     }
 ]

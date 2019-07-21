@@ -1,92 +1,57 @@
 [
     {
-        "text": "Cannot parse the value.", 
-        "id": "Cannot parse the value.", 
-        "description": ""
-    }, 
-    {
-        "text": "The file", 
-        "id": "The file", 
-        "description": ""
-    }, 
-    {
-        "text": "cannot be opened", 
-        "id": "cannot be opened", 
-        "description": ""
-    }, 
-    {
-        "text": "does not have any video or audio streams", 
-        "id": "does not have any video or audio streams", 
-        "description": ""
-    }, 
-    {
-        "text": "does not match any video codecs", 
-        "id": "does not match any video codecs", 
-        "description": ""
-    }, 
-    {
-        "text": "The audio format ", 
-        "id": "The audio format ", 
-        "description": ""
-    }, 
-    {
-        "text": "is not supported", 
-        "id": "is not supported", 
-        "description": ""
-    }, 
-    {
-        "text": "does not match any audio codecs", 
-        "id": "does not match any audio codecs", 
-        "description": ""
-    }, 
-    {
-        "text": "None", 
-        "id": "None", 
-        "description": ""
-    }, 
-    {
-        "text": "Left", 
-        "id": "Left", 
-        "description": ""
-    }, 
-    {
-        "text": "Top", 
-        "id": "Top", 
-        "description": ""
-    }, 
-    {
-        "text": "Right", 
-        "id": "Right", 
-        "description": ""
-    }, 
-    {
-        "text": "Bottom", 
-        "id": "Bottom", 
-        "description": ""
-    }, 
-    {
-        "text": "Timecode", 
-        "id": "Timecode", 
-        "description": ""
-    }, 
-    {
-        "text": "Frames", 
-        "id": "Frames", 
-        "description": ""
-    }, 
-    {
         "text": "Bad magic number.", 
         "id": "Bad magic number.", 
         "description": ""
     }, 
     {
-        "text": "Unsupported file.", 
-        "id": "Unsupported file.", 
+        "text": "No image channels.", 
+        "id": "No image channels.", 
+        "description": ""
+    }, 
+    {
+        "text": "Image channels must have the same size and bit depth.", 
+        "id": "Image channels must have the same size and bit depth.", 
+        "description": ""
+    }, 
+    {
+        "text": "Unsupported bit depth.", 
+        "id": "Unsupported bit depth.", 
+        "description": ""
+    }, 
+    {
+        "text": "Line padding is unsupported.", 
+        "id": "Line padding is unsupported.", 
+        "description": ""
+    }, 
+    {
+        "text": "Channel padding is unsupported.", 
+        "id": "Channel padding is unsupported.", 
         "description": ""
     }, 
     {
         "text": "Incomplete file.", 
         "id": "Incomplete file.", 
+        "description": ""
+    }, 
+    {
+        "text": "This plugin provides Cineon image I/O.", 
+        "id": "This plugin provides Cineon image I/O.", 
+        "description": ""
+    }, 
+    {
+        "text": "Cannot parse the value.", 
+        "id": "Cannot parse the value.", 
+        "description": ""
+    }, 
+    {
+        "text": "Cannot open file.", 
+        "id": "Cannot open file.", 
+        "description": ""
+    }, 
+    {
+        "text": "Unsupported file.", 
+        "id": "Unsupported file.", 
         "description": ""
     }, 
     {
@@ -120,98 +85,8 @@
         "description": ""
     }, 
     {
-        "text": "Cannot open file.", 
-        "id": "Cannot open file.", 
-        "description": ""
-    }, 
-    {
-        "text": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
-        "id": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
-        "description": ""
-    }, 
-    {
-        "text": "This plugin provides NetPBM image I/O.", 
-        "id": "This plugin provides NetPBM image I/O.", 
-        "description": ""
-    }, 
-    {
-        "text": "ASCII", 
-        "id": "ASCII", 
-        "description": ""
-    }, 
-    {
-        "text": "Binary", 
-        "id": "Binary", 
-        "description": ""
-    }, 
-    {
-        "text": "Error reading scanline.", 
-        "id": "Error reading scanline.", 
-        "description": ""
-    }, 
-    {
-        "text": "Unsupported image type.", 
-        "id": "Unsupported image type.", 
-        "description": ""
-    }, 
-    {
-        "text": "Unknown", 
-        "id": "Unknown", 
-        "description": ""
-    }, 
-    {
-        "text": "Out of memory", 
-        "id": "Out of memory", 
-        "description": ""
-    }, 
-    {
-        "text": "Invalid value", 
-        "id": "Invalid value", 
-        "description": ""
-    }, 
-    {
-        "text": "Invalid enum", 
-        "id": "Invalid enum", 
-        "description": ""
-    }, 
-    {
-        "text": "U8", 
-        "id": "U8", 
-        "description": ""
-    }, 
-    {
-        "text": "S16", 
-        "id": "S16", 
-        "description": ""
-    }, 
-    {
-        "text": "S32", 
-        "id": "S32", 
-        "description": ""
-    }, 
-    {
-        "text": "F32", 
-        "id": "F32", 
-        "description": ""
-    }, 
-    {
         "text": "Unsupported color components.", 
         "id": "Unsupported color components.", 
-        "description": ""
-    }, 
-    {
-        "text": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
-        "id": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
-        "description": ""
-    }, 
-    {
-        "text": "RLE", 
-        "id": "RLE", 
-        "description": ""
-    }, 
-    {
-        "text": "LZW", 
-        "id": "LZW", 
         "description": ""
     }, 
     {
@@ -227,11 +102,6 @@
     {
         "text": "The OpenGL frame buffer cannot be initialized.", 
         "id": "The OpenGL frame buffer cannot be initialized.", 
-        "description": ""
-    }, 
-    {
-        "text": "Error writing scanline.", 
-        "id": "Error writing scanline.", 
         "description": ""
     }, 
     {
@@ -267,6 +137,41 @@
     {
         "text": "cannot be linked", 
         "id": "cannot be linked", 
+        "description": ""
+    }, 
+    {
+        "text": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
+        "id": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
+        "description": ""
+    }, 
+    {
+        "text": "The file cannot be opened.", 
+        "id": "The file cannot be opened.", 
+        "description": ""
+    }, 
+    {
+        "text": "This plugin provides NetPBM image I/O.", 
+        "id": "This plugin provides NetPBM image I/O.", 
+        "description": ""
+    }, 
+    {
+        "text": "ASCII", 
+        "id": "ASCII", 
+        "description": ""
+    }, 
+    {
+        "text": "Binary", 
+        "id": "Binary", 
+        "description": ""
+    }, 
+    {
+        "text": "Unsupported image type.", 
+        "id": "Unsupported image type.", 
+        "description": ""
+    }, 
+    {
+        "text": "None", 
+        "id": "None", 
         "description": ""
     }, 
     {
@@ -395,6 +300,11 @@
         "description": ""
     }, 
     {
+        "text": "U8", 
+        "id": "U8", 
+        "description": ""
+    }, 
+    {
         "text": "U10", 
         "id": "U10", 
         "description": ""
@@ -415,8 +325,18 @@
         "description": ""
     }, 
     {
-        "text": "The shader cannot be created", 
-        "id": "The shader cannot be created", 
+        "text": "F32", 
+        "id": "F32", 
+        "description": ""
+    }, 
+    {
+        "text": "The file", 
+        "id": "The file", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot be read", 
+        "id": "cannot be read", 
         "description": ""
     }, 
     {
@@ -425,8 +345,68 @@
         "description": ""
     }, 
     {
-        "text": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
-        "id": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
+        "text": "cannot be written", 
+        "id": "cannot be written", 
+        "description": ""
+    }, 
+    {
+        "text": "The shader cannot be created", 
+        "id": "The shader cannot be created", 
+        "description": ""
+    }, 
+    {
+        "text": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
+        "id": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
+        "description": ""
+    }, 
+    {
+        "text": "RLE", 
+        "id": "RLE", 
+        "description": ""
+    }, 
+    {
+        "text": "LZW", 
+        "id": "LZW", 
+        "description": ""
+    }, 
+    {
+        "text": "Error reading scanline.", 
+        "id": "Error reading scanline.", 
+        "description": ""
+    }, 
+    {
+        "text": "Error writing scanline.", 
+        "id": "Error writing scanline.", 
+        "description": ""
+    }, 
+    {
+        "text": "Unknown", 
+        "id": "Unknown", 
+        "description": ""
+    }, 
+    {
+        "text": "Out of memory", 
+        "id": "Out of memory", 
+        "description": ""
+    }, 
+    {
+        "text": "Invalid value", 
+        "id": "Invalid value", 
+        "description": ""
+    }, 
+    {
+        "text": "Invalid enum", 
+        "id": "Invalid enum", 
+        "description": ""
+    }, 
+    {
+        "text": "S16", 
+        "id": "S16", 
+        "description": ""
+    }, 
+    {
+        "text": "S32", 
+        "id": "S32", 
         "description": ""
     }, 
     {
@@ -485,13 +465,33 @@
         "description": ""
     }, 
     {
-        "text": "cannot be read", 
-        "id": "cannot be read", 
+        "text": "Left", 
+        "id": "Left", 
         "description": ""
     }, 
     {
-        "text": "cannot be written", 
-        "id": "cannot be written", 
+        "text": "Top", 
+        "id": "Top", 
+        "description": ""
+    }, 
+    {
+        "text": "Right", 
+        "id": "Right", 
+        "description": ""
+    }, 
+    {
+        "text": "Bottom", 
+        "id": "Bottom", 
+        "description": ""
+    }, 
+    {
+        "text": "Timecode", 
+        "id": "Timecode", 
+        "description": ""
+    }, 
+    {
+        "text": "Frames", 
+        "id": "Frames", 
         "description": ""
     }, 
     {
@@ -535,38 +535,38 @@
         "description": ""
     }, 
     {
-        "text": "The file cannot be opened.", 
-        "id": "The file cannot be opened.", 
+        "text": "cannot be opened", 
+        "id": "cannot be opened", 
         "description": ""
     }, 
     {
-        "text": "No image channels.", 
-        "id": "No image channels.", 
+        "text": "does not have any video or audio streams", 
+        "id": "does not have any video or audio streams", 
         "description": ""
     }, 
     {
-        "text": "Image channels must have the same size and bit depth.", 
-        "id": "Image channels must have the same size and bit depth.", 
+        "text": "does not match any video codecs", 
+        "id": "does not match any video codecs", 
         "description": ""
     }, 
     {
-        "text": "Unsupported bit depth.", 
-        "id": "Unsupported bit depth.", 
+        "text": "The audio format ", 
+        "id": "The audio format ", 
         "description": ""
     }, 
     {
-        "text": "Line padding is unsupported.", 
-        "id": "Line padding is unsupported.", 
+        "text": "is not supported", 
+        "id": "is not supported", 
         "description": ""
     }, 
     {
-        "text": "Channel padding is unsupported.", 
-        "id": "Channel padding is unsupported.", 
+        "text": "does not match any audio codecs", 
+        "id": "does not match any audio codecs", 
         "description": ""
     }, 
     {
-        "text": "This plugin provides Cineon image I/O.", 
-        "id": "This plugin provides Cineon image I/O.", 
+        "text": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
+        "id": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
         "description": ""
     }, 
     {

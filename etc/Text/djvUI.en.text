@@ -1,7 +1,7 @@
 [
     {
-        "text": "Cannot parse the value.", 
-        "id": "Cannot parse the value.", 
+        "text": "Both", 
+        "id": "Both", 
         "description": ""
     }, 
     {
@@ -12,6 +12,11 @@
     {
         "text": "Vertical", 
         "id": "Vertical", 
+        "description": ""
+    }, 
+    {
+        "text": "Cannot parse the value.", 
+        "id": "Cannot parse the value.", 
         "description": ""
     }, 
     {
@@ -37,11 +42,6 @@
     {
         "text": "None", 
         "id": "None", 
-        "description": ""
-    }, 
-    {
-        "text": "Both", 
-        "id": "Both", 
         "description": ""
     }, 
     {
@@ -372,11 +372,6 @@
     {
         "text": "Default", 
         "id": "Default", 
-        "description": ""
-    }, 
-    {
-        "text": "Expand", 
-        "id": "Expand", 
         "description": ""
     }, 
     {
@@ -987,6 +982,11 @@
     {
         "text": "Command", 
         "id": "Command", 
+        "description": ""
+    }, 
+    {
+        "text": "Expand", 
+        "id": "Expand", 
         "description": ""
     }
 ]
