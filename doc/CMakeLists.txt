@@ -14,6 +14,7 @@ set(html
     Screenshots.html
     Style.css
     Testimonials.html
+	UI.html
     index.html)
 set(images
 	"images/ColorSpaceSettings1.png"
@@ -30,6 +31,7 @@ set(images
 	"images/Screenshot1.png"
 	"images/Screenshot2.png"
 	"images/Screenshot3.png"
+	"images/UIAutoHide.png"
     "images/djv-logo-large.png"
     "images/djv-logo-small.png"
     "images/index.png"

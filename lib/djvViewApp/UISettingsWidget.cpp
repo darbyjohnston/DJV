@@ -107,7 +107,7 @@ namespace djv
 
         std::string UISettingsWidget::getSettingsName() const
         {
-            return DJV_TEXT("Auto Hide");
+            return DJV_TEXT("Auto-Hide");
         }
 
         std::string UISettingsWidget::getSettingsGroup() const

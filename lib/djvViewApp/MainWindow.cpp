@@ -430,7 +430,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             p.mediaButton->setTooltip(_getText(DJV_TEXT("Media popup tooltip")));
-            p.autoHideButton->setTooltip(_getText(DJV_TEXT("Auto hide tooltip")));
+            p.autoHideButton->setTooltip(_getText(DJV_TEXT("Auto-hide tooltip")));
             p.settingsButton->setTooltip(_getText(DJV_TEXT("Settings tooltip")));
         }
 
