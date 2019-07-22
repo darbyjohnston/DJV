@@ -77,11 +77,19 @@ namespace djv
                 return *this;
             }
 
-            void FileIO::readContents(FileIO & fileIO, std::string & out)
+            std::string FileIO::readContents(FileIO & fileIO)
             {
+#ifdef DJV_MMAP
                 const uint8_t * p = fileIO.mmapP();
                 const uint8_t * end = fileIO.mmapEnd();
-                out = std::string(reinterpret_cast<const char *>(p), end - p);
+                return std::string(reinterpret_cast<const char *>(p), end - p);
+#else // DJV_MMAP
+                const size_t fileSize = fileIO.getSize();
+                std::string out;
+                out.resize(fileSize);
+                fileIO.read(reinterpret_cast<void*>(&out[0]), fileSize);
+                return out;
+#endif // DJV_MMAP
             }
 
             void FileIO::readWord(FileIO & io, char * out, size_t maxLen)

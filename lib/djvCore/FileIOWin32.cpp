@@ -158,7 +158,7 @@ namespace djv
                 }
             }
 
-            void FileIO::openTempFile(const std::string & fileName)
+            void FileIO::openTemp()
             {
                 const Path path(fileName);
                 WCHAR buf[MAX_PATH];
@@ -175,6 +175,8 @@ namespace djv
 
             void FileIO::close()
             {
+                _fileName = std::string();
+                
                 if (_mmapStart != 0)
                 {
                     if (!::UnmapViewOfFile((void *)_mmapStart))

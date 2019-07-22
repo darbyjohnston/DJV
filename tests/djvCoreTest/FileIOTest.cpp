@@ -27,75 +27,77 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvAV/Shader.h>
+#include <djvCoreTest/FileIOTest.h>
 
 #include <djvCore/FileIO.h>
-#include <djvCore/Path.h>
 
-using namespace djv::Core;
+#include <sstream>
 
 namespace djv
 {
-    namespace AV
+    using namespace Core;
+
+    namespace CoreTest
     {
-        namespace Render
+        FileIOTest::FileIOTest(Context * context) :
+            ITest("djv::CoreTest::FileIOTest", context)
+        {}
+        
+        void FileIOTest::run(int & argc, char ** argv)
         {
-            Shader::Shader()
-            {}
-
-            Shader::~Shader()
-            {}
-
-            std::shared_ptr<Shader> Shader::create(const std::string & vertex, const std::string & fragment)
             {
-                auto out = std::shared_ptr<Shader>(new Shader);
-                out->_vertex.second = vertex;
-                out->_fragment.second = fragment;
-                return out;
-            }
-
-            std::shared_ptr<Shader> Shader::create(const FileSystem::Path & vertex, const FileSystem::Path & fragment)
-            {
-                auto out = std::shared_ptr<Shader>(new Shader);
+                const std::string fileName("FileIOTest");
+                const std::string text("Hello world!");
                 try
                 {
-                    FileSystem::FileIO fileIO;
-                    fileIO.open(vertex, FileSystem::FileIO::Mode::Read);
-                    out->_vertex.second = FileSystem::FileIO::readContents(fileIO);
-                    out->_vertex.first = vertex.get();
-                    fileIO.open(fragment, FileSystem::FileIO::Mode::Read);
-                    out->_fragment.second = FileSystem::FileIO::readContents(fileIO);
-                    out->_fragment.first = fragment.get();
+                    FileSystem::FileIO io;
+                    io.open(fileName, FileSystem::FileIO::Mode::Write);
+                    for (auto i : text)
+                    {
+                        io.write8(i);
+                    }
                 }
                 catch (const std::exception & e)
                 {
-                    std::stringstream s;
-                    s << DJV_TEXT("The shader cannot be created") << ". " << e.what();
-                    throw std::runtime_error(s.str());
+                    _print(e.what());
                 }
-                return out;
+                try
+                {
+                    FileSystem::FileIO io;
+                    io.open(fileName, FileSystem::FileIO::Mode::Read);
+                    std::string buf;
+                    while (!io.isEOF())
+                    {
+                        int8_t c = 0;
+                        io.read8(&c);
+                        buf.push_back(c);
+                    }
+                    _print(buf);
+                    DJV_ASSERT(text == buf);
+                }
+                catch (const std::exception & e)
+                {
+                    _print(e.what());
+                }
             }
-
-            const std::string & Shader::getVertexName() const
             {
-                return _vertex.first;
+                const std::string text("Hello world!");
+                try
+                {
+                    FileSystem::FileIO io;
+                    io.openTemp();
+                    for (auto i : text)
+                    {
+                        io.writeU8(i);
+                    }
+                }
+                catch (const std::exception & e)
+                {
+                    _print(e.what());
+                }
             }
-
-            const std::string & Shader::getVertexSource() const
-            {
-                return _vertex.second;
-            }
-
-            const std::string & Shader::getFragmentName() const
-            {
-                return _fragment.first;
-            }
-
-            const std::string & Shader::getFragmentSource() const
-            {
-                return _fragment.second;
-            }
-
-        } // namespace Render
-    } // namespace AV
+        }
+        
+    } // namespace CoreTest
 } // namespace djv
+

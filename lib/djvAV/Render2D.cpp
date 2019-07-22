@@ -408,10 +408,10 @@ namespace djv
                 {
                     FileSystem::FileIO io;
                     io.open(FileSystem::Path(shaderPath, "djvAVRender2DVertex.glsl"), FileSystem::FileIO::Mode::Read);
-                    FileSystem::FileIO::readContents(io, p.vertexSource);
+                    p.vertexSource = FileSystem::FileIO::readContents(io);
                     io.close();
                     io.open(FileSystem::Path(shaderPath, "djvAVRender2DFragment.glsl"), FileSystem::FileIO::Mode::Read);
-                    FileSystem::FileIO::readContents(io, p.fragmentSource);
+                    p.fragmentSource = FileSystem::FileIO::readContents(io);
                 }
                 catch (const std::exception& e)
                 {

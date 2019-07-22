@@ -80,7 +80,12 @@ namespace djv
                     DJV_PRIVATE_PTR();
                     auto io = std::shared_ptr<FileSystem::FileIO>(new FileSystem::FileIO);
                     const auto info = _open(fileName, *io);
+#if defined(DJV_MMAP)
                     auto out = Image::Image::create(info.video[0].info, io);
+#else // DJV_MMAP
+                    auto out = Image::Image::create(info.video[0].info);
+                    io->read(out->getData(), io->getSize() - io->getPos());
+#endif // DJV_MMAP
                     out->setTags(info.tags);
                     if (ColorProfile::FilmPrint == p.colorProfile)
                     {

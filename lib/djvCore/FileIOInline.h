@@ -44,7 +44,8 @@ namespace djv
                     (_size ? _pos < _size : false);
 #else // DJV_PLATFORM_WINDOWS
                 return
-                    _f != -1 &&
+//                    _f != -1 &&
+                    _f &&
                     (_size ? _pos < _size : false);
 #endif //DJV_PLATFORM_WINDOWS
             }
@@ -72,7 +73,8 @@ namespace djv
                     (_size ? _pos >= _size : true);
 #else // DJV_PLATFORM_WINDOWS
                 return
-                    -1 == _f ||
+                    //-1 == _f ||
+                    !_f ||
                     (_size ? _pos >= _size : true);
 #endif //DJV_PLATFORM_WINDOWS
             }
