@@ -171,10 +171,10 @@ namespace djv
                     Image::Layout layout;
                     switch (orient)
                     {
-                    case ORIENTATION_TOPLEFT:  layout.mirror.y = true; break;
-                    case ORIENTATION_TOPRIGHT: layout.mirror.x = layout.mirror.y = true; break;
-                    case ORIENTATION_BOTRIGHT: layout.mirror.x = true; break;
-                    case ORIENTATION_BOTLEFT: break;
+                    case ORIENTATION_TOPLEFT:  break;
+                    case ORIENTATION_TOPRIGHT: layout.mirror.x = true; break;
+                    case ORIENTATION_BOTRIGHT: layout.mirror.x = layout.mirror.y = true; break;
+                    case ORIENTATION_BOTLEFT:  layout.mirror.y = true; break;
                     }
 
                     f.compression = compression != COMPRESSION_NONE;
