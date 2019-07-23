@@ -423,10 +423,15 @@ namespace djv
                 DJV_PRIVATE_PTR();
 
                 // Clear cache frames behind the current frame.
+                size_t cacheMax = 0;
+                {
+                    std::lock_guard<std::mutex> lock(_mutex);
+                    cacheMax = _videoQueue.getMax();
+                }
                 const auto keys = p.cache.getKeys();
                 for (const auto& i : keys)
                 {
-                    if (i < p.frameIndex)
+                    if (i < p.frameIndex - static_cast<Frame::Index>(cacheMax))
                     {
                         p.cache.remove(i);
                     }
