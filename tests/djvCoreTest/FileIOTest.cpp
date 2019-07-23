@@ -60,6 +60,7 @@ namespace djv
                 catch (const std::exception & e)
                 {
                     _print(e.what());
+                    DJV_ASSERT(0);
                 }
                 try
                 {
@@ -94,6 +95,7 @@ namespace djv
                 catch (const std::exception & e)
                 {
                     _print(e.what());
+                    DJV_ASSERT(0);
                 }
             }
         }

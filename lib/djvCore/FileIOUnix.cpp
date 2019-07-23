@@ -152,8 +152,8 @@ namespace djv
                 _pos      = 0;
                 _size     = info.st_size;
 
+#if defined(DJV_MMAP)
                 // Memory mapping.
-#ifdef DJV_MMAP
                 if (Mode::Read == _mode && _size > 0)
                 {
                     _mmap = mmap(0, _size, PROT_READ, MAP_SHARED, _f, 0);
@@ -306,10 +306,11 @@ namespace djv
                     }
                     _f = nullptr;
                 }
+#endif // DJV_MMAP
+
+                _mode = static_cast<Mode>(0);
                 _pos  = 0;
                 _size = 0;
-                _mode = static_cast<Mode>(0);
-#endif // DJV_MMAP
             }
 
             void FileIO::read(void* in, size_t size, size_t wordSize)
@@ -318,7 +319,7 @@ namespace djv
                 {
                 case Mode::Read:
                 {
-#ifdef DJV_MMAP
+#if defined(DJV_MMAP)
                     const uint8_t* mmapP = _mmapP + size * wordSize;
                     if (mmapP > _mmapEnd)
                     {
@@ -364,11 +365,11 @@ namespace djv
 #endif // DJV_PLATFORM_LINUX
                         throw std::runtime_error(ss.str());
                     }
-#endif // DJV_MMAP
                     if (_endian && wordSize > 1)
                     {
                         Memory::endian(in, size, wordSize);
                     }
+#endif // DJV_MMAP
                     break;
                 }
                 case Mode::ReadWrite:
@@ -480,7 +481,7 @@ namespace djv
                 {
                 case Mode::Read:
                 {
-#ifdef DJV_MMAP
+#if defined(DJV_MMAP)
                     if (!seek)
                     {
                         _mmapP = reinterpret_cast<const uint8_t*>(_mmapStart) + in;

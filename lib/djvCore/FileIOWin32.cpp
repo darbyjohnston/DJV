@@ -49,46 +49,60 @@ namespace djv
         {
             namespace
             {
-                std::string getOpenError(const std::string & fileName)
+                std::string getOpenError(const std::string& fileName)
                 {
-                    std::stringstream s;
-                    s << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ". " << Error::getLastError();
-                    return s.str();
+                    std::stringstream ss;
+                    ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ". " << Error::getLastError();
+                    return ss.str();
+                }
+
+                std::string getOpenTempError()
+                {
+                    std::stringstream ss;
+                    ss << DJV_TEXT("The temporary file cannot be opened") << ". " << Error::getLastError();
+                    return ss.str();
                 }
 
                 std::string getCloseError(const std::string & fileName)
                 {
-                    std::stringstream s;
-                    s << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be closed") << ". " << Error::getLastError();
-                    return s.str();
+                    std::stringstream ss;
+                    ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be closed") << ". " << Error::getLastError();
+                    return ss.str();
                 }
 
                 std::string getMemoryMapError(const std::string & fileName)
                 {
-                    std::stringstream s;
-                    s << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be mapped") << ". " << Error::getLastError();
-                    return s.str();
+                    std::stringstream ss;
+                    ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be mapped") << ". " << Error::getLastError();
+                    return ss.str();
                 }
 
                 std::string getMemoryUnmapError(const std::string & fileName)
                 {
-                    std::stringstream s;
-                    s << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be unmapped") << ". " << Error::getLastError();
-                    return s.str();
+                    std::stringstream ss;
+                    ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be unmapped") << ". " << Error::getLastError();
+                    return ss.str();
                 }
 
                 std::string getReadError(const std::string & fileName)
                 {
-                    std::stringstream s;
-                    s << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be read") << ". " << Error::getLastError();
-                    return s.str();
+                    std::stringstream ss;
+                    ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be read") << ". " << Error::getLastError();
+                    return ss.str();
                 }
 
                 std::string getWriteError(const std::string & fileName)
                 {
-                    std::stringstream s;
-                    s << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be written") << ". " << Error::getLastError();
-                    return s.str();
+                    std::stringstream ss;
+                    ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be written") << ". " << Error::getLastError();
+                    return ss.str();
+                }
+
+                std::string getSeekError(const std::string& fileName)
+                {
+                    std::stringstream ss;
+                    ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be seeked") << ". " << Error::getLastError();
+                    return ss.str();
                 }
 
             } // namespace
@@ -98,6 +112,7 @@ namespace djv
                 close();
 
                 // Open the file.
+#if defined(DJV_MMAP)
                 DWORD desiredAccess = 0;
                 DWORD shareMode = 0;
                 DWORD disposition = 0;
@@ -134,10 +149,49 @@ namespace djv
                     throw std::runtime_error(getOpenError(fileName));
                 }
                 _fileName = fileName;
+                _mode = mode;
+                _pos = 0;
+                _size = GetFileSize(_f, 0);
+#else // DJV_MMAP
+                std::string openMode;
+                switch (mode)
+                {
+                case Mode::Read:
+                    openMode = "rb";
+                    break;
+                case Mode::Write:
+                    openMode = "wb";
+                    break;
+                case Mode::ReadWrite:
+                    openMode = "wb+";
+                    break;
+                case Mode::Append:
+                    openMode = "ab";
+                    break;
+                default: break;
+                }
+                _f = fopen(fileName.c_str(), openMode.c_str());
+                if (!_f)
+                {
+                    throw std::runtime_error(getOpenError(fileName));
+                }
+                _fileName = fileName;
                 _mode     = mode;
                 _pos      = 0;
-                _size     = GetFileSize(_f, 0);
+                int r = fseek(_f, 0, SEEK_END);
+                if (r != 0)
+                {
+                    throw std::runtime_error(getOpenError(fileName));
+                }
+                _size = ftell(_f);
+                r = fseek(_f, 0, SEEK_SET);
+                if (r != 0)
+                {
+                    throw std::runtime_error(getOpenError(fileName));
+                }
+#endif // DJV_MMAP
 
+#if defined(DJV_MMAP)
                 // Memory mapping.
                 if (Mode::Read == _mode && _size > 0)
                 {
@@ -156,20 +210,26 @@ namespace djv
                     _mmapEnd = _mmapStart + _size;
                     _mmapP = _mmapStart;
                 }
+#endif // DJV_MMAP
             }
 
             void FileIO::openTemp()
             {
-                const Path path(fileName);
+                WCHAR path[MAX_PATH];
+                DWORD r = GetTempPathW(MAX_PATH, path);
+                if (!r)
+                {
+                    throw std::runtime_error(getOpenTempError());
+                }
                 WCHAR buf[MAX_PATH];
                 std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
-                if (GetTempFileNameW(utf16.from_bytes(path.getDirectoryName()).c_str(), utf16.from_bytes(path.getBaseName()).c_str(), 0, buf))
+                if (GetTempFileNameW(path, L"", 0, buf))
                 {
                     open(utf16.to_bytes(buf), Mode::ReadWrite);
                 }
                 else
                 {
-                    throw std::runtime_error(getOpenError(fileName));
+                    throw std::runtime_error(getOpenTempError());
                 }
             }
 
@@ -177,6 +237,7 @@ namespace djv
             {
                 _fileName = std::string();
                 
+#if defined(DJV_MMAP)
                 if (_mmapStart != 0)
                 {
                     if (!::UnmapViewOfFile((void *)_mmapStart))
@@ -201,6 +262,17 @@ namespace djv
                     CloseHandle(_f);
                     _f = INVALID_HANDLE_VALUE;
                 }
+#else // DJV_MMAP
+                if (_f)
+                {
+                    int r = fclose(_f);
+                    if (r != 0)
+                    {
+                        throw std::runtime_error(getCloseError(_fileName));
+                    }
+                    _f = nullptr;
+                }
+#endif // DJV_MMAP
 
                 _mode = Mode::First;
                 _pos  = 0;
@@ -223,6 +295,7 @@ namespace djv
                 {
                 case Mode::Read:
                 {
+#if defined(DJV_MMAP)
                     const uint8_t * p = _mmapP + size * wordSize;
                     if (p > _mmapEnd)
                     {
@@ -237,14 +310,37 @@ namespace djv
                         memcpy(in, _mmapP, size * wordSize);
                     }
                     _mmapP = p;
+#else // DJV_MMAP
+                    const size_t r = fread(in, size * wordSize, 1, _f);
+                    if (r != 1)
+                    {
+                        throw std::runtime_error(getReadError(_fileName));
+                    }
+                    if (_endian && wordSize > 1)
+                    {
+                        Memory::endian(in, size, wordSize);
+                    }
+#endif // DJV_MMAP
                     break;
                 }
                 case Mode::ReadWrite:
                 {
+#if defined(DJV_MMAP)
                     DWORD n;
                     if (!::ReadFile(_f, in, static_cast<DWORD>(size * wordSize), &n, 0))
                     {
                         throw std::runtime_error(getReadError(_fileName));
+                    }
+#else // DJV_MMAP
+                    const size_t r = fread(in, size * wordSize, 1, _f);
+                    if (r != 1)
+                    {
+                        throw std::runtime_error(getReadError(_fileName));
+                    }
+#endif // DJV_MMAP
+                    if (_endian && wordSize > 1)
+                    {
+                        Memory::endian(in, size, wordSize);
                     }
                     break;
                 }
@@ -265,11 +361,19 @@ namespace djv
                     Memory::endian(in, p, size, wordSize);
                 }
 
+#if defined(DJV_MMAP)
                 DWORD n = 0;
                 if (!::WriteFile(_f, p, static_cast<DWORD>(size * wordSize), &n, 0))
                 {
                     throw std::runtime_error(getWriteError(_fileName));
                 }
+#else // DJV_MMAP
+                size_t r = fwrite(p, size * wordSize, 1, _f);
+                if (r != 1)
+                {
+                    throw std::runtime_error(getWriteError(_fileName));
+                }
+#endif // DJV_MMAP
 
                 _pos += size * wordSize;
                 _size = std::max(_pos, _size);
@@ -285,9 +389,11 @@ namespace djv
                 switch (_mode)
                 {
                 case Mode::Read:
+                {
+#if defined(DJV_MMAP)
                     if (!seek)
                     {
-                        _mmapP = reinterpret_cast<const uint8_t *>(_mmapStart) + value;
+                        _mmapP = reinterpret_cast<const uint8_t*>(_mmapStart) + value;
                     }
                     else
                     {
@@ -295,13 +401,22 @@ namespace djv
                     }
                     if (_mmapP > _mmapEnd)
                     {
-                        throw std::runtime_error(getReadError(_fileName));
+                        throw std::runtime_error(getSeekError(_fileName));
                     }
+#else // DJV_MMAP
+                    int r = fseek(_f, value, seek ? SEEK_CUR : SEEK_SET);
+                    if (-1 == r)
+                    {
+                        throw std::runtime_error(getSeekError(_fileName));
+                    }
+#endif // DJV_MMAP
                     break;
+                }
                 case Mode::Write:
                 case Mode::ReadWrite:
                 case Mode::Append:
                 {
+#if defined(DJV_MMAP)
                     LARGE_INTEGER v;
                     v.QuadPart = value;
                     if (!::SetFilePointerEx(
@@ -310,8 +425,15 @@ namespace djv
                         0,
                         !seek ? FILE_BEGIN : FILE_CURRENT))
                     {
-                        throw std::runtime_error(getWriteError(_fileName));
+                        throw std::runtime_error(getSeekError(_fileName));
                     }
+#else // DJV_MMAP
+                    int r = fseek(_f, value, seek ? SEEK_CUR : SEEK_SET);
+                    if (-1 == r)
+                    {
+                        throw std::runtime_error(getSeekError(_fileName));
+                    }
+#endif // DJV_MMAP
                     break;
                 }
                 default: break;

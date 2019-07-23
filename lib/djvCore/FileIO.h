@@ -206,7 +206,11 @@ namespace djv
                 void _setPos(size_t, bool seek);
 
 #if defined(DJV_PLATFORM_WINDOWS)
+#if defined(DJV_MMAP)
                 HANDLE          _f         = INVALID_HANDLE_VALUE;
+#else // DJV_MMAP
+                FILE*           _f         = nullptr;
+#endif // DJV_MMAP
                 std::string     _fileName;
                 Mode            _mode      = Mode::First;
                 size_t          _pos       = 0;
