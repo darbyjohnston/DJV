@@ -392,7 +392,7 @@ namespace djv
                         images[timestamp] = result.image;
                         if (cacheEnabled)
                         {
-                            result.image->detach();
+                            //result.image->detach();
                             p.cache.add(result.frameIndex, result.image);
                         }
                     }
@@ -465,7 +465,7 @@ namespace djv
                         const auto result = i->get();
                         if (result.image)
                         {
-                            result.image->detach();
+                            //result.image->detach();
                             p.cache.add(result.frameIndex, result.image);
                         }
                         i = p.cacheFutures.erase(i);
