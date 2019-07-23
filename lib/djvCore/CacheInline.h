@@ -88,6 +88,22 @@ namespace djv
             }
 
             template<typename T, typename U>
+            inline void Cache<T, U>::remove(const T& key)
+            {
+                const auto i = _map.find(key);
+                if (i != _map.end())
+                {
+                    _map.erase(i);
+                }
+                const auto j = _counts.find(key);
+                if (j != _counts.end())
+                {
+                    _counts.erase(j);
+                }
+                _updateMax();
+            }
+            
+            template<typename T, typename U>
             inline void Cache<T, U>::clear()
             {
                 _map.clear();

@@ -422,6 +422,16 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
 
+                // Clear cache frames behind the current frame.
+                const auto keys = p.cache.getKeys();
+                for (const auto& i : keys)
+                {
+                    if (i < p.frameIndex)
+                    {
+                        p.cache.remove(i);
+                    }
+                }
+
                 // Get frames to be added to the cache.
                 if (count > 0 &&
                     p.cacheFutures.size() < threadCount / 2 &&
@@ -429,7 +439,7 @@ namespace djv
                     p.cache.getSize() < _frames.size() &&
                     p.cache.getSize() < p.cache.getMax())
                 {
-                    Frame::Index i = 0;
+                    Frame::Index i = p.frameIndex;
                     for (; i < _frames.size() && p.cacheFutures.size() < count; ++i)
                     {
                         if (!p.cache.contains(i))
@@ -450,7 +460,7 @@ namespace djv
                         const auto result = i->get();
                         if (result.image)
                         {
-                            result.image->detach();
+                            //result.image->detach();
                             p.cache.add(result.frameIndex, result.image);
                         }
                         i = p.cacheFutures.erase(i);

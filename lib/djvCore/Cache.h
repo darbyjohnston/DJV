@@ -54,6 +54,7 @@ namespace djv
                 inline bool contains(const T & key) const;
                 inline bool get(const T & key, U &) const;
                 inline void add(const T & key, const U & value);
+                inline void remove(const T& key);
                 inline void clear();
 
                 inline float getPercentageUsed() const;

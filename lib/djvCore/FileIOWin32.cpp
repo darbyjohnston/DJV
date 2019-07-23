@@ -117,9 +117,8 @@ namespace djv
                 DWORD shareMode = 0;
                 DWORD disposition = 0;
                 DWORD flags =
-                    //FILE_ATTRIBUTE_NORMAL,
-                    //FILE_FLAG_NO_BUFFERING |
-                    FILE_FLAG_SEQUENTIAL_SCAN;
+                    FILE_ATTRIBUTE_NORMAL;
+                    //FILE_FLAG_SEQUENTIAL_SCAN;
                 switch (mode)
                 {
                 case Mode::Read:
