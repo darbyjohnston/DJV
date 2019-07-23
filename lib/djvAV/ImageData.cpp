@@ -44,6 +44,7 @@ namespace djv
                 _pixelByteCount = info.getPixelByteCount();
                 _scanlineByteCount = info.getScanlineByteCount();
                 _dataByteCount = info.getDataByteCount();
+#if defined(DJV_MMAP)
                 _fileIO = fileIO;
                 if (_fileIO)
                 {
@@ -54,6 +55,13 @@ namespace djv
                     _data = new uint8_t[_dataByteCount];
                     _p = _data;
                 }
+#else // DJV_MMAP
+                if (_dataByteCount)
+                {
+                    _data = new uint8_t[_dataByteCount];
+                    _p = _data;
+                }
+#endif // DJV_MMAP
             }
 
             Data::~Data()
@@ -68,16 +76,22 @@ namespace djv
                 return out;
             }
 
+#if defined(DJV_MMAP)
             std::shared_ptr<Data> Data::create(const Info& info, const std::shared_ptr<Core::FileSystem::FileIO>& fileIO)
             {
                 auto out = std::shared_ptr<Data>(new Data);
                 out->_init(info, fileIO);
                 return out;
             }
+#endif // DJV_MMAP
 
             size_t Data::getDataByteCount() const
             {
+#if defined(DJV_MMAP)
                 return _fileIO ? (_fileIO->getSize() - _fileIO->getPos()) : _dataByteCount;
+#else
+                return _dataByteCount;
+#endif // DJV_MMAP
             }
 
             void Data::zero()
@@ -88,6 +102,7 @@ namespace djv
 
             void Data::detach()
             {
+#if defined(DJV_MMAP)
                 if (_fileIO)
                 {
                     _data = new uint8_t[_dataByteCount];
@@ -95,6 +110,7 @@ namespace djv
                     _p = _data;
                     _fileIO.reset();
                 }
+#endif // DJV_MMAP
             }
 
             bool Data::operator == (const Data & other) const

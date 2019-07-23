@@ -129,7 +129,9 @@ namespace djv
                 ~Data();
 
                 static std::shared_ptr<Data> create(const Info&);
+#if defined(DJV_MMAP)
                 static std::shared_ptr<Data> create(const Info&, const std::shared_ptr<Core::FileSystem::FileIO>&);
+#endif // DJV_MMAP
 
                 inline Core::UID getUID() const;
 
@@ -171,7 +173,9 @@ namespace djv
                 size_t _dataByteCount = 0;
                 uint8_t * _data = nullptr;
                 const uint8_t * _p = nullptr;
+#if defined(DJV_MMAP)
                 std::shared_ptr<Core::FileSystem::FileIO> _fileIO;
+#endif // DJV_MMAP
             };
 
         } // namespace Image

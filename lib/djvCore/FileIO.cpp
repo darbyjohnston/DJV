@@ -41,11 +41,14 @@ namespace djv
                 _mode(other._mode),
                 _pos(other._pos),
                 _size(other._size),
-                _endian(other._endian),
+                _endian(other._endian)
+#if defined(DJV_MMAP)
+                ,
                 _mmap(other._mmap),
                 _mmapStart(other._mmapStart),
                 _mmapEnd(other._mmapEnd),
                 _mmapP(other._mmapP)
+#endif // DJV_MMAP
             {}
 
             FileIO::~FileIO()
@@ -69,10 +72,12 @@ namespace djv
                     _pos = other._pos;
                     _size = other._size;
                     _endian = other._endian;
+#if defined(DJV_MMAP)
                     _mmap = other._mmap;
                     _mmapStart = other._mmapStart;
                     _mmapEnd = other._mmapEnd;
                     _mmapP = other._mmapP;
+#endif // DJV_MMAP
                 }
                 return *this;
             }

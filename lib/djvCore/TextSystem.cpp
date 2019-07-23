@@ -284,14 +284,17 @@ namespace djv
 
                     FileSystem::FileIO fileIO;
                     fileIO.open(path, FileSystem::FileIO::Mode::Read);
+#if defined(DJV_MMAP)
+                    const char * bufP = reinterpret_cast<const char *>(fileIO.mmapP());
+                    const char * bufEnd = reinterpret_cast<const char *>(fileIO.mmapEnd());
+#else // DJV_MMAP
                     std::vector<char> buf;
                     const size_t fileSize = fileIO.getSize();
                     buf.resize(fileSize);
                     fileIO.read(buf.data(), fileSize);
                     const char* bufP = buf.data();
                     const char* bufEnd = bufP + fileSize;
-                    //const char * bufP = reinterpret_cast<const char *>(fileIO.mmapP());
-                    //const char * bufEnd = reinterpret_cast<const char *>(fileIO.mmapEnd());
+#endif // DJV_MMAP
 
                     // Parse the JSON.
                     picojson::value v;

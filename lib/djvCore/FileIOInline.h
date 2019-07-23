@@ -79,6 +79,7 @@ namespace djv
 #endif //DJV_PLATFORM_WINDOWS
             }
 
+#if defined(DJV_MMAP)
             inline const uint8_t * FileIO::mmapP() const
             {
                 return _mmapP;
@@ -88,6 +89,7 @@ namespace djv
             {
                 return _mmapEnd;
             }
+#endif // DJV_MMAP
 
             inline bool FileIO::getEndian() const
             {

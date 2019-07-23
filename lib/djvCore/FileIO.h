@@ -152,11 +152,13 @@ namespace djv
                 //! \name Memory Mapping
                 ///@{
 
+#if defined(DJV_MMAP)
                 //! Get the current memory-map position.
                 inline const uint8_t * mmapP() const;
 
                 //! Get a pointer to the end of the memory-map.
                 inline const uint8_t * mmapEnd() const;
+#endif // DJV_MMAP
 
                 ///@}
 
@@ -216,10 +218,12 @@ namespace djv
                 size_t          _pos       = 0;
                 size_t          _size      = 0;
                 bool            _endian    = false;
+#if defined(DJV_MMAP)
                 void *          _mmap      = nullptr;
                 const uint8_t * _mmapStart = nullptr;
                 const uint8_t * _mmapEnd   = nullptr;
                 const uint8_t * _mmapP     = nullptr;
+#endif // DJV_MMAP
 #else // DJV_PLATFORM_WINDOWS
 #if defined(DJV_MMAP)
                 int             _f         = -1;
@@ -231,10 +235,12 @@ namespace djv
                 size_t          _pos       = 0;
                 size_t          _size      = 0;
                 bool            _endian    = false;
+#if defined(DJV_MMAP)
                 void *          _mmap      = (void *)-1;
                 const uint8_t * _mmapStart = nullptr;
                 const uint8_t * _mmapEnd   = nullptr;
                 const uint8_t * _mmapP     = nullptr;
+#endif // DJV_MMAP
 #endif //DJV_PLATFORM_WINDOWS
             };
 

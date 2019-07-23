@@ -87,7 +87,12 @@ namespace djv
                         break;
                     }
                     case Data::Binary:
+#if defined(DJV_MMAP)
                         out = Image::Image::create(info.video[0].info, io);
+#else // DJV_MMAP
+                        out = Image::Image::create(info.video[0].info);
+                        io->read(out->getData(), io->getSize() - io->getPos());
+#endif // DJV_MMAP
                         break;
                     default: break;
                     }

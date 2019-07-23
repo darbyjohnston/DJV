@@ -46,6 +46,7 @@ namespace djv
         {
             namespace OpenEXR
             {
+#if defined(DJV_MMAP)
                 struct MemoryMappedIStream::Private
                 {
                     FileSystem::FileIO  f;
@@ -105,6 +106,7 @@ namespace djv
                 {
                     _p->pos = pos;
                 }
+#endif // DJV_MMAP
 
                 struct Read::File
                 {
@@ -237,9 +239,12 @@ namespace djv
                     Info out;
 
                     // Open the file.
-                    //f.f.reset(new Imf::InputFile(fileName.c_str()));
+#if defined(DJV_MMAP)
                     f.s.reset(new MemoryMappedIStream(fileName.c_str()));
                     f.f.reset(new Imf::InputFile(*f.s.get()));
+#else // DJV_MMAP
+                    f.f.reset(new Imf::InputFile(fileName.c_str()));
+#endif // DJV_MMAP
 
                     // Get the display and data windows.
                     f.displayWindow = fromImath(f.f->header().displayWindow());
