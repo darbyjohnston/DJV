@@ -76,9 +76,6 @@ namespace djv
 
                 addDependency(context->getSystemT<CoreSystem>());
 
-                //! \todo Make this configurable.
-                Core::OS::setEnv("ALSOFT_LOGLEVEL", "0");
-
                 const ALCchar * devices = NULL;
                 ALenum alEnum = alcIsExtensionPresent(NULL, "ALC_ENUMERATION_EXT");
                 if (AL_TRUE == alEnum)
