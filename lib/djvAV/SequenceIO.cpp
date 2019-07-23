@@ -243,7 +243,7 @@ namespace djv
                         // Fill the cache.
                         if (cacheEnabled)
                         {
-                            _readCache(threadCount / 2 - read);
+                            _readCache(threadCount / 2);
                         }
                     }
 
@@ -431,7 +431,7 @@ namespace djv
                 const auto keys = p.cache.getKeys();
                 for (const auto& i : keys)
                 {
-                    if (i < p.frameIndex - static_cast<Frame::Index>(cacheMax))
+                    if (i < p.frameIndex - static_cast<Frame::Index>(cacheMax) - 1)
                     {
                         p.cache.remove(i);
                     }
@@ -465,7 +465,7 @@ namespace djv
                         const auto result = i->get();
                         if (result.image)
                         {
-                            //result.image->detach();
+                            result.image->detach();
                             p.cache.add(result.frameIndex, result.image);
                         }
                         i = p.cacheFutures.erase(i);

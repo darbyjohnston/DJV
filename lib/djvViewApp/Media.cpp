@@ -47,7 +47,7 @@ namespace djv
         {
             //! \todo Should this be configurable?
             const size_t bufferCount = 30;
-            const size_t videoQueueSize = 10;
+            const size_t videoQueueSize = 30;
 
         } // namespace
 
