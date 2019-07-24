@@ -58,6 +58,7 @@ namespace djv
             static std::shared_ptr<TimelineSlider> create(Core::Context *);
 
             std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > observeCurrentTime() const;
+            std::shared_ptr<Core::ValueSubject<bool> > observeCurrentTimeChange() const;
 
             void setMedia(const std::shared_ptr<Media>&);
             void setCachedTimestamps(const std::vector<Core::Time::TimestampRange>&);

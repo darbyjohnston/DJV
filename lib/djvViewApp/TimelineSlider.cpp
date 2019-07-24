@@ -230,6 +230,7 @@ namespace djv
             std::shared_ptr<Media> media;
             Time::Timestamp duration = 0;
             std::shared_ptr<ValueSubject<Time::Timestamp> > currentTime;
+            std::shared_ptr<ValueSubject<bool> > currentTimeChange;
             Time::Speed speed;
             std::vector<Time::TimestampRange> cachedTimestamps;
             AV::Font::Metrics fontMetrics;
@@ -253,6 +254,7 @@ namespace djv
             setPointerEnabled(true);
 
             p.currentTime = ValueSubject<Time::Timestamp>::create(0);
+            p.currentTimeChange = ValueSubject<bool>::create(false);
 
             p.pipWidget = PIPWidget::create(context);
             p.overlay = UI::Layout::Overlay::create(context);
@@ -303,6 +305,11 @@ namespace djv
             return _p->currentTime;
         }
 
+        std::shared_ptr<ValueSubject<bool> > TimelineSlider::observeCurrentTimeChange() const
+        {
+            return _p->currentTimeChange;
+        }
+
         void TimelineSlider::setMedia(const std::shared_ptr<Media> & value)
         {
             DJV_PRIVATE_PTR();
@@ -351,6 +358,7 @@ namespace djv
             {
                 p.duration = 0;
                 p.currentTime->setIfChanged(0);
+                p.currentTimeChange->setIfChanged(false);
                 p.speed = Time::Speed();
 
                 p.pipWidget->setPIPFileInfo(Core::FileSystem::FileInfo());
@@ -528,6 +536,7 @@ namespace djv
             const BBox2f & g = getGeometry();
             event.accept();
             p.pressedID = id;
+            p.currentTimeChange->setIfChanged(true);
             if (p.currentTime->setIfChanged(_posToTime(static_cast<int>(pos.x - g.min.x))))
             {
                 _textUpdate();
@@ -542,6 +551,7 @@ namespace djv
                 return;
             event.accept();
             p.pressedID = Event::InvalidID;
+            p.currentTimeChange->setIfChanged(false);
             _redraw();
         }
 

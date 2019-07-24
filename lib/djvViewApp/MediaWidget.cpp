@@ -222,6 +222,7 @@ namespace djv
             bool playEveryFrame = false;
             Time::Timestamp duration = 0;
             Time::Timestamp currentTime = 0;
+            Playback playbackPrev = Playback::Stop;
             AV::TimeUnits timeUnits = AV::TimeUnits::First;
             bool frameStoreEnabled = false;
             std::shared_ptr<AV::Image::Image> frameStore;
@@ -256,6 +257,7 @@ namespace djv
             std::shared_ptr<UI::StackLayout> layout;
 
             std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver;
+            std::shared_ptr<ValueObserver<bool> > currentTimeChangeObserver;
             std::shared_ptr<ValueObserver<AV::TimeUnits> > timeUnitsObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
             std::shared_ptr<ValueObserver<Time::Speed> > speedObserver;
@@ -650,6 +652,26 @@ namespace djv
                         if (auto media = widget->_p->media)
                         {
                             media->setCurrentTime(value);
+                        }
+                    }
+                });
+
+            p.currentTimeChangeObserver = ValueObserver<bool>::create(
+                p.timelineSlider->observeCurrentTimeChange(),
+                [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        if (auto media = widget->_p->media)
+                        {
+                            if (value)
+                            {
+                                widget->_p->playbackPrev = media->observePlayback()->get();
+                            }
+                            else
+                            {
+                                media->setPlayback(widget->_p->playbackPrev);
+                            }
                         }
                     }
                 });
