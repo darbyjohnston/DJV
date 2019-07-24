@@ -32,6 +32,7 @@
 #include <djvViewApp/Application.h>
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/Media.h>
+#include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/PlaybackSettings.h>
 #include <djvViewApp/WindowSystem.h>
 
@@ -58,6 +59,10 @@ namespace djv
             std::shared_ptr<Media> currentMedia;
             Time::Speed speed;
             Time::Timestamp duration = 0;
+            glm::vec2 hoverPos = glm::vec2(0.f, 0.f);
+            glm::vec2 dragStart = glm::vec2(0.f, 0.f);
+            Time::Timestamp dragStartTime = 0;
+            Playback dragStartPlayback = Playback::Stop;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> playbackActionGroup;
             std::shared_ptr<UI::ActionGroup> playbackModeActionGroup;
@@ -68,6 +73,9 @@ namespace djv
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<Time::Speed> > speedObserver;
             std::shared_ptr<ValueObserver<Time::Timestamp> > durationObserver;
+            std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
+            std::shared_ptr<ValueObserver<PointerData> > hoverObserver;
+            std::shared_ptr<ValueObserver<PointerData> > dragObserver;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
@@ -420,6 +428,69 @@ namespace djv
                         }
                     }
                 });
+            }
+
+            if (auto windowSystem = context->getSystemT<WindowSystem>())
+            {
+                p.activeWidgetObserver = ValueObserver<std::shared_ptr<MediaWidget> >::create(
+                    windowSystem->observeActiveWidget(),
+                    [weak](const std::shared_ptr<MediaWidget>& value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (value)
+                            {
+                                system->_p->hoverObserver = ValueObserver<PointerData>::create(
+                                    value->observeHover(),
+                                    [weak](const PointerData& value)
+                                    {
+                                        if (auto system = weak.lock())
+                                        {
+                                            system->_p->hoverPos = value.pos;
+                                        }
+                                    });
+                                system->_p->dragObserver = ValueObserver<PointerData>::create(
+                                    value->observeDrag(),
+                                    [weak](const PointerData& value)
+                                    {
+                                        if (auto system = weak.lock())
+                                        {
+                                            if (auto media = system->_p->currentMedia)
+                                            {
+                                                const auto i = value.buttons.find(3);
+                                                if (i != value.buttons.end())
+                                                {
+                                                    switch (value.state)
+                                                    {
+                                                    case PointerState::Start:
+                                                        system->_p->dragStart = value.pos;
+                                                        system->_p->dragStartTime = media->observeCurrentTime()->get();
+                                                        system->_p->dragStartPlayback = media->observePlayback()->get();
+                                                        break;
+                                                    case PointerState::Move:
+                                                    {
+                                                        const int64_t f = Time::scale(1, system->_p->speed.swap(), Time::getTimebaseRational());
+                                                        const Time::Timestamp offset = f * (value.pos.x - system->_p->dragStart.x);
+                                                        media->setCurrentTime(system->_p->dragStartTime + offset);
+                                                        break;
+                                                    }
+                                                    case PointerState::End:
+                                                        media->setPlayback(system->_p->dragStartPlayback);
+                                                        break;
+                                                    default: break;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    });
+                            }
+                            else
+                            {
+                                system->_p->hoverObserver.reset();
+                                system->_p->dragObserver.reset();
+                            }
+                        }
+                    });
             }
 
             p.localeObserver = ValueObserver<std::string>::create(
