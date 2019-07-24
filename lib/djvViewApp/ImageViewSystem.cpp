@@ -370,7 +370,10 @@ namespace djv
                                     {
                                         if (auto system = weak.lock())
                                         {
-                                            if (system->_p->currentTool)
+                                            const auto i = value.buttons.find(1);
+                                            const auto j = value.buttons.find(2);
+                                            if ((i != value.buttons.end() && system->_p->currentTool) ||
+                                                j != value.buttons.end())
                                             {
                                                 system->_p->settings->setLock(ImageViewLock::None);
                                                 auto imageView = system->_p->activeWidget->getImageView();

@@ -54,10 +54,11 @@ namespace djv
         struct PointerData
         {
             PointerData();
-            PointerData(PointerState, const glm::vec2&);
+            PointerData(PointerState, const glm::vec2&, const std::map<int, bool>& buttons);
 
             PointerState state = PointerState::Start;
             glm::vec2 pos = glm::vec2(0.f, 0.f);
+            std::map<int, bool> buttons;
 
             bool operator == (const PointerData&) const;
         };

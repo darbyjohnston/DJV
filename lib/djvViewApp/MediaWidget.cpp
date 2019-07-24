@@ -70,9 +70,10 @@ namespace djv
         PointerData::PointerData()
         {}
 
-        PointerData::PointerData(PointerState state, const glm::vec2& pos) :
+        PointerData::PointerData(PointerState state, const glm::vec2& pos, const std::map<int, bool>& buttons) :
             state(state),
-            pos(pos)
+            pos(pos),
+            buttons(buttons)
         {}
 
         bool PointerData::operator == (const PointerData& other) const
@@ -106,6 +107,7 @@ namespace djv
 
             private:
                 uint32_t _pressedID = Event::InvalidID;
+                std::map<int, bool> _buttons;
                 std::function<void(PointerData)> _hoverCallback;
                 std::function<void(PointerData)> _dragCallback;
             };
@@ -141,7 +143,7 @@ namespace djv
                     const auto& pos = event.getPointerInfo().projectedPos;
                     if (_hoverCallback)
                     {
-                        _hoverCallback(PointerData(PointerState::Start, pos));
+                        _hoverCallback(PointerData(PointerState::Start, pos, std::map<int, bool>()));
                     }
                 }
             }
@@ -152,7 +154,7 @@ namespace djv
                 const auto& pos = event.getPointerInfo().projectedPos;
                 if (_hoverCallback)
                 {
-                    _hoverCallback(PointerData(PointerState::End, pos));
+                    _hoverCallback(PointerData(PointerState::End, pos, std::map<int, bool>()));
                 }
             }
 
@@ -164,14 +166,14 @@ namespace djv
                 {
                     if (_dragCallback)
                     {
-                        _dragCallback(PointerData(PointerState::Move, pos));
+                        _dragCallback(PointerData(PointerState::Move, pos, _buttons));
                     }
                 }
                 else
                 {
                     if (_hoverCallback)
                     {
-                        _hoverCallback(PointerData(PointerState::Move, pos));
+                        _hoverCallback(PointerData(PointerState::Move, pos, std::map<int, bool>()));
                     }
                 }
             }
@@ -180,13 +182,13 @@ namespace djv
             {
                 if (_pressedID)
                     return;
-                const auto id = event.getPointerInfo().id;
-                const auto& pos = event.getPointerInfo().projectedPos;
                 event.accept();
-                _pressedID = id;
+                const auto& info = event.getPointerInfo();
+                _pressedID = info.id;
+                _buttons = info.buttons;
                 if (_dragCallback)
                 {
-                    _dragCallback(PointerData(PointerState::Start, pos));
+                    _dragCallback(PointerData(PointerState::Start, info.pos, info.buttons));
                 }
             }
 
@@ -195,11 +197,12 @@ namespace djv
                 if (event.getPointerInfo().id != _pressedID)
                     return;
                 event.accept();
-                const auto& pos = event.getPointerInfo().projectedPos;
+                const auto& info = event.getPointerInfo();
                 _pressedID = Event::InvalidID;
+                _buttons = std::map<int, bool>();
                 if (_dragCallback)
                 {
-                    _dragCallback(PointerData(PointerState::End, pos));
+                    _dragCallback(PointerData(PointerState::End, info.pos, info.buttons));
                 }
             }
 
@@ -457,23 +460,23 @@ namespace djv
                 });
 
             p.pointerWidget->setHoverCallback(
-                [weak](PointerData data)
+                [weak](const PointerData& data)
                 {
                     if (auto widget = weak.lock())
                     {
                         const BBox2f& g = widget->_p->imageView->getGeometry();
-                        widget->_p->hover->setIfChanged(PointerData(data.state, data.pos - g.min));
+                        widget->_p->hover->setIfChanged(PointerData(data.state, data.pos - g.min, data.buttons));
                     }
                 });
 
             p.pointerWidget->setDragCallback(
-                [weak](PointerData data)
+                [weak](const PointerData& data)
                 {
                     if (auto widget = weak.lock())
                     {
                         widget->moveToFront();
                         const BBox2f& g = widget->_p->imageView->getGeometry();
-                        widget->_p->drag->setIfChanged(PointerData(data.state, data.pos - g.min));
+                        widget->_p->drag->setIfChanged(PointerData(data.state, data.pos - g.min, data.buttons));
                     }
                 });
 
