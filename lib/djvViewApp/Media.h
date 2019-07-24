@@ -110,6 +110,7 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<bool> > observeInOutPointsEnabled() const;
             std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > observeInPoint() const;
             std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > observeOutPoint() const;
+            std::shared_ptr<Core::IValueSubject<size_t> > observeThreadCount() const;
 
             void setSpeed(const Core::Time::Speed&);
             void setPlayEveryFrame(bool);
@@ -127,6 +128,7 @@ namespace djv
             void setOutPoint(Core::Time::Timestamp);
             void resetInPoint();
             void resetOutPoint();
+            void setThreadCount(size_t);
 
             ///@}
 

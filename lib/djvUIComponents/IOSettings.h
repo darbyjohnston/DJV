@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2019 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,51 +27,43 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUIComponents/UIComponentsSystem.h>
+#pragma once
 
-#include <djvUIComponents/ColorPicker.h>
-#include <djvUIComponents/FileBrowserSettings.h>
-#include <djvUIComponents/IOSettings.h>
+#include <djvUI/ISettings.h>
 
-#include <djvUI/UISystem.h>
-
-#include <djvCore/Context.h>
-
-using namespace djv::Core;
+#include <djvCore/ValueObserver.h>
 
 namespace djv
 {
     namespace UI
     {
-        struct UIComponentsSystem::Private
-        {};
-
-        void UIComponentsSystem::_init(Context * context)
+        namespace Settings
         {
-            ISystem::_init("djv::UI::UIComponentsSystem", context);
+            //! This class provides the general I/O settings.
+            class IO : public ISettings
+            {
+                DJV_NON_COPYABLE(IO);
 
-            Settings::IO::create(context);
-            Settings::FileBrowser::create(context);
+            protected:
+                void _init(Core::Context * context);
 
-            ColorPickerDialogSystem::create(context);
+                IO();
 
-            addDependency(context->getSystemT<UISystem>());
-        }
+            public:
+                virtual ~IO();
 
-        UIComponentsSystem::UIComponentsSystem() :
-            _p(new Private)
-        {}
+                static std::shared_ptr<IO> create(Core::Context *);
 
-        UIComponentsSystem::~UIComponentsSystem()
-        {}
+                std::shared_ptr<Core::IValueSubject<size_t> > observeThreadCount() const;
+                void setThreadCount(size_t);
 
-        std::shared_ptr<UIComponentsSystem> UIComponentsSystem::create(Context * context)
-        {
-            auto out = std::shared_ptr<UIComponentsSystem>(new UIComponentsSystem);
-            out->_init(context);
-            return out;
-        }
+                void load(const picojson::value &) override;
+                picojson::value save() override;
 
+            private:
+                DJV_PRIVATE();
+            };
+
+        } // namespace Settings
     } // namespace UI
 } // namespace djv
-

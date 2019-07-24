@@ -12,6 +12,8 @@ set(header
     FileBrowserItemView.h
     FileBrowserPrivate.h
     FileBrowserSettings.h
+	IOSettings.h
+	IOSettingsWidget.h
     ISettingsWidget.h
     LanguageSettingsWidget.h
 	LineGraphWidget.h
@@ -40,6 +42,8 @@ set(source
     FileBrowserSettings.cpp
     FileBrowserShortcutsModel.cpp
     FileBrowserShortcutsWidget.cpp
+	IOSettings.cpp
+	IOSettingsWidget.cpp
     ISettingsWidget.cpp
     LanguageSettingsWidget.cpp
 	LineGraphWidget.cpp

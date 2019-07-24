@@ -54,9 +54,6 @@ namespace djv
         {
             namespace
             {
-                //! \todo Should this be configurable?
-                const size_t threadCount = 4;
-
                 typedef Memory::Cache<Frame::Index, std::shared_ptr<Image::Image> > MemoryCache;
 
                 std::vector<Time::TimestampRange> _getCachedTimestamps(const MemoryCache& cache, const Time::Speed& speed)
@@ -178,11 +175,13 @@ namespace djv
                     const auto timeout = Time::getValue(Time::TimerValue::Fast);
                     while (p.running)
                     {
-                        // Update the cache options.
+                        // Update the options.
+                        size_t threadCount = 4;
                         bool cacheEnabled = false;
                         size_t cacheMax = 0;
                         {
                             std::lock_guard<std::mutex> lock(_mutex);
+                            threadCount = _threadCount;
                             cacheEnabled = p.cacheEnabled;
                             cacheMax = p.cacheMax;
                         }
@@ -392,7 +391,7 @@ namespace djv
                         images[timestamp] = result.image;
                         if (cacheEnabled)
                         {
-                            //result.image->detach();
+                            result.image->detach();
                             p.cache.add(result.frameIndex, result.image);
                         }
                     }
@@ -439,7 +438,7 @@ namespace djv
 
                 // Get frames to be added to the cache.
                 if (count > 0 &&
-                    p.cacheFutures.size() < threadCount / 2 &&
+                    p.cacheFutures.size() < count &&
                     _frames.size() > 1 &&
                     p.cache.getSize() < _frames.size() &&
                     p.cache.getSize() < p.cache.getMax())
@@ -465,7 +464,7 @@ namespace djv
                         const auto result = i->get();
                         if (result.image)
                         {
-                            //result.image->detach();
+                            result.image->detach();
                             p.cache.add(result.frameIndex, result.image);
                         }
                         i = p.cacheFutures.erase(i);
@@ -567,7 +566,7 @@ namespace djv
                                 std::unique_lock<std::mutex> lock(_mutex, std::try_to_lock);
                                 if (lock.owns_lock())
                                 {
-                                    while (_videoQueue.hasFrames() && images.size() < threadCount)
+                                    while (_videoQueue.hasFrames() && images.size() < _threadCount)
                                     {
                                         auto frame = _videoQueue.popFrame();
                                         images.push_back(frame.image);

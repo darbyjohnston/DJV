@@ -230,6 +230,17 @@ namespace djv
             IIO::~IIO()
             {}
 
+            size_t IIO::getThreadCount() const
+            {
+                return _threadCount;
+            }
+
+            void IIO::setThreadCount(size_t value)
+            {
+                std::unique_lock<std::mutex> lock(_mutex);
+                _threadCount = value;
+            }
+
             void IRead::_init(
                 const FileSystem::FileInfo & fileInfo,
                 const ReadOptions& options,

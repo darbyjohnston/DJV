@@ -75,6 +75,7 @@ namespace djv
             std::shared_ptr<ValueSubject<Time::Timestamp> > outPoint;
             std::shared_ptr<ValueSubject<float> > volume;
             std::shared_ptr<ValueSubject<bool> > mute;
+            std::shared_ptr<ValueSubject<size_t> > threadCount;
             std::shared_ptr<ValueSubject<bool> > hasCache;
             std::shared_ptr<ValueSubject<bool> > cacheEnabled;
             std::shared_ptr<ValueSubject<int> > cacheMax;
@@ -127,6 +128,7 @@ namespace djv
             p.outPoint = ValueSubject<Time::Timestamp>::create(0);
             p.volume = ValueSubject<float>::create(1.f);
             p.mute = ValueSubject<bool>::create(false);
+            p.threadCount = ValueSubject<size_t>::create(4);
             p.hasCache = ValueSubject<bool>::create(false);
             p.cacheEnabled = ValueSubject<bool>::create(false);
             p.cacheMax = ValueSubject<int>::create(0);
@@ -333,6 +335,11 @@ namespace djv
             return _p->outPoint;
         }
 
+        std::shared_ptr<IValueSubject<size_t> > Media::observeThreadCount() const
+        {
+            return _p->threadCount;
+        }
+
         void Media::setSpeed(const Time::Speed& value)
         {
             DJV_PRIVATE_PTR();
@@ -457,6 +464,18 @@ namespace djv
             _p->outPoint->setIfChanged(0);
         }
 
+        void Media::setThreadCount(size_t value)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.threadCount->setIfChanged(value))
+            {
+                if (p.read)
+                {
+                    p.read->setThreadCount(value);
+                }
+            }
+        }
+
         std::shared_ptr<IValueSubject<float> > Media::observeVolume() const
         {
             return _p->volume;
@@ -559,6 +578,7 @@ namespace djv
                 options.videoQueueSize = videoQueueSize;
                 auto io = context->getSystemT<AV::IO::System>();
                 p.read = io->read(p.fileInfo, options);
+                p.read->setThreadCount(p.threadCount->get());
                 p.infoFuture = p.read->getInfo();
                 p.hasCache->setIfChanged(p.read->hasCache());
                 

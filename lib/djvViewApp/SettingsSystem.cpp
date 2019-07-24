@@ -41,6 +41,7 @@
 #include <djvUIComponents/CineonSettingsWidget.h>
 #include <djvUIComponents/ColorSpaceSettingsWidget.h>
 #include <djvUIComponents/DPXSettingsWidget.h>
+#include <djvUIComponents/IOSettingsWidget.h>
 #include <djvUIComponents/LanguageSettingsWidget.h>
 #include <djvUIComponents/OpenEXRSettingsWidget.h>
 #include <djvUIComponents/PPMSettingsWidget.h>
@@ -141,6 +142,7 @@ namespace djv
                 UI::TooltipsSettingsWidget::create(context),
                 UI::ColorSpaceSettingsWidget::create(context),
 
+                UI::IOThreadsSettingsWidget::create(context),
                 UI::PPMSettingsWidget::create(context),
                 UI::CineonSettingsWidget::create(context),
                 UI::DPXSettingsWidget::create(context),

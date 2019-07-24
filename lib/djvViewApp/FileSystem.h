@@ -82,7 +82,7 @@ namespace djv
 
         protected:
             void _actionsUpdate();
-            void _cacheUpdate(const std::shared_ptr<Media>&);
+            void _mediaInit(const std::shared_ptr<Media>&);
             void _textUpdate();
             void _showFileBrowserDialog();
             void _showRecentFilesDialog();

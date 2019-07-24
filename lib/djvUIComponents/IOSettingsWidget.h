@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2019 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,50 +27,36 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUIComponents/UIComponentsSystem.h>
+#pragma once
 
-#include <djvUIComponents/ColorPicker.h>
-#include <djvUIComponents/FileBrowserSettings.h>
-#include <djvUIComponents/IOSettings.h>
-
-#include <djvUI/UISystem.h>
-
-#include <djvCore/Context.h>
-
-using namespace djv::Core;
+#include <djvUIComponents/ISettingsWidget.h>
 
 namespace djv
 {
     namespace UI
     {
-        struct UIComponentsSystem::Private
-        {};
-
-        void UIComponentsSystem::_init(Context * context)
+        //! This class provides an I/O threads settings widget.
+        class IOThreadsSettingsWidget : public ISettingsWidget
         {
-            ISystem::_init("djv::UI::UIComponentsSystem", context);
+            DJV_NON_COPYABLE(IOThreadsSettingsWidget);
 
-            Settings::IO::create(context);
-            Settings::FileBrowser::create(context);
+        protected:
+            void _init(Core::Context *);
+            IOThreadsSettingsWidget();
 
-            ColorPickerDialogSystem::create(context);
+        public:
+            static std::shared_ptr<IOThreadsSettingsWidget> create(Core::Context *);
 
-            addDependency(context->getSystemT<UISystem>());
-        }
+            std::string getSettingsName() const override;
+            std::string getSettingsGroup() const override;
+            std::string getSettingsSortKey() const override;
 
-        UIComponentsSystem::UIComponentsSystem() :
-            _p(new Private)
-        {}
+        protected:
+            void _localeEvent(Core::Event::Locale &) override;
 
-        UIComponentsSystem::~UIComponentsSystem()
-        {}
-
-        std::shared_ptr<UIComponentsSystem> UIComponentsSystem::create(Context * context)
-        {
-            auto out = std::shared_ptr<UIComponentsSystem>(new UIComponentsSystem);
-            out->_init(context);
-            return out;
-        }
+        private:
+            DJV_PRIVATE();
+        };
 
     } // namespace UI
 } // namespace djv

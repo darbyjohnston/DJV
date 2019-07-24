@@ -36,12 +36,14 @@
 #include <djvViewApp/RecentFilesDialog.h>
 
 #include <djvUIComponents/FileBrowserDialog.h>
+#include <djvUIComponents/IOSettings.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/EventSystem.h>
 #include <djvUI/GroupBox.h>
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/SettingsSystem.h>
 #include <djvUI/Shortcut.h>
 #include <djvUI/Window.h>
 
@@ -70,10 +72,12 @@ namespace djv
             std::shared_ptr<UI::Menu> menu;
             std::shared_ptr<UI::FileBrowser::Dialog> fileBrowserDialog;
             Core::FileSystem::Path fileBrowserPath = Core::FileSystem::Path(".");
+            size_t threadCount = 4;
             std::shared_ptr<Core::FileSystem::RecentFilesModel> recentFilesModel;
             std::shared_ptr<RecentFilesDialog> recentFilesDialog;
             std::shared_ptr<ListObserver<Core::FileSystem::FileInfo> > recentFilesObserver;
             std::shared_ptr<ListObserver<Core::FileSystem::FileInfo> > recentFilesObserver2;
+            std::shared_ptr<ValueObserver<size_t> > threadCountObserver;
             std::shared_ptr<ValueObserver<bool> > hasCacheObserver;
             std::shared_ptr<ValueObserver<bool> > cacheEnabledObserver;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
@@ -387,6 +391,23 @@ namespace djv
                     }
                 });
 
+            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto ioSettings = settingsSystem->getSettingsT<UI::Settings::IO>();
+            p.threadCountObserver = ValueObserver<size_t>::create(
+                ioSettings->observeThreadCount(),
+                [weak](size_t value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->threadCount = value;
+                        const auto& media = system->_p->media->get();
+                        for (const auto& i : media)
+                        {
+                            i->setThreadCount(value);
+                        }
+                    }
+                });
+
             p.localeObserver = ValueObserver<std::string>::create(
                 context->getSystemT<TextSystem>()->observeCurrentLocale(),
                 [weak](const std::string & value)
@@ -447,7 +468,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             auto context = getContext();
             auto media = Media::create(fileInfo, context);
-            _cacheUpdate(media);
+            _mediaInit(media);
             p.media->pushBack(media);
             p.opened->setIfChanged(media);
             // Reset the observer so we don't have an extra shared_ptr holding
@@ -462,7 +483,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             auto context = getContext();
             auto media = Media::create(fileInfo, context);
-            _cacheUpdate(media);
+            _mediaInit(media);
             p.media->pushBack(media);
             p.opened2->setIfChanged(std::make_pair(media, pos));
             // Reset the observer so we don't have an extra shared_ptr holding
@@ -581,9 +602,10 @@ namespace djv
             p.actions["MemoryCache"]->setChecked(cacheEnabled);
         }
 
-        void FileSystem::_cacheUpdate(const std::shared_ptr<Media>& value)
+        void FileSystem::_mediaInit(const std::shared_ptr<Media>& value)
         {
             DJV_PRIVATE_PTR();
+            value->setThreadCount(p.threadCount);
             value->setCacheEnabled(p.settings->observeCacheEnabled()->get());
             value->setCacheMax(p.settings->observeCacheMax()->get());
         }

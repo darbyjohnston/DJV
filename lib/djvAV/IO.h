@@ -208,6 +208,9 @@ namespace djv
 
                 virtual bool isRunning() const = 0;
 
+                size_t getThreadCount() const;
+                void setThreadCount(size_t);
+
                 inline std::mutex& getMutex();
                 inline VideoQueue& getVideoQueue();
                 inline AudioQueue& getAudioQueue();
@@ -219,6 +222,7 @@ namespace djv
                 std::mutex _mutex;
                 VideoQueue _videoQueue;
                 AudioQueue _audioQueue;
+                size_t _threadCount = 4;
             };
 
             //! This class provides options for reading.
