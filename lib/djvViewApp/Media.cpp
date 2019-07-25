@@ -755,7 +755,7 @@ namespace djv
                     }
                 });
                 p.realSpeedTimer->start(
-                    Time::getMilliseconds(Time::TimerValue::Slow),
+                    Time::getMilliseconds(Time::TimerValue::Medium),
                     [weak](float)
                     {
                         if (auto media = weak.lock())

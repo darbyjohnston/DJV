@@ -70,7 +70,9 @@ namespace djv
             private:
                 Image::Info _info;
                 GLuint _id = 0;
+#if defined(DJV_OPENGL_PBO)
                 GLuint _pbo = 0;
+#endif // DJV_OPENGL_PBO
             };
 
             //! This class provides a 1D OpenGL texture.
@@ -102,7 +104,9 @@ namespace djv
             private:
                 Image::Info _info;
                 GLuint _id = 0;
+#if defined(DJV_OPENGL_PBO)
                 GLuint _pbo = 0;
+#endif // DJV_OPENGL_PBO
             };
 
         } // namespace OpenGL

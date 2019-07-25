@@ -44,6 +44,7 @@ namespace djv
                 _info = info;
                 if (_info.isValid())
                 {
+#if defined(DJV_OPENGL_PBO)
                     glGenBuffers(1, &_pbo);
                     glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
                     glBufferData(
@@ -51,6 +52,7 @@ namespace djv
                         info.getDataByteCount(),
                         0,
                         GL_STREAM_DRAW);
+#endif // DJV_OPENGL_PBO
 
                     glGenTextures(1, &_id);
                     glBindTexture(GL_TEXTURE_2D, _id);
@@ -78,11 +80,13 @@ namespace djv
                     glDeleteTextures(1, &_id);
                     _id = 0;
                 }
+#if defined(DJV_OPENGL_PBO)
                 if (_pbo)
                 {
                     glDeleteBuffers(1, &_pbo);
                     _pbo = 0;
                 }
+#endif // DJV_OPENGL_PBO
             }
 
             std::shared_ptr<Texture> Texture::create(const Image::Info & info, GLenum filterMin, GLenum filterMax)
@@ -103,11 +107,11 @@ namespace djv
                     {
                         glDeleteTextures(1, &_id);
                     }
+#if defined(DJV_OPENGL_PBO)
                     if (_pbo)
                     {
                         glDeleteBuffers(1, &_pbo);
                     }
-
                     glGenBuffers(1, &_pbo);
                     glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
                     glBufferData(
@@ -115,6 +119,7 @@ namespace djv
                         _info.getDataByteCount(),
                         0,
                         GL_STREAM_DRAW);
+#endif // DJV_OPENGL_PBO
 
                     glGenTextures(1, &_id);
                     glBindTexture(GL_TEXTURE_2D, _id);
@@ -153,12 +158,15 @@ namespace djv
                     data.getData());
                 }
 #else // DJV_OPENGL_ES2
+
+#if defined(DJV_OPENGL_PBO)
                 glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
                 glBufferSubData(
                     GL_PIXEL_UNPACK_BUFFER,
                     0,
                     info.getDataByteCount(),
                     data.getData());
+#endif // DJV_OPENGL_PBO
 
                 glBindTexture(GL_TEXTURE_2D, _id);
                 glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);
@@ -174,7 +182,12 @@ namespace djv
                     info.size.h,
                     info.getGLFormat(),
                     info.getGLType(),
-                    0);
+#if defined(DJV_OPENGL_PBO)
+                    0
+#else // DJV_OPENGL_PBO
+                    data.getData()
+#endif // DJV_OPENGL_PBO
+                    );
                 glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
 #endif // DJV_OPENGL_ES2
             }
@@ -197,12 +210,15 @@ namespace djv
                     info.getGLType(),
                     data.getData());
 #else // DJV_OPENGL_ES2
+
+#if defined(DJV_OPENGL_PBO)
                 glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
                 glBufferSubData(
                     GL_PIXEL_UNPACK_BUFFER,
                     0,
                     info.getDataByteCount(),
                     data.getData());
+#endif // DJV_OPENGL_PBO
 
                 glBindTexture(GL_TEXTURE_2D, _id);
                 glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);
@@ -218,7 +234,12 @@ namespace djv
                     info.size.h,
                     info.getGLFormat(),
                     info.getGLType(),
-                    0);
+#if defined(DJV_OPENGL_PBO)
+                    0
+#else // DJV_OPENGL_PBO
+                    data.getData()
+#endif // DJV_OPENGL_PBO
+                    );
                 glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
 #endif // DJV_OPENGL_ES2
             }
@@ -239,6 +260,16 @@ namespace djv
                 _info = info;
                 if (info.isValid())
                 {
+#if defined(DJV_OPENGL_PBO)
+                    glGenBuffers(1, &_pbo);
+                    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
+                    glBufferData(
+                        GL_PIXEL_UNPACK_BUFFER,
+                        info.getDataByteCount(),
+                        0,
+                        GL_STREAM_DRAW);
+#endif // DJV_OPENGL_PBO
+
                     glGenTextures(1, &_id);
                     glBindTexture(GL_TEXTURE_1D, _id);
                     glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -252,13 +283,6 @@ namespace djv
                         _info.getGLFormat(),
                         _info.getGLType(),
                         0);
-                    glGenBuffers(1, &_pbo);
-                    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
-                    glBufferData(
-                        GL_PIXEL_UNPACK_BUFFER,
-                        info.getDataByteCount(),
-                        0,
-                        GL_STREAM_DRAW);
                 }
             }
 
@@ -269,11 +293,13 @@ namespace djv
                     glDeleteTextures(1, &_id);
                     _id = 0;
                 }
+#if defined(DJV_OPENGL_PBO)
                 if (_pbo)
                 {
                     glDeleteBuffers(1, &_pbo);
                     _pbo = 0;
                 }
+#endif
             }
 
             std::shared_ptr<Texture1D> Texture1D::create(const Image::Info& info, GLenum filter)
@@ -299,12 +325,16 @@ namespace djv
                     info.getGLType(),
                     data.getData());
 #else // DJV_OPENGL_ES2
+
+#if defined(DJV_OPENGL_PBO)
                 glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
                 glBufferSubData(
                     GL_PIXEL_UNPACK_BUFFER,
                     0,
                     info.getDataByteCount(),
                     data.getData());
+#endif
+
                 glBindTexture(GL_TEXTURE_1D, _id);
                 glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);
                 glPixelStorei(GL_UNPACK_SWAP_BYTES, info.layout.endian != Memory::getEndian());
@@ -317,7 +347,12 @@ namespace djv
                     info.size.w,
                     info.getGLFormat(),
                     info.getGLType(),
-                    0);
+#if defined(DJV_OPENGL_PBO)
+                    0
+#else // DJV_OPENGL_PBO
+                    data.getData()
+#endif
+                    );
                 glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
 #endif // DJV_OPENGL_ES2
             }
@@ -338,12 +373,16 @@ namespace djv
                     info.getGLType(),
                     data.getData());
 #else // DJV_OPENGL_ES2
+
+#if defined(DJV_OPENGL_PBO)
                 glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
                 glBufferSubData(
                     GL_PIXEL_UNPACK_BUFFER,
                     0,
                     info.getDataByteCount(),
                     data.getData());
+#endif // DJV_OPENGL_ES2
+                
                 glBindTexture(GL_TEXTURE_1D, _id);
                 glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);
                 glPixelStorei(GL_UNPACK_SWAP_BYTES, info.layout.endian != Memory::getEndian());
@@ -356,7 +395,12 @@ namespace djv
                     info.size.w,
                     info.getGLFormat(),
                     info.getGLType(),
-                    0);
+#if defined(DJV_OPENGL_PBO)
+                    0
+#else // DJV_OPENGL_PBO
+                    data.getData()
+#endif // DJV_OPENGL_PBO
+                    );
                 glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
 #endif // DJV_OPENGL_ES2
             }

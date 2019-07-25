@@ -68,8 +68,8 @@ namespace djv
                 //! \todo Should this be configurable?
                 const size_t textureAtlasCount      = 4;
                 const size_t textureAtlasSize       = 8192;
-                const size_t dynamicTextureIDCount  = 32;
-                const size_t dynamicTextureCacheMax = 32;
+                const size_t dynamicTextureIDCount  = 16;
+                const size_t dynamicTextureCacheMax = 16;
                 const size_t lut3DSize              = 32;
                 const size_t colorSpaceCacheMax     = 32;
 

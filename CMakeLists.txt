@@ -58,6 +58,7 @@ set(DJV_INSTALL_TRANSLATIONS translations)
 
 # Set miscellaneous options.
 #add_definitions(-DDJV_MMAP)
+#add_definitions(-DDJV_OPENGL_PBO)
 add_definitions(-DDJV_ASSERT)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
