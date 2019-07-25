@@ -42,14 +42,14 @@ namespace djv
             void Texture::_init(const Image::Info & info, GLenum filterMin, GLenum filterMax)
             {
                 _info = info;
-                glGenTextures(1, &_id);
-                glBindTexture(GL_TEXTURE_2D, _id);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filterMin);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filterMax);
                 if (info.isValid())
                 {
+                    glGenTextures(1, &_id);
+                    glBindTexture(GL_TEXTURE_2D, _id);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filterMin);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filterMax);
                     GLenum internalFormat = GL_RGBA;
                     glTexImage2D(
                         GL_TEXTURE_2D,
@@ -61,8 +61,14 @@ namespace djv
                         _info.getGLFormat(),
                         _info.getGLType(),
                         0);
+                    glGenBuffers(1, &_pbo);
+                    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
+                    glBufferData(
+                        GL_PIXEL_UNPACK_BUFFER,
+                        info.getDataByteCount(),
+                        0,
+                        GL_STREAM_DRAW);
                 }
-                glGenBuffers(1, &_pbo);
             }
 
             Texture::~Texture()
@@ -91,18 +97,27 @@ namespace djv
                 if (info == _info)
                     return;
                 _info = info;
-                glBindTexture(GL_TEXTURE_2D, _id);
-                GLenum internalFormat = GL_RGBA;
-                glTexImage2D(
-                    GL_TEXTURE_2D,
-                    0,
-                    internalFormat,
-                    _info.size.w,
-                    _info.size.h,
-                    0,
-                    _info.getGLFormat(),
-                    _info.getGLType(),
-                    0);
+                if (_info.isValid())
+                {
+                    glBindTexture(GL_TEXTURE_2D, _id);
+                    GLenum internalFormat = GL_RGBA;
+                    glTexImage2D(
+                        GL_TEXTURE_2D,
+                        0,
+                        internalFormat,
+                        _info.size.w,
+                        _info.size.h,
+                        0,
+                        _info.getGLFormat(),
+                        _info.getGLType(),
+                        0);
+                    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
+                    glBufferData(
+                        GL_PIXEL_UNPACK_BUFFER,
+                        _info.getDataByteCount(),
+                        0,
+                        GL_STREAM_DRAW);
+                }
             }
 
             void Texture::copy(const Image::Data & data)
@@ -124,7 +139,11 @@ namespace djv
                     data.getData());
 #else // DJV_OPENGL_ES2
                 glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
-                glBufferData(GL_PIXEL_UNPACK_BUFFER, info.getDataByteCount(), data.getData(), GL_STATIC_DRAW);
+                glBufferSubData(
+                    GL_PIXEL_UNPACK_BUFFER,
+                    0,
+                    info.getDataByteCount(),
+                    data.getData());
                 glBindTexture(GL_TEXTURE_2D, _id);
                 glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);
                 glPixelStorei(GL_UNPACK_SWAP_BYTES, info.layout.endian != Memory::getEndian());
@@ -163,7 +182,11 @@ namespace djv
                     data.getData());
 #else // DJV_OPENGL_ES2
                 glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
-                glBufferData(GL_PIXEL_UNPACK_BUFFER, info.getDataByteCount(), data.getData(), GL_STREAM_DRAW);
+                glBufferSubData(
+                    GL_PIXEL_UNPACK_BUFFER,
+                    0,
+                    info.getDataByteCount(),
+                    data.getData());
                 glBindTexture(GL_TEXTURE_2D, _id);
                 glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);
                 glPixelStorei(GL_UNPACK_SWAP_BYTES, info.layout.endian != Memory::getEndian());
@@ -246,21 +269,30 @@ namespace djv
             void Texture1D::_init(const Image::Info& info, GLenum filter)
             {
                 _info = info;
-                glGenTextures(1, &_id);
-                glBindTexture(GL_TEXTURE_1D, _id);
-                glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-                glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, filter);
-                GLenum internalFormat = GL_RGBA;
-                glTexImage1D(
-                    GL_TEXTURE_1D,
-                    0,
-                    internalFormat,
-                    _info.size.w,
-                    0,
-                    _info.getGLFormat(),
-                    _info.getGLType(),
-                    0);
-                glGenBuffers(1, &_pbo);
+                if (info.isValid())
+                {
+                    glGenTextures(1, &_id);
+                    glBindTexture(GL_TEXTURE_1D, _id);
+                    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, filter);
+                    GLenum internalFormat = GL_RGBA;
+                    glTexImage1D(
+                        GL_TEXTURE_1D,
+                        0,
+                        internalFormat,
+                        _info.size.w,
+                        0,
+                        _info.getGLFormat(),
+                        _info.getGLType(),
+                        0);
+                    glGenBuffers(1, &_pbo);
+                    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
+                    glBufferData(
+                        GL_PIXEL_UNPACK_BUFFER,
+                        info.getDataByteCount(),
+                        0,
+                        GL_STREAM_DRAW);
+                }
             }
 
             Texture1D::~Texture1D()
@@ -301,7 +333,11 @@ namespace djv
                     data.getData());
 #else // DJV_OPENGL_ES2
                 glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
-                glBufferData(GL_PIXEL_UNPACK_BUFFER, info.getDataByteCount(), data.getData(), GL_DYNAMIC_DRAW);
+                glBufferSubData(
+                    GL_PIXEL_UNPACK_BUFFER,
+                    0,
+                    info.getDataByteCount(),
+                    data.getData());
                 glBindTexture(GL_TEXTURE_1D, _id);
                 glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);
                 glPixelStorei(GL_UNPACK_SWAP_BYTES, info.layout.endian != Memory::getEndian());
@@ -336,7 +372,11 @@ namespace djv
                     data.getData());
 #else // DJV_OPENGL_ES2
                 glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
-                glBufferData(GL_PIXEL_UNPACK_BUFFER, info.getDataByteCount(), data.getData(), GL_STREAM_DRAW);
+                glBufferSubData(
+                    GL_PIXEL_UNPACK_BUFFER,
+                    0,
+                    info.getDataByteCount(),
+                    data.getData());
                 glBindTexture(GL_TEXTURE_1D, _id);
                 glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);
                 glPixelStorei(GL_UNPACK_SWAP_BYTES, info.layout.endian != Memory::getEndian());

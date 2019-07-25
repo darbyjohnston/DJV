@@ -157,6 +157,7 @@ namespace djv
                 if (Mode::Read == _mode && _size > 0)
                 {
                     _mmap = mmap(0, _size, PROT_READ, MAP_SHARED, _f, 0);
+                    madvise(_mmap, _size, MADV_SEQUENTIAL | MADV_SEQUENTIAL);
                     if (_mmap == (void *) - 1)
                     {
                         std::stringstream ss;
