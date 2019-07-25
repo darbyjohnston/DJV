@@ -430,6 +430,10 @@ namespace djv
                 const auto keys = p.cache.getKeys();
                 for (const auto& i : keys)
                 {
+                    if (p.cache.getSize() < p.cache.getMax())
+                    {
+                        break;
+                    }
                     if (i < p.frameIndex - static_cast<Frame::Index>(cacheMax) - 1)
                     {
                         p.cache.remove(i);

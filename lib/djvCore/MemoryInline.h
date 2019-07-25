@@ -40,7 +40,7 @@ namespace djv
             inline Endian getEndian()
             {
                 const int tmp = 1;
-                const uint8_t * const p = reinterpret_cast<const uint8_t *>(&tmp);
+                const uint8_t* const p = reinterpret_cast<const uint8_t*>(&tmp);
                 const Endian endian = *p ? Endian::LSB : Endian::MSB;
                 return endian;
             }
@@ -51,11 +51,11 @@ namespace djv
             }
 
             inline void endian(
-                void *  in,
+                void*  in,
                 size_t size,
                 size_t wordSize)
             {
-                uint8_t * p = reinterpret_cast<uint8_t *>(in);
+                uint8_t* p = reinterpret_cast<uint8_t*>(in);
                 uint8_t tmp;
                 switch (wordSize)
                 {
@@ -127,13 +127,13 @@ namespace djv
             }
 
             inline void endian(
-                const void * in,
-                void *       out,
+                const void* in,
+                void*       out,
                 size_t      size,
                 size_t      wordSize)
             {
-                const uint8_t * inP = reinterpret_cast<const uint8_t *>(in);
-                uint8_t * outP = reinterpret_cast<uint8_t *>(out);
+                const uint8_t* inP = reinterpret_cast<const uint8_t*>(in);
+                uint8_t* outP = reinterpret_cast<uint8_t*>(out);
                 switch (wordSize)
                 {
                 case 2:

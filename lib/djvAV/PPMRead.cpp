@@ -72,28 +72,51 @@ namespace djv
                     auto io = std::shared_ptr<FileSystem::FileIO>(new FileSystem::FileIO);
                     Data data = Data::First;
                     const auto info = _open(fileName, *io, data);
+                    auto imageInfo = info.video[0].info;
                     std::shared_ptr<Image::Image> out;
                     switch (data)
                     {
                     case Data::ASCII:
                     {
-                        out = Image::Image::create(info.video[0].info);
-                        const size_t channelCount = Image::getChannelCount(info.video[0].info.type);
-                        const size_t bitDepth = Image::getBitDepth(info.video[0].info.type);
-                        for (uint16_t y = 0; y < info.video[0].info.size.h; ++y)
+                        out = Image::Image::create(imageInfo);
+                        const size_t channelCount = Image::getChannelCount(imageInfo.type);
+                        const size_t bitDepth = Image::getBitDepth(imageInfo.type);
+                        for (uint16_t y = 0; y < imageInfo.size.h; ++y)
                         {
-                            readASCII(*io, out->getData(y), info.video[0].info.size.w * channelCount, bitDepth);
+                            readASCII(*io, out->getData(y), imageInfo.size.w * channelCount, bitDepth);
                         }
                         break;
                     }
                     case Data::Binary:
+                    {
 #if defined(DJV_MMAP)
-                        out = Image::Image::create(info.video[0].info, io);
+                        out = Image::Image::create(imageInfo, io);
 #else // DJV_MMAP
-                        out = Image::Image::create(info.video[0].info);
+                        bool convertEndian = false;
+                        if (imageInfo.layout.endian != Memory::getEndian())
+                        {
+                            convertEndian = true;
+                            imageInfo.layout.endian = Memory::getEndian();
+                        }
+                        out = Image::Image::create(imageInfo);
                         io->read(out->getData(), io->getSize() - io->getPos());
+                        if (convertEndian)
+                        {
+                            const size_t dataByteCount = out->getDataByteCount();
+                            switch (Image::getDataType(imageInfo.type))
+                            {
+                                case Image::DataType::U10:
+                                    Memory::endian(out->getData(), dataByteCount / 4, 4);
+                                    break;
+                                case Image::DataType::U16:
+                                    Memory::endian(out->getData(), dataByteCount / 2, 2);
+                                    break;
+                                default: break;                            
+                            }
+                        }
 #endif // DJV_MMAP
                         break;
+                    }
                     default: break;
                     }
                     return out;

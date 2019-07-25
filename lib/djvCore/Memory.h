@@ -67,14 +67,14 @@ namespace djv
 
             //! Convert the endianness of a block of memory in place.
             inline void endian(
-                void *  in,
+                void*  in,
                 size_t size,
                 size_t wordSize);
 
             //! Convert the endianness of a block of memory.
             inline void endian(
-                const void * in,
-                void *       out,
+                const void* in,
+                void*       out,
                 size_t      size,
                 size_t      wordSize);
 

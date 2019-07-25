@@ -42,7 +42,7 @@ namespace djv
             void Texture::_init(const Image::Info & info, GLenum filterMin, GLenum filterMax)
             {
                 _info = info;
-                if (info.isValid())
+                if (_info.isValid())
                 {
                     glGenBuffers(1, &_pbo);
                     glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
@@ -58,11 +58,10 @@ namespace djv
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filterMin);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filterMax);
-                    GLenum internalFormat = GL_RGBA;
                     glTexImage2D(
                         GL_TEXTURE_2D,
                         0,
-                        internalFormat,
+                        getInternalFormat(_info.type),
                         _info.size.w,
                         _info.size.h,
                         0,
@@ -123,37 +122,22 @@ namespace djv
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-                    GLenum internalFormat = GL_RGBA;
                     glTexImage2D(
                         GL_TEXTURE_2D,
                         0,
-                        internalFormat,
+                        getInternalFormat(_info.type),
                         _info.size.w,
                         _info.size.h,
                         0,
                         _info.getGLFormat(),
                         _info.getGLType(),
                         0);
-
-                    /*glBindTexture(GL_TEXTURE_2D, _id);
-                    GLenum internalFormat = GL_RGBA;
-                    glTexImage2D(
-                        GL_TEXTURE_2D,
-                        0,
-                        internalFormat,
-                        _info.size.w,
-                        _info.size.h,
-                        0,
-                        _info.getGLFormat(),
-                        _info.getGLType(),
-                        0);*/
                 }
             }
 
             void Texture::copy(const Image::Data & data)
             {
                 const auto & info = data.getInfo();
-
 #if defined(DJV_OPENGL_ES2)
                 glBindTexture(GL_TEXTURE_2D, _id);
                 glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);
@@ -167,6 +151,7 @@ namespace djv
                     info.getGLFormat(),
                     info.getGLType(),
                     data.getData());
+                }
 #else // DJV_OPENGL_ES2
                 glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
                 glBufferSubData(
@@ -245,57 +230,8 @@ namespace djv
 
             GLenum Texture::getInternalFormat(Image::Type type)
             {
-#if defined(DJV_OPENGL_ES2)
-                return Image::getGLFormat(type);
-#else // DJV_OPENGL_ES2
-                return Image::getGLFormat(type);
-                /*switch (Image::getGLFormat(type))
-                {
-                case GL_RED:
-                    switch (Image::getGLType(type))
-                    {
-                    case GL_UNSIGNED_BYTE: return GL_R8;
-                    case GL_UNSIGNED_SHORT: return GL_R16;
-                    case GL_HALF_FLOAT: return  GL_R16F;
-                    case GL_FLOAT: return GL_R32F;
-                    default: break;
-                    }
-                    break;
-                case GL_RG:
-                    switch (Image::getGLType(type))
-                    {
-                    case GL_UNSIGNED_BYTE: return GL_RG8;
-                    case GL_UNSIGNED_SHORT: return GL_RG16;
-                    case GL_HALF_FLOAT: return  GL_RG16F;
-                    case GL_FLOAT: return GL_RG32F;
-                    default: break;
-                    }
-                    break;
-                case GL_RGB:
-                    switch (Image::getGLType(type))
-                    {
-                    case GL_UNSIGNED_BYTE: return GL_RGB8;
-                    case GL_UNSIGNED_INT_10_10_10_2: return GL_RGB10;
-                    case GL_UNSIGNED_SHORT: return GL_RGB16;
-                    case GL_HALF_FLOAT: return  GL_RGB16F;
-                    case GL_FLOAT: return GL_RGB32F;
-                    default: break;
-                    }
-                    break;
-                case GL_RGBA:
-                    switch (Image::getGLType(type))
-                    {
-                    case GL_UNSIGNED_BYTE: return GL_RGBA8;
-                    case GL_UNSIGNED_SHORT: return GL_RGBA16;
-                    case GL_HALF_FLOAT: return  GL_RGBA16F;
-                    case GL_FLOAT: return GL_RGBA32F;
-                    default: break;
-                    }
-                    break;
-                default: break;
-                }
-                return GL_NONE;*/
-#endif // DJV_OPENGL_ES2
+                //return Image::getGLFormat(type);
+                return GL_RGBA;
             }
 
             void Texture1D::_init(const Image::Info& info, GLenum filter)
@@ -307,11 +243,10 @@ namespace djv
                     glBindTexture(GL_TEXTURE_1D, _id);
                     glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
                     glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, filter);
-                    GLenum internalFormat = GL_RGBA;
                     glTexImage1D(
                         GL_TEXTURE_1D,
                         0,
-                        internalFormat,
+                        getInternalFormat(_info.type),
                         _info.size.w,
                         0,
                         _info.getGLFormat(),
@@ -433,11 +368,8 @@ namespace djv
 
             GLenum Texture1D::getInternalFormat(Image::Type type)
             {
-#if defined(DJV_OPENGL_ES2)
-                return Image::getGLFormat(type);
-#else // DJV_OPENGL_ES2
-                return Image::getGLFormat(type);
-#endif // DJV_OPENGL_ES2
+                //return Image::getGLFormat(type);
+                return GL_RGBA;
             }
 
         } // namespace OpenGL
