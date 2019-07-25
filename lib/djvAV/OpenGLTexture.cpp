@@ -44,6 +44,14 @@ namespace djv
                 _info = info;
                 if (info.isValid())
                 {
+                    glGenBuffers(1, &_pbo);
+                    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
+                    glBufferData(
+                        GL_PIXEL_UNPACK_BUFFER,
+                        info.getDataByteCount(),
+                        0,
+                        GL_STREAM_DRAW);
+
                     glGenTextures(1, &_id);
                     glBindTexture(GL_TEXTURE_2D, _id);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -61,13 +69,6 @@ namespace djv
                         _info.getGLFormat(),
                         _info.getGLType(),
                         0);
-                    glGenBuffers(1, &_pbo);
-                    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
-                    glBufferData(
-                        GL_PIXEL_UNPACK_BUFFER,
-                        info.getDataByteCount(),
-                        0,
-                        GL_STREAM_DRAW);
                 }
             }
 
@@ -99,7 +100,29 @@ namespace djv
                 _info = info;
                 if (_info.isValid())
                 {
+                    if (_id)
+                    {
+                        glDeleteTextures(1, &_id);
+                    }
+                    if (_pbo)
+                    {
+                        glDeleteBuffers(1, &_pbo);
+                    }
+
+                    glGenBuffers(1, &_pbo);
+                    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
+                    glBufferData(
+                        GL_PIXEL_UNPACK_BUFFER,
+                        _info.getDataByteCount(),
+                        0,
+                        GL_STREAM_DRAW);
+
+                    glGenTextures(1, &_id);
                     glBindTexture(GL_TEXTURE_2D, _id);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
                     GLenum internalFormat = GL_RGBA;
                     glTexImage2D(
                         GL_TEXTURE_2D,
@@ -111,12 +134,19 @@ namespace djv
                         _info.getGLFormat(),
                         _info.getGLType(),
                         0);
-                    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, _pbo);
-                    glBufferData(
-                        GL_PIXEL_UNPACK_BUFFER,
-                        _info.getDataByteCount(),
+
+                    /*glBindTexture(GL_TEXTURE_2D, _id);
+                    GLenum internalFormat = GL_RGBA;
+                    glTexImage2D(
+                        GL_TEXTURE_2D,
                         0,
-                        GL_STREAM_DRAW);
+                        internalFormat,
+                        _info.size.w,
+                        _info.size.h,
+                        0,
+                        _info.getGLFormat(),
+                        _info.getGLType(),
+                        0);*/
                 }
             }
 
@@ -144,6 +174,7 @@ namespace djv
                     0,
                     info.getDataByteCount(),
                     data.getData());
+
                 glBindTexture(GL_TEXTURE_2D, _id);
                 glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);
                 glPixelStorei(GL_UNPACK_SWAP_BYTES, info.layout.endian != Memory::getEndian());
@@ -187,6 +218,7 @@ namespace djv
                     0,
                     info.getDataByteCount(),
                     data.getData());
+
                 glBindTexture(GL_TEXTURE_2D, _id);
                 glPixelStorei(GL_UNPACK_ALIGNMENT, info.layout.alignment);
                 glPixelStorei(GL_UNPACK_SWAP_BYTES, info.layout.endian != Memory::getEndian());
