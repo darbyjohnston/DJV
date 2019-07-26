@@ -61,7 +61,7 @@ namespace djv
                 case 1:
                     switch (type)
                     {
-                    case Type::U8: out = AL_FORMAT_MONO8; break;
+                    case Type::U8:  out = AL_FORMAT_MONO8; break;
                     case Type::S16: out = AL_FORMAT_MONO16; break;
                     case Type::F32: out = AL_FORMAT_MONO_FLOAT32; break;
                     default: break;
@@ -70,7 +70,7 @@ namespace djv
                 case 2:
                     switch (type)
                     {
-                    case Type::U8: out = AL_FORMAT_STEREO8; break;
+                    case Type::U8:  out = AL_FORMAT_STEREO8; break;
                     case Type::S16: out = AL_FORMAT_STEREO16; break;
                     case Type::F32: out = AL_FORMAT_STEREO_FLOAT32; break;
                     default: break;
@@ -79,7 +79,7 @@ namespace djv
                 case 6:
                     switch (type)
                     {
-                    case Type::U8: out = AL_FORMAT_51CHN8; break;
+                    case Type::U8:  out = AL_FORMAT_51CHN8; break;
                     case Type::S16: out = AL_FORMAT_51CHN16; break;
                     case Type::F32: out = AL_FORMAT_51CHN32; break;
                     default: break;
@@ -88,7 +88,7 @@ namespace djv
                 case 7:
                     switch (type)
                     {
-                    case Type::U8: out = AL_FORMAT_61CHN8; break;
+                    case Type::U8:  out = AL_FORMAT_61CHN8; break;
                     case Type::S16: out = AL_FORMAT_61CHN16; break;
                     case Type::F32: out = AL_FORMAT_61CHN32; break;
                     default: break;
@@ -97,7 +97,7 @@ namespace djv
                 case 8:
                     switch (type)
                     {
-                    case Type::U8: out = AL_FORMAT_71CHN8; break;
+                    case Type::U8:  out = AL_FORMAT_71CHN8; break;
                     case Type::S16: out = AL_FORMAT_71CHN16; break;
                     case Type::F32: out = AL_FORMAT_71CHN32; break;
                     default: break;

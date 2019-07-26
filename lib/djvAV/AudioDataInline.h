@@ -42,7 +42,6 @@ namespace djv
                 sampleRate(sampleRate)
             {}
 
-
             constexpr bool DataInfo::isValid() const
             {
                 return type != Type::None;
@@ -104,6 +103,76 @@ namespace djv
             inline const uint8_t * Data::getData(size_t offset) const
             {
                 return _data.data();
+            }
+
+            template<typename T>
+            inline void Data::extract(const T* value, T* out, size_t sampleCount, uint8_t inChannelCount, uint8_t outChannelCount)
+            {
+                const T* inP = value;
+                T* outP = out;
+                T* const endP = outP + sampleCount;
+                switch (outChannelCount)
+                {
+                case 1:
+                    for (; outP < endP; inP += inChannelCount, outP += 1)
+                    {
+                        outP[0] = inP[0];
+                    }
+                    break;
+                case 2:
+                    for (; outP < endP; inP += inChannelCount, outP += 2)
+                    {
+                        outP[0] = inP[0];
+                        outP[1] = inP[1];
+                    }
+                    break;
+                default:
+                    for (; outP < endP; inP += inChannelCount, outP += outChannelCount)
+                    {
+                        for (size_t i = 0; i < outChannelCount; ++i)
+                        {
+                            outP[i] = inP[i];
+                        }
+                    }
+                    break;
+                }
+            }
+
+            template<typename T>
+            inline void Data::planarInterleave(const T** value, T* out, size_t sampleCount, uint8_t channelCount)
+            {
+                const size_t planeSize = sampleCount / channelCount;
+                switch (channelCount)
+                {
+                case 1:
+                    memcpy(out, value[0], sampleCount * sizeof(T));
+                    break;
+                case 2:
+                {
+                    const T* inP0 = value[0];
+                    const T* inP1 = value[1];
+                    T* outP = out;
+                    T* const endP = out + sampleCount;
+                    for (; outP < endP; outP += 2, ++inP0, ++inP1)
+                    {
+                        outP[0] = inP0[0];
+                        outP[1] = inP1[0];
+                    }
+                    break;
+                }
+                default:
+                    for (uint8_t c = 0; c < channelCount; ++c)
+                    {
+                        const T* inP = value[c];
+                        const T* endP = inP + planeSize;
+                        T* outP = out + c;
+                        for (; inP < endP; ++inP, outP += channelCount)
+                        {
+                            *outP = *inP;
+                        }
+                    }
+                    break;
+                }
             }
 
         } // namespace Audio

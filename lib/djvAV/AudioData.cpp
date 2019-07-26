@@ -167,53 +167,17 @@ namespace djv
                 }
                 return out;
             }
-            
-            void Data::planarInterleave(const float ** value, float * out, size_t size, uint8_t channelCount)
-            {
-                const size_t planeSize = size / channelCount;
-                switch (channelCount)
-                {
-                    case 1:
-                        memcpy(out, value[0], size * sizeof(float));
-                        break;
-                    case 2:
-                    {
-                        const float * inP0 = value[0];
-                        const float * inP1 = value[1];
-                        float * outP = out;
-                        float * const endP = out + size;
-                        for (; outP < endP; outP += 2, ++inP0, ++inP1)
-                        {
-                            outP[0] = inP0[0];
-                            outP[1] = inP1[0];
-                        }
-                        break;
-                    }
-                    default:
-                        for (uint8_t c = 0; c < channelCount; ++c)
-                        {
-                            const float * inP = value[c];
-                            const float * endP = inP + planeSize;
-                            float * outP = out + c;
-                            for (; inP < endP; ++inP, outP += channelCount)
-                            {
-                                *outP = *inP;
-                            }
-                        }
-                        break;
-                }
-            }
 
             namespace
             {
-                template<typename U>
-                void _planarDeinterleave(const U * value, U * out, uint8_t channelCount, size_t size)
+                template<typename T>
+                void _planarDeinterleave(const T* value, T* out, uint8_t channelCount, size_t size)
                 {
                     const size_t planeSize = size / channelCount;
                     for (uint8_t c = 0; c < channelCount; ++c)
                     {
-                        const U * inP = value + c;
-                        U * outP = out + c * planeSize;
+                        const T* inP = value + c;
+                        T* outP = out + c * planeSize;
                         for (size_t i = 0; i < planeSize; ++i, inP += channelCount, ++outP)
                         {
                             *outP = *inP;
