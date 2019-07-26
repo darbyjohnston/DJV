@@ -27,6 +27,8 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
+#include <string.h>
+
 namespace djv
 {
     namespace AV
