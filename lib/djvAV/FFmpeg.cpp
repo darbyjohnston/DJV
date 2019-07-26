@@ -110,6 +110,11 @@ namespace djv
 
                 } // namespace
 
+                struct Plugin::Private
+                {
+                    Options options;
+                };
+
                 void Plugin::_init(
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
@@ -126,7 +131,8 @@ namespace djv
                     av_log_set_callback(avLogCallback);
                }
 
-                Plugin::Plugin()
+                Plugin::Plugin() :
+                    _p(new Private)
                 {}
 
                 std::shared_ptr<Plugin> Plugin::create(
@@ -138,13 +144,55 @@ namespace djv
                     return out;
                 }
 
+                picojson::value Plugin::getOptions() const
+                {
+                    DJV_PRIVATE_PTR();
+                    return toJSON(p.options);
+                }
+
+                void Plugin::setOptions(const picojson::value& value)
+                {
+                    DJV_PRIVATE_PTR();
+                    fromJSON(value, p.options);
+                }
+
                 std::shared_ptr<IRead> Plugin::read(const FileSystem::FileInfo& fileInfo, const ReadOptions& options) const
                 {
-                    return Read::create(fileInfo, options, _resourceSystem, _logSystem);
+                    DJV_PRIVATE_PTR();
+                    return Read::create(fileInfo, options, p.options, _resourceSystem, _logSystem);
                 }
 
             } // namespace FFmpeg
         } // namespace IO
     } // namespace AV
+
+
+    picojson::value toJSON(const AV::IO::FFmpeg::Options& value)
+    {
+        picojson::value out(picojson::object_type, true);
+        {
+            out.get<picojson::object>()["ThreadCount"] = toJSON(value.threadCount);
+        }
+        return out;
+    }
+
+    void fromJSON(const picojson::value& value, AV::IO::FFmpeg::Options& out)
+    {
+        if (value.is<picojson::object>())
+        {
+            for (const auto& i : value.get<picojson::object>())
+            {
+                if ("ThreadCount" == i.first)
+                {
+                    fromJSON(i.second, out.threadCount);
+                }
+            }
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
+
 } // namespace djv
 

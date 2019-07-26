@@ -54,6 +54,7 @@ namespace djv
             {
                 struct Read::Private
                 {
+                    Options options;
                     VideoInfo videoInfo;
                     AudioInfo audioInfo;
                     std::promise<Info> infoPromise;
@@ -74,12 +75,14 @@ namespace djv
 
                 void Read::_init(
                     const FileSystem::FileInfo& fileInfo,
-                    const ReadOptions& options,
+                    const ReadOptions& readOptions,
+                    const Options& options,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
-                    IRead::_init(fileInfo, options, resourceSystem, logSystem);
+                    IRead::_init(fileInfo, readOptions, resourceSystem, logSystem);
                     DJV_PRIVATE_PTR();
+                    p.options = options;
                     p.running = true;
                     p.thread = std::thread(
                         [this]
@@ -175,8 +178,8 @@ namespace djv
                                         DJV_TEXT("cannot be opened") << ". " << FFmpeg::getErrorString(r);
                                     throw std::runtime_error(ss.str());
                                 }
-                                //p.avCodecContext[p.avVideoStream]->thread_count = 8;
-                                //p.avCodecContext[p.avVideoStream]->thread_type = FF_THREAD_SLICE;
+                                p.avCodecContext[p.avVideoStream]->thread_count = p.options.threadCount;
+                                p.avCodecContext[p.avVideoStream]->thread_type = FF_THREAD_SLICE;
                                 r = avcodec_open2(p.avCodecContext[p.avVideoStream], avVideoCodec, 0);
                                 if (r < 0)
                                 {
@@ -304,6 +307,11 @@ namespace djv
                                 case 7:
                                 case 8: break;
                                 default: channelCount = 2; break;
+                                }
+                                switch (audioType)
+                                {
+                                case Audio::Type::S32: audioType = Audio::Type::F32; break;
+                                default: break;
                                 }
                                 p.audioInfo = AudioInfo(
                                     Audio::DataInfo(
@@ -517,11 +525,12 @@ namespace djv
                 std::shared_ptr<Read> Read::create(
                     const FileSystem::FileInfo& fileInfo,
                     const ReadOptions& readOptions,
+                    const Options& options,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Read>(new Read);
-                    out->_init(fileInfo, readOptions, resourceSystem, logSystem);
+                    out->_init(fileInfo, readOptions, options, resourceSystem, logSystem);
                     return out;
                 }
 
@@ -668,19 +677,23 @@ namespace djv
                         }
                         case AV_SAMPLE_FMT_S32:
                         {
+                            Audio::DataInfo s32Info = info;
+                            s32Info.type = Audio::Type::S32;
+                            auto s32Data = Audio::Data::create(s32Info, p.avFrame->nb_samples * info.channelCount);
                             if (p.avCodecParameters[p.avAudioStream]->channels == info.channelCount)
                             {
-                                memcpy(audioData->getData(), p.avFrame->data[0], audioData->getByteCount());
+                                memcpy(s32Data->getData(), p.avFrame->data[0], s32Data->getByteCount());
                             }
                             else
                             {
                                 Audio::Data::extract(
                                     reinterpret_cast<int32_t*>(p.avFrame->data[0]),
-                                    reinterpret_cast<int32_t*>(audioData->getData()),
-                                    audioData->getSampleCount(),
+                                    reinterpret_cast<int32_t*>(s32Data->getData()),
+                                    s32Data->getSampleCount(),
                                     p.avCodecParameters[p.avAudioStream]->channels,
                                     info.channelCount);
                             }
+                            audioData = Audio::Data::convert(s32Data, Audio::Type::F32);
                             break;
                         }
                         case AV_SAMPLE_FMT_FLT:
@@ -732,6 +745,9 @@ namespace djv
                         }
                         case AV_SAMPLE_FMT_S32P:
                         {
+                            Audio::DataInfo s32Info = info;
+                            s32Info.type = Audio::Type::S32;
+                            auto s32Data = Audio::Data::create(s32Info, p.avFrame->nb_samples * info.channelCount);
                             const size_t channelCount = info.channelCount;
                             const int32_t** c = new const int32_t * [channelCount];
                             for (size_t i = 0; i < channelCount; ++i)
@@ -740,9 +756,10 @@ namespace djv
                             }
                             Audio::Data::planarInterleave(
                                 c,
-                                reinterpret_cast<int32_t*>(audioData->getData()),
-                                audioData->getSampleCount(),
+                                reinterpret_cast<int32_t*>(s32Data->getData()),
+                                s32Data->getSampleCount(),
                                 channelCount);
+                            audioData = Audio::Data::convert(s32Data, Audio::Type::F32);
                             break;
                         }
                         case AV_SAMPLE_FMT_FLTP:
