@@ -79,12 +79,12 @@ a.button
 {
     padding: .3em;
 	color: rgb(255, 255, 255);
-	background-color: rgb(40, 40, 40);
+	background-color: rgb(60, 60, 60);
     font-size: 18;
 	text-decoration: none;
 	border-style: solid;
 	border-width: 1px;
-	border-color: rgb(60, 60, 60);
+	border-color: rgb(80, 80, 80);
 }
 a.imageButton
 {
