@@ -54,6 +54,7 @@ namespace djv
             {
                 struct Read::Private
                 {
+                    Options options;
                     VideoInfo videoInfo;
                     AudioInfo audioInfo;
                     std::promise<Info> infoPromise;
@@ -74,12 +75,14 @@ namespace djv
 
                 void Read::_init(
                     const FileSystem::FileInfo& fileInfo,
-                    const ReadOptions& options,
+                    const ReadOptions& readOptions,
+                    const Options& options,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
-                    IRead::_init(fileInfo, options, resourceSystem, logSystem);
+                    IRead::_init(fileInfo, readOptions, resourceSystem, logSystem);
                     DJV_PRIVATE_PTR();
+                    p.options = options;
                     p.running = true;
                     p.thread = std::thread(
                         [this]
@@ -175,6 +178,8 @@ namespace djv
                                         DJV_TEXT("cannot be opened") << ". " << FFmpeg::getErrorString(r);
                                     throw std::runtime_error(ss.str());
                                 }
+                                p.avCodecContext[p.avVideoStream]->thread_count = p.options.threadCount;
+                                p.avCodecContext[p.avVideoStream]->thread_type = FF_THREAD_SLICE;
                                 r = avcodec_open2(p.avCodecContext[p.avVideoStream], avVideoCodec, 0);
                                 if (r < 0)
                                 {
@@ -520,11 +525,12 @@ namespace djv
                 std::shared_ptr<Read> Read::create(
                     const FileSystem::FileInfo& fileInfo,
                     const ReadOptions& readOptions,
+                    const Options& options,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Read>(new Read);
-                    out->_init(fileInfo, readOptions, resourceSystem, logSystem);
+                    out->_init(fileInfo, readOptions, options, resourceSystem, logSystem);
                     return out;
                 }
 

@@ -43,7 +43,6 @@
 #include <djvUIComponents/DPXSettingsWidget.h>
 #include <djvUIComponents/IOSettingsWidget.h>
 #include <djvUIComponents/LanguageSettingsWidget.h>
-#include <djvUIComponents/OpenEXRSettingsWidget.h>
 #include <djvUIComponents/PPMSettingsWidget.h>
 #include <djvUIComponents/PaletteSettingsWidget.h>
 #include <djvUIComponents/SizeSettingsWidget.h>
@@ -51,6 +50,12 @@
 #include <djvUIComponents/TooltipsSettingsWidget.h>
 #if defined(JPEG_FOUND)
 #include <djvUIComponents/JPEGSettingsWidget.h>
+#endif
+#if defined(FFMPEG_FOUND)
+#include <djvUIComponents/FFmpegSettingsWidget.h>
+#endif
+#if defined(OPENEXR_FOUND)
+#include <djvUIComponents/OpenEXRSettingsWidget.h>
 #endif
 #if defined(TIFF_FOUND)
 #include <djvUIComponents/TIFFSettingsWidget.h>
@@ -146,10 +151,15 @@ namespace djv
                 UI::PPMSettingsWidget::create(context),
                 UI::CineonSettingsWidget::create(context),
                 UI::DPXSettingsWidget::create(context),
-                UI::OpenEXRSettingsWidget::create(context),
                 UI::PPMSettingsWidget::create(context),
 #if defined(JPEG_FOUND)
                 UI::JPEGSettingsWidget::create(context),
+#endif
+#if defined(FFMPEG_FOUND)
+                UI::FFmpegSettingsWidget::create(context),
+#endif
+#if defined(OPENEXR_FOUND)
+                UI::OpenEXRSettingsWidget::create(context),
 #endif
 #if defined(TIFF_FOUND)
                 UI::TIFFSettingsWidget::create(context),

@@ -66,6 +66,12 @@ namespace djv
 
                 std::string getErrorString(int);
 
+                //! This struct provides the FFmpeg file I/O optioms.
+                struct Options
+                {
+                    size_t threadCount = 4;
+                };
+
                 //! This class provides the FFmpeg file reader.
                 class Read : public IRead
                 {
@@ -75,6 +81,7 @@ namespace djv
                     void _init(
                         const Core::FileSystem::FileInfo&,
                         const ReadOptions&,
+                        const Options&,
                         const std::shared_ptr<Core::ResourceSystem>&,
                         const std::shared_ptr<Core::LogSystem>&);
                     Read();
@@ -85,6 +92,7 @@ namespace djv
                     static std::shared_ptr<Read> create(
                         const Core::FileSystem::FileInfo&,
                         const ReadOptions&,
+                        const Options&,
                         const std::shared_ptr<Core::ResourceSystem>&,
                         const std::shared_ptr<Core::LogSystem>&);
 
@@ -119,12 +127,25 @@ namespace djv
                         const std::shared_ptr<Core::ResourceSystem>&,
                         const std::shared_ptr<Core::LogSystem>&);
 
+                    picojson::value getOptions() const override;
+                    void setOptions(const picojson::value&) override;
+
                     std::shared_ptr<IRead> read(const Core::FileSystem::FileInfo&, const ReadOptions&) const override;
+
+                private:
+                    DJV_PRIVATE();
                 };
 
             } // namespace FFmpeg
         } // namespace IO
     } // namespace AV
+
+    picojson::value toJSON(const AV::IO::FFmpeg::Options&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const picojson::value&, AV::IO::FFmpeg::Options&);
+
 } // namespace djv
 
 #include <djvAV/FFmpegInline.h>

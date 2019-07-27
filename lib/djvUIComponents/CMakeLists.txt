@@ -7,6 +7,7 @@ set(header
     ColorSpaceModel.h
     ColorSpaceSettingsWidget.h
 	DPXSettingsWidget.h
+	FFmpegSettingsWidget.h
     FileBrowser.h
     FileBrowserDialog.h
     FileBrowserItemView.h
@@ -33,6 +34,7 @@ set(source
     ColorSpaceModel.cpp
     ColorSpaceSettingsWidget.cpp
 	DPXSettingsWidget.cpp
+	FFmpegSettingsWidget.cpp
     FileBrowser.cpp
     FileBrowserDialog.cpp
     FileBrowserDrivesWidget.cpp
