@@ -736,10 +736,10 @@ namespace djv
             case Playback::Forward:
             case Playback::Reverse:
             {
-                if (p.read)
+                /*if (p.read)
                 {
                     p.read->seek(p.currentTime->get());
-                }
+                }*/
                 p.timeOffset = p.currentTime->get();
                 p.startTime = std::chrono::system_clock::now();
                 p.realSpeedTime = p.startTime;
@@ -790,12 +790,14 @@ namespace djv
                     if (state != AL_PLAYING)
                     {
                         size_t count = 0;
+                        size_t max = 0;
                         {
                             std::lock_guard<std::mutex> lock(p.read->getMutex());
                             auto& queue = p.read->getAudioQueue();
                             count = queue.getFrameCount();
+                            max = queue.getMax();
                         }
-                        if (count)
+                        if (count > max / 2)
                         {
                             alSourcePlay(p.alSource);
                         }
@@ -973,12 +975,7 @@ namespace djv
                     for (size_t i = 0; i < frames.size(); ++i)
                     {
                         auto data = frames[i].audio;
-                        AV::Audio::DataInfo info = data->getInfo();
-                        if (AV::Audio::Type::S32 == info.type)
-                        {
-                            info.type = AV::Audio::Type::S16;
-                            data = AV::Audio::Data::convert(data, info.type);
-                        }
+                        const AV::Audio::DataInfo info = data->getInfo();
                         auto buffer = p.alBuffers.back();
                         p.alBuffers.pop_back();
                         alBufferData(
