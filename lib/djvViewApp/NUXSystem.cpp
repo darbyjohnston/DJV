@@ -68,7 +68,7 @@ namespace djv
         namespace
         {
             const size_t primitiveCount = 10;
-            const float  primitiveOpacity = .05f;
+            const float  primitiveOpacity = .5f;
 
             class BackgroundWidget : public UI::Widget
             {
@@ -178,8 +178,9 @@ namespace djv
                 render->drawRect(g);
                 for (const auto& i : _primitives)
                 {
-                    AV::Image::Color color = style->getColor(UI::ColorRole::Foreground);
-                    color.setF32(color.getF32(3) * primitiveOpacity * sin(i.age / i.lifespan * Math::pi), 3);
+                    AV::Image::Color color = style->getColor(UI::ColorRole::Button);
+                    const float v = 1.f - ((cos((i.age / i.lifespan) * Math::pi * 2.f) + 1.f) * .5f);
+                    color.setF32(color.getF32(3) * primitiveOpacity * v, 3);
                     render->setFillColor(color);
                     render->drawFilledImage(i.image, i.pos);
                 }
