@@ -90,7 +90,6 @@ namespace djv
 
         struct GLFWSystem::Private
         {
-            uint16_t dpi = AV::dpiDefault;
             GLFWwindow * glfwWindow = nullptr;
         };
 
@@ -122,28 +121,6 @@ namespace djv
                 throw std::runtime_error(ss.str());
             }
 
-            // Get the primary monitor information.
-            if (auto primaryMonitor = glfwGetPrimaryMonitor())
-            {
-                const GLFWvidmode * mode = glfwGetVideoMode(primaryMonitor);
-                glm::ivec2 mm;
-                glfwGetMonitorPhysicalSize(primaryMonitor, &mm.x, &mm.y);
-                glm::vec2 dpi;
-                if (mm.x > 0 && mm.y > 0)
-                {
-                    dpi.x = mode->width / (mm.x / 25.4f);
-                    dpi.y = mode->height / (mm.y / 25.4f);
-                }
-                {
-                    std::stringstream ss;
-                    ss << "Primary monitor resolution: " << mode->width << " " << mode->height << "\n";
-                    ss << "Primary monitor size: " << mm << "mm\n";
-                    ss << "Primary monitor DPI: " << dpi;
-                    _log(ss.str());
-                }
-                p.dpi = static_cast<int>(dpi.x);
-            }
-
             // Create a window.
 #if defined(DJV_OPENGL_ES2)
             glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
@@ -163,8 +140,8 @@ namespace djv
                 glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
             }
             p.glfwWindow = glfwCreateWindow(
-                static_cast<int>(ceilf(windowSize.x * (p.dpi / static_cast<float>(AV::dpiDefault)))),
-                static_cast<int>(ceilf(windowSize.y * (p.dpi / static_cast<float>(AV::dpiDefault)))),
+                windowSize.x,
+                windowSize.y,
                 getSystemName().c_str(), NULL, NULL);
             if (!p.glfwWindow)
             {
@@ -233,11 +210,6 @@ namespace djv
             auto out = std::shared_ptr<GLFWSystem>(new GLFWSystem);
             out->_init(context);
             return out;
-        }
-
-        int GLFWSystem::getDPI() const
-        {
-            return _p->dpi;
         }
 
         GLFWwindow * GLFWSystem::getGLFWWindow() const

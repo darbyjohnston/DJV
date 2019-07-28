@@ -75,7 +75,8 @@ namespace djv
             void _redraw();
             void _hover(const std::shared_ptr<UI::Widget> &, Core::Event::PointerMove &, std::shared_ptr<Core::IObject> &);
 
-            static void _resizeCallback(GLFWwindow *, int, int);
+            static void _resizeCallback(GLFWwindow*, int, int);
+            static void _contentScaleCallback(GLFWwindow*, float, float);
             static void _redrawCallback(GLFWwindow *);
             static void _pointerCallback(GLFWwindow *, double, double);
             static void _buttonCallback(GLFWwindow *, int button, int action, int mods);

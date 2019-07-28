@@ -383,7 +383,17 @@ namespace djv
             auto glfwMonitor = glfwGetWindowMonitor(glfwWindow);
             if (value && !glfwMonitor)
             {
-                glfwMonitor = glfwGetPrimaryMonitor();
+                int monitor = settings->observeFullscreenMonitor()->get();
+                int monitorsCount = 0;
+                GLFWmonitor** monitors = glfwGetMonitors(&monitorsCount);
+                if (monitor >= 0 && monitor < monitorsCount)
+                {
+                    glfwMonitor = monitors[monitor];
+                }
+                else
+                {
+                    glfwMonitor = glfwGetPrimaryMonitor();
+                }
                 auto glfwMonitorMode = glfwGetVideoMode(glfwMonitor);
                 monitorSize.x = glfwMonitorMode->width;
                 monitorSize.y = glfwMonitorMode->height;

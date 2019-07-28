@@ -31,15 +31,13 @@
 
 #include <djvUI/ISettings.h>
 
-#include <djvCore/ValueObserver.h>
-
 namespace djv
 {
     namespace UI
     {
         namespace Settings
         {
-            //! This class provides general UI settings.
+            //! This class provides general settings.
             class General : public ISettings
             {
                 DJV_NON_COPYABLE(General);
@@ -52,9 +50,6 @@ namespace djv
                 virtual ~General();
 
                 static std::shared_ptr<General> create(Core::Context *);
-
-                std::shared_ptr<Core::IValueSubject<bool> > observeTooltips() const;
-                void setTooltips(bool);
 
                 void load(const picojson::value &) override;
                 picojson::value save() override;

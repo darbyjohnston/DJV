@@ -27,10 +27,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/GeneralSettings.h>
+#include <djvUI/UISettings.h>
+
+#include <djvUI/Widget.h>
 
 #include <djvCore/Context.h>
-#include <djvCore/TextSystem.h>
 
 // These need to be included last on OSX.
 #include <djvCore/PicoJSONTemplates.h>
@@ -44,51 +45,63 @@ namespace djv
     {
         namespace Settings
         {
-            struct General::Private
+            struct UI::Private
             {
-                std::shared_ptr<TextSystem> textSystem;
+                std::shared_ptr<ValueSubject<bool> > tooltips;
             };
 
-            void General::_init(Context * context)
+            void UI::_init(Context * context)
             {
-                ISettings::_init("djv::UI::Settings::General", context);
+                ISettings::_init("djv::UI::Settings::UI", context);
                 DJV_PRIVATE_PTR();
-                p.textSystem = context->getSystemT<TextSystem>();
+                p.tooltips = ValueSubject<bool>::create(true);
                 _load();
             }
 
-            General::General() :
+            UI::UI() :
                 _p(new Private)
             {}
 
-            General::~General()
+            UI::~UI()
             {}
 
-            std::shared_ptr<General> General::create(Context * context)
+            std::shared_ptr<UI> UI::create(Context * context)
             {
-                auto out = std::shared_ptr<General>(new General);
+                auto out = std::shared_ptr<UI>(new UI);
                 out->_init(context);
                 return out;
             }
 
-            void General::load(const picojson::value & value)
+            std::shared_ptr<IValueSubject<bool> > UI::observeTooltips() const
+            {
+                return _p->tooltips;
+            }
+
+            void UI::setTooltips(bool value)
+            {
+                if (_p->tooltips->setIfChanged(value))
+                {
+                    Widget::setTooltipsEnabled(value);
+                }
+            }
+
+            void UI::load(const picojson::value & value)
             {
                 DJV_PRIVATE_PTR();
                 if (value.is<picojson::object>())
                 {
                     const auto & object = value.get<picojson::object>();
-                    std::string currentLocale;
-                    read("CurrentLocale", object, currentLocale);
-                    p.textSystem->setCurrentLocale(currentLocale);
+                    read("Tooltips", object, p.tooltips);
+                    Widget::setTooltipsEnabled(p.tooltips->get());
                 }
             }
 
-            picojson::value General::save()
+            picojson::value UI::save()
             {
                 DJV_PRIVATE_PTR();
                 picojson::value out(picojson::object_type, true);
                 auto & object = out.get<picojson::object>();
-                write("CurrentLocale", p.textSystem->getCurrentLocale(), object);
+                write("Tooltips", p.tooltips->get(), object);
                 return out;
             }
 

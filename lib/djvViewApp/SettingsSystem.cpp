@@ -165,6 +165,7 @@ namespace djv
                 UI::TIFFSettingsWidget::create(context),
 #endif
 
+                FullscreenMonitorSettingsWidget::create(context),
                 BackgroundImageSettingsWidget::create(context),
                 CacheSettingsWidget::create(context),
                 ImageAspectRatioSettingsWidget::create(context),

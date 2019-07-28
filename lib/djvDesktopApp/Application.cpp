@@ -72,7 +72,7 @@ namespace djv
             io->addDependency(glfwSystem);
             getSystemT<AV::Render::Render2D>()->addDependency(glfwSystem);
 
-            auto uiSystem = UI::UISystem::create(glfwSystem->getDPI(), this);
+            auto uiSystem = UI::UISystem::create(this);
             auto eventSystem = EventSystem::create(glfwSystem->getGLFWWindow(), this);
         }
         

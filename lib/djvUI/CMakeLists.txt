@@ -73,6 +73,7 @@ set(header
     ToolButton.h
     Tooltip.h
     UI.h
+    UISettings.h
     UISystem.h
     Widget.h
     WidgetInline.h
@@ -145,6 +146,7 @@ set(source
     ToolBar.cpp
     ToolButton.cpp
     Tooltip.cpp
+    UISettings.cpp
     UISystem.cpp
     Widget.cpp
     Window.cpp)

@@ -38,6 +38,7 @@
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/Style.h>
 #include <djvUI/StyleSettings.h>
+#include <djvUI/UISettings.h>
 #include <djvUI/Window.h>
 
 #include <djvAV/AVSystem.h>
@@ -54,19 +55,17 @@ namespace djv
     {
         struct UISystem::Private
         {
-            uint16_t dpi = AV::dpiDefault;
             std::shared_ptr<Style::Style> style;
             std::shared_ptr<ValueObserver<UI::Style::Palette> > paletteObserver;
             std::shared_ptr<ValueObserver<UI::Style::Metrics> > metricsObserver;
             std::shared_ptr<ValueObserver<std::string> > fontObserver;
         };
 
-        void UISystem::_init(uint16_t dpi, Context * context)
+        void UISystem::_init(Context * context)
         {
             ISystem::_init("djv::UI::UISystem", context);
 
             DJV_PRIVATE_PTR();
-            p.dpi = dpi;
 
             addDependency(context->getSystemT<AV::AVSystem>());
 
@@ -75,11 +74,12 @@ namespace djv
             Settings::ColorSpace::create(context);
             Settings::General::create(context);
             Settings::Font::create(context);
+            Settings::UI::create(context);
             auto styleSettings = Settings::Style::create(context);
 
             auto iconSystem = IconSystem::create(context);
 
-            p.style = Style::Style::create(dpi, context);
+            p.style = Style::Style::create(context);
             
             auto dialogSystem = DialogSystem::create(context);
 
@@ -126,16 +126,11 @@ namespace djv
         UISystem::~UISystem()
         {}
 
-        std::shared_ptr<UISystem> UISystem::create(uint16_t dpi, Context * context)
+        std::shared_ptr<UISystem> UISystem::create(Context * context)
         {
             auto out = std::shared_ptr<UISystem>(new UISystem);
-            out->_init(dpi, context);
+            out->_init(context);
             return out;
-        }
-
-        uint16_t UISystem::getDPI() const
-        {
-            return _p->dpi;
         }
 
         const std::shared_ptr<Style::Style> & UISystem::getStyle() const

@@ -31,14 +31,27 @@
 
 #include <djvDesktopApp/DesktopApp.h>
 
+#include <djvCore/BBox.h>
 #include <djvCore/ISystem.h>
+#include <djvCore/ListObserver.h>
 
+struct GLFWmonitor;
 struct GLFWwindow;
 
 namespace djv
 {
     namespace Desktop
     {
+        //! This struct provides information about monitors.
+        struct MonitorInfo
+        {
+            std::string  name;
+            Core::BBox2i geometry       = Core::BBox2i(0, 0, 0, 0);
+            glm::ivec2   physicalSizeMM = glm::ivec2(0, 0);
+
+            bool operator == (const MonitorInfo&) const;
+        };
+
         //! This class provides GLFW functionality.
         class GLFWSystem : public Core::ISystem
         {
@@ -53,7 +66,8 @@ namespace djv
 
             static std::shared_ptr<GLFWSystem> create(Core::Context *);
 
-            int getDPI() const;
+            std::shared_ptr<Core::IListSubject<MonitorInfo> > observeMonitorInfo() const;
+
             GLFWwindow * getGLFWWindow() const;
 
             void showCursor();

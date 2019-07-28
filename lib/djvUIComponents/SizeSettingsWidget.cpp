@@ -72,50 +72,42 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    if (auto settingsSystem = context->getSystemT<Settings::System>())
+                    auto settingsSystem = context->getSystemT<Settings::System>();
+                    auto styleSettings = settingsSystem->getSettingsT<Settings::Style>();
+                    const auto i = widget->_p->indexToMetrics.find(value);
+                    if (i != widget->_p->indexToMetrics.end())
                     {
-                        if (auto styleSettings = settingsSystem->getSettingsT<Settings::Style>())
-                        {
-                            const auto i = widget->_p->indexToMetrics.find(value);
-                            if (i != widget->_p->indexToMetrics.end())
-                            {
-                                styleSettings->setCurrentMetrics(i->second);
-                            }
-                        }
+                        styleSettings->setCurrentMetrics(i->second);
                     }
                 }
             });
 
-            if (auto settingsSystem = context->getSystemT<Settings::System>())
+            auto settingsSystem = context->getSystemT<Settings::System>();
+            auto styleSettings = settingsSystem->getSettingsT<Settings::Style>();
+            p.metricsObserver = MapObserver<std::string, Style::Metrics>::create(
+                styleSettings->observeMetrics(),
+                [weak](const std::map<std::string, Style::Metrics> & value)
             {
-                if (auto styleSettings = settingsSystem->getSettingsT<Settings::Style>())
+                if (auto widget = weak.lock())
                 {
-                    p.metricsObserver = MapObserver<std::string, Style::Metrics>::create(
-                        styleSettings->observeMetrics(),
-                        [weak](const std::map<std::string, Style::Metrics> & value)
+                    widget->_p->metrics.clear();
+                    for (const auto& i : value)
                     {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->metrics.clear();
-                            for (const auto& i : value)
-                            {
-                                widget->_p->metrics.push_back(i.first);
-                            }
-                            widget->_widgetUpdate();
-                        }
-                    });
-                    p.currentMetricsObserver = ValueObserver<std::string>::create(
-                        styleSettings->observeCurrentMetricsName(),
-                        [weak](const std::string & value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->currentMetrics = value;
-                            widget->_currentItemUpdate();
-                        }
-                    });
+                        widget->_p->metrics.push_back(i.first);
+                    }
+                    widget->_widgetUpdate();
                 }
-            }
+            });
+            p.currentMetricsObserver = ValueObserver<std::string>::create(
+                styleSettings->observeCurrentMetricsName(),
+                [weak](const std::string & value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    widget->_p->currentMetrics = value;
+                    widget->_currentItemUpdate();
+                }
+            });
         }
 
         SizeWidget::SizeWidget() :

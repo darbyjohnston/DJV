@@ -35,6 +35,31 @@ namespace djv
 {
     namespace ViewApp
     {
+        //! This class provides the fullscreen monitor settings widget.
+        class FullscreenMonitorSettingsWidget : public UI::ISettingsWidget
+        {
+            DJV_NON_COPYABLE(FullscreenMonitorSettingsWidget);
+
+        protected:
+            void _init(Core::Context*);
+            FullscreenMonitorSettingsWidget();
+
+        public:
+            static std::shared_ptr<FullscreenMonitorSettingsWidget> create(Core::Context*);
+
+            std::string getSettingsName() const override;
+            std::string getSettingsGroup() const override;
+            std::string getSettingsSortKey() const override;
+
+        protected:
+            void _localeEvent(Core::Event::Locale&) override;
+
+        private:
+            void _widgetUpdate();
+
+            DJV_PRIVATE();
+        };
+
         //! This class provides the background image settings widget.
         class BackgroundImageSettingsWidget : public UI::ISettingsWidget
         {

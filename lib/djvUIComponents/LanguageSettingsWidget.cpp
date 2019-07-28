@@ -73,47 +73,39 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    if (auto textSystem = context->getSystemT<TextSystem>())
+                    auto textSystem = context->getSystemT<TextSystem>();
+                    const auto i = widget->_p->indexToLocale.find(value);
+                    if (i != widget->_p->indexToLocale.end())
                     {
-                        const auto i = widget->_p->indexToLocale.find(value);
-                        if (i != widget->_p->indexToLocale.end())
-                        {
-                            textSystem->setCurrentLocale(i->second);
-                        }
+                        textSystem->setCurrentLocale(i->second);
                     }
                 }
             });
 
-            if (auto textSystem = context->getSystemT<TextSystem>())
+            auto textSystem = context->getSystemT<TextSystem>();
+            p.localeObserver = ValueObserver<std::string>::create(
+                textSystem->observeCurrentLocale(),
+                [weak](const std::string & value)
             {
-                p.localeObserver = ValueObserver<std::string>::create(
-                    textSystem->observeCurrentLocale(),
-                    [weak](const std::string & value)
+                if (auto widget = weak.lock())
                 {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->locale = value;
-                        widget->_widgetUpdate();
-                    }
-                });
-            }
-
-            if (auto settingsSystem = context->getSystemT<Settings::System>())
-            {
-                if (auto fontSettings = settingsSystem->getSettingsT<Settings::Font>())
-                {
-                    p.localeFontsObserver = MapObserver<std::string, std::string>::create(
-                        fontSettings->observeLocaleFonts(),
-                        [weak](const std::map<std::string, std::string> & value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->localeFonts = value;
-                            widget->_widgetUpdate();
-                        }
-                    });
+                    widget->_p->locale = value;
+                    widget->_widgetUpdate();
                 }
-            }
+            });
+
+            auto settingsSystem = context->getSystemT<Settings::System>();
+            auto fontSettings = settingsSystem->getSettingsT<Settings::Font>();
+            p.localeFontsObserver = MapObserver<std::string, std::string>::create(
+                fontSettings->observeLocaleFonts(),
+                [weak](const std::map<std::string, std::string> & value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    widget->_p->localeFonts = value;
+                    widget->_widgetUpdate();
+                }
+            });
         }
 
         LanguageWidget::LanguageWidget() :

@@ -71,30 +71,26 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    if (auto settingsSystem = context->getSystemT<UI::Settings::System>())
+                    auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                    if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
                     {
-                        if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
-                        {
-                            playbackSettings->setPIP(value);
-                        }
+                        playbackSettings->setPIP(value);
                     }
                 }
             });
 
-            if (auto settingsSystem = context->getSystemT<UI::Settings::System>())
+            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
             {
-                if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
+                p.pipObserver = ValueObserver<bool>::create(
+                    playbackSettings->observePIP(),
+                    [weak](bool value)
                 {
-                    p.pipObserver = ValueObserver<bool>::create(
-                        playbackSettings->observePIP(),
-                        [weak](bool value)
+                    if (auto widget = weak.lock())
                     {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->pipButton->setChecked(value);
-                        }
-                    });
-                }
+                        widget->_p->pipButton->setChecked(value);
+                    }
+                });
             }
         }
 

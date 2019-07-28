@@ -35,7 +35,7 @@
 #include <djvCore/CoreSystem.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/OS.h>
-#include <djvCore/Vector.h>
+#include <djvCore/Timer.h>
 
 #include <GLFW/glfw3.h>
 
@@ -93,19 +93,29 @@ namespace djv
 
         struct GLFWSystem::Private
         {
-            uint16_t dpi = AV::dpiDefault;
-            GLFWwindow * glfwWindow = nullptr;
-            GLFWcursor* arrowCursor = nullptr;
+            GLFWwindow* glfwWindow   = nullptr;
+            std::shared_ptr<ListSubject<MonitorInfo> > monitorInfo;
+            std::shared_ptr<Time::Timer> monitorTimer;
+            GLFWcursor* arrowCursor  = nullptr;
             GLFWcursor* hiddenCursor = nullptr;
         };
+
+        bool MonitorInfo::operator == (const MonitorInfo& other) const
+        {
+            return
+                name == other.name &&
+                geometry == other.geometry &&
+                physicalSizeMM == other.physicalSizeMM;
+        }
 
         void GLFWSystem::_init(Context * context)
         {
             ISystem::_init("djv::Desktop::GLFWSystem", context);
+            DJV_PRIVATE_PTR();
 
             logSystemWeak = context->getSystemT<LogSystem>();
 
-            DJV_PRIVATE_PTR();
+            p.monitorInfo = ListSubject<MonitorInfo>::create();
 
             addDependency(context->getSystemT<CoreSystem>());
 
@@ -127,27 +137,35 @@ namespace djv
                 throw std::runtime_error(ss.str());
             }
 
-            // Get the primary monitor information.
-            if (auto primaryMonitor = glfwGetPrimaryMonitor())
-            {
-                const GLFWvidmode * mode = glfwGetVideoMode(primaryMonitor);
-                glm::ivec2 mm(0, 0);
-                glfwGetMonitorPhysicalSize(primaryMonitor, &mm.x, &mm.y);
-                glm::vec2 dpi(0, 0);
-                if (mm.x > 0 && mm.y > 0)
+            // Get monitor information.
+            p.monitorTimer = Time::Timer::create(context);
+            p.monitorTimer->setRepeating(true);
+            auto weak = std::weak_ptr<GLFWSystem>(std::dynamic_pointer_cast<GLFWSystem>(shared_from_this()));
+            p.monitorTimer->start(
+                Time::getMilliseconds(Time::TimerValue::Slow),
+                [weak](float)
                 {
-                    dpi.x = mode->width / (mm.x / 25.4f);
-                    dpi.y = mode->height / (mm.y / 25.4f);
-                }
-                {
-                    std::stringstream ss;
-                    ss << "Primary monitor resolution: " << mode->width << " " << mode->height << "\n";
-                    ss << "Primary monitor size: " << mm << "mm\n";
-                    ss << "Primary monitor DPI: " << dpi;
-                    _log(ss.str());
-                }
-                p.dpi = static_cast<int>(dpi.x);
-            }
+                    if (auto system = weak.lock())
+                    {
+                        std::vector<MonitorInfo> info;
+                        int count = 0;
+                        GLFWmonitor** monitors = glfwGetMonitors(&count);
+                        for (int i = 0; i < count; ++i)
+                        {
+                            MonitorInfo m;
+                            m.name = glfwGetMonitorName(monitors[0]);
+                            int x = 0;
+                            int y = 0;
+                            int w = 0;
+                            int h = 0;
+                            glfwGetMonitorWorkarea(monitors[0], &x, &y, &w, &h);
+                            m.geometry = BBox2i(x, y, w, h);
+                            glfwGetMonitorPhysicalSize(monitors[0], &m.physicalSizeMM.x, &m.physicalSizeMM.y);
+                            info.push_back(m);
+                        }
+                        system->_p->monitorInfo->setIfChanged(info);
+                    }
+                });
 
             // Create a window.
 #if defined(DJV_OPENGL_ES2)
@@ -166,8 +184,8 @@ namespace djv
                 glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
             }
             p.glfwWindow = glfwCreateWindow(
-                static_cast<int>(ceilf(windowSize.x * (p.dpi / static_cast<float>(AV::dpiDefault)))),
-                static_cast<int>(ceilf(windowSize.y * (p.dpi / static_cast<float>(AV::dpiDefault)))),
+                windowSize.x,
+                windowSize.y,
                 context->getName().c_str(), NULL, NULL);
             if (!p.glfwWindow)
             {
@@ -257,9 +275,9 @@ namespace djv
             return out;
         }
 
-        int GLFWSystem::getDPI() const
+        std::shared_ptr<Core::IListSubject<MonitorInfo> > GLFWSystem::observeMonitorInfo() const
         {
-            return _p->dpi;
+            return _p->monitorInfo;
         }
 
         GLFWwindow * GLFWSystem::getGLFWWindow() const

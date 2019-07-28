@@ -29,49 +29,40 @@
 
 #pragma once
 
-#include <djvViewApp/Enum.h>
-
 #include <djvUI/ISettings.h>
 
 #include <djvCore/ValueObserver.h>
 
 namespace djv
 {
-    namespace ViewApp
+    namespace UI
     {
-        //! This class provides the window settings.
-        class WindowSettings : public UI::Settings::ISettings
+        namespace Settings
         {
-            DJV_NON_COPYABLE(WindowSettings);
+            //! This class provides UI settings.
+            class UI : public ISettings
+            {
+                DJV_NON_COPYABLE(UI);
 
-        protected:
-            void _init(Core::Context * context);
+            protected:
+                void _init(Core::Context *);
+                UI();
 
-            WindowSettings();
+            public:
+                virtual ~UI();
 
-        public:
-            virtual ~WindowSettings();
+                static std::shared_ptr<UI> create(Core::Context *);
 
-            static std::shared_ptr<WindowSettings> create(Core::Context *);
+                std::shared_ptr<Core::IValueSubject<bool> > observeTooltips() const;
+                void setTooltips(bool);
 
-            std::shared_ptr<Core::IValueSubject<int> > observeFullscreenMonitor() const;
-            void setFullscreenMonitor(int);
+                void load(const picojson::value &) override;
+                picojson::value save() override;
 
-            std::shared_ptr<Core::IValueSubject<bool> > observeMaximized() const;
-            void setMaximized(bool);
+            private:
+                DJV_PRIVATE();
+            };
 
-            std::shared_ptr<Core::IValueSubject<std::string> > observeBackgroundImage() const;
-            std::shared_ptr<Core::IValueSubject<bool> > observeBackgroundImageColorize() const;
-            void setBackgroundImage(const std::string&);
-            void setBackgroundImageColorize(bool);
-
-            void load(const picojson::value &) override;
-            picojson::value save() override;
-
-        private:
-            DJV_PRIVATE();
-        };
-
-    } // namespace ViewApp
+        } // namespace Settings
+    } // namespace UI
 } // namespace djv
-

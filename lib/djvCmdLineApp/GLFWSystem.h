@@ -53,7 +53,6 @@ namespace djv
 
             static std::shared_ptr<GLFWSystem> create(Core::Context *);
 
-            int getDPI() const;
             GLFWwindow * getGLFWWindow() const;
 
             void tick(float dt) override;

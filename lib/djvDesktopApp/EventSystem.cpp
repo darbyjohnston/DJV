@@ -30,7 +30,7 @@
 #include <djvDesktopApp/EventSystem.h>
 
 #include <djvUI/Style.h>
-#include <djvUI/StyleSettings.h>
+#include <djvUI/UISystem.h>
 #include <djvUI/Widget.h>
 #include <djvUI/Window.h>
 
@@ -115,6 +115,7 @@ namespace djv
 
             glfwGetFramebufferSize(glfwWindow, &p.resize.x, &p.resize.y);
             glfwSetFramebufferSizeCallback(glfwWindow, _resizeCallback);
+            glfwSetWindowContentScaleCallback(glfwWindow, _contentScaleCallback);
             glfwSetWindowRefreshCallback(glfwWindow, _redrawCallback);
             glfwSetCursorPosCallback(glfwWindow, _pointerCallback);
             glfwSetMouseButtonCallback(glfwWindow, _buttonCallback);
@@ -387,6 +388,15 @@ namespace djv
             if (auto system = context->getSystemT<EventSystem>())
             {
                 system->_resize(glm::ivec2(width, height));
+            }
+        }
+
+        void EventSystem::_contentScaleCallback(GLFWwindow* window, float scaleX, float scaleY)
+        {
+            Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
+            if (auto system = context->getSystemT<UI::UISystem>())
+            {
+                system->getStyle()->setDPI(glm::vec2(AV::dpiDefault * scaleX, AV::dpiDefault * scaleY));
             }
         }
 

@@ -30,10 +30,10 @@
 #include <djvUIComponents/TooltipsSettingsWidget.h>
 
 #include <djvUI/FormLayout.h>
-#include <djvUI/GeneralSettings.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/ToggleButton.h>
+#include <djvUI/UISettings.h>
 
 #include <djvCore/Context.h>
 
@@ -70,15 +70,15 @@ namespace djv
                 if (auto widget = weak.lock())
                 {
                     auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                    auto generalSettings = settingsSystem->getSettingsT<UI::Settings::General>();
-                    generalSettings->setTooltips(value);
+                    auto uiSettings = settingsSystem->getSettingsT<Settings::UI>();
+                    uiSettings->setTooltips(value);
                 }
             });
 
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
-            auto generalSettings = settingsSystem->getSettingsT<Settings::General>();
+            auto uiSettings = settingsSystem->getSettingsT<Settings::UI>();
             p.tooltipsObserver = ValueObserver<bool>::create(
-                generalSettings->observeTooltips(),
+                uiSettings->observeTooltips(),
                 [weak](bool value)
             {
                 if (auto widget = weak.lock())

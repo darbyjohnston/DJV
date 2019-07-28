@@ -71,13 +71,9 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    if (auto settingsSystem = context->getSystemT<UI::Settings::System>())
-                    {
-                        if (auto uiSettings = settingsSystem->getSettingsT<UISettings>())
-                        {
-                            uiSettings->setAutoHide(value);
-                        }
-                    }
+                    auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                    auto uiSettings = settingsSystem->getSettingsT<UISettings>();
+                    uiSettings->setAutoHide(value);
                 }
             });
 

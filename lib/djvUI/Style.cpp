@@ -203,7 +203,7 @@ namespace djv
             {
                 Context * context = nullptr;
                 Palette palette;
-                uint16_t dpi = AV::dpiDefault;
+                glm::vec2 dpi = glm::vec2(AV::dpiDefault, AV::dpiDefault);
                 Metrics metrics;
                 std::string font = AV::Font::familyDefault;
                 std::map<AV::Font::FamilyID, std::string> fontNames;
@@ -211,12 +211,11 @@ namespace djv
                 bool dirty = true;
             };
 
-            void Style::_init(uint16_t dpi, Context * context)
+            void Style::_init(Context * context)
             {
                 DJV_PRIVATE_PTR();
                 
                 p.context = context;
-                p.dpi = dpi;
                 
                 auto fontSystem = context->getSystemT<AV::Font::System>();
                 p.fontNames = fontSystem->getFontNames().get();
@@ -235,10 +234,10 @@ namespace djv
             Style::~Style()
             {}
 
-            std::shared_ptr<Style> Style::create(uint16_t dpi, Context * context)
+            std::shared_ptr<Style> Style::create(Context * context)
             {
                 auto out = std::shared_ptr<Style>(new Style);
-                out->_init(dpi, context);
+                out->_init(context);
                 return out;
             }
 
@@ -261,7 +260,7 @@ namespace djv
                 p.dirty = true;
             }
 
-            int Style::getDPI() const
+            const glm::vec2& Style::getDPI() const
             {
                 return _p->dpi;
             }
@@ -273,7 +272,7 @@ namespace djv
 
             float Style::getScale() const
             {
-                return _p->dpi / static_cast<float>(AV::dpiDefault);
+                return _p->dpi.x / static_cast<float>(AV::dpiDefault);
             }
 
             float Style::getMetric(MetricsRole role) const
@@ -281,7 +280,16 @@ namespace djv
                 return ceilf(_p->metrics.getMetric(role) * getScale());
             }
 
-            void Style::setMetrics(const Metrics & value)
+            void Style::setDPI(const glm::vec2& value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.dpi)
+                    return;
+                p.dpi = value;
+                p.dirty = true;
+            }
+
+            void Style::setMetrics(const Metrics& value)
             {
                 DJV_PRIVATE_PTR();
                 if (value == p.metrics)
@@ -312,7 +320,7 @@ namespace djv
                     i != p.fontNameToId.end() ? i->second : 1,
                     1,
                     ceilf(getMetric(role)),
-                    p.dpi);
+                    static_cast<uint16_t>(p.dpi.x));
             }
 
             AV::Font::Info Style::getFontInfo(const std::string & face, MetricsRole role) const
@@ -323,7 +331,7 @@ namespace djv
                     i != p.fontNameToId.end() ? i->second : 1,
                     1,
                     ceilf(getMetric(role)),
-                    p.dpi);
+                    static_cast<uint16_t>(p.dpi.x));
             }
 
             bool Style::isDirty() const

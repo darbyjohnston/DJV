@@ -72,50 +72,42 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    if (auto settingsSystem = context->getSystemT<Settings::System>())
+                    auto settingsSystem = context->getSystemT<Settings::System>();
+                    auto styleSettings = settingsSystem->getSettingsT<Settings::Style>();
+                    const auto i = widget->_p->indexToPalette.find(value);
+                    if (i != widget->_p->indexToPalette.end())
                     {
-                        if (auto styleSettings = settingsSystem->getSettingsT<Settings::Style>())
-                        {
-                            const auto i = widget->_p->indexToPalette.find(value);
-                            if (i != widget->_p->indexToPalette.end())
-                            {
-                                styleSettings->setCurrentPalette(i->second);
-                            }
-                        }
+                        styleSettings->setCurrentPalette(i->second);
                     }
                 }
             });
 
-            if (auto settingsSystem = context->getSystemT<Settings::System>())
+            auto settingsSystem = context->getSystemT<Settings::System>();
+            auto styleSettings = settingsSystem->getSettingsT<Settings::Style>();
+            p.palettesObserver = MapObserver<std::string, Style::Palette>::create(
+                styleSettings->observePalettes(),
+                [weak](const std::map<std::string, Style::Palette > & value)
             {
-                if (auto styleSettings = settingsSystem->getSettingsT<Settings::Style>())
+                if (auto widget = weak.lock())
                 {
-                    p.palettesObserver = MapObserver<std::string, Style::Palette>::create(
-                        styleSettings->observePalettes(),
-                        [weak](const std::map<std::string, Style::Palette > & value)
+                    widget->_p->palettes.clear();
+                    for (const auto& i : value)
                     {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->palettes.clear();
-                            for (const auto& i : value)
-                            {
-                                widget->_p->palettes.push_back(i.first);
-                            }
-                            widget->_widgetUpdate();
-                        }
-                    });
-                    p.currentPaletteObserver = ValueObserver<std::string>::create(
-                        styleSettings->observeCurrentPaletteName(),
-                        [weak](const std::string & value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->currentPalette = value;
-                            widget->_currentItemUpdate();
-                        }
-                    });
+                        widget->_p->palettes.push_back(i.first);
+                    }
+                    widget->_widgetUpdate();
                 }
-            }
+            });
+            p.currentPaletteObserver = ValueObserver<std::string>::create(
+                styleSettings->observeCurrentPaletteName(),
+                [weak](const std::string & value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    widget->_p->currentPalette = value;
+                    widget->_currentItemUpdate();
+                }
+            });
         }
 
         PaletteWidget::PaletteWidget() :
