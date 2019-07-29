@@ -153,7 +153,9 @@ namespace djv
                         for (int i = 0; i < count; ++i)
                         {
                             MonitorInfo m;
-                            m.name = glfwGetMonitorName(monitors[0]);
+                            std::stringstream ss;
+                            ss << i << ": " << glfwGetMonitorName(monitors[0]);
+                            m.name = ss.str();
                             int x = 0;
                             int y = 0;
                             int w = 0;
