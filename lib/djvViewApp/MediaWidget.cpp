@@ -214,6 +214,7 @@ namespace djv
             std::shared_ptr<ValueSubject<PointerData> > drag;
 
             std::shared_ptr<Media> media;
+            AV::IO::Info ioInfo;
             std::shared_ptr<AV::Image::Image> image;
             std::vector<Time::Speed> speeds;
             Time::Speed defaultSpeed;
@@ -256,6 +257,7 @@ namespace djv
             std::shared_ptr<UI::GridLayout> playbackLayout;
             std::shared_ptr<UI::StackLayout> layout;
 
+            std::shared_ptr<ValueObserver<AV::IO::Info> > ioInfoObserver;
             std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver;
             std::shared_ptr<ValueObserver<bool> > currentTimeChangeObserver;
             std::shared_ptr<ValueObserver<AV::TimeUnits> > timeUnitsObserver;
@@ -688,6 +690,16 @@ namespace djv
                     }
                 });
 
+            p.ioInfoObserver = ValueObserver<AV::IO::Info>::create(
+                p.media->observeInfo(),
+                [weak](const AV::IO::Info& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->ioInfo = value;
+                    }
+                });
+
             p.imageObserver = ValueObserver<std::shared_ptr<AV::Image::Image> >::create(
                 p.media->observeCurrentImage(),
                 [weak](const std::shared_ptr<AV::Image::Image>& value)
@@ -942,7 +954,20 @@ namespace djv
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const float sh = style->getMetric(UI::MetricsRole::Shadow);
-            _setMinimumSize(p.layout->getMinimumSize() + sh * 2.f);
+
+            const glm::vec2& minimumSize = p.layout->getMinimumSize();
+            _setMinimumSize(minimumSize + sh * 2.f);
+
+            glm::vec2 desiredSize = minimumSize * 2.f;
+            if (p.ioInfo.video.size())
+            {
+                const float aspectRatio = p.ioInfo.video[0].info.getAspectRatio();
+                if (aspectRatio > 0.f)
+                {
+                    desiredSize.y = std::max(desiredSize.x / p.image->getAspectRatio(), minimumSize.y);
+                }
+            }
+            _setDesiredSize(desiredSize + sh * 2.f);
         }
 
         void MediaWidget::_layoutEvent(Event::Layout&)

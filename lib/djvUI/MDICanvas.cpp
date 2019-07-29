@@ -288,16 +288,18 @@ namespace djv
                     if (i.first != maximizedWidget)
                     {
                         const glm::vec2& widgetMinimumSize = i.first->getMinimumSize();
+                        glm::vec2 widgetSize = i.first->getSize();
                         if (p.widgetInit[i.first])
                         {
                             p.widgetInit[i.first] = false;
+                            const glm::vec2& widgetDesiredSize = i.first->getDesiredSize();
+                            widgetSize.x = std::max(widgetSize.x, std::max(widgetMinimumSize.x, widgetDesiredSize.x));
+                            widgetSize.y = std::max(widgetSize.y, std::max(widgetMinimumSize.y, widgetDesiredSize.y));
                             const glm::vec2 c = g.getCenter();
-                            const float w = std::max(i.first->getWidth(), widgetMinimumSize.x);
-                            const float h = std::max(i.first->getHeight(), widgetMinimumSize.y);
-                            i.second.min.x = ceilf(c.x - w / 2.f);
-                            i.second.min.y = ceilf(c.y - h / 2.f);
-                            i.second.max.x = i.second.min.x + w;
-                            i.second.max.y = i.second.min.y + h;
+                            i.second.min.x = ceilf(c.x - widgetSize.x / 2.f);
+                            i.second.min.y = ceilf(c.y - widgetSize.y / 2.f);
+                            i.second.max.x = i.second.min.x + widgetSize.x;
+                            i.second.max.y = i.second.min.y + widgetSize.y;
                         }
                         BBox2f widgetGeometry;
                         if (p.maximized && i.first == p.activeWidget)
@@ -310,8 +312,8 @@ namespace djv
                             float y = Math::clamp(i.second.min.y, g.min.y, g.max.y - widgetMinimumSize.y);
                             i.second.min.x = g.min.x + x;
                             i.second.min.y = g.min.y + y;
-                            i.second.max.x = Math::clamp(g.min.x + x + i.first->getWidth(), g.min.x + x + widgetMinimumSize.x, g.max.x);
-                            i.second.max.y = Math::clamp(g.min.y + y + i.first->getHeight(), g.min.y + y + widgetMinimumSize.y, g.max.y);
+                            i.second.max.x = Math::clamp(g.min.x + x + widgetSize.x, g.min.x + x + widgetMinimumSize.x, g.max.x);
+                            i.second.max.y = Math::clamp(g.min.y + y + widgetSize.y, g.min.y + y + widgetMinimumSize.y, g.max.y);
                             widgetGeometry = i.second;
                         }
                         i.first->setGeometry(widgetGeometry);

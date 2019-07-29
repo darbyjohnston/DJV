@@ -648,11 +648,19 @@ namespace djv
             }
         }
 
-        void Widget::_setMinimumSize(const glm::vec2 & value)
+        void Widget::_setMinimumSize(const glm::vec2& value)
         {
             if (value == _minimumSize)
                 return;
             _minimumSize = value;
+            _resize();
+        }
+
+        void Widget::_setDesiredSize(const glm::vec2& value)
+        {
+            if (value == _desiredSize)
+                return;
+            _desiredSize = value;
             _resize();
         }
 
