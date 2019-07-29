@@ -399,6 +399,11 @@ namespace djv
                 monitorSize.y = glfwMonitorMode->height;
                 monitorRefresh = glfwMonitorMode->refreshRate;
 
+                if (glfwMonitor != glfwGetPrimaryMonitor())
+                {
+                    glfwSetWindowAttrib(glfwWindow, GLFW_AUTO_ICONIFY, GL_FALSE);
+                }
+
                 int x = 0;
                 int y = 0;
                 int w = 0;
@@ -418,6 +423,8 @@ namespace djv
             }
             else if (!value && glfwMonitor)
             {
+                glfwSetWindowAttrib(glfwWindow, GLFW_AUTO_ICONIFY, GL_TRUE);
+
                 glfwSetWindowMonitor(
                     glfwWindow,
                     NULL,
