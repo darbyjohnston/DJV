@@ -964,7 +964,7 @@ namespace djv
                 const float aspectRatio = p.ioInfo.video[0].info.getAspectRatio();
                 if (aspectRatio > 0.f)
                 {
-                    desiredSize.y = std::max(desiredSize.x / p.image->getAspectRatio(), minimumSize.y);
+                    desiredSize.y = std::max(desiredSize.x / aspectRatio, minimumSize.y);
                 }
             }
             _setDesiredSize(desiredSize + sh * 2.f);
