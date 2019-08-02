@@ -73,7 +73,7 @@ namespace djv
                 static std::shared_ptr<PIPWidget> create(Context*);
 
                 void setPIPFileInfo(const Core::FileSystem::FileInfo&);
-                void setPIPPos(const glm::vec2&, Time::Timestamp, const BBox2f&);
+                void setPIPPos(const glm::vec2&, Frame::Number, const BBox2f&);
 
             protected:
                 void _layoutEvent(Event::Layout&) override;
@@ -87,12 +87,14 @@ namespace djv
                 BBox2f _timelineGeometry;
                 std::shared_ptr<Media> _media;
                 Time::Speed _speed;
-                Time::Timestamp _currentTime = 0;
+                Frame::Sequence _sequence;
+                Frame::Number _currentFrame = 0;
                 std::shared_ptr<UI::ImageWidget> _imageWidget;
                 std::shared_ptr<UI::Label> _timeLabel;
                 std::shared_ptr<UI::StackLayout> _layout;
                 std::shared_ptr<ValueObserver<Time::Speed> > _speedObserver;
-                std::shared_ptr<ValueObserver<Time::Timestamp> > _currentTimeObserver;
+                std::shared_ptr<ValueObserver<Frame::Sequence> > _sequenceObserver;
+                std::shared_ptr<ValueObserver<Frame::Number> > _currentFrameObserver;
                 std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > _imageObserver;
             };
 
@@ -144,13 +146,24 @@ namespace djv
                         }
                     });
 
-                    _currentTimeObserver = ValueObserver<Time::Timestamp>::create(
-                        _media->observeCurrentTime(),
-                        [weak](Time::Timestamp value)
+                    _sequenceObserver = ValueObserver<Frame::Sequence>::create(
+                        _media->observeSequence(),
+                        [weak](const Frame::Sequence& value)
                         {
                             if (auto widget = weak.lock())
                             {
-                                widget->_currentTime = value;
+                                widget->_sequence = value;
+                                widget->_textUpdate();
+                            }
+                        });
+
+                    _currentFrameObserver = ValueObserver<Frame::Number>::create(
+                        _media->observeCurrentFrame(),
+                        [weak](Frame::Number value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_currentFrame = value;
                                 widget->_textUpdate();
                             }
                         });
@@ -172,13 +185,13 @@ namespace djv
                 }
             }
 
-            void PIPWidget::setPIPPos(const glm::vec2& value, Time::Timestamp timestamp, const BBox2f& timelineGeometry)
+            void PIPWidget::setPIPPos(const glm::vec2& value, Frame::Number frame, const BBox2f& timelineGeometry)
             {
                 if (value == _pipPos && timelineGeometry == _timelineGeometry)
                     return;
                 if (_media)
                 {
-                    _media->setCurrentTime(timestamp);
+                    _media->setCurrentFrame(frame);
                 }
                 _pipPos = value;
                 _timelineGeometry = timelineGeometry;
@@ -220,7 +233,7 @@ namespace djv
             void PIPWidget::_textUpdate()
             {
                 auto avSystem = getContext()->getSystemT<AV::AVSystem>();
-                _timeLabel->setText(avSystem->getLabel(_currentTime, _speed));
+                _timeLabel->setText(avSystem->getLabel(_sequence.getFrame(_currentFrame), _speed));
             }
 
         } // namespace
@@ -228,11 +241,11 @@ namespace djv
         struct TimelineSlider::Private
         {
             std::shared_ptr<Media> media;
-            Time::Timestamp duration = 0;
-            std::shared_ptr<ValueSubject<Time::Timestamp> > currentTime;
-            std::shared_ptr<ValueSubject<bool> > currentTimeChange;
             Time::Speed speed;
-            std::vector<Time::TimestampRange> cachedTimestamps;
+            Frame::Sequence sequence;
+            std::shared_ptr<ValueSubject<Frame::Number> > currentFrame;
+            std::shared_ptr<ValueSubject<bool> > currentFrameChange;
+            std::vector<Frame::Range> cachedFrames;
             AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;
             uint32_t pressedID = Event::InvalidID;
@@ -240,8 +253,9 @@ namespace djv
             std::shared_ptr<PIPWidget> pipWidget;
             std::shared_ptr<UI::Layout::Overlay> overlay;
             std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
-            std::shared_ptr<ValueObserver<Time::Timestamp> > durationObserver;
-            std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver;
+            std::shared_ptr<ValueObserver<Time::Speed> > speedObserver;
+            std::shared_ptr<ValueObserver<Frame::Sequence> > sequenceObserver;
+            std::shared_ptr<ValueObserver<Frame::Number> > currentFrameObserver;
             std::shared_ptr<ValueObserver<bool> > pipObserver;
         };
 
@@ -253,8 +267,8 @@ namespace djv
             setClassName("djv::ViewApp::TimelineSlider");
             setPointerEnabled(true);
 
-            p.currentTime = ValueSubject<Time::Timestamp>::create(0);
-            p.currentTimeChange = ValueSubject<bool>::create(false);
+            p.currentFrame = ValueSubject<Frame::Number>::create(Frame::invalid);
+            p.currentFrameChange = ValueSubject<bool>::create(false);
 
             p.pipWidget = PIPWidget::create(context);
             p.overlay = UI::Layout::Overlay::create(context);
@@ -300,14 +314,14 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<IValueSubject<Time::Timestamp> > TimelineSlider::observeCurrentTime() const
+        std::shared_ptr<IValueSubject<Frame::Number> > TimelineSlider::observeCurrentFrame() const
         {
-            return _p->currentTime;
+            return _p->currentFrame;
         }
 
-        std::shared_ptr<ValueSubject<bool> > TimelineSlider::observeCurrentTimeChange() const
+        std::shared_ptr<ValueSubject<bool> > TimelineSlider::observeCurrentFrameChange() const
         {
-            return _p->currentTimeChange;
+            return _p->currentFrameChange;
         }
 
         void TimelineSlider::setMedia(const std::shared_ptr<Media> & value)
@@ -332,49 +346,61 @@ namespace djv
                     }
                 });
 
-                p.durationObserver = ValueObserver<Time::Timestamp>::create(
-                    p.media->observeDuration(),
-                    [weak](Time::Timestamp value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->duration = value;
-                        widget->_redraw();
-                    }
-                });
-
-                p.currentTimeObserver = ValueObserver<Time::Timestamp>::create(
-                    p.media->observeCurrentTime(),
-                    [weak](Time::Timestamp value)
+                p.speedObserver = ValueObserver<Time::Speed>::create(
+                    p.media->observeSpeed(),
+                    [weak](const Time::Speed& value)
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->currentTime->setIfChanged(value);
+                            widget->_p->speed = value;
+                            widget->_redraw();
+                        }
+                    });
+
+                p.sequenceObserver = ValueObserver<Frame::Sequence>::create(
+                    p.media->observeSequence(),
+                    [weak](const Frame::Sequence& value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->sequence = value;
+                            widget->_redraw();
+                        }
+                    });
+
+                p.currentFrameObserver = ValueObserver<Frame::Number>::create(
+                    p.media->observeCurrentFrame(),
+                    [weak](Frame::Number value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->currentFrame->setIfChanged(value);
                             widget->_redraw();
                         }
                     });
             }
             else
             {
-                p.duration = 0;
-                p.currentTime->setIfChanged(0);
-                p.currentTimeChange->setIfChanged(false);
+                p.sequence = Frame::Sequence();
+                p.currentFrame->setIfChanged(0);
+                p.currentFrameChange->setIfChanged(false);
                 p.speed = Time::Speed();
 
                 p.pipWidget->setPIPFileInfo(Core::FileSystem::FileInfo());
 
                 p.infoObserver.reset();
-                p.durationObserver.reset();
-                p.currentTimeObserver.reset();
+                p.speedObserver.reset();
+                p.sequenceObserver.reset();
+                p.currentFrameObserver.reset();
             }
             _textUpdate();
         }
 
-        void TimelineSlider::setCachedTimestamps(const std::vector<Time::TimestampRange>& value)
+        void TimelineSlider::setCachedFrames(const std::vector<Frame::Range>& value)
         {
-            if (value == _p->cachedTimestamps)
+            if (value == _p->cachedFrames)
                 return;
-            _p->cachedTimestamps = value;
+            _p->cachedFrames = value;
             _redraw();
         }
 
@@ -410,66 +436,66 @@ namespace djv
 
             auto render = _getRender();
 
+            auto color = style->getColor(UI::ColorRole::Checked);
+            //color.setF32(color.getF32(3) * .5f, 3);
+            render->setFillColor(color);
+            for (const auto& i : p.cachedFrames)
             {
-                const Time::Timestamp t = Time::scale(1, p.speed.swap(), Time::getTimebaseRational());
-                auto color = style->getColor(UI::ColorRole::Checked);
-                //color.setF32(color.getF32(3) * .5f, 3);
-                render->setFillColor(color);
-                for (const auto& i : p.cachedTimestamps)
-                {
-                    const float x0 = _timeToPos(i.min);
-                    const float x1 = _timeToPos(i.max + (i.min != i.max ? 0 : t));
-                    render->drawRect(BBox2f(x0, g.max.y - m - b, x1 - x0, b));
-                }
+                const float x0 = _frameToPos(i.min);
+                const float x1 = _frameToPos(i.max + 1);
+                render->drawRect(BBox2f(x0, g.max.y - m - b, x1 - x0, b));
             }
 
+            const size_t sequenceSize = p.sequence.getSize();
             {
-                const Time::Timestamp t = Time::scale(1, p.speed.swap(), Time::getTimebaseRational());
-                if (_timeToPos(t) - _timeToPos(0) > b * 2.f)
+                const Frame::Number f = 1;
+                if (_frameToPos(f) - _frameToPos(0) > b * 2.f)
                 {
                     auto color = style->getColor(UI::ColorRole::Foreground);
                     color.setF32(color.getF32(3) * .2f, 3);
                     render->setFillColor(color);
-                    for (Time::Timestamp t2 = 0; t2 < p.duration; t2 += t)
+                    for (Frame::Number f2 = 0; f2 < sequenceSize; f2 += f)
                     {
-                        const float x = _timeToPos(t2);
+                        const float x = _frameToPos(f2);
                         const float h = ceilf(hg.h() * .5f);
                         render->drawRect(BBox2f(x, g.max.y - m - h, b, h));
                     }
                 }
             }
             {
-                const Time::Timestamp t = Time::scale(p.speed.toFloat(), p.speed.swap(), Time::getTimebaseRational());
-                if (_timeToPos(t) - _timeToPos(0) > b * 2.f)
+                const Frame::Number f = static_cast<Frame::Number>(p.speed.toFloat());
+                if (_frameToPos(f) - _frameToPos(0) > b * 2.f)
                 {
                     auto color = style->getColor(UI::ColorRole::Foreground);
                     color.setF32(color.getF32(3) * .2f, 3);
                     render->setFillColor(color);
-                    for (Time::Timestamp t2 = 0; t2 < p.duration; t2 += t)
+                    for (Frame::Number f2 = 0; f2 < sequenceSize; f2 += f)
                     {
-                        const float x = _timeToPos(t2);
+                        const float x = _frameToPos(f2);
                         const float h = ceilf(hg.h() * .5f);
                         render->drawRect(BBox2f(x, g.max.y - m - h, b, h));
                     }
                 }
             }
             {
-                const Time::Timestamp t = Time::scale(60.f * static_cast<double>(p.speed.toFloat()), p.speed.swap(), Time::getTimebaseRational());
-                if (_timeToPos(t) - _timeToPos(0) > b * 2.f)
+                const Frame::Number f = static_cast<Frame::Number>(p.speed.toFloat() * 60.f);
+                if (_frameToPos(f) - _frameToPos(0) > b * 2.f)
                 {
                     auto color = style->getColor(UI::ColorRole::Foreground);
                     color.setF32(color.getF32(3) * .2f, 3);
                     render->setFillColor(color);
-                    for (Time::Timestamp t2 = 0; t2 < p.duration; t2 += t)
+                    for (Frame::Number f2 = 0; f2 < sequenceSize; f2 += f)
                     {
-                        const float x = _timeToPos(t2);
+                        const float x = _frameToPos(f2);
                         const float h = ceilf(hg.h() * .5f);
                         render->drawRect(BBox2f(x, g.max.y - m - h, b, h));
                     }
                 }
             }
 
-            render->setFillColor(style->getColor(UI::ColorRole::Foreground));
+            color = style->getColor(UI::ColorRole::Foreground);
+            color.setF32(color.getF32(3) * .5f, 3);
+            render->setFillColor(color);
             render->drawRect(hg);
 
             const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, UI::MetricsRole::FontMedium);
@@ -509,16 +535,16 @@ namespace djv
             event.accept();
             const auto & pos = event.getPointerInfo().projectedPos;
             const BBox2f & g = getGeometry();
-            const Time::Timestamp timestamp = _posToTime(static_cast<int>(pos.x - g.min.x));
+            const Frame::Number frame = _posToFrame(static_cast<int>(pos.x - g.min.x));
             if (auto parent = getParentRecursiveT<MediaWidget>())
             {
                 const auto& style = _getStyle();
                 const float s = style->getMetric(UI::MetricsRole::Spacing);
-                p.pipWidget->setPIPPos(glm::vec2(pos.x, g.min.y - s), timestamp, parent->getGeometry().margin(-s));
+                p.pipWidget->setPIPPos(glm::vec2(pos.x, g.min.y - s), frame, parent->getGeometry().margin(-s));
             }
             if (p.pressedID)
             {
-                if (p.currentTime->setIfChanged(timestamp))
+                if (p.currentFrame->setIfChanged(frame))
                 {
                     _textUpdate();
                     _redraw();
@@ -536,8 +562,8 @@ namespace djv
             const BBox2f & g = getGeometry();
             event.accept();
             p.pressedID = id;
-            p.currentTimeChange->setIfChanged(true);
-            if (p.currentTime->setIfChanged(_posToTime(static_cast<int>(pos.x - g.min.x))))
+            p.currentFrameChange->setIfChanged(true);
+            if (p.currentFrame->setIfChanged(_posToFrame(static_cast<int>(pos.x - g.min.x))))
             {
                 _textUpdate();
                 _redraw();
@@ -551,7 +577,7 @@ namespace djv
                 return;
             event.accept();
             p.pressedID = Event::InvalidID;
-            p.currentTimeChange->setIfChanged(false);
+            p.currentFrameChange->setIfChanged(false);
             _redraw();
         }
 
@@ -571,30 +597,29 @@ namespace djv
             }
         }
 
-        Time::Timestamp TimelineSlider::_posToTime(float value) const
+        Frame::Number TimelineSlider::_posToFrame(float value) const
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const BBox2f& g = getGeometry();
             const float m = style->getMetric(UI::MetricsRole::MarginSmall);
-            const double v = (static_cast<double>(value - static_cast<double>(m))) /
-                (static_cast<double>(g.w()) - static_cast<double>(m) * 2);
-            const Time::Timestamp t = Time::scale(1, p.speed.swap(), Time::getTimebaseRational());
-            Time::Timestamp out = p.duration ?
-                Math::clamp(static_cast<Time::Timestamp>(v * (p.duration - t)), static_cast<Time::Timestamp>(0), p.duration - t) :
+            const float v = (value - m) / (g.w() - m * 2.f);
+            const size_t sequenceSize = p.sequence.getSize();
+            Frame::Number out = sequenceSize ?
+                Math::clamp(static_cast<Frame::Number>(v * sequenceSize), static_cast<Frame::Number>(0), static_cast<Frame::Number>(sequenceSize - 1)) :
                 0;
             return out;
         }
 
-        float TimelineSlider::_timeToPos(Time::Timestamp value) const
+        float TimelineSlider::_frameToPos(Frame::Number value) const
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const BBox2f& g = getGeometry();
             const float m = style->getMetric(UI::MetricsRole::MarginSmall);
-            const Time::Timestamp t = Time::scale(1, p.speed.swap(), Time::getTimebaseRational());
-            const double v = value / static_cast<double>(p.duration - t);
-            float out = floorf(g.min.x + m + v * (static_cast<double>(g.w()) - static_cast<double>(m) * 2.0));
+            const size_t sequenceSize = p.sequence.getSize();
+            const float v = sequenceSize ? (value / static_cast<float>(sequenceSize)) : 0.f;
+            float out = floorf(g.min.x + m + v * (g.w() - m * 2.f));
             return out;
         }
 
@@ -604,9 +629,11 @@ namespace djv
             const BBox2f & g = getGeometry();
             const auto& style = _getStyle();
             const float m = style->getMetric(UI::MetricsRole::MarginSmall);
-            const int64_t t = Time::scale(1, p.speed.swap(), Time::getTimebaseRational());
-            const float x = p.duration ? floorf(p.currentTime->get() / static_cast<float>(p.duration - t) * (g.w() - 1.f - m * 2.f)) : 0.f;
-            BBox2f out = BBox2f(g.min.x + m + x, g.min.y + m, 1.f, g.h() - m * 2.f);
+            const float b = style->getMetric(UI::MetricsRole::Border);
+            const Frame::Number currentFrame = p.currentFrame->get();
+            const float x0 = _frameToPos(currentFrame);
+            const float x1 = _frameToPos(currentFrame + 1);
+            BBox2f out = BBox2f(x0, g.min.y + m, std::max(x1 - x0, b), g.h() - m * 2.f);
             return out;
         }
 

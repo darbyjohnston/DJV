@@ -41,12 +41,6 @@ namespace djv
         //! This namespace provides time functionality.
         namespace Time
         {
-            //! This typedef provides a timestamp.
-            typedef int64_t Timestamp;
-
-            //! This typedef provides a timestamp range.
-            typedef Core::Range::tRange<Timestamp> TimestampRange;
-
             //! \name Time Conversion
             ///@{
 
@@ -55,13 +49,7 @@ namespace djv
 
             Math::Rational getTimebaseRational();
 
-            Timestamp scale(int64_t, const Math::Rational&, const Math::Rational&);
-
-            Frame::Index timestampToFrame(Timestamp, const Speed&);
-            Timestamp frameToTimestamp(Frame::Index, const Speed&);
-
-            double timestampToSeconds(Timestamp);
-            Timestamp secondsToTimestamp(double);
+            int64_t scale(int64_t, const Math::Rational&, const Math::Rational&);
 
             inline void secondsToTime(
                 double,

@@ -73,7 +73,8 @@ void fseqFileNameSizesInit(struct FSeqFileNameSizes* value)
      '9' == V || \
      '#' == V)
 #define _IS_NUMBER_SEPARATOR(V) \
-	('-' == V)
+	('-' == V) || \
+	(',' == V)
 
 unsigned short fseqFileNameParseSizes(
     const char*               in,

@@ -66,28 +66,28 @@ namespace djv
             VideoInfo::VideoInfo()
             {}
 
-            VideoInfo::VideoInfo(const Image::Info & info, const Time::Speed & speed, Time::Timestamp duration) :
+            VideoInfo::VideoInfo(const Image::Info & info, const Time::Speed & speed, const Core::Frame::Sequence& sequence) :
                 info(info),
                 speed(speed),
-                duration(duration)
+                sequence(sequence)
             {}
 
             bool VideoInfo::operator == (const VideoInfo & other) const
             {
-                return info == other.info && speed == other.speed && duration == other.duration;
+                return info == other.info && speed == other.speed && sequence == other.sequence;
             }
 
             AudioInfo::AudioInfo()
             {}
 
-            AudioInfo::AudioInfo(const Audio::DataInfo & info, Time::Timestamp duration) :
+            AudioInfo::AudioInfo(const Audio::DataInfo & info, size_t sampleCount) :
                 info(info),
-                duration(duration)
+                sampleCount(sampleCount)
             {}
 
             bool AudioInfo::operator == (const AudioInfo & other) const
             {
-                return info == other.info && duration == other.duration;
+                return info == other.info && sampleCount == other.sampleCount;
             }
 
             Info::Info()
@@ -130,8 +130,8 @@ namespace djv
             VideoFrame::VideoFrame()
             {}
 
-            VideoFrame::VideoFrame(Time::Timestamp timestamp, const std::shared_ptr<Image::Image>& image) :
-                timestamp(timestamp),
+            VideoFrame::VideoFrame(Frame::Number frame, const std::shared_ptr<Image::Image>& image) :
+                frame(frame),
                 image(image)
             {}
 
@@ -172,8 +172,7 @@ namespace djv
             AudioFrame::AudioFrame()
             {}
 
-            AudioFrame::AudioFrame(Time::Timestamp timestamp, const std::shared_ptr<Audio::Data>& audio) :
-                timestamp(timestamp),
+            AudioFrame::AudioFrame(const std::shared_ptr<Audio::Data>& audio) :
                 audio(audio)
             {}
 
@@ -257,7 +256,7 @@ namespace djv
             IRead::~IRead()
             {}
 
-            void IRead::seek(Time::Timestamp)
+            void IRead::seek(Frame::Number)
             {}
 
             void IWrite::_init(

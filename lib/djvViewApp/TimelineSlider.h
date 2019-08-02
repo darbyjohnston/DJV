@@ -33,7 +33,7 @@
 
 #include <djvUI/Widget.h>
 
-#include <djvCore/Time.h>
+#include <djvCore/Frame.h>
 
 #include <djvCore/ValueObserver.h>
 
@@ -57,11 +57,11 @@ namespace djv
 
             static std::shared_ptr<TimelineSlider> create(Core::Context *);
 
-            std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > observeCurrentTime() const;
-            std::shared_ptr<Core::ValueSubject<bool> > observeCurrentTimeChange() const;
+            std::shared_ptr<Core::IValueSubject<Core::Frame::Number> > observeCurrentFrame() const;
+            std::shared_ptr<Core::ValueSubject<bool> > observeCurrentFrameChange() const;
 
             void setMedia(const std::shared_ptr<Media>&);
-            void setCachedTimestamps(const std::vector<Core::Time::TimestampRange>&);
+            void setCachedFrames(const std::vector<Core::Frame::Range>&);
 
         protected:
             void _styleEvent(Core::Event::Style &) override;
@@ -76,8 +76,8 @@ namespace djv
             void _updateEvent(Core::Event::Update &) override;
 
         private:
-            Core::Time::Timestamp _posToTime(float) const;
-            float _timeToPos(Core::Time::Timestamp) const;
+            Core::Frame::Number _posToFrame(float) const;
+            float _frameToPos(Core::Frame::Number) const;
             Core::BBox2f _getHandleGeometry() const;
             void _textUpdate();
 

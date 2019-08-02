@@ -221,8 +221,8 @@ namespace djv
             Time::Speed speed;
             float realSpeed = 0.f;
             bool playEveryFrame = false;
-            Time::Timestamp duration = 0;
-            Time::Timestamp currentTime = 0;
+            Frame::Sequence sequence;
+            Frame::Number currentFrame = Frame::invalid;
             Playback playbackPrev = Playback::Stop;
             AV::TimeUnits timeUnits = AV::TimeUnits::First;
             bool frameStoreEnabled = false;
@@ -245,7 +245,7 @@ namespace djv
             std::shared_ptr<UI::Label> playEveryFrameLabel;
             std::shared_ptr<UI::PopupWidget> speedPopupWidget;
             std::shared_ptr<UI::Label> realSpeedLabel;
-            std::shared_ptr<UI::Label> currentTimeLabel;
+            std::shared_ptr<UI::Label> currentFrameLabel;
             std::shared_ptr<UI::Label> durationLabel;
             std::shared_ptr<TimelineSlider> timelineSlider;
             std::shared_ptr<UI::BasicFloatSlider> volumeSlider;
@@ -258,23 +258,23 @@ namespace djv
             std::shared_ptr<UI::StackLayout> layout;
 
             std::shared_ptr<ValueObserver<AV::IO::Info> > ioInfoObserver;
-            std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver;
-            std::shared_ptr<ValueObserver<bool> > currentTimeChangeObserver;
+            std::shared_ptr<ValueObserver<Frame::Number> > currentFrameObserver;
+            std::shared_ptr<ValueObserver<bool> > currentFrameChangeObserver;
             std::shared_ptr<ValueObserver<AV::TimeUnits> > timeUnitsObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
             std::shared_ptr<ValueObserver<Time::Speed> > speedObserver;
             std::shared_ptr<ValueObserver<Time::Speed> > defaultSpeedObserver;
             std::shared_ptr<ValueObserver<float> > realSpeedObserver;
             std::shared_ptr<ValueObserver<bool> > playEveryFrameObserver;
-            std::shared_ptr<ValueObserver<Time::Timestamp> > durationObserver;
-            std::shared_ptr<ValueObserver<Time::Timestamp> > currentTimeObserver2;
+            std::shared_ptr<ValueObserver<Frame::Sequence> > sequenceObserver;
+            std::shared_ptr<ValueObserver<Frame::Number> > currentFrameObserver2;
             std::shared_ptr<ValueObserver<Playback> > playbackObserver;
             std::shared_ptr<ValueObserver<float> > volumeObserver;
             std::shared_ptr<ValueObserver<bool> > muteObserver;
             std::shared_ptr<ValueObserver<bool> > hasCacheObserver;
             std::shared_ptr<ValueObserver<bool> > cacheEnabledObserver;
             std::shared_ptr<ValueObserver<int> > cacheMaxObserver;
-            std::shared_ptr<ListObserver<Time::TimestampRange> > cachedTimestampsObserver;
+            std::shared_ptr<ListObserver<Frame::Range> > cachedFramesObserver;
             std::shared_ptr<ValueObserver<float> > fadeObserver;
             std::shared_ptr<ValueObserver<bool> > frameStoreEnabledObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > frameStoreObserver;
@@ -310,7 +310,7 @@ namespace djv
             p.actions["OutPoint"]->setIcon("djvIconFrameEnd");
 
             p.titleLabel = UI::Label::create(context);
-            p.titleLabel->setText(media->getFileInfo().getFileName(Frame::Invalid, false));
+            p.titleLabel->setText(media->getFileInfo().getFileName(Frame::invalid, false));
             p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
             p.titleLabel->setMargin(UI::MetricsRole::Margin);
             p.titleLabel->setTooltip(media->getFileInfo());
@@ -357,8 +357,8 @@ namespace djv
             p.speedPopupWidget->addChild(vLayout);
             p.realSpeedLabel = UI::Label::create(context);
 
-            p.currentTimeLabel = UI::Label::create(context);
-            p.currentTimeLabel->setMargin(UI::MetricsRole::MarginSmall);
+            p.currentFrameLabel = UI::Label::create(context);
+            p.currentFrameLabel->setMargin(UI::MetricsRole::MarginSmall);
 
             p.durationLabel = UI::Label::create(context);
             p.durationLabel->setMargin(UI::MetricsRole::MarginSmall);
@@ -420,7 +420,7 @@ namespace djv
             p.playbackLayout->setGridPos(hLayout, 0, 1);
             hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::MetricsRole::None);
-            hLayout->addChild(p.currentTimeLabel);
+            hLayout->addChild(p.currentFrameLabel);
             hLayout->addExpander();
             hLayout->addChild(p.durationLabel);
             p.playbackLayout->addChild(hLayout);
@@ -645,21 +645,21 @@ namespace djv
                     }
                 });
 
-            p.currentTimeObserver = ValueObserver<Time::Timestamp>::create(
-                p.timelineSlider->observeCurrentTime(),
-                [weak](Time::Timestamp value)
+            p.currentFrameObserver = ValueObserver<Frame::Number>::create(
+                p.timelineSlider->observeCurrentFrame(),
+                [weak](Frame::Number value)
                 {
                     if (auto widget = weak.lock())
                     {
                         if (auto media = widget->_p->media)
                         {
-                            media->setCurrentTime(value);
+                            media->setCurrentFrame(value);
                         }
                     }
                 });
 
-            p.currentTimeChangeObserver = ValueObserver<bool>::create(
-                p.timelineSlider->observeCurrentTimeChange(),
+            p.currentFrameChangeObserver = ValueObserver<bool>::create(
+                p.timelineSlider->observeCurrentFrameChange(),
                 [weak](bool value)
                 {
                     if (auto widget = weak.lock())
@@ -758,24 +758,24 @@ namespace djv
                     }
                 });
 
-            p.durationObserver = ValueObserver<Time::Timestamp>::create(
-                p.media->observeDuration(),
-                [weak](Time::Timestamp value)
+            p.sequenceObserver = ValueObserver<Frame::Sequence>::create(
+                p.media->observeSequence(),
+                [weak](const Frame::Sequence& value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->duration = value;
+                        widget->_p->sequence = value;
                         widget->_widgetUpdate();
                     }
                 });
 
-            p.currentTimeObserver2 = ValueObserver<Time::Timestamp>::create(
-                p.media->observeCurrentTime(),
-                [weak](Time::Timestamp value)
+            p.currentFrameObserver2 = ValueObserver<Frame::Number>::create(
+                p.media->observeCurrentFrame(),
+                [weak](Frame::Number value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->currentTime = value;
+                        widget->_p->currentFrame = value;
                         widget->_widgetUpdate();
                     }
                 });
@@ -848,13 +848,13 @@ namespace djv
                     }
                 });
 
-            p.cachedTimestampsObserver = ListObserver<Time::TimestampRange>::create(
-                p.media->observeCachedTimestamps(),
-                [weak](const std::vector<Time::TimestampRange>& value)
+            p.cachedFramesObserver = ListObserver<Frame::Range>::create(
+                p.media->observeCachedFrames(),
+                [weak](const std::vector<Frame::Range>& value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->timelineSlider->setCachedTimestamps(value);
+                        widget->_p->timelineSlider->setCachedFrames(value);
                     }
                 });
 
@@ -994,7 +994,7 @@ namespace djv
             p.playEveryFrameButton->setTooltip(_getText(DJV_TEXT("Play every frame tooltip")));
             p.speedPopupWidget->setTooltip(_getText(DJV_TEXT("Speed popup tooltip")));
             p.realSpeedLabel->setTooltip(_getText(DJV_TEXT("Real speed tooltip")));
-            p.currentTimeLabel->setTooltip(_getText(DJV_TEXT("Current time tooltip")));
+            p.currentFrameLabel->setTooltip(_getText(DJV_TEXT("Current time tooltip")));
             p.durationLabel->setTooltip(_getText(DJV_TEXT("Duration tooltip")));
 
             p.volumeSlider->setTooltip(_getText(DJV_TEXT("Volume tooltip")));
@@ -1032,15 +1032,14 @@ namespace djv
             }
 
             auto avSystem = getContext()->getSystemT<AV::AVSystem>();
-            p.currentTimeLabel->setText(avSystem->getLabel(p.currentTime, p.defaultSpeed));
-            p.currentTimeLabel->setEnabled(p.media.get());
-            p.durationLabel->setText(avSystem->getLabel(p.duration, p.defaultSpeed));
+            p.currentFrameLabel->setText(avSystem->getLabel(p.sequence.getFrame(p.currentFrame), p.defaultSpeed));
+            p.currentFrameLabel->setEnabled(p.media.get());
+            p.durationLabel->setText(avSystem->getLabel(p.sequence.getSize(), p.defaultSpeed));
             p.durationLabel->setEnabled(p.media.get());
 
             p.timelineSlider->setEnabled(p.media.get());
 
-            const int64_t f = Time::scale(1, p.defaultSpeed.swap(), Time::getTimebaseRational());
-            p.playbackLayout->setVisible(p.duration > f);
+            p.playbackLayout->setVisible(p.sequence.getSize() > 0);
 
             p.audioPopupWidget->setEnabled(p.media.get());
             p.memoryCachePopupWidget->setEnabled(p.media.get());

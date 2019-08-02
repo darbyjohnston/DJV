@@ -55,24 +55,6 @@ namespace djv
             inline tRange<T>::~tRange()
             {}
 
-            template<typename T>
-            inline T tRange<T>::getSize() const
-            {
-                return max - min;
-            }
-
-            template<>
-            inline int tRange<int>::getSize() const
-            {
-                return max - min + 1;
-            }
-
-            template<>
-            inline size_t tRange<size_t>::getSize() const
-            {
-                return max - min + 1;
-            }
-
             template<>
             inline void tRange<int>::zero()
             {

@@ -101,22 +101,21 @@ namespace djv
             _p->timeUnits->setIfChanged(value);
         }
 
-        std::string AVSystem::getLabel(Time::Timestamp value, const Time::Speed& speed) const
+        std::string AVSystem::getLabel(Frame::Number value, const Time::Speed& speed) const
         {
             DJV_PRIVATE_PTR();
             std::string out;
-            Frame::Index frame = Time::timestampToFrame(value, speed);
             switch (p.timeUnits->get())
             {
             case TimeUnits::Timecode:
             {
                 const float speedF = speed.toFloat();
-                const int hours = static_cast<int>(frame / (speedF * 60 * 60));
-                frame -= static_cast<int64_t>(hours * static_cast<double>(speedF)) * 60 * 60;
-                const int minutes = static_cast<int>(frame / (speedF * 60));
-                frame -= static_cast<int64_t>(minutes * static_cast<double>(speedF)) * 60;
-                const int seconds = static_cast<int>(frame / speedF);
-                frame -= static_cast<int64_t>(seconds * static_cast<double>(speedF));
+                const int hours = static_cast<int>(value / (speedF * 60 * 60));
+                value -= static_cast<int64_t>(hours * static_cast<double>(speedF)) * 60 * 60;
+                const int minutes = static_cast<int>(value / (speedF * 60));
+                value -= static_cast<int64_t>(minutes * static_cast<double>(speedF)) * 60;
+                const int seconds = static_cast<int>(value / speedF);
+                value -= static_cast<int64_t>(seconds * static_cast<double>(speedF));
                 std::stringstream ss;
                 ss << std::setfill('0') << std::setw(2) << hours;
                 ss << std::setw(0) << ":";
@@ -124,14 +123,14 @@ namespace djv
                 ss << std::setw(0) << ":";
                 ss << std::setfill('0') << std::setw(2) << seconds;
                 ss << std::setw(0) << ":";
-                ss << std::setfill('0') << std::setw(2) << frame;
+                ss << std::setfill('0') << std::setw(2) << value;
                 out = ss.str();
                 break;
             }
             case TimeUnits::Frames:
             {
                 std::stringstream ss;
-                ss << frame;
+                ss << value;
                 out = ss.str();
                 break;
             }

@@ -100,12 +100,12 @@ namespace djv
 
                     std::future<Info> getInfo() override;
 
-                    void seek(Core::Time::Timestamp) override;
+                    void seek(int64_t) override;
 
                 private:
                     int _decodeVideo(AVPacket*);
                     int _decodeAudio(AVPacket*);
-                    int _seek(AVPacket*, int stream, Core::Time::Timestamp&);
+                    int _seek(AVPacket*, int stream, Core::Frame::Number&);
 
                     DJV_PRIVATE();
                 };

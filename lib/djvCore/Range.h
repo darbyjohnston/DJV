@@ -58,7 +58,6 @@ namespace djv
                 //! \name Utilities
                 ///@{
 
-                inline T getSize() const;
                 inline void zero();
 
                 constexpr bool contains(T) const;

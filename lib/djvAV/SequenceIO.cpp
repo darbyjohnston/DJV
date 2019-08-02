@@ -54,39 +54,34 @@ namespace djv
         {
             namespace
             {
-                typedef Memory::Cache<Frame::Index, std::shared_ptr<Image::Image> > MemoryCache;
+                typedef Memory::Cache<Frame::Number, std::shared_ptr<Image::Image> > MemoryCache;
 
-                std::vector<Time::TimestampRange> _getCachedTimestamps(const MemoryCache& cache, const Time::Speed& speed)
+                std::vector<Frame::Range> _getCachedFrames(const MemoryCache& cache)
                 {
-                    std::vector<Time::TimestampRange> out;
+                    std::vector<Frame::Range> out;
                     auto frames = cache.getKeys();
                     const size_t size = frames.size();
                     if (size)
                     {
                         std::sort(frames.begin(), frames.end());
-                        Frame::Index rangeStart = frames[0];
-                        Frame::Index prevFrame = frames[0];
+                        Frame::Number rangeStart = frames[0];
+                        Frame::Number prevFrame = frames[0];
                         size_t i = 1;
                         for (; i < size; prevFrame = frames[i], ++i)
                         {
                             if (frames[i] != prevFrame + 1)
                             {
-                                const Time::Timestamp t0 = frameToTimestamp(rangeStart, speed);
-                                const Time::Timestamp t1 = frameToTimestamp(prevFrame, speed);
-                                out.push_back(Time::TimestampRange(t0, t1));
+                                out.push_back(Frame::Range(rangeStart, prevFrame));
                                 rangeStart = frames[i];
                             }
                         }
                         if (size > 1)
                         {
-                            Time::Timestamp t0 = frameToTimestamp(rangeStart, speed);
-                            Time::Timestamp t1 = frameToTimestamp(prevFrame, speed);
-                            out.push_back(Time::TimestampRange(t0, t1));
+                            out.push_back(Frame::Range(rangeStart, prevFrame));
                         }
                         else
                         {
-                            Time::Timestamp t = frameToTimestamp(rangeStart, speed);
-                            out.push_back(Time::TimestampRange(t));
+                            out.push_back(Frame::Range(rangeStart));
                         }
                     }
                     return out;
@@ -96,21 +91,21 @@ namespace djv
 
             struct ISequenceRead::Future
             {
-                Frame::Index frameIndex = Frame::Invalid;
+                Frame::Number frame = Frame::invalid;
                 std::shared_ptr<Image::Image> image;
             };
 
             struct ISequenceRead::Private
             {
-                Frame::Index frameIndex = 0;
+                Frame::Number frame = Frame::invalid;
                 std::promise<Info> infoPromise;
                 bool cacheEnabled = false;
                 size_t cacheMax = 0;
-                std::vector<Time::TimestampRange> cachedTimestamps;
+                std::vector<Frame::Range> cachedFrames;
                 MemoryCache cache;
                 std::vector<std::future<Future> > cacheFutures;
                 std::condition_variable queueCV;
-                Time::Timestamp seek = -1;
+                Frame::Number seek = -1;
                 std::thread thread;
                 std::atomic<bool> running;
             };
@@ -129,24 +124,24 @@ namespace djv
                 {
                     DJV_PRIVATE_PTR();
 
-                    // Get the list of frames.
-                    p.frameIndex = Frame::Invalid;
+                    // Get the sequence.
+                    size_t sequenceSize = 0;
+                    p.frame = Frame::invalid;
                     if (_fileInfo.isSequenceValid())
                     {
-                        _frames = Frame::toFrames(_fileInfo.getSequence());
-                        if (_frames.size())
+                        _sequence = _fileInfo.getSequence();
+                        sequenceSize = _sequence.getSize();
+                        if (sequenceSize)
                         {
-                            p.frameIndex = 0;
-                            const int64_t f = Time::scale(1, _speed.swap(), Time::getTimebaseRational());
-                            _duration = f * _frames.size();
+                            p.frame = 0;
                         }
                     }
 
                     // Read the file information.
-                    Frame::Number frameNumber = Frame::Invalid;
-                    if (_frames.size())
+                    Frame::Number frameNumber = Frame::invalid;
+                    if (sequenceSize)
                     {
-                        frameNumber = Frame::getFrame(_frames, p.frameIndex);
+                        frameNumber = _sequence.getFrame(0);
                     }
                     Info info;
                     std::string fileName = _fileInfo.getFileName(frameNumber);
@@ -198,11 +193,11 @@ namespace djv
                         {
                             p.cache.setMax(0);
                         }
-                        p.cachedTimestamps = _getCachedTimestamps(p.cache, _speed);
+                        p.cachedFrames = _getCachedFrames(p.cache);
 
                         // Check to see if the queue needs to be filled up or a seek occurred.
                         size_t queueCount = 0;
-                        Time::Timestamp seek = -1;
+                        Frame::Number seek = -1;
                         {
                             std::unique_lock<std::mutex> lock(_mutex);
                             if (p.queueCV.wait_for(
@@ -215,7 +210,7 @@ namespace djv
                                 }))
                             {
                                 const size_t queueMax = _videoQueue.getMax() - _videoQueue.getFrameCount();
-                                const size_t frameMax = _frames.size() ? (_frames.size() - static_cast<size_t>(p.frameIndex)) : 1;
+                                const size_t frameMax = sequenceSize ? (sequenceSize - static_cast<size_t>(p.frame)) : 1;
                                 queueCount = std::min(std::min(queueMax, threadCount / 2), frameMax);
                                 if (p.seek != -1)
                                 {
@@ -228,10 +223,10 @@ namespace djv
                         }
                         if (seek != -1)
                         {
-                            p.frameIndex = Time::timestampToFrame(seek, _speed);
+                            p.frame = seek;
                             /*{
                                 std::stringstream ss;
-                                ss << _fileName << ": seek " << p.frameIndex;
+                                ss << _fileName << ": seek " << p.frame;
                                 _logSystem->log("djv::AV::IO::ISequenceRead", ss.str());
                             }*/
                         }
@@ -267,7 +262,7 @@ namespace djv
                 return _p->infoPromise.get_future();
             }
 
-            void ISequenceRead::seek(Time::Timestamp value)
+            void ISequenceRead::seek(Frame::Number value)
             {
                 DJV_PRIVATE_PTR();
                 {
@@ -304,10 +299,10 @@ namespace djv
                 _p->cacheMax = value;
             }
 
-            std::vector<Core::Time::TimestampRange> ISequenceRead::getCachedTimestamps()
+            std::vector<Frame::Range> ISequenceRead::getCachedFrames()
             {
                 std::lock_guard<std::mutex> lock(_mutex);
-                return _p->cachedTimestamps;
+                return _p->cachedFrames;
             }
 
             void ISequenceRead::_finish()
@@ -321,14 +316,14 @@ namespace djv
                 }
             }
 
-            std::future<ISequenceRead::Future> ISequenceRead::_getFuture(Frame::Index i, std::string fileName)
+            std::future<ISequenceRead::Future> ISequenceRead::_getFuture(Frame::Number i, std::string fileName)
             {
                 return std::async(
                     std::launch::async,
                     [this, i, fileName]
                     {
                         Future out;
-                        out.frameIndex = i;
+                        out.frame = i;
                         try
                         {
                             out.image = _readImage(fileName);
@@ -348,36 +343,36 @@ namespace djv
                 DJV_PRIVATE_PTR();
 
                 // Get frames to be added to the queue.
-                std::map<Frame::Index, std::shared_ptr<Image::Image> > images;
+                const size_t sequenceSize = _sequence.getSize();
+                std::map<Frame::Number, std::shared_ptr<Image::Image> > images;
                 std::vector<std::future<Future> > futures;
                 for (size_t i = 0; i < count; ++i)
                 {
-                    const Time::Timestamp timestamp = frameToTimestamp(_frames.size() ? p.frameIndex : 0, _speed);
                     /*{
                         std::stringstream ss;
-                        ss << _fileName << ": read timestamp " << timestamp;
+                        ss << _fileName << ": read frame " << p.frame;
                         _logSystem->log("djv::AV::IO::ISequenceRead", ss.str());
                     }*/
 
                     std::shared_ptr<Image::Image> cachedImage;
-                    if (cacheEnabled && p.cache.get(p.frameIndex, cachedImage))
+                    if (cacheEnabled && p.cache.get(p.frame, cachedImage))
                     {
-                        images[timestamp] = cachedImage;
+                        images[p.frame] = cachedImage;
                     }
                     else
                     {
-                        Frame::Number frameNumber = Frame::Invalid;
-                        if (_frames.size())
+                        Frame::Number frameNumber = Frame::invalid;
+                        if (sequenceSize && p.frame >= 0 && p.frame < sequenceSize)
                         {
-                            frameNumber = Frame::getFrame(_frames, p.frameIndex);
+                            frameNumber = _sequence.getFrame(p.frame);
                         }
                         const std::string fileName = _fileInfo.getFileName(frameNumber);
-                        futures.push_back(_getFuture(p.frameIndex, fileName));
+                        futures.push_back(_getFuture(p.frame, fileName));
                     }
 
-                    if (_frames.size())
+                    if (sequenceSize)
                     {
-                        ++p.frameIndex;
+                        ++p.frame;
                     }
                 }
 
@@ -387,12 +382,11 @@ namespace djv
                     const auto result = future.get();
                     if (result.image)
                     {
-                        const Time::Timestamp timestamp = frameToTimestamp(result.frameIndex != Frame::Invalid ? result.frameIndex : 0, _speed);
-                        images[timestamp] = result.image;
+                        images[result.frame] = result.image;
                         if (cacheEnabled)
                         {
                             result.image->detach();
-                            p.cache.add(result.frameIndex, result.image);
+                            p.cache.add(result.frame, result.image);
                         }
                     }
                 }
@@ -408,7 +402,7 @@ namespace djv
                     _videoQueue.addFrame(VideoFrame(i.first, i.second));
                 }
 
-                if (Frame::Invalid == p.frameIndex || p.frameIndex >= static_cast<Frame::Index>(_frames.size()))
+                if (Frame::invalid == p.frame || p.frame >= static_cast<Frame::Number>(sequenceSize))
                 {
                     std::lock_guard<std::mutex> lock(_mutex);
                     _videoQueue.setFinished(true);
@@ -434,25 +428,26 @@ namespace djv
                     {
                         break;
                     }
-                    if (i < p.frameIndex - static_cast<Frame::Index>(cacheMax) - 1)
+                    if (i < p.frame - static_cast<Frame::Number>(cacheMax) - 1)
                     {
                         p.cache.remove(i);
                     }
                 }
 
                 // Get frames to be added to the cache.
+                const size_t sequenceSize = _sequence.getSize();
                 if (count > 0 &&
                     p.cacheFutures.size() < count &&
-                    _frames.size() > 1 &&
-                    p.cache.getSize() < _frames.size() &&
+                    sequenceSize > 1 &&
+                    p.cache.getSize() < sequenceSize &&
                     p.cache.getSize() < p.cache.getMax())
                 {
-                    Frame::Index i = p.frameIndex;
-                    for (; i < _frames.size() && p.cacheFutures.size() < count; ++i)
+                    Frame::Number i = p.frame;
+                    for (; i < sequenceSize && p.cacheFutures.size() < count; ++i)
                     {
                         if (!p.cache.contains(i))
                         {
-                            const std::string fileName = _fileInfo.getFileName(Frame::getFrame(_frames, i));
+                            const std::string fileName = _fileInfo.getFileName(_sequence.getFrame(i));
                             p.cacheFutures.push_back(_getFuture(i, fileName));
                         }
                     }
@@ -469,7 +464,7 @@ namespace djv
                         if (result.image)
                         {
                             result.image->detach();
-                            p.cache.add(result.frameIndex, result.image);
+                            p.cache.add(result.frame, result.image);
                         }
                         i = p.cacheFutures.erase(i);
                     }
@@ -483,7 +478,7 @@ namespace djv
             struct ISequenceWrite::Private
             {
                 FileSystem::FileInfo fileInfo;
-                Frame::Number frameNumber = Frame::Invalid;
+                Frame::Number frameNumber = Frame::invalid;
                 GLFWwindow * glfwWindow = nullptr;
                 std::shared_ptr<Image::Convert> convert;
                 std::thread thread;
@@ -599,7 +594,7 @@ namespace djv
                                         ss << "Writing: " << fileName;
                                         _logSystem->log("djv::AV::IO::ISequenceWrite", ss.str());
                                     }*/
-                                    if (p.frameNumber != Frame::Invalid)
+                                    if (p.frameNumber != Frame::invalid)
                                     {
                                         ++p.frameNumber;
                                     }

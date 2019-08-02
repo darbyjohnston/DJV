@@ -67,11 +67,11 @@ namespace djv
                 VideoInfo(
                     const Image::Info &,
                     const Core::Time::Speed & = Core::Time::Speed(),
-                    Core::Time::Timestamp duration = 0);
+                    const Core::Frame::Sequence& = Core::Frame::Sequence());
 
                 Image::Info info;
                 Core::Time::Speed speed;
-                Core::Time::Timestamp duration = 0;
+                Core::Frame::Sequence sequence;
                 std::string codec;
 
                 bool operator == (const VideoInfo &) const;
@@ -81,10 +81,10 @@ namespace djv
             struct AudioInfo
             {
                 AudioInfo();
-                AudioInfo(const Audio::DataInfo &, Core::Time::Timestamp duration = 0);
+                AudioInfo(const Audio::DataInfo &, size_t sampleCount = 0);
 
                 Audio::DataInfo info;
-                Core::Time::Timestamp duration = 0;
+                size_t sampleCount = 0;
                 std::string codec;
 
                 bool operator == (const AudioInfo &) const;
@@ -111,9 +111,9 @@ namespace djv
             struct VideoFrame
             {
                 VideoFrame();
-                VideoFrame(Core::Time::Timestamp, const std::shared_ptr<Image::Image>&);
+                VideoFrame(Core::Frame::Number, const std::shared_ptr<Image::Image>&);
 
-                Core::Time::Timestamp         timestamp = 0;
+                Core::Frame::Number           frame = 0;
                 std::shared_ptr<Image::Image> image;
             };
 
@@ -148,9 +148,8 @@ namespace djv
             struct AudioFrame
             {
                 AudioFrame();
-                AudioFrame(Core::Time::Timestamp, const std::shared_ptr<Audio::Data>&);
+                AudioFrame(const std::shared_ptr<Audio::Data>&);
 
-                Core::Time::Timestamp        timestamp = 0;
                 std::shared_ptr<Audio::Data> audio;
             };
 
@@ -249,14 +248,16 @@ namespace djv
 
                 virtual std::future<Info> getInfo() = 0;
 
-                virtual void seek(Core::Time::Timestamp) = 0;
+                //! \param value For video files this value represents the
+                //! frame number, for audio files it represents the audio sample.
+                virtual void seek(int64_t value);
 
                 virtual bool hasCache() const { return false; }
                 virtual bool isCacheEnabled() const  { return false; }
                 virtual void setCacheEnabled(bool) {}
                 virtual size_t getCacheMax() const { return 0; }
                 virtual void setCacheMax(size_t) {}
-                virtual std::vector<Core::Time::TimestampRange> getCachedTimestamps() { return {}; }
+                virtual std::vector<Core::Frame::Range> getCachedFrames() { return {}; }
 
             protected:
                 ReadOptions _options;

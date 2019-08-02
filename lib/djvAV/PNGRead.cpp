@@ -235,7 +235,7 @@ namespace djv
                         png_set_swap(f.png);
                     }
 
-                    return Info(fileName, VideoInfo(info, _speed, _duration));
+                    return Info(fileName, VideoInfo(info, _speed, _sequence));
                 }
 
             } // namespace PNG

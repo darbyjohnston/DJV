@@ -285,7 +285,7 @@ namespace djv
                         {
                             throw std::runtime_error(DJV_TEXT("Unsupported image type."));
                         }
-                        out.video[i].duration = _duration;
+                        out.video[i].sequence = _sequence;
                         out.video[i].speed = _speed;
                     }
 

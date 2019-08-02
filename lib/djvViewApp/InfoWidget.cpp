@@ -189,7 +189,14 @@ namespace djv
                 {
                     std::stringstream ss;
                     auto avSystem = getContext()->getSystemT<AV::AVSystem>();
-                    ss << avSystem->getLabel(i.duration, i.speed);
+                    ss << avSystem->getLabel(i.sequence.getSize(), i.speed);
+                    switch (avSystem->observeTimeUnits()->get())
+                    {
+                    case AV::TimeUnits::Frames:
+                        ss << " " << _getText(DJV_TEXT("frames"));
+                        break;
+                    default: break;
+                    }
                     label->setText(ss.str());
                 }
                 label->setHAlign(UI::HAlign::Left);
@@ -254,7 +261,7 @@ namespace djv
                 label = UI::Label::create(context);
                 {
                     std::stringstream ss;
-                    ss << Time::getLabel(Time::timestampToSeconds(i.duration));
+                    ss << (i.info.sampleRate > 0 ? (i.sampleCount / i.info.sampleRate) : 0);
                     label->setText(ss.str());
                 }
                 label->setHAlign(UI::HAlign::Left);

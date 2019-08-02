@@ -68,7 +68,7 @@ namespace djv
                         s << _path.getDirectoryName();
                     }
                     s << _path.getBaseName();
-                    if (FileType::Sequence == _type && _sequence.ranges.size() && frame != Frame::Invalid)
+                    if (FileType::Sequence == _type && _sequence.ranges.size() && frame != Frame::invalid)
                     {
                         s << Frame::toString(frame, _sequence.pad);
                     }

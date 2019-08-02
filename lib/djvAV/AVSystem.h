@@ -56,7 +56,7 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<TimeUnits> > observeTimeUnits() const;
             void setTimeUnits(TimeUnits);
 
-            std::string getLabel(Core::Time::Timestamp, const Core::Time::Speed&) const;
+            std::string getLabel(Core::Frame::Number, const Core::Time::Speed&) const;
 
         private:
             DJV_PRIVATE();

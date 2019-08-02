@@ -41,25 +41,21 @@ namespace djv
             //! This type represents a frame number.
             typedef int64_t Number;
 
-            //! This type represents a frame index.
-            typedef int64_t Index;
+            //! This value represents an invalid frame number.
+            const int64_t invalid = std::numeric_limits<int64_t>::min();
 
-            //! This value represents an invalid frame.
-            const int64_t Invalid = -1;
+            //! This typedef provides a frame number range.
+            typedef Core::Range::tRange<Number> Range;
 
-            //! This typedef provides a frame range.
-            typedef Core::Range::tRange<int64_t> Range;
+            //! This value represents an invalid frame number range.
+            const Range invalidRange = Range(invalid);
 
-            //! This value represents an invalid range.
-            const Range InvalidRange = Range(Invalid);
-
-            //! This struct provides a sequence of frame numbers. A sequence is
-            //! composed of multiple frame ranges (e.g., 1-10,20-30).
-            struct Sequence
+            //! This class provides a sequence of frame numbers. A sequence is
+            //! composed of multiple frame number ranges (e.g., 1-10,20-30).
+            class Sequence
             {
+            public:
                 inline Sequence();
-                inline Sequence(Number);
-                inline Sequence(Number min, Number max);
                 inline Sequence(const Range &, size_t pad = 0);
                 inline Sequence(const std::vector<Range> &, size_t pad = 0);
 
@@ -67,11 +63,13 @@ namespace djv
                 size_t pad = 0;
 
                 inline bool isValid() const;
+                inline size_t getSize() const;
+                inline Number getFrame(size_t) const;
 
                 //! \name Utilities
                 ///@{
                 
-                //! Sort the sequence so that the numbers are in ascending order.
+                //! Sort the sequence so that the frame numbers are in ascending order.
                 void sort();
                 
                 ///@}
@@ -84,8 +82,6 @@ namespace djv
             ///@{
 
             constexpr bool isValid(const Range &);
-
-            constexpr Number getFrame(const std::vector<Number> &, Index index);
 
             void sort(Range &);
 

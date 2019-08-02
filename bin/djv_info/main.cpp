@@ -114,7 +114,15 @@ namespace djv
                             std::cout << "        Aspect ratio: " << video.info.getAspectRatio() << std::endl;
                             std::cout << "        Type: " << video.info.type << std::endl;
                             std::cout << "        Speed: " << video.speed.toFloat() << std::endl;
-                            std::cout << "        Duration: " << avSystem->getLabel(video.duration, video.speed) << std::endl;
+                            std::cout << "        Duration: " << avSystem->getLabel(video.sequence.getSize(), video.speed);
+                            switch (avSystem->observeTimeUnits()->get())
+                            {
+                            case AV::TimeUnits::Frames:
+                                std::cout << " " << "frames";
+                                break;
+                            default: break;
+                            }
+                            std::cout << std::endl;
                             ++i;
                         }
                         i = 0;
@@ -124,7 +132,7 @@ namespace djv
                             std::cout << "        Channels: " << static_cast<int>(audio.info.channelCount) << std::endl;
                             std::cout << "        Type: " << audio.info.type << std::endl;
                             std::cout << "        Sample rate: " << audio.info.sampleRate << std::endl;
-                            std::cout << "        Duration: " << Core::Time::timestampToSeconds(audio.duration) << " seconds" << std::endl;
+                            std::cout << "        Duration: " << (audio.info.sampleRate > 0 ? (audio.sampleCount / static_cast<float>(audio.info.sampleRate)) : 0.f) << " seconds" << std::endl;
                             ++i;
                         }
                     }

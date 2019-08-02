@@ -174,7 +174,7 @@ namespace djv
                     {
                         throw std::runtime_error(DJV_TEXT("Incomplete file."));
                     }
-                    return Info(fileName, VideoInfo(info, _speed, _duration));
+                    return Info(fileName, VideoInfo(info, _speed, _sequence));
                 }
 
             } // namespace PPM

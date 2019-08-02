@@ -410,8 +410,8 @@ namespace djv
             private:
                 void _widgetUpdate();
 
-                Time::Timestamp _duration = 0;
-                Time::Timestamp _currentTime = 0;
+                Frame::Sequence _sequence = 0;
+                Frame::Number _currentFrame = 0;
                 size_t _videoQueueMax = 0;
                 size_t _videoQueueCount = 0;
                 size_t _audioQueueMax = 0;
@@ -421,8 +421,8 @@ namespace djv
                 std::map<std::string, std::shared_ptr<UI::LineGraphWidget> > _lineGraphs;
                 std::shared_ptr<UI::VerticalLayout> _layout;
                 std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > _currentMediaObserver;
-                std::shared_ptr<ValueObserver<Time::Timestamp> > _durationObserver;
-                std::shared_ptr<ValueObserver<Time::Timestamp> > _currentTimeObserver;
+                std::shared_ptr<ValueObserver<Frame::Sequence> > _sequenceObserver;
+                std::shared_ptr<ValueObserver<Frame::Number> > _currentFrameObserver;
                 std::shared_ptr<ValueObserver<size_t> > _videoQueueMaxObserver;
                 std::shared_ptr<ValueObserver<size_t> > _videoQueueCountObserver;
                 std::shared_ptr<ValueObserver<size_t> > _audioQueueMaxObserver;
@@ -436,7 +436,7 @@ namespace djv
 
                 setClassName("djv::ViewApp::MediaDebugWidget");
 
-                _labels["CurrentTime"] = UI::Label::create(context);
+                _labels["CurrentFrame"] = UI::Label::create(context);
                 
                 _labels["VideoQueue"] = UI::Label::create(context);
                 _lineGraphs["VideoQueue"] = UI::LineGraphWidget::create(context);
@@ -457,7 +457,7 @@ namespace djv
 
                 _layout = UI::VerticalLayout::create(context);
                 _layout->setMargin(UI::MetricsRole::Margin);
-                _layout->addChild(_labels["CurrentTime"]);
+                _layout->addChild(_labels["CurrentFrame"]);
                 _layout->addChild(_labels["VideoQueue"]);
                 _layout->addChild(_lineGraphs["VideoQueue"]);
                 _layout->addChild(_labels["AudioQueue"]);
@@ -482,23 +482,23 @@ namespace djv
 
                             if (value)
                             {
-                                widget->_durationObserver = ValueObserver<Time::Timestamp>::create(
-                                    value->observeDuration(),
-                                    [weak](Time::Timestamp value)
+                                widget->_sequenceObserver = ValueObserver<Frame::Sequence>::create(
+                                    value->observeSequence(),
+                                    [weak](const Frame::Sequence& value)
                                 {
                                     if (auto widget = weak.lock())
                                     {
-                                        widget->_duration = value;
+                                        widget->_sequence = value;
                                         widget->_widgetUpdate();
                                     }
                                 });
-                                widget->_currentTimeObserver = ValueObserver<Time::Timestamp>::create(
-                                    value->observeCurrentTime(),
-                                    [weak](Time::Timestamp value)
+                                widget->_currentFrameObserver = ValueObserver<Frame::Number>::create(
+                                    value->observeCurrentFrame(),
+                                    [weak](Frame::Number value)
                                 {
                                     if (auto widget = weak.lock())
                                     {
-                                        widget->_currentTime = value;
+                                        widget->_currentFrame = value;
                                         widget->_widgetUpdate();
                                     }
                                 });
@@ -558,15 +558,15 @@ namespace djv
                             }
                             else
                             {
-                                widget->_duration = 0;
-                                widget->_currentTime = 0;
+                                widget->_sequence = Frame::Sequence();
+                                widget->_currentFrame = 0;
                                 widget->_videoQueueMax = 0;
                                 widget->_videoQueueCount = 0;
                                 widget->_audioQueueMax = 0;
                                 widget->_audioQueueCount = 0;
                                 widget->_alQueueCount = 0;
-                                widget->_durationObserver.reset();
-                                widget->_currentTimeObserver.reset();
+                                widget->_sequenceObserver.reset();
+                                widget->_currentFrameObserver.reset();
                                 widget->_videoQueueMaxObserver.reset();
                                 widget->_videoQueueCountObserver.reset();
                                 widget->_audioQueueMaxObserver.reset();
@@ -623,8 +623,8 @@ namespace djv
             {
                 {
                     std::stringstream ss;
-                    ss << _getText(DJV_TEXT("Current time")) << ": " << _currentTime << " / " << _duration;
-                    _labels["CurrentTime"]->setText(ss.str());
+                    ss << _getText(DJV_TEXT("Current time")) << ": " << _currentFrame << " / " << _sequence.getSize();
+                    _labels["CurrentFrame"]->setText(ss.str());
                 }
             }
 

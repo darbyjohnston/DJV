@@ -103,18 +103,18 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<Core::Time::Speed> > observeDefaultSpeed() const;
             std::shared_ptr<Core::IValueSubject<float> > observeRealSpeed() const;
             std::shared_ptr<Core::IValueSubject<bool> > observePlayEveryFrame() const;
-            std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > observeDuration() const;
-            std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > observeCurrentTime() const;
+            std::shared_ptr<Core::IValueSubject<Core::Frame::Sequence> > observeSequence() const;
+            std::shared_ptr<Core::IValueSubject<Core::Frame::Number> > observeCurrentFrame() const;
             std::shared_ptr<Core::IValueSubject<Playback> > observePlayback() const;
             std::shared_ptr<Core::IValueSubject<PlaybackMode> > observePlaybackMode() const;
             std::shared_ptr<Core::IValueSubject<bool> > observeInOutPointsEnabled() const;
-            std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > observeInPoint() const;
-            std::shared_ptr<Core::IValueSubject<Core::Time::Timestamp> > observeOutPoint() const;
+            std::shared_ptr<Core::IValueSubject<Core::Frame::Number> > observeInPoint() const;
+            std::shared_ptr<Core::IValueSubject<Core::Frame::Number> > observeOutPoint() const;
             std::shared_ptr<Core::IValueSubject<size_t> > observeThreadCount() const;
 
             void setSpeed(const Core::Time::Speed&);
             void setPlayEveryFrame(bool);
-            void setCurrentTime(Core::Time::Timestamp);
+            void setCurrentFrame(Core::Frame::Number);
             void setPlayback(Playback);
             void setPlaybackMode(PlaybackMode);
             void inPoint();
@@ -124,8 +124,8 @@ namespace djv
             void nextFrame(size_t = 1);
             void prevFrame(size_t = 1);
             void setInOutPointsEnabled(bool);
-            void setInPoint(Core::Time::Timestamp);
-            void setOutPoint(Core::Time::Timestamp);
+            void setInPoint(Core::Frame::Number);
+            void setOutPoint(Core::Frame::Number);
             void resetInPoint();
             void resetOutPoint();
             void setThreadCount(size_t);
@@ -149,7 +149,7 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<bool> > observeHasCache() const;
             std::shared_ptr<Core::IValueSubject<bool> > observeCacheEnabled() const;
             std::shared_ptr<Core::IValueSubject<int> > observeCacheMax() const;
-            std::shared_ptr<Core::IListSubject<Core::Time::TimestampRange> > observeCachedTimestamps() const;
+            std::shared_ptr<Core::IListSubject<Core::Frame::Range> > observeCachedFrames() const;
 
             void setCacheEnabled(bool);
             void setCacheMax(int);
@@ -173,7 +173,7 @@ namespace djv
             void _open();
             void _playbackUpdate();
             void _playbackTick();
-            void _timeUpdate();
+            void _frameUpdate();
             void _volumeUpdate();
         };
 

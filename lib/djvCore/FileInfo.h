@@ -130,7 +130,7 @@ namespace djv
                 //! Get the file name.
                 //! \param frame Specify a frame number or -1 for the entire sequence.
                 //! \param path Include the path in the file name.
-                std::string getFileName(Frame::Number = Frame::Invalid, bool path = true) const;
+                std::string getFileName(Frame::Number = Frame::invalid, bool path = true) const;
 
                 //! Get whether this file exists.
                 inline bool doesExist() const;

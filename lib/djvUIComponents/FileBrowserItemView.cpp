@@ -303,7 +303,7 @@ namespace djv
                                 {
                                     const float m = style->getMetric(MetricsRole::MarginSmall);
                                     const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium);
-                                    p.names[i.first] = fileInfo.getFileName(Frame::Invalid, false);
+                                    p.names[i.first] = fileInfo.getFileName(Frame::invalid, false);
                                     p.nameLinesFutures[i.first] = fontSystem->textLines(
                                         p.names[i.first],
                                         p.thumbnailSize.w - static_cast<uint16_t>(m * 2.f),
@@ -484,10 +484,9 @@ namespace djv
                                 if (j != p.names.end() && k != p.nameLines.end())
                                 {
                                     float x = i->second.min.x + m + sh;
-                                    float y = i->second.max.y - p.nameFontMetrics.lineHeight * k->second.size() - m - sh;
+                                    float y = i->second.max.y - p.nameFontMetrics.lineHeight * std::min(k->second.size(), static_cast<size_t>(2)) - m - sh;
                                     size_t line = 0;
-                                    auto l = k->second.begin();
-                                    for (; l != k->second.end() && line < 2; ++l, ++line)
+                                    for (auto l = k->second.begin(); l != k->second.end() && line < 2; ++l, ++line)
                                     {
                                         //! \bug Why the extra subtract by one here?
                                         render->drawText(
@@ -507,7 +506,7 @@ namespace djv
                                 float y = i->second.min.y + i->second.h() / 2.f - p.nameFontMetrics.lineHeight / 2.f;
                                 //! \bug Why the extra subtract by one here?
                                 render->drawText(
-                                    item->getFileName(Frame::Invalid, false),
+                                    item->getFileName(Frame::invalid, false),
                                     glm::vec2(
                                         floorf(x),
                                         floorf(y + p.nameFontMetrics.ascender - 1.f)));
@@ -867,7 +866,14 @@ namespace djv
                         _getText(DJV_TEXT("FPS")) << '\n';
                     auto avSystem = getContext()->getSystemT<AV::AVSystem>();
                     ss << _getText(DJV_TEXT("Duration")) << ": " <<
-                        avSystem->getLabel(videoInfo.duration, videoInfo.speed);
+                        avSystem->getLabel(videoInfo.sequence.getSize(), videoInfo.speed);
+                    switch (avSystem->observeTimeUnits()->get())
+                    {
+                    case AV::TimeUnits::Frames:
+                        ss << " " << _getText(DJV_TEXT("frames"));
+                        break;
+                    default: break;
+                    }
                     ++track;
                 }
                 track = 0;
@@ -880,7 +886,8 @@ namespace djv
                     ss << _getText(DJV_TEXT("Sample rate")) << ": " <<
                         audioInfo.info.sampleRate / 1000.f << _getText(DJV_TEXT("kHz")) << '\n';
                     ss << _getText(DJV_TEXT("Duration")) << ": " <<
-                        Time::getLabel(Time::timestampToSeconds(audioInfo.duration));
+                        (audioInfo.info.sampleRate > 0 ? (audioInfo.sampleCount / static_cast<float>(audioInfo.info.sampleRate)) : 0.f) <<
+                        " " << _getText(DJV_TEXT("seconds"));
                     ++track;
                 }
                 return ss.str();
@@ -944,7 +951,7 @@ namespace djv
                                     {
                                         const float m = style->getMetric(MetricsRole::MarginSmall);
                                         const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium);
-                                        p.names[i.first] = fileInfo.getFileName(Frame::Invalid, false);
+                                        p.names[i.first] = fileInfo.getFileName(Frame::invalid, false);
                                         p.nameLinesFutures[i.first] = fontSystem->textLines(
                                             p.names[i.first],
                                             p.thumbnailSize.w - static_cast<uint16_t>(m * 2.f),

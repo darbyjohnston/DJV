@@ -77,27 +77,27 @@ namespace djv
                 {
                     video[0].info.size = *_resize;
                 }
-                const auto duration = videoInfo.duration;
+                const size_t size = videoInfo.sequence.getSize();
                 _write = io->write(std::string(argv[2]), info);
 
                 _statsTimer = Core::Time::Timer::create(this);
                 _statsTimer->setRepeating(true);
                 _statsTimer->start(
                     Core::Time::getMilliseconds(Core::Time::TimerValue::Slow),
-                    [this, duration](float)
+                    [this, size](float)
                 {
-                    Core::Time::Timestamp timestamp = 0;
+                    Core::Frame::Number frame = 0;
                     {
                         std::lock_guard<std::mutex> lock(_read->getMutex());
                         auto& queue = _read->getVideoQueue();
                         if (queue.hasFrames())
                         {
-                            timestamp = queue.getFrame().timestamp;
+                            frame = queue.getFrame().frame;
                         }
                     }
-                    if (timestamp && duration)
+                    if (frame && size)
                     {
-                        std::cout << (timestamp / static_cast<float>(duration) * 100.f) << "%" << std::endl;
+                        std::cout << (frame / static_cast<float>(size - 1) * 100.f) << "%" << std::endl;
                     }
                 });
             }

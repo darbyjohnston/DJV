@@ -65,21 +65,21 @@ namespace djv
             std::shared_ptr<ValueSubject<Time::Speed> > defaultSpeed;
             std::shared_ptr<ValueSubject<float> > realSpeed;
             std::shared_ptr<ValueSubject<bool> > playEveryFrame;
-            std::shared_ptr<ValueSubject<Time::Timestamp> > duration;
-            std::shared_ptr<ValueSubject<Time::Timestamp> > currentTime;
+            std::shared_ptr<ValueSubject<Frame::Sequence> > sequence;
+            std::shared_ptr<ValueSubject<Frame::Number> > currentFrame;
             std::shared_ptr<ValueSubject<std::shared_ptr<AV::Image::Image> > > currentImage;
             std::shared_ptr<ValueSubject<Playback> > playback;
             std::shared_ptr<ValueSubject<PlaybackMode> > playbackMode;
             std::shared_ptr<ValueSubject<bool> > inOutPointsEnabled;
-            std::shared_ptr<ValueSubject<Time::Timestamp> > inPoint;
-            std::shared_ptr<ValueSubject<Time::Timestamp> > outPoint;
+            std::shared_ptr<ValueSubject<Frame::Number> > inPoint;
+            std::shared_ptr<ValueSubject<Frame::Number> > outPoint;
             std::shared_ptr<ValueSubject<float> > volume;
             std::shared_ptr<ValueSubject<bool> > mute;
             std::shared_ptr<ValueSubject<size_t> > threadCount;
             std::shared_ptr<ValueSubject<bool> > hasCache;
             std::shared_ptr<ValueSubject<bool> > cacheEnabled;
             std::shared_ptr<ValueSubject<int> > cacheMax;
-            std::shared_ptr<ListSubject<Time::TimestampRange> > cachedTimestamps;
+            std::shared_ptr<ListSubject<Frame::Range> > cachedFrames;
 
             std::shared_ptr<ValueSubject<size_t> > videoQueueMax;
             std::shared_ptr<ValueSubject<size_t> > videoQueueCount;
@@ -95,13 +95,13 @@ namespace djv
             ALuint alSource = 0;
             std::vector<ALuint> alBuffers;
             int64_t alBytes = 0;
-            Time::Timestamp timeOffset = 0;
+            Frame::Number frameOffset = 0;
             std::chrono::system_clock::time_point startTime;
             std::chrono::system_clock::time_point realSpeedTime;
             size_t realSpeedFrameCount = 0;
             std::shared_ptr<Time::Timer> playbackTimer;
             std::shared_ptr<Time::Timer> realSpeedTimer;
-            std::shared_ptr<Time::Timer> cachedTimestampsTimer;
+            std::shared_ptr<Time::Timer> cachedFramesTimer;
             std::shared_ptr<Time::Timer> debugTimer;
         };
 
@@ -118,21 +118,21 @@ namespace djv
             p.defaultSpeed = ValueSubject<Time::Speed>::create();
             p.realSpeed = ValueSubject<float>::create();
             p.playEveryFrame = ValueSubject<bool>::create();
-            p.duration = ValueSubject<Time::Timestamp>::create();
-            p.currentTime = ValueSubject<Time::Timestamp>::create();
+            p.sequence = ValueSubject<Frame::Sequence>::create();
+            p.currentFrame = ValueSubject<Frame::Number>::create();
             p.currentImage = ValueSubject<std::shared_ptr<AV::Image::Image> >::create();
             p.playback = ValueSubject<Playback>::create();
             p.playbackMode = ValueSubject<PlaybackMode>::create(PlaybackMode::Loop);
             p.inOutPointsEnabled = ValueSubject<bool>::create(false);
-            p.inPoint = ValueSubject<Time::Timestamp>::create(0);
-            p.outPoint = ValueSubject<Time::Timestamp>::create(0);
+            p.inPoint = ValueSubject<Frame::Number>::create(Frame::invalid);
+            p.outPoint = ValueSubject<Frame::Number>::create(Frame::invalid);
             p.volume = ValueSubject<float>::create(1.f);
             p.mute = ValueSubject<bool>::create(false);
             p.threadCount = ValueSubject<size_t>::create(4);
             p.hasCache = ValueSubject<bool>::create(false);
             p.cacheEnabled = ValueSubject<bool>::create(false);
             p.cacheMax = ValueSubject<int>::create(0);
-            p.cachedTimestamps = ListSubject<Time::TimestampRange>::create();
+            p.cachedFrames = ListSubject<Frame::Range>::create();
 
             p.videoQueueMax = ValueSubject<size_t>::create();
             p.audioQueueMax = ValueSubject<size_t>::create();
@@ -148,8 +148,8 @@ namespace djv
             p.playbackTimer->setRepeating(true);
             p.realSpeedTimer = Time::Timer::create(context);
             p.realSpeedTimer->setRepeating(true);
-            p.cachedTimestampsTimer = Time::Timer::create(context);
-            p.cachedTimestampsTimer->setRepeating(true);
+            p.cachedFramesTimer = Time::Timer::create(context);
+            p.cachedFramesTimer->setRepeating(true);
             p.debugTimer = Time::Timer::create(context);
             p.debugTimer->setRepeating(true);
 
@@ -300,14 +300,14 @@ namespace djv
             return _p->playEveryFrame;
         }
 
-        std::shared_ptr<IValueSubject<Time::Timestamp> > Media::observeDuration() const
+        std::shared_ptr<IValueSubject<Frame::Sequence> > Media::observeSequence() const
         {
-            return _p->duration;
+            return _p->sequence;
         }
 
-        std::shared_ptr<IValueSubject<Time::Timestamp> > Media::observeCurrentTime() const
+        std::shared_ptr<IValueSubject<Frame::Number> > Media::observeCurrentFrame() const
         {
-            return _p->currentTime;
+            return _p->currentFrame;
         }
 
         std::shared_ptr<IValueSubject<Playback> > Media::observePlayback() const
@@ -325,12 +325,12 @@ namespace djv
             return _p->inOutPointsEnabled;
         }
 
-        std::shared_ptr<IValueSubject<Time::Timestamp> > Media::observeInPoint() const
+        std::shared_ptr<IValueSubject<Frame::Number> > Media::observeInPoint() const
         {
             return _p->inPoint;
         }
 
-        std::shared_ptr<IValueSubject<Time::Timestamp> > Media::observeOutPoint() const
+        std::shared_ptr<IValueSubject<Frame::Number> > Media::observeOutPoint() const
         {
             return _p->outPoint;
         }
@@ -345,7 +345,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.speed->setIfChanged(value))
             {
-                p.timeOffset = p.currentTime->get();
+                p.frameOffset = p.currentFrame->get();
                 p.realSpeedFrameCount = 0;
                 p.startTime = std::chrono::system_clock::now();
                 p.realSpeedTime = p.startTime;
@@ -357,19 +357,18 @@ namespace djv
             _p->playEveryFrame->setIfChanged(value);
         }
 
-        void Media::setCurrentTime(Time::Timestamp value)
+        void Media::setCurrentFrame(Frame::Number value)
         {
             DJV_PRIVATE_PTR();
-            Time::Timestamp start = 0;
-            const int64_t f = Time::scale(1, p.defaultSpeed->get().swap(), Time::getTimebaseRational());
-            const Time::Timestamp duration = p.duration->get();
-            Time::Timestamp end = duration - f;
+            Frame::Number start = 0;
+            const size_t size = p.sequence->get().getSize();
+            Frame::Number end = static_cast<Frame::Number>(size) - 1;
             if (p.inOutPointsEnabled->get())
             {
                 start = p.inPoint->get();
                 end = p.outPoint->get();
             }
-            Time::Timestamp tmp = value;
+            Frame::Number tmp = value;
             if (tmp > end)
             {
                 tmp = 0;
@@ -378,7 +377,7 @@ namespace djv
             {
                 tmp = end;
             }
-            if (p.currentTime->setIfChanged(tmp))
+            if (p.currentFrame->setIfChanged(tmp))
             {
                 setPlayback(Playback::Stop);
                 if (p.read)
@@ -400,30 +399,29 @@ namespace djv
 
         void Media::start()
         {
-            setCurrentTime(0);
+            setCurrentFrame(0);
         }
 
         void Media::end()
         {
             DJV_PRIVATE_PTR();
-            Time::Timestamp pts = p.duration->get() - Time::scale(1, p.defaultSpeed->get().swap(), Time::getTimebaseRational());
-            setCurrentTime(pts);
+            const size_t size = p.sequence->get().getSize();
+            const Frame::Number frame = size > 0 ? (size - 1) : 0;
+            setCurrentFrame(frame);
         }
 
         void Media::nextFrame(size_t value)
         {
             DJV_PRIVATE_PTR();
-            Time::Timestamp offset = Time::scale(1, p.defaultSpeed->get().swap(), Time::getTimebaseRational());
-            Time::Timestamp pts = p.currentTime->get() + offset;
-            setCurrentTime(pts);
+            const Frame::Number frame = p.currentFrame->get();
+            setCurrentFrame(frame + static_cast<Frame::Number>(value));
         }
 
         void Media::prevFrame(size_t value)
         {
             DJV_PRIVATE_PTR();
-            Time::Timestamp offset = Time::scale(1, p.defaultSpeed->get().swap(), Time::getTimebaseRational());
-            Time::Timestamp pts = p.currentTime->get() - offset;
-            setCurrentTime(pts);
+            const Frame::Number frame = p.currentFrame->get();
+            setCurrentFrame(frame - static_cast<Frame::Number>(value));
         }
 
         void Media::setPlayback(Playback value)
@@ -444,12 +442,12 @@ namespace djv
             _p->inOutPointsEnabled->setIfChanged(value);
         }
 
-        void Media::setInPoint(Time::Timestamp value)
+        void Media::setInPoint(Frame::Number value)
         {
             _p->inPoint->setIfChanged(value);
         }
 
-        void Media::setOutPoint(Time::Timestamp value)
+        void Media::setOutPoint(Frame::Number value)
         {
             _p->outPoint->setIfChanged(value);
         }
@@ -517,9 +515,9 @@ namespace djv
             return _p->cacheMax;
         }
 
-        std::shared_ptr<Core::IListSubject<Time::TimestampRange> > Media::observeCachedTimestamps() const
+        std::shared_ptr<Core::IListSubject<Frame::Range> > Media::observeCachedFrames() const
         {
-            return _p->cachedTimestamps;
+            return _p->cachedFrames;
         }
 
         void Media::setCacheEnabled(bool value)
@@ -599,30 +597,29 @@ namespace djv
                                     media->_p->infoTimer->stop();
                                     const auto info = media->_p->infoFuture.get();
                                     Time::Speed speed;
-                                    Time::Timestamp duration = 0;
+                                    Frame::Sequence sequence;
                                     const auto& video = info.video;
                                     if (video.size())
                                     {
                                         media->_p->videoInfo = video[0];
                                         speed = video[0].speed;
-                                        duration = std::max(duration, video[0].duration);
+                                        sequence = video[0].sequence;
                                     }
                                     const auto& audio = info.audio;
                                     if (audio.size())
                                     {
                                         media->_p->audioInfo = audio[0];
-                                        duration = std::max(duration, audio[0].duration);
                                     }
                                     {
                                         std::stringstream ss;
-                                        ss << fileInfo << " duration: " << duration;
+                                        ss << fileInfo << " sequence: " << sequence.getSize();
                                         auto logSystem = context->getSystemT<LogSystem>();
                                         logSystem->log("djv::ViewApp::Media", ss.str());
                                     }
                                     media->_p->info->setIfChanged(info);
                                     media->_p->speed->setIfChanged(speed);
                                     media->_p->defaultSpeed->setIfChanged(speed);
-                                    media->_p->duration->setIfChanged(duration);
+                                    media->_p->sequence->setIfChanged(sequence);
                                 }
                             }
                             catch (const std::exception& e)
@@ -663,7 +660,7 @@ namespace djv
                         }
                     });
 
-                p.cachedTimestampsTimer->start(
+                p.cachedFramesTimer->start(
                     Time::getMilliseconds(Time::TimerValue::Medium),
                     [weak](float)
                     {
@@ -671,8 +668,8 @@ namespace djv
                         {
                             if (media->_p->read)
                             {
-                                const auto& frames = media->_p->read->getCachedTimestamps();
-                                media->_p->cachedTimestamps->setIfChanged(frames);
+                                const auto& frames = media->_p->read->getCachedFrames();
+                                media->_p->cachedFrames->setIfChanged(frames);
                             }
                         }
                     });
@@ -709,7 +706,7 @@ namespace djv
             {
                 p.read->setCacheEnabled(cacheEnabled);
                 p.read->setCacheMax(static_cast<size_t>(cacheMax * Memory::gigabyte));
-                p.read->seek(p.currentTime->get());
+                p.read->seek(p.currentFrame->get());
             }
             p.reload->setAlways(true);
         }
@@ -727,10 +724,10 @@ namespace djv
                 }
                 p.playbackTimer->stop();
                 p.realSpeedTimer->stop();
-                _timeUpdate();
+                _frameUpdate();
                 if (p.read)
                 {
-                    p.read->seek(p.currentTime->get());
+                    p.read->seek(p.currentFrame->get());
                 }
                 break;
             case Playback::Forward:
@@ -738,9 +735,9 @@ namespace djv
             {
                 /*if (p.read)
                 {
-                    p.read->seek(p.currentTime->get());
+                    p.read->seek(p.currentFrame->get());
                 }*/
-                p.timeOffset = p.currentTime->get();
+                p.frameOffset = p.currentFrame->get();
                 p.startTime = std::chrono::system_clock::now();
                 p.realSpeedTime = p.startTime;
                 p.realSpeedFrameCount = 0;
@@ -804,90 +801,77 @@ namespace djv
                     }
                 }
 
-                Time::Timestamp time = 0;
+                Frame::Number frame = Frame::invalid;
                 const auto& speed = p.speed->get();
-                const Time::Timestamp duration = p.duration->get();
+                const Frame::Sequence& sequence = p.sequence->get();
                 if (Playback::Forward == playback && p.audioInfo.info.isValid() && p.alSource)
                 {
                     ALint offset = 0;
                     alGetSourcei(p.alSource, AL_BYTE_OFFSET, &offset);
-                    Time::Timestamp pts = (p.alBytes + offset) / p.audioInfo.info.channelCount / AV::Audio::getByteCount(p.audioInfo.info.type);
-                    time = p.timeOffset + Time::scale(
-                        pts,
+                    frame = p.frameOffset + Time::scale(
+                        (p.alBytes + offset) / p.audioInfo.info.channelCount / AV::Audio::getByteCount(p.audioInfo.info.type),
                         Math::Rational(1, static_cast<int>(p.audioInfo.info.sampleRate)),
-                        Time::getTimebaseRational());
-                    /*{
-                        std::stringstream ss;
-                        ss << "audio time = " << time;
-                        p.context->log("djv::ViewApp::Media", ss.str());
-                    }*/
+                        p.speed->get().swap());
                 }
                 else
                 {
                     const auto now = std::chrono::system_clock::now();
                     std::chrono::duration<double> delta = now - p.startTime;
-                    Time::Timestamp pts = Time::scale(
-                        static_cast<Time::Timestamp>(delta.count() * speed.toFloat()),
-                        p.speed->get().swap(),
-                        Time::getTimebaseRational());
-                    pts = Time::scale(
-                        pts,
-                        p.defaultSpeed->get().swap(),
-                        p.speed->get().swap());
+                    frame = static_cast<Frame::Number>(delta.count() * speed.toFloat());
 
                     switch (playback)
                     {
-                    case Playback::Forward: time = p.timeOffset + pts; break;
-                    case Playback::Reverse: time = p.timeOffset - pts; break;
+                    case Playback::Forward: frame = p.frameOffset + frame; break;
+                    case Playback::Reverse: frame = p.frameOffset - frame; break;
                     default: break;
                     }
 
                     /*switch (playback)
                     {
-                    case Playback::Forward: time = p.currentTime->get() + Time::scale(1, speed.swap(), Time::getTimebaseRational()); break;
-                    case Playback::Reverse: time = p.currentTime->get() - Time::scale(1, speed.swap(), Time::getTimebaseRational()); break;
+                    case Playback::Forward: frame = p.currentFrame->get() + Time::scale(1, speed.swap(), Time::getTimebaseRational()); break;
+                    case Playback::Reverse: frame = p.currentFrame->get() - Time::scale(1, speed.swap(), Time::getTimebaseRational()); break;
                     default: break;
                     }*/
                     /*{
                         std::stringstream ss;
-                        ss << "video time = " << time;
+                        ss << "video frame = " << frame;
                         p.context->getSystemT<LogSystem>()->log("djv::ViewApp::Media", ss.str());
                     }*/
                 }
 
-                Time::Timestamp start = 0;
-                Time::Timestamp end = duration - Time::scale(1, p.defaultSpeed->get().swap(), Time::getTimebaseRational());
+                Frame::Number start = 0;
+                Frame::Number end = static_cast<Frame::Number>(sequence.getSize()) - 1;
                 if (p.inOutPointsEnabled->get())
                 {
                     start = p.inPoint->get();
                     end = p.outPoint->get();
                 }
-                if ((Playback::Forward == playback && time >= end) ||
-                    (Playback::Reverse == playback && time <= start))
+                if ((Playback::Forward == playback && frame >= end) ||
+                    (Playback::Reverse == playback && frame <= start))
                 {
                     switch (p.playbackMode->get())
                     {
                     case PlaybackMode::Once:
                         switch (p.playback->get())
                         {
-                        case Playback::Forward: time = end;   break;
-                        case Playback::Reverse: time = start; break;
+                        case Playback::Forward: frame = end;   break;
+                        case Playback::Reverse: frame = start; break;
                         default: break;
                         }
                         setPlayback(Playback::Stop);
-                        setCurrentTime(time);
+                        setCurrentFrame(frame);
                         break;
                     case PlaybackMode::Loop:
                     {
                         Playback playback = p.playback->get();
                         switch (playback)
                         {
-                        case Playback::Forward: time = start; break;
-                        case Playback::Reverse: time = end;   break;
+                        case Playback::Forward: frame = start; break;
+                        case Playback::Reverse: frame = end;   break;
                         default: break;
                         }
                         setPlayback(Playback::Stop);
-                        setCurrentTime(time);
+                        setCurrentFrame(frame);
                         setPlayback(playback);
                         break;
                     }
@@ -896,31 +880,31 @@ namespace djv
                         Playback playback = p.playback->get();
                         switch (playback)
                         {
-                        case Playback::Forward: time = end;   break;
-                        case Playback::Reverse: time = start; break;
+                        case Playback::Forward: frame = end;   break;
+                        case Playback::Reverse: frame = start; break;
                         default: break;
                         }
                         setPlayback(Playback::Stop);
-                        setCurrentTime(time);
+                        setCurrentFrame(frame);
                         setPlayback(Playback::Forward == playback ? Playback::Reverse : Playback::Forward);
                         break;
                     }
                     default: break;
                     }
                 }
-                p.currentTime->setIfChanged(time);
+                p.currentFrame->setIfChanged(frame);
                 if (p.read && Playback::Reverse == playback)
                 {
-                    p.read->seek(time);
+                    p.read->seek(frame);
                 }
-                _timeUpdate();
+                _frameUpdate();
                 break;
             }
             default: break;
             }
         }
 
-        void Media::_timeUpdate()
+        void Media::_frameUpdate()
         {
             DJV_PRIVATE_PTR();
             if (p.read)
@@ -929,7 +913,7 @@ namespace djv
                 {
                     std::lock_guard<std::mutex> lock(p.read->getMutex());
                     auto& queue = p.read->getVideoQueue();
-                    while (queue.hasFrames() && queue.getFrame().timestamp < p.currentTime->get())
+                    while (queue.hasFrames() && queue.getFrame().frame < p.currentFrame->get())
                     {
                         auto frame = queue.popFrame();
                         p.realSpeedFrameCount = p.realSpeedFrameCount + 1;

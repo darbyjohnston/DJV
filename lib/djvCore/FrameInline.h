@@ -48,14 +48,6 @@ namespace djv
             inline Sequence::Sequence()
             {}
 
-            inline Sequence::Sequence(Number value) :
-                ranges({ Range(value, value) })
-            {}
-
-            inline Sequence::Sequence(Number min, Number max) :
-                ranges({ Range(min, max) })
-            {}
-
             inline Sequence::Sequence(const Range & range, size_t pad) :
                 pad(pad)
             {
@@ -72,6 +64,32 @@ namespace djv
                 return ranges.size() > 0;
             }
 
+            inline size_t Sequence::getSize() const
+            {
+                size_t out = 0;
+                for (const auto& i : ranges)
+                {
+                    out += i.max - i.min + 1;
+                }
+                return out;
+            }
+
+            inline Number Sequence::getFrame(size_t value) const
+            {
+                Number out = invalid;
+                for (const auto& j : ranges)
+                {
+                    const size_t size = j.max - j.min + 1;
+                    if (value < size)
+                    {
+                        out = j.min + value;
+                        break;
+                    }
+                    value -= size;
+                }
+                return out;
+            }
+
             inline bool Sequence::operator == (const Sequence & value) const
             {
                 return ranges == value.ranges && pad == value.pad;
@@ -84,12 +102,7 @@ namespace djv
 
             constexpr bool isValid(const Range & value)
             {
-                return value.min != Invalid && value.max != Invalid;
-            }
-
-            constexpr Number getFrame(const std::vector<Number> & list, Index index)
-            {
-                return index >= 0 && index < static_cast<Index>(list.size()) ? list[index] : Invalid;
+                return value.min != invalid && value.max != invalid;
             }
 
             inline std::vector<Number> toFrames(const Range & value)

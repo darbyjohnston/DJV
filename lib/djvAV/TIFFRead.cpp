@@ -212,7 +212,7 @@ namespace djv
                     }
 
                     auto imageInfo = Image::Info(width, height, imageType, layout);
-                    auto info = Info(fileName, VideoInfo(imageInfo, _speed, _duration));
+                    auto info = Info(fileName, VideoInfo(imageInfo, _speed, _sequence));
                     info.tags = tags;
                     return info;
                 }

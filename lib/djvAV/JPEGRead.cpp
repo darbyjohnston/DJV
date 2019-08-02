@@ -215,7 +215,7 @@ namespace djv
                     {
                         throw std::runtime_error(DJV_TEXT("Unsupported color components."));
                     }
-                    auto info = Info(fileName, VideoInfo(Image::Info(f.jpeg.output_width, f.jpeg.output_height, imageType), _speed, _duration));
+                    auto info = Info(fileName, VideoInfo(Image::Info(f.jpeg.output_width, f.jpeg.output_height, imageType), _speed, _sequence));
 
                     const jpeg_saved_marker_ptr marker = f.jpeg.marker_list;
                     if (marker)

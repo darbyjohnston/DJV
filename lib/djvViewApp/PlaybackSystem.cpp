@@ -58,10 +58,10 @@ namespace djv
             std::shared_ptr<PlaybackSettings> settings;
             std::shared_ptr<Media> currentMedia;
             Time::Speed speed;
-            Time::Timestamp duration = 0;
+            Frame::Sequence sequence;
             glm::vec2 hoverPos = glm::vec2(0.f, 0.f);
             glm::vec2 dragStart = glm::vec2(0.f, 0.f);
-            Time::Timestamp dragStartTime = 0;
+            Frame::Number dragStartFrame = Frame::invalid;
             Playback dragStartPlayback = Playback::Stop;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> playbackActionGroup;
@@ -72,7 +72,7 @@ namespace djv
             std::shared_ptr<ValueObserver<PlaybackMode> > playbackModeObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<Time::Speed> > speedObserver;
-            std::shared_ptr<ValueObserver<Time::Timestamp> > durationObserver;
+            std::shared_ptr<ValueObserver<Frame::Sequence> > sequenceObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
             std::shared_ptr<ValueObserver<PointerData> > hoverObserver;
             std::shared_ptr<ValueObserver<PointerData> > dragObserver;
@@ -403,13 +403,13 @@ namespace djv
                                         system->_actionsUpdate();
                                     }
                                 });
-                            system->_p->durationObserver = ValueObserver<Time::Timestamp>::create(
-                                value->observeDuration(),
-                                [weak](const Time::Timestamp& value)
+                            system->_p->sequenceObserver = ValueObserver<Frame::Sequence>::create(
+                                value->observeSequence(),
+                                [weak](const Frame::Sequence& value)
                                 {
                                     if (auto system = weak.lock())
                                     {
-                                        system->_p->duration = value;
+                                        system->_p->sequence = value;
                                         system->_actionsUpdate();
                                     }
                                 });
@@ -417,13 +417,13 @@ namespace djv
                         else
                         {
                             system->_p->speed = Time::Speed();
-                            system->_p->duration = 0;
+                            system->_p->sequence = Frame::Sequence();
                             system->_p->playbackActionGroup->setChecked(0, false);
                             system->_p->playbackActionGroup->setChecked(1, false);
                             system->_p->playbackObserver.reset();
                             system->_p->playbackModeObserver.reset();
                             system->_p->speedObserver.reset();
-                            system->_p->durationObserver.reset();
+                            system->_p->sequenceObserver.reset();
                             system->_actionsUpdate();
                         }
                     }
@@ -464,14 +464,13 @@ namespace djv
                                                     {
                                                     case PointerState::Start:
                                                         system->_p->dragStart = value.pos;
-                                                        system->_p->dragStartTime = media->observeCurrentTime()->get();
+                                                        system->_p->dragStartFrame = media->observeCurrentFrame()->get();
                                                         system->_p->dragStartPlayback = media->observePlayback()->get();
                                                         break;
                                                     case PointerState::Move:
                                                     {
-                                                        const int64_t f = Time::scale(1, system->_p->speed.swap(), Time::getTimebaseRational());
-                                                        const Time::Timestamp offset = f * (value.pos.x - system->_p->dragStart.x);
-                                                        media->setCurrentTime(system->_p->dragStartTime + offset);
+                                                        const Frame::Number offset = value.pos.x - system->_p->dragStart.x;
+                                                        media->setCurrentFrame(system->_p->dragStartFrame + offset);
                                                         break;
                                                     }
                                                     case PointerState::End:
@@ -586,7 +585,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             const bool playable =
                 (p.currentMedia ? true : false) &&
-                (p.duration > 1);
+                (p.sequence.getSize());
             p.actions["Forward"]->setEnabled(playable);
             p.actions["Reverse"]->setEnabled(playable);
             p.actions["PlayOnce"]->setEnabled(playable);

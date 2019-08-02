@@ -122,7 +122,7 @@ namespace djv
                     Info info;
                     info.video.resize(1);
                     read(io, info, p.colorProfile);
-                    info.video[0].duration = _duration;
+                    info.video[0].sequence = _sequence;
                     return info;
                 }
 

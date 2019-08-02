@@ -109,6 +109,22 @@ namespace djv
                 DJV_ASSERT(8 == sequence.ranges[2].min);
                 DJV_ASSERT(8 == sequence.ranges[2].max);
             }
+            {
+                const Frame::Sequence sequence(
+                    {
+                        Frame::Range(1, 3),
+                        Frame::Range(5, 6),
+                        Frame::Range(8)
+                    });
+                const size_t size = sequence.getSize();
+                DJV_ASSERT(6 == size);
+                const std::vector<Frame::Number> frames = Frame::toFrames(sequence);
+                for (size_t i = 0; i < size; ++i)
+                {
+                    const Frame::Number frame = sequence.getFrame(i);
+                    DJV_ASSERT(frame == frames[i]);
+                }
+            }
         }
         
     } // namespace CoreTest

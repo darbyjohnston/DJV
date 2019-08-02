@@ -57,9 +57,10 @@ namespace djv
                     Options options;
                     VideoInfo videoInfo;
                     AudioInfo audioInfo;
+                    Time::Speed speed;
                     std::promise<Info> infoPromise;
                     std::condition_variable queueCV;
-                    Time::Timestamp seek = -1;
+                    int64_t seek = -1;
                     std::thread thread;
                     std::atomic<bool> running;
 
@@ -210,20 +211,29 @@ namespace djv
                                     p.avCodecParameters[p.avVideoStream]->width,
                                     p.avCodecParameters[p.avVideoStream]->height,
                                     Image::Type::RGBA_U8);
-                                Time::Timestamp duration = 0;
+                                size_t sequenceSize = 0;
                                 if (avVideoStream->duration != AV_NOPTS_VALUE)
                                 {
-                                    duration = av_rescale_q(
+                                    AVRational r;
+                                    r.num = avVideoStream->r_frame_rate.den;
+                                    r.den = avVideoStream->r_frame_rate.num;
+                                    sequenceSize = av_rescale_q(
                                         avVideoStream->duration,
                                         avVideoStream->time_base,
-                                        av_get_time_base_q());
+                                        r);
                                 }
                                 else if (p.avFormatContext->duration != AV_NOPTS_VALUE)
                                 {
-                                    duration = p.avFormatContext->duration;
+                                    AVRational r;
+                                    r.num = avVideoStream->r_frame_rate.den;
+                                    r.den = avVideoStream->r_frame_rate.num;
+                                    sequenceSize = av_rescale_q(
+                                        p.avFormatContext->duration,
+                                        av_get_time_base_q(),
+                                        r);
                                 }
-                                const Time::Speed speed(avVideoStream->r_frame_rate.num, avVideoStream->r_frame_rate.den);
-                                p.videoInfo = VideoInfo(pixelDataInfo, speed, duration);
+                                p.speed = Time::Speed(avVideoStream->r_frame_rate.num, avVideoStream->r_frame_rate.den);
+                                p.videoInfo = VideoInfo(pixelDataInfo, p.speed, Frame::Sequence(Frame::Range(1, sequenceSize)));
                                 p.videoInfo.codec = std::string(avVideoCodec->long_name);
                                 info.video.push_back(p.videoInfo);
                                 /*{
@@ -231,7 +241,7 @@ namespace djv
                                     ss << _fileInfo << ": image size " << pixelDataInfo.size << "\n";
                                     ss << _fileInfo << ": pixel type " << pixelDataInfo.type << "\n";
                                     ss << _fileInfo << ": duration " << duration << "\n";
-                                    ss << _fileInfo << ": speed " << speed << "\n";
+                                    ss << _fileInfo << ": speed " << p.speed << "\n";
                                     _logSystem->log("djv::AV::IO::FFmpeg::Read", ss.str());
                                 }*/
                             }
@@ -245,7 +255,7 @@ namespace djv
                                 if (Audio::Type::None == audioType)
                                 {
                                     std::stringstream ss;
-                                    ss << DJV_TEXT("The audio format ") <<
+                                    ss << DJV_TEXT("The audio format") <<
                                         " '" << FFmpeg::toString(static_cast<AVSampleFormat>(avAudioCodecParameters->format)) << "' " <<
                                         DJV_TEXT("is not supported") << ".";
                                     throw std::runtime_error(ss.str());
@@ -286,17 +296,17 @@ namespace djv
                                 }
 
                                 // Get information.
-                                Time::Timestamp duration = 0;
+                                size_t sampleCount = 0;
                                 if (avAudioStream->duration != AV_NOPTS_VALUE)
                                 {
-                                    duration = av_rescale_q(
-                                        avAudioStream->duration,
-                                        avAudioStream->time_base,
-                                        av_get_time_base_q());
+                                    sampleCount = avAudioStream->duration;
                                 }
                                 else if (p.avFormatContext->duration != AV_NOPTS_VALUE)
                                 {
-                                    duration = p.avFormatContext->duration;
+                                    sampleCount = av_rescale_q(
+                                        p.avFormatContext->duration,
+                                        av_get_time_base_q(),
+                                        avAudioStream->time_base);
                                 }
                                 uint8_t channelCount = p.avCodecParameters[p.avAudioStream]->channels;
                                 switch (channelCount)
@@ -318,7 +328,7 @@ namespace djv
                                         channelCount,
                                         audioType,
                                         p.avCodecParameters[p.avAudioStream]->sample_rate),
-                                    duration);
+                                    sampleCount);
                                 p.videoInfo.codec = std::string(avAudioCodec->long_name);
                                 info.audio.push_back(p.audioInfo);
                             }
@@ -334,7 +344,7 @@ namespace djv
                             while (p.running)
                             {
                                 bool read = false;
-                                Time::Timestamp seek = -1;
+                                int64_t seek = -1;
                                 {
                                     std::unique_lock<std::mutex> lock(_mutex);
                                     if (p.queueCV.wait_for(
@@ -370,10 +380,28 @@ namespace djv
                                             ss << _fileInfo << ": seek " << seek;
                                             _logSystem->log("djv::AV::IO::FFmpeg::Read", ss.str());
                                         }*/
+                                        int64_t t = 0;
+                                        int stream = -1;
+                                        if (p.avVideoStream != -1)
+                                        {
+                                            stream = p.avVideoStream;
+                                            AVRational r;
+                                            r.num = p.speed.getDen();
+                                            r.den = p.speed.getNum();
+                                            t = av_rescale_q(seek, r, p.avFormatContext->streams[p.avVideoStream]->time_base);
+                                        }
+                                        else if (p.avAudioStream != -1)
+                                        {
+                                            stream = p.avAudioStream;
+                                            AVRational r;
+                                            r.num = 1;
+                                            r.den = p.audioInfo.info.sampleRate;
+                                            t = av_rescale_q(seek, r, p.avFormatContext->streams[p.avAudioStream]->time_base);
+                                        }
                                         if (av_seek_frame(
                                             p.avFormatContext,
-                                            -1,
-                                            seek,
+                                            stream,
+                                            t,
                                             AVSEEK_FLAG_BACKWARD) < 0)
                                         {
                                             throw std::exception();
@@ -386,8 +414,9 @@ namespace djv
                                         {
                                             avcodec_flush_buffers(p.avCodecContext[p.avAudioStream]);
                                         }
-                                        Time::Timestamp pts = 0;
-                                        while (pts < seek - 1)
+                                        Frame::Number videoFrame = -1;
+                                        Frame::Number audioFrame = -1;
+                                        while (videoFrame < seek - 1 || audioFrame < seek - 1)
                                         {
                                             if (av_read_frame(p.avFormatContext, &packet) < 0)
                                             {
@@ -405,21 +434,17 @@ namespace djv
                                             }
                                             if (p.avVideoStream == packet.stream_index)
                                             {
-                                                Time::Timestamp t = 0;
-                                                if (_seek(&packet, packet.stream_index, t) < 0)
+                                                if (_seek(&packet, packet.stream_index, videoFrame) < 0)
                                                 {
                                                     throw std::exception();
                                                 }
-                                                pts = t;
                                             }
                                             else if (p.avAudioStream == packet.stream_index)
                                             {
-                                                Time::Timestamp t = 0;
-                                                if (_seek(&packet, packet.stream_index, t) < 0)
+                                                if (_seek(&packet, packet.stream_index, audioFrame) < 0)
                                                 {
                                                     throw std::exception();
                                                 }
-                                                pts = t;
                                             }
                                             av_packet_unref(&packet);
                                         }
@@ -544,7 +569,7 @@ namespace djv
                     return _p->infoPromise.get_future();
                 }
 
-                void Read::seek(Time::Timestamp value)
+                void Read::seek(Frame::Number value)
                 {
                     DJV_PRIVATE_PTR();
                     {
@@ -564,7 +589,6 @@ namespace djv
                         if (AVERROR(EAGAIN) == r)
                         {
                             r = 0;
-                            break;
                             return 0;
                         }
                         else if (r < 0)
@@ -572,15 +596,17 @@ namespace djv
                             break;
                         }
                         
-                        const Time::Timestamp pts = av_rescale_q(
+                        AVRational r;
+                        r.num = p.speed.getDen();
+                        r.den = p.speed.getNum();
+                        Frame::Number frame = av_rescale_q(
                             p.avFrame->pts,
                             p.avFormatContext->streams[p.avVideoStream]->time_base,
-                            av_get_time_base_q());
-
+                            r);
                         /*if (auto context = _context.lock())
                         {
                             std::stringstream ss;
-                            ss << _fileInfo << ", decoded frame: " << pts;
+                            ss << _fileInfo << ", decoded frame: " << p.frame;
                             _logSystem->log("djv::AV::IO::FFmpeg::Read", ss.str());
                         }*/
 
@@ -609,7 +635,7 @@ namespace djv
                             p.avFrameRgb->linesize);
                         {
                             std::lock_guard<std::mutex> lock(_mutex);
-                            _videoQueue.addFrame(VideoFrame(pts, image));
+                            _videoQueue.addFrame(VideoFrame(frame, image));
                         }
                     }
                     return r;
@@ -622,7 +648,7 @@ namespace djv
                     while (r >= 0)
                     {
                         r = avcodec_receive_frame(p.avCodecContext[p.avAudioStream], p.avFrame);
-                        if (r == AVERROR(EAGAIN))
+                        if (AVERROR(EAGAIN) == r)
                         {
                             r = 0;
                             break;
@@ -631,11 +657,6 @@ namespace djv
                         {
                             break;
                         }
-
-                        const Time::Timestamp pts = av_rescale_q(
-                            p.avFrame->pts,
-                            p.avFormatContext->streams[p.avAudioStream]->time_base,
-                            av_get_time_base_q());
 
                         const auto & info = p.audioInfo.info;
                         auto audioData = Audio::Data::create(info, p.avFrame->nb_samples * info.channelCount);
@@ -781,13 +802,13 @@ namespace djv
                         }
                         {
                             std::lock_guard<std::mutex> lock(_mutex);
-                            _audioQueue.addFrame(AudioFrame(pts, audioData));
+                            _audioQueue.addFrame(AudioFrame(audioData));
                         }
                     }
                     return r;
                 }
 
-                int Read::_seek(AVPacket* packet, int stream, Time::Timestamp& pts)
+                int Read::_seek(AVPacket* packet, int stream, Frame::Number& frame)
                 {
                     DJV_PRIVATE_PTR();
                     int r = avcodec_send_packet(p.avCodecContext[stream], packet);
@@ -803,16 +824,13 @@ namespace djv
                         {
                             break;
                         }
-                        pts = av_rescale_q(
+                        AVRational r;
+                        r.num = p.speed.getDen();
+                        r.den = p.speed.getNum();
+                        frame = av_rescale_q(
                             p.avFrame->pts,
                             p.avFormatContext->streams[stream]->time_base,
-                            av_get_time_base_q());
-                        /*if (auto context = _context.lock())
-                        {
-                            std::stringstream ss;
-                            ss << _fileInfo << ", decoded frame: " << pts;
-                            _logSystem->log("djv::AV::IO::FFmpeg::Read", ss.str());
-                        }*/
+                            r);
                     }
                     return r;
                 }

@@ -63,26 +63,6 @@ namespace djv
                 return out;
             }
 
-            Frame::Index timestampToFrame(Time::Timestamp value, const Speed& speed)
-            {
-                return scale(value, Math::Rational(1, timebase), Math::Rational(speed.getDen(), speed.getNum()));
-            }
-
-            Time::Timestamp frameToTimestamp(Frame::Index value, const Speed& speed)
-            {
-                return scale(value, Math::Rational(speed.getDen(), speed.getNum()), Math::Rational(1, timebase));
-            }
-
-            double timestampToSeconds(Timestamp value)
-            {
-                return value / static_cast<double>(timebase);
-            }
-
-            Timestamp secondsToTimestamp(double value)
-            {
-                return static_cast<Timestamp>(value * static_cast<double>(timebase));
-            }
-
             std::string getLabel(double value)
             {
                 int    hours   = 0;
