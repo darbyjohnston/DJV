@@ -103,9 +103,20 @@ namespace djv
                     void seek(int64_t) override;
 
                 private:
-                    int _decodeVideo(AVPacket*);
-                    int _decodeAudio(AVPacket*);
-                    int _seek(AVPacket*, int stream, Core::Frame::Number&);
+                    struct DecodeVideo
+                    {
+                        AVPacket*           packet       = nullptr;
+                        Core::Frame::Number seek         = -1;
+                        bool                cacheEnabled = false;
+                    };
+                    int _decodeVideo(const DecodeVideo&, Core::Frame::Number&);
+
+                    struct DecodeAudio
+                    {
+                        AVPacket*           packet = nullptr;
+                        Core::Frame::Number seek   = -1;
+                    };
+                    int _decodeAudio(const DecodeAudio&, Core::Frame::Number&);
 
                     DJV_PRIVATE();
                 };

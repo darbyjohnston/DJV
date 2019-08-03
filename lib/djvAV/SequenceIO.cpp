@@ -31,7 +31,6 @@
 
 #include <djvAV/ImageConvert.h>
 
-#include <djvCore/Cache.h>
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
 #include <djvCore/LogSystem.h>
@@ -52,43 +51,6 @@ namespace djv
     {
         namespace IO
         {
-            namespace
-            {
-                typedef Memory::Cache<Frame::Number, std::shared_ptr<Image::Image> > MemoryCache;
-
-                std::vector<Frame::Range> _getCachedFrames(const MemoryCache& cache)
-                {
-                    std::vector<Frame::Range> out;
-                    auto frames = cache.getKeys();
-                    const size_t size = frames.size();
-                    if (size)
-                    {
-                        std::sort(frames.begin(), frames.end());
-                        Frame::Number rangeStart = frames[0];
-                        Frame::Number prevFrame = frames[0];
-                        size_t i = 1;
-                        for (; i < size; prevFrame = frames[i], ++i)
-                        {
-                            if (frames[i] != prevFrame + 1)
-                            {
-                                out.push_back(Frame::Range(rangeStart, prevFrame));
-                                rangeStart = frames[i];
-                            }
-                        }
-                        if (size > 1)
-                        {
-                            out.push_back(Frame::Range(rangeStart, prevFrame));
-                        }
-                        else
-                        {
-                            out.push_back(Frame::Range(rangeStart));
-                        }
-                    }
-                    return out;
-                }
-
-            } // namespace
-
             struct ISequenceRead::Future
             {
                 Frame::Number frame = Frame::invalid;
@@ -99,10 +61,6 @@ namespace djv
             {
                 Frame::Number frame = Frame::invalid;
                 std::promise<Info> infoPromise;
-                bool cacheEnabled = false;
-                size_t cacheMax = 0;
-                std::vector<Frame::Range> cachedFrames;
-                MemoryCache cache;
                 std::vector<std::future<Future> > cacheFutures;
                 std::condition_variable queueCV;
                 Frame::Number seek = -1;
@@ -177,23 +135,23 @@ namespace djv
                         {
                             std::lock_guard<std::mutex> lock(_mutex);
                             threadCount = _threadCount;
-                            cacheEnabled = p.cacheEnabled;
-                            cacheMax = p.cacheMax;
+                            cacheEnabled = _cacheEnabled;
+                            cacheMax = _cacheMax;
+                            _cachedFrames = _getCachedFrames(_cache);
                         }
                         if (!cacheEnabled)
                         {
-                            p.cache.clear();
+                            _cache.clear();
                         }
                         if (info.video.size() && _options.layer < info.video.size())
                         {
                             const size_t dataByteCount = info.video[_options.layer].info.getDataByteCount();
-                            p.cache.setMax(cacheMax / dataByteCount);
+                            _cache.setMax(cacheMax / dataByteCount);
                         }
                         else
                         {
-                            p.cache.setMax(0);
+                            _cache.setMax(0);
                         }
-                        p.cachedFrames = _getCachedFrames(p.cache);
 
                         // Check to see if the queue needs to be filled up or a seek occurred.
                         size_t queueCount = 0;
@@ -272,39 +230,6 @@ namespace djv
                 p.queueCV.notify_one();
             }
 
-            bool ISequenceRead::hasCache() const
-            {
-                return true;
-            }
-
-            bool ISequenceRead::isCacheEnabled() const
-            {
-                return _p->cacheEnabled;
-            }
-
-            void ISequenceRead::setCacheEnabled(bool value)
-            {
-                std::lock_guard<std::mutex> lock(_mutex);
-                _p->cacheEnabled = value;
-            }
-
-            size_t ISequenceRead::getCacheMax() const
-            {
-                return _p->cacheMax;
-            }
-
-            void ISequenceRead::setCacheMax(size_t value)
-            {
-                std::lock_guard<std::mutex> lock(_mutex);
-                _p->cacheMax = value;
-            }
-
-            std::vector<Frame::Range> ISequenceRead::getCachedFrames()
-            {
-                std::lock_guard<std::mutex> lock(_mutex);
-                return _p->cachedFrames;
-            }
-
             void ISequenceRead::_finish()
             {
                 DJV_PRIVATE_PTR();
@@ -355,7 +280,7 @@ namespace djv
                     }*/
 
                     std::shared_ptr<Image::Image> cachedImage;
-                    if (cacheEnabled && p.cache.get(p.frame, cachedImage))
+                    if (cacheEnabled && _cache.get(p.frame, cachedImage))
                     {
                         images[p.frame] = cachedImage;
                     }
@@ -386,7 +311,7 @@ namespace djv
                         if (cacheEnabled)
                         {
                             result.image->detach();
-                            p.cache.add(result.frame, result.image);
+                            _cache.add(result.frame, result.image);
                         }
                     }
                 }
@@ -421,16 +346,16 @@ namespace djv
                     std::lock_guard<std::mutex> lock(_mutex);
                     cacheMax = _videoQueue.getMax();
                 }
-                const auto keys = p.cache.getKeys();
+                const auto keys = _cache.getKeys();
                 for (const auto& i : keys)
                 {
-                    if (p.cache.getSize() < p.cache.getMax())
+                    if (_cache.getSize() < _cache.getMax())
                     {
                         break;
                     }
                     if (i < p.frame - static_cast<Frame::Number>(cacheMax) - 1)
                     {
-                        p.cache.remove(i);
+                        _cache.remove(i);
                     }
                 }
 
@@ -439,13 +364,13 @@ namespace djv
                 if (count > 0 &&
                     p.cacheFutures.size() < count &&
                     sequenceSize > 1 &&
-                    p.cache.getSize() < sequenceSize &&
-                    p.cache.getSize() < p.cache.getMax())
+                    _cache.getSize() < sequenceSize &&
+                    _cache.getSize() < _cache.getMax())
                 {
                     Frame::Number i = p.frame;
                     for (; i < sequenceSize && p.cacheFutures.size() < count; ++i)
                     {
-                        if (!p.cache.contains(i))
+                        if (!_cache.contains(i))
                         {
                             const std::string fileName = _fileInfo.getFileName(_sequence.getFrame(i));
                             p.cacheFutures.push_back(_getFuture(i, fileName));
@@ -464,7 +389,7 @@ namespace djv
                         if (result.image)
                         {
                             result.image->detach();
-                            p.cache.add(result.frame, result.image);
+                            _cache.add(result.frame, result.image);
                         }
                         i = p.cacheFutures.erase(i);
                     }

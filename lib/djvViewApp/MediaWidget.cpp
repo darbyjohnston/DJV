@@ -271,7 +271,6 @@ namespace djv
             std::shared_ptr<ValueObserver<Playback> > playbackObserver;
             std::shared_ptr<ValueObserver<float> > volumeObserver;
             std::shared_ptr<ValueObserver<bool> > muteObserver;
-            std::shared_ptr<ValueObserver<bool> > hasCacheObserver;
             std::shared_ptr<ValueObserver<bool> > cacheEnabledObserver;
             std::shared_ptr<ValueObserver<int> > cacheMaxObserver;
             std::shared_ptr<ListObserver<Frame::Range> > cachedFramesObserver;
@@ -814,17 +813,6 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->muteButton->setChecked(value);
-                    }
-                });
-
-            p.hasCacheObserver = ValueObserver<bool>::create(
-                p.media->observeHasCache(),
-                [weak](bool value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->cacheMaxSlider->setEnabled(value);
-                        widget->_p->cacheEnabledButton->setEnabled(value);
                     }
                 });
 

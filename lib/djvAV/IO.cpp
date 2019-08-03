@@ -259,6 +259,65 @@ namespace djv
             void IRead::seek(Frame::Number)
             {}
 
+            bool IRead::isCacheEnabled() const
+            {
+                return _cacheEnabled;
+            }
+
+            void IRead::setCacheEnabled(bool value)
+            {
+                std::lock_guard<std::mutex> lock(_mutex);
+                _cacheEnabled = value;
+            }
+
+            size_t IRead::getCacheMax() const
+            {
+                return _cacheMax;
+            }
+
+            void IRead::setCacheMax(size_t value)
+            {
+                std::lock_guard<std::mutex> lock(_mutex);
+                _cacheMax = value;
+            }
+
+            std::vector<Frame::Range> IRead::getCachedFrames()
+            {
+                std::lock_guard<std::mutex> lock(_mutex);
+                return _cachedFrames;
+            }
+
+            std::vector<Frame::Range> IRead::_getCachedFrames(const MemoryCache& cache)
+            {
+                std::vector<Frame::Range> out;
+                auto frames = cache.getKeys();
+                const size_t size = frames.size();
+                if (size)
+                {
+                    std::sort(frames.begin(), frames.end());
+                    Frame::Number rangeStart = frames[0];
+                    Frame::Number prevFrame = frames[0];
+                    size_t i = 1;
+                    for (; i < size; prevFrame = frames[i], ++i)
+                    {
+                        if (frames[i] != prevFrame + 1)
+                        {
+                            out.push_back(Frame::Range(rangeStart, prevFrame));
+                            rangeStart = frames[i];
+                        }
+                    }
+                    if (size > 1)
+                    {
+                        out.push_back(Frame::Range(rangeStart, prevFrame));
+                    }
+                    else
+                    {
+                        out.push_back(Frame::Range(rangeStart));
+                    }
+                }
+                return out;
+            }
+
             void IWrite::_init(
                 const FileSystem::FileInfo& fileInfo,
                 const Info & info,

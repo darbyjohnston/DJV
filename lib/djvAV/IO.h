@@ -33,6 +33,7 @@
 #include <djvAV/Image.h>
 #include <djvAV/Tags.h>
 
+#include <djvCore/Cache.h>
 #include <djvCore/Error.h>
 #include <djvCore/FileInfo.h>
 #include <djvCore/ISystem.h>
@@ -252,15 +253,21 @@ namespace djv
                 //! frame number, for audio files it represents the audio sample.
                 virtual void seek(int64_t value);
 
-                virtual bool hasCache() const { return false; }
-                virtual bool isCacheEnabled() const  { return false; }
-                virtual void setCacheEnabled(bool) {}
-                virtual size_t getCacheMax() const { return 0; }
-                virtual void setCacheMax(size_t) {}
-                virtual std::vector<Core::Frame::Range> getCachedFrames() { return {}; }
+                bool isCacheEnabled() const;
+                void setCacheEnabled(bool);
+                size_t getCacheMax() const;
+                void setCacheMax(size_t);
+                std::vector<Core::Frame::Range> getCachedFrames();
 
             protected:
+                typedef Core::Memory::Cache<Core::Frame::Number, std::shared_ptr<Image::Image> > MemoryCache;
+                static std::vector<Core::Frame::Range> _getCachedFrames(const MemoryCache& cache);
+
                 ReadOptions _options;
+                bool _cacheEnabled = false;
+                size_t _cacheMax = 0;
+                std::vector<Core::Frame::Range> _cachedFrames;
+                MemoryCache _cache;
             };
 
             //! This class provides options for writing.

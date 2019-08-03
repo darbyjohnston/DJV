@@ -76,7 +76,6 @@ namespace djv
             std::shared_ptr<ValueSubject<float> > volume;
             std::shared_ptr<ValueSubject<bool> > mute;
             std::shared_ptr<ValueSubject<size_t> > threadCount;
-            std::shared_ptr<ValueSubject<bool> > hasCache;
             std::shared_ptr<ValueSubject<bool> > cacheEnabled;
             std::shared_ptr<ValueSubject<int> > cacheMax;
             std::shared_ptr<ListSubject<Frame::Range> > cachedFrames;
@@ -129,7 +128,6 @@ namespace djv
             p.volume = ValueSubject<float>::create(1.f);
             p.mute = ValueSubject<bool>::create(false);
             p.threadCount = ValueSubject<size_t>::create(4);
-            p.hasCache = ValueSubject<bool>::create(false);
             p.cacheEnabled = ValueSubject<bool>::create(false);
             p.cacheMax = ValueSubject<int>::create(0);
             p.cachedFrames = ListSubject<Frame::Range>::create();
@@ -500,11 +498,6 @@ namespace djv
             }
         }
 
-        std::shared_ptr<Core::IValueSubject<bool> > Media::observeHasCache() const
-        {
-            return _p->hasCache;
-        }
-
         std::shared_ptr<Core::IValueSubject<bool> > Media::observeCacheEnabled() const
         {
             return _p->cacheEnabled;
@@ -523,7 +516,7 @@ namespace djv
         void Media::setCacheEnabled(bool value)
         {
             DJV_PRIVATE_PTR();
-            if (p.read && p.read->hasCache() && p.cacheEnabled->setIfChanged(value))
+            if (p.read && p.cacheEnabled->setIfChanged(value))
             {
                 p.read->setCacheEnabled(value);
             }
@@ -532,7 +525,7 @@ namespace djv
         void Media::setCacheMax(int value)
         {
             DJV_PRIVATE_PTR();
-            if (p.read && p.read->hasCache() && p.cacheMax->setIfChanged(value))
+            if (p.read && p.cacheMax->setIfChanged(value))
             {
                 p.read->setCacheMax(static_cast<size_t>(value * Memory::gigabyte));
             }
@@ -578,7 +571,6 @@ namespace djv
                 p.read = io->read(p.fileInfo, options);
                 p.read->setThreadCount(p.threadCount->get());
                 p.infoFuture = p.read->getInfo();
-                p.hasCache->setIfChanged(p.read->hasCache());
                 
                 const auto timeout = Time::getMilliseconds(Time::TimerValue::Fast);
                 const Core::FileSystem::FileInfo& fileInfo = p.fileInfo;
@@ -720,7 +712,6 @@ namespace djv
                 if (p.alSource)
                 {
                     alSourceStop(p.alSource);
-                    p.alBytes = 0;
                 }
                 p.playbackTimer->stop();
                 p.realSpeedTimer->stop();
@@ -737,6 +728,8 @@ namespace djv
                 {
                     p.read->seek(p.currentFrame->get());
                 }*/
+                p.alBytes = 0;
+                alSourcei(p.alSource, AL_BYTE_OFFSET, 0);
                 p.frameOffset = p.currentFrame->get();
                 p.startTime = std::chrono::system_clock::now();
                 p.realSpeedTime = p.startTime;
@@ -803,7 +796,6 @@ namespace djv
 
                 Frame::Number frame = Frame::invalid;
                 const auto& speed = p.speed->get();
-                const Frame::Sequence& sequence = p.sequence->get();
                 if (Playback::Forward == playback && p.audioInfo.info.isValid() && p.alSource)
                 {
                     ALint offset = 0;
@@ -840,6 +832,7 @@ namespace djv
                 }
 
                 Frame::Number start = 0;
+                const Frame::Sequence& sequence = p.sequence->get();
                 Frame::Number end = static_cast<Frame::Number>(sequence.getSize()) - 1;
                 if (p.inOutPointsEnabled->get())
                 {

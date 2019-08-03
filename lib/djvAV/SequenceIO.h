@@ -58,12 +58,6 @@ namespace djv
                 bool isRunning() const override;
                 std::future<Info> getInfo() override;
                 void seek(int64_t) override;
-                bool hasCache() const override;
-                bool isCacheEnabled() const override;
-                void setCacheEnabled(bool) override;
-                size_t getCacheMax() const override;
-                void setCacheMax(size_t) override;
-                std::vector<Core::Frame::Range> getCachedFrames() override;
 
             protected:
                 virtual Info _readInfo(const std::string & fileName) = 0;

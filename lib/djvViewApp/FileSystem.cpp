@@ -78,7 +78,6 @@ namespace djv
             std::shared_ptr<ListObserver<Core::FileSystem::FileInfo> > recentFilesObserver;
             std::shared_ptr<ListObserver<Core::FileSystem::FileInfo> > recentFilesObserver2;
             std::shared_ptr<ValueObserver<size_t> > threadCountObserver;
-            std::shared_ptr<ValueObserver<bool> > hasCacheObserver;
             std::shared_ptr<ValueObserver<bool> > cacheEnabledObserver;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
@@ -538,15 +537,6 @@ namespace djv
                 if (media)
                 {
                     auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
-                    p.hasCacheObserver = ValueObserver<bool>::create(
-                        media->observeHasCache(),
-                        [weak](bool value)
-                        {
-                            if (auto system = weak.lock())
-                            {
-                                system->_actionsUpdate();
-                            }
-                        });
                     p.cacheEnabledObserver = ValueObserver<bool>::create(
                         media->observeCacheEnabled(),
                         [weak](bool value)
@@ -559,7 +549,6 @@ namespace djv
                 }
                 else
                 {
-                    p.hasCacheObserver.reset();
                     p.cacheEnabledObserver.reset();
                     _actionsUpdate();
                 }
@@ -591,14 +580,11 @@ namespace djv
             p.actions["Export"]->setEnabled(size);
             p.actions["Next"]->setEnabled(size > 1);
             p.actions["Prev"]->setEnabled(size > 1);
-            bool hasCache = false;
             bool cacheEnabled = false;
             if (auto media = p.currentMedia->get())
             {
-                hasCache = media->observeHasCache()->get();
                 cacheEnabled = media->observeCacheEnabled()->get();
             }
-            p.actions["MemoryCache"]->setEnabled(hasCache);
             p.actions["MemoryCache"]->setChecked(cacheEnabled);
         }
 
