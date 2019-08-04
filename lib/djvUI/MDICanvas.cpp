@@ -310,10 +310,10 @@ namespace djv
                         {
                             float x = Math::clamp(i.second.min.x, g.min.x, g.max.x - widgetMinimumSize.x);
                             float y = Math::clamp(i.second.min.y, g.min.y, g.max.y - widgetMinimumSize.y);
-                            i.second.min.x = g.min.x + x;
-                            i.second.min.y = g.min.y + y;
-                            i.second.max.x = Math::clamp(g.min.x + x + widgetSize.x, g.min.x + x + widgetMinimumSize.x, g.max.x);
-                            i.second.max.y = Math::clamp(g.min.y + y + widgetSize.y, g.min.y + y + widgetMinimumSize.y, g.max.y);
+                            i.second.min.x = x;
+                            i.second.min.y = y;
+                            i.second.max.x = Math::clamp(x + widgetSize.x, x + widgetMinimumSize.x, g.max.x);
+                            i.second.max.y = Math::clamp(y + widgetSize.y, y + widgetMinimumSize.y, g.max.y);
                             widgetGeometry = i.second;
                         }
                         i.first->setGeometry(widgetGeometry);
