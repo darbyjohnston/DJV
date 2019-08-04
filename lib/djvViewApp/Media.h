@@ -146,12 +146,10 @@ namespace djv
             //! \name Cache
             ///@{
 
-            std::shared_ptr<Core::IValueSubject<bool> > observeCacheEnabled() const;
-            std::shared_ptr<Core::IValueSubject<int> > observeCacheMax() const;
             std::shared_ptr<Core::IListSubject<Core::Frame::Range> > observeCachedFrames() const;
 
             void setCacheEnabled(bool);
-            void setCacheMax(int);
+            void setCacheMax(size_t);
 
             ///@}
 

@@ -81,8 +81,9 @@ namespace djv
             MenuData getMenu() const override;
 
         protected:
-            void _actionsUpdate();
             void _mediaInit(const std::shared_ptr<Media>&);
+            void _actionsUpdate();
+            void _cacheUpdate();
             void _textUpdate();
             void _showFileBrowserDialog();
             void _showRecentFilesDialog();

@@ -68,6 +68,8 @@ namespace djv
             std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > closed;
             std::shared_ptr<ListSubject<std::shared_ptr<Media> > > media;
             std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > currentMedia;
+            bool cacheEnabled = false;
+            int cacheMax = 0;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
             std::shared_ptr<UI::FileBrowser::Dialog> fileBrowserDialog;
@@ -79,6 +81,7 @@ namespace djv
             std::shared_ptr<ListObserver<Core::FileSystem::FileInfo> > recentFilesObserver2;
             std::shared_ptr<ValueObserver<size_t> > threadCountObserver;
             std::shared_ptr<ValueObserver<bool> > cacheEnabledObserver;
+            std::shared_ptr<ValueObserver<int> > cacheMaxObserver;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
@@ -390,6 +393,29 @@ namespace djv
                     }
                 });
 
+            p.cacheEnabledObserver = ValueObserver<bool>::create(
+                p.settings->observeCacheEnabled(),
+                [weak](bool value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->cacheEnabled = value;
+                        system->_actionsUpdate();
+                        system->_cacheUpdate();
+                    }
+                });
+
+            p.cacheMaxObserver = ValueObserver<int>::create(
+                p.settings->observeCacheMax(),
+                [weak](int value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->cacheMax = value;
+                        system->_cacheUpdate();
+                    }
+                });
+
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
             auto ioSettings = settingsSystem->getSettingsT<UI::Settings::IO>();
             p.threadCountObserver = ValueObserver<size_t>::create(
@@ -475,6 +501,7 @@ namespace djv
             p.opened->setIfChanged(nullptr);
             setCurrentMedia(media);
             p.recentFilesModel->addFile(fileInfo);
+            _cacheUpdate();
         }
 
         void FileSystem::open(const Core::FileSystem::FileInfo& fileInfo, const glm::vec2& pos)
@@ -490,6 +517,7 @@ namespace djv
             p.opened2->setIfChanged(std::make_pair(nullptr, glm::ivec2(0, 0)));
             setCurrentMedia(media);
             p.recentFilesModel->addFile(fileInfo);
+            _cacheUpdate();
         }
 
         void FileSystem::close(const std::shared_ptr<Media>& media)
@@ -512,6 +540,7 @@ namespace djv
                     current = p.media->getItem(index);
                 }
                 setCurrentMedia(current);
+                _cacheUpdate();
             }
         }
 
@@ -527,32 +556,13 @@ namespace djv
                 p.closed->setIfChanged(nullptr);
             }
             setCurrentMedia(nullptr);
+            _cacheUpdate();
         }
 
         void FileSystem::setCurrentMedia(const std::shared_ptr<Media> & media)
         {
             DJV_PRIVATE_PTR();
-            if (p.currentMedia->setIfChanged(media))
-            {
-                if (media)
-                {
-                    auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
-                    p.cacheEnabledObserver = ValueObserver<bool>::create(
-                        media->observeCacheEnabled(),
-                        [weak](bool value)
-                        {
-                            if (auto system = weak.lock())
-                            {
-                                system->_actionsUpdate();
-                            }
-                        });
-                }
-                else
-                {
-                    p.cacheEnabledObserver.reset();
-                    _actionsUpdate();
-                }
-            }
+            p.currentMedia->setIfChanged(media);
         }
 
         std::map<std::string, std::shared_ptr<UI::Action> > FileSystem::getActions() const
@@ -580,20 +590,23 @@ namespace djv
             p.actions["Export"]->setEnabled(size);
             p.actions["Next"]->setEnabled(size > 1);
             p.actions["Prev"]->setEnabled(size > 1);
-            bool cacheEnabled = false;
-            if (auto media = p.currentMedia->get())
-            {
-                cacheEnabled = media->observeCacheEnabled()->get();
-            }
-            p.actions["MemoryCache"]->setChecked(cacheEnabled);
+            p.actions["MemoryCache"]->setChecked(p.cacheEnabled);
         }
 
-        void FileSystem::_mediaInit(const std::shared_ptr<Media>& value)
+        void FileSystem::_cacheUpdate()
         {
             DJV_PRIVATE_PTR();
-            value->setThreadCount(p.threadCount);
-            value->setCacheEnabled(p.settings->observeCacheEnabled()->get());
-            value->setCacheMax(p.settings->observeCacheMax()->get());
+            const auto& media = p.media->get();
+            const size_t mediaSize = media.size();
+            if (mediaSize)
+            {
+                size_t mediaCacheSize = (p.cacheMax * Memory::gigabyte) / mediaSize;
+                for (const auto& i : media)
+                {
+                    i->setCacheEnabled(p.cacheEnabled);
+                    i->setCacheMax(mediaCacheSize);
+                }
+            }
         }
 
         void FileSystem::_textUpdate()
@@ -629,6 +642,12 @@ namespace djv
             p.actions["Exit"]->setTooltip(_getText(DJV_TEXT("Exit tooltip")));
 
             p.menu->setText(_getText(DJV_TEXT("File")));
+        }
+
+        void FileSystem::_mediaInit(const std::shared_ptr<Media>& value)
+        {
+            DJV_PRIVATE_PTR();
+            value->setThreadCount(p.threadCount);
         }
 
         void FileSystem::_showFileBrowserDialog()

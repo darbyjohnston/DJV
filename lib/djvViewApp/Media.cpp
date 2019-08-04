@@ -76,8 +76,6 @@ namespace djv
             std::shared_ptr<ValueSubject<float> > volume;
             std::shared_ptr<ValueSubject<bool> > mute;
             std::shared_ptr<ValueSubject<size_t> > threadCount;
-            std::shared_ptr<ValueSubject<bool> > cacheEnabled;
-            std::shared_ptr<ValueSubject<int> > cacheMax;
             std::shared_ptr<ListSubject<Frame::Range> > cachedFrames;
 
             std::shared_ptr<ValueSubject<size_t> > videoQueueMax;
@@ -128,8 +126,6 @@ namespace djv
             p.volume = ValueSubject<float>::create(1.f);
             p.mute = ValueSubject<bool>::create(false);
             p.threadCount = ValueSubject<size_t>::create(4);
-            p.cacheEnabled = ValueSubject<bool>::create(false);
-            p.cacheMax = ValueSubject<int>::create(0);
             p.cachedFrames = ListSubject<Frame::Range>::create();
 
             p.videoQueueMax = ValueSubject<size_t>::create();
@@ -498,16 +494,6 @@ namespace djv
             }
         }
 
-        std::shared_ptr<Core::IValueSubject<bool> > Media::observeCacheEnabled() const
-        {
-            return _p->cacheEnabled;
-        }
-
-        std::shared_ptr<Core::IValueSubject<int> > Media::observeCacheMax() const
-        {
-            return _p->cacheMax;
-        }
-
         std::shared_ptr<Core::IListSubject<Frame::Range> > Media::observeCachedFrames() const
         {
             return _p->cachedFrames;
@@ -516,18 +502,18 @@ namespace djv
         void Media::setCacheEnabled(bool value)
         {
             DJV_PRIVATE_PTR();
-            if (p.read && p.cacheEnabled->setIfChanged(value))
+            if (p.read)
             {
                 p.read->setCacheEnabled(value);
             }
         }
 
-        void Media::setCacheMax(int value)
+        void Media::setCacheMax(size_t value)
         {
             DJV_PRIVATE_PTR();
-            if (p.read && p.cacheMax->setIfChanged(value))
+            if (p.read)
             {
-                p.read->setCacheMax(static_cast<size_t>(value * Memory::gigabyte));
+                p.read->setCacheMax(value);
             }
         }
 
@@ -560,8 +546,6 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             auto context = p.context;
-            const bool cacheEnabled = p.cacheEnabled->get();
-            const int cacheMax = p.cacheMax->get();
             try
             {
                 AV::IO::ReadOptions options;
@@ -696,8 +680,6 @@ namespace djv
             }
             if (p.read)
             {
-                p.read->setCacheEnabled(cacheEnabled);
-                p.read->setCacheMax(static_cast<size_t>(cacheMax * Memory::gigabyte));
                 p.read->seek(p.currentFrame->get());
             }
             p.reload->setAlways(true);

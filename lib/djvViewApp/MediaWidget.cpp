@@ -29,6 +29,7 @@
 
 #include <djvViewApp/MediaWidget.h>
 
+#include <djvViewApp/FileSettings.h>
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/ImageSystem.h>
 #include <djvViewApp/ImageView.h>
@@ -49,6 +50,7 @@
 #include <djvUI/MDIWidget.h>
 #include <djvUI/PopupWidget.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/SettingsSystem.h>
 #include <djvUI/StackLayout.h>
 #include <djvUI/ToggleButton.h>
 #include <djvUI/ToolBar.h>
@@ -537,26 +539,22 @@ namespace djv
                 });
 
             p.cacheMaxSlider->setValueCallback(
-                [weak](int value)
+                [context](int value)
                 {
-                    if (auto widget = weak.lock())
+                    auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                    if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
                     {
-                        if (auto media = widget->_p->media)
-                        {
-                            media->setCacheMax(value);
-                        }
+                        fileSettings->setCacheMax(value);
                     }
                 });
 
             p.cacheEnabledButton->setCheckedCallback(
-                [weak](bool value)
+                [context](bool value)
                 {
-                    if (auto widget = weak.lock())
+                    auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                    if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
                     {
-                        if (auto media = widget->_p->media)
-                        {
-                            media->setCacheEnabled(value);
-                        }
+                        fileSettings->setCacheEnabled(value);
                     }
                 });
 
@@ -816,25 +814,29 @@ namespace djv
                     }
                 });
 
-            p.cacheEnabledObserver = ValueObserver<bool>::create(
-                p.media->observeCacheEnabled(),
-                [weak](bool value)
-                {
-                    if (auto widget = weak.lock())
+            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
+            {
+                p.cacheEnabledObserver = ValueObserver<bool>::create(
+                    fileSettings->observeCacheEnabled(),
+                    [weak](bool value)
                     {
-                        widget->_p->cacheEnabledButton->setChecked(value);
-                    }
-                });
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->cacheEnabledButton->setChecked(value);
+                        }
+                    });
 
-            p.cacheMaxObserver = ValueObserver<int>::create(
-                p.media->observeCacheMax(),
-                [weak](int value)
-                {
-                    if (auto widget = weak.lock())
+                p.cacheMaxObserver = ValueObserver<int>::create(
+                    fileSettings->observeCacheMax(),
+                    [weak](int value)
                     {
-                        widget->_p->cacheMaxSlider->setValue(value);
-                    }
-                });
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->cacheMaxSlider->setValue(value);
+                        }
+                    });
+            }
 
             p.cachedFramesObserver = ListObserver<Frame::Range>::create(
                 p.media->observeCachedFrames(),

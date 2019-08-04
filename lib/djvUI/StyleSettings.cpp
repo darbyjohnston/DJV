@@ -131,7 +131,7 @@ namespace djv
                         if (auto settings = weak.lock())
                         {
                             settings->_p->currentLocale = value;
-                            settings->_updateCurrentFont();
+                            settings->_currentFontUpdate();
                         }
                     });
                 }
@@ -145,7 +145,7 @@ namespace djv
                     if (auto style = weak.lock())
                     {
                         style->_p->localeFonts = value;
-                        style->_updateCurrentFont();
+                        style->_currentFontUpdate();
                     }
                 });
             }
@@ -248,7 +248,7 @@ namespace djv
                 return out;
             }
 
-            void Style::_updateCurrentFont()
+            void Style::_currentFontUpdate()
             {
                 DJV_PRIVATE_PTR();
                 std::string font;

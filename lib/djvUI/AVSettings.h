@@ -56,7 +56,7 @@ namespace djv
                 picojson::value save() override;
 
             private:
-                void _updateCurrentFont();
+                void _currentFontUpdate();
 
                 DJV_PRIVATE();
             };
