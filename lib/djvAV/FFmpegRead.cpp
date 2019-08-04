@@ -369,11 +369,12 @@ namespace djv
                                 bool read = false;
                                 int64_t seek = -1;
                                 {
+                                    const std::vector<Frame::Number> cachedFrames = _cache.getKeys();
                                     std::unique_lock<std::mutex> lock(_mutex);
                                     if (p.queueCV.wait_for(
                                         lock,
                                         Time::getMilliseconds(Time::TimerValue::Fast),
-                                        [this, sequenceSize, cacheEnabled]
+                                        [this, sequenceSize, cacheEnabled, &cachedFrames]
                                     {
                                         DJV_PRIVATE_PTR();
                                         const bool video = p.avVideoStream != -1 && (_videoQueue.isFinished() ? false : (_videoQueue.getFrameCount() < _videoQueue.getMax()));
@@ -382,14 +383,14 @@ namespace djv
                                         bool cache = false;
                                         if (cacheEnabled)
                                         {
-                                            const size_t cacheSize = _cache.getSize();
-                                            cache |= cacheSize < _cache.getMax();
+                                            const size_t cacheMax = _cache.getMax();
+                                            cache |= _cache.getSize() < cacheMax;
                                             if (_videoQueue.getFrameCount())
                                             {
                                                 const auto& frame = _videoQueue.getFrame();
-                                                for (const auto& i : _cache.getKeys())
+                                                for (const auto& i : cachedFrames)
                                                 {
-                                                    if (i < frame.frame || i > frame.frame + cacheSize)
+                                                    if (i < frame.frame || i > frame.frame + cacheMax)
                                                     {
                                                         cache = true;
                                                         break;

@@ -256,7 +256,13 @@ namespace djv
             IRead::~IRead()
             {}
 
-            void IRead::seek(Frame::Number)
+            void IRead::setPlayback(Playback value)
+            {
+                std::lock_guard<std::mutex> lock(_mutex);
+                _playback = value;
+            }
+
+            void IRead::seek(int64_t)
             {}
 
             bool IRead::isCacheEnabled() const

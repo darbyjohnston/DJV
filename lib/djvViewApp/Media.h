@@ -167,13 +167,13 @@ namespace djv
             ///@}
 
         private:
-            DJV_PRIVATE();
-
             void _open();
             void _playbackUpdate();
             void _playbackTick();
             void _frameUpdate();
             void _volumeUpdate();
+
+            DJV_PRIVATE();
         };
 
     } // namespace ViewApp

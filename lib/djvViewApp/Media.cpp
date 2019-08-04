@@ -706,6 +706,7 @@ namespace djv
         void Media::_playbackUpdate()
         {
             DJV_PRIVATE_PTR();
+            bool forward = false;
             switch (p.playback->get())
             {
             case Playback::Stop:
@@ -721,19 +722,19 @@ namespace djv
                     p.read->seek(p.currentFrame->get());
                 }
                 break;
-            case Playback::Forward:
+            case Playback::Forward: forward = true;
             case Playback::Reverse:
             {
-                /*if (p.read)
-                {
-                    p.read->seek(p.currentFrame->get());
-                }*/
                 p.alBytes = 0;
                 alSourcei(p.alSource, AL_BYTE_OFFSET, 0);
                 p.frameOffset = p.currentFrame->get();
                 p.startTime = std::chrono::system_clock::now();
                 p.realSpeedTime = p.startTime;
                 p.realSpeedFrameCount = 0;
+                if (p.read)
+                {
+                    p.read->setPlayback(forward ? AV::IO::Playback::Forward : AV::IO::Playback::Reverse);
+                }
                 auto weak = std::weak_ptr<Media>(std::dynamic_pointer_cast<Media>(shared_from_this()));
                 p.playbackTimer->start(
                     Time::getMilliseconds(Time::TimerValue::VeryFast),
@@ -772,7 +773,7 @@ namespace djv
             case Playback::Forward:
             case Playback::Reverse:
             {
-                if (Playback::Forward == playback && p.audioInfo.info.isValid() && p.alSource)
+                if (Playback::Forward == p.playback->get() && p.audioInfo.info.isValid() && p.alSource)
                 {
                     // Don't start OpenAL playing until there are frames in the queue.
                     ALint state = 0;
@@ -796,7 +797,7 @@ namespace djv
 
                 Frame::Number frame = Frame::invalid;
                 const auto& speed = p.speed->get();
-                if (Playback::Forward == playback && p.audioInfo.info.isValid() && p.alSource)
+                if (Playback::Forward == p.playback->get() && p.audioInfo.info.isValid() && p.alSource)
                 {
                     ALint offset = 0;
                     alGetSourcei(p.alSource, AL_BYTE_OFFSET, &offset);
@@ -886,7 +887,7 @@ namespace djv
                     }
                 }
                 p.currentFrame->setIfChanged(frame);
-                if (p.read && Playback::Reverse == playback)
+                if (p.read && Playback::Reverse == p.playback->get() && p.audioInfo.info.isValid() && p.alSource)
                 {
                     p.read->seek(frame);
                 }
@@ -906,7 +907,10 @@ namespace djv
                 {
                     std::lock_guard<std::mutex> lock(p.read->getMutex());
                     auto& queue = p.read->getVideoQueue();
-                    while (queue.hasFrames() && queue.getFrame().frame < p.currentFrame->get())
+                    const bool forward = Playback::Forward == p.playback->get();
+                    while (queue.hasFrames() && forward ?
+                        (queue.getFrame().frame < p.currentFrame->get()) :
+                        (queue.getFrame().frame > p.currentFrame->get()))
                     {
                         auto frame = queue.popFrame();
                         p.realSpeedFrameCount = p.realSpeedFrameCount + 1;

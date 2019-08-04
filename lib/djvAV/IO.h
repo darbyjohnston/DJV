@@ -231,6 +231,13 @@ namespace djv
                 size_t layer = 0;
             };
 
+            //! This enumeration provides the playback direction for caching.
+            enum class Playback
+            {
+                Forward,
+                Reverse
+            };
+
             //! This class provides an interface for reading.
             class IRead : public IIO
             {
@@ -249,6 +256,8 @@ namespace djv
 
                 virtual std::future<Info> getInfo() = 0;
 
+                void setPlayback(Playback);
+
                 //! \param value For video files this value represents the
                 //! frame number, for audio files it represents the audio sample.
                 virtual void seek(int64_t value);
@@ -264,6 +273,7 @@ namespace djv
                 static std::vector<Core::Frame::Range> _getCachedFrames(const MemoryCache& cache);
 
                 ReadOptions _options;
+                Playback _playback = Playback::Forward;
                 bool _cacheEnabled = false;
                 size_t _cacheMax = 0;
                 std::vector<Core::Frame::Range> _cachedFrames;

@@ -68,6 +68,8 @@ namespace djv
                 Core::Frame::Sequence _sequence;
 
             private:
+                bool _hasWork() const;
+                size_t _getQueueCount(size_t threadCount) const;
                 struct Future;
                 std::future<Future> _getFuture(Core::Frame::Number, std::string fileName);
                 size_t _readQueue(size_t count, bool cacheEnabled);

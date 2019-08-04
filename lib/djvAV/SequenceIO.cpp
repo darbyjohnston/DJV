@@ -63,6 +63,7 @@ namespace djv
                 std::promise<Info> infoPromise;
                 std::vector<std::future<Future> > cacheFutures;
                 std::condition_variable queueCV;
+                Playback playback = Playback::Forward;
                 Frame::Number seek = -1;
                 std::thread thread;
                 std::atomic<bool> running;
@@ -153,7 +154,7 @@ namespace djv
                             _cache.setMax(0);
                         }
 
-                        // Check to see if the queue needs to be filled up or a seek occurred.
+                        // Check to see if there is work to be done.
                         size_t queueCount = 0;
                         Frame::Number seek = -1;
                         {
@@ -163,13 +164,16 @@ namespace djv
                                 std::chrono::milliseconds(timeout),
                                 [this]
                                 {
-                                    const bool fillQueue = (_videoQueue.getFrameCount() < _videoQueue.getMax()) && !_videoQueue.isFinished();
-                                    return fillQueue || (_p->seek != -1);
+                                    return _hasWork();
                                 }))
                             {
-                                const size_t queueMax = _videoQueue.getMax() - _videoQueue.getFrameCount();
-                                const size_t frameMax = sequenceSize ? (sequenceSize - static_cast<size_t>(p.frame)) : 1;
-                                queueCount = std::min(std::min(queueMax, threadCount / 2), frameMax);
+                                queueCount = _getQueueCount(threadCount / 2);
+                                if (p.playback != _playback)
+                                {
+                                    p.playback = _playback;
+                                    _videoQueue.setFinished(false);
+                                    _videoQueue.clearFrames();
+                                }
                                 if (p.seek != -1)
                                 {
                                     seek = p.seek;
@@ -179,6 +183,7 @@ namespace djv
                                 }
                             }
                         }
+
                         if (seek != -1)
                         {
                             p.frame = seek;
@@ -241,6 +246,20 @@ namespace djv
                 }
             }
 
+            bool ISequenceRead::_hasWork() const
+            {
+                const bool queue = (_videoQueue.getFrameCount() < _videoQueue.getMax()) && !_videoQueue.isFinished();
+                const bool seek = _p->seek != -1;
+                const bool playback = _p->playback != _playback;
+                return queue || seek || playback;
+            }
+
+            size_t ISequenceRead::_getQueueCount(size_t threadCount) const
+            {
+                const size_t queueMax = _videoQueue.getMax() - _videoQueue.getFrameCount();
+                return std::min(queueMax, threadCount);
+            }
+
             std::future<ISequenceRead::Future> ISequenceRead::_getFuture(Frame::Number i, std::string fileName)
             {
                 return std::async(
@@ -273,12 +292,6 @@ namespace djv
                 std::vector<std::future<Future> > futures;
                 for (size_t i = 0; i < count; ++i)
                 {
-                    /*{
-                        std::stringstream ss;
-                        ss << _fileName << ": read frame " << p.frame;
-                        _logSystem->log("djv::AV::IO::ISequenceRead", ss.str());
-                    }*/
-
                     std::shared_ptr<Image::Image> cachedImage;
                     if (cacheEnabled && _cache.get(p.frame, cachedImage))
                     {
@@ -286,18 +299,42 @@ namespace djv
                     }
                     else
                     {
-                        Frame::Number frameNumber = Frame::invalid;
-                        if (sequenceSize && p.frame >= 0 && p.frame < sequenceSize)
+                        if (sequenceSize)
                         {
-                            frameNumber = _sequence.getFrame(p.frame);
+                            if (p.frame >= 0 && p.frame < sequenceSize)
+                            {
+                                const Frame::Number frameNumber = _sequence.getFrame(p.frame);
+                                const std::string fileName = _fileInfo.getFileName(frameNumber);
+                                futures.push_back(_getFuture(p.frame, fileName));
+                            }
                         }
-                        const std::string fileName = _fileInfo.getFileName(frameNumber);
-                        futures.push_back(_getFuture(p.frame, fileName));
+                        else
+                        {
+                            const std::string fileName = _fileInfo.getFileName();
+                            futures.push_back(_getFuture(p.frame, fileName));
+                        }
                     }
 
                     if (sequenceSize)
                     {
-                        ++p.frame;
+                        switch (p.playback)
+                        {
+                        case Playback::Forward:
+                            ++p.frame;
+                            if (p.frame >= sequenceSize)
+                            {
+                                p.frame = 0;
+                            }
+                            break;
+                        case Playback::Reverse:
+                            --p.frame;
+                            if (p.frame < 0)
+                            {
+                                p.frame = sequenceSize - 1;
+                            }
+                            break;
+                        default: break;
+                        }
                     }
                 }
 
@@ -317,17 +354,19 @@ namespace djv
                 }
 
                 // Add the frames to the queue.
-                for (const auto& i : images)
                 {
                     std::lock_guard<std::mutex> lock(_mutex);
-                    if (_videoQueue.getFrameCount() >= _videoQueue.getMax())
+                    for (const auto& i : images)
                     {
-                        break;
+                        if (_videoQueue.getFrameCount() >= _videoQueue.getMax())
+                        {
+                            break;
+                        }
+                        _videoQueue.addFrame(VideoFrame(i.first, i.second));
                     }
-                    _videoQueue.addFrame(VideoFrame(i.first, i.second));
                 }
 
-                if (Frame::invalid == p.frame || p.frame >= static_cast<Frame::Number>(sequenceSize))
+                if (Frame::invalid == p.frame || p.frame < 0 || p.frame >= static_cast<Frame::Number>(sequenceSize))
                 {
                     std::lock_guard<std::mutex> lock(_mutex);
                     _videoQueue.setFinished(true);
@@ -340,41 +379,58 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
 
-                // Clear cache frames behind the current frame.
-                size_t cacheMax = 0;
+                // Get frames to be added to the cache.
+                Frame::Number frame = Frame::invalid;
                 {
                     std::lock_guard<std::mutex> lock(_mutex);
-                    cacheMax = _videoQueue.getMax();
-                }
-                const auto keys = _cache.getKeys();
-                for (const auto& i : keys)
-                {
-                    if (_cache.getSize() < _cache.getMax())
+                    if (_videoQueue.getFrameCount())
                     {
+                        frame = _videoQueue.getFrame().frame;
+                    }
+                }
+                if (count > 0 && frame != Frame::invalid)
+                {
+                    switch (p.playback)
+                    {
+                    case Playback::Forward:
+                    {
+                        const size_t sequenceSize = _sequence.getSize();
+                        const size_t max = std::min(_cache.getMax(), sequenceSize);
+                        for (Frame::Number i = 0; i < max && p.cacheFutures.size() < count; ++i)
+                        {
+                            if (!_cache.contains(frame))
+                            {
+                                const std::string fileName = _fileInfo.getFileName(_sequence.getFrame(frame));
+                                p.cacheFutures.push_back(_getFuture(frame, fileName));
+                            }
+                            ++frame;
+                            if (frame >= sequenceSize)
+                            {
+                                frame = 0;
+                            }
+                        }
                         break;
                     }
-                    if (i < p.frame - static_cast<Frame::Number>(cacheMax) - 1)
+                    case Playback::Reverse:
                     {
-                        _cache.remove(i);
-                    }
-                }
-
-                // Get frames to be added to the cache.
-                const size_t sequenceSize = _sequence.getSize();
-                if (count > 0 &&
-                    p.cacheFutures.size() < count &&
-                    sequenceSize > 1 &&
-                    _cache.getSize() < sequenceSize &&
-                    _cache.getSize() < _cache.getMax())
-                {
-                    Frame::Number i = p.frame;
-                    for (; i < sequenceSize && p.cacheFutures.size() < count; ++i)
-                    {
-                        if (!_cache.contains(i))
+                        const size_t sequenceSize = _sequence.getSize();
+                        const size_t max = std::min(_cache.getMax(), sequenceSize);
+                        for (Frame::Number i = 0; i < max && p.cacheFutures.size() < count; ++i)
                         {
-                            const std::string fileName = _fileInfo.getFileName(_sequence.getFrame(i));
-                            p.cacheFutures.push_back(_getFuture(i, fileName));
+                            if (!_cache.contains(frame))
+                            {
+                                const std::string fileName = _fileInfo.getFileName(_sequence.getFrame(frame));
+                                p.cacheFutures.push_back(_getFuture(frame, fileName));
+                            }
+                            --frame;
+                            if (frame < 0)
+                            {
+                                frame = sequenceSize - 1;
+                            }
                         }
+                        break;
+                    }
+                    default: break;
                     }
                 }
 
