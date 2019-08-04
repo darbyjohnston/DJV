@@ -399,8 +399,6 @@ namespace djv
                 monitorSize.y = glfwMonitorMode->height;
                 monitorRefresh = glfwMonitorMode->refreshRate;
 
-                glfwSetWindowAttrib(glfwWindow, GLFW_AUTO_ICONIFY, glfwMonitor == glfwGetPrimaryMonitor());
-
                 int x = 0;
                 int y = 0;
                 int w = 0;
@@ -409,6 +407,7 @@ namespace djv
                 glfwGetWindowSize(glfwWindow, &w, &h);
                 windowGeom = BBox2i(x, y, w, h);
 
+                glfwSetWindowAttrib(glfwWindow, GLFW_AUTO_ICONIFY, glfwMonitor == glfwGetPrimaryMonitor());
                 glfwSetWindowMonitor(
                     glfwWindow,
                     glfwMonitor,
@@ -428,6 +427,13 @@ namespace djv
                     windowGeom.w(),
                     windowGeom.h(),
                     0);
+
+                //! \bug Why is it neccessary to resize the window to get the correct geometry
+                //! when restoring full screen from a different monitor?
+                glfwSetWindowSize(
+                    glfwWindow,
+                    static_cast<int>(windowGeom.w()),
+                    static_cast<int>(windowGeom.h()));
             }
         }
 

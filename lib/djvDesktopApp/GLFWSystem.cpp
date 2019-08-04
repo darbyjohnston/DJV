@@ -195,6 +195,17 @@ namespace djv
                 ss << "Cannot create GLFW window.";
                 throw std::runtime_error(ss.str());
             }
+            glm::vec2 contentScale = glm::vec2(1.f, 1.f);
+            glfwGetWindowContentScale(p.glfwWindow, &contentScale.x, &contentScale.y);
+            {
+                std::stringstream ss;
+                ss << "Window content scale: " << contentScale.x << "x" << contentScale.y;
+                _log(ss.str());
+            }
+            glfwSetWindowSize(
+                p.glfwWindow,
+                static_cast<int>(windowSize.x * contentScale.x),
+                static_cast<int>(windowSize.y * contentScale.y));
             {
                 int glMajor = glfwGetWindowAttrib(p.glfwWindow, GLFW_CONTEXT_VERSION_MAJOR);
                 int glMinor = glfwGetWindowAttrib(p.glfwWindow, GLFW_CONTEXT_VERSION_MINOR);

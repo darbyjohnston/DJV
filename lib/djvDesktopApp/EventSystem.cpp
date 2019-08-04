@@ -105,6 +105,11 @@ namespace djv
             p.glfwWindow = glfwWindow;
             p.render = context->getSystemT<AV::Render::Render2D>();
 
+            glm::vec2 contentScale = glm::vec2(1.f, 1.f);
+            glfwGetWindowContentScale(p.glfwWindow, &contentScale.x, &contentScale.y);
+            auto system = context->getSystemT<UI::UISystem>();
+            system->getStyle()->setDPI(glm::vec2(AV::dpiDefault * contentScale.x, AV::dpiDefault * contentScale.y));
+
 #if defined(DJV_OPENGL_ES2)
             auto resourceSystem = context->getSystemT<ResourceSystem>();
             const Core::FileSystem::Path shaderPath = resourceSystem->getPath(Core::FileSystem::ResourcePath::ShadersDirectory);
@@ -394,10 +399,8 @@ namespace djv
         void EventSystem::_contentScaleCallback(GLFWwindow* window, float scaleX, float scaleY)
         {
             Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
-            if (auto system = context->getSystemT<UI::UISystem>())
-            {
-                system->getStyle()->setDPI(glm::vec2(AV::dpiDefault * scaleX, AV::dpiDefault * scaleY));
-            }
+            auto system = context->getSystemT<UI::UISystem>();
+            system->getStyle()->setDPI(glm::vec2(AV::dpiDefault * scaleX, AV::dpiDefault * scaleY));
         }
 
         void EventSystem::_redrawCallback(GLFWwindow * window)
