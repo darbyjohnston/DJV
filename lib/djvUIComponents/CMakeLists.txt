@@ -7,7 +7,6 @@ set(header
     ColorSpaceModel.h
     ColorSpaceSettingsWidget.h
 	DPXSettingsWidget.h
-	FFmpegSettingsWidget.h
     FileBrowser.h
     FileBrowserDialog.h
     FileBrowserItemView.h
@@ -34,7 +33,6 @@ set(source
     ColorSpaceModel.cpp
     ColorSpaceSettingsWidget.cpp
 	DPXSettingsWidget.cpp
-	FFmpegSettingsWidget.cpp
     FileBrowser.cpp
     FileBrowserDialog.cpp
     FileBrowserDrivesWidget.cpp
@@ -60,6 +58,14 @@ set(source
     TooltipsSettingsWidget.cpp
     UIComponentsSystem.cpp)
 
+if(FFMPEG_FOUND)
+    set(header
+        ${header}
+        FFmpegSettingsWidget.h)
+    set(source
+        ${source}
+        FFmpegSettingsWidget.cpp)
+endif()
 if(JPEG_FOUND)
     set(header
         ${header}
