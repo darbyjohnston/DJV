@@ -381,7 +381,7 @@ namespace djv
                                         const bool audio = p.avAudioStream != -1 && (_audioQueue.isFinished() ? false : (_audioQueue.getFrameCount() < _audioQueue.getMax()));
 
                                         bool cache = false;
-                                        if (cacheEnabled)
+                                        if (cacheEnabled && !_videoQueue.isFinished() && !_audioQueue.isFinished())
                                         {
                                             const size_t cacheMax = _cache.getMax();
                                             cache |= _cache.getSize() < cacheMax;
