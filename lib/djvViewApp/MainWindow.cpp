@@ -55,7 +55,6 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/Shortcut.h>
-#include <djvUI/SoloLayout.h>
 #include <djvUI/ToolBar.h>
 #include <djvUI/ToolButton.h>
 
@@ -211,7 +210,6 @@ namespace djv
                 system->setCanvas(p.canvas);
             }
 
-            auto soloLayout = UI::SoloLayout::create(context);
             addChild(backgroundImageWidget);
             addChild(p.mediaCanvas);
             auto vLayout = UI::VerticalLayout::create(context);
