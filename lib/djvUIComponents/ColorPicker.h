@@ -105,7 +105,7 @@ namespace djv
         private:
             DJV_PRIVATE();
 
-            void _colorTypeUpdate();
+            void _widgetUpdate();
             void _colorUpdate();
             void _textUpdate();
         };
@@ -139,7 +139,7 @@ namespace djv
         private:
             DJV_PRIVATE();
 
-            void _colorTypeUpdate();
+            void _widgetUpdate();
             void _colorUpdate();
             void _textUpdate();
         };

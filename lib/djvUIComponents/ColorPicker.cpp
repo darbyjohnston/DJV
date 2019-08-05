@@ -178,8 +178,7 @@ namespace djv
             p.layout = GridLayout::create(context);
             addChild(p.layout);
 
-            _colorTypeUpdate();
-            _colorUpdate();
+            _widgetUpdate();
             _textUpdate();
         }
 
@@ -211,9 +210,12 @@ namespace djv
             p.color = value;
             if (typeUpdate)
             {
-                _colorTypeUpdate();
+                _widgetUpdate();
             }
-            _colorUpdate();
+            else
+            {
+                _colorUpdate();
+            }
             _textUpdate();
         }
 
@@ -239,9 +241,10 @@ namespace djv
             _textUpdate();
         }
 
-        void RGBColorSliders::_colorTypeUpdate()
+        void RGBColorSliders::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
+            
             p.intLabels.clear();
             p.intEdits.clear();
             p.intSliders.clear();
@@ -251,9 +254,10 @@ namespace djv
             p.layout->clearChildren();
             p.intObservers.clear();
             p.floatObservers.clear();
+
+            auto context = getContext();
             const auto type = p.color.getType();
             const size_t channelCount = AV::Image::getChannelCount(type);
-            auto context = getContext();
             for (size_t i = 0; i < channelCount; ++i)
             {
                 if (AV::Image::isIntType(type))
@@ -295,6 +299,9 @@ namespace djv
                     p.floatSliders.push_back(floatSlider);
                 }
             }
+
+            _colorUpdate();
+
             auto weak = std::weak_ptr<RGBColorSliders>(std::dynamic_pointer_cast<RGBColorSliders>(shared_from_this()));
             for (size_t i = 0; i < channelCount; ++i)
             {
@@ -574,8 +581,7 @@ namespace djv
             p.layout = GridLayout::create(context);
             addChild(p.layout);
 
-            _colorTypeUpdate();
-            _colorUpdate();
+            _widgetUpdate();
             _textUpdate();
         }
 
@@ -607,9 +613,12 @@ namespace djv
             p.color = value;
             if (typeUpdate)
             {
-                _colorTypeUpdate();
+                _widgetUpdate();
             }
-            _colorUpdate();
+            else
+            {
+                _colorUpdate();
+            }
             _textUpdate();
         }
 
@@ -635,9 +644,10 @@ namespace djv
             _textUpdate();
         }
 
-        void HSVColorSliders::_colorTypeUpdate()
+        void HSVColorSliders::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
+
             p.intLabels.clear();
             p.intEdits.clear();
             p.intSliders.clear();
@@ -647,6 +657,7 @@ namespace djv
             p.layout->clearChildren();
             p.intObservers.clear();
             p.floatObservers.clear();
+
             const auto type = p.color.getType();
             const size_t channelCount = AV::Image::getChannelCount(type);
             auto context = getContext();
@@ -691,6 +702,9 @@ namespace djv
                     p.floatSliders.push_back(floatSlider);
                 }
             }
+
+            _colorUpdate();
+
             auto weak = std::weak_ptr<HSVColorSliders>(std::dynamic_pointer_cast<HSVColorSliders>(shared_from_this()));
             for (size_t i = 0; i < channelCount; ++i)
             {

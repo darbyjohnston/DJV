@@ -75,9 +75,10 @@ namespace djv
                     auto settingsSystem = context->getSystemT<UI::Settings::System>();
                     auto imageViewSettings = settingsSystem->getSettingsT<ImageViewSettings>();
                     auto colorPickerDialogSystem = context->getSystemT<UI::ColorPickerDialogSystem>();
+                    const auto color = imageViewSettings->observeBackgroundColor()->get();
                     colorPickerDialogSystem->colorPicker(
                         widget->_getText(DJV_TEXT("Color Picker")),
-                        imageViewSettings->observeBackgroundColor()->get(),
+                        color,
                         [context](const AV::Image::Color& value)
                         {
                             auto settingsSystem = context->getSystemT<UI::Settings::System>();
