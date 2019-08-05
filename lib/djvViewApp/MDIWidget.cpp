@@ -60,7 +60,7 @@ namespace djv
 
             p.titleLabel = UI::Label::create(context);
             p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
-            p.titleLabel->setMargin(UI::MetricsRole::Margin);
+            p.titleLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin, UI::MetricsRole::Margin, UI::MetricsRole::None, UI::MetricsRole::None));
 
             p.closeButton = UI::ToolButton::create(context);
             p.closeButton->setIcon("djvIconClose");
@@ -151,11 +151,6 @@ namespace djv
         void MDIWidget::removeChild(const std::shared_ptr<IObject> & value)
         {
             _p->childLayout->removeChild(value);
-        }
-
-        void MDIWidget::clearChildren()
-        {
-            _p->childLayout->clearChildren();
         }
 
         std::map<UI::MDI::Handle, std::vector<Core::BBox2f> > MDIWidget::_getHandles() const

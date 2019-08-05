@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/Widget.h>
+#include <djvUI/MDICanvas.h>
 
 namespace djv
 {
@@ -38,7 +38,7 @@ namespace djv
         class MediaWidget;
 
         //! This class provides a MDI canvas for media widgets.
-        class MediaCanvas : public UI::Widget
+        class MediaCanvas : public UI::MDI::Canvas
         {
             DJV_NON_COPYABLE(MediaCanvas);
 
@@ -54,12 +54,7 @@ namespace djv
             std::shared_ptr<MediaWidget> getActiveWidget() const;
             void setActiveCallback(const std::function<void(const std::shared_ptr<MediaWidget>&)>&);
 
-            void setMaximized(bool);
-
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
-
             void _localeEvent(Core::Event::Locale&) override;
 
         private:

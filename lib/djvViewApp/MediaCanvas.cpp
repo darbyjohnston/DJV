@@ -34,8 +34,6 @@
 #include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/WindowSystem.h>
 
-#include <djvUI/MDICanvas.h>
-
 #include <djvCore/Context.h>
 
 using namespace djv::Core;
@@ -46,7 +44,6 @@ namespace djv
     {
         struct MediaCanvas::Private
         {
-            std::shared_ptr<UI::MDI::Canvas> canvas;
             std::map<std::shared_ptr<Media>, std::shared_ptr<MediaWidget> > mediaWidgets;
             std::function<void(const std::shared_ptr<MediaWidget>&)> activeCallback;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
@@ -57,16 +54,13 @@ namespace djv
 
         void MediaCanvas::_init(Context* context)
         {
-            Widget::_init(context);
+            Canvas::_init(context);
 
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::MediaCanvas");
 
-            p.canvas = UI::MDI::Canvas::create(context);
-            addChild(p.canvas);
-
             auto weak = std::weak_ptr<MediaCanvas>(std::dynamic_pointer_cast<MediaCanvas>(shared_from_this()));
-            p.canvas->setActiveCallback(
+            Canvas::setActiveCallback(
                 [weak, context](const std::shared_ptr<UI::MDI::IWidget> & value)
             {
                 if (auto widget = weak.lock())
@@ -86,7 +80,7 @@ namespace djv
 
             if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
-                p.canvas->setMaximizedCallback(
+                setMaximizedCallback(
                     [windowSystem](bool value)
                 {
                     windowSystem->setMaximized(value);
@@ -118,7 +112,7 @@ namespace djv
                         if (auto widget = weak.lock())
                         {
                             auto mediaWidget = MediaWidget::create(value, context);
-                            widget->_p->canvas->addChild(mediaWidget);
+                            widget->addChild(mediaWidget);
                             widget->_p->mediaWidgets[value] = mediaWidget;
                         }
                     }
@@ -133,8 +127,8 @@ namespace djv
                         if (auto widget = weak.lock())
                         {
                             auto mediaWidget = MediaWidget::create(value.first, context);
-                            widget->_p->canvas->addChild(mediaWidget);
-                            widget->_p->canvas->setWidgetGeometry(mediaWidget, BBox2f(value.second, value.second));
+                            widget->addChild(mediaWidget);
+                            widget->setWidgetGeometry(mediaWidget, BBox2f(value.second, value.second));
                             widget->_p->mediaWidgets[value.first] = mediaWidget;
                         }
                     }
@@ -151,7 +145,7 @@ namespace djv
                             const auto i = widget->_p->mediaWidgets.find(value);
                             if (i != widget->_p->mediaWidgets.end())
                             {
-                                widget->_p->canvas->removeChild(i->second);
+                                widget->removeChild(i->second);
                                 widget->_p->mediaWidgets.erase(i);
                             }
                         }
@@ -176,27 +170,12 @@ namespace djv
 
         std::shared_ptr<MediaWidget> MediaCanvas::getActiveWidget() const
         {
-            return std::dynamic_pointer_cast<MediaWidget>(_p->canvas->getActiveWidget());
+            return std::dynamic_pointer_cast<MediaWidget>(Canvas::getActiveWidget());
         }
 
         void MediaCanvas::setActiveCallback(const std::function<void(const std::shared_ptr<MediaWidget>&)>& value)
         {
             _p->activeCallback = value;
-        }
-
-        void MediaCanvas::setMaximized(bool value)
-        {
-            _p->canvas->setMaximized(value);
-        }
-
-        void MediaCanvas::_preLayoutEvent(Event::PreLayout&)
-        {
-            _setMinimumSize(_p->canvas->getMinimumSize());
-        }
-
-        void MediaCanvas::_layoutEvent(Event::Layout&)
-        {
-            _p->canvas->setGeometry(getGeometry());
         }
 
         void MediaCanvas::_localeEvent(Event::Locale& event)

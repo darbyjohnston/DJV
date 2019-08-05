@@ -562,7 +562,10 @@ namespace djv
         void FileSystem::setCurrentMedia(const std::shared_ptr<Media> & media)
         {
             DJV_PRIVATE_PTR();
-            p.currentMedia->setIfChanged(media);
+            if (p.currentMedia->setIfChanged(media))
+            {
+                _actionsUpdate();
+            }
         }
 
         std::map<std::string, std::shared_ptr<UI::Action> > FileSystem::getActions() const

@@ -52,9 +52,7 @@ namespace djv
         public:
             ~ImageViewSystem() override;
 
-            static std::shared_ptr<ImageViewSystem> create(Core::Context *);
-
-            std::shared_ptr<Core::IValueSubject<ImageViewLock> > observeLock() const;
+            static std::shared_ptr<ImageViewSystem> create(Core::Context*);
 
             ToolActionData getToolAction() const override;
             void setCurrentTool(bool) override;

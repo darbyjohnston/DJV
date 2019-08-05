@@ -77,7 +77,9 @@ namespace djv
             p.menuLayout->setSpacing(MetricsRole::None);
 
             p.widgetLayout[Side::Left] = HorizontalLayout::create(context);
+            p.widgetLayout[Side::Left]->setSpacing(MetricsRole::None);
             p.widgetLayout[Side::Right] = HorizontalLayout::create(context);
+            p.widgetLayout[Side::Right]->setSpacing(MetricsRole::None);
 
             p.layout = HorizontalLayout::create(context);
             p.layout->setSpacing(MetricsRole::None);

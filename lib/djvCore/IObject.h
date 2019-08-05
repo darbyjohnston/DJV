@@ -104,7 +104,7 @@ namespace djv
 
             //! Remove all child objects. The child objects are removed in order
             //! from last to first.
-            virtual void clearChildren();
+            void clearChildren();
 
             //! Move this object to the front of the child list.
             virtual void moveToFront();

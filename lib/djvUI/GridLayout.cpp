@@ -533,19 +533,12 @@ namespace djv
             void Grid::_paintEvent(Event::Paint & event)
             {
                 Widget::_paintEvent(event);
+                DJV_PRIVATE_PTR();
 
                 const auto& style = _getStyle();
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
-
-                const auto bg = getBackgroundRole();
                 auto render = _getRender();
-                if (bg != ColorRole::None)
-                {
-                    render->setFillColor(style->getColor(bg));
-                    render->drawRect(g);
-                }
 
-                DJV_PRIVATE_PTR();
                 std::map<int, BBox2f> rowGeom;
                 const glm::ivec2 gridSize = getGridSize();
                 for (int y = 0; y < gridSize.y; ++y)

@@ -437,13 +437,12 @@ namespace djv
             auto render = _getRender();
 
             auto color = style->getColor(UI::ColorRole::Checked);
-            //color.setF32(color.getF32(3) * .5f, 3);
             render->setFillColor(color);
             for (const auto& i : p.cachedFrames)
             {
                 const float x0 = _frameToPos(i.min);
                 const float x1 = _frameToPos(i.max + 1);
-                render->drawRect(BBox2f(x0, g.max.y - m - b, x1 - x0, b));
+                render->drawRect(BBox2f(x0, g.max.y - m - b * 2.f, x1 - x0, b * 2.f));
             }
 
             const size_t sequenceSize = p.sequence.getSize();

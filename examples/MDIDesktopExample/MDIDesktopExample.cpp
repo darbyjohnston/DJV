@@ -108,7 +108,7 @@ void MDIWidget::_init(const std::string & title, Core::Context * context)
     layout->setStretch(scrollWidget, UI::RowStretch::Expand);
 
     _border = UI::Border::create(context);
-    _border->setMargin(UI::Layout::Margin(UI::MetricsRole::Shadow, UI::MetricsRole::Shadow, UI::MetricsRole::Handle, UI::MetricsRole::Shadow));
+    _border->setMargin(UI::MetricsRole::Shadow);
     _border->addChild(layout);
     addChild(_border);
 }

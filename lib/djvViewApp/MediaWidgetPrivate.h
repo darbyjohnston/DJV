@@ -29,51 +29,44 @@
 
 #pragma once
 
-#include <djvUI/Spacing.h>
+#include <djvViewApp/MediaWidget.h>
+
+#include <djvUI/RowLayout.h>
 #include <djvUI/Widget.h>
 
 namespace djv
 {
-    namespace UI
+    namespace ViewApp
     {
-        namespace Layout
+        class PointerWidget : public UI::Widget
         {
-            //! This class provides a form layout.
-            class Form : public Widget
-            {
-                DJV_NON_COPYABLE(Form);
+            DJV_NON_COPYABLE(PointerWidget);
 
-            protected:
-                void _init(Core::Context *);
-                Form();
+        protected:
+            void _init(Core::Context*);
+            PointerWidget()
+            {}
 
-            public:
-                virtual ~Form();
+        public:
+            static std::shared_ptr<PointerWidget> create(Core::Context*);
 
-                static std::shared_ptr<Form> create(Core::Context *);
+            void setHoverCallback(const std::function<void(PointerData)>&);
+            void setDragCallback(const std::function<void(PointerData)>&);
 
-                void setText(const std::shared_ptr<Widget> &, const std::string &);
+        protected:
+            void _pointerEnterEvent(Core::Event::PointerEnter&) override;
+            void _pointerLeaveEvent(Core::Event::PointerLeave&) override;
+            void _pointerMoveEvent(Core::Event::PointerMove&) override;
+            void _buttonPressEvent(Core::Event::ButtonPress&) override;
+            void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;
 
-                const Spacing & getSpacing() const;
-                void setSpacing(const Spacing &);
+        private:
+            uint32_t _pressedID = Core::Event::InvalidID;
+            std::map<int, bool> _buttons;
+            std::function<void(PointerData)> _hoverCallback;
+            std::function<void(PointerData)> _dragCallback;
+        };
 
-                float getHeightForWidth(float) const override;
-
-                void addChild(const std::shared_ptr<IObject> &) override;
-                void removeChild(const std::shared_ptr<IObject> &) override;
-
-            protected:
-                void _preLayoutEvent(Core::Event::PreLayout &) override;
-                void _layoutEvent(Core::Event::Layout&) override;
-
-            private:
-                DJV_PRIVATE();
-            };
-
-        } // namespace Layout
-
-        typedef Layout::Form FormLayout;
-
-    } // namespace UI
+    } // namespace ViewApp
 } // namespace djv
 

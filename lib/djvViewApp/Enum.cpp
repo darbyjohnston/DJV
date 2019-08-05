@@ -60,6 +60,45 @@ namespace djv
 
     } // namespace ViewApp
 
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        ViewApp,
+        ImageViewLock,
+        DJV_TEXT("None"),
+        DJV_TEXT("Full"),
+        DJV_TEXT("Frame"),
+        DJV_TEXT("Center"));
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        ViewApp,
+        ImageRotate,
+        DJV_TEXT("0"),
+        DJV_TEXT("90"),
+        DJV_TEXT("180"),
+        DJV_TEXT("270"));
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        ViewApp,
+        ImageAspectRatio,
+        DJV_TEXT("Native"),
+        DJV_TEXT("Default"),
+        DJV_TEXT("16:9"),
+        DJV_TEXT("1.85"),
+        DJV_TEXT("2.35"));
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        ViewApp,
+        Playback,
+        DJV_TEXT("Stop"),
+        DJV_TEXT("Forward"),
+        DJV_TEXT("Reverse"));
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        ViewApp,
+        PlaybackMode,
+        DJV_TEXT("Once"),
+        DJV_TEXT("Loop"),
+        DJV_TEXT("PingPong"));
+
     picojson::value toJSON(ViewApp::ImageViewLock value)
     {
         std::stringstream ss;
@@ -119,44 +158,6 @@ namespace djv
             throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
         }
     }
-
-    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        ViewApp,
-        ImageViewLock,
-        DJV_TEXT("None"),
-        DJV_TEXT("Fit"),
-        DJV_TEXT("Center"));
-
-    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        ViewApp,
-        ImageRotate,
-        DJV_TEXT("0"),
-        DJV_TEXT("90"),
-        DJV_TEXT("180"),
-        DJV_TEXT("270"));
-
-    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        ViewApp,
-        ImageAspectRatio,
-        DJV_TEXT("Native"),
-        DJV_TEXT("Default"),
-        DJV_TEXT("16:9"),
-        DJV_TEXT("1.85"),
-        DJV_TEXT("2.35"));
-
-    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        ViewApp,
-        Playback,
-        DJV_TEXT("Stop"),
-        DJV_TEXT("Forward"),
-        DJV_TEXT("Reverse"));
-
-    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        ViewApp,
-        PlaybackMode,
-        DJV_TEXT("Once"),
-        DJV_TEXT("Loop"),
-        DJV_TEXT("PingPong"));
 
 } // namespace djv
 

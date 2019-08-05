@@ -73,6 +73,7 @@ namespace djv
             std::shared_ptr<WindowSettings> settings;
             std::weak_ptr<MediaCanvas> canvas;
             std::shared_ptr<ValueSubject<std::shared_ptr<MediaWidget> > > activeWidget;
+            std::shared_ptr<ValueSubject<bool> > fullScreen;
             std::shared_ptr<ValueSubject<bool> > maximized;
             std::shared_ptr<ValueSubject<float> > fade;
             bool fadeEnabled = true;
@@ -104,7 +105,8 @@ namespace djv
 
             p.settings = WindowSettings::create(context);
             p.activeWidget = ValueSubject<std::shared_ptr<MediaWidget> >::create();
-            p.maximized = ValueSubject<bool>::create();
+            p.fullScreen = ValueSubject<bool>::create(false);
+            p.maximized = ValueSubject<bool>::create(false);
             p.fade = ValueSubject<float>::create(1.f);
             p.pointerMotionTimer = Time::Timer::create(context);
             p.fadeAnimation = Animation::Animation::create(context);
@@ -133,7 +135,7 @@ namespace djv
             {
                 if (auto system = weak.lock())
                 {
-                    system->_p->setFullScreen(value, context);
+                    system->setFullScreen(value);
                 }
             });
 
@@ -239,6 +241,20 @@ namespace djv
         std::shared_ptr<Core::IValueSubject<std::shared_ptr<MediaWidget> > > WindowSystem::observeActiveWidget() const
         {
             return _p->activeWidget;
+        }
+
+        std::shared_ptr<Core::IValueSubject<bool> > WindowSystem::observeFullScreen() const
+        {
+            return _p->fullScreen;
+        }
+
+        void WindowSystem::setFullScreen(bool value)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.fullScreen->setIfChanged(value))
+            {
+                p.setFullScreen(value, getContext());
+            }
         }
 
         std::shared_ptr<Core::IValueSubject<bool> > WindowSystem::observeMaximized() const

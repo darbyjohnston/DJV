@@ -33,6 +33,7 @@ set(header
     Media.h
 	MediaCanvas.h
 	MediaWidget.h
+	MediaWidgetPrivate.h
 	NUXSettings.h
     NUXSettingsWidget.h
 	NUXSystem.h
@@ -86,6 +87,7 @@ set(source
     Media.cpp
 	MediaCanvas.cpp
 	MediaWidget.cpp
+	MediaWidgetPrivate.cpp
 	NUXSettings.cpp
     NUXSettingsWidget.cpp
 	NUXSystem.cpp

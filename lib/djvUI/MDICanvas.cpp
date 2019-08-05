@@ -195,11 +195,11 @@ namespace djv
                 {
                     return BBox2f(
                         glm::vec2(
-                            Math::lerp(value, min.min.x, max.min.x),
-                            Math::lerp(value, min.min.y, max.min.y)),
+                            floorf(Math::lerp(value, min.min.x, max.min.x)),
+                            floorf(Math::lerp(value, min.min.y, max.min.y))),
                         glm::vec2(
-                            Math::lerp(value, min.max.x, max.max.x),
-                            Math::lerp(value, min.max.y, max.max.y)));
+                            ceilf(Math::lerp(value, min.max.x, max.max.x)),
+                            ceilf(Math::lerp(value, min.max.y, max.max.y))));
                 }
 
             } // namespace
@@ -293,11 +293,11 @@ namespace djv
                         {
                             p.widgetInit[i.first] = false;
                             const glm::vec2& widgetDesiredSize = i.first->getDesiredSize();
-                            widgetSize.x = std::max(widgetSize.x, std::max(widgetMinimumSize.x, widgetDesiredSize.x));
-                            widgetSize.y = std::max(widgetSize.y, std::max(widgetMinimumSize.y, widgetDesiredSize.y));
+                            widgetSize.x = ceilf(std::max(widgetSize.x, std::max(widgetMinimumSize.x, widgetDesiredSize.x)));
+                            widgetSize.y = ceilf(std::max(widgetSize.y, std::max(widgetMinimumSize.y, widgetDesiredSize.y)));
                             const glm::vec2 c = g.getCenter();
-                            i.second.min.x = ceilf(c.x - widgetSize.x / 2.f);
-                            i.second.min.y = ceilf(c.y - widgetSize.y / 2.f);
+                            i.second.min.x = floorf(c.x - widgetSize.x / 2.f);
+                            i.second.min.y = floorf(c.y - widgetSize.y / 2.f);
                             i.second.max.x = i.second.min.x + widgetSize.x;
                             i.second.max.y = i.second.min.y + widgetSize.y;
                         }

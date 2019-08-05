@@ -409,11 +409,6 @@ namespace djv
             _p->overlayWidget->removeChild(value);
         }
 
-        void PopupWidget::clearChildren()
-        {
-            _p->overlayWidget->clearChildren();
-        }
-
         void PopupWidget::_preLayoutEvent(Event::PreLayout & event)
         {
             _setMinimumSize(_p->button->getMinimumSize());

@@ -55,8 +55,10 @@ namespace djv
             public:
                 static std::shared_ptr<TooltipLayout> create(Context *);
 
-                void addWidget(const std::shared_ptr<Widget> &, const glm::vec2 & pos);
-                void clearWidgets();
+                void setPos(const std::shared_ptr<Widget> &, const glm::vec2 & pos);
+
+                void addChild(const std::shared_ptr<IObject>&) override;
+                void removeChild(const std::shared_ptr<IObject>&) override;
 
             protected:
                 void _layoutEvent(Core::Event::Layout &) override;
@@ -82,18 +84,33 @@ namespace djv
                 return out;
             }
 
-            void TooltipLayout::addWidget(const std::shared_ptr<Widget> & value, const glm::vec2 & pos)
+            void TooltipLayout::setPos(const std::shared_ptr<Widget> & value, const glm::vec2 & pos)
             {
-                addChild(value);
                 _widgetToPos[value] = pos;
                 _resize();
             }
 
-            void TooltipLayout::clearWidgets()
+            void TooltipLayout::addChild(const std::shared_ptr<IObject>& value)
             {
-                clearChildren();
-                _widgetToPos.clear();
-                _resize();
+                Widget::addChild(value);
+                if (auto widget = std::dynamic_pointer_cast<Widget>(value))
+                {
+                    _widgetToPos[widget] = glm::vec2(0.f, 0.f);
+                    _resize();
+                }
+            }
+
+            void TooltipLayout::removeChild(const std::shared_ptr<IObject>& value)
+            {
+                Widget::removeChild(value);
+                if (auto widget = std::dynamic_pointer_cast<Widget>(value))
+                {
+                    const auto i = _widgetToPos.find(widget);
+                    if (i != _widgetToPos.end())
+                    {
+                        _widgetToPos.erase(i);
+                    }
+                }
             }
 
             void TooltipLayout::_layoutEvent(Event::Layout &)
@@ -172,7 +189,8 @@ namespace djv
             Context * context)
         {
             auto layout = TooltipLayout::create(context);
-            layout->addWidget(widget, pos);
+            layout->addChild(widget);
+            layout->setPos(widget, pos);
 
             DJV_PRIVATE_PTR();
             p.overlay = Layout::Overlay::create(context);

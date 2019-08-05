@@ -39,7 +39,8 @@ namespace djv
         enum class ImageViewLock
         {
             None,
-            Fit,
+            Full,
+            Frame,
             Center,
 
             Count,
@@ -98,6 +99,12 @@ namespace djv
 
     } // namespace ViewApp
 
+    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::ImageViewLock);
+    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::ImageRotate);
+    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::ImageAspectRatio);
+    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::Playback);
+    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::PlaybackMode);
+
     picojson::value toJSON(ViewApp::ImageViewLock);
     picojson::value toJSON(ViewApp::ImageRotate);
     picojson::value toJSON(ViewApp::ImageAspectRatio);
@@ -113,12 +120,6 @@ namespace djv
     //! Throws:
     //! - std::exception
     void fromJSON(const picojson::value&, ViewApp::ImageAspectRatio&);
-
-    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::ImageViewLock);
-    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::ImageRotate);
-    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::ImageAspectRatio);
-    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::Playback);
-    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::PlaybackMode);
 
 } // namespace djv
 

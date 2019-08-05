@@ -203,11 +203,6 @@ namespace djv
             _p->layout->removeChild(value);
         }
 
-        void ToolBar::clearChildren()
-        {
-            _p->layout->clearChildren();
-        }
-
         void ToolBar::_preLayoutEvent(Event::PreLayout & event)
         {
             const auto& style = _getStyle();

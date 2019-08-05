@@ -34,7 +34,9 @@
 #include <djvViewApp/ImageSystem.h>
 #include <djvViewApp/ImageView.h>
 #include <djvViewApp/Media.h>
+#include <djvViewApp/MediaWidgetPrivate.h>
 #include <djvViewApp/TimelineSlider.h>
+#include <djvViewApp/WindowSettings.h>
 #include <djvViewApp/WindowSystem.h>
 
 #include <djvUI/Action.h>
@@ -82,133 +84,6 @@ namespace djv
         {
             return state == other.state && pos == other.pos;
         }
-
-        namespace
-        {
-            class PointerWidget : public UI::Widget
-            {
-                DJV_NON_COPYABLE(PointerWidget);
-
-            protected:
-                void _init(Context*);
-                PointerWidget()
-                {}
-
-            public:
-                static std::shared_ptr<PointerWidget> create(Context*);
-
-                void setHoverCallback(const std::function<void(PointerData)>&);
-                void setDragCallback(const std::function<void(PointerData)>&);
-
-            protected:
-                void _pointerEnterEvent(Event::PointerEnter&) override;
-                void _pointerLeaveEvent(Event::PointerLeave&) override;
-                void _pointerMoveEvent(Event::PointerMove&) override;
-                void _buttonPressEvent(Event::ButtonPress&) override;
-                void _buttonReleaseEvent(Event::ButtonRelease&) override;
-
-            private:
-                uint32_t _pressedID = Event::InvalidID;
-                std::map<int, bool> _buttons;
-                std::function<void(PointerData)> _hoverCallback;
-                std::function<void(PointerData)> _dragCallback;
-            };
-
-            void PointerWidget::_init(Context* context)
-            {
-                Widget::_init(context);
-                setClassName("djv::ViewApp::MediaWidget::PointerWidget");
-            }
-
-            std::shared_ptr<PointerWidget> PointerWidget::create(Context* context)
-            {
-                auto out = std::shared_ptr<PointerWidget>(new PointerWidget);
-                out->_init(context);
-                return out;
-            }
-
-            void PointerWidget::setHoverCallback(const std::function<void(PointerData)>& callback)
-            {
-                _hoverCallback = callback;
-            }
-
-            void PointerWidget::setDragCallback(const std::function<void(PointerData)>& callback)
-            {
-                _dragCallback = callback;
-            }
-
-            void PointerWidget::_pointerEnterEvent(Event::PointerEnter& event)
-            {
-                if (!event.isRejected())
-                {
-                    event.accept();
-                    const auto& pos = event.getPointerInfo().projectedPos;
-                    if (_hoverCallback)
-                    {
-                        _hoverCallback(PointerData(PointerState::Start, pos, std::map<int, bool>()));
-                    }
-                }
-            }
-
-            void PointerWidget::_pointerLeaveEvent(Event::PointerLeave& event)
-            {
-                event.accept();
-                const auto& pos = event.getPointerInfo().projectedPos;
-                if (_hoverCallback)
-                {
-                    _hoverCallback(PointerData(PointerState::End, pos, std::map<int, bool>()));
-                }
-            }
-
-            void PointerWidget::_pointerMoveEvent(Event::PointerMove& event)
-            {
-                event.accept();
-                const auto& pos = event.getPointerInfo().projectedPos;
-                if (_pressedID)
-                {
-                    if (_dragCallback)
-                    {
-                        _dragCallback(PointerData(PointerState::Move, pos, _buttons));
-                    }
-                }
-                else
-                {
-                    if (_hoverCallback)
-                    {
-                        _hoverCallback(PointerData(PointerState::Move, pos, std::map<int, bool>()));
-                    }
-                }
-            }
-
-            void PointerWidget::_buttonPressEvent(Event::ButtonPress& event)
-            {
-                if (_pressedID)
-                    return;
-                event.accept();
-                const auto& info = event.getPointerInfo();
-                _pressedID = info.id;
-                _buttons = info.buttons;
-                if (_dragCallback)
-                {
-                    _dragCallback(PointerData(PointerState::Start, info.pos, info.buttons));
-                }
-            }
-
-            void PointerWidget::_buttonReleaseEvent(Event::ButtonRelease& event)
-            {
-                if (event.getPointerInfo().id != _pressedID)
-                    return;
-                event.accept();
-                const auto& info = event.getPointerInfo();
-                _pressedID = Event::InvalidID;
-                _buttons = std::map<int, bool>();
-                if (_dragCallback)
-                {
-                    _dragCallback(PointerData(PointerState::End, info.pos, info.buttons));
-                }
-            }
-
-        } // namespace
 
         struct MediaWidget::Private
         {
@@ -259,6 +134,7 @@ namespace djv
             std::shared_ptr<UI::GridLayout> playbackLayout;
             std::shared_ptr<UI::StackLayout> layout;
 
+            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<AV::IO::Info> > ioInfoObserver;
             std::shared_ptr<ValueObserver<Frame::Number> > currentFrameObserver;
             std::shared_ptr<ValueObserver<bool> > currentFrameChangeObserver;
@@ -279,15 +155,15 @@ namespace djv
             std::shared_ptr<ValueObserver<float> > fadeObserver;
             std::shared_ptr<ValueObserver<bool> > frameStoreEnabledObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > frameStoreObserver;
-            std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
         };
 
         void MediaWidget::_init(const std::shared_ptr<Media>& media, Context* context)
         {
             IWidget::_init(context);
-            setClassName("djv::ViewApp::MediaWidget");
 
             DJV_PRIVATE_PTR();
+            setClassName("djv::ViewApp::MediaWidget");
+
             p.hover = ValueSubject<PointerData>::create();
             p.drag = ValueSubject<PointerData>::create();
 
@@ -313,7 +189,7 @@ namespace djv
             p.titleLabel = UI::Label::create(context);
             p.titleLabel->setText(media->getFileInfo().getFileName(Frame::invalid, false));
             p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
-            p.titleLabel->setMargin(UI::MetricsRole::Margin);
+            p.titleLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin, UI::MetricsRole::Margin, UI::MetricsRole::None, UI::MetricsRole::None));
             p.titleLabel->setTooltip(media->getFileInfo());
 
             p.maximizeButton = UI::ToolButton::create(context);
@@ -326,7 +202,6 @@ namespace djv
 
             p.titleBar = UI::HorizontalLayout::create(context);
             p.titleBar->setBackgroundRole(UI::ColorRole::OverlayLight);
-            p.titleBar->setSpacing(UI::MetricsRole::None);
             p.titleBar->addChild(p.titleLabel);
             p.titleBar->setStretch(p.titleLabel, UI::RowStretch::Expand);
             p.titleBar->addChild(p.maximizeButton);
@@ -405,8 +280,8 @@ namespace djv
             toolbar->addAction(p.actions["OutPoint"]);
 
             p.playbackLayout = UI::GridLayout::create(context);
-            p.playbackLayout->setSpacing(UI::MetricsRole::None);
             p.playbackLayout->setBackgroundRole(UI::ColorRole::OverlayLight);
+            p.playbackLayout->setSpacing(UI::MetricsRole::None);
             p.playbackLayout->addChild(toolbar);
             p.playbackLayout->setGridPos(toolbar, 0, 0);
             p.playbackLayout->addChild(p.timelineSlider);
@@ -430,12 +305,14 @@ namespace djv
             p.playbackLayout->setGridPos(p.memoryCachePopupWidget, 2, 1);
 
             p.layout = UI::StackLayout::create(context);
-            p.layout->addChild(p.imageView);
+            auto stackLayout = UI::StackLayout::create(context);
+            stackLayout->setBackgroundRole(UI::ColorRole::OverlayLight);
+            stackLayout->addChild(p.imageView);
+            stackLayout->addChild(p.pointerWidget);
+            p.layout->addChild(stackLayout);
             vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addChild(p.titleBar);
-            vLayout->addChild(p.pointerWidget);
-            vLayout->setStretch(p.pointerWidget, UI::RowStretch::Expand);
+            vLayout->addExpander();
             vLayout->addChild(p.playbackLayout);
             p.layout->addChild(vLayout);
             addChild(p.layout);
@@ -948,16 +825,17 @@ namespace djv
             const glm::vec2& minimumSize = p.layout->getMinimumSize();
             _setMinimumSize(minimumSize + sh * 2.f);
 
-            glm::vec2 desiredSize = minimumSize * 2.f;
+            glm::vec2 imageSize = p.imageView->getMinimumSize();
+            imageSize.x = std::max(imageSize.x * 2.f, minimumSize.x);
             if (p.ioInfo.video.size())
             {
                 const float aspectRatio = p.ioInfo.video[0].info.getAspectRatio();
                 if (aspectRatio > 0.f)
                 {
-                    desiredSize.y = std::max(desiredSize.x / aspectRatio, minimumSize.y);
+                    imageSize.y = imageSize.x / aspectRatio;
                 }
             }
-            _setDesiredSize(desiredSize + sh * 2.f);
+            _setDesiredSize(imageSize + sh * 2.f);
         }
 
         void MediaWidget::_layoutEvent(Event::Layout&)
@@ -965,7 +843,18 @@ namespace djv
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const float sh = style->getMetric(UI::MetricsRole::Shadow);
-            p.layout->setGeometry(getGeometry().margin(-sh));
+            const BBox2f g = getGeometry().margin(-sh);
+            p.layout->setGeometry(g);
+            const glm::vec2 titleBarSize = p.titleBar->getMinimumSize();
+            const glm::vec2 playbackSize = p.playbackLayout->isVisible() ? p.playbackLayout->getMinimumSize() : glm::vec2(0.f, 0.f);
+            const BBox2f imageFrame = BBox2f(
+                glm::vec2(
+                    g.min.x,
+                    g.min.y + titleBarSize.y),
+                glm::vec2(
+                    g.max.x,
+                    g.max.y - playbackSize.y));
+            p.imageView->setImageFrame(imageFrame);
         }
 
         void MediaWidget::_localeEvent(Event::Locale&)
@@ -1027,9 +916,7 @@ namespace djv
             p.durationLabel->setText(avSystem->getLabel(p.sequence.getSize(), p.defaultSpeed));
             p.durationLabel->setEnabled(p.media.get());
 
-            p.timelineSlider->setEnabled(p.media.get());
-
-            p.playbackLayout->setVisible(p.sequence.getSize() > 0);
+            p.playbackLayout->setVisible(p.sequence.getSize() > 1);
 
             p.audioPopupWidget->setEnabled(p.media.get());
             p.memoryCachePopupWidget->setEnabled(p.media.get());

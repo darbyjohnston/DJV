@@ -112,24 +112,36 @@ namespace djv
             p.actions["ZoomOut"]->setIcon("djvIconZoomOut");
             p.actions["ZoomOut"]->addShortcut(GLFW_KEY_MINUS);
             p.actions["ZoomOut"]->addShortcut(GLFW_KEY_KP_SUBTRACT);
-            p.actions["Fit"] = UI::Action::create();
-            p.actions["Fit"]->setIcon("djvIconZoomFit");
-            p.actions["Fit"]->addShortcut(GLFW_KEY_BACKSPACE);
-            p.actions["Fit"]->addShortcut(GLFW_KEY_KP_0);
+            p.actions["ZoomReset"] = UI::Action::create();
+            p.actions["ZoomReset"]->addShortcut(GLFW_KEY_0);
+            p.actions["ZoomReset"]->addShortcut(GLFW_KEY_KP_0);
+            p.actions["Full"] = UI::Action::create();
+            p.actions["Full"]->setIcon("djvIconViewFull");
+            p.actions["Full"]->addShortcut(GLFW_KEY_BACKSPACE);
+            p.actions["Full"]->addShortcut(GLFW_KEY_KP_MULTIPLY);
+            p.actions["Frame"] = UI::Action::create();
+            p.actions["Frame"]->setIcon("djvIconViewFrame");
+            p.actions["Frame"]->addShortcut(GLFW_KEY_PERIOD);
+            p.actions["Frame"]->addShortcut(GLFW_KEY_KP_DECIMAL);
             p.actions["Center"] = UI::Action::create();
-            p.actions["Center"]->setIcon("djvIconZoomCenter");
+            p.actions["Center"]->setIcon("djvIconViewCenter");
             p.actions["Center"]->addShortcut(GLFW_KEY_BACKSLASH);
             p.actions["Center"]->addShortcut(GLFW_KEY_KP_5);
-            p.actions["LockFit"] = UI::Action::create();
-            p.actions["LockFit"]->setIcon("djvIconZoomFit");
-            p.actions["LockFit"]->addShortcut(GLFW_KEY_BACKSPACE, GLFW_MOD_SHIFT);
-            p.actions["LockFit"]->addShortcut(GLFW_KEY_KP_0, GLFW_MOD_SHIFT);
+            p.actions["LockFull"] = UI::Action::create();
+            p.actions["LockFull"]->setIcon("djvIconViewFull");
+            p.actions["LockFull"]->addShortcut(GLFW_KEY_BACKSPACE, GLFW_MOD_SHIFT);
+            p.actions["LockFull"]->addShortcut(GLFW_KEY_KP_MULTIPLY, GLFW_MOD_SHIFT);
+            p.actions["LockFrame"] = UI::Action::create();
+            p.actions["LockFrame"]->setIcon("djvIconViewFrame");
+            p.actions["LockFrame"]->addShortcut(GLFW_KEY_PERIOD, GLFW_MOD_SHIFT);
+            p.actions["LockFrame"]->addShortcut(GLFW_KEY_KP_DECIMAL, GLFW_MOD_SHIFT);
             p.actions["LockCenter"] = UI::Action::create();
-            p.actions["LockCenter"]->setIcon("djvIconZoomCenter");
+            p.actions["LockCenter"]->setIcon("djvIconViewCenter");
             p.actions["LockCenter"]->addShortcut(GLFW_KEY_BACKSLASH, GLFW_MOD_SHIFT);
             p.actions["LockCenter"]->addShortcut(GLFW_KEY_KP_5, GLFW_MOD_SHIFT);
             p.lockActionGroup = UI::ActionGroup::create(UI::ButtonType::Exclusive);
-            p.lockActionGroup->addAction(p.actions["LockFit"]);
+            p.lockActionGroup->addAction(p.actions["LockFull"]);
+            p.lockActionGroup->addAction(p.actions["LockFrame"]);
             p.lockActionGroup->addAction(p.actions["LockCenter"]);
             //! \todo Implement me!
             p.actions["Grid"] = UI::Action::create();
@@ -147,10 +159,13 @@ namespace djv
             p.menu->addSeparator();
             p.menu->addAction(p.actions["ZoomIn"]);
             p.menu->addAction(p.actions["ZoomOut"]);
+            p.menu->addAction(p.actions["ZoomReset"]);
             p.menu->addSeparator();
-            p.menu->addAction(p.actions["Fit"]);
-            p.menu->addAction(p.actions["LockFit"]);
+            p.menu->addAction(p.actions["Full"]);
+            p.menu->addAction(p.actions["Frame"]);
             p.menu->addAction(p.actions["Center"]);
+            p.menu->addAction(p.actions["LockFull"]);
+            p.menu->addAction(p.actions["LockFrame"]);
             p.menu->addAction(p.actions["LockCenter"]);
             p.menu->addSeparator();
             p.menu->addAction(p.actions["Grid"]);
@@ -308,8 +323,22 @@ namespace djv
                     }
                 });
 
-            p.actionObservers["Fit"] = ValueObserver<bool>::create(
-                p.actions["Fit"]->observeClicked(),
+            p.actionObservers["ZoomReset"] = ValueObserver<bool>::create(
+                p.actions["ZoomReset"]->observeClicked(),
+                [weak](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            system->_p->settings->setLock(ImageViewLock::None);
+                            system->_zoomImage(1.f);
+                        }
+                    }
+                });
+
+            p.actionObservers["Full"] = ValueObserver<bool>::create(
+                p.actions["Full"]->observeClicked(),
                 [weak](bool value)
                 {
                     if (value)
@@ -320,7 +349,25 @@ namespace djv
                             if (auto widget = system->_p->activeWidget)
                             {
                                 auto imageView = widget->getImageView();
-                                imageView->imageFit();
+                                imageView->imageFull();
+                            }
+                        }
+                    }
+                });
+
+            p.actionObservers["Frame"] = ValueObserver<bool>::create(
+                p.actions["Frame"]->observeClicked(),
+                [weak](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            system->_p->settings->setLock(ImageViewLock::None);
+                            if (auto widget = system->_p->activeWidget)
+                            {
+                                auto imageView = widget->getImageView();
+                                imageView->imageFrame();
                             }
                         }
                     }
@@ -396,8 +443,8 @@ namespace djv
                             {
                                 system->_p->hoverObserver.reset();
                                 system->_p->dragObserver.reset();
-                                system->_actionsUpdate();
                             }
+                            system->_actionsUpdate();
                         }
                     });
             }
@@ -410,8 +457,9 @@ namespace djv
                         ImageViewLock lock = ImageViewLock::None;
                         switch (index)
                         {
-                        case 0: lock = ImageViewLock::Fit; break;
-                        case 1: lock = ImageViewLock::Center; break;
+                        case 0: lock = ImageViewLock::Full;   break;
+                        case 1: lock = ImageViewLock::Frame;  break;
+                        case 2: lock = ImageViewLock::Center; break;
                         }
                         system->_p->settings->setLock(lock);
                     }
@@ -429,11 +477,14 @@ namespace djv
                         case ImageViewLock::None:
                             system->_p->lockActionGroup->setChecked(-1);
                             break;
-                        case ImageViewLock::Fit:
+                        case ImageViewLock::Full:
                             system->_p->lockActionGroup->setChecked(0);
                             break;
-                        case ImageViewLock::Center:
+                        case ImageViewLock::Frame:
                             system->_p->lockActionGroup->setChecked(1);
+                            break;
+                        case ImageViewLock::Center:
+                            system->_p->lockActionGroup->setChecked(2);
                             break;
                         default: break;
                         }
@@ -531,8 +582,7 @@ namespace djv
         void ImageViewSystem::_actionsUpdate()
         {
             DJV_PRIVATE_PTR();
-            //! \todo Whys the activeWidget broken?
-            const bool activeWidget = true; //p.activeWidget.get();
+            const bool activeWidget = p.activeWidget.get();
             p.actions["Left"]->setEnabled(activeWidget);
             p.actions["Right"]->setEnabled(activeWidget);
             p.actions["Up"]->setEnabled(activeWidget);
@@ -543,8 +593,13 @@ namespace djv
             p.actions["SW"]->setEnabled(activeWidget);
             p.actions["ZoomIn"]->setEnabled(activeWidget);
             p.actions["ZoomOut"]->setEnabled(activeWidget);
-            p.actions["Fit"]->setEnabled(activeWidget);
+            p.actions["ZoomReset"]->setEnabled(activeWidget);
+            p.actions["Full"]->setEnabled(activeWidget);
+            p.actions["Frame"]->setEnabled(activeWidget);
             p.actions["Center"]->setEnabled(activeWidget);
+            p.actions["LockFull"]->setEnabled(activeWidget);
+            p.actions["LockFrame"]->setEnabled(activeWidget);
+            p.actions["LockCenter"]->setEnabled(activeWidget);
         }
 
         void ImageViewSystem::_textUpdate()
@@ -572,14 +627,20 @@ namespace djv
             p.actions["ZoomIn"]->setTooltip(_getText(DJV_TEXT("Zoom in tooltip")));
             p.actions["ZoomOut"]->setText(_getText(DJV_TEXT("Zoom Out")));
             p.actions["ZoomOut"]->setTooltip(_getText(DJV_TEXT("Zoom out tooltip")));
-            p.actions["Fit"]->setText(_getText(DJV_TEXT("Fit To Image")));
-            p.actions["Fit"]->setTooltip(_getText(DJV_TEXT("Fit to image tooltip")));
+            p.actions["ZoomReset"]->setText(_getText(DJV_TEXT("Zoom Reset")));
+            p.actions["ZoomReset"]->setTooltip(_getText(DJV_TEXT("Zoom reset tooltip")));
+            p.actions["Full"]->setText(_getText(DJV_TEXT("Full")));
+            p.actions["Full"]->setTooltip(_getText(DJV_TEXT("Full view tooltip")));
+            p.actions["Frame"]->setText(_getText(DJV_TEXT("Frame")));
+            p.actions["Frame"]->setTooltip(_getText(DJV_TEXT("Frame view tooltip")));
             p.actions["Center"]->setText(_getText(DJV_TEXT("Center")));
-            p.actions["Center"]->setTooltip(_getText(DJV_TEXT("Center image tooltip")));
-            p.actions["LockFit"]->setText(_getText(DJV_TEXT("Lock Fit To Image")));
-            p.actions["LockFit"]->setTooltip(_getText(DJV_TEXT("Lock fit to image tooltip")));
+            p.actions["Center"]->setTooltip(_getText(DJV_TEXT("Center view tooltip")));
+            p.actions["LockFull"]->setText(_getText(DJV_TEXT("Lock Full")));
+            p.actions["LockFull"]->setTooltip(_getText(DJV_TEXT("Lock full view tooltip")));
+            p.actions["LockFrame"]->setText(_getText(DJV_TEXT("Lock Frame")));
+            p.actions["LockFrame"]->setTooltip(_getText(DJV_TEXT("Lock frame view tooltip")));
             p.actions["LockCenter"]->setText(_getText(DJV_TEXT("Lock Center")));
-            p.actions["LockCenter"]->setTooltip(_getText(DJV_TEXT("Lock center image tooltip")));
+            p.actions["LockCenter"]->setTooltip(_getText(DJV_TEXT("Lock center view tooltip")));
             p.actions["Grid"]->setText(_getText(DJV_TEXT("Grid")));
             p.actions["Grid"]->setTooltip(_getText(DJV_TEXT("Grid tooltip")));
             p.actions["HUD"]->setText(_getText(DJV_TEXT("HUD")));

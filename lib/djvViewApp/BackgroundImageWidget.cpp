@@ -109,7 +109,7 @@ namespace djv
                             {
                                 widget->_p->image.reset();
                                 auto logSystem = context->getSystemT<LogSystem>();
-                                logSystem->log("djv::ViewApp::MainWindow", e.what());
+                                logSystem->log("djv::ViewApp::BackgroundImageWidget", e.what());
                             }
                         }
                     });

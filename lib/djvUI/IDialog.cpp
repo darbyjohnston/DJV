@@ -226,11 +226,6 @@ namespace djv
             _p->childLayout->removeChild(value);
         }
 
-        void IDialog::clearChildren()
-        {
-            _p->childLayout->clearChildren();
-        }
-
         void IDialog::_doCloseCallback()
         {
             if (_p->closeCallback)

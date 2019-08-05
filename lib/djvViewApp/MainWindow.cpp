@@ -38,6 +38,7 @@
 #include <djvViewApp/MDIWidget.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaCanvas.h>
+#include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/SettingsDialog.h>
 #include <djvViewApp/SettingsSystem.h>
 #include <djvViewApp/WindowSystem.h>
@@ -55,6 +56,7 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/Shortcut.h>
+#include <djvUI/StackLayout.h>
 #include <djvUI/ToolBar.h>
 #include <djvUI/ToolButton.h>
 
@@ -80,6 +82,7 @@ namespace djv
             std::shared_ptr<UI::MenuBar> menuBar;
             std::shared_ptr<MediaCanvas> mediaCanvas;
             std::shared_ptr<UI::MDI::Canvas> canvas;
+            std::shared_ptr<UI::StackLayout> layout;
             std::shared_ptr<ValueObserver<bool> > closeToolActionObserver;
             std::shared_ptr<ListObserver<std::shared_ptr<Media> > > mediaObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
@@ -124,6 +127,32 @@ namespace djv
             p.mediaButton->setPopupIcon("djvIconPopupMenu");
             p.mediaButton->setEnabled(false);
 
+            auto maximizedButton = UI::ActionButton::create(context);
+            maximizedButton->setShowText(false);
+            maximizedButton->setShowShortcuts(false);
+            auto windowSystem = context->getSystemT<WindowSystem>();
+            if (windowSystem)
+            {
+                maximizedButton->addAction(windowSystem->getActions()["Maximized"]);
+            }
+
+            auto viewLockFullButton = UI::ActionButton::create(context);
+            viewLockFullButton->setShowText(false);
+            viewLockFullButton->setShowShortcuts(false);
+            auto viewLockFrameButton = UI::ActionButton::create(context);
+            viewLockFrameButton->setShowText(false);
+            viewLockFrameButton->setShowShortcuts(false);
+            auto viewLockCenterButton = UI::ActionButton::create(context);
+            viewLockCenterButton->setShowText(false);
+            viewLockCenterButton->setShowShortcuts(false);
+            auto imageViewSystem = context->getSystemT<ImageViewSystem>();
+            if (imageViewSystem)
+            {
+                viewLockFullButton->addAction(imageViewSystem->getActions()["LockFull"]);
+                viewLockFrameButton->addAction(imageViewSystem->getActions()["LockFrame"]);
+                viewLockCenterButton->addAction(imageViewSystem->getActions()["LockCenter"]);
+            }
+
             std::map<std::string, std::shared_ptr<UI::ActionButton> > toolButtons;
             for (const auto& i : context->getSystemsT<IToolSystem>())
             {
@@ -133,31 +162,6 @@ namespace djv
                 auto data = i->getToolAction();
                 button->addAction(data.action);
                 toolButtons[data.sortKey] = button;
-            }
-
-            auto viewLockFitButton = UI::ActionButton::create(context);
-            viewLockFitButton->setShowText(false);
-            viewLockFitButton->setShowShortcuts(false);
-            auto imageViewSystem = context->getSystemT<ImageViewSystem>();
-            if (imageViewSystem)
-            {
-                viewLockFitButton->addAction(imageViewSystem->getActions()["LockFit"]);
-            }
-            auto viewLockCenterButton = UI::ActionButton::create(context);
-            viewLockCenterButton->setShowText(false);
-            viewLockCenterButton->setShowShortcuts(false);
-            if (imageViewSystem)
-            {
-                viewLockCenterButton->addAction(imageViewSystem->getActions()["LockCenter"]);
-            }
-
-            auto maximizedButton = UI::ActionButton::create(context);
-            maximizedButton->setShowText(false);
-            maximizedButton->setShowShortcuts(false);
-            auto windowSystem = context->getSystemT<WindowSystem>();
-            if (windowSystem)
-            {
-                maximizedButton->addAction(windowSystem->getActions()["Maximized"]);
             }
 
             p.autoHideButton = UI::ToolButton::create(context);
@@ -178,7 +182,16 @@ namespace djv
             p.menuBar->addChild(p.mediaButton);
             p.menuBar->setStretch(p.mediaButton, UI::RowStretch::Expand, UI::Side::Right);
             p.menuBar->addSeparator(UI::Side::Right);
+            p.menuBar->addChild(maximizedButton);
+            p.menuBar->addSeparator(UI::Side::Right);
             auto hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setSpacing(UI::MetricsRole::None);
+            hLayout->addChild(viewLockFullButton);
+            hLayout->addChild(viewLockFrameButton);
+            hLayout->addChild(viewLockCenterButton);
+            p.menuBar->addChild(hLayout);
+            p.menuBar->addSeparator(UI::Side::Right);
+            hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::MetricsRole::None);
             for (const auto& i : toolButtons)
             {
@@ -186,19 +199,9 @@ namespace djv
             }
             p.menuBar->addChild(hLayout);
             p.menuBar->addSeparator(UI::Side::Right);
-            hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::MetricsRole::None);
-            hLayout->addChild(viewLockFitButton);
-            hLayout->addChild(viewLockCenterButton);
-            p.menuBar->addChild(hLayout);
+            p.menuBar->addChild(p.autoHideButton);
             p.menuBar->addSeparator(UI::Side::Right);
-            p.menuBar->addChild(maximizedButton);
-            p.menuBar->addSeparator(UI::Side::Right);
-            hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::MetricsRole::None);
-            hLayout->addChild(p.autoHideButton);
-            hLayout->addChild(p.settingsButton);
-            p.menuBar->addChild(hLayout);
+            p.menuBar->addChild(p.settingsButton);
 
             auto backgroundImageWidget = BackgroundImageWidget::create(context);
 
@@ -210,53 +213,57 @@ namespace djv
                 system->setCanvas(p.canvas);
             }
 
-            addChild(backgroundImageWidget);
-            addChild(p.mediaCanvas);
+            p.layout = UI::StackLayout::create(context);
+            auto stackLayout = UI::StackLayout::create(context);
+            stackLayout->addChild(backgroundImageWidget);
+            stackLayout->addChild(p.mediaCanvas);
+            stackLayout->addChild(p.canvas);
+            p.layout->addChild(stackLayout);
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addChild(p.menuBar);
             vLayout->addExpander();
-            addChild(vLayout);
-            addChild(p.canvas);
+            p.layout->addChild(vLayout);
+            addChild(p.layout);
 
             auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
             p.mediaActionGroup->setRadioCallback(
                 [weak, context](int value)
-            {
-                if (auto widget = weak.lock())
                 {
-                    if (value >= 0 && value < static_cast<int>(widget->_p->media.size()))
+                    if (auto widget = weak.lock())
                     {
-                        if (auto fileSystem = context->getSystemT<FileSystem>())
+                        if (value >= 0 && value < static_cast<int>(widget->_p->media.size()))
                         {
-                            fileSystem->setCurrentMedia(widget->_p->media[value]);
+                            if (auto fileSystem = context->getSystemT<FileSystem>())
+                            {
+                                fileSystem->setCurrentMedia(widget->_p->media[value]);
+                            }
                         }
+                        widget->_p->mediaMenu->close();
                     }
-                    widget->_p->mediaMenu->close();
-                }
-            });
+                });
 
             p.mediaMenu->setCloseCallback(
                 [weak]
-            {
-                if (auto widget = weak.lock())
                 {
-                    widget->_p->mediaButton->setChecked(false);
-                }
-            });
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->mediaButton->setChecked(false);
+                    }
+                });
 
             p.mediaButton->setCheckedCallback(
                 [weak](bool value)
-            {
-                if (auto widget = weak.lock())
                 {
-                    widget->_p->mediaMenu->close();
-                    if (value)
+                    if (auto widget = weak.lock())
                     {
-                        widget->_p->mediaMenu->popup(widget->_p->mediaButton);
+                        widget->_p->mediaMenu->close();
+                        if (value)
+                        {
+                            widget->_p->mediaMenu->popup(widget->_p->mediaButton);
+                        }
                     }
-                }
-            });
+                });
 
             p.autoHideButton->setCheckedCallback(
                 [weak, context](bool value)
@@ -344,12 +351,12 @@ namespace djv
                 p.maximizedObserver = ValueObserver<bool>::create(
                     windowSystem->observeMaximized(),
                     [weak](bool value)
-                {
-                    if (auto widget = weak.lock())
                     {
-                        widget->_p->mediaCanvas->setMaximized(value);
-                    }
-                });
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->mediaCanvas->setMaximized(value);
+                        }
+                    });
 
                 p.fadeObserver = ValueObserver<float>::create(
                     windowSystem->observeFade(),

@@ -62,6 +62,7 @@ namespace djv
             std::shared_ptr<ValueSubject<ImageRotate> > imageRotate;
             std::shared_ptr<ValueSubject<ImageAspectRatio> > imageAspectRatio;
             ImageViewLock lock = ImageViewLock::None;
+            BBox2f lockFrame = BBox2f(0.f, 0.f, 0.f, 0.f);
             AV::Image::Color backgroundColor = AV::Image::Color(0.f, 0.f, 0.f);
             glm::vec2 pressedImagePos = glm::vec2(0.f, 0.f);
             bool viewInit = true;
@@ -267,7 +268,7 @@ namespace djv
             }
         }
 
-        void ImageView::imageFit()
+        void ImageView::imageFull()
         {
             DJV_PRIVATE_PTR();
             if (p.image)
@@ -285,6 +286,33 @@ namespace djv
                     glm::vec2(
                         g.w() / 2.f - c.x * zoom,
                         g.h() / 2.f - c.y * zoom),
+                    zoom);
+            }
+        }
+
+        void ImageView::setImageFrame(const BBox2f& value)
+        {
+            _p->lockFrame = value;
+        }
+
+        void ImageView::imageFrame()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.image)
+            {
+                const BBox2f& g = getGeometry();
+                const auto pts = _getXFormPoints();
+                const glm::vec2 c = _getCenter(pts);
+                const BBox2f bbox = _getBBox(pts);
+                float zoom = p.lockFrame.w() / static_cast<float>(bbox.w());
+                if (zoom * bbox.h() > p.lockFrame.h())
+                {
+                    zoom = p.lockFrame.h() / static_cast<float>(bbox.h());
+                }
+                setImagePosAndZoom(
+                    glm::vec2(
+                        (p.lockFrame.min.x - g.min.x) + p.lockFrame.w() / 2.f - c.x * zoom,
+                        (p.lockFrame.min.y - g.min.y) + p.lockFrame.h() / 2.f - c.y * zoom),
                     zoom);
             }
         }
@@ -316,13 +344,14 @@ namespace djv
             DJV_PRIVATE_PTR();
             switch (p.lock)
             {
-            case ImageViewLock::Fit:    imageFit();    break;
+            case ImageViewLock::Full:   imageFull();   break;
+            case ImageViewLock::Frame:  imageFrame();  break;
             case ImageViewLock::Center: imageCenter(); break;
             default:
                 if (p.image && p.viewInit)
                 {
                     p.viewInit = false;
-                    imageFit();
+                    imageFull();
                 }
                 break;
             }

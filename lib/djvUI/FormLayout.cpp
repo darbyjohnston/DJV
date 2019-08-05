@@ -125,11 +125,6 @@ namespace djv
                 _p->layout->removeChild(value);
             }
 
-            void Form::clearChildren()
-            {
-                _p->layout->clearChildren();
-            }
-
             void Form::_preLayoutEvent(Event::PreLayout & event)
             {
                 const auto& style = _getStyle();
