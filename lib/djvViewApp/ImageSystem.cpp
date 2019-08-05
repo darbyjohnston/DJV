@@ -96,6 +96,7 @@ namespace djv
 
             p.actions["ColorSpace"] = UI::Action::create();
             p.actions["ColorSpace"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["ColorSpace"]->setShortcut(GLFW_KEY_P, GLFW_MOD_CONTROL);
             p.actions["RedChannel"] = UI::Action::create();
             p.actions["RedChannel"]->setShortcut(GLFW_KEY_R);
             p.actions["GreenChannel"] = UI::Action::create();
