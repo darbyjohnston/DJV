@@ -1,3 +1,4 @@
+find_package(FFMPEG)
 find_package(JPEG)
 find_package(TIFF)
 
