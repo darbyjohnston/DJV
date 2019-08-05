@@ -85,9 +85,7 @@ namespace djv
             int monitorRefresh = 0;
             BBox2i windowGeom = BBox2i(0, 0, 0, 0);
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
-            std::shared_ptr<ValueObserver<bool> > fullScreenObserver;
             std::shared_ptr<ValueObserver<bool> > maximizedObserver;
-            std::shared_ptr<ValueObserver<bool> > maximizedObserver2;
             std::shared_ptr<ValueObserver<Event::PointerInfo> > pointerObserver;
             std::shared_ptr<ValueObserver<bool> > fadeObserver;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
@@ -129,7 +127,7 @@ namespace djv
             _actionsUpdate();
 
             auto weak = std::weak_ptr<WindowSystem>(std::dynamic_pointer_cast<WindowSystem>(shared_from_this()));
-            p.fullScreenObserver = ValueObserver<bool>::create(
+            p.actionObservers["FullScreen"] = ValueObserver<bool>::create(
                 p.actions["FullScreen"]->observeChecked(),
                 [weak, context](bool value)
             {
@@ -139,7 +137,7 @@ namespace djv
                 }
             });
 
-            p.maximizedObserver = ValueObserver<bool>::create(
+            p.actionObservers["Maximized"] = ValueObserver<bool>::create(
                 p.actions["Maximized"]->observeChecked(),
                 [weak](bool value)
             {
@@ -149,15 +147,15 @@ namespace djv
                 }
             });
 
-            p.maximizedObserver2 = ValueObserver<bool>::create(
+            p.maximizedObserver = ValueObserver<bool>::create(
                 p.settings->observeMaximized(),
                 [weak](bool value)
-            {
-                if (auto system = weak.lock())
                 {
-                    system->setMaximized(value);
-                }
-            });
+                    if (auto system = weak.lock())
+                    {
+                        system->setMaximized(value);
+                    }
+                });
 
             auto eventSystem = context->getSystemT<Event::IEventSystem>();
             p.pointerObserver = ValueObserver<Event::PointerInfo>::create(
@@ -254,6 +252,7 @@ namespace djv
             if (p.fullScreen->setIfChanged(value))
             {
                 p.setFullScreen(value, getContext());
+                _actionsUpdate();
             }
         }
 
@@ -378,7 +377,8 @@ namespace djv
         void WindowSystem::_actionsUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.actions["Maximized"]->setChecked(static_cast<int>(p.maximized->get()));
+            p.actions["FullScreen"]->setChecked(p.fullScreen->get());
+            p.actions["Maximized"]->setChecked(p.maximized->get());
         }
 
         void WindowSystem::_textUpdate()

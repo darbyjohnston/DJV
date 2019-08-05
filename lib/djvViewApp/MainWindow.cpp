@@ -89,7 +89,7 @@ namespace djv
             std::shared_ptr<MediaCanvas> mediaCanvas;
             std::shared_ptr<UI::MDI::Canvas> canvas;
             std::shared_ptr<UI::StackLayout> layout;
-            std::shared_ptr<ValueObserver<bool> > closeToolActionObserver;
+            std::shared_ptr<ValueObserver<bool> > escapeActionObserver;
             std::shared_ptr<ListObserver<std::shared_ptr<Media> > > mediaObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<bool> > memoryCacheEnabledObserver;
@@ -121,8 +121,8 @@ namespace djv
                 }
             }
 
-            p.actions["CloseTool"] = UI::Action::create();
-            p.actions["CloseTool"]->setShortcut(GLFW_KEY_ESCAPE);
+            p.actions["Escape"] = UI::Action::create();
+            p.actions["Escape"]->setShortcut(GLFW_KEY_ESCAPE);
             for (auto i : p.actions)
             {
                 addAction(i.second);
@@ -331,26 +331,18 @@ namespace djv
                     }
                 });
 
-            p.closeToolActionObserver = ValueObserver<bool>::create(
-                p.actions["CloseTool"]->observeClicked(),
-                [weak](bool value)
-            {
-                if (value)
+            p.escapeActionObserver = ValueObserver<bool>::create(
+                p.actions["Escape"]->observeClicked(),
+                [context](bool value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto windowSystem = context->getSystemT<WindowSystem>())
                     {
-                        const auto children = widget->_p->canvas->getChildrenT<MDIWidget>();
-                        for (auto i = children.rbegin(); i != children.rend(); ++i)
+                        if (windowSystem->observeFullScreen()->get())
                         {
-                            if ((*i)->isVisible())
-                            {
-                                (*i)->close();
-                                break;
-                            }
+                            windowSystem->setFullScreen(false);
                         }
                     }
-                }
-            });
+                });
 
             if (auto fileSystem = getContext()->getSystemT<FileSystem>())
             {
