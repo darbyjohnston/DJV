@@ -48,16 +48,19 @@
 #include <djvUI/ActionButton.h>
 #include <djvUI/ActionGroup.h>
 #include <djvUI/ButtonGroup.h>
+#include <djvUI/IntSlider.h>
 #include <djvUI/Label.h>
 #include <djvUI/MDICanvas.h>
 #include <djvUI/Menu.h>
 #include <djvUI/MenuBar.h>
 #include <djvUI/MenuButton.h>
+#include <djvUI/PopupWidget.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/Shortcut.h>
 #include <djvUI/StackLayout.h>
 #include <djvUI/ToolBar.h>
+#include <djvUI/ToggleButton.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvCore/FileInfo.h>
@@ -77,6 +80,9 @@ namespace djv
             std::shared_ptr<UI::ActionGroup> mediaActionGroup;
             std::shared_ptr<UI::Menu> mediaMenu;
             std::shared_ptr<UI::Button::Menu> mediaButton;
+            std::shared_ptr<UI::IntSlider> memoryCacheMaxSlider;
+            std::shared_ptr<UI::ToggleButton> memoryCacheEnabledButton;
+            std::shared_ptr<UI::PopupWidget> memoryCachePopupWidget;
             std::shared_ptr<UI::ToolButton> autoHideButton;
             std::shared_ptr<UI::ToolButton> settingsButton;
             std::shared_ptr<UI::MenuBar> menuBar;
@@ -86,6 +92,8 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > closeToolActionObserver;
             std::shared_ptr<ListObserver<std::shared_ptr<Media> > > mediaObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
+            std::shared_ptr<ValueObserver<bool> > memoryCacheEnabledObserver;
+            std::shared_ptr<ValueObserver<int> > memoryCacheMaxObserver;
             std::shared_ptr<ValueObserver<bool> > maximizedObserver;
             std::shared_ptr<ValueObserver<float> > fadeObserver;
             std::shared_ptr<ValueObserver<bool> > autoHideObserver;
@@ -126,6 +134,21 @@ namespace djv
             p.mediaButton = UI::Button::Menu::create(UI::Button::MenuStyle::Flat, context);
             p.mediaButton->setPopupIcon("djvIconPopupMenu");
             p.mediaButton->setEnabled(false);
+
+            p.memoryCacheMaxSlider = UI::IntSlider::create(context);
+            p.memoryCacheMaxSlider->setRange(IntRange(1, 64));
+            p.memoryCacheEnabledButton = UI::ToggleButton::create(context);
+            p.memoryCacheEnabledButton->setHAlign(UI::HAlign::Center);
+            p.memoryCacheEnabledButton->setMargin(UI::MetricsRole::None);
+            auto hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setMargin(UI::MetricsRole::MarginSmall);
+            hLayout->setSpacing(UI::MetricsRole::SpacingSmall);
+            hLayout->addChild(p.memoryCacheMaxSlider);
+            hLayout->addChild(p.memoryCacheEnabledButton);
+            p.memoryCachePopupWidget = UI::PopupWidget::create(context);
+            p.memoryCachePopupWidget->setIcon("djvIconMemory");
+            p.memoryCachePopupWidget->setMargin(UI::MetricsRole::MarginSmall);
+            p.memoryCachePopupWidget->addChild(hLayout);
 
             auto maximizedButton = UI::ActionButton::create(context);
             maximizedButton->setShowText(false);
@@ -182,9 +205,11 @@ namespace djv
             p.menuBar->addChild(p.mediaButton);
             p.menuBar->setStretch(p.mediaButton, UI::RowStretch::Expand, UI::Side::Right);
             p.menuBar->addSeparator(UI::Side::Right);
+            p.menuBar->addChild(p.memoryCachePopupWidget);
+            p.menuBar->addSeparator(UI::Side::Right);
             p.menuBar->addChild(maximizedButton);
             p.menuBar->addSeparator(UI::Side::Right);
-            auto hLayout = UI::HorizontalLayout::create(context);
+            hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::MetricsRole::None);
             hLayout->addChild(viewLockFullButton);
             hLayout->addChild(viewLockFrameButton);
@@ -262,6 +287,26 @@ namespace djv
                         {
                             widget->_p->mediaMenu->popup(widget->_p->mediaButton);
                         }
+                    }
+                });
+
+            p.memoryCacheMaxSlider->setValueCallback(
+                [context](int value)
+                {
+                    auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                    if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
+                    {
+                        fileSettings->setCacheMax(value);
+                    }
+                });
+
+            p.memoryCacheEnabledButton->setCheckedCallback(
+                [context](bool value)
+                {
+                    auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                    if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
+                    {
+                        fileSettings->setCacheEnabled(value);
                     }
                 });
 
@@ -346,6 +391,30 @@ namespace djv
                 });
             }
 
+            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
+            {
+                p.memoryCacheEnabledObserver = ValueObserver<bool>::create(
+                    fileSettings->observeCacheEnabled(),
+                    [weak](bool value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->memoryCacheEnabledButton->setChecked(value);
+                        }
+                    });
+
+                p.memoryCacheMaxObserver = ValueObserver<int>::create(
+                    fileSettings->observeCacheMax(),
+                    [weak](int value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->memoryCacheMaxSlider->setValue(value);
+                        }
+                    });
+            }
+
             if (windowSystem)
             {
                 p.maximizedObserver = ValueObserver<bool>::create(
@@ -369,7 +438,6 @@ namespace djv
                 });
             }
 
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
             auto uiSettings = settingsSystem->getSettingsT<UISettings>();
             p.autoHideObserver = ValueObserver<bool>::create(
                 uiSettings->observeAutoHide(),
@@ -435,6 +503,9 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             p.mediaButton->setTooltip(_getText(DJV_TEXT("Media popup tooltip")));
+            p.memoryCacheMaxSlider->setTooltip(_getText(DJV_TEXT("Memory cache maximum tooltip")));
+            p.memoryCacheEnabledButton->setTooltip(_getText(DJV_TEXT("Memory cache enabled tooltip")));
+            p.memoryCachePopupWidget->setTooltip(_getText(DJV_TEXT("Memory cache tooltip")));
             p.autoHideButton->setTooltip(_getText(DJV_TEXT("Auto-hide tooltip")));
             p.settingsButton->setTooltip(_getText(DJV_TEXT("Settings tooltip")));
         }

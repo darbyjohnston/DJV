@@ -68,8 +68,6 @@ namespace djv
             std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > closed;
             std::shared_ptr<ListSubject<std::shared_ptr<Media> > > media;
             std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > currentMedia;
-            bool cacheEnabled = false;
-            int cacheMax = 0;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
             std::shared_ptr<UI::FileBrowser::Dialog> fileBrowserDialog;
@@ -376,10 +374,7 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        if (auto media = system->_p->currentMedia->get())
-                        {
-                            media->setCacheEnabled(value);
-                        }
+                        system->_p->settings->setCacheEnabled(value);
                     }
                 });
 
@@ -399,7 +394,6 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        system->_p->cacheEnabled = value;
                         system->_actionsUpdate();
                         system->_cacheUpdate();
                     }
@@ -411,7 +405,6 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        system->_p->cacheMax = value;
                         system->_cacheUpdate();
                     }
                 });
@@ -593,7 +586,7 @@ namespace djv
             p.actions["Export"]->setEnabled(size);
             p.actions["Next"]->setEnabled(size > 1);
             p.actions["Prev"]->setEnabled(size > 1);
-            p.actions["MemoryCache"]->setChecked(p.cacheEnabled);
+            p.actions["MemoryCache"]->setChecked(p.settings->observeCacheEnabled()->get());
         }
 
         void FileSystem::_cacheUpdate()
@@ -603,10 +596,12 @@ namespace djv
             const size_t mediaSize = media.size();
             if (mediaSize)
             {
-                size_t mediaCacheSize = (p.cacheMax * Memory::gigabyte) / mediaSize;
+                const bool cacheEnabled = p.settings->observeCacheEnabled()->get();
+                const size_t cacheMax = p.settings->observeCacheMax()->get();
+                const size_t mediaCacheSize = (cacheMax * Memory::gigabyte) / mediaSize;
                 for (const auto& i : media)
                 {
-                    i->setCacheEnabled(p.cacheEnabled);
+                    i->setCacheEnabled(cacheEnabled);
                     i->setCacheMax(mediaCacheSize);
                 }
             }
