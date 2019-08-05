@@ -344,7 +344,8 @@ namespace djv
 
                             while (p.running)
                             {
-                                bool cacheEnabled = false;
+                                //! \todo Implement me!
+                                /*bool cacheEnabled = false;
                                 size_t cacheMax = 0;
                                 {
                                     std::lock_guard<std::mutex> lock(_mutex);
@@ -364,23 +365,24 @@ namespace djv
                                 else
                                 {
                                     _cache.setMax(0);
-                                }
+                                }*/
 
                                 bool read = false;
                                 int64_t seek = -1;
                                 {
-                                    const std::vector<Frame::Number> cachedFrames = _cache.getKeys();
+                                    //const std::vector<Frame::Number> cachedFrames = _cache.getKeys();
                                     std::unique_lock<std::mutex> lock(_mutex);
                                     if (p.queueCV.wait_for(
                                         lock,
                                         Time::getMilliseconds(Time::TimerValue::Fast),
-                                        [this, sequenceSize, cacheEnabled, &cachedFrames]
+                                        [this, sequenceSize]
+                                        //[this, sequenceSize, cacheEnabled, &cachedFrames]
                                     {
                                         DJV_PRIVATE_PTR();
                                         const bool video = p.avVideoStream != -1 && (_videoQueue.isFinished() ? false : (_videoQueue.getFrameCount() < _videoQueue.getMax()));
                                         const bool audio = p.avAudioStream != -1 && (_audioQueue.isFinished() ? false : (_audioQueue.getFrameCount() < _audioQueue.getMax()));
 
-                                        bool cache = false;
+                                        /*bool cache = false;
                                         if (cacheEnabled && !_videoQueue.isFinished() && !_audioQueue.isFinished())
                                         {
                                             const size_t cacheMax = _cache.getMax();
@@ -397,9 +399,10 @@ namespace djv
                                                     }
                                                 }
                                             }
-                                        }
+                                        }*/
                                         
-                                        return video || audio || p.seek != -1 || cache;
+                                        return video || audio || p.seek != -1;
+                                        //return video || audio || p.seek != -1 || cache;
                                     }))
                                     {
                                         read = true;
@@ -464,7 +467,7 @@ namespace djv
                                                 if (p.avVideoStream != -1)
                                                 {
                                                     DecodeVideo dv;
-                                                    dv.cacheEnabled = cacheEnabled;
+                                                    //dv.cacheEnabled = cacheEnabled;
                                                     dv.seek         = seek;
                                                     _decodeVideo(dv, videoFrame);
                                                     avcodec_flush_buffers(p.avCodecContext[p.avVideoStream]);
@@ -483,7 +486,7 @@ namespace djv
                                                 DecodeVideo dv;
                                                 dv.packet       = &packet;
                                                 dv.seek         = seek;
-                                                dv.cacheEnabled = cacheEnabled;
+                                                //dv.cacheEnabled = cacheEnabled;
                                                 if (_decodeVideo(dv, videoFrame) < 0)
                                                 {
                                                     throw std::exception();
@@ -512,7 +515,7 @@ namespace djv
                                             if (p.avVideoStream != -1)
                                             {
                                                 DecodeVideo dv;
-                                                dv.cacheEnabled = cacheEnabled;
+                                                //dv.cacheEnabled = cacheEnabled;
                                                 _decodeVideo(dv, videoFrame);
                                                 avcodec_flush_buffers(p.avCodecContext[p.avVideoStream]);
                                             }
@@ -528,7 +531,7 @@ namespace djv
                                         {
                                             DecodeVideo dv;
                                             dv.packet       = &packet;
-                                            dv.cacheEnabled = cacheEnabled;
+                                            //dv.cacheEnabled = cacheEnabled;
                                             if (_decodeVideo(dv, videoFrame) < 0)
                                             {
                                                 throw std::exception();

@@ -494,6 +494,12 @@ namespace djv
             }
         }
 
+        bool Media::hasCache() const
+        {
+            DJV_PRIVATE_PTR();
+            return p.read ? p.read->hasCache() : false;
+        }
+
         std::shared_ptr<Core::IListSubject<Frame::Range> > Media::observeCachedFrames() const
         {
             return _p->cachedFrames;

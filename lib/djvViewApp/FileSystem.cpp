@@ -592,18 +592,22 @@ namespace djv
         void FileSystem::_cacheUpdate()
         {
             DJV_PRIVATE_PTR();
+            size_t cacheCount = 0;
             const auto& media = p.media->get();
-            const size_t mediaSize = media.size();
-            if (mediaSize)
+            for (const auto& i : media)
             {
-                const bool cacheEnabled = p.settings->observeCacheEnabled()->get();
-                const size_t cacheMax = p.settings->observeCacheMax()->get();
-                const size_t mediaCacheSize = (cacheMax * Memory::gigabyte) / mediaSize;
-                for (const auto& i : media)
+                if (i->hasCache())
                 {
-                    i->setCacheEnabled(cacheEnabled);
-                    i->setCacheMax(mediaCacheSize);
+                    ++cacheCount;
                 }
+            }
+            const bool cacheEnabled = p.settings->observeCacheEnabled()->get();
+            const size_t cacheMax = p.settings->observeCacheMax()->get();
+            const size_t mediaCacheSize = cacheCount > 0 ? ((cacheMax * Memory::gigabyte) / cacheCount) : 0;
+            for (const auto& i : media)
+            {
+                i->setCacheEnabled(cacheEnabled);
+                i->setCacheMax(mediaCacheSize);
             }
         }
 

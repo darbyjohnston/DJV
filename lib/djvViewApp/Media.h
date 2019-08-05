@@ -146,6 +146,7 @@ namespace djv
             //! \name Cache
             ///@{
 
+            bool hasCache() const;
             std::shared_ptr<Core::IListSubject<Core::Frame::Range> > observeCachedFrames() const;
 
             void setCacheEnabled(bool);

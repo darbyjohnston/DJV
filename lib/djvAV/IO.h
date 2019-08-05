@@ -262,6 +262,7 @@ namespace djv
                 //! frame number, for audio files it represents the audio sample.
                 virtual void seek(int64_t value);
 
+                virtual bool hasCache() const { return false; }
                 bool isCacheEnabled() const;
                 void setCacheEnabled(bool);
                 size_t getCacheMax() const;
