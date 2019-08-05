@@ -131,7 +131,6 @@ namespace djv
             p.actions["8BitConversion"]->setEnabled(false);
             p.actions["MemoryCache"] = UI::Action::create();
             p.actions["MemoryCache"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["MemoryCache"]->setEnabled(false);
             p.actions["Exit"] = UI::Action::create();
             p.actions["Exit"]->setShortcut(GLFW_KEY_Q, UI::Shortcut::getSystemModifier());
 
@@ -368,6 +367,27 @@ namespace djv
                     }
                 });
 
+            p.cacheEnabledObserver = ValueObserver<bool>::create(
+                p.settings->observeCacheEnabled(),
+                [weak](bool value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->actions["MemoryCache"]->setChecked(value);
+                        system->_cacheUpdate();
+                    }
+                });
+
+            p.cacheMaxObserver = ValueObserver<int>::create(
+                p.settings->observeCacheMax(),
+                [weak](int value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_cacheUpdate();
+                    }
+                });
+
             p.actionObservers["MemoryCache"] = ValueObserver<bool>::create(
                 p.actions["MemoryCache"]->observeChecked(),
                 [weak](bool value)
@@ -385,27 +405,6 @@ namespace djv
                     if (value)
                     {
                         dynamic_cast<Application *>(context)->exit();
-                    }
-                });
-
-            p.cacheEnabledObserver = ValueObserver<bool>::create(
-                p.settings->observeCacheEnabled(),
-                [weak](bool value)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        system->_actionsUpdate();
-                        system->_cacheUpdate();
-                    }
-                });
-
-            p.cacheMaxObserver = ValueObserver<int>::create(
-                p.settings->observeCacheMax(),
-                [weak](int value)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        system->_cacheUpdate();
                     }
                 });
 
@@ -586,7 +585,6 @@ namespace djv
             p.actions["Export"]->setEnabled(size);
             p.actions["Next"]->setEnabled(size > 1);
             p.actions["Prev"]->setEnabled(size > 1);
-            p.actions["MemoryCache"]->setChecked(p.settings->observeCacheEnabled()->get());
         }
 
         void FileSystem::_cacheUpdate()
