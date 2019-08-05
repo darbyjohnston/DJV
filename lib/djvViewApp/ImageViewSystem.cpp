@@ -597,9 +597,6 @@ namespace djv
             p.actions["Full"]->setEnabled(activeWidget);
             p.actions["Frame"]->setEnabled(activeWidget);
             p.actions["Center"]->setEnabled(activeWidget);
-            p.actions["LockFull"]->setEnabled(activeWidget);
-            p.actions["LockFrame"]->setEnabled(activeWidget);
-            p.actions["LockCenter"]->setEnabled(activeWidget);
         }
 
         void ImageViewSystem::_textUpdate()
