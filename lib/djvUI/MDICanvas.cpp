@@ -257,7 +257,7 @@ namespace djv
                 }
                 else
                 {
-                    p.maximizedValue = 1.f;
+                    p.maximizedValue = 0.f;
                 }
                 if (p.maximizedCallback)
                 {
