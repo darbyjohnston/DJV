@@ -231,7 +231,7 @@ namespace djv
                             {
                                 _setHover(parent);
                                 auto hover = p.hover->get();
-                                if (hover && hover->isEnabled())
+                                if (hover && hover->isEnabled(true))
                                 {
                                     auto info = p.pointerInfo;
                                     info.buttons[info.id] = true;
@@ -308,7 +308,7 @@ namespace djv
                     auto object = p.hover->get();
                     while (object)
                     {
-                        if (object->isEnabled())
+                        if (object->isEnabled(true))
                         {
                             object->event(event);
                             if (event.isAccepted())
@@ -352,7 +352,7 @@ namespace djv
                     auto object = p.hover->get();
                     while (object)
                     {
-                        if (object->isEnabled())
+                        if (object->isEnabled(true))
                         {
                             object->event(event);
                             if (event.isAccepted())
@@ -376,7 +376,7 @@ namespace djv
                     auto object = textFocus ? textFocus : hover;
                     while (object)
                     {
-                        if (object->isEnabled())
+                        if (object->isEnabled(true))
                         {
                             object->event(event);
                             if (event.isAccepted())
@@ -421,7 +421,7 @@ namespace djv
                     auto object = textFocus ? textFocus : p.hover->get();
                     while (object)
                     {
-                        if (object->isEnabled())
+                        if (object->isEnabled(true))
                         {
                             object->event(event);
                             if (event.isAccepted())

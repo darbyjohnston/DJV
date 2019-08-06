@@ -85,6 +85,7 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<PointerData> > observeDrag() const;
 
         protected:
+            virtual std::map<UI::MDI::Handle, std::vector<Core::BBox2f> > _getHandles() const override;
             void _setMaximized(float) override;
             void _setActiveWidget(bool) override;
 
@@ -98,6 +99,7 @@ namespace djv
             void _imageUpdate();
             void _speedUpdate();
             void _realSpeedUpdate();
+            void _audioUpdate();
             void _opacityUpdate();
 
             DJV_PRIVATE();
