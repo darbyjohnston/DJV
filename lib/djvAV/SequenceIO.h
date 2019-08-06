@@ -117,7 +117,7 @@ namespace djv
             public:
                 virtual ~ISequencePlugin() = 0;
 
-                bool canSequence(const Core::FileSystem::FileInfo&) const override;
+                bool canSequence() const override;
             };
 
         } // namespace IO

@@ -54,6 +54,7 @@ namespace djv
                 std::shared_ptr<ValueSubject<bool> > hasBack;
                 std::shared_ptr<ValueSubject<bool> > hasForward;
                 std::shared_ptr<ValueSubject<bool> > fileSequences;
+                std::vector<std::string> fileSequenceExtensions;
                 std::shared_ptr<ValueSubject<bool> > showHidden;
                 std::shared_ptr<ValueSubject<DirectoryListSort> > sort;
                 std::shared_ptr<ValueSubject<bool> > reverseSort;
@@ -277,6 +278,15 @@ namespace djv
                 }
             }
 
+            void DirectoryModel::setFileSequenceExtensions(const std::vector<std::string>& value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.fileSequenceExtensions)
+                    return;
+                p.fileSequenceExtensions = value;
+                _updatePath();
+            }
+
             void DirectoryModel::setShowHidden(bool value)
             {
                 if (_p->showHidden->setIfChanged(value))
@@ -348,6 +358,7 @@ namespace djv
                 const Path path = p.path->get();
                 DirectoryListOptions options;
                 options.fileSequences = p.fileSequences->get();
+                options.fileSequenceExtensions = p.fileSequenceExtensions;
                 options.showHidden = p.showHidden->get();
                 options.sort = p.sort->get();
                 options.reverseSort = p.reverseSort->get();

@@ -64,12 +64,15 @@ namespace djv
                     const Core::FileSystem::FileInfo fileInfo(argv[i]);
                     switch (fileInfo.getType())
                     {
-                    case Core::FileSystem::FileType::File: _print(fileInfo, io, avSystem); break;
+                    case Core::FileSystem::FileType::File:
+                        _print(fileInfo, io, avSystem);
+                        break;
                     case Core::FileSystem::FileType::Directory:
                     {
                         std::cout << fileInfo.getPath() << ":" << std::endl;
                         Core::FileSystem::DirectoryListOptions options;
                         options.fileSequences = true;
+                        options.fileSequenceExtensions = io->getSequenceExtensions();
                         for (const auto & i : Core::FileSystem::FileInfo::directoryList(fileInfo.getPath(), options))
                         {
                             _print(i, io, avSystem);

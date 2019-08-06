@@ -360,14 +360,14 @@ namespace djv
 
             } // namespace
 
+            bool IPlugin::canSequence() const
+            {
+                return false;
+            }
+
             bool IPlugin::canRead(const FileSystem::FileInfo& fileInfo) const
             {
                 return checkExtension(fileInfo, _fileExtensions);
-            }
-
-            bool IPlugin::canSequence(const FileSystem::FileInfo&) const
-            {
-                return false;
             }
 
             bool IPlugin::canWrite(const FileSystem::FileInfo& fileInfo, const Info & info) const
@@ -397,6 +397,7 @@ namespace djv
             {
                 std::shared_ptr<ValueSubject<bool> > optionsChanged;
                 std::map<std::string, std::shared_ptr<IPlugin> > plugins;
+                std::vector<std::string> sequenceExtensions;
             };
 
             void System::_init(Context * context)
@@ -432,6 +433,15 @@ namespace djv
 
                 for (const auto & i : p.plugins)
                 {
+                    if (i.second->canSequence())
+                    {
+                        const auto& extensions = i.second->getFileExtensions();
+                        p.sequenceExtensions.insert(
+                            p.sequenceExtensions.end(),
+                            extensions.begin(),
+                            extensions.end());
+                    }
+                
                     std::stringstream s;
                     s << "I/O plugin: " << i.second->getPluginName() << '\n';
                     s << "    Information: " << i.second->getPluginInfo() << '\n';
@@ -492,25 +502,26 @@ namespace djv
                 return _p->optionsChanged;
             }
 
+            const std::vector<std::string>& System::getSequenceExtensions() const
+            {
+                return _p->sequenceExtensions;
+            }
+                
+            bool System::canSequence(const FileSystem::FileInfo& fileInfo) const
+            {
+                DJV_PRIVATE_PTR();
+                return std::find(
+                    p.sequenceExtensions.begin(),
+                    p.sequenceExtensions.end(),
+                    fileInfo.getPath().getExtension()) != p.sequenceExtensions.end();
+            }
+
             bool System::canRead(const FileSystem::FileInfo& fileInfo) const
             {
                 DJV_PRIVATE_PTR();
                 for (const auto & i : p.plugins)
                 {
                     if (i.second->canRead(fileInfo))
-                    {
-                        return true;
-                    }
-                }
-                return false;
-            }
-
-            bool System::canSequence(const Core::FileSystem::FileInfo& fileInfo) const
-            {
-                DJV_PRIVATE_PTR();
-                for (const auto& i : p.plugins)
-                {
-                    if (i.second->canSequence(fileInfo))
                     {
                         return true;
                     }

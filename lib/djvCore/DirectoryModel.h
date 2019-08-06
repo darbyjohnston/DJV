@@ -80,6 +80,7 @@ namespace djv
                 std::shared_ptr<IValueSubject<bool> > observeFileSequences() const;
                 std::shared_ptr<IValueSubject<bool> > observeShowHidden() const;
                 void setFileSequences(bool);
+                void setFileSequenceExtensions(const std::vector<std::string>&);
                 void setShowHidden(bool);
 
                 std::shared_ptr<IValueSubject<DirectoryListSort> > observeSort() const;

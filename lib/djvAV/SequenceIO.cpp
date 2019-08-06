@@ -684,9 +684,9 @@ namespace djv
             ISequencePlugin::~ISequencePlugin()
             {}
 
-            bool ISequencePlugin::canSequence(const FileSystem::FileInfo& value) const
+            bool ISequencePlugin::canSequence() const
             {
-                return canRead(value);
+                return true;
             }
 
         } // namespace IO

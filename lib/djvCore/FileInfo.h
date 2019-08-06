@@ -84,12 +84,13 @@ namespace djv
             //! This struct provides directory listing options.
             struct DirectoryListOptions
             {
-                bool fileSequences = false;
-                bool showHidden = false;
-                DirectoryListSort sort = DirectoryListSort::Name;
-                bool reverseSort = false;
-                bool sortDirectoriesFirst = true;
-                std::string filter;
+                bool                        fileSequences           = false;
+                std::vector<std::string>    fileSequenceExtensions;
+                bool                        showHidden              = false;
+                DirectoryListSort           sort                    = DirectoryListSort::Name;
+                bool                        reverseSort             = false;
+                bool                        sortDirectoriesFirst    = true;
+                std::string                 filter;
             };
 
             //! This class provides information about files and file sequences.
@@ -176,7 +177,7 @@ namespace djv
                 //! Get the file sequence for the given file.
                 //! Throws:
                 //! - std::exception
-                static FileInfo getFileSequence(const Path &);
+                static FileInfo getFileSequence(const Path &, const std::vector<std::string>& extensions);
 
                 ///@}
 

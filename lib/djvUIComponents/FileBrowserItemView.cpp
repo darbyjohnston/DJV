@@ -903,8 +903,8 @@ namespace djv
                     std::string name;
                     switch (type)
                     {
-                    case FileSystem::FileType::Directory: name = "djvIconDirectory"; break;
-                    case FileSystem::FileType::Sequence: name = "djvIconFileSequence"; break;
+                    case FileSystem::FileType::Directory: name = "djvIconDirectory";    break;
+                    case FileSystem::FileType::Sequence:  name = "djvIconFileSequence"; break;
                     default: name = "djvIconFile"; break;
                     }
                     auto iconSystem = _getIconSystem();

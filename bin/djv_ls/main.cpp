@@ -56,17 +56,21 @@ namespace djv
                 auto system = getSystemT<Core::TextSystem>();
                 const auto locale = system->getCurrentLocale();
 
+                auto io = getSystemT<AV::IO::System>();
                 for (int i = 1; i < argc; ++i)
                 {
                     const Core::FileSystem::FileInfo fileInfo(argv[i]);
                     switch (fileInfo.getType())
                     {
-                    case Core::FileSystem::FileType::File: _print(fileInfo); break;
+                    case Core::FileSystem::FileType::File:
+                        _print(fileInfo);
+                        break;
                     case Core::FileSystem::FileType::Directory:
                     {
                         std::cout << fileInfo.getPath() << ":" << std::endl;
                         Core::FileSystem::DirectoryListOptions options;
                         options.fileSequences = true;
+                        options.fileSequenceExtensions = io->getSequenceExtensions();
                         for (const auto & i : Core::FileSystem::FileInfo::directoryList(fileInfo.getPath(), options))
                         {
                             _print(i);

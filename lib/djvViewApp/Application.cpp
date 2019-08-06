@@ -136,9 +136,9 @@ namespace djv
             }
 
             // Load the application icons.
+            auto io = getSystemT<AV::IO::System>();
             try
             {
-                auto io = getSystemT<AV::IO::System>();
                 auto resourceSystem = getSystemT<Core::ResourceSystem>();
                 const auto& iconsPath = resourceSystem->getPath(Core::FileSystem::ResourcePath::IconsDirectory);
                 p.read.push_back(io->read(Core::FileSystem::Path(iconsPath, "djv-reel-16.png")));
@@ -207,9 +207,9 @@ namespace djv
             for (const auto& i : p.cmdlinePaths)
             {
                 Core::FileSystem::FileInfo fileInfo;
-                if (fileSettings->observeAutoDetectSequences()->get())
+                if (io->canSequence(i) && fileSettings->observeAutoDetectSequences()->get())
                 {
-                    fileInfo = Core::FileSystem::FileInfo::getFileSequence(i);
+                    fileInfo = Core::FileSystem::FileInfo::getFileSequence(i, io->getSequenceExtensions());
                 }
                 else
                 {

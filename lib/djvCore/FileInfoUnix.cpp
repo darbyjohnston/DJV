@@ -162,7 +162,11 @@ namespace djv
 
                         if (!filter)
                         {
-                            if (options.fileSequences)
+                            const auto i = std::find(
+                                options.fileSequenceExtensions.begin(),
+                                options.fileSequenceExtensions.end(),
+                                fileInfo.getPath().getExtension());
+                            if (options.fileSequences && i != options.fileSequenceExtensions.end())
                             {
                                 fileInfo.evalSequence();
                                 if (fileInfo.isSequenceValid())

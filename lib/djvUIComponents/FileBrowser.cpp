@@ -143,6 +143,8 @@ namespace djv
                 setClassName("djv::UI::FileBrowser::FileBrowser");
 
                 p.directoryModel = FileSystem::DirectoryModel::create(context);
+                auto io = context->getSystemT<AV::IO::System>();
+                p.directoryModel->setFileSequenceExtensions(io->getSequenceExtensions());
                 p.shortcutsModel = ShortcutsModel::create(context);
                 p.recentPathsModel = FileSystem::RecentFilesModel::create(context);
                 p.recentPathsModel->setFilesMax(10);
