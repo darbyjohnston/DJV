@@ -32,10 +32,10 @@
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/ImageSystem.h>
 #include <djvViewApp/ImageView.h>
+#include <djvViewApp/ImageViewSettings.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaWidgetPrivate.h>
 #include <djvViewApp/TimelineSlider.h>
-#include <djvViewApp/WindowSettings.h>
 #include <djvViewApp/WindowSystem.h>
 
 #include <djvUI/Action.h>
@@ -101,6 +101,7 @@ namespace djv
             Frame::Number currentFrame = Frame::invalid;
             Playback playbackPrev = Playback::Stop;
             AV::TimeUnits timeUnits = AV::TimeUnits::First;
+            ImageViewLock viewLock = ImageViewLock::First;
             bool frameStoreEnabled = false;
             std::shared_ptr<AV::Image::Image> frameStore;
             float audioVolume = 0.f;
@@ -149,6 +150,7 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > muteObserver;
             std::shared_ptr<ListObserver<Frame::Range> > cachedFramesObserver;
             std::shared_ptr<ValueObserver<float> > fadeObserver;
+            std::shared_ptr<ValueObserver<ImageViewLock> > viewLockObserver;
             std::shared_ptr<ValueObserver<bool> > frameStoreEnabledObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > frameStoreObserver;
         };
@@ -662,6 +664,34 @@ namespace djv
                     }
                 });
 
+            if (auto windowSystem = context->getSystemT<WindowSystem>())
+            {
+                p.fadeObserver = ValueObserver<float>::create(
+                    windowSystem->observeFade(),
+                    [weak](float value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->fade = value;
+                            widget->_opacityUpdate();
+                        }
+                    });
+            }
+
+            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            if (auto imageViewSettings = settingsSystem->getSettingsT<ImageViewSettings>())
+            {
+                p.viewLockObserver = ValueObserver<ImageViewLock>::create(
+                    imageViewSettings->observeLock(),
+                    [weak](ImageViewLock value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->viewLock = value;
+                        }
+                    });
+            }
+
             if (auto imageSystem = context->getSystemT<ImageSystem>())
             {
                 p.frameStoreEnabledObserver = ValueObserver<bool>::create(
@@ -684,20 +714,6 @@ namespace djv
                             widget->_imageUpdate();
                         }
                     });
-            }
-
-            if (auto windowSystem = context->getSystemT<WindowSystem>())
-            {
-                p.fadeObserver = ValueObserver<float>::create(
-                    windowSystem->observeFade(),
-                    [weak](float value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->fade = value;
-                        widget->_opacityUpdate();
-                    }
-                });
             }
         }
 
@@ -765,10 +781,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const float sh = style->getMetric(UI::MetricsRole::Shadow);
-
             const glm::vec2& minimumSize = p.layout->getMinimumSize();
-            _setMinimumSize(minimumSize + sh * 2.f);
-
             glm::vec2 imageSize = p.imageView->getMinimumSize();
             imageSize.x = std::max(imageSize.x * 2.f, minimumSize.x);
             if (p.ioInfo.video.size())
@@ -779,7 +792,17 @@ namespace djv
                     imageSize.y = imageSize.x / aspectRatio;
                 }
             }
-            _setDesiredSize(imageSize + sh * 2.f);
+            glm::vec2 size = imageSize;
+            switch (p.viewLock)
+            {
+            case ImageViewLock::Frame:
+                size.y +=
+                    p.titleBar->getMinimumSize().y +
+                    (p.playbackLayout->isVisible() ? p.playbackLayout->getMinimumSize().y : 0.f);
+                break;
+            default: break;
+            }
+            _setMinimumSize(size + sh * 2.f);
         }
 
         void MediaWidget::_layoutEvent(Event::Layout&)
