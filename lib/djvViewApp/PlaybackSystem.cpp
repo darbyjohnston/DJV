@@ -115,18 +115,18 @@ namespace djv
             //! \todo Implement me!
             p.actions["InPoint"] = UI::Action::create();
             p.actions["InPoint"]->setIcon("djvIconFrameStart");
-            p.actions["InPoint"]->setShortcut(GLFW_KEY_HOME);
+            p.actions["InPoint"]->setShortcut(GLFW_KEY_HOME, GLFW_MOD_SHIFT);
             p.actions["InPoint"]->setEnabled(false);
             //! \todo Implement me!
             p.actions["OutPoint"] = UI::Action::create();
             p.actions["OutPoint"]->setIcon("djvIconFrameEnd");
-            p.actions["OutPoint"]->setShortcut(GLFW_KEY_END);
+            p.actions["OutPoint"]->setShortcut(GLFW_KEY_END, GLFW_MOD_SHIFT);
             p.actions["OutPoint"]->setEnabled(false);
 
             p.actions["StartFrame"] = UI::Action::create();
-            p.actions["StartFrame"]->setShortcut(GLFW_KEY_HOME, GLFW_MOD_SHIFT);
+            p.actions["StartFrame"]->setShortcut(GLFW_KEY_HOME);
             p.actions["EndFrame"] = UI::Action::create();
-            p.actions["EndFrame"]->setShortcut(GLFW_KEY_END, GLFW_MOD_SHIFT);
+            p.actions["EndFrame"]->setShortcut(GLFW_KEY_END);
             p.actions["NextFrame"] = UI::Action::create();
             p.actions["NextFrame"]->setIcon("djvIconFrameNext");
             p.actions["NextFrame"]->addShortcut(GLFW_KEY_RIGHT);

@@ -75,11 +75,11 @@ namespace djv
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["IncreaseVolume"]);
-            p.actions["IncreaseVolume"]->setShortcut(GLFW_KEY_9);
+            p.actions["IncreaseVolume"]->setShortcut(GLFW_KEY_8);
             p.menu->addAction(p.actions["DecreaseVolume"]);
-            p.actions["DecreaseVolume"]->setShortcut(GLFW_KEY_8);
+            p.actions["DecreaseVolume"]->setShortcut(GLFW_KEY_7);
             p.menu->addAction(p.actions["Mute"]);
-            p.actions["Mute"]->setShortcut(GLFW_KEY_0);
+            p.actions["Mute"]->setShortcut(GLFW_KEY_9);
 
             auto weak = std::weak_ptr<AudioSystem>(std::dynamic_pointer_cast<AudioSystem>(shared_from_this()));
             p.actionObservers["IncreaseVolume"] = ValueObserver<bool>::create(
