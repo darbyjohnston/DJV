@@ -38,6 +38,7 @@
 #include <djvUI/ToggleButton.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/OS.h>
 #include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
@@ -147,7 +148,7 @@ namespace djv
             p.enabledButton = UI::ToggleButton::create(context);
 
             p.maxSlider = UI::IntSlider::create(context);
-            p.maxSlider->setRange(IntRange(1, 64));
+            p.maxSlider->setRange(IntRange(1, OS::getRAMSize() / Memory::gigabyte));
 
             p.formLayout = UI::FormLayout::create(context);
             p.formLayout->addChild(p.enabledButton);

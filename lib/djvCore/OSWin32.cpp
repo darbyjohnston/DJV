@@ -112,6 +112,14 @@ namespace djv
                 return getLabel(windowsVersion());
             }
 
+            size_t getRAMSize()
+            {
+                MEMORYSTATUSEX statex;
+                statex.dwLength = sizeof(statex);
+                GlobalMemoryStatusEx(&statex);
+                return statex.ullTotalPhys;
+            }
+
             int getTerminalWidth()
             {
                 int out = 80;

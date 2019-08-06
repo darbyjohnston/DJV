@@ -64,6 +64,7 @@
 #include <djvUI/ToolButton.h>
 
 #include <djvCore/FileInfo.h>
+#include <djvCore/OS.h>
 
 #include <GLFW/glfw3.h>
 
@@ -136,7 +137,7 @@ namespace djv
             p.mediaButton->setEnabled(false);
 
             p.memoryCacheMaxSlider = UI::IntSlider::create(context);
-            p.memoryCacheMaxSlider->setRange(IntRange(1, 64));
+            p.memoryCacheMaxSlider->setRange(IntRange(1, OS::getRAMSize() / Memory::gigabyte));
             p.memoryCacheEnabledButton = UI::ToggleButton::create(context);
             p.memoryCacheEnabledButton->setHAlign(UI::HAlign::Center);
             p.memoryCacheEnabledButton->setMargin(UI::MetricsRole::None);

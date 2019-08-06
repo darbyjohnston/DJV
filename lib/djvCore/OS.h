@@ -47,6 +47,9 @@ namespace djv
             //! Get operating system information.
             std::string getInformation();
 
+            //! Get the total amount of RAM available.
+            size_t getRAMSize();
+
             //! Get the width of the terminal.
             int getTerminalWidth();
 
