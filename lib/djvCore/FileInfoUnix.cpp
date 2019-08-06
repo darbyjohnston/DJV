@@ -208,8 +208,8 @@ namespace djv
                         [&options](const FileInfo & a, const FileInfo & b)
                     {
                         return options.reverseSort ?
-                            (a.getFileName(Frame::Invalid, false) > b.getFileName(Frame::Invalid, false)) :
-                            (a.getFileName(Frame::Invalid, false) < b.getFileName(Frame::Invalid, false));
+                            (a.getFileName(Frame::invalid, false) > b.getFileName(Frame::invalid, false)) :
+                            (a.getFileName(Frame::invalid, false) < b.getFileName(Frame::invalid, false));
                     });
                     break;
                 case DirectoryListSort::Size:
