@@ -92,6 +92,12 @@ a.imageButton
 	align-self: center;
 }
 
+img.screenshot
+{
+	max-width: 100%;
+	height: auto;
+}
+
 pre
 {
 	padding: 1em;
