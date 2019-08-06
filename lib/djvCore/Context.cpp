@@ -71,6 +71,7 @@ namespace djv
                 s << "Application: " << _name << '\n';
                 s << "System information: " << OS::getInformation() << '\n';
                 s << "Hardware concurrency: " << std::thread::hardware_concurrency() << '\n';
+                s << "System RAM: " << (OS::getRAMSize() / Memory::gigabyte) << "GB" << '\n';
                 s << "argv0: " << argv0 << '\n';
                 s << "Resource paths:" << '\n';
                 for (auto path : FileSystem::getResourcePathEnums())
