@@ -1,5 +1,30 @@
 [
     {
+        "text": "The OpenGL texture cannot be created.", 
+        "id": "The OpenGL texture cannot be created.", 
+        "description": ""
+    }, 
+    {
+        "text": "The OpenGL frame buffer cannot be created.", 
+        "id": "The OpenGL frame buffer cannot be created.", 
+        "description": ""
+    }, 
+    {
+        "text": "The OpenGL frame buffer cannot be initialized.", 
+        "id": "The OpenGL frame buffer cannot be initialized.", 
+        "description": ""
+    }, 
+    {
+        "text": "Cannot open file.", 
+        "id": "Cannot open file.", 
+        "description": ""
+    }, 
+    {
+        "text": "Unsupported color components.", 
+        "id": "Unsupported color components.", 
+        "description": ""
+    }, 
+    {
         "text": "Bad magic number.", 
         "id": "Bad magic number.", 
         "description": ""
@@ -45,63 +70,138 @@
         "description": ""
     }, 
     {
-        "text": "Cannot open file.", 
-        "id": "Cannot open file.", 
+        "text": "Error writing scanline.", 
+        "id": "Error writing scanline.", 
         "description": ""
     }, 
     {
-        "text": "Unsupported file.", 
-        "id": "Unsupported file.", 
+        "text": "This plugin provides NetPBM image I/O.", 
+        "id": "This plugin provides NetPBM image I/O.", 
         "description": ""
     }, 
     {
-        "text": "This plugin provides DPX image I/O.", 
-        "id": "This plugin provides DPX image I/O.", 
+        "text": "ASCII", 
+        "id": "ASCII", 
         "description": ""
     }, 
     {
-        "text": "1.0", 
-        "id": "1.0", 
+        "text": "Binary", 
+        "id": "Binary", 
         "description": ""
     }, 
     {
-        "text": "2.0", 
-        "id": "2.0", 
+        "text": "Unsupported image type.", 
+        "id": "Unsupported image type.", 
         "description": ""
     }, 
     {
-        "text": "Auto", 
-        "id": "Auto", 
+        "text": "The shader cannot be created", 
+        "id": "The shader cannot be created", 
         "description": ""
     }, 
     {
-        "text": "MSB", 
-        "id": "MSB", 
+        "text": "Cannot create GLFW window.", 
+        "id": "Cannot create GLFW window.", 
         "description": ""
     }, 
     {
-        "text": "LSB", 
-        "id": "LSB", 
+        "text": "The file", 
+        "id": "The file", 
         "description": ""
     }, 
     {
-        "text": "Unsupported color components.", 
-        "id": "Unsupported color components.", 
+        "text": "cannot be opened", 
+        "id": "cannot be opened", 
         "description": ""
     }, 
     {
-        "text": "The OpenGL texture cannot be created.", 
-        "id": "The OpenGL texture cannot be created.", 
+        "text": "does not have any video or audio streams", 
+        "id": "does not have any video or audio streams", 
         "description": ""
     }, 
     {
-        "text": "The OpenGL frame buffer cannot be created.", 
-        "id": "The OpenGL frame buffer cannot be created.", 
+        "text": "does not match any video codecs", 
+        "id": "does not match any video codecs", 
         "description": ""
     }, 
     {
-        "text": "The OpenGL frame buffer cannot be initialized.", 
-        "id": "The OpenGL frame buffer cannot be initialized.", 
+        "text": "The audio format", 
+        "id": "The audio format", 
+        "description": ""
+    }, 
+    {
+        "text": "is not supported", 
+        "id": "is not supported", 
+        "description": ""
+    }, 
+    {
+        "text": "does not match any audio codecs", 
+        "id": "does not match any audio codecs", 
+        "description": ""
+    }, 
+    {
+        "text": "Unknown", 
+        "id": "Unknown", 
+        "description": ""
+    }, 
+    {
+        "text": "Out of memory", 
+        "id": "Out of memory", 
+        "description": ""
+    }, 
+    {
+        "text": "Invalid value", 
+        "id": "Invalid value", 
+        "description": ""
+    }, 
+    {
+        "text": "Invalid enum", 
+        "id": "Invalid enum", 
+        "description": ""
+    }, 
+    {
+        "text": "None", 
+        "id": "None", 
+        "description": ""
+    }, 
+    {
+        "text": "U8", 
+        "id": "U8", 
+        "description": ""
+    }, 
+    {
+        "text": "S16", 
+        "id": "S16", 
+        "description": ""
+    }, 
+    {
+        "text": "S32", 
+        "id": "S32", 
+        "description": ""
+    }, 
+    {
+        "text": "F32", 
+        "id": "F32", 
+        "description": ""
+    }, 
+    {
+        "text": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
+        "id": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
+        "description": ""
+    }, 
+    {
+        "text": "RLE", 
+        "id": "RLE", 
+        "description": ""
+    }, 
+    {
+        "text": "LZW", 
+        "id": "LZW", 
+        "description": ""
+    }, 
+    {
+        "text": "Error reading scanline.", 
+        "id": "Error reading scanline.", 
         "description": ""
     }, 
     {
@@ -140,38 +240,43 @@
         "description": ""
     }, 
     {
-        "text": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
-        "id": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
-        "description": ""
-    }, 
-    {
         "text": "The file cannot be opened.", 
         "id": "The file cannot be opened.", 
         "description": ""
     }, 
     {
-        "text": "This plugin provides NetPBM image I/O.", 
-        "id": "This plugin provides NetPBM image I/O.", 
+        "text": "Unsupported file.", 
+        "id": "Unsupported file.", 
         "description": ""
     }, 
     {
-        "text": "ASCII", 
-        "id": "ASCII", 
+        "text": "This plugin provides DPX image I/O.", 
+        "id": "This plugin provides DPX image I/O.", 
         "description": ""
     }, 
     {
-        "text": "Binary", 
-        "id": "Binary", 
+        "text": "1.0", 
+        "id": "1.0", 
         "description": ""
     }, 
     {
-        "text": "Unsupported image type.", 
-        "id": "Unsupported image type.", 
+        "text": "2.0", 
+        "id": "2.0", 
         "description": ""
     }, 
     {
-        "text": "None", 
-        "id": "None", 
+        "text": "Auto", 
+        "id": "Auto", 
+        "description": ""
+    }, 
+    {
+        "text": "MSB", 
+        "id": "MSB", 
+        "description": ""
+    }, 
+    {
+        "text": "LSB", 
+        "id": "LSB", 
         "description": ""
     }, 
     {
@@ -300,11 +405,6 @@
         "description": ""
     }, 
     {
-        "text": "U8", 
-        "id": "U8", 
-        "description": ""
-    }, 
-    {
         "text": "U10", 
         "id": "U10", 
         "description": ""
@@ -322,91 +422,6 @@
     {
         "text": "F16", 
         "id": "F16", 
-        "description": ""
-    }, 
-    {
-        "text": "F32", 
-        "id": "F32", 
-        "description": ""
-    }, 
-    {
-        "text": "The file", 
-        "id": "The file", 
-        "description": ""
-    }, 
-    {
-        "text": "cannot be read", 
-        "id": "cannot be read", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot create GLFW window.", 
-        "id": "Cannot create GLFW window.", 
-        "description": ""
-    }, 
-    {
-        "text": "cannot be written", 
-        "id": "cannot be written", 
-        "description": ""
-    }, 
-    {
-        "text": "The shader cannot be created", 
-        "id": "The shader cannot be created", 
-        "description": ""
-    }, 
-    {
-        "text": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
-        "id": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
-        "description": ""
-    }, 
-    {
-        "text": "RLE", 
-        "id": "RLE", 
-        "description": ""
-    }, 
-    {
-        "text": "LZW", 
-        "id": "LZW", 
-        "description": ""
-    }, 
-    {
-        "text": "Error reading scanline.", 
-        "id": "Error reading scanline.", 
-        "description": ""
-    }, 
-    {
-        "text": "Error writing scanline.", 
-        "id": "Error writing scanline.", 
-        "description": ""
-    }, 
-    {
-        "text": "Unknown", 
-        "id": "Unknown", 
-        "description": ""
-    }, 
-    {
-        "text": "Out of memory", 
-        "id": "Out of memory", 
-        "description": ""
-    }, 
-    {
-        "text": "Invalid value", 
-        "id": "Invalid value", 
-        "description": ""
-    }, 
-    {
-        "text": "Invalid enum", 
-        "id": "Invalid enum", 
-        "description": ""
-    }, 
-    {
-        "text": "S16", 
-        "id": "S16", 
-        "description": ""
-    }, 
-    {
-        "text": "S32", 
-        "id": "S32", 
         "description": ""
     }, 
     {
@@ -465,6 +480,11 @@
         "description": ""
     }, 
     {
+        "text": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
+        "id": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
+        "description": ""
+    }, 
+    {
         "text": "Left", 
         "id": "Left", 
         "description": ""
@@ -492,6 +512,21 @@
     {
         "text": "Frames", 
         "id": "Frames", 
+        "description": ""
+    }, 
+    {
+        "text": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
+        "id": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot be read", 
+        "id": "cannot be read", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot be written", 
+        "id": "cannot be written", 
         "description": ""
     }, 
     {
@@ -532,41 +567,6 @@
     {
         "text": "This plugin provides FFmpeg image and audio I/O.", 
         "id": "This plugin provides FFmpeg image and audio I/O.", 
-        "description": ""
-    }, 
-    {
-        "text": "cannot be opened", 
-        "id": "cannot be opened", 
-        "description": ""
-    }, 
-    {
-        "text": "does not have any video or audio streams", 
-        "id": "does not have any video or audio streams", 
-        "description": ""
-    }, 
-    {
-        "text": "does not match any video codecs", 
-        "id": "does not match any video codecs", 
-        "description": ""
-    }, 
-    {
-        "text": "The audio format ", 
-        "id": "The audio format ", 
-        "description": ""
-    }, 
-    {
-        "text": "is not supported", 
-        "id": "is not supported", 
-        "description": ""
-    }, 
-    {
-        "text": "does not match any audio codecs", 
-        "id": "does not match any audio codecs", 
-        "description": ""
-    }, 
-    {
-        "text": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
-        "id": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
         "description": ""
     }, 
     {
