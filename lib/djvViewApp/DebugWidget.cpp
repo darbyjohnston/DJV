@@ -410,7 +410,7 @@ namespace djv
             private:
                 void _widgetUpdate();
 
-                Frame::Sequence _sequence = 0;
+                Frame::Sequence _sequence;
                 Frame::Number _currentFrame = 0;
                 size_t _videoQueueMax = 0;
                 size_t _videoQueueCount = 0;
