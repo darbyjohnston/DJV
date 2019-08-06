@@ -1,20 +1,20 @@
 [
     {
+        "id": "Nothing to convert", 
         "source": "Nothing to convert", 
-        "text": "Ekkert a\u00f0 breyta", 
         "description": "", 
-        "id": "Nothing to convert"
+        "text": "Ekkert a\u00f0 breyta"
     }, 
     {
+        "id": "Cannot parse the option '-resize'", 
         "source": "Cannot parse the option '-resize'", 
-        "text": "Ekki er h\u00e6gt a\u00f0 flokka valkostinn &#39;-resize&#39;", 
         "description": "", 
-        "id": "Cannot parse the option '-resize'"
+        "text": "Ekki er h\u00e6gt a\u00f0 flokka valkostinn &#39;-resize&#39;"
     }, 
     {
+        "id": "Usage: djv_convert (input) (output)", 
         "source": "Usage: djv_convert (input) (output)", 
-        "text": "Notkun: djv_convert (inntak) (framlei\u00f0sla)", 
         "description": "", 
-        "id": "Usage: djv_convert (input) (output)"
+        "text": "Notkun: djv_convert (inntak) (framlei\u00f0sla)"
     }
 ]

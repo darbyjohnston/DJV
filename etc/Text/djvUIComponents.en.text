@@ -1,7 +1,7 @@
 [
     {
-        "text": "DPX", 
-        "id": "DPX", 
+        "text": "Cineon", 
+        "id": "Cineon", 
         "description": ""
     }, 
     {
@@ -15,303 +15,13 @@
         "description": ""
     }, 
     {
-        "text": "File Browser", 
-        "id": "File Browser", 
-        "description": ""
-    }, 
-    {
-        "text": "JPEG", 
-        "id": "JPEG", 
-        "description": ""
-    }, 
-    {
-        "text": "Compression quality", 
-        "id": "Compression quality", 
-        "description": ""
-    }, 
-    {
-        "text": "FFmpeg", 
-        "id": "FFmpeg", 
-        "description": ""
-    }, 
-    {
-        "text": "Thread count", 
-        "id": "Thread count", 
-        "description": ""
-    }, 
-    {
-        "text": "OpenEXR", 
-        "id": "OpenEXR", 
-        "description": ""
-    }, 
-    {
-        "text": "Channel grouping", 
-        "id": "Channel grouping", 
-        "description": ""
-    }, 
-    {
-        "text": "File compression", 
-        "id": "File compression", 
-        "description": ""
-    }, 
-    {
-        "text": "DWA compression level", 
-        "id": "DWA compression level", 
-        "description": ""
-    }, 
-    {
-        "text": "Color profile", 
-        "id": "Color profile", 
-        "description": ""
-    }, 
-    {
-        "text": "Language", 
-        "id": "Language", 
+        "text": "Color Space", 
+        "id": "Color Space", 
         "description": ""
     }, 
     {
         "text": "General", 
         "id": "General", 
-        "description": ""
-    }, 
-    {
-        "text": "Min", 
-        "id": "Min", 
-        "description": ""
-    }, 
-    {
-        "text": "Max", 
-        "id": "Max", 
-        "description": ""
-    }, 
-    {
-        "text": "Current", 
-        "id": "Current", 
-        "description": ""
-    }, 
-    {
-        "text": "Threads", 
-        "id": "Threads", 
-        "description": ""
-    }, 
-    {
-        "text": "PPM", 
-        "id": "PPM", 
-        "description": ""
-    }, 
-    {
-        "text": "Data type", 
-        "id": "Data type", 
-        "description": ""
-    }, 
-    {
-        "text": "TIFF", 
-        "id": "TIFF", 
-        "description": ""
-    }, 
-    {
-        "text": "Time", 
-        "id": "Time", 
-        "description": ""
-    }, 
-    {
-        "text": "Units", 
-        "id": "Units", 
-        "description": ""
-    }, 
-    {
-        "text": "Set the channels and data type of the color", 
-        "id": "Color type widget tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "L", 
-        "id": "L", 
-        "description": ""
-    }, 
-    {
-        "text": "Set the luminance value", 
-        "id": "RGB color sliders luminance tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "A", 
-        "id": "A", 
-        "description": ""
-    }, 
-    {
-        "text": "Set the alpha value", 
-        "id": "RGB color sliders alpha tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "R", 
-        "id": "R", 
-        "description": ""
-    }, 
-    {
-        "text": "G", 
-        "id": "G", 
-        "description": ""
-    }, 
-    {
-        "text": "B", 
-        "id": "B", 
-        "description": ""
-    }, 
-    {
-        "text": "Set the red value", 
-        "id": "RGB color sliders red tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Set the green value", 
-        "id": "RGB color sliders green tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Set the blue value", 
-        "id": "RGB color sliders blue tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "V", 
-        "id": "V", 
-        "description": ""
-    }, 
-    {
-        "text": "Set the value", 
-        "id": "HSV color sliders value tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Set the alpha value", 
-        "id": "HSV color sliders alpha tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "H", 
-        "id": "H", 
-        "description": ""
-    }, 
-    {
-        "text": "S", 
-        "id": "S", 
-        "description": ""
-    }, 
-    {
-        "text": "Set the hue", 
-        "id": "HSV color sliders hue tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Set the saturation", 
-        "id": "HSV color sliders saturation tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "The file", 
-        "id": "The file", 
-        "description": ""
-    }, 
-    {
-        "text": "cannot be read", 
-        "id": "cannot be read", 
-        "description": ""
-    }, 
-    {
-        "text": "Size", 
-        "id": "Size", 
-        "description": ""
-    }, 
-    {
-        "text": "Last modification time", 
-        "id": "Last modification time", 
-        "description": ""
-    }, 
-    {
-        "text": "Video track", 
-        "id": "Video track", 
-        "description": ""
-    }, 
-    {
-        "text": "Name", 
-        "id": "Name", 
-        "description": ""
-    }, 
-    {
-        "text": "Type", 
-        "id": "Type", 
-        "description": ""
-    }, 
-    {
-        "text": "Speed", 
-        "id": "Speed", 
-        "description": ""
-    }, 
-    {
-        "text": "FPS", 
-        "id": "FPS", 
-        "description": ""
-    }, 
-    {
-        "text": "Duration", 
-        "id": "Duration", 
-        "description": ""
-    }, 
-    {
-        "text": "frames", 
-        "id": "frames", 
-        "description": ""
-    }, 
-    {
-        "text": "Audio track", 
-        "id": "Audio track", 
-        "description": ""
-    }, 
-    {
-        "text": "Channels", 
-        "id": "Channels", 
-        "description": ""
-    }, 
-    {
-        "text": "Sample rate", 
-        "id": "Sample rate", 
-        "description": ""
-    }, 
-    {
-        "text": "kHz", 
-        "id": "kHz", 
-        "description": ""
-    }, 
-    {
-        "text": "seconds", 
-        "id": "seconds", 
-        "description": ""
-    }, 
-    {
-        "text": "Palette", 
-        "id": "Palette", 
-        "description": ""
-    }, 
-    {
-        "text": "Cineon", 
-        "id": "Cineon", 
-        "description": ""
-    }, 
-    {
-        "text": "Tooltips", 
-        "id": "Tooltips", 
-        "description": ""
-    }, 
-    {
-        "text": "Enable tooltips", 
-        "id": "Enable tooltips", 
-        "description": ""
-    }, 
-    {
-        "text": "Color Space", 
-        "id": "Color Space", 
         "description": ""
     }, 
     {
@@ -330,13 +40,8 @@
         "description": ""
     }, 
     {
-        "text": "Add the current directory to the list sof shortcuts", 
-        "id": "Add shortcut tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Edit the list of shortcuts", 
-        "id": "Edit shortcuts tooltip", 
+        "text": "DPX", 
+        "id": "DPX", 
         "description": ""
     }, 
     {
@@ -530,8 +235,303 @@
         "description": ""
     }, 
     {
+        "text": "File Browser", 
+        "id": "File Browser", 
+        "description": ""
+    }, 
+    {
         "text": "Open the file browser history", 
         "id": "File browser history tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Add the current directory to the list sof shortcuts", 
+        "id": "Add shortcut tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Edit the list of shortcuts", 
+        "id": "Edit shortcuts tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "JPEG", 
+        "id": "JPEG", 
+        "description": ""
+    }, 
+    {
+        "text": "Compression quality", 
+        "id": "Compression quality", 
+        "description": ""
+    }, 
+    {
+        "text": "Min", 
+        "id": "Min", 
+        "description": ""
+    }, 
+    {
+        "text": "Max", 
+        "id": "Max", 
+        "description": ""
+    }, 
+    {
+        "text": "Current", 
+        "id": "Current", 
+        "description": ""
+    }, 
+    {
+        "text": "OpenEXR", 
+        "id": "OpenEXR", 
+        "description": ""
+    }, 
+    {
+        "text": "Thread count", 
+        "id": "Thread count", 
+        "description": ""
+    }, 
+    {
+        "text": "Channel grouping", 
+        "id": "Channel grouping", 
+        "description": ""
+    }, 
+    {
+        "text": "File compression", 
+        "id": "File compression", 
+        "description": ""
+    }, 
+    {
+        "text": "DWA compression level", 
+        "id": "DWA compression level", 
+        "description": ""
+    }, 
+    {
+        "text": "Color profile", 
+        "id": "Color profile", 
+        "description": ""
+    }, 
+    {
+        "text": "PPM", 
+        "id": "PPM", 
+        "description": ""
+    }, 
+    {
+        "text": "Data type", 
+        "id": "Data type", 
+        "description": ""
+    }, 
+    {
+        "text": "TIFF", 
+        "id": "TIFF", 
+        "description": ""
+    }, 
+    {
+        "text": "Time", 
+        "id": "Time", 
+        "description": ""
+    }, 
+    {
+        "text": "Units", 
+        "id": "Units", 
+        "description": ""
+    }, 
+    {
+        "text": "Threads", 
+        "id": "Threads", 
+        "description": ""
+    }, 
+    {
+        "text": "FFmpeg", 
+        "id": "FFmpeg", 
+        "description": ""
+    }, 
+    {
+        "text": "Set the channels and data type of the color", 
+        "id": "Color type widget tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "L", 
+        "id": "L", 
+        "description": ""
+    }, 
+    {
+        "text": "Set the luminance value", 
+        "id": "RGB color sliders luminance tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "A", 
+        "id": "A", 
+        "description": ""
+    }, 
+    {
+        "text": "Set the alpha value", 
+        "id": "RGB color sliders alpha tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "R", 
+        "id": "R", 
+        "description": ""
+    }, 
+    {
+        "text": "G", 
+        "id": "G", 
+        "description": ""
+    }, 
+    {
+        "text": "B", 
+        "id": "B", 
+        "description": ""
+    }, 
+    {
+        "text": "Set the red value", 
+        "id": "RGB color sliders red tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Set the green value", 
+        "id": "RGB color sliders green tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Set the blue value", 
+        "id": "RGB color sliders blue tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "V", 
+        "id": "V", 
+        "description": ""
+    }, 
+    {
+        "text": "Set the value", 
+        "id": "HSV color sliders value tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Set the alpha value", 
+        "id": "HSV color sliders alpha tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "H", 
+        "id": "H", 
+        "description": ""
+    }, 
+    {
+        "text": "S", 
+        "id": "S", 
+        "description": ""
+    }, 
+    {
+        "text": "Set the hue", 
+        "id": "HSV color sliders hue tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Set the saturation", 
+        "id": "HSV color sliders saturation tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "The file", 
+        "id": "The file", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot be read", 
+        "id": "cannot be read", 
+        "description": ""
+    }, 
+    {
+        "text": "Size", 
+        "id": "Size", 
+        "description": ""
+    }, 
+    {
+        "text": "Last modification time", 
+        "id": "Last modification time", 
+        "description": ""
+    }, 
+    {
+        "text": "Video track", 
+        "id": "Video track", 
+        "description": ""
+    }, 
+    {
+        "text": "Name", 
+        "id": "Name", 
+        "description": ""
+    }, 
+    {
+        "text": "Type", 
+        "id": "Type", 
+        "description": ""
+    }, 
+    {
+        "text": "Speed", 
+        "id": "Speed", 
+        "description": ""
+    }, 
+    {
+        "text": "FPS", 
+        "id": "FPS", 
+        "description": ""
+    }, 
+    {
+        "text": "Duration", 
+        "id": "Duration", 
+        "description": ""
+    }, 
+    {
+        "text": "frames", 
+        "id": "frames", 
+        "description": ""
+    }, 
+    {
+        "text": "Audio track", 
+        "id": "Audio track", 
+        "description": ""
+    }, 
+    {
+        "text": "Channels", 
+        "id": "Channels", 
+        "description": ""
+    }, 
+    {
+        "text": "Sample rate", 
+        "id": "Sample rate", 
+        "description": ""
+    }, 
+    {
+        "text": "kHz", 
+        "id": "kHz", 
+        "description": ""
+    }, 
+    {
+        "text": "seconds", 
+        "id": "seconds", 
+        "description": ""
+    }, 
+    {
+        "text": "Language", 
+        "id": "Language", 
+        "description": ""
+    }, 
+    {
+        "text": "Palette", 
+        "id": "Palette", 
+        "description": ""
+    }, 
+    {
+        "text": "Tooltips", 
+        "id": "Tooltips", 
+        "description": ""
+    }, 
+    {
+        "text": "Enable tooltips", 
+        "id": "Enable tooltips", 
         "description": ""
     }
 ]

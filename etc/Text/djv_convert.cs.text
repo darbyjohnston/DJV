@@ -1,20 +1,20 @@
 [
     {
+        "id": "Nothing to convert", 
         "source": "Nothing to convert", 
-        "text": "Nic p\u0159ev\u00e9st", 
         "description": "", 
-        "id": "Nothing to convert"
+        "text": "Nic p\u0159ev\u00e9st"
     }, 
     {
+        "id": "Cannot parse the option '-resize'", 
         "source": "Cannot parse the option '-resize'", 
-        "text": "Nelze analyzovat mo\u017enost &#39;-resize&#39;", 
         "description": "", 
-        "id": "Cannot parse the option '-resize'"
+        "text": "Nelze analyzovat mo\u017enost &#39;-resize&#39;"
     }, 
     {
+        "id": "Usage: djv_convert (input) (output)", 
         "source": "Usage: djv_convert (input) (output)", 
-        "text": "Pou\u017eit\u00ed: djv_convert (vstup) (v\u00fdstup)", 
         "description": "", 
-        "id": "Usage: djv_convert (input) (output)"
+        "text": "Pou\u017eit\u00ed: djv_convert (vstup) (v\u00fdstup)"
     }
 ]
