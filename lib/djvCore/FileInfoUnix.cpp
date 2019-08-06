@@ -143,6 +143,10 @@ namespace djv
                         const std::string fileName = fileInfo.getFileName(-1, false);
                         
                         bool filter = false;
+                        if (fileName.size() > 0 && '.' == fileName[0])
+                        {
+                            filter = !options.showHidden;
+                        }
                         if (fileName.size() == 1 && '.' == fileName[0])
                         {
                             filter = true;
