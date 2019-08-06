@@ -120,9 +120,13 @@ namespace djv
             p.actions["Maximize"]->setCheckedIcon("djvIconSDI");
             p.actions["Maximize"]->setShortcut(GLFW_KEY_M);
 
+            p.actions["Fit"] = UI::Action::create();
+            p.actions["Fit"]->setShortcut(GLFW_KEY_F);
+
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["FullScreen"]);
             p.menu->addAction(p.actions["Maximize"]);
+            p.menu->addAction(p.actions["Fit"]);
 
             _actionsUpdate();
 
@@ -140,12 +144,25 @@ namespace djv
             p.actionObservers["Maximize"] = ValueObserver<bool>::create(
                 p.actions["Maximize"]->observeChecked(),
                 [weak](bool value)
-            {
-                if (auto system = weak.lock())
                 {
-                    system->setMaximize(value);
-                }
-            });
+                    if (auto system = weak.lock())
+                    {
+                        system->setMaximize(value);
+                    }
+                });
+
+            p.actionObservers["Fit"] = ValueObserver<bool>::create(
+                p.actions["Fit"]->observeClicked(),
+                [weak](bool value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        if (auto widget = system->_p->activeWidget->get())
+                        {
+                            widget->fitWindow();
+                        }
+                    }
+                });
 
             p.maximizeObserver = ValueObserver<bool>::create(
                 p.settings->observeMaximize(),
@@ -388,6 +405,8 @@ namespace djv
             p.actions["FullScreen"]->setTooltip(_getText(DJV_TEXT("Full screen tooltip")));
             p.actions["Maximize"]->setText(_getText(DJV_TEXT("Maximize")));
             p.actions["Maximize"]->setTooltip(_getText(DJV_TEXT("Maximize tooltip")));
+            p.actions["Fit"]->setText(_getText(DJV_TEXT("Fit")));
+            p.actions["Fit"]->setTooltip(_getText(DJV_TEXT("Fit tooltip")));
 
             p.menu->setText(_getText(DJV_TEXT("Window")));
         }

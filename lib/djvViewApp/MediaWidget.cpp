@@ -741,6 +741,25 @@ namespace djv
             return _p->imageView;
         }
 
+        void MediaWidget::fitWindow()
+        {
+            DJV_PRIVATE_PTR();
+            const auto& style = _getStyle();
+            const float sh = style->getMetric(UI::MetricsRole::Shadow);
+            const BBox2f imageBBox = p.imageView->getImageBBox();
+            const float zoom = p.imageView->observeImageZoom()->get();
+            const glm::vec2 imageSize = imageBBox.getSize() * zoom;
+            glm::vec2 size(ceilf(imageSize.x), ceilf(imageSize.y));
+            switch (p.viewLock)
+            {
+            case ImageViewLock::Frame:
+                size.y += _getTitleBarHeight() + _getPlaybackHeight();
+                break;
+            default: break;
+            }
+            resize(size + sh * 2.f);
+        }
+
         std::shared_ptr<Core::IValueSubject<PointerData> > MediaWidget::observeHover() const
         {
             return _p->hover;
@@ -750,6 +769,19 @@ namespace djv
         {
             return _p->drag;
         }
+
+        float MediaWidget::_getTitleBarHeight() const
+        {
+            DJV_PRIVATE_PTR();
+            return p.titleBar->getMinimumSize().y;
+        }
+
+        float MediaWidget::_getPlaybackHeight() const
+        {
+            DJV_PRIVATE_PTR();
+            return p.playbackLayout->isVisible() ? p.playbackLayout->getMinimumSize().y : 0.f;
+        }
+
 
         std::map<UI::MDI::Handle, std::vector<Core::BBox2f> > MediaWidget::_getHandles() const
         {
@@ -782,26 +814,29 @@ namespace djv
             const auto& style = _getStyle();
             const float sh = style->getMetric(UI::MetricsRole::Shadow);
             const glm::vec2& minimumSize = p.layout->getMinimumSize();
+
             glm::vec2 imageSize = p.imageView->getMinimumSize();
-            imageSize.x = std::max(imageSize.x * 2.f, minimumSize.x);
-            if (p.ioInfo.video.size())
+            const float ar = p.imageView->getImageBBox().getAspect();
+            if (ar > 1.f)
             {
-                const float aspectRatio = p.ioInfo.video[0].info.getAspectRatio();
-                if (aspectRatio > 0.f)
-                {
-                    imageSize.y = imageSize.x / aspectRatio;
-                }
+                imageSize.x = std::max(imageSize.x * 2.f, minimumSize.x);
+                imageSize.y = imageSize.x / ar;
             }
-            glm::vec2 size = imageSize;
+            else if (ar > 0.f)
+            {
+                imageSize.y = std::max(imageSize.y * 2.f, minimumSize.y);
+                imageSize.x = imageSize.y * ar;
+            }
+            glm::vec2 size(ceilf(imageSize.x), ceilf(imageSize.y));
+            
             switch (p.viewLock)
             {
             case ImageViewLock::Frame:
-                size.y +=
-                    p.titleBar->getMinimumSize().y +
-                    (p.playbackLayout->isVisible() ? p.playbackLayout->getMinimumSize().y : 0.f);
+                size.y += _getTitleBarHeight() + _getPlaybackHeight();
                 break;
             default: break;
             }
+
             _setMinimumSize(size + sh * 2.f);
         }
 
@@ -812,15 +847,13 @@ namespace djv
             const float sh = style->getMetric(UI::MetricsRole::Shadow);
             const BBox2f g = getGeometry().margin(-sh);
             p.layout->setGeometry(g);
-            const glm::vec2 titleBarSize = p.titleBar->getMinimumSize();
-            const glm::vec2 playbackSize = p.playbackLayout->isVisible() ? p.playbackLayout->getMinimumSize() : glm::vec2(0.f, 0.f);
             const BBox2f imageFrame = BBox2f(
                 glm::vec2(
                     g.min.x,
-                    g.min.y + titleBarSize.y),
+                    g.min.y + _getTitleBarHeight()),
                 glm::vec2(
                     g.max.x,
-                    g.max.y - playbackSize.y));
+                    g.max.y - _getPlaybackHeight()));
             p.imageView->setImageFrame(imageFrame);
         }
 

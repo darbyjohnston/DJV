@@ -81,10 +81,15 @@ namespace djv
 
             const std::shared_ptr<ImageView>& getImageView() const;
 
+            void fitWindow();
+
             std::shared_ptr<Core::IValueSubject<PointerData> > observeHover() const;
             std::shared_ptr<Core::IValueSubject<PointerData> > observeDrag() const;
 
         protected:
+            float _getTitleBarHeight() const;
+            float _getPlaybackHeight() const;
+
             virtual std::map<UI::MDI::Handle, std::vector<Core::BBox2f> > _getHandles() const override;
             void _setMaximize(float) override;
             void _setActiveWidget(bool) override;

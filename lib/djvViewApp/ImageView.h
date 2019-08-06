@@ -84,6 +84,9 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<float> > observeImageZoom() const;
             std::shared_ptr<Core::IValueSubject<ImageRotate> > observeImageRotate() const;
             std::shared_ptr<Core::IValueSubject<ImageAspectRatio> > observeImageAspectRatio() const;
+            Core::BBox2f getImageBBox() const;
+            float getPixelAspectRatio() const;
+            float getAspectRatioScale() const;
             void setImagePos(const glm::vec2&);
             void setImageZoom(float);
             void setImageZoomFocus(float, const glm::vec2 &);
@@ -102,9 +105,7 @@ namespace djv
             void _paintEvent(Core::Event::Paint &) override;
 
         private:
-            float _getPixelAspectRatio() const;
-            float _getAspectRatioScale() const;
-            std::vector<glm::vec3> _getXFormPoints() const;
+            std::vector<glm::vec3> _getImagePoints() const;
             static glm::vec2 _getCenter(const std::vector<glm::vec3>&);
             static Core::BBox2f _getBBox(const std::vector<glm::vec3>&);
 
