@@ -1,620 +1,644 @@
 [
     {
         "source": "Cineon", 
+        "text": "Cineon", 
         "description": "", 
-        "id": "Cineon", 
-        "text": "Cineon"
+        "id": "Cineon"
     }, 
     {
         "source": "I/O", 
+        "text": "I / O", 
         "description": "", 
-        "id": "I/O", 
-        "text": "I / O"
+        "id": "I/O"
     }, 
     {
         "source": "Color space", 
+        "text": "F\u00e4rg rymd", 
         "description": "", 
-        "id": "Color space", 
-        "text": "F\u00e4rg rymd"
+        "id": "Color space"
     }, 
     {
         "source": "Color Space", 
+        "text": "F\u00e4rg rymd", 
         "description": "", 
-        "id": "Color Space", 
-        "text": "F\u00e4rg rymd"
+        "id": "Color Space"
     }, 
     {
         "source": "General", 
+        "text": "Allm\u00e4n", 
         "description": "", 
-        "id": "General", 
-        "text": "Allm\u00e4n"
+        "id": "General"
     }, 
     {
         "source": "Input", 
+        "text": "Inmatning", 
         "description": "", 
-        "id": "Input", 
-        "text": "Inmatning"
+        "id": "Input"
     }, 
     {
         "source": "Display", 
+        "text": "Visa", 
         "description": "", 
-        "id": "Display", 
-        "text": "Visa"
+        "id": "Display"
     }, 
     {
         "source": "View", 
+        "text": "Se", 
         "description": "", 
-        "id": "View", 
-        "text": "Se"
+        "id": "View"
     }, 
     {
         "source": "DPX", 
+        "text": "DPX", 
         "description": "", 
-        "id": "DPX", 
-        "text": "DPX"
+        "id": "DPX"
     }, 
     {
         "source": "TIFF", 
+        "text": "TIFF", 
         "description": "", 
-        "id": "TIFF", 
-        "text": "TIFF"
+        "id": "TIFF"
     }, 
     {
         "source": "File compression", 
+        "text": "Filkomprimering", 
         "description": "", 
-        "id": "File compression", 
-        "text": "Filkomprimering"
+        "id": "File compression"
     }, 
     {
         "source": "The file", 
+        "text": "Filen", 
         "description": "", 
-        "id": "The file", 
-        "text": "Filen"
+        "id": "The file"
     }, 
     {
         "source": "cannot be read", 
+        "text": "kan inte l\u00e4sas", 
         "description": "", 
-        "id": "cannot be read", 
-        "text": "kan inte l\u00e4sas"
+        "id": "cannot be read"
     }, 
     {
         "source": "Size", 
+        "text": "Storlek", 
         "description": "", 
-        "id": "Size", 
-        "text": "Storlek"
+        "id": "Size"
     }, 
     {
         "source": "Last modification time", 
+        "text": "Senast \u00e4ndrad tid", 
         "description": "", 
-        "id": "Last modification time", 
-        "text": "Senast \u00e4ndrad tid"
+        "id": "Last modification time"
     }, 
     {
         "source": "Video track", 
+        "text": "Videosp\u00e5r", 
         "description": "", 
-        "id": "Video track", 
-        "text": "Videosp\u00e5r"
+        "id": "Video track"
     }, 
     {
         "source": "Name", 
+        "text": "namn", 
         "description": "", 
-        "id": "Name", 
-        "text": "namn"
+        "id": "Name"
     }, 
     {
         "source": "Type", 
+        "text": "Typ", 
         "description": "", 
-        "id": "Type", 
-        "text": "Typ"
+        "id": "Type"
     }, 
     {
         "source": "Speed", 
+        "text": "Fart", 
         "description": "", 
-        "id": "Speed", 
-        "text": "Fart"
+        "id": "Speed"
     }, 
     {
         "source": "FPS", 
+        "text": "FPS", 
         "description": "", 
-        "id": "FPS", 
-        "text": "FPS"
+        "id": "FPS"
     }, 
     {
         "source": "Duration", 
+        "text": "Varaktighet", 
         "description": "", 
-        "id": "Duration", 
-        "text": "Varaktighet"
+        "id": "Duration"
     }, 
     {
         "source": "Audio track", 
+        "text": "Ljudsp\u00e5r", 
         "description": "", 
-        "id": "Audio track", 
-        "text": "Ljudsp\u00e5r"
+        "id": "Audio track"
     }, 
     {
         "source": "Channels", 
+        "text": "kanaler", 
         "description": "", 
-        "id": "Channels", 
-        "text": "kanaler"
+        "id": "Channels"
     }, 
     {
         "source": "Sample rate", 
+        "text": "Samplingshastighet", 
         "description": "", 
-        "id": "Sample rate", 
-        "text": "Samplingshastighet"
+        "id": "Sample rate"
     }, 
     {
         "source": "kHz", 
+        "text": "kHz", 
         "description": "", 
-        "id": "kHz", 
-        "text": "kHz"
+        "id": "kHz"
     }, 
     {
         "source": "OpenEXR", 
+        "text": "OpenEXR", 
         "description": "", 
-        "id": "OpenEXR", 
-        "text": "OpenEXR"
+        "id": "OpenEXR"
     }, 
     {
         "source": "Thread count", 
+        "text": "Tr\u00e5dt\u00e4thet", 
         "description": "", 
-        "id": "Thread count", 
-        "text": "Tr\u00e5dt\u00e4thet"
+        "id": "Thread count"
     }, 
     {
         "source": "Channel grouping", 
+        "text": "Kanalgruppering", 
         "description": "", 
-        "id": "Channel grouping", 
-        "text": "Kanalgruppering"
+        "id": "Channel grouping"
     }, 
     {
         "source": "DWA compression level", 
+        "text": "DWA-kompressionsniv\u00e5", 
         "description": "", 
-        "id": "DWA compression level", 
-        "text": "DWA-kompressionsniv\u00e5"
+        "id": "DWA compression level"
     }, 
     {
         "source": "Color profile", 
+        "text": "F\u00e4rgprofil", 
         "description": "", 
-        "id": "Color profile", 
-        "text": "F\u00e4rgprofil"
+        "id": "Color profile"
     }, 
     {
         "source": "PPM", 
+        "text": "PPM", 
         "description": "", 
-        "id": "PPM", 
-        "text": "PPM"
+        "id": "PPM"
     }, 
     {
         "source": "Data type", 
+        "text": "Data typ", 
         "description": "", 
-        "id": "Data type", 
-        "text": "Data typ"
+        "id": "Data type"
     }, 
     {
         "source": "Time", 
+        "text": "Tid", 
         "description": "", 
-        "id": "Time", 
-        "text": "Tid"
+        "id": "Time"
     }, 
     {
         "source": "Units", 
+        "text": "Enheter", 
         "description": "", 
-        "id": "Units", 
-        "text": "Enheter"
+        "id": "Units"
     }, 
     {
         "source": "Tooltips", 
+        "text": "verktygstips", 
         "description": "", 
-        "id": "Tooltips", 
-        "text": "verktygstips"
+        "id": "Tooltips"
     }, 
     {
         "source": "Enable tooltips", 
+        "text": "Aktivera verktygstips", 
         "description": "", 
-        "id": "Enable tooltips", 
-        "text": "Aktivera verktygstips"
+        "id": "Enable tooltips"
     }, 
     {
         "source": "Set the channels and data type of the color", 
+        "text": "St\u00e4ll in kanalerna och datatypen f\u00f6r f\u00e4rgen", 
         "description": "", 
-        "id": "Color type widget tooltip", 
-        "text": "St\u00e4ll in kanalerna och datatypen f\u00f6r f\u00e4rgen"
+        "id": "Color type widget tooltip"
     }, 
     {
         "source": "L", 
+        "text": "den", 
         "description": "", 
-        "id": "L", 
-        "text": "den"
+        "id": "L"
     }, 
     {
         "source": "Set the luminance value", 
+        "text": "St\u00e4ll in luminansv\u00e4rdet", 
         "description": "", 
-        "id": "RGB color sliders luminance tooltip", 
-        "text": "St\u00e4ll in luminansv\u00e4rdet"
+        "id": "RGB color sliders luminance tooltip"
     }, 
     {
         "source": "A", 
+        "text": "en", 
         "description": "", 
-        "id": "A", 
-        "text": "en"
+        "id": "A"
     }, 
     {
         "source": "Set the alpha value", 
+        "text": "St\u00e4ll in alfav\u00e4rdet", 
         "description": "", 
-        "id": "RGB color sliders alpha tooltip", 
-        "text": "St\u00e4ll in alfav\u00e4rdet"
+        "id": "RGB color sliders alpha tooltip"
     }, 
     {
         "source": "R", 
+        "text": "R", 
         "description": "", 
-        "id": "R", 
-        "text": "R"
+        "id": "R"
     }, 
     {
         "source": "G", 
+        "text": "G", 
         "description": "", 
-        "id": "G", 
-        "text": "G"
+        "id": "G"
     }, 
     {
         "source": "B", 
+        "text": "B", 
         "description": "", 
-        "id": "B", 
-        "text": "B"
+        "id": "B"
     }, 
     {
         "source": "Set the red value", 
+        "text": "St\u00e4ll in det r\u00f6da v\u00e4rdet", 
         "description": "", 
-        "id": "RGB color sliders red tooltip", 
-        "text": "St\u00e4ll in det r\u00f6da v\u00e4rdet"
+        "id": "RGB color sliders red tooltip"
     }, 
     {
         "source": "Set the green value", 
+        "text": "St\u00e4ll in det gr\u00f6na v\u00e4rdet", 
         "description": "", 
-        "id": "RGB color sliders green tooltip", 
-        "text": "St\u00e4ll in det gr\u00f6na v\u00e4rdet"
+        "id": "RGB color sliders green tooltip"
     }, 
     {
         "source": "Set the blue value", 
+        "text": "St\u00e4ll in det bl\u00e5 v\u00e4rdet", 
         "description": "", 
-        "id": "RGB color sliders blue tooltip", 
-        "text": "St\u00e4ll in det bl\u00e5 v\u00e4rdet"
+        "id": "RGB color sliders blue tooltip"
     }, 
     {
         "source": "V", 
+        "text": "V", 
         "description": "", 
-        "id": "V", 
-        "text": "V"
+        "id": "V"
     }, 
     {
         "source": "Set the value", 
+        "text": "St\u00e4ll in v\u00e4rdet", 
         "description": "", 
-        "id": "HSV color sliders value tooltip", 
-        "text": "St\u00e4ll in v\u00e4rdet"
+        "id": "HSV color sliders value tooltip"
     }, 
     {
         "source": "Set the alpha value", 
+        "text": "St\u00e4ll in alfav\u00e4rdet", 
         "description": "", 
-        "id": "HSV color sliders alpha tooltip", 
-        "text": "St\u00e4ll in alfav\u00e4rdet"
+        "id": "HSV color sliders alpha tooltip"
     }, 
     {
         "source": "H", 
+        "text": "H", 
         "description": "", 
-        "id": "H", 
-        "text": "H"
+        "id": "H"
     }, 
     {
         "source": "S", 
+        "text": "S", 
         "description": "", 
-        "id": "S", 
-        "text": "S"
+        "id": "S"
     }, 
     {
         "source": "Set the hue", 
+        "text": "St\u00e4ll in nyansen", 
         "description": "", 
-        "id": "HSV color sliders hue tooltip", 
-        "text": "St\u00e4ll in nyansen"
+        "id": "HSV color sliders hue tooltip"
     }, 
     {
         "source": "Set the saturation", 
+        "text": "St\u00e4ll in m\u00e4ttnaden", 
         "description": "", 
-        "id": "HSV color sliders saturation tooltip", 
-        "text": "St\u00e4ll in m\u00e4ttnaden"
+        "id": "HSV color sliders saturation tooltip"
     }, 
     {
         "source": "Add the current directory to the list sof shortcuts", 
+        "text": "L\u00e4gg till den aktuella katalogen i listan SOF genv\u00e4gar", 
         "description": "", 
-        "id": "Add shortcut tooltip", 
-        "text": "L\u00e4gg till den aktuella katalogen i listan SOF genv\u00e4gar"
+        "id": "Add shortcut tooltip"
     }, 
     {
         "source": "Edit the list of shortcuts", 
+        "text": "Redigera listan med genv\u00e4gar", 
         "description": "", 
-        "id": "Edit shortcuts tooltip", 
-        "text": "Redigera listan med genv\u00e4gar"
+        "id": "Edit shortcuts tooltip"
     }, 
     {
         "source": "Back", 
+        "text": "Tillbaka", 
         "description": "", 
-        "id": "Back", 
-        "text": "Tillbaka"
+        "id": "Back"
     }, 
     {
         "source": "Go back a directory", 
+        "text": "G\u00e5 tillbaka en katalog", 
         "description": "", 
-        "id": "File browser back tooltip", 
-        "text": "G\u00e5 tillbaka en katalog"
+        "id": "File browser back tooltip"
     }, 
     {
         "source": "Forward", 
+        "text": "Fram\u00e5t", 
         "description": "", 
-        "id": "Forward", 
-        "text": "Fram\u00e5t"
+        "id": "Forward"
     }, 
     {
         "source": "Go forward a directory", 
+        "text": "G\u00e5 vidare till en katalog", 
         "description": "", 
-        "id": "File browser forward tooltip", 
-        "text": "G\u00e5 vidare till en katalog"
+        "id": "File browser forward tooltip"
     }, 
     {
         "source": "Up", 
+        "text": "Upp", 
         "description": "", 
-        "id": "Up", 
-        "text": "Upp"
+        "id": "Up"
     }, 
     {
         "source": "Go up a directory", 
+        "text": "G\u00e5 upp i en katalog", 
         "description": "", 
-        "id": "File browser up tooltip", 
-        "text": "G\u00e5 upp i en katalog"
+        "id": "File browser up tooltip"
     }, 
     {
         "source": "Tile View", 
+        "text": "Tile View", 
         "description": "", 
-        "id": "Tile View", 
-        "text": "Tile View"
+        "id": "Tile View"
     }, 
     {
         "source": "Show directory items as tiles", 
+        "text": "Visa katalogobjekt som plattor", 
         "description": "", 
-        "id": "File browser tile view tooltip", 
-        "text": "Visa katalogobjekt som plattor"
+        "id": "File browser tile view tooltip"
     }, 
     {
         "source": "List View", 
+        "text": "Listvy", 
         "description": "", 
-        "id": "List View", 
-        "text": "Listvy"
+        "id": "List View"
     }, 
     {
         "source": "Show directory items as a list", 
+        "text": "Visa katalogobjekt som en lista", 
         "description": "", 
-        "id": "File browser list view tooltip", 
-        "text": "Visa katalogobjekt som en lista"
+        "id": "File browser list view tooltip"
     }, 
     {
         "source": "Increase Thumbnail Size", 
+        "text": "\u00d6ka miniatyrstorlek", 
         "description": "", 
-        "id": "Increase Thumbnail Size", 
-        "text": "\u00d6ka miniatyrstorlek"
+        "id": "Increase Thumbnail Size"
     }, 
     {
         "source": "Increase the size of the thumbnails", 
+        "text": "\u00d6ka storleken p\u00e5 miniatyrerna", 
         "description": "", 
-        "id": "File browser increase thumbnail size tooltip", 
-        "text": "\u00d6ka storleken p\u00e5 miniatyrerna"
+        "id": "File browser increase thumbnail size tooltip"
     }, 
     {
         "source": "Decrease Thumbnail Size", 
+        "text": "Minska miniatyrstorlek", 
         "description": "", 
-        "id": "Decrease Thumbnail Size", 
-        "text": "Minska miniatyrstorlek"
+        "id": "Decrease Thumbnail Size"
     }, 
     {
         "source": "Decrease the size of the thumbnails", 
+        "text": "Minska storleken p\u00e5 miniatyrerna", 
         "description": "", 
-        "id": "File browser decrease thumbnail size tooltip", 
-        "text": "Minska storleken p\u00e5 miniatyrerna"
+        "id": "File browser decrease thumbnail size tooltip"
     }, 
     {
         "source": "Enable File Sequences", 
+        "text": "Aktivera filsekvenser", 
         "description": "", 
-        "id": "Enable File Sequences", 
-        "text": "Aktivera filsekvenser"
+        "id": "Enable File Sequences"
     }, 
     {
         "source": "Show sequences of files as a single item", 
+        "text": "Visa sekvenser av filer som ett enda objekt", 
         "description": "", 
-        "id": "File browser file sequences tooltip", 
-        "text": "Visa sekvenser av filer som ett enda objekt"
+        "id": "File browser file sequences tooltip"
     }, 
     {
         "source": "Show Hidden Files", 
+        "text": "Visa g\u00f6mda filer", 
         "description": "", 
-        "id": "Show Hidden Files", 
-        "text": "Visa g\u00f6mda filer"
+        "id": "Show Hidden Files"
     }, 
     {
         "source": "Show directory items that begin with a '.'", 
+        "text": "Visa katalogobjekt som b\u00f6rjar med en &#39;.&#39;", 
         "description": "", 
-        "id": "File browser show hidden tooltip", 
-        "text": "Visa katalogobjekt som b\u00f6rjar med en &#39;.&#39;"
+        "id": "File browser show hidden tooltip"
     }, 
     {
         "source": "Sort By Name", 
+        "text": "Sortera efter namn", 
         "description": "", 
-        "id": "Sort By Name", 
-        "text": "Sortera efter namn"
+        "id": "Sort By Name"
     }, 
     {
         "source": "Sort directory items by name", 
+        "text": "Sortera katalogobjekt med namn", 
         "description": "", 
-        "id": "File browser sort by name tooltip", 
-        "text": "Sortera katalogobjekt med namn"
+        "id": "File browser sort by name tooltip"
     }, 
     {
         "source": "Sort By Size", 
+        "text": "Sortera efter storlek", 
         "description": "", 
-        "id": "Sort By Size", 
-        "text": "Sortera efter storlek"
+        "id": "Sort By Size"
     }, 
     {
         "source": "Sort directory items by size", 
+        "text": "Sortera katalogobjekt efter storlek", 
         "description": "", 
-        "id": "File browser sort by size tooltip", 
-        "text": "Sortera katalogobjekt efter storlek"
+        "id": "File browser sort by size tooltip"
     }, 
     {
         "source": "Sort By Time", 
+        "text": "Sortera efter tid", 
         "description": "", 
-        "id": "Sort By Time", 
-        "text": "Sortera efter tid"
+        "id": "Sort By Time"
     }, 
     {
         "source": "Sort directory items by time", 
+        "text": "Sortera katalogobjekt efter tid", 
         "description": "", 
-        "id": "File browser sort by time tooltip", 
-        "text": "Sortera katalogobjekt efter tid"
+        "id": "File browser sort by time tooltip"
     }, 
     {
         "source": "Reverse Sort", 
+        "text": "Omv\u00e4nd sortering", 
         "description": "", 
-        "id": "Reverse Sort", 
-        "text": "Omv\u00e4nd sortering"
+        "id": "Reverse Sort"
     }, 
     {
         "source": "Reverse the direction of sorting", 
+        "text": "Omv\u00e4nd sorteringsriktningen", 
         "description": "", 
-        "id": "File browser reverse sort tooltip", 
-        "text": "Omv\u00e4nd sorteringsriktningen"
+        "id": "File browser reverse sort tooltip"
     }, 
     {
         "source": "Sort Directories First", 
+        "text": "Sortera kataloger f\u00f6rst", 
         "description": "", 
-        "id": "Sort Directories First", 
-        "text": "Sortera kataloger f\u00f6rst"
+        "id": "Sort Directories First"
     }, 
     {
         "source": "Show directories before files", 
+        "text": "Visa kataloger f\u00f6re filer", 
         "description": "", 
-        "id": "File browser sort directories first tooltip", 
-        "text": "Visa kataloger f\u00f6re filer"
+        "id": "File browser sort directories first tooltip"
     }, 
     {
         "source": "Name", 
+        "text": "namn", 
         "description": "", 
-        "id": "File browser name column", 
-        "text": "namn"
+        "id": "File browser name column"
     }, 
     {
         "source": "Size", 
+        "text": "Storlek", 
         "description": "", 
-        "id": "File browse size column", 
-        "text": "Storlek"
+        "id": "File browse size column"
     }, 
     {
         "source": "Time", 
+        "text": "Tid", 
         "description": "", 
-        "id": "File browser time column", 
-        "text": "Tid"
+        "id": "File browser time column"
     }, 
     {
         "source": "Show the shortcuts", 
+        "text": "Visa genv\u00e4garna", 
         "description": "", 
-        "id": "File browser shortcuts tooltip", 
-        "text": "Visa genv\u00e4garna"
+        "id": "File browser shortcuts tooltip"
     }, 
     {
         "source": "Show recently used directories", 
+        "text": "Visa nyligen anv\u00e4nda kataloger", 
         "description": "", 
-        "id": "File browser recent paths tooltip", 
-        "text": "Visa nyligen anv\u00e4nda kataloger"
+        "id": "File browser recent paths tooltip"
     }, 
     {
         "source": "Show the drives", 
+        "text": "Visa enheterna", 
         "description": "", 
-        "id": "File browser drives tooltip", 
-        "text": "Visa enheterna"
+        "id": "File browser drives tooltip"
     }, 
     {
         "source": "File browser sort tooltip", 
+        "text": "Filbrowser sortera verktygstips", 
         "description": "", 
-        "id": "File browser sort tooltip", 
-        "text": "Filbrowser sortera verktygstips"
+        "id": "File browser sort tooltip"
     }, 
     {
         "source": "Open the file browser settings", 
+        "text": "\u00d6ppna filens webbl\u00e4sarinst\u00e4llningar", 
         "description": "", 
-        "id": "File browser settings tooltip", 
-        "text": "\u00d6ppna filens webbl\u00e4sarinst\u00e4llningar"
+        "id": "File browser settings tooltip"
     }, 
     {
         "source": "Search for items in the directory", 
+        "text": "S\u00f6k efter objekt i katalogen", 
         "description": "", 
-        "id": "File browser search tooltip", 
-        "text": "S\u00f6k efter objekt i katalogen"
+        "id": "File browser search tooltip"
     }, 
     {
         "source": "Items", 
+        "text": "artiklar", 
         "description": "", 
-        "id": "Items", 
-        "text": "artiklar"
+        "id": "Items"
     }, 
     {
         "source": "File Browser", 
+        "text": "Filhanterare", 
         "description": "", 
-        "id": "File Browser", 
-        "text": "Filhanterare"
+        "id": "File Browser"
     }, 
     {
         "source": "Open the file browser history", 
+        "text": "\u00d6ppna filhistorikens filhistorik", 
         "description": "", 
-        "id": "File browser history tooltip", 
-        "text": "\u00d6ppna filhistorikens filhistorik"
+        "id": "File browser history tooltip"
     }, 
     {
         "source": "JPEG", 
+        "text": "JPEG", 
         "description": "", 
-        "id": "JPEG", 
-        "text": "JPEG"
+        "id": "JPEG"
     }, 
     {
         "source": "Compression quality", 
+        "text": "Kompressionskvalitet", 
         "description": "", 
-        "id": "Compression quality", 
-        "text": "Kompressionskvalitet"
+        "id": "Compression quality"
     }, 
     {
         "source": "Language", 
+        "text": "Spr\u00e5k", 
         "description": "", 
-        "id": "Language", 
-        "text": "Spr\u00e5k"
+        "id": "Language"
     }, 
     {
         "source": "Min", 
+        "text": "mig", 
         "description": "", 
-        "id": "Min", 
-        "text": "mig"
+        "id": "Min"
     }, 
     {
         "source": "Max", 
+        "text": "Max", 
         "description": "", 
-        "id": "Max", 
-        "text": "Max"
+        "id": "Max"
     }, 
     {
         "source": "Current", 
+        "text": "Nuvarande", 
         "description": "", 
-        "id": "Current", 
-        "text": "Nuvarande"
+        "id": "Current"
     }, 
     {
         "source": "Palette", 
+        "text": "Palett", 
         "description": "", 
-        "id": "Palette", 
-        "text": "Palett"
+        "id": "Palette"
+    }, 
+    {
+        "source": "FFmpeg", 
+        "text": "FFmpeg", 
+        "id": "FFmpeg", 
+        "description": ""
+    }, 
+    {
+        "source": "Threads", 
+        "text": "Tr\u00e5dar", 
+        "id": "Threads", 
+        "description": ""
+    }, 
+    {
+        "source": "frames", 
+        "text": "ramar", 
+        "id": "frames", 
+        "description": ""
+    }, 
+    {
+        "source": "seconds", 
+        "text": "sekunder", 
+        "id": "seconds", 
+        "description": ""
     }
 ]

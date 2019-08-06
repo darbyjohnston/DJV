@@ -1,1190 +1,1190 @@
 [
     {
         "source": "Cannot parse the value.", 
+        "text": "Nelze analyzovat hodnotu.", 
         "description": "", 
-        "id": "Cannot parse the value.", 
-        "text": "Nelze analyzovat hodnotu."
+        "id": "Cannot parse the value."
     }, 
     {
         "source": "Horizontal", 
+        "text": "Horizont\u00e1ln\u00ed", 
         "description": "", 
-        "id": "Horizontal", 
-        "text": "Horizont\u00e1ln\u00ed"
+        "id": "Horizontal"
     }, 
     {
         "source": "Vertical", 
+        "text": "Vertik\u00e1ln\u00ed", 
         "description": "", 
-        "id": "Vertical", 
-        "text": "Vertik\u00e1ln\u00ed"
+        "id": "Vertical"
     }, 
     {
         "source": "Left", 
+        "text": "Vlevo, odjet", 
         "description": "", 
-        "id": "Left", 
-        "text": "Vlevo, odjet"
+        "id": "Left"
     }, 
     {
         "source": "Top", 
+        "text": "Horn\u00ed", 
         "description": "", 
-        "id": "Top", 
-        "text": "Horn\u00ed"
+        "id": "Top"
     }, 
     {
         "source": "Right", 
+        "text": "\u017de jo", 
         "description": "", 
-        "id": "Right", 
-        "text": "\u017de jo"
+        "id": "Right"
     }, 
     {
         "source": "Bottom", 
+        "text": "Dno", 
         "description": "", 
-        "id": "Bottom", 
-        "text": "Dno"
+        "id": "Bottom"
     }, 
     {
         "source": "None", 
+        "text": "\u017d\u00e1dn\u00fd", 
         "description": "", 
-        "id": "None", 
-        "text": "\u017d\u00e1dn\u00fd"
+        "id": "None"
     }, 
     {
         "source": "Both", 
+        "text": "Oba", 
         "description": "", 
-        "id": "Both", 
-        "text": "Oba"
+        "id": "Both"
     }, 
     {
         "source": "Center", 
+        "text": "Centrum", 
         "description": "", 
-        "id": "Center", 
-        "text": "Centrum"
+        "id": "Center"
     }, 
     {
         "source": "Fill", 
+        "text": "Vyplnit", 
         "description": "", 
-        "id": "Fill", 
-        "text": "Vyplnit"
+        "id": "Fill"
     }, 
     {
         "source": "Baseline", 
+        "text": "Z\u00e1kladn\u00ed hodnota", 
         "description": "", 
-        "id": "Baseline", 
-        "text": "Z\u00e1kladn\u00ed hodnota"
+        "id": "Baseline"
     }, 
     {
         "source": "Single", 
+        "text": "Singl", 
         "description": "", 
-        "id": "Single", 
-        "text": "Singl"
+        "id": "Single"
     }, 
     {
         "source": "Radio", 
+        "text": "R\u00e1dio", 
         "description": "", 
-        "id": "Radio", 
-        "text": "R\u00e1dio"
+        "id": "Radio"
     }, 
     {
         "source": "Multiple", 
+        "text": "N\u00e1sobek", 
         "description": "", 
-        "id": "Multiple", 
-        "text": "N\u00e1sobek"
+        "id": "Multiple"
     }, 
     {
         "source": "Forward", 
+        "text": "Vp\u0159ed", 
         "description": "", 
-        "id": "Forward", 
-        "text": "Vp\u0159ed"
+        "id": "Forward"
     }, 
     {
         "source": "Reverse", 
+        "text": "Zvr\u00e1tit", 
         "description": "", 
-        "id": "Reverse", 
-        "text": "Zvr\u00e1tit"
+        "id": "Reverse"
     }, 
     {
         "source": "Push", 
+        "text": "Tla\u010dit", 
         "description": "", 
-        "id": "Push", 
-        "text": "Tla\u010dit"
+        "id": "Push"
     }, 
     {
         "source": "Toggle", 
+        "text": "P\u0159epnout", 
         "description": "", 
-        "id": "Toggle", 
-        "text": "P\u0159epnout"
+        "id": "Toggle"
     }, 
     {
         "source": "Exclusive", 
+        "text": "V\u00fdhradn\u00ed", 
         "description": "", 
-        "id": "Exclusive", 
-        "text": "V\u00fdhradn\u00ed"
+        "id": "Exclusive"
     }, 
     {
         "source": "Tiles", 
+        "text": "Dla\u017edice", 
         "description": "", 
-        "id": "Tiles", 
-        "text": "Dla\u017edice"
+        "id": "Tiles"
     }, 
     {
         "source": "List", 
+        "text": "Seznam", 
         "description": "", 
-        "id": "List", 
-        "text": "Seznam"
+        "id": "List"
     }, 
     {
         "source": "Background", 
+        "text": "Pozad\u00ed", 
         "description": "", 
-        "id": "Background", 
-        "text": "Pozad\u00ed"
+        "id": "Background"
     }, 
     {
         "source": "Background Header", 
+        "text": "Pozad\u00ed z\u00e1hlav\u00ed", 
         "description": "", 
-        "id": "BackgroundHeader", 
-        "text": "Pozad\u00ed z\u00e1hlav\u00ed"
+        "id": "BackgroundHeader"
     }, 
     {
         "source": "Background Bellows", 
+        "text": "Pozad\u00ed m\u011bchy", 
         "description": "", 
-        "id": "BackgroundBellows", 
-        "text": "Pozad\u00ed m\u011bchy"
+        "id": "BackgroundBellows"
     }, 
     {
         "source": "Background ToolBar", 
+        "text": "Pozad\u00ed ToolBar", 
         "description": "", 
-        "id": "BackgroundToolBar", 
-        "text": "Pozad\u00ed ToolBar"
+        "id": "BackgroundToolBar"
     }, 
     {
         "source": "Foreground", 
+        "text": "Pop\u0159ed\u00ed", 
         "description": "", 
-        "id": "Foreground", 
-        "text": "Pop\u0159ed\u00ed"
+        "id": "Foreground"
     }, 
     {
         "source": "Foreground Dim", 
+        "text": "Pop\u0159ed\u00ed Dim", 
         "description": "", 
-        "id": "ForegroundDim", 
-        "text": "Pop\u0159ed\u00ed Dim"
+        "id": "ForegroundDim"
     }, 
     {
         "source": "Border", 
+        "text": "okraj", 
         "description": "", 
-        "id": "Border", 
-        "text": "okraj"
+        "id": "Border"
     }, 
     {
         "source": "Border Button", 
+        "text": "Hrani\u010dn\u00ed tla\u010d\u00edtko", 
         "description": "", 
-        "id": "BorderButton", 
-        "text": "Hrani\u010dn\u00ed tla\u010d\u00edtko"
+        "id": "BorderButton"
     }, 
     {
         "source": "Trough", 
+        "text": "Koryto", 
         "description": "", 
-        "id": "Trough", 
-        "text": "Koryto"
+        "id": "Trough"
     }, 
     {
         "source": "Button", 
+        "text": "Tla\u010d\u00edtko", 
         "description": "", 
-        "id": "Button", 
-        "text": "Tla\u010d\u00edtko"
+        "id": "Button"
     }, 
     {
         "source": "Hovered", 
+        "text": "Vzn\u00e1\u0161el se", 
         "description": "", 
-        "id": "Hovered", 
-        "text": "Vzn\u00e1\u0161el se"
+        "id": "Hovered"
     }, 
     {
         "source": "Pressed", 
+        "text": "Stiskn\u011bte", 
         "description": "", 
-        "id": "Pressed", 
-        "text": "Stiskn\u011bte"
+        "id": "Pressed"
     }, 
     {
         "source": "Checked", 
+        "text": "Kontrolov\u00e1ny", 
         "description": "", 
-        "id": "Checked", 
-        "text": "Kontrolov\u00e1ny"
+        "id": "Checked"
     }, 
     {
         "source": "Text Focus", 
+        "text": "Textov\u00e9 zam\u011b\u0159en\u00ed", 
         "description": "", 
-        "id": "TextFocus", 
-        "text": "Textov\u00e9 zam\u011b\u0159en\u00ed"
+        "id": "TextFocus"
     }, 
     {
         "source": "Tooltip Background", 
+        "text": "Popis pozad\u00ed", 
         "description": "", 
-        "id": "TooltipBackground", 
-        "text": "Popis pozad\u00ed"
+        "id": "TooltipBackground"
     }, 
     {
         "source": "Tooltip Foreground", 
+        "text": "Popis pop\u0159ed\u00ed", 
         "description": "", 
-        "id": "TooltipForeground", 
-        "text": "Popis pop\u0159ed\u00ed"
+        "id": "TooltipForeground"
     }, 
     {
         "source": "Overlay", 
+        "text": "P\u0159ekryt\u00ed", 
         "description": "", 
-        "id": "Overlay", 
-        "text": "P\u0159ekryt\u00ed"
+        "id": "Overlay"
     }, 
     {
         "source": "Overlay Light", 
+        "text": "Overlay Light", 
         "description": "", 
-        "id": "OverlayLight", 
-        "text": "Overlay Light"
+        "id": "OverlayLight"
     }, 
     {
         "source": "Shadow", 
+        "text": "St\u00edn", 
         "description": "", 
-        "id": "Shadow", 
-        "text": "St\u00edn"
+        "id": "Shadow"
     }, 
     {
         "source": "Handle", 
+        "text": "Rukoje\u0165", 
         "description": "", 
-        "id": "Handle", 
-        "text": "Rukoje\u0165"
+        "id": "Handle"
     }, 
     {
         "source": "Margin", 
+        "text": "Okraj", 
         "description": "", 
-        "id": "Margin", 
-        "text": "Okraj"
+        "id": "Margin"
     }, 
     {
         "source": "Margin Small", 
+        "text": "Margin Small", 
         "description": "", 
-        "id": "MarginSmall", 
-        "text": "Margin Small"
+        "id": "MarginSmall"
     }, 
     {
         "source": "Margin Large", 
+        "text": "Margin Large", 
         "description": "", 
-        "id": "MarginLarge", 
-        "text": "Margin Large"
+        "id": "MarginLarge"
     }, 
     {
         "source": "Margin Dialog", 
+        "text": "Dialog Margin", 
         "description": "", 
-        "id": "MarginDialog", 
-        "text": "Dialog Margin"
+        "id": "MarginDialog"
     }, 
     {
         "source": "Spacing", 
+        "text": "Vzd\u00e1lenost", 
         "description": "", 
-        "id": "Spacing", 
-        "text": "Vzd\u00e1lenost"
+        "id": "Spacing"
     }, 
     {
         "source": "Spacing Small", 
+        "text": "Mezery mal\u00e9", 
         "description": "", 
-        "id": "SpacingSmall", 
-        "text": "Mezery mal\u00e9"
+        "id": "SpacingSmall"
     }, 
     {
         "source": "Spacing Large", 
+        "text": "Mezery velk\u00e9", 
         "description": "", 
-        "id": "SpacingLarge", 
-        "text": "Mezery velk\u00e9"
+        "id": "SpacingLarge"
     }, 
     {
         "source": "Drag", 
+        "text": "T\u00e1hnout", 
         "description": "", 
-        "id": "Drag", 
-        "text": "T\u00e1hnout"
+        "id": "Drag"
     }, 
     {
         "source": "Icon", 
+        "text": "Ikona", 
         "description": "", 
-        "id": "Icon", 
-        "text": "Ikona"
+        "id": "Icon"
     }, 
     {
         "source": "Icon Small", 
+        "text": "Ikona Mal\u00e1", 
         "description": "", 
-        "id": "IconSmall", 
-        "text": "Ikona Mal\u00e1"
+        "id": "IconSmall"
     }, 
     {
         "source": "Font Small", 
+        "text": "P\u00edsmo mal\u00e9", 
         "description": "", 
-        "id": "FontSmall", 
-        "text": "P\u00edsmo mal\u00e9"
+        "id": "FontSmall"
     }, 
     {
         "source": "Font Medium", 
+        "text": "St\u0159edn\u00ed p\u00edsmo", 
         "description": "", 
-        "id": "FontMedium", 
-        "text": "St\u0159edn\u00ed p\u00edsmo"
+        "id": "FontMedium"
     }, 
     {
         "source": "Font Large", 
+        "text": "Velk\u00e9 p\u00edsmo", 
         "description": "", 
-        "id": "FontLarge", 
-        "text": "Velk\u00e9 p\u00edsmo"
+        "id": "FontLarge"
     }, 
     {
         "source": "Font Header", 
+        "text": "Z\u00e1hlav\u00ed p\u00edsma", 
         "description": "", 
-        "id": "FontHeader", 
-        "text": "Z\u00e1hlav\u00ed p\u00edsma"
+        "id": "FontHeader"
     }, 
     {
         "source": "Font Title", 
+        "text": "N\u00e1zev p\u00edsma", 
         "description": "", 
-        "id": "FontTitle", 
-        "text": "N\u00e1zev p\u00edsma"
+        "id": "FontTitle"
     }, 
     {
         "source": "Swatch", 
+        "text": "Swatch", 
         "description": "", 
-        "id": "Swatch", 
-        "text": "Swatch"
+        "id": "Swatch"
     }, 
     {
         "source": "Slider", 
+        "text": "Posuvn\u00edk", 
         "description": "", 
-        "id": "Slider", 
-        "text": "Posuvn\u00edk"
+        "id": "Slider"
     }, 
     {
         "source": "Scroll Area", 
+        "text": "Posuvn\u00e1 oblast", 
         "description": "", 
-        "id": "ScrollArea", 
-        "text": "Posuvn\u00e1 oblast"
+        "id": "ScrollArea"
     }, 
     {
         "source": "Menu", 
+        "text": "J\u00eddeln\u00ed l\u00edstek", 
         "description": "", 
-        "id": "Menu", 
-        "text": "J\u00eddeln\u00ed l\u00edstek"
+        "id": "Menu"
     }, 
     {
         "source": "Text Column", 
+        "text": "Sloupec textu", 
         "description": "", 
-        "id": "TextColumn", 
-        "text": "Sloupec textu"
+        "id": "TextColumn"
     }, 
     {
         "source": "Text Column Large", 
+        "text": "Sloupec textu velk\u00fd", 
         "description": "", 
-        "id": "TextColumnLarge", 
-        "text": "Sloupec textu velk\u00fd"
+        "id": "TextColumnLarge"
     }, 
     {
         "source": "Search Box", 
+        "text": "Vyhled\u00e1vac\u00ed pole", 
         "description": "", 
-        "id": "SearchBox", 
-        "text": "Vyhled\u00e1vac\u00ed pole"
+        "id": "SearchBox"
     }, 
     {
         "source": "Dialog", 
+        "text": "Dialog", 
         "description": "", 
-        "id": "Dialog", 
-        "text": "Dialog"
+        "id": "Dialog"
     }, 
     {
         "source": "Shadow Small", 
+        "text": "Shadow Small", 
         "description": "", 
-        "id": "ShadowSmall", 
-        "text": "Shadow Small"
+        "id": "ShadowSmall"
     }, 
     {
         "source": "Tooltip Offset", 
+        "text": "Popis ofsetu", 
         "description": "", 
-        "id": "TooltipOffset", 
-        "text": "Popis ofsetu"
+        "id": "TooltipOffset"
     }, 
     {
         "source": "Move", 
+        "text": "P\u0159est\u011bhovat se", 
         "description": "", 
-        "id": "Move", 
-        "text": "P\u0159est\u011bhovat se"
+        "id": "Move"
     }, 
     {
         "source": "Dark", 
+        "text": "Temn\u00fd", 
         "description": "", 
-        "id": "Dark", 
-        "text": "Temn\u00fd"
+        "id": "Dark"
     }, 
     {
         "source": "Light", 
+        "text": "Sv\u011btlo", 
         "description": "", 
-        "id": "Light", 
-        "text": "Sv\u011btlo"
+        "id": "Light"
     }, 
     {
         "source": "Medium", 
+        "text": "St\u0159edn\u00ed", 
         "description": "", 
-        "id": "Medium", 
-        "text": "St\u0159edn\u00ed"
+        "id": "Medium"
     }, 
     {
         "source": "Small", 
+        "text": "Mal\u00fd", 
         "description": "", 
-        "id": "Small", 
-        "text": "Mal\u00fd"
+        "id": "Small"
     }, 
     {
         "source": "Large", 
+        "text": "Velk\u00fd", 
         "description": "", 
-        "id": "Large", 
-        "text": "Velk\u00fd"
+        "id": "Large"
     }, 
     {
         "source": "Extra Large", 
+        "text": "Extra velk\u00e9", 
         "description": "", 
-        "id": "ExtraLarge", 
-        "text": "Extra velk\u00e9"
+        "id": "ExtraLarge"
     }, 
     {
         "source": "Default", 
+        "text": "V\u00fdchoz\u00ed", 
         "description": "", 
-        "id": "Default", 
-        "text": "V\u00fdchoz\u00ed"
+        "id": "Default"
     }, 
     {
         "source": "Expand", 
+        "text": "Roz\u0161\u00ed\u0159it", 
         "description": "", 
-        "id": "Expand", 
-        "text": "Roz\u0161\u00ed\u0159it"
+        "id": "Expand"
     }, 
     {
         "source": "Space", 
+        "text": "Prostor", 
         "description": "", 
-        "id": "Space", 
-        "text": "Prostor"
+        "id": "Space"
     }, 
     {
         "source": "Apostrophe", 
+        "text": "Apostrof", 
         "description": "", 
-        "id": "Apostrophe", 
-        "text": "Apostrof"
+        "id": "Apostrophe"
     }, 
     {
         "source": "Comma", 
+        "text": "\u010d\u00e1rka", 
         "description": "", 
-        "id": "Comma", 
-        "text": "\u010d\u00e1rka"
+        "id": "Comma"
     }, 
     {
         "source": "Minus", 
+        "text": "M\u00ednus", 
         "description": "", 
-        "id": "Minus", 
-        "text": "M\u00ednus"
+        "id": "Minus"
     }, 
     {
         "source": "Period", 
+        "text": "Doba", 
         "description": "", 
-        "id": "Period", 
-        "text": "Doba"
+        "id": "Period"
     }, 
     {
         "source": "Slash", 
+        "text": "Slash", 
         "description": "", 
-        "id": "Slash", 
-        "text": "Slash"
+        "id": "Slash"
     }, 
     {
         "source": "0", 
+        "text": "0", 
         "description": "", 
-        "id": "0", 
-        "text": "0"
+        "id": "0"
     }, 
     {
         "source": "1", 
+        "text": "1", 
         "description": "", 
-        "id": "1", 
-        "text": "1"
+        "id": "1"
     }, 
     {
         "source": "2", 
+        "text": "2", 
         "description": "", 
-        "id": "2", 
-        "text": "2"
+        "id": "2"
     }, 
     {
         "source": "3", 
+        "text": "3", 
         "description": "", 
-        "id": "3", 
-        "text": "3"
+        "id": "3"
     }, 
     {
         "source": "4", 
+        "text": "4", 
         "description": "", 
-        "id": "4", 
-        "text": "4"
+        "id": "4"
     }, 
     {
         "source": "5", 
+        "text": "5", 
         "description": "", 
-        "id": "5", 
-        "text": "5"
+        "id": "5"
     }, 
     {
         "source": "6", 
+        "text": "6", 
         "description": "", 
-        "id": "6", 
-        "text": "6"
+        "id": "6"
     }, 
     {
         "source": "7", 
+        "text": "7", 
         "description": "", 
-        "id": "7", 
-        "text": "7"
+        "id": "7"
     }, 
     {
         "source": "8", 
+        "text": "8", 
         "description": "", 
-        "id": "8", 
-        "text": "8"
+        "id": "8"
     }, 
     {
         "source": "9", 
+        "text": "9", 
         "description": "", 
-        "id": "9", 
-        "text": "9"
+        "id": "9"
     }, 
     {
         "source": "Semicolon", 
+        "text": "St\u0159edn\u00edk", 
         "description": "", 
-        "id": "Semicolon", 
-        "text": "St\u0159edn\u00edk"
+        "id": "Semicolon"
     }, 
     {
         "source": "Equal", 
+        "text": "Rovnat se", 
         "description": "", 
-        "id": "Equal", 
-        "text": "Rovnat se"
+        "id": "Equal"
     }, 
     {
         "source": "A", 
+        "text": "A", 
         "description": "", 
-        "id": "A", 
-        "text": "A"
+        "id": "A"
     }, 
     {
         "source": "B", 
+        "text": "B", 
         "description": "", 
-        "id": "B", 
-        "text": "B"
+        "id": "B"
     }, 
     {
         "source": "C", 
+        "text": "C", 
         "description": "", 
-        "id": "C", 
-        "text": "C"
+        "id": "C"
     }, 
     {
         "source": "D", 
+        "text": "D", 
         "description": "", 
-        "id": "D", 
-        "text": "D"
+        "id": "D"
     }, 
     {
         "source": "E", 
+        "text": "a", 
         "description": "", 
-        "id": "E", 
-        "text": "a"
+        "id": "E"
     }, 
     {
         "source": "F", 
+        "text": "F", 
         "description": "", 
-        "id": "F", 
-        "text": "F"
+        "id": "F"
     }, 
     {
         "source": "G", 
+        "text": "G", 
         "description": "", 
-        "id": "G", 
-        "text": "G"
+        "id": "G"
     }, 
     {
         "source": "H", 
+        "text": "H", 
         "description": "", 
-        "id": "H", 
-        "text": "H"
+        "id": "H"
     }, 
     {
         "source": "I", 
+        "text": "J\u00e1", 
         "description": "", 
-        "id": "I", 
-        "text": "J\u00e1"
+        "id": "I"
     }, 
     {
         "source": "J", 
+        "text": "J", 
         "description": "", 
-        "id": "J", 
-        "text": "J"
+        "id": "J"
     }, 
     {
         "source": "K", 
+        "text": "K", 
         "description": "", 
-        "id": "K", 
-        "text": "K"
+        "id": "K"
     }, 
     {
         "source": "L", 
+        "text": "", 
         "description": "", 
-        "id": "L", 
-        "text": ""
+        "id": "L"
     }, 
     {
         "source": "M", 
+        "text": "M", 
         "description": "", 
-        "id": "M", 
-        "text": "M"
+        "id": "M"
     }, 
     {
         "source": "N", 
+        "text": "N", 
         "description": "", 
-        "id": "N", 
-        "text": "N"
+        "id": "N"
     }, 
     {
         "source": "O", 
+        "text": "O", 
         "description": "", 
-        "id": "O", 
-        "text": "O"
+        "id": "O"
     }, 
     {
         "source": "P", 
+        "text": "P", 
         "description": "", 
-        "id": "P", 
-        "text": "P"
+        "id": "P"
     }, 
     {
         "source": "Q", 
+        "text": "Q", 
         "description": "", 
-        "id": "Q", 
-        "text": "Q"
+        "id": "Q"
     }, 
     {
         "source": "R", 
+        "text": "R", 
         "description": "", 
-        "id": "R", 
-        "text": "R"
+        "id": "R"
     }, 
     {
         "source": "S", 
+        "text": "S", 
         "description": "", 
-        "id": "S", 
-        "text": "S"
+        "id": "S"
     }, 
     {
         "source": "T", 
+        "text": "T", 
         "description": "", 
-        "id": "T", 
-        "text": "T"
+        "id": "T"
     }, 
     {
         "source": "U", 
+        "text": "U", 
         "description": "", 
-        "id": "U", 
-        "text": "U"
+        "id": "U"
     }, 
     {
         "source": "V", 
+        "text": "V", 
         "description": "", 
-        "id": "V", 
-        "text": "V"
+        "id": "V"
     }, 
     {
         "source": "W", 
+        "text": "", 
         "description": "", 
-        "id": "W", 
-        "text": ""
+        "id": "W"
     }, 
     {
         "source": "X", 
+        "text": "X", 
         "description": "", 
-        "id": "X", 
-        "text": "X"
+        "id": "X"
     }, 
     {
         "source": "Y", 
+        "text": "Y", 
         "description": "", 
-        "id": "Y", 
-        "text": "Y"
+        "id": "Y"
     }, 
     {
         "source": "Z", 
+        "text": "s", 
         "description": "", 
-        "id": "Z", 
-        "text": "s"
+        "id": "Z"
     }, 
     {
         "source": "Left Bracket", 
+        "text": "Lev\u00e1 z\u00e1vorka", 
         "description": "", 
-        "id": "LeftBracket", 
-        "text": "Lev\u00e1 z\u00e1vorka"
+        "id": "LeftBracket"
     }, 
     {
         "source": "Backslash", 
+        "text": "Obr\u00e1cen\u00e9 lom\u00edtko", 
         "description": "", 
-        "id": "Backslash", 
-        "text": "Obr\u00e1cen\u00e9 lom\u00edtko"
+        "id": "Backslash"
     }, 
     {
         "source": "Right Bracket", 
+        "text": "Prav\u00e1 z\u00e1vorka", 
         "description": "", 
-        "id": "RightBracket", 
-        "text": "Prav\u00e1 z\u00e1vorka"
+        "id": "RightBracket"
     }, 
     {
         "source": "Grave Accent", 
+        "text": "V\u00e1\u017en\u00fd p\u0159\u00edzvuk", 
         "description": "", 
-        "id": "GraveAccent", 
-        "text": "V\u00e1\u017en\u00fd p\u0159\u00edzvuk"
+        "id": "GraveAccent"
     }, 
     {
         "source": "World 1", 
+        "text": "Sv\u011bt 1", 
         "description": "", 
-        "id": "World1", 
-        "text": "Sv\u011bt 1"
+        "id": "World1"
     }, 
     {
         "source": "World 2", 
+        "text": "Sv\u011bt 2", 
         "description": "", 
-        "id": "World2", 
-        "text": "Sv\u011bt 2"
+        "id": "World2"
     }, 
     {
         "source": "Escape", 
+        "text": "Uniknout", 
         "description": "", 
-        "id": "Escape", 
-        "text": "Uniknout"
+        "id": "Escape"
     }, 
     {
         "source": "Enter", 
+        "text": "Vstoupit", 
         "description": "", 
-        "id": "Enter", 
-        "text": "Vstoupit"
+        "id": "Enter"
     }, 
     {
         "source": "Tab", 
+        "text": "Tab", 
         "description": "", 
-        "id": "Tab", 
-        "text": "Tab"
+        "id": "Tab"
     }, 
     {
         "source": "Backspace", 
+        "text": "Backspace", 
         "description": "", 
-        "id": "Backspace", 
-        "text": "Backspace"
+        "id": "Backspace"
     }, 
     {
         "source": "Insert", 
+        "text": "Vlo\u017eit", 
         "description": "", 
-        "id": "Insert", 
-        "text": "Vlo\u017eit"
+        "id": "Insert"
     }, 
     {
         "source": "Delete", 
+        "text": "Odstranit", 
         "description": "", 
-        "id": "Delete", 
-        "text": "Odstranit"
+        "id": "Delete"
     }, 
     {
         "source": "Right Arrow", 
+        "text": "Prav\u00e1 \u0161ipka", 
         "description": "", 
-        "id": "RightArrow", 
-        "text": "Prav\u00e1 \u0161ipka"
+        "id": "RightArrow"
     }, 
     {
         "source": "Left Arrow", 
+        "text": "\u0160ipka vlevo", 
         "description": "", 
-        "id": "LeftArrow", 
-        "text": "\u0160ipka vlevo"
+        "id": "LeftArrow"
     }, 
     {
         "source": "Down Arrow", 
+        "text": "\u0160ipka dol\u016f", 
         "description": "", 
-        "id": "DownArrow", 
-        "text": "\u0160ipka dol\u016f"
+        "id": "DownArrow"
     }, 
     {
         "source": "Up Arrow", 
+        "text": "\u0160ipka nahoru", 
         "description": "", 
-        "id": "UpArrow", 
-        "text": "\u0160ipka nahoru"
+        "id": "UpArrow"
     }, 
     {
         "source": "Page Up", 
+        "text": "Page Up", 
         "description": "", 
-        "id": "PageUp", 
-        "text": "Page Up"
+        "id": "PageUp"
     }, 
     {
         "source": "Page Down", 
+        "text": "Page Down", 
         "description": "", 
-        "id": "PageDown", 
-        "text": "Page Down"
+        "id": "PageDown"
     }, 
     {
         "source": "Home", 
+        "text": "Domov", 
         "description": "", 
-        "id": "Home", 
-        "text": "Domov"
+        "id": "Home"
     }, 
     {
         "source": "End", 
+        "text": "Konec", 
         "description": "", 
-        "id": "End", 
-        "text": "Konec"
+        "id": "End"
     }, 
     {
         "source": "Caps Lock", 
+        "text": "Caps Lock", 
         "description": "", 
-        "id": "CapsLock", 
-        "text": "Caps Lock"
+        "id": "CapsLock"
     }, 
     {
         "source": "Scroll Lock", 
+        "text": "Posu\u0148te z\u00e1mek", 
         "description": "", 
-        "id": "ScrollLock", 
-        "text": "Posu\u0148te z\u00e1mek"
+        "id": "ScrollLock"
     }, 
     {
         "source": "Num Lock", 
+        "text": "Num Lock", 
         "description": "", 
-        "id": "NumLock", 
-        "text": "Num Lock"
+        "id": "NumLock"
     }, 
     {
         "source": "Print Screen", 
+        "text": "Tisk obrazovky", 
         "description": "", 
-        "id": "PrintScreen", 
-        "text": "Tisk obrazovky"
+        "id": "PrintScreen"
     }, 
     {
         "source": "F1", 
+        "text": "F1", 
         "description": "", 
-        "id": "F1", 
-        "text": "F1"
+        "id": "F1"
     }, 
     {
         "source": "F2", 
+        "text": "F2", 
         "description": "", 
-        "id": "F2", 
-        "text": "F2"
+        "id": "F2"
     }, 
     {
         "source": "F3", 
+        "text": "F3", 
         "description": "", 
-        "id": "F3", 
-        "text": "F3"
+        "id": "F3"
     }, 
     {
         "source": "F4", 
+        "text": "F4", 
         "description": "", 
-        "id": "F4", 
-        "text": "F4"
+        "id": "F4"
     }, 
     {
         "source": "F5", 
+        "text": "F5", 
         "description": "", 
-        "id": "F5", 
-        "text": "F5"
+        "id": "F5"
     }, 
     {
         "source": "F6", 
+        "text": "F6", 
         "description": "", 
-        "id": "F6", 
-        "text": "F6"
+        "id": "F6"
     }, 
     {
         "source": "F7", 
+        "text": "F7", 
         "description": "", 
-        "id": "F7", 
-        "text": "F7"
+        "id": "F7"
     }, 
     {
         "source": "F8", 
+        "text": "F8", 
         "description": "", 
-        "id": "F8", 
-        "text": "F8"
+        "id": "F8"
     }, 
     {
         "source": "F9", 
+        "text": "F9", 
         "description": "", 
-        "id": "F9", 
-        "text": "F9"
+        "id": "F9"
     }, 
     {
         "source": "F10", 
+        "text": "F10", 
         "description": "", 
-        "id": "F10", 
-        "text": "F10"
+        "id": "F10"
     }, 
     {
         "source": "F11", 
+        "text": "F11", 
         "description": "", 
-        "id": "F11", 
-        "text": "F11"
+        "id": "F11"
     }, 
     {
         "source": "F12", 
+        "text": "F12", 
         "description": "", 
-        "id": "F12", 
-        "text": "F12"
+        "id": "F12"
     }, 
     {
         "source": "F13", 
+        "text": "F13", 
         "description": "", 
-        "id": "F13", 
-        "text": "F13"
+        "id": "F13"
     }, 
     {
         "source": "F14", 
+        "text": "F14", 
         "description": "", 
-        "id": "F14", 
-        "text": "F14"
+        "id": "F14"
     }, 
     {
         "source": "F15", 
+        "text": "F15", 
         "description": "", 
-        "id": "F15", 
-        "text": "F15"
+        "id": "F15"
     }, 
     {
         "source": "F16", 
+        "text": "F16", 
         "description": "", 
-        "id": "F16", 
-        "text": "F16"
+        "id": "F16"
     }, 
     {
         "source": "F17", 
+        "text": "F17", 
         "description": "", 
-        "id": "F17", 
-        "text": "F17"
+        "id": "F17"
     }, 
     {
         "source": "F18", 
+        "text": "F18", 
         "description": "", 
-        "id": "F18", 
-        "text": "F18"
+        "id": "F18"
     }, 
     {
         "source": "F19", 
+        "text": "F19", 
         "description": "", 
-        "id": "F19", 
-        "text": "F19"
+        "id": "F19"
     }, 
     {
         "source": "F20", 
+        "text": "F20", 
         "description": "", 
-        "id": "F20", 
-        "text": "F20"
+        "id": "F20"
     }, 
     {
         "source": "F21", 
+        "text": "F21", 
         "description": "", 
-        "id": "F21", 
-        "text": "F21"
+        "id": "F21"
     }, 
     {
         "source": "F22", 
+        "text": "F22", 
         "description": "", 
-        "id": "F22", 
-        "text": "F22"
+        "id": "F22"
     }, 
     {
         "source": "F23", 
+        "text": "F23", 
         "description": "", 
-        "id": "F23", 
-        "text": "F23"
+        "id": "F23"
     }, 
     {
         "source": "F24", 
+        "text": "F24", 
         "description": "", 
-        "id": "F24", 
-        "text": "F24"
+        "id": "F24"
     }, 
     {
         "source": "F25", 
+        "text": "F25", 
         "description": "", 
-        "id": "F25", 
-        "text": "F25"
+        "id": "F25"
     }, 
     {
         "source": "Key Pad 0", 
+        "text": "Kl\u00e1vesnice 0", 
         "description": "", 
-        "id": "KeyPad0", 
-        "text": "Kl\u00e1vesnice 0"
+        "id": "KeyPad0"
     }, 
     {
         "source": "Key Pad 1", 
+        "text": "Kl\u00e1vesnice 1", 
         "description": "", 
-        "id": "KeyPad1", 
-        "text": "Kl\u00e1vesnice 1"
+        "id": "KeyPad1"
     }, 
     {
         "source": "Key Pad 2", 
+        "text": "Kl\u00e1vesnice 2", 
         "description": "", 
-        "id": "KeyPad2", 
-        "text": "Kl\u00e1vesnice 2"
+        "id": "KeyPad2"
     }, 
     {
         "source": "Key Pad 3", 
+        "text": "Kl\u00e1vesnice 3", 
         "description": "", 
-        "id": "KeyPad3", 
-        "text": "Kl\u00e1vesnice 3"
+        "id": "KeyPad3"
     }, 
     {
         "source": "Key Pad 4", 
+        "text": "Kl\u00e1vesnice 4", 
         "description": "", 
-        "id": "KeyPad4", 
-        "text": "Kl\u00e1vesnice 4"
+        "id": "KeyPad4"
     }, 
     {
         "source": "Key Pad 5", 
+        "text": "Kl\u00e1vesnice 5", 
         "description": "", 
-        "id": "KeyPad5", 
-        "text": "Kl\u00e1vesnice 5"
+        "id": "KeyPad5"
     }, 
     {
         "source": "Key Pad 6", 
+        "text": "Kl\u00e1vesnice 6", 
         "description": "", 
-        "id": "KeyPad6", 
-        "text": "Kl\u00e1vesnice 6"
+        "id": "KeyPad6"
     }, 
     {
         "source": "Key Pad 7", 
+        "text": "Kl\u00e1vesnice 7", 
         "description": "", 
-        "id": "KeyPad7", 
-        "text": "Kl\u00e1vesnice 7"
+        "id": "KeyPad7"
     }, 
     {
         "source": "Key Pad 8", 
+        "text": "Kl\u00e1vesnice 8", 
         "description": "", 
-        "id": "KeyPad8", 
-        "text": "Kl\u00e1vesnice 8"
+        "id": "KeyPad8"
     }, 
     {
         "source": "Key Pad 9", 
+        "text": "Kl\u00e1vesnice 9", 
         "description": "", 
-        "id": "KeyPad9", 
-        "text": "Kl\u00e1vesnice 9"
+        "id": "KeyPad9"
     }, 
     {
         "source": "Key Pad Decimal", 
+        "text": "Deska kl\u00e1vesnice Des\u00edtkov\u00e1", 
         "description": "", 
-        "id": "KeyPadDecimal", 
-        "text": "Deska kl\u00e1vesnice Des\u00edtkov\u00e1"
+        "id": "KeyPadDecimal"
     }, 
     {
         "source": "Key Pad Divide", 
+        "text": "Rozd\u011blen\u00ed kl\u00e1vesnice", 
         "description": "", 
-        "id": "KeyPadDivide", 
-        "text": "Rozd\u011blen\u00ed kl\u00e1vesnice"
+        "id": "KeyPadDivide"
     }, 
     {
         "source": "Key Pad Multiply", 
+        "text": "Key Pad zn\u00e1sobit", 
         "description": "", 
-        "id": "KeyPadMultiply", 
-        "text": "Key Pad zn\u00e1sobit"
+        "id": "KeyPadMultiply"
     }, 
     {
         "source": "Key Pad Substract", 
+        "text": "Key Pad Substract", 
         "description": "", 
-        "id": "KeyPadSubstract", 
-        "text": "Key Pad Substract"
+        "id": "KeyPadSubstract"
     }, 
     {
         "source": "Key Pad Add", 
+        "text": "Kl\u00e1vesnice P\u0159idat", 
         "description": "", 
-        "id": "KeyPadAdd", 
-        "text": "Kl\u00e1vesnice P\u0159idat"
+        "id": "KeyPadAdd"
     }, 
     {
         "source": "Key Pad Enter", 
+        "text": "Kl\u00e1vesnice Enter", 
         "description": "", 
-        "id": "KeyPadEnter", 
-        "text": "Kl\u00e1vesnice Enter"
+        "id": "KeyPadEnter"
     }, 
     {
         "source": "Key Pad Equal", 
+        "text": "Key Pad Equal", 
         "description": "", 
-        "id": "KeyPadEqual", 
-        "text": "Key Pad Equal"
+        "id": "KeyPadEqual"
     }, 
     {
         "source": "Left Shift", 
+        "text": "Lev\u00fd Shift", 
         "description": "", 
-        "id": "LeftShift", 
-        "text": "Lev\u00fd Shift"
+        "id": "LeftShift"
     }, 
     {
         "source": "Left Control", 
+        "text": "Lev\u00e9 ovl\u00e1d\u00e1n\u00ed", 
         "description": "", 
-        "id": "LeftControl", 
-        "text": "Lev\u00e9 ovl\u00e1d\u00e1n\u00ed"
+        "id": "LeftControl"
     }, 
     {
         "source": "Left Alt", 
+        "text": "Lev\u00fd Alt", 
         "description": "", 
-        "id": "LeftAlt", 
-        "text": "Lev\u00fd Alt"
+        "id": "LeftAlt"
     }, 
     {
         "source": "Left Command", 
+        "text": "Lev\u00e9 velen\u00ed", 
         "description": "", 
-        "id": "LeftCommand", 
-        "text": "Lev\u00e9 velen\u00ed"
+        "id": "LeftCommand"
     }, 
     {
         "source": "Right Shift", 
+        "text": "Prav\u00fd posun", 
         "description": "", 
-        "id": "RightShift", 
-        "text": "Prav\u00fd posun"
+        "id": "RightShift"
     }, 
     {
         "source": "Right Control", 
+        "text": "Spr\u00e1vn\u00e9 ovl\u00e1d\u00e1n\u00ed", 
         "description": "", 
-        "id": "RightControl", 
-        "text": "Spr\u00e1vn\u00e9 ovl\u00e1d\u00e1n\u00ed"
+        "id": "RightControl"
     }, 
     {
         "source": "Right Alt", 
+        "text": "Prav\u00fd Alt", 
         "description": "", 
-        "id": "RightAlt", 
-        "text": "Prav\u00fd Alt"
+        "id": "RightAlt"
     }, 
     {
         "source": "Right Command", 
+        "text": "Spr\u00e1vn\u00e9 velen\u00ed", 
         "description": "", 
-        "id": "RightCommand", 
-        "text": "Spr\u00e1vn\u00e9 velen\u00ed"
+        "id": "RightCommand"
     }, 
     {
         "source": "Shift", 
+        "text": "Posun", 
         "description": "", 
-        "id": "Shift", 
-        "text": "Posun"
+        "id": "Shift"
     }, 
     {
         "source": "Ctrl", 
+        "text": "Ctrl", 
         "description": "", 
-        "id": "Ctrl", 
-        "text": "Ctrl"
+        "id": "Ctrl"
     }, 
     {
         "source": "Alt", 
+        "text": "v\u0161echno", 
         "description": "", 
-        "id": "Alt", 
-        "text": "v\u0161echno"
+        "id": "Alt"
     }, 
     {
         "source": "Command", 
+        "text": "P\u0159\u00edkaz", 
         "description": "", 
-        "id": "Command", 
-        "text": "P\u0159\u00edkaz"
+        "id": "Command"
     }
 ]

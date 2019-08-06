@@ -1,20 +1,20 @@
 [
     {
         "source": "Nothing to convert", 
+        "text": "Intet at konvertere", 
         "description": "", 
-        "id": "Nothing to convert", 
-        "text": "Intet at konvertere"
+        "id": "Nothing to convert"
     }, 
     {
         "source": "Cannot parse the option '-resize'", 
+        "text": "Kan ikke analysere indstillingen &#39;-resize&#39;", 
         "description": "", 
-        "id": "Cannot parse the option '-resize'", 
-        "text": "Kan ikke analysere indstillingen &#39;-resize&#39;"
+        "id": "Cannot parse the option '-resize'"
     }, 
     {
         "source": "Usage: djv_convert (input) (output)", 
+        "text": "Anvendelse: djv_convert (input) (output)", 
         "description": "", 
-        "id": "Usage: djv_convert (input) (output)", 
-        "text": "Anvendelse: djv_convert (input) (output)"
+        "id": "Usage: djv_convert (input) (output)"
     }
 ]
