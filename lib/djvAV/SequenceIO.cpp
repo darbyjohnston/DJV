@@ -681,6 +681,14 @@ namespace djv
                 }
             }
 
+            ISequencePlugin::~ISequencePlugin()
+            {}
+
+            bool ISequencePlugin::canSequence(const FileSystem::FileInfo& value) const
+            {
+                return canRead(value);
+            }
+
         } // namespace IO
     } // namespace AV
 } // namespace djv

@@ -223,9 +223,6 @@ namespace djv
                 _audioQueue.setMax(options.audioQueueSize);
             }
 
-            IIO::IIO()
-            {}
-
             IIO::~IIO()
             {}
 
@@ -249,9 +246,6 @@ namespace djv
                 IIO::_init(fileInfo, options, resourceSystem, logSystem);
                 _options = options;
             }
-
-            IRead::IRead()
-            {}
 
             IRead::~IRead()
             {}
@@ -335,9 +329,6 @@ namespace djv
                 _info = info;
             }
 
-            IWrite::IWrite()
-            {}
-
             IWrite::~IWrite()
             {}
 
@@ -354,9 +345,6 @@ namespace djv
                 _pluginInfo     = pluginInfo;
                 _fileExtensions = fileExtensions;
             }
-
-            IPlugin::IPlugin()
-            {}
 
             IPlugin::~IPlugin()
             {}
@@ -375,6 +363,11 @@ namespace djv
             bool IPlugin::canRead(const FileSystem::FileInfo& fileInfo) const
             {
                 return checkExtension(fileInfo, _fileExtensions);
+            }
+
+            bool IPlugin::canSequence(const FileSystem::FileInfo&) const
+            {
+                return false;
             }
 
             bool IPlugin::canWrite(const FileSystem::FileInfo& fileInfo, const Info & info) const
@@ -505,6 +498,19 @@ namespace djv
                 for (const auto & i : p.plugins)
                 {
                     if (i.second->canRead(fileInfo))
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            bool System::canSequence(const Core::FileSystem::FileInfo& fileInfo) const
+            {
+                DJV_PRIVATE_PTR();
+                for (const auto& i : p.plugins)
+                {
+                    if (i.second->canSequence(fileInfo))
                     {
                         return true;
                     }

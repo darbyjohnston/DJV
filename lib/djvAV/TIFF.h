@@ -130,7 +130,7 @@ namespace djv
                 };
 
                 //! This class provides the TIFF file I/O plugin.
-                class Plugin : public IPlugin
+                class Plugin : public ISequencePlugin
                 {
                     DJV_NON_COPYABLE(Plugin);
 

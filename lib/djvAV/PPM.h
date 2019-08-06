@@ -138,7 +138,7 @@ namespace djv
                 };
 
                 //! This class provides the PPM file I/O plugin.
-                class Plugin : public IPlugin
+                class Plugin : public ISequencePlugin
                 {
                     DJV_NON_COPYABLE(Plugin);
 

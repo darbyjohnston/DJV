@@ -470,11 +470,11 @@ namespace djv
             for (const auto & i : event.getDropPaths())
             {
                 auto context = getContext();
-                auto fileSystem = context->getSystemT<FileSystem>();
+                auto ioSystem = context->getSystemT<AV::IO::System>();
                 auto settingsSystem = context->getSystemT<UI::Settings::System>();
                 auto fileSettings = settingsSystem->getSettingsT<FileSettings>();
                 Core::FileSystem::FileInfo fileInfo;
-                if (fileSettings->observeAutoDetectSequences()->get())
+                if (ioSystem->canSequence(i) && fileSettings->observeAutoDetectSequences()->get())
                 {
                     fileInfo = Core::FileSystem::FileInfo::getFileSequence(i);
                 }
@@ -482,6 +482,7 @@ namespace djv
                 {
                     fileInfo = i;
                 }
+                auto fileSystem = context->getSystemT<FileSystem>();
                 fileSystem->open(fileInfo, pos);
                 pos += s;
             }

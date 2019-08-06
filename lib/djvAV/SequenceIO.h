@@ -111,6 +111,15 @@ namespace djv
                 DJV_PRIVATE();
             };
 
+            //! This class provides an interface for sequence I/O plugins.
+            class ISequencePlugin : public IPlugin
+            {
+            public:
+                virtual ~ISequencePlugin() = 0;
+
+                bool canSequence(const Core::FileSystem::FileInfo&) const override;
+            };
+
         } // namespace IO
     } // namespace AV
 } // namespace djv

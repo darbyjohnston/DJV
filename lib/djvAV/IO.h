@@ -193,15 +193,12 @@ namespace djv
             //! This class provides an interface for I/O.
             class IIO : public std::enable_shared_from_this<IIO>
             {
-                DJV_NON_COPYABLE(IIO);
-
             protected:
                 void _init(
                     const Core::FileSystem::FileInfo&,
                     const IOOptions&,
                     const std::shared_ptr<Core::ResourceSystem>&,
                     const std::shared_ptr<Core::LogSystem>&);
-                IIO();
 
             public:
                 virtual ~IIO() = 0;
@@ -241,15 +238,12 @@ namespace djv
             //! This class provides an interface for reading.
             class IRead : public IIO
             {
-                DJV_NON_COPYABLE(IRead);
-
             protected:
                 void _init(
                     const Core::FileSystem::FileInfo&,
                     const ReadOptions&,
                     const std::shared_ptr<Core::ResourceSystem>&,
                     const std::shared_ptr<Core::LogSystem>&);
-                IRead();
 
             public:
                 virtual ~IRead() = 0;
@@ -288,8 +282,6 @@ namespace djv
             //! This class provides an interface for writing.
             class IWrite : public IIO
             {
-                DJV_NON_COPYABLE(IWrite);
-
             protected:
                 void _init(
                     const Core::FileSystem::FileInfo &,
@@ -297,7 +289,6 @@ namespace djv
                     const WriteOptions&,
                     const std::shared_ptr<Core::ResourceSystem>&,
                     const std::shared_ptr<Core::LogSystem>&);
-                IWrite();
 
             public:
                 virtual ~IWrite() = 0;
@@ -310,8 +301,6 @@ namespace djv
             //! This class provides an interface for I/O plugins.
             class IPlugin : public std::enable_shared_from_this<IPlugin>
             {
-                DJV_NON_COPYABLE(IPlugin);
-
             protected:
                 void _init(
                     const std::string & pluginName,
@@ -319,7 +308,6 @@ namespace djv
                     const std::set<std::string> & fileExtensions,
                     const std::shared_ptr<Core::ResourceSystem>&,
                     const std::shared_ptr<Core::LogSystem>&);
-                IPlugin();
 
             public:
                 virtual ~IPlugin() = 0;
@@ -329,6 +317,7 @@ namespace djv
                 inline const std::set<std::string> & getFileExtensions() const;
 
                 virtual bool canRead(const Core::FileSystem::FileInfo&) const;
+                virtual bool canSequence(const Core::FileSystem::FileInfo&) const;
                 virtual bool canWrite(const Core::FileSystem::FileInfo&, const Info &) const;
 
                 virtual picojson::value getOptions() const;
@@ -378,6 +367,7 @@ namespace djv
                 std::shared_ptr<Core::IValueSubject<bool> > observeOptionsChanged() const;
 
                 bool canRead(const Core::FileSystem::FileInfo&) const;
+                bool canSequence(const Core::FileSystem::FileInfo&) const;
                 bool canWrite(const Core::FileSystem::FileInfo&, const Info &) const;
 
                 //! Throws:
