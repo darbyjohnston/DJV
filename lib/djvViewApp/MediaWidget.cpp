@@ -1003,7 +1003,8 @@ namespace djv
         void MediaWidget::_opacityUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.titleBar->setOpacity(p.fade * (1.f - _getMaximize()));
+            const float maximize = 1.f - _getMaximize();
+            p.titleBar->setOpacity(p.fade * maximize);
             p.playbackLayout->setOpacity(p.fade);
         }
 
