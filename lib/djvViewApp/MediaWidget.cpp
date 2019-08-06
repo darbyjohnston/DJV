@@ -197,6 +197,7 @@ namespace djv
             p.closeButton->setInsideMargin(UI::MetricsRole::MarginSmall);
 
             p.titleBar = UI::HorizontalLayout::create(context);
+            p.titleBar->setSpacing(UI::MetricsRole::None);
             p.titleBar->setBackgroundRole(UI::ColorRole::OverlayLight);
             p.titleBar->addChild(p.titleLabel);
             p.titleBar->setStretch(p.titleLabel, UI::RowStretch::Expand);
