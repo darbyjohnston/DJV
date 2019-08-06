@@ -113,6 +113,7 @@ namespace djv
             p.actions["ZoomOut"]->addShortcut(GLFW_KEY_MINUS);
             p.actions["ZoomOut"]->addShortcut(GLFW_KEY_KP_SUBTRACT);
             p.actions["ZoomReset"] = UI::Action::create();
+            p.actions["ZoomReset"]->setIcon("djvIconZoomReset");
             p.actions["ZoomReset"]->addShortcut(GLFW_KEY_0);
             p.actions["ZoomReset"]->addShortcut(GLFW_KEY_KP_0);
             p.actions["Full"] = UI::Action::create();
