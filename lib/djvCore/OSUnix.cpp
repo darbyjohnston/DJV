@@ -38,6 +38,7 @@
 #include <sstream>
 
 #include <sys/ioctl.h>
+#include <sys/sysinfo.h>
 #include <sys/termios.h>
 #include <sys/utsname.h>
 #include <pwd.h>
@@ -59,6 +60,17 @@ namespace djv
                 std::stringstream s;
                 s << info.sysname << " " << info.release << " " << info.machine;
                 out = s.str();
+                return out;
+            }
+            
+            size_t getRAMSize()
+            {
+                size_t out = 0;
+                struct sysinfo info;
+                if (0 == sysinfo(&info))
+                {
+                    out = info.totalram;
+                }
                 return out;
             }
 
