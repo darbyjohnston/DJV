@@ -38,7 +38,12 @@
 #include <sstream>
 
 #include <sys/ioctl.h>
+#if defined(DJV_PLATFORM_OSX)
+#include <sys/types.h>
+#include <sys/sysctl.h>
+#else // DJV_PLATFORM_OSX
 #include <sys/sysinfo.h>
+#endif // DJV_PLATFORM_OSX
 #include <sys/termios.h>
 #include <sys/utsname.h>
 #include <pwd.h>
@@ -66,11 +71,22 @@ namespace djv
             size_t getRAMSize()
             {
                 size_t out = 0;
+#if defined(DJV_PLATFORM_OSX)
+                int name[2] = { CTL_HW, HW_MEMSIZE };
+                u_int namelen = sizeof(name) / sizeof(name[0]);
+                uint64_t size = 0;
+                size_t len = sizeof(size);
+                if (0 == sysctl(name, namelen, &size, &len, NULL, 0))
+                {
+                    out = static_cast<size_t>(size);
+                }
+#else // DJV_PLATFORM_OSX
                 struct sysinfo info;
                 if (0 == sysinfo(&info))
                 {
                     out = info.totalram;
                 }
+#endif // DJV_PLATFORM_OSX
                 return out;
             }
 
