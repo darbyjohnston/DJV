@@ -74,7 +74,7 @@ namespace djv
             std::weak_ptr<MediaCanvas> canvas;
             std::shared_ptr<ValueSubject<std::shared_ptr<MediaWidget> > > activeWidget;
             std::shared_ptr<ValueSubject<bool> > fullScreen;
-            std::shared_ptr<ValueSubject<bool> > maximized;
+            std::shared_ptr<ValueSubject<bool> > maximize;
             std::shared_ptr<ValueSubject<float> > fade;
             bool fadeEnabled = true;
             std::map<Core::Event::PointerID, glm::vec2> pointerMotion;
@@ -85,7 +85,7 @@ namespace djv
             int monitorRefresh = 0;
             BBox2i windowGeom = BBox2i(0, 0, 0, 0);
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
-            std::shared_ptr<ValueObserver<bool> > maximizedObserver;
+            std::shared_ptr<ValueObserver<bool> > maximizeObserver;
             std::shared_ptr<ValueObserver<Event::PointerInfo> > pointerObserver;
             std::shared_ptr<ValueObserver<bool> > fadeObserver;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
@@ -104,7 +104,7 @@ namespace djv
             p.settings = WindowSettings::create(context);
             p.activeWidget = ValueSubject<std::shared_ptr<MediaWidget> >::create();
             p.fullScreen = ValueSubject<bool>::create(false);
-            p.maximized = ValueSubject<bool>::create(false);
+            p.maximize = ValueSubject<bool>::create(false);
             p.fade = ValueSubject<float>::create(1.f);
             p.pointerMotionTimer = Time::Timer::create(context);
             p.fadeAnimation = Animation::Animation::create(context);
@@ -114,15 +114,15 @@ namespace djv
             p.actions["FullScreen"]->setIcon("djvIconWindowFullScreen");
             p.actions["FullScreen"]->setShortcut(GLFW_KEY_U);
 
-            p.actions["Maximized"] = UI::Action::create();
-            p.actions["Maximized"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["Maximized"]->setIcon("djvIconMDI");
-            p.actions["Maximized"]->setCheckedIcon("djvIconSDI");
-            p.actions["Maximized"]->setShortcut(GLFW_KEY_M);
+            p.actions["Maximize"] = UI::Action::create();
+            p.actions["Maximize"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["Maximize"]->setIcon("djvIconMDI");
+            p.actions["Maximize"]->setCheckedIcon("djvIconSDI");
+            p.actions["Maximize"]->setShortcut(GLFW_KEY_M);
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["FullScreen"]);
-            p.menu->addAction(p.actions["Maximized"]);
+            p.menu->addAction(p.actions["Maximize"]);
 
             _actionsUpdate();
 
@@ -137,23 +137,23 @@ namespace djv
                 }
             });
 
-            p.actionObservers["Maximized"] = ValueObserver<bool>::create(
-                p.actions["Maximized"]->observeChecked(),
+            p.actionObservers["Maximize"] = ValueObserver<bool>::create(
+                p.actions["Maximize"]->observeChecked(),
                 [weak](bool value)
             {
                 if (auto system = weak.lock())
                 {
-                    system->setMaximized(value);
+                    system->setMaximize(value);
                 }
             });
 
-            p.maximizedObserver = ValueObserver<bool>::create(
-                p.settings->observeMaximized(),
+            p.maximizeObserver = ValueObserver<bool>::create(
+                p.settings->observeMaximize(),
                 [weak](bool value)
                 {
                     if (auto system = weak.lock())
                     {
-                        system->setMaximized(value);
+                        system->setMaximize(value);
                     }
                 });
 
@@ -256,17 +256,17 @@ namespace djv
             }
         }
 
-        std::shared_ptr<Core::IValueSubject<bool> > WindowSystem::observeMaximized() const
+        std::shared_ptr<Core::IValueSubject<bool> > WindowSystem::observeMaximize() const
         {
-            return _p->maximized;
+            return _p->maximize;
         }
 
-        void WindowSystem::setMaximized(bool value)
+        void WindowSystem::setMaximize(bool value)
         {
             DJV_PRIVATE_PTR();
-            if (p.maximized->setIfChanged(value))
+            if (p.maximize->setIfChanged(value))
             {
-                p.settings->setMaximized(value);
+                p.settings->setMaximize(value);
                 _actionsUpdate();
             }
         }
@@ -378,7 +378,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             p.actions["FullScreen"]->setChecked(p.fullScreen->get());
-            p.actions["Maximized"]->setChecked(p.maximized->get());
+            p.actions["Maximize"]->setChecked(p.maximize->get());
         }
 
         void WindowSystem::_textUpdate()
@@ -386,8 +386,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.actions["FullScreen"]->setText(_getText(DJV_TEXT("Full Screen")));
             p.actions["FullScreen"]->setTooltip(_getText(DJV_TEXT("Full screen tooltip")));
-            p.actions["Maximized"]->setText(_getText(DJV_TEXT("Maximized")));
-            p.actions["Maximized"]->setTooltip(_getText(DJV_TEXT("Maximized tooltip")));
+            p.actions["Maximize"]->setText(_getText(DJV_TEXT("Maximize")));
+            p.actions["Maximize"]->setTooltip(_getText(DJV_TEXT("Maximize tooltip")));
 
             p.menu->setText(_getText(DJV_TEXT("Window")));
         }

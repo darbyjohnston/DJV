@@ -95,7 +95,7 @@ namespace djv
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<bool> > memoryCacheEnabledObserver;
             std::shared_ptr<ValueObserver<int> > memoryCacheMaxObserver;
-            std::shared_ptr<ValueObserver<bool> > maximizedObserver;
+            std::shared_ptr<ValueObserver<bool> > maximizeObserver;
             std::shared_ptr<ValueObserver<float> > fadeObserver;
             std::shared_ptr<ValueObserver<bool> > autoHideObserver;
         };
@@ -151,13 +151,13 @@ namespace djv
             p.memoryCachePopupWidget->setMargin(UI::MetricsRole::MarginSmall);
             p.memoryCachePopupWidget->addChild(hLayout);
 
-            auto maximizedButton = UI::ActionButton::create(context);
-            maximizedButton->setShowText(false);
-            maximizedButton->setShowShortcuts(false);
+            auto maximizeButton = UI::ActionButton::create(context);
+            maximizeButton->setShowText(false);
+            maximizeButton->setShowShortcuts(false);
             auto windowSystem = context->getSystemT<WindowSystem>();
             if (windowSystem)
             {
-                maximizedButton->addAction(windowSystem->getActions()["Maximized"]);
+                maximizeButton->addAction(windowSystem->getActions()["Maximize"]);
             }
 
             auto viewLockFullButton = UI::ActionButton::create(context);
@@ -208,7 +208,7 @@ namespace djv
             p.menuBar->addSeparator(UI::Side::Right);
             p.menuBar->addChild(p.memoryCachePopupWidget);
             p.menuBar->addSeparator(UI::Side::Right);
-            p.menuBar->addChild(maximizedButton);
+            p.menuBar->addChild(maximizeButton);
             p.menuBar->addSeparator(UI::Side::Right);
             hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::MetricsRole::None);
@@ -410,13 +410,13 @@ namespace djv
 
             if (windowSystem)
             {
-                p.maximizedObserver = ValueObserver<bool>::create(
-                    windowSystem->observeMaximized(),
+                p.maximizeObserver = ValueObserver<bool>::create(
+                    windowSystem->observeMaximize(),
                     [weak](bool value)
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->mediaCanvas->setMaximized(value);
+                            widget->_p->mediaCanvas->setMaximize(value);
                         }
                     });
 

@@ -86,7 +86,7 @@ namespace djv
 
         protected:
             virtual std::map<UI::MDI::Handle, std::vector<Core::BBox2f> > _getHandles() const override;
-            void _setMaximized(float) override;
+            void _setMaximize(float) override;
             void _setActiveWidget(bool) override;
 
             void _preLayoutEvent(Core::Event::PreLayout&) override;

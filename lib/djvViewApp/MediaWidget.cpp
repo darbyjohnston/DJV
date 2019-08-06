@@ -403,7 +403,7 @@ namespace djv
                         if (auto canvas = std::dynamic_pointer_cast<UI::MDI::Canvas>(widget->getParent().lock()))
                         {
                             widget->moveToFront();
-                            canvas->setMaximized(!canvas->isMaximized());
+                            canvas->setMaximize(!canvas->isMaximized());
                         }
                     }
                 });
@@ -758,9 +758,9 @@ namespace djv
             return out;
         }
 
-        void MediaWidget::_setMaximized(float value)
+        void MediaWidget::_setMaximize(float value)
         {
-            IWidget::_setMaximized(value);
+            IWidget::_setMaximize(value);
             _opacityUpdate();
             _resize();
         }
@@ -970,7 +970,7 @@ namespace djv
         void MediaWidget::_opacityUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.titleBar->setOpacity(p.fade * (1.f - _getMaximized()));
+            p.titleBar->setOpacity(p.fade * (1.f - _getMaximize()));
             p.playbackLayout->setOpacity(p.fade);
         }
 

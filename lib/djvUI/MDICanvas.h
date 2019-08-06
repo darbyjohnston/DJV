@@ -69,8 +69,8 @@ namespace djv
                 void setWidgetGeometry(const std::shared_ptr<IWidget>&, const Core::BBox2f&);
 
                 bool isMaximized() const;
-                void setMaximized(bool);
-                void setMaximizedCallback(const std::function<void(bool)>&);
+                void setMaximize(bool);
+                void setMaximizeCallback(const std::function<void(bool)>&);
 
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout &) override;

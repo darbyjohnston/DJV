@@ -80,10 +80,10 @@ namespace djv
 
             if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
-                setMaximizedCallback(
+                setMaximizeCallback(
                     [windowSystem](bool value)
                 {
-                    windowSystem->setMaximized(value);
+                    windowSystem->setMaximize(value);
                 });
             }
 

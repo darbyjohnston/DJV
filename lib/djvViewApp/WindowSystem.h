@@ -71,8 +71,8 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<bool> > observeFullScreen() const;
             void setFullScreen(bool);
 
-            std::shared_ptr<Core::IValueSubject<bool> > observeMaximized() const;
-            void setMaximized(bool);
+            std::shared_ptr<Core::IValueSubject<bool> > observeMaximize() const;
+            void setMaximize(bool);
 
             std::shared_ptr<Core::IValueSubject<float> > observeFade() const;
 

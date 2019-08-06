@@ -73,8 +73,8 @@ namespace djv
                 virtual std::map<Handle, std::vector<Core::BBox2f> > _getHandles() const;
                 virtual std::map<Handle, std::vector<Core::BBox2f> > _getHandlesDraw() const;
 
-                float _getMaximized() const;
-                virtual void _setMaximized(float);
+                float _getMaximize() const;
+                virtual void _setMaximize(float);
                 void _setHandleHovered(Handle);
                 void _setHandlePressed(Handle);
 

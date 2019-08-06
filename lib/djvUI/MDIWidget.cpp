@@ -44,7 +44,7 @@ namespace djv
             struct IWidget::Private
             {
                 bool active = false;
-                float maximized = 0.f;
+                float maximize = 0.f;
                 Handle hovered = Handle::None;
                 Handle pressed = Handle::None;
             };
@@ -233,14 +233,14 @@ namespace djv
                 return out;
             }
 
-            float IWidget::_getMaximized() const
+            float IWidget::_getMaximize() const
             {
-                return _p->maximized;
+                return _p->maximize;
             }
 
-            void IWidget::_setMaximized(float value)
+            void IWidget::_setMaximize(float value)
             {
-                _p->maximized = value;
+                _p->maximize = value;
             }
 
             void IWidget::_setHandleHovered(Handle value)
@@ -271,7 +271,7 @@ namespace djv
             void IWidget::_paintEvent(Event::Paint& event)
             {
                 DJV_PRIVATE_PTR();
-                if (p.maximized < 1.f)
+                if (p.maximize < 1.f)
                 {
                     const auto& style = _getStyle();
                     const float sh = style->getMetric(MetricsRole::Shadow);
@@ -288,7 +288,7 @@ namespace djv
             void IWidget::_paintOverlayEvent(Event::PaintOverlay&)
             {
                 DJV_PRIVATE_PTR();
-                if (p.maximized < 1.f)
+                if (p.maximize < 1.f)
                 {
                     const auto& style = _getStyle();
                     const BBox2f& g = getGeometry();

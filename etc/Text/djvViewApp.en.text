@@ -55,13 +55,13 @@
         "description": ""
     }, 
     {
-        "text": "Maximized", 
-        "id": "Maximized", 
+        "text": "Maximize", 
+        "id": "Maximize", 
         "description": ""
     }, 
     {
-        "text": "Maximize the window", 
-        "id": "Maximized tooltip", 
+        "text": "Maximize the current window", 
+        "id": "Maximize tooltip", 
         "description": ""
     }, 
     {
@@ -835,7 +835,7 @@
         "description": ""
     }, 
     {
-        "text": "Full view tooltip", 
+        "text": "Set the view so the image fills the window", 
         "id": "Full view tooltip", 
         "description": ""
     }, 
@@ -845,7 +845,7 @@
         "description": ""
     }, 
     {
-        "text": "Frame view tooltip", 
+        "text": "Set the view so the image fills the window without being obscured by the user interface", 
         "id": "Frame view tooltip", 
         "description": ""
     }, 
@@ -855,7 +855,7 @@
         "description": ""
     }, 
     {
-        "text": "Center view tooltip", 
+        "text": "Set the view so the image is centered and the zoom is 1:1", 
         "id": "Center view tooltip", 
         "description": ""
     }, 
@@ -865,7 +865,7 @@
         "description": ""
     }, 
     {
-        "text": "Lock the view to fit the image to the window", 
+        "text": "Lock the view so the image fills the window", 
         "id": "Lock full view tooltip", 
         "description": ""
     }, 
@@ -875,7 +875,7 @@
         "description": ""
     }, 
     {
-        "text": "Lock the view to keep the image inside the UI", 
+        "text": "Lock the view so the image fills the window without being obscured by the user interface", 
         "id": "Lock frame view tooltip", 
         "description": ""
     }, 
@@ -885,7 +885,7 @@
         "description": ""
     }, 
     {
-        "text": "Lock the view to center the image and zoom 1:1", 
+        "text": "Lock the view so the image is centered and the zoom is 1:1", 
         "id": "Lock center view tooltip", 
         "description": ""
     }, 
