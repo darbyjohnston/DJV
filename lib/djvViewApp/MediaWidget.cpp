@@ -253,10 +253,10 @@ namespace djv
 
             auto toolbar = UI::ToolBar::create(context);
             toolbar->setBackgroundRole(UI::ColorRole::None);
-            toolbar->addAction(p.actions["Reverse"]);
-            toolbar->addAction(p.actions["Forward"]);
             toolbar->addAction(p.actions["InPoint"]);
             toolbar->addAction(p.actions["PrevFrame"]);
+            toolbar->addAction(p.actions["Reverse"]);
+            toolbar->addAction(p.actions["Forward"]);
             toolbar->addAction(p.actions["NextFrame"]);
             toolbar->addAction(p.actions["OutPoint"]);
 
