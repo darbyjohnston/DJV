@@ -98,6 +98,7 @@ namespace djv
                             }
                             else
                             {
+                                widget->_p->info = AV::IO::Info();
                                 widget->_p->infoObserver.reset();
                                 widget->_widgetUpdate();
                             }
