@@ -35,7 +35,6 @@ namespace djv
 {
     //! This namespace provides user interface functionality.
     //! \todo Add a dial widget.
-    //! \todo Add keyboard navigation.
     //! \todo Add audio FX.
     namespace UI
     {
