@@ -99,15 +99,15 @@ namespace djv
             }
 
         private:
-            void _print(const std::string & fileName, std::shared_ptr<AV::IO::System>& io, std::shared_ptr<AV::AVSystem>& avSystem)
+            void _print(const Core::FileSystem::FileInfo fileInfo, std::shared_ptr<AV::IO::System>& io, std::shared_ptr<AV::AVSystem>& avSystem)
             {
-                if (io->canRead(fileName))
+                if (io->canRead(fileInfo))
                 {
                     try
                     {
-                        auto read = io->read(fileName);
+                        auto read = io->read(fileInfo);
                         auto info = read->getInfo().get();
-                        std::cout << fileName << std::endl;
+                        std::cout << fileInfo << std::endl;
                         size_t i = 0;
                         for (const auto & video : info.video)
                         {
