@@ -532,6 +532,7 @@ namespace djv
                     {
                         widget->_p->ioInfo = value;
                         widget->_widgetUpdate();
+                        widget->_audioUpdate();
                     }
                 });
 
@@ -978,7 +979,11 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.audioVolumeSlider->setValue(p.audioVolume);
             p.audioMuteButton->setChecked(p.audioMute);
-            if (p.audioMute)
+            if (!p.ioInfo.audio.size())
+            {
+                p.audioPopupWidget->setIcon("djvIconAudio0");
+            }
+            else if (p.audioMute)
             {
                 p.audioPopupWidget->setIcon("djvIconAudioMute");
             }
