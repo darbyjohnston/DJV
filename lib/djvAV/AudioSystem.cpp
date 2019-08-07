@@ -76,11 +76,17 @@ namespace djv
 
                 addDependency(context->getSystemT<CoreSystem>());
 
-                const ALCchar * devices = NULL;
+                const ALCchar* devices = NULL;
                 ALenum alEnum = alcIsExtensionPresent(NULL, "ALC_ENUMERATION_EXT");
                 if (AL_TRUE == alEnum)
                 {
                     devices = alcGetString(NULL, ALC_DEVICE_SPECIFIER);
+                    for (const auto& i : split(devices))
+                    {
+                        std::stringstream ss;
+                        ss << "Found device: " << i;
+                        _log(ss.str());
+                    }
                 }
 
                 DJV_PRIVATE_PTR();
@@ -90,6 +96,17 @@ namespace djv
                     _log("The OpenAL device cannot be opened.", LogLevel::Error);
                     return;
                 }
+                {
+                    std::stringstream ss;
+                    ss << "Default device: " << alcGetString(p.alDevice, ALC_DEFAULT_DEVICE_SPECIFIER);
+                    _log(ss.str());
+                }
+                {
+                    std::stringstream ss;
+                    ss << "Extensions: " << alcGetString(p.alDevice, ALC_EXTENSIONS);
+                    _log(ss.str());
+                }
+
                 p.alContext = alcCreateContext(p.alDevice, NULL);
                 if (!p.alContext)
                 {
