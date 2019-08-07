@@ -179,6 +179,7 @@ namespace djv
             glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
             glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
             glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+            glfwWindowHint(GLFW_COCOA_RETINA_FRAMEBUFFER, GL_TRUE);
 #endif // DJV_OPENGL_ES2
             //glfwWindowHint(GLFW_DOUBLEBUFFER, GL_FALSE);
             if (OS::getIntEnv("DJV_OPENGL_DEBUG") != 0)

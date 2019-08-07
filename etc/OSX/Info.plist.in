@@ -18,6 +18,8 @@
 	<string>@DJV_VERSION_MAJOR@.@DJV_VERSION_MINOR@.@DJV_VERSION_PATCH@</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright (c) 2004-2018 Darby Johnston</string>
+	<key>NSHighResolutionCapable</key>
+	<true/>
     <key>CFBundleDocumentTypes</key>
     <array>
         <dict>

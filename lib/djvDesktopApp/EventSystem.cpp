@@ -48,6 +48,7 @@
 #if defined(DJV_OPENGL_ES2)
 #include <djvCore/ResourceSystem.h>
 #endif // DJV_OPENGL_ES2
+#include <djvCore/Timer.h>
 
 #include <GLFW/glfw3.h>
 
@@ -94,6 +95,7 @@ namespace djv
 #if defined(DJV_OPENGL_ES2)
             std::shared_ptr<AV::OpenGL::Shader> shader;
 #endif // DJV_OPENGL_ES2
+            std::shared_ptr<Time::Timer> statsTimer;
         };
 
         void EventSystem::_init(GLFWwindow * glfwWindow, Context * context)
@@ -119,6 +121,11 @@ namespace djv
 #endif // DJV_OPENGL_ES2
 
             glfwGetFramebufferSize(glfwWindow, &p.resize.x, &p.resize.y);
+            {
+                std::stringstream ss;
+                ss << "Frame buffer size: " << p.resize;
+                _log(ss.str());
+            }
             glfwSetFramebufferSizeCallback(glfwWindow, _resizeCallback);
             glfwSetWindowContentScaleCallback(glfwWindow, _contentScaleCallback);
             glfwSetWindowRefreshCallback(glfwWindow, _redrawCallback);
@@ -128,6 +135,21 @@ namespace djv
             glfwSetKeyCallback(glfwWindow, _keyCallback);
             glfwSetCharModsCallback(glfwWindow, _charCallback);
             glfwSetScrollCallback(glfwWindow, _scrollCallback);
+
+            p.statsTimer = Time::Timer::create(context);
+            p.statsTimer->setRepeating(true);
+            auto weak = std::weak_ptr<EventSystem>(std::dynamic_pointer_cast<EventSystem>(shared_from_this()));
+            p.statsTimer->start(
+                Time::getMilliseconds(Time::TimerValue::VerySlow),
+                [weak](float)
+            {
+                if (auto system = weak.lock())
+                {
+                    std::stringstream s;
+                    s << "Frame buffer size: " << system->_p->resize;
+                    system->_log(s.str());
+                }
+            });
         }
 
         EventSystem::EventSystem() :
