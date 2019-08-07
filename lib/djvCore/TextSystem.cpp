@@ -67,18 +67,62 @@ namespace djv
 
         namespace
         {
-            std::string parseLocale(const std::string & value)
+            std::string parseLocale(const std::string& value)
             {
+                std::string locale = value;
+                
+                // Split the input into categories.
+                const auto categories = String::split(value, ';');
+                const size_t categoriesSize = categories.size();
+                if (1 == categoriesSize)
+                {
+                    locale = categories[0];
+                }
+                else if (categoriesSize > 1)
+                {
+                    // Parse the categories.
+                    std::map<std::string, std::string> keyValues;
+                    for (const auto& i : categories)
+                    {
+                        auto pieces = String::split(i, '=');
+                        const size_t piecesSize = pieces.size();
+                        std::string category;
+                        if (piecesSize > 0)
+                        {
+                            category = pieces[0];
+                            pieces.erase(pieces.begin());
+                        }
+                        std::string value;
+                        if (piecesSize > 0)
+                        {
+                            value = String::join(pieces, '=');
+                        }
+                        keyValues[category] = value;
+                    }
+                    
+                    // Try using LC_MESSAGES.
+                    const auto i = keyValues.find("LC_MESSAGES");
+                    if (i != keyValues.end())
+                    {
+                        locale = i->second;
+                    }
+                    else if (keyValues.size())
+                    {
+                        // Fall back to using the first one in the list.
+                        locale = keyValues.begin()->second;
+                    }
+                }
+                
                 std::string out;
 #if defined(DJV_PLATFORM_WINDOWS)
                 //! \todo Windows locale.
 #elif defined(DJV_PLATFORM_OSX)
                 //! \todo OSX locale.
 #else
-                auto pieces = String::split(value, '_');
+                auto pieces = String::split(locale, '_');
                 if (!pieces.size())
                 {
-                    pieces = String::split(value, '.');
+                    pieces = String::split(locale, '.');
                 }
                 if (pieces.size())
                 {
@@ -109,20 +153,22 @@ namespace djv
 
                 p.currentLocale = "en";
                 p.currentLocaleChanged = true;
-                std::string djvLocale = OS::getEnv("DJV_LANG");
-                std::stringstream s;
-                if (djvLocale.size())
+                std::string djvLang = OS::getEnv("DJV_LANG");
+                std::stringstream ss;
+                if (djvLang.size())
                 {
-                    p.currentLocale = djvLocale;
+                    p.currentLocale = djvLang;
                 }
                 else
                 {
                     try
                     {
                         std::locale locale("");
-                        s << "Current std::locale: " << locale.name();
-                        p.logSystem->log(getSystemName(), s.str());
-                        std::string cppLocale = parseLocale(locale.name());
+                        std::string localeName = locale.name();
+                        localeName = "LC_CTYPE=en_US.UTF-8;LC_NUMERIC=de_DE.UTF-8;LC_TIME=en_US.UTF-8;LC_COLLATE=en_US.UTF-8;LC_MONETARY=de_DE.UTF-8;LC_MESSAGES=en_US.UTF-8;LC_PAPER=de_DE.UTF-8;LC_NAME=de_DE.UTF-8;LC_ADDRESS=de_DE.UTF-8;LC_TELEPHONE=de_DE.UTF-8;LC_MEASUREMENT=de_DE.UTF-8;LC_IDENTIFICATION=de_DE.UTF-8";
+                        ss << "Current std::locale: " << localeName;
+                        p.logSystem->log(getSystemName(), ss.str());
+                        std::string cppLocale = parseLocale(localeName);
                         if (cppLocale.size())
                         {
                             p.currentLocale = cppLocale;
@@ -133,9 +179,9 @@ namespace djv
                         p.logSystem->log(getSystemName(), e.what(), LogLevel::Error);
                     }
                 }
-                s.str(std::string());
-                s << "Current locale: " << p.currentLocale;
-                p.logSystem->log(getSystemName(), s.str());
+                ss.str(std::string());
+                ss << "Found locale: " << p.currentLocale;
+                p.logSystem->log(getSystemName(), ss.str());
 
                 // Find the .text files.
                 FileSystem::DirectoryListOptions options;
@@ -160,9 +206,29 @@ namespace djv
                 {
                     p.locales.push_back(locale);
                 }
-                s.str(std::string());
-                s << "Found locales: " << String::join(p.locales, ", ");
-                p.logSystem->log(getSystemName(), s.str());
+                ss.str(std::string());
+                ss << "Found text files: " << String::join(p.locales, ", ");
+                p.logSystem->log(getSystemName(), ss.str());
+
+                // Check that the current locale is valid.
+                const auto i = localeSet.find(p.currentLocale);
+                if (i == localeSet.end())
+                {
+                    // Fall back to using English.
+                    const auto j = localeSet.find("en");
+                    if (j != localeSet.end())
+                    {
+                        p.currentLocale = *j;
+                    }
+                    else if (localeSet.size())
+                    {
+                        // Fall back to using the first one in the list.
+                        p.currentLocale = *localeSet.begin();
+                    }
+                }
+                ss.str(std::string());
+                ss << "Current locale: " << p.currentLocale;
+                p.logSystem->log(getSystemName(), ss.str());
 
                 // Read the .text files.
                 _readText(path);
