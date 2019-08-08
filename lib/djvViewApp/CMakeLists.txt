@@ -34,6 +34,7 @@ set(header
 	MediaCanvas.h
 	MediaWidget.h
 	MediaWidgetPrivate.h
+	MemoryCacheWidget.h
 	NUXSettings.h
     NUXSettingsWidget.h
 	NUXSystem.h
@@ -88,6 +89,7 @@ set(source
 	MediaCanvas.cpp
 	MediaWidget.cpp
 	MediaWidgetPrivate.cpp
+	MemoryCacheWidget.cpp
 	NUXSettings.cpp
     NUXSettingsWidget.cpp
 	NUXSystem.cpp

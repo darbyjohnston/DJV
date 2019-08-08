@@ -29,42 +29,30 @@
 
 #pragma once
 
-#include <djvUI/Window.h>
+#include <djvUI/Widget.h>
 
 namespace djv
 {
-    namespace Core
-    {
-        namespace FileSystem
-        {
-            class Path;
-    
-        } // namespace FileLSystem
-    } // namespce Core
-
     namespace ViewApp
     {
-        class MediaCanvas;
-
-        //! This class provides the main window.
-        class MainWindow : public UI::Window
+        //! This class provides a memory cache widget.
+        class MemoryCacheWidget : public UI::Widget
         {
-            DJV_NON_COPYABLE(MainWindow);
+            DJV_NON_COPYABLE(MemoryCacheWidget);
 
         protected:
             void _init(Core::Context *);
-            MainWindow();
+            MemoryCacheWidget();
 
         public:
-            ~MainWindow() override;
+            ~MemoryCacheWidget() override;
 
-            static std::shared_ptr<MainWindow> create(Core::Context *);
-
-            const std::shared_ptr<MediaCanvas>& getMediaCanvas() const;
+            static std::shared_ptr<MemoryCacheWidget> create(Core::Context *);
 
         protected:
-            void _dropEvent(Core::Event::Drop&) override;
-
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
+            
             void _localeEvent(Core::Event::Locale &) override;
 
         private:

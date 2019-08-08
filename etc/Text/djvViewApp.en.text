@@ -360,7 +360,7 @@
         "description": ""
     }, 
     {
-        "text": "Show memory cache options", 
+        "text": "Show memory cache settings", 
         "id": "Memory cache tooltip", 
         "description": ""
     }, 
