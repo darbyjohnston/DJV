@@ -1,0 +1,13 @@
+language: cpp
+dist: bionic
+os:
+  - linux
+branches:
+  only:
+    - master
+before_script:
+  - mkdir build
+  - cd build
+  - cmake .. -DDJV_THIRD_PARTY=TRUE
+script: make && make test
+
