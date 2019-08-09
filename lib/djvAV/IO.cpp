@@ -32,9 +32,9 @@
 #include <djvAV/Cineon.h>
 #include <djvAV/DPX.h>
 #include <djvAV/PPM.h>
-#if defined(FFMPEG_FOUND)
+#if defined(FFmpeg_FOUND)
 #include <djvAV/FFmpeg.h>
-#endif // FFMPEG_FOUND
+#endif // FFmpeg_FOUND
 #if defined(JPEG_FOUND)
 #include <djvAV/JPEG.h>
 #endif // JPEG_FOUND
@@ -415,9 +415,9 @@ namespace djv
                 p.plugins[Cineon::pluginName] = Cineon::Plugin::create(resourceSystem, logSystem);
                 p.plugins[DPX::pluginName] = DPX::Plugin::create(resourceSystem, logSystem);
                 p.plugins[PPM::pluginName] = PPM::Plugin::create(resourceSystem, logSystem);
-#if defined(FFMPEG_FOUND)
+#if defined(FFmpeg_FOUND)
                 p.plugins[FFmpeg::pluginName] = FFmpeg::Plugin::create(resourceSystem, logSystem);
-#endif // FFMPEG_FOUND
+#endif // FFmpeg_FOUND
 #if defined(JPEG_FOUND)
                 p.plugins[JPEG::pluginName] = JPEG::Plugin::create(resourceSystem, logSystem);
 #endif // JPEG_FOUND

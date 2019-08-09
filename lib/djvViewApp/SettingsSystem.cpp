@@ -51,7 +51,7 @@
 #if defined(JPEG_FOUND)
 #include <djvUIComponents/JPEGSettingsWidget.h>
 #endif
-#if defined(FFMPEG_FOUND)
+#if defined(FFmpeg_FOUND)
 #include <djvUIComponents/FFmpegSettingsWidget.h>
 #endif
 #if defined(OPENEXR_FOUND)
@@ -155,7 +155,7 @@ namespace djv
 #if defined(JPEG_FOUND)
                 UI::JPEGSettingsWidget::create(context),
 #endif
-#if defined(FFMPEG_FOUND)
+#if defined(FFmpeg_FOUND)
                 UI::FFmpegSettingsWidget::create(context),
 #endif
 #if defined(OPENEXR_FOUND)

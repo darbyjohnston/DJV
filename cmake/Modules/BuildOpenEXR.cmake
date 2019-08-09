@@ -27,11 +27,13 @@ if(NOT OPENEXR_SHARED_LIBS)
     set(OpenEXR_ARGS ${OpenEXR_ARGS} -DOPENEXR_BUILD_STATIC=1)
 endif()
 ExternalProject_Add(
-    OpenEXR_EXTERNAL
+    OpenEXRThirdParty
 	PREFIX ${CMAKE_CURRENT_BINARY_DIR}/OpenEXR
-    DEPENDS IlmBase_EXTERNAL ZLIB_EXTERNAL
+    DEPENDS IlmBaseThirdParty ZLIBThirdParty
     URL http://github.com/openexr/openexr/releases/download/v2.3.0/openexr-2.3.0.tar.gz
-	PATCH_COMMAND ${CMAKE_COMMAND} -E tar xf ${CMAKE_SOURCE_DIR}/third-party/openexr-patch/openexr.tar.gz
+	PATCH_COMMAND
+	    ${CMAKE_COMMAND} -E tar xf
+	    ${CMAKE_SOURCE_DIR}/third-party/openexr-patch/openexr.tar.gz
     CMAKE_ARGS ${OpenEXR_ARGS})
 
 set(OPENEXR_FOUND TRUE)
@@ -41,7 +43,7 @@ set(OPENEXR_LIBRARIES ${OPENEXR_LIBRARY} ${ILMBASE_LIBRARIES} ${ZLIB_LIBRARIES})
 
 if(OPENEXR_FOUND AND NOT TARGET OpenEXR::IlmImf)
     add_library(OpenEXR::IlmImf UNKNOWN IMPORTED)
-    add_dependencies(OpenEXR::IlmImf OpenEXR_EXTERNAL)
+    add_dependencies(OpenEXR::IlmImf OpenEXRThirdParty)
     set_target_properties(OpenEXR::IlmImf PROPERTIES
         IMPORTED_LOCATION "${OPENEXR_LIBRARY}"
         INTERFACE_LINK_LIBRARIES "IlmBase;ZLIB"

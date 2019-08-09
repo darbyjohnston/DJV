@@ -1,9 +1,9 @@
 include(ExternalProject)
 
 ExternalProject_Add(
-    JPEG_EXTERNAL
+    JPEGThirdParty
 	PREFIX ${CMAKE_CURRENT_BINARY_DIR}/JPEG
-    DEPENDS ZLIB_EXTERNAL
+    DEPENDS ZLIBThirdParty
     URL "http://sourceforge.net/projects/libjpeg-turbo/files/2.0.2/libjpeg-turbo-2.0.2.tar.gz?download"
     CMAKE_ARGS
         -DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}
@@ -28,7 +28,7 @@ set(JPEG_LIBRARIES ${JPEG_LIBRARY} ${ZLIB_LIBRARIES})
 
 if(JPEG_FOUND AND NOT TARGET JPEG::JPEG)
     add_library(JPEG::JPEG UNKNOWN IMPORTED)
-    add_dependencies(JPEG::JPEG JPEG_EXTERNAL)
+    add_dependencies(JPEG::JPEG JPEGThirdParty)
     set_target_properties(JPEG::JPEG PROPERTIES
         IMPORTED_LOCATION "${JPEG_LIBRARY}"
         INTERFACE_LINK_LIBRARIES ZLIB

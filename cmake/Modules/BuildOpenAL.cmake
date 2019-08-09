@@ -16,7 +16,7 @@ if(NOT OPENAL_SHARED_LIBS)
     set(OPENAL_CMAKE_ARGS ${OPENAL_CMAKE_ARGS} -DLIBTYPE=STATIC)
 endif()
 ExternalProject_Add(
-    OpenAL_EXTERNAL
+    OpenALThirdParty
 	PREFIX ${CMAKE_CURRENT_BINARY_DIR}/OpenAL
     URL http://github.com/kcat/openal-soft/archive/openal-soft-1.19.1.tar.gz
     CMAKE_ARGS ${OPENAL_CMAKE_ARGS})
@@ -46,7 +46,7 @@ endif()
 
 if(OPENAL_FOUND AND NOT TARGET OpenAL::OpenAL)
     add_library(OpenAL::OpenAL UNKNOWN IMPORTED)
-    add_dependencies(OpenAL::OpenAL OpenAL_EXTERNAL)
+    add_dependencies(OpenAL::OpenAL OpenALThirdParty)
     set_target_properties(OpenAL::OpenAL PROPERTIES
         IMPORTED_LOCATION "${OPENAL_LIBRARY}"
         INTERFACE_INCLUDE_DIRECTORIES "${OPENAL_INCLUDE_DIRS}"

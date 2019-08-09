@@ -15,11 +15,11 @@ elseif (APPLE)
 	set(curl_ARGS ${curl_ARGS} -DCMAKE_USE_SECTRANSP=TRUE)
 else()
 	set(curl_ARGS ${curl_ARGS} -DCMAKE_USE_MBEDTLS=TRUE)
-	set(curl_DEPENDS ${curl_DEPENDS} MbedTLS_EXTERNAL)
+	set(curl_DEPENDS ${curl_DEPENDS} MbedTLSThirdParty)
 endif()
-set(curl_DEPENDS ${curl_DEPENDS} ZLIB_EXTERNAL)
+set(curl_DEPENDS ${curl_DEPENDS} ZLIBThirdParty)
 ExternalProject_Add(
-    curl_EXTERNAL
+    curlThirdParty
 	PREFIX ${CMAKE_CURRENT_BINARY_DIR}/curl
     DEPENDS ${curl_DEPENDS}
     URL https://github.com/curl/curl/releases/download/curl-7_65_1/curl-7.65.1.tar.bz2
@@ -36,7 +36,7 @@ set(curl_LIBRARIES ${curl_LIBRARY})
 
 if(curl_FOUND AND NOT TARGET curl::curl)
     add_library(curl::curl UNKNOWN IMPORTED)
-    add_dependencies(curl::curl curl_EXTERNAL)
+    add_dependencies(curl::curl curlThirdParty)
 	if(WIN32)
 		set_property(TARGET curl::curl PROPERTY IMPORTED_LOCATION ${curl_LIBRARY})
 		set_property(TARGET curl::curl PROPERTY INTERFACE_LINK_LIBRARIES winmm ws2_32 advapi32 crypt32)

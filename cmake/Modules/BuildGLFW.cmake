@@ -1,7 +1,7 @@
 include(ExternalProject)
 
 ExternalProject_Add(
-    GLFW_EXTERNAL
+    GLFWThirdParty
 	PREFIX ${CMAKE_CURRENT_BINARY_DIR}/GLFW
     URL http://github.com/glfw/glfw/releases/download/3.3/glfw-3.3.zip
     CMAKE_ARGS
@@ -35,7 +35,7 @@ endif()
 
 if(GLFW_FOUND AND NOT TARGET GLFW::GLFW)
     add_library(GLFW::GLFW UNKNOWN IMPORTED)
-    add_dependencies(GLFW::GLFW GLFW_EXTERNAL)
+    add_dependencies(GLFW::GLFW GLFWThirdParty)
     set_target_properties(GLFW::GLFW PROPERTIES
         IMPORTED_LOCATION "${GLFW_LIBRARY}"
         INTERFACE_INCLUDE_DIRECTORIES "${GLFW_INCLUDE_DIRS}"

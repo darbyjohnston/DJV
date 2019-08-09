@@ -24,13 +24,13 @@ if(WIN32 OR NOT ILMBASE_SHARED_LIBS)
     set(IlmBase_ARGS ${IlmBase_ARGS} -DBUILD_ILMBASE_STATIC=1)
 endif()
 ExternalProject_Add(
-    IlmBase_EXTERNAL
+    IlmBaseThirdParty
 	PREFIX ${CMAKE_CURRENT_BINARY_DIR}/IlmBase
     URL http://github.com/openexr/openexr/releases/download/v2.3.0/ilmbase-2.3.0.tar.gz
 	PATCH_COMMAND
 	    ${CMAKE_COMMAND} -E copy
 	    ${CMAKE_SOURCE_DIR}/third-party/ilmbase-patch/CMakeLists.txt
-	    ${CMAKE_CURRENT_BINARY_DIR}/IlmBase/src/IlmBase_EXTERNAL/CMakeLists.txt
+	    ${CMAKE_CURRENT_BINARY_DIR}/IlmBase/src/IlmBaseThirdParty/CMakeLists.txt
     CMAKE_ARGS ${IlmBase_ARGS})
 
 set(ILMBASE_FOUND TRUE)
@@ -43,7 +43,7 @@ set(ILMBASE_IMATH_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/${CMAKE_SHARED_LIBRARY_PRE
 
 if(ILMBASE_FOUND AND NOT TARGET IlmBase::Half)
     add_library(IlmBase::Half UNKNOWN IMPORTED)
-    add_dependencies(IlmBase::Half IlmBase_EXTERNAL)
+    add_dependencies(IlmBase::Half IlmBaseThirdParty)
     set_target_properties(IlmBase::Half PROPERTIES
         IMPORTED_LOCATION "${ILMBASE_HALF_LIBRARY}"
         INTERFACE_INCLUDE_DIRECTORIES "${ILMBASE_INCLUDE_DIR}"
@@ -51,7 +51,7 @@ if(ILMBASE_FOUND AND NOT TARGET IlmBase::Half)
 endif()
 if(ILMBASE_FOUND AND NOT TARGET IlmBase::Half_static)
     add_library(IlmBase::Half_static UNKNOWN IMPORTED)
-    add_dependencies(IlmBase::Half_static IlmBase_EXTERNAL)
+    add_dependencies(IlmBase::Half_static IlmBaseThirdParty)
     set_target_properties(IlmBase::Half_static PROPERTIES
         IMPORTED_LOCATION "${ILMBASE_HALF_STATIC_LIBRARY}"
         INTERFACE_INCLUDE_DIRECTORIES "${ILMBASE_INCLUDE_DIR}"
@@ -59,7 +59,7 @@ if(ILMBASE_FOUND AND NOT TARGET IlmBase::Half_static)
 endif()
 if(ILMBASE_FOUND AND NOT TARGET IlmBase::Iex)
     add_library(IlmBase::Iex UNKNOWN IMPORTED)
-    add_dependencies(IlmBase::Iex IlmBase_EXTERNAL)
+    add_dependencies(IlmBase::Iex IlmBaseThirdParty)
     set_target_properties(IlmBase::Iex PROPERTIES
         IMPORTED_LOCATION "${ILMBASE_IEX_LIBRARY}"
         INTERFACE_INCLUDE_DIRECTORIES "${ILMBASE_INCLUDE_DIR}"
@@ -67,7 +67,7 @@ if(ILMBASE_FOUND AND NOT TARGET IlmBase::Iex)
 endif()
 if(ILMBASE_FOUND AND NOT TARGET IlmBase::Iex_static)
     add_library(IlmBase::Iex_static UNKNOWN IMPORTED)
-    add_dependencies(IlmBase::Iex_static IlmBase_EXTERNAL)
+    add_dependencies(IlmBase::Iex_static IlmBaseThirdParty)
     set_target_properties(IlmBase::Iex_static PROPERTIES
         IMPORTED_LOCATION "${ILMBASE_IEX_STATIC_LIBRARY}"
         INTERFACE_INCLUDE_DIRECTORIES "${ILMBASE_INCLUDE_DIR}"
@@ -75,7 +75,7 @@ if(ILMBASE_FOUND AND NOT TARGET IlmBase::Iex_static)
 endif()
 if(ILMBASE_FOUND AND NOT TARGET IlmBase::IexMath)
     add_library(IlmBase::IexMath UNKNOWN IMPORTED)
-    add_dependencies(IlmBase::IexMath IlmBase_EXTERNAL)
+    add_dependencies(IlmBase::IexMath IlmBaseThirdParty)
     set_target_properties(IlmBase::IexMath PROPERTIES
         IMPORTED_LOCATION "${ILMBASE_IEXMATH_LIBRARY}"
         INTERFACE_INCLUDE_DIRECTORIES "${ILMBASE_INCLUDE_DIR}"
@@ -83,7 +83,7 @@ if(ILMBASE_FOUND AND NOT TARGET IlmBase::IexMath)
 endif()
 if(ILMBASE_FOUND AND NOT TARGET IlmBase::IexMath_static)
     add_library(IlmBase::IexMath_static UNKNOWN IMPORTED)
-    add_dependencies(IlmBase::IexMath_static IlmBase_EXTERNAL)
+    add_dependencies(IlmBase::IexMath_static IlmBaseThirdParty)
     set_target_properties(IlmBase::IexMath_static PROPERTIES
         IMPORTED_LOCATION "${ILMBASE_IEXMATH_STATIC_LIBRARY}"
         INTERFACE_INCLUDE_DIRECTORIES "${ILMBASE_INCLUDE_DIR}"
@@ -91,7 +91,7 @@ if(ILMBASE_FOUND AND NOT TARGET IlmBase::IexMath_static)
 endif()
 if(ILMBASE_FOUND AND NOT TARGET IlmBase::IlmThread)
     add_library(IlmBase::IlmThread UNKNOWN IMPORTED)
-    add_dependencies(IlmBase::IlmThread IlmBase_EXTERNAL)
+    add_dependencies(IlmBase::IlmThread IlmBaseThirdParty)
     set_target_properties(IlmBase::IlmThread PROPERTIES
         IMPORTED_LOCATION "${ILMBASE_ILMTHREAD_LIBRARY}"
         INTERFACE_INCLUDE_DIRECTORIES "${ILMBASE_INCLUDE_DIR}"
@@ -103,7 +103,7 @@ if(ILMBASE_FOUND AND NOT TARGET IlmBase::IlmThread)
 endif()
 if(ILMBASE_FOUND AND NOT TARGET IlmBase::IlmThread_static)
     add_library(IlmBase::IlmThread_static UNKNOWN IMPORTED)
-    add_dependencies(IlmBase::IlmThread_static IlmBase_EXTERNAL)
+    add_dependencies(IlmBase::IlmThread_static IlmBaseThirdParty)
     set_target_properties(IlmBase::IlmThread_static PROPERTIES
         IMPORTED_LOCATION "${ILMBASE_ILMTHREAD_STATIC_LIBRARY}"
         INTERFACE_INCLUDE_DIRECTORIES "${ILMBASE_INCLUDE_DIR}"
@@ -115,7 +115,7 @@ if(ILMBASE_FOUND AND NOT TARGET IlmBase::IlmThread_static)
 endif()
 if(ILMBASE_FOUND AND NOT TARGET IlmBase::Imath)
     add_library(IlmBase::Imath UNKNOWN IMPORTED)
-    add_dependencies(IlmBase::Imath IlmBase_EXTERNAL)
+    add_dependencies(IlmBase::Imath IlmBaseThirdParty)
     set_target_properties(IlmBase::Imath PROPERTIES
         IMPORTED_LOCATION "${ILMBASE_IMATH_LIBRARY}"
         INTERFACE_INCLUDE_DIRECTORIES "${ILMBASE_INCLUDE_DIR}"
@@ -123,7 +123,7 @@ if(ILMBASE_FOUND AND NOT TARGET IlmBase::Imath)
 endif()
 if(ILMBASE_FOUND AND NOT TARGET IlmBase::Imath_static)
     add_library(IlmBase::Imath_static UNKNOWN IMPORTED)
-    add_dependencies(IlmBase::Imath_static IlmBase_EXTERNAL)
+    add_dependencies(IlmBase::Imath_static IlmBaseThirdParty)
     set_target_properties(IlmBase::Imath_static PROPERTIES
         IMPORTED_LOCATION "${ILMBASE_IMATH_STATIC_LIBRARY}"
         INTERFACE_INCLUDE_DIRECTORIES "${ILMBASE_INCLUDE_DIR}"

@@ -53,7 +53,7 @@ set(source
     TooltipsSettingsWidget.cpp
     UIComponentsSystem.cpp)
 
-if(FFMPEG_FOUND)
+if(FFmpeg_FOUND)
     set(header
         ${header}
         FFmpegSettingsWidget.h)

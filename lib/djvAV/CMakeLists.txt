@@ -76,7 +76,7 @@ set(source
     TextureAtlas.cpp
     ThumbnailSystem.cpp
     TriangleMesh.cpp)
-if(FFMPEG_FOUND)
+if(FFmpeg_FOUND)
     set(header
         ${header}
 		FFmpeg.h
@@ -137,8 +137,8 @@ set(LIBRARIES
     OpenAL
     OpenGL::GL
     djvCore)
-if(FFMPEG_FOUND)
-    set(LIBRARIES ${LIBRARIES} FFMPEG)
+if(FFmpeg_FOUND)
+    set(LIBRARIES ${LIBRARIES} FFmpeg)
 endif()
 if(JPEG_FOUND)
     set(LIBRARIES ${LIBRARIES} JPEG)

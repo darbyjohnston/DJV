@@ -23,14 +23,14 @@ if(OCIO_SHARED_LIBS)
 else()
 	set(OCIO_ARGS ${OCIO_ARGS} -DOCIO_BUILD_SHARED=OFF -DOCIO_BUILD_STATIC=ON)
 endif()
-file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/OCIO/src/OCIO_EXTERNAL-build/ext)
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/OCIO/src/OCIOThirdParty-build/ext)
 ExternalProject_Add(
-    OCIO_EXTERNAL
+    OCIOThirdParty
 	PREFIX ${CMAKE_CURRENT_BINARY_DIR}/OCIO
     URL "http://github.com/imageworks/OpenColorIO/archive/v1.1.1.tar.gz"
 	PATCH_COMMAND ${CMAKE_COMMAND} -E copy
 		${CMAKE_SOURCE_DIR}/third-party/ocio-patch/src/core/CMakeLists.txt
-		${CMAKE_CURRENT_BINARY_DIR}/OCIO/src/OCIO_EXTERNAL/src/core/CMakeLists.txt
+		${CMAKE_CURRENT_BINARY_DIR}/OCIO/src/OCIOThirdParty/src/core/CMakeLists.txt
     CMAKE_ARGS ${OCIO_ARGS})
 
 set(OCIO_FOUND TRUE)
@@ -44,7 +44,7 @@ set(OCIO_LIBRARIES ${OCIO_LIBRARY})
 
 if(OCIO_FOUND AND NOT TARGET OCIO::OCIO)
     add_library(OCIO::OCIO UNKNOWN IMPORTED)
-    add_dependencies(OCIO::OCIO OCIO_EXTERNAL)
+    add_dependencies(OCIO::OCIO OCIOThirdParty)
     set_target_properties(OCIO::OCIO PROPERTIES
         IMPORTED_LOCATION "${OCIO_LIBRARY}"
         INTERFACE_INCLUDE_DIRECTORIES "${OCIO_INCLUDE_DIRS}"

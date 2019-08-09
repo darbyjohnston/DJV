@@ -1,9 +1,9 @@
 include(ExternalProject)
 
 ExternalProject_Add(
-    FreeType_EXTERNAL
+    FreeTypeThirdParty
 	PREFIX ${CMAKE_CURRENT_BINARY_DIR}/FreeType
-    DEPENDS ZLIB_EXTERNAL
+    DEPENDS ZLIBThirdParty
     URL http://download.savannah.gnu.org/releases/freetype/freetype-2.10.0.tar.gz
     CMAKE_ARGS
         -DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}
@@ -35,7 +35,7 @@ set(FreeType_LIBRARIES ${FreeType_LIBRARY} ${ZLIB_LIBRARIES})
 
 if(FreeType_FOUND AND NOT TARGET FreeType::FreeType)
     add_library(FreeType::FreeType UNKNOWN IMPORTED)
-    add_dependencies(FreeType::FreeType FreeType_EXTERNAL)
+    add_dependencies(FreeType::FreeType FreeTypeThirdParty)
     set_target_properties(FreeType::FreeType PROPERTIES
         IMPORTED_LOCATION "${FreeType_LIBRARY}"
         INTERFACE_LINK_LIBRARIES ZLIB 
