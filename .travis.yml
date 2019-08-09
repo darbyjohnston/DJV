@@ -4,6 +4,7 @@ os:
   - linux
 sudo: require
 install:
+  - sudo apt-get install nasm
   - sudo apt-get install libglu1-mesa-dev mesa-common-dev
 services:
   - xvfb
