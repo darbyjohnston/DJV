@@ -1,7 +1,3 @@
-find_package(GLM REQUIRED)
-find_package(PicoJSON REQUIRED)
-find_package(Threads REQUIRED)
-
 set(header
     Animation.h
     AnimationInline.h

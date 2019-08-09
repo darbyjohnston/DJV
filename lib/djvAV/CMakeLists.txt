@@ -1,16 +1,3 @@
-find_package(FreeType REQUIRED)
-find_package(IlmBase REQUIRED)
-find_package(OCIO REQUIRED)
-find_package(OpenAL REQUIRED)
-find_package(OpenGL REQUIRED)
-find_package(GLFW REQUIRED)
-
-find_package(FFmpeg)
-find_package(JPEG)
-find_package(PNG)
-find_package(OpenEXR)
-find_package(TIFF)
-
 set(header
     AV.h
     AVSystem.h

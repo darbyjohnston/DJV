@@ -62,7 +62,7 @@ set(DJV_INSTALL_TRANSLATIONS translations)
 add_definitions(-DDJV_ASSERT)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-# Set wheether to use OpenGL ES.
+# Set whether to use OpenGL ES.
 set(DJV_OPENGL_ES2 FALSE CACHE STRING "Whether to enable OpenGL ES")
 if(DJV_OPENGL_ES2)
     add_definitions(-DDJV_OPENGL_ES2)
@@ -111,17 +111,22 @@ include_directories(
 # Third Party Libraries
 #-------------------------------------------------------------------------------
 
+find_package(Threads REQUIRED)
+find_package(OpenGL REQUIRED)
+
+add_subdirectory(third-party/fseq)
+
+if(DJV_OPENGL_ES2)
+    include_directories(${CMAKE_SOURCE_DIR}/third-party/gladGL2ES)
+    add_subdirectory(third-party/gladGL2ES)
+else()
+    include_directories(${CMAKE_SOURCE_DIR}/third-party/gladGL4_1)
+    add_subdirectory(third-party/gladGL4_1)
+endif()
+
 if(DJV_THIRD_PARTY)
-    set(ZLIB_ROOT ${DJV_THIRD_PARTY})
-    set(GLM_ROOT ${DJV_THIRD_PARTY})
-    set(OpenAL_ROOT ${DJV_THIRD_PARTY})
-    set(JPEG_ROOT ${DJV_THIRD_PARTY})
-    set(TIFF_ROOT ${DJV_THIRD_PARTY})
-    set(PNG_ROOT ${DJV_THIRD_PARTY})
-    set(IlmBase_ROOT ${DJV_THIRD_PARTY})
-    set(OpenEXR_ROOT ${DJV_THIRD_PARTY})
-    set(FFmpeg_ROOT ${DJV_THIRD_PARTY})    
-    
+    set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/install)
+
     set(ZLIB_SHARED_LIBS ${BUILD_SHARED_LIBS})
     set(OPENAL_SHARED_LIBS ON)
     set(JPEG_SHARED_LIBS ${BUILD_SHARED_LIBS})
@@ -143,12 +148,49 @@ else()
     set(FFMPEG_SHARED_LIBS ON)
 endif()
 
-if(DJV_OPENGL_ES2)
-    include_directories(${CMAKE_SOURCE_DIR}/third-party/gladGL2ES)
-    add_subdirectory(third-party/gladGL2ES)
+set(DJV_THIRD_PARTY_PACKAGES_REQUIRED
+    ZLIB
+    #curl
+    GLM
+    GLFW
+    PicoJSON
+    OpenAL
+    IlmBase
+    OCIO
+    FreeType)
+set(DJV_THIRD_PARTY_PACKAGES_OPTIONAL
+    JPEGTurbo
+    TIFF
+    PNG
+    OpenEXR)
+if(WIN32)
+    # See the directions for building FFmpeg on Windows in "doc/BuildWindows.html".
+elseif(APPLE)
+    set(DJV_THIRD_PARTY_PACKAGES_OPTIONAL
+        ${DJV_THIRD_PARTY_PACKAGES_OPTIONAL}
+        FFmpeg)
 else()
-    include_directories(${CMAKE_SOURCE_DIR}/third-party/gladGL4_1)
-    add_subdirectory(third-party/gladGL4_1)
+    set(DJV_THIRD_PARTY_PACKAGES_OPTIONAL
+        ${DJV_THIRD_PARTY_PACKAGES_OPTIONAL}
+        FFmpeg
+        #MbedTLS
+        )
+endif()
+
+if(DJV_THIRD_PARTY)
+    foreach(PACKAGE ${DJV_THIRD_PARTY_PACKAGES_REQUIRED})
+        include(Build${PACKAGE})
+    endforeach()
+    foreach(PACKAGE ${DJV_THIRD_PARTY_PACKAGES_OPTIONAL})
+        include(Build${PACKAGE})
+    endforeach()
+else()
+    foreach(PACKAGE ${DJV_THIRD_PARTY_PACKAGES_REQUIRED})
+        find_package(${PACKAGE} REQUIRED)
+    endforeach()
+    foreach(PACKAGE ${DJV_THIRD_PARTY_PACKAGES_OPTIONAL})
+        find_package(${PACKAGE})
+    endforeach()
 endif()
 
 #-------------------------------------------------------------------------------
@@ -245,7 +287,6 @@ add_subdirectory(tests)
 add_subdirectory(examples)
 add_subdirectory(experiments)
 add_subdirectory(doc)
-add_subdirectory(third-party)
 
 include(CPack)
 

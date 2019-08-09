@@ -1,7 +1,3 @@
-find_package(FFmpeg)
-find_package(JPEG)
-find_package(TIFF)
-
 set(header
 	CineonSettingsWidget.h
     ColorPicker.h
@@ -19,7 +15,6 @@ set(header
     LanguageSettingsWidget.h
 	LineGraphWidget.h
     ListViewHeader.h
-	OpenEXRSettingsWidget.h
     PPMSettingsWidget.h
     PaletteSettingsWidget.h
     SearchBox.h
@@ -49,7 +44,6 @@ set(source
     LanguageSettingsWidget.cpp
 	LineGraphWidget.cpp
     ListViewHeader.cpp
-	OpenEXRSettingsWidget.cpp
     PPMSettingsWidget.cpp
     PaletteSettingsWidget.cpp
     SearchBox.cpp
@@ -74,6 +68,14 @@ if(JPEG_FOUND)
     set(source
         ${source}
         JPEGSettingsWidget.cpp)
+endif()
+if(OPENEXR_FOUND)
+    set(header
+        ${header}
+    	OpenEXRSettingsWidget.h)
+    set(source
+        ${source}
+    	OpenEXRSettingsWidget.cpp)
 endif()
 if(TIFF_FOUND)
     set(header

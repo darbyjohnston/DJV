@@ -1,5 +1,3 @@
-find_package(curl REQUIRED)
-
 set(header jpeg.h)
 set(source gallery.cpp jpeg.cpp)
 
