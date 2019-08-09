@@ -54,23 +54,3 @@ if(TIFF_FOUND AND NOT TARGET TIFF)
     target_link_libraries(TIFF INTERFACE TIFF::TIFF)
 endif()
 
-if(DJV_THIRD_PARTY AND TIFF_SHARED_LIBS)
-    if(WIN32)
-        # \todo
-    elseif(APPLE)
-        install(
-            FILES
-            ${TIFF_LIBRARY}
-            ${DJV_THIRD_PARTY}/lib/libtiff.5.dylib
-            ${DJV_THIRD_PARTY}/lib/libtiff.5.3.0.dylib
-            DESTINATION ${DJV_INSTALL_LIB})
-    else()
-        install(
-            FILES
-            ${TIFF_LIBRARY}
-            ${TIFF_LIBRARY}.5
-            ${TIFF_LIBRARY}.5.3.0
-            DESTINATION ${DJV_INSTALL_LIB})
-    endif()
-endif()
-

@@ -50,24 +50,3 @@ if(PNG_FOUND AND NOT TARGET PNG)
     target_link_libraries(PNG INTERFACE PNG::PNG)
 endif()
 
-if(DJV_THIRD_PARTY AND PNG_SHARED_LIBS)
-    if(WIN32)
-        # \todo
-    elseif(APPLE)
-		install(
-			FILES
-			${DJV_THIRD_PARTY}/lib/libpng.dylib
-			${DJV_THIRD_PARTY}/lib/libpng16.dylib
-			${DJV_THIRD_PARTY}/lib/libpng16.16.dylib
-			${DJV_THIRD_PARTY}/lib/libpng16.16.34.0.dylib
-			DESTINATION ${DJV_INSTALL_LIB})
-    else()
-		 install(
-			FILES
-			${DJV_THIRD_PARTY}/lib/libpng.so
-			${DJV_THIRD_PARTY}/lib/libpng16.so
-			${DJV_THIRD_PARTY}/lib/libpng16.so.16
-			${DJV_THIRD_PARTY}/lib/libpng16.so.16.34.0
-			DESTINATION ${DJV_INSTALL_LIB})
-    endif()
-endif()

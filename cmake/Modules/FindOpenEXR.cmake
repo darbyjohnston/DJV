@@ -55,23 +55,3 @@ if(OPENEXR_FOUND AND NOT TARGET OpenEXR)
     target_link_libraries(OpenEXR INTERFACE OpenEXR::IlmImf)
 endif()
 
-if(DJV_THIRD_PARTY AND OPENEXR_SHARED_LIBS)
-    if(WIN32)
-        # \todo
-    elseif(APPLE)
-        install(
-            FILES
-            ${OPENEXR_LIBRARY}
-            ${DJV_THIRD_PARTY}/lib/libIlmImf.24.dylib
-            ${DJV_THIRD_PARTY}/lib/libIlmImf.2.3.0.dylib
-            DESTINATION ${DJV_INSTALL_LIB})
-    else()
-        install(
-            FILES
-            ${OPENEXR_LIBRARY}
-            ${OPENEXR_LIBRARY}.24
-            ${OPENEXR_LIBRARY}.2.3.0
-            DESTINATION ${DJV_INSTALL_LIB})
-    endif()
-endif()
-

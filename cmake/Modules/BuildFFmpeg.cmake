@@ -142,3 +142,66 @@ if(FFMPEG_FOUND AND NOT TARGET FFMPEG)
     target_link_libraries(FFMPEG INTERFACE ZLIB::ZLIB)
 endif()
 
+if(WIN32)
+    install(
+        FILES
+        ${DJV_THIRD_PARTY}/bin/avcodec-58.dll
+        ${DJV_THIRD_PARTY}/bin/avdevice-58.dll
+        ${DJV_THIRD_PARTY}/bin/avfilter-7.dll
+        ${DJV_THIRD_PARTY}/bin/avformat-58.dll
+        ${DJV_THIRD_PARTY}/bin/avutil-56.dll
+        ${DJV_THIRD_PARTY}/bin/swresample-3.dll
+        ${DJV_THIRD_PARTY}/bin/swscale-5.dll
+        DESTINATION ${DJV_INSTALL_BIN})
+elseif(APPLE)
+    install(
+        FILES
+        ${FFMPEG_LIBAVCODEC}
+        ${DJV_THIRD_PARTY}/lib/libavcodec.58.dylib
+        ${DJV_THIRD_PARTY}/lib/libavcodec.58.54.100.dylib
+        ${FFMPEG_LIBAVDEVICE}
+        ${DJV_THIRD_PARTY}/lib/libavdevice.58.dylib
+        ${DJV_THIRD_PARTY}/lib/libavdevice.58.8.100.dylib
+        ${FFMPEG_LIBAVFILTER}
+        ${DJV_THIRD_PARTY}/lib/libavfilter.7.dylib
+        ${DJV_THIRD_PARTY}/lib/libavfilter.7.57.100.dylib
+        ${FFMPEG_LIBAVFORMAT}
+        ${DJV_THIRD_PARTY}/lib/libavformat.58.dylib
+        ${DJV_THIRD_PARTY}/lib/libavformat.58.29.100.dylib
+        ${FFMPEG_LIBAVUTIL}
+        ${DJV_THIRD_PARTY}/lib/libavutil.56.dylib
+        ${DJV_THIRD_PARTY}/lib/libavutil.56.31.100.dylib
+        ${FFMPEG_LIBSWRESAMPLE}
+        ${DJV_THIRD_PARTY}/lib/libswresample.3.dylib
+        ${DJV_THIRD_PARTY}/lib/libswresample.3.5.100.dylib
+        ${FFMPEG_LIBSWSCALE}
+        ${DJV_THIRD_PARTY}/lib/libswscale.5.dylib
+        ${DJV_THIRD_PARTY}/lib/libswscale.5.5.100.dylib
+        DESTINATION ${DJV_INSTALL_LIB})
+else()
+    install(
+        FILES
+        ${FFMPEG_LIBAVCODEC}
+        ${FFMPEG_LIBAVCODEC}.58
+        ${FFMPEG_LIBAVCODEC}.58.54.100
+        ${FFMPEG_LIBAVDEVICE}
+        ${FFMPEG_LIBAVDEVICE}.58
+        ${FFMPEG_LIBAVDEVICE}.58.8.100
+        ${FFMPEG_LIBAVFILTER}
+        ${FFMPEG_LIBAVFILTER}.7
+        ${FFMPEG_LIBAVFILTER}.7.57.100
+        ${FFMPEG_LIBAVFORMAT}
+        ${FFMPEG_LIBAVFORMAT}.58
+        ${FFMPEG_LIBAVFORMAT}.58.29.100
+        ${FFMPEG_LIBAVUTIL}
+        ${FFMPEG_LIBAVUTIL}.56
+        ${FFMPEG_LIBAVUTIL}.56.31.100
+        ${FFMPEG_LIBSWRESAMPLE}
+        ${FFMPEG_LIBSWRESAMPLE}.3
+        ${FFMPEG_LIBSWRESAMPLE}.3.5.100
+        ${FFMPEG_LIBSWSCALE}
+        ${FFMPEG_LIBSWSCALE}.5
+        ${FFMPEG_LIBSWSCALE}.5.5.100
+        DESTINATION ${DJV_INSTALL_LIB})
+endif()
+

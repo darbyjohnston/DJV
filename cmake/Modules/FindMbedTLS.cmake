@@ -68,21 +68,3 @@ if(MbedTLS_FOUND AND NOT TARGET MbedTLS)
     target_link_libraries(MbedTLS INTERFACE MbedTLS::crypto)
 endif()
 
-if(DJV_THIRD_PARTY AND MbedTLS_SHARED_LIBS)
-    if(WIN32)
-        install(
-            FILES
-            ${MbedTLS_LIBRARY}
-            ${MbedTLS_x509_LIBRARY}
-            ${MbedTLS_crypto_LIBRARY}
-            DESTINATION ${DJV_INSTALL_BIN})
-    else()
-        install(
-            FILES
-            ${MbedTLS_LIBRARY}
-            ${MbedTLS_x509_LIBRARY}
-            ${MbedTLS_crypto_LIBRARY}
-            DESTINATION ${DJV_INSTALL_LIB})
-    endif()
-endif()
-

@@ -43,17 +43,3 @@ if(JPEG_FOUND AND NOT TARGET JPEG)
     target_link_libraries(JPEG INTERFACE JPEG::JPEG)
 endif()
 
-if(DJV_THIRD_PARTY AND JPEG_SHARED_LIBS)
-    if(WIN32)
-        install(
-            FILES
-            ${JPEG_LIBRARY}
-            DESTINATION ${DJV_INSTALL_BIN})
-    else()
-        install(
-            FILES
-            ${JPEG_LIBRARY}
-            DESTINATION ${DJV_INSTALL_LIB})
-    endif()
-endif()
-

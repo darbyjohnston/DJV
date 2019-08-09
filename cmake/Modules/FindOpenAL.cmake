@@ -57,26 +57,3 @@ if(OPENAL_FOUND AND NOT TARGET OpenAL)
     target_link_libraries(OpenAL INTERFACE OpenAL::OpenAL)
 endif()
 
-if(DJV_THIRD_PARTY)
-    if(WIN32)
-        install(
-            FILES
-            ${DJV_THIRD_PARTY}/bin/OpenAL32.dll
-            DESTINATION ${DJV_INSTALL_BIN})
-    elseif(APPLE)
-        install(
-            FILES
-            ${OPENAL_LIBRARY}
-            ${DJV_THIRD_PARTY}/lib/libopenal.1.dylib
-            ${DJV_THIRD_PARTY}/lib/libopenal.1.19.1.dylib
-            DESTINATION ${DJV_INSTALL_LIB})
-    else()
-        install(
-            FILES
-            ${OPENAL_LIBRARY}
-            ${OPENAL_LIBRARY}.1
-            ${OPENAL_LIBRARY}.1.19.1
-            DESTINATION ${DJV_INSTALL_LIB})
-    endif()
-endif()
-

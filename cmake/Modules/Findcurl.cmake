@@ -69,17 +69,3 @@ if(curl_FOUND AND NOT TARGET curl)
     target_link_libraries(curl INTERFACE curl::curl)
 endif()
 
-if(DJV_THIRD_PARTY AND curl_SHARED_LIBS)
-    if(WIN32)
-        install(
-            FILES
-            ${curl_LIBRARY}
-            DESTINATION ${DJV_INSTALL_BIN})
-    else()
-        install(
-            FILES
-            ${curl_LIBRARY}
-            DESTINATION ${DJV_INSTALL_LIB})
-    endif()
-endif()
-

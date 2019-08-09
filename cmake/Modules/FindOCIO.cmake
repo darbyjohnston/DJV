@@ -50,18 +50,3 @@ if(OCIO_FOUND AND NOT TARGET OCIO)
     target_link_libraries(OCIO INTERFACE OCIO::OCIO)
 endif()
 
-if(DJV_THIRD_PARTY AND OCIO_SHARED_LIBS)
-    if(WIN32)
-        # \todo
-    elseif(APPLE)
-		install(
-			FILES
-			${DJV_THIRD_PARTY}/lib/OpenColorIO.dylib
-			DESTINATION ${DJV_INSTALL_LIB})
-    else()
-		 install(
-			FILES
-			${DJV_THIRD_PARTY}/lib/OpenColorIO.so
-			DESTINATION ${DJV_INSTALL_LIB})
-    endif()
-endif()

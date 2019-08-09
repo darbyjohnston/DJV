@@ -56,17 +56,3 @@ if(GLFW_FOUND AND NOT TARGET GLFW)
     endif()
 endif()
 
-if(DJV_THIRD_PARTY AND GLFW_SHARED_LIBS)
-    if(WIN32)
-        install(
-            FILES
-            ${GLFW_LIBRARY}
-            DESTINATION ${DJV_INSTALL_BIN})
-    else()
-        install(
-            FILES
-            ${GLFW_LIBRARY}
-            DESTINATION ${DJV_INSTALL_LIB})
-    endif()
-endif()
-
