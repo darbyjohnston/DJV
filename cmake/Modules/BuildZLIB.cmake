@@ -2,9 +2,11 @@ include(ExternalProject)
 
 ExternalProject_Add(
     ZLIB_EXTERNAL
-	PREFIX ${CMAKE_CURRENT_BINARY_DIR}/ZLIB
+    PREFIX ${CMAKE_CURRENT_BINARY_DIR}/ZLIB
     URL http://www.zlib.net/zlib-1.2.11.tar.gz
-	PATCH_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/third-party/zlib-patch/CMakeLists.txt ${CMAKE_CURRENT_BINARY_DIR}/ZLIB/src/ZLIB_EXTERNAL/CMakeLists.txt
+    PATCH_COMMAND ${CMAKE_COMMAND} -E copy
+        ${CMAKE_SOURCE_DIR}/third-party/zlib-patch/CMakeLists.txt
+        ${CMAKE_CURRENT_BINARY_DIR}/ZLIB/src/ZLIB_EXTERNAL/CMakeLists.txt
     CMAKE_ARGS
         -DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}
         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
