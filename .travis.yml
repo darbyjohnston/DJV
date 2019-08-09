@@ -2,6 +2,9 @@ language: cpp
 dist: bionic
 os:
   - linux
+sudo: require
+install:
+  - sudo apt-get install libgl1-mesa-dri
 services:
   - xvfb
 branches:
