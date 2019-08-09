@@ -14,10 +14,6 @@
 #
 # * curl
 
-if (NOT WIN32 OR APPLE)
-	find_package(MbedTLS REQUIRED)
-endif()
-
 find_path(curl_INCLUDE_DIR
     NAMES curl.h
 	PATH_SUFFIXES curl)

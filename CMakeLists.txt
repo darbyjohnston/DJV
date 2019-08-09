@@ -148,9 +148,17 @@ else()
     set(FFMPEG_SHARED_LIBS ON)
 endif()
 
+set(DJV_THIRD_PARTY_PACKAGES_REQUIRED ZLIB)
+if(WIN32)
+elseif(APPLE)
+else()
+    set(DJV_THIRD_PARTY_PACKAGES_REQUIRED
+        ${DJV_THIRD_PARTY_PACKAGES_REQUIRED}
+        MbedTLS)
+endif()
 set(DJV_THIRD_PARTY_PACKAGES_REQUIRED
-    ZLIB
-    #curl
+    ${DJV_THIRD_PARTY_PACKAGES_REQUIRED}
+    curl
     GLM
     GLFW
     PicoJSON
@@ -165,16 +173,10 @@ set(DJV_THIRD_PARTY_PACKAGES_OPTIONAL
     OpenEXR)
 if(WIN32)
     # See the directions for building FFmpeg on Windows in "doc/BuildWindows.html".
-elseif(APPLE)
-    set(DJV_THIRD_PARTY_PACKAGES_OPTIONAL
-        ${DJV_THIRD_PARTY_PACKAGES_OPTIONAL}
-        FFmpeg)
 else()
     set(DJV_THIRD_PARTY_PACKAGES_OPTIONAL
         ${DJV_THIRD_PARTY_PACKAGES_OPTIONAL}
-        FFmpeg
-        #MbedTLS
-        )
+        FFmpeg)
 endif()
 
 if(DJV_THIRD_PARTY)
