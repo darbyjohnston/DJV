@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/darbyjohnston/DJV.svg?branch=master)](https://travis-ci.org/darbyjohnston/DJV)
+
 DJV Imaging
 ===========
 Professional media review software for VFX, animation, and film.
