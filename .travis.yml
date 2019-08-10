@@ -4,6 +4,8 @@ os:
 - linux
 sudo: require
 install:
+- sudo apt-get update
+- sudo apt-get install cmake
 - sudo apt-get install nasm
 - sudo apt-get install xorg-dev libglu1-mesa-dev mesa-common-dev
 services:
