@@ -155,90 +155,14 @@ namespace djv
                             if (!filter)
                             {
                                 FileInfo fileInfo(Path(value, fileName));
-                                const auto i = std::find(
-                                    options.fileSequenceExtensions.begin(),
-                                    options.fileSequenceExtensions.end(),
-                                    fileInfo.getPath().getExtension());
-                                if (options.fileSequences && i != options.fileSequenceExtensions.end())
-                                {
-                                    fileInfo.evalSequence();
-                                    if (fileInfo.isSequenceValid())
-                                    {
-                                        const size_t size = out.size();
-                                        size_t i = 0;
-                                        for (; i < size; ++i)
-                                        {
-                                            if (out[i].addToSequence(fileInfo))
-                                            {
-                                                break;
-                                            }
-                                        }
-                                        if (size == i)
-                                        {
-                                            out.push_back(fileInfo);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        out.push_back(fileInfo);
-                                    }
-                                }
-                                else
-                                {
-                                    out.push_back(fileInfo);
-                                }
+                                _fileSequence(fileInfo, options, out);
                             }
                         } while (FindNextFileW(hFind, &ffd) != 0);
                         FindClose(hFind);
                     }
-
-                    for (auto & i : out)
-                    {
-                        if (i.isSequenceValid())
-                        {
-                            i.sortSequence();
-                        }
-                    }
-
-                    switch (options.sort)
-                    {
-                    case DirectoryListSort::Name:
-                        std::sort(
-                            out.begin(), out.end(),
-                            [&options](const FileInfo & a, const FileInfo & b)
-                        {
-                            return options.reverseSort ?
-                                (a.getFileName(Frame::invalid, false) > b.getFileName(Frame::invalid, false)) :
-                                (a.getFileName(Frame::invalid, false) < b.getFileName(Frame::invalid, false));
-                        });
-                        break;
-                    case DirectoryListSort::Size:
-                        std::sort(
-                            out.begin(), out.end(),
-                            [&options](const FileInfo & a, const FileInfo & b)
-                        {
-                            return options.reverseSort ? (a.getSize() > b.getSize()) : (a.getSize() < b.getSize());
-                        });
-                        break;
-                    case DirectoryListSort::Time:
-                        std::sort(
-                            out.begin(), out.end(),
-                            [&options](const FileInfo & a, const FileInfo & b)
-                        {
-                            return options.reverseSort ? (a.getTime() > b.getTime()) : (a.getTime() < b.getTime());
-                        });
-                        break;
-                    default: break;
-                    }
-                    if (options.sortDirectoriesFirst)
-                    {
-                        std::stable_sort(
-                            out.begin(), out.end(),
-                            [](const FileInfo & a, const FileInfo & b)
-                        {
-                            return FileType::Directory == a.getType() && b.getType() != FileType::Directory;
-                        });
-                    }
+                    
+                    // Sort the items.
+                    _sort(options, out);
                 }
                 return out;
             }

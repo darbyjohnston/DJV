@@ -188,6 +188,9 @@ namespace djv
                 inline operator std::string() const;
 
             private:
+                static void _fileSequence(FileInfo&, const DirectoryListOptions&, std::vector<FileInfo>&);
+                static void _sort(const DirectoryListOptions&, std::vector<FileInfo>&);
+                
                 Path            _path;
                 bool            _exists      = false;
                 FileType        _type        = FileType::File;
