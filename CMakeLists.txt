@@ -107,8 +107,6 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/tests
     ${CMAKE_SOURCE_DIR}/third-party)
 
-configure_file(sonar-project.properties sonar-project.properties COPYONLY)
-
 #-------------------------------------------------------------------------------
 # Third Party Libraries
 #-------------------------------------------------------------------------------
