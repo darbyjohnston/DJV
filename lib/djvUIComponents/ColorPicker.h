@@ -73,62 +73,33 @@ namespace djv
             void _localeEvent(Core::Event::Locale &) override;
 
         private:
-            DJV_PRIVATE();
-
             void _widgetUpdate();
+
+            DJV_PRIVATE();
         };
 
-        //! This class provides slider widgets for choosing a color in the RGB color space.
-        class RGBColorSliders : public Widget
-        {
-            DJV_NON_COPYABLE(RGBColorSliders);
-
-        protected:
-            void _init(Core::Context *);
-            RGBColorSliders();
-
-        public:
-            ~RGBColorSliders() override;
-
-            static std::shared_ptr<RGBColorSliders> create(Core::Context *);
-
-            const AV::Image::Color & getColor() const;
-            void setColor(const AV::Image::Color &);
-            void setColorCallback(const std::function<void(const AV::Image::Color &)> &);
-
-        protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
-
-            void _localeEvent(Core::Event::Locale &) override;
-
-        private:
-            DJV_PRIVATE();
-
-            void _widgetUpdate();
-            void _colorUpdate();
-            void _textUpdate();
-        };
-
-        //! This class provides slider widgets for choosing a color in the HSV color space.
+        //! This class provides slider widgets for choosing a color.
         //!
-        //! \todo Implement the HSV color space.
-        class HSVColorSliders : public Widget
+        //! \todo Implement HSV.
+        class ColorSliders : public Widget
         {
-            DJV_NON_COPYABLE(HSVColorSliders);
+            DJV_NON_COPYABLE(ColorSliders);
 
         protected:
             void _init(Core::Context *);
-            HSVColorSliders();
+            ColorSliders();
 
         public:
-            ~HSVColorSliders() override;
+            ~ColorSliders() override;
 
-            static std::shared_ptr<HSVColorSliders> create(Core::Context *);
+            static std::shared_ptr<ColorSliders> create(Core::Context *);
 
             const AV::Image::Color & getColor() const;
             void setColor(const AV::Image::Color &);
             void setColorCallback(const std::function<void(const AV::Image::Color &)> &);
+            
+            bool hasHSV() const;
+            void setHSV(bool);
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;
@@ -137,11 +108,11 @@ namespace djv
             void _localeEvent(Core::Event::Locale &) override;
 
         private:
-            DJV_PRIVATE();
-
             void _widgetUpdate();
             void _colorUpdate();
             void _textUpdate();
+
+            DJV_PRIVATE();
         };
 
         //! This class provides a color picker widget.
@@ -167,9 +138,9 @@ namespace djv
             void _layoutEvent(Core::Event::Layout &) override;
 
         private:
-            DJV_PRIVATE();
-
             void _colorUpdate();
+
+            DJV_PRIVATE();
         };
 
         //! This class provides a global color picker dialog.

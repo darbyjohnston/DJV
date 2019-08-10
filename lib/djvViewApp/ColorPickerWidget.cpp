@@ -32,12 +32,12 @@
 #include <djvUIComponents/ColorPicker.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/ActionGroup.h>
 #include <djvUI/ColorSwatch.h>
 #include <djvUI/IntSlider.h>
 #include <djvUI/Menu.h>
 #include <djvUI/PopupMenu.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/TabWidget.h>
 
 using namespace djv::Core;
 
@@ -48,12 +48,11 @@ namespace djv
         struct ColorPickerWidget::Private
         {
             AV::Image::Color color = AV::Image::Color(0.f, 0.f, 0.f);
+            bool hsv = false;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
+            std::shared_ptr<UI::ActionGroup> colorActionGroup;
             std::shared_ptr<UI::ColorSwatch> colorSwatch;
-            std::shared_ptr<UI::RGBColorSliders> rgbSliders;
-            std::shared_ptr<UI::HSVColorSliders> hsvSliders;
-            std::shared_ptr<UI::TabWidget> tabWidget;
-            std::map<std::string, size_t> tabText;
+            std::shared_ptr<UI::ColorSliders> sliders;
             std::shared_ptr<UI::IntSlider> sampleSizeSlider;
             std::shared_ptr<UI::ColorTypeWidget> typeWidget;
             std::shared_ptr<UI::VerticalLayout> layout;
@@ -68,21 +67,23 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::ColorPickerWidget");
 
+            p.actions["RGB"] = UI::Action::create();
+            //! \todo Implement me!
+            p.actions["HSV"] = UI::Action::create();
+            p.actions["HSV"]->setEnabled(false);
+            p.colorActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
+            p.colorActionGroup->addAction(p.actions["RGB"]);
+            p.colorActionGroup->addAction(p.actions["HSV"]);
+
+            //! \todo Implement me!
             p.actions["Lock"] = UI::Action::create();
             p.actions["Lock"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["Lock"]->setEnabled(false);
 
             p.colorSwatch = UI::ColorSwatch::create(context);
 
-            p.rgbSliders = UI::RGBColorSliders::create(context);
-            p.rgbSliders->setMargin(UI::MetricsRole::MarginSmall);
-
-            p.hsvSliders = UI::HSVColorSliders::create(context);
-            p.hsvSliders->setMargin(UI::MetricsRole::MarginSmall);
-
-            p.tabWidget = UI::TabWidget::create(context);
-            p.tabWidget->setShadowOverlay({ UI::Side::Top });
-            p.tabText["RGB"] = p.tabWidget->addTab(std::string(), p.rgbSliders);
-            p.tabText["HSV"] = p.tabWidget->addTab(std::string(), p.hsvSliders);
+            p.sliders = UI::ColorSliders::create(context);
+            p.sliders->setMargin(UI::MetricsRole::MarginSmall);
 
             p.sampleSizeSlider = UI::IntSlider::create(context);
             p.sampleSizeSlider->setRange(IntRange(1, 100));
@@ -92,6 +93,9 @@ namespace djv
 
             p.menu = UI::Menu::create(context);
             p.menu->setIcon("djvIconSettings");
+            p.menu->addAction(p.actions["RGB"]);
+            p.menu->addAction(p.actions["HSV"]);
+            p.menu->addSeparator();
             p.menu->addAction(p.actions["Lock"]);
             p.popupMenu = UI::PopupMenu::create(context);
             p.popupMenu->setMenu(p.menu);
@@ -101,8 +105,8 @@ namespace djv
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::MetricsRole::None);
             hLayout->addChild(p.colorSwatch);
-            hLayout->addChild(p.tabWidget);
-            hLayout->setStretch(p.tabWidget, UI::RowStretch::Expand);
+            hLayout->addChild(p.sliders);
+            hLayout->setStretch(p.sliders, UI::RowStretch::Expand);
             p.layout->addChild(hLayout);
             p.layout->setStretch(hLayout, UI::RowStretch::Expand);
             hLayout = UI::HorizontalLayout::create(context);
@@ -117,17 +121,17 @@ namespace djv
             _colorUpdate();
 
             auto weak = std::weak_ptr<ColorPickerWidget>(std::dynamic_pointer_cast<ColorPickerWidget>(shared_from_this()));
-            p.rgbSliders->setColorCallback(
-                [weak](const AV::Image::Color & value)
-            {
-                if (auto widget = weak.lock())
+            p.colorActionGroup->setRadioCallback(
+                [weak](int value)
                 {
-                    widget->_p->color = value;
-                    widget->_colorUpdate();
-                }
-            });
-
-            p.hsvSliders->setColorCallback(
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->hsv = 1 == value;
+                        widget->_colorUpdate();
+                    }
+                });
+                
+            p.sliders->setColorCallback(
                 [weak](const AV::Image::Color & value)
             {
                 if (auto widget = weak.lock())
@@ -169,11 +173,13 @@ namespace djv
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Color Picker")));
 
+            p.actions["RGB"]->setText(_getText(DJV_TEXT("RGB")));
+            p.actions["RGB"]->setTooltip(_getText(DJV_TEXT("Color picker RGB tooltip")));
+            p.actions["HSV"]->setText(_getText(DJV_TEXT("HSV")));
+            p.actions["HSV"]->setTooltip(_getText(DJV_TEXT("Color picker HSV tooltip")));
+
             p.actions["Lock"]->setText(_getText(DJV_TEXT("Lock Color Type")));
             p.actions["Lock"]->setTooltip(_getText(DJV_TEXT("Color picker lock color type tooltip")));
-
-            p.tabWidget->setText(p.tabText["RGB"], _getText(DJV_TEXT("RGB")));
-            p.tabWidget->setText(p.tabText["HSV"], _getText(DJV_TEXT("HSV")));
 
             p.sampleSizeSlider->setTooltip(_getText(DJV_TEXT("Color picker sample size tooltip")));
         }
@@ -181,9 +187,10 @@ namespace djv
         void ColorPickerWidget::_colorUpdate()
         {
             DJV_PRIVATE_PTR();
+            p.colorActionGroup->setChecked(p.hsv ? 1 : 0);
             p.colorSwatch->setColor(p.color);
-            p.rgbSliders->setColor(p.color);
-            p.hsvSliders->setColor(p.color);
+            p.sliders->setColor(p.color);
+            p.sliders->setHSV(p.hsv);
             p.typeWidget->setType(p.color.getType());
         }
 
