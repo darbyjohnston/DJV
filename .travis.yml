@@ -1,19 +1,25 @@
 language: cpp
-dist: bionic
+dist: trusty
 os:
-  - linux
+- linux
 sudo: require
 install:
-  - sudo apt-get install nasm
-  - sudo apt-get install xorg-dev libglu1-mesa-dev mesa-common-dev
+- sudo apt-get install nasm
+- sudo apt-get install xorg-dev libglu1-mesa-dev mesa-common-dev
 services:
-  - xvfb
+- xvfb
 branches:
   only:
-    - master
+  - master
+addons:
+  sonarcloud:
+    organization: "darbyjohnston"
+    token:
+      secure: A62v7n5c9pqc4P5jlW6C1f3sK6anXBkxH+cVQhzGHcIDllrnAeH9gET6gaPAO5IAl9V7AZGrk3LEKAfbkqpqyTz+T17OB4cSXE+io+TTvFXpevOPma3hOv3olkpz08yMwjOvrnbFb5B+1ZQYzX8KTQby/JcHjfKSsn1duPPEEDplJEZCrPQbK5tzXLQ2jiV1s4+XJGhRna2BqrtwO+YHRtIXtzes2zDA5KWOhOS/ajrUyK+8YE5hs0bJzIrl4KZhW9iLznplUHazqOaLwil0fjXP4wj430MqWQS83iG+SHhWN9YS1krx3ScYX+6fz1L5bTHoXnrcoJ9uBIKImdyMWJNFyaafqqeB54Vroh10qAAGViw3PB2jBP2JbSZy/kTpbuZq1FAWlYvQg87RR3VJfR0vEhU+KLo+5VK7AGPulgMGSVQxEyeeobMPU84gb4WcCv5LKrhPIE+1LhSJdRFLQiag3R3No8Ge8+xLUkLHhSeAD28k0LGZQ+XJNq7sGesJu05aMOvcW/lVEiy94IrA2/vsRUIYc0BUOgpdGi3dXz4BH7A0mElmj2fg2ZBXUm2b+UKsvslxunII0rraGGJohfIPoWTsHgyilCIXO116L7anLQrptl8POax5BJMDcR+ZhGkmnh1F84AnfJEJ5QsChGDBeXuxnpyHT+QEXbwpFG4=
 before_script:
-  - mkdir build
-  - cd build
-  - cmake .. -DDJV_THIRD_PARTY=TRUE
-script: make && make test
+- mkdir build
+- cd build
+- cmake .. -DDJV_THIRD_PARTY=TRUE
+script:
+- sonar-scanner
 
