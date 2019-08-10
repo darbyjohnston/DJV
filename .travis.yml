@@ -22,5 +22,5 @@ before_script:
 - cd build
 - cmake .. -DDJV_THIRD_PARTY=TRUE
 script:
-- sonar-scanner
+- sonar-scanner -X
 
