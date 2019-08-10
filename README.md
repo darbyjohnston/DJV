@@ -47,22 +47,26 @@ Optional libraries:
 
 #### Building the Source Code
 
-Clone the repository:
+First clone the repository:
 
     > git clone https://github.com/darbyjohnston/DJV.git djv-git
 
-Create a new sub-directory and start the build:
+Then create a new sub-directory and start the build:
 
     > mkdir djv-git-Debug
     > cd djv-git-Debug
-    > cmake ../djv-git -DCMAKE_BUILD_TYPE=Debug
-    > make
+    > cmake ../djv-git -DCMAKE_BUILD_TYPE=Debug -DDJV_THIRD_PARTY=TRUE
+    > make -j
 
-After the build completes run the confidence tests:
+After the build completes add the install path to your LD_LIBRARY_PATH: 
+
+    > export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/install/lib
+
+Run the confidence tests:
 
     > make test
 
-You can also start the djv_view application:
+Run the djv_view application:
 
     > ./build/bin/djv_view
 

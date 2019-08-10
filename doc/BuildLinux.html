@@ -101,7 +101,7 @@
 > mkdir djv-git-Debug
 > cd djv-git-Debug
 > cmake ../djv-git -DCMAKE_BUILD_TYPE=Debug -DDJV_THIRD_PARTY=TRUE
-> make</pre>
+> make -j</pre>
 		<div class="textSmall" style="margin: .5em 0 0 0">After the build completes add the install path to your LD_LIBRARY_PATH:</pre>
 		<pre>
 > export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/install/lib</pre>

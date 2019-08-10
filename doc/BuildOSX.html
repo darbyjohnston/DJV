@@ -54,7 +54,7 @@
 > mkdir djv-git-Debug
 > cd djv-git-Debug
 > cmake ../djv-git -DCMAKE_BUILD_TYPE=Debug -DDJV_THIRD_PARTY=TRUE -DCMAKE_FIND_FRAMEWORK="LAST"
-> make</pre>
+> make -j</pre>
 		<div class="textSmall">After the build completes add the install path to your DYLD_LIBRARY_PATH:</pre>
 		<pre>
 > export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$PWD/install/lib</pre>
