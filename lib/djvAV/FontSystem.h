@@ -161,7 +161,7 @@ namespace djv
 
                 //! Get the glyph cache percentage used.
                 float getGlyphCachePercentage() const;
-
+            
             private:
                 void _initFreeType();
                 void _delFreeType();

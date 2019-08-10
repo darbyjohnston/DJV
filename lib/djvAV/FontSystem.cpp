@@ -180,6 +180,7 @@ namespace djv
                 std::thread thread;
                 std::atomic<bool> running;
 
+                bool getText(const std::string&, const Info&, std::basic_string<djv_char_t>&, FT_Face&, std::string& error);
                 std::shared_ptr<Glyph> getGlyph(const GlyphInfo &);
             };
 
@@ -489,102 +490,82 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 for (auto & request : p.measureRequests)
                 {
+                    std::basic_string<djv_char_t> utf32;
+                    FT_Face font;
+                    std::string error;
                     glm::vec2 size = glm::vec2(0.f, 0.f);
-                    const auto family = p.fontFaces.find(request.info.family);
-                    if (family != p.fontFaces.end())
+                    if (p.getText(request.text, request.info, utf32, font, error))
                     {
-                        const auto font = family->second.find(request.info.face);
-                        if (font != family->second.end())
+                        glm::vec2 pos(0.f, font->size->metrics.height / 64.f);
+                        auto textLine = utf32.end();
+                        float textLineX = 0.f;
+                        int32_t rsbDeltaPrev = 0;
+                        for (auto i = utf32.begin(); i != utf32.end(); ++i)
                         {
-                            /*FT_Error ftError = FT_Set_Char_Size(
-                                font->second,
-                                0,
-                                static_cast<int>(request.info.size * 64.f),
-                                request.info.dpi,
-                                request.info.dpi);*/
-                            FT_Error ftError = FT_Set_Pixel_Sizes(
-                                font->second,
-                                0,
-                                static_cast<int>(request.info.size));
-                            if (!ftError)
+                            const auto info = GlyphInfo(*i, request.info);
+                            const auto glyph = p.getGlyph(info);
+                            int32_t x = 0;
+                            if (glyph->imageData)
                             {
-                                std::basic_string<djv_char_t> utf32;
-                                try
+                                x = glyph->advance;
+                                if (rsbDeltaPrev - glyph->lsbDelta > 32)
                                 {
-                                    utf32 = p.utf32.from_bytes(request.text);
+                                    x -= 1;
                                 }
-                                catch (const std::exception & e)
+                                else if (rsbDeltaPrev - glyph->lsbDelta < -31)
                                 {
-                                    std::stringstream ss;
-                                    ss << "Error converting string" << " '" << request.text << "': " << e.what();
-                                    _log(ss.str(), LogLevel::Error);
+                                    x += 1;
                                 }
-                                glm::vec2 pos(0.f, font->second->size->metrics.height / 64.f);
-                                auto textLine = utf32.end();
-                                float textLineX = 0.f;
-                                int32_t rsbDeltaPrev = 0;
-                                for (auto i = utf32.begin(); i != utf32.end(); ++i)
-                                {
-                                    const auto info = GlyphInfo(*i, request.info);
-                                    const auto glyph = p.getGlyph(info);
-                                    int32_t x = 0;
-                                    if (glyph->imageData)
-                                    {
-                                        x = glyph->advance;
-                                        if (rsbDeltaPrev - glyph->lsbDelta > 32)
-                                        {
-                                            x -= 1;
-                                        }
-                                        else if (rsbDeltaPrev - glyph->lsbDelta < -31)
-                                        {
-                                            x += 1;
-                                        }
-                                        rsbDeltaPrev = glyph->rsbDelta;
-                                    }
-                                    else
-                                    {
-                                        rsbDeltaPrev = 0;
-                                    }
+                                rsbDeltaPrev = glyph->rsbDelta;
+                            }
+                            else
+                            {
+                                rsbDeltaPrev = 0;
+                            }
 
-                                    if (isNewline(*i))
-                                    {
-                                        size.x = std::max(size.x, pos.x);
-                                        pos.x = 0.f;
-                                        pos.y += font->second->size->metrics.height / 64.f;
-                                        rsbDeltaPrev = 0;
-                                    }
-                                    else if (pos.x > 0.f && pos.x + (!isSpace(*i) ? x : 0.f) >= request.maxLineWidth)
-                                    {
-                                        if (textLine != utf32.end())
-                                        {
-                                            i = textLine;
-                                            textLine = utf32.end();
-                                            size.x = std::max(size.x, textLineX);
-                                            pos.x = 0.f;
-                                            pos.y += font->second->size->metrics.height / 64.f;
-                                        }
-                                        else
-                                        {
-                                            size.x = std::max(size.x, pos.x);
-                                            pos.x = x;
-                                            pos.y += font->second->size->metrics.height / 64.f;
-                                        }
-                                        rsbDeltaPrev = 0;
-                                    }
-                                    else
-                                    {
-                                        if (isSpace(*i) && i != utf32.begin())
-                                        {
-                                            textLine = i;
-                                            textLineX = pos.x;
-                                        }
-                                        pos.x += x;
-                                    }
-                                }
+                            if (isNewline(*i))
+                            {
                                 size.x = std::max(size.x, pos.x);
-                                size.y = pos.y;
+                                pos.x = 0.f;
+                                pos.y += font->size->metrics.height / 64.f;
+                                rsbDeltaPrev = 0;
+                            }
+                            else if (pos.x > 0.f && pos.x + (!isSpace(*i) ? x : 0.f) >= request.maxLineWidth)
+                            {
+                                if (textLine != utf32.end())
+                                {
+                                    i = textLine;
+                                    textLine = utf32.end();
+                                    size.x = std::max(size.x, textLineX);
+                                    pos.x = 0.f;
+                                    pos.y += font->size->metrics.height / 64.f;
+                                }
+                                else
+                                {
+                                    size.x = std::max(size.x, pos.x);
+                                    pos.x = x;
+                                    pos.y += font->size->metrics.height / 64.f;
+                                }
+                                rsbDeltaPrev = 0;
+                            }
+                            else
+                            {
+                                if (isSpace(*i) && i != utf32.begin())
+                                {
+                                    textLine = i;
+                                    textLineX = pos.x;
+                                }
+                                pos.x += x;
                             }
                         }
+                        size.x = std::max(size.x, pos.x);
+                        size.y = pos.y;
+                    }
+                    else
+                    {
+                        std::stringstream ss;
+                        ss << "Error converting string" << " '" << request.text << "': " << error;
+                        _log(ss.str(), LogLevel::Error);
                     }
                     request.promise.set_value(size);
                 }
@@ -596,143 +577,71 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 for (auto & request : p.textLinesRequests)
                 {
+                    std::basic_string<djv_char_t> utf32;
+                    FT_Face font;
+                    std::string error;
                     std::vector<TextLine> lines;
-                    const auto family = p.fontFaces.find(request.info.family);
-                    if (family != p.fontFaces.end())
+                    if (p.getText(request.text, request.info, utf32, font, error))
                     {
-                        const auto font = family->second.find(request.info.face);
-                        if (font != family->second.end())
+                        const auto utf32Begin = utf32.begin();
+                        glm::vec2 pos = glm::vec2(0.f, font->size->metrics.height / 64.f);
+                        auto lineBegin = utf32Begin;
+                        auto textLine = utf32.end();
+                        float textLineX = 0.f;
+                        int32_t rsbDeltaPrev = 0;
+                        auto i = utf32.begin();
+                        for (; i != utf32.end(); ++i)
                         {
-                            /*FT_Error ftError = FT_Set_Char_Size(
-                                font->second,
-                                0,
-                                static_cast<int>(request.info.size * 64.f),
-                                request.info.dpi,
-                                request.info.dpi);*/
-                            FT_Error ftError = FT_Set_Pixel_Sizes(
-                                font->second,
-                                0,
-                                static_cast<int>(request.info.size));
-                            if (!ftError)
+                            const auto info = GlyphInfo(*i, request.info);
+                            float x = 0.f;
+                            if (const auto glyph = p.getGlyph(info))
                             {
-                                std::basic_string<djv_char_t> utf32;
+                                x = glyph->advance;
+                                if (rsbDeltaPrev - glyph->lsbDelta > 32)
+                                {
+                                    x -= 1.f;
+                                }
+                                else if (rsbDeltaPrev - glyph->lsbDelta < -31)
+                                {
+                                    x += 1.f;
+                                }
+                                rsbDeltaPrev = glyph->rsbDelta;
+                            }
+                            else
+                            {
+                                rsbDeltaPrev = 0;
+                            }
+
+                            if (isNewline(*i))
+                            {
                                 try
                                 {
-                                    utf32 = p.utf32.from_bytes(request.text);
+                                    lines.push_back(TextLine(
+                                        p.utf32.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
+                                        glm::vec2(pos.x, font->size->metrics.height / 64.f)));
                                 }
-                                catch (const std::exception & e)
+                                catch (const std::exception& e)
                                 {
                                     std::stringstream ss;
                                     ss << "Error converting string" << " '" << request.text << "': " << e.what();
                                     _log(ss.str(), LogLevel::Error);
                                 }
-                                const auto utf32Begin = utf32.begin();
-                                glm::vec2 pos = glm::vec2(0.f, font->second->size->metrics.height / 64.f);
-                                auto lineBegin = utf32Begin;
-                                auto textLine = utf32.end();
-                                float textLineX = 0.f;
-                                int32_t rsbDeltaPrev = 0;
-                                auto i = utf32.begin();
-                                for (; i != utf32.end(); ++i)
+                                pos.x = 0.f;
+                                pos.y += font->size->metrics.height / 64.f;
+                                lineBegin = i;
+                                rsbDeltaPrev = 0;
+                            }
+                            else if (pos.x > 0.f && pos.x + (!isSpace(*i) ? x : 0) >= request.maxLineWidth)
+                            {
+                                if (textLine != utf32.end())
                                 {
-                                    const auto info = GlyphInfo(*i, request.info);
-                                    float x = 0.f;
-                                    if (const auto glyph = p.getGlyph(info))
-                                    {
-                                        x = glyph->advance;
-                                        if (rsbDeltaPrev - glyph->lsbDelta > 32)
-                                        {
-                                            x -= 1.f;
-                                        }
-                                        else if (rsbDeltaPrev - glyph->lsbDelta < -31)
-                                        {
-                                            x += 1.f;
-                                        }
-                                        rsbDeltaPrev = glyph->rsbDelta;
-                                    }
-                                    else
-                                    {
-                                        rsbDeltaPrev = 0;
-                                    }
-
-                                    if (isNewline(*i))
-                                    {
-                                        try
-                                        {
-                                            lines.push_back(TextLine(
-                                                p.utf32.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
-                                                glm::vec2(pos.x, font->second->size->metrics.height / 64.f)));
-                                        }
-                                        catch (const std::exception& e)
-                                        {
-                                            std::stringstream ss;
-                                            ss << "Error converting string" << " '" << request.text << "': " << e.what();
-                                            _log(ss.str(), LogLevel::Error);
-                                        }
-                                        pos.x = 0.f;
-                                        pos.y += font->second->size->metrics.height / 64.f;
-                                        lineBegin = i;
-                                        rsbDeltaPrev = 0;
-                                    }
-                                    else if (pos.x > 0.f && pos.x + (!isSpace(*i) ? x : 0) >= request.maxLineWidth)
-                                    {
-                                        if (textLine != utf32.end())
-                                        {
-                                            i = textLine;
-                                            textLine = utf32.end();
-                                            try
-                                            {
-                                                lines.push_back(TextLine(
-                                                    p.utf32.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
-                                                    glm::vec2(textLineX, font->second->size->metrics.height / 64.f)));
-                                            }
-                                            catch (const std::exception& e)
-                                            {
-                                                std::stringstream ss;
-                                                ss << "Error converting string" << " '" << request.text << "': " << e.what();
-                                                _log(ss.str(), LogLevel::Error);
-                                            }
-                                            pos.x = 0.f;
-                                            pos.y += font->second->size->metrics.height / 64.f;
-                                            lineBegin = i + 1;
-                                        }
-                                        else
-                                        {
-                                            try
-                                            {
-                                                lines.push_back(TextLine(
-                                                p.utf32.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
-                                                glm::vec2(pos.x, font->second->size->metrics.height / 64.f)));
-                                            }
-                                            catch (const std::exception& e)
-                                            {
-                                                std::stringstream ss;
-                                                ss << "Error converting string" << " '" << request.text << "': " << e.what();
-                                                _log(ss.str(), LogLevel::Error);
-                                            }
-                                            pos.x = x;
-                                            pos.y += font->second->size->metrics.height / 64.f;
-                                            lineBegin = i;
-                                        }
-                                        rsbDeltaPrev = 0;
-                                    }
-                                    else
-                                    {
-                                        if (isSpace(*i) && i != utf32.begin())
-                                        {
-                                            textLine = i;
-                                            textLineX = pos.x;
-                                        }
-                                        pos.x += x;
-                                    }
-                                }
-                                if (i != lineBegin)
-                                {
+                                    i = textLine;
+                                    textLine = utf32.end();
                                     try
                                     {
                                         lines.push_back(TextLine(
-                                        p.utf32.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
-                                        glm::vec2(pos.x, font->second->size->metrics.height / 64.f)));
+                                            p.utf32.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
+                                            glm::vec2(textLineX, font->size->metrics.height / 64.f)));
                                     }
                                     catch (const std::exception& e)
                                     {
@@ -740,9 +649,61 @@ namespace djv
                                         ss << "Error converting string" << " '" << request.text << "': " << e.what();
                                         _log(ss.str(), LogLevel::Error);
                                     }
+                                    pos.x = 0.f;
+                                    pos.y += font->size->metrics.height / 64.f;
+                                    lineBegin = i + 1;
                                 }
+                                else
+                                {
+                                    try
+                                    {
+                                        lines.push_back(TextLine(
+                                        p.utf32.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
+                                        glm::vec2(pos.x, font->size->metrics.height / 64.f)));
+                                    }
+                                    catch (const std::exception& e)
+                                    {
+                                        std::stringstream ss;
+                                        ss << "Error converting string" << " '" << request.text << "': " << e.what();
+                                        _log(ss.str(), LogLevel::Error);
+                                    }
+                                    pos.x = x;
+                                    pos.y += font->size->metrics.height / 64.f;
+                                    lineBegin = i;
+                                }
+                                rsbDeltaPrev = 0;
+                            }
+                            else
+                            {
+                                if (isSpace(*i) && i != utf32.begin())
+                                {
+                                    textLine = i;
+                                    textLineX = pos.x;
+                                }
+                                pos.x += x;
                             }
                         }
+                        if (i != lineBegin)
+                        {
+                            try
+                            {
+                                lines.push_back(TextLine(
+                                p.utf32.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
+                                glm::vec2(pos.x, font->size->metrics.height / 64.f)));
+                            }
+                            catch (const std::exception& e)
+                            {
+                                std::stringstream ss;
+                                ss << "Error converting string" << " '" << request.text << "': " << e.what();
+                                _log(ss.str(), LogLevel::Error);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        std::stringstream ss;
+                        ss << "Error converting string" << " '" << request.text << "': " << error;
+                        _log(ss.str(), LogLevel::Error);
                     }
                     request.promise.set_value(lines);
                 }
@@ -786,6 +747,48 @@ namespace djv
                 p.glyphsRequests.clear();
             }
 
+            bool System::Private::getText(
+                const std::string& value,
+                const Info& info,
+                std::basic_string<djv_char_t>& utf32,
+                FT_Face& font,
+                std::string& error)
+            {
+                bool out = false;
+                const auto family = fontFaces.find(info.family);
+                if (family != fontFaces.end())
+                {
+                    auto i = family->second.find(info.face);
+                    if (i != family->second.end())
+                    {
+                        /*FT_Error ftError = FT_Set_Char_Size(
+                            i->second,
+                            0,
+                            static_cast<int>(info.size * 64.f),
+                            info.dpi,
+                            info.dpi);*/
+                        FT_Error ftError = FT_Set_Pixel_Sizes(
+                            i->second,
+                            0,
+                            static_cast<int>(info.size));
+                        if (!ftError)
+                        {
+                            try
+                            {
+                                utf32 = this->utf32.from_bytes(value);
+                                font = i->second;
+                                out = true;
+                            }
+                            catch (const std::exception & e)
+                            {
+                                error = e.what();
+                            }
+                        }
+                    }
+                }
+                return out;
+            }
+
             std::shared_ptr<Glyph> System::Private::getGlyph(const GlyphInfo & info)
             {
                 std::shared_ptr<Glyph> out;
@@ -813,7 +816,7 @@ namespace djv
                     if (ftFace)
                     {
                         /*FT_Error ftError = FT_Set_Char_Size(
-                            font->second,
+                            ftFace,
                             0,
                             static_cast<int>(request.info.size * 64.f),
                             request.info.dpi,

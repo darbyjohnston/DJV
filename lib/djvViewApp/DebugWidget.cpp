@@ -58,7 +58,45 @@ namespace djv
     {
         namespace
         {
-            class GeneralDebugWidget : public UI::Widget
+            class IDebugWidget : public UI::Widget
+            {
+            public:
+                virtual ~IDebugWidget() = 0;
+                
+            protected:
+                void _preLayoutEvent(Event::PreLayout&) override;
+                void _layoutEvent(Event::Layout&) override;
+
+                void _localeEvent(Event::Locale&) override;
+
+                virtual void _widgetUpdate() = 0;
+
+                std::map<std::string, std::shared_ptr<UI::Label> > _labels;
+                std::map<std::string, std::shared_ptr<UI::LineGraphWidget> > _lineGraphs;
+                std::map<std::string, std::shared_ptr<UI::ThermometerWidget> > _thermometerWidgets;
+                std::shared_ptr<UI::VerticalLayout> _layout;
+                std::shared_ptr<Time::Timer> _timer;
+            };
+            
+            IDebugWidget::~IDebugWidget()
+            {}
+
+            void IDebugWidget::_preLayoutEvent(Event::PreLayout&)
+            {
+                _setMinimumSize(_layout->getMinimumSize());
+            }
+
+            void IDebugWidget::_layoutEvent(Event::Layout&)
+            {
+                _layout->setGeometry(getGeometry());
+            }
+
+            void IDebugWidget::_localeEvent(Event::Locale& event)
+            {
+                _widgetUpdate();
+            }
+
+            class GeneralDebugWidget : public IDebugWidget
             {
                 DJV_NON_COPYABLE(GeneralDebugWidget);
 
@@ -70,24 +108,12 @@ namespace djv
                 static std::shared_ptr<GeneralDebugWidget> create(Context*);
 
             protected:
-                void _preLayoutEvent(Event::PreLayout&) override;
-                void _layoutEvent(Event::Layout&) override;
-
-                void _localeEvent(Event::Locale&) override;
-
-            private:
-                void _widgetUpdate();
-
-                std::map<std::string, std::shared_ptr<UI::Label> > _labels;
-                std::map<std::string, std::shared_ptr<UI::LineGraphWidget> > _lineGraphs;
-                std::map<std::string, std::shared_ptr<UI::ThermometerWidget> > _thermometerWidgets;
-                std::shared_ptr<UI::VerticalLayout> _layout;
-                std::shared_ptr<Time::Timer> _timer;
+                void _widgetUpdate() override;
             };
 
             void GeneralDebugWidget::_init(Context* context)
             {
-                Widget::_init(context);
+                IDebugWidget::_init(context);
 
                 setClassName("djv::ViewApp::GeneralDebugWidget");
 
@@ -164,21 +190,6 @@ namespace djv
                 auto out = std::shared_ptr<GeneralDebugWidget>(new GeneralDebugWidget);
                 out->_init(context);
                 return out;
-            }
-
-            void GeneralDebugWidget::_preLayoutEvent(Event::PreLayout&)
-            {
-                _setMinimumSize(_layout->getMinimumSize());
-            }
-
-            void GeneralDebugWidget::_layoutEvent(Event::Layout&)
-            {
-                _layout->setGeometry(getGeometry());
-            }
-
-            void GeneralDebugWidget::_localeEvent(Event::Locale& event)
-            {
-                _widgetUpdate();
             }
 
             void GeneralDebugWidget::_widgetUpdate()
@@ -263,7 +274,7 @@ namespace djv
                 }
             }
 
-            class RenderDebugWidget : public UI::Widget
+            class RenderDebugWidget : public IDebugWidget
             {
                 DJV_NON_COPYABLE(RenderDebugWidget);
 
@@ -275,24 +286,12 @@ namespace djv
                 static std::shared_ptr<RenderDebugWidget> create(Context*);
 
             protected:
-                void _preLayoutEvent(Event::PreLayout&) override;
-                void _layoutEvent(Event::Layout&) override;
-
-                void _localeEvent(Event::Locale&) override;
-
-            private:
-                void _widgetUpdate();
-
-                std::map<std::string, std::shared_ptr<UI::Label> > _labels;
-                std::map<std::string, std::shared_ptr<UI::LineGraphWidget> > _lineGraphs;
-                std::map<std::string, std::shared_ptr<UI::ThermometerWidget> > _thermometerWidgets;
-                std::shared_ptr<UI::VerticalLayout> _layout;
-                std::shared_ptr<Time::Timer> _timer;
+                void _widgetUpdate() override;
             };
 
             void RenderDebugWidget::_init(Context* context)
             {
-                Widget::_init(context);
+                IDebugWidget::_init(context);
 
                 setClassName("djv::ViewApp::RenderDebugWidget");
 
@@ -344,21 +343,6 @@ namespace djv
                 auto out = std::shared_ptr<RenderDebugWidget>(new RenderDebugWidget);
                 out->_init(context);
                 return out;
-            }
-
-            void RenderDebugWidget::_preLayoutEvent(Event::PreLayout&)
-            {
-                _setMinimumSize(_layout->getMinimumSize());
-            }
-
-            void RenderDebugWidget::_layoutEvent(Event::Layout&)
-            {
-                _layout->setGeometry(getGeometry());
-            }
-
-            void RenderDebugWidget::_localeEvent(Event::Locale& event)
-            {
-                _widgetUpdate();
             }
 
             void RenderDebugWidget::_widgetUpdate()
