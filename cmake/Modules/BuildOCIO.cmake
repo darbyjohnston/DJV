@@ -28,7 +28,9 @@ ExternalProject_Add(
     OCIO_EXTERNAL
 	PREFIX ${CMAKE_CURRENT_BINARY_DIR}/OCIO
     URL "http://github.com/imageworks/OpenColorIO/archive/v1.1.1.tar.gz"
-	PATCH_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/third-party/ocio-patch/src/core/CMakeLists.txt ${CMAKE_CURRENT_BINARY_DIR}/OCIO/src/OCIO_EXTERNAL/src/core/CMakeLists.txt
+	PATCH_COMMAND ${CMAKE_COMMAND} -E copy
+		${CMAKE_SOURCE_DIR}/third-party/ocio-patch/src/core/CMakeLists.txt
+		${CMAKE_CURRENT_BINARY_DIR}/OCIO/src/OCIO_EXTERNAL/src/core/CMakeLists.txt
     CMAKE_ARGS ${OCIO_ARGS})
 
 set(OCIO_FOUND TRUE)
@@ -37,17 +39,7 @@ if(NOT OCIO_SHARED_LIBS)
 	set(OCIO_DEFINES OpenColorIO_STATIC)
 endif()
 set(OCIO_INCLUDE_DIRS ${CMAKE_INSTALL_PREFIX}/include)
-if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
-    if(WIN32)
-    else()
-        set(OCIO_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/static/libOpenColorIO${CMAKE_STATIC_LIBRARY_SUFFIX})
-    endif()
-else()
-    if(WIN32)
-    else()
-        set(OCIO_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/static/libOpenColorIO${CMAKE_STATIC_LIBRARY_SUFFIX})
-    endif()
-endif()
+set(OCIO_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/static/${CMAKE_STATIC_LIBRARY_PREFIX}OpenColorIO${CMAKE_STATIC_LIBRARY_SUFFIX})
 set(OCIO_LIBRARIES ${OCIO_LIBRARY})
 
 if(OCIO_FOUND AND NOT TARGET OCIO::OCIO)

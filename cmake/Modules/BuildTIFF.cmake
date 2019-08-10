@@ -3,7 +3,7 @@ include(ExternalProject)
 ExternalProject_Add(
     TIFF_EXTERNAL
 	PREFIX ${CMAKE_CURRENT_BINARY_DIR}/TIFF
-    DEPENDS ZLIB JPEG
+    DEPENDS ZLIB_EXTERNAL JPEG_EXTERNAL
     URL http://download.osgeo.org/libtiff/tiff-4.0.10.tar.gz
 	PATCH_COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/third-party/tiff-patch/CMakeLists.txt ${CMAKE_CURRENT_BINARY_DIR}/TIFF/src/TIFF_EXTERNAL/CMakeLists.txt
     CMAKE_ARGS
@@ -24,16 +24,14 @@ ExternalProject_Add(
 
 set(TIFF_FOUND TRUE)
 set(TIFF_INCLUDE_DIRS ${CMAKE_INSTALL_PREFIX}/include)
-if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
-    if(WIN32)
-    else()
-        set(TIFF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libtiff${CMAKE_STATIC_LIBRARY_SUFFIX})
-    endif()
+if(WIN32)
+	if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
+		set(TIFF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/tiffd${CMAKE_STATIC_LIBRARY_SUFFIX})
+	else()
+		set(TIFF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/tiff${CMAKE_STATIC_LIBRARY_SUFFIX})
+	endif()
 else()
-    if(WIN32)
-    else()
-        set(TIFF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libtiff${CMAKE_STATIC_LIBRARY_SUFFIX})
-    endif()
+	set(TIFF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libtiff${CMAKE_STATIC_LIBRARY_SUFFIX})
 endif()
 set(TIFF_LIBRARIES ${TIFF_LIBRARY} ${ZLIB_LIBRARIES})
 

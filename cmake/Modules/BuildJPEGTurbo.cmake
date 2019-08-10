@@ -3,7 +3,7 @@ include(ExternalProject)
 ExternalProject_Add(
     JPEG_EXTERNAL
 	PREFIX ${CMAKE_CURRENT_BINARY_DIR}/JPEG
-    DEPENDS ZLIB
+    DEPENDS ZLIB_EXTERNAL
     URL "http://sourceforge.net/projects/libjpeg-turbo/files/2.0.2/libjpeg-turbo-2.0.2.tar.gz?download"
     CMAKE_ARGS
         -DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}
@@ -18,16 +18,10 @@ ExternalProject_Add(
 
 set(JPEG_FOUND TRUE)
 set(JPEG_INCLUDE_DIRS ${CMAKE_INSTALL_PREFIX}/include)
-if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
-    if(WIN32)
-    else()
-        set(JPEG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libjpeg${CMAKE_STATIC_LIBRARY_SUFFIX})
-    endif()
+if(WIN32)
+	set(JPEG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/jpeg-static${CMAKE_STATIC_LIBRARY_SUFFIX})
 else()
-    if(WIN32)
-    else()
-        set(JPEG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libjpeg${CMAKE_STATIC_LIBRARY_SUFFIX})
-    endif()
+	set(JPEG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libjpeg${CMAKE_STATIC_LIBRARY_SUFFIX})
 endif()
 set(JPEG_LIBRARIES ${JPEG_LIBRARY} ${ZLIB_LIBRARIES})
 

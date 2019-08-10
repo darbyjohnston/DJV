@@ -29,24 +29,14 @@ endif()
 ExternalProject_Add(
     OpenEXR_EXTERNAL
 	PREFIX ${CMAKE_CURRENT_BINARY_DIR}/OpenEXR
-    DEPENDS IlmBase ZLIB
+    DEPENDS IlmBase_EXTERNAL ZLIB_EXTERNAL
     URL http://github.com/openexr/openexr/releases/download/v2.3.0/openexr-2.3.0.tar.gz
 	PATCH_COMMAND ${CMAKE_COMMAND} -E tar xf ${CMAKE_SOURCE_DIR}/third-party/openexr-patch/openexr.tar.gz
     CMAKE_ARGS ${OpenEXR_ARGS})
 
 set(OPENEXR_FOUND TRUE)
 set(OPENEXR_INCLUDE_DIRS ${CMAKE_INSTALL_PREFIX}/include)
-if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
-    if(WIN32)
-    else()
-        set(OPENEXR_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIlmImf_s${CMAKE_STATIC_LIBRARY_SUFFIX})
-    endif()
-else()
-    if(WIN32)
-    else()
-        set(OPENEXR_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIlmImf_s${CMAKE_STATIC_LIBRARY_SUFFIX})
-    endif()
-endif()
+set(OPENEXR_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/${CMAKE_SHARED_LIBRARY_PREFIX}IlmImf_s${CMAKE_STATIC_LIBRARY_SUFFIX})
 set(OPENEXR_LIBRARIES ${OPENEXR_LIBRARY} ${ILMBASE_LIBRARIES} ${ZLIB_LIBRARIES})
 
 if(OPENEXR_FOUND AND NOT TARGET OpenEXR::IlmImf)

@@ -3,7 +3,7 @@ include(ExternalProject)
 ExternalProject_Add(
     FreeType_EXTERNAL
 	PREFIX ${CMAKE_CURRENT_BINARY_DIR}/FreeType
-    DEPENDS ZLIB
+    DEPENDS ZLIB_EXTERNAL
     URL http://download.savannah.gnu.org/releases/freetype/freetype-2.10.0.tar.gz
     CMAKE_ARGS
         -DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}
@@ -27,15 +27,9 @@ ExternalProject_Add(
 set(FreeType_FOUND TRUE)
 set(FreeType_INCLUDE_DIRS ${CMAKE_INSTALL_PREFIX}/include/freetype2)
 if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
-    if(WIN32)
-    else()
-        set(FreeType_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libfreetyped${CMAKE_STATIC_LIBRARY_SUFFIX})
-    endif()
+	set(FreeType_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/${CMAKE_SHARED_LIBRARY_PREFIX}freetyped${CMAKE_STATIC_LIBRARY_SUFFIX})
 else()
-    if(WIN32)
-    else()
-        set(FreeType_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libfreetype${CMAKE_STATIC_LIBRARY_SUFFIX})
-    endif()
+	set(FreeType_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/${CMAKE_SHARED_LIBRARY_PREFIX}freetype${CMAKE_STATIC_LIBRARY_SUFFIX})
 endif()
 set(FreeType_LIBRARIES ${FreeType_LIBRARY} ${ZLIB_LIBRARIES})
 

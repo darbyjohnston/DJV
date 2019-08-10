@@ -21,7 +21,7 @@ list(APPEND core_export_headers ${CMAKE_BINARY_DIR}/export/OpenColorABI.h)
 if(WIN32)
     # On debug mode there are other kinds of warning...
     if("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
-        set(EXTERNAL_COMPILE_FLAGS "${EXTERNAL_COMPILE_FLAGS} /WX")
+        #set(EXTERNAL_COMPILE_FLAGS "${EXTERNAL_COMPILE_FLAGS} /WX")
     endif()
 else()
     #set(EXTERNAL_COMPILE_FLAGS "${EXTERNAL_COMPILE_FLAGS} -Werror")

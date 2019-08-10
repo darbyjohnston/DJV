@@ -3,7 +3,7 @@ include(ExternalProject)
 ExternalProject_Add(
     PNG_EXTERNAL
 	PREFIX ${CMAKE_CURRENT_BINARY_DIR}/PNG
-    DEPENDS ZLIB
+    DEPENDS ZLIB_EXTERNAL
     URL "http://prdownloads.sourceforge.net/libpng/libpng-1.6.37.tar.gz?download"
     CMAKE_ARGS
         -DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}
@@ -20,17 +20,20 @@ ExternalProject_Add(
 
 set(PNG_FOUND TRUE)
 set(PNG_INCLUDE_DIRS ${CMAKE_INSTALL_PREFIX}/include)
-if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
-    if(WIN32)
-    else()
-        set(PNG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libpng16d${CMAKE_STATIC_LIBRARY_SUFFIX})
-    endif()
+if(WIN32)
+	if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
+		set(PNG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libpng16_staticd${CMAKE_STATIC_LIBRARY_SUFFIX})
+	else()
+		set(PNG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libpng16_static${CMAKE_STATIC_LIBRARY_SUFFIX})
+	endif()
 else()
-    if(WIN32)
-    else()
-        set(PNG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libpng16${CMAKE_STATIC_LIBRARY_SUFFIX})
-    endif()
+	if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
+		set(PNG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libpng16d${CMAKE_STATIC_LIBRARY_SUFFIX})
+	else()
+		set(PNG_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libpng16${CMAKE_STATIC_LIBRARY_SUFFIX})
+	endif()
 endif()
+
 set(PNG_LIBRARIES ${PNG_LIBRARY} ${ZLIB_LIBRARIES})
 
 if(PNG_FOUND AND NOT TARGET PNG::PNG)

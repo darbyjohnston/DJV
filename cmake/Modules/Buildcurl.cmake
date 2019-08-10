@@ -9,14 +9,14 @@ set(curl_ARGS
 	-DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
 	-DBUILD_SHARED_LIBS=${CURL_SHARED_LIBS}
 	-DCURL_DISABLE_LDAP=TRUE)
-set(curl_DEPENDS ZLIB)
+set(curl_DEPENDS ZLIB_EXTERNAL)
 if(WIN32)
 	set(curl_ARGS ${curl_ARGS} -DCMAKE_USE_WINSSL=TRUE)
 elseif (APPLE)
 	set(curl_ARGS ${curl_ARGS} -DCMAKE_USE_SECTRANSP=TRUE)
 else()
 	set(curl_ARGS ${curl_ARGS} -DCMAKE_USE_MBEDTLS=TRUE)
-	set(curl_DEPENDS ${curl_DEPENDS} MbedTLS)
+	set(curl_DEPENDS ${curl_DEPENDS} MbedTLS_EXTERNAL)
 endif()
 
 ExternalProject_Add(

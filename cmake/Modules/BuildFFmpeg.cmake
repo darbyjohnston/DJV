@@ -23,7 +23,7 @@ endif()
 ExternalProject_Add(
     FFMPEG_EXTERNAL
     PREFIX ${CMAKE_CURRENT_BINARY_DIR}/FFMPEG
-    DEPENDS ZLIB
+    DEPENDS ZLIB_EXTERNAL
     URL http://ffmpeg.org/releases/ffmpeg-4.2.tar.bz2
     BUILD_IN_SOURCE 1
     CONFIGURE_COMMAND ./configure ${FFMPEG_CONFIGURE_ARGS}
