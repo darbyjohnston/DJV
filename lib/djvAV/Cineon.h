@@ -173,6 +173,19 @@ namespace djv
                         film;
                 };
 
+                //! Check whether the value is valid.
+                bool isValid(const char*, size_t size);
+                
+                //! Convert to std::string.
+                std::string toString(const char* in, size_t size);
+                
+                //! Convert from std::string.
+                size_t fromString(
+                    const std::string& string,
+                    char*              out,
+                    size_t             maxLen,
+                    bool               terminate);
+                    
                 //! Zero out the data in a Cineon file header.
                 void zero(Header&);
 

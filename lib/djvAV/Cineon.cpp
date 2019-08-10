@@ -132,6 +132,57 @@ namespace djv
                     Memory::endian(&header.film.frameRate, 1, 4);
                 }
 
+                bool isValid(const char* in, size_t size)
+                {
+                    const char _minChar = 32;
+                    const char _maxChar = 126;
+                    const char* p = in;
+                    const char* const end = p + size;
+                    for (; *p && p < end; ++p)
+                    {
+                        if (*p < _minChar || *p > _maxChar)
+                        {
+                            return false;
+                        }
+                    }
+                    return size ? (in[0] != 0) : false;
+                }
+
+                std::string toString(const char* in, size_t size)
+                {
+                    const char* p = in;
+                    const char* const end = p + size;
+                    for (; *p && p < end; ++p)
+                        ;
+                    return std::string(in, p - in);
+                }
+
+                size_t fromString(
+                    const std::string& string,
+                    char*              out,
+                    size_t             maxLen,
+                    bool               terminate)
+                {
+                    DJV_ASSERT(maxLen >= 0);
+                    const char* c = string.c_str();
+                    const size_t length =
+                        maxLen ?
+                        std::min(
+                            string.length(),
+                            maxLen - static_cast<int>(terminate)) :
+                            (string.length() + static_cast<int>(terminate));
+                    size_t i = 0;
+                    for (; i < length; ++i)
+                    {
+                        out[i] = c[i];
+                    }
+                    if (terminate)
+                    {
+                        out[i++] = 0;
+                    }
+                    return i;
+                }
+
                 namespace
                 {
                     bool isValid(const uint8_t* in)
@@ -147,8 +198,6 @@ namespace djv
                     // Constants to catch uninitialized values.
                     const int32_t _intMax   = 1000000;
                     const float   _floatMax = 1000000.f;
-                    const char    _minChar  = 32;
-                    const char    _maxChar  = 126;
                     const float   _minSpeed = .000001f;
 
                     bool isValid(const uint32_t* in)
@@ -172,55 +221,6 @@ namespace djv
                             *((uint32_t*)in) != 0x7F800000 &&
                             *in > -_floatMax &&
                             *in < _floatMax;
-                    }
-
-                    bool isValid(const char* in, size_t size)
-                    {
-                        const char* p = in;
-                        const char* const end = p + size;
-                        for (; *p && p < end; ++p)
-                        {
-                            if (*p < _minChar || *p > _maxChar)
-                            {
-                                return false;
-                            }
-                        }
-                        return size ? (in[0] != 0) : false;
-                    }
-
-                    std::string toString(const char* in, size_t size)
-                    {
-                        const char* p = in;
-                        const char* const end = p + size;
-                        for (; *p && p < end; ++p)
-                            ;
-                        return std::string(in, p - in);
-                    }
-
-                    size_t fromString(
-                        const std::string& string,
-                        char*              out,
-                        size_t             maxLen,
-                        bool               terminate)
-                    {
-                        DJV_ASSERT(maxLen >= 0);
-                        const char* c = string.c_str();
-                        const size_t length =
-                            maxLen ?
-                            std::min(
-                                string.length(),
-                                maxLen - static_cast<int>(terminate)) :
-                                (string.length() + static_cast<int>(terminate));
-                        size_t i = 0;
-                        for (; i < length; ++i)
-                        {
-                            out[i] = c[i];
-                        }
-                        if (terminate)
-                        {
-                            out[i++] = 0;
-                        }
-                        return i;
                     }
 
                 } // namespace

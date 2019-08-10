@@ -29,6 +29,8 @@
 
 #include <djvAV/DPX.h>
 
+#include <djvAV/Cineon.h>
+
 #include <djvCore/FileIO.h>
 #include <djvCore/Memory.h>
 #include <djvCore/String.h>
@@ -141,8 +143,6 @@ namespace djv
                     //! These hard-coded values are meant to catch uninitialized values.
                     const int32_t _intMax   = 1000000;
                     const float   _floatMax = 1000000.f;
-                    const char    _minChar  = 32;
-                    const char    _maxChar  = 126;
                     const float   _minSpeed = .000001f;
 
                     bool isValid(const uint8_t* in)
@@ -166,55 +166,6 @@ namespace djv
                             *((uint32_t*)in) != 0xffffffff &&
                             *in > -_floatMax &&
                             *in < _floatMax;
-                    }
-
-                    bool isValid(const char* in, int size)
-                    {
-                        const char* p = in;
-                        const char* const end = p + size;
-                        for (; *p && p < end; ++p)
-                        {
-                            if (*p < _minChar || *p > _maxChar)
-                            {
-                                return false;
-                            }
-                        }
-                        return size ? (in[0] != 0) : false;
-                    }
-                    
-                    std::string toString(const char* in, size_t size)
-                    {
-                        const char* p = in;
-                        const char* const end = p + size;
-                        for (; *p && p < end; ++p)
-                            ;
-                        return std::string(in, p - in);
-                    }
-
-                    size_t fromString(
-                        const std::string& string,
-                        char*              out,
-                        size_t             maxLen,
-                        bool               terminate)
-                    {
-                        DJV_ASSERT(maxLen >= 0);
-                        const char* c = string.c_str();
-                        const size_t length =
-                            maxLen ?
-                            std::min(
-                                string.length(),
-                                maxLen - static_cast<int>(terminate)) :
-                                (string.length() + static_cast<int>(terminate));
-                        size_t i = 0;
-                        for (; i < length; ++i)
-                        {
-                            out[i] = c[i];
-                        }
-                        if (terminate)
-                        {
-                            out[i++] = 0;
-                        }
-                        return i;
                     }
 
                 } // namespace
@@ -360,21 +311,21 @@ namespace djv
                         colorProfile = ColorProfile::FilmPrint;
                     }
 
-                    if (isValid(out.file.time, 24))
+                    if (Cineon::isValid(out.file.time, 24))
                     {
-                        info.tags.setTag("Time", toString(out.file.time, 24));
+                        info.tags.setTag("Time", Cineon::toString(out.file.time, 24));
                     }
-                    if (isValid(out.file.creator, 100))
+                    if (Cineon::isValid(out.file.creator, 100))
                     {
-                        info.tags.setTag("Creator", toString(out.file.creator, 100));
+                        info.tags.setTag("Creator", Cineon::toString(out.file.creator, 100));
                     }
-                    if (isValid(out.file.project, 200))
+                    if (Cineon::isValid(out.file.project, 200))
                     {
-                        info.tags.setTag("Project", toString(out.file.project, 200));
+                        info.tags.setTag("Project", Cineon::toString(out.file.project, 200));
                     }
-                    if (isValid(out.file.copyright, 200))
+                    if (Cineon::isValid(out.file.copyright, 200))
                     {
-                        info.tags.setTag("Copyright", toString(out.file.copyright, 200));
+                        info.tags.setTag("Copyright", Cineon::toString(out.file.copyright, 200));
                     }
 
                     if (isValid(&out.source.offset[0]) && isValid(&out.source.offset[1]))
@@ -395,21 +346,21 @@ namespace djv
                         ss << out.source.size[0] << " " << out.source.size[1];
                         info.tags.setTag("Source Size", ss.str());
                     }
-                    if (isValid(out.source.file, 100))
+                    if (Cineon::isValid(out.source.file, 100))
                     {
-                        info.tags.setTag("Source File", toString(out.source.file, 100));
+                        info.tags.setTag("Source File", Cineon::toString(out.source.file, 100));
                     }
-                    if (isValid(out.source.time, 24))
+                    if (Cineon::isValid(out.source.time, 24))
                     {
-                        info.tags.setTag("Source Time", toString(out.source.time, 24));
+                        info.tags.setTag("Source Time", Cineon::toString(out.source.time, 24));
                     }
-                    if (isValid(out.source.inputDevice, 32))
+                    if (Cineon::isValid(out.source.inputDevice, 32))
                     {
-                        info.tags.setTag("Source Input Device", toString(out.source.inputDevice, 32));
+                        info.tags.setTag("Source Input Device", Cineon::toString(out.source.inputDevice, 32));
                     }
-                    if (isValid(out.source.inputSerial, 32))
+                    if (Cineon::isValid(out.source.inputSerial, 32))
                     {
-                        info.tags.setTag("Source Input Serial", toString(out.source.inputSerial, 32));
+                        info.tags.setTag("Source Input Serial", Cineon::toString(out.source.inputSerial, 32));
                     }
                     if (isValid(&out.source.border[0]) && isValid(&out.source.border[1]) &&
                         isValid(&out.source.border[2]) && isValid(&out.source.border[3]))
@@ -434,9 +385,9 @@ namespace djv
                         info.tags.setTag("Source Scan Size", ss.str());
                     }
 
-                    if (isValid(out.film.id, 2) && isValid(out.film.type, 2) &&
-                        isValid(out.film.offset, 2) && isValid(out.film.prefix, 6) &&
-                        isValid(out.film.count, 4))
+                    if (Cineon::isValid(out.film.id, 2) && Cineon::isValid(out.film.type, 2) &&
+                        Cineon::isValid(out.film.offset, 2) && Cineon::isValid(out.film.prefix, 6) &&
+                        Cineon::isValid(out.film.count, 4))
                     {
                         info.tags.setTag("Keycode", Time::keycodeToString(
                             std::stoi(std::string(out.film.id, 2)),
@@ -445,7 +396,7 @@ namespace djv
                             std::stoi(std::string(out.film.count, 4)),
                             std::stoi(std::string(out.film.offset, 2))));
                     }
-                    if (isValid(out.film.format, 32))
+                    if (Cineon::isValid(out.film.format, 32))
                     {
                         info.tags.setTag("Film Format", std::string(out.film.format, 32));
                     }
@@ -480,11 +431,11 @@ namespace djv
                         ss << out.film.shutter;
                         info.tags.setTag("Film Shutter", ss.str());
                     }
-                    if (isValid(out.film.frameId, 32))
+                    if (Cineon::isValid(out.film.frameId, 32))
                     {
                         info.tags.setTag("Film Frame ID", std::string(out.film.frameId, 32));
                     }
-                    if (isValid(out.film.slate, 100))
+                    if (Cineon::isValid(out.film.slate, 100))
                     {
                         info.tags.setTag("Film Slate", std::string(out.film.slate, 100));
                     }
@@ -588,7 +539,7 @@ namespace djv
                     default: break;
                     }
 
-                    fromString(info.fileName, header.file.name, 100, false);
+                    Cineon::fromString(info.fileName, header.file.name, 100, false);
                     header.file.imageOffset         = 2048;
                     header.file.headerSize          = 2048 - 384;
                     header.file.industryHeaderSize  = 384;
@@ -681,23 +632,23 @@ namespace djv
 
                     if (info.tags.hasTag("Time"))
                     {
-                        fromString(info.tags.getTag("Time"), header.file.time, 24, false);
+                        Cineon::fromString(info.tags.getTag("Time"), header.file.time, 24, false);
                     }
                     if (info.tags.hasTag("Creator"))
                     {
-                        fromString(info.tags.getTag("Creator"), header.file.time, 100, false);
+                        Cineon::fromString(info.tags.getTag("Creator"), header.file.time, 100, false);
                     }
                     if (info.tags.hasTag("Project"))
                     {
-                        fromString(info.tags.getTag("Project"), header.file.time, 200, false);
+                        Cineon::fromString(info.tags.getTag("Project"), header.file.time, 200, false);
                     }
                     if (info.tags.hasTag("Copyright"))
                     {
-                        fromString(info.tags.getTag("Copyright"), header.file.time, 200, false);
+                        Cineon::fromString(info.tags.getTag("Copyright"), header.file.time, 200, false);
                     }
                     if (info.tags.hasTag("Creator"))
                     {
-                        fromString(info.tags.getTag("Creator"), header.file.time, 100, false);
+                        Cineon::fromString(info.tags.getTag("Creator"), header.file.time, 100, false);
                     }
 
                     if (info.tags.hasTag("Source Offset"))
@@ -720,19 +671,19 @@ namespace djv
                     }
                     if (info.tags.hasTag("Source File"))
                     {
-                        fromString(info.tags.getTag("Source File"), header.source.file, 100, false);
+                        Cineon::fromString(info.tags.getTag("Source File"), header.source.file, 100, false);
                     }
                     if (info.tags.hasTag("Source Time"))
                     {
-                        fromString(info.tags.getTag("Source Time"), header.source.time, 24, false);
+                        Cineon::fromString(info.tags.getTag("Source Time"), header.source.time, 24, false);
                     }
                     if (info.tags.hasTag("Source Input Device"))
                     {
-                        fromString(info.tags.getTag("Source Input Device"), header.source.inputDevice, 32, false);
+                        Cineon::fromString(info.tags.getTag("Source Input Device"), header.source.inputDevice, 32, false);
                     }
                     if (info.tags.hasTag("Source Input Serial"))
                     {
-                        fromString(info.tags.getTag("Source Input Serial"), header.source.inputSerial, 32, false);
+                        Cineon::fromString(info.tags.getTag("Source Input Serial"), header.source.inputSerial, 32, false);
                     }
                     if (info.tags.hasTag("Source Border"))
                     {
@@ -762,32 +713,32 @@ namespace djv
                         {
                             std::stringstream ss;
                             ss << id;
-                            fromString(ss.str(), header.film.id, 2, false);
+                            Cineon::fromString(ss.str(), header.film.id, 2, false);
                         }
                         {
                             std::stringstream ss;
                             ss << type;
-                            fromString(ss.str(), header.film.type, 2, false);
+                            Cineon::fromString(ss.str(), header.film.type, 2, false);
                         }
                         {
                             std::stringstream ss;
                             ss << offset;
-                            fromString(ss.str(), header.film.offset, 2, false);
+                            Cineon::fromString(ss.str(), header.film.offset, 2, false);
                         }
                         {
                             std::stringstream ss;
                             ss << prefix;
-                            fromString(ss.str(), header.film.prefix, 6, false);
+                            Cineon::fromString(ss.str(), header.film.prefix, 6, false);
                         }
                         {
                             std::stringstream ss;
                             ss << count;
-                            fromString(ss.str(), header.film.count, 4, false);
+                            Cineon::fromString(ss.str(), header.film.count, 4, false);
                         }
                     }
                     if (info.tags.hasTag("Film Format"))
                     {
-                        fromString(info.tags.getTag("Film Format"), header.film.format, 32, false);
+                        Cineon::fromString(info.tags.getTag("Film Format"), header.film.format, 32, false);
                     }
                     if (info.tags.hasTag("Film Frame"))
                     {
@@ -811,11 +762,11 @@ namespace djv
                     }
                     if (info.tags.hasTag("Film Frame ID"))
                     {
-                        fromString(info.tags.getTag("Film Frame ID"), header.film.frameId, 32, false);
+                        Cineon::fromString(info.tags.getTag("Film Frame ID"), header.film.frameId, 32, false);
                     }
                     if (info.tags.hasTag("Film Slate"))
                     {
-                        fromString(info.tags.getTag("Film Slate"), header.film.slate, 100, false);
+                        Cineon::fromString(info.tags.getTag("Film Slate"), header.film.slate, 100, false);
                     }
 
                     if (info.tags.hasTag("Timecode"))
