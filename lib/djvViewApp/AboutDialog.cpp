@@ -59,86 +59,99 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::AboutDialog");
 
-            p.headers["Credits"] = UI::Label::create(context);
-            p.headers["Sponsors"] = UI::Label::create(context);
-            p.headers["License"] = UI::Label::create(context);
-            p.headers["Copyright"] = UI::Label::create(context);
-            p.headers["ThirdParty"] = UI::Label::create(context);
-            p.headers["Trademarks"] = UI::Label::create(context);
-            for (auto& i : p.headers)
+            const std::vector<std::string> headers = 
             {
-                i.second->setTextHAlign(UI::TextHAlign::Left);
-                i.second->setFontSizeRole(UI::MetricsRole::FontHeader);
+                "Credits", "Sponsors", "License", "Copyright", "ThirdParty", "Trademarks"
+            };
+            for (const auto& i : headers)
+            {
+                p.headers[i] = UI::Label::create(context);
+                p.headers[i]->setTextHAlign(UI::TextHAlign::Left);
+                p.headers[i]->setFontSizeRole(UI::MetricsRole::FontHeader);
+            }
+            
+            const std::vector<std::string> credits = 
+            {
+                "Credits1", "Credits2", "Credits3", "Credits4"
+            };
+            for (const auto& i : credits)
+            {
+                p.textBlocks[i] = UI::TextBlock::create(context);
+                p.textBlocks[i]->setTextSizeRole(UI::MetricsRole::TextColumnLarge);
+            }
+            
+            const std::vector<std::string> creditsText = 
+            {
+                "Credits1Text", "Credits2Text", "Credits3Text", "Credits4Text"
+            };
+            for (const auto& i : creditsText)
+            {
+                p.textBlocks[i] = UI::TextBlock::create(context);
             }
 
-            p.textBlocks["Credits1"] = UI::TextBlock::create(context);
-            p.textBlocks["Credits1"]->setTextSizeRole(UI::MetricsRole::TextColumnLarge);
-            p.textBlocks["Credits1Text"] = UI::TextBlock::create(context);
-            p.textBlocks["Credits2"] = UI::TextBlock::create(context);
-            p.textBlocks["Credits2"]->setTextSizeRole(UI::MetricsRole::TextColumnLarge);
-            p.textBlocks["Credits2Text"] = UI::TextBlock::create(context);
-            p.textBlocks["Credits3"] = UI::TextBlock::create(context);
-            p.textBlocks["Credits3"]->setTextSizeRole(UI::MetricsRole::TextColumnLarge);
-            p.textBlocks["Credits3Text"] = UI::TextBlock::create(context);
-            p.textBlocks["Credits4"] = UI::TextBlock::create(context);
-            p.textBlocks["Credits4"]->setTextSizeRole(UI::MetricsRole::TextColumnLarge);
-            p.textBlocks["Credits4Text"] = UI::TextBlock::create(context);
-            p.textBlocks["Sponsors1"] = UI::TextBlock::create(context);
-            p.textBlocks["Sponsors1"]->setTextSizeRole(UI::MetricsRole::TextColumnLarge);
-            p.textBlocks["License1"] = UI::TextBlock::create(context);
-            p.textBlocks["License2"] = UI::TextBlock::create(context);
-            p.textBlocks["License3"] = UI::TextBlock::create(context);
-            p.textBlocks["License4"] = UI::TextBlock::create(context);
-            p.textBlocks["License5"] = UI::TextBlock::create(context);
-            p.textBlocks["License6"] = UI::TextBlock::create(context);
-            p.textBlocks["Copyright1"] = UI::TextBlock::create(context);
-            p.textBlocks["Copyright2"] = UI::TextBlock::create(context);
-            p.textBlocks["Copyright3"] = UI::TextBlock::create(context);
-            p.textBlocks["Copyright4"] = UI::TextBlock::create(context);
-            p.textBlocks["ThirdParty1"] = UI::TextBlock::create(context);
-            p.textBlocks["ThirdParty2"] = UI::TextBlock::create(context);
-            p.textBlocks["ThirdParty3"] = UI::TextBlock::create(context);
-            p.textBlocks["ThirdParty4"] = UI::TextBlock::create(context);
-            p.textBlocks["ThirdParty5"] = UI::TextBlock::create(context);
-            p.textBlocks["ThirdParty6"] = UI::TextBlock::create(context);
-            p.textBlocks["ThirdParty7"] = UI::TextBlock::create(context);
-            p.textBlocks["ThirdParty8"] = UI::TextBlock::create(context);
-            p.textBlocks["ThirdParty9"] = UI::TextBlock::create(context);
-            p.textBlocks["ThirdParty9B"] = UI::TextBlock::create(context);
-            p.textBlocks["ThirdParty10"] = UI::TextBlock::create(context);
-            p.textBlocks["ThirdParty11"] = UI::TextBlock::create(context);
-            p.textBlocks["ThirdParty12"] = UI::TextBlock::create(context);
-            p.textBlocks["ThirdParty13"] = UI::TextBlock::create(context);
-            p.textBlocks["ThirdParty14"] = UI::TextBlock::create(context);
-            p.textBlocks["ThirdParty15"] = UI::TextBlock::create(context);
-            p.textBlocks["ThirdParty16"] = UI::TextBlock::create(context);
-            p.textBlocks["ThirdParty17"] = UI::TextBlock::create(context);
-            p.textBlocks["ThirdParty18"] = UI::TextBlock::create(context);
-            p.textBlocks["ThirdParty19"] = UI::TextBlock::create(context);
-            p.textBlocks["Trademarks1"] = UI::TextBlock::create(context);
-            p.textBlocks["Trademarks2"] = UI::TextBlock::create(context);
-            p.textBlocks["Trademarks3"] = UI::TextBlock::create(context);
-            p.textBlocks["Trademarks4"] = UI::TextBlock::create(context);
-            p.textBlocks["Trademarks5"] = UI::TextBlock::create(context);
-            p.textBlocks["Trademarks6"] = UI::TextBlock::create(context);
-            p.textBlocks["Trademarks7"] = UI::TextBlock::create(context);
-            p.textBlocks["Trademarks8"] = UI::TextBlock::create(context);
-            p.textBlocks["Trademarks9"] = UI::TextBlock::create(context);
-            p.textBlocks["Trademarks10"] = UI::TextBlock::create(context);
-            p.textBlocks["Trademarks11"] = UI::TextBlock::create(context);
-            p.textBlocks["Trademarks12"] = UI::TextBlock::create(context);
-            p.textBlocks["Trademarks13"] = UI::TextBlock::create(context);
-            p.textBlocks["Trademarks14"] = UI::TextBlock::create(context);
-            p.textBlocks["Trademarks15"] = UI::TextBlock::create(context);
-            p.textBlocks["Trademarks16"] = UI::TextBlock::create(context);
-            p.textBlocks["Trademarks17"] = UI::TextBlock::create(context);
-            p.textBlocks["Trademarks18"] = UI::TextBlock::create(context);
-            p.textBlocks["Trademarks19"] = UI::TextBlock::create(context);
-            p.textBlocks["Trademarks20"] = UI::TextBlock::create(context);
-            p.textBlocks["Trademarks21"] = UI::TextBlock::create(context);
-            p.textBlocks["Trademarks22"] = UI::TextBlock::create(context);
-            p.textBlocks["MadeIn"] = UI::TextBlock::create(context);
+            const std::vector<std::string> sponsorsText = 
+            {
+                "Sponsors1"
+            };
+            for (const auto& i : sponsorsText)
+            {
+                p.textBlocks[i] = UI::TextBlock::create(context);
+            }
 
+            const std::vector<std::string> licenseText = 
+            {
+                "License1", "License2", "License3", "License4", "License5", "License6"
+            };
+            for (const auto& i : licenseText)
+            {
+                p.textBlocks[i] = UI::TextBlock::create(context);
+            }
+
+            const std::vector<std::string> copyrightText = 
+            {
+                "Copyright1", "Copyright2", "Copyright3", "Copyright4"
+            };
+            for (const auto& i : copyrightText)
+            {
+                p.textBlocks[i] = UI::TextBlock::create(context);
+            }
+
+            const std::vector<std::string> thirdPartyText = 
+            {
+                "ThirdParty1", "ThirdParty2", "ThirdParty3", "ThirdParty4",
+                "ThirdParty5", "ThirdParty6", "ThirdParty7", "ThirdParty8",
+                "ThirdParty9", "ThirdParty9B", "ThirdParty10", "ThirdParty11",
+                "ThirdParty12", "ThirdParty13", "ThirdParty14", "ThirdParty15",
+                "ThirdParty16", "ThirdParty17", "ThirdParty18", "ThirdParty19"
+            };
+            for (const auto& i : thirdPartyText)
+            {
+                p.textBlocks[i] = UI::TextBlock::create(context);
+            }
+
+            const std::vector<std::string> trademarksText = 
+            {
+                "Trademarks1", "Trademarks2", "Trademarks3", "Trademarks4",
+                "Trademarks5", "Trademarks6", "Trademarks7", "Trademarks8",
+                "Trademarks9", "Trademarks10", "Trademarks11", "Trademarks12",
+                "Trademarks13", "Trademarks14", "Trademarks15", "Trademarks16",
+                "Trademarks17", "Trademarks18", "Trademarks19", "Trademarks20",
+                "Trademarks21", "Trademarks22",
+            };
+            for (const auto& i : trademarksText)
+            {
+                p.textBlocks[i] = UI::TextBlock::create(context);
+            }
+
+            const std::vector<std::string> madeInText = 
+            {
+                "MadeIn"
+            };
+            for (const auto& i : madeInText)
+            {
+                p.textBlocks[i] = UI::TextBlock::create(context);
+            }
+                    
             auto textLayout = UI::VerticalLayout::create(context);
             textLayout->setMargin(UI::MetricsRole::Margin);
             textLayout->setSpacing(UI::MetricsRole::SpacingLarge);
@@ -170,22 +183,29 @@ namespace djv
             vLayout = UI::VerticalLayout::create(context);
             vLayout->addChild(p.headers["Sponsors"]);
             vLayout->addSeparator();
-            gridLayout = UI::GridLayout::create(context);
-            gridLayout->addChild(p.textBlocks["Sponsors1"]);
-            gridLayout->setGridPos(p.textBlocks["Sponsors1"], glm::ivec2(0, 0));
-            vLayout->addChild(gridLayout);
+            for (const auto& i : sponsorsText)
+            {
+                vLayout->addChild(p.textBlocks[i]);
+            }
             textLayout->addChild(vLayout);
 
             vLayout = UI::VerticalLayout::create(context);
             vLayout->addChild(p.headers["License"]);
             vLayout->addSeparator();
-            vLayout->addChild(p.textBlocks["License1"]);
-            vLayout->addChild(p.textBlocks["License2"]);
+            for (size_t i = 1; i <= 2; ++i)
+            {
+                std::stringstream ss;
+                ss << "License" << i;
+                vLayout->addChild(p.textBlocks[ss.str()]);
+            }
             auto vLayout2 = UI::VerticalLayout::create(context);
             vLayout2->setSpacing(UI::MetricsRole::None);
-            vLayout2->addChild(p.textBlocks["License3"]);
-            vLayout2->addChild(p.textBlocks["License4"]);
-            vLayout2->addChild(p.textBlocks["License5"]);
+            for (size_t i = 3; i <= 5; ++i)
+            {
+                std::stringstream ss;
+                ss << "License" << i;
+                vLayout2->addChild(p.textBlocks[ss.str()]);
+            }
             vLayout->addChild(vLayout2);
             vLayout->addChild(p.textBlocks["License6"]);
             textLayout->addChild(vLayout);
@@ -196,9 +216,12 @@ namespace djv
             vLayout->addChild(p.textBlocks["Copyright1"]);
             vLayout2 = UI::VerticalLayout::create(context);
             vLayout2->setSpacing(UI::MetricsRole::None);
-            vLayout2->addChild(p.textBlocks["Copyright2"]);
-            vLayout2->addChild(p.textBlocks["Copyright3"]);
-            vLayout2->addChild(p.textBlocks["Copyright4"]);
+            for (size_t i = 2; i <= 4; ++i)
+            {
+                std::stringstream ss;
+                ss << "Copyright" << i;
+                vLayout2->addChild(p.textBlocks[ss.str()]);
+            }
             vLayout->addChild(vLayout2);
             textLayout->addChild(vLayout);
             
@@ -208,24 +231,12 @@ namespace djv
             vLayout->addChild(p.textBlocks["ThirdParty1"]);
             vLayout2 = UI::VerticalLayout::create(context);
             vLayout2->setSpacing(UI::MetricsRole::None);
-            vLayout2->addChild(p.textBlocks["ThirdParty2"]);
-            vLayout2->addChild(p.textBlocks["ThirdParty3"]);
-            vLayout2->addChild(p.textBlocks["ThirdParty4"]);
-            vLayout2->addChild(p.textBlocks["ThirdParty5"]);
-            vLayout2->addChild(p.textBlocks["ThirdParty6"]);
-            vLayout2->addChild(p.textBlocks["ThirdParty7"]);
-            vLayout2->addChild(p.textBlocks["ThirdParty8"]);
-            vLayout2->addChild(p.textBlocks["ThirdParty9"]);
-            vLayout2->addChild(p.textBlocks["ThirdParty10"]);
-            vLayout2->addChild(p.textBlocks["ThirdParty11"]);
-            vLayout2->addChild(p.textBlocks["ThirdParty12"]);
-            vLayout2->addChild(p.textBlocks["ThirdParty13"]);
-            vLayout2->addChild(p.textBlocks["ThirdParty14"]);
-            vLayout2->addChild(p.textBlocks["ThirdParty15"]);
-            vLayout2->addChild(p.textBlocks["ThirdParty16"]);
-            vLayout2->addChild(p.textBlocks["ThirdParty17"]);
-            vLayout2->addChild(p.textBlocks["ThirdParty18"]);
-            vLayout2->addChild(p.textBlocks["ThirdParty19"]);
+            for (size_t i = 2; i <= 19; ++i)
+            {
+                std::stringstream ss;
+                ss << "ThirdParty" << i;
+                vLayout2->addChild(p.textBlocks[ss.str()]);
+            }
             vLayout->addChild(vLayout2);
             textLayout->addChild(vLayout);
 
@@ -235,26 +246,12 @@ namespace djv
             vLayout->addChild(p.textBlocks["Trademarks1"]);
             vLayout2 = UI::VerticalLayout::create(context);
             vLayout2->setSpacing(UI::MetricsRole::None);
-            vLayout2->addChild(p.textBlocks["Trademarks2"]);
-            vLayout2->addChild(p.textBlocks["Trademarks3"]);
-            vLayout2->addChild(p.textBlocks["Trademarks4"]);
-            vLayout2->addChild(p.textBlocks["Trademarks5"]);
-            vLayout2->addChild(p.textBlocks["Trademarks6"]);
-            vLayout2->addChild(p.textBlocks["Trademarks7"]);
-            vLayout2->addChild(p.textBlocks["Trademarks8"]);
-            vLayout2->addChild(p.textBlocks["Trademarks9"]);
-            vLayout2->addChild(p.textBlocks["Trademarks10"]);
-            vLayout2->addChild(p.textBlocks["Trademarks11"]);
-            vLayout2->addChild(p.textBlocks["Trademarks12"]);
-            vLayout2->addChild(p.textBlocks["Trademarks13"]);
-            vLayout2->addChild(p.textBlocks["Trademarks14"]);
-            vLayout2->addChild(p.textBlocks["Trademarks15"]);
-            vLayout2->addChild(p.textBlocks["Trademarks16"]);
-            vLayout2->addChild(p.textBlocks["Trademarks17"]);
-            vLayout2->addChild(p.textBlocks["Trademarks18"]);
-            vLayout2->addChild(p.textBlocks["Trademarks19"]);
-            vLayout2->addChild(p.textBlocks["Trademarks20"]);
-            vLayout2->addChild(p.textBlocks["Trademarks21"]);
+            for (size_t i = 2; i <= 21; ++i)
+            {
+                std::stringstream ss;
+                ss << "Trademarks" << i;
+                vLayout2->addChild(p.textBlocks[ss.str()]);
+            }
             vLayout->addChild(vLayout2);
             vLayout->addChild(p.textBlocks["Trademarks22"]);
             textLayout->addChild(vLayout);
