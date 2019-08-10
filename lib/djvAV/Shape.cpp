@@ -139,90 +139,10 @@ namespace djv
 
             void Cube::triangulate(TriangleMesh & mesh) const
             {
-                mesh.clear();
-
-                mesh.v.push_back(glm::vec3(-_radius, -_radius, _radius));
-                mesh.v.push_back(glm::vec3(_radius, -_radius, _radius));
-                mesh.v.push_back(glm::vec3(_radius, -_radius, -_radius));
-                mesh.v.push_back(glm::vec3(-_radius, -_radius, -_radius));
-                mesh.v.push_back(glm::vec3(-_radius, _radius, _radius));
-                mesh.v.push_back(glm::vec3(_radius, _radius, _radius));
-                mesh.v.push_back(glm::vec3(_radius, _radius, -_radius));
-                mesh.v.push_back(glm::vec3(-_radius, _radius, -_radius));
-
-                mesh.t.push_back(glm::vec3(0.f, 1.f, 0.f));
-                mesh.t.push_back(glm::vec3(1.f, 1.f, 0.f));
-                mesh.t.push_back(glm::vec3(1.f, 0.f, 0.f));
-                mesh.t.push_back(glm::vec3(0.f, 0.f, 0.f));
-
-                // Back
-                TriangleMesh::Triangle a, b;
-                a.v0.v = 0 + offset;
-                a.v1.v = 3 + offset;
-                a.v2.v = 2 + offset;
-                a.v0.t = 0 + offset;
-                a.v1.t = 3 + offset;
-                a.v2.t = 2 + offset;
-                mesh.triangles.push_back(a);
-                b.v0.v = 2 + offset;
-                b.v1.v = 1 + offset;
-                b.v2.v = 0 + offset;
-                b.v0.t = 2 + offset;
-                b.v1.t = 1 + offset;
-                b.v2.t = 0 + offset;
-                mesh.triangles.push_back(b);
-
-                // Front
-                a.v0.v = 4 + offset;
-                a.v1.v = 5 + offset;
-                a.v2.v = 6 + offset;
-                mesh.triangles.push_back(a);
-                b.v0.v = 6 + offset;
-                b.v1.v = 7 + offset;
-                b.v2.v = 4 + offset;
-                mesh.triangles.push_back(b);
-
-                // Top
-                a.v0.v = 0 + offset;
-                a.v1.v = 1 + offset;
-                a.v2.v = 5 + offset;
-                mesh.triangles.push_back(a);
-                b.v0.v = 5 + offset;
-                b.v1.v = 4 + offset;
-                b.v2.v = 0 + offset;
-                mesh.triangles.push_back(b);
-
-                // Bottom
-                a.v0.v = 2 + offset;
-                a.v1.v = 3 + offset;
-                a.v2.v = 7 + offset;
-                mesh.triangles.push_back(a);
-                b.v0.v = 7 + offset;
-                b.v1.v = 6 + offset;
-                b.v2.v = 2 + offset;
-                mesh.triangles.push_back(b);
-
-                // Left
-                a.v0.v = 0 + offset;
-                a.v1.v = 4 + offset;
-                a.v2.v = 7 + offset;
-                mesh.triangles.push_back(a);
-                b.v0.v = 7 + offset;
-                b.v1.v = 3 + offset;
-                b.v2.v = 0 + offset;
-                mesh.triangles.push_back(b);
-
-                // Right
-                a.v0.v = 1 + offset;
-                a.v1.v = 2 + offset;
-                a.v2.v = 6 + offset;
-                mesh.triangles.push_back(a);
-                b.v0.v = 6 + offset;
-                b.v1.v = 5 + offset;
-                b.v2.v = 1 + offset;
-                mesh.triangles.push_back(b);
-
-                TriangleMesh::calcNormals(mesh);
+                BBox3f bbox;
+                bbox.min = glm::vec3(-_radius, -_radius, -_radius);
+                bbox.max = glm::vec3(_radius, _radius, _radius);
+                TriangleMesh::triangulateBBox(bbox, mesh);
             }
 
             Sphere::Sphere(float radius, const Resolution & resolution) :
