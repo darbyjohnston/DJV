@@ -29,8 +29,6 @@
 
 #include <djvAV/DPX.h>
 
-#include <djvAV/Cineon.h>
-
 #include <djvCore/FileIO.h>
 #include <djvCore/Memory.h>
 #include <djvCore/String.h>
@@ -170,7 +168,7 @@ namespace djv
 
                 } // namespace
 
-                Header read(FileSystem::FileIO& io, Info& info, ColorProfile& colorProfile)
+                Header read(FileSystem::FileIO& io, Info& info, Cineon::ColorProfile& colorProfile)
                 {
                     Header out;
                     zero(out);
@@ -308,7 +306,7 @@ namespace djv
 
                     if (Transfer::FilmPrint == static_cast<Transfer>(out.image.elem[0].transfer))
                     {
-                        colorProfile = ColorProfile::FilmPrint;
+                        colorProfile = Cineon::ColorProfile::FilmPrint;
                     }
 
                     if (Cineon::isValid(out.file.time, 24))
@@ -527,7 +525,7 @@ namespace djv
                     return out;
                 }
 
-                void write(FileSystem::FileIO& io, const Info& info, Version version, Endian endian, ColorProfile colorProfile)
+                void write(FileSystem::FileIO& io, const Info& info, Version version, Endian endian, Cineon::ColorProfile colorProfile)
                 {
                     Header header;
                     zero(header);
@@ -599,7 +597,7 @@ namespace djv
 
                     switch (colorProfile)
                     {
-                    case ColorProfile::FilmPrint:
+                    case Cineon::ColorProfile::FilmPrint:
                         header.image.elem[0].transfer = static_cast<uint8_t>(Transfer::FilmPrint);
                         switch (version)
                         {

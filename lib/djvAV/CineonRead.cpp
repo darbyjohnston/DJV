@@ -68,34 +68,28 @@ namespace djv
                     out->_init(fileInfo, readOptions, resourceSystem, logSystem);
                     return out;
                 }
-
-                Info Read::_readInfo(const std::string & fileName)
+                
+                std::shared_ptr<Image::Image> Read::readImage(
+                    Info info,
+                    Cineon::ColorProfile colorProfile,
+                    const std::string& colorSpace,
+                    Core::FileSystem::FileIO& io)
                 {
-                    FileSystem::FileIO io;
-                    return _open(fileName, io);
-                }
-
-                std::shared_ptr<Image::Image> Read::_readImage(const std::string & fileName)
-                {
-                    DJV_PRIVATE_PTR();
-                    auto io = std::shared_ptr<FileSystem::FileIO>(new FileSystem::FileIO);
-                    const auto info = _open(fileName, *io);
-                    auto imageInfo = info.video[0].info;
 #if defined(DJV_MMAP)
-                    auto out = Image::Image::create(imageInfo, io);
+                    auto out = Image::Image::create(info.video[0].info, io);
 #else // DJV_MMAP
                     bool convertEndian = false;
-                    if (imageInfo.layout.endian != Memory::getEndian())
+                    if (info.video[0].info.layout.endian != Memory::getEndian())
                     {
                         convertEndian = true;
-                        imageInfo.layout.endian = Memory::getEndian();
+                        info.video[0].info.layout.endian = Memory::getEndian();
                     }
-                    auto out = Image::Image::create(imageInfo);
-                    io->read(out->getData(), io->getSize() - io->getPos());
+                    auto out = Image::Image::create(info.video[0].info);
+                    io.read(out->getData(), io.getSize() - io.getPos());
                     if (convertEndian)
                     {
                         const size_t dataByteCount = out->getDataByteCount();
-                        switch (Image::getDataType(imageInfo.type))
+                        switch (Image::getDataType(info.video[0].info.type))
                         {
                             case Image::DataType::U10:
                                 Memory::endian(out->getData(), dataByteCount / 4, 4);
@@ -108,10 +102,25 @@ namespace djv
                     }
 #endif // DJV_MMAP
                     out->setTags(info.tags);
-                    if (ColorProfile::FilmPrint == p.colorProfile)
+                    if (ColorProfile::FilmPrint == colorProfile)
                     {
-                        out->setColorSpace(p.options.colorSpace);
+                        out->setColorSpace(colorSpace);
                     }
+                    return out;
+                }
+
+                Info Read::_readInfo(const std::string & fileName)
+                {
+                    FileSystem::FileIO io;
+                    return _open(fileName, io);
+                }
+
+                std::shared_ptr<Image::Image> Read::_readImage(const std::string & fileName)
+                {
+                    DJV_PRIVATE_PTR();
+                    FileSystem::FileIO io;
+                    const auto info = _open(fileName, io);
+                    auto out = readImage(info, p.colorProfile, p.options.colorSpace, io);
                     return out;
                 }
 

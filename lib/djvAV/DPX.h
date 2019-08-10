@@ -29,6 +29,7 @@
 
 #pragma once
 
+#include <djvAV/Cineon.h>
 #include <djvAV/SequenceIO.h>
 
 namespace djv
@@ -70,16 +71,6 @@ namespace djv
                     First = Auto
                 };
                 DJV_ENUM_HELPERS(Endian);
-
-                //! This enumeration provides the DPX file color profiles.
-                enum class ColorProfile
-                {
-                    Raw,
-                    FilmPrint,
-
-                    Count,
-                    First = Raw
-                };
 
                 //! This constant provides the DPX file magic numbers.
                 static const char magic[][5] =
@@ -302,13 +293,13 @@ namespace djv
                 //!
                 //! Throws:
                 //! - std::exception
-                Header read(Core::FileSystem::FileIO&, Info&, ColorProfile&);
+                Header read(Core::FileSystem::FileIO&, Info&, Cineon::ColorProfile&);
                 
                 //! Write a DPX file header.
                 //!
                 //! Throws:
                 //! - std::exception
-                void write(Core::FileSystem::FileIO&, const Info& info, Version, Endian, ColorProfile);
+                void write(Core::FileSystem::FileIO&, const Info& info, Version, Endian, Cineon::ColorProfile);
 
                 //! Finish writing the DPX file header after image data is written.
                 void writeFinish(Core::FileSystem::FileIO&);

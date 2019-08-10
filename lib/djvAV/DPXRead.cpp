@@ -43,7 +43,7 @@ namespace djv
             {
                 struct Read::Private
                 {
-                    ColorProfile colorProfile = ColorProfile::FilmPrint;
+                    Cineon::ColorProfile colorProfile = Cineon::ColorProfile::FilmPrint;
                     Options options;
                 };
 
@@ -78,40 +78,9 @@ namespace djv
                 std::shared_ptr<Image::Image> Read::_readImage(const std::string & fileName)
                 {
                     DJV_PRIVATE_PTR();
-                    auto io = std::shared_ptr<FileSystem::FileIO>(new FileSystem::FileIO);
-                    const auto info = _open(fileName, *io);
-                    auto imageInfo = info.video[0].info;
-#if defined(DJV_MMAP)
-                    auto out = Image::Image::create(imageInfo, io);
-#else // DJV_MMAP
-                    bool convertEndian = false;
-                    if (imageInfo.layout.endian != Memory::getEndian())
-                    {
-                        convertEndian = true;
-                        imageInfo.layout.endian = Memory::getEndian();
-                    }
-                    auto out = Image::Image::create(imageInfo);
-                    io->read(out->getData(), io->getSize() - io->getPos());
-                    if (convertEndian)
-                    {
-                        const size_t dataByteCount = out->getDataByteCount();
-                        switch (Image::getDataType(imageInfo.type))
-                        {
-                            case Image::DataType::U10:
-                                Memory::endian(out->getData(), dataByteCount / 4, 4);
-                                break;
-                            case Image::DataType::U16:
-                                Memory::endian(out->getData(), dataByteCount / 2, 2);
-                                break;
-                            default: break;                            
-                        }
-                    }
-#endif // DJV_MMAP
-                    out->setTags(info.tags);
-                    if (ColorProfile::FilmPrint == p.colorProfile)
-                    {
-                        out->setColorSpace(p.options.colorSpace);
-                    }
+                    FileSystem::FileIO io;
+                    const auto info = _open(fileName, io);
+                    auto out = Cineon::Read::readImage(info, p.colorProfile, p.options.colorSpace, io);
                     return out;
                 }
 
@@ -121,7 +90,7 @@ namespace djv
                     io.open(fileName, FileSystem::FileIO::Mode::Read);
                     Info info;
                     info.video.resize(1);
-                    read(io, info, p.colorProfile);
+                    DPX::read(io, info, p.colorProfile);
                     info.video[0].sequence = _sequence;
                     return info;
                 }

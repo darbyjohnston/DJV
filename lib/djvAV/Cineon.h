@@ -228,12 +228,18 @@ namespace djv
                         const std::shared_ptr<Core::ResourceSystem>&,
                         const std::shared_ptr<Core::LogSystem>&);
 
+                    static std::shared_ptr<Image::Image> readImage(
+                        Info,
+                        Cineon::ColorProfile,
+                        const std::string& colorSpace,
+                        Core::FileSystem::FileIO&);
+
                 protected:
                     Info _readInfo(const std::string &) override;
                     std::shared_ptr<Image::Image> _readImage(const std::string &) override;
 
                 private:
-                    Info _open(const std::string &, Core::FileSystem::FileIO &);
+                    Info _open(const std::string&, Core::FileSystem::FileIO&);
 
                     DJV_PRIVATE();
                 };
