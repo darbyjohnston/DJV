@@ -294,13 +294,7 @@ namespace djv
                     {
                         if (auto system = weak.lock())
                         {
-                            system->_p->settings->setLock(ImageViewLock::None);
-                            if (auto widget = system->_p->activeWidget)
-                            {
-                                auto imageView = widget->getImageView();
-                                const float zoom = imageView->observeImageZoom()->get();
-                                system->_zoomImage(zoom * 2.f);
-                            }
+                            system->_zoomAction(2.f);
                         }
                     }
                 });
@@ -313,13 +307,7 @@ namespace djv
                     {
                         if (auto system = weak.lock())
                         {
-                            system->_p->settings->setLock(ImageViewLock::None);
-                            if (auto widget = system->_p->activeWidget)
-                            {
-                                auto imageView = widget->getImageView();
-                                const float zoom = imageView->observeImageZoom()->get();
-                                system->_zoomImage(zoom / 2.f);
-                            }
+                            system->_zoomAction(.5f);
                         }
                     }
                 });
@@ -577,6 +565,18 @@ namespace djv
                     focus.y = h / 2.f;
                 }
                 imageView->setImageZoomFocus(value, focus);
+            }
+        }
+        
+        void ImageViewSystem::_zoomAction(float value)
+        {
+            DJV_PRIVATE_PTR();
+            p.settings->setLock(ImageViewLock::None);
+            if (auto widget = p.activeWidget)
+            {
+                auto imageView = widget->getImageView();
+                const float zoom = imageView->observeImageZoom()->get();
+                _zoomImage(zoom * value);
             }
         }
 

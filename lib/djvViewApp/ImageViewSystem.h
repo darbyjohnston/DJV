@@ -63,6 +63,7 @@ namespace djv
         private:
             void _panImage(const glm::vec2&);
             void _zoomImage(float);
+            void _zoomAction(float);
 
             void _actionsUpdate();
             void _textUpdate();
