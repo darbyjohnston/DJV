@@ -107,6 +107,7 @@ namespace djv
                     try
                     {
                         info = _readInfo(fileName);
+                        info.fileName = _fileInfo.getFileName();
                         p.infoPromise.set_value(info);
                     }
                     catch (const std::exception & e)

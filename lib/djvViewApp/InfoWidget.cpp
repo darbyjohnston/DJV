@@ -134,15 +134,18 @@ namespace djv
             auto context = getContext();
             p.layout->clearChildren();
 
-            auto label = UI::Label::create(context);
-            label->setText(p.info.fileName);
-            label->setHAlign(UI::HAlign::Left);
-            auto formLayout = UI::FormLayout::create(context);
-            formLayout->setMargin(UI::MetricsRole::MarginSmall);
-            formLayout->addChild(label);
-            formLayout->setText(label, _getText(DJV_TEXT("File name")) + ":");
-            p.layout->addChild(formLayout);
-
+            if (!p.info.fileName.empty())
+            {
+                auto label = UI::Label::create(context);
+                label->setText(p.info.fileName);
+                label->setHAlign(UI::HAlign::Left);
+                auto formLayout = UI::FormLayout::create(context);
+                formLayout->setMargin(UI::MetricsRole::MarginSmall);
+                formLayout->addChild(label);
+                formLayout->setText(label, _getText(DJV_TEXT("File name")) + ":");
+                p.layout->addChild(formLayout);
+            }
+            
             size_t j = 0;
             for (const auto& i : p.info.video)
             {
@@ -150,7 +153,7 @@ namespace djv
                 formLayout->setMargin(UI::MetricsRole::MarginSmall);
                 formLayout->setShadowOverlay({ UI::Side::Top });
 
-                label = UI::Label::create(context);
+                auto label = UI::Label::create(context);
                 label->setText(i.info.name);
                 label->setHAlign(UI::HAlign::Left);
                 formLayout->addChild(label);
@@ -229,7 +232,7 @@ namespace djv
                 formLayout->setMargin(UI::MetricsRole::MarginSmall);
                 formLayout->setShadowOverlay({ UI::Side::Top });
 
-                label = UI::Label::create(context);
+                auto label = UI::Label::create(context);
                 {
                     std::stringstream ss;
                     ss << static_cast<int>(i.info.channelCount);
@@ -295,7 +298,7 @@ namespace djv
 
                 for (const auto& i : p.info.tags.getTags())
                 {
-                    label = UI::Label::create(context);
+                    auto label = UI::Label::create(context);
                     label->setText(i.second);
                     label->setHAlign(UI::HAlign::Left);
                     formLayout->addChild(label);
