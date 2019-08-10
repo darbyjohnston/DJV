@@ -29,93 +29,52 @@
 
 #pragma once
 
-#include <djvUI/INumericSlider.h>
-
-#include <djvCore/Range.h>
+#include <djvUI/Widget.h>
 
 #include <chrono>
 
 namespace djv
 {
-    namespace Core
-    {
-        class FloatValueModel;
-
-    } // namespace Core
-
     namespace UI
     {
-        //! This class provides a basic slider widget for floating-point values.
-        class BasicFloatSlider : public INumericSlider
+        //! This class provides an interface for numeric slider widgets.
+        class INumericSlider : public Widget
         {
-            DJV_NON_COPYABLE(BasicFloatSlider);
-
         protected:
             void _init(Orientation, Core::Context *);
-            BasicFloatSlider();
+            INumericSlider();
 
         public:
-            ~BasicFloatSlider() override;
+            virtual ~INumericSlider() = 0;
 
-            static std::shared_ptr<BasicFloatSlider> create(Orientation, Core::Context *);
-
-            Core::FloatRange getRange() const;
-            void setRange(const Core::FloatRange&);
-
-            float getValue() const;
-            void setValue(float);
-            void setValueCallback(const std::function<void(float)>&);
-
-            const std::shared_ptr<Core::FloatValueModel> & getModel() const;
-            void setModel(const std::shared_ptr<Core::FloatValueModel> &);
-
-        protected:
-            void _pointerMove(float) override;
-            void _buttonPress(float) override;
-            void _buttonRelease() override;
-            bool _keyPress(int) override;
-            void _valueUpdate() override;
-
-            void _paintEvent(Core::Event::Paint &) override;
-
-        private:
-            float _valueToPos(float) const;
-            float _posToValue(float) const;
-
-            DJV_PRIVATE();
-        };
-
-        //! This class provides a slider widget for floating-point values.
-        class FloatSlider : public Widget
-        {
-            DJV_NON_COPYABLE(FloatSlider);
-
-        protected:
-            void _init(Core::Context *);
-            FloatSlider();
-
-        public:
-            ~FloatSlider() override;
-
-            static std::shared_ptr<FloatSlider> create(Core::Context *);
-
-            Core::FloatRange getRange() const;
-            void setRange(const Core::FloatRange &);
-
-            float getValue() const;
-            void setValue(float);
-            void setValueCallback(const std::function<void(float)> &);
-
+            Orientation getOrientation() const;
+            
             std::chrono::milliseconds getDelay() const;
             void setDelay(std::chrono::milliseconds);
 
-            const std::shared_ptr<Core::FloatValueModel>& getModel() const;
-
         protected:
+            float _getHandleWidth() const;
+            
+            void _paint(float value, float pos);
+            
+            virtual void _pointerMove(float) = 0;
+            virtual void _buttonPress(float) = 0;
+            virtual void _buttonRelease() = 0;
+            virtual bool _keyPress(int) = 0;
+            virtual void _valueUpdate() = 0;
+            
+            void _styleEvent(Core::Event::Style&) override;
             void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
+            void _pointerEnterEvent(Core::Event::PointerEnter &) override;
+            void _pointerLeaveEvent(Core::Event::PointerLeave &) override;
+            void _pointerMoveEvent(Core::Event::PointerMove &) override;
+            void _buttonPressEvent(Core::Event::ButtonPress &) override;
+            void _buttonReleaseEvent(Core::Event::ButtonRelease &) override;
+            void _keyPressEvent(Core::Event::KeyPress&) override;
 
         private:
+            void _resetTimer();
+
             DJV_PRIVATE();
         };
 

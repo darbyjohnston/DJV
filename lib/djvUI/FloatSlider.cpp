@@ -33,10 +33,7 @@
 #include <djvUI/FloatEdit.h>
 #include <djvUI/RowLayout.h>
 
-#include <djvAV/Render2D.h>
-
 #include <djvCore/NumericValueModels.h>
-#include <djvCore/Timer.h>
 #include <djvCore/ValueObserver.h>
 
 #include <GLFW/glfw3.h>
@@ -51,38 +48,16 @@ namespace djv
         {
             float value = 0.f;
             std::shared_ptr<FloatValueModel> model;
-            Orientation orientation = Orientation::First;
-            AV::Font::Metrics fontMetrics;
-            std::future<AV::Font::Metrics> fontMetricsFuture;
-            float handleWidth = 0.f;
-            std::chrono::milliseconds delay = std::chrono::milliseconds(0);
-            std::shared_ptr<Time::Timer> delayTimer;
-            Event::PointerID pressedID = Event::InvalidID;
-            glm::vec2 pressedPos = glm::vec2(0.f, 0.f);
-            glm::vec2 prevPos = glm::vec2(0.f, 0.f);
             std::function<void(float)> callback;
             std::shared_ptr<ValueObserver<float> > valueObserver;
         };
 
         void BasicFloatSlider::_init(Orientation orientation, Context * context)
         {
-            Widget::_init(context);
-
+            INumericSlider::_init(orientation, context);
             DJV_PRIVATE_PTR();
-
             setClassName("djv::UI::BasicFloatSlider");
             setModel(FloatValueModel::create());
-            setPointerEnabled(true);
-            switch (orientation)
-            {
-                case Orientation::Horizontal: setVAlign(VAlign::Center); break;
-                case Orientation::Vertical:   setHAlign(HAlign::Center); break;
-                default: break;
-            }
-            
-            p.orientation = orientation;
-
-            p.delayTimer = Time::Timer::create(context);
         }
 
         BasicFloatSlider::BasicFloatSlider() :
@@ -129,16 +104,6 @@ namespace djv
             return _p->model;
         }
 
-        std::chrono::milliseconds BasicFloatSlider::getDelay() const
-        {
-            return _p->delay;
-        }
-
-        void BasicFloatSlider::setDelay(std::chrono::milliseconds value)
-        {
-            _p->delay = value;
-        }
-
         void BasicFloatSlider::setModel(const std::shared_ptr<FloatValueModel> & model)
         {
             DJV_PRIVATE_PTR();
@@ -162,192 +127,12 @@ namespace djv
                 });
             }
         }
-
-        void BasicFloatSlider::_styleEvent(Event::Style& event)
+        
+        void BasicFloatSlider::_pointerMove(float pos)
         {
             DJV_PRIVATE_PTR();
-            const auto& style = _getStyle();
-            p.handleWidth = style->getMetric(MetricsRole::Handle);
-            auto fontSystem = _getFontSystem();
-            p.fontMetricsFuture = fontSystem->getMetrics(style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium));
-        }
-
-        void BasicFloatSlider::_preLayoutEvent(Event::PreLayout & event)
-        {
-            DJV_PRIVATE_PTR();
-            if (p.fontMetricsFuture.valid())
-            {
-                try
-                {
-                    p.fontMetrics = p.fontMetricsFuture.get();
-                }
-                catch (const std::exception& e)
-                {
-                    _log(e.what(), LogLevel::Error);
-                }
-            }
-            const auto& style = _getStyle();
-            const float s = style->getMetric(MetricsRole::Slider);
-            glm::vec2 size(0.f, 0.f);
-            switch (p.orientation)
-            {
-            case Orientation::Horizontal: size = glm::vec2(s, p.fontMetrics.lineHeight); break;
-            case Orientation::Vertical:   size = glm::vec2(p.fontMetrics.lineHeight, s); break;
-            default: break;
-            }
-            _setMinimumSize(size + getMargin().getSize(style));
-        }
-
-        void BasicFloatSlider::_paintEvent(Event::Paint & event)
-        {
-            DJV_PRIVATE_PTR();
-            const auto& style = _getStyle();
-            const BBox2f& g = getMargin().bbox(getGeometry(), style);
-            const glm::vec2 c = g.getCenter();
-            const float m = style->getMetric(MetricsRole::MarginSmall);
-            const float b = style->getMetric(MetricsRole::Border);
-            auto render = _getRender();
-            render->setFillColor(style->getColor(ColorRole::Border));
-            drawBorder(render, g, b);
-            const BBox2f g2 = g.margin(-b);
-            render->setFillColor(style->getColor(ColorRole::Trough));
-            render->drawRect(g2);
-            if (p.model)
-            {
-                const auto & range = p.model->observeRange()->get();
-                float v = (p.value - range.min) / (range.max - range.min);
-                render->setFillColor(style->getColor(ColorRole::Checked));
-                switch (p.orientation)
-                {
-                case Orientation::Horizontal:
-                    render->drawRect(BBox2f(
-                        g2.min.x,
-                        g2.min.y,
-                        ceilf((g2.w() - p.handleWidth / 2.f) * v),
-                        g2.h()));
-                    break;
-                case Orientation::Vertical:
-                {
-                    const float h = ceilf((g2.h() - p.handleWidth / 2.f)* v);
-                    render->drawRect(BBox2f(
-                        g2.min.x,
-                        g2.max.y - h,
-                        g2.w(),
-                        h));
-                    break;
-                }
-                default: break;
-                }
-            }
-            if (p.model)
-            {
-                BBox2f handleBBox;
-                switch (p.orientation)
-                {
-                case Orientation::Horizontal:
-                    handleBBox = BBox2f(
-                        floorf(_valueToPos(p.value) - p.handleWidth / 2.f),
-                        g.min.y,
-                        p.handleWidth,
-                        g.h());
-                    break;
-                case Orientation::Vertical:
-                    handleBBox = BBox2f(
-                        g.min.x,
-                        floorf(_valueToPos(p.value) - p.handleWidth / 2.f),
-                        g.w(),
-                        p.handleWidth);
-                    break;
-                default: break;
-                }
-                render->setFillColor(style->getColor(ColorRole::Border));
-                render->drawRect(handleBBox);
-                render->setFillColor(style->getColor(ColorRole::Button));
-                render->drawRect(handleBBox.margin(-b));
-                if (p.pressedID != Event::InvalidID)
-                {
-                    render->setFillColor(style->getColor(ColorRole::Pressed));
-                    render->drawRect(handleBBox);
-                }
-                else if (_getPointerHover().size())
-                {
-                    render->setFillColor(style->getColor(ColorRole::Hovered));
-                    render->drawRect(handleBBox);
-                }
-            }
-        }
-
-        void BasicFloatSlider::_pointerEnterEvent(Event::PointerEnter & event)
-        {
-            if (!event.isRejected())
-            {
-                event.accept();
-                if (isEnabled(true))
-                {
-                    _redraw();
-                }
-            }
-        }
-
-        void BasicFloatSlider::_pointerLeaveEvent(Event::PointerLeave & event)
-        {
-            event.accept();
-            if (isEnabled(true))
-            {
-                _redraw();
-            }
-        }
-
-        void BasicFloatSlider::_pointerMoveEvent(Event::PointerMove & event)
-        {
-            DJV_PRIVATE_PTR();
-            event.accept();
-            const auto & pointerInfo = event.getPointerInfo();
-            if (pointerInfo.id == p.pressedID)
-            {
-                float v = 0.f;
-                switch (p.orientation)
-                {
-                case Orientation::Horizontal: v = pointerInfo.projectedPos.x; break;
-                case Orientation::Vertical:   v = pointerInfo.projectedPos.y; break;
-                default: break;
-                }
-                p.value = _posToValue(v);
-                if (p.model && std::chrono::milliseconds(0) == p.delay)
-                {
-                    p.model->setValue(p.value);
-                    if (p.callback)
-                    {
-                        p.callback(p.model->observeValue()->get());
-                    }
-                }
-                if (p.delay > std::chrono::milliseconds(0) && glm::length(pointerInfo.projectedPos - p.prevPos) > 0.f)
-                {
-                    _resetTimer();
-                }
-                p.prevPos = pointerInfo.projectedPos;
-                _redraw();
-            }
-        }
-
-        void BasicFloatSlider::_buttonPressEvent(Event::ButtonPress & event)
-        {
-            DJV_PRIVATE_PTR();
-            if (p.pressedID)
-                return;
-            event.accept();
-            const auto & pointerInfo = event.getPointerInfo();
-            p.pressedID = pointerInfo.id;
-            p.pressedPos = pointerInfo.projectedPos;
-            float v = 0.f;
-            switch (p.orientation)
-            {
-            case Orientation::Horizontal:  v = pointerInfo.projectedPos.x; break;
-            case Orientation::Vertical:    v = pointerInfo.projectedPos.y; break;
-            default: break;
-            }
-            p.value = _posToValue(v);
-            if (p.model && std::chrono::milliseconds(0) == p.delay)
+            p.value = _posToValue(pos);
+            if (p.model && std::chrono::milliseconds(0) == getDelay())
             {
                 p.model->setValue(p.value);
                 if (p.callback)
@@ -355,50 +140,52 @@ namespace djv
                     p.callback(p.model->observeValue()->get());
                 }
             }
-            if (p.delay > std::chrono::milliseconds(0))
-            {
-                _resetTimer();
-            }
-            _redraw();
         }
-
-        void BasicFloatSlider::_buttonReleaseEvent(Event::ButtonRelease & event)
+        
+        void BasicFloatSlider::_buttonPress(float pos)
         {
             DJV_PRIVATE_PTR();
-            const auto & pointerInfo = event.getPointerInfo();
-            if (pointerInfo.id == p.pressedID)
+            p.value = _posToValue(pos);
+            if (p.model && std::chrono::milliseconds(0) == getDelay())
             {
-                event.accept();
-                p.pressedID = Event::InvalidID;
-                if (p.model && p.delay > std::chrono::milliseconds(0))
+                p.model->setValue(p.value);
+                if (p.callback)
                 {
-                    p.model->setValue(p.value);
-                    if (p.callback)
-                    {
-                        p.callback(p.model->observeValue()->get());
-                    }
+                    p.callback(p.model->observeValue()->get());
                 }
-                p.delayTimer->stop();
-                _redraw();
             }
         }
-
-        void BasicFloatSlider::_keyPressEvent(Event::KeyPress& event)
+        
+        void BasicFloatSlider::_buttonRelease()
         {
             DJV_PRIVATE_PTR();
-            switch (event.getKey())
+            if (p.model && getDelay() > std::chrono::milliseconds(0))
+            {
+                p.model->setValue(p.value);
+                if (p.callback)
+                {
+                    p.callback(p.model->observeValue()->get());
+                }
+            }
+        }
+        
+        bool BasicFloatSlider::_keyPress(int key)
+        {
+            DJV_PRIVATE_PTR();
+            bool out = false;
+            switch (key)
             {
             case GLFW_KEY_HOME:
                 if (p.model)
                 {
-                    event.accept();
+                    out = true;
                     p.model->setMin();
                 }
                 break;
             case GLFW_KEY_END:
                 if (p.model)
                 {
-                    event.accept();
+                    out = true;
                     p.model->setMax();
                 }
                 break;
@@ -406,7 +193,7 @@ namespace djv
             case GLFW_KEY_RIGHT:
                 if (p.model)
                 {
-                    event.accept();
+                    out = true;
                     p.model->incrementSmall();
                 }
                 break;
@@ -414,24 +201,47 @@ namespace djv
             case GLFW_KEY_LEFT:
                 if (p.model)
                 {
-                    event.accept();
+                    out = true;
                     p.model->decrementSmall();
                 }
                 break;
             case GLFW_KEY_PAGE_UP:
                 if (p.model)
                 {
-                    event.accept();
+                    out = true;
                     p.model->incrementLarge();
                 }
                 break;
             case GLFW_KEY_PAGE_DOWN:
                 if (p.model)
                 {
-                    event.accept();
+                    out = true;
                     p.model->decrementLarge();
                 }
                 break;
+            }
+            return out;
+        }
+        
+        void BasicFloatSlider::_valueUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            p.model->setValue(p.value);
+            if (p.callback)
+            {
+                p.callback(p.model->observeValue()->get());
+            }
+        }
+
+        void BasicFloatSlider::_paintEvent(Event::Paint & event)
+        {
+            INumericSlider::_paintEvent(event);
+            DJV_PRIVATE_PTR();
+            if (p.model)
+            {
+                const auto & range = p.model->observeRange()->get();
+                float v = (p.value - range.min) / (range.max - range.min);
+                _paint(v, _valueToPos(p.value));
             }
         }
 
@@ -443,16 +253,17 @@ namespace djv
             {
                 const auto& style = _getStyle();
                 const BBox2f g = getMargin().bbox(getGeometry(), style);
+                const float handleWidth = _getHandleWidth();
                 const auto & range = p.model->observeRange()->get();
                 float v = (value - range.min) / static_cast<float>(range.max - range.min);
-                switch (p.orientation)
+                switch (getOrientation())
                 {
                 case Orientation::Horizontal:
-                    out = g.x() + ceilf(p.handleWidth / 2.f + (g.w() - p.handleWidth) * v);
+                    out = g.x() + ceilf(handleWidth / 2.f + (g.w() - handleWidth) * v);
                     break;
                 case Orientation::Vertical:
                     v = 1.f - v;
-                    out = g.y() + ceilf(p.handleWidth / 2.f + (g.h() - p.handleWidth) * v);
+                    out = g.y() + ceilf(handleWidth / 2.f + (g.h() - handleWidth) * v);
                     break;
                 default: break;
                 }
@@ -468,40 +279,22 @@ namespace djv
             {
                 const auto& style = _getStyle();
                 const BBox2f g = getMargin().bbox(getGeometry(), style);
+                const float handleWidth = _getHandleWidth();
                 const auto & range = p.model->observeRange()->get();
                 float v = 0.f;
-                switch (p.orientation)
+                switch (getOrientation())
                 {
                 case Orientation::Horizontal:
-                    v = Math::clamp((value - g.x() - p.handleWidth / 2.f) / (g.w() - p.handleWidth), 0.f, 1.f);
+                    v = Math::clamp((value - g.x() - handleWidth / 2.f) / (g.w() - handleWidth), 0.f, 1.f);
                     break;
                 case Orientation::Vertical:
-                    v = 1.f - Math::clamp((value - g.y() - p.handleWidth / 2.f) / (g.h() - p.handleWidth), 0.f, 1.f);
+                    v = 1.f - Math::clamp((value - g.y() - handleWidth / 2.f) / (g.h() - handleWidth), 0.f, 1.f);
                     break;
                 default: break;
                 }
                 out = v * (range.max - range.min) + range.min;
             }
             return out;
-        }
-
-        void BasicFloatSlider::_resetTimer()
-        {
-            DJV_PRIVATE_PTR();
-            auto weak = std::weak_ptr<BasicFloatSlider>(std::dynamic_pointer_cast<BasicFloatSlider>(shared_from_this()));
-            p.delayTimer->start(
-                p.delay,
-                [weak](float)
-            {
-                if (auto widget = weak.lock())
-                {
-                    widget->_p->model->setValue(widget->_p->value);
-                    if (widget->_p->callback)
-                    {
-                        widget->_p->callback(widget->_p->model->observeValue()->get());
-                    }
-                }
-            });
         }
 
         struct FloatSlider::Private

@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/Widget.h>
+#include <djvUI/INumericSlider.h>
 
 #include <djvCore/Range.h>
 
@@ -46,7 +46,7 @@ namespace djv
     namespace UI
     {
         //! This class provides a basic slider widget for integer values.
-        class BasicIntSlider : public Widget
+        class BasicIntSlider : public INumericSlider
         {
             DJV_NON_COPYABLE(BasicIntSlider);
 
@@ -55,7 +55,7 @@ namespace djv
             BasicIntSlider();
 
         public:
-            virtual ~BasicIntSlider();
+            ~BasicIntSlider() override;
 
             static std::shared_ptr<BasicIntSlider> create(Orientation, Core::Context *);
 
@@ -66,27 +66,21 @@ namespace djv
             void setValue(int);
             void setValueCallback(const std::function<void(int)>&);
 
-            std::chrono::milliseconds getDelay() const;
-            void setDelay(std::chrono::milliseconds);
-
             const std::shared_ptr<Core::IntValueModel> & getModel() const;
             void setModel(const std::shared_ptr<Core::IntValueModel> &);
 
         protected:
-            void _styleEvent(Core::Event::Style&) override;
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
+            void _pointerMove(float) override;
+            void _buttonPress(float) override;
+            void _buttonRelease() override;
+            bool _keyPress(int) override;
+            void _valueUpdate() override;
+        
             void _paintEvent(Core::Event::Paint &) override;
-            void _pointerEnterEvent(Core::Event::PointerEnter &) override;
-            void _pointerLeaveEvent(Core::Event::PointerLeave &) override;
-            void _pointerMoveEvent(Core::Event::PointerMove &) override;
-            void _buttonPressEvent(Core::Event::ButtonPress &) override;
-            void _buttonReleaseEvent(Core::Event::ButtonRelease &) override;
-            void _keyPressEvent(Core::Event::KeyPress&) override;
 
         private:
             float _valueToPos(int) const;
             int _posToValue(float) const;
-            void _resetTimer();
 
             DJV_PRIVATE();
         };
@@ -101,7 +95,7 @@ namespace djv
             IntSlider();
 
         public:
-            virtual ~IntSlider();
+            ~IntSlider() override;
 
             static std::shared_ptr<IntSlider> create(Core::Context *);
 
