@@ -4,7 +4,6 @@ os:
 - linux
 sudo: require
 install:
-- sudo apt-get update
 - sudo apt-get install nasm
 - sudo apt-get install xorg-dev libglu1-mesa-dev mesa-common-dev
 services:
@@ -20,7 +19,7 @@ addons:
 before_script:
 - mkdir build
 - cd build
-- build-wrapper-linux-x86-64 --out-dir ../bw-output cmake .. -DDJV_THIRD_PARTY=TRUE && make -j
+- build-wrapper-linux-x86-64 --out-dir ../bw-output cmake .. -DDJV_THIRD_PARTY=TRUE && make
 - cd ..
 script:
 - sonar-scanner
