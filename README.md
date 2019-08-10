@@ -1,4 +1,6 @@
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 [![Build Status](https://travis-ci.org/darbyjohnston/DJV.svg?branch=master)](https://travis-ci.org/darbyjohnston/DJV)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=darbyjohnston_DJV&metric=alert_status)](https://sonarcloud.io/dashboard?id=darbyjohnston_DJV)
 
 DJV Imaging
 ===========
@@ -6,10 +8,8 @@ Professional media review software for VFX, animation, and film.
 
 Features include:
 * Real-time image sequence and movie playback
-* Command line tools for batch processing
 * Support for industry standard file formats including OpenEXR, DPX, and Cineon
 * Available for Linux, OS X, and Windows
-* Open source
 
 Links:
 * [Download](http://djv.sourceforge.net/Download.html)
@@ -26,26 +26,15 @@ DJV is released under a BSD style open source license, see this
 
 Building on Linux
 -----------------
-#### Requirements
 
-Build tools:
+Required build tools:
 * C++11 compiler
 * [CMake 3.12](https://cmake.org)
 * [git](https://git-scm.com)
+* [NASM](https://www.nasm.us)
 
-Libraries:
-* [OpenGL 3.3](https://www.opengl.org)
-* [GLM 0.9.9](https://glm.g-truc.net/0.9.9/index.html)
-* [IlmBase 2.3](http://www.openexr.com/downloads.html)
-
-Optional libraries:
-* [libjpeg v9b](https://www.ijg.org)
-* [libpng 1.6](http://www.libpng.org/pub/png/libpng.html)
-* [libtiff 4.0](http://download.osgeo.org/libtiff)
-* [OpenEXR 2.3](http://www.openexr.com/downloads.html)
-* [FFmpeg 4.0](https://www.ffmpeg.org)
-
-#### Building the Source Code
+Required libraries:
+* [OpenGL 4.1](https://www.opengl.org)
 
 First clone the repository:
 

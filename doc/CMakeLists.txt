@@ -3,7 +3,7 @@ set(html
     BuildLinux.html
     BuildWindows.html
 	ChangeList.html
-	ColorSpaces.html
+	ColorSpace.html
     Credits.html
     Documentation.html
 	Donate.html
