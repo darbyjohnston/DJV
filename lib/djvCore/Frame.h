@@ -45,7 +45,7 @@ namespace djv
             const int64_t invalid = std::numeric_limits<int64_t>::min();
 
             //! This typedef provides a frame number range.
-            typedef Core::Range::tRange<Number> Range;
+            typedef Core::Range::Range<Number> Range;
 
             //! This value represents an invalid frame number range.
             const Range invalidRange = Range(invalid);

@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2019 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -29,38 +29,40 @@
 
 #pragma once
 
-#include <djvUI/INumericEdit.h>
+#include <djvUI/Widget.h>
+
+#include <djvCore/INumericValueModel.h>
+#include <djvCore/Range.h>
 
 namespace djv
 {
     namespace UI
     {
-        //! This class provides an editor widget for integer values.
-        class IntEdit : public INumericEdit<int>
+        //! This class provides an interface for numeric editor widgets.
+        template<typename T>
+        class INumericEdit : public Widget
         {
-            DJV_NON_COPYABLE(IntEdit);
-
-        protected:
-            void _init(Core::Context *);
-            IntEdit();
-
         public:
-            virtual ~IntEdit();
+            inline virtual ~INumericEdit() = 0;
 
-            static std::shared_ptr<IntEdit> create(Core::Context *);
+            inline const Core::Range::Range<T>& getRange() const;
+            inline void setRange(const Core::Range::Range<T>&);
 
-            void setModel(const std::shared_ptr<Core::INumericValueModel<int> > &) override;
+            inline T getValue() const;
+            inline void setValue(T);
+            inline void setValueCallback(const std::function<void(T)>&);
+
+            inline const std::shared_ptr<Core::INumericValueModel<T> >& getModel() const;
+            inline virtual void setModel(const std::shared_ptr<Core::INumericValueModel<T> >&);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
-            void _keyPressEvent(Core::Event::KeyPress&) override;
+            inline void _doCallback();
 
-        private:
-            void _textUpdate();
-
-            DJV_PRIVATE();
+            std::shared_ptr<Core::INumericValueModel<T> > _model;
+            std::function<void(T)> _callback;
         };
 
     } // namespace UI
 } // namespace djv
+
+#include <djvUI/INumericEditInline.h>

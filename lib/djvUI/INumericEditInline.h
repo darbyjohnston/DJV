@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2019 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,40 +27,64 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
-
-#include <djvUI/INumericEdit.h>
-
 namespace djv
 {
     namespace UI
     {
-        //! This class provides an editor widget for integer values.
-        class IntEdit : public INumericEdit<int>
+        template<typename T>
+        inline INumericEdit<T>::~INumericEdit()
+        {}
+
+        template<typename T>
+        inline const Core::Range::Range<T>& INumericEdit<T>::getRange() const
         {
-            DJV_NON_COPYABLE(IntEdit);
+            return _model->observeRange()->get();
+        }
 
-        protected:
-            void _init(Core::Context *);
-            IntEdit();
+        template<typename T>
+        inline void INumericEdit<T>::setRange(const Core::Range::Range<T>& value)
+        {
+            _model->setRange(value);
+        }
 
-        public:
-            virtual ~IntEdit();
+        template<typename T>
+        inline T INumericEdit<T>::getValue() const
+        {
+            return _model->observeValue()->get();
+        }
 
-            static std::shared_ptr<IntEdit> create(Core::Context *);
+        template<typename T>
+        inline void INumericEdit<T>::setValue(T value)
+        {
+            _model->setValue(value);
+        }
 
-            void setModel(const std::shared_ptr<Core::INumericValueModel<int> > &) override;
+        template<typename T>
+        inline void INumericEdit<T>::setValueCallback(const std::function<void(T)>& callback)
+        {
+            _callback = callback;
+        }
 
-        protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
-            void _keyPressEvent(Core::Event::KeyPress&) override;
+        template<typename T>
+        inline const std::shared_ptr<Core::INumericValueModel<T> >& INumericEdit<T>::getModel() const
+        {
+            return _model;
+        }
 
-        private:
-            void _textUpdate();
+        template<typename T>
+        inline void INumericEdit<T>::setModel(const std::shared_ptr<Core::INumericValueModel<T> >& value)
+        {
+            _model = value;
+        }
 
-            DJV_PRIVATE();
-        };
+        template<typename T>
+        inline void INumericEdit<T>::_doCallback()
+        {
+            if (_callback)
+            {
+                _callback(_model->observeValue()->get());
+            }
+        }
 
     } // namespace UI
 } // namespace djv

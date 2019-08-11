@@ -45,18 +45,15 @@ namespace djv
     {
         struct FloatEdit::Private
         {
-            std::shared_ptr<FloatValueModel> model;
             int precision = 2;
             std::shared_ptr<LineEdit> lineEdit;
-            std::function<void(float)> callback;
             std::shared_ptr<ValueObserver<FloatRange> > rangeObserver;
             std::shared_ptr<ValueObserver<float> > valueObserver;
         };
 
         void FloatEdit::_init(Context * context)
         {
-            Widget::_init(context);
-
+            INumericEdit<float>::_init(context);
             DJV_PRIVATE_PTR();
 
             setClassName("djv::UI::FloatEdit");
@@ -72,19 +69,16 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    if (widget->_p->model)
+                    if (auto model = widget->getModel())
                     {
                         try
                         {
-                            widget->_p->model->setValue(std::stof(value));
+                            model->setValue(std::stof(value));
                         }
                         catch (const std::exception &)
                         {}
                         widget->_textUpdate();
-                        if (widget->_p->callback)
-                        {
-                            widget->_p->callback(widget->_p->model->observeValue()->get());
-                        }
+                        widget->_doCallback();
                     }
                 }
             });
@@ -96,37 +90,12 @@ namespace djv
 
         FloatEdit::~FloatEdit()
         {}
-
+        
         std::shared_ptr<FloatEdit> FloatEdit::create(Context * context)
         {
             auto out = std::shared_ptr<FloatEdit>(new FloatEdit);
             out->_init(context);
             return out;
-        }
-
-        FloatRange FloatEdit::getRange() const
-        {
-            return _p->model->observeRange()->get();
-        }
-
-        void FloatEdit::setRange(const FloatRange& value)
-        {
-            _p->model->setRange(value);
-        }
-
-        float FloatEdit::getValue() const
-        {
-            return _p->model->observeValue()->get();
-        }
-
-        void FloatEdit::setValue(float value)
-        {
-            _p->model->setValue(value);
-        }
-
-        void FloatEdit::setValueCallback(const std::function<void(float)>& callback)
-        {
-            _p->callback = callback;
         }
 
         int FloatEdit::getPrecision()
@@ -143,25 +112,15 @@ namespace djv
             _textUpdate();
         }
 
-        const std::shared_ptr<FloatValueModel> & FloatEdit::getModel() const
+        void FloatEdit::setModel(const std::shared_ptr<INumericValueModel<float> > & model)
         {
-            return _p->model;
-        }
-
-        void FloatEdit::setModel(const std::shared_ptr<FloatValueModel> & model)
-        {
+            INumericEdit<float>::setModel(model);
             DJV_PRIVATE_PTR();
-            if (p.model)
-            {
-                p.rangeObserver.reset();
-                p.valueObserver.reset();
-            }
-            p.model = model;
-            if (p.model)
+            if (model)
             {
                 auto weak = std::weak_ptr<FloatEdit>(std::dynamic_pointer_cast<FloatEdit>(shared_from_this()));
                 p.rangeObserver = ValueObserver<FloatRange>::create(
-                    p.model->observeRange(),
+                    model->observeRange(),
                     [weak](const FloatRange & value)
                 {
                     if (auto widget = weak.lock())
@@ -170,7 +129,7 @@ namespace djv
                     }
                 });
                 p.valueObserver = ValueObserver<float>::create(
-                    p.model->observeValue(),
+                    model->observeValue(),
                     [weak](float value)
                 {
                     if (auto widget = weak.lock())
@@ -178,6 +137,11 @@ namespace djv
                         widget->_textUpdate();
                     }
                 });
+            }
+            else
+            {
+                p.rangeObserver.reset();
+                p.valueObserver.reset();
             }
         }
 
@@ -198,15 +162,13 @@ namespace djv
         void FloatEdit::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            if (p.model)
+            if (auto model = getModel())
             {
-                {
-                    std::stringstream ss;
-                    ss.precision(p.precision);
-                    ss << std::fixed << p.model->observeValue()->get();
-                    p.lineEdit->setText(ss.str());
-                    p.lineEdit->setSizeString(FloatLabel::getSizeString(p.model->observeRange()->get(), p.precision));
-                }
+                std::stringstream ss;
+                ss.precision(p.precision);
+                ss << std::fixed << model->observeValue()->get();
+                p.lineEdit->setText(ss.str());
+                p.lineEdit->setSizeString(FloatLabel::getSizeString(model->observeRange()->get(), p.precision));
             }
             _resize();
         }
@@ -217,47 +179,35 @@ namespace djv
             switch (event.getKey())
             {
             case GLFW_KEY_UP:
-                if (p.model)
+                if (auto model = getModel())
                 {
                     event.accept();
-                    p.model->incrementSmall();
-                    if (p.callback)
-                    {
-                        p.callback(p.model->observeValue()->get());
-                    }
+                    model->incrementSmall();
+                    _doCallback();
                 }
                 break;
             case GLFW_KEY_PAGE_UP:
-                if (p.model)
+                if (auto model = getModel())
                 {
                     event.accept();
-                    p.model->incrementLarge();
-                    if (p.callback)
-                    {
-                        p.callback(p.model->observeValue()->get());
-                    }
+                    model->incrementLarge();
+                    _doCallback();
                 }
                 break;
             case GLFW_KEY_DOWN:
-                if (p.model)
+                if (auto model = getModel())
                 {
                     event.accept();
-                    p.model->decrementSmall();
-                    if (p.callback)
-                    {
-                        p.callback(p.model->observeValue()->get());
-                    }
+                    model->decrementSmall();
+                    _doCallback();
                 }
                 break;
             case GLFW_KEY_PAGE_DOWN:
-                if (p.model)
+                if (auto model = getModel())
                 {
                     event.accept();
-                    p.model->decrementLarge();
-                    if (p.callback)
-                    {
-                        p.callback(p.model->observeValue()->get());
-                    }
+                    model->decrementLarge();
+                    _doCallback();
                 }
                 break;
             }

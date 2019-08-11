@@ -40,12 +40,12 @@ namespace djv
         {
             //! This class provides a range of numbers.
             template<typename T>
-            struct tRange
+            struct Range
             {
-                constexpr tRange();
-                constexpr tRange(T minMax);
-                constexpr tRange(T min, T max);
-                virtual inline ~tRange();
+                constexpr Range();
+                constexpr Range(T minMax);
+                constexpr Range(T min, T max);
+                virtual inline ~Range();
 
                 //! \name Range Components
                 ///@{
@@ -62,37 +62,37 @@ namespace djv
 
                 constexpr bool contains(T) const;
 
-                constexpr bool intersects(const tRange<T> &) const;
+                constexpr bool intersects(const Range<T> &) const;
 
                 inline void expand(T);
-                inline void expand(const tRange<T> &);
+                inline void expand(const Range<T> &);
 
                 inline T getRandom() const;
 
                 ///@}
 
-                constexpr bool operator == (const tRange<T> &) const;
-                constexpr bool operator != (const tRange<T> &) const;
-                constexpr bool operator  < (const tRange<T> &) const;
+                constexpr bool operator == (const Range<T> &) const;
+                constexpr bool operator != (const Range<T> &) const;
+                constexpr bool operator  < (const Range<T> &) const;
             };
 
         } // namespace Range
 
         //! This typedef provides an integer range.
-        typedef Range::tRange<int> IntRange;
+        typedef Range::Range<int> IntRange;
 
         //! This typedef provides a size_t range.
-        typedef Range::tRange<size_t> SizeTRange;
+        typedef Range::Range<size_t> SizeTRange;
 
         //! This typedef provides a floating point range.
-        typedef Range::tRange<float> FloatRange;
+        typedef Range::Range<float> FloatRange;
 
     } // namespace Core
 
     template<typename T>
-    inline std::ostream & operator << (std::ostream &, const Core::Range::tRange<T> &);
+    inline std::ostream & operator << (std::ostream &, const Core::Range::Range<T> &);
     template<typename T>
-    inline std::istream & operator >> (std::istream &, Core::Range::tRange<T> &);
+    inline std::istream & operator >> (std::istream &, Core::Range::Range<T> &);
 
 } // namespace djv
 

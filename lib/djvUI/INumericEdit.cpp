@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2019 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,40 +27,16 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
-
 #include <djvUI/INumericEdit.h>
+
+#include <GLFW/glfw3.h>
+
+using namespace djv::Core;
 
 namespace djv
 {
     namespace UI
     {
-        //! This class provides an editor widget for integer values.
-        class IntEdit : public INumericEdit<int>
-        {
-            DJV_NON_COPYABLE(IntEdit);
-
-        protected:
-            void _init(Core::Context *);
-            IntEdit();
-
-        public:
-            virtual ~IntEdit();
-
-            static std::shared_ptr<IntEdit> create(Core::Context *);
-
-            void setModel(const std::shared_ptr<Core::INumericValueModel<int> > &) override;
-
-        protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
-            void _keyPressEvent(Core::Event::KeyPress&) override;
-
-        private:
-            void _textUpdate();
-
-            DJV_PRIVATE();
-        };
 
     } // namespace UI
 } // namespace djv

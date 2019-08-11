@@ -36,7 +36,7 @@ namespace djv
         namespace Range
         {
             template<>
-            inline void tRange<int64_t>::zero()
+            inline void Range<int64_t>::zero()
             {
                 min = max = 0;
             }

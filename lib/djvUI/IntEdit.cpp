@@ -45,9 +45,7 @@ namespace djv
     {
         struct IntEdit::Private
         {
-            std::shared_ptr<IntValueModel> model;
             std::shared_ptr<LineEdit> lineEdit;
-            std::function<void(int)> callback;
             std::shared_ptr<ValueObserver<IntRange> > rangeObserver;
             std::shared_ptr<ValueObserver<int> > valueObserver;
         };
@@ -55,7 +53,6 @@ namespace djv
         void IntEdit::_init(Context * context)
         {
             Widget::_init(context);
-
             DJV_PRIVATE_PTR();
 
             setClassName("djv::UI::IntEdit");
@@ -71,19 +68,16 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    if (widget->_p->model)
+                    if (auto model = widget->getModel())
                     {
                         try
                         {
-                            widget->_p->model->setValue(std::stoi(value));
+                            model->setValue(std::stoi(value));
                         }
                         catch (const std::exception &)
                         {}
                         widget->_textUpdate();
-                        if (widget->_p->callback)
-                        {
-                            widget->_p->callback(widget->_p->model->observeValue()->get());
-                        }
+                        widget->_doCallback();
                     }
                 }
             });
@@ -103,50 +97,15 @@ namespace djv
             return out;
         }
 
-        IntRange IntEdit::getRange() const
+        void IntEdit::setModel(const std::shared_ptr<INumericValueModel<int> > & model)
         {
-            return _p->model->observeRange()->get();
-        }
-
-        void IntEdit::setRange(const IntRange& value)
-        {
-            _p->model->setRange(value);
-        }
-
-        int IntEdit::getValue() const
-        {
-            return _p->model->observeValue()->get();
-        }
-
-        void IntEdit::setValue(int value)
-        {
-            _p->model->setValue(value);
-        }
-
-        void IntEdit::setValueCallback(const std::function<void(int)>& callback)
-        {
-            _p->callback = callback;
-        }
-
-        const std::shared_ptr<IntValueModel> & IntEdit::getModel() const
-        {
-            return _p->model;
-        }
-
-        void IntEdit::setModel(const std::shared_ptr<IntValueModel> & model)
-        {
+            INumericEdit<int>::setModel(model);
             DJV_PRIVATE_PTR();
-            if (p.model)
-            {
-                p.rangeObserver.reset();
-                p.valueObserver.reset();
-            }
-            p.model = model;
-            if (p.model)
+            if (model)
             {
                 auto weak = std::weak_ptr<IntEdit>(std::dynamic_pointer_cast<IntEdit>(shared_from_this()));
                 p.rangeObserver = ValueObserver<IntRange>::create(
-                    p.model->observeRange(),
+                    model->observeRange(),
                     [weak](const IntRange & value)
                 {
                     if (auto widget = weak.lock())
@@ -155,7 +114,7 @@ namespace djv
                     }
                 });
                 p.valueObserver = ValueObserver<int>::create(
-                    p.model->observeValue(),
+                    model->observeValue(),
                     [weak](int value)
                 {
                     if (auto widget = weak.lock())
@@ -163,6 +122,11 @@ namespace djv
                         widget->_textUpdate();
                     }
                 });
+            }
+            else
+            {
+                p.rangeObserver.reset();
+                p.valueObserver.reset();
             }
         }
 
@@ -183,14 +147,14 @@ namespace djv
         void IntEdit::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            if (p.model)
+            if (auto model = getModel())
             {
                 {
                     std::stringstream ss;
-                    ss << p.model->observeValue()->get();
+                    ss << model->observeValue()->get();
                     p.lineEdit->setText(ss.str());
                 }
-                p.lineEdit->setSizeString(IntLabel::getSizeString(p.model->observeRange()->get()));
+                p.lineEdit->setSizeString(IntLabel::getSizeString(model->observeRange()->get()));
             }
         }
 
@@ -200,47 +164,35 @@ namespace djv
             switch (event.getKey())
             {
             case GLFW_KEY_UP:
-                if (p.model)
+                if (auto model = getModel())
                 {
                     event.accept();
-                    p.model->incrementSmall();
-                    if (p.callback)
-                    {
-                        p.callback(p.model->observeValue()->get());
-                    }
+                    model->incrementSmall();
+                    _doCallback();
                 }
                 break;
             case GLFW_KEY_PAGE_UP:
-                if (p.model)
+                if (auto model = getModel())
                 {
                     event.accept();
-                    p.model->incrementLarge();
-                    if (p.callback)
-                    {
-                        p.callback(p.model->observeValue()->get());
-                    }
+                    model->incrementLarge();
+                    _doCallback();
                 }
                 break;
             case GLFW_KEY_DOWN:
-                if (p.model)
+                if (auto model = getModel())
                 {
                     event.accept();
-                    p.model->decrementSmall();
-                    if (p.callback)
-                    {
-                        p.callback(p.model->observeValue()->get());
-                    }
+                    model->decrementSmall();
+                    _doCallback();
                 }
                 break;
             case GLFW_KEY_PAGE_DOWN:
-                if (p.model)
+                if (auto model = getModel())
                 {
                     event.accept();
-                    p.model->decrementLarge();
-                    if (p.callback)
-                    {
-                        p.callback(p.model->observeValue()->get());
-                    }
+                    model->decrementLarge();
+                    _doCallback();
                 }
                 break;
             }

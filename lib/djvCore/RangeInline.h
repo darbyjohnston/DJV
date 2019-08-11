@@ -36,51 +36,51 @@ namespace djv
         namespace Range
         {
             template<typename T>
-            constexpr tRange<T>::tRange()
+            constexpr Range<T>::Range()
             {}
 
             template<typename T>
-            constexpr tRange<T>::tRange(T minMax) :
+            constexpr Range<T>::Range(T minMax) :
                 min(minMax),
                 max(minMax)
             {}
 
             template<typename T>
-            constexpr tRange<T>::tRange(T min, T max) :
+            constexpr Range<T>::Range(T min, T max) :
                 min(min),
                 max(max)
             {}
 
             template<typename T>
-            inline tRange<T>::~tRange()
+            inline Range<T>::~Range()
             {}
 
             template<>
-            inline void tRange<int>::zero()
+            inline void Range<int>::zero()
             {
                 min = max = 0;
             }
 
             template<>
-            inline void tRange<size_t>::zero()
+            inline void Range<size_t>::zero()
             {
                 min = max = size_t(0);
             }
 
             template<>
-            inline void tRange<float>::zero()
+            inline void Range<float>::zero()
             {
                 min = max = 0.f;
             }
 
             template<typename T>
-            constexpr bool tRange<T>::contains(T value) const
+            constexpr bool Range<T>::contains(T value) const
             {
                 return value >= min && value <= max;
             }
 
             template<typename T>
-            constexpr bool tRange<T>::intersects(const tRange<T> & value) const
+            constexpr bool Range<T>::intersects(const Range<T> & value) const
             {
                 return !(
                     value.max < min ||
@@ -88,39 +88,39 @@ namespace djv
             }
 
             template<typename T>
-            inline void tRange<T>::expand(T value)
+            inline void Range<T>::expand(T value)
             {
                 min = std::min(min, value);
                 max = std::max(max, value);
             }
 
             template<typename T>
-            inline void tRange<T>::expand(const tRange<T> & value)
+            inline void Range<T>::expand(const Range<T> & value)
             {
                 min = std::min(min, value.min);
                 max = std::max(max, value.max);
             }
 
             template<typename T>
-            inline T tRange<T>::getRandom() const
+            inline T Range<T>::getRandom() const
             {
                 return Math::getRandom(min, max);
             }
 
             template<typename T>
-            constexpr bool tRange<T>::operator == (const tRange<T> & value) const
+            constexpr bool Range<T>::operator == (const Range<T> & value) const
             {
                 return min == value.min && max == value.max;
             }
 
             template<typename T>
-            constexpr bool tRange<T>::operator != (const tRange<T> & value) const
+            constexpr bool Range<T>::operator != (const Range<T> & value) const
             {
                 return !(*this == value);
             }
 
             template<typename T>
-            constexpr bool tRange<T>::operator < (const tRange<T> & value) const
+            constexpr bool Range<T>::operator < (const Range<T> & value) const
             {
                 return min < value.min;
             }
@@ -129,7 +129,7 @@ namespace djv
     } // namespace Core
 
     template<typename T>
-    inline std::ostream & operator << (std::ostream & s, const Core::Range::tRange<T> & value)
+    inline std::ostream & operator << (std::ostream & s, const Core::Range::Range<T> & value)
     {
         s << value.min << " ";
         s << value.max;
@@ -137,7 +137,7 @@ namespace djv
     }
 
     template<typename T>
-    inline std::istream & operator >> (std::istream & s, Core::Range::tRange<T> & out)
+    inline std::istream & operator >> (std::istream & s, Core::Range::Range<T> & out)
     {
         s >> out.min;
         s >> out.max;

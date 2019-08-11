@@ -29,22 +29,14 @@
 
 #pragma once
 
-#include <djvUI/Widget.h>
-
-#include <djvCore/Range.h>
+#include <djvUI/INumericEdit.h>
 
 namespace djv
 {
-    namespace Core
-    {
-        class FloatValueModel;
-
-    } // namespace Core
-
     namespace UI
     {
         //! This class provides an editor widget for floating-point values.
-        class FloatEdit : public Widget
+        class FloatEdit : public INumericEdit<float>
         {
             DJV_NON_COPYABLE(FloatEdit);
 
@@ -57,18 +49,10 @@ namespace djv
 
             static std::shared_ptr<FloatEdit> create(Core::Context *);
 
-            Core::FloatRange getRange() const;
-            void setRange(const Core::FloatRange&);
-
-            float getValue() const;
-            void setValue(float);
-            void setValueCallback(const std::function<void(float)>&);
-
             int getPrecision();
             void setPrecision(int);
 
-            const std::shared_ptr<Core::FloatValueModel>& getModel() const;
-            void setModel(const std::shared_ptr<Core::FloatValueModel>&);
+            void setModel(const std::shared_ptr<Core::INumericValueModel<float> >&) override;
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;
