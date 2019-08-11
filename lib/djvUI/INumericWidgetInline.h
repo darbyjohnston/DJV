@@ -152,12 +152,12 @@ namespace djv
         inline void INumericSlider<T>::_pointerMove(float pos, std::chrono::milliseconds delay)
         {
             _value = _posToValue(pos);
-            if (_model)
+            if (INumericWidget<T>::_model)
             {
                 if (std::chrono::milliseconds(0) == delay)
                 {
-                    _model->setValue(_value);
-                    _doCallback();
+                    INumericWidget<T>::_model->setValue(_value);
+                    INumericWidget<T>::_doCallback();
                 }
             }
         }
@@ -166,12 +166,12 @@ namespace djv
         inline void INumericSlider<T>::_buttonPress(float pos, std::chrono::milliseconds delay)
         {
             _value = _posToValue(pos);
-            if (_model)
+            if (INumericWidget<T>::_model)
             {
                 if (std::chrono::milliseconds(0) == delay)
                 {
-                    _model->setValue(_value);
-                    _doCallback();
+                    INumericWidget<T>::_model->setValue(_value);
+                    INumericWidget<T>::_doCallback();
                 }
             }
         }
@@ -179,12 +179,12 @@ namespace djv
         template<typename T>
         inline void INumericSlider<T>::_buttonRelease(std::chrono::milliseconds delay)
         {
-            if (_model)
+            if (INumericWidget<T>::_model)
             {
                 if (delay > std::chrono::milliseconds(0))
                 {
-                    _model->setValue(_value);
-                    _doCallback();
+                    INumericWidget<T>::_model->setValue(_value);
+                    INumericWidget<T>::_doCallback();
                 }
             }
         }
@@ -192,10 +192,10 @@ namespace djv
         template<typename T>
         inline void INumericSlider<T>::_valueUpdate()
         {
-            if (_model)
+            if (INumericWidget<T>::_model)
             {
-                _model->setValue(_value);
-                _doCallback();
+                INumericWidget<T>::_model->setValue(_value);
+                INumericWidget<T>::_doCallback();
             }
         }
 
