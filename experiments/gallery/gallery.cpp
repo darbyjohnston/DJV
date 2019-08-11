@@ -64,12 +64,10 @@ size_t jpegCallback(void* contents, size_t size, size_t nmemb, void* userp)
     return totalSize;
 }
 
-std::vector<uint64_t> getIDs()
+picojson::value readJson(const std::string& url)
 {
-    std::vector<uint64_t> out;
-
     auto curlHandle = curl_easy_init();
-    curl_easy_setopt(curlHandle, CURLOPT_URL, "https://collectionapi.metmuseum.org/public/collection/v1/objects");
+    curl_easy_setopt(curlHandle, CURLOPT_URL, url);
     curl_easy_setopt(curlHandle, CURLOPT_WRITEFUNCTION, jsonCallback);
     std::string s;
     curl_easy_setopt(curlHandle, CURLOPT_WRITEDATA, (void*)& s);
@@ -80,13 +78,20 @@ std::vector<uint64_t> getIDs()
     }
     curl_easy_cleanup(curlHandle);
 
-    picojson::value json;
+    picojson::value out;
     std::string error;
-    picojson::parse(json, s.begin(), s.end(), &error);
+    picojson::parse(out, s.begin(), s.end(), &error);
     if (!error.empty())
     {
         throw std::runtime_error(error);
     }
+    return out;
+}
+
+std::vector<uint64_t> getIDs()
+{
+    std::vector<uint64_t> out;
+    auto json = readJson("https://collectionapi.metmuseum.org/public/collection/v1/objects");
     if (json.is<picojson::object>())
     {
         const auto& object = json.get<picojson::object>();
@@ -120,28 +125,11 @@ bool isPublicDomain(uint64_t id)
 {
     bool out = false;
 
-    auto curlHandle = curl_easy_init();
     std::stringstream ss;
     ss << "https://collectionapi.metmuseum.org/public/collection/v1/objects/";
     ss << id;
-    curl_easy_setopt(curlHandle, CURLOPT_URL, ss.str().c_str());
-    curl_easy_setopt(curlHandle, CURLOPT_WRITEFUNCTION, jsonCallback);
-    std::string s;
-    curl_easy_setopt(curlHandle, CURLOPT_WRITEDATA, (void*)& s);
-    curl_easy_setopt(curlHandle, CURLOPT_USERAGENT, "libcurl-agent/1.0");
-    if (auto res = curl_easy_perform(curlHandle))
-    {
-        throw std::runtime_error(curl_easy_strerror(res));
-    }
-    curl_easy_cleanup(curlHandle);
+    auto json = readJson(ss.str());
 
-    picojson::value json;
-    std::string error;
-    picojson::parse(json, s.begin(), s.end(), &error);
-    if (!error.empty())
-    {
-        throw std::runtime_error(error);
-    }
     if (json.is<picojson::object>())
     {
         const auto& object = json.get<picojson::object>();
@@ -171,29 +159,10 @@ Image getImage(uint64_t id)
 {
     Image out;
 
-    auto curlHandle = curl_easy_init();
-    //curl_easy_setopt(curlHandle, CURLOPT_URL, "https://collectionapi.metmuseum.org/public/collection/v1/departments");
     std::stringstream ss;
     ss << "https://collectionapi.metmuseum.org/public/collection/v1/objects/";
     ss << id;
-    curl_easy_setopt(curlHandle, CURLOPT_URL, ss.str().c_str());
-    curl_easy_setopt(curlHandle, CURLOPT_WRITEFUNCTION, jsonCallback);
-    std::string s;
-    curl_easy_setopt(curlHandle, CURLOPT_WRITEDATA, (void*)& s);
-    curl_easy_setopt(curlHandle, CURLOPT_USERAGENT, "libcurl-agent/1.0");
-    if (auto res = curl_easy_perform(curlHandle))
-    {
-        throw std::runtime_error(curl_easy_strerror(res));
-    }
-    curl_easy_cleanup(curlHandle);
-
-    picojson::value json;
-    std::string error;
-    picojson::parse(json, s.begin(), s.end(), &error);
-    if (!error.empty())
-    {
-        throw std::runtime_error(error);
-    }
+    auto json = readJson(ss.str());
     if (json.is<picojson::object>())
     {
         const auto& object = json.get<picojson::object>();
@@ -209,7 +178,7 @@ Image getImage(uint64_t id)
                         if (!s.empty())
                         {
                             std::vector<uint8_t> data;
-                            curlHandle = curl_easy_init();
+                            auto curlHandle = curl_easy_init();
                             curl_easy_setopt(curlHandle, CURLOPT_URL, s.c_str());
                             curl_easy_setopt(curlHandle, CURLOPT_WRITEFUNCTION, jpegCallback);
                             curl_easy_setopt(curlHandle, CURLOPT_WRITEDATA, (void*)&data);

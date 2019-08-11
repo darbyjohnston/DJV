@@ -31,6 +31,8 @@
 
 #include <djvUI/Widget.h>
 
+#include <djvCore/Range.h>
+
 namespace djv
 {
     namespace Core
@@ -58,6 +60,8 @@ namespace djv
             const std::shared_ptr<Core::IntValueModel> & getModel() const;
             void setModel(const std::shared_ptr<Core::IntValueModel> &);
 
+            static std::string getSizeString(const Core::IntRange&);
+            
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;
             void _layoutEvent(Core::Event::Layout &) override;

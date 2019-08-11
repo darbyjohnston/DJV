@@ -113,6 +113,18 @@ namespace djv
                 });
             }
         }
+        
+        std::string IntLabel::getSizeString(const IntRange& range)
+        {
+            std::string out;
+            const size_t digits = std::max(Math::getNumDigits(range.min), Math::getNumDigits(range.max));
+            out += std::string(digits, '0');
+            if (range.min < 0 || range.max < 0)
+            {
+                out = '-' + out;
+            }
+            return out;
+        }
 
         void IntLabel::_preLayoutEvent(Event::PreLayout & event)
         {
@@ -137,17 +149,8 @@ namespace djv
                     std::stringstream ss;
                     ss << p.model->observeValue()->get();
                     p.label->setText(ss.str());
-
-                    const auto & range = p.model->observeRange()->get();
-                    const size_t digits = std::max(Math::getNumDigits(range.min), Math::getNumDigits(range.max));
-                    std::string sizeString;
-                    sizeString += std::string(digits, '0');
-                    if (range.min < 0 || range.max < 0)
-                    {
-                        sizeString = '-' + sizeString;
-                    }
-                    p.label->setSizeString(sizeString);
                 }
+                p.label->setSizeString(getSizeString(p.model->observeRange()->get()));
             }
         }
 

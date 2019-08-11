@@ -29,6 +29,7 @@
 
 #include <djvUI/IntEdit.h>
 
+#include <djvUI/IntLabel.h>
 #include <djvUI/LineEdit.h>
 
 #include <djvCore/NumericValueModels.h>
@@ -188,17 +189,8 @@ namespace djv
                     std::stringstream ss;
                     ss << p.model->observeValue()->get();
                     p.lineEdit->setText(ss.str());
-
-                    const auto & range = p.model->observeRange()->get();
-                    const size_t digits = std::max(Math::getNumDigits(range.min), Math::getNumDigits(range.max));
-                    std::string sizeString;
-                    sizeString += std::string(digits, '0');
-                    if (range.min < 0 || range.max < 0)
-                    {
-                        sizeString = '-' + sizeString;
-                    }
-                    p.lineEdit->setSizeString(sizeString);
                 }
+                p.lineEdit->setSizeString(IntLabel::getSizeString(p.model->observeRange()->get()));
             }
         }
 

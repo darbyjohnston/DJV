@@ -43,7 +43,7 @@ namespace djv
         struct FloatLabel::Private
         {
             std::shared_ptr<FloatValueModel> model;
-            int precision = 2;
+            size_t precision = 2;
             std::shared_ptr<Label> label;
             std::shared_ptr<ValueObserver<FloatRange> > rangeObserver;
             std::shared_ptr<ValueObserver<float> > valueObserver;
@@ -115,18 +115,35 @@ namespace djv
             }
         }
 
-        int FloatLabel::getPrecision()
+        size_t FloatLabel::getPrecision()
         {
             return _p->precision;
         }
 
-        void FloatLabel::setPrecision(int value)
+        void FloatLabel::setPrecision(size_t value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.precision)
                 return;
             p.precision = value;
             _textUpdate();
+        }
+        
+        std::string FloatLabel::getSizeString(const FloatRange& range, size_t precision)
+        {
+            std::string out;
+            const size_t digits = std::max(Math::getNumDigits(range.min), Math::getNumDigits(range.max));
+            if (range.min < 0 || range.max < 0)
+            {
+                out += '-';
+            }
+            out += std::string(digits, '0');
+            out += '.';
+            for (size_t i = 0; i < precision; ++i)
+            {
+                out += '0';
+            }
+            return out;
         }
 
         void FloatLabel::_preLayoutEvent(Event::PreLayout & event)
@@ -153,21 +170,7 @@ namespace djv
                     ss.precision(p.precision);
                     ss << std::fixed << p.model->observeValue()->get();
                     p.label->setText(ss.str());
-
-                    const auto & range = p.model->observeRange()->get();
-                    const size_t digits = std::max(Math::getNumDigits(range.min), Math::getNumDigits(range.max));
-                    std::string sizeString;
-                    if (range.min < 0 || range.max < 0)
-                    {
-                        sizeString += '-';
-                    }
-                    sizeString += std::string(digits, '0');
-                    sizeString += '.';
-                    for (size_t i = 0; i < p.precision; ++i)
-                    {
-                        sizeString += '0';
-                    }
-                    p.label->setSizeString(sizeString);
+                    p.label->setSizeString(getSizeString(p.model->observeRange()->get(), p.precision));
                 }
             }
             _resize();

@@ -31,6 +31,8 @@
 
 #include <djvUI/Widget.h>
 
+#include <djvCore/Range.h>
+
 namespace djv
 {
     namespace Core
@@ -58,8 +60,10 @@ namespace djv
             const std::shared_ptr<Core::FloatValueModel> & getModel() const;
             void setModel(const std::shared_ptr<Core::FloatValueModel> &);
 
-            int getPrecision();
-            void setPrecision(int);
+            size_t getPrecision();
+            void setPrecision(size_t);
+            
+            static std::string getSizeString(const Core::FloatRange&, size_t precision);
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;
