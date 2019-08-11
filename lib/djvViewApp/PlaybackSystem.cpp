@@ -59,6 +59,7 @@ namespace djv
             std::shared_ptr<Media> currentMedia;
             Time::Speed speed;
             Frame::Sequence sequence;
+            Playback playback = Playback::Forward;
             glm::vec2 hoverPos = glm::vec2(0.f, 0.f);
             glm::vec2 dragStart = glm::vec2(0.f, 0.f);
             Frame::Number dragStartFrame = Frame::invalid;
@@ -88,7 +89,6 @@ namespace djv
 
             p.actions["Forward"] = UI::Action::create();
             p.actions["Forward"]->setIcon("djvIconPlaybackForward");
-            p.actions["Forward"]->addShortcut(GLFW_KEY_SPACE);
             p.actions["Forward"]->addShortcut(GLFW_KEY_UP);
             p.actions["Reverse"] = UI::Action::create();
             p.actions["Reverse"]->setIcon("djvIconPlaybackReverse");
@@ -96,6 +96,8 @@ namespace djv
             p.playbackActionGroup = UI::ActionGroup::create(UI::ButtonType::Exclusive);
             p.playbackActionGroup->addAction(p.actions["Forward"]);
             p.playbackActionGroup->addAction(p.actions["Reverse"]);
+            p.actions["Playback"] = UI::Action::create();
+            p.actions["Playback"]->addShortcut(GLFW_KEY_SPACE);
 
             p.actions["PlayOnce"] = UI::Action::create();
             p.actions["PlayOnce"]->setEnabled(false);
@@ -208,8 +210,8 @@ namespace djv
                         Playback playback = Playback::Stop;
                         switch (index)
                         {
-                        case 0: playback = Playback::Forward; break;
-                        case 1: playback = Playback::Reverse; break;
+                        case 0: playback = system->_p->playback = Playback::Forward; break;
+                        case 1: playback = system->_p->playback = Playback::Reverse; break;
                         }
                         media->setPlayback(playback);
                     }
@@ -224,6 +226,25 @@ namespace djv
                     if (auto media = system->_p->currentMedia)
                     {
                         media->setPlaybackMode(static_cast<PlaybackMode>(index));
+                    }
+                }
+            });
+
+            p.actionObservers["Playback"] = ValueObserver<bool>::create(
+                p.actions["Playback"]->observeClicked(),
+                [weak](bool value)
+            {
+                if (value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        if (auto media = system->_p->currentMedia)
+                        {
+                            media->setPlayback(
+                                Playback::Stop == media->observePlayback()->get() ?
+                                system->_p->playback :
+                                Playback::Stop);
+                        }
                     }
                 }
             });
@@ -377,8 +398,14 @@ namespace djv
                                     int index = -1;
                                     switch (value)
                                     {
-                                    case Playback::Forward: index = 0; break;
-                                    case Playback::Reverse: index = 1; break;
+                                    case Playback::Forward:
+                                        index = 0;
+                                        system->_p->playback = value;
+                                        break;
+                                    case Playback::Reverse:
+                                        index = 1;
+                                        system->_p->playback = value;
+                                        break;
                                     default: break;
                                     }
                                     system->_p->playbackActionGroup->setChecked(index);
