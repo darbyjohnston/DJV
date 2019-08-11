@@ -48,6 +48,11 @@ namespace djv
                 return _queue.size();
             }
 
+            inline const std::list<VideoFrame>& VideoQueue::getFrames() const
+            {
+                return _queue;
+            }
+
             inline VideoFrame VideoQueue::getFrame() const
             {
                 return _queue.size() ? _queue.front() : VideoFrame();

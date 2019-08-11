@@ -61,7 +61,8 @@ namespace djv
                     Time::Speed speed;
                     std::promise<Info> infoPromise;
                     std::condition_variable queueCV;
-                    int64_t seek = -1;
+                    int64_t seek = Frame::invalid;
+                    Playback playback = Playback::Forward;
                     std::thread thread;
                     std::atomic<bool> running;
 
@@ -368,7 +369,7 @@ namespace djv
                                 }*/
 
                                 bool read = false;
-                                int64_t seek = -1;
+                                int64_t seek = Frame::invalid;
                                 {
                                     //const std::vector<Frame::Number> cachedFrames = _cache.getKeys();
                                     std::unique_lock<std::mutex> lock(_mutex);
@@ -401,15 +402,23 @@ namespace djv
                                             }
                                         }*/
                                         
-                                        return video || audio || p.seek != -1;
-                                        //return video || audio || p.seek != -1 || cache;
+                                        return video || audio || p.seek != Frame::invalid || p.playback != _playback;
+                                        //return video || audio || p.seek != Frame::invalid || p.playback != _playback || cache;
                                     }))
                                     {
                                         read = true;
-                                        if (p.seek != -1)
+                                        if (p.playback != _playback)
+                                        {
+                                            p.playback = _playback;
+                                            _videoQueue.setFinished(false);
+                                            _videoQueue.clearFrames();
+                                            _audioQueue.setFinished(false);
+                                            _audioQueue.clearFrames();
+                                        }
+                                        if (p.seek != Frame::invalid)
                                         {
                                             seek = p.seek;
-                                            p.seek = -1;
+                                            p.seek = Frame::invalid;
                                             _videoQueue.setFinished(false);
                                             _videoQueue.clearFrames();
                                             _audioQueue.setFinished(false);
@@ -420,7 +429,7 @@ namespace djv
                                 AVPacket packet;
                                 try
                                 {
-                                    if (seek != -1)
+                                    if (seek != Frame::invalid)
                                     {
                                         int64_t t = 0;
                                         int stream = -1;
@@ -458,8 +467,8 @@ namespace djv
                                         {
                                             throw std::exception();
                                         }
-                                        Frame::Number videoFrame = -1;
-                                        Frame::Number audioFrame = -1;
+                                        Frame::Number videoFrame = Frame::invalid;
+                                        Frame::Number audioFrame = Frame::invalid;
                                         while (videoFrame < seek - 1 || audioFrame < seek - 1)
                                         {
                                             if (av_read_frame(p.avFormatContext, &packet) < 0)
@@ -507,8 +516,8 @@ namespace djv
                                     }
                                     if (read)
                                     {
-                                        Frame::Number videoFrame = -1;
-                                        Frame::Number audioFrame = -1;
+                                        Frame::Number videoFrame = Frame::invalid;
+                                        Frame::Number audioFrame = Frame::invalid;
                                         int r = av_read_frame(p.avFormatContext, &packet);
                                         if (r < 0)
                                         {
@@ -635,11 +644,13 @@ namespace djv
                     return _p->infoPromise.get_future();
                 }
 
-                void Read::seek(Frame::Number value)
+                void Read::seek(Frame::Number value, Playback)
                 {
                     DJV_PRIVATE_PTR();
                     {
                         std::lock_guard<std::mutex> lock(_mutex);
+                        _videoQueue.clearFrames();
+                        _audioQueue.clearFrames();
                         p.seek = value;
                     }
                     p.queueCV.notify_one();
@@ -670,7 +681,7 @@ namespace djv
                             p.avFormatContext->streams[p.avVideoStream]->time_base,
                             r);
 
-                        if (-1 == dv.seek || frame >= dv.seek)
+                        if (Frame::invalid == dv.seek || frame >= dv.seek)
                         {
                             std::shared_ptr<Image::Image> image;
                             if (dv.cacheEnabled && _cache.get(frame, image))
@@ -707,7 +718,10 @@ namespace djv
                             }
                             {
                                 std::lock_guard<std::mutex> lock(_mutex);
-                                _videoQueue.addFrame(VideoFrame(frame, image));
+                                if (Frame::invalid == p.seek)
+                                {
+                                    _videoQueue.addFrame(VideoFrame(frame, image));
+                                }
                             }
                         }
                     }
@@ -739,7 +753,7 @@ namespace djv
                             p.avFormatContext->streams[p.avAudioStream]->time_base,
                             r);
 
-                        if (-1 == da.seek || frame >= da.seek)
+                        if (Frame::invalid == da.seek || frame >= da.seek)
                         {
                             const auto& info = p.audioInfo.info;
                             auto audioData = Audio::Data::create(info, p.avFrame->nb_samples * info.channelCount);
@@ -885,7 +899,10 @@ namespace djv
                             }
                             {
                                 std::lock_guard<std::mutex> lock(_mutex);
-                                _audioQueue.addFrame(AudioFrame(audioData));
+                                if (Frame::invalid == p.seek)
+                                {
+                                    _audioQueue.addFrame(AudioFrame(audioData));
+                                }
                             }
                         }
                     }

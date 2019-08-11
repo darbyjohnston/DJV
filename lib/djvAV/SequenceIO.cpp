@@ -64,7 +64,7 @@ namespace djv
                 std::vector<std::future<Future> > cacheFutures;
                 std::condition_variable queueCV;
                 Playback playback = Playback::Forward;
-                Frame::Number seek = -1;
+                Frame::Number seek = Frame::invalid;
                 std::thread thread;
                 std::atomic<bool> running;
             };
@@ -157,7 +157,7 @@ namespace djv
 
                         // Check to see if there is work to be done.
                         size_t queueCount = 0;
-                        Frame::Number seek = -1;
+                        Frame::Number seek = Frame::invalid;
                         {
                             std::unique_lock<std::mutex> lock(_mutex);
                             if (p.queueCV.wait_for(
@@ -175,17 +175,17 @@ namespace djv
                                     _videoQueue.setFinished(false);
                                     _videoQueue.clearFrames();
                                 }
-                                if (p.seek != -1)
+                                if (p.seek != Frame::invalid)
                                 {
                                     seek = p.seek;
-                                    p.seek = -1;
+                                    p.seek = Frame::invalid;
                                     _videoQueue.setFinished(false);
                                     _videoQueue.clearFrames();
                                 }
                             }
                         }
 
-                        if (seek != -1)
+                        if (seek != Frame::invalid)
                         {
                             p.frame = seek;
                             /*{
@@ -226,12 +226,13 @@ namespace djv
                 return _p->infoPromise.get_future();
             }
 
-            void ISequenceRead::seek(Frame::Number value)
+            void ISequenceRead::seek(Frame::Number value, Playback playback)
             {
                 DJV_PRIVATE_PTR();
                 {
                     std::lock_guard<std::mutex> lock(_mutex);
                     p.seek = value;
+                    _playback = playback;
                 }
                 p.queueCV.notify_one();
             }
@@ -250,7 +251,7 @@ namespace djv
             bool ISequenceRead::_hasWork() const
             {
                 const bool queue = (_videoQueue.getFrameCount() < _videoQueue.getMax()) && !_videoQueue.isFinished();
-                const bool seek = _p->seek != -1;
+                const bool seek = _p->seek != Frame::invalid;
                 const bool playback = _p->playback != _playback;
                 return queue || seek || playback;
             }
@@ -289,14 +290,14 @@ namespace djv
 
                 // Get frames to be added to the queue.
                 const size_t sequenceSize = _sequence.getSize();
-                std::map<Frame::Number, std::shared_ptr<Image::Image> > images;
+                std::vector<std::pair<Frame::Number, std::shared_ptr<Image::Image> > > images;
                 std::vector<std::future<Future> > futures;
                 for (size_t i = 0; i < count; ++i)
                 {
                     std::shared_ptr<Image::Image> cachedImage;
                     if (cacheEnabled && _cache.get(p.frame, cachedImage))
                     {
-                        images[p.frame] = cachedImage;
+                        images.push_back(std::make_pair(p.frame, cachedImage));
                     }
                     else
                     {
@@ -345,7 +346,7 @@ namespace djv
                     const auto result = future.get();
                     if (result.image)
                     {
-                        images[result.frame] = result.image;
+                        images.push_back(std::make_pair(result.frame, result.image));
                         if (cacheEnabled)
                         {
                             result.image->detach();

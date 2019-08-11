@@ -131,6 +131,7 @@ namespace djv
 
                 inline bool hasFrames() const;
                 inline size_t getFrameCount() const;
+                inline const std::list<VideoFrame>& getFrames() const;
                 inline VideoFrame getFrame() const;
                 void addFrame(const VideoFrame&);
                 VideoFrame popFrame();
@@ -250,11 +251,9 @@ namespace djv
 
                 virtual std::future<Info> getInfo() = 0;
 
-                void setPlayback(Playback);
-
                 //! \param value For video files this value represents the
                 //! frame number, for audio files it represents the audio sample.
-                virtual void seek(int64_t value);
+                virtual void seek(int64_t value, Playback) = 0;
 
                 virtual bool hasCache() const { return false; }
                 bool isCacheEnabled() const;

@@ -100,7 +100,7 @@ namespace djv
 
                     std::future<Info> getInfo() override;
 
-                    void seek(int64_t) override;
+                    void seek(int64_t, Playback) override;
 
                 private:
                     struct DecodeVideo
