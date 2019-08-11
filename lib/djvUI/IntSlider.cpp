@@ -36,8 +36,6 @@
 #include <djvCore/NumericValueModels.h>
 #include <djvCore/ValueObserver.h>
 
-#include <GLFW/glfw3.h>
-
 using namespace djv::Core;
 
 namespace djv
@@ -46,15 +44,12 @@ namespace djv
     {
         struct BasicIntSlider::Private
         {
-            int value = 0;
-            std::shared_ptr<IntValueModel> model;
-            std::function<void(int)> callback;
             std::shared_ptr<ValueObserver<int> > valueObserver;
         };
 
         void BasicIntSlider::_init(Orientation orientation, Context * context)
         {
-            INumericSlider::_init(orientation, context);
+            NumericSlider::_init(orientation, context);
             DJV_PRIVATE_PTR();
             setClassName("djv::UI::BasicIntSlider");
             setModel(IntValueModel::create());
@@ -74,174 +69,64 @@ namespace djv
             return out;
         }
 
-        IntRange BasicIntSlider::getRange() const
+        void BasicIntSlider::setModel(const std::shared_ptr<INumericValueModel<int> > & model)
         {
-            return _p->model->observeRange()->get();
-        }
-
-        void BasicIntSlider::setRange(const IntRange& value)
-        {
-            _p->model->setRange(value);
-        }
-
-        int BasicIntSlider::getValue() const
-        {
-            return _p->model->observeValue()->get();
-        }
-
-        void BasicIntSlider::setValue(int value)
-        {
-            _p->model->setValue(value);
-        }
-
-        void BasicIntSlider::setValueCallback(const std::function<void(int)>& callback)
-        {
-            _p->callback = callback;
-        }
-
-        const std::shared_ptr<IntValueModel> & BasicIntSlider::getModel() const
-        {
-            return _p->model;
-        }
-
-        void BasicIntSlider::setModel(const std::shared_ptr<IntValueModel> & model)
-        {
+            INumericSlider<int>::setModel(model);
             DJV_PRIVATE_PTR();
-            if (p.model)
-            {
-                p.valueObserver.reset();
-            }
-            p.model = model;
-            if (p.model)
+            if (model)
             {
                 auto weak = std::weak_ptr<BasicIntSlider>(std::dynamic_pointer_cast<BasicIntSlider>(shared_from_this()));
                 p.valueObserver = ValueObserver<int>::create(
-                    p.model->observeValue(),
+                    model->observeValue(),
                     [weak](int value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->value = value;
+                        widget->_value = value;
                         widget->_redraw();
                     }
                 });
+            }
+            else
+            {
+                p.valueObserver.reset();
             }
         }
         
         void BasicIntSlider::_pointerMove(float pos)
         {
-            DJV_PRIVATE_PTR();
-            p.value = _posToValue(pos);
-            if (p.model && std::chrono::milliseconds(0) == getDelay())
-            {
-                p.model->setValue(p.value);
-                if (p.callback)
-                {
-                    p.callback(p.model->observeValue()->get());
-                }
-            }
+            INumericSlider<int>::_pointerMove(pos, getDelay());
         }
         
         void BasicIntSlider::_buttonPress(float pos)
         {
-            DJV_PRIVATE_PTR();
-            p.value = _posToValue(pos);
-            if (p.model && std::chrono::milliseconds(0) == getDelay())
-            {
-                p.model->setValue(p.value);
-                if (p.callback)
-                {
-                    p.callback(p.model->observeValue()->get());
-                }
-            }
+            INumericSlider<int>::_buttonPress(pos, getDelay());
         }
         
         void BasicIntSlider::_buttonRelease()
         {
-            DJV_PRIVATE_PTR();
-            if (p.model && getDelay() > std::chrono::milliseconds(0))
-            {
-                p.model->setValue(p.value);
-                if (p.callback)
-                {
-                    p.callback(p.model->observeValue()->get());
-                }
-            }
+            INumericSlider<int>::_buttonRelease(getDelay());
         }
         
         bool BasicIntSlider::_keyPress(int key)
         {
-            DJV_PRIVATE_PTR();
-            bool out = false;
-            switch (key)
-            {
-            case GLFW_KEY_HOME:
-                if (p.model)
-                {
-                    out = true;
-                    p.model->setMin();
-                }
-                break;
-            case GLFW_KEY_END:
-                if (p.model)
-                {
-                    out = true;
-                    p.model->setMax();
-                }
-                break;
-            case GLFW_KEY_UP:
-            case GLFW_KEY_RIGHT:
-                if (p.model)
-                {
-                    out = true;
-                    p.model->incrementSmall();
-                }
-                break;
-            case GLFW_KEY_DOWN:
-            case GLFW_KEY_LEFT:
-                if (p.model)
-                {
-                    out = true;
-                    p.model->decrementSmall();
-                }
-                break;
-            case GLFW_KEY_PAGE_UP:
-                if (p.model)
-                {
-                    out = true;
-                    p.model->incrementLarge();
-                }
-                break;
-            case GLFW_KEY_PAGE_DOWN:
-                if (p.model)
-                {
-                    out = true;
-                    p.model->decrementLarge();
-                }
-                break;
-            }
-            return out;
+            return INumericSlider<int>::_keyPress(fromGLFWKey(key));
         }
         
         void BasicIntSlider::_valueUpdate()
         {
-            DJV_PRIVATE_PTR();
-            p.model->setValue(p.value);
-            if (p.callback)
-            {
-                p.callback(p.model->observeValue()->get());
-            }
+            INumericSlider<int>::_valueUpdate();
         }
 
         void BasicIntSlider::_paintEvent(Event::Paint & event)
         {
-            INumericSlider::_paintEvent(event);
+            NumericSlider::_paintEvent(event);
             DJV_PRIVATE_PTR();
-            if (p.model)
+            if (auto model = getModel())
             {
-                const auto& range = p.model->observeRange()->get();
-                const float v = (p.value - range.min) / static_cast<float>(range.max - range.min);
-                _paint(v, _valueToPos(p.value));
+                const auto& range = model->observeRange()->get();
+                const float v = (_value - range.min) / static_cast<float>(range.max - range.min);
+                _paint(v, _valueToPos(_value));
             }
         }
 
@@ -249,12 +134,12 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             float out = 0.f;
-            if (p.model)
+            if (auto model = getModel())
             {
                 const auto& style = _getStyle();
                 const BBox2f g = getMargin().bbox(getGeometry(), style);
                 const float handleWidth = _getHandleWidth();
-                const auto & range = p.model->observeRange()->get();
+                const auto & range = model->observeRange()->get();
                 float v = (value - range.min) / static_cast<float>(range.max - range.min);
                 switch (getOrientation())
                 {
@@ -275,12 +160,12 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             int out = 0;
-            if (p.model)
+            if (auto model = getModel())
             {
                 const auto& style = _getStyle();
                 const BBox2f g = getMargin().bbox(getGeometry(), style);
                 const float handleWidth = _getHandleWidth();
-                const auto & range = p.model->observeRange()->get();
+                const auto & range = model->observeRange()->get();
                 const float step = g.w() / static_cast<float>(range.max - range.min) / 2.f;
                 float v = 0.f;
                 switch (getOrientation())
@@ -390,7 +275,7 @@ namespace djv
             _p->slider->setDelay(value);
         }
 
-        const std::shared_ptr<IntValueModel> & IntSlider::getModel() const
+        const std::shared_ptr<INumericValueModel<int> > & IntSlider::getModel() const
         {
             return _p->slider->getModel();
         }

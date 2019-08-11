@@ -35,8 +35,6 @@
 #include <djvCore/NumericValueModels.h>
 #include <djvCore/ValueObserver.h>
 
-#include <GLFW/glfw3.h>
-
 using namespace djv::Core;
 
 namespace djv
@@ -46,42 +44,16 @@ namespace djv
         struct FloatEdit::Private
         {
             int precision = 2;
-            std::shared_ptr<LineEdit> lineEdit;
             std::shared_ptr<ValueObserver<FloatRange> > rangeObserver;
             std::shared_ptr<ValueObserver<float> > valueObserver;
         };
 
         void FloatEdit::_init(Context * context)
         {
-            INumericEdit<float>::_init(context);
+            NumericEdit::_init(context);
             DJV_PRIVATE_PTR();
-
             setClassName("djv::UI::FloatEdit");
-
-            p.lineEdit = LineEdit::create(context);
-            addChild(p.lineEdit);
-
             setModel(FloatValueModel::create());
-
-            auto weak = std::weak_ptr<FloatEdit>(std::dynamic_pointer_cast<FloatEdit>(shared_from_this()));
-            p.lineEdit->setTextFinishedCallback(
-                [weak](const std::string & value)
-            {
-                if (auto widget = weak.lock())
-                {
-                    if (auto model = widget->getModel())
-                    {
-                        try
-                        {
-                            model->setValue(std::stof(value));
-                        }
-                        catch (const std::exception &)
-                        {}
-                        widget->_textUpdate();
-                        widget->_doCallback();
-                    }
-                }
-            });
         }
 
         FloatEdit::FloatEdit() :
@@ -145,18 +117,25 @@ namespace djv
             }
         }
 
-        void FloatEdit::_preLayoutEvent(Event::PreLayout & event)
+        void FloatEdit::_finishedEditing(const std::string& value)
         {
-            DJV_PRIVATE_PTR();
-            const auto& style = _getStyle();
-            _setMinimumSize(p.lineEdit->getMinimumSize() + getMargin().getSize(style));
+            if (auto model = getModel())
+            {
+                try
+                {
+                    model->setValue(std::stoi(value));
+                }
+                catch (const std::exception&)
+                {
+                }
+                _textUpdate();
+                _doCallback();
+            }
         }
 
-        void FloatEdit::_layoutEvent(Event::Layout & event)
+        bool FloatEdit::_keyPress(int value)
         {
-            DJV_PRIVATE_PTR();
-            const auto& style = _getStyle();
-            p.lineEdit->setGeometry(getMargin().bbox(getGeometry(), style));
+            return INumericEdit<float>::_keyPress(fromGLFWKey(value));
         }
 
         void FloatEdit::_textUpdate()
@@ -167,50 +146,9 @@ namespace djv
                 std::stringstream ss;
                 ss.precision(p.precision);
                 ss << std::fixed << model->observeValue()->get();
-                p.lineEdit->setText(ss.str());
-                p.lineEdit->setSizeString(FloatLabel::getSizeString(model->observeRange()->get(), p.precision));
+                NumericEdit::_textUpdate(ss.str(), FloatLabel::getSizeString(model->observeRange()->get(), p.precision));
             }
             _resize();
-        }
-
-        void FloatEdit::_keyPressEvent(Event::KeyPress& event)
-        {
-            DJV_PRIVATE_PTR();
-            switch (event.getKey())
-            {
-            case GLFW_KEY_UP:
-                if (auto model = getModel())
-                {
-                    event.accept();
-                    model->incrementSmall();
-                    _doCallback();
-                }
-                break;
-            case GLFW_KEY_PAGE_UP:
-                if (auto model = getModel())
-                {
-                    event.accept();
-                    model->incrementLarge();
-                    _doCallback();
-                }
-                break;
-            case GLFW_KEY_DOWN:
-                if (auto model = getModel())
-                {
-                    event.accept();
-                    model->decrementSmall();
-                    _doCallback();
-                }
-                break;
-            case GLFW_KEY_PAGE_DOWN:
-                if (auto model = getModel())
-                {
-                    event.accept();
-                    model->decrementLarge();
-                    _doCallback();
-                }
-                break;
-            }
         }
 
     } // namespace UI

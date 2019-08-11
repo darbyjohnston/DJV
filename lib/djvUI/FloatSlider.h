@@ -29,24 +29,17 @@
 
 #pragma once
 
-#include <djvUI/INumericSlider.h>
+#include <djvUI/INumericWidget.h>
+#include <djvUI/NumericSlider.h>
 
 #include <djvCore/Range.h>
 
-#include <chrono>
-
 namespace djv
 {
-    namespace Core
-    {
-        class FloatValueModel;
-
-    } // namespace Core
-
     namespace UI
     {
         //! This class provides a basic slider widget for floating-point values.
-        class BasicFloatSlider : public INumericSlider
+        class BasicFloatSlider : public INumericSlider<float>, public NumericSlider
         {
             DJV_NON_COPYABLE(BasicFloatSlider);
 
@@ -59,15 +52,7 @@ namespace djv
 
             static std::shared_ptr<BasicFloatSlider> create(Orientation, Core::Context *);
 
-            Core::FloatRange getRange() const;
-            void setRange(const Core::FloatRange&);
-
-            float getValue() const;
-            void setValue(float);
-            void setValueCallback(const std::function<void(float)>&);
-
-            const std::shared_ptr<Core::FloatValueModel> & getModel() const;
-            void setModel(const std::shared_ptr<Core::FloatValueModel> &);
+            void setModel(const std::shared_ptr<Core::INumericValueModel<float> > &) override;
 
         protected:
             void _pointerMove(float) override;
@@ -79,8 +64,8 @@ namespace djv
             void _paintEvent(Core::Event::Paint &) override;
 
         private:
-            float _valueToPos(float) const;
-            float _posToValue(float) const;
+            float _valueToPos(float) const override;
+            float _posToValue(float) const override;
 
             DJV_PRIVATE();
         };
@@ -109,7 +94,7 @@ namespace djv
             std::chrono::milliseconds getDelay() const;
             void setDelay(std::chrono::milliseconds);
 
-            const std::shared_ptr<Core::FloatValueModel>& getModel() const;
+            const std::shared_ptr<Core::INumericValueModel<float>>& getModel() const;
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;

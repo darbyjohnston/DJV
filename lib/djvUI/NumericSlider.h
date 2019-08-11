@@ -37,15 +37,15 @@ namespace djv
 {
     namespace UI
     {
-        //! This class provides an interface for numeric slider widgets.
-        class INumericSlider : public Widget
+        //! This class provides the base functionality for numeric slider widgets.
+        class NumericSlider : public Widget
         {
         protected:
             void _init(Orientation, Core::Context *);
-            INumericSlider();
+            NumericSlider();
 
         public:
-            virtual ~INumericSlider() = 0;
+            virtual ~NumericSlider() = 0;
 
             Orientation getOrientation() const;
             

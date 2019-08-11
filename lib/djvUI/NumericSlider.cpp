@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/INumericSlider.h>
+#include <djvUI/NumericSlider.h>
 
 #include <djvUI/DrawUtil.h>
 #include <djvUI/Style.h>
@@ -44,7 +44,7 @@ namespace djv
 {
     namespace UI
     {
-        struct INumericSlider::Private
+        struct NumericSlider::Private
         {
             Orientation orientation = Orientation::First;
             float handleWidth = 0.f;
@@ -57,7 +57,7 @@ namespace djv
             glm::vec2 prevPos = glm::vec2(0.f, 0.f);
         };
 
-        void INumericSlider::_init(Orientation orientation, Context * context)
+        void NumericSlider::_init(Orientation orientation, Context * context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -72,34 +72,34 @@ namespace djv
             p.delayTimer = Time::Timer::create(context);
         }
 
-        INumericSlider::INumericSlider() :
+        NumericSlider::NumericSlider() :
             _p(new Private)
         {}
 
-        INumericSlider::~INumericSlider()
+        NumericSlider::~NumericSlider()
         {}
 
-        Orientation INumericSlider::getOrientation() const
+        Orientation NumericSlider::getOrientation() const
         {
             return _p->orientation;
         }
 
-        std::chrono::milliseconds INumericSlider::getDelay() const
+        std::chrono::milliseconds NumericSlider::getDelay() const
         {
             return _p->delay;
         }
 
-        void INumericSlider::setDelay(std::chrono::milliseconds value)
+        void NumericSlider::setDelay(std::chrono::milliseconds value)
         {
             _p->delay = value;
         }
         
-        float INumericSlider::_getHandleWidth() const
+        float NumericSlider::_getHandleWidth() const
         {
             return _p->handleWidth;
         }
         
-        void INumericSlider::_paint(float v, float pos)
+        void NumericSlider::_paint(float v, float pos)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
@@ -170,7 +170,7 @@ namespace djv
             }
         }
 
-        void INumericSlider::_styleEvent(Event::Style& event)
+        void NumericSlider::_styleEvent(Event::Style& event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
@@ -179,7 +179,7 @@ namespace djv
             p.fontMetricsFuture = fontSystem->getMetrics(style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium));
         }
 
-        void INumericSlider::_preLayoutEvent(Event::PreLayout & event)
+        void NumericSlider::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
             if (p.fontMetricsFuture.valid())
@@ -205,7 +205,7 @@ namespace djv
             _setMinimumSize(size + getMargin().getSize(style));
         }
 
-        void INumericSlider::_pointerEnterEvent(Event::PointerEnter & event)
+        void NumericSlider::_pointerEnterEvent(Event::PointerEnter & event)
         {
             if (!event.isRejected())
             {
@@ -217,7 +217,7 @@ namespace djv
             }
         }
 
-        void INumericSlider::_pointerLeaveEvent(Event::PointerLeave & event)
+        void NumericSlider::_pointerLeaveEvent(Event::PointerLeave & event)
         {
             event.accept();
             if (isEnabled(true))
@@ -226,7 +226,7 @@ namespace djv
             }
         }
 
-        void INumericSlider::_pointerMoveEvent(Event::PointerMove & event)
+        void NumericSlider::_pointerMoveEvent(Event::PointerMove & event)
         {
             DJV_PRIVATE_PTR();
             event.accept();
@@ -254,7 +254,7 @@ namespace djv
             }
         }
 
-        void INumericSlider::_buttonPressEvent(Event::ButtonPress & event)
+        void NumericSlider::_buttonPressEvent(Event::ButtonPress & event)
         {
             DJV_PRIVATE_PTR();
             if (p.pressedID)
@@ -283,7 +283,7 @@ namespace djv
             _redraw();
         }
 
-        void INumericSlider::_buttonReleaseEvent(Event::ButtonRelease & event)
+        void NumericSlider::_buttonReleaseEvent(Event::ButtonRelease & event)
         {
             DJV_PRIVATE_PTR();
             const auto & pointerInfo = event.getPointerInfo();
@@ -297,7 +297,7 @@ namespace djv
             }
         }
 
-        void INumericSlider::_keyPressEvent(Event::KeyPress& event)
+        void NumericSlider::_keyPressEvent(Event::KeyPress& event)
         {
             DJV_PRIVATE_PTR();
             if (_keyPress(event.getKey()))
@@ -306,10 +306,10 @@ namespace djv
             }
         }
 
-        void INumericSlider::_resetTimer()
+        void NumericSlider::_resetTimer()
         {
             DJV_PRIVATE_PTR();
-            auto weak = std::weak_ptr<INumericSlider>(std::dynamic_pointer_cast<INumericSlider>(shared_from_this()));
+            auto weak = std::weak_ptr<NumericSlider>(std::dynamic_pointer_cast<NumericSlider>(shared_from_this()));
             p.delayTimer->start(
                 p.delay,
                 [weak](float)

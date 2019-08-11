@@ -29,7 +29,8 @@
 
 #pragma once
 
-#include <djvUI/INumericSlider.h>
+#include <djvUI/INumericWidget.h>
+#include <djvUI/NumericSlider.h>
 
 #include <djvCore/Range.h>
 
@@ -37,16 +38,10 @@
 
 namespace djv
 {
-    namespace Core
-    {
-        class IntValueModel;
-
-    } // namespace Core
-
     namespace UI
     {
         //! This class provides a basic slider widget for integer values.
-        class BasicIntSlider : public INumericSlider
+        class BasicIntSlider : public INumericSlider<int>, public NumericSlider
         {
             DJV_NON_COPYABLE(BasicIntSlider);
 
@@ -59,15 +54,7 @@ namespace djv
 
             static std::shared_ptr<BasicIntSlider> create(Orientation, Core::Context *);
 
-            Core::IntRange getRange() const;
-            void setRange(const Core::IntRange&);
-
-            int getValue() const;
-            void setValue(int);
-            void setValueCallback(const std::function<void(int)>&);
-
-            const std::shared_ptr<Core::IntValueModel> & getModel() const;
-            void setModel(const std::shared_ptr<Core::IntValueModel> &);
+            void setModel(const std::shared_ptr<Core::INumericValueModel<int> > &) override;
 
         protected:
             void _pointerMove(float) override;
@@ -109,7 +96,7 @@ namespace djv
             std::chrono::milliseconds getDelay() const;
             void setDelay(std::chrono::milliseconds);
 
-            const std::shared_ptr<Core::IntValueModel>& getModel() const;
+            const std::shared_ptr<Core::INumericValueModel<int> >& getModel() const;
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;

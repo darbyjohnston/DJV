@@ -29,14 +29,15 @@
 
 #pragma once
 
-#include <djvUI/INumericEdit.h>
+#include <djvUI/INumericWidget.h>
+#include <djvUI/NumericEdit.h>
 
 namespace djv
 {
     namespace UI
     {
         //! This class provides an editor widget for integer values.
-        class IntEdit : public INumericEdit<int>
+        class IntEdit : public INumericEdit<int>, public NumericEdit
         {
             DJV_NON_COPYABLE(IntEdit);
 
@@ -52,9 +53,8 @@ namespace djv
             void setModel(const std::shared_ptr<Core::INumericValueModel<int> > &) override;
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
-            void _keyPressEvent(Core::Event::KeyPress&) override;
+            void _finishedEditing(const std::string&) override;
+            bool _keyPress(int) override;
 
         private:
             void _textUpdate();

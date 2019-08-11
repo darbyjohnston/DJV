@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2019 Darby Johnston
+// Copyright (c) 2004-2019 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/INumericEdit.h>
+#include <djvUI/INumericWidget.h>
 
 #include <GLFW/glfw3.h>
 
@@ -37,6 +37,22 @@ namespace djv
 {
     namespace UI
     {
+        NumericWidgetKey fromGLFWKey(int key)
+        {
+            NumericWidgetKey out = NumericWidgetKey::None;
+            switch (key)
+            {
+            case GLFW_KEY_HOME:         out = NumericWidgetKey::Home;       break;
+            case GLFW_KEY_END:          out = NumericWidgetKey::End;        break;
+            case GLFW_KEY_UP:           out = NumericWidgetKey::Up;         break;
+            case GLFW_KEY_RIGHT:        out = NumericWidgetKey::Right;      break;
+            case GLFW_KEY_DOWN:         out = NumericWidgetKey::Down;       break;
+            case GLFW_KEY_LEFT:         out = NumericWidgetKey::Left;       break;
+            case GLFW_KEY_PAGE_UP:      out = NumericWidgetKey::PageUp;     break;
+            case GLFW_KEY_PAGE_DOWN:    out = NumericWidgetKey::PageDown;   break;
+            }
+            return out;
+        }
 
     } // namespace UI
 } // namespace djv

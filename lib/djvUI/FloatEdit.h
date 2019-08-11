@@ -29,14 +29,15 @@
 
 #pragma once
 
-#include <djvUI/INumericEdit.h>
+#include <djvUI/INumericWidget.h>
+#include <djvUI/NumericEdit.h>
 
 namespace djv
 {
     namespace UI
     {
         //! This class provides an editor widget for floating-point values.
-        class FloatEdit : public INumericEdit<float>
+        class FloatEdit : public INumericEdit<float>, public NumericEdit
         {
             DJV_NON_COPYABLE(FloatEdit);
 
@@ -55,9 +56,8 @@ namespace djv
             void setModel(const std::shared_ptr<Core::INumericValueModel<float> >&) override;
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
-            void _keyPressEvent(Core::Event::KeyPress&) override;
+            void _finishedEditing(const std::string&) override;
+            bool _keyPress(int) override;
 
         private:
             void _textUpdate();

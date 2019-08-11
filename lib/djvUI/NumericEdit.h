@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2019 Darby Johnston
+// Copyright (c) 2004-2019 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -31,38 +31,35 @@
 
 #include <djvUI/Widget.h>
 
-#include <djvCore/INumericValueModel.h>
-#include <djvCore/Range.h>
-
 namespace djv
 {
     namespace UI
     {
-        //! This class provides an interface for numeric editor widgets.
-        template<typename T>
-        class INumericEdit : public Widget
+        //! This class provides the base functionality for numeric editor widgets.
+        class NumericEdit : public Widget
         {
-        public:
-            inline virtual ~INumericEdit() = 0;
-
-            inline const Core::Range::Range<T>& getRange() const;
-            inline void setRange(const Core::Range::Range<T>&);
-
-            inline T getValue() const;
-            inline void setValue(T);
-            inline void setValueCallback(const std::function<void(T)>&);
-
-            inline const std::shared_ptr<Core::INumericValueModel<T> >& getModel() const;
-            inline virtual void setModel(const std::shared_ptr<Core::INumericValueModel<T> >&);
+            DJV_NON_COPYABLE(NumericEdit);
 
         protected:
-            inline void _doCallback();
+            void _init(Core::Context *);
+            NumericEdit();
 
-            std::shared_ptr<Core::INumericValueModel<T> > _model;
-            std::function<void(T)> _callback;
+        public:
+            virtual ~NumericEdit() = 0;
+
+        protected:
+            virtual void _finishedEditing(const std::string&) = 0;
+            virtual bool _keyPress(int) = 0;
+            void _textUpdate(const std::string&, const std::string&);
+
+            void _preLayoutEvent(Core::Event::PreLayout &) override;
+            void _layoutEvent(Core::Event::Layout &) override;
+            void _keyPressEvent(Core::Event::KeyPress&) override;
+
+        private:
+
+            DJV_PRIVATE();
         };
 
     } // namespace UI
 } // namespace djv
-
-#include <djvUI/INumericEditInline.h>

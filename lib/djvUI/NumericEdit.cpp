@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2019 Darby Johnston
+// Copyright (c) 2004-2019 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,62 +27,81 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
+#include <djvUI/NumericEdit.h>
+
+#include <djvUI/LineEdit.h>
+
+#include <djvCore/NumericValueModels.h>
+#include <djvCore/ValueObserver.h>
+
+#include <GLFW/glfw3.h>
+
+using namespace djv::Core;
+
 namespace djv
 {
     namespace UI
     {
-        template<typename T>
-        inline INumericEdit<T>::~INumericEdit()
+        struct NumericEdit::Private
+        {
+            std::shared_ptr<LineEdit> lineEdit;
+        };
+
+        void NumericEdit::_init(Context * context)
+        {
+            Widget::_init(context);
+            DJV_PRIVATE_PTR();
+
+            setClassName("djv::UI::NumericEdit");
+
+            p.lineEdit = LineEdit::create(context);
+            addChild(p.lineEdit);
+
+            auto weak = std::weak_ptr<NumericEdit>(std::dynamic_pointer_cast<NumericEdit>(shared_from_this()));
+            p.lineEdit->setTextFinishedCallback(
+                [weak](const std::string & value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    widget->_finishedEditing(value);
+                }
+            });
+        }
+
+        NumericEdit::NumericEdit() :
+            _p(new Private)
         {}
 
-        template<typename T>
-        inline const Core::Range::Range<T>& INumericEdit<T>::getRange() const
+        NumericEdit::~NumericEdit()
+        {}
+
+        void NumericEdit::_preLayoutEvent(Event::PreLayout & event)
         {
-            return _model->observeRange()->get();
+            DJV_PRIVATE_PTR();
+            const auto& style = _getStyle();
+            _setMinimumSize(p.lineEdit->getMinimumSize() + getMargin().getSize(style));
         }
 
-        template<typename T>
-        inline void INumericEdit<T>::setRange(const Core::Range::Range<T>& value)
+        void NumericEdit::_layoutEvent(Event::Layout & event)
         {
-            _model->setRange(value);
+            DJV_PRIVATE_PTR();
+            const auto& style = _getStyle();
+            p.lineEdit->setGeometry(getMargin().bbox(getGeometry(), style));
         }
 
-        template<typename T>
-        inline T INumericEdit<T>::getValue() const
+        void NumericEdit::_textUpdate(const std::string& text, const std::string& sizeString)
         {
-            return _model->observeValue()->get();
+            DJV_PRIVATE_PTR();
+            p.lineEdit->setText(text);
+            p.lineEdit->setSizeString(sizeString);
         }
 
-        template<typename T>
-        inline void INumericEdit<T>::setValue(T value)
+        void NumericEdit::_keyPressEvent(Event::KeyPress& event)
         {
-            _model->setValue(value);
-        }
-
-        template<typename T>
-        inline void INumericEdit<T>::setValueCallback(const std::function<void(T)>& callback)
-        {
-            _callback = callback;
-        }
-
-        template<typename T>
-        inline const std::shared_ptr<Core::INumericValueModel<T> >& INumericEdit<T>::getModel() const
-        {
-            return _model;
-        }
-
-        template<typename T>
-        inline void INumericEdit<T>::setModel(const std::shared_ptr<Core::INumericValueModel<T> >& value)
-        {
-            _model = value;
-        }
-
-        template<typename T>
-        inline void INumericEdit<T>::_doCallback()
-        {
-            if (_callback)
+            DJV_PRIVATE_PTR();
+            if (_keyPress(event.getKey()))
             {
-                _callback(_model->observeValue()->get());
+                event.accept();
             }
         }
 

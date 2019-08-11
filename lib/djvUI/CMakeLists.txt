@@ -25,9 +25,8 @@ set(header
     GroupBox.h
     IButton.h
     IDialog.h
-    INumericEdit.h
-    INumericEditInline.h
-    INumericSlider.h
+    INumericWidget.h
+    INumericWidgetInline.h
     ISettings.h
     ISettingsTemplates.h
     ISettingsTemplatesInline.h
@@ -50,6 +49,8 @@ set(header
     Menu.h
     MenuBar.h
     MenuButton.h
+	NumericEdit.h
+    NumericSlider.h
     Overlay.h
     PopupMenu.h
     PopupWidget.h
@@ -108,8 +109,7 @@ set(source
     GroupBox.cpp
     IButton.cpp
     IDialog.cpp
-    INumericEdit.cpp
-    INumericSlider.cpp
+    INumericWidget.cpp
     ISettings.cpp
     Icon.cpp
     IconSystem.cpp
@@ -129,6 +129,8 @@ set(source
     Menu.cpp
     MenuBar.cpp
     MenuButton.cpp
+	NumericEdit.cpp
+    NumericSlider.cpp
     Overlay.cpp
     PopupMenu.cpp
     PopupWidget.cpp
