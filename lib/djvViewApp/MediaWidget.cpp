@@ -169,8 +169,10 @@ namespace djv
 
             p.actions["Forward"] = UI::Action::create();
             p.actions["Forward"]->setIcon("djvIconPlaybackForward");
+            p.actions["Forward"]->setCheckedIcon("djvIconPlaybackStop");
             p.actions["Reverse"] = UI::Action::create();
             p.actions["Reverse"]->setIcon("djvIconPlaybackReverse");
+            p.actions["Reverse"]->setCheckedIcon("djvIconPlaybackStop");
             p.playbackActionGroup = UI::ActionGroup::create(UI::ButtonType::Exclusive);
             p.playbackActionGroup->addAction(p.actions["Forward"]);
             p.playbackActionGroup->addAction(p.actions["Reverse"]);
