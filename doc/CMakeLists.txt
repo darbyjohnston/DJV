@@ -2,7 +2,6 @@ set(html
     Annotations.html
     BuildLinux.html
     BuildWindows.html
-	ChangeList.html
 	ColorSpace.html
     Credits.html
     Documentation.html
