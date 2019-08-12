@@ -49,6 +49,12 @@ namespace djv
             const size_t bufferCount = 30;
             const size_t videoQueueSize = 30;
 
+            struct Track
+            {
+                std::shared_ptr<AV::IO::IRead> read;
+                Frame::Range range;
+            };
+            
         } // namespace
 
         struct Media::Private
@@ -85,14 +91,12 @@ namespace djv
             std::shared_ptr<ValueSubject<size_t> > alQueueCount;
             std::shared_ptr<Time::Timer> queueTimer;
             std::condition_variable queueCV;
-            std::shared_ptr<AV::IO::IRead> read;
-            std::future<AV::IO::Info> infoFuture;
-            std::shared_ptr<Time::Timer> infoTimer;
+            std::vector<Track> tracks;
+            int currentTrack = -1;
 
             AV::IO::Playback ioPlayback = AV::IO::Playback::Forward;
             ALuint alSource = 0;
             std::vector<ALuint> alBuffers;
-            int64_t alBytes = 0;
             Frame::Number frameOffset = 0;
             std::chrono::system_clock::time_point startTime;
             std::chrono::system_clock::time_point realSpeedTime;
@@ -101,6 +105,16 @@ namespace djv
             std::shared_ptr<Time::Timer> realSpeedTimer;
             std::shared_ptr<Time::Timer> cachedFramesTimer;
             std::shared_ptr<Time::Timer> debugTimer;
+            
+            std::shared_ptr<AV::IO::IRead> getCurrentRead() const
+            {
+                std::shared_ptr<AV::IO::IRead> out;
+                if (currentTrack != -1)
+                {
+                    out = tracks[currentTrack].read;
+                }
+                return out;
+            }
         };
 
         void Media::_init(const Core::FileSystem::FileInfo& fileInfo, Context * context)
@@ -136,8 +150,6 @@ namespace djv
             p.alQueueCount = ValueSubject<size_t>::create();
             p.queueTimer = Time::Timer::create(context);
             p.queueTimer->setRepeating(true);
-            p.infoTimer = Time::Timer::create(context);
-            p.infoTimer->setRepeating(true);
 
             p.playbackTimer = Time::Timer::create(context);
             p.playbackTimer->setRepeating(true);
@@ -331,11 +343,6 @@ namespace djv
             return _p->outPoint;
         }
 
-        std::shared_ptr<IValueSubject<size_t> > Media::observeThreadCount() const
-        {
-            return _p->threadCount;
-        }
-
         void Media::setSpeed(const Time::Speed& value)
         {
             DJV_PRIVATE_PTR();
@@ -376,10 +383,7 @@ namespace djv
             if (p.currentFrame->setIfChanged(tmp))
             {
                 setPlayback(Playback::Stop);
-                if (p.read)
-                {
-                    p.read->seek(tmp, p.ioPlayback);
-                }
+                _seek(tmp);
             }
         }
 
@@ -458,18 +462,6 @@ namespace djv
             _p->outPoint->setIfChanged(0);
         }
 
-        void Media::setThreadCount(size_t value)
-        {
-            DJV_PRIVATE_PTR();
-            if (p.threadCount->setIfChanged(value))
-            {
-                if (p.read)
-                {
-                    p.read->setThreadCount(value);
-                }
-            }
-        }
-
         std::shared_ptr<IValueSubject<float> > Media::observeVolume() const
         {
             return _p->volume;
@@ -496,10 +488,38 @@ namespace djv
             }
         }
 
+        std::shared_ptr<IValueSubject<size_t> > Media::observeThreadCount() const
+        {
+            return _p->threadCount;
+        }
+
+        void Media::setThreadCount(size_t value)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.threadCount->setIfChanged(value))
+            {
+                for (const auto& i : p.tracks)
+                {
+                    if (i.read)
+                    {
+                        i.read->setThreadCount(value);
+                    }
+                }
+            }
+        }
+
         bool Media::hasCache() const
         {
             DJV_PRIVATE_PTR();
-            return p.read ? p.read->hasCache() : false;
+            bool out = false;
+            for (const auto& i : p.tracks)
+            {
+                if (i.read)
+                {
+                    out |= i.read->hasCache();
+                }
+            }
+            return out;
         }
 
         std::shared_ptr<Core::IListSubject<Frame::Range> > Media::observeCachedFrames() const
@@ -510,18 +530,24 @@ namespace djv
         void Media::setCacheEnabled(bool value)
         {
             DJV_PRIVATE_PTR();
-            if (p.read)
+            for (const auto& i : p.tracks)
             {
-                p.read->setCacheEnabled(value);
+                if (i.read)
+                {
+                    i.read->setCacheEnabled(value);
+                }
             }
         }
 
         void Media::setCacheMax(size_t value)
         {
             DJV_PRIVATE_PTR();
-            if (p.read)
+            for (const auto& i : p.tracks)
             {
-                p.read->setCacheMax(value);
+                if (i.read)
+                {
+                    i.read->setCacheMax(value);
+                }
             }
         }
 
@@ -560,83 +586,66 @@ namespace djv
                 options.layer = p.layer->get();
                 options.videoQueueSize = videoQueueSize;
                 auto io = context->getSystemT<AV::IO::System>();
-                p.read = io->read(p.fileInfo, options);
-                p.read->setThreadCount(p.threadCount->get());
-                p.infoFuture = p.read->getInfo();
+                auto read = io->read(p.fileInfo, options);
+                read->setThreadCount(p.threadCount->get());
+                
+                const auto info = read->getInfo().get();
+                p.info->setIfChanged(info);
+                Time::Speed speed;
+                Frame::Sequence sequence;
+                const auto& video = info.video;
+                if (video.size())
+                {
+                    p.videoInfo = video[0];
+                    speed = video[0].speed;
+                    sequence = video[0].sequence;
+                }
+                const auto& audio = info.audio;
+                if (audio.size())
+                {
+                    p.audioInfo = audio[0];
+                }
+                {
+                    std::stringstream ss;
+                    ss << p.fileInfo << " sequence: " << sequence.getSize();
+                    auto logSystem = context->getSystemT<LogSystem>();
+                    logSystem->log("djv::ViewApp::Media", ss.str());
+                }
+                p.info->setIfChanged(info);
+                p.speed->setIfChanged(speed);
+                p.defaultSpeed->setIfChanged(speed);
+                p.sequence->setIfChanged(sequence);
+
+                Track track;
+                track.read = read;
+                track.range = Frame::Range(1, sequence.getSize());
+                p.tracks.push_back(track);
                 
                 const auto timeout = Time::getMilliseconds(Time::TimerValue::Fast);
-                const Core::FileSystem::FileInfo& fileInfo = p.fileInfo;
                 auto weak = std::weak_ptr<Media>(std::dynamic_pointer_cast<Media>(shared_from_this()));
-                p.infoTimer->start(
-                    timeout,
-                    [weak, fileInfo, context](float)
-                    {
-                        if (auto media = weak.lock())
-                        {
-                            try
-                            {
-                                if (media->_p->infoFuture.valid() &&
-                                    media->_p->infoFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
-                                {
-                                    media->_p->infoTimer->stop();
-                                    const auto info = media->_p->infoFuture.get();
-                                    Time::Speed speed;
-                                    Frame::Sequence sequence;
-                                    const auto& video = info.video;
-                                    if (video.size())
-                                    {
-                                        media->_p->videoInfo = video[0];
-                                        speed = video[0].speed;
-                                        sequence = video[0].sequence;
-                                    }
-                                    const auto& audio = info.audio;
-                                    if (audio.size())
-                                    {
-                                        media->_p->audioInfo = audio[0];
-                                    }
-                                    {
-                                        std::stringstream ss;
-                                        ss << fileInfo << " sequence: " << sequence.getSize();
-                                        auto logSystem = context->getSystemT<LogSystem>();
-                                        logSystem->log("djv::ViewApp::Media", ss.str());
-                                    }
-                                    media->_p->info->setIfChanged(info);
-                                    media->_p->speed->setIfChanged(speed);
-                                    media->_p->defaultSpeed->setIfChanged(speed);
-                                    media->_p->sequence->setIfChanged(sequence);
-                                }
-                            }
-                            catch (const std::exception& e)
-                            {
-                                auto logSystem = context->getSystemT<LogSystem>();
-                                logSystem->log("djv::ViewApp::Media", e.what());
-                            }
-                        }
-                    });
-
                 p.queueTimer->start(
                     timeout,
                     [weak, timeout](float)
                     {
                         if (auto media = weak.lock())
                         {
-                            if (media->_p->read)
+                            if (auto read = media->_p->getCurrentRead())
                             {
-                                std::unique_lock<std::mutex> lock(media->_p->read->getMutex());
+                                std::unique_lock<std::mutex> lock(read->getMutex());
                                 if (media->_p->queueCV.wait_for(
                                     lock,
                                     timeout,
-                                    [weak]
+                                    [weak, read]
                                     {
                                         bool out = false;
                                         if (auto media = weak.lock())
                                         {
-                                            out = media->_p->read->getVideoQueue().hasFrames();
+                                            out = read->getVideoQueue().hasFrames();
                                         }
                                         return out;
                                     }))
                                 {
-                                    auto& queue = media->_p->read->getVideoQueue();
+                                    auto& queue = read->getVideoQueue();
                                     auto frame = queue.getFrame();
                                     media->_p->currentImage->setIfChanged(frame.image);
                                 }
@@ -650,9 +659,9 @@ namespace djv
                     {
                         if (auto media = weak.lock())
                         {
-                            if (media->_p->read)
+                            if (auto read = media->_p->getCurrentRead())
                             {
-                                const auto& frames = media->_p->read->getCachedFrames();
+                                const auto& frames = read->getCachedFrames();
                                 media->_p->cachedFrames->setIfChanged(frames);
                             }
                         }
@@ -664,18 +673,21 @@ namespace djv
                     {
                         if (auto media = weak.lock())
                         {
+                            if (auto read = media->_p->getCurrentRead())
                             {
-                                std::lock_guard<std::mutex> lock(media->_p->read->getMutex());
-                                auto& videoQueue = media->_p->read->getVideoQueue();
-                                auto& audioQueue = media->_p->read->getAudioQueue();
-                                media->_p->videoQueueMax->setAlways(videoQueue.getMax());
-                                media->_p->videoQueueCount->setAlways(videoQueue.getFrameCount());
-                                media->_p->audioQueueMax->setAlways(audioQueue.getMax());
-                                media->_p->audioQueueCount->setAlways(audioQueue.getFrameCount());
+                                {
+                                    std::lock_guard<std::mutex> lock(read->getMutex());
+                                    auto& videoQueue = read->getVideoQueue();
+                                    auto& audioQueue = read->getAudioQueue();
+                                    media->_p->videoQueueMax->setAlways(videoQueue.getMax());
+                                    media->_p->videoQueueCount->setAlways(videoQueue.getFrameCount());
+                                    media->_p->audioQueueMax->setAlways(audioQueue.getMax());
+                                    media->_p->audioQueueCount->setAlways(audioQueue.getFrameCount());
+                                }
+                                ALint queued = 0;
+                                alGetSourcei(media->_p->alSource, AL_BUFFERS_QUEUED, &queued);
+                                media->_p->alQueueCount->setAlways(queued);
                             }
-                            ALint queued = 0;
-                            alGetSourcei(media->_p->alSource, AL_BUFFERS_QUEUED, &queued);
-                            media->_p->alQueueCount->setAlways(queued);
                         }
                     });
             }
@@ -686,11 +698,34 @@ namespace djv
                 auto logSystem = context->getSystemT<LogSystem>();
                 logSystem->log("djv::ViewApp::Media", ss.str(), LogLevel::Error);
             }
-            if (p.read)
-            {
-                p.read->seek(p.currentFrame->get(), p.ioPlayback);
-            }
+            
+            _seek(p.currentFrame->get());
+
             p.reload->setAlways(true);
+        }
+        
+        void Media::_seek(Core::Frame::Number value)
+        {
+            DJV_PRIVATE_PTR();
+            p.currentTrack = -1;
+            int j = 0;
+            for (const auto& i : p.tracks)
+            {
+                if (i.range.contains(value))
+                {
+                    p.currentTrack = j;
+                    break;
+                }
+                ++j;
+            }
+            if (p.currentTrack != -1)
+            {
+                const auto& track = p.tracks[p.currentTrack];
+                if (track.read)
+                {
+                    track.read->seek(value - track.range.min, p.ioPlayback);
+                }
+            }
         }
 
         void Media::_playbackUpdate()
@@ -707,25 +742,21 @@ namespace djv
                 p.playbackTimer->stop();
                 p.realSpeedTimer->stop();
                 _frameUpdate();
-                if (p.read)
-                {
-                    p.read->seek(p.currentFrame->get(), p.ioPlayback);
-                }
+                _seek(p.currentFrame->get());
                 break;
             case Playback::Forward: forward = true;
             case Playback::Reverse:
             {
+                if (p.alSource)
+                {
+                    alSourcePlay(p.alSource);
+                }
                 p.ioPlayback = forward ? AV::IO::Playback::Forward : AV::IO::Playback::Reverse;
-                p.alBytes = 0;
-                alSourcei(p.alSource, AL_BYTE_OFFSET, 0);
                 p.frameOffset = p.currentFrame->get();
                 p.startTime = std::chrono::system_clock::now();
                 p.realSpeedTime = p.startTime;
                 p.realSpeedFrameCount = 0;
-                if (p.read)
-                {
-                    p.read->seek(p.currentFrame->get(), p.ioPlayback);
-                }
+                _seek(p.currentFrame->get());
                 auto weak = std::weak_ptr<Media>(std::dynamic_pointer_cast<Media>(shared_from_this()));
                 p.playbackTimer->start(
                     Time::getMilliseconds(Time::TimerValue::VeryFast),
@@ -764,60 +795,16 @@ namespace djv
             case Playback::Forward:
             case Playback::Reverse:
             {
-                if (Playback::Forward == p.playback->get() && p.audioInfo.info.isValid() && p.alSource)
-                {
-                    // Don't start OpenAL playing until there are frames in the queue.
-                    size_t count = 0;
-                    size_t max = 0;
-                    {
-                        std::lock_guard<std::mutex> lock(p.read->getMutex());
-                        auto& queue = p.read->getAudioQueue();
-                        count = queue.getFrameCount();
-                        max = queue.getMax();
-                    }
-                    ALint state = 0;
-                    alGetSourcei(p.alSource, AL_SOURCE_STATE, &state);
-                    if (state != AL_PLAYING && count > max / 2)
-                    {
-                        alSourcePlay(p.alSource);
-                    }
-                }
-
                 Frame::Number frame = Frame::invalid;
                 const auto& speed = p.speed->get();
-                if (Playback::Forward == p.playback->get() && p.audioInfo.info.isValid() && p.alSource)
+                const auto now = std::chrono::system_clock::now();
+                std::chrono::duration<double> delta = now - p.startTime;
+                Frame::Number elapsed = static_cast<Frame::Number>(delta.count() * speed.toFloat());
+                switch (playback)
                 {
-                    ALint offset = 0;
-                    alGetSourcei(p.alSource, AL_BYTE_OFFSET, &offset);
-                    frame = p.frameOffset + Time::scale(
-                        (p.alBytes + offset) / p.audioInfo.info.channelCount / AV::Audio::getByteCount(p.audioInfo.info.type),
-                        Math::Rational(1, static_cast<int>(p.audioInfo.info.sampleRate)),
-                        p.speed->get().swap());
-                }
-                else
-                {
-                    const auto now = std::chrono::system_clock::now();
-                    std::chrono::duration<double> delta = now - p.startTime;
-                    Frame::Number elapsed = static_cast<Frame::Number>(delta.count() * speed.toFloat());
-
-                    switch (playback)
-                    {
-                    case Playback::Forward: frame = p.frameOffset + elapsed; break;
-                    case Playback::Reverse: frame = p.frameOffset - elapsed; break;
-                    default: break;
-                    }
-
-                    /*switch (playback)
-                    {
-                    case Playback::Forward: frame = p.currentFrame->get() + Time::scale(1, speed.swap(), Time::getTimebaseRational()); break;
-                    case Playback::Reverse: frame = p.currentFrame->get() - Time::scale(1, speed.swap(), Time::getTimebaseRational()); break;
-                    default: break;
-                    }*/
-                    /*{
-                        std::stringstream ss;
-                        ss << "video frame = " << frame;
-                        p.context->getSystemT<LogSystem>()->log("djv::ViewApp::Media", ss.str());
-                    }*/
+                case Playback::Forward: frame = p.frameOffset + elapsed; break;
+                case Playback::Reverse: frame = p.frameOffset - elapsed; break;
+                default: break;
                 }
 
                 Frame::Number start = 0;
@@ -875,10 +862,6 @@ namespace djv
                     }
                 }
                 p.currentFrame->setIfChanged(frame);
-                if (p.read && Playback::Reverse == p.playback->get() && p.audioInfo.info.isValid() && p.alSource)
-                {
-                    p.read->seek(frame, p.ioPlayback);
-                }
                 _frameUpdate();
                 break;
             }
@@ -889,71 +872,70 @@ namespace djv
         void Media::_frameUpdate()
         {
             DJV_PRIVATE_PTR();
-            if (p.read)
+            if (p.currentTrack != -1)
             {
-                // Update the video queue.
+                const auto& track = p.tracks[p.currentTrack];
+                if (track.read)
                 {
-                    std::lock_guard<std::mutex> lock(p.read->getMutex());
-                    auto& queue = p.read->getVideoQueue();
-                    const bool forward = Playback::Forward == p.playback->get();
-                    while (queue.hasFrames() && forward ?
-                        (queue.getFrame().frame < p.currentFrame->get()) :
-                        (queue.getFrame().frame > p.currentFrame->get()))
+                    // Update the video queue.
                     {
-                        auto frame = queue.popFrame();
-                        p.realSpeedFrameCount = p.realSpeedFrameCount + 1;
-                    }
-                }
-
-                // Unqueue the processed OpenAL buffers.
-                if (p.alSource)
-                {
-                    ALint processed = 0;
-                    alGetSourcei(p.alSource, AL_BUFFERS_PROCESSED, &processed);
-                    std::vector<ALuint> buffers;
-                    buffers.resize(processed);
-                    alSourceUnqueueBuffers(p.alSource, processed, buffers.data());
-                    for (const auto& buffer : buffers)
-                    {
-                        p.alBuffers.push_back(buffer);
-                        if (p.playback->get() != Playback::Stop)
+                        std::lock_guard<std::mutex> lock(track.read->getMutex());
+                        auto& queue = track.read->getVideoQueue();
+                        const bool forward = Playback::Forward == p.playback->get();
+                        const Frame::Number currentFrame = p.currentFrame->get() - track.range.min;
+                        while (queue.hasFrames() && forward ?
+                            (queue.getFrame().frame < currentFrame) :
+                            (queue.getFrame().frame > currentFrame))
                         {
-                            ALint size = 0;
-                            alGetBufferi(buffer, AL_SIZE, &size);
-                            p.alBytes += size;
+                            auto frame = queue.popFrame();
+                            p.realSpeedFrameCount = p.realSpeedFrameCount + 1;
                         }
                     }
-                }
 
-                if (Playback::Forward == p.playback->get() && p.audioInfo.info.isValid() && p.alSource)
-                {
-                    // Fill the OpenAL queue with frames from the I/O queue.
-                    ALint queued = 0;
-                    alGetSourcei(p.alSource, AL_BUFFERS_QUEUED, &queued);
-                    std::vector<AV::IO::AudioFrame> frames;
+                    // Unqueue the processed OpenAL buffers.
+                    if (p.alSource)
                     {
-                        std::lock_guard<std::mutex> lock(p.read->getMutex());
-                        auto& queue = p.read->getAudioQueue();
-                        while (queue.hasFrames() &&
-                            (frames.size() < (bufferCount - queued)) &&
-                            (frames.size() < p.alBuffers.size()))
+                        ALint processed = 0;
+                        alGetSourcei(p.alSource, AL_BUFFERS_PROCESSED, &processed);
+                        std::vector<ALuint> buffers;
+                        buffers.resize(processed);
+                        alSourceUnqueueBuffers(p.alSource, processed, buffers.data());
+                        for (const auto& buffer : buffers)
                         {
-                            frames.push_back(queue.popFrame());
+                            p.alBuffers.push_back(buffer);
                         }
                     }
-                    for (size_t i = 0; i < frames.size(); ++i)
+
+                    if (Playback::Forward == p.playback->get() && p.alSource)
                     {
-                        auto data = frames[i].audio;
-                        const AV::Audio::DataInfo info = data->getInfo();
-                        auto buffer = p.alBuffers.back();
-                        p.alBuffers.pop_back();
-                        alBufferData(
-                            buffer,
-                            AV::Audio::getALType(info.channelCount, info.type),
-                            data->getData(),
-                            data->getByteCount(),
-                            static_cast<ALsizei>(info.sampleRate));
-                        alSourceQueueBuffers(p.alSource, 1, &buffer);
+                        // Fill the OpenAL queue with frames from the I/O queue.
+                        ALint queued = 0;
+                        alGetSourcei(p.alSource, AL_BUFFERS_QUEUED, &queued);
+                        std::vector<AV::IO::AudioFrame> frames;
+                        {
+                            std::lock_guard<std::mutex> lock(track.read->getMutex());
+                            auto& queue = track.read->getAudioQueue();
+                            while (queue.hasFrames() &&
+                                (frames.size() < (bufferCount - queued)) &&
+                                (frames.size() < p.alBuffers.size()))
+                            {
+                                frames.push_back(queue.popFrame());
+                            }
+                        }
+                        for (size_t i = 0; i < frames.size(); ++i)
+                        {
+                            auto data = frames[i].audio;
+                            const AV::Audio::DataInfo info = data->getInfo();
+                            auto buffer = p.alBuffers.back();
+                            p.alBuffers.pop_back();
+                            alBufferData(
+                                buffer,
+                                AV::Audio::getALType(info.channelCount, info.type),
+                                data->getData(),
+                                data->getByteCount(),
+                                static_cast<ALsizei>(info.sampleRate));
+                            alSourceQueueBuffers(p.alSource, 1, &buffer);
+                        }
                     }
                 }
             }

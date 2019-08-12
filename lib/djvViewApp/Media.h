@@ -110,7 +110,6 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<bool> > observeInOutPointsEnabled() const;
             std::shared_ptr<Core::IValueSubject<Core::Frame::Number> > observeInPoint() const;
             std::shared_ptr<Core::IValueSubject<Core::Frame::Number> > observeOutPoint() const;
-            std::shared_ptr<Core::IValueSubject<size_t> > observeThreadCount() const;
 
             void setSpeed(const Core::Time::Speed&);
             void setPlayEveryFrame(bool);
@@ -128,7 +127,6 @@ namespace djv
             void setOutPoint(Core::Frame::Number);
             void resetInPoint();
             void resetOutPoint();
-            void setThreadCount(size_t);
 
             ///@}
 
@@ -140,6 +138,15 @@ namespace djv
 
             void setVolume(float);
             void setMute(bool);
+
+            ///@}
+
+            //! \name I/O
+            ///@{
+
+            std::shared_ptr<Core::IValueSubject<size_t> > observeThreadCount() const;
+
+            void setThreadCount(size_t);
 
             ///@}
 
@@ -167,6 +174,7 @@ namespace djv
 
         private:
             void _open();
+            void _seek(Core::Frame::Number);
             void _playbackUpdate();
             void _playbackTick();
             void _frameUpdate();
