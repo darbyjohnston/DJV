@@ -150,8 +150,8 @@ namespace djv
 
             alGetError();
             alGenSources(1, &p.alSource);
-            ALenum error = AL_NO_ERROR;
-            if ((error = alGetError()) != AL_NO_ERROR)
+            ALenum error = alGetError();
+            if (error != AL_NO_ERROR)
             {
                 std::stringstream ss;
                 ss << "djv::ViewApp::Media " << DJV_TEXT("cannot create OpenAL source") << ". " << AV::Audio::getALErrorString(error);
@@ -163,7 +163,8 @@ namespace djv
             {
                 p.alBuffers.resize(bufferCount);
                 alGenBuffers(bufferCount, p.alBuffers.data());
-                if ((error = alGetError()) != AL_NO_ERROR)
+                error = alGetError();
+                if (error != AL_NO_ERROR)
                 {
                     p.alBuffers.clear();
                     alDeleteSources(1, &p.alSource);
