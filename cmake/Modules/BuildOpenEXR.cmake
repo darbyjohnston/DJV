@@ -33,7 +33,7 @@ ExternalProject_Add(
     URL http://github.com/openexr/openexr/releases/download/v2.3.0/openexr-2.3.0.tar.gz
 	PATCH_COMMAND
 	    ${CMAKE_COMMAND} -E tar xf
-	    ${CMAKE_SOURCE_DIR}/third-party/openexr-patch/openexr.tar.gz
+	    ${CMAKE_SOURCE_DIR}/third-party/openexr-patch.tar.gz
     CMAKE_ARGS ${OpenEXR_ARGS})
 
 set(OPENEXR_FOUND TRUE)
