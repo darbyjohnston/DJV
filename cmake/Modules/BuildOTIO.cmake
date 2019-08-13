@@ -14,6 +14,9 @@ ExternalProject_Add(
 	PREFIX ${CMAKE_CURRENT_BINARY_DIR}/OTIO
     DEPENDS ${OTIO_DEPENDS}
     GIT_REPOSITORY https://github.com/PixarAnimationStudios/OpenTimelineIO.git
+	PATCH_COMMAND
+	    ${CMAKE_COMMAND} -E tar xf
+	    ${CMAKE_SOURCE_DIR}/third-party/otio-patch.tar.gz
     CMAKE_ARGS ${OTIO_ARGS})
 
 set(OTIO_FOUND TRUE)
