@@ -46,7 +46,8 @@ PYBIND11_MODULE(djvUIPy, m)
         .def_static("create", &UI::Widget::create);
 
     py::class_<UI::Label, std::shared_ptr<UI::Label>, UI::Widget>(m, "Label")
-        .def_static("create", &UI::Label::create);
+        .def_static("create", &UI::Label::create)
+        .def("setText", &UI::Label::setText);
 
     py::class_<UI::Window, std::shared_ptr<UI::Window>, UI::Widget>(m, "Window")
         .def_static("create", &UI::Window::create)

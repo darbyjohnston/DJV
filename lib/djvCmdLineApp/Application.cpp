@@ -49,17 +49,12 @@ namespace djv
         {
         };
 
-        void Application::_init(int& argc, char* argv[])
+        void Application::_init(const std::vector<std::string>& args)
         {
-            std::vector<std::string> args;
-            for (int i = 0; i < argc; ++i)
-            {
-                args.push_back(argv[i]);
-            }
             Context::_init(args);
 
-            auto glfwSystem = GLFWSystem::create(this);
-            auto avSystem = AV::AVSystem::create(this);
+            auto glfwSystem = GLFWSystem::create(shared_from_this());
+            auto avSystem = AV::AVSystem::create(shared_from_this());
 
             getSystemT<AV::IO::System>()->addDependency(glfwSystem);
             getSystemT<AV::Render::Render2D>()->addDependency(glfwSystem);
@@ -72,10 +67,10 @@ namespace djv
         Application::~Application()
         {}
 
-        Application* Application::create(int & argc, char * argv[])
+        Application* Application::create(const std::vector<std::string>& args)
         {
             auto out = new Application;
-            out->_init(argc, argv);
+            out->_init(args);
             return out;
         }
 
