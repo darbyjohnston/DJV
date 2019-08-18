@@ -42,17 +42,22 @@ int main(int argc, char ** argv)
     try
     {
         // Create an application.
-        auto app = std::unique_ptr<Desktop::Application>(Desktop::Application::create(argc, argv));
+        std::vector<std::string> args;
+        for (int i = 0; i < argc; ++i)
+        {
+            args.push_back(argv[i]);
+        }
+        auto app = Desktop::Application::create(args);
 
         // Create a label.
-        auto label = UI::Label::create(app.get());
+        auto label = UI::Label::create(app);
         label->setText("Hello world!");
         label->setFontSizeRole(UI::MetricsRole::FontHeader);
         label->setHAlign(UI::HAlign::Center);
         label->setVAlign(UI::VAlign::Center);
 
         // Create a window and show it.
-        auto window = UI::Window::create(app.get());
+        auto window = UI::Window::create(app);
         window->addChild(label);
         window->show();
 

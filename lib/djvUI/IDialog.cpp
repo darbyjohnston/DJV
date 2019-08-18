@@ -47,7 +47,7 @@ namespace djv
                 DJV_NON_COPYABLE(DialogLayout);
 
             protected:
-                void _init(Context * context)
+                void _init(const std::shared_ptr<Context>& context)
                 {
                     Vertical::_init(context);
                     setPointerEnabled(true);
@@ -57,7 +57,7 @@ namespace djv
                 {}
 
             public:
-                static std::shared_ptr<DialogLayout> create(Context * context)
+                static std::shared_ptr<DialogLayout> create(const std::shared_ptr<Context>& context)
                 {
                     auto out = std::shared_ptr<DialogLayout>(new DialogLayout);
                     out->_init(context);
@@ -89,7 +89,7 @@ namespace djv
             std::function<void(void)> closeCallback;
         };
 
-        void IDialog::_init(Context * context)
+        void IDialog::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
 

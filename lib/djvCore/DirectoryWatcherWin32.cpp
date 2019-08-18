@@ -67,12 +67,13 @@ namespace djv
                 std::shared_ptr<Time::Timer> timer;
             };
 
-            void DirectoryWatcher::_init(Context * context)
+            void DirectoryWatcher::_init(const std::shared_ptr<Context>& context)
             {
                 DJV_PRIVATE_PTR();
                 const auto timeout = Time::getValue(Time::TimerValue::Medium);
+                auto contextWeak = std::weak_ptr<Context>(context);
                 _p->thread = std::thread(
-                    [this, timeout, context]
+                    [this, timeout, contextWeak]
                 {
                     DJV_PRIVATE_PTR();
                     Path path;
@@ -106,8 +107,9 @@ namespace djv
                                     FILE_NOTIFY_CHANGE_LAST_WRITE);
                                 if (INVALID_HANDLE_VALUE == changeHandle)
                                 {
-                                    if (auto logSystem = context->getSystemT<LogSystem>())
+                                    if (auto context = contextWeak.lock())
                                     {
+                                        auto logSystem = context->getSystemT<LogSystem>();
                                         std::stringstream ss;
                                         ss << DJV_TEXT("Error finding the change notification for") <<
                                             " '" << path << "'. " << Error::getLastError();
@@ -117,8 +119,9 @@ namespace djv
                             }
                             catch (const std::exception & e)
                             {
-                                if (auto logSystem = context->getSystemT<LogSystem>())
+                                if (auto context = contextWeak.lock())
                                 {
+                                    auto logSystem = context->getSystemT<LogSystem>();
                                     std::stringstream ss;
                                     ss << DJV_TEXT("Error watching the directory") <<
                                         " '" << path << "'. " << e.what();
@@ -194,7 +197,7 @@ namespace djv
                 }
             }
 
-            std::shared_ptr<DirectoryWatcher> DirectoryWatcher::create(Context * context)
+            std::shared_ptr<DirectoryWatcher> DirectoryWatcher::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<DirectoryWatcher>(new DirectoryWatcher);
                 out->_init(context);

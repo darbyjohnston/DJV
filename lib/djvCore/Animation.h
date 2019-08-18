@@ -69,12 +69,12 @@ namespace djv
             class Animation : public std::enable_shared_from_this<Animation>
             {
                 DJV_NON_COPYABLE(Animation);
-                void _init(Context *);
+                void _init(const std::shared_ptr<Context>&);
                 inline Animation();
 
             public:
                 //! Create a new animation.
-                static std::shared_ptr<Animation> create(Context *);
+                static std::shared_ptr<Animation> create(const std::shared_ptr<Context>&);
 
                 //! \name Animation Type
                 ///@{
@@ -129,13 +129,13 @@ namespace djv
             class System : public ISystem
             {
                 DJV_NON_COPYABLE(System);
-                void _init(Context *);
+                void _init(const std::shared_ptr<Context>&);
                 System();
 
             public:
                 virtual ~System();
 
-                static std::shared_ptr<System> create(Context *);
+                static std::shared_ptr<System> create(const std::shared_ptr<Context>&);
 
                 void tick(float dt) override;
 

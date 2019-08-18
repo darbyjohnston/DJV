@@ -48,12 +48,12 @@ namespace djv
                 DJV_NON_COPYABLE(System);
 
             protected:
-                void _init(Core::Context*);
+                void _init(const std::shared_ptr<Core::Context>&);
                 System();
 
             public:
                 ~System() override;
-                static std::shared_ptr<System> create(Core::Context*);
+                static std::shared_ptr<System> create(const std::shared_ptr<Core::Context>&);
 
                 std::shared_ptr<Core::IListSubject<std::string> > observeColorSpaces() const;
                 std::shared_ptr<Core::IListSubject<Display> > observeDisplays() const;

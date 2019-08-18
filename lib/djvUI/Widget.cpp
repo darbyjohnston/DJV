@@ -69,14 +69,12 @@ namespace djv
         bool  Widget::_resizeRequest   = true;
         bool  Widget::_redrawRequest   = true;
 
-        void Widget::_init(Core::Context * context)
+        void Widget::_init(const std::shared_ptr<Context>& context)
         {
             IObject::_init(context);
             
             setClassName("djv::UI::Widget");
 
-            /*context->log("djv::UI::Widget", "Widget::Widget");
-            context->log("djv::UI::Widget", String::Format("widget count = %%1").arg(globalWidgetCount));*/
             ++globalWidgetCount;
 
             _fontSystem = context->getSystemT<AV::Font::System>();
@@ -89,11 +87,9 @@ namespace djv
         Widget::~Widget()
         {
             --globalWidgetCount;
-            /*context->log("djv::UI::Widget", "Widget::~Widget");
-            context->log("djv::UI::Widget", String::Format("widget count = %%1").arg(globalWidgetCount));*/
         }
         
-        std::shared_ptr<Widget> Widget::create(Context * context)
+        std::shared_ptr<Widget> Widget::create(const std::shared_ptr<Context>& context)
         {
             //! \bug It would be prefereable to use std::make_shared() here, but how can we do that
             //! with protected contructors?
@@ -229,23 +225,32 @@ namespace djv
         bool Widget::hasTextFocus() const
         {
             bool out = false;
-            auto eventSystem = getContext()->getSystemT<Event::IEventSystem>();
-            out = eventSystem->getTextFocus().lock() == shared_from_this();
+            if (auto context = getContext().lock())
+            {
+                auto eventSystem = context->getSystemT<Event::IEventSystem>();
+                out = eventSystem->getTextFocus().lock() == shared_from_this();
+            }
             return out;
         }
 
         void Widget::takeTextFocus()
         {
-            auto eventSystem = getContext()->getSystemT<Event::IEventSystem>();
-            eventSystem->setTextFocus(shared_from_this());
+            if (auto context = getContext().lock())
+            {
+                auto eventSystem = context->getSystemT<Event::IEventSystem>();
+                eventSystem->setTextFocus(shared_from_this());
+            }
         }
 
         void Widget::releaseTextFocus()
         {
-            auto eventSystem = getContext()->getSystemT<Event::IEventSystem>();
-            if (eventSystem->getTextFocus().lock() == shared_from_this())
+            if (auto context = getContext().lock())
             {
-                eventSystem->setTextFocus(nullptr);
+                auto eventSystem = context->getSystemT<Event::IEventSystem>();
+                if (eventSystem->getTextFocus().lock() == shared_from_this())
+                {
+                    eventSystem->setTextFocus(nullptr);
+                }
             }
         }
 
@@ -373,26 +378,29 @@ namespace djv
                     auto & updateEvent = static_cast<Event::Update &>(event);
                     _updateTime = updateEvent.getTime();
 
-                    for (auto & i : _pointerToTooltips)
+                    if (auto context = getContext().lock())
                     {
-                        const auto j = _pointerHover.find(i.first);
-                        if (_tooltipsEnabled &&
-                            (_updateTime - i.second.timer) > tooltipTimeout &&
-                            !i.second.tooltip &&
-                            j != _pointerHover.end())
+                        for (auto & i : _pointerToTooltips)
                         {
-                            for (
-                                auto widget = std::dynamic_pointer_cast<Widget>(shared_from_this());
-                                widget;
-                                widget = std::dynamic_pointer_cast<Widget>(widget->getParent().lock()))
+                            const auto j = _pointerHover.find(i.first);
+                            if (_tooltipsEnabled &&
+                                (_updateTime - i.second.timer) > tooltipTimeout &&
+                                !i.second.tooltip &&
+                                j != _pointerHover.end())
                             {
-                                if (auto tooltipWidget = widget->_createTooltip(j->second))
+                                for (
+                                    auto widget = std::dynamic_pointer_cast<Widget>(shared_from_this());
+                                    widget;
+                                    widget = std::dynamic_pointer_cast<Widget>(widget->getParent().lock()))
                                 {
-                                    if (auto window = getWindow())
+                                    if (auto tooltipWidget = widget->_createTooltip(j->second))
                                     {
-                                        i.second.tooltip = Tooltip::create(window, j->second, tooltipWidget, getContext());
+                                        if (auto window = getWindow())
+                                        {
+                                            i.second.tooltip = Tooltip::create(window, j->second, tooltipWidget, context);
+                                        }
+                                        break;
                                     }
-                                    break;
                                 }
                             }
                         }
@@ -685,12 +693,16 @@ namespace djv
 
         std::shared_ptr<Widget> Widget::_createTooltipDefault(const std::string & text)
         {
-            auto context = getContext();
-            auto textBlock = TextBlock::create(text, context);
-            textBlock->setTextColorRole(ColorRole::TooltipForeground);
-            textBlock->setBackgroundRole(ColorRole::TooltipBackground);
-            textBlock->setMargin(MetricsRole::Margin);
-            return textBlock;
+            std::shared_ptr<Widget> out;
+            /*if (auto context = getContext().lock())
+            {
+                auto textBlock = TextBlock::create(text, context);
+                textBlock->setTextColorRole(ColorRole::TooltipForeground);
+                textBlock->setBackgroundRole(ColorRole::TooltipBackground);
+                textBlock->setMargin(MetricsRole::Margin);
+                out = textBlock;
+            }*/
+            return out;
         }
 
         std::shared_ptr<Widget> Widget::_createTooltip(const glm::vec2 &)

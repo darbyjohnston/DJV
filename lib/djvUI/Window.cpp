@@ -45,7 +45,7 @@ namespace djv
         {
         };
 
-        void Window::_init(Context * context)
+        void Window::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
             setClassName("djv::UI::Window");
@@ -61,7 +61,7 @@ namespace djv
         Window::~Window()
         {}
 
-        std::shared_ptr<Window> Window::create(Context * context)
+        std::shared_ptr<Window> Window::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<Window>(new Window);
             out->_init(context);

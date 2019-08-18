@@ -288,11 +288,11 @@ set(DJV_RESOURCE_FILES
 include(djvPackage)
 
 add_subdirectory(third-party)
-add_subdirectory(bin)
+#add_subdirectory(bin)
 add_subdirectory(lib)
-add_subdirectory(tests)
+#add_subdirectory(tests)
 add_subdirectory(examples)
-add_subdirectory(experiments)
+#add_subdirectory(experiments)
 add_subdirectory(doc)
 
 include(CPack)

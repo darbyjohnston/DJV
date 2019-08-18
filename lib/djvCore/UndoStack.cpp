@@ -45,7 +45,7 @@ namespace djv
             std::function<void()> callback;
         };
 
-        void UndoStack::_init(Context * context)
+        void UndoStack::_init(const std::shared_ptr<Context>& context)
         {}
 
         UndoStack::UndoStack() :
@@ -55,7 +55,7 @@ namespace djv
         UndoStack::~UndoStack()
         {}
 
-        std::shared_ptr<UndoStack> UndoStack::create(Context * context)
+        std::shared_ptr<UndoStack> UndoStack::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<UndoStack>(new UndoStack);
             out->_init(context);

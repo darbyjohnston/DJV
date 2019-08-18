@@ -39,6 +39,7 @@
 #include <djvCore/String.h>
 #include <djvCore/Timer.h>
 
+#define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
 #include <future>

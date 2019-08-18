@@ -31,6 +31,7 @@
 
 #include <djvCore/Core.h>
 
+#include <memory>
 #include <string>
 
 namespace djv
@@ -43,17 +44,17 @@ namespace djv
         class ICommand
         {
         public:
-            ICommand(const std::string & name, Context *);
+            ICommand(const std::string & name, const std::shared_ptr<Context>&);
             virtual ~ICommand() = 0;
 
-            Context * getContext() const;
+            const std::weak_ptr<Context>& getContext() const;
             const std::string & getName() const;
 
             virtual void exec() = 0;
             virtual void undo() = 0;
 
         private:
-            Context * _context = nullptr;
+            const std::weak_ptr<Context>& _context;
             std::string _name;
         };
 

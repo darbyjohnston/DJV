@@ -45,13 +45,13 @@ namespace djv
             DJV_NON_COPYABLE(AVSystem);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             AVSystem();
 
         public:
             ~AVSystem() override;
 
-            static std::shared_ptr<AVSystem> create(Core::Context *);
+            static std::shared_ptr<AVSystem> create(const std::shared_ptr<Core::Context>&);
 
             std::shared_ptr<Core::IValueSubject<TimeUnits> > observeTimeUnits() const;
             void setTimeUnits(TimeUnits);

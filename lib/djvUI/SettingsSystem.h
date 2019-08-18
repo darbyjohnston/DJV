@@ -48,14 +48,14 @@ namespace djv
             class System : public Core::ISystem
             {
                 DJV_NON_COPYABLE(System);
-                void _init(Core::Context *);
+                void _init(const std::shared_ptr<Core::Context>&);
                 System();
 
             public:
                 virtual ~System();
 
                 //! Create a new settings system.
-                static std::shared_ptr<System> create(Core::Context *);
+                static std::shared_ptr<System> create(const std::shared_ptr<Core::Context>&);
 
                 //! Get the list of settings.
                 inline const std::vector<std::shared_ptr<ISettings> > & getSettings() const;

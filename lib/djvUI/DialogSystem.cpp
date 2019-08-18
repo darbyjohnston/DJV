@@ -53,7 +53,7 @@ namespace djv
                 DJV_NON_COPYABLE(MessageDialog);
 
             protected:
-                void _init(Context * context)
+                void _init(const std::shared_ptr<Core::Context>& context)
                 {
                     IDialog::_init(context);
 
@@ -88,7 +88,7 @@ namespace djv
                 {}
 
             public:
-                static std::shared_ptr<MessageDialog> create(Context * context)
+                static std::shared_ptr<MessageDialog> create(const std::shared_ptr<Core::Context>& context)
                 {
                     auto out = std::shared_ptr<MessageDialog>(new MessageDialog);
                     out->_init(context);
@@ -115,7 +115,7 @@ namespace djv
                 DJV_NON_COPYABLE(ConfirmationDialog);
 
             protected:
-                void _init(Context * context)
+                void _init(const std::shared_ptr<Core::Context>& context)
                 {
                     IDialog::_init(context);
 
@@ -173,7 +173,7 @@ namespace djv
                 {}
 
             public:
-                static std::shared_ptr<ConfirmationDialog> create(Context * context)
+                static std::shared_ptr<ConfirmationDialog> create(const std::shared_ptr<Core::Context>& context)
                 {
                     auto out = std::shared_ptr<ConfirmationDialog>(new ConfirmationDialog);
                     out->_init(context);
@@ -221,7 +221,7 @@ namespace djv
             std::shared_ptr<ConfirmationDialog> confirmationDialog;
         };
 
-        void DialogSystem::_init(Context * context)
+        void DialogSystem::_init(const std::shared_ptr<Core::Context>& context)
         {
             ISystem::_init("djv::UI::DialogSystem", context);
 
@@ -235,7 +235,7 @@ namespace djv
         DialogSystem::~DialogSystem()
         {}
 
-        std::shared_ptr<DialogSystem> DialogSystem::create(Context * context)
+        std::shared_ptr<DialogSystem> DialogSystem::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<DialogSystem>(new DialogSystem);
             out->_init(context);
@@ -247,33 +247,35 @@ namespace djv
             const std::string & text,
             const std::string & closeText)
         {
-            auto context = getContext();
             DJV_PRIVATE_PTR();
-            auto eventSystem = context->getSystemT<UI::EventSystem>();
-            if (auto window = eventSystem->getCurrentWindow().lock())
+            if (auto context = getContext().lock())
             {
-                if (!p.messageDialog)
+                auto eventSystem = context->getSystemT<UI::EventSystem>();
+                if (auto window = eventSystem->getCurrentWindow().lock())
                 {
-                    p.messageDialog = MessageDialog::create(context);
-                }
-                p.messageDialog->setTitle(title);
-                p.messageDialog->setText(text);
-                p.messageDialog->setCloseText(closeText);
-                auto weak = std::weak_ptr<DialogSystem>(std::dynamic_pointer_cast<DialogSystem>(shared_from_this()));
-                p.messageDialog->setCloseCallback(
-                    [weak]
-                {
-                    if (auto system = weak.lock())
+                    if (!p.messageDialog)
                     {
-                        if (auto parent = system->_p->messageDialog->getParent().lock())
-                        {
-                            parent->removeChild(system->_p->messageDialog);
-                        }
-                        system->_p->messageDialog.reset();
+                        p.messageDialog = MessageDialog::create(context);
                     }
-                });
-                window->addChild(p.messageDialog);
-                p.messageDialog->show();
+                    p.messageDialog->setTitle(title);
+                    p.messageDialog->setText(text);
+                    p.messageDialog->setCloseText(closeText);
+                    auto weak = std::weak_ptr<DialogSystem>(std::dynamic_pointer_cast<DialogSystem>(shared_from_this()));
+                    p.messageDialog->setCloseCallback(
+                        [weak]
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (auto parent = system->_p->messageDialog->getParent().lock())
+                            {
+                                parent->removeChild(system->_p->messageDialog);
+                            }
+                            system->_p->messageDialog.reset();
+                        }
+                    });
+                    window->addChild(p.messageDialog);
+                    p.messageDialog->show();
+                }
             }
         }
 
@@ -284,44 +286,46 @@ namespace djv
             const std::string & cancelText,
             const std::function<void(bool)> & callback)
         {
-            auto context = getContext();
             DJV_PRIVATE_PTR();
-            auto eventSystem = context->getSystemT<UI::EventSystem>();
-            if (auto window = eventSystem->getCurrentWindow().lock())
+            if (auto context = getContext().lock())
             {
-                if (!p.confirmationDialog)
+                auto eventSystem = context->getSystemT<UI::EventSystem>();
+                if (auto window = eventSystem->getCurrentWindow().lock())
                 {
-                    p.confirmationDialog = ConfirmationDialog::create(context);
-                }
-                p.confirmationDialog->setTitle(title);
-                p.confirmationDialog->setText(text);
-                p.confirmationDialog->setAcceptText(acceptText);
-                p.confirmationDialog->setCancelText(cancelText);
-                auto weak = std::weak_ptr<DialogSystem>(std::dynamic_pointer_cast<DialogSystem>(shared_from_this()));
-                p.confirmationDialog->setAcceptCallback(
-                    [callback]
-                {
-                    callback(true);
-                });
-                p.confirmationDialog->setCancelCallback(
-                    [callback]
-                {
-                    callback(false);
-                });
-                p.confirmationDialog->setCloseCallback(
-                    [weak]
-                {
-                    if (auto system = weak.lock())
+                    if (!p.confirmationDialog)
                     {
-                        if (auto parent = system->_p->confirmationDialog->getParent().lock())
-                        {
-                            parent->removeChild(system->_p->confirmationDialog);
-                        }
-                        system->_p->confirmationDialog.reset();
+                        p.confirmationDialog = ConfirmationDialog::create(context);
                     }
-                });
-                window->addChild(p.confirmationDialog);
-                p.confirmationDialog->show();
+                    p.confirmationDialog->setTitle(title);
+                    p.confirmationDialog->setText(text);
+                    p.confirmationDialog->setAcceptText(acceptText);
+                    p.confirmationDialog->setCancelText(cancelText);
+                    auto weak = std::weak_ptr<DialogSystem>(std::dynamic_pointer_cast<DialogSystem>(shared_from_this()));
+                    p.confirmationDialog->setAcceptCallback(
+                        [callback]
+                    {
+                        callback(true);
+                    });
+                    p.confirmationDialog->setCancelCallback(
+                        [callback]
+                    {
+                        callback(false);
+                    });
+                    p.confirmationDialog->setCloseCallback(
+                        [weak]
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (auto parent = system->_p->confirmationDialog->getParent().lock())
+                            {
+                                parent->removeChild(system->_p->confirmationDialog);
+                            }
+                            system->_p->confirmationDialog.reset();
+                        }
+                    });
+                    window->addChild(p.confirmationDialog);
+                    p.confirmationDialog->show();
+                }
             }
         }
 

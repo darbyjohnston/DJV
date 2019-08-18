@@ -32,15 +32,15 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-namespace py = pybind11;
-
 using namespace djv;
 using namespace djv::Core;
 
+namespace py = pybind11;
+
 PYBIND11_MODULE(djvDesktopAppPy, m)
 {
-    py::class_<Desktop::Application, Context>(m, "Application")
-        .def_static("create", py::overload_cast<const std::vector<std::string>&>(&Desktop::Application::create))
+    py::class_<Desktop::Application, std::shared_ptr<Desktop::Application>, Context>(m, "Application")
+        .def_static("create", &Desktop::Application::create)
         .def("run", &Desktop::Application::run)
         .def("exit", &Desktop::Application::exit);
 }

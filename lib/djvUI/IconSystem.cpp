@@ -112,7 +112,7 @@ namespace djv
             uint16_t findClosestDPI(uint16_t) const;
         };
 
-        void IconSystem::_init(Context * context)
+        void IconSystem::_init(const std::shared_ptr<Core::Context>& context)
         {
             ISystem::_init("djv::UI::IconSystem", context);
 
@@ -213,7 +213,7 @@ namespace djv
             }
         }
 
-        std::shared_ptr<IconSystem> IconSystem::create(Context * context)
+        std::shared_ptr<IconSystem> IconSystem::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<IconSystem>(new IconSystem);
             out->_init(context);

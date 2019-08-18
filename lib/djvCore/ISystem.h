@@ -48,7 +48,7 @@ namespace djv
         class ISystemBase : public std::enable_shared_from_this<ISystemBase>
         {
         protected:
-            void _init(const std::string& name, Context*);
+            void _init(const std::string& name, const std::shared_ptr<Context>&);
             inline ISystemBase();
 
         public:
@@ -58,7 +58,7 @@ namespace djv
             inline const std::string& getSystemName() const;
 
             //! Get the context.
-            inline Context* getContext() const;
+            inline const std::weak_ptr<Context>& getContext() const;
 
             //! Get the list of system dependencies.
             inline const std::vector<std::shared_ptr<ISystemBase> >& getDependencies() const;
@@ -71,7 +71,7 @@ namespace djv
 
         private:
             std::string _name;
-            Context* _context = nullptr;
+            std::weak_ptr<Context> _context;
             std::vector<std::shared_ptr<ISystemBase> > _dependencies;
         };
 
@@ -79,7 +79,7 @@ namespace djv
         class ISystem : public ISystemBase
         {
         protected:
-            void _init(const std::string& name, Context*);
+            void _init(const std::string& name, const std::shared_ptr<Context>&);
             inline ISystem();
 
         public:

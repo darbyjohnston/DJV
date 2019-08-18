@@ -57,11 +57,11 @@ namespace djv
             const std::string argv0 = _args.size() > 0 ? _args[0] : std::string();
             _name = FileSystem::Path(argv0).getBaseName();
 
-            _timerSystem = Time::TimerSystem::create(this);
-            _resourceSystem = ResourceSystem::create(argv0, this);
-            _logSystem = LogSystem::create(_resourceSystem->getPath(FileSystem::ResourcePath::LogFile), this);
-            _textSystem = TextSystem::create(_resourceSystem->getPath(FileSystem::ResourcePath::TextDirectory), this);
-            CoreSystem::create(argv0, this);
+            _timerSystem = Time::TimerSystem::create(shared_from_this());
+            _resourceSystem = ResourceSystem::create(argv0, shared_from_this());
+            _logSystem = LogSystem::create(_resourceSystem->getPath(FileSystem::ResourcePath::LogFile), shared_from_this());
+            _textSystem = TextSystem::create(_resourceSystem->getPath(FileSystem::ResourcePath::TextDirectory), shared_from_this());
+            CoreSystem::create(argv0, shared_from_this());
 
             {
                 std::stringstream s;
@@ -78,36 +78,28 @@ namespace djv
                 _logSystem->log("djv::Core::Context", s.str());
             }
 
-            _fpsTimer = Time::Timer::create(this);
+            _fpsTimer = Time::Timer::create(shared_from_this());
             _fpsTimer->setRepeating(true);
+            auto weak = std::weak_ptr<Context>(shared_from_this());
             _fpsTimer->start(
                 Time::getMilliseconds(Time::TimerValue::VerySlow),
-                [this](float)
+                [weak](float)
             {
-                std::stringstream s;
-                s << "FPS: " << _fpsAverage;
-                _logSystem->log("djv::Core::Context", s.str());
+                if (auto context = weak.lock())
+                {
+                    std::stringstream s;
+                    s << "FPS: " << context->_fpsAverage;
+                    context->_logSystem->log("djv::Core::Context", s.str());
+                }
             });
         }
 
         Context::~Context()
         {}
 
-        Context* Context::create(int& argc, char** argv)
+        std::shared_ptr<Context> Context::create(const std::vector<std::string>& args)
         {
-            auto out = new Context;
-            std::vector<std::string> args;
-            for (int i = 0; i < argc; ++i)
-            {
-                args.push_back(argv[i]);
-            }
-            out->_init(args);
-            return out;
-        }
-
-        Context* Context::create(const std::vector<std::string>& args)
-        {
-            auto out = new Context;
+            auto out = std::shared_ptr<Context>(new Context);
             out->_init(args);
             return out;
         }

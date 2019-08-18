@@ -43,13 +43,13 @@ namespace djv
                 DJV_NON_COPYABLE(General);
 
             protected:
-                void _init(Core::Context *);
+                void _init(const std::shared_ptr<Core::Context>&);
                 General();
 
             public:
                 virtual ~General();
 
-                static std::shared_ptr<General> create(Core::Context *);
+                static std::shared_ptr<General> create(const std::shared_ptr<Core::Context>&);
 
                 void load(const picojson::value &) override;
                 picojson::value save() override;

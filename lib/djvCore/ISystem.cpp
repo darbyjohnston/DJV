@@ -44,7 +44,7 @@ namespace djv
 
         } // namespace
 
-        void ISystemBase::_init(const std::string & name, Context * context)
+        void ISystemBase::_init(const std::string & name, const std::shared_ptr<Context>& context)
         {
             ++systemCount;
             _name = name;
@@ -66,7 +66,7 @@ namespace djv
             _dependencies.push_back(value);
         }
 
-        void ISystem::_init(const std::string & name, Context * context)
+        void ISystem::_init(const std::string & name, const std::shared_ptr<Context>& context)
         {
             ISystemBase::_init(name, context);
             _logSystem = context->getSystemT<LogSystem>();

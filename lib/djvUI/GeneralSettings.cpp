@@ -49,7 +49,7 @@ namespace djv
                 std::shared_ptr<TextSystem> textSystem;
             };
 
-            void General::_init(Context * context)
+            void General::_init(const std::shared_ptr<Core::Context>& context)
             {
                 ISettings::_init("djv::UI::Settings::General", context);
                 DJV_PRIVATE_PTR();
@@ -64,7 +64,7 @@ namespace djv
             General::~General()
             {}
 
-            std::shared_ptr<General> General::create(Context * context)
+            std::shared_ptr<General> General::create(const std::shared_ptr<Core::Context>& context)
             {
                 auto out = std::shared_ptr<General>(new General);
                 out->_init(context);

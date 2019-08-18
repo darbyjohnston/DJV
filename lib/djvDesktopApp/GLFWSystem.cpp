@@ -37,6 +37,7 @@
 #include <djvCore/OS.h>
 #include <djvCore/Timer.h>
 
+#define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
 //#pragma optimize("", off)
@@ -77,7 +78,7 @@ namespace djv
                 {
                 case GL_DEBUG_SEVERITY_HIGH_KHR:
                 case GL_DEBUG_SEVERITY_MEDIUM_KHR:
-                    if (auto log = reinterpret_cast<const Context *>(userParam)->getSystemT<LogSystem>())
+                    if (auto log = reinterpret_cast<const Context*>(userParam)->getSystemT<LogSystem>())
                     {
                         log->log("djv::Desktop::GLFWSystem", message);
                     }
@@ -108,7 +109,7 @@ namespace djv
                 physicalSizeMM == other.physicalSizeMM;
         }
 
-        void GLFWSystem::_init(Context * context)
+        void GLFWSystem::_init(const std::shared_ptr<Core::Context>& context)
         {
             ISystem::_init("djv::Desktop::GLFWSystem", context);
             DJV_PRIVATE_PTR();
@@ -215,7 +216,7 @@ namespace djv
                 ss << "OpenGL version: " << glMajor << "." << glMinor << "." << glRevision;
                 _log(ss.str());
             }
-            glfwSetWindowUserPointer(p.glfwWindow, context);
+            glfwSetWindowUserPointer(p.glfwWindow, context.get());
             glfwMakeContextCurrent(p.glfwWindow);
 #if defined(DJV_OPENGL_ES2)
             if (!gladLoadGLES2Loader((GLADloadproc)glfwGetProcAddress))
@@ -235,7 +236,7 @@ namespace djv
             {
                 glEnable(GL_DEBUG_OUTPUT);
                 glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-                glDebugMessageCallback(glDebugOutput, context);
+                glDebugMessageCallback(glDebugOutput, context.get());
                 glDebugMessageControl(
                     static_cast<GLenum>(GL_DONT_CARE),
                     static_cast<GLenum>(GL_DONT_CARE),
@@ -282,7 +283,7 @@ namespace djv
             glfwTerminate();
         }
 
-        std::shared_ptr<GLFWSystem> GLFWSystem::create(Context * context)
+        std::shared_ptr<GLFWSystem> GLFWSystem::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<GLFWSystem>(new GLFWSystem);
             out->_init(context);

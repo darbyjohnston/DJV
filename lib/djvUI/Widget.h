@@ -74,14 +74,14 @@ namespace djv
             DJV_NON_COPYABLE(Widget);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             inline Widget();
 
         public:
             virtual ~Widget();
 
             //! Create a new widget.
-            static std::shared_ptr<Widget> create(Core::Context *);
+            static std::shared_ptr<Widget> create(const std::shared_ptr<Core::Context>&);
 
             //! Get the top-level window.
             std::shared_ptr<Window> getWindow() const;

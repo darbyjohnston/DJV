@@ -1,10 +1,10 @@
 add_subdirectory(djvAV)
-add_subdirectory(djvCmdLineApp)
+#add_subdirectory(djvCmdLineApp)
 add_subdirectory(djvCore)
 add_subdirectory(djvDesktopApp)
 add_subdirectory(djvUI)
-add_subdirectory(djvUIComponents)
-add_subdirectory(djvViewApp)
+#add_subdirectory(djvUIComponents)
+#add_subdirectory(djvViewApp)
 
 add_subdirectory(djvCorePy)
 add_subdirectory(djvDesktopAppPy)

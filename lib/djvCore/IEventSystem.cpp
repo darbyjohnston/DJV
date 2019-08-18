@@ -59,7 +59,7 @@ namespace djv
                     ~RootObject() override
                     {}
 
-                    static std::shared_ptr<RootObject> create(Context * context)
+                    static std::shared_ptr<RootObject> create(const std::shared_ptr<Context>& context)
                     {
                         auto out = std::shared_ptr<RootObject>(new RootObject);
                         out->_init(context);
@@ -87,7 +87,7 @@ namespace djv
                 std::shared_ptr<Time::Timer> statsTimer;
             };
 
-            void IEventSystem::_init(const std::string & systemName, Context * context)
+            void IEventSystem::_init(const std::string & systemName, const std::shared_ptr<Context>& context)
             {
                 ISystem::_init(systemName, context);
 

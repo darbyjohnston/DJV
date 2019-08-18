@@ -1,80 +1,80 @@
 set(header
     AVSettings.h
     Action.h
-    ActionButton.h
-    ActionGroup.h
-    Bellows.h
-    Border.h
-    ButtonGroup.h
+    #ActionButton.h
+    #ActionGroup.h
+    #Bellows.h
+    #Border.h
+    #ButtonGroup.h
 	ColorSpaceSettings.h
-    ColorSwatch.h
-    ComboBox.h
-    DialogSystem.h
-	DrawUtil.h
-    Drawer.h
+    #ColorSwatch.h
+    #ComboBox.h
+    #DialogSystem.h
+	#DrawUtil.h
+    #Drawer.h
     Enum.h
     EventSystem.h
-    FloatEdit.h
-    FloatLabel.h
-    FloatSlider.h
-    FlowLayout.h
+    #FloatEdit.h
+    #FloatLabel.h
+    #FloatSlider.h
+    #FlowLayout.h
     FontSettings.h
-    FormLayout.h
+    #FormLayout.h
     GeneralSettings.h
-    GridLayout.h
-    GroupBox.h
-    IButton.h
-    IDialog.h
-    INumericWidget.h
-    INumericWidgetInline.h
+    #GridLayout.h
+    #GroupBox.h
+    #IButton.h
+    #IDialog.h
+    #INumericWidget.h
+    #INumericWidgetInline.h
     ISettings.h
     ISettingsTemplates.h
     ISettingsTemplatesInline.h
-    Icon.h
+    #Icon.h
     IconSystem.h
-    ImageWidget.h
-    IntEdit.h
-    IntLabel.h
-    IntSlider.h
+    #ImageWidget.h
+    #IntEdit.h
+    #IntLabel.h
+    #IntSlider.h
     Label.h
-	LayoutUtil.h
-    ListButton.h
-    ListWidget.h
-    LineEdit.h
-    LineEditBase.h
-    MDICanvas.h
-    MDIWidget.h
+	#LayoutUtil.h
+    #ListButton.h
+    #ListWidget.h
+    #LineEdit.h
+    #LineEditBase.h
+    #MDICanvas.h
+    #MDIWidget.h
     Margin.h
     MarginInline.h
-    Menu.h
-    MenuBar.h
-    MenuButton.h
-	NumericEdit.h
-    NumericSlider.h
+    #Menu.h
+    #MenuBar.h
+    #MenuButton.h
+	#NumericEdit.h
+    #NumericSlider.h
     Overlay.h
-    PopupMenu.h
-    PopupWidget.h
-    PushButton.h
-    RowLayout.h
-    ScrollWidget.h
-    Separator.h
+    #PopupMenu.h
+    #PopupWidget.h
+    #PushButton.h
+    #RowLayout.h
+    #ScrollWidget.h
+    #Separator.h
     SettingsSystem.h
     SettingsSystemInline.h
     Shortcut.h
-    Spacer.h
+    #Spacer.h
     Spacing.h
     SpacingInline.h
-    Splitter.h
-    SoloLayout.h
+    #Splitter.h
+    #SoloLayout.h
     StackLayout.h
     Style.h
     StyleSettings.h
-    TabBar.h
-    TabWidget.h
-    TextBlock.h
-    ToggleButton.h
-    ToolBar.h
-    ToolButton.h
+    #TabBar.h
+    #TabWidget.h
+    #TextBlock.h
+    #ToggleButton.h
+    #ToolBar.h
+    #ToolButton.h
     Tooltip.h
     UI.h
     UISettings.h
@@ -85,73 +85,73 @@ set(header
 set(source
     AVSettings.cpp
     Action.cpp
-    ActionButton.cpp
-    ActionGroup.cpp
-    Bellows.cpp
-    Border.cpp
-    ButtonGroup.cpp
+    #ActionButton.cpp
+    #ActionGroup.cpp
+    #Bellows.cpp
+    #Border.cpp
+    #ButtonGroup.cpp
 	ColorSpaceSettings.cpp
-    ColorSwatch.cpp
-    ComboBox.cpp
-    DialogSystem.cpp
-	DrawUtil.cpp
-    Drawer.cpp
+    #ColorSwatch.cpp
+    #ComboBox.cpp
+    #DialogSystem.cpp
+	#DrawUtil.cpp
+    #Drawer.cpp
     Enum.cpp
     EventSystem.cpp
-    FloatEdit.cpp
-    FloatLabel.cpp
-    FloatSlider.cpp
-    FlowLayout.cpp
+    #FloatEdit.cpp
+    #FloatLabel.cpp
+    #FloatSlider.cpp
+    #FlowLayout.cpp
     FontSettings.cpp
-    FormLayout.cpp
+    #FormLayout.cpp
     GeneralSettings.cpp
-    GridLayout.cpp
-    GroupBox.cpp
-    IButton.cpp
-    IDialog.cpp
-    INumericWidget.cpp
+    #GridLayout.cpp
+    #GroupBox.cpp
+    #IButton.cpp
+    #IDialog.cpp
+    #INumericWidget.cpp
     ISettings.cpp
-    Icon.cpp
+    #Icon.cpp
     IconSystem.cpp
-    ImageWidget.cpp
-    IntEdit.cpp
-    IntLabel.cpp
-    IntSlider.cpp
+    #ImageWidget.cpp
+    #IntEdit.cpp
+    #IntLabel.cpp
+    #IntSlider.cpp
     Label.cpp
-	LayoutUtil.cpp
-    ListButton.cpp
-    ListWidget.cpp
-    LineEdit.cpp
-    LineEditBase.cpp
-    MDICanvas.cpp
-    MDIWidget.cpp
+	#LayoutUtil.cpp
+    #ListButton.cpp
+    #ListWidget.cpp
+    #LineEdit.cpp
+    #LineEditBase.cpp
+    #MDICanvas.cpp
+    #MDIWidget.cpp
     Margin.cpp
-    Menu.cpp
-    MenuBar.cpp
-    MenuButton.cpp
-	NumericEdit.cpp
-    NumericSlider.cpp
+    #Menu.cpp
+    #MenuBar.cpp
+    #MenuButton.cpp
+	#NumericEdit.cpp
+    #NumericSlider.cpp
     Overlay.cpp
-    PopupMenu.cpp
-    PopupWidget.cpp
-    PushButton.cpp
-    RowLayout.cpp
-    ScrollWidget.cpp
-    Separator.cpp
+    #PopupMenu.cpp
+    #PopupWidget.cpp
+    #PushButton.cpp
+    #RowLayout.cpp
+    #ScrollWidget.cpp
+    #Separator.cpp
     SettingsSystem.cpp
     Shortcut.cpp
-    Spacer.cpp
-    Splitter.cpp
-    SoloLayout.cpp
+    #Spacer.cpp
+    #Splitter.cpp
+    #SoloLayout.cpp
     StackLayout.cpp
     Style.cpp
     StyleSettings.cpp
-    TabBar.cpp
-    TabWidget.cpp
-    TextBlock.cpp
-    ToggleButton.cpp
-    ToolBar.cpp
-    ToolButton.cpp
+    #TabBar.cpp
+    #TabWidget.cpp
+    #TextBlock.cpp
+    #ToggleButton.cpp
+    #ToolBar.cpp
+    #ToolButton.cpp
     Tooltip.cpp
     UISettings.cpp
     UISystem.cpp

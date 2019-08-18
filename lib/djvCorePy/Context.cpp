@@ -28,18 +28,22 @@
 //------------------------------------------------------------------------------
 
 #include <djvCore/Context.h>
+#include <djvCore/IObject.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-namespace py = pybind11;
-
 using namespace djv::Core;
+
+namespace py = pybind11;
 
 PYBIND11_MODULE(djvCorePy, m)
 {
-    py::class_<Context>(m, "Context")
-        .def_static("create", py::overload_cast<const std::vector<std::string>&>(&Context::create))
+    py::class_<IObject, std::shared_ptr<IObject> >(m, "IObject")
+        .def("addChild", &IObject::addChild);
+
+    py::class_<Context, std::shared_ptr<Context> >(m, "Context")
+        .def_static("create", &Context::create)
         .def("getArgs", &Context::getArgs)
         .def("getName", &Context::getName);
 }

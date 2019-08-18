@@ -58,7 +58,7 @@ namespace djv
                 const std::shared_ptr<Window> &,
                 const glm::vec2 & pos,
                 const std::shared_ptr<Widget> &,
-                Core::Context *);
+                const std::shared_ptr<Core::Context>&);
             Tooltip();
 
         public:
@@ -68,7 +68,7 @@ namespace djv
                 const std::shared_ptr<Window> &,
                 const glm::vec2 & pos,
                 const std::shared_ptr<Widget> &,
-                Core::Context *);
+                const std::shared_ptr<Core::Context>&);
 
         private:
             DJV_PRIVATE();

@@ -50,7 +50,7 @@ namespace djv
                 std::shared_ptr<ValueSubject<bool> > tooltips;
             };
 
-            void UI::_init(Context * context)
+            void UI::_init(const std::shared_ptr<Core::Context>& context)
             {
                 ISettings::_init("djv::UI::Settings::UI", context);
                 DJV_PRIVATE_PTR();
@@ -65,7 +65,7 @@ namespace djv
             UI::~UI()
             {}
 
-            std::shared_ptr<UI> UI::create(Context * context)
+            std::shared_ptr<UI> UI::create(const std::shared_ptr<Core::Context>& context)
             {
                 auto out = std::shared_ptr<UI>(new UI);
                 out->_init(context);

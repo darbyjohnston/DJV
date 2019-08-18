@@ -54,7 +54,7 @@ namespace djv
                 std::shared_ptr<djv::AV::IO::System> ioSystem;
             };
 
-            void AV::_init(Context * context)
+            void AV::_init(const std::shared_ptr<Core::Context>& context)
             {
                 ISettings::_init("djv::UI::Settings::AV", context);
                 DJV_PRIVATE_PTR();
@@ -70,7 +70,7 @@ namespace djv
             AV::~AV()
             {}
 
-            std::shared_ptr<AV> AV::create(Context * context)
+            std::shared_ptr<AV> AV::create(const std::shared_ptr<Core::Context>& context)
             {
                 auto out = std::shared_ptr<AV>(new AV);
                 out->_init(context);

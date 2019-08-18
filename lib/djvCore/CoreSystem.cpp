@@ -43,7 +43,7 @@ namespace djv
         {
         };
 
-        void CoreSystem::_init(const std::string & argv0, Context * context)
+        void CoreSystem::_init(const std::string & argv0, const std::shared_ptr<Context>& context)
         {
             ISystem::_init("djv::Core::CoreSystem", context);
 
@@ -59,7 +59,7 @@ namespace djv
         CoreSystem::~CoreSystem()
         {}
 
-        std::shared_ptr<CoreSystem> CoreSystem::create(const std::string & argv0, Context * context)
+        std::shared_ptr<CoreSystem> CoreSystem::create(const std::string & argv0, const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<CoreSystem>(new CoreSystem);
             out->_init(argv0, context);

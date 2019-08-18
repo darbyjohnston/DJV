@@ -50,6 +50,7 @@
 #endif // DJV_OPENGL_ES2
 #include <djvCore/Timer.h>
 
+#define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
 #if defined(DJV_OPENGL_ES2)
@@ -98,7 +99,7 @@ namespace djv
             std::shared_ptr<Time::Timer> statsTimer;
         };
 
-        void EventSystem::_init(GLFWwindow * glfwWindow, Context * context)
+        void EventSystem::_init(GLFWwindow * glfwWindow, const std::shared_ptr<Context>& context)
         {
             UI::EventSystem::_init("djv::Desktop::EventSystem", context);
 
@@ -159,7 +160,7 @@ namespace djv
         EventSystem::~EventSystem()
         {}
 
-        std::shared_ptr<EventSystem> EventSystem::create(GLFWwindow * glfwWindow, Context * context)
+        std::shared_ptr<EventSystem> EventSystem::create(GLFWwindow * glfwWindow, const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<EventSystem>(new EventSystem);
             out->_init(glfwWindow, context);
@@ -411,7 +412,7 @@ namespace djv
 
         void EventSystem::_resizeCallback(GLFWwindow * window, int width, int height)
         {
-            Context * context = reinterpret_cast<Context *>(glfwGetWindowUserPointer(window));
+            Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
             if (auto system = context->getSystemT<EventSystem>())
             {
                 system->_resize(glm::ivec2(width, height));
@@ -427,7 +428,7 @@ namespace djv
 
         void EventSystem::_redrawCallback(GLFWwindow * window)
         {
-            Context * context = reinterpret_cast<Context *>(glfwGetWindowUserPointer(window));
+            Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
             if (auto system = context->getSystemT<EventSystem>())
             {
                 system->_redraw();
@@ -436,7 +437,7 @@ namespace djv
 
         void EventSystem::_pointerCallback(GLFWwindow * window, double x, double y)
         {
-            Context * context = reinterpret_cast<Context *>(glfwGetWindowUserPointer(window));
+            Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
             if (auto system = context->getSystemT<EventSystem>())
             {
                 Event::PointerInfo info;
@@ -454,7 +455,7 @@ namespace djv
 
         void EventSystem::_buttonCallback(GLFWwindow * window, int button, int action, int modifiers)
         {
-            Context * context = reinterpret_cast<Context *>(glfwGetWindowUserPointer(window));
+            Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
             if (auto system = context->getSystemT<EventSystem>())
             {
                 switch (action)
@@ -467,7 +468,7 @@ namespace djv
 
         void EventSystem::_dropCallback(GLFWwindow * window, int count, const char ** paths)
         {
-            Context * context = reinterpret_cast<Context *>(glfwGetWindowUserPointer(window));
+            Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
             if (auto system = context->getSystemT<EventSystem>())
             {
                 std::vector<std::string> list;
@@ -481,7 +482,7 @@ namespace djv
 
         void EventSystem::_keyCallback(GLFWwindow * window, int key, int scancode, int action, int modifiers)
         {
-            Context * context = reinterpret_cast<Context *>(glfwGetWindowUserPointer(window));
+            Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
             if (auto system = context->getSystemT<EventSystem>())
             {
                 switch (action)
@@ -495,7 +496,7 @@ namespace djv
 
         void EventSystem::_charCallback(GLFWwindow * window, unsigned int character, int modifiers)
         {
-            Context * context = reinterpret_cast<Context *>(glfwGetWindowUserPointer(window));
+            Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
             if (auto system = context->getSystemT<EventSystem>())
             {
                 std::string text;
@@ -516,7 +517,7 @@ namespace djv
 
         void EventSystem::_scrollCallback(GLFWwindow * window, double x, double y)
         {
-            Context * context = reinterpret_cast<Context *>(glfwGetWindowUserPointer(window));
+            Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
             if (auto system = context->getSystemT<EventSystem>())
             {
                 system->_scroll(x, y);

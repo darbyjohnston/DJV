@@ -47,9 +47,7 @@ namespace djv
 
         } // namespace
 
-        Context * IObject::_context = nullptr;
-
-        void IObject::_init(Context * context)
+        void IObject::_init(const std::shared_ptr<Context>& context)
         {
             ++globalObjectCount;
 

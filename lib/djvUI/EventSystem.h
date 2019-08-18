@@ -44,7 +44,7 @@ namespace djv
             DJV_NON_COPYABLE(EventSystem);
             
         protected:
-            void _init(const std::string &, Core::Context *);
+            void _init(const std::string &, const std::shared_ptr<Core::Context>&);
 
             EventSystem();
 

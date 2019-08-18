@@ -391,7 +391,7 @@ namespace djv
                 std::vector<std::string> sequenceExtensions;
             };
 
-            void System::_init(Context * context)
+            void System::_init(const std::shared_ptr<Core::Context>& context)
             {
                 ISystem::_init("djv::AV::IO::System", context);
 
@@ -448,7 +448,7 @@ namespace djv
             System::~System()
             {}
 
-            std::shared_ptr<System> System::create(Context * context)
+            std::shared_ptr<System> System::create(const std::shared_ptr<Core::Context>& context)
             {
                 auto out = std::shared_ptr<System>(new System);
                 out->_init(context);

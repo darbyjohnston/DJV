@@ -105,9 +105,10 @@ namespace djv
                 };
 
                 //! This class provides the base functionality for render primitives.
-                class Primitive
+                struct Primitive
                 {
-                public:
+                    virtual ~Primitive() {}
+                    
                     BBox2f clipRect;
                     float  color[4]  = { 0.f, 0.f, 0.f, 0.f };
                     size_t vaoOffset = 0;
@@ -121,9 +122,8 @@ namespace djv
                 };
 
                 //! This class provides a text render primitive.
-                class TextPrimitive : public Primitive
+                struct TextPrimitive : public Primitive
                 {
-                public:
                     uint8_t atlasIndex = 0;
 
                     void bind(const PrimitiveData& data, const std::shared_ptr<OpenGL::Shader>& shader) override
@@ -135,9 +135,8 @@ namespace djv
                 };
 
                 //! This class provides an image render primitive.
-                class ImagePrimitive : public Primitive
+                struct ImagePrimitive : public Primitive
                 {
-                public:
                     ColorMode       colorMode           = ColorMode::SolidColor;
                     Image::Channels imageChannels       = Image::Channels::RGBA;
                     ImageChannel    imageChannel        = ImageChannel::None;
@@ -176,9 +175,8 @@ namespace djv
                 };
 
                 //! This class provides a shadow render primitive.
-                class ShadowPrimitive : public Primitive
+                struct ShadowPrimitive : public Primitive
                 {
-                public:
                     void bind(const PrimitiveData& data, const std::shared_ptr<OpenGL::Shader>& shader) override
                     {
                         shader->setUniform(data.colorModeLoc, static_cast<int>(ColorMode::Shadow));
@@ -358,7 +356,7 @@ namespace djv
                 std::string getFragmentSource() const;
             };
 
-            void Render2D::_init(Context* context)
+            void Render2D::_init(const std::shared_ptr<Core::Context>& context)
             {
                 ISystem::_init("djv::AV::Render::Render2D", context);
 
@@ -463,7 +461,7 @@ namespace djv
             Render2D::~Render2D()
             {}
 
-            std::shared_ptr<Render2D> Render2D::create(Context* context)
+            std::shared_ptr<Render2D> Render2D::create(const std::shared_ptr<Core::Context>& context)
             {
                 auto out = std::shared_ptr<Render2D>(new Render2D);
                 out->_init(context);
@@ -515,7 +513,7 @@ namespace djv
                     static_cast<GLint>(p.viewport.min.y),
                     static_cast<GLsizei>(p.viewport.w()),
                     static_cast<GLsizei>(p.viewport.h()));
-                glClearColor(0.f, 0.f, 0.f, 0.f);
+                glClearColor(1.f, 0.f, 0.f, 0.f);
                 glClear(GL_COLOR_BUFFER_BIT);
 
                 const auto viewMatrix = glm::ortho(

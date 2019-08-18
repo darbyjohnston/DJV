@@ -54,13 +54,13 @@ namespace djv
             DJV_NON_COPYABLE(IconSystem);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             IconSystem();
 
         public:
             virtual ~IconSystem();
 
-            static std::shared_ptr<IconSystem> create(Core::Context *);
+            static std::shared_ptr<IconSystem> create(const std::shared_ptr<Core::Context>&);
                 
             //! Get an icon.
             std::future<std::shared_ptr<AV::Image::Image> > getIcon(const std::string &, int size);

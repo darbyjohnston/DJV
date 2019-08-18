@@ -58,7 +58,7 @@ namespace djv
                 return std::chrono::milliseconds(getValue(value));
             }
 
-            void Timer::_init(Context * context)
+            void Timer::_init(const std::shared_ptr<Context>& context)
             {
                 if (auto system = context->getSystemT<TimerSystem>())
                 {
@@ -66,7 +66,7 @@ namespace djv
                 }
             }
 
-            std::shared_ptr<Timer> Timer::create(Context * context)
+            std::shared_ptr<Timer> Timer::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<Timer>(new Timer);
                 out->_init(context);
@@ -120,7 +120,7 @@ namespace djv
                 std::vector<std::weak_ptr<Timer> > timers;
             };
 
-            void TimerSystem::_init(Context * context)
+            void TimerSystem::_init(const std::shared_ptr<Context>& context)
             {
                 ISystemBase::_init("djv::Core::TimerSystem", context);
             }
@@ -132,7 +132,7 @@ namespace djv
             TimerSystem::~TimerSystem()
             {}
 
-            std::shared_ptr<TimerSystem> TimerSystem::create(Context * context)
+            std::shared_ptr<TimerSystem> TimerSystem::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<TimerSystem>(new TimerSystem);
                 out->_init(context);

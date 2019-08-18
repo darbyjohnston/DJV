@@ -69,7 +69,7 @@ namespace djv
             
         } // namespace
         
-        void ResourceSystem::_init(const std::string & argv0, Context * context)
+        void ResourceSystem::_init(const std::string & argv0, const std::shared_ptr<Context>& context)
         {
             ISystemBase::_init("djv::Core::ResourceSystem", context);
 
@@ -162,7 +162,7 @@ namespace djv
         ResourceSystem::~ResourceSystem()
         {}
 
-        std::shared_ptr<ResourceSystem> ResourceSystem::create(const std::string & argv0, Context * context)
+        std::shared_ptr<ResourceSystem> ResourceSystem::create(const std::string & argv0, const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<ResourceSystem>(new ResourceSystem);
             out->_init(argv0, context);

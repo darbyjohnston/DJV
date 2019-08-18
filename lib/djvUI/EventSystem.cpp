@@ -51,7 +51,7 @@ namespace djv
             std::shared_ptr<Time::Timer> statsTimer;
         };
 
-        void EventSystem::_init(const std::string & name, Core::Context * context)
+        void EventSystem::_init(const std::string & name, const std::shared_ptr<Core::Context>& context)
         {
             IEventSystem::_init(name, context);
 
@@ -95,8 +95,9 @@ namespace djv
         {
             IEventSystem::tick(dt);
             DJV_PRIVATE_PTR();
-            if (auto uiSystem = getContext()->getSystemT<UISystem>())
+            if (auto context = getContext().lock())
             {
+                auto uiSystem = context->getSystemT<UISystem>();
                 auto style = uiSystem->getStyle();
                 if (style->isDirty())
                 {

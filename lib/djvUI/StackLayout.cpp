@@ -40,7 +40,7 @@ namespace djv
             struct Stack::Private
             {};
 
-            void Stack::_init(Context * context)
+            void Stack::_init(const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
                 setClassName("djv::UI::Layout::Stack");
@@ -53,7 +53,7 @@ namespace djv
             Stack::~Stack()
             {}
 
-            std::shared_ptr<Stack> Stack::create(Context * context)
+            std::shared_ptr<Stack> Stack::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<Stack>(new Stack);
                 out->_init(context);
