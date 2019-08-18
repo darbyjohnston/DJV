@@ -7,3 +7,5 @@ add_subdirectory(MDIDesktopExample)
 add_subdirectory(Render2DExample)
 add_subdirectory(SliderDesktopExample)
 add_subdirectory(SplitterDesktopExample)
+
+add_subdirectory(HelloWorldDesktopExamplePy)

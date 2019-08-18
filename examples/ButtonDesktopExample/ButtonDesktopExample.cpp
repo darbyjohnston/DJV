@@ -45,7 +45,7 @@ int main(int argc, char ** argv)
     try
     {
         // Create an application.
-        auto app = Desktop::Application::create(argc, argv);
+        auto app = std::unique_ptr<Desktop::Application>(Desktop::Application::create(argc, argv));
 
         // Create a top-level layout.
         auto layout = UI::VerticalLayout::create(app.get());

@@ -151,7 +151,7 @@ int main(int argc, char ** argv)
     int r = 0;
     try
     {
-        auto app = Desktop::Application::create(argc, argv);
+        auto app = std::unique_ptr<Desktop::Application>(Desktop::Application::create(argc, argv));
 
         auto canvas = UI::MDI::Canvas::create(app.get());
         glm::vec2 pos(50.f, 50.f);

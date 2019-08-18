@@ -61,9 +61,19 @@ namespace djv
             bool running = false;
         };
 
-        void Application::_init(int argc, char * argv[])
+        void Application::_init(int argc, char* argv[])
         {
-            Context::_init(argc, argv);
+            std::vector<std::string> args;
+            for (int i = 0; i < argc; ++i)
+            {
+                args.push_back(argv[i]);
+            }
+            _init(args);
+        }
+
+        void Application::_init(const std::vector<std::string>& args)
+        {
+            Context::_init(args);
             DJV_PRIVATE_PTR();
 
             auto glfwSystem = GLFWSystem::create(this);
@@ -83,10 +93,17 @@ namespace djv
         Application::~Application()
         {}
         
-        std::unique_ptr<Application> Application::create(int argc, char * argv[])
+        Application* Application::create(int argc, char* argv[])
         {
-            auto out = std::unique_ptr<Application>(new Application);
+            auto out = new Application;
             out->_init(argc, argv);
+            return out;
+        }
+
+        Application* Application::create(const std::vector<std::string>& args)
+        {
+            auto out = new Application;
+            out->_init(args);
             return out;
         }
 

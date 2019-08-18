@@ -51,13 +51,10 @@ namespace djv
 {
     namespace Core
     {
-        void Context::_init(int & argc, char ** argv)
+        void Context::_init(const std::vector<std::string>& args)
         {
-            for (int i = 0; i < argc; ++i)
-            {
-                _args.push_back(argv[i]);
-            }
-            const std::string argv0 = argc ? argv[0] : std::string();
+            _args = args;
+            const std::string argv0 = _args.size() > 0 ? _args[0] : std::string();
             _name = FileSystem::Path(argv0).getBaseName();
 
             _timerSystem = Time::TimerSystem::create(this);
@@ -96,10 +93,22 @@ namespace djv
         Context::~Context()
         {}
 
-        std::unique_ptr<Context> Context::create(int & argc, char ** argv)
+        Context* Context::create(int& argc, char** argv)
         {
-            auto out = std::unique_ptr<Context>(new Context);
-            out->_init(argc, argv);
+            auto out = new Context;
+            std::vector<std::string> args;
+            for (int i = 0; i < argc; ++i)
+            {
+                args.push_back(argv[i]);
+            }
+            out->_init(args);
+            return out;
+        }
+
+        Context* Context::create(const std::vector<std::string>& args)
+        {
+            auto out = new Context;
+            out->_init(args);
             return out;
         }
 

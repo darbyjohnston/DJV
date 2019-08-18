@@ -30,7 +30,7 @@ ExternalProject_Add(
 set(curl_FOUND TRUE)
 set(curl_INCLUDE_DIRS ${CMAKE_INSTALL_PREFIX}/include)
 if(WIN32)
-	set(curl_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/curl${CMAKE_STATIC_LIBRARY_SUFFIX})
+	set(curl_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libcurl${CMAKE_STATIC_LIBRARY_SUFFIX})
 else()
 	set(curl_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libcurl${CMAKE_STATIC_LIBRARY_SUFFIX})
 endif()

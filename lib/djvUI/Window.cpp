@@ -31,6 +31,8 @@
 
 #include <djvUI/StackLayout.h>
 
+#include <djvCore/Context.h>
+
 //#pragma optimize("", off)
 
 using namespace djv::Core;

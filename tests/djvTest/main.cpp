@@ -52,7 +52,8 @@ int main(int argc, char ** argv)
     int r = 0;
     try
     {
-        auto context = Core::Context::create(argc, argv);
+        auto context = std::unique_ptr<Core::Context>(Core::Context::create(argc, argv))
+    ;
 
         (new CoreTest::CacheTest(context.get()))->run(argc, argv);
         (new CoreTest::EnumTest(context.get()))->run(argc, argv);

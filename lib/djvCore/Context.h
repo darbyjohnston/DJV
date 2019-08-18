@@ -60,7 +60,7 @@ namespace djv
             DJV_NON_COPYABLE(Context);
 
         protected:
-            void _init(int &, char **);
+            void _init(const std::vector<std::string>&);
             inline Context();
 
         public:
@@ -68,7 +68,11 @@ namespace djv
 
             //! Throws:
             //! - std::exception
-            static std::unique_ptr<Context> create(int &, char **);
+            static Context* create(int&, char*[]);
+
+            //! Throws:
+            //! - std::exception
+            static Context* create(const std::vector<std::string>&);
 
             //! Get the command line arguments.
             inline const std::vector<std::string> & getArgs() const;

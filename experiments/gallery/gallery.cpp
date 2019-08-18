@@ -221,7 +221,7 @@ int main(int argc, char ** argv)
 
         Core::Math::setRandomSeed();
 
-        auto app = Desktop::Application::create(argc, argv);
+        auto app = std::unique_ptr<Desktop::Application>(Desktop::Application::create(argc, argv));
 
         auto ids = getIDs();
         std::vector<Image> images;

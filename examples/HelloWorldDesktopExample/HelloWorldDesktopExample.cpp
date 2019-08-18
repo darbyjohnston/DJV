@@ -42,7 +42,7 @@ int main(int argc, char ** argv)
     try
     {
         // Create an application.
-        auto app = Desktop::Application::create(argc, argv);
+        auto app = std::unique_ptr<Desktop::Application>(Desktop::Application::create(argc, argv));
 
         // Create a label.
         auto label = UI::Label::create(app.get());
@@ -56,7 +56,7 @@ int main(int argc, char ** argv)
         window->addChild(label);
         window->show();
 
-        return app->run();
+        r = app->run();
     }
     catch (const std::exception & e)
     {

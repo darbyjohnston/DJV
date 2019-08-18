@@ -45,13 +45,13 @@ namespace djv
             DJV_NON_COPYABLE(Application);
 
         protected:
-            void _init(int & argc, char * argv[]);
+            void _init(int& argc, char* argv[]);
             Application();
 
         public:
             ~Application() override;
 
-            static std::shared_ptr<Application> create(int & argc, char * argv[]);
+            static Application* create(int& argc, char* argv[]);
 
         private:
             DJV_PRIVATE();

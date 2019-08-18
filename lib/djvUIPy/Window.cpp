@@ -27,48 +27,21 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvDesktopApp/Application.h>
-
-#include <djvUIComponents/FileBrowser.h>
-#include <djvUIComponents/UIComponentsSystem.h>
-
 #include <djvUI/Window.h>
 
-#include <djvCore/Error.h>
-#include <djvCore/FileInfo.h>
+#include <djvCore/Context.h>
+
+#include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
+
+namespace py = pybind11;
 
 using namespace djv;
+using namespace djv::Core;
 
-int main(int argc, char ** argv)
+PYBIND11_MODULE(djvUIPy, m)
 {
-    int r = 0;
-    try
-    {
-        // Create an application.
-        auto app = std::unique_ptr<Desktop::Application>(Desktop::Application::create(argc, argv));
-
-        // Create the UI components system.
-        UI::UIComponentsSystem::create(app.get());
-
-        // Create a file browser.
-        auto fileBrowser = UI::FileBrowser::FileBrowser::create(app.get());
-        fileBrowser->setPath(Core::FileSystem::Path("."));
-        fileBrowser->setCallback(
-            [](const Core::FileSystem::FileInfo & value)
-        {
-            std::cout << value << std::endl;
-        });
-
-        // Create a window and show it.
-        auto window = UI::Window::create(app.get());
-        window->addChild(fileBrowser);
-        window->show();
-
-        return app->run();
-    }
-    catch (const std::exception & e)
-    {
-        std::cout << Core::Error::format(e) << std::endl;
-    }
-    return r;
+    py::class_<UI::Window, std::shared_ptr<UI::Window> >(m, "Window")
+        .def_static("create", &UI::Window::create)
+        .def("show", &UI::Window::show);
 }

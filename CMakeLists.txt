@@ -105,7 +105,8 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/lib
     ${CMAKE_SOURCE_DIR}/bin
     ${CMAKE_SOURCE_DIR}/tests
-    ${CMAKE_SOURCE_DIR}/third-party)
+    ${CMAKE_SOURCE_DIR}/third-party
+	${pybind11_SOURCE_DIR}/include)
 
 #-------------------------------------------------------------------------------
 # Third Party Libraries
@@ -173,7 +174,7 @@ set(DJV_THIRD_PARTY_PACKAGES_OPTIONAL
     OpenEXR)
 if(WIN32)
     # See the directions for building FFmpeg on Windows in "doc/BuildWindows.html".
-	find_package(FFmpeg)
+	#find_package(FFmpeg)
 else()
     set(DJV_THIRD_PARTY_PACKAGES_OPTIONAL
         ${DJV_THIRD_PARTY_PACKAGES_OPTIONAL}
@@ -195,6 +196,8 @@ else()
         find_package(${PACKAGE})
     endforeach()
 endif()
+
+find_package(Python)
 
 #-------------------------------------------------------------------------------
 # Resources
@@ -284,6 +287,7 @@ set(DJV_RESOURCE_FILES
 
 include(djvPackage)
 
+add_subdirectory(third-party)
 add_subdirectory(bin)
 add_subdirectory(lib)
 add_subdirectory(tests)

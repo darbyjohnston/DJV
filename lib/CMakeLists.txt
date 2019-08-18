@@ -6,3 +6,6 @@ add_subdirectory(djvUI)
 add_subdirectory(djvUIComponents)
 add_subdirectory(djvViewApp)
 
+add_subdirectory(djvCorePy)
+add_subdirectory(djvDesktopAppPy)
+add_subdirectory(djvUIPy)

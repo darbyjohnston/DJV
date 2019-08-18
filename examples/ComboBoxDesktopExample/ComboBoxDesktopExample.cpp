@@ -44,7 +44,7 @@ int main(int argc, char ** argv)
     try
     {
         // Create an application.
-        auto app = Desktop::Application::create(argc, argv);
+        auto app = std::unique_ptr<Desktop::Application>(Desktop::Application::create(argc, argv));
 
         // Create some combo box widgets.
         auto comboBox0 = UI::ComboBox::create(app.get());
