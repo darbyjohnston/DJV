@@ -36,7 +36,9 @@ namespace py = pybind11;
 
 PYBIND11_MODULE(djvUIPy, m)
 {
-    wrapLabel(m);
+    //! \todo Base classes need to be wrapped first?
     wrapWidget(m);
+
+    wrapLabel(m);
     wrapWindow(m);
 }
