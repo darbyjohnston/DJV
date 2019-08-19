@@ -37,4 +37,5 @@ void wrapAnimation(pybind11::module&);
 void wrapBBox(pybind11::module&);
 void wrapContext(pybind11::module&);
 void wrapIObject(pybind11::module&);
+void wrapPath(pybind11::module&);
 void wrapVector(pybind11::module&);

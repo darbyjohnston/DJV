@@ -39,5 +39,6 @@ PYBIND11_MODULE(djvCorePy, m)
     wrapBBox(m);
     wrapContext(m);
     wrapIObject(m);
+    wrapPath(m);
     wrapVector(m);
 }

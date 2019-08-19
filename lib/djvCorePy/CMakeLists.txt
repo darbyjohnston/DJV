@@ -6,6 +6,7 @@ set(source
     Context.cpp
     CorePy.cpp
     IObject.cpp
+	Path.cpp
     Vector.cpp)
 
 pybind11_add_module(djvCorePy SHARED ${header} ${source})
