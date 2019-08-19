@@ -42,13 +42,13 @@ namespace djv
             DJV_NON_COPYABLE(FloatEdit);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             FloatEdit();
 
         public:
             virtual ~FloatEdit();
 
-            static std::shared_ptr<FloatEdit> create(Core::Context *);
+            static std::shared_ptr<FloatEdit> create(const std::shared_ptr<Core::Context>&);
 
             int getPrecision();
             void setPrecision(int);

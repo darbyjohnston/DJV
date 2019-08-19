@@ -43,14 +43,13 @@ namespace djv
                 DJV_NON_COPYABLE(Bellows);
 
             protected:
-                void _init(Core::Context *);
+                void _init(const std::shared_ptr<Core::Context>&);
                 Bellows();
 
             public:
                 virtual ~Bellows();
 
-                static std::shared_ptr<Bellows> create(Core::Context *);
-                static std::shared_ptr<Bellows> create(const std::string &, Core::Context *);
+                static std::shared_ptr<Bellows> create(const std::shared_ptr<Core::Context>&);
                 
                 const std::string & getText() const;
                 void setText(const std::string &);

@@ -59,7 +59,7 @@ namespace djv
                 std::shared_ptr<HorizontalLayout> layout;
             };
 
-            void Tool::_init(Context * context)
+            void Tool::_init(const std::shared_ptr<Context>& context)
             {
                 IButton::_init(context);
 
@@ -80,27 +80,10 @@ namespace djv
             Tool::~Tool()
             {}
 
-            std::shared_ptr<Tool> Tool::create(Context * context)
+            std::shared_ptr<Tool> Tool::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<Tool>(new Tool);
                 out->_init(context);
-                return out;
-            }
-
-            std::shared_ptr<Tool> Tool::create(const std::string & text, Context * context)
-            {
-                auto out = std::shared_ptr<Tool>(new Tool);
-                out->_init(context);
-                out->setText(text);
-                return out;
-            }
-
-            std::shared_ptr<Tool> Tool::create(const std::string & text, const std::string & icon, Context * context)
-            {
-                auto out = std::shared_ptr<Tool>(new Tool);
-                out->_init(context);
-                out->setIcon(icon);
-                out->setText(text);
                 return out;
             }
 
@@ -112,15 +95,18 @@ namespace djv
                 p.icon = value;
                 if (!value.empty())
                 {
-                    if (!p.iconWidget)
+                    if (auto context = getContext().lock())
                     {
-                        p.iconWidget = Icon::create(getContext());
-                        p.iconWidget->setVAlign(VAlign::Center);
-                        p.iconWidget->setIconColorRole(isChecked() ? ColorRole::Checked : getForegroundColorRole());
-                        p.layout->addChild(p.iconWidget);
-                        p.iconWidget->moveToFront();
+                        if (!p.iconWidget)
+                        {
+                            p.iconWidget = Icon::create(context);
+                            p.iconWidget->setVAlign(VAlign::Center);
+                            p.iconWidget->setIconColorRole(isChecked() ? ColorRole::Checked : getForegroundColorRole());
+                            p.layout->addChild(p.iconWidget);
+                            p.iconWidget->moveToFront();
+                        }
+                        _iconUpdate();
                     }
-                    _iconUpdate();
                 }
                 else
                 {
@@ -149,19 +135,22 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (!value.empty())
                 {
-                    if (!p.label)
+                    if (auto context = getContext().lock())
                     {
-                        p.label = Label::create(getContext());
-                        p.label->setTextHAlign(p.textHAlign);
-                        p.label->setFont(p.font);
-                        p.label->setFontFace(p.fontFace);
-                        p.label->setFontSizeRole(p.fontSizeRole);
-                        p.label->setTextColorRole(isChecked() ? ColorRole::Checked : getForegroundColorRole());
-                        p.layout->addChild(p.label);
-                        p.layout->setStretch(p.label, RowStretch::Expand);
-                        p.label->moveToBack();
+                        if (!p.label)
+                        {
+                            p.label = Label::create(context);
+                            p.label->setTextHAlign(p.textHAlign);
+                            p.label->setFont(p.font);
+                            p.label->setFontFace(p.fontFace);
+                            p.label->setFontSizeRole(p.fontSizeRole);
+                            p.label->setTextColorRole(isChecked() ? ColorRole::Checked : getForegroundColorRole());
+                            p.layout->addChild(p.label);
+                            p.layout->setStretch(p.label, RowStretch::Expand);
+                            p.label->moveToBack();
+                        }
+                        p.label->setText(value);
                     }
-                    p.label->setText(value);
                 }
                 else
                 {

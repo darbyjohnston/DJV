@@ -62,7 +62,7 @@ namespace djv
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
-        void AudioSystem::_init(Context * context)
+        void AudioSystem::_init(const std::shared_ptr<Core::Context>& context)
         {
             IViewSystem::_init("djv::ViewApp::AudioSystem", context);
 
@@ -200,7 +200,7 @@ namespace djv
         AudioSystem::~AudioSystem()
         {}
 
-        std::shared_ptr<AudioSystem> AudioSystem::create(Context * context)
+        std::shared_ptr<AudioSystem> AudioSystem::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<AudioSystem>(new AudioSystem);
             out->_init(context);

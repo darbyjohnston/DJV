@@ -49,7 +49,7 @@ namespace djv
             std::shared_ptr<ValueSubject<ImageAspectRatio> > aspectRatio;
         };
 
-        void ImageSettings::_init(Context * context)
+        void ImageSettings::_init(const std::shared_ptr<Core::Context>& context)
         {
             ISettings::_init("djv::ViewApp::ImageSettings", context);
 
@@ -63,7 +63,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<ImageSettings> ImageSettings::create(Context * context)
+        std::shared_ptr<ImageSettings> ImageSettings::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<ImageSettings>(new ImageSettings);
             out->_init(context);

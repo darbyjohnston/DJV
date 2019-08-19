@@ -44,13 +44,13 @@ namespace djv
                 DJV_NON_COPYABLE(Form);
 
             protected:
-                void _init(Core::Context *);
+                void _init(const std::shared_ptr<Core::Context>&);
                 Form();
 
             public:
                 virtual ~Form();
 
-                static std::shared_ptr<Form> create(Core::Context *);
+                static std::shared_ptr<Form> create(const std::shared_ptr<Core::Context>&);
 
                 void setText(const std::shared_ptr<Widget> &, const std::string &);
 

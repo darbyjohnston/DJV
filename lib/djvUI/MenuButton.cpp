@@ -60,7 +60,7 @@ namespace djv
                 std::function<void(bool)> checkedCallback;
             };
 
-            void Menu::_init(MenuStyle menuStyle, Context * context)
+            void Menu::_init(MenuStyle menuStyle, const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
 
@@ -127,7 +127,7 @@ namespace djv
             Menu::~Menu()
             {}
 
-            std::shared_ptr<Menu> Menu::create(MenuStyle menuStyle, Context * context)
+            std::shared_ptr<Menu> Menu::create(MenuStyle menuStyle, const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<Menu>(new Menu);
                 out->_init(menuStyle, context);

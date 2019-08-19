@@ -85,7 +85,7 @@ namespace djv
                 std::map<Handle, std::vector<BBox2f> > handles;
             };
 
-            void Canvas::_init(Context * context)
+            void Canvas::_init(const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
                 DJV_PRIVATE_PTR();
@@ -102,7 +102,7 @@ namespace djv
             Canvas::~Canvas()
             {}
 
-            std::shared_ptr<Canvas> Canvas::create(Context * context)
+            std::shared_ptr<Canvas> Canvas::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<Canvas>(new Canvas);
                 out->_init(context);

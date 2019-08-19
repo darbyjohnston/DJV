@@ -54,7 +54,7 @@ namespace djv
                 Spacing spacing = Spacing(MetricsRole::Spacing, MetricsRole::Spacing);
             };
 
-            void Grid::_init(Context * context)
+            void Grid::_init(const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
 
@@ -68,7 +68,7 @@ namespace djv
             Grid::~Grid()
             {}
 
-            std::shared_ptr<Grid> Grid::create(Context * context)
+            std::shared_ptr<Grid> Grid::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<Grid>(new Grid);
                 out->_init(context);

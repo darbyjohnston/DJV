@@ -48,7 +48,7 @@ namespace djv
             std::function<void(size_t)> removedCallback;
         };
 
-        void TabWidget::_init(Context * context)
+        void TabWidget::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
             
@@ -97,7 +97,7 @@ namespace djv
         TabWidget::~TabWidget()
         {}
 
-        std::shared_ptr<TabWidget> TabWidget::create(Context * context)
+        std::shared_ptr<TabWidget> TabWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<TabWidget>(new TabWidget);
             out->_init(context);

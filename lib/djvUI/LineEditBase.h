@@ -46,13 +46,13 @@ namespace djv
             DJV_NON_COPYABLE(LineEditBase);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             LineEditBase();
 
         public:
             virtual ~LineEditBase();
 
-            static std::shared_ptr<LineEditBase> create(Core::Context *);
+            static std::shared_ptr<LineEditBase> create(const std::shared_ptr<Core::Context>&);
 
             const std::string & getText() const;
             void setText(const std::string &);

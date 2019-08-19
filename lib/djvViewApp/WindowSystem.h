@@ -56,13 +56,13 @@ namespace djv
             DJV_NON_COPYABLE(WindowSystem);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             WindowSystem();
 
         public:
             ~WindowSystem() override;
 
-            static std::shared_ptr<WindowSystem> create(Core::Context *);
+            static std::shared_ptr<WindowSystem> create(const std::shared_ptr<Core::Context>&);
 
             void setMediaCanvas(const std::shared_ptr<MediaCanvas>&);
 

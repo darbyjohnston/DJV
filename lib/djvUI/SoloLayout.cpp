@@ -43,7 +43,7 @@ namespace djv
                 SoloMinimumSize soloMinimumSize = SoloMinimumSize::Both;
             };
 
-            void Solo::_init(Context * context)
+            void Solo::_init(const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
 
@@ -57,7 +57,7 @@ namespace djv
             Solo::~Solo()
             {}
 
-            std::shared_ptr<Solo> Solo::create(Context * context)
+            std::shared_ptr<Solo> Solo::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<Solo>(new Solo);
                 out->_init(context);

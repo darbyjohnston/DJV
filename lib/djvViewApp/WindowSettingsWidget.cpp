@@ -69,7 +69,7 @@ namespace djv
             std::shared_ptr<ValueObserver<int> > monitorObserver;
         };
 
-        void FullscreenMonitorSettingsWidget::_init(Context* context)
+        void FullscreenMonitorSettingsWidget::_init(const std::shared_ptr<Context>& context)
         {
             ISettingsWidget::_init(context);
 
@@ -83,15 +83,19 @@ namespace djv
             addChild(p.formLayout);
 
             auto weak = std::weak_ptr<FullscreenMonitorSettingsWidget>(std::dynamic_pointer_cast<FullscreenMonitorSettingsWidget>(shared_from_this()));
+            auto contextWeak = std::weak_ptr<Context>(context);
             p.monitorComboBox->setCallback(
-                [weak, context](int value)
+                [weak, contextWeak](int value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                        if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
+                        if (auto widget = weak.lock())
                         {
-                            windowSettings->setFullscreenMonitor(value);
+                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
+                            {
+                                windowSettings->setFullscreenMonitor(value);
+                            }
                         }
                     }
                 });
@@ -132,7 +136,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<FullscreenMonitorSettingsWidget> FullscreenMonitorSettingsWidget::create(Context* context)
+        std::shared_ptr<FullscreenMonitorSettingsWidget> FullscreenMonitorSettingsWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<FullscreenMonitorSettingsWidget>(new FullscreenMonitorSettingsWidget);
             out->_init(context);
@@ -189,7 +193,7 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > backgroundImageColorizeObserver;
         };
 
-        void BackgroundImageSettingsWidget::_init(Context* context)
+        void BackgroundImageSettingsWidget::_init(const std::shared_ptr<Context>& context)
         {
             ISettingsWidget::_init(context);
             DJV_PRIVATE_PTR();
@@ -236,83 +240,99 @@ namespace djv
             _imageUpdate();
 
             auto weak = std::weak_ptr<BackgroundImageSettingsWidget>(std::dynamic_pointer_cast<BackgroundImageSettingsWidget>(shared_from_this()));
+            auto contextWeak = std::weak_ptr<Context>(context);
             p.lineEdit->setTextFinishedCallback(
-                [weak, context](const std::string& value)
+                [weak, contextWeak](const std::string& value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                        if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
+                        if (auto widget = weak.lock())
                         {
-                            windowSettings->setBackgroundImage(value);
+                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
+                            {
+                                windowSettings->setBackgroundImage(value);
+                            }
                         }
                     }
                 });
 
             p.openButton->setClickedCallback(
-                [weak, context]
+                [weak, contextWeak]
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        auto eventSystem = context->getSystemT<UI::EventSystem>();
-                        if (auto window = eventSystem->getCurrentWindow().lock())
+                        if (auto widget = weak.lock())
                         {
-                            widget->_p->fileBrowserDialog = UI::FileBrowser::Dialog::create(context);
-                            widget->_p->fileBrowserDialog->setPath(widget->_p->fileBrowserPath);
-                            widget->_p->fileBrowserDialog->setCallback(
-                                [weak, context](const Core::FileSystem::FileInfo& value)
-                                {
-                                    if (auto widget = weak.lock())
+                            auto eventSystem = context->getSystemT<UI::EventSystem>();
+                            if (auto window = eventSystem->getCurrentWindow().lock())
+                            {
+                                widget->_p->fileBrowserDialog = UI::FileBrowser::Dialog::create(context);
+                                widget->_p->fileBrowserDialog->setPath(widget->_p->fileBrowserPath);
+                                widget->_p->fileBrowserDialog->setCallback(
+                                    [weak, contextWeak](const Core::FileSystem::FileInfo& value)
                                     {
-                                        if (auto parent = widget->_p->fileBrowserDialog->getParent().lock())
+                                        if (auto context = contextWeak.lock())
                                         {
-                                            parent->removeChild(widget->_p->fileBrowserDialog);
+                                            if (auto widget = weak.lock())
+                                            {
+                                                if (auto parent = widget->_p->fileBrowserDialog->getParent().lock())
+                                                {
+                                                    parent->removeChild(widget->_p->fileBrowserDialog);
+                                                }
+                                                widget->_p->fileBrowserPath = widget->_p->fileBrowserDialog->getPath();
+                                                widget->_p->fileBrowserDialog.reset();
+                                                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                                                if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
+                                                {
+                                                    windowSettings->setBackgroundImage(value.getPath());
+                                                }
+                                            }
                                         }
-                                        widget->_p->fileBrowserPath = widget->_p->fileBrowserDialog->getPath();
-                                        widget->_p->fileBrowserDialog.reset();
-                                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                                        if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
-                                        {
-                                            windowSettings->setBackgroundImage(value.getPath());
-                                        }
-                                    }
-                                });
-                            widget->_p->fileBrowserDialog->setCloseCallback(
-                                [weak]
-                                {
-                                    if (auto widget = weak.lock())
+                                    });
+                                widget->_p->fileBrowserDialog->setCloseCallback(
+                                    [weak]
                                     {
-                                        if (auto parent = widget->_p->fileBrowserDialog->getParent().lock())
+                                        if (auto widget = weak.lock())
                                         {
-                                            parent->removeChild(widget->_p->fileBrowserDialog);
+                                            if (auto parent = widget->_p->fileBrowserDialog->getParent().lock())
+                                            {
+                                                parent->removeChild(widget->_p->fileBrowserDialog);
+                                            }
+                                            widget->_p->fileBrowserPath = widget->_p->fileBrowserDialog->getPath();
+                                            widget->_p->fileBrowserDialog.reset();
                                         }
-                                        widget->_p->fileBrowserPath = widget->_p->fileBrowserDialog->getPath();
-                                        widget->_p->fileBrowserDialog.reset();
-                                    }
-                                });
-                            window->addChild(widget->_p->fileBrowserDialog);
-                            widget->_p->fileBrowserDialog->show();
+                                    });
+                                window->addChild(widget->_p->fileBrowserDialog);
+                                widget->_p->fileBrowserDialog->show();
+                            }
                         }
                     }
                 });
 
             p.closeButton->setClickedCallback(
-                [context]
+                [contextWeak]
                 {
-                    auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                    if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
+                    if (auto context = contextWeak.lock())
                     {
-                        windowSettings->setBackgroundImage(std::string());
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
+                        {
+                            windowSettings->setBackgroundImage(std::string());
+                        }
                     }
                 });
 
             p.colorizeButton->setCheckedCallback(
-                [context](bool value)
+                [contextWeak](bool value)
                 {
-                    auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                    if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
+                    if (auto context = contextWeak.lock())
                     {
-                        windowSettings->setBackgroundImageColorize(value);
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
+                        {
+                            windowSettings->setBackgroundImageColorize(value);
+                        }
                     }
                 });
 
@@ -348,7 +368,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<BackgroundImageSettingsWidget> BackgroundImageSettingsWidget::create(Context* context)
+        std::shared_ptr<BackgroundImageSettingsWidget> BackgroundImageSettingsWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<BackgroundImageSettingsWidget>(new BackgroundImageSettingsWidget);
             out->_init(context);
@@ -414,10 +434,13 @@ namespace djv
         void BackgroundImageSettingsWidget::_imageUpdate()
         {
             DJV_PRIVATE_PTR();
-            const auto& style = _getStyle();
-            const float s = style->getMetric(UI::MetricsRole::TextColumn);
-            auto thumbnailSystem = getContext()->getSystemT<AV::ThumbnailSystem>();
-            p.imageFuture = thumbnailSystem->getImage(p.fileName, AV::Image::Size(s, s));
+            if (auto context = getContext().lock())
+            {
+                const auto& style = _getStyle();
+                const float s = style->getMetric(UI::MetricsRole::TextColumn);
+                auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>();
+                p.imageFuture = thumbnailSystem->getImage(p.fileName, AV::Image::Size(s, s));
+            }
         }
 
     } // namespace ViewApp

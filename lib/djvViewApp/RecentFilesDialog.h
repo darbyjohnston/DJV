@@ -52,13 +52,13 @@ namespace djv
             DJV_NON_COPYABLE(RecentFilesDialog);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             RecentFilesDialog();
 
         public:
             ~RecentFilesDialog() override;
 
-            static std::shared_ptr<RecentFilesDialog> create(Core::Context *);
+            static std::shared_ptr<RecentFilesDialog> create(const std::shared_ptr<Core::Context>&);
 
             void setCallback(const std::function<void(const Core::FileSystem::FileInfo &)> &);
 

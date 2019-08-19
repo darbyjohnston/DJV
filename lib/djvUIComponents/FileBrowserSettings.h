@@ -59,14 +59,14 @@ namespace djv
                 DJV_NON_COPYABLE(FileBrowser);
 
             protected:
-                void _init(Core::Context * context);
+                void _init(const std::shared_ptr<Core::Context>& context);
 
                 FileBrowser();
 
             public:
                 virtual ~FileBrowser();
 
-                static std::shared_ptr<FileBrowser> create(Core::Context *);
+                static std::shared_ptr<FileBrowser> create(const std::shared_ptr<Core::Context>&);
 
                 std::shared_ptr<Core::IListSubject<Core::FileSystem::Path> > observeShortcuts() const;
                 void setShortcuts(const std::vector<Core::FileSystem::Path>&);

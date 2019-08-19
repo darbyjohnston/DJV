@@ -39,11 +39,11 @@ namespace djv
 
     namespace CoreTest
     {
-        FileIOTest::FileIOTest(Context * context) :
+        FileIOTest::FileIOTest(const std::shared_ptr<Context>& context) :
             ITest("djv::CoreTest::FileIOTest", context)
         {}
         
-        void FileIOTest::run(int & argc, char ** argv)
+        void FileIOTest::run(const std::vector<std::string>& args)
         {
             {
                 const std::string fileName("FileIOTest");

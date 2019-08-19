@@ -68,6 +68,9 @@ if(DJV_OPENGL_ES2)
     add_definitions(-DDJV_OPENGL_ES2)
 endif()
 
+# Set whether to use Python.
+set(DJV_PYTHON FALSE CACHE STRING "Whether to use Python")
+
 # Enable testing.
 enable_testing()
 
@@ -101,12 +104,17 @@ if(UNIX)
 endif()
 
 # Include directories.
-include_directories(
+set(INCLUDE_DIRS
     ${CMAKE_SOURCE_DIR}/lib
     ${CMAKE_SOURCE_DIR}/bin
     ${CMAKE_SOURCE_DIR}/tests
-    ${CMAKE_SOURCE_DIR}/third-party
-	${pybind11_SOURCE_DIR}/include)
+    ${CMAKE_SOURCE_DIR}/third-party)
+if(DJV_PYTHON)
+	set(INCLUDE_DIRS
+		${INCLUDE_DIRS}
+		${pybind11_SOURCE_DIR}/include)
+endif()
+include_directories(${INCLUDE_DIRS})
 
 #-------------------------------------------------------------------------------
 # Third Party Libraries
@@ -197,7 +205,9 @@ else()
     endforeach()
 endif()
 
-find_package(Python)
+if(DJV_PYTHON)
+	find_package(Python)
+endif()
 
 #-------------------------------------------------------------------------------
 # Resources
@@ -288,11 +298,11 @@ set(DJV_RESOURCE_FILES
 include(djvPackage)
 
 add_subdirectory(third-party)
-#add_subdirectory(bin)
+add_subdirectory(bin)
 add_subdirectory(lib)
-#add_subdirectory(tests)
+add_subdirectory(tests)
 add_subdirectory(examples)
-#add_subdirectory(experiments)
+add_subdirectory(experiments)
 add_subdirectory(doc)
 
 include(CPack)

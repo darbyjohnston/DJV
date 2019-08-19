@@ -135,7 +135,7 @@ namespace djv
                 std::shared_ptr<ValueObserver<bool> > sortDirectoriesFirstSettingsObserver;
             };
 
-            void FileBrowser::_init(Context * context)
+            void FileBrowser::_init(const std::shared_ptr<Context>& context)
             {
                 UI::Widget::_init(context);
 
@@ -223,14 +223,39 @@ namespace djv
                 p.drivesPopupWidget->setIcon("djvIconDrives");
                 p.drivesPopupWidget->addChild(drivesWidget);
 
+                auto sortByNameButton = ActionButton::create(context);
+                sortByNameButton->addAction(p.actions["SortByName"]);
+                auto sortBySizeButton = ActionButton::create(context);
+                sortBySizeButton->addAction(p.actions["SortBySize"]);
+                auto sortByTimeButton = ActionButton::create(context);
+                sortByTimeButton->addAction(p.actions["SortByTime"]);
+                auto reverseSortButton = ActionButton::create(context);
+                reverseSortButton->addAction(p.actions["ReverseSort"]);
+                auto sortDirectoriesFirstButton = ActionButton::create(context);
+                sortDirectoriesFirstButton->addAction(p.actions["SortDirectoriesFirst"]);
+
+                auto tilesButton = ActionButton::create(context);
+                tilesButton->addAction(p.actions["Tiles"]);
+                auto listButton = ActionButton::create(context);
+                listButton->addAction(p.actions["List"]);
+
+                auto increaseThumbnailSizeButton = ActionButton::create(context);
+                increaseThumbnailSizeButton->addAction(p.actions["IncreaseThumbnailSize"]);
+                auto decreaseThumbnailSizeButton = ActionButton::create(context);
+                decreaseThumbnailSizeButton->addAction(p.actions["IncreaseThumbnailSize"]);
+                auto fileSequencesButton = ActionButton::create(context);
+                fileSequencesButton->addAction(p.actions["FileSequences"]);
+                auto showHiddenButton = ActionButton::create(context);
+                showHiddenButton->addAction(p.actions["ShowHidden"]);
+
                 auto vLayout = VerticalLayout::create(context);
                 vLayout->setSpacing(MetricsRole::None);
-                vLayout->addChild(ActionButton::create(p.actions["SortByName"], context));
-                vLayout->addChild(ActionButton::create(p.actions["SortBySize"], context));
-                vLayout->addChild(ActionButton::create(p.actions["SortByTime"], context));
+                vLayout->addChild(sortByNameButton);
+                vLayout->addChild(sortBySizeButton);
+                vLayout->addChild(sortByTimeButton);
                 vLayout->addSeparator();
-                vLayout->addChild(ActionButton::create(p.actions["ReverseSort"], context));
-                vLayout->addChild(ActionButton::create(p.actions["SortDirectoriesFirst"], context));
+                vLayout->addChild(reverseSortButton);
+                vLayout->addChild(sortDirectoriesFirstButton);
                 p.sortPopupWidget = PopupWidget::create(context);
                 p.sortPopupWidget->setIcon("djvIconSort");
                 p.sortPopupWidget->addChild(vLayout);
@@ -243,15 +268,15 @@ namespace djv
                 p.thumbnailSizeSlider->setMargin(MetricsRole::MarginSmall);
                 vLayout = VerticalLayout::create(context);
                 vLayout->setSpacing(MetricsRole::None);
-                vLayout->addChild(ActionButton::create(p.actions["Tiles"], context));
-                vLayout->addChild(ActionButton::create(p.actions["List"], context));
+                vLayout->addChild(tilesButton);
+                vLayout->addChild(listButton);
                 vLayout->addSeparator();
-                vLayout->addChild(ActionButton::create(p.actions["IncreaseThumbnailSize"], context));
-                vLayout->addChild(ActionButton::create(p.actions["DecreaseThumbnailSize"], context));
+                vLayout->addChild(increaseThumbnailSizeButton);
+                vLayout->addChild(decreaseThumbnailSizeButton);
                 vLayout->addChild(p.thumbnailSizeSlider);
                 vLayout->addSeparator();
-                vLayout->addChild(ActionButton::create(p.actions["FileSequences"], context));
-                vLayout->addChild(ActionButton::create(p.actions["ShowHidden"], context));
+                vLayout->addChild(fileSequencesButton);
+                vLayout->addChild(showHiddenButton);
                 p.settingsPopupWidget = PopupWidget::create(context);
                 p.settingsPopupWidget->setIcon("djvIconSettings");
                 p.settingsPopupWidget->addChild(vLayout);
@@ -600,54 +625,67 @@ namespace djv
                     });
                 }
 
+                auto contextWeak = std::weak_ptr<Context>(context);
                 p.viewTypeActionGroup->setRadioCallback(
-                    [context](int value)
-                {
-                    auto settingsSystem = context->getSystemT<Settings::System>();
-                    if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                    [contextWeak](int value)
                     {
-                        fileBrowserSettings->setViewType(static_cast<ViewType>(value));
-                    }
-                });
+                        if (auto context = contextWeak.lock())
+                        {
+                            auto settingsSystem = context->getSystemT<Settings::System>();
+                            if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                            {
+                                fileBrowserSettings->setViewType(static_cast<ViewType>(value));
+                            }
+                        }
+                    });
 
                 p.sortActionGroup->setRadioCallback(
-                    [context](int value)
-                {
-                    auto settingsSystem = context->getSystemT<Settings::System>();
-                    if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                    [contextWeak](int value)
                     {
-                        fileBrowserSettings->setSort(static_cast<FileSystem::DirectoryListSort>(value));
-                    }
-                });
+                        if (auto context = contextWeak.lock())
+                        {
+                            auto settingsSystem = context->getSystemT<Settings::System>();
+                            if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                            {
+                                fileBrowserSettings->setSort(static_cast<FileSystem::DirectoryListSort>(value));
+                            }
+                        }
+                    });
 
                 p.shortcutsObserver = ListObserver<FileSystem::Path>::create(
                     p.shortcutsModel->observeShortcuts(),
-                    [context](const std::vector<FileSystem::Path>& value)
+                    [contextWeak](const std::vector<FileSystem::Path>& value)
                     {
-                        auto settingsSystem = context->getSystemT<Settings::System>();
-                        if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                        if (auto context = contextWeak.lock())
                         {
-                            fileBrowserSettings->setShortcuts(value);
+                            auto settingsSystem = context->getSystemT<Settings::System>();
+                            if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                            {
+                                fileBrowserSettings->setShortcuts(value);
+                            }
                         }
                     });
 
                 p.recentPathsObserver = ListObserver<FileSystem::FileInfo>::create(
                     p.recentPathsModel->observeFiles(),
-                    [weak, context](const std::vector<FileSystem::FileInfo>& value)
+                    [weak, contextWeak](const std::vector<FileSystem::FileInfo>& value)
                     {
-                        if (auto widget = weak.lock())
+                        if (auto context = contextWeak.lock())
                         {
-                            widget->_p->recentPathsPopupWidget->setEnabled(value.size());
-                        }
-                        auto settingsSystem = context->getSystemT<Settings::System>();
-                        if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
-                        {
-                            std::vector<FileSystem::Path> tmp;
-                            for (const auto& i : value)
+                            if (auto widget = weak.lock())
                             {
-                                tmp.push_back(i.getPath());
+                                widget->_p->recentPathsPopupWidget->setEnabled(value.size());
                             }
-                            fileBrowserSettings->setRecentPaths(tmp);
+                            auto settingsSystem = context->getSystemT<Settings::System>();
+                            if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                            {
+                                std::vector<FileSystem::Path> tmp;
+                                for (const auto& i : value)
+                                {
+                                    tmp.push_back(i.getPath());
+                                }
+                                fileBrowserSettings->setRecentPaths(tmp);
+                            }
                         }
                     });
 
@@ -662,113 +700,140 @@ namespace djv
                     });
 
                 p.listViewHeader->setSortCallback(
-                    [context](size_t sort, bool reverse)
-                {
-                    auto settingsSystem = context->getSystemT<Settings::System>();
-                    if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                    [contextWeak](size_t sort, bool reverse)
                     {
-                        fileBrowserSettings->setSort(static_cast<FileSystem::DirectoryListSort>(sort));
-                        fileBrowserSettings->setReverseSort(reverse);
-                    }
-                });
+                        if (auto context = contextWeak.lock())
+                        {
+                            auto settingsSystem = context->getSystemT<Settings::System>();
+                            if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                            {
+                                fileBrowserSettings->setSort(static_cast<FileSystem::DirectoryListSort>(sort));
+                                fileBrowserSettings->setReverseSort(reverse);
+                            }
+                        }
+                    });
 
                 p.listViewHeader->setSplitCallback(
-                    [context](const std::vector<float> & value)
-                {
-                    auto settingsSystem = context->getSystemT<Settings::System>();
-                    if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                    [contextWeak](const std::vector<float> & value)
                     {
-                        fileBrowserSettings->setListViewHeaderSplit(value);
-                    }
-                });
+                        if (auto context = contextWeak.lock())
+                        {
+                            auto settingsSystem = context->getSystemT<Settings::System>();
+                            if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                            {
+                                fileBrowserSettings->setListViewHeaderSplit(value);
+                            }
+                        }
+                    });
 
                 p.thumbnailSizeSlider->setValueCallback(
-                    [context](int value)
-                {
-                    auto settingsSystem = context->getSystemT<Settings::System>();
-                    if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                    [contextWeak](int value)
                     {
-                        fileBrowserSettings->setThumbnailSize(AV::Image::Size(value, ceilf(value / 2.f)));
-                    }
-                });
+                        if (auto context = contextWeak.lock())
+                        {
+                            auto settingsSystem = context->getSystemT<Settings::System>();
+                            if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                            {
+                                fileBrowserSettings->setThumbnailSize(AV::Image::Size(value, ceilf(value / 2.f)));
+                            }
+                        }
+                    });
 
                 p.increaseThumbnailSizeObserver = ValueObserver<bool>::create(
                     p.actions["IncreaseThumbnailSize"]->observeClicked(),
-                    [context](bool value)
+                    [contextWeak](bool value)
                 {
                     if (value)
                     {
-                        auto settingsSystem = context->getSystemT<Settings::System>();
-                        if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                        if (auto context = contextWeak.lock())
                         {
-                            auto size = fileBrowserSettings->observeThumbnailSize()->get();
-                            size.w = Math::clamp(static_cast<int>(size.w * 1.25f), thumbnailSizeRange.min, thumbnailSizeRange.max);
-                            size.h = static_cast<int>(ceilf(size.w / 2.f));
-                            fileBrowserSettings->setThumbnailSize(size);
+                            auto settingsSystem = context->getSystemT<Settings::System>();
+                            if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                            {
+                                auto size = fileBrowserSettings->observeThumbnailSize()->get();
+                                size.w = Math::clamp(static_cast<int>(size.w * 1.25f), thumbnailSizeRange.min, thumbnailSizeRange.max);
+                                size.h = static_cast<int>(ceilf(size.w / 2.f));
+                                fileBrowserSettings->setThumbnailSize(size);
+                            }
                         }
                     }
                 });
 
                 p.decreaseThumbnailSizeObserver = ValueObserver<bool>::create(
                     p.actions["DecreaseThumbnailSize"]->observeClicked(),
-                    [context](bool value)
+                    [contextWeak](bool value)
                 {
                     if (value)
                     {
-                        auto settingsSystem = context->getSystemT<Settings::System>();
-                        if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                        if (auto context = contextWeak.lock())
                         {
-                            auto size = fileBrowserSettings->observeThumbnailSize()->get();
-                            size.w = Math::clamp(static_cast<int>(size.w * .75f), thumbnailSizeRange.min, thumbnailSizeRange.max);
-                            size.h = static_cast<int>(ceilf(size.w / 2.f));
-                            fileBrowserSettings->setThumbnailSize(size);
+                            auto settingsSystem = context->getSystemT<Settings::System>();
+                            if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                            {
+                                auto size = fileBrowserSettings->observeThumbnailSize()->get();
+                                size.w = Math::clamp(static_cast<int>(size.w * .75f), thumbnailSizeRange.min, thumbnailSizeRange.max);
+                                size.h = static_cast<int>(ceilf(size.w / 2.f));
+                                fileBrowserSettings->setThumbnailSize(size);
+                            }
                         }
                     }
                 });
 
                 p.fileSequencesObserver = ValueObserver<bool>::create(
                     p.actions["FileSequences"]->observeChecked(),
-                    [context](bool value)
-                {
-                    auto settingsSystem = context->getSystemT<Settings::System>();
-                    if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                    [contextWeak](bool value)
                     {
-                        fileBrowserSettings->setFileSequences(value);
-                    }
-                });
+                        if (auto context = contextWeak.lock())
+                        {
+                            auto settingsSystem = context->getSystemT<Settings::System>();
+                            if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                            {
+                                fileBrowserSettings->setFileSequences(value);
+                            }
+                        }
+                    });
 
                 p.showHiddenObserver = ValueObserver<bool>::create(
                     p.actions["ShowHidden"]->observeChecked(),
-                    [context](bool value)
-                {
-                    auto settingsSystem = context->getSystemT<Settings::System>();
-                    if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                    [contextWeak](bool value)
                     {
-                        fileBrowserSettings->setShowHidden(value);
-                    }
-                });
+                        if (auto context = contextWeak.lock())
+                        {
+                            auto settingsSystem = context->getSystemT<Settings::System>();
+                            if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                            {
+                                fileBrowserSettings->setShowHidden(value);
+                            }
+                        }
+                    });
 
                 p.reverseSortObserver = ValueObserver<bool>::create(
                     p.actions["ReverseSort"]->observeChecked(),
-                    [context](bool value)
-                {
-                    auto settingsSystem = context->getSystemT<Settings::System>();
-                    if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                    [contextWeak](bool value)
                     {
-                        fileBrowserSettings->setReverseSort(value);
-                    }
-                });
+                        if (auto context = contextWeak.lock())
+                        {
+                            auto settingsSystem = context->getSystemT<Settings::System>();
+                            if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                            {
+                                fileBrowserSettings->setReverseSort(value);
+                            }
+                        }
+                    });
 
                 p.sortDirectoriesFirstObserver = ValueObserver<bool>::create(
                     p.actions["SortDirectoriesFirst"]->observeChecked(),
-                    [context](bool value)
-                {
-                    auto settingsSystem = context->getSystemT<Settings::System>();
-                    if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                    [contextWeak](bool value)
                     {
-                        fileBrowserSettings->setSortDirectoriesFirst(value);
-                    }
-                });
+                        if (auto context = contextWeak.lock())
+                        {
+                            auto settingsSystem = context->getSystemT<Settings::System>();
+                            if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
+                            {
+                                fileBrowserSettings->setSortDirectoriesFirst(value);
+                            }
+                        }
+                    });
             }
 
             FileBrowser::FileBrowser() :
@@ -778,7 +843,7 @@ namespace djv
             FileBrowser::~FileBrowser()
             {}
 
-            std::shared_ptr<FileBrowser> FileBrowser::create(Context * context)
+            std::shared_ptr<FileBrowser> FileBrowser::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<FileBrowser>(new FileBrowser);
                 out->_init(context);

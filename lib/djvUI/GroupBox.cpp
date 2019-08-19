@@ -50,7 +50,7 @@ namespace djv
                 std::shared_ptr<VerticalLayout> layout;
             };
 
-            void GroupBox::_init(Context * context)
+            void GroupBox::_init(const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
 
@@ -78,18 +78,10 @@ namespace djv
             GroupBox::~GroupBox()
             {}
 
-            std::shared_ptr<GroupBox> GroupBox::create(Context * context)
+            std::shared_ptr<GroupBox> GroupBox::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<GroupBox>(new GroupBox);
                 out->_init(context);
-                return out;
-            }
-
-            std::shared_ptr<GroupBox> GroupBox::create(const std::string & text, Context * context)
-            {
-                auto out = std::shared_ptr<GroupBox>(new GroupBox);
-                out->_init(context);
-                out->setText(text);
                 return out;
             }
 

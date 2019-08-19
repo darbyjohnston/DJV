@@ -88,9 +88,14 @@ private:
 
 void Application::_init(int argc, char ** argv)
 {
-    CmdLine::Application::_init(argc, argv);
+    std::vector<std::string> args;
+    for (int i = 0; i < argc; ++i)
+    {
+        args.push_back(argv[i]);
+    }
+    CmdLine::Application::_init(args);
 
-    _timer = Core::Time::Timer::create(this);
+    _timer = Core::Time::Timer::create(shared_from_this());
     _timer->setRepeating(true);
     _timer->start(
         std::chrono::milliseconds(10),

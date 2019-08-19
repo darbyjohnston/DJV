@@ -44,13 +44,13 @@ namespace djv
             DJV_NON_COPYABLE(ThermometerWidget);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             ThermometerWidget();
 
         public:
             ~ThermometerWidget() override;
 
-            static std::shared_ptr<ThermometerWidget> create(Core::Context *);
+            static std::shared_ptr<ThermometerWidget> create(const std::shared_ptr<Core::Context>&);
 
             void setPercentage(float);
 

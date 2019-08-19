@@ -41,11 +41,11 @@ namespace djv
             DJV_NON_COPYABLE(ImageAspectRatioSettingsWidget);
 
         protected:
-            void _init(Core::Context*);
+            void _init(const std::shared_ptr<Core::Context>&);
             ImageAspectRatioSettingsWidget();
 
         public:
-            static std::shared_ptr<ImageAspectRatioSettingsWidget> create(Core::Context*);
+            static std::shared_ptr<ImageAspectRatioSettingsWidget> create(const std::shared_ptr<Core::Context>&);
 
             std::string getSettingsName() const override;
             std::string getSettingsGroup() const override;
@@ -66,11 +66,11 @@ namespace djv
             DJV_NON_COPYABLE(ImageRotateSettingsWidget);
 
         protected:
-            void _init(Core::Context*);
+            void _init(const std::shared_ptr<Core::Context>&);
             ImageRotateSettingsWidget();
 
         public:
-            static std::shared_ptr<ImageRotateSettingsWidget> create(Core::Context*);
+            static std::shared_ptr<ImageRotateSettingsWidget> create(const std::shared_ptr<Core::Context>&);
 
             std::string getSettingsName() const override;
             std::string getSettingsGroup() const override;

@@ -38,9 +38,9 @@ namespace djv
         class CacheTest : public Test::ITest
         {
         public:
-            CacheTest(Core::Context *);
+            CacheTest(const std::shared_ptr<Core::Context>&);
             
-            void run(int & argc, char ** argv) override;
+            void run(const std::vector<std::string>&) override;
         };
         
     } // namespace CoreTest

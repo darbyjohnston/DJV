@@ -35,7 +35,7 @@ namespace djv
 {
     namespace AVTest
     {
-        AudioTest::AudioTest(Core::Context * context) :
+        AudioTest::AudioTest(const std::shared_ptr<Core::Context>& context) :
             ITest("djv::AVTest::AudioTest", context)
         {}
         
@@ -50,7 +50,7 @@ namespace djv
         _print(ss.str()); \
     }
 
-        void AudioTest::run(int & argc, char ** argv)
+        void AudioTest::run(const std::vector<std::string>& args)
         {
             {
                 std::stringstream ss;

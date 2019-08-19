@@ -45,13 +45,13 @@ namespace djv
                 DJV_NON_COPYABLE(Flow);
 
             protected:
-                void _init(Core::Context *);
+                void _init(const std::shared_ptr<Core::Context>&);
                 Flow();
 
             public:
                 virtual ~Flow();
 
-                static std::shared_ptr<Flow> create(Core::Context *);
+                static std::shared_ptr<Flow> create(const std::shared_ptr<Core::Context>&);
 
                 const Spacing & getSpacing() const;
                 void setSpacing(const Spacing &);

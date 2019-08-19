@@ -53,7 +53,7 @@ namespace djv
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
-        void ColorPickerSystem::_init(Context * context)
+        void ColorPickerSystem::_init(const std::shared_ptr<Core::Context>& context)
         {
             IToolSystem::_init("djv::ViewApp::ColorPickerSystem", context);
 
@@ -94,7 +94,7 @@ namespace djv
         ColorPickerSystem::~ColorPickerSystem()
         {}
 
-        std::shared_ptr<ColorPickerSystem> ColorPickerSystem::create(Context * context)
+        std::shared_ptr<ColorPickerSystem> ColorPickerSystem::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<ColorPickerSystem>(new ColorPickerSystem);
             out->_init(context);
@@ -114,7 +114,10 @@ namespace djv
         {
             if (value)
             {
-                _openWidget("ColorPicker", ColorPickerWidget::create(getContext()));
+                if (auto context = getContext().lock())
+                {
+                    _openWidget("ColorPicker", ColorPickerWidget::create(context));
+                }
             }
             else
             {

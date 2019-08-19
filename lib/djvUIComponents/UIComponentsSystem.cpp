@@ -46,7 +46,7 @@ namespace djv
         struct UIComponentsSystem::Private
         {};
 
-        void UIComponentsSystem::_init(Context * context)
+        void UIComponentsSystem::_init(const std::shared_ptr<Context>& context)
         {
             ISystem::_init("djv::UI::UIComponentsSystem", context);
 
@@ -65,7 +65,7 @@ namespace djv
         UIComponentsSystem::~UIComponentsSystem()
         {}
 
-        std::shared_ptr<UIComponentsSystem> UIComponentsSystem::create(Context * context)
+        std::shared_ptr<UIComponentsSystem> UIComponentsSystem::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<UIComponentsSystem>(new UIComponentsSystem);
             out->_init(context);

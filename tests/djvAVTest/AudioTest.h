@@ -37,9 +37,9 @@ namespace djv
         class AudioTest : public Test::ITest
         {
         public:
-            AudioTest(Core::Context *);
+            AudioTest(const std::shared_ptr<Core::Context>&);
             
-            void run(int & argc, char ** argv) override;
+            void run(const std::vector<std::string>&) override;
         };
         
     } // namespace AVTest

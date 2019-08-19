@@ -60,7 +60,7 @@ namespace djv
             std::shared_ptr<UI::PopupMenu> popupMenu;
         };
 
-        void ColorPickerWidget::_init(Context * context)
+        void ColorPickerWidget::_init(const std::shared_ptr<Core::Context>& context)
         {
             MDIWidget::_init(context);
 
@@ -159,7 +159,7 @@ namespace djv
         ColorPickerWidget::~ColorPickerWidget()
         {}
 
-        std::shared_ptr<ColorPickerWidget> ColorPickerWidget::create(Context * context)
+        std::shared_ptr<ColorPickerWidget> ColorPickerWidget::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<ColorPickerWidget>(new ColorPickerWidget);
             out->_init(context);

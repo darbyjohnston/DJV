@@ -1,6 +1,8 @@
-set(header)
+set(header
+    DesktopAppPy.h)
 set(source
-    Application.cpp)
+    Application.cpp
+    DesktopAppPy.cpp)
 
 pybind11_add_module(djvDesktopAppPy SHARED ${header} ${source})
 target_link_libraries(djvDesktopAppPy PRIVATE djvDesktopApp)

@@ -62,7 +62,7 @@ namespace djv
                 DJV_NON_COPYABLE(PIPWidget);
 
             protected:
-                void _init(Context*);
+                void _init(const std::shared_ptr<Context>&);
                 PIPWidget()
                 {}
 
@@ -70,7 +70,7 @@ namespace djv
                 ~PIPWidget() override
                 {}
 
-                static std::shared_ptr<PIPWidget> create(Context*);
+                static std::shared_ptr<PIPWidget> create(const std::shared_ptr<Context>&);
 
                 void setPIPFileInfo(const Core::FileSystem::FileInfo&);
                 void setPIPPos(const glm::vec2&, Frame::Number, const BBox2f&);
@@ -98,7 +98,7 @@ namespace djv
                 std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > _imageObserver;
             };
 
-            void PIPWidget::_init(Context* context)
+            void PIPWidget::_init(const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
 
@@ -118,7 +118,7 @@ namespace djv
                 addChild(_layout);
             }
 
-            std::shared_ptr<PIPWidget> PIPWidget::create(Context* context)
+            std::shared_ptr<PIPWidget> PIPWidget::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<PIPWidget>(new PIPWidget);
                 out->_init(context);
@@ -130,58 +130,61 @@ namespace djv
                 if (value == _fileInfo)
                     return;
                 _fileInfo = value;
-                if (!_fileInfo.isEmpty())
+                if (auto context = getContext().lock())
                 {
-                    _media = Media::create(_fileInfo, getContext());
-
-                    auto weak = std::weak_ptr<PIPWidget>(std::dynamic_pointer_cast<PIPWidget>(shared_from_this()));
-                    _speedObserver = ValueObserver<Time::Speed>::create(
-                        _media->observeSpeed(),
-                        [weak](const Time::Speed & value)
+                    if (!_fileInfo.isEmpty())
                     {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_speed = value;
-                            widget->_textUpdate();
-                        }
-                    });
+                        _media = Media::create(_fileInfo, context);
 
-                    _sequenceObserver = ValueObserver<Frame::Sequence>::create(
-                        _media->observeSequence(),
-                        [weak](const Frame::Sequence& value)
-                        {
-                            if (auto widget = weak.lock())
+                        auto weak = std::weak_ptr<PIPWidget>(std::dynamic_pointer_cast<PIPWidget>(shared_from_this()));
+                        _speedObserver = ValueObserver<Time::Speed>::create(
+                            _media->observeSpeed(),
+                            [weak](const Time::Speed& value)
                             {
-                                widget->_sequence = value;
-                                widget->_textUpdate();
-                            }
-                        });
+                                if (auto widget = weak.lock())
+                                {
+                                    widget->_speed = value;
+                                    widget->_textUpdate();
+                                }
+                            });
 
-                    _currentFrameObserver = ValueObserver<Frame::Number>::create(
-                        _media->observeCurrentFrame(),
-                        [weak](Frame::Number value)
-                        {
-                            if (auto widget = weak.lock())
+                        _sequenceObserver = ValueObserver<Frame::Sequence>::create(
+                            _media->observeSequence(),
+                            [weak](const Frame::Sequence& value)
                             {
-                                widget->_currentFrame = value;
-                                widget->_textUpdate();
-                            }
-                        });
+                                if (auto widget = weak.lock())
+                                {
+                                    widget->_sequence = value;
+                                    widget->_textUpdate();
+                                }
+                            });
 
-                    _imageObserver = ValueObserver<std::shared_ptr<AV::Image::Image> >::create(
-                        _media->observeCurrentImage(),
-                        [weak](const std::shared_ptr<AV::Image::Image> & value)
+                        _currentFrameObserver = ValueObserver<Frame::Number>::create(
+                            _media->observeCurrentFrame(),
+                            [weak](Frame::Number value)
+                            {
+                                if (auto widget = weak.lock())
+                                {
+                                    widget->_currentFrame = value;
+                                    widget->_textUpdate();
+                                }
+                            });
+
+                        _imageObserver = ValueObserver<std::shared_ptr<AV::Image::Image> >::create(
+                            _media->observeCurrentImage(),
+                            [weak](const std::shared_ptr<AV::Image::Image>& value)
+                            {
+                                if (auto widget = weak.lock())
+                                {
+                                    widget->_imageWidget->setImage(value);
+                                }
+                            });
+                    }
+                    else
                     {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_imageWidget->setImage(value);
-                        }
-                    });
-                }
-                else
-                {
-                    _media.reset();
-                    _imageObserver.reset();
+                        _media.reset();
+                        _imageObserver.reset();
+                    }
                 }
             }
 
@@ -232,8 +235,11 @@ namespace djv
 
             void PIPWidget::_textUpdate()
             {
-                auto avSystem = getContext()->getSystemT<AV::AVSystem>();
-                _timeLabel->setText(avSystem->getLabel(_sequence.getFrame(_currentFrame), _speed));
+                if (auto context = getContext().lock())
+                {
+                    auto avSystem = context->getSystemT<AV::AVSystem>();
+                    _timeLabel->setText(avSystem->getLabel(_sequence.getFrame(_currentFrame), _speed));
+                }
             }
 
         } // namespace
@@ -259,7 +265,7 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > pipObserver;
         };
 
-        void TimelineSlider::_init(Context * context)
+        void TimelineSlider::_init(const std::shared_ptr<Core::Context>& context)
         {
             Widget::_init(context);
 
@@ -307,7 +313,7 @@ namespace djv
             }
         }
 
-        std::shared_ptr<TimelineSlider> TimelineSlider::create(Context * context)
+        std::shared_ptr<TimelineSlider> TimelineSlider::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<TimelineSlider>(new TimelineSlider);
             out->_init(context);
@@ -504,17 +510,20 @@ namespace djv
         void TimelineSlider::_pointerEnterEvent(Event::PointerEnter & event)
         {
             DJV_PRIVATE_PTR();
-            if (!event.isRejected())
+            if (auto context = getContext().lock())
             {
-                event.accept();
-                _redraw();
-                if (p.pip && isEnabled())
+                if (!event.isRejected())
                 {
-                    auto eventSystem = getContext()->getSystemT<UI::EventSystem>();
-                    if (auto window = eventSystem->getCurrentWindow().lock())
+                    event.accept();
+                    _redraw();
+                    if (p.pip && isEnabled())
                     {
-                        window->addChild(p.overlay);
-                        p.overlay->setVisible(true);
+                        auto eventSystem = context->getSystemT<UI::EventSystem>();
+                        if (auto window = eventSystem->getCurrentWindow().lock())
+                        {
+                            window->addChild(p.overlay);
+                            p.overlay->setVisible(true);
+                        }
                     }
                 }
             }
@@ -639,11 +648,14 @@ namespace djv
         void TimelineSlider::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            auto avSystem = getContext()->getSystemT<AV::AVSystem>();
-            const auto& style = _getStyle();
-            auto fontSystem = _getFontSystem();
-            const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, UI::MetricsRole::FontMedium);
-            _resize();
+            if (auto context = getContext().lock())
+            {
+                auto avSystem = context->getSystemT<AV::AVSystem>();
+                const auto& style = _getStyle();
+                auto fontSystem = _getFontSystem();
+                const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, UI::MetricsRole::FontMedium);
+                _resize();
+            }
         }
 
     } // namespace ViewApp

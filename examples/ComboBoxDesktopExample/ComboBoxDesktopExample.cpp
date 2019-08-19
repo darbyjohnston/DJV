@@ -44,32 +44,37 @@ int main(int argc, char ** argv)
     try
     {
         // Create an application.
-        auto app = std::unique_ptr<Desktop::Application>(Desktop::Application::create(argc, argv));
+        std::vector<std::string> args;
+        for (int i = 0; i < argc; ++i)
+        {
+            args.push_back(argv[i]);
+        }
+        auto app = Desktop::Application::create(args);
 
         // Create some combo box widgets.
-        auto comboBox0 = UI::ComboBox::create(app.get());
+        auto comboBox0 = UI::ComboBox::create(app);
         comboBox0->setItems(Core::String::getRandomNames(5));
         comboBox0->setCurrentItem(0);
         comboBox0->setHAlign(UI::HAlign::Left);
         comboBox0->setVAlign(UI::VAlign::Top);
-        auto comboBox1 = UI::ComboBox::create(app.get());
+        auto comboBox1 = UI::ComboBox::create(app);
         comboBox1->setItems(Core::String::getRandomNames(25));
         comboBox1->setCurrentItem(0);
         comboBox1->setHAlign(UI::HAlign::Right);
         comboBox1->setVAlign(UI::VAlign::Top);
-        auto comboBox2 = UI::ComboBox::create(app.get());
+        auto comboBox2 = UI::ComboBox::create(app);
         comboBox2->setItems(Core::String::getRandomNames(5));
         comboBox2->setCurrentItem(0);
         comboBox2->setHAlign(UI::HAlign::Left);
         comboBox2->setVAlign(UI::VAlign::Bottom);
-        auto comboBox3 = UI::ComboBox::create(app.get());
+        auto comboBox3 = UI::ComboBox::create(app);
         comboBox3->setItems(Core::String::getRandomNames(25));
         comboBox3->setCurrentItem(0);
         comboBox3->setHAlign(UI::HAlign::Right);
         comboBox3->setVAlign(UI::VAlign::Bottom);
 
         // Create a layout for the widgets.
-        auto layout = UI::GridLayout::create(app.get());
+        auto layout = UI::GridLayout::create(app);
         layout->setMargin(UI::MetricsRole::MarginLarge);
         layout->addChild(comboBox0);
         layout->setGridPos(comboBox0, glm::ivec2(0, 0));
@@ -85,10 +90,11 @@ int main(int argc, char ** argv)
         layout->setStretch(comboBox3, UI::GridStretch::Both);
 
         // Create a window and show it.
-        auto window = UI::Window::create(app.get());
+        auto window = UI::Window::create(app);
         window->addChild(layout);
         window->show();
 
+        // Run the application.
         return app->run();
     }
     catch (const std::exception & e)

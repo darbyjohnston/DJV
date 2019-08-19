@@ -45,14 +45,14 @@ namespace djv
             DJV_NON_COPYABLE(UISettings);
 
         protected:
-            void _init(Core::Context * context);
+            void _init(const std::shared_ptr<Core::Context>&);
 
             UISettings();
 
         public:
             virtual ~UISettings();
 
-            static std::shared_ptr<UISettings> create(Core::Context *);
+            static std::shared_ptr<UISettings> create(const std::shared_ptr<Core::Context>&);
 
             std::shared_ptr<Core::IValueSubject<bool> > observeAutoHide() const;
             void setAutoHide(bool);

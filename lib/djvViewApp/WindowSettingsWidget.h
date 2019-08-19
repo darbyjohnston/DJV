@@ -41,11 +41,11 @@ namespace djv
             DJV_NON_COPYABLE(FullscreenMonitorSettingsWidget);
 
         protected:
-            void _init(Core::Context*);
+            void _init(const std::shared_ptr<Core::Context>&);
             FullscreenMonitorSettingsWidget();
 
         public:
-            static std::shared_ptr<FullscreenMonitorSettingsWidget> create(Core::Context*);
+            static std::shared_ptr<FullscreenMonitorSettingsWidget> create(const std::shared_ptr<Core::Context>&);
 
             std::string getSettingsName() const override;
             std::string getSettingsGroup() const override;
@@ -66,11 +66,11 @@ namespace djv
             DJV_NON_COPYABLE(BackgroundImageSettingsWidget);
 
         protected:
-            void _init(Core::Context*);
+            void _init(const std::shared_ptr<Core::Context>&);
             BackgroundImageSettingsWidget();
 
         public:
-            static std::shared_ptr<BackgroundImageSettingsWidget> create(Core::Context*);
+            static std::shared_ptr<BackgroundImageSettingsWidget> create(const std::shared_ptr<Core::Context>&);
 
             std::string getSettingsName() const override;
             std::string getSettingsGroup() const override;

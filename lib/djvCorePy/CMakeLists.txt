@@ -1,6 +1,12 @@
-set(header)
+set(header
+    CorePy.h)
 set(source
-    Context.cpp)
+	Animation.cpp
+    BBox.cpp
+    Context.cpp
+    CorePy.cpp
+    IObject.cpp
+    Vector.cpp)
 
 pybind11_add_module(djvCorePy SHARED ${header} ${source})
 target_link_libraries(djvCorePy PRIVATE djvCore)

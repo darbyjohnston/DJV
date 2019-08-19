@@ -49,7 +49,7 @@ namespace djv
                 Handle pressed = Handle::None;
             };
 
-            void IWidget::_init(Context* context)
+            void IWidget::_init(const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
                 setPointerEnabled(true);

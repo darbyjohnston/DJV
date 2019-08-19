@@ -19,15 +19,13 @@ namespace djv
                 DJV_NON_COPYABLE(Tool);
 
             protected:
-                void _init(Core::Context *);
+                void _init(const std::shared_ptr<Core::Context>&);
                 Tool();
 
             public:
                 virtual ~Tool();
 
-                static std::shared_ptr<Tool> create(Core::Context *);
-                static std::shared_ptr<Tool> create(const std::string &, Core::Context *);
-                static std::shared_ptr<Tool> create(const std::string &, const std::string & icon, Core::Context *);
+                static std::shared_ptr<Tool> create(const std::shared_ptr<Core::Context>&);
 
                 void setIcon(const std::string &);
                 void setCheckedIcon(const std::string&);

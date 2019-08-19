@@ -55,7 +55,7 @@ namespace djv
             std::shared_ptr<ValueObserver<std::string> > currentPaletteObserver;
         };
 
-        void PaletteWidget::_init(Context* context)
+        void PaletteWidget::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
 
@@ -67,20 +67,24 @@ namespace djv
             addChild(p.comboBox);
 
             auto weak = std::weak_ptr<PaletteWidget>(std::dynamic_pointer_cast<PaletteWidget>(shared_from_this()));
+            auto contextWeak = std::weak_ptr<Context>(context);
             p.comboBox->setCallback(
-                [weak, context](int value)
-            {
-                if (auto widget = weak.lock())
+                [weak, contextWeak](int value)
                 {
-                    auto settingsSystem = context->getSystemT<Settings::System>();
-                    auto styleSettings = settingsSystem->getSettingsT<Settings::Style>();
-                    const auto i = widget->_p->indexToPalette.find(value);
-                    if (i != widget->_p->indexToPalette.end())
+                    if (auto context = contextWeak.lock())
                     {
-                        styleSettings->setCurrentPalette(i->second);
+                        if (auto widget = weak.lock())
+                        {
+                            auto settingsSystem = context->getSystemT<Settings::System>();
+                            auto styleSettings = settingsSystem->getSettingsT<Settings::Style>();
+                            const auto i = widget->_p->indexToPalette.find(value);
+                            if (i != widget->_p->indexToPalette.end())
+                            {
+                                styleSettings->setCurrentPalette(i->second);
+                            }
+                        }
                     }
-                }
-            });
+                });
 
             auto settingsSystem = context->getSystemT<Settings::System>();
             auto styleSettings = settingsSystem->getSettingsT<Settings::Style>();
@@ -114,7 +118,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<PaletteWidget> PaletteWidget::create(Context* context)
+        std::shared_ptr<PaletteWidget> PaletteWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<PaletteWidget>(new PaletteWidget);
             out->_init(context);
@@ -165,7 +169,7 @@ namespace djv
         struct PaletteSettingsWidget::Private
         {};
 
-        void PaletteSettingsWidget::_init(Context* context)
+        void PaletteSettingsWidget::_init(const std::shared_ptr<Context>& context)
         {
             ISettingsWidget::_init(context);
             setClassName("djv::UI::PaletteSettingsWidget");
@@ -176,7 +180,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<PaletteSettingsWidget> PaletteSettingsWidget::create(Context* context)
+        std::shared_ptr<PaletteSettingsWidget> PaletteSettingsWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<PaletteSettingsWidget>(new PaletteSettingsWidget);
             out->_init(context);

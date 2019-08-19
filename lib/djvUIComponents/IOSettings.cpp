@@ -50,7 +50,7 @@ namespace djv
                 std::shared_ptr<ValueSubject<size_t> > threadCount;
             };
 
-            void IO::_init(Context * context)
+            void IO::_init(const std::shared_ptr<Context>& context)
             {
                 ISettings::_init("djv::UI::Settings::IO", context);
                 
@@ -67,7 +67,7 @@ namespace djv
             IO::~IO()
             {}
 
-            std::shared_ptr<IO> IO::create(Context * context)
+            std::shared_ptr<IO> IO::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<IO>(new IO);
                 out->_init(context);

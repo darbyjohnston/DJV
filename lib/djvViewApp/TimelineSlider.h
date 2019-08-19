@@ -49,13 +49,13 @@ namespace djv
             DJV_NON_COPYABLE(TimelineSlider);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             TimelineSlider();
 
         public:
             ~TimelineSlider() override;
 
-            static std::shared_ptr<TimelineSlider> create(Core::Context *);
+            static std::shared_ptr<TimelineSlider> create(const std::shared_ptr<Core::Context>&);
 
             std::shared_ptr<Core::IValueSubject<Core::Frame::Number> > observeCurrentFrame() const;
             std::shared_ptr<Core::ValueSubject<bool> > observeCurrentFrameChange() const;

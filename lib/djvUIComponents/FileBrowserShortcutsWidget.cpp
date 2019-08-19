@@ -56,7 +56,7 @@ namespace djv
                 std::shared_ptr<ListObserver<FileSystem::Path> > shortcutsObserver;
             };
 
-            void ShortcutsWidget::_init(const std::shared_ptr<ShortcutsModel> & model, Context * context)
+            void ShortcutsWidget::_init(const std::shared_ptr<ShortcutsModel> & model, const std::shared_ptr<Context>& context)
             {
                 UI::Widget::_init(context);
 
@@ -114,55 +114,59 @@ namespace djv
                         model->removeShortcut(value);
                     });
 
+                auto contextWeak = std::weak_ptr<Context>(context);
                 p.shortcutsObserver = ListObserver<FileSystem::Path>::create(
                     model->observeShortcuts(),
-                    [weak, context](const std::vector<FileSystem::Path> & value)
-                {
-                    if (auto widget = weak.lock())
+                    [weak, contextWeak](const std::vector<FileSystem::Path> & value)
                     {
-                        widget->_p->removeButtonGroup->clearButtons();
-                        widget->_p->itemLayout->clearChildren();
-                        size_t j = 0;
-                        for (const auto & i : value)
+                        if (auto context = contextWeak.lock())
                         {
-                            auto button = ListButton::create(context);
-                            std::string s = i.getFileName();
-                            if (s.empty())
+                            if (auto widget = weak.lock())
                             {
-                                s = i;
-                            }
-                            button->setText(s);
-                            button->setInsideMargin(MetricsRole::Margin);
-                            button->setTooltip(i);
-
-                            auto removeButton = ToolButton::create(context);
-                            removeButton->setIcon("djvIconCloseSmall");
-                            removeButton->setVisible(widget->_p->edit);
-                            widget->_p->removeButtonGroup->addButton(removeButton);
-
-                            widget->_p->itemLayout->addChild(button);
-                            widget->_p->itemLayout->setGridPos(button, 0, j);
-                            widget->_p->itemLayout->setStretch(button, GridStretch::Horizontal);
-                            widget->_p->itemLayout->addChild(removeButton);
-                            widget->_p->itemLayout->setGridPos(removeButton, 1, j);
-
-                            const auto path = i;
-                            button->setClickedCallback(
-                                [weak, path]
-                            {
-                                if (auto widget = weak.lock())
+                                widget->_p->removeButtonGroup->clearButtons();
+                                widget->_p->itemLayout->clearChildren();
+                                size_t j = 0;
+                                for (const auto& i : value)
                                 {
-                                    if (widget->_p->callback)
+                                    auto button = ListButton::create(context);
+                                    std::string s = i.getFileName();
+                                    if (s.empty())
                                     {
-                                        widget->_p->callback(path);
+                                        s = i;
                                     }
-                                }
-                            });
+                                    button->setText(s);
+                                    button->setInsideMargin(MetricsRole::Margin);
+                                    button->setTooltip(i);
 
-                            ++j;
+                                    auto removeButton = ToolButton::create(context);
+                                    removeButton->setIcon("djvIconCloseSmall");
+                                    removeButton->setVisible(widget->_p->edit);
+                                    widget->_p->removeButtonGroup->addButton(removeButton);
+
+                                    widget->_p->itemLayout->addChild(button);
+                                    widget->_p->itemLayout->setGridPos(button, 0, j);
+                                    widget->_p->itemLayout->setStretch(button, GridStretch::Horizontal);
+                                    widget->_p->itemLayout->addChild(removeButton);
+                                    widget->_p->itemLayout->setGridPos(removeButton, 1, j);
+
+                                    const auto path = i;
+                                    button->setClickedCallback(
+                                        [weak, path]
+                                        {
+                                            if (auto widget = weak.lock())
+                                            {
+                                                if (widget->_p->callback)
+                                                {
+                                                    widget->_p->callback(path);
+                                                }
+                                            }
+                                        });
+
+                                    ++j;
+                                }
+                            }
                         }
-                    }
-                });
+                    });
             }
 
             ShortcutsWidget::ShortcutsWidget() :
@@ -172,7 +176,7 @@ namespace djv
             ShortcutsWidget::~ShortcutsWidget()
             {}
 
-            std::shared_ptr<ShortcutsWidget> ShortcutsWidget::create(const std::shared_ptr<ShortcutsModel> & model, Context * context)
+            std::shared_ptr<ShortcutsWidget> ShortcutsWidget::create(const std::shared_ptr<ShortcutsModel> & model, const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<ShortcutsWidget>(new ShortcutsWidget);
                 out->_init(model, context);

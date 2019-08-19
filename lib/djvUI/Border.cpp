@@ -50,7 +50,7 @@ namespace djv
                 Layout::Margin insideMargin;
             };
 
-            void Border::_init(Context * context)
+            void Border::_init(const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
                 setClassName("djv::UI::Layout::Border");
@@ -63,7 +63,7 @@ namespace djv
             Border::~Border()
             {}
 
-            std::shared_ptr<Border> Border::create(Context * context)
+            std::shared_ptr<Border> Border::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<Border>(new Border);
                 out->_init(context);

@@ -60,7 +60,7 @@ namespace djv
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
-        void HelpSystem::_init(Context * context)
+        void HelpSystem::_init(const std::shared_ptr<Core::Context>& context)
         {
             IViewSystem::_init("djv::ViewApp::HelpSystem", context);
 
@@ -98,36 +98,40 @@ namespace djv
                 }
             });
 
+            auto contextWeak = std::weak_ptr<Context>(context);
             p.actionObservers["About"] = ValueObserver<bool>::create(
                 p.actions["About"]->observeClicked(),
-                [weak, context](bool value)
+                [weak, contextWeak](bool value)
             {
                 if (value)
                 {
-                    if (auto system = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        if (auto windowSystem = context->getSystemT<UI::EventSystem>())
+                        if (auto system = weak.lock())
                         {
-                            if (auto window = windowSystem->getCurrentWindow().lock())
+                            if (auto windowSystem = context->getSystemT<UI::EventSystem>())
                             {
-                                if (!system->_p->aboutDialog)
+                                if (auto window = windowSystem->getCurrentWindow().lock())
                                 {
-                                    system->_p->aboutDialog = AboutDialog::create(context);
-                                    system->_p->aboutDialog->setCloseCallback(
-                                        [weak]
+                                    if (!system->_p->aboutDialog)
                                     {
-                                        if (auto system = weak.lock())
-                                        {
-                                            if (auto parent = system->_p->aboutDialog->getParent().lock())
+                                        system->_p->aboutDialog = AboutDialog::create(context);
+                                        system->_p->aboutDialog->setCloseCallback(
+                                            [weak]
                                             {
-                                                parent->removeChild(system->_p->aboutDialog);
-                                            }
-                                            system->_p->aboutDialog.reset();
-                                        }
-                                    });
+                                                if (auto system = weak.lock())
+                                                {
+                                                    if (auto parent = system->_p->aboutDialog->getParent().lock())
+                                                    {
+                                                        parent->removeChild(system->_p->aboutDialog);
+                                                    }
+                                                    system->_p->aboutDialog.reset();
+                                                }
+                                            });
+                                    }
+                                    window->addChild(system->_p->aboutDialog);
+                                    system->_p->aboutDialog->show();
                                 }
-                                window->addChild(system->_p->aboutDialog);
-                                system->_p->aboutDialog->show();
                             }
                         }
                     }
@@ -136,37 +140,43 @@ namespace djv
 
             p.actionObservers["SystemLog"] = ValueObserver<bool>::create(
                 p.actions["SystemLog"]->observeChecked(),
-                [weak, context](bool value)
+                [weak, contextWeak](bool value)
                 {
-                    if (auto system = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        if (value)
+                        if (auto system = weak.lock())
                         {
-                            auto widget = SystemLogWidget::create(context);
-                            widget->reloadLog();
-                            system->_openWidget("SystemLog", widget);
-                        }
-                        else
-                        {
-                            system->_closeWidget("SystemLog");
+                            if (value)
+                            {
+                                auto widget = SystemLogWidget::create(context);
+                                widget->reloadLog();
+                                system->_openWidget("SystemLog", widget);
+                            }
+                            else
+                            {
+                                system->_closeWidget("SystemLog");
+                            }
                         }
                     }
                 });
 
             p.actionObservers["Debug"] = ValueObserver<bool>::create(
                 p.actions["Debug"]->observeChecked(),
-                [weak, context](bool value)
+                [weak, contextWeak](bool value)
                 {
-                    if (auto system = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        if (value)
+                        if (auto system = weak.lock())
                         {
-                            auto widget = DebugWidget::create(context);
-                            system->_openWidget("Debug", widget);
-                        }
-                        else
-                        {
-                            system->_closeWidget("Debug");
+                            if (value)
+                            {
+                                auto widget = DebugWidget::create(context);
+                                system->_openWidget("Debug", widget);
+                            }
+                            else
+                            {
+                                system->_closeWidget("Debug");
+                            }
                         }
                     }
                 });
@@ -189,7 +199,7 @@ namespace djv
         HelpSystem::~HelpSystem()
         {}
 
-        std::shared_ptr<HelpSystem> HelpSystem::create(Context * context)
+        std::shared_ptr<HelpSystem> HelpSystem::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<HelpSystem>(new HelpSystem);
             out->_init(context);

@@ -90,7 +90,7 @@ namespace djv
                 std::function<void(const FileSystem::FileInfo &)> callback;
             };
 
-            void ItemView::_init(Context * context)
+            void ItemView::_init(const std::shared_ptr<Context>& context)
             {
                 UI::Widget::_init(context);
                 DJV_PRIVATE_PTR();
@@ -128,7 +128,7 @@ namespace djv
             ItemView::~ItemView()
             {}
 
-            std::shared_ptr<ItemView> ItemView::create(Context * context)
+            std::shared_ptr<ItemView> ItemView::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<ItemView>(new ItemView);
                 out->_init(context);
@@ -285,90 +285,92 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (isClipped())
                     return;
-                auto fontSystem = _getFontSystem();
-                const auto& style = _getStyle();
-                auto context = getContext();
-                const auto & clipRect = event.getClipRect();
-                for (const auto & i : p.itemGeometry)
+                if (auto context = getContext().lock())
                 {
-                    if (i.first < p.items.size() && i.second.intersects(clipRect))
+                    auto fontSystem = _getFontSystem();
+                    const auto& style = _getStyle();
+                    const auto& clipRect = event.getClipRect();
+                    for (const auto& i : p.itemGeometry)
                     {
-                        const auto & fileInfo = p.items[i.first];
+                        if (i.first < p.items.size() && i.second.intersects(clipRect))
                         {
-                            const auto j = p.nameLines.find(i.first);
-                            if (j == p.nameLines.end())
+                            const auto& fileInfo = p.items[i.first];
                             {
-                                const auto k = p.nameLinesFutures.find(i.first);
-                                if (k == p.nameLinesFutures.end())
+                                const auto j = p.nameLines.find(i.first);
+                                if (j == p.nameLines.end())
                                 {
-                                    const float m = style->getMetric(MetricsRole::MarginSmall);
-                                    const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium);
-                                    p.names[i.first] = fileInfo.getFileName(Frame::invalid, false);
-                                    p.nameLinesFutures[i.first] = fontSystem->textLines(
-                                        p.names[i.first],
-                                        p.thumbnailSize.w - static_cast<uint16_t>(m * 2.f),
-                                        fontInfo);
-                                }
-                            }
-                        }
-                        if (p.ioInfo.find(i.first) == p.ioInfo.end())
-                        {
-                            if (p.ioInfoFutures.find(i.first) == p.ioInfoFutures.end())
-                            {
-                                auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>();
-                                auto ioSystem = context->getSystemT<AV::IO::System>();
-                                if (thumbnailSystem && ioSystem)
-                                {
-                                    if (ioSystem->canRead(fileInfo))
+                                    const auto k = p.nameLinesFutures.find(i.first);
+                                    if (k == p.nameLinesFutures.end())
                                     {
-                                        p.ioInfoFutures[i.first] = thumbnailSystem->getInfo(fileInfo);
+                                        const float m = style->getMetric(MetricsRole::MarginSmall);
+                                        const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium);
+                                        p.names[i.first] = fileInfo.getFileName(Frame::invalid, false);
+                                        p.nameLinesFutures[i.first] = fontSystem->textLines(
+                                            p.names[i.first],
+                                            p.thumbnailSize.w - static_cast<uint16_t>(m * 2.f),
+                                            fontInfo);
                                     }
                                 }
                             }
-                        }
-                        if (p.thumbnails.find(i.first) == p.thumbnails.end())
-                        {
-                            if (p.thumbnailFutures.find(i.first) == p.thumbnailFutures.end())
+                            if (p.ioInfo.find(i.first) == p.ioInfo.end())
                             {
-                                auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>();
-                                auto ioSystem = context->getSystemT<AV::IO::System>();
-                                if (thumbnailSystem && ioSystem && ioSystem->canRead(fileInfo))
+                                if (p.ioInfoFutures.find(i.first) == p.ioInfoFutures.end())
                                 {
-                                    p.thumbnailFutures[i.first] = thumbnailSystem->getImage(fileInfo, p.thumbnailSize);
+                                    auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>();
+                                    auto ioSystem = context->getSystemT<AV::IO::System>();
+                                    if (thumbnailSystem && ioSystem)
+                                    {
+                                        if (ioSystem->canRead(fileInfo))
+                                        {
+                                            p.ioInfoFutures[i.first] = thumbnailSystem->getInfo(fileInfo);
+                                        }
+                                    }
+                                }
+                            }
+                            if (p.thumbnails.find(i.first) == p.thumbnails.end())
+                            {
+                                if (p.thumbnailFutures.find(i.first) == p.thumbnailFutures.end())
+                                {
+                                    auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>();
+                                    auto ioSystem = context->getSystemT<AV::IO::System>();
+                                    if (thumbnailSystem && ioSystem && ioSystem->canRead(fileInfo))
+                                    {
+                                        p.thumbnailFutures[i.first] = thumbnailSystem->getImage(fileInfo, p.thumbnailSize);
+                                    }
+                                }
+                            }
+                            {
+                                const auto j = p.sizeText.find(i.first);
+                                if (j == p.sizeText.end())
+                                {
+                                    p.sizeText[i.first] = Memory::getSizeLabel(fileInfo.getSize());
+                                }
+                            }
+                            {
+                                const auto j = p.timeText.find(i.first);
+                                if (j == p.timeText.end())
+                                {
+                                    p.timeText[i.first] = Time::getLabel(fileInfo.getTime());
                                 }
                             }
                         }
+                        else if (auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>())
                         {
-                            const auto j = p.sizeText.find(i.first);
-                            if (j == p.sizeText.end())
                             {
-                                p.sizeText[i.first] = Memory::getSizeLabel(fileInfo.getSize());
+                                const auto j = p.ioInfoFutures.find(i.first);
+                                if (j != p.ioInfoFutures.end())
+                                {
+                                    thumbnailSystem->cancelInfo(j->second.uid);
+                                    p.ioInfoFutures.erase(j);
+                                }
                             }
-                        }
-                        {
-                            const auto j = p.timeText.find(i.first);
-                            if (j == p.timeText.end())
                             {
-                                p.timeText[i.first] = Time::getLabel(fileInfo.getTime());
-                            }
-                        }
-                    }
-                    else if (auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>())
-                    {
-                        {
-                            const auto j = p.ioInfoFutures.find(i.first);
-                            if (j != p.ioInfoFutures.end())
-                            {
-                                thumbnailSystem->cancelInfo(j->second.uid);
-                                p.ioInfoFutures.erase(j);
-                            }
-                        }
-                        {
-                            const auto j = p.thumbnailFutures.find(i.first);
-                            if (j != p.thumbnailFutures.end())
-                            {
-                                thumbnailSystem->cancelImage(j->second.uid);
-                                p.thumbnailFutures.erase(j);
+                                const auto j = p.thumbnailFutures.find(i.first);
+                                if (j != p.thumbnailFutures.end())
+                                {
+                                    thumbnailSystem->cancelImage(j->second.uid);
+                                    p.thumbnailFutures.erase(j);
+                                }
                             }
                         }
                     }
@@ -850,47 +852,52 @@ namespace djv
 
             std::string ItemView::_getTooltip(const FileSystem::FileInfo& fileInfo, const AV::IO::Info& avInfo) const
             {
-                std::stringstream ss;
-                ss << _getTooltip(fileInfo);
-                size_t track = 0;
-                for (const auto& videoInfo : avInfo.video)
+                std::string out;
+                if (auto context = getContext().lock())
                 {
-                    ss << '\n' << '\n';
-                    ss << _getText(DJV_TEXT("Video track")) << " #" << track << '\n';
-                    ss << _getText(DJV_TEXT("Name")) << ": " << videoInfo.info.name << '\n';
-                    ss << _getText(DJV_TEXT("Size")) << ": " << videoInfo.info.size << '\n';
-                    ss << _getText(DJV_TEXT("Type")) << ": " << videoInfo.info.type << '\n';
-                    ss.precision(2);
-                    ss << _getText(DJV_TEXT("Speed")) << ": " <<
-                        videoInfo.speed.toFloat() <<
-                        _getText(DJV_TEXT("FPS")) << '\n';
-                    auto avSystem = getContext()->getSystemT<AV::AVSystem>();
-                    ss << _getText(DJV_TEXT("Duration")) << ": " <<
-                        avSystem->getLabel(videoInfo.sequence.getSize(), videoInfo.speed);
-                    switch (avSystem->observeTimeUnits()->get())
+                    std::stringstream ss;
+                    ss << _getTooltip(fileInfo);
+                    size_t track = 0;
+                    for (const auto& videoInfo : avInfo.video)
                     {
-                    case AV::TimeUnits::Frames:
-                        ss << " " << _getText(DJV_TEXT("frames"));
-                        break;
-                    default: break;
+                        ss << '\n' << '\n';
+                        ss << _getText(DJV_TEXT("Video track")) << " #" << track << '\n';
+                        ss << _getText(DJV_TEXT("Name")) << ": " << videoInfo.info.name << '\n';
+                        ss << _getText(DJV_TEXT("Size")) << ": " << videoInfo.info.size << '\n';
+                        ss << _getText(DJV_TEXT("Type")) << ": " << videoInfo.info.type << '\n';
+                        ss.precision(2);
+                        ss << _getText(DJV_TEXT("Speed")) << ": " <<
+                            videoInfo.speed.toFloat() <<
+                            _getText(DJV_TEXT("FPS")) << '\n';
+                        auto avSystem = context->getSystemT<AV::AVSystem>();
+                        ss << _getText(DJV_TEXT("Duration")) << ": " <<
+                            avSystem->getLabel(videoInfo.sequence.getSize(), videoInfo.speed);
+                        switch (avSystem->observeTimeUnits()->get())
+                        {
+                        case AV::TimeUnits::Frames:
+                            ss << " " << _getText(DJV_TEXT("frames"));
+                            break;
+                        default: break;
+                        }
+                        ++track;
                     }
-                    ++track;
+                    track = 0;
+                    for (const auto& audioInfo : avInfo.audio)
+                    {
+                        ss << '\n' << '\n';
+                        ss << _getText(DJV_TEXT("Audio track")) << " #" << track << '\n';
+                        ss << _getText(DJV_TEXT("Channels")) << ": " << static_cast<int>(audioInfo.info.channelCount) << '\n';
+                        ss << _getText(DJV_TEXT("Type")) << ": " << audioInfo.info.type << '\n';
+                        ss << _getText(DJV_TEXT("Sample rate")) << ": " <<
+                            audioInfo.info.sampleRate / 1000.f << _getText(DJV_TEXT("kHz")) << '\n';
+                        ss << _getText(DJV_TEXT("Duration")) << ": " <<
+                            (audioInfo.info.sampleRate > 0 ? (audioInfo.sampleCount / static_cast<float>(audioInfo.info.sampleRate)) : 0.f) <<
+                            " " << _getText(DJV_TEXT("seconds"));
+                        ++track;
+                    }
+                    out = ss.str();
                 }
-                track = 0;
-                for (const auto& audioInfo : avInfo.audio)
-                {
-                    ss << '\n' << '\n';
-                    ss << _getText(DJV_TEXT("Audio track")) << " #" << track << '\n';
-                    ss << _getText(DJV_TEXT("Channels")) << ": " << static_cast<int>(audioInfo.info.channelCount) << '\n';
-                    ss << _getText(DJV_TEXT("Type")) << ": " << audioInfo.info.type << '\n';
-                    ss << _getText(DJV_TEXT("Sample rate")) << ": " <<
-                        audioInfo.info.sampleRate / 1000.f << _getText(DJV_TEXT("kHz")) << '\n';
-                    ss << _getText(DJV_TEXT("Duration")) << ": " <<
-                        (audioInfo.info.sampleRate > 0 ? (audioInfo.sampleCount / static_cast<float>(audioInfo.info.sampleRate)) : 0.f) <<
-                        " " << _getText(DJV_TEXT("seconds"));
-                    ++track;
-                }
-                return ss.str();
+                return out;
             }
 
             void ItemView::_iconsUpdate()
@@ -915,56 +922,58 @@ namespace djv
             void ItemView::_thumbnailsSizeUpdate()
             {
                 DJV_PRIVATE_PTR();
-                p.thumbnails.clear();
-                auto context = getContext();
-                auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>();
-                auto fontSystem = _getFontSystem();
-                const auto& style = _getStyle();
-                p.names.clear();
-                p.nameLines.clear();
-                p.nameLinesFutures.clear();
-                for (const auto & i : p.itemGeometry)
+                if (auto context = getContext().lock())
                 {
-                    const auto j = p.thumbnailFutures.find(i.first);
-                    if (j != p.thumbnailFutures.end())
+                    p.thumbnails.clear();
+                    auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>();
+                    auto fontSystem = _getFontSystem();
+                    const auto& style = _getStyle();
+                    p.names.clear();
+                    p.nameLines.clear();
+                    p.nameLinesFutures.clear();
+                    for (const auto& i : p.itemGeometry)
                     {
-                        thumbnailSystem->cancelImage(j->second.uid);
-                        p.thumbnailFutures.erase(j);
-                    }
-                }
-                p.thumbnailFutures.clear();
-
-                const auto & clipRect = getClipRect();
-                for (const auto & i : p.itemGeometry)
-                {
-                    if (i.first < p.items.size() && i.second.intersects(clipRect))
-                    {
-                        if (p.thumbnails.find(i.first) == p.thumbnails.end())
+                        const auto j = p.thumbnailFutures.find(i.first);
+                        if (j != p.thumbnailFutures.end())
                         {
-                            const auto & fileInfo = p.items[i.first];
+                            thumbnailSystem->cancelImage(j->second.uid);
+                            p.thumbnailFutures.erase(j);
+                        }
+                    }
+                    p.thumbnailFutures.clear();
+
+                    const auto& clipRect = getClipRect();
+                    for (const auto& i : p.itemGeometry)
+                    {
+                        if (i.first < p.items.size() && i.second.intersects(clipRect))
+                        {
+                            if (p.thumbnails.find(i.first) == p.thumbnails.end())
                             {
-                                const auto j = p.nameLines.find(i.first);
-                                if (j == p.nameLines.end())
+                                const auto& fileInfo = p.items[i.first];
                                 {
-                                    const auto k = p.nameLinesFutures.find(i.first);
-                                    if (k == p.nameLinesFutures.end())
+                                    const auto j = p.nameLines.find(i.first);
+                                    if (j == p.nameLines.end())
                                     {
-                                        const float m = style->getMetric(MetricsRole::MarginSmall);
-                                        const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium);
-                                        p.names[i.first] = fileInfo.getFileName(Frame::invalid, false);
-                                        p.nameLinesFutures[i.first] = fontSystem->textLines(
-                                            p.names[i.first],
-                                            p.thumbnailSize.w - static_cast<uint16_t>(m * 2.f),
-                                            fontInfo);
+                                        const auto k = p.nameLinesFutures.find(i.first);
+                                        if (k == p.nameLinesFutures.end())
+                                        {
+                                            const float m = style->getMetric(MetricsRole::MarginSmall);
+                                            const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium);
+                                            p.names[i.first] = fileInfo.getFileName(Frame::invalid, false);
+                                            p.nameLinesFutures[i.first] = fontSystem->textLines(
+                                                p.names[i.first],
+                                                p.thumbnailSize.w - static_cast<uint16_t>(m * 2.f),
+                                                fontInfo);
+                                        }
                                     }
                                 }
-                            }
-                            if (p.thumbnailFutures.find(i.first) == p.thumbnailFutures.end())
-                            {
-                                auto ioSystem = context->getSystemT<AV::IO::System>();
-                                if (ioSystem && ioSystem->canRead(fileInfo))
+                                if (p.thumbnailFutures.find(i.first) == p.thumbnailFutures.end())
                                 {
-                                    p.thumbnailFutures[i.first] = thumbnailSystem->getImage(fileInfo, p.thumbnailSize);
+                                    auto ioSystem = context->getSystemT<AV::IO::System>();
+                                    if (ioSystem && ioSystem->canRead(fileInfo))
+                                    {
+                                        p.thumbnailFutures[i.first] = thumbnailSystem->getImage(fileInfo, p.thumbnailSize);
+                                    }
                                 }
                             }
                         }
@@ -975,30 +984,33 @@ namespace djv
             void ItemView::_itemsUpdate()
             {
                 DJV_PRIVATE_PTR();
-                const auto& style = _getStyle();
-                auto fontSystem = _getFontSystem();
-                auto thumbnailSystem = getContext()->getSystemT<AV::ThumbnailSystem>();
-                p.nameFontMetricsFuture = fontSystem->getMetrics(
-                    style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium));
-                p.names.clear();
-                p.nameLines.clear();
-                p.nameLinesFutures.clear();
-                p.ioInfo.clear();
-                p.ioInfoFutures.clear();
-                p.thumbnails.clear();
-                for (const auto & i : p.itemGeometry)
+                if (auto context = getContext().lock())
                 {
-                    const auto j = p.thumbnailFutures.find(i.first);
-                    if (j != p.thumbnailFutures.end())
+                    const auto& style = _getStyle();
+                    auto fontSystem = _getFontSystem();
+                    auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>();
+                    p.nameFontMetricsFuture = fontSystem->getMetrics(
+                        style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium));
+                    p.names.clear();
+                    p.nameLines.clear();
+                    p.nameLinesFutures.clear();
+                    p.ioInfo.clear();
+                    p.ioInfoFutures.clear();
+                    p.thumbnails.clear();
+                    for (const auto& i : p.itemGeometry)
                     {
-                        thumbnailSystem->cancelImage(j->second.uid);
-                        p.thumbnailFutures.erase(j);
+                        const auto j = p.thumbnailFutures.find(i.first);
+                        if (j != p.thumbnailFutures.end())
+                        {
+                            thumbnailSystem->cancelImage(j->second.uid);
+                            p.thumbnailFutures.erase(j);
+                        }
                     }
+                    p.thumbnailFutures.clear();
+                    p.sizeText.clear();
+                    p.timeText.clear();
+                    _resize();
                 }
-                p.thumbnailFutures.clear();
-                p.sizeText.clear();
-                p.timeText.clear();
-                _resize();
             }
 
         } // namespace FileBrowser

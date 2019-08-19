@@ -44,13 +44,13 @@ namespace djv
             DJV_NON_COPYABLE(ListWidget);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             ListWidget();
 
         public:
             virtual ~ListWidget();
-            static std::shared_ptr<ListWidget> create(Core::Context *);
-            static std::shared_ptr<ListWidget> create(const std::vector<std::string> &, Core::Context *);
+
+            static std::shared_ptr<ListWidget> create(const std::shared_ptr<Core::Context>&);
 
             const std::vector<std::string> & getItems() const;
             void setItems(const std::vector<std::string> &);

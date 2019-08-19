@@ -45,13 +45,13 @@ namespace djv
             DJV_NON_COPYABLE(ComboBox);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             ComboBox();
 
         public:
             virtual ~ComboBox();
-            static std::shared_ptr<ComboBox> create(Core::Context *);
-            static std::shared_ptr<ComboBox> create(const std::vector<std::string> &, Core::Context *);
+
+            static std::shared_ptr<ComboBox> create(const std::shared_ptr<Core::Context>&);
 
             const std::vector<std::string> & getItems() const;
             void setItems(const std::vector<std::string> &);

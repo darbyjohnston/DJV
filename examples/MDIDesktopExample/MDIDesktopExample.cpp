@@ -51,13 +51,13 @@ class MDIWidget : public UI::MDI::IWidget
     DJV_NON_COPYABLE(MDIWidget);
 
 protected:
-    void _init(const std::string & title, Core::Context *);
+    void _init(const std::string & title, const std::shared_ptr<Core::Context>&);
     MDIWidget();
 
 public:
     ~MDIWidget() override;
 
-    static std::shared_ptr<MDIWidget> create(const std::string & title, Core::Context *);
+    static std::shared_ptr<MDIWidget> create(const std::string & title, const std::shared_ptr<Core::Context>&);
 
     void setClosedCallback(const std::function<void(void)> &);
 
@@ -73,7 +73,7 @@ private:
     std::function<void(void)> _closedCallback;
 };
 
-void MDIWidget::_init(const std::string & title, Core::Context * context)
+void MDIWidget::_init(const std::string & title, const std::shared_ptr<Core::Context>& context)
 {
     IWidget::_init(context);
 
@@ -119,7 +119,7 @@ MDIWidget::MDIWidget()
 MDIWidget::~MDIWidget()
 {}
 
-std::shared_ptr<MDIWidget> MDIWidget::create(const std::string & title, Core::Context * context)
+std::shared_ptr<MDIWidget> MDIWidget::create(const std::string & title, const std::shared_ptr<Core::Context>& context)
 {
     auto out = std::shared_ptr<MDIWidget>(new MDIWidget);
     out->_init(title, context);
@@ -151,16 +151,21 @@ int main(int argc, char ** argv)
     int r = 0;
     try
     {
-        auto app = std::unique_ptr<Desktop::Application>(Desktop::Application::create(argc, argv));
+        std::vector<std::string> args;
+        for (int i = 0; i < argc; ++i)
+        {
+            args.push_back(argv[i]);
+        }
+        auto app = Desktop::Application::create(args);
 
-        auto canvas = UI::MDI::Canvas::create(app.get());
+        auto canvas = UI::MDI::Canvas::create(app);
         glm::vec2 pos(50.f, 50.f);
         Core::Math::setRandomSeed();
         for (size_t i = 0; i < 3; ++i)
         {
             std::stringstream ss;
             ss << "Widget " << i;
-            auto widget = MDIWidget::create(ss.str(), app.get());
+            auto widget = MDIWidget::create(ss.str(), app);
             widget->resize(glm::vec2(600.f, 400.f));
             canvas->addChild(widget);
             auto weak = std::weak_ptr<MDIWidget>(std::dynamic_pointer_cast<MDIWidget>(widget));
@@ -179,10 +184,11 @@ int main(int argc, char ** argv)
             pos += glm::vec2(100.f, 100.f);
         }
 
-        auto window = UI::Window::create(app.get());
+        auto window = UI::Window::create(app);
         window->addChild(canvas);
         window->show();
 
+        // Run the application.
         return app->run();
     }
     catch (const std::exception & e)

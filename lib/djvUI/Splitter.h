@@ -43,13 +43,13 @@ namespace djv
                 DJV_NON_COPYABLE(Splitter);
 
             protected:
-                void _init(Core::Context *);
+                void _init(const std::shared_ptr<Core::Context>&);
                 Splitter();
 
             public:
                 virtual ~Splitter();
 
-                static std::shared_ptr<Splitter> create(Orientation, Core::Context *);
+                static std::shared_ptr<Splitter> create(Orientation, const std::shared_ptr<Core::Context>&);
 
                 Orientation getOrientation() const;
                 void setOrientation(Orientation);

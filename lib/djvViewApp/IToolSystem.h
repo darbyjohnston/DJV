@@ -48,7 +48,7 @@ namespace djv
             DJV_NON_COPYABLE(IToolSystem);
 
         protected:
-            void _init(const std::string & name, Core::Context *);
+            void _init(const std::string & name, const std::shared_ptr<Core::Context>&);
             IToolSystem();
 
         public:

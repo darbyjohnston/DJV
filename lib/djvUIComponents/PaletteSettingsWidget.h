@@ -41,11 +41,11 @@ namespace djv
             DJV_NON_COPYABLE(PaletteWidget);
 
         protected:
-            void _init(Core::Context*);
+            void _init(const std::shared_ptr<Core::Context>&);
             PaletteWidget();
 
         public:
-            static std::shared_ptr<PaletteWidget> create(Core::Context*);
+            static std::shared_ptr<PaletteWidget> create(const std::shared_ptr<Core::Context>&);
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout&) override;
@@ -65,11 +65,11 @@ namespace djv
             DJV_NON_COPYABLE(PaletteSettingsWidget);
 
         protected:
-            void _init(Core::Context*);
+            void _init(const std::shared_ptr<Core::Context>&);
             PaletteSettingsWidget();
 
         public:
-            static std::shared_ptr<PaletteSettingsWidget> create(Core::Context*);
+            static std::shared_ptr<PaletteSettingsWidget> create(const std::shared_ptr<Core::Context>&);
 
             std::string getSettingsName() const override;
             std::string getSettingsGroup() const override;

@@ -84,7 +84,7 @@ namespace djv
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
-        void FileSystem::_init(Context * context)
+        void FileSystem::_init(const std::shared_ptr<Core::Context>& context)
         {
             IViewSystem::_init("djv::ViewApp::FileSystem", context);
 
@@ -318,17 +318,21 @@ namespace djv
                 }
             });
 
+            auto contextWeak = std::weak_ptr<Context>(context);
             p.actionObservers["NextLayer"] = ValueObserver<bool>::create(
                 p.actions["NextLayer"]->observeClicked(),
-                [weak, context](bool value)
+                [weak, contextWeak](bool value)
                 {
                     if (value)
                     {
-                        if (auto system = weak.lock())
+                        if (auto context = contextWeak.lock())
                         {
-                            if (auto media = system->_p->currentMedia->get())
+                            if (auto system = weak.lock())
                             {
-                                media->nextLayer();
+                                if (auto media = system->_p->currentMedia->get())
+                                {
+                                    media->nextLayer();
+                                }
                             }
                         }
                     }
@@ -336,15 +340,18 @@ namespace djv
 
             p.actionObservers["PrevLayer"] = ValueObserver<bool>::create(
                 p.actions["PrevLayer"]->observeClicked(),
-                [weak, context](bool value)
+                [weak, contextWeak](bool value)
                 {
                     if (value)
                     {
-                        if (auto system = weak.lock())
+                        if (auto context = contextWeak.lock())
                         {
-                            if (auto media = system->_p->currentMedia->get())
+                            if (auto system = weak.lock())
                             {
-                                media->prevLayer();
+                                if (auto media = system->_p->currentMedia->get())
+                                {
+                                    media->prevLayer();
+                                }
                             }
                         }
                     }
@@ -352,17 +359,20 @@ namespace djv
 
             p.actionObservers["LayersWidget"] = ValueObserver<bool>::create(
                 p.actions["LayersWidget"]->observeChecked(),
-                [weak, context](bool value)
+                [weak, contextWeak](bool value)
                 {
-                    if (auto system = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        if (value)
+                        if (auto system = weak.lock())
                         {
-                            system->_openWidget("LayersWidget", LayersWidget::create(context));
-                        }
-                        else
-                        {
-                            system->_closeWidget("LayersWidget");
+                            if (value)
+                            {
+                                system->_openWidget("LayersWidget", LayersWidget::create(context));
+                            }
+                            else
+                            {
+                                system->_closeWidget("LayersWidget");
+                            }
                         }
                     }
                 });
@@ -400,11 +410,14 @@ namespace djv
 
             p.actionObservers["Exit"] = ValueObserver<bool>::create(
                 p.actions["Exit"]->observeClicked(),
-                [weak, context](bool value)
+                [weak, contextWeak](bool value)
                 {
                     if (value)
                     {
-                        dynamic_cast<Application *>(context)->exit();
+                        if (auto context = contextWeak.lock())
+                        {
+                            std::dynamic_pointer_cast<Application>(context)->exit();
+                        }
                     }
                 });
 
@@ -443,7 +456,7 @@ namespace djv
         FileSystem::~FileSystem()
         {}
 
-        std::shared_ptr<FileSystem> FileSystem::create(Context * context)
+        std::shared_ptr<FileSystem> FileSystem::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<FileSystem>(new FileSystem);
             out->_init(context);
@@ -483,33 +496,37 @@ namespace djv
         void FileSystem::open(const Core::FileSystem::FileInfo& fileInfo)
         {
             DJV_PRIVATE_PTR();
-            auto context = getContext();
-            auto media = Media::create(fileInfo, context);
-            _mediaInit(media);
-            p.media->pushBack(media);
-            p.opened->setIfChanged(media);
-            // Reset the observer so we don't have an extra shared_ptr holding
-            // onto the media object.
-            p.opened->setIfChanged(nullptr);
-            setCurrentMedia(media);
-            p.recentFilesModel->addFile(fileInfo);
-            _cacheUpdate();
+            if (auto context = getContext().lock())
+            {
+                auto media = Media::create(fileInfo, context);
+                _mediaInit(media);
+                p.media->pushBack(media);
+                p.opened->setIfChanged(media);
+                // Reset the observer so we don't have an extra shared_ptr holding
+                // onto the media object.
+                p.opened->setIfChanged(nullptr);
+                setCurrentMedia(media);
+                p.recentFilesModel->addFile(fileInfo);
+                _cacheUpdate();
+            }
         }
 
         void FileSystem::open(const Core::FileSystem::FileInfo& fileInfo, const glm::vec2& pos)
         {
             DJV_PRIVATE_PTR();
-            auto context = getContext();
-            auto media = Media::create(fileInfo, context);
-            _mediaInit(media);
-            p.media->pushBack(media);
-            p.opened2->setIfChanged(std::make_pair(media, pos));
-            // Reset the observer so we don't have an extra shared_ptr holding
-            // onto the media object.
-            p.opened2->setIfChanged(std::make_pair(nullptr, glm::ivec2(0, 0)));
-            setCurrentMedia(media);
-            p.recentFilesModel->addFile(fileInfo);
-            _cacheUpdate();
+            if (auto context = getContext().lock())
+            {
+                auto media = Media::create(fileInfo, context);
+                _mediaInit(media);
+                p.media->pushBack(media);
+                p.opened2->setIfChanged(std::make_pair(media, pos));
+                // Reset the observer so we don't have an extra shared_ptr holding
+                // onto the media object.
+                p.opened2->setIfChanged(std::make_pair(nullptr, glm::ivec2(0, 0)));
+                setCurrentMedia(media);
+                p.recentFilesModel->addFile(fileInfo);
+                _cacheUpdate();
+            }
         }
 
         void FileSystem::close(const std::shared_ptr<Media>& media)
@@ -653,85 +670,89 @@ namespace djv
         void FileSystem::_showFileBrowserDialog()
         {
             DJV_PRIVATE_PTR();
-            auto context = getContext();
-            auto eventSystem = context->getSystemT<UI::EventSystem>();
-            if (auto window = eventSystem->getCurrentWindow().lock())
+            if (auto context = getContext().lock())
             {
-                p.fileBrowserDialog = UI::FileBrowser::Dialog::create(context);
-                p.fileBrowserDialog->setPath(p.fileBrowserPath);
-                auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
-                p.fileBrowserDialog->setCallback(
-                    [weak](const Core::FileSystem::FileInfo & value)
+                auto eventSystem = context->getSystemT<UI::EventSystem>();
+                if (auto window = eventSystem->getCurrentWindow().lock())
                 {
-                    if (auto system = weak.lock())
-                    {
-                        if (auto parent = system->_p->fileBrowserDialog->getParent().lock())
+                    p.fileBrowserDialog = UI::FileBrowser::Dialog::create(context);
+                    p.fileBrowserDialog->setPath(p.fileBrowserPath);
+                    auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
+                    p.fileBrowserDialog->setCallback(
+                        [weak](const Core::FileSystem::FileInfo& value)
                         {
-                            parent->removeChild(system->_p->fileBrowserDialog);
-                        }
-                        system->_p->fileBrowserPath = system->_p->fileBrowserDialog->getPath();
-                        system->_p->fileBrowserDialog.reset();
-                        system->open(value);
-                    }
-                });
-                p.fileBrowserDialog->setCloseCallback(
-                    [weak]
-                {
-                    if (auto system = weak.lock())
-                    {
-                        if (auto parent = system->_p->fileBrowserDialog->getParent().lock())
+                            if (auto system = weak.lock())
+                            {
+                                if (auto parent = system->_p->fileBrowserDialog->getParent().lock())
+                                {
+                                    parent->removeChild(system->_p->fileBrowserDialog);
+                                }
+                                system->_p->fileBrowserPath = system->_p->fileBrowserDialog->getPath();
+                                system->_p->fileBrowserDialog.reset();
+                                system->open(value);
+                            }
+                        });
+                    p.fileBrowserDialog->setCloseCallback(
+                        [weak]
                         {
-                            parent->removeChild(system->_p->fileBrowserDialog);
-                        }
-                        system->_p->fileBrowserPath = system->_p->fileBrowserDialog->getPath();
-                        system->_p->fileBrowserDialog.reset();
-                    }
-                });
-                window->addChild(p.fileBrowserDialog);
-                p.fileBrowserDialog->show();
+                            if (auto system = weak.lock())
+                            {
+                                if (auto parent = system->_p->fileBrowserDialog->getParent().lock())
+                                {
+                                    parent->removeChild(system->_p->fileBrowserDialog);
+                                }
+                                system->_p->fileBrowserPath = system->_p->fileBrowserDialog->getPath();
+                                system->_p->fileBrowserDialog.reset();
+                            }
+                        });
+                    window->addChild(p.fileBrowserDialog);
+                    p.fileBrowserDialog->show();
+                }
             }
         }
 
         void FileSystem::_showRecentFilesDialog()
         {
             DJV_PRIVATE_PTR();
-            auto context = getContext();
-            if (auto eventSystem = context->getSystemT<UI::EventSystem>())
+            if (auto context = getContext().lock())
             {
-                if (auto window = eventSystem->getCurrentWindow().lock())
+                if (auto eventSystem = context->getSystemT<UI::EventSystem>())
                 {
-                    if (!p.recentFilesDialog)
+                    if (auto window = eventSystem->getCurrentWindow().lock())
                     {
-                        p.recentFilesDialog = RecentFilesDialog::create(context);
-                        auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
-                        p.recentFilesDialog->setCallback(
-                            [weak](const Core::FileSystem::FileInfo & value)
+                        if (!p.recentFilesDialog)
                         {
-                            if (auto system = weak.lock())
-                            {
-                                if (auto parent = system->_p->recentFilesDialog->getParent().lock())
+                            p.recentFilesDialog = RecentFilesDialog::create(context);
+                            auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
+                            p.recentFilesDialog->setCallback(
+                                [weak](const Core::FileSystem::FileInfo& value)
                                 {
-                                    parent->removeChild(system->_p->recentFilesDialog);
-                                }
-                                system->_p->recentFilesDialog.reset();
-                                system->open(value);
-                            }
-                        });
-                        p.recentFilesDialog->setCloseCallback(
-                            [weak]
-                        {
-                            if (auto system = weak.lock())
-                            {
-                                if (auto parent = system->_p->recentFilesDialog->getParent().lock())
+                                    if (auto system = weak.lock())
+                                    {
+                                        if (auto parent = system->_p->recentFilesDialog->getParent().lock())
+                                        {
+                                            parent->removeChild(system->_p->recentFilesDialog);
+                                        }
+                                        system->_p->recentFilesDialog.reset();
+                                        system->open(value);
+                                    }
+                                });
+                            p.recentFilesDialog->setCloseCallback(
+                                [weak]
                                 {
-                                    parent->removeChild(system->_p->recentFilesDialog);
-                                }
-                                system->_p->recentFilesDialog.reset();
-                            }
-                        });
+                                    if (auto system = weak.lock())
+                                    {
+                                        if (auto parent = system->_p->recentFilesDialog->getParent().lock())
+                                        {
+                                            parent->removeChild(system->_p->recentFilesDialog);
+                                        }
+                                        system->_p->recentFilesDialog.reset();
+                                    }
+                                });
+                        }
+                        window->addChild(p.recentFilesDialog);
+                        p.recentFilesDialog->show();
                     }
-                    window->addChild(p.recentFilesDialog);
-                    p.recentFilesDialog->show();
                 }
             }
         }

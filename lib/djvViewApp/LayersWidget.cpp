@@ -53,7 +53,7 @@ namespace djv
             std::shared_ptr<ValueObserver<size_t> > layerObserver;
         };
 
-        void LayersWidget::_init(Context * context)
+        void LayersWidget::_init(const std::shared_ptr<Core::Context>& context)
         {
             MDIWidget::_init(context);
             DJV_PRIVATE_PTR();
@@ -129,7 +129,7 @@ namespace djv
         LayersWidget::~LayersWidget()
         {}
 
-        std::shared_ptr<LayersWidget> LayersWidget::create(Context * context)
+        std::shared_ptr<LayersWidget> LayersWidget::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<LayersWidget>(new LayersWidget);
             out->_init(context);

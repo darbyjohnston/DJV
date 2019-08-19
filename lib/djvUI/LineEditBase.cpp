@@ -74,7 +74,7 @@ namespace djv
             std::function<void(bool)> focusCallback;
         };
 
-        void LineEditBase::_init(Context * context)
+        void LineEditBase::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
 
@@ -97,7 +97,7 @@ namespace djv
         LineEditBase::~LineEditBase()
         {}
 
-        std::shared_ptr<LineEditBase> LineEditBase::create(Context * context)
+        std::shared_ptr<LineEditBase> LineEditBase::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<LineEditBase>(new LineEditBase);
             out->_init(context);

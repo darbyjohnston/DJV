@@ -55,7 +55,7 @@ namespace djv
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
-        void AnnotateSystem::_init(Context * context)
+        void AnnotateSystem::_init(const std::shared_ptr<Core::Context>& context)
         {
             IToolSystem::_init("djv::ViewApp::AnnotateSystem", context);
 
@@ -98,7 +98,7 @@ namespace djv
         AnnotateSystem::~AnnotateSystem()
         {}
 
-        std::shared_ptr<AnnotateSystem> AnnotateSystem::create(Context * context)
+        std::shared_ptr<AnnotateSystem> AnnotateSystem::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<AnnotateSystem>(new AnnotateSystem);
             out->_init(context);
@@ -118,7 +118,10 @@ namespace djv
         {
             if (value)
             {
-                _openWidget("Annotate", AnnotateWidget::create(getContext()));
+                if (auto context = getContext().lock())
+                {
+                    _openWidget("Annotate", AnnotateWidget::create(context));
+                }
             }
             else
             {

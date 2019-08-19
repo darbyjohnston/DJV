@@ -50,7 +50,7 @@ namespace djv
                 std::shared_ptr<ListObserver<FileSystem::FileInfo> > recentPathsObserver;
             };
 
-            void RecentPathsWidget::_init(const std::shared_ptr<FileSystem::RecentFilesModel> & model, Context * context)
+            void RecentPathsWidget::_init(const std::shared_ptr<FileSystem::RecentFilesModel> & model, const std::shared_ptr<Context>& context)
             {
                 UI::Widget::_init(context);
 
@@ -61,43 +61,47 @@ namespace djv
                 p.layout->setSpacing(MetricsRole::None);
                 addChild(p.layout);
 
-                auto weak = std::weak_ptr<RecentPathsWidget>(std::dynamic_pointer_cast<RecentPathsWidget>(shared_from_this()));                
+                auto weak = std::weak_ptr<RecentPathsWidget>(std::dynamic_pointer_cast<RecentPathsWidget>(shared_from_this()));
+                auto contextWeak = std::weak_ptr<Context>(context);
                 p.recentPathsObserver = ListObserver<FileSystem::FileInfo>::create(
                     model->observeFiles(),
-                    [weak, context](const std::vector<FileSystem::FileInfo> & value)
-                {
-                    if (auto widget = weak.lock())
+                    [weak, contextWeak](const std::vector<FileSystem::FileInfo> & value)
                     {
-                        widget->_p->layout->clearChildren();
-                        for (const auto & i : value)
+                        if (auto context = contextWeak.lock())
                         {
-                            auto button = ListButton::create(context);
-                            const auto path = i.getPath();
-                            std::string s = path.getFileName();
-                            if (s.empty())
+                            if (auto widget = weak.lock())
                             {
-                                s = i;
-                            }
-                            button->setText(s);
-                            button->setInsideMargin(MetricsRole::Margin);
-                            button->setTooltip(i);
-
-                            widget->_p->layout->addChild(button);
-
-                            button->setClickedCallback(
-                                [weak, path]
-                            {
-                                if (auto widget = weak.lock())
+                                widget->_p->layout->clearChildren();
+                                for (const auto& i : value)
                                 {
-                                    if (widget->_p->callback)
+                                    auto button = ListButton::create(context);
+                                    const auto path = i.getPath();
+                                    std::string s = path.getFileName();
+                                    if (s.empty())
                                     {
-                                        widget->_p->callback(path);
+                                        s = i;
                                     }
+                                    button->setText(s);
+                                    button->setInsideMargin(MetricsRole::Margin);
+                                    button->setTooltip(i);
+
+                                    widget->_p->layout->addChild(button);
+
+                                    button->setClickedCallback(
+                                        [weak, path]
+                                        {
+                                            if (auto widget = weak.lock())
+                                            {
+                                                if (widget->_p->callback)
+                                                {
+                                                    widget->_p->callback(path);
+                                                }
+                                            }
+                                        });
                                 }
-                            });
+                            }
                         }
-                    }
-                });
+                    });
             }
 
             RecentPathsWidget::RecentPathsWidget() :
@@ -107,7 +111,7 @@ namespace djv
             RecentPathsWidget::~RecentPathsWidget()
             {}
 
-            std::shared_ptr<RecentPathsWidget> RecentPathsWidget::create(const std::shared_ptr<FileSystem::RecentFilesModel> & model, Context * context)
+            std::shared_ptr<RecentPathsWidget> RecentPathsWidget::create(const std::shared_ptr<FileSystem::RecentFilesModel> & model, const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<RecentPathsWidget>(new RecentPathsWidget);
                 out->_init(model, context);

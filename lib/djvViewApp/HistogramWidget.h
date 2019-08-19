@@ -41,13 +41,13 @@ namespace djv
             DJV_NON_COPYABLE(HistogramWidget);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             HistogramWidget();
 
         public:
             ~HistogramWidget() override;
 
-            static std::shared_ptr<HistogramWidget> create(Core::Context *);
+            static std::shared_ptr<HistogramWidget> create(const std::shared_ptr<Core::Context>&);
 
         protected:
             void _localeEvent(Core::Event::Locale &) override;

@@ -41,11 +41,11 @@ namespace djv
             DJV_NON_COPYABLE(NUXSettingsWidget);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             NUXSettingsWidget();
 
         public:
-            static std::shared_ptr<NUXSettingsWidget> create(Core::Context *);
+            static std::shared_ptr<NUXSettingsWidget> create(const std::shared_ptr<Core::Context>&);
 
             std::string getSettingsName() const override;
             std::string getSettingsGroup() const override;

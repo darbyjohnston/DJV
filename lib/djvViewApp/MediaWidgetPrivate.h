@@ -43,12 +43,12 @@ namespace djv
             DJV_NON_COPYABLE(PointerWidget);
 
         protected:
-            void _init(Core::Context*);
+            void _init(const std::shared_ptr<Core::Context>&);
             PointerWidget()
             {}
 
         public:
-            static std::shared_ptr<PointerWidget> create(Core::Context*);
+            static std::shared_ptr<PointerWidget> create(const std::shared_ptr<Core::Context>&);
 
             void setHoverCallback(const std::function<void(PointerData)>&);
             void setDragCallback(const std::function<void(PointerData)>&);

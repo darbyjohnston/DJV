@@ -48,7 +48,7 @@ namespace djv
             std::shared_ptr<ValueObserver<int> > valueObserver;
         };
 
-        void IntLabel::_init(Context * context)
+        void IntLabel::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
 
@@ -70,7 +70,7 @@ namespace djv
         IntLabel::~IntLabel()
         {}
 
-        std::shared_ptr<IntLabel> IntLabel::create(Context * context)
+        std::shared_ptr<IntLabel> IntLabel::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<IntLabel>(new IntLabel);
             out->_init(context);

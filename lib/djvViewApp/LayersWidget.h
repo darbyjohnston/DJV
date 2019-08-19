@@ -41,13 +41,13 @@ namespace djv
             DJV_NON_COPYABLE(LayersWidget);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             LayersWidget();
 
         public:
             ~LayersWidget() override;
 
-            static std::shared_ptr<LayersWidget> create(Core::Context *);
+            static std::shared_ptr<LayersWidget> create(const std::shared_ptr<Core::Context>&);
 
         protected:
             void _localeEvent(Core::Event::Locale &) override;

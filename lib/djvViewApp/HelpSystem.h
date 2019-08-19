@@ -41,13 +41,13 @@ namespace djv
             DJV_NON_COPYABLE(HelpSystem);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             HelpSystem();
 
         public:
             ~HelpSystem() override;
 
-            static std::shared_ptr<HelpSystem> create(Core::Context *);
+            static std::shared_ptr<HelpSystem> create(const std::shared_ptr<Core::Context>&);
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
             MenuData getMenu() const override;

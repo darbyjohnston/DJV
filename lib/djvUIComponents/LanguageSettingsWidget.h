@@ -41,11 +41,11 @@ namespace djv
             DJV_NON_COPYABLE(LanguageWidget);
 
         protected:
-            void _init(Core::Context*);
+            void _init(const std::shared_ptr<Core::Context>&);
             LanguageWidget();
 
         public:
-            static std::shared_ptr<LanguageWidget> create(Core::Context*);
+            static std::shared_ptr<LanguageWidget> create(const std::shared_ptr<Core::Context>&);
 
             float getHeightForWidth(float) const override;
 
@@ -67,11 +67,11 @@ namespace djv
             DJV_NON_COPYABLE(LanguageSettingsWidget);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             LanguageSettingsWidget();
 
         public:
-            static std::shared_ptr<LanguageSettingsWidget> create(Core::Context *);
+            static std::shared_ptr<LanguageSettingsWidget> create(const std::shared_ptr<Core::Context>&);
 
             std::string getSettingsName() const override;
             std::string getSettingsGroup() const override;

@@ -36,11 +36,11 @@ namespace djv
 {
     namespace CoreTest
     {
-        MathTest::MathTest(Core::Context * context) :
+        MathTest::MathTest(const std::shared_ptr<Core::Context>& context) :
             ITest("djv::CoreTest::MathTest", context)
         {}
         
-        void MathTest::run(int & argc, char ** argv)
+        void MathTest::run(const std::vector<std::string>& args)
         {
             {
                 DJV_ASSERT(Core::Math::clamp(0, 1, 2) == 1);

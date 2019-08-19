@@ -48,7 +48,7 @@ namespace djv
             std::shared_ptr<FormLayout> layout;
         };
 
-        void TIFFSettingsWidget::_init(Context * context)
+        void TIFFSettingsWidget::_init(const std::shared_ptr<Context>& context)
         {
             ISettingsWidget::_init(context);
 
@@ -64,14 +64,18 @@ namespace djv
             _widgetUpdate();
 
             auto weak = std::weak_ptr<TIFFSettingsWidget>(std::dynamic_pointer_cast<TIFFSettingsWidget>(shared_from_this()));
+            auto contextWeak = std::weak_ptr<Context>(context);
             p.compressionComboBox->setCallback(
-                [weak, context](int value)
+                [weak, contextWeak](int value)
                 {
-                    auto io = context->getSystemT<AV::IO::System>();
-                    AV::IO::TIFF::Options options;
-                    fromJSON(io->getOptions(AV::IO::TIFF::pluginName), options);
-                    options.compression = static_cast<AV::IO::TIFF::Compression>(value);
-                    io->setOptions(AV::IO::TIFF::pluginName, toJSON(options));
+                    if (auto context = contextWeak.lock())
+                    {
+                        auto io = context->getSystemT<AV::IO::System>();
+                        AV::IO::TIFF::Options options;
+                        fromJSON(io->getOptions(AV::IO::TIFF::pluginName), options);
+                        options.compression = static_cast<AV::IO::TIFF::Compression>(value);
+                        io->setOptions(AV::IO::TIFF::pluginName, toJSON(options));
+                    }
                 });
         }
 
@@ -79,7 +83,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<TIFFSettingsWidget> TIFFSettingsWidget::create(Context * context)
+        std::shared_ptr<TIFFSettingsWidget> TIFFSettingsWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<TIFFSettingsWidget>(new TIFFSettingsWidget);
             out->_init(context);
@@ -112,19 +116,21 @@ namespace djv
         void TIFFSettingsWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
-            auto context = getContext();
-            auto io = context->getSystemT<AV::IO::System>();
-            AV::IO::TIFF::Options options;
-            fromJSON(io->getOptions(AV::IO::TIFF::pluginName), options);
-
-            p.compressionComboBox->clearItems();
-            for (auto i : AV::IO::TIFF::getCompressionEnums())
+            if (auto context = getContext().lock())
             {
-                std::stringstream ss;
-                ss << i;
-                p.compressionComboBox->addItem(_getText(ss.str()));
+                auto io = context->getSystemT<AV::IO::System>();
+                AV::IO::TIFF::Options options;
+                fromJSON(io->getOptions(AV::IO::TIFF::pluginName), options);
+
+                p.compressionComboBox->clearItems();
+                for (auto i : AV::IO::TIFF::getCompressionEnums())
+                {
+                    std::stringstream ss;
+                    ss << i;
+                    p.compressionComboBox->addItem(_getText(ss.str()));
+                }
+                p.compressionComboBox->setCurrentItem(static_cast<int>(options.compression));
             }
-            p.compressionComboBox->setCurrentItem(static_cast<int>(options.compression));
         }
 
     } // namespace UI

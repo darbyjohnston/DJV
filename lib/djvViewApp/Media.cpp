@@ -53,7 +53,7 @@ namespace djv
 
         struct Media::Private
         {
-            Context * context = nullptr;
+            std::weak_ptr<Context> context;
 
             Core::FileSystem::FileInfo fileInfo;
             std::shared_ptr<ValueSubject<AV::IO::Info> > info;
@@ -103,7 +103,7 @@ namespace djv
             std::shared_ptr<Time::Timer> debugTimer;
         };
 
-        void Media::_init(const Core::FileSystem::FileInfo& fileInfo, Context * context)
+        void Media::_init(const Core::FileSystem::FileInfo& fileInfo, const std::shared_ptr<Core::Context>& context)
         {
             DJV_PRIVATE_PTR();
             p.context = context;
@@ -200,7 +200,7 @@ namespace djv
             }
         }
 
-        std::shared_ptr<Media> Media::create(const Core::FileSystem::FileInfo& fileInfo, Context* context)
+        std::shared_ptr<Media> Media::create(const Core::FileSystem::FileInfo& fileInfo, const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<Media>(new Media);
             out->_init(fileInfo, context);
@@ -552,144 +552,150 @@ namespace djv
         void Media::_open()
         {
             DJV_PRIVATE_PTR();
-            auto context = p.context;
-            try
+            if (auto context = p.context.lock())
             {
-                AV::IO::ReadOptions options;
-                options.layer = p.layer->get();
-                options.videoQueueSize = videoQueueSize;
-                auto io = context->getSystemT<AV::IO::System>();
-                p.read = io->read(p.fileInfo, options);
-                p.read->setThreadCount(p.threadCount->get());
-                p.infoFuture = p.read->getInfo();
-                
-                const auto timeout = Time::getMilliseconds(Time::TimerValue::Fast);
-                const Core::FileSystem::FileInfo& fileInfo = p.fileInfo;
-                auto weak = std::weak_ptr<Media>(std::dynamic_pointer_cast<Media>(shared_from_this()));
-                p.infoTimer->start(
-                    timeout,
-                    [weak, fileInfo, context](float)
-                    {
-                        if (auto media = weak.lock())
-                        {
-                            try
-                            {
-                                if (media->_p->infoFuture.valid() &&
-                                    media->_p->infoFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
-                                {
-                                    media->_p->infoTimer->stop();
-                                    const auto info = media->_p->infoFuture.get();
-                                    Time::Speed speed;
-                                    Frame::Sequence sequence;
-                                    const auto& video = info.video;
-                                    if (video.size())
-                                    {
-                                        media->_p->videoInfo = video[0];
-                                        speed = video[0].speed;
-                                        sequence = video[0].sequence;
-                                    }
-                                    const auto& audio = info.audio;
-                                    if (audio.size())
-                                    {
-                                        media->_p->audioInfo = audio[0];
-                                    }
-                                    {
-                                        std::stringstream ss;
-                                        ss << fileInfo << " sequence: " << sequence.getSize();
-                                        auto logSystem = context->getSystemT<LogSystem>();
-                                        logSystem->log("djv::ViewApp::Media", ss.str());
-                                    }
-                                    media->_p->info->setIfChanged(info);
-                                    media->_p->speed->setIfChanged(speed);
-                                    media->_p->defaultSpeed->setIfChanged(speed);
-                                    media->_p->sequence->setIfChanged(sequence);
-                                }
-                            }
-                            catch (const std::exception& e)
-                            {
-                                auto logSystem = context->getSystemT<LogSystem>();
-                                logSystem->log("djv::ViewApp::Media", e.what());
-                            }
-                        }
-                    });
+                try
+                {
+                    AV::IO::ReadOptions options;
+                    options.layer = p.layer->get();
+                    options.videoQueueSize = videoQueueSize;
+                    auto io = context->getSystemT<AV::IO::System>();
+                    p.read = io->read(p.fileInfo, options);
+                    p.read->setThreadCount(p.threadCount->get());
+                    p.infoFuture = p.read->getInfo();
 
-                p.queueTimer->start(
-                    timeout,
-                    [weak, timeout](float)
-                    {
-                        if (auto media = weak.lock())
+                    const auto timeout = Time::getMilliseconds(Time::TimerValue::Fast);
+                    const Core::FileSystem::FileInfo& fileInfo = p.fileInfo;
+                    auto weak = std::weak_ptr<Media>(std::dynamic_pointer_cast<Media>(shared_from_this()));
+                    auto contextWeak = std::weak_ptr<Context>(context);
+                    p.infoTimer->start(
+                        timeout,
+                        [weak, fileInfo, contextWeak](float)
                         {
-                            if (media->_p->read)
+                            if (auto context = contextWeak.lock())
                             {
-                                std::unique_lock<std::mutex> lock(media->_p->read->getMutex());
-                                if (media->_p->queueCV.wait_for(
-                                    lock,
-                                    timeout,
-                                    [weak]
+                                if (auto media = weak.lock())
+                                {
+                                    try
                                     {
-                                        bool out = false;
-                                        if (auto media = weak.lock())
+                                        if (media->_p->infoFuture.valid() &&
+                                            media->_p->infoFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                                         {
-                                            out = media->_p->read->getVideoQueue().hasFrames();
+                                            media->_p->infoTimer->stop();
+                                            const auto info = media->_p->infoFuture.get();
+                                            Time::Speed speed;
+                                            Frame::Sequence sequence;
+                                            const auto& video = info.video;
+                                            if (video.size())
+                                            {
+                                                media->_p->videoInfo = video[0];
+                                                speed = video[0].speed;
+                                                sequence = video[0].sequence;
+                                            }
+                                            const auto& audio = info.audio;
+                                            if (audio.size())
+                                            {
+                                                media->_p->audioInfo = audio[0];
+                                            }
+                                            {
+                                                std::stringstream ss;
+                                                ss << fileInfo << " sequence: " << sequence.getSize();
+                                                auto logSystem = context->getSystemT<LogSystem>();
+                                                logSystem->log("djv::ViewApp::Media", ss.str());
+                                            }
+                                            media->_p->info->setIfChanged(info);
+                                            media->_p->speed->setIfChanged(speed);
+                                            media->_p->defaultSpeed->setIfChanged(speed);
+                                            media->_p->sequence->setIfChanged(sequence);
                                         }
-                                        return out;
-                                    }))
-                                {
-                                    auto& queue = media->_p->read->getVideoQueue();
-                                    auto frame = queue.getFrame();
-                                    media->_p->currentImage->setIfChanged(frame.image);
+                                    }
+                                    catch (const std::exception& e)
+                                    {
+                                        auto logSystem = context->getSystemT<LogSystem>();
+                                        logSystem->log("djv::ViewApp::Media", e.what());
+                                    }
                                 }
                             }
-                        }
-                    });
+                        });
 
-                p.cachedFramesTimer->start(
-                    Time::getMilliseconds(Time::TimerValue::Medium),
-                    [weak](float)
-                    {
-                        if (auto media = weak.lock())
+                    p.queueTimer->start(
+                        timeout,
+                        [weak, timeout](float)
                         {
-                            if (media->_p->read)
+                            if (auto media = weak.lock())
                             {
-                                const auto& frames = media->_p->read->getCachedFrames();
-                                media->_p->cachedFrames->setIfChanged(frames);
+                                if (media->_p->read)
+                                {
+                                    std::unique_lock<std::mutex> lock(media->_p->read->getMutex());
+                                    if (media->_p->queueCV.wait_for(
+                                        lock,
+                                        timeout,
+                                        [weak]
+                                        {
+                                            bool out = false;
+                                            if (auto media = weak.lock())
+                                            {
+                                                out = media->_p->read->getVideoQueue().hasFrames();
+                                            }
+                                            return out;
+                                        }))
+                                    {
+                                        auto& queue = media->_p->read->getVideoQueue();
+                                        auto frame = queue.getFrame();
+                                        media->_p->currentImage->setIfChanged(frame.image);
+                                    }
+                                }
                             }
-                        }
-                    });
+                        });
 
-                p.debugTimer->start(
-                    Time::getMilliseconds(Time::TimerValue::Medium),
-                    [weak](float)
-                    {
-                        if (auto media = weak.lock())
+                    p.cachedFramesTimer->start(
+                        Time::getMilliseconds(Time::TimerValue::Medium),
+                        [weak](float)
                         {
+                            if (auto media = weak.lock())
                             {
-                                std::lock_guard<std::mutex> lock(media->_p->read->getMutex());
-                                auto& videoQueue = media->_p->read->getVideoQueue();
-                                auto& audioQueue = media->_p->read->getAudioQueue();
-                                media->_p->videoQueueMax->setAlways(videoQueue.getMax());
-                                media->_p->videoQueueCount->setAlways(videoQueue.getFrameCount());
-                                media->_p->audioQueueMax->setAlways(audioQueue.getMax());
-                                media->_p->audioQueueCount->setAlways(audioQueue.getFrameCount());
+                                if (media->_p->read)
+                                {
+                                    const auto& frames = media->_p->read->getCachedFrames();
+                                    media->_p->cachedFrames->setIfChanged(frames);
+                                }
                             }
-                            ALint queued = 0;
-                            alGetSourcei(media->_p->alSource, AL_BUFFERS_QUEUED, &queued);
-                            media->_p->alQueueCount->setAlways(queued);
-                        }
-                    });
+                        });
+
+                    p.debugTimer->start(
+                        Time::getMilliseconds(Time::TimerValue::Medium),
+                        [weak](float)
+                        {
+                            if (auto media = weak.lock())
+                            {
+                                {
+                                    std::lock_guard<std::mutex> lock(media->_p->read->getMutex());
+                                    auto& videoQueue = media->_p->read->getVideoQueue();
+                                    auto& audioQueue = media->_p->read->getAudioQueue();
+                                    media->_p->videoQueueMax->setAlways(videoQueue.getMax());
+                                    media->_p->videoQueueCount->setAlways(videoQueue.getFrameCount());
+                                    media->_p->audioQueueMax->setAlways(audioQueue.getMax());
+                                    media->_p->audioQueueCount->setAlways(audioQueue.getFrameCount());
+                                }
+                                ALint queued = 0;
+                                alGetSourcei(media->_p->alSource, AL_BUFFERS_QUEUED, &queued);
+                                media->_p->alQueueCount->setAlways(queued);
+                            }
+                        });
+                }
+                catch (const std::exception& e)
+                {
+                    std::stringstream ss;
+                    ss << "djv::ViewApp::Media " << DJV_TEXT("cannot open") << " '" << p.fileInfo << "'. " << e.what();
+                    auto logSystem = context->getSystemT<LogSystem>();
+                    logSystem->log("djv::ViewApp::Media", ss.str(), LogLevel::Error);
+                }
+                if (p.read)
+                {
+                    p.read->seek(p.currentFrame->get(), p.ioPlayback);
+                }
+                p.reload->setAlways(true);
             }
-            catch (const std::exception& e)
-            {
-                std::stringstream ss;
-                ss << "djv::ViewApp::Media " << DJV_TEXT("cannot open") << " '" << p.fileInfo << "'. " << e.what();
-                auto logSystem = context->getSystemT<LogSystem>();
-                logSystem->log("djv::ViewApp::Media", ss.str(), LogLevel::Error);
-            }
-            if (p.read)
-            {
-                p.read->seek(p.currentFrame->get(), p.ioPlayback);
-            }
-            p.reload->setAlways(true);
         }
 
         void Media::_playbackUpdate()

@@ -54,7 +54,7 @@ namespace djv
             std::shared_ptr<ValueObserver<int> > maxObserver;
         };
 
-        void MemoryCacheWidget::_init(Context * context)
+        void MemoryCacheWidget::_init(const std::shared_ptr<Core::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -70,22 +70,29 @@ namespace djv
             p.layout->addChild(p.maxSlider);
             addChild(p.layout);
 
+            auto contextWeak = std::weak_ptr<Context>(context);
             p.enabledButton->setCheckedCallback(
-                [context](bool value)
+                [contextWeak](bool value)
                 {
-                    auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                    if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
+                    if (auto context = contextWeak.lock())
                     {
-                        fileSettings->setCacheEnabled(value);
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
+                        {
+                            fileSettings->setCacheEnabled(value);
+                        }
                     }
                 });
             p.maxSlider->setValueCallback(
-                [context](int value)
+                [contextWeak](int value)
                 {
-                    auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                    if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
+                    if (auto context = contextWeak.lock())
                     {
-                        fileSettings->setCacheMax(value);
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
+                        {
+                            fileSettings->setCacheMax(value);
+                        }
                     }
                 });
 
@@ -123,7 +130,7 @@ namespace djv
         MemoryCacheWidget::~MemoryCacheWidget()
         {}
 
-        std::shared_ptr<MemoryCacheWidget> MemoryCacheWidget::create(Context * context)
+        std::shared_ptr<MemoryCacheWidget> MemoryCacheWidget::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<MemoryCacheWidget>(new MemoryCacheWidget);
             out->_init(context);

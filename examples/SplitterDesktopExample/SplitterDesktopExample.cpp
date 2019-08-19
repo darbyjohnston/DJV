@@ -45,30 +45,36 @@ int main(int argc, char ** argv)
     try
     {
         // Create an application.
-        auto app = std::unique_ptr<Desktop::Application>(Desktop::Application::create(argc, argv));
+        std::vector<std::string> args;
+        for (int i = 0; i < argc; ++i)
+        {
+            args.push_back(argv[i]);
+        }
+        auto app = Desktop::Application::create(args);
 
         // Create a splitter.
-        auto splitter = UI::Layout::Splitter::create(UI::Orientation::Horizontal, app.get());
+        auto splitter = UI::Layout::Splitter::create(UI::Orientation::Horizontal, app);
 
         // Create some widgets and add them to the splitter.
         for (size_t i = 0; i < 3; ++i)
         {
-            auto textBlock = UI::TextBlock::create(app.get());
+            auto textBlock = UI::TextBlock::create(app);
             textBlock->setText(Core::String::getRandomText(20));
             textBlock->setFontSizeRole(UI::MetricsRole::FontLarge);
             textBlock->setMargin(UI::MetricsRole::Margin);
 
-            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, app.get());
+            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, app);
             scrollWidget->addChild(textBlock);
 
             splitter->addChild(scrollWidget);
         }
 
         // Create a window and show it.
-        auto window = UI::Window::create(app.get());
+        auto window = UI::Window::create(app);
         window->addChild(splitter);
         window->show();
 
+        // Run the application.
         return app->run();
     }
     catch (const std::exception & e)

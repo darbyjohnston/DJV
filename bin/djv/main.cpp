@@ -46,7 +46,12 @@ int main(int argc, char ** argv)
     int r = 0;
     try
     {
-        r = ViewApp::Application::create(argc, argv)->run();
+        std::vector<std::string> args;
+        for (int i = 0; i < argc; ++i)
+        {
+            args.push_back(argv[i]);
+        }
+        r = ViewApp::Application::create(args)->run();
     }
     catch (const std::exception & error)
     {

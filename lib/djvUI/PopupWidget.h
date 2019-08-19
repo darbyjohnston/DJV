@@ -41,13 +41,13 @@ namespace djv
             DJV_NON_COPYABLE(PopupWidget);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             PopupWidget();
 
         public:
             virtual ~PopupWidget();
 
-            static std::shared_ptr<PopupWidget> create(Core::Context *);
+            static std::shared_ptr<PopupWidget> create(const std::shared_ptr<Core::Context>&);
 
             void open();
             void close();

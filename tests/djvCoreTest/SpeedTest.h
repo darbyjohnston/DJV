@@ -38,9 +38,9 @@ namespace djv
         class SpeedTest : public Test::ITest
         {
         public:
-            SpeedTest(Core::Context *);
+            SpeedTest(const std::shared_ptr<Core::Context>&);
             
-            void run(int & argc, char ** argv) override;
+            void run(const std::vector<std::string>&) override;
         };
         
     } // namespace CoreTest

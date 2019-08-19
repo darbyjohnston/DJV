@@ -41,13 +41,13 @@ namespace djv
             DJV_NON_COPYABLE(InfoWidget);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             InfoWidget();
 
         public:
             ~InfoWidget() override;
 
-            static std::shared_ptr<InfoWidget> create(Core::Context *);
+            static std::shared_ptr<InfoWidget> create(const std::shared_ptr<Core::Context>&);
 
         protected:
             void _localeEvent(Core::Event::Locale &) override;

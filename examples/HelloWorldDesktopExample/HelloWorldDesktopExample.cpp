@@ -61,6 +61,7 @@ int main(int argc, char ** argv)
         window->addChild(label);
         window->show();
 
+        // Run the application.
         r = app->run();
     }
     catch (const std::exception & e)

@@ -58,11 +58,11 @@ namespace djv
                 DJV_NON_COPYABLE(OverlayWidget);
 
             protected:
-                void _init(Context *);
+                void _init(const std::shared_ptr<Context>&);
                 OverlayWidget();
 
             public:
-                static std::shared_ptr<OverlayWidget> create(Context *);
+                static std::shared_ptr<OverlayWidget> create(const std::shared_ptr<Context>&);
 
                 void addChild(const std::shared_ptr<IObject>&) override;
                 void removeChild(const std::shared_ptr<IObject>&) override;
@@ -78,7 +78,7 @@ namespace djv
                 std::shared_ptr<Border> _border;
             };
 
-            void OverlayWidget::_init(Context * context)
+            void OverlayWidget::_init(const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
                 setClassName("djv::UI::PopupWidget::OverlayWidget");
@@ -95,7 +95,7 @@ namespace djv
             OverlayWidget::OverlayWidget()
             {}
 
-            std::shared_ptr<OverlayWidget> OverlayWidget::create(Context * context)
+            std::shared_ptr<OverlayWidget> OverlayWidget::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr< OverlayWidget>(new OverlayWidget);
                 out->_init(context);
@@ -137,11 +137,11 @@ namespace djv
                 DJV_NON_COPYABLE(OverlayLayout);
 
             protected:
-                void _init(Context *);
+                void _init(const std::shared_ptr<Context>&);
                 OverlayLayout();
 
             public:
-                static std::shared_ptr<OverlayLayout> create(Context *);
+                static std::shared_ptr<OverlayLayout> create(const std::shared_ptr<Context>&);
 
                 void setButton(const std::shared_ptr<Widget> &, const std::weak_ptr<Widget> &);
 
@@ -155,7 +155,7 @@ namespace djv
                 std::map<std::shared_ptr<Widget>, std::weak_ptr<Widget> > _widgetToButton;
             };
 
-            void OverlayLayout::_init(Context * context)
+            void OverlayLayout::_init(const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
                 setClassName("djv::UI::PopupWidget::OverlayLayout");
@@ -164,7 +164,7 @@ namespace djv
             OverlayLayout::OverlayLayout()
             {}
 
-            std::shared_ptr<OverlayLayout> OverlayLayout::create(Context * context)
+            std::shared_ptr<OverlayLayout> OverlayLayout::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<OverlayLayout>(new OverlayLayout);
                 out->_init(context);
@@ -237,7 +237,7 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > closeObserver;
         };
 
-        void PopupWidget::_init(Context * context)
+        void PopupWidget::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
 
@@ -311,7 +311,7 @@ namespace djv
         PopupWidget::~PopupWidget()
         {}
 
-        std::shared_ptr<PopupWidget> PopupWidget::create(Context * context)
+        std::shared_ptr<PopupWidget> PopupWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<PopupWidget>(new PopupWidget);
             out->_init(context);
@@ -321,8 +321,9 @@ namespace djv
         void PopupWidget::open()
         {
             DJV_PRIVATE_PTR();
-            if (auto windowSystem = getContext()->getSystemT<EventSystem>())
+            if (auto context = getContext().lock())
             {
+                auto windowSystem = context->getSystemT<EventSystem>();
                 if (auto window = windowSystem->getCurrentWindow().lock())
                 {
                     window->addChild(p.overlay);

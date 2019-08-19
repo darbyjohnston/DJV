@@ -60,7 +60,7 @@ namespace djv
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
-        void ToolSystem::_init(Context * context)
+        void ToolSystem::_init(const std::shared_ptr<Core::Context>& context)
         {
             IViewSystem::_init("djv::ViewApp::ToolSystem", context);
 
@@ -128,19 +128,23 @@ namespace djv
                     }
                 });
 
+            auto contextWeak = std::weak_ptr<Context>(context);
             p.actionObservers["Info"] = ValueObserver<bool>::create(
                 p.actions["Info"]->observeChecked(),
-                [weak, context](bool value)
+                [weak, contextWeak](bool value)
                 {
-                    if (auto system = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        if (value)
+                        if (auto system = weak.lock())
                         {
-                            system->_openWidget("Info", InfoWidget::create(context));
-                        }
-                        else
-                        {
-                            system->_closeWidget("Info");
+                            if (value)
+                            {
+                                system->_openWidget("Info", InfoWidget::create(context));
+                            }
+                            else
+                            {
+                                system->_closeWidget("Info");
+                            }
                         }
                     }
                 });
@@ -163,7 +167,7 @@ namespace djv
         ToolSystem::~ToolSystem()
         {}
 
-        std::shared_ptr<ToolSystem> ToolSystem::create(Context * context)
+        std::shared_ptr<ToolSystem> ToolSystem::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<ToolSystem>(new ToolSystem);
             out->_init(context);

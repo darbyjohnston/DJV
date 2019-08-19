@@ -62,7 +62,7 @@ namespace djv
                 SizeWidget();
 
             public:
-                static std::shared_ptr<SizeWidget> create(Context*);
+                static std::shared_ptr<SizeWidget> create(const std::shared_ptr<Context>&);
 
             protected:
                 void _preLayoutEvent(Event::PreLayout&) override;
@@ -71,7 +71,7 @@ namespace djv
             SizeWidget::SizeWidget()
             {}
 
-            std::shared_ptr<SizeWidget> SizeWidget::create(Context* context)
+            std::shared_ptr<SizeWidget> SizeWidget::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<SizeWidget>(new SizeWidget);
                 out->_init(context);
@@ -97,7 +97,7 @@ namespace djv
             std::shared_ptr<UI::PushButton> clearButton;
         };
 
-        void SystemLogWidget::_init(Context * context)
+        void SystemLogWidget::_init(const std::shared_ptr<Core::Context>& context)
         {
             MDIWidget::_init(context);
 
@@ -135,14 +135,18 @@ namespace djv
             addChild(stackLayout);
 
             auto weak = std::weak_ptr<SystemLogWidget>(std::dynamic_pointer_cast<SystemLogWidget>(shared_from_this()));
+            auto contextWeak = std::weak_ptr<Context>(context);
             p.copyButton->setClickedCallback(
-                [weak, context]
+                [weak, contextWeak]
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        auto glfwSystem = context->getSystemT<Desktop::GLFWSystem>();
-                        auto glfwWindow = glfwSystem->getGLFWWindow();
-                        glfwSetClipboardString(glfwWindow, String::join(widget->_p->log, '\n').c_str());
+                        if (auto widget = weak.lock())
+                        {
+                            auto glfwSystem = context->getSystemT<Desktop::GLFWSystem>();
+                            auto glfwWindow = glfwSystem->getGLFWWindow();
+                            glfwSetClipboardString(glfwWindow, String::join(widget->_p->log, '\n').c_str());
+                        }
                     }
                 });
             p.reloadButton->setClickedCallback(
@@ -170,7 +174,7 @@ namespace djv
         SystemLogWidget::~SystemLogWidget()
         {}
 
-        std::shared_ptr<SystemLogWidget> SystemLogWidget::create(Context * context)
+        std::shared_ptr<SystemLogWidget> SystemLogWidget::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<SystemLogWidget>(new SystemLogWidget);
             out->_init(context);

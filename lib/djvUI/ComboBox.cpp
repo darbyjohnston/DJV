@@ -57,7 +57,7 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > closeObserver;
         };
 
-        void ComboBox::_init(Context * context)
+        void ComboBox::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
 
@@ -109,21 +109,25 @@ namespace djv
                 }
             });
 
+            auto contextWeak = std::weak_ptr<Context>(context);
             p.button->setCheckedCallback(
-                [weak, context](bool value)
-            {
-                if (auto widget = weak.lock())
+                [weak, contextWeak](bool value)
                 {
-                    if (!value)
+                    if (auto context = contextWeak.lock())
                     {
-                        widget->close();
+                        if (auto widget = weak.lock())
+                        {
+                            if (!value)
+                            {
+                                widget->close();
+                            }
+                            if (value && widget->_p->currentItem >= 0 && widget->_p->currentItem < widget->_p->items.size())
+                            {
+                                widget->open();
+                            }
+                        }
                     }
-                    if (value && widget->_p->currentItem >= 0 && widget->_p->currentItem < widget->_p->items.size())
-                    {
-                        widget->open();
-                    }
-                }
-            });
+                });
 
             p.closeObserver = ValueObserver<bool>::create(
                 p.closeAction->observeClicked(),
@@ -148,17 +152,10 @@ namespace djv
         ComboBox::~ComboBox()
         {}
 
-        std::shared_ptr<ComboBox> ComboBox::create(Context * context)
+        std::shared_ptr<ComboBox> ComboBox::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<ComboBox>(new ComboBox);
             out->_init(context);
-            return out;
-        }
-
-        std::shared_ptr<ComboBox> ComboBox::create(const std::vector<std::string> & items, Context * context)
-        {
-            auto out = ComboBox::create(context);
-            out->setItems(items);
             return out;
         }
 

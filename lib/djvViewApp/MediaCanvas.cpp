@@ -52,7 +52,7 @@ namespace djv
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > closedObserver;
         };
 
-        void MediaCanvas::_init(Context* context)
+        void MediaCanvas::_init(const std::shared_ptr<Context>& context)
         {
             Canvas::_init(context);
 
@@ -60,22 +60,26 @@ namespace djv
             setClassName("djv::ViewApp::MediaCanvas");
 
             auto weak = std::weak_ptr<MediaCanvas>(std::dynamic_pointer_cast<MediaCanvas>(shared_from_this()));
+            auto contextWeak = std::weak_ptr<Context>(context);
             Canvas::setActiveCallback(
-                [weak, context](const std::shared_ptr<UI::MDI::IWidget> & value)
+                [weak, contextWeak](const std::shared_ptr<UI::MDI::IWidget> & value)
             {
-                if (auto widget = weak.lock())
-                {
-                    auto mediaWidget = std::dynamic_pointer_cast<MediaWidget>(value);
-                    if (mediaWidget)
+                    if (auto context = contextWeak.lock())
                     {
-                        auto fileSystem = context->getSystemT<FileSystem>();
-                        fileSystem->setCurrentMedia(mediaWidget->getMedia());
+                        if (auto widget = weak.lock())
+                        {
+                            auto mediaWidget = std::dynamic_pointer_cast<MediaWidget>(value);
+                            if (mediaWidget)
+                            {
+                                auto fileSystem = context->getSystemT<FileSystem>();
+                                fileSystem->setCurrentMedia(mediaWidget->getMedia());
+                            }
+                            if (widget->_p->activeCallback)
+                            {
+                                widget->_p->activeCallback(mediaWidget);
+                            }
+                        }
                     }
-                    if (widget->_p->activeCallback)
-                    {
-                        widget->_p->activeCallback(mediaWidget);
-                    }
-                }
             });
 
             if (auto windowSystem = context->getSystemT<WindowSystem>())
@@ -105,34 +109,40 @@ namespace djv
 
                 p.openedObserver = ValueObserver<std::shared_ptr<Media> >::create(
                     fileSystem->observeOpened(),
-                    [weak, context](const std::shared_ptr<Media>& value)
+                    [weak, contextWeak](const std::shared_ptr<Media>& value)
                 {
                     if (value)
                     {
-                        if (auto widget = weak.lock())
+                        if (auto context = contextWeak.lock())
                         {
-                            auto mediaWidget = MediaWidget::create(value, context);
-                            widget->addChild(mediaWidget);
-                            widget->_p->mediaWidgets[value] = mediaWidget;
+                            if (auto widget = weak.lock())
+                            {
+                                auto mediaWidget = MediaWidget::create(value, context);
+                                widget->addChild(mediaWidget);
+                                widget->_p->mediaWidgets[value] = mediaWidget;
+                            }
                         }
                     }
                 });
 
                 p.opened2Observer = ValueObserver<std::pair<std::shared_ptr<Media>, glm::vec2> >::create(
                     fileSystem->observeOpened2(),
-                    [weak, context](const std::pair<std::shared_ptr<Media>, glm::vec2>& value)
-                {
-                    if (value.first)
+                    [weak, contextWeak](const std::pair<std::shared_ptr<Media>, glm::vec2>& value)
                     {
-                        if (auto widget = weak.lock())
+                        if (auto context = contextWeak.lock())
                         {
-                            auto mediaWidget = MediaWidget::create(value.first, context);
-                            widget->addChild(mediaWidget);
-                            widget->setWidgetGeometry(mediaWidget, BBox2f(value.second, value.second));
-                            widget->_p->mediaWidgets[value.first] = mediaWidget;
+                            if (value.first)
+                            {
+                                if (auto widget = weak.lock())
+                                {
+                                    auto mediaWidget = MediaWidget::create(value.first, context);
+                                    widget->addChild(mediaWidget);
+                                    widget->setWidgetGeometry(mediaWidget, BBox2f(value.second, value.second));
+                                    widget->_p->mediaWidgets[value.first] = mediaWidget;
+                                }
+                            }
                         }
-                    }
-                });
+                    });
 
                 p.closedObserver = ValueObserver<std::shared_ptr<Media> >::create(
                     fileSystem->observeClosed(),
@@ -161,7 +171,7 @@ namespace djv
         MediaCanvas::~MediaCanvas()
         {}
 
-        std::shared_ptr<MediaCanvas> MediaCanvas::create(Context* context)
+        std::shared_ptr<MediaCanvas> MediaCanvas::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<MediaCanvas>(new MediaCanvas);
             out->_init(context);

@@ -53,7 +53,7 @@ namespace djv
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
-        void MagnifySystem::_init(Context * context)
+        void MagnifySystem::_init(const std::shared_ptr<Core::Context>& context)
         {
             IToolSystem::_init("djv::ViewApp::MagnifySystem", context);
 
@@ -94,7 +94,7 @@ namespace djv
         MagnifySystem::~MagnifySystem()
         {}
 
-        std::shared_ptr<MagnifySystem> MagnifySystem::create(Context * context)
+        std::shared_ptr<MagnifySystem> MagnifySystem::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<MagnifySystem>(new MagnifySystem);
             out->_init(context);
@@ -114,7 +114,10 @@ namespace djv
         {
             if (value)
             {
-                _openWidget("Magnify", MagnifyWidget::create(getContext()));
+                if (auto context = getContext().lock())
+                {
+                    _openWidget("Magnify", MagnifyWidget::create(context));
+                }
             }
             else
             {

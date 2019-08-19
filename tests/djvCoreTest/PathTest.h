@@ -38,9 +38,9 @@ namespace djv
         class PathTest : public Test::ITest
         {
         public:
-            PathTest(Core::Context *);
+            PathTest(const std::shared_ptr<Core::Context>&);
             
-            void run(int & argc, char ** argv) override;
+            void run(const std::vector<std::string>&) override;
         };
         
     } // namespace CoreTest

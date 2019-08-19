@@ -44,7 +44,7 @@ namespace djv
             std::shared_ptr<Border> border;
         };
 
-        void LineEdit::_init(Context * context)
+        void LineEdit::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
 
@@ -78,7 +78,7 @@ namespace djv
         LineEdit::~LineEdit()
         {}
 
-        std::shared_ptr<LineEdit> LineEdit::create(Context * context)
+        std::shared_ptr<LineEdit> LineEdit::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<LineEdit>(new LineEdit);
             out->_init(context);

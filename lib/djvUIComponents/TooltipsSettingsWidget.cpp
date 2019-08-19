@@ -50,7 +50,7 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > tooltipsObserver;
         };
 
-        void TooltipsSettingsWidget::_init(Context * context)
+        void TooltipsSettingsWidget::_init(const std::shared_ptr<Context>& context)
         {
             ISettingsWidget::_init(context);
 
@@ -64,16 +64,20 @@ namespace djv
             addChild(p.layout);
 
             auto weak = std::weak_ptr<TooltipsSettingsWidget>(std::dynamic_pointer_cast<TooltipsSettingsWidget>(shared_from_this()));
+            auto contextWeak = std::weak_ptr<Context>(context);
             p.tooltipsButton->setCheckedCallback(
-                [weak, context](bool value)
-            {
-                if (auto widget = weak.lock())
+                [weak, contextWeak](bool value)
                 {
-                    auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                    auto uiSettings = settingsSystem->getSettingsT<Settings::UI>();
-                    uiSettings->setTooltips(value);
-                }
-            });
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto uiSettings = settingsSystem->getSettingsT<Settings::UI>();
+                            uiSettings->setTooltips(value);
+                        }
+                    }
+                });
 
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
             auto uiSettings = settingsSystem->getSettingsT<Settings::UI>();
@@ -92,7 +96,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<TooltipsSettingsWidget> TooltipsSettingsWidget::create(Context * context)
+        std::shared_ptr<TooltipsSettingsWidget> TooltipsSettingsWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<TooltipsSettingsWidget>(new TooltipsSettingsWidget);
             out->_init(context);

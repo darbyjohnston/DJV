@@ -45,7 +45,7 @@ namespace djv
                 std::shared_ptr<ListSubject<FileSystem::Path> > shortcuts;
             };
 
-            void ShortcutsModel::_init(Context * context)
+            void ShortcutsModel::_init(const std::shared_ptr<Context>& context)
             {
                 DJV_PRIVATE_PTR();
 
@@ -66,7 +66,7 @@ namespace djv
             ShortcutsModel::~ShortcutsModel()
             {}
 
-            std::shared_ptr<ShortcutsModel> ShortcutsModel::create(Context * context)
+            std::shared_ptr<ShortcutsModel> ShortcutsModel::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<ShortcutsModel>(new ShortcutsModel);
                 out->_init(context);

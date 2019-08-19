@@ -43,13 +43,13 @@ namespace djv
             DJV_NON_COPYABLE(BackgroundImageWidget);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             BackgroundImageWidget();
 
         public:
             ~BackgroundImageWidget() override;
 
-            static std::shared_ptr<BackgroundImageWidget> create(Core::Context *);
+            static std::shared_ptr<BackgroundImageWidget> create(const std::shared_ptr<Core::Context>&);
 
         protected:
             void _paintEvent(Core::Event::Paint &) override;

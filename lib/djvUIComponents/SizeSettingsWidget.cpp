@@ -55,7 +55,7 @@ namespace djv
             std::shared_ptr<ValueObserver<std::string> > currentMetricsObserver;
         };
 
-        void SizeWidget::_init(Context* context)
+        void SizeWidget::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
 
@@ -67,20 +67,24 @@ namespace djv
             addChild(p.comboBox);
 
             auto weak = std::weak_ptr<SizeWidget>(std::dynamic_pointer_cast<SizeWidget>(shared_from_this()));
+            auto contextWeak = std::weak_ptr<Context>(context);
             p.comboBox->setCallback(
-                [weak, context](int value)
-            {
-                if (auto widget = weak.lock())
+                [weak, contextWeak](int value)
                 {
-                    auto settingsSystem = context->getSystemT<Settings::System>();
-                    auto styleSettings = settingsSystem->getSettingsT<Settings::Style>();
-                    const auto i = widget->_p->indexToMetrics.find(value);
-                    if (i != widget->_p->indexToMetrics.end())
+                    if (auto context = contextWeak.lock())
                     {
-                        styleSettings->setCurrentMetrics(i->second);
+                        if (auto widget = weak.lock())
+                        {
+                            auto settingsSystem = context->getSystemT<Settings::System>();
+                            auto styleSettings = settingsSystem->getSettingsT<Settings::Style>();
+                            const auto i = widget->_p->indexToMetrics.find(value);
+                            if (i != widget->_p->indexToMetrics.end())
+                            {
+                                styleSettings->setCurrentMetrics(i->second);
+                            }
+                        }
                     }
-                }
-            });
+                });
 
             auto settingsSystem = context->getSystemT<Settings::System>();
             auto styleSettings = settingsSystem->getSettingsT<Settings::Style>();
@@ -114,7 +118,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<SizeWidget> SizeWidget::create(Context* context)
+        std::shared_ptr<SizeWidget> SizeWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<SizeWidget>(new SizeWidget);
             out->_init(context);
@@ -165,7 +169,7 @@ namespace djv
         struct SizeSettingsWidget::Private
         {};
 
-        void SizeSettingsWidget::_init(Context* context)
+        void SizeSettingsWidget::_init(const std::shared_ptr<Context>& context)
         {
             ISettingsWidget::_init(context);
             setClassName("djv::UI::SizeSettingsWidget");
@@ -176,7 +180,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<SizeSettingsWidget> SizeSettingsWidget::create(Context* context)
+        std::shared_ptr<SizeSettingsWidget> SizeSettingsWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<SizeSettingsWidget>(new SizeSettingsWidget);
             out->_init(context);

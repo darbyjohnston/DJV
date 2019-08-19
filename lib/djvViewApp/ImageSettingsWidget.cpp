@@ -52,7 +52,7 @@ namespace djv
             std::shared_ptr<ValueObserver<ImageAspectRatio> > aspectRatioObserver;
         };
 
-        void ImageAspectRatioSettingsWidget::_init(Context* context)
+        void ImageAspectRatioSettingsWidget::_init(const std::shared_ptr<Context>& context)
         {
             ISettingsWidget::_init(context);
             DJV_PRIVATE_PTR();
@@ -64,16 +64,20 @@ namespace djv
 
             _widgetUpdate();
 
+            auto contextWeak = std::weak_ptr<Context>(context);
             auto weak = std::weak_ptr<ImageAspectRatioSettingsWidget>(std::dynamic_pointer_cast<ImageAspectRatioSettingsWidget>(shared_from_this()));
             p.comboBox->setCallback(
-                [weak, context](int value)
+                [weak, contextWeak](int value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                        if (auto imageSettings = settingsSystem->getSettingsT<ImageSettings>())
+                        if (auto widget = weak.lock())
                         {
-                            imageSettings->setImageAspectRatio(static_cast<ImageAspectRatio>(value));
+                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            if (auto imageSettings = settingsSystem->getSettingsT<ImageSettings>())
+                            {
+                                imageSettings->setImageAspectRatio(static_cast<ImageAspectRatio>(value));
+                            }
                         }
                     }
                 });
@@ -98,7 +102,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<ImageAspectRatioSettingsWidget> ImageAspectRatioSettingsWidget::create(Context* context)
+        std::shared_ptr<ImageAspectRatioSettingsWidget> ImageAspectRatioSettingsWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<ImageAspectRatioSettingsWidget>(new ImageAspectRatioSettingsWidget);
             out->_init(context);
@@ -146,7 +150,7 @@ namespace djv
             std::shared_ptr<ValueObserver<ImageRotate> > rotateObserver;
         };
 
-        void ImageRotateSettingsWidget::_init(Context* context)
+        void ImageRotateSettingsWidget::_init(const std::shared_ptr<Context>& context)
         {
             ISettingsWidget::_init(context);
             DJV_PRIVATE_PTR();
@@ -159,15 +163,19 @@ namespace djv
             _widgetUpdate();
 
             auto weak = std::weak_ptr<ImageRotateSettingsWidget>(std::dynamic_pointer_cast<ImageRotateSettingsWidget>(shared_from_this()));
+            auto contextWeak = std::weak_ptr<Context>(context);
             p.comboBox->setCallback(
-                [weak, context](int value)
+                [weak, contextWeak](int value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                        if (auto imageSettings = settingsSystem->getSettingsT<ImageSettings>())
+                        if (auto widget = weak.lock())
                         {
-                            imageSettings->setImageRotate(static_cast<ImageRotate>(value));
+                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            if (auto imageSettings = settingsSystem->getSettingsT<ImageSettings>())
+                            {
+                                imageSettings->setImageRotate(static_cast<ImageRotate>(value));
+                            }
                         }
                     }
                 });
@@ -192,7 +200,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<ImageRotateSettingsWidget> ImageRotateSettingsWidget::create(Context* context)
+        std::shared_ptr<ImageRotateSettingsWidget> ImageRotateSettingsWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<ImageRotateSettingsWidget>(new ImageRotateSettingsWidget);
             out->_init(context);

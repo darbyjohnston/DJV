@@ -83,13 +83,12 @@ namespace djv
             std::shared_ptr<NUXWidget> nuxWidget;
         };
         
-        void Application::_init(int & argc, char ** argv)
+        void Application::_init(const std::vector<std::string>& args)
         {
-            Desktop::Application::_init(argc, argv);
+            Desktop::Application::_init(args);
             DJV_PRIVATE_PTR();
 
             // Parse the command line.
-            auto args = getArgs();
             auto arg = args.begin();
             ++arg;
             while (arg != args.end())
@@ -99,27 +98,27 @@ namespace djv
             }
 
             // Create the systems.
-            UI::UIComponentsSystem::create(this);
-            UISettings::create(this);
-            auto fileSystem = FileSystem::create(this);
+            UI::UIComponentsSystem::create(shared_from_this());
+            UISettings::create(shared_from_this());
+            auto fileSystem = FileSystem::create(shared_from_this());
             p.systems.push_back(fileSystem);
-            auto windowSystem = WindowSystem::create(this);
+            auto windowSystem = WindowSystem::create(shared_from_this());
             p.systems.push_back(windowSystem);
-            p.systems.push_back(ImageViewSystem::create(this));
-            p.systems.push_back(ImageSystem::create(this));
-            p.systems.push_back(PlaybackSystem::create(this));
-            p.systems.push_back(AudioSystem::create(this));
-            p.systems.push_back(AnnotateSystem::create(this));
-            p.systems.push_back(ColorPickerSystem::create(this));
-            p.systems.push_back(MagnifySystem::create(this));
-            p.systems.push_back(ToolSystem::create(this));
-            p.systems.push_back(HelpSystem::create(this));
-            auto nuxSystem = NUXSystem::create(this);
+            p.systems.push_back(ImageViewSystem::create(shared_from_this()));
+            p.systems.push_back(ImageSystem::create(shared_from_this()));
+            p.systems.push_back(PlaybackSystem::create(shared_from_this()));
+            p.systems.push_back(AudioSystem::create(shared_from_this()));
+            p.systems.push_back(AnnotateSystem::create(shared_from_this()));
+            p.systems.push_back(ColorPickerSystem::create(shared_from_this()));
+            p.systems.push_back(MagnifySystem::create(shared_from_this()));
+            p.systems.push_back(ToolSystem::create(shared_from_this()));
+            p.systems.push_back(HelpSystem::create(shared_from_this()));
+            auto nuxSystem = NUXSystem::create(shared_from_this());
             p.systems.push_back(nuxSystem);
-            p.systems.push_back(SettingsSystem::create(this));
+            p.systems.push_back(SettingsSystem::create(shared_from_this()));
 
             // Create the main window.
-            p.mainWindow = MainWindow::create(this);
+            p.mainWindow = MainWindow::create(shared_from_this());
             windowSystem->setMediaCanvas(p.mainWindow->getMediaCanvas());
 
             // NUX.
@@ -127,12 +126,16 @@ namespace djv
             if (p.nuxWidget)
             {
                 p.mainWindow->addChild(p.nuxWidget);
+                auto weak = std::weak_ptr<Application>(std::dynamic_pointer_cast<Application>(shared_from_this()));
                 p.nuxWidget->setFinishCallback(
-                    [this]
-                {
-                    _p->mainWindow->removeChild(_p->nuxWidget);
-                    _p->nuxWidget.reset();
-                });
+                    [weak]
+                    {
+                        if (auto app = weak.lock())
+                        {
+                            app->_p->mainWindow->removeChild(app->_p->nuxWidget);
+                            app->_p->nuxWidget.reset();
+                        }
+                    });
             }
 
             // Load the application icons.
@@ -154,7 +157,7 @@ namespace djv
                 auto logSystem = getSystemT<LogSystem>();
                 logSystem->log("djv::ViewApp::Application", e.what());
             }
-            p.timer = Time::Timer::create(this);
+            p.timer = Time::Timer::create(shared_from_this());
             p.timer->setRepeating(true);
             p.timer->start(
                 Time::getMilliseconds(Time::TimerValue::Fast),
@@ -229,10 +232,10 @@ namespace djv
         Application::~Application()
         {}
 
-        std::unique_ptr<Application> Application::create(int & argc, char ** argv)
+        std::shared_ptr<Application> Application::create(const std::vector<std::string>& args)
         {
-            auto out = std::unique_ptr<Application>(new Application);
-            out->_init(argc, argv);
+            auto out = std::shared_ptr<Application>(new Application);
+            out->_init(args);
             return out;
         }
 

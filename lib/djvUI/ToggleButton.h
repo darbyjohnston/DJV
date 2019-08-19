@@ -19,13 +19,13 @@ namespace djv
                 DJV_NON_COPYABLE(Toggle);
 
             protected:
-                void _init(Core::Context *);
+                void _init(const std::shared_ptr<Core::Context>&);
                 Toggle();
 
             public:
                 virtual ~Toggle();
 
-                static std::shared_ptr<Toggle> create(Core::Context *);
+                static std::shared_ptr<Toggle> create(const std::shared_ptr<Core::Context>&);
 
                 void setChecked(bool) override;
 

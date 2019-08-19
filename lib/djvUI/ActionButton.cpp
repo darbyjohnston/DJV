@@ -65,7 +65,7 @@ namespace djv
                 std::shared_ptr<ValueObserver<std::string> > tooltipObserver;
             };
 
-            void ActionButton::_init(Context* context)
+            void ActionButton::_init(const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
 
@@ -119,18 +119,10 @@ namespace djv
             ActionButton::~ActionButton()
             {}
 
-            std::shared_ptr<ActionButton> ActionButton::create(Context* context)
+            std::shared_ptr<ActionButton> ActionButton::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<ActionButton>(new ActionButton);
                 out->_init(context);
-                return out;
-            }
-
-            std::shared_ptr<ActionButton> ActionButton::create(const std::shared_ptr<Action>& action, Context* context)
-            {
-                auto out = std::shared_ptr<ActionButton>(new ActionButton);
-                out->_init(context);
-                out->addAction(action);
                 return out;
             }
 
@@ -258,8 +250,9 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            if (auto textSystem = widget->getContext()->getSystemT<TextSystem>())
+                            if (auto context = widget->getContext().lock())
                             {
+                                auto textSystem = context->getSystemT<TextSystem>();
                                 std::vector<std::string> labels;
                                 for (const auto & i : value)
                                 {

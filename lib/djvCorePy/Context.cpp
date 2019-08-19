@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2019 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,8 +27,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
+#include <djvCorePy/CorePy.h>
+
 #include <djvCore/Context.h>
-#include <djvCore/IObject.h>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
@@ -37,11 +38,8 @@ using namespace djv::Core;
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(djvCorePy, m)
+void wrapContext(pybind11::module& m)
 {
-    py::class_<IObject, std::shared_ptr<IObject> >(m, "IObject")
-        .def("addChild", &IObject::addChild);
-
     py::class_<Context, std::shared_ptr<Context> >(m, "Context")
         .def_static("create", &Context::create)
         .def("getArgs", &Context::getArgs)

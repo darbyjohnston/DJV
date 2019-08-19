@@ -51,7 +51,7 @@ namespace djv
             std::shared_ptr<ValueSubject<bool> > backgroundImageColorize;
         };
 
-        void WindowSettings::_init(Context * context)
+        void WindowSettings::_init(const std::shared_ptr<Core::Context>& context)
         {
             ISettings::_init("djv::ViewApp::WindowSettings", context);
 
@@ -72,7 +72,7 @@ namespace djv
         WindowSettings::~WindowSettings()
         {}
 
-        std::shared_ptr<WindowSettings> WindowSettings::create(Context * context)
+        std::shared_ptr<WindowSettings> WindowSettings::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<WindowSettings>(new WindowSettings);
             out->_init(context);

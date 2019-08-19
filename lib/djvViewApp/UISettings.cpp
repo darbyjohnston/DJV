@@ -47,7 +47,7 @@ namespace djv
             std::shared_ptr<ValueSubject<bool> > autoHide;
         };
 
-        void UISettings::_init(Context * context)
+        void UISettings::_init(const std::shared_ptr<Core::Context>& context)
         {
             ISettings::_init("djv::ViewApp::UISettings", context);
 
@@ -63,7 +63,7 @@ namespace djv
         UISettings::~UISettings()
         {}
 
-        std::shared_ptr<UISettings> UISettings::create(Context * context)
+        std::shared_ptr<UISettings> UISettings::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<UISettings>(new UISettings);
             out->_init(context);

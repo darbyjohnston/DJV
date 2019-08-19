@@ -53,13 +53,13 @@ namespace djv
                 DJV_NON_COPYABLE(Dialog);
 
             protected:
-                void _init(Core::Context*);
+                void _init(const std::shared_ptr<Core::Context>&);
                 Dialog();
 
             public:
                 ~Dialog() override;
 
-                static std::shared_ptr<Dialog> create(Core::Context*);
+                static std::shared_ptr<Dialog> create(const std::shared_ptr<Core::Context>&);
 
                 const Core::FileSystem::Path& getPath() const;
                 void setPath(const Core::FileSystem::Path&);

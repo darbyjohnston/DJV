@@ -41,13 +41,13 @@ namespace djv
             DJV_NON_COPYABLE(SettingsDialog);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             SettingsDialog();
 
         public:
             ~SettingsDialog() override;
 
-            static std::shared_ptr<SettingsDialog> create(Core::Context *);
+            static std::shared_ptr<SettingsDialog> create(const std::shared_ptr<Core::Context>&);
 
         protected:
             void _localeEvent(Core::Event::Locale &) override;

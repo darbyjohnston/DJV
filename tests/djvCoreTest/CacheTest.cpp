@@ -37,11 +37,11 @@ namespace djv
 
     namespace CoreTest
     {
-        CacheTest::CacheTest(Core::Context * context) :
+        CacheTest::CacheTest(const std::shared_ptr<Core::Context>& context) :
             ITest("djv::CoreTest::CacheTest", context)
         {}
         
-        void CacheTest::run(int & argc, char ** argv)
+        void CacheTest::run(const std::vector<std::string>& args)
         {
             {
                 Memory::Cache<int, std::string> cache;

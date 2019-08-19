@@ -37,7 +37,7 @@ using namespace djv::Core;
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(djvDesktopAppPy, m)
+void wrapApplication(pybind11::module& m)
 {
     py::class_<Desktop::Application, std::shared_ptr<Desktop::Application>, Context>(m, "Application")
         .def_static("create", &Desktop::Application::create)

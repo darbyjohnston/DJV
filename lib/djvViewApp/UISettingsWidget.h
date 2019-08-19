@@ -41,11 +41,11 @@ namespace djv
             DJV_NON_COPYABLE(UISettingsWidget);
 
         protected:
-            void _init(Core::Context*);
+            void _init(const std::shared_ptr<Core::Context>&);
             UISettingsWidget();
 
         public:
-            static std::shared_ptr<UISettingsWidget> create(Core::Context*);
+            static std::shared_ptr<UISettingsWidget> create(const std::shared_ptr<Core::Context>&);
 
             std::string getSettingsName() const override;
             std::string getSettingsGroup() const override;

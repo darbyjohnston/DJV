@@ -47,7 +47,7 @@ namespace djv
             std::shared_ptr<LineEdit> lineEdit;
         };
 
-        void NumericEdit::_init(Context * context)
+        void NumericEdit::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();

@@ -56,7 +56,7 @@ namespace djv
             std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
         };
 
-        void InfoWidget::_init(Context * context)
+        void InfoWidget::_init(const std::shared_ptr<Core::Context>& context)
         {
             MDIWidget::_init(context);
             DJV_PRIVATE_PTR();
@@ -114,7 +114,7 @@ namespace djv
         InfoWidget::~InfoWidget()
         {}
 
-        std::shared_ptr<InfoWidget> InfoWidget::create(Context * context)
+        std::shared_ptr<InfoWidget> InfoWidget::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<InfoWidget>(new InfoWidget);
             out->_init(context);
@@ -131,190 +131,192 @@ namespace djv
         void InfoWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
-            auto context = getContext();
-            p.layout->clearChildren();
-
-            if (!p.info.fileName.empty())
+            if (auto context = getContext().lock())
             {
-                auto label = UI::Label::create(context);
-                label->setText(p.info.fileName);
-                label->setHAlign(UI::HAlign::Left);
-                auto formLayout = UI::FormLayout::create(context);
-                formLayout->setMargin(UI::MetricsRole::MarginSmall);
-                formLayout->addChild(label);
-                formLayout->setText(label, _getText(DJV_TEXT("File name")) + ":");
-                p.layout->addChild(formLayout);
-            }
-            
-            size_t j = 0;
-            for (const auto& i : p.info.video)
-            {
-                auto formLayout = UI::FormLayout::create(context);
-                formLayout->setMargin(UI::MetricsRole::MarginSmall);
-                formLayout->setShadowOverlay({ UI::Side::Top });
+                p.layout->clearChildren();
 
-                auto label = UI::Label::create(context);
-                label->setText(i.info.name);
-                label->setHAlign(UI::HAlign::Left);
-                formLayout->addChild(label);
-                formLayout->setText(label, _getText(DJV_TEXT("Name")) + ":");
-
-                label = UI::Label::create(context);
-                {
-                    std::stringstream ss;
-                    ss << i.info.size;
-                    label->setText(ss.str());
-                }
-                label->setHAlign(UI::HAlign::Left);
-                formLayout->addChild(label);
-                formLayout->setText(label, _getText(DJV_TEXT("Size")) + ":");
-
-                label = UI::Label::create(context);
-                {
-                    std::stringstream ss;
-                    ss << i.info.type;
-                    label->setText(ss.str());
-                }
-                label->setHAlign(UI::HAlign::Left);
-                formLayout->addChild(label);
-                formLayout->setText(label, _getText(DJV_TEXT("Type")) + ":");
-
-                label = UI::Label::create(context);
-                {
-                    std::stringstream ss;
-                    ss << i.speed.toFloat();
-                    label->setText(ss.str());
-                }
-                label->setHAlign(UI::HAlign::Left);
-                formLayout->addChild(label);
-                formLayout->setText(label, _getText(DJV_TEXT("Speed")) + ":");
-
-                label = UI::Label::create(context);
-                {
-                    std::stringstream ss;
-                    auto avSystem = getContext()->getSystemT<AV::AVSystem>();
-                    ss << avSystem->getLabel(i.sequence.getSize(), i.speed);
-                    switch (avSystem->observeTimeUnits()->get())
-                    {
-                    case AV::TimeUnits::Frames:
-                        ss << " " << _getText(DJV_TEXT("frames"));
-                        break;
-                    default: break;
-                    }
-                    label->setText(ss.str());
-                }
-                label->setHAlign(UI::HAlign::Left);
-                formLayout->addChild(label);
-                formLayout->setText(label, _getText(DJV_TEXT("Duration")) + ":");
-
-                label = UI::Label::create(context);
-                label->setText(i.codec);
-                label->setHAlign(UI::HAlign::Left);
-                formLayout->addChild(label);
-                formLayout->setText(label, _getText(DJV_TEXT("Codec")) + ":");
-                
-                auto bellows = UI::Bellows::create(context);
-                {
-                    std::stringstream ss;
-                    ss << _getText(DJV_TEXT("Video track")) << " #" << j << ": ";
-                    bellows->setText(ss.str());
-                }
-                bellows->addChild(formLayout);
-                p.layout->addChild(bellows);
-
-                ++j;
-            }
-
-            j = 0;
-            for (const auto& i : p.info.audio)
-            {
-                auto formLayout = UI::FormLayout::create(context);
-                formLayout->setMargin(UI::MetricsRole::MarginSmall);
-                formLayout->setShadowOverlay({ UI::Side::Top });
-
-                auto label = UI::Label::create(context);
-                {
-                    std::stringstream ss;
-                    ss << static_cast<int>(i.info.channelCount);
-                    label->setText(ss.str());
-                }
-                label->setHAlign(UI::HAlign::Left);
-                formLayout->addChild(label);
-                formLayout->setText(label, _getText(DJV_TEXT("Channels")) + ":");
-
-                label = UI::Label::create(context);
-                {
-                    std::stringstream ss;
-                    ss << i.info.type;
-                    label->setText(ss.str());
-                }
-                label->setHAlign(UI::HAlign::Left);
-                formLayout->addChild(label);
-                formLayout->setText(label, _getText(DJV_TEXT("Type")) + ":");
-
-                label = UI::Label::create(context);
-                {
-                    std::stringstream ss;
-                    ss << i.info.sampleRate / 1000.f << _getText(DJV_TEXT("kHz"));
-                    label->setText(ss.str());
-                }
-                label->setHAlign(UI::HAlign::Left);
-                formLayout->addChild(label);
-                formLayout->setText(label, _getText(DJV_TEXT("Sample rate")) + ":");
-
-                label = UI::Label::create(context);
-                {
-                    std::stringstream ss;
-                    ss << (i.info.sampleRate > 0 ? (i.sampleCount / i.info.sampleRate) : 0);
-                    label->setText(ss.str());
-                }
-                label->setHAlign(UI::HAlign::Left);
-                formLayout->addChild(label);
-                formLayout->setText(label, _getText(DJV_TEXT("Duration")) + ":");
-
-                label = UI::Label::create(context);
-                label->setText(i.codec);
-                label->setHAlign(UI::HAlign::Left);
-                formLayout->addChild(label);
-                formLayout->setText(label, _getText(DJV_TEXT("Codec")) + ":");
-
-                auto bellows = UI::Bellows::create(context);
-                {
-                    std::stringstream ss;
-                    ss << _getText(DJV_TEXT("Audio track")) << " #" << j << ": ";
-                    bellows->setText(ss.str());
-                }
-                bellows->addChild(formLayout);
-                p.layout->addChild(bellows);
-
-                ++j;
-            }
-
-            if (p.info.tags.getTagsCount())
-            {
-                auto formLayout = UI::FormLayout::create(context);
-                formLayout->setMargin(UI::MetricsRole::MarginSmall);
-                formLayout->setShadowOverlay({ UI::Side::Top });
-
-                for (const auto& i : p.info.tags.getTags())
+                if (!p.info.fileName.empty())
                 {
                     auto label = UI::Label::create(context);
-                    label->setText(i.second);
+                    label->setText(p.info.fileName);
                     label->setHAlign(UI::HAlign::Left);
+                    auto formLayout = UI::FormLayout::create(context);
+                    formLayout->setMargin(UI::MetricsRole::MarginSmall);
                     formLayout->addChild(label);
-                    std::stringstream ss;
-                    ss << i.first << ": ";
-                    formLayout->setText(label, ss.str());
+                    formLayout->setText(label, _getText(DJV_TEXT("File name")) + ":");
+                    p.layout->addChild(formLayout);
                 }
 
-                auto bellows = UI::Bellows::create(context);
+                size_t j = 0;
+                for (const auto& i : p.info.video)
                 {
-                    std::stringstream ss;
-                    ss << _getText(DJV_TEXT("Tags"));
-                    bellows->setText(ss.str());
+                    auto formLayout = UI::FormLayout::create(context);
+                    formLayout->setMargin(UI::MetricsRole::MarginSmall);
+                    formLayout->setShadowOverlay({ UI::Side::Top });
+
+                    auto label = UI::Label::create(context);
+                    label->setText(i.info.name);
+                    label->setHAlign(UI::HAlign::Left);
+                    formLayout->addChild(label);
+                    formLayout->setText(label, _getText(DJV_TEXT("Name")) + ":");
+
+                    label = UI::Label::create(context);
+                    {
+                        std::stringstream ss;
+                        ss << i.info.size;
+                        label->setText(ss.str());
+                    }
+                    label->setHAlign(UI::HAlign::Left);
+                    formLayout->addChild(label);
+                    formLayout->setText(label, _getText(DJV_TEXT("Size")) + ":");
+
+                    label = UI::Label::create(context);
+                    {
+                        std::stringstream ss;
+                        ss << i.info.type;
+                        label->setText(ss.str());
+                    }
+                    label->setHAlign(UI::HAlign::Left);
+                    formLayout->addChild(label);
+                    formLayout->setText(label, _getText(DJV_TEXT("Type")) + ":");
+
+                    label = UI::Label::create(context);
+                    {
+                        std::stringstream ss;
+                        ss << i.speed.toFloat();
+                        label->setText(ss.str());
+                    }
+                    label->setHAlign(UI::HAlign::Left);
+                    formLayout->addChild(label);
+                    formLayout->setText(label, _getText(DJV_TEXT("Speed")) + ":");
+
+                    label = UI::Label::create(context);
+                    {
+                        std::stringstream ss;
+                        auto avSystem = context->getSystemT<AV::AVSystem>();
+                        ss << avSystem->getLabel(i.sequence.getSize(), i.speed);
+                        switch (avSystem->observeTimeUnits()->get())
+                        {
+                        case AV::TimeUnits::Frames:
+                            ss << " " << _getText(DJV_TEXT("frames"));
+                            break;
+                        default: break;
+                        }
+                        label->setText(ss.str());
+                    }
+                    label->setHAlign(UI::HAlign::Left);
+                    formLayout->addChild(label);
+                    formLayout->setText(label, _getText(DJV_TEXT("Duration")) + ":");
+
+                    label = UI::Label::create(context);
+                    label->setText(i.codec);
+                    label->setHAlign(UI::HAlign::Left);
+                    formLayout->addChild(label);
+                    formLayout->setText(label, _getText(DJV_TEXT("Codec")) + ":");
+
+                    auto bellows = UI::Bellows::create(context);
+                    {
+                        std::stringstream ss;
+                        ss << _getText(DJV_TEXT("Video track")) << " #" << j << ": ";
+                        bellows->setText(ss.str());
+                    }
+                    bellows->addChild(formLayout);
+                    p.layout->addChild(bellows);
+
+                    ++j;
                 }
-                bellows->addChild(formLayout);
-                p.layout->addChild(bellows);
+
+                j = 0;
+                for (const auto& i : p.info.audio)
+                {
+                    auto formLayout = UI::FormLayout::create(context);
+                    formLayout->setMargin(UI::MetricsRole::MarginSmall);
+                    formLayout->setShadowOverlay({ UI::Side::Top });
+
+                    auto label = UI::Label::create(context);
+                    {
+                        std::stringstream ss;
+                        ss << static_cast<int>(i.info.channelCount);
+                        label->setText(ss.str());
+                    }
+                    label->setHAlign(UI::HAlign::Left);
+                    formLayout->addChild(label);
+                    formLayout->setText(label, _getText(DJV_TEXT("Channels")) + ":");
+
+                    label = UI::Label::create(context);
+                    {
+                        std::stringstream ss;
+                        ss << i.info.type;
+                        label->setText(ss.str());
+                    }
+                    label->setHAlign(UI::HAlign::Left);
+                    formLayout->addChild(label);
+                    formLayout->setText(label, _getText(DJV_TEXT("Type")) + ":");
+
+                    label = UI::Label::create(context);
+                    {
+                        std::stringstream ss;
+                        ss << i.info.sampleRate / 1000.f << _getText(DJV_TEXT("kHz"));
+                        label->setText(ss.str());
+                    }
+                    label->setHAlign(UI::HAlign::Left);
+                    formLayout->addChild(label);
+                    formLayout->setText(label, _getText(DJV_TEXT("Sample rate")) + ":");
+
+                    label = UI::Label::create(context);
+                    {
+                        std::stringstream ss;
+                        ss << (i.info.sampleRate > 0 ? (i.sampleCount / i.info.sampleRate) : 0);
+                        label->setText(ss.str());
+                    }
+                    label->setHAlign(UI::HAlign::Left);
+                    formLayout->addChild(label);
+                    formLayout->setText(label, _getText(DJV_TEXT("Duration")) + ":");
+
+                    label = UI::Label::create(context);
+                    label->setText(i.codec);
+                    label->setHAlign(UI::HAlign::Left);
+                    formLayout->addChild(label);
+                    formLayout->setText(label, _getText(DJV_TEXT("Codec")) + ":");
+
+                    auto bellows = UI::Bellows::create(context);
+                    {
+                        std::stringstream ss;
+                        ss << _getText(DJV_TEXT("Audio track")) << " #" << j << ": ";
+                        bellows->setText(ss.str());
+                    }
+                    bellows->addChild(formLayout);
+                    p.layout->addChild(bellows);
+
+                    ++j;
+                }
+
+                if (p.info.tags.getTagsCount())
+                {
+                    auto formLayout = UI::FormLayout::create(context);
+                    formLayout->setMargin(UI::MetricsRole::MarginSmall);
+                    formLayout->setShadowOverlay({ UI::Side::Top });
+
+                    for (const auto& i : p.info.tags.getTags())
+                    {
+                        auto label = UI::Label::create(context);
+                        label->setText(i.second);
+                        label->setHAlign(UI::HAlign::Left);
+                        formLayout->addChild(label);
+                        std::stringstream ss;
+                        ss << i.first << ": ";
+                        formLayout->setText(label, ss.str());
+                    }
+
+                    auto bellows = UI::Bellows::create(context);
+                    {
+                        std::stringstream ss;
+                        ss << _getText(DJV_TEXT("Tags"));
+                        bellows->setText(ss.str());
+                    }
+                    bellows->addChild(formLayout);
+                    p.layout->addChild(bellows);
+                }
             }
         }
 

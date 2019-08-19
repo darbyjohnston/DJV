@@ -57,13 +57,13 @@ namespace djv
             DJV_NON_COPYABLE(FileSystem);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             FileSystem();
 
         public:
             ~FileSystem() override;
 
-            static std::shared_ptr<FileSystem> create(Core::Context *);
+            static std::shared_ptr<FileSystem> create(const std::shared_ptr<Core::Context>&);
 
             std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > observeOpened() const;
             std::shared_ptr<Core::IValueSubject<std::pair<std::shared_ptr<Media>, glm::vec2> > > observeOpened2() const;

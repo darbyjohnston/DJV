@@ -52,7 +52,7 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > autoHideObserver;
         };
 
-        void UISettingsWidget::_init(Context* context)
+        void UISettingsWidget::_init(const std::shared_ptr<Context>& context)
         {
             ISettingsWidget::_init(context);
 
@@ -66,16 +66,20 @@ namespace djv
             addChild(p.formLayout);
 
             auto weak = std::weak_ptr<UISettingsWidget>(std::dynamic_pointer_cast<UISettingsWidget>(shared_from_this()));
+            auto contextWeak = std::weak_ptr<Context>(context);
             p.autoHideButton->setCheckedCallback(
-                [weak, context](bool value)
-            {
-                if (auto widget = weak.lock())
+                [weak, contextWeak](bool value)
                 {
-                    auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                    auto uiSettings = settingsSystem->getSettingsT<UISettings>();
-                    uiSettings->setAutoHide(value);
-                }
-            });
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto uiSettings = settingsSystem->getSettingsT<UISettings>();
+                            uiSettings->setAutoHide(value);
+                        }
+                    }
+                });
 
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
             auto uiSettings = settingsSystem->getSettingsT<UISettings>();
@@ -94,7 +98,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<UISettingsWidget> UISettingsWidget::create(Context* context)
+        std::shared_ptr<UISettingsWidget> UISettingsWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<UISettingsWidget>(new UISettingsWidget);
             out->_init(context);

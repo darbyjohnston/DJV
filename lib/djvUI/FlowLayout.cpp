@@ -44,7 +44,7 @@ namespace djv
                 Spacing spacing = Spacing(MetricsRole::Spacing, MetricsRole::Spacing);
             };
 
-            void Flow::_init(Context * context)
+            void Flow::_init(const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
                 setClassName("djv::UI::Layout::Flow");
@@ -57,7 +57,7 @@ namespace djv
             Flow::~Flow()
             {}
 
-            std::shared_ptr<Flow> Flow::create(Context * context)
+            std::shared_ptr<Flow> Flow::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<Flow>(new Flow);
                 out->_init(context);

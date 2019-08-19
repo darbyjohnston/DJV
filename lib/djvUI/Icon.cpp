@@ -50,7 +50,7 @@ namespace djv
             std::shared_ptr<AV::Image::Image> image;
         };
 
-        void Icon::_init(Context * context)
+        void Icon::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
             setClassName("djv::UI::Icon");
@@ -63,17 +63,10 @@ namespace djv
         Icon::~Icon()
         {}
 
-        std::shared_ptr<Icon> Icon::create(Context * context)
+        std::shared_ptr<Icon> Icon::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<Icon>(new Icon);
             out->_init(context);
-            return out;
-        }
-
-        std::shared_ptr<Icon> Icon::create(const std::string & name, Context * context)
-        {
-            auto out = Icon::create(context);
-            out->setIcon(name);
             return out;
         }
 

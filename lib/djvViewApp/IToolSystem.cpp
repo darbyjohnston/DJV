@@ -44,7 +44,7 @@ namespace djv
         {
         };
 
-        void IToolSystem::_init(const std::string & name, Context * context)
+        void IToolSystem::_init(const std::string & name, const std::shared_ptr<Core::Context>& context)
         {
             IViewSystem::_init(name, context);
         }

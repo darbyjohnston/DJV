@@ -52,7 +52,7 @@ namespace djv
                 std::map<std::shared_ptr<Widget>, RowStretch> stretch;
             };
 
-            void Row::_init(Orientation orientation, Context * context)
+            void Row::_init(Orientation orientation, const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
 
@@ -68,7 +68,7 @@ namespace djv
             Row::~Row()
             {}
 
-            std::shared_ptr<Row> Row::create(Orientation orientation, Context * context)
+            std::shared_ptr<Row> Row::create(Orientation orientation, const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<Row>(new Row);
                 out->_init(orientation, context);
@@ -77,20 +77,29 @@ namespace djv
 
             void Row::addSeparator()
             {
-                addChild(Separator::create(getContext()));
+                if (auto context = getContext().lock())
+                {
+                    addChild(Separator::create(context));
+                }
             }
 
             void Row::addSpacer()
             {
-                auto spacer = Spacer::create(_p->orientation, getContext());
-                addChild(spacer);
+                if (auto context = getContext().lock())
+                {
+                    auto spacer = Spacer::create(_p->orientation, context);
+                    addChild(spacer);
+                }
             }
 
             void Row::addExpander()
             {
-                auto widget = Widget::create(getContext());
-                addChild(widget);
-                setStretch(widget, RowStretch::Expand);
+                if (auto context = getContext().lock())
+                {
+                    auto widget = Widget::create(context);
+                    addChild(widget);
+                    setStretch(widget, RowStretch::Expand);
+                }
             }
 
             Orientation Row::getOrientation() const
@@ -394,7 +403,7 @@ namespace djv
                 }
             }
 
-            void Horizontal::_init(Context * context)
+            void Horizontal::_init(const std::shared_ptr<Context>& context)
             {
                 Row::_init(Orientation::Horizontal, context);
             }
@@ -402,14 +411,14 @@ namespace djv
             Horizontal::Horizontal()
             {}
 
-            std::shared_ptr<Horizontal> Horizontal::create(Context * context)
+            std::shared_ptr<Horizontal> Horizontal::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<Horizontal>(new Horizontal);
                 out->_init(context);
                 return out;
             }
 
-            void Vertical::_init(Context * context)
+            void Vertical::_init(const std::shared_ptr<Context>& context)
             {
                 Row::_init(Orientation::Vertical, context);
             }
@@ -417,7 +426,7 @@ namespace djv
             Vertical::Vertical()
             {}
 
-            std::shared_ptr<Vertical> Vertical::create(Context * context)
+            std::shared_ptr<Vertical> Vertical::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<Vertical>(new Vertical);
                 out->_init(context);

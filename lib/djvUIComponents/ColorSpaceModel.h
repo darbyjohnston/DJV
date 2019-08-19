@@ -52,13 +52,13 @@ namespace djv
             DJV_NON_COPYABLE(ColorSpaceModel);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             ColorSpaceModel();
 
         public:
             ~ColorSpaceModel();
 
-            static std::shared_ptr<ColorSpaceModel> create(Core::Context *);
+            static std::shared_ptr<ColorSpaceModel> create(const std::shared_ptr<Core::Context>&);
 
             std::shared_ptr<Core::IListSubject<std::string> > observeColorSpaces() const;
             std::shared_ptr<Core::IListSubject<std::string> > observeDisplays() const;

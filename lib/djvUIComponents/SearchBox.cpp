@@ -50,7 +50,7 @@ namespace djv
             std::function<void(const std::string &)> filterCallback;
         };
 
-        void SearchBox::_init(Context * context)
+        void SearchBox::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
 
@@ -130,7 +130,7 @@ namespace djv
         SearchBox::~SearchBox()
         {}
 
-        std::shared_ptr<SearchBox> SearchBox::create(Context * context)
+        std::shared_ptr<SearchBox> SearchBox::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<SearchBox>(new SearchBox);
             out->_init(context);

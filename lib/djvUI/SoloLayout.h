@@ -53,12 +53,12 @@ namespace djv
                 DJV_NON_COPYABLE(Solo);
 
             protected:
-                void _init(Core::Context *);
+                void _init(const std::shared_ptr<Core::Context>&);
                 Solo();
 
             public:
                 ~Solo() override;
-                static std::shared_ptr<Solo> create(Core::Context *);
+                static std::shared_ptr<Solo> create(const std::shared_ptr<Core::Context>&);
 
                 int getCurrentIndex() const;
                 void setCurrentIndex(int);

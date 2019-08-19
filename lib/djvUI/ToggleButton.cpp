@@ -61,7 +61,7 @@ namespace djv
                 std::shared_ptr<Animation::Animation> animation;
             };
 
-            void Toggle::_init(Context * context)
+            void Toggle::_init(const std::shared_ptr<Context>& context)
             {
                 IButton::_init(context);
 
@@ -81,7 +81,7 @@ namespace djv
             Toggle::~Toggle()
             {}
 
-            std::shared_ptr<Toggle> Toggle::create(Context * context)
+            std::shared_ptr<Toggle> Toggle::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<Toggle>(new Toggle);
                 out->_init(context);

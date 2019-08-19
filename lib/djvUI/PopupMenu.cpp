@@ -51,7 +51,7 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > closeObserver;
         };
 
-        void PopupMenu::_init(Context * context)
+        void PopupMenu::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
 
@@ -103,7 +103,7 @@ namespace djv
         PopupMenu::~PopupMenu()
         {}
 
-        std::shared_ptr<PopupMenu> PopupMenu::create(Context * context)
+        std::shared_ptr<PopupMenu> PopupMenu::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<PopupMenu>(new PopupMenu);
             out->_init(context);

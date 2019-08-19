@@ -39,11 +39,11 @@ namespace djv
 
     namespace CoreTest
     {
-        FrameTest::FrameTest(Context * context) :
+        FrameTest::FrameTest(const std::shared_ptr<Context>& context) :
             ITest("djv::CoreTest::FrameTest", context)
         {}
         
-        void FrameTest::run(int & argc, char ** argv)
+        void FrameTest::run(const std::vector<std::string>& args)
         {
             {
                 std::vector<Frame::Number> frames = {};

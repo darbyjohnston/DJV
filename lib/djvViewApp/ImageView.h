@@ -62,13 +62,13 @@ namespace djv
             DJV_NON_COPYABLE(ImageView);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             ImageView();
 
         public:
             ~ImageView() override;
 
-            static std::shared_ptr<ImageView> create(Core::Context *);
+            static std::shared_ptr<ImageView> create(const std::shared_ptr<Core::Context>&);
 
             const std::shared_ptr<AV::Image::Image>& getImage() const;
             void setImage(const std::shared_ptr<AV::Image::Image>&);

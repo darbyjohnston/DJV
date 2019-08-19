@@ -41,13 +41,13 @@ namespace djv
             DJV_NON_COPYABLE(ToolSystem);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             ToolSystem();
 
         public:
             ~ToolSystem() override;
 
-            static std::shared_ptr<ToolSystem> create(Core::Context *);
+            static std::shared_ptr<ToolSystem> create(const std::shared_ptr<Core::Context>&);
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
             MenuData getMenu() const override;

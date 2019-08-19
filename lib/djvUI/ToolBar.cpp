@@ -55,7 +55,7 @@ namespace djv
             std::shared_ptr<HorizontalLayout> layout;
         };
 
-        void ToolBar::_init(Context * context)
+        void ToolBar::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
 
@@ -75,7 +75,7 @@ namespace djv
         ToolBar::~ToolBar()
         {}
 
-        std::shared_ptr<ToolBar> ToolBar::create(Context * context)
+        std::shared_ptr<ToolBar> ToolBar::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<ToolBar>(new ToolBar);
             out->_init(context);
@@ -113,56 +113,59 @@ namespace djv
         void ToolBar::addAction(const std::shared_ptr<Action> & action)
         {
             Widget::addAction(action);
-            auto button = ToolButton::create(getContext());
-            DJV_PRIVATE_PTR();
-            p.layout->addChild(button);
-            button->setClickedCallback(
-                [action]
+            if (auto context = getContext().lock())
             {
-                action->doClicked();
-            });
-            button->setCheckedCallback(
-                [action](bool value)
-            {
-                action->setChecked(value);
-            });
-            p.actionsToButtons[action] = button;
-            p.observers[action].buttonType = ValueObserver<ButtonType>::create(
-                action->observeButtonType(),
-                [button](ButtonType value)
-            {
-                button->setButtonType(value);
-            });
-            p.observers[action].checked = ValueObserver<bool>::create(
-                action->observeChecked(),
-                [button](bool value)
-            {
-                button->setChecked(value);
-            });
-            p.observers[action].icon = ValueObserver<std::string>::create(
-                action->observeIcon(),
-                [button](const std::string & value)
-            {
-                button->setIcon(value);
-            });
-            /*p.observers[action].text = ValueObserver<std::string>::create(
-                action->observeText(),
-                [button](const std::string & value)
-            {
-                button->setText(value);
-            });*/
-            p.observers[action].enabled = ValueObserver<bool>::create(
-                action->observeEnabled(),
-                [button](bool value)
-            {
-                button->setEnabled(value);
-            });
-            p.observers[action].tooltip = ValueObserver<std::string>::create(
-                action->observeTooltip(),
-                [button](const std::string & value)
-            {
-                button->setTooltip(value);
-            });
+                auto button = ToolButton::create(context);
+                DJV_PRIVATE_PTR();
+                p.layout->addChild(button);
+                button->setClickedCallback(
+                    [action]
+                    {
+                        action->doClicked();
+                    });
+                button->setCheckedCallback(
+                    [action](bool value)
+                    {
+                        action->setChecked(value);
+                    });
+                p.actionsToButtons[action] = button;
+                p.observers[action].buttonType = ValueObserver<ButtonType>::create(
+                    action->observeButtonType(),
+                    [button](ButtonType value)
+                    {
+                        button->setButtonType(value);
+                    });
+                p.observers[action].checked = ValueObserver<bool>::create(
+                    action->observeChecked(),
+                    [button](bool value)
+                    {
+                        button->setChecked(value);
+                    });
+                p.observers[action].icon = ValueObserver<std::string>::create(
+                    action->observeIcon(),
+                    [button](const std::string& value)
+                    {
+                        button->setIcon(value);
+                    });
+                /*p.observers[action].text = ValueObserver<std::string>::create(
+                    action->observeText(),
+                    [button](const std::string & value)
+                {
+                    button->setText(value);
+                });*/
+                p.observers[action].enabled = ValueObserver<bool>::create(
+                    action->observeEnabled(),
+                    [button](bool value)
+                    {
+                        button->setEnabled(value);
+                    });
+                p.observers[action].tooltip = ValueObserver<std::string>::create(
+                    action->observeTooltip(),
+                    [button](const std::string& value)
+                    {
+                        button->setTooltip(value);
+                    });
+            }
         }
 
         void ToolBar::removeAction(const std::shared_ptr<Action> & action)

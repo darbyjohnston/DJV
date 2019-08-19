@@ -27,7 +27,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvUI/Label.h>
 #include <djvUI/Window.h>
 
 #include <djvCore/Context.h>
@@ -40,15 +39,8 @@ using namespace djv::Core;
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(djvUIPy, m)
+void wrapWindow(pybind11::module& m)
 {
-    py::class_<UI::Widget, std::shared_ptr<UI::Widget>, Core::IObject>(m, "Widget")
-        .def_static("create", &UI::Widget::create);
-
-    py::class_<UI::Label, std::shared_ptr<UI::Label>, UI::Widget>(m, "Label")
-        .def_static("create", &UI::Label::create)
-        .def("setText", &UI::Label::setText);
-
     py::class_<UI::Window, std::shared_ptr<UI::Window>, UI::Widget>(m, "Window")
         .def_static("create", &UI::Window::create)
         .def("show", &UI::Window::show);

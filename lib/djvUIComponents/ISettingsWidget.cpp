@@ -42,7 +42,7 @@ namespace djv
             std::shared_ptr<VerticalLayout> childLayout;
         };
 
-        void ISettingsWidget::_init(Context * context)
+        void ISettingsWidget::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
 

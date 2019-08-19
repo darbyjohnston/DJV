@@ -49,7 +49,7 @@ namespace djv
             std::shared_ptr<ValueSubject<AV::Image::Color> > backgroundColor;
         };
 
-        void ImageViewSettings::_init(Context * context)
+        void ImageViewSettings::_init(const std::shared_ptr<Core::Context>& context)
         {
             ISettings::_init("djv::ViewApp::ImageViewSettings", context);
 
@@ -63,7 +63,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<ImageViewSettings> ImageViewSettings::create(Context * context)
+        std::shared_ptr<ImageViewSettings> ImageViewSettings::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<ImageViewSettings>(new ImageViewSettings);
             out->_init(context);

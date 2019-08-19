@@ -54,7 +54,7 @@ namespace djv
                 std::function<void(const FileSystem::FileInfo&)> callback;
             };
 
-            void Dialog::_init(Context* context)
+            void Dialog::_init(const std::shared_ptr<Context>& context)
             {
                 IDialog::_init(context);
 
@@ -87,7 +87,7 @@ namespace djv
             Dialog::~Dialog()
             {}
 
-            std::shared_ptr<Dialog> Dialog::create(Context* context)
+            std::shared_ptr<Dialog> Dialog::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<Dialog>(new Dialog);
                 out->_init(context);

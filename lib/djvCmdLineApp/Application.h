@@ -51,7 +51,10 @@ namespace djv
         public:
             ~Application() override;
 
-            static Application* create(const std::vector<std::string>&);
+            static std::shared_ptr<Application> create(const std::vector<std::string>&);
+
+            int run();
+            void exit();
 
         private:
             DJV_PRIVATE();

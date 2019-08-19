@@ -46,7 +46,7 @@ namespace djv
             std::shared_ptr<ValueObserver<int> > valueObserver;
         };
 
-        void IntEdit::_init(Context * context)
+        void IntEdit::_init(const std::shared_ptr<Context>& context)
         {
             NumericEdit::_init(context);
             DJV_PRIVATE_PTR();
@@ -61,7 +61,7 @@ namespace djv
         IntEdit::~IntEdit()
         {}
 
-        std::shared_ptr<IntEdit> IntEdit::create(Context * context)
+        std::shared_ptr<IntEdit> IntEdit::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<IntEdit>(new IntEdit);
             out->_init(context);

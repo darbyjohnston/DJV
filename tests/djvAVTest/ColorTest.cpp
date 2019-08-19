@@ -35,11 +35,11 @@ namespace djv
 {
     namespace AVTest
     {
-        ColorTest::ColorTest(Core::Context * context) :
+        ColorTest::ColorTest(const std::shared_ptr<Core::Context>& context) :
             ITest("djv::AVTest::ColorTest", context)
         {}
         
-        void ColorTest::run(int & argc, char ** argv)
+        void ColorTest::run(const std::vector<std::string>& args)
         {
             {
                 auto u8 = AV::Image::Color(AV::Image::Type::L_U8);

@@ -56,7 +56,7 @@ namespace djv
             std::shared_ptr<MapObserver<std::string, std::string> > localeFontsObserver;
         };
 
-        void LanguageWidget::_init(Context* context)
+        void LanguageWidget::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
 
@@ -68,19 +68,23 @@ namespace djv
             addChild(p.comboBox);
 
             auto weak = std::weak_ptr<LanguageWidget>(std::dynamic_pointer_cast<LanguageWidget>(shared_from_this()));
+            auto contextWeak = std::weak_ptr<Context>(context);
             p.comboBox->setCallback(
-                [weak, context](int value)
-            {
-                if (auto widget = weak.lock())
+                [weak, contextWeak](int value)
                 {
-                    auto textSystem = context->getSystemT<TextSystem>();
-                    const auto i = widget->_p->indexToLocale.find(value);
-                    if (i != widget->_p->indexToLocale.end())
+                    if (auto context = contextWeak.lock())
                     {
-                        textSystem->setCurrentLocale(i->second);
+                        if (auto widget = weak.lock())
+                        {
+                            auto textSystem = context->getSystemT<TextSystem>();
+                            const auto i = widget->_p->indexToLocale.find(value);
+                            if (i != widget->_p->indexToLocale.end())
+                            {
+                                textSystem->setCurrentLocale(i->second);
+                            }
+                        }
                     }
-                }
-            });
+                });
 
             auto textSystem = context->getSystemT<TextSystem>();
             p.localeObserver = ValueObserver<std::string>::create(
@@ -112,7 +116,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<LanguageWidget> LanguageWidget::create(Context* context)
+        std::shared_ptr<LanguageWidget> LanguageWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<LanguageWidget>(new LanguageWidget);
             out->_init(context);
@@ -142,37 +146,39 @@ namespace djv
         void LanguageWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
-            auto context = getContext();
-            p.comboBox->clearItems();
-            auto textSystem = _getTextSystem();
-            const auto& locales = textSystem->getLocales();
-            size_t j = 0;
-            for (const auto& i : locales)
+            if (auto context = getContext().lock())
             {
-                std::string font;
-                auto k = p.localeFonts.find(i);
-                if (k != p.localeFonts.end())
+                p.comboBox->clearItems();
+                auto textSystem = _getTextSystem();
+                const auto& locales = textSystem->getLocales();
+                size_t j = 0;
+                for (const auto& i : locales)
                 {
-                    font = k->second;
-                }
-                else
-                {
-                    k = p.localeFonts.find("Default");
+                    std::string font;
+                    auto k = p.localeFonts.find(i);
                     if (k != p.localeFonts.end())
                     {
                         font = k->second;
                     }
+                    else
+                    {
+                        k = p.localeFonts.find("Default");
+                        if (k != p.localeFonts.end())
+                        {
+                            font = k->second;
+                        }
+                    }
+                    p.comboBox->addItem(_getText(i));
+                    p.comboBox->setFont(j, font);
+                    p.indexToLocale[j] = i;
+                    p.localeToIndex[i] = j;
+                    ++j;
                 }
-                p.comboBox->addItem(_getText(i));
-                p.comboBox->setFont(j, font);
-                p.indexToLocale[j] = i;
-                p.localeToIndex[i] = j;
-                ++j;
-            }
-            const auto i = p.localeToIndex.find(p.locale);
-            if (i != p.localeToIndex.end())
-            {
-                p.comboBox->setCurrentItem(static_cast<int>(i->second));
+                const auto i = p.localeToIndex.find(p.locale);
+                if (i != p.localeToIndex.end())
+                {
+                    p.comboBox->setCurrentItem(static_cast<int>(i->second));
+                }
             }
         }
 
@@ -181,7 +187,7 @@ namespace djv
             std::shared_ptr<LanguageWidget> languageWidget;
         };
 
-        void LanguageSettingsWidget::_init(Context * context)
+        void LanguageSettingsWidget::_init(const std::shared_ptr<Context>& context)
         {
             ISettingsWidget::_init(context);
 
@@ -196,7 +202,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<LanguageSettingsWidget> LanguageSettingsWidget::create(Context * context)
+        std::shared_ptr<LanguageSettingsWidget> LanguageSettingsWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<LanguageSettingsWidget>(new LanguageSettingsWidget);
             out->_init(context);

@@ -39,11 +39,11 @@ namespace djv
 
     namespace CoreTest
     {
-        SpeedTest::SpeedTest(Core::Context * context) :
+        SpeedTest::SpeedTest(const std::shared_ptr<Core::Context>& context) :
             ITest("djv::CoreTest::SpeedTest", context)
         {}
         
-        void SpeedTest::run(int & argc, char ** argv)
+        void SpeedTest::run(const std::vector<std::string>& args)
         {
             {
                 DJV_ASSERT(Core::Time::toRational(Core::Time::FPS::_24) == Core::Math::Rational(24, 1));

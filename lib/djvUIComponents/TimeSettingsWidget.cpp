@@ -51,11 +51,11 @@ namespace djv
                 DJV_NON_COPYABLE(TimeUnitsWidget);
 
             protected:
-                void _init(Context*);
+                void _init(const std::shared_ptr<Context>&);
                 TimeUnitsWidget();
 
             public:
-                static std::shared_ptr<TimeUnitsWidget> create(Context*);
+                static std::shared_ptr<TimeUnitsWidget> create(const std::shared_ptr<Context>&);
 
                 float getHeightForWidth(float) const override;
 
@@ -79,7 +79,7 @@ namespace djv
                 std::shared_ptr<ValueObserver<AV::TimeUnits> > timeUnitsObserver;
             };
 
-            void TimeUnitsWidget::_init(Context* context)
+            void TimeUnitsWidget::_init(const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
 
@@ -92,14 +92,18 @@ namespace djv
                 _widgetUpdate();
 
                 auto weak = std::weak_ptr<TimeUnitsWidget>(std::dynamic_pointer_cast<TimeUnitsWidget>(shared_from_this()));
+                auto contextWeak = std::weak_ptr<Context>(context);
                 p.comboBox->setCallback(
-                    [weak, context](int value)
-                {
-                    if (auto system = context->getSystemT<AV::AVSystem>())
+                    [weak, contextWeak](int value)
                     {
-                        system->setTimeUnits(static_cast<AV::TimeUnits>(value));
-                    }
-                });
+                        if (auto context = contextWeak.lock())
+                        {
+                            if (auto system = context->getSystemT<AV::AVSystem>())
+                            {
+                                system->setTimeUnits(static_cast<AV::TimeUnits>(value));
+                            }
+                        }
+                    });
 
                 if (auto avSystem = context->getSystemT<AV::AVSystem>())
                 {
@@ -120,7 +124,7 @@ namespace djv
                 _p(new Private)
             {}
 
-            std::shared_ptr<TimeUnitsWidget> TimeUnitsWidget::create(Context* context)
+            std::shared_ptr<TimeUnitsWidget> TimeUnitsWidget::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<TimeUnitsWidget>(new TimeUnitsWidget);
                 out->_init(context);
@@ -174,7 +178,7 @@ namespace djv
             std::shared_ptr<FormLayout> layout;
         };
 
-        void TimeSettingsWidget::_init(Context * context)
+        void TimeSettingsWidget::_init(const std::shared_ptr<Context>& context)
         {
             ISettingsWidget::_init(context);
 
@@ -192,7 +196,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<TimeSettingsWidget> TimeSettingsWidget::create(Context * context)
+        std::shared_ptr<TimeSettingsWidget> TimeSettingsWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<TimeSettingsWidget>(new TimeSettingsWidget);
             out->_init(context);

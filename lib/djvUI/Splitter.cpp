@@ -52,7 +52,7 @@ namespace djv
                 std::function<void(const std::vector<float> &)> splitCallback;
             };
 
-            void Splitter::_init(Context * context)
+            void Splitter::_init(const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
                 setClassName("djv::UI::Layout::Splitter");
@@ -66,7 +66,7 @@ namespace djv
             Splitter::~Splitter()
             {}
 
-            std::shared_ptr<Splitter> Splitter::create(Orientation orientation, Context * context)
+            std::shared_ptr<Splitter> Splitter::create(Orientation orientation, const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<Splitter>(new Splitter);
                 out->_init(context);

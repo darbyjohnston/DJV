@@ -41,11 +41,11 @@ namespace djv
             DJV_NON_COPYABLE(CineonSettingsWidget);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             CineonSettingsWidget();
 
         public:
-            static std::shared_ptr<CineonSettingsWidget> create(Core::Context *);
+            static std::shared_ptr<CineonSettingsWidget> create(const std::shared_ptr<Core::Context>&);
 
             std::string getSettingsName() const override;
             std::string getSettingsGroup() const override;

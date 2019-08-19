@@ -43,13 +43,13 @@ namespace djv
                 DJV_NON_COPYABLE(Separator);
 
             protected:
-                void _init(Core::Context *);
+                void _init(const std::shared_ptr<Core::Context>&);
                 Separator();
 
             public:
                 virtual ~Separator();
 
-                static std::shared_ptr<Separator> create(Core::Context *);
+                static std::shared_ptr<Separator> create(const std::shared_ptr<Core::Context>&);
 
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout &) override;

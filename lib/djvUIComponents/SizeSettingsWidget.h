@@ -41,11 +41,11 @@ namespace djv
             DJV_NON_COPYABLE(SizeWidget);
 
         protected:
-            void _init(Core::Context*);
+            void _init(const std::shared_ptr<Core::Context>&);
             SizeWidget();
 
         public:
-            static std::shared_ptr<SizeWidget> create(Core::Context*);
+            static std::shared_ptr<SizeWidget> create(const std::shared_ptr<Core::Context>&);
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout&) override;
@@ -65,11 +65,11 @@ namespace djv
             DJV_NON_COPYABLE(SizeSettingsWidget);
 
         protected:
-            void _init(Core::Context*);
+            void _init(const std::shared_ptr<Core::Context>&);
             SizeSettingsWidget();
 
         public:
-            static std::shared_ptr<SizeSettingsWidget> create(Core::Context*);
+            static std::shared_ptr<SizeSettingsWidget> create(const std::shared_ptr<Core::Context>&);
 
             std::string getSettingsName() const override;
             std::string getSettingsGroup() const override;

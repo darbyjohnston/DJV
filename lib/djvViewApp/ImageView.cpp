@@ -70,7 +70,7 @@ namespace djv
             std::shared_ptr<ValueObserver<AV::Image::Color> > backgroundColorObserver;
         };
 
-        void ImageView::_init(Context * context)
+        void ImageView::_init(const std::shared_ptr<Core::Context>& context)
         {
             Widget::_init(context);
 
@@ -130,7 +130,7 @@ namespace djv
         ImageView::~ImageView()
         {}
 
-        std::shared_ptr<ImageView> ImageView::create(Context * context)
+        std::shared_ptr<ImageView> ImageView::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<ImageView>(new ImageView);
             out->_init(context);
