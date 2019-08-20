@@ -32,6 +32,7 @@
 #include <djvCore/Frame.h>
 
 #include <pybind11/pybind11.h>
+#include <pybind11/operators.h>
 #include <pybind11/stl.h>
 
 using namespace djv::Core;
@@ -55,7 +56,10 @@ void wrapFrame(pybind11::module& m)
         .def("contains", &Frame::Range::contains)
         .def("intersects", &Frame::Range::intersects)
         .def("expand", (void(Frame::Range::*)(Frame::Number))&Frame::Range::expand)
-        .def("expand", (void(Frame::Range::*)(const Frame::Range&))&Frame::Range::expand);
+        .def("expand", (void(Frame::Range::*)(const Frame::Range&))&Frame::Range::expand)
+        .def(py::self == py::self)
+        .def(py::self != py::self)
+        .def(py::self < py::self);
 
     //! \todo How do we make this a constant?
     mFrame.attr("invalidRange") = Frame::invalidRange;
@@ -69,7 +73,9 @@ void wrapFrame(pybind11::module& m)
         .def("isValid", &Frame::Sequence::isValid)
         .def("getSize", &Frame::Sequence::getSize)
         .def("getFrame", &Frame::Sequence::getFrame)
-        .def("sort", &Frame::Sequence::sort);
+        .def("sort", &Frame::Sequence::sort)
+        .def(py::self == py::self)
+        .def(py::self != py::self);
 
     mFrame.def("isValid", &Frame::isValid);
     mFrame.def("sort", &Frame::sort);

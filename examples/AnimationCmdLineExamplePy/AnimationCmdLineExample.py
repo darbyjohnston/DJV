@@ -30,16 +30,18 @@
 import djvCorePy
 import djvCmdLineAppPy
 
-from datetime import timedelta
 import sys
+from datetime import timedelta
 
 app = None
 
 def animationValue(v):
-	print(v)
+    buf = ""
+    for i in range(0, int(v * 40.0)):
+        buf += "#"
+    print(buf)
 def animationFinished(v):
-	print(v)
-	app.exit()
+    app.exit()
 
 try:
     # Create an application.
@@ -47,10 +49,11 @@ try:
     
 	# Create an animation.
 	animation = djvCorePy.Animation.Animation.create(app)
+	animation.setType(djvCorePy.Animation.Type.Sine)
 	animation.start(
 		0.0,
 		1.0,
-		timedelta(seconds=10),
+		timedelta(seconds=1),
 		animationValue,
 		animationFinished)
     

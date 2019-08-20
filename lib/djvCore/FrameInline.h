@@ -177,7 +177,7 @@ namespace djv
                 }
                 return String::join(list, '-');
             }
-
+            
             inline void fromString(const std::string & value, Range & out, size_t & pad)
             {
                 // Split the string into the minimum and maximum values (e.g., "1-10").

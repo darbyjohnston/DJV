@@ -1,7 +1,11 @@
 set(tests
+    AnimationTest
+    BBoxTest
+    ContextTest
     PathTest
     FileInfoTest
-    FrameTest)
+    FrameTest
+    VectorTest)
 foreach(test ${tests})
     file(COPY ${test}.py DESTINATION ${DJV_BUILD_DIR}/bin)
     add_test(NAME ${test}Py

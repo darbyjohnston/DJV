@@ -161,7 +161,7 @@ namespace djv
                 void sortSequence();
                 inline bool isSequenceValid() const;
                 inline bool isSequenceWildcard() const;
-                inline bool sequenceContains(const FileInfo &) const;
+                inline bool isCompatible(const FileInfo &) const;
                 inline bool addToSequence(const FileInfo &);
 
                 ///@}

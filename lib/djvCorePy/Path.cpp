@@ -32,6 +32,7 @@
 #include <djvCore/Path.h>
 
 #include <pybind11/pybind11.h>
+#include <pybind11/operators.h>
 #include <pybind11/stl.h>
 
 using namespace djv::Core;
@@ -86,5 +87,8 @@ void wrapPath(pybind11::module& m)
         .def_static("mkdir", &FileSystem::Path::mkdir)
         .def_static("getAbsolute", &FileSystem::Path::getAbsolute)
         .def_static("getCWD", &FileSystem::Path::getCWD)
-        .def_static("getTemp", &FileSystem::Path::getTemp);
+        .def_static("getTemp", &FileSystem::Path::getTemp)
+        .def(py::self == py::self)
+        .def(py::self != py::self)
+        .def(py::self < py::self);
 }

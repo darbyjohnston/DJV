@@ -83,8 +83,20 @@ namespace djv
                 max(max)
             {}
 
-            template<typename T, glm::precision P>
+            /*template<typename T, glm::precision P>
             inline tBBox2<T, P>::tBBox2(T x, T y, T w, T h) :
+                min(x, y),
+                max(x + w, y + h)
+            {}*/
+
+            template<>
+            inline tBBox2<int>::tBBox2(int x, int y, int w, int h) :
+                min(x, y),
+                max(x + w - 1, y + h - 1)
+            {}
+
+            template<>
+            inline tBBox2<float>::tBBox2(float x, float y, float w, float h) :
                 min(x, y),
                 max(x + w, y + h)
             {}

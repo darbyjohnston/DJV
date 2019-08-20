@@ -32,6 +32,7 @@
 #include <glm/vec2.hpp>
 
 #include <pybind11/pybind11.h>
+#include <pybind11/operators.h>
 #include <pybind11/stl.h>
 
 namespace py = pybind11;
@@ -42,11 +43,17 @@ void wrapVector(pybind11::module& m)
         .def(py::init<>())
         .def(py::init<int, int>())
         .def_readwrite("x", &glm::ivec2::x)
-        .def_readwrite("y", &glm::ivec2::y);
+        .def_readwrite("y", &glm::ivec2::y)
+        .def(py::self == py::self)
+        .def(py::self != py::self);
 
     py::class_<glm::vec2>(m, "vec2")
         .def(py::init<>())
-        .def(py::init<int, int>())
+        .def(py::init<float, float>())
         .def_readwrite("x", &glm::vec2::x)
-        .def_readwrite("y", &glm::vec2::y);
+        .def_readwrite("y", &glm::vec2::y)
+        .def(py::self == py::self)
+        .def(py::self != py::self);
+    
+    
 }

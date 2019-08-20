@@ -50,18 +50,23 @@ int main(int argc, char ** argv)
 
         // Create an animation.
         auto animation = Core::Animation::Animation::create(app);
+        animation->setType(Core::Animation::Type::Sine);
         animation->setRepeating(true);
         animation->start(
             0.f,
             1.f,
-            std::chrono::milliseconds(10 * 1000),
+            std::chrono::milliseconds(1 * 1000),
             [](float value)
             {
-                std::cout << value << std::endl;
+                std::string buf;
+                for (size_t i = 0; i < static_cast<size_t>(value * 40.f); ++i)
+                {
+                    buf += "#";
+                }
+                std::cout << buf << std::endl;
             },
             [app](float value)
             {
-                std::cout << value << std::endl;
                 app->exit();
             });
 

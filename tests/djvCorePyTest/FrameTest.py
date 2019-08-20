@@ -52,7 +52,7 @@ class FrameTest(unittest.TestCase):
     def test_Conversion(self):
         self.assertEqual(f.toFrames(f.Range(1, 3)), [1, 2, 3])
         self.assertEqual(f.toFrames(f.Sequence([f.Range(1, 3), f.Range(5, 6)])), [1, 2, 3, 5, 6])
-        self.assertTrue(f.fromFrames([1, 2, 3]).__eq__(f.Sequence(f.Range(1, 3))))
+        self.assertEqual(f.fromFrames([1, 2, 3]), f.Sequence(f.Range(1, 3)))
         self.assertEqual(f.toString(1), "1")
         self.assertEqual(f.toString(1, 4), "0001")
         self.assertEqual(f.toString(f.Range(1, 3)), "1-3")
@@ -62,12 +62,12 @@ class FrameTest(unittest.TestCase):
         r = f.Range()
         pad = 0
         f.fromString("0001-0003", r, pad)
-        self.assertTrue(r.__eq__(f.Range(1, 3)))
+        self.assertEqual(r, f.Range(1, 3))
         #! Fix me!
         #self.assertEqual(pad, 4)
         s = f.Sequence()
-        f.fromString("0001-0003,0005-0006", r, pad)
-        self.assertTrue(r.__eq__(f.Sequence([f.Range(1, 3), f.Range(5, 6)], 4)))
+        f.fromString("0001-0003,0005-0006", s)
+        self.assertEqual(s, f.Sequence([f.Range(1, 3), f.Range(5, 6)], 4))
     
 if __name__ == '__main__':
     unittest.main()

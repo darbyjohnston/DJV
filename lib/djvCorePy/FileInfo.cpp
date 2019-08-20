@@ -32,6 +32,7 @@
 #include <djvCore/FileInfo.h>
 
 #include <pybind11/pybind11.h>
+#include <pybind11/operators.h>
 #include <pybind11/stl.h>
 
 using namespace djv::Core;
@@ -86,8 +87,11 @@ void wrapFileInfo(pybind11::module& m)
         .def("sortSequence", &FileSystem::FileInfo::sortSequence)
         .def("isSequenceValid", &FileSystem::FileInfo::isSequenceValid)
         .def("isSequenceWildcard", &FileSystem::FileInfo::isSequenceWildcard)
-        .def("sequenceContains", &FileSystem::FileInfo::sequenceContains)
+        .def("isCompatible", &FileSystem::FileInfo::isCompatible)
         .def("addToSequence", &FileSystem::FileInfo::addToSequence)
         .def_static("directoryList", &FileSystem::FileInfo::directoryList, py::arg("path"), py::arg("options") = FileSystem::DirectoryListOptions())
-        .def_static("getFileSequence", &FileSystem::FileInfo::getFileSequence);
+        .def_static("getFileSequence", &FileSystem::FileInfo::getFileSequence)
+        .def(py::self == py::self)
+        .def(py::self != py::self)
+        .def(py::self < py::self);
 }

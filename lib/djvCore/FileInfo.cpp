@@ -178,7 +178,7 @@ namespace djv
                 for (const auto & fileInfo : directoryList(path.getDirectoryName(), options))
                 {
                     if (fileInfo.getSequence().getSize() > 1 &&
-                        fileInfo.sequenceContains(path))
+                        fileInfo.isCompatible(path))
                     {
                         return fileInfo;
                     }
