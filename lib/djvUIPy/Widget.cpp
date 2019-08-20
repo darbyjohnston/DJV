@@ -42,6 +42,7 @@ namespace py = pybind11;
 void wrapWidget(pybind11::module& m)
 {
     py::class_<UI::Widget, std::shared_ptr<UI::Widget>, Core::IObject>(m, "Widget")
-        .def_static("create", &UI::Widget::create);
+        .def_static("create", &UI::Widget::create)
+        .def("setVisible", &UI::Widget::setVisible);
 }
 
