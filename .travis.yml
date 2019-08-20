@@ -19,7 +19,7 @@ addons:
 before_script:
 - mkdir build
 - cd build
-- build-wrapper-linux-x86-64 --out-dir ../bw-output cmake .. -DDJV_THIRD_PARTY=TRUE && make && make test
+- build-wrapper-linux-x86-64 --out-dir ../bw-output cmake .. -DDJV_THIRD_PARTY=TRUE -DDJV_PYTHON=TRUE && make && make test
 - cd ..
 script:
 - sonar-scanner
