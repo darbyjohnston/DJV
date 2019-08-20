@@ -513,7 +513,7 @@ namespace djv
                     static_cast<GLint>(p.viewport.min.y),
                     static_cast<GLsizei>(p.viewport.w()),
                     static_cast<GLsizei>(p.viewport.h()));
-                glClearColor(1.f, 0.f, 0.f, 0.f);
+                glClearColor(0.f, 0.f, 0.f, 0.f);
                 glClear(GL_COLOR_BUFFER_BIT);
 
                 const auto viewMatrix = glm::ortho(
