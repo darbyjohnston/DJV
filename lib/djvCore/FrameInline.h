@@ -107,7 +107,7 @@ namespace djv
                 return !(*this == value);
             }
 
-            constexpr bool isValid(const Range & value)
+            inline bool isValid(const Range & value)
             {
                 return value != invalidRange;
             }

@@ -81,7 +81,7 @@ namespace djv
             //! \name Utilities
             ///@{
 
-            constexpr bool isValid(const Range&);
+            inline bool isValid(const Range&);
 
             void sort(Range&);
 
