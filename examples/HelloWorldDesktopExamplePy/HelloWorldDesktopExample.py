@@ -35,20 +35,20 @@ import sys
 
 try:
     # Create an application.
-	app = djvDesktopAppPy.Application.create(sys.argv)
+    app = djvDesktopAppPy.Application.create(sys.argv)
     
-	# Create a label.
-	label = djvUIPy.Label.create(app)
-	label.setText("Hello world!")
+    # Create a label.
+    label = djvUIPy.Label.create(app)
+    label.setText("Hello world!")
     
-	# Create a window and show it.
-	window = djvUIPy.Window.create(app)
-	window.addChild(label)
-	window.show()
+    # Create a window and show it.
+    window = djvUIPy.Window.create(app)
+    window.addChild(label)
+    window.show()
     
-	# Run the application.
-	app.run()
+    # Run the application.
+    app.run()
 
 except (error):
-	print(error.what())
+    print(error.what())
 
