@@ -5,6 +5,8 @@ set(source
     BBox.cpp
     Context.cpp
     CorePy.cpp
+    FileInfo.cpp
+    Frame.cpp
     IObject.cpp
 	Path.cpp
     Vector.cpp)

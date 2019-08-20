@@ -69,7 +69,14 @@ namespace djv
                 size_t out = 0;
                 for (const auto& i : ranges)
                 {
-                    out += i.max - i.min + 1;
+                    if (i.min < i.max)
+                    {
+                        out += i.max - i.min + 1;
+                    }
+                    else
+                    {
+                        out += i.min - i.max + 1;
+                    }
                 }
                 return out;
             }
@@ -102,7 +109,7 @@ namespace djv
 
             constexpr bool isValid(const Range & value)
             {
-                return value.min != invalid && value.max != invalid;
+                return value != invalidRange;
             }
 
             inline std::vector<Number> toFrames(const Range & value)

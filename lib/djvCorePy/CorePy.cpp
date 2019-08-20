@@ -39,6 +39,10 @@ PYBIND11_MODULE(djvCorePy, m)
     wrapBBox(m);
     wrapContext(m);
     wrapIObject(m);
-    wrapPath(m);
+    wrapFrame(m);
     wrapVector(m);
+
+    auto mFileSystem = m.def_submodule("FileSystem");
+    wrapFileInfo(mFileSystem);
+    wrapPath(mFileSystem);
 }

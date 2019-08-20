@@ -27,8 +27,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvCore/Math.h>
-
 namespace djv
 {
     namespace Core
@@ -99,12 +97,6 @@ namespace djv
             {
                 min = std::min(min, value.min);
                 max = std::max(max, value.max);
-            }
-
-            template<typename T>
-            inline T Range<T>::getRandom() const
-            {
-                return Math::getRandom(min, max);
             }
 
             template<typename T>

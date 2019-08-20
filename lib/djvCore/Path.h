@@ -139,13 +139,13 @@ namespace djv
                 ///@{
 
                 //! Is this character a path separator?
-                inline static bool isPathSeparator(char);
+                inline static bool isSeparator(char);
 
                 //! Get the path separator.
-                inline static char getPathSeparator(PathSeparator);
+                inline static char getSeparator(PathSeparator);
 
                 //! Get the current path separator.
-                inline static char getCurrentPathSeparator();
+                inline static char getCurrentSeparator();
 
                 //! Remove a trailing path separator.
                 static void removeTrailingSeparator(std::string &);
@@ -164,7 +164,7 @@ namespace djv
 
                 //! Join a list of sub-directories into a directory path.
                 //! For example: var, tmp -> var/tmp
-                static std::string joinDirs(const std::vector<std::string> &, char separator = getCurrentPathSeparator());
+                static std::string joinDirs(const std::vector<std::string> &, char separator = getCurrentSeparator());
 
                 //! Create a directory.
                 //! Throws:

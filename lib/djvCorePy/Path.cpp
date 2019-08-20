@@ -40,13 +40,11 @@ namespace py = pybind11;
 
 void wrapPath(pybind11::module& m)
 {
-    auto mFileSystem = m.def_submodule("FileSystem");
-
-    py::enum_<FileSystem::PathSeparator>(mFileSystem, "PathSeparator")
+    py::enum_<FileSystem::PathSeparator>(m, "PathSeparator")
         .value("Unix", FileSystem::PathSeparator::Unix)
         .value("Windows", FileSystem::PathSeparator::Windows);
 
-    py::enum_<FileSystem::ResourcePath>(mFileSystem, "ResourcePath")
+    py::enum_<FileSystem::ResourcePath>(m, "ResourcePath")
         .value("Application", FileSystem::ResourcePath::Application)
         .value("LogFile", FileSystem::ResourcePath::LogFile)
         .value("SettingsFile", FileSystem::ResourcePath::SettingsFile)
@@ -58,7 +56,7 @@ void wrapPath(pybind11::module& m)
         .value("ShadersDirectory", FileSystem::ResourcePath::ShadersDirectory)
         .value("TextDirectory", FileSystem::ResourcePath::TextDirectory);
 
-    py::class_<FileSystem::Path>(mFileSystem, "Path")
+    py::class_<FileSystem::Path>(m, "Path")
         .def(py::init<>())
         .def(py::init<const std::string&>())
         .def(py::init<const FileSystem::Path&, const std::string&>())
@@ -79,10 +77,9 @@ void wrapPath(pybind11::module& m)
         .def("setBaseName", &FileSystem::Path::setBaseName)
         .def("setNumber", &FileSystem::Path::setNumber)
         .def("setExtension", &FileSystem::Path::setExtension)
-        .def_static("isPathSeparator", &FileSystem::Path::isPathSeparator)
-        .def_static("getPathSeparator", &FileSystem::Path::getPathSeparator)
-        .def_static("getCurrentPathSeparator", &FileSystem::Path::getCurrentPathSeparator)
-        .def_static("removeTrailingSeparator", &FileSystem::Path::removeTrailingSeparator)
+        .def_static("isSeparator", &FileSystem::Path::isSeparator)
+        .def_static("getSeparator", &FileSystem::Path::getSeparator)
+        .def_static("getCurrentSeparator", &FileSystem::Path::getCurrentSeparator)
         .def_static("split", &FileSystem::Path::split)
         .def_static("splitDir", &FileSystem::Path::splitDir)
         .def_static("joinDirs", &FileSystem::Path::joinDirs)

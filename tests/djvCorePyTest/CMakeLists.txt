@@ -1,5 +1,10 @@
-add_test(NAME PathTestPy
-	COMMAND ${PYTHON_EXECUTABLE} PathTest.py
-	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-set_tests_properties(PathTestPy
-    PROPERTIES ENVIRONMENT "PYTHONPATH=${DJV_BUILD_DIR}/bin:$ENV{PYTHONPATH}")
+set(tests
+    PathTest
+    FileInfoTest
+    FrameTest)
+foreach(test ${tests})
+    file(COPY ${test}.py DESTINATION ${DJV_BUILD_DIR}/bin)
+    add_test(NAME ${test}Py
+        COMMAND ${PYTHON_EXECUTABLE} ${DJV_BUILD_DIR}/bin/${test}.py
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:djvCorePy>)
+endforeach()
