@@ -42,7 +42,8 @@ namespace djv
                 return
                     channelCount == other.channelCount &&
                     type == other.type &&
-                    sampleRate == other.sampleRate;
+                    sampleRate == other.sampleRate &&
+                    sampleCount == other.sampleCount;
             }
 
             bool DataInfo::operator != (const DataInfo & other) const
@@ -50,17 +51,16 @@ namespace djv
                 return !(*this == other);
             }
 
-            void Data::_init(const DataInfo & info, size_t sampleCount)
+            void Data::_init(const DataInfo & info)
             {
                 _info = info;
-                _sampleCount = sampleCount;
                 _data.resize(getByteCount());
             }
 
-            std::shared_ptr<Data> Data::create(const DataInfo & info, size_t sampleCount)
+            std::shared_ptr<Data> Data::create(const DataInfo & info)
             {
                 auto out = std::shared_ptr<Data>(new Data);
-                out->_init(info, sampleCount);
+                out->_init(info);
                 return out;
             }
 
@@ -78,7 +78,7 @@ namespace djv
             {
                 const size_t sampleCount = data->getSampleCount();
                 const size_t channelCount = static_cast<size_t>(data->getChannelCount());
-                auto out = Data::create(DataInfo(channelCount, type, data->getSampleRate()), sampleCount);
+                auto out = Data::create(DataInfo(channelCount, type, data->getSampleRate(), sampleCount));
                 switch (data->getType())
                 {
                 case Type::U8:
@@ -147,7 +147,7 @@ namespace djv
 
             std::shared_ptr<Data> Data::planarInterleave(const std::shared_ptr<Data> & data)
             {
-                auto out = Data::create(data->getInfo(), data->getSampleCount());
+                auto out = Data::create(data->getInfo());
                 const size_t channelCount = data->getChannelCount();
                 const size_t sampleCount = data->getSampleCount();
                 switch (data->getType())
@@ -189,7 +189,7 @@ namespace djv
 
             std::shared_ptr<Data> Data::planarDeinterleave(const std::shared_ptr<Data> & data)
             {
-                auto out = Data::create(data->getInfo(), data->getSampleCount());
+                auto out = Data::create(data->getInfo());
                 const uint8_t channelCount = data->getChannelCount();
                 const size_t sampleCount = data->getSampleCount();
                 switch (data->getType())

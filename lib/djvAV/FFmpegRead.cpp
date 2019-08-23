@@ -329,8 +329,8 @@ namespace djv
                                     Audio::DataInfo(
                                         channelCount,
                                         audioType,
-                                        p.avCodecParameters[p.avAudioStream]->sample_rate),
-                                    sampleCount);
+                                        p.avCodecParameters[p.avAudioStream]->sample_rate,
+                                        sampleCount));
                                 p.videoInfo.codec = std::string(avAudioCodec->long_name);
                                 info.audio.push_back(p.audioInfo);
                             }
@@ -757,8 +757,9 @@ namespace djv
 
                         if (Frame::invalid == da.seek || frame >= da.seek)
                         {
-                            const auto& info = p.audioInfo.info;
-                            auto audioData = Audio::Data::create(info, p.avFrame->nb_samples);
+                            auto info = p.audioInfo.info;
+                            info.sampleCount = p.avFrame->nb_samples;
+                            auto audioData = Audio::Data::create(info);
                             switch (p.avCodecParameters[p.avAudioStream]->format)
                             {
                             case AV_SAMPLE_FMT_U8:
@@ -799,7 +800,8 @@ namespace djv
                             {
                                 Audio::DataInfo s32Info = info;
                                 s32Info.type = Audio::Type::S32;
-                                auto s32Data = Audio::Data::create(s32Info, p.avFrame->nb_samples);
+                                s32Info.sampleCount = p.avFrame->nb_samples;
+                                auto s32Data = Audio::Data::create(s32Info);
                                 if (p.avCodecParameters[p.avAudioStream]->channels == info.channelCount)
                                 {
                                     memcpy(s32Data->getData(), p.avFrame->data[0], s32Data->getByteCount());
@@ -867,7 +869,8 @@ namespace djv
                             {
                                 Audio::DataInfo s32Info = info;
                                 s32Info.type = Audio::Type::S32;
-                                auto s32Data = Audio::Data::create(s32Info, p.avFrame->nb_samples);
+                                s32Info.sampleCount = p.avFrame->nb_samples;
+                                auto s32Data = Audio::Data::create(s32Info);
                                 const size_t channelCount = info.channelCount;
                                 const int32_t** c = new const int32_t * [channelCount];
                                 for (size_t i = 0; i < channelCount; ++i)

@@ -43,11 +43,12 @@ namespace djv
             struct DataInfo
             {
                 constexpr DataInfo();
-                constexpr DataInfo(uint8_t channelCount, Type, size_t sampleRate);
+                constexpr DataInfo(uint8_t channelCount, Type, size_t sampleRate, size_t sampleCount);
 
                 uint8_t channelCount = 0;
                 Type    type         = Audio::Type::None;
                 size_t  sampleRate   = 0;
+                size_t  sampleCount  = 0;
                 
                 constexpr bool isValid() const;
 
@@ -61,11 +62,11 @@ namespace djv
                 DJV_NON_COPYABLE(Data);
 
             protected:
-                void _init(const DataInfo &, size_t sampleCount);
+                void _init(const DataInfo &);
                 inline Data();
 
             public:
-                static std::shared_ptr<Data> create(const DataInfo &, size_t sampleCount);
+                static std::shared_ptr<Data> create(const DataInfo &);
 
                 void zero();
 
@@ -97,7 +98,6 @@ namespace djv
 
             private:
                 DataInfo _info;
-                size_t _sampleCount = 0;
                 std::vector<uint8_t> _data;
             };
 

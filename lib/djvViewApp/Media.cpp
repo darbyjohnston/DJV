@@ -90,9 +90,9 @@ namespace djv
             AV::IO::Direction ioDirection = AV::IO::Direction::Forward;
             std::unique_ptr<RtAudio> rtAudio;
             std::shared_ptr<AV::Audio::Data> audioData;
-            size_t audioDataOffset = 0;
-            size_t audioDataTotal = 0;
-            std::chrono::system_clock::time_point audioDataTimeOffset;
+            size_t audioDataSamplesOffset = 0;
+            size_t audioDataSamplesCount = 0;
+            std::chrono::system_clock::time_point audioDataSamplesTime;
             Frame::Number frameOffset = 0;
             std::chrono::system_clock::time_point startTime;
             std::chrono::system_clock::time_point realSpeedTime;
@@ -669,9 +669,9 @@ namespace djv
                 p.read->seek(value, p.ioDirection);
             }
             p.audioData.reset();
-            p.audioDataOffset = 0;
-            p.audioDataTotal = 0;
-            p.audioDataTimeOffset = std::chrono::system_clock::now();
+            p.audioDataSamplesOffset = 0;
+            p.audioDataSamplesCount = 0;
+            p.audioDataSamplesTime = std::chrono::system_clock::now();
             p.frameOffset = p.currentFrame->get();
             p.startTime = std::chrono::system_clock::now();
             p.realSpeedTime = p.startTime;
@@ -725,9 +725,9 @@ namespace djv
                 p.ioDirection = forward ? AV::IO::Direction::Forward : AV::IO::Direction::Reverse;
                 _seek(p.currentFrame->get());
                 p.audioData.reset();
-                p.audioDataOffset = 0;
-                p.audioDataTotal = 0;
-                p.audioDataTimeOffset = std::chrono::system_clock::now();
+                p.audioDataSamplesOffset = 0;
+                p.audioDataSamplesCount = 0;
+                p.audioDataSamplesTime = std::chrono::system_clock::now();
                 p.frameOffset = p.currentFrame->get();
                 p.startTime = std::chrono::system_clock::now();
                 p.realSpeedTime = p.startTime;
@@ -790,10 +790,10 @@ namespace djv
                 const auto now = std::chrono::system_clock::now();
                 if (forward && _hasAudio())
                 {
-                    std::chrono::duration<double> delta = now - _p->audioDataTimeOffset;
+                    std::chrono::duration<double> delta = now - _p->audioDataSamplesTime;
                     frame = p.frameOffset +
                         Time::scale(
-                            p.audioDataTotal,
+                            p.audioDataSamplesCount,
                             Math::Rational(1, static_cast<int>(p.audioInfo.info.sampleRate)),
                             speed.swap()) +
                         delta.count() * speed.toFloat();
@@ -927,7 +927,7 @@ namespace djv
 
             if (media->_p->audioData)
             {
-                sampleCount += media->_p->audioData->getSampleCount() - media->_p->audioDataOffset;
+                sampleCount += media->_p->audioData->getSampleCount() - media->_p->audioDataSamplesOffset;
             }
 
             std::vector<AV::IO::AudioFrame> frames;
@@ -946,20 +946,20 @@ namespace djv
             uint8_t* p = reinterpret_cast<uint8_t*>(outputBuffer);
             if (media->_p->audioData)
             {
-                const size_t size = std::min(media->_p->audioData->getSampleCount() - media->_p->audioDataOffset, outputSampleCount);
+                const size_t size = std::min(media->_p->audioData->getSampleCount() - media->_p->audioDataSamplesOffset, outputSampleCount);
                 memcpy(
                     p,
-                    media->_p->audioData->getData() + media->_p->audioDataOffset * sampleByteCount,
+                    media->_p->audioData->getData() + media->_p->audioDataSamplesOffset * sampleByteCount,
                     size * sampleByteCount);
                 p += size * sampleByteCount;
-                media->_p->audioDataOffset += size;
-                media->_p->audioDataTotal += size;
-                media->_p->audioDataTimeOffset = std::chrono::system_clock::now();
+                media->_p->audioDataSamplesOffset += size;
+                media->_p->audioDataSamplesCount += size;
+                media->_p->audioDataSamplesTime = std::chrono::system_clock::now();
                 outputSampleCount -= size;
-                if (media->_p->audioDataOffset >= media->_p->audioData->getSampleCount())
+                if (media->_p->audioDataSamplesOffset >= media->_p->audioData->getSampleCount())
                 {
                     media->_p->audioData.reset();
-                    media->_p->audioDataOffset = 0;
+                    media->_p->audioDataSamplesOffset = 0;
                 }
             }
 
@@ -972,9 +972,9 @@ namespace djv
                     i.audio->getData(),
                     size * sampleByteCount);
                 p += size * sampleByteCount;
-                media->_p->audioDataOffset = size;
-                media->_p->audioDataTotal += size;
-                media->_p->audioDataTimeOffset = std::chrono::system_clock::now();
+                media->_p->audioDataSamplesOffset = size;
+                media->_p->audioDataSamplesCount += size;
+                media->_p->audioDataSamplesTime = std::chrono::system_clock::now();
                 outputSampleCount -= size;
             }
 
