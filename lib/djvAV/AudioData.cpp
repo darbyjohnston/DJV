@@ -235,6 +235,30 @@ namespace djv
                 return out;
             }
 
+#define _VOLUME(t) \
+    { \
+        const t##_T* inP = reinterpret_cast<const t##_T*>(in); \
+        t##_T* outP = reinterpret_cast<t##_T*>(out); \
+        t##_T* const endP = outP + sampleCount * channelCount; \
+        for (; outP < endP; ++inP, ++outP) \
+        { \
+            *outP = *inP * volume; \
+        } \
+    }
+
+            void Data::volume(const uint8_t* in, uint8_t* out, float volume, size_t sampleCount, uint8_t channelCount, Type type)
+            {
+                switch (type)
+                {
+                case Type::S8:  _VOLUME(S8);  break;
+                case Type::S16: _VOLUME(S16); break;
+                case Type::S32: _VOLUME(S32); break;
+                case Type::F32: _VOLUME(F32); break;
+                case Type::F64: _VOLUME(F64); break;
+                default: break;
+                }
+            }
+
             bool Data::operator == (const Data & other) const
             {
                 return

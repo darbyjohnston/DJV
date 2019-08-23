@@ -929,6 +929,7 @@ namespace djv
             size_t outputSampleCount = static_cast<size_t>(nFrames);
             size_t sampleCount = 0;
             const size_t sampleByteCount = info.info.channelCount * AV::Audio::getByteCount(info.info.type);
+            const float volume = !media->_p->mute->get() ? media->_p->volume->get() : 0.f;
 
             if (media->_p->audioData)
             {
@@ -952,10 +953,17 @@ namespace djv
             if (media->_p->audioData)
             {
                 const size_t size = std::min(media->_p->audioData->getSampleCount() - media->_p->audioDataSamplesOffset, outputSampleCount);
-                memcpy(
-                    p,
+                //memcpy(
+                //    p,
+                //    media->_p->audioData->getData() + media->_p->audioDataSamplesOffset * sampleByteCount,
+                //    size * sampleByteCount);
+                AV::Audio::Data::volume(
                     media->_p->audioData->getData() + media->_p->audioDataSamplesOffset * sampleByteCount,
-                    size * sampleByteCount);
+                    p,
+                    volume,
+                    size,
+                    info.info.channelCount,
+                    info.info.type);
                 p += size * sampleByteCount;
                 media->_p->audioDataSamplesOffset += size;
                 media->_p->audioDataSamplesCount += size;
@@ -972,10 +980,17 @@ namespace djv
             {
                 media->_p->audioData = i.audio;
                 size_t size = std::min(i.audio->getSampleCount(), outputSampleCount);
-                memcpy(
-                    p,
+                //memcpy(
+                //    p,
+                //    i.audio->getData(),
+                //    size * sampleByteCount);
+                AV::Audio::Data::volume(
                     i.audio->getData(),
-                    size * sampleByteCount);
+                    p,
+                    volume,
+                    size,
+                    info.info.channelCount,
+                    info.info.type);
                 p += size * sampleByteCount;
                 media->_p->audioDataSamplesOffset = size;
                 media->_p->audioDataSamplesCount += size;
