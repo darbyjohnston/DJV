@@ -68,7 +68,7 @@ namespace djv
     { \
         const a##_T * inP = reinterpret_cast<const a##_T *>(data->getData()); \
         b##_T * outP = reinterpret_cast<b##_T *>(out->getData()); \
-        for (size_t i = 0; i < sampleCount; ++i, ++inP, ++outP) \
+        for (size_t i = 0; i < sampleCount * channelCount; ++i, ++inP, ++outP) \
         { \
             a##To##b(*inP, *outP); \
         } \
@@ -77,13 +77,14 @@ namespace djv
             std::shared_ptr<Data> Data::convert(const std::shared_ptr<Data> & data, Type type)
             {
                 const size_t sampleCount = data->getSampleCount();
-                auto out = Data::create(DataInfo(data->getChannelCount(), type, data->getSampleRate()), sampleCount);
+                const size_t channelCount = static_cast<size_t>(data->getChannelCount());
+                auto out = Data::create(DataInfo(channelCount, type, data->getSampleRate()), sampleCount);
                 switch (data->getType())
                 {
                 case Type::U8:
                     switch (type)
                     {
-                    case Type::U8:  memcpy(out->getData(), data->getData(), sampleCount * Audio::getByteCount(type)); break;
+                    case Type::U8:  memcpy(out->getData(), data->getData(), sampleCount * channelCount * Audio::getByteCount(type)); break;
                     case Type::S16: _CONVERT(U8, S16); break;
                     case Type::S32: _CONVERT(U8, S32); break;
                     case Type::F32: _CONVERT(U8, F32); break;
@@ -94,7 +95,7 @@ namespace djv
                     switch (type)
                     {
                     case Type::U8:  _CONVERT(S16, U8); break;
-                    case Type::S16: memcpy(out->getData(), data->getData(), data->getSampleCount() * Audio::getByteCount(type)); break;
+                    case Type::S16: memcpy(out->getData(), data->getData(), data->getSampleCount() * channelCount * Audio::getByteCount(type)); break;
                     case Type::S32: _CONVERT(S16, S32); break;
                     case Type::F32: _CONVERT(S16, F32); break;
                     default: break;
@@ -105,7 +106,7 @@ namespace djv
                     {
                     case Type::U8:  _CONVERT(S32, U8); break;
                     case Type::S16: _CONVERT(S32, S16); break;
-                    case Type::S32: memcpy(out->getData(), data->getData(), data->getSampleCount() * Audio::getByteCount(type)); break;
+                    case Type::S32: memcpy(out->getData(), data->getData(), data->getSampleCount() * channelCount * Audio::getByteCount(type)); break;
                     case Type::F32: _CONVERT(S32, F32); break;
                     default: break;
                     }
@@ -116,7 +117,7 @@ namespace djv
                     case Type::U8:  _CONVERT(F32, U8); break;
                     case Type::S16: _CONVERT(F32, S16); break;
                     case Type::S32: _CONVERT(F32, S32); break;
-                    case Type::F32: memcpy(out->getData(), data->getData(), data->getSampleCount() * Audio::getByteCount(type)); break;
+                    case Type::F32: memcpy(out->getData(), data->getData(), data->getSampleCount() * channelCount * Audio::getByteCount(type)); break;
                     default: break;
                     }
                     break;

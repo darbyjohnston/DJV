@@ -285,7 +285,7 @@ namespace djv
                 {
                     std::lock_guard<std::mutex> lock(i->read->getMutex());
                     auto& queue = i->read->getVideoQueue();
-                    if (queue.hasFrames())
+                    if (!queue.isEmpty())
                     {
                         image = queue.getFrame().image;
                     }

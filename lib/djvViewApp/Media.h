@@ -36,6 +36,8 @@
 #include <djvCore/ListObserver.h>
 #include <djvCore/ValueObserver.h>
 
+#include <RtAudio.h>
+
 namespace djv
 {
     namespace Core
@@ -168,17 +170,28 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<size_t> > observeAudioQueueMax() const;
             std::shared_ptr<Core::IValueSubject<size_t> > observeVideoQueueCount() const;
             std::shared_ptr<Core::IValueSubject<size_t> > observeAudioQueueCount() const;
-            std::shared_ptr<Core::IValueSubject<size_t> > observeALQueueCount() const;
 
             ///@}
 
         private:
+            bool _hasAudio() const;
             void _open();
             void _seek(Core::Frame::Number);
             void _playbackUpdate();
             void _playbackTick();
-            void _frameUpdate();
+            void _queueUpdate();
             void _volumeUpdate();
+
+            static int _rtAudioCallback(
+                void* outputBuffer,
+                void* inputBuffer,
+                unsigned int nFrames,
+                double streamTime,
+                RtAudioStreamStatus status,
+                void* userData);
+            static void _rtAudioErrorCallback(
+                RtAudioError::Type type,
+                const std::string& errorText);
 
             DJV_PRIVATE();
         };

@@ -168,7 +168,7 @@ namespace djv
                         {
                             std::unique_lock<std::mutex> lock((*i)->getMutex());
                             auto& queue = (*i)->getVideoQueue();
-                            if (queue.hasFrames())
+                            if (!queue.isEmpty())
                             {
                                 erase = true;
                                 p.icons.push_back(queue.popFrame().image);

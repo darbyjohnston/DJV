@@ -218,7 +218,7 @@ void Application::_init(int argc, char ** argv)
                 {
                     std::lock_guard<std::mutex> lock(read->getMutex());
                     auto& queue = read->getVideoQueue();
-                    if (queue.hasFrames())
+                    if (!queue.isEmpty())
                     {
                         _images.push_back(queue.getFrame().image);
                         break;

@@ -128,7 +128,8 @@ if(DJV_THIRD_PARTY)
     set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/install)
 
     set(ZLIB_SHARED_LIBS ${BUILD_SHARED_LIBS})
-    set(OPENAL_SHARED_LIBS ON)
+    #set(OPENAL_SHARED_LIBS ON)
+    set(RtAudio_SHARED_LIBS ${BUILD_SHARED_LIBS})
     set(JPEG_SHARED_LIBS ${BUILD_SHARED_LIBS})
     set(TIFF_SHARED_LIBS ${BUILD_SHARED_LIBS})
     set(PNG_SHARED_LIBS ${BUILD_SHARED_LIBS})
@@ -139,7 +140,8 @@ if(DJV_THIRD_PARTY)
     set(FFmpeg_SHARED_LIBS ON)
 else()
     set(ZLIB_SHARED_LIBS ON)
-    set(OPENAL_SHARED_LIBS ON)
+    #set(OPENAL_SHARED_LIBS ON)
+    set(RtAudio_SHARED_LIBS ON)
     set(JPEG_SHARED_LIBS ON)
     set(TIFF_SHARED_LIBS ON)
     set(PNG_SHARED_LIBS ON)
@@ -164,7 +166,8 @@ set(DJV_THIRD_PARTY_PACKAGES_REQUIRED
     GLM
     GLFW
     PicoJSON
-    OpenAL
+    #OpenAL
+    RtAudio
     IlmBase
     OCIO
 	OTIO
@@ -176,7 +179,7 @@ set(DJV_THIRD_PARTY_PACKAGES_OPTIONAL
     OpenEXR)
 if(WIN32)
     # See the directions for building FFmpeg on Windows in "doc/BuildWindows.html".
-	#find_package(FFmpeg)
+	find_package(FFmpeg)
 else()
     set(DJV_THIRD_PARTY_PACKAGES_OPTIONAL
         ${DJV_THIRD_PARTY_PACKAGES_OPTIONAL}

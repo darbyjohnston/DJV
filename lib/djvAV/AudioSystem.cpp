@@ -34,6 +34,8 @@
 #include <djvCore/Error.h>
 #include <djvCore/OS.h>
 
+#include <RtAudio.h>
+
 using namespace djv::Core;
 
 namespace djv
@@ -42,82 +44,118 @@ namespace djv
     {
         namespace Audio
         {
-            namespace
-            {
-                std::vector<std::string> split(const ALCchar * value)
-                {
-                    std::vector<std::string> out;
-                    for (const ALCchar * p = value, *p2 = value; p2; ++p2)
-                    {
-                        if (!*p2)
-                        {
-                            if (p2 > value && !*(p2 - 1))
-                            {
-                                break;
-                            }
-                            out.push_back(std::string(p, p2 - p));
-                            p = p2;
-                        }
-                    }
-                    return out;
-                }
-
-            } // namespace
-
             struct System::Private
             {
-                ALCdevice * alDevice = nullptr;
-                ALCcontext * alContext = nullptr;
+                std::unique_ptr<RtAudio> rtAudio;
             };
 
             void System::_init(Core::Context * context)
             {
                 ISystem::_init("djv::AV::Audio::System", context);
+                DJV_PRIVATE_PTR();
 
                 addDependency(context->getSystemT<CoreSystem>());
 
-                const ALCchar* devices = NULL;
-                ALenum alEnum = alcIsExtensionPresent(NULL, "ALC_ENUMERATION_EXT");
-                if (AL_TRUE == alEnum)
                 {
-                    devices = alcGetString(NULL, ALC_DEVICE_SPECIFIER);
-                    for (const auto& i : split(devices))
+                    std::stringstream ss;
+                    ss << "RtAudio version: " << RtAudio::getVersion();
+                    _log(ss.str());
+                }
+                std::vector<RtAudio::Api> rtAudioApis;
+                RtAudio::getCompiledApi(rtAudioApis);
+                for (auto i : rtAudioApis)
+                {
+                    std::stringstream ss;
+                    ss << "RtAudio API: " << RtAudio::getApiDisplayName(i);
+                    _log(ss.str());
+                }
+
+                try
+                {
+                    p.rtAudio.reset(new RtAudio);
+                    const unsigned int deviceCount = p.rtAudio->getDeviceCount();
                     {
                         std::stringstream ss;
-                        ss << "Found device: " << i;
+                        ss << "Device count: " << deviceCount;
                         _log(ss.str());
                     }
+                    for (unsigned int i = 0; i < deviceCount; ++i)
+                    {
+                        const RtAudio::DeviceInfo info = p.rtAudio->getDeviceInfo(i);
+                        if (info.probed)
+                        {
+                            {
+                                std::stringstream ss;
+                                ss << "Device " << i << " name: " << info.name;
+                                _log(ss.str());
+                            }
+                            {
+                                std::stringstream ss;
+                                ss << "Device " << i << " output channels: " << info.outputChannels;
+                                _log(ss.str());
+                            }
+                            {
+                                std::stringstream ss;
+                                ss << "Device " << i << " inuput channels: " << info.inputChannels;
+                                _log(ss.str());
+                            }
+                            {
+                                std::stringstream ss;
+                                ss << "Device " << i << " duplex channels: " << info.duplexChannels;
+                                _log(ss.str());
+                            }
+                            {
+                                std::stringstream ss;
+                                ss << "Device " << i << " sample rates: ";
+                                for (auto j : info.sampleRates)
+                                {
+                                    ss << j << " ";
+                                }
+                                _log(ss.str());
+                            }
+                            {
+                                std::stringstream ss;
+                                ss << "Device " << i << " preferred sample rate: " << info.preferredSampleRate;
+                                _log(ss.str());
+                            }
+                            {
+                                std::stringstream ss;
+                                ss << "Device " << i << " SINT8: " << static_cast<bool>(info.nativeFormats & RTAUDIO_SINT8);
+                                _log(ss.str());
+                            }
+                            {
+                                std::stringstream ss;
+                                ss << "Device " << i << " SINT16: " << static_cast<bool>(info.nativeFormats & RTAUDIO_SINT16);
+                                _log(ss.str());
+                            }
+                            {
+                                std::stringstream ss;
+                                ss << "Device " << i << " SINT24: " << static_cast<bool>(info.nativeFormats & RTAUDIO_SINT24);
+                                _log(ss.str());
+                            }
+                            {
+                                std::stringstream ss;
+                                ss << "Device " << i << " SINT32: " << static_cast<bool>(info.nativeFormats & RTAUDIO_SINT32);
+                                _log(ss.str());
+                            }
+                            {
+                                std::stringstream ss;
+                                ss << "Device " << i << " FLOAT32: " << static_cast<bool>(info.nativeFormats & RTAUDIO_FLOAT32);
+                                _log(ss.str());
+                            }
+                            {
+                                std::stringstream ss;
+                                ss << "Device " << i << " FLOAT64: " << static_cast<bool>(info.nativeFormats & RTAUDIO_FLOAT64);
+                                _log(ss.str());
+                            }
+                        }
+                    }
                 }
-
-                DJV_PRIVATE_PTR();
-                p.alDevice = alcOpenDevice(devices);
-                if (!p.alDevice)
-                {
-                    _log("The OpenAL device cannot be opened.", LogLevel::Error);
-                    return;
-                }
+                catch (const std::exception& e)
                 {
                     std::stringstream ss;
-                    ss << "Default device: " << alcGetString(p.alDevice, ALC_DEFAULT_DEVICE_SPECIFIER);
-                    _log(ss.str());
-                }
-                {
-                    std::stringstream ss;
-                    ss << "Extensions: " << alcGetString(p.alDevice, ALC_EXTENSIONS);
-                    _log(ss.str());
-                }
-
-                p.alContext = alcCreateContext(p.alDevice, NULL);
-                if (!p.alContext)
-                {
-                    _log("The OpenAL context cannot be created.", LogLevel::Error);
-                    return;
-                }
-                ALCboolean r = alcMakeContextCurrent(p.alContext);
-                if (AL_FALSE == r)
-                {
-                    _log("The OpenAL context cannot be made current.", LogLevel::Error);
-                    return;
+                    ss << DJV_TEXT("RtAudio cannot be initialized") << ". " << e.what();
+                    _log(ss.str(), LogLevel::Error);
                 }
             }
 
@@ -126,36 +164,13 @@ namespace djv
             {}
 
             System::~System()
-            {
-                alcMakeContextCurrent(NULL);
-                DJV_PRIVATE_PTR();
-                if (p.alContext)
-                {
-                    alcDestroyContext(p.alContext);
-                    p.alContext = nullptr;
-                }
-                if (p.alDevice)
-                {
-                    alcCloseDevice(p.alDevice);
-                    p.alDevice = nullptr;
-                }
-            }
+            {}
 
             std::shared_ptr<System> System::create(Core::Context * context)
             {
                 auto out = std::shared_ptr<System>(new System);
                 out->_init(context);
                 return out;
-            }
-
-            ALCdevice * System::getALDevice() const
-            {
-                return _p->alDevice;
-            }
-
-            ALCcontext * System::getALContext() const
-            {
-                return _p->alContext;
             }
 
         } // namespace Audio

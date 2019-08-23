@@ -145,7 +145,7 @@ namespace djv
 
             void VideoQueue::addFrame(const VideoFrame& value)
             {
-                _queue.push_back(value);
+                _queue.push(value);
             }
 
             VideoFrame VideoQueue::popFrame()
@@ -154,14 +154,17 @@ namespace djv
                 if (_queue.size())
                 {
                     out = _queue.front();
-                    _queue.pop_front();
+                    _queue.pop();
                 }
                 return out;
             }
 
             void VideoQueue::clearFrames()
             {
-                _queue.clear();
+                while (_queue.size())
+                {
+                    _queue.pop();
+                }
             }
 
             void VideoQueue::setFinished(bool value)
@@ -186,7 +189,7 @@ namespace djv
 
             void AudioQueue::addFrame(const AudioFrame& value)
             {
-                _queue.push_back(value);
+                _queue.push(value);
             }
 
             AudioFrame AudioQueue::popFrame()
@@ -195,14 +198,17 @@ namespace djv
                 if (_queue.size())
                 {
                     out = _queue.front();
-                    _queue.pop_front();
+                    _queue.pop();
                 }
                 return out;
             }
 
             void AudioQueue::clearFrames()
             {
-                _queue.clear();
+                while (_queue.size())
+                {
+                    _queue.pop();
+                }
             }
 
             void AudioQueue::setFinished(bool value)

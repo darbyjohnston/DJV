@@ -62,7 +62,7 @@ namespace djv
                     std::promise<Info> infoPromise;
                     std::condition_variable queueCV;
                     int64_t seek = Frame::invalid;
-                    Playback playback = Playback::Forward;
+                    Direction direction = Direction::Forward;
                     std::thread thread;
                     std::atomic<bool> running;
 
@@ -380,8 +380,8 @@ namespace djv
                                         //[this, sequenceSize, cacheEnabled, &cachedFrames]
                                     {
                                         DJV_PRIVATE_PTR();
-                                        const bool video = p.avVideoStream != -1 && (_videoQueue.isFinished() ? false : (_videoQueue.getFrameCount() < _videoQueue.getMax()));
-                                        const bool audio = p.avAudioStream != -1 && (_audioQueue.isFinished() ? false : (_audioQueue.getFrameCount() < _audioQueue.getMax()));
+                                        const bool video = p.avVideoStream != -1 && (_videoQueue.isFinished() ? false : (_videoQueue.getCount() < _videoQueue.getMax()));
+                                        const bool audio = p.avAudioStream != -1 && (_audioQueue.isFinished() ? false : (_audioQueue.getCount() < _audioQueue.getMax()));
 
                                         /*bool cache = false;
                                         if (cacheEnabled && !_videoQueue.isFinished() && !_audioQueue.isFinished())
@@ -402,14 +402,14 @@ namespace djv
                                             }
                                         }*/
                                         
-                                        return video || audio || p.seek != Frame::invalid || p.playback != _playback;
-                                        //return video || audio || p.seek != Frame::invalid || p.playback != _playback || cache;
+                                        return video || audio || p.seek != Frame::invalid || p.direction != _direction;
+                                        //return video || audio || p.seek != Frame::invalid || p.direction != _direction || cache;
                                     }))
                                     {
                                         read = true;
-                                        if (p.playback != _playback)
+                                        if (p.direction != _direction)
                                         {
-                                            p.playback = _playback;
+                                            p.direction = _direction;
                                             _videoQueue.setFinished(false);
                                             _videoQueue.clearFrames();
                                             _audioQueue.setFinished(false);
@@ -644,7 +644,7 @@ namespace djv
                     return _p->infoPromise.get_future();
                 }
 
-                void Read::seek(Frame::Number value, Playback)
+                void Read::seek(Frame::Number value, Direction)
                 {
                     DJV_PRIVATE_PTR();
                     {
@@ -680,6 +680,7 @@ namespace djv
                             p.avFrame->pts,
                             p.avFormatContext->streams[p.avVideoStream]->time_base,
                             r);
+                        //std::cout << "decode video = " << frame << std::endl;
 
                         if (Frame::invalid == dv.seek || frame >= dv.seek)
                         {
@@ -752,11 +753,12 @@ namespace djv
                             p.avFrame->pts,
                             p.avFormatContext->streams[p.avAudioStream]->time_base,
                             r);
+                        //std::cout << "decode audio = " << frame << std::endl;
 
                         if (Frame::invalid == da.seek || frame >= da.seek)
                         {
                             const auto& info = p.audioInfo.info;
-                            auto audioData = Audio::Data::create(info, p.avFrame->nb_samples * info.channelCount);
+                            auto audioData = Audio::Data::create(info, p.avFrame->nb_samples);
                             switch (p.avCodecParameters[p.avAudioStream]->format)
                             {
                             case AV_SAMPLE_FMT_U8:
@@ -797,7 +799,7 @@ namespace djv
                             {
                                 Audio::DataInfo s32Info = info;
                                 s32Info.type = Audio::Type::S32;
-                                auto s32Data = Audio::Data::create(s32Info, p.avFrame->nb_samples * info.channelCount);
+                                auto s32Data = Audio::Data::create(s32Info, p.avFrame->nb_samples);
                                 if (p.avCodecParameters[p.avAudioStream]->channels == info.channelCount)
                                 {
                                     memcpy(s32Data->getData(), p.avFrame->data[0], s32Data->getByteCount());
@@ -865,7 +867,7 @@ namespace djv
                             {
                                 Audio::DataInfo s32Info = info;
                                 s32Info.type = Audio::Type::S32;
-                                auto s32Data = Audio::Data::create(s32Info, p.avFrame->nb_samples * info.channelCount);
+                                auto s32Data = Audio::Data::create(s32Info, p.avFrame->nb_samples);
                                 const size_t channelCount = info.channelCount;
                                 const int32_t** c = new const int32_t * [channelCount];
                                 for (size_t i = 0; i < channelCount; ++i)

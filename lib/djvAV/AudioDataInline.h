@@ -84,7 +84,7 @@ namespace djv
 
             inline size_t Data::getByteCount() const
             {
-                return _sampleCount * Audio::getByteCount(_info.type);
+                return _sampleCount * _info.channelCount * Audio::getByteCount(_info.type);
             }
 
             inline uint8_t * Data::getData()
@@ -112,7 +112,7 @@ namespace djv
             {
                 const T* inP = value;
                 T* outP = out;
-                T* const endP = outP + sampleCount;
+                T* const endP = outP + sampleCount * outChannelCount;
                 switch (outChannelCount)
                 {
                 case 1:
@@ -143,18 +143,17 @@ namespace djv
             template<typename T>
             inline void Data::planarInterleave(const T** value, T* out, size_t sampleCount, uint8_t channelCount)
             {
-                const size_t planeSize = sampleCount / channelCount;
                 switch (channelCount)
                 {
                 case 1:
-                    memcpy(out, value[0], sampleCount * sizeof(T));
+                    memcpy(out, value[0], sampleCount * channelCount * sizeof(T));
                     break;
                 case 2:
                 {
                     const T* inP0 = value[0];
                     const T* inP1 = value[1];
                     T* outP = out;
-                    T* const endP = out + sampleCount;
+                    T* const endP = out + sampleCount * channelCount;
                     for (; outP < endP; outP += 2, ++inP0, ++inP1)
                     {
                         outP[0] = inP0[0];
@@ -166,7 +165,7 @@ namespace djv
                     for (uint8_t c = 0; c < channelCount; ++c)
                     {
                         const T* inP = value[c];
-                        const T* endP = inP + planeSize;
+                        const T* endP = inP + sampleCount;
                         T* outP = out + c;
                         for (; inP < endP; ++inP, outP += channelCount)
                         {
