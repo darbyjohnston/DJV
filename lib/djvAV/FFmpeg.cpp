@@ -52,14 +52,14 @@ namespace djv
                     Audio::Type out = Audio::Type::None;
                     switch (value)
                     {
-                    case AV_SAMPLE_FMT_U8:   out = Audio::Type::U8;  break;
                     case AV_SAMPLE_FMT_S16:  out = Audio::Type::S16; break;
                     case AV_SAMPLE_FMT_S32:  out = Audio::Type::S32; break;
                     case AV_SAMPLE_FMT_FLT:  out = Audio::Type::F32; break;
-                    case AV_SAMPLE_FMT_U8P:  out = Audio::Type::U8;  break;
+                    case AV_SAMPLE_FMT_DBL:  out = Audio::Type::F64; break;
                     case AV_SAMPLE_FMT_S16P: out = Audio::Type::S16; break;
                     case AV_SAMPLE_FMT_S32P: out = Audio::Type::S32; break;
                     case AV_SAMPLE_FMT_FLTP: out = Audio::Type::F32; break;
+                    case AV_SAMPLE_FMT_DBLP: out = Audio::Type::F64; break;
                     default: break;
                     }
                     return out;
@@ -70,12 +70,10 @@ namespace djv
                     std::map<AVSampleFormat, std::string> data =
                     {
                         { AV_SAMPLE_FMT_NONE, DJV_TEXT("None") },
-                        { AV_SAMPLE_FMT_U8, DJV_TEXT("U8") },
                         { AV_SAMPLE_FMT_S16, DJV_TEXT("S16") },
                         { AV_SAMPLE_FMT_S32, DJV_TEXT("S32") },
                         { AV_SAMPLE_FMT_FLT, DJV_TEXT("Float") },
                         { AV_SAMPLE_FMT_DBL, DJV_TEXT("Double") },
-                        { AV_SAMPLE_FMT_U8P, DJV_TEXT("U8 Planar") },
                         { AV_SAMPLE_FMT_S16P, DJV_TEXT("S16 Planar") },
                         { AV_SAMPLE_FMT_S32P, DJV_TEXT("S32 Planar") },
                         { AV_SAMPLE_FMT_FLTP, DJV_TEXT("Float Planar") },

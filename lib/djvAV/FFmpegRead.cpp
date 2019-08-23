@@ -320,11 +320,6 @@ namespace djv
                                 case 8: break;
                                 default: channelCount = 2; break;
                                 }
-                                switch (audioType)
-                                {
-                                case Audio::Type::S32: audioType = Audio::Type::F32; break;
-                                default: break;
-                                }
                                 p.audioInfo = AudioInfo(
                                     Audio::DataInfo(
                                         channelCount,
@@ -762,23 +757,6 @@ namespace djv
                             auto audioData = Audio::Data::create(info);
                             switch (p.avCodecParameters[p.avAudioStream]->format)
                             {
-                            case AV_SAMPLE_FMT_U8:
-                            {
-                                if (p.avCodecParameters[p.avAudioStream]->channels == info.channelCount)
-                                {
-                                    memcpy(audioData->getData(), p.avFrame->data[0], audioData->getByteCount());
-                                }
-                                else
-                                {
-                                    Audio::Data::extract(
-                                        reinterpret_cast<uint8_t*>(p.avFrame->data[0]),
-                                        reinterpret_cast<uint8_t*>(audioData->getData()),
-                                        audioData->getSampleCount(),
-                                        p.avCodecParameters[p.avAudioStream]->channels,
-                                        info.channelCount);
-                                }
-                                break;
-                            }
                             case AV_SAMPLE_FMT_S16:
                             {
                                 if (p.avCodecParameters[p.avAudioStream]->channels == info.channelCount)
@@ -798,24 +776,19 @@ namespace djv
                             }
                             case AV_SAMPLE_FMT_S32:
                             {
-                                Audio::DataInfo s32Info = info;
-                                s32Info.type = Audio::Type::S32;
-                                s32Info.sampleCount = p.avFrame->nb_samples;
-                                auto s32Data = Audio::Data::create(s32Info);
                                 if (p.avCodecParameters[p.avAudioStream]->channels == info.channelCount)
                                 {
-                                    memcpy(s32Data->getData(), p.avFrame->data[0], s32Data->getByteCount());
+                                    memcpy(audioData->getData(), p.avFrame->data[0], audioData->getByteCount());
                                 }
                                 else
                                 {
                                     Audio::Data::extract(
                                         reinterpret_cast<int32_t*>(p.avFrame->data[0]),
-                                        reinterpret_cast<int32_t*>(s32Data->getData()),
-                                        s32Data->getSampleCount(),
+                                        reinterpret_cast<int32_t*>(audioData->getData()),
+                                        audioData->getSampleCount(),
                                         p.avCodecParameters[p.avAudioStream]->channels,
                                         info.channelCount);
                                 }
-                                audioData = Audio::Data::convert(s32Data, Audio::Type::F32);
                                 break;
                             }
                             case AV_SAMPLE_FMT_FLT:
@@ -835,19 +808,21 @@ namespace djv
                                 }
                                 break;
                             }
-                            case AV_SAMPLE_FMT_U8P:
+                            case AV_SAMPLE_FMT_DBL:
                             {
-                                const size_t channelCount = info.channelCount;
-                                const uint8_t** c = new const uint8_t * [channelCount];
-                                for (size_t i = 0; i < channelCount; ++i)
+                                if (p.avCodecParameters[p.avAudioStream]->channels == info.channelCount)
                                 {
-                                    c[i] = reinterpret_cast<uint8_t*>(p.avFrame->data[i]);
+                                    memcpy(audioData->getData(), p.avFrame->data[0], audioData->getByteCount());
                                 }
-                                Audio::Data::planarInterleave(
-                                    c,
-                                    reinterpret_cast<uint8_t*>(audioData->getData()),
-                                    audioData->getSampleCount(),
-                                    channelCount);
+                                else
+                                {
+                                    Audio::Data::extract(
+                                        reinterpret_cast<double*>(p.avFrame->data[0]),
+                                        reinterpret_cast<double*>(audioData->getData()),
+                                        audioData->getSampleCount(),
+                                        p.avCodecParameters[p.avAudioStream]->channels,
+                                        info.channelCount);
+                                }
                                 break;
                             }
                             case AV_SAMPLE_FMT_S16P:
@@ -863,14 +838,11 @@ namespace djv
                                     reinterpret_cast<int16_t*>(audioData->getData()),
                                     audioData->getSampleCount(),
                                     channelCount);
+                                delete [] c;
                                 break;
                             }
                             case AV_SAMPLE_FMT_S32P:
                             {
-                                Audio::DataInfo s32Info = info;
-                                s32Info.type = Audio::Type::S32;
-                                s32Info.sampleCount = p.avFrame->nb_samples;
-                                auto s32Data = Audio::Data::create(s32Info);
                                 const size_t channelCount = info.channelCount;
                                 const int32_t** c = new const int32_t * [channelCount];
                                 for (size_t i = 0; i < channelCount; ++i)
@@ -879,10 +851,10 @@ namespace djv
                                 }
                                 Audio::Data::planarInterleave(
                                     c,
-                                    reinterpret_cast<int32_t*>(s32Data->getData()),
-                                    s32Data->getSampleCount(),
+                                    reinterpret_cast<int32_t*>(audioData->getData()),
+                                    audioData->getSampleCount(),
                                     channelCount);
-                                audioData = Audio::Data::convert(s32Data, Audio::Type::F32);
+                                delete [] c;
                                 break;
                             }
                             case AV_SAMPLE_FMT_FLTP:
@@ -898,6 +870,23 @@ namespace djv
                                     reinterpret_cast<float*>(audioData->getData()),
                                     audioData->getSampleCount(),
                                     channelCount);
+                                delete [] c;
+                                break;
+                            }
+                            case AV_SAMPLE_FMT_DBLP:
+                            {
+                                const size_t channelCount = info.channelCount;
+                                const double** c = new const double* [channelCount];
+                                for (size_t i = 0; i < channelCount; ++i)
+                                {
+                                    c[i] = reinterpret_cast<double*>(p.avFrame->data[i]);
+                                }
+                                Audio::Data::planarInterleave(
+                                    c,
+                                    reinterpret_cast<double*>(audioData->getData()),
+                                    audioData->getSampleCount(),
+                                    channelCount);
+                                delete [] c;
                                 break;
                             }
                             default: break;

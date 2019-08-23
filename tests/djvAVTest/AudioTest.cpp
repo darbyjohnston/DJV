@@ -54,35 +54,48 @@ namespace djv
         {
             {
                 std::stringstream ss;
-                ss << "U8 " << static_cast<int64_t>(AV::Audio::U8Min) << " " << static_cast<int64_t>(AV::Audio::U8Max) << " =";
+                ss << "S8 " << static_cast<int64_t>(AV::Audio::S8Min) << " " << static_cast<int64_t>(AV::Audio::S8Max) << " =";
                 _print(ss.str());
-                CONVERT(U8, AV::Audio::U8Min, AV::Audio::U8Max, S16);
-                CONVERT(U8, AV::Audio::U8Min, AV::Audio::U8Max, S32);
-                CONVERT(U8, AV::Audio::U8Min, AV::Audio::U8Max, F32);
+                CONVERT(S8, AV::Audio::S8Min, AV::Audio::S8Max, S16);
+                CONVERT(S8, AV::Audio::S8Min, AV::Audio::S8Max, S32);
+                CONVERT(S8, AV::Audio::S8Min, AV::Audio::S8Max, F32);
+                CONVERT(S8, AV::Audio::S8Min, AV::Audio::S8Max, F64);
             }
             {
                 std::stringstream ss;
                 ss << "S16 " << static_cast<int64_t>(AV::Audio::S16Min) << " " << static_cast<int64_t>(AV::Audio::S16Max) << " =";
                 _print(ss.str());
-                CONVERT(S16, AV::Audio::S16Min, AV::Audio::S16Max, U8);
+                CONVERT(S16, AV::Audio::S16Min, AV::Audio::S16Max, S8);
                 CONVERT(S16, AV::Audio::S16Min, AV::Audio::S16Max, S32);
                 CONVERT(S16, AV::Audio::S16Min, AV::Audio::S16Max, F32);
+                CONVERT(S16, AV::Audio::S16Min, AV::Audio::S16Max, F64);
             }
             {
                 std::stringstream ss;
                 ss << "S32 " << static_cast<int64_t>(AV::Audio::S32Min) << " " << static_cast<int64_t>(AV::Audio::S32Max) << " =";
                 _print(ss.str());
-                CONVERT(S32, AV::Audio::S32Min, AV::Audio::S32Max, U8);
+                CONVERT(S32, AV::Audio::S32Min, AV::Audio::S32Max, S8);
                 CONVERT(S32, AV::Audio::S32Min, AV::Audio::S32Max, S16);
                 CONVERT(S32, AV::Audio::S32Min, AV::Audio::S32Max, F32);
+                CONVERT(S32, AV::Audio::S32Min, AV::Audio::S32Max, F64);
             }
             {
                 std::stringstream ss;
                 ss << "F32 " << static_cast<int64_t>(AV::Audio::F32Min) << " " << static_cast<int64_t>(AV::Audio::F32Max) << " =";
                 _print(ss.str());
-                CONVERT(F32, AV::Audio::F32Min, AV::Audio::F32Max, U8);
+                CONVERT(F32, AV::Audio::F32Min, AV::Audio::F32Max, S8);
                 CONVERT(F32, AV::Audio::F32Min, AV::Audio::F32Max, S16);
                 CONVERT(F32, AV::Audio::F32Min, AV::Audio::F32Max, S32);
+                CONVERT(F32, AV::Audio::F32Min, AV::Audio::F32Max, F64);
+            }
+            {
+                std::stringstream ss;
+                ss << "F64 " << static_cast<int64_t>(AV::Audio::F64Min) << " " << static_cast<int64_t>(AV::Audio::F64Max) << " =";
+                _print(ss.str());
+                CONVERT(F64, AV::Audio::F64Min, AV::Audio::F64Max, S8);
+                CONVERT(F64, AV::Audio::F64Min, AV::Audio::F64Max, S16);
+                CONVERT(F64, AV::Audio::F64Min, AV::Audio::F64Max, S32);
+                CONVERT(F64, AV::Audio::F64Min, AV::Audio::F64Max, F32);
             }
         }
         

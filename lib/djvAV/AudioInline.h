@@ -43,17 +43,17 @@ namespace djv
 
             inline Type getIntType(uint8_t value)
             {
-                const Type data[] = { Type::None, Type::U8, Type::S16, Type::S32, Type::None };
+                const Type data[] = { Type::None, Type::S8, Type::S16, Type::S32, Type::None };
                 return value < sizeof(data) / sizeof(data[0]) ? data[value] : Type::None;
             }
 
             inline Type getFloatType(uint8_t value)
             {
-                const Type data[] = { Type::None, Type::None, Type::None, Type::None, Type::F32 };
+                const Type data[] = { Type::None, Type::None, Type::None, Type::None, Type::F32, Type::F64 };
                 return value < sizeof(data) / sizeof(data[0]) ? data[value] : Type::None;
             }
 
-            inline ALenum getALType(uint8_t channels, Type type)
+            /*inline ALenum getALType(uint8_t channels, Type type)
             {
                 ALenum out = AL_NONE;
                 switch (channels)
@@ -105,26 +105,44 @@ namespace djv
                     break;
                 }
                 return out;
+            }*/
+
+            inline RtAudioFormat toRtAudio(Type value)
+            {
+                RtAudioFormat out = 0;
+                switch (value)
+                {
+                case AV::Audio::Type::S16: out = RTAUDIO_SINT16; break;
+                case AV::Audio::Type::S32: out = RTAUDIO_SINT32; break;
+                case AV::Audio::Type::F32: out = RTAUDIO_FLOAT32; break;
+                case AV::Audio::Type::F64: out = RTAUDIO_FLOAT64; break;
+                }
+                return out;
             }
 
-            inline void U8ToS16(U8_T value, S16_T & out)
+            inline void S8ToS16(S8_T value, S16_T & out)
             {
-                out = (value << 8) - S16Min;
+                out = value << 8;
             }
 
-            inline void U8ToS32(U8_T value, S32_T& out)
+            inline void S8ToS32(S8_T value, S32_T& out)
             {
-                out = (value << 24) - S32Min;
+                out = value << 24;
             }
 
-            inline void U8ToF32(U8_T value, F32_T & out)
+            inline void S8ToF32(S8_T value, F32_T & out)
             {
-                out = value / static_cast<float>(U8Max) * 2.f - 1.f;
+                out = value / static_cast<float>(S8Max);
             }
 
-            inline void S16ToU8(S16_T value, U8_T & out)
+            inline void S8ToF64(S8_T value, F64_T & out)
             {
-                out = (value - S16Min) >> 8;
+                out = value / static_cast<double>(S8Max);
+            }
+
+            inline void S16ToS8(S16_T value, S8_T & out)
+            {
+                out = value >> 8;
             }
 
             inline void S16ToS32(S16_T value, S32_T& out)
@@ -137,9 +155,14 @@ namespace djv
                 out = value / static_cast<float>(S16Max);
             }
 
-            inline void S32ToU8(S32_T value, U8_T& out)
+            inline void S16ToF64(S16_T value, F64_T & out)
             {
-                out = (value - S32Min) >> 24;
+                out = value / static_cast<double>(S16Max);
+            }
+
+            inline void S32ToS8(S32_T value, S8_T& out)
+            {
+                out = value >> 24;
             }
 
             inline void S32ToS16(S32_T value, S16_T& out)
@@ -152,12 +175,17 @@ namespace djv
                 out = value / static_cast<float>(S32Max);
             }
 
-            inline void F32ToU8(F32_T value, U8_T & out)
+            inline void S32ToF64(S32_T value, F64_T& out)
             {
-                out = static_cast<U8_T>(Core::Math::clamp(
-                    static_cast<int16_t>((value * .5f + .5f) * U8Max),
-                    static_cast<int16_t>(U8Min),
-                    static_cast<int16_t>(U8Max)));
+                out = value / static_cast<double>(S32Max);
+            }
+
+            inline void F32ToS8(F32_T value, S8_T & out)
+            {
+                out = static_cast<S8_T>(Core::Math::clamp(
+                    static_cast<int16_t>(value * S8Max),
+                    static_cast<int16_t>(S8Min),
+                    static_cast<int16_t>(S8Max)));
             }
 
             inline void F32ToS16(F32_T value, S16_T & out)
@@ -174,6 +202,40 @@ namespace djv
                     static_cast<int64_t>(static_cast<int64_t>(value) * S32Max),
                     static_cast<int64_t>(S32Min),
                     static_cast<int64_t>(S32Max)));
+            }
+
+            inline void F32ToF64(F32_T value, F64_T& out)
+            {
+                out = static_cast<double>(value);
+            }
+
+            inline void F64ToS8(F64_T value, S8_T & out)
+            {
+                out = static_cast<S8_T>(Core::Math::clamp(
+                    static_cast<int16_t>(value * S8Max),
+                    static_cast<int16_t>(S8Min),
+                    static_cast<int16_t>(S8Max)));
+            }
+
+            inline void F64ToS16(F64_T value, S16_T & out)
+            {
+                out = static_cast<S16_T>(Core::Math::clamp(
+                    static_cast<int32_t>(value * S16Max),
+                    static_cast<int32_t>(S16Min),
+                    static_cast<int32_t>(S16Max)));
+            }
+
+            inline void F64ToS32(F64_T value, S32_T& out)
+            {
+                out = static_cast<S32_T>(Core::Math::clamp(
+                    static_cast<int64_t>(static_cast<int64_t>(value) * S32Max),
+                    static_cast<int64_t>(S32Min),
+                    static_cast<int64_t>(S32Max)));
+            }
+
+            inline void F64ToF32(F64_T value, F32_T& out)
+            {
+                out = static_cast<float>(value);
             }
 
         } // namespace Audio

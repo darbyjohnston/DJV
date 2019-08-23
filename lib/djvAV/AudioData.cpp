@@ -76,52 +76,70 @@ namespace djv
 
             std::shared_ptr<Data> Data::convert(const std::shared_ptr<Data> & data, Type type)
             {
+                const Type dataType = data->getType();
                 const size_t sampleCount = data->getSampleCount();
                 const size_t channelCount = static_cast<size_t>(data->getChannelCount());
                 auto out = Data::create(DataInfo(channelCount, type, data->getSampleRate(), sampleCount));
-                switch (data->getType())
+                if (dataType == type)
                 {
-                case Type::U8:
-                    switch (type)
+                    memcpy(out->getData(), data->getData(), sampleCount * channelCount * Audio::getByteCount(type));
+                }
+                else
+                {
+                    switch (dataType)
                     {
-                    case Type::U8:  memcpy(out->getData(), data->getData(), sampleCount * channelCount * Audio::getByteCount(type)); break;
-                    case Type::S16: _CONVERT(U8, S16); break;
-                    case Type::S32: _CONVERT(U8, S32); break;
-                    case Type::F32: _CONVERT(U8, F32); break;
-                    default: break;
+                        case Type::S8:
+                            switch (type)
+                            {
+                            case Type::S16: _CONVERT(S8, S16); break;
+                            case Type::S32: _CONVERT(S8, S32); break;
+                            case Type::F32: _CONVERT(S8, F32); break;
+                            case Type::F64: _CONVERT(S8, F64); break;
+                            default: break;
+                            }
+                            break;
+                        case Type::S16:
+                            switch (type)
+                            {
+                            case Type::S8:  _CONVERT(S16, S8);  break;
+                            case Type::S32: _CONVERT(S16, S32); break;
+                            case Type::F32: _CONVERT(S16, F32); break;
+                            case Type::F64: _CONVERT(S16, F64); break;
+                            default: break;
+                            }
+                            break;
+                        case Type::S32:
+                            switch (type)
+                            {
+                            case Type::S8:  _CONVERT(S32, S8);  break;
+                            case Type::S16: _CONVERT(S32, S16); break;
+                            case Type::F32: _CONVERT(S32, F32); break;
+                            case Type::F64: _CONVERT(S32, F64); break;
+                            default: break;
+                            }
+                            break;
+                        case Type::F32:
+                            switch (type)
+                            {
+                            case Type::S8:  _CONVERT(F32, S8);  break;
+                            case Type::S16: _CONVERT(F32, S16); break;
+                            case Type::S32: _CONVERT(F32, S32); break;
+                            case Type::F64: _CONVERT(F32, F64); break;
+                            default: break;
+                            }
+                            break;
+                        case Type::F64:
+                            switch (type)
+                            {
+                            case Type::S8:  _CONVERT(F64, S8);  break;
+                            case Type::S16: _CONVERT(F64, S16); break;
+                            case Type::S32: _CONVERT(F64, S32); break;
+                            case Type::F32: _CONVERT(F64, F32); break;
+                            default: break;
+                            }
+                            break;
+                        default: break;
                     }
-                    break;
-                case Type::S16:
-                    switch (type)
-                    {
-                    case Type::U8:  _CONVERT(S16, U8); break;
-                    case Type::S16: memcpy(out->getData(), data->getData(), data->getSampleCount() * channelCount * Audio::getByteCount(type)); break;
-                    case Type::S32: _CONVERT(S16, S32); break;
-                    case Type::F32: _CONVERT(S16, F32); break;
-                    default: break;
-                    }
-                    break;
-                case Type::S32:
-                    switch (type)
-                    {
-                    case Type::U8:  _CONVERT(S32, U8); break;
-                    case Type::S16: _CONVERT(S32, S16); break;
-                    case Type::S32: memcpy(out->getData(), data->getData(), data->getSampleCount() * channelCount * Audio::getByteCount(type)); break;
-                    case Type::F32: _CONVERT(S32, F32); break;
-                    default: break;
-                    }
-                    break;
-                case Type::F32:
-                    switch (type)
-                    {
-                    case Type::U8:  _CONVERT(F32, U8); break;
-                    case Type::S16: _CONVERT(F32, S16); break;
-                    case Type::S32: _CONVERT(F32, S32); break;
-                    case Type::F32: memcpy(out->getData(), data->getData(), data->getSampleCount() * channelCount * Audio::getByteCount(type)); break;
-                    default: break;
-                    }
-                    break;
-                default: break;
                 }
                 return out;
             }
@@ -152,8 +170,8 @@ namespace djv
                 const size_t sampleCount = data->getSampleCount();
                 switch (data->getType())
                 {
-                case Type::U8:
-                    _planarInterleave(reinterpret_cast<const U8_T *> (data->getData()), reinterpret_cast<U8_T *> (out->getData()), channelCount, sampleCount);
+                case Type::S8:
+                    _planarInterleave(reinterpret_cast<const S8_T *> (data->getData()), reinterpret_cast<S8_T *> (out->getData()), channelCount, sampleCount);
                     break;
                 case Type::S16:
                     _planarInterleave(reinterpret_cast<const S16_T *>(data->getData()), reinterpret_cast<S16_T *>(out->getData()), channelCount, sampleCount);
@@ -163,6 +181,9 @@ namespace djv
                     break;
                 case Type::F32:
                     _planarInterleave(reinterpret_cast<const F32_T *>(data->getData()), reinterpret_cast<F32_T *>(out->getData()), channelCount, sampleCount);
+                    break;
+                case Type::F64:
+                    _planarInterleave(reinterpret_cast<const F64_T *>(data->getData()), reinterpret_cast<F64_T *>(out->getData()), channelCount, sampleCount);
                     break;
                 default: break;
                 }
@@ -194,8 +215,8 @@ namespace djv
                 const size_t sampleCount = data->getSampleCount();
                 switch (data->getType())
                 {
-                case Type::U8:
-                    _planarDeinterleave(reinterpret_cast<const U8_T *> (data->getData()), reinterpret_cast<U8_T *> (out->getData()), channelCount, sampleCount);
+                case Type::S8:
+                    _planarDeinterleave(reinterpret_cast<const S8_T *> (data->getData()), reinterpret_cast<S8_T *> (out->getData()), channelCount, sampleCount);
                     break;
                 case Type::S16:
                     _planarDeinterleave(reinterpret_cast<const S16_T *>(data->getData()), reinterpret_cast<S16_T *>(out->getData()), channelCount, sampleCount);
@@ -205,6 +226,9 @@ namespace djv
                     break;
                 case Type::F32:
                     _planarDeinterleave(reinterpret_cast<const F32_T *>(data->getData()), reinterpret_cast<F32_T *>(out->getData()), channelCount, sampleCount);
+                    break;
+                case Type::F64:
+                    _planarDeinterleave(reinterpret_cast<const F64_T *>(data->getData()), reinterpret_cast<F64_T *>(out->getData()), channelCount, sampleCount);
                     break;
                 default: break;
                 }

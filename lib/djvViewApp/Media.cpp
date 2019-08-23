@@ -574,20 +574,13 @@ namespace djv
                     RtAudio::StreamParameters rtParameters;
                     rtParameters.deviceId = 0;
                     rtParameters.nChannels = p.audioInfo.info.channelCount;
-                    RtAudioFormat rtFormat = 0;
-                    switch (p.audioInfo.info.type)
-                    {
-                    case AV::Audio::Type::S16: rtFormat = RTAUDIO_SINT16; break;
-                    case AV::Audio::Type::S32: rtFormat = RTAUDIO_SINT32; break;
-                    case AV::Audio::Type::F32: rtFormat = RTAUDIO_FLOAT32; break;
-                    }
                     unsigned int rtBufferFrames = bufferFrameCount;
                     try
                     {
                         p.rtAudio->openStream(
                             &rtParameters,
                             nullptr,
-                            rtFormat,
+                            AV::Audio::toRtAudio(p.audioInfo.info.type),
                             p.audioInfo.info.sampleRate,
                             &rtBufferFrames,
                             _rtAudioCallback,
