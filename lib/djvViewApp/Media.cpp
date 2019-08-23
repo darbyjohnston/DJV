@@ -92,6 +92,7 @@ namespace djv
             std::shared_ptr<AV::Audio::Data> audioData;
             size_t audioDataOffset = 0;
             size_t audioDataTotal = 0;
+            std::chrono::system_clock::time_point audioDataTimeOffset;
             Frame::Number frameOffset = 0;
             std::chrono::system_clock::time_point startTime;
             std::chrono::system_clock::time_point realSpeedTime;
@@ -670,6 +671,7 @@ namespace djv
             p.audioData.reset();
             p.audioDataOffset = 0;
             p.audioDataTotal = 0;
+            p.audioDataTimeOffset = std::chrono::system_clock::now();
             p.frameOffset = p.currentFrame->get();
             p.startTime = std::chrono::system_clock::now();
             p.realSpeedTime = p.startTime;
@@ -725,7 +727,10 @@ namespace djv
                 p.audioData.reset();
                 p.audioDataOffset = 0;
                 p.audioDataTotal = 0;
+                p.audioDataTimeOffset = std::chrono::system_clock::now();
                 p.frameOffset = p.currentFrame->get();
+                p.startTime = std::chrono::system_clock::now();
+                p.realSpeedTime = p.startTime;
                 p.realSpeedFrameCount = 0;
                 if (p.rtAudio)
                 {
@@ -780,20 +785,21 @@ namespace djv
             case Playback::Forward: forward = true;
             case Playback::Reverse:
             {
-                p.startTime = std::chrono::system_clock::now();
-                p.realSpeedTime = p.startTime;
                 Frame::Number frame = Frame::invalid;
+                const auto& speed = p.speed->get();
+                const auto now = std::chrono::system_clock::now();
                 if (forward && _hasAudio())
                 {
-                    frame = p.frameOffset + Time::scale(
-                        p.audioDataTotal,
-                        Math::Rational(1, static_cast<int>(p.audioInfo.info.sampleRate)),
-                        p.speed->get().swap());
+                    std::chrono::duration<double> delta = now - _p->audioDataTimeOffset;
+                    frame = p.frameOffset +
+                        Time::scale(
+                            p.audioDataTotal,
+                            Math::Rational(1, static_cast<int>(p.audioInfo.info.sampleRate)),
+                            speed.swap()) +
+                        delta.count() * speed.toFloat();
                 }
                 else
                 {
-                    const auto& speed = p.speed->get();
-                    const auto now = std::chrono::system_clock::now();
                     std::chrono::duration<double> delta = now - p.startTime;
                     Frame::Number elapsed = static_cast<Frame::Number>(delta.count() * speed.toFloat());
                     switch (playback)
@@ -948,6 +954,7 @@ namespace djv
                 p += size * sampleByteCount;
                 media->_p->audioDataOffset += size;
                 media->_p->audioDataTotal += size;
+                media->_p->audioDataTimeOffset = std::chrono::system_clock::now();
                 outputSampleCount -= size;
                 if (media->_p->audioDataOffset >= media->_p->audioData->getSampleCount())
                 {
@@ -967,6 +974,7 @@ namespace djv
                 p += size * sampleByteCount;
                 media->_p->audioDataOffset = size;
                 media->_p->audioDataTotal += size;
+                media->_p->audioDataTimeOffset = std::chrono::system_clock::now();
                 outputSampleCount -= size;
             }
 
