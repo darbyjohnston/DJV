@@ -570,9 +570,12 @@ namespace djv
 
                 if (_hasAudio())
                 {
-                    p.rtAudio->closeStream();
+                    if (p.rtAudio->isStreamOpen())
+                    {
+                        p.rtAudio->closeStream();
+                    }
                     RtAudio::StreamParameters rtParameters;
-                    rtParameters.deviceId = 0;
+                    rtParameters.deviceId = p.rtAudio->getDefaultOutputDevice();
                     rtParameters.nChannels = p.audioInfo.info.channelCount;
                     unsigned int rtBufferFrames = bufferFrameCount;
                     try
