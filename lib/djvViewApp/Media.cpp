@@ -568,7 +568,7 @@ namespace djv
                 p.defaultSpeed->setIfChanged(speed);
                 p.sequence->setIfChanged(sequence);
 
-                if (p.rtAudio)
+                if (_hasAudio())
                 {
                     p.rtAudio->closeStream();
                     RtAudio::StreamParameters rtParameters;
@@ -676,7 +676,7 @@ namespace djv
             p.startTime = std::chrono::system_clock::now();
             p.realSpeedTime = p.startTime;
             p.realSpeedFrameCount = 0;
-            if (p.rtAudio)
+            if (_hasAudio() && p.rtAudio->isStreamRunning())
             {
                 try
                 {
@@ -700,7 +700,7 @@ namespace djv
             switch (p.playback->get())
             {
             case Playback::Stop:
-                if (p.rtAudio)
+                if (_hasAudio() && p.rtAudio->isStreamRunning())
                 {
                     try
                     {
@@ -732,7 +732,7 @@ namespace djv
                 p.startTime = std::chrono::system_clock::now();
                 p.realSpeedTime = p.startTime;
                 p.realSpeedFrameCount = 0;
-                if (p.rtAudio)
+                if (_hasAudio())
                 {
                     try
                     {
