@@ -66,8 +66,8 @@ namespace djv
             void _paintEvent(Core::Event::Paint &) override;
 
         private:
-            float _valueToPos(int) const;
-            int _posToValue(float) const;
+            float _valueToPos(int) const override;
+            int _posToValue(float) const override;
 
             DJV_PRIVATE();
         };

@@ -116,6 +116,7 @@ namespace djv
                 case AV::Audio::Type::S32: out = RTAUDIO_SINT32; break;
                 case AV::Audio::Type::F32: out = RTAUDIO_FLOAT32; break;
                 case AV::Audio::Type::F64: out = RTAUDIO_FLOAT64; break;
+                default: break;
                 }
                 return out;
             }
