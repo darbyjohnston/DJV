@@ -43,11 +43,11 @@ namespace djv
             DJV_NON_COPYABLE(NUXWidget);
 
         protected:
-            void _init(Core::Context*);
+            void _init(const std::shared_ptr<Core::Context>&);
             NUXWidget();
 
         public:
-            static std::shared_ptr<NUXWidget> create(Core::Context*);
+            static std::shared_ptr<NUXWidget> create(const std::shared_ptr<Core::Context>&);
 
             void setFinishCallback(const std::function<void(void)>&);
 
@@ -69,11 +69,11 @@ namespace djv
             DJV_NON_COPYABLE(NUXSystem);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             NUXSystem();
 
         public:
-            static std::shared_ptr<NUXSystem> create(Core::Context *);
+            static std::shared_ptr<NUXSystem> create(const std::shared_ptr<Core::Context>&);
 
             std::shared_ptr<NUXWidget> createNUXWidget();
 

@@ -100,14 +100,14 @@ namespace djv
             class Style : public std::enable_shared_from_this<Style>
             {
                 DJV_NON_COPYABLE(Style);
-                void _init(Core::Context *);
+                void _init(const std::shared_ptr<Core::Context>&);
                 Style();
 
             public:
                 virtual ~Style();
 
                 //! Create a new style.
-                static std::shared_ptr<Style> create(Core::Context *);
+                static std::shared_ptr<Style> create(const std::shared_ptr<Core::Context>&);
 
                 //! \name Color Palette
                 ///@{

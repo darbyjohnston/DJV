@@ -54,7 +54,7 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > observer;
         };
 
-        void SequenceSettingsWidget::_init(Context* context)
+        void SequenceSettingsWidget::_init(const std::shared_ptr<Context>& context)
         {
             ISettingsWidget::_init(context);
 
@@ -67,16 +67,20 @@ namespace djv
             p.formLayout->addChild(p.button);
             addChild(p.formLayout);
 
+            auto contextWeak = std::weak_ptr<Context>(context);
             auto weak = std::weak_ptr<SequenceSettingsWidget>(std::dynamic_pointer_cast<SequenceSettingsWidget>(shared_from_this()));
             p.button->setCheckedCallback(
-                [weak, context](bool value)
+                [weak, contextWeak](bool value)
             {
-                if (auto widget = weak.lock())
+                if (auto context = contextWeak.lock())
                 {
-                    auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                    if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
+                    if (auto widget = weak.lock())
                     {
-                        fileSettings->setAutoDetectSequences(value);
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
+                        {
+                            fileSettings->setAutoDetectSequences(value);
+                        }
                     }
                 }
             });
@@ -100,7 +104,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<SequenceSettingsWidget> SequenceSettingsWidget::create(Context* context)
+        std::shared_ptr<SequenceSettingsWidget> SequenceSettingsWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<SequenceSettingsWidget>(new SequenceSettingsWidget);
             out->_init(context);
@@ -132,7 +136,7 @@ namespace djv
         struct CacheSettingsWidget::Private
         {};
 
-        void CacheSettingsWidget::_init(Context* context)
+        void CacheSettingsWidget::_init(const std::shared_ptr<Context>& context)
         {
             ISettingsWidget::_init(context);
             DJV_PRIVATE_PTR();
@@ -145,7 +149,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<CacheSettingsWidget> CacheSettingsWidget::create(Context* context)
+        std::shared_ptr<CacheSettingsWidget> CacheSettingsWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<CacheSettingsWidget>(new CacheSettingsWidget);
             out->_init(context);

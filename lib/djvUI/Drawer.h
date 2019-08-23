@@ -45,13 +45,13 @@ namespace djv
                 DJV_NON_COPYABLE(Drawer);
 
             protected:
-                void _init(Side, Core::Context *);
+                void _init(Side, const std::shared_ptr<Core::Context>&);
                 Drawer();
 
             public:
                 virtual ~Drawer();
 
-                static std::shared_ptr<Drawer> create(Side, Core::Context *);
+                static std::shared_ptr<Drawer> create(Side, const std::shared_ptr<Core::Context>&);
 
                 Side getSide() const;
 

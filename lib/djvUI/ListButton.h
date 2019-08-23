@@ -19,15 +19,13 @@ namespace djv
                 DJV_NON_COPYABLE(List);
 
             protected:
-                void _init(Core::Context *);
+                void _init(const std::shared_ptr<Core::Context>&);
                 List();
 
             public:
                 virtual ~List();
 
-                static std::shared_ptr<List> create(Core::Context *);
-                static std::shared_ptr<List> create(const std::string &, Core::Context *);
-                static std::shared_ptr<List> create(const std::string &, const std::string & icon, Core::Context *);
+                static std::shared_ptr<List> create(const std::shared_ptr<Core::Context>&);
 
                 std::string getIcon() const;
                 void setIcon(const std::string &);

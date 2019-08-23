@@ -54,12 +54,12 @@ namespace djv
             DJV_NON_COPYABLE(ImageViewSettings);
 
         protected:
-            void _init(Core::Context * context);
+            void _init(const std::shared_ptr<Core::Context>& context);
 
             ImageViewSettings();
 
         public:
-            static std::shared_ptr<ImageViewSettings> create(Core::Context *);
+            static std::shared_ptr<ImageViewSettings> create(const std::shared_ptr<Core::Context>&);
 
             std::shared_ptr<Core::IValueSubject<ImageViewLock> > observeLock() const;
             void setLock(ImageViewLock);

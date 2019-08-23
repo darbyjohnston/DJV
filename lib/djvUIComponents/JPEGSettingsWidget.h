@@ -41,11 +41,11 @@ namespace djv
             DJV_NON_COPYABLE(JPEGSettingsWidget);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             JPEGSettingsWidget();
 
         public:
-            static std::shared_ptr<JPEGSettingsWidget> create(Core::Context *);
+            static std::shared_ptr<JPEGSettingsWidget> create(const std::shared_ptr<Core::Context>&);
 
             std::string getSettingsName() const override;
             std::string getSettingsGroup() const override;

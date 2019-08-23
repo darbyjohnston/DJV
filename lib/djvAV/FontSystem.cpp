@@ -184,7 +184,7 @@ namespace djv
                 std::shared_ptr<Glyph> getGlyph(const GlyphInfo &);
             };
 
-            void System::_init(Context * context)
+            void System::_init(const std::shared_ptr<Core::Context>& context)
             {
                 ISystem::_init("djv::AV::Font::System", context);
 
@@ -272,7 +272,7 @@ namespace djv
                 }
             }
 
-            std::shared_ptr<System> System::create(Context * context)
+            std::shared_ptr<System> System::create(const std::shared_ptr<Core::Context>& context)
             {
                 auto out = std::shared_ptr<System>(new System);
                 out->_init(context);

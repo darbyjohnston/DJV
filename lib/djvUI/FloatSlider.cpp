@@ -47,7 +47,7 @@ namespace djv
             std::shared_ptr<ValueObserver<float> > valueObserver;
         };
 
-        void BasicFloatSlider::_init(Orientation orientation, Context * context)
+        void BasicFloatSlider::_init(Orientation orientation, const std::shared_ptr<Context>& context)
         {
             NumericSlider::_init(orientation, context);
             DJV_PRIVATE_PTR();
@@ -62,7 +62,7 @@ namespace djv
         BasicFloatSlider::~BasicFloatSlider()
         {}
 
-        std::shared_ptr<BasicFloatSlider> BasicFloatSlider::create(Orientation orientation, Context * context)
+        std::shared_ptr<BasicFloatSlider> BasicFloatSlider::create(Orientation orientation, const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<BasicFloatSlider>(new BasicFloatSlider);
             out->_init(orientation, context);
@@ -191,7 +191,7 @@ namespace djv
             std::shared_ptr<ValueObserver<float> > valueObserver;
         };
 
-        void FloatSlider::_init(Context * context)
+        void FloatSlider::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
 
@@ -232,7 +232,7 @@ namespace djv
         FloatSlider::~FloatSlider()
         {}
 
-        std::shared_ptr<FloatSlider> FloatSlider::create(Context * context)
+        std::shared_ptr<FloatSlider> FloatSlider::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<FloatSlider>(new FloatSlider);
             out->_init(context);

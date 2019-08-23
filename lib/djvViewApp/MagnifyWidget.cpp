@@ -50,7 +50,7 @@ namespace djv
             std::shared_ptr<UI::ToolButton> zoomOutButton;
         };
 
-        void MagnifyWidget::_init(Context * context)
+        void MagnifyWidget::_init(const std::shared_ptr<Core::Context>& context)
         {
             MDIWidget::_init(context);
 
@@ -92,7 +92,7 @@ namespace djv
         MagnifyWidget::~MagnifyWidget()
         {}
 
-        std::shared_ptr<MagnifyWidget> MagnifyWidget::create(Context * context)
+        std::shared_ptr<MagnifyWidget> MagnifyWidget::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<MagnifyWidget>(new MagnifyWidget);
             out->_init(context);

@@ -54,7 +54,12 @@ namespace djv
         protected:
             void _init(int & argc, char ** argv)
             {
-                CmdLine::Application::_init(argc, argv);
+                std::vector<std::string> args;
+                for (int i = 0; i < argc; ++i)
+                {
+                    args.push_back(argv[i]);
+                }
+                CmdLine::Application::_init(args);
 
                 auto testSystem = getSystemT<Core::TextSystem>();
                 const auto locale = testSystem->getCurrentLocale();
@@ -80,7 +85,7 @@ namespace djv
                 const size_t size = videoInfo.sequence.getSize();
                 _write = io->write(std::string(argv[2]), info);
 
-                _statsTimer = Core::Time::Timer::create(this);
+                _statsTimer = Core::Time::Timer::create(shared_from_this());
                 _statsTimer->setRepeating(true);
                 _statsTimer->start(
                     Core::Time::getMilliseconds(Core::Time::TimerValue::Slow),

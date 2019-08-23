@@ -40,6 +40,7 @@
 #include <djvCore/ResourceSystem.h>
 #include <djvCore/Timer.h>
 
+#define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
 #include <atomic>
@@ -190,7 +191,7 @@ namespace djv
             std::atomic<bool> running;
         };
 
-        void ThumbnailSystem::_init(Context * context)
+        void ThumbnailSystem::_init(const std::shared_ptr<Core::Context>& context)
         {
             ISystem::_init("djv::AV::ThumbnailSystem", context);
 
@@ -338,7 +339,7 @@ namespace djv
             }
         }
 
-        std::shared_ptr<ThumbnailSystem> ThumbnailSystem::create(Context * context)
+        std::shared_ptr<ThumbnailSystem> ThumbnailSystem::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<ThumbnailSystem>(new ThumbnailSystem);
             out->_init(context);

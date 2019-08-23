@@ -62,7 +62,7 @@ namespace djv
                 std::shared_ptr<MapObserver<std::string, std::string> > localeFontsObserver;
             };
 
-            void Style::_init(Context * context)
+            void Style::_init(const std::shared_ptr<Core::Context>& context)
             {
                 ISettings::_init("djv::UI::Settings::Style", context);
 
@@ -157,7 +157,7 @@ namespace djv
             Style::~Style()
             {}
 
-            std::shared_ptr<Style> Style::create(Context * context)
+            std::shared_ptr<Style> Style::create(const std::shared_ptr<Core::Context>& context)
             {
                 auto out = std::shared_ptr<Style>(new Style);
                 out->_init(context);

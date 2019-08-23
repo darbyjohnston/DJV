@@ -48,15 +48,20 @@ int main(int argc, char ** argv)
     try
     {
         // Create an application.
-        auto app = Desktop::Application::create(argc, argv);
+        std::vector<std::string> args;
+        for (int i = 0; i < argc; ++i)
+        {
+            args.push_back(argv[i]);
+        }
+        auto app = Desktop::Application::create(args);
 
         // Create a top-level layout.
-        auto layout = UI::VerticalLayout::create(app.get());
+        auto layout = UI::VerticalLayout::create(app);
         layout->setMargin(UI::MetricsRole::MarginLarge);
         layout->setSpacing(UI::MetricsRole::SpacingLarge);
 
         // Create some integer sliders.
-        auto vLayout = UI::VerticalLayout::create(app.get());
+        auto vLayout = UI::VerticalLayout::create(app);
         vLayout->setMargin(UI::MetricsRole::Margin);
         const std::vector<Core::IntRange> intRange =
         {
@@ -66,7 +71,7 @@ int main(int argc, char ** argv)
         };
         for (size_t i = 0; i < 3; ++i)
         {
-            auto slider = UI::IntSlider::create(app.get());
+            auto slider = UI::IntSlider::create(app);
             slider->setRange(intRange[i]);
             slider->setValueCallback(
                 [](int value)
@@ -75,12 +80,13 @@ int main(int argc, char ** argv)
             });
             vLayout->addChild(slider);
         }
-        auto groupBox = UI::GroupBox::create("Integer Sliders", app.get());
+        auto groupBox = UI::GroupBox::create(app);
+        groupBox->setText("Integer Sliders");
         groupBox->addChild(vLayout);
         layout->addChild(groupBox);
         
         // Create some floating-point sliders.
-        vLayout = UI::VerticalLayout::create(app.get());
+        vLayout = UI::VerticalLayout::create(app);
         vLayout->setMargin(UI::MetricsRole::Margin);
         const std::vector<Core::FloatRange> floatRange =
         {
@@ -90,7 +96,7 @@ int main(int argc, char ** argv)
         };
         for (size_t i = 0; i < 3; ++i)
         {
-            auto slider = UI::FloatSlider::create(app.get());
+            auto slider = UI::FloatSlider::create(app);
             slider->setRange(floatRange[i]);
             slider->setValueCallback(
                 [](float value)
@@ -99,15 +105,17 @@ int main(int argc, char ** argv)
             });
             vLayout->addChild(slider);
         }
-        groupBox = UI::GroupBox::create("Floating-Point Sliders", app.get());
+        groupBox = UI::GroupBox::create(app);
+        groupBox->setText("Floating-Point Sliders");
         groupBox->addChild(vLayout);
         layout->addChild(groupBox);
 
         // Create a window and show it.
-        auto window = UI::Window::create(app.get());
+        auto window = UI::Window::create(app);
         window->addChild(layout);
         window->show();
 
+        // Run the application.
         return app->run();
     }
     catch (const std::exception & e)

@@ -41,13 +41,13 @@ namespace djv
             DJV_NON_COPYABLE(MagnifyWidget);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             MagnifyWidget();
 
         public:
             ~MagnifyWidget() override;
 
-            static std::shared_ptr<MagnifyWidget> create(Core::Context *);
+            static std::shared_ptr<MagnifyWidget> create(const std::shared_ptr<Core::Context>&);
 
         protected:
             void _localeEvent(Core::Event::Locale &) override;

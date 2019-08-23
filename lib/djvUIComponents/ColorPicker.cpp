@@ -60,7 +60,7 @@ namespace djv
             std::function<void(AV::Image::Type)> typeCallback;
         };
 
-        void ColorTypeWidget::_init(Context * context)
+        void ColorTypeWidget::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
 
@@ -97,7 +97,7 @@ namespace djv
         ColorTypeWidget::~ColorTypeWidget()
         {}
 
-        std::shared_ptr<ColorTypeWidget> ColorTypeWidget::create(Context * context)
+        std::shared_ptr<ColorTypeWidget> ColorTypeWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<ColorTypeWidget>(new ColorTypeWidget);
             out->_init(context);
@@ -169,7 +169,7 @@ namespace djv
             std::vector < std::shared_ptr<ValueObserver<float> > > floatObservers;
         };
 
-        void ColorSliders::_init(Context * context)
+        void ColorSliders::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
 
@@ -190,7 +190,7 @@ namespace djv
         ColorSliders::~ColorSliders()
         {}
 
-        std::shared_ptr<ColorSliders> ColorSliders::create(Context * context)
+        std::shared_ptr<ColorSliders> ColorSliders::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<ColorSliders>(new ColorSliders);
             out->_init(context);
@@ -260,114 +260,115 @@ namespace djv
         void ColorSliders::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
-            
-            p.intLabels.clear();
-            p.intEdits.clear();
-            p.intSliders.clear();
-            p.floatLabels.clear();
-            p.floatEdits.clear();
-            p.floatSliders.clear();
-            p.layout->clearChildren();
-            p.intObservers.clear();
-            p.floatObservers.clear();
-
-            auto context = getContext();
-            const auto type = p.color.getType();
-            const size_t channelCount = AV::Image::getChannelCount(type);
-            for (size_t i = 0; i < channelCount; ++i)
+            if (auto context = getContext().lock())
             {
-                if (AV::Image::isIntType(type))
+                p.intLabels.clear();
+                p.intEdits.clear();
+                p.intSliders.clear();
+                p.floatLabels.clear();
+                p.floatEdits.clear();
+                p.floatSliders.clear();
+                p.layout->clearChildren();
+                p.intObservers.clear();
+                p.floatObservers.clear();
+
+                const auto type = p.color.getType();
+                const size_t channelCount = AV::Image::getChannelCount(type);
+                for (size_t i = 0; i < channelCount; ++i)
                 {
-                    auto intLabel = Label::create(context);
-                    p.layout->addChild(intLabel);
-                    p.layout->setGridPos(intLabel, 0, static_cast<int>(i));
-                    p.intLabels.push_back(intLabel);
-
-                    auto intEdit = IntEdit::create(context);
-                    p.layout->addChild(intEdit);
-                    p.layout->setGridPos(intEdit, 1, static_cast<int>(i));
-                    p.intEdits.push_back(intEdit);
-
-                    auto intSlider = BasicIntSlider::create(Orientation::Horizontal, context);
-                    p.layout->addChild(intSlider);
-                    p.layout->setGridPos(intSlider, 2, static_cast<int>(i));
-                    p.layout->setStretch(intSlider, GridStretch::Horizontal);
-                    intEdit->setModel(intSlider->getModel());
-                    p.intSliders.push_back(intSlider);
-                }
-                else
-                {
-                    auto floatLabel = Label::create(context);
-                    p.layout->addChild(floatLabel);
-                    p.layout->setGridPos(floatLabel, 0, static_cast<int>(i));
-                    p.floatLabels.push_back(floatLabel);
-
-                    auto floatEdit = FloatEdit::create(context);
-                    p.layout->addChild(floatEdit);
-                    p.layout->setGridPos(floatEdit, 1, static_cast<int>(i));
-                    p.floatEdits.push_back(floatEdit);
-
-                    auto floatSlider = BasicFloatSlider::create(Orientation::Horizontal, context);
-                    p.layout->addChild(floatSlider);
-                    p.layout->setGridPos(floatSlider, 2, static_cast<int>(i));
-                    p.layout->setStretch(floatSlider, GridStretch::Horizontal);
-                    floatEdit->setModel(floatSlider->getModel());
-                    p.floatSliders.push_back(floatSlider);
-                }
-            }
-
-            _colorUpdate();
-
-            auto weak = std::weak_ptr<ColorSliders>(std::dynamic_pointer_cast<ColorSliders>(shared_from_this()));
-            for (size_t i = 0; i < channelCount; ++i)
-            {
-                if (AV::Image::isIntType(type))
-                {
-                    p.intObservers.push_back(ValueObserver<int>::create(
-                        p.intSliders[i]->getModel()->observeValue(),
-                        [weak, i](int value)
+                    if (AV::Image::isIntType(type))
                     {
-                        if (auto widget = weak.lock())
-                        {
-                            auto color = widget->_p->color;
-                            switch (AV::Image::getDataType(color.getType()))
-                            {
-                            case AV::Image::DataType::U8:  color.setU8(static_cast<AV::Image::U8_T> (value), i); break;
-                            case AV::Image::DataType::U10: color.setU10(static_cast<AV::Image::U10_T>(value), i); break;
-                            case AV::Image::DataType::U16: color.setU16(static_cast<AV::Image::U16_T>(value), i); break;
-                            case AV::Image::DataType::U32: color.setU32(static_cast<AV::Image::U32_T>(value), i); break;
-                            default: break;
-                            }
-                            widget->setColor(color);
-                            if (widget->_p->colorCallback)
-                            {
-                                widget->_p->colorCallback(color);
-                            }
-                        }
-                    }));
-                }
-                else
-                {
-                    p.floatObservers.push_back(ValueObserver<float>::create(
-                        p.floatSliders[i]->getModel()->observeValue(),
-                        [weak, i](float value)
+                        auto intLabel = Label::create(context);
+                        p.layout->addChild(intLabel);
+                        p.layout->setGridPos(intLabel, 0, static_cast<int>(i));
+                        p.intLabels.push_back(intLabel);
+
+                        auto intEdit = IntEdit::create(context);
+                        p.layout->addChild(intEdit);
+                        p.layout->setGridPos(intEdit, 1, static_cast<int>(i));
+                        p.intEdits.push_back(intEdit);
+
+                        auto intSlider = BasicIntSlider::create(Orientation::Horizontal, context);
+                        p.layout->addChild(intSlider);
+                        p.layout->setGridPos(intSlider, 2, static_cast<int>(i));
+                        p.layout->setStretch(intSlider, GridStretch::Horizontal);
+                        intEdit->setModel(intSlider->getModel());
+                        p.intSliders.push_back(intSlider);
+                    }
+                    else
                     {
-                        if (auto widget = weak.lock())
-                        {
-                            auto color = widget->_p->color;
-                            switch (AV::Image::getDataType(color.getType()))
+                        auto floatLabel = Label::create(context);
+                        p.layout->addChild(floatLabel);
+                        p.layout->setGridPos(floatLabel, 0, static_cast<int>(i));
+                        p.floatLabels.push_back(floatLabel);
+
+                        auto floatEdit = FloatEdit::create(context);
+                        p.layout->addChild(floatEdit);
+                        p.layout->setGridPos(floatEdit, 1, static_cast<int>(i));
+                        p.floatEdits.push_back(floatEdit);
+
+                        auto floatSlider = BasicFloatSlider::create(Orientation::Horizontal, context);
+                        p.layout->addChild(floatSlider);
+                        p.layout->setGridPos(floatSlider, 2, static_cast<int>(i));
+                        p.layout->setStretch(floatSlider, GridStretch::Horizontal);
+                        floatEdit->setModel(floatSlider->getModel());
+                        p.floatSliders.push_back(floatSlider);
+                    }
+                }
+
+                _colorUpdate();
+
+                auto weak = std::weak_ptr<ColorSliders>(std::dynamic_pointer_cast<ColorSliders>(shared_from_this()));
+                for (size_t i = 0; i < channelCount; ++i)
+                {
+                    if (AV::Image::isIntType(type))
+                    {
+                        p.intObservers.push_back(ValueObserver<int>::create(
+                            p.intSliders[i]->getModel()->observeValue(),
+                            [weak, i](int value)
                             {
-                            case AV::Image::DataType::F16: color.setF16(static_cast<AV::Image::F16_T>(value), i); break;
-                            case AV::Image::DataType::F32: color.setF32(static_cast<AV::Image::F32_T>(value), i); break;
-                            default: break;
-                            }
-                            widget->setColor(color);
-                            if (widget->_p->colorCallback)
+                                if (auto widget = weak.lock())
+                                {
+                                    auto color = widget->_p->color;
+                                    switch (AV::Image::getDataType(color.getType()))
+                                    {
+                                    case AV::Image::DataType::U8:  color.setU8(static_cast<AV::Image::U8_T> (value), i); break;
+                                    case AV::Image::DataType::U10: color.setU10(static_cast<AV::Image::U10_T>(value), i); break;
+                                    case AV::Image::DataType::U16: color.setU16(static_cast<AV::Image::U16_T>(value), i); break;
+                                    case AV::Image::DataType::U32: color.setU32(static_cast<AV::Image::U32_T>(value), i); break;
+                                    default: break;
+                                    }
+                                    widget->setColor(color);
+                                    if (widget->_p->colorCallback)
+                                    {
+                                        widget->_p->colorCallback(color);
+                                    }
+                                }
+                            }));
+                    }
+                    else
+                    {
+                        p.floatObservers.push_back(ValueObserver<float>::create(
+                            p.floatSliders[i]->getModel()->observeValue(),
+                            [weak, i](float value)
                             {
-                                widget->_p->colorCallback(color);
-                            }
-                        }
-                    }));
+                                if (auto widget = weak.lock())
+                                {
+                                    auto color = widget->_p->color;
+                                    switch (AV::Image::getDataType(color.getType()))
+                                    {
+                                    case AV::Image::DataType::F16: color.setF16(static_cast<AV::Image::F16_T>(value), i); break;
+                                    case AV::Image::DataType::F32: color.setF32(static_cast<AV::Image::F32_T>(value), i); break;
+                                    default: break;
+                                    }
+                                    widget->setColor(color);
+                                    if (widget->_p->colorCallback)
+                                    {
+                                        widget->_p->colorCallback(color);
+                                    }
+                                }
+                            }));
+                    }
                 }
             }
         }
@@ -624,7 +625,7 @@ namespace djv
             std::function<void(const AV::Image::Color &)> colorCallback;
         };
 
-        void ColorPicker::_init(Context * context)
+        void ColorPicker::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
 
@@ -685,7 +686,7 @@ namespace djv
         ColorPicker::~ColorPicker()
         {}
 
-        std::shared_ptr<ColorPicker> ColorPicker::create(Context * context)
+        std::shared_ptr<ColorPicker> ColorPicker::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<ColorPicker>(new ColorPicker);
             out->_init(context);
@@ -741,7 +742,7 @@ namespace djv
                 DJV_NON_COPYABLE(ColorPickerDialog);
 
             protected:
-                void _init(Context* context)
+                void _init(const std::shared_ptr<Context>& context)
                 {
                     IDialog::_init(context);
 
@@ -762,7 +763,7 @@ namespace djv
                 {}
 
             public:
-                static std::shared_ptr<ColorPickerDialog> create(Context* context)
+                static std::shared_ptr<ColorPickerDialog> create(const std::shared_ptr<Context>& context)
                 {
                     auto out = std::shared_ptr<ColorPickerDialog>(new ColorPickerDialog);
                     out->_init(context);
@@ -792,7 +793,7 @@ namespace djv
             std::shared_ptr<ColorPickerDialog> colorPickerDialog;
         };
 
-        void ColorPickerDialogSystem::_init(Context* context)
+        void ColorPickerDialogSystem::_init(const std::shared_ptr<Context>& context)
         {
             ISystem::_init("djv::UI::ColorPickerDialogSystem", context);
         }
@@ -804,7 +805,7 @@ namespace djv
         ColorPickerDialogSystem::~ColorPickerDialogSystem()
         {}
 
-        std::shared_ptr<ColorPickerDialogSystem> ColorPickerDialogSystem::create(Context* context)
+        std::shared_ptr<ColorPickerDialogSystem> ColorPickerDialogSystem::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<ColorPickerDialogSystem>(new ColorPickerDialogSystem);
             out->_init(context);
@@ -816,33 +817,35 @@ namespace djv
             const AV::Image::Color& color,
             const std::function<void(const AV::Image::Color&)>& callback)
         {
-            auto context = getContext();
             DJV_PRIVATE_PTR();
-            auto eventSystem = context->getSystemT<UI::EventSystem>();
-            if (auto window = eventSystem->getCurrentWindow().lock())
+            if (auto context = getContext().lock())
             {
-                if (!p.colorPickerDialog)
+                auto eventSystem = context->getSystemT<UI::EventSystem>();
+                if (auto window = eventSystem->getCurrentWindow().lock())
                 {
-                    p.colorPickerDialog = ColorPickerDialog::create(context);
-                }
-                p.colorPickerDialog->setTitle(title);
-                p.colorPickerDialog->setColor(color);
-                auto weak = std::weak_ptr<ColorPickerDialogSystem>(std::dynamic_pointer_cast<ColorPickerDialogSystem>(shared_from_this()));
-                p.colorPickerDialog->setColorCallback(callback);
-                p.colorPickerDialog->setCloseCallback(
-                    [weak]
+                    if (!p.colorPickerDialog)
                     {
-                        if (auto system = weak.lock())
+                        p.colorPickerDialog = ColorPickerDialog::create(context);
+                    }
+                    p.colorPickerDialog->setTitle(title);
+                    p.colorPickerDialog->setColor(color);
+                    auto weak = std::weak_ptr<ColorPickerDialogSystem>(std::dynamic_pointer_cast<ColorPickerDialogSystem>(shared_from_this()));
+                    p.colorPickerDialog->setColorCallback(callback);
+                    p.colorPickerDialog->setCloseCallback(
+                        [weak]
                         {
-                            if (auto parent = system->_p->colorPickerDialog->getParent().lock())
+                            if (auto system = weak.lock())
                             {
-                                parent->removeChild(system->_p->colorPickerDialog);
+                                if (auto parent = system->_p->colorPickerDialog->getParent().lock())
+                                {
+                                    parent->removeChild(system->_p->colorPickerDialog);
+                                }
+                                system->_p->colorPickerDialog.reset();
                             }
-                            system->_p->colorPickerDialog.reset();
-                        }
-                    });
-                window->addChild(p.colorPickerDialog);
-                p.colorPickerDialog->show();
+                        });
+                    window->addChild(p.colorPickerDialog);
+                    p.colorPickerDialog->show();
+                }
             }
         }
 

@@ -45,14 +45,14 @@ namespace djv
             DJV_NON_COPYABLE(WindowSettings);
 
         protected:
-            void _init(Core::Context * context);
+            void _init(const std::shared_ptr<Core::Context>&);
 
             WindowSettings();
 
         public:
             virtual ~WindowSettings();
 
-            static std::shared_ptr<WindowSettings> create(Core::Context *);
+            static std::shared_ptr<WindowSettings> create(const std::shared_ptr<Core::Context>&);
 
             std::shared_ptr<Core::IValueSubject<int> > observeFullscreenMonitor() const;
             void setFullscreenMonitor(int);

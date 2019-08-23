@@ -53,14 +53,14 @@ namespace djv
             DJV_NON_COPYABLE(FileSettings);
 
         protected:
-            void _init(Core::Context * context);
+            void _init(const std::shared_ptr<Core::Context>&);
 
             FileSettings();
 
         public:
             virtual ~FileSettings();
 
-            static std::shared_ptr<FileSettings> create(Core::Context *);
+            static std::shared_ptr<FileSettings> create(const std::shared_ptr<Core::Context>&);
 
             std::shared_ptr<Core::IListSubject<Core::FileSystem::FileInfo> > observeRecentFiles() const;
             void setRecentFiles(const std::vector<Core::FileSystem::FileInfo>&);

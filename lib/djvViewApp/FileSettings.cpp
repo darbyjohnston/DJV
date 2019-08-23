@@ -52,7 +52,7 @@ namespace djv
             std::shared_ptr<ValueSubject<int> > cacheMax;
         };
 
-        void FileSettings::_init(Context * context)
+        void FileSettings::_init(const std::shared_ptr<Core::Context>& context)
         {
             ISettings::_init("djv::ViewApp::FileSettings", context);
             DJV_PRIVATE_PTR();
@@ -70,7 +70,7 @@ namespace djv
         FileSettings::~FileSettings()
         {}
 
-        std::shared_ptr<FileSettings> FileSettings::create(Context * context)
+        std::shared_ptr<FileSettings> FileSettings::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<FileSettings>(new FileSettings);
             out->_init(context);

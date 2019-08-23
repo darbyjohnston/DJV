@@ -39,7 +39,7 @@ namespace djv
             return _name;
         }
 
-        inline Context * ISystemBase::getContext() const
+        inline const std::weak_ptr<Context>& ISystemBase::getContext() const
         {
             return _context;
         }

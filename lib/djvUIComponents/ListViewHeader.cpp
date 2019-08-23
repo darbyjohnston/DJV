@@ -51,13 +51,13 @@ namespace djv
                 DJV_NON_COPYABLE(HeaderButton);
 
             protected:
-                void _init(Context *);
+                void _init(const std::shared_ptr<Context>&);
                 HeaderButton();
 
             public:
                 virtual ~HeaderButton();
 
-                static std::shared_ptr<HeaderButton> create(Context *);
+                static std::shared_ptr<HeaderButton> create(const std::shared_ptr<Context>&);
 
                 void setIcon(const std::string &);
 
@@ -77,7 +77,7 @@ namespace djv
                 std::shared_ptr<HorizontalLayout> _layout;
             };
 
-            void HeaderButton::_init(Context * context)
+            void HeaderButton::_init(const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
 
@@ -107,7 +107,7 @@ namespace djv
             HeaderButton::~HeaderButton()
             {}
 
-            std::shared_ptr<HeaderButton> HeaderButton::create(Context * context)
+            std::shared_ptr<HeaderButton> HeaderButton::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<HeaderButton>(new HeaderButton);
                 out->_init(context);
@@ -169,7 +169,7 @@ namespace djv
             std::shared_ptr<Layout::Splitter> splitter;
         };
 
-        void ListViewHeader::_init(Context * context)
+        void ListViewHeader::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
 
@@ -219,7 +219,7 @@ namespace djv
         ListViewHeader::~ListViewHeader()
         {}
 
-        std::shared_ptr<ListViewHeader> ListViewHeader::create(Context * context)
+        std::shared_ptr<ListViewHeader> ListViewHeader::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<ListViewHeader>(new ListViewHeader);
             out->_init(context);
@@ -229,19 +229,21 @@ namespace djv
         void ListViewHeader::setText(const std::vector<std::string> & value)
         {
             DJV_PRIVATE_PTR();
-            auto context = getContext();
-            p.buttonGroup->clearButtons();
-            auto split = p.splitter->getSplit();
-            p.splitter->clearChildren();
-            for (const auto & i : value)
+            if (auto context = getContext().lock())
             {
-                auto button = HeaderButton::create(context);
-                button->setText(i);
-                p.buttonGroup->addButton(button);
-                p.splitter->addChild(button);
+                p.buttonGroup->clearButtons();
+                auto split = p.splitter->getSplit();
+                p.splitter->clearChildren();
+                for (const auto& i : value)
+                {
+                    auto button = HeaderButton::create(context);
+                    button->setText(i);
+                    p.buttonGroup->addButton(button);
+                    p.splitter->addChild(button);
+                }
+                p.splitter->setSplit(split);
+                _sortUpdate();
             }
-            p.splitter->setSplit(split);
-            _sortUpdate();
         }
 
         size_t ListViewHeader::getSort() const

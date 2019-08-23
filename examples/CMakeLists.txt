@@ -1,3 +1,4 @@
+add_subdirectory(AnimationCmdLineExample)
 add_subdirectory(ButtonDesktopExample)
 add_subdirectory(ComboBoxDesktopExample)
 add_subdirectory(FileBrowserDesktopExample)
@@ -7,3 +8,8 @@ add_subdirectory(MDIDesktopExample)
 add_subdirectory(Render2DExample)
 add_subdirectory(SliderDesktopExample)
 add_subdirectory(SplitterDesktopExample)
+
+if(DJV_PYTHON)
+	add_subdirectory(AnimationCmdLineExamplePy)
+	add_subdirectory(HelloWorldDesktopExamplePy)
+endif()

@@ -50,7 +50,7 @@ namespace djv
                     DJV_NON_COPYABLE(DrawerLayout);
 
                 protected:
-                    void _init(Orientation orientation, Context* context)
+                    void _init(Orientation orientation, const std::shared_ptr<Context>& context)
                     {
                         Row::_init(orientation, context);
                         setPointerEnabled(true);
@@ -60,7 +60,7 @@ namespace djv
                     {}
 
                 public:
-                    static std::shared_ptr<DrawerLayout> create(Orientation orientation, Context* context)
+                    static std::shared_ptr<DrawerLayout> create(Orientation orientation, const std::shared_ptr<Context>& context)
                     {
                         auto out = std::shared_ptr<DrawerLayout>(new DrawerLayout);
                         out->_init(orientation, context);
@@ -95,7 +95,7 @@ namespace djv
                 float pressedSize = 0.f;
             };
 
-            void Drawer::_init(Side side, Context * context)
+            void Drawer::_init(Side side, const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
 
@@ -153,7 +153,7 @@ namespace djv
             Drawer::~Drawer()
             {}
 
-            std::shared_ptr<Drawer> Drawer::create(Side side, Context * context)
+            std::shared_ptr<Drawer> Drawer::create(Side side, const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<Drawer>(new Drawer);
                 out->_init(side, context);

@@ -49,7 +49,7 @@ namespace djv
             std::shared_ptr<FormLayout> layout;
         };
 
-        void FFmpegSettingsWidget::_init(Context * context)
+        void FFmpegSettingsWidget::_init(const std::shared_ptr<Context>& context)
         {
             ISettingsWidget::_init(context);
 
@@ -66,16 +66,20 @@ namespace djv
             _widgetUpdate();
 
             auto weak = std::weak_ptr<FFmpegSettingsWidget>(std::dynamic_pointer_cast<FFmpegSettingsWidget>(shared_from_this()));
+            auto contextWeak = std::weak_ptr<Context>(context);
             p.threadCountSlider->setValueCallback(
-                [weak, context](int value)
+                [weak, contextWeak](int value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        auto io = context->getSystemT<AV::IO::System>();
-                        AV::IO::FFmpeg::Options options;
-                        fromJSON(io->getOptions(AV::IO::FFmpeg::pluginName), options);
-                        options.threadCount = value;
-                        io->setOptions(AV::IO::FFmpeg::pluginName, toJSON(options));
+                        if (auto widget = weak.lock())
+                        {
+                            auto io = context->getSystemT<AV::IO::System>();
+                            AV::IO::FFmpeg::Options options;
+                            fromJSON(io->getOptions(AV::IO::FFmpeg::pluginName), options);
+                            options.threadCount = value;
+                            io->setOptions(AV::IO::FFmpeg::pluginName, toJSON(options));
+                        }
                     }
                 });
         }
@@ -84,7 +88,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<FFmpegSettingsWidget> FFmpegSettingsWidget::create(Context * context)
+        std::shared_ptr<FFmpegSettingsWidget> FFmpegSettingsWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<FFmpegSettingsWidget>(new FFmpegSettingsWidget);
             out->_init(context);
@@ -117,13 +121,14 @@ namespace djv
         void FFmpegSettingsWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
+            if (auto context = getContext().lock())
+            {
+                auto io = context->getSystemT<AV::IO::System>();
+                AV::IO::FFmpeg::Options options;
+                fromJSON(io->getOptions(AV::IO::FFmpeg::pluginName), options);
 
-            auto context = getContext();
-            auto io = context->getSystemT<AV::IO::System>();
-            AV::IO::FFmpeg::Options options;
-            fromJSON(io->getOptions(AV::IO::FFmpeg::pluginName), options);
-
-            p.threadCountSlider->setValue(options.threadCount);
+                p.threadCountSlider->setValue(options.threadCount);
+            }
         }
 
     } // namespace UI

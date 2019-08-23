@@ -84,7 +84,7 @@ namespace djv
             std::atomic<bool> running;
         };
 
-        void LogSystem::_init(const FileSystem::Path & path, Context * context)
+        void LogSystem::_init(const FileSystem::Path & path, const std::shared_ptr<Context>& context)
         {
             ISystemBase::_init(name, context);
 
@@ -149,7 +149,7 @@ namespace djv
             }
         }
         
-        std::shared_ptr<LogSystem> LogSystem::create(const FileSystem::Path & logFile, Context * context)
+        std::shared_ptr<LogSystem> LogSystem::create(const FileSystem::Path & logFile, const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<LogSystem>(new LogSystem);
             out->_init(logFile, context);

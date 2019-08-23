@@ -63,7 +63,7 @@ namespace djv
             BBox2f clipRect;
         };
 
-        void TextBlock::_init(Context * context)
+        void TextBlock::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
             setClassName("djv::UI::TextBlock");
@@ -76,17 +76,10 @@ namespace djv
         TextBlock::~TextBlock()
         {}
 
-        std::shared_ptr<TextBlock> TextBlock::create(Context * context)
+        std::shared_ptr<TextBlock> TextBlock::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<TextBlock>(new TextBlock);
             out->_init(context);
-            return out;
-        }
-
-        std::shared_ptr<TextBlock> TextBlock::create(const std::string & text, Context * context)
-        {
-            auto out = TextBlock::create(context);
-            out->setText(text);
             return out;
         }
 

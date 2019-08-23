@@ -46,7 +46,7 @@ namespace djv
                 float width = 0.f;
             };
 
-            void Separator::_init(Context * context)
+            void Separator::_init(const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
                 setClassName("djv::UI::Layout::Separator");
@@ -60,7 +60,7 @@ namespace djv
             Separator::~Separator()
             {}
 
-            std::shared_ptr<Separator> Separator::create(Context * context)
+            std::shared_ptr<Separator> Separator::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<Separator>(new Separator);
                 out->_init(context);

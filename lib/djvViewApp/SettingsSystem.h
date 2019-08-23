@@ -44,13 +44,13 @@ namespace djv
             DJV_NON_COPYABLE(SettingsSystem);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             SettingsSystem();
 
         public:
             ~SettingsSystem() override;
 
-            static std::shared_ptr<SettingsSystem> create(Core::Context *);
+            static std::shared_ptr<SettingsSystem> create(const std::shared_ptr<Core::Context>&);
 
             void showSettingsDialog();
 

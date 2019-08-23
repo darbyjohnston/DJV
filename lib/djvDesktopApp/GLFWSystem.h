@@ -58,13 +58,13 @@ namespace djv
             DJV_NON_COPYABLE(GLFWSystem);
             
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             GLFWSystem();
 
         public:
             virtual ~GLFWSystem();
 
-            static std::shared_ptr<GLFWSystem> create(Core::Context *);
+            static std::shared_ptr<GLFWSystem> create(const std::shared_ptr<Core::Context>&);
 
             std::shared_ptr<Core::IListSubject<MonitorInfo> > observeMonitorInfo() const;
 

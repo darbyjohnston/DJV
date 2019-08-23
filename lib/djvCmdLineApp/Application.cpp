@@ -45,16 +45,24 @@ namespace djv
 {
     namespace CmdLine
     {
+        namespace
+        {
+            //! \todo Should this be configurable?
+            const size_t frameRate = 60;
+
+        } // namespace
+
         struct Application::Private
         {
+            bool running = false;
         };
 
-        void Application::_init(int & argc, char * argv[])
+        void Application::_init(const std::vector<std::string>& args)
         {
-            Context::_init(argc, argv);
+            Context::_init(args);
 
-            auto glfwSystem = GLFWSystem::create(this);
-            auto avSystem = AV::AVSystem::create(this);
+            auto glfwSystem = GLFWSystem::create(shared_from_this());
+            auto avSystem = AV::AVSystem::create(shared_from_this());
 
             getSystemT<AV::IO::System>()->addDependency(glfwSystem);
             getSystemT<AV::Render::Render2D>()->addDependency(glfwSystem);
@@ -67,11 +75,39 @@ namespace djv
         Application::~Application()
         {}
 
-        std::shared_ptr<Application> Application::create(int & argc, char * argv[])
+        std::shared_ptr<Application> Application::create(const std::vector<std::string>& args)
         {
             auto out = std::shared_ptr<Application>(new Application);
-            out->_init(argc, argv);
+            out->_init(args);
             return out;
+        }
+
+        int Application::run()
+        {
+            DJV_PRIVATE_PTR();
+            p.running = true;
+            auto time = std::chrono::system_clock::now();
+            float dt = 0.f;
+            while (p.running)
+            {
+                tick(dt);
+
+                auto now = std::chrono::system_clock::now();
+                std::chrono::duration<float> delta = now - time;
+                const float sleep = 1 / static_cast<float>(frameRate) - delta.count();
+                std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(sleep * 1000)));
+
+                now = std::chrono::system_clock::now();
+                delta = now - time;
+                dt = delta.count();
+                time = now;
+            }
+            return 0;
+        }
+
+        void Application::exit()
+        {
+            _p->running = false;
         }
 
     } // namespace CmdLine

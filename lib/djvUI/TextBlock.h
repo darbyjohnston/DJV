@@ -42,14 +42,13 @@ namespace djv
             DJV_NON_COPYABLE(TextBlock);
             
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             TextBlock();
 
         public:
             virtual ~TextBlock();
 
-            static std::shared_ptr<TextBlock> create(Core::Context *);
-            static std::shared_ptr<TextBlock> create(const std::string &, Core::Context *);
+            static std::shared_ptr<TextBlock> create(const std::shared_ptr<Core::Context>&);
 
             const std::string & getText() const;
             void setText(const std::string &);

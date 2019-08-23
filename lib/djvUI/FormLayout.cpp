@@ -46,7 +46,7 @@ namespace djv
                 std::map<std::shared_ptr<Widget>, std::shared_ptr<Label>> widgetToLabel;
             };
 
-            void Form::_init(Context * context)
+            void Form::_init(const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
 
@@ -64,7 +64,7 @@ namespace djv
             Form::~Form()
             {}
 
-            std::shared_ptr<Form> Form::create(Context * context)
+            std::shared_ptr<Form> Form::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<Form>(new Form);
                 out->_init(context);
@@ -79,9 +79,10 @@ namespace djv
                 {
                     i->second->setText(text);
                 }
-                else
+                else if (auto context = getContext().lock())
                 {
-                    auto label = Label::create(text, getContext());
+                    auto label = Label::create(context);
+                    label->setText(text);
                     label->setTextHAlign(TextHAlign::Right);
                     glm::ivec2 gridPos = p.layout->getGridPos(value);
                     p.layout->addChild(label);

@@ -60,14 +60,14 @@ namespace djv
                 return data[static_cast<size_t>(value)];
             }
 
-            void Animation::_init(Context * context)
+            void Animation::_init(const std::shared_ptr<Context>& context)
             {
                 _function = getFunction(_type);
                 auto system = context->getSystemT<System>();
                 system->_addAnimation(shared_from_this());
             }
 
-            std::shared_ptr<Animation> Animation::create(Context * context)
+            std::shared_ptr<Animation> Animation::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<Animation>(new Animation);
                 out->_init(context);
@@ -156,7 +156,7 @@ namespace djv
                 std::vector<std::weak_ptr<Animation> > animations;
             };
 
-            void System::_init(Context * context)
+            void System::_init(const std::shared_ptr<Context>& context)
             {
                 ISystem::_init("djv::Core::Animation::System", context);
                 addDependency(context->getSystemT<TextSystem>());
@@ -169,7 +169,7 @@ namespace djv
             System::~System()
             {}
 
-            std::shared_ptr<System> System::create(Context * context)
+            std::shared_ptr<System> System::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<System>(new System);
                 out->_init(context);

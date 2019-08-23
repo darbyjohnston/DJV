@@ -51,7 +51,7 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > nuxObserver;
         };
 
-        void NUXSettingsWidget::_init(Context * context)
+        void NUXSettingsWidget::_init(const std::shared_ptr<Core::Context>& context)
         {
             ISettingsWidget::_init(context);
 
@@ -65,20 +65,24 @@ namespace djv
             addChild(p.formLayout);
 
             auto weak = std::weak_ptr<NUXSettingsWidget>(std::dynamic_pointer_cast<NUXSettingsWidget>(shared_from_this()));
+            auto contextWeak = std::weak_ptr<Context>(context);
             p.nuxButton->setCheckedCallback(
-                [weak, context](bool value)
-            {
-                if (auto widget = weak.lock())
+                [weak, contextWeak](bool value)
                 {
-                    if (auto settingsSystem = context->getSystemT<UI::Settings::System>())
+                    if (auto context = contextWeak.lock())
                     {
-                        if (auto nuxSettings = settingsSystem->getSettingsT<NUXSettings>())
+                        if (auto widget = weak.lock())
                         {
-                            nuxSettings->setNUX(value);
+                            if (auto settingsSystem = context->getSystemT<UI::Settings::System>())
+                            {
+                                if (auto nuxSettings = settingsSystem->getSettingsT<NUXSettings>())
+                                {
+                                    nuxSettings->setNUX(value);
+                                }
+                            }
                         }
                     }
-                }
-            });
+                });
 
             if (auto settingsSystem = context->getSystemT<UI::Settings::System>())
             {
@@ -101,7 +105,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<NUXSettingsWidget> NUXSettingsWidget::create(Context * context)
+        std::shared_ptr<NUXSettingsWidget> NUXSettingsWidget::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<NUXSettingsWidget>(new NUXSettingsWidget);
             out->_init(context);

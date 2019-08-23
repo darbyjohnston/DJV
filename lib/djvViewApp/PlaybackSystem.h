@@ -43,13 +43,13 @@ namespace djv
             DJV_NON_COPYABLE(PlaybackSystem);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             PlaybackSystem();
 
         public:
             ~PlaybackSystem() override;
 
-            static std::shared_ptr<PlaybackSystem> create(Core::Context *);
+            static std::shared_ptr<PlaybackSystem> create(const std::shared_ptr<Core::Context>&);
 
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
             MenuData getMenu() const override;

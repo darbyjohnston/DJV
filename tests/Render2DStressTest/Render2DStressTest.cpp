@@ -144,7 +144,12 @@ private:
 
 void Application::_init(int argc, char ** argv)
 {
-    CmdLine::Application::_init(argc, argv);
+    std::vector<std::string> args;
+    for (int i = 0; i < argc; ++i)
+    {
+        args.push_back(argv[i]);
+    }
+    CmdLine::Application::_init(args);
     _glfwWindow = getSystemT<CmdLine::GLFWSystem>()->getGLFWWindow();
     //glfwSetWindowSize(_glfwWindow, 1280, 720);
     glfwShowWindow(_glfwWindow);

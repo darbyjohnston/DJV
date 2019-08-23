@@ -45,12 +45,12 @@ namespace djv
             DJV_NON_COPYABLE(ImageSettings);
 
         protected:
-            void _init(Core::Context * context);
+            void _init(const std::shared_ptr<Core::Context>&);
 
             ImageSettings();
 
         public:
-            static std::shared_ptr<ImageSettings> create(Core::Context *);
+            static std::shared_ptr<ImageSettings> create(const std::shared_ptr<Core::Context>&);
 
             std::shared_ptr<Core::IValueSubject<ImageRotate> > observeImageRotate() const;
             std::shared_ptr<Core::IValueSubject<ImageAspectRatio> > observeImageAspectRatio() const;

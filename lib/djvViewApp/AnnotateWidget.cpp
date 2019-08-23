@@ -40,7 +40,7 @@ namespace djv
 
         };
 
-        void AnnotateWidget::_init(Context * context)
+        void AnnotateWidget::_init(const std::shared_ptr<Core::Context>& context)
         {
             MDIWidget::_init(context);
             setClassName("djv::ViewApp::AnnotateWidget");
@@ -53,7 +53,7 @@ namespace djv
         AnnotateWidget::~AnnotateWidget()
         {}
 
-        std::shared_ptr<AnnotateWidget> AnnotateWidget::create(Context * context)
+        std::shared_ptr<AnnotateWidget> AnnotateWidget::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<AnnotateWidget>(new AnnotateWidget);
             out->_init(context);

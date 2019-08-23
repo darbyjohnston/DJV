@@ -53,7 +53,7 @@ namespace djv
             std::function<void(const std::string&)> closeWidgetCallback;
         };
 
-        void IViewSystem::_init(const std::string & name, Context * context)
+        void IViewSystem::_init(const std::string & name, const std::shared_ptr<Core::Context>& context)
         {
             ISystem::_init(name, context);
             addDependency(context->getSystemT<UI::UIComponentsSystem>());

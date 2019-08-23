@@ -89,13 +89,13 @@ namespace djv
                 DJV_NON_COPYABLE(Render2D);
 
             protected:
-                void _init(Core::Context *);
+                void _init(const std::shared_ptr<Core::Context>&);
                 Render2D();
 
             public:
                 ~Render2D();
 
-                static std::shared_ptr<Render2D> create(Core::Context *);
+                static std::shared_ptr<Render2D> create(const std::shared_ptr<Core::Context>&);
 
                 //! \name Begin and End
                 ///@{

@@ -118,7 +118,7 @@ namespace djv
                 if (!value.isEmpty())
                 {
                     // Prepare the path.
-                    const std::wstring path = String::toWide(value.get() + Path::getCurrentPathSeparator() + '*');
+                    const std::wstring path = String::toWide(value.get() + Path::getCurrentSeparator() + '*');
                     WCHAR pathBuf[MAX_PATH];
                     size_t size = std::min(path.size(), static_cast<size_t>(MAX_PATH - 1));
                     memcpy(pathBuf, path.c_str(), size * sizeof(WCHAR));

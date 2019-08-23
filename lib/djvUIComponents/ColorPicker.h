@@ -54,13 +54,13 @@ namespace djv
             DJV_NON_COPYABLE(ColorTypeWidget);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             ColorTypeWidget();
 
         public:
             ~ColorTypeWidget() override;
 
-            static std::shared_ptr<ColorTypeWidget> create(Core::Context *);
+            static std::shared_ptr<ColorTypeWidget> create(const std::shared_ptr<Core::Context>&);
 
             AV::Image::Type getType() const;
             void setType(AV::Image::Type);
@@ -86,13 +86,13 @@ namespace djv
             DJV_NON_COPYABLE(ColorSliders);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             ColorSliders();
 
         public:
             ~ColorSliders() override;
 
-            static std::shared_ptr<ColorSliders> create(Core::Context *);
+            static std::shared_ptr<ColorSliders> create(const std::shared_ptr<Core::Context>&);
 
             const AV::Image::Color & getColor() const;
             void setColor(const AV::Image::Color &);
@@ -121,13 +121,13 @@ namespace djv
             DJV_NON_COPYABLE(ColorPicker);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             ColorPicker();
 
         public:
             ~ColorPicker() override;
 
-            static std::shared_ptr<ColorPicker> create(Core::Context *);
+            static std::shared_ptr<ColorPicker> create(const std::shared_ptr<Core::Context>&);
 
             const AV::Image::Color & getColor() const;
             void setColor(const AV::Image::Color &);
@@ -149,13 +149,13 @@ namespace djv
             DJV_NON_COPYABLE(ColorPickerDialogSystem);
 
         protected:
-            void _init(Core::Context*);
+            void _init(const std::shared_ptr<Core::Context>&);
             ColorPickerDialogSystem();
 
         public:
             virtual ~ColorPickerDialogSystem();
 
-            static std::shared_ptr<ColorPickerDialogSystem> create(Core::Context*);
+            static std::shared_ptr<ColorPickerDialogSystem> create(const std::shared_ptr<Core::Context>&);
 
             void colorPicker(
                 const std::string& title,

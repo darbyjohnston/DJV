@@ -37,11 +37,11 @@ namespace djv
 
     namespace CoreTest
     {
-        MemoryTest::MemoryTest(Core::Context * context) :
+        MemoryTest::MemoryTest(const std::shared_ptr<Core::Context>& context) :
             ITest("djv::CoreTest::MemoryTest", context)
         {}
         
-        void MemoryTest::run(int & argc, char ** argv)
+        void MemoryTest::run(const std::vector<std::string>& args)
         {
             {
                 std::stringstream ss;

@@ -80,7 +80,7 @@ namespace djv
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
-        void PlaybackSystem::_init(Context * context)
+        void PlaybackSystem::_init(const std::shared_ptr<Core::Context>& context)
         {
             IViewSystem::_init("djv::ViewApp::PlaybackSystem", context);
 
@@ -537,7 +537,7 @@ namespace djv
         PlaybackSystem::~PlaybackSystem()
         {}
 
-        std::shared_ptr<PlaybackSystem> PlaybackSystem::create(Context * context)
+        std::shared_ptr<PlaybackSystem> PlaybackSystem::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<PlaybackSystem>(new PlaybackSystem);
             out->_init(context);

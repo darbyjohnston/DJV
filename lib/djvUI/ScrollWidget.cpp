@@ -67,13 +67,13 @@ namespace djv
                 DJV_NON_COPYABLE(ScrollBar);
                 
             protected:
-                void _init(Orientation, Context *);
+                void _init(Orientation, const std::shared_ptr<Context>&);
                 ScrollBar();
 
             public:
                 virtual ~ScrollBar();
 
-                static std::shared_ptr<ScrollBar> create(Orientation, Context *);
+                static std::shared_ptr<ScrollBar> create(Orientation, const std::shared_ptr<Context>&);
 
                 void setViewSize(float);
                 void setContentsSize(float);
@@ -106,7 +106,7 @@ namespace djv
                 float _pressedScrollPos = 0.f;
             };
         
-            void ScrollBar::_init(Orientation orientation, Context * context)
+            void ScrollBar::_init(Orientation orientation, const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
 
@@ -122,7 +122,7 @@ namespace djv
             ScrollBar::~ScrollBar()
             {}
 
-            std::shared_ptr<ScrollBar> ScrollBar::create(Orientation orientation, Context * context)
+            std::shared_ptr<ScrollBar> ScrollBar::create(Orientation orientation, const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<ScrollBar>(new ScrollBar);
                 out->_init(orientation, context);
@@ -368,7 +368,7 @@ namespace djv
                 DJV_NON_COPYABLE(ScrollArea);
                 
             protected:
-                void _init(ScrollType, Context *);
+                void _init(ScrollType, const std::shared_ptr<Context>&);
                 ScrollArea()
                 {}
 
@@ -376,7 +376,7 @@ namespace djv
                 virtual ~ScrollArea()
                 {}
 
-                static std::shared_ptr<ScrollArea> create(ScrollType, Context *);
+                static std::shared_ptr<ScrollArea> create(ScrollType, const std::shared_ptr<Context>&);
 
                 ScrollType getScrollType() const { return _scrollType; }
                 void setScrollType(ScrollType);
@@ -405,14 +405,14 @@ namespace djv
                 MetricsRole _minimumSizeRole = MetricsRole::ScrollArea;
             };
 
-            void ScrollArea::_init(ScrollType scrollType, Context * context)
+            void ScrollArea::_init(ScrollType scrollType, const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
                 setClassName("djv::UI::ScrollArea");
                 _scrollType = scrollType;
             }
 
-            std::shared_ptr<ScrollArea> ScrollArea::create(ScrollType scrollType, Context * context)
+            std::shared_ptr<ScrollArea> ScrollArea::create(ScrollType scrollType, const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<ScrollArea>(new ScrollArea);
                 out->_init(scrollType, context);
@@ -586,7 +586,7 @@ namespace djv
             std::shared_ptr<Time::Timer> swipeTimer;
         };
 
-        void ScrollWidget::_init(ScrollType scrollType, Context * context)
+        void ScrollWidget::_init(ScrollType scrollType, const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
 
@@ -730,7 +730,7 @@ namespace djv
         ScrollWidget::~ScrollWidget()
         {}
 
-        std::shared_ptr<ScrollWidget> ScrollWidget::create(ScrollType scrollType, Context * context)
+        std::shared_ptr<ScrollWidget> ScrollWidget::create(ScrollType scrollType, const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<ScrollWidget>(new ScrollWidget);
             out->_init(scrollType, context);

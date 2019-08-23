@@ -44,7 +44,7 @@ namespace djv
             DJV_NON_COPYABLE(IDialog);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             IDialog();
 
         public:

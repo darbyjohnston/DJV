@@ -48,7 +48,7 @@ namespace djv
             std::shared_ptr<ValueObserver<float> > valueObserver;
         };
 
-        void FloatEdit::_init(Context * context)
+        void FloatEdit::_init(const std::shared_ptr<Context>& context)
         {
             NumericEdit::_init(context);
             DJV_PRIVATE_PTR();
@@ -63,7 +63,7 @@ namespace djv
         FloatEdit::~FloatEdit()
         {}
         
-        std::shared_ptr<FloatEdit> FloatEdit::create(Context * context)
+        std::shared_ptr<FloatEdit> FloatEdit::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<FloatEdit>(new FloatEdit);
             out->_init(context);

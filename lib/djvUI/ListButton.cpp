@@ -57,7 +57,7 @@ namespace djv
                 std::shared_ptr<HorizontalLayout> layout;
             };
 
-            void List::_init(Context * context)
+            void List::_init(const std::shared_ptr<Context>& context)
             {
                 IButton::_init(context);
 
@@ -76,27 +76,10 @@ namespace djv
             List::~List()
             {}
 
-            std::shared_ptr<List> List::create(Context * context)
+            std::shared_ptr<List> List::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<List>(new List);
                 out->_init(context);
-                return out;
-            }
-
-            std::shared_ptr<List> List::create(const std::string & text, Context * context)
-            {
-                auto out = std::shared_ptr<List>(new List);
-                out->_init(context);
-                out->setText(text);
-                return out;
-            }
-
-            std::shared_ptr<List> List::create(const std::string & text, const std::string & icon, Context * context)
-            {
-                auto out = std::shared_ptr<List>(new List);
-                out->_init(context);
-                out->setIcon(icon);
-                out->setText(text);
                 return out;
             }
 
@@ -111,15 +94,18 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (!value.empty())
                 {
-                    if (!p.icon)
+                    if (auto context = getContext().lock())
                     {
-                        p.icon = Icon::create(getContext());
-                        p.icon->setVAlign(VAlign::Center);
-                        p.icon->setIconColorRole(getForegroundColorRole());
-                        p.layout->addChild(p.icon);
-                        p.icon->moveToFront();
+                        if (!p.icon)
+                        {
+                            p.icon = Icon::create(context);
+                            p.icon->setVAlign(VAlign::Center);
+                            p.icon->setIconColorRole(getForegroundColorRole());
+                            p.layout->addChild(p.icon);
+                            p.icon->moveToFront();
+                        }
+                        p.icon->setIcon(value);
                     }
-                    p.icon->setIcon(value);
                 }
                 else
                 {
@@ -139,19 +125,22 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (!value.empty())
                 {
-                    if (!p.label)
+                    if (auto context = getContext().lock())
                     {
-                        p.label = Label::create(getContext());
-                        p.label->setTextHAlign(p.textHAlign);
-                        p.label->setTextColorRole(getForegroundColorRole());
-                        p.label->setFont(p.font);
-                        p.label->setFontFace(p.fontFace);
-                        p.label->setFontSizeRole(p.fontSizeRole);
-                        p.layout->addChild(p.label);
-                        p.layout->setStretch(p.label, RowStretch::Expand);
-                        p.label->moveToBack();
+                        if (!p.label)
+                        {
+                            p.label = Label::create(context);
+                            p.label->setTextHAlign(p.textHAlign);
+                            p.label->setTextColorRole(getForegroundColorRole());
+                            p.label->setFont(p.font);
+                            p.label->setFontFace(p.fontFace);
+                            p.label->setFontSizeRole(p.fontSizeRole);
+                            p.layout->addChild(p.label);
+                            p.layout->setStretch(p.label, RowStretch::Expand);
+                            p.label->moveToBack();
+                        }
+                        p.label->setText(value);
                     }
-                    p.label->setText(value);
                 }
                 else
                 {

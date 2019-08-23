@@ -64,7 +64,7 @@ namespace djv
                 std::shared_ptr<ValueSubject<bool> > sortDirectoriesFirst;
             };
 
-            void FileBrowser::_init(Context * context)
+            void FileBrowser::_init(const std::shared_ptr<Context>& context)
             {
                 ISettings::_init("djv::UI::Settings::FileBrowser", context);
                 
@@ -95,7 +95,7 @@ namespace djv
             FileBrowser::~FileBrowser()
             {}
 
-            std::shared_ptr<FileBrowser> FileBrowser::create(Context * context)
+            std::shared_ptr<FileBrowser> FileBrowser::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<FileBrowser>(new FileBrowser);
                 out->_init(context);

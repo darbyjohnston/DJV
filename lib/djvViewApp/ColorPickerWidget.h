@@ -41,13 +41,13 @@ namespace djv
             DJV_NON_COPYABLE(ColorPickerWidget);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             ColorPickerWidget();
 
         public:
             ~ColorPickerWidget() override;
 
-            static std::shared_ptr<ColorPickerWidget> create(Core::Context *);
+            static std::shared_ptr<ColorPickerWidget> create(const std::shared_ptr<Core::Context>&);
 
         protected:
             void _localeEvent(Core::Event::Locale &) override;

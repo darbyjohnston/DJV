@@ -54,14 +54,14 @@ namespace djv
             DJV_NON_COPYABLE(TextSystem);
 
         protected:
-            void _init(const FileSystem::Path &, Context *);
+            void _init(const FileSystem::Path &, const std::shared_ptr<Context>&);
             TextSystem();
 
         public:
             virtual ~TextSystem();
             
             //! Create a new text system.
-            static std::shared_ptr<TextSystem> create(const FileSystem::Path &, Context *);
+            static std::shared_ptr<TextSystem> create(const FileSystem::Path &, const std::shared_ptr<Context>&);
 
             //! \name Language Locale
             ///@{

@@ -35,7 +35,7 @@ namespace djv
 {
     namespace AVTest
     {
-        PixelTest::PixelTest(Core::Context * context) :
+        PixelTest::PixelTest(const std::shared_ptr<Core::Context>& context) :
             ITest("djv::AVTest::PixelTest", context)
         {}
         
@@ -50,7 +50,7 @@ namespace djv
         _print(ss.str()); \
     }
 
-        void PixelTest::run(int & argc, char ** argv)
+        void PixelTest::run(const std::vector<std::string>& args)
         {
             {
                 std::stringstream ss;

@@ -41,7 +41,7 @@ namespace djv
             DJV_NON_COPYABLE(MDIWidget);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             MDIWidget();
 
         public:

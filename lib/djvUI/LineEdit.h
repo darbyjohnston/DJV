@@ -41,13 +41,13 @@ namespace djv
             DJV_NON_COPYABLE(LineEdit);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             LineEdit();
 
         public:
             virtual ~LineEdit();
 
-            static std::shared_ptr<LineEdit> create(Core::Context *);
+            static std::shared_ptr<LineEdit> create(const std::shared_ptr<Core::Context>&);
 
             const std::string & getText() const;
             void setText(const std::string &);

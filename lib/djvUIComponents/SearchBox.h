@@ -41,13 +41,13 @@ namespace djv
             DJV_NON_COPYABLE(SearchBox);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             SearchBox();
 
         public:
             virtual ~SearchBox();
 
-            static std::shared_ptr<SearchBox> create(Core::Context *);
+            static std::shared_ptr<SearchBox> create(const std::shared_ptr<Core::Context>&);
 
             const std::string & getFilter() const;
             void setFilter(const std::string &);

@@ -62,7 +62,7 @@ namespace djv
             void closeMenus();
         };
 
-        void MenuBar::_init(Context * context)
+        void MenuBar::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
             
@@ -111,7 +111,7 @@ namespace djv
         MenuBar::~MenuBar()
         {}
 
-        std::shared_ptr<MenuBar> MenuBar::create(Context * context)
+        std::shared_ptr<MenuBar> MenuBar::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<MenuBar>(new MenuBar);
             out->_init(context);
@@ -172,75 +172,78 @@ namespace djv
         {
             Widget::addChild(value);
             DJV_PRIVATE_PTR();
-            if (auto menu = std::dynamic_pointer_cast<Menu>(value))
+            if (auto context = getContext().lock())
             {
-                menu->close();
-                menu->setMinimumSizeRole(MetricsRole::Menu);
-                p.menus.push_back(menu);
-
-                auto button = Button::Menu::create(Button::MenuStyle::Flat, getContext());
-                button->installEventFilter(shared_from_this());
-
-                p.menuLayout->addChild(button);
-
-                p.menusToButtons[menu] = button;
-                p.buttonsToMenus[button] = menu;
-
-                auto weak = std::weak_ptr<MenuBar>(std::dynamic_pointer_cast<MenuBar>(shared_from_this()));
-                button->setCheckedCallback(
-                    [weak, menu](bool value)
+                if (auto menu = std::dynamic_pointer_cast<Menu>(value))
                 {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->closeMenus();
-                        if (value)
+                    menu->close();
+                    menu->setMinimumSizeRole(MetricsRole::Menu);
+                    p.menus.push_back(menu);
+
+                    auto button = Button::Menu::create(Button::MenuStyle::Flat, context);
+                    button->installEventFilter(shared_from_this());
+
+                    p.menuLayout->addChild(button);
+
+                    p.menusToButtons[menu] = button;
+                    p.buttonsToMenus[button] = menu;
+
+                    auto weak = std::weak_ptr<MenuBar>(std::dynamic_pointer_cast<MenuBar>(shared_from_this()));
+                    button->setCheckedCallback(
+                        [weak, menu](bool value)
                         {
-                            const auto i = widget->_p->menusToButtons.find(menu);
-                            if (i != widget->_p->menusToButtons.end())
+                            if (auto widget = weak.lock())
                             {
-                                i->second->setChecked(true);
-                                menu->popup(i->second, widget->_p->menuLayout);
-                                widget->_p->menuOpen = i->second;
+                                widget->_p->closeMenus();
+                                if (value)
+                                {
+                                    const auto i = widget->_p->menusToButtons.find(menu);
+                                    if (i != widget->_p->menusToButtons.end())
+                                    {
+                                        i->second->setChecked(true);
+                                        menu->popup(i->second, widget->_p->menuLayout);
+                                        widget->_p->menuOpen = i->second;
+                                    }
+                                }
                             }
-                        }
-                    }
-                });
+                        });
 
-                auto weakMenu = std::weak_ptr<Menu>(std::dynamic_pointer_cast<Menu>(menu));
-                menu->setCloseCallback(
-                    [weak, weakMenu]
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        if (auto menu = weakMenu.lock())
+                    auto weakMenu = std::weak_ptr<Menu>(std::dynamic_pointer_cast<Menu>(menu));
+                    menu->setCloseCallback(
+                        [weak, weakMenu]
                         {
-                            const auto i = widget->_p->menusToButtons.find(menu);
-                            if (i != widget->_p->menusToButtons.end())
+                            if (auto widget = weak.lock())
                             {
-                                i->second->setChecked(false);
+                                if (auto menu = weakMenu.lock())
+                                {
+                                    const auto i = widget->_p->menusToButtons.find(menu);
+                                    if (i != widget->_p->menusToButtons.end())
+                                    {
+                                        i->second->setChecked(false);
+                                    }
+                                }
+                                widget->_p->menuOpen.reset();
                             }
-                        }
-                        widget->_p->menuOpen.reset();
-                    }
-                });
+                        });
 
-                p.iconObservers[menu] = ValueObserver<std::string>::create(
-                    menu->observeIcon(),
-                    [button](const std::string & value)
-                {
-                    button->setIcon(value);
-                });
+                    p.iconObservers[menu] = ValueObserver<std::string>::create(
+                        menu->observeIcon(),
+                        [button](const std::string& value)
+                        {
+                            button->setIcon(value);
+                        });
 
-                p.textObservers[menu] = ValueObserver<std::string>::create(
-                    menu->observeText(),
-                    [button](const std::string & value)
+                    p.textObservers[menu] = ValueObserver<std::string>::create(
+                        menu->observeText(),
+                        [button](const std::string& value)
+                        {
+                            button->setText(value);
+                        });
+                }
+                else if (auto widget = std::dynamic_pointer_cast<Widget>(value))
                 {
-                    button->setText(value);
-                });
-            }
-            else if (auto widget = std::dynamic_pointer_cast<Widget>(value))
-            {
-                p.widgetLayout[Side::Right]->addChild(widget);
+                    p.widgetLayout[Side::Right]->addChild(widget);
+                }
             }
         }
 

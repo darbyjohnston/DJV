@@ -41,13 +41,13 @@ namespace djv
             DJV_NON_COPYABLE(MemoryCacheWidget);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             MemoryCacheWidget();
 
         public:
             ~MemoryCacheWidget() override;
 
-            static std::shared_ptr<MemoryCacheWidget> create(Core::Context *);
+            static std::shared_ptr<MemoryCacheWidget> create(const std::shared_ptr<Core::Context>&);
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout&) override;

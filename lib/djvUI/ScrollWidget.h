@@ -59,13 +59,13 @@ namespace djv
             DJV_NON_COPYABLE(ScrollWidget);
 
         protected:
-            void _init(ScrollType, Core::Context *);
+            void _init(ScrollType, const std::shared_ptr<Core::Context>&);
             ScrollWidget();
 
         public:
             virtual ~ScrollWidget();
 
-            static std::shared_ptr<ScrollWidget> create(ScrollType, Core::Context *);
+            static std::shared_ptr<ScrollWidget> create(ScrollType, const std::shared_ptr<Core::Context>&);
 
             ScrollType getScrollType() const;
             void setScrollType(ScrollType);

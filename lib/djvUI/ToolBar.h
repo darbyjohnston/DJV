@@ -41,13 +41,13 @@ namespace djv
             DJV_NON_COPYABLE(ToolBar);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             ToolBar();
 
         public:
             virtual ~ToolBar();
 
-            static std::shared_ptr<ToolBar> create(Core::Context *);
+            static std::shared_ptr<ToolBar> create(const std::shared_ptr<Core::Context>&);
 
             void setStretch(const std::shared_ptr<Widget> &, RowStretch);
 

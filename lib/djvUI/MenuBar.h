@@ -43,13 +43,13 @@ namespace djv
             DJV_NON_COPYABLE(MenuBar);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             MenuBar();
 
         public:
             virtual ~MenuBar();
 
-            static std::shared_ptr<MenuBar> create(Core::Context *);
+            static std::shared_ptr<MenuBar> create(const std::shared_ptr<Core::Context>&);
 
             void setSide(const std::shared_ptr<Widget>&, Side);
 

@@ -52,7 +52,7 @@ namespace djv
                 std::string defaultView;
             };
 
-            void System::_init(Core::Context* context)
+            void System::_init(const std::shared_ptr<Core::Context>& context)
             {
                 ISystem::_init("djv::AV::OCIO::System", context);
 
@@ -159,7 +159,7 @@ namespace djv
             System::~System()
             {}
 
-            std::shared_ptr<System> System::create(Core::Context* context)
+            std::shared_ptr<System> System::create(const std::shared_ptr<Core::Context>& context)
             {
                 auto out = std::shared_ptr<System>(new System);
                 out->_init(context);

@@ -55,7 +55,7 @@ namespace djv
                 std::shared_ptr<ValueSubject<std::string> > outputColorSpace;
             };
 
-            void ColorSpace::_init(Context * context)
+            void ColorSpace::_init(const std::shared_ptr<Core::Context>& context)
             {
                 ISettings::_init("djv::UI::Settings::ColorSpace", context);
                 DJV_PRIVATE_PTR();
@@ -74,7 +74,7 @@ namespace djv
             ColorSpace::~ColorSpace()
             {}
 
-            std::shared_ptr<ColorSpace> ColorSpace::create(Context * context)
+            std::shared_ptr<ColorSpace> ColorSpace::create(const std::shared_ptr<Core::Context>& context)
             {
                 auto out = std::shared_ptr<ColorSpace>(new ColorSpace);
                 out->_init(context);
@@ -149,17 +149,20 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 std::string out;
-                auto ocioSystem = getContext()->getSystemT<AV::OCIO::System>();
-                for (const auto& i : ocioSystem->observeDisplays()->get())
+                if (auto context = getContext().lock())
                 {
-                    if (p.display->get() == i.name)
+                    auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                    for (const auto& i : ocioSystem->observeDisplays()->get())
                     {
-                        for (const auto& j : i.views)
+                        if (p.display->get() == i.name)
                         {
-                            if (p.view->get() == j.name)
+                            for (const auto& j : i.views)
                             {
-                                out = j.colorSpace;
-                                break;
+                                if (p.view->get() == j.name)
+                                {
+                                    out = j.colorSpace;
+                                    break;
+                                }
                             }
                         }
                     }

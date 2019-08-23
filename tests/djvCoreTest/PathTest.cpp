@@ -38,11 +38,11 @@ namespace djv
 
     namespace CoreTest
     {
-        PathTest::PathTest(Core::Context * context) :
+        PathTest::PathTest(const std::shared_ptr<Core::Context>& context) :
             ITest("djv::CoreTest::PathTest", context)
         {}
         
-        void PathTest::run(int & argc, char ** argv)
+        void PathTest::run(const std::vector<std::string>& args)
         {
             {
                 struct Data

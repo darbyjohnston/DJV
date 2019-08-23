@@ -57,11 +57,11 @@ namespace djv
                 DJV_NON_COPYABLE(MenuWidget);
 
             protected:
-                void _init(Context *);
+                void _init(const std::shared_ptr<Context>&);
                 MenuWidget();
 
             public:
-                static std::shared_ptr<MenuWidget> create(Context *);
+                static std::shared_ptr<MenuWidget> create(const std::shared_ptr<Context>&);
 
                 void setActions(const std::map<size_t, std::shared_ptr<Action> > &);
 
@@ -125,7 +125,7 @@ namespace djv
                 bool _textUpdateRequest = false;
             };
 
-            void MenuWidget::_init(Context * context)
+            void MenuWidget::_init(const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
                 setClassName("djv::UI::MenuWidget");
@@ -134,7 +134,7 @@ namespace djv
             MenuWidget::MenuWidget()
             {}
 
-            std::shared_ptr<MenuWidget> MenuWidget::create(Context * context)
+            std::shared_ptr<MenuWidget> MenuWidget::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<MenuWidget>(new MenuWidget);
                 out->_init(context);
@@ -604,8 +604,9 @@ namespace djv
                         {
                             if (auto widget = weak.lock())
                             {
-                                if (auto textSystem = widget->getContext()->getSystemT<TextSystem>())
+                                if (auto context = widget->getContext().lock())
                                 {
+                                    auto textSystem = context->getSystemT<TextSystem>();
                                     std::vector<std::string> labels;
                                     for (const auto & i : value)
                                     {
@@ -661,11 +662,11 @@ namespace djv
                 DJV_NON_COPYABLE(MenuPopupWidget);
 
             protected:
-                void _init(Context *);
+                void _init(const std::shared_ptr<Context>&);
                 MenuPopupWidget();
 
             public:
-                static std::shared_ptr<MenuPopupWidget> create(Context *);
+                static std::shared_ptr<MenuPopupWidget> create(const std::shared_ptr<Context>&);
 
                 void setActions(const std::map<size_t, std::shared_ptr<Action> > &);
 
@@ -685,7 +686,7 @@ namespace djv
                 std::shared_ptr<MenuWidget> _menuWidget;
             };
 
-            void MenuPopupWidget::_init(Context * context)
+            void MenuPopupWidget::_init(const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
                 setClassName("djv::UI::MenuPopupWidget");
@@ -701,7 +702,7 @@ namespace djv
             MenuPopupWidget::MenuPopupWidget()
             {}
 
-            std::shared_ptr<MenuPopupWidget> MenuPopupWidget::create(Context * context)
+            std::shared_ptr<MenuPopupWidget> MenuPopupWidget::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr< MenuPopupWidget>(new MenuPopupWidget);
                 out->_init(context);
@@ -754,11 +755,11 @@ namespace djv
                 DJV_NON_COPYABLE(MenuOverlayLayout);
 
             protected:
-                void _init(Context *);
+                void _init(const std::shared_ptr<Context>&);
                 MenuOverlayLayout();
 
             public:
-                static std::shared_ptr<MenuOverlayLayout> create(Context *);
+                static std::shared_ptr<MenuOverlayLayout> create(const std::shared_ptr<Context>&);
 
                 void setPos(const std::shared_ptr<Widget> &, const glm::vec2 &);
                 void setButton(const std::shared_ptr<Widget> &, const std::weak_ptr<Button::Menu> &);
@@ -774,7 +775,7 @@ namespace djv
                 std::map<std::shared_ptr<Widget>, std::weak_ptr<Button::Menu> > _widgetToButton;
             };
 
-            void MenuOverlayLayout::_init(Context * context)
+            void MenuOverlayLayout::_init(const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
                 setClassName("djv::UI::MenuOverlayLayout");
@@ -783,7 +784,7 @@ namespace djv
             MenuOverlayLayout::MenuOverlayLayout()
             {}
 
-            std::shared_ptr<MenuOverlayLayout> MenuOverlayLayout::create(Context * context)
+            std::shared_ptr<MenuOverlayLayout> MenuOverlayLayout::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<MenuOverlayLayout>(new MenuOverlayLayout);
                 out->_init(context);
@@ -878,7 +879,7 @@ namespace djv
             void createOverlay();
         };
 
-        void Menu::_init(Context * context)
+        void Menu::_init(const std::shared_ptr<Context>& context)
         {
             IObject::_init(context);
 
@@ -894,18 +895,10 @@ namespace djv
         Menu::~Menu()
         {}
 
-        std::shared_ptr<Menu> Menu::create(Context * context)
+        std::shared_ptr<Menu> Menu::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<Menu>(new Menu);
             out->_init(context);
-            return out;
-        }
-
-        std::shared_ptr<Menu> Menu::create(const std::string & text, Context * context)
-        {
-            auto out = std::shared_ptr<Menu>(new Menu);
-            out->_init(context);
-            out->setText(text);
             return out;
         }
 
@@ -1069,41 +1062,43 @@ namespace djv
         void Menu::_createWidgets()
         {
             DJV_PRIVATE_PTR();
-            auto context = getContext();
-            p.popupWidget = MenuPopupWidget::create(context);
-            p.popupWidget->setActions(p.actions);
-            p.popupWidget->setMinimumSizeRole(p.minimumSizeRole);
-            p.popupWidget->setBackgroundRole(p.backgroundRole);
-
-            p.overlayLayout = MenuOverlayLayout::create(context);
-            p.overlayLayout->setMargin(Layout::Margin(MetricsRole::None, MetricsRole::None, MetricsRole::Margin, MetricsRole::Margin));
-            p.overlayLayout->addChild(p.popupWidget);
-
-            p.overlay = Layout::Overlay::create(context);
-            p.overlay->setFadeIn(false);
-            p.overlay->setVisible(true);
-            p.overlay->setBackgroundRole(ColorRole::None);
-            p.overlay->addChild(p.overlayLayout);
-            addChild(p.overlay);
-
-            auto weak = std::weak_ptr<Menu>(std::dynamic_pointer_cast<Menu>(shared_from_this()));
-            p.popupWidget->setCloseCallback(
-                [weak]
+            if (auto context = getContext().lock())
             {
-                if (auto menu = weak.lock())
-                {
-                    menu->close();
-                }
-            });
+                p.popupWidget = MenuPopupWidget::create(context);
+                p.popupWidget->setActions(p.actions);
+                p.popupWidget->setMinimumSizeRole(p.minimumSizeRole);
+                p.popupWidget->setBackgroundRole(p.backgroundRole);
 
-            p.overlay->setCloseCallback(
-                [weak]
-            {
-                if (auto menu = weak.lock())
-                {
-                    menu->close();
-                }
-            });
+                p.overlayLayout = MenuOverlayLayout::create(context);
+                p.overlayLayout->setMargin(Layout::Margin(MetricsRole::None, MetricsRole::None, MetricsRole::Margin, MetricsRole::Margin));
+                p.overlayLayout->addChild(p.popupWidget);
+
+                p.overlay = Layout::Overlay::create(context);
+                p.overlay->setFadeIn(false);
+                p.overlay->setVisible(true);
+                p.overlay->setBackgroundRole(ColorRole::None);
+                p.overlay->addChild(p.overlayLayout);
+                addChild(p.overlay);
+
+                auto weak = std::weak_ptr<Menu>(std::dynamic_pointer_cast<Menu>(shared_from_this()));
+                p.popupWidget->setCloseCallback(
+                    [weak]
+                    {
+                        if (auto menu = weak.lock())
+                        {
+                            menu->close();
+                        }
+                    });
+
+                p.overlay->setCloseCallback(
+                    [weak]
+                    {
+                        if (auto menu = weak.lock())
+                        {
+                            menu->close();
+                        }
+                    });
+            }
         }
 
     } // namespace UI

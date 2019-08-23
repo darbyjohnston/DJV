@@ -123,15 +123,15 @@ namespace djv
 
                 inline const Path& getPath() const;
                 inline bool isEmpty() const;
-                void setPath(const Path&, bool stat = true);
-                void setPath(const Path&, FileType, bool stat = true);
+                void setPath(const Path& path, bool stat = true);
+                void setPath(const Path& path, FileType fileType, bool stat = true);
 
                 ///@}
 
                 //! Get the file name.
                 //! \param frame Specify a frame number or -1 for the entire sequence.
                 //! \param path Include the path in the file name.
-                std::string getFileName(Frame::Number = Frame::invalid, bool path = true) const;
+                std::string getFileName(Frame::Number frame = Frame::invalid, bool path = true) const;
 
                 //! Get whether this file exists.
                 inline bool doesExist() const;
@@ -161,7 +161,7 @@ namespace djv
                 void sortSequence();
                 inline bool isSequenceValid() const;
                 inline bool isSequenceWildcard() const;
-                inline bool sequenceContains(const FileInfo &) const;
+                inline bool isCompatible(const FileInfo &) const;
                 inline bool addToSequence(const FileInfo &);
 
                 ///@}
@@ -172,7 +172,7 @@ namespace djv
                 //! Get the contents of the given directory.
                 //! Throws:
                 //! - std::exception
-                static std::vector<FileInfo> directoryList(const Path &, const DirectoryListOptions & = DirectoryListOptions());
+                static std::vector<FileInfo> directoryList(const Path& path, const DirectoryListOptions& options = DirectoryListOptions());
 
                 //! Get the file sequence for the given file.
                 //! Throws:

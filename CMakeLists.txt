@@ -68,6 +68,9 @@ if(DJV_OPENGL_ES2)
     add_definitions(-DDJV_OPENGL_ES2)
 endif()
 
+# Set whether to use Python.
+set(DJV_PYTHON FALSE CACHE STRING "Whether to use Python")
+
 # Enable testing.
 enable_testing()
 
@@ -101,11 +104,17 @@ if(UNIX)
 endif()
 
 # Include directories.
-include_directories(
+set(INCLUDE_DIRS
     ${CMAKE_SOURCE_DIR}/lib
     ${CMAKE_SOURCE_DIR}/bin
     ${CMAKE_SOURCE_DIR}/tests
     ${CMAKE_SOURCE_DIR}/third-party)
+if(DJV_PYTHON)
+	set(INCLUDE_DIRS
+		${INCLUDE_DIRS}
+		${pybind11_SOURCE_DIR}/include)
+endif()
+include_directories(${INCLUDE_DIRS})
 
 #-------------------------------------------------------------------------------
 # Third Party Libraries
@@ -179,7 +188,7 @@ set(DJV_THIRD_PARTY_PACKAGES_OPTIONAL
     OpenEXR)
 if(WIN32)
     # See the directions for building FFmpeg on Windows in "doc/BuildWindows.html".
-	find_package(FFmpeg)
+	#find_package(FFmpeg)
 else()
     set(DJV_THIRD_PARTY_PACKAGES_OPTIONAL
         ${DJV_THIRD_PARTY_PACKAGES_OPTIONAL}
@@ -200,6 +209,10 @@ else()
     foreach(PACKAGE ${DJV_THIRD_PARTY_PACKAGES_OPTIONAL})
         find_package(${PACKAGE})
     endforeach()
+endif()
+
+if(DJV_PYTHON)
+	find_package(Python)
 endif()
 
 #-------------------------------------------------------------------------------
@@ -290,6 +303,7 @@ set(DJV_RESOURCE_FILES
 
 include(djvPackage)
 
+add_subdirectory(third-party)
 add_subdirectory(bin)
 add_subdirectory(lib)
 add_subdirectory(tests)

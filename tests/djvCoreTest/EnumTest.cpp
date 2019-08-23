@@ -37,11 +37,11 @@ namespace djv
 
     namespace CoreTest
     {
-        EnumTest::EnumTest(Core::Context * context) :
+        EnumTest::EnumTest(const std::shared_ptr<Core::Context>& context) :
             ITest("djv::CoreTest::EnumTest", context)
         {}
         
-        void EnumTest::run(int & argc, char ** argv)
+        void EnumTest::run(const std::vector<std::string>& args)
         {
             {
                 for (auto i : Memory::getEndianEnums())

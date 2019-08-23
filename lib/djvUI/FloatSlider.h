@@ -44,13 +44,13 @@ namespace djv
             DJV_NON_COPYABLE(BasicFloatSlider);
 
         protected:
-            void _init(Orientation, Core::Context *);
+            void _init(Orientation, const std::shared_ptr<Core::Context>&);
             BasicFloatSlider();
 
         public:
             ~BasicFloatSlider() override;
 
-            static std::shared_ptr<BasicFloatSlider> create(Orientation, Core::Context *);
+            static std::shared_ptr<BasicFloatSlider> create(Orientation, const std::shared_ptr<Core::Context>&);
 
             void setModel(const std::shared_ptr<Core::INumericValueModel<float> > &) override;
 
@@ -76,13 +76,13 @@ namespace djv
             DJV_NON_COPYABLE(FloatSlider);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             FloatSlider();
 
         public:
             ~FloatSlider() override;
 
-            static std::shared_ptr<FloatSlider> create(Core::Context *);
+            static std::shared_ptr<FloatSlider> create(const std::shared_ptr<Core::Context>&);
 
             Core::FloatRange getRange() const;
             void setRange(const Core::FloatRange &);

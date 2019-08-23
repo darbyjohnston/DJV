@@ -27,13 +27,13 @@ namespace djv
                 DJV_NON_COPYABLE(Menu);
 
             protected:
-                void _init(MenuStyle, Core::Context *);
+                void _init(MenuStyle, const std::shared_ptr<Core::Context>&);
                 Menu();
 
             public:
                 virtual ~Menu();
 
-                static std::shared_ptr<Menu> create(MenuStyle, Core::Context *);
+                static std::shared_ptr<Menu> create(MenuStyle, const std::shared_ptr<Core::Context>&);
 
                 const std::string& getIcon() const;
                 const std::string& getPopupIcon() const;

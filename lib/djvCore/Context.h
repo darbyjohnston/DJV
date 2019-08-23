@@ -55,12 +55,12 @@ namespace djv
         } // namespace Time
 
         //! This class provides core functionality.
-        class Context
+        class Context : public std::enable_shared_from_this<Context>
         {
             DJV_NON_COPYABLE(Context);
 
         protected:
-            void _init(int &, char **);
+            void _init(const std::vector<std::string>&);
             inline Context();
 
         public:
@@ -68,7 +68,7 @@ namespace djv
 
             //! Throws:
             //! - std::exception
-            static std::unique_ptr<Context> create(int &, char **);
+            static std::shared_ptr<Context> create(const std::vector<std::string>& args);
 
             //! Get the command line arguments.
             inline const std::vector<std::string> & getArgs() const;

@@ -6,11 +6,11 @@ set(header
     Bellows.h
     Border.h
     ButtonGroup.h
-	ColorSpaceSettings.h
+    ColorSpaceSettings.h
     ColorSwatch.h
     ComboBox.h
     DialogSystem.h
-	DrawUtil.h
+    DrawUtil.h
     Drawer.h
     Enum.h
     EventSystem.h
@@ -37,7 +37,7 @@ set(header
     IntLabel.h
     IntSlider.h
     Label.h
-	LayoutUtil.h
+    LayoutUtil.h
     ListButton.h
     ListWidget.h
     LineEdit.h
@@ -49,7 +49,7 @@ set(header
     Menu.h
     MenuBar.h
     MenuButton.h
-	NumericEdit.h
+    NumericEdit.h
     NumericSlider.h
     Overlay.h
     PopupMenu.h
@@ -90,11 +90,11 @@ set(source
     Bellows.cpp
     Border.cpp
     ButtonGroup.cpp
-	ColorSpaceSettings.cpp
+    ColorSpaceSettings.cpp
     ColorSwatch.cpp
     ComboBox.cpp
     DialogSystem.cpp
-	DrawUtil.cpp
+    DrawUtil.cpp
     Drawer.cpp
     Enum.cpp
     EventSystem.cpp
@@ -118,7 +118,7 @@ set(source
     IntLabel.cpp
     IntSlider.cpp
     Label.cpp
-	LayoutUtil.cpp
+    LayoutUtil.cpp
     ListButton.cpp
     ListWidget.cpp
     LineEdit.cpp
@@ -129,7 +129,7 @@ set(source
     Menu.cpp
     MenuBar.cpp
     MenuButton.cpp
-	NumericEdit.cpp
+    NumericEdit.cpp
     NumericSlider.cpp
     Overlay.cpp
     PopupMenu.cpp

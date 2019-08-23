@@ -38,9 +38,9 @@ namespace djv
         class FrameTest : public Test::ITest
         {
         public:
-            FrameTest(Core::Context *);
+            FrameTest(const std::shared_ptr<Core::Context>&);
             
-            void run(int & argc, char ** argv) override;
+            void run(const std::vector<std::string>&) override;
         };
         
     } // namespace CoreTest

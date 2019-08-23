@@ -54,7 +54,7 @@ namespace djv
                 std::shared_ptr<Time::Timer> timer;
             };
 
-            void DrivesModel::_init(Context * context)
+            void DrivesModel::_init(const std::shared_ptr<Context>& context)
             {
                 DJV_PRIVATE_PTR();
 
@@ -107,7 +107,7 @@ namespace djv
                 }
             }
 
-            std::shared_ptr<DrivesModel> DrivesModel::create(Context * context)
+            std::shared_ptr<DrivesModel> DrivesModel::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<DrivesModel>(new DrivesModel);
                 out->_init(context);

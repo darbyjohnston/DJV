@@ -50,7 +50,7 @@ namespace djv
                 std::shared_ptr<MapSubject<std::string, std::string> > localeFonts;
             };
 
-            void Font::_init(Context * context)
+            void Font::_init(const std::shared_ptr<Core::Context>& context)
             {
                 ISettings::_init("djv::UI::Settings::Font", context);
 
@@ -73,7 +73,7 @@ namespace djv
             Font::~Font()
             {}
 
-            std::shared_ptr<Font> Font::create(Context * context)
+            std::shared_ptr<Font> Font::create(const std::shared_ptr<Core::Context>& context)
             {
                 auto out = std::shared_ptr<Font>(new Font);
                 out->_init(context);

@@ -51,7 +51,7 @@ namespace djv
             std::shared_ptr<ValueObserver<size_t> > threadCountObserver;
         };
 
-        void IOThreadsSettingsWidget::_init(Context * context)
+        void IOThreadsSettingsWidget::_init(const std::shared_ptr<Context>& context)
         {
             ISettingsWidget::_init(context);
 
@@ -66,18 +66,22 @@ namespace djv
             addChild(p.layout);
 
             auto weak = std::weak_ptr<IOThreadsSettingsWidget>(std::dynamic_pointer_cast<IOThreadsSettingsWidget>(shared_from_this()));
+            auto contextWeak = std::weak_ptr<Context>(context);
             p.threadCountSlider->setValueCallback(
-                [weak, context](int value)
-            {
-                if (auto widget = weak.lock())
+                [weak, contextWeak](int value)
                 {
-                    auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                    if (auto ioSettings = settingsSystem->getSettingsT<Settings::IO>())
+                    if (auto context = contextWeak.lock())
                     {
-                        ioSettings->setThreadCount(static_cast<size_t>(value));
+                        if (auto widget = weak.lock())
+                        {
+                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            if (auto ioSettings = settingsSystem->getSettingsT<Settings::IO>())
+                            {
+                                ioSettings->setThreadCount(static_cast<size_t>(value));
+                            }
+                        }
                     }
-                }
-            });
+                });
 
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
             if (auto ioSettings = settingsSystem->getSettingsT<Settings::IO>())
@@ -98,7 +102,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<IOThreadsSettingsWidget> IOThreadsSettingsWidget::create(Context * context)
+        std::shared_ptr<IOThreadsSettingsWidget> IOThreadsSettingsWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<IOThreadsSettingsWidget>(new IOThreadsSettingsWidget);
             out->_init(context);

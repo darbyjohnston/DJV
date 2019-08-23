@@ -49,7 +49,7 @@ namespace djv
             std::shared_ptr<ValueObserver<float> > valueObserver;
         };
 
-        void FloatLabel::_init(Context * context)
+        void FloatLabel::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
 
@@ -71,7 +71,7 @@ namespace djv
         FloatLabel::~FloatLabel()
         {}
 
-        std::shared_ptr<FloatLabel> FloatLabel::create(Context * context)
+        std::shared_ptr<FloatLabel> FloatLabel::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<FloatLabel>(new FloatLabel);
             out->_init(context);

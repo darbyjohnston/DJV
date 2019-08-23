@@ -52,7 +52,12 @@ namespace djv
         protected:
             void _init(int & argc, char ** argv)
             {
-                CmdLine::Application::_init(argc, argv);
+                std::vector<std::string> args;
+                for (int i = 0; i < argc; ++i)
+                {
+                    args.push_back(argv[i]);
+                }
+                CmdLine::Application::_init(args);
 
                 auto textSystem = getSystemT<Core::TextSystem>();
                 const auto locale = textSystem->getCurrentLocale();

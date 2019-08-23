@@ -101,17 +101,17 @@ namespace djv
                 DJV_NON_COPYABLE(GeneralDebugWidget);
 
             protected:
-                void _init(Context*);
+                void _init(const std::shared_ptr<Context>&);
                 GeneralDebugWidget();
 
             public:
-                static std::shared_ptr<GeneralDebugWidget> create(Context*);
+                static std::shared_ptr<GeneralDebugWidget> create(const std::shared_ptr<Context>&);
 
             protected:
                 void _widgetUpdate() override;
             };
 
-            void GeneralDebugWidget::_init(Context* context)
+            void GeneralDebugWidget::_init(const std::shared_ptr<Context>& context)
             {
                 IDebugWidget::_init(context);
 
@@ -185,7 +185,7 @@ namespace djv
             GeneralDebugWidget::GeneralDebugWidget()
             {}
 
-            std::shared_ptr<GeneralDebugWidget> GeneralDebugWidget::create(Context* context)
+            std::shared_ptr<GeneralDebugWidget> GeneralDebugWidget::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<GeneralDebugWidget>(new GeneralDebugWidget);
                 out->_init(context);
@@ -194,83 +194,85 @@ namespace djv
 
             void GeneralDebugWidget::_widgetUpdate()
             {
-                auto context = getContext();
-                const float fps = context->getFPSAverage();
-                const size_t objectCount = IObject::getGlobalObjectCount();
-                const size_t widgetCount = UI::Widget::getGlobalWidgetCount();
-                auto eventSystem = context->getSystemT<Event::IEventSystem>();
-                auto fontSystem = context->getSystemT<AV::Font::System>();
-                const float glyphCachePercentage = fontSystem->getGlyphCachePercentage();
-                auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>();
-                const float thumbnailInfoCachePercentage = thumbnailSystem->getInfoCachePercentage();
-                const float thumbnailImageCachePercentage = thumbnailSystem->getImageCachePercentage();
-                auto iconSystem = context->getSystemT<UI::IconSystem>();
-                const float iconCachePercentage = iconSystem->getCachePercentage();
+                if (auto context = getContext().lock())
+                {
+                    const float fps = context->getFPSAverage();
+                    const size_t objectCount = IObject::getGlobalObjectCount();
+                    const size_t widgetCount = UI::Widget::getGlobalWidgetCount();
+                    auto eventSystem = context->getSystemT<Event::IEventSystem>();
+                    auto fontSystem = context->getSystemT<AV::Font::System>();
+                    const float glyphCachePercentage = fontSystem->getGlyphCachePercentage();
+                    auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>();
+                    const float thumbnailInfoCachePercentage = thumbnailSystem->getInfoCachePercentage();
+                    const float thumbnailImageCachePercentage = thumbnailSystem->getImageCachePercentage();
+                    auto iconSystem = context->getSystemT<UI::IconSystem>();
+                    const float iconCachePercentage = iconSystem->getCachePercentage();
 
-                _lineGraphs["ObjectCount"]->addSample(objectCount);
-                _lineGraphs["WidgetCount"]->addSample(widgetCount);
-                _thermometerWidgets["ThumbnailInfoCache"]->setPercentage(thumbnailInfoCachePercentage);
-                _thermometerWidgets["ThumbnailImageCache"]->setPercentage(thumbnailImageCachePercentage);
-                _thermometerWidgets["IconCache"]->setPercentage(iconCachePercentage);
-                _thermometerWidgets["GlyphCache"]->setPercentage(glyphCachePercentage);
+                    _lineGraphs["ObjectCount"]->addSample(objectCount);
+                    _lineGraphs["WidgetCount"]->addSample(widgetCount);
+                    _thermometerWidgets["ThumbnailInfoCache"]->setPercentage(thumbnailInfoCachePercentage);
+                    _thermometerWidgets["ThumbnailImageCache"]->setPercentage(thumbnailImageCachePercentage);
+                    _thermometerWidgets["IconCache"]->setPercentage(iconCachePercentage);
+                    _thermometerWidgets["GlyphCache"]->setPercentage(glyphCachePercentage);
 
-                {
-                    std::stringstream ss;
-                    ss.precision(2);
-                    ss << _getText(DJV_TEXT("FPS")) << ": " << std::fixed << fps;
-                    _labels["FPS"]->setText(ss.str());
-                }
-                {
-                    std::stringstream ss;
-                    ss << _getText(DJV_TEXT("Object count")) << ": " << objectCount;
-                    _labels["ObjectCount"]->setText(ss.str());
-                }
-                {
-                    std::stringstream ss;
-                    ss << _getText(DJV_TEXT("Widget count")) << ": " << widgetCount;
-                    _labels["WidgetCount"]->setText(ss.str());
-                }
-                {
-                    std::stringstream ss;
-                    auto object = eventSystem->observeHover()->get();
-                    ss << _getText(DJV_TEXT("Hover")) << ": " << (object ? object->getClassName() : _getText(DJV_TEXT("None")));
-                    _labels["Hover"]->setText(ss.str());
-                }
-                {
-                    std::stringstream ss;
-                    auto object = eventSystem->observeGrab()->get();
-                    ss << _getText(DJV_TEXT("Grab")) << ": " << (object ? object->getClassName() : _getText(DJV_TEXT("None")));
-                    _labels["Grab"]->setText(ss.str());
-                }
-                {
-                    std::stringstream ss;
-                    auto object = eventSystem->observeKeyGrab()->get();
-                    ss << _getText(DJV_TEXT("Key grab")) << ": " << (object ? object->getClassName() : _getText(DJV_TEXT("None")));
-                    _labels["KeyGrab"]->setText(ss.str());
-                }
-                {
-                    std::stringstream ss;
-                    ss.precision(2);
-                    ss << _getText(DJV_TEXT("Font system glyph cache")) << ": " << std::fixed << glyphCachePercentage << "%";
-                    _labels["GlyphCache"]->setText(ss.str());
-                }
-                {
-                    std::stringstream ss;
-                    ss.precision(2);
-                    ss << _getText(DJV_TEXT("Thumbnail system information cache")) << ": " << std::fixed << thumbnailInfoCachePercentage << "%";
-                    _labels["ThumbnailInfoCache"]->setText(ss.str());
-                }
-                {
-                    std::stringstream ss;
-                    ss.precision(2);
-                    ss << _getText(DJV_TEXT("Thumbnail system image cache")) << ": " << std::fixed << thumbnailImageCachePercentage << "%";
-                    _labels["ThumbnailImageCache"]->setText(ss.str());
-                }
-                {
-                    std::stringstream ss;
-                    ss.precision(2);
-                    ss << _getText(DJV_TEXT("Icon system cache")) << ": " << std::fixed << iconCachePercentage << "%";
-                    _labels["IconCache"]->setText(ss.str());
+                    {
+                        std::stringstream ss;
+                        ss.precision(2);
+                        ss << _getText(DJV_TEXT("FPS")) << ": " << std::fixed << fps;
+                        _labels["FPS"]->setText(ss.str());
+                    }
+                    {
+                        std::stringstream ss;
+                        ss << _getText(DJV_TEXT("Object count")) << ": " << objectCount;
+                        _labels["ObjectCount"]->setText(ss.str());
+                    }
+                    {
+                        std::stringstream ss;
+                        ss << _getText(DJV_TEXT("Widget count")) << ": " << widgetCount;
+                        _labels["WidgetCount"]->setText(ss.str());
+                    }
+                    {
+                        std::stringstream ss;
+                        auto object = eventSystem->observeHover()->get();
+                        ss << _getText(DJV_TEXT("Hover")) << ": " << (object ? object->getClassName() : _getText(DJV_TEXT("None")));
+                        _labels["Hover"]->setText(ss.str());
+                    }
+                    {
+                        std::stringstream ss;
+                        auto object = eventSystem->observeGrab()->get();
+                        ss << _getText(DJV_TEXT("Grab")) << ": " << (object ? object->getClassName() : _getText(DJV_TEXT("None")));
+                        _labels["Grab"]->setText(ss.str());
+                    }
+                    {
+                        std::stringstream ss;
+                        auto object = eventSystem->observeKeyGrab()->get();
+                        ss << _getText(DJV_TEXT("Key grab")) << ": " << (object ? object->getClassName() : _getText(DJV_TEXT("None")));
+                        _labels["KeyGrab"]->setText(ss.str());
+                    }
+                    {
+                        std::stringstream ss;
+                        ss.precision(2);
+                        ss << _getText(DJV_TEXT("Font system glyph cache")) << ": " << std::fixed << glyphCachePercentage << "%";
+                        _labels["GlyphCache"]->setText(ss.str());
+                    }
+                    {
+                        std::stringstream ss;
+                        ss.precision(2);
+                        ss << _getText(DJV_TEXT("Thumbnail system information cache")) << ": " << std::fixed << thumbnailInfoCachePercentage << "%";
+                        _labels["ThumbnailInfoCache"]->setText(ss.str());
+                    }
+                    {
+                        std::stringstream ss;
+                        ss.precision(2);
+                        ss << _getText(DJV_TEXT("Thumbnail system image cache")) << ": " << std::fixed << thumbnailImageCachePercentage << "%";
+                        _labels["ThumbnailImageCache"]->setText(ss.str());
+                    }
+                    {
+                        std::stringstream ss;
+                        ss.precision(2);
+                        ss << _getText(DJV_TEXT("Icon system cache")) << ": " << std::fixed << iconCachePercentage << "%";
+                        _labels["IconCache"]->setText(ss.str());
+                    }
                 }
             }
 
@@ -279,17 +281,17 @@ namespace djv
                 DJV_NON_COPYABLE(RenderDebugWidget);
 
             protected:
-                void _init(Context*);
+                void _init(const std::shared_ptr<Context>&);
                 RenderDebugWidget();
 
             public:
-                static std::shared_ptr<RenderDebugWidget> create(Context*);
+                static std::shared_ptr<RenderDebugWidget> create(const std::shared_ptr<Context>&);
 
             protected:
                 void _widgetUpdate() override;
             };
 
-            void RenderDebugWidget::_init(Context* context)
+            void RenderDebugWidget::_init(const std::shared_ptr<Context>& context)
             {
                 IDebugWidget::_init(context);
 
@@ -338,7 +340,7 @@ namespace djv
             RenderDebugWidget::RenderDebugWidget()
             {}
 
-            std::shared_ptr<RenderDebugWidget> RenderDebugWidget::create(Context* context)
+            std::shared_ptr<RenderDebugWidget> RenderDebugWidget::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<RenderDebugWidget>(new RenderDebugWidget);
                 out->_init(context);
@@ -379,11 +381,11 @@ namespace djv
                 DJV_NON_COPYABLE(MediaDebugWidget);
 
             protected:
-                void _init(Context*);
+                void _init(const std::shared_ptr<Context>&);
                 MediaDebugWidget();
 
             public:
-                static std::shared_ptr<MediaDebugWidget> create(Context*);
+                static std::shared_ptr<MediaDebugWidget> create(const std::shared_ptr<Context>&);
 
             protected:
                 void _preLayoutEvent(Event::PreLayout&) override;
@@ -412,7 +414,7 @@ namespace djv
                 std::shared_ptr<ValueObserver<size_t> > _audioQueueCountObserver;
             };
 
-            void MediaDebugWidget::_init(Context* context)
+            void MediaDebugWidget::_init(const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
 
@@ -545,7 +547,7 @@ namespace djv
             MediaDebugWidget::MediaDebugWidget()
             {}
 
-            std::shared_ptr<MediaDebugWidget> MediaDebugWidget::create(Context* context)
+            std::shared_ptr<MediaDebugWidget> MediaDebugWidget::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<MediaDebugWidget>(new MediaDebugWidget);
                 out->_init(context);
@@ -593,7 +595,7 @@ namespace djv
             std::map < std::string, std::shared_ptr<UI::Bellows> > bellows;
         };
 
-        void DebugWidget::_init(Context * context)
+        void DebugWidget::_init(const std::shared_ptr<Core::Context>& context)
         {
             MDIWidget::_init(context);
 
@@ -634,7 +636,7 @@ namespace djv
         DebugWidget::~DebugWidget()
         {}
 
-        std::shared_ptr<DebugWidget> DebugWidget::create(Context * context)
+        std::shared_ptr<DebugWidget> DebugWidget::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<DebugWidget>(new DebugWidget);
             out->_init(context);

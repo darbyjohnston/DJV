@@ -52,7 +52,7 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > pipObserver;
         };
 
-        void PlaybackSettingsWidget::_init(Context* context)
+        void PlaybackSettingsWidget::_init(const std::shared_ptr<Context>& context)
         {
             ISettingsWidget::_init(context);
 
@@ -66,18 +66,22 @@ namespace djv
             addChild(p.formLayout);
 
             auto weak = std::weak_ptr<PlaybackSettingsWidget>(std::dynamic_pointer_cast<PlaybackSettingsWidget>(shared_from_this()));
+            auto contextWeak = std::weak_ptr<Context>(context);
             p.pipButton->setCheckedCallback(
-                [weak, context](bool value)
-            {
-                if (auto widget = weak.lock())
+                [weak, contextWeak](bool value)
                 {
-                    auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                    if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
+                    if (auto context = contextWeak.lock())
                     {
-                        playbackSettings->setPIP(value);
+                        if (auto widget = weak.lock())
+                        {
+                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
+                            {
+                                playbackSettings->setPIP(value);
+                            }
+                        }
                     }
-                }
-            });
+                });
 
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
             if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
@@ -98,7 +102,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<PlaybackSettingsWidget> PlaybackSettingsWidget::create(Context* context)
+        std::shared_ptr<PlaybackSettingsWidget> PlaybackSettingsWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<PlaybackSettingsWidget>(new PlaybackSettingsWidget);
             out->_init(context);

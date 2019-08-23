@@ -60,13 +60,13 @@ namespace djv
                 DJV_NON_COPYABLE(Grid);
 
             protected:
-                void _init(Core::Context *);
+                void _init(const std::shared_ptr<Core::Context>&);
                 Grid();
 
             public:
                 virtual ~Grid();
 
-                static std::shared_ptr<Grid> create(Core::Context *);
+                static std::shared_ptr<Grid> create(const std::shared_ptr<Core::Context>&);
 
                 glm::ivec2 getGridSize() const;
 

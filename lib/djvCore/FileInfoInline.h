@@ -111,7 +111,7 @@ namespace djv
                     "#" == _path.getNumber();
             }
 
-            inline bool FileInfo::sequenceContains(const FileInfo & value) const
+            inline bool FileInfo::isCompatible(const FileInfo & value) const
             {
                 if (!isSequenceValid())
                     return false;
@@ -126,7 +126,7 @@ namespace djv
 
             inline bool FileInfo::addToSequence(const FileInfo & value)
             {
-                if (sequenceContains(value))
+                if (isCompatible(value))
                 {
                     for (const auto & range : value._sequence.ranges)
                     {

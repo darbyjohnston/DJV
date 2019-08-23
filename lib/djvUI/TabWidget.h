@@ -41,13 +41,13 @@ namespace djv
             DJV_NON_COPYABLE(TabWidget);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             TabWidget();
 
         public:
             virtual ~TabWidget();
 
-            static std::shared_ptr<TabWidget> create(Core::Context *);
+            static std::shared_ptr<TabWidget> create(const std::shared_ptr<Core::Context>&);
             
             size_t getTabCount() const;
             size_t addTab(const std::string &, const std::shared_ptr<Widget> &);

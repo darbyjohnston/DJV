@@ -43,12 +43,12 @@ namespace djv
                 DJV_NON_COPYABLE(Overlay);
 
             protected:
-                void _init(Core::Context *);
+                void _init(const std::shared_ptr<Core::Context>&);
                 Overlay();
 
             public:
                 virtual ~Overlay();
-                static std::shared_ptr<Overlay> create(Core::Context *);
+                static std::shared_ptr<Overlay> create(const std::shared_ptr<Core::Context>&);
 
                 bool hasCapturePointer() const;
                 bool hasCaptureKeyboard() const;

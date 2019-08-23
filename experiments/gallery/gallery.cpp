@@ -221,12 +221,17 @@ int main(int argc, char ** argv)
 
         Core::Math::setRandomSeed();
 
-        auto app = Desktop::Application::create(argc, argv);
+        std::vector<std::string> args;
+        for (int i = 0; i < argc; ++i)
+        {
+            args.push_back(argv[i]);
+        }
+        auto app = Desktop::Application::create(args);
 
         auto ids = getIDs();
         std::vector<Image> images;
         std::vector<std::future<Image> > imageFutures;
-        auto timer = Core::Time::Timer::create(app.get());
+        auto timer = Core::Time::Timer::create(app);
         timer->setRepeating(true);
         timer->start(
             std::chrono::milliseconds(1000),
@@ -296,19 +301,19 @@ int main(int argc, char ** argv)
                 }
             });
 
-        auto imageWidget = UI::ImageWidget::create(app.get());
+        auto imageWidget = UI::ImageWidget::create(app);
         imageWidget->setHAlign(UI::HAlign::Center);
         imageWidget->setVAlign(UI::VAlign::Center);
 
-        auto titleLabel = UI::Label::create(app.get());
+        auto titleLabel = UI::Label::create(app);
         titleLabel->setFontSizeRole(UI::MetricsRole::FontLarge);
         titleLabel->setTextHAlign(UI::TextHAlign::Left);
-        auto objectNameLabel = UI::Label::create(app.get());
+        auto objectNameLabel = UI::Label::create(app);
         objectNameLabel->setTextHAlign(UI::TextHAlign::Left);
-        auto departmentLabel = UI::Label::create(app.get());
+        auto departmentLabel = UI::Label::create(app);
         departmentLabel->setTextHAlign(UI::TextHAlign::Left);
 
-        auto rowLayout = UI::VerticalLayout::create(app.get());
+        auto rowLayout = UI::VerticalLayout::create(app);
         rowLayout->setMargin(UI::MetricsRole::Margin);
         rowLayout->setSpacing(UI::MetricsRole::None);
         rowLayout->setVAlign(UI::VAlign::Bottom);
@@ -317,13 +322,13 @@ int main(int argc, char ** argv)
         rowLayout->addChild(objectNameLabel);
         rowLayout->addChild(departmentLabel);
         
-        auto window = UI::Window::create(app.get());
+        auto window = UI::Window::create(app);
         window->addChild(imageWidget);
         window->addChild(rowLayout);
         window->show();
 
         size_t index = 0;
-        auto timer2 = Core::Time::Timer::create(app.get());
+        auto timer2 = Core::Time::Timer::create(app);
         timer2->setRepeating(true);
         timer2->start(
             std::chrono::milliseconds(5000),

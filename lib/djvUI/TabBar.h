@@ -41,13 +41,13 @@ namespace djv
             DJV_NON_COPYABLE(TabBar);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             TabBar();
 
         public:
             virtual ~TabBar();
 
-            static std::shared_ptr<TabBar> create(Core::Context *);
+            static std::shared_ptr<TabBar> create(const std::shared_ptr<Core::Context>&);
 
             size_t getTabCount() const;
             size_t addTab(const std::string &);

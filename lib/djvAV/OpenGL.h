@@ -32,7 +32,6 @@
 #include <djvAV/AV.h>
 
 #include <glad/glad.h>
-#define GLFW_INCLUDE_NONE
 
 namespace djv
 {

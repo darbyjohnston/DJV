@@ -46,34 +46,40 @@ int main(int argc, char ** argv)
     try
     {
         // Create an application.
-        auto app = Desktop::Application::create(argc, argv);
+        std::vector<std::string> args;
+        for (int i = 0; i < argc; ++i)
+        {
+            args.push_back(argv[i]);
+        }
+        auto app = Desktop::Application::create(args);
 
         // Create a top-level layout.
-        auto layout = UI::VerticalLayout::create(app.get());
+        auto layout = UI::VerticalLayout::create(app);
         layout->setMargin(UI::MetricsRole::MarginLarge);
         layout->setSpacing(UI::MetricsRole::SpacingLarge);
 
         // Create some line graph widgets.
         std::vector<std::shared_ptr<UI::LineGraphWidget> > lineGraphWidgets;
-        auto vLayout = UI::VerticalLayout::create(app.get());
+        auto vLayout = UI::VerticalLayout::create(app);
         for (size_t i = 0; i < 3; ++i)
         {
-            auto lineGraphWidget = UI::LineGraphWidget::create(app.get());
+            auto lineGraphWidget = UI::LineGraphWidget::create(app);
             lineGraphWidgets.push_back(lineGraphWidget);
             vLayout->addChild(lineGraphWidget);
         }
-        auto groupBox = UI::GroupBox::create("Line Graphs", app.get());
+        auto groupBox = UI::GroupBox::create(app);
+        groupBox->setText("Line Graphs");
         groupBox->addChild(vLayout);
         layout->addChild(groupBox);
 
         // Create a window and show it.
-        auto window = UI::Window::create(app.get());
+        auto window = UI::Window::create(app);
         window->addChild(layout);
         window->show();
 
         // Start a timer to drive the line graphs.
         float v = 0.f;
-        auto timer = Core::Time::Timer::create(app.get());
+        auto timer = Core::Time::Timer::create(app);
         timer->setRepeating(true);
         timer->start(
             std::chrono::milliseconds(30),
@@ -90,6 +96,7 @@ int main(int argc, char ** argv)
             v += diff;
         });
 
+        // Run the application.
         return app->run();
     }
     catch (const std::exception & e)

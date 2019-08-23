@@ -43,11 +43,11 @@ namespace djv
         {
             struct ISettings::Private
             {
-                Context * context = nullptr;
+                std::weak_ptr<Context> context;
                 std::string name;
             };
 
-            void ISettings::_init(const std::string & name, Context * context)
+            void ISettings::_init(const std::string & name, const std::shared_ptr<Core::Context>& context)
             {
                 DJV_PRIVATE_PTR();
                 p.context = context;
@@ -66,7 +66,7 @@ namespace djv
             ISettings::~ISettings()
             {}
 
-            Context * ISettings::getContext() const
+            const std::weak_ptr<Core::Context>& ISettings::getContext() const
             {
                 return _p->context;
             }
@@ -78,9 +78,12 @@ namespace djv
 
             void ISettings::_load()
             {
-                if (auto system = _p->context->getSystemT<System>())
+                if (auto context = _p->context.lock())
                 {
-                    system->_loadSettings(shared_from_this());
+                    if (auto system = context->getSystemT<System>())
+                    {
+                        system->_loadSettings(shared_from_this());
+                    }
                 }
             }
 

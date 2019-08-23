@@ -133,7 +133,7 @@ namespace djv
             }
         } // namespace
 
-        void TextSystem::_init(const FileSystem::Path & path, Context * context)
+        void TextSystem::_init(const FileSystem::Path & path, const std::shared_ptr<Context>& context)
         {
             ISystemBase::_init("djv::Core::TextSystem", context);
 
@@ -275,7 +275,7 @@ namespace djv
             }
         }
 
-        std::shared_ptr<TextSystem> TextSystem::create(const FileSystem::Path & path, Context * context)
+        std::shared_ptr<TextSystem> TextSystem::create(const FileSystem::Path & path, const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<TextSystem>(new TextSystem);
             out->_init(path, context);

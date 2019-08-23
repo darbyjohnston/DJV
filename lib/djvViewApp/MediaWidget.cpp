@@ -155,7 +155,7 @@ namespace djv
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > frameStoreObserver;
         };
 
-        void MediaWidget::_init(const std::shared_ptr<Media>& media, Context* context)
+        void MediaWidget::_init(const std::shared_ptr<Media>& media, const std::shared_ptr<Context>& context)
         {
             IWidget::_init(context);
 
@@ -410,11 +410,15 @@ namespace djv
                     }
                 });
 
+            auto contextWeak = std::weak_ptr<Context>(context);
             p.closeButton->setClickedCallback(
-                [media, context]
+                [media, contextWeak]
                 {
-                    auto fileSystem = context->getSystemT<FileSystem>();
-                    fileSystem->close(media);
+                    if (auto context = contextWeak.lock())
+                    {
+                        auto fileSystem = context->getSystemT<FileSystem>();
+                        fileSystem->close(media);
+                    }
                 });
 
             p.actionObservers["InPoint"] = ValueObserver<bool>::create(
@@ -727,7 +731,7 @@ namespace djv
         MediaWidget::~MediaWidget()
         {}
 
-        std::shared_ptr<MediaWidget> MediaWidget::create(const std::shared_ptr<Media>& media, Context* context)
+        std::shared_ptr<MediaWidget> MediaWidget::create(const std::shared_ptr<Media>& media, const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<MediaWidget>(new MediaWidget);
             out->_init(media, context);
@@ -889,25 +893,28 @@ namespace djv
         void MediaWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
-            auto playback = Playback::Stop;
-            if (p.media)
+            if (auto context = getContext().lock())
             {
-                playback = p.media->observePlayback()->get();
-            }
-            switch (playback)
-            {
-            case Playback::Stop:    p.playbackActionGroup->setChecked(-1); break;
-            case Playback::Forward: p.playbackActionGroup->setChecked( 0); break;
-            case Playback::Reverse: p.playbackActionGroup->setChecked( 1); break;
-            default: break;
-            }
+                auto playback = Playback::Stop;
+                if (p.media)
+                {
+                    playback = p.media->observePlayback()->get();
+                }
+                switch (playback)
+                {
+                case Playback::Stop:    p.playbackActionGroup->setChecked(-1); break;
+                case Playback::Forward: p.playbackActionGroup->setChecked(0); break;
+                case Playback::Reverse: p.playbackActionGroup->setChecked(1); break;
+                default: break;
+                }
 
-            auto avSystem = getContext()->getSystemT<AV::AVSystem>();
-            p.currentFrameLabel->setText(avSystem->getLabel(p.sequence.getFrame(p.currentFrame), p.defaultSpeed));
-            p.durationLabel->setText(avSystem->getLabel(p.sequence.getSize(), p.defaultSpeed));
-            p.playbackLayout->setVisible(p.sequence.getSize() > 1);
+                auto avSystem = context->getSystemT<AV::AVSystem>();
+                p.currentFrameLabel->setText(avSystem->getLabel(p.sequence.getFrame(p.currentFrame), p.defaultSpeed));
+                p.durationLabel->setText(avSystem->getLabel(p.sequence.getSize(), p.defaultSpeed));
+                p.playbackLayout->setVisible(p.sequence.getSize() > 1);
 
-            p.audioPopupWidget->setEnabled(p.ioInfo.audio.size());
+                p.audioPopupWidget->setEnabled(p.ioInfo.audio.size());
+            }
         }
 
         void MediaWidget::_imageUpdate()
@@ -919,50 +926,52 @@ namespace djv
         void MediaWidget::_speedUpdate()
         {
             DJV_PRIVATE_PTR();
-            auto context = getContext();
-            p.speedButtonGroup->clearButtons();
-            p.speedButtonLayout->clearChildren();
-            p.speeds =
+            if (auto context = getContext().lock())
             {
-                Time::Speed(240),
-                Time::Speed(120),
-                Time::Speed(60),
-                Time::Speed(48),
-                Time::Speed(30),
-                Time::Speed(30000, 1001),
-                Time::Speed(25),
-                Time::Speed(24),
-                Time::Speed(24000, 1001),
-                Time::Speed(16)
-            };
-            for (const auto& i : p.speeds)
-            {
+                p.speedButtonGroup->clearButtons();
+                p.speedButtonLayout->clearChildren();
+                p.speeds =
+                {
+                    Time::Speed(240),
+                    Time::Speed(120),
+                    Time::Speed(60),
+                    Time::Speed(48),
+                    Time::Speed(30),
+                    Time::Speed(30000, 1001),
+                    Time::Speed(25),
+                    Time::Speed(24),
+                    Time::Speed(24000, 1001),
+                    Time::Speed(16)
+                };
+                for (const auto& i : p.speeds)
+                {
+                    auto button = UI::ListButton::create(context);
+                    std::stringstream ss;
+                    ss.precision(3);
+                    ss << std::fixed << i.toFloat();
+                    button->setText(ss.str());
+                    p.speedButtonGroup->addButton(button);
+                    p.speedButtonLayout->addChild(button);
+                }
+                p.speedButtonLayout->addSeparator();
                 auto button = UI::ListButton::create(context);
                 std::stringstream ss;
+                ss << _getText(DJV_TEXT("Default")) << ": ";
                 ss.precision(3);
-                ss << std::fixed << i.toFloat();
+                ss << std::fixed << p.defaultSpeed.toFloat();
                 button->setText(ss.str());
                 p.speedButtonGroup->addButton(button);
                 p.speedButtonLayout->addChild(button);
-            }
-            p.speedButtonLayout->addSeparator();
-            auto button = UI::ListButton::create(context);
-            std::stringstream ss;
-            ss << _getText(DJV_TEXT("Default")) << ": ";
-            ss.precision(3);
-            ss << std::fixed << p.defaultSpeed.toFloat();
-            button->setText(ss.str());
-            p.speedButtonGroup->addButton(button);
-            p.speedButtonLayout->addChild(button);
 
-            p.playEveryFrameLabel->setText(_getText(DJV_TEXT("Play every frame")) + ":");
-            {
-                std::stringstream ss;
-                ss.precision(3);
-                ss << _getText(DJV_TEXT("FPS")) << ": " << std::fixed << p.speed.toFloat();
-                p.speedPopupWidget->setText(ss.str());
+                p.playEveryFrameLabel->setText(_getText(DJV_TEXT("Play every frame")) + ":");
+                {
+                    std::stringstream ss;
+                    ss.precision(3);
+                    ss << _getText(DJV_TEXT("FPS")) << ": " << std::fixed << p.speed.toFloat();
+                    p.speedPopupWidget->setText(ss.str());
+                }
+                p.speedPopupWidget->setEnabled(p.media.get());
             }
-            p.speedPopupWidget->setEnabled(p.media.get());
         }
 
         void MediaWidget::_realSpeedUpdate()

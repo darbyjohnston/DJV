@@ -49,7 +49,7 @@ namespace djv
             MetricsRole sizeRole = MetricsRole::None;
         };
 
-        void ImageWidget::_init(Context * context)
+        void ImageWidget::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
             setClassName("djv::UI::ImageWidget");
@@ -62,7 +62,7 @@ namespace djv
         ImageWidget::~ImageWidget()
         {}
 
-        std::shared_ptr<ImageWidget> ImageWidget::create(Context * context)
+        std::shared_ptr<ImageWidget> ImageWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<ImageWidget>(new ImageWidget);
             out->_init(context);

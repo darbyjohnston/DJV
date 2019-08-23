@@ -51,7 +51,7 @@ namespace djv
             std::function<void(void)> closeCallback;
         };
 
-        void MDIWidget::_init(Context * context)
+        void MDIWidget::_init(const std::shared_ptr<Core::Context>& context)
         {
             IWidget::_init(context);
 

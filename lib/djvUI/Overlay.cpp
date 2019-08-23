@@ -35,6 +35,7 @@
 #include <djvCore/Animation.h>
 #include <djvCore/Timer.h>
 
+#define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
 using namespace djv::Core;
@@ -57,7 +58,7 @@ namespace djv
                 std::shared_ptr<ValueObserver<bool> > closeObserver;
             };
 
-            void Overlay::_init(Context * context)
+            void Overlay::_init(const std::shared_ptr<Core::Context>& context)
             {
                 Widget::_init(context);
 
@@ -98,7 +99,7 @@ namespace djv
             Overlay::~Overlay()
             {}
 
-            std::shared_ptr<Overlay> Overlay::create(Context * context)
+            std::shared_ptr<Overlay> Overlay::create(const std::shared_ptr<Core::Context>& context)
             {
                 auto out = std::shared_ptr<Overlay>(new Overlay);
                 out->_init(context);

@@ -66,7 +66,7 @@ namespace djv
                 std::function<void(size_t)> historyIndexCallback;
             };
 
-            void PathWidget::_init(Context * context)
+            void PathWidget::_init(const std::shared_ptr<Context>& context)
             {
                 UI::Widget::_init(context);
 
@@ -171,7 +171,7 @@ namespace djv
             PathWidget::~PathWidget()
             {}
 
-            std::shared_ptr<PathWidget> PathWidget::create(Context * context)
+            std::shared_ptr<PathWidget> PathWidget::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<PathWidget>(new PathWidget);
                 out->_init(context);
@@ -180,54 +180,56 @@ namespace djv
 
             void PathWidget::setPath(const FileSystem::Path & path)
             {
-                auto split = FileSystem::Path::splitDir(path);
-                std::vector<FileSystem::Path> paths;
-                while (split.size())
+                if (auto context = getContext().lock())
                 {
-                    paths.push_back(FileSystem::Path::joinDirs(split));
-                    split.pop_back();
-                }
-
-                auto context = getContext();
-                _p->buttonLayout->clearChildren();
-                size_t j = 0;
-                for (auto i = paths.rbegin(); i != paths.rend(); ++i, ++j)
-                {
-                    if (j < paths.size() - 1)
+                    auto split = FileSystem::Path::splitDir(path);
+                    std::vector<FileSystem::Path> paths;
+                    while (split.size())
                     {
-                        auto button = ListButton::create(context);
-                        button->setText(i->isRoot() ? i->get() : i->getFileName());
-                        button->setForegroundColorRole(ColorRole::ForegroundDim);
-                        button->setShadowOverlay({ Side::Left });
+                        paths.push_back(FileSystem::Path::joinDirs(split));
+                        split.pop_back();
+                    }
 
-                        _p->buttonLayout->addChild(button);
-
-                        const auto path = *i;
-                        auto weak = std::weak_ptr<PathWidget>(std::dynamic_pointer_cast<PathWidget>(shared_from_this()));
-                        button->setClickedCallback(
-                            [weak, path]
+                    _p->buttonLayout->clearChildren();
+                    size_t j = 0;
+                    for (auto i = paths.rbegin(); i != paths.rend(); ++i, ++j)
+                    {
+                        if (j < paths.size() - 1)
                         {
-                            if (auto widget = weak.lock())
-                            {
-                                if (widget->_p->pathCallback)
+                            auto button = ListButton::create(context);
+                            button->setText(i->isRoot() ? i->get() : i->getFileName());
+                            button->setForegroundColorRole(ColorRole::ForegroundDim);
+                            button->setShadowOverlay({ Side::Left });
+
+                            _p->buttonLayout->addChild(button);
+
+                            const auto path = *i;
+                            auto weak = std::weak_ptr<PathWidget>(std::dynamic_pointer_cast<PathWidget>(shared_from_this()));
+                            button->setClickedCallback(
+                                [weak, path]
                                 {
-                                    widget->_p->pathCallback(path);
-                                }
-                            }
-                        });
-                    }
-                    else
-                    {
-                        auto label = Label::create(context);
-                        label->setText(i->isRoot() ? i->get() : i->getFileName());
-                        label->setMargin(MetricsRole::MarginSmall);
-                        label->setShadowOverlay({ Side::Left });
+                                    if (auto widget = weak.lock())
+                                    {
+                                        if (widget->_p->pathCallback)
+                                        {
+                                            widget->_p->pathCallback(path);
+                                        }
+                                    }
+                                });
+                        }
+                        else
+                        {
+                            auto label = Label::create(context);
+                            label->setText(i->isRoot() ? i->get() : i->getFileName());
+                            label->setMargin(MetricsRole::MarginSmall);
+                            label->setShadowOverlay({ Side::Left });
 
-                        _p->buttonLayout->addChild(label);
+                            _p->buttonLayout->addChild(label);
+                        }
                     }
+
+                    _p->lineEditBase->setText(path.get());
                 }
-
-                _p->lineEditBase->setText(path.get());
             }
 
             void PathWidget::setPathCallback(const std::function<void(const FileSystem::Path &)> & value)

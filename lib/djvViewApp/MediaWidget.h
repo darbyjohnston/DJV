@@ -69,13 +69,13 @@ namespace djv
             DJV_NON_COPYABLE(MediaWidget);
 
         protected:
-            void _init(const std::shared_ptr<Media>&, Core::Context*);
+            void _init(const std::shared_ptr<Media>&, const std::shared_ptr<Core::Context>&);
             MediaWidget();
 
         public:
             ~MediaWidget() override;
 
-            static std::shared_ptr<MediaWidget> create(const std::shared_ptr<Media>&, Core::Context*);
+            static std::shared_ptr<MediaWidget> create(const std::shared_ptr<Media>&, const std::shared_ptr<Core::Context>&);
 
             const std::shared_ptr<Media>& getMedia() const;
 

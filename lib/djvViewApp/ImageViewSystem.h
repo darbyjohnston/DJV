@@ -46,13 +46,13 @@ namespace djv
             DJV_NON_COPYABLE(ImageViewSystem);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             ImageViewSystem();
 
         public:
             ~ImageViewSystem() override;
 
-            static std::shared_ptr<ImageViewSystem> create(Core::Context*);
+            static std::shared_ptr<ImageViewSystem> create(const std::shared_ptr<Core::Context>&);
 
             ToolActionData getToolAction() const override;
             void setCurrentTool(bool) override;

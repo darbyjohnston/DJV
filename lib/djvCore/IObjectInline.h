@@ -34,7 +34,7 @@ namespace djv
         inline IObject::IObject()
         {}
 
-        inline Context * IObject::getContext() const
+        inline const std::weak_ptr<Context>& IObject::getContext() const
         {
             return _context;
         }

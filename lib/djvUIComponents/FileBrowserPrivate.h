@@ -64,13 +64,13 @@ namespace djv
                 DJV_NON_COPYABLE(PathWidget);
 
             protected:
-                void _init(Core::Context *);
+                void _init(const std::shared_ptr<Core::Context>&);
                 PathWidget();
 
             public:
                 ~PathWidget() override;
 
-                static std::shared_ptr<PathWidget> create(Core::Context *);
+                static std::shared_ptr<PathWidget> create(const std::shared_ptr<Core::Context>&);
 
                 void setPath(const Core::FileSystem::Path &);
                 void setPathCallback(const std::function<void(const Core::FileSystem::Path &)> &);
@@ -98,13 +98,13 @@ namespace djv
                 DJV_NON_COPYABLE(ShortcutsModel);
 
             protected:
-                void _init(Core::Context *);
+                void _init(const std::shared_ptr<Core::Context>&);
                 ShortcutsModel();
 
             public:
                 virtual ~ShortcutsModel();
 
-                static std::shared_ptr<ShortcutsModel> create(Core::Context *);
+                static std::shared_ptr<ShortcutsModel> create(const std::shared_ptr<Core::Context>&);
 
                 std::shared_ptr<Core::IListSubject<Core::FileSystem::Path> > observeShortcuts() const;
                 void setShortcuts(const std::vector<Core::FileSystem::Path> &);
@@ -121,13 +121,13 @@ namespace djv
                 DJV_NON_COPYABLE(ShortcutsWidget);
 
             protected:
-                void _init(const std::shared_ptr<ShortcutsModel>&, Core::Context*);
+                void _init(const std::shared_ptr<ShortcutsModel>&, const std::shared_ptr<Core::Context>&);
                 ShortcutsWidget();
 
             public:
                 ~ShortcutsWidget() override;
 
-                static std::shared_ptr<ShortcutsWidget> create(const std::shared_ptr<ShortcutsModel>&, Core::Context*);
+                static std::shared_ptr<ShortcutsWidget> create(const std::shared_ptr<ShortcutsModel>&, const std::shared_ptr<Core::Context>&);
 
                 void setPath(const Core::FileSystem::Path&);
                 void setCallback(const std::function<void(const Core::FileSystem::Path&)>&);
@@ -148,13 +148,13 @@ namespace djv
                 DJV_NON_COPYABLE(RecentPathsWidget);
 
             protected:
-                void _init(const std::shared_ptr<Core::FileSystem::RecentFilesModel>&, Core::Context*);
+                void _init(const std::shared_ptr<Core::FileSystem::RecentFilesModel>&, const std::shared_ptr<Core::Context>&);
                 RecentPathsWidget();
 
             public:
                 ~RecentPathsWidget() override;
 
-                static std::shared_ptr<RecentPathsWidget> create(const std::shared_ptr<Core::FileSystem::RecentFilesModel>&, Core::Context*);
+                static std::shared_ptr<RecentPathsWidget> create(const std::shared_ptr<Core::FileSystem::RecentFilesModel>&, const std::shared_ptr<Core::Context>&);
 
                 void setCallback(const std::function<void(const Core::FileSystem::Path&)>&);
 
@@ -172,13 +172,13 @@ namespace djv
                 DJV_NON_COPYABLE(DrivesWidget);
 
             protected:
-                void _init(const std::shared_ptr<Core::FileSystem::DrivesModel>&, Core::Context *);
+                void _init(const std::shared_ptr<Core::FileSystem::DrivesModel>&, const std::shared_ptr<Core::Context>&);
                 DrivesWidget();
 
             public:
                 ~DrivesWidget() override;
 
-                static std::shared_ptr<DrivesWidget> create(const std::shared_ptr<Core::FileSystem::DrivesModel>&, Core::Context *);
+                static std::shared_ptr<DrivesWidget> create(const std::shared_ptr<Core::FileSystem::DrivesModel>&, const std::shared_ptr<Core::Context>&);
 
                 void setCallback(const std::function<void(const Core::FileSystem::Path &)> &);
 

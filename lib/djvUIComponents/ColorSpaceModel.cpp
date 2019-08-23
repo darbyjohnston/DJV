@@ -59,7 +59,7 @@ namespace djv
             std::shared_ptr<ListObserver<AV::OCIO::Display> > colorDisplaysObserver;
         };
 
-        void ColorSpaceModel::_init(Context* context)
+        void ColorSpaceModel::_init(const std::shared_ptr<Context>& context)
         {
             DJV_PRIVATE_PTR();
             p.colorSpaces = ListSubject<std::string>::create();
@@ -125,7 +125,7 @@ namespace djv
         ColorSpaceModel::~ColorSpaceModel()
         {}
 
-        std::shared_ptr<ColorSpaceModel> ColorSpaceModel::create(Context* context)
+        std::shared_ptr<ColorSpaceModel> ColorSpaceModel::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<ColorSpaceModel>(new ColorSpaceModel);
             out->_init(context);

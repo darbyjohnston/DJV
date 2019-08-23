@@ -66,7 +66,7 @@ namespace djv
             std::shared_ptr<ValueObserver<std::string> > viewObserver2;
         };
 
-        void ColorSpaceSettingsWidget::_init(Context* context)
+        void ColorSpaceSettingsWidget::_init(const std::shared_ptr<Context>& context)
         {
             ISettingsWidget::_init(context);
             DJV_PRIVATE_PTR();
@@ -88,36 +88,46 @@ namespace djv
             _widgetUpdate();
 
             auto weak = std::weak_ptr<ColorSpaceSettingsWidget>(std::dynamic_pointer_cast<ColorSpaceSettingsWidget>(shared_from_this()));
+            auto contextWeak = std::weak_ptr<Context>(context);
             p.inputColorSpaceComboBox->setCallback(
-                [weak, context](int value)
+                [weak, contextWeak](int value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        auto settingsSystem = context->getSystemT<Settings::System>();
-                        auto colorSpaceSettings = settingsSystem->getSettingsT<Settings::ColorSpace>();
-                        colorSpaceSettings->setInputColorSpace(widget->_p->model->indexToColorSpace(value));
+                        if (auto widget = weak.lock())
+                        {
+                            auto settingsSystem = context->getSystemT<Settings::System>();
+                            auto colorSpaceSettings = settingsSystem->getSettingsT<Settings::ColorSpace>();
+                            colorSpaceSettings->setInputColorSpace(widget->_p->model->indexToColorSpace(value));
+                        }
                     }
                 });
 
             p.displayComboBox->setCallback(
-                [weak, context](int value)
+                [weak, contextWeak](int value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        auto settingsSystem = context->getSystemT<Settings::System>();
-                        auto colorSpaceSettings = settingsSystem->getSettingsT<Settings::ColorSpace>();
-                        colorSpaceSettings->setDisplay(widget->_p->model->indexToDisplay(value));
+                        if (auto widget = weak.lock())
+                        {
+                            auto settingsSystem = context->getSystemT<Settings::System>();
+                            auto colorSpaceSettings = settingsSystem->getSettingsT<Settings::ColorSpace>();
+                            colorSpaceSettings->setDisplay(widget->_p->model->indexToDisplay(value));
+                        }
                     }
                 });
 
             p.viewComboBox->setCallback(
-                [weak, context](int value)
+                [weak, contextWeak](int value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        auto settingsSystem = context->getSystemT<Settings::System>();
-                        auto colorSpaceSettings = settingsSystem->getSettingsT<Settings::ColorSpace>();
-                        colorSpaceSettings->setView(widget->_p->model->indexToView(value));
+                        if (auto widget = weak.lock())
+                        {
+                            auto settingsSystem = context->getSystemT<Settings::System>();
+                            auto colorSpaceSettings = settingsSystem->getSettingsT<Settings::ColorSpace>();
+                            colorSpaceSettings->setView(widget->_p->model->indexToView(value));
+                        }
                     }
                 });
 
@@ -218,7 +228,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<ColorSpaceSettingsWidget> ColorSpaceSettingsWidget::create(Context* context)
+        std::shared_ptr<ColorSpaceSettingsWidget> ColorSpaceSettingsWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<ColorSpaceSettingsWidget>(new ColorSpaceSettingsWidget);
             out->_init(context);
@@ -253,28 +263,30 @@ namespace djv
         void ColorSpaceSettingsWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
-            auto context = getContext();
-            p.inputColorSpaceComboBox->clearItems();
-            for (const auto& i : p.model->observeColorSpaces()->get())
+            if (auto context = getContext().lock())
             {
-                p.inputColorSpaceComboBox->addItem(i);
-            }
-            const std::string& colorSpace = p.model->observeColorSpace()->get();
-            p.inputColorSpaceComboBox->setCurrentItem(p.model->colorSpaceToIndex(colorSpace));
+                p.inputColorSpaceComboBox->clearItems();
+                for (const auto& i : p.model->observeColorSpaces()->get())
+                {
+                    p.inputColorSpaceComboBox->addItem(i);
+                }
+                const std::string& colorSpace = p.model->observeColorSpace()->get();
+                p.inputColorSpaceComboBox->setCurrentItem(p.model->colorSpaceToIndex(colorSpace));
 
-            p.displayComboBox->clearItems();
-            for (const auto& i : p.model->observeDisplays()->get())
-            {
-                p.displayComboBox->addItem(i);
-            }
-            p.displayComboBox->setCurrentItem(p.model->displayToIndex(p.model->observeDisplay()->get()));
+                p.displayComboBox->clearItems();
+                for (const auto& i : p.model->observeDisplays()->get())
+                {
+                    p.displayComboBox->addItem(i);
+                }
+                p.displayComboBox->setCurrentItem(p.model->displayToIndex(p.model->observeDisplay()->get()));
 
-            p.viewComboBox->clearItems();
-            for (const auto& i : p.model->observeViews()->get())
-            {
-                p.viewComboBox->addItem(i);
+                p.viewComboBox->clearItems();
+                for (const auto& i : p.model->observeViews()->get())
+                {
+                    p.viewComboBox->addItem(i);
+                }
+                p.viewComboBox->setCurrentItem(p.model->viewToIndex(p.model->observeView()->get()));
             }
-            p.viewComboBox->setCurrentItem(p.model->viewToIndex(p.model->observeView()->get()));
         }
 
     } // namespace UI

@@ -71,13 +71,13 @@ namespace djv
                 DJV_NON_COPYABLE(ItemView);
 
             protected:
-                void _init(Core::Context *);
+                void _init(const std::shared_ptr<Core::Context>&);
                 ItemView();
 
             public:
                 ~ItemView() override;
 
-                static std::shared_ptr<ItemView> create(Core::Context *);
+                static std::shared_ptr<ItemView> create(const std::shared_ptr<Core::Context>&);
 
                 void setViewType(ViewType);
                 void setThumbnailSize(const AV::Image::Size&);

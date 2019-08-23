@@ -41,7 +41,7 @@ namespace djv
         class NumericSlider : public Widget
         {
         protected:
-            void _init(Orientation, Core::Context *);
+            void _init(Orientation, const std::shared_ptr<Core::Context>&);
             NumericSlider();
 
         public:

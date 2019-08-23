@@ -38,7 +38,7 @@ namespace djv
 
     namespace CoreTest
     {
-        ObjectTest::ObjectTest(Context * context) :
+        ObjectTest::ObjectTest(const std::shared_ptr<Context>& context) :
             ITest("djv::CoreTest::ObjectTest", context)
         {}
         
@@ -47,7 +47,7 @@ namespace djv
             class EventSystem : public Event::IEventSystem
             {
             public:
-                static std::shared_ptr<EventSystem> create(Context * context)
+                static std::shared_ptr<EventSystem> create(const std::shared_ptr<Context>& context)
                 {
                     auto out = std::shared_ptr<EventSystem>(new EventSystem);
                     out->_init("EventSystem", context);
@@ -62,7 +62,7 @@ namespace djv
                 DJV_NON_COPYABLE(Object);
 
             protected:
-                void _init(Context * context)
+                void _init(const std::shared_ptr<Context>& context)
                 {
                     IObject::_init(context);
                 }
@@ -71,7 +71,7 @@ namespace djv
                 {}
 
             public:
-                static std::shared_ptr<Object> create(Context * context)
+                static std::shared_ptr<Object> create(const std::shared_ptr<Context>& context)
                 {
                     auto out = std::shared_ptr<Object>(new Object);
                     out->_init(context);
@@ -81,29 +81,31 @@ namespace djv
         
         } // namespace
 
-        void ObjectTest::run(int & argc, char ** argv)
+        void ObjectTest::run(const std::vector<std::string>& args)
         {
-            auto context = getContext();
-            auto eventSystem = EventSystem::create(context);
+            if (auto context = getContext().lock())
             {
-                auto o = Object::create(context);
-                DJV_ASSERT(!o->getParent().lock());
-                DJV_ASSERT(o->getChildren().size() == 0);
-                DJV_ASSERT(o->isEnabled());
-            }
-            {
-                auto parent = Object::create(context);
-                auto child = Object::create(context);
-                parent->addChild(child);
-                DJV_ASSERT(child->getParent().lock() == parent);
-                DJV_ASSERT(parent->getChildren().size() == 1 && parent->getChildren()[0] == child);
-                parent->removeChild(child);
-                DJV_ASSERT(parent->getChildren().size() == 0);
-                DJV_ASSERT(!child->getParent().lock());
-                parent->addChild(child);
-                parent->clearChildren();
-                DJV_ASSERT(parent->getChildren().size() == 0);
-                DJV_ASSERT(!child->getParent().lock());
+                auto eventSystem = EventSystem::create(context);
+                {
+                    auto o = Object::create(context);
+                    DJV_ASSERT(!o->getParent().lock());
+                    DJV_ASSERT(o->getChildren().size() == 0);
+                    DJV_ASSERT(o->isEnabled());
+                }
+                {
+                    auto parent = Object::create(context);
+                    auto child = Object::create(context);
+                    parent->addChild(child);
+                    DJV_ASSERT(child->getParent().lock() == parent);
+                    DJV_ASSERT(parent->getChildren().size() == 1 && parent->getChildren()[0] == child);
+                    parent->removeChild(child);
+                    DJV_ASSERT(parent->getChildren().size() == 0);
+                    DJV_ASSERT(!child->getParent().lock());
+                    parent->addChild(child);
+                    parent->clearChildren();
+                    DJV_ASSERT(parent->getChildren().size() == 0);
+                    DJV_ASSERT(!child->getParent().lock());
+                }
             }
         }
         

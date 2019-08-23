@@ -41,11 +41,11 @@ namespace djv
             DJV_NON_COPYABLE(ColorSpaceSettingsWidget);
 
         protected:
-            void _init(Core::Context*);
+            void _init(const std::shared_ptr<Core::Context>&);
             ColorSpaceSettingsWidget();
 
         public:
-            static std::shared_ptr<ColorSpaceSettingsWidget> create(Core::Context*);
+            static std::shared_ptr<ColorSpaceSettingsWidget> create(const std::shared_ptr<Core::Context>&);
 
             std::string getSettingsName() const override;
             std::string getSettingsGroup() const override;

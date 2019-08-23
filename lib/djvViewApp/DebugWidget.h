@@ -41,13 +41,13 @@ namespace djv
             DJV_NON_COPYABLE(DebugWidget);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             DebugWidget();
 
         public:
             ~DebugWidget() override;
 
-            static std::shared_ptr<DebugWidget> create(Core::Context *);
+            static std::shared_ptr<DebugWidget> create(const std::shared_ptr<Core::Context>&);
 
         protected:
             void _localeEvent(Core::Event::Locale &) override;

@@ -201,7 +201,6 @@ namespace djv
 
             struct Style::Private
             {
-                Context * context = nullptr;
                 Palette palette;
                 glm::vec2 dpi = glm::vec2(AV::dpiDefault, AV::dpiDefault);
                 Metrics metrics;
@@ -211,12 +210,10 @@ namespace djv
                 bool dirty = true;
             };
 
-            void Style::_init(Context * context)
+            void Style::_init(const std::shared_ptr<Core::Context>& context)
             {
                 DJV_PRIVATE_PTR();
-                
-                p.context = context;
-                
+                                
                 auto fontSystem = context->getSystemT<AV::Font::System>();
                 p.fontNames = fontSystem->getFontNames().get();
                 for (const auto & i : p.fontNames)
@@ -234,7 +231,7 @@ namespace djv
             Style::~Style()
             {}
 
-            std::shared_ptr<Style> Style::create(Context * context)
+            std::shared_ptr<Style> Style::create(const std::shared_ptr<Core::Context>& context)
             {
                 auto out = std::shared_ptr<Style>(new Style);
                 out->_init(context);

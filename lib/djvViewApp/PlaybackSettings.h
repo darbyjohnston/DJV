@@ -45,12 +45,12 @@ namespace djv
             DJV_NON_COPYABLE(PlaybackSettings);
 
         protected:
-            void _init(Core::Context * context);
+            void _init(const std::shared_ptr<Core::Context>&);
 
             PlaybackSettings();
 
         public:
-            static std::shared_ptr<PlaybackSettings> create(Core::Context *);
+            static std::shared_ptr<PlaybackSettings> create(const std::shared_ptr<Core::Context>&);
 
             std::shared_ptr<Core::IValueSubject<bool> > observePIP() const;
             void setPIP(bool);

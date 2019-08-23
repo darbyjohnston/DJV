@@ -51,7 +51,7 @@ namespace djv
             std::shared_ptr<FormLayout> layout;
         };
 
-        void DPXSettingsWidget::_init(Context * context)
+        void DPXSettingsWidget::_init(const std::shared_ptr<Context>& context)
         {
             ISettingsWidget::_init(context);
 
@@ -65,27 +65,34 @@ namespace djv
             addChild(p.layout);
 
             auto weak = std::weak_ptr<DPXSettingsWidget>(std::dynamic_pointer_cast<DPXSettingsWidget>(shared_from_this()));
+            auto contextWeak = std::weak_ptr<Context>(context);
             p.colorSpaceComboBox->setCallback(
-                [weak, context](int value)
+                [weak, contextWeak](int value)
             {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        auto io = context->getSystemT<AV::IO::System>();
-                        AV::IO::DPX::Options options;
-                        fromJSON(io->getOptions(AV::IO::DPX::pluginName), options);
-                        options.colorSpace = widget->_p->colorSpaces[value];
-                        io->setOptions(AV::IO::DPX::pluginName, toJSON(options));
+                        if (auto widget = weak.lock())
+                        {
+                            auto io = context->getSystemT<AV::IO::System>();
+                            AV::IO::DPX::Options options;
+                            fromJSON(io->getOptions(AV::IO::DPX::pluginName), options);
+                            options.colorSpace = widget->_p->colorSpaces[value];
+                            io->setOptions(AV::IO::DPX::pluginName, toJSON(options));
+                        }
                     }
             });
 
             auto ocioSystem = context->getSystemT<AV::OCIO::System>();
             ListObserver<std::string>::create(
                 ocioSystem->observeColorSpaces(),
-                [weak, context](const std::vector<std::string>&)
+                [weak, contextWeak](const std::vector<std::string>&)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        widget->_widgetUpdate();
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_widgetUpdate();
+                        }
                     }
                 });
         }
@@ -94,7 +101,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<DPXSettingsWidget> DPXSettingsWidget::create(Context * context)
+        std::shared_ptr<DPXSettingsWidget> DPXSettingsWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<DPXSettingsWidget>(new DPXSettingsWidget);
             out->_init(context);
@@ -127,27 +134,29 @@ namespace djv
         void DPXSettingsWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
-            auto context = getContext();
-            auto io = context->getSystemT<AV::IO::System>();
-            AV::IO::DPX::Options options;
-            fromJSON(io->getOptions(AV::IO::DPX::pluginName), options);
-
-            auto ocioSystem = context->getSystemT<AV::OCIO::System>();
-            p.colorSpaces.clear();
-            p.colorSpaces.push_back(std::string());
-            for (const auto& i : ocioSystem->observeColorSpaces()->get())
+            if (auto context = getContext().lock())
             {
-                p.colorSpaces.push_back(i);
-            }
-            p.colorSpaceComboBox->setItems(p.colorSpaces);
+                auto io = context->getSystemT<AV::IO::System>();
+                AV::IO::DPX::Options options;
+                fromJSON(io->getOptions(AV::IO::DPX::pluginName), options);
 
-            int index = 0;
-            const auto i = std::find(p.colorSpaces.begin(), p.colorSpaces.end(), options.colorSpace);
-            if (i != p.colorSpaces.end())
-            {
-                index = i - p.colorSpaces.begin();
+                auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                p.colorSpaces.clear();
+                p.colorSpaces.push_back(std::string());
+                for (const auto& i : ocioSystem->observeColorSpaces()->get())
+                {
+                    p.colorSpaces.push_back(i);
+                }
+                p.colorSpaceComboBox->setItems(p.colorSpaces);
+
+                int index = 0;
+                const auto i = std::find(p.colorSpaces.begin(), p.colorSpaces.end(), options.colorSpace);
+                if (i != p.colorSpaces.end())
+                {
+                    index = i - p.colorSpaces.begin();
+                }
+                p.colorSpaceComboBox->setCurrentItem(index);
             }
-            p.colorSpaceComboBox->setCurrentItem(index);
         }
 
     } // namespace UI

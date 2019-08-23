@@ -55,7 +55,7 @@ namespace djv
             std::map<std::shared_ptr<UI::ISettingsWidget>, std::shared_ptr<UI::GroupBox> > groupBoxes;
         };
 
-        void SettingsDialog::_init(Context* context)
+        void SettingsDialog::_init(const std::shared_ptr<Context>& context)
         {
             IDialog::_init(context);
 
@@ -108,7 +108,7 @@ namespace djv
         SettingsDialog::~SettingsDialog()
         {}
 
-        std::shared_ptr<SettingsDialog> SettingsDialog::create(Context * context)
+        std::shared_ptr<SettingsDialog> SettingsDialog::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<SettingsDialog>(new SettingsDialog);
             out->_init(context);

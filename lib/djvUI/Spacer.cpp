@@ -45,7 +45,7 @@ namespace djv
                 MetricsRole spacerSize = MetricsRole::Spacing;
             };
 
-            void Spacer::_init(Context * context)
+            void Spacer::_init(const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
                 setClassName("djv::UI::Layout::Spacer");
@@ -58,7 +58,7 @@ namespace djv
             Spacer::~Spacer()
             {}
 
-            std::shared_ptr<Spacer> Spacer::create(Orientation orientation, Context * context)
+            std::shared_ptr<Spacer> Spacer::create(Orientation orientation, const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<Spacer>(new Spacer);
                 out->_init(context);
@@ -111,7 +111,7 @@ namespace djv
             HorizontalSpacer::HorizontalSpacer()
             {}
 
-            std::shared_ptr<HorizontalSpacer> HorizontalSpacer::create(Context * context)
+            std::shared_ptr<HorizontalSpacer> HorizontalSpacer::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<HorizontalSpacer>(new HorizontalSpacer);
                 out->_init(context);
@@ -122,7 +122,7 @@ namespace djv
             VerticalSpacer::VerticalSpacer()
             {}
 
-            std::shared_ptr<VerticalSpacer> VerticalSpacer::create(Context * context)
+            std::shared_ptr<VerticalSpacer> VerticalSpacer::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<VerticalSpacer>(new VerticalSpacer);
                 out->_init(context);

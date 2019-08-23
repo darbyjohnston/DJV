@@ -43,13 +43,13 @@ namespace djv
             DJV_NON_COPYABLE(LineGraphWidget);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             LineGraphWidget();
 
         public:
             ~LineGraphWidget() override;
 
-            static std::shared_ptr<LineGraphWidget> create(Core::Context *);
+            static std::shared_ptr<LineGraphWidget> create(const std::shared_ptr<Core::Context>&);
 
             const Core::FloatRange& getSampleRange() const;
             void addSample(float);

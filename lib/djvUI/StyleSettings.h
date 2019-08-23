@@ -47,14 +47,14 @@ namespace djv
                 DJV_NON_COPYABLE(Style);
 
             protected:
-                void _init(Core::Context * context);
+                void _init(const std::shared_ptr<Core::Context>&);
 
                 Style();
 
             public:
                 virtual ~Style();
 
-                static std::shared_ptr<Style> create(Core::Context *);
+                static std::shared_ptr<Style> create(const std::shared_ptr<Core::Context>&);
 
                 std::shared_ptr<Core::IMapSubject<std::string, UI::Style::Palette> > observePalettes() const;
                 std::shared_ptr<Core::IValueSubject<UI::Style::Palette> > observeCurrentPalette() const;

@@ -45,13 +45,13 @@ namespace djv
                 DJV_NON_COPYABLE(UI);
 
             protected:
-                void _init(Core::Context *);
+                void _init(const std::shared_ptr<Core::Context>&);
                 UI();
 
             public:
                 virtual ~UI();
 
-                static std::shared_ptr<UI> create(Core::Context *);
+                static std::shared_ptr<UI> create(const std::shared_ptr<Core::Context>&);
 
                 std::shared_ptr<Core::IValueSubject<bool> > observeTooltips() const;
                 void setTooltips(bool);

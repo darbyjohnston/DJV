@@ -53,13 +53,13 @@ namespace djv
                     DJV_NON_COPYABLE(Button);
 
                 protected:
-                    void _init(Context *);
+                    void _init(const std::shared_ptr<Context>&);
                     Button();
 
                 public:
                     virtual ~Button();
 
-                    static std::shared_ptr<Button> create(Context *);
+                    static std::shared_ptr<Button> create(const std::shared_ptr<Context>&);
 
                     void setIcon(const std::string &);
 
@@ -79,7 +79,7 @@ namespace djv
                     std::shared_ptr<HorizontalLayout> _layout;
                 };
 
-                void Button::_init(Context * context)
+                void Button::_init(const std::shared_ptr<Context>& context)
                 {
                     Widget::_init(context);
 
@@ -110,7 +110,7 @@ namespace djv
                 Button::~Button()
                 {}
 
-                std::shared_ptr<Button> Button::create(Context * context)
+                std::shared_ptr<Button> Button::create(const std::shared_ptr<Context>& context)
                 {
                     auto out = std::shared_ptr<Button>(new Button);
                     out->_init(context);
@@ -171,7 +171,7 @@ namespace djv
                 std::function<void(bool)> openCallback;
             };
 
-            void Bellows::_init(Context * context)
+            void Bellows::_init(const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
 
@@ -219,18 +219,10 @@ namespace djv
             Bellows::~Bellows()
             {}
 
-            std::shared_ptr<Bellows> Bellows::create(Context * context)
+            std::shared_ptr<Bellows> Bellows::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<Bellows>(new Bellows);
                 out->_init(context);
-                return out;
-            }
-
-            std::shared_ptr<Bellows> Bellows::create(const std::string & text, Context * context)
-            {
-                auto out = std::shared_ptr<Bellows>(new Bellows);
-                out->_init(context);
-                out->setText(text);
                 return out;
             }
 

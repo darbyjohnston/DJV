@@ -38,6 +38,7 @@
 #include <djvAV/IO.h>
 #include <djvAV/Render2D.h>
 
+#define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
 #include <chrono>
@@ -61,19 +62,19 @@ namespace djv
             bool running = false;
         };
 
-        void Application::_init(int argc, char * argv[])
+        void Application::_init(const std::vector<std::string>& args)
         {
-            Context::_init(argc, argv);
+            Context::_init(args);
             DJV_PRIVATE_PTR();
 
-            auto glfwSystem = GLFWSystem::create(this);
-            auto avSystem = AV::AVSystem::create(this);
+            auto glfwSystem = GLFWSystem::create(shared_from_this());
+            auto avSystem = AV::AVSystem::create(shared_from_this());
             auto io = getSystemT<AV::IO::System>();
             io->addDependency(glfwSystem);
             getSystemT<AV::Render::Render2D>()->addDependency(glfwSystem);
 
-            auto uiSystem = UI::UISystem::create(this);
-            auto eventSystem = EventSystem::create(glfwSystem->getGLFWWindow(), this);
+            auto uiSystem = UI::UISystem::create(shared_from_this());
+            auto eventSystem = EventSystem::create(glfwSystem->getGLFWWindow(), shared_from_this());
         }
         
         Application::Application() :
@@ -82,11 +83,11 @@ namespace djv
         
         Application::~Application()
         {}
-        
-        std::unique_ptr<Application> Application::create(int argc, char * argv[])
+
+        std::shared_ptr<Application> Application::create(const std::vector<std::string>& args)
         {
-            auto out = std::unique_ptr<Application>(new Application);
-            out->_init(argc, argv);
+            auto out = std::shared_ptr<Application>(new Application);
+            out->_init(args);
             return out;
         }
 

@@ -42,13 +42,13 @@ namespace djv
             DJV_NON_COPYABLE(IntEdit);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             IntEdit();
 
         public:
             virtual ~IntEdit();
 
-            static std::shared_ptr<IntEdit> create(Core::Context *);
+            static std::shared_ptr<IntEdit> create(const std::shared_ptr<Core::Context>&);
 
             void setModel(const std::shared_ptr<Core::INumericValueModel<int> > &) override;
 

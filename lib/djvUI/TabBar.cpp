@@ -50,13 +50,13 @@ namespace djv
                 DJV_NON_COPYABLE(TabBarButton);
 
             protected:
-                void _init(const std::string & text, Core::Context *);
+                void _init(const std::string & text, const std::shared_ptr<Core::Context>&);
                 TabBarButton();
 
             public:
                 virtual ~TabBarButton();
 
-                static std::shared_ptr<TabBarButton> create(const std::string &, Core::Context *);
+                static std::shared_ptr<TabBarButton> create(const std::string &, const std::shared_ptr<Core::Context>&);
 
                 const std::string & getText() const;
                 void setText(const std::string &);
@@ -75,13 +75,14 @@ namespace djv
                 std::shared_ptr<StackLayout> _layout;
             };
 
-            void TabBarButton::_init(const std::string & text, Context * context)
+            void TabBarButton::_init(const std::string & text, const std::shared_ptr<Context>& context)
             {
                 IButton::_init(context);
 
                 setClassName("djv::UI::TabBarButton");
 
-                _label = Label::create(text, context);
+                _label = Label::create(context);
+                _label->setText(text);
                 _label->setTextColorRole(ColorRole::ForegroundDim);
                 _label->setMargin(Layout::Margin(MetricsRole::Margin, MetricsRole::Margin, MetricsRole::MarginSmall, MetricsRole::MarginSmall));
 
@@ -96,7 +97,7 @@ namespace djv
             TabBarButton::~TabBarButton()
             {}
 
-            std::shared_ptr<TabBarButton> TabBarButton::create(const std::string & text, Context * context)
+            std::shared_ptr<TabBarButton> TabBarButton::create(const std::string & text, const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<TabBarButton>(new TabBarButton);
                 out->_init(text, context);
@@ -158,7 +159,7 @@ namespace djv
             std::function<void(size_t)> removedCallback;
         };
 
-        void TabBar::_init(Context * context)
+        void TabBar::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
             
@@ -193,7 +194,7 @@ namespace djv
         TabBar::~TabBar()
         {}
 
-        std::shared_ptr<TabBar> TabBar::create(Context * context)
+        std::shared_ptr<TabBar> TabBar::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<TabBar>(new TabBar);
             out->_init(context);
@@ -208,10 +209,14 @@ namespace djv
         size_t TabBar::addTab(const std::string & text)
         {
             DJV_PRIVATE_PTR();
-            const size_t out = p.buttonGroup->getButtonCount();
-            auto button = TabBarButton::create(text, getContext());
-            p.buttonGroup->addButton(button);
-            p.layout->addChild(button);
+            const size_t out = 0;
+            if (auto context = getContext().lock())
+            {
+                p.buttonGroup->getButtonCount();
+                auto button = TabBarButton::create(text, context);
+                p.buttonGroup->addButton(button);
+                p.layout->addChild(button);
+            }
             return out;
         }
 

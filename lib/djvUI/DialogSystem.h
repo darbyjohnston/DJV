@@ -45,13 +45,13 @@ namespace djv
             DJV_NON_COPYABLE(DialogSystem);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             DialogSystem();
 
         public:
             virtual ~DialogSystem();
 
-            static std::shared_ptr<DialogSystem> create(Core::Context *);
+            static std::shared_ptr<DialogSystem> create(const std::shared_ptr<Core::Context>&);
 
             //! Show a message dialog.
             void message(

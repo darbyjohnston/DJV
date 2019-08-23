@@ -83,7 +83,7 @@ namespace djv
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
         };
 
-        void SettingsSystem::_init(Context * context)
+        void SettingsSystem::_init(const std::shared_ptr<Core::Context>& context)
         {
             IViewSystem::_init("djv::ViewApp::SettingsSystem", context);
             DJV_PRIVATE_PTR();
@@ -96,7 +96,7 @@ namespace djv
         SettingsSystem::~SettingsSystem()
         {}
 
-        std::shared_ptr<SettingsSystem> SettingsSystem::create(Context * context)
+        std::shared_ptr<SettingsSystem> SettingsSystem::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<SettingsSystem>(new SettingsSystem);
             out->_init(context);
@@ -106,26 +106,28 @@ namespace djv
         void SettingsSystem::showSettingsDialog()
         {
             DJV_PRIVATE_PTR();
-            auto context = getContext();
-            if (auto eventSystem = context->getSystemT<UI::EventSystem>())
+            if (auto context = getContext().lock())
             {
-                if (auto window = eventSystem->getCurrentWindow().lock())
+                if (auto eventSystem = context->getSystemT<UI::EventSystem>())
                 {
-                    auto settingsDialog = SettingsDialog::create(context);
-                    auto weak = std::weak_ptr<SettingsDialog>(settingsDialog);
-                    settingsDialog->setCloseCallback(
-                        [weak]
-                        {
-                            if (auto widget = weak.lock())
+                    if (auto window = eventSystem->getCurrentWindow().lock())
+                    {
+                        auto settingsDialog = SettingsDialog::create(context);
+                        auto weak = std::weak_ptr<SettingsDialog>(settingsDialog);
+                        settingsDialog->setCloseCallback(
+                            [weak]
                             {
-                                if (auto parent = widget->getParent().lock())
+                                if (auto widget = weak.lock())
                                 {
-                                    parent->removeChild(widget);
+                                    if (auto parent = widget->getParent().lock())
+                                    {
+                                        parent->removeChild(widget);
+                                    }
                                 }
-                            }
-                        });
-                    window->addChild(settingsDialog);
-                    settingsDialog->show();
+                            });
+                        window->addChild(settingsDialog);
+                        settingsDialog->show();
+                    }
                 }
             }
         }
@@ -137,45 +139,49 @@ namespace djv
 
         std::vector<std::shared_ptr<UI::ISettingsWidget> > SettingsSystem::createSettingsWidgets() const
         {
-            auto context = getContext();
-            return
+            std::vector<std::shared_ptr<UI::ISettingsWidget> > out;
+            if (auto context = getContext().lock())
             {
-                UI::LanguageSettingsWidget::create(context),
-                UI::SizeSettingsWidget::create(context),
-                UI::PaletteSettingsWidget::create(context),
-                UI::TimeSettingsWidget::create(context),
-                UI::TooltipsSettingsWidget::create(context),
-                UI::ColorSpaceSettingsWidget::create(context),
+                out =
+                {
+                    UI::LanguageSettingsWidget::create(context),
+                    UI::SizeSettingsWidget::create(context),
+                    UI::PaletteSettingsWidget::create(context),
+                    UI::TimeSettingsWidget::create(context),
+                    UI::TooltipsSettingsWidget::create(context),
+                    UI::ColorSpaceSettingsWidget::create(context),
 
-                UI::IOThreadsSettingsWidget::create(context),
-                UI::PPMSettingsWidget::create(context),
-                UI::CineonSettingsWidget::create(context),
-                UI::DPXSettingsWidget::create(context),
-                UI::PPMSettingsWidget::create(context),
+                    UI::IOThreadsSettingsWidget::create(context),
+                    UI::PPMSettingsWidget::create(context),
+                    UI::CineonSettingsWidget::create(context),
+                    UI::DPXSettingsWidget::create(context),
+                    UI::PPMSettingsWidget::create(context),
 #if defined(JPEG_FOUND)
-                UI::JPEGSettingsWidget::create(context),
+                    UI::JPEGSettingsWidget::create(context),
 #endif
 #if defined(FFmpeg_FOUND)
-                UI::FFmpegSettingsWidget::create(context),
+                    UI::FFmpegSettingsWidget::create(context),
 #endif
 #if defined(OPENEXR_FOUND)
-                UI::OpenEXRSettingsWidget::create(context),
+                    UI::OpenEXRSettingsWidget::create(context),
 #endif
 #if defined(TIFF_FOUND)
-                UI::TIFFSettingsWidget::create(context),
+                    UI::TIFFSettingsWidget::create(context),
 #endif
 
-                FullscreenMonitorSettingsWidget::create(context),
-                BackgroundImageSettingsWidget::create(context),
-                CacheSettingsWidget::create(context),
-                ImageAspectRatioSettingsWidget::create(context),
-                ImageRotateSettingsWidget::create(context),
-                ImageViewBackgroundSettingsWidget::create(context),
-                NUXSettingsWidget::create(context),
-                PlaybackSettingsWidget::create(context),
-                SequenceSettingsWidget::create(context),
-                UISettingsWidget::create(context),
-            };
+                    FullscreenMonitorSettingsWidget::create(context),
+                    BackgroundImageSettingsWidget::create(context),
+                    CacheSettingsWidget::create(context),
+                    ImageAspectRatioSettingsWidget::create(context),
+                    ImageRotateSettingsWidget::create(context),
+                    ImageViewBackgroundSettingsWidget::create(context),
+                    NUXSettingsWidget::create(context),
+                    PlaybackSettingsWidget::create(context),
+                    SequenceSettingsWidget::create(context),
+                    UISettingsWidget::create(context),
+                };
+            }
+            return out;
         }
         
     } // namespace ViewApp

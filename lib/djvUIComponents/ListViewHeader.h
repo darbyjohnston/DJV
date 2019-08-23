@@ -41,13 +41,13 @@ namespace djv
             DJV_NON_COPYABLE(ListViewHeader);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             ListViewHeader();
 
         public:
             virtual ~ListViewHeader();
 
-            static std::shared_ptr<ListViewHeader> create(Core::Context *);
+            static std::shared_ptr<ListViewHeader> create(const std::shared_ptr<Core::Context>&);
 
             const std::vector<std::string> & getText() const;
             void setText(const std::vector<std::string> &);

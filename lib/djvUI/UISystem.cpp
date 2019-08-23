@@ -30,7 +30,7 @@
 #include <djvUI/UISystem.h>
 
 #include <djvUI/AVSettings.h>
-#include <djvUI/DialogSystem.h>
+//#include <djvUI/DialogSystem.h>
 #include <djvUI/ColorSpaceSettings.h>
 #include <djvUI/GeneralSettings.h>
 #include <djvUI/FontSettings.h>
@@ -61,7 +61,7 @@ namespace djv
             std::shared_ptr<ValueObserver<std::string> > fontObserver;
         };
 
-        void UISystem::_init(Context * context)
+        void UISystem::_init(const std::shared_ptr<Core::Context>& context)
         {
             ISystem::_init("djv::UI::UISystem", context);
 
@@ -81,11 +81,11 @@ namespace djv
 
             p.style = Style::Style::create(context);
             
-            auto dialogSystem = DialogSystem::create(context);
+            //auto dialogSystem = DialogSystem::create(context);
 
             addDependency(settingsSystem);
             addDependency(iconSystem);
-            addDependency(dialogSystem);
+            //addDependency(dialogSystem);
 
             auto weak = std::weak_ptr<UISystem>(std::dynamic_pointer_cast<UISystem>(shared_from_this()));
             p.paletteObserver = ValueObserver<UI::Style::Palette>::create(
@@ -126,7 +126,7 @@ namespace djv
         UISystem::~UISystem()
         {}
 
-        std::shared_ptr<UISystem> UISystem::create(Context * context)
+        std::shared_ptr<UISystem> UISystem::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<UISystem>(new UISystem);
             out->_init(context);

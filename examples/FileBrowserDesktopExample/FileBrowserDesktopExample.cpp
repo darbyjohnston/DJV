@@ -45,13 +45,18 @@ int main(int argc, char ** argv)
     try
     {
         // Create an application.
-        auto app = Desktop::Application::create(argc, argv);
+        std::vector<std::string> args;
+        for (int i = 0; i < argc; ++i)
+        {
+            args.push_back(argv[i]);
+        }
+        auto app = Desktop::Application::create(args);
 
         // Create the UI components system.
-        UI::UIComponentsSystem::create(app.get());
+        UI::UIComponentsSystem::create(app);
 
         // Create a file browser.
-        auto fileBrowser = UI::FileBrowser::FileBrowser::create(app.get());
+        auto fileBrowser = UI::FileBrowser::FileBrowser::create(app);
         fileBrowser->setPath(Core::FileSystem::Path("."));
         fileBrowser->setCallback(
             [](const Core::FileSystem::FileInfo & value)
@@ -60,10 +65,11 @@ int main(int argc, char ** argv)
         });
 
         // Create a window and show it.
-        auto window = UI::Window::create(app.get());
+        auto window = UI::Window::create(app);
         window->addChild(fileBrowser);
         window->show();
 
+        // Run the application.
         return app->run();
     }
     catch (const std::exception & e)

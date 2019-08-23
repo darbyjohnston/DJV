@@ -39,11 +39,11 @@ namespace djv
 
     namespace CoreTest
     {
-        StringTest::StringTest(Core::Context * context) :
+        StringTest::StringTest(const std::shared_ptr<Core::Context>& context) :
             ITest("djv::CoreTest::StringTest", context)
         {}
         
-        void StringTest::run(int & argc, char ** argv)
+        void StringTest::run(const std::vector<std::string>& args)
         {
             {
                 std::vector<std::string> data =

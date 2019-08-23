@@ -41,13 +41,13 @@ namespace djv
             DJV_NON_COPYABLE(AnnotateWidget);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             AnnotateWidget();
 
         public:
             ~AnnotateWidget() override;
 
-            static std::shared_ptr<AnnotateWidget> create(Core::Context *);
+            static std::shared_ptr<AnnotateWidget> create(const std::shared_ptr<Core::Context>&);
 
         protected:
             void _localeEvent(Core::Event::Locale &) override;

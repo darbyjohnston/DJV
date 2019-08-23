@@ -71,13 +71,13 @@ namespace djv
             DJV_NON_COPYABLE(ThumbnailSystem);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             ThumbnailSystem();
 
         public:
             virtual ~ThumbnailSystem();
 
-            static std::shared_ptr<ThumbnailSystem> create(Core::Context *);
+            static std::shared_ptr<ThumbnailSystem> create(const std::shared_ptr<Core::Context>&);
 
             //! This structure provides information about a file.
             struct InfoFuture

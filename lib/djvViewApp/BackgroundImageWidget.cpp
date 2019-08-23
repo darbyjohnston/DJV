@@ -57,7 +57,7 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > colorizeObserver;
         };
 
-        void BackgroundImageWidget::_init(Context * context)
+        void BackgroundImageWidget::_init(const std::shared_ptr<Core::Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
@@ -71,57 +71,64 @@ namespace djv
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
             if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
             {
+                auto contextWeak = std::weak_ptr<Context>(context);
                 p.imageObserver = ValueObserver<std::string>::create(
                     windowSettings->observeBackgroundImage(),
-                    [weak, context](const std::string& value)
+                    [weak, contextWeak](const std::string& value)
                     {
-                        if (auto widget = weak.lock())
+                        if (auto context = contextWeak.lock())
                         {
-                            try
+                            if (auto widget = weak.lock())
                             {
-                                auto io = context->getSystemT<AV::IO::System>();
-                                widget->_p->read = io->read(value);
-                                widget->_p->timer->start(
-                                    Time::getMilliseconds(Time::TimerValue::Fast),
-                                    [weak](float)
-                                    {
-                                        if (auto widget = weak.lock())
+                                try
+                                {
+                                    auto io = context->getSystemT<AV::IO::System>();
+                                    widget->_p->read = io->read(value);
+                                    widget->_p->timer->start(
+                                        Time::getMilliseconds(Time::TimerValue::Fast),
+                                        [weak](float)
                                         {
-                                            std::shared_ptr<AV::Image::Image> image;
+                                            if (auto widget = weak.lock())
                                             {
-                                                std::unique_lock<std::mutex> lock(widget->_p->read->getMutex());
-                                                auto& queue = widget->_p->read->getVideoQueue();
-                                                if (!queue.isEmpty())
+                                                std::shared_ptr<AV::Image::Image> image;
                                                 {
-                                                    image = queue.popFrame().image;
+                                                    std::unique_lock<std::mutex> lock(widget->_p->read->getMutex());
+                                                    auto& queue = widget->_p->read->getVideoQueue();
+                                                    if (!queue.isEmpty())
+                                                    {
+                                                        image = queue.popFrame().image;
+                                                    }
+                                                }
+                                                if (image)
+                                                {
+                                                    widget->_p->image = image;
+                                                    widget->_p->timer->stop();
+                                                    widget->_p->read.reset();
                                                 }
                                             }
-                                            if (image)
-                                            {
-                                                widget->_p->image = image;
-                                                widget->_p->timer->stop();
-                                                widget->_p->read.reset();
-                                            }
-                                        }
-                                    });
-                            }
-                            catch (const std::exception& e)
-                            {
-                                widget->_p->image.reset();
-                                auto logSystem = context->getSystemT<LogSystem>();
-                                logSystem->log("djv::ViewApp::BackgroundImageWidget", e.what());
+                                        });
+                                }
+                                catch (const std::exception& e)
+                                {
+                                    widget->_p->image.reset();
+                                    auto logSystem = context->getSystemT<LogSystem>();
+                                    logSystem->log("djv::ViewApp::BackgroundImageWidget", e.what());
+                                }
                             }
                         }
                     });
 
                 p.colorizeObserver = ValueObserver<bool>::create(
                     windowSettings->observeBackgroundImageColorize(),
-                    [weak, context](bool value)
+                    [weak, contextWeak](bool value)
                     {
-                        if (auto widget = weak.lock())
+                        if (auto context = contextWeak.lock())
                         {
-                            widget->_p->colorize = value;
-                            widget->_redraw();
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_p->colorize = value;
+                                widget->_redraw();
+                            }
                         }
                     });
             }
@@ -134,7 +141,7 @@ namespace djv
         BackgroundImageWidget::~BackgroundImageWidget()
         {}
 
-        std::shared_ptr<BackgroundImageWidget> BackgroundImageWidget::create(Context * context)
+        std::shared_ptr<BackgroundImageWidget> BackgroundImageWidget::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<BackgroundImageWidget>(new BackgroundImageWidget);
             out->_init(context);

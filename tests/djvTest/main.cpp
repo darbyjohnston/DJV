@@ -52,22 +52,23 @@ int main(int argc, char ** argv)
     int r = 0;
     try
     {
-        auto context = Core::Context::create(argc, argv);
+        std::vector<std::string> args;
+        auto context = Core::Context::create(args);
 
-        /*(new CoreTest::CacheTest(context.get()))->run(argc, argv);
-        (new CoreTest::EnumTest(context.get()))->run(argc, argv);
-        (new CoreTest::FrameTest(context.get()))->run(argc, argv);
-        (new CoreTest::FileIOTest(context.get()))->run(argc, argv);
-        (new CoreTest::MathTest(context.get()))->run(argc, argv);
-        (new CoreTest::MemoryTest(context.get()))->run(argc, argv);
-        (new CoreTest::ObjectTest(context.get()))->run(argc, argv);
-        (new CoreTest::PathTest(context.get()))->run(argc, argv);
-        (new CoreTest::SpeedTest(context.get()))->run(argc, argv);
-        (new CoreTest::StringTest(context.get()))->run(argc, argv);*/
+        (new CoreTest::CacheTest(context))->run(args);
+        (new CoreTest::EnumTest(context))->run(args);
+        (new CoreTest::FrameTest(context))->run(args);
+        (new CoreTest::FileIOTest(context))->run(args);
+        (new CoreTest::MathTest(context))->run(args);
+        (new CoreTest::MemoryTest(context))->run(args);
+        (new CoreTest::ObjectTest(context))->run(args);
+        (new CoreTest::PathTest(context))->run(args);
+        (new CoreTest::SpeedTest(context))->run(args);
+        (new CoreTest::StringTest(context))->run(args);
 
-        (new AVTest::AudioTest(context.get()))->run(argc, argv);
-        //(new AVTest::ColorTest(context.get()))->run(argc, argv);
-        //(new AVTest::PixelTest(context.get()))->run(argc, argv);
+        (new AVTest::AudioTest(context))->run(args);
+        (new AVTest::ColorTest(context))->run(args);
+        (new AVTest::PixelTest(context))->run(args);
     }
     catch (const std::exception & error)
     {

@@ -55,7 +55,7 @@ namespace djv
             std::shared_ptr<ValueSubject<TimeUnits> > timeUnits;
         };
 
-        void AVSystem::_init(Context * context)
+        void AVSystem::_init(const std::shared_ptr<Core::Context>& context)
         {
             ISystem::_init("djv::AV::AVSystem", context);
 
@@ -84,7 +84,7 @@ namespace djv
         AVSystem::~AVSystem()
         {}
 
-        std::shared_ptr<AVSystem> AVSystem::create(Context * context)
+        std::shared_ptr<AVSystem> AVSystem::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<AVSystem>(new AVSystem);
             out->_init(context);

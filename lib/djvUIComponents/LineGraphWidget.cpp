@@ -51,7 +51,7 @@ namespace djv
             std::shared_ptr<Label> label;
         };
 
-        void LineGraphWidget::_init(Context * context)
+        void LineGraphWidget::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
 
@@ -74,7 +74,7 @@ namespace djv
         LineGraphWidget::~LineGraphWidget()
         {}
 
-        std::shared_ptr<LineGraphWidget> LineGraphWidget::create(Context * context)
+        std::shared_ptr<LineGraphWidget> LineGraphWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<LineGraphWidget>(new LineGraphWidget);
             out->_init(context);

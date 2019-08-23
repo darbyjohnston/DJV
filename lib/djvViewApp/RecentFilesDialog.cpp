@@ -84,7 +84,7 @@ namespace djv
             std::shared_ptr<ValueObserver<AV::Image::Size> > thumbnailSizeSettingsObserver;
         };
 
-        void RecentFilesDialog::_init(Context * context)
+        void RecentFilesDialog::_init(const std::shared_ptr<Core::Context>& context)
         {
             IDialog::_init(context);
 
@@ -97,14 +97,19 @@ namespace djv
             p.actions["DecreaseThumbnailSize"]->setShortcut(GLFW_KEY_MINUS);
             p.searchBox = UI::SearchBox::create(context);
 
+            auto increaseThumbnailSizeButton = UI::ActionButton::create(context);
+            increaseThumbnailSizeButton->addAction(p.actions["IncreaseThumbnailSize"]);
+            auto decreaseThumbnailSizeButton = UI::ActionButton::create(context);
+            decreaseThumbnailSizeButton->addAction(p.actions["DecreaseThumbnailSize"]);
+
             p.thumbnailSizeSlider = UI::IntSlider::create(context);
             p.thumbnailSizeSlider->setRange(UI::FileBrowser::thumbnailSizeRange);
             p.thumbnailSizeSlider->setDelay(Time::getMilliseconds(Time::TimerValue::Medium));
             p.thumbnailSizeSlider->setMargin(UI::MetricsRole::MarginSmall);
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
-            vLayout->addChild(UI::ActionButton::create(p.actions["IncreaseThumbnailSize"], context));
-            vLayout->addChild(UI::ActionButton::create(p.actions["DecreaseThumbnailSize"], context));
+            vLayout->addChild(increaseThumbnailSizeButton);
+            vLayout->addChild(decreaseThumbnailSizeButton);
             vLayout->addChild(p.thumbnailSizeSlider);
             p.settingsPopupWidget = UI::PopupWidget::create(context);
             p.settingsPopupWidget->setIcon("djvIconSettings");
@@ -192,41 +197,51 @@ namespace djv
                 }
             });
 
+            auto contextWeak = std::weak_ptr<Context>(context);
             p.thumbnailSizeSlider->setValueCallback(
-                [context](int value)
-            {
-                auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                auto fileBrowserSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
-                fileBrowserSettings->setThumbnailSize(AV::Image::Size(value, ceilf(value / 2.f)));
-            });
+                [contextWeak](int value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto fileBrowserSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
+                        fileBrowserSettings->setThumbnailSize(AV::Image::Size(value, ceilf(value / 2.f)));
+                    }
+                });
 
             p.increaseThumbnailSizeObserver = ValueObserver<bool>::create(
                 p.actions["IncreaseThumbnailSize"]->observeClicked(),
-                [context](bool value)
+                [contextWeak](bool value)
             {
                 if (value)
                 {
-                    auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                    auto fileBrowserSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
-                    auto size = fileBrowserSettings->observeThumbnailSize()->get();
-                    size.w = Math::clamp(static_cast<int>(size.w * 1.25f), UI::FileBrowser::thumbnailSizeRange.min, UI::FileBrowser::thumbnailSizeRange.max);
-                    size.h = static_cast<int>(ceilf(size.w / 2.f));
-                    fileBrowserSettings->setThumbnailSize(size);
+                    if (auto context = contextWeak.lock())
+                    {
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto fileBrowserSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
+                        auto size = fileBrowserSettings->observeThumbnailSize()->get();
+                        size.w = Math::clamp(static_cast<int>(size.w * 1.25f), UI::FileBrowser::thumbnailSizeRange.min, UI::FileBrowser::thumbnailSizeRange.max);
+                        size.h = static_cast<int>(ceilf(size.w / 2.f));
+                        fileBrowserSettings->setThumbnailSize(size);
+                    }
                 }
             });
 
             p.decreaseThumbnailSizeObserver = ValueObserver<bool>::create(
                 p.actions["DecreaseThumbnailSize"]->observeClicked(),
-                [context](bool value)
+                [contextWeak](bool value)
             {
                 if (value)
                 {
-                    auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                    auto fileBrowserSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
-                    auto size = fileBrowserSettings->observeThumbnailSize()->get();
-                    size.w = Math::clamp(static_cast<int>(size.w * .75f), UI::FileBrowser::thumbnailSizeRange.min, UI::FileBrowser::thumbnailSizeRange.max);
-                    size.h = static_cast<int>(ceilf(size.w / 2.f));
-                    fileBrowserSettings->setThumbnailSize(size);
+                    if (auto context = contextWeak.lock())
+                    {
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto fileBrowserSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
+                        auto size = fileBrowserSettings->observeThumbnailSize()->get();
+                        size.w = Math::clamp(static_cast<int>(size.w * .75f), UI::FileBrowser::thumbnailSizeRange.min, UI::FileBrowser::thumbnailSizeRange.max);
+                        size.h = static_cast<int>(ceilf(size.w / 2.f));
+                        fileBrowserSettings->setThumbnailSize(size);
+                    }
                 }
             });
         }
@@ -238,7 +253,7 @@ namespace djv
         RecentFilesDialog::~RecentFilesDialog()
         {}
 
-        std::shared_ptr<RecentFilesDialog> RecentFilesDialog::create(Context * context)
+        std::shared_ptr<RecentFilesDialog> RecentFilesDialog::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<RecentFilesDialog>(new RecentFilesDialog);
             out->_init(context);

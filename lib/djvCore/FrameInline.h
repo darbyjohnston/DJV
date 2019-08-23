@@ -69,7 +69,14 @@ namespace djv
                 size_t out = 0;
                 for (const auto& i : ranges)
                 {
-                    out += i.max - i.min + 1;
+                    if (i.min < i.max)
+                    {
+                        out += i.max - i.min + 1;
+                    }
+                    else
+                    {
+                        out += i.min - i.max + 1;
+                    }
                 }
                 return out;
             }
@@ -100,9 +107,9 @@ namespace djv
                 return !(*this == value);
             }
 
-            constexpr bool isValid(const Range & value)
+            inline bool isValid(const Range & value)
             {
-                return value.min != invalid && value.max != invalid;
+                return value != invalidRange;
             }
 
             inline std::vector<Number> toFrames(const Range & value)
@@ -170,7 +177,7 @@ namespace djv
                 }
                 return String::join(list, '-');
             }
-
+            
             inline void fromString(const std::string & value, Range & out, size_t & pad)
             {
                 // Split the string into the minimum and maximum values (e.g., "1-10").

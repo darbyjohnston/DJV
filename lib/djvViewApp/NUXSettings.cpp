@@ -46,7 +46,7 @@ namespace djv
             std::shared_ptr<ValueSubject<bool> > nux;
         };
 
-        void NUXSettings::_init(Context * context)
+        void NUXSettings::_init(const std::shared_ptr<Core::Context>& context)
         {
             ISettings::_init("djv::ViewApp::NUXSettings", context);
 
@@ -59,7 +59,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<NUXSettings> NUXSettings::create(Context * context)
+        std::shared_ptr<NUXSettings> NUXSettings::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<NUXSettings>(new NUXSettings);
             out->_init(context);

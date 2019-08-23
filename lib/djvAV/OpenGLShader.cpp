@@ -140,12 +140,12 @@ namespace djv
 
             void Shader::setUniform(GLint location, int value)
             {
-                glUniform1iv(location, 1, &value);
+                glUniform1i(location, value);
             }
 
             void Shader::setUniform(GLint location, float value)
             {
-                glUniform1fv(location, 1, &value);
+                glUniform1f(location, value);
             }
 
             void Shader::setUniform(GLint location, const glm::vec2 & value)
@@ -187,13 +187,13 @@ namespace djv
             void Shader::setUniform(const std::string & name, int value)
             {
                 const GLint loc = glGetUniformLocation(_program, name.c_str());
-                glUniform1iv(loc, 1, &value);
+                glUniform1i(loc, value);
             }
 
             void Shader::setUniform(const std::string & name, float value)
             {
                 const GLint loc = glGetUniformLocation(_program, name.c_str());
-                glUniform1fv(loc, 1, &value);
+                glUniform1f(loc, value);
             }
 
             void Shader::setUniform(const std::string & name, const glm::vec2 & value)

@@ -96,7 +96,7 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > autoHideObserver;
         };
         
-        void MainWindow::_init(Context * context)
+        void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
         {
             UI::Window::_init(context);
 
@@ -249,19 +249,23 @@ namespace djv
             addChild(p.layout);
 
             auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
+            auto contextWeak = std::weak_ptr<Context>(context);
             p.mediaActionGroup->setRadioCallback(
-                [weak, context](int value)
+                [weak, contextWeak](int value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        if (value >= 0 && value < static_cast<int>(widget->_p->media.size()))
+                        if (auto widget = weak.lock())
                         {
-                            if (auto fileSystem = context->getSystemT<FileSystem>())
+                            if (value >= 0 && value < static_cast<int>(widget->_p->media.size()))
                             {
-                                fileSystem->setCurrentMedia(widget->_p->media[value]);
+                                if (auto fileSystem = context->getSystemT<FileSystem>())
+                                {
+                                    fileSystem->setCurrentMedia(widget->_p->media[value]);
+                                }
                             }
+                            widget->_p->mediaMenu->close();
                         }
-                        widget->_p->mediaMenu->close();
                     }
                 });
 
@@ -288,76 +292,88 @@ namespace djv
                 });
 
             p.autoHideButton->setCheckedCallback(
-                [weak, context](bool value)
+                [weak, contextWeak](bool value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                        auto uiSettings = settingsSystem->getSettingsT<UISettings>();
-                        uiSettings->setAutoHide(value);
+                        if (auto widget = weak.lock())
+                        {
+                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto uiSettings = settingsSystem->getSettingsT<UISettings>();
+                            uiSettings->setAutoHide(value);
+                        }
                     }
                 });
 
             p.settingsButton->setClickedCallback(
-                [weak, context]
+                [weak, contextWeak]
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        auto settingsSystem = context->getSystemT<SettingsSystem>();
-                        settingsSystem->showSettingsDialog();
+                        if (auto widget = weak.lock())
+                        {
+                            auto settingsSystem = context->getSystemT<SettingsSystem>();
+                            settingsSystem->showSettingsDialog();
+                        }
                     }
                 });
 
             p.escapeActionObserver = ValueObserver<bool>::create(
                 p.actions["Escape"]->observeClicked(),
-                [context](bool value)
+                [contextWeak](bool value)
                 {
-                    if (auto windowSystem = context->getSystemT<WindowSystem>())
+                    if (auto context = contextWeak.lock())
                     {
-                        if (windowSystem->observeFullScreen()->get())
+                        if (auto windowSystem = context->getSystemT<WindowSystem>())
                         {
-                            windowSystem->setFullScreen(false);
+                            if (windowSystem->observeFullScreen()->get())
+                            {
+                                windowSystem->setFullScreen(false);
+                            }
                         }
                     }
                 });
 
-            if (auto fileSystem = getContext()->getSystemT<FileSystem>())
+            if (auto context = getContext().lock())
             {
-                p.mediaObserver = ListObserver<std::shared_ptr<Media>>::create(
-                    fileSystem->observeMedia(),
-                    [weak](const std::vector<std::shared_ptr<Media> > & value)
+                if (auto fileSystem = context->getSystemT<FileSystem>())
                 {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->media = value;
-                        widget->_p->mediaActionGroup->clearActions();
-                        widget->_p->mediaMenu->clearActions();
-                        for (const auto& i : widget->_p->media)
+                    p.mediaObserver = ListObserver<std::shared_ptr<Media>>::create(
+                        fileSystem->observeMedia(),
+                        [weak](const std::vector<std::shared_ptr<Media> >& value)
                         {
-                            auto action = UI::Action::create();
-                            action->setText(i->getFileInfo().getFileName());
-                            widget->_p->mediaActionGroup->addAction(action);
-                            widget->_p->mediaMenu->addAction(action);
-                        }
-                        widget->_p->mediaButton->setEnabled(widget->_p->media.size() > 0);
-                    }
-                });
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_p->media = value;
+                                widget->_p->mediaActionGroup->clearActions();
+                                widget->_p->mediaMenu->clearActions();
+                                for (const auto& i : widget->_p->media)
+                                {
+                                    auto action = UI::Action::create();
+                                    action->setText(i->getFileInfo().getFileName());
+                                    widget->_p->mediaActionGroup->addAction(action);
+                                    widget->_p->mediaMenu->addAction(action);
+                                }
+                                widget->_p->mediaButton->setEnabled(widget->_p->media.size() > 0);
+                            }
+                        });
 
-                p.currentMediaObserver = ValueObserver<std::shared_ptr<Media>>::create(
-                    fileSystem->observeCurrentMedia(),
-                    [weak](const std::shared_ptr<Media> & value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        const auto i = std::find(widget->_p->media.begin(), widget->_p->media.end(), value);
-                        if (i != widget->_p->media.end())
+                    p.currentMediaObserver = ValueObserver<std::shared_ptr<Media>>::create(
+                        fileSystem->observeCurrentMedia(),
+                        [weak](const std::shared_ptr<Media>& value)
                         {
-                            widget->_p->mediaActionGroup->setChecked(i - widget->_p->media.begin());
-                        }
-                        widget->_p->mediaButton->setText(value ? value->getFileInfo().getFileName(Frame::invalid, false) : "-");
-                        widget->_p->mediaButton->setTooltip(value ? value->getFileInfo() : Core::FileSystem::FileInfo());
-                    }
-                });
+                            if (auto widget = weak.lock())
+                            {
+                                const auto i = std::find(widget->_p->media.begin(), widget->_p->media.end(), value);
+                                if (i != widget->_p->media.end())
+                                {
+                                    widget->_p->mediaActionGroup->setChecked(i - widget->_p->media.begin());
+                                }
+                                widget->_p->mediaButton->setText(value ? value->getFileInfo().getFileName(Frame::invalid, false) : "-");
+                                widget->_p->mediaButton->setTooltip(value ? value->getFileInfo() : Core::FileSystem::FileInfo());
+                            }
+                        });
+                }
             }
 
             if (windowSystem)
@@ -403,7 +419,7 @@ namespace djv
         MainWindow::~MainWindow()
         {}
 
-        std::shared_ptr<MainWindow> MainWindow::create(Context * context)
+        std::shared_ptr<MainWindow> MainWindow::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<MainWindow>(new MainWindow);
             out->_init(context);
@@ -417,27 +433,29 @@ namespace djv
 
         void MainWindow::_dropEvent(Event::Drop & event)
         {
-            const auto& style = _getStyle();
-            const float s = style->getMetric(UI::MetricsRole::SpacingLarge);
-            glm::vec2 pos = event.getPointerInfo().projectedPos;
-            for (const auto & i : event.getDropPaths())
+            if (auto context = getContext().lock())
             {
-                auto context = getContext();
-                auto io = context->getSystemT<AV::IO::System>();
-                auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                auto fileSettings = settingsSystem->getSettingsT<FileSettings>();
-                Core::FileSystem::FileInfo fileInfo;
-                if (io->canSequence(i) && fileSettings->observeAutoDetectSequences()->get())
+                const auto& style = _getStyle();
+                const float s = style->getMetric(UI::MetricsRole::SpacingLarge);
+                glm::vec2 pos = event.getPointerInfo().projectedPos;
+                for (const auto& i : event.getDropPaths())
                 {
-                    fileInfo = Core::FileSystem::FileInfo::getFileSequence(i, io->getSequenceExtensions());
+                    auto io = context->getSystemT<AV::IO::System>();
+                    auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                    auto fileSettings = settingsSystem->getSettingsT<FileSettings>();
+                    Core::FileSystem::FileInfo fileInfo;
+                    if (io->canSequence(i) && fileSettings->observeAutoDetectSequences()->get())
+                    {
+                        fileInfo = Core::FileSystem::FileInfo::getFileSequence(i, io->getSequenceExtensions());
+                    }
+                    else
+                    {
+                        fileInfo = i;
+                    }
+                    auto fileSystem = context->getSystemT<FileSystem>();
+                    fileSystem->open(fileInfo, pos);
+                    pos += s;
                 }
-                else
-                {
-                    fileInfo = i;
-                }
-                auto fileSystem = context->getSystemT<FileSystem>();
-                fileSystem->open(fileInfo, pos);
-                pos += s;
             }
         }
 

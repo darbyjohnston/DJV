@@ -49,7 +49,7 @@ namespace djv
                 std::unique_ptr<RtAudio> rtAudio;
             };
 
-            void System::_init(Core::Context * context)
+            void System::_init(const std::shared_ptr<Core::Context>& context)
             {
                 ISystem::_init("djv::AV::Audio::System", context);
                 DJV_PRIVATE_PTR();
@@ -166,7 +166,7 @@ namespace djv
             System::~System()
             {}
 
-            std::shared_ptr<System> System::create(Core::Context * context)
+            std::shared_ptr<System> System::create(const std::shared_ptr<Core::Context>& context)
             {
                 auto out = std::shared_ptr<System>(new System);
                 out->_init(context);

@@ -90,22 +90,22 @@ namespace djv
                 return _extension;
             }
 
-            inline bool Path::isPathSeparator(char c)
+            inline bool Path::isSeparator(char c)
             {
                 return '/' == c || '\\' == c;
             }
 
-            inline char Path::getPathSeparator(PathSeparator value)
+            inline char Path::getSeparator(PathSeparator value)
             {
                 return PathSeparator::Unix == value ? '/' : '\\';
             }
 
-            inline char Path::getCurrentPathSeparator()
+            inline char Path::getCurrentSeparator()
             {
 #if defined(DJV_PLATFORM_WINDOWS)
-                return getPathSeparator(PathSeparator::Windows);
+                return getSeparator(PathSeparator::Windows);
 #else
-                return getPathSeparator(PathSeparator::Unix);
+                return getSeparator(PathSeparator::Unix);
 #endif // DJV_PLATFORM_WINDOWS
             }
 

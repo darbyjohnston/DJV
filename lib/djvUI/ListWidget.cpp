@@ -52,7 +52,7 @@ namespace djv
             std::function<void(int)> callback;
         };
 
-        void ListWidget::_init(Context * context)
+        void ListWidget::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
 
@@ -92,17 +92,10 @@ namespace djv
         ListWidget::~ListWidget()
         {}
 
-        std::shared_ptr<ListWidget> ListWidget::create(Context * context)
+        std::shared_ptr<ListWidget> ListWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<ListWidget>(new ListWidget);
             out->_init(context);
-            return out;
-        }
-
-        std::shared_ptr<ListWidget> ListWidget::create(const std::vector<std::string> & items, Context * context)
-        {
-            auto out = ListWidget::create(context);
-            out->setItems(items);
             return out;
         }
 
@@ -123,11 +116,14 @@ namespace djv
         void ListWidget::addItem(const std::string & value)
         {
             DJV_PRIVATE_PTR();
-            p.items.push_back(value);
-            auto button = ListButton::create(getContext());
-            button->setText(value);
-            p.buttonGroup->addButton(button);
-            p.layout->addChild(button);
+            if (auto context = getContext().lock())
+            {
+                p.items.push_back(value);
+                auto button = ListButton::create(context);
+                button->setText(value);
+                p.buttonGroup->addButton(button);
+                p.layout->addChild(button);
+            }
         }
 
         void ListWidget::clearItems(Callback callback)
@@ -254,15 +250,17 @@ namespace djv
         void ListWidget::_updateItems()
         {
             DJV_PRIVATE_PTR();
-            auto context = getContext();
-            p.buttonGroup->clearButtons();
-            p.layout->clearChildren();
-            for (const auto & i : p.items)
+            if (auto context = getContext().lock())
             {
-                auto button = ListButton::create(context);
-                button->setText(i);
-                p.buttonGroup->addButton(button);
-                p.layout->addChild(button);
+                p.buttonGroup->clearButtons();
+                p.layout->clearChildren();
+                for (const auto& i : p.items)
+                {
+                    auto button = ListButton::create(context);
+                    button->setText(i);
+                    p.buttonGroup->addButton(button);
+                    p.layout->addChild(button);
+                }
             }
         }
 

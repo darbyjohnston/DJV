@@ -47,13 +47,13 @@ namespace djv
             DJV_NON_COPYABLE(UISystem);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             UISystem();
 
         public:
             ~UISystem() override;
 
-            static std::shared_ptr<UISystem> create(Core::Context *);
+            static std::shared_ptr<UISystem> create(const std::shared_ptr<Core::Context>&);
 
             const std::shared_ptr<Style::Style> & getStyle() const;
 

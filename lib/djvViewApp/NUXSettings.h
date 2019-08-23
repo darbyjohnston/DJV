@@ -45,12 +45,12 @@ namespace djv
             DJV_NON_COPYABLE(NUXSettings);
 
         protected:
-            void _init(Core::Context * context);
+            void _init(const std::shared_ptr<Core::Context>& context);
 
             NUXSettings();
 
         public:
-            static std::shared_ptr<NUXSettings> create(Core::Context *);
+            static std::shared_ptr<NUXSettings> create(const std::shared_ptr<Core::Context>&);
 
             std::shared_ptr<Core::IValueSubject<bool> > observeNUX() const;
             void setNUX(bool);

@@ -43,7 +43,7 @@ namespace djv
             DJV_NON_COPYABLE(Label);
             
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             Label();
 
         public:
@@ -52,8 +52,8 @@ namespace djv
             //! \name Label Creation
             ///@{
 
-            static std::shared_ptr<Label> create(Core::Context *);
-            static std::shared_ptr<Label> create(const std::string &, Core::Context *);
+            static std::shared_ptr<Label> create(const std::shared_ptr<Core::Context>&);
+            //static std::shared_ptr<Label> create(const std::string &, const std::shared_ptr<Core::Context>&);
 
             ///@}
 

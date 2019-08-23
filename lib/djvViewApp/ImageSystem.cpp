@@ -84,7 +84,7 @@ namespace djv
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
-        void ImageSystem::_init(Context * context)
+        void ImageSystem::_init(const std::shared_ptr<Core::Context>& context)
         {
             IViewSystem::_init("djv::ViewApp::ImageSystem", context);
 
@@ -228,19 +228,23 @@ namespace djv
                     }
                 });
 
+            auto contextWeak = std::weak_ptr<Context>(context);
             p.actionObservers["ColorSpace"] = ValueObserver<bool>::create(
                 p.actions["ColorSpace"]->observeChecked(),
-                [weak, context](bool value)
+                [weak, contextWeak](bool value)
                 {
-                    if (auto system = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        if (value)
+                        if (auto system = weak.lock())
                         {
-                            system->_openWidget("ColorSpace", ColorSpaceWidget::create(context));
-                        }
-                        else
-                        {
-                            system->_closeWidget("ColorSpace");
+                            if (value)
+                            {
+                                system->_openWidget("ColorSpace", ColorSpaceWidget::create(context));
+                            }
+                            else
+                            {
+                                system->_closeWidget("ColorSpace");
+                            }
                         }
                     }
                 });
@@ -399,7 +403,7 @@ namespace djv
         ImageSystem::~ImageSystem()
         {}
 
-        std::shared_ptr<ImageSystem> ImageSystem::create(Context * context)
+        std::shared_ptr<ImageSystem> ImageSystem::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<ImageSystem>(new ImageSystem);
             out->_init(context);

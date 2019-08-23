@@ -52,13 +52,13 @@ namespace djv
             DJV_NON_COPYABLE(ImageSystem);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             ImageSystem();
 
         public:
             ~ImageSystem() override;
 
-            static std::shared_ptr<ImageSystem> create(Core::Context *);
+            static std::shared_ptr<ImageSystem> create(const std::shared_ptr<Core::Context>&);
 
             std::shared_ptr<Core::IValueSubject<bool> > observeFrameStoreEnabled() const;
             std::shared_ptr<Core::IValueSubject<std::shared_ptr<AV::Image::Image> > > observeFrameStore() const;

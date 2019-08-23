@@ -41,13 +41,13 @@ namespace djv
             DJV_NON_COPYABLE(AnnotateSystem);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             AnnotateSystem();
 
         public:
             ~AnnotateSystem() override;
 
-            static std::shared_ptr<AnnotateSystem> create(Core::Context *);
+            static std::shared_ptr<AnnotateSystem> create(const std::shared_ptr<Core::Context>&);
 
             ToolActionData getToolAction() const override;
             void setCurrentTool(bool) override;

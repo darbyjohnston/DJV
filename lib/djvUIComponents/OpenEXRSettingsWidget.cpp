@@ -57,7 +57,7 @@ namespace djv
             std::shared_ptr<FormLayout> layout;
         };
 
-        void OpenEXRSettingsWidget::_init(Context * context)
+        void OpenEXRSettingsWidget::_init(const std::shared_ptr<Context>& context)
         {
             ISettingsWidget::_init(context);
 
@@ -87,68 +87,84 @@ namespace djv
             _widgetUpdate();
 
             auto weak = std::weak_ptr<OpenEXRSettingsWidget>(std::dynamic_pointer_cast<OpenEXRSettingsWidget>(shared_from_this()));
+            auto contextWeak = std::weak_ptr<Context>(context);
             p.threadCountSlider->setValueCallback(
-                [weak, context](int value)
+                [weak, contextWeak](int value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        auto io = context->getSystemT<AV::IO::System>();
-                        AV::IO::OpenEXR::Options options;
-                        fromJSON(io->getOptions(AV::IO::OpenEXR::pluginName), options);
-                        options.threadCount = value;
-                        io->setOptions(AV::IO::OpenEXR::pluginName, toJSON(options));
+                        if (auto widget = weak.lock())
+                        {
+                            auto io = context->getSystemT<AV::IO::System>();
+                            AV::IO::OpenEXR::Options options;
+                            fromJSON(io->getOptions(AV::IO::OpenEXR::pluginName), options);
+                            options.threadCount = value;
+                            io->setOptions(AV::IO::OpenEXR::pluginName, toJSON(options));
+                        }
                     }
                 });
 
             p.channelsComboBox->setCallback(
-                [weak, context](int value)
+                [weak, contextWeak](int value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        auto io = context->getSystemT<AV::IO::System>();
-                        AV::IO::OpenEXR::Options options;
-                        fromJSON(io->getOptions(AV::IO::OpenEXR::pluginName), options);
-                        options.channels = static_cast<AV::IO::OpenEXR::Channels>(value);
-                        io->setOptions(AV::IO::OpenEXR::pluginName, toJSON(options));
+                        if (auto widget = weak.lock())
+                        {
+                            auto io = context->getSystemT<AV::IO::System>();
+                            AV::IO::OpenEXR::Options options;
+                            fromJSON(io->getOptions(AV::IO::OpenEXR::pluginName), options);
+                            options.channels = static_cast<AV::IO::OpenEXR::Channels>(value);
+                            io->setOptions(AV::IO::OpenEXR::pluginName, toJSON(options));
+                        }
                     }
                 });
 
             p.compressionComboBox->setCallback(
-                [weak, context](int value)
+                [weak, contextWeak](int value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        auto io = context->getSystemT<AV::IO::System>();
-                        AV::IO::OpenEXR::Options options;
-                        fromJSON(io->getOptions(AV::IO::OpenEXR::pluginName), options);
-                        options.compression = static_cast<AV::IO::OpenEXR::Compression>(value);
-                        io->setOptions(AV::IO::OpenEXR::pluginName, toJSON(options));
+                        if (auto widget = weak.lock())
+                        {
+                            auto io = context->getSystemT<AV::IO::System>();
+                            AV::IO::OpenEXR::Options options;
+                            fromJSON(io->getOptions(AV::IO::OpenEXR::pluginName), options);
+                            options.compression = static_cast<AV::IO::OpenEXR::Compression>(value);
+                            io->setOptions(AV::IO::OpenEXR::pluginName, toJSON(options));
+                        }
                     }
                 });
 
             p.dwaCompressionLevelSlider->setValueCallback(
-                [weak, context](float value)
+                [weak, contextWeak](float value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        auto io = context->getSystemT<AV::IO::System>();
-                        AV::IO::OpenEXR::Options options;
-                        fromJSON(io->getOptions(AV::IO::OpenEXR::pluginName), options);
-                        options.dwaCompressionLevel = value;
-                        io->setOptions(AV::IO::OpenEXR::pluginName, toJSON(options));
+                        if (auto widget = weak.lock())
+                        {
+                            auto io = context->getSystemT<AV::IO::System>();
+                            AV::IO::OpenEXR::Options options;
+                            fromJSON(io->getOptions(AV::IO::OpenEXR::pluginName), options);
+                            options.dwaCompressionLevel = value;
+                            io->setOptions(AV::IO::OpenEXR::pluginName, toJSON(options));
+                        }
                     }
                 });
 
             p.colorSpaceComboBox->setCallback(
-                [weak, context](int value)
+                [weak, contextWeak](int value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        auto io = context->getSystemT<AV::IO::System>();
-                        AV::IO::OpenEXR::Options options;
-                        fromJSON(io->getOptions(AV::IO::OpenEXR::pluginName), options);
-                        options.colorSpace = widget->_p->colorSpaces[value];
-                        io->setOptions(AV::IO::OpenEXR::pluginName, toJSON(options));
+                        if (auto widget = weak.lock())
+                        {
+                            auto io = context->getSystemT<AV::IO::System>();
+                            AV::IO::OpenEXR::Options options;
+                            fromJSON(io->getOptions(AV::IO::OpenEXR::pluginName), options);
+                            options.colorSpace = widget->_p->colorSpaces[value];
+                            io->setOptions(AV::IO::OpenEXR::pluginName, toJSON(options));
+                        }
                     }
                 });
         }
@@ -157,7 +173,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<OpenEXRSettingsWidget> OpenEXRSettingsWidget::create(Context * context)
+        std::shared_ptr<OpenEXRSettingsWidget> OpenEXRSettingsWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<OpenEXRSettingsWidget>(new OpenEXRSettingsWidget);
             out->_init(context);
@@ -194,49 +210,50 @@ namespace djv
         void OpenEXRSettingsWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
-
-            auto context = getContext();
-            auto io = context->getSystemT<AV::IO::System>();
-            AV::IO::OpenEXR::Options options;
-            fromJSON(io->getOptions(AV::IO::OpenEXR::pluginName), options);
-
-            p.threadCountSlider->setValue(options.threadCount);
-
-            p.channelsComboBox->clearItems();
-            for (auto i : AV::IO::OpenEXR::getChannelsEnums())
+            if (auto context = getContext().lock())
             {
-                std::stringstream ss;
-                ss << i;
-                p.channelsComboBox->addItem(_getText(ss.str()));
-            }
-            p.channelsComboBox->setCurrentItem(static_cast<int>(options.channels));
+                auto io = context->getSystemT<AV::IO::System>();
+                AV::IO::OpenEXR::Options options;
+                fromJSON(io->getOptions(AV::IO::OpenEXR::pluginName), options);
 
-            p.compressionComboBox->clearItems();
-            for (auto i : AV::IO::OpenEXR::getCompressionEnums())
-            {
-                std::stringstream ss;
-                ss << i;
-                p.compressionComboBox->addItem(_getText(ss.str()));
-            }
-            p.compressionComboBox->setCurrentItem(static_cast<int>(options.compression));
+                p.threadCountSlider->setValue(options.threadCount);
 
-            p.dwaCompressionLevelSlider->setValue(options.dwaCompressionLevel);
+                p.channelsComboBox->clearItems();
+                for (auto i : AV::IO::OpenEXR::getChannelsEnums())
+                {
+                    std::stringstream ss;
+                    ss << i;
+                    p.channelsComboBox->addItem(_getText(ss.str()));
+                }
+                p.channelsComboBox->setCurrentItem(static_cast<int>(options.channels));
 
-            auto ocioSystem = context->getSystemT<AV::OCIO::System>();
-            p.colorSpaces.clear();
-            p.colorSpaces.push_back(std::string());
-            for (const auto& i : ocioSystem->observeColorSpaces()->get())
-            {
-                p.colorSpaces.push_back(i);
+                p.compressionComboBox->clearItems();
+                for (auto i : AV::IO::OpenEXR::getCompressionEnums())
+                {
+                    std::stringstream ss;
+                    ss << i;
+                    p.compressionComboBox->addItem(_getText(ss.str()));
+                }
+                p.compressionComboBox->setCurrentItem(static_cast<int>(options.compression));
+
+                p.dwaCompressionLevelSlider->setValue(options.dwaCompressionLevel);
+
+                auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                p.colorSpaces.clear();
+                p.colorSpaces.push_back(std::string());
+                for (const auto& i : ocioSystem->observeColorSpaces()->get())
+                {
+                    p.colorSpaces.push_back(i);
+                }
+                p.colorSpaceComboBox->setItems(p.colorSpaces);
+                int index = 0;
+                const auto i = std::find(p.colorSpaces.begin(), p.colorSpaces.end(), options.colorSpace);
+                if (i != p.colorSpaces.end())
+                {
+                    index = i - p.colorSpaces.begin();
+                }
+                p.colorSpaceComboBox->setCurrentItem(index);
             }
-            p.colorSpaceComboBox->setItems(p.colorSpaces);
-            int index = 0;
-            const auto i = std::find(p.colorSpaces.begin(), p.colorSpaces.end(), options.colorSpace);
-            if (i != p.colorSpaces.end())
-            {
-                index = i - p.colorSpaces.begin();
-            }
-            p.colorSpaceComboBox->setCurrentItem(index);
         }
 
     } // namespace UI

@@ -49,11 +49,11 @@ namespace djv
                 DJV_NON_COPYABLE(TooltipLayout);
 
             protected:
-                void _init(Context *);
+                void _init(const std::shared_ptr<Core::Context>&);
                 TooltipLayout();
 
             public:
-                static std::shared_ptr<TooltipLayout> create(Context *);
+                static std::shared_ptr<TooltipLayout> create(const std::shared_ptr<Core::Context>&);
 
                 void setPos(const std::shared_ptr<Widget> &, const glm::vec2 & pos);
 
@@ -68,7 +68,7 @@ namespace djv
                 std::map<std::shared_ptr<Widget>, glm::vec2> _widgetToPos;
             };
 
-            void TooltipLayout::_init(Context * context)
+            void TooltipLayout::_init(const std::shared_ptr<Core::Context>& context)
             {
                 Widget::_init(context);
                 setClassName("djv::UI::TooltipLayout");
@@ -77,7 +77,7 @@ namespace djv
             TooltipLayout::TooltipLayout()
             {}
 
-            std::shared_ptr<TooltipLayout> TooltipLayout::create(Context * context)
+            std::shared_ptr<TooltipLayout> TooltipLayout::create(const std::shared_ptr<Core::Context>& context)
             {
                 auto out = std::shared_ptr<TooltipLayout>(new TooltipLayout);
                 out->_init(context);
@@ -186,7 +186,7 @@ namespace djv
             const std::shared_ptr<Window> & window,
             const glm::vec2 & pos,
             const std::shared_ptr<Widget> & widget,
-            Context * context)
+            const std::shared_ptr<Core::Context>& context)
         {
             auto layout = TooltipLayout::create(context);
             layout->addChild(widget);
@@ -220,7 +220,7 @@ namespace djv
             const std::shared_ptr<Window> & window,
             const glm::vec2 & pos,
             const std::shared_ptr<Widget> & widget,
-            Context * context)
+            const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<Tooltip>(new Tooltip);
             out->_init(window, pos, widget, context);

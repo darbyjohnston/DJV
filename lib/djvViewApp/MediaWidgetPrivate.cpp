@@ -35,13 +35,13 @@ namespace djv
 {
     namespace ViewApp
     {
-        void PointerWidget::_init(Context* context)
+        void PointerWidget::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
             setClassName("djv::ViewApp::MediaWidget::PointerWidget");
         }
 
-        std::shared_ptr<PointerWidget> PointerWidget::create(Context* context)
+        std::shared_ptr<PointerWidget> PointerWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<PointerWidget>(new PointerWidget);
             out->_init(context);

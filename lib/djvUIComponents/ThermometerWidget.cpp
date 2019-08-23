@@ -44,7 +44,7 @@ namespace djv
             float percentage = 0.f;
         };
 
-        void ThermometerWidget::_init(Context * context)
+        void ThermometerWidget::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
 
@@ -59,7 +59,7 @@ namespace djv
         ThermometerWidget::~ThermometerWidget()
         {}
 
-        std::shared_ptr<ThermometerWidget> ThermometerWidget::create(Context * context)
+        std::shared_ptr<ThermometerWidget> ThermometerWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<ThermometerWidget>(new ThermometerWidget);
             out->_init(context);

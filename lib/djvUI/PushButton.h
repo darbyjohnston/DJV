@@ -20,15 +20,13 @@ namespace djv
                 DJV_NON_COPYABLE(Push);
 
             protected:
-                void _init(Core::Context *);
+                void _init(const std::shared_ptr<Core::Context>&);
                 Push();
 
             public:
                 virtual ~Push();
 
-                static std::shared_ptr<Push> create(Core::Context *);
-                static std::shared_ptr<Push> create(const std::string &, Core::Context *);
-                static std::shared_ptr<Push> create(const std::string &, const std::string & icon, Core::Context *);
+                static std::shared_ptr<Push> create(const std::shared_ptr<Core::Context>&);
 
                 std::string getIcon() const;
                 void setIcon(const std::string &);

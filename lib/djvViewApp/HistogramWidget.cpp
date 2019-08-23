@@ -40,7 +40,7 @@ namespace djv
 
         };
 
-        void HistogramWidget::_init(Context * context)
+        void HistogramWidget::_init(const std::shared_ptr<Core::Context>& context)
         {
             MDIWidget::_init(context);
             setClassName("djv::ViewApp::HistogramWidget");
@@ -53,7 +53,7 @@ namespace djv
         HistogramWidget::~HistogramWidget()
         {}
 
-        std::shared_ptr<HistogramWidget> HistogramWidget::create(Context * context)
+        std::shared_ptr<HistogramWidget> HistogramWidget::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<HistogramWidget>(new HistogramWidget);
             out->_init(context);

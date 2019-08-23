@@ -47,7 +47,7 @@ namespace djv
             std::function<void(void)> clickedCallback;
         };
 
-        void ColorSwatch::_init(Context * context)
+        void ColorSwatch::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
             setClassName("djv::UI::ColorSwatch");
@@ -62,17 +62,10 @@ namespace djv
         ColorSwatch::~ColorSwatch()
         {}
 
-        std::shared_ptr<ColorSwatch> ColorSwatch::create(Context * context)
+        std::shared_ptr<ColorSwatch> ColorSwatch::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<ColorSwatch>(new ColorSwatch);
             out->_init(context);
-            return out;
-        }
-
-        std::shared_ptr<ColorSwatch> ColorSwatch::create(const AV::Image::Color & color, Context * context)
-        {
-            auto out = ColorSwatch::create(context);
-            out->setColor(color);
             return out;
         }
 

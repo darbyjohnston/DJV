@@ -43,14 +43,13 @@ namespace djv
                 DJV_NON_COPYABLE(GroupBox);
 
             protected:
-                void _init(Core::Context *);
+                void _init(const std::shared_ptr<Core::Context>&);
                 GroupBox();
 
             public:
                 virtual ~GroupBox();
 
-                static std::shared_ptr<GroupBox> create(Core::Context *);
-                static std::shared_ptr<GroupBox> create(const std::string &, Core::Context *);
+                static std::shared_ptr<GroupBox> create(const std::shared_ptr<Core::Context>&);
 
                 const std::string & getText() const;
                 void setText(const std::string &);

@@ -56,7 +56,7 @@ namespace djv
             std::string FileInfo::getFileName(Frame::Number frame, bool path) const
             {
                 std::stringstream s;
-                const bool isRoot = std::string(1, Path::getCurrentPathSeparator()) == _path.get();
+                const bool isRoot = std::string(1, Path::getCurrentSeparator()) == _path.get();
                 if (isRoot)
                 {
                     s << _path;
@@ -178,7 +178,7 @@ namespace djv
                 for (const auto & fileInfo : directoryList(path.getDirectoryName(), options))
                 {
                     if (fileInfo.getSequence().getSize() > 1 &&
-                        fileInfo.sequenceContains(path))
+                        fileInfo.isCompatible(path))
                     {
                         return fileInfo;
                     }

@@ -43,14 +43,13 @@ namespace djv
                 DJV_NON_COPYABLE(ActionButton);
 
             protected:
-                void _init(Core::Context *);
+                void _init(const std::shared_ptr<Core::Context>&);
                 ActionButton();
 
             public:
                 ~ActionButton() override;
 
-                static std::shared_ptr<ActionButton> create(Core::Context *);
-                static std::shared_ptr<ActionButton> create(const std::shared_ptr<Action> &, Core::Context *);
+                static std::shared_ptr<ActionButton> create(const std::shared_ptr<Core::Context>&);
 
                 bool hasShowText() const;
                 bool hasShowShortcuts() const;

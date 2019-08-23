@@ -75,12 +75,12 @@ namespace djv
                 DJV_NON_COPYABLE(BackgroundWidget);
 
             protected:
-                void _init(Context*);
+                void _init(const std::shared_ptr<Context>&);
                 BackgroundWidget()
                 {}
 
             public:
-                static std::shared_ptr<BackgroundWidget> create(Context*);
+                static std::shared_ptr<BackgroundWidget> create(const std::shared_ptr<Context>&);
 
             protected:
                 void _paintEvent(Event::Paint&) override;
@@ -103,7 +103,7 @@ namespace djv
                 std::shared_ptr<Time::Timer> _timer;
             };
 
-            void BackgroundWidget::_init(Context* context)
+            void BackgroundWidget::_init(const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
 
@@ -162,7 +162,7 @@ namespace djv
                 });
             }
 
-            std::shared_ptr<BackgroundWidget> BackgroundWidget::create(Context* context)
+            std::shared_ptr<BackgroundWidget> BackgroundWidget::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr< BackgroundWidget>(new BackgroundWidget);
                 out->_init(context);
@@ -232,7 +232,7 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > fullScreenObserver;
         };
 
-        void NUXWidget::_init(Context* context)
+        void NUXWidget::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
 
@@ -396,7 +396,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<NUXWidget> NUXWidget::create(Context* context)
+        std::shared_ptr<NUXWidget> NUXWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<NUXWidget>(new NUXWidget);
             out->_init(context);
@@ -444,7 +444,7 @@ namespace djv
             std::shared_ptr<NUXSettings> settings;
         };
 
-        void NUXSystem::_init(Context * context)
+        void NUXSystem::_init(const std::shared_ptr<Core::Context>& context)
         {
             IViewSystem::_init("djv::ViewApp::NUXSystem", context);
 
@@ -456,7 +456,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<NUXSystem> NUXSystem::create(Context * context)
+        std::shared_ptr<NUXSystem> NUXSystem::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<NUXSystem>(new NUXSystem);
             out->_init(context);
@@ -467,10 +467,13 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             std::shared_ptr<NUXWidget> out;
-            if (p.settings->observeNUX()->get())
+            if (auto context = getContext().lock())
             {
-                p.settings->setNUX(false);
-                out = NUXWidget::create(getContext());
+                if (p.settings->observeNUX()->get())
+                {
+                    p.settings->setNUX(false);
+                    out = NUXWidget::create(context);
+                }
             }
             return out;
         }

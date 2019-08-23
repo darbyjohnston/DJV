@@ -49,7 +49,7 @@ namespace djv
             std::shared_ptr<FormLayout> layout;
         };
 
-        void PPMSettingsWidget::_init(Context * context)
+        void PPMSettingsWidget::_init(const std::shared_ptr<Context>& context)
         {
             ISettingsWidget::_init(context);
 
@@ -65,22 +65,26 @@ namespace djv
             _widgetUpdate();
 
             auto weak = std::weak_ptr<PPMSettingsWidget>(std::dynamic_pointer_cast<PPMSettingsWidget>(shared_from_this()));
+            auto contextWeak = std::weak_ptr<Context>(context);
             p.comboBox->setCallback(
-                [weak, context](int value)
-            {
-                auto io = context->getSystemT<AV::IO::System>();
-                AV::IO::PPM::Options options;
-                fromJSON(io->getOptions(AV::IO::PPM::pluginName), options);
-                options.data = static_cast<AV::IO::PPM::Data>(value);
-                io->setOptions(AV::IO::PPM::pluginName, toJSON(options));
-            });
+                [weak, contextWeak](int value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        auto io = context->getSystemT<AV::IO::System>();
+                        AV::IO::PPM::Options options;
+                        fromJSON(io->getOptions(AV::IO::PPM::pluginName), options);
+                        options.data = static_cast<AV::IO::PPM::Data>(value);
+                        io->setOptions(AV::IO::PPM::pluginName, toJSON(options));
+                    }
+                });
         }
 
         PPMSettingsWidget::PPMSettingsWidget() :
             _p(new Private)
         {}
 
-        std::shared_ptr<PPMSettingsWidget> PPMSettingsWidget::create(Context * context)
+        std::shared_ptr<PPMSettingsWidget> PPMSettingsWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<PPMSettingsWidget>(new PPMSettingsWidget);
             out->_init(context);
@@ -113,19 +117,21 @@ namespace djv
         void PPMSettingsWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
-            auto context = getContext();
-            auto io = context->getSystemT<AV::IO::System>();
-            AV::IO::PPM::Options options;
-            fromJSON(io->getOptions(AV::IO::PPM::pluginName), options);
-
-            p.comboBox->clearItems();
-            for (auto i : AV::IO::PPM::getDataEnums())
+            if (auto context = getContext().lock())
             {
-                std::stringstream ss;
-                ss << i;
-                p.comboBox->addItem(_getText(ss.str()));
+                auto io = context->getSystemT<AV::IO::System>();
+                AV::IO::PPM::Options options;
+                fromJSON(io->getOptions(AV::IO::PPM::pluginName), options);
+
+                p.comboBox->clearItems();
+                for (auto i : AV::IO::PPM::getDataEnums())
+                {
+                    std::stringstream ss;
+                    ss << i;
+                    p.comboBox->addItem(_getText(ss.str()));
+                }
+                p.comboBox->setCurrentItem(static_cast<int>(options.data));
             }
-            p.comboBox->setCurrentItem(static_cast<int>(options.data));
         }
 
     } // namespace UI

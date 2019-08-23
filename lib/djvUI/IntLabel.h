@@ -49,13 +49,13 @@ namespace djv
             DJV_NON_COPYABLE(IntLabel);
 
         protected:
-            void _init(Core::Context *);
+            void _init(const std::shared_ptr<Core::Context>&);
             IntLabel();
 
         public:
             virtual ~IntLabel();
 
-            static std::shared_ptr<IntLabel> create(Core::Context *);
+            static std::shared_ptr<IntLabel> create(const std::shared_ptr<Core::Context>&);
 
             const std::shared_ptr<Core::IntValueModel> & getModel() const;
             void setModel(const std::shared_ptr<Core::IntValueModel> &);

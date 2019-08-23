@@ -45,11 +45,11 @@ namespace djv
             //! This class provides a model for keeping a list of recently used files.
             class RecentFilesModel : public std::enable_shared_from_this<RecentFilesModel>
             {
-                void _init(Context *);
+                void _init(const std::shared_ptr<Context>&);
                 RecentFilesModel();
 
             public:
-                static std::shared_ptr<RecentFilesModel> create(Context *);
+                static std::shared_ptr<RecentFilesModel> create(const std::shared_ptr<Context>&);
 
                 std::shared_ptr<IListSubject<FileInfo> > observeFiles() const;
                 void setFiles(std::vector<FileInfo>);

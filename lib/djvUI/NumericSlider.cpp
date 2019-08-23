@@ -57,7 +57,7 @@ namespace djv
             glm::vec2 prevPos = glm::vec2(0.f, 0.f);
         };
 
-        void NumericSlider::_init(Orientation orientation, Context * context)
+        void NumericSlider::_init(Orientation orientation, const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();

@@ -46,7 +46,7 @@ namespace djv
             std::shared_ptr<ValueSubject<bool> > pip;
         };
 
-        void PlaybackSettings::_init(Context * context)
+        void PlaybackSettings::_init(const std::shared_ptr<Core::Context>& context)
         {
             ISettings::_init("djv::ViewApp::PlaybackSettings", context);
 
@@ -59,7 +59,7 @@ namespace djv
             _p(new Private)
         {}
 
-        std::shared_ptr<PlaybackSettings> PlaybackSettings::create(Context * context)
+        std::shared_ptr<PlaybackSettings> PlaybackSettings::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<PlaybackSettings>(new PlaybackSettings);
             out->_init(context);

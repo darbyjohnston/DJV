@@ -59,7 +59,7 @@ namespace djv
             std::future<glm::vec2> sizeStringFuture;
         };
 
-        void Label::_init(Context * context)
+        void Label::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
             setClassName("djv::UI::Label");
@@ -72,19 +72,19 @@ namespace djv
         Label::~Label()
         {}
 
-        std::shared_ptr<Label> Label::create(Context * context)
+        std::shared_ptr<Label> Label::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<Label>(new Label);
             out->_init(context);
             return out;
         }
 
-        std::shared_ptr<Label> Label::create(const std::string & text, Context * context)
+        /*std::shared_ptr<Label> Label::create(const std::string & text, const std::shared_ptr<Core::Context>& context)
         {
             auto out = Label::create(context);
             out->setText(text);
             return out;
-        }
+        }*/
 
         const std::string & Label::getText() const
         {

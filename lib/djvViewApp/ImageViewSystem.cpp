@@ -76,7 +76,7 @@ namespace djv
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
-        void ImageViewSystem::_init(Context * context)
+        void ImageViewSystem::_init(const std::shared_ptr<Core::Context>& context)
         {
             IToolSystem::_init("djv::ViewApp::ImageViewSystem", context);
 
@@ -498,7 +498,7 @@ namespace djv
         ImageViewSystem::~ImageViewSystem()
         {}
 
-        std::shared_ptr<ImageViewSystem> ImageViewSystem::create(Context * context)
+        std::shared_ptr<ImageViewSystem> ImageViewSystem::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<ImageViewSystem>(new ImageViewSystem);
             out->_init(context);
@@ -536,13 +536,16 @@ namespace djv
         void ImageViewSystem::_panImage(const glm::vec2& value)
         {
             DJV_PRIVATE_PTR();
-            if (auto widget = p.activeWidget)
+            if (auto context = getContext().lock())
             {
-                auto uiSystem = getContext()->getSystemT<UI::UISystem>();
-                auto style = uiSystem->getStyle();
-                const float m = style->getMetric(UI::MetricsRole::Move);
-                auto imageView = widget->getImageView();
-                imageView->setImagePos(imageView->observeImagePos()->get() + value * m);
+                if (auto widget = p.activeWidget)
+                {
+                    auto uiSystem = context->getSystemT<UI::UISystem>();
+                    auto style = uiSystem->getStyle();
+                    const float m = style->getMetric(UI::MetricsRole::Move);
+                    auto imageView = widget->getImageView();
+                    imageView->setImagePos(imageView->observeImagePos()->get() + value * m);
+                }
             }
         }
 

@@ -67,8 +67,6 @@ namespace djv
                 inline void expand(T);
                 inline void expand(const Range<T> &);
 
-                inline T getRandom() const;
-
                 ///@}
 
                 constexpr bool operator == (const Range<T> &) const;

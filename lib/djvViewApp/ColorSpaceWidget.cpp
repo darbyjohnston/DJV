@@ -74,7 +74,7 @@ namespace djv
             std::shared_ptr<ValueObserver<AV::Render::ImageOptions> > imageOptionsObserver;
         };
 
-        void ColorSpaceWidget::_init(Context * context)
+        void ColorSpaceWidget::_init(const std::shared_ptr<Core::Context>& context)
         {
             MDIWidget::_init(context);
             DJV_PRIVATE_PTR();
@@ -277,7 +277,7 @@ namespace djv
         ColorSpaceWidget::~ColorSpaceWidget()
         {}
 
-        std::shared_ptr<ColorSpaceWidget> ColorSpaceWidget::create(Context * context)
+        std::shared_ptr<ColorSpaceWidget> ColorSpaceWidget::create(const std::shared_ptr<Core::Context>& context)
         {
             auto out = std::shared_ptr<ColorSpaceWidget>(new ColorSpaceWidget);
             out->_init(context);
@@ -299,28 +299,30 @@ namespace djv
         void ColorSpaceWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
-            auto context = getContext();
-            p.colorSpaceComboBox->clearItems();
-            for (const auto& i : p.model->observeColorSpaces()->get())
+            if (auto context = getContext().lock())
             {
-                p.colorSpaceComboBox->addItem(i);
-            }
-            const std::string& colorSpace = p.model->observeColorSpace()->get();
-            p.colorSpaceComboBox->setCurrentItem(p.model->colorSpaceToIndex(colorSpace));
+                p.colorSpaceComboBox->clearItems();
+                for (const auto& i : p.model->observeColorSpaces()->get())
+                {
+                    p.colorSpaceComboBox->addItem(i);
+                }
+                const std::string& colorSpace = p.model->observeColorSpace()->get();
+                p.colorSpaceComboBox->setCurrentItem(p.model->colorSpaceToIndex(colorSpace));
 
-            p.displayComboBox->clearItems();
-            for (const auto& i : p.model->observeDisplays()->get())
-            {
-                p.displayComboBox->addItem(i);
-            }
-            p.displayComboBox->setCurrentItem(p.model->displayToIndex(p.model->observeDisplay()->get()));
+                p.displayComboBox->clearItems();
+                for (const auto& i : p.model->observeDisplays()->get())
+                {
+                    p.displayComboBox->addItem(i);
+                }
+                p.displayComboBox->setCurrentItem(p.model->displayToIndex(p.model->observeDisplay()->get()));
 
-            p.viewComboBox->clearItems();
-            for (const auto& i : p.model->observeViews()->get())
-            {
-                p.viewComboBox->addItem(i);
+                p.viewComboBox->clearItems();
+                for (const auto& i : p.model->observeViews()->get())
+                {
+                    p.viewComboBox->addItem(i);
+                }
+                p.viewComboBox->setCurrentItem(p.model->viewToIndex(p.model->observeView()->get()));
             }
-            p.viewComboBox->setCurrentItem(p.model->viewToIndex(p.model->observeView()->get()));
         }
 
     } // namespace ViewApp
