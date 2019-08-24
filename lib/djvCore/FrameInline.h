@@ -81,7 +81,7 @@ namespace djv
                 return out;
             }
 
-            inline Number Sequence::getFrame(size_t value) const
+            inline Number Sequence::getFrame(Index value) const
             {
                 Number out = invalid;
                 for (const auto& j : ranges)
@@ -93,6 +93,22 @@ namespace djv
                         break;
                     }
                     value -= size;
+                }
+                return out;
+            }
+
+            inline Index Sequence::getIndex(Number value) const
+            {
+                Index out = invalidIndex;
+                Index tmp = 0;
+                for (const auto& j : ranges)
+                {
+                    if (j.contains(value))
+                    {
+                        out = tmp + value - j.min;
+                        break;
+                    }
+                    tmp += j.max - j.min + 1;
                 }
                 return out;
             }

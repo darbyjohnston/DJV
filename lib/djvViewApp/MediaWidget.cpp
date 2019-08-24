@@ -44,8 +44,10 @@
 #include <djvUI/ButtonGroup.h>
 #include <djvUI/FloatSlider.h>
 #include <djvUI/GridLayout.h>
+#include <djvUI/IntEdit.h>
 #include <djvUI/IntSlider.h>
 #include <djvUI/Label.h>
+#include <djvUI/LineEdit.h>
 #include <djvUI/ListButton.h>
 #include <djvUI/MDICanvas.h>
 #include <djvUI/MDIWidget.h>
@@ -125,7 +127,7 @@ namespace djv
             std::shared_ptr<UI::Label> playEveryFrameLabel;
             std::shared_ptr<UI::PopupWidget> speedPopupWidget;
             std::shared_ptr<UI::Label> realSpeedLabel;
-            std::shared_ptr<UI::Label> currentFrameLabel;
+            std::shared_ptr<CurrentFrameWidget> currentFrameWidget;
             std::shared_ptr<UI::Label> durationLabel;
             std::shared_ptr<TimelineSlider> timelineSlider;
             std::shared_ptr<UI::BasicFloatSlider> audioVolumeSlider;
@@ -233,8 +235,7 @@ namespace djv
             p.speedPopupWidget->addChild(vLayout);
             p.realSpeedLabel = UI::Label::create(context);
 
-            p.currentFrameLabel = UI::Label::create(context);
-            p.currentFrameLabel->setMargin(UI::MetricsRole::MarginSmall);
+            p.currentFrameWidget = CurrentFrameWidget::create(context);
 
             p.durationLabel = UI::Label::create(context);
             p.durationLabel->setMargin(UI::MetricsRole::MarginSmall);
@@ -280,7 +281,7 @@ namespace djv
             p.playbackLayout->setGridPos(hLayout, 0, 1);
             hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::MetricsRole::None);
-            hLayout->addChild(p.currentFrameLabel);
+            hLayout->addChild(p.currentFrameWidget);
             hLayout->addExpander();
             hLayout->addChild(p.durationLabel);
             p.playbackLayout->addChild(hLayout);
@@ -368,6 +369,18 @@ namespace djv
                         if (auto media = widget->_p->media)
                         {
                             media->setPlayEveryFrame(value);
+                        }
+                    }
+                });
+
+            p.currentFrameWidget->setCallback(
+                [weak](Frame::Index value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        if (auto media = widget->_p->media)
+                        {
+                            media->setCurrentFrame(value);
                         }
                     }
                 });
@@ -890,7 +903,7 @@ namespace djv
             p.playEveryFrameButton->setTooltip(_getText(DJV_TEXT("Play every frame tooltip")));
             p.speedPopupWidget->setTooltip(_getText(DJV_TEXT("Speed popup tooltip")));
             p.realSpeedLabel->setTooltip(_getText(DJV_TEXT("Real speed tooltip")));
-            p.currentFrameLabel->setTooltip(_getText(DJV_TEXT("Current time tooltip")));
+            p.currentFrameWidget->setTooltip(_getText(DJV_TEXT("Current frame tooltip")));
             p.durationLabel->setTooltip(_getText(DJV_TEXT("Duration tooltip")));
 
             p.audioVolumeSlider->setTooltip(_getText(DJV_TEXT("Volume tooltip")));
@@ -913,16 +926,20 @@ namespace djv
                 switch (playback)
                 {
                 case Playback::Stop:    p.playbackActionGroup->setChecked(-1); break;
-                case Playback::Forward: p.playbackActionGroup->setChecked(0); break;
-                case Playback::Reverse: p.playbackActionGroup->setChecked(1); break;
+                case Playback::Forward: p.playbackActionGroup->setChecked( 0); break;
+                case Playback::Reverse: p.playbackActionGroup->setChecked( 1); break;
                 default: break;
                 }
 
                 p.playEveryFrameButton->setChecked(p.playEveryFrame);
 
+                p.currentFrameWidget->setSequence(p.sequence);
+                p.currentFrameWidget->setSpeed(p.speed);
+                p.currentFrameWidget->setFrame(p.currentFrame);
+
                 auto avSystem = context->getSystemT<AV::AVSystem>();
-                p.currentFrameLabel->setText(avSystem->getLabel(p.sequence.getFrame(p.currentFrame), p.defaultSpeed));
                 p.durationLabel->setText(avSystem->getLabel(p.sequence.getSize(), p.defaultSpeed));
+
                 p.playbackLayout->setVisible(p.sequence.getSize() > 1);
             }
         }
@@ -978,6 +995,8 @@ namespace djv
                 p.speedButtonGroup->addButton(button);
                 p.speedButtonLayout->addChild(button);
 
+                p.currentFrameWidget->setSpeed(p.speed);
+
                 p.playEveryFrameLabel->setText(_getText(DJV_TEXT("Play every frame")) + ":");
 
                 {
@@ -986,7 +1005,6 @@ namespace djv
                     ss << _getText(DJV_TEXT("FPS")) << ": " << std::fixed << p.speed.toFloat();
                     p.speedPopupWidget->setText(ss.str());
                 }
-                p.speedPopupWidget->setEnabled(p.media.get());
             }
         }
 

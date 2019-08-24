@@ -169,6 +169,12 @@ namespace djv
         {
             _p->lineEditBase->setFocusCallback(callback);
         }
+
+        void LineEdit::setBackgroundRole(ColorRole value)
+        {
+            DJV_PRIVATE_PTR();
+            p.lineEditBase->setBackgroundRole(value);
+        }
         
         void LineEdit::_preLayoutEvent(Event::PreLayout & event)
         {

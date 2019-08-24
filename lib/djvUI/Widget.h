@@ -141,7 +141,7 @@ namespace djv
             ///@{
 
             inline ColorRole getBackgroundRole() const;
-            void setBackgroundRole(ColorRole);
+            virtual void setBackgroundRole(ColorRole);
 
             inline const std::vector<Side>& getShadowOverlay() const;
             void setShadowOverlay(const std::vector<Side>&);

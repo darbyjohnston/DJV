@@ -31,8 +31,12 @@
 
 #include <djvViewApp/MediaWidget.h>
 
+#include <djvUI/LineEdit.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Widget.h>
+
+#include <djvCore/Time.h>
+#include <djvCore/ValueObserver.h>
 
 namespace djv
 {
@@ -65,6 +69,41 @@ namespace djv
             std::map<int, bool> _buttons;
             std::function<void(PointerData)> _hoverCallback;
             std::function<void(PointerData)> _dragCallback;
+        };
+
+        class CurrentFrameWidget : public UI::Widget
+        {
+            DJV_NON_COPYABLE(CurrentFrameWidget);
+
+        protected:
+            void _init(const std::shared_ptr<Core::Context>&);
+            CurrentFrameWidget()
+            {}
+
+        public:
+            static std::shared_ptr<CurrentFrameWidget> create(const std::shared_ptr<Core::Context>&);
+
+            void setSequence(const Core::Frame::Sequence&);
+            void setSpeed(const Core::Time::Speed&);
+            void setFrame(const Core::Frame::Index);
+            void setCallback(const std::function<void(Core::Frame::Number)>&);
+
+        protected:
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
+
+        private:
+            void _setFrame(Core::Frame::Index);
+            void _widgetUpdate();
+
+            AV::TimeUnits _timeUnits = AV::TimeUnits::First;
+            Core::Frame::Sequence _sequence;
+            Core::Time::Speed _speed;
+            Core::Frame::Index _index = 0;
+            std::shared_ptr<UI::LineEdit> _lineEdit;
+            std::function<void(Core::Frame::Number)> _callback;
+            std::map<std::string, std::shared_ptr<Core::ValueObserver<bool> > > _actionObservers;
+            std::shared_ptr<Core::ValueObserver<AV::TimeUnits> > _timeUnitsObserver;
         };
 
     } // namespace ViewApp

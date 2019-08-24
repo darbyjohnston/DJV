@@ -109,22 +109,8 @@ namespace djv
             {
             case TimeUnits::Timecode:
             {
-                const float speedF = speed.toFloat();
-                const int hours = static_cast<int>(value / (speedF * 60 * 60));
-                value -= static_cast<int64_t>(hours * static_cast<double>(speedF)) * 60 * 60;
-                const int minutes = static_cast<int>(value / (speedF * 60));
-                value -= static_cast<int64_t>(minutes * static_cast<double>(speedF)) * 60;
-                const int seconds = static_cast<int>(value / speedF);
-                value -= static_cast<int64_t>(seconds * static_cast<double>(speedF));
-                std::stringstream ss;
-                ss << std::setfill('0') << std::setw(2) << hours;
-                ss << std::setw(0) << ":";
-                ss << std::setfill('0') << std::setw(2) << minutes;
-                ss << std::setw(0) << ":";
-                ss << std::setfill('0') << std::setw(2) << seconds;
-                ss << std::setw(0) << ":";
-                ss << std::setfill('0') << std::setw(2) << value;
-                out = ss.str();
+                const uint32_t timecode = Time::frameToTimecode(value, speed);
+                out = Time::timecodeToString(timecode);
                 break;
             }
             case TimeUnits::Frames:

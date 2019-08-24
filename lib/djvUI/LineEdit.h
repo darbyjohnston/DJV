@@ -71,6 +71,8 @@ namespace djv
             void setTextFinishedCallback(const std::function<void(const std::string &)> &);
             void setFocusCallback(const std::function<void(bool)> &);
 
+            void setBackgroundRole(ColorRole) override;
+
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;
             void _layoutEvent(Core::Event::Layout &) override;

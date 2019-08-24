@@ -41,8 +41,14 @@ namespace djv
             //! This type represents a frame number.
             typedef int64_t Number;
 
+            //! This type represents a frame index.
+            typedef int64_t Index;
+
             //! This value represents an invalid frame number.
             const int64_t invalid = std::numeric_limits<int64_t>::min();
+
+            //! This value represents an invalid frame index.
+            const int64_t invalidIndex = std::numeric_limits<int64_t>::min();
 
             //! This typedef provides a frame number range.
             typedef Core::Range::Range<Number> Range;
@@ -64,7 +70,8 @@ namespace djv
 
                 inline bool isValid() const;
                 inline size_t getSize() const;
-                inline Number getFrame(size_t) const;
+                inline Number getFrame(Index) const;
+                inline Index getIndex(Number) const;
 
                 //! \name Utilities
                 ///@{

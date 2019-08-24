@@ -29,6 +29,14 @@
 
 #include <djvViewApp/MediaWidgetPrivate.h>
 
+#include <djvUI/Action.h>
+
+#include <djvAV/AVSystem.h>
+
+#include <djvCore/Context.h>
+
+#include <GLFW/glfw3.h>
+
 using namespace djv::Core;
 
 namespace djv
@@ -126,6 +134,203 @@ namespace djv
             if (_dragCallback)
             {
                 _dragCallback(PointerData(PointerState::End, info.pos, info.buttons));
+            }
+        }
+
+        void CurrentFrameWidget::_init(const std::shared_ptr<Context>& context)
+        {
+            Widget::_init(context);
+            setClassName("djv::ViewApp::MediaWidget::CurrentFrameWidget");
+
+            auto nextAction = UI::Action::create();
+            nextAction->setShortcut(GLFW_KEY_UP);
+            auto prevAction = UI::Action::create();
+            prevAction->setShortcut(GLFW_KEY_DOWN);
+            auto nextX10Action = UI::Action::create();
+            nextX10Action->setShortcut(GLFW_KEY_PAGE_UP);
+            auto prevX10Action = UI::Action::create();
+            prevX10Action->setShortcut(GLFW_KEY_PAGE_DOWN);
+
+            _lineEdit = UI::LineEdit::create(context);
+            _lineEdit->setBackgroundRole(UI::ColorRole::None);
+            _lineEdit->addAction(nextAction);
+            _lineEdit->addAction(prevAction);
+            _lineEdit->addAction(nextX10Action);
+            _lineEdit->addAction(prevX10Action);
+            addChild(_lineEdit);
+            
+            _widgetUpdate();
+            
+            auto weak = std::weak_ptr<CurrentFrameWidget>(std::dynamic_pointer_cast<CurrentFrameWidget>(shared_from_this()));
+            _actionObservers["Next"] = ValueObserver<bool>::create(
+                nextAction->observeClicked(),
+                [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_setFrame(widget->_index + 1);
+                    }
+                });
+
+            _actionObservers["Prev"] = ValueObserver<bool>::create(
+                prevAction->observeClicked(),
+                [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_setFrame(widget->_index - 1);
+                    }
+                });
+            _actionObservers["NextX10"] = ValueObserver<bool>::create(
+                nextX10Action->observeClicked(),
+                [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_setFrame(widget->_index + 10);
+                    }
+                });
+            _actionObservers["PrevX10"] = ValueObserver<bool>::create(
+                prevX10Action->observeClicked(),
+                [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_setFrame(widget->_index - 10);
+                    }
+                });
+
+            _lineEdit->setTextFinishedCallback(
+                [weak](const std::string& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        Frame::Index index = Frame::invalidIndex;
+                        switch (widget->_timeUnits)
+                        {
+                        case AV::TimeUnits::Timecode:
+                        {
+                            uint32_t timecode = 0;
+                            bool ok = false;
+                            Time::stringToTimecode(value, timecode, &ok);
+                            if (ok)
+                            {
+                                const Frame::Number frame = Time::timecodeToFrame(timecode, widget->_speed);
+                                index = widget->_sequence.getIndex(frame);
+                            }
+                            break;
+                        }
+                        case AV::TimeUnits::Frames:
+                        {
+                            try
+                            {
+                                const Frame::Number frame = std::stoi(value);
+                                index = widget->_sequence.getIndex(frame);
+                            }
+                            catch (const std::exception&)
+                            {}
+                            break;
+                        }
+                        default: break;
+                        }
+                        widget->_setFrame(index);
+                    }
+                });
+
+            auto avSystem = context->getSystemT<AV::AVSystem>();
+            _timeUnitsObserver = ValueObserver<AV::TimeUnits>::create(
+                avSystem->observeTimeUnits(),
+                [weak](AV::TimeUnits value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_timeUnits = value;
+                        widget->_widgetUpdate();
+                    }
+                });
+        }
+
+        std::shared_ptr<CurrentFrameWidget> CurrentFrameWidget::create(const std::shared_ptr<Context>& context)
+        {
+            auto out = std::shared_ptr<CurrentFrameWidget>(new CurrentFrameWidget);
+            out->_init(context);
+            return out;
+        }
+
+        void CurrentFrameWidget::setSequence(const Frame::Sequence& value)
+        {
+            if (value == _sequence)
+                return;
+            _sequence = value;
+            _widgetUpdate();
+        }
+
+        void CurrentFrameWidget::setSpeed(const Time::Speed& value)
+        {
+            if (value == _speed)
+                return;
+            _speed = value;
+            _widgetUpdate();
+        }
+
+        void CurrentFrameWidget::setFrame(const Frame::Index value)
+        {
+            if (value == _index)
+                return;
+            _index = value;
+            _widgetUpdate();
+        }
+
+        void CurrentFrameWidget::setCallback(const std::function<void(Frame::Number)>& value)
+        {
+            _callback = value;
+        }
+
+        void CurrentFrameWidget::_preLayoutEvent(Event::PreLayout&)
+        {
+            _setMinimumSize(_lineEdit->getMinimumSize());
+        }
+
+        void CurrentFrameWidget::_layoutEvent(Event::Layout&)
+        {
+            _lineEdit->setGeometry(getGeometry());
+        }
+
+        void CurrentFrameWidget::_setFrame(Frame::Index value)
+        {
+            if (value != Frame::invalidIndex)
+            {
+                _index = value;
+                if (_callback)
+                {
+                    _callback(_index);
+                }
+            }
+            _widgetUpdate();
+        }
+
+        void CurrentFrameWidget::_widgetUpdate()
+        {
+            switch (_timeUnits)
+            {
+            case AV::TimeUnits::Timecode:
+            {
+                _lineEdit->setSizeString("00:00:00:00");
+                const uint32_t timecode = Time::frameToTimecode(_sequence.getFrame(_index), _speed);
+                const std::string s = Time::timecodeToString(timecode);
+                _lineEdit->setText(s);
+                break;
+            }
+            case AV::TimeUnits::Frames:
+            {
+                _lineEdit->setSizeString("00000");
+                const Frame::Number frame = _sequence.getFrame(_index);
+                std::stringstream ss;
+                ss << frame;
+                _lineEdit->setText(ss.str());
+                break;
+            }
+            default: break;
             }
         }
 
