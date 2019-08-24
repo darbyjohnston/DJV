@@ -57,7 +57,7 @@ namespace djv
 
                 bool isRunning() const override;
                 std::future<Info> getInfo() override;
-                void seek(int64_t, Playback) override;
+                void seek(int64_t, Direction) override;
                 bool hasCache() const override { return true; }
 
             protected:

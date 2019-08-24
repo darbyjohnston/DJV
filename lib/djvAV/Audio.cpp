@@ -37,7 +37,7 @@ namespace djv
     {
         namespace Audio
         {
-            std::string getALErrorString(ALenum value)
+            /*std::string getALErrorString(ALenum value)
             {
                 std::string out = DJV_TEXT("Unknown");
                 switch (value)
@@ -48,8 +48,8 @@ namespace djv
                 default: break;
                 }
                 return out;
-            }
-
+            }*/
+            
         } // namespace Audio
     } // namespace AV
 
@@ -60,7 +60,8 @@ namespace djv
         DJV_TEXT("U8"),
         DJV_TEXT("S16"),
         DJV_TEXT("S32"),
-        DJV_TEXT("F32"));
+        DJV_TEXT("F32"),
+        DJV_TEXT("F64"));
 
 } // namespace djv
 

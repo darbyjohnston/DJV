@@ -120,9 +120,9 @@ namespace djv
             {
                 "ThirdParty1", "ThirdParty2", "ThirdParty3", "ThirdParty4",
                 "ThirdParty5", "ThirdParty6", "ThirdParty7", "ThirdParty8",
-                "ThirdParty9", "ThirdParty9B", "ThirdParty10", "ThirdParty11",
-                "ThirdParty12", "ThirdParty13", "ThirdParty14", "ThirdParty15",
-                "ThirdParty16", "ThirdParty17", "ThirdParty18", "ThirdParty19"
+                "ThirdParty9", "ThirdParty10", "ThirdParty11", "ThirdParty12",
+                "ThirdParty13", "ThirdParty14", "ThirdParty15", "ThirdParty16",
+                "ThirdParty17", "ThirdParty18", "ThirdParty19"
             };
             for (const auto& i : thirdPartyText)
             {
@@ -216,7 +216,7 @@ namespace djv
             vLayout->addChild(p.textBlocks["Copyright1"]);
             vLayout2 = UI::VerticalLayout::create(context);
             vLayout2->setSpacing(UI::MetricsRole::None);
-            for (size_t i = 2; i <= 4; ++i)
+            for (size_t i = 2; i <= copyrightText.size(); ++i)
             {
                 std::stringstream ss;
                 ss << "Copyright" << i;
@@ -231,7 +231,7 @@ namespace djv
             vLayout->addChild(p.textBlocks["ThirdParty1"]);
             vLayout2 = UI::VerticalLayout::create(context);
             vLayout2->setSpacing(UI::MetricsRole::None);
-            for (size_t i = 2; i <= 19; ++i)
+            for (size_t i = 2; i <= thirdPartyText.size(); ++i)
             {
                 std::stringstream ss;
                 ss << "ThirdParty" << i;
@@ -246,7 +246,7 @@ namespace djv
             vLayout->addChild(p.textBlocks["Trademarks1"]);
             vLayout2 = UI::VerticalLayout::create(context);
             vLayout2->setSpacing(UI::MetricsRole::None);
-            for (size_t i = 2; i <= 21; ++i)
+            for (size_t i = 2; i <= trademarksText.size(); ++i)
             {
                 std::stringstream ss;
                 ss << "Trademarks" << i;
@@ -323,15 +323,15 @@ namespace djv
             p.textBlocks["Copyright4"]->setText(_getText(DJV_TEXT("Copyright Mikael Sundell")));
             p.textBlocks["ThirdParty1"]->setText(_getText(DJV_TEXT("Third Party Text")));
             p.textBlocks["ThirdParty2"]->setText(_getText(DJV_TEXT("Third Party CMake")));
-            p.textBlocks["ThirdParty4"]->setText(_getText(DJV_TEXT("Third Party FFMpeg")));
-            p.textBlocks["ThirdParty5"]->setText(_getText(DJV_TEXT("Third Party FreeType")));
-            p.textBlocks["ThirdParty6"]->setText(_getText(DJV_TEXT("Third Party GLFW")));
-            p.textBlocks["ThirdParty7"]->setText(_getText(DJV_TEXT("Third Party GLM")));
-            const auto tmp = _getText(DJV_TEXT("Third Party MbedTLS"));
-            p.textBlocks["ThirdParty8"]->setText(tmp);
-            p.textBlocks["ThirdParty9"]->setText(_getText(DJV_TEXT("Third Party OpenAL")));
-            p.textBlocks["ThirdParty10"]->setText(_getText(DJV_TEXT("Third Party OpenColorIO")));
-            p.textBlocks["ThirdParty11"]->setText(_getText(DJV_TEXT("Third Party OpenEXR")));
+            p.textBlocks["ThirdParty3"]->setText(_getText(DJV_TEXT("Third Party FFMpeg")));
+            p.textBlocks["ThirdParty4"]->setText(_getText(DJV_TEXT("Third Party FreeType")));
+            p.textBlocks["ThirdParty5"]->setText(_getText(DJV_TEXT("Third Party GLFW")));
+            p.textBlocks["ThirdParty6"]->setText(_getText(DJV_TEXT("Third Party GLM")));
+            p.textBlocks["ThirdParty7"]->setText(_getText(DJV_TEXT("Third Party MbedTLS")));
+            p.textBlocks["ThirdParty8"]->setText(_getText(DJV_TEXT("Third Party OpenAL")));
+            p.textBlocks["ThirdParty9"]->setText(_getText(DJV_TEXT("Third Party OpenColorIO")));
+            p.textBlocks["ThirdParty10"]->setText(_getText(DJV_TEXT("Third Party OpenEXR")));
+            p.textBlocks["ThirdParty11"]->setText(_getText(DJV_TEXT("Third Party RtAudio")));
             p.textBlocks["ThirdParty12"]->setText(_getText(DJV_TEXT("Third Party curl")));
             p.textBlocks["ThirdParty13"]->setText(_getText(DJV_TEXT("Third Party dr_libs")));
             p.textBlocks["ThirdParty14"]->setText(_getText(DJV_TEXT("Third Party glad")));

@@ -43,9 +43,9 @@
 #include <djvCore/ValueObserver.h>
 
 #include <future>
+#include <queue>
 #include <mutex>
 #include <set>
-#include <list>
 
 namespace djv
 {
@@ -129,9 +129,8 @@ namespace djv
                 inline size_t getMax() const;
                 void setMax(size_t);
 
-                inline bool hasFrames() const;
-                inline size_t getFrameCount() const;
-                inline const std::list<VideoFrame>& getFrames() const;
+                inline bool isEmpty() const;
+                inline size_t getCount() const;
                 inline VideoFrame getFrame() const;
                 void addFrame(const VideoFrame&);
                 VideoFrame popFrame();
@@ -142,7 +141,7 @@ namespace djv
 
             private:
                 size_t _max = 0;
-                std::list<VideoFrame> _queue;
+                std::queue<VideoFrame> _queue;
                 bool _finished = false;
             };
 
@@ -166,8 +165,8 @@ namespace djv
                 inline size_t getMax() const;
                 void setMax(size_t);
 
-                inline bool hasFrames() const;
-                inline size_t getFrameCount() const;
+                inline bool isEmpty() const;
+                inline size_t getCount() const;
                 inline AudioFrame getFrame() const;
                 void addFrame(const AudioFrame &);
                 AudioFrame popFrame();
@@ -179,7 +178,7 @@ namespace djv
             private:
                 std::mutex _mutex;
                 size_t _max = 0;
-                std::list<AudioFrame> _queue;
+                std::queue<AudioFrame> _queue;
                 bool _finished = false;
             };
 
@@ -230,7 +229,7 @@ namespace djv
             };
 
             //! This enumeration provides the playback direction for caching.
-            enum class Playback
+            enum class Direction
             {
                 Forward,
                 Reverse
@@ -253,7 +252,7 @@ namespace djv
 
                 //! \param value For video files this value represents the
                 //! frame number, for audio files it represents the audio sample.
-                virtual void seek(int64_t value, Playback) = 0;
+                virtual void seek(int64_t value, Direction) = 0;
 
                 virtual bool hasCache() const { return false; }
                 bool isCacheEnabled() const;
@@ -267,7 +266,7 @@ namespace djv
                 static std::vector<Core::Frame::Range> _getCachedFrames(const MemoryCache& cache);
 
                 ReadOptions _options;
-                Playback _playback = Playback::Forward;
+                Direction _direction = Direction::Forward;
                 bool _cacheEnabled = false;
                 size_t _cacheMax = 0;
                 std::vector<Core::Frame::Range> _cachedFrames;

@@ -52,9 +52,6 @@ namespace djv
                 ~System() override;
                 static std::shared_ptr<System> create(const std::shared_ptr<Core::Context>&);
 
-                ALCdevice * getALDevice() const;
-                ALCcontext * getALContext() const;
-
             private:
                 DJV_PRIVATE();
             };

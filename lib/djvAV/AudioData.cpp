@@ -42,7 +42,8 @@ namespace djv
                 return
                     channelCount == other.channelCount &&
                     type == other.type &&
-                    sampleRate == other.sampleRate;
+                    sampleRate == other.sampleRate &&
+                    sampleCount == other.sampleCount;
             }
 
             bool DataInfo::operator != (const DataInfo & other) const
@@ -50,17 +51,16 @@ namespace djv
                 return !(*this == other);
             }
 
-            void Data::_init(const DataInfo & info, size_t sampleCount)
+            void Data::_init(const DataInfo & info)
             {
                 _info = info;
-                _sampleCount = sampleCount;
                 _data.resize(getByteCount());
             }
 
-            std::shared_ptr<Data> Data::create(const DataInfo & info, size_t sampleCount)
+            std::shared_ptr<Data> Data::create(const DataInfo & info)
             {
                 auto out = std::shared_ptr<Data>(new Data);
-                out->_init(info, sampleCount);
+                out->_init(info);
                 return out;
             }
 
@@ -68,7 +68,7 @@ namespace djv
     { \
         const a##_T * inP = reinterpret_cast<const a##_T *>(data->getData()); \
         b##_T * outP = reinterpret_cast<b##_T *>(out->getData()); \
-        for (size_t i = 0; i < sampleCount; ++i, ++inP, ++outP) \
+        for (size_t i = 0; i < sampleCount * channelCount; ++i, ++inP, ++outP) \
         { \
             a##To##b(*inP, *outP); \
         } \
@@ -76,51 +76,70 @@ namespace djv
 
             std::shared_ptr<Data> Data::convert(const std::shared_ptr<Data> & data, Type type)
             {
+                const Type dataType = data->getType();
                 const size_t sampleCount = data->getSampleCount();
-                auto out = Data::create(DataInfo(data->getChannelCount(), type, data->getSampleRate()), sampleCount);
-                switch (data->getType())
+                const size_t channelCount = static_cast<size_t>(data->getChannelCount());
+                auto out = Data::create(DataInfo(channelCount, type, data->getSampleRate(), sampleCount));
+                if (dataType == type)
                 {
-                case Type::U8:
-                    switch (type)
+                    memcpy(out->getData(), data->getData(), sampleCount * channelCount * Audio::getByteCount(type));
+                }
+                else
+                {
+                    switch (dataType)
                     {
-                    case Type::U8:  memcpy(out->getData(), data->getData(), sampleCount * Audio::getByteCount(type)); break;
-                    case Type::S16: _CONVERT(U8, S16); break;
-                    case Type::S32: _CONVERT(U8, S32); break;
-                    case Type::F32: _CONVERT(U8, F32); break;
-                    default: break;
+                        case Type::S8:
+                            switch (type)
+                            {
+                            case Type::S16: _CONVERT(S8, S16); break;
+                            case Type::S32: _CONVERT(S8, S32); break;
+                            case Type::F32: _CONVERT(S8, F32); break;
+                            case Type::F64: _CONVERT(S8, F64); break;
+                            default: break;
+                            }
+                            break;
+                        case Type::S16:
+                            switch (type)
+                            {
+                            case Type::S8:  _CONVERT(S16, S8);  break;
+                            case Type::S32: _CONVERT(S16, S32); break;
+                            case Type::F32: _CONVERT(S16, F32); break;
+                            case Type::F64: _CONVERT(S16, F64); break;
+                            default: break;
+                            }
+                            break;
+                        case Type::S32:
+                            switch (type)
+                            {
+                            case Type::S8:  _CONVERT(S32, S8);  break;
+                            case Type::S16: _CONVERT(S32, S16); break;
+                            case Type::F32: _CONVERT(S32, F32); break;
+                            case Type::F64: _CONVERT(S32, F64); break;
+                            default: break;
+                            }
+                            break;
+                        case Type::F32:
+                            switch (type)
+                            {
+                            case Type::S8:  _CONVERT(F32, S8);  break;
+                            case Type::S16: _CONVERT(F32, S16); break;
+                            case Type::S32: _CONVERT(F32, S32); break;
+                            case Type::F64: _CONVERT(F32, F64); break;
+                            default: break;
+                            }
+                            break;
+                        case Type::F64:
+                            switch (type)
+                            {
+                            case Type::S8:  _CONVERT(F64, S8);  break;
+                            case Type::S16: _CONVERT(F64, S16); break;
+                            case Type::S32: _CONVERT(F64, S32); break;
+                            case Type::F32: _CONVERT(F64, F32); break;
+                            default: break;
+                            }
+                            break;
+                        default: break;
                     }
-                    break;
-                case Type::S16:
-                    switch (type)
-                    {
-                    case Type::U8:  _CONVERT(S16, U8); break;
-                    case Type::S16: memcpy(out->getData(), data->getData(), data->getSampleCount() * Audio::getByteCount(type)); break;
-                    case Type::S32: _CONVERT(S16, S32); break;
-                    case Type::F32: _CONVERT(S16, F32); break;
-                    default: break;
-                    }
-                    break;
-                case Type::S32:
-                    switch (type)
-                    {
-                    case Type::U8:  _CONVERT(S32, U8); break;
-                    case Type::S16: _CONVERT(S32, S16); break;
-                    case Type::S32: memcpy(out->getData(), data->getData(), data->getSampleCount() * Audio::getByteCount(type)); break;
-                    case Type::F32: _CONVERT(S32, F32); break;
-                    default: break;
-                    }
-                    break;
-                case Type::F32:
-                    switch (type)
-                    {
-                    case Type::U8:  _CONVERT(F32, U8); break;
-                    case Type::S16: _CONVERT(F32, S16); break;
-                    case Type::S32: _CONVERT(F32, S32); break;
-                    case Type::F32: memcpy(out->getData(), data->getData(), data->getSampleCount() * Audio::getByteCount(type)); break;
-                    default: break;
-                    }
-                    break;
-                default: break;
                 }
                 return out;
             }
@@ -146,13 +165,13 @@ namespace djv
 
             std::shared_ptr<Data> Data::planarInterleave(const std::shared_ptr<Data> & data)
             {
-                auto out = Data::create(data->getInfo(), data->getSampleCount());
+                auto out = Data::create(data->getInfo());
                 const size_t channelCount = data->getChannelCount();
                 const size_t sampleCount = data->getSampleCount();
                 switch (data->getType())
                 {
-                case Type::U8:
-                    _planarInterleave(reinterpret_cast<const U8_T *> (data->getData()), reinterpret_cast<U8_T *> (out->getData()), channelCount, sampleCount);
+                case Type::S8:
+                    _planarInterleave(reinterpret_cast<const S8_T *> (data->getData()), reinterpret_cast<S8_T *> (out->getData()), channelCount, sampleCount);
                     break;
                 case Type::S16:
                     _planarInterleave(reinterpret_cast<const S16_T *>(data->getData()), reinterpret_cast<S16_T *>(out->getData()), channelCount, sampleCount);
@@ -162,6 +181,9 @@ namespace djv
                     break;
                 case Type::F32:
                     _planarInterleave(reinterpret_cast<const F32_T *>(data->getData()), reinterpret_cast<F32_T *>(out->getData()), channelCount, sampleCount);
+                    break;
+                case Type::F64:
+                    _planarInterleave(reinterpret_cast<const F64_T *>(data->getData()), reinterpret_cast<F64_T *>(out->getData()), channelCount, sampleCount);
                     break;
                 default: break;
                 }
@@ -188,13 +210,13 @@ namespace djv
 
             std::shared_ptr<Data> Data::planarDeinterleave(const std::shared_ptr<Data> & data)
             {
-                auto out = Data::create(data->getInfo(), data->getSampleCount());
+                auto out = Data::create(data->getInfo());
                 const uint8_t channelCount = data->getChannelCount();
                 const size_t sampleCount = data->getSampleCount();
                 switch (data->getType())
                 {
-                case Type::U8:
-                    _planarDeinterleave(reinterpret_cast<const U8_T *> (data->getData()), reinterpret_cast<U8_T *> (out->getData()), channelCount, sampleCount);
+                case Type::S8:
+                    _planarDeinterleave(reinterpret_cast<const S8_T *> (data->getData()), reinterpret_cast<S8_T *> (out->getData()), channelCount, sampleCount);
                     break;
                 case Type::S16:
                     _planarDeinterleave(reinterpret_cast<const S16_T *>(data->getData()), reinterpret_cast<S16_T *>(out->getData()), channelCount, sampleCount);
@@ -205,9 +227,36 @@ namespace djv
                 case Type::F32:
                     _planarDeinterleave(reinterpret_cast<const F32_T *>(data->getData()), reinterpret_cast<F32_T *>(out->getData()), channelCount, sampleCount);
                     break;
+                case Type::F64:
+                    _planarDeinterleave(reinterpret_cast<const F64_T *>(data->getData()), reinterpret_cast<F64_T *>(out->getData()), channelCount, sampleCount);
+                    break;
                 default: break;
                 }
                 return out;
+            }
+
+#define _VOLUME(t) \
+    { \
+        const t##_T* inP = reinterpret_cast<const t##_T*>(in); \
+        t##_T* outP = reinterpret_cast<t##_T*>(out); \
+        t##_T* const endP = outP + sampleCount * channelCount; \
+        for (; outP < endP; ++inP, ++outP) \
+        { \
+            *outP = *inP * volume; \
+        } \
+    }
+
+            void Data::volume(const uint8_t* in, uint8_t* out, float volume, size_t sampleCount, uint8_t channelCount, Type type)
+            {
+                switch (type)
+                {
+                case Type::S8:  _VOLUME(S8);  break;
+                case Type::S16: _VOLUME(S16); break;
+                case Type::S32: _VOLUME(S32); break;
+                case Type::F32: _VOLUME(F32); break;
+                case Type::F64: _VOLUME(F64); break;
+                default: break;
+                }
             }
 
             bool Data::operator == (const Data & other) const

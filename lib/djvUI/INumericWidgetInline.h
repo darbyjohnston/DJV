@@ -136,6 +136,7 @@ namespace djv
                     _model->decrementLarge();
                 }
                 break;
+            default: break;
             }
             return out;
         }

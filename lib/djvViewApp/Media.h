@@ -36,6 +36,8 @@
 #include <djvCore/ListObserver.h>
 #include <djvCore/ValueObserver.h>
 
+#include <RtAudio.h>
+
 namespace djv
 {
     namespace Core
@@ -110,7 +112,6 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<bool> > observeInOutPointsEnabled() const;
             std::shared_ptr<Core::IValueSubject<Core::Frame::Number> > observeInPoint() const;
             std::shared_ptr<Core::IValueSubject<Core::Frame::Number> > observeOutPoint() const;
-            std::shared_ptr<Core::IValueSubject<size_t> > observeThreadCount() const;
 
             void setSpeed(const Core::Time::Speed&);
             void setPlayEveryFrame(bool);
@@ -128,7 +129,6 @@ namespace djv
             void setOutPoint(Core::Frame::Number);
             void resetInPoint();
             void resetOutPoint();
-            void setThreadCount(size_t);
 
             ///@}
 
@@ -140,6 +140,15 @@ namespace djv
 
             void setVolume(float);
             void setMute(bool);
+
+            ///@}
+
+            //! \name I/O
+            ///@{
+
+            std::shared_ptr<Core::IValueSubject<size_t> > observeThreadCount() const;
+
+            void setThreadCount(size_t);
 
             ///@}
 
@@ -161,16 +170,27 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<size_t> > observeAudioQueueMax() const;
             std::shared_ptr<Core::IValueSubject<size_t> > observeVideoQueueCount() const;
             std::shared_ptr<Core::IValueSubject<size_t> > observeAudioQueueCount() const;
-            std::shared_ptr<Core::IValueSubject<size_t> > observeALQueueCount() const;
 
             ///@}
 
         private:
+            bool _hasAudio() const;
             void _open();
+            void _seek(Core::Frame::Number);
             void _playbackUpdate();
             void _playbackTick();
-            void _frameUpdate();
-            void _volumeUpdate();
+            void _queueUpdate();
+
+            static int _rtAudioCallback(
+                void* outputBuffer,
+                void* inputBuffer,
+                unsigned int nFrames,
+                double streamTime,
+                RtAudioStreamStatus status,
+                void* userData);
+            static void _rtAudioErrorCallback(
+                RtAudioError::Type type,
+                const std::string& errorText);
 
             DJV_PRIVATE();
         };

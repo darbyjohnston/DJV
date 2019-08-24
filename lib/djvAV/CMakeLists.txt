@@ -134,7 +134,8 @@ set(LIBRARIES
     FreeType
 	OCIO
     IlmBase
-    OpenAL
+    #OpenAL
+    RtAudio
     OpenGL::GL
     djvCore)
 if(FFmpeg_FOUND)

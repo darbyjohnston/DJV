@@ -402,7 +402,6 @@ namespace djv
                 size_t _videoQueueCount = 0;
                 size_t _audioQueueMax = 0;
                 size_t _audioQueueCount = 0;
-                size_t _alQueueCount = 0;
                 std::map<std::string, std::shared_ptr<UI::Label> > _labels;
                 std::map<std::string, std::shared_ptr<UI::LineGraphWidget> > _lineGraphs;
                 std::shared_ptr<UI::VerticalLayout> _layout;
@@ -413,7 +412,6 @@ namespace djv
                 std::shared_ptr<ValueObserver<size_t> > _videoQueueCountObserver;
                 std::shared_ptr<ValueObserver<size_t> > _audioQueueMaxObserver;
                 std::shared_ptr<ValueObserver<size_t> > _audioQueueCountObserver;
-                std::shared_ptr<ValueObserver<size_t> > _alQueueCountObserver;
             };
 
             void MediaDebugWidget::_init(const std::shared_ptr<Context>& context)
@@ -432,10 +430,6 @@ namespace djv
                 _lineGraphs["AudioQueue"] = UI::LineGraphWidget::create(context);
                 _lineGraphs["AudioQueue"]->setPrecision(0);
 
-                _labels["ALQueueCount"] = UI::Label::create(context);
-                _lineGraphs["ALQueueCount"] = UI::LineGraphWidget::create(context);
-                _lineGraphs["ALQueueCount"]->setPrecision(0);
-
                 for (auto& i : _labels)
                 {
                     i.second->setTextHAlign(UI::TextHAlign::Left);
@@ -448,8 +442,6 @@ namespace djv
                 _layout->addChild(_lineGraphs["VideoQueue"]);
                 _layout->addChild(_labels["AudioQueue"]);
                 _layout->addChild(_lineGraphs["AudioQueue"]);
-                _layout->addChild(_labels["ALQueueCount"]);
-                _layout->addChild(_lineGraphs["ALQueueCount"]);
                 addChild(_layout);
 
                 auto weak = std::weak_ptr<MediaDebugWidget>(std::dynamic_pointer_cast<MediaDebugWidget>(shared_from_this()));
@@ -530,17 +522,6 @@ namespace djv
                                         widget->_widgetUpdate();
                                     }
                                 });
-                                widget->_alQueueCountObserver = ValueObserver<size_t>::create(
-                                    value->observeALQueueCount(),
-                                    [weak](size_t value)
-                                {
-                                    if (auto widget = weak.lock())
-                                    {
-                                        widget->_alQueueCount = value;
-                                        widget->_lineGraphs["ALQueueCount"]->addSample(value);
-                                        widget->_widgetUpdate();
-                                    }
-                                });
                             }
                             else
                             {
@@ -550,14 +531,12 @@ namespace djv
                                 widget->_videoQueueCount = 0;
                                 widget->_audioQueueMax = 0;
                                 widget->_audioQueueCount = 0;
-                                widget->_alQueueCount = 0;
                                 widget->_sequenceObserver.reset();
                                 widget->_currentFrameObserver.reset();
                                 widget->_videoQueueMaxObserver.reset();
                                 widget->_videoQueueCountObserver.reset();
                                 widget->_audioQueueMaxObserver.reset();
                                 widget->_audioQueueCountObserver.reset();
-                                widget->_alQueueCountObserver.reset();
                                 widget->_widgetUpdate();
                             }
                         }
@@ -596,11 +575,6 @@ namespace djv
                     std::stringstream ss;
                     ss << _getText(DJV_TEXT("Audio queue")) << ":";
                     _labels["AudioQueue"]->setText(ss.str());
-                }
-                {
-                    std::stringstream ss;
-                    ss << _getText(DJV_TEXT("OpenAL queue")) << ":";
-                    _labels["ALQueueCount"]->setText(ss.str());
                 }
                 _widgetUpdate();
             }

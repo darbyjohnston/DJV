@@ -935,13 +935,18 @@ namespace djv
                     Time::Speed(240),
                     Time::Speed(120),
                     Time::Speed(60),
+                    Time::Speed(60000, 1001),
+                    Time::Speed(50),
                     Time::Speed(48),
                     Time::Speed(30),
                     Time::Speed(30000, 1001),
                     Time::Speed(25),
                     Time::Speed(24),
                     Time::Speed(24000, 1001),
-                    Time::Speed(16)
+                    Time::Speed(16),
+                    Time::Speed(12),
+                    Time::Speed(8),
+                    Time::Speed(6)
                 };
                 for (const auto& i : p.speeds)
                 {
@@ -950,6 +955,7 @@ namespace djv
                     ss.precision(3);
                     ss << std::fixed << i.toFloat();
                     button->setText(ss.str());
+                    button->setEnabled(!p.ioInfo.audio.size());
                     p.speedButtonGroup->addButton(button);
                     p.speedButtonLayout->addChild(button);
                 }
@@ -960,10 +966,12 @@ namespace djv
                 ss.precision(3);
                 ss << std::fixed << p.defaultSpeed.toFloat();
                 button->setText(ss.str());
+                button->setEnabled(!p.ioInfo.audio.size());
                 p.speedButtonGroup->addButton(button);
                 p.speedButtonLayout->addChild(button);
 
                 p.playEveryFrameLabel->setText(_getText(DJV_TEXT("Play every frame")) + ":");
+
                 {
                     std::stringstream ss;
                     ss.precision(3);

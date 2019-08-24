@@ -292,7 +292,7 @@ namespace djv
                     std::shared_ptr<LUT3D>  lut3D;
                 };
 
-                // Utilit function to flip the y-coordinate.
+                // Utility function to flip the y-coordinate.
                 BBox2f flip(const BBox2f& value, const Image::Size& size)
                 {
                     BBox2f out;

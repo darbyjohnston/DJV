@@ -95,7 +95,7 @@ namespace djv
                     {
                         std::lock_guard<std::mutex> lock(_read->getMutex());
                         auto& queue = _read->getVideoQueue();
-                        if (queue.hasFrames())
+                        if (!queue.isEmpty())
                         {
                             frame = queue.getFrame().frame;
                         }
@@ -135,7 +135,7 @@ namespace djv
                         std::lock_guard<std::mutex> lock(_write->getMutex());
                         auto& readQueue = _read->getVideoQueue();
                         auto& writeQueue = _write->getVideoQueue();
-                        if (readQueue.hasFrames() && writeQueue.getFrameCount() < writeQueue.getMax())
+                        if (!readQueue.isEmpty() && writeQueue.getCount() < writeQueue.getMax())
                         {
                             auto frame = readQueue.popFrame();
                             writeQueue.addFrame(frame);

@@ -6,6 +6,9 @@ sudo: require
 install:
 - sudo apt-get install nasm
 - sudo apt-get install xorg-dev libglu1-mesa-dev mesa-common-dev
+- sudo apt-get install libasound2-dev
+- sudo apt-get install libpulse-dev
+- sudo apt-get install python3.7 python3.7-dev
 services:
 - xvfb
 branches:
@@ -19,7 +22,9 @@ addons:
 before_script:
 - mkdir build
 - cd build
-- build-wrapper-linux-x86-64 --out-dir ../bw-output cmake .. -DDJV_THIRD_PARTY=TRUE && make && make test
+- export PYTHONPATH=$PWD/build/lib:$PYTHONPATH
+- build-wrapper-linux-x86-64 --out-dir ../bw-output cmake .. -DDJV_THIRD_PARTY=TRUE -DDJV_PYTHON=TRUE && make && make test
+- cat Testing/Temporary/LastTest.log
 - cd ..
 script:
 - sonar-scanner

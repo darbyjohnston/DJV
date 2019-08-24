@@ -38,19 +38,14 @@ namespace djv
                 return _max;
             }
 
-            inline bool VideoQueue::hasFrames() const
+            inline bool VideoQueue::isEmpty() const
             {
-                return _queue.size() > 0;
+                return 0 == _queue.size();
             }
 
-            inline size_t VideoQueue::getFrameCount() const
+            inline size_t VideoQueue::getCount() const
             {
                 return _queue.size();
-            }
-
-            inline const std::list<VideoFrame>& VideoQueue::getFrames() const
-            {
-                return _queue;
             }
 
             inline VideoFrame VideoQueue::getFrame() const
@@ -68,12 +63,12 @@ namespace djv
                 return _max;
             }
 
-            inline bool AudioQueue::hasFrames() const
+            inline bool AudioQueue::isEmpty() const
             {
-                return _queue.size() > 0;
+                return 0 == _queue.size();
             }
 
-            inline size_t AudioQueue::getFrameCount() const
+            inline size_t AudioQueue::getCount() const
             {
                 return _queue.size();
             }

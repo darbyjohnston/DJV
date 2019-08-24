@@ -33,9 +33,10 @@
 
 #include <djvCore/Enum.h>
 
-#include <AL/al.h>
-#include <AL/alc.h>
-#include <AL/alext.h>
+//#include <AL/al.h>
+//#include <AL/alc.h>
+//#include <AL/alext.h>
+#include <RtAudio.h>
 
 #include <limits>
 
@@ -50,51 +51,65 @@ namespace djv
             enum class Type
             {
                 None,
-                U8,
+                S8,
                 S16,
                 S32,
                 F32,
+                F64,
 
                 Count
             };
             DJV_ENUM_HELPERS(Type);
 
-            typedef uint8_t  U8_T;
+            typedef int8_t   S8_T;
             typedef int16_t S16_T;
             typedef int32_t S32_T;
             typedef float   F32_T;
+            typedef double  F64_T;
 
-            const U8_T   U8Min = std::numeric_limits<uint8_t>::min();
-            const U8_T   U8Max = std::numeric_limits<uint8_t>::max();
+            const S8_T   S8Min = std::numeric_limits<int8_t>::min();
+            const S8_T   S8Max = std::numeric_limits<int8_t>::max();
             const S16_T S16Min = std::numeric_limits<int16_t>::min();
             const S16_T S16Max = std::numeric_limits<int16_t>::max();
             const S32_T S32Min = std::numeric_limits<int32_t>::min();
             const S32_T S32Max = std::numeric_limits<int32_t>::max();
             const F32_T F32Min = -1.f;
             const F32_T F32Max =  1.f;
+            const F64_T F64Min = -1.0;
+            const F64_T F64Max =  1.0;
 
             inline uint8_t getByteCount(Type);
             inline Type getIntType(uint8_t);
             inline Type getFloatType(uint8_t);
 
-            inline ALenum getALType(uint8_t channels, Type);
-            std::string getALErrorString(ALenum);
+            //inline ALenum getALType(uint8_t channels, Type);
+            //std::string getALErrorString(ALenum);
+            inline RtAudioFormat toRtAudio(Type);
 
-            inline void U8ToS16(U8_T, S16_T&);
-            inline void U8ToS32(U8_T, S32_T&);
-            inline void U8ToF32(U8_T, F32_T &);
+            inline void S8ToS16(S8_T, S16_T&);
+            inline void S8ToS32(S8_T, S32_T&);
+            inline void S8ToF32(S8_T, F32_T &);
+            inline void S8ToF64(S8_T, F64_T &);
 
-            inline void S16ToU8(S16_T, U8_T&);
+            inline void S16ToS8(S16_T, S8_T&);
             inline void S16ToS32(S16_T, S32_T&);
             inline void S16ToF32(S16_T, F32_T &);
+            inline void S16ToF64(S16_T, F64_T &);
 
-            inline void S32ToU8(S32_T, U8_T&);
+            inline void S32ToS8(S32_T, S8_T&);
             inline void S32ToS16(S32_T, S16_T&);
             inline void S32ToF32(S32_T, F32_T&);
+            inline void S32ToF64(S32_T, F64_T&);
 
-            inline void F32ToU8(F32_T, U8_T&);
+            inline void F32ToS8(F32_T, S8_T&);
             inline void F32ToS16(F32_T, S16_T&);
             inline void F32ToS32(F32_T, S32_T&);
+            inline void F32ToS32(F32_T, F64_T&);
+
+            inline void F64ToS8(F64_T, S8_T&);
+            inline void F64ToS16(F64_T, S16_T&);
+            inline void F64ToS32(F64_T, S32_T&);
+            inline void F64ToS32(F64_T, F32_T&);
 
         } // namespace Audio
     } // namespace AV

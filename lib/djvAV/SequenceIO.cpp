@@ -64,7 +64,7 @@ namespace djv
                 std::promise<Info> infoPromise;
                 std::vector<std::future<Future> > cacheFutures;
                 std::condition_variable queueCV;
-                Playback playback = Playback::Forward;
+                Direction direction = Direction::Forward;
                 Frame::Number seek = Frame::invalid;
                 std::thread thread;
                 std::atomic<bool> running;
@@ -170,9 +170,9 @@ namespace djv
                                 }))
                             {
                                 queueCount = _getQueueCount(threadCount / 2);
-                                if (p.playback != _playback)
+                                if (p.direction != _direction)
                                 {
-                                    p.playback = _playback;
+                                    p.direction = _direction;
                                     _videoQueue.setFinished(false);
                                     _videoQueue.clearFrames();
                                 }
@@ -227,13 +227,13 @@ namespace djv
                 return _p->infoPromise.get_future();
             }
 
-            void ISequenceRead::seek(Frame::Number value, Playback playback)
+            void ISequenceRead::seek(Frame::Number value, Direction direction)
             {
                 DJV_PRIVATE_PTR();
                 {
                     std::lock_guard<std::mutex> lock(_mutex);
                     p.seek = value;
-                    _playback = playback;
+                    _direction = direction;
                 }
                 p.queueCV.notify_one();
             }
@@ -251,15 +251,15 @@ namespace djv
 
             bool ISequenceRead::_hasWork() const
             {
-                const bool queue = (_videoQueue.getFrameCount() < _videoQueue.getMax()) && !_videoQueue.isFinished();
+                const bool queue = (_videoQueue.getCount() < _videoQueue.getMax()) && !_videoQueue.isFinished();
                 const bool seek = _p->seek != Frame::invalid;
-                const bool playback = _p->playback != _playback;
-                return queue || seek || playback;
+                const bool direction = _p->direction != _direction;
+                return queue || seek || direction;
             }
 
             size_t ISequenceRead::_getQueueCount(size_t threadCount) const
             {
-                const size_t queueMax = _videoQueue.getMax() - _videoQueue.getFrameCount();
+                const size_t queueMax = _videoQueue.getMax() - _videoQueue.getCount();
                 return std::min(queueMax, threadCount);
             }
 
@@ -320,16 +320,16 @@ namespace djv
 
                     if (sequenceSize)
                     {
-                        switch (p.playback)
+                        switch (p.direction)
                         {
-                        case Playback::Forward:
+                        case Direction::Forward:
                             ++p.frame;
                             if (p.frame >= sequenceSize)
                             {
                                 p.frame = 0;
                             }
                             break;
-                        case Playback::Reverse:
+                        case Direction::Reverse:
                             --p.frame;
                             if (p.frame < 0)
                             {
@@ -361,7 +361,7 @@ namespace djv
                     std::lock_guard<std::mutex> lock(_mutex);
                     for (const auto& i : images)
                     {
-                        if (_videoQueue.getFrameCount() >= _videoQueue.getMax())
+                        if (_videoQueue.getCount() >= _videoQueue.getMax())
                         {
                             break;
                         }
@@ -386,16 +386,16 @@ namespace djv
                 Frame::Number frame = Frame::invalid;
                 {
                     std::lock_guard<std::mutex> lock(_mutex);
-                    if (_videoQueue.getFrameCount())
+                    if (_videoQueue.getCount())
                     {
                         frame = _videoQueue.getFrame().frame;
                     }
                 }
                 if (count > 0 && frame != Frame::invalid)
                 {
-                    switch (p.playback)
+                    switch (p.direction)
                     {
-                    case Playback::Forward:
+                    case Direction::Forward:
                     {
                         const size_t sequenceSize = _sequence.getSize();
                         const size_t max = std::min(_cache.getMax(), sequenceSize);
@@ -414,7 +414,7 @@ namespace djv
                         }
                         break;
                     }
-                    case Playback::Reverse:
+                    case Direction::Reverse:
                     {
                         const size_t sequenceSize = _sequence.getSize();
                         const size_t max = std::min(_cache.getMax(), sequenceSize);
@@ -549,13 +549,13 @@ namespace djv
                                 std::unique_lock<std::mutex> lock(_mutex, std::try_to_lock);
                                 if (lock.owns_lock())
                                 {
-                                    while (_videoQueue.hasFrames() && images.size() < _threadCount)
+                                    while (!_videoQueue.isEmpty() && images.size() < _threadCount)
                                     {
                                         auto frame = _videoQueue.popFrame();
                                         images.push_back(frame.image);
                                     }
 
-                                    if (!_videoQueue.hasFrames() && _videoQueue.isFinished())
+                                    if (_videoQueue.isEmpty() && _videoQueue.isFinished())
                                     {
                                         p.running = false;
                                     }

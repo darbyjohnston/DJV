@@ -62,7 +62,7 @@ namespace djv
                     std::promise<Info> infoPromise;
                     std::condition_variable queueCV;
                     int64_t seek = Frame::invalid;
-                    Playback playback = Playback::Forward;
+                    Direction direction = Direction::Forward;
                     std::thread thread;
                     std::atomic<bool> running;
 
@@ -320,17 +320,12 @@ namespace djv
                                 case 8: break;
                                 default: channelCount = 2; break;
                                 }
-                                switch (audioType)
-                                {
-                                case Audio::Type::S32: audioType = Audio::Type::F32; break;
-                                default: break;
-                                }
                                 p.audioInfo = AudioInfo(
                                     Audio::DataInfo(
                                         channelCount,
                                         audioType,
-                                        p.avCodecParameters[p.avAudioStream]->sample_rate),
-                                    sampleCount);
+                                        p.avCodecParameters[p.avAudioStream]->sample_rate,
+                                        sampleCount));
                                 p.videoInfo.codec = std::string(avAudioCodec->long_name);
                                 info.audio.push_back(p.audioInfo);
                             }
@@ -380,8 +375,8 @@ namespace djv
                                         //[this, sequenceSize, cacheEnabled, &cachedFrames]
                                     {
                                         DJV_PRIVATE_PTR();
-                                        const bool video = p.avVideoStream != -1 && (_videoQueue.isFinished() ? false : (_videoQueue.getFrameCount() < _videoQueue.getMax()));
-                                        const bool audio = p.avAudioStream != -1 && (_audioQueue.isFinished() ? false : (_audioQueue.getFrameCount() < _audioQueue.getMax()));
+                                        const bool video = p.avVideoStream != -1 && (_videoQueue.isFinished() ? false : (_videoQueue.getCount() < _videoQueue.getMax()));
+                                        const bool audio = p.avAudioStream != -1 && (_audioQueue.isFinished() ? false : (_audioQueue.getCount() < _audioQueue.getMax()));
 
                                         /*bool cache = false;
                                         if (cacheEnabled && !_videoQueue.isFinished() && !_audioQueue.isFinished())
@@ -402,14 +397,14 @@ namespace djv
                                             }
                                         }*/
                                         
-                                        return video || audio || p.seek != Frame::invalid || p.playback != _playback;
-                                        //return video || audio || p.seek != Frame::invalid || p.playback != _playback || cache;
+                                        return video || audio || p.seek != Frame::invalid || p.direction != _direction;
+                                        //return video || audio || p.seek != Frame::invalid || p.direction != _direction || cache;
                                     }))
                                     {
                                         read = true;
-                                        if (p.playback != _playback)
+                                        if (p.direction != _direction)
                                         {
-                                            p.playback = _playback;
+                                            p.direction = _direction;
                                             _videoQueue.setFinished(false);
                                             _videoQueue.clearFrames();
                                             _audioQueue.setFinished(false);
@@ -644,7 +639,7 @@ namespace djv
                     return _p->infoPromise.get_future();
                 }
 
-                void Read::seek(Frame::Number value, Playback)
+                void Read::seek(Frame::Number value, Direction)
                 {
                     DJV_PRIVATE_PTR();
                     {
@@ -680,6 +675,7 @@ namespace djv
                             p.avFrame->pts,
                             p.avFormatContext->streams[p.avVideoStream]->time_base,
                             r);
+                        //std::cout << "decode video = " << frame << std::endl;
 
                         if (Frame::invalid == dv.seek || frame >= dv.seek)
                         {
@@ -752,30 +748,15 @@ namespace djv
                             p.avFrame->pts,
                             p.avFormatContext->streams[p.avAudioStream]->time_base,
                             r);
+                        //std::cout << "decode audio = " << frame << std::endl;
 
                         if (Frame::invalid == da.seek || frame >= da.seek)
                         {
-                            const auto& info = p.audioInfo.info;
-                            auto audioData = Audio::Data::create(info, p.avFrame->nb_samples * info.channelCount);
+                            auto info = p.audioInfo.info;
+                            info.sampleCount = p.avFrame->nb_samples;
+                            auto audioData = Audio::Data::create(info);
                             switch (p.avCodecParameters[p.avAudioStream]->format)
                             {
-                            case AV_SAMPLE_FMT_U8:
-                            {
-                                if (p.avCodecParameters[p.avAudioStream]->channels == info.channelCount)
-                                {
-                                    memcpy(audioData->getData(), p.avFrame->data[0], audioData->getByteCount());
-                                }
-                                else
-                                {
-                                    Audio::Data::extract(
-                                        reinterpret_cast<uint8_t*>(p.avFrame->data[0]),
-                                        reinterpret_cast<uint8_t*>(audioData->getData()),
-                                        audioData->getSampleCount(),
-                                        p.avCodecParameters[p.avAudioStream]->channels,
-                                        info.channelCount);
-                                }
-                                break;
-                            }
                             case AV_SAMPLE_FMT_S16:
                             {
                                 if (p.avCodecParameters[p.avAudioStream]->channels == info.channelCount)
@@ -795,23 +776,19 @@ namespace djv
                             }
                             case AV_SAMPLE_FMT_S32:
                             {
-                                Audio::DataInfo s32Info = info;
-                                s32Info.type = Audio::Type::S32;
-                                auto s32Data = Audio::Data::create(s32Info, p.avFrame->nb_samples * info.channelCount);
                                 if (p.avCodecParameters[p.avAudioStream]->channels == info.channelCount)
                                 {
-                                    memcpy(s32Data->getData(), p.avFrame->data[0], s32Data->getByteCount());
+                                    memcpy(audioData->getData(), p.avFrame->data[0], audioData->getByteCount());
                                 }
                                 else
                                 {
                                     Audio::Data::extract(
                                         reinterpret_cast<int32_t*>(p.avFrame->data[0]),
-                                        reinterpret_cast<int32_t*>(s32Data->getData()),
-                                        s32Data->getSampleCount(),
+                                        reinterpret_cast<int32_t*>(audioData->getData()),
+                                        audioData->getSampleCount(),
                                         p.avCodecParameters[p.avAudioStream]->channels,
                                         info.channelCount);
                                 }
-                                audioData = Audio::Data::convert(s32Data, Audio::Type::F32);
                                 break;
                             }
                             case AV_SAMPLE_FMT_FLT:
@@ -831,19 +808,21 @@ namespace djv
                                 }
                                 break;
                             }
-                            case AV_SAMPLE_FMT_U8P:
+                            case AV_SAMPLE_FMT_DBL:
                             {
-                                const size_t channelCount = info.channelCount;
-                                const uint8_t** c = new const uint8_t * [channelCount];
-                                for (size_t i = 0; i < channelCount; ++i)
+                                if (p.avCodecParameters[p.avAudioStream]->channels == info.channelCount)
                                 {
-                                    c[i] = reinterpret_cast<uint8_t*>(p.avFrame->data[i]);
+                                    memcpy(audioData->getData(), p.avFrame->data[0], audioData->getByteCount());
                                 }
-                                Audio::Data::planarInterleave(
-                                    c,
-                                    reinterpret_cast<uint8_t*>(audioData->getData()),
-                                    audioData->getSampleCount(),
-                                    channelCount);
+                                else
+                                {
+                                    Audio::Data::extract(
+                                        reinterpret_cast<double*>(p.avFrame->data[0]),
+                                        reinterpret_cast<double*>(audioData->getData()),
+                                        audioData->getSampleCount(),
+                                        p.avCodecParameters[p.avAudioStream]->channels,
+                                        info.channelCount);
+                                }
                                 break;
                             }
                             case AV_SAMPLE_FMT_S16P:
@@ -859,13 +838,11 @@ namespace djv
                                     reinterpret_cast<int16_t*>(audioData->getData()),
                                     audioData->getSampleCount(),
                                     channelCount);
+                                delete [] c;
                                 break;
                             }
                             case AV_SAMPLE_FMT_S32P:
                             {
-                                Audio::DataInfo s32Info = info;
-                                s32Info.type = Audio::Type::S32;
-                                auto s32Data = Audio::Data::create(s32Info, p.avFrame->nb_samples * info.channelCount);
                                 const size_t channelCount = info.channelCount;
                                 const int32_t** c = new const int32_t * [channelCount];
                                 for (size_t i = 0; i < channelCount; ++i)
@@ -874,10 +851,10 @@ namespace djv
                                 }
                                 Audio::Data::planarInterleave(
                                     c,
-                                    reinterpret_cast<int32_t*>(s32Data->getData()),
-                                    s32Data->getSampleCount(),
+                                    reinterpret_cast<int32_t*>(audioData->getData()),
+                                    audioData->getSampleCount(),
                                     channelCount);
-                                audioData = Audio::Data::convert(s32Data, Audio::Type::F32);
+                                delete [] c;
                                 break;
                             }
                             case AV_SAMPLE_FMT_FLTP:
@@ -893,6 +870,23 @@ namespace djv
                                     reinterpret_cast<float*>(audioData->getData()),
                                     audioData->getSampleCount(),
                                     channelCount);
+                                delete [] c;
+                                break;
+                            }
+                            case AV_SAMPLE_FMT_DBLP:
+                            {
+                                const size_t channelCount = info.channelCount;
+                                const double** c = new const double* [channelCount];
+                                for (size_t i = 0; i < channelCount; ++i)
+                                {
+                                    c[i] = reinterpret_cast<double*>(p.avFrame->data[i]);
+                                }
+                                Audio::Data::planarInterleave(
+                                    c,
+                                    reinterpret_cast<double*>(audioData->getData()),
+                                    audioData->getSampleCount(),
+                                    channelCount);
+                                delete [] c;
                                 break;
                             }
                             default: break;

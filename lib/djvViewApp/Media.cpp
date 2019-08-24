@@ -35,7 +35,10 @@
 #include <djvCore/LogSystem.h>
 #include <djvCore/Timer.h>
 
+#include <RtAudio.h>
+
 #include <condition_variable>
+#include <queue>
 
 using namespace djv::Core;
 
@@ -46,9 +49,9 @@ namespace djv
         namespace
         {
             //! \todo Should this be configurable?
-            const size_t bufferCount = 30;
+            const size_t bufferFrameCount = 256;
             const size_t videoQueueSize = 30;
-
+            
         } // namespace
 
         struct Media::Private
@@ -82,21 +85,19 @@ namespace djv
             std::shared_ptr<ValueSubject<size_t> > videoQueueCount;
             std::shared_ptr<ValueSubject<size_t> > audioQueueMax;
             std::shared_ptr<ValueSubject<size_t> > audioQueueCount;
-            std::shared_ptr<ValueSubject<size_t> > alQueueCount;
-            std::shared_ptr<Time::Timer> queueTimer;
-            std::condition_variable queueCV;
             std::shared_ptr<AV::IO::IRead> read;
-            std::future<AV::IO::Info> infoFuture;
-            std::shared_ptr<Time::Timer> infoTimer;
 
-            AV::IO::Playback ioPlayback = AV::IO::Playback::Forward;
-            ALuint alSource = 0;
-            std::vector<ALuint> alBuffers;
-            int64_t alBytes = 0;
+            AV::IO::Direction ioDirection = AV::IO::Direction::Forward;
+            std::unique_ptr<RtAudio> rtAudio;
+            std::shared_ptr<AV::Audio::Data> audioData;
+            size_t audioDataSamplesOffset = 0;
+            size_t audioDataSamplesCount = 0;
+            std::chrono::system_clock::time_point audioDataSamplesTime;
             Frame::Number frameOffset = 0;
             std::chrono::system_clock::time_point startTime;
             std::chrono::system_clock::time_point realSpeedTime;
             size_t realSpeedFrameCount = 0;
+            std::shared_ptr<Time::Timer> queueTimer;
             std::shared_ptr<Time::Timer> playbackTimer;
             std::shared_ptr<Time::Timer> realSpeedTimer;
             std::shared_ptr<Time::Timer> cachedFramesTimer;
@@ -133,12 +134,9 @@ namespace djv
             p.audioQueueMax = ValueSubject<size_t>::create();
             p.videoQueueCount = ValueSubject<size_t>::create();
             p.audioQueueCount = ValueSubject<size_t>::create();
-            p.alQueueCount = ValueSubject<size_t>::create();
+
             p.queueTimer = Time::Timer::create(context);
             p.queueTimer->setRepeating(true);
-            p.infoTimer = Time::Timer::create(context);
-            p.infoTimer->setRepeating(true);
-
             p.playbackTimer = Time::Timer::create(context);
             p.playbackTimer->setRepeating(true);
             p.realSpeedTimer = Time::Timer::create(context);
@@ -148,36 +146,30 @@ namespace djv
             p.debugTimer = Time::Timer::create(context);
             p.debugTimer->setRepeating(true);
 
-            alGetError();
-            alGenSources(1, &p.alSource);
-            ALenum error = AL_NO_ERROR;
-            if ((error = alGetError()) != AL_NO_ERROR)
+            try
+            {
+                p.rtAudio.reset(new RtAudio);
+            }
+            catch (const std::exception& e)
             {
                 std::stringstream ss;
-                ss << "djv::ViewApp::Media " << DJV_TEXT("cannot create OpenAL source") << ". " << AV::Audio::getALErrorString(error);
+                ss << "djv::ViewApp::Media " << DJV_TEXT("RtAudio cannot be initialized") << ". " << e.what();
                 auto logSystem = context->getSystemT<LogSystem>();
                 logSystem->log("djv::ViewApp::Media", ss.str(), LogLevel::Error);
             }
 
-            if (p.alSource)
-            {
-                p.alBuffers.resize(bufferCount);
-                alGenBuffers(bufferCount, p.alBuffers.data());
-                if ((error = alGetError()) != AL_NO_ERROR)
-                {
-                    p.alBuffers.clear();
-                    alDeleteSources(1, &p.alSource);
-                    p.alSource = 0;
-                    {
-                        std::stringstream ss;
-                        ss << "djv::ViewApp::Media " << DJV_TEXT("cannot create OpenAL buffers") << ". " << AV::Audio::getALErrorString(error);
-                        auto logSystem = context->getSystemT<LogSystem>();
-                        logSystem->log("djv::ViewApp::Media", ss.str(), LogLevel::Error);
-                    }
-                }
-            }
-
             _open();
+
+            auto weak = std::weak_ptr<Media>(std::dynamic_pointer_cast<Media>(shared_from_this()));
+            p.queueTimer->start(
+                Time::getMilliseconds(Time::TimerValue::VeryFast),
+                [weak](float)
+                {
+                    if (auto media = weak.lock())
+                    {
+                        media->_queueUpdate();
+                    }
+                });
         }
 
         Media::Media() :
@@ -187,17 +179,7 @@ namespace djv
         Media::~Media()
         {
             DJV_PRIVATE_PTR();
-            if (p.alBuffers.size())
-            {
-                alDeleteBuffers(bufferCount, p.alBuffers.data());
-                p.alBuffers.clear();
-            }
-            if (p.alSource)
-            {
-                alSourceStop(p.alSource);
-                alDeleteSources(1, &p.alSource);
-                p.alSource = 0;
-            }
+            p.rtAudio.reset();
         }
 
         std::shared_ptr<Media> Media::create(const Core::FileSystem::FileInfo& fileInfo, const std::shared_ptr<Context>& context)
@@ -330,11 +312,6 @@ namespace djv
             return _p->outPoint;
         }
 
-        std::shared_ptr<IValueSubject<size_t> > Media::observeThreadCount() const
-        {
-            return _p->threadCount;
-        }
-
         void Media::setSpeed(const Time::Speed& value)
         {
             DJV_PRIVATE_PTR();
@@ -375,10 +352,7 @@ namespace djv
             if (p.currentFrame->setIfChanged(tmp))
             {
                 setPlayback(Playback::Stop);
-                if (p.read)
-                {
-                    p.read->seek(tmp, p.ioPlayback);
-                }
+                _seek(p.currentFrame->get());
             }
         }
 
@@ -457,18 +431,6 @@ namespace djv
             _p->outPoint->setIfChanged(0);
         }
 
-        void Media::setThreadCount(size_t value)
-        {
-            DJV_PRIVATE_PTR();
-            if (p.threadCount->setIfChanged(value))
-            {
-                if (p.read)
-                {
-                    p.read->setThreadCount(value);
-                }
-            }
-        }
-
         std::shared_ptr<IValueSubject<float> > Media::observeVolume() const
         {
             return _p->volume;
@@ -481,17 +443,28 @@ namespace djv
 
         void Media::setVolume(float value)
         {
-            if (_p->volume->setIfChanged(Math::clamp(value, 0.f, 1.f)))
-            {
-                _volumeUpdate();
-            }
+            _p->volume->setIfChanged(Math::clamp(value, 0.f, 1.f));
         }
 
         void Media::setMute(bool value)
         {
-            if (_p->mute->setIfChanged(value))
+            _p->mute->setIfChanged(value);
+        }
+
+        std::shared_ptr<IValueSubject<size_t> > Media::observeThreadCount() const
+        {
+            return _p->threadCount;
+        }
+
+        void Media::setThreadCount(size_t value)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.threadCount->setIfChanged(value))
             {
-                _volumeUpdate();
+                if (p.read)
+                {
+                    p.read->setThreadCount(value);
+                }
             }
         }
 
@@ -544,11 +517,12 @@ namespace djv
             return _p->audioQueueCount;
         }
 
-        std::shared_ptr<IValueSubject<size_t> > Media::observeALQueueCount() const
+        bool Media::_hasAudio() const
         {
-            return _p->alQueueCount;
+            DJV_PRIVATE_PTR();
+            return p.audioInfo.info.isValid() && p.rtAudio;
         }
-        
+
         void Media::_open()
         {
             DJV_PRIVATE_PTR();
@@ -562,92 +536,67 @@ namespace djv
                     auto io = context->getSystemT<AV::IO::System>();
                     p.read = io->read(p.fileInfo, options);
                     p.read->setThreadCount(p.threadCount->get());
-                    p.infoFuture = p.read->getInfo();
+                    
+                    const auto info = p.read->getInfo().get();
+                    p.info->setIfChanged(info);
+                    Time::Speed speed;
+                    Frame::Sequence sequence;
+                    const auto& video = info.video;
+                    if (video.size())
+                    {
+                        p.videoInfo = video[0];
+                        speed = video[0].speed;
+                        sequence = video[0].sequence;
+                    }
+                    const auto& audio = info.audio;
+                    if (audio.size())
+                    {
+                        p.audioInfo = audio[0];
+                    }
+                    {
+                        std::stringstream ss;
+                        ss << p.fileInfo << " sequence: " << sequence.getSize();
+                        auto logSystem = context->getSystemT<LogSystem>();
+                        logSystem->log("djv::ViewApp::Media", ss.str());
+                    }
+                    p.info->setIfChanged(info);
+                    p.speed->setIfChanged(speed);
+                    p.defaultSpeed->setIfChanged(speed);
+                    p.sequence->setIfChanged(sequence);
 
-                    const auto timeout = Time::getMilliseconds(Time::TimerValue::Fast);
-                    const Core::FileSystem::FileInfo& fileInfo = p.fileInfo;
+                    if (_hasAudio())
+                    {
+                        if (p.rtAudio->isStreamOpen())
+                        {
+                            p.rtAudio->closeStream();
+                        }
+                        RtAudio::StreamParameters rtParameters;
+                        rtParameters.deviceId = p.rtAudio->getDefaultOutputDevice();
+                        rtParameters.nChannels = p.audioInfo.info.channelCount;
+                        unsigned int rtBufferFrames = bufferFrameCount;
+                        try
+                        {
+                            p.rtAudio->openStream(
+                                &rtParameters,
+                                nullptr,
+                                AV::Audio::toRtAudio(p.audioInfo.info.type),
+                                p.audioInfo.info.sampleRate,
+                                &rtBufferFrames,
+                                _rtAudioCallback,
+                                this,
+                                nullptr,
+                                _rtAudioErrorCallback);
+                        }
+                        catch (const std::exception& e)
+                        {
+                            std::stringstream ss;
+                            ss << "djv::ViewApp::Media " << DJV_TEXT("cannot open audio stream") << ". " << e.what();
+                            auto logSystem = context->getSystemT<LogSystem>();
+                            logSystem->log("djv::ViewApp::Media", ss.str(), LogLevel::Error);
+                        }
+                    }
+
                     auto weak = std::weak_ptr<Media>(std::dynamic_pointer_cast<Media>(shared_from_this()));
-                    auto contextWeak = std::weak_ptr<Context>(context);
-                    p.infoTimer->start(
-                        timeout,
-                        [weak, fileInfo, contextWeak](float)
-                        {
-                            if (auto context = contextWeak.lock())
-                            {
-                                if (auto media = weak.lock())
-                                {
-                                    try
-                                    {
-                                        if (media->_p->infoFuture.valid() &&
-                                            media->_p->infoFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
-                                        {
-                                            media->_p->infoTimer->stop();
-                                            const auto info = media->_p->infoFuture.get();
-                                            Time::Speed speed;
-                                            Frame::Sequence sequence;
-                                            const auto& video = info.video;
-                                            if (video.size())
-                                            {
-                                                media->_p->videoInfo = video[0];
-                                                speed = video[0].speed;
-                                                sequence = video[0].sequence;
-                                            }
-                                            const auto& audio = info.audio;
-                                            if (audio.size())
-                                            {
-                                                media->_p->audioInfo = audio[0];
-                                            }
-                                            {
-                                                std::stringstream ss;
-                                                ss << fileInfo << " sequence: " << sequence.getSize();
-                                                auto logSystem = context->getSystemT<LogSystem>();
-                                                logSystem->log("djv::ViewApp::Media", ss.str());
-                                            }
-                                            media->_p->info->setIfChanged(info);
-                                            media->_p->speed->setIfChanged(speed);
-                                            media->_p->defaultSpeed->setIfChanged(speed);
-                                            media->_p->sequence->setIfChanged(sequence);
-                                        }
-                                    }
-                                    catch (const std::exception& e)
-                                    {
-                                        auto logSystem = context->getSystemT<LogSystem>();
-                                        logSystem->log("djv::ViewApp::Media", e.what());
-                                    }
-                                }
-                            }
-                        });
-
-                    p.queueTimer->start(
-                        timeout,
-                        [weak, timeout](float)
-                        {
-                            if (auto media = weak.lock())
-                            {
-                                if (media->_p->read)
-                                {
-                                    std::unique_lock<std::mutex> lock(media->_p->read->getMutex());
-                                    if (media->_p->queueCV.wait_for(
-                                        lock,
-                                        timeout,
-                                        [weak]
-                                        {
-                                            bool out = false;
-                                            if (auto media = weak.lock())
-                                            {
-                                                out = media->_p->read->getVideoQueue().hasFrames();
-                                            }
-                                            return out;
-                                        }))
-                                    {
-                                        auto& queue = media->_p->read->getVideoQueue();
-                                        auto frame = queue.getFrame();
-                                        media->_p->currentImage->setIfChanged(frame.image);
-                                    }
-                                }
-                            }
-                        });
-
                     p.cachedFramesTimer->start(
                         Time::getMilliseconds(Time::TimerValue::Medium),
                         [weak](float)
@@ -668,18 +617,26 @@ namespace djv
                         {
                             if (auto media = weak.lock())
                             {
+                                if (media->_p->read)
                                 {
-                                    std::lock_guard<std::mutex> lock(media->_p->read->getMutex());
-                                    auto& videoQueue = media->_p->read->getVideoQueue();
-                                    auto& audioQueue = media->_p->read->getAudioQueue();
-                                    media->_p->videoQueueMax->setAlways(videoQueue.getMax());
-                                    media->_p->videoQueueCount->setAlways(videoQueue.getFrameCount());
-                                    media->_p->audioQueueMax->setAlways(audioQueue.getMax());
-                                    media->_p->audioQueueCount->setAlways(audioQueue.getFrameCount());
+                                    size_t videoQueueMax   = 0;
+                                    size_t videoQueueCount = 0;
+                                    size_t audioQueueMax   = 0;
+                                    size_t audioQueueCount = 0;
+                                    {
+                                        std::lock_guard<std::mutex> lock(media->_p->read->getMutex());
+                                        const auto& videoQueue = media->_p->read->getVideoQueue();
+                                        const auto& audioQueue = media->_p->read->getAudioQueue();
+                                        videoQueueMax   = videoQueue.getMax();
+                                        videoQueueCount = videoQueue.getCount();
+                                        audioQueueMax   = audioQueue.getMax();
+                                        audioQueueCount = audioQueue.getCount();
+                                    }
+                                    media->_p->videoQueueMax->setAlways(videoQueueMax);
+                                    media->_p->videoQueueCount->setAlways(videoQueueCount);
+                                    media->_p->audioQueueMax->setAlways(audioQueueMax);
+                                    media->_p->audioQueueCount->setAlways(audioQueueCount);
                                 }
-                                ALint queued = 0;
-                                alGetSourcei(media->_p->alSource, AL_BUFFERS_QUEUED, &queued);
-                                media->_p->alQueueCount->setAlways(queued);
                             }
                         });
                 }
@@ -690,73 +647,130 @@ namespace djv
                     auto logSystem = context->getSystemT<LogSystem>();
                     logSystem->log("djv::ViewApp::Media", ss.str(), LogLevel::Error);
                 }
+                
+                _seek(p.currentFrame->get());
+
+                p.reload->setAlways(true);
+            }
+        }
+
+        void Media::_seek(Frame::Number value)
+        {
+            DJV_PRIVATE_PTR();
+            if (auto context = p.context.lock())
+            {
                 if (p.read)
                 {
-                    p.read->seek(p.currentFrame->get(), p.ioPlayback);
+                    p.read->seek(value, p.ioDirection);
                 }
-                p.reload->setAlways(true);
+                p.audioData.reset();
+                p.audioDataSamplesOffset = 0;
+                p.audioDataSamplesCount = 0;
+                p.audioDataSamplesTime = std::chrono::system_clock::now();
+                p.frameOffset = p.currentFrame->get();
+                p.startTime = std::chrono::system_clock::now();
+                p.realSpeedTime = p.startTime;
+                p.realSpeedFrameCount = 0;
+                if (_hasAudio() && p.rtAudio->isStreamRunning())
+                {
+                    try
+                    {
+                        p.rtAudio->abortStream();
+                        p.rtAudio->setStreamTime(0.0);
+                    }
+                    catch (const std::exception& e)
+                    {
+                        std::stringstream ss;
+                        ss << "djv::ViewApp::Media " << DJV_TEXT("cannot stop audio stream") << ". " << e.what();
+                        auto logSystem = context->getSystemT<LogSystem>();
+                        logSystem->log("djv::ViewApp::Media", ss.str(), LogLevel::Error);
+                    }
+                }
             }
         }
 
         void Media::_playbackUpdate()
         {
             DJV_PRIVATE_PTR();
-            bool forward = false;
-            switch (p.playback->get())
+            if (auto context = p.context.lock())
             {
-            case Playback::Stop:
-                if (p.alSource)
+                bool forward = false;
+                switch (p.playback->get())
                 {
-                    alSourceStop(p.alSource);
-                }
-                p.playbackTimer->stop();
-                p.realSpeedTimer->stop();
-                _frameUpdate();
-                if (p.read)
-                {
-                    p.read->seek(p.currentFrame->get(), p.ioPlayback);
-                }
-                break;
-            case Playback::Forward: forward = true;
-            case Playback::Reverse:
-            {
-                p.ioPlayback = forward ? AV::IO::Playback::Forward : AV::IO::Playback::Reverse;
-                p.alBytes = 0;
-                alSourcei(p.alSource, AL_BYTE_OFFSET, 0);
-                p.frameOffset = p.currentFrame->get();
-                p.startTime = std::chrono::system_clock::now();
-                p.realSpeedTime = p.startTime;
-                p.realSpeedFrameCount = 0;
-                if (p.read)
-                {
-                    p.read->seek(p.currentFrame->get(), p.ioPlayback);
-                }
-                auto weak = std::weak_ptr<Media>(std::dynamic_pointer_cast<Media>(shared_from_this()));
-                p.playbackTimer->start(
-                    Time::getMilliseconds(Time::TimerValue::VeryFast),
-                    [weak](float)
-                {
-                    if (auto media = weak.lock())
+                case Playback::Stop:
+                    if (_hasAudio() && p.rtAudio->isStreamRunning())
                     {
-                        media->_playbackTick();
+                        try
+                        {
+                            p.rtAudio->abortStream();
+                            p.rtAudio->setStreamTime(0.0);
+                        }
+                        catch (const std::exception& e)
+                        {
+                            std::stringstream ss;
+                            ss << "djv::ViewApp::Media " << DJV_TEXT("cannot stop audio stream") << ". " << e.what();
+                            auto logSystem = context->getSystemT<LogSystem>();
+                            logSystem->log("djv::ViewApp::Media", ss.str(), LogLevel::Error);
+                        }
                     }
-                });
-                p.realSpeedTimer->start(
-                    Time::getMilliseconds(Time::TimerValue::Slow),
-                    [weak](float)
+                    p.playbackTimer->stop();
+                    p.realSpeedTimer->stop();
+                    _seek(p.currentFrame->get());
+                    break;
+                case Playback::Forward: forward = true;
+                case Playback::Reverse:
+                {
+                    p.ioDirection = forward ? AV::IO::Direction::Forward : AV::IO::Direction::Reverse;
+                    _seek(p.currentFrame->get());
+                    p.audioData.reset();
+                    p.audioDataSamplesOffset = 0;
+                    p.audioDataSamplesCount = 0;
+                    p.audioDataSamplesTime = std::chrono::system_clock::now();
+                    p.frameOffset = p.currentFrame->get();
+                    p.startTime = std::chrono::system_clock::now();
+                    p.realSpeedTime = p.startTime;
+                    p.realSpeedFrameCount = 0;
+                    if (_hasAudio())
+                    {
+                        try
+                        {
+                            p.rtAudio->startStream();
+                        }
+                        catch (const std::exception& e)
+                        {
+                            std::stringstream ss;
+                            ss << "djv::ViewApp::Media " << DJV_TEXT("cannot start audio stream") << ". " << e.what();
+                            auto logSystem = context->getSystemT<LogSystem>();
+                            logSystem->log("djv::ViewApp::Media", ss.str(), LogLevel::Error);
+                        }
+                    }
+                    auto weak = std::weak_ptr<Media>(std::dynamic_pointer_cast<Media>(shared_from_this()));
+                    p.playbackTimer->start(
+                        Time::getMilliseconds(Time::TimerValue::VeryFast),
+                        [weak](float)
                     {
                         if (auto media = weak.lock())
                         {
-                            const auto now = std::chrono::system_clock::now();
-                            std::chrono::duration<double> delta = now - media->_p->realSpeedTime;
-                            media->_p->realSpeed->setIfChanged(delta.count() ? (media->_p->realSpeedFrameCount / static_cast<float>(delta.count())) : 0.f);
-                            media->_p->realSpeedTime = now;
-                            media->_p->realSpeedFrameCount = 0;
+                            media->_playbackTick();
                         }
                     });
-                break;
-            }
-            default: break;
+                    p.realSpeedTimer->start(
+                        Time::getMilliseconds(Time::TimerValue::Slow),
+                        [weak](float)
+                        {
+                            if (auto media = weak.lock())
+                            {
+                                const auto now = std::chrono::system_clock::now();
+                                std::chrono::duration<double> delta = now - media->_p->realSpeedTime;
+                                media->_p->realSpeed->setIfChanged(delta.count() ? (media->_p->realSpeedFrameCount / static_cast<float>(delta.count())) : 0.f);
+                                media->_p->realSpeedTime = now;
+                                media->_p->realSpeedFrameCount = 0;
+                            }
+                        });
+                    break;
+                }
+                default: break;
+                }
             }
         }
 
@@ -764,65 +778,42 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const Playback playback = p.playback->get();
+            bool forward = false;
             switch (playback)
             {
-            case Playback::Forward:
+            case Playback::Forward: forward = true;
             case Playback::Reverse:
             {
-                if (Playback::Forward == p.playback->get() && p.audioInfo.info.isValid() && p.alSource)
-                {
-                    // Don't start OpenAL playing until there are frames in the queue.
-                    size_t count = 0;
-                    size_t max = 0;
-                    {
-                        std::lock_guard<std::mutex> lock(p.read->getMutex());
-                        auto& queue = p.read->getAudioQueue();
-                        count = queue.getFrameCount();
-                        max = queue.getMax();
-                    }
-                    ALint state = 0;
-                    alGetSourcei(p.alSource, AL_SOURCE_STATE, &state);
-                    if (state != AL_PLAYING && count > max / 2)
-                    {
-                        alSourcePlay(p.alSource);
-                    }
-                }
-
                 Frame::Number frame = Frame::invalid;
                 const auto& speed = p.speed->get();
-                if (Playback::Forward == p.playback->get() && p.audioInfo.info.isValid() && p.alSource)
+                const auto now = std::chrono::system_clock::now();
+                if (forward && _hasAudio())
                 {
-                    ALint offset = 0;
-                    alGetSourcei(p.alSource, AL_BYTE_OFFSET, &offset);
-                    frame = p.frameOffset + Time::scale(
-                        (p.alBytes + offset) / p.audioInfo.info.channelCount / AV::Audio::getByteCount(p.audioInfo.info.type),
-                        Math::Rational(1, static_cast<int>(p.audioInfo.info.sampleRate)),
-                        p.speed->get().swap());
+                    if (p.audioDataSamplesCount)
+                    {
+                        std::chrono::duration<double> delta = now - p.audioDataSamplesTime;
+                        frame = p.frameOffset +
+                            Time::scale(
+                                p.audioDataSamplesCount,
+                                Math::Rational(1, static_cast<int>(p.audioInfo.info.sampleRate)),
+                                speed.swap()) +
+                            delta.count() * speed.toFloat();
+                    }
+                    else
+                    {
+                        frame = p.currentFrame->get();
+                    }
                 }
                 else
                 {
-                    const auto now = std::chrono::system_clock::now();
                     std::chrono::duration<double> delta = now - p.startTime;
                     Frame::Number elapsed = static_cast<Frame::Number>(delta.count() * speed.toFloat());
-
                     switch (playback)
                     {
                     case Playback::Forward: frame = p.frameOffset + elapsed; break;
                     case Playback::Reverse: frame = p.frameOffset - elapsed; break;
                     default: break;
                     }
-
-                    /*switch (playback)
-                    {
-                    case Playback::Forward: frame = p.currentFrame->get() + Time::scale(1, speed.swap(), Time::getTimebaseRational()); break;
-                    case Playback::Reverse: frame = p.currentFrame->get() - Time::scale(1, speed.swap(), Time::getTimebaseRational()); break;
-                    default: break;
-                    }*/
-                    /*{
-                        std::stringstream ss;
-                        ss << "video frame = " << frame;
-                        p.context->getSystemT<LogSystem>()->log("djv::ViewApp::Media", ss.str());
-                    }*/
                 }
 
                 Frame::Number start = 0;
@@ -880,99 +871,139 @@ namespace djv
                     }
                 }
                 p.currentFrame->setIfChanged(frame);
-                if (p.read && Playback::Reverse == p.playback->get() && p.audioInfo.info.isValid() && p.alSource)
-                {
-                    p.read->seek(frame, p.ioPlayback);
-                }
-                _frameUpdate();
                 break;
             }
             default: break;
             }
         }
 
-        void Media::_frameUpdate()
+        void Media::_queueUpdate()
         {
             DJV_PRIVATE_PTR();
             if (p.read)
             {
                 // Update the video queue.
+                const bool forward = Playback::Forward == p.playback->get();
+                const Frame::Number currentFrame = p.currentFrame->get();
+                std::shared_ptr<AV::Image::Image> image;
                 {
                     std::lock_guard<std::mutex> lock(p.read->getMutex());
                     auto& queue = p.read->getVideoQueue();
-                    const bool forward = Playback::Forward == p.playback->get();
-                    while (queue.hasFrames() && forward ?
-                        (queue.getFrame().frame < p.currentFrame->get()) :
-                        (queue.getFrame().frame > p.currentFrame->get()))
+                    while (!queue.isEmpty() &&
+                        (forward ? (queue.getFrame().frame < currentFrame) : (queue.getFrame().frame > currentFrame)))
                     {
                         auto frame = queue.popFrame();
                         p.realSpeedFrameCount = p.realSpeedFrameCount + 1;
                     }
-                }
-
-                // Unqueue the processed OpenAL buffers.
-                if (p.alSource)
-                {
-                    ALint processed = 0;
-                    alGetSourcei(p.alSource, AL_BUFFERS_PROCESSED, &processed);
-                    std::vector<ALuint> buffers;
-                    buffers.resize(processed);
-                    alSourceUnqueueBuffers(p.alSource, processed, buffers.data());
-                    for (const auto& buffer : buffers)
+                    if (!queue.isEmpty())
                     {
-                        p.alBuffers.push_back(buffer);
-                        if (p.playback->get() != Playback::Stop)
-                        {
-                            ALint size = 0;
-                            alGetBufferi(buffer, AL_SIZE, &size);
-                            p.alBytes += size;
-                        }
+                        image = queue.getFrame().image;
                     }
                 }
-
-                if (Playback::Forward == p.playback->get() && p.audioInfo.info.isValid() && p.alSource)
+                if (image)
                 {
-                    // Fill the OpenAL queue with frames from the I/O queue.
-                    ALint queued = 0;
-                    alGetSourcei(p.alSource, AL_BUFFERS_QUEUED, &queued);
-                    std::vector<AV::IO::AudioFrame> frames;
-                    {
-                        std::lock_guard<std::mutex> lock(p.read->getMutex());
-                        auto& queue = p.read->getAudioQueue();
-                        while (queue.hasFrames() &&
-                            (frames.size() < (bufferCount - queued)) &&
-                            (frames.size() < p.alBuffers.size()))
-                        {
-                            frames.push_back(queue.popFrame());
-                        }
-                    }
-                    for (size_t i = 0; i < frames.size(); ++i)
-                    {
-                        auto data = frames[i].audio;
-                        const AV::Audio::DataInfo info = data->getInfo();
-                        auto buffer = p.alBuffers.back();
-                        p.alBuffers.pop_back();
-                        alBufferData(
-                            buffer,
-                            AV::Audio::getALType(info.channelCount, info.type),
-                            data->getData(),
-                            data->getByteCount(),
-                            static_cast<ALsizei>(info.sampleRate));
-                        alSourceQueueBuffers(p.alSource, 1, &buffer);
-                    }
+                    p.currentImage->setIfChanged(image);
                 }
             }
         }
-
-        void Media::_volumeUpdate()
+        
+        int Media::_rtAudioCallback(
+            void* outputBuffer,
+            void* inputBuffer,
+            unsigned int nFrames,
+            double streamTime,
+            RtAudioStreamStatus status,
+            void* userData)
         {
-            DJV_PRIVATE_PTR();
-            if (p.alSource)
+            Media* media = reinterpret_cast<Media*>(userData);
+            const auto& info = media->_p->audioInfo;
+
+            size_t outputSampleCount = static_cast<size_t>(nFrames);
+            size_t sampleCount = 0;
+            const size_t sampleByteCount = info.info.channelCount * AV::Audio::getByteCount(info.info.type);
+            const float volume = !media->_p->mute->get() ? media->_p->volume->get() : 0.f;
+
+            if (media->_p->audioData)
             {
-                const float volume = !p.mute->get() ? p.volume->get() : 0.f;
-                alSourcef(p.alSource, AL_GAIN, volume);
+                sampleCount += media->_p->audioData->getSampleCount() - media->_p->audioDataSamplesOffset;
             }
+
+            std::vector<AV::IO::AudioFrame> frames;
+            {
+                std::lock_guard<std::mutex> lock(media->_p->read->getMutex());
+                auto& queue = media->_p->read->getAudioQueue();
+                while (!queue.isEmpty() && sampleCount < outputSampleCount)
+                {
+                    auto frame = queue.getFrame();
+                    frames.push_back(frame);
+                    queue.popFrame();
+                    sampleCount += frame.audio->getSampleCount();
+                }
+            }
+
+            uint8_t* p = reinterpret_cast<uint8_t*>(outputBuffer);
+            if (media->_p->audioData)
+            {
+                const size_t size = std::min(media->_p->audioData->getSampleCount() - media->_p->audioDataSamplesOffset, outputSampleCount);
+                //memcpy(
+                //    p,
+                //    media->_p->audioData->getData() + media->_p->audioDataSamplesOffset * sampleByteCount,
+                //    size * sampleByteCount);
+                AV::Audio::Data::volume(
+                    media->_p->audioData->getData() + media->_p->audioDataSamplesOffset * sampleByteCount,
+                    p,
+                    volume,
+                    size,
+                    info.info.channelCount,
+                    info.info.type);
+                p += size * sampleByteCount;
+                media->_p->audioDataSamplesOffset += size;
+                media->_p->audioDataSamplesCount += size;
+                media->_p->audioDataSamplesTime = std::chrono::system_clock::now();
+                outputSampleCount -= size;
+                if (media->_p->audioDataSamplesOffset >= media->_p->audioData->getSampleCount())
+                {
+                    media->_p->audioData.reset();
+                    media->_p->audioDataSamplesOffset = 0;
+                }
+            }
+
+            for (const auto& i : frames)
+            {
+                media->_p->audioData = i.audio;
+                size_t size = std::min(i.audio->getSampleCount(), outputSampleCount);
+                //memcpy(
+                //    p,
+                //    i.audio->getData(),
+                //    size * sampleByteCount);
+                AV::Audio::Data::volume(
+                    i.audio->getData(),
+                    p,
+                    volume,
+                    size,
+                    info.info.channelCount,
+                    info.info.type);
+                p += size * sampleByteCount;
+                media->_p->audioDataSamplesOffset = size;
+                media->_p->audioDataSamplesCount += size;
+                media->_p->audioDataSamplesTime = std::chrono::system_clock::now();
+                outputSampleCount -= size;
+            }
+
+            const size_t zero = (nFrames * sampleByteCount) - (p - reinterpret_cast<uint8_t*>(outputBuffer));
+            if (zero)
+            {
+                //! \todo What is the correct value for silence?
+                memset(p, 0, zero);
+            }
+
+            return 0;
         }
+
+        void Media::_rtAudioErrorCallback(
+            RtAudioError::Type type,
+            const std::string& errorText)
+        {}
 
     } // namespace ViewApp
 } // namespace djv
