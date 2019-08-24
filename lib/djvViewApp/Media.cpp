@@ -795,13 +795,20 @@ namespace djv
                 const auto now = std::chrono::system_clock::now();
                 if (forward && _hasAudio())
                 {
-                    std::chrono::duration<double> delta = now - _p->audioDataSamplesTime;
-                    frame = p.frameOffset +
-                        Time::scale(
-                            p.audioDataSamplesCount,
-                            Math::Rational(1, static_cast<int>(p.audioInfo.info.sampleRate)),
-                            speed.swap()) +
-                        delta.count() * speed.toFloat();
+                    if (p.audioDataSamplesCount)
+                    {
+                        std::chrono::duration<double> delta = now - p.audioDataSamplesTime;
+                        frame = p.frameOffset +
+                            Time::scale(
+                                p.audioDataSamplesCount,
+                                Math::Rational(1, static_cast<int>(p.audioInfo.info.sampleRate)),
+                                speed.swap()) +
+                            delta.count() * speed.toFloat();
+                    }
+                    else
+                    {
+                        frame = p.currentFrame->get();
+                    }
                 }
                 else
                 {
