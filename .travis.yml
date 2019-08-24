@@ -8,7 +8,7 @@ install:
 - sudo apt-get install xorg-dev libglu1-mesa-dev mesa-common-dev
 - sudo apt-get install libasound2-dev
 - sudo apt-get install libpulse-dev
-- sudo apt-get install python3.7
+- sudo apt-get install python3.7 python3.7-dev
 services:
 - xvfb
 branches:
