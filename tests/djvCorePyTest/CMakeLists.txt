@@ -1,5 +1,5 @@
 set(tests
-    AnimationTest
+    #AnimationTest
     BBoxTest
     ContextTest
     PathTest
