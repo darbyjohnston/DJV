@@ -99,7 +99,7 @@ namespace djv
             bool playEveryFrame = false;
             Frame::Sequence sequence;
             Frame::Number currentFrame = Frame::invalid;
-            Playback playbackPrev = Playback::Stop;
+            Playback playbackPrev = Playback::Count;
             AV::TimeUnits timeUnits = AV::TimeUnits::First;
             ImageViewLock viewLock = ImageViewLock::First;
             bool frameStoreEnabled = false;
@@ -509,7 +509,7 @@ namespace djv
                             {
                                 widget->_p->playbackPrev = media->observePlayback()->get();
                             }
-                            else
+                            else if (widget->_p->playbackPrev != Playback::Count)
                             {
                                 media->setPlayback(widget->_p->playbackPrev);
                             }

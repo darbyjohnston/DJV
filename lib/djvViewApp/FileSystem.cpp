@@ -667,12 +667,16 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
+                value->setThreadCount(p.threadCount);
                 auto settingsSystem = context->getSystemT<UI::Settings::System>();
                 if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
                 {
                     value->setPlayEveryFrame(playbackSettings->observePlayEveryFrame()->get());
+                    if (playbackSettings->observeStartPlayback()->get())
+                    {
+                        value->setPlayback(Playback::Forward);
+                    }
                 }
-                value->setThreadCount(p.threadCount);
             }
         }
 

@@ -52,6 +52,9 @@ namespace djv
         public:
             static std::shared_ptr<PlaybackSettings> create(const std::shared_ptr<Core::Context>&);
 
+            std::shared_ptr<Core::IValueSubject<bool> > observeStartPlayback() const;
+            void setStartPlayback(bool);
+
             std::shared_ptr<Core::IValueSubject<bool> > observePlayEveryFrame() const;
             void setPlayEveryFrame(bool);
 
