@@ -22,6 +22,7 @@ addons:
 before_script:
 - mkdir build
 - cd build
+- export PYTHONPATH=$PWD/build/lib:$PYTHONPATH
 - build-wrapper-linux-x86-64 --out-dir ../bw-output cmake .. -DDJV_THIRD_PARTY=TRUE -DDJV_PYTHON=TRUE && make && make test
 - cd ..
 script:
