@@ -443,18 +443,12 @@ namespace djv
 
         void Media::setVolume(float value)
         {
-            if (_p->volume->setIfChanged(Math::clamp(value, 0.f, 1.f)))
-            {
-                _volumeUpdate();
-            }
+            _p->volume->setIfChanged(Math::clamp(value, 0.f, 1.f));
         }
 
         void Media::setMute(bool value)
         {
-            if (_p->mute->setIfChanged(value))
-            {
-                _volumeUpdate();
-            }
+            _p->mute->setIfChanged(value);
         }
 
         std::shared_ptr<IValueSubject<size_t> > Media::observeThreadCount() const
@@ -910,15 +904,6 @@ namespace djv
                 {
                     p.currentImage->setIfChanged(image);
                 }
-            }
-        }
-
-        void Media::_volumeUpdate()
-        {
-            DJV_PRIVATE_PTR();
-            if (_hasAudio())
-            {
-                const float volume = !p.mute->get() ? p.volume->get() : 0.f;
             }
         }
         

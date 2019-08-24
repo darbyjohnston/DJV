@@ -180,7 +180,6 @@ namespace djv
             void _playbackUpdate();
             void _playbackTick();
             void _queueUpdate();
-            void _volumeUpdate();
 
             static int _rtAudioCallback(
                 void* outputBuffer,
