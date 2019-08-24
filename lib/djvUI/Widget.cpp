@@ -694,14 +694,15 @@ namespace djv
         std::shared_ptr<Widget> Widget::_createTooltipDefault(const std::string & text)
         {
             std::shared_ptr<Widget> out;
-            /*if (auto context = getContext().lock())
+            if (auto context = getContext().lock())
             {
-                auto textBlock = TextBlock::create(text, context);
+                auto textBlock = TextBlock::create(context);
+                textBlock->setText(text);
                 textBlock->setTextColorRole(ColorRole::TooltipForeground);
                 textBlock->setBackgroundRole(ColorRole::TooltipBackground);
                 textBlock->setMargin(MetricsRole::Margin);
                 out = textBlock;
-            }*/
+            }
             return out;
         }
 
