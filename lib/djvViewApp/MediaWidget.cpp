@@ -935,13 +935,18 @@ namespace djv
                     Time::Speed(240),
                     Time::Speed(120),
                     Time::Speed(60),
+                    Time::Speed(60000, 1001),
+                    Time::Speed(50),
                     Time::Speed(48),
                     Time::Speed(30),
                     Time::Speed(30000, 1001),
                     Time::Speed(25),
                     Time::Speed(24),
                     Time::Speed(24000, 1001),
-                    Time::Speed(16)
+                    Time::Speed(16),
+                    Time::Speed(12),
+                    Time::Speed(8),
+                    Time::Speed(6)
                 };
                 for (const auto& i : p.speeds)
                 {
