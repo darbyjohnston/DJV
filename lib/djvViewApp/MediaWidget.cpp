@@ -955,6 +955,7 @@ namespace djv
                     ss.precision(3);
                     ss << std::fixed << i.toFloat();
                     button->setText(ss.str());
+                    button->setEnabled(!p.ioInfo.audio.size());
                     p.speedButtonGroup->addButton(button);
                     p.speedButtonLayout->addChild(button);
                 }
@@ -965,10 +966,12 @@ namespace djv
                 ss.precision(3);
                 ss << std::fixed << p.defaultSpeed.toFloat();
                 button->setText(ss.str());
+                button->setEnabled(!p.ioInfo.audio.size());
                 p.speedButtonGroup->addButton(button);
                 p.speedButtonLayout->addChild(button);
 
                 p.playEveryFrameLabel->setText(_getText(DJV_TEXT("Play every frame")) + ":");
+
                 {
                     std::stringstream ss;
                     ss.precision(3);
