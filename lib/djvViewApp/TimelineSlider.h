@@ -57,7 +57,7 @@ namespace djv
 
             static std::shared_ptr<TimelineSlider> create(const std::shared_ptr<Core::Context>&);
 
-            std::shared_ptr<Core::IValueSubject<Core::Frame::Number> > observeCurrentFrame() const;
+            std::shared_ptr<Core::IValueSubject<Core::Frame::Index> > observeCurrentFrame() const;
             std::shared_ptr<Core::ValueSubject<bool> > observeCurrentFrameChange() const;
 
             void setMedia(const std::shared_ptr<Media>&);
@@ -76,8 +76,8 @@ namespace djv
             void _updateEvent(Core::Event::Update &) override;
 
         private:
-            Core::Frame::Number _posToFrame(float) const;
-            float _frameToPos(Core::Frame::Number) const;
+            Core::Frame::Index _posToFrame(float) const;
+            float _frameToPos(Core::Frame::Index) const;
             Core::BBox2f _getHandleGeometry() const;
             void _textUpdate();
 

@@ -100,7 +100,7 @@ namespace djv
             float realSpeed = 0.f;
             bool playEveryFrame = false;
             Frame::Sequence sequence;
-            Frame::Number currentFrame = Frame::invalid;
+            Frame::Index currentFrame = Frame::invalidIndex;
             Playback playbackPrev = Playback::Count;
             AV::TimeUnits timeUnits = AV::TimeUnits::First;
             ImageViewLock viewLock = ImageViewLock::First;
@@ -138,7 +138,7 @@ namespace djv
 
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<AV::IO::Info> > ioInfoObserver;
-            std::shared_ptr<ValueObserver<Frame::Number> > currentFrameObserver;
+            std::shared_ptr<ValueObserver<Frame::Index> > currentFrameObserver;
             std::shared_ptr<ValueObserver<bool> > currentFrameChangeObserver;
             std::shared_ptr<ValueObserver<AV::TimeUnits> > timeUnitsObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
@@ -147,7 +147,7 @@ namespace djv
             std::shared_ptr<ValueObserver<float> > realSpeedObserver;
             std::shared_ptr<ValueObserver<bool> > playEveryFrameObserver;
             std::shared_ptr<ValueObserver<Frame::Sequence> > sequenceObserver;
-            std::shared_ptr<ValueObserver<Frame::Number> > currentFrameObserver2;
+            std::shared_ptr<ValueObserver<Frame::Index> > currentFrameObserver2;
             std::shared_ptr<ValueObserver<Playback> > playbackObserver;
             std::shared_ptr<ValueObserver<bool> > audioEnabledObserver;
             std::shared_ptr<ValueObserver<float> > volumeObserver;
@@ -497,9 +497,9 @@ namespace djv
                     }
                 });
 
-            p.currentFrameObserver = ValueObserver<Frame::Number>::create(
+            p.currentFrameObserver = ValueObserver<Frame::Index>::create(
                 p.timelineSlider->observeCurrentFrame(),
-                [weak](Frame::Number value)
+                [weak](Frame::Index value)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -623,9 +623,9 @@ namespace djv
                     }
                 });
 
-            p.currentFrameObserver2 = ValueObserver<Frame::Number>::create(
+            p.currentFrameObserver2 = ValueObserver<Frame::Index>::create(
                 p.media->observeCurrentFrame(),
-                [weak](Frame::Number value)
+                [weak](Frame::Index value)
                 {
                     if (auto widget = weak.lock())
                     {

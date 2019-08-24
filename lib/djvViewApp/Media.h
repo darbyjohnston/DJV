@@ -106,16 +106,16 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<float> > observeRealSpeed() const;
             std::shared_ptr<Core::IValueSubject<bool> > observePlayEveryFrame() const;
             std::shared_ptr<Core::IValueSubject<Core::Frame::Sequence> > observeSequence() const;
-            std::shared_ptr<Core::IValueSubject<Core::Frame::Number> > observeCurrentFrame() const;
+            std::shared_ptr<Core::IValueSubject<Core::Frame::Index> > observeCurrentFrame() const;
             std::shared_ptr<Core::IValueSubject<Playback> > observePlayback() const;
             std::shared_ptr<Core::IValueSubject<PlaybackMode> > observePlaybackMode() const;
             std::shared_ptr<Core::IValueSubject<bool> > observeInOutPointsEnabled() const;
-            std::shared_ptr<Core::IValueSubject<Core::Frame::Number> > observeInPoint() const;
-            std::shared_ptr<Core::IValueSubject<Core::Frame::Number> > observeOutPoint() const;
+            std::shared_ptr<Core::IValueSubject<Core::Frame::Index> > observeInPoint() const;
+            std::shared_ptr<Core::IValueSubject<Core::Frame::Index> > observeOutPoint() const;
 
             void setSpeed(const Core::Time::Speed&);
             void setPlayEveryFrame(bool);
-            void setCurrentFrame(Core::Frame::Number);
+            void setCurrentFrame(Core::Frame::Index);
             void setPlayback(Playback);
             void setPlaybackMode(PlaybackMode);
             void inPoint();
@@ -125,8 +125,8 @@ namespace djv
             void nextFrame(size_t = 1);
             void prevFrame(size_t = 1);
             void setInOutPointsEnabled(bool);
-            void setInPoint(Core::Frame::Number);
-            void setOutPoint(Core::Frame::Number);
+            void setInPoint(Core::Frame::Index);
+            void setOutPoint(Core::Frame::Index);
             void resetInPoint();
             void resetOutPoint();
 
@@ -179,8 +179,8 @@ namespace djv
             bool _isAudioEnabled() const;
             bool _hasAudioSyncPlayback() const;
             void _open();
-            void _setCurrentFrame(Core::Frame::Number);
-            void _seek(Core::Frame::Number);
+            void _setCurrentFrame(Core::Frame::Index);
+            void _seek(Core::Frame::Index);
             void _playbackUpdate();
             void _playbackTick();
             void _startAudioStream();

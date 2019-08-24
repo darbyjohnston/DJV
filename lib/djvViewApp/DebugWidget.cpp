@@ -397,7 +397,7 @@ namespace djv
                 void _widgetUpdate();
 
                 Frame::Sequence _sequence;
-                Frame::Number _currentFrame = 0;
+                Frame::Index _currentFrame = 0;
                 size_t _videoQueueMax = 0;
                 size_t _videoQueueCount = 0;
                 size_t _audioQueueMax = 0;
@@ -407,7 +407,7 @@ namespace djv
                 std::shared_ptr<UI::VerticalLayout> _layout;
                 std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > _currentMediaObserver;
                 std::shared_ptr<ValueObserver<Frame::Sequence> > _sequenceObserver;
-                std::shared_ptr<ValueObserver<Frame::Number> > _currentFrameObserver;
+                std::shared_ptr<ValueObserver<Frame::Index> > _currentFrameObserver;
                 std::shared_ptr<ValueObserver<size_t> > _videoQueueMaxObserver;
                 std::shared_ptr<ValueObserver<size_t> > _videoQueueCountObserver;
                 std::shared_ptr<ValueObserver<size_t> > _audioQueueMaxObserver;
@@ -470,9 +470,9 @@ namespace djv
                                         widget->_widgetUpdate();
                                     }
                                 });
-                                widget->_currentFrameObserver = ValueObserver<Frame::Number>::create(
+                                widget->_currentFrameObserver = ValueObserver<Frame::Index>::create(
                                     value->observeCurrentFrame(),
-                                    [weak](Frame::Number value)
+                                    [weak](Frame::Index value)
                                 {
                                     if (auto widget = weak.lock())
                                     {

@@ -86,7 +86,7 @@ namespace djv
             void setSequence(const Core::Frame::Sequence&);
             void setSpeed(const Core::Time::Speed&);
             void setFrame(const Core::Frame::Index);
-            void setCallback(const std::function<void(Core::Frame::Number)>&);
+            void setCallback(const std::function<void(Core::Frame::Index)>&);
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout&) override;
@@ -101,7 +101,7 @@ namespace djv
             Core::Time::Speed _speed;
             Core::Frame::Index _index = 0;
             std::shared_ptr<UI::LineEdit> _lineEdit;
-            std::function<void(Core::Frame::Number)> _callback;
+            std::function<void(Core::Frame::Index)> _callback;
             std::map<std::string, std::shared_ptr<Core::ValueObserver<bool> > > _actionObservers;
             std::shared_ptr<Core::ValueObserver<AV::TimeUnits> > _timeUnitsObserver;
         };

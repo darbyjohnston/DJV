@@ -69,13 +69,13 @@ namespace djv
             std::shared_ptr<ValueSubject<float> > realSpeed;
             std::shared_ptr<ValueSubject<bool> > playEveryFrame;
             std::shared_ptr<ValueSubject<Frame::Sequence> > sequence;
-            std::shared_ptr<ValueSubject<Frame::Number> > currentFrame;
+            std::shared_ptr<ValueSubject<Frame::Index> > currentFrame;
             std::shared_ptr<ValueSubject<std::shared_ptr<AV::Image::Image> > > currentImage;
             std::shared_ptr<ValueSubject<Playback> > playback;
             std::shared_ptr<ValueSubject<PlaybackMode> > playbackMode;
             std::shared_ptr<ValueSubject<bool> > inOutPointsEnabled;
-            std::shared_ptr<ValueSubject<Frame::Number> > inPoint;
-            std::shared_ptr<ValueSubject<Frame::Number> > outPoint;
+            std::shared_ptr<ValueSubject<Frame::Index> > inPoint;
+            std::shared_ptr<ValueSubject<Frame::Index> > outPoint;
             std::shared_ptr<ValueSubject<bool> > audioEnabled;
             std::shared_ptr<ValueSubject<float> > volume;
             std::shared_ptr<ValueSubject<bool> > mute;
@@ -94,7 +94,7 @@ namespace djv
             size_t audioDataSamplesOffset = 0;
             size_t audioDataSamplesCount = 0;
             std::chrono::system_clock::time_point audioDataSamplesTime;
-            Frame::Number frameOffset = 0;
+            Frame::Index frameOffset = 0;
             std::chrono::system_clock::time_point startTime;
             std::chrono::system_clock::time_point realSpeedTime;
             size_t realSpeedFrameCount = 0;
@@ -120,13 +120,13 @@ namespace djv
             p.realSpeed = ValueSubject<float>::create();
             p.playEveryFrame = ValueSubject<bool>::create();
             p.sequence = ValueSubject<Frame::Sequence>::create();
-            p.currentFrame = ValueSubject<Frame::Number>::create();
+            p.currentFrame = ValueSubject<Frame::Index>::create();
             p.currentImage = ValueSubject<std::shared_ptr<AV::Image::Image> >::create();
             p.playback = ValueSubject<Playback>::create();
             p.playbackMode = ValueSubject<PlaybackMode>::create(PlaybackMode::Loop);
             p.inOutPointsEnabled = ValueSubject<bool>::create(false);
-            p.inPoint = ValueSubject<Frame::Number>::create(Frame::invalid);
-            p.outPoint = ValueSubject<Frame::Number>::create(Frame::invalid);
+            p.inPoint = ValueSubject<Frame::Index>::create(Frame::invalid);
+            p.outPoint = ValueSubject<Frame::Index>::create(Frame::invalid);
             p.volume = ValueSubject<float>::create(1.f);
             p.audioEnabled = ValueSubject<bool>::create(false);
             p.mute = ValueSubject<bool>::create(false);
@@ -285,7 +285,7 @@ namespace djv
             return _p->sequence;
         }
 
-        std::shared_ptr<IValueSubject<Frame::Number> > Media::observeCurrentFrame() const
+        std::shared_ptr<IValueSubject<Frame::Index> > Media::observeCurrentFrame() const
         {
             return _p->currentFrame;
         }
@@ -305,12 +305,12 @@ namespace djv
             return _p->inOutPointsEnabled;
         }
 
-        std::shared_ptr<IValueSubject<Frame::Number> > Media::observeInPoint() const
+        std::shared_ptr<IValueSubject<Frame::Index> > Media::observeInPoint() const
         {
             return _p->inPoint;
         }
 
-        std::shared_ptr<IValueSubject<Frame::Number> > Media::observeOutPoint() const
+        std::shared_ptr<IValueSubject<Frame::Index> > Media::observeOutPoint() const
         {
             return _p->outPoint;
         }
@@ -343,18 +343,18 @@ namespace djv
             }
         }
 
-        void Media::setCurrentFrame(Frame::Number value)
+        void Media::setCurrentFrame(Frame::Index value)
         {
             DJV_PRIVATE_PTR();
-            Frame::Number start = 0;
+            Frame::Index start = 0;
             const size_t size = p.sequence->get().getSize();
-            Frame::Number end = static_cast<Frame::Number>(size) - 1;
+            Frame::Index end = size > 0 ? (static_cast<Frame::Index>(size) - 1) : 0;
             if (p.inOutPointsEnabled->get())
             {
                 start = p.inPoint->get();
                 end = p.outPoint->get();
             }
-            Frame::Number tmp = value;
+            Frame::Index tmp = value;
             if (tmp > end)
             {
                 tmp = 0;
@@ -389,22 +389,22 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const size_t size = p.sequence->get().getSize();
-            const Frame::Number frame = size > 0 ? (size - 1) : 0;
+            const Frame::Index frame = size > 0 ? (size - 1) : 0;
             setCurrentFrame(frame);
         }
 
         void Media::nextFrame(size_t value)
         {
             DJV_PRIVATE_PTR();
-            const Frame::Number frame = p.currentFrame->get();
-            setCurrentFrame(frame + static_cast<Frame::Number>(value));
+            const Frame::Index frame = p.currentFrame->get();
+            setCurrentFrame(frame + static_cast<Frame::Index>(value));
         }
 
         void Media::prevFrame(size_t value)
         {
             DJV_PRIVATE_PTR();
-            const Frame::Number frame = p.currentFrame->get();
-            setCurrentFrame(frame - static_cast<Frame::Number>(value));
+            const Frame::Index frame = p.currentFrame->get();
+            setCurrentFrame(frame - static_cast<Frame::Index>(value));
         }
 
         void Media::setPlayback(Playback value)
@@ -425,12 +425,12 @@ namespace djv
             _p->inOutPointsEnabled->setIfChanged(value);
         }
 
-        void Media::setInPoint(Frame::Number value)
+        void Media::setInPoint(Frame::Index value)
         {
             _p->inPoint->setIfChanged(value);
         }
 
-        void Media::setOutPoint(Frame::Number value)
+        void Media::setOutPoint(Frame::Index value)
         {
             _p->outPoint->setIfChanged(value);
         }
@@ -689,12 +689,13 @@ namespace djv
             }
         }
 
-        void Media::_setCurrentFrame(Frame::Number value)
+        void Media::_setCurrentFrame(Frame::Index value)
         {
             DJV_PRIVATE_PTR();
-            Frame::Number start = 0;
+            Frame::Index start = 0;
             const Frame::Sequence& sequence = p.sequence->get();
-            Frame::Number end = static_cast<Frame::Number>(sequence.getSize()) - 1;
+            const size_t size = sequence.getSize();
+            Frame::Index end = size > 0 ? (static_cast<Frame::Index>(size) - 1) : 0;
             if (p.inOutPointsEnabled->get())
             {
                 start = p.inPoint->get();
@@ -750,7 +751,7 @@ namespace djv
             p.currentFrame->setIfChanged(value);
         }
 
-        void Media::_seek(Frame::Number value)
+        void Media::_seek(Frame::Index value)
         {
             DJV_PRIVATE_PTR();
             if (auto context = p.context.lock())
@@ -853,7 +854,7 @@ namespace djv
                     if (p.audioDataSamplesCount)
                     {
                         std::chrono::duration<double> delta = now - p.audioDataSamplesTime;
-                        Frame::Number frame = p.frameOffset +
+                        Frame::Index frame = p.frameOffset +
                             Time::scale(
                                 p.audioDataSamplesCount,
                                 Math::Rational(1, static_cast<int>(p.audioInfo.info.sampleRate)),
@@ -868,8 +869,8 @@ namespace djv
                 else
                 {
                     std::chrono::duration<double> delta = now - p.startTime;
-                    Frame::Number elapsed = static_cast<Frame::Number>(delta.count() * speed.toFloat());
-                    Frame::Number frame = Frame::invalid;
+                    Frame::Index elapsed = static_cast<Frame::Index>(delta.count() * speed.toFloat());
+                    Frame::Index frame = Frame::invalid;
                     switch (playback)
                     {
                     case Playback::Forward: frame = p.frameOffset + elapsed; break;
@@ -937,7 +938,7 @@ namespace djv
                 const auto now = std::chrono::system_clock::now();
                 const std::chrono::duration<double> playEveryFrameDelta = now - p.playEveryFrameTime;
                 const bool playEveryFrameAdvance = playEveryFrameDelta.count() > (1.f / p.speed->get().toFloat());
-                const Frame::Number currentFrame = p.currentFrame->get();
+                const Frame::Index currentFrame = p.currentFrame->get();
                 AV::IO::VideoFrame frame;
                 {
                     std::lock_guard<std::mutex> lock(p.read->getMutex());

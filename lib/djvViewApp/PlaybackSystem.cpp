@@ -62,7 +62,7 @@ namespace djv
             Playback playback = Playback::Forward;
             glm::vec2 hoverPos = glm::vec2(0.f, 0.f);
             glm::vec2 dragStart = glm::vec2(0.f, 0.f);
-            Frame::Number dragStartFrame = Frame::invalid;
+            Frame::Index dragStartFrame = Frame::invalidIndex;
             Playback dragStartPlayback = Playback::Stop;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> playbackActionGroup;
@@ -496,7 +496,7 @@ namespace djv
                                                         break;
                                                     case PointerState::Move:
                                                     {
-                                                        const Frame::Number offset = value.pos.x - system->_p->dragStart.x;
+                                                        const Frame::Index offset = value.pos.x - system->_p->dragStart.x;
                                                         media->setCurrentFrame(system->_p->dragStartFrame + offset);
                                                         break;
                                                     }

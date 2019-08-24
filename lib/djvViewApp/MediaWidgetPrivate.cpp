@@ -281,7 +281,7 @@ namespace djv
             _widgetUpdate();
         }
 
-        void CurrentFrameWidget::setCallback(const std::function<void(Frame::Number)>& value)
+        void CurrentFrameWidget::setCallback(const std::function<void(Frame::Index)>& value)
         {
             _callback = value;
         }

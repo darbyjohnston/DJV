@@ -73,7 +73,7 @@ namespace djv
                 static std::shared_ptr<PIPWidget> create(const std::shared_ptr<Context>&);
 
                 void setPIPFileInfo(const Core::FileSystem::FileInfo&);
-                void setPIPPos(const glm::vec2&, Frame::Number, const BBox2f&);
+                void setPIPPos(const glm::vec2&, Frame::Index, const BBox2f&);
 
             protected:
                 void _layoutEvent(Event::Layout&) override;
@@ -88,13 +88,13 @@ namespace djv
                 std::shared_ptr<Media> _media;
                 Time::Speed _speed;
                 Frame::Sequence _sequence;
-                Frame::Number _currentFrame = 0;
+                Frame::Index _currentFrame = 0;
                 std::shared_ptr<UI::ImageWidget> _imageWidget;
                 std::shared_ptr<UI::Label> _timeLabel;
                 std::shared_ptr<UI::StackLayout> _layout;
                 std::shared_ptr<ValueObserver<Time::Speed> > _speedObserver;
                 std::shared_ptr<ValueObserver<Frame::Sequence> > _sequenceObserver;
-                std::shared_ptr<ValueObserver<Frame::Number> > _currentFrameObserver;
+                std::shared_ptr<ValueObserver<Frame::Index> > _currentFrameObserver;
                 std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > _imageObserver;
             };
 
@@ -159,9 +159,9 @@ namespace djv
                                 }
                             });
 
-                        _currentFrameObserver = ValueObserver<Frame::Number>::create(
+                        _currentFrameObserver = ValueObserver<Frame::Index>::create(
                             _media->observeCurrentFrame(),
-                            [weak](Frame::Number value)
+                            [weak](Frame::Index value)
                             {
                                 if (auto widget = weak.lock())
                                 {
@@ -188,7 +188,7 @@ namespace djv
                 }
             }
 
-            void PIPWidget::setPIPPos(const glm::vec2& value, Frame::Number frame, const BBox2f& timelineGeometry)
+            void PIPWidget::setPIPPos(const glm::vec2& value, Frame::Index frame, const BBox2f& timelineGeometry)
             {
                 if (value == _pipPos && timelineGeometry == _timelineGeometry)
                     return;
@@ -249,7 +249,7 @@ namespace djv
             std::shared_ptr<Media> media;
             Time::Speed speed;
             Frame::Sequence sequence;
-            std::shared_ptr<ValueSubject<Frame::Number> > currentFrame;
+            std::shared_ptr<ValueSubject<Frame::Index> > currentFrame;
             std::shared_ptr<ValueSubject<bool> > currentFrameChange;
             std::vector<Frame::Range> cachedFrames;
             AV::Font::Metrics fontMetrics;
@@ -261,7 +261,7 @@ namespace djv
             std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
             std::shared_ptr<ValueObserver<Time::Speed> > speedObserver;
             std::shared_ptr<ValueObserver<Frame::Sequence> > sequenceObserver;
-            std::shared_ptr<ValueObserver<Frame::Number> > currentFrameObserver;
+            std::shared_ptr<ValueObserver<Frame::Index> > currentFrameObserver;
             std::shared_ptr<ValueObserver<bool> > pipObserver;
         };
 
@@ -273,7 +273,7 @@ namespace djv
             setClassName("djv::ViewApp::TimelineSlider");
             setPointerEnabled(true);
 
-            p.currentFrame = ValueSubject<Frame::Number>::create(Frame::invalid);
+            p.currentFrame = ValueSubject<Frame::Index>::create(Frame::invalid);
             p.currentFrameChange = ValueSubject<bool>::create(false);
 
             p.pipWidget = PIPWidget::create(context);
@@ -320,7 +320,7 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<IValueSubject<Frame::Number> > TimelineSlider::observeCurrentFrame() const
+        std::shared_ptr<IValueSubject<Frame::Index> > TimelineSlider::observeCurrentFrame() const
         {
             return _p->currentFrame;
         }
@@ -374,9 +374,9 @@ namespace djv
                         }
                     });
 
-                p.currentFrameObserver = ValueObserver<Frame::Number>::create(
+                p.currentFrameObserver = ValueObserver<Frame::Index>::create(
                     p.media->observeCurrentFrame(),
-                    [weak](Frame::Number value)
+                    [weak](Frame::Index value)
                     {
                         if (auto widget = weak.lock())
                         {
@@ -453,13 +453,13 @@ namespace djv
 
             const size_t sequenceSize = p.sequence.getSize();
             {
-                const Frame::Number f = 1;
+                const Frame::Index f = 1;
                 if (_frameToPos(f) - _frameToPos(0) > b * 2.f)
                 {
                     auto color = style->getColor(UI::ColorRole::Foreground);
                     color.setF32(color.getF32(3) * .2f, 3);
                     render->setFillColor(color);
-                    for (Frame::Number f2 = 0; f2 < sequenceSize; f2 += f)
+                    for (Frame::Index f2 = 0; f2 < sequenceSize; f2 += f)
                     {
                         const float x = _frameToPos(f2);
                         const float h = ceilf(hg.h() * .5f);
@@ -468,13 +468,13 @@ namespace djv
                 }
             }
             {
-                const Frame::Number f = static_cast<Frame::Number>(p.speed.toFloat());
+                const Frame::Index f = static_cast<Frame::Index>(p.speed.toFloat());
                 if (_frameToPos(f) - _frameToPos(0) > b * 2.f)
                 {
                     auto color = style->getColor(UI::ColorRole::Foreground);
                     color.setF32(color.getF32(3) * .2f, 3);
                     render->setFillColor(color);
-                    for (Frame::Number f2 = 0; f2 < sequenceSize; f2 += f)
+                    for (Frame::Index f2 = 0; f2 < sequenceSize; f2 += f)
                     {
                         const float x = _frameToPos(f2);
                         const float h = ceilf(hg.h() * .5f);
@@ -483,13 +483,13 @@ namespace djv
                 }
             }
             {
-                const Frame::Number f = static_cast<Frame::Number>(p.speed.toFloat() * 60.f);
+                const Frame::Index f = static_cast<Frame::Index>(p.speed.toFloat() * 60.f);
                 if (_frameToPos(f) - _frameToPos(0) > b * 2.f)
                 {
                     auto color = style->getColor(UI::ColorRole::Foreground);
                     color.setF32(color.getF32(3) * .2f, 3);
                     render->setFillColor(color);
-                    for (Frame::Number f2 = 0; f2 < sequenceSize; f2 += f)
+                    for (Frame::Index f2 = 0; f2 < sequenceSize; f2 += f)
                     {
                         const float x = _frameToPos(f2);
                         const float h = ceilf(hg.h() * .5f);
@@ -543,7 +543,7 @@ namespace djv
             event.accept();
             const auto & pos = event.getPointerInfo().projectedPos;
             const BBox2f & g = getGeometry();
-            const Frame::Number frame = _posToFrame(static_cast<int>(pos.x - g.min.x));
+            const Frame::Index frame = _posToFrame(static_cast<int>(pos.x - g.min.x));
             if (auto parent = getParentRecursiveT<MediaWidget>())
             {
                 const auto& style = _getStyle();
@@ -605,7 +605,7 @@ namespace djv
             }
         }
 
-        Frame::Number TimelineSlider::_posToFrame(float value) const
+        Frame::Index TimelineSlider::_posToFrame(float value) const
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
@@ -613,13 +613,13 @@ namespace djv
             const float m = style->getMetric(UI::MetricsRole::MarginSmall);
             const float v = (value - m) / (g.w() - m * 2.f);
             const size_t sequenceSize = p.sequence.getSize();
-            Frame::Number out = sequenceSize ?
-                Math::clamp(static_cast<Frame::Number>(v * sequenceSize), static_cast<Frame::Number>(0), static_cast<Frame::Number>(sequenceSize - 1)) :
+            Frame::Index out = sequenceSize ?
+                Math::clamp(static_cast<Frame::Index>(v * sequenceSize), static_cast<Frame::Index>(0), static_cast<Frame::Index>(sequenceSize - 1)) :
                 0;
             return out;
         }
 
-        float TimelineSlider::_frameToPos(Frame::Number value) const
+        float TimelineSlider::_frameToPos(Frame::Index value) const
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
@@ -638,7 +638,7 @@ namespace djv
             const auto& style = _getStyle();
             const float m = style->getMetric(UI::MetricsRole::MarginSmall);
             const float b = style->getMetric(UI::MetricsRole::Border);
-            const Frame::Number currentFrame = p.currentFrame->get();
+            const Frame::Index currentFrame = p.currentFrame->get();
             const float x0 = _frameToPos(currentFrame);
             const float x1 = _frameToPos(currentFrame + 1);
             BBox2f out = BBox2f(x0, g.min.y + m, std::max(x1 - x0, b), g.h() - m * 2.f);
