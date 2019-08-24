@@ -47,8 +47,10 @@ namespace djv
     {
         struct PlaybackSettingsWidget::Private
         {
+            std::shared_ptr<UI::ToggleButton> playEveryFrameButton;
             std::shared_ptr<UI::ToggleButton> pipButton;
             std::shared_ptr<UI::FormLayout> formLayout;
+            std::shared_ptr<ValueObserver<bool> > playEveryFrameObserver;
             std::shared_ptr<ValueObserver<bool> > pipObserver;
         };
 
@@ -59,14 +61,33 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::PlaybackSettingsWidget");
 
+            p.playEveryFrameButton = UI::ToggleButton::create(context);
+
             p.pipButton = UI::ToggleButton::create(context);
 
             p.formLayout = UI::FormLayout::create(context);
+            p.formLayout->addChild(p.playEveryFrameButton);
             p.formLayout->addChild(p.pipButton);
             addChild(p.formLayout);
 
             auto weak = std::weak_ptr<PlaybackSettingsWidget>(std::dynamic_pointer_cast<PlaybackSettingsWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<Context>(context);
+            p.playEveryFrameButton->setCheckedCallback(
+                [weak, contextWeak](bool value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
+                            {
+                                playbackSettings->setPlayEveryFrame(value);
+                            }
+                        }
+                    }
+                });
+
             p.pipButton->setCheckedCallback(
                 [weak, contextWeak](bool value)
                 {
@@ -86,15 +107,25 @@ namespace djv
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
             if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
             {
+                p.playEveryFrameObserver = ValueObserver<bool>::create(
+                    playbackSettings->observePlayEveryFrame(),
+                    [weak](bool value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->playEveryFrameButton->setChecked(value);
+                        }
+                    });
+
                 p.pipObserver = ValueObserver<bool>::create(
                     playbackSettings->observePIP(),
                     [weak](bool value)
-                {
-                    if (auto widget = weak.lock())
                     {
-                        widget->_p->pipButton->setChecked(value);
-                    }
-                });
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->pipButton->setChecked(value);
+                        }
+                    });
             }
         }
 
@@ -128,6 +159,7 @@ namespace djv
         {
             ISettingsWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
+            p.formLayout->setText(p.playEveryFrameButton, _getText(DJV_TEXT("Playback every frame")) + ":");
             p.formLayout->setText(p.pipButton, _getText(DJV_TEXT("Show timeline PIP")) + ":");
         }
 

@@ -76,6 +76,7 @@ namespace djv
             std::shared_ptr<ValueSubject<bool> > inOutPointsEnabled;
             std::shared_ptr<ValueSubject<Frame::Number> > inPoint;
             std::shared_ptr<ValueSubject<Frame::Number> > outPoint;
+            std::shared_ptr<ValueSubject<bool> > audioEnabled;
             std::shared_ptr<ValueSubject<float> > volume;
             std::shared_ptr<ValueSubject<bool> > mute;
             std::shared_ptr<ValueSubject<size_t> > threadCount;
@@ -97,6 +98,7 @@ namespace djv
             std::chrono::system_clock::time_point startTime;
             std::chrono::system_clock::time_point realSpeedTime;
             size_t realSpeedFrameCount = 0;
+            std::chrono::system_clock::time_point playEveryFrameTime;
             std::shared_ptr<Time::Timer> queueTimer;
             std::shared_ptr<Time::Timer> playbackTimer;
             std::shared_ptr<Time::Timer> realSpeedTimer;
@@ -126,6 +128,7 @@ namespace djv
             p.inPoint = ValueSubject<Frame::Number>::create(Frame::invalid);
             p.outPoint = ValueSubject<Frame::Number>::create(Frame::invalid);
             p.volume = ValueSubject<float>::create(1.f);
+            p.audioEnabled = ValueSubject<bool>::create(false);
             p.mute = ValueSubject<bool>::create(false);
             p.threadCount = ValueSubject<size_t>::create(4);
             p.cachedFrames = ListSubject<Frame::Range>::create();
@@ -317,16 +320,27 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.speed->setIfChanged(value))
             {
-                p.frameOffset = p.currentFrame->get();
-                p.realSpeedFrameCount = 0;
-                p.startTime = std::chrono::system_clock::now();
-                p.realSpeedTime = p.startTime;
+                _seek(p.currentFrame->get());
+                p.audioEnabled->setIfChanged(_isAudioEnabled());
+                if (_hasAudioSyncPlayback())
+                {
+                    _startAudioStream();
+                }
             }
         }
 
         void Media::setPlayEveryFrame(bool value)
         {
-            _p->playEveryFrame->setIfChanged(value);
+            DJV_PRIVATE_PTR();
+            if (_p->playEveryFrame->setIfChanged(value))
+            {
+                _seek(p.currentFrame->get());
+                p.audioEnabled->setIfChanged(_isAudioEnabled());
+                if (_hasAudioSyncPlayback())
+                {
+                    _startAudioStream();
+                }
+            }
         }
 
         void Media::setCurrentFrame(Frame::Number value)
@@ -431,6 +445,11 @@ namespace djv
             _p->outPoint->setIfChanged(0);
         }
 
+        std::shared_ptr<IValueSubject<bool> > Media::observeAudioEnabled() const
+        {
+            return _p->audioEnabled;
+        }
+
         std::shared_ptr<IValueSubject<float> > Media::observeVolume() const
         {
             return _p->volume;
@@ -523,6 +542,21 @@ namespace djv
             return p.audioInfo.info.isValid() && p.rtAudio;
         }
 
+        bool Media::_isAudioEnabled() const
+        {
+            DJV_PRIVATE_PTR();
+            return _hasAudio() &&
+                p.speed->get() == p.defaultSpeed->get() &&
+                !p.playEveryFrame->get();
+        }
+
+        bool Media::_hasAudioSyncPlayback() const
+        {
+            DJV_PRIVATE_PTR();
+            return _isAudioEnabled() &&
+                Playback::Forward == p.playback->get();
+        }
+
         void Media::_open()
         {
             DJV_PRIVATE_PTR();
@@ -595,6 +629,7 @@ namespace djv
                             logSystem->log("djv::ViewApp::Media", ss.str(), LogLevel::Error);
                         }
                     }
+                    p.audioEnabled->setIfChanged(_isAudioEnabled());
 
                     auto weak = std::weak_ptr<Media>(std::dynamic_pointer_cast<Media>(shared_from_this()));
                     p.cachedFramesTimer->start(
@@ -654,6 +689,67 @@ namespace djv
             }
         }
 
+        void Media::_setCurrentFrame(Frame::Number value)
+        {
+            DJV_PRIVATE_PTR();
+            Frame::Number start = 0;
+            const Frame::Sequence& sequence = p.sequence->get();
+            Frame::Number end = static_cast<Frame::Number>(sequence.getSize()) - 1;
+            if (p.inOutPointsEnabled->get())
+            {
+                start = p.inPoint->get();
+                end = p.outPoint->get();
+            }
+            const Playback playback = p.playback->get();
+            if ((Playback::Forward == playback && value >= end) ||
+                (Playback::Reverse == playback && value <= start))
+            {
+                switch (p.playbackMode->get())
+                {
+                case PlaybackMode::Once:
+                    switch (p.playback->get())
+                    {
+                    case Playback::Forward: value = end;   break;
+                    case Playback::Reverse: value = start; break;
+                    default: break;
+                    }
+                    setPlayback(Playback::Stop);
+                    setCurrentFrame(value);
+                    break;
+                case PlaybackMode::Loop:
+                {
+                    Playback playback = p.playback->get();
+                    switch (playback)
+                    {
+                    case Playback::Forward: value = start; break;
+                    case Playback::Reverse: value = end;   break;
+                    default: break;
+                    }
+                    setPlayback(Playback::Stop);
+                    setCurrentFrame(value);
+                    setPlayback(playback);
+                    break;
+                }
+                case PlaybackMode::PingPong:
+                {
+                    Playback playback = p.playback->get();
+                    switch (playback)
+                    {
+                    case Playback::Forward: value = end;   break;
+                    case Playback::Reverse: value = start; break;
+                    default: break;
+                    }
+                    setPlayback(Playback::Stop);
+                    setCurrentFrame(value);
+                    setPlayback(Playback::Forward == playback ? Playback::Reverse : Playback::Forward);
+                    break;
+                }
+                default: break;
+                }
+            }
+            p.currentFrame->setIfChanged(value);
+        }
+
         void Media::_seek(Frame::Number value)
         {
             DJV_PRIVATE_PTR();
@@ -666,26 +762,14 @@ namespace djv
                 p.audioData.reset();
                 p.audioDataSamplesOffset = 0;
                 p.audioDataSamplesCount = 0;
-                p.audioDataSamplesTime = std::chrono::system_clock::now();
+                const auto now = std::chrono::system_clock::now();
+                p.audioDataSamplesTime = now;
                 p.frameOffset = p.currentFrame->get();
-                p.startTime = std::chrono::system_clock::now();
+                p.startTime = now;
                 p.realSpeedTime = p.startTime;
                 p.realSpeedFrameCount = 0;
-                if (_hasAudio() && p.rtAudio->isStreamRunning())
-                {
-                    try
-                    {
-                        p.rtAudio->abortStream();
-                        p.rtAudio->setStreamTime(0.0);
-                    }
-                    catch (const std::exception& e)
-                    {
-                        std::stringstream ss;
-                        ss << "djv::ViewApp::Media " << DJV_TEXT("cannot stop audio stream") << ". " << e.what();
-                        auto logSystem = context->getSystemT<LogSystem>();
-                        logSystem->log("djv::ViewApp::Media", ss.str(), LogLevel::Error);
-                    }
-                }
+                p.playEveryFrameTime = now;
+                _stopAudioStream();
             }
         }
 
@@ -698,21 +782,7 @@ namespace djv
                 switch (p.playback->get())
                 {
                 case Playback::Stop:
-                    if (_hasAudio() && p.rtAudio->isStreamRunning())
-                    {
-                        try
-                        {
-                            p.rtAudio->abortStream();
-                            p.rtAudio->setStreamTime(0.0);
-                        }
-                        catch (const std::exception& e)
-                        {
-                            std::stringstream ss;
-                            ss << "djv::ViewApp::Media " << DJV_TEXT("cannot stop audio stream") << ". " << e.what();
-                            auto logSystem = context->getSystemT<LogSystem>();
-                            logSystem->log("djv::ViewApp::Media", ss.str(), LogLevel::Error);
-                        }
-                    }
+                    _stopAudioStream();
                     p.playbackTimer->stop();
                     p.realSpeedTimer->stop();
                     _seek(p.currentFrame->get());
@@ -725,24 +795,16 @@ namespace djv
                     p.audioData.reset();
                     p.audioDataSamplesOffset = 0;
                     p.audioDataSamplesCount = 0;
-                    p.audioDataSamplesTime = std::chrono::system_clock::now();
+                    const auto now = std::chrono::system_clock::now();
+                    p.audioDataSamplesTime = now;
                     p.frameOffset = p.currentFrame->get();
-                    p.startTime = std::chrono::system_clock::now();
+                    p.startTime = now;
                     p.realSpeedTime = p.startTime;
                     p.realSpeedFrameCount = 0;
-                    if (_hasAudio())
+                    p.playEveryFrameTime = now;
+                    if (_hasAudioSyncPlayback())
                     {
-                        try
-                        {
-                            p.rtAudio->startStream();
-                        }
-                        catch (const std::exception& e)
-                        {
-                            std::stringstream ss;
-                            ss << "djv::ViewApp::Media " << DJV_TEXT("cannot start audio stream") << ". " << e.what();
-                            auto logSystem = context->getSystemT<LogSystem>();
-                            logSystem->log("djv::ViewApp::Media", ss.str(), LogLevel::Error);
-                        }
+                        _startAudioStream();
                     }
                     auto weak = std::weak_ptr<Media>(std::dynamic_pointer_cast<Media>(shared_from_this()));
                     p.playbackTimer->start(
@@ -784,96 +846,83 @@ namespace djv
             case Playback::Forward: forward = true;
             case Playback::Reverse:
             {
-                Frame::Number frame = Frame::invalid;
                 const auto& speed = p.speed->get();
                 const auto now = std::chrono::system_clock::now();
-                if (forward && _hasAudio())
+                if (_hasAudioSyncPlayback())
                 {
                     if (p.audioDataSamplesCount)
                     {
                         std::chrono::duration<double> delta = now - p.audioDataSamplesTime;
-                        frame = p.frameOffset +
+                        Frame::Number frame = p.frameOffset +
                             Time::scale(
                                 p.audioDataSamplesCount,
                                 Math::Rational(1, static_cast<int>(p.audioInfo.info.sampleRate)),
                                 speed.swap()) +
                             delta.count() * speed.toFloat();
+                        _setCurrentFrame(frame);
                     }
-                    else
-                    {
-                        frame = p.currentFrame->get();
-                    }
+                }
+                else if (p.playEveryFrame->get())
+                {
                 }
                 else
                 {
                     std::chrono::duration<double> delta = now - p.startTime;
                     Frame::Number elapsed = static_cast<Frame::Number>(delta.count() * speed.toFloat());
+                    Frame::Number frame = Frame::invalid;
                     switch (playback)
                     {
                     case Playback::Forward: frame = p.frameOffset + elapsed; break;
                     case Playback::Reverse: frame = p.frameOffset - elapsed; break;
                     default: break;
                     }
+                    _setCurrentFrame(frame);
                 }
-
-                Frame::Number start = 0;
-                const Frame::Sequence& sequence = p.sequence->get();
-                Frame::Number end = static_cast<Frame::Number>(sequence.getSize()) - 1;
-                if (p.inOutPointsEnabled->get())
-                {
-                    start = p.inPoint->get();
-                    end = p.outPoint->get();
-                }
-                if ((Playback::Forward == playback && frame >= end) ||
-                    (Playback::Reverse == playback && frame <= start))
-                {
-                    switch (p.playbackMode->get())
-                    {
-                    case PlaybackMode::Once:
-                        switch (p.playback->get())
-                        {
-                        case Playback::Forward: frame = end;   break;
-                        case Playback::Reverse: frame = start; break;
-                        default: break;
-                        }
-                        setPlayback(Playback::Stop);
-                        setCurrentFrame(frame);
-                        break;
-                    case PlaybackMode::Loop:
-                    {
-                        Playback playback = p.playback->get();
-                        switch (playback)
-                        {
-                        case Playback::Forward: frame = start; break;
-                        case Playback::Reverse: frame = end;   break;
-                        default: break;
-                        }
-                        setPlayback(Playback::Stop);
-                        setCurrentFrame(frame);
-                        setPlayback(playback);
-                        break;
-                    }
-                    case PlaybackMode::PingPong:
-                    {
-                        Playback playback = p.playback->get();
-                        switch (playback)
-                        {
-                        case Playback::Forward: frame = end;   break;
-                        case Playback::Reverse: frame = start; break;
-                        default: break;
-                        }
-                        setPlayback(Playback::Stop);
-                        setCurrentFrame(frame);
-                        setPlayback(Playback::Forward == playback ? Playback::Reverse : Playback::Forward);
-                        break;
-                    }
-                    default: break;
-                    }
-                }
-                p.currentFrame->setIfChanged(frame);
                 break;
             }
             default: break;
+            }
+        }
+
+        void Media::_startAudioStream()
+        {
+            DJV_PRIVATE_PTR();
+            if (auto context = p.context.lock())
+            {
+                try
+                {
+                    p.rtAudio->startStream();
+                }
+                catch (const std::exception& e)
+                {
+                    std::stringstream ss;
+                    ss << "djv::ViewApp::Media " << DJV_TEXT("cannot start audio stream") << ". " << e.what();
+                    auto logSystem = context->getSystemT<LogSystem>();
+                    logSystem->log("djv::ViewApp::Media", ss.str(), LogLevel::Error);
+                }
+            }
+        }
+
+        void Media::_stopAudioStream()
+        {
+            DJV_PRIVATE_PTR();
+            if (auto context = p.context.lock())
+            {
+                if (_hasAudio() && p.rtAudio->isStreamRunning())
+                {
+                    try
+                    {
+                        p.rtAudio->abortStream();
+                        p.rtAudio->setStreamTime(0.0);
+                    }
+                    catch (const std::exception& e)
+                    {
+                        std::stringstream ss;
+                        ss << "djv::ViewApp::Media " << DJV_TEXT("cannot stop audio stream") << ". " << e.what();
+                        auto logSystem = context->getSystemT<LogSystem>();
+                        logSystem->log("djv::ViewApp::Media", ss.str(), LogLevel::Error);
+                    }
+                }
             }
         }
 
@@ -883,26 +932,57 @@ namespace djv
             if (p.read)
             {
                 // Update the video queue.
-                const bool forward = Playback::Forward == p.playback->get();
+                const Playback playback = p.playback->get();
+                const bool forward = Playback::Forward == playback;
+                const auto now = std::chrono::system_clock::now();
+                const std::chrono::duration<double> playEveryFrameDelta = now - p.playEveryFrameTime;
+                const bool playEveryFrameAdvance = playEveryFrameDelta.count() > (1.f / p.speed->get().toFloat());
                 const Frame::Number currentFrame = p.currentFrame->get();
-                std::shared_ptr<AV::Image::Image> image;
+                AV::IO::VideoFrame frame;
                 {
                     std::lock_guard<std::mutex> lock(p.read->getMutex());
                     auto& queue = p.read->getVideoQueue();
-                    while (!queue.isEmpty() &&
-                        (forward ? (queue.getFrame().frame < currentFrame) : (queue.getFrame().frame > currentFrame)))
+                    if (p.playEveryFrame->get())
                     {
-                        auto frame = queue.popFrame();
-                        p.realSpeedFrameCount = p.realSpeedFrameCount + 1;
+                        if (playback != Playback::Stop && !queue.isEmpty() && playEveryFrameAdvance)
+                        {
+                            auto frame = queue.popFrame();
+                            p.playEveryFrameTime = std::chrono::system_clock::now();
+                            p.realSpeedFrameCount = p.realSpeedFrameCount + 1;
+                        }
+                    }
+                    else
+                    {
+                        while (!queue.isEmpty() &&
+                            (forward ? (queue.getFrame().frame < currentFrame) : (queue.getFrame().frame > currentFrame)))
+                        {
+                            auto frame = queue.popFrame();
+                            p.realSpeedFrameCount = p.realSpeedFrameCount + 1;
+                        }
                     }
                     if (!queue.isEmpty())
                     {
-                        image = queue.getFrame().image;
+                        frame = queue.getFrame();
                     }
                 }
-                if (image)
+                if (frame.image)
                 {
-                    p.currentImage->setIfChanged(image);
+                    p.currentImage->setIfChanged(frame.image);
+                    if (p.playEveryFrame->get())
+                    {
+                        _setCurrentFrame(frame.frame);
+                    }
+                }
+
+                // Update the audio queue.
+                if (_hasAudio() && !_hasAudioSyncPlayback())
+                {
+                    std::lock_guard<std::mutex> lock(p.read->getMutex());
+                    auto& queue = p.read->getAudioQueue();
+                    while (queue.getCount() > queue.getMax())
+                    {
+                        queue.popFrame();
+                    }
                 }
             }
         }
@@ -993,7 +1073,7 @@ namespace djv
             const size_t zero = (nFrames * sampleByteCount) - (p - reinterpret_cast<uint8_t*>(outputBuffer));
             if (zero)
             {
-                //! \todo What is the correct value for silence?
+                //! \todo Is this the correct way to clear the audio data?
                 memset(p, 0, zero);
             }
 

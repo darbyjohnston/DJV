@@ -135,6 +135,7 @@ namespace djv
             //! \name Audio
             ///@{
 
+            std::shared_ptr<Core::IValueSubject<bool> > observeAudioEnabled() const;
             std::shared_ptr<Core::IValueSubject<float> > observeVolume() const;
             std::shared_ptr<Core::IValueSubject<bool> > observeMute() const;
 
@@ -175,10 +176,15 @@ namespace djv
 
         private:
             bool _hasAudio() const;
+            bool _isAudioEnabled() const;
+            bool _hasAudioSyncPlayback() const;
             void _open();
+            void _setCurrentFrame(Core::Frame::Number);
             void _seek(Core::Frame::Number);
             void _playbackUpdate();
             void _playbackTick();
+            void _startAudioStream();
+            void _stopAudioStream();
             void _queueUpdate();
 
             static int _rtAudioCallback(

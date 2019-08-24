@@ -33,6 +33,7 @@
 #include <djvViewApp/FileSettings.h>
 #include <djvViewApp/LayersWidget.h>
 #include <djvViewApp/Media.h>
+#include <djvViewApp/PlaybackSettings.h>
 #include <djvViewApp/RecentFilesDialog.h>
 
 #include <djvUIComponents/FileBrowserDialog.h>
@@ -664,7 +665,15 @@ namespace djv
         void FileSystem::_mediaInit(const std::shared_ptr<Media>& value)
         {
             DJV_PRIVATE_PTR();
-            value->setThreadCount(p.threadCount);
+            if (auto context = getContext().lock())
+            {
+                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
+                {
+                    value->setPlayEveryFrame(playbackSettings->observePlayEveryFrame()->get());
+                }
+                value->setThreadCount(p.threadCount);
+            }
         }
 
         void FileSystem::_showFileBrowserDialog()

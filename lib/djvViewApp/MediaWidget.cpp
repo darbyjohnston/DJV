@@ -104,6 +104,7 @@ namespace djv
             ImageViewLock viewLock = ImageViewLock::First;
             bool frameStoreEnabled = false;
             std::shared_ptr<AV::Image::Image> frameStore;
+            bool audioEnabled = false;
             float audioVolume = 0.f;
             bool audioMute = false;
             bool active = false;
@@ -146,6 +147,7 @@ namespace djv
             std::shared_ptr<ValueObserver<Frame::Sequence> > sequenceObserver;
             std::shared_ptr<ValueObserver<Frame::Number> > currentFrameObserver2;
             std::shared_ptr<ValueObserver<Playback> > playbackObserver;
+            std::shared_ptr<ValueObserver<bool> > audioEnabledObserver;
             std::shared_ptr<ValueObserver<float> > volumeObserver;
             std::shared_ptr<ValueObserver<bool> > muteObserver;
             std::shared_ptr<ListObserver<Frame::Range> > cachedFramesObserver;
@@ -215,11 +217,8 @@ namespace djv
             p.speedButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
             p.speedButtonLayout = UI::VerticalLayout::create(context);
             p.speedButtonLayout->setSpacing(UI::MetricsRole::None);
-            //! \todo Implement me!
             p.playEveryFrameButton = UI::ToggleButton::create(context);
-            p.playEveryFrameButton->setEnabled(false);
             p.playEveryFrameLabel = UI::Label::create(context);
-            p.playEveryFrameLabel->setEnabled(false);
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addChild(p.speedButtonLayout);
@@ -354,7 +353,7 @@ namespace djv
                         const auto speed =
                             value >= 0 && value < widget->_p->speeds.size() ?
                             widget->_p->speeds[value] :
-                            Time::Speed();
+                            widget->_p->defaultSpeed;
                         media->setSpeed(speed);
                     }
                     widget->_p->speedPopupWidget->close();
@@ -566,7 +565,7 @@ namespace djv
                 });
 
             p.defaultSpeedObserver = ValueObserver<Time::Speed>::create(
-                p.media->observeSpeed(),
+                p.media->observeDefaultSpeed(),
                 [weak](const Time::Speed& value)
                 {
                     if (auto widget = weak.lock())
@@ -636,6 +635,17 @@ namespace djv
                         default: break;
                         }
                         widget->_p->playbackActionGroup->setChecked(index);
+                    }
+                });
+
+            p.audioEnabledObserver = ValueObserver<bool>::create(
+                p.media->observeAudioEnabled(),
+                [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->audioEnabled = value;
+                        widget->_audioUpdate();
                     }
                 });
 
@@ -908,12 +918,12 @@ namespace djv
                 default: break;
                 }
 
+                p.playEveryFrameButton->setChecked(p.playEveryFrame);
+
                 auto avSystem = context->getSystemT<AV::AVSystem>();
                 p.currentFrameLabel->setText(avSystem->getLabel(p.sequence.getFrame(p.currentFrame), p.defaultSpeed));
                 p.durationLabel->setText(avSystem->getLabel(p.sequence.getSize(), p.defaultSpeed));
                 p.playbackLayout->setVisible(p.sequence.getSize() > 1);
-
-                p.audioPopupWidget->setEnabled(p.ioInfo.audio.size());
             }
         }
 
@@ -955,7 +965,6 @@ namespace djv
                     ss.precision(3);
                     ss << std::fixed << i.toFloat();
                     button->setText(ss.str());
-                    button->setEnabled(!p.ioInfo.audio.size());
                     p.speedButtonGroup->addButton(button);
                     p.speedButtonLayout->addChild(button);
                 }
@@ -966,7 +975,6 @@ namespace djv
                 ss.precision(3);
                 ss << std::fixed << p.defaultSpeed.toFloat();
                 button->setText(ss.str());
-                button->setEnabled(!p.ioInfo.audio.size());
                 p.speedButtonGroup->addButton(button);
                 p.speedButtonLayout->addChild(button);
 
@@ -998,11 +1006,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.audioVolumeSlider->setValue(p.audioVolume);
             p.audioMuteButton->setChecked(p.audioMute);
-            if (!p.ioInfo.audio.size())
-            {
-                p.audioPopupWidget->setIcon("djvIconAudio0");
-            }
-            else if (p.audioMute)
+            if (!p.audioEnabled || p.audioMute)
             {
                 p.audioPopupWidget->setIcon("djvIconAudioMute");
             }
