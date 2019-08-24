@@ -1,4 +1,5 @@
 set(tests
+    # \todo Why is this test failing in Travis CI but passes locally?
     #AnimationTest
     BBoxTest
     ContextTest
