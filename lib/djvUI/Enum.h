@@ -245,6 +245,7 @@ namespace djv
             TooltipOffset,
             Handle,
             Move,
+            Scrub,
 
             Count,
             First = None

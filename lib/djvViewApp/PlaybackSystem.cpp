@@ -41,6 +41,8 @@
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Shortcut.h>
+#include <djvUI/Style.h>
+#include <djvUI/UISystem.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/TextSystem.h>
@@ -231,7 +233,7 @@ namespace djv
                         {
                             media->setPlayback(
                                 Playback::Stop == media->observePlayback()->get() ?
-                                system->_p->playback :
+                                (Playback::Stop == system->_p->playback ? Playback::Forward : system->_p->playback) :
                                 Playback::Stop);
                         }
                     }
@@ -620,34 +622,44 @@ namespace djv
                                             system->_p->hoverPos = value.pos;
                                         }
                                     });
+                                auto widgetWeak = std::weak_ptr<MediaWidget>(std::dynamic_pointer_cast<MediaWidget>(value));
                                 system->_p->dragObserver = ValueObserver<PointerData>::create(
                                     value->observeDrag(),
-                                    [weak](const PointerData& value)
+                                    [weak, widgetWeak](const PointerData& value)
                                     {
                                         if (auto system = weak.lock())
                                         {
-                                            if (auto media = system->_p->currentMedia)
+                                            if (auto widget = widgetWeak.lock())
                                             {
-                                                const auto i = value.buttons.find(3);
-                                                if (i != value.buttons.end())
+                                                if (auto media = system->_p->currentMedia)
                                                 {
-                                                    switch (value.state)
+                                                    const auto i = value.buttons.find(3);
+                                                    if (i != value.buttons.end())
                                                     {
-                                                    case PointerState::Start:
-                                                        system->_p->dragStart = value.pos;
-                                                        system->_p->dragStartFrame = media->observeCurrentFrame()->get();
-                                                        system->_p->dragStartPlayback = media->observePlayback()->get();
-                                                        break;
-                                                    case PointerState::Move:
-                                                    {
-                                                        const Frame::Index offset = value.pos.x - system->_p->dragStart.x;
-                                                        media->setCurrentFrame(system->_p->dragStartFrame + offset);
-                                                        break;
-                                                    }
-                                                    case PointerState::End:
-                                                        media->setPlayback(system->_p->dragStartPlayback);
-                                                        break;
-                                                    default: break;
+                                                        switch (value.state)
+                                                        {
+                                                        case PointerState::Start:
+                                                            system->_p->dragStart = value.pos;
+                                                            system->_p->dragStartFrame = media->observeCurrentFrame()->get();
+                                                            system->_p->dragStartPlayback = media->observePlayback()->get();
+                                                            break;
+                                                        case PointerState::Move:
+                                                        {
+                                                            if (auto context = system->getContext().lock())
+                                                            {
+                                                                auto uiSystem = context->getSystemT<UI::UISystem>();
+                                                                auto style = uiSystem->getStyle();
+                                                                const Frame::Index offset =
+                                                                    (value.pos.x - system->_p->dragStart.x) / style->getMetric(UI::MetricsRole::Scrub);
+                                                                media->setCurrentFrame(system->_p->dragStartFrame + offset);
+                                                            }
+                                                            break;
+                                                        }
+                                                        case PointerState::End:
+                                                            media->setPlayback(system->_p->dragStartPlayback);
+                                                            break;
+                                                        default: break;
+                                                        }
                                                     }
                                                 }
                                             }

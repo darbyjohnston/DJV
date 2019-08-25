@@ -180,7 +180,8 @@ namespace djv
                     { MetricsRole::ShadowSmall, 10.f },
                     { MetricsRole::TooltipOffset, 10.f },
                     { MetricsRole::Handle, 10.f },
-                    { MetricsRole::Move, 10.f }
+                    { MetricsRole::Move, 10.f },
+                    { MetricsRole::Scrub, 10.f }
                 };
             }
 

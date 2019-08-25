@@ -355,13 +355,13 @@ namespace djv
                 end = p.outPoint->get();
             }
             Frame::Index tmp = value;
-            if (tmp > end)
+            while (tmp > end)
             {
-                tmp = start;
+                tmp -= size;
             }
-            if (tmp < start)
+            while (tmp < start)
             {
-                tmp = end;
+                tmp += size;
             }
             if (p.currentFrame->setIfChanged(tmp))
             {

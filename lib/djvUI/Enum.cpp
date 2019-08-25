@@ -210,7 +210,8 @@ namespace djv
         DJV_TEXT("ShadowSmall"),
         DJV_TEXT("TooltipOffset"),
         DJV_TEXT("Handle"),
-        DJV_TEXT("Move"));
+        DJV_TEXT("Move"),
+        DJV_TEXT("Scrub"));
 
 } // namespace djv
 
