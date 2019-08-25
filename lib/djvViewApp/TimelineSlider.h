@@ -61,6 +61,9 @@ namespace djv
             std::shared_ptr<Core::ValueSubject<bool> > observeCurrentFrameChange() const;
 
             void setMedia(const std::shared_ptr<Media>&);
+            void setInOutPointsEnabled(bool);
+            void setInPoint(Core::Frame::Index);
+            void setOutPoint(Core::Frame::Index);
             void setCachedFrames(const std::vector<Core::Frame::Range>&);
 
         protected:

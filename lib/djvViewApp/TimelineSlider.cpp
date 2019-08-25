@@ -251,6 +251,9 @@ namespace djv
             Frame::Sequence sequence;
             std::shared_ptr<ValueSubject<Frame::Index> > currentFrame;
             std::shared_ptr<ValueSubject<bool> > currentFrameChange;
+            bool inOutPointsEnabled = false;
+            Frame::Index inPoint = Frame::invalidIndex;
+            Frame::Index outPoint = Frame::invalidIndex;
             std::vector<Frame::Range> cachedFrames;
             AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;
@@ -402,6 +405,30 @@ namespace djv
             _textUpdate();
         }
 
+        void TimelineSlider::setInOutPointsEnabled(bool value)
+        {
+            if (value == _p->inOutPointsEnabled)
+                return;
+            _p->inOutPointsEnabled = value;
+            _redraw();
+        }
+
+        void TimelineSlider::setInPoint(Frame::Index value)
+        {
+            if (value == _p->inPoint)
+                return;
+            _p->inPoint = value;
+            _redraw();
+        }
+
+        void TimelineSlider::setOutPoint(Frame::Index value)
+        {
+            if (value == _p->outPoint)
+                return;
+            _p->outPoint = value;
+            _redraw();
+        }
+
         void TimelineSlider::setCachedFrames(const std::vector<Frame::Range>& value)
         {
             if (value == _p->cachedFrames)
@@ -442,7 +469,16 @@ namespace djv
 
             auto render = _getRender();
 
-            auto color = style->getColor(UI::ColorRole::Checked);
+            if (p.inOutPointsEnabled)
+            {
+                auto color = style->getColor(UI::ColorRole::Checked);
+                render->setFillColor(color);
+                const float x0 = _frameToPos(p.inPoint);
+                const float x1 = _frameToPos(p.outPoint + 1);
+                render->drawRect(BBox2f(x0, g.max.y - m - b * 4.f, x1 - x0, b * 2.f));
+            }
+
+            auto color = style->getColor(UI::ColorRole::Cached);
             render->setFillColor(color);
             for (const auto& i : p.cachedFrames)
             {

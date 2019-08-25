@@ -101,6 +101,9 @@ namespace djv
             bool playEveryFrame = false;
             Frame::Sequence sequence;
             Frame::Index currentFrame = Frame::invalidIndex;
+            bool inOutPointsEnabled = false;
+            Frame::Index inPoint = Frame::invalidIndex;
+            Frame::Index outPoint = Frame::invalidIndex;
             Playback playbackPrev = Playback::Count;
             AV::TimeUnits timeUnits = AV::TimeUnits::First;
             ImageViewLock viewLock = ImageViewLock::First;
@@ -127,7 +130,9 @@ namespace djv
             std::shared_ptr<UI::Label> playEveryFrameLabel;
             std::shared_ptr<UI::PopupWidget> speedPopupWidget;
             std::shared_ptr<UI::Label> realSpeedLabel;
-            std::shared_ptr<CurrentFrameWidget> currentFrameWidget;
+            std::shared_ptr<FrameWidget> currentFrameWidget;
+            std::shared_ptr<FrameWidget> inPointWidget;
+            std::shared_ptr<FrameWidget> outPointWidget;
             std::shared_ptr<UI::Label> durationLabel;
             std::shared_ptr<TimelineSlider> timelineSlider;
             std::shared_ptr<UI::BasicFloatSlider> audioVolumeSlider;
@@ -148,6 +153,9 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > playEveryFrameObserver;
             std::shared_ptr<ValueObserver<Frame::Sequence> > sequenceObserver;
             std::shared_ptr<ValueObserver<Frame::Index> > currentFrameObserver2;
+            std::shared_ptr<ValueObserver<bool> > inOutPointsObserver;
+            std::shared_ptr<ValueObserver<Frame::Index> > inPointObserver;
+            std::shared_ptr<ValueObserver<Frame::Index> > outPointObserver;
             std::shared_ptr<ValueObserver<Playback> > playbackObserver;
             std::shared_ptr<ValueObserver<bool> > audioEnabledObserver;
             std::shared_ptr<ValueObserver<float> > volumeObserver;
@@ -235,7 +243,9 @@ namespace djv
             p.speedPopupWidget->addChild(vLayout);
             p.realSpeedLabel = UI::Label::create(context);
 
-            p.currentFrameWidget = CurrentFrameWidget::create(context);
+            p.currentFrameWidget = FrameWidget::create(context);
+            p.inPointWidget = FrameWidget::create(context);
+            p.outPointWidget = FrameWidget::create(context);
 
             p.durationLabel = UI::Label::create(context);
             p.durationLabel->setMargin(UI::MetricsRole::MarginSmall);
@@ -280,9 +290,10 @@ namespace djv
             p.playbackLayout->addChild(hLayout);
             p.playbackLayout->setGridPos(hLayout, 0, 1);
             hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::MetricsRole::None);
             hLayout->addChild(p.currentFrameWidget);
+            hLayout->addChild(p.inPointWidget);
             hLayout->addExpander();
+            hLayout->addChild(p.outPointWidget);
             hLayout->addChild(p.durationLabel);
             p.playbackLayout->addChild(hLayout);
             p.playbackLayout->setGridPos(hLayout, 1, 1);
@@ -381,6 +392,30 @@ namespace djv
                         if (auto media = widget->_p->media)
                         {
                             media->setCurrentFrame(value);
+                        }
+                    }
+                });
+
+            p.inPointWidget->setCallback(
+                [weak](Frame::Index value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        if (auto media = widget->_p->media)
+                        {
+                            media->setInPoint(value);
+                        }
+                    }
+                });
+
+            p.outPointWidget->setCallback(
+                [weak](Frame::Index value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        if (auto media = widget->_p->media)
+                        {
+                            media->setOutPoint(value);
                         }
                     }
                 });
@@ -505,7 +540,7 @@ namespace djv
                     {
                         if (auto media = widget->_p->media)
                         {
-                            media->setCurrentFrame(value);
+                            media->setCurrentFrame(value, false);
                         }
                     }
                 });
@@ -630,6 +665,39 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->currentFrame = value;
+                        widget->_widgetUpdate();
+                    }
+                });
+
+            p.inOutPointsObserver = ValueObserver<bool>::create(
+                p.media->observeInOutPointsEnabled(),
+                [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->inOutPointsEnabled = value;
+                        widget->_widgetUpdate();
+                    }
+                });
+
+            p.inPointObserver = ValueObserver<Frame::Index>::create(
+                p.media->observeInPoint(),
+                [weak](Frame::Index value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->inPoint = value;
+                        widget->_widgetUpdate();
+                    }
+                });
+
+            p.outPointObserver = ValueObserver<Frame::Index>::create(
+                p.media->observeOutPoint(),
+                [weak](Frame::Index value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->outPoint = value;
                         widget->_widgetUpdate();
                     }
                 });
@@ -904,6 +972,8 @@ namespace djv
             p.speedPopupWidget->setTooltip(_getText(DJV_TEXT("Speed popup tooltip")));
             p.realSpeedLabel->setTooltip(_getText(DJV_TEXT("Real speed tooltip")));
             p.currentFrameWidget->setTooltip(_getText(DJV_TEXT("Current frame tooltip")));
+            p.inPointWidget->setTooltip(_getText(DJV_TEXT("In point tooltip")));
+            p.outPointWidget->setTooltip(_getText(DJV_TEXT("Out point tooltip")));
             p.durationLabel->setTooltip(_getText(DJV_TEXT("Duration tooltip")));
 
             p.audioVolumeSlider->setTooltip(_getText(DJV_TEXT("Volume tooltip")));
@@ -934,11 +1004,21 @@ namespace djv
                 p.playEveryFrameButton->setChecked(p.playEveryFrame);
 
                 p.currentFrameWidget->setSequence(p.sequence);
-                p.currentFrameWidget->setSpeed(p.speed);
+                p.currentFrameWidget->setSpeed(p.defaultSpeed);
                 p.currentFrameWidget->setFrame(p.currentFrame);
+                p.inPointWidget->setSequence(p.sequence);
+                p.inPointWidget->setSpeed(p.defaultSpeed);
+                p.inPointWidget->setFrame(p.inPoint);
+                p.outPointWidget->setSequence(p.sequence);
+                p.outPointWidget->setSpeed(p.defaultSpeed);
+                p.outPointWidget->setFrame(p.outPoint);
 
                 auto avSystem = context->getSystemT<AV::AVSystem>();
                 p.durationLabel->setText(avSystem->getLabel(p.sequence.getSize(), p.defaultSpeed));
+
+                p.timelineSlider->setInOutPointsEnabled(p.inOutPointsEnabled);
+                p.timelineSlider->setInPoint(p.inPoint);
+                p.timelineSlider->setOutPoint(p.outPoint);
 
                 p.playbackLayout->setVisible(p.sequence.getSize() > 1);
             }
@@ -994,8 +1074,6 @@ namespace djv
                 button->setText(ss.str());
                 p.speedButtonGroup->addButton(button);
                 p.speedButtonLayout->addChild(button);
-
-                p.currentFrameWidget->setSpeed(p.speed);
 
                 p.playEveryFrameLabel->setText(_getText(DJV_TEXT("Play every frame")) + ":");
 

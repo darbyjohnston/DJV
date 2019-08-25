@@ -205,6 +205,7 @@ namespace djv
             OverlayLight,
             Shadow,
             Handle,
+            Cached,
 
             Count,
             First = None

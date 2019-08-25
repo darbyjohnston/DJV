@@ -111,11 +111,11 @@ namespace djv
             }
             {
                 const Frame::Sequence sequence(
-                    {
-                        Frame::Range(1, 3),
-                        Frame::Range(5, 6),
-                        Frame::Range(8)
-                    });
+                {
+                    Frame::Range(1, 3),
+                    Frame::Range(5, 6),
+                    Frame::Range(8)
+                });
                 const size_t size = sequence.getSize();
                 DJV_ASSERT(6 == size);
                 const std::vector<Frame::Number> frames = Frame::toFrames(sequence);
@@ -124,6 +124,18 @@ namespace djv
                     const Frame::Number frame = sequence.getFrame(i);
                     DJV_ASSERT(frame == frames[i]);
                 }
+            }
+            {
+                const Frame::Sequence sequence(
+                {
+                    Frame::Range(1, 3),
+                    Frame::Range(5, 6),
+                    Frame::Range(8)
+                });
+                DJV_ASSERT(Frame::invalidIndex == sequence.getIndex(0));
+                DJV_ASSERT(0 == sequence.getIndex(1));
+                DJV_ASSERT(2 == sequence.getIndex(3));
+                DJV_ASSERT(5 == sequence.getIndex(8));
             }
         }
         

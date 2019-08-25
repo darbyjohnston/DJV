@@ -343,13 +343,13 @@ namespace djv
             }
         }
 
-        void Media::setCurrentFrame(Frame::Index value)
+        void Media::setCurrentFrame(Frame::Index value, bool inOutPoints)
         {
             DJV_PRIVATE_PTR();
             Frame::Index start = 0;
             const size_t size = p.sequence->get().getSize();
             Frame::Index end = size > 0 ? (static_cast<Frame::Index>(size) - 1) : 0;
-            if (p.inOutPointsEnabled->get())
+            if (inOutPoints && p.inOutPointsEnabled->get())
             {
                 start = p.inPoint->get();
                 end = p.outPoint->get();
@@ -357,9 +357,9 @@ namespace djv
             Frame::Index tmp = value;
             if (tmp > end)
             {
-                tmp = 0;
+                tmp = start;
             }
-            if (tmp < 0)
+            if (tmp < start)
             {
                 tmp = end;
             }
@@ -372,17 +372,21 @@ namespace djv
 
         void Media::inPoint()
         {
-            start();
+            DJV_PRIVATE_PTR();
+            setCurrentFrame(p.inOutPointsEnabled->get() ? p.inPoint->get() : 0);
         }
 
         void Media::outPoint()
         {
-            end();
+            DJV_PRIVATE_PTR();
+            const size_t size = p.sequence->get().getSize();
+            const Frame::Index end = size > 0 ? (size - 1) : 0;
+            setCurrentFrame(p.inOutPointsEnabled->get() ? p.outPoint->get() : end, false);
         }
 
         void Media::start()
         {
-            setCurrentFrame(0);
+            setCurrentFrame(0, false);
         }
 
         void Media::end()
@@ -390,7 +394,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             const size_t size = p.sequence->get().getSize();
             const Frame::Index frame = size > 0 ? (size - 1) : 0;
-            setCurrentFrame(frame);
+            setCurrentFrame(frame, false);
         }
 
         void Media::nextFrame(size_t value)
@@ -422,17 +426,43 @@ namespace djv
 
         void Media::setInOutPointsEnabled(bool value)
         {
-            _p->inOutPointsEnabled->setIfChanged(value);
+            DJV_PRIVATE_PTR();
+            if (p.inOutPointsEnabled->setIfChanged(value))
+            {
+                _seek(p.currentFrame->get());
+                if (_hasAudioSyncPlayback())
+                {
+                    _startAudioStream();
+                }
+            }
+        }
+
+        void Media::setInPoint()
+        {
+            setInOutPointsEnabled(true);
+            setInPoint(_p->currentFrame->get());
         }
 
         void Media::setInPoint(Frame::Index value)
         {
-            _p->inPoint->setIfChanged(value);
+            if (_p->inPoint->setIfChanged(value))
+            {
+                _p->outPoint->setIfChanged(std::max(_p->inPoint->get(), _p->outPoint->get()));
+            }
+        }
+
+        void Media::setOutPoint()
+        {
+            setInOutPointsEnabled(true);
+            setOutPoint(_p->currentFrame->get());
         }
 
         void Media::setOutPoint(Frame::Index value)
         {
-            _p->outPoint->setIfChanged(value);
+            if (_p->outPoint->setIfChanged(value))
+            {
+                _p->inPoint->setIfChanged(std::min(_p->inPoint->get(), _p->outPoint->get()));
+            }
         }
 
         void Media::resetInPoint()
@@ -442,7 +472,9 @@ namespace djv
 
         void Media::resetOutPoint()
         {
-            _p->outPoint->setIfChanged(0);
+            DJV_PRIVATE_PTR();
+            const size_t size = p.sequence->get().getSize();
+            p.outPoint->setIfChanged(size > 0 ? (static_cast<Frame::Index>(size) - 1) : 0);
         }
 
         std::shared_ptr<IValueSubject<bool> > Media::observeAudioEnabled() const
@@ -597,7 +629,9 @@ namespace djv
                     p.speed->setIfChanged(speed);
                     p.defaultSpeed->setIfChanged(speed);
                     p.sequence->setIfChanged(sequence);
-
+                    p.inPoint->setIfChanged(0);
+                    const size_t sequenceSize = sequence.getSize();
+                    p.outPoint->setIfChanged(sequenceSize > 0 ? (static_cast<Frame::Index>(sequenceSize) - 1) : 0);
                     if (_hasAudio())
                     {
                         if (p.rtAudio->isStreamOpen())
@@ -699,54 +733,71 @@ namespace djv
             if (p.inOutPointsEnabled->get())
             {
                 start = p.inPoint->get();
-                end = p.outPoint->get();
+                end   = p.outPoint->get();
             }
-            const Playback playback = p.playback->get();
-            if ((Playback::Forward == playback && value >= end) ||
-                (Playback::Reverse == playback && value <= start))
+            switch (p.playback->get())
             {
-                switch (p.playbackMode->get())
+            case Playback::Forward:
+                if (value >= end)
                 {
-                case PlaybackMode::Once:
-                    switch (p.playback->get())
+                    switch (p.playbackMode->get())
                     {
-                    case Playback::Forward: value = end;   break;
-                    case Playback::Reverse: value = start; break;
+                    case PlaybackMode::Once:
+                        setPlayback(Playback::Stop);
+                        break;
+                    case PlaybackMode::Loop:
+                    {
+                        setPlayback(Playback::Stop);
+                        setCurrentFrame(start);
+                        setPlayback(Playback::Forward);
+                        break;
+                    }
+                    case PlaybackMode::PingPong:
+                    {
+                        setPlayback(Playback::Stop);
+                        setPlayback(Playback::Reverse);
+                        break;
+                    }
                     default: break;
                     }
-                    setPlayback(Playback::Stop);
-                    setCurrentFrame(value);
-                    break;
-                case PlaybackMode::Loop:
+                }
+                else if (value < start)
                 {
-                    Playback playback = p.playback->get();
-                    switch (playback)
+                    setCurrentFrame(start);
+                    setPlayback(Playback::Forward);
+                }
+                break;
+            case Playback::Reverse:
+                if (value <= start)
+                {
+                    switch (p.playbackMode->get())
                     {
-                    case Playback::Forward: value = start; break;
-                    case Playback::Reverse: value = end;   break;
+                    case PlaybackMode::Once:
+                        setPlayback(Playback::Stop);
+                        break;
+                    case PlaybackMode::Loop:
+                    {
+                        setPlayback(Playback::Stop);
+                        setCurrentFrame(end);
+                        setPlayback(Playback::Reverse);
+                        break;
+                    }
+                    case PlaybackMode::PingPong:
+                    {
+                        setPlayback(Playback::Stop);
+                        setPlayback(Playback::Forward);
+                        break;
+                    }
                     default: break;
                     }
-                    setPlayback(Playback::Stop);
-                    setCurrentFrame(value);
-                    setPlayback(playback);
-                    break;
                 }
-                case PlaybackMode::PingPong:
+                else if (value > end)
                 {
-                    Playback playback = p.playback->get();
-                    switch (playback)
-                    {
-                    case Playback::Forward: value = end;   break;
-                    case Playback::Reverse: value = start; break;
-                    default: break;
-                    }
-                    setPlayback(Playback::Stop);
-                    setCurrentFrame(value);
-                    setPlayback(Playback::Forward == playback ? Playback::Reverse : Playback::Forward);
-                    break;
+                    setCurrentFrame(end);
+                    setPlayback(Playback::Reverse);
                 }
-                default: break;
-                }
+                break;
+            default: break;
             }
             p.currentFrame->setIfChanged(value);
         }

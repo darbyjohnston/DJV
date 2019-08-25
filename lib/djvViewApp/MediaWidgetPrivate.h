@@ -71,17 +71,17 @@ namespace djv
             std::function<void(PointerData)> _dragCallback;
         };
 
-        class CurrentFrameWidget : public UI::Widget
+        class FrameWidget : public UI::Widget
         {
-            DJV_NON_COPYABLE(CurrentFrameWidget);
+            DJV_NON_COPYABLE(FrameWidget);
 
         protected:
             void _init(const std::shared_ptr<Core::Context>&);
-            CurrentFrameWidget()
+            FrameWidget()
             {}
 
         public:
-            static std::shared_ptr<CurrentFrameWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<FrameWidget> create(const std::shared_ptr<Core::Context>&);
 
             void setSequence(const Core::Frame::Sequence&);
             void setSpeed(const Core::Time::Speed&);

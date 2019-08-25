@@ -137,10 +137,10 @@ namespace djv
             }
         }
 
-        void CurrentFrameWidget::_init(const std::shared_ptr<Context>& context)
+        void FrameWidget::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
-            setClassName("djv::ViewApp::MediaWidget::CurrentFrameWidget");
+            setClassName("djv::ViewApp::MediaWidget::FrameWidget");
 
             auto nextAction = UI::Action::create();
             nextAction->setShortcut(GLFW_KEY_UP);
@@ -161,7 +161,7 @@ namespace djv
             
             _widgetUpdate();
             
-            auto weak = std::weak_ptr<CurrentFrameWidget>(std::dynamic_pointer_cast<CurrentFrameWidget>(shared_from_this()));
+            auto weak = std::weak_ptr<FrameWidget>(std::dynamic_pointer_cast<FrameWidget>(shared_from_this()));
             _actionObservers["Next"] = ValueObserver<bool>::create(
                 nextAction->observeClicked(),
                 [weak](bool value)
@@ -250,14 +250,14 @@ namespace djv
                 });
         }
 
-        std::shared_ptr<CurrentFrameWidget> CurrentFrameWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<FrameWidget> FrameWidget::create(const std::shared_ptr<Context>& context)
         {
-            auto out = std::shared_ptr<CurrentFrameWidget>(new CurrentFrameWidget);
+            auto out = std::shared_ptr<FrameWidget>(new FrameWidget);
             out->_init(context);
             return out;
         }
 
-        void CurrentFrameWidget::setSequence(const Frame::Sequence& value)
+        void FrameWidget::setSequence(const Frame::Sequence& value)
         {
             if (value == _sequence)
                 return;
@@ -265,7 +265,7 @@ namespace djv
             _widgetUpdate();
         }
 
-        void CurrentFrameWidget::setSpeed(const Time::Speed& value)
+        void FrameWidget::setSpeed(const Time::Speed& value)
         {
             if (value == _speed)
                 return;
@@ -273,7 +273,7 @@ namespace djv
             _widgetUpdate();
         }
 
-        void CurrentFrameWidget::setFrame(const Frame::Index value)
+        void FrameWidget::setFrame(const Frame::Index value)
         {
             if (value == _index)
                 return;
@@ -281,22 +281,22 @@ namespace djv
             _widgetUpdate();
         }
 
-        void CurrentFrameWidget::setCallback(const std::function<void(Frame::Index)>& value)
+        void FrameWidget::setCallback(const std::function<void(Frame::Index)>& value)
         {
             _callback = value;
         }
 
-        void CurrentFrameWidget::_preLayoutEvent(Event::PreLayout&)
+        void FrameWidget::_preLayoutEvent(Event::PreLayout&)
         {
             _setMinimumSize(_lineEdit->getMinimumSize());
         }
 
-        void CurrentFrameWidget::_layoutEvent(Event::Layout&)
+        void FrameWidget::_layoutEvent(Event::Layout&)
         {
             _lineEdit->setGeometry(getGeometry());
         }
 
-        void CurrentFrameWidget::_setFrame(Frame::Index value)
+        void FrameWidget::_setFrame(Frame::Index value)
         {
             if (value != Frame::invalidIndex)
             {
@@ -309,7 +309,7 @@ namespace djv
             _widgetUpdate();
         }
 
-        void CurrentFrameWidget::_widgetUpdate()
+        void FrameWidget::_widgetUpdate()
         {
             switch (_timeUnits)
             {

@@ -59,7 +59,9 @@ namespace djv
             std::shared_ptr<Media> currentMedia;
             Time::Speed speed;
             Frame::Sequence sequence;
+            bool playEveryFrame = false;
             Playback playback = Playback::Forward;
+            bool inOutPointsEnabled = false;
             glm::vec2 hoverPos = glm::vec2(0.f, 0.f);
             glm::vec2 dragStart = glm::vec2(0.f, 0.f);
             Frame::Index dragStartFrame = Frame::invalidIndex;
@@ -69,11 +71,13 @@ namespace djv
             std::shared_ptr<UI::ActionGroup> playbackModeActionGroup;
             std::shared_ptr<UI::Menu> menu;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
-            std::shared_ptr<ValueObserver<Playback> > playbackObserver;
-            std::shared_ptr<ValueObserver<PlaybackMode> > playbackModeObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<Time::Speed> > speedObserver;
+            std::shared_ptr<ValueObserver<bool> > playEveryFrameObserver;
             std::shared_ptr<ValueObserver<Frame::Sequence> > sequenceObserver;
+            std::shared_ptr<ValueObserver<Playback> > playbackObserver;
+            std::shared_ptr<ValueObserver<PlaybackMode> > playbackModeObserver;
+            std::shared_ptr<ValueObserver<bool> > inOutPointsEnabledObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
             std::shared_ptr<ValueObserver<PointerData> > hoverObserver;
             std::shared_ptr<ValueObserver<PointerData> > dragObserver;
@@ -110,25 +114,19 @@ namespace djv
             p.playbackModeActionGroup->addAction(p.actions["PlayLoop"]);
             p.playbackModeActionGroup->addAction(p.actions["PlayPingPong"]);
 
-            //! \todo Implement me!
             p.actions["PlayEveryFrame"] = UI::Action::create();
             p.actions["PlayEveryFrame"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["PlayEveryFrame"]->setEnabled(false);
-            //! \todo Implement me!
+
             p.actions["InPoint"] = UI::Action::create();
             p.actions["InPoint"]->setIcon("djvIconFrameStart");
-            p.actions["InPoint"]->setShortcut(GLFW_KEY_HOME, GLFW_MOD_SHIFT);
-            p.actions["InPoint"]->setEnabled(false);
-            //! \todo Implement me!
+            p.actions["InPoint"]->setShortcut(GLFW_KEY_HOME);
             p.actions["OutPoint"] = UI::Action::create();
             p.actions["OutPoint"]->setIcon("djvIconFrameEnd");
-            p.actions["OutPoint"]->setShortcut(GLFW_KEY_END, GLFW_MOD_SHIFT);
-            p.actions["OutPoint"]->setEnabled(false);
-
+            p.actions["OutPoint"]->setShortcut(GLFW_KEY_END);
             p.actions["StartFrame"] = UI::Action::create();
-            p.actions["StartFrame"]->setShortcut(GLFW_KEY_HOME);
+            p.actions["StartFrame"]->setShortcut(GLFW_KEY_HOME, GLFW_MOD_SHIFT);
             p.actions["EndFrame"] = UI::Action::create();
-            p.actions["EndFrame"]->setShortcut(GLFW_KEY_END);
+            p.actions["EndFrame"]->setShortcut(GLFW_KEY_END, GLFW_MOD_SHIFT);
             p.actions["NextFrame"] = UI::Action::create();
             p.actions["NextFrame"]->setIcon("djvIconFrameNext");
             p.actions["NextFrame"]->addShortcut(GLFW_KEY_RIGHT);
@@ -149,27 +147,18 @@ namespace djv
             p.actions["PrevFrame100"] = UI::Action::create();
             p.actions["PrevFrame100"]->addShortcut(GLFW_KEY_LEFT, UI::Shortcut::getSystemModifier());
             p.actions["PrevFrame100"]->addShortcut(GLFW_KEY_LEFT_BRACKET, UI::Shortcut::getSystemModifier());
+
             p.actions["InOutPoints"] = UI::Action::create();
             p.actions["InOutPoints"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["InOutPoints"]->setShortcut(GLFW_KEY_P);
-            p.actions["InOutPoints"]->setEnabled(false);
-
-            //! \todo Implement me!
             p.actions["SetInPoint"] = UI::Action::create();
             p.actions["SetInPoint"]->setShortcut(GLFW_KEY_I);
-            p.actions["SetInPoint"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["SetOutPoint"] = UI::Action::create();
             p.actions["SetOutPoint"]->setShortcut(GLFW_KEY_O);
-            p.actions["SetOutPoint"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["ResetInPoint"] = UI::Action::create();
             p.actions["ResetInPoint"]->setShortcut(GLFW_KEY_I, GLFW_MOD_SHIFT);
-            p.actions["ResetInPoint"]->setEnabled(false);
-            //! \todo Implement me!
             p.actions["ResetOutPoint"] = UI::Action::create();
             p.actions["ResetOutPoint"]->setShortcut(GLFW_KEY_O, GLFW_MOD_SHIFT);
-            p.actions["ResetOutPoint"]->setEnabled(false);
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Forward"]);
@@ -249,8 +238,37 @@ namespace djv
                 }
             });
 
-            p.actionObservers["StartFrame"] = ValueObserver<bool>::create(
-                p.actions["StartFrame"]->observeClicked(),
+            p.actionObservers["PlayEveryFrame"] = ValueObserver<bool>::create(
+                p.actions["PlayEveryFrame"]->observeChecked(),
+                [weak](bool value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        if (auto media = system->_p->currentMedia)
+                        {
+                            media->setPlayEveryFrame(value);
+                        }
+                    }
+                });
+
+            p.actionObservers["InPoint"] = ValueObserver<bool>::create(
+                p.actions["InPoint"]->observeClicked(),
+                [weak](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (auto media = system->_p->currentMedia)
+                            {
+                                media->inPoint();
+                            }
+                        }
+                    }
+                });
+
+            p.actionObservers["OutPoint"] = ValueObserver<bool>::create(
+                p.actions["OutPoint"]->observeClicked(),
                 [weak](bool value)
             {
                 if (value)
@@ -259,27 +277,43 @@ namespace djv
                     {
                         if (auto media = system->_p->currentMedia)
                         {
-                            media->start();
+                            media->outPoint();
                         }
                     }
                 }
             });
 
+            p.actionObservers["StartFrame"] = ValueObserver<bool>::create(
+                p.actions["StartFrame"]->observeClicked(),
+                [weak](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (auto media = system->_p->currentMedia)
+                            {
+                                media->start();
+                            }
+                        }
+                    }
+                });
+
             p.actionObservers["EndFrame"] = ValueObserver<bool>::create(
                 p.actions["EndFrame"]->observeClicked(),
                 [weak](bool value)
-            {
-                if (value)
                 {
-                    if (auto system = weak.lock())
+                    if (value)
                     {
-                        if (auto media = system->_p->currentMedia)
+                        if (auto system = weak.lock())
                         {
-                            media->end();
+                            if (auto media = system->_p->currentMedia)
+                            {
+                                media->end();
+                            }
                         }
                     }
-                }
-            });
+                });
 
             p.actionObservers["NextFrame"] = ValueObserver<bool>::create(
                 p.actions["NextFrame"]->observeClicked(),
@@ -364,18 +398,95 @@ namespace djv
             p.actionObservers["PrevFrame100"] = ValueObserver<bool>::create(
                 p.actions["PrevFrame100"]->observeClicked(),
                 [weak](bool value)
-            {
-                if (value)
+                {
+                    if (value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (auto media = system->_p->currentMedia)
+                            {
+                                media->prevFrame(100);
+                            }
+                        }
+                    }
+                });
+
+            p.actionObservers["InOutPoints"] = ValueObserver<bool>::create(
+                p.actions["InOutPoints"]->observeChecked(),
+                [weak](bool value)
                 {
                     if (auto system = weak.lock())
                     {
                         if (auto media = system->_p->currentMedia)
                         {
-                            media->prevFrame(100);
+                            media->setInOutPointsEnabled(value);
                         }
                     }
-                }
-            });
+                });
+
+            p.actionObservers["SetInPoint"] = ValueObserver<bool>::create(
+                p.actions["SetInPoint"]->observeClicked(),
+                [weak](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (auto media = system->_p->currentMedia)
+                            {
+                                media->setInPoint();
+                            }
+                        }
+                    }
+                });
+
+            p.actionObservers["SetOutPoint"] = ValueObserver<bool>::create(
+                p.actions["SetOutPoint"]->observeClicked(),
+                [weak](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (auto media = system->_p->currentMedia)
+                            {
+                                media->setOutPoint();
+                            }
+                        }
+                    }
+                });
+
+            p.actionObservers["ResetInPoint"] = ValueObserver<bool>::create(
+                p.actions["ResetInPoint"]->observeClicked(),
+                [weak](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (auto media = system->_p->currentMedia)
+                            {
+                                media->resetInPoint();
+                            }
+                        }
+                    }
+                });
+
+            p.actionObservers["ResetOutPoint"] = ValueObserver<bool>::create(
+                p.actions["ResetOutPoint"]->observeClicked(),
+                [weak](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (auto media = system->_p->currentMedia)
+                            {
+                                media->resetOutPoint();
+                            }
+                        }
+                    }
+                });
 
             if (auto fileSystem = context->getSystemT<FileSystem>())
             {
@@ -389,6 +500,39 @@ namespace djv
                         system->_actionsUpdate();
                         if (value)
                         {
+                            system->_p->speedObserver = ValueObserver<Time::Speed>::create(
+                                value->observeSpeed(),
+                                [weak](const Time::Speed& value)
+                                {
+                                    if (auto system = weak.lock())
+                                    {
+                                        system->_p->speed = value;
+                                        system->_actionsUpdate();
+                                    }
+                                });
+
+                            system->_p->playEveryFrameObserver = ValueObserver<bool>::create(
+                                value->observePlayEveryFrame(),
+                                [weak](bool value)
+                                {
+                                    if (auto system = weak.lock())
+                                    {
+                                        system->_p->playEveryFrame = value;
+                                        system->_actionsUpdate();
+                                    }
+                                });
+
+                            system->_p->sequenceObserver = ValueObserver<Frame::Sequence>::create(
+                                value->observeSequence(),
+                                [weak](const Frame::Sequence& value)
+                                {
+                                    if (auto system = weak.lock())
+                                    {
+                                        system->_p->sequence = value;
+                                        system->_actionsUpdate();
+                                    }
+                                });
+
                             system->_p->playbackObserver = ValueObserver<Playback>::create(
                                 value->observePlayback(),
                                 [weak](Playback value)
@@ -411,6 +555,7 @@ namespace djv
                                     system->_p->playbackActionGroup->setChecked(index);
                                 }
                             });
+
                             system->_p->playbackModeObserver = ValueObserver<PlaybackMode>::create(
                                 value->observePlaybackMode(),
                                 [weak](PlaybackMode value)
@@ -420,23 +565,14 @@ namespace djv
                                     system->_p->playbackModeActionGroup->setChecked(static_cast<int>(value), true);
                                 }
                             });
-                            system->_p->speedObserver = ValueObserver<Time::Speed>::create(
-                                value->observeSpeed(),
-                                [weak](const Time::Speed& value)
+
+                            system->_p->inOutPointsEnabledObserver = ValueObserver<bool>::create(
+                                value->observeInOutPointsEnabled(),
+                                [weak](bool value)
                                 {
                                     if (auto system = weak.lock())
                                     {
-                                        system->_p->speed = value;
-                                        system->_actionsUpdate();
-                                    }
-                                });
-                            system->_p->sequenceObserver = ValueObserver<Frame::Sequence>::create(
-                                value->observeSequence(),
-                                [weak](const Frame::Sequence& value)
-                                {
-                                    if (auto system = weak.lock())
-                                    {
-                                        system->_p->sequence = value;
+                                        system->_p->inOutPointsEnabled = value;
                                         system->_actionsUpdate();
                                     }
                                 });
@@ -445,12 +581,20 @@ namespace djv
                         {
                             system->_p->speed = Time::Speed();
                             system->_p->sequence = Frame::Sequence();
+                            system->_p->playEveryFrame = false;
+                            system->_p->playback = Playback::Stop;
+                            system->_p->inOutPointsEnabled = false;
+
                             system->_p->playbackActionGroup->setChecked(0, false);
                             system->_p->playbackActionGroup->setChecked(1, false);
-                            system->_p->playbackObserver.reset();
-                            system->_p->playbackModeObserver.reset();
+
                             system->_p->speedObserver.reset();
                             system->_p->sequenceObserver.reset();
+                            system->_p->playEveryFrameObserver.reset();
+                            system->_p->playbackObserver.reset();
+                            system->_p->playbackModeObserver.reset();
+                            system->_p->inOutPointsEnabledObserver.reset();
+
                             system->_actionsUpdate();
                         }
                     }
@@ -618,6 +762,10 @@ namespace djv
             p.actions["PlayOnce"]->setEnabled(playable);
             p.actions["PlayLoop"]->setEnabled(playable);
             p.actions["PlayPingPong"]->setEnabled(playable);
+            p.actions["PlayEveryFrame"]->setEnabled(playable);
+            p.actions["PlayEveryFrame"]->setChecked(p.playEveryFrame);
+            p.actions["InPoint"]->setEnabled(playable);
+            p.actions["OutPoint"]->setEnabled(playable);
             p.actions["StartFrame"]->setEnabled(playable);
             p.actions["EndFrame"]->setEnabled(playable);
             p.actions["NextFrame"]->setEnabled(playable);
@@ -626,6 +774,12 @@ namespace djv
             p.actions["PrevFrame"]->setEnabled(playable);
             p.actions["PrevFrame10"]->setEnabled(playable);
             p.actions["PrevFrame100"]->setEnabled(playable);
+            p.actions["InOutPoints"]->setEnabled(playable);
+            p.actions["InOutPoints"]->setChecked(p.inOutPointsEnabled);
+            p.actions["SetInPoint"]->setEnabled(playable);
+            p.actions["SetOutPoint"]->setEnabled(playable);
+            p.actions["ResetInPoint"]->setEnabled(playable);
+            p.actions["ResetOutPoint"]->setEnabled(playable);
         }
 
     } // namespace ViewApp

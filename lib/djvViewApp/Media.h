@@ -115,7 +115,7 @@ namespace djv
 
             void setSpeed(const Core::Time::Speed&);
             void setPlayEveryFrame(bool);
-            void setCurrentFrame(Core::Frame::Index);
+            void setCurrentFrame(Core::Frame::Index, bool inOutPoints = true);
             void setPlayback(Playback);
             void setPlaybackMode(PlaybackMode);
             void inPoint();
@@ -125,7 +125,9 @@ namespace djv
             void nextFrame(size_t = 1);
             void prevFrame(size_t = 1);
             void setInOutPointsEnabled(bool);
+            void setInPoint();
             void setInPoint(Core::Frame::Index);
+            void setOutPoint();
             void setOutPoint(Core::Frame::Index);
             void resetInPoint();
             void resetOutPoint();

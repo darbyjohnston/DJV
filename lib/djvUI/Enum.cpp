@@ -175,7 +175,8 @@ namespace djv
         DJV_TEXT("Overlay"),
         DJV_TEXT("OverlayLight"),
         DJV_TEXT("Shadow"),
-        DJV_TEXT("Handle"));
+        DJV_TEXT("Handle"),
+        DJV_TEXT("Cached"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         UI,
