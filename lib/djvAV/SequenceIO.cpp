@@ -134,12 +134,13 @@ namespace djv
                         // Update the options.
                         size_t threadCount = 4;
                         bool cacheEnabled = false;
-                        size_t cacheMax = 0;
+                        size_t cacheMaxByteCount = 0;
                         {
                             std::lock_guard<std::mutex> lock(_mutex);
                             threadCount = _threadCount;
                             cacheEnabled = _cacheEnabled;
-                            cacheMax = _cacheMax;
+                            cacheMaxByteCount = _cacheMaxByteCount;
+                            _cacheByteCount = _getCacheByteCount(_cache);
                             _cachedFrames = _getCachedFrames(_cache);
                         }
                         if (!cacheEnabled)
@@ -149,7 +150,7 @@ namespace djv
                         if (info.video.size() && _options.layer < info.video.size())
                         {
                             const size_t dataByteCount = info.video[_options.layer].info.getDataByteCount();
-                            _cache.setMax(cacheMax / dataByteCount);
+                            _cache.setMax(cacheMaxByteCount / dataByteCount);
                         }
                         else
                         {

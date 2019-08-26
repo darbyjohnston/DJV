@@ -256,19 +256,22 @@ namespace djv
 
                 virtual bool hasCache() const { return false; }
                 bool isCacheEnabled() const;
-                void setCacheEnabled(bool);
-                size_t getCacheMax() const;
-                void setCacheMax(size_t);
+                size_t getCacheMaxByteCount() const;
+                size_t getCacheByteCount();
                 std::vector<Core::Frame::Range> getCachedFrames();
+                void setCacheEnabled(bool);
+                void setCacheMaxByteCount(size_t);
 
             protected:
                 typedef Core::Memory::Cache<Core::Frame::Number, std::shared_ptr<Image::Image> > MemoryCache;
+                static size_t _getCacheByteCount(const MemoryCache& cache);
                 static std::vector<Core::Frame::Range> _getCachedFrames(const MemoryCache& cache);
 
                 ReadOptions _options;
                 Direction _direction = Direction::Forward;
                 bool _cacheEnabled = false;
-                size_t _cacheMax = 0;
+                size_t _cacheMaxByteCount = 0;
+                size_t _cacheByteCount = 0;
                 std::vector<Core::Frame::Range> _cachedFrames;
                 MemoryCache _cache;
             };

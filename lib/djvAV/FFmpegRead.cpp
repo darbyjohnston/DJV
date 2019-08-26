@@ -29,7 +29,6 @@
 
 #include <djvAV/FFmpeg.h>
 
-#include <djvCore/Cache.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/Timer.h>
 #include <djvCore/Vector.h>
@@ -342,11 +341,11 @@ namespace djv
                             {
                                 //! \todo Implement me!
                                 /*bool cacheEnabled = false;
-                                size_t cacheMax = 0;
+                                size_t cacheMaxByteCount = 0;
                                 {
                                     std::lock_guard<std::mutex> lock(_mutex);
                                     cacheEnabled = _cacheEnabled;
-                                    cacheMax = _cacheMax;
+                                    cacheMaxByteCount = _cacheMaxByteCount;
                                     _cachedFrames = _getCachedFrames(_cache);
                                 }
                                 if (!cacheEnabled)
@@ -356,7 +355,7 @@ namespace djv
                                 if (info.video.size() && _options.layer < info.video.size())
                                 {
                                     const size_t dataByteCount = info.video[_options.layer].info.getDataByteCount();
-                                    _cache.setMax(cacheMax / dataByteCount);
+                                    _cache.setMax(cacheMaxByteCount / dataByteCount);
                                 }
                                 else
                                 {

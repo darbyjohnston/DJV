@@ -52,6 +52,7 @@
 #include <djvCore/FileInfo.h>
 #include <djvCore/RecentFilesModel.h>
 #include <djvCore/TextSystem.h>
+#include <djvCore/Timer.h>
 
 #include <GLFW/glfw3.h>
 
@@ -69,6 +70,7 @@ namespace djv
             std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > closed;
             std::shared_ptr<ListSubject<std::shared_ptr<Media> > > media;
             std::shared_ptr<ValueSubject<std::shared_ptr<Media> > > currentMedia;
+            std::shared_ptr<ValueSubject<float> > cachePercentage;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
             std::shared_ptr<UI::FileBrowser::Dialog> fileBrowserDialog;
@@ -80,9 +82,10 @@ namespace djv
             std::shared_ptr<ListObserver<Core::FileSystem::FileInfo> > recentFilesObserver2;
             std::shared_ptr<ValueObserver<size_t> > threadCountObserver;
             std::shared_ptr<ValueObserver<bool> > cacheEnabledObserver;
-            std::shared_ptr<ValueObserver<int> > cacheMaxObserver;
+            std::shared_ptr<ValueObserver<int> > cacheMaxGBObserver;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
+            std::shared_ptr<Time::Timer> cacheTimer;
         };
 
         void FileSystem::_init(const std::shared_ptr<Core::Context>& context)
@@ -97,6 +100,7 @@ namespace djv
             p.closed = ValueSubject<std::shared_ptr<Media> >::create();
             p.media = ListSubject<std::shared_ptr<Media> >::create();
             p.currentMedia = ValueSubject<std::shared_ptr<Media> >::create();
+            p.cachePercentage = ValueSubject<float>::create();
 
             p.actions["Open"] = UI::Action::create();
             p.actions["Open"]->setIcon("djvIconFileOpen");
@@ -130,8 +134,8 @@ namespace djv
             p.actions["8BitConversion"] = UI::Action::create();
             p.actions["8BitConversion"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["8BitConversion"]->setEnabled(false);
-            p.actions["MemoryCache"] = UI::Action::create();
-            p.actions["MemoryCache"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["Cache"] = UI::Action::create();
+            p.actions["Cache"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["Exit"] = UI::Action::create();
             p.actions["Exit"]->setShortcut(GLFW_KEY_Q, UI::Shortcut::getSystemModifier());
 
@@ -151,7 +155,7 @@ namespace djv
             p.menu->addSeparator();
             p.menu->addAction(p.actions["8BitConversion"]);
             p.menu->addSeparator();
-            p.menu->addAction(p.actions["MemoryCache"]);
+            p.menu->addAction(p.actions["Cache"]);
             p.menu->addSeparator();
             p.menu->addAction(p.actions["Exit"]);
 
@@ -384,13 +388,13 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        system->_p->actions["MemoryCache"]->setChecked(value);
+                        system->_p->actions["Cache"]->setChecked(value);
                         system->_cacheUpdate();
                     }
                 });
 
-            p.cacheMaxObserver = ValueObserver<int>::create(
-                p.settings->observeCacheMax(),
+            p.cacheMaxGBObserver = ValueObserver<int>::create(
+                p.settings->observeCacheMaxGB(),
                 [weak](int value)
                 {
                     if (auto system = weak.lock())
@@ -399,8 +403,8 @@ namespace djv
                     }
                 });
 
-            p.actionObservers["MemoryCache"] = ValueObserver<bool>::create(
-                p.actions["MemoryCache"]->observeChecked(),
+            p.actionObservers["Cache"] = ValueObserver<bool>::create(
+                p.actions["Cache"]->observeChecked(),
                 [weak](bool value)
                 {
                     if (auto system = weak.lock())
@@ -448,6 +452,31 @@ namespace djv
                     system->_textUpdate();
                 }
             });
+
+            p.cacheTimer = Time::Timer::create(context);
+            p.cacheTimer->setRepeating(true);
+            p.cacheTimer->start(
+                Time::getMilliseconds(Time::TimerValue::Medium),
+                [weak](float)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        size_t cacheMaxByteCount  = 0;
+                        size_t cacheByteCount = 0;
+                        for (const auto& i : system->_p->media->get())
+                        {
+                            if (i->hasCache())
+                            {
+                                cacheMaxByteCount  += i->getCacheMaxByteCount();
+                                cacheByteCount += i->getCacheByteCount();
+                            }
+                        }
+                        const float percentage = cacheMaxByteCount ?
+                            (cacheByteCount / static_cast<float>(cacheMaxByteCount) * 100.f) :
+                            0.f;
+                        system->_p->cachePercentage->setIfChanged(percentage);
+                    }
+                });
         }
 
         FileSystem::FileSystem() :
@@ -487,6 +516,11 @@ namespace djv
         std::shared_ptr<IValueSubject<std::shared_ptr<Media> > > FileSystem::observeCurrentMedia() const
         {
             return _p->currentMedia;
+        }
+
+        std::shared_ptr<IValueSubject<float> > FileSystem::observeCachePercentage() const
+        {
+            return _p->cachePercentage;
         }
 
         void FileSystem::open()
@@ -618,12 +652,12 @@ namespace djv
                 }
             }
             const bool cacheEnabled = p.settings->observeCacheEnabled()->get();
-            const size_t cacheMax = p.settings->observeCacheMax()->get();
-            const size_t mediaCacheSize = cacheCount > 0 ? ((cacheMax * Memory::gigabyte) / cacheCount) : 0;
+            const size_t cacheMaxByteCount = p.settings->observeCacheMaxGB()->get() * Memory::gigabyte;
+            const size_t mediaCacheSizeByteCount = cacheCount > 0 ? (cacheMaxByteCount / cacheCount) : 0;
             for (const auto& i : media)
             {
                 i->setCacheEnabled(cacheEnabled);
-                i->setCacheMax(mediaCacheSize);
+                i->setCacheMaxByteCount(mediaCacheSizeByteCount);
             }
         }
 
@@ -654,8 +688,8 @@ namespace djv
             p.actions["PrevLayer"]->setTooltip(_getText(DJV_TEXT("Previous layer tooltip")));
             p.actions["8BitConversion"]->setText(_getText(DJV_TEXT("8-Bit Conversion")));
             p.actions["8BitConversion"]->setTooltip(_getText(DJV_TEXT("8-bit conversion tooltip")));
-            p.actions["MemoryCache"]->setText(_getText(DJV_TEXT("Memory Cache")));
-            p.actions["MemoryCache"]->setTooltip(_getText(DJV_TEXT("Memory cache tooltip")));
+            p.actions["Cache"]->setText(_getText(DJV_TEXT("Memory Cache")));
+            p.actions["Cache"]->setTooltip(_getText(DJV_TEXT("Memory cache tooltip")));
             p.actions["Exit"]->setText(_getText(DJV_TEXT("Exit")));
             p.actions["Exit"]->setTooltip(_getText(DJV_TEXT("Exit tooltip")));
 

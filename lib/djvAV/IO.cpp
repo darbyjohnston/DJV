@@ -261,27 +261,43 @@ namespace djv
                 return _cacheEnabled;
             }
 
-            void IRead::setCacheEnabled(bool value)
+            size_t IRead::getCacheMaxByteCount() const
             {
-                std::lock_guard<std::mutex> lock(_mutex);
-                _cacheEnabled = value;
+                return _cacheMaxByteCount;
             }
 
-            size_t IRead::getCacheMax() const
-            {
-                return _cacheMax;
-            }
-
-            void IRead::setCacheMax(size_t value)
+            size_t IRead::getCacheByteCount()
             {
                 std::lock_guard<std::mutex> lock(_mutex);
-                _cacheMax = value;
+                return _cacheByteCount;
             }
 
             std::vector<Frame::Range> IRead::getCachedFrames()
             {
                 std::lock_guard<std::mutex> lock(_mutex);
                 return _cachedFrames;
+            }
+
+            void IRead::setCacheEnabled(bool value)
+            {
+                std::lock_guard<std::mutex> lock(_mutex);
+                _cacheEnabled = value;
+            }
+
+            void IRead::setCacheMaxByteCount(size_t value)
+            {
+                std::lock_guard<std::mutex> lock(_mutex);
+                _cacheMaxByteCount = value;
+            }
+
+            size_t IRead::_getCacheByteCount(const MemoryCache& cache)
+            {
+                size_t out = 0;
+                for (const auto& i : cache.getValues())
+                {
+                    out += i->getDataByteCount();
+                }
+                return out;
             }
 
             std::vector<Frame::Range> IRead::_getCachedFrames(const MemoryCache& cache)

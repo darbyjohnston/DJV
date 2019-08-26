@@ -70,6 +70,8 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > observeClosed() const;
             std::shared_ptr<Core::IListSubject<std::shared_ptr<Media> > > observeMedia() const;
             std::shared_ptr<Core::IValueSubject<std::shared_ptr<Media> > > observeCurrentMedia() const;
+            std::shared_ptr<Core::IValueSubject<float> > observeCachePercentage() const;
+
             void open();
             void open(const Core::FileSystem::FileInfo&);
             void open(const Core::FileSystem::FileInfo&, const glm::vec2 &);

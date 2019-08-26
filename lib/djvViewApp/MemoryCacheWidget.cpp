@@ -30,9 +30,11 @@
 #include <djvViewApp/MemoryCacheWidget.h>
 
 #include <djvViewApp/FileSettings.h>
+#include <djvViewApp/FileSystem.h>
 
 #include <djvUI/FormLayout.h>
 #include <djvUI/IntSlider.h>
+#include <djvUI/Label.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/ToggleButton.h>
 
@@ -48,10 +50,12 @@ namespace djv
         struct MemoryCacheWidget::Private
         {
             std::shared_ptr<UI::ToggleButton> enabledButton;
-            std::shared_ptr<UI::IntSlider> maxSlider;
+            std::shared_ptr<UI::IntSlider> maxGBSlider;
+            std::shared_ptr<UI::Label> percentageLabel;
             std::shared_ptr<UI::FormLayout> layout;
             std::shared_ptr<ValueObserver<bool> > enabledObserver;
-            std::shared_ptr<ValueObserver<int> > maxObserver;
+            std::shared_ptr<ValueObserver<int> > maxGBObserver;
+            std::shared_ptr<ValueObserver<float> > percentageObserver;
         };
 
         void MemoryCacheWidget::_init(const std::shared_ptr<Core::Context>& context)
@@ -62,12 +66,16 @@ namespace djv
 
             p.enabledButton = UI::ToggleButton::create(context);
 
-            p.maxSlider = UI::IntSlider::create(context);
-            p.maxSlider->setRange(IntRange(1, OS::getRAMSize() / Memory::gigabyte));
+            p.maxGBSlider = UI::IntSlider::create(context);
+            p.maxGBSlider->setRange(IntRange(1, OS::getRAMSize() / Memory::gigabyte));
+
+            p.percentageLabel = UI::Label::create(context);
+            p.percentageLabel->setTextHAlign(UI::TextHAlign::Left);
 
             p.layout = UI::FormLayout::create(context);
             p.layout->addChild(p.enabledButton);
-            p.layout->addChild(p.maxSlider);
+            p.layout->addChild(p.maxGBSlider);
+            p.layout->addChild(p.percentageLabel);
             addChild(p.layout);
 
             auto contextWeak = std::weak_ptr<Context>(context);
@@ -83,7 +91,7 @@ namespace djv
                         }
                     }
                 });
-            p.maxSlider->setValueCallback(
+            p.maxGBSlider->setValueCallback(
                 [contextWeak](int value)
                 {
                     if (auto context = contextWeak.lock())
@@ -91,16 +99,16 @@ namespace djv
                         auto settingsSystem = context->getSystemT<UI::Settings::System>();
                         if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
                         {
-                            fileSettings->setCacheMax(value);
+                            fileSettings->setCacheMaxGB(value);
                         }
                     }
                 });
 
+            auto weak = std::weak_ptr<MemoryCacheWidget>(
+                std::dynamic_pointer_cast<MemoryCacheWidget>(shared_from_this()));
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
             if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
             {
-                auto weak = std::weak_ptr<MemoryCacheWidget>(
-                std::dynamic_pointer_cast<MemoryCacheWidget>(shared_from_this()));
                 p.enabledObserver = ValueObserver<bool>::create(
                     fileSettings->observeCacheEnabled(),
                     [weak](bool value)
@@ -111,13 +119,30 @@ namespace djv
                         }
                     });
 
-                p.maxObserver = ValueObserver<int>::create(
-                    fileSettings->observeCacheMax(),
+                p.maxGBObserver = ValueObserver<int>::create(
+                    fileSettings->observeCacheMaxGB(),
                     [weak](int value)
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->maxSlider->setValue(value);
+                            widget->_p->maxGBSlider->setValue(value);
+                        }
+                    });
+            }
+
+            if (auto fileSystem = context->getSystemT<FileSystem>())
+            {
+                p.percentageObserver = ValueObserver<float>::create(
+                    fileSystem->observeCachePercentage(),
+                    [weak](float value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            std::stringstream ss;
+                            ss.precision(2);
+                            ss << std::fixed << value;
+                            ss << "%";
+                            widget->_p->percentageLabel->setText(ss.str());
                         }
                     });
             }
@@ -154,7 +179,8 @@ namespace djv
             Widget::_localeEvent(event);
             DJV_PRIVATE_PTR();
             p.layout->setText(p.enabledButton, _getText(DJV_TEXT("Enabled")) + ":");
-            p.layout->setText(p.maxSlider, _getText(DJV_TEXT("Size (gigabytes)")) + ":");
+            p.layout->setText(p.maxGBSlider, _getText(DJV_TEXT("Size (gigabytes)")) + ":");
+            p.layout->setText(p.percentageLabel, _getText(DJV_TEXT("Percentage used")) + ":");
         }
 
     } // namespace ViewApp

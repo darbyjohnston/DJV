@@ -102,7 +102,7 @@ namespace djv
             std::shared_ptr<Time::Timer> queueTimer;
             std::shared_ptr<Time::Timer> playbackTimer;
             std::shared_ptr<Time::Timer> realSpeedTimer;
-            std::shared_ptr<Time::Timer> cachedFramesTimer;
+            std::shared_ptr<Time::Timer> cacheTimer;
             std::shared_ptr<Time::Timer> debugTimer;
         };
 
@@ -144,8 +144,8 @@ namespace djv
             p.playbackTimer->setRepeating(true);
             p.realSpeedTimer = Time::Timer::create(context);
             p.realSpeedTimer->setRepeating(true);
-            p.cachedFramesTimer = Time::Timer::create(context);
-            p.cachedFramesTimer->setRepeating(true);
+            p.cacheTimer = Time::Timer::create(context);
+            p.cacheTimer->setRepeating(true);
             p.debugTimer = Time::Timer::create(context);
             p.debugTimer->setRepeating(true);
 
@@ -525,6 +525,18 @@ namespace djv
             return p.read ? p.read->hasCache() : false;
         }
 
+        size_t Media::getCacheMaxByteCount() const
+        {
+            DJV_PRIVATE_PTR();
+            return p.read ? p.read->getCacheMaxByteCount() : 0;
+        }
+
+        size_t Media::getCacheByteCount() const
+        {
+            DJV_PRIVATE_PTR();
+            return p.read ? p.read->getCacheByteCount() : 0;
+        }
+
         std::shared_ptr<Core::IListSubject<Frame::Range> > Media::observeCachedFrames() const
         {
             return _p->cachedFrames;
@@ -539,12 +551,12 @@ namespace djv
             }
         }
 
-        void Media::setCacheMax(size_t value)
+        void Media::setCacheMaxByteCount(size_t value)
         {
             DJV_PRIVATE_PTR();
             if (p.read)
             {
-                p.read->setCacheMax(value);
+                p.read->setCacheMaxByteCount(value);
             }
         }
 
@@ -666,7 +678,7 @@ namespace djv
                     p.audioEnabled->setIfChanged(_isAudioEnabled());
 
                     auto weak = std::weak_ptr<Media>(std::dynamic_pointer_cast<Media>(shared_from_this()));
-                    p.cachedFramesTimer->start(
+                    p.cacheTimer->start(
                         Time::getMilliseconds(Time::TimerValue::Medium),
                         [weak](float)
                         {

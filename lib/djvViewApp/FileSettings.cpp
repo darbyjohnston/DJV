@@ -49,7 +49,7 @@ namespace djv
             std::shared_ptr<ListSubject<Core::FileSystem::FileInfo> > recentFiles;
             std::shared_ptr<ValueSubject<bool> > autoDetectSequences;
             std::shared_ptr<ValueSubject<bool> > cacheEnabled;
-            std::shared_ptr<ValueSubject<int> > cacheMax;
+            std::shared_ptr<ValueSubject<int> > cacheMaxGB;
         };
 
         void FileSettings::_init(const std::shared_ptr<Core::Context>& context)
@@ -59,7 +59,7 @@ namespace djv
             p.recentFiles = ListSubject<Core::FileSystem::FileInfo>::create();
             p.autoDetectSequences = ValueSubject<bool>::create(true);
             p.cacheEnabled = ValueSubject<bool>::create(true);
-            p.cacheMax = ValueSubject<int>::create(4);
+            p.cacheMaxGB = ValueSubject<int>::create(4);
             _load();
         }
 
@@ -102,9 +102,9 @@ namespace djv
             return _p->cacheEnabled;
         }
 
-        std::shared_ptr<IValueSubject<int> > FileSettings::observeCacheMax() const
+        std::shared_ptr<IValueSubject<int> > FileSettings::observeCacheMaxGB() const
         {
-            return _p->cacheMax;
+            return _p->cacheMaxGB;
         }
 
         void FileSettings::setCacheEnabled(bool value)
@@ -112,9 +112,9 @@ namespace djv
             _p->cacheEnabled->setIfChanged(value);
         }
 
-        void FileSettings::setCacheMax(int value)
+        void FileSettings::setCacheMaxGB(int value)
         {
-            _p->cacheMax->setIfChanged(value);
+            _p->cacheMaxGB->setIfChanged(value);
         }
 
         void FileSettings::load(const picojson::value & value)
@@ -126,7 +126,7 @@ namespace djv
                 UI::Settings::read("RecentFiles", object, p.recentFiles);
                 UI::Settings::read("AutoDetectSequences", object, p.autoDetectSequences);
                 UI::Settings::read("CacheEnabled", object, p.cacheEnabled);
-                UI::Settings::read("CacheMax", object, p.cacheMax);
+                UI::Settings::read("CacheMax", object, p.cacheMaxGB);
             }
         }
 
@@ -138,7 +138,7 @@ namespace djv
             UI::Settings::write("RecentFiles", p.recentFiles->get(), object);
             UI::Settings::write("AutoDetectSequences", p.autoDetectSequences->get(), object);
             UI::Settings::write("CacheEnabled", p.cacheEnabled->get(), object);
-            UI::Settings::write("CacheMax", p.cacheMax->get(), object);
+            UI::Settings::write("CacheMax", p.cacheMaxGB->get(), object);
             return out;
         }
 
