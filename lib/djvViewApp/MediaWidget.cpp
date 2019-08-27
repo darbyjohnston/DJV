@@ -1069,7 +1069,7 @@ namespace djv
                 auto button = UI::ListButton::create(context);
                 std::stringstream ss;
                 ss << _getText(DJV_TEXT("Default")) << ": ";
-                ss.precision(3);
+                ss.precision(2);
                 ss << std::fixed << p.defaultSpeed.toFloat();
                 button->setText(ss.str());
                 p.speedButtonGroup->addButton(button);
@@ -1079,7 +1079,7 @@ namespace djv
 
                 {
                     std::stringstream ss;
-                    ss.precision(3);
+                    ss.precision(2);
                     ss << _getText(DJV_TEXT("FPS")) << ": " << std::fixed << p.speed.toFloat();
                     p.speedPopupWidget->setText(ss.str());
                 }
@@ -1091,7 +1091,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             {
                 std::stringstream ss;
-                ss.precision(3);
+                ss.precision(2);
                 ss << std::fixed << p.realSpeed;
                 p.realSpeedLabel->setText(ss.str());
             }
