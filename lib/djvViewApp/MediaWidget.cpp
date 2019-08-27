@@ -276,7 +276,7 @@ namespace djv
 
             p.playbackLayout = UI::GridLayout::create(context);
             p.playbackLayout->setBackgroundRole(UI::ColorRole::OverlayLight);
-            p.playbackLayout->setSpacing(UI::MetricsRole::None);
+            p.playbackLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall, UI::MetricsRole::None));
             p.playbackLayout->addChild(toolbar);
             p.playbackLayout->setGridPos(toolbar, 0, 0);
             p.playbackLayout->addChild(p.timelineSlider);

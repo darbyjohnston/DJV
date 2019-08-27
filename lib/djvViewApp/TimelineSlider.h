@@ -67,8 +67,8 @@ namespace djv
             void setCachedFrames(const std::vector<Core::Frame::Range>&);
 
         protected:
-            void _styleEvent(Core::Event::Style &) override;
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
+            void _styleEvent(Core::Event::Style&) override;
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
             void _paintEvent(Core::Event::Paint &) override;
             void _pointerEnterEvent(Core::Event::PointerEnter &) override;
             void _pointerLeaveEvent(Core::Event::PointerLeave &) override;
@@ -81,6 +81,10 @@ namespace djv
         private:
             Core::Frame::Index _posToFrame(float) const;
             float _frameToPos(Core::Frame::Index) const;
+            float _getFrameLength() const;
+            float _getSecondLength() const;
+            float _getMinuteLength() const;
+            float _getHourLength() const;
             Core::BBox2f _getHandleGeometry() const;
             void _textUpdate();
 

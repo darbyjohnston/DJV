@@ -108,8 +108,9 @@ namespace djv
                 _imageWidget->setSizeRole(UI::MetricsRole::TextColumn);
 
                 _timeLabel = UI::Label::create(context);
+                _timeLabel->setFontSizeRole(UI::MetricsRole::FontSmall);
                 _timeLabel->setVAlign(UI::VAlign::Bottom);
-                _timeLabel->setMargin(UI::MetricsRole::MarginSmall);
+                _timeLabel->setMargin(UI::MetricsRole::Border);
                 _timeLabel->setBackgroundRole(UI::ColorRole::OverlayLight);
 
                 _layout = UI::StackLayout::create(context);
@@ -257,8 +258,14 @@ namespace djv
             std::vector<Frame::Range> cachedFrames;
             AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;
+            std::string currentFrameText;
+            float currentFrameLength = 0.f;
+            std::future<glm::vec2> currentFrameSizeFuture;
+            float maxFrameLength = 0.f;
+            std::future<glm::vec2> maxFrameSizeFuture;
             uint32_t pressedID = Event::InvalidID;
             bool pip = true;
+            AV::TimeUnits timeUnits = AV::TimeUnits::First;
             std::shared_ptr<PIPWidget> pipWidget;
             std::shared_ptr<UI::Layout::Overlay> overlay;
             std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
@@ -266,6 +273,7 @@ namespace djv
             std::shared_ptr<ValueObserver<Frame::Sequence> > sequenceObserver;
             std::shared_ptr<ValueObserver<Frame::Index> > currentFrameObserver;
             std::shared_ptr<ValueObserver<bool> > pipObserver;
+            std::shared_ptr<ValueObserver<AV::TimeUnits> > timeUnitsObserver;
         };
 
         void TimelineSlider::_init(const std::shared_ptr<Core::Context>& context)
@@ -301,6 +309,18 @@ namespace djv
                     }
                 });
             }
+
+            auto avSystem = context->getSystemT<AV::AVSystem>();
+            p.timeUnitsObserver = ValueObserver<AV::TimeUnits>::create(
+                avSystem->observeTimeUnits(),
+                [weak](AV::TimeUnits value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->timeUnits = value;
+                        widget->_textUpdate();
+                    }
+                });
         }
 
         TimelineSlider::TimelineSlider() :
@@ -351,7 +371,7 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->speed = value.video.size() ? value.video[0].speed : Time::Speed();
-                        widget->_redraw();
+                        widget->_textUpdate();
                     }
                 });
 
@@ -362,7 +382,7 @@ namespace djv
                         if (auto widget = weak.lock())
                         {
                             widget->_p->speed = value;
-                            widget->_redraw();
+                            widget->_textUpdate();
                         }
                     });
 
@@ -373,7 +393,7 @@ namespace djv
                         if (auto widget = weak.lock())
                         {
                             widget->_p->sequence = value;
-                            widget->_redraw();
+                            widget->_textUpdate();
                         }
                     });
 
@@ -384,7 +404,7 @@ namespace djv
                         if (auto widget = weak.lock())
                         {
                             widget->_p->currentFrame->setIfChanged(value);
-                            widget->_redraw();
+                            widget->_textUpdate();
                         }
                     });
             }
@@ -439,108 +459,162 @@ namespace djv
 
         void TimelineSlider::_styleEvent(Event::Style &)
         {
-            DJV_PRIVATE_PTR();
-            const auto& style = _getStyle();
-            const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, UI::MetricsRole::FontMedium);
-            auto fontSystem = _getFontSystem();
-            p.fontMetricsFuture = fontSystem->getMetrics(fontInfo);
-            _resize();
+            _textUpdate();
         }
 
         void TimelineSlider::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
+            if (p.fontMetricsFuture.valid())
+            {
+                try
+                {
+                    p.fontMetrics = p.fontMetricsFuture.get();
+                }
+                catch (const std::exception& e)
+                {
+                    _log(e.what(), LogLevel::Error);
+                }
+            }
+            if (p.currentFrameSizeFuture.valid())
+            {
+                try
+                {
+                    p.currentFrameLength = p.currentFrameSizeFuture.get().x;
+                }
+                catch (const std::exception& e)
+                {
+                    _log(e.what(), LogLevel::Error);
+                }
+            }
+            if (p.maxFrameSizeFuture.valid())
+            {
+                try
+                {
+                    p.maxFrameLength = p.maxFrameSizeFuture.get().x;
+                }
+                catch (const std::exception& e)
+                {
+                    _log(e.what(), LogLevel::Error);
+                }
+            }
             const auto& style = _getStyle();
-            const float is = style->getMetric(UI::MetricsRole::Icon);
+            const float b = style->getMetric(UI::MetricsRole::Border);
             glm::vec2 size = glm::vec2(0.f, 0.f);
             size.x = style->getMetric(UI::MetricsRole::TextColumn);
-            size.y = is;
+            size.y = p.fontMetrics.lineHeight * 2.f + b * 6.f;
             _setMinimumSize(size);
         }
 
-        void TimelineSlider::_paintEvent(Event::Paint & event)
+        void TimelineSlider::_paintEvent(Event::Paint& event)
         {
+            Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
-            const BBox2f & g = getGeometry();
-            const auto& style = _getStyle();
-            const float m = style->getMetric(UI::MetricsRole::MarginSmall);
-            const float b = style->getMetric(UI::MetricsRole::Border);
-            const BBox2f & hg = _getHandleGeometry();
-
-            auto render = _getRender();
-
-            if (p.inOutPointsEnabled)
+            if (auto context = getContext().lock())
             {
-                auto color = style->getColor(UI::ColorRole::Checked);
+                const BBox2f& g = getGeometry();
+                const float w = g.w();
+                const float h = g.h();
+                const auto& style = _getStyle();
+                const float m = style->getMetric(UI::MetricsRole::MarginSmall);
+                const float b = style->getMetric(UI::MetricsRole::Border);
+                const BBox2f& hg = _getHandleGeometry();
+
+                // Draw the time labels.
+                auto color = style->getColor(UI::ColorRole::Foreground);
+                color.setF32(color.getF32(3) * .4f, 3);
+                auto render = _getRender();
                 render->setFillColor(color);
-                const float x0 = _frameToPos(p.inPoint);
-                const float x1 = _frameToPos(p.outPoint + 1);
-                render->drawRect(BBox2f(x0, g.max.y - m - b * 4.f, x1 - x0, b * 2.f));
-            }
-
-            auto color = style->getColor(UI::ColorRole::Cached);
-            render->setFillColor(color);
-            for (const auto& i : p.cachedFrames)
-            {
-                const float x0 = _frameToPos(i.min);
-                const float x1 = _frameToPos(i.max + 1);
-                render->drawRect(BBox2f(x0, g.max.y - m - b * 2.f, x1 - x0, b * 2.f));
-            }
-
-            const size_t sequenceSize = p.sequence.getSize();
-            {
-                const Frame::Index f = 1;
-                if (_frameToPos(f) - _frameToPos(0) > b * 2.f)
+                const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, UI::MetricsRole::FontSmall);
+                render->setCurrentFont(fontInfo);
+                float x = g.min.x;
+                float x2 = x;
+                //! \bug Why the extra subtract by one here?
+                float y = g.max.y - b * 6.f - p.fontMetrics.lineHeight + p.fontMetrics.ascender - 1.f;
+                const float speedF = p.speed.toFloat();
+                auto avSystem = context->getSystemT<AV::AVSystem>();
+                const std::vector<std::pair<float, std::function<Frame::Index(size_t, float)> > > units =
                 {
-                    auto color = style->getColor(UI::ColorRole::Foreground);
-                    color.setF32(color.getF32(3) * .2f, 3);
-                    render->setFillColor(color);
-                    for (Frame::Index f2 = 0; f2 < sequenceSize; f2 += f)
+                    { _getHourLength  (), [](size_t value, float speed) { return static_cast<Frame::Index>(value * 60.f * 60.f * speed); } },
+                    { _getMinuteLength(), [](size_t value, float speed) { return static_cast<Frame::Index>(value * 60.f * speed); } },
+                    { _getSecondLength(), [](size_t value, float speed) { return static_cast<Frame::Index>(value * speed); } },
+                    { _getFrameLength (), [](size_t value, float speed) { return static_cast<Frame::Index>(value); } }
+                };
+                for (const auto& i : units)
+                {
+                    if (i.first < w)
                     {
-                        const float x = _frameToPos(f2);
-                        const float h = ceilf(hg.h() * .5f);
-                        render->drawRect(BBox2f(x, g.max.y - m - h, b, h));
+                        size_t unit = 0;
+                        while (x < g.max.x)
+                        {
+                            if (x >= x2)
+                            {
+                                render->drawRect(BBox2f(x, g.max.y - b * 6.f - p.fontMetrics.lineHeight, b, p.fontMetrics.lineHeight));
+                                render->drawText(avSystem->getLabel(p.sequence.getFrame(i.second(unit, speedF)), p.speed), glm::vec2(x + m, y));
+                                x2 = x + p.maxFrameLength + m * 2.f;
+                            }
+                            ++unit;
+                            x = _frameToPos(i.second(unit, speedF));
+                        }
+                        break;
                     }
                 }
-            }
-            {
-                const Frame::Index f = static_cast<Frame::Index>(p.speed.toFloat());
-                if (_frameToPos(f) - _frameToPos(0) > b * 2.f)
+
+                // Draw the in/out points.
+                if (p.inOutPointsEnabled)
+                {
+                    auto color = style->getColor(UI::ColorRole::Checked);
+                    render->setFillColor(color);
+                    const float x0 = _frameToPos(p.inPoint);
+                    const float x1 = _frameToPos(p.outPoint + 1);
+                    render->drawRect(BBox2f(x0, g.max.y - b * 6.f, x1 - x0, b * 2.f));
+                }
+
+                // Draw the cached frames.
+                color = style->getColor(UI::ColorRole::Cached);
+                render->setFillColor(color);
+                for (const auto& i : p.cachedFrames)
+                {
+                    const float x0 = _frameToPos(i.min);
+                    const float x1 = _frameToPos(i.max + 1);
+                    render->drawRect(BBox2f(x0, g.max.y - b * 2.f, x1 - x0, b * 2.f));
+                }
+
+                // Draw the frame ticks.
+                const size_t sequenceSize = p.sequence.getSize();
+                if (_getFrameLength() > b * 2.f)
                 {
                     auto color = style->getColor(UI::ColorRole::Foreground);
-                    color.setF32(color.getF32(3) * .2f, 3);
+                    color.setF32(color.getF32(3) * .4f, 3);
                     render->setFillColor(color);
-                    for (Frame::Index f2 = 0; f2 < sequenceSize; f2 += f)
+                    for (Frame::Index f2 = 0; f2 < sequenceSize; ++f2)
                     {
                         const float x = _frameToPos(f2);
-                        const float h = ceilf(hg.h() * .5f);
-                        render->drawRect(BBox2f(x, g.max.y - m - h, b, h));
+                        const float h = ceilf(p.fontMetrics.ascender * (1 / 4.f));
+                        render->drawRect(BBox2f(x, g.max.y - b * 6.f, b, b * 6.f));
                     }
                 }
-            }
-            {
-                const Frame::Index f = static_cast<Frame::Index>(p.speed.toFloat() * 60.f);
-                if (_frameToPos(f) - _frameToPos(0) > b * 2.f)
+
+                // Draw the current frame.
+                color = style->getColor(UI::ColorRole::Foreground);
+                color.setF32(color.getF32(3) * .5f, 3);
+                render->setFillColor(color);
+                render->drawRect(hg);
+                color = style->getColor(UI::ColorRole::Foreground);
+                render->setFillColor(color);
+                float frameLeftPos = hg.min.x - m - p.currentFrameLength;
+                float frameRightPos = hg.max.x + m;
+                //! \bug Why the extra subtract by one here?
+                const float frameY = g.min.y + p.fontMetrics.ascender - 1.f;
+                if ((frameRightPos + p.currentFrameLength) > g.max.x)
                 {
-                    auto color = style->getColor(UI::ColorRole::Foreground);
-                    color.setF32(color.getF32(3) * .2f, 3);
-                    render->setFillColor(color);
-                    for (Frame::Index f2 = 0; f2 < sequenceSize; f2 += f)
-                    {
-                        const float x = _frameToPos(f2);
-                        const float h = ceilf(hg.h() * .5f);
-                        render->drawRect(BBox2f(x, g.max.y - m - h, b, h));
-                    }
+                    render->drawText(p.currentFrameText, glm::vec2(frameLeftPos, frameY));
+                }
+                else
+                {
+                    render->drawText(p.currentFrameText, glm::vec2(frameRightPos, frameY));
                 }
             }
-
-            color = style->getColor(UI::ColorRole::Foreground);
-            color.setF32(color.getF32(3) * .5f, 3);
-            render->setFillColor(color);
-            render->drawRect(hg);
-
-            const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, UI::MetricsRole::FontMedium);
-            render->setCurrentFont(fontInfo);
         }
 
         void TimelineSlider::_pointerEnterEvent(Event::PointerEnter & event)
@@ -591,7 +665,6 @@ namespace djv
                 if (p.currentFrame->setIfChanged(frame))
                 {
                     _textUpdate();
-                    _redraw();
                 }
             }
         }
@@ -610,7 +683,6 @@ namespace djv
             if (p.currentFrame->setIfChanged(_posToFrame(static_cast<int>(pos.x - g.min.x))))
             {
                 _textUpdate();
-                _redraw();
             }
         }
 
@@ -646,8 +718,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const BBox2f& g = getGeometry();
-            const float m = style->getMetric(UI::MetricsRole::MarginSmall);
-            const float v = (value - m) / (g.w() - m * 2.f);
+            const float v = value / g.w();
             const size_t sequenceSize = p.sequence.getSize();
             Frame::Index out = sequenceSize ?
                 Math::clamp(static_cast<Frame::Index>(v * sequenceSize), static_cast<Frame::Index>(0), static_cast<Frame::Index>(sequenceSize - 1)) :
@@ -660,11 +731,34 @@ namespace djv
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const BBox2f& g = getGeometry();
-            const float m = style->getMetric(UI::MetricsRole::MarginSmall);
             const size_t sequenceSize = p.sequence.getSize();
             const float v = sequenceSize ? (value / static_cast<float>(sequenceSize)) : 0.f;
-            float out = floorf(g.min.x + m + v * (g.w() - m * 2.f));
+            float out = floorf(g.min.x + v * g.w());
             return out;
+        }
+
+        float TimelineSlider::_getFrameLength() const
+        {
+            const Frame::Index f = 1;
+            return _frameToPos(f) - _frameToPos(0);
+        }
+
+        float TimelineSlider::_getSecondLength() const
+        {
+            const Frame::Index f = static_cast<Frame::Index>(_p->speed.toFloat());
+            return _frameToPos(f) - _frameToPos(0);
+        }
+
+        float TimelineSlider::_getMinuteLength() const
+        {
+            const Frame::Index f = static_cast<Frame::Index>(_p->speed.toFloat() * 60.f);
+            return _frameToPos(f) - _frameToPos(0);
+        }
+
+        float TimelineSlider::_getHourLength() const
+        {
+            const Frame::Index f = static_cast<Frame::Index>(_p->speed.toFloat() * 60.f * 60.f);
+            return _frameToPos(f) - _frameToPos(0);
         }
 
         BBox2f TimelineSlider::_getHandleGeometry() const
@@ -672,12 +766,11 @@ namespace djv
             DJV_PRIVATE_PTR();
             const BBox2f & g = getGeometry();
             const auto& style = _getStyle();
-            const float m = style->getMetric(UI::MetricsRole::MarginSmall);
             const float b = style->getMetric(UI::MetricsRole::Border);
             const Frame::Index currentFrame = p.currentFrame->get();
             const float x0 = _frameToPos(currentFrame);
             const float x1 = _frameToPos(currentFrame + 1);
-            BBox2f out = BBox2f(x0, g.min.y + m, std::max(x1 - x0, b), g.h() - m * 2.f);
+            BBox2f out = BBox2f(x0, g.min.y, std::max(x1 - x0, b), g.h());
             return out;
         }
 
@@ -686,10 +779,31 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                auto avSystem = context->getSystemT<AV::AVSystem>();
                 const auto& style = _getStyle();
                 auto fontSystem = _getFontSystem();
-                const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, UI::MetricsRole::FontMedium);
+                const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, UI::MetricsRole::FontSmall);
+                p.fontMetricsFuture = fontSystem->getMetrics(fontInfo);
+                std::string maxFrameText;
+                switch (p.timeUnits)
+                {
+                case AV::TimeUnits::Timecode:
+                    maxFrameText = "00:00:00:00";
+                    break;
+                case AV::TimeUnits::Frames:
+                {
+                    const size_t rangesSize = p.sequence.ranges.size();
+                    if (rangesSize > 0)
+                    {
+                        maxFrameText = std::string(Math::getNumDigits(p.sequence.ranges[rangesSize - 1].max), '0');
+                    }
+                    break;
+                }
+                default: break;
+                }
+                p.maxFrameSizeFuture = fontSystem->measure(maxFrameText, fontInfo);
+                auto avSystem = context->getSystemT<AV::AVSystem>();
+                p.currentFrameText = avSystem->getLabel(p.sequence.getFrame(p.currentFrame->get()), p.speed);
+                p.currentFrameSizeFuture = fontSystem->measure(p.currentFrameText, fontInfo);
                 _resize();
             }
         }
