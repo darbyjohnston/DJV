@@ -154,6 +154,7 @@ namespace djv
             p.memoryCacheThermometerWidget->setOrientation(UI::Orientation::Vertical);
             p.memoryCacheThermometerWidget->setColorRole(UI::ColorRole::Cached);
             p.memoryCacheThermometerWidget->setSizeRole(UI::MetricsRole::None);
+            p.memoryCacheThermometerWidget->setBackgroundRole(UI::ColorRole::None);
 
             auto maximizeButton = UI::ActionButton::create(context);
             maximizeButton->setShowText(false);
