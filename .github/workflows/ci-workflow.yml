@@ -12,11 +12,11 @@ jobs:
     - name: install nasm
       run: sudo apt-get install nasm
     - name: install OpenGL dev
-      run: apt-get install xorg-dev libglu1-mesa-dev mesa-common-dev
+      run: sudo apt-get install xorg-dev libglu1-mesa-dev mesa-common-dev
     - name: install ALSA dev
-      run: apt-get install libasound2-dev
+      run: sudo apt-get install libasound2-dev
     - name: install PulseAudio dev
-      run: apt-get install libpulse-dev
+      run: sudo apt-get install libpulse-dev
     - name: install Python dev
       run: sudo apt-get install python3.7-dev
     - name: cmake
