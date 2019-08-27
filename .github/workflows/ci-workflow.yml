@@ -1,0 +1,27 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: install nasm
+      run: sudo apt-get install nasm
+    - name: install OpenGL dev
+      run: apt-get install xorg-dev libglu1-mesa-dev mesa-common-dev
+    - name: install ALSA dev
+      run: apt-get install libasound2-dev
+    - name: install PulseAudio dev
+      run: apt-get install libpulse-dev
+    - name: install Python dev
+      run: sudo apt-get install python3.7-dev
+    - name: cmake
+      run: mkdir build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Debug -DDJV_THIRD_PARTY=TRUE
+    - name: make
+      run: cd build && make
+    - name: make test
+      run: cd build && make test
