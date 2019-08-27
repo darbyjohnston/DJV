@@ -1009,9 +1009,11 @@ namespace djv
                 p.inPointWidget->setSequence(p.sequence);
                 p.inPointWidget->setSpeed(p.defaultSpeed);
                 p.inPointWidget->setFrame(p.inPoint);
+                p.inPointWidget->setEnabled(p.inOutPointsEnabled);
                 p.outPointWidget->setSequence(p.sequence);
                 p.outPointWidget->setSpeed(p.defaultSpeed);
                 p.outPointWidget->setFrame(p.outPoint);
+                p.outPointWidget->setEnabled(p.inOutPointsEnabled);
 
                 auto avSystem = context->getSystemT<AV::AVSystem>();
                 p.durationLabel->setText(avSystem->getLabel(p.sequence.getSize(), p.defaultSpeed));
