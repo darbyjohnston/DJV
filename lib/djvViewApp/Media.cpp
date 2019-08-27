@@ -792,6 +792,10 @@ namespace djv
                     setCurrentFrame(start);
                     setPlayback(Playback::Forward);
                 }
+                else
+                {
+                    p.currentFrame->setIfChanged(value);
+                }
                 break;
             case Playback::Reverse:
                 if (value <= start)
@@ -822,10 +826,13 @@ namespace djv
                     setCurrentFrame(end);
                     setPlayback(Playback::Reverse);
                 }
+                else
+                {
+                    p.currentFrame->setIfChanged(value);
+                }
                 break;
             default: break;
             }
-            p.currentFrame->setIfChanged(value);
         }
 
         void Media::_seek(Frame::Index value)
