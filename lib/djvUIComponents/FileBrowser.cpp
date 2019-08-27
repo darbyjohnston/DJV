@@ -242,7 +242,7 @@ namespace djv
                 auto increaseThumbnailSizeButton = ActionButton::create(context);
                 increaseThumbnailSizeButton->addAction(p.actions["IncreaseThumbnailSize"]);
                 auto decreaseThumbnailSizeButton = ActionButton::create(context);
-                decreaseThumbnailSizeButton->addAction(p.actions["IncreaseThumbnailSize"]);
+                decreaseThumbnailSizeButton->addAction(p.actions["DecreaseThumbnailSize"]);
                 auto fileSequencesButton = ActionButton::create(context);
                 fileSequencesButton->addAction(p.actions["FileSequences"]);
                 auto showHiddenButton = ActionButton::create(context);
