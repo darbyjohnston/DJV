@@ -32,11 +32,11 @@
 #include <djvViewApp/FileSettings.h>
 #include <djvViewApp/FileSystem.h>
 
-#include <djvUI/FormLayout.h>
 #include <djvUI/IntSlider.h>
 #include <djvUI/Label.h>
+#include <djvUI/ListButton.h>
+#include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/ToggleButton.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/OS.h>
@@ -49,10 +49,12 @@ namespace djv
     {
         struct MemoryCacheWidget::Private
         {
-            std::shared_ptr<UI::ToggleButton> enabledButton;
+            float percentageUsed = 0.f;
+            std::shared_ptr<UI::ListButton> enabledButton;
             std::shared_ptr<UI::IntSlider> maxGBSlider;
+            std::shared_ptr<UI::Label> maxGBLabel;
             std::shared_ptr<UI::Label> percentageLabel;
-            std::shared_ptr<UI::FormLayout> layout;
+            std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<ValueObserver<bool> > enabledObserver;
             std::shared_ptr<ValueObserver<int> > maxGBObserver;
             std::shared_ptr<ValueObserver<float> > percentageObserver;
@@ -64,17 +66,27 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::MemoryCacheWidget");
 
-            p.enabledButton = UI::ToggleButton::create(context);
+            p.enabledButton = UI::ListButton::create(context);
+            p.enabledButton->setButtonType(UI::ButtonType::Toggle);
 
             p.maxGBSlider = UI::IntSlider::create(context);
             p.maxGBSlider->setRange(IntRange(1, OS::getRAMSize() / Memory::gigabyte));
+            p.maxGBLabel = UI::Label::create(context);
+            p.maxGBLabel->setTextHAlign(UI::TextHAlign::Left);
 
             p.percentageLabel = UI::Label::create(context);
             p.percentageLabel->setTextHAlign(UI::TextHAlign::Left);
+            p.percentageLabel->setMargin(UI::MetricsRole::MarginSmall);
 
-            p.layout = UI::FormLayout::create(context);
+            p.layout = UI::VerticalLayout::create(context);
+            p.layout->setSpacing(UI::MetricsRole::None);
             p.layout->addChild(p.enabledButton);
-            p.layout->addChild(p.maxGBSlider);
+            auto hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setMargin(UI::MetricsRole::MarginSmall);
+            hLayout->addChild(p.maxGBSlider);
+            hLayout->setStretch(p.maxGBSlider, UI::RowStretch::Expand);
+            hLayout->addChild(p.maxGBLabel);
+            p.layout->addChild(hLayout);
             p.layout->addChild(p.percentageLabel);
             addChild(p.layout);
 
@@ -138,11 +150,8 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            std::stringstream ss;
-                            ss.precision(2);
-                            ss << std::fixed << value;
-                            ss << "%";
-                            widget->_p->percentageLabel->setText(ss.str());
+                            widget->_p->percentageUsed = value;
+                            widget->_widgetUpdate();
                         }
                     });
             }
@@ -176,11 +185,20 @@ namespace djv
 
         void MemoryCacheWidget::_localeEvent(Event::Locale & event)
         {
-            Widget::_localeEvent(event);
+            _widgetUpdate();
+        }
+
+        void MemoryCacheWidget::_widgetUpdate()
+        {
             DJV_PRIVATE_PTR();
-            p.layout->setText(p.enabledButton, _getText(DJV_TEXT("Enabled")) + ":");
-            p.layout->setText(p.maxGBSlider, _getText(DJV_TEXT("Size (gigabytes)")) + ":");
-            p.layout->setText(p.percentageLabel, _getText(DJV_TEXT("Percentage used")) + ":");
+            p.enabledButton->setText(_getText(DJV_TEXT("Memory Cache")));
+            p.maxGBLabel->setText(_getText(DJV_TEXT("GB")));
+            std::stringstream ss;
+            ss << _getText(DJV_TEXT("Percentage used")) << ": ";
+            ss.precision(2);
+            ss << std::fixed << p.percentageUsed;
+            ss << "%";
+            p.percentageLabel->setText(ss.str());
         }
 
     } // namespace ViewApp

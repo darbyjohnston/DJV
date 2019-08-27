@@ -82,9 +82,8 @@ namespace djv
             std::shared_ptr<UI::ActionGroup> mediaActionGroup;
             std::shared_ptr<UI::Menu> mediaMenu;
             std::shared_ptr<UI::Button::Menu> mediaButton;
-            std::shared_ptr<UI::Label> memoryCacheLabel;
-            std::shared_ptr<UI::PopupWidget> memoryCachePopupWidget;
-            std::shared_ptr<UI::ThermometerWidget> memoryCacheThermometerWidget;
+            std::shared_ptr<UI::PopupWidget> cachePopupWidget;
+            std::shared_ptr<UI::ThermometerWidget> cacheThermometerWidget;
             std::shared_ptr<UI::ToolButton> autoHideButton;
             std::shared_ptr<UI::ToolButton> settingsButton;
             std::shared_ptr<UI::MenuBar> menuBar;
@@ -136,25 +135,15 @@ namespace djv
             p.mediaButton->setPopupIcon("djvIconPopupMenu");
             p.mediaButton->setEnabled(false);
 
-            p.memoryCacheLabel = UI::Label::create(context);
-            p.memoryCacheLabel->setTextHAlign(UI::TextHAlign::Left);
-            p.memoryCacheLabel->setBackgroundRole(UI::ColorRole::BackgroundHeader);
-            p.memoryCacheLabel->setMargin(UI::MetricsRole::MarginSmall);
             auto memoryCacheWidget = MemoryCacheWidget::create(context);
-            memoryCacheWidget->setMargin(UI::MetricsRole::MarginSmall);
-            auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::MetricsRole::None);
-            vLayout->addChild(p.memoryCacheLabel);
-            vLayout->addChild(memoryCacheWidget);
-            p.memoryCachePopupWidget = UI::PopupWidget::create(context);
-            p.memoryCachePopupWidget->setIcon("djvIconMemory");
-            p.memoryCachePopupWidget->setMargin(UI::MetricsRole::MarginSmall);
-            p.memoryCachePopupWidget->addChild(vLayout);
-            p.memoryCacheThermometerWidget = UI::ThermometerWidget::create(context);
-            p.memoryCacheThermometerWidget->setOrientation(UI::Orientation::Vertical);
-            p.memoryCacheThermometerWidget->setColorRole(UI::ColorRole::Cached);
-            p.memoryCacheThermometerWidget->setSizeRole(UI::MetricsRole::None);
-            p.memoryCacheThermometerWidget->setBackgroundRole(UI::ColorRole::None);
+            p.cachePopupWidget = UI::PopupWidget::create(context);
+            p.cachePopupWidget->setIcon("djvIconMemory");
+            p.cachePopupWidget->addChild(memoryCacheWidget);
+            p.cacheThermometerWidget = UI::ThermometerWidget::create(context);
+            p.cacheThermometerWidget->setOrientation(UI::Orientation::Vertical);
+            p.cacheThermometerWidget->setColorRole(UI::ColorRole::Cached);
+            p.cacheThermometerWidget->setSizeRole(UI::MetricsRole::None);
+            p.cacheThermometerWidget->setBackgroundRole(UI::ColorRole::None);
 
             auto maximizeButton = UI::ActionButton::create(context);
             maximizeButton->setShowText(false);
@@ -211,8 +200,8 @@ namespace djv
             p.menuBar->addChild(p.mediaButton);
             p.menuBar->setStretch(p.mediaButton, UI::RowStretch::Expand, UI::Side::Right);
             p.menuBar->addSeparator(UI::Side::Right);
-            p.menuBar->addChild(p.memoryCachePopupWidget);
-            p.menuBar->addChild(p.memoryCacheThermometerWidget);
+            p.menuBar->addChild(p.cachePopupWidget);
+            p.menuBar->addChild(p.cacheThermometerWidget);
             p.menuBar->addSeparator(UI::Side::Right);
             p.menuBar->addChild(maximizeButton);
             p.menuBar->addSeparator(UI::Side::Right);
@@ -251,7 +240,7 @@ namespace djv
             stackLayout->addChild(p.mediaCanvas);
             stackLayout->addChild(p.canvas);
             p.layout->addChild(stackLayout);
-            vLayout = UI::VerticalLayout::create(context);
+            auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addChild(p.menuBar);
             vLayout->addExpander();
@@ -390,7 +379,7 @@ namespace djv
                         {
                             if (auto widget = weak.lock())
                             {
-                                widget->_p->memoryCacheThermometerWidget->setPercentage(value);
+                                widget->_p->cacheThermometerWidget->setPercentage(value);
                             }
                         });
                 }
@@ -483,9 +472,8 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             p.mediaButton->setTooltip(_getText(DJV_TEXT("Media popup tooltip")));
-            p.memoryCacheLabel->setText(_getText(DJV_TEXT("Memory Cache")));
-            p.memoryCachePopupWidget->setTooltip(_getText(DJV_TEXT("Memory cache tooltip")));
-            p.memoryCacheThermometerWidget->setTooltip(_getText(DJV_TEXT("Memory cache thermometer tooltip")));
+            p.cachePopupWidget->setTooltip(_getText(DJV_TEXT("Memory cache tooltip")));
+            p.cacheThermometerWidget->setTooltip(_getText(DJV_TEXT("Memory cache thermometer tooltip")));
             p.autoHideButton->setTooltip(_getText(DJV_TEXT("Auto-hide tooltip")));
             p.settingsButton->setTooltip(_getText(DJV_TEXT("Settings tooltip")));
         }
