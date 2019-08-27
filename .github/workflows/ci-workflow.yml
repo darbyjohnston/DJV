@@ -20,7 +20,7 @@ jobs:
     - name: Install Python dev
       run: sudo apt-get install python3.7-dev
     - name: Run CMake
-      run: mkdir build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Debug -DDJV_THIRD_PARTY=TRUE
+      run: mkdir build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Debug -DDJV_THIRD_PARTY=TRUE -DJV_PYTHON=TRUE
     - name: Run make
       run: cd build && make -j
     - name: Run tests
