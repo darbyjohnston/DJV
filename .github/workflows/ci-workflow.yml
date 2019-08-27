@@ -9,19 +9,19 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
-    - name: install nasm
+    - name: Install NASM
       run: sudo apt-get install nasm
-    - name: install OpenGL dev
+    - name: Install OpenGL dev
       run: sudo apt-get install xorg-dev libglu1-mesa-dev mesa-common-dev
-    - name: install ALSA dev
+    - name: Install ALSA dev
       run: sudo apt-get install libasound2-dev
-    - name: install PulseAudio dev
+    - name: Install PulseAudio dev
       run: sudo apt-get install libpulse-dev
-    - name: install Python dev
+    - name: Install Python dev
       run: sudo apt-get install python3.7-dev
-    - name: cmake
+    - name: Run CMake
       run: mkdir build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Debug -DDJV_THIRD_PARTY=TRUE
-    - name: make
+    - name: Run make
       run: cd build && make
-    - name: make test
+    - name: Run tests
       run: cd build && make test
