@@ -29,67 +29,54 @@
 
 #pragma once
 
-#include <djvViewApp/Enum.h>
-
 #include <djvUI/Widget.h>
-
-#include <djvCore/Frame.h>
-
-#include <djvCore/ValueObserver.h>
 
 namespace djv
 {
+    namespace Core
+    {
+        namespace Time
+        {
+            class Speed;
+
+        } // namespace Time
+    } // namespace Core
+
     namespace ViewApp
     {
-        class Media;
-
-        //! This class provides a timeline slider.
-        class TimelineSlider : public UI::Widget
+        //! This class provides a playback speed widget.
+        class PlaybackSpeedWidget : public UI::Widget
         {
-            DJV_NON_COPYABLE(TimelineSlider);
+            DJV_NON_COPYABLE(PlaybackSpeedWidget);
 
         protected:
             void _init(const std::shared_ptr<Core::Context>&);
-            TimelineSlider();
+            PlaybackSpeedWidget();
 
         public:
-            ~TimelineSlider() override;
+            ~PlaybackSpeedWidget() override;
 
-            static std::shared_ptr<TimelineSlider> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<PlaybackSpeedWidget> create(const std::shared_ptr<Core::Context>&);
 
-            void setMedia(const std::shared_ptr<Media>&);
-            void setInOutPointsEnabled(bool);
-            void setInPoint(Core::Frame::Index);
-            void setOutPoint(Core::Frame::Index);
-            void setCachedFrames(const std::vector<Core::Frame::Range>&);
-
-            void setCurrentFrameCallback(const std::function<void(Core::Frame::Index)>&);
-            void setCurrentFrameDragCallback(const std::function<void(bool)>&);
+            void setSpeed(const Core::Time::Speed&);
+            void setDefaultSpeed(const Core::Time::Speed&);
+            void setPlayEveryFrame(bool);
+            
+            void setSpeedCallback(const std::function<void(const Core::Time::Speed&)>&);
+            void setPlayEveryFrameCallback(const std::function<void(bool)>&);
 
         protected:
-            void _styleEvent(Core::Event::Style&) override;
             void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _paintEvent(Core::Event::Paint &) override;
-            void _pointerEnterEvent(Core::Event::PointerEnter &) override;
-            void _pointerLeaveEvent(Core::Event::PointerLeave &) override;
-            void _pointerMoveEvent(Core::Event::PointerMove &) override;
-            void _buttonPressEvent(Core::Event::ButtonPress &) override;
-            void _buttonReleaseEvent(Core::Event::ButtonRelease &) override;
-
-            void _updateEvent(Core::Event::Update &) override;
+            void _layoutEvent(Core::Event::Layout&) override;
+            
+            void _localeEvent(Core::Event::Locale &) override;
 
         private:
-            Core::Frame::Index _posToFrame(float) const;
-            float _frameToPos(Core::Frame::Index) const;
-            float _getFrameLength() const;
-            float _getSecondLength() const;
-            float _getMinuteLength() const;
-            float _getHourLength() const;
-            Core::BBox2f _getHandleGeometry() const;
-            void _textUpdate();
+            void _widgetUpdate();
 
             DJV_PRIVATE();
         };
 
     } // namespace ViewApp
 } // namespace djv
+

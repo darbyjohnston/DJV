@@ -467,14 +467,28 @@ namespace djv
 
         void Media::resetInPoint()
         {
-            _p->inPoint->setIfChanged(0);
+            DJV_PRIVATE_PTR();
+            if (_p->inPoint->setIfChanged(0))
+            {
+                const size_t size = p.sequence->get().getSize();
+                if (_p->outPoint->get() == (static_cast<Frame::Index>(size) - 1))
+                {
+                    setInOutPointsEnabled(false);
+                }
+            }
         }
 
         void Media::resetOutPoint()
         {
             DJV_PRIVATE_PTR();
             const size_t size = p.sequence->get().getSize();
-            p.outPoint->setIfChanged(size > 0 ? (static_cast<Frame::Index>(size) - 1) : 0);
+            if (p.outPoint->setIfChanged(size > 0 ? (static_cast<Frame::Index>(size) - 1) : 0))
+            {
+                if (_p->inPoint->get() == 0)
+                {
+                    setInOutPointsEnabled(false);
+                }
+            }
         }
 
         std::shared_ptr<IValueSubject<bool> > Media::observeAudioEnabled() const

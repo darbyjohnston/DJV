@@ -40,6 +40,7 @@ set(header
 	NUXSystem.h
 	PlaybackSettings.h
     PlaybackSettingsWidget.h
+    PlaybackSpeedWidget.h
     PlaybackSystem.h
     RecentFilesDialog.h
     SettingsDialog.h
@@ -95,6 +96,7 @@ set(source
 	NUXSystem.cpp
 	PlaybackSettings.cpp
     PlaybackSettingsWidget.cpp
+    PlaybackSpeedWidget.cpp
     PlaybackSystem.cpp
     RecentFilesDialog.cpp
     SettingsDialog.cpp

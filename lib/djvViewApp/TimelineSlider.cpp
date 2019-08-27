@@ -250,8 +250,7 @@ namespace djv
             std::shared_ptr<Media> media;
             Time::Speed speed;
             Frame::Sequence sequence;
-            std::shared_ptr<ValueSubject<Frame::Index> > currentFrame;
-            std::shared_ptr<ValueSubject<bool> > currentFrameChange;
+            Frame::Index currentFrame = 0;
             bool inOutPointsEnabled = false;
             Frame::Index inPoint = Frame::invalidIndex;
             Frame::Index outPoint = Frame::invalidIndex;
@@ -268,6 +267,8 @@ namespace djv
             AV::TimeUnits timeUnits = AV::TimeUnits::First;
             std::shared_ptr<PIPWidget> pipWidget;
             std::shared_ptr<UI::Layout::Overlay> overlay;
+            std::function<void(Core::Frame::Index)> currentFrameCallback;
+            std::function<void(bool)> currentFrameDragCallback;
             std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
             std::shared_ptr<ValueObserver<Time::Speed> > speedObserver;
             std::shared_ptr<ValueObserver<Frame::Sequence> > sequenceObserver;
@@ -282,10 +283,6 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::TimelineSlider");
-            setPointerEnabled(true);
-
-            p.currentFrame = ValueSubject<Frame::Index>::create(Frame::invalid);
-            p.currentFrameChange = ValueSubject<bool>::create(false);
 
             p.pipWidget = PIPWidget::create(context);
             p.overlay = UI::Layout::Overlay::create(context);
@@ -343,16 +340,6 @@ namespace djv
             return out;
         }
 
-        std::shared_ptr<IValueSubject<Frame::Index> > TimelineSlider::observeCurrentFrame() const
-        {
-            return _p->currentFrame;
-        }
-
-        std::shared_ptr<ValueSubject<bool> > TimelineSlider::observeCurrentFrameChange() const
-        {
-            return _p->currentFrameChange;
-        }
-
         void TimelineSlider::setMedia(const std::shared_ptr<Media> & value)
         {
             DJV_PRIVATE_PTR();
@@ -403,7 +390,7 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->currentFrame->setIfChanged(value);
+                            widget->_p->currentFrame = value;
                             widget->_textUpdate();
                         }
                     });
@@ -411,8 +398,7 @@ namespace djv
             else
             {
                 p.sequence = Frame::Sequence();
-                p.currentFrame->setIfChanged(0);
-                p.currentFrameChange->setIfChanged(false);
+                p.currentFrame = 0;
                 p.speed = Time::Speed();
 
                 p.pipWidget->setPIPFileInfo(Core::FileSystem::FileInfo());
@@ -455,6 +441,16 @@ namespace djv
                 return;
             _p->cachedFrames = value;
             _redraw();
+        }
+
+        void TimelineSlider::setCurrentFrameCallback(const std::function<void(Frame::Index)>& value)
+        {
+            _p->currentFrameCallback = value;
+        }
+
+        void TimelineSlider::setCurrentFrameDragCallback(const std::function<void(bool)>& value)
+        {
+            _p->currentFrameDragCallback = value;
         }
 
         void TimelineSlider::_styleEvent(Event::Style &)
@@ -662,10 +658,12 @@ namespace djv
             }
             if (p.pressedID)
             {
-                if (p.currentFrame->setIfChanged(frame))
+                p.currentFrame = frame;
+                if (p.currentFrameCallback)
                 {
-                    _textUpdate();
+                    p.currentFrameCallback(p.currentFrame);
                 }
+                _textUpdate();
             }
         }
 
@@ -679,11 +677,16 @@ namespace djv
             const BBox2f & g = getGeometry();
             event.accept();
             p.pressedID = id;
-            p.currentFrameChange->setIfChanged(true);
-            if (p.currentFrame->setIfChanged(_posToFrame(static_cast<int>(pos.x - g.min.x))))
+            p.currentFrame = _posToFrame(static_cast<int>(pos.x - g.min.x));
+            if (p.currentFrameDragCallback)
             {
-                _textUpdate();
+                p.currentFrameDragCallback(true);
             }
+            if (p.currentFrameCallback)
+            {
+                p.currentFrameCallback(p.currentFrame);
+            }
+            _textUpdate();
         }
 
         void TimelineSlider::_buttonReleaseEvent(Event::ButtonRelease & event)
@@ -693,7 +696,10 @@ namespace djv
                 return;
             event.accept();
             p.pressedID = Event::InvalidID;
-            p.currentFrameChange->setIfChanged(false);
+            if (p.currentFrameDragCallback)
+            {
+                p.currentFrameDragCallback(false);
+            }
             _redraw();
         }
 
@@ -767,9 +773,8 @@ namespace djv
             const BBox2f & g = getGeometry();
             const auto& style = _getStyle();
             const float b = style->getMetric(UI::MetricsRole::Border);
-            const Frame::Index currentFrame = p.currentFrame->get();
-            const float x0 = _frameToPos(currentFrame);
-            const float x1 = _frameToPos(currentFrame + 1);
+            const float x0 = _frameToPos(p.currentFrame);
+            const float x1 = _frameToPos(p.currentFrame + 1);
             BBox2f out = BBox2f(x0, g.min.y, std::max(x1 - x0, b), g.h());
             return out;
         }
@@ -802,7 +807,7 @@ namespace djv
                 }
                 p.maxFrameSizeFuture = fontSystem->measure(maxFrameText, fontInfo);
                 auto avSystem = context->getSystemT<AV::AVSystem>();
-                p.currentFrameText = avSystem->getLabel(p.sequence.getFrame(p.currentFrame->get()), p.speed);
+                p.currentFrameText = avSystem->getLabel(p.sequence.getFrame(p.currentFrame), p.speed);
                 p.currentFrameSizeFuture = fontSystem->measure(p.currentFrameText, fontInfo);
                 _resize();
             }
