@@ -22,4 +22,4 @@ jobs:
     - name: Run make
       run: cd build && make
     - name: Run tests
-      run: cd build && make test
+      run: cd build && export PYTHONPATH=$PWD/build/lib:$PYTHONPATH && make test
