@@ -5,21 +5,30 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v1
+
     - name: Install NASM
       run: sudo apt-get install nasm
+
     - name: Install OpenGL dev
       run: sudo apt-get install xorg-dev libglu1-mesa-dev mesa-common-dev
+
     - name: Install ALSA dev
       run: sudo apt-get install libasound2-dev
+
     - name: Install PulseAudio dev
       run: sudo apt-get install libpulse-dev
+
     - name: Install Python dev
       run: sudo apt-get install python3.7-dev
+
     - name: Run CMake
       run: mkdir build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Debug -DDJV_THIRD_PARTY=TRUE -DDJV_PYTHON=TRUE
+
     - name: Run make
       run: cd build && make
+
     - name: Run tests
       run: cd build && export PYTHONPATH=$PWD/build/lib:$PYTHONPATH && make test
