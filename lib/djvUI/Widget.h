@@ -289,11 +289,12 @@ namespace djv
             static bool         _resizeRequest;
             static bool         _redrawRequest;
 
-            std::shared_ptr<AV::Font::System>     _fontSystem;
-            std::shared_ptr<AV::Render::Render2D> _render;
-            std::shared_ptr<UISystem>             _uiSystem;
-            std::shared_ptr<IconSystem>           _iconSystem;
-            std::shared_ptr<Style::Style>         _style;
+            std::weak_ptr<Core::Event::IEventSystem>    _eventSystem;
+            std::shared_ptr<AV::Font::System>           _fontSystem;
+            std::shared_ptr<AV::Render::Render2D>       _render;
+            std::shared_ptr<UISystem>                   _uiSystem;
+            std::shared_ptr<IconSystem>                 _iconSystem;
+            std::shared_ptr<Style::Style>               _style;
 
             friend class EventSystem;
         };

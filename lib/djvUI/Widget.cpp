@@ -77,11 +77,12 @@ namespace djv
 
             ++globalWidgetCount;
 
-            _fontSystem = context->getSystemT<AV::Font::System>();
-            _render = context->getSystemT<AV::Render::Render2D>();
-            _uiSystem = context->getSystemT<UISystem>();
-            _iconSystem = context->getSystemT<IconSystem>();
-            _style = _uiSystem->getStyle();
+            _eventSystem    = context->getSystemT<Event::IEventSystem>();
+            _fontSystem     = context->getSystemT<AV::Font::System>();
+            _render         = context->getSystemT<AV::Render::Render2D>();
+            _uiSystem       = context->getSystemT<UISystem>();
+            _iconSystem     = context->getSystemT<IconSystem>();
+            _style          = _uiSystem->getStyle();
         }
 
         Widget::~Widget()
@@ -225,9 +226,8 @@ namespace djv
         bool Widget::hasTextFocus() const
         {
             bool out = false;
-            if (auto context = getContext().lock())
+            if (auto eventSystem = _eventSystem.lock())
             {
-                auto eventSystem = context->getSystemT<Event::IEventSystem>();
                 out = eventSystem->getTextFocus().lock() == shared_from_this();
             }
             return out;
@@ -235,18 +235,16 @@ namespace djv
 
         void Widget::takeTextFocus()
         {
-            if (auto context = getContext().lock())
+            if (auto eventSystem = _eventSystem.lock())
             {
-                auto eventSystem = context->getSystemT<Event::IEventSystem>();
                 eventSystem->setTextFocus(shared_from_this());
             }
         }
 
         void Widget::releaseTextFocus()
         {
-            if (auto context = getContext().lock())
+            if (auto eventSystem = _eventSystem.lock())
             {
-                auto eventSystem = context->getSystemT<Event::IEventSystem>();
                 if (eventSystem->getTextFocus().lock() == shared_from_this())
                 {
                     eventSystem->setTextFocus(nullptr);
