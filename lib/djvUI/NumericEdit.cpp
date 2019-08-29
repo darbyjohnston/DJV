@@ -34,6 +34,7 @@
 #include <djvCore/NumericValueModels.h>
 #include <djvCore/ValueObserver.h>
 
+#define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
 using namespace djv::Core;

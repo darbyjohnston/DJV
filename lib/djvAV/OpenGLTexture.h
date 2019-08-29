@@ -76,7 +76,7 @@ namespace djv
             };
 
             //! This class provides a 1D OpenGL texture.
-            class Texture1D
+            /*class Texture1D
             {
                 DJV_NON_COPYABLE(Texture1D);
                 void _init(
@@ -107,7 +107,7 @@ namespace djv
 #if defined(DJV_OPENGL_PBO)
                 GLuint _pbo = 0;
 #endif // DJV_OPENGL_PBO
-            };
+            };*/
 
         } // namespace OpenGL
     } // namespace AV

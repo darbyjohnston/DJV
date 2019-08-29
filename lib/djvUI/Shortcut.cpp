@@ -32,6 +32,7 @@
 #include <djvCore/String.h>
 #include <djvCore/TextSystem.h>
 
+#define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
 #include <map>

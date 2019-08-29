@@ -38,6 +38,7 @@
 #include <djvCore/Context.h>
 #include <djvCore/TextSystem.h>
 
+#define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
 using namespace djv::Core;
