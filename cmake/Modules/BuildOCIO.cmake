@@ -23,6 +23,9 @@ if(OCIO_SHARED_LIBS)
 else()
 	set(OCIO_ARGS ${OCIO_ARGS} -DOCIO_BUILD_SHARED=OFF -DOCIO_BUILD_STATIC=ON)
 endif()
+cmake_host_system_information(RESULT HAS_SSE2 QUERY HAS_SSE2)
+set(OCIO_ARGS ${OCIO_ARGS} -DOCIO_USE_SSE=${HAS_SSE2})
+
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/OCIO/src/OCIOThirdParty-build/ext)
 ExternalProject_Add(
     OCIOThirdParty
