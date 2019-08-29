@@ -31,8 +31,10 @@
 
 #include <djvUI/Style.h>
 
+#include <djvAV/FontSystem.h>
 #include <djvAV/Render2D.h>
 
+#include <djvCore/Context.h>
 #include <djvCore/Timer.h>
 
 #include <GLFW/glfw3.h>
@@ -51,6 +53,7 @@ namespace djv
 
         struct LineEditBase::Private
         {
+            std::shared_ptr<AV::Font::System> fontSystem;
             std::string text;
             ColorRole textColorRole = ColorRole::Foreground;
             MetricsRole textSizeRole = MetricsRole::TextColumn;
@@ -83,6 +86,8 @@ namespace djv
             setClassName("djv::UI::LineEditBase");
             setVAlign(VAlign::Center);
             setPointerEnabled(true);
+
+            p.fontSystem = context->getSystemT<AV::Font::System>();
 
             p.cursorBlinkTimer = Time::Timer::create(context);
             p.cursorBlinkTimer->setRepeating(true);
@@ -507,12 +512,11 @@ namespace djv
             const auto fontInfo = p.font.empty() ?
                 style->getFontInfo(p.fontFace, p.fontSizeRole) :
                 style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);
-            auto fontSystem = _getFontSystem();
-            p.fontMetricsFuture = fontSystem->getMetrics(fontInfo);
-            p.textSizeFuture = fontSystem->measure(p.text, fontInfo);
+            p.fontMetricsFuture = p.fontSystem->getMetrics(fontInfo);
+            p.textSizeFuture = p.fontSystem->measure(p.text, fontInfo);
             if (!p.sizeString.empty())
             {
-                p.sizeStringFuture = fontSystem->measure(p.sizeString, fontInfo);
+                p.sizeStringFuture = p.fontSystem->measure(p.sizeString, fontInfo);
             }
             _resize();
         }
@@ -535,8 +539,7 @@ namespace djv
                 style->getFontInfo(p.fontFace, p.fontSizeRole) :
                 style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);
             const std::string cursorText = p.cursorPos < size ? p.text.substr(0, p.cursorPos) : p.text;
-            auto fontSystem = _getFontSystem();
-            p.cursorTextSizeFuture = fontSystem->measure(cursorText, fontInfo);
+            p.cursorTextSizeFuture = p.fontSystem->measure(cursorText, fontInfo);
 
             if (hasTextFocus())
             {

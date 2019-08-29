@@ -31,7 +31,10 @@
 
 #include <djvUI/Style.h>
 
+#include <djvAV/FontSystem.h>
 #include <djvAV/Render2D.h>
+
+#include <djvCore/Context.h>
 
 //#pragma optimize("", off)
 
@@ -43,6 +46,7 @@ namespace djv
     {
         struct Label::Private
         {
+            std::shared_ptr<AV::Font::System> fontSystem;
             std::string text;
             TextHAlign textHAlign = TextHAlign::Center;
             TextVAlign textVAlign = TextVAlign::Center;
@@ -63,6 +67,7 @@ namespace djv
         {
             Widget::_init(context);
             setClassName("djv::UI::Label");
+            _p->fontSystem = context->getSystemT<AV::Font::System>();
         }
         
         Label::Label() :
@@ -300,12 +305,11 @@ namespace djv
             const auto fontInfo = p.font.empty() ?
                 style->getFontInfo(p.fontFace, p.fontSizeRole) :
                 style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);
-            auto fontSystem = _getFontSystem();
-            p.fontMetricsFuture = fontSystem->getMetrics(fontInfo);
-            p.textSizeFuture = fontSystem->measure(p.text, fontInfo);
+            p.fontMetricsFuture = p.fontSystem->getMetrics(fontInfo);
+            p.textSizeFuture = p.fontSystem->measure(p.text, fontInfo);
             if (!p.sizeString.empty())
             {
-                p.sizeStringFuture = fontSystem->measure(p.sizeString, fontInfo);
+                p.sizeStringFuture = p.fontSystem->measure(p.sizeString, fontInfo);
             }
             _resize();
         }

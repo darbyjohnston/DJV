@@ -45,12 +45,6 @@ namespace djv
 {
     namespace AV
     {
-        namespace Font
-        {
-            class System;
-
-        } // namespace Font
-
         namespace Render
         {
             class Render2D;
@@ -63,9 +57,7 @@ namespace djv
     {
         class Action;
         class EventSystem;
-        class IconSystem;
         class Tooltip;
-        class UISystem;
         class Window;
 
         //! This class provides the base widget functionality.
@@ -219,9 +211,7 @@ namespace djv
             //! \name Convenience Functions
             ///@{
 
-            inline const std::shared_ptr<AV::Font::System> & _getFontSystem() const;
             inline const std::shared_ptr<AV::Render::Render2D> & _getRender() const;
-            inline const std::shared_ptr<IconSystem> & _getIconSystem() const;
             inline const std::shared_ptr<Style::Style> & _getStyle() const;
 
             ///@}
@@ -251,25 +241,25 @@ namespace djv
 
             static float        _updateTime;
 
-            bool                _visible        = true;
-            bool                _visibleInit    = true;
-            bool                _parentsVisible = true;
-            bool                _clipped        = false;
-            Core::BBox2f        _clipRect       = Core::BBox2f(0.f, 0.f, 0.f, 0.f);
-            float               _opacity        = 1.f;
-            float               _parentsOpacity = 1.f;
+            bool                _visible         = true;
+            bool                _visibleInit     = true;
+            bool                _parentsVisible  = true;
+            bool                _clipped         = false;
+            Core::BBox2f        _clipRect        = Core::BBox2f(0.f, 0.f, 0.f, 0.f);
+            float               _opacity         = 1.f;
+            float               _parentsOpacity  = 1.f;
 
-            Core::BBox2f        _geometry       = Core::BBox2f(0.f, 0.f, 0.f, 0.f);
-            glm::vec2           _minimumSize    = glm::vec2(0.f, 0.f);
-            glm::vec2           _desiredSize    = glm::vec2(0.f, 0.f);
+            Core::BBox2f        _geometry        = Core::BBox2f(0.f, 0.f, 0.f, 0.f);
+            glm::vec2           _minimumSize     = glm::vec2(0.f, 0.f);
+            glm::vec2           _desiredSize     = glm::vec2(0.f, 0.f);
             Layout::Margin      _margin;
-            HAlign              _hAlign         = HAlign::Fill;
-            VAlign              _vAlign         = VAlign::Fill;
+            HAlign              _hAlign          = HAlign::Fill;
+            VAlign              _vAlign          = VAlign::Fill;
 
-            ColorRole           _backgroundRole = ColorRole::None;
+            ColorRole           _backgroundRole  = ColorRole::None;
             std::vector<Side>   _shadowOverlay;
 
-            bool                _pointerEnabled = false;
+            bool                _pointerEnabled  = false;
             std::map<Core::Event::PointerID, glm::vec2>
                                 _pointerHover;
 
@@ -289,12 +279,9 @@ namespace djv
             static bool         _resizeRequest;
             static bool         _redrawRequest;
 
-            std::weak_ptr<Core::Event::IEventSystem>    _eventSystem;
-            std::shared_ptr<AV::Font::System>           _fontSystem;
-            std::shared_ptr<AV::Render::Render2D>       _render;
-            std::shared_ptr<UISystem>                   _uiSystem;
-            std::shared_ptr<IconSystem>                 _iconSystem;
-            std::shared_ptr<Style::Style>               _style;
+            std::weak_ptr<Core::Event::IEventSystem> _eventSystem;
+            std::shared_ptr<AV::Render::Render2D>    _render;
+            std::shared_ptr<Style::Style>            _style;
 
             friend class EventSystem;
         };

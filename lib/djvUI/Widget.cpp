@@ -30,14 +30,13 @@
 #include <djvUI/Widget.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/IconSystem.h>
 #include <djvUI/Shortcut.h>
+#include <djvUI/Style.h>
 #include <djvUI/TextBlock.h>
 #include <djvUI/Tooltip.h>
 #include <djvUI/UISystem.h>
 #include <djvUI/Window.h>
 
-#include <djvAV/FontSystem.h>
 #include <djvAV/Render2D.h>
 
 #include <djvCore/Context.h>
@@ -77,12 +76,10 @@ namespace djv
 
             ++globalWidgetCount;
 
-            _eventSystem    = context->getSystemT<Event::IEventSystem>();
-            _fontSystem     = context->getSystemT<AV::Font::System>();
-            _render         = context->getSystemT<AV::Render::Render2D>();
-            _uiSystem       = context->getSystemT<UISystem>();
-            _iconSystem     = context->getSystemT<IconSystem>();
-            _style          = _uiSystem->getStyle();
+            _eventSystem = context->getSystemT<Event::IEventSystem>();
+            _render = context->getSystemT<AV::Render::Render2D>();
+            auto uiSystem = context->getSystemT<UISystem>();
+            _style = uiSystem->getStyle();
         }
 
         Widget::~Widget()
@@ -416,7 +413,7 @@ namespace djv
                     _preLayoutEvent(static_cast<Event::PreLayout &>(event));
                     break;
                 case Event::Type::Layout:
-                    _layoutEvent(static_cast<Event::Layout &>(event));
+                    _layoutEvent(static_cast<Event::Layout&>(event));
                     break;
                 case Event::Type::Clip:
                 {

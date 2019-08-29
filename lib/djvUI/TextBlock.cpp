@@ -31,12 +31,13 @@
 
 #include <djvUI/Style.h>
 
-#include <djvCore/Cache.h>
-#include <djvCore/Math.h>
-#include <djvCore/Memory.h>
-
 #include <djvAV/FontSystem.h>
 #include <djvAV/Render2D.h>
+
+#include <djvCore/Cache.h>
+#include <djvCore/Context.h>
+#include <djvCore/Math.h>
+#include <djvCore/Memory.h>
 
 //#pragma optimize("", off)
 
@@ -48,6 +49,7 @@ namespace djv
     {
         struct TextBlock::Private
         {
+            std::shared_ptr<AV::Font::System> fontSystem;
             std::string text;
             TextHAlign textHAlign = TextHAlign::Left;
             ColorRole textColorRole = ColorRole::Foreground;
@@ -67,6 +69,7 @@ namespace djv
         {
             Widget::_init(context);
             setClassName("djv::UI::TextBlock");
+            _p->fontSystem = context->getSystemT<AV::Font::System>();
         }
         
         TextBlock::TextBlock() :
@@ -281,8 +284,7 @@ namespace djv
             if (!p.textSizeHash || p.textSizeHash != hash)
             {
                 p.textSizeHash = hash;
-                auto fontSystem = _getFontSystem();
-                p.textLines = fontSystem->textLines(p.text, value, fontInfo).get();
+                p.textLines = p.fontSystem->textLines(p.text, value, fontInfo).get();
                 p.textSize = glm::vec2(0.f, 0.f);
                 for (const auto& i : p.textLines)
                 {
@@ -299,9 +301,8 @@ namespace djv
             auto fontInfo = p.fontFamily.empty() ?
                 style->getFontInfo(p.fontFace, p.fontSizeRole) :
                 style->getFontInfo(p.fontFamily, p.fontFace, p.fontSizeRole);
-            auto fontSystem = _getFontSystem();
-            p.fontMetricsFuture = fontSystem->getMetrics(fontInfo);
-            fontSystem->cacheGlyphs(p.text, fontInfo);
+            p.fontMetricsFuture = p.fontSystem->getMetrics(fontInfo);
+            p.fontSystem->cacheGlyphs(p.text, fontInfo);
             _resize();
         }
 

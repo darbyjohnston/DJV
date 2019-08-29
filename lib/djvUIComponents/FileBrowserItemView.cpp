@@ -34,6 +34,7 @@
 #include <djvUI/SettingsSystem.h>
 
 #include <djvAV/AVSystem.h>
+#include <djvAV/FontSystem.h>
 #include <djvAV/IO.h>
 #include <djvAV/Render2D.h>
 #include <djvAV/ThumbnailSystem.h>
@@ -60,6 +61,7 @@ namespace djv
 
             struct ItemView::Private
             {
+                std::shared_ptr<AV::Font::System> fontSystem;
                 ViewType viewType = ViewType::First;
                 std::vector<FileSystem::FileInfo> items;
                 AV::Font::Metrics nameFontMetrics;
@@ -95,6 +97,8 @@ namespace djv
                 UI::Widget::_init(context);
                 DJV_PRIVATE_PTR();
                 setClassName("djv::UI::FileBrowser::ItemView");
+
+                p.fontSystem = context->getSystemT<AV::Font::System>();
 
                 auto settingsSystem = context->getSystemT<Settings::System>();
                 auto colorSpaceSettings = settingsSystem->getSettingsT<Settings::ColorSpace>();
@@ -287,7 +291,6 @@ namespace djv
                     return;
                 if (auto context = getContext().lock())
                 {
-                    auto fontSystem = _getFontSystem();
                     const auto& style = _getStyle();
                     const auto& clipRect = event.getClipRect();
                     for (const auto& i : p.itemGeometry)
@@ -305,7 +308,7 @@ namespace djv
                                         const float m = style->getMetric(MetricsRole::MarginSmall);
                                         const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium);
                                         p.names[i.first] = fileInfo.getFileName(Frame::invalid, false);
-                                        p.nameLinesFutures[i.first] = fontSystem->textLines(
+                                        p.nameLinesFutures[i.first] = p.fontSystem->textLines(
                                             p.names[i.first],
                                             p.thumbnailSize.w - static_cast<uint16_t>(m * 2.f),
                                             fontInfo);
@@ -903,19 +906,22 @@ namespace djv
             void ItemView::_iconsUpdate()
             {
                 DJV_PRIVATE_PTR();
-                p.icons.clear();
-                for (size_t i = 0; i < static_cast<size_t>(FileSystem::FileType::Count); ++i)
+                if (auto context = getContext().lock())
                 {
-                    const auto type = static_cast<FileSystem::FileType>(i);
-                    std::string name;
-                    switch (type)
+                    p.icons.clear();
+                    auto iconSystem = context->getSystemT<IconSystem>();
+                    for (size_t i = 0; i < static_cast<size_t>(FileSystem::FileType::Count); ++i)
                     {
-                    case FileSystem::FileType::Directory: name = "djvIconDirectory";    break;
-                    case FileSystem::FileType::Sequence:  name = "djvIconFileSequence"; break;
-                    default: name = "djvIconFile"; break;
+                        const auto type = static_cast<FileSystem::FileType>(i);
+                        std::string name;
+                        switch (type)
+                        {
+                        case FileSystem::FileType::Directory: name = "djvIconDirectory";    break;
+                        case FileSystem::FileType::Sequence:  name = "djvIconFileSequence"; break;
+                        default: name = "djvIconFile"; break;
+                        }
+                        p.iconsFutures[type] = iconSystem->getIcon(name, p.thumbnailSize.h);
                     }
-                    auto iconSystem = _getIconSystem();
-                    p.iconsFutures[type] = iconSystem->getIcon(name, p.thumbnailSize.h);
                 }
             }
 
@@ -926,7 +932,6 @@ namespace djv
                 {
                     p.thumbnails.clear();
                     auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>();
-                    auto fontSystem = _getFontSystem();
                     const auto& style = _getStyle();
                     p.names.clear();
                     p.nameLines.clear();
@@ -960,7 +965,7 @@ namespace djv
                                             const float m = style->getMetric(MetricsRole::MarginSmall);
                                             const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium);
                                             p.names[i.first] = fileInfo.getFileName(Frame::invalid, false);
-                                            p.nameLinesFutures[i.first] = fontSystem->textLines(
+                                            p.nameLinesFutures[i.first] = p.fontSystem->textLines(
                                                 p.names[i.first],
                                                 p.thumbnailSize.w - static_cast<uint16_t>(m * 2.f),
                                                 fontInfo);
@@ -987,9 +992,8 @@ namespace djv
                 if (auto context = getContext().lock())
                 {
                     const auto& style = _getStyle();
-                    auto fontSystem = _getFontSystem();
                     auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>();
-                    p.nameFontMetricsFuture = fontSystem->getMetrics(
+                    p.nameFontMetricsFuture = p.fontSystem->getMetrics(
                         style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium));
                     p.names.clear();
                     p.nameLines.clear();

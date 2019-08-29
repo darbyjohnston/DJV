@@ -54,20 +54,18 @@ namespace djv
             {
             public:
                 Palette();
-                Palette(const Palette &);
-                ~Palette();
-                Palette & operator = (const Palette &);
 
-                const AV::Image::Color & getColor(ColorRole) const;
+                inline const AV::Image::Color & getColor(ColorRole) const;
                 void setColor(ColorRole, const AV::Image::Color &);
 
-                float getDisabledMult() const;
+                inline float getDisabledMult() const;
                 void setDisabledMult(float);
 
                 bool operator == (const Palette &) const;
 
             private:
-                DJV_PRIVATE();
+                std::map<ColorRole, AV::Image::Color> _colors;
+                float _disabledMult = .65f;
             };
 
             //! This class provides size metrics.
@@ -75,25 +73,14 @@ namespace djv
             {
             public:
                 Metrics();
-                Metrics(const Metrics &);
-                ~Metrics();
-                Metrics & operator = (const Metrics &);
 
-                float getMetric(MetricsRole role) const;
+                inline float getMetric(MetricsRole role) const;
                 void setMetric(MetricsRole, float);
 
                 bool operator == (const Metrics &) const;
 
             private:
-                DJV_PRIVATE();
-            };
-
-            //! This struct provides text metrics.
-            struct TextMetrics
-            {
-                float ascender = 0.f;
-                float descender = 0.f;
-                float lineHeight = 0.f;
+                std::map<MetricsRole, float> _metrics;
             };
 
             //! This class provides the UI style.
@@ -104,16 +91,14 @@ namespace djv
                 Style();
 
             public:
-                virtual ~Style();
-
                 //! Create a new style.
                 static std::shared_ptr<Style> create(const std::shared_ptr<Core::Context>&);
 
                 //! \name Color Palette
                 ///@{
 
-                const Palette & getPalette() const;
-                const AV::Image::Color & getColor(ColorRole) const;
+                inline const Palette & getPalette() const;
+                inline const AV::Image::Color & getColor(ColorRole) const;
 
                 void setPalette(const Palette &);
 
@@ -122,10 +107,10 @@ namespace djv
                 //! \name Size Metrics
                 ///@{
 
-                const glm::vec2& getDPI() const;
-                const Metrics & getMetrics() const;
-                float getScale() const;
-                float getMetric(MetricsRole) const;
+                inline const glm::vec2& getDPI() const;
+                inline const Metrics & getMetrics() const;
+                inline float getScale() const;
+                inline float getMetric(MetricsRole) const;
 
                 void setDPI(const glm::vec2&);
                 void setMetrics(const Metrics &);
@@ -135,7 +120,7 @@ namespace djv
                 //! \name Fonts
                 ///@{
 
-                const std::string getFont() const;
+                inline const std::string getFont() const;
                 void setFont(const std::string &);
 
                 AV::Font::Info getFontInfo(const std::string & familt, const std::string & face, MetricsRole) const;
@@ -143,11 +128,17 @@ namespace djv
 
                 ///@}
 
-                bool isDirty() const;
+                inline bool isDirty() const;
                 void setClean();
 
             private:
-                DJV_PRIVATE();
+                Palette _palette;
+                glm::vec2 _dpi = glm::vec2(AV::dpiDefault, AV::dpiDefault);
+                Metrics _metrics;
+                std::string _font = AV::Font::familyDefault;
+                std::map<AV::Font::FamilyID, std::string> _fontNames;
+                std::map<std::string, AV::Font::FamilyID> _fontNameToId;
+                bool _dirty = true;
             };
 
         } // namespace Style
@@ -165,3 +156,5 @@ namespace djv
     void fromJSON(const picojson::value &, UI::Style::Metrics &);
 
 } // namespace djv
+
+#include <djvUI/StyleInline.h>

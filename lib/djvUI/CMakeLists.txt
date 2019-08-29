@@ -68,6 +68,7 @@ set(header
     SoloLayout.h
     StackLayout.h
     Style.h
+    StyleInline.h
     StyleSettings.h
     TabBar.h
     TabWidget.h

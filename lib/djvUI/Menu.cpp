@@ -38,6 +38,7 @@
 #include <djvUI/Shortcut.h>
 #include <djvUI/Window.h>
 
+#include <djvAV/FontSystem.h>
 #include <djvAV/Image.h>
 #include <djvAV/Render2D.h>
 
@@ -103,6 +104,7 @@ namespace djv
                 void _itemsUpdate();
                 void _textUpdate();
 
+                std::shared_ptr<AV::Font::System> _fontSystem;
                 std::map<size_t, std::shared_ptr<Action> > _actions;
                 bool _hasShortcuts = false;
                 std::map<size_t, std::shared_ptr<Item> > _items;
@@ -129,6 +131,7 @@ namespace djv
             {
                 Widget::_init(context);
                 setClassName("djv::UI::MenuWidget");
+                _fontSystem = context->getSystemT<AV::Font::System>();
             }
 
             MenuWidget::MenuWidget()
@@ -571,10 +574,13 @@ namespace djv
                                 {
                                     if (!value.empty())
                                     {
-                                        auto style = widget->_getStyle();
-                                        auto iconSystem = widget->_getIconSystem();
-                                        widget->_iconFutures[item] = iconSystem->getIcon(value, static_cast<int>(style->getMetric(MetricsRole::Icon)));
-                                        widget->_resize();
+                                        if (auto context = widget->getContext().lock())
+                                        {
+                                            auto iconSystem = context->getSystemT<IconSystem>();
+                                            auto style = widget->_getStyle();
+                                            widget->_iconFutures[item] = iconSystem->getIcon(value, static_cast<int>(style->getMetric(MetricsRole::Icon)));
+                                            widget->_resize();
+                                        }
                                     }
                                 }
                             });
@@ -642,7 +648,6 @@ namespace djv
             {
                 _textUpdateRequest = false;
                 const auto& style = _getStyle();
-                auto fontSystem = _getFontSystem();
                 auto textSystem = _getTextSystem();
                 _hasShortcuts = false;
                 for (const auto & i : _items)
@@ -650,9 +655,9 @@ namespace djv
                     const auto fontInfo = i.second->font.empty() ?
                         style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium) :
                         style->getFontInfo(i.second->font, AV::Font::faceDefault, MetricsRole::FontMedium);
-                    _fontMetricsFutures[i.second] = fontSystem->getMetrics(fontInfo);
-                    _textSizeFutures[i.second] = fontSystem->measure(i.second->text, fontInfo);
-                    _shortcutSizeFutures[i.second] = fontSystem->measure(i.second->shortcutLabel, fontInfo);
+                    _fontMetricsFutures[i.second] = _fontSystem->getMetrics(fontInfo);
+                    _textSizeFutures[i.second] = _fontSystem->measure(i.second->text, fontInfo);
+                    _shortcutSizeFutures[i.second] = _fontSystem->measure(i.second->shortcutLabel, fontInfo);
                     _hasShortcuts |= i.second->shortcutLabel.size() > 0;
                 }
             }

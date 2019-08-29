@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2018 Darby Johnston
+// Copyright (c) 2004-2019 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,54 +27,22 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvCoreTest/CacheTest.h>
-#include <djvCoreTest/EnumTest.h>
-#include <djvCoreTest/FileIOTest.h>
-#include <djvCoreTest/FrameTest.h>
-#include <djvCoreTest/MathTest.h>
-#include <djvCoreTest/MemoryTest.h>
-#include <djvCoreTest/ObjectTest.h>
-#include <djvCoreTest/PathTest.h>
-#include <djvCoreTest/SpeedTest.h>
-#include <djvCoreTest/StringTest.h>
-#include <djvCoreTest/TimeTest.h>
+#pragma once
 
-#include <djvAVTest/AudioTest.h>
-#include <djvAVTest/ColorTest.h>
-#include <djvAVTest/PixelTest.h>
+#include <djvTestLib/Test.h>
 
-#include <djvCore/Context.h>
-#include <djvCore/Error.h>
-
-using namespace djv;
-
-int main(int argc, char ** argv)
+namespace djv
 {
-    int r = 0;
-    try
+    namespace CoreTest
     {
-        std::vector<std::string> args;
-        auto context = Core::Context::create(args);
+        class TimeTest : public Test::ITest
+        {
+        public:
+            TimeTest(const std::shared_ptr<Core::Context>&);
+            
+            void run(const std::vector<std::string>&) override;
+        };
+        
+    } // namespace CoreTest
+} // namespace djv
 
-        (new CoreTest::CacheTest(context))->run(args);
-        (new CoreTest::EnumTest(context))->run(args);
-        (new CoreTest::FrameTest(context))->run(args);
-        (new CoreTest::FileIOTest(context))->run(args);
-        (new CoreTest::MathTest(context))->run(args);
-        (new CoreTest::MemoryTest(context))->run(args);
-        (new CoreTest::ObjectTest(context))->run(args);
-        (new CoreTest::PathTest(context))->run(args);
-        (new CoreTest::SpeedTest(context))->run(args);
-        (new CoreTest::StringTest(context))->run(args);
-        (new CoreTest::TimeTest(context))->run(args);
-
-        (new AVTest::AudioTest(context))->run(args);
-        (new AVTest::ColorTest(context))->run(args);
-        (new AVTest::PixelTest(context))->run(args);
-    }
-    catch (const std::exception & error)
-    {
-        std::cout << Core::Error::format(error) << std::endl;
-    }
-    return r;
-}

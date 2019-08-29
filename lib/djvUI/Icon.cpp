@@ -35,6 +35,8 @@
 #include <djvAV/Image.h>
 #include <djvAV/Render2D.h>
 
+#include <djvCore/Context.h>
+
 using namespace djv::Core;
 
 namespace djv
@@ -48,12 +50,14 @@ namespace djv
             MetricsRole iconSizeRole = MetricsRole::Icon;
             std::future<std::shared_ptr<AV::Image::Image> > imageFuture;
             std::shared_ptr<AV::Image::Image> image;
+            std::shared_ptr<IconSystem> iconSystem;
         };
 
         void Icon::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
             setClassName("djv::UI::Icon");
+            _p->iconSystem = context->getSystemT<IconSystem>();
         }
 
         Icon::Icon() :
@@ -81,10 +85,13 @@ namespace djv
             if (value == p.name)
                 return;
             p.name = value;
-            const auto& style = _getStyle();
-            auto iconSystem = _getIconSystem();
-            p.imageFuture = iconSystem->getIcon(p.name, static_cast<int>(style->getMetric(p.iconSizeRole)));
-            _resize();
+            if (auto context = getContext().lock())
+            {
+                auto iconSystem = context->getSystemT<IconSystem>();
+                const auto& style = _getStyle();
+                p.imageFuture = iconSystem->getIcon(p.name, static_cast<int>(style->getMetric(p.iconSizeRole)));
+                _resize();
+            }
         }
 
         ColorRole Icon::getIconColorRole() const
@@ -120,9 +127,12 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (!p.name.empty())
             {
-                const auto& style = _getStyle();
-                auto iconSystem = _getIconSystem();
-                p.imageFuture = iconSystem->getIcon(p.name, static_cast<int>(style->getMetric(p.iconSizeRole)));
+                if (auto context = getContext().lock())
+                {
+                    auto iconSystem = context->getSystemT<IconSystem>();
+                    const auto& style = _getStyle();
+                    p.imageFuture = iconSystem->getIcon(p.name, static_cast<int>(style->getMetric(p.iconSizeRole)));
+                }
             }
         }
 

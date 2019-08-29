@@ -43,6 +43,7 @@
 #include <djvUI/Window.h>
 
 #include <djvAV/AVSystem.h>
+#include <djvAV/FontSystem.h>
 #include <djvAV/IO.h>
 #include <djvAV/Render2D.h>
 
@@ -139,7 +140,7 @@ namespace djv
 
                         auto weak = std::weak_ptr<PIPWidget>(std::dynamic_pointer_cast<PIPWidget>(shared_from_this()));
                         _speedObserver = ValueObserver<Time::Speed>::create(
-                            _media->observeSpeed(),
+                            _media->observeDefaultSpeed(),
                             [weak](const Time::Speed& value)
                             {
                                 if (auto widget = weak.lock())
@@ -247,6 +248,7 @@ namespace djv
 
         struct TimelineSlider::Private
         {
+            std::shared_ptr<AV::Font::System> fontSystem;
             std::shared_ptr<Media> media;
             Time::Speed speed;
             Frame::Sequence sequence;
@@ -275,6 +277,14 @@ namespace djv
             std::shared_ptr<ValueObserver<Frame::Index> > currentFrameObserver;
             std::shared_ptr<ValueObserver<bool> > pipObserver;
             std::shared_ptr<ValueObserver<AV::TimeUnits> > timeUnitsObserver;
+            BBox2f geometryPrev = BBox2f(0.f, 0.f, -1.f, -1.f);
+            struct TimeTick
+            {
+                BBox2f geometry;
+                std::string text;
+                glm::vec2 textPos;
+            };
+            std::vector<TimeTick> timeTicks;
         };
 
         void TimelineSlider::_init(const std::shared_ptr<Core::Context>& context)
@@ -283,6 +293,8 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::TimelineSlider");
+
+            p.fontSystem = context->getSystemT<AV::Font::System>();
 
             p.pipWidget = PIPWidget::create(context);
             p.overlay = UI::Layout::Overlay::create(context);
@@ -316,6 +328,7 @@ namespace djv
                     {
                         widget->_p->timeUnits = value;
                         widget->_textUpdate();
+                        widget->_currentFrameUpdate();
                     }
                 });
         }
@@ -359,17 +372,19 @@ namespace djv
                     {
                         widget->_p->speed = value.video.size() ? value.video[0].speed : Time::Speed();
                         widget->_textUpdate();
+                        widget->_currentFrameUpdate();
                     }
                 });
 
                 p.speedObserver = ValueObserver<Time::Speed>::create(
-                    p.media->observeSpeed(),
+                    p.media->observeDefaultSpeed(),
                     [weak](const Time::Speed& value)
                     {
                         if (auto widget = weak.lock())
                         {
                             widget->_p->speed = value;
                             widget->_textUpdate();
+                            widget->_currentFrameUpdate();
                         }
                     });
 
@@ -381,6 +396,7 @@ namespace djv
                         {
                             widget->_p->sequence = value;
                             widget->_textUpdate();
+                            widget->_currentFrameUpdate();
                         }
                     });
 
@@ -391,7 +407,7 @@ namespace djv
                         if (auto widget = weak.lock())
                         {
                             widget->_p->currentFrame = value;
-                            widget->_textUpdate();
+                            widget->_currentFrameUpdate();
                         }
                     });
             }
@@ -409,6 +425,7 @@ namespace djv
                 p.currentFrameObserver.reset();
             }
             _textUpdate();
+            _currentFrameUpdate();
         }
 
         void TimelineSlider::setInOutPointsEnabled(bool value)
@@ -456,6 +473,7 @@ namespace djv
         void TimelineSlider::_styleEvent(Event::Style &)
         {
             _textUpdate();
+            _currentFrameUpdate();
         }
 
         void TimelineSlider::_preLayoutEvent(Event::PreLayout & event)
@@ -502,6 +520,61 @@ namespace djv
             _setMinimumSize(size);
         }
 
+        void TimelineSlider::_layoutEvent(Event::Layout& event)
+        {
+            DJV_PRIVATE_PTR();
+            const BBox2f& g = getGeometry();
+            if (p.geometryPrev != g)
+            {
+                p.geometryPrev = g;
+                if (auto context = getContext().lock())
+                {
+                    const float w = g.w();
+                    const float h = g.h();
+                    const auto& style = _getStyle();
+                    const float m = style->getMetric(UI::MetricsRole::MarginSmall);
+                    const float b = style->getMetric(UI::MetricsRole::Border);
+                    //const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, UI::MetricsRole::FontSmall);
+                    float x = g.min.x;
+                    float x2 = x;
+                    //! \bug Why the extra subtract by one here?
+                    float y = g.max.y - b * 6.f - p.fontMetrics.lineHeight + p.fontMetrics.ascender - 1.f;
+                    const float speedF = p.speed.toFloat();
+                    auto avSystem = context->getSystemT<AV::AVSystem>();
+                    const std::vector<std::pair<float, std::function<Frame::Index(size_t, float)> > > units =
+                    {
+                        { _getHourLength(), [](size_t value, float speed) { return static_cast<Frame::Index>(value * 60.f * 60.f * speed); } },
+                        { _getMinuteLength(), [](size_t value, float speed) { return static_cast<Frame::Index>(value * 60.f * speed); } },
+                        { _getSecondLength(), [](size_t value, float speed) { return static_cast<Frame::Index>(value * speed); } },
+                        { _getFrameLength(), [](size_t value, float speed) { return static_cast<Frame::Index>(value); } }
+                    };
+                    p.timeTicks.clear();
+                    for (const auto& i : units)
+                    {
+                        if (i.first < w)
+                        {
+                            size_t unit = 0;
+                            while (x < g.max.x)
+                            {
+                                if (x >= x2)
+                                {
+                                    Private::TimeTick tick;
+                                    tick.geometry = BBox2f(x, g.max.y - b * 6.f - p.fontMetrics.lineHeight, b, p.fontMetrics.lineHeight);
+                                    tick.text = avSystem->getLabel(p.sequence.getFrame(i.second(unit, speedF)), p.speed);
+                                    tick.textPos = glm::vec2(x + m, y);
+                                    p.timeTicks.push_back(tick);
+                                    x2 = x + p.maxFrameLength + m * 2.f;
+                                }
+                                ++unit;
+                                x = _frameToPos(i.second(unit, speedF));
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
         void TimelineSlider::_paintEvent(Event::Paint& event)
         {
             Widget::_paintEvent(event);
@@ -516,44 +589,17 @@ namespace djv
                 const float b = style->getMetric(UI::MetricsRole::Border);
                 const BBox2f& hg = _getHandleGeometry();
 
-                // Draw the time labels.
+                // Draw the time ticks.
                 auto color = style->getColor(UI::ColorRole::Foreground);
                 color.setF32(color.getF32(3) * .4f, 3);
                 auto render = _getRender();
                 render->setFillColor(color);
                 const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, UI::MetricsRole::FontSmall);
                 render->setCurrentFont(fontInfo);
-                float x = g.min.x;
-                float x2 = x;
-                //! \bug Why the extra subtract by one here?
-                float y = g.max.y - b * 6.f - p.fontMetrics.lineHeight + p.fontMetrics.ascender - 1.f;
-                const float speedF = p.speed.toFloat();
-                auto avSystem = context->getSystemT<AV::AVSystem>();
-                const std::vector<std::pair<float, std::function<Frame::Index(size_t, float)> > > units =
+                for (const auto& tick : p.timeTicks)
                 {
-                    { _getHourLength  (), [](size_t value, float speed) { return static_cast<Frame::Index>(value * 60.f * 60.f * speed); } },
-                    { _getMinuteLength(), [](size_t value, float speed) { return static_cast<Frame::Index>(value * 60.f * speed); } },
-                    { _getSecondLength(), [](size_t value, float speed) { return static_cast<Frame::Index>(value * speed); } },
-                    { _getFrameLength (), [](size_t value, float speed) { return static_cast<Frame::Index>(value); } }
-                };
-                for (const auto& i : units)
-                {
-                    if (i.first < w)
-                    {
-                        size_t unit = 0;
-                        while (x < g.max.x)
-                        {
-                            if (x >= x2)
-                            {
-                                render->drawRect(BBox2f(x, g.max.y - b * 6.f - p.fontMetrics.lineHeight, b, p.fontMetrics.lineHeight));
-                                render->drawText(avSystem->getLabel(p.sequence.getFrame(i.second(unit, speedF)), p.speed), glm::vec2(x + m, y));
-                                x2 = x + p.maxFrameLength + m * 2.f;
-                            }
-                            ++unit;
-                            x = _frameToPos(i.second(unit, speedF));
-                        }
-                        break;
-                    }
+                    render->drawRect(tick.geometry);
+                    render->drawText(tick.text, tick.textPos);
                 }
 
                 // Draw the in/out points.
@@ -663,7 +709,7 @@ namespace djv
                 {
                     p.currentFrameCallback(p.currentFrame);
                 }
-                _textUpdate();
+                _currentFrameUpdate();
             }
         }
 
@@ -686,7 +732,7 @@ namespace djv
             {
                 p.currentFrameCallback(p.currentFrame);
             }
-            _textUpdate();
+            _currentFrameUpdate();
         }
 
         void TimelineSlider::_buttonReleaseEvent(Event::ButtonRelease & event)
@@ -785,9 +831,8 @@ namespace djv
             if (auto context = getContext().lock())
             {
                 const auto& style = _getStyle();
-                auto fontSystem = _getFontSystem();
                 const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, UI::MetricsRole::FontSmall);
-                p.fontMetricsFuture = fontSystem->getMetrics(fontInfo);
+                p.fontMetricsFuture = p.fontSystem->getMetrics(fontInfo);
                 std::string maxFrameText;
                 switch (p.timeUnits)
                 {
@@ -805,10 +850,22 @@ namespace djv
                 }
                 default: break;
                 }
-                p.maxFrameSizeFuture = fontSystem->measure(maxFrameText, fontInfo);
+                p.maxFrameSizeFuture = p.fontSystem->measure(maxFrameText, fontInfo);
+                p.geometryPrev = BBox2f(0.f, 0.f, -1.f, -1.f);
+                _resize();
+            }
+        }
+
+        void TimelineSlider::_currentFrameUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (auto context = getContext().lock())
+            {
+                const auto& style = _getStyle();
+                const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, UI::MetricsRole::FontSmall);
                 auto avSystem = context->getSystemT<AV::AVSystem>();
                 p.currentFrameText = avSystem->getLabel(p.sequence.getFrame(p.currentFrame), p.speed);
-                p.currentFrameSizeFuture = fontSystem->measure(p.currentFrameText, fontInfo);
+                p.currentFrameSizeFuture = p.fontSystem->measure(p.currentFrameText, fontInfo);
                 _resize();
             }
         }

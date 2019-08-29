@@ -8,7 +8,8 @@ set(header
     ObjectTest.h
     PathTest.h
 	SpeedTest.h
-    StringTest.h)
+    StringTest.h
+    TimeTest.h)
 set(source
 	CacheTest.cpp
     EnumTest.cpp
@@ -19,7 +20,8 @@ set(source
     ObjectTest.cpp
     PathTest.cpp
 	SpeedTest.cpp
-    StringTest.cpp)
+    StringTest.cpp
+    TimeTest.cpp)
 
 add_library(djvCoreTest ${header} ${source})
 target_link_libraries(djvCoreTest djvTestLib)

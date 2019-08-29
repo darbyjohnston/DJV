@@ -163,19 +163,9 @@ namespace djv
             return _childWidgets;
         }
 
-        inline const std::shared_ptr<AV::Font::System> & Widget::_getFontSystem() const
-        {
-            return _fontSystem;
-        }
-
         inline const std::shared_ptr<AV::Render::Render2D> & Widget::_getRender() const
         {
             return _render;
-        }
-
-        inline const std::shared_ptr<IconSystem> & Widget::_getIconSystem() const
-        {
-            return _iconSystem;
         }
 
         inline const std::shared_ptr<Style::Style> & Widget::_getStyle() const

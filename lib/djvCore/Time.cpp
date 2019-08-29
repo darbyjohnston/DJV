@@ -140,7 +140,7 @@ namespace djv
                 int frame  = 0;
                 timecodeToTime(in, hour, minute, second, frame);
 
-                std::stringstream s;
+                /*std::stringstream s;
                 s << std::setfill('0') << std::setw(2) << hour;
                 s << std::setw(0) << ":";
                 s << std::setfill('0') << std::setw(2) << minute;
@@ -148,7 +148,18 @@ namespace djv
                 s << std::setfill('0') << std::setw(2) << second;
                 s << std::setw(0) << ":";
                 s << std::setfill('0') << std::setw(2) << frame;
-                return s.str();
+                return s.str();*/
+
+                std::string out = "00:00:00:00";
+                out[ 0] = 48 +   hour / 10;
+                out[ 1] = 48 +   hour % 10;
+                out[ 3] = 48 + minute / 10;
+                out[ 4] = 48 + minute % 10;
+                out[ 6] = 48 + second / 10;
+                out[ 7] = 48 + second % 10;
+                out[ 9] = 48 +  frame / 10;
+                out[10] = 48 +  frame % 10;
+                return out;
             }
 
             void stringToTimecode(const std::string & in, uint32_t & out, bool * ok)

@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2018 Darby Johnston
+// Copyright (c) 2019 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,54 +27,67 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvCoreTest/CacheTest.h>
-#include <djvCoreTest/EnumTest.h>
-#include <djvCoreTest/FileIOTest.h>
-#include <djvCoreTest/FrameTest.h>
-#include <djvCoreTest/MathTest.h>
-#include <djvCoreTest/MemoryTest.h>
-#include <djvCoreTest/ObjectTest.h>
-#include <djvCoreTest/PathTest.h>
-#include <djvCoreTest/SpeedTest.h>
-#include <djvCoreTest/StringTest.h>
-#include <djvCoreTest/TimeTest.h>
-
-#include <djvAVTest/AudioTest.h>
-#include <djvAVTest/ColorTest.h>
-#include <djvAVTest/PixelTest.h>
-
-#include <djvCore/Context.h>
-#include <djvCore/Error.h>
-
-using namespace djv;
-
-int main(int argc, char ** argv)
+namespace djv
 {
-    int r = 0;
-    try
+    namespace UI
     {
-        std::vector<std::string> args;
-        auto context = Core::Context::create(args);
+        namespace Style
+        {
+            inline const AV::Image::Color& Palette::getColor(ColorRole value) const
+            {
+                return _colors.at(value);
+            }
 
-        (new CoreTest::CacheTest(context))->run(args);
-        (new CoreTest::EnumTest(context))->run(args);
-        (new CoreTest::FrameTest(context))->run(args);
-        (new CoreTest::FileIOTest(context))->run(args);
-        (new CoreTest::MathTest(context))->run(args);
-        (new CoreTest::MemoryTest(context))->run(args);
-        (new CoreTest::ObjectTest(context))->run(args);
-        (new CoreTest::PathTest(context))->run(args);
-        (new CoreTest::SpeedTest(context))->run(args);
-        (new CoreTest::StringTest(context))->run(args);
-        (new CoreTest::TimeTest(context))->run(args);
+            inline float Palette::getDisabledMult() const
+            {
+                return _disabledMult;
+            }
 
-        (new AVTest::AudioTest(context))->run(args);
-        (new AVTest::ColorTest(context))->run(args);
-        (new AVTest::PixelTest(context))->run(args);
-    }
-    catch (const std::exception & error)
-    {
-        std::cout << Core::Error::format(error) << std::endl;
-    }
-    return r;
-}
+            inline float Metrics::getMetric(MetricsRole role) const
+            {
+                return _metrics.at(role);
+            }
+
+            inline const Palette& Style::getPalette() const
+            {
+                return _palette;
+            }
+
+            inline const AV::Image::Color& Style::getColor(ColorRole role) const
+            {
+                return _palette.getColor(role);
+            }
+
+            inline const glm::vec2& Style::getDPI() const
+            {
+                return _dpi;
+            }
+
+            inline const Metrics& Style::getMetrics() const
+            {
+                return _metrics;
+            }
+
+            inline float Style::getScale() const
+            {
+                return _dpi.x / static_cast<float>(AV::dpiDefault);
+            }
+
+            inline float Style::getMetric(MetricsRole role) const
+            {
+                return ceilf(_metrics.getMetric(role) * getScale());
+            }
+
+            inline const std::string Style::getFont() const
+            {
+                return _font;
+            }
+
+            inline bool Style::isDirty() const
+            {
+                return _dirty;
+            }
+
+        } // namespace Style
+    } // namespace UI
+} // namespace djv

@@ -44,17 +44,9 @@ namespace djv
     {
         namespace Style
         {
-            struct Palette::Private
+            Palette::Palette() 
             {
-                std::map<ColorRole, AV::Image::Color> colors;
-                float disabledMult = .65f;
-            };
-
-            Palette::Palette() :
-                _p(new Private)
-            {
-                DJV_PRIVATE_PTR();
-                p.colors =
+                _colors =
                 {
                     // These colors should be specified as RGBA F32.
                     { ColorRole::None, AV::Image::Color(0.f, 0.f, 0.f, 0.f) },
@@ -82,74 +74,27 @@ namespace djv
                 };
             }
 
-            Palette::Palette(const Palette & other) :
-                _p(new Private)
-            {
-                *_p = *other._p;
-            }
-
-            Palette::~Palette()
-            {}
-
-            Palette & Palette::operator = (const Palette & other)
-            {
-                *_p = *other._p;
-                return *this;
-            }
-
-            const AV::Image::Color & Palette::getColor(ColorRole value) const
-            {
-                return _p->colors.at(value);
-            }
-
             void Palette::setColor(ColorRole role, const AV::Image::Color & value)
             {
-                _p->colors[role] = value.getType() != AV::Image::Type::None ?
+                _colors[role] = value.getType() != AV::Image::Type::None ?
                     value.convert(AV::Image::Type::RGBA_F32) :
                     AV::Image::Color(AV::Image::Type::RGBA_F32);
             }
 
-            float Palette::getDisabledMult() const
-            {
-                return _p->disabledMult;
-            }
-
             void Palette::setDisabledMult(float value)
             {
-                _p->disabledMult = value;
+                _disabledMult = value;
             }
 
             bool Palette::operator == (const Palette & other) const
             {
-                return _p->colors == other._p->colors &&
-                    _p->disabledMult == other._p->disabledMult;
+                return _colors == other._colors &&
+                    _disabledMult == other._disabledMult;
             }
 
-            struct Metrics::Private
+            Metrics::Metrics()
             {
-                std::map<MetricsRole, float> metrics;
-            };
-
-            Metrics::Metrics(const Metrics & other) :
-                _p(new Private)
-            {
-                *_p = *other._p;
-            }
-
-            Metrics::~Metrics()
-            {}
-
-            Metrics & Metrics::operator = (const Metrics & other)
-            {
-                *_p = *other._p;
-                return *this;
-            }
-
-            Metrics::Metrics() :
-                _p(new Private)
-            {
-                DJV_PRIVATE_PTR();
-                p.metrics =
+                _metrics =
                 {
                     { MetricsRole::None, 0.f },
                     { MetricsRole::Border, 1.f },
@@ -185,52 +130,29 @@ namespace djv
                 };
             }
 
-            float Metrics::getMetric(MetricsRole role) const
-            {
-                return _p->metrics.at(role);
-            }
-
             void Metrics::setMetric(MetricsRole role, float value)
             {
-                _p->metrics[role] = value;
+                _metrics[role] = value;
             }
 
             bool Metrics::operator == (const Metrics & other) const
             {
-                DJV_PRIVATE_PTR();
-                return p.metrics == other._p->metrics;
+                return _metrics == other._metrics;
             }
-
-            struct Style::Private
-            {
-                Palette palette;
-                glm::vec2 dpi = glm::vec2(AV::dpiDefault, AV::dpiDefault);
-                Metrics metrics;
-                std::string font = AV::Font::familyDefault;
-                std::map<AV::Font::FamilyID, std::string> fontNames;
-                std::map<std::string, AV::Font::FamilyID> fontNameToId;
-                bool dirty = true;
-            };
 
             void Style::_init(const std::shared_ptr<Core::Context>& context)
             {
-                DJV_PRIVATE_PTR();
-                                
                 auto fontSystem = context->getSystemT<AV::Font::System>();
-                p.fontNames = fontSystem->getFontNames().get();
-                for (const auto & i : p.fontNames)
+                _fontNames = fontSystem->getFontNames().get();
+                for (const auto & i : _fontNames)
                 {
-                    p.fontNameToId[i.second] = i.first;
+                    _fontNameToId[i.second] = i.first;
                 }
 
-                p.dirty = true;
+                _dirty = true;
             }
 
-            Style::Style() :
-                _p(new Private)
-            {}
-
-            Style::~Style()
+            Style::Style()
             {}
 
             std::shared_ptr<Style> Style::create(const std::shared_ptr<Core::Context>& context)
@@ -240,107 +162,61 @@ namespace djv
                 return out;
             }
 
-            const Palette & Style::getPalette() const
-            {
-                return _p->palette;
-            }
-
-            const AV::Image::Color & Style::getColor(ColorRole role) const
-            {
-                return _p->palette.getColor(role);
-            }
-
             void Style::setPalette(const Palette & value)
             {
-                DJV_PRIVATE_PTR();
-                if (value == p.palette)
+                if (value == _palette)
                     return;
-                p.palette = value;
-                p.dirty = true;
-            }
-
-            const glm::vec2& Style::getDPI() const
-            {
-                return _p->dpi;
-            }
-
-            const Metrics & Style::getMetrics() const
-            {
-                return _p->metrics;
-            }
-
-            float Style::getScale() const
-            {
-                return _p->dpi.x / static_cast<float>(AV::dpiDefault);
-            }
-
-            float Style::getMetric(MetricsRole role) const
-            {
-                return ceilf(_p->metrics.getMetric(role) * getScale());
+                _palette = value;
+                _dirty = true;
             }
 
             void Style::setDPI(const glm::vec2& value)
             {
-                DJV_PRIVATE_PTR();
-                if (value == p.dpi)
+                if (value == _dpi)
                     return;
-                p.dpi = value;
-                p.dirty = true;
+                _dpi = value;
+                _dirty = true;
             }
 
             void Style::setMetrics(const Metrics& value)
             {
-                DJV_PRIVATE_PTR();
-                if (value == p.metrics)
+                if (value == _metrics)
                     return;
-                p.metrics = value;
-                p.dirty = true;
-            }
-
-            const std::string Style::getFont() const
-            {
-                return _p->font;
+                _metrics = value;
+                _dirty = true;
             }
 
             void Style::setFont(const std::string & value)
             {
-                DJV_PRIVATE_PTR();
-                if (value == p.font)
+                if (value == _font)
                     return;
-                p.font = value;
-                p.dirty = true;
+                _font = value;
+                _dirty = true;
             }
 
             AV::Font::Info Style::getFontInfo(const std::string & family, const std::string & face, MetricsRole role) const
             {
-                DJV_PRIVATE_PTR();
-                const auto i = p.fontNameToId.find(family);
+                const auto i = _fontNameToId.find(family);
                 return AV::Font::Info(
-                    i != p.fontNameToId.end() ? i->second : 1,
+                    i != _fontNameToId.end() ? i->second : 1,
                     1,
                     ceilf(getMetric(role)),
-                    static_cast<uint16_t>(p.dpi.x));
+                    static_cast<uint16_t>(_dpi.x));
             }
 
             AV::Font::Info Style::getFontInfo(const std::string & face, MetricsRole role) const
             {
-                DJV_PRIVATE_PTR();
-                const auto i = p.fontNameToId.find(p.font);
+                const auto i = _fontNameToId.find(_font);
                 return AV::Font::Info(
-                    i != p.fontNameToId.end() ? i->second : 1,
+                    i != _fontNameToId.end() ? i->second : 1,
                     1,
                     ceilf(getMetric(role)),
-                    static_cast<uint16_t>(p.dpi.x));
-            }
-
-            bool Style::isDirty() const
-            {
-                return _p->dirty;
+                    static_cast<uint16_t>(_dpi.x));
             }
 
             void Style::setClean()
             {
-                _p->dirty = false;
+                _dirty = false;
             }
 
         } // namespace Style
@@ -468,4 +344,3 @@ namespace djv
     }
 
 } // namespace djv
-

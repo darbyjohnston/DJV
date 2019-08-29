@@ -32,8 +32,10 @@
 #include <djvUI/DrawUtil.h>
 #include <djvUI/Style.h>
 
+#include <djvAV/FontSystem.h>
 #include <djvAV/Render2D.h>
 
+#include <djvCore/Context.h>
 #include <djvCore/Timer.h>
 
 #include <GLFW/glfw3.h>
@@ -173,10 +175,13 @@ namespace djv
         void NumericSlider::_styleEvent(Event::Style& event)
         {
             DJV_PRIVATE_PTR();
-            const auto& style = _getStyle();
-            p.handleWidth = style->getMetric(MetricsRole::Handle);
-            auto fontSystem = _getFontSystem();
-            p.fontMetricsFuture = fontSystem->getMetrics(style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium));
+            if (auto context = getContext().lock())
+            {
+                auto fontSystem = context->getSystemT<AV::Font::System>();
+                const auto& style = _getStyle();
+                p.handleWidth = style->getMetric(MetricsRole::Handle);
+                p.fontMetricsFuture = fontSystem->getMetrics(style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium));
+            }
         }
 
         void NumericSlider::_preLayoutEvent(Event::PreLayout & event)

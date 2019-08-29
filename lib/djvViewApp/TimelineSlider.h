@@ -69,6 +69,7 @@ namespace djv
         protected:
             void _styleEvent(Core::Event::Style&) override;
             void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
             void _paintEvent(Core::Event::Paint &) override;
             void _pointerEnterEvent(Core::Event::PointerEnter &) override;
             void _pointerLeaveEvent(Core::Event::PointerLeave &) override;
@@ -87,6 +88,7 @@ namespace djv
             float _getHourLength() const;
             Core::BBox2f _getHandleGeometry() const;
             void _textUpdate();
+            void _currentFrameUpdate();
 
             DJV_PRIVATE();
         };

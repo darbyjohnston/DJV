@@ -52,6 +52,13 @@ namespace djv
     {
         namespace IO
         {
+            namespace
+            {
+                //! \todo Should this be configurable?
+                const double infoTimeout = 0.5;
+            
+            } // namespace
+
             struct ISequenceRead::Future
             {
                 Frame::Number frame = Frame::invalid;
@@ -68,6 +75,7 @@ namespace djv
                 Frame::Number seek = Frame::invalid;
                 std::thread thread;
                 std::atomic<bool> running;
+                std::chrono::system_clock::time_point infoTimer;
             };
 
             void ISequenceRead::_init(
@@ -128,6 +136,7 @@ namespace djv
                     }
 
                     // Start looping...
+                    p.infoTimer = std::chrono::system_clock::now();
                     const auto timeout = Time::getValue(Time::TimerValue::Fast);
                     while (p.running)
                     {
@@ -140,8 +149,6 @@ namespace djv
                             threadCount = _threadCount;
                             cacheEnabled = _cacheEnabled;
                             cacheMaxByteCount = _cacheMaxByteCount;
-                            _cacheByteCount = _getCacheByteCount(_cache);
-                            _cachedFrames = _getCachedFrames(_cache);
                         }
                         if (!cacheEnabled)
                         {
@@ -204,6 +211,17 @@ namespace djv
                         if (cacheEnabled)
                         {
                             _readCache(threadCount / 2);
+                        }
+
+                        // Update information.
+                        const auto now = std::chrono::system_clock::now();
+                        std::chrono::duration<double> delta = now - p.infoTimer;
+                        if (delta.count() > infoTimeout)
+                        {
+                            p.infoTimer = now;
+                            std::lock_guard<std::mutex> lock(_mutex);
+                            _cacheByteCount = _getCacheByteCount(_cache);
+                            _cachedFrames = _getCachedFrames(_cache);
                         }
                     }
 

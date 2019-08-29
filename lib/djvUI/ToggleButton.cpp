@@ -32,9 +32,11 @@
 #include <djvUI/DrawUtil.h>
 #include <djvUI/Style.h>
 
+#include <djvAV/FontSystem.h>
 #include <djvAV/Render2D.h>
 
 #include <djvCore/Animation.h>
+#include <djvCore/Context.h>
 
 //#pragma optimize("", off)
 
@@ -117,9 +119,12 @@ namespace djv
             void Toggle::_styleEvent(Event::Style& event)
             {
                 DJV_PRIVATE_PTR();
-                const auto& style = _getStyle();
-                auto fontSystem = _getFontSystem();
-                p.fontMetricsFuture = fontSystem->getMetrics(style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium));
+                if (auto context = getContext().lock())
+                {
+                    auto fontSystem = context->getSystemT<AV::Font::System>();
+                    const auto& style = _getStyle();
+                    p.fontMetricsFuture = fontSystem->getMetrics(style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium));
+                }
             }
 
             void Toggle::_preLayoutEvent(Event::PreLayout & event)
