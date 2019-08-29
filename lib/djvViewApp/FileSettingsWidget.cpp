@@ -30,7 +30,6 @@
 #include <djvViewApp/FileSettingsWidget.h>
 
 #include <djvViewApp/FileSettings.h>
-#include <djvViewApp/MemoryCacheWidget.h>
 
 #include <djvUI/IntSlider.h>
 #include <djvUI/FormLayout.h>
@@ -39,6 +38,7 @@
 #include <djvUI/ToggleButton.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/OS.h>
 #include <djvCore/TextSystem.h>
 
 using namespace djv::Core;
@@ -134,15 +134,81 @@ namespace djv
         }
 
         struct CacheSettingsWidget::Private
-        {};
+        {
+            std::shared_ptr<UI::ToggleButton> enabledButton;
+            std::shared_ptr<UI::IntSlider> maxGBSlider;
+            std::shared_ptr<UI::FormLayout> formLayout;
+            std::shared_ptr<ValueObserver<bool> > enabledObserver;
+            std::shared_ptr<ValueObserver<int> > maxGBObserver;
+        };
 
         void CacheSettingsWidget::_init(const std::shared_ptr<Context>& context)
         {
             ISettingsWidget::_init(context);
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::CacheSettingsWidget");
-            auto memoryCacheWidget = MemoryCacheWidget::create(context);
-            addChild(memoryCacheWidget);
+
+            p.enabledButton = UI::ToggleButton::create(context);
+
+            p.maxGBSlider = UI::IntSlider::create(context);
+            p.maxGBSlider->setRange(IntRange(1, OS::getRAMSize() / Memory::gigabyte));
+
+            p.formLayout = UI::FormLayout::create(context);
+            p.formLayout->addChild(p.enabledButton);
+            p.formLayout->addChild(p.maxGBSlider);
+            addChild(p.formLayout);
+
+            auto contextWeak = std::weak_ptr<Context>(context);
+            p.enabledButton->setCheckedCallback(
+                [contextWeak](bool value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
+                        {
+                            fileSettings->setCacheEnabled(value);
+                        }
+                    }
+                });
+            p.maxGBSlider->setValueCallback(
+                [contextWeak](int value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
+                        {
+                            fileSettings->setCacheMaxGB(value);
+                        }
+                    }
+                });
+
+            auto weak = std::weak_ptr<CacheSettingsWidget>(
+                std::dynamic_pointer_cast<CacheSettingsWidget>(shared_from_this()));
+            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
+            {
+                p.enabledObserver = ValueObserver<bool>::create(
+                    fileSettings->observeCacheEnabled(),
+                    [weak](bool value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->enabledButton->setChecked(value);
+                        }
+                    });
+
+                p.maxGBObserver = ValueObserver<int>::create(
+                    fileSettings->observeCacheMaxGB(),
+                    [weak](int value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->maxGBSlider->setValue(value);
+                        }
+                    });
+            }
         }
 
         CacheSettingsWidget::CacheSettingsWidget() :
@@ -169,6 +235,14 @@ namespace djv
         std::string CacheSettingsWidget::getSettingsSortKey() const
         {
             return "A";
+        }
+
+        void CacheSettingsWidget::_localeEvent(Event::Locale& event)
+        {
+            ISettingsWidget::_localeEvent(event);
+            DJV_PRIVATE_PTR();
+            p.formLayout->setText(p.enabledButton, _getText(DJV_TEXT("Enable the memory cache")) + ":");
+            p.formLayout->setText(p.maxGBSlider, _getText(DJV_TEXT("Memory cache size (GB)")) + ":");
         }
 
     } // namespace ViewApp

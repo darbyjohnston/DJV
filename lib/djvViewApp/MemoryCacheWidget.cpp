@@ -191,7 +191,7 @@ namespace djv
         void MemoryCacheWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.enabledButton->setText(_getText(DJV_TEXT("Memory Cache")));
+            p.enabledButton->setText(_getText(DJV_TEXT("Enable Memory Cache")));
             p.maxGBLabel->setText(_getText(DJV_TEXT("GB")));
             std::stringstream ss;
             ss << _getText(DJV_TEXT("Percentage used")) << ": ";
