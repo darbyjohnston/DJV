@@ -31,6 +31,8 @@
 
 #include <djvUI/LineEdit.h>
 
+#include <djvAV/FontSystem.h>
+
 #include <djvCore/NumericValueModels.h>
 #include <djvCore/ValueObserver.h>
 
@@ -56,6 +58,7 @@ namespace djv
             setClassName("djv::UI::NumericEdit");
 
             p.lineEdit = LineEdit::create(context);
+            p.lineEdit->setFont(AV::Font::familyMono);
             addChild(p.lineEdit);
 
             auto weak = std::weak_ptr<NumericEdit>(std::dynamic_pointer_cast<NumericEdit>(shared_from_this()));

@@ -153,6 +153,7 @@ namespace djv
             prevX10Action->setShortcut(GLFW_KEY_PAGE_DOWN);
 
             _lineEdit = UI::LineEdit::create(context);
+            _lineEdit->setFont(AV::Font::familyMono);
             _lineEdit->setBackgroundRole(UI::ColorRole::None);
             _lineEdit->addAction(nextAction);
             _lineEdit->addAction(prevAction);

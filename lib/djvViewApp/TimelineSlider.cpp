@@ -534,7 +534,6 @@ namespace djv
                     const auto& style = _getStyle();
                     const float m = style->getMetric(UI::MetricsRole::MarginSmall);
                     const float b = style->getMetric(UI::MetricsRole::Border);
-                    //const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, UI::MetricsRole::FontSmall);
                     float x = g.min.x;
                     float x2 = x;
                     //! \bug Why the extra subtract by one here?
@@ -594,7 +593,7 @@ namespace djv
                 color.setF32(color.getF32(3) * .4f, 3);
                 auto render = _getRender();
                 render->setFillColor(color);
-                const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, UI::MetricsRole::FontSmall);
+                const auto fontInfo = style->getFontInfo(AV::Font::familyMono, AV::Font::faceDefault, UI::MetricsRole::FontSmall);
                 render->setCurrentFont(fontInfo);
                 for (const auto& tick : p.timeTicks)
                 {
@@ -831,7 +830,7 @@ namespace djv
             if (auto context = getContext().lock())
             {
                 const auto& style = _getStyle();
-                const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, UI::MetricsRole::FontSmall);
+                const auto fontInfo = style->getFontInfo(AV::Font::familyMono, AV::Font::faceDefault, UI::MetricsRole::FontSmall);
                 p.fontMetricsFuture = p.fontSystem->getMetrics(fontInfo);
                 std::string maxFrameText;
                 switch (p.timeUnits)
@@ -862,7 +861,7 @@ namespace djv
             if (auto context = getContext().lock())
             {
                 const auto& style = _getStyle();
-                const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, UI::MetricsRole::FontSmall);
+                const auto fontInfo = style->getFontInfo(AV::Font::familyMono, AV::Font::faceDefault, UI::MetricsRole::FontSmall);
                 auto avSystem = context->getSystemT<AV::AVSystem>();
                 p.currentFrameText = avSystem->getLabel(p.sequence.getFrame(p.currentFrame), p.speed);
                 p.currentFrameSizeFuture = p.fontSystem->measure(p.currentFrameText, fontInfo);

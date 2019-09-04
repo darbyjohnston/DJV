@@ -53,7 +53,6 @@ namespace djv
             ///@{
 
             static std::shared_ptr<Label> create(const std::shared_ptr<Core::Context>&);
-            //static std::shared_ptr<Label> create(const std::string &, const std::shared_ptr<Core::Context>&);
 
             ///@}
 

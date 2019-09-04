@@ -177,10 +177,34 @@ namespace djv
                 }
             }
 
+            const std::string& Menu::getFont() const
+            {
+                return _p->label->getFont();
+            }
+
+            const std::string& Menu::getFontFace() const
+            {
+                return _p->label->getFontFace();
+            }
+
+            MetricsRole Menu::getFontSizeRole() const
+            {
+                return _p->label->getFontSizeRole();
+            }
+
+            void Menu::setFont(const std::string& value)
+            {
+                _p->label->setFont(value);
+            }
+
+            void Menu::setFontFace(const std::string& value)
+            {
+                _p->label->setFontFace(value);
+            }
+
             void Menu::setFontSizeRole(MetricsRole value)
             {
-                DJV_PRIVATE_PTR();
-                p.label->setFontSizeRole(value);
+                _p->label->setFontSizeRole(value);
             }
 
             void Menu::setBorderColorRole(ColorRole value)

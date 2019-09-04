@@ -221,14 +221,17 @@ namespace djv
 
             p.speedWidget = PlaybackSpeedWidget::create(context);
             p.speedPopupWidget = UI::PopupWidget::create(context);
+            p.speedPopupWidget->setFont(AV::Font::familyMono);
             p.speedPopupWidget->addChild(p.speedWidget);
             p.realSpeedLabel = UI::Label::create(context);
+            p.realSpeedLabel->setFont(AV::Font::familyMono);
 
             p.currentFrameWidget = FrameWidget::create(context);
             p.inPointWidget = FrameWidget::create(context);
             p.outPointWidget = FrameWidget::create(context);
 
             p.durationLabel = UI::Label::create(context);
+            p.durationLabel->setFont(AV::Font::familyMono);
             p.durationLabel->setMargin(UI::MetricsRole::MarginSmall);
 
             p.timelineSlider = TimelineSlider::create(context);
