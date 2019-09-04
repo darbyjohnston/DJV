@@ -1,22 +1,24 @@
 include(ExternalProject)
 
-ExternalProject_Add(
-    PNGThirdParty
-	PREFIX ${CMAKE_CURRENT_BINARY_DIR}/PNG
-    DEPENDS ZLIBThirdParty
-    URL "http://prdownloads.sourceforge.net/libpng/libpng-1.6.37.tar.gz?download"
-    CMAKE_ARGS
-        -DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}
-        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-        -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
-        -DCMAKE_INSTALL_LIBDIR=lib
-        -DCMAKE_PREFIX_PATH=${CMAKE_INSTALL_PREFIX}
-        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-        -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
-        -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
-        -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
-        -DZLIB_SHARED_LIBS=${ZLIB_SHARED_LIBS}
-        -DPNG_SHARED=${PNG_SHARED_LIBS})
+if(NOT DJV_THIRD_PARTY_DISABLE_BUILD)
+    ExternalProject_Add(
+        PNGThirdParty
+        PREFIX ${CMAKE_CURRENT_BINARY_DIR}/PNG
+        DEPENDS ZLIBThirdParty
+        URL "http://prdownloads.sourceforge.net/libpng/libpng-1.6.37.tar.gz?download"
+        CMAKE_ARGS
+            -DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}
+            -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+            -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
+            -DCMAKE_INSTALL_LIBDIR=lib
+            -DCMAKE_PREFIX_PATH=${CMAKE_INSTALL_PREFIX}
+            -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+            -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
+            -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
+            -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
+            -DZLIB_SHARED_LIBS=${ZLIB_SHARED_LIBS}
+            -DPNG_SHARED=${PNG_SHARED_LIBS})
+endif()
 
 set(PNG_FOUND TRUE)
 set(PNG_INCLUDE_DIRS ${CMAKE_INSTALL_PREFIX}/include)

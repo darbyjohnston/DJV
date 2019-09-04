@@ -120,6 +120,11 @@ include_directories(${INCLUDE_DIRS})
 # Third Party Libraries
 #-------------------------------------------------------------------------------
 
+# This is used to disable ExternalProject_Add() for third party libraries. This
+# can be helpful for speeding up compile iterations after the third party
+# libraries have been built.
+set(DJV_THIRD_PARTY_DISABLE_BUILD FALSE CACHE STRING "Whether to disable building third party libraries")
+
 find_package(Threads REQUIRED)
 find_package(OpenGL REQUIRED)
 

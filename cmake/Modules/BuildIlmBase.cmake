@@ -1,37 +1,39 @@
 include(ExternalProject)
 
-set(ILMBASE_RUNTIME_DIR lib)
-if(WIN32)
-    set(ILMBASE_RUNTIME_DIR bin)
+if(NOT DJV_THIRD_PARTY_DISABLE_BUILD)
+    set(ILMBASE_RUNTIME_DIR lib)
+    if(WIN32)
+        set(ILMBASE_RUNTIME_DIR bin)
+    endif()
+    set(IlmBase_ARGS
+        -DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}
+        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+        -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
+        -DCMAKE_PREFIX_PATH=${CMAKE_INSTALL_PREFIX}
+        -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
+        -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
+        -DCMAKE_CXX_STANDARD=11
+        -DOPENEXR_VERSION_MAJOR=2
+        -DOPENEXR_VERSION_MINOR=3
+        -DOPENEXR_VERSION_PATCH=0
+        -DOPENEXR_VERSION=2.3.0
+        -DOPENEXR_SOVERSION=24
+        -DOPENEXR_BUILD_SHARED=${ILMBASE_SHARED_LIBS}
+        -DBUILD_SHARED_LIBS=${ILMBASE_SHARED_LIBS}
+        -DRUNTIME_DIR=${ILMBASE_RUNTIME_DIR})
+    if(WIN32 OR NOT ILMBASE_SHARED_LIBS)
+        set(IlmBase_ARGS ${IlmBase_ARGS} -DBUILD_ILMBASE_STATIC=1)
+    endif()
+    ExternalProject_Add(
+        IlmBaseThirdParty
+        PREFIX ${CMAKE_CURRENT_BINARY_DIR}/IlmBase
+        URL http://github.com/openexr/openexr/releases/download/v2.3.0/ilmbase-2.3.0.tar.gz
+        PATCH_COMMAND
+            ${CMAKE_COMMAND} -E copy
+            ${CMAKE_SOURCE_DIR}/third-party/ilmbase-patch/CMakeLists.txt
+            ${CMAKE_CURRENT_BINARY_DIR}/IlmBase/src/IlmBaseThirdParty/CMakeLists.txt
+        CMAKE_ARGS ${IlmBase_ARGS})
 endif()
-set(IlmBase_ARGS
-    -DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}
-    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
-    -DCMAKE_PREFIX_PATH=${CMAKE_INSTALL_PREFIX}
-    -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
-    -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
-    -DCMAKE_CXX_STANDARD=11
-    -DOPENEXR_VERSION_MAJOR=2
-    -DOPENEXR_VERSION_MINOR=3
-    -DOPENEXR_VERSION_PATCH=0
-    -DOPENEXR_VERSION=2.3.0
-    -DOPENEXR_SOVERSION=24
-    -DOPENEXR_BUILD_SHARED=${ILMBASE_SHARED_LIBS}
-    -DBUILD_SHARED_LIBS=${ILMBASE_SHARED_LIBS}
-    -DRUNTIME_DIR=${ILMBASE_RUNTIME_DIR})
-if(WIN32 OR NOT ILMBASE_SHARED_LIBS)
-    set(IlmBase_ARGS ${IlmBase_ARGS} -DBUILD_ILMBASE_STATIC=1)
-endif()
-ExternalProject_Add(
-    IlmBaseThirdParty
-	PREFIX ${CMAKE_CURRENT_BINARY_DIR}/IlmBase
-    URL http://github.com/openexr/openexr/releases/download/v2.3.0/ilmbase-2.3.0.tar.gz
-	PATCH_COMMAND
-	    ${CMAKE_COMMAND} -E copy
-	    ${CMAKE_SOURCE_DIR}/third-party/ilmbase-patch/CMakeLists.txt
-	    ${CMAKE_CURRENT_BINARY_DIR}/IlmBase/src/IlmBaseThirdParty/CMakeLists.txt
-    CMAKE_ARGS ${IlmBase_ARGS})
 
 set(ILMBASE_FOUND TRUE)
 set(ILMBASE_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include/OpenEXR)
