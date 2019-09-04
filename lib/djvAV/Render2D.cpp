@@ -70,7 +70,7 @@ namespace djv
                 const size_t textureAtlasSize       = 8192;
                 const size_t dynamicTextureIDCount  = 16;
                 const size_t dynamicTextureCacheMax = 16;
-#if not defined(DJV_OPENGL_ES2)
+#if !defined(DJV_OPENGL_ES2)
                 const size_t lut3DSize              = 32;
                 const size_t colorSpaceCacheMax     = 32;
 #endif // DJV_OPENGL_ES2
@@ -102,7 +102,7 @@ namespace djv
                     GLint imageChannelsLoc      = 0;
                     GLint imageChannelLoc       = 0;
                     GLint textureSamplerLoc     = 0;
-#if not defined(DJV_OPENGL_ES2)
+#if !defined(DJV_OPENGL_ES2)
                     GLint colorSpaceLoc         = 0;
                     GLint colorSpaceSamplerLoc  = 0;
 #endif // DJV_OPENGL_ES2
@@ -147,7 +147,7 @@ namespace djv
                     ImageCache      imageCache          = ImageCache::Atlas;
                     uint8_t         atlasIndex          = 0;
                     GLuint          textureID           = 0;
-#if not defined(DJV_OPENGL_ES2)
+#if !defined(DJV_OPENGL_ES2)
                     uint8_t         colorSpace          = 0;
                     GLuint          colorSpaceTextureID = 0;
 #endif // DJV_OPENGL_ES2
@@ -170,7 +170,7 @@ namespace djv
                             break;
                         default: break;
                         }
-#if not defined(DJV_OPENGL_ES2)
+#if !defined(DJV_OPENGL_ES2)
                         shader->setUniform(data.colorSpaceLoc, colorSpace);
                         if (colorSpace > 0)
                         {
@@ -207,7 +207,7 @@ namespace djv
                     }
                 };
 
-#if not defined(DJV_OPENGL_ES2)
+#if !defined(DJV_OPENGL_ES2)
 
                 //! This class provides a 3D lookup table for color space conversions.
                 class LUT3D
@@ -341,7 +341,7 @@ namespace djv
                 std::map<UID, uint64_t>                             glyphTextureIDs;
                 std::vector<std::shared_ptr<OpenGL::Texture> >      dynamicTextureIDs;
                 std::map<UID, std::shared_ptr<OpenGL::Texture> >    dynamicTextureCache;
-#if not defined(DJV_OPENGL_ES2)
+#if !defined(DJV_OPENGL_ES2)
                 std::map<OCIO::Convert, ColorSpaceData>             colorSpaceCache;
 #endif // DJV_OPENGL_ES2
                 std::vector<uint8_t>                                vboData;
@@ -444,7 +444,7 @@ namespace djv
                         s << "Glyph texture IDs: " << p.glyphTextureIDs.size() << "\n";
                         s << "Dynamic texture IDs: " << p.dynamicTextureIDs.size() << "\n";
                         s << "Dynamic texture cache: " << p.dynamicTextureCache.size() << "\n";
-#if not defined(DJV_OPENGL_ES2)
+#if !defined(DJV_OPENGL_ES2)
                         s << "Color space cache: " << p.colorSpaceCache.size() << "\n";
 #endif // DJV_OPENGL_ES2
                         s << "VBO size: " << (p.vbo ? p.vbo->getSize() : 0);
@@ -506,14 +506,14 @@ namespace djv
                     p.primitiveData.colorModeLoc = glGetUniformLocation(program, "colorMode");
                     p.primitiveData.colorLoc = glGetUniformLocation(program, "color");
                     p.primitiveData.textureSamplerLoc = glGetUniformLocation(program, "textureSampler");
-#if not defined(DJV_OPENGL_ES2)
+#if !defined(DJV_OPENGL_ES2)
                     p.primitiveData.colorSpaceLoc = glGetUniformLocation(program, "colorSpace");
                     p.primitiveData.colorSpaceSamplerLoc = glGetUniformLocation(program, "colorSpaceSampler");
 #endif // DJV_OPENGL_ES2
                 }
                 p.shader->bind();
 
-#if not defined(DJV_OPENGL_ES2)
+#if !defined(DJV_OPENGL_ES2)
                 glEnable(GL_MULTISAMPLE);
 #endif // DJV_OPENGL_ES2
                 glEnable(GL_SCISSOR_TEST);
@@ -596,7 +596,7 @@ namespace djv
                 {
                     p.dynamicTextureIDs.pop_back();
                 }
-#if not defined(DJV_OPENGL_ES2)
+#if !defined(DJV_OPENGL_ES2)
                 while (p.colorSpaceCache.size() > colorSpaceCacheMax)
                 {
                     p.colorSpaceCache.erase(p.colorSpaceCache.begin());
@@ -1438,7 +1438,7 @@ namespace djv
                         textureV.min = 1.f - textureV.min;
                         textureV.max = 1.f - textureV.max;
                     }
-#if not defined(DJV_OPENGL_ES2)
+#if !defined(DJV_OPENGL_ES2)
                     const std::string& imageColorSpace = image->getColorSpace();
                     const OCIO::Convert colorSpace(
                         !options.colorSpace.input.empty() ? options.colorSpace.input : imageColorSpace,
@@ -1524,7 +1524,7 @@ namespace djv
 
                 std::string functions;
                 std::string body;
-#if not defined(DJV_OPENGL_ES2)
+#if !defined(DJV_OPENGL_ES2)
                 size_t i = 0;
                 for (const auto& j : colorSpaceCache)
                 {
