@@ -82,7 +82,7 @@ namespace djv
                     ColorWithTextureAlpha,  // Use the uniform variable "color" with the alpha multiplied
                                             // by the red channel from the texture (e.g., used for
                                             // drawing text)
-                    ColorWithTextureAlphaR, // Experimental: used for drawing text with LCD sub-sampling
+                    ColorWithTextureAlphaR, // Used for drawing text with LCD sub-sampling
                     ColorWithTextureAlphaG,
                     ColorWithTextureAlphaB,
                     ColorAndTexture,        // Use the uniform variable "color" multiplied by the texture     

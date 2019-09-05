@@ -61,8 +61,6 @@ namespace djv
             {
                 //! \todo Should this be configurable?
                 const size_t glyphCacheMax = 10000;
-
-                //! \todo Experimental LCD hinting.
                 const bool lcdHinting = true;
 
                 struct MetricsRequest
