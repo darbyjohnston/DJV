@@ -45,6 +45,7 @@
 #include <djvUIComponents/LanguageSettingsWidget.h>
 #include <djvUIComponents/PPMSettingsWidget.h>
 #include <djvUIComponents/PaletteSettingsWidget.h>
+#include <djvUIComponents/Render2DSettingsWidget.h>
 #include <djvUIComponents/SizeSettingsWidget.h>
 #include <djvUIComponents/TimeSettingsWidget.h>
 #include <djvUIComponents/TooltipsSettingsWidget.h>
@@ -147,6 +148,7 @@ namespace djv
                     UI::LanguageSettingsWidget::create(context),
                     UI::SizeSettingsWidget::create(context),
                     UI::PaletteSettingsWidget::create(context),
+                    UI::Render2DTextSettingsWidget::create(context),
                     UI::TimeSettingsWidget::create(context),
                     UI::TooltipsSettingsWidget::create(context),
                     UI::ColorSpaceSettingsWidget::create(context),

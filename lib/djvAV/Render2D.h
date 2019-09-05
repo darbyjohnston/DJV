@@ -37,6 +37,7 @@
 #include <djvCore/BBox.h>
 #include <djvCore/ISystem.h>
 #include <djvCore/Range.h>
+#include <djvCore/ValueObserver.h>
 
 #include <mutex>
 
@@ -157,7 +158,12 @@ namespace djv
                 //! \name Text
                 ///@{
 
+
                 void setCurrentFont(const Font::Info &);
+
+                std::shared_ptr<Core::IValueSubject<bool> > observeLCDText() const;
+
+                void setLCDText(bool);
 
                 void drawText(
                     const std::string & text,
