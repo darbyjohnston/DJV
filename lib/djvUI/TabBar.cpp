@@ -209,10 +209,10 @@ namespace djv
         size_t TabBar::addTab(const std::string & text)
         {
             DJV_PRIVATE_PTR();
-            const size_t out = 0;
+            size_t out = 0;
             if (auto context = getContext().lock())
             {
-                p.buttonGroup->getButtonCount();
+                out = p.buttonGroup->getButtonCount();
                 auto button = TabBarButton::create(text, context);
                 p.buttonGroup->addButton(button);
                 p.layout->addChild(button);
