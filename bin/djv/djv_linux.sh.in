@@ -3,7 +3,7 @@
 appname=`basename $0 | sed s,\.sh$,,`
 #echo "appname="$appname
 
-dirname=`dirname $0`
+dirname=`echo $(cd $(dirname "$0") && pwd -P)`
 #echo "dirname="$dirname
 
 root=`dirname $dirname`
@@ -12,3 +12,4 @@ root=`dirname $dirname`
 export LD_LIBRARY_PATH=$root"/lib"
 
 $dirname/$appname "$@"
+
