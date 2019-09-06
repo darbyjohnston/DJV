@@ -188,10 +188,12 @@ namespace djv
 
             void FileInfo::_fileSequence(FileInfo& fileInfo, const DirectoryListOptions& options, std::vector<FileInfo>& out)
             {
+                std::string extension = fileInfo.getPath().getExtension();
+                std::transform(extension.begin(), extension.end(), extension.begin(), tolower);
                 const auto i = std::find(
                     options.fileSequenceExtensions.begin(),
                     options.fileSequenceExtensions.end(),
-                    fileInfo.getPath().getExtension());
+                    extension);
                 if (options.fileSequences && i != options.fileSequenceExtensions.end())
                 {
                     fileInfo.evalSequence();
