@@ -1021,7 +1021,8 @@ namespace djv
                 const bool forward = Playback::Forward == playback;
                 const auto now = std::chrono::system_clock::now();
                 const std::chrono::duration<double> playEveryFrameDelta = now - p.playEveryFrameTime;
-                const bool playEveryFrameAdvance = playEveryFrameDelta.count() > (1.f / p.speed->get().toFloat());
+                const float frameTime = 1.f / p.speed->get().toFloat();
+                const bool playEveryFrameAdvance = playEveryFrameDelta.count() > frameTime;
                 const Frame::Index currentFrame = p.currentFrame->get();
                 AV::IO::VideoFrame frame;
                 {
@@ -1032,7 +1033,7 @@ namespace djv
                         if (playback != Playback::Stop && !queue.isEmpty() && playEveryFrameAdvance)
                         {
                             auto frame = queue.popFrame();
-                            p.playEveryFrameTime = std::chrono::system_clock::now();
+                            p.playEveryFrameTime += std::chrono::milliseconds(static_cast<size_t>(1000 * frameTime));
                             p.realSpeedFrameCount = p.realSpeedFrameCount + 1;
                         }
                     }
