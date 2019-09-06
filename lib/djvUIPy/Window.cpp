@@ -42,7 +42,6 @@ namespace py = pybind11;
 void wrapWindow(pybind11::module& m)
 {
     py::class_<UI::Window, std::shared_ptr<UI::Window>, UI::Widget>(m, "Window")
-        .def_static("create", &UI::Window::create)
-        .def("show", &UI::Window::show);
+        .def_static("create", &UI::Window::create);
 }
 
