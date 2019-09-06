@@ -29,56 +29,30 @@
 
 #pragma once
 
-#include <djvUI/Widget.h>
+#include <djvUIComponents/ISettingsWidget.h>
 
 namespace djv
 {
     namespace UI
     {
-        //! This class provides a popup widget.
-        class PopupWidget : public Widget
+        //! This class provides a 2D renderer text settings widget.
+        class Render2DTextSettingsWidget : public ISettingsWidget
         {
-            DJV_NON_COPYABLE(PopupWidget);
+            DJV_NON_COPYABLE(Render2DTextSettingsWidget);
 
         protected:
             void _init(const std::shared_ptr<Core::Context>&);
-            PopupWidget();
+            Render2DTextSettingsWidget();
 
         public:
-            virtual ~PopupWidget();
+            static std::shared_ptr<Render2DTextSettingsWidget> create(const std::shared_ptr<Core::Context>&);
 
-            static std::shared_ptr<PopupWidget> create(const std::shared_ptr<Core::Context>&);
-
-            void open();
-            void close();
-
-            const std::string & getIcon() const;
-            void setIcon(const std::string &);
-
-            const std::string & getText() const;
-            void setText(const std::string &);
-
-            const std::string& getFont() const;
-            const std::string& getFontFace() const;
-            MetricsRole getFontSizeRole() const;
-            void setFont(const std::string&);
-            void setFontFace(const std::string&);
-            void setFontSizeRole(MetricsRole);
-
-            bool hasCapturePointer() const;
-            bool hasCaptureKeyboard() const;
-            void setCapturePointer(bool);
-            void setCaptureKeyboard(bool);
-
-            void setOpenCallback(const std::function<void(void)>&);
-            void setCloseCallback(const std::function<void(void)>&);
-
-            void addChild(const std::shared_ptr<IObject> &) override;
-            void removeChild(const std::shared_ptr<IObject> &) override;
+            std::string getSettingsName() const override;
+            std::string getSettingsGroup() const override;
+            std::string getSettingsSortKey() const override;
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
+            void _localeEvent(Core::Event::Locale&) override;
 
         private:
             DJV_PRIVATE();

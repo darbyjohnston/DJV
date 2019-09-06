@@ -33,6 +33,7 @@
 #include <djvUI/Menu.h>
 #include <djvUI/MenuButton.h>
 
+#define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
 using namespace djv::Core;

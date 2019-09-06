@@ -31,6 +31,7 @@
 
 #include <djvAV/AVSystem.h>
 #include <djvAV/IO.h>
+#include <djvAV/Render2D.h>
 
 #include <djvCore/Context.h>
 
@@ -51,6 +52,7 @@ namespace djv
             struct AV::Private
             {
                 std::shared_ptr<djv::AV::AVSystem> avSystem;
+                std::shared_ptr<djv::AV::Render::Render2D> renderSystem;
                 std::shared_ptr<djv::AV::IO::System> ioSystem;
             };
 
@@ -59,6 +61,7 @@ namespace djv
                 ISettings::_init("djv::UI::Settings::AV", context);
                 DJV_PRIVATE_PTR();
                 p.avSystem = context->getSystemT<djv::AV::AVSystem>();
+                p.renderSystem = context->getSystemT<djv::AV::Render::Render2D>();
                 p.ioSystem = context->getSystemT<djv::AV::IO::System>();
                 _load();
             }
@@ -84,6 +87,7 @@ namespace djv
                 {
                     const auto & object = value.get<picojson::object>();
                     djv::AV::TimeUnits timeUnits = djv::AV::TimeUnits::First;
+                    bool lcdText = false;
                     for (const auto & i : object)
                     {
                         if ("TimeUnits" == i.first)
@@ -91,8 +95,14 @@ namespace djv
                             std::stringstream ss(i.second.get<std::string>());
                             ss >> timeUnits;
                         }
+                        else if ("LCDText" == i.first)
+                        {
+                            std::stringstream ss(i.second.get<std::string>());
+                            ss >> lcdText;
+                        }
                     }
                     p.avSystem->setTimeUnits(timeUnits);
+                    p.renderSystem->setLCDText(lcdText);
                     for (const auto & i : p.ioSystem->getPluginNames())
                     {
                         const auto j = object.find(i);
@@ -109,9 +119,17 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 picojson::value out(picojson::object_type, true);
                 auto & object = out.get<picojson::object>();
-                std::stringstream ss;
-                ss << p.avSystem->observeTimeUnits()->get();
-                object["TimeUnits"] = picojson::value(ss.str());
+
+                {
+                    std::stringstream ss;
+                    ss << p.avSystem->observeTimeUnits()->get();
+                    object["TimeUnits"] = picojson::value(ss.str());
+                }
+                {
+                    std::stringstream ss;
+                    ss << p.renderSystem->observeLCDText()->get();
+                    object["LCDText"] = picojson::value(ss.str());
+                }
                 for (const auto & i : p.ioSystem->getPluginNames())
                 {
                     object[i] = p.ioSystem->getOptions(i);

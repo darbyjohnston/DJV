@@ -70,8 +70,10 @@ namespace djv
                 const size_t textureAtlasSize       = 8192;
                 const size_t dynamicTextureIDCount  = 16;
                 const size_t dynamicTextureCacheMax = 16;
+#if !defined(DJV_OPENGL_ES2)
                 const size_t lut3DSize              = 32;
                 const size_t colorSpaceCacheMax     = 32;
+#endif // DJV_OPENGL_ES2
 
                 // This enumeration provides how the color is used to draw the render primitive.
                 enum class ColorMode
@@ -80,12 +82,11 @@ namespace djv
                     ColorWithTextureAlpha,  // Use the uniform variable "color" with the alpha multiplied
                                             // by the red channel from the texture (e.g., used for
                                             // drawing text)
-                    ColorWithTextureAlphaR, // Experimental: used for drawing text with LCD sub-sampling
+                    ColorWithTextureAlphaR, // Used for drawing text with LCD sub-sampling
                     ColorWithTextureAlphaG,
                     ColorWithTextureAlphaB,
                     ColorAndTexture,        // Use the uniform variable "color" multiplied by the texture     
-                    Shadow                  // Use the uniform variable "color" multiplied by the "U" texture
-                                            // coordinate
+                    Shadow                  // Use the uniform variable "color" multiplied by the "U" texture coordinate
                 };
 
                 //! This struct provides data used to draw the render primitive.
@@ -100,8 +101,10 @@ namespace djv
                     GLint imageChannelsLoc      = 0;
                     GLint imageChannelLoc       = 0;
                     GLint textureSamplerLoc     = 0;
+#if !defined(DJV_OPENGL_ES2)
                     GLint colorSpaceLoc         = 0;
                     GLint colorSpaceSamplerLoc  = 0;
+#endif // DJV_OPENGL_ES2
                 };
 
                 //! This class provides the base functionality for render primitives.
@@ -113,6 +116,7 @@ namespace djv
                     float  color[4]  = { 0.f, 0.f, 0.f, 0.f };
                     size_t vaoOffset = 0;
                     size_t vaoSize   = 0;
+                    bool   lcdText   = false;
 
                     virtual void bind(const PrimitiveData& data, const std::shared_ptr<OpenGL::Shader>& shader)
                     {
@@ -128,7 +132,10 @@ namespace djv
 
                     void bind(const PrimitiveData& data, const std::shared_ptr<OpenGL::Shader>& shader) override
                     {
-                        shader->setUniform(data.colorModeLoc, static_cast<int>(ColorMode::ColorWithTextureAlpha));
+                        if (!lcdText)
+                        {
+                            shader->setUniform(data.colorModeLoc, static_cast<int>(ColorMode::ColorWithTextureAlpha));
+                        }
                         shader->setUniform(data.colorLoc, reinterpret_cast<const GLfloat*>(color));
                         shader->setUniform(data.textureSamplerLoc, static_cast<int>(atlasIndex));
                     }
@@ -137,14 +144,16 @@ namespace djv
                 //! This class provides an image render primitive.
                 struct ImagePrimitive : public Primitive
                 {
-                    ColorMode       colorMode           = ColorMode::SolidColor;
+                    ColorMode       colorMode           = ColorMode::ColorAndTexture;
                     Image::Channels imageChannels       = Image::Channels::RGBA;
                     ImageChannel    imageChannel        = ImageChannel::None;
                     ImageCache      imageCache          = ImageCache::Atlas;
                     uint8_t         atlasIndex          = 0;
                     GLuint          textureID           = 0;
+#if !defined(DJV_OPENGL_ES2)
                     uint8_t         colorSpace          = 0;
                     GLuint          colorSpaceTextureID = 0;
+#endif // DJV_OPENGL_ES2
 
                     void bind(const PrimitiveData& data, const std::shared_ptr<OpenGL::Shader>& shader) override
                     {
@@ -164,6 +173,7 @@ namespace djv
                             break;
                         default: break;
                         }
+#if !defined(DJV_OPENGL_ES2)
                         shader->setUniform(data.colorSpaceLoc, colorSpace);
                         if (colorSpace > 0)
                         {
@@ -171,6 +181,7 @@ namespace djv
                             glBindTexture(GL_TEXTURE_3D, colorSpaceTextureID);
                             shader->setUniform(data.colorSpaceSamplerLoc, static_cast<int>(data.textureAtlasCount + 1));
                         }
+#endif // DJV_OPENGL_ES2
                     }
                 };
 
@@ -198,6 +209,8 @@ namespace djv
                         this->ty = Math::clamp(static_cast<int>(ty * 65535.f), 0, 65535);
                     }
                 };
+
+#if !defined(DJV_OPENGL_ES2)
 
                 //! This class provides a 3D lookup table for color space conversions.
                 class LUT3D
@@ -292,6 +305,8 @@ namespace djv
                     std::shared_ptr<LUT3D>  lut3D;
                 };
 
+#endif // DJV_OPENGL_ES2
+
                 // Utility function to flip the y-coordinate.
                 BBox2f flip(const BBox2f& value, const Image::Size& size)
                 {
@@ -309,17 +324,18 @@ namespace djv
             {
                 Render2D* system = nullptr;
 
-                Image::Size                  size;
-                std::list<glm::mat3x3>       transforms;
-                glm::mat3x3                  currentTransform = glm::mat3x3(1.f);
-                std::list<BBox2f>            clipRects;
-                BBox2f                       currentClipRect  = BBox2f(0.f, 0.f, 0.f, 0.f);
-                float                        fillColor[4]     = { 1.f, 1.f, 1.f, 1.f };
-                float                        colorMult        = 1.f;
-                float                        alphaMult        = 1.f;
-                float                        finalColor[4]    = { 1.f, 1.f, 1.f, 1.f };
-                std::weak_ptr<Font::System>  fontSystem;
-                Font::Info                   currentFont;
+                Image::Size                             size;
+                std::list<glm::mat3x3>                  transforms;
+                glm::mat3x3                             currentTransform = glm::mat3x3(1.f);
+                std::list<BBox2f>                       clipRects;
+                BBox2f                                  currentClipRect  = BBox2f(0.f, 0.f, 0.f, 0.f);
+                float                                   fillColor[4]     = { 1.f, 1.f, 1.f, 1.f };
+                float                                   colorMult        = 1.f;
+                float                                   alphaMult        = 1.f;
+                float                                   finalColor[4]    = { 1.f, 1.f, 1.f, 1.f };
+                std::weak_ptr<Font::System>             fontSystem;
+                Font::Info                              currentFont;
+                std::shared_ptr<ValueSubject<bool> >    lcdText;
 
                 BBox2f                                              viewport;
                 std::vector<Primitive*>                             primitives;
@@ -329,7 +345,9 @@ namespace djv
                 std::map<UID, uint64_t>                             glyphTextureIDs;
                 std::vector<std::shared_ptr<OpenGL::Texture> >      dynamicTextureIDs;
                 std::map<UID, std::shared_ptr<OpenGL::Texture> >    dynamicTextureCache;
+#if !defined(DJV_OPENGL_ES2)
                 std::map<OCIO::Convert, ColorSpaceData>             colorSpaceCache;
+#endif // DJV_OPENGL_ES2
                 std::vector<uint8_t>                                vboData;
                 size_t                                              vboDataSize         = 0;
                 std::shared_ptr<OpenGL::VBO>                        vbo;
@@ -366,6 +384,8 @@ namespace djv
                 auto fontSystem = context->getSystemT<Font::System>();
                 p.fontSystem = fontSystem;
                 addDependency(fontSystem);
+
+                p.lcdText = ValueSubject<bool>::create(true);
 
                 GLint maxTextureUnits = 0;
                 GLint maxTextureSize = 0;
@@ -430,7 +450,9 @@ namespace djv
                         s << "Glyph texture IDs: " << p.glyphTextureIDs.size() << "\n";
                         s << "Dynamic texture IDs: " << p.dynamicTextureIDs.size() << "\n";
                         s << "Dynamic texture cache: " << p.dynamicTextureCache.size() << "\n";
+#if !defined(DJV_OPENGL_ES2)
                         s << "Color space cache: " << p.colorSpaceCache.size() << "\n";
+#endif // DJV_OPENGL_ES2
                         s << "VBO size: " << (p.vbo ? p.vbo->getSize() : 0);
                         _log(s.str());
                     });
@@ -490,13 +512,14 @@ namespace djv
                     p.primitiveData.colorModeLoc = glGetUniformLocation(program, "colorMode");
                     p.primitiveData.colorLoc = glGetUniformLocation(program, "color");
                     p.primitiveData.textureSamplerLoc = glGetUniformLocation(program, "textureSampler");
+#if !defined(DJV_OPENGL_ES2)
                     p.primitiveData.colorSpaceLoc = glGetUniformLocation(program, "colorSpace");
                     p.primitiveData.colorSpaceSamplerLoc = glGetUniformLocation(program, "colorSpaceSampler");
+#endif // DJV_OPENGL_ES2
                 }
                 p.shader->bind();
 
-#if defined(DJV_OPENGL_ES2)
-#else // DJV_OPENGL_ES2
+#if !defined(DJV_OPENGL_ES2)
                 glEnable(GL_MULTISAMPLE);
 #endif // DJV_OPENGL_ES2
                 glEnable(GL_SCISSOR_TEST);
@@ -540,6 +563,8 @@ namespace djv
                 p.vbo->copy(p.vboData, 0, p.vboDataSize);
                 p.vao->bind();
 
+                bool currentLCDText = false;
+                glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
                 for (size_t i = 0; i < p.primitives.size(); ++i)
                 {
                     const auto& primitive = p.primitives[i];
@@ -549,8 +574,32 @@ namespace djv
                         static_cast<GLint>(clipRect.min.y),
                         static_cast<GLsizei>(clipRect.w()),
                         static_cast<GLsizei>(clipRect.h()));
-                    primitive->bind(p.primitiveData, p.shader);
-                    p.vao->draw(primitive->vaoOffset, primitive->vaoSize);
+                    if (primitive->lcdText != currentLCDText)
+                    {
+                        currentLCDText = primitive->lcdText;
+                        if (!currentLCDText)
+                        {
+                            glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+                        }
+                    }
+                    if (currentLCDText)
+                    {
+                        primitive->bind(p.primitiveData, p.shader);
+                        p.shader->setUniform(p.primitiveData.colorModeLoc, static_cast<int>(ColorMode::ColorWithTextureAlphaR));
+                        glColorMask(GL_TRUE, GL_FALSE, GL_FALSE, GL_TRUE);
+                        p.vao->draw(primitive->vaoOffset, primitive->vaoSize);
+                        p.shader->setUniform(p.primitiveData.colorModeLoc, static_cast<int>(ColorMode::ColorWithTextureAlphaG));
+                        glColorMask(GL_FALSE, GL_TRUE, GL_FALSE, GL_FALSE);
+                        p.vao->draw(primitive->vaoOffset, primitive->vaoSize);
+                        p.shader->setUniform(p.primitiveData.colorModeLoc, static_cast<int>(ColorMode::ColorWithTextureAlphaB));
+                        glColorMask(GL_FALSE, GL_FALSE, GL_TRUE, GL_FALSE);
+                        p.vao->draw(primitive->vaoOffset, primitive->vaoSize);
+                    }
+                    else
+                    {
+                        primitive->bind(p.primitiveData, p.shader);
+                        p.vao->draw(primitive->vaoOffset, primitive->vaoSize);
+                    }
                 }
 
                 const auto now = std::chrono::system_clock::now();
@@ -579,11 +628,13 @@ namespace djv
                 {
                     p.dynamicTextureIDs.pop_back();
                 }
+#if !defined(DJV_OPENGL_ES2)
                 while (p.colorSpaceCache.size() > colorSpaceCacheMax)
                 {
                     p.colorSpaceCache.erase(p.colorSpaceCache.begin());
                     p.shader.reset();
                 }
+#endif // DJV_OPENGL_ES2
             }
 
             void Render2D::pushTransform(const glm::mat3x3& value)
@@ -836,6 +887,16 @@ namespace djv
                 _p->currentFont = value;
             }
 
+            std::shared_ptr<IValueSubject<bool> > Render2D::observeLCDText() const
+            {
+                return _p->lcdText;
+            }
+
+            void Render2D::setLCDText(bool value)
+            {
+                _p->lcdText->setIfChanged(value);
+            }
+
             void Render2D::drawText(const std::string & value, const glm::vec2 & pos, size_t maxLineWidth)
             {
                 DJV_PRIVATE_PTR();
@@ -892,8 +953,9 @@ namespace djv
                                         primitive->color[2] = p.finalColor[2];
                                         primitive->color[3] = p.finalColor[3];
                                         primitive->atlasIndex = item.textureIndex;
-                                        primitive->vaoOffset = p.vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);;
+                                        primitive->vaoOffset = p.vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
                                         primitive->vaoSize = 6;
+                                        primitive->lcdText = p.lcdText->get();
                                     }
                                     else
                                     {
@@ -1419,6 +1481,7 @@ namespace djv
                         textureV.min = 1.f - textureV.min;
                         textureV.max = 1.f - textureV.max;
                     }
+#if !defined(DJV_OPENGL_ES2)
                     const std::string& imageColorSpace = image->getColorSpace();
                     const OCIO::Convert colorSpace(
                         !options.colorSpace.input.empty() ? options.colorSpace.input : imageColorSpace,
@@ -1465,6 +1528,7 @@ namespace djv
                         primitive->colorSpace = colorSpaceData.id;
                         primitive->colorSpaceTextureID = colorSpaceData.lut3D ? colorSpaceData.lut3D->getID() : 0;
                     }
+#endif // DJV_OPENGL_ES2
                     primitive->vaoOffset = vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
                     primitive->vaoSize = 6;
 
@@ -1503,6 +1567,7 @@ namespace djv
 
                 std::string functions;
                 std::string body;
+#if !defined(DJV_OPENGL_ES2)
                 size_t i = 0;
                 for (const auto& j : colorSpaceCache)
                 {
@@ -1537,6 +1602,7 @@ namespace djv
                 {
                     out.replace(i, token.size(), body);
                 }
+#endif // DJV_OPENGL_ES2
 
                 return out;
             }

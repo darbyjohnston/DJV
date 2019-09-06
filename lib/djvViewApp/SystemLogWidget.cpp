@@ -44,6 +44,7 @@
 #include <djvCore/ResourceSystem.h>
 #include <djvCore/String.h>
 
+#define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
 using namespace djv::Core;

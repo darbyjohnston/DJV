@@ -49,6 +49,7 @@ namespace djv
 
             const std::string familyDefault = "Barlow";
             const std::string faceDefault   = "Regular";
+            const std::string familyMono    = "Noto Mono";
 
             //! This class provides font information.
             struct Info

@@ -151,12 +151,11 @@ namespace djv
                     0,
                     0,
                     0,
-                    info.size.x,
-                    info.size.y,
+                    info.size.w,
+                    info.size.h,
                     info.getGLFormat(),
                     info.getGLType(),
                     data.getData());
-                }
 #else // DJV_OPENGL_ES2
 
 #if defined(DJV_OPENGL_PBO)
@@ -204,8 +203,8 @@ namespace djv
                     0,
                     x,
                     y,
-                    info.w,
-                    info.h,
+                    info.size.w,
+                    info.size.h,
                     info.getGLFormat(),
                     info.getGLType(),
                     data.getData());
@@ -255,7 +254,7 @@ namespace djv
                 return GL_RGBA;
             }
 
-            void Texture1D::_init(const Image::Info& info, GLenum filter)
+            /*void Texture1D::_init(const Image::Info& info, GLenum filter)
             {
                 _info = info;
                 if (info.isValid())
@@ -414,7 +413,7 @@ namespace djv
             {
                 //return Image::getGLFormat(type);
                 return GL_RGBA;
-            }
+            }*/
 
         } // namespace OpenGL
     } // namespace AV

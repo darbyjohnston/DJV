@@ -162,7 +162,9 @@ namespace djv
                 p.vao->draw(0, 6);
 
                 glPixelStorei(GL_PACK_ALIGNMENT, 1);
+#if !defined(DJV_OPENGL_ES2)
                 glPixelStorei(GL_PACK_SWAP_BYTES, info.layout.endian != Memory::getEndian());
+#endif
                 glReadPixels(
                     0, 0, info.size.w, info.size.h,
                     info.getGLFormat(),

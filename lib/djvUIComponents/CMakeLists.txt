@@ -17,6 +17,7 @@ set(header
     ListViewHeader.h
     PPMSettingsWidget.h
     PaletteSettingsWidget.h
+    Render2DSettingsWidget.h
     SearchBox.h
     SizeSettingsWidget.h
 	ThermometerWidget.h
@@ -46,6 +47,7 @@ set(source
     ListViewHeader.cpp
     PPMSettingsWidget.cpp
     PaletteSettingsWidget.cpp
+    Render2DSettingsWidget.cpp
     SearchBox.cpp
     SizeSettingsWidget.cpp
 	ThermometerWidget.cpp

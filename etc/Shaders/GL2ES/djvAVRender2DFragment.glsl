@@ -68,7 +68,7 @@ void main()
     }
     else if (COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA == colorMode)
     {
-		vec4 t = texture(textureSampler, Texture);
+        vec4 t = texture2D(textureSampler, Texture);
         gl_FragColor.r = color.r;
         gl_FragColor.g = color.g;
         gl_FragColor.b = color.b;
@@ -76,7 +76,7 @@ void main()
     }
     else if (COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA_R == colorMode)
     {
-		vec4 t = texture(textureSampler, Texture);
+        vec4 t = texture2D(textureSampler, Texture);
         gl_FragColor.r = color.r;
         gl_FragColor.g = 0.0;
         gl_FragColor.b = 0.0;
@@ -84,7 +84,7 @@ void main()
     }
     else if (COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA_G == colorMode)
     {
-		vec4 t = texture(textureSampler, Texture);
+        vec4 t = texture2D(textureSampler, Texture);
         gl_FragColor.r = 0.0;
         gl_FragColor.g = color.g;
         gl_FragColor.b = 0.0;
@@ -92,7 +92,7 @@ void main()
     }
     else if (COLOR_MODE_COLOR_WITH_TEXTURE_ALPHA_B == colorMode)
     {
-		vec4 t = texture(textureSampler, Texture);
+        vec4 t = texture2D(textureSampler, Texture);
         gl_FragColor.r = 0.0;
         gl_FragColor.g = 0.0;
         gl_FragColor.b = color.b;
@@ -100,27 +100,27 @@ void main()
     }
     else if (COLOR_MODE_COLOR_AND_TEXTURE == colorMode)
     {
-	    vec4 t = texture2D(textureSampler, Texture);
-		if (IMAGE_CHANNELS_L == imageChannels)
-		{
-			t.g = t.r;
-			t.b = t.r;
-			t.a = 1.0;
-		}
-		else if (IMAGE_CHANNELS_LA == imageChannels)
-		{
-			t.a = t.g;
-			t.g = t.r;
-			t.b = t.r;
-		}
-		else if (IMAGE_CHANNELS_RGB == imageChannels)
-		{
-			t.a = 1.0;
-		}
+        vec4 t = texture2D(textureSampler, Texture);
+        if (IMAGE_CHANNELS_L == imageChannels)
+        {
+            t.g = t.r;
+            t.b = t.r;
+            t.a = 1.0;
+        }
+        else if (IMAGE_CHANNELS_LA == imageChannels)
+        {
+            t.a = t.g;
+            t.g = t.r;
+            t.b = t.r;
+        }
+        else if (IMAGE_CHANNELS_RGB == imageChannels)
+        {
+            t.a = 1.0;
+        }
         gl_FragColor = color * t;
     }
-	else if (COLOR_MODE_SHADOW == colorMode)
-	{
+    else if (COLOR_MODE_SHADOW == colorMode)
+    {
         gl_FragColor = color * Texture.x;
-	}
+    }
 }

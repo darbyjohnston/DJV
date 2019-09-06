@@ -46,7 +46,7 @@ namespace djv
                 return _id;
             }
 
-            inline Texture1D::Texture1D()
+            /*inline Texture1D::Texture1D()
             {}
 
             inline const Image::Info& Texture1D::getInfo() const
@@ -57,7 +57,7 @@ namespace djv
             inline GLuint Texture1D::getID() const
             {
                 return _id;
-            }
+            }*/
             
         } // namespace OpenGL
     } // namespace AV

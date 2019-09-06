@@ -84,13 +84,6 @@ namespace djv
             return out;
         }
 
-        /*std::shared_ptr<Label> Label::create(const std::string & text, const std::shared_ptr<Core::Context>& context)
-        {
-            auto out = Label::create(context);
-            out->setText(text);
-            return out;
-        }*/
-
         const std::string & Label::getText() const
         {
             return _p->text;

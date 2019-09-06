@@ -43,6 +43,7 @@
 
 #include <djvCore/Context.h>
 
+#define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
 using namespace djv::Core;
@@ -368,6 +369,36 @@ namespace djv
         void PopupWidget::setText(const std::string & value)
         {
             _p->button->setText(value);
+        }
+
+        const std::string& PopupWidget::getFont() const
+        {
+            return _p->button->getFont();
+        }
+
+        const std::string& PopupWidget::getFontFace() const
+        {
+            return _p->button->getFontFace();
+        }
+
+        MetricsRole PopupWidget::getFontSizeRole() const
+        {
+            return _p->button->getFontSizeRole();
+        }
+
+        void PopupWidget::setFont(const std::string& value)
+        {
+            _p->button->setFont(value);
+        }
+
+        void PopupWidget::setFontFace(const std::string& value)
+        {
+            _p->button->setFontFace(value);
+        }
+
+        void PopupWidget::setFontSizeRole(MetricsRole value)
+        {
+            _p->button->setFontSizeRole(value);
         }
 
         bool PopupWidget::hasCapturePointer() const
