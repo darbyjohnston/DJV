@@ -54,7 +54,7 @@ namespace djv
             virtual void undo() = 0;
 
         private:
-            const std::weak_ptr<Context>& _context;
+            std::weak_ptr<Context> _context;
             std::string _name;
         };
 
