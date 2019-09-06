@@ -81,7 +81,7 @@ namespace djv
             catch (const std::exception & e)
             {
                 //! \bug How should we really handle this error?
-                std::cerr << "Cannot find the application path: " << e.what() << std::endl;
+                std::cerr << "[ERROR] Cannot find the application path: " << e.what() << std::endl;
             }
             
             std::string env = OS::getEnv("DJV_RESOURCE_PATH");
@@ -118,7 +118,7 @@ namespace djv
                 catch (const std::exception & e)
                 {
                     //! \bug How should we really handle this error?
-                    std::cerr << "Cannot create the documents path: " << e.what() << std::endl;
+                    std::cerr << "[ERROR] Cannot create the documents path: " << e.what() << std::endl;
                 }
             }
             
