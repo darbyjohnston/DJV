@@ -245,7 +245,7 @@
         "description": ""
     }, 
     {
-        "text": "Add the current directory to the list sof shortcuts", 
+        "text": "Add the current directory to the list of shortcuts", 
         "id": "Add shortcut tooltip", 
         "description": ""
     }, 
