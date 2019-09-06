@@ -96,9 +96,9 @@ namespace djv
             virtual ~Application()
             {}
 
-            static std::unique_ptr<Application> create(int & argc, char ** argv)
+            static std::shared_ptr<Application> create(int & argc, char ** argv)
             {
-                auto out = std::unique_ptr<Application>(new Application);
+                auto out = std::shared_ptr<Application>(new Application);
                 out->_init(argc, argv);
                 return out;
             }
