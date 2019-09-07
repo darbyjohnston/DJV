@@ -31,8 +31,10 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/GroupBox.h>
+#include <djvUI/Label.h>
 #include <djvUI/ListButton.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/ScrollWidget.h>
 
 #include <djvCore/DrivesModel.h>
 #include <djvCore/FileInfo.h>
@@ -48,27 +50,42 @@ namespace djv
             struct DrivesWidget::Private
             {
                 std::vector<FileSystem::Path> drives;
-                std::shared_ptr<VerticalLayout> layout;
+
+                std::shared_ptr<Label> titleLabel;
                 std::shared_ptr<VerticalLayout> itemLayout;
+                std::shared_ptr<ScrollWidget> scrollWidget;
                 std::function<void(const FileSystem::Path &)> callback;
+
                 std::shared_ptr<ListObserver<FileSystem::Path> > drivesObserver;
             };
 
             void DrivesWidget::_init(const std::shared_ptr<FileSystem::DrivesModel>& model, const std::shared_ptr<Context>& context)
             {
                 UI::Widget::_init(context);
+                DJV_PRIVATE_PTR();
 
                 setClassName("djv::UI::FileBrowser::DrivesWidget");
 
-                DJV_PRIVATE_PTR();
+                p.titleLabel = UI::Label::create(context);
+                p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
+                p.titleLabel->setMargin(UI::MetricsRole::MarginSmall);
+                p.titleLabel->setBackgroundRole(UI::ColorRole::Trough);
 
+                auto layout = VerticalLayout::create(context);
+                layout->setSpacing(MetricsRole::None);
+                layout->addChild(p.titleLabel);
+                auto vLayout = VerticalLayout::create(context);
+                vLayout->setMargin(MetricsRole::MarginSmall);
+                vLayout->setSpacing(MetricsRole::SpacingSmall);
                 p.itemLayout = VerticalLayout::create(context);
                 p.itemLayout->setSpacing(MetricsRole::None);
-
-                p.layout = VerticalLayout::create(context);
-                p.layout->addChild(p.itemLayout);
-                p.layout->setStretch(p.itemLayout, RowStretch::Expand);
-                addChild(p.layout);
+                vLayout->addChild(p.itemLayout);
+                layout->addChild(vLayout);
+                p.scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
+                p.scrollWidget->setMinimumSizeRole(MetricsRole::Menu);
+                p.scrollWidget->setBorder(false);
+                p.scrollWidget->addChild(layout);
+                addChild(p.scrollWidget);
 
                 auto weak = std::weak_ptr<DrivesWidget>(std::dynamic_pointer_cast<DrivesWidget>(shared_from_this()));
                 auto contextWeak = std::weak_ptr<Context>(context);
@@ -133,12 +150,18 @@ namespace djv
 
             void DrivesWidget::_preLayoutEvent(Event::PreLayout & event)
             {
-                _setMinimumSize(_p->layout->getMinimumSize());
+                _setMinimumSize(_p->scrollWidget->getMinimumSize());
             }
 
             void DrivesWidget::_layoutEvent(Event::Layout & event)
             {
-                _p->layout->setGeometry(getGeometry());
+                _p->scrollWidget->setGeometry(getGeometry());
+            }
+
+            void DrivesWidget::_localeEvent(Event::Locale&)
+            {
+                DJV_PRIVATE_PTR();
+                p.titleLabel->setText(_getText(DJV_TEXT("Drives")));
             }
 
         } // namespace FileBrowser

@@ -34,10 +34,8 @@
 #include <djvUIComponents/ColorPicker.h>
 
 #include <djvUI/ColorSwatch.h>
-
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/ToggleButton.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/TextSystem.h>

@@ -29,8 +29,8 @@
 
 #include <djvUIComponents/Render2DSettingsWidget.h>
 
-#include <djvUI/FormLayout.h>
-#include <djvUI/ToggleButton.h>
+#include <djvUI/CheckBox.h>
+#include <djvUI/RowLayout.h>
 
 #include <djvAV/Render2D.h>
 
@@ -44,8 +44,8 @@ namespace djv
     {
         struct Render2DTextSettingsWidget::Private
         {
-            std::shared_ptr<UI::ToggleButton> lcdButton;
-            std::shared_ptr<UI::FormLayout> layout;
+            std::shared_ptr<UI::CheckBox> lcdCheckBox;
+            std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<ValueObserver<bool> > lcdTextObserver;
         };
 
@@ -56,14 +56,14 @@ namespace djv
 
             setClassName("djv::UI::Render2DTextSettingsWidget");
 
-            p.lcdButton = UI::ToggleButton::create(context);
+            p.lcdCheckBox = UI::CheckBox::create(context);
 
-            p.layout = UI::FormLayout::create(context);
-            p.layout->addChild(p.lcdButton);
+            p.layout = UI::VerticalLayout::create(context);
+            p.layout->addChild(p.lcdCheckBox);
             addChild(p.layout);
 
             auto contextWeak = std::weak_ptr<Context>(context);
-            p.lcdButton->setCheckedCallback(
+            p.lcdCheckBox->setCheckedCallback(
                 [contextWeak](bool value)
                 {
                     if (auto context = contextWeak.lock())
@@ -81,7 +81,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->lcdButton->setChecked(value);
+                        widget->_p->lcdCheckBox->setChecked(value);
                         widget->_redraw();
                     }
                 });
@@ -117,7 +117,7 @@ namespace djv
         {
             ISettingsWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
-            p.layout->setText(p.lcdButton, _getText(DJV_TEXT("Enable LCD text rendering")) + ":");
+            p.lcdCheckBox->setText(_getText(DJV_TEXT("Enable LCD text rendering")));
         }
 
     } // namespace UI

@@ -31,8 +31,10 @@
 
 #include <djvUI/ButtonGroup.h>
 #include <djvUI/GridLayout.h>
+#include <djvUI/Label.h>
 #include <djvUI/ListButton.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/ScrollWidget.h>
 #include <djvUI/ToolButton.h>
 
 using namespace djv::Core;
@@ -47,11 +49,12 @@ namespace djv
             {
                 FileSystem::Path path;
                 bool edit = false;
+                std::shared_ptr<Label> titleLabel;
                 std::shared_ptr<ToolButton> addButton;
                 std::shared_ptr<ToolButton> editButton;
                 std::shared_ptr<ButtonGroup> removeButtonGroup;
                 std::shared_ptr<GridLayout> itemLayout;
-                std::shared_ptr<VerticalLayout> layout;
+                std::shared_ptr<ScrollWidget> scrollWidget;
                 std::function<void(const FileSystem::Path&)> callback;
                 std::shared_ptr<ListObserver<FileSystem::Path> > shortcutsObserver;
             };
@@ -63,27 +66,41 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 setClassName("djv::UI::FileBrowser::ShortcutsWidget");
 
+                p.titleLabel = Label::create(context);
+                p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
+                p.titleLabel->setMargin(UI::MetricsRole::MarginSmall);
+
                 p.addButton = ToolButton::create(context);
-                p.addButton->setIcon("djvIconAdd");
+                p.addButton->setIcon("djvIconAddSmall");
 
                 p.editButton = ToolButton::create(context);
                 p.editButton->setButtonType(ButtonType::Toggle);
-                p.editButton->setIcon("djvIconEdit");
+                p.editButton->setIcon("djvIconEditSmall");
 
                 p.removeButtonGroup = ButtonGroup::create(ButtonType::Push);
                 
-                p.layout = VerticalLayout::create(context);
-                p.layout->setSpacing(MetricsRole::None);
+                auto layout = VerticalLayout::create(context);
+                layout->setSpacing(MetricsRole::None);
                 auto hLayout = HorizontalLayout::create(context);
+                hLayout->setBackgroundRole(UI::ColorRole::Trough);
                 hLayout->setSpacing(MetricsRole::None);
+                hLayout->addChild(p.titleLabel);
+                hLayout->addExpander();
                 hLayout->addChild(p.addButton);
                 hLayout->addChild(p.editButton);
-                p.layout->addChild(hLayout);
-                p.layout->addSeparator();
+                layout->addChild(hLayout);
+                auto vLayout = VerticalLayout::create(context);
+                vLayout->setMargin(MetricsRole::MarginSmall);
+                vLayout->setSpacing(MetricsRole::SpacingSmall);
                 p.itemLayout = GridLayout::create(context);
                 p.itemLayout->setSpacing(MetricsRole::None);
-                p.layout->addChild(p.itemLayout);
-                addChild(p.layout);
+                vLayout->addChild(p.itemLayout);
+                layout->addChild(vLayout);
+                p.scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
+                p.scrollWidget->setMinimumSizeRole(MetricsRole::Menu);
+                p.scrollWidget->setBorder(false);
+                p.scrollWidget->addChild(layout);
+                addChild(p.scrollWidget);
 
                 auto weak = std::weak_ptr<ShortcutsWidget>(std::dynamic_pointer_cast<ShortcutsWidget>(shared_from_this()));
                 p.addButton->setClickedCallback(
@@ -195,17 +212,18 @@ namespace djv
 
             void ShortcutsWidget::_preLayoutEvent(Event::PreLayout & event)
             {
-                _setMinimumSize(_p->layout->getMinimumSize());
+                _setMinimumSize(_p->scrollWidget->getMinimumSize());
             }
 
             void ShortcutsWidget::_layoutEvent(Event::Layout & event)
             {
-                _p->layout->setGeometry(getGeometry());
+                _p->scrollWidget->setGeometry(getGeometry());
             }
             
             void ShortcutsWidget::_localeEvent(Event::Locale&)
             {
                 DJV_PRIVATE_PTR();
+                p.titleLabel->setText(_getText(DJV_TEXT("Shortcuts")));
                 p.addButton->setTooltip(_getText(DJV_TEXT("Add shortcut tooltip")));
                 p.editButton->setTooltip(_getText(DJV_TEXT("Edit shortcuts tooltip")));
             }

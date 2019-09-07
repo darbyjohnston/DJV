@@ -37,6 +37,10 @@ namespace djv
                 void setClickedCallback(const std::function<void(void)> &);
                 void setCheckedCallback(const std::function<void(bool)> &);
 
+                void addAction(const std::shared_ptr<Action>&) override;
+                void removeAction(const std::shared_ptr<Action>&) override;
+                void clearActions() override;
+
             protected:
                 bool _isToggled() const;
                 bool _isHovered() const;
@@ -54,6 +58,8 @@ namespace djv
                 void _buttonReleaseEvent(Core::Event::ButtonRelease &) override;
 
             private:
+                void _actionUpdate();
+
                 DJV_PRIVATE();
             };
 

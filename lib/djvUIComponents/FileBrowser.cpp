@@ -93,7 +93,10 @@ namespace djv
                 std::shared_ptr<PopupWidget> recentPathsPopupWidget;
                 std::shared_ptr<PopupWidget> drivesPopupWidget;
                 std::shared_ptr<PopupWidget> sortPopupWidget;
+                std::shared_ptr<Label> viewTypeLabel;
+                std::shared_ptr<Label> thumbnailSizeLabel;
                 std::shared_ptr<IntSlider> thumbnailSizeSlider;
+                std::shared_ptr<Label> miscSettingsLabel;
                 std::shared_ptr<PopupWidget> settingsPopupWidget;
                 std::shared_ptr<ListViewHeader> listViewHeader;
                 std::shared_ptr<VerticalLayout> listViewLayout;
@@ -235,22 +238,36 @@ namespace djv
                 auto sortDirectoriesFirstButton = ActionButton::create(context);
                 sortDirectoriesFirstButton->addAction(p.actions["SortDirectoriesFirst"]);
 
+                p.viewTypeLabel = Label::create(context);
+                p.viewTypeLabel->setTextHAlign(TextHAlign::Left);
+                p.viewTypeLabel->setMargin(UI::MetricsRole::MarginSmall);
+                p.viewTypeLabel->setBackgroundRole(UI::ColorRole::Trough);
                 auto tilesButton = ActionButton::create(context);
                 tilesButton->addAction(p.actions["Tiles"]);
                 auto listButton = ActionButton::create(context);
                 listButton->addAction(p.actions["List"]);
 
+                p.thumbnailSizeLabel = Label::create(context);
+                p.thumbnailSizeLabel->setTextHAlign(TextHAlign::Left);
+                p.thumbnailSizeLabel->setMargin(UI::MetricsRole::MarginSmall);
+                p.thumbnailSizeLabel->setBackgroundRole(UI::ColorRole::Trough);
                 auto increaseThumbnailSizeButton = ActionButton::create(context);
                 increaseThumbnailSizeButton->addAction(p.actions["IncreaseThumbnailSize"]);
                 auto decreaseThumbnailSizeButton = ActionButton::create(context);
                 decreaseThumbnailSizeButton->addAction(p.actions["DecreaseThumbnailSize"]);
+
+                p.miscSettingsLabel = Label::create(context);
+                p.miscSettingsLabel->setTextHAlign(TextHAlign::Left);
+                p.miscSettingsLabel->setMargin(UI::MetricsRole::MarginSmall);
+                p.miscSettingsLabel->setBackgroundRole(UI::ColorRole::Trough);
                 auto fileSequencesButton = ActionButton::create(context);
                 fileSequencesButton->addAction(p.actions["FileSequences"]);
                 auto showHiddenButton = ActionButton::create(context);
                 showHiddenButton->addAction(p.actions["ShowHidden"]);
 
                 auto vLayout = VerticalLayout::create(context);
-                vLayout->setSpacing(MetricsRole::None);
+                vLayout->setMargin(MetricsRole::MarginSmall);
+                vLayout->setSpacing(MetricsRole::SpacingSmall);
                 vLayout->addChild(sortByNameButton);
                 vLayout->addChild(sortBySizeButton);
                 vLayout->addChild(sortByTimeButton);
@@ -269,18 +286,33 @@ namespace djv
                 p.thumbnailSizeSlider->setMargin(MetricsRole::MarginSmall);
                 vLayout = VerticalLayout::create(context);
                 vLayout->setSpacing(MetricsRole::None);
-                vLayout->addChild(tilesButton);
-                vLayout->addChild(listButton);
-                vLayout->addSeparator();
-                vLayout->addChild(increaseThumbnailSizeButton);
-                vLayout->addChild(decreaseThumbnailSizeButton);
-                vLayout->addChild(p.thumbnailSizeSlider);
-                vLayout->addSeparator();
-                vLayout->addChild(fileSequencesButton);
-                vLayout->addChild(showHiddenButton);
+                vLayout->addChild(p.viewTypeLabel);
+                auto vLayout2 = VerticalLayout::create(context);
+                vLayout2->setMargin(MetricsRole::MarginSmall);
+                vLayout2->setSpacing(MetricsRole::SpacingSmall);
+                vLayout2->addChild(tilesButton);
+                vLayout2->addChild(listButton);
+                vLayout->addChild(vLayout2);
+                vLayout->addChild(p.thumbnailSizeLabel);
+                vLayout2 = VerticalLayout::create(context);
+                vLayout2->setMargin(MetricsRole::MarginSmall);
+                vLayout2->addChild(increaseThumbnailSizeButton);
+                vLayout2->addChild(decreaseThumbnailSizeButton);
+                vLayout2->addChild(p.thumbnailSizeSlider);
+                vLayout->addChild(vLayout2);
+                vLayout->addChild(p.miscSettingsLabel);
+                vLayout2 = VerticalLayout::create(context);
+                vLayout2->setMargin(MetricsRole::MarginSmall);
+                vLayout2->addChild(fileSequencesButton);
+                vLayout2->addChild(showHiddenButton);
+                vLayout->addChild(vLayout2);
+                auto scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
+                scrollWidget->setBorder(false);
+                scrollWidget->setMinimumSizeRole(MetricsRole::Menu);
+                scrollWidget->addChild(vLayout);
                 p.settingsPopupWidget = PopupWidget::create(context);
                 p.settingsPopupWidget->setIcon("djvIconSettings");
-                p.settingsPopupWidget->addChild(vLayout);
+                p.settingsPopupWidget->addChild(scrollWidget);
 
                 auto toolBar = ToolBar::create(context);
                 toolBar->addChild(p.shortcutsPopupWidget);
@@ -893,30 +925,34 @@ namespace djv
                 p.actions["Up"]->setText(_getText(DJV_TEXT("Up")));
                 p.actions["Up"]->setTooltip(_getText(DJV_TEXT("File browser up tooltip")));
 
-                p.actions["Tiles"]->setText(_getText(DJV_TEXT("Tile View")));
+                p.actions["Tiles"]->setText(_getText(DJV_TEXT("Tiles")));
                 p.actions["Tiles"]->setTooltip(_getText(DJV_TEXT("File browser tile view tooltip")));
-                p.actions["List"]->setText(_getText(DJV_TEXT("List View")));
+                p.actions["List"]->setText(_getText(DJV_TEXT("List")));
                 p.actions["List"]->setTooltip(_getText(DJV_TEXT("File browser list view tooltip")));
-                p.actions["IncreaseThumbnailSize"]->setText(_getText(DJV_TEXT("Increase Thumbnail Size")));
+                p.actions["IncreaseThumbnailSize"]->setText(_getText(DJV_TEXT("Increase")));
                 p.actions["IncreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("File browser increase thumbnail size tooltip")));
-                p.actions["DecreaseThumbnailSize"]->setText(_getText(DJV_TEXT("Decrease Thumbnail Size")));
+                p.actions["DecreaseThumbnailSize"]->setText(_getText(DJV_TEXT("Decrease")));
                 p.actions["DecreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("File browser decrease thumbnail size tooltip")));
 
-                p.actions["FileSequences"]->setText(_getText(DJV_TEXT("Enable File Sequences")));
+                p.actions["FileSequences"]->setText(_getText(DJV_TEXT("Enable file sequences")));
                 p.actions["FileSequences"]->setTooltip(_getText(DJV_TEXT("File browser file sequences tooltip")));
-                p.actions["ShowHidden"]->setText(_getText(DJV_TEXT("Show Hidden Files")));
+                p.actions["ShowHidden"]->setText(_getText(DJV_TEXT("Show hidden files")));
                 p.actions["ShowHidden"]->setTooltip(_getText(DJV_TEXT("File browser show hidden tooltip")));
 
-                p.actions["SortByName"]->setText(_getText(DJV_TEXT("Sort By Name")));
+                p.actions["SortByName"]->setText(_getText(DJV_TEXT("Sort by name")));
                 p.actions["SortByName"]->setTooltip(_getText(DJV_TEXT("File browser sort by name tooltip")));
-                p.actions["SortBySize"]->setText(_getText(DJV_TEXT("Sort By Size")));
+                p.actions["SortBySize"]->setText(_getText(DJV_TEXT("Sort by size")));
                 p.actions["SortBySize"]->setTooltip(_getText(DJV_TEXT("File browser sort by size tooltip")));
-                p.actions["SortByTime"]->setText(_getText(DJV_TEXT("Sort By Time")));
+                p.actions["SortByTime"]->setText(_getText(DJV_TEXT("Sort by time")));
                 p.actions["SortByTime"]->setTooltip(_getText(DJV_TEXT("File browser sort by time tooltip")));
-                p.actions["ReverseSort"]->setText(_getText(DJV_TEXT("Reverse Sort")));
+                p.actions["ReverseSort"]->setText(_getText(DJV_TEXT("Reverse sort")));
                 p.actions["ReverseSort"]->setTooltip(_getText(DJV_TEXT("File browser reverse sort tooltip")));
-                p.actions["SortDirectoriesFirst"]->setText(_getText(DJV_TEXT("Sort Directories First")));
+                p.actions["SortDirectoriesFirst"]->setText(_getText(DJV_TEXT("Sort directories first")));
                 p.actions["SortDirectoriesFirst"]->setTooltip(_getText(DJV_TEXT("File browser sort directories first tooltip")));
+
+                p.viewTypeLabel->setText(_getText(DJV_TEXT("View")));
+                p.thumbnailSizeLabel->setText(_getText(DJV_TEXT("Thumbnail Size")));
+                p.miscSettingsLabel->setText(_getText(DJV_TEXT("Miscellaneous")));
 
                 p.listViewHeader->setText(
                     {

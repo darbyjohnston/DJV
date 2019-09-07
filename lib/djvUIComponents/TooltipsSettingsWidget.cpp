@@ -29,10 +29,9 @@
 
 #include <djvUIComponents/TooltipsSettingsWidget.h>
 
-#include <djvUI/FormLayout.h>
+#include <djvUI/CheckBox.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/ToggleButton.h>
 #include <djvUI/UISettings.h>
 
 #include <djvCore/Context.h>
@@ -45,8 +44,8 @@ namespace djv
     {
         struct TooltipsSettingsWidget::Private
         {
-            std::shared_ptr<ToggleButton> tooltipsButton;
-            std::shared_ptr<FormLayout> layout;
+            std::shared_ptr<CheckBox> tooltipsCheckBox;
+            std::shared_ptr<VerticalLayout> layout;
             std::shared_ptr<ValueObserver<bool> > tooltipsObserver;
         };
 
@@ -57,15 +56,15 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::UI::TooltipsSettingsWidget");
 
-            p.tooltipsButton = ToggleButton::create(context);
+            p.tooltipsCheckBox = CheckBox::create(context);
 
-            p.layout = FormLayout::create(context);
-            p.layout->addChild(p.tooltipsButton);
+            p.layout = VerticalLayout::create(context);
+            p.layout->addChild(p.tooltipsCheckBox);
             addChild(p.layout);
 
             auto weak = std::weak_ptr<TooltipsSettingsWidget>(std::dynamic_pointer_cast<TooltipsSettingsWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<Context>(context);
-            p.tooltipsButton->setCheckedCallback(
+            p.tooltipsCheckBox->setCheckedCallback(
                 [weak, contextWeak](bool value)
                 {
                     if (auto context = contextWeak.lock())
@@ -87,7 +86,7 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    widget->_p->tooltipsButton->setChecked(value);
+                    widget->_p->tooltipsCheckBox->setChecked(value);
                 }
             });
         }
@@ -122,7 +121,7 @@ namespace djv
         {
             ISettingsWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
-            p.layout->setText(p.tooltipsButton, _getText(DJV_TEXT("Enable tooltips")) + ":");
+            p.tooltipsCheckBox->setText(_getText(DJV_TEXT("Enable tooltips")));
         }
 
     } // namespace UI

@@ -30,6 +30,7 @@
 #include <djvUI/ActionButton.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/DrawUtil.h>
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
@@ -49,20 +50,99 @@ namespace djv
     {
         namespace Button
         {
+            namespace
+            {
+                class CheckBox : public Widget
+                {
+                    DJV_NON_COPYABLE(CheckBox);
+
+                protected:
+                    CheckBox()
+                    {}
+
+                public:
+                    static std::shared_ptr<CheckBox> create(const std::shared_ptr<Context>&);
+
+                    void setChecked(bool);
+                    void setButtonType(ButtonType);
+
+                protected:
+                    void _preLayoutEvent(Event::PreLayout&) override;
+                    void _paintEvent(Event::Paint&) override;
+
+                private:
+                    bool _checked = false;
+                    ButtonType _buttonType = ButtonType::First;
+                };
+
+                std::shared_ptr<CheckBox> CheckBox::create(const std::shared_ptr<Context>& context)
+                {
+                    auto out = std::shared_ptr<CheckBox>(new CheckBox);
+                    out->_init(context);
+                    return out;
+                }
+
+                void CheckBox::setChecked(bool value)
+                {
+                    if (value == _checked)
+                        return;
+                    _checked = value;
+                    _redraw();
+                }
+
+                void CheckBox::setButtonType(ButtonType value)
+                {
+                    if (value == _buttonType)
+                        return;
+                    _buttonType = value;
+                    _redraw();
+                }
+
+                void CheckBox::_preLayoutEvent(Event::PreLayout&)
+                {
+                    const auto& style = _getStyle();
+                    const float m = style->getMetric(MetricsRole::MarginSmall);
+                    const float is = style->getMetric(MetricsRole::IconSmall);
+                    _setMinimumSize(glm::vec2(is + m * 2.f, is + m * 2.f));
+                }
+
+                void CheckBox::_paintEvent(Event::Paint&)
+                {
+                    switch (_buttonType)
+                    {
+                    case ButtonType::Toggle:
+                    case ButtonType::Radio:
+                    case ButtonType::Exclusive:
+                    {
+                        auto render = _getRender();
+                        const auto& style = _getStyle();
+                        const BBox2f& g = getGeometry();
+                        const float m = style->getMetric(MetricsRole::MarginSmall);
+                        const float b = style->getMetric(MetricsRole::Border);
+                        const float is = style->getMetric(MetricsRole::IconSmall);
+                        render->setFillColor(style->getColor(ColorRole::Border));
+                        drawBorder(render, g.margin(-m), b);
+                        render->setFillColor(style->getColor(_checked ? ColorRole::Checked : ColorRole::Trough));
+                        render->drawRect(g.margin(-m).margin(-b));
+                        break;
+                    }
+                    default: break;
+                    }
+                }
+
+            } // namespace
+
             struct ActionButton::Private
             {
                 std::shared_ptr<Action> action;
+                std::shared_ptr<CheckBox> checkBox;
                 std::shared_ptr<Icon> icon;
                 std::shared_ptr<Label> textLabel;
                 std::shared_ptr<Label> shortcutsLabel;
                 std::shared_ptr<HorizontalLayout> layout;
-                std::shared_ptr<ValueObserver<ButtonType> > buttonTypeObserver;
-                std::shared_ptr<ValueObserver<bool> > checkedObserver;
                 std::shared_ptr<ValueObserver<std::string> > iconObserver;
                 std::shared_ptr<ValueObserver<std::string> > textObserver;
                 std::shared_ptr<ListObserver<std::shared_ptr<Shortcut> > > shortcutsObserver;
-                std::shared_ptr<ValueObserver<bool> > enabledObserver;
-                std::shared_ptr<ValueObserver<std::string> > tooltipObserver;
             };
 
             void ActionButton::_init(const std::shared_ptr<Context>& context)
@@ -72,13 +152,17 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 setClassName("djv::UI::Button::ActionButton");
 
+                p.checkBox = CheckBox::create(context);
                 p.icon = Icon::create(context);
                 p.textLabel = Label::create(context);
                 p.textLabel->setTextHAlign(TextHAlign::Left);
+                p.textLabel->setMargin(MetricsRole::MarginSmall);
                 p.shortcutsLabel = Label::create(context);
+                p.shortcutsLabel->setMargin(MetricsRole::MarginSmall);
 
                 p.layout = HorizontalLayout::create(context);
-                p.layout->setMargin(MetricsRole::MarginSmall);
+                p.layout->setSpacing(MetricsRole::None);
+                p.layout->addChild(p.checkBox);
                 p.layout->addChild(p.icon);
                 p.layout->addChild(p.textLabel);
                 p.layout->setStretch(p.textLabel, RowStretch::Expand);
@@ -126,16 +210,6 @@ namespace djv
                 return out;
             }
 
-            bool ActionButton::hasShowText() const
-            {
-                return _p->textLabel->isVisible();
-            }
-
-            void ActionButton::setShowText(bool value)
-            {
-                _p->textLabel->setVisible(value);
-            }
-
             bool ActionButton::hasShowShortcuts() const
             {
                 return _p->shortcutsLabel->isVisible();
@@ -144,6 +218,18 @@ namespace djv
             void ActionButton::setShowShortcuts(bool value)
             {
                 _p->shortcutsLabel->setVisible(value);
+            }
+
+            void ActionButton::setChecked(bool value)
+            {
+                IButton::setChecked(value);
+                _p->checkBox->setChecked(value);
+            }
+
+            void ActionButton::setButtonType(ButtonType value)
+            {
+                IButton::setButtonType(value);
+                _p->checkBox->setButtonType(value);
             }
 
             void ActionButton::addAction(const std::shared_ptr<Action>& value)
@@ -182,12 +268,6 @@ namespace djv
                 auto render = _getRender();
                 const auto& style = _getStyle();
                 const BBox2f& g = getGeometry();
-                const float m = style->getMetric(MetricsRole::MarginSmall);
-                if (_isToggled())
-                {
-                    render->setFillColor(style->getColor(ColorRole::Checked));
-                    render->drawRect(g);
-                }
                 if (_isPressed())
                 {
                     render->setFillColor(style->getColor(ColorRole::Pressed));
@@ -208,24 +288,6 @@ namespace djv
                 {
                     p.action = actions.front();
                     auto weak = std::weak_ptr<ActionButton>(std::dynamic_pointer_cast<ActionButton>(shared_from_this()));
-                    p.buttonTypeObserver = ValueObserver<ButtonType>::create(
-                        p.action->observeButtonType(),
-                        [weak](ButtonType value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->setButtonType(value);
-                        }
-                    });
-                    p.checkedObserver = ValueObserver<bool>::create(
-                        p.action->observeChecked(),
-                        [weak](bool value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->setChecked(value);
-                        }
-                    });
                     p.iconObserver = ValueObserver<std::string>::create(
                         p.action->observeIcon(),
                         [weak](const std::string & value)
@@ -265,35 +327,13 @@ namespace djv
                             }
                         }
                     });
-                    p.enabledObserver = ValueObserver<bool>::create(
-                        p.action->observeEnabled(),
-                        [weak](bool value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->setEnabled(value);
-                        }
-                    });
-                    p.tooltipObserver = ValueObserver<std::string>::create(
-                        p.action->observeTooltip(),
-                        [weak](const std::string & value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->setTooltip(value);
-                        }
-                    });
                 }
                 else
                 {
                     p.action.reset();
-                    p.buttonTypeObserver.reset();
-                    p.checkedObserver.reset();
                     p.iconObserver.reset();
                     p.textObserver.reset();
                     p.shortcutsObserver.reset();
-                    p.enabledObserver.reset();
-                    p.tooltipObserver.reset();
                 }
             }
 

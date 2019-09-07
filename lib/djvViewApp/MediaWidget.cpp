@@ -130,7 +130,8 @@ namespace djv
             std::shared_ptr<FrameWidget> outPointWidget;
             std::shared_ptr<UI::Label> durationLabel;
             std::shared_ptr<TimelineSlider> timelineSlider;
-            std::shared_ptr<UI::BasicFloatSlider> audioVolumeSlider;
+            std::shared_ptr<UI::Label> audioLabel;
+            std::shared_ptr<UI::FloatSlider> audioVolumeSlider;
             std::shared_ptr<UI::ToolButton> audioMuteButton;
             std::shared_ptr<UI::PopupWidget> audioPopupWidget;
             std::shared_ptr<UI::GridLayout> playbackLayout;
@@ -237,17 +238,26 @@ namespace djv
             p.timelineSlider = TimelineSlider::create(context);
             p.timelineSlider->setMedia(p.media);
 
-            p.audioVolumeSlider = UI::BasicFloatSlider::create(UI::Orientation::Horizontal, context);
-            p.audioVolumeSlider->setMargin(UI::MetricsRole::MarginSmall);
+            p.audioLabel = UI::Label::create(context);
+            p.audioLabel->setTextHAlign(UI::TextHAlign::Left);
+            p.audioLabel->setMargin(UI::MetricsRole::MarginSmall);
+            p.audioLabel->setBackgroundRole(UI::ColorRole::Trough);
+            p.audioVolumeSlider = UI::FloatSlider::create(context);
+            p.audioVolumeSlider->setRange(FloatRange(0.f, 100.f));
             p.audioMuteButton = UI::ToolButton::create(context);
             p.audioMuteButton->setIcon("djvIconAudioMute");
             p.audioMuteButton->setButtonType(UI::ButtonType::Toggle);
+            auto vLayout = UI::VerticalLayout::create(context);
+            vLayout->setSpacing(UI::MetricsRole::None);
+            vLayout->addChild(p.audioLabel);
             auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::MetricsRole::None);
+            hLayout->setMargin(UI::MetricsRole::MarginSmall);
+            hLayout->setSpacing(UI::MetricsRole::SpacingSmall);
             hLayout->addChild(p.audioVolumeSlider);
             hLayout->addChild(p.audioMuteButton);
+            vLayout->addChild(hLayout);
             p.audioPopupWidget = UI::PopupWidget::create(context);
-            p.audioPopupWidget->addChild(hLayout);
+            p.audioPopupWidget->addChild(vLayout);
 
             auto toolbar = UI::ToolBar::create(context);
             toolbar->setBackgroundRole(UI::ColorRole::None);
@@ -286,7 +296,7 @@ namespace djv
             p.layout->setBackgroundRole(UI::ColorRole::OverlayLight);
             p.layout->addChild(p.imageView);
             p.layout->addChild(p.pointerWidget);
-            auto vLayout = UI::VerticalLayout::create(context);
+            vLayout = UI::VerticalLayout::create(context);
             vLayout->addChild(p.titleBar);
             vLayout->addExpander();
             vLayout->addChild(p.playbackLayout);
@@ -438,7 +448,7 @@ namespace djv
                 {
                     if (auto media = widget->_p->media)
                     {
-                        media->setVolume(value);
+                        media->setVolume(value / 100.f);
                     }
                 }
             });
@@ -953,6 +963,7 @@ namespace djv
             p.outPointWidget->setTooltip(_getText(DJV_TEXT("Out point tooltip")));
             p.durationLabel->setTooltip(_getText(DJV_TEXT("Duration tooltip")));
 
+            p.audioLabel->setText(_getText(DJV_TEXT("Audio")));
             p.audioVolumeSlider->setTooltip(_getText(DJV_TEXT("Volume tooltip")));
             p.audioMuteButton->setTooltip(_getText(DJV_TEXT("Mute tooltip")));
             p.audioPopupWidget->setTooltip(_getText(DJV_TEXT("Audio popup tooltip")));
@@ -1032,7 +1043,7 @@ namespace djv
         void MediaWidget::_audioUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.audioVolumeSlider->setValue(p.audioVolume);
+            p.audioVolumeSlider->setValue(p.audioVolume * 100.f);
             p.audioMuteButton->setChecked(p.audioMute);
             if (!p.audioEnabled || p.audioMute)
             {

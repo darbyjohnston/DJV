@@ -56,7 +56,9 @@ namespace djv
                 std::string font;
                 std::string fontFace;
                 MetricsRole fontSizeRole = MetricsRole::FontMedium;
+                std::shared_ptr<Action> action;
                 std::shared_ptr<HorizontalLayout> layout;
+                std::shared_ptr<ValueObserver<std::string> > iconObserver;
             };
 
             void Tool::_init(const std::shared_ptr<Context>& context)
@@ -71,6 +73,33 @@ namespace djv
                 p.layout = HorizontalLayout::create(context);
                 p.layout->setMargin(MetricsRole::MarginSmall);
                 addChild(p.layout);
+
+                _actionUpdate();
+                _iconUpdate();
+
+                auto weak = std::weak_ptr<Tool>(std::dynamic_pointer_cast<Tool>(shared_from_this()));
+                setClickedCallback(
+                    [weak]
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            if (widget->_p->action)
+                            {
+                                widget->_p->action->doClicked();
+                            }
+                        }
+                    });
+                setCheckedCallback(
+                    [weak](bool value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            if (widget->_p->action)
+                            {
+                                widget->_p->action->setChecked(value);
+                            }
+                        }
+                    });
             }
 
             Tool::Tool() :
@@ -101,7 +130,6 @@ namespace djv
                         {
                             p.iconWidget = Icon::create(context);
                             p.iconWidget->setVAlign(VAlign::Center);
-                            p.iconWidget->setIconColorRole(isChecked() ? ColorRole::Checked : getForegroundColorRole());
                             p.layout->addChild(p.iconWidget);
                             p.iconWidget->moveToFront();
                         }
@@ -229,6 +257,24 @@ namespace djv
                 _p->layout->setMargin(value);
             }
 
+            void Tool::addAction(const std::shared_ptr<Action>& value)
+            {
+                IButton::addAction(value);
+                _actionUpdate();
+            }
+
+            void Tool::removeAction(const std::shared_ptr<Action>& value)
+            {
+                IButton::removeAction(value);
+                _actionUpdate();
+            }
+
+            void Tool::clearActions()
+            {
+                IButton::clearActions();
+                _actionUpdate();
+            }
+
             void Tool::setChecked(bool value)
             {
                 IButton::setChecked(value);
@@ -279,6 +325,31 @@ namespace djv
                 {
                     render->setFillColor(style->getColor(ColorRole::Hovered));
                     render->drawRect(g);
+                }
+            }
+
+            void Tool::_actionUpdate()
+            {
+                DJV_PRIVATE_PTR();
+                const auto& actions = getActions();
+                if (actions.size())
+                {
+                    p.action = actions.front();
+                    auto weak = std::weak_ptr<Tool>(std::dynamic_pointer_cast<Tool>(shared_from_this()));
+                    p.iconObserver = ValueObserver<std::string>::create(
+                        p.action->observeIcon(),
+                        [weak](const std::string& value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->setIcon(value);
+                            }
+                        });
+                }
+                else
+                {
+                    p.action.reset();
+                    p.iconObserver.reset();
                 }
             }
 

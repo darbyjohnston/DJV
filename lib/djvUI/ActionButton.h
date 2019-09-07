@@ -51,10 +51,11 @@ namespace djv
 
                 static std::shared_ptr<ActionButton> create(const std::shared_ptr<Core::Context>&);
 
-                bool hasShowText() const;
                 bool hasShowShortcuts() const;
-                void setShowText(bool);
                 void setShowShortcuts(bool);
+
+                void setChecked(bool) override;
+                void setButtonType(ButtonType) override;
 
                 void addAction(const std::shared_ptr<Action> &) override;
                 void removeAction(const std::shared_ptr<Action> &) override;

@@ -32,9 +32,9 @@
 #include <djvViewApp/FileSettings.h>
 #include <djvViewApp/FileSystem.h>
 
+#include <djvUI/CheckBox.h>
 #include <djvUI/IntSlider.h>
 #include <djvUI/Label.h>
-#include <djvUI/ListButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
 
@@ -50,11 +50,14 @@ namespace djv
         struct MemoryCacheWidget::Private
         {
             float percentageUsed = 0.f;
-            std::shared_ptr<UI::ListButton> enabledButton;
+
+            std::shared_ptr<UI::Label> titleLabel;
+            std::shared_ptr<UI::CheckBox> enabledCheckBox;
             std::shared_ptr<UI::IntSlider> maxGBSlider;
             std::shared_ptr<UI::Label> maxGBLabel;
             std::shared_ptr<UI::Label> percentageLabel;
             std::shared_ptr<UI::VerticalLayout> layout;
+
             std::shared_ptr<ValueObserver<bool> > enabledObserver;
             std::shared_ptr<ValueObserver<int> > maxGBObserver;
             std::shared_ptr<ValueObserver<float> > percentageObserver;
@@ -66,8 +69,12 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::MemoryCacheWidget");
 
-            p.enabledButton = UI::ListButton::create(context);
-            p.enabledButton->setButtonType(UI::ButtonType::Toggle);
+            p.titleLabel = UI::Label::create(context);
+            p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
+            p.titleLabel->setMargin(UI::MetricsRole::MarginSmall);
+            p.titleLabel->setBackgroundRole(UI::ColorRole::Trough);
+
+            p.enabledCheckBox = UI::CheckBox::create(context);
 
             p.maxGBSlider = UI::IntSlider::create(context);
             p.maxGBSlider->setRange(IntRange(1, OS::getRAMSize() / Memory::gigabyte));
@@ -80,18 +87,22 @@ namespace djv
 
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
-            p.layout->addChild(p.enabledButton);
+            p.layout->addChild(p.titleLabel);
+            auto vLayout = UI::VerticalLayout::create(context);
+            vLayout->setMargin(UI::MetricsRole::MarginSmall);
+            vLayout->setSpacing(UI::MetricsRole::SpacingSmall);
+            vLayout->addChild(p.enabledCheckBox);
             auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setMargin(UI::MetricsRole::MarginSmall);
             hLayout->addChild(p.maxGBSlider);
             hLayout->setStretch(p.maxGBSlider, UI::RowStretch::Expand);
             hLayout->addChild(p.maxGBLabel);
-            p.layout->addChild(hLayout);
-            p.layout->addChild(p.percentageLabel);
+            vLayout->addChild(hLayout);
+            vLayout->addChild(p.percentageLabel);
+            p.layout->addChild(vLayout);
             addChild(p.layout);
 
             auto contextWeak = std::weak_ptr<Context>(context);
-            p.enabledButton->setCheckedCallback(
+            p.enabledCheckBox->setCheckedCallback(
                 [contextWeak](bool value)
                 {
                     if (auto context = contextWeak.lock())
@@ -127,7 +138,7 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->enabledButton->setChecked(value);
+                            widget->_p->enabledCheckBox->setChecked(value);
                         }
                     });
 
@@ -191,10 +202,11 @@ namespace djv
         void MemoryCacheWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.enabledButton->setText(_getText(DJV_TEXT("Enable Memory Cache")));
+            p.titleLabel->setText(_getText(DJV_TEXT("Memory Cache")));
+            p.enabledCheckBox->setText(_getText(DJV_TEXT("Enable")));
             p.maxGBLabel->setText(_getText(DJV_TEXT("GB")));
             std::stringstream ss;
-            ss << _getText(DJV_TEXT("Percentage used")) << ": ";
+            ss << _getText(DJV_TEXT("Used")) << ": ";
             ss.precision(2);
             ss << std::fixed << p.percentageUsed;
             ss << "%";

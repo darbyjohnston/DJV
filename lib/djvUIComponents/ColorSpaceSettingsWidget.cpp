@@ -35,7 +35,6 @@
 #include <djvUI/ComboBox.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/ToggleButton.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/TextSystem.h>

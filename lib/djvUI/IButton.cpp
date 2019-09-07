@@ -29,6 +29,7 @@
 
 #include <djvUI/IButton.h>
 
+#include <djvUI/Action.h>
 #include <djvUI/Style.h>
 
 #include <djvAV/Render2D.h>
@@ -48,6 +49,7 @@ namespace djv
                 ButtonType buttonType = ButtonType::Push;
                 bool checked = false;
                 ColorRole foregroundColorRole = ColorRole::Foreground;
+                std::shared_ptr<Action> action;
 
                 std::function<void(void)> clickedCallback;
                 std::function<void(bool)> checkedCallback;
@@ -55,6 +57,11 @@ namespace djv
                 Event::PointerID pressedID = Event::InvalidID;
                 glm::vec2 pressedPos = glm::vec2(0.f, 0.f);
                 bool canRejectPressed = true;
+
+                std::shared_ptr<ValueObserver<ButtonType> > buttonTypeObserver;
+                std::shared_ptr<ValueObserver<bool> > checkedObserver;
+                std::shared_ptr<ValueObserver<bool> > enabledObserver;
+                std::shared_ptr<ValueObserver<std::string> > tooltipObserver;
             };
 
             IButton::IButton() :
@@ -117,6 +124,24 @@ namespace djv
             void IButton::setCheckedCallback(const std::function<void(bool)> & callback)
             {
                 _p->checkedCallback = callback;
+            }
+
+            void IButton::addAction(const std::shared_ptr<Action>& value)
+            {
+                Widget::addAction(value);
+                _actionUpdate();
+            }
+
+            void IButton::removeAction(const std::shared_ptr<Action>& value)
+            {
+                Widget::removeAction(value);
+                _actionUpdate();
+            }
+
+            void IButton::clearActions()
+            {
+                Widget::clearActions();
+                _actionUpdate();
             }
 
             void IButton::_pointerEnterEvent(Event::PointerEnter & event)
@@ -284,6 +309,62 @@ namespace djv
                     p.checkedCallback(value);
                 }
             }
+
+            void IButton::_actionUpdate()
+            {
+                DJV_PRIVATE_PTR();
+                const auto& actions = getActions();
+                if (actions.size())
+                {
+                    p.action = actions.front();
+                    auto weak = std::weak_ptr<IButton>(std::dynamic_pointer_cast<IButton>(shared_from_this()));
+                    p.buttonTypeObserver = ValueObserver<ButtonType>::create(
+                        p.action->observeButtonType(),
+                        [weak](ButtonType value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->setButtonType(value);
+                            }
+                        });
+                    p.checkedObserver = ValueObserver<bool>::create(
+                        p.action->observeChecked(),
+                        [weak](bool value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->setChecked(value);
+                            }
+                        });
+                    p.enabledObserver = ValueObserver<bool>::create(
+                        p.action->observeEnabled(),
+                        [weak](bool value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->setEnabled(value);
+                            }
+                        });
+                    p.tooltipObserver = ValueObserver<std::string>::create(
+                        p.action->observeTooltip(),
+                        [weak](const std::string& value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->setTooltip(value);
+                            }
+                        });
+                }
+                else
+                {
+                    p.action.reset();
+                    p.buttonTypeObserver.reset();
+                    p.checkedObserver.reset();
+                    p.enabledObserver.reset();
+                    p.tooltipObserver.reset();
+                }
+            }
+
 
         } // namespace Button
     } // namespace UI

@@ -35,15 +35,14 @@
 
 #include <djvUIComponents/FileBrowserDialog.h>
 
+#include <djvUI/CheckBox.h>
 #include <djvUI/ComboBox.h>
 #include <djvUI/EventSystem.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/ImageWidget.h>
-#include <djvUI/Label.h>
 #include <djvUI/LineEdit.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/ToggleButton.h>
 #include <djvUI/ToolButton.h>
 #include <djvUI/Window.h>
 
@@ -184,8 +183,7 @@ namespace djv
             std::shared_ptr<UI::LineEdit> lineEdit;
             std::shared_ptr<UI::ToolButton> openButton;
             std::shared_ptr<UI::ToolButton> closeButton;
-            std::shared_ptr<UI::ToggleButton> colorizeButton;
-            std::shared_ptr<UI::Label> colorizeLabel;
+            std::shared_ptr<UI::CheckBox> colorizeCheckBox;
             std::shared_ptr<UI::HorizontalLayout> layout;
             std::shared_ptr<UI::FileBrowser::Dialog> fileBrowserDialog;
 
@@ -212,8 +210,7 @@ namespace djv
             p.closeButton = UI::ToolButton::create(context);
             p.closeButton->setIcon("djvIconClose");
 
-            p.colorizeButton = UI::ToggleButton::create(context);
-            p.colorizeLabel = UI::Label::create(context);
+            p.colorizeCheckBox = UI::CheckBox::create(context);
 
             p.layout = UI::HorizontalLayout::create(context);
             p.layout->addChild(p.imageWidget);
@@ -227,11 +224,7 @@ namespace djv
             hLayout2->addChild(p.closeButton);
             hLayout->addChild(hLayout2);
             vLayout->addChild(hLayout);
-            hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::MetricsRole::None);
-            hLayout->addChild(p.colorizeButton);
-            hLayout->addChild(p.colorizeLabel);
-            vLayout->addChild(hLayout);
+            vLayout->addChild(p.colorizeCheckBox);
             p.layout->addChild(vLayout);
             p.layout->setStretch(vLayout, UI::RowStretch::Expand);
             addChild(p.layout);
@@ -323,7 +316,7 @@ namespace djv
                     }
                 });
 
-            p.colorizeButton->setCheckedCallback(
+            p.colorizeCheckBox->setCheckedCallback(
                 [contextWeak](bool value)
                 {
                     if (auto context = contextWeak.lock())
@@ -402,7 +395,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.openButton->setTooltip(_getText(DJV_TEXT("Open the file browser")));
             p.closeButton->setTooltip(_getText(DJV_TEXT("Clear the background image")));
-            p.colorizeLabel->setText(_getText(DJV_TEXT("Colorize with the UI style")));
+            p.colorizeCheckBox->setText(_getText(DJV_TEXT("Colorize with the UI style")));
         }
 
         void BackgroundImageSettingsWidget::_updateEvent(Event::Update&)
@@ -428,7 +421,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             p.lineEdit->setText(p.fileName);
-            p.colorizeButton->setChecked(p.colorize);
+            p.colorizeCheckBox->setChecked(p.colorize);
         }
 
         void BackgroundImageSettingsWidget::_imageUpdate()

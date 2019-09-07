@@ -31,11 +31,11 @@
 
 #include <djvViewApp/FileSettings.h>
 
+#include <djvUI/CheckBox.h>
 #include <djvUI/IntSlider.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/ToggleButton.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/OS.h>
@@ -49,8 +49,8 @@ namespace djv
     {
         struct SequenceSettingsWidget::Private
         {
-            std::shared_ptr<UI::ToggleButton> button;
-            std::shared_ptr<UI::FormLayout> formLayout;
+            std::shared_ptr<UI::CheckBox> checkBox;
+            std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<ValueObserver<bool> > observer;
         };
 
@@ -61,15 +61,15 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::SequenceSettingsWidget");
 
-            p.button = UI::ToggleButton::create(context);
+            p.checkBox = UI::CheckBox::create(context);
 
-            p.formLayout = UI::FormLayout::create(context);
-            p.formLayout->addChild(p.button);
-            addChild(p.formLayout);
+            p.layout = UI::VerticalLayout::create(context);
+            p.layout->addChild(p.checkBox);
+            addChild(p.layout);
 
             auto contextWeak = std::weak_ptr<Context>(context);
             auto weak = std::weak_ptr<SequenceSettingsWidget>(std::dynamic_pointer_cast<SequenceSettingsWidget>(shared_from_this()));
-            p.button->setCheckedCallback(
+            p.checkBox->setCheckedCallback(
                 [weak, contextWeak](bool value)
             {
                 if (auto context = contextWeak.lock())
@@ -94,7 +94,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->button->setChecked(value);
+                        widget->_p->checkBox->setChecked(value);
                     }
                 });
             }
@@ -130,14 +130,15 @@ namespace djv
         {
             ISettingsWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
-            p.formLayout->setText(p.button, _getText(DJV_TEXT("Auto-detect file sequences")) + ":");
+            p.checkBox->setText(_getText(DJV_TEXT("Auto-detect file sequences")));
         }
 
         struct CacheSettingsWidget::Private
         {
-            std::shared_ptr<UI::ToggleButton> enabledButton;
+            std::shared_ptr<UI::CheckBox> enabledCheckBox;
             std::shared_ptr<UI::IntSlider> maxGBSlider;
             std::shared_ptr<UI::FormLayout> formLayout;
+            std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<ValueObserver<bool> > enabledObserver;
             std::shared_ptr<ValueObserver<int> > maxGBObserver;
         };
@@ -148,18 +149,20 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::CacheSettingsWidget");
 
-            p.enabledButton = UI::ToggleButton::create(context);
+            p.enabledCheckBox = UI::CheckBox::create(context);
 
             p.maxGBSlider = UI::IntSlider::create(context);
             p.maxGBSlider->setRange(IntRange(1, OS::getRAMSize() / Memory::gigabyte));
 
+            p.layout = UI::VerticalLayout::create(context);
+            p.layout->addChild(p.enabledCheckBox);
             p.formLayout = UI::FormLayout::create(context);
-            p.formLayout->addChild(p.enabledButton);
             p.formLayout->addChild(p.maxGBSlider);
-            addChild(p.formLayout);
+            p.layout->addChild(p.formLayout);
+            addChild(p.layout);
 
             auto contextWeak = std::weak_ptr<Context>(context);
-            p.enabledButton->setCheckedCallback(
+            p.enabledCheckBox->setCheckedCallback(
                 [contextWeak](bool value)
                 {
                     if (auto context = contextWeak.lock())
@@ -195,7 +198,7 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->enabledButton->setChecked(value);
+                            widget->_p->enabledCheckBox->setChecked(value);
                         }
                     });
 
@@ -241,7 +244,7 @@ namespace djv
         {
             ISettingsWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
-            p.formLayout->setText(p.enabledButton, _getText(DJV_TEXT("Enable the memory cache")) + ":");
+            p.enabledCheckBox->setText(_getText(DJV_TEXT("Enable the memory cache")));
             p.formLayout->setText(p.maxGBSlider, _getText(DJV_TEXT("Memory cache size (GB)")) + ":");
         }
 

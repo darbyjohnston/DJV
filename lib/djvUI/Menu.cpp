@@ -30,6 +30,7 @@
 #include <djvUI/Menu.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/DrawUtil.h>
 #include <djvUI/IconSystem.h>
 #include <djvUI/LayoutUtil.h>
 #include <djvUI/MenuButton.h>
@@ -106,10 +107,12 @@ namespace djv
 
                 std::shared_ptr<AV::Font::System> _fontSystem;
                 std::map<size_t, std::shared_ptr<Action> > _actions;
+                bool _hasIcons = false;
                 bool _hasShortcuts = false;
                 std::map<size_t, std::shared_ptr<Item> > _items;
                 std::map<std::shared_ptr<Action>, std::shared_ptr<Item> > _actionToItem;
                 std::map<std::shared_ptr<Item>, std::shared_ptr<Action> > _itemToAction;
+                std::map<std::shared_ptr<Item>, bool> _hasIcon;
                 std::map<std::shared_ptr<Item>, std::future<std::shared_ptr<AV::Image::Image> > > _iconFutures;
                 std::map<std::shared_ptr<Item>, std::future<AV::Font::Metrics> > _fontMetricsFutures;
                 std::map<std::shared_ptr<Item>, std::future<glm::vec2> > _textSizeFutures;
@@ -118,6 +121,7 @@ namespace djv
                 std::pair<Event::PointerID, std::shared_ptr<Item> > _pressed;
                 glm::vec2 _pressedPos = glm::vec2(0.f, 0.f);
                 std::function<void(void)> _closeCallback;
+                std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<ButtonType> > > _buttonTypeObservers;
                 std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<bool> > > _checkedObservers;
                 std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<std::string> > > _iconObservers;
                 std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<std::string> > > _textObservers;
@@ -167,6 +171,7 @@ namespace djv
                 const float s = style->getMetric(MetricsRole::Spacing);
                 const float b = style->getMetric(MetricsRole::Border);
                 const float is = style->getMetric(MetricsRole::Icon);
+                const float iss = style->getMetric(MetricsRole::IconSmall);
 
                 for (auto& i : _iconFutures)
                 {
@@ -243,14 +248,19 @@ namespace djv
                 }
 
                 glm::vec2 itemSize(0.f, 0.f);
-                itemSize.x += is + s;
-                itemSize.y = std::max(itemSize.y, is);
-                itemSize.x += textSize.x;
-                itemSize.y = std::max(itemSize.y, textSize.y);
+                itemSize.x += iss + m * 2.f;
+                itemSize.y = std::max(itemSize.y, iss + m * 2.f);
+                if (_hasIcons)
+                {
+                    itemSize.x += is;
+                    itemSize.y = std::max(itemSize.y, is);
+                }
+                itemSize.x += textSize.x + m * 2.f;
+                itemSize.y = std::max(itemSize.y, textSize.y + m * 2.f);
                 if (_hasShortcuts)
                 {
-                    itemSize.x += s + shortcutSize.x;
-                    itemSize.y = std::max(itemSize.y, shortcutSize.y);
+                    itemSize.x += shortcutSize.x + m * 2.f;
+                    itemSize.y = std::max(itemSize.y, shortcutSize.y + m * 2.f);
                 }
 
                 std::map<size_t, glm::vec2> sizes;
@@ -301,17 +311,13 @@ namespace djv
                 const auto& style = _getStyle();
                 const float m = style->getMetric(MetricsRole::MarginSmall);
                 const float s = style->getMetric(MetricsRole::Spacing);
+                const float b = style->getMetric(MetricsRole::Border);
                 const float is = style->getMetric(MetricsRole::Icon);
+                const float iss = style->getMetric(MetricsRole::IconSmall);
 
                 auto render = _getRender();
                 for (const auto & i : _items)
                 {
-                    if (i.second->checked)
-                    {
-                        render->setAlphaMult(i.second->enabled ? 1.f : style->getPalette().getDisabledMult());
-                        render->setFillColor(style->getColor(ColorRole::Checked));
-                        render->drawRect(i.second->geom);
-                    }
                     if (i.second->enabled)
                     {
                         if (i.second == _pressed.second)
@@ -340,15 +346,40 @@ namespace djv
                     float y = 0.f;
 
                     render->setAlphaMult(i.second->enabled ? 1.f : style->getPalette().getDisabledMult());
-                    render->setFillColor(style->getColor(ColorRole::Foreground));
 
-                    if (i.second->icon)
+                    switch (i.second->buttonType)
                     {
-                        y = i.second->geom.min.y + ceilf(i.second->size.y / 2.f - is / 2.f);
-                        render->drawFilledImage(i.second->icon, glm::vec2(x, y));
+                    case ButtonType::Toggle:
+                    case ButtonType::Radio:
+                    case ButtonType::Exclusive:
+                    {
+                        const BBox2f checkBoxGeometry(
+                            x + m,
+                            floorf(i.second->geom.min.y + ceilf(i.second->size.y / 2.f - iss / 2.f)),
+                            iss,
+                            iss);
+                        render->setFillColor(style->getColor(ColorRole::Border));
+                        drawBorder(render, checkBoxGeometry, b);
+                        render->setFillColor(style->getColor(i.second->checked ? ColorRole::Checked : ColorRole::Trough));
+                        render->drawRect(checkBoxGeometry.margin(-b));
+                        break;
                     }
-                    x += is + s;
+                    default: break;
+                    }
+                    x += iss + m * 2.f;
 
+                    if (_hasIcons)
+                    {
+                        render->setFillColor(style->getColor(ColorRole::Foreground));
+                        if (i.second->icon)
+                        {
+                            y = i.second->geom.min.y + ceilf(i.second->size.y / 2.f - is / 2.f);
+                            render->drawFilledImage(i.second->icon, glm::vec2(x, y));
+                        }
+                        x += is;
+                    }
+
+                    render->setFillColor(style->getColor(ColorRole::Foreground));
                     const auto j = _itemToAction.find(i.second);
                     if (j != _itemToAction.end() && j->second)
                     {
@@ -357,8 +388,8 @@ namespace djv
                             style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium) :
                             style->getFontInfo(i.second->font, AV::Font::faceDefault, MetricsRole::FontMedium);
                         render->setCurrentFont(fontInfo);
-                        render->drawText(i.second->text, glm::vec2(x, y));
-                        x += i.second->textSize.x;
+                        render->drawText(i.second->text, glm::vec2(x + m, y));
+                        x += i.second->textSize.x + m * 2.f;
 
                         if (!i.second->shortcutLabel.empty())
                         {
@@ -536,14 +567,17 @@ namespace djv
 
             void MenuWidget::_itemsUpdate()
             {
+                _hasIcons = false;
                 _hasShortcuts = false;
                 _items.clear();
                 _actionToItem.clear();
                 _itemToAction.clear();
+                _hasIcon.clear();
                 _iconFutures.clear();
                 _fontMetricsFutures.clear();
                 _textSizeFutures.clear();
                 _shortcutSizeFutures.clear();
+                _buttonTypeObservers.clear();
                 _checkedObservers.clear();
                 _iconObservers.clear();
                 _textObservers.clear();
@@ -556,23 +590,39 @@ namespace djv
                     auto item = std::shared_ptr<Item>(new Item);
                     if (i.second)
                     {
+                        _buttonTypeObservers[item] = ValueObserver<ButtonType>::create(
+                            i.second->observeButtonType(),
+                            [weak, item](ButtonType value)
+                            {
+                                if (auto widget = weak.lock())
+                                {
+                                    item->buttonType = value;
+                                    widget->_redraw();
+                                }
+                            });
                         _checkedObservers[item] = ValueObserver<bool>::create(
                             i.second->observeChecked(),
                             [weak, item](bool value)
-                        {
-                            if (auto widget = weak.lock())
                             {
-                                item->checked = value;
-                                widget->_redraw();
-                            }
-                        });
+                                if (auto widget = weak.lock())
+                                {
+                                    item->checked = value;
+                                    widget->_redraw();
+                                }
+                            });
                         _iconObservers[item] = ValueObserver<std::string>::create(
                             i.second->observeIcon(),
                             [weak, item](const std::string& value)
                             {
                                 if (auto widget = weak.lock())
                                 {
-                                    if (!value.empty())
+                                    widget->_hasIcon[item] = !value.empty();
+                                    widget->_hasIcons = false;
+                                    for (const auto& i : widget->_hasIcon)
+                                    {
+                                        widget->_hasIcons |= i.second;
+                                    }
+                                    if (widget->_hasIcon[item])
                                     {
                                         if (auto context = widget->getContext().lock())
                                         {

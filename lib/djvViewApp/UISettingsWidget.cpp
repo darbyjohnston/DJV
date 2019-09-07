@@ -31,10 +31,9 @@
 
 #include <djvViewApp/UISettings.h>
 
-#include <djvUI/FormLayout.h>
+#include <djvUI/CheckBox.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/ToggleButton.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/TextSystem.h>
@@ -47,8 +46,8 @@ namespace djv
     {
         struct UISettingsWidget::Private
         {
-            std::shared_ptr<UI::ToggleButton> autoHideButton;
-            std::shared_ptr<UI::FormLayout> formLayout;
+            std::shared_ptr<UI::CheckBox> autoHideCheckBox;
+            std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<ValueObserver<bool> > autoHideObserver;
         };
 
@@ -59,15 +58,15 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::UISettingsWidget");
 
-            p.autoHideButton = UI::ToggleButton::create(context);
+            p.autoHideCheckBox = UI::CheckBox::create(context);
 
-            p.formLayout = UI::FormLayout::create(context);
-            p.formLayout->addChild(p.autoHideButton);
-            addChild(p.formLayout);
+            p.layout = UI::VerticalLayout::create(context);
+            p.layout->addChild(p.autoHideCheckBox);
+            addChild(p.layout);
 
             auto weak = std::weak_ptr<UISettingsWidget>(std::dynamic_pointer_cast<UISettingsWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<Context>(context);
-            p.autoHideButton->setCheckedCallback(
+            p.autoHideCheckBox->setCheckedCallback(
                 [weak, contextWeak](bool value)
                 {
                     if (auto context = contextWeak.lock())
@@ -89,7 +88,7 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    widget->_p->autoHideButton->setChecked(value);
+                    widget->_p->autoHideCheckBox->setChecked(value);
                 }
             });
         }
@@ -124,7 +123,7 @@ namespace djv
         {
             ISettingsWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
-            p.formLayout->setText(p.autoHideButton, _getText(DJV_TEXT("Automatically hide the user interface")) + ":");
+            p.autoHideCheckBox->setText(_getText(DJV_TEXT("Automatically hide the user interface")));
         }
 
     } // namespace ViewApp

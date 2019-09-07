@@ -513,10 +513,11 @@ namespace djv
                 }
             }
             const auto& style = _getStyle();
+            const float m = style->getMetric(UI::MetricsRole::MarginSmall);
             const float b = style->getMetric(UI::MetricsRole::Border);
             glm::vec2 size = glm::vec2(0.f, 0.f);
             size.x = style->getMetric(UI::MetricsRole::TextColumn);
-            size.y = p.fontMetrics.lineHeight * 2.f + b * 6.f;
+            size.y = p.fontMetrics.lineHeight * 2.f + b * 6.f + m * 2.f;
             _setMinimumSize(size);
         }
 
@@ -534,7 +535,7 @@ namespace djv
                     const auto& style = _getStyle();
                     const float m = style->getMetric(UI::MetricsRole::MarginSmall);
                     const float b = style->getMetric(UI::MetricsRole::Border);
-                    float x = g.min.x;
+                    float x = g.min.x + m;
                     float x2 = x;
                     //! \bug Why the extra subtract by one here?
                     float y = g.max.y - b * 6.f - p.fontMetrics.lineHeight + p.fontMetrics.ascender - 1.f;
@@ -608,7 +609,7 @@ namespace djv
                     render->setFillColor(color);
                     const float x0 = _frameToPos(p.inPoint);
                     const float x1 = _frameToPos(p.outPoint + 1);
-                    render->drawRect(BBox2f(x0, g.max.y - b * 6.f, x1 - x0, b * 2.f));
+                    render->drawRect(BBox2f(x0, g.max.y - m - b * 6.f, x1 - x0, b * 2.f));
                 }
 
                 // Draw the cached frames.
@@ -618,7 +619,7 @@ namespace djv
                 {
                     const float x0 = _frameToPos(i.min);
                     const float x1 = _frameToPos(i.max + 1);
-                    render->drawRect(BBox2f(x0, g.max.y - b * 2.f, x1 - x0, b * 2.f));
+                    render->drawRect(BBox2f(x0, g.max.y - m - b * 2.f, x1 - x0, b * 2.f));
                 }
 
                 // Draw the frame ticks.
@@ -632,7 +633,7 @@ namespace djv
                     {
                         const float x = _frameToPos(f2);
                         const float h = ceilf(p.fontMetrics.ascender * (1 / 4.f));
-                        render->drawRect(BBox2f(x, g.max.y - b * 6.f, b, b * 6.f));
+                        render->drawRect(BBox2f(x, g.max.y - m - b * 6.f, b, b * 6.f));
                     }
                 }
 
@@ -646,7 +647,7 @@ namespace djv
                 float frameLeftPos = hg.min.x - m - p.currentFrameLength;
                 float frameRightPos = hg.max.x + m;
                 //! \bug Why the extra subtract by one here?
-                const float frameY = g.min.y + p.fontMetrics.ascender - 1.f;
+                const float frameY = g.min.y + m + p.fontMetrics.ascender - 1.f;
                 if ((frameRightPos + p.currentFrameLength) > g.max.x)
                 {
                     render->drawText(p.currentFrameText, glm::vec2(frameLeftPos, frameY));
@@ -769,7 +770,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const BBox2f& g = getGeometry();
-            const float v = value / g.w();
+            const float m = style->getMetric(UI::MetricsRole::MarginSmall);
+            const float v = value / (g.w() - m * 2.f);
             const size_t sequenceSize = p.sequence.getSize();
             Frame::Index out = sequenceSize ?
                 Math::clamp(static_cast<Frame::Index>(v * sequenceSize), static_cast<Frame::Index>(0), static_cast<Frame::Index>(sequenceSize - 1)) :
@@ -782,9 +784,10 @@ namespace djv
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const BBox2f& g = getGeometry();
+            const float m = style->getMetric(UI::MetricsRole::MarginSmall);
             const size_t sequenceSize = p.sequence.getSize();
             const float v = sequenceSize ? (value / static_cast<float>(sequenceSize)) : 0.f;
-            float out = floorf(g.min.x + v * g.w());
+            float out = floorf(g.min.x + m + v * (g.w() - m * 2.f));
             return out;
         }
 
@@ -817,10 +820,11 @@ namespace djv
             DJV_PRIVATE_PTR();
             const BBox2f & g = getGeometry();
             const auto& style = _getStyle();
+            const float m = style->getMetric(UI::MetricsRole::MarginSmall);
             const float b = style->getMetric(UI::MetricsRole::Border);
             const float x0 = _frameToPos(p.currentFrame);
             const float x1 = _frameToPos(p.currentFrame + 1);
-            BBox2f out = BBox2f(x0, g.min.y, std::max(x1 - x0, b), g.h());
+            BBox2f out = BBox2f(x0, g.min.y + m, std::max(x1 - x0, b), g.h() - m * 2.f);
             return out;
         }
 

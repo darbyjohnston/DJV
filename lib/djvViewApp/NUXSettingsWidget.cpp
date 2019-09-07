@@ -31,10 +31,9 @@
 
 #include <djvViewApp/NUXSettings.h>
 
-#include <djvUI/FormLayout.h>
+#include <djvUI/CheckBox.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/ToggleButton.h>
 
 #include <djvCore/Context.h>
 
@@ -46,8 +45,8 @@ namespace djv
     {
         struct NUXSettingsWidget::Private
         {
-            std::shared_ptr<UI::ToggleButton> nuxButton;
-            std::shared_ptr<UI::FormLayout> formLayout;
+            std::shared_ptr<UI::CheckBox> nuxCheckBox;
+            std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<ValueObserver<bool> > nuxObserver;
         };
 
@@ -58,15 +57,15 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::NUXSettingsWidget");
 
-            p.nuxButton = UI::ToggleButton::create(context);
+            p.nuxCheckBox = UI::CheckBox::create(context);
 
-            p.formLayout = UI::FormLayout::create(context);
-            p.formLayout->addChild(p.nuxButton);
-            addChild(p.formLayout);
+            p.layout = UI::VerticalLayout::create(context);
+            p.layout->addChild(p.nuxCheckBox);
+            addChild(p.layout);
 
             auto weak = std::weak_ptr<NUXSettingsWidget>(std::dynamic_pointer_cast<NUXSettingsWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<Context>(context);
-            p.nuxButton->setCheckedCallback(
+            p.nuxCheckBox->setCheckedCallback(
                 [weak, contextWeak](bool value)
                 {
                     if (auto context = contextWeak.lock())
@@ -94,7 +93,7 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->nuxButton->setChecked(value);
+                            widget->_p->nuxCheckBox->setChecked(value);
                         }
                     });
                 }
@@ -131,7 +130,7 @@ namespace djv
         {
             ISettingsWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
-            p.formLayout->setText(p.nuxButton, _getText(DJV_TEXT("Enable new-user experience on startup")) + ":");
+            p.nuxCheckBox->setText(_getText(DJV_TEXT("Enable new-user experience on startup")));
         }
 
     } // namespace ViewApp

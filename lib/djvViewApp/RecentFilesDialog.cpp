@@ -71,6 +71,7 @@ namespace djv
 
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::SearchBox> searchBox;
+            std::shared_ptr<UI::Label> thumbnailSizeLabel;
             std::shared_ptr<UI::IntSlider> thumbnailSizeSlider;
             std::shared_ptr<UI::PopupWidget> settingsPopupWidget;
             std::shared_ptr<UI::FileBrowser::ItemView> itemView;
@@ -93,8 +94,10 @@ namespace djv
             setClassName("djv::ViewApp::RecentFilesDialog");
 
             p.actions["IncreaseThumbnailSize"] = UI::Action::create();
+            p.actions["IncreaseThumbnailSize"]->setIcon("djvIconAdd");
             p.actions["IncreaseThumbnailSize"]->setShortcut(GLFW_KEY_EQUAL);
             p.actions["DecreaseThumbnailSize"] = UI::Action::create();
+            p.actions["DecreaseThumbnailSize"]->setIcon("djvIconSubtract");
             p.actions["DecreaseThumbnailSize"]->setShortcut(GLFW_KEY_MINUS);
             p.searchBox = UI::SearchBox::create(context);
 
@@ -103,18 +106,31 @@ namespace djv
             auto decreaseThumbnailSizeButton = UI::ActionButton::create(context);
             decreaseThumbnailSizeButton->addAction(p.actions["DecreaseThumbnailSize"]);
 
+            p.thumbnailSizeLabel = UI::Label::create(context);
+            p.thumbnailSizeLabel->setTextHAlign(UI::TextHAlign::Left);
+            p.thumbnailSizeLabel->setBackgroundRole(UI::ColorRole::Trough);
+            p.thumbnailSizeLabel->setMargin(UI::MetricsRole::MarginSmall);
             p.thumbnailSizeSlider = UI::IntSlider::create(context);
             p.thumbnailSizeSlider->setRange(UI::FileBrowser::thumbnailSizeRange);
             p.thumbnailSizeSlider->setDelay(Time::getMilliseconds(Time::TimerValue::Medium));
             p.thumbnailSizeSlider->setMargin(UI::MetricsRole::MarginSmall);
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
-            vLayout->addChild(increaseThumbnailSizeButton);
-            vLayout->addChild(decreaseThumbnailSizeButton);
-            vLayout->addChild(p.thumbnailSizeSlider);
+            vLayout->addChild(p.thumbnailSizeLabel);
+            auto vLayout2 = UI::VerticalLayout::create(context);
+            vLayout2->setMargin(UI::MetricsRole::MarginSmall);
+            vLayout2->setSpacing(UI::MetricsRole::SpacingSmall);
+            vLayout2->addChild(increaseThumbnailSizeButton);
+            vLayout2->addChild(decreaseThumbnailSizeButton);
+            vLayout2->addChild(p.thumbnailSizeSlider);
+            vLayout->addChild(vLayout2);
+            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            scrollWidget->setBorder(false);
+            scrollWidget->setMinimumSizeRole(UI::MetricsRole::Menu);
+            scrollWidget->addChild(vLayout);
             p.settingsPopupWidget = UI::PopupWidget::create(context);
             p.settingsPopupWidget->setIcon("djvIconSettings");
-            p.settingsPopupWidget->addChild(vLayout);
+            p.settingsPopupWidget->addChild(scrollWidget);
 
             auto toolBar = UI::ToolBar::create(context);
             toolBar->addExpander();
@@ -122,7 +138,7 @@ namespace djv
             toolBar->addChild(p.settingsPopupWidget);
 
             p.itemView = UI::FileBrowser::ItemView::create(context);
-            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             scrollWidget->setBorder(false);
             scrollWidget->setShadowOverlay({ UI::Side::Top });
             scrollWidget->addChild(p.itemView);
@@ -272,10 +288,12 @@ namespace djv
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Recent Files")));
 
-            p.actions["IncreaseThumbnailSize"]->setText(_getText(DJV_TEXT("Increase Thumbnail Size")));
+            p.actions["IncreaseThumbnailSize"]->setText(_getText(DJV_TEXT("Increase")));
             p.actions["IncreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("Recent files increase thumbnail size tooltip")));
-            p.actions["DecreaseThumbnailSize"]->setText(_getText(DJV_TEXT("Decrease Thumbnail Size")));
+            p.actions["DecreaseThumbnailSize"]->setText(_getText(DJV_TEXT("Decrease")));
             p.actions["DecreaseThumbnailSize"]->setTooltip(_getText(DJV_TEXT("Recent files decrease thumbnail size tooltip")));
+
+            p.thumbnailSizeLabel->setText(_getText(DJV_TEXT("Thumbnail Size")));
 
             p.itemCountLabel->setText(_getItemCountLabel(p.itemCount));
             p.searchBox->setTooltip(_getText(DJV_TEXT("Recent files search tooltip")));

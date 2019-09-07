@@ -48,7 +48,6 @@
 #include <djvUIComponents/ThermometerWidget.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/ActionButton.h>
 #include <djvUI/ActionGroup.h>
 #include <djvUI/ButtonGroup.h>
 #include <djvUI/Label.h>
@@ -146,24 +145,16 @@ namespace djv
             p.cacheThermometerWidget->setSizeRole(UI::MetricsRole::None);
             p.cacheThermometerWidget->setBackgroundRole(UI::ColorRole::None);
 
-            auto maximizeButton = UI::ActionButton::create(context);
-            maximizeButton->setShowText(false);
-            maximizeButton->setShowShortcuts(false);
+            auto maximizeButton = UI::ToolButton::create(context);
             auto windowSystem = context->getSystemT<WindowSystem>();
             if (windowSystem)
             {
                 maximizeButton->addAction(windowSystem->getActions()["Maximize"]);
             }
 
-            auto viewLockFullButton = UI::ActionButton::create(context);
-            viewLockFullButton->setShowText(false);
-            viewLockFullButton->setShowShortcuts(false);
-            auto viewLockFrameButton = UI::ActionButton::create(context);
-            viewLockFrameButton->setShowText(false);
-            viewLockFrameButton->setShowShortcuts(false);
-            auto viewLockCenterButton = UI::ActionButton::create(context);
-            viewLockCenterButton->setShowText(false);
-            viewLockCenterButton->setShowShortcuts(false);
+            auto viewLockFullButton = UI::ToolButton::create(context);
+            auto viewLockFrameButton = UI::ToolButton::create(context);
+            auto viewLockCenterButton = UI::ToolButton::create(context);
             auto imageViewSystem = context->getSystemT<ImageViewSystem>();
             if (imageViewSystem)
             {
@@ -172,12 +163,10 @@ namespace djv
                 viewLockCenterButton->addAction(imageViewSystem->getActions()["LockCenter"]);
             }
 
-            std::map<std::string, std::shared_ptr<UI::ActionButton> > toolButtons;
+            std::map<std::string, std::shared_ptr<UI::ToolButton> > toolButtons;
             for (const auto& i : context->getSystemsT<IToolSystem>())
             {
-                auto button = UI::ActionButton::create(context);
-                button->setShowText(false);
-                button->setShowShortcuts(false);
+                auto button = UI::ToolButton::create(context);
                 auto data = i->getToolAction();
                 button->addAction(data.action);
                 toolButtons[data.sortKey] = button;

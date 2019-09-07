@@ -31,10 +31,9 @@
 
 #include <djvViewApp/PlaybackSettings.h>
 
-#include <djvUI/FormLayout.h>
+#include <djvUI/CheckBox.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
-#include <djvUI/ToggleButton.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/TextSystem.h>
@@ -47,10 +46,10 @@ namespace djv
     {
         struct PlaybackSettingsWidget::Private
         {
-            std::shared_ptr<UI::ToggleButton> startPlaybackButton;
-            std::shared_ptr<UI::ToggleButton> playEveryFrameButton;
-            std::shared_ptr<UI::ToggleButton> pipButton;
-            std::shared_ptr<UI::FormLayout> formLayout;
+            std::shared_ptr<UI::CheckBox> startPlaybackButton;
+            std::shared_ptr<UI::CheckBox> playEveryFrameButton;
+            std::shared_ptr<UI::CheckBox> pipButton;
+            std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<ValueObserver<bool> > startPlaybackObserver;
             std::shared_ptr<ValueObserver<bool> > playEveryFrameObserver;
             std::shared_ptr<ValueObserver<bool> > pipObserver;
@@ -63,17 +62,17 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::PlaybackSettingsWidget");
 
-            p.startPlaybackButton = UI::ToggleButton::create(context);
+            p.startPlaybackButton = UI::CheckBox::create(context);
 
-            p.playEveryFrameButton = UI::ToggleButton::create(context);
+            p.playEveryFrameButton = UI::CheckBox::create(context);
 
-            p.pipButton = UI::ToggleButton::create(context);
+            p.pipButton = UI::CheckBox::create(context);
 
-            p.formLayout = UI::FormLayout::create(context);
-            p.formLayout->addChild(p.startPlaybackButton);
-            p.formLayout->addChild(p.playEveryFrameButton);
-            p.formLayout->addChild(p.pipButton);
-            addChild(p.formLayout);
+            p.layout = UI::VerticalLayout::create(context);
+            p.layout->addChild(p.startPlaybackButton);
+            p.layout->addChild(p.playEveryFrameButton);
+            p.layout->addChild(p.pipButton);
+            addChild(p.layout);
 
             auto weak = std::weak_ptr<PlaybackSettingsWidget>(std::dynamic_pointer_cast<PlaybackSettingsWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<Context>(context);
@@ -190,9 +189,9 @@ namespace djv
         {
             ISettingsWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
-            p.formLayout->setText(p.startPlaybackButton, _getText(DJV_TEXT("Automatically start playback")) + ":");
-            p.formLayout->setText(p.playEveryFrameButton, _getText(DJV_TEXT("Playback every frame")) + ":");
-            p.formLayout->setText(p.pipButton, _getText(DJV_TEXT("Show timeline PIP")) + ":");
+            p.startPlaybackButton->setText(_getText(DJV_TEXT("Automatically start playback")));
+            p.playEveryFrameButton->setText(_getText(DJV_TEXT("Playback every frame")));
+            p.pipButton->setText(_getText(DJV_TEXT("Show timeline PIP")));
         }
 
     } // namespace ViewApp

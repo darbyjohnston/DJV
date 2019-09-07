@@ -30,6 +30,7 @@
 #include <djvViewApp/PlaybackSpeedWidget.h>
 
 #include <djvUI/ButtonGroup.h>
+#include <djvUI/CheckBox.h>
 #include <djvUI/Label.h>
 #include <djvUI/ListButton.h>
 #include <djvUI/RowLayout.h>
@@ -50,12 +51,12 @@ namespace djv
             Time::Speed defaultSpeed;
             bool playEveryFrame = false;
 
+            std::shared_ptr<UI::Label> titleLabel;
             std::shared_ptr<UI::ButtonGroup> speedButtonGroup;
             std::shared_ptr<UI::VerticalLayout> speedButtonLayout;
-            std::shared_ptr<UI::ScrollWidget> speedButtonScrollWidget;
             std::shared_ptr<UI::ListButton> defaultSpeedButton;
-            std::shared_ptr<UI::ListButton> playEveryFrameButton;
-            std::shared_ptr<UI::VerticalLayout> layout;
+            std::shared_ptr<UI::CheckBox> playEveryFrameCheckBox;
+            std::shared_ptr<UI::ScrollWidget> scrollWidget;
             std::function<void(const Core::Time::Speed&)> speedCallback;
             std::function<void(bool)> playEveryFrameCallback;
         };
@@ -85,25 +86,34 @@ namespace djv
                 Time::Speed(6)
             };
 
+            p.titleLabel = UI::Label::create(context);
+            p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
+            p.titleLabel->setMargin(UI::MetricsRole::MarginSmall);
+            p.titleLabel->setBackgroundRole(UI::ColorRole::Trough);
+
             p.speedButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
             p.speedButtonLayout = UI::VerticalLayout::create(context);
             p.speedButtonLayout->setSpacing(UI::MetricsRole::None);
-            p.speedButtonScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            p.speedButtonScrollWidget->setBorder(false);
-            p.speedButtonScrollWidget->addChild(p.speedButtonLayout);
 
             p.defaultSpeedButton = UI::ListButton::create(context);
 
-            p.playEveryFrameButton = UI::ListButton::create(context);
-            p.playEveryFrameButton->setButtonType(UI::ButtonType::Toggle);
+            p.playEveryFrameCheckBox = UI::CheckBox::create(context);
 
-            p.layout = UI::VerticalLayout::create(context);
-            p.layout->setSpacing(UI::MetricsRole::None);
-            p.layout->addChild(p.speedButtonScrollWidget);
-            p.layout->addSeparator();
-            p.layout->addChild(p.defaultSpeedButton);
-            p.layout->addChild(p.playEveryFrameButton);
-            addChild(p.layout);
+            auto layout = UI::VerticalLayout::create(context);
+            layout->setSpacing(UI::MetricsRole::None);
+            layout->addChild(p.titleLabel);
+            auto vLayout = UI::VerticalLayout::create(context);
+            vLayout->setMargin(UI::MetricsRole::MarginSmall);
+            vLayout->setSpacing(UI::MetricsRole::SpacingSmall);
+            vLayout->addChild(p.defaultSpeedButton);
+            vLayout->addChild(p.playEveryFrameCheckBox);
+            vLayout->addChild(p.speedButtonLayout);
+            layout->addChild(vLayout);
+            p.scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            p.scrollWidget->setMinimumSizeRole(UI::MetricsRole::Menu);
+            p.scrollWidget->setBorder(false);
+            p.scrollWidget->addChild(layout);
+            addChild(p.scrollWidget);
 
             auto contextWeak = std::weak_ptr<Context>(context);
 
@@ -133,7 +143,7 @@ namespace djv
                     }
                 });
 
-            p.playEveryFrameButton->setCheckedCallback(
+            p.playEveryFrameCheckBox->setCheckedCallback(
                 [weak](bool value)
                 {
                     if (auto widget = weak.lock())
@@ -200,13 +210,13 @@ namespace djv
         void PlaybackSpeedWidget::_preLayoutEvent(Event::PreLayout&)
         {
             const auto& style = _getStyle();
-            _setMinimumSize(_p->layout->getMinimumSize() + getMargin().getSize(style));
+            _setMinimumSize(_p->scrollWidget->getMinimumSize() + getMargin().getSize(style));
         }
         
         void PlaybackSpeedWidget::_layoutEvent(Event::Layout&)
         {
             const auto& style = _getStyle();
-            _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));
+            _p->scrollWidget->setGeometry(getMargin().bbox(getGeometry(), style));
         }
 
         void PlaybackSpeedWidget::_localeEvent(Event::Locale & event)
@@ -219,6 +229,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
+                p.titleLabel->setText(_getText(DJV_TEXT("Playback Speed")));
+
                 p.speedButtonGroup->clearButtons();
                 p.speedButtonLayout->clearChildren();
                 for (const auto& i : p.speeds)
@@ -234,15 +246,15 @@ namespace djv
 
                 p.defaultSpeedButton->setEnabled(p.speed != p.defaultSpeed);
                 std::stringstream ss;
-                ss << DJV_TEXT("Reset Speed") << " (";
+                ss << DJV_TEXT("Reset speed") << " (";
                 ss.precision(2);
                 ss << std::fixed << p.defaultSpeed.toFloat() << ")";
                 p.defaultSpeedButton->setText(ss.str());
-                p.playEveryFrameButton->setTooltip(_getText(DJV_TEXT("Reset speed tooltip")));
+                p.defaultSpeedButton->setTooltip(_getText(DJV_TEXT("Reset speed tooltip")));
 
-                p.playEveryFrameButton->setChecked(p.playEveryFrame);
-                p.playEveryFrameButton->setText(DJV_TEXT("Play Every Frame"));
-                p.playEveryFrameButton->setTooltip(_getText(DJV_TEXT("Play every frame tooltip")));
+                p.playEveryFrameCheckBox->setChecked(p.playEveryFrame);
+                p.playEveryFrameCheckBox->setText(DJV_TEXT("Play every frame"));
+                p.playEveryFrameCheckBox->setTooltip(_getText(DJV_TEXT("Play every frame tooltip")));
             }
         }
 
