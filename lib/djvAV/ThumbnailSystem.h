@@ -118,6 +118,9 @@ namespace djv
             //! Get the image cache percentage used.
             float getImageCachePercentage() const;
 
+            //! Clear the cache.
+            void clearCache();
+
         private:
             void _handleInfoRequests();
             void _handleImageRequests(const std::shared_ptr<Image::Convert> &);

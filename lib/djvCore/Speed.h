@@ -58,21 +58,22 @@ namespace djv
                 _60,
                 _120,
 
-                Count
+                Count,
+                First = _1
             };
             DJV_ENUM_HELPERS(FPS);
             Math::Rational toRational(FPS);
             FPS fromRational(const Math::Rational&);
 
             FPS getDefaultSpeed();
-            FPS getGlobalSpeed();
-            void setGlobalSpeed(FPS);
+            void setDefaultSpeed(FPS);
 
             //! This class provides a speed.
             class Speed : public Math::Rational
             {
             public:
                 Speed();
+                Speed(FPS);
                 Speed(int scale, int duration = 1);
                 Speed(const Math::Rational&);
             };

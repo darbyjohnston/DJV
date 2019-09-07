@@ -179,8 +179,10 @@ namespace djv
                     ImageViewBackgroundSettingsWidget::create(context),
                     NUXSettingsWidget::create(context),
                     PlaybackSettingsWidget::create(context),
+                    PlaybackSpeedSettingsWidget::create(context),
                     SequenceSettingsWidget::create(context),
-                    UISettingsWidget::create(context),
+                    TimelineSettingsWidget::create(context),
+                    UISettingsWidget::create(context)
                 };
             }
             return out;

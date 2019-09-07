@@ -870,7 +870,7 @@ namespace djv
                         ss << _getText(DJV_TEXT("Type")) << ": " << videoInfo.info.type << '\n';
                         ss.precision(2);
                         ss << _getText(DJV_TEXT("Speed")) << ": " <<
-                            videoInfo.speed.toFloat() <<
+                            std::fixed << videoInfo.speed.toFloat() <<
                             _getText(DJV_TEXT("FPS")) << '\n';
                         auto avSystem = context->getSystemT<AV::AVSystem>();
                         ss << _getText(DJV_TEXT("Duration")) << ": " <<

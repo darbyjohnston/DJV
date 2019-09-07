@@ -39,21 +39,24 @@ namespace djv
 
     namespace CoreTest
     {
-        SpeedTest::SpeedTest(const std::shared_ptr<Core::Context>& context) :
+        SpeedTest::SpeedTest(const std::shared_ptr<Context>& context) :
             ITest("djv::CoreTest::SpeedTest", context)
         {}
         
         void SpeedTest::run(const std::vector<std::string>& args)
         {
             {
-                DJV_ASSERT(Core::Time::toRational(Core::Time::FPS::_24) == Core::Math::Rational(24, 1));
-                DJV_ASSERT(Core::Time::FPS::_24 == Core::Time::fromRational(Core::Math::Rational(1, 24)));
+                DJV_ASSERT(Time::toRational(Time::FPS::_24) == Math::Rational(24, 1));
+                DJV_ASSERT(Time::FPS::_24 == Time::fromRational(Math::Rational(1, 24)));
             }
             {
-                DJV_ASSERT(Core::Time::FPS::_24 == Core::Time::getDefaultSpeed());
-                DJV_ASSERT(Core::Time::FPS::_24 == Core::Time::getGlobalSpeed());
-                Core::Time::setGlobalSpeed(Core::Time::FPS::_25);
-                DJV_ASSERT(Core::Time::FPS::_25 == Core::Time::getGlobalSpeed());
+                DJV_ASSERT(Time::FPS::_24 == Time::getDefaultSpeed());
+                Time::setDefaultSpeed(Time::FPS::_25);
+                DJV_ASSERT(Time::FPS::_25 == Time::getDefaultSpeed());
+            }
+            {
+                const Math::Rational r = Time::toRational(Time::FPS::_29_97);
+                DJV_ASSERT(r == Math::Rational(30000, 1001));
             }
         }
         

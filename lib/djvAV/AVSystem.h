@@ -56,6 +56,9 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<TimeUnits> > observeTimeUnits() const;
             void setTimeUnits(TimeUnits);
 
+            std::shared_ptr<Core::IValueSubject<Core::Time::FPS> > observeDefaultSpeed() const;
+            void setDefaultSpeed(Core::Time::FPS);
+
             std::string getLabel(Core::Frame::Number, const Core::Time::Speed&) const;
 
         private:

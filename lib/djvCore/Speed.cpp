@@ -40,12 +40,6 @@ namespace djv
     {
         namespace Time
         {
-            namespace
-            {
-                FPS _globalSpeed = getDefaultSpeed();
-
-            } // namespace
-
             Math::Rational toRational(FPS fps)
             {
                 const int scale[] =
@@ -91,6 +85,12 @@ namespace djv
                 return Math::Rational(scale[static_cast<size_t>(fps)], duration[static_cast<size_t>(fps)]);
             }
 
+            namespace
+            {
+                FPS defaultSpeed = FPS::_24;
+
+            } // namespace
+
             FPS fromRational(const Math::Rational& value)
             {
                 //! \todo Implement a proper floating-point to rational number conversion.
@@ -98,31 +98,30 @@ namespace djv
                 for (size_t i = 0; i < static_cast<size_t>(FPS::Count); ++i)
                 {
                     const FPS fps = static_cast<FPS>(i);
-                    if (fabs(value.toFloat() - toRational(fps).toFloat()) < .001f)
+                    if (fabs(value.toFloat() - toRational(fps).toFloat()) < .000001f)
                     {
                         return fps;
                     }
                 }
-                return getGlobalSpeed();
+                return defaultSpeed;
             }
 
             FPS getDefaultSpeed()
             {
-                return FPS::_24;
+                return defaultSpeed;
             }
 
-            FPS getGlobalSpeed()
+            void setDefaultSpeed(FPS value)
             {
-                return _globalSpeed;
-            }
-
-            void setGlobalSpeed(FPS fps)
-            {
-                _globalSpeed = fps;
+                defaultSpeed = value;
             }
 
             Speed::Speed() :
-                Math::Rational(toRational(getGlobalSpeed()))
+                Math::Rational(toRational(defaultSpeed))
+            {}
+
+            Speed::Speed(FPS fps) :
+                Math::Rational(toRational(fps))
             {}
 
             Speed::Speed(int scale, int duration) :

@@ -87,6 +87,7 @@ namespace djv
                 {
                     const auto & object = value.get<picojson::object>();
                     djv::AV::TimeUnits timeUnits = djv::AV::TimeUnits::First;
+                    Time::FPS defaultSpeed = Time::getDefaultSpeed();
                     bool lcdText = false;
                     for (const auto & i : object)
                     {
@@ -95,6 +96,11 @@ namespace djv
                             std::stringstream ss(i.second.get<std::string>());
                             ss >> timeUnits;
                         }
+                        if ("DefaultSpeed" == i.first)
+                        {
+                            std::stringstream ss(i.second.get<std::string>());
+                            ss >> defaultSpeed;
+                        }
                         else if ("LCDText" == i.first)
                         {
                             std::stringstream ss(i.second.get<std::string>());
@@ -102,6 +108,7 @@ namespace djv
                         }
                     }
                     p.avSystem->setTimeUnits(timeUnits);
+                    p.avSystem->setDefaultSpeed(defaultSpeed);
                     p.renderSystem->setLCDText(lcdText);
                     for (const auto & i : p.ioSystem->getPluginNames())
                     {
@@ -124,6 +131,11 @@ namespace djv
                     std::stringstream ss;
                     ss << p.avSystem->observeTimeUnits()->get();
                     object["TimeUnits"] = picojson::value(ss.str());
+                }
+                {
+                    std::stringstream ss;
+                    ss << p.avSystem->observeDefaultSpeed()->get();
+                    object["DefaultSpeed"] = picojson::value(ss.str());
                 }
                 {
                     std::stringstream ss;

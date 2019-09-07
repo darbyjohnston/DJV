@@ -53,6 +53,8 @@ namespace djv
         struct AVSystem::Private
         {
             std::shared_ptr<ValueSubject<TimeUnits> > timeUnits;
+            std::shared_ptr<ValueSubject<Time::FPS> > defaultSpeed;
+            std::shared_ptr<ThumbnailSystem> thumbnailSystem;
         };
 
         void AVSystem::_init(const std::shared_ptr<Core::Context>& context)
@@ -61,18 +63,19 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             p.timeUnits = ValueSubject<TimeUnits>::create(TimeUnits::First);
+            p.defaultSpeed = ValueSubject<Time::FPS>::create(Time::getDefaultSpeed());
 
             auto ioSystem = IO::System::create(context);
             auto ocioSystem = OCIO::System::create(context);
             auto fontSystem = Font::System::create(context);
-            auto thumbnailSystem = ThumbnailSystem::create(context);
+            p.thumbnailSystem = ThumbnailSystem::create(context);
             auto render2D = Render::Render2D::create(context);
             auto audioSystem = Audio::System::create(context);
 
             addDependency(ioSystem);
             addDependency(ocioSystem);
             addDependency(fontSystem);
-            addDependency(thumbnailSystem);
+            addDependency(p.thumbnailSystem);
             addDependency(render2D);
             addDependency(audioSystem);
         }
@@ -99,6 +102,21 @@ namespace djv
         void AVSystem::setTimeUnits(TimeUnits value)
         {
             _p->timeUnits->setIfChanged(value);
+        }
+
+        std::shared_ptr<IValueSubject<Time::FPS> > AVSystem::observeDefaultSpeed() const
+        {
+            return _p->defaultSpeed;
+        }
+
+        void AVSystem::setDefaultSpeed(Time::FPS value)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.defaultSpeed->setIfChanged(value))
+            {
+                Time::setDefaultSpeed(value);
+                p.thumbnailSystem->clearCache();
+            }
         }
 
         std::string AVSystem::getLabel(Frame::Number value, const Time::Speed& speed) const

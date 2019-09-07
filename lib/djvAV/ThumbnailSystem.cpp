@@ -181,8 +181,8 @@ namespace djv
             Memory::Cache<size_t, IO::Info> infoCache;
             std::atomic<float> infoCachePercentage;
             Memory::Cache<size_t, std::shared_ptr<Image::Image> > imageCache;
-            std::atomic<bool> imageCacheClear;
             std::atomic<float> imageCachePercentage;
+            std::atomic<bool> clearCache;
             std::shared_ptr<ValueObserver<bool> > ioOptionsObserver;
 
             GLFWwindow * glfwWindow = nullptr;
@@ -205,7 +205,7 @@ namespace djv
             p.infoCachePercentage = 0.f;
             p.imageCache.setMax(imageCacheMax);
             p.imageCachePercentage = 0.f;
-            p.imageCacheClear = false;
+            p.clearCache = false;
 
 #if defined(DJV_OPENGL_ES2)
             glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
@@ -271,9 +271,13 @@ namespace djv
                     const auto timeout = Time::getValue(Time::TimerValue::Medium);
                     while (p.running)
                     {
-                        if (p.imageCacheClear)
+                        if (p.clearCache)
                         {
+                            p.clearCache = false;
+                            p.infoCache.clear();
+                            p.infoCachePercentage = 0.f;
                             p.imageCache.clear();
+                            p.imageCachePercentage = 0.f;
                         }
 
                         bool infoRequests  = p.pendingInfoRequests.size();
@@ -316,7 +320,7 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        system->_p->imageCacheClear = true;
+                        system->clearCache();
                     }
                 });
         }
@@ -425,6 +429,11 @@ namespace djv
         float ThumbnailSystem::getImageCachePercentage() const
         {
             return _p->imageCachePercentage;
+        }
+
+        void ThumbnailSystem::clearCache()
+        {
+            _p->clearCache = true;
         }
 
         void ThumbnailSystem::_handleInfoRequests()
