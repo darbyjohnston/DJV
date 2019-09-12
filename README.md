@@ -55,9 +55,9 @@ Run the confidence tests:
 
     > make test
 
-Run the djv_view application:
+Run the djv application:
 
-    > ./build/bin/djv_view
+    > ./build/bin/djv
 
 Additional information on building DJV can be found here:
 * [Building on Linux](http://djv.sourceforge.net/BuildLinux.html)
