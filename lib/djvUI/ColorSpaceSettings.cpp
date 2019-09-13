@@ -49,22 +49,88 @@ namespace djv
         {
             struct ColorSpace::Private
             {
-                std::shared_ptr<ValueSubject<std::string> > inputColorSpace;
-                std::shared_ptr<ValueSubject<std::string> > display;
-                std::shared_ptr<ValueSubject<std::string> > view;
-                std::shared_ptr<ValueSubject<std::string> > outputColorSpace;
+                std::vector<AV::OCIO::Config> configs;
+                int currentConfig = 0;
+                std::shared_ptr<ListObserver<AV::OCIO::Config> > configsObserver;
+                std::shared_ptr<ValueObserver<int> > currentConfigObserver;
             };
 
             void ColorSpace::_init(const std::shared_ptr<Core::Context>& context)
             {
                 ISettings::_init("djv::UI::Settings::ColorSpace", context);
                 DJV_PRIVATE_PTR();
-                p.inputColorSpace = ValueSubject<std::string>::create();
-                auto ocioSystem = context->getSystemT<AV::OCIO::System>();
-                p.display = ValueSubject<std::string>::create(ocioSystem->getDefaultDisplay());
-                p.view = ValueSubject<std::string>::create(ocioSystem->getDefaultView());
-                p.outputColorSpace = ValueSubject<std::string>::create(_getOutputColorSpace());
+                {
+                    AV::OCIO::Config config;
+                    config.fileName = "nuke-default";
+                    config.name = "nuke-default";
+                    config.colorSpaces =
+                    {
+                        { "",        "sRGB" },
+                        { "Cineon",  "Cineon" },
+                        { "DPX",     "Cineon" },
+                        { "OpenEXR", "linear" }
+                    };
+                    config.display = "default";
+                    config.view = "sRGB";
+                    p.configs.push_back(config);
+                }
+                {
+                    AV::OCIO::Config config;
+                    config.fileName = "spi-anim";
+                    config.name = "spi-anim";
+                    config.colorSpaces =
+                    {
+                        { "",        "" },
+                        { "OpenEXR", "lnh" }
+                    };
+                    config.display = "sRGB";
+                    config.view = "Film";
+                    p.configs.push_back(config);
+                }
+                {
+                    AV::OCIO::Config config;
+                    config.fileName = "spi-vfx";
+                    config.name = "spi-vfx";
+                    config.colorSpaces =
+                    {
+                        { "",        "" },
+                        { "Cineon",  "lg10" },
+                        { "DPX",     "lg10" },
+                        { "OpenEXR", "lnh" }
+                    };
+                    config.display = "sRGB";
+                    config.view = "Film";
+                    p.configs.push_back(config);
+                }
+
                 _load();
+
+                auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                for (const auto& i : p.configs)
+                {
+                    ocioSystem->addConfig(i);
+                }
+                ocioSystem->setCurrentConfig(p.currentConfig);
+
+                auto weak = std::weak_ptr<ColorSpace>(std::dynamic_pointer_cast<ColorSpace>(shared_from_this()));
+                p.configsObserver = ListObserver<AV::OCIO::Config>::create(
+                    ocioSystem->observeConfigs(),
+                    [weak](const std::vector<AV::OCIO::Config>& value)
+                    {
+                        if (auto settings = weak.lock())
+                        {
+                            settings->_p->configs = value;
+                        }
+                    });
+                p.currentConfigObserver = ValueObserver<int>::create(
+                    ocioSystem->observeCurrentConfig(),
+                    [weak](int value)
+                    {
+                        if (auto settings = weak.lock())
+                        {
+                            settings->_p->currentConfig = value;
+                        }
+                    });
             }
 
             ColorSpace::ColorSpace() :
@@ -81,56 +147,14 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<Core::IValueSubject<std::string> > ColorSpace::observeInputColorSpace() const
-            {
-                return _p->inputColorSpace;
-            }
-
-            std::shared_ptr<Core::IValueSubject<std::string> > ColorSpace::observeDisplay() const
-            {
-                return _p->display;
-            }
-
-            std::shared_ptr<Core::IValueSubject<std::string> > ColorSpace::observeView() const
-            {
-                return _p->view;
-            }
-
-            std::shared_ptr<Core::IValueSubject<std::string> > ColorSpace::observeOutputColorSpace() const
-            {
-                return _p->outputColorSpace;
-            }
-
-            void ColorSpace::setInputColorSpace(const std::string& value)
-            {
-                _p->inputColorSpace->setIfChanged(value);
-            }
-
-            void ColorSpace::setDisplay(const std::string& value)
-            {
-                if (_p->display->setIfChanged(value))
-                {
-                    _p->outputColorSpace->setIfChanged(_getOutputColorSpace());
-                }
-            }
-
-            void ColorSpace::setView(const std::string& value)
-            {
-                if (_p->view->setIfChanged(value))
-                {
-                    _p->outputColorSpace->setIfChanged(_getOutputColorSpace());
-                }
-            }
-
             void ColorSpace::load(const picojson::value & value)
             {
                 DJV_PRIVATE_PTR();
                 if (value.is<picojson::object>())
                 {
-                    const auto & object = value.get<picojson::object>();
-                    UI::Settings::read("InputColorSpace", object, p.inputColorSpace);
-                    UI::Settings::read("Display", object, p.display);
-                    UI::Settings::read("View", object, p.view);
+                    const auto& object = value.get<picojson::object>();
+                    UI::Settings::read("Configs", object, p.configs);
+                    UI::Settings::read("CurrentConfig", object, p.currentConfig);
                 }
             }
 
@@ -138,35 +162,9 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 picojson::value out(picojson::object_type, true);
-                auto & object = out.get<picojson::object>();
-                UI::Settings::write("InputColorSpace", p.inputColorSpace->get(), object);
-                UI::Settings::write("Display", p.display->get(), object);
-                UI::Settings::write("View", p.view->get(), object);
-                return out;
-            }
-
-            std::string ColorSpace::_getOutputColorSpace() const
-            {
-                DJV_PRIVATE_PTR();
-                std::string out;
-                if (auto context = getContext().lock())
-                {
-                    auto ocioSystem = context->getSystemT<AV::OCIO::System>();
-                    for (const auto& i : ocioSystem->observeDisplays()->get())
-                    {
-                        if (p.display->get() == i.name)
-                        {
-                            for (const auto& j : i.views)
-                            {
-                                if (p.view->get() == j.name)
-                                {
-                                    out = j.colorSpace;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
+                auto& object = out.get<picojson::object>();
+                UI::Settings::write("Configs", p.configs, object);
+                UI::Settings::write("CurrentConfig", p.currentConfig, object);
                 return out;
             }
 

@@ -126,7 +126,6 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 picojson::value out(picojson::object_type, true);
                 auto & object = out.get<picojson::object>();
-
                 {
                     std::stringstream ss;
                     ss << p.avSystem->observeTimeUnits()->get();

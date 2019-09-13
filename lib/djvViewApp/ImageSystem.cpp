@@ -463,7 +463,7 @@ namespace djv
         void ImageSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.actions["ColorSpace"]->setText(_getText(DJV_TEXT("Color Space Widget")));
+            p.actions["ColorSpace"]->setText(_getText(DJV_TEXT("Color Space")));
             p.actions["ColorSpace"]->setTooltip(_getText(DJV_TEXT("Color space widget tooltip")));
             p.actions["RedChannel"]->setText(_getText(DJV_TEXT("Red Channel")));
             p.actions["RedChannel"]->setTooltip(_getText(DJV_TEXT("Red channel tooltip")));

@@ -193,7 +193,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             p.menu->setText(_getText(DJV_TEXT("Tools")));
-            p.actions["Info"]->setText(_getText(DJV_TEXT("Information Widget")));
+            p.actions["Info"]->setText(_getText(DJV_TEXT("Information")));
             p.actions["Info"]->setTooltip(_getText(DJV_TEXT("Information widget tooltip")));
         }
 

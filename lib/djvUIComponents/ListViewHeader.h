@@ -49,7 +49,6 @@ namespace djv
 
             static std::shared_ptr<ListViewHeader> create(const std::shared_ptr<Core::Context>&);
 
-            const std::vector<std::string> & getText() const;
             void setText(const std::vector<std::string> &);
 
             size_t getSort() const;

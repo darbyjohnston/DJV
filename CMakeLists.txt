@@ -270,6 +270,12 @@ endif()
 file(COPY ${DJV_SHADER_FILES} DESTINATION ${DJV_BUILD_DIR}/etc/Shaders)
 install(FILES ${DJV_SHADER_FILES} DESTINATION etc/Shaders)
 
+file(GLOB DJV_COLOR_DIRS ${CMAKE_SOURCE_DIR}/etc/Color/*)
+foreach(DIR ${DJV_COLOR_DIRS})
+    file(COPY ${DIR} DESTINATION ${DJV_BUILD_DIR}/etc/Color)
+    install(DIRECTORY ${DIR} DESTINATION etc/Color)
+endforeach()
+
 #function(add_vulkan_vert_shader TARGET ARG)
 #    add_custom_command(
 #        OUTPUT ${DJV_SHADERS_DIR}/${ARG}.spv
@@ -301,7 +307,8 @@ set(DJV_RESOURCE_FILES
     ${DJV_IMAGE_FILES}
     ${DJV_MODEL_FILES}
     ${DJV_AUDIO_FILES}
-    ${DJV_SHADER_FILES})
+    ${DJV_SHADER_FILES}
+    ${DJV_COLOR_DIRS})
 
 #-------------------------------------------------------------------------------
 # Subdirectories

@@ -204,12 +204,6 @@ namespace djv
                 //! Finish writing the Cineon file header after image data is written.
                 void writeFinish(Core::FileSystem::FileIO&);
 
-                //! This struct provides the Cineon file I/O options.
-                struct Options
-                {
-                    std::string colorSpace;
-                };
-
                 //! This class provides the Cineon file reader.
                 class Read : public ISequenceRead
                 {
@@ -224,7 +218,6 @@ namespace djv
                     static std::shared_ptr<Read> create(
                         const Core::FileSystem::FileInfo&,
                         const ReadOptions&,
-                        const Options&,
                         const std::shared_ptr<Core::ResourceSystem>&,
                         const std::shared_ptr<Core::LogSystem>&);
 
@@ -259,7 +252,6 @@ namespace djv
                         const Core::FileSystem::FileInfo&,
                         const Info &,
                         const WriteOptions&,
-                        const Options&,
                         const std::shared_ptr<Core::ResourceSystem>&,
                         const std::shared_ptr<Core::LogSystem>&);
 
@@ -281,12 +273,7 @@ namespace djv
                     Plugin();
 
                 public:
-                    static std::shared_ptr<Plugin> create(
-                        const std::shared_ptr<Core::ResourceSystem>&,
-                        const std::shared_ptr<Core::LogSystem>&);
-
-                    picojson::value getOptions() const override;
-                    void setOptions(const picojson::value &) override;
+                    static std::shared_ptr<Plugin> create(const std::shared_ptr<Core::Context>&);
 
                     std::shared_ptr<IRead> read(const Core::FileSystem::FileInfo&, const ReadOptions&) const override;
                     std::shared_ptr<IWrite> write(const Core::FileSystem::FileInfo&, const Info &, const WriteOptions&) const override;
@@ -298,11 +285,4 @@ namespace djv
             } // namespace Cineon
         } // namespace IO
     } // namespace AV
-
-    picojson::value toJSON(const AV::IO::Cineon::Options&);
-
-    //! Throws:
-    //! - std::exception
-    void fromJSON(const picojson::value&, AV::IO::Cineon::Options&);
-
 } // namespace djv

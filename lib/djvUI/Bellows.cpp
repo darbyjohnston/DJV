@@ -276,6 +276,11 @@ namespace djv
                 _childrenUpdate();
             }
 
+            void Bellows::clearChildren()
+            {
+                _p->childLayout->clearChildren();
+            }
+
             float Bellows::getHeightForWidth(float value) const
             {
                 return _p->layout->getHeightForWidth(value);

@@ -53,20 +53,10 @@ namespace djv
 
                 static std::shared_ptr<ColorSpace> create(const std::shared_ptr<Core::Context>&);
 
-                std::shared_ptr<Core::IValueSubject<std::string> > observeInputColorSpace() const;
-                std::shared_ptr<Core::IValueSubject<std::string> > observeDisplay() const;
-                std::shared_ptr<Core::IValueSubject<std::string> > observeView() const;
-                std::shared_ptr<Core::IValueSubject<std::string> > observeOutputColorSpace() const;
-                void setInputColorSpace(const std::string&);
-                void setDisplay(const std::string&);
-                void setView(const std::string&);
-
                 void load(const picojson::value &) override;
                 picojson::value save() override;
 
             private:
-                std::string _getOutputColorSpace() const;
-
                 DJV_PRIVATE();
             };
 

@@ -87,7 +87,7 @@ namespace djv
                     glm::ivec2 gridPos = p.layout->getGridPos(value);
                     p.layout->addChild(label);
                     p.layout->setGridPos(label, glm::ivec2(0, gridPos.y));
-                    p.layout->setGridPos(value, glm::ivec2(1, gridPos.y));
+                    p.layout->setGridPos(value, glm::ivec2(1, gridPos.y), GridStretch::Horizontal);
                     p.widgetToLabel[value] = label;
                 }
             }
@@ -124,6 +124,20 @@ namespace djv
             void Form::removeChild(const std::shared_ptr<IObject> & value)
             {
                 _p->layout->removeChild(value);
+                if (auto label = std::dynamic_pointer_cast<Label>(value))
+                {
+                    auto i = _p->widgetToLabel.find(label);
+                    if (i != _p->widgetToLabel.end())
+                    {
+                        _p->widgetToLabel.erase(i);
+                    }
+                }
+            }
+
+            void Form::clearChildren()
+            {
+                _p->layout->clearChildren();
+                _p->widgetToLabel.clear();
             }
 
             void Form::_preLayoutEvent(Event::PreLayout & event)

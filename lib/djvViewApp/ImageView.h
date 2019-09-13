@@ -108,6 +108,7 @@ namespace djv
             std::vector<glm::vec3> _getImagePoints() const;
             static glm::vec2 _getCenter(const std::vector<glm::vec3>&);
             static Core::BBox2f _getBBox(const std::vector<glm::vec3>&);
+            void _colorSpaceUpdate();
 
             DJV_PRIVATE();
         };

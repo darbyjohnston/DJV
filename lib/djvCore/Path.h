@@ -58,6 +58,7 @@ namespace djv
                 ModelsDirectory,
                 ShadersDirectory,
                 TextDirectory,
+                ColorDirectory,
 
                 Count,
                 First = Application

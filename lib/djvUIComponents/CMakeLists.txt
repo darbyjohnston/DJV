@@ -1,9 +1,5 @@
 set(header
-	CineonSettingsWidget.h
     ColorPicker.h
-    ColorSpaceModel.h
-    ColorSpaceSettingsWidget.h
-	DPXSettingsWidget.h
     FileBrowser.h
     FileBrowserDialog.h
     FileBrowserItemView.h
@@ -25,11 +21,7 @@ set(header
     TooltipsSettingsWidget.h
     UIComponentsSystem.h)
 set(source
-	CineonSettingsWidget.cpp
     ColorPicker.cpp
-    ColorSpaceModel.cpp
-    ColorSpaceSettingsWidget.cpp
-	DPXSettingsWidget.cpp
     FileBrowser.cpp
     FileBrowserDialog.cpp
     FileBrowserDrivesWidget.cpp

@@ -173,7 +173,8 @@ namespace djv
                 const BBox2f& g = getGeometry();
                 const float m = style->getMetric(MetricsRole::MarginSmall);
                 const float is = style->getMetric(MetricsRole::IconSmall);
-                return BBox2f(g.min.x, g.min.y, is + m * 2.f, g.h());
+                const float size = is + m * 2.f;
+                return BBox2f(g.min.x, floorf(g.min.y + g.h() / 2.f - size / 2.f), size, size);
             }
 
             BBox2f CheckBox::_getLabelGeometry() const
@@ -182,7 +183,8 @@ namespace djv
                 const BBox2f& g = getGeometry();
                 const float m = style->getMetric(MetricsRole::MarginSmall);
                 const float is = style->getMetric(MetricsRole::IconSmall);
-                return BBox2f(g.min.x + is + m * 2.f, g.min.y, g.w() - (is + m * 2.f), g.h());
+                const float size = is + m * 2.f;
+                return BBox2f(g.min.x + size, g.min.y, g.w() - size, g.h());
             }
 
         } // namespace Button

@@ -44,7 +44,6 @@ namespace djv
                 struct Read::Private
                 {
                     ColorProfile colorProfile = ColorProfile::FilmPrint;
-                    Options options;
                 };
 
                 Read::Read() :
@@ -59,12 +58,10 @@ namespace djv
                 std::shared_ptr<Read> Read::create(
                     const FileSystem::FileInfo & fileInfo,
                     const ReadOptions& readOptions,
-                    const Options& options,
                     const std::shared_ptr<ResourceSystem>& resourceSystem,
                     const std::shared_ptr<LogSystem>& logSystem)
                 {
                     auto out = std::shared_ptr<Read>(new Read);
-                    out->_p->options = options;
                     out->_init(fileInfo, readOptions, resourceSystem, logSystem);
                     return out;
                 }
@@ -73,7 +70,7 @@ namespace djv
                     Info info,
                     Cineon::ColorProfile colorProfile,
                     const std::string& colorSpace,
-                    Core::FileSystem::FileIO& io)
+                    FileSystem::FileIO& io)
                 {
 #if defined(DJV_MMAP)
                     auto out = Image::Image::create(info.video[0].info, io);
@@ -102,10 +99,6 @@ namespace djv
                     }
 #endif // DJV_MMAP
                     out->setTags(info.tags);
-                    if (ColorProfile::FilmPrint == colorProfile)
-                    {
-                        out->setColorSpace(colorSpace);
-                    }
                     return out;
                 }
 
@@ -120,7 +113,8 @@ namespace djv
                     DJV_PRIVATE_PTR();
                     FileSystem::FileIO io;
                     const auto info = _open(fileName, io);
-                    auto out = readImage(info, p.colorProfile, p.options.colorSpace, io);
+                    auto out = readImage(info, p.colorProfile, _options.colorSpace, io);
+                    out->setPluginName(pluginName);
                     return out;
                 }
 

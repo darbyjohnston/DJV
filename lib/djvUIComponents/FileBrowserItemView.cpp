@@ -29,11 +29,10 @@
 
 #include <djvUIComponents/FileBrowserItemView.h>
 
-#include <djvUI/ColorSpaceSettings.h>
 #include <djvUI/IconSystem.h>
-#include <djvUI/SettingsSystem.h>
 
 #include <djvAV/AVSystem.h>
+#include <djvAV/OCIOSystem.h>
 #include <djvAV/FontSystem.h>
 #include <djvAV/IO.h>
 #include <djvAV/Render2D.h>
@@ -81,9 +80,9 @@ namespace djv
                 std::map<size_t, std::string> sizeText;
                 std::map<size_t, std::string> timeText;
                 std::vector<float> split = { .7f, .8f, 1.f };
-                AV::OCIO::Convert colorSpace;
-                std::shared_ptr<ValueObserver<std::string> > inputColorSpaceObserver;
-                std::shared_ptr<ValueObserver<std::string> > outputColorSpaceObserver;
+                AV::OCIO::Config ocioConfig;
+                std::string outputColorSpace;
+                std::shared_ptr<ValueObserver<AV::OCIO::Config> > ocioConfigObserver;
 
                 size_t hover = invalid;
                 size_t grab = invalid;
@@ -100,27 +99,22 @@ namespace djv
 
                 p.fontSystem = context->getSystemT<AV::Font::System>();
 
-                auto settingsSystem = context->getSystemT<Settings::System>();
-                auto colorSpaceSettings = settingsSystem->getSettingsT<Settings::ColorSpace>();
+                auto ocioSystem = context->getSystemT<AV::OCIO::System>();
                 auto weak = std::weak_ptr<ItemView>(std::dynamic_pointer_cast<ItemView>(shared_from_this()));
-                p.inputColorSpaceObserver = ValueObserver<std::string>::create(
-                    colorSpaceSettings->observeInputColorSpace(),
-                    [weak](const std::string& value)
+                auto contextWeak = std::weak_ptr<Context>(context);
+                p.ocioConfigObserver = ValueObserver<AV::OCIO::Config>::create(
+                    ocioSystem->observeConfig(),
+                    [weak, contextWeak](const AV::OCIO::Config& value)
                     {
-                        if (auto widget = weak.lock())
+                        if (auto context = contextWeak.lock())
                         {
-                            widget->_p->colorSpace.input = value;
-                            widget->_itemsUpdate();
-                        }
-                    });
-                p.outputColorSpaceObserver = ValueObserver<std::string>::create(
-                    colorSpaceSettings->observeOutputColorSpace(),
-                    [weak](const std::string& value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->colorSpace.output = value;
-                            widget->_itemsUpdate();
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_p->ocioConfig = value;
+                                auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                                widget->_p->outputColorSpace = ocioSystem->getColorSpace(value.display, value.view);
+                                widget->_itemsUpdate();
+                            }
                         }
                     });
             }
@@ -446,7 +440,20 @@ namespace djv
                                     }
                                     render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f, opacity));
                                     AV::Render::ImageOptions options;
-                                    options.colorSpace = p.colorSpace;
+                                    auto i = p.ocioConfig.colorSpaces.find(j->second->getPluginName());
+                                    if (i != p.ocioConfig.colorSpaces.end())
+                                    {
+                                        options.colorSpace.input = i->second;
+                                    }
+                                    else
+                                    {
+                                        i = p.ocioConfig.colorSpaces.find(std::string());
+                                        if (i != p.ocioConfig.colorSpaces.end())
+                                        {
+                                            options.colorSpace.input = i->second;
+                                        }
+                                    }
+                                    options.colorSpace.output = p.outputColorSpace;
                                     render->drawImage(j->second, pos, options);
                                 }
                             }
@@ -992,7 +999,6 @@ namespace djv
                 if (auto context = getContext().lock())
                 {
                     const auto& style = _getStyle();
-                    auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>();
                     p.nameFontMetricsFuture = p.fontSystem->getMetrics(
                         style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium));
                     p.names.clear();
@@ -1001,6 +1007,7 @@ namespace djv
                     p.ioInfo.clear();
                     p.ioInfoFutures.clear();
                     p.thumbnails.clear();
+                    auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>();
                     for (const auto& i : p.itemGeometry)
                     {
                         const auto j = p.thumbnailFutures.find(i.first);

@@ -590,9 +590,7 @@ namespace djv
                     _p(new Private)
                 {}
 
-                std::shared_ptr<Plugin> Plugin::create(
-                    const std::shared_ptr<ResourceSystem>& resourceSystem,
-                    const std::shared_ptr<LogSystem>& logSystem)
+                std::shared_ptr<Plugin> Plugin::create(const std::shared_ptr<Context>& context)
                 {
                     auto out = std::shared_ptr<Plugin>(new Plugin);
                     Imf::setGlobalThreadCount(out->_p->options.threadCount);
@@ -600,8 +598,7 @@ namespace djv
                         pluginName,
                         DJV_TEXT("This plugin provides OpenEXR file I/O."),
                         fileExtensions,
-                        resourceSystem,
-                        logSystem);
+                        context);
                     return out;
                 }
 
@@ -668,7 +665,6 @@ namespace djv
                 out.get<picojson::object>()["Compression"] = picojson::value(ss.str());
             }
             out.get<picojson::object>()["DWACompressionLevel"] = toJSON(value.dwaCompressionLevel);
-            out.get<picojson::object>()["ColorSpace"] = toJSON(value.colorSpace);
         }
         return out;
     }
@@ -696,10 +692,6 @@ namespace djv
                 else if ("DWACompressionLevel" == i.first)
                 {
                     fromJSON(i.second, out.dwaCompressionLevel);
-                }
-                else if ("ColorSpace" == i.first)
-                {
-                    fromJSON(i.second, out.colorSpace);
                 }
             }
         }

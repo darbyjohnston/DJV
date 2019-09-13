@@ -554,7 +554,8 @@ namespace djv
                         if (i.first < w)
                         {
                             size_t unit = 0;
-                            while (x < g.max.x)
+                            const size_t sequenceSize = p.sequence.getSize();
+                            while (x < g.max.x && unit < sequenceSize)
                             {
                                 if (x >= x2)
                                 {

@@ -204,7 +204,11 @@ namespace djv
         void ComboBox::setCurrentItem(int value, Callback callback)
         {
             DJV_PRIVATE_PTR();
-            const int tmp = Math::clamp(value, 0, static_cast<int>(p.items.size()) - 1);
+            int tmp = -1;
+            if (value >= 0 && value < static_cast<int>(p.items.size()))
+            {
+                tmp = value;
+            }
             if (tmp == p.currentItem)
                 return;
             p.currentItem = tmp;
@@ -391,10 +395,13 @@ namespace djv
             {
                 p.actionGroup->setChecked(p.currentItem, true, callback);
                 p.button->setText(p.items[p.currentItem]);
+                p.button->setEnabled(true);
             }
             else
             {
                 p.actionGroup->setChecked(-1, true, callback);
+                p.button->setText(std::string());
+                p.button->setEnabled(false);
             }
         }
 

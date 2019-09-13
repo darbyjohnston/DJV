@@ -53,15 +53,15 @@ namespace djv
                 static std::shared_ptr<Image> create(const Info&);
                 static std::shared_ptr<Image> create(const Info&, const std::shared_ptr<Core::FileSystem::FileIO>&);
 
+                const std::string& getPluginName() const;
+                void setPluginName(const std::string&);
+
                 const Tags& getTags() const;
                 void setTags(const Tags&);
 
-                const std::string& getColorSpace() const;
-                void setColorSpace(const std::string&);
-
             private:
+                std::string _pluginName;
                 Tags _tags;
-                std::string _colorSpace;
             };
 
         } // namespace Image

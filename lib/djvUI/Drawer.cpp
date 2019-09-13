@@ -199,6 +199,11 @@ namespace djv
                 _p->childLayout->removeChild(value);
             }
 
+            void Drawer::clearChildren()
+            {
+                _p->childLayout->clearChildren();
+            }
+
             void Drawer::_preLayoutEvent(Event::PreLayout & event)
             {
                 DJV_PRIVATE_PTR();

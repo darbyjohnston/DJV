@@ -105,9 +105,14 @@ namespace djv
                 _p->childLayout->addChild(value);
             }
 
-            void GroupBox::removeChild(const std::shared_ptr<IObject> & value)
+            void GroupBox::removeChild(const std::shared_ptr<IObject>& value)
             {
                 _p->childLayout->removeChild(value);
+            }
+
+            void GroupBox::clearChildren()
+            {
+                _p->childLayout->clearChildren();
             }
 
             void GroupBox::_preLayoutEvent(Event::PreLayout & event)

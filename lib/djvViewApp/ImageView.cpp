@@ -33,11 +33,11 @@
 #include <djvViewApp/ImageViewSettings.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/ColorSpaceSettings.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/Style.h>
 
 #include <djvAV/Image.h>
+#include <djvAV/OCIOSystem.h>
 #include <djvAV/Render2D.h>
 
 #include <djvCore/Context.h>
@@ -55,8 +55,8 @@ namespace djv
         {
             std::shared_ptr<AV::Image::Image> image;
             std::shared_ptr<ValueSubject<AV::Render::ImageOptions> > imageOptions;
-            std::shared_ptr<ValueSubject<std::string> > colorDisplay;
-            std::shared_ptr<ValueSubject<std::string> > colorView;
+            AV::OCIO::Config ocioConfig;
+            std::string outputColorSpace;
             std::shared_ptr<ValueSubject<glm::vec2> > imagePos;
             std::shared_ptr<ValueSubject<float> > imageZoom;
             std::shared_ptr<ValueSubject<ImageRotate> > imageRotate;
@@ -68,6 +68,7 @@ namespace djv
             bool viewInit = true;
             std::shared_ptr<ValueObserver<ImageViewLock> > lockObserver;
             std::shared_ptr<ValueObserver<AV::Image::Color> > backgroundColorObserver;
+            std::shared_ptr<ValueObserver<AV::OCIO::Config> > ocioConfigObserver;
         };
 
         void ImageView::_init(const std::shared_ptr<Core::Context>& context)
@@ -78,15 +79,8 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
-            auto colorSpaceSettings = settingsSystem->getSettingsT<UI::Settings::ColorSpace>();
             auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
-            AV::Render::ImageOptions imageOptions;
-            imageOptions.colorSpace = AV::OCIO::Convert(
-                colorSpaceSettings->observeInputColorSpace()->get(),
-                colorSpaceSettings->observeOutputColorSpace()->get());
-            p.imageOptions = ValueSubject<AV::Render::ImageOptions>::create(imageOptions);
-            p.colorDisplay = ValueSubject<std::string>::create(colorSpaceSettings->observeDisplay()->get());
-            p.colorView = ValueSubject<std::string>::create(colorSpaceSettings->observeView()->get());
+            p.imageOptions = ValueSubject<AV::Render::ImageOptions>::create();
             p.imagePos = ValueSubject<glm::vec2>::create();
             p.imageZoom = ValueSubject<float>::create();
             p.imageRotate = ValueSubject<ImageRotate>::create(imageSettings->observeImageRotate()->get());
@@ -117,6 +111,24 @@ namespace djv
                         widget->_p->backgroundColor = value;
                         if (widget->isVisible() && !widget->isClipped())
                         {
+                            widget->_redraw();
+                        }
+                    }
+                });
+
+            auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+            auto contextWeak = std::weak_ptr<Context>(context);
+            p.ocioConfigObserver = ValueObserver<AV::OCIO::Config>::create(
+                ocioSystem->observeConfig(),
+                [weak, contextWeak](const AV::OCIO::Config& value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                            widget->_p->ocioConfig = value;
+                            widget->_p->outputColorSpace = ocioSystem->getColorSpace(value.display, value.view);
                             widget->_redraw();
                         }
                     }
@@ -159,16 +171,6 @@ namespace djv
             return _p->imageOptions;
         }
 
-        std::shared_ptr<Core::IValueSubject<std::string> > ImageView::observeColorDisplay() const
-        {
-            return _p->colorDisplay;
-        }
-
-        std::shared_ptr<Core::IValueSubject<std::string> > ImageView::observeColorView() const
-        {
-            return _p->colorView;
-        }
-
         void ImageView::setImageOptions(const AV::Render::ImageOptions& value)
         {
             DJV_PRIVATE_PTR();
@@ -179,18 +181,6 @@ namespace djv
                     _resize();
                 }
             }
-        }
-
-        void ImageView::setColorDisplay(const std::string& value)
-        {
-            DJV_PRIVATE_PTR();
-            p.colorDisplay->setIfChanged(value);
-        }
-
-        void ImageView::setColorView(const std::string& value)
-        {
-            DJV_PRIVATE_PTR();
-            p.colorView->setIfChanged(value);
         }
 
         std::shared_ptr<IValueSubject<glm::vec2> > ImageView::observeImagePos() const
@@ -412,6 +402,20 @@ namespace djv
                     p.imageZoom->get() * getAspectRatioScale()));
                 render->pushTransform(m);
                 AV::Render::ImageOptions options(p.imageOptions->get());
+                auto i = p.ocioConfig.colorSpaces.find(p.image->getPluginName());
+                if (i != p.ocioConfig.colorSpaces.end())
+                {
+                    options.colorSpace.input = i->second;
+                }
+                else
+                {
+                    i = p.ocioConfig.colorSpaces.find(std::string());
+                    if (i != p.ocioConfig.colorSpaces.end())
+                    {
+                        options.colorSpace.input = i->second;
+                    }
+                }
+                options.colorSpace.output = p.outputColorSpace;
                 options.cache = AV::Render::ImageCache::Dynamic;
                 render->drawImage(p.image, glm::vec2(0.f, 0.f), options);
                 render->popTransform();

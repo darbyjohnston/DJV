@@ -141,6 +141,7 @@ namespace djv
                 p.paths[ResourcePath::ModelsDirectory]  = p.paths[ResourcePath::Application];
                 p.paths[ResourcePath::ShadersDirectory] = p.paths[ResourcePath::Application];
                 p.paths[ResourcePath::TextDirectory]    = p.paths[ResourcePath::Application];
+                p.paths[ResourcePath::ColorDirectory]   = p.paths[ResourcePath::Application];
             }
             else
             {
@@ -152,6 +153,7 @@ namespace djv
                 p.paths[ResourcePath::ModelsDirectory]  = Path(etc, "Models");
                 p.paths[ResourcePath::ShadersDirectory] = Path(etc, "Shaders");
                 p.paths[ResourcePath::TextDirectory]    = Path(etc, "Text");
+                p.paths[ResourcePath::ColorDirectory]   = Path(etc, "Color");
             }
         }
 

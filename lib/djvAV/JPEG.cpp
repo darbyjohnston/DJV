@@ -54,17 +54,14 @@ namespace djv
                 Plugin::~Plugin()
                 {}
 
-                std::shared_ptr<Plugin> Plugin::create(
-                    const std::shared_ptr<ResourceSystem>& resourceSystem,
-                    const std::shared_ptr<LogSystem>& logSystem)
+                std::shared_ptr<Plugin> Plugin::create(const std::shared_ptr<Context>& context)
                 {
                     auto out = std::shared_ptr<Plugin>(new Plugin);
                     out->_init(
                         pluginName,
                         DJV_TEXT("This plugin provides Joint Photographic Experts Group (JPEG) image I/O."),
                         fileExtensions,
-                        resourceSystem,
-                        logSystem);
+                        context);
                     return out;
                 }
 

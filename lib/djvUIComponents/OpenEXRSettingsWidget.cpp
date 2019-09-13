@@ -35,7 +35,6 @@
 #include <djvUI/GroupBox.h>
 #include <djvUI/IntSlider.h>
 
-#include <djvAV/OCIOSystem.h>
 #include <djvAV/OpenEXR.h>
 
 #include <djvCore/Context.h>
@@ -52,8 +51,6 @@ namespace djv
             std::shared_ptr<ComboBox> channelsComboBox;
             std::shared_ptr<ComboBox> compressionComboBox;
             std::shared_ptr<FloatSlider> dwaCompressionLevelSlider;
-            std::vector<std::string> colorSpaces;
-            std::shared_ptr<ComboBox> colorSpaceComboBox;
             std::shared_ptr<FormLayout> layout;
         };
 
@@ -74,14 +71,11 @@ namespace djv
             p.dwaCompressionLevelSlider = FloatSlider::create(context);
             p.dwaCompressionLevelSlider->setRange(FloatRange(0.f, 200.f));
 
-            p.colorSpaceComboBox = ComboBox::create(context);
-
             p.layout = FormLayout::create(context);
             p.layout->addChild(p.threadCountSlider);
             p.layout->addChild(p.channelsComboBox);
             p.layout->addChild(p.compressionComboBox);
             p.layout->addChild(p.dwaCompressionLevelSlider);
-            p.layout->addChild(p.colorSpaceComboBox);
             addChild(p.layout);
 
             _widgetUpdate();
@@ -151,22 +145,6 @@ namespace djv
                         }
                     }
                 });
-
-            p.colorSpaceComboBox->setCallback(
-                [weak, contextWeak](int value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            auto io = context->getSystemT<AV::IO::System>();
-                            AV::IO::OpenEXR::Options options;
-                            fromJSON(io->getOptions(AV::IO::OpenEXR::pluginName), options);
-                            options.colorSpace = widget->_p->colorSpaces[value];
-                            io->setOptions(AV::IO::OpenEXR::pluginName, toJSON(options));
-                        }
-                    }
-                });
         }
 
         OpenEXRSettingsWidget::OpenEXRSettingsWidget() :
@@ -203,7 +181,6 @@ namespace djv
             p.layout->setText(p.channelsComboBox, _getText(DJV_TEXT("Channel grouping")) + ":");
             p.layout->setText(p.compressionComboBox, _getText(DJV_TEXT("File compression")) + ":");
             p.layout->setText(p.dwaCompressionLevelSlider, _getText(DJV_TEXT("DWA compression level")) + ":");
-            p.layout->setText(p.colorSpaceComboBox, _getText(DJV_TEXT("Color profile")) + ":");
             _widgetUpdate();
         }
 
@@ -237,22 +214,6 @@ namespace djv
                 p.compressionComboBox->setCurrentItem(static_cast<int>(options.compression));
 
                 p.dwaCompressionLevelSlider->setValue(options.dwaCompressionLevel);
-
-                auto ocioSystem = context->getSystemT<AV::OCIO::System>();
-                p.colorSpaces.clear();
-                p.colorSpaces.push_back(std::string());
-                for (const auto& i : ocioSystem->observeColorSpaces()->get())
-                {
-                    p.colorSpaces.push_back(i);
-                }
-                p.colorSpaceComboBox->setItems(p.colorSpaces);
-                int index = 0;
-                const auto i = std::find(p.colorSpaces.begin(), p.colorSpaces.end(), options.colorSpace);
-                if (i != p.colorSpaces.end())
-                {
-                    index = i - p.colorSpaces.begin();
-                }
-                p.colorSpaceComboBox->setCurrentItem(index);
             }
         }
 

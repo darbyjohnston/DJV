@@ -80,7 +80,8 @@ namespace djv
                     DJV_PRIVATE_PTR();
                     FileSystem::FileIO io;
                     const auto info = _open(fileName, io);
-                    auto out = Cineon::Read::readImage(info, p.colorProfile, p.options.colorSpace, io);
+                    auto out = Cineon::Read::readImage(info, p.colorProfile, _options.colorSpace, io);
+                    out->setPluginName(pluginName);
                     return out;
                 }
 

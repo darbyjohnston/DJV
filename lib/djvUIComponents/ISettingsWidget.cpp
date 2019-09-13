@@ -77,6 +77,11 @@ namespace djv
             _p->childLayout->removeChild(value);
         }
 
+        void ISettingsWidget::clearChildren()
+        {
+            _p->childLayout->clearChildren();
+        }
+
         void ISettingsWidget::_preLayoutEvent(Event::PreLayout & event)
         {
             _setMinimumSize(_p->childLayout->getMinimumSize());

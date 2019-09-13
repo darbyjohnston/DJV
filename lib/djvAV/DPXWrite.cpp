@@ -95,7 +95,7 @@ namespace djv
                         info,
                         p.options.version,
                         p.options.endian,
-                        p.options.colorSpace.empty() ? Cineon::ColorProfile::Raw : Cineon::ColorProfile::FilmPrint);
+                        _options.colorSpace.empty() ? Cineon::ColorProfile::Raw : Cineon::ColorProfile::FilmPrint);
                     io.write(image->getData(), image->getDataByteCount());
                     writeFinish(io);
                 }

@@ -33,7 +33,11 @@
 
 #include <djvCore/ISystem.h>
 #include <djvCore/ListObserver.h>
+#include <djvCore/MapObserver.h>
+#include <djvCore/PicoJSON.h>
 #include <djvCore/ValueObserver.h>
+
+#include <OpenColorIO/OpenColorIO.h>
 
 namespace djv
 {
@@ -41,6 +45,20 @@ namespace djv
     {
         namespace OCIO
         {
+            //! This struct provides a color space configuration.
+            struct Config
+            {
+                std::string fileName;
+                std::string name;
+                std::map<std::string, std::string> colorSpaces;
+                std::string display;
+                std::string view;
+
+                static std::string getNameFromFileName(const std::string&);
+
+                bool operator == (const Config&) const;
+            };
+
             //! This class provides information about the available color spaces,
             //! displays, and views.
             class System : public Core::ISystem
@@ -55,18 +73,33 @@ namespace djv
                 ~System() override;
                 static std::shared_ptr<System> create(const std::shared_ptr<Core::Context>&);
 
+                std::shared_ptr<Core::IListSubject<Config> > observeConfigs() const;
+                int addConfig(const Config&);
+                void removeConfig(int);
+
+                std::shared_ptr<Core::IValueSubject<Config> > observeConfig() const;
+                std::shared_ptr<Core::IValueSubject<int> > observeCurrentConfig() const;
                 std::shared_ptr<Core::IListSubject<std::string> > observeColorSpaces() const;
                 std::shared_ptr<Core::IListSubject<Display> > observeDisplays() const;
-
-                const std::string& getDefaultDisplay() const;
-                const std::string& getDefaultView() const;
+                std::shared_ptr<Core::IListSubject<std::string> > observeViews() const;
+                void setConfig(const Config&);
+                void setCurrentConfig(int);
 
                 std::string getColorSpace(const std::string& display, const std::string& view) const;
 
             private:
+                void _configUpdate();
+
                 DJV_PRIVATE();
             };
 
         } // namespace OCIO
     } // namespace AV
+
+    picojson::value toJSON(const AV::OCIO::Config&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const picojson::value&, AV::OCIO::Config&);
+
 } // namespace djv

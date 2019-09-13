@@ -31,6 +31,7 @@
 
 #include <djvAV/Cineon.h>
 #include <djvAV/DPX.h>
+#include <djvAV/OCIOSystem.h>
 #include <djvAV/PPM.h>
 #if defined(FFmpeg_FOUND)
 #include <djvAV/FFmpeg.h>
@@ -49,7 +50,6 @@
 #endif // TIFF_FOUND
 
 #include <djvCore/Context.h>
-#include <djvCore/CoreSystem.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/Path.h>
 #include <djvCore/ResourceSystem.h>
@@ -346,14 +346,14 @@ namespace djv
             {}
 
             void IPlugin::_init(
-                const std::string & pluginName,
-                const std::string & pluginInfo,
-                const std::set<std::string> & fileExtensions,
-                const std::shared_ptr<ResourceSystem>& resourceSystem,
-                const std::shared_ptr<LogSystem>& logSystem)
+                const std::string& pluginName,
+                const std::string& pluginInfo,
+                const std::set<std::string>& fileExtensions,
+                const std::shared_ptr<Context>& context)
             {
-                _logSystem      = logSystem;
-                _resourceSystem = resourceSystem;
+                _context        = context;
+                _logSystem      = context->getSystemT<LogSystem>();
+                _resourceSystem = context->getSystemT<ResourceSystem>();
                 _pluginName     = pluginName;
                 _pluginInfo     = pluginInfo;
                 _fileExtensions = fileExtensions;
@@ -419,29 +419,30 @@ namespace djv
 
                 DJV_PRIVATE_PTR();
 
-                addDependency(context->getSystemT<CoreSystem>());
+                addDependency(context->getSystemT<OCIO::System>());
 
                 p.optionsChanged = ValueSubject<bool>::create();
 
                 auto logSystem = context->getSystemT<LogSystem>();
                 auto resourceSystem = context->getSystemT<ResourceSystem>();
-                p.plugins[Cineon::pluginName] = Cineon::Plugin::create(resourceSystem, logSystem);
-                p.plugins[DPX::pluginName] = DPX::Plugin::create(resourceSystem, logSystem);
-                p.plugins[PPM::pluginName] = PPM::Plugin::create(resourceSystem, logSystem);
+                auto ocioSystem = context->getSystemT<OCIO::System>();
+                p.plugins[Cineon::pluginName] = Cineon::Plugin::create(context);
+                p.plugins[DPX::pluginName] = DPX::Plugin::create(context);
+                p.plugins[PPM::pluginName] = PPM::Plugin::create(context);
 #if defined(FFmpeg_FOUND)
-                p.plugins[FFmpeg::pluginName] = FFmpeg::Plugin::create(resourceSystem, logSystem);
+                p.plugins[FFmpeg::pluginName] = FFmpeg::Plugin::create(context);
 #endif // FFmpeg_FOUND
 #if defined(JPEG_FOUND)
-                p.plugins[JPEG::pluginName] = JPEG::Plugin::create(resourceSystem, logSystem);
+                p.plugins[JPEG::pluginName] = JPEG::Plugin::create(context);
 #endif // JPEG_FOUND
 #if defined(PNG_FOUND)
-                p.plugins[PNG::pluginName] = PNG::Plugin::create(resourceSystem, logSystem);
+                p.plugins[PNG::pluginName] = PNG::Plugin::create(context);
 #endif // PNG_FOUND
 #if defined(OPENEXR_FOUND)
-                p.plugins[OpenEXR::pluginName] = OpenEXR::Plugin::create(resourceSystem, logSystem);
+                p.plugins[OpenEXR::pluginName] = OpenEXR::Plugin::create(context);
 #endif // OPENEXR_FOUND
 #if defined(TIFF_FOUND)
-                p.plugins[TIFF::pluginName] = TIFF::Plugin::create(resourceSystem, logSystem);
+                p.plugins[TIFF::pluginName] = TIFF::Plugin::create(context);
 #endif // TIFF_FOUND
 
                 for (const auto & i : p.plugins)
@@ -477,13 +478,13 @@ namespace djv
                 return out;
             }
 
-            std::vector<std::string> System::getPluginNames() const
+            std::set<std::string> System::getPluginNames() const
             {
                 DJV_PRIVATE_PTR();
-                std::vector<std::string> out;
+                std::set<std::string> out;
                 for (const auto & i : p.plugins)
                 {
-                    out.push_back(i.second->getPluginName());
+                    out.insert(i.second->getPluginName());
                 }
                 return out;
             }

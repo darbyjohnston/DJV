@@ -49,6 +49,8 @@ namespace djv
             {
                 std::unordered_map<glm::ivec2, std::shared_ptr<Widget> > widgets;
                 std::unordered_map<glm::ivec2, GridStretch> stretch;
+                std::unordered_map<int, std::pair<float, float> > rowPosAndHeight;
+                std::unordered_map<int, std::pair<float, float> > columnPosAndWidth;
                 std::map<int, ColorRole> rowBackgroundRoles;
                 std::map<int, ColorRole> columnBackgroundRoles;
                 Spacing spacing = Spacing(MetricsRole::Spacing, MetricsRole::Spacing);
@@ -184,6 +186,11 @@ namespace djv
                         _redraw();
                     }
                 }
+                else
+                {
+                    p.rowBackgroundRoles[value] = role;
+                    _redraw();
+                }
             }
 
             void Grid::setColumnBackgroundRole(int value, ColorRole role)
@@ -197,6 +204,11 @@ namespace djv
                         p.columnBackgroundRoles[value] = role;
                         _redraw();
                     }
+                }
+                else
+                {
+                    p.columnBackgroundRoles[value] = role;
+                    _redraw();
                 }
             }
 
@@ -314,6 +326,11 @@ namespace djv
                         }
                     }
                 }
+            }
+
+            void Grid::clearChildren()
+            {
+                Widget::clearChildren();
             }
 
             void Grid::_preLayoutEvent(Event::PreLayout &)
@@ -474,6 +491,8 @@ namespace djv
                 }
 
                 // Calculate the geometry.
+                p.rowPosAndHeight.clear();
+                p.columnPosAndWidth.clear();
                 std::map<std::shared_ptr<Widget>, BBox2f> childrenGeometry;
                 glm::vec2 pos(g.min.x + getMargin().get(Side::Left, style), g.min.y + getMargin().get(Side::Top, style));
                 for (int x = 0; x < gridSize.x; ++x)
@@ -491,6 +510,8 @@ namespace djv
                         {
                             if (i->second->isVisible())
                             {
+                                p.columnPosAndWidth[x].first = pos.x;
+                                p.columnPosAndWidth[x].second = std::max(p.columnPosAndWidth[x].second, w);
                                 childrenGeometry[i->second] = BBox2f(pos.x, 0.f, w, 0.f);
                             }
                         }
@@ -512,6 +533,8 @@ namespace djv
                         {
                             if (i->second->isVisible())
                             {
+                                p.rowPosAndHeight[y].first = pos.y;
+                                p.rowPosAndHeight[y].second = std::max(p.rowPosAndHeight[y].second, h);
                                 const BBox2f bbox = childrenGeometry[i->second];
                                 childrenGeometry[i->second] = BBox2f(bbox.x(), pos.y, bbox.w(), h);
                             }
@@ -534,63 +557,27 @@ namespace djv
             {
                 Widget::_paintEvent(event);
                 DJV_PRIVATE_PTR();
-
                 const auto& style = _getStyle();
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
                 auto render = _getRender();
-
-                std::map<int, BBox2f> rowGeom;
-                const glm::ivec2 gridSize = getGridSize();
-                for (int y = 0; y < gridSize.y; ++y)
-                {
-                    for (int x = 0; x < gridSize.x; ++x)
-                    {
-                        const auto i = p.widgets.find(glm::ivec2(x, y));
-                        if (i != p.widgets.end())
-                        {
-                            if (i->second->isVisible())
-                            {
-                                const BBox2f & g1 = i->second->getGeometry();
-                                rowGeom[y] = BBox2f(g.min.x, g1.min.y, g.w(), g1.h());
-                                break;
-                            }
-                        }
-                    }
-                }
-                for (auto i : rowGeom)
+                for (const auto& i : p.rowPosAndHeight)
                 {
                     const auto j = p.rowBackgroundRoles.find(i.first);
                     if (j != p.rowBackgroundRoles.end())
                     {
                         render->setFillColor(style->getColor(j->second));
-                        render->drawRect(i.second);
+                        const auto& row = i.second;
+                        render->drawRect(BBox2f(g.min.y, row.first, g.w(), row.second));
                     }
                 }
-
-                std::map<int, BBox2f> columnGeom;
-                for (int x = 0; x < gridSize.x; ++x)
-                {
-                    for (int y = 0; y < gridSize.y; ++y)
-                    {
-                        const auto i = p.widgets.find(glm::ivec2(x, y));
-                        if (i != p.widgets.end())
-                        {
-                            if (i->second->isVisible())
-                            {
-                                const BBox2f & g1 = i->second->getGeometry();
-                                columnGeom[y] = BBox2f(g1.min.x, g.min.y, g1.w(), g.h());
-                                break;
-                            }
-                        }
-                    }
-                }
-                for (auto i : columnGeom)
+                for (const auto& i : p.columnPosAndWidth)
                 {
                     const auto j = p.columnBackgroundRoles.find(i.first);
                     if (j != p.columnBackgroundRoles.end())
                     {
                         render->setFillColor(style->getColor(j->second));
-                        render->drawRect(i.second);
+                        const auto& column = i.second;
+                        render->drawRect(BBox2f(column.first, g.min.y, column.second, g.h()));
                     }
                 }
             }

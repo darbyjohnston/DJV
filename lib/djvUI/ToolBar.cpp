@@ -201,9 +201,14 @@ namespace djv
             _p->layout->addChild(value);
         }
 
-        void ToolBar::removeChild(const std::shared_ptr<IObject> & value)
+        void ToolBar::removeChild(const std::shared_ptr<IObject>& value)
         {
             _p->layout->removeChild(value);
+        }
+
+        void ToolBar::clearChildren()
+        {
+            _p->layout->clearChildren();
         }
 
         void ToolBar::_preLayoutEvent(Event::PreLayout & event)

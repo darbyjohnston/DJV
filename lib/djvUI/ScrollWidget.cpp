@@ -864,6 +864,11 @@ namespace djv
             _p->scrollArea->removeChild(value);
         }
 
+        void ScrollWidget::clearChildren()
+        {
+            _p->scrollArea->clearChildren();
+        }
+
         void ScrollWidget::_preLayoutEvent(Event::PreLayout &)
         {
             DJV_PRIVATE_PTR();

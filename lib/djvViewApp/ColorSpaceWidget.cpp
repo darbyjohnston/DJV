@@ -29,16 +29,22 @@
 
 #include <djvViewApp/ColorSpaceWidget.h>
 
-#include <djvViewApp/ImageView.h>
-#include <djvViewApp/MediaWidget.h>
-#include <djvViewApp/WindowSystem.h>
+#include <djvUIComponents/FileBrowserDialog.h>
 
-#include <djvUIComponents/ColorSpaceModel.h>
-
+#include <djvUI/Bellows.h>
+#include <djvUI/ButtonGroup.h>
+#include <djvUI/CheckBox.h>
 #include <djvUI/ComboBox.h>
+#include <djvUI/EventSystem.h>
 #include <djvUI/FormLayout.h>
+#include <djvUI/ListButton.h>
+#include <djvUI/PopupWidget.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/ScrollWidget.h>
+#include <djvUI/ToolButton.h>
+#include <djvUI/Window.h>
 
+#include <djvAV/IO.h>
 #include <djvAV/OCIOSystem.h>
 #include <djvAV/Render2D.h>
 
@@ -52,26 +58,40 @@ namespace djv
     {
         struct ColorSpaceWidget::Private
         {
-            std::shared_ptr<UI::ColorSpaceModel> model;
-            std::shared_ptr<MediaWidget> activeWidget;
-            std::string emptyLabel;
+            std::vector<AV::OCIO::Config> configs;
+            AV::OCIO::Config config;
+            int currentConfig = -1;
+            bool editConfig = false;
+            std::vector<std::string> colorSpaces;
+            bool editImage = false;
+            std::vector<AV::OCIO::Display> displays;
+            std::vector<std::string> views;
+            Core::FileSystem::Path fileBrowserPath = Core::FileSystem::Path(".");
 
-            std::shared_ptr<UI::ComboBox> colorSpaceComboBox;
+            std::shared_ptr<UI::Bellows> configBellows;
+            std::shared_ptr<UI::ButtonGroup> configButtonGroup;
+            std::shared_ptr<UI::ButtonGroup> editConfigButtonGroup;
+            std::shared_ptr<UI::ToolButton> addConfigButton;
+            std::shared_ptr<UI::ToolButton> editConfigButton;
+            std::shared_ptr<UI::VerticalLayout> configLayout;
+            std::shared_ptr<UI::Bellows> imageBellows;
+            std::shared_ptr<UI::ButtonGroup> editImageButtonGroup;
+            std::shared_ptr<UI::FormLayout> imageLayout;
+            std::shared_ptr<UI::VerticalLayout> addImageLayout;
+            std::shared_ptr<UI::PopupWidget> addImagePopupWidget;
+            std::shared_ptr<UI::ToolButton> editImageButton;
+            std::shared_ptr<UI::Bellows> displayBellows;
             std::shared_ptr<UI::ComboBox> displayComboBox;
             std::shared_ptr<UI::ComboBox> viewComboBox;
-            std::shared_ptr<UI::FormLayout> layout;
+            std::shared_ptr<UI::FormLayout> displayLayout;
+            std::shared_ptr<UI::FileBrowser::Dialog> fileBrowserDialog;
 
+            std::shared_ptr<ListObserver<AV::OCIO::Config> > configsObserver;
+            std::shared_ptr<ValueObserver<AV::OCIO::Config> > configObserver;
+            std::shared_ptr<ValueObserver<int> > currentConfigObserver;
             std::shared_ptr<ListObserver<std::string> > colorSpacesObserver;
-            std::shared_ptr<ListObserver<std::string> > displaysObserver;
+            std::shared_ptr<ListObserver<AV::OCIO::Display> > displaysObserver;
             std::shared_ptr<ListObserver<std::string> > viewsObserver;
-            std::shared_ptr<ValueObserver<std::string> > colorSpaceObserver;
-            std::shared_ptr<ValueObserver<std::string> > displayObserver;
-            std::shared_ptr<ValueObserver<std::string> > displayObserver2;
-            std::shared_ptr<ValueObserver<std::string> > viewObserver;
-            std::shared_ptr<ValueObserver<std::string> > viewObserver2;
-            std::shared_ptr<ValueObserver<std::string> > outputColorSpaceObserver;
-            std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
-            std::shared_ptr<ValueObserver<AV::Render::ImageOptions> > imageOptionsObserver;
         };
 
         void ColorSpaceWidget::_init(const std::shared_ptr<Core::Context>& context)
@@ -80,194 +100,280 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             setClassName("djv::ViewApp::ColorSpaceWidget");
-            p.model = UI::ColorSpaceModel::create(context);
 
-            p.colorSpaceComboBox = UI::ComboBox::create(context);
+            p.configBellows = UI::Bellows::create(context);
+            p.configButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Radio);
+            p.editConfigButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
+            p.addConfigButton = UI::ToolButton::create(context);
+            p.addConfigButton->setIcon("djvIconAddSmall");
+            p.editConfigButton = UI::ToolButton::create(context);
+            p.editConfigButton->setButtonType(UI::ButtonType::Toggle);
+            p.editConfigButton->setIcon("djvIconEditSmall");
+
+            p.imageBellows = UI::Bellows::create(context);
+            p.editImageButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
+            p.addImageLayout = UI::VerticalLayout::create(context);
+            p.addImageLayout->setSpacing(UI::MetricsRole::None);
+            p.addImagePopupWidget = UI::PopupWidget::create(context);
+            p.addImagePopupWidget->setIcon("djvIconAddSmall");
+            p.addImagePopupWidget->addChild(p.addImageLayout);
+            p.editImageButton = UI::ToolButton::create(context);
+            p.editImageButton->setButtonType(UI::ButtonType::Toggle);
+            p.editImageButton->setIcon("djvIconEditSmall");
+
+            p.displayBellows = UI::Bellows::create(context);
             p.displayComboBox = UI::ComboBox::create(context);
+            p.displayComboBox->setHAlign(UI::HAlign::Fill);
             p.viewComboBox = UI::ComboBox::create(context);
+            p.viewComboBox->setHAlign(UI::HAlign::Fill);
 
-            p.layout = UI::FormLayout::create(context);
-            p.layout->setMargin(UI::MetricsRole::Margin);
-            p.layout->setShadowOverlay({ UI::Side::Top });
-            p.layout->addChild(p.colorSpaceComboBox);
-            p.layout->addChild(p.displayComboBox);
-            p.layout->addChild(p.viewComboBox);
-            addChild(p.layout);
+            auto layout = UI::VerticalLayout::create(context);
+            layout->setSpacing(UI::MetricsRole::None);
+            layout->setShadowOverlay({ UI::Side::Top });
+
+            auto vLayout = UI::VerticalLayout::create(context);
+            vLayout->setMargin(UI::MetricsRole::Margin);
+            p.configLayout = UI::VerticalLayout::create(context);
+            p.configLayout->setSpacing(UI::MetricsRole::None);
+            vLayout->addChild(p.configLayout);
+            auto hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setSpacing(UI::MetricsRole::None);
+            hLayout->addExpander();
+            hLayout->addChild(p.addConfigButton);
+            hLayout->addChild(p.editConfigButton);
+            vLayout->addChild(hLayout);
+            p.configBellows->addChild(vLayout);
+            layout->addChild(p.configBellows);
+
+            vLayout = UI::VerticalLayout::create(context);
+            vLayout->setMargin(UI::MetricsRole::Margin);
+            p.imageLayout = UI::FormLayout::create(context);
+            vLayout->addChild(p.imageLayout);
+            hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setSpacing(UI::MetricsRole::None);
+            hLayout->addExpander();
+            hLayout->addChild(p.addImagePopupWidget);
+            hLayout->addChild(p.editImageButton);
+            vLayout->addChild(hLayout);
+            p.imageBellows->addChild(vLayout);
+            layout->addChild(p.imageBellows);
+
+            p.displayLayout = UI::FormLayout::create(context);
+            p.displayLayout->setMargin(UI::MetricsRole::Margin);
+            p.displayLayout->addChild(p.displayComboBox);
+            p.displayLayout->addChild(p.viewComboBox);
+            p.displayBellows->addChild(p.displayLayout);
+            layout->addChild(p.displayBellows);
+
+            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            scrollWidget->setBorder(false);
+            scrollWidget->addChild(layout);
+            addChild(scrollWidget);
 
             _widgetUpdate();
 
             auto weak = std::weak_ptr<ColorSpaceWidget>(std::dynamic_pointer_cast<ColorSpaceWidget>(shared_from_this()));
-            p.colorSpaceComboBox->setCallback(
-                [weak](int value)
+            auto contextWeak = std::weak_ptr<Context>(context);
+            p.configButtonGroup->setRadioCallback(
+                [weak, contextWeak](int value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        widget->_p->model->setColorSpace(widget->_p->model->indexToColorSpace(value));
+                        if (auto widget = weak.lock())
+                        {
+                            if (value >= 0 && value < widget->_p->configs.size())
+                            {
+                                auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                                ocioSystem->setCurrentConfig(value);
+                            }
+                        }
                     }
                 });
 
-            p.displayComboBox->setCallback(
-                [weak](int value)
+            p.addConfigButton->setClickedCallback(
+                [weak, contextWeak]
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        widget->_p->model->setDisplay(widget->_p->model->indexToDisplay(value));
+                        if (auto widget = weak.lock())
+                        {
+                            auto eventSystem = context->getSystemT<UI::EventSystem>();
+                            if (auto window = eventSystem->getCurrentWindow().lock())
+                            {
+                                widget->_p->fileBrowserDialog = UI::FileBrowser::Dialog::create(context);
+                                widget->_p->fileBrowserDialog->setPath(widget->_p->fileBrowserPath);
+                                widget->_p->fileBrowserDialog->setCallback(
+                                    [weak, contextWeak](const Core::FileSystem::FileInfo& value)
+                                    {
+                                        if (auto context = contextWeak.lock())
+                                        {
+                                            if (auto widget = weak.lock())
+                                            {
+                                                if (auto parent = widget->_p->fileBrowserDialog->getParent().lock())
+                                                {
+                                                    parent->removeChild(widget->_p->fileBrowserDialog);
+                                                }
+                                                widget->_p->fileBrowserPath = widget->_p->fileBrowserDialog->getPath();
+                                                widget->_p->fileBrowserDialog.reset();
+                                                auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                                                AV::OCIO::Config config;
+                                                config.fileName = value.getPath();
+                                                config.name = AV::OCIO::Config::getNameFromFileName(config.fileName);
+                                                ocioSystem->addConfig(config);
+                                            }
+                                        }
+                                    });
+                                widget->_p->fileBrowserDialog->setCloseCallback(
+                                    [weak]
+                                    {
+                                        if (auto widget = weak.lock())
+                                        {
+                                            if (auto parent = widget->_p->fileBrowserDialog->getParent().lock())
+                                            {
+                                                parent->removeChild(widget->_p->fileBrowserDialog);
+                                            }
+                                            widget->_p->fileBrowserPath = widget->_p->fileBrowserDialog->getPath();
+                                            widget->_p->fileBrowserDialog.reset();
+                                        }
+                                    });
+                                window->addChild(widget->_p->fileBrowserDialog);
+                                widget->_p->fileBrowserDialog->show();
+                            }
+                        }
                     }
                 });
 
-            p.viewComboBox->setCallback(
-                [weak](int value)
+            p.editConfigButton->setCheckedCallback(
+                [weak](bool value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->model->setView(widget->_p->model->indexToView(value));
-                    }
-                });
-
-            p.colorSpacesObserver = ListObserver<std::string>::create(
-                p.model->observeColorSpaces(),
-                [weak](const std::vector<std::string>&)
-                {
-                    if (auto widget = weak.lock())
-                    {
+                        widget->_p->editConfig = value;
                         widget->_widgetUpdate();
                     }
                 });
 
-            p.displaysObserver = ListObserver<std::string>::create(
-                p.model->observeDisplays(),
-                [weak](const std::vector<std::string>&)
+            p.editImageButton->setCheckedCallback(
+                [weak](bool value)
                 {
                     if (auto widget = weak.lock())
                     {
+                        widget->_p->editImage = value;
+                        widget->_widgetUpdate();
+                    }
+                });
+
+            p.displayComboBox->setCallback(
+                [weak, contextWeak](int value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        if (auto context = contextWeak.lock())
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                if (value >= 0 && value < widget->_p->displays.size())
+                                {
+                                    auto config = widget->_p->config;
+                                    config.display = widget->_p->displays[value].name;
+                                    auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                                    ocioSystem->setConfig(config);
+                                }
+                            }
+                        }
+                    }
+                });
+
+            p.viewComboBox->setCallback(
+                [weak, contextWeak](int value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        if (auto context = contextWeak.lock())
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                if (value >= 0 && value < widget->_p->views.size())
+                                {
+                                    auto config = widget->_p->config;
+                                    config.view = widget->_p->views[value];
+                                    auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                                    ocioSystem->setConfig(config);
+                                }
+                            }
+                        }
+                    }
+                });
+
+            auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+            p.configsObserver = ListObserver<AV::OCIO::Config>::create(
+                ocioSystem->observeConfigs(),
+                [weak](const std::vector<AV::OCIO::Config>& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->configs = value;
+                        widget->_widgetUpdate();
+                    }
+                });
+
+            p.configObserver = ValueObserver<AV::OCIO::Config>::create(
+                ocioSystem->observeConfig(),
+                [weak](const AV::OCIO::Config& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->config = value;
+                        widget->_widgetUpdate();
+                    }
+                });
+
+            p.currentConfigObserver = ValueObserver<int>::create(
+                ocioSystem->observeCurrentConfig(),
+                [weak, contextWeak](int value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->currentConfig = value;
+                            widget->_widgetUpdate();
+                        }
+                    }
+                });
+
+            p.colorSpacesObserver = ListObserver<std::string>::create(
+                ocioSystem->observeColorSpaces(),
+                [weak](const std::vector<std::string>& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->colorSpaces = value;
+                        widget->_widgetUpdate();
+                    }
+                });
+
+            p.displaysObserver = ListObserver<AV::OCIO::Display>::create(
+                ocioSystem->observeDisplays(),
+                [weak](const std::vector<AV::OCIO::Display>& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->displays = value;
                         widget->_widgetUpdate();
                     }
                 });
 
             p.viewsObserver = ListObserver<std::string>::create(
-                p.model->observeViews(),
-                [weak](const std::vector<std::string>&)
+                ocioSystem->observeViews(),
+                [weak](const std::vector<std::string>& value)
                 {
                     if (auto widget = weak.lock())
                     {
+                        widget->_p->views = value;
                         widget->_widgetUpdate();
                     }
                 });
-
-            p.colorSpaceObserver = ValueObserver<std::string>::create(
-                p.model->observeColorSpace(),
-                [weak](const std::string& value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        if (auto activeWidget = widget->_p->activeWidget)
-                        {
-                            auto imageView = activeWidget->getImageView();
-                            AV::Render::ImageOptions imageOptions = imageView->observeImageOptions()->get();
-                            imageOptions.colorSpace.input = value;
-                            imageView->setImageOptions(imageOptions);
-                        }
-                        widget->_widgetUpdate();
-                    }
-                });
-
-            p.displayObserver = ValueObserver<std::string>::create(
-                p.model->observeDisplay(),
-                [weak](const std::string& value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        if (auto activeWidget = widget->_p->activeWidget)
-                        {
-                            auto imageView = activeWidget->getImageView();
-                            imageView->setColorDisplay(value);
-                        }
-                        widget->_widgetUpdate();
-                    }
-                });
-
-            p.viewObserver = ValueObserver<std::string>::create(
-                p.model->observeView(),
-                [weak](const std::string& value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        if (auto activeWidget = widget->_p->activeWidget)
-                        {
-                            auto imageView = activeWidget->getImageView();
-                            imageView->setColorView(value);
-                        }
-                        widget->_widgetUpdate();
-                    }
-                });
-
-            p.outputColorSpaceObserver = ValueObserver<std::string>::create(
-                p.model->observeOutputColorSpace(),
-                [weak](const std::string& value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        if (auto activeWidget = widget->_p->activeWidget)
-                        {
-                            auto imageView = activeWidget->getImageView();
-                            AV::Render::ImageOptions imageOptions = imageView->observeImageOptions()->get();
-                            imageOptions.colorSpace.output = value;
-                            imageView->setImageOptions(imageOptions);
-                        }
-                        widget->_widgetUpdate();
-                    }
-                });
-
-            if (auto windowSystem = context->getSystemT<WindowSystem>())
-            {
-                p.activeWidgetObserver = ValueObserver<std::shared_ptr<MediaWidget> >::create(
-                    windowSystem->observeActiveWidget(),
-                    [weak](const std::shared_ptr<MediaWidget>& value)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            widget->_p->activeWidget = value;
-                            if (widget->_p->activeWidget)
-                            {
-                                auto imageView = widget->_p->activeWidget->getImageView();
-                                widget->_p->imageOptionsObserver = ValueObserver<AV::Render::ImageOptions>::create(
-                                    imageView->observeImageOptions(),
-                                    [weak](const AV::Render::ImageOptions& value)
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            widget->_p->model->setColorSpace(value.colorSpace.input);
-                                        }
-                                    });
-                                widget->_p->displayObserver2 = ValueObserver<std::string>::create(
-                                    imageView->observeColorDisplay(),
-                                    [weak](const std::string& value)
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            widget->_p->model->setDisplay(value);
-                                        }
-                                    });
-                                widget->_p->viewObserver2 = ValueObserver<std::string>::create(
-                                    imageView->observeColorView(),
-                                    [weak](const std::string& value)
-                                    {
-                                        if (auto widget = weak.lock())
-                                        {
-                                            widget->_p->model->setView(value);
-                                        }
-                                    });
-                            }
-                            else
-                            {
-                                widget->_p->imageOptionsObserver.reset();
-                                widget->_p->displayObserver2.reset();
-                                widget->_p->viewObserver2.reset();
-                            }
-                            widget->_widgetUpdate();
-                        }
-                    });
-            }
         }
 
         ColorSpaceWidget::ColorSpaceWidget() :
@@ -289,10 +395,11 @@ namespace djv
             MDIWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Color Space")));
-            p.emptyLabel = _getText(DJV_TEXT("(empty)"));
-            p.layout->setText(p.colorSpaceComboBox, _getText(DJV_TEXT("Input:")));
-            p.layout->setText(p.displayComboBox, _getText(DJV_TEXT("Display:")));
-            p.layout->setText(p.viewComboBox, _getText(DJV_TEXT("View:")));
+            p.configBellows->setText(_getText(DJV_TEXT("OCIO Configuration")));
+            p.imageBellows->setText(_getText(DJV_TEXT("Image Color Profiles")));
+            p.displayBellows->setText(_getText(DJV_TEXT("Display")));
+            p.displayLayout->setText(p.displayComboBox, _getText(DJV_TEXT("Name")) + ":");
+            p.displayLayout->setText(p.viewComboBox, _getText(DJV_TEXT("View")) + ":");
             _widgetUpdate();
         }
 
@@ -301,27 +408,230 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                p.colorSpaceComboBox->clearItems();
-                for (const auto& i : p.model->observeColorSpaces()->get())
+                p.configButtonGroup->clearButtons();
+                p.editConfigButtonGroup->clearButtons();
+                p.configLayout->clearChildren();
+                auto contextWeak = std::weak_ptr<Context>(context);
+                int j = 0;
+                for (const auto& i : p.configs)
                 {
-                    p.colorSpaceComboBox->addItem(i);
+                    auto button = UI::CheckBox::create(context);
+                    button->setText(i.name);
+                    p.configButtonGroup->addButton(button);
+
+                    auto deleteButton = UI::ToolButton::create(context);
+                    deleteButton->setIcon("djvIconCloseSmall");
+                    deleteButton->setVisible(p.editConfig);
+                    deleteButton->setInsideMargin(UI::MetricsRole::None);
+                    deleteButton->setVAlign(UI::VAlign::Fill);
+
+                    auto hLayout = UI::HorizontalLayout::create(context);
+                    hLayout->setSpacing(UI::MetricsRole::None);
+                    hLayout->addChild(button);
+                    hLayout->setStretch(button, UI::RowStretch::Expand);
+                    hLayout->addChild(deleteButton);
+                    p.configLayout->addChild(hLayout);
+
+                    deleteButton->setClickedCallback(
+                        [j, contextWeak]
+                        {
+                            if (auto context = contextWeak.lock())
+                            {
+                                auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                                ocioSystem->removeConfig(j);
+                            }
+                        });
+
+                    ++j;
                 }
-                const std::string& colorSpace = p.model->observeColorSpace()->get();
-                p.colorSpaceComboBox->setCurrentItem(p.model->colorSpaceToIndex(colorSpace));
+                p.configButtonGroup->setChecked(p.currentConfig);
+                p.editConfigButton->setEnabled(p.configs.size() > 0);
+
+                p.editImageButtonGroup->clearButtons();
+                p.imageLayout->clearChildren();
+                std::set<std::string> usedPluginNames;
+                auto weak = std::weak_ptr<ColorSpaceWidget>(std::dynamic_pointer_cast<ColorSpaceWidget>(shared_from_this()));
+                for (const auto& i : p.config.colorSpaces)
+                {
+                    usedPluginNames.insert(i.first);
+
+                    auto comboBox = UI::ComboBox::create(context);
+                    comboBox->setHAlign(UI::HAlign::Fill);
+                    for (const auto& j : p.colorSpaces)
+                    {
+                        std::string s = j;
+                        if (s.empty())
+                        {
+                            s = _getText(DJV_TEXT("None"));
+                        }
+                        comboBox->addItem(s);
+                    }
+                    int index = -1;
+                    int k = 0;
+                    for (const auto& j : p.colorSpaces)
+                    {
+                        if (i.second == j)
+                        {
+                            index = k;
+                            break;
+                        }
+                        ++k;
+                    }
+                    comboBox->setCurrentItem(index);
+
+                    auto deleteButton = UI::ToolButton::create(context);
+                    deleteButton->setIcon("djvIconCloseSmall");
+                    deleteButton->setVisible(p.editImage);
+                    deleteButton->setInsideMargin(UI::MetricsRole::None);
+                    deleteButton->setVAlign(UI::VAlign::Fill);
+
+                    auto hLayout = UI::HorizontalLayout::create(context);
+                    hLayout->setSpacing(UI::MetricsRole::None);
+                    hLayout->addChild(comboBox);
+                    hLayout->setStretch(comboBox, UI::RowStretch::Expand);
+                    hLayout->addChild(deleteButton);
+                    p.imageLayout->addChild(hLayout);
+                    std::string s = i.first;
+                    if (s.empty())
+                    {
+                        s = _getText(DJV_TEXT("Default"));
+                    }
+                    p.imageLayout->setText(hLayout, s + ":");
+
+                    std::string pluginName = i.first;
+                    comboBox->setCallback(
+                        [pluginName, weak, contextWeak](int value)
+                        {
+                            if (auto context = contextWeak.lock())
+                            {
+                                if (auto widget = weak.lock())
+                                {
+                                    if (value >= 0 && value < widget->_p->colorSpaces.size())
+                                    {
+                                        AV::OCIO::Config config = widget->_p->config;
+                                        config.colorSpaces[pluginName] = widget->_p->colorSpaces[value];
+                                        auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                                        ocioSystem->setConfig(config);
+                                    }
+                                }
+                            }
+                        });
+                    deleteButton->setClickedCallback(
+                        [pluginName, weak, contextWeak]
+                        {
+                            if (auto context = contextWeak.lock())
+                            {
+                                if (auto widget = weak.lock())
+                                {
+                                    AV::OCIO::Config config = widget->_p->config;
+                                    auto i = config.colorSpaces.find(pluginName);
+                                    if (i != config.colorSpaces.end())
+                                    {
+                                        config.colorSpaces.erase(i);
+                                    }
+                                    auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                                    ocioSystem->setConfig(config);
+                                }
+                            }
+                        });
+                }
+
+                p.addImageLayout->clearChildren();
+                auto io = context->getSystemT<AV::IO::System>();
+                auto pluginNames = io->getPluginNames();
+                pluginNames.insert(pluginNames.begin(), std::string());
+                for (const auto& i : pluginNames)
+                {
+                    const auto j = usedPluginNames.find(i);
+                    if (j == usedPluginNames.end())
+                    {
+                        auto button = UI::ListButton::create(context);
+                        std::string s = i;
+                        if (!s.empty())
+                        {
+                            s = _getText(i);
+                        }
+                        else
+                        {
+                            s = _getText("Default");
+                        }
+                        button->setText(s);
+                        button->setInsideMargin(UI::MetricsRole::Margin);
+                        p.addImageLayout->addChild(button);
+                        std::string pluginName = i;
+                        button->setClickedCallback(
+                            [pluginName, weak, contextWeak]
+                            {
+                                if (auto context = contextWeak.lock())
+                                {
+                                    if (auto widget = weak.lock())
+                                    {
+                                        widget->_p->addImagePopupWidget->close();
+                                        widget->_p->config.colorSpaces[pluginName] = std::string();
+                                        auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                                        ocioSystem->setConfig(widget->_p->config);
+                                    }
+                                }
+                            });
+                    }
+                }
+                p.addImagePopupWidget->setEnabled(
+                    p.configs.size() > 0 &&
+                    usedPluginNames.size() < pluginNames.size());
+                p.editImageButton->setEnabled(
+                    p.configs.size() > 0 &&
+                    p.config.colorSpaces.size() > 0);
 
                 p.displayComboBox->clearItems();
-                for (const auto& i : p.model->observeDisplays()->get())
+                for (const auto& i : p.displays)
                 {
-                    p.displayComboBox->addItem(i);
+                    std::string s = i.name;
+                    if (s.empty())
+                    {
+                        s = _getText(DJV_TEXT("None"));
+                    }
+                    p.displayComboBox->addItem(s);
                 }
-                p.displayComboBox->setCurrentItem(p.model->displayToIndex(p.model->observeDisplay()->get()));
+                int index = -1;
+                if (p.currentConfig >= 0 && p.currentConfig < p.configs.size())
+                {
+                    const auto& config = p.configs[p.currentConfig];
+                    int j = 0;
+                    for (const auto& i : p.displays)
+                    {
+                        if (config.display == i.name)
+                        {
+                            index = j;
+                            break;
+                        }
+                        ++j;
+                    }
+                }
+                p.displayComboBox->setCurrentItem(index);
 
+                p.viewComboBox->setEnabled(p.views.size() > 0);
                 p.viewComboBox->clearItems();
-                for (const auto& i : p.model->observeViews()->get())
+                for (const auto& i : p.views)
                 {
-                    p.viewComboBox->addItem(i);
+                    std::string s = i;
+                    if (s.empty())
+                    {
+                        s = _getText(DJV_TEXT("None"));
+                    }
+                    p.viewComboBox->addItem(s);
                 }
-                p.viewComboBox->setCurrentItem(p.model->viewToIndex(p.model->observeView()->get()));
+                index = -1;
+                j = 0;
+                for (const auto& i : p.views)
+                {
+                    if (p.config.view == i)
+                    {
+                        index = j;
+                        break;
+                    }
+                    ++j;
+                }
+                p.viewComboBox->setCurrentItem(index);
             }
         }
 

@@ -56,6 +56,7 @@ namespace djv
     {
         if (value.is<picojson::array>())
         {
+            out.clear();
             for (const auto & i : value.get<picojson::array>())
             {
                 T tmp;
@@ -74,6 +75,7 @@ namespace djv
     {
         if (value.is<picojson::object>())
         {
+            out.clear();
             for (const auto & i : value.get<picojson::object>())
             {
                 fromJSON(i.second, out[i.first]);

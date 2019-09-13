@@ -135,6 +135,7 @@ namespace djv
                     if (info.video.size())
                     {
                         out = Image::Image::create(info.video[0].info);
+                        out->setPluginName(pluginName);
                         for (uint16_t y = 0; y < info.video[0].info.size.h; ++y)
                         {
                             if (!jpegScanline(&f.jpeg, out->getData(y), &f.jpegError))

@@ -307,9 +307,8 @@ namespace djv
                 //! This struct provides the DPX file I/O options.
                 struct Options
                 {
-                    Version         version         = Version::_2_0;
-                    Endian          endian          = Endian::Auto;
-                    std::string     colorSpace;
+                    Version     version    = Version::_2_0;
+                    Endian      endian     = Endian::Auto;
                 };
 
                 //! This class provides the DPX file reader.
@@ -377,9 +376,7 @@ namespace djv
                     Plugin();
 
                 public:
-                    static std::shared_ptr<Plugin> create(
-                        const std::shared_ptr<Core::ResourceSystem>&,
-                        const std::shared_ptr<Core::LogSystem>&);
+                    static std::shared_ptr<Plugin> create(const std::shared_ptr<Core::Context>&);
 
                     picojson::value getOptions() const override;
                     void setOptions(const picojson::value &) override;

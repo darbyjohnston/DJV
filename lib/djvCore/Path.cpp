@@ -243,7 +243,8 @@ namespace djv
         DJV_TEXT("ImagesDirectory"),
         DJV_TEXT("ModelsDirectory"),
         DJV_TEXT("ShadersDirectory"),
-        DJV_TEXT("TextDirectory"));
+        DJV_TEXT("TextDirectory"),
+        DJV_TEXT("ColorDirectory"));
 
 } // namespace djv
 

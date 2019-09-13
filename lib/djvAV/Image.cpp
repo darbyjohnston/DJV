@@ -60,6 +60,16 @@ namespace djv
                 return out;
             }
 
+            const std::string& Image::getPluginName() const
+            {
+                return _pluginName;
+            }
+
+            void Image::setPluginName(const std::string& value)
+            {
+                _pluginName = value;
+            }
+
             const Tags& Image::getTags() const
             {
                 return _tags;
@@ -68,16 +78,6 @@ namespace djv
             void Image::setTags(const Tags& value)
             {
                 _tags = value;
-            }
-
-            const std::string& Image::getColorSpace() const
-            {
-                return _colorSpace;
-            }
-
-            void Image::setColorSpace(const std::string& value)
-            {
-                _colorSpace = value;
             }
 
         } // namespace Image

@@ -67,6 +67,7 @@ namespace djv
 
                 void addChild(const std::shared_ptr<IObject>&) override;
                 void removeChild(const std::shared_ptr<IObject>&) override;
+                void clearChildren() override;
 
             protected:
                 void _preLayoutEvent(Event::PreLayout &) override;
@@ -111,6 +112,11 @@ namespace djv
             void OverlayWidget::removeChild(const std::shared_ptr<IObject>& value)
             {
                 _layout->removeChild(value);
+            }
+
+            void OverlayWidget::clearChildren()
+            {
+                _layout->clearChildren();
             }
 
             void OverlayWidget::_buttonPressEvent(Event::ButtonPress & event)
@@ -436,9 +442,14 @@ namespace djv
             _p->overlayWidget->addChild(value);
         }
 
-        void PopupWidget::removeChild(const std::shared_ptr<IObject> & value)
+        void PopupWidget::removeChild(const std::shared_ptr<IObject>& value)
         {
             _p->overlayWidget->removeChild(value);
+        }
+
+        void PopupWidget::clearChildren()
+        {
+            _p->overlayWidget->clearChildren();
         }
 
         void PopupWidget::_preLayoutEvent(Event::PreLayout & event)

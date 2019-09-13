@@ -58,6 +58,12 @@ namespace djv
 
     namespace AV
     {
+        namespace OCIO
+        {
+            class System;
+
+        } // namespace OCIO
+
         //! This namespace provides I/O functionality.
         namespace IO
         {
@@ -215,6 +221,7 @@ namespace djv
             protected:
                 std::shared_ptr<Core::LogSystem> _logSystem;
                 std::shared_ptr<Core::ResourceSystem> _resourceSystem;
+                std::shared_ptr<OCIO::System> _ocioSystem;
                 Core::FileSystem::FileInfo _fileInfo;
                 std::mutex _mutex;
                 VideoQueue _videoQueue;
@@ -226,6 +233,7 @@ namespace djv
             struct ReadOptions : IOOptions
             {
                 size_t layer = 0;
+                std::string colorSpace;
             };
 
             //! This enumeration provides the playback direction for caching.
@@ -278,7 +286,9 @@ namespace djv
 
             //! This class provides options for writing.
             struct WriteOptions : IOOptions
-            {};
+            {
+                std::string colorSpace;
+            };
 
             //! This class provides an interface for writing.
             class IWrite : public IIO
@@ -304,11 +314,10 @@ namespace djv
             {
             protected:
                 void _init(
-                    const std::string & pluginName,
-                    const std::string & pluginInfo,
-                    const std::set<std::string> & fileExtensions,
-                    const std::shared_ptr<Core::ResourceSystem>&,
-                    const std::shared_ptr<Core::LogSystem>&);
+                    const std::string& pluginName,
+                    const std::string& pluginInfo,
+                    const std::set<std::string>& fileExtensions,
+                    const std::shared_ptr<Core::Context>&);
 
             public:
                 virtual ~IPlugin() = 0;
@@ -336,6 +345,7 @@ namespace djv
                 virtual std::shared_ptr<IWrite> write(const Core::FileSystem::FileInfo&, const Info&, const WriteOptions&) const;
 
             protected:
+                std::weak_ptr<Core::Context> _context;
                 std::shared_ptr<Core::LogSystem> _logSystem;
                 std::shared_ptr<Core::ResourceSystem> _resourceSystem;
                 std::string _pluginName;
@@ -357,7 +367,7 @@ namespace djv
 
                 static std::shared_ptr<System> create(const std::shared_ptr<Core::Context>&);
 
-                std::vector<std::string> getPluginNames() const;
+                std::set<std::string> getPluginNames() const;
 
                 picojson::value getOptions(const std::string & pluginName) const;
 

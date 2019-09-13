@@ -147,7 +147,11 @@ namespace djv
         void ListWidget::setCurrentItem(int value, Callback callback)
         {
             DJV_PRIVATE_PTR();
-            const int tmp = Math::clamp(value, 0, static_cast<int>(p.items.size()) - 1);
+            int tmp = -1;
+            if (value >= 0 && value < static_cast<int>(p.items.size()))
+            {
+                tmp = value;
+            }
             if (tmp == p.currentItem)
                 return;
             p.currentItem = tmp;

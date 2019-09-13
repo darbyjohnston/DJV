@@ -181,10 +181,15 @@ namespace djv
                 distributeEvenly();
             }
 
-            void Splitter::removeChild(const std::shared_ptr<IObject> & child)
+            void Splitter::removeChild(const std::shared_ptr<IObject>& child)
             {
                 Widget::removeChild(child);
                 distributeEvenly();
+            }
+
+            void Splitter::clearChildren()
+            {
+                Widget::clearChildren();
             }
 
             void Splitter::_styleEvent(Event::Style &)

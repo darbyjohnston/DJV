@@ -1482,14 +1482,10 @@ namespace djv
                         textureV.max = 1.f - textureV.max;
                     }
 #if !defined(DJV_OPENGL_ES2)
-                    const std::string& imageColorSpace = image->getColorSpace();
-                    const OCIO::Convert colorSpace(
-                        !options.colorSpace.input.empty() ? options.colorSpace.input : imageColorSpace,
-                        options.colorSpace.output);
-                    if (colorSpace.isValid())
+                    if (options.colorSpace.isValid())
                     {
                         ColorSpaceData colorSpaceData;
-                        const auto i = colorSpaceCache.find(colorSpace);
+                        const auto i = colorSpaceCache.find(options.colorSpace);
                         if (i != colorSpaceCache.end())
                         {
                             colorSpaceData = i->second;
@@ -1501,7 +1497,7 @@ namespace djv
                                 colorSpaceData.id = colorSpaceID++;
                                 colorSpaceData.lut3D.reset(new LUT3D);
                                 auto config = _OCIO::GetCurrentConfig();
-                                auto processor = config->getProcessor(colorSpace.input.c_str(), colorSpace.output.c_str());
+                                auto processor = config->getProcessor(options.colorSpace.input.c_str(), options.colorSpace.output.c_str());
                                 _OCIO::GpuShaderDesc shaderDesc;
                                 shaderDesc.setLanguage(_OCIO::GPU_LANGUAGE_GLSL_1_3);
                                 std::stringstream ss;
@@ -1517,7 +1513,7 @@ namespace djv
                                 auto data = colorSpaceData.lut3D->getData();
                                 processor->getGpuLut3D(data, shaderDesc);
                                 colorSpaceData.lut3D->copy();
-                                colorSpaceCache[colorSpace] = colorSpaceData;
+                                colorSpaceCache[options.colorSpace] = colorSpaceData;
                                 shader.reset();
                             }
                             catch (const std::exception& e)

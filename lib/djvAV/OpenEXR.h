@@ -151,7 +151,6 @@ namespace djv
                     Channels    channels            = Channels::Known;
                     Compression compression         = Compression::None;
                     float       dwaCompressionLevel = 45.f;
-                    std::string colorSpace;
                 };
 
                 //! This class provides a memory-mapped input stream.
@@ -239,9 +238,7 @@ namespace djv
                     Plugin();
 
                 public:
-                    static std::shared_ptr<Plugin> create(
-                        const std::shared_ptr<Core::ResourceSystem>&,
-                        const std::shared_ptr<Core::LogSystem>&);
+                    static std::shared_ptr<Plugin> create(const std::shared_ptr<Core::Context>&);
 
                     picojson::value getOptions() const override;
                     void setOptions(const picojson::value &) override;

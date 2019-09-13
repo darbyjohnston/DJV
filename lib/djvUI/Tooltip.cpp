@@ -59,6 +59,7 @@ namespace djv
 
                 void addChild(const std::shared_ptr<IObject>&) override;
                 void removeChild(const std::shared_ptr<IObject>&) override;
+                void clearChildren() override;
 
             protected:
                 void _layoutEvent(Core::Event::Layout &) override;
@@ -111,6 +112,11 @@ namespace djv
                         _widgetToPos.erase(i);
                     }
                 }
+            }
+
+            void TooltipLayout::clearChildren()
+            {
+                Widget::clearChildren();
             }
 
             void TooltipLayout::_layoutEvent(Event::Layout &)

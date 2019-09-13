@@ -290,6 +290,11 @@ namespace djv
             }
         }
 
+        void MenuBar::clearChildren()
+        {
+            Widget::clearChildren();
+        }
+
         void MenuBar::_preLayoutEvent(Event::PreLayout & event)
         {
             _setMinimumSize(_p->layout->getMinimumSize());

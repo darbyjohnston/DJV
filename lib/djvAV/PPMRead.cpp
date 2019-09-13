@@ -79,6 +79,7 @@ namespace djv
                     case Data::ASCII:
                     {
                         out = Image::Image::create(imageInfo);
+                        out->setPluginName(pluginName);
                         const size_t channelCount = Image::getChannelCount(imageInfo.type);
                         const size_t bitDepth = Image::getBitDepth(imageInfo.type);
                         for (uint16_t y = 0; y < imageInfo.size.h; ++y)
@@ -99,6 +100,7 @@ namespace djv
                             imageInfo.layout.endian = Memory::getEndian();
                         }
                         out = Image::Image::create(imageInfo);
+                        out->setPluginName(pluginName);
                         io->read(out->getData(), io->getSize() - io->getPos());
                         if (convertEndian)
                         {

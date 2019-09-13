@@ -38,9 +38,6 @@
 #include <djvViewApp/UISettingsWidget.h>
 #include <djvViewApp/WindowSettingsWidget.h>
 
-#include <djvUIComponents/CineonSettingsWidget.h>
-#include <djvUIComponents/ColorSpaceSettingsWidget.h>
-#include <djvUIComponents/DPXSettingsWidget.h>
 #include <djvUIComponents/IOSettingsWidget.h>
 #include <djvUIComponents/LanguageSettingsWidget.h>
 #include <djvUIComponents/PPMSettingsWidget.h>
@@ -151,12 +148,9 @@ namespace djv
                     UI::Render2DTextSettingsWidget::create(context),
                     UI::TimeSettingsWidget::create(context),
                     UI::TooltipsSettingsWidget::create(context),
-                    UI::ColorSpaceSettingsWidget::create(context),
 
                     UI::IOThreadsSettingsWidget::create(context),
                     UI::PPMSettingsWidget::create(context),
-                    UI::CineonSettingsWidget::create(context),
-                    UI::DPXSettingsWidget::create(context),
                     UI::PPMSettingsWidget::create(context),
 #if defined(JPEG_FOUND)
                     UI::JPEGSettingsWidget::create(context),

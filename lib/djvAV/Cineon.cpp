@@ -594,79 +594,35 @@ namespace djv
 
                 struct Plugin::Private
                 {
-                    Options options;
                 };
 
                 Plugin::Plugin() :
                     _p(new Private)
                 {}
 
-                std::shared_ptr<Plugin> Plugin::create(
-                    const std::shared_ptr<ResourceSystem>& resourceSystem,
-                    const std::shared_ptr<LogSystem>& logSystem)
+                std::shared_ptr<Plugin> Plugin::create(const std::shared_ptr<Context>& context)
                 {
                     auto out = std::shared_ptr<Plugin>(new Plugin);
                     out->_init(
                         pluginName,
                         DJV_TEXT("This plugin provides Cineon image I/O."),
                         fileExtensions,
-                        resourceSystem,
-                        logSystem);
+                        context);
                     return out;
-                }
-
-                picojson::value Plugin::getOptions() const
-                {
-                    return toJSON(_p->options);
-                }
-
-                void Plugin::setOptions(const picojson::value & value)
-                {
-                    fromJSON(value, _p->options);
                 }
 
                 std::shared_ptr<IRead> Plugin::read(const FileSystem::FileInfo & fileInfo, const ReadOptions& options) const
                 {
-                    return Read::create(fileInfo, options, _p->options, _resourceSystem, _logSystem);
+                    return Read::create(fileInfo, options, _resourceSystem, _logSystem);
                 }
 
                 std::shared_ptr<IWrite> Plugin::write(const FileSystem::FileInfo& fileInfo, const Info & info, const WriteOptions& options) const
                 {
-                    return Write::create(fileInfo, info, options, _p->options, _resourceSystem, _logSystem);
+                    return Write::create(fileInfo, info, options, _resourceSystem, _logSystem);
                 }
 
             } // namespace Cineon
         } // namespace IO
     } // namespace AV
-
-    picojson::value toJSON(const AV::IO::Cineon::Options& value)
-    {
-        picojson::value out(picojson::object_type, true);
-        {
-            {
-                out.get<picojson::object>()["ColorSpace"] = toJSON(value.colorSpace);
-            }
-        }
-        return out;
-    }
-
-    void fromJSON(const picojson::value& value, AV::IO::Cineon::Options& out)
-    {
-        if (value.is<picojson::object>())
-        {
-            for (const auto& i : value.get<picojson::object>())
-            {
-                if ("ColorSpace" == i.first)
-                {
-                    fromJSON(i.second, out.colorSpace);
-                }
-            }
-        }
-        else
-        {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
-        }
-    }
-
 } // namespace djv
 

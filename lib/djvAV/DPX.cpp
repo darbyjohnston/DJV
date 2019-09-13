@@ -861,17 +861,14 @@ namespace djv
                     _p(new Private)
                 {}
 
-                std::shared_ptr<Plugin> Plugin::create(
-                    const std::shared_ptr<ResourceSystem>& resourceSystem,
-                    const std::shared_ptr<LogSystem>& logSystem)
+                std::shared_ptr<Plugin> Plugin::create(const std::shared_ptr<Context>& context)
                 {
                     auto out = std::shared_ptr<Plugin>(new Plugin);
                     out->_init(
                         pluginName,
                         DJV_TEXT("This plugin provides DPX image I/O."),
                         fileExtensions,
-                        resourceSystem,
-                        logSystem);
+                        context);
                     return out;
                 }
 
@@ -926,7 +923,6 @@ namespace djv
                 ss << value.endian;
                 out.get<picojson::object>()["Endian"] = picojson::value(ss.str());
             }
-            out.get<picojson::object>()["ColorSpace"] = toJSON(value.colorSpace);
         }
         return out;
     }
@@ -946,10 +942,6 @@ namespace djv
                 {
                     std::stringstream ss(i.second.get<std::string>());
                     ss >> out.endian;
-                }
-                else if ("ColorSpace" == i.first)
-                {
-                    fromJSON(i.second, out.colorSpace);
                 }
             }
         }

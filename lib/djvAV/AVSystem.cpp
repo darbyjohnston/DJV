@@ -65,8 +65,8 @@ namespace djv
             p.timeUnits = ValueSubject<TimeUnits>::create(TimeUnits::First);
             p.defaultSpeed = ValueSubject<Time::FPS>::create(Time::getDefaultSpeed());
 
-            auto ioSystem = IO::System::create(context);
             auto ocioSystem = OCIO::System::create(context);
+            auto ioSystem = IO::System::create(context);
             auto fontSystem = Font::System::create(context);
             p.thumbnailSystem = ThumbnailSystem::create(context);
             auto render2D = Render::Render2D::create(context);
