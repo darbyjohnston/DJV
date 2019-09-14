@@ -61,6 +61,9 @@ namespace djv
             const std::shared_ptr<AV::Image::Image> & getImage() const;
             void setImage(const std::shared_ptr<AV::Image::Image> &);
 
+            ColorRole getImageColorRole() const;
+            void setImageColorRole(ColorRole);
+
             MetricsRole getSizeRole() const;
             void setSizeRole(MetricsRole);
 

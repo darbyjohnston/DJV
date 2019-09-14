@@ -420,6 +420,7 @@ namespace djv
         void BackgroundImageSettingsWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
+            p.imageWidget->setImageColorRole(p.colorize ? UI::ColorRole::Button : UI::ColorRole::None);
             p.lineEdit->setText(p.fileName);
             p.colorizeCheckBox->setChecked(p.colorize);
         }
