@@ -167,7 +167,6 @@ namespace djv
 
                     FullscreenMonitorSettingsWidget::create(context),
                     BackgroundImageSettingsWidget::create(context),
-                    CacheSettingsWidget::create(context),
                     ImageAspectRatioSettingsWidget::create(context),
                     ImageRotateSettingsWidget::create(context),
                     ImageViewBackgroundSettingsWidget::create(context),
