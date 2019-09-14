@@ -29,60 +29,40 @@
 
 #pragma once
 
-#include <djvCore/ISystem.h>
+#include <djvUI/ISettings.h>
+
 #include <djvCore/ListObserver.h>
+#include <djvCore/ValueObserver.h>
 
 namespace djv
 {
-    namespace Core
+    namespace ViewApp
     {
-        namespace FileSystem
+        //! This class provides the help settings.
+        class HelpSettings : public UI::Settings::ISettings
         {
-            class Path;
+            DJV_NON_COPYABLE(HelpSettings);
 
-        } // namespace FileSystem
+        protected:
+            void _init(const std::shared_ptr<Core::Context>&);
 
-        //! This class provides logging functionality.
-        //!
-        //! Logging output is written to the given file, and can also be written to
-        //! std::cout if the environment variable DJV_LOG_CONSOLE is set to a non-zero
-        //! value.
-        class LogSystem : public ISystemBase
-        {
-            DJV_NON_COPYABLE(LogSystem);
-            void _init(const FileSystem::Path &, const std::shared_ptr<Context>&);
-            LogSystem();
+            HelpSettings();
 
         public:
-            virtual ~LogSystem();
-            
-            //! Create a new logging system.
-            static std::shared_ptr<LogSystem> create(const FileSystem::Path &, const std::shared_ptr<Context>&);
-            
-            //! Log a message.
-            void log(const std::string & prefix, const std::string & message, LogLevel = LogLevel::Information);
+            virtual ~HelpSettings();
 
-            //! \name Warning and Errors
-            ///@{
+            static std::shared_ptr<HelpSettings> create(const std::shared_ptr<Core::Context>&);
 
-            std::shared_ptr<Core::IListSubject<std::string> > observeWarnings() const;
-            std::shared_ptr<Core::IListSubject<std::string> > observeErrors() const;
+            std::shared_ptr<Core::IValueSubject<bool> > observeErrorsPopup() const;
+            void setErrorsPopup(bool);
 
-            ///@}
-
-            //! \name Logging Options
-            ///@{
-            
-            bool hasConsoleOutput() const;
-            void setConsoleOutput(bool);
-            
-            ///@}
+            void load(const picojson::value &) override;
+            picojson::value save() override;
 
         private:
-            void _writeMessages();
-
             DJV_PRIVATE();
         };
 
-    } // namespace Core
+    } // namespace ViewApp
 } // namespace djv
+

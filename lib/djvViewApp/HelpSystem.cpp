@@ -31,16 +31,22 @@
 
 #include <djvViewApp/AboutDialog.h>
 #include <djvViewApp/DebugWidget.h>
+#include <djvViewApp/ErrorsWidget.h>
+#include <djvViewApp/HelpSettings.h>
 #include <djvViewApp/SystemLogWidget.h>
+
+#include <djvDesktopApp/GLFWSystem.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/EventSystem.h>
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/SettingsSystem.h>
 #include <djvUI/Shortcut.h>
 #include <djvUI/Window.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/LogSystem.h>
 #include <djvCore/TextSystem.h>
 
 #define GLFW_INCLUDE_NONE
@@ -54,10 +60,17 @@ namespace djv
     {
         struct HelpSystem::Private
         {
+            std::shared_ptr<HelpSettings> settings;
+            std::string errorsText;
+            bool errorsPopup = false;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
             std::shared_ptr<AboutDialog> aboutDialog;
+            std::weak_ptr<ErrorsWidget> errorsWidget;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
+            std::shared_ptr<ListObserver<std::string> > warningsObserver;
+            std::shared_ptr<ListObserver<std::string> > errorsObserver;
+            std::shared_ptr<ValueObserver<bool> > errorsPopupObserver;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
@@ -67,10 +80,14 @@ namespace djv
 
             DJV_PRIVATE_PTR();
 
+            p.settings = HelpSettings::create(context);
+
             //! \todo Implement me!
             p.actions["Documentation"] = UI::Action::create();
             p.actions["Documentation"]->setEnabled(false);
             p.actions["About"] = UI::Action::create();
+            p.actions["Errors"] = UI::Action::create();
+            p.actions["Errors"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["SystemLog"] = UI::Action::create();
             p.actions["SystemLog"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["Debug"] = UI::Action::create();
@@ -82,6 +99,7 @@ namespace djv
             p.menu->addSeparator();
             p.menu->addAction(p.actions["About"]);
             p.menu->addSeparator();
+            p.menu->addAction(p.actions["Errors"]);
             p.menu->addAction(p.actions["SystemLog"]);
             p.menu->addAction(p.actions["Debug"]);
 
@@ -139,6 +157,27 @@ namespace djv
                 }
             });
 
+            p.actionObservers["Errors"] = ValueObserver<bool>::create(
+                p.actions["Errors"]->observeChecked(),
+                [weak, contextWeak](bool value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (value)
+                            {
+                                system->_errorsPopup();
+                            }
+                            else
+                            {
+                                system->_closeWidget("Errors");
+                                system->_p->errorsWidget.reset();
+                            }
+                        }
+                    }
+                });
+
             p.actionObservers["SystemLog"] = ValueObserver<bool>::create(
                 p.actions["SystemLog"]->observeChecked(),
                 [weak, contextWeak](bool value)
@@ -178,6 +217,70 @@ namespace djv
                             {
                                 system->_closeWidget("Debug");
                             }
+                        }
+                    }
+                });
+
+            auto logSystem = context->getSystemT<LogSystem>();
+            p.warningsObserver = ListObserver<std::string>::create(
+                logSystem->observeWarnings(),
+                [weak](const std::vector<std::string>& value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        std::stringstream ss(system->_p->errorsText);
+                        for (const auto& i : value)
+                        {
+                            ss << "\n";
+                            ss << system->_getText(DJV_TEXT("Warning")) << ": ";
+                            ss << i;
+                        }
+                        if (auto errorsWidget = system->_p->errorsWidget.lock())
+                        {
+                            errorsWidget->setText(system->_p->errorsText);
+                        }
+                        if (system->_p->errorsPopup)
+                        {
+                            system->_errorsPopup();
+                        }
+                    }
+                });
+
+            p.errorsObserver = ListObserver<std::string>::create(
+                logSystem->observeErrors(),
+                [weak](const std::vector<std::string>& value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        std::stringstream ss;
+                        for (const auto& i : value)
+                        {
+                            ss << system->_getText(DJV_TEXT("ERROR")) << ": ";
+                            ss << i;
+                            ss << "\n";
+                        }
+                        system->_p->errorsText.append(ss.str());
+                        if (auto errorsWidget = system->_p->errorsWidget.lock())
+                        {
+                            errorsWidget->setText(system->_p->errorsText);
+                        }
+                        if (system->_p->errorsPopup)
+                        {
+                            system->_errorsPopup();
+                        }
+                    }
+                });
+
+            p.errorsPopupObserver = ValueObserver<bool>::create(
+                p.settings->observeErrorsPopup(),
+                [weak](bool value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->errorsPopup = value;
+                        if (auto errorsWidget = system->_p->errorsWidget.lock())
+                        {
+                            errorsWidget->setPopup(value);
                         }
                     }
                 });
@@ -226,10 +329,62 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.actions["Documentation"]->setText(_getText(DJV_TEXT("Documentation")));
             p.actions["About"]->setText(_getText(DJV_TEXT("About")));
+            p.actions["Errors"]->setText(_getText(DJV_TEXT("Errors")));
             p.actions["SystemLog"]->setText(_getText(DJV_TEXT("System Log")));
-            p.actions["Debug"]->setText(_getText(DJV_TEXT("Debug Widget")));
+            p.actions["Debug"]->setText(_getText(DJV_TEXT("Debugging")));
 
             p.menu->setText(_getText(DJV_TEXT("Help")));
+        }
+
+        void HelpSystem::_errorsPopup()
+        {
+            DJV_PRIVATE_PTR();
+            auto contextWeak = getContext();
+            if (auto context = contextWeak.lock())
+            {
+                if (!p.errorsWidget.lock())
+                {
+                    auto widget = ErrorsWidget::create(context);
+                    widget->setText(p.errorsText);
+                    widget->setPopup(p.errorsPopup);
+                    auto weak = std::weak_ptr<HelpSystem>(std::dynamic_pointer_cast<HelpSystem>(shared_from_this()));
+                    widget->setPopupCallback(
+                        [weak](bool value)
+                        {
+                            if (auto system = weak.lock())
+                            {
+                                system->_p->settings->setErrorsPopup(value);
+                            }
+                        });
+                    widget->setCopyCallback(
+                        [weak, contextWeak]
+                        {
+                            if (auto context = contextWeak.lock())
+                            {
+                                if (auto system = weak.lock())
+                                {
+                                    auto glfwSystem = context->getSystemT<Desktop::GLFWSystem>();
+                                    auto glfwWindow = glfwSystem->getGLFWWindow();
+                                    glfwSetClipboardString(glfwWindow, system->_p->errorsText.c_str());
+                                }
+                            }
+                        });
+                    widget->setClearCallback(
+                        [weak]
+                        {
+                            if (auto system = weak.lock())
+                            {
+                                system->_p->errorsText.clear();
+                                if (auto errorsWidget = system->_p->errorsWidget.lock())
+                                {
+                                    errorsWidget->setText(std::string());
+                                }
+                            }
+                        });
+                    p.errorsWidget = widget;
+                    _openWidget("Errors", widget);
+                }
+            }
         }
 
     } // namespace ViewApp

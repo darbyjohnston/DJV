@@ -51,7 +51,9 @@ namespace djv
             static std::shared_ptr<TextBlock> create(const std::shared_ptr<Core::Context>&);
 
             const std::string & getText() const;
-            void setText(const std::string &);
+            void setText(const std::string&);
+            void appendText(const std::string&);
+            void clearText();
 
             TextHAlign getTextHAlign() const;
             void setTextHAlign(TextHAlign);

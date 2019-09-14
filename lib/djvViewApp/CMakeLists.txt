@@ -10,9 +10,11 @@ set(header
 	ColorSpaceWidget.h
     DebugWidget.h
     Enum.h
+    ErrorsWidget.h
     FileSystem.h
     FileSettings.h
     FileSettingsWidget.h
+    HelpSettings.h
     HelpSystem.h
     HistogramWidget.h
     IToolSystem.h
@@ -66,9 +68,11 @@ set(source
 	ColorSpaceWidget.cpp
     DebugWidget.cpp
     Enum.cpp
+    ErrorsWidget.cpp
     FileSettings.cpp
     FileSettingsWidget.cpp
     FileSystem.cpp
+    HelpSettings.cpp
     HelpSystem.cpp
     HistogramWidget.cpp
     IToolSystem.cpp

@@ -76,12 +76,17 @@ namespace djv
         {
             FileSystem::Path path;
             std::atomic<bool> consoleOutput;
+            std::vector<std::string> warnings;
+            std::shared_ptr<ListSubject<std::string> > warningsSubject;
+            std::vector<std::string> errors;
+            std::shared_ptr<ListSubject<std::string> > errorsSubject;
             std::list<Message> queue;
             std::condition_variable queueCV;
             std::list<Message> messages;
             std::mutex mutex;
             std::thread thread;
             std::atomic<bool> running;
+            std::shared_ptr<Time::Timer> warningsAndErrorsTimer;
         };
 
         void LogSystem::_init(const FileSystem::Path & path, const std::shared_ptr<Context>& context)
@@ -91,6 +96,9 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             p.path = path;
+
+            p.warningsSubject = ListSubject<std::string>::create();
+            p.errorsSubject = ListSubject<std::string>::create();
 
             p.running = true;
             p.thread = std::thread(
@@ -133,6 +141,33 @@ namespace djv
                 }
                 _writeMessages();
             });
+
+            p.warningsAndErrorsTimer = Time::Timer::create(context);
+            p.warningsAndErrorsTimer->setRepeating(true);
+            auto weak = std::weak_ptr<LogSystem>(std::dynamic_pointer_cast<LogSystem>(shared_from_this()));
+            p.warningsAndErrorsTimer->start(
+                Time::getMilliseconds(Time::TimerValue::Medium),
+                [weak](float)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        std::vector<std::string> warnings;
+                        std::vector<std::string> errors;
+                        {
+                            std::unique_lock<std::mutex> lock(system->_p->mutex);
+                            warnings = std::move(system->_p->warnings);
+                            errors = std::move(system->_p->errors);
+                        }
+                        if (warnings.size())
+                        {
+                            system->_p->warningsSubject->setAlways(warnings);
+                        }
+                        if (errors.size())
+                        {
+                            system->_p->errorsSubject->setAlways(errors);
+                        }
+                    }
+                });
         }
 
         LogSystem::LogSystem() :
@@ -176,11 +211,24 @@ namespace djv
             _p->consoleOutput = value;
         }
 
+        std::shared_ptr<Core::IListSubject<std::string> > LogSystem::observeWarnings() const
+        {
+            return _p->warningsSubject;
+        }
+
+        std::shared_ptr<Core::IListSubject<std::string> > LogSystem::observeErrors() const
+        {
+            return _p->errorsSubject;
+        }
+
         void LogSystem::_writeMessages()
         {
             DJV_PRIVATE_PTR();
             try
             {
+                std::vector<std::string> warnings;
+                std::vector<std::string> errors;
+
                 FileSystem::FileIO io;
                 io.open(p.path, FileSystem::FileIO::Mode::Append);
                 io.seek(io.getSize());
@@ -194,6 +242,13 @@ namespace djv
 
                 for (const auto & message : p.messages)
                 {
+                    switch (message.level)
+                    {
+                    case LogLevel::Warning: warnings.push_back(message.text); break;
+                    case LogLevel::Error:   errors.push_back(message.text);   break;
+                    default: break;
+                    }
+
                     std::string line;
                     std::stringstream s(message.text);
                     while (std::getline(s, line))
@@ -222,6 +277,18 @@ namespace djv
                     }
                 }
                 p.messages.clear();
+                if (warnings.size() || errors.size())
+                {
+                    std::unique_lock<std::mutex> lock(p.mutex);
+                    for (const auto& i : warnings)
+                    {
+                        p.warnings.push_back(i);
+                    }
+                    for (const auto& i : errors)
+                    {
+                        p.errors.push_back(i);
+                    }
+                }
             }
             catch (const std::exception & e)
             {

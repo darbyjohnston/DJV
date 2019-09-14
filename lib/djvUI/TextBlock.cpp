@@ -91,7 +91,7 @@ namespace djv
             return _p->text;
         }
 
-        void TextBlock::setText(const std::string & value)
+        void TextBlock::setText(const std::string& value)
         {
             DJV_PRIVATE_PTR();
             if (value == p.text)
@@ -99,6 +99,19 @@ namespace djv
             p.text = value;
             p.textSizeHash = 0;
             _textUpdate();
+        }
+
+        void TextBlock::appendText(const std::string& value)
+        {
+            DJV_PRIVATE_PTR();
+            p.text.append(value);
+            p.textSizeHash = 0;
+            _textUpdate();
+        }
+
+        void TextBlock::clearText()
+        {
+            setText(std::string());
         }
 
         TextHAlign TextBlock::getTextHAlign() const

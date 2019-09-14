@@ -29,60 +29,40 @@
 
 #pragma once
 
-#include <djvCore/ISystem.h>
-#include <djvCore/ListObserver.h>
+#include <djvViewApp/MDIWidget.h>
 
 namespace djv
 {
-    namespace Core
+    namespace ViewApp
     {
-        namespace FileSystem
+        //! This class provides the errors and warnings widget.
+        class ErrorsWidget : public MDIWidget
         {
-            class Path;
+            DJV_NON_COPYABLE(ErrorsWidget);
 
-        } // namespace FileSystem
-
-        //! This class provides logging functionality.
-        //!
-        //! Logging output is written to the given file, and can also be written to
-        //! std::cout if the environment variable DJV_LOG_CONSOLE is set to a non-zero
-        //! value.
-        class LogSystem : public ISystemBase
-        {
-            DJV_NON_COPYABLE(LogSystem);
-            void _init(const FileSystem::Path &, const std::shared_ptr<Context>&);
-            LogSystem();
+        protected:
+            void _init(const std::shared_ptr<Core::Context>&);
+            ErrorsWidget();
 
         public:
-            virtual ~LogSystem();
-            
-            //! Create a new logging system.
-            static std::shared_ptr<LogSystem> create(const FileSystem::Path &, const std::shared_ptr<Context>&);
-            
-            //! Log a message.
-            void log(const std::string & prefix, const std::string & message, LogLevel = LogLevel::Information);
+            ~ErrorsWidget() override;
 
-            //! \name Warning and Errors
-            ///@{
+            static std::shared_ptr<ErrorsWidget> create(const std::shared_ptr<Core::Context>&);
 
-            std::shared_ptr<Core::IListSubject<std::string> > observeWarnings() const;
-            std::shared_ptr<Core::IListSubject<std::string> > observeErrors() const;
+            void setText(const std::string&);
+            void setPopup(bool);
 
-            ///@}
+            void setPopupCallback(const std::function<void(bool)>&);
+            void setCopyCallback(const std::function<void(void)>&);
+            void setClearCallback(const std::function<void(void)>&);
 
-            //! \name Logging Options
-            ///@{
-            
-            bool hasConsoleOutput() const;
-            void setConsoleOutput(bool);
-            
-            ///@}
+        protected:
+            void _localeEvent(Core::Event::Locale &) override;
 
         private:
-            void _writeMessages();
-
             DJV_PRIVATE();
         };
 
-    } // namespace Core
+    } // namespace ViewApp
 } // namespace djv
+

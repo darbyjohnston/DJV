@@ -106,7 +106,9 @@ namespace djv
             std::shared_ptr<Time::Timer> debugTimer;
         };
 
-        void Media::_init(const Core::FileSystem::FileInfo& fileInfo, const std::shared_ptr<Core::Context>& context)
+        void Media::_init(
+            const Core::FileSystem::FileInfo& fileInfo,
+            const std::shared_ptr<Core::Context>& context)
         {
             DJV_PRIVATE_PTR();
             p.context = context;
@@ -156,7 +158,7 @@ namespace djv
             catch (const std::exception& e)
             {
                 std::stringstream ss;
-                ss << "djv::ViewApp::Media " << DJV_TEXT("RtAudio cannot be initialized") << ". " << e.what();
+                ss << DJV_TEXT("Audio cannot be initialized") << ". " << e.what();
                 auto logSystem = context->getSystemT<LogSystem>();
                 logSystem->log("djv::ViewApp::Media", ss.str(), LogLevel::Error);
             }
@@ -185,7 +187,9 @@ namespace djv
             p.rtAudio.reset();
         }
 
-        std::shared_ptr<Media> Media::create(const Core::FileSystem::FileInfo& fileInfo, const std::shared_ptr<Context>& context)
+        std::shared_ptr<Media> Media::create(
+            const Core::FileSystem::FileInfo& fileInfo,
+            const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<Media>(new Media);
             out->_init(fileInfo, context);
@@ -684,7 +688,7 @@ namespace djv
                         catch (const std::exception& e)
                         {
                             std::stringstream ss;
-                            ss << "djv::ViewApp::Media " << DJV_TEXT("cannot open audio stream") << ". " << e.what();
+                            ss << DJV_TEXT("Cannot open audio stream") << ". " << e.what();
                             auto logSystem = context->getSystemT<LogSystem>();
                             logSystem->log("djv::ViewApp::Media", ss.str(), LogLevel::Error);
                         }
@@ -738,7 +742,7 @@ namespace djv
                 catch (const std::exception& e)
                 {
                     std::stringstream ss;
-                    ss << "djv::ViewApp::Media " << DJV_TEXT("cannot open") << " '" << p.fileInfo << "'. " << e.what();
+                    ss << DJV_TEXT("Cannot open") << " '" << p.fileInfo << "'. " << e.what();
                     auto logSystem = context->getSystemT<LogSystem>();
                     logSystem->log("djv::ViewApp::Media", ss.str(), LogLevel::Error);
                 }
@@ -981,7 +985,7 @@ namespace djv
                 catch (const std::exception& e)
                 {
                     std::stringstream ss;
-                    ss << "djv::ViewApp::Media " << DJV_TEXT("cannot start audio stream") << ". " << e.what();
+                    ss << DJV_TEXT("Cannot start audio stream") << ". " << e.what();
                     auto logSystem = context->getSystemT<LogSystem>();
                     logSystem->log("djv::ViewApp::Media", ss.str(), LogLevel::Error);
                 }
@@ -1003,7 +1007,7 @@ namespace djv
                     catch (const std::exception& e)
                     {
                         std::stringstream ss;
-                        ss << "djv::ViewApp::Media " << DJV_TEXT("cannot stop audio stream") << ". " << e.what();
+                        ss << DJV_TEXT("Cannot stop audio stream") << ". " << e.what();
                         auto logSystem = context->getSystemT<LogSystem>();
                         logSystem->log("djv::ViewApp::Media", ss.str(), LogLevel::Error);
                     }
