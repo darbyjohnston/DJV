@@ -49,6 +49,7 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/Math.h>
+#include <djvCore/Timer.h>
 
 using namespace djv::Core;
 
@@ -84,19 +85,17 @@ namespace djv
                 void _textUpdate();
 
                 Core::FileSystem::FileInfo _fileInfo;
+                std::shared_ptr<AV::IO::IRead> _read;
+                AV::IO::Info _info;
+                Frame::Sequence _sequence;
+                Time::Speed _speed;
                 glm::vec2 _pipPos = glm::vec2(0.f, 0.f);
                 BBox2f _timelineGeometry;
-                std::shared_ptr<Media> _media;
-                Time::Speed _speed;
-                Frame::Sequence _sequence;
                 Frame::Index _currentFrame = 0;
                 std::shared_ptr<UI::ImageWidget> _imageWidget;
                 std::shared_ptr<UI::Label> _timeLabel;
                 std::shared_ptr<UI::StackLayout> _layout;
-                std::shared_ptr<ValueObserver<Time::Speed> > _speedObserver;
-                std::shared_ptr<ValueObserver<Frame::Sequence> > _sequenceObserver;
-                std::shared_ptr<ValueObserver<Frame::Index> > _currentFrameObserver;
-                std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > _imageObserver;
+                std::shared_ptr<Time::Timer> _timer;
             };
 
             void PIPWidget::_init(const std::shared_ptr<Context>& context)
@@ -118,6 +117,38 @@ namespace djv
                 _layout->addChild(_imageWidget);
                 _layout->addChild(_timeLabel);
                 addChild(_layout);
+
+                _timer = Time::Timer::create(context);
+                _timer->setRepeating(true);
+                auto weak = std::weak_ptr<PIPWidget>(std::dynamic_pointer_cast<PIPWidget>(shared_from_this()));
+                _timer->start(
+                    Time::getMilliseconds(Time::TimerValue::Fast),
+                    [weak](float)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            std::shared_ptr<AV::Image::Image> image;
+                            if (widget->_read)
+                            {
+                                {
+                                    std::lock_guard<std::mutex> lock(widget->_read->getMutex());
+                                    const auto& videoQueue = widget->_read->getVideoQueue();
+                                    if (!videoQueue.isEmpty())
+                                    {
+                                        image = videoQueue.getFrame().image;
+                                    }
+                                }
+                                if (image)
+                                {
+                                    widget->_imageWidget->setImage(image);
+                                }
+                            }
+                            else
+                            {
+                                widget->_imageWidget->setImage(image);
+                            }
+                        }
+                    });
             }
 
             std::shared_ptr<PIPWidget> PIPWidget::create(const std::shared_ptr<Context>& context)
@@ -129,63 +160,34 @@ namespace djv
 
             void PIPWidget::setPIPFileInfo(const Core::FileSystem::FileInfo& value)
             {
-                if (value == _fileInfo)
-                    return;
-                _fileInfo = value;
                 if (auto context = getContext().lock())
                 {
+                    if (value == _fileInfo)
+                        return;
+                    _fileInfo = value;
                     if (!_fileInfo.isEmpty())
                     {
-                        _media = Media::create(_fileInfo, context);
-
-                        auto weak = std::weak_ptr<PIPWidget>(std::dynamic_pointer_cast<PIPWidget>(shared_from_this()));
-                        _speedObserver = ValueObserver<Time::Speed>::create(
-                            _media->observeDefaultSpeed(),
-                            [weak](const Time::Speed& value)
+                        try
+                        {
+                            auto io = context->getSystemT<AV::IO::System>();
+                            AV::IO::ReadOptions options;
+                            options.videoQueueSize = 1;
+                            options.audioQueueSize = 0;
+                            _read = io->read(value, options);
+                            const auto info = _read->getInfo().get();
+                            const auto& video = info.video;
+                            if (video.size())
                             {
-                                if (auto widget = weak.lock())
-                                {
-                                    widget->_speed = value;
-                                    widget->_textUpdate();
-                                }
-                            });
-
-                        _sequenceObserver = ValueObserver<Frame::Sequence>::create(
-                            _media->observeSequence(),
-                            [weak](const Frame::Sequence& value)
-                            {
-                                if (auto widget = weak.lock())
-                                {
-                                    widget->_sequence = value;
-                                    widget->_textUpdate();
-                                }
-                            });
-
-                        _currentFrameObserver = ValueObserver<Frame::Index>::create(
-                            _media->observeCurrentFrame(),
-                            [weak](Frame::Index value)
-                            {
-                                if (auto widget = weak.lock())
-                                {
-                                    widget->_currentFrame = value;
-                                    widget->_textUpdate();
-                                }
-                            });
-
-                        _imageObserver = ValueObserver<std::shared_ptr<AV::Image::Image> >::create(
-                            _media->observeCurrentImage(),
-                            [weak](const std::shared_ptr<AV::Image::Image>& value)
-                            {
-                                if (auto widget = weak.lock())
-                                {
-                                    widget->_imageWidget->setImage(value);
-                                }
-                            });
+                                _speed = video[0].speed;
+                                _sequence = video[0].sequence;
+                            }
+                        }
+                        catch (const std::exception& e)
+                        {}
                     }
                     else
                     {
-                        _media.reset();
-                        _imageObserver.reset();
+                        _read.reset();
                     }
                 }
             }
@@ -194,9 +196,9 @@ namespace djv
             {
                 if (value == _pipPos && timelineGeometry == _timelineGeometry)
                     return;
-                if (_media)
+                if (_read)
                 {
-                    _media->setCurrentFrame(frame);
+                    _read->seek(frame, AV::IO::Direction::Forward);
                 }
                 _pipPos = value;
                 _timelineGeometry = timelineGeometry;
