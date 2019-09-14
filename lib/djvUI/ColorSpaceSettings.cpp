@@ -153,6 +153,7 @@ namespace djv
                 if (value.is<picojson::object>())
                 {
                     const auto& object = value.get<picojson::object>();
+                    std::vector<AV::OCIO::Config> configs;
                     UI::Settings::read("Configs", object, p.configs);
                     UI::Settings::read("CurrentConfig", object, p.currentConfig);
                 }

@@ -72,6 +72,7 @@ namespace djv
                 std::vector<_OCIO::ConstConfigRcPtr> ocioConfigs;
                 std::vector<Config> configs;
                 Config config;
+                int currentConfig = -1;
                 std::shared_ptr<ListSubject<Config> > configsSubject;
                 std::shared_ptr<ValueSubject<Config> > configSubject;
                 std::shared_ptr<ValueSubject<int> > currentConfigSubject;
@@ -89,7 +90,7 @@ namespace djv
 
                 p.configsSubject = ListSubject<AV::OCIO::Config>::create();
                 p.configSubject = ValueSubject<AV::OCIO::Config>::create();
-                p.currentConfigSubject = ValueSubject<int>::create(-1);
+                p.currentConfigSubject = ValueSubject<int>::create(p.currentConfig);
                 p.colorSpacesSubject = ListSubject<std::string>::create();
                 p.displaysSubject = ListSubject<Display>::create();
                 p.viewsSubject = ListSubject<std::string>::create();
@@ -107,10 +108,11 @@ namespace djv
                 std::string env = OS::getEnv("OCIO");
                 if (!env.empty())
                 {
-                    if (auto ocioConfig = _OCIO::GetCurrentConfig())
+                    if (auto ocioConfig = _OCIO::Config::CreateFromEnv())
                     {
                         Config config;
-                        config.name = "$OCIO";
+                        config.fileName = env;
+                        config.name = AV::OCIO::Config::getNameFromFileName(env);
                         p.ocioConfigs.push_back(ocioConfig);
                         p.configs.push_back(config);
                         p.configsSubject->setIfChanged(p.configs);
@@ -159,10 +161,30 @@ namespace djv
                                 fileInfo = directoryList[0];
                             }
                         }
-                        auto ocioConfig = _OCIO::Config::CreateFromFile(fileInfo.getFileName().c_str());
+
+                        const std::string& fileName = fileInfo.getFileName();
+                        auto i = p.configs.begin();
+                        auto j = p.ocioConfigs.begin();
+                        while (i != p.configs.end() && j != p.ocioConfigs.end())
+                        {
+                            if (i->fileName == fileName)
+                            {
+                                i = p.configs.erase(i);
+                                j = p.ocioConfigs.erase(j);
+                            }
+                            else
+                            {
+                                ++i;
+                                ++j;
+                            }
+                        }
+
+                        auto ocioConfig = _OCIO::Config::CreateFromFile(fileName.c_str());
                         p.ocioConfigs.push_back(ocioConfig);
                         out = static_cast<int>(p.configs.size());
-                        p.configs.push_back(config);
+                        Config tmp = config;
+                        tmp.fileName = fileName;
+                        p.configs.push_back(tmp);
                         p.configsSubject->setIfChanged(p.configs);
                         setCurrentConfig(out);
                     }
@@ -225,7 +247,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (value == p.config)
                     return;
-                const int index = p.currentConfigSubject->get();
+                const int index = p.currentConfig;
                 Config config;
                 if (index >= 0 && index < p.configs.size())
                 {
@@ -242,21 +264,22 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 int tmp = -1;
-                if (value >= 0 && value < p.configs.size())
+                if (p.configs.size())
                 {
-                    tmp = value;
+                    tmp = Math::clamp(value, 0, static_cast<int>(p.configs.size()) - 1);
                 }
-                if (p.currentConfigSubject->setIfChanged(tmp))
+                if (tmp == p.currentConfig)
+                    return;
+                p.currentConfig = tmp;
+                Config config;
+                if (tmp != -1)
                 {
-                    Config config;
-                    if (tmp != -1)
-                    {
-                        config = p.configs[tmp];
-                    }
-                    p.config = config;
-                    _configUpdate();
-                    p.configSubject->setIfChanged(config);
+                    config = p.configs[tmp];
                 }
+                p.config = config;
+                _configUpdate();
+                p.configSubject->setIfChanged(p.config);
+                p.currentConfigSubject->setIfChanged(p.currentConfig);
             }
 
             std::string System::getColorSpace(const std::string& display, const std::string& view) const
@@ -308,7 +331,7 @@ namespace djv
                 std::string defaultView;
 
                 _OCIO::ConstConfigRcPtr ocioConfig = nullptr;
-                int index = p.currentConfigSubject->get();
+                int index = p.currentConfig;
                 if (index >= 0 && index < p.ocioConfigs.size())
                 {
                     ocioConfig = p.ocioConfigs[index];
