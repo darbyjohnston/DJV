@@ -32,7 +32,10 @@
 #include <djvUI/Style.h>
 
 #include <djvAV/Image.h>
+#include <djvAV/OCIOSystem.h>
 #include <djvAV/Render2D.h>
+
+#include <djvCore/Context.h>
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/matrix_transform_2d.hpp>
@@ -48,12 +51,36 @@ namespace djv
             std::shared_ptr<AV::Image::Image> image;
             ColorRole imageColorRole = ColorRole::None;
             MetricsRole sizeRole = MetricsRole::None;
+            AV::OCIO::Config ocioConfig;
+            std::string outputColorSpace;
+            std::shared_ptr<ValueObserver<AV::OCIO::Config> > ocioConfigObserver;
         };
 
         void ImageWidget::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
+            DJV_PRIVATE_PTR();
+
             setClassName("djv::UI::ImageWidget");
+
+            auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+            auto weak = std::weak_ptr<ImageWidget>(std::dynamic_pointer_cast<ImageWidget>(shared_from_this()));
+            auto contextWeak = std::weak_ptr<Context>(context);
+            p.ocioConfigObserver = ValueObserver<AV::OCIO::Config>::create(
+                ocioSystem->observeConfig(),
+                [weak, contextWeak](const AV::OCIO::Config& value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                            widget->_p->ocioConfig = value;
+                            widget->_p->outputColorSpace = ocioSystem->getColorSpace(value.display, value.view);
+                            widget->_redraw();
+                        }
+                    }
+                });
         }
 
         ImageWidget::ImageWidget() :
@@ -173,12 +200,28 @@ namespace djv
                 case VAlign::Bottom: pos.y = g.max.y - size.y; break;
                 default: break;
                 }
-                auto render = _getRender();
+
                 AV::Render::ImageOptions options;
                 options.cache = AV::Render::ImageCache::Dynamic;
                 glm::mat3x3 m(1.f);
                 m = glm::translate(m, pos);
                 m = glm::scale(m, glm::vec2(size.x / static_cast<float>(info.size.w), size.y / static_cast<float>(info.size.h)));
+                auto i = p.ocioConfig.colorSpaces.find(p.image->getPluginName());
+                if (i != p.ocioConfig.colorSpaces.end())
+                {
+                    options.colorSpace.input = i->second;
+                }
+                else
+                {
+                    i = p.ocioConfig.colorSpaces.find(std::string());
+                    if (i != p.ocioConfig.colorSpaces.end())
+                    {
+                        options.colorSpace.input = i->second;
+                    }
+                }
+                options.colorSpace.output = p.outputColorSpace;
+
+                auto render = _getRender();
                 render->pushTransform(m);
                 switch (p.imageColorRole)
                 {

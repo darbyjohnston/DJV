@@ -118,9 +118,9 @@ namespace djv
                 _layout->addChild(_timeLabel);
                 addChild(_layout);
 
+                auto weak = std::weak_ptr<PIPWidget>(std::dynamic_pointer_cast<PIPWidget>(shared_from_this()));
                 _timer = Time::Timer::create(context);
                 _timer->setRepeating(true);
-                auto weak = std::weak_ptr<PIPWidget>(std::dynamic_pointer_cast<PIPWidget>(shared_from_this()));
                 _timer->start(
                     Time::getMilliseconds(Time::TimerValue::Fast),
                     [weak](float)
