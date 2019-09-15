@@ -142,6 +142,7 @@ namespace djv
                     label->setHAlign(UI::HAlign::Left);
                     auto formLayout = UI::FormLayout::create(context);
                     formLayout->setMargin(UI::MetricsRole::MarginSmall);
+                    formLayout->setSpacing(UI::MetricsRole::SpacingSmall);
                     formLayout->addChild(label);
                     formLayout->setText(label, _getText(DJV_TEXT("File name")) + ":");
                     p.layout->addChild(formLayout);
@@ -152,6 +153,7 @@ namespace djv
                 {
                     auto formLayout = UI::FormLayout::create(context);
                     formLayout->setMargin(UI::MetricsRole::MarginSmall);
+                    formLayout->setSpacing(UI::MetricsRole::SpacingSmall);
                     formLayout->setShadowOverlay({ UI::Side::Top });
 
                     auto label = UI::Label::create(context);
@@ -231,6 +233,7 @@ namespace djv
                 {
                     auto formLayout = UI::FormLayout::create(context);
                     formLayout->setMargin(UI::MetricsRole::MarginSmall);
+                    formLayout->setSpacing(UI::MetricsRole::SpacingSmall);
                     formLayout->setShadowOverlay({ UI::Side::Top });
 
                     auto label = UI::Label::create(context);
@@ -295,6 +298,7 @@ namespace djv
                 {
                     auto formLayout = UI::FormLayout::create(context);
                     formLayout->setMargin(UI::MetricsRole::MarginSmall);
+                    formLayout->setSpacing(UI::MetricsRole::SpacingSmall);
                     formLayout->setShadowOverlay({ UI::Side::Top });
 
                     for (const auto& i : p.info.tags.getTags())
