@@ -94,6 +94,11 @@ namespace djv
                 return out;
             }
 
+            void Dialog::setFileExtensions(const std::set<std::string>& value)
+            {
+                _p->fileBrowser->setFileExtensions(value);
+            }
+
             const FileSystem::Path& Dialog::getPath() const
             {
                 return _p->fileBrowser->getPath();

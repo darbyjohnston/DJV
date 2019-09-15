@@ -201,6 +201,7 @@ namespace djv
                             if (auto window = eventSystem->getCurrentWindow().lock())
                             {
                                 widget->_p->fileBrowserDialog = UI::FileBrowser::Dialog::create(context);
+                                widget->_p->fileBrowserDialog->setFileExtensions({ ".ocio" });
                                 widget->_p->fileBrowserDialog->setPath(widget->_p->fileBrowserPath);
                                 widget->_p->fileBrowserDialog->setCallback(
                                     [weak, contextWeak](const Core::FileSystem::FileInfo& value)

@@ -170,7 +170,7 @@ namespace djv
                 _path.setNumber(s.str());
             }
 
-            FileInfo FileInfo::getFileSequence(const Path & path, const std::vector<std::string>& extensions)
+            FileInfo FileInfo::getFileSequence(const Path & path, const std::set<std::string>& extensions)
             {
                 DirectoryListOptions options;
                 options.fileSequences = true;

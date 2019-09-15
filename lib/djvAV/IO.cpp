@@ -410,7 +410,7 @@ namespace djv
             {
                 std::shared_ptr<ValueSubject<bool> > optionsChanged;
                 std::map<std::string, std::shared_ptr<IPlugin> > plugins;
-                std::vector<std::string> sequenceExtensions;
+                std::set<std::string> sequenceExtensions;
             };
 
             void System::_init(const std::shared_ptr<Core::Context>& context)
@@ -449,11 +449,8 @@ namespace djv
                 {
                     if (i.second->canSequence())
                     {
-                        const auto& extensions = i.second->getFileExtensions();
-                        p.sequenceExtensions.insert(
-                            p.sequenceExtensions.end(),
-                            extensions.begin(),
-                            extensions.end());
+                        const auto& fileExtensions = i.second->getFileExtensions();
+                        p.sequenceExtensions.insert(fileExtensions.begin(), fileExtensions.end());
                     }
                 
                     std::stringstream s;
@@ -489,6 +486,18 @@ namespace djv
                 return out;
             }
 
+            std::set<std::string> System::getFileExtensions() const
+            {
+                DJV_PRIVATE_PTR();
+                std::set<std::string> out;
+                for (const auto& i : p.plugins)
+                {
+                    const auto& fileExtensions = i.second->getFileExtensions();
+                    out.insert(fileExtensions.begin(), fileExtensions.end());
+                }
+                return out;
+            }
+
             picojson::value System::getOptions(const std::string & pluginName) const
             {
                 DJV_PRIVATE_PTR();
@@ -516,7 +525,7 @@ namespace djv
                 return _p->optionsChanged;
             }
 
-            const std::vector<std::string>& System::getSequenceExtensions() const
+            const std::set<std::string>& System::getSequenceExtensions() const
             {
                 return _p->sequenceExtensions;
             }

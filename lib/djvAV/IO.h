@@ -368,6 +368,7 @@ namespace djv
                 static std::shared_ptr<System> create(const std::shared_ptr<Core::Context>&);
 
                 std::set<std::string> getPluginNames() const;
+                std::set<std::string> getFileExtensions() const;
 
                 picojson::value getOptions(const std::string & pluginName) const;
 
@@ -377,7 +378,7 @@ namespace djv
 
                 std::shared_ptr<Core::IValueSubject<bool> > observeOptionsChanged() const;
 
-                const std::vector<std::string>& getSequenceExtensions() const;
+                const std::set<std::string>& getSequenceExtensions() const;
                 bool canSequence(const Core::FileSystem::FileInfo&) const;
                 bool canRead(const Core::FileSystem::FileInfo&) const;
                 bool canWrite(const Core::FileSystem::FileInfo&, const Info &) const;

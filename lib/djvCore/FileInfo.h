@@ -33,6 +33,8 @@
 #include <djvCore/Path.h>
 #include <djvCore/PicoJSON.h>
 
+#include <set>
+
 #include <sys/types.h>
 
 #if defined(DJV_PLATFORM_WINDOWS)
@@ -84,8 +86,9 @@ namespace djv
             //! This struct provides directory listing options.
             struct DirectoryListOptions
             {
+                std::set<std::string>       fileExtensions;
                 bool                        fileSequences           = false;
-                std::vector<std::string>    fileSequenceExtensions;
+                std::set<std::string>       fileSequenceExtensions;
                 bool                        showHidden              = false;
                 DirectoryListSort           sort                    = DirectoryListSort::Name;
                 bool                        reverseSort             = false;
@@ -177,7 +180,7 @@ namespace djv
                 //! Get the file sequence for the given file.
                 //! Throws:
                 //! - std::exception
-                static FileInfo getFileSequence(const Path &, const std::vector<std::string>& extensions);
+                static FileInfo getFileSequence(const Path &, const std::set<std::string>& extensions);
 
                 ///@}
 

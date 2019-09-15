@@ -159,6 +159,22 @@ namespace djv
                         {
                             filter = true;
                         }
+                        if (!filter &&!(ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && options.fileExtensions.size())
+                        {
+                            bool match = false;
+                            for (const auto& i : options.fileExtensions)
+                            {
+                                if (String::match(fileName, '\\' + i + '$'))
+                                {
+                                    match = true;
+                                    break;
+                                }
+                            }
+                            if (!match)
+                            {
+                                filter = true;
+                            }
+                        }
 
                         if (!filter)
                         {

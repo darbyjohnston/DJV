@@ -420,11 +420,11 @@ namespace djv
                             p.fontFaces[familyID][faceID] = ftFace;
                         }
                     }
+                    p.fontNamesPromise.set_value(p.fontNames);
                     if (!p.fontFaces.size())
                     {
                         throw std::runtime_error("No fonts were found.");
                     }
-                    p.fontNamesPromise.set_value(p.fontNames);
                 }
                 catch (const std::exception & e)
                 {

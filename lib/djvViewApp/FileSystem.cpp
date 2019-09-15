@@ -720,10 +720,12 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
+                auto io = context->getSystemT<AV::IO::System>();
                 auto eventSystem = context->getSystemT<UI::EventSystem>();
                 if (auto window = eventSystem->getCurrentWindow().lock())
                 {
                     p.fileBrowserDialog = UI::FileBrowser::Dialog::create(context);
+                    p.fileBrowserDialog->setFileExtensions(io->getFileExtensions());
                     p.fileBrowserDialog->setPath(p.fileBrowserPath);
                     auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
                     p.fileBrowserDialog->setCallback(

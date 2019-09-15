@@ -31,6 +31,8 @@
 
 #include <djvUI/Widget.h>
 
+#include <set>
+
 namespace djv
 {
     namespace Core
@@ -61,6 +63,8 @@ namespace djv
                 virtual ~FileBrowser();
 
                 static std::shared_ptr<FileBrowser> create(const std::shared_ptr<Core::Context>&);
+
+                void setFileExtensions(const std::set<std::string>&);
 
                 const Core::FileSystem::Path& getPath() const;
                 void setPath(const Core::FileSystem::Path &);

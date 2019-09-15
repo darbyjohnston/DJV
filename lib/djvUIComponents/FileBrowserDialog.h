@@ -61,6 +61,8 @@ namespace djv
 
                 static std::shared_ptr<Dialog> create(const std::shared_ptr<Core::Context>&);
 
+                void setFileExtensions(const std::set<std::string>&);
+
                 const Core::FileSystem::Path& getPath() const;
                 void setPath(const Core::FileSystem::Path&);
                 void setCallback(const std::function<void(const Core::FileSystem::FileInfo&)>&);

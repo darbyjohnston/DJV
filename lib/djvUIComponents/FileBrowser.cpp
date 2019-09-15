@@ -883,6 +883,11 @@ namespace djv
                 return out;
             }
 
+            void FileBrowser::setFileExtensions(const std::set<std::string>& value)
+            {
+                _p->directoryModel->setFileExtensions(value);
+            }
+
             const FileSystem::Path& FileBrowser::getPath() const
             {
                 return _p->directoryModel->observePath()->get();

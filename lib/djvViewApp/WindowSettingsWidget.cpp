@@ -46,6 +46,7 @@
 #include <djvUI/ToolButton.h>
 #include <djvUI/Window.h>
 
+#include <djvAV/IO.h>
 #include <djvAV/ThumbnailSystem.h>
 
 #include <djvCore/Context.h>
@@ -257,10 +258,12 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
+                            auto io = context->getSystemT<AV::IO::System>();
                             auto eventSystem = context->getSystemT<UI::EventSystem>();
                             if (auto window = eventSystem->getCurrentWindow().lock())
                             {
                                 widget->_p->fileBrowserDialog = UI::FileBrowser::Dialog::create(context);
+                                widget->_p->fileBrowserDialog->setFileExtensions(io->getFileExtensions());
                                 widget->_p->fileBrowserDialog->setPath(widget->_p->fileBrowserPath);
                                 widget->_p->fileBrowserDialog->setCallback(
                                     [weak, contextWeak](const Core::FileSystem::FileInfo& value)
