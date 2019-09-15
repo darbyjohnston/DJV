@@ -643,6 +643,30 @@ namespace djv
             return out;
         }
 
+        std::map<std::string, bool> DebugWidget::getBellowsState() const
+        {
+            DJV_PRIVATE_PTR();
+            std::map<std::string, bool> out;
+            for (const auto& i : p.bellows)
+            {
+                out[i.first] = i.second->isOpen();
+            }
+            return out;
+        }
+
+        void DebugWidget::setBellowsState(const std::map<std::string, bool>& value)
+        {
+            DJV_PRIVATE_PTR();
+            for (const auto& i : value)
+            {
+                const auto j = p.bellows.find(i.first);
+                if (j != p.bellows.end())
+                {
+                    j->second->setOpen(i.second);
+                }
+            }
+        }
+
         void DebugWidget::_localeEvent(Event::Locale & event)
         {
             MDIWidget::_localeEvent(event);

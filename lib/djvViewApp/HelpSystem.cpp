@@ -61,12 +61,17 @@ namespace djv
         struct HelpSystem::Private
         {
             std::shared_ptr<HelpSettings> settings;
+            
             std::string errorsText;
             bool errorsPopup = false;
+            std::map<std::string, bool> debugBellowsState;
+
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
             std::shared_ptr<AboutDialog> aboutDialog;
             std::weak_ptr<ErrorsWidget> errorsWidget;
+            std::weak_ptr<DebugWidget> debugWidget;
+
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ListObserver<std::string> > warningsObserver;
             std::shared_ptr<ListObserver<std::string> > errorsObserver;
@@ -77,10 +82,11 @@ namespace djv
         void HelpSystem::_init(const std::shared_ptr<Core::Context>& context)
         {
             IViewSystem::_init("djv::ViewApp::HelpSystem", context);
-
             DJV_PRIVATE_PTR();
 
             p.settings = HelpSettings::create(context);
+            p.debugBellowsState = p.settings->getDebugBellowsState();
+            _setWidgetGeom(p.settings->getWidgetGeom());
 
             //! \todo Implement me!
             p.actions["Documentation"] = UI::Action::create();
@@ -104,19 +110,6 @@ namespace djv
             p.menu->addAction(p.actions["Debug"]);
 
             auto weak = std::weak_ptr<HelpSystem>(std::dynamic_pointer_cast<HelpSystem>(shared_from_this()));
-            _setCloseWidgetCallback(
-                [weak](const std::string & name)
-            {
-                if (auto system = weak.lock())
-                {
-                    const auto i = system->_p->actions.find(name);
-                    if (i != system->_p->actions.end())
-                    {
-                        i->second->setChecked(false);
-                    }
-                }
-            });
-
             auto contextWeak = std::weak_ptr<Context>(context);
             p.actionObservers["About"] = ValueObserver<bool>::create(
                 p.actions["About"]->observeClicked(),
@@ -172,7 +165,6 @@ namespace djv
                             else
                             {
                                 system->_closeWidget("Errors");
-                                system->_p->errorsWidget.reset();
                             }
                         }
                     }
@@ -211,6 +203,8 @@ namespace djv
                             if (value)
                             {
                                 auto widget = DebugWidget::create(context);
+                                widget->setBellowsState(system->_p->debugBellowsState);
+                                system->_p->debugWidget = widget;
                                 system->_openWidget("Debug", widget);
                             }
                             else
@@ -301,7 +295,14 @@ namespace djv
         {}
 
         HelpSystem::~HelpSystem()
-        {}
+        {
+            DJV_PRIVATE_PTR();
+            _closeWidget("Errors");
+            _closeWidget("SystemLog");
+            _closeWidget("Debug");
+            p.settings->setDebugBellowsState(p.debugBellowsState);
+            p.settings->setWidgetGeom(_getWidgetGeom());
+        }
 
         std::shared_ptr<HelpSystem> HelpSystem::create(const std::shared_ptr<Core::Context>& context)
         {
@@ -334,6 +335,29 @@ namespace djv
             p.actions["Debug"]->setText(_getText(DJV_TEXT("Debugging")));
 
             p.menu->setText(_getText(DJV_TEXT("Help")));
+        }
+
+        void HelpSystem::_closeWidget(const std::string& value)
+        {
+            DJV_PRIVATE_PTR();
+            if ("Errors" == value)
+            {
+                p.errorsWidget.reset();
+            }
+            else if ("Debug" == value)
+            {
+                if (auto debugWidget = p.debugWidget.lock())
+                {
+                    p.debugBellowsState = debugWidget->getBellowsState();
+                }
+                p.debugWidget.reset();
+            }
+            const auto i = p.actions.find(value);
+            if (i != p.actions.end())
+            {
+                i->second->setChecked(false);
+            }
+            IViewSystem::_closeWidget(value);
         }
 
         void HelpSystem::_errorsPopup()

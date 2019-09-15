@@ -115,6 +115,16 @@ namespace djv
             return out;
         }
 
+        int SettingsDialog::getCurrentTab() const
+        {
+            return _p->tabWidget->getCurrentTab();
+        }
+
+        void SettingsDialog::setCurrentTab(int value)
+        {
+            _p->tabWidget->setCurrentTab(value);
+        }
+
         void SettingsDialog::_localeEvent(Event::Locale & event)
         {
             DJV_PRIVATE_PTR();

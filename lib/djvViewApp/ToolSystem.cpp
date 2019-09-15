@@ -31,6 +31,7 @@
 
 #include <djvViewApp/IToolSystem.h>
 #include <djvViewApp/InfoWidget.h>
+#include <djvViewApp/ToolSettings.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
@@ -52,6 +53,7 @@ namespace djv
     {
         struct ToolSystem::Private
         {
+            std::shared_ptr<ToolSettings> settings;
             int currentToolSystem = -1;
             std::vector<std::shared_ptr<IToolSystem> > toolSystems;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
@@ -64,8 +66,10 @@ namespace djv
         void ToolSystem::_init(const std::shared_ptr<Core::Context>& context)
         {
             IViewSystem::_init("djv::ViewApp::ToolSystem", context);
-
             DJV_PRIVATE_PTR();
+
+            p.settings = ToolSettings::create(context);
+            _setWidgetGeom(p.settings->getWidgetGeom());
 
             std::map<std::string, std::shared_ptr<IToolSystem> > toolSystems;
             std::map<std::string, std::shared_ptr<UI::Action> > toolActions;
@@ -99,19 +103,6 @@ namespace djv
             p.menu->addAction(p.actions["Info"]);
 
             auto weak = std::weak_ptr<ToolSystem>(std::dynamic_pointer_cast<ToolSystem>(shared_from_this()));
-            _setCloseWidgetCallback(
-                [weak](const std::string& name)
-            {
-                if (auto system = weak.lock())
-                {
-                    const auto i = system->_p->actions.find(name);
-                    if (i != system->_p->actions.end())
-                    {
-                        i->second->setChecked(false);
-                    }
-                }
-            });
-
             p.toolActionGroup->setExclusiveCallback(
                 [weak](int value)
                 {
@@ -166,7 +157,11 @@ namespace djv
         {}
 
         ToolSystem::~ToolSystem()
-        {}
+        {
+            DJV_PRIVATE_PTR();
+            _closeWidget("Info");
+            p.settings->setWidgetGeom(_getWidgetGeom());
+        }
 
         std::shared_ptr<ToolSystem> ToolSystem::create(const std::shared_ptr<Core::Context>& context)
         {
@@ -195,6 +190,17 @@ namespace djv
             p.menu->setText(_getText(DJV_TEXT("Tools")));
             p.actions["Info"]->setText(_getText(DJV_TEXT("Information")));
             p.actions["Info"]->setTooltip(_getText(DJV_TEXT("Information widget tooltip")));
+        }
+
+        void ToolSystem::_closeWidget(const std::string& value)
+        {
+            DJV_PRIVATE_PTR();
+            const auto i = p.actions.find(value);
+            if (i != p.actions.end())
+            {
+                i->second->setChecked(false);
+            }
+            IViewSystem::_closeWidget(value);
         }
 
     } // namespace ViewApp

@@ -33,6 +33,7 @@
 
 #include <djvUI/ISettings.h>
 
+#include <djvCore/BBox.h>
 #include <djvCore/ValueObserver.h>
 
 namespace djv
@@ -52,10 +53,16 @@ namespace djv
         public:
             static std::shared_ptr<ImageSettings> create(const std::shared_ptr<Core::Context>&);
 
+            std::map<std::string, bool> getColorSpaceBellowsState() const;
+            void setColorSpaceBellowsState(const std::map<std::string, bool>&);
+
             std::shared_ptr<Core::IValueSubject<ImageRotate> > observeImageRotate() const;
             std::shared_ptr<Core::IValueSubject<ImageAspectRatio> > observeImageAspectRatio() const;
             void setImageRotate(ImageRotate);
             void setImageAspectRatio(ImageAspectRatio);
+
+            const std::map<std::string, Core::BBox2f>& getWidgetGeom() const;
+            void setWidgetGeom(const std::map<std::string, Core::BBox2f>&);
 
             void load(const picojson::value &) override;
             picojson::value save() override;

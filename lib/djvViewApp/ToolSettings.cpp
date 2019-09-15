@@ -27,39 +27,72 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvViewApp/ToolSettings.h>
 
-#include <djvViewApp/MDIWidget.h>
+// These need to be included last on OSX.
+#include <djvCore/PicoJSONTemplates.h>
+#include <djvUI/ISettingsTemplates.h>
+
+using namespace djv::Core;
 
 namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the color space widget.
-        class ColorSpaceWidget : public MDIWidget
+        struct ToolSettings::Private
         {
-            DJV_NON_COPYABLE(ColorSpaceWidget);
-
-        protected:
-            void _init(const std::shared_ptr<Core::Context>&);
-            ColorSpaceWidget();
-
-        public:
-            ~ColorSpaceWidget() override;
-
-            static std::shared_ptr<ColorSpaceWidget> create(const std::shared_ptr<Core::Context>&);
-
-            std::map<std::string, bool> getBellowsState() const;
-            void setBellowsState(const std::map<std::string, bool>&);
-
-        protected:
-            void _localeEvent(Core::Event::Locale &) override;
-
-        private:
-            void _widgetUpdate();
-
-            DJV_PRIVATE();
+            std::map<std::string, BBox2f> widgetGeom;
         };
+
+        void ToolSettings::_init(const std::shared_ptr<Core::Context>& context)
+        {
+            ISettings::_init("djv::ViewApp::ToolSettings", context);
+            DJV_PRIVATE_PTR();
+            _load();
+        }
+
+        ToolSettings::ToolSettings() :
+            _p(new Private)
+        {}
+
+        ToolSettings::~ToolSettings()
+        {}
+
+        std::shared_ptr<ToolSettings> ToolSettings::create(const std::shared_ptr<Core::Context>& context)
+        {
+            auto out = std::shared_ptr<ToolSettings>(new ToolSettings);
+            out->_init(context);
+            return out;
+        }
+
+        const std::map<std::string, BBox2f>& ToolSettings::getWidgetGeom() const
+        {
+            return _p->widgetGeom;
+        }
+
+        void ToolSettings::setWidgetGeom(const std::map<std::string, BBox2f>& value)
+        {
+            _p->widgetGeom = value;
+        }
+
+        void ToolSettings::load(const picojson::value & value)
+        {
+            if (value.is<picojson::object>())
+            {
+                DJV_PRIVATE_PTR();
+                const auto & object = value.get<picojson::object>();
+                UI::Settings::read("WidgetGeom", object, p.widgetGeom);
+            }
+        }
+
+        picojson::value ToolSettings::save()
+        {
+            DJV_PRIVATE_PTR();
+            picojson::value out(picojson::object_type, true);
+            auto & object = out.get<picojson::object>();
+            UI::Settings::write("WidgetGeom", p.widgetGeom, object);
+            return out;
+        }
 
     } // namespace ViewApp
 } // namespace djv

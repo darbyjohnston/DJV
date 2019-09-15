@@ -48,9 +48,7 @@ namespace djv
         {
             std::shared_ptr<UI::MDI::Canvas> canvas;
             std::map<std::string, std::shared_ptr<MDIWidget> > widgets;
-            std::map<std::string, glm::vec2> widgetsPos;
-            std::map<std::string, glm::vec2> widgetsSize;
-            std::function<void(const std::string&)> closeWidgetCallback;
+            std::map<std::string, BBox2f> widgetGeom;
         };
 
         void IViewSystem::_init(const std::string & name, const std::shared_ptr<Core::Context>& context)
@@ -98,21 +96,13 @@ namespace djv
                     if (auto system = weak.lock())
                     {
                         system->_closeWidget(name);
-                        if (system->_p->closeWidgetCallback)
-                        {
-                            system->_p->closeWidgetCallback(name);
-                        }
                     }
                 });
-            const auto j = p.widgetsPos.find(name);
-            if (j != p.widgetsPos.end())
+            const auto j = p.widgetGeom.find(name);
+            if (j != p.widgetGeom.end())
             {
-                p.canvas->setWidgetPos(widget, j->second);
-            }
-            const auto k = p.widgetsSize.find(name);
-            if (k != p.widgetsSize.end())
-            {
-                widget->resize(k->second);
+                p.canvas->setWidgetPos(widget, j->second.min);
+                widget->resize(j->second.getSize());
             }
         }
 
@@ -122,16 +112,27 @@ namespace djv
             const auto i = p.widgets.find(name);
             if (i != p.widgets.end())
             {
-                p.widgetsPos[name] = p.canvas->getWidgetPos(i->second);
-                p.widgetsSize[name] = i->second->getSize();
+                const glm::vec2& pos = p.canvas->getWidgetPos(i->second);
+                const glm::vec2& size = i->second->getSize();
+                p.widgetGeom[name] = BBox2f(pos.x, pos.y, size.x, size.y);
                 p.canvas->removeChild(i->second);
                 p.widgets.erase(i);
             }
         }
 
-        void IViewSystem::_setCloseWidgetCallback(const std::function<void(const std::string&)>& value)
+        const std::map<std::string, std::shared_ptr<MDIWidget> >& IViewSystem::_getWidgets() const
         {
-            _p->closeWidgetCallback = value;
+            return _p->widgets;
+        }
+
+        const std::map<std::string, BBox2f>& IViewSystem::_getWidgetGeom() const
+        {
+            return _p->widgetGeom;
+        }
+
+        void IViewSystem::_setWidgetGeom(const std::map<std::string, BBox2f>& value)
+        {
+            _p->widgetGeom = value;
         }
 
     } // namespace ViewApp

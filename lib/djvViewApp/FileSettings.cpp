@@ -50,6 +50,7 @@ namespace djv
             std::shared_ptr<ValueSubject<bool> > autoDetectSequences;
             std::shared_ptr<ValueSubject<bool> > cacheEnabled;
             std::shared_ptr<ValueSubject<int> > cacheMaxGB;
+            std::map<std::string, BBox2f> widgetGeom;
         };
 
         void FileSettings::_init(const std::shared_ptr<Core::Context>& context)
@@ -117,6 +118,16 @@ namespace djv
             _p->cacheMaxGB->setIfChanged(value);
         }
 
+        const std::map<std::string, BBox2f>& FileSettings::getWidgetGeom() const
+        {
+            return _p->widgetGeom;
+        }
+
+        void FileSettings::setWidgetGeom(const std::map<std::string, BBox2f>& value)
+        {
+            _p->widgetGeom = value;
+        }
+
         void FileSettings::load(const picojson::value & value)
         {
             if (value.is<picojson::object>())
@@ -127,6 +138,7 @@ namespace djv
                 UI::Settings::read("AutoDetectSequences", object, p.autoDetectSequences);
                 UI::Settings::read("CacheEnabled", object, p.cacheEnabled);
                 UI::Settings::read("CacheMax", object, p.cacheMaxGB);
+                UI::Settings::read("WidgetGeom", object, p.widgetGeom);
             }
         }
 
@@ -139,6 +151,7 @@ namespace djv
             UI::Settings::write("AutoDetectSequences", p.autoDetectSequences->get(), object);
             UI::Settings::write("CacheEnabled", p.cacheEnabled->get(), object);
             UI::Settings::write("CacheMax", p.cacheMaxGB->get(), object);
+            UI::Settings::write("WidgetGeom", p.widgetGeom, object);
             return out;
         }
 

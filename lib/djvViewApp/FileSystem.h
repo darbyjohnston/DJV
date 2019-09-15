@@ -90,6 +90,8 @@ namespace djv
             void _showFileBrowserDialog();
             void _showRecentFilesDialog();
 
+            void _closeWidget(const std::string&) override;
+
         private:
             DJV_PRIVATE();
         };

@@ -77,6 +77,8 @@ namespace djv
     {
         struct SettingsSystem::Private
         {
+            int currentTab = 0;
+            std::weak_ptr<SettingsDialog> settingsDialog;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
         };
@@ -111,16 +113,24 @@ namespace djv
                     if (auto window = eventSystem->getCurrentWindow().lock())
                     {
                         auto settingsDialog = SettingsDialog::create(context);
-                        auto weak = std::weak_ptr<SettingsDialog>(settingsDialog);
+                        settingsDialog->setCurrentTab(p.currentTab);
+                        p.settingsDialog = settingsDialog;
+                        auto weak = std::weak_ptr<SettingsSystem>(std::dynamic_pointer_cast<SettingsSystem>(shared_from_this()));
+                        auto settingsDialogWeak = p.settingsDialog;
                         settingsDialog->setCloseCallback(
                             [weak]
                             {
                                 if (auto widget = weak.lock())
                                 {
-                                    if (auto parent = widget->getParent().lock())
+                                    if (auto settingsDialog = widget->_p->settingsDialog.lock())
                                     {
-                                        parent->removeChild(widget);
+                                        widget->_p->currentTab = settingsDialog->getCurrentTab();
+                                        if (auto parent = settingsDialog->getParent().lock())
+                                        {
+                                            parent->removeChild(settingsDialog);
+                                        }
                                     }
+                                    widget->_p->settingsDialog.reset();
                                 }
                             });
                         window->addChild(settingsDialog);

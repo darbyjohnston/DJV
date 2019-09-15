@@ -29,6 +29,7 @@
 
 #include <djvViewApp/ColorPickerSystem.h>
 
+#include <djvViewApp/ColorPickerSettings.h>
 #include <djvViewApp/ColorPickerWidget.h>
 
 #include <djvUI/Action.h>
@@ -49,6 +50,7 @@ namespace djv
     {
         struct ColorPickerSystem::Private
         {
+            std::shared_ptr<ColorPickerSettings> settings;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
@@ -57,26 +59,16 @@ namespace djv
         void ColorPickerSystem::_init(const std::shared_ptr<Core::Context>& context)
         {
             IToolSystem::_init("djv::ViewApp::ColorPickerSystem", context);
-
             DJV_PRIVATE_PTR();
+
+            p.settings = ColorPickerSettings::create(context);
+            _setWidgetGeom(p.settings->getWidgetGeom());
+
             p.actions["ColorPicker"] = UI::Action::create();
             p.actions["ColorPicker"]->setIcon("djvIconColorPicker");
             p.actions["ColorPicker"]->setShortcut(GLFW_KEY_2);
 
             auto weak = std::weak_ptr<ColorPickerSystem>(std::dynamic_pointer_cast<ColorPickerSystem>(shared_from_this()));
-            _setCloseWidgetCallback(
-                [weak](const std::string & name)
-            {
-                if (auto system = weak.lock())
-                {
-                    const auto i = system->_p->actions.find(name);
-                    if (i != system->_p->actions.end())
-                    {
-                        i->second->setChecked(false);
-                    }
-                }
-            });
-
             p.localeObserver = ValueObserver<std::string>::create(
                 context->getSystemT<TextSystem>()->observeCurrentLocale(),
                 [weak](const std::string & value)
@@ -93,7 +85,11 @@ namespace djv
         {}
 
         ColorPickerSystem::~ColorPickerSystem()
-        {}
+        {
+            DJV_PRIVATE_PTR();
+            _closeWidget("ColorPicker");
+            p.settings->setWidgetGeom(_getWidgetGeom());
+        }
 
         std::shared_ptr<ColorPickerSystem> ColorPickerSystem::create(const std::shared_ptr<Core::Context>& context)
         {
@@ -136,6 +132,17 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.actions["ColorPicker"]->setText(_getText(DJV_TEXT("Color Picker")));
             p.actions["ColorPicker"]->setTooltip(_getText(DJV_TEXT("Color picker tooltip")));
+        }
+
+        void ColorPickerSystem::_closeWidget(const std::string& value)
+        {
+            DJV_PRIVATE_PTR();
+            const auto i = p.actions.find(value);
+            if (i != p.actions.end())
+            {
+                i->second->setChecked(false);
+            }
+            IToolSystem::_closeWidget(value);
         }
 
     } // namespace ViewApp

@@ -60,6 +60,8 @@ namespace djv
         struct ImageSystem::Private
         {
             std::shared_ptr<ImageSettings> settings;
+
+            std::map<std::string, bool> colorSpaceBellowsState;
             std::shared_ptr<ValueSubject<bool> > frameStoreEnabled;
             std::shared_ptr<ValueSubject<std::shared_ptr<AV::Image::Image> > > frameStore;
             std::shared_ptr<AV::Image::Image> currentImage;
@@ -73,7 +75,7 @@ namespace djv
             std::shared_ptr<UI::ActionGroup> rotateActionGroup;
             std::shared_ptr<UI::ActionGroup> aspectRatioActionGroup;
             std::shared_ptr<UI::Menu> menu;
-            std::shared_ptr<ColorSpaceWidget> colorSpaceWidget;
+            std::weak_ptr<ColorSpaceWidget> colorSpaceWidget;
 
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
@@ -92,6 +94,9 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             p.settings = ImageSettings::create(context);
+            p.colorSpaceBellowsState = p.settings->getColorSpaceBellowsState();
+            _setWidgetGeom(p.settings->getWidgetGeom());
+
             p.frameStoreEnabled = ValueSubject<bool>::create();
             p.frameStore = ValueSubject<std::shared_ptr<AV::Image::Image> >::create();
 
@@ -216,19 +221,6 @@ namespace djv
                     }
                 });
 
-            _setCloseWidgetCallback(
-                [weak](const std::string& name)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        const auto i = system->_p->actions.find(name);
-                        if (i != system->_p->actions.end())
-                        {
-                            i->second->setChecked(false);
-                        }
-                    }
-                });
-
             auto contextWeak = std::weak_ptr<Context>(context);
             p.actionObservers["ColorSpace"] = ValueObserver<bool>::create(
                 p.actions["ColorSpace"]->observeChecked(),
@@ -240,7 +232,10 @@ namespace djv
                         {
                             if (value)
                             {
-                                system->_openWidget("ColorSpace", ColorSpaceWidget::create(context));
+                                auto colorSpaceWidget = ColorSpaceWidget::create(context);
+                                colorSpaceWidget->setBellowsState(system->_p->colorSpaceBellowsState);
+                                system->_p->colorSpaceWidget = colorSpaceWidget;
+                                system->_openWidget("ColorSpace", colorSpaceWidget);
                             }
                             else
                             {
@@ -402,7 +397,12 @@ namespace djv
         {}
 
         ImageSystem::~ImageSystem()
-        {}
+        {
+            DJV_PRIVATE_PTR();
+            _closeWidget("ColorSpace");
+            p.settings->setColorSpaceBellowsState(p.colorSpaceBellowsState);
+            p.settings->setWidgetGeom(_getWidgetGeom());
+        }
 
         std::shared_ptr<ImageSystem> ImageSystem::create(const std::shared_ptr<Core::Context>& context)
         {
@@ -433,6 +433,22 @@ namespace djv
                 _p->menu,
                 "D"
             };
+        }
+
+        void ImageSystem::_closeWidget(const std::string& value)
+        {
+            DJV_PRIVATE_PTR();
+            if (auto colorSpaceWidget = p.colorSpaceWidget.lock())
+            {
+                p.colorSpaceBellowsState = colorSpaceWidget->getBellowsState();
+            }
+            p.colorSpaceWidget.reset();
+            const auto i = p.actions.find(value);
+            if (i != p.actions.end())
+            {
+                i->second->setChecked(false);
+            }
+            IViewSystem::_closeWidget(value);
         }
 
         void ImageSystem::_actionsUpdate()

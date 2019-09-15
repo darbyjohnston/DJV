@@ -29,6 +29,7 @@
 
 #include <djvViewApp/MagnifySystem.h>
 
+#include <djvViewApp/MagnifySettings.h>
 #include <djvViewApp/MagnifyWidget.h>
 
 #include <djvUI/Action.h>
@@ -49,6 +50,7 @@ namespace djv
     {
         struct MagnifySystem::Private
         {
+            std::shared_ptr<MagnifySettings> settings;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
@@ -57,26 +59,16 @@ namespace djv
         void MagnifySystem::_init(const std::shared_ptr<Core::Context>& context)
         {
             IToolSystem::_init("djv::ViewApp::MagnifySystem", context);
-
             DJV_PRIVATE_PTR();
+
+            p.settings = MagnifySettings::create(context);
+            _setWidgetGeom(p.settings->getWidgetGeom());
+
             p.actions["Magnify"] = UI::Action::create();
             p.actions["Magnify"]->setIcon("djvIconMagnify");
             p.actions["Magnify"]->setShortcut(GLFW_KEY_3);
 
             auto weak = std::weak_ptr<MagnifySystem>(std::dynamic_pointer_cast<MagnifySystem>(shared_from_this()));
-            _setCloseWidgetCallback(
-                [weak](const std::string & name)
-            {
-                if (auto system = weak.lock())
-                {
-                    const auto i = system->_p->actions.find(name);
-                    if (i != system->_p->actions.end())
-                    {
-                        i->second->setChecked(false);
-                    }
-                }
-            });
-
             p.localeObserver = ValueObserver<std::string>::create(
                 context->getSystemT<TextSystem>()->observeCurrentLocale(),
                 [weak](const std::string & value)
@@ -93,7 +85,11 @@ namespace djv
         {}
 
         MagnifySystem::~MagnifySystem()
-        {}
+        {
+            DJV_PRIVATE_PTR();
+            _closeWidget("Magnify");
+            p.settings->setWidgetGeom(_getWidgetGeom());
+        }
 
         std::shared_ptr<MagnifySystem> MagnifySystem::create(const std::shared_ptr<Core::Context>& context)
         {
@@ -136,6 +132,17 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.actions["Magnify"]->setText(_getText(DJV_TEXT("Magnify")));
             p.actions["Magnify"]->setTooltip(_getText(DJV_TEXT("Magnify tooltip")));
+        }
+
+        void MagnifySystem::_closeWidget(const std::string& value)
+        {
+            DJV_PRIVATE_PTR();
+            const auto i = p.actions.find(value);
+            if (i != p.actions.end())
+            {
+                i->second->setChecked(false);
+            }
+            IToolSystem::_closeWidget(value);
         }
 
     } // namespace ViewApp

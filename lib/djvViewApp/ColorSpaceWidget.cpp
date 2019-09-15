@@ -68,19 +68,17 @@ namespace djv
             std::vector<std::string> views;
             Core::FileSystem::Path fileBrowserPath = Core::FileSystem::Path(".");
 
-            std::shared_ptr<UI::Bellows> configBellows;
+            std::map<std::string, std::shared_ptr<UI::Bellows> > bellows;
             std::shared_ptr<UI::ButtonGroup> configButtonGroup;
             std::shared_ptr<UI::ButtonGroup> editConfigButtonGroup;
             std::shared_ptr<UI::ToolButton> addConfigButton;
             std::shared_ptr<UI::ToolButton> editConfigButton;
             std::shared_ptr<UI::VerticalLayout> configLayout;
-            std::shared_ptr<UI::Bellows> imageBellows;
             std::shared_ptr<UI::ButtonGroup> editImageButtonGroup;
             std::shared_ptr<UI::FormLayout> imageLayout;
             std::shared_ptr<UI::VerticalLayout> addImageLayout;
             std::shared_ptr<UI::PopupWidget> addImagePopupWidget;
             std::shared_ptr<UI::ToolButton> editImageButton;
-            std::shared_ptr<UI::Bellows> displayBellows;
             std::shared_ptr<UI::ComboBox> displayComboBox;
             std::shared_ptr<UI::ComboBox> viewComboBox;
             std::shared_ptr<UI::FormLayout> displayLayout;
@@ -101,7 +99,7 @@ namespace djv
 
             setClassName("djv::ViewApp::ColorSpaceWidget");
 
-            p.configBellows = UI::Bellows::create(context);
+            p.bellows["Config"] = UI::Bellows::create(context);
             p.configButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Radio);
             p.editConfigButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
             p.addConfigButton = UI::ToolButton::create(context);
@@ -110,7 +108,7 @@ namespace djv
             p.editConfigButton->setButtonType(UI::ButtonType::Toggle);
             p.editConfigButton->setIcon("djvIconEditSmall");
 
-            p.imageBellows = UI::Bellows::create(context);
+            p.bellows["Image"] = UI::Bellows::create(context);
             p.editImageButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
             p.addImageLayout = UI::VerticalLayout::create(context);
             p.addImageLayout->setSpacing(UI::MetricsRole::None);
@@ -121,7 +119,7 @@ namespace djv
             p.editImageButton->setButtonType(UI::ButtonType::Toggle);
             p.editImageButton->setIcon("djvIconEditSmall");
 
-            p.displayBellows = UI::Bellows::create(context);
+            p.bellows["Display"] = UI::Bellows::create(context);
             p.displayComboBox = UI::ComboBox::create(context);
             p.displayComboBox->setHAlign(UI::HAlign::Fill);
             p.viewComboBox = UI::ComboBox::create(context);
@@ -142,8 +140,8 @@ namespace djv
             hLayout->addChild(p.addConfigButton);
             hLayout->addChild(p.editConfigButton);
             vLayout->addChild(hLayout);
-            p.configBellows->addChild(vLayout);
-            layout->addChild(p.configBellows);
+            p.bellows["Config"]->addChild(vLayout);
+            layout->addChild(p.bellows["Config"]);
 
             vLayout = UI::VerticalLayout::create(context);
             vLayout->setMargin(UI::MetricsRole::Margin);
@@ -155,15 +153,15 @@ namespace djv
             hLayout->addChild(p.addImagePopupWidget);
             hLayout->addChild(p.editImageButton);
             vLayout->addChild(hLayout);
-            p.imageBellows->addChild(vLayout);
-            layout->addChild(p.imageBellows);
+            p.bellows["Image"]->addChild(vLayout);
+            layout->addChild(p.bellows["Image"]);
 
             p.displayLayout = UI::FormLayout::create(context);
             p.displayLayout->setMargin(UI::MetricsRole::Margin);
             p.displayLayout->addChild(p.displayComboBox);
             p.displayLayout->addChild(p.viewComboBox);
-            p.displayBellows->addChild(p.displayLayout);
-            layout->addChild(p.displayBellows);
+            p.bellows["Display"]->addChild(p.displayLayout);
+            layout->addChild(p.bellows["Display"]);
 
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             scrollWidget->setBorder(false);
@@ -391,14 +389,38 @@ namespace djv
             return out;
         }
 
+        std::map<std::string, bool> ColorSpaceWidget::getBellowsState() const
+        {
+            DJV_PRIVATE_PTR();
+            std::map<std::string, bool> out;
+            for (const auto& i : p.bellows)
+            {
+                out[i.first] = i.second->isOpen();
+            }
+            return out;
+        }
+
+        void ColorSpaceWidget::setBellowsState(const std::map<std::string, bool>& value)
+        {
+            DJV_PRIVATE_PTR();
+            for (const auto& i : value)
+            {
+                const auto j = p.bellows.find(i.first);
+                if (j != p.bellows.end())
+                {
+                    j->second->setOpen(i.second);
+                }
+            }
+        }
+
         void ColorSpaceWidget::_localeEvent(Event::Locale & event)
         {
             MDIWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Color Space")));
-            p.configBellows->setText(_getText(DJV_TEXT("OCIO Configuration")));
-            p.imageBellows->setText(_getText(DJV_TEXT("Image Color Profiles")));
-            p.displayBellows->setText(_getText(DJV_TEXT("Display")));
+            p.bellows["Config"]->setText(_getText(DJV_TEXT("OCIO Configuration")));
+            p.bellows["Image"]->setText(_getText(DJV_TEXT("Image Color Profiles")));
+            p.bellows["Display"]->setText(_getText(DJV_TEXT("Display")));
             p.displayLayout->setText(p.displayComboBox, _getText(DJV_TEXT("Name")) + ":");
             p.displayLayout->setText(p.viewComboBox, _getText(DJV_TEXT("View")) + ":");
             _widgetUpdate();

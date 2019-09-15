@@ -96,6 +96,8 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             p.settings = FileSettings::create(context);
+            _setWidgetGeom(p.settings->getWidgetGeom());
+
             p.opened = ValueSubject<std::shared_ptr<Media> >::create();
             p.opened2 = ValueSubject<std::pair<std::shared_ptr<Media>, glm::vec2> >::create();
             p.closed = ValueSubject<std::shared_ptr<Media> >::create();
@@ -124,9 +126,9 @@ namespace djv
             p.actions["Next"]->setShortcut(GLFW_KEY_PAGE_DOWN);
             p.actions["Prev"] = UI::Action::create();
             p.actions["Prev"]->setShortcut(GLFW_KEY_PAGE_UP);
-            p.actions["LayersWidget"] = UI::Action::create();
-            p.actions["LayersWidget"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["LayersWidget"]->setShortcut(GLFW_KEY_L, UI::Shortcut::getSystemModifier());
+            p.actions["Layers"] = UI::Action::create();
+            p.actions["Layers"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["Layers"]->setShortcut(GLFW_KEY_L, UI::Shortcut::getSystemModifier());
             p.actions["NextLayer"] = UI::Action::create();
             p.actions["NextLayer"]->setShortcut(GLFW_KEY_EQUAL, UI::Shortcut::getSystemModifier());
             p.actions["PrevLayer"] = UI::Action::create();
@@ -152,7 +154,7 @@ namespace djv
             p.menu->addSeparator();
             p.menu->addAction(p.actions["NextLayer"]);
             p.menu->addAction(p.actions["PrevLayer"]);
-            p.menu->addAction(p.actions["LayersWidget"]);
+            p.menu->addAction(p.actions["Layers"]);
             p.menu->addSeparator();
             p.menu->addAction(p.actions["8BitConversion"]);
             p.menu->addSeparator();
@@ -165,19 +167,6 @@ namespace djv
             _actionsUpdate();
 
             auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
-            _setCloseWidgetCallback(
-                [weak](const std::string& name)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        const auto i = system->_p->actions.find(name);
-                        if (i != system->_p->actions.end())
-                        {
-                            i->second->setChecked(false);
-                        }
-                    }
-                });
-
             p.recentFilesObserver = ListObserver<Core::FileSystem::FileInfo>::create(
                 p.settings->observeRecentFiles(),
                 [weak](const std::vector<Core::FileSystem::FileInfo>& value)
@@ -363,8 +352,8 @@ namespace djv
                     }
                 });
 
-            p.actionObservers["LayersWidget"] = ValueObserver<bool>::create(
-                p.actions["LayersWidget"]->observeChecked(),
+            p.actionObservers["Layers"] = ValueObserver<bool>::create(
+                p.actions["Layers"]->observeChecked(),
                 [weak, contextWeak](bool value)
                 {
                     if (auto context = contextWeak.lock())
@@ -373,11 +362,11 @@ namespace djv
                         {
                             if (value)
                             {
-                                system->_openWidget("LayersWidget", LayersWidget::create(context));
+                                system->_openWidget("Layers", LayersWidget::create(context));
                             }
                             else
                             {
-                                system->_closeWidget("LayersWidget");
+                                system->_closeWidget("Layers");
                             }
                         }
                     }
@@ -485,7 +474,11 @@ namespace djv
         {}
 
         FileSystem::~FileSystem()
-        {}
+        {
+            DJV_PRIVATE_PTR();
+            _closeWidget("Layers");
+            p.settings->setWidgetGeom(_getWidgetGeom());
+        }
 
         std::shared_ptr<FileSystem> FileSystem::create(const std::shared_ptr<Core::Context>& context)
         {
@@ -681,8 +674,8 @@ namespace djv
             p.actions["Next"]->setTooltip(_getText(DJV_TEXT("Next tooltip")));
             p.actions["Prev"]->setText(_getText(DJV_TEXT("Previous")));
             p.actions["Prev"]->setTooltip(_getText(DJV_TEXT("Prev tooltip")));
-            p.actions["LayersWidget"]->setText(_getText(DJV_TEXT("Layers Widget")));
-            p.actions["LayersWidget"]->setTooltip(_getText(DJV_TEXT("Layers widget tooltip")));
+            p.actions["Layers"]->setText(_getText(DJV_TEXT("Layers")));
+            p.actions["Layers"]->setTooltip(_getText(DJV_TEXT("Layers tooltip")));
             p.actions["NextLayer"]->setText(_getText(DJV_TEXT("Next layer")));
             p.actions["NextLayer"]->setTooltip(_getText(DJV_TEXT("Next layer tooltip")));
             p.actions["PrevLayer"]->setText(_getText(DJV_TEXT("Previous Layer")));
@@ -805,6 +798,17 @@ namespace djv
                     }
                 }
             }
+        }
+
+        void FileSystem::_closeWidget(const std::string& value)
+        {
+            DJV_PRIVATE_PTR();
+            const auto i = p.actions.find(value);
+            if (i != p.actions.end())
+            {
+                i->second->setChecked(false);
+            }
+            IViewSystem::_closeWidget(value);
         }
 
     } // namespace ViewApp

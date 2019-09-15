@@ -73,6 +73,7 @@ set(header
     VectorInline.h)
 set(source
     Animation.cpp
+    BBox.cpp
     Context.cpp
     Core.cpp
     CoreSystem.cpp

@@ -159,7 +159,9 @@ namespace djv
 
         void TabWidget::setCurrentTab(int value)
         {
-            _p->tabBar->setCurrentTab(value);
+            DJV_PRIVATE_PTR();
+            p.tabBar->setCurrentTab(value);
+            p.soloLayout->setCurrentIndex(value);
         }
 
         void TabWidget::setCurrentTabCallback(const std::function<void(int)> & value)

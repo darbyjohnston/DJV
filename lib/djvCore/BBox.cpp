@@ -27,40 +27,75 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvCore/BBox.h>
 
-#include <djvViewApp/MDIWidget.h>
+#include <iostream>
 
 namespace djv
 {
-    namespace ViewApp
+    namespace Core
     {
-        //! This class provides the color space widget.
-        class ColorSpaceWidget : public MDIWidget
+
+    } // namespace Core
+
+    picojson::value toJSON(const Core::BBox2i& value)
+    {
+        std::stringstream s;
+        s << value;
+        return picojson::value(s.str());
+    }
+
+    picojson::value toJSON(const Core::BBox2f& value)
+    {
+        std::stringstream s;
+        s << value;
+        return picojson::value(s.str());
+    }
+
+    picojson::value toJSON(const Core::BBox3f& value)
+    {
+        std::stringstream s;
+        s << value;
+        return picojson::value(s.str());
+    }
+
+    void fromJSON(const picojson::value& value, glm::ivec2& out)
+    {
+        if (value.is<std::string>())
         {
-            DJV_NON_COPYABLE(ColorSpaceWidget);
+            std::stringstream ss(value.get<std::string>());
+            ss >> out;
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
 
-        protected:
-            void _init(const std::shared_ptr<Core::Context>&);
-            ColorSpaceWidget();
+    void fromJSON(const picojson::value& value, Core::BBox2f& out)
+    {
+        if (value.is<std::string>())
+        {
+            std::stringstream ss(value.get<std::string>());
+            ss >> out;
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
 
-        public:
-            ~ColorSpaceWidget() override;
+    void fromJSON(const picojson::value& value, Core::BBox3f& out)
+    {
+        if (value.is<std::string>())
+        {
+            std::stringstream ss(value.get<std::string>());
+            ss >> out;
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
 
-            static std::shared_ptr<ColorSpaceWidget> create(const std::shared_ptr<Core::Context>&);
-
-            std::map<std::string, bool> getBellowsState() const;
-            void setBellowsState(const std::map<std::string, bool>&);
-
-        protected:
-            void _localeEvent(Core::Event::Locale &) override;
-
-        private:
-            void _widgetUpdate();
-
-            DJV_PRIVATE();
-        };
-
-    } // namespace ViewApp
 } // namespace djv
-

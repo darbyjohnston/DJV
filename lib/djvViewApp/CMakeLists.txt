@@ -1,10 +1,12 @@
 set(header
     AboutDialog.h
+	AnnotateSettings.h
 	AnnotateSystem.h
 	AnnotateWidget.h
     Application.h
 	AudioSystem.h
 	BackgroundImageWidget.h
+    ColorPickerSettings.h
     ColorPickerSystem.h
     ColorPickerWidget.h
 	ColorSpaceWidget.h
@@ -29,6 +31,7 @@ set(header
     InfoWidget.h
 	LayersWidget.h
 	MDIWidget.h
+    MagnifySettings.h
     MagnifySystem.h
     MagnifyWidget.h
     MainWindow.h
@@ -49,6 +52,7 @@ set(header
     SettingsSystem.h
     SystemLogWidget.h
     TimelineSlider.h
+    ToolSettings.h
     ToolSystem.h
 	UISettings.h
 	UISettingsWidget.h
@@ -58,11 +62,13 @@ set(header
     WindowSystem.h)
 set(source
     AboutDialog.cpp
+	AnnotateSettings.cpp
 	AnnotateSystem.cpp
 	AnnotateWidget.cpp
     Application.cpp
 	AudioSystem.cpp
 	BackgroundImageWidget.cpp
+    ColorPickerSettings.cpp
     ColorPickerSystem.cpp
     ColorPickerWidget.cpp
 	ColorSpaceWidget.cpp
@@ -87,6 +93,7 @@ set(source
     InfoWidget.cpp
 	LayersWidget.cpp
 	MDIWidget.cpp
+    MagnifySettings.cpp
     MagnifySystem.cpp
     MagnifyWidget.cpp
     MainWindow.cpp
@@ -107,6 +114,7 @@ set(source
     SettingsSystem.cpp
     SystemLogWidget.cpp
     TimelineSlider.cpp
+    ToolSettings.cpp
     ToolSystem.cpp
 	UISettings.cpp
 	UISettingsWidget.cpp

@@ -66,6 +66,9 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
             MenuData getMenu() const override;
 
+        protected:
+            void _closeWidget(const std::string&) override;
+
         private:
             void _actionsUpdate();
             void _textUpdate();

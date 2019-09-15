@@ -31,6 +31,7 @@
 
 #include <djvUI/ISettings.h>
 
+#include <djvCore/BBox.h>
 #include <djvCore/ListObserver.h>
 #include <djvCore/ValueObserver.h>
 
@@ -55,6 +56,12 @@ namespace djv
 
             std::shared_ptr<Core::IValueSubject<bool> > observeErrorsPopup() const;
             void setErrorsPopup(bool);
+
+            std::map<std::string, bool> getDebugBellowsState() const;
+            void setDebugBellowsState(const std::map<std::string, bool>&);
+
+            const std::map<std::string, Core::BBox2f>& getWidgetGeom() const;
+            void setWidgetGeom(const std::map<std::string, Core::BBox2f>&);
 
             void load(const picojson::value &) override;
             picojson::value save() override;

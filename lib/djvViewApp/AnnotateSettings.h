@@ -29,35 +29,36 @@
 
 #pragma once
 
-#include <djvViewApp/MDIWidget.h>
+#include <djvUI/ISettings.h>
+
+#include <djvCore/BBox.h>
 
 namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the color space widget.
-        class ColorSpaceWidget : public MDIWidget
+        //! This class provides the annotation settings.
+        class AnnotateSettings : public UI::Settings::ISettings
         {
-            DJV_NON_COPYABLE(ColorSpaceWidget);
+            DJV_NON_COPYABLE(AnnotateSettings);
 
         protected:
             void _init(const std::shared_ptr<Core::Context>&);
-            ColorSpaceWidget();
+
+            AnnotateSettings();
 
         public:
-            ~ColorSpaceWidget() override;
+            virtual ~AnnotateSettings();
 
-            static std::shared_ptr<ColorSpaceWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<AnnotateSettings> create(const std::shared_ptr<Core::Context>&);
 
-            std::map<std::string, bool> getBellowsState() const;
-            void setBellowsState(const std::map<std::string, bool>&);
+            const std::map<std::string, Core::BBox2f>& getWidgetGeom() const;
+            void setWidgetGeom(const std::map<std::string, Core::BBox2f>&);
 
-        protected:
-            void _localeEvent(Core::Event::Locale &) override;
+            void load(const picojson::value &) override;
+            picojson::value save() override;
 
         private:
-            void _widgetUpdate();
-
             DJV_PRIVATE();
         };
 

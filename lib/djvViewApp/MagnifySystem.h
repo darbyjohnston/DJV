@@ -57,6 +57,8 @@ namespace djv
         protected:
             void _textUpdate();
 
+            void _closeWidget(const std::string&) override;
+
         private:
             DJV_PRIVATE();
         };

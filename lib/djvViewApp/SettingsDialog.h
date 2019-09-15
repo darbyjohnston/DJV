@@ -49,6 +49,9 @@ namespace djv
 
             static std::shared_ptr<SettingsDialog> create(const std::shared_ptr<Core::Context>&);
 
+            int getCurrentTab() const;
+            void setCurrentTab(int);
+
         protected:
             void _localeEvent(Core::Event::Locale &) override;
 

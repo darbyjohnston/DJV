@@ -27,11 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewApp/ImageSettings.h>
-
-#include <djvAV/OCIOSystem.h>
-
-#include <djvCore/Context.h>
+#include <djvViewApp/ColorPickerSettings.h>
 
 // These need to be included last on OSX.
 #include <djvCore/PicoJSONTemplates.h>
@@ -43,96 +39,57 @@ namespace djv
 {
     namespace ViewApp
     {
-        struct ImageSettings::Private
+        struct ColorPickerSettings::Private
         {
-            std::map<std::string, bool> colorSpaceBellowsState;
-            std::shared_ptr<ValueSubject<ImageRotate> > rotate;
-            std::shared_ptr<ValueSubject<ImageAspectRatio> > aspectRatio;
             std::map<std::string, BBox2f> widgetGeom;
         };
 
-        void ImageSettings::_init(const std::shared_ptr<Core::Context>& context)
+        void ColorPickerSettings::_init(const std::shared_ptr<Core::Context>& context)
         {
-            ISettings::_init("djv::ViewApp::ImageSettings", context);
-
+            ISettings::_init("djv::ViewApp::ColorPickerSettings", context);
             DJV_PRIVATE_PTR();
-            p.rotate = ValueSubject<ImageRotate>::create(ImageRotate::_0);
-            p.aspectRatio = ValueSubject<ImageAspectRatio>::create(ImageAspectRatio::Default);
             _load();
         }
 
-        ImageSettings::ImageSettings() :
+        ColorPickerSettings::ColorPickerSettings() :
             _p(new Private)
         {}
 
-        std::shared_ptr<ImageSettings> ImageSettings::create(const std::shared_ptr<Core::Context>& context)
+        ColorPickerSettings::~ColorPickerSettings()
+        {}
+
+        std::shared_ptr<ColorPickerSettings> ColorPickerSettings::create(const std::shared_ptr<Core::Context>& context)
         {
-            auto out = std::shared_ptr<ImageSettings>(new ImageSettings);
+            auto out = std::shared_ptr<ColorPickerSettings>(new ColorPickerSettings);
             out->_init(context);
             return out;
         }
 
-        std::map<std::string, bool> ImageSettings::getColorSpaceBellowsState() const
-        {
-            return _p->colorSpaceBellowsState;
-        }
-
-        void ImageSettings::setColorSpaceBellowsState(const std::map<std::string, bool>& value)
-        {
-            _p->colorSpaceBellowsState = value;
-        }
-
-        std::shared_ptr<IValueSubject<ImageRotate> > ImageSettings::observeImageRotate() const
-        {
-            return _p->rotate;
-        }
-
-        std::shared_ptr<IValueSubject<ImageAspectRatio> > ImageSettings::observeImageAspectRatio() const
-        {
-            return _p->aspectRatio;
-        }
-
-        void ImageSettings::setImageRotate(ImageRotate value)
-        {
-            _p->rotate->setIfChanged(value);
-        }
-
-        void ImageSettings::setImageAspectRatio(ImageAspectRatio value)
-        {
-            _p->aspectRatio->setIfChanged(value);
-        }
-
-        const std::map<std::string, BBox2f>& ImageSettings::getWidgetGeom() const
+        const std::map<std::string, BBox2f>& ColorPickerSettings::getWidgetGeom() const
         {
             return _p->widgetGeom;
         }
 
-        void ImageSettings::setWidgetGeom(const std::map<std::string, BBox2f>& value)
+        void ColorPickerSettings::setWidgetGeom(const std::map<std::string, BBox2f>& value)
         {
             _p->widgetGeom = value;
         }
 
-        void ImageSettings::load(const picojson::value & value)
+        void ColorPickerSettings::load(const picojson::value & value)
         {
             if (value.is<picojson::object>())
             {
                 DJV_PRIVATE_PTR();
                 const auto & object = value.get<picojson::object>();
-                UI::Settings::read("ColorSpaceBellowsState", object, p.colorSpaceBellowsState);
-                UI::Settings::read("Rotate", object, p.rotate);
-                UI::Settings::read("AspectRatio", object, p.aspectRatio);
                 UI::Settings::read("WidgetGeom", object, p.widgetGeom);
             }
         }
 
-        picojson::value ImageSettings::save()
+        picojson::value ColorPickerSettings::save()
         {
             DJV_PRIVATE_PTR();
             picojson::value out(picojson::object_type, true);
             auto & object = out.get<picojson::object>();
-            UI::Settings::write("ColorSpaceBellowsState", p.colorSpaceBellowsState, object);
-            UI::Settings::write("Rotate", p.rotate->get(), object);
-            UI::Settings::write("AspectRatio", p.aspectRatio->get(), object);
             UI::Settings::write("WidgetGeom", p.widgetGeom, object);
             return out;
         }

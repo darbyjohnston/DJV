@@ -49,6 +49,9 @@ namespace djv
 
             static std::shared_ptr<DebugWidget> create(const std::shared_ptr<Core::Context>&);
 
+            std::map<std::string, bool> getBellowsState() const;
+            void setBellowsState(const std::map<std::string, bool>&);
+
         protected:
             void _localeEvent(Core::Event::Locale &) override;
 

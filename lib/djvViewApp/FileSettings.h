@@ -31,6 +31,7 @@
 
 #include <djvUI/ISettings.h>
 
+#include <djvCore/BBox.h>
 #include <djvCore/ListObserver.h>
 #include <djvCore/ValueObserver.h>
 
@@ -72,6 +73,9 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<int> > observeCacheMaxGB() const;
             void setCacheEnabled(bool);
             void setCacheMaxGB(int);
+
+            const std::map<std::string, Core::BBox2f>& getWidgetGeom() const;
+            void setWidgetGeom(const std::map<std::string, Core::BBox2f>&);
 
             void load(const picojson::value &) override;
             picojson::value save() override;

@@ -29,6 +29,8 @@
 
 #include <djvViewApp/HelpSettings.h>
 
+#include <djvCore/Vector.h>
+
 // These need to be included last on OSX.
 #include <djvCore/PicoJSONTemplates.h>
 #include <djvUI/ISettingsTemplates.h>
@@ -42,6 +44,8 @@ namespace djv
         struct HelpSettings::Private
         {
             std::shared_ptr<ValueSubject<bool> > errorsPopup;
+            std::map<std::string, bool> debugBellowsState;
+            std::map<std::string, BBox2f> widgetGeom;
         };
 
         void HelpSettings::_init(const std::shared_ptr<Core::Context>& context)
@@ -76,6 +80,26 @@ namespace djv
             _p->errorsPopup->setIfChanged(value);
         }
 
+        std::map<std::string, bool> HelpSettings::getDebugBellowsState() const
+        {
+            return _p->debugBellowsState;
+        }
+
+        void HelpSettings::setDebugBellowsState(const std::map<std::string, bool>& value)
+        {
+            _p->debugBellowsState = value;
+        }
+
+        const std::map<std::string, BBox2f>& HelpSettings::getWidgetGeom() const
+        {
+            return _p->widgetGeom;
+        }
+
+        void HelpSettings::setWidgetGeom(const std::map<std::string, BBox2f>& value)
+        {
+            _p->widgetGeom = value;
+        }
+
         void HelpSettings::load(const picojson::value & value)
         {
             if (value.is<picojson::object>())
@@ -83,6 +107,8 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const auto & object = value.get<picojson::object>();
                 UI::Settings::read("ErrorsPopup", object, p.errorsPopup);
+                UI::Settings::read("DebugBellowsState", object, p.debugBellowsState);
+                UI::Settings::read("WidgetGeom", object, p.widgetGeom);
             }
         }
 
@@ -92,6 +118,8 @@ namespace djv
             picojson::value out(picojson::object_type, true);
             auto & object = out.get<picojson::object>();
             UI::Settings::write("ErrorsPopup", p.errorsPopup->get(), object);
+            UI::Settings::write("DebugBellowsState", p.debugBellowsState, object);
+            UI::Settings::write("WidgetGeom", p.widgetGeom, object);
             return out;
         }
 

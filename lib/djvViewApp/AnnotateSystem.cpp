@@ -29,6 +29,7 @@
 
 #include <djvViewApp/AnnotateSystem.h>
 
+#include <djvViewApp/AnnotateSettings.h>
 #include <djvViewApp/AnnotateWidget.h>
 
 #include <djvUI/Action.h>
@@ -50,6 +51,7 @@ namespace djv
     {
         struct AnnotateSystem::Private
         {
+            std::shared_ptr<AnnotateSettings> settings;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
@@ -59,8 +61,11 @@ namespace djv
         void AnnotateSystem::_init(const std::shared_ptr<Core::Context>& context)
         {
             IToolSystem::_init("djv::ViewApp::AnnotateSystem", context);
-
             DJV_PRIVATE_PTR();
+
+            p.settings = AnnotateSettings::create(context);
+            _setWidgetGeom(p.settings->getWidgetGeom());
+
             p.actions["Annotate"] = UI::Action::create();
             p.actions["Annotate"]->setIcon("djvIconAnnotate");
             p.actions["Annotate"]->setShortcut(GLFW_KEY_4);
@@ -68,19 +73,6 @@ namespace djv
             p.menu = UI::Menu::create(context);
 
             auto weak = std::weak_ptr<AnnotateSystem>(std::dynamic_pointer_cast<AnnotateSystem>(shared_from_this()));
-            _setCloseWidgetCallback(
-                [weak](const std::string & name)
-            {
-                if (auto system = weak.lock())
-                {
-                    const auto i = system->_p->actions.find(name);
-                    if (i != system->_p->actions.end())
-                    {
-                        i->second->setChecked(false);
-                    }
-                }
-            });
-
             p.localeObserver = ValueObserver<std::string>::create(
                 context->getSystemT<TextSystem>()->observeCurrentLocale(),
                 [weak](const std::string & value)
@@ -97,7 +89,11 @@ namespace djv
         {}
 
         AnnotateSystem::~AnnotateSystem()
-        {}
+        {
+            DJV_PRIVATE_PTR();
+            _closeWidget("Annotate");
+            p.settings->setWidgetGeom(_getWidgetGeom());
+        }
 
         std::shared_ptr<AnnotateSystem> AnnotateSystem::create(const std::shared_ptr<Core::Context>& context)
         {
@@ -151,6 +147,17 @@ namespace djv
             p.actions["Annotate"]->setTooltip(_getText(DJV_TEXT("Annotate tooltip")));
 
             p.menu->setText(_getText(DJV_TEXT("Annotate")));
+        }
+
+        void AnnotateSystem::_closeWidget(const std::string& value)
+        {
+            DJV_PRIVATE_PTR();
+            const auto i = p.actions.find(value);
+            if (i != p.actions.end())
+            {
+                i->second->setChecked(false);
+            }
+            IToolSystem::_closeWidget(value);
         }
 
     } // namespace ViewApp

@@ -185,6 +185,16 @@ namespace djv
     template<typename T, glm::precision P = glm::defaultp>
     inline Core::BBox::tBBox3<T, P> operator * (const Core::BBox::tBBox3<T, P> &, const glm::mat4 &);
 
+    picojson::value toJSON(const Core::BBox2i&);
+    picojson::value toJSON(const Core::BBox2f&);
+    picojson::value toJSON(const Core::BBox3f&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const picojson::value&, Core::BBox2i&);
+    void fromJSON(const picojson::value&, Core::BBox2f&);
+    void fromJSON(const picojson::value&, Core::BBox3f&);
+
     template<typename T, glm::precision P = glm::defaultp>
     inline std::ostream & operator << (std::ostream &, const Core::BBox::tBBox2<T, P> &);
     template<typename T, glm::precision P = glm::defaultp>

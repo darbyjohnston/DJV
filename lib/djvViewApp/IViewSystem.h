@@ -31,6 +31,7 @@
 
 #include <djvViewApp/ViewApp.h>
 
+#include <djvCore/BBox.h>
 #include <djvCore/ISystem.h>
 
 #include <functional>
@@ -81,9 +82,12 @@ namespace djv
             void setCanvas(const std::shared_ptr<UI::MDI::Canvas>&);
 
         protected:
-            void _openWidget(const std::string&, const std::shared_ptr<MDIWidget>&);
-            void _closeWidget(const std::string&);
-            void _setCloseWidgetCallback(const std::function<void(const std::string&)>&);
+            virtual void _openWidget(const std::string&, const std::shared_ptr<MDIWidget>&);
+            virtual void _closeWidget(const std::string&);
+
+            const std::map<std::string, std::shared_ptr<MDIWidget> >& _getWidgets() const;
+            const std::map<std::string, Core::BBox2f>& _getWidgetGeom() const;
+            void _setWidgetGeom(const std::map<std::string, Core::BBox2f>&);
 
         private:
             DJV_PRIVATE();
