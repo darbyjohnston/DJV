@@ -127,16 +127,12 @@ namespace djv
                     DJV_NON_COPYABLE(Plugin);
 
                 protected:
-                    void _init(
-                        const std::shared_ptr<Core::ResourceSystem>&,
-                        const std::shared_ptr<Core::LogSystem>&);
+                    void _init(const std::shared_ptr<Core::Context>&);
 
                     Plugin();
 
                 public:
-                    static std::shared_ptr<Plugin> create(
-                        const std::shared_ptr<Core::ResourceSystem>&,
-                        const std::shared_ptr<Core::LogSystem>&);
+                    static std::shared_ptr<Plugin> create(const std::shared_ptr<Core::Context>&);
 
                     picojson::value getOptions() const override;
                     void setOptions(const picojson::value&) override;
