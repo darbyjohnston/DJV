@@ -39,9 +39,11 @@ namespace djv
     {
         namespace OpenGL
         {
-            void Texture::_init(const Image::Info & info, GLenum filterMin, GLenum filterMax)
+            void Texture::_init(const Image::Info & info, GLenum filterMin, GLenum filterMag)
             {
                 _info = info;
+                _filterMin = filterMin;
+                _filterMag = filterMag;
                 if (_info.isValid())
                 {
 #if defined(DJV_OPENGL_PBO)
@@ -58,8 +60,8 @@ namespace djv
                     glBindTexture(GL_TEXTURE_2D, _id);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filterMin);
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filterMax);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _filterMin);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _filterMag);
                     glTexImage2D(
                         GL_TEXTURE_2D,
                         0,
@@ -89,10 +91,10 @@ namespace djv
 #endif // DJV_OPENGL_PBO
             }
 
-            std::shared_ptr<Texture> Texture::create(const Image::Info & info, GLenum filterMin, GLenum filterMax)
+            std::shared_ptr<Texture> Texture::create(const Image::Info & info, GLenum filterMin, GLenum filterMag)
             {
                 auto out = std::shared_ptr<Texture>(new Texture);
-                out->_init(info, filterMin, filterMax);
+                out->_init(info, filterMin, filterMag);
                 return out;
             }
 
@@ -125,8 +127,8 @@ namespace djv
                     glBindTexture(GL_TEXTURE_2D, _id);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _filterMin);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _filterMag);
                     glTexImage2D(
                         GL_TEXTURE_2D,
                         0,
@@ -257,6 +259,7 @@ namespace djv
             /*void Texture1D::_init(const Image::Info& info, GLenum filter)
             {
                 _info = info;
+                _filter = filter;
                 if (info.isValid())
                 {
 #if defined(DJV_OPENGL_PBO)
@@ -272,7 +275,7 @@ namespace djv
                     glGenTextures(1, &_id);
                     glBindTexture(GL_TEXTURE_1D, _id);
                     glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-                    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, filter);
+                    glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, _filter);
                     glTexImage1D(
                         GL_TEXTURE_1D,
                         0,

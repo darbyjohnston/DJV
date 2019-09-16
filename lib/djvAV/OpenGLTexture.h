@@ -45,7 +45,7 @@ namespace djv
                 void _init(
                     const Image::Info&,
                     GLenum filterMin = GL_LINEAR,
-                    GLenum filterMax = GL_LINEAR);
+                    GLenum filterMag = GL_LINEAR);
                 inline Texture();
 
             public:
@@ -54,7 +54,7 @@ namespace djv
                 static std::shared_ptr<Texture> create(
                     const Image::Info&,
                     GLenum filterMin = GL_LINEAR,
-                    GLenum filterMax = GL_LINEAR);
+                    GLenum filterMag = GL_LINEAR);
 
                 inline const Image::Info& getInfo() const;
                 inline GLuint getID() const;
@@ -69,6 +69,8 @@ namespace djv
 
             private:
                 Image::Info _info;
+                GLenum _filterMin = GL_LINEAR;
+                GLenum _filterMag = GL_LINEAR;
                 GLuint _id = 0;
 #if defined(DJV_OPENGL_PBO)
                 GLuint _pbo = 0;
