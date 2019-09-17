@@ -159,7 +159,7 @@ namespace djv
                         {
                             filter = true;
                         }
-                        if (!filter &&!(ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && options.fileExtensions.size())
+                        if (!filter && !(de->d_type & DT_DIR) && options.fileExtensions.size())
                         {
                             bool match = false;
                             for (const auto& i : options.fileExtensions)

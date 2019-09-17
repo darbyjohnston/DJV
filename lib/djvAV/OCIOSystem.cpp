@@ -330,7 +330,7 @@ namespace djv
                 std::string defaultDisplay;
                 std::string defaultView;
 
-                _OCIO::ConstConfigRcPtr ocioConfig = nullptr;
+                _OCIO::ConstConfigRcPtr ocioConfig;
                 int index = p.currentConfig;
                 if (index >= 0 && index < p.ocioConfigs.size())
                 {
