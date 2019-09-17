@@ -92,6 +92,7 @@ namespace djv
                 std::shared_ptr<PopupWidget> shortcutsPopupWidget;
                 std::shared_ptr<PopupWidget> recentPathsPopupWidget;
                 std::shared_ptr<PopupWidget> drivesPopupWidget;
+                std::shared_ptr<Label> sortTitleLabel;
                 std::shared_ptr<PopupWidget> sortPopupWidget;
                 std::shared_ptr<Label> viewTypeLabel;
                 std::shared_ptr<Label> thumbnailSizeLabel;
@@ -227,6 +228,10 @@ namespace djv
                 p.drivesPopupWidget->setIcon("djvIconDrives");
                 p.drivesPopupWidget->addChild(drivesWidget);
 
+                p.sortTitleLabel = Label::create(context);
+                p.sortTitleLabel->setTextHAlign(UI::TextHAlign::Left);
+                p.sortTitleLabel->setMargin(UI::MetricsRole::MarginSmall);
+                p.sortTitleLabel->setBackgroundRole(UI::ColorRole::Trough);
                 auto sortByNameButton = ActionButton::create(context);
                 sortByNameButton->addAction(p.actions["SortByName"]);
                 auto sortBySizeButton = ActionButton::create(context);
@@ -266,14 +271,18 @@ namespace djv
                 showHiddenButton->addAction(p.actions["ShowHidden"]);
 
                 auto vLayout = VerticalLayout::create(context);
-                vLayout->setMargin(MetricsRole::MarginSmall);
-                vLayout->setSpacing(MetricsRole::SpacingSmall);
-                vLayout->addChild(sortByNameButton);
-                vLayout->addChild(sortBySizeButton);
-                vLayout->addChild(sortByTimeButton);
+                vLayout->setSpacing(MetricsRole::None);
+                vLayout->addChild(p.sortTitleLabel);
                 vLayout->addSeparator();
-                vLayout->addChild(reverseSortButton);
-                vLayout->addChild(sortDirectoriesFirstButton);
+                auto vLayout2 = VerticalLayout::create(context);
+                vLayout2->setSpacing(MetricsRole::None);
+                vLayout2->addChild(sortByNameButton);
+                vLayout2->addChild(sortBySizeButton);
+                vLayout2->addChild(sortByTimeButton);
+                vLayout2->addSeparator();
+                vLayout2->addChild(reverseSortButton);
+                vLayout2->addChild(sortDirectoriesFirstButton);
+                vLayout->addChild(vLayout2);
                 p.sortPopupWidget = PopupWidget::create(context);
                 p.sortPopupWidget->setIcon("djvIconSort");
                 p.sortPopupWidget->addChild(vLayout);
@@ -287,22 +296,26 @@ namespace djv
                 vLayout = VerticalLayout::create(context);
                 vLayout->setSpacing(MetricsRole::None);
                 vLayout->addChild(p.viewTypeLabel);
-                auto vLayout2 = VerticalLayout::create(context);
-                vLayout2->setMargin(MetricsRole::MarginSmall);
-                vLayout2->setSpacing(MetricsRole::SpacingSmall);
+                vLayout->addSeparator();
+                vLayout2 = VerticalLayout::create(context);
+                vLayout2->setSpacing(MetricsRole::None);
                 vLayout2->addChild(tilesButton);
                 vLayout2->addChild(listButton);
                 vLayout->addChild(vLayout2);
+                vLayout->addSeparator();
                 vLayout->addChild(p.thumbnailSizeLabel);
+                vLayout->addSeparator();
                 vLayout2 = VerticalLayout::create(context);
-                vLayout2->setMargin(MetricsRole::MarginSmall);
+                vLayout2->setSpacing(MetricsRole::None);
                 vLayout2->addChild(increaseThumbnailSizeButton);
                 vLayout2->addChild(decreaseThumbnailSizeButton);
                 vLayout2->addChild(p.thumbnailSizeSlider);
                 vLayout->addChild(vLayout2);
+                vLayout->addSeparator();
                 vLayout->addChild(p.miscSettingsLabel);
+                vLayout->addSeparator();
                 vLayout2 = VerticalLayout::create(context);
-                vLayout2->setMargin(MetricsRole::MarginSmall);
+                vLayout2->setSpacing(MetricsRole::None);
                 vLayout2->addChild(fileSequencesButton);
                 vLayout2->addChild(showHiddenButton);
                 vLayout->addChild(vLayout2);
@@ -955,6 +968,7 @@ namespace djv
                 p.actions["SortDirectoriesFirst"]->setText(_getText(DJV_TEXT("Sort directories first")));
                 p.actions["SortDirectoriesFirst"]->setTooltip(_getText(DJV_TEXT("File browser sort directories first tooltip")));
 
+                p.sortTitleLabel->setText(_getText(DJV_TEXT("Sorting")));
                 p.viewTypeLabel->setText(_getText(DJV_TEXT("View")));
                 p.thumbnailSizeLabel->setText(_getText(DJV_TEXT("Thumbnail Size")));
                 p.miscSettingsLabel->setText(_getText(DJV_TEXT("Miscellaneous")));

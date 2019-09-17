@@ -102,9 +102,9 @@ namespace djv
             auto layout = UI::VerticalLayout::create(context);
             layout->setSpacing(UI::MetricsRole::None);
             layout->addChild(p.titleLabel);
+            layout->addSeparator();
             auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->setMargin(UI::MetricsRole::MarginSmall);
-            vLayout->setSpacing(UI::MetricsRole::SpacingSmall);
+            vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addChild(p.defaultSpeedButton);
             vLayout->addChild(p.playEveryFrameCheckBox);
             vLayout->addChild(p.speedButtonLayout);

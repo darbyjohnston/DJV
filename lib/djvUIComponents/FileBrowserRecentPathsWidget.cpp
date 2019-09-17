@@ -71,9 +71,9 @@ namespace djv
                 auto layout = VerticalLayout::create(context);
                 layout->setSpacing(MetricsRole::None);
                 layout->addChild(p.titleLabel);
+                layout->addSeparator();
                 auto vLayout = VerticalLayout::create(context);
-                vLayout->setMargin(MetricsRole::MarginSmall);
-                vLayout->setSpacing(MetricsRole::SpacingSmall);
+                vLayout->setSpacing(MetricsRole::None);
                 p.itemLayout = VerticalLayout::create(context);
                 p.itemLayout->setSpacing(MetricsRole::None);
                 vLayout->addChild(p.itemLayout);

@@ -161,6 +161,7 @@ namespace djv
                 p.shortcutsLabel->setMargin(MetricsRole::MarginSmall);
 
                 p.layout = HorizontalLayout::create(context);
+                p.layout->setMargin(MetricsRole::MarginSmall);
                 p.layout->setSpacing(MetricsRole::None);
                 p.layout->addChild(p.checkBox);
                 p.layout->addChild(p.icon);

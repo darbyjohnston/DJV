@@ -88,11 +88,13 @@ namespace djv
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
             p.layout->addChild(p.titleLabel);
+            p.layout->addSeparator();
             auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->setMargin(UI::MetricsRole::MarginSmall);
-            vLayout->setSpacing(UI::MetricsRole::SpacingSmall);
+            vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addChild(p.enabledCheckBox);
             auto hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setMargin(UI::MetricsRole::MarginSmall);
+            hLayout->setSpacing(UI::MetricsRole::SpacingSmall);
             hLayout->addChild(p.maxGBSlider);
             hLayout->setStretch(p.maxGBSlider, UI::RowStretch::Expand);
             hLayout->addChild(p.maxGBLabel);

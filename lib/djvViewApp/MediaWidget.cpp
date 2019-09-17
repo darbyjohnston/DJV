@@ -250,6 +250,7 @@ namespace djv
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addChild(p.audioLabel);
+            vLayout->addSeparator();
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setMargin(UI::MetricsRole::MarginSmall);
             hLayout->setSpacing(UI::MetricsRole::SpacingSmall);

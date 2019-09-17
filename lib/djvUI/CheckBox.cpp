@@ -160,11 +160,8 @@ namespace djv
                 BBox2f checkGeometry = _getCheckGeometry().margin(-m);
                 render->setFillColor(style->getColor(ColorRole::Border));
                 drawBorder(render, checkGeometry, b);
-                if (_isToggled())
-                {
-                    render->setFillColor(style->getColor(ColorRole::Checked));
-                    render->drawRect(checkGeometry.margin(-b));
-                }
+                render->setFillColor(style->getColor(_isToggled() ? ColorRole::Checked : ColorRole::Trough));
+                render->drawRect(checkGeometry.margin(-b));
             }
 
             BBox2f CheckBox::_getCheckGeometry() const

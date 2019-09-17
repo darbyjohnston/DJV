@@ -111,28 +111,50 @@ namespace djv
             const float m = style->getMetric(MetricsRole::MarginSmall);
             const float b = style->getMetric(MetricsRole::Border);
             auto render = _getRender();
-            render->setFillColor(style->getColor(ColorRole::Border));
-            drawBorder(render, g, b);
-            const BBox2f g2 = g.margin(-b);
-            render->setFillColor(style->getColor(ColorRole::Trough));
-            render->drawRect(g2);
-            render->setFillColor(style->getColor(ColorRole::Checked));
+            
+            float troughHeight = 0.f;
             switch (p.orientation)
             {
             case Orientation::Horizontal:
+            {
+                troughHeight = g.h() / 3.f;
+                const BBox2f g2 = BBox2f(
+                    g.min.x,
+                    floorf(g.min.y + g.h() / 2.f - troughHeight / 2.f),
+                    g.w(),
+                    troughHeight);
+                render->setFillColor(style->getColor(ColorRole::Border));
+                drawBorder(render, g2, b);
+                render->setFillColor(style->getColor(ColorRole::Trough));
+                const BBox2f g3 = g2.margin(-b);
+                render->drawRect(g3);
+                render->setFillColor(style->getColor(ColorRole::Checked));
                 render->drawRect(BBox2f(
-                    g2.min.x,
-                    g2.min.y,
-                    ceilf((g2.w() - p.handleWidth / 2.f) * v),
-                    g2.h()));
+                    g3.min.x,
+                    g3.min.y,
+                    ceilf((g3.w() - p.handleWidth / 2.f) * v),
+                    g3.h()));
                 break;
+            }
             case Orientation::Vertical:
             {
+                troughHeight = g.w() / 3.f;
+                const BBox2f g2 = BBox2f(
+                    floorf(g.min.x + g.w() / 2.f - troughHeight / 2.f),
+                    g.min.y,
+                    troughHeight,
+                    g.h());
+                render->setFillColor(style->getColor(ColorRole::Border));
+                drawBorder(render, g2, b);
+                render->setFillColor(style->getColor(ColorRole::Trough));
+                const BBox2f g3 = g2.margin(-b);
+                render->drawRect(g3);
+                render->setFillColor(style->getColor(ColorRole::Checked));
                 render->drawRect(BBox2f(
-                    g2.min.x,
-                    g2.min.y,
-                    g2.w(),
-                    ceilf((g2.h() - p.handleWidth / 2.f) * v)));
+                    g3.min.x,
+                    g3.min.y,
+                    m,
+                    ceilf((g3.h() - p.handleWidth / 2.f) * v)));
                 break;
             }
             default: break;
@@ -157,7 +179,7 @@ namespace djv
                 break;
             default: break;
             }
-            render->setFillColor(style->getColor(ColorRole::Border));
+            render->setFillColor(style->getColor(ColorRole::BorderButton));
             render->drawRect(handleBBox);
             render->setFillColor(style->getColor(ColorRole::Button));
             render->drawRect(handleBBox.margin(-b));

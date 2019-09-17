@@ -540,7 +540,7 @@ namespace djv
                     float x = g.min.x + m;
                     float x2 = x;
                     //! \bug Why the extra subtract by one here?
-                    float y = g.max.y - b * 6.f - p.fontMetrics.lineHeight + p.fontMetrics.ascender - 1.f;
+                    float y = g.max.y - m - b * 6.f - p.fontMetrics.lineHeight + p.fontMetrics.ascender - 1.f;
                     const float speedF = p.speed.toFloat();
                     auto avSystem = context->getSystemT<AV::AVSystem>();
                     const std::vector<std::pair<float, std::function<Frame::Index(size_t, float)> > > units =

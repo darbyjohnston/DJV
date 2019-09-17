@@ -105,6 +105,7 @@ namespace djv
 
             private:
                 Image::Info _info;
+                GLenum _filter = GL_LINEAR;
                 GLuint _id = 0;
 #if defined(DJV_OPENGL_PBO)
                 GLuint _pbo = 0;

@@ -89,9 +89,9 @@ namespace djv
                 hLayout->addChild(p.addButton);
                 hLayout->addChild(p.editButton);
                 layout->addChild(hLayout);
+                layout->addSeparator();
                 auto vLayout = VerticalLayout::create(context);
-                vLayout->setMargin(MetricsRole::MarginSmall);
-                vLayout->setSpacing(MetricsRole::SpacingSmall);
+                vLayout->setSpacing(MetricsRole::None);
                 p.itemLayout = GridLayout::create(context);
                 p.itemLayout->setSpacing(MetricsRole::None);
                 vLayout->addChild(p.itemLayout);
