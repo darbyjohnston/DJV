@@ -222,6 +222,7 @@ namespace djv
 
             p.speedWidget = PlaybackSpeedWidget::create(context);
             p.speedPopupWidget = UI::PopupWidget::create(context);
+            p.speedPopupWidget->setPopupIcon("djvIconPopupMenu");
             p.speedPopupWidget->setFont(AV::Font::familyMono);
             p.speedPopupWidget->addChild(p.speedWidget);
             p.realSpeedLabel = UI::Label::create(context);

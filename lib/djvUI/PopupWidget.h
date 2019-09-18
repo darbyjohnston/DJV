@@ -53,7 +53,9 @@ namespace djv
             void close();
 
             const std::string & getIcon() const;
+            const std::string& getPopupIcon() const;
             void setIcon(const std::string &);
+            void setPopupIcon(const std::string&);
 
             const std::string & getText() const;
             void setText(const std::string &);

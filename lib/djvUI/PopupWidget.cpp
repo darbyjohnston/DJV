@@ -357,14 +357,24 @@ namespace djv
             }
         }
 
-        const std::string & PopupWidget::getIcon() const
+        const std::string& PopupWidget::getIcon() const
         {
             return _p->button->getIcon();
+        }
+
+        const std::string& PopupWidget::getPopupIcon() const
+        {
+            return _p->button->getPopupIcon();
         }
 
         void PopupWidget::setIcon(const std::string & value)
         {
             _p->button->setIcon(value);
+        }
+
+        void PopupWidget::setPopupIcon(const std::string& value)
+        {
+            _p->button->setPopupIcon(value);
         }
 
         const std::string & PopupWidget::getText() const

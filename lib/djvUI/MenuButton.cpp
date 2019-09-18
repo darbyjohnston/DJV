@@ -90,6 +90,7 @@ namespace djv
                 p.popupIcon->hide();
 
                 p.layout = HorizontalLayout::create(context);
+                p.layout->setSpacing(MetricsRole::None);
                 switch (menuStyle)
                 {
                 case MenuStyle::Flat:
