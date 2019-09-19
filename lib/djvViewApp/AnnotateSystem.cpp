@@ -54,6 +54,7 @@ namespace djv
             std::shared_ptr<AnnotateSettings> settings;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
+            std::weak_ptr<AnnotateWidget> widget;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
@@ -113,16 +114,15 @@ namespace djv
 
         void AnnotateSystem::setCurrentTool(bool value)
         {
-            if (value)
+            DJV_PRIVATE_PTR();
+            if (value && p.widget.expired())
             {
                 if (auto context = getContext().lock())
                 {
-                    _openWidget("Annotate", AnnotateWidget::create(context));
+                    auto widget = AnnotateWidget::create(context);
+                    p.widget = widget;
+                    _openWidget("Annotate", widget);
                 }
-            }
-            else
-            {
-                _closeWidget("Annotate");
             }
         }
 
@@ -157,6 +157,7 @@ namespace djv
             {
                 i->second->setChecked(false);
             }
+            p.widget.reset();
             IToolSystem::_closeWidget(value);
         }
 

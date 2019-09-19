@@ -52,6 +52,7 @@ namespace djv
         {
             std::shared_ptr<MagnifySettings> settings;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
+            std::weak_ptr<MagnifyWidget> widget;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
@@ -109,16 +110,15 @@ namespace djv
 
         void MagnifySystem::setCurrentTool(bool value)
         {
-            if (value)
+            DJV_PRIVATE_PTR();
+            if (value && p.widget.expired())
             {
                 if (auto context = getContext().lock())
                 {
-                    _openWidget("Magnify", MagnifyWidget::create(context));
+                    auto widget = MagnifyWidget::create(context);
+                    p.widget = widget;
+                    _openWidget("Magnify", widget);
                 }
-            }
-            else
-            {
-                _closeWidget("Magnify");
             }
         }
 
@@ -142,6 +142,7 @@ namespace djv
             {
                 i->second->setChecked(false);
             }
+            p.widget.reset();
             IToolSystem::_closeWidget(value);
         }
 

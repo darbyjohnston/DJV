@@ -52,6 +52,7 @@ namespace djv
         {
             std::shared_ptr<ColorPickerSettings> settings;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
+            std::weak_ptr<ColorPickerWidget> widget;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
@@ -109,16 +110,15 @@ namespace djv
 
         void ColorPickerSystem::setCurrentTool(bool value)
         {
-            if (value)
+            DJV_PRIVATE_PTR();
+            if (value && p.widget.expired())
             {
                 if (auto context = getContext().lock())
                 {
-                    _openWidget("ColorPicker", ColorPickerWidget::create(context));
+                    auto widget = ColorPickerWidget::create(context);
+                    p.widget = widget;
+                    _openWidget("ColorPicker", widget);
                 }
-            }
-            else
-            {
-                _closeWidget("ColorPicker");
             }
         }
 
@@ -142,6 +142,7 @@ namespace djv
             {
                 i->second->setChecked(false);
             }
+            p.widget.reset();
             IToolSystem::_closeWidget(value);
         }
 
