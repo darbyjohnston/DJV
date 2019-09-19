@@ -79,15 +79,15 @@
 > scp file USERNAME@web.sourceforge.net:/home/project-web/djv/htdocs</pre>
 		<div class="textSmall">Building an RPM package:</div>
 		<pre>
-> cmake ../djv-git -DCPACK_GENERATOR=RPM -DCPACK_PACKAGING_INSTALL_PREFIX=/usr/local/DJV2
+> cmake ../djv-git -DCPACK_GENERATOR=RPM -DCPACK_PACKAGING_INSTALL_PREFIX=/usr/local/DJV2 -DDJV_THIRD_PARTY_DISABLE_BUILD=TRUE
 > make package</pre>
 		<div class="textSmall">Building a Debian package:</div>
 		<pre>
-> cmake ../djv-git -DCPACK_GENERATOR=DEB -DCPACK_PACKAGING_INSTALL_PREFIX=/usr/local/DJV2
+> cmake ../djv-git -DCPACK_GENERATOR=DEB -DCPACK_PACKAGING_INSTALL_PREFIX=/usr/local/DJV2 -DDJV_THIRD_PARTY_DISABLE_BUILD=TRUE
 > make package</pre>
 		<div class="textSmall">Building a TGZ package:</div>
 		<pre>
-> cmake ../djv-git -DCPACK_GENERATOR=TGZ -DCPACK_PACKAGING_INSTALL_PREFIX=
+> cmake ../djv-git -DCPACK_GENERATOR=TGZ -DCPACK_PACKAGING_INSTALL_PREFIX= -DDJV_THIRD_PARTY_DISABLE_BUILD=TRUE
 > make package</pre>
 	</div>
 

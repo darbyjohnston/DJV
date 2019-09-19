@@ -21,6 +21,7 @@
 		<ul>
 		    <li><a class="text" href="#BuildingFFmpeg">Building FFmpeg</a></li>
 		    <li><a class="text" href="#BuildingTheSourceCode">Building the Source Code</a></li>
+		    <li><a class="text" href="#Packaging">Packaging</a></li>
 		</ul>
 		</div>
 	</div>
@@ -96,6 +97,14 @@ $CMAKE_BINARY_DIR\install\bin</pre>
 		tests by building the RUN_TESTS target.</div>
 		<div class="textSmall" style="margin: .5em 0 0 0">You can also create packages for installation
 		by building the PACKAGE target.</div>
+	</div>
+
+	<div class="column" style="margin: 3em 0 0 0">
+		<div class="textLarge"><a name="Packaging">Packaging</a></div>
+		<div class="textSmall" style="margin: 2em 0 0 0">Building MSI and ZIP packages:</div>
+		<pre>
+> cmake ../djv-git -DDJV_THIRD_PARTY_DISABLE_BUILD=TRUE
+> make package</pre>
 	</div>
 
 </div>
