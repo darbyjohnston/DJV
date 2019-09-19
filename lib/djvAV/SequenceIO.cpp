@@ -56,7 +56,7 @@ namespace djv
             {
                 //! \todo Should this be configurable?
                 const double infoTimeout = 0.5;
-            
+
             } // namespace
 
             struct ISequenceRead::Future
@@ -158,6 +158,7 @@ namespace djv
                         {
                             const size_t dataByteCount = info.video[_options.layer].info.getDataByteCount();
                             _cache.setMax(cacheMaxByteCount / dataByteCount);
+                            _cache.setSequenceSize(info.video[_options.layer].sequence.getSize());
                         }
                         else
                         {
@@ -219,9 +220,15 @@ namespace djv
                         if (delta.count() > infoTimeout)
                         {
                             p.infoTimer = now;
-                            std::lock_guard<std::mutex> lock(_mutex);
-                            _cacheByteCount = _getCacheByteCount(_cache);
-                            _cachedFrames = _getCachedFrames(_cache);
+                            size_t cacheByteCount = _cache.getByteCount();
+                            auto cacheSequence = _cache.getSequence();
+                            auto cachedFrames = _cache.getFrames();
+                            {
+                                std::lock_guard<std::mutex> lock(_mutex);
+                                _cacheByteCount = cacheByteCount;
+                                _cacheSequence = cacheSequence;
+                                _cachedFrames = std::move(cachedFrames);
+                            }
                         }
                     }
 
@@ -412,13 +419,24 @@ namespace djv
                 }
                 if (count > 0 && frame != Frame::invalid)
                 {
+                    _cache.setDirection(p.direction);
+                    _cache.setCurrentFrame(frame);
+                    const size_t readBehind = _cache.getReadBehind();
                     switch (p.direction)
                     {
                     case Direction::Forward:
                     {
                         const size_t sequenceSize = _sequence.getSize();
+                        for (size_t i = 0; i < readBehind; ++i)
+                        {
+                            --frame;
+                            if (frame < 0)
+                            {
+                                frame = sequenceSize - 1;
+                            }
+                        }
                         const size_t max = std::min(_cache.getMax(), sequenceSize);
-                        for (Frame::Number i = 0; i < max && p.cacheFutures.size() < count; ++i)
+                        for (size_t i = 0; i < max && p.cacheFutures.size() < count; ++i)
                         {
                             if (!_cache.contains(frame))
                             {
@@ -436,6 +454,14 @@ namespace djv
                     case Direction::Reverse:
                     {
                         const size_t sequenceSize = _sequence.getSize();
+                        for (size_t i = 0; i < readBehind; ++i)
+                        {
+                            ++frame;
+                            if (frame >= sequenceSize)
+                            {
+                                frame = 0;
+                            }
+                        }
                         const size_t max = std::min(_cache.getMax(), sequenceSize);
                         for (Frame::Number i = 0; i < max && p.cacheFutures.size() < count; ++i)
                         {

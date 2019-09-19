@@ -69,6 +69,7 @@ namespace djv
                 size_t pad = 0;
 
                 inline bool isValid() const;
+                inline bool contains(Index) const;
                 inline size_t getSize() const;
                 inline Number getFrame(Index) const;
                 inline Index getIndex(Number) const;

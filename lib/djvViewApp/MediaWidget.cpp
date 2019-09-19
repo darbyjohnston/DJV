@@ -156,7 +156,8 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > audioEnabledObserver;
             std::shared_ptr<ValueObserver<float> > volumeObserver;
             std::shared_ptr<ValueObserver<bool> > muteObserver;
-            std::shared_ptr<ListObserver<Frame::Range> > cachedFramesObserver;
+            std::shared_ptr<ValueObserver<Frame::Sequence> > cacheSequenceObserver;
+            std::shared_ptr<ValueObserver<Frame::Sequence> > cachedFramesObserver;
             std::shared_ptr<ValueObserver<float> > fadeObserver;
             std::shared_ptr<ValueObserver<ImageViewLock> > viewLockObserver;
             std::shared_ptr<ValueObserver<bool> > frameStoreEnabledObserver;
@@ -742,9 +743,19 @@ namespace djv
                     }
                 });
 
-            p.cachedFramesObserver = ListObserver<Frame::Range>::create(
+            p.cacheSequenceObserver = ValueObserver<Frame::Sequence>::create(
+                p.media->observeCacheSequence(),
+                [weak](const Frame::Sequence& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->timelineSlider->setCacheSequence(value);
+                    }
+                });
+
+            p.cachedFramesObserver = ValueObserver<Frame::Sequence>::create(
                 p.media->observeCachedFrames(),
-                [weak](const std::vector<Frame::Range>& value)
+                [weak](const Frame::Sequence& value)
                 {
                     if (auto widget = weak.lock())
                     {

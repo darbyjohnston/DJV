@@ -33,7 +33,6 @@
 #include <djvAV/Image.h>
 #include <djvAV/Tags.h>
 
-#include <djvCore/Cache.h>
 #include <djvCore/Error.h>
 #include <djvCore/FileInfo.h>
 #include <djvCore/ISystem.h>
@@ -243,6 +242,38 @@ namespace djv
                 Reverse
             };
 
+            //! This class provides a frame cache.
+            class Cache
+            {
+            public:
+                size_t getMax() const;
+                size_t getByteCount() const;
+                std::vector<Core::Frame::Range> getFrames() const;
+                size_t getReadBehind() const;
+                const Core::Frame::Sequence& getSequence() const;
+                void setMax(size_t);
+                void setSequenceSize(size_t);
+                void setDirection(Direction);
+                void setCurrentFrame(Core::Frame::Index);
+
+                bool contains(Core::Frame::Index) const;
+                bool get(Core::Frame::Index, std::shared_ptr<AV::Image::Image>&) const;
+                void add(Core::Frame::Index, const std::shared_ptr<AV::Image::Image>&);
+                void clear();
+
+            private:
+                void _cacheUpdate();
+
+                size_t _max = 0;
+                size_t _sequenceSize = 0;
+                Direction _direction = Direction::Forward;
+                Core::Frame::Index _currentFrame = Core::Frame::invalidIndex;
+                //! \todo Should this be configurable?
+                size_t _readBehind = 10;
+                Core::Frame::Sequence _sequence;
+                std::map<Core::Frame::Index, std::shared_ptr<AV::Image::Image> > _cache;
+            };
+
             //! This class provides an interface for reading.
             class IRead : public IIO
             {
@@ -266,22 +297,20 @@ namespace djv
                 bool isCacheEnabled() const;
                 size_t getCacheMaxByteCount() const;
                 size_t getCacheByteCount();
-                std::vector<Core::Frame::Range> getCachedFrames();
+                Core::Frame::Sequence getCacheSequence();
+                Core::Frame::Sequence getCachedFrames();
                 void setCacheEnabled(bool);
                 void setCacheMaxByteCount(size_t);
 
             protected:
-                typedef Core::Memory::Cache<Core::Frame::Number, std::shared_ptr<Image::Image> > MemoryCache;
-                static size_t _getCacheByteCount(const MemoryCache& cache);
-                static std::vector<Core::Frame::Range> _getCachedFrames(const MemoryCache& cache);
-
                 ReadOptions _options;
                 Direction _direction = Direction::Forward;
                 bool _cacheEnabled = false;
                 size_t _cacheMaxByteCount = 0;
                 size_t _cacheByteCount = 0;
-                std::vector<Core::Frame::Range> _cachedFrames;
-                MemoryCache _cache;
+                Core::Frame::Sequence _cacheSequence;
+                Core::Frame::Sequence _cachedFrames;
+                Cache _cache;
             };
 
             //! This class provides options for writing.

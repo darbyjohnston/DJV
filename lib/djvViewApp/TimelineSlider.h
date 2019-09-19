@@ -61,7 +61,8 @@ namespace djv
             void setInOutPointsEnabled(bool);
             void setInPoint(Core::Frame::Index);
             void setOutPoint(Core::Frame::Index);
-            void setCachedFrames(const std::vector<Core::Frame::Range>&);
+            void setCacheSequence(const Core::Frame::Sequence&);
+            void setCachedFrames(const Core::Frame::Sequence&);
 
             void setCurrentFrameCallback(const std::function<void(Core::Frame::Index)>&);
             void setCurrentFrameDragCallback(const std::function<void(bool)>&);

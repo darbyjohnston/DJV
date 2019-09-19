@@ -258,7 +258,8 @@ namespace djv
             bool inOutPointsEnabled = false;
             Frame::Index inPoint = Frame::invalidIndex;
             Frame::Index outPoint = Frame::invalidIndex;
-            std::vector<Frame::Range> cachedFrames;
+            Frame::Sequence cacheSequence;
+            Frame::Sequence cachedFrames;
             AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;
             std::string currentFrameText;
@@ -454,7 +455,15 @@ namespace djv
             _redraw();
         }
 
-        void TimelineSlider::setCachedFrames(const std::vector<Frame::Range>& value)
+        void TimelineSlider::setCacheSequence(const Frame::Sequence& value)
+        {
+            if (value == _p->cacheSequence)
+                return;
+            _p->cacheSequence = value;
+            _redraw();
+        }
+
+        void TimelineSlider::setCachedFrames(const Frame::Sequence& value)
         {
             if (value == _p->cachedFrames)
                 return;
@@ -616,9 +625,17 @@ namespace djv
                 }
 
                 // Draw the cached frames.
+                color = style->getColor(UI::ColorRole::Checked);
+                render->setFillColor(color);
+                for (const auto& i : p.cacheSequence.ranges)
+                {
+                    const float x0 = _frameToPos(i.min);
+                    const float x1 = _frameToPos(i.max + 1);
+                    render->drawRect(BBox2f(x0, g.max.y - m - b * 2.f, x1 - x0, b * 2.f));
+                }
                 color = style->getColor(UI::ColorRole::Cached);
                 render->setFillColor(color);
-                for (const auto& i : p.cachedFrames)
+                for (const auto& i : p.cachedFrames.ranges)
                 {
                     const float x0 = _frameToPos(i.min);
                     const float x1 = _frameToPos(i.max + 1);

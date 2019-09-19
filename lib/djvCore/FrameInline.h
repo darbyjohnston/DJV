@@ -64,6 +64,20 @@ namespace djv
                 return ranges.size() > 0;
             }
 
+            inline bool Sequence::contains(Index value) const
+            {
+                bool out = false;
+                for (const auto& i : ranges)
+                {
+                    if (i.contains(value))
+                    {
+                        out = true;
+                        break;
+                    }
+                }
+                return out;
+            }
+
             inline size_t Sequence::getSize() const
             {
                 size_t out = 0;

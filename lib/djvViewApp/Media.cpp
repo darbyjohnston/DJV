@@ -80,7 +80,8 @@ namespace djv
             std::shared_ptr<ValueSubject<float> > volume;
             std::shared_ptr<ValueSubject<bool> > mute;
             std::shared_ptr<ValueSubject<size_t> > threadCount;
-            std::shared_ptr<ListSubject<Frame::Range> > cachedFrames;
+            std::shared_ptr<ValueSubject<Frame::Sequence> > cacheSequence;
+            std::shared_ptr<ValueSubject<Frame::Sequence> > cachedFrames;
 
             std::shared_ptr<ValueSubject<size_t> > videoQueueMax;
             std::shared_ptr<ValueSubject<size_t> > videoQueueCount;
@@ -133,7 +134,8 @@ namespace djv
             p.audioEnabled = ValueSubject<bool>::create(false);
             p.mute = ValueSubject<bool>::create(false);
             p.threadCount = ValueSubject<size_t>::create(4);
-            p.cachedFrames = ListSubject<Frame::Range>::create();
+            p.cacheSequence = ValueSubject<Frame::Sequence>::create();
+            p.cachedFrames = ValueSubject<Frame::Sequence>::create();
 
             p.videoQueueMax = ValueSubject<size_t>::create();
             p.audioQueueMax = ValueSubject<size_t>::create();
@@ -555,7 +557,12 @@ namespace djv
             return p.read ? p.read->getCacheByteCount() : 0;
         }
 
-        std::shared_ptr<Core::IListSubject<Frame::Range> > Media::observeCachedFrames() const
+        std::shared_ptr<Core::IValueSubject<Frame::Sequence> > Media::observeCacheSequence() const
+        {
+            return _p->cacheSequence;
+        }
+
+        std::shared_ptr<Core::IValueSubject<Frame::Sequence> > Media::observeCachedFrames() const
         {
             return _p->cachedFrames;
         }
@@ -704,7 +711,9 @@ namespace djv
                             {
                                 if (media->_p->read)
                                 {
+                                    const auto& sequence = media->_p->read->getCacheSequence();
                                     const auto& frames = media->_p->read->getCachedFrames();
+                                    media->_p->cacheSequence->setIfChanged(sequence);
                                     media->_p->cachedFrames->setIfChanged(frames);
                                 }
                             }

@@ -66,7 +66,7 @@ namespace djv
             VideoInfo::VideoInfo()
             {}
 
-            VideoInfo::VideoInfo(const Image::Info & info, const Time::Speed & speed, const Core::Frame::Sequence& sequence) :
+            VideoInfo::VideoInfo(const Image::Info & info, const Time::Speed & speed, const Frame::Sequence& sequence) :
                 info(info),
                 speed(speed),
                 sequence(sequence)
@@ -243,6 +243,207 @@ namespace djv
                 _threadCount = value;
             }
 
+            size_t Cache::getMax() const
+            {
+                return _max;
+            }
+
+            size_t Cache::getByteCount() const
+            {
+                size_t out = 0;
+                for (const auto& i : _cache)
+                {
+                    out += i.second->getDataByteCount();
+                }
+                return out;
+            }
+
+            std::vector<Frame::Range> Cache::getFrames() const
+            {
+                std::vector<Frame::Range> out;
+                std::vector<Frame::Index> frames;
+                for (const auto& i : _cache)
+                {
+                    frames.push_back(i.first);
+                }
+                const size_t size = frames.size();
+                if (size)
+                {
+                    std::sort(frames.begin(), frames.end());
+                    Frame::Number rangeStart = frames[0];
+                    Frame::Number prevFrame = frames[0];
+                    size_t i = 1;
+                    for (; i < size; prevFrame = frames[i], ++i)
+                    {
+                        if (frames[i] != prevFrame + 1)
+                        {
+                            out.push_back(Frame::Range(rangeStart, prevFrame));
+                            rangeStart = frames[i];
+                        }
+                    }
+                    if (size > 1)
+                    {
+                        out.push_back(Frame::Range(rangeStart, prevFrame));
+                    }
+                    else
+                    {
+                        out.push_back(Frame::Range(rangeStart));
+                    }
+                }
+                return out;
+            }
+
+            size_t Cache::getReadBehind() const
+            {
+                return _readBehind;
+            }
+
+            const Frame::Sequence& Cache::getSequence() const
+            {
+                return _sequence;
+            }
+
+            void Cache::setMax(size_t value)
+            {
+                if (value == _max)
+                    return;
+                _max = value;
+                _cacheUpdate();
+            }
+
+            void Cache::setSequenceSize(size_t value)
+            {
+                if (value == _sequenceSize)
+                    return;
+                _sequenceSize = value;
+                _cacheUpdate();
+            }
+
+            void Cache::setDirection(Direction value)
+            {
+                if (value == _direction)
+                    return;
+                _direction = value;
+                _cacheUpdate();
+            }
+
+            void Cache::setCurrentFrame(Frame::Index value)
+            {
+                if (value == _currentFrame)
+                    return;
+                _currentFrame = value;
+                _cacheUpdate();
+            }
+
+            bool Cache::contains(Frame::Index value) const
+            {
+                return _cache.find(value) != _cache.end();
+            }
+
+            bool Cache::get(Frame::Index index, std::shared_ptr<AV::Image::Image>& out) const
+            {
+                const auto i = _cache.find(index);
+                const bool found = i != _cache.end();
+                if (found)
+                {
+                    out = i->second;
+                }
+                return found;
+            }
+
+            void Cache::add(Frame::Index index, const std::shared_ptr<AV::Image::Image>& image)
+            {
+                _cache[index] = image;
+                _cacheUpdate();
+            }
+
+            void Cache::clear()
+            {
+                _cache.clear();
+            }
+
+            void Cache::_cacheUpdate()
+            {
+                Frame::Index frame = _currentFrame;
+                _sequence = Frame::Sequence();
+                switch (_direction)
+                {
+                case Direction::Forward:
+                    for (size_t i = 0; i < _readBehind; ++i)
+                    {
+                        --frame;
+                        if (frame < 0)
+                        {
+                            if (_sequenceSize)
+                            {
+                                frame = _sequenceSize - 1;
+                            }
+                            else
+                            {
+                                frame = 0;
+                            }
+                        }
+                    }
+                    _sequence.ranges.push_back(Frame::Range(frame));
+                    for (size_t i = 0; i < _max; ++i)
+                    {
+                        ++frame;
+                        if (frame >= _sequenceSize)
+                        {
+                            frame = 0;
+                            _sequence.ranges.push_back(Frame::Range(frame));
+                        }
+                        else
+                        {
+                            _sequence.ranges.back().max = frame;
+                        }
+                    }
+                    break;
+                case Direction::Reverse:
+                    for (size_t i = 0; i < _readBehind; ++i)
+                    {
+                        ++frame;
+                        if (frame >= _sequenceSize)
+                        {
+                            frame = 0;
+                        }
+                    }
+                    _sequence.ranges.push_back(Frame::Range(frame));
+                    for (size_t i = 0; i < _max; ++i)
+                    {
+                        --frame;
+                        if (frame < 0)
+                        {
+                            if (_sequenceSize)
+                            {
+                                frame = _sequenceSize - 1;
+                            }
+                            else
+                            {
+                                frame = 0;
+                            }
+                            _sequence.ranges.push_back(Frame::Range(frame));
+                        }
+                        else
+                        {
+                            _sequence.ranges.back().min = frame;
+                        }
+                    }
+                    break;
+                default: break;
+                }
+                auto i = _cache.begin();
+                while (i != _cache.end())
+                {
+                    auto j = i;
+                    ++i;
+                    if (!_sequence.contains(j->first))
+                    {
+                        _cache.erase(j);
+                    }
+                }
+            }
+
             void IRead::_init(
                 const FileSystem::FileInfo & fileInfo,
                 const ReadOptions& options,
@@ -272,7 +473,13 @@ namespace djv
                 return _cacheByteCount;
             }
 
-            std::vector<Frame::Range> IRead::getCachedFrames()
+            Frame::Sequence IRead::getCacheSequence()
+            {
+                std::lock_guard<std::mutex> lock(_mutex);
+                return _cacheSequence;
+            }
+
+            Frame::Sequence IRead::getCachedFrames()
             {
                 std::lock_guard<std::mutex> lock(_mutex);
                 return _cachedFrames;
@@ -288,47 +495,6 @@ namespace djv
             {
                 std::lock_guard<std::mutex> lock(_mutex);
                 _cacheMaxByteCount = value;
-            }
-
-            size_t IRead::_getCacheByteCount(const MemoryCache& cache)
-            {
-                size_t out = 0;
-                for (const auto& i : cache.getValues())
-                {
-                    out += i->getDataByteCount();
-                }
-                return out;
-            }
-
-            std::vector<Frame::Range> IRead::_getCachedFrames(const MemoryCache& cache)
-            {
-                std::vector<Frame::Range> out;
-                auto frames = cache.getKeys();
-                const size_t size = frames.size();
-                if (size)
-                {
-                    std::sort(frames.begin(), frames.end());
-                    Frame::Number rangeStart = frames[0];
-                    Frame::Number prevFrame = frames[0];
-                    size_t i = 1;
-                    for (; i < size; prevFrame = frames[i], ++i)
-                    {
-                        if (frames[i] != prevFrame + 1)
-                        {
-                            out.push_back(Frame::Range(rangeStart, prevFrame));
-                            rangeStart = frames[i];
-                        }
-                    }
-                    if (size > 1)
-                    {
-                        out.push_back(Frame::Range(rangeStart, prevFrame));
-                    }
-                    else
-                    {
-                        out.push_back(Frame::Range(rangeStart));
-                    }
-                }
-                return out;
             }
 
             void IWrite::_init(
@@ -413,7 +579,7 @@ namespace djv
                 std::set<std::string> sequenceExtensions;
             };
 
-            void System::_init(const std::shared_ptr<Core::Context>& context)
+            void System::_init(const std::shared_ptr<Context>& context)
             {
                 ISystem::_init("djv::AV::IO::System", context);
 
@@ -468,7 +634,7 @@ namespace djv
             System::~System()
             {}
 
-            std::shared_ptr<System> System::create(const std::shared_ptr<Core::Context>& context)
+            std::shared_ptr<System> System::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<System>(new System);
                 out->_init(context);
