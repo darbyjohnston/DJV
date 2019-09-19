@@ -50,9 +50,7 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-#include <codecvt>
 #include <list>
-#include <locale>
 
 using namespace djv::Core;
 namespace _OCIO = OCIO_NAMESPACE;
@@ -112,11 +110,12 @@ namespace djv
                 {
                     virtual ~Primitive() {}
                     
-                    BBox2f clipRect;
-                    float  color[4]  = { 0.f, 0.f, 0.f, 0.f };
-                    size_t vaoOffset = 0;
-                    size_t vaoSize   = 0;
-                    bool   lcdText   = false;
+                    BBox2f      clipRect;
+                    float       color[4]    = { 0.f, 0.f, 0.f, 0.f };
+                    size_t      vaoOffset   = 0;
+                    size_t      vaoSize     = 0;
+                    AlphaBlend  alphaBlend  = AlphaBlend::Straight;
+                    bool        lcdText     = false;
 
                     virtual void bind(const PrimitiveData& data, const std::shared_ptr<OpenGL::Shader>& shader)
                     {
@@ -524,7 +523,6 @@ namespace djv
 #endif // DJV_OPENGL_ES2
                 glEnable(GL_SCISSOR_TEST);
                 glEnable(GL_BLEND);
-                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
                 glViewport(
                     static_cast<GLint>(p.viewport.min.x),
@@ -563,7 +561,9 @@ namespace djv
                 p.vbo->copy(p.vboData, 0, p.vboDataSize);
                 p.vao->bind();
 
+                AlphaBlend currentAlphaBlend = AlphaBlend::Straight;
                 bool currentLCDText = false;
+                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
                 glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
                 for (size_t i = 0; i < p.primitives.size(); ++i)
                 {
@@ -574,6 +574,23 @@ namespace djv
                         static_cast<GLint>(clipRect.min.y),
                         static_cast<GLsizei>(clipRect.w()),
                         static_cast<GLsizei>(clipRect.h()));
+                    if (primitive->alphaBlend != currentAlphaBlend)
+                    {
+                        currentAlphaBlend = primitive->alphaBlend;
+                        switch (currentAlphaBlend)
+                        {
+                        case AlphaBlend::None:
+                            glBlendFunc(GL_ONE, GL_ZERO);
+                            break;
+                        case AlphaBlend::Straight:
+                            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+                            break;
+                        case AlphaBlend::Premultiplied:
+                            glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+                            break;
+                        default: break;
+                        }
+                    }
                     if (primitive->lcdText != currentLCDText)
                     {
                         currentLCDText = primitive->lcdText;
@@ -1384,6 +1401,7 @@ namespace djv
                     primitive->color[3] = finalColor[3];
                     primitive->imageChannel = options.channel;
                     primitive->imageCache = options.cache;
+                    primitive->alphaBlend = options.alphaBlend;
                     FloatRange textureU;
                     FloatRange textureV;
                     const UID uid = image->getUID();

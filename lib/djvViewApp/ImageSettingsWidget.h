@@ -35,6 +35,31 @@ namespace djv
 {
     namespace ViewApp
     {
+        //! This class provides the image alpha blend settings widget.
+        class ImageAlphaBlendSettingsWidget : public UI::ISettingsWidget
+        {
+            DJV_NON_COPYABLE(ImageAlphaBlendSettingsWidget);
+
+        protected:
+            void _init(const std::shared_ptr<Core::Context>&);
+            ImageAlphaBlendSettingsWidget();
+
+        public:
+            static std::shared_ptr<ImageAlphaBlendSettingsWidget> create(const std::shared_ptr<Core::Context>&);
+
+            std::string getSettingsName() const override;
+            std::string getSettingsGroup() const override;
+            std::string getSettingsSortKey() const override;
+
+        protected:
+            void _localeEvent(Core::Event::Locale&) override;
+
+        private:
+            void _widgetUpdate();
+
+            DJV_PRIVATE();
+        };
+
         //! This class provides the image aspect ratio settings widget.
         class ImageAspectRatioSettingsWidget : public UI::ISettingsWidget
         {

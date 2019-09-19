@@ -56,10 +56,10 @@ namespace djv
             std::map<std::string, bool> getColorSpaceBellowsState() const;
             void setColorSpaceBellowsState(const std::map<std::string, bool>&);
 
-            std::shared_ptr<Core::IValueSubject<ImageRotate> > observeImageRotate() const;
-            std::shared_ptr<Core::IValueSubject<ImageAspectRatio> > observeImageAspectRatio() const;
-            void setImageRotate(ImageRotate);
-            void setImageAspectRatio(ImageAspectRatio);
+            std::shared_ptr<Core::IValueSubject<ImageRotate> > observeRotate() const;
+            std::shared_ptr<Core::IValueSubject<ImageAspectRatio> > observeAspectRatio() const;
+            void setRotate(ImageRotate);
+            void setAspectRatio(ImageAspectRatio);
 
             const std::map<std::string, Core::BBox2f>& getWidgetGeom() const;
             void setWidgetGeom(const std::map<std::string, Core::BBox2f>&);

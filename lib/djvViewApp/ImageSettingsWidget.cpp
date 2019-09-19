@@ -35,6 +35,8 @@
 #include <djvUI/FormLayout.h>
 #include <djvUI/SettingsSystem.h>
 
+#include <djvAV/AVSystem.h>
+
 #include <djvCore/Context.h>
 #include <djvCore/TextSystem.h>
 
@@ -44,6 +46,98 @@ namespace djv
 {
     namespace ViewApp
     {
+        struct ImageAlphaBlendSettingsWidget::Private
+        {
+            AV::AlphaBlend alphaBlend = AV::AlphaBlend::First;
+            std::shared_ptr<UI::ComboBox> comboBox;
+            std::shared_ptr<ValueObserver<AV::AlphaBlend> > alphaBlendObserver;
+        };
+
+        void ImageAlphaBlendSettingsWidget::_init(const std::shared_ptr<Context>& context)
+        {
+            ISettingsWidget::_init(context);
+            DJV_PRIVATE_PTR();
+
+            setClassName("djv::ViewApp::ImageAlphaBlendSettingsWidget");
+
+            p.comboBox = UI::ComboBox::create(context);
+            addChild(p.comboBox);
+
+            _widgetUpdate();
+
+            auto contextWeak = std::weak_ptr<Context>(context);
+            auto weak = std::weak_ptr<ImageAlphaBlendSettingsWidget>(std::dynamic_pointer_cast<ImageAlphaBlendSettingsWidget>(shared_from_this()));
+            p.comboBox->setCallback(
+                [weak, contextWeak](int value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            auto avSystem = context->getSystemT<AV::AVSystem>();
+                            avSystem->setAlphaBlend(static_cast<AV::AlphaBlend>(value));
+                        }
+                    }
+                });
+
+            auto avSystem = context->getSystemT<AV::AVSystem>();
+            p.alphaBlendObserver = ValueObserver<AV::AlphaBlend>::create(
+                avSystem->observeAlphaBlend(),
+                [weak](AV::AlphaBlend value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->alphaBlend = value;
+                        widget->_p->comboBox->setCurrentItem(static_cast<int>(value));
+                    }
+                });
+        }
+
+        ImageAlphaBlendSettingsWidget::ImageAlphaBlendSettingsWidget() :
+            _p(new Private)
+        {}
+
+        std::shared_ptr<ImageAlphaBlendSettingsWidget> ImageAlphaBlendSettingsWidget::create(const std::shared_ptr<Context>& context)
+        {
+            auto out = std::shared_ptr<ImageAlphaBlendSettingsWidget>(new ImageAlphaBlendSettingsWidget);
+            out->_init(context);
+            return out;
+        }
+
+        std::string ImageAlphaBlendSettingsWidget::getSettingsName() const
+        {
+            return DJV_TEXT("Alpha Blend");
+        }
+
+        std::string ImageAlphaBlendSettingsWidget::getSettingsGroup() const
+        {
+            return DJV_TEXT("Image");
+        }
+
+        std::string ImageAlphaBlendSettingsWidget::getSettingsSortKey() const
+        {
+            return "F";
+        }
+
+        void ImageAlphaBlendSettingsWidget::_localeEvent(Event::Locale& event)
+        {
+            ISettingsWidget::_localeEvent(event);
+            _widgetUpdate();
+        }
+
+        void ImageAlphaBlendSettingsWidget::_widgetUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            p.comboBox->clearItems();
+            for (auto i : AV::getAlphaBlendEnums())
+            {
+                std::stringstream ss;
+                ss << i;
+                p.comboBox->addItem(_getText(ss.str()));
+            }
+            p.comboBox->setCurrentItem(static_cast<int>(p.alphaBlend));
+        }
+
         struct ImageAspectRatioSettingsWidget::Private
         {
             ImageAspectRatio aspectRatio = ImageAspectRatio::First;
@@ -75,7 +169,7 @@ namespace djv
                             auto settingsSystem = context->getSystemT<UI::Settings::System>();
                             if (auto imageSettings = settingsSystem->getSettingsT<ImageSettings>())
                             {
-                                imageSettings->setImageAspectRatio(static_cast<ImageAspectRatio>(value));
+                                imageSettings->setAspectRatio(static_cast<ImageAspectRatio>(value));
                             }
                         }
                     }
@@ -85,7 +179,7 @@ namespace djv
             if (auto imageSettings = settingsSystem->getSettingsT<ImageSettings>())
             {
                 p.aspectRatioObserver = ValueObserver<ImageAspectRatio>::create(
-                    imageSettings->observeImageAspectRatio(),
+                    imageSettings->observeAspectRatio(),
                     [weak](ImageAspectRatio value)
                     {
                         if (auto widget = weak.lock())
@@ -173,7 +267,7 @@ namespace djv
                             auto settingsSystem = context->getSystemT<UI::Settings::System>();
                             if (auto imageSettings = settingsSystem->getSettingsT<ImageSettings>())
                             {
-                                imageSettings->setImageRotate(static_cast<ImageRotate>(value));
+                                imageSettings->setRotate(static_cast<ImageRotate>(value));
                             }
                         }
                     }
@@ -183,7 +277,7 @@ namespace djv
             if (auto imageSettings = settingsSystem->getSettingsT<ImageSettings>())
             {
                 p.rotateObserver = ValueObserver<ImageRotate>::create(
-                    imageSettings->observeImageRotate(),
+                    imageSettings->observeRotate(),
                     [weak](ImageRotate value)
                     {
                         if (auto widget = weak.lock())

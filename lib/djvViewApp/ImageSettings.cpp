@@ -82,22 +82,22 @@ namespace djv
             _p->colorSpaceBellowsState = value;
         }
 
-        std::shared_ptr<IValueSubject<ImageRotate> > ImageSettings::observeImageRotate() const
+        std::shared_ptr<IValueSubject<ImageRotate> > ImageSettings::observeRotate() const
         {
             return _p->rotate;
         }
 
-        std::shared_ptr<IValueSubject<ImageAspectRatio> > ImageSettings::observeImageAspectRatio() const
+        std::shared_ptr<IValueSubject<ImageAspectRatio> > ImageSettings::observeAspectRatio() const
         {
             return _p->aspectRatio;
         }
 
-        void ImageSettings::setImageRotate(ImageRotate value)
+        void ImageSettings::setRotate(ImageRotate value)
         {
             _p->rotate->setIfChanged(value);
         }
 
-        void ImageSettings::setImageAspectRatio(ImageAspectRatio value)
+        void ImageSettings::setAspectRatio(ImageAspectRatio value)
         {
             _p->aspectRatio->setIfChanged(value);
         }

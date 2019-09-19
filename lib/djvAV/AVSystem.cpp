@@ -53,6 +53,7 @@ namespace djv
         struct AVSystem::Private
         {
             std::shared_ptr<ValueSubject<TimeUnits> > timeUnits;
+            std::shared_ptr<ValueSubject<AlphaBlend> > alphaBlend;
             std::shared_ptr<ValueSubject<Time::FPS> > defaultSpeed;
             std::shared_ptr<ThumbnailSystem> thumbnailSystem;
         };
@@ -63,6 +64,7 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             p.timeUnits = ValueSubject<TimeUnits>::create(TimeUnits::First);
+            p.alphaBlend = ValueSubject<AlphaBlend>::create(AlphaBlend::First);
             p.defaultSpeed = ValueSubject<Time::FPS>::create(Time::getDefaultSpeed());
 
             auto ocioSystem = OCIO::System::create(context);
@@ -102,6 +104,16 @@ namespace djv
         void AVSystem::setTimeUnits(TimeUnits value)
         {
             _p->timeUnits->setIfChanged(value);
+        }
+
+        std::shared_ptr<IValueSubject<AlphaBlend> > AVSystem::observeAlphaBlend() const
+        {
+            return _p->alphaBlend;
+        }
+
+        void AVSystem::setAlphaBlend(AlphaBlend value)
+        {
+            _p->alphaBlend->setIfChanged(value);
         }
 
         std::shared_ptr<IValueSubject<Time::FPS> > AVSystem::observeDefaultSpeed() const

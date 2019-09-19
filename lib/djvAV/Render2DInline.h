@@ -37,7 +37,7 @@ namespace djv
             {
                 return
                     channel == other.channel &&
-                    premultAlpha == other.premultAlpha &&
+                    alphaBlend == other.alphaBlend &&
                     mirror == other.mirror &&
                     colorSpace == other.colorSpace &&
                     cache == other.cache;

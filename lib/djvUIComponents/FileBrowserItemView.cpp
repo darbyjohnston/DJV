@@ -80,8 +80,11 @@ namespace djv
                 std::map<size_t, std::string> sizeText;
                 std::map<size_t, std::string> timeText;
                 std::vector<float> split = { .7f, .8f, 1.f };
+                AV::AlphaBlend alphaBlend = AV::AlphaBlend::First;
                 AV::OCIO::Config ocioConfig;
                 std::string outputColorSpace;
+
+                std::shared_ptr<ValueObserver<AV::AlphaBlend> > alphaBlendObserver;
                 std::shared_ptr<ValueObserver<AV::OCIO::Config> > ocioConfigObserver;
 
                 size_t hover = invalid;
@@ -99,8 +102,20 @@ namespace djv
 
                 p.fontSystem = context->getSystemT<AV::Font::System>();
 
-                auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                auto avSystem = context->getSystemT<AV::AVSystem>();
                 auto weak = std::weak_ptr<ItemView>(std::dynamic_pointer_cast<ItemView>(shared_from_this()));
+                p.alphaBlendObserver = ValueObserver<AV::AlphaBlend>::create(
+                    avSystem->observeAlphaBlend(),
+                    [weak](AV::AlphaBlend value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->alphaBlend = value;
+                            widget->_redraw();
+                        }
+                    });
+
+                auto ocioSystem = context->getSystemT<AV::OCIO::System>();
                 auto contextWeak = std::weak_ptr<Context>(context);
                 p.ocioConfigObserver = ValueObserver<AV::OCIO::Config>::create(
                     ocioSystem->observeConfig(),
@@ -440,6 +455,7 @@ namespace djv
                                     }
                                     render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f, opacity));
                                     AV::Render::ImageOptions options;
+                                    options.alphaBlend = p.alphaBlend;
                                     auto i = p.ocioConfig.colorSpaces.find(j->second->getPluginName());
                                     if (i != p.ocioConfig.colorSpaces.end())
                                     {

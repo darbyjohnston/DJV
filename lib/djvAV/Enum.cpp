@@ -50,5 +50,32 @@ namespace djv
         DJV_TEXT("Timecode"),
         DJV_TEXT("Frames"));
 
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        AV,
+        AlphaBlend,
+        DJV_TEXT("None"),
+        DJV_TEXT("Straight"),
+        DJV_TEXT("Premultiplied"));
+
+    picojson::value toJSON(AV::AlphaBlend value)
+    {
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
+    }
+
+    void fromJSON(const picojson::value& value, AV::AlphaBlend& out)
+    {
+        if (value.is<std::string>())
+        {
+            std::stringstream ss(value.get<std::string>());
+            ss >> out;
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
+
 } // namespace djv
 

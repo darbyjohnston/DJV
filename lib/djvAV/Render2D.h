@@ -75,7 +75,7 @@ namespace djv
             struct ImageOptions
             {
                 ImageChannel      channel       = ImageChannel::None;
-                bool              premultAlpha  = true;
+                AlphaBlend        alphaBlend    = AlphaBlend::Straight;
                 AV::Image::Mirror mirror;
                 AV::OCIO::Convert colorSpace;
                 ImageCache        cache         = ImageCache::Atlas;
@@ -195,6 +195,7 @@ namespace djv
 
         } // namespace Render
     } // namespace AV
+
 } // namespace djv
 
 #include <djvAV/Render2DInline.h>

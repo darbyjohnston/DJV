@@ -72,6 +72,7 @@ namespace djv
 
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> channelActionGroup;
+            std::shared_ptr<UI::ActionGroup> alphaBlendActionGroup;
             std::shared_ptr<UI::ActionGroup> rotateActionGroup;
             std::shared_ptr<UI::ActionGroup> aspectRatioActionGroup;
             std::shared_ptr<UI::Menu> menu;
@@ -116,9 +117,13 @@ namespace djv
             p.channelActionGroup->addAction(p.actions["GreenChannel"]);
             p.channelActionGroup->addAction(p.actions["BlueChannel"]);
             p.channelActionGroup->addAction(p.actions["AlphaChannel"]);
-            //! \todo Implement me!
-            p.actions["PremultipliedAlpha"] = UI::Action::create();
-            p.actions["PremultipliedAlpha"]->setEnabled(false);
+            p.actions["NoAlphaBlend"] = UI::Action::create();
+            p.actions["StraightAlphaBlend"] = UI::Action::create();
+            p.actions["PremultipliedAlphaBlend"] = UI::Action::create();
+            p.alphaBlendActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
+            p.alphaBlendActionGroup->addAction(p.actions["NoAlphaBlend"]);
+            p.alphaBlendActionGroup->addAction(p.actions["StraightAlphaBlend"]);
+            p.alphaBlendActionGroup->addAction(p.actions["PremultipliedAlphaBlend"]);
             p.actions["MirrorH"] = UI::Action::create();
             p.actions["MirrorH"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["MirrorH"]->setShortcut(GLFW_KEY_H);
@@ -160,7 +165,9 @@ namespace djv
             p.menu->addAction(p.actions["BlueChannel"]);
             p.menu->addAction(p.actions["AlphaChannel"]);
             p.menu->addSeparator();
-            p.menu->addAction(p.actions["PremultipliedAlpha"]);
+            p.menu->addAction(p.actions["NoAlphaBlend"]);
+            p.menu->addAction(p.actions["StraightAlphaBlend"]);
+            p.menu->addAction(p.actions["PremultipliedAlphaBlend"]);
             p.menu->addSeparator();
             p.menu->addAction(p.actions["MirrorH"]);
             p.menu->addAction(p.actions["MirrorV"]);
@@ -188,6 +195,19 @@ namespace djv
                     if (auto system = weak.lock())
                     {
                         system->_p->imageOptions.channel = static_cast<AV::Render::ImageChannel>(value + 1);
+                        if (system->_p->activeWidget)
+                        {
+                            system->_p->activeWidget->getImageView()->setImageOptions(system->_p->imageOptions);
+                        }
+                    }
+                });
+
+            p.alphaBlendActionGroup->setRadioCallback(
+                [weak](int value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->imageOptions.alphaBlend = static_cast<AV::AlphaBlend>(value);
                         if (system->_p->activeWidget)
                         {
                             system->_p->activeWidget->getImageView()->setImageOptions(system->_p->imageOptions);
@@ -472,6 +492,7 @@ namespace djv
             p.actions["AspectRatio_2_35"]->setEnabled(activeWidget);
 
             p.channelActionGroup->setChecked(static_cast<int>(p.imageOptions.channel) - 1);
+            p.alphaBlendActionGroup->setChecked(static_cast<int>(p.imageOptions.alphaBlend));
             p.rotateActionGroup->setChecked(static_cast<int>(p.imageRotate));
             p.aspectRatioActionGroup->setChecked(static_cast<int>(p.imageAspectRatio));
         }
@@ -489,8 +510,12 @@ namespace djv
             p.actions["BlueChannel"]->setTooltip(_getText(DJV_TEXT("Blue channel tooltip")));
             p.actions["AlphaChannel"]->setText(_getText(DJV_TEXT("Alpha Channel")));
             p.actions["AlphaChannel"]->setTooltip(_getText(DJV_TEXT("Alpha channel tooltip")));
-            p.actions["PremultipliedAlpha"]->setText(_getText(DJV_TEXT("Premultiplied Alpha")));
-            p.actions["PremultipliedAlpha"]->setTooltip(_getText(DJV_TEXT("Premultiplied alpha tooltip")));
+            p.actions["NoAlphaBlend"]->setText(_getText(DJV_TEXT("No Alpha")));
+            p.actions["NoAlphaBlend"]->setTooltip(_getText(DJV_TEXT("No Alpha")));
+            p.actions["StraightAlphaBlend"]->setText(_getText(DJV_TEXT("Straight Alpha")));
+            p.actions["StraightAlphaBlend"]->setTooltip(_getText(DJV_TEXT("Straight alpha blend tooltip")));
+            p.actions["PremultipliedAlphaBlend"]->setText(_getText(DJV_TEXT("Premultiplied Alpha")));
+            p.actions["PremultipliedAlphaBlend"]->setTooltip(_getText(DJV_TEXT("Premultiplied alpha blend tooltip")));
             p.actions["MirrorH"]->setText(_getText(DJV_TEXT("Mirror Horizontal")));
             p.actions["MirrorH"]->setTooltip(_getText(DJV_TEXT("Mirror horizontal tooltip")));
             p.actions["MirrorV"]->setText(_getText(DJV_TEXT("Mirror Vertical")));

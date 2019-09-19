@@ -36,6 +36,7 @@
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/Style.h>
 
+#include <djvAV/AVSystem.h>
 #include <djvAV/Image.h>
 #include <djvAV/OCIOSystem.h>
 #include <djvAV/Render2D.h>
@@ -78,13 +79,16 @@ namespace djv
             setClassName("djv::ViewApp::ImageView");
 
             DJV_PRIVATE_PTR();
+            auto avSystem = context->getSystemT<AV::AVSystem>();
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
             auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
-            p.imageOptions = ValueSubject<AV::Render::ImageOptions>::create();
+            AV::Render::ImageOptions imageOptions;
+            imageOptions.alphaBlend = avSystem->observeAlphaBlend()->get();
+            p.imageOptions = ValueSubject<AV::Render::ImageOptions>::create(imageOptions);
             p.imagePos = ValueSubject<glm::vec2>::create();
             p.imageZoom = ValueSubject<float>::create();
-            p.imageRotate = ValueSubject<ImageRotate>::create(imageSettings->observeImageRotate()->get());
-            p.imageAspectRatio = ValueSubject<ImageAspectRatio>::create(imageSettings->observeImageAspectRatio()->get());
+            p.imageRotate = ValueSubject<ImageRotate>::create(imageSettings->observeRotate()->get());
+            p.imageAspectRatio = ValueSubject<ImageAspectRatio>::create(imageSettings->observeAspectRatio()->get());
 
             auto weak = std::weak_ptr<ImageView>(std::dynamic_pointer_cast<ImageView>(shared_from_this()));
             auto imageViewSettings = settingsSystem->getSettingsT<ImageViewSettings>();
