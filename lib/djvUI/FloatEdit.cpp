@@ -123,7 +123,7 @@ namespace djv
             {
                 try
                 {
-                    model->setValue(std::stoi(value));
+                    model->setValue(std::stof(value));
                 }
                 catch (const std::exception&)
                 {
