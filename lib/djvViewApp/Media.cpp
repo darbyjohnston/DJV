@@ -1038,6 +1038,7 @@ namespace djv
                 const bool playEveryFrameAdvance = playEveryFrameDelta.count() > frameTime;
                 const Frame::Index currentFrame = p.currentFrame->get();
                 AV::IO::VideoFrame frame;
+                bool gotFrame = false;
                 {
                     std::lock_guard<std::mutex> lock(p.read->getMutex());
                     auto& queue = p.read->getVideoQueue();
@@ -1045,7 +1046,8 @@ namespace djv
                     {
                         if (playback != Playback::Stop && !queue.isEmpty() && playEveryFrameAdvance)
                         {
-                            auto frame = queue.popFrame();
+                            frame = queue.popFrame();
+                            gotFrame = true;
                             p.playEveryFrameTime += std::chrono::milliseconds(static_cast<size_t>(1000 * frameTime));
                             p.realSpeedFrameCount = p.realSpeedFrameCount + 1;
                         }
@@ -1055,11 +1057,12 @@ namespace djv
                         while (!queue.isEmpty() &&
                             (forward ? (queue.getFrame().frame < currentFrame) : (queue.getFrame().frame > currentFrame)))
                         {
-                            auto frame = queue.popFrame();
+                            frame = queue.popFrame();
+                            gotFrame = true;
                             p.realSpeedFrameCount = p.realSpeedFrameCount + 1;
                         }
                     }
-                    if (!queue.isEmpty())
+                    if (!gotFrame && !queue.isEmpty())
                     {
                         frame = queue.getFrame();
                     }
