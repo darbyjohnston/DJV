@@ -567,7 +567,7 @@ namespace djv
                     {
                         render->setFillColor(style->getColor(j->second));
                         const auto& row = i.second;
-                        render->drawRect(BBox2f(g.min.y, row.first, g.w(), row.second));
+                        render->drawRect(BBox2f(g.min.x, row.first, g.w(), row.second));
                     }
                 }
                 for (const auto& i : p.columnPosAndWidth)

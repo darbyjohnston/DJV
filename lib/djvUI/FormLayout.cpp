@@ -42,6 +42,7 @@ namespace djv
         {
             struct Form::Private
             {
+                std::vector<ColorRole> alternateRowsRoles = { ColorRole::None, ColorRole::None };
                 std::shared_ptr<Grid> layout;
                 std::map<std::shared_ptr<Widget>, std::shared_ptr<Label>> widgetToLabel;
             };
@@ -83,7 +84,8 @@ namespace djv
                 {
                     auto label = Label::create(context);
                     label->setText(text);
-                    label->setTextHAlign(TextHAlign::Right);
+                    label->setTextHAlign(TextHAlign::Left);
+                    label->setMargin(MetricsRole::MarginSmall);
                     glm::ivec2 gridPos = p.layout->getGridPos(value);
                     p.layout->addChild(label);
                     p.layout->setGridPos(label, glm::ivec2(0, gridPos.y));
@@ -100,6 +102,15 @@ namespace djv
             void Form::setSpacing(const Spacing & value)
             {
                 _p->layout->setSpacing(value);
+            }
+
+            void Form::setAlternateRowsRoles(ColorRole value0, ColorRole value1)
+            {
+                DJV_PRIVATE_PTR();
+                if (value0 == p.alternateRowsRoles[0] && value1 == p.alternateRowsRoles[1])
+                    return;
+                p.alternateRowsRoles = { value0, value1 };
+                _widgetUpdate();
             }
 
             float Form::getHeightForWidth(float value) const
@@ -119,6 +130,7 @@ namespace djv
                     p.layout->setGridPos(widget, glm::ivec2(1, gridSize.y));
                     p.layout->setStretch(widget, GridStretch::Horizontal);
                 }
+                _widgetUpdate();
             }
 
             void Form::removeChild(const std::shared_ptr<IObject> & value)
@@ -132,12 +144,14 @@ namespace djv
                         _p->widgetToLabel.erase(i);
                     }
                 }
+                _widgetUpdate();
             }
 
             void Form::clearChildren()
             {
                 _p->layout->clearChildren();
                 _p->widgetToLabel.clear();
+                _widgetUpdate();
             }
 
             void Form::_preLayoutEvent(Event::PreLayout & event)
@@ -152,6 +166,16 @@ namespace djv
                 const BBox2f & g = getGeometry();
                 const auto& style = _getStyle();
                 p.layout->setGeometry(getMargin().bbox(g, style));
+            }
+
+            void Form::_widgetUpdate()
+            {
+                DJV_PRIVATE_PTR();
+                const glm::ivec2 gridSize = p.layout->getGridSize();
+                for (int y = 0; y < gridSize.y; ++y)
+                {
+                    p.layout->setRowBackgroundRole(y, (y % 2 == 0) ? p.alternateRowsRoles[0] : p.alternateRowsRoles[1]);
+                }
             }
 
         } // namespace Layout

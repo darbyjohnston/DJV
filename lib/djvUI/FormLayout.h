@@ -54,8 +54,10 @@ namespace djv
 
                 void setText(const std::shared_ptr<Widget> &, const std::string &);
 
-                const Spacing & getSpacing() const;
-                void setSpacing(const Spacing &);
+                const Spacing& getSpacing() const;
+                void setSpacing(const Spacing&);
+
+                void setAlternateRowsRoles(ColorRole, ColorRole);
 
                 float getHeightForWidth(float) const override;
 
@@ -68,6 +70,8 @@ namespace djv
                 void _layoutEvent(Core::Event::Layout&) override;
 
             private:
+                void _widgetUpdate();
+
                 DJV_PRIVATE();
             };
 
