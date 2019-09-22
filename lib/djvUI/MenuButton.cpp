@@ -354,9 +354,9 @@ namespace djv
                         }
                         break;
                     case GLFW_KEY_ESCAPE:
+                        event.accept();
                         if (p.open)
                         {
-                            event.accept();
                             p.open = false;
                             if (p.openCallback)
                             {

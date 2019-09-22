@@ -223,6 +223,11 @@ namespace djv
             _pointerEnabled = value;
         }
 
+        std::shared_ptr<Widget> Widget::getFocusWidget()
+        {
+            return std::dynamic_pointer_cast<Widget>(shared_from_this());
+        }
+
         bool Widget::acceptFocus(TextFocusDirection direction)
         {
             bool out = false;
@@ -540,8 +545,9 @@ namespace djv
                         _clipped =
                             !clipEvent.getClipRect().isValid() ||
                             !_visible ||
-                            !parent->_visible ||
-                            !parent->_parentsVisible;
+                            !_parentsVisible ||
+                            0.f == _opacity ||
+                            0.f == _parentsOpacity;
                         _clipRect = clipEvent.getClipRect();
                     }
                     else

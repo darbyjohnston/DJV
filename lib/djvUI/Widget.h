@@ -146,6 +146,7 @@ namespace djv
             inline bool isPointerEnabled() const;
             void setPointerEnabled(bool);
 
+            virtual std::shared_ptr<Widget> getFocusWidget();
             virtual bool acceptFocus(TextFocusDirection);
             bool hasTextFocus() const;
             void takeTextFocus();

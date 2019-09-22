@@ -84,6 +84,7 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
+                    widget->close();
                     widget->setCurrentItem(value);
                     if (widget->_p->callback)
                     {
@@ -265,6 +266,11 @@ namespace djv
         void ComboBox::setCallback(const std::function<void(int)> & value)
         {
             _p->callback = value;
+        }
+
+        std::shared_ptr<Widget> ComboBox::getFocusWidget()
+        {
+            return _p->button->getFocusWidget();
         }
 
         void ComboBox::_preLayoutEvent(Event::PreLayout & event)

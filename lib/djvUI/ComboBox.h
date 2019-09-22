@@ -74,6 +74,8 @@ namespace djv
 
             void setCallback(const std::function<void(int)>&);
 
+            std::shared_ptr<Widget> getFocusWidget() override;
+
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;
             void _layoutEvent(Core::Event::Layout &) override;

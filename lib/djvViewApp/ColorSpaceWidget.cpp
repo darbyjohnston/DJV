@@ -35,6 +35,7 @@
 #include <djvUI/ButtonGroup.h>
 #include <djvUI/CheckBox.h>
 #include <djvUI/ComboBox.h>
+#include <djvUI/EventSystem.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/ListButton.h>
 #include <djvUI/PopupWidget.h>
@@ -81,6 +82,7 @@ namespace djv
             std::shared_ptr<UI::ComboBox> displayComboBox;
             std::shared_ptr<UI::ComboBox> viewComboBox;
             std::shared_ptr<UI::FormLayout> displayLayout;
+            std::map<std::shared_ptr<UI::Widget>, int> textFocusWidgets;
             std::shared_ptr<UI::FileBrowser::Dialog> fileBrowserDialog;
             std::shared_ptr<UI::Window> fileBrowserWindow;
 
@@ -436,6 +438,19 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
+                int restoreTextFocusID = -1;
+                auto eventSystem = context->getSystemT<UI::EventSystem>();
+                if (auto textFocus = std::dynamic_pointer_cast<UI::Widget>(eventSystem->getTextFocus().lock()))
+                {
+                    const auto i = p.textFocusWidgets.find(textFocus);
+                    if (i != p.textFocusWidgets.end())
+                    {
+                        restoreTextFocusID = i->second;
+                    }
+                }
+                p.textFocusWidgets.clear();
+                int id = 0;
+
                 p.configButtonGroup->clearButtons();
                 p.editConfigButtonGroup->clearButtons();
                 p.configLayout->clearChildren();
@@ -446,12 +461,14 @@ namespace djv
                     auto button = UI::CheckBox::create(context);
                     button->setText(i.name);
                     p.configButtonGroup->addButton(button);
+                    p.textFocusWidgets[button->getFocusWidget()] = id++;
 
                     auto deleteButton = UI::ToolButton::create(context);
                     deleteButton->setIcon("djvIconCloseSmall");
                     deleteButton->setVisible(p.editConfig);
                     deleteButton->setInsideMargin(UI::MetricsRole::None);
                     deleteButton->setVAlign(UI::VAlign::Fill);
+                    p.textFocusWidgets[deleteButton->getFocusWidget()] = id++;
 
                     auto hLayout = UI::HorizontalLayout::create(context);
                     hLayout->setSpacing(UI::MetricsRole::None);
@@ -506,12 +523,14 @@ namespace djv
                         ++k;
                     }
                     comboBox->setCurrentItem(index);
+                    p.textFocusWidgets[comboBox->getFocusWidget()] = id++;
 
                     auto deleteButton = UI::ToolButton::create(context);
                     deleteButton->setIcon("djvIconCloseSmall");
                     deleteButton->setVisible(p.editImage);
                     deleteButton->setInsideMargin(UI::MetricsRole::None);
                     deleteButton->setVAlign(UI::VAlign::Fill);
+                    p.textFocusWidgets[deleteButton->getFocusWidget()] = id++;
 
                     auto hLayout = UI::HorizontalLayout::create(context);
                     hLayout->setSpacing(UI::MetricsRole::None);
@@ -601,8 +620,10 @@ namespace djv
                                     }
                                 }
                             });
+                        p.textFocusWidgets[button->getFocusWidget()] = id++;
                     }
                 }
+
                 p.addImagePopupWidget->setEnabled(
                     p.configs.size() > 0 &&
                     usedPluginNames.size() < pluginNames.size());
@@ -636,6 +657,7 @@ namespace djv
                     }
                 }
                 p.displayComboBox->setCurrentItem(index);
+                p.textFocusWidgets[p.displayComboBox->getFocusWidget()] = id++;
 
                 p.viewComboBox->setEnabled(p.views.size() > 0);
                 p.viewComboBox->clearItems();
@@ -660,6 +682,19 @@ namespace djv
                     ++j;
                 }
                 p.viewComboBox->setCurrentItem(index);
+                p.textFocusWidgets[p.viewComboBox->getFocusWidget()] = id++;
+
+                if (restoreTextFocusID != -1)
+                {
+                    for (const auto& i : p.textFocusWidgets)
+                    {
+                        if (i.second == restoreTextFocusID)
+                        {
+                            i.first->takeTextFocus();
+                            break;
+                        }
+                    }
+                }
             }
         }
 
