@@ -31,6 +31,7 @@
 
 #include <djvViewApp/IToolSystem.h>
 #include <djvViewApp/InfoWidget.h>
+#include <djvViewApp/SettingsSystem.h>
 #include <djvViewApp/ToolSettings.h>
 
 #include <djvUI/Action.h>
@@ -93,6 +94,8 @@ namespace djv
             p.actions["Info"] = UI::Action::create();
             p.actions["Info"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["Info"]->setShortcut(GLFW_KEY_N, UI::Shortcut::getSystemModifier());
+            p.actions["Settings"] = UI::Action::create();
+            p.actions["Settings"]->setIcon("djvIconSettings");
 
             p.menu = UI::Menu::create(context);
             for (const auto& i : toolActions)
@@ -101,6 +104,8 @@ namespace djv
             }
             p.menu->addSeparator();
             p.menu->addAction(p.actions["Info"]);
+            p.menu->addSeparator();
+            p.menu->addAction(p.actions["Settings"]);
 
             auto weak = std::weak_ptr<ToolSystem>(std::dynamic_pointer_cast<ToolSystem>(shared_from_this()));
             p.toolActionGroup->setExclusiveCallback(
@@ -137,6 +142,20 @@ namespace djv
                             {
                                 system->_closeWidget("Info");
                             }
+                        }
+                    }
+                });
+
+            p.actionObservers["Settings"] = ValueObserver<bool>::create(
+                p.actions["Settings"]->observeClicked(),
+                [weak, contextWeak](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto context = contextWeak.lock())
+                        {
+                            auto settingsSystem = context->getSystemT<SettingsSystem>();
+                            settingsSystem->showSettingsDialog();
                         }
                     }
                 });
@@ -190,6 +209,8 @@ namespace djv
             p.menu->setText(_getText(DJV_TEXT("Tools")));
             p.actions["Info"]->setText(_getText(DJV_TEXT("Information")));
             p.actions["Info"]->setTooltip(_getText(DJV_TEXT("Information widget tooltip")));
+            p.actions["Settings"]->setText(_getText(DJV_TEXT("Settings")));
+            p.actions["Settings"]->setTooltip(_getText(DJV_TEXT("Settings tooltip")));
         }
 
         void ToolSystem::_closeWidget(const std::string& value)

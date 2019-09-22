@@ -42,6 +42,7 @@
 #include <djvViewApp/MemoryCacheWidget.h>
 #include <djvViewApp/SettingsDialog.h>
 #include <djvViewApp/SettingsSystem.h>
+#include <djvViewApp/ToolSystem.h>
 #include <djvViewApp/WindowSystem.h>
 #include <djvViewApp/UISettings.h>
 
@@ -178,7 +179,11 @@ namespace djv
             p.autoHideButton->setIcon("djvIconVisible");
 
             p.settingsButton = UI::ToolButton::create(context);
-            p.settingsButton->setIcon("djvIconSettings");
+            auto toolSystem = context->getSystemT<ToolSystem>();
+            if (toolSystem)
+            {
+                p.settingsButton->addAction(toolSystem->getActions()["Settings"]);
+            }
 
             p.menuBar = UI::MenuBar::create(context);
             p.menuBar->setBackgroundRole(UI::ColorRole::OverlayLight);
@@ -288,25 +293,9 @@ namespace djv
                 {
                     if (auto context = contextWeak.lock())
                     {
-                        if (auto widget = weak.lock())
-                        {
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                            auto uiSettings = settingsSystem->getSettingsT<UISettings>();
-                            uiSettings->setAutoHide(value);
-                        }
-                    }
-                });
-
-            p.settingsButton->setClickedCallback(
-                [weak, contextWeak]
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            auto settingsSystem = context->getSystemT<SettingsSystem>();
-                            settingsSystem->showSettingsDialog();
-                        }
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto uiSettings = settingsSystem->getSettingsT<UISettings>();
+                        uiSettings->setAutoHide(value);
                     }
                 });
 
@@ -468,7 +457,6 @@ namespace djv
             p.cachePopupWidget->setTooltip(_getText(DJV_TEXT("Memory cache tooltip")));
             p.cacheThermometerWidget->setTooltip(_getText(DJV_TEXT("Memory cache thermometer tooltip")));
             p.autoHideButton->setTooltip(_getText(DJV_TEXT("Auto-hide tooltip")));
-            p.settingsButton->setTooltip(_getText(DJV_TEXT("Settings tooltip")));
         }
 
     } // namespace ViewApp
