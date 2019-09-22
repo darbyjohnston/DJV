@@ -43,6 +43,9 @@
 #include <djvCore/IEventSystem.h>
 #include <djvCore/Math.h>
 
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
+
 #include <algorithm>
 
 //#pragma optimize("", off)
@@ -220,6 +223,41 @@ namespace djv
             _pointerEnabled = value;
         }
 
+        bool Widget::acceptFocus(TextFocusDirection direction)
+        {
+            bool out = false;
+            if (isEnabled(true) && isVisible(true) && !isClipped())
+            {
+                const auto& childWidgets = getChildWidgets();
+                const size_t size = childWidgets.size();
+                switch (direction)
+                {
+                case TextFocusDirection::Next:
+                    for (size_t i = 0; i < size; ++i)
+                    {
+                        if (childWidgets[i]->acceptFocus(direction))
+                        {
+                            out = true;
+                            break;
+                        }
+                    }
+                    break;
+                case TextFocusDirection::Prev:
+                    for (int i = static_cast<int>(size) - 1; i >= 0; --i)
+                    {
+                        if (childWidgets[i]->acceptFocus(direction))
+                        {
+                            out = true;
+                            break;
+                        }
+                    }
+                    break;
+                default: break;
+                }
+            }
+            return out;
+        }
+
         bool Widget::hasTextFocus() const
         {
             bool out = false;
@@ -245,6 +283,78 @@ namespace djv
                 if (eventSystem->getTextFocus().lock() == shared_from_this())
                 {
                     eventSystem->setTextFocus(nullptr);
+                }
+            }
+        }
+
+        void Widget::nextTextFocus(const std::shared_ptr<Widget>& widget)
+        {
+            const auto& childWidgets = getChildWidgets();
+            const int size = static_cast<int>(childWidgets.size());
+            bool accepted = false;
+            auto i = std::find(childWidgets.begin(), childWidgets.end(), widget);
+            if (i != childWidgets.end())
+            {
+                for (int j = static_cast<int>(i - childWidgets.begin()) + 1; j < size; ++j)
+                {
+                    if (childWidgets[j]->acceptFocus(TextFocusDirection::Next))
+                    {
+                        accepted = true;
+                        break;
+                    }
+                }
+            }
+            if (!accepted)
+            {
+                if (auto parent = std::dynamic_pointer_cast<Widget>(getParent().lock()))
+                {
+                    parent->nextTextFocus(std::dynamic_pointer_cast<Widget>(shared_from_this()));
+                }
+                else
+                {
+                    for (int j = 0; j < size; ++j)
+                    {
+                        if (childWidgets[j]->acceptFocus(TextFocusDirection::Next))
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        void Widget::prevTextFocus(const std::shared_ptr<Widget>& widget)
+        {
+            const auto& childWidgets = getChildWidgets();
+            const int size = static_cast<int>(childWidgets.size());
+            bool accepted = false;
+            auto i = std::find(childWidgets.begin(), childWidgets.end(), widget);
+            if (i != childWidgets.end())
+            {
+                for (int j = static_cast<int>(i - childWidgets.begin()) - 1; j >= 0; --j)
+                {
+                    if (childWidgets[j]->acceptFocus(TextFocusDirection::Prev))
+                    {
+                        accepted = true;
+                        break;
+                    }
+                }
+            }
+            if (!accepted)
+            {
+                if (auto parent = std::dynamic_pointer_cast<Widget>(getParent().lock()))
+                {
+                    parent->prevTextFocus(std::dynamic_pointer_cast<Widget>(shared_from_this()));
+                }
+                else
+                {
+                    for (int j = size - 1; j >= 0; --j)
+                    {
+                        if (childWidgets[j]->acceptFocus(TextFocusDirection::Prev))
+                        {
+                            break;
+                        }
+                    }
                 }
             }
         }
@@ -313,6 +423,15 @@ namespace djv
                     siblings.erase(i);
                 }
                 siblings.insert(siblings.begin(), object);
+            }
+        }
+
+        void Widget::setEnabled(bool value)
+        {
+            IObject::setEnabled(value);
+            if (!value)
+            {
+                releaseTextFocus();
             }
         }
 
@@ -390,10 +509,7 @@ namespace djv
                                 {
                                     if (auto tooltipWidget = widget->_createTooltip(j->second))
                                     {
-                                        if (auto window = getWindow())
-                                        {
-                                            i.second.tooltip = Tooltip::create(window, j->second, tooltipWidget, context);
-                                        }
+                                        i.second.tooltip = Tooltip::create(getWindow(), j->second, tooltipWidget, context);
                                         break;
                                     }
                                 }
@@ -438,8 +554,8 @@ namespace djv
                     {
                         for (auto& i : _pointerToTooltips)
                         {
-                            i.second.tooltip = nullptr;
-                            i.second.timer   = _updateTime;
+                            i.second.tooltip.reset();
+                            i.second.timer = _updateTime;
                         }
                         releaseTextFocus();
                     }
@@ -540,6 +656,7 @@ namespace djv
                     _keyReleaseEvent(static_cast<Event::KeyRelease &>(event));
                     break;
                 case Event::Type::TextFocus:
+                    std::cout << getClassName() << std::endl;
                     _textFocusEvent(static_cast<Event::TextFocus &>(event));
                     break;
                 case Event::Type::TextFocusLost:
@@ -617,37 +734,68 @@ namespace djv
 
         void Widget::_keyPressEvent(Event::KeyPress & event)
         {
-            // Find the shortcuts.
-            std::vector<std::shared_ptr<Shortcut> > shortcuts;
-            for (const auto & i : _actions)
+            switch (event.getKey())
             {
-                if (i->observeEnabled()->get())
-                {
-                    for (auto j : i->observeShortcuts()->get())
-                    {
-                        shortcuts.push_back(j);
-                    }
-                }
-            }
-
-            // Sort the actions so that we test those with keyboard modifiers first.
-            std::sort(shortcuts.begin(), shortcuts.end(),
-                [](const std::shared_ptr<Shortcut> & a, const std::shared_ptr<Shortcut> & b) -> bool
-            {
-                return a->observeShortcutModifiers()->get() > b->observeShortcutModifiers()->get();
-            });
-
-            for (const auto & i : shortcuts)
-            {
-                const int key = i->observeShortcutKey()->get();
-                const int modifiers = i->observeShortcutModifiers()->get();
-                if ((key == event.getKey() && event.getKeyModifiers() == modifiers) ||
-                    (key == event.getKey() && modifiers == 0 && event.getKeyModifiers() == 0))
+            case GLFW_KEY_TAB:
+                if (auto parent = std::dynamic_pointer_cast<Widget>(getParent().lock()))
                 {
                     event.accept();
-                    i->doCallback();
-                    break;
+                    auto widget = std::dynamic_pointer_cast<Widget>(shared_from_this());
+                    if (event.getKeyModifiers() & GLFW_MOD_SHIFT)
+                    {
+                        parent->prevTextFocus(widget);
+                    }
+                    else
+                    {
+                        parent->nextTextFocus(widget);
+                    }
                 }
+                else
+                {
+                    if (event.getKeyModifiers() & GLFW_MOD_SHIFT)
+                    {
+                        prevTextFocus(nullptr);
+                    }
+                    else
+                    {
+                        nextTextFocus(nullptr);
+                    }
+                }
+                break;
+            default:
+                // Find the shortcuts.
+                std::vector<std::shared_ptr<Shortcut> > shortcuts;
+                for (const auto& i : _actions)
+                {
+                    if (i->observeEnabled()->get())
+                    {
+                        for (auto j : i->observeShortcuts()->get())
+                        {
+                            shortcuts.push_back(j);
+                        }
+                    }
+                }
+
+                // Sort the actions so that we test those with keyboard modifiers first.
+                std::sort(shortcuts.begin(), shortcuts.end(),
+                    [](const std::shared_ptr<Shortcut>& a, const std::shared_ptr<Shortcut>& b) -> bool
+                    {
+                        return a->observeShortcutModifiers()->get() > b->observeShortcutModifiers()->get();
+                    });
+
+                for (const auto& i : shortcuts)
+                {
+                    const int key = i->observeShortcutKey()->get();
+                    const int modifiers = i->observeShortcutModifiers()->get();
+                    if ((key == event.getKey() && event.getKeyModifiers() == modifiers) ||
+                        (key == event.getKey() && modifiers == 0 && event.getKeyModifiers() == 0))
+                    {
+                        event.accept();
+                        i->doCallback();
+                        break;
+                    }
+                }
+                break;
             }
         }
 

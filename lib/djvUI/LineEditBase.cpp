@@ -232,6 +232,17 @@ namespace djv
             _p->focusCallback = value;
         }
 
+        bool LineEditBase::acceptFocus(TextFocusDirection)
+        {
+            bool out = false;
+            if (isEnabled(true) && isVisible(true) && !isClipped())
+            {
+                takeTextFocus();
+                out = true;
+            }
+            return out;
+        }
+
         void LineEditBase::_styleEvent(Event::Style & event)
         {
             _textUpdate();
@@ -366,94 +377,98 @@ namespace djv
 
         void LineEditBase::_keyPressEvent(Event::KeyPress & event)
         {
+            Widget::_keyPressEvent(event);
             DJV_PRIVATE_PTR();
-            const size_t size = p.text.size();
-            switch (event.getKey())
+            if (!event.isAccepted())
             {
-            case GLFW_KEY_BACKSPACE:
-                event.accept();
-                if (size > 0 && p.cursorPos > 0)
+                const size_t size = p.text.size();
+                switch (event.getKey())
                 {
-                    p.text.erase(p.cursorPos - 1, 1);
-                    --p.cursorPos;
-                    _textUpdate();
-                    _cursorUpdate();
-                    if (p.textChangedCallback)
-                    {
-                        p.textChangedCallback(p.text);
-                    }
-                }
-                break;
-            case GLFW_KEY_DELETE:
-                event.accept();
-                if (size > 0 && p.cursorPos < size)
-                {
-                    p.text.erase(p.cursorPos, 1);
-                    _textUpdate();
-                    _cursorUpdate();
-                    if (p.textChangedCallback)
-                    {
-                        p.textChangedCallback(p.text);
-                    }
-                }
-                break;
-            case GLFW_KEY_ENTER:
-                event.accept();
-                if (p.textFinishedCallback)
-                {
-                    p.textFinishedCallback(p.text);
-                }
-                break;
-            case GLFW_KEY_LEFT:
-                event.accept();
-                if (p.cursorPos > 0)
-                {
-                    --p.cursorPos;
-                    _cursorUpdate();
-                }
-                break;
-            case GLFW_KEY_RIGHT:
-                event.accept();
-                if (p.cursorPos < size)
-                {
-                    ++p.cursorPos;
-                    _cursorUpdate();
-                }
-                break;
-            case GLFW_KEY_HOME:
-                event.accept();
-                if (p.cursorPos > 0)
-                {
-                    p.cursorPos = 0;
-                    _cursorUpdate();
-                }
-                break;
-            case GLFW_KEY_END:
-                event.accept();
-                if (size > 0 && p.cursorPos != size)
-                {
-                    p.cursorPos = size;
-                    _cursorUpdate();
-                }
-                break;
-            case GLFW_KEY_ESCAPE:
-                if (hasTextFocus())
-                {
+                case GLFW_KEY_BACKSPACE:
                     event.accept();
-                    releaseTextFocus();
-                }
-                break;
-            case GLFW_KEY_UP:
-            case GLFW_KEY_DOWN:
-            case GLFW_KEY_PAGE_UP:
-            case GLFW_KEY_PAGE_DOWN:
-                break;
-            default:
-                if (!event.getKeyModifiers())
-                {
+                    if (size > 0 && p.cursorPos > 0)
+                    {
+                        p.text.erase(p.cursorPos - 1, 1);
+                        --p.cursorPos;
+                        _textUpdate();
+                        _cursorUpdate();
+                        if (p.textChangedCallback)
+                        {
+                            p.textChangedCallback(p.text);
+                        }
+                    }
+                    break;
+                case GLFW_KEY_DELETE:
                     event.accept();
+                    if (size > 0 && p.cursorPos < size)
+                    {
+                        p.text.erase(p.cursorPos, 1);
+                        _textUpdate();
+                        _cursorUpdate();
+                        if (p.textChangedCallback)
+                        {
+                            p.textChangedCallback(p.text);
+                        }
+                    }
+                    break;
+                case GLFW_KEY_ENTER:
+                    event.accept();
+                    if (p.textFinishedCallback)
+                    {
+                        p.textFinishedCallback(p.text);
+                    }
+                    break;
+                case GLFW_KEY_LEFT:
+                    event.accept();
+                    if (p.cursorPos > 0)
+                    {
+                        --p.cursorPos;
+                        _cursorUpdate();
+                    }
+                    break;
+                case GLFW_KEY_RIGHT:
+                    event.accept();
+                    if (p.cursorPos < size)
+                    {
+                        ++p.cursorPos;
+                        _cursorUpdate();
+                    }
+                    break;
+                case GLFW_KEY_HOME:
+                    event.accept();
+                    if (p.cursorPos > 0)
+                    {
+                        p.cursorPos = 0;
+                        _cursorUpdate();
+                    }
+                    break;
+                case GLFW_KEY_END:
+                    event.accept();
+                    if (size > 0 && p.cursorPos != size)
+                    {
+                        p.cursorPos = size;
+                        _cursorUpdate();
+                    }
+                    break;
+                case GLFW_KEY_ESCAPE:
+                    if (hasTextFocus())
+                    {
+                        event.accept();
+                        releaseTextFocus();
+                    }
+                    break;
+                case GLFW_KEY_UP:
+                case GLFW_KEY_DOWN:
+                case GLFW_KEY_PAGE_UP:
+                case GLFW_KEY_PAGE_DOWN:
+                    break;
+                default:
+                    if (!event.getKeyModifiers())
+                    {
+                        event.accept();
+                    }
+                    break;
                 }
-                break;
             }
         }
 
@@ -462,6 +477,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             event.accept();
             _cursorUpdate();
+            _redraw();
             if (p.focusCallback)
             {
                 p.focusCallback(true);

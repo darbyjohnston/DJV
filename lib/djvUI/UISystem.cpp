@@ -39,7 +39,6 @@
 #include <djvUI/Style.h>
 #include <djvUI/StyleSettings.h>
 #include <djvUI/UISettings.h>
-#include <djvUI/Window.h>
 
 #include <djvAV/AVSystem.h>
 

@@ -54,7 +54,6 @@
 #include <djvUI/StackLayout.h>
 #include <djvUI/ToolBar.h>
 #include <djvUI/ToolButton.h>
-#include <djvUI/Window.h>
 
 #include <djvAV/IO.h>
 #include <djvAV/ThumbnailSystem.h>

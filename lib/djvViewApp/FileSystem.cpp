@@ -40,7 +40,6 @@
 #include <djvUIComponents/IOSettings.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/EventSystem.h>
 #include <djvUI/GroupBox.h>
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
@@ -75,10 +74,12 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
             std::shared_ptr<UI::FileBrowser::Dialog> fileBrowserDialog;
+            std::shared_ptr<UI::Window> fileBrowserWindow;
             Core::FileSystem::Path fileBrowserPath = Core::FileSystem::Path(".");
+            std::shared_ptr<RecentFilesDialog> recentFilesDialog;
+            std::shared_ptr<UI::Window> recentFilesWindow;
             size_t threadCount = 4;
             std::shared_ptr<Core::FileSystem::RecentFilesModel> recentFilesModel;
-            std::shared_ptr<RecentFilesDialog> recentFilesDialog;
             std::shared_ptr<ListObserver<Core::FileSystem::FileInfo> > recentFilesObserver;
             std::shared_ptr<ListObserver<Core::FileSystem::FileInfo> > recentFilesObserver2;
             std::shared_ptr<ValueObserver<size_t> > threadCountObserver;
@@ -478,6 +479,14 @@ namespace djv
             DJV_PRIVATE_PTR();
             _closeWidget("Layers");
             p.settings->setWidgetGeom(_getWidgetGeom());
+            if (p.fileBrowserWindow)
+            {
+                p.fileBrowserWindow->close();
+            }
+            if (p.recentFilesWindow)
+            {
+                p.recentFilesWindow->close();
+            }
         }
 
         std::shared_ptr<FileSystem> FileSystem::create(const std::shared_ptr<Core::Context>& context)
@@ -713,44 +722,43 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                auto io = context->getSystemT<AV::IO::System>();
-                auto eventSystem = context->getSystemT<UI::EventSystem>();
-                if (auto window = eventSystem->getCurrentWindow().lock())
+                if (p.fileBrowserWindow)
                 {
-                    p.fileBrowserDialog = UI::FileBrowser::Dialog::create(context);
-                    p.fileBrowserDialog->setFileExtensions(io->getFileExtensions());
-                    p.fileBrowserDialog->setPath(p.fileBrowserPath);
-                    auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
-                    p.fileBrowserDialog->setCallback(
-                        [weak](const Core::FileSystem::FileInfo& value)
-                        {
-                            if (auto system = weak.lock())
-                            {
-                                if (auto parent = system->_p->fileBrowserDialog->getParent().lock())
-                                {
-                                    parent->removeChild(system->_p->fileBrowserDialog);
-                                }
-                                system->_p->fileBrowserPath = system->_p->fileBrowserDialog->getPath();
-                                system->_p->fileBrowserDialog.reset();
-                                system->open(value);
-                            }
-                        });
-                    p.fileBrowserDialog->setCloseCallback(
-                        [weak]
-                        {
-                            if (auto system = weak.lock())
-                            {
-                                if (auto parent = system->_p->fileBrowserDialog->getParent().lock())
-                                {
-                                    parent->removeChild(system->_p->fileBrowserDialog);
-                                }
-                                system->_p->fileBrowserPath = system->_p->fileBrowserDialog->getPath();
-                                system->_p->fileBrowserDialog.reset();
-                            }
-                        });
-                    window->addChild(p.fileBrowserDialog);
-                    p.fileBrowserDialog->show();
+                    p.fileBrowserWindow->close();
+                    p.fileBrowserWindow.reset();
                 }
+                p.fileBrowserDialog = UI::FileBrowser::Dialog::create(context);
+                auto io = context->getSystemT<AV::IO::System>();
+                p.fileBrowserDialog->setFileExtensions(io->getFileExtensions());
+                p.fileBrowserDialog->setPath(p.fileBrowserPath);
+                auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
+                p.fileBrowserDialog->setCallback(
+                    [weak](const Core::FileSystem::FileInfo& value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            system->_p->fileBrowserPath = system->_p->fileBrowserDialog->getPath();
+                            system->_p->fileBrowserDialog.reset();
+                            system->_p->fileBrowserWindow->close();
+                            system->_p->fileBrowserWindow.reset();
+                            system->open(value);
+                        }
+                    });
+                p.fileBrowserDialog->setCloseCallback(
+                    [weak]
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            system->_p->fileBrowserPath = system->_p->fileBrowserDialog->getPath();
+                            system->_p->fileBrowserDialog.reset();
+                            system->_p->fileBrowserWindow->close();
+                            system->_p->fileBrowserWindow.reset();
+                        }
+                    });
+                p.fileBrowserWindow = UI::Window::create(context);
+                p.fileBrowserWindow->setBackgroundRole(UI::ColorRole::None);
+                p.fileBrowserWindow->addChild(p.fileBrowserDialog);
+                p.fileBrowserWindow->show();
             }
         }
 
@@ -759,44 +767,38 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                if (auto eventSystem = context->getSystemT<UI::EventSystem>())
+                if (p.recentFilesWindow)
                 {
-                    if (auto window = eventSystem->getCurrentWindow().lock())
-                    {
-                        if (!p.recentFilesDialog)
-                        {
-                            p.recentFilesDialog = RecentFilesDialog::create(context);
-                            auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
-                            p.recentFilesDialog->setCallback(
-                                [weak](const Core::FileSystem::FileInfo& value)
-                                {
-                                    if (auto system = weak.lock())
-                                    {
-                                        if (auto parent = system->_p->recentFilesDialog->getParent().lock())
-                                        {
-                                            parent->removeChild(system->_p->recentFilesDialog);
-                                        }
-                                        system->_p->recentFilesDialog.reset();
-                                        system->open(value);
-                                    }
-                                });
-                            p.recentFilesDialog->setCloseCallback(
-                                [weak]
-                                {
-                                    if (auto system = weak.lock())
-                                    {
-                                        if (auto parent = system->_p->recentFilesDialog->getParent().lock())
-                                        {
-                                            parent->removeChild(system->_p->recentFilesDialog);
-                                        }
-                                        system->_p->recentFilesDialog.reset();
-                                    }
-                                });
-                        }
-                        window->addChild(p.recentFilesDialog);
-                        p.recentFilesDialog->show();
-                    }
+                    p.recentFilesWindow->close();
+                    p.recentFilesWindow.reset();
                 }
+                p.recentFilesDialog = RecentFilesDialog::create(context);
+                auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
+                p.recentFilesDialog->setCallback(
+                    [weak](const Core::FileSystem::FileInfo& value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            system->_p->recentFilesDialog.reset();
+                            system->_p->recentFilesWindow->close();
+                            system->_p->recentFilesWindow.reset();
+                            system->open(value);
+                        }
+                    });
+                p.recentFilesDialog->setCloseCallback(
+                    [weak]
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            system->_p->recentFilesDialog.reset();
+                            system->_p->recentFilesWindow->close();
+                            system->_p->recentFilesWindow.reset();
+                        }
+                    });
+                p.recentFilesWindow = UI::Window::create(context);
+                p.recentFilesWindow->setBackgroundRole(UI::ColorRole::None);
+                p.recentFilesWindow->addChild(p.recentFilesDialog);
+                p.recentFilesWindow->show();
             }
         }
 

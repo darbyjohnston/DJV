@@ -126,14 +126,14 @@ namespace djv
             p.nuxWidget = nuxSystem->createNUXWidget();
             if (p.nuxWidget)
             {
-                p.mainWindow->addChild(p.nuxWidget);
+                p.nuxWidget->show();
                 auto weak = std::weak_ptr<Application>(std::dynamic_pointer_cast<Application>(shared_from_this()));
                 p.nuxWidget->setFinishCallback(
                     [weak]
                     {
                         if (auto app = weak.lock())
                         {
-                            app->_p->mainWindow->removeChild(app->_p->nuxWidget);
+                            app->_p->nuxWidget->close();
                             app->_p->nuxWidget.reset();
                         }
                     });

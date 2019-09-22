@@ -179,8 +179,9 @@ namespace djv
         void LineEdit::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
+            glm::vec2 size = p.border->getMinimumSize();
             const auto& style = _getStyle();
-            _setMinimumSize(p.border->getMinimumSize() + getMargin().getSize(style));
+            _setMinimumSize(size + getMargin().getSize(style));
         }
 
         void LineEdit::_layoutEvent(Event::Layout & event)

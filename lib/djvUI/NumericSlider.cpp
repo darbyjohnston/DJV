@@ -96,6 +96,17 @@ namespace djv
         {
             _p->delay = value;
         }
+
+        bool NumericSlider::acceptFocus(TextFocusDirection)
+        {
+            bool out = false;
+            if (isEnabled(true) && isVisible(true) && !isClipped())
+            {
+                takeTextFocus();
+                out = true;
+            }
+            return out;
+        }
         
         float NumericSlider::_getHandleWidth() const
         {
@@ -112,49 +123,63 @@ namespace djv
             const float b = style->getMetric(MetricsRole::Border);
             auto render = _getRender();
             
+            if (_getPointerHover().size())
+            {
+                render->setFillColor(style->getColor(ColorRole::Hovered));
+                render->drawRect(g);
+            }
+
+            if (hasTextFocus())
+            {
+                render->setFillColor(style->getColor(ColorRole::TextFocus));
+                drawBorder(render, g, b);
+            }
+
+            const BBox2f g2 = g.margin(-(m + b));
+
             float troughHeight = 0.f;
             switch (p.orientation)
             {
             case Orientation::Horizontal:
             {
-                troughHeight = g.h() / 3.f;
-                const BBox2f g2 = BBox2f(
-                    g.min.x,
-                    floorf(g.min.y + g.h() / 2.f - troughHeight / 2.f),
-                    g.w(),
+                troughHeight = g2.h() / 3.f;
+                const BBox2f g3 = BBox2f(
+                    g2.min.x,
+                    floorf(g2.min.y + g2.h() / 2.f - troughHeight / 2.f),
+                    g2.w(),
                     troughHeight);
                 render->setFillColor(style->getColor(ColorRole::Border));
-                drawBorder(render, g2, b);
+                drawBorder(render, g3, b);
                 render->setFillColor(style->getColor(ColorRole::Trough));
-                const BBox2f g3 = g2.margin(-b);
-                render->drawRect(g3);
+                const BBox2f g4 = g3.margin(-b);
+                render->drawRect(g4);
                 render->setFillColor(style->getColor(ColorRole::Checked));
                 render->drawRect(BBox2f(
-                    g3.min.x,
-                    g3.min.y,
-                    ceilf((g3.w() - p.handleWidth / 2.f) * v),
-                    g3.h()));
+                    g4.min.x,
+                    g4.min.y,
+                    ceilf((g4.w() - p.handleWidth / 2.f) * v),
+                    g4.h()));
                 break;
             }
             case Orientation::Vertical:
             {
-                troughHeight = g.w() / 3.f;
-                const BBox2f g2 = BBox2f(
-                    floorf(g.min.x + g.w() / 2.f - troughHeight / 2.f),
-                    g.min.y,
+                troughHeight = g2.w() / 3.f;
+                const BBox2f g3 = BBox2f(
+                    floorf(g2.min.x + g2.w() / 2.f - troughHeight / 2.f),
+                    g2.min.y,
                     troughHeight,
-                    g.h());
+                    g2.h());
                 render->setFillColor(style->getColor(ColorRole::Border));
-                drawBorder(render, g2, b);
+                drawBorder(render, g3, b);
                 render->setFillColor(style->getColor(ColorRole::Trough));
-                const BBox2f g3 = g2.margin(-b);
-                render->drawRect(g3);
+                const BBox2f g4 = g3.margin(-b);
+                render->drawRect(g4);
                 render->setFillColor(style->getColor(ColorRole::Checked));
                 render->drawRect(BBox2f(
-                    g3.min.x,
-                    g3.min.y,
+                    g4.min.x,
+                    g4.min.y,
                     m,
-                    ceilf((g3.h() - p.handleWidth / 2.f) * v)));
+                    ceilf((g4.h() - p.handleWidth / 2.f) * v)));
                 break;
             }
             default: break;
@@ -166,15 +191,15 @@ namespace djv
             case Orientation::Horizontal:
                 handleBBox = BBox2f(
                     floorf(pos - p.handleWidth / 2.f),
-                    g.min.y,
+                    g2.min.y,
                     p.handleWidth,
-                    g.h());
+                    g2.h());
                 break;
             case Orientation::Vertical:
                 handleBBox = BBox2f(
-                    g.min.x,
+                    g2.min.x,
                     floorf(pos - p.handleWidth / 2.f),
-                    g.w(),
+                    g2.w(),
                     p.handleWidth);
                 break;
             default: break;
@@ -223,6 +248,8 @@ namespace djv
             }
             const auto& style = _getStyle();
             const float s = style->getMetric(MetricsRole::Slider);
+            const float m = style->getMetric(MetricsRole::MarginSmall);
+            const float b = style->getMetric(MetricsRole::Border);
             glm::vec2 size(0.f, 0.f);
             switch (p.orientation)
             {
@@ -230,7 +257,7 @@ namespace djv
             case Orientation::Vertical:   size = glm::vec2(p.fontMetrics.lineHeight, s); break;
             default: break;
             }
-            _setMinimumSize(size + getMargin().getSize(style));
+            _setMinimumSize(size + m * 2.f + b * 2.f + getMargin().getSize(style));
         }
 
         void NumericSlider::_pointerEnterEvent(Event::PointerEnter & event)
@@ -288,6 +315,7 @@ namespace djv
             if (p.pressedID)
                 return;
             event.accept();
+            takeTextFocus();
             const auto & pointerInfo = event.getPointerInfo();
             p.pressedID = pointerInfo.id;
             p.pressedPos = pointerInfo.projectedPos;
@@ -327,11 +355,25 @@ namespace djv
 
         void NumericSlider::_keyPressEvent(Event::KeyPress& event)
         {
+            Widget::_keyPressEvent(event);
             DJV_PRIVATE_PTR();
-            if (_keyPress(event.getKey()))
+            if (!event.isAccepted())
             {
-                event.accept();
+                if (_keyPress(event.getKey()))
+                {
+                    event.accept();
+                }
             }
+        }
+
+        void NumericSlider::_textFocusEvent(Event::TextFocus&)
+        {
+            _redraw();
+        }
+
+        void NumericSlider::_textFocusLostEvent(Event::TextFocusLost&)
+        {
+            _redraw();
         }
 
         void NumericSlider::_resetTimer()

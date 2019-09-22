@@ -176,6 +176,11 @@ namespace djv
             }
         }
 
+        void IObject::setEnabled(bool value)
+        {
+            _enabled = value;
+        }
+
         bool IObject::event(Event::Event & event)
         {
             bool out = _eventFilter(event);

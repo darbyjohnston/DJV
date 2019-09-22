@@ -36,10 +36,7 @@ namespace djv
     namespace UI
     {
         //! This class provides an interface for dialogs.
-        //!
-        //! \todo Actions with shortcuts need to be added to the child widget of
-        //! the dialog, not the dialog itself.
-        class IDialog : public UI::Widget
+        class IDialog : public Widget
         {
             DJV_NON_COPYABLE(IDialog);
 

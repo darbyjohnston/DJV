@@ -258,25 +258,28 @@ namespace djv
                     }
                 });
 
+            p.mediaButton->setOpenCallback(
+                [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        if (value)
+                        {
+                            widget->_p->mediaMenu->popup(widget, widget->_p->mediaButton);
+                        }
+                        else
+                        {
+                            widget->_p->mediaMenu->close();
+                        }
+                    }
+                });
+
             p.mediaMenu->setCloseCallback(
                 [weak]
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->mediaButton->setChecked(false);
-                    }
-                });
-
-            p.mediaButton->setCheckedCallback(
-                [weak](bool value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->mediaMenu->close();
-                        if (value)
-                        {
-                            widget->_p->mediaMenu->popup(widget->_p->mediaButton);
-                        }
+                        widget->_p->mediaButton->setOpen(false);
                     }
                 });
 

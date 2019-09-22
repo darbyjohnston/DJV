@@ -37,7 +37,6 @@
 
 #include <djvUI/CheckBox.h>
 #include <djvUI/ComboBox.h>
-#include <djvUI/EventSystem.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/ImageWidget.h>
 #include <djvUI/LineEdit.h>
@@ -136,6 +135,9 @@ namespace djv
             _p(new Private)
         {}
 
+        FullscreenMonitorSettingsWidget::~FullscreenMonitorSettingsWidget()
+        {}
+
         std::shared_ptr<FullscreenMonitorSettingsWidget> FullscreenMonitorSettingsWidget::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<FullscreenMonitorSettingsWidget>(new FullscreenMonitorSettingsWidget);
@@ -187,6 +189,7 @@ namespace djv
             std::shared_ptr<UI::CheckBox> colorizeCheckBox;
             std::shared_ptr<UI::HorizontalLayout> layout;
             std::shared_ptr<UI::FileBrowser::Dialog> fileBrowserDialog;
+            std::shared_ptr<UI::Window> fileBrowserWindow;
 
             std::shared_ptr<ValueObserver<std::string> > backgroundImageObserver;
             std::shared_ptr<ValueObserver<bool> > backgroundImageColorizeObserver;
@@ -258,50 +261,49 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            auto io = context->getSystemT<AV::IO::System>();
-                            auto eventSystem = context->getSystemT<UI::EventSystem>();
-                            if (auto window = eventSystem->getCurrentWindow().lock())
+                            if (widget->_p->fileBrowserWindow)
                             {
-                                widget->_p->fileBrowserDialog = UI::FileBrowser::Dialog::create(context);
-                                widget->_p->fileBrowserDialog->setFileExtensions(io->getFileExtensions());
-                                widget->_p->fileBrowserDialog->setPath(widget->_p->fileBrowserPath);
-                                widget->_p->fileBrowserDialog->setCallback(
-                                    [weak, contextWeak](const Core::FileSystem::FileInfo& value)
-                                    {
-                                        if (auto context = contextWeak.lock())
-                                        {
-                                            if (auto widget = weak.lock())
-                                            {
-                                                if (auto parent = widget->_p->fileBrowserDialog->getParent().lock())
-                                                {
-                                                    parent->removeChild(widget->_p->fileBrowserDialog);
-                                                }
-                                                widget->_p->fileBrowserPath = widget->_p->fileBrowserDialog->getPath();
-                                                widget->_p->fileBrowserDialog.reset();
-                                                auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                                                if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
-                                                {
-                                                    windowSettings->setBackgroundImage(value.getPath());
-                                                }
-                                            }
-                                        }
-                                    });
-                                widget->_p->fileBrowserDialog->setCloseCallback(
-                                    [weak]
+                                widget->_p->fileBrowserWindow->close();
+                                widget->_p->fileBrowserWindow.reset();
+                            }
+                            widget->_p->fileBrowserDialog = UI::FileBrowser::Dialog::create(context);
+                            auto io = context->getSystemT<AV::IO::System>();
+                            widget->_p->fileBrowserDialog->setFileExtensions(io->getFileExtensions());
+                            widget->_p->fileBrowserDialog->setPath(widget->_p->fileBrowserPath);
+                            widget->_p->fileBrowserDialog->setCallback(
+                                [weak, contextWeak](const Core::FileSystem::FileInfo& value)
+                                {
+                                    if (auto context = contextWeak.lock())
                                     {
                                         if (auto widget = weak.lock())
                                         {
-                                            if (auto parent = widget->_p->fileBrowserDialog->getParent().lock())
-                                            {
-                                                parent->removeChild(widget->_p->fileBrowserDialog);
-                                            }
                                             widget->_p->fileBrowserPath = widget->_p->fileBrowserDialog->getPath();
                                             widget->_p->fileBrowserDialog.reset();
+                                            widget->_p->fileBrowserWindow->close();
+                                            widget->_p->fileBrowserWindow.reset();
+                                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                                            if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
+                                            {
+                                                windowSettings->setBackgroundImage(value.getPath());
+                                            }
                                         }
-                                    });
-                                window->addChild(widget->_p->fileBrowserDialog);
-                                widget->_p->fileBrowserDialog->show();
-                            }
+                                    }
+                                });
+                            widget->_p->fileBrowserDialog->setCloseCallback(
+                                [weak]
+                                {
+                                    if (auto widget = weak.lock())
+                                    {
+                                        widget->_p->fileBrowserPath = widget->_p->fileBrowserDialog->getPath();
+                                        widget->_p->fileBrowserDialog.reset();
+                                        widget->_p->fileBrowserWindow->close();
+                                        widget->_p->fileBrowserWindow.reset();
+                                    }
+                                });
+                            widget->_p->fileBrowserWindow = UI::Window::create(context);
+                            widget->_p->fileBrowserWindow->setBackgroundRole(UI::ColorRole::None);
+                            widget->_p->fileBrowserWindow->addChild(widget->_p->fileBrowserDialog);
+                            widget->_p->fileBrowserWindow->show();
                         }
                     }
                 });
@@ -363,6 +365,15 @@ namespace djv
         BackgroundImageSettingsWidget::BackgroundImageSettingsWidget() :
             _p(new Private)
         {}
+
+        BackgroundImageSettingsWidget::~BackgroundImageSettingsWidget()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.fileBrowserWindow)
+            {
+                p.fileBrowserWindow->close();
+            }
+        }
 
         std::shared_ptr<BackgroundImageSettingsWidget> BackgroundImageSettingsWidget::create(const std::shared_ptr<Context>& context)
         {

@@ -36,7 +36,6 @@
 #include <djvUI/Overlay.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Shortcut.h>
-#include <djvUI/Window.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -182,6 +181,7 @@ namespace djv
                     p.menus.push_back(menu);
 
                     auto button = Button::Menu::create(Button::MenuStyle::Flat, context);
+                    button->setTextFocusEnabled(false);
                     button->installEventFilter(shared_from_this());
 
                     p.menuLayout->addChild(button);
@@ -190,7 +190,7 @@ namespace djv
                     p.buttonsToMenus[button] = menu;
 
                     auto weak = std::weak_ptr<MenuBar>(std::dynamic_pointer_cast<MenuBar>(shared_from_this()));
-                    button->setCheckedCallback(
+                    button->setOpenCallback(
                         [weak, menu](bool value)
                         {
                             if (auto widget = weak.lock())
@@ -201,26 +201,25 @@ namespace djv
                                     const auto i = widget->_p->menusToButtons.find(menu);
                                     if (i != widget->_p->menusToButtons.end())
                                     {
-                                        i->second->setChecked(true);
-                                        menu->popup(i->second, widget->_p->menuLayout);
+                                        menu->popup(widget->getWindow(), i->second, widget->_p->menuLayout);
                                         widget->_p->menuOpen = i->second;
                                     }
                                 }
                             }
                         });
 
-                    auto weakMenu = std::weak_ptr<Menu>(std::dynamic_pointer_cast<Menu>(menu));
+                    auto menuWeak = std::weak_ptr<Menu>(std::dynamic_pointer_cast<Menu>(menu));
                     menu->setCloseCallback(
-                        [weak, weakMenu]
+                        [weak, menuWeak]
                         {
                             if (auto widget = weak.lock())
                             {
-                                if (auto menu = weakMenu.lock())
+                                if (auto menu = menuWeak.lock())
                                 {
                                     const auto i = widget->_p->menusToButtons.find(menu);
                                     if (i != widget->_p->menusToButtons.end())
                                     {
-                                        i->second->setChecked(false);
+                                        i->second->setOpen(false);
                                     }
                                 }
                                 widget->_p->menuOpen.reset();
@@ -318,13 +317,13 @@ namespace djv
                 {
                     if (p.menuOpen && p.menuOpen != button)
                     {
-                        p.menuOpen->setChecked(false);                        
+                        p.menuOpen->setOpen(false);                        
                         p.closeMenus();
                         const auto i = p.buttonsToMenus.find(button);
                         if (i != p.buttonsToMenus.end())
                         {
-                            button->setChecked(true);
-                            i->second->popup(button, p.menuLayout);
+                            button->setOpen(true);
+                            i->second->popup(getWindow(), button, p.menuLayout);
                             p.menuOpen = button;
                         }
                     }

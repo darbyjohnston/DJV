@@ -52,6 +52,7 @@ namespace djv
                 bool captureKeyboard = true;
                 std::weak_ptr<Widget> anchor;
                 bool fadeIn = true;
+                bool closeOnEscape = true;
                 std::shared_ptr<Animation::Animation> fadeAnimation;
                 std::map<Event::PointerID, bool> pressedIDs;
                 std::function<void(void)> closeCallback;
@@ -64,7 +65,6 @@ namespace djv
 
                 setClassName("djv::UI::Layout::Overlay");
                 setBackgroundRole(ColorRole::Overlay);
-                setVisible(false);
                 setPointerEnabled(true);
 
                 auto closeAction = Action::create();
@@ -261,9 +261,20 @@ namespace djv
             {
                 Widget::_keyPressEvent(event);
                 DJV_PRIVATE_PTR();
-                if (p.captureKeyboard)
+                if (!event.isAccepted())
                 {
-                    event.accept();
+                    if (p.closeOnEscape && GLFW_KEY_ESCAPE == event.getKey())
+                    {
+                        event.accept();
+                        if (p.closeCallback)
+                        {
+                            p.closeCallback();
+                        }
+                    }
+                    else if (p.captureKeyboard)
+                    {
+                        event.accept();
+                    }
                 }
             }
 

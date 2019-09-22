@@ -30,11 +30,16 @@
 #include <djvUI/ToolButton.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/Border.h>
+#include <djvUI/DrawUtil.h>
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
 
 #include <djvAV/Render2D.h>
+
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
 
 //#pragma optimize("", off)
 
@@ -57,7 +62,9 @@ namespace djv
                 std::string fontFace;
                 MetricsRole fontSizeRole = MetricsRole::FontMedium;
                 std::shared_ptr<Action> action;
+                bool textFocusEnabled = true;
                 std::shared_ptr<HorizontalLayout> layout;
+                std::shared_ptr<Border> border;
                 std::shared_ptr<ValueObserver<std::string> > iconObserver;
             };
 
@@ -72,7 +79,10 @@ namespace djv
 
                 p.layout = HorizontalLayout::create(context);
                 p.layout->setMargin(MetricsRole::MarginSmall);
-                addChild(p.layout);
+                p.border = Layout::Border::create(context);
+                p.border->setBorderColorRole(UI::ColorRole::None);
+                p.border->addChild(p.layout);
+                addChild(p.border);
 
                 _actionUpdate();
                 _iconUpdate();
@@ -249,7 +259,7 @@ namespace djv
 
             const Layout::Margin & Tool::getInsideMargin() const
             {
-                return _p->layout->getMargin();
+                return _p->border->getMargin();
             }
 
             void Tool::setInsideMargin(const Layout::Margin & value)
@@ -257,22 +267,15 @@ namespace djv
                 _p->layout->setMargin(value);
             }
 
-            void Tool::addAction(const std::shared_ptr<Action>& value)
+            void Tool::setTextFocusEnabled(bool value)
             {
-                IButton::addAction(value);
-                _actionUpdate();
-            }
-
-            void Tool::removeAction(const std::shared_ptr<Action>& value)
-            {
-                IButton::removeAction(value);
-                _actionUpdate();
-            }
-
-            void Tool::clearActions()
-            {
-                IButton::clearActions();
-                _actionUpdate();
+                if (_p->textFocusEnabled == value)
+                    return;
+                _p->textFocusEnabled = value;
+                if (!_p->textFocusEnabled)
+                {
+                    releaseTextFocus();
+                }
             }
 
             void Tool::setChecked(bool value)
@@ -295,22 +298,52 @@ namespace djv
                 }
             }
 
+            void Tool::addAction(const std::shared_ptr<Action>& value)
+            {
+                IButton::addAction(value);
+                _actionUpdate();
+            }
+
+            void Tool::removeAction(const std::shared_ptr<Action>& value)
+            {
+                IButton::removeAction(value);
+                _actionUpdate();
+            }
+
+            void Tool::clearActions()
+            {
+                IButton::clearActions();
+                _actionUpdate();
+            }
+
+            bool Tool::acceptFocus(TextFocusDirection)
+            {
+                bool out = false;
+                if (_p->textFocusEnabled && isEnabled(true) && isVisible(true) && !isClipped())
+                {
+                    takeTextFocus();
+                    out = true;
+                }
+                return out;
+            }
+
             void Tool::_preLayoutEvent(Event::PreLayout & event)
             {
-                _setMinimumSize(_p->layout->getMinimumSize());
+                _setMinimumSize(_p->border->getMinimumSize());
             }
 
             void Tool::_layoutEvent(Event::Layout &)
             {
-                _p->layout->setGeometry(getGeometry());
+                _p->border->setGeometry(getGeometry());
             }
 
             void Tool::_paintEvent(Event::Paint& event)
             {
                 Widget::_paintEvent(event);
+                const auto& style = _getStyle();
                 const BBox2f& g = getGeometry();
                 auto render = _getRender();
-                const auto& style = _getStyle();
+
                 if (_isToggled())
                 {
                     render->setFillColor(style->getColor(ColorRole::Checked));
@@ -326,6 +359,62 @@ namespace djv
                     render->setFillColor(style->getColor(ColorRole::Hovered));
                     render->drawRect(g);
                 }
+            }
+
+            void Tool::_buttonPressEvent(Event::ButtonPress& event)
+            {
+                IButton::_buttonPressEvent(event);
+                DJV_PRIVATE_PTR();
+                if (event.isAccepted())
+                {
+                    if (p.textFocusEnabled)
+                    {
+                        takeTextFocus();
+                    }
+                }
+            }
+
+            void Tool::_keyPressEvent(Event::KeyPress& event)
+            {
+                IButton::_keyPressEvent(event);
+                DJV_PRIVATE_PTR();
+                if (!event.isAccepted())
+                {
+                    switch (event.getKey())
+                    {
+                    case GLFW_KEY_ENTER:
+                    case GLFW_KEY_SPACE:
+                        event.accept();
+                        switch (getButtonType())
+                        {
+                        case ButtonType::Push:
+                            _doClickedCallback();
+                            break;
+                        case ButtonType::Toggle:
+                        case ButtonType::Radio:
+                        case ButtonType::Exclusive:
+                            setChecked(!isChecked());
+                            _doCheckedCallback(isChecked());
+                            break;
+                        }
+                        break;
+                    case GLFW_KEY_ESCAPE:
+                        event.accept();
+                        releaseTextFocus();
+                        break;
+                    default: break;
+                    }
+                }
+            }
+
+            void Tool::_textFocusEvent(Event::TextFocus&)
+            {
+                _p->border->setBorderColorRole(UI::ColorRole::TextFocus);
+            }
+
+            void Tool::_textFocusLostEvent(Event::TextFocusLost&)
+            {
+                _p->border->setBorderColorRole(UI::ColorRole::None);
             }
 
             void Tool::_actionUpdate()

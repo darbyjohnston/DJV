@@ -82,8 +82,9 @@ namespace djv
         void NumericEdit::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
+            glm::vec2 size = p.lineEdit->getMinimumSize();
             const auto& style = _getStyle();
-            _setMinimumSize(p.lineEdit->getMinimumSize() + getMargin().getSize(style));
+            _setMinimumSize(size + getMargin().getSize(style));
         }
 
         void NumericEdit::_layoutEvent(Event::Layout & event)
@@ -102,10 +103,14 @@ namespace djv
 
         void NumericEdit::_keyPressEvent(Event::KeyPress& event)
         {
+            Widget::_keyPressEvent(event);
             DJV_PRIVATE_PTR();
-            if (_keyPress(event.getKey()))
+            if (!event.isAccepted())
             {
-                event.accept();
+                if (_keyPress(event.getKey()))
+                {
+                    event.accept();
+                }
             }
         }
 

@@ -49,6 +49,9 @@ namespace djv
 
             static std::shared_ptr<Window> create(const std::shared_ptr<Core::Context>&);
 
+            //! Call this before destroying the window.
+            void close();
+
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;
             void _layoutEvent(Core::Event::Layout &) override;

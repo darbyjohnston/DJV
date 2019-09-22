@@ -140,11 +140,6 @@ namespace djv
             return parents ? (_parentsEnabled && _enabled) : _enabled;
         }
 
-        inline void IObject::setEnabled(bool value)
-        {
-            _enabled = value;
-        }
-
         inline std::shared_ptr<ResourceSystem> IObject::_getResourceSystem() const
         {
             return _resourceSystem;

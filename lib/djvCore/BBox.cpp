@@ -59,7 +59,7 @@ namespace djv
         return picojson::value(s.str());
     }
 
-    void fromJSON(const picojson::value& value, glm::ivec2& out)
+    void fromJSON(const picojson::value& value, Core::BBox2i& out)
     {
         if (value.is<std::string>())
         {

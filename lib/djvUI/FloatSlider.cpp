@@ -138,17 +138,20 @@ namespace djv
             {
                 const auto& style = _getStyle();
                 const BBox2f g = getMargin().bbox(getGeometry(), style);
+                const float m = style->getMetric(MetricsRole::MarginSmall);
+                const float b = style->getMetric(MetricsRole::Border);
                 const float handleWidth = _getHandleWidth();
                 const auto & range = model->observeRange()->get();
                 float v = (value - range.min) / static_cast<float>(range.max - range.min);
+                const BBox2f g2 = g.margin(-(m + b));
                 switch (getOrientation())
                 {
                 case Orientation::Horizontal:
-                    out = g.x() + ceilf(handleWidth / 2.f + (g.w() - handleWidth) * v);
+                    out = g2.x() + ceilf(handleWidth / 2.f + (g2.w() - handleWidth) * v);
                     break;
                 case Orientation::Vertical:
                     v = 1.f - v;
-                    out = g.y() + ceilf(handleWidth / 2.f + (g.h() - handleWidth) * v);
+                    out = g2.y() + ceilf(handleWidth / 2.f + (g2.h() - handleWidth) * v);
                     break;
                 default: break;
                 }
@@ -164,16 +167,19 @@ namespace djv
             {
                 const auto& style = _getStyle();
                 const BBox2f g = getMargin().bbox(getGeometry(), style);
+                const float m = style->getMetric(MetricsRole::MarginSmall);
+                const float b = style->getMetric(MetricsRole::Border);
                 const float handleWidth = _getHandleWidth();
                 const auto & range = model->observeRange()->get();
+                const BBox2f g2 = g.margin(-(m + b));
                 float v = 0.f;
                 switch (getOrientation())
                 {
                 case Orientation::Horizontal:
-                    v = Math::clamp((value - g.x() - handleWidth / 2.f) / (g.w() - handleWidth), 0.f, 1.f);
+                    v = Math::clamp((value - g2.x() - handleWidth / 2.f) / (g2.w() - handleWidth), 0.f, 1.f);
                     break;
                 case Orientation::Vertical:
-                    v = 1.f - Math::clamp((value - g.y() - handleWidth / 2.f) / (g.h() - handleWidth), 0.f, 1.f);
+                    v = 1.f - Math::clamp((value - g2.y() - handleWidth / 2.f) / (g2.h() - handleWidth), 0.f, 1.f);
                     break;
                 default: break;
                 }

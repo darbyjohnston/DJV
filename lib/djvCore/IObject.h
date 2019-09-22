@@ -80,7 +80,7 @@ namespace djv
             //! Get the list of child objects.
             inline const std::vector<std::shared_ptr<IObject> > & getChildren() const;
 
-            //! Get the list of child objects of the given type.
+            //! Get a list of child objects of the given type.
             template<typename T>
             inline std::vector<std::shared_ptr<T> > getChildrenT() const;
 
@@ -118,7 +118,7 @@ namespace djv
             ///@{
 
             inline bool isEnabled(bool parents = false) const;
-            inline void setEnabled(bool);
+            virtual void setEnabled(bool);
 
             ///@}
 

@@ -35,7 +35,6 @@
 #include <djvUI/MenuButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
-#include <djvUI/Window.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -50,7 +49,6 @@ namespace djv
         {
             std::vector<std::string> items;
             int currentItem = -1;
-            std::shared_ptr<Action> closeAction;
             std::shared_ptr<ActionGroup> actionGroup;
             std::shared_ptr<Menu> menu;
             std::shared_ptr<Button::Menu> button;
@@ -67,10 +65,6 @@ namespace djv
             setHAlign(HAlign::Left);
             setVAlign(VAlign::Center);
 
-            p.closeAction = Action::create();
-            p.closeAction->setShortcut(GLFW_KEY_ESCAPE);
-            addAction(p.closeAction);
-
             p.actionGroup = ActionGroup::create(ButtonType::Radio);
 
             p.menu = Menu::create(context);
@@ -80,7 +74,6 @@ namespace djv
             p.button = Button::Menu::create(Button::MenuStyle::ComboBox, context);
             p.button->setPopupIcon("djvIconPopupMenu");
             p.button->setBackgroundRole(ColorRole::Button);
-            p.button->setBorderColorRole(ColorRole::BorderButton);
             addChild(p.button);
 
             _updateCurrentItem(Callback::Suppress);
@@ -92,7 +85,6 @@ namespace djv
                 if (auto widget = weak.lock())
                 {
                     widget->setCurrentItem(value);
-                    widget->_p->menu->close();
                     if (widget->_p->callback)
                     {
                         widget->_p->callback(value);
@@ -102,48 +94,28 @@ namespace djv
 
             p.menu->setCloseCallback(
                 [weak]
-            {
-                if (auto widget = weak.lock())
-                {
-                    widget->_p->closeAction->setEnabled(false);
-                    widget->_p->button->setChecked(false);
-                }
-            });
-
-            auto contextWeak = std::weak_ptr<Context>(context);
-            p.button->setCheckedCallback(
-                [weak, contextWeak](bool value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            if (!value)
-                            {
-                                widget->close();
-                            }
-                            if (value && widget->_p->currentItem >= 0 && widget->_p->currentItem < widget->_p->items.size())
-                            {
-                                widget->open();
-                            }
-                        }
-                    }
-                });
-
-            p.closeObserver = ValueObserver<bool>::create(
-                p.closeAction->observeClicked(),
-                [weak](bool value)
-            {
-                if (value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->closeAction->setEnabled(false);
-                        widget->_p->button->setChecked(false);
-                        widget->_p->menu->close();
+                        widget->_p->button->setOpen(false);
                     }
-                }
-            });
+                });
+
+            p.button->setOpenCallback(
+                [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        if (value && widget->_p->currentItem >= 0 && widget->_p->currentItem < widget->_p->items.size())
+                        {
+                            widget->open();
+                        }
+                        if (!value)
+                        {
+                            widget->close();
+                        }
+                    }
+                });
         }
 
         ComboBox::ComboBox() :
@@ -265,12 +237,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.currentItem >= 0 && p.currentItem < p.items.size())
             {
-                if (auto window = getWindow())
-                {
-                    takeTextFocus();
-                    p.closeAction->setEnabled(true);
-                    p.menu->popup(p.button);
-                }
+                p.menu->popup(getWindow(), p.button);
             }
         }
 
@@ -313,65 +280,35 @@ namespace djv
 
         void ComboBox::_keyPressEvent(Event::KeyPress& event)
         {
+            Widget::_keyPressEvent(event);
             DJV_PRIVATE_PTR();
-            const int currentItem = p.currentItem;
-            switch (event.getKey())
+            if (!event.isAccepted())
             {
-            case GLFW_KEY_ENTER:
-            case GLFW_KEY_SPACE:
-                event.accept();
-                if (isOpen())
+                const int currentItem = p.currentItem;
+                switch (event.getKey())
                 {
-                    close();
-                }
-                else
-                {
-                    open();
-                }
-                break;
-            case GLFW_KEY_HOME:
-                event.accept();
-                firstItem(Callback::Trigger);
-                break;
-            case GLFW_KEY_END:
-                event.accept();
-                lastItem(Callback::Trigger);
-                break;
-            case GLFW_KEY_UP:
-                event.accept();
-                prevItem(Callback::Trigger);
-                break;
-            case GLFW_KEY_DOWN:
-                event.accept();
-                nextItem(Callback::Trigger);
-                break;
-            case GLFW_KEY_ESCAPE:
-                if (p.menu->isOpen())
-                {
+                case GLFW_KEY_HOME:
                     event.accept();
-                    p.menu->close();
-                }
-                else if (hasTextFocus())
-                {
+                    firstItem(Callback::Trigger);
+                    break;
+                case GLFW_KEY_END:
                     event.accept();
-                    releaseTextFocus();
+                    lastItem(Callback::Trigger);
+                    break;
+                case GLFW_KEY_UP:
+                    event.accept();
+                    prevItem(Callback::Trigger);
+                    break;
+                case GLFW_KEY_DOWN:
+                    event.accept();
+                    nextItem(Callback::Trigger);
+                    break;
                 }
-                break;
+                if (currentItem != p.currentItem && p.callback)
+                {
+                    p.callback(p.currentItem);
+                }
             }
-            if (currentItem != p.currentItem && p.callback)
-            {
-                p.callback(p.currentItem);
-            }
-        }
-
-        void ComboBox::_textFocusEvent(Event::TextFocus&)
-        {
-            _p->button->setBorderColorRole(ColorRole::TextFocus);
-        }
-
-        void ComboBox::_textFocusLostEvent(Event::TextFocusLost&)
-        {
-            _p->button->setBorderColorRole(ColorRole::BorderButton);
         }
 
         void ComboBox::_updateItems()

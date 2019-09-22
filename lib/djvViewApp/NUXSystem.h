@@ -31,14 +31,14 @@
 
 #include <djvViewApp/IViewSystem.h>
 
-#include <djvUI/Widget.h>
+#include <djvUI/Window.h>
 
 namespace djv
 {
     namespace ViewApp
     {
         //! This class provides the new user experience widget.
-        class NUXWidget : public UI::Widget
+        class NUXWidget : public UI::Window
         {
             DJV_NON_COPYABLE(NUXWidget);
 
@@ -52,9 +52,6 @@ namespace djv
             void setFinishCallback(const std::function<void(void)>&);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout&) override;
-            void _layoutEvent(Core::Event::Layout&) override;
-
             void _localeEvent(Core::Event::Locale&) override;
 
         private:

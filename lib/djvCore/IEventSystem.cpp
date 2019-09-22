@@ -470,8 +470,11 @@ namespace djv
                         PointerLeave leaveEvent(p.pointerInfo);
                         hoverPrev->event(leaveEvent);
                     }
-                    PointerEnter enterEvent(p.pointerInfo);
-                    value->event(enterEvent);
+                    if (value)
+                    {
+                        PointerEnter enterEvent(p.pointerInfo);
+                        value->event(enterEvent);
+                    }
                 }
             }
 

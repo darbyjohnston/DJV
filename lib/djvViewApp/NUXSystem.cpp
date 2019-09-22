@@ -46,6 +46,7 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/SoloLayout.h>
 #include <djvUI/StackLayout.h>
+#include <djvUI/Window.h>
 
 #include <djvAV/IO.h>
 #include <djvAV/Render2D.h>
@@ -235,9 +236,11 @@ namespace djv
 
         void NUXWidget::_init(const std::shared_ptr<Context>& context)
         {
-            Widget::_init(context);
+            Window::_init(context);
 
             DJV_PRIVATE_PTR();
+            setBackgroundRole(UI::ColorRole::None);
+
             auto languageWidget = UI::LanguageWidget::create(context);
             languageWidget->setHAlign(UI::HAlign::Fill);
             auto displaySizeWidget = UI::SizeWidget::create(context);
@@ -409,22 +412,9 @@ namespace djv
             _p->finishCallback = callback;
         }
 
-        void NUXWidget::_preLayoutEvent(Event::PreLayout&)
-        {
-            DJV_PRIVATE_PTR();
-            _setMinimumSize(p.overlay->getMinimumSize());
-        }
-
-        void NUXWidget::_layoutEvent(Event::Layout&)
-        {
-            DJV_PRIVATE_PTR();
-            p.overlay->setGeometry(getGeometry());
-        }
-
         void NUXWidget::_localeEvent(Event::Locale&)
         {
             DJV_PRIVATE_PTR();
-
             p.labels["Language"]->setText(_getText(DJV_TEXT("Choose your language")) + ":");
             p.labels["DisplaySize"]->setText(_getText(DJV_TEXT("Choose a user interface size")) + ":");
             p.labels["DisplayPalette"]->setText(_getText(DJV_TEXT("Choose a palette")) + ":");

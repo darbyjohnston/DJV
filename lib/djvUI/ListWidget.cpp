@@ -225,30 +225,34 @@ namespace djv
 
         void ListWidget::_keyPressEvent(Event::KeyPress& event)
         {
+            Widget::_keyPressEvent(event);
             DJV_PRIVATE_PTR();
-            const int currentItem = p.currentItem;
-            switch (event.getKey())
+            if (!event.isAccepted())
             {
-            case GLFW_KEY_HOME:
-                event.accept();
-                firstItem(Callback::Trigger);
-                break;
-            case GLFW_KEY_END:
-                event.accept();
-                lastItem(Callback::Trigger);
-                break;
-            case GLFW_KEY_UP:
-                event.accept();
-                prevItem(Callback::Trigger);
-                break;
-            case GLFW_KEY_DOWN:
-                event.accept();
-                nextItem(Callback::Trigger);
-                break;
-            }
-            if (currentItem != p.currentItem && p.callback)
-            {
-                p.callback(p.currentItem);
+                const int currentItem = p.currentItem;
+                switch (event.getKey())
+                {
+                case GLFW_KEY_HOME:
+                    event.accept();
+                    firstItem(Callback::Trigger);
+                    break;
+                case GLFW_KEY_END:
+                    event.accept();
+                    lastItem(Callback::Trigger);
+                    break;
+                case GLFW_KEY_UP:
+                    event.accept();
+                    prevItem(Callback::Trigger);
+                    break;
+                case GLFW_KEY_DOWN:
+                    event.accept();
+                    nextItem(Callback::Trigger);
+                    break;
+                }
+                if (currentItem != p.currentItem && p.callback)
+                {
+                    p.callback(p.currentItem);
+                }
             }
         }
 

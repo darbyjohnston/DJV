@@ -61,7 +61,6 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/ButtonGroup.h>
-#include <djvUI/EventSystem.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SoloLayout.h>
 #include <djvUI/ScrollWidget.h>
@@ -78,7 +77,8 @@ namespace djv
         struct SettingsSystem::Private
         {
             int currentTab = 0;
-            std::weak_ptr<SettingsDialog> settingsDialog;
+            std::shared_ptr<SettingsDialog> settingsDialog;
+            std::shared_ptr<UI::Window> settingsWindow;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
         };
@@ -94,7 +94,13 @@ namespace djv
         {}
 
         SettingsSystem::~SettingsSystem()
-        {}
+        {
+            DJV_PRIVATE_PTR();
+            if (p.settingsWindow)
+            {
+                p.settingsWindow->close();
+            }
+        }
 
         std::shared_ptr<SettingsSystem> SettingsSystem::create(const std::shared_ptr<Core::Context>& context)
         {
@@ -108,35 +114,29 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                if (auto eventSystem = context->getSystemT<UI::EventSystem>())
+                if (p.settingsWindow)
                 {
-                    if (auto window = eventSystem->getCurrentWindow().lock())
-                    {
-                        auto settingsDialog = SettingsDialog::create(context);
-                        settingsDialog->setCurrentTab(p.currentTab);
-                        p.settingsDialog = settingsDialog;
-                        auto weak = std::weak_ptr<SettingsSystem>(std::dynamic_pointer_cast<SettingsSystem>(shared_from_this()));
-                        auto settingsDialogWeak = p.settingsDialog;
-                        settingsDialog->setCloseCallback(
-                            [weak]
-                            {
-                                if (auto widget = weak.lock())
-                                {
-                                    if (auto settingsDialog = widget->_p->settingsDialog.lock())
-                                    {
-                                        widget->_p->currentTab = settingsDialog->getCurrentTab();
-                                        if (auto parent = settingsDialog->getParent().lock())
-                                        {
-                                            parent->removeChild(settingsDialog);
-                                        }
-                                    }
-                                    widget->_p->settingsDialog.reset();
-                                }
-                            });
-                        window->addChild(settingsDialog);
-                        settingsDialog->show();
-                    }
+                    p.settingsWindow->close();
+                    p.settingsWindow.reset();
                 }
+                p.settingsDialog = SettingsDialog::create(context);
+                p.settingsDialog->setCurrentTab(p.currentTab);
+                auto weak = std::weak_ptr<SettingsSystem>(std::dynamic_pointer_cast<SettingsSystem>(shared_from_this()));
+                p.settingsDialog->setCloseCallback(
+                    [weak]
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->currentTab = widget->_p->settingsDialog->getCurrentTab();
+                            widget->_p->settingsDialog.reset();
+                            widget->_p->settingsWindow->close();
+                            widget->_p->settingsWindow.reset();
+                        }
+                    });
+                p.settingsWindow = UI::Window::create(context);
+                p.settingsWindow->setBackgroundRole(UI::ColorRole::None);
+                p.settingsWindow->addChild(p.settingsDialog);
+                p.settingsWindow->show();
             }
         }
         

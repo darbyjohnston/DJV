@@ -51,7 +51,7 @@ namespace djv
         public:
             virtual ~EventSystem() = 0;
 
-            const std::vector<std::weak_ptr<Window> > & getWindows() const;
+            const std::vector<std::weak_ptr<Window> >& getWindows() const;
             const std::weak_ptr<Window> getCurrentWindow() const;
 
             void tick(float dt) override;

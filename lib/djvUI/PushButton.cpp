@@ -36,6 +36,9 @@
 
 #include <djvAV/Render2D.h>
 
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
+
 //#pragma optimize("", off)
 
 using namespace djv::Core;
@@ -240,6 +243,17 @@ namespace djv
                 }
             }
 
+            bool Push::acceptFocus(TextFocusDirection)
+            {
+                bool out = false;
+                if (isEnabled(true) && isVisible(true) && !isClipped())
+                {
+                    takeTextFocus();
+                    out = true;
+                }
+                return out;
+            }
+
             void Push::_preLayoutEvent(Event::PreLayout & event)
             {
                 glm::vec2 size = _p->border->getMinimumSize();
@@ -277,6 +291,59 @@ namespace djv
                     render->setFillColor(style->getColor(ColorRole::Hovered));
                     render->drawRect(g);
                 }
+            }
+
+            void Push::_buttonPressEvent(Event::ButtonPress& event)
+            {
+                IButton::_buttonPressEvent(event);
+                DJV_PRIVATE_PTR();
+                if (event.isAccepted())
+                {
+                    takeTextFocus();
+                }
+            }
+
+            void Push::_keyPressEvent(Event::KeyPress& event)
+            {
+                IButton::_keyPressEvent(event);
+                DJV_PRIVATE_PTR();
+                if (!event.isAccepted())
+                {
+                    switch (event.getKey())
+                    {
+                    case GLFW_KEY_ENTER:
+                    case GLFW_KEY_SPACE:
+                        event.accept();
+                        switch (getButtonType())
+                        {
+                        case ButtonType::Push:
+                            _doClickedCallback();
+                            break;
+                        case ButtonType::Toggle:
+                        case ButtonType::Radio:
+                        case ButtonType::Exclusive:
+                            setChecked(!isChecked());
+                            _doCheckedCallback(isChecked());
+                            break;
+                        }
+                        break;
+                    case GLFW_KEY_ESCAPE:
+                        event.accept();
+                        releaseTextFocus();
+                        break;
+                    default: break;
+                    }
+                }
+            }
+
+            void Push::_textFocusEvent(Event::TextFocus&)
+            {
+                _p->border->setBorderColorRole(UI::ColorRole::TextFocus);
+            }
+
+            void Push::_textFocusLostEvent(Event::TextFocusLost&)
+            {
+                _p->border->setBorderColorRole(UI::ColorRole::None);
             }
 
         } // namespace Button

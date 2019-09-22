@@ -52,6 +52,8 @@ namespace djv
             std::chrono::milliseconds getDelay() const;
             void setDelay(std::chrono::milliseconds);
 
+            bool acceptFocus(TextFocusDirection) override;
+
         protected:
             float _getHandleWidth() const;
             
@@ -71,6 +73,8 @@ namespace djv
             void _buttonPressEvent(Core::Event::ButtonPress &) override;
             void _buttonReleaseEvent(Core::Event::ButtonRelease &) override;
             void _keyPressEvent(Core::Event::KeyPress&) override;
+            void _textFocusEvent(Core::Event::TextFocus&) override;
+            void _textFocusLostEvent(Core::Event::TextFocusLost&) override;
 
         private:
             void _resetTimer();

@@ -146,9 +146,12 @@ namespace djv
             inline bool isPointerEnabled() const;
             void setPointerEnabled(bool);
 
+            virtual bool acceptFocus(TextFocusDirection);
             bool hasTextFocus() const;
             void takeTextFocus();
             void releaseTextFocus();
+            virtual void nextTextFocus(const std::shared_ptr<Widget>&);
+            virtual void prevTextFocus(const std::shared_ptr<Widget>&);
 
             ///@}
 
@@ -181,6 +184,7 @@ namespace djv
 
             void moveToFront() override;
             void moveToBack() override;
+            void setEnabled(bool) override;
             bool event(Core::Event::Event &) override;
 
         protected:
@@ -211,7 +215,8 @@ namespace djv
             //! \name Convenience Functions
             ///@{
 
-            inline const std::shared_ptr<AV::Render::Render2D> & _getRender() const;
+            inline const std::weak_ptr<Core::Event::IEventSystem>& _getEventSystem() const;
+            inline const std::shared_ptr<AV::Render::Render2D>& _getRender() const;
             inline const std::shared_ptr<Style::Style> & _getStyle() const;
 
             ///@}

@@ -252,6 +252,13 @@ namespace djv
         };
         DJV_ENUM_HELPERS(MetricsRole);
 
+        //! This enumeration provides the text focus navigation direction.
+        enum class TextFocusDirection
+        {
+            Next,
+            Prev
+        };
+
     } // namespace UI
 
     picojson::value toJSON(UI::ViewType);

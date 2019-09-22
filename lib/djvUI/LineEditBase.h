@@ -76,6 +76,8 @@ namespace djv
             void setTextFinishedCallback(const std::function<void(const std::string &)> &);
             void setFocusCallback(const std::function<void(bool)> &);
 
+            bool acceptFocus(TextFocusDirection) override;
+
         protected:
             void _styleEvent(Core::Event::Style &) override;
             void _preLayoutEvent(Core::Event::PreLayout &) override;

@@ -68,6 +68,14 @@ namespace djv
             return out;
         }
 
+        void Window::close()
+        {
+            if (auto parent = getParent().lock())
+            {
+                parent->removeChild(shared_from_this());
+            }
+        }
+
         void Window::_preLayoutEvent(Event::PreLayout &)
         {
             _setMinimumSize(StackLayout::minimumSize(getChildWidgets(), Layout::Margin(), _getStyle()));

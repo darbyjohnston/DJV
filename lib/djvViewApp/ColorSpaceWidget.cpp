@@ -35,7 +35,6 @@
 #include <djvUI/ButtonGroup.h>
 #include <djvUI/CheckBox.h>
 #include <djvUI/ComboBox.h>
-#include <djvUI/EventSystem.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/ListButton.h>
 #include <djvUI/PopupWidget.h>
@@ -83,6 +82,7 @@ namespace djv
             std::shared_ptr<UI::ComboBox> viewComboBox;
             std::shared_ptr<UI::FormLayout> displayLayout;
             std::shared_ptr<UI::FileBrowser::Dialog> fileBrowserDialog;
+            std::shared_ptr<UI::Window> fileBrowserWindow;
 
             std::shared_ptr<ListObserver<AV::OCIO::Config> > configsObserver;
             std::shared_ptr<ValueObserver<AV::OCIO::Config> > configObserver;
@@ -195,49 +195,48 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            auto eventSystem = context->getSystemT<UI::EventSystem>();
-                            if (auto window = eventSystem->getCurrentWindow().lock())
+                            if (widget->_p->fileBrowserWindow)
                             {
-                                widget->_p->fileBrowserDialog = UI::FileBrowser::Dialog::create(context);
-                                widget->_p->fileBrowserDialog->setFileExtensions({ ".ocio" });
-                                widget->_p->fileBrowserDialog->setPath(widget->_p->fileBrowserPath);
-                                widget->_p->fileBrowserDialog->setCallback(
-                                    [weak, contextWeak](const Core::FileSystem::FileInfo& value)
-                                    {
-                                        if (auto context = contextWeak.lock())
-                                        {
-                                            if (auto widget = weak.lock())
-                                            {
-                                                if (auto parent = widget->_p->fileBrowserDialog->getParent().lock())
-                                                {
-                                                    parent->removeChild(widget->_p->fileBrowserDialog);
-                                                }
-                                                widget->_p->fileBrowserPath = widget->_p->fileBrowserDialog->getPath();
-                                                widget->_p->fileBrowserDialog.reset();
-                                                auto ocioSystem = context->getSystemT<AV::OCIO::System>();
-                                                AV::OCIO::Config config;
-                                                config.fileName = value.getPath();
-                                                config.name = AV::OCIO::Config::getNameFromFileName(config.fileName);
-                                                ocioSystem->addConfig(config);
-                                            }
-                                        }
-                                    });
-                                widget->_p->fileBrowserDialog->setCloseCallback(
-                                    [weak]
+                                widget->_p->fileBrowserWindow->close();
+                                widget->_p->fileBrowserWindow.reset();
+                            }
+                            widget->_p->fileBrowserDialog = UI::FileBrowser::Dialog::create(context);
+                            widget->_p->fileBrowserDialog->setFileExtensions({ ".ocio" });
+                            widget->_p->fileBrowserDialog->setPath(widget->_p->fileBrowserPath);
+                            widget->_p->fileBrowserDialog->setCallback(
+                                [weak, contextWeak](const Core::FileSystem::FileInfo& value)
+                                {
+                                    if (auto context = contextWeak.lock())
                                     {
                                         if (auto widget = weak.lock())
                                         {
-                                            if (auto parent = widget->_p->fileBrowserDialog->getParent().lock())
-                                            {
-                                                parent->removeChild(widget->_p->fileBrowserDialog);
-                                            }
                                             widget->_p->fileBrowserPath = widget->_p->fileBrowserDialog->getPath();
                                             widget->_p->fileBrowserDialog.reset();
+                                            widget->_p->fileBrowserWindow->close();
+                                            widget->_p->fileBrowserWindow.reset();
+                                            auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                                            AV::OCIO::Config config;
+                                            config.fileName = value.getPath();
+                                            config.name = AV::OCIO::Config::getNameFromFileName(config.fileName);
+                                            ocioSystem->addConfig(config);
                                         }
-                                    });
-                                window->addChild(widget->_p->fileBrowserDialog);
-                                widget->_p->fileBrowserDialog->show();
-                            }
+                                    }
+                                });
+                            widget->_p->fileBrowserDialog->setCloseCallback(
+                                [weak]
+                                {
+                                    if (auto widget = weak.lock())
+                                    {
+                                        widget->_p->fileBrowserPath = widget->_p->fileBrowserDialog->getPath();
+                                        widget->_p->fileBrowserDialog.reset();
+                                        widget->_p->fileBrowserWindow->close();
+                                        widget->_p->fileBrowserWindow.reset();
+                                    }
+                                });
+                            widget->_p->fileBrowserWindow = UI::Window::create(context);
+                            widget->_p->fileBrowserWindow->setBackgroundRole(UI::ColorRole::None);
+                            widget->_p->fileBrowserWindow->addChild(widget->_p->fileBrowserDialog);
+                            widget->_p->fileBrowserWindow->show();
                         }
                     }
                 });
@@ -380,7 +379,13 @@ namespace djv
         {}
 
         ColorSpaceWidget::~ColorSpaceWidget()
-        {}
+        {
+            DJV_PRIVATE_PTR();
+            if (p.fileBrowserWindow)
+            {
+                p.fileBrowserWindow->close();
+            }
+        }
 
         std::shared_ptr<ColorSpaceWidget> ColorSpaceWidget::create(const std::shared_ptr<Core::Context>& context)
         {

@@ -33,6 +33,7 @@
 #include <djvUI/Overlay.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ToolButton.h>
+#include <djvUI/Window.h>
 
 using namespace djv::Core;
 
@@ -95,6 +96,7 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             setClassName("djv::UI::IDialog");
+            setBackgroundRole(ColorRole::None);
             setPointerEnabled(true);
 
             p.titleLabel = Label::create(context);
@@ -207,8 +209,17 @@ namespace djv
         {
             Widget::setVisible(value);
             DJV_PRIVATE_PTR();
-            p.overlay->moveToFront();
-            p.overlay->setVisible(value);
+            if (value)
+            {
+                if (auto window = getWindow())
+                {
+                    window->moveToFront();
+                }
+            }
+            if (p.overlay)
+            {
+                p.overlay->setVisible(value);
+            }
         }
 
         float IDialog::getHeightForWidth(float value) const
@@ -267,7 +278,10 @@ namespace djv
         void IDialog::_keyPressEvent(Event::KeyPress & event)
         {
             Widget::_keyPressEvent(event);
-            event.accept();
+            if (!event.isAccepted())
+            {
+                event.accept();
+            }
         }
 
     } // namespace UI

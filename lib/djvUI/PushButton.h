@@ -49,10 +49,16 @@ namespace djv
 
                 void setForegroundColorRole(ColorRole) override;
 
+                bool acceptFocus(TextFocusDirection) override;
+
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout &) override;
                 void _layoutEvent(Core::Event::Layout &) override;
                 void _paintEvent(Core::Event::Paint&) override;
+                void _buttonPressEvent(Core::Event::ButtonPress&) override;
+                void _keyPressEvent(Core::Event::KeyPress&) override;
+                void _textFocusEvent(Core::Event::TextFocus&) override;
+                void _textFocusLostEvent(Core::Event::TextFocusLost&) override;
 
             private:
                 DJV_PRIVATE();

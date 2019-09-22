@@ -35,6 +35,9 @@
 
 #include <djvAV/Render2D.h>
 
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
+
 //#pragma optimize("", off)
 
 using namespace djv::Core;
@@ -120,15 +123,27 @@ namespace djv
                 _p->label->setFontSizeRole(value);
             }
 
+            bool CheckBox::acceptFocus(TextFocusDirection)
+            {
+                bool out = false;
+                if (isEnabled(true) && isVisible(true) && !isClipped())
+                {
+                    takeTextFocus();
+                    out = true;
+                }
+                return out;
+            }
+
             void CheckBox::_preLayoutEvent(Event::PreLayout & event)
             {
                 const auto& style = _getStyle();
                 const float m = style->getMetric(MetricsRole::MarginSmall);
+                const float b = style->getMetric(MetricsRole::Border);
                 const float is = style->getMetric(MetricsRole::IconSmall);
                 glm::vec2 size = _p->label->getMinimumSize();
                 size.x += is + m * 2.f;
                 size.y = std::max(size.y, is + m * 2.f);
-                _setMinimumSize(size);
+                _setMinimumSize(size + b * 2.f);
             }
 
             void CheckBox::_layoutEvent(Event::Layout &)
@@ -157,6 +172,12 @@ namespace djv
                     render->drawRect(g);
                 }
 
+                if (hasTextFocus())
+                {
+                    render->setFillColor(style->getColor(ColorRole::TextFocus));
+                    drawBorder(render, g, b);
+                }
+
                 BBox2f checkGeometry = _getCheckGeometry().margin(-m);
                 render->setFillColor(style->getColor(ColorRole::Border));
                 drawBorder(render, checkGeometry, b);
@@ -164,24 +185,71 @@ namespace djv
                 render->drawRect(checkGeometry.margin(-b));
             }
 
+            void CheckBox::_buttonPressEvent(Event::ButtonPress& event)
+            {
+                IButton::_buttonPressEvent(event);
+                DJV_PRIVATE_PTR();
+                if (event.isAccepted())
+                {
+                    takeTextFocus();
+                }
+            }
+
+            void CheckBox::_keyPressEvent(Event::KeyPress& event)
+            {
+                IButton::_keyPressEvent(event);
+                DJV_PRIVATE_PTR();
+                if (!event.isAccepted())
+                {
+                    switch (event.getKey())
+                    {
+                    case GLFW_KEY_ENTER:
+                    case GLFW_KEY_SPACE:
+                        event.accept();
+                        setChecked(!isChecked());
+                        _doCheckedCallback(isChecked());
+                        break;
+                    case GLFW_KEY_ESCAPE:
+                        event.accept();
+                        releaseTextFocus();
+                        break;
+                    default: break;
+                    }
+                }
+            }
+
+            void CheckBox::_textFocusEvent(Event::TextFocus&)
+            {
+                _redraw();
+            }
+
+            void CheckBox::_textFocusLostEvent(Event::TextFocusLost&)
+            {
+                _redraw();
+            }
+
             BBox2f CheckBox::_getCheckGeometry() const
             {
                 const auto& style = _getStyle();
                 const BBox2f& g = getGeometry();
+                const float b = style->getMetric(MetricsRole::Border);
                 const float m = style->getMetric(MetricsRole::MarginSmall);
                 const float is = style->getMetric(MetricsRole::IconSmall);
                 const float size = is + m * 2.f;
-                return BBox2f(g.min.x, floorf(g.min.y + g.h() / 2.f - size / 2.f), size, size);
+                const BBox2f g2 = g.margin(-b);
+                return BBox2f(g2.min.x, floorf(g2.min.y + g2.h() / 2.f - size / 2.f), size, size);
             }
 
             BBox2f CheckBox::_getLabelGeometry() const
             {
                 const auto& style = _getStyle();
                 const BBox2f& g = getGeometry();
+                const float b = style->getMetric(MetricsRole::Border);
                 const float m = style->getMetric(MetricsRole::MarginSmall);
                 const float is = style->getMetric(MetricsRole::IconSmall);
                 const float size = is + m * 2.f;
-                return BBox2f(g.min.x + size, g.min.y, g.w() - size, g.h());
+                const BBox2f g2 = g.margin(-b);
+                return BBox2f(g2.min.x + size, g2.min.y, g2.w() - size, g2.h());
             }
 
         } // namespace Button

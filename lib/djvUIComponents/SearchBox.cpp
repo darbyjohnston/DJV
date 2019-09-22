@@ -67,6 +67,7 @@ namespace djv
             
             auto clearButton = ToolButton::create(context);
             clearButton->setIcon("djvIconClear");
+            clearButton->setTextFocusEnabled(false);
             clearButton->setBackgroundRole(ColorRole::None);
             clearButton->setInsideMargin(MetricsRole::None);
             

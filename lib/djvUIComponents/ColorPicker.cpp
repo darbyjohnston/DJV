@@ -32,7 +32,6 @@
 #include <djvUI/ComboBox.h>
 #include <djvUI/ColorSwatch.h>
 #include <djvUI/GridLayout.h>
-#include <djvUI/EventSystem.h>
 #include <djvUI/IDialog.h>
 #include <djvUI/IntEdit.h>
 #include <djvUI/IntSlider.h>
@@ -790,7 +789,7 @@ namespace djv
 
         struct ColorPickerDialogSystem::Private
         {
-            std::shared_ptr<ColorPickerDialog> colorPickerDialog;
+            std::shared_ptr<Window> window;
         };
 
         void ColorPickerDialogSystem::_init(const std::shared_ptr<Context>& context)
@@ -803,7 +802,13 @@ namespace djv
         {}
 
         ColorPickerDialogSystem::~ColorPickerDialogSystem()
-        {}
+        {
+            DJV_PRIVATE_PTR();
+            if (p.window)
+            {
+                p.window->close();
+            }
+        }
 
         std::shared_ptr<ColorPickerDialogSystem> ColorPickerDialogSystem::create(const std::shared_ptr<Context>& context)
         {
@@ -820,32 +825,29 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                auto eventSystem = context->getSystemT<UI::EventSystem>();
-                if (auto window = eventSystem->getCurrentWindow().lock())
+                if (p.window)
                 {
-                    if (!p.colorPickerDialog)
-                    {
-                        p.colorPickerDialog = ColorPickerDialog::create(context);
-                    }
-                    p.colorPickerDialog->setTitle(title);
-                    p.colorPickerDialog->setColor(color);
-                    auto weak = std::weak_ptr<ColorPickerDialogSystem>(std::dynamic_pointer_cast<ColorPickerDialogSystem>(shared_from_this()));
-                    p.colorPickerDialog->setColorCallback(callback);
-                    p.colorPickerDialog->setCloseCallback(
-                        [weak]
-                        {
-                            if (auto system = weak.lock())
-                            {
-                                if (auto parent = system->_p->colorPickerDialog->getParent().lock())
-                                {
-                                    parent->removeChild(system->_p->colorPickerDialog);
-                                }
-                                system->_p->colorPickerDialog.reset();
-                            }
-                        });
-                    window->addChild(p.colorPickerDialog);
-                    p.colorPickerDialog->show();
+                    p.window->close();
+                    p.window.reset();
                 }
+                auto dialog = ColorPickerDialog::create(context);
+                dialog->setTitle(title);
+                dialog->setColor(color);
+                auto weak = std::weak_ptr<ColorPickerDialogSystem>(std::dynamic_pointer_cast<ColorPickerDialogSystem>(shared_from_this()));
+                dialog->setColorCallback(callback);
+                dialog->setCloseCallback(
+                    [weak]
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            system->_p->window->close();
+                            system->_p->window.reset();
+                        }
+                    });
+                p.window = Window::create(context);
+                p.window->setBackgroundRole(ColorRole::None);
+                p.window->addChild(dialog);
+                p.window->show();
             }
         }
 

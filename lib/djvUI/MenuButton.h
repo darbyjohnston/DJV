@@ -50,18 +50,19 @@ namespace djv
                 void setFontFace(const std::string&);
                 void setFontSizeRole(MetricsRole);
 
-                void setBorderColorRole(ColorRole);
-
-                bool isChecked() const;
-                void setChecked(bool);
-                void setCheckedCallback(const std::function<void(bool)> &);
+                bool isOpen() const;
+                void setOpen(bool);
+                void setOpenCallback(const std::function<void(bool)>&);
 
                 MenuStyle getMenuStyle() const;
+
+                void setTextFocusEnabled(bool);
+
+                bool acceptFocus(TextFocusDirection) override;
 
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout &) override;
                 void _layoutEvent(Core::Event::Layout &) override;
-                void _clipEvent(Core::Event::Clip&) override;
                 void _paintEvent(Core::Event::Paint &) override;
                 void _pointerEnterEvent(Core::Event::PointerEnter &) override;
                 void _pointerLeaveEvent(Core::Event::PointerLeave &) override;
@@ -69,6 +70,8 @@ namespace djv
                 void _buttonPressEvent(Core::Event::ButtonPress&) override;
                 void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;
                 void _keyPressEvent(Core::Event::KeyPress&) override;
+                void _textFocusEvent(Core::Event::TextFocus&) override;
+                void _textFocusLostEvent(Core::Event::TextFocusLost&) override;
 
             private:
                 bool _isHovered() const;

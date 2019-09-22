@@ -31,7 +31,6 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/Border.h>
-#include <djvUI/EventSystem.h>
 #include <djvUI/LayoutUtil.h>
 #include <djvUI/MenuButton.h>
 #include <djvUI/Overlay.h>
@@ -233,7 +232,6 @@ namespace djv
 
         struct PopupWidget::Private
         {
-            std::shared_ptr<Action> closeAction;
             std::shared_ptr<Button::Menu> button;
             std::shared_ptr<OverlayWidget> overlayWidget;
             std::shared_ptr<OverlayLayout> overlayLayout;
@@ -241,7 +239,6 @@ namespace djv
             std::function<void(int)> callback;
             std::function<void(void)> openCallback;
             std::function<void(void)> closeCallback;
-            std::shared_ptr<ValueObserver<bool> > closeObserver;
         };
 
         void PopupWidget::_init(const std::shared_ptr<Context>& context)
@@ -250,10 +247,7 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             setClassName("djv::UI::PopupWidget");
-
-            p.closeAction = Action::create();
-            p.closeAction->setShortcut(GLFW_KEY_ESCAPE);
-            addAction(p.closeAction);
+            setVAlign(VAlign::Center);
 
             p.button = Button::Menu::create(Button::MenuStyle::Tool, context);
             Widget::addChild(p.button);
@@ -281,34 +275,21 @@ namespace djv
                 }
             });
 
-            p.button->setCheckedCallback(
+            p.button->setOpenCallback(
                 [weak](bool value)
-            {
-                if (auto widget = weak.lock())
-                {
-                    if (value)
-                    {
-                        widget->open();
-                    }
-                    else
-                    {
-                        widget->close();
-                    }
-                }
-            });
-
-            p.closeObserver = ValueObserver<bool>::create(
-                p.closeAction->observeClicked(),
-                [weak](bool value)
-            {
-                if (value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->close();
+                        if (value)
+                        {
+                            widget->open();
+                        }
+                        else
+                        {
+                            widget->close();
+                        }
                     }
-                }
-            });
+                });
         }
 
         PopupWidget::PopupWidget() :
@@ -316,7 +297,13 @@ namespace djv
         {}
 
         PopupWidget::~PopupWidget()
-        {}
+        {
+            DJV_PRIVATE_PTR();
+            if (auto parent = p.overlay->getParent().lock())
+            {
+                parent->removeChild(p.overlay);
+            }
+        }
 
         std::shared_ptr<PopupWidget> PopupWidget::create(const std::shared_ptr<Context>& context)
         {
@@ -330,13 +317,11 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                auto windowSystem = context->getSystemT<EventSystem>();
-                if (auto window = windowSystem->getCurrentWindow().lock())
+                if (auto window = getWindow())
                 {
                     window->addChild(p.overlay);
-                    p.closeAction->setEnabled(true);
-                    p.overlay->moveToFront();
                     p.overlay->show();
+                    p.button->setOpen(true);
                     if (p.openCallback)
                     {
                         p.openCallback();
@@ -348,9 +333,13 @@ namespace djv
         void PopupWidget::close()
         {
             DJV_PRIVATE_PTR();
-            p.closeAction->setEnabled(false);
-            p.button->setChecked(false);
-            p.overlay->hide();
+            if (auto parent = p.overlay->getParent().lock())
+            {
+                p.overlay->hide();
+                parent->removeChild(p.overlay);
+                Widget::addChild(p.overlay);
+            }
+            p.button->setOpen(false);
             if (p.closeCallback)
             {
                 p.closeCallback();

@@ -72,14 +72,12 @@ namespace djv
             void setFont(int, const std::string &);
             void setFontSizeRole(MetricsRole);
 
-            void setCallback(const std::function<void(int)> &);
+            void setCallback(const std::function<void(int)>&);
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;
             void _layoutEvent(Core::Event::Layout &) override;
             void _keyPressEvent(Core::Event::KeyPress&) override;
-            void _textFocusEvent(Core::Event::TextFocus&) override;
-            void _textFocusLostEvent(Core::Event::TextFocusLost&) override;
 
         private:
             void _updateItems();

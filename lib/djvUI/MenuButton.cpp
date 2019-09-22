@@ -29,7 +29,7 @@
 
 #include <djvUI/MenuButton.h>
 
-#include <djvUI/Border.h>
+#include <djvUI/DrawUtil.h>
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
@@ -51,14 +51,14 @@ namespace djv
         {
             struct Menu::Private
             {
-                bool checked = false;
+                bool open = false;
                 MenuStyle menuStyle = MenuStyle::Flat;
+                bool textFocusEnabled = true;
                 std::shared_ptr<Icon> icon;
                 std::shared_ptr<Label> label;
                 std::shared_ptr<Icon> popupIcon;
-                std::shared_ptr<Border> border;
                 std::shared_ptr<HorizontalLayout> layout;
-                std::function<void(bool)> checkedCallback;
+                std::function<void(bool)> openCallback;
             };
 
             void Menu::_init(MenuStyle menuStyle, const std::shared_ptr<Context>& context)
@@ -109,17 +109,7 @@ namespace djv
                 p.layout->setStretch(p.label, RowStretch::Expand);
                 p.layout->addChild(p.popupIcon);
 
-                p.border = Border::create(context);
-                switch (menuStyle)
-                {
-                case MenuStyle::Flat:
-                case MenuStyle::Tool:
-                    p.border->setBorderSize(MetricsRole::None);
-                    break;
-                default: break;
-                }
-                p.border->addChild(p.layout);
-                addChild(p.border);
+                addChild(p.layout);
             }
 
             Menu::Menu() :
@@ -208,28 +198,27 @@ namespace djv
                 _p->label->setFontSizeRole(value);
             }
 
-            void Menu::setBorderColorRole(ColorRole value)
+            bool Menu::isOpen() const
             {
-                _p->border->setBorderColorRole(value);
+                return _p->open;
             }
 
-            bool Menu::isChecked() const
+            void Menu::setOpen(bool value)
             {
-                return _p->checked;
-            }
-
-            void Menu::setChecked(bool value)
-            {
-                DJV_PRIVATE_PTR();
-                if (value == p.checked)
+                if (value == _p->open)
                     return;
-                p.checked = value;
+                _p->open = value;
                 _redraw();
             }
 
-            void Menu::setCheckedCallback(const std::function<void(bool)> & callback)
+            void Menu::setOpenCallback(const std::function<void(bool)>& callback)
             {
-                _p->checkedCallback = callback;
+                _p->openCallback = callback;
+            }
+
+            void Menu::setTextFocusEnabled(bool value)
+            {
+                _p->textFocusEnabled = value;
             }
 
             MenuStyle Menu::getMenuStyle() const
@@ -237,12 +226,24 @@ namespace djv
                 return _p->menuStyle;
             }
 
+            bool Menu::acceptFocus(TextFocusDirection)
+            {
+                bool out = false;
+                if (_p->textFocusEnabled && isEnabled(true) && isVisible(true) && !isClipped())
+                {
+                    takeTextFocus();
+                    out = true;
+                }
+                return out;
+            }
+
             void Menu::_preLayoutEvent(Event::PreLayout &)
             {
                 DJV_PRIVATE_PTR();
-                glm::vec2 size = p.border->getMinimumSize();
                 const auto& style = _getStyle();
-                _setMinimumSize(size + getMargin().getSize(style));
+                const float b = style->getMetric(MetricsRole::Border);
+                glm::vec2 size = p.layout->getMinimumSize();
+                _setMinimumSize(size + b * 2.f + getMargin().getSize(style));
             }
 
             void Menu::_layoutEvent(Event::Layout &)
@@ -250,15 +251,8 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
-                _p->border->setGeometry(g);
-            }
-
-            void Menu::_clipEvent(Event::Clip& event)
-            {
-                if (isClipped())
-                {
-                    setChecked(false);
-                }
+                const float b = style->getMetric(MetricsRole::Border);
+                _p->layout->setGeometry(g.margin(-b));
             }
 
             void Menu::_paintEvent(Event::Paint & event)
@@ -267,34 +261,35 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                const float b = style->getMetric(MetricsRole::Border);
                 auto render = _getRender();
-                switch (p.menuStyle)
+
+                if (p.open)
                 {
-                case MenuStyle::Flat:
-                case MenuStyle::Tool:
-                    if (p.checked)
+                    render->setFillColor(style->getColor(ColorRole::Checked));
+                    render->drawRect(g);
+                }
+                if (_isHovered())
+                {
+                    render->setFillColor(style->getColor(ColorRole::Hovered));
+                    render->drawRect(g);
+                }
+
+                if (hasTextFocus())
+                {
+                    render->setFillColor(style->getColor(ColorRole::TextFocus));
+                    drawBorder(render, g, b);
+                }
+                else
+                {
+                    switch (p.menuStyle)
                     {
-                        render->setFillColor(style->getColor(ColorRole::Pressed));
-                        render->drawRect(g);
+                    case MenuStyle::ComboBox:
+                        render->setFillColor(style->getColor(ColorRole::BorderButton));
+                        drawBorder(render, g, b);
+                        break;
+                    default: break;
                     }
-                    else if (_isHovered())
-                    {
-                        render->setFillColor(style->getColor(ColorRole::Hovered));
-                        render->drawRect(g);
-                    }
-                    break;
-                case MenuStyle::ComboBox:
-                    if (p.checked)
-                    {
-                        render->setFillColor(style->getColor(ColorRole::Pressed));
-                        render->drawRect(g);
-                    }
-                    else if (_isHovered())
-                    {
-                        render->setFillColor(style->getColor(ColorRole::Hovered));
-                        render->drawRect(g);
-                    }
-                    break;
                 }
             }
 
@@ -325,10 +320,14 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 event.accept();
-                setChecked(!p.checked);
-                if (p.checkedCallback)
+                if (p.textFocusEnabled)
                 {
-                    p.checkedCallback(p.checked);
+                    takeTextFocus();
+                }
+                p.open = !p.open;
+                if (p.openCallback)
+                {
+                    p.openCallback(p.open);
                 }
             }
 
@@ -339,19 +338,58 @@ namespace djv
 
             void Menu::_keyPressEvent(Event::KeyPress& event)
             {
+                Widget::_keyPressEvent(event);
                 DJV_PRIVATE_PTR();
-                if (p.checked)
+                if (!event.isAccepted())
                 {
-                    event.accept();
-                    if (GLFW_KEY_ESCAPE == event.getKey())
+                    switch (event.getKey())
                     {
-                        setChecked(false);
-                        if (p.checkedCallback)
+                    case GLFW_KEY_ENTER:
+                    case GLFW_KEY_SPACE:
+                        event.accept();
+                        p.open = !p.open;
+                        if (p.openCallback)
                         {
-                            p.checkedCallback(p.checked);
+                            p.openCallback(p.open);
                         }
+                        break;
+                    case GLFW_KEY_ESCAPE:
+                        if (p.open)
+                        {
+                            event.accept();
+                            p.open = false;
+                            if (p.openCallback)
+                            {
+                                p.openCallback(p.open);
+                            }
+                        }
+                        else
+                        {
+                            releaseTextFocus();
+                        }
+                        break;
+                    default: break;
                     }
                 }
+            }
+
+            void Menu::_textFocusEvent(Event::TextFocus&)
+            {
+                _redraw();
+            }
+
+            void Menu::_textFocusLostEvent(Event::TextFocusLost&)
+            {
+                DJV_PRIVATE_PTR();
+                if (p.open)
+                {
+                    p.open = false;
+                    if (p.openCallback)
+                    {
+                        p.openCallback(p.open);
+                    }
+                }
+                _redraw();
             }
 
             bool Menu::_isHovered() const

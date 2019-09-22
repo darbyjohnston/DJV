@@ -88,9 +88,9 @@ namespace djv
 
                 p.lineEditBase = LineEditBase::create(context);
                 p.lineEditBase->setBackgroundRole(ColorRole::Trough);
-                p.lineEditBase->setVAlign(VAlign::Fill);
                 p.lineEditBase->installEventFilter(shared_from_this());
                 p.lineEditBorder = Border::create(context);
+                p.lineEditBorder->setVAlign(VAlign::Center);
                 p.lineEditBorder->addChild(p.lineEditBase);
 
                 p.layout = HorizontalLayout::create(context);
@@ -120,27 +120,30 @@ namespace djv
                     }
                 });
 
+                p.historyButton->setOpenCallback(
+                    [weak](bool value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            if (value)
+                            {
+                                widget->_p->historyMenu->popup(widget->getWindow(), widget->_p->historyButton);
+                            }
+                            else
+                            {
+                                widget->_p->historyMenu->close();
+                            }
+                        }
+                    });
+
                 p.historyMenu->setCloseCallback(
                     [weak]
-                {
-                    if (auto widget = weak.lock())
                     {
-                        widget->_p->historyButton->setChecked(false);
-                    }
-                });
-
-                p.historyButton->setCheckedCallback(
-                    [weak](bool value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->historyMenu->close();
-                        if (value)
+                        if (auto widget = weak.lock())
                         {
-                            widget->_p->historyMenu->popup(widget->_p->historyButton);
+                            widget->_p->historyButton->setOpen(false);
                         }
-                    }
-                });
+                    });
 
                 p.lineEditBase->setTextFinishedCallback(
                     [weak](const std::string & value)

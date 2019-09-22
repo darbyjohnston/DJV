@@ -67,21 +67,21 @@ namespace djv
             addChild(p.button);
 
             auto weak = std::weak_ptr<PopupMenu>(std::dynamic_pointer_cast<PopupMenu>(shared_from_this()));
-            p.button->setCheckedCallback(
+            p.button->setOpenCallback(
                 [weak](bool value)
-            {
-                if (auto widget = weak.lock())
                 {
-                    if (value)
+                    if (auto widget = weak.lock())
                     {
-                        widget->open();
+                        if (value)
+                        {
+                            widget->open();
+                        }
+                        else
+                        {
+                            widget->close();
+                        }
                     }
-                    else
-                    {
-                        widget->close();
-                    }
-                }
-            });
+                });
 
             p.closeObserver = ValueObserver<bool>::create(
                 p.closeAction->observeClicked(),
@@ -169,8 +169,8 @@ namespace djv
             if (p.menu)
             {
                 p.closeAction->setEnabled(true);
-                p.menu->popup(p.button);
-                p.button->setChecked(true);
+                p.button->setOpen(true);
+                p.menu->popup(getWindow(), p.button);
             }
         }
 
@@ -180,8 +180,8 @@ namespace djv
             if (p.menu)
             {
                 p.closeAction->setEnabled(false);
+                p.button->setOpen(false);
                 p.menu->close();
-                p.button->setChecked(false);
             }
         }
 

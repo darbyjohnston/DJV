@@ -163,6 +163,11 @@ namespace djv
             return _childWidgets;
         }
 
+        inline const std::weak_ptr<Core::Event::IEventSystem>& Widget::_getEventSystem() const
+        {
+            return _eventSystem;
+        }
+
         inline const std::shared_ptr<AV::Render::Render2D> & Widget::_getRender() const
         {
             return _render;

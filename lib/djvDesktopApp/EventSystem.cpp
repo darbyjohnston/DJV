@@ -263,15 +263,6 @@ namespace djv
             _p->render->popClipRect();
         }
 
-        void EventSystem::_initObject(const std::shared_ptr<IObject> & object)
-        {
-            UI::EventSystem::_initObject(object);
-            if (auto window = std::dynamic_pointer_cast<UI::Window>(object))
-            {
-                getRootObject()->addChild(window);
-            }
-        }
-
         void EventSystem::_resize(const glm::ivec2 & size)
         {
             DJV_PRIVATE_PTR();
@@ -374,9 +365,10 @@ namespace djv
         void EventSystem::_hover(Event::PointerMove & event, std::shared_ptr<IObject> & hover)
         {
             auto rootObject = getRootObject();
-            for (const auto & i : rootObject->getChildrenT<UI::Window>())
+            const auto windows = rootObject->getChildrenT<UI::Window>();
+            for (auto i = windows.rbegin(); i != windows.rend(); ++i)
             {
-                _hover(i, event, hover);
+                _hover(*i, event, hover);
                 if (event.isAccepted())
                 {
                     break;

@@ -111,6 +111,18 @@ namespace djv
                     }
                     style->setClean();
                 }
+                auto i = p.windows.begin();
+                while (i != p.windows.end())
+                {
+                    if (i->expired())
+                    {
+                        i = p.windows.erase(i);
+                    }
+                    else
+                    {
+                        ++i;
+                    }
+                }
             }
         }
 
@@ -206,6 +218,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto window = std::dynamic_pointer_cast<Window>(object))
             {
+                setTextFocus(nullptr);
+                getRootObject()->addChild(window);
                 p.windows.push_back(window);
                 p.currentWindow = window;
             }

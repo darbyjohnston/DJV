@@ -45,6 +45,8 @@ namespace djv
             FullscreenMonitorSettingsWidget();
 
         public:
+            virtual ~FullscreenMonitorSettingsWidget();
+
             static std::shared_ptr<FullscreenMonitorSettingsWidget> create(const std::shared_ptr<Core::Context>&);
 
             std::string getSettingsName() const override;
@@ -70,6 +72,8 @@ namespace djv
             BackgroundImageSettingsWidget();
 
         public:
+            virtual ~BackgroundImageSettingsWidget();
+
             static std::shared_ptr<BackgroundImageSettingsWidget> create(const std::shared_ptr<Core::Context>&);
 
             std::string getSettingsName() const override;

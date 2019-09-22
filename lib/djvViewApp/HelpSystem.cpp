@@ -38,7 +38,6 @@
 #include <djvDesktopApp/GLFWSystem.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/EventSystem.h>
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
@@ -68,9 +67,10 @@ namespace djv
 
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
-            std::shared_ptr<AboutDialog> aboutDialog;
             std::weak_ptr<ErrorsWidget> errorsWidget;
             std::weak_ptr<DebugWidget> debugWidget;
+            std::shared_ptr<AboutDialog> aboutDialog;
+            std::shared_ptr<UI::Window> aboutWindow;
 
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ListObserver<std::string> > warningsObserver;
@@ -121,30 +121,26 @@ namespace djv
                     {
                         if (auto system = weak.lock())
                         {
-                            if (auto windowSystem = context->getSystemT<UI::EventSystem>())
+                            if (system->_p->aboutWindow)
                             {
-                                if (auto window = windowSystem->getCurrentWindow().lock())
-                                {
-                                    if (!system->_p->aboutDialog)
-                                    {
-                                        system->_p->aboutDialog = AboutDialog::create(context);
-                                        system->_p->aboutDialog->setCloseCallback(
-                                            [weak]
-                                            {
-                                                if (auto system = weak.lock())
-                                                {
-                                                    if (auto parent = system->_p->aboutDialog->getParent().lock())
-                                                    {
-                                                        parent->removeChild(system->_p->aboutDialog);
-                                                    }
-                                                    system->_p->aboutDialog.reset();
-                                                }
-                                            });
-                                    }
-                                    window->addChild(system->_p->aboutDialog);
-                                    system->_p->aboutDialog->show();
-                                }
+                                system->_p->aboutWindow->close();
+                                system->_p->aboutWindow.reset();
                             }
+                            system->_p->aboutDialog = AboutDialog::create(context);
+                            system->_p->aboutDialog->setCloseCallback(
+                                [weak]
+                                {
+                                    if (auto system = weak.lock())
+                                    {
+                                        system->_p->aboutDialog.reset();
+                                        system->_p->aboutWindow->close();
+                                        system->_p->aboutWindow.reset();
+                                    }
+                                });
+                            system->_p->aboutWindow = UI::Window::create(context);
+                            system->_p->aboutWindow->setBackgroundRole(UI::ColorRole::None);
+                            system->_p->aboutWindow->addChild(system->_p->aboutDialog);
+                            system->_p->aboutWindow->show();
                         }
                     }
                 }
@@ -302,6 +298,10 @@ namespace djv
             _closeWidget("Debug");
             p.settings->setDebugBellowsState(p.debugBellowsState);
             p.settings->setWidgetGeom(_getWidgetGeom());
+            if (p.aboutWindow)
+            {
+                p.aboutWindow->close();
+            }
         }
 
         std::shared_ptr<HelpSystem> HelpSystem::create(const std::shared_ptr<Core::Context>& context)
