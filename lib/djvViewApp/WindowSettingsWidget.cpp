@@ -179,19 +179,22 @@ namespace djv
             std::string fileName;
             AV::ThumbnailSystem::ImageFuture imageFuture;
             std::shared_ptr<AV::Image::Image> image;
-            bool colorize = true;
+            bool scale = false;
+            bool colorize = false;
             Core::FileSystem::Path fileBrowserPath = Core::FileSystem::Path(".");
 
             std::shared_ptr<UI::ImageWidget> imageWidget;
             std::shared_ptr<UI::LineEdit> lineEdit;
             std::shared_ptr<UI::ToolButton> openButton;
             std::shared_ptr<UI::ToolButton> closeButton;
+            std::shared_ptr<UI::CheckBox> scaleCheckBox;
             std::shared_ptr<UI::CheckBox> colorizeCheckBox;
             std::shared_ptr<UI::HorizontalLayout> layout;
             std::shared_ptr<UI::FileBrowser::Dialog> fileBrowserDialog;
             std::shared_ptr<UI::Window> fileBrowserWindow;
 
             std::shared_ptr<ValueObserver<std::string> > backgroundImageObserver;
+            std::shared_ptr<ValueObserver<bool> > backgroundImageScaleObserver;
             std::shared_ptr<ValueObserver<bool> > backgroundImageColorizeObserver;
         };
 
@@ -214,6 +217,7 @@ namespace djv
             p.closeButton = UI::ToolButton::create(context);
             p.closeButton->setIcon("djvIconClose");
 
+            p.scaleCheckBox = UI::CheckBox::create(context);
             p.colorizeCheckBox = UI::CheckBox::create(context);
 
             p.layout = UI::HorizontalLayout::create(context);
@@ -228,6 +232,7 @@ namespace djv
             hLayout2->addChild(p.closeButton);
             hLayout->addChild(hLayout2);
             vLayout->addChild(hLayout);
+            vLayout->addChild(p.scaleCheckBox);
             vLayout->addChild(p.colorizeCheckBox);
             p.layout->addChild(vLayout);
             p.layout->setStretch(vLayout, UI::RowStretch::Expand);
@@ -321,6 +326,19 @@ namespace djv
                     }
                 });
 
+            p.scaleCheckBox->setCheckedCallback(
+                [contextWeak](bool value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
+                        {
+                            windowSettings->setBackgroundImageScale(value);
+                        }
+                    }
+                });
+
             p.colorizeCheckBox->setCheckedCallback(
                 [contextWeak](bool value)
                 {
@@ -346,6 +364,17 @@ namespace djv
                             widget->_p->fileName = value;
                             widget->_widgetUpdate();
                             widget->_imageUpdate();
+                        }
+                    });
+
+                p.backgroundImageScaleObserver = ValueObserver<bool>::create(
+                    windowSettings->observeBackgroundImageScale(),
+                    [weak](bool value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->scale = value;
+                            widget->_widgetUpdate();
                         }
                     });
 
@@ -409,6 +438,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.openButton->setTooltip(_getText(DJV_TEXT("Open the file browser")));
             p.closeButton->setTooltip(_getText(DJV_TEXT("Clear the background image")));
+            p.scaleCheckBox->setText(_getText(DJV_TEXT("Scale to fit")));
             p.colorizeCheckBox->setText(_getText(DJV_TEXT("Colorize with the UI style")));
         }
 
@@ -436,6 +466,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.imageWidget->setImageColorRole(p.colorize ? UI::ColorRole::Button : UI::ColorRole::None);
             p.lineEdit->setText(p.fileName);
+            p.scaleCheckBox->setChecked(p.scale);
             p.colorizeCheckBox->setChecked(p.colorize);
         }
 

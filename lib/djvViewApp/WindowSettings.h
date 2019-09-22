@@ -61,8 +61,10 @@ namespace djv
             void setMaximize(bool);
 
             std::shared_ptr<Core::IValueSubject<std::string> > observeBackgroundImage() const;
+            std::shared_ptr<Core::IValueSubject<bool> > observeBackgroundImageScale() const;
             std::shared_ptr<Core::IValueSubject<bool> > observeBackgroundImageColorize() const;
             void setBackgroundImage(const std::string&);
+            void setBackgroundImageScale(bool);
             void setBackgroundImageColorize(bool);
 
             void load(const picojson::value &) override;

@@ -48,6 +48,7 @@ namespace djv
             std::shared_ptr<ValueSubject<int> > fullscreenMonitor;
             std::shared_ptr<ValueSubject<bool> > maximize;
             std::shared_ptr<ValueSubject<std::string> > backgroundImage;
+            std::shared_ptr<ValueSubject<bool> > backgroundImageScale;
             std::shared_ptr<ValueSubject<bool> > backgroundImageColorize;
         };
 
@@ -61,6 +62,7 @@ namespace djv
             auto resourceSystem = context->getSystemT<Core::ResourceSystem>();
             const auto& iconsPath = resourceSystem->getPath(FileSystem::ResourcePath::IconsDirectory);
             p.backgroundImage = ValueSubject<std::string>::create(FileSystem::Path(iconsPath, "djv-tshirt-v02.png"));
+            p.backgroundImageScale = ValueSubject<bool>::create(false);
             p.backgroundImageColorize = ValueSubject<bool>::create(true);
             _load();
         }
@@ -104,9 +106,19 @@ namespace djv
             return _p->backgroundImage;
         }
 
+        std::shared_ptr<IValueSubject<bool> > WindowSettings::observeBackgroundImageScale() const
+        {
+            return _p->backgroundImageScale;
+        }
+
         std::shared_ptr<IValueSubject<bool> > WindowSettings::observeBackgroundImageColorize() const
         {
             return _p->backgroundImageColorize;
+        }
+
+        void WindowSettings::setBackgroundImageScale(bool value)
+        {
+            _p->backgroundImageScale->setIfChanged(value);
         }
 
         void WindowSettings::setBackgroundImageColorize(bool value)
@@ -128,6 +140,7 @@ namespace djv
                 UI::Settings::read("FullscreenMonitor", object, p.fullscreenMonitor);
                 UI::Settings::read("Maximize", object, p.maximize);
                 UI::Settings::read("BackgroundImage", object, p.backgroundImage);
+                UI::Settings::read("BackgroundImageScale", object, p.backgroundImageScale);
                 UI::Settings::read("BackgroundImageColorize", object, p.backgroundImageColorize);
             }
         }
@@ -140,6 +153,7 @@ namespace djv
             UI::Settings::write("FullscreenMonitor", p.fullscreenMonitor->get(), object);
             UI::Settings::write("Maximize", p.maximize->get(), object);
             UI::Settings::write("BackgroundImage", p.backgroundImage->get(), object);
+            UI::Settings::write("BackgroundImageScale", p.backgroundImageScale->get(), object);
             UI::Settings::write("BackgroundImageColorize", p.backgroundImageColorize->get(), object);
             return out;
         }

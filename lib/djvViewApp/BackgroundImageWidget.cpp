@@ -41,6 +41,9 @@
 #include <djvCore/LogSystem.h>
 #include <djvCore/Timer.h>
 
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/matrix_transform_2d.hpp>
+
 using namespace djv::Core;
 
 namespace djv
@@ -50,10 +53,12 @@ namespace djv
         struct BackgroundImageWidget::Private
         {
             std::shared_ptr<AV::Image::Image> image;
-            bool colorize = true;
+            bool scale = false;
+            bool colorize = false;
             std::shared_ptr<AV::IO::IRead> read;
             std::shared_ptr<Time::Timer> timer;
             std::shared_ptr<ValueObserver<std::string> > imageObserver;
+            std::shared_ptr<ValueObserver<bool> > scaleObserver;
             std::shared_ptr<ValueObserver<bool> > colorizeObserver;
         };
 
@@ -118,6 +123,20 @@ namespace djv
                         }
                     });
 
+                p.scaleObserver = ValueObserver<bool>::create(
+                    windowSettings->observeBackgroundImageScale(),
+                    [weak, contextWeak](bool value)
+                    {
+                        if (auto context = contextWeak.lock())
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_p->scale = value;
+                                widget->_redraw();
+                            }
+                        }
+                    });
+
                 p.colorizeObserver = ValueObserver<bool>::create(
                     windowSettings->observeBackgroundImageColorize(),
                     [weak, contextWeak](bool value)
@@ -158,22 +177,38 @@ namespace djv
                 const auto& render = _getRender();
                 const BBox2f& g = getGeometry();
                 const AV::Image::Size& size = p.image->getSize();
-                glm::vec2 pos(
-                    floorf(g.w() / 2.f - size.w / 2.f),
-                    floorf(g.h() / 2.f - size.h / 2.f));
+                glm::vec2 c(g.min.x + size.w / 2.f, g.min.y + size.h / 2.f);
+                float zoom = 1.f;
+                if (p.scale)
+                {
+                    zoom = g.w() / static_cast<float>(size.w);
+                    if (zoom * size.h > g.h())
+                    {
+                        zoom = g.h() / static_cast<float>(size.h);
+                    }
+                    c.x *= zoom;
+                    c.y *= zoom;
+                }
+                glm::mat3x3 m(1.f);
+                const glm::vec2 pos(
+                    floorf(g.w() / 2.f - c.x),
+                    floorf(g.h() / 2.f - c.y));
+                m = glm::translate(m, g.min + pos);
+                m = glm::scale(m, glm::vec2(zoom, zoom));
+                render->pushTransform(m);
                 if (p.colorize)
                 {
                     render->setFillColor(style->getColor(UI::ColorRole::Button));
-                    render->drawFilledImage(p.image, pos);
+                    render->drawFilledImage(p.image, glm::vec2(0.f, 0.f));
                 }
                 else
                 {
                     render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f));
-                    render->drawImage(p.image, pos);
+                    render->drawImage(p.image, glm::vec2(0.f, 0.f));
                 }
+                render->popTransform();
             }
         }
-
 
     } // namespace ViewApp
 } // namespace djv
