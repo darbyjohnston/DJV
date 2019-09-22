@@ -656,7 +656,6 @@ namespace djv
                     _keyReleaseEvent(static_cast<Event::KeyRelease &>(event));
                     break;
                 case Event::Type::TextFocus:
-                    std::cout << getClassName() << std::endl;
                     _textFocusEvent(static_cast<Event::TextFocus &>(event));
                     break;
                 case Event::Type::TextFocusLost:
