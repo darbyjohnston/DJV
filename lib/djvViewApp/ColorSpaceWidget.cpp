@@ -82,9 +82,9 @@ namespace djv
             std::shared_ptr<UI::ComboBox> displayComboBox;
             std::shared_ptr<UI::ComboBox> viewComboBox;
             std::shared_ptr<UI::FormLayout> displayLayout;
-            std::map<std::shared_ptr<UI::Widget>, int> textFocusWidgets;
             std::shared_ptr<UI::FileBrowser::Dialog> fileBrowserDialog;
             std::shared_ptr<UI::Window> fileBrowserWindow;
+            std::map<std::shared_ptr<UI::Widget>, int> textFocusWidgets;
 
             std::shared_ptr<ListObserver<AV::OCIO::Config> > configsObserver;
             std::shared_ptr<ValueObserver<AV::OCIO::Config> > configObserver;
