@@ -380,15 +380,6 @@ namespace djv
 
             void Menu::_textFocusLostEvent(Event::TextFocusLost&)
             {
-                DJV_PRIVATE_PTR();
-                if (p.open)
-                {
-                    p.open = false;
-                    if (p.openCallback)
-                    {
-                        p.openCallback(p.open);
-                    }
-                }
                 _redraw();
             }
 
