@@ -126,25 +126,29 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            std::shared_ptr<AV::Image::Image> image;
                             if (widget->_read)
                             {
+                                AV::IO::VideoFrame frame;
                                 {
                                     std::lock_guard<std::mutex> lock(widget->_read->getMutex());
                                     const auto& videoQueue = widget->_read->getVideoQueue();
                                     if (!videoQueue.isEmpty())
                                     {
-                                        image = videoQueue.getFrame().image;
+                                        frame = videoQueue.getFrame();
                                     }
                                 }
-                                if (image)
+                                if (frame.image)
                                 {
-                                    widget->_imageWidget->setImage(image);
+                                    widget->_currentFrame = frame.frame;
+                                    widget->_imageWidget->setImage(frame.image);
+                                    widget->_textUpdate();
                                 }
                             }
                             else
                             {
-                                widget->_imageWidget->setImage(image);
+                                widget->_currentFrame = 0;
+                                widget->_imageWidget->setImage(nullptr);
+                                widget->_textUpdate();
                             }
                         }
                     });
@@ -792,7 +796,10 @@ namespace djv
             const float v = value / (g.w() - m * 2.f);
             const size_t sequenceSize = p.sequence.getSize();
             Frame::Index out = sequenceSize ?
-                Math::clamp(static_cast<Frame::Index>(v * sequenceSize), static_cast<Frame::Index>(0), static_cast<Frame::Index>(sequenceSize - 1)) :
+                Math::clamp(
+                    static_cast<Frame::Index>(floorf(v * (sequenceSize))),
+                    static_cast<Frame::Index>(0),
+                    static_cast<Frame::Index>(sequenceSize - 1)) :
                 0;
             return out;
         }
