@@ -108,6 +108,7 @@ namespace djv
 
                 _timeLabel = UI::Label::create(context);
                 _timeLabel->setFontSizeRole(UI::MetricsRole::FontSmall);
+                _timeLabel->setBackgroundRole(UI::ColorRole::OverlayLight);
                 _timeLabel->setVAlign(UI::VAlign::Bottom);
                 _timeLabel->setMargin(UI::MetricsRole::Border);
 
@@ -275,7 +276,6 @@ namespace djv
             AV::TimeUnits timeUnits = AV::TimeUnits::First;
             std::shared_ptr<PIPWidget> pipWidget;
             std::shared_ptr<UI::Layout::Overlay> overlay;
-            std::shared_ptr<UI::Window> window;
             std::function<void(Frame::Index)> currentFrameCallback;
             std::function<void(bool)> currentFrameDragCallback;
             std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
@@ -704,20 +704,13 @@ namespace djv
                     event.accept();
                     if (p.pip && isEnabled())
                     {
-                        if (p.window)
-                        {
-                            p.window->removeChild(p.overlay);
-                            p.overlay->hide();
-                            p.window->close();
-                            p.window.reset();
-                        }
                         p.pipWidget->setPIPFileInfo(p.media->getFileInfo());
-                        p.window = UI::Window::create(context);
-                        p.window->setBackgroundRole(UI::ColorRole::None);
-                        p.window->setPointerEnabled(false);
-                        p.window->addChild(p.overlay);
-                        p.window->show();
-                        p.overlay->show();
+                        if (auto window = getWindow())
+                        {
+                            window->addChild(p.overlay);
+                            p.overlay->moveToFront();
+                            p.overlay->show();
+                        }
                     }
                 }
             }
@@ -727,13 +720,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             event.accept();
-            if (p.window)
-            {
-                p.window->removeChild(p.overlay);
-                p.overlay->hide();
-                p.window->close();
-                p.window.reset();
-            }
+            p.overlay->hide();
         }
 
         void TimelineSlider::_pointerMoveEvent(Event::PointerMove & event)
