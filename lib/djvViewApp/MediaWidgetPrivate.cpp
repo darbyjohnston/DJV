@@ -154,6 +154,7 @@ namespace djv
 
             _lineEdit = UI::LineEdit::create(context);
             _lineEdit->setFont(AV::Font::familyMono);
+            _lineEdit->setFontSizeRole(UI::MetricsRole::FontSmall);
             _lineEdit->setBackgroundRole(UI::ColorRole::None);
             _lineEdit->addAction(nextAction);
             _lineEdit->addAction(prevAction);

@@ -225,9 +225,11 @@ namespace djv
             p.speedPopupWidget = UI::PopupWidget::create(context);
             p.speedPopupWidget->setPopupIcon("djvIconPopupMenu");
             p.speedPopupWidget->setFont(AV::Font::familyMono);
+            p.speedPopupWidget->setFontSizeRole(UI::MetricsRole::FontSmall);
             p.speedPopupWidget->addChild(p.speedWidget);
             p.realSpeedLabel = UI::Label::create(context);
             p.realSpeedLabel->setFont(AV::Font::familyMono);
+            p.realSpeedLabel->setFontSizeRole(UI::MetricsRole::FontSmall);
 
             p.currentFrameWidget = FrameWidget::create(context);
             p.inPointWidget = FrameWidget::create(context);
@@ -235,6 +237,7 @@ namespace djv
 
             p.durationLabel = UI::Label::create(context);
             p.durationLabel->setFont(AV::Font::familyMono);
+            p.durationLabel->setFontSizeRole(UI::MetricsRole::FontSmall);
             p.durationLabel->setMargin(UI::MetricsRole::MarginSmall);
 
             p.timelineSlider = TimelineSlider::create(context);
