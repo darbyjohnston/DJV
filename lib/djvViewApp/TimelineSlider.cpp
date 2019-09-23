@@ -110,9 +110,9 @@ namespace djv
                 _timeLabel->setFontSizeRole(UI::MetricsRole::FontSmall);
                 _timeLabel->setVAlign(UI::VAlign::Bottom);
                 _timeLabel->setMargin(UI::MetricsRole::Border);
-                _timeLabel->setBackgroundRole(UI::ColorRole::OverlayLight);
 
                 _layout = UI::StackLayout::create(context);
+                _layout->setBackgroundRole(UI::ColorRole::OverlayLight);
                 _layout->addChild(_imageWidget);
                 _layout->addChild(_timeLabel);
                 addChild(_layout);
@@ -274,6 +274,7 @@ namespace djv
             bool pip = true;
             AV::TimeUnits timeUnits = AV::TimeUnits::First;
             std::shared_ptr<PIPWidget> pipWidget;
+            std::shared_ptr<UI::Layout::Overlay> overlay;
             std::shared_ptr<UI::Window> window;
             std::function<void(Frame::Index)> currentFrameCallback;
             std::function<void(bool)> currentFrameDragCallback;
@@ -301,6 +302,13 @@ namespace djv
             setClassName("djv::ViewApp::TimelineSlider");
 
             p.fontSystem = context->getSystemT<AV::Font::System>();
+
+            p.pipWidget = PIPWidget::create(context);
+            p.overlay = UI::Layout::Overlay::create(context);
+            p.overlay->setCaptureKeyboard(false);
+            p.overlay->setCapturePointer(false);
+            p.overlay->setBackgroundRole(UI::ColorRole::None);
+            p.overlay->addChild(p.pipWidget);
 
             auto weak = std::weak_ptr<TimelineSlider>(std::dynamic_pointer_cast<TimelineSlider>(shared_from_this()));
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
@@ -406,6 +414,8 @@ namespace djv
                 p.sequence = Frame::Sequence();
                 p.currentFrame = 0;
                 p.speed = Time::Speed();
+
+                p.pipWidget->setPIPFileInfo(Core::FileSystem::FileInfo());
 
                 p.infoObserver.reset();
                 p.speedObserver.reset();
@@ -556,7 +566,11 @@ namespace djv
                                 if (x >= x2)
                                 {
                                     Private::TimeTick tick;
-                                    tick.geometry = BBox2f(x, g.max.y - b * 6.f - p.fontMetrics.lineHeight, b, p.fontMetrics.lineHeight);
+                                    tick.geometry = BBox2f(
+                                        x,
+                                        g.max.y - b * 6.f - p.fontMetrics.lineHeight,
+                                        b,
+                                        p.fontMetrics.lineHeight);
                                     tick.text = avSystem->getLabel(p.sequence.getFrame(i.second(unit, speedF)), p.speed);
                                     tick.textPos = glm::vec2(x + m, y);
                                     p.timeTicks.push_back(tick);
@@ -606,7 +620,11 @@ namespace djv
                     render->setFillColor(color);
                     const float x0 = _frameToPos(p.inPoint);
                     const float x1 = _frameToPos(p.outPoint + 1);
-                    render->drawRect(BBox2f(x0, g.max.y - m - b * 6.f, x1 - x0, b * 2.f));
+                    render->drawRect(BBox2f(
+                        x0,
+                        g.max.y - m - b * 6.f,
+                        x1 - x0,
+                        b * 2.f));
                 }
 
                 // Draw the cached frames.
@@ -616,7 +634,11 @@ namespace djv
                 {
                     const float x0 = _frameToPos(i.min);
                     const float x1 = _frameToPos(i.max + 1);
-                    render->drawRect(BBox2f(x0, g.max.y - m - b * 2.f, x1 - x0, b * 2.f));
+                    render->drawRect(BBox2f(
+                        x0,
+                        g.max.y - m - b * 2.f,
+                        x1 - x0,
+                        b * 2.f));
                 }
                 color = style->getColor(UI::ColorRole::Cached);
                 render->setFillColor(color);
@@ -624,7 +646,11 @@ namespace djv
                 {
                     const float x0 = _frameToPos(i.min);
                     const float x1 = _frameToPos(i.max + 1);
-                    render->drawRect(BBox2f(x0, g.max.y - m - b * 2.f, x1 - x0, b * 2.f));
+                    render->drawRect(BBox2f(
+                        x0,
+                        g.max.y - m - b * 2.f,
+                        x1 - x0,
+                        b * 2.f));
                 }
 
                 // Draw the frame ticks.
@@ -638,7 +664,11 @@ namespace djv
                     {
                         const float x = _frameToPos(f2);
                         const float h = ceilf(p.fontMetrics.ascender * (1 / 4.f));
-                        render->drawRect(BBox2f(x, g.max.y - m - b * 6.f, b, b * 6.f));
+                        render->drawRect(BBox2f(
+                            x,
+                            g.max.y - m - b * 6.f,
+                            b,
+                            b * 6.f));
                     }
                 }
 
@@ -676,22 +706,18 @@ namespace djv
                     {
                         if (p.window)
                         {
+                            p.window->removeChild(p.overlay);
+                            p.overlay->hide();
                             p.window->close();
                             p.window.reset();
                         }
-                        p.pipWidget = PIPWidget::create(context);
                         p.pipWidget->setPIPFileInfo(p.media->getFileInfo());
-                        auto overlay = UI::Layout::Overlay::create(context);
-                        overlay->setCaptureKeyboard(false);
-                        overlay->setCapturePointer(false);
-                        overlay->setBackgroundRole(UI::ColorRole::None);
-                        overlay->addChild(p.pipWidget);
                         p.window = UI::Window::create(context);
                         p.window->setBackgroundRole(UI::ColorRole::None);
                         p.window->setPointerEnabled(false);
-                        p.window->addChild(overlay);
+                        p.window->addChild(p.overlay);
                         p.window->show();
-                        overlay->setVisible(true);
+                        p.overlay->show();
                     }
                 }
             }
@@ -703,6 +729,8 @@ namespace djv
             event.accept();
             if (p.window)
             {
+                p.window->removeChild(p.overlay);
+                p.overlay->hide();
                 p.window->close();
                 p.window.reset();
             }
@@ -714,7 +742,9 @@ namespace djv
             event.accept();
             const auto & pos = event.getPointerInfo().projectedPos;
             const BBox2f & g = getGeometry();
-            const Frame::Index frame = _posToFrame(static_cast<int>(pos.x - g.min.x));
+            const auto& style = _getStyle();
+            const float m = style->getMetric(UI::MetricsRole::MarginSmall);
+            const Frame::Index frame = _posToFrame(static_cast<int>(pos.x - g.min.x - m));
             if (p.pipWidget)
             {
                 if (auto parent = getParentRecursiveT<MediaWidget>())
@@ -743,9 +773,11 @@ namespace djv
             const auto id = event.getPointerInfo().id;
             const auto & pos = event.getPointerInfo().projectedPos;
             const BBox2f & g = getGeometry();
+            const auto& style = _getStyle();
+            const float m = style->getMetric(UI::MetricsRole::MarginSmall);
             event.accept();
             p.pressedID = id;
-            p.currentFrame = _posToFrame(static_cast<int>(pos.x - g.min.x));
+            p.currentFrame = _posToFrame(static_cast<int>(pos.x - g.min.x - m));
             if (p.currentFrameDragCallback)
             {
                 p.currentFrameDragCallback(true);
@@ -797,7 +829,7 @@ namespace djv
             const size_t sequenceSize = p.sequence.getSize();
             Frame::Index out = sequenceSize ?
                 Math::clamp(
-                    static_cast<Frame::Index>(floorf(v * (sequenceSize))),
+                    static_cast<Frame::Index>(v * sequenceSize),
                     static_cast<Frame::Index>(0),
                     static_cast<Frame::Index>(sequenceSize - 1)) :
                 0;
@@ -812,7 +844,7 @@ namespace djv
             const float m = style->getMetric(UI::MetricsRole::MarginSmall);
             const size_t sequenceSize = p.sequence.getSize();
             const float v = sequenceSize ? (value / static_cast<float>(sequenceSize)) : 0.f;
-            float out = floorf(g.min.x + m + v * (g.w() - m * 2.f));
+            float out = g.min.x + m + v * (g.w() - m * 2.f);
             return out;
         }
 
@@ -849,7 +881,11 @@ namespace djv
             const float b = style->getMetric(UI::MetricsRole::Border);
             const float x0 = _frameToPos(p.currentFrame);
             const float x1 = _frameToPos(p.currentFrame + 1);
-            BBox2f out = BBox2f(x0, g.min.y + m, std::max(x1 - x0, b), g.h() - m * 2.f);
+            BBox2f out = BBox2f(
+                x0,
+                g.min.y + m,
+                std::max(x1 - x0, b),
+                g.h() - m * 2.f);
             return out;
         }
 
