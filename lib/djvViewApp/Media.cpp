@@ -1055,7 +1055,9 @@ namespace djv
                     else
                     {
                         while (!queue.isEmpty() &&
-                            (forward ? (queue.getFrame().frame < currentFrame) : (queue.getFrame().frame > currentFrame)))
+                            (AV::IO::Direction::Forward == p.ioDirection ?
+                                (queue.getFrame().frame < currentFrame) :
+                                (queue.getFrame().frame > currentFrame)))
                         {
                             frame = queue.popFrame();
                             gotFrame = true;
