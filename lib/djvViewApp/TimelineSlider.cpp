@@ -610,7 +610,7 @@ namespace djv
                 for (const auto& tick : p.timeTicks)
                 {
                     render->drawRect(tick.geometry);
-                    render->drawText(tick.text, tick.textPos);
+                    render->drawText(tick.text, glm::vec2(floorf(tick.textPos.x), floorf(tick.textPos.y)));
                 }
 
                 // Draw the in/out points.
@@ -685,11 +685,11 @@ namespace djv
                 const float frameY = g.min.y + m + p.fontMetrics.ascender - 1.f;
                 if ((frameRightPos + p.currentFrameLength) > g.max.x)
                 {
-                    render->drawText(p.currentFrameText, glm::vec2(frameLeftPos, frameY));
+                    render->drawText(p.currentFrameText, glm::vec2(floorf(frameLeftPos), floorf(frameY)));
                 }
                 else
                 {
-                    render->drawText(p.currentFrameText, glm::vec2(frameRightPos, frameY));
+                    render->drawText(p.currentFrameText, glm::vec2(floorf(frameRightPos), floorf(frameY)));
                 }
             }
         }
