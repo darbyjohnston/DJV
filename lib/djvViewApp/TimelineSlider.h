@@ -91,6 +91,9 @@ namespace djv
             void _textUpdate();
             void _currentFrameUpdate();
 
+            void _doCurrentFrameCallback();
+            void _doCurrentFrameDragCallback(bool);
+
             DJV_PRIVATE();
         };
 

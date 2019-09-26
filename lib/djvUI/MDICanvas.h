@@ -83,6 +83,8 @@ namespace djv
                 bool _eventFilter(const std::shared_ptr<Core::IObject> &, Core::Event::Event &) override;
 
             private:
+                void _doActiveCallback();
+
                 DJV_PRIVATE();
             };
 

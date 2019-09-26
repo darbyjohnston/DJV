@@ -80,6 +80,8 @@ namespace djv
             private:
                 bool _isInsideAnchor(const glm::vec2 &) const;
 
+                void _doCloseCallback();
+
                 DJV_PRIVATE();
             };
 

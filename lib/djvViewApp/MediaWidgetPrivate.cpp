@@ -73,10 +73,7 @@ namespace djv
             {
                 event.accept();
                 const auto& pos = event.getPointerInfo().projectedPos;
-                if (_hoverCallback)
-                {
-                    _hoverCallback(PointerData(PointerState::Start, pos, std::map<int, bool>()));
-                }
+                _doHoverCallback(PointerData(PointerState::Start, pos, std::map<int, bool>()));
             }
         }
 
@@ -84,10 +81,7 @@ namespace djv
         {
             event.accept();
             const auto& pos = event.getPointerInfo().projectedPos;
-            if (_hoverCallback)
-            {
-                _hoverCallback(PointerData(PointerState::End, pos, std::map<int, bool>()));
-            }
+            _doHoverCallback(PointerData(PointerState::End, pos, std::map<int, bool>()));
         }
 
         void PointerWidget::_pointerMoveEvent(Event::PointerMove& event)
@@ -96,17 +90,11 @@ namespace djv
             const auto& pos = event.getPointerInfo().projectedPos;
             if (_pressedID)
             {
-                if (_dragCallback)
-                {
-                    _dragCallback(PointerData(PointerState::Move, pos, _buttons));
-                }
+                _doDragCallback(PointerData(PointerState::Move, pos, _buttons));
             }
             else
             {
-                if (_hoverCallback)
-                {
-                    _hoverCallback(PointerData(PointerState::Move, pos, std::map<int, bool>()));
-                }
+                _doHoverCallback(PointerData(PointerState::Move, pos, std::map<int, bool>()));
             }
         }
 
@@ -118,10 +106,7 @@ namespace djv
             const auto& info = event.getPointerInfo();
             _pressedID = info.id;
             _buttons = info.buttons;
-            if (_dragCallback)
-            {
-                _dragCallback(PointerData(PointerState::Start, info.pos, info.buttons));
-            }
+            _doDragCallback(PointerData(PointerState::Start, info.pos, info.buttons));
         }
 
         void PointerWidget::_buttonReleaseEvent(Event::ButtonRelease& event)
@@ -132,9 +117,22 @@ namespace djv
             const auto& info = event.getPointerInfo();
             _pressedID = Event::InvalidID;
             _buttons = std::map<int, bool>();
+            _doDragCallback(PointerData(PointerState::End, info.pos, info.buttons));
+        }
+
+        void PointerWidget::_doHoverCallback(const PointerData& value)
+        {
+            if (_hoverCallback)
+            {
+                _hoverCallback(value);
+            }
+        }
+
+        void PointerWidget::_doDragCallback(const PointerData& value)
+        {
             if (_dragCallback)
             {
-                _dragCallback(PointerData(PointerState::End, info.pos, info.buttons));
+                _dragCallback(value);
             }
         }
 

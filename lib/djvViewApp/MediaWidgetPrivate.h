@@ -65,6 +65,9 @@ namespace djv
             void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;
 
         private:
+            void _doHoverCallback(const PointerData&);
+            void _doDragCallback(const PointerData&);
+
             uint32_t _pressedID = Core::Event::InvalidID;
             std::map<int, bool> _buttons;
             std::function<void(PointerData)> _hoverCallback;

@@ -744,11 +744,8 @@ namespace djv
             if (p.pressedID)
             {
                 p.currentFrame = frame;
-                if (p.currentFrameCallback)
-                {
-                    p.currentFrameCallback(p.currentFrame);
-                }
                 _currentFrameUpdate();
+                _doCurrentFrameCallback();
             }
         }
 
@@ -765,15 +762,9 @@ namespace djv
             event.accept();
             p.pressedID = id;
             p.currentFrame = _posToFrame(static_cast<int>(pos.x - g.min.x - m));
-            if (p.currentFrameDragCallback)
-            {
-                p.currentFrameDragCallback(true);
-            }
-            if (p.currentFrameCallback)
-            {
-                p.currentFrameCallback(p.currentFrame);
-            }
             _currentFrameUpdate();
+            _doCurrentFrameDragCallback(true);
+            _doCurrentFrameCallback();
         }
 
         void TimelineSlider::_buttonReleaseEvent(Event::ButtonRelease & event)
@@ -783,11 +774,8 @@ namespace djv
                 return;
             event.accept();
             p.pressedID = Event::InvalidID;
-            if (p.currentFrameDragCallback)
-            {
-                p.currentFrameDragCallback(false);
-            }
             _redraw();
+            _doCurrentFrameDragCallback(false);
         }
 
         void TimelineSlider::_updateEvent(Event::Update & event)
@@ -918,6 +906,24 @@ namespace djv
                 p.currentFrameText = avSystem->getLabel(p.sequence.getFrame(p.currentFrame), p.speed);
                 p.currentFrameSizeFuture = p.fontSystem->measure(p.currentFrameText, fontInfo);
                 _resize();
+            }
+        }
+
+        void TimelineSlider::_doCurrentFrameCallback()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.currentFrameCallback)
+            {
+                p.currentFrameCallback(p.currentFrame);
+            }
+        }
+
+        void TimelineSlider::_doCurrentFrameDragCallback(bool value)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.currentFrameDragCallback)
+            {
+                p.currentFrameDragCallback(value);
             }
         }
 

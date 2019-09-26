@@ -140,10 +140,7 @@ namespace djv
             p.selectionAnchor = p.cursorPos;
             _textUpdate();
             _cursorUpdate();
-            if (p.textChangedCallback)
-            {
-                p.textChangedCallback(p.text);
-            }
+            _doTextChangedCallback();
         }
 
         ColorRole LineEditBase::getTextColorRole() const
@@ -529,10 +526,7 @@ namespace djv
                             p.selectionAnchor = p.cursorPos;
                             _textUpdate();
                             _cursorUpdate();
-                            if (p.textChangedCallback)
-                            {
-                                p.textChangedCallback(p.text);
-                            }
+                            _doTextChangedCallback();
                         }
                         break;
                     }
@@ -555,19 +549,13 @@ namespace djv
                             p.selectionAnchor = p.cursorPos;
                             _textUpdate();
                             _cursorUpdate();
-                            if (p.textChangedCallback)
-                            {
-                                p.textChangedCallback(p.text);
-                            }
+                            _doTextChangedCallback();
                         }
                         break;
                     }
                     case GLFW_KEY_ENTER:
                         event.accept();
-                        if (p.textFinishedCallback)
-                        {
-                            p.textFinishedCallback(p.text);
-                        }
+                        _doTextFinishedCallback();
                         break;
                     case GLFW_KEY_LEFT:
                         event.accept();
@@ -655,10 +643,7 @@ namespace djv
                                 p.selectionAnchor = p.cursorPos;
                                 _textUpdate();
                                 _cursorUpdate();
-                                if (p.textChangedCallback)
-                                {
-                                    p.textChangedCallback(p.text);
-                                }
+                                _doTextChangedCallback();
                             }
                         }
                         break;
@@ -696,10 +681,7 @@ namespace djv
                             p.selectionAnchor = p.cursorPos;
                             _textUpdate();
                             _cursorUpdate();
-                            if (p.textChangedCallback)
-                            {
-                                p.textChangedCallback(p.text);
-                            }
+                            _doTextChangedCallback();
                         }
                         break;
                     default:
@@ -719,10 +701,7 @@ namespace djv
             event.accept();
             _cursorUpdate();
             _redraw();
-            if (p.focusCallback)
-            {
-                p.focusCallback(true);
-            }
+            _doFocusCallback(true);
         }
 
         void LineEditBase::_textFocusLostEvent(Event::TextFocusLost & event)
@@ -732,14 +711,8 @@ namespace djv
             p.cursorBlinkTimer->stop();
             p.cursorBlink = false;
             _redraw();
-            if (p.textFinishedCallback)
-            {
-                p.textFinishedCallback(p.text);
-            }
-            if (p.focusCallback)
-            {
-                p.focusCallback(false);
-            }
+            _doTextFinishedCallback();
+            _doFocusCallback(false);
         }
 
         void LineEditBase::_textEvent(Event::Text & event)
@@ -763,10 +736,7 @@ namespace djv
             p.selectionAnchor = p.cursorPos;
             _textUpdate();
             _cursorUpdate();
-            if (p.textChangedCallback)
-            {
-                p.textChangedCallback(p.text);
-            }
+            _doTextChangedCallback();
         }
 
         std::string LineEditBase::_fromUtf32(const std::basic_string<djv_char_t>& value)
@@ -875,6 +845,33 @@ namespace djv
             }
 
             _resize();
+        }
+
+        void LineEditBase::_doTextChangedCallback()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.textChangedCallback)
+            {
+                p.textChangedCallback(p.text);
+            }
+        }
+
+        void LineEditBase::_doTextFinishedCallback()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.textFinishedCallback)
+            {
+                p.textFinishedCallback(p.text);
+            }
+        }
+
+        void LineEditBase::_doFocusCallback(bool value)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.focusCallback)
+            {
+                p.focusCallback(value);
+            }
         }
 
     } // namespace UI

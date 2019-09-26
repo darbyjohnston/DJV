@@ -124,10 +124,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        if (widget->_p->speedCallback)
-                        {
-                            widget->_p->speedCallback(widget->_p->speeds[value]);
-                        }
+                        widget->_doSpeedCallback(widget->_p->speeds[value]);
                     }
                 });
 
@@ -136,10 +133,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        if (widget->_p->speedCallback)
-                        {
-                            widget->_p->speedCallback(widget->_p->defaultSpeed);
-                        }
+                        widget->_doSpeedCallback(widget->_p->defaultSpeed);
                     }
                 });
 
@@ -255,6 +249,15 @@ namespace djv
                 p.playEveryFrameCheckBox->setChecked(p.playEveryFrame);
                 p.playEveryFrameCheckBox->setText(DJV_TEXT("Play every frame"));
                 p.playEveryFrameCheckBox->setTooltip(_getText(DJV_TEXT("Play every frame tooltip")));
+            }
+        }
+
+        void PlaybackSpeedWidget::_doSpeedCallback(const Time::Speed& value)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.speedCallback)
+            {
+                p.speedCallback(value);
             }
         }
 

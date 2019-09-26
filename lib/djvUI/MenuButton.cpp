@@ -325,10 +325,7 @@ namespace djv
                     takeTextFocus();
                 }
                 p.open = !p.open;
-                if (p.openCallback)
-                {
-                    p.openCallback(p.open);
-                }
+                _doOpenCallback();
             }
 
             void Menu::_buttonReleaseEvent(Event::ButtonRelease& event)
@@ -348,20 +345,14 @@ namespace djv
                     case GLFW_KEY_SPACE:
                         event.accept();
                         p.open = !p.open;
-                        if (p.openCallback)
-                        {
-                            p.openCallback(p.open);
-                        }
+                        _doOpenCallback();
                         break;
                     case GLFW_KEY_ESCAPE:
                         event.accept();
                         if (p.open)
                         {
                             p.open = false;
-                            if (p.openCallback)
-                            {
-                                p.openCallback(p.open);
-                            }
+                            _doOpenCallback();
                         }
                         else
                         {
@@ -386,6 +377,15 @@ namespace djv
             bool Menu::_isHovered() const
             {
                 return isEnabled(true) && _getPointerHover().size();
+            }
+
+            void Menu::_doOpenCallback()
+            {
+                DJV_PRIVATE_PTR();
+                if (p.openCallback)
+                {
+                    p.openCallback(p.open);
+                }
             }
 
         } // namespace Button

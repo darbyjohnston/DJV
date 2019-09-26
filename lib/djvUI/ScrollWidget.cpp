@@ -55,18 +55,18 @@ namespace djv
         namespace
         {
             //! \todo Should this be configurable?
-            const size_t velocityTimeout            = 16;    // The timer resolution for velocity updates.
-            const float  velocityDecay              = .99f;  // How quickly the velocity decays.
-            const float  velocityStopDelta          = 5.f;   // The minimum amount of movement to stop the velocity.
-            const size_t pointerAverageCount        = 5;     // The number of pointer samples to average.
-            const float  pointerAverageDecay        = .99f;  // How quickly the pointer samples decay.
+            const size_t velocityTimeout = 16;    // The timer resolution for velocity updates.
+            const float  velocityDecay = .99f;  // How quickly the velocity decays.
+            const float  velocityStopDelta = 5.f;   // The minimum amount of movement to stop the velocity.
+            const size_t pointerAverageCount = 5;     // The number of pointer samples to average.
+            const float  pointerAverageDecay = .99f;  // How quickly the pointer samples decay.
             const size_t pointerAverageDecayTimeout = 100;   // The timer resolution for pointer sample decay.
-            const float  scrollWheelMult            = 50.f;  // The scroll wheel multiplier.
+            const float  scrollWheelMult = 50.f;  // The scroll wheel multiplier.
 
             class ScrollBar : public Widget
             {
                 DJV_NON_COPYABLE(ScrollBar);
-                
+
             protected:
                 void _init(Orientation, const std::shared_ptr<Context>&);
                 ScrollBar();
@@ -81,20 +81,22 @@ namespace djv
 
                 float getScrollPos() const;
                 void setScrollPos(float);
-                void setScrollPosCallback(const std::function<void(float)> &);
+                void setScrollPosCallback(const std::function<void(float)>&);
 
             protected:
-                void _preLayoutEvent(Event::PreLayout &) override;
-                void _paintEvent(Event::Paint &) override;
-                void _pointerEnterEvent(Event::PointerEnter &) override;
-                void _pointerLeaveEvent(Event::PointerLeave &) override;
-                void _pointerMoveEvent(Event::PointerMove &) override;
-                void _buttonPressEvent(Event::ButtonPress &) override;
-                void _buttonReleaseEvent(Event::ButtonRelease &) override;
+                void _preLayoutEvent(Event::PreLayout&) override;
+                void _paintEvent(Event::Paint&) override;
+                void _pointerEnterEvent(Event::PointerEnter&) override;
+                void _pointerLeaveEvent(Event::PointerLeave&) override;
+                void _pointerMoveEvent(Event::PointerMove&) override;
+                void _buttonPressEvent(Event::ButtonPress&) override;
+                void _buttonReleaseEvent(Event::ButtonRelease&) override;
 
             private:
                 float _valueToPos(float) const;
                 float _posToValue(float) const;
+
+                void _doScrollPosCallback();
 
                 Orientation _orientation = Orientation::Vertical;
                 float _viewSize = 0.f;
@@ -106,7 +108,7 @@ namespace djv
                 float _pressedPos = 0.f;
                 float _pressedScrollPos = 0.f;
             };
-        
+
             void ScrollBar::_init(Orientation orientation, const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
@@ -159,12 +161,12 @@ namespace djv
                 _redraw();
             }
 
-            void ScrollBar::setScrollPosCallback(const std::function<void(float)> & callback)
+            void ScrollBar::setScrollPosCallback(const std::function<void(float)>& callback)
             {
                 _scrollPosCallback = callback;
             }
 
-            void ScrollBar::_preLayoutEvent(Event::PreLayout &)
+            void ScrollBar::_preLayoutEvent(Event::PreLayout&)
             {
                 glm::vec2 size = glm::vec2(0.f, 0.f);
                 const auto& style = _getStyle();
@@ -172,12 +174,12 @@ namespace djv
                 _setMinimumSize(size);
             }
 
-            void ScrollBar::_paintEvent(Event::Paint & event)
+            void ScrollBar::_paintEvent(Event::Paint& event)
             {
                 Widget::_paintEvent(event);
 
                 const auto& style = _getStyle();
-                const BBox2f & g = getGeometry();
+                const BBox2f& g = getGeometry();
                 const float b = style->getMetric(MetricsRole::Border);
 
                 // Draw the background.
@@ -219,7 +221,7 @@ namespace djv
                     else
                     {
                         bool hover = false;
-                        for (const auto & h : _hover)
+                        for (const auto& h : _hover)
                         {
                             hover |= h.second;
                         }
@@ -232,7 +234,7 @@ namespace djv
                 }
             }
 
-            void ScrollBar::_pointerEnterEvent(Event::PointerEnter & event)
+            void ScrollBar::_pointerEnterEvent(Event::PointerEnter& event)
             {
                 if (!event.isRejected())
                 {
@@ -245,7 +247,7 @@ namespace djv
                 }
             }
 
-            void ScrollBar::_pointerLeaveEvent(Event::PointerLeave & event)
+            void ScrollBar::_pointerLeaveEvent(Event::PointerLeave& event)
             {
                 event.accept();
                 auto i = _hover.find(event.getPointerInfo().id);
@@ -259,13 +261,13 @@ namespace djv
                 }
             }
 
-            void ScrollBar::_pointerMoveEvent(Event::PointerMove & event)
+            void ScrollBar::_pointerMoveEvent(Event::PointerMove& event)
             {
                 event.accept();
                 if (event.getPointerInfo().id == _pressedID)
                 {
                     // Calculate the new scroll position.
-                    const auto & pos = event.getPointerInfo().projectedPos;
+                    const auto& pos = event.getPointerInfo().projectedPos;
                     float p = 0.f;
                     switch (_orientation)
                     {
@@ -279,21 +281,18 @@ namespace djv
                     }
                     const float v = _posToValue(p) - _posToValue(_pressedPos);
                     _scrollPos = Math::clamp(_pressedScrollPos + v, 0.f, _contentsSize - _viewSize);
-                    if (_scrollPosCallback)
-                    {
-                        _scrollPosCallback(_scrollPos);
-                    }
+                    _doScrollPosCallback();
                     _redraw();
                 }
             }
 
-            void ScrollBar::_buttonPressEvent(Event::ButtonPress & event)
+            void ScrollBar::_buttonPressEvent(Event::ButtonPress& event)
             {
                 if (_pressedID)
                     return;
                 event.accept();
                 _pressedID = event.getPointerInfo().id;
-                const auto & pos = event.getPointerInfo().projectedPos;
+                const auto& pos = event.getPointerInfo().projectedPos;
                 switch (_orientation)
                 {
                 case Orientation::Horizontal:
@@ -309,16 +308,13 @@ namespace djv
                 if (jump != 0)
                 {
                     _scrollPos = Math::clamp(_scrollPos + jump, 0.f, _contentsSize - _viewSize);
-                    if (_scrollPosCallback)
-                    {
-                        _scrollPosCallback(_scrollPos);
-                    }
+                    _doScrollPosCallback();
                 }
                 _pressedScrollPos = _scrollPos;
                 _redraw();
             }
 
-            void ScrollBar::_buttonReleaseEvent(Event::ButtonRelease & event)
+            void ScrollBar::_buttonReleaseEvent(Event::ButtonRelease& event)
             {
                 if (event.getPointerInfo().id != _pressedID)
                     return;
@@ -330,7 +326,7 @@ namespace djv
             float ScrollBar::_valueToPos(float value) const
             {
                 const auto& style = _getStyle();
-                const BBox2f & g = getGeometry();
+                const BBox2f& g = getGeometry();
                 float out = 0.f;
                 const float v = std::min(value / (_contentsSize > 0 ? static_cast<float>(_contentsSize) : 1.f), 1.f);
                 switch (_orientation)
@@ -349,7 +345,7 @@ namespace djv
             float ScrollBar::_posToValue(float value) const
             {
                 const auto& style = _getStyle();
-                const BBox2f & g = getGeometry();
+                const BBox2f& g = getGeometry();
                 float v = 0.f;
                 switch (_orientation)
                 {
@@ -362,6 +358,14 @@ namespace djv
                 default: break;
                 }
                 return v * _contentsSize;
+            }
+
+            void ScrollBar::_doScrollPosCallback()
+            {
+                if (_scrollPosCallback)
+                {
+                    _scrollPosCallback(_scrollPos);
+                }
             }
 
             class ScrollArea : public Widget
@@ -398,6 +402,8 @@ namespace djv
                 void _paintEvent(Event::Paint &) override;
 
             private:
+                void _doScrollPosCallback();
+
                 ScrollType _scrollType = ScrollType::Both;
                 glm::vec2 _contentsSize = glm::vec2(0.f, 0.f);
                 std::function<void(const glm::vec2 &)> _contentsSizeCallback;
@@ -442,10 +448,7 @@ namespace djv
                 if (tmp == _scrollPos)
                     return false;
                 _scrollPos = tmp;
-                if (_scrollPosCallback)
-                {
-                    _scrollPosCallback(_scrollPos);
-                }
+                _doScrollPosCallback();
                 _resize();
                 return true;
             }
@@ -538,10 +541,7 @@ namespace djv
                 if (scrollPos != _scrollPos)
                 {
                     _scrollPos = scrollPos;
-                    if (_scrollPosCallback)
-                    {
-                        _scrollPosCallback(_scrollPos);
-                    }
+                    _doScrollPosCallback();
                     _resize();
                 }
 
@@ -568,6 +568,14 @@ namespace djv
 
             void ScrollArea::_paintEvent(Event::Paint & event)
             {}
+
+            void ScrollArea::_doScrollPosCallback()
+            {
+                if (_scrollPosCallback)
+                {
+                    _scrollPosCallback(_scrollPos);
+                }
+            }
 
         } // namespace
         

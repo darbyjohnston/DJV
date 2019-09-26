@@ -74,6 +74,8 @@ namespace djv
         private:
             void _widgetUpdate();
 
+            void _doSpeedCallback(const Core::Time::Speed&);
+
             DJV_PRIVATE();
         };
 

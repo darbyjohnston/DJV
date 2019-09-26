@@ -83,10 +83,7 @@ namespace djv
                     {
                         if (auto overlay = weak.lock())
                         {
-                            if (overlay->_p->closeCallback)
-                            {
-                                overlay->_p->closeCallback();
-                            }
+                            overlay->_doCloseCallback();
                         }
                     }
                 });
@@ -239,10 +236,7 @@ namespace djv
                 {
                     event.accept();
                     p.pressedIDs[event.getPointerInfo().id] = true;
-                    if (p.closeCallback)
-                    {
-                        p.closeCallback();
-                    }
+                    _doCloseCallback();
                 }
             }
 
@@ -266,10 +260,7 @@ namespace djv
                     if (p.closeOnEscape && GLFW_KEY_ESCAPE == event.getKey())
                     {
                         event.accept();
-                        if (p.closeCallback)
-                        {
-                            p.closeCallback();
-                        }
+                        _doCloseCallback();
                     }
                     else if (p.captureKeyboard)
                     {
@@ -286,6 +277,15 @@ namespace djv
                     out = anchor->getGeometry().contains(pos);
                 }
                 return out;
+            }
+
+            void Overlay::_doCloseCallback()
+            {
+                DJV_PRIVATE_PTR();
+                if (p.closeCallback)
+                {
+                    p.closeCallback();
+                }
             }
 
         } // namespace Layout

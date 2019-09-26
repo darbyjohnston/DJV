@@ -358,10 +358,7 @@ namespace djv
                         p.widgetToGeometry[p.activeWidget] = BBox2f(0.f, 0.f, 0.f, 0.f);
                     }
                     _resize();
-                    if (p.activeCallback)
-                    {
-                        p.activeCallback(p.activeWidget);
-                    }
+                    _doActiveCallback();
                 }
             }
 
@@ -385,10 +382,7 @@ namespace djv
                             p.activeWidget->_setActiveWidget(true);
                             p.activeWidget->_setMaximize(p.maximize);
                         }
-                        if (p.activeCallback)
-                        {
-                            p.activeCallback(p.activeWidget);
-                        }
+                        _doActiveCallback();
                     }
                     {
                         const auto i = p.widgetInit.find(widget);
@@ -436,10 +430,7 @@ namespace djv
                         }
                         p.activeWidget = widget;
                         p.activeWidget->_setActiveWidget(true);
-                        if (p.activeCallback)
-                        {
-                            p.activeCallback(p.activeWidget);
-                        }
+                        _doActiveCallback();
                     }
                 }
             }
@@ -628,6 +619,15 @@ namespace djv
                 default: break;
                 }
                 return false;
+            }
+
+            void Canvas::_doActiveCallback()
+            {
+                DJV_PRIVATE_PTR();
+                if (p.activeCallback)
+                {
+                    p.activeCallback(p.activeWidget);
+                }
             }
 
         } // namespace MDI

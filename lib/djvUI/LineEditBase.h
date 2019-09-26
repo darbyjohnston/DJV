@@ -104,6 +104,10 @@ namespace djv
             void _textUpdate();
             void _cursorUpdate();
 
+            void _doTextChangedCallback();
+            void _doTextFinishedCallback();
+            void _doFocusCallback(bool);
+
             DJV_PRIVATE();
         };
 
