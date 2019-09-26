@@ -777,7 +777,7 @@ namespace djv
             switch (p.playback->get())
             {
             case Playback::Forward:
-                if (value >= end)
+                if (value > end)
                 {
                     switch (p.playbackMode->get())
                     {
@@ -811,7 +811,7 @@ namespace djv
                 }
                 break;
             case Playback::Reverse:
-                if (value <= start)
+                if (value < start)
                 {
                     switch (p.playbackMode->get())
                     {
