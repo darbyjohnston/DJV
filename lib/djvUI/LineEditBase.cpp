@@ -137,6 +137,7 @@ namespace djv
             p.text = value;
             p.utf32 = _toUtf32(p.text);
             p.cursorPos = p.utf32.size();
+            p.selectionAnchor = p.cursorPos;
             _textUpdate();
             _cursorUpdate();
             if (p.textChangedCallback)
