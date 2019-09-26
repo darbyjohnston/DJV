@@ -378,13 +378,13 @@ namespace djv
             class Text : public Event
             {
             public:
-                inline Text(const std::string & text, int texttModifiers);
+                inline Text(const std::basic_string<djv_char_t>& utf32, int textModifiers);
 
-                inline const std::string & getText() const;
+                inline const std::basic_string<djv_char_t>& getUtf32() const;
                 inline int getTextModifiers() const;
 
             private:
-                std::string _text;
+                std::basic_string<djv_char_t> _utf32;
                 int _textModifiers;
             };
 

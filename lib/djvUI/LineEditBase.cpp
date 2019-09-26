@@ -29,16 +29,21 @@
 
 #include <djvUI/LineEditBase.h>
 
+#include <djvUI/Shortcut.h>
 #include <djvUI/Style.h>
 
 #include <djvAV/FontSystem.h>
 #include <djvAV/Render2D.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/IEventSystem.h>
 #include <djvCore/Timer.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
+
+#include <codecvt>
+#include <locale>
 
 using namespace djv::Core;
 
@@ -55,7 +60,11 @@ namespace djv
         struct LineEditBase::Private
         {
             std::shared_ptr<AV::Font::System> fontSystem;
+
             std::string text;
+            std::wstring_convert<std::codecvt_utf8<djv_char_t>, djv_char_t> utf32Convert;
+            std::basic_string<djv_char_t> utf32;
+
             ColorRole textColorRole = ColorRole::Foreground;
             MetricsRole textSizeRole = MetricsRole::TextColumn;
             std::string font;
@@ -63,16 +72,21 @@ namespace djv
             MetricsRole fontSizeRole = MetricsRole::FontMedium;
             AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;
+            
             glm::vec2 textSize = glm::vec2(0.f, 0.f);
             std::future<glm::vec2> textSizeFuture;
             std::string sizeString;
             glm::vec2 sizeStringSize = glm::vec2(0.f, 0.f);
             std::future<glm::vec2> sizeStringFuture;
             size_t cursorPos = 0;
-            std::future<glm::vec2> cursorTextSizeFuture;
-            glm::vec2 cursorTextSize = glm::vec2(0.f, 0.f);
+            size_t selectionAnchor = std::string::npos;
+            std::future<std::vector<BBox2f> > glyphGeomFuture;
+            std::vector<BBox2f> glyphGeom;
             bool cursorBlink = false;
+            Event::PointerID pressedID = Event::InvalidID;
+
             std::shared_ptr<Time::Timer> cursorBlinkTimer;
+            
             std::function<void(std::string)> textChangedCallback;
             std::function<void(std::string)> textFinishedCallback;
             std::function<void(bool)> focusCallback;
@@ -121,7 +135,8 @@ namespace djv
             if (value == p.text)
                 return;
             p.text = value;
-            p.cursorPos = value.size();
+            p.utf32 = _toUtf32(p.text);
+            p.cursorPos = p.utf32.size();
             _textUpdate();
             _cursorUpdate();
             if (p.textChangedCallback)
@@ -289,11 +304,11 @@ namespace djv
                     _log(e.what(), LogLevel::Error);
                 }
             }
-            if (p.cursorTextSizeFuture.valid())
+            if (p.glyphGeomFuture.valid())
             {
                 try
                 {
-                    p.cursorTextSize = p.cursorTextSizeFuture.get();
+                    p.glyphGeom = p.glyphGeomFuture.get();
                 }
                 catch (const std::exception & e)
                 {
@@ -323,24 +338,76 @@ namespace djv
             const float m = style->getMetric(MetricsRole::MarginSmall);
             const float b = style->getMetric(MetricsRole::Border);
 
+            auto render = _getRender();
+            render->setFillColor(style->getColor(ColorRole::Checked));
+            if (p.cursorPos != p.selectionAnchor)
+            {
+                float x0 = 0.f;
+                float x1 = 0.f;
+                const size_t glyphGeomSize = p.glyphGeom.size();
+                if (glyphGeomSize)
+                {
+                    if (p.cursorPos < glyphGeomSize)
+                    {
+                        x0 = p.glyphGeom[p.cursorPos].min.x;
+                    }
+                    else
+                    {
+                        const BBox2f& geom = p.glyphGeom[glyphGeomSize - 1];
+                        x0 = geom.min.x + geom.w();
+                    }
+                    if (p.selectionAnchor < glyphGeomSize)
+                    {
+                        x1 = p.glyphGeom[p.selectionAnchor].min.x;
+                    }
+                    else
+                    {
+                        const BBox2f& geom = p.glyphGeom[glyphGeomSize - 1];
+                        x1 = geom.min.x + geom.w();
+                    }
+                }
+                if (x1 < x0)
+                {
+                    const float tmp = x0;
+                    x0 = x1;
+                    x1 = tmp;
+                }
+                render->drawRect(BBox2f(
+                    g.min.x + m + x0,
+                    g.min.y + m,
+                    x1 - x0,
+                    g.h() - m * 2.f));
+            }
+
             auto fontInfo = p.font.empty() ?
                 style->getFontInfo(p.fontFace, p.fontSizeRole) :
                 style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);
-            auto render = _getRender();
             render->setCurrentFont(fontInfo);
-
+            render->setFillColor(style->getColor(p.textColorRole));
+            //! \bug Why the extra subtract by one here?
             glm::vec2 pos = g.min;
             pos += m;
             pos.y = c.y - p.textSize.y / 2.f;
-
-            render->setFillColor(style->getColor(p.textColorRole));
-            //! \bug Why the extra subtract by one here?
             render->drawText(p.text, glm::vec2(floorf(pos.x), floorf(pos.y + p.fontMetrics.ascender - 1.f)));
 
             if (p.cursorBlink)
             {
+                float x = 0.f;
+                const size_t glyphGeomSize = p.glyphGeom.size();
+                if (glyphGeomSize)
+                {
+                    if (p.cursorPos < glyphGeomSize)
+                    {
+                        x = p.glyphGeom[p.cursorPos].min.x;
+                    }
+                    else
+                    {
+                        const BBox2f& geom = p.glyphGeom[glyphGeomSize - 1];
+                        x = geom.min.x + geom.w();
+                    }
+                }
                 render->drawRect(BBox2f(
-                    g.min.x + m + p.cursorTextSize.x,
+                    g.min.x + m + x,
                     g.min.y + m,
                     b,
                     g.h() - m * 2.f));
@@ -349,7 +416,10 @@ namespace djv
 
         void LineEditBase::_pointerEnterEvent(Event::PointerEnter & event)
         {
-            event.accept();
+            if (!event.isRejected())
+            {
+                event.accept();
+            }
         }
 
         void LineEditBase::_pointerLeaveEvent(Event::PointerLeave & event)
@@ -357,117 +427,287 @@ namespace djv
             event.accept();
         }
 
-        void LineEditBase::_pointerMoveEvent(Event::PointerMove & event)
+        void LineEditBase::_pointerMoveEvent(Event::PointerMove& event)
         {
+            DJV_PRIVATE_PTR();
             event.accept();
+            const auto& pointerInfo = event.getPointerInfo();
+            if (pointerInfo.id == p.pressedID)
+            {
+                const auto& style = _getStyle();
+                const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                const float m = style->getMetric(MetricsRole::MarginSmall);
+                float x = event.getPointerInfo().projectedPos.x - g.min.x - m;
+                size_t cursorPos = 0;
+                if (x >= 0.f)
+                {
+                    for (const auto& i : p.glyphGeom)
+                    {
+                        if (x >= i.min.x && x <= i.max.x)
+                        {
+                            break;
+                        }
+                        ++cursorPos;
+                    }
+                }
+                if (cursorPos != p.cursorPos)
+                {
+                    p.cursorPos = cursorPos;
+                    _cursorUpdate();
+                }
+            }
         }
 
         void LineEditBase::_buttonPressEvent(Event::ButtonPress & event)
         {
-            if (!isEnabled(true))
+            DJV_PRIVATE_PTR();
+            if (p.pressedID || !isEnabled(true))
                 return;
             event.accept();
             takeTextFocus();
+            const auto& pointerInfo = event.getPointerInfo();
+            p.pressedID = pointerInfo.id;
+            const auto& style = _getStyle();
+            const BBox2f& g = getMargin().bbox(getGeometry(), style);
+            const float m = style->getMetric(MetricsRole::MarginSmall);
+            float x = event.getPointerInfo().projectedPos.x - g.min.x - m;
+            size_t cursorPos = 0;
+            for (const auto& i : p.glyphGeom)
+            {
+                if (x >= i.min.x && x <= i.max.x)
+                {
+                    break;
+                }
+                ++cursorPos;
+            }
+            p.cursorPos = cursorPos;
+            p.selectionAnchor = cursorPos;
+            _cursorUpdate();
         }
 
         void LineEditBase::_buttonReleaseEvent(Event::ButtonRelease & event)
         {
-            event.accept();
+            DJV_PRIVATE_PTR();
+            const auto& pointerInfo = event.getPointerInfo();
+            if (pointerInfo.id == p.pressedID)
+            {
+                event.accept();
+                p.pressedID = Event::InvalidID;
+            }
         }
 
         void LineEditBase::_keyPressEvent(Event::KeyPress & event)
         {
             Widget::_keyPressEvent(event);
             DJV_PRIVATE_PTR();
-            if (!event.isAccepted())
+            if (auto context = getContext().lock())
             {
-                const size_t size = p.text.size();
-                switch (event.getKey())
+                if (!event.isAccepted())
                 {
-                case GLFW_KEY_BACKSPACE:
-                    event.accept();
-                    if (size > 0 && p.cursorPos > 0)
+                    const size_t size = p.utf32.size();
+                    const int modifiers = event.getKeyModifiers();
+                    switch (event.getKey())
                     {
-                        p.text.erase(p.cursorPos - 1, 1);
-                        --p.cursorPos;
-                        _textUpdate();
-                        _cursorUpdate();
-                        if (p.textChangedCallback)
-                        {
-                            p.textChangedCallback(p.text);
-                        }
-                    }
-                    break;
-                case GLFW_KEY_DELETE:
-                    event.accept();
-                    if (size > 0 && p.cursorPos < size)
-                    {
-                        p.text.erase(p.cursorPos, 1);
-                        _textUpdate();
-                        _cursorUpdate();
-                        if (p.textChangedCallback)
-                        {
-                            p.textChangedCallback(p.text);
-                        }
-                    }
-                    break;
-                case GLFW_KEY_ENTER:
-                    event.accept();
-                    if (p.textFinishedCallback)
-                    {
-                        p.textFinishedCallback(p.text);
-                    }
-                    break;
-                case GLFW_KEY_LEFT:
-                    event.accept();
-                    if (p.cursorPos > 0)
-                    {
-                        --p.cursorPos;
-                        _cursorUpdate();
-                    }
-                    break;
-                case GLFW_KEY_RIGHT:
-                    event.accept();
-                    if (p.cursorPos < size)
-                    {
-                        ++p.cursorPos;
-                        _cursorUpdate();
-                    }
-                    break;
-                case GLFW_KEY_HOME:
-                    event.accept();
-                    if (p.cursorPos > 0)
-                    {
-                        p.cursorPos = 0;
-                        _cursorUpdate();
-                    }
-                    break;
-                case GLFW_KEY_END:
-                    event.accept();
-                    if (size > 0 && p.cursorPos != size)
-                    {
-                        p.cursorPos = size;
-                        _cursorUpdate();
-                    }
-                    break;
-                case GLFW_KEY_ESCAPE:
-                    if (hasTextFocus())
+                    case GLFW_KEY_BACKSPACE:
                     {
                         event.accept();
-                        releaseTextFocus();
+                        const auto& selection = _getSelection();
+                        if (size > 0 && (p.cursorPos > 0 || selection.min != selection.max))
+                        {
+                            if (selection.min != selection.max)
+                            {
+                                p.utf32.erase(selection.min, std::min(selection.max - selection.min, size));
+                                p.cursorPos = selection.min;
+                            }
+                            else
+                            {
+                                p.utf32.erase(selection.min - 1, 1);
+                                --p.cursorPos;
+                            }
+                            p.text = _fromUtf32(p.utf32);
+                            p.selectionAnchor = p.cursorPos;
+                            _textUpdate();
+                            _cursorUpdate();
+                            if (p.textChangedCallback)
+                            {
+                                p.textChangedCallback(p.text);
+                            }
+                        }
+                        break;
                     }
-                    break;
-                case GLFW_KEY_UP:
-                case GLFW_KEY_DOWN:
-                case GLFW_KEY_PAGE_UP:
-                case GLFW_KEY_PAGE_DOWN:
-                    break;
-                default:
-                    if (!event.getKeyModifiers())
+                    case GLFW_KEY_DELETE:
                     {
                         event.accept();
+                        const auto& selection = _getSelection();
+                        if (size > 0 && (p.cursorPos < size || selection.min != selection.max))
+                        {
+                            if (selection.min != selection.max)
+                            {
+                                p.utf32.erase(selection.min, std::min(selection.max - selection.min, size));
+                                p.cursorPos = selection.min;
+                            }
+                            else
+                            {
+                                p.utf32.erase(p.cursorPos, 1);
+                            }
+                            p.text = _fromUtf32(p.utf32);
+                            p.selectionAnchor = p.cursorPos;
+                            _textUpdate();
+                            _cursorUpdate();
+                            if (p.textChangedCallback)
+                            {
+                                p.textChangedCallback(p.text);
+                            }
+                        }
+                        break;
                     }
-                    break;
+                    case GLFW_KEY_ENTER:
+                        event.accept();
+                        if (p.textFinishedCallback)
+                        {
+                            p.textFinishedCallback(p.text);
+                        }
+                        break;
+                    case GLFW_KEY_LEFT:
+                        event.accept();
+                        if (p.cursorPos > 0)
+                        {
+                            --p.cursorPos;
+                            if (!(modifiers & GLFW_MOD_SHIFT))
+                            {
+                                p.selectionAnchor = p.cursorPos;
+                            }
+                            _cursorUpdate();
+                        }
+                        break;
+                    case GLFW_KEY_RIGHT:
+                        event.accept();
+                        if (p.cursorPos < size)
+                        {
+                            ++p.cursorPos;
+                            if (!(modifiers & GLFW_MOD_SHIFT))
+                            {
+                                p.selectionAnchor = p.cursorPos;
+                            }
+                            _cursorUpdate();
+                        }
+                        break;
+                    case GLFW_KEY_HOME:
+                        event.accept();
+                        if (p.cursorPos > 0)
+                        {
+                            p.cursorPos = 0;
+                            if (!(modifiers & GLFW_MOD_SHIFT))
+                            {
+                                p.selectionAnchor = p.cursorPos;
+                            }
+                            _cursorUpdate();
+                        }
+                        break;
+                    case GLFW_KEY_END:
+                        event.accept();
+                        if (size > 0 && p.cursorPos != size)
+                        {
+                            p.cursorPos = size;
+                            if (!(modifiers & GLFW_MOD_SHIFT))
+                            {
+                                p.selectionAnchor = p.cursorPos;
+                            }
+                            _cursorUpdate();
+                        }
+                        break;
+                    case GLFW_KEY_ESCAPE:
+                        if (hasTextFocus())
+                        {
+                            event.accept();
+                            releaseTextFocus();
+                        }
+                        break;
+                    case GLFW_KEY_UP:
+                    case GLFW_KEY_DOWN:
+                    case GLFW_KEY_PAGE_UP:
+                    case GLFW_KEY_PAGE_DOWN:
+                        break;
+                    case GLFW_KEY_A:
+                        if (modifiers & UI::Shortcut::getSystemModifier())
+                        {
+                            event.accept();
+                            p.cursorPos = 0;
+                            p.selectionAnchor = p.utf32.size();
+                            _textUpdate();
+                            _cursorUpdate();
+                        }
+                        break;
+                    case GLFW_KEY_X:
+                        if (modifiers & UI::Shortcut::getSystemModifier())
+                        {
+                            event.accept();
+                            const auto& selection = _getSelection();
+                            if (selection.min != selection.max)
+                            {
+                                const auto utf32 = p.utf32.substr(selection.min, selection.max - selection.min);
+                                p.utf32.erase(selection.min, selection.max - selection.min);
+                                auto eventSystem = context->getSystemT<Event::IEventSystem>();
+                                eventSystem->setClipboard(_fromUtf32(utf32));
+                                p.text = _fromUtf32(p.utf32);
+                                p.cursorPos = selection.min;
+                                p.selectionAnchor = p.cursorPos;
+                                _textUpdate();
+                                _cursorUpdate();
+                                if (p.textChangedCallback)
+                                {
+                                    p.textChangedCallback(p.text);
+                                }
+                            }
+                        }
+                        break;
+                    case GLFW_KEY_C:
+                        if (modifiers & UI::Shortcut::getSystemModifier())
+                        {
+                            event.accept();
+                            const auto& selection = _getSelection();
+                            if (selection.min != selection.max)
+                            {
+                                const auto utf32 = p.utf32.substr(selection.min, selection.max - selection.min);
+                                auto eventSystem = context->getSystemT<Event::IEventSystem>();
+                                eventSystem->setClipboard(_fromUtf32(utf32));
+                            }
+                        }
+                        break;
+                    case GLFW_KEY_V:
+                        if (modifiers & UI::Shortcut::getSystemModifier())
+                        {
+                            event.accept();
+                            auto eventSystem = context->getSystemT<Event::IEventSystem>();
+                            const auto utf32 = _toUtf32(eventSystem->getClipboard());
+                            const auto& selection = _getSelection();
+                            if (selection.min != selection.max)
+                            {
+                                p.utf32.replace(selection.min, selection.max - selection.min, utf32);
+                                p.cursorPos = selection.min + utf32.size();
+                            }
+                            else
+                            {
+                                p.utf32.insert(p.cursorPos, utf32);
+                                p.cursorPos += utf32.size();
+                            }
+                            p.text = _fromUtf32(p.utf32);
+                            p.selectionAnchor = p.cursorPos;
+                            _textUpdate();
+                            _cursorUpdate();
+                            if (p.textChangedCallback)
+                            {
+                                p.textChangedCallback(p.text);
+                            }
+                        }
+                        break;
+                    default:
+                        if (!event.getKeyModifiers())
+                        {
+                            event.accept();
+                        }
+                        break;
+                    }
                 }
             }
         }
@@ -505,21 +745,79 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             event.accept();
-            const size_t size = p.text.size();
-            auto text = p.text;
-            const auto & eventText = event.getText();
-            text.insert(p.cursorPos, eventText);
-            p.text = text;
-            if (size < p.text.size())
+            const size_t size = p.utf32.size();
+            const auto& selection = _getSelection();
+            const auto& utf32 = event.getUtf32();
+            if (selection.min != selection.max)
             {
-                p.cursorPos += p.text.size() - size;
+                p.utf32.replace(selection.min, selection.max - selection.min, utf32);
+                p.cursorPos = selection.min + utf32.size();
             }
+            else
+            {
+                p.utf32.insert(p.cursorPos, utf32);
+                p.cursorPos += utf32.size();
+            }
+            p.text = _fromUtf32(p.utf32);
+            p.selectionAnchor = p.cursorPos;
             _textUpdate();
             _cursorUpdate();
             if (p.textChangedCallback)
             {
                 p.textChangedCallback(p.text);
             }
+        }
+
+        std::string LineEditBase::_fromUtf32(const std::basic_string<djv_char_t>& value)
+        {
+            std::string out;
+            try
+            {
+                out = _p->utf32Convert.to_bytes(value);
+            }
+            catch (const std::exception& e)
+            {
+                std::stringstream ss;
+                ss << "Error converting string: " << e.what();
+                _log(ss.str(), LogLevel::Error);
+            }
+            return out;
+        }
+
+        std::basic_string<djv_char_t> LineEditBase::_toUtf32(const std::string& value)
+        {
+            std::basic_string<djv_char_t> out;
+            try
+            {
+                std::string tmp = value;
+                for (auto i = tmp.begin(); i != tmp.end(); ++i)
+                {
+                    if ('\n' == *i)
+                    {
+                        *i = ' ';
+                    }
+                    else if('\r' == *i)
+                    {
+                        *i = ' ';
+                    }
+                }
+                out = _p->utf32Convert.from_bytes(tmp);
+            }
+            catch (const std::exception& e)
+            {
+                std::stringstream ss;
+                ss << "Error converting string" << " '" << value << "': " << e.what();
+                _log(ss.str(), LogLevel::Error);
+            }
+            return out;
+        }
+
+        SizeTRange LineEditBase::_getSelection() const
+        {
+            DJV_PRIVATE_PTR();
+            SizeTRange out(p.cursorPos, p.selectionAnchor);
+            out.sort();
+            return out;
         }
 
         void LineEditBase::_textUpdate()
@@ -541,22 +839,23 @@ namespace djv
         void LineEditBase::_cursorUpdate()
         {
             DJV_PRIVATE_PTR();
-            const size_t size = p.text.size();
+            const size_t size = p.utf32.size();
             if (size)
             {
                 p.cursorPos = Math::clamp(p.cursorPos, size_t(0), size);
+                p.selectionAnchor = Math::clamp(p.selectionAnchor, size_t(0), size);
             }
             else
             {
                 p.cursorPos = 0;
+                p.selectionAnchor = 0;
             }
 
             const auto& style = _getStyle();
             const auto fontInfo = p.font.empty() ?
                 style->getFontInfo(p.fontFace, p.fontSizeRole) :
                 style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);
-            const std::string cursorText = p.cursorPos < size ? p.text.substr(0, p.cursorPos) : p.text;
-            p.cursorTextSizeFuture = p.fontSystem->measure(cursorText, fontInfo);
+            p.glyphGeomFuture = p.fontSystem->measureGlyphs(p.text, fontInfo);
 
             if (hasTextFocus())
             {

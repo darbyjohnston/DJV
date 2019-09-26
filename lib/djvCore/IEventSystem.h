@@ -63,6 +63,9 @@ namespace djv
                 const std::weak_ptr<IObject> & getTextFocus() const;
                 void setTextFocus(const std::shared_ptr<IObject> &);
 
+                virtual void setClipboard(const std::string&);
+                virtual std::string getClipboard() const;
+
                 void tick(float dt) override;
 
                 void _objectCreated(const std::shared_ptr<IObject> &);
@@ -76,7 +79,7 @@ namespace djv
                 void _drop(const std::vector<std::string> &);
                 void _keyPress(int key, int modifiers);
                 void _keyRelease(int key, int modifiers);
-                void _text(const std::string &, int modifiers);
+                void _text(const std::basic_string<djv_char_t>& utf32, int modifiers);
                 void _scroll(float, float);
 
                 virtual void _hover(PointerMove &, std::shared_ptr<IObject> &) = 0;

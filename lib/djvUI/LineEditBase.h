@@ -31,6 +31,8 @@
 
 #include <djvUI/Widget.h>
 
+#include <djvCore/Range.h>
+
 namespace djv
 {
     namespace UI
@@ -94,6 +96,11 @@ namespace djv
             void _textEvent(Core::Event::Text &) override;
 
         private:
+            std::string _fromUtf32(const std::basic_string<djv_char_t>&);
+            std::basic_string<djv_char_t> _toUtf32(const std::string&);
+            
+            Core::SizeTRange _getSelection() const;
+
             void _textUpdate();
             void _cursorUpdate();
 

@@ -67,6 +67,8 @@ namespace djv
                 inline void expand(T);
                 inline void expand(const Range<T> &);
 
+                inline void sort();
+
                 ///@}
 
                 constexpr bool operator == (const Range<T> &) const;

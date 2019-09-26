@@ -76,13 +76,25 @@ namespace djv
                 struct MeasureRequest
                 {
                     MeasureRequest() {}
-                    MeasureRequest(MeasureRequest &&) = default;
-                    MeasureRequest & operator = (MeasureRequest && other) = default;
+                    MeasureRequest(MeasureRequest&&) = default;
+                    MeasureRequest& operator = (MeasureRequest&& other) = default;
 
                     std::string text;
                     Info info;
                     uint16_t maxLineWidth = std::numeric_limits<uint16_t>::max();
                     std::promise<glm::vec2> promise;
+                };
+
+                struct MeasureGlyphsRequest
+                {
+                    MeasureGlyphsRequest() {}
+                    MeasureGlyphsRequest(MeasureGlyphsRequest&&) = default;
+                    MeasureGlyphsRequest& operator = (MeasureGlyphsRequest&& other) = default;
+
+                    std::string text;
+                    Info info;
+                    uint16_t maxLineWidth = std::numeric_limits<uint16_t>::max();
+                    std::promise<std::vector<BBox2f> > promise;
                 };
 
                 struct TextLinesRequest
@@ -160,12 +172,14 @@ namespace djv
 
                 std::list<MetricsRequest> metricsQueue;
                 std::list<MeasureRequest> measureQueue;
+                std::list<MeasureGlyphsRequest> measureGlyphsQueue;
                 std::list<TextLinesRequest> textLinesQueue;
                 std::list<GlyphsRequest> glyphsQueue;
                 std::condition_variable requestCV;
                 std::mutex requestMutex;
                 std::list<MetricsRequest> metricsRequests;
                 std::list<MeasureRequest> measureRequests;
+                std::list<MeasureGlyphsRequest> measureGlyphsRequests;
                 std::list<TextLinesRequest> textLinesRequests;
                 std::list<GlyphsRequest> glyphsRequests;
 
@@ -180,6 +194,13 @@ namespace djv
 
                 bool getText(const std::string&, const Info&, std::basic_string<djv_char_t>&, FT_Face&, std::string& error);
                 std::shared_ptr<Glyph> getGlyph(const GlyphInfo &);
+                void measure(
+                    const std::basic_string<djv_char_t>& utf32,
+                    const Info&,
+                    FT_Face,
+                    uint16_t maxLineWidth,
+                    glm::vec2&,
+                    std::vector<BBox2f>* = nullptr);
             };
 
             void System::_init(const std::shared_ptr<Core::Context>& context)
@@ -232,6 +253,7 @@ namespace djv
                             });
                             p.metricsRequests = std::move(p.metricsQueue);
                             p.measureRequests = std::move(p.measureQueue);
+                            p.measureGlyphsRequests = std::move(p.measureGlyphsQueue);
                             p.textLinesRequests = std::move(p.textLinesQueue);
                             p.glyphsRequests = std::move(p.glyphsQueue);
                         }
@@ -242,6 +264,10 @@ namespace djv
                         if (p.measureRequests.size())
                         {
                             _handleMeasureRequests();
+                        }
+                        if (p.measureGlyphsRequests.size())
+                        {
+                            _handleMeasureGlyphsRequests();
                         }
                         if (p.textLinesRequests.size())
                         {
@@ -297,7 +323,7 @@ namespace djv
                 return future;
             }
 
-            std::future<glm::vec2> System::measure(const std::string & text, const Info & info)
+            std::future<glm::vec2> System::measure(const std::string& text, const Info& info)
             {
                 DJV_PRIVATE_PTR();
                 MeasureRequest request;
@@ -307,6 +333,21 @@ namespace djv
                 {
                     std::unique_lock<std::mutex> lock(p.requestMutex);
                     p.measureQueue.push_back(std::move(request));
+                }
+                p.requestCV.notify_one();
+                return future;
+            }
+
+            std::future<std::vector<BBox2f> > System::measureGlyphs(const std::string& text, const Info& info)
+            {
+                DJV_PRIVATE_PTR();
+                MeasureGlyphsRequest request;
+                request.text = text;
+                request.info = info;
+                auto future = request.promise.get_future();
+                {
+                    std::unique_lock<std::mutex> lock(p.requestMutex);
+                    p.measureGlyphsQueue.push_back(std::move(request));
                 }
                 p.requestCV.notify_one();
                 return future;
@@ -486,7 +527,7 @@ namespace djv
             void System::_handleMeasureRequests()
             {
                 DJV_PRIVATE_PTR();
-                for (auto & request : p.measureRequests)
+                for (auto& request : p.measureRequests)
                 {
                     std::basic_string<djv_char_t> utf32;
                     FT_Face font;
@@ -494,70 +535,7 @@ namespace djv
                     glm::vec2 size = glm::vec2(0.f, 0.f);
                     if (p.getText(request.text, request.info, utf32, font, error))
                     {
-                        glm::vec2 pos(0.f, font->size->metrics.height / 64.f);
-                        auto textLine = utf32.end();
-                        float textLineX = 0.f;
-                        int32_t rsbDeltaPrev = 0;
-                        for (auto i = utf32.begin(); i != utf32.end(); ++i)
-                        {
-                            const auto info = GlyphInfo(*i, request.info);
-                            const auto glyph = p.getGlyph(info);
-                            int32_t x = 0;
-                            if (glyph->imageData)
-                            {
-                                x = glyph->advance;
-                                if (rsbDeltaPrev - glyph->lsbDelta > 32)
-                                {
-                                    x -= 1;
-                                }
-                                else if (rsbDeltaPrev - glyph->lsbDelta < -31)
-                                {
-                                    x += 1;
-                                }
-                                rsbDeltaPrev = glyph->rsbDelta;
-                            }
-                            else
-                            {
-                                rsbDeltaPrev = 0;
-                            }
-
-                            if (isNewline(*i))
-                            {
-                                size.x = std::max(size.x, pos.x);
-                                pos.x = 0.f;
-                                pos.y += font->size->metrics.height / 64.f;
-                                rsbDeltaPrev = 0;
-                            }
-                            else if (pos.x > 0.f && pos.x + (!isSpace(*i) ? x : 0.f) >= request.maxLineWidth)
-                            {
-                                if (textLine != utf32.end())
-                                {
-                                    i = textLine;
-                                    textLine = utf32.end();
-                                    size.x = std::max(size.x, textLineX);
-                                    pos.x = 0.f;
-                                    pos.y += font->size->metrics.height / 64.f;
-                                }
-                                else
-                                {
-                                    size.x = std::max(size.x, pos.x);
-                                    pos.x = x;
-                                    pos.y += font->size->metrics.height / 64.f;
-                                }
-                                rsbDeltaPrev = 0;
-                            }
-                            else
-                            {
-                                if (isSpace(*i) && i != utf32.begin())
-                                {
-                                    textLine = i;
-                                    textLineX = pos.x;
-                                }
-                                pos.x += x;
-                            }
-                        }
-                        size.x = std::max(size.x, pos.x);
-                        size.y = pos.y;
+                        p.measure(utf32, request.info, font, request.maxLineWidth, size);
                     }
                     else
                     {
@@ -568,6 +546,31 @@ namespace djv
                     request.promise.set_value(size);
                 }
                 p.measureRequests.clear();
+            }
+
+            void System::_handleMeasureGlyphsRequests()
+            {
+                DJV_PRIVATE_PTR();
+                for (auto& request : p.measureGlyphsRequests)
+                {
+                    std::basic_string<djv_char_t> utf32;
+                    FT_Face font;
+                    std::string error;
+                    glm::vec2 size = glm::vec2(0.f, 0.f);
+                    std::vector<BBox2f> glyphGeom;
+                    if (p.getText(request.text, request.info, utf32, font, error))
+                    {
+                        p.measure(utf32, request.info, font, request.maxLineWidth, size, &glyphGeom);
+                    }
+                    else
+                    {
+                        std::stringstream ss;
+                        ss << "Error converting string" << " '" << request.text << "': " << error;
+                        _log(ss.str(), LogLevel::Error);
+                    }
+                    request.promise.set_value(glyphGeom);
+                }
+                p.measureGlyphsRequests.clear();
             }
 
             void System::_handleTextLinesRequests()
@@ -893,6 +896,91 @@ namespace djv
                     }
                 }
                 return out;
+            }
+
+            void System::Private::measure(
+                const std::basic_string<djv_char_t>& utf32,
+                const Info& info,
+                FT_Face font,
+                uint16_t maxLineWidth,
+                glm::vec2& size,
+                std::vector<BBox2f>* glyphGeom)
+            {
+                glm::vec2 pos(0.f, font->size->metrics.height / 64.f);
+                auto textLine = utf32.end();
+                float textLineX = 0.f;
+                int32_t rsbDeltaPrev = 0;
+                for (auto i = utf32.begin(); i != utf32.end(); ++i)
+                {
+                    const auto glyphInfo = GlyphInfo(*i, info);
+                    const auto glyph = getGlyph(glyphInfo);
+
+                    if (glyphGeom)
+                    {
+                        glyphGeom->push_back(BBox2f(
+                            pos.x,
+                            glyph->advance,
+                            glyph->advance,
+                            font->size->metrics.height / 64.f));
+                    }
+
+                    int32_t x = 0;
+                    glm::vec2 posAndSize(0.f, 0.f);
+                    if (glyph->imageData)
+                    {
+                        x = glyph->advance;
+                        if (rsbDeltaPrev - glyph->lsbDelta > 32)
+                        {
+                            x -= 1;
+                        }
+                        else if (rsbDeltaPrev - glyph->lsbDelta < -31)
+                        {
+                            x += 1;
+                        }
+                        rsbDeltaPrev = glyph->rsbDelta;
+                    }
+                    else
+                    {
+                        rsbDeltaPrev = 0;
+                    }
+
+                    if (isNewline(*i))
+                    {
+                        size.x = std::max(size.x, pos.x);
+                        pos.x = 0.f;
+                        pos.y += font->size->metrics.height / 64.f;
+                        rsbDeltaPrev = 0;
+                    }
+                    else if (pos.x > 0.f && pos.x + (!isSpace(*i) ? x : 0.f) >= maxLineWidth)
+                    {
+                        if (textLine != utf32.end())
+                        {
+                            i = textLine;
+                            textLine = utf32.end();
+                            size.x = std::max(size.x, textLineX);
+                            pos.x = 0.f;
+                            pos.y += font->size->metrics.height / 64.f;
+                        }
+                        else
+                        {
+                            size.x = std::max(size.x, pos.x);
+                            pos.x = x;
+                            pos.y += font->size->metrics.height / 64.f;
+                        }
+                        rsbDeltaPrev = 0;
+                    }
+                    else
+                    {
+                        if (isSpace(*i) && i != utf32.begin())
+                        {
+                            textLine = i;
+                            textLineX = pos.x;
+                        }
+                        pos.x += x;
+                    }
+                }
+                size.x = std::max(size.x, pos.x);
+                size.y = pos.y;
             }
 
         } // namespace Font

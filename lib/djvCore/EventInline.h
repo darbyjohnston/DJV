@@ -296,15 +296,15 @@ namespace djv
                 Event(Type::TextFocusLost)
             {}
 
-            inline Text::Text(const std::string & text, int textModifiers) :
+            inline Text::Text(const std::basic_string<djv_char_t>& utf32, int textModifiers) :
                 Event(Type::Text),
-                _text(text),
+                _utf32(utf32),
                 _textModifiers(textModifiers)
             {}
 
-            inline const std::string & Text::getText() const
+            inline const std::basic_string<djv_char_t>& Text::getUtf32() const
             {
-                return _text;
+                return _utf32;
             }
 
             inline int Text::getTextModifiers() const

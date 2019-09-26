@@ -40,6 +40,7 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/FileIO.h>
+#include <djvCore/IEventSystem.h>
 #include <djvCore/Path.h>
 #include <djvCore/ResourceSystem.h>
 #include <djvCore/String.h>
@@ -145,9 +146,8 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            auto glfwSystem = context->getSystemT<Desktop::GLFWSystem>();
-                            auto glfwWindow = glfwSystem->getGLFWWindow();
-                            glfwSetClipboardString(glfwWindow, String::join(widget->_p->log, '\n').c_str());
+                            auto eventSystem = context->getSystemT<Event::IEventSystem>();
+                            eventSystem->setClipboard(String::join(widget->_p->log, '\n'));
                         }
                     }
                 });

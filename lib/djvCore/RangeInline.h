@@ -93,10 +93,21 @@ namespace djv
             }
 
             template<typename T>
-            inline void Range<T>::expand(const Range<T> & value)
+            inline void Range<T>::expand(const Range<T>& value)
             {
                 min = std::min(min, value.min);
                 max = std::max(max, value.max);
+            }
+
+            template<typename T>
+            inline void Range<T>::sort()
+            {
+                if (max < min)
+                {
+                    const T tmp = min;
+                    min = max;
+                    max = tmp;
+                }
             }
 
             template<typename T>

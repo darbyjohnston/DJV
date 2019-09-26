@@ -45,6 +45,7 @@
 #include <djvUI/Window.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/IEventSystem.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/TextSystem.h>
 
@@ -387,9 +388,8 @@ namespace djv
                             {
                                 if (auto system = weak.lock())
                                 {
-                                    auto glfwSystem = context->getSystemT<Desktop::GLFWSystem>();
-                                    auto glfwWindow = glfwSystem->getGLFWWindow();
-                                    glfwSetClipboardString(glfwWindow, system->_p->errorsText.c_str());
+                                    auto eventSystem = context->getSystemT<Event::IEventSystem>();
+                                    eventSystem->setClipboard(system->_p->errorsText.c_str());
                                 }
                             }
                         });

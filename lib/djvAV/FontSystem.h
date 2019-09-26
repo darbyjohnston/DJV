@@ -31,9 +31,9 @@
 
 #include <djvAV/ImageData.h>
 
+#include <djvCore/BBox.h>
 #include <djvCore/ISystem.h>
 #include <djvCore/Range.h>
-#include <djvCore/Vector.h>
 
 #include <future>
 
@@ -141,7 +141,14 @@ namespace djv
                 std::future<Metrics> getMetrics(const Info &);
 
                 //! Measure the size of text.
-                std::future<glm::vec2> measure(const std::string & text, const Info &);
+                std::future<glm::vec2> measure(
+                    const std::string& text,
+                    const Info&        info);
+
+                //! Measure glyphs.
+                std::future<std::vector<Core::BBox2f> > measureGlyphs(
+                    const std::string& text,
+                    const Info&        info);
 
                 //! Break text into lines for wrapping.
                 std::future<std::vector<TextLine> > textLines(
@@ -168,6 +175,7 @@ namespace djv
                 void _delFreeType();
                 void _handleMetricsRequests();
                 void _handleMeasureRequests();
+                void _handleMeasureGlyphsRequests();
                 void _handleTextLinesRequests();
                 void _handleGlyphsRequests();
 

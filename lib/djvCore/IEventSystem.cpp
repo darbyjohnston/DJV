@@ -186,6 +186,14 @@ namespace djv
                 }
             }
 
+            void IEventSystem::setClipboard(const std::string&)
+            {}
+
+            std::string IEventSystem::getClipboard() const
+            {
+                return std::string();
+            }
+
             void IEventSystem::tick(float dt)
             {
                 DJV_PRIVATE_PTR();
@@ -401,12 +409,12 @@ namespace djv
                 }
             }
 
-            void IEventSystem::_text(const std::string & text, int modifiers)
+            void IEventSystem::_text(const std::basic_string<djv_char_t>& utf32, int modifiers)
             {
                 DJV_PRIVATE_PTR();
                 if (auto textFocus = p.textFocus.lock())
                 {
-                    Text event(text, modifiers);
+                    Text event(utf32, modifiers);
                     textFocus->event(event);
                 }
             }

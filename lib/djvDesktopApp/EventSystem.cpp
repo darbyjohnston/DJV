@@ -167,6 +167,18 @@ namespace djv
             return out;
         }
 
+        void EventSystem::setClipboard(const std::string& value)
+        {
+            DJV_PRIVATE_PTR();
+            glfwSetClipboardString(p.glfwWindow, value.c_str());
+        }
+
+        std::string EventSystem::getClipboard() const
+        {
+            DJV_PRIVATE_PTR();
+            return glfwGetClipboardString(p.glfwWindow);
+        }
+
         void EventSystem::tick(float dt)
         {
             UI::EventSystem::tick(dt);
@@ -491,19 +503,9 @@ namespace djv
             Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
             if (auto system = context->getSystemT<EventSystem>())
             {
-                std::string text;
-                try
-                {
-                    std::wstring_convert<std::codecvt_utf8<djv_char_t>, djv_char_t> utf32;
-                    text = utf32.to_bytes(character);
-                }
-                catch (const std::exception & e)
-                {
-                    std::stringstream ss;
-                    ss << "Error converting character" << " '" << character << "': " << e.what();
-                    system->_log(ss.str(), LogLevel::Error);
-                }
-                system->_text(text, modifiers);
+                std::basic_string<djv_char_t> utf32;
+                utf32.push_back(character);
+                system->_text(utf32, modifiers);
             }
         }
 
