@@ -13,6 +13,7 @@ set(header
     Enum.h
     FontSystem.h
     FontSystemInline.h
+    IFF.h
     IO.h
     IOInline.h
     Image.h
@@ -28,15 +29,19 @@ set(header
     OpenGLShader.h
     OpenGLTexture.h
     OpenGLTextureInline.h
+    PIC.h
     PPM.h
     Pixel.h
     PixelInline.h
+    RLA.h
     Render2D.h
     Render2DInline.h
+    SGI.h
     SequenceIO.h
     Shader.h
     Shape.h
     Tags.h
+    Targa.h
     TextureAtlas.h
     ThumbnailSystem.h
     TriangleMesh.h)
@@ -54,6 +59,9 @@ set(source
     DPXWrite.cpp
     Enum.cpp
     FontSystem.cpp
+    IFF.cpp
+    IFFRead.cpp
+    IFFWrite.cpp
     IO.cpp
     Image.cpp
     ImageConvert.cpp
@@ -64,15 +72,25 @@ set(source
     OpenGLOffscreenBuffer.cpp
     OpenGLShader.cpp
     OpenGLTexture.cpp
+    PIC.cpp
+    PICRead.cpp
     PPM.cpp
     PPMRead.cpp
     PPMWrite.cpp
     Pixel.cpp
+    RLA.cpp
+    RLARead.cpp
     Render2D.cpp
     SequenceIO.cpp
     Shape.cpp
     Shader.cpp
+    SGI.cpp
+    SGIRead.cpp
+    SGIWrite.cpp
     Tags.cpp
+    Targa.cpp
+    TargaRead.cpp
+    TargaWrite.cpp
     TextureAtlas.cpp
     ThumbnailSystem.cpp
     TriangleMesh.cpp)

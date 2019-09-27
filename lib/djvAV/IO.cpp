@@ -31,8 +31,14 @@
 
 #include <djvAV/Cineon.h>
 #include <djvAV/DPX.h>
+#include <djvAV/IFF.h>
 #include <djvAV/OCIOSystem.h>
+#include <djvAV/PIC.h>
 #include <djvAV/PPM.h>
+#include <djvAV/RLA.h>
+#include <djvAV/SGI.h>
+#include <djvAV/Targa.h>
+
 #if defined(FFmpeg_FOUND)
 #include <djvAV/FFmpeg.h>
 #endif // FFmpeg_FOUND
@@ -594,7 +600,12 @@ namespace djv
                 auto ocioSystem = context->getSystemT<OCIO::System>();
                 p.plugins[Cineon::pluginName] = Cineon::Plugin::create(context);
                 p.plugins[DPX::pluginName] = DPX::Plugin::create(context);
+                p.plugins[IFF::pluginName] = PPM::Plugin::create(context);
+                p.plugins[PIC::pluginName] = PPM::Plugin::create(context);
                 p.plugins[PPM::pluginName] = PPM::Plugin::create(context);
+                p.plugins[RLA::pluginName] = PPM::Plugin::create(context);
+                p.plugins[SGI::pluginName] = PPM::Plugin::create(context);
+                p.plugins[Targa::pluginName] = PPM::Plugin::create(context);
 #if defined(FFmpeg_FOUND)
                 p.plugins[FFmpeg::pluginName] = FFmpeg::Plugin::create(context);
 #endif // FFmpeg_FOUND
