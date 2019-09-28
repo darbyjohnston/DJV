@@ -43,21 +43,17 @@ namespace djv
             {
                 namespace
                 {
-                    int readRle(FileSystem::FileIO& io, uint8_t* out, int size)
+                    size_t readRle(FileSystem::FileIO& io, uint8_t* out, int size)
                     {
-                        std::vector<uint8_t> buf(size);
-                        io.readU8(buf.data(), size);
-
-                        const uint8_t* in = buf.data();
-                        const uint8_t* const _in = in;
+                        const size_t pos = io.getPos();
                         const uint8_t* const end = out + size;
-
                         while (out < end)
                         {
                             // Information.
-                            const uint8_t count = (*in & 0x7f) + 1;
-                            const bool run = (*in & 0x80) ? true : false;
-                            ++in;
+                            uint8_t in = 0;
+                            io.readU8(&in);
+                            const uint8_t count = (in & 0x7f) + 1;
+                            const bool run = (in & 0x80) ? true : false;
 
                             // Find runs.
                             if (!run)
@@ -65,23 +61,22 @@ namespace djv
                                 // Verbatim.
                                 for (int i = 0; i < count; i++)
                                 {
-                                    *out++ = *in++;
+                                    io.readU8(&in);
+                                    *out++ = in;
                                 }
                             }
                             else
                             {
                                 // Duplicate.
-                                const uint8_t p = *in++;
-
+                                io.readU8(&in);
+                                const uint8_t p = in;
                                 for (int i = 0; i < count; i++)
                                 {
                                     *out++ = p;
                                 }
                             }
                         }
-
-                        const int r = in - _in;
-                        return r;
+                        return io.getPos() - pos;
                     }
 
                 } // namespace
@@ -127,8 +122,9 @@ namespace djv
 
                     const int channelByteCount = Image::getByteCount(Image::getDataType(info.video[0].info.type));
                     const uint8_t byteCount = Image::getByteCount(info.video[0].info.type);
+
                     // Read FOR4 <size> TBMP block
-                    for (;;)
+                    while (!io.isEOF())
                     {
                         // Get type.
                         io.read(&type, 4);
@@ -154,9 +150,6 @@ namespace djv
                             Tags tags;
                             tags.setTag("Creator", s);
 
-                            // Skip to the next block.
-                            io.seek(chunkSize);
-
                             // Set tag.
                             out->setTags(tags);
                         }
@@ -175,7 +168,7 @@ namespace djv
                                 type[3] == 'P')
                             {
                                 // Read RGBA and ZBUF block.
-                                for (;;)
+                                while (!io.isEOF())
                                 {
                                     // Get type.
                                     io.read(&type, 4);
@@ -246,7 +239,6 @@ namespace djv
                                         if (info.video[0].info.type == Image::Type::RGB_U8 ||
                                             info.video[0].info.type == Image::Type::RGBA_U8)
                                         {
-
                                             // Tile compress.
                                             if (tile_compress)
                                             {
@@ -267,20 +259,13 @@ namespace djv
                                                     {
                                                         uint8_t* out_dy = out->getData(0, py);
 
-                                                        for (
-                                                            uint16_t px = xmin;
-                                                            px <= xmax;
-                                                            px++)
+                                                        for (uint16_t px = xmin; px <= xmax; px++)
                                                         {
-                                                            uint8_t* outP =
-                                                                out_dy + px * byteCount + c;
+                                                            uint8_t* outP = out_dy + px * byteCount + c;
                                                             *outP++ = *inP++;
                                                         }
                                                     }
                                                 }
-
-                                                // Seek
-                                                io.seek(imageSize - 8);
 
                                                 // Test.
                                                 if (p != imageSize - 8)
@@ -315,8 +300,7 @@ namespace djv
                                                         for (int c = channels - 1; c >= 0; --c)
                                                         {
                                                             uint8_t pixel;
-                                                            uint8_t* inP =
-                                                                pixels + c * channelByteCount;
+                                                            uint8_t* inP = pixels + c * channelByteCount;
                                                             memcpy(&pixel, inP, 1);
                                                             *outP++ = pixel;
                                                         }
@@ -370,9 +354,7 @@ namespace djv
                                                 }
 
                                                 // Map: RGB(A)8 BGRA to RGBA
-                                                for (int c = (channels * channelByteCount) - 1;
-                                                    c >= 0;
-                                                    --c)
+                                                for (int c = (channels * channelByteCount) - 1; c >= 0; --c)
                                                 {
                                                     int mc = map[c];
 
@@ -386,20 +368,13 @@ namespace djv
                                                     {
                                                         uint8_t* out_dy = out->getData(0, py);
 
-                                                        for (
-                                                            uint16_t px = xmin;
-                                                            px <= xmax;
-                                                            px++)
+                                                        for (uint16_t px = xmin; px <= xmax; px++)
                                                         {
-                                                            uint8_t* outP =
-                                                                out_dy + px * byteCount + mc;
+                                                            uint8_t* outP = out_dy + px * byteCount + mc;
                                                             *outP++ = *inP++;
                                                         }
                                                     }
                                                 }
-
-                                                // Seek
-                                                io.seek(imageSize - 8);
 
                                                 // Test.
                                                 if (p != imageSize - 8)
@@ -434,8 +409,7 @@ namespace djv
                                                         for (int c = channels - 1; c >= 0; --c)
                                                         {
                                                             uint16_t pixel;
-                                                            uint8_t* in =
-                                                                pixels + c * channelByteCount;
+                                                            uint8_t* in = pixels + c * channelByteCount;
 
                                                             if (Memory::getEndian() == Memory::Endian::LSB)
                                                             {

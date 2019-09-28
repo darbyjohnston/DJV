@@ -157,7 +157,7 @@ namespace djv
                         if (info.video.size() && _options.layer < info.video.size())
                         {
                             const size_t dataByteCount = info.video[_options.layer].info.getDataByteCount();
-                            _cache.setMax(cacheMaxByteCount / dataByteCount);
+                            _cache.setMax(dataByteCount ? (cacheMaxByteCount / dataByteCount) : 0);
                             _cache.setSequenceSize(info.video[_options.layer].sequence.getSize());
                         }
                         else
@@ -206,7 +206,11 @@ namespace djv
                         }
 
                         // Fill the queue.
-                        const size_t read = _readQueue(queueCount, cacheEnabled);
+                        size_t read = 0;
+                        if (queueCount > 0)
+                        {
+                            read = _readQueue(queueCount, cacheEnabled);
+                        }
 
                         // Fill the cache.
                         if (cacheEnabled)
@@ -599,7 +603,6 @@ namespace djv
                                         auto frame = _videoQueue.popFrame();
                                         images.push_back(frame.image);
                                     }
-
                                     if (_videoQueue.isEmpty() && _videoQueue.isFinished())
                                     {
                                         p.running = false;

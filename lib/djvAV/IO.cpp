@@ -600,12 +600,12 @@ namespace djv
                 auto ocioSystem = context->getSystemT<OCIO::System>();
                 p.plugins[Cineon::pluginName] = Cineon::Plugin::create(context);
                 p.plugins[DPX::pluginName] = DPX::Plugin::create(context);
-                p.plugins[IFF::pluginName] = PPM::Plugin::create(context);
-                p.plugins[PIC::pluginName] = PPM::Plugin::create(context);
+                p.plugins[IFF::pluginName] = IFF::Plugin::create(context);
+                p.plugins[PIC::pluginName] = PIC::Plugin::create(context);
                 p.plugins[PPM::pluginName] = PPM::Plugin::create(context);
-                p.plugins[RLA::pluginName] = PPM::Plugin::create(context);
-                p.plugins[SGI::pluginName] = PPM::Plugin::create(context);
-                p.plugins[Targa::pluginName] = PPM::Plugin::create(context);
+                p.plugins[RLA::pluginName] = RLA::Plugin::create(context);
+                p.plugins[SGI::pluginName] = SGI::Plugin::create(context);
+                p.plugins[Targa::pluginName] = Targa::Plugin::create(context);
 #if defined(FFmpeg_FOUND)
                 p.plugins[FFmpeg::pluginName] = FFmpeg::Plugin::create(context);
 #endif // FFmpeg_FOUND

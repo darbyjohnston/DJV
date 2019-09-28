@@ -90,34 +90,6 @@ namespace djv
                     struct File;
                     Info _open(const std::string &, File &);
                 };
-                
-                //! This class provides the PIC file writer.
-                class Write : public ISequenceWrite
-                {
-                    DJV_NON_COPYABLE(Write);
-
-                protected:
-                    Write();
-
-                public:
-                    ~Write() override;
-
-                    static std::shared_ptr<Write> create(
-                        const Core::FileSystem::FileInfo&,
-                        const Info &,
-                        const WriteOptions&,
-                        const Options&,
-                        const std::shared_ptr<Core::ResourceSystem>&,
-                        const std::shared_ptr<Core::LogSystem>&);
-
-                protected:
-                    Image::Type _getImageType(Image::Type) const override;
-                    Image::Layout _getImageLayout() const override;
-                    void _write(const std::string & fileName, const std::shared_ptr<Image::Image> &) override;
-
-                private:
-                    DJV_PRIVATE();
-                };
 
                 //! This class provides the PIC file I/O plugin.
                 class Plugin : public ISequencePlugin
@@ -134,7 +106,6 @@ namespace djv
                     void setOptions(const picojson::value &) override;
 
                     std::shared_ptr<IRead> read(const Core::FileSystem::FileInfo&, const ReadOptions&) const override;
-                    std::shared_ptr<IWrite> write(const Core::FileSystem::FileInfo&, const Info &, const WriteOptions&) const override;
 
                 private:
                     DJV_PRIVATE();

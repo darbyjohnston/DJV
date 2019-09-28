@@ -64,10 +64,8 @@ namespace djv
 
                     struct Header
                     {
-                        void load(FileSystem::FileIO&, Image::Info&, int* tiles, bool* compression);
-                        void save(FileSystem::FileIO&, const Image::Info&, bool compression);
-
-                        void debug() const;
+                        void read(FileSystem::FileIO&, Image::Info&, int& tiles, bool& compression);
+                        void write(FileSystem::FileIO&, const Image::Info&, bool compression);
 
                     private:
                         struct Data
@@ -83,13 +81,13 @@ namespace djv
                         _data;
                     };
 
-                    void Header::load(
+                    void Header::read(
                         FileSystem::FileIO& io,
                         Image::Info& info,
-                        int* tiles,
-                        bool* compression)
+                        int& tiles,
+                        bool& compression)
                     {
-                        //DJV_DEBUG("Header::load");
+                        info.layout.mirror.y = true;
 
                         uint8_t  type[4];
                         uint32_t size;
@@ -102,7 +100,7 @@ namespace djv
                         uint16_t prden;
 
                         // Read FOR4 <size> CIMG.
-                        for (;;)
+                        while (!io.isEOF())
                         {
                             // Get type.
                             io.read(&type, 4);
@@ -116,10 +114,6 @@ namespace djv
                                 type[2] == 'R' &&
                                 type[3] == '4')
                             {
-                                //DJV_DEBUG_PRINT("type = FOR4");
-                                //DJV_DEBUG_PRINT("size = " << size);
-                                //DJV_DEBUG_PRINT("chunksize = " << chunksize);
-
                                 // Get type
                                 io.read(&type, 4);
 
@@ -129,10 +123,8 @@ namespace djv
                                     type[2] == 'M' &&
                                     type[3] == 'G')
                                 {
-                                    //DJV_DEBUG_PRINT("type = CIMG");
-
                                     // Read TBHD.
-                                    for (;;)
+                                    while (!io.isEOF())
                                     {
                                         // Get type
                                         io.read(&type, 4);
@@ -172,7 +164,7 @@ namespace djv
 
                                             // Get tiles.
                                             io.readU16(&data.tiles, 1);
-                                            *tiles = data.tiles;
+                                            tiles = data.tiles;
 
                                             // Get compressed.
                                             io.readU32(&compressed, 1);
@@ -189,7 +181,7 @@ namespace djv
                                             }
 
                                             // Get compressed.
-                                            *compression = compressed;
+                                            compression = compressed;
 
                                             // Set XY.
                                             if (tbhdsize == 32)
@@ -304,7 +296,6 @@ namespace djv
                                         _data.pixelBits > 0 &&
                                         _data.pixelChannels > 0)
                                     {
-                                        debug();
                                         break;
                                     }
                                 }
@@ -315,13 +306,11 @@ namespace djv
                         }
                     }
 
-                    void Header::save(
+                    void Header::write(
                         FileSystem::FileIO& io,
                         const Image::Info& info,
                         bool compression)
                     {
-                        //DJV_DEBUG("Header::save");
-
                         // FOR4 <size> CIMG    - 4 + 4 + 4 = 16 bytes
                         // TBHD <size> <data>  - 4 + 4 + 32 = 40 bytes
 
@@ -434,18 +423,6 @@ namespace djv
                         io.writeU32(0);
                     }
 
-                    void Header::debug() const
-                    {
-                        //DJV_DEBUG("Header::debug");
-                        //DJV_DEBUG_PRINT("x = " << _data.x);
-                        //DJV_DEBUG_PRINT("y = " << _data.y);
-                        //DJV_DEBUG_PRINT("width = " << _data.width);
-                        //DJV_DEBUG_PRINT("height = " << _data.height);
-                        //DJV_DEBUG_PRINT("pixelBits = " << _data.pixelBits);
-                        //DJV_DEBUG_PRINT("pixelChannels = " << _data.pixelChannels);
-                        //DJV_DEBUG_PRINT("tiles = " << _data.tiles);
-                    }
-
                 } // namespace
 
                 uint32_t getAlignSize(uint32_t size, uint32_t alignment)
@@ -460,20 +437,20 @@ namespace djv
                 }
 
                 void readHeader(
-                    const FileSystem::FileIO&   io,
-                    Image::Info&                info,
-                    int&                        tiles,
-                    bool&                       compression)
+                    FileSystem::FileIO& io,
+                    Image::Info&        info,
+                    int&                tiles,
+                    bool&               compression)
                 {
-
+                    Header().read(io, info, tiles, compression);
                 }
 
                 void writeHeader(
-                    const FileSystem::FileIO&   io,
-                    const Image::Info&          info,
-                    bool                        compression)
+                    FileSystem::FileIO& io,
+                    const Image::Info&  info,
+                    bool                compression)
                 {
-
+                    Header().write(io, info, compression);
                 }
 
                 struct Plugin::Private

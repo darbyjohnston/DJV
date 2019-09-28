@@ -74,11 +74,6 @@ namespace djv
                     return Read::create(fileInfo, options, _resourceSystem, _logSystem);
                 }
 
-                std::shared_ptr<IWrite> Plugin::write(const FileSystem::FileInfo& fileInfo, const Info & info, const WriteOptions& options) const
-                {
-                    return Write::create(fileInfo, info, options, _p->options, _resourceSystem, _logSystem);
-                }
-
             } // namespace PIC
         } // namespace IO
     } // namespace AV

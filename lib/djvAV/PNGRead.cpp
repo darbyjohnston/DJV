@@ -176,6 +176,7 @@ namespace djv
                     File f;
                     const auto info = _open(fileName, f);
                     out = Image::Image::create(info.video[0].info);
+
                     out->setPluginName(pluginName);
                     for (uint16_t y = 0; y < info.video[0].info.size.h; ++y)
                     {

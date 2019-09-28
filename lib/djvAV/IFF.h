@@ -67,16 +67,16 @@ namespace djv
 
                 //! Read the header.
                 void readHeader(
-                    const Core::FileSystem::FileIO& io,
-                    Image::Info&                    info,
-                    int&                            tiles,
-                    bool&                           compression);
+                    Core::FileSystem::FileIO& io,
+                    Image::Info&              info,
+                    int&                      tiles,
+                    bool&                     compression);
 
                 //! Write the header.
                 void writeHeader(
-                    const Core::FileSystem::FileIO& io,
-                    const Image::Info& info,
-                    bool compression);
+                    Core::FileSystem::FileIO& io,
+                    const Image::Info&        info,
+                    bool                      compression);
 
                 //! This struct provides the IFF file I/O options.
                 struct Options
