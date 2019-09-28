@@ -104,7 +104,10 @@ namespace djv
 
         void ImageWidget::setImage(const std::shared_ptr<AV::Image::Image> & value)
         {
-            _p->image = value;
+            DJV_PRIVATE_PTR();
+            if (value == p.image)
+                return;
+            p.image = value;
             _resize();
         }
 
@@ -116,9 +119,9 @@ namespace djv
         void ImageWidget::setImageColorRole(ColorRole value)
         {
             DJV_PRIVATE_PTR();
-            if (value == _p->imageColorRole)
+            if (value == p.imageColorRole)
                 return;
-            _p->imageColorRole = value;
+            p.imageColorRole = value;
             _redraw();
         }
 

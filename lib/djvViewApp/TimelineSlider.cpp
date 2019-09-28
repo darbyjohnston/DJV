@@ -145,7 +145,7 @@ namespace djv
                                     widget->_textUpdate();
                                 }
                             }
-                            else
+                            else if (widget->_imageWidget->getImage())
                             {
                                 widget->_currentFrame = 0;
                                 widget->_imageWidget->setImage(nullptr);
