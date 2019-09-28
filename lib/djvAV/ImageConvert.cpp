@@ -124,9 +124,9 @@ namespace djv
                 }
                 p.shader->setUniform("transform.mvp", p.mvp);
 
-                if (!p.vbo || (p.vbo && info.layout.mirror != p.mirror))
+                if (!p.vbo || (p.vbo && data.getLayout().mirror != p.mirror))
                 {
-                    p.mirror = info.layout.mirror;
+                    p.mirror = data.getLayout().mirror;
                     AV::Geom::Square square;
                     AV::Geom::TriangleMesh mesh;
                     square.triangulate(mesh);
