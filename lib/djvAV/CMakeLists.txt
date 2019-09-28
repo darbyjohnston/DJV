@@ -29,7 +29,6 @@ set(header
     OpenGLShader.h
     OpenGLTexture.h
     OpenGLTextureInline.h
-    PIC.h
     PPM.h
     Pixel.h
     PixelInline.h
@@ -61,7 +60,6 @@ set(source
     FontSystem.cpp
     IFF.cpp
     IFFRead.cpp
-    IFFWrite.cpp
     IO.cpp
     Image.cpp
     ImageConvert.cpp
@@ -72,8 +70,6 @@ set(source
     OpenGLOffscreenBuffer.cpp
     OpenGLShader.cpp
     OpenGLTexture.cpp
-    PIC.cpp
-    PICRead.cpp
     PPM.cpp
     PPMRead.cpp
     PPMWrite.cpp
@@ -86,11 +82,9 @@ set(source
     Shader.cpp
     SGI.cpp
     SGIRead.cpp
-    SGIWrite.cpp
     Tags.cpp
     Targa.cpp
     TargaRead.cpp
-    TargaWrite.cpp
     TextureAtlas.cpp
     ThumbnailSystem.cpp
     TriangleMesh.cpp)

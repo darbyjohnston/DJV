@@ -1,5 +1,4 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2008-2009 Mikael Sundell
 // Copyright (c) 2004-2019 Darby Johnston
 // All rights reserved.
 //
@@ -48,23 +47,6 @@ namespace djv
                 static const std::string pluginName = "RLA";
                 static const std::set<std::string> fileExtensions = { ".rla", ".rpf" };
 
-                //! This enumeration provides the RLA file compression types.
-                enum class Compression
-                {
-                    None,
-                    RLE,
-
-                    Count,
-                    First
-                };
-                DJV_ENUM_HELPERS(Compression);
-
-                //! This struct provides the RLA file I/O options.
-                struct Options
-                {
-                    Compression compression = Compression::RLE;
-                };
-
                 //! This class provides the RLA file reader.
                 class Read : public ISequenceRead
                 {
@@ -87,8 +69,9 @@ namespace djv
                     std::shared_ptr<Image::Image> _readImage(const std::string & fileName) override;
 
                 private:
-                    struct File;
-                    Info _open(const std::string &, File &);
+                    Info _open(const std::string &, Core::FileSystem::FileIO&);
+
+                    std::vector<int32_t> _rleOffset;
                 };
 
                 //! This class provides the RLA file I/O plugin.
@@ -102,9 +85,6 @@ namespace djv
                 public:
                     static std::shared_ptr<Plugin> create(const std::shared_ptr<Core::Context>&);
 
-                    picojson::value getOptions() const override;
-                    void setOptions(const picojson::value &) override;
-
                     std::shared_ptr<IRead> read(const Core::FileSystem::FileInfo&, const ReadOptions&) const override;
 
                 private:
@@ -114,13 +94,4 @@ namespace djv
             } // namespace RLA
         } // namespace IO
     } // namespace AV
-
-    DJV_ENUM_SERIALIZE_HELPERS(AV::IO::RLA::Compression);
-
-    picojson::value toJSON(const AV::IO::RLA::Options &);
-
-    //! Throws:
-    //! - std::exception
-    void fromJSON(const picojson::value &, AV::IO::RLA::Options &);
-
 } // namespace djv

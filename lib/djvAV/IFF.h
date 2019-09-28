@@ -52,38 +52,6 @@ namespace djv
                 static const std::string pluginName = "IFF";
                 static const std::set<std::string> fileExtensions = { ".iff", ".z" };
 
-                //! This enumeration provides the IFF file compression types.
-                enum class Compression
-                {
-                    None,
-                    RLE,
-
-                    Count,
-                    First
-                };
-                DJV_ENUM_HELPERS(Compression);
-
-                uint32_t getAlignSize(uint32_t size, uint32_t alignment);
-
-                //! Read the header.
-                void readHeader(
-                    Core::FileSystem::FileIO& io,
-                    Image::Info&              info,
-                    int&                      tiles,
-                    bool&                     compression);
-
-                //! Write the header.
-                void writeHeader(
-                    Core::FileSystem::FileIO& io,
-                    const Image::Info&        info,
-                    bool                      compression);
-
-                //! This struct provides the IFF file I/O options.
-                struct Options
-                {
-                    Compression compression = Compression::RLE;
-                };
-
                 //! This class provides the IFF file reader.
                 class Read : public ISequenceRead
                 {
@@ -108,36 +76,8 @@ namespace djv
                 private:
                     Info _open(const std::string &, Core::FileSystem::FileIO &);
                     
-                    int  _tiles         = 0;
-                    bool _compression   = false;
-                };
-                
-                //! This class provides the IFF file writer.
-                class Write : public ISequenceWrite
-                {
-                    DJV_NON_COPYABLE(Write);
-
-                protected:
-                    Write();
-
-                public:
-                    ~Write() override;
-
-                    static std::shared_ptr<Write> create(
-                        const Core::FileSystem::FileInfo&,
-                        const Info &,
-                        const WriteOptions&,
-                        const Options&,
-                        const std::shared_ptr<Core::ResourceSystem>&,
-                        const std::shared_ptr<Core::LogSystem>&);
-
-                protected:
-                    Image::Type _getImageType(Image::Type) const override;
-                    Image::Layout _getImageLayout() const override;
-                    void _write(const std::string & fileName, const std::shared_ptr<Image::Image> &) override;
-
-                private:
-                    DJV_PRIVATE();
+                    int  _tiles       = 0;
+                    bool _compression = false;
                 };
 
                 //! This class provides the IFF file I/O plugin.
@@ -151,26 +91,10 @@ namespace djv
                 public:
                     static std::shared_ptr<Plugin> create(const std::shared_ptr<Core::Context>&);
 
-                    picojson::value getOptions() const override;
-                    void setOptions(const picojson::value &) override;
-
                     std::shared_ptr<IRead> read(const Core::FileSystem::FileInfo&, const ReadOptions&) const override;
-                    std::shared_ptr<IWrite> write(const Core::FileSystem::FileInfo&, const Info &, const WriteOptions&) const override;
-
-                private:
-                    DJV_PRIVATE();
                 };
 
             } // namespace IFF
         } // namespace IO
     } // namespace AV
-
-    DJV_ENUM_SERIALIZE_HELPERS(AV::IO::IFF::Compression);
-
-    picojson::value toJSON(const AV::IO::IFF::Options &);
-
-    //! Throws:
-    //! - std::exception
-    void fromJSON(const picojson::value &, AV::IO::IFF::Options &);
-
 } // namespace djv

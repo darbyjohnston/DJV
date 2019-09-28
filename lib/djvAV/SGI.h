@@ -1,5 +1,4 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2008-2009 Mikael Sundell
 // Copyright (c) 2004-2019 Darby Johnston
 // All rights reserved.
 //
@@ -47,23 +46,6 @@ namespace djv
                 static const std::string pluginName = "SGI";
                 static const std::set<std::string> fileExtensions = { ".sgi", ".rgba", ".rgb", ".bw" };
 
-                //! This enumeration provides the SGI file compression types.
-                enum class Compression
-                {
-                    None,
-                    RLE,
-
-                    Count,
-                    First
-                };
-                DJV_ENUM_HELPERS(Compression);
-
-                //! This struct provides the SGI file I/O options.
-                struct Options
-                {
-                    Compression compression = Compression::RLE;
-                };
-
                 //! This class provides the SGI file reader.
                 class Read : public ISequenceRead
                 {
@@ -86,38 +68,13 @@ namespace djv
                     std::shared_ptr<Image::Image> _readImage(const std::string & fileName) override;
 
                 private:
-                    struct File;
-                    Info _open(const std::string &, File &);
+                    Info _open(const std::string &, Core::FileSystem::FileIO&);
+
+                    bool _compression = false;
+                    std::vector<uint32_t> _rleOffset;
+                    std::vector<uint32_t> _rleSize;
                 };
                 
-                //! This class provides the SGI file writer.
-                class Write : public ISequenceWrite
-                {
-                    DJV_NON_COPYABLE(Write);
-
-                protected:
-                    Write();
-
-                public:
-                    ~Write() override;
-
-                    static std::shared_ptr<Write> create(
-                        const Core::FileSystem::FileInfo&,
-                        const Info &,
-                        const WriteOptions&,
-                        const Options&,
-                        const std::shared_ptr<Core::ResourceSystem>&,
-                        const std::shared_ptr<Core::LogSystem>&);
-
-                protected:
-                    Image::Type _getImageType(Image::Type) const override;
-                    Image::Layout _getImageLayout() const override;
-                    void _write(const std::string & fileName, const std::shared_ptr<Image::Image> &) override;
-
-                private:
-                    DJV_PRIVATE();
-                };
-
                 //! This class provides the SGI file I/O plugin.
                 class Plugin : public ISequencePlugin
                 {
@@ -129,26 +86,10 @@ namespace djv
                 public:
                     static std::shared_ptr<Plugin> create(const std::shared_ptr<Core::Context>&);
 
-                    picojson::value getOptions() const override;
-                    void setOptions(const picojson::value &) override;
-
                     std::shared_ptr<IRead> read(const Core::FileSystem::FileInfo&, const ReadOptions&) const override;
-                    std::shared_ptr<IWrite> write(const Core::FileSystem::FileInfo&, const Info &, const WriteOptions&) const override;
-
-                private:
-                    DJV_PRIVATE();
                 };
 
             } // namespace SGI
         } // namespace IO
     } // namespace AV
-
-    DJV_ENUM_SERIALIZE_HELPERS(AV::IO::SGI::Compression);
-
-    picojson::value toJSON(const AV::IO::SGI::Options &);
-
-    //! Throws:
-    //! - std::exception
-    void fromJSON(const picojson::value &, AV::IO::SGI::Options &);
-
 } // namespace djv

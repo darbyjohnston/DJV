@@ -33,7 +33,6 @@
 #include <djvAV/DPX.h>
 #include <djvAV/IFF.h>
 #include <djvAV/OCIOSystem.h>
-#include <djvAV/PIC.h>
 #include <djvAV/PPM.h>
 #include <djvAV/RLA.h>
 #include <djvAV/SGI.h>
@@ -601,7 +600,6 @@ namespace djv
                 p.plugins[Cineon::pluginName] = Cineon::Plugin::create(context);
                 p.plugins[DPX::pluginName] = DPX::Plugin::create(context);
                 p.plugins[IFF::pluginName] = IFF::Plugin::create(context);
-                p.plugins[PIC::pluginName] = PIC::Plugin::create(context);
                 p.plugins[PPM::pluginName] = PPM::Plugin::create(context);
                 p.plugins[RLA::pluginName] = RLA::Plugin::create(context);
                 p.plugins[SGI::pluginName] = SGI::Plugin::create(context);

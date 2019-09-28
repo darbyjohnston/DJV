@@ -111,6 +111,7 @@ namespace djv
             {
                 close();
 
+#if defined(DJV_MMAP)
                 // Open the file.
                 DWORD desiredAccess = 0;
                 DWORD shareMode = 0;
@@ -151,7 +152,6 @@ namespace djv
                 _pos = 0;
                 _size = GetFileSize(_f, 0);
 
-#if defined(DJV_MMAP)
                 // Memory mapping.
                 if (Mode::Read == _mode && _size > 0)
                 {
@@ -169,6 +169,41 @@ namespace djv
 
                     _mmapEnd = _mmapStart + _size;
                     _mmapP = _mmapStart;
+                }
+#else // DJV_MMAP
+                std::string modeStr;
+                switch (mode)
+                {
+                case Mode::Read:
+                    modeStr = "r";
+                    break;
+                case Mode::Write:
+                    modeStr = "w";
+                    break;
+                case Mode::ReadWrite:
+                    modeStr = "r+";
+                    break;
+                case Mode::Append:
+                    modeStr = "a";
+                    break;
+                default: break;
+                }
+                _f = fopen(fileName.c_str(), modeStr.c_str());
+                if (!_f)
+                {
+                    throw std::runtime_error(getOpenError(fileName));
+                }
+                _fileName = fileName;
+                _mode = mode;
+                _pos = 0;
+                if (fseek(_f, 0, SEEK_END) != 0)
+                {
+                    throw std::runtime_error(getOpenError(fileName));
+                }
+                _size = ftell(_f);
+                if (fseek(_f, 0, SEEK_SET) != 0)
+                {
+                    throw std::runtime_error(getOpenError(fileName));
                 }
 #endif // DJV_MMAP
             }
@@ -216,13 +251,19 @@ namespace djv
                 }
                 _mmapEnd = 0;
                 _mmapP   = 0;
-#endif // DJV_MMAP
 
                 if (_f != INVALID_HANDLE_VALUE)
                 {
                     CloseHandle(_f);
                     _f = INVALID_HANDLE_VALUE;
                 }
+#else // DJV_MMAP
+                if (_f)
+                {
+                    fclose(_f);
+                    _f = nullptr;
+                }
+#endif // DJV_MMAP
 
                 _mode = Mode::First;
                 _pos  = 0;
@@ -261,8 +302,13 @@ namespace djv
                     }
                     _mmapP = p;
 #else // DJV_MMAP
-                    DWORD n;
+                    /*DWORD n;
                     if (!::ReadFile(_f, in, static_cast<DWORD>(size * wordSize), &n, 0))
+                    {
+                        throw std::runtime_error(getReadError(_fileName));
+                    }*/
+                    size_t r = fread(in, 1, size * wordSize, _f);
+                    if (r != size * wordSize)
                     {
                         throw std::runtime_error(getReadError(_fileName));
                     }
@@ -276,7 +322,12 @@ namespace djv
                 case Mode::ReadWrite:
                 {
                     DWORD n;
-                    if (!::ReadFile(_f, in, static_cast<DWORD>(size * wordSize), &n, 0))
+                    /*if (!::ReadFile(_f, in, static_cast<DWORD>(size * wordSize), &n, 0))
+                    {
+                        throw std::runtime_error(getReadError(_fileName));
+                    }*/
+                    size_t r = fread(in, 1, size * wordSize, _f);
+                    if (r != size * wordSize)
                     {
                         throw std::runtime_error(getReadError(_fileName));
                     }
@@ -303,8 +354,13 @@ namespace djv
                     Memory::endian(in, p, size, wordSize);
                 }
 
-                DWORD n = 0;
+                /*DWORD n = 0;
                 if (!::WriteFile(_f, p, static_cast<DWORD>(size * wordSize), &n, 0))
+                {
+                    throw std::runtime_error(getWriteError(_fileName));
+                }*/
+                size_t r = fwrite(p, 1, size * wordSize, _f);
+                if (r != size * wordSize)
                 {
                     throw std::runtime_error(getWriteError(_fileName));
                 }
@@ -338,13 +394,17 @@ namespace djv
                         throw std::runtime_error(getSeekError(_fileName));
                     }
 #else // DJV_MMAP
-                    LARGE_INTEGER v;
+                    /*LARGE_INTEGER v;
                     v.QuadPart = value;
                     if (!::SetFilePointerEx(
                         _f,
                         static_cast<LARGE_INTEGER>(v),
                         0,
                         !seek ? FILE_BEGIN : FILE_CURRENT))
+                    {
+                        throw std::runtime_error(getSeekError(_fileName));
+                    }*/
+                    if (fseek(_f, value, !seek ? SEEK_SET : SEEK_CUR) != 0)
                     {
                         throw std::runtime_error(getSeekError(_fileName));
                     }
@@ -355,13 +415,17 @@ namespace djv
                 case Mode::ReadWrite:
                 case Mode::Append:
                 {
-                    LARGE_INTEGER v;
+                    /*LARGE_INTEGER v;
                     v.QuadPart = value;
                     if (!::SetFilePointerEx(
                         _f,
                         static_cast<LARGE_INTEGER>(v),
                         0,
                         !seek ? FILE_BEGIN : FILE_CURRENT))
+                    {
+                        throw std::runtime_error(getSeekError(_fileName));
+                    }*/
+                    if (fseek(_f, value, !seek ? SEEK_SET : SEEK_CUR) != 0)
                     {
                         throw std::runtime_error(getSeekError(_fileName));
                     }

@@ -40,9 +40,7 @@ namespace djv
             namespace RLA
             {
                 struct Plugin::Private
-                {
-                    Options options;
-                };
+                {};
 
                 Plugin::Plugin() :
                     _p(new Private)
@@ -59,16 +57,6 @@ namespace djv
                     return out;
                 }
 
-                picojson::value Plugin::getOptions() const
-                {
-                    return toJSON(_p->options);
-                }
-
-                void Plugin::setOptions(const picojson::value & value)
-                {
-                    fromJSON(value, _p->options);
-                }
-
                 std::shared_ptr<IRead> Plugin::read(const FileSystem::FileInfo& fileInfo, const ReadOptions& options) const
                 {
                     return Read::create(fileInfo, options, _resourceSystem, _logSystem);
@@ -77,42 +65,5 @@ namespace djv
             } // namespace RLA
         } // namespace IO
     } // namespace AV
-
-    picojson::value toJSON(const AV::IO::RLA::Options & value)
-    {
-        picojson::value out(picojson::object_type, true);
-        {
-            std::stringstream ss;
-            ss << value.compression;
-            out.get<picojson::object>()["Compression"] = picojson::value(ss.str());
-        }
-        return out;
-    }
-
-    void fromJSON(const picojson::value & value, AV::IO::RLA::Options & out)
-    {
-        if (value.is<picojson::object>())
-        {
-            for (const auto & i : value.get<picojson::object>())
-            {
-                if ("Compression" == i.first)
-                {
-                    std::stringstream ss(i.second.get<std::string>());
-                    ss >> out.compression;
-                }
-            }
-        }
-        else
-        {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
-        }
-    }
-
-    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        AV::IO::RLA,
-        Compression,
-        DJV_TEXT("None"),
-        DJV_TEXT("RLE"));
-
 } // namespace djv
 

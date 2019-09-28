@@ -41,6 +41,10 @@
 
 #include <thread>
 
+#if defined(DJV_PLATFORM_WINDOWS)
+#include <fcntl.h>
+#endif // DJV_PLATFORM_WINDOWS
+
 namespace
 {
     const size_t fpsSamplesCount = 100;
@@ -56,6 +60,10 @@ namespace djv
             _args = args;
             const std::string argv0 = _args.size() > 0 ? _args[0] : std::string();
             _name = FileSystem::Path(argv0).getBaseName();
+
+#if defined(DJV_PLATFORM_WINDOWS)
+            _set_fmode(_O_BINARY);
+#endif // DJV_PLATFORM_WINDOWS
 
             _timerSystem = Time::TimerSystem::create(shared_from_this());
             _resourceSystem = ResourceSystem::create(argv0, shared_from_this());

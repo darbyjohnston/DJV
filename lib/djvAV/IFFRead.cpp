@@ -1,4 +1,5 @@
 //------------------------------------------------------------------------------
+// Copyright (c) 2008-2009 Mikael Sundell
 // Copyright (c) 2004-2019 Darby Johnston
 // All rights reserved.
 //
@@ -43,7 +44,18 @@ namespace djv
             {
                 namespace
                 {
-                    size_t readRle(FileSystem::FileIO& io, uint8_t* out, int size)
+                    uint32_t getAlignSize(uint32_t size, uint32_t alignment)
+                    {
+                        uint32_t mod = size % alignment;
+                        if (mod)
+                        {
+                            mod = alignment - mod;
+                            size += mod;
+                        }
+                        return size;
+                    }
+
+                    size_t readRle(FileSystem::FileIO& io, uint8_t* out, size_t size)
                     {
                         const size_t pos = io.getPos();
                         const uint8_t* const end = out + size;
@@ -59,11 +71,8 @@ namespace djv
                             if (!run)
                             {
                                 // Verbatim.
-                                for (int i = 0; i < count; i++)
-                                {
-                                    io.readU8(&in);
-                                    *out++ = in;
-                                }
+                                io.readU8(out, count);
+                                out += count;
                             }
                             else
                             {
@@ -120,8 +129,8 @@ namespace djv
                     uint32_t chunkSize;
                     uint32_t tilesRgba = _tiles;
 
-                    const int channelByteCount = Image::getByteCount(Image::getDataType(info.video[0].info.type));
-                    const uint8_t byteCount = Image::getByteCount(info.video[0].info.type);
+                    const size_t channelByteCount = Image::getByteCount(Image::getDataType(info.video[0].info.type));
+                    const size_t byteCount = Image::getByteCount(info.video[0].info.type);
 
                     // Read FOR4 <size> TBMP block
                     while (!io.isEOF())
@@ -249,11 +258,11 @@ namespace djv
                                                     c >= 0;
                                                     --c)
                                                 {
-                                                    std::vector<uint8_t> in(tw * th);
+                                                    std::vector<uint8_t> in(static_cast<size_t>(tw) * static_cast<size_t>(th));
                                                     uint8_t* inP = in.data();
 
                                                     // Uncompress.
-                                                    p += readRle(io, in.data(), tw * th);
+                                                    p += readRle(io, in.data(), static_cast<size_t>(tw) * static_cast<size_t>(th));
 
                                                     for (uint16_t py = ymin; py <= ymax; py++)
                                                     {
@@ -358,11 +367,11 @@ namespace djv
                                                 {
                                                     int mc = map[c];
 
-                                                    std::vector<uint8_t> in(tw * th);
+                                                    std::vector<uint8_t> in(static_cast<size_t>(tw) * static_cast<size_t>(th));
                                                     uint8_t* inP = in.data();
 
                                                     // Uncompress.
-                                                    p += readRle(io, in.data(), tw * th);
+                                                    p += readRle(io, in.data(), static_cast<size_t>(tw) * static_cast<size_t>(th));
 
                                                     for (uint16_t py = ymin; py <= ymax; py++)
                                                     {
@@ -476,12 +485,259 @@ namespace djv
                     return out;
                 }
 
+                namespace
+                {
+                    struct Header
+                    {
+                        void read(FileSystem::FileIO&, Image::Info&, int& tiles, bool& compression);
+
+                    private:
+                        struct Data
+                        {
+                            uint32_t x = 0;
+                            uint32_t y = 0;
+                            uint32_t width = 0;
+                            uint32_t height = 0;
+                            uint8_t  pixelBits = 0;
+                            uint8_t  pixelChannels = 0;
+                            uint16_t tiles = 0;
+                        }
+                        _data;
+                    };
+
+                    void Header::read(
+                        FileSystem::FileIO& io,
+                        Image::Info& info,
+                        int& tiles,
+                        bool& compression)
+                    {
+                        uint8_t  type[4];
+                        uint32_t size;
+                        uint32_t chunksize;
+                        uint32_t tbhdsize;
+                        uint32_t flags;
+                        uint32_t compressed;
+                        uint16_t bytes;
+                        uint16_t prnum;
+                        uint16_t prden;
+
+                        // Read FOR4 <size> CIMG.
+                        while (!io.isEOF())
+                        {
+                            // Get type.
+                            io.read(&type, 4);
+
+                            // Get length.
+                            io.readU32(&size, 1);
+                            chunksize = getAlignSize(size, 4);
+
+                            if (type[0] == 'F' &&
+                                type[1] == 'O' &&
+                                type[2] == 'R' &&
+                                type[3] == '4')
+                            {
+                                // Get type
+                                io.read(&type, 4);
+
+                                // Check if CIMG.
+                                if (type[0] == 'C' &&
+                                    type[1] == 'I' &&
+                                    type[2] == 'M' &&
+                                    type[3] == 'G')
+                                {
+                                    // Read TBHD.
+                                    while (!io.isEOF())
+                                    {
+                                        // Get type
+                                        io.read(&type, 4);
+
+                                        // Get length
+                                        io.readU32(&size, 1);
+                                        chunksize = getAlignSize(size, 4);
+
+                                        if (type[0] == 'T' &&
+                                            type[1] == 'B' &&
+                                            type[2] == 'H' &&
+                                            type[3] == 'D')
+                                        {
+                                            tbhdsize = size;
+
+                                            // Test if size if correct.
+                                            if (tbhdsize != 24 && tbhdsize != 32)
+                                            {
+                                                throw std::runtime_error(DJV_TEXT("Error reading header."));
+                                            }
+
+                                            // Set data.
+                                            Data data;
+
+                                            // Get width and height.
+                                            io.readU32(&data.width, 1);
+                                            io.readU32(&data.height, 1);
+                                            info.size = Image::Size(data.width, data.height);
+
+                                            // Get prnum and prdeb
+                                            io.readU16(&prnum, 1);
+                                            io.readU16(&prden, 1);
+
+                                            // Get flags, bytes, tiles and compressed.
+                                            io.readU32(&flags, 1);
+                                            io.readU16(&bytes, 1);
+
+                                            // Get tiles.
+                                            io.readU16(&data.tiles, 1);
+                                            tiles = data.tiles;
+
+                                            // Get compressed.
+                                            io.readU32(&compressed, 1);
+
+                                            // 0 no compression
+                                            // 1 RLE compression
+                                            // 2 QRL (not supported)
+                                            // 3 QR4 (not supported)
+                                            if (compressed > 1)
+                                            {
+                                                // no compression or non-rle compression not
+                                                // supported
+                                                throw std::runtime_error(DJV_TEXT("File not supported."));
+                                            }
+
+                                            // Get compressed.
+                                            compression = compressed;
+
+                                            // Set XY.
+                                            if (tbhdsize == 32)
+                                            {
+                                                io.readU32(&data.x, 1);
+                                                io.readU32(&data.y, 1);
+                                            }
+                                            else
+                                            {
+                                                data.x = 0;
+                                                data.y = 0;
+                                            }
+
+                                            // Test format.
+                                            if (flags & 0x00000003)
+                                            {
+                                                // Test if grayscale is set, if throw assert.
+                                                DJV_ASSERT(!(flags & 0x00000010));
+                                                bool alpha = false;
+
+                                                // Test for RGB channels.
+                                                if (flags & 0x00000001)
+                                                {
+                                                    data.pixelChannels = 3;
+                                                }
+
+                                                // Test for Alpha channel.
+                                                if (flags & 0x00000002)
+                                                {
+                                                    data.pixelChannels++;
+                                                    alpha = true;
+                                                }
+
+                                                // Test pixel bits.
+                                                if (flags & 0x00002000)
+                                                {
+                                                    data.pixelBits = 16; // 12bit represented as 16bit
+
+                                                    if (!alpha)
+                                                    {
+                                                        info.type = Image::Type::RGB_U16;
+                                                    }
+                                                    else
+                                                    {
+                                                        info.type = Image::Type::RGBA_U16;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    if (!bytes)
+                                                    {
+                                                        data.pixelBits = 8; // 8bit
+
+                                                        if (!alpha)
+                                                        {
+                                                            info.type = Image::Type::RGB_U8;
+                                                        }
+                                                        else
+                                                        {
+                                                            info.type = Image::Type::RGBA_U8;
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        data.pixelBits = 16; // 16bit
+
+                                                        if (!alpha)
+                                                        {
+                                                            info.type = Image::Type::RGB_U16;
+                                                        }
+                                                        else
+                                                        {
+                                                            info.type = Image::Type::RGBA_U16;
+                                                        }
+                                                    }
+                                                }
+
+                                                // Test bits.
+                                                const int bits = data.pixelChannels * data.pixelBits;
+                                                DJV_ASSERT(
+                                                    bits == (Image::getChannelCount(info.type) *
+                                                        data.pixelBits) &&
+                                                        (bits % data.pixelBits) == 0);
+                                            }
+
+                                            // Z format.
+                                            else if (flags & 0x00000004)
+                                            {
+                                                data.pixelChannels = 1;
+                                                data.pixelBits = 32; // 32bit
+
+                                                // NOTE: Z_F32 support - not supported
+                                                // info->pixel = PIXEL(Pixel::Z_F32);
+
+                                                DJV_ASSERT(bytes == 0);
+                                            }
+
+                                            // Set data.
+                                            _data = data;
+
+                                            // TBHD done, break.
+                                            break;
+                                        }
+
+                                        // Skip to the next block.
+                                        io.seek(chunksize);
+                                    }
+
+                                    // Test if supported else skip to next block.
+                                    if (_data.width > 0 &&
+                                        _data.height > 0 &&
+                                        _data.pixelBits > 0 &&
+                                        _data.pixelChannels > 0)
+                                    {
+                                        break;
+                                    }
+                                }
+                            }
+
+                            // Skip to the next block.
+                            io.seek(chunksize);
+                        }
+
+                        info.layout.mirror.y = true;
+                    }
+
+                } // namespace
+
                 Info Read::_open(const std::string & fileName, FileSystem::FileIO & io)
                 {
                     io.setEndian(Memory::getEndian() != Memory::Endian::MSB);
                     io.open(fileName, FileSystem::FileIO::Mode::Read);
                     Image::Info imageInfo;
-                    readHeader(io, imageInfo, _tiles, _compression);
+                    Header().read(io, imageInfo, _tiles, _compression);
                     auto info = Info(fileName, VideoInfo(imageInfo, _speed, _sequence));
                     return info;
                 }

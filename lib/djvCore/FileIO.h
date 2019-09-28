@@ -208,13 +208,14 @@ namespace djv
                 void _setPos(size_t, bool seek);
 
 #if defined(DJV_PLATFORM_WINDOWS)
-                HANDLE          _f         = INVALID_HANDLE_VALUE;
                 std::string     _fileName;
                 Mode            _mode      = Mode::First;
                 size_t          _pos       = 0;
                 size_t          _size      = 0;
                 bool            _endian    = false;
+                FILE*           _f         = nullptr;
 #if defined(DJV_MMAP)
+                HANDLE          _f = INVALID_HANDLE_VALUE;
                 void *          _mmap      = nullptr;
                 const uint8_t * _mmapStart = nullptr;
                 const uint8_t * _mmapEnd   = nullptr;
