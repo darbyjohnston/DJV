@@ -86,12 +86,6 @@ set(DJV_GCOV FALSE CACHE STRING "Whether to enable gcov code coverage")
 # Set compiler specific options.
 if(UNIX)
     if(CMAKE_COMPILER_IS_GNUCXX)
-        # Disable warnings from XPM files.
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-write-strings")
-        
-        # Disable warnings from printf/sprintf.
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-format-security")
-
         # Set profiling options.    
         #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg")
         #set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -pg")
@@ -99,12 +93,9 @@ if(UNIX)
         # Set gcov options.
         if(DJV_GCOV)
             include(CodeCoverage)
-            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -fprofile-arcs")
-            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -ftest-coverage")
-            set(CMAKE_C_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -fprofile-arcs")
-            set(CMAKE_C_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -ftest-coverage")
-            set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -fprofile-arcs")
-            set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -ftest-coverage")
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage -g -O0 -fprofile-arcs -ftest-coverage")
+            set(CMAKE_C_FLAGS "${CMAKE_CXX_FLAGS} --coverage -g -O0 -fprofile-arcs -ftest-coverage")
+            set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_CXX_FLAGS} --coverage -g -O0 -fprofile-arcs -ftest-coverage")
         endif()
     endif()
 endif()
@@ -125,6 +116,8 @@ include_directories(${INCLUDE_DIRS})
 #-------------------------------------------------------------------------------
 # Third Party Libraries
 #-------------------------------------------------------------------------------
+
+set(DJV_THIRD_PARTY_MINIMAL FALSE CACHE STRING "Whether to disable optional third party packages")
 
 # This is used to disable ExternalProject_Add() for third party libraries. This
 # can be helpful for speeding up compile iterations after the third party
