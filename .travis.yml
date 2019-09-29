@@ -4,6 +4,7 @@ os:
 - linux
 sudo: require
 install:
+- sudo apt-get install lcov
 - sudo apt-get install nasm
 - sudo apt-get install xorg-dev libglu1-mesa-dev mesa-common-dev
 - sudo apt-get install libasound2-dev
