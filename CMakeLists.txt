@@ -177,7 +177,6 @@ else()
 endif()
 set(DJV_THIRD_PARTY_PACKAGES_REQUIRED
     ${DJV_THIRD_PARTY_PACKAGES_REQUIRED}
-    curl
     GLM
     GLFW
     PicoJSON
@@ -188,6 +187,7 @@ set(DJV_THIRD_PARTY_PACKAGES_REQUIRED
 	OTIO
     FreeType)
 set(DJV_THIRD_PARTY_PACKAGES_OPTIONAL
+    curl
     JPEGTurbo
     TIFF
     PNG
@@ -205,9 +205,11 @@ if(DJV_THIRD_PARTY)
     foreach(PACKAGE ${DJV_THIRD_PARTY_PACKAGES_REQUIRED})
         include(Build${PACKAGE})
     endforeach()
-    foreach(PACKAGE ${DJV_THIRD_PARTY_PACKAGES_OPTIONAL})
-        include(Build${PACKAGE})
-    endforeach()
+    if(!DJV_THIRD_PARTY_MINIMAL)
+        foreach(PACKAGE ${DJV_THIRD_PARTY_PACKAGES_OPTIONAL})
+            include(Build${PACKAGE})
+        endforeach()
+    endif()
 else()
     foreach(PACKAGE ${DJV_THIRD_PARTY_PACKAGES_REQUIRED})
         find_package(${PACKAGE} REQUIRED)
