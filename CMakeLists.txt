@@ -71,6 +71,12 @@ endif()
 # Set whether to use Python.
 set(DJV_PYTHON FALSE CACHE STRING "Whether to use Python")
 
+# Set whether to build examples.
+set(DJV_EXAMPLES TRUE CACHE STRING "Whether to build examples")
+
+# Set whether to build experiments.
+set(DJV_EXPERIMENTS TRUE CACHE STRING "Whether to build experiments")
+
 # Enable testing.
 enable_testing()
 
@@ -323,8 +329,12 @@ add_subdirectory(third-party)
 add_subdirectory(bin)
 add_subdirectory(lib)
 add_subdirectory(tests)
-add_subdirectory(examples)
-add_subdirectory(experiments)
+if(DJV_EXAMPLES)
+    add_subdirectory(examples)
+endif()
+if(DJV_EXPERIMENTS)
+    add_subdirectory(experiments)
+endif()
 add_subdirectory(doc)
 
 include(CPack)
