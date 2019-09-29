@@ -5,7 +5,6 @@ os:
 sudo: require
 install:
 - sudo apt-get install lcov
-- sudo apt-get install gcov
 - sudo apt-get install gcovr
 - sudo apt-get install nasm
 - sudo apt-get install xorg-dev libglu1-mesa-dev mesa-common-dev
