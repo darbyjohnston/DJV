@@ -75,7 +75,7 @@ set(DJV_PYTHON FALSE CACHE STRING "Whether to use Python")
 enable_testing()
 
 # Enable gcov code coverage targets.
-set(DJV_GCOV false)
+set(DJV_GCOV FALSE CACHE STRING "Whether to enable gcov code coverage")
 
 # Set compiler specific options.
 if(UNIX)
