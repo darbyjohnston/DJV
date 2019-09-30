@@ -25,7 +25,7 @@ before_script:
 - mkdir build
 - cd build
 - export PYTHONPATH=$PWD/build/lib:$PYTHONPATH
-- strace -f -E LD_DEBUG=all build-wrapper-linux-x86-64 --out-dir ../bw-output /bin/echo test >stdout.txt 2>stderr.txt
+- strace -f -E LD_DEBUG=all build-wrapper-linux-x86-64 --out-dir ../bw-output /bin/echo test
 #- cmake .. -DDJV_THIRD_PARTY=TRUE -DDJV_THIRD_PARTY_MINIMAL=TRUE -DDJV_EXAMPLES=FALSE -DDJV_EXPERIMENTS=FALSE -DDJV_GCOV=TRUE -DDJV_PYTHON=FALSE
 #- build-wrapper-linux-x86-64 --out-dir ../bw-output make && make test
 #- cat Testing/Temporary/LastTest.log
