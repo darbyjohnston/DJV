@@ -123,12 +123,12 @@ namespace djv
 
             inline void S8ToS16(S8_T value, S16_T & out)
             {
-                out = value << 8;
+                out = value * 256;
             }
 
             inline void S8ToS32(S8_T value, S32_T& out)
             {
-                out = value << 24;
+                out = value * 256 * 256 * 256;
             }
 
             inline void S8ToF32(S8_T value, F32_T & out)
@@ -143,12 +143,12 @@ namespace djv
 
             inline void S16ToS8(S16_T value, S8_T & out)
             {
-                out = value >> 8;
+                out = value / 256;
             }
 
             inline void S16ToS32(S16_T value, S32_T& out)
             {
-                out = value << 16;
+                out = value * 256 * 256;
             }
 
             inline void S16ToF32(S16_T value, F32_T & out)
@@ -163,12 +163,12 @@ namespace djv
 
             inline void S32ToS8(S32_T value, S8_T& out)
             {
-                out = value >> 24;
+                out = value / 256 / 256 / 256;
             }
 
             inline void S32ToS16(S32_T value, S16_T& out)
             {
-                out = value >> 16;
+                out = value / 256 / 256;
             }
 
             inline void S32ToF32(S32_T value, F32_T& out)
