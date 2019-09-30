@@ -115,7 +115,7 @@ protected:
     Application();
 
 public:
-    static std::unique_ptr<Application> create(int argc, char ** argv);
+    static std::shared_ptr<Application> create(int argc, char ** argv);
 
     int run();
 
@@ -159,57 +159,7 @@ void Application::_init(int argc, char ** argv)
 
     static const std::vector<std::string> names =
     {
-        "96DPI/djvIconAdd.png",
-        "96DPI/djvIconArrowDown.png",
-        "96DPI/djvIconArrowLeft.png",
-        "96DPI/djvIconArrowRight.png",
-        "96DPI/djvIconArrowSmallDown.png",
-        "96DPI/djvIconArrowSmallLeft.png",
-        "96DPI/djvIconArrowSmallRight.png",
-        "96DPI/djvIconArrowSmallUp.png",
-        "96DPI/djvIconArrowUp.png",
-        "96DPI/djvIconAudioMute.png",
-        "96DPI/djvIconAudio.png",
-        "96DPI/djvIconCheckSmall.png",
-        "96DPI/djvIconClear.png",
-        "96DPI/djvIconClose.png",
-        "96DPI/djvIconCloseSmall.png",
-        "96DPI/djvIconColorPicker.png",
-        "96DPI/djvIconColor.png",
-        "96DPI/djvIconDirectory.png",
-        "96DPI/djvIconEdit.png",
-        "96DPI/djvIconFavorite.png",
-        "96DPI/djvIconFileClose.png",
-        "96DPI/djvIconFileOpen.png",
-        "96DPI/djvIconFile.png",
-        "96DPI/djvIconFileRecent.png",
-        "96DPI/djvIconFileSequence.png",
-        "96DPI/djvIconFrameEnd.png",
-        "96DPI/djvIconFrameNext.png",
-        "96DPI/djvIconFramePrev.png",
-        "96DPI/djvIconFrameStart.png",
-        "96DPI/djvIconHelp.png",
-        "96DPI/djvIconListView.png",
-        "96DPI/djvIconMenu.png",
-        "96DPI/djvIconPinSmall.png",
-        "96DPI/djvIconPlaybackForward.png",
-        "96DPI/djvIconPlaybackReverse.png",
-        "96DPI/djvIconPlaybackStop.png",
-        "96DPI/djvIconPopupMenu.png",
-        "96DPI/djvIconSearch.png",
-        "96DPI/djvIconSettings.png",
-        "96DPI/djvIconSettingsSmall.png",
-        "96DPI/djvIconSubtract.png",
-        "96DPI/djvIconThumbnailSize.png",
-        "96DPI/djvIconTileView.png",
-        "96DPI/djvIconWindowDuplicate.png",
-        "96DPI/djvIconWindowFit.png",
-        "96DPI/djvIconWindowFullScreen.png",
-        "96DPI/djvIconWindow.png",
-        "96DPI/djvIconZoomFit.png",
-        "96DPI/djvIconZoomIn.png",
-        "96DPI/djvIconZoomOut.png",
-        "96DPI/djvIconZoomReset.png"
+        "96DPI/djvIconAdd.png"
     };
     auto io = getSystemT<AV::IO::System>();
     auto resourceSystem = getSystemT<Core::ResourceSystem>();
@@ -244,9 +194,9 @@ void Application::_init(int argc, char ** argv)
 Application::Application()
 {}
 
-std::unique_ptr<Application> Application::create(int argc, char ** argv)
+std::shared_ptr<Application> Application::create(int argc, char ** argv)
 {
-    auto out = std::unique_ptr<Application>(new Application);
+    auto out = std::shared_ptr<Application>(new Application);
     out->_init(argc, argv);
     return out;
 }

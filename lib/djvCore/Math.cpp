@@ -31,7 +31,7 @@
 
 #include <djvCore/Time.h>
 
-#include <stdlib.h>
+#include <random>
 
 namespace djv
 {
@@ -39,9 +39,17 @@ namespace djv
     {
         namespace Math
         {
+            namespace
+            {
+                std::random_device rd;
+                std::mt19937       rng(rd());
+
+            } // namespace
+
             float getRandom()
             {
-                return rand() / static_cast<float>(RAND_MAX);
+                std::uniform_int_distribution<uint32_t> uint_dist;
+                return uint_dist(rng) / static_cast<float>(uint_dist.max());
             }
 
             float getRandom(float value)
@@ -51,7 +59,8 @@ namespace djv
 
             int getRandom(int value)
             {
-                const float r = rand() / (static_cast<float>(RAND_MAX) + 1);
+                std::uniform_int_distribution<uint32_t> uint_dist;
+                const float r = uint_dist(rng) / static_cast<float>(uint_dist.max());
                 return static_cast<int>((value + 1) * r);
             }
 
@@ -62,13 +71,14 @@ namespace djv
 
             int getRandom(int min, int max)
             {
-                const float r = rand() / (static_cast<float>(RAND_MAX) + 1);
+                std::uniform_int_distribution<uint32_t> uint_dist;
+                const float r = uint_dist(rng) / static_cast<float>(uint_dist.max());
                 return min + static_cast<int>((max - min + 1) * r);
             }
 
             void setRandomSeed(unsigned int value)
             {
-                srand(value);
+                rng.seed(value);
             }
 
             void setRandomSeed()
@@ -76,7 +86,7 @@ namespace djv
                 const std::time_t t = std::time(nullptr);
                 std::tm tm;
                 Time::localtime(&t, &tm);
-                srand(tm.tm_sec);
+                setRandomSeed(tm.tm_sec);
             }
 
         } // namespace Math

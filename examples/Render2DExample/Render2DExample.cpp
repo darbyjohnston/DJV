@@ -76,7 +76,7 @@ protected:
     Application();
 
 public:
-    static std::unique_ptr<Application> create(int argc, char ** argv);
+    static std::shared_ptr<Application> create(int argc, char ** argv);
 
     int run();
 
@@ -132,9 +132,9 @@ void Application::_init(int argc, char ** argv)
 Application::Application()
 {}
 
-std::unique_ptr<Application> Application::create(int argc, char ** argv)
+std::shared_ptr<Application> Application::create(int argc, char ** argv)
 {
-    auto out = std::unique_ptr<Application>(new Application);
+    auto out = std::shared_ptr<Application>(new Application);
     out->_init(argc, argv);
     return out;
 }
