@@ -356,37 +356,33 @@ namespace djv
                 return out;
             }
 
-            namespace
+            //! References:
+            //! - http://www.3dkingdoms.com/weekly/weekly.php?a=3
+
+            inline bool _intersect(float fDst1, float fDst2, const glm::vec3 & start, const glm::vec3 & end, glm::vec3 & out)
             {
-                //! References:
-                //! - http://www.3dkingdoms.com/weekly/weekly.php?a=3
+                if ((fDst1 * fDst2) >= .0f) return false;
+                if (fDst1 == fDst2) return false;
+                out = start + (end - start) * (-fDst1 / (fDst2 - fDst1));
+                return true;
+            }
 
-                inline bool _intersect(float fDst1, float fDst2, const glm::vec3 & start, const glm::vec3 & end, glm::vec3 & out)
+            inline bool _isInside(const glm::vec3 & hit, const BBox3f & bbox, int axis)
+            {
+                switch (axis)
                 {
-                    if ((fDst1 * fDst2) >= .0f) return false;
-                    if (fDst1 == fDst2) return false;
-                    out = start + (end - start) * (-fDst1 / (fDst2 - fDst1));
-                    return true;
+                case 0:
+                    if (hit.z > bbox.min.z && hit.z < bbox.max.z && hit.y > bbox.min.y && hit.y < bbox.max.y) return true;
+                    break;
+                case 1:
+                    if (hit.z > bbox.min.z && hit.z < bbox.max.z && hit.x > bbox.min.x && hit.x < bbox.max.x) return true;
+                    break;
+                case 2:
+                    if (hit.x > bbox.min.x && hit.x < bbox.max.x && hit.y > bbox.min.y && hit.y < bbox.max.y) return true;
+                    break;
                 }
-
-                inline bool _isInside(const glm::vec3 & hit, const BBox3f & bbox, int axis)
-                {
-                    switch (axis)
-                    {
-                    case 0:
-                        if (hit.z > bbox.min.z && hit.z < bbox.max.z && hit.y > bbox.min.y && hit.y < bbox.max.y) return true;
-                        break;
-                    case 1:
-                        if (hit.z > bbox.min.z && hit.z < bbox.max.z && hit.x > bbox.min.x && hit.x < bbox.max.x) return true;
-                        break;
-                    case 2:
-                        if (hit.x > bbox.min.x && hit.x < bbox.max.x && hit.y > bbox.min.y && hit.y < bbox.max.y) return true;
-                        break;
-                    }
-                    return false;
-                }
-
-            } // namespace
+                return false;
+            }
 
             template<typename T, glm::precision P>
             inline bool tBBox3<T, P>::intersect(const glm::tvec3<T, P> & start, const glm::tvec3<T, P> & end, glm::tvec3<T, P> & out) const
