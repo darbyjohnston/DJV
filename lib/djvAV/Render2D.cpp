@@ -1011,8 +1011,9 @@ namespace djv
                             x += glyph->advance;
                         }
                     }
-                    catch (const std::exception&)
+                    catch (const std::exception& e)
                     {
+                        _log(e.what());
                     }
                 }
             }
