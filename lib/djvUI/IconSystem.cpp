@@ -65,6 +65,9 @@ namespace djv
                     promise(std::move(other.promise))
                 {}
 
+                ~ImageRequest()
+                {}
+
                 ImageRequest & operator = (ImageRequest && other)
                 {
                     if (this != &other)

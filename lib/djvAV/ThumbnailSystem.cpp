@@ -75,6 +75,9 @@ namespace djv
                     promise(std::move(other.promise))
                 {}
 
+                ~InfoRequest()
+                {}
+
                 InfoRequest & operator = (InfoRequest && other) noexcept
                 {
                     if (this != &other)
@@ -108,6 +111,9 @@ namespace djv
                     type(std::move(other.type)),
                     read(std::move(other.read)),
                     promise(std::move(other.promise))
+                {}
+
+                ~ImageRequest()
                 {}
 
                 ImageRequest & operator = (ImageRequest && other) noexcept
