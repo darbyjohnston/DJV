@@ -69,12 +69,18 @@ namespace djv
                 float getPercentageUsed() const;
 
             private:
-                struct BoxPackingNode;
+                class BoxPackingNode;
 
-                void _getAllNodes(BoxPackingNode *, std::vector<BoxPackingNode *> &);
-                void _getLeafNodes(const BoxPackingNode *, std::vector<const BoxPackingNode *> &) const;
-                void _toTextureAtlasItem(const BoxPackingNode *, TextureAtlasItem &);
-                void _removeFromAtlas(BoxPackingNode *);
+                void _getAllNodes(
+                    const std::shared_ptr<BoxPackingNode>&,
+                    std::vector<std::shared_ptr<BoxPackingNode> >&);
+                void _getLeafNodes(
+                    const std::shared_ptr<BoxPackingNode>&,
+                    std::vector<std::shared_ptr<BoxPackingNode> >&) const;
+                void _toTextureAtlasItem(
+                    const std::shared_ptr<BoxPackingNode>&,
+                    TextureAtlasItem &);
+                void _removeFromAtlas(const std::shared_ptr<BoxPackingNode>&);
 
                 DJV_PRIVATE();
             };
