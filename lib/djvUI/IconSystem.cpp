@@ -143,10 +143,9 @@ namespace djv
                 _log(s.str());
             });
 
-            auto logSystem = context->getSystemT<LogSystem>();
             p.running = true;
             p.thread = std::thread(
-                [this, logSystem]
+                [this]
             {
                 DJV_PRIVATE_PTR();
                 try
@@ -197,7 +196,7 @@ namespace djv
                 }
                 catch (const std::exception & e)
                 {
-                    logSystem->log("djv::AV::ThumbnailSystem", e.what(), LogLevel::Error);
+                    _log(e.what(), LogLevel::Error);
                 }
             });
         }
@@ -312,14 +311,17 @@ namespace djv
                         ss << "Error loading image" << " '" << i->path << "'.";
                         throw std::runtime_error(ss.str());
                     }
-                    catch (const std::exception &)
+                    catch (const std::exception& e)
                     {
                         try
                         {
                             i->promise.set_exception(std::current_exception());
                         }
-                        catch (const std::exception &)
-                        {}
+                        catch (const std::exception& e)
+                        {
+                            _log(e.what(), LogLevel::Error);
+                        }
+                        _log(e.what(), LogLevel::Error);
                     }
                     i = p.pendingImageRequests.erase(i);
                 }

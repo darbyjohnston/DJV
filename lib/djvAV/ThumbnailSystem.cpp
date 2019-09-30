@@ -484,7 +484,9 @@ namespace djv
                             i.promise.set_exception(std::current_exception());
                         }
                         catch (const std::exception & e)
-                        {}
+                        {
+                            _log(e.what(), LogLevel::Error);
+                        }
                     }
                 }
             }
@@ -510,7 +512,9 @@ namespace djv
                             i->promise.set_exception(std::current_exception());
                         }
                         catch (const std::exception & e)
-                        {}
+                        {
+                            _log(e.what(), LogLevel::Error);
+                        }
                     }
                     i = p.pendingInfoRequests.erase(i);
                 }
@@ -570,7 +574,9 @@ namespace djv
                             i.promise.set_exception(std::current_exception());
                         }
                         catch (const std::exception & e)
-                        {}
+                        {
+                            _log(e.what(), LogLevel::Error);
+                        }
                     }
                 }
             }

@@ -83,15 +83,19 @@ namespace djv
 
             bool match(const std::string & value, const std::string & expression)
             {
+                bool out = false;
                 std::smatch m;
                 try
                 {
                     std::regex r(expression, std::regex_constants::icase);
                     std::regex_search(value, m, r);
+                    out = m.size() > 0;
                 }
-                catch (const std::exception &)
-                {}
-                return m.size() > 0 ? true : false;
+                catch (const std::exception&)
+                {
+                    out = false;
+                }
+                return out;
             }
 
             void fromString(const char * s, size_t size, float & out)

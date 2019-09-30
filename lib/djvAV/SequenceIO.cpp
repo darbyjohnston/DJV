@@ -119,7 +119,7 @@ namespace djv
                         info.fileName = _fileInfo.getFileName();
                         p.infoPromise.set_value(info);
                     }
-                    catch (const std::exception & e)
+                    catch (const std::exception& e)
                     {
                         try
                         {
@@ -131,8 +131,10 @@ namespace djv
                             p.running = false;
                             p.infoPromise.set_exception(std::current_exception());
                         }
-                        catch (const std::exception & e)
-                        {}
+                        catch (const std::exception& e)
+                        {
+                            _logSystem->log("djv::AV::IO::ISequenceRead", e.what(), LogLevel::Error);
+                        }
                     }
 
                     // Start looping...

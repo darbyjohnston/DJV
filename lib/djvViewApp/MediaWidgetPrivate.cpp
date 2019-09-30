@@ -228,8 +228,10 @@ namespace djv
                                 const Frame::Number frame = std::stoi(value);
                                 index = widget->_sequence.getIndex(frame);
                             }
-                            catch (const std::exception&)
-                            {}
+                            catch (const std::exception& e)
+                            {
+                                widget->_log(e.what(), LogLevel::Error);
+                            }
                             break;
                         }
                         default: break;

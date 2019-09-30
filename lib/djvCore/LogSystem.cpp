@@ -112,8 +112,10 @@ namespace djv
                     FileSystem::FileIO io;
                     io.open(p.path, FileSystem::FileIO::Mode::Write);
                 }
-                catch (const std::exception &)
-                {}
+                catch (const std::exception& e)
+                {
+                    std::cerr << name << ": " << e.what() << std::endl;
+                }
 
                 std::stringstream s;
                 s << "Log file path: " << p.path;

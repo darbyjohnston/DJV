@@ -228,8 +228,10 @@ namespace djv
                 }
             }
 
-            void FileIO::close()
+            bool FileIO::close(std::string* error)
             {
+                bool out = true;
+
                 _fileName = std::string();
                 
 #if defined(DJV_MMAP)
@@ -237,7 +239,11 @@ namespace djv
                 {
                     if (!::UnmapViewOfFile((void *)_mmapStart))
                     {
-                        throw std::runtime_error(getMemoryUnmapError(_fileName));
+                        out = false;
+                        if (error)
+                        {
+                            *error = getMemoryUnmapError(_fileName);
+                        }
                     }
                     _mmapStart = 0;
                 }
@@ -245,7 +251,11 @@ namespace djv
                 {
                     if (!::CloseHandle(_mmap))
                     {
-                        throw std::runtime_error(getCloseError(_fileName));
+                        out = false;
+                        if (error)
+                        {
+                            *error = getCloseError(_fileName);
+                        }
                     }
                     _mmap = 0;
                 }
@@ -268,6 +278,8 @@ namespace djv
                 _mode = Mode::First;
                 _pos  = 0;
                 _size = 0;
+
+                return out;
             }
 
             void FileIO::setPos(size_t in)

@@ -53,13 +53,7 @@ namespace djv
 
             FileIO::~FileIO()
             {
-                try
-                {
-                    close();
-                }
-                catch (const std::exception &)
-                {
-                }
+                close();
             }
 
             FileIO & FileIO::operator = (FileIO && other)

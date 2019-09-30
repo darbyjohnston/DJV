@@ -187,7 +187,9 @@ namespace djv
                             }
                         }
                         catch (const std::exception& e)
-                        {}
+                        {
+                            _log(e.what(), LogLevel::Error);
+                        }
                     }
                     else
                     {

@@ -125,8 +125,9 @@ namespace djv
                 {
                     model->setValue(std::stof(value));
                 }
-                catch (const std::exception&)
+                catch (const std::exception& e)
                 {
+                    _log(e.what(), LogLevel::Error);
                 }
                 _textUpdate();
                 _doCallback();

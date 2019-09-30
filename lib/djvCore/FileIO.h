@@ -80,9 +80,7 @@ namespace djv
                 void openTemp();
 
                 //! Close the file.
-                //! Throws:
-                //! - std::exception
-                void close();
+                bool close(std::string* error = nullptr);
 
                 //! Get whether the file is open.
                 inline bool isOpen() const;
