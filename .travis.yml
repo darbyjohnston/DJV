@@ -30,9 +30,11 @@ before_script:
 - export wrapperscript=`which build-wrapper-linux-x86-64`
 - export wrapperdir=`dirname $wrapperscript`
 - cp $wrapperdir/libinterceptor-x86_64.so $wrapperdir/libinterceptor-haswell.so
-- build-wrapper-linux-x86-64 --out-dir ../bw-output make && make test
+- build-wrapper-linux-x86-64 --out-dir ../bw-output make
+- make test
 - cat Testing/Temporary/LastTest.log
+#- gcovr -r $PWD/.. --object-directory=$PWD
+#- cppcheck --enable=all --xml-version=2 -I${PWD}/lib -UDJV_ASSERT -UDJV_ENDIAN_MSB -UDJV_MMAP -UDJV_OPENGL_ES2 -UDJV_PLATFORM_WINDOWS -UGLM_PRECISION_LOWP_FLOAT -UGLM_PRECISION_LOWP_INT -UGLM_PRECISION_MEDIUMP_FLOAT -UGLM_PRECISION_MEDIUMP_INT -UDJV_OPENGL_PBO -Umax -Umin lib tests examples bin 2> report.xml
 - cd ..
 script:
 - sonar-scanner
-
