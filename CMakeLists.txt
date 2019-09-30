@@ -90,9 +90,9 @@ set(INCLUDE_DIRS
     ${CMAKE_SOURCE_DIR}/tests
     ${CMAKE_SOURCE_DIR}/third-party)
 if(DJV_PYTHON)
-	set(INCLUDE_DIRS
-		${INCLUDE_DIRS}
-		${pybind11_SOURCE_DIR}/include)
+    set(INCLUDE_DIRS
+        ${INCLUDE_DIRS}
+        ${pybind11_SOURCE_DIR}/include)
 endif()
 include_directories(${INCLUDE_DIRS})
 
