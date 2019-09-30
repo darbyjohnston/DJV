@@ -25,7 +25,7 @@ before_script:
 - mkdir build
 - cd build
 - export PYTHONPATH=$PWD/build/lib:$PYTHONPATH
-- cmake .. -DDJV_THIRD_PARTY=TRUE -DDJV_THIRD_PARTY_MINIMAL=TRUE -DDJV_EXAMPLES=FALSE -DDJV_EXPERIMENTS=FALSE -DDJV_GCOV=TRUE -DDJV_PYTHON=FALSE
+#- cmake .. -DDJV_THIRD_PARTY=TRUE -DDJV_THIRD_PARTY_MINIMAL=TRUE -DDJV_EXAMPLES=FALSE -DDJV_EXPERIMENTS=FALSE -DDJV_GCOV=TRUE -DDJV_PYTHON=FALSE
 - export wrapper-script=`which build-wrapper-linux-x86-64`
 - export wrapper-dir=`dirname $wrapper-script`
 - cp $wrapper-dir/libinterceptor-x86_64.so $wrapper-dir/libinterceptor-haswell.so
