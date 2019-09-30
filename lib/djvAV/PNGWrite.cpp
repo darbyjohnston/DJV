@@ -75,6 +75,13 @@ namespace djv
                             memset(&pngError, 0, sizeof(ErrorStruct));
                         }
 
+                        File(File&& other) noexcept :
+                            f(other.f),
+                            png(other.png),
+                            pngInfo(other.pngInfo),
+                            pngError(std::move(other.pngError))
+                        {}
+
                         ~File()
                         {
                             if (png || pngInfo)
@@ -90,6 +97,18 @@ namespace djv
                                 fclose(f);
                                 f = nullptr;
                             }
+                        }
+
+                        File& operator = (File&& other) noexcept
+                        {
+                            if (this != &other)
+                            {
+                                f = other.f;
+                                png = other.png;
+                                pngInfo = other.pngInfo;
+                                pngError = std::move(other.pngError);
+                            }
+                            return *this;
                         }
 
                         bool open(const std::string& fileName)
