@@ -30,7 +30,7 @@ before_script:
 - export wrapperscript=`which build-wrapper-linux-x86-64`
 - export wrapperdir=`dirname $wrapperscript`
 - cp $wrapperdir/libinterceptor-x86_64.so $wrapperdir/libinterceptor-haswell.so
-- build-wrapper-linux-x86-64 --out-dir ../bw-output make
+- build-wrapper-linux-x86-64 --out-dir ../bw-output make -j
 - make test
 - cat Testing/Temporary/LastTest.log
 #- gcovr -r $PWD/.. --object-directory=$PWD
