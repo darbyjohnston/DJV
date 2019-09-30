@@ -1,5 +1,6 @@
 language: cpp
 dist: bionic
+edge: true
 os:
 - linux
 sudo: require
