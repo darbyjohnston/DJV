@@ -67,6 +67,12 @@ namespace djv
                         }
                     }
 
+                    bool open(const std::string& fileName)
+                    {
+                        f = FileSystem::fopen(fileName.c_str(), "rb");
+                        return f;
+                    }
+
                     FILE *      f          = nullptr;
                     png_structp png        = nullptr;
                     png_infop   pngInfo    = nullptr;
@@ -200,9 +206,7 @@ namespace djv
                     {
                         throw std::runtime_error(f.pngError.msg);
                     }
-
-                    f.f = FileSystem::fopen(fileName.c_str(), "rb");
-                    if (!f.f)
+                    if (!f.open(fileName))
                     {
                         throw std::runtime_error(DJV_TEXT("The file cannot be opened."));
                     }
