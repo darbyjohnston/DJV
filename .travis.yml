@@ -24,7 +24,7 @@ before_script:
 - mkdir build
 - cd build
 - export PYTHONPATH=$PWD/build/lib:$PYTHONPATH
-- cmake .. -DDJV_THIRD_PARTY=TRUE -DDJV_THIRD_PARTY_MINIMAL=TRUE -DDJV_EXAMPLES=FALSE -DDJV_EXPERIMENTS=FALSE -DDJV_GCOV=TRUE -DDJV_PYTHON=FALSE
+- cmake .. -DCMAKE_BUILD_TYPE=Debug -DDJV_THIRD_PARTY=TRUE -DDJV_THIRD_PARTY_MINIMAL=TRUE -DDJV_EXAMPLES=FALSE -DDJV_EXPERIMENTS=FALSE -DDJV_PYTHON=FALSE
 # \bug https://community.sonarsource.com/t/sonarqube-c-ubuntu-build-wrapper-ld-preload-error/300/7
 - export wrapperscript=`which build-wrapper-linux-x86-64`
 - export wrapperdir=`dirname $wrapperscript`
