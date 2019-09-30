@@ -67,13 +67,13 @@ namespace djv
                     buf[0] = 0;
                     switch (errno)
                     {
-                    case EACCES:       throw std::runtime_error("Permission denied"); break;
-                    case EINVAL:       throw std::runtime_error("Invalid path"); break;
-                    case EIO:          throw std::runtime_error("File system I/O error"); break;
-                    case ELOOP:        throw std::runtime_error("Too many sumbolic links"); break;
-                    case ENAMETOOLONG: throw std::runtime_error("Path too long"); break;
-                    case ENOENT:       throw std::runtime_error("Path does not exist"); break;
-                    case ENOTDIR:      throw std::runtime_error("Path is not a directory"); break;
+                    case EACCES:       throw std::runtime_error("Permission denied");
+                    case EINVAL:       throw std::runtime_error("Invalid path");
+                    case EIO:          throw std::runtime_error("File system I/O error");
+                    case ELOOP:        throw std::runtime_error("Too many sumbolic links");
+                    case ENAMETOOLONG: throw std::runtime_error("Path too long");
+                    case ENOENT:       throw std::runtime_error("Path does not exist");
+                    case ENOTDIR:      throw std::runtime_error("Path is not a directory");
                     }
                 }
                 return Path(buf);
