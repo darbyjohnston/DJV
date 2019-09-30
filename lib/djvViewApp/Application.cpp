@@ -139,25 +139,13 @@ namespace djv
                     });
             }
 
-            // Load the application icons.
-            auto io = getSystemT<AV::IO::System>();
-            try
-            {
-                auto resourceSystem = getSystemT<Core::ResourceSystem>();
-                const auto& iconsPath = resourceSystem->getPath(Core::FileSystem::ResourcePath::IconsDirectory);
-                p.read.push_back(io->read(Core::FileSystem::Path(iconsPath, "djv-reel-16.png")));
-                p.read.push_back(io->read(Core::FileSystem::Path(iconsPath, "djv-reel-32.png")));
-                p.read.push_back(io->read(Core::FileSystem::Path(iconsPath, "djv-reel-64.png")));
-                p.read.push_back(io->read(Core::FileSystem::Path(iconsPath, "djv-reel-128.png")));
-                p.read.push_back(io->read(Core::FileSystem::Path(iconsPath, "djv-reel-256.png")));
-                p.read.push_back(io->read(Core::FileSystem::Path(iconsPath, "djv-reel-512.png")));
-                p.read.push_back(io->read(Core::FileSystem::Path(iconsPath, "djv-reel-1024.png")));
-            }
-            catch (const std::exception& e)
-            {
-                auto logSystem = getSystemT<LogSystem>();
-                logSystem->log("djv::ViewApp::Application", e.what());
-            }
+            // Read the application icons.
+            _readIcon("djv-reel-16.png");
+            _readIcon("djv-reel-32.png");
+            _readIcon("djv-reel-64.png");
+            _readIcon("djv-reel-128.png");
+            _readIcon("djv-reel-512.png");
+            _readIcon("djv-reel-1024.png");
             p.timer = Time::Timer::create(shared_from_this());
             p.timer->setRepeating(true);
             p.timer->start(
@@ -208,6 +196,7 @@ namespace djv
             // Open command-line files.
             auto settingsSystem = getSystemT<UI::Settings::System>();
             auto fileSettings = settingsSystem->getSettingsT<FileSettings>();
+            auto io = getSystemT<AV::IO::System>();
             for (const auto& i : p.cmdlinePaths)
             {
                 Core::FileSystem::FileInfo fileInfo;
@@ -238,6 +227,25 @@ namespace djv
             auto out = std::shared_ptr<Application>(new Application);
             out->_init(args);
             return out;
+        }
+
+        void Application::_readIcon(const std::string& fileName)
+        {
+            DJV_PRIVATE_PTR();
+            try
+            {
+                auto resourceSystem = getSystemT<Core::ResourceSystem>();
+                const auto& iconsPath = resourceSystem->getPath(Core::FileSystem::ResourcePath::IconsDirectory);
+                auto io = getSystemT<AV::IO::System>();
+                p.read.push_back(io->read(Core::FileSystem::Path(iconsPath, fileName)));
+            }
+            catch (const std::exception& e)
+            {
+                std::stringstream ss;
+                ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be read") << ".";
+                auto logSystem = getSystemT<LogSystem>();
+                logSystem->log("djv::ViewApp::Application", ss.str(), LogLevel::Error);
+            }
         }
 
     } // namespace ViewApp

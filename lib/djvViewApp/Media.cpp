@@ -695,7 +695,7 @@ namespace djv
                         catch (const std::exception& e)
                         {
                             std::stringstream ss;
-                            ss << DJV_TEXT("Cannot open audio stream") << ". " << e.what();
+                            ss << DJV_TEXT("The audio stream cannot be opened") << ". " << e.what();
                             auto logSystem = context->getSystemT<LogSystem>();
                             logSystem->log("djv::ViewApp::Media", ss.str(), LogLevel::Error);
                         }
@@ -751,7 +751,7 @@ namespace djv
                 catch (const std::exception& e)
                 {
                     std::stringstream ss;
-                    ss << DJV_TEXT("Cannot open") << " '" << p.fileInfo << "'. " << e.what();
+                    ss << DJV_TEXT("The file") << " '" << p.fileInfo << "' " << DJV_TEXT("cannot be read") <<  ". " << e.what();
                     auto logSystem = context->getSystemT<LogSystem>();
                     logSystem->log("djv::ViewApp::Media", ss.str(), LogLevel::Error);
                 }

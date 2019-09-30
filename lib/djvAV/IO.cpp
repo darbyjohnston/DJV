@@ -743,33 +743,43 @@ namespace djv
             std::shared_ptr<IRead> System::read(const FileSystem::FileInfo& fileInfo, const ReadOptions& options)
             {
                 DJV_PRIVATE_PTR();
+                std::shared_ptr<IRead> out;
                 for (const auto & i : p.plugins)
                 {
                     if (i.second->canRead(fileInfo))
                     {
-                        return i.second->read(fileInfo, options);
+                        out = i.second->read(fileInfo, options);
+                        break;
                     }
                 }
-                std::stringstream s;
-                s << "The file" << " '" << fileInfo << "' " << "cannot be read" << ".";
-                throw std::runtime_error(s.str());
-                return nullptr;
+                if (!out)
+                {
+                    std::stringstream s;
+                    s << DJV_TEXT("The file") << " '" << fileInfo << "' " << DJV_TEXT("cannot be read") << ".";
+                    throw std::runtime_error(s.str());
+                }
+                return out;
             }
 
             std::shared_ptr<IWrite> System::write(const FileSystem::FileInfo& fileInfo, const Info & info, const WriteOptions& options)
             {
                 DJV_PRIVATE_PTR();
+                std::shared_ptr<IWrite> out;
                 for (const auto & i : p.plugins)
                 {
                     if (i.second->canWrite(fileInfo, info))
                     {
-                        return i.second->write(fileInfo, info, options);
+                        out = i.second->write(fileInfo, info, options);
+                        break;
                     }
                 }
-                std::stringstream s;
-                s << "The file" << " '" << fileInfo << "' " << "cannot be written" << ".";
-                throw std::runtime_error(s.str());
-                return nullptr;
+                if (!out)
+                {
+                    std::stringstream s;
+                    s << DJV_TEXT("The file") << " '" << fileInfo << "' " << DJV_TEXT("cannot be written") << ".";
+                    throw std::runtime_error(s.str());
+                }
+                return out;
             }
 
         } // namespace IO

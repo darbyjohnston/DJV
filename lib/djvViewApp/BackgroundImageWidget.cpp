@@ -85,6 +85,9 @@ namespace djv
                         {
                             if (auto widget = weak.lock())
                             {
+                                widget->_p->image.reset();
+                                widget->_p->read.reset();
+                                widget->_p->timer->stop();
                                 try
                                 {
                                     auto io = context->getSystemT<AV::IO::System>();
@@ -107,17 +110,18 @@ namespace djv
                                                 if (image)
                                                 {
                                                     widget->_p->image = image;
-                                                    widget->_p->timer->stop();
                                                     widget->_p->read.reset();
+                                                    widget->_p->timer->stop();
                                                 }
                                             }
                                         });
                                 }
                                 catch (const std::exception& e)
                                 {
-                                    widget->_p->image.reset();
+                                    std::stringstream ss;
+                                    ss << DJV_TEXT("The file") << " '" << value << "' " << DJV_TEXT("cannot be read") << ". " << e.what();
                                     auto logSystem = context->getSystemT<LogSystem>();
-                                    logSystem->log("djv::ViewApp::BackgroundImageWidget", e.what());
+                                    logSystem->log("djv::ViewApp::BackgroundImageWidget", ss.str(), LogLevel::Error);
                                 }
                             }
                         }

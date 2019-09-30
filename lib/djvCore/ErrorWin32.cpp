@@ -60,6 +60,7 @@ namespace djv
                     NULL);
                 std::string out = std::string(buf, lstrlen(buf));
                 String::removeTrailingNewline(out);
+                String::removeTrailingNewline(out);
                 return out;
             }
 
