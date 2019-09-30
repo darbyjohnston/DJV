@@ -73,6 +73,11 @@ namespace djv
                         File()
                         {
                             memset(&pngError, 0, sizeof(ErrorStruct));
+                            png = png_create_write_struct(
+                                PNG_LIBPNG_VER_STRING,
+                                &pngError,
+                                djvPngError,
+                                djvPngWarning);
                         }
 
                         File(File&& other) noexcept :
@@ -84,6 +89,11 @@ namespace djv
 
                         ~File()
                         {
+                            if (f)
+                            {
+                                fclose(f);
+                                f = nullptr;
+                            }
                             if (png || pngInfo)
                             {
                                 png_destroy_write_struct(
@@ -91,11 +101,6 @@ namespace djv
                                     pngInfo ? &pngInfo : nullptr);
                                 png     = nullptr;
                                 pngInfo = nullptr;
-                            }
-                            if (f)
-                            {
-                                fclose(f);
-                                f = nullptr;
                             }
                         }
 
@@ -221,11 +226,6 @@ namespace djv
                 void Write::_write(const std::string & fileName, const std::shared_ptr<Image::Image> & image)
                 {
                     File f;
-                    f.png = png_create_write_struct(
-                        PNG_LIBPNG_VER_STRING,
-                        &f.pngError,
-                        djvPngError,
-                        djvPngWarning);
                     if (!f.png)
                     {
                         throw std::runtime_error(f.pngError.msg);

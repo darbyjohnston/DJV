@@ -46,6 +46,11 @@ namespace djv
                     File()
                     {
                         memset(&pngError, 0, sizeof(ErrorStruct));
+                        png = png_create_read_struct(
+                            PNG_LIBPNG_VER_STRING,
+                            &pngError,
+                            djvPngError,
+                            djvPngWarning);
                     }
 
                     File(File&& other) noexcept :
@@ -58,6 +63,11 @@ namespace djv
 
                     ~File()
                     {
+                        if (f)
+                        {
+                            fclose(f);
+                            f = nullptr;
+                        }
                         if (png || pngInfo || pngInfoEnd)
                         {
                             png_destroy_read_struct(
@@ -67,11 +77,6 @@ namespace djv
                             png        = nullptr;
                             pngInfo    = nullptr;
                             pngInfoEnd = nullptr;
-                        }
-                        if (f)
-                        {
-                            fclose(f);
-                            f = nullptr;
                         }
                     }
 
@@ -218,11 +223,6 @@ namespace djv
 
                 Info Read::_open(const std::string & fileName, File & f)
                 {
-                    f.png = png_create_read_struct(
-                        PNG_LIBPNG_VER_STRING,
-                        &f.pngError,
-                        djvPngError,
-                        djvPngWarning);
                     if (!f.png)
                     {
                         throw std::runtime_error(f.pngError.msg);
