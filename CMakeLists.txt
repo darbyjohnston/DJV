@@ -83,23 +83,6 @@ enable_testing()
 # Enable gcov code coverage targets.
 set(DJV_GCOV FALSE CACHE STRING "Whether to enable gcov code coverage")
 
-# Set compiler specific options.
-if(UNIX)
-    if(CMAKE_COMPILER_IS_GNUCXX)
-        # Set profiling options.    
-        #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg")
-        #set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -pg")
-
-        # Set gcov options.
-        if(DJV_GCOV)
-            include(CodeCoverage)
-            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage -g -O0 -fprofile-arcs -ftest-coverage")
-            set(CMAKE_C_FLAGS "${CMAKE_CXX_FLAGS} --coverage -g -O0 -fprofile-arcs -ftest-coverage")
-            set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_CXX_FLAGS} --coverage -g -O0 -fprofile-arcs -ftest-coverage")
-        endif()
-    endif()
-endif()
-
 # Include directories.
 set(INCLUDE_DIRS
     ${CMAKE_SOURCE_DIR}/lib
@@ -315,6 +298,22 @@ set(DJV_RESOURCE_FILES
 #-------------------------------------------------------------------------------
 # Subdirectories
 #-------------------------------------------------------------------------------
+
+if(UNIX)
+    if(CMAKE_COMPILER_IS_GNUCXX)
+        # Set profiling options.    
+        #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg")
+        #set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -pg")
+
+        # Set gcov options.
+        if(DJV_GCOV)
+            include(CodeCoverage)
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage -g -O0 -fprofile-arcs -ftest-coverage")
+            set(CMAKE_C_FLAGS "${CMAKE_CXX_FLAGS} --coverage -g -O0 -fprofile-arcs -ftest-coverage")
+            set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_CXX_FLAGS} --coverage -g -O0 -fprofile-arcs -ftest-coverage")
+        endif()
+    endif()
+endif()
 
 include(djvPackage)
 
