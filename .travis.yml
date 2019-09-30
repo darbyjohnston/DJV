@@ -4,12 +4,11 @@ os:
 - linux
 sudo: require
 install:
-- sudo apt-get install lcov
-- sudo apt-get install gcovr
+#- sudo apt-get install lcov
+#- sudo apt-get install gcovr
 - sudo apt-get install nasm
 - sudo apt-get install xorg-dev libglu1-mesa-dev mesa-common-dev
-- sudo apt-get install libasound2-dev
-- sudo apt-get install libpulse-dev
+- sudo apt-get install libasound2-dev libpulse-dev
 - sudo apt-get install python3.7 python3.7-dev
 services:
 - xvfb
@@ -30,7 +29,7 @@ before_script:
 - export wrapperscript=`which build-wrapper-linux-x86-64`
 - export wrapperdir=`dirname $wrapperscript`
 - cp $wrapperdir/libinterceptor-x86_64.so $wrapperdir/libinterceptor-haswell.so
-- build-wrapper-linux-x86-64 --out-dir ../bw-output make -j
+- build-wrapper-linux-x86-64 --out-dir ../bw-output make -j 2
 - make test
 - cat Testing/Temporary/LastTest.log
 #- gcovr -r $PWD/.. --object-directory=$PWD
