@@ -158,6 +158,7 @@ set(DJV_THIRD_PARTY_PACKAGES_REQUIRED
     #OpenAL
     RtAudio
     IlmBase
+    PNG
     OCIO
 	OTIO
     FreeType)
@@ -173,7 +174,6 @@ set(DJV_THIRD_PARTY_PACKAGES_OPTIONAL
     curl
     JPEGTurbo
     TIFF
-    PNG
     OpenEXR)
 if(WIN32)
     # See the directions for building FFmpeg on Windows in "doc/BuildWindows.html".
