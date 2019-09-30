@@ -148,3 +148,4 @@ set_target_properties(
     PROPERTIES
     FOLDER lib
     CXX_STANDARD 11)
+

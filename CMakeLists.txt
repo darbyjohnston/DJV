@@ -77,6 +77,12 @@ set(DJV_EXAMPLES TRUE CACHE STRING "Whether to build examples")
 # Set whether to build experiments.
 set(DJV_EXPERIMENTS TRUE CACHE STRING "Whether to build experiments")
 
+# Set whether to enable a "tiny" build (djvCore + tests).
+set(DJV_TINY_BUILD FALSE CACHE STRING "Whether to enable a tiny build")
+if(DJV_TINY_BUILD)
+    add_definitions(-DDJV_TINY_BUILD)
+endif()
+
 # Enable testing.
 enable_testing()
 
@@ -308,9 +314,9 @@ if(UNIX)
         # Set gcov options.
         if(DJV_GCOV)
             include(CodeCoverage)
-            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage -g -O0 -fprofile-arcs -ftest-coverage")
-            set(CMAKE_C_FLAGS "${CMAKE_CXX_FLAGS} --coverage -g -O0 -fprofile-arcs -ftest-coverage")
-            set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_CXX_FLAGS} --coverage -g -O0 -fprofile-arcs -ftest-coverage")
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -fprofile-arcs -ftest-coverage")
+            set(CMAKE_C_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -fprofile-arcs -ftest-coverage")
+            set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -fprofile-arcs -ftest-coverage")
         endif()
     endif()
 endif()
@@ -318,16 +324,18 @@ endif()
 include(djvPackage)
 
 add_subdirectory(third-party)
-add_subdirectory(bin)
 add_subdirectory(lib)
 add_subdirectory(tests)
-if(DJV_EXAMPLES)
-    add_subdirectory(examples)
+if(NOT DJV_TINY_BUILD)
+    add_subdirectory(bin)
+    add_subdirectory(doc)
+    if(DJV_EXAMPLES)
+        add_subdirectory(examples)
+    endif()
+    if(DJV_EXPERIMENTS)
+        add_subdirectory(experiments)
+    endif()
 endif()
-if(DJV_EXPERIMENTS)
-    add_subdirectory(experiments)
-endif()
-add_subdirectory(doc)
 
 include(CPack)
 

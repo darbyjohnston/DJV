@@ -2,7 +2,14 @@ set(source
     main.cpp)
 
 add_executable(djvTest ${header} ${source})
-target_link_libraries(djvTest djvAVTest djvCoreTest)
+set(libraries
+    djvCoreTest)
+if(NOT DJV_TINY_BUILD)
+    set(libraries
+        ${libraries}
+        djvAVTest)
+endif()
+target_link_libraries(djvTest ${libraries})
 set_target_properties(
     djvTest
     PROPERTIES
@@ -11,9 +18,10 @@ set_target_properties(
 
 add_test(djvTest ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/djvTest${CMAKE_EXECUTABLE_SUFFIX})
 
-if (DJV_GCOV)
+if(DJV_GCOV)
     SETUP_TARGET_FOR_COVERAGE(
         djvTestCoverage
         ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/djvTest${CMAKE_EXECUTABLE_SUFFIX}
         ${CMAKE_CURRENT_BINARY_DIR}/coverage)
-endif (DJV_GCOV)
+endif(DJV_GCOV)
+
