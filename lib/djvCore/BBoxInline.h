@@ -361,7 +361,7 @@ namespace djv
 
             inline bool _intersect(float fDst1, float fDst2, const glm::vec3 & start, const glm::vec3 & end, glm::vec3 & out)
             {
-                if ((fDst1 * fDst2) >= .0f) return false;
+                if ((fDst1 * fDst2) >= .0F) return false;
                 if (fDst1 == fDst2) return false;
                 out = start + (end - start) * (-fDst1 / (fDst2 - fDst1));
                 return true;
