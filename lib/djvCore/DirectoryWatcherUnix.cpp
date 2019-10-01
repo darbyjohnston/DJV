@@ -126,6 +126,13 @@ namespace djv
                             _wd = ::inotify_add_watch(_fd, _path.get().c_str(), IN_CREATE | IN_DELETE | IN_MODIFY | IN_ATTRIB);
                         }
                     }
+
+                    Notify(Notify&& other) noexcept :
+                        _path(other._path),
+                        _fd(other._fd),
+                        _wd(other._wd),
+                        _lastModified(_lastModified)
+                    {}
                     
                     ~Notify()
                     {
@@ -139,6 +146,18 @@ namespace djv
                             ::close(_fd);
                             _fd = 0;
                         }
+                    }
+
+                    Notify& operator = (Notify&& other) noexcept
+                    {
+                        if (this != &other)
+                        {
+                            _path = other._path;
+                            _fd = other._fd;
+                            _wd = other._wd;
+                            _lastModified = other._lastModified;
+                        }
+                        return *this;
                     }
                     
                     const Path& getPath() const { return _path; }
