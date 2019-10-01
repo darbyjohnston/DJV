@@ -51,7 +51,7 @@ namespace djv
 
             int64_t scale(int64_t, const Math::Rational&, const Math::Rational&);
 
-            inline void secondsToTime(
+            void secondsToTime(
                 double,
                 int &    hours,
                 int &    minutes,
@@ -89,20 +89,20 @@ namespace djv
             //! \name Timecode
             ///@{
 
-            inline void timecodeToTime(
+            void timecodeToTime(
                 uint32_t,
                 int & hour,
                 int & minute,
                 int & second,
                 int & frame);
-            inline uint32_t timeToTimecode(
+            uint32_t timeToTimecode(
                 int hour,
                 int minute,
                 int second,
                 int frame);
 
-            inline int64_t timecodeToFrame(uint32_t timecode, const Math::Rational&);
-            inline uint32_t frameToTimecode(int64_t frame, const Math::Rational&);
+            int64_t timecodeToFrame(uint32_t timecode, const Math::Rational&);
+            uint32_t frameToTimecode(int64_t frame, const Math::Rational&);
 
             std::string timecodeToString(uint32_t);
             void stringToTimecode(const std::string &, uint32_t &, bool * ok = nullptr);

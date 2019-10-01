@@ -45,7 +45,7 @@ namespace djv
                 constexpr Range();
                 constexpr Range(T minMax);
                 constexpr Range(T min, T max);
-                virtual inline ~Range();
+                virtual ~Range();
 
                 //! \name Range Components
                 ///@{
@@ -58,16 +58,16 @@ namespace djv
                 //! \name Utilities
                 ///@{
 
-                inline void zero();
+                void zero();
 
                 constexpr bool contains(T) const;
 
                 constexpr bool intersects(const Range<T> &) const;
 
-                inline void expand(T);
-                inline void expand(const Range<T> &);
+                void expand(T);
+                void expand(const Range<T> &);
 
-                inline void sort();
+                void sort();
 
                 ///@}
 
@@ -90,9 +90,9 @@ namespace djv
     } // namespace Core
 
     template<typename T>
-    inline std::ostream & operator << (std::ostream &, const Core::Range::Range<T> &);
+    std::ostream & operator << (std::ostream &, const Core::Range::Range<T> &);
     template<typename T>
-    inline std::istream & operator >> (std::istream &, Core::Range::Range<T> &);
+    std::istream & operator >> (std::istream &, Core::Range::Range<T> &);
 
 } // namespace djv
 

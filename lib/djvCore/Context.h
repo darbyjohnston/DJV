@@ -61,7 +61,7 @@ namespace djv
 
         protected:
             void _init(const std::vector<std::string>&);
-            inline Context();
+            Context();
 
         public:
             virtual ~Context();
@@ -71,28 +71,28 @@ namespace djv
             static std::shared_ptr<Context> create(const std::vector<std::string>& args);
 
             //! Get the command line arguments.
-            inline const std::vector<std::string> & getArgs() const;
+            const std::vector<std::string> & getArgs() const;
             
             //! Get the context name.
-            inline const std::string & getName() const;
+            const std::string & getName() const;
 
             //! Get the average FPS.
-            inline float getFpsAverage() const;
+            float getFpsAverage() const;
 
             //! \name Systems
             ///@{
 
             //! Get the list of systems.
-            inline std::vector<std::shared_ptr<ISystemBase> > getSystems() const;
+            std::vector<std::shared_ptr<ISystemBase> > getSystems() const;
 
             //! Get the list of systems of the given type.
             template<typename T>
-            inline std::vector<std::shared_ptr<T> > getSystemsT() const;
+            std::vector<std::shared_ptr<T> > getSystemsT() const;
 
             //! Get a system of the given type. If the system is not found a
             //! null pointer is returned.
             template<typename T>
-            inline std::shared_ptr<T> getSystemT() const;
+            std::shared_ptr<T> getSystemT() const;
 
             //! This function is called by the application event loop.
             virtual void tick(float dt);

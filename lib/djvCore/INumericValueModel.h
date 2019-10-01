@@ -51,31 +51,31 @@ namespace djv
             DJV_NON_COPYABLE(INumericValueModel);
 
         protected:
-            inline void _init();
-            inline INumericValueModel();
+            void _init();
+            INumericValueModel();
 
         public:
-            inline virtual ~INumericValueModel() = 0;
+            virtual ~INumericValueModel() = 0;
 
-            inline std::shared_ptr<IValueSubject<Range::Range<T> > > observeRange() const;
-            inline void setRange(const Range::Range<T> &);
+            std::shared_ptr<IValueSubject<Range::Range<T> > > observeRange() const;
+            void setRange(const Range::Range<T> &);
 
-            inline std::shared_ptr<IValueSubject<T> > observeValue() const;
-            inline void setValue(T);
+            std::shared_ptr<IValueSubject<T> > observeValue() const;
+            void setValue(T);
             void setMin();
             void setMax();
 
-            inline std::shared_ptr<IValueSubject<T> > observeSmallIncrement() const;
-            inline std::shared_ptr<IValueSubject<T> > observeLargeIncrement() const;
-            inline void incrementSmall();
-            inline void incrementLarge();
-            inline void decrementSmall();
-            inline void decrementLarge();
-            inline void setSmallIncrement(T);
-            inline void setLargeIncrement(T);
+            std::shared_ptr<IValueSubject<T> > observeSmallIncrement() const;
+            std::shared_ptr<IValueSubject<T> > observeLargeIncrement() const;
+            void incrementSmall();
+            void incrementLarge();
+            void decrementSmall();
+            void decrementLarge();
+            void setSmallIncrement(T);
+            void setLargeIncrement(T);
 
-            inline std::shared_ptr<IValueSubject<NumericValueOverflow> > observeOverflow() const;
-            inline void setOverflow(NumericValueOverflow);
+            std::shared_ptr<IValueSubject<NumericValueOverflow> > observeOverflow() const;
+            void setOverflow(NumericValueOverflow);
 
         private:
             std::shared_ptr<ValueSubject<Range::Range<T> > >     _range;

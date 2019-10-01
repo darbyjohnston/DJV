@@ -84,16 +84,16 @@ namespace djv
             class Event
             {
             protected:
-                inline Event(Type);
+                Event(Type);
 
             public:
-                inline virtual ~Event() = 0;
+                virtual ~Event() = 0;
 
-                inline Type getEventType() const;
+                Type getEventType() const;
 
-                inline bool isAccepted() const;
-                inline void setAccepted(bool);
-                inline void accept();
+                bool isAccepted() const;
+                void setAccepted(bool);
+                void accept();
 
             private:
                 Type _eventType;
@@ -104,10 +104,10 @@ namespace djv
             class ParentChanged : public Event
             {
             public:
-                inline ParentChanged(const std::shared_ptr<IObject> & prevParent, const std::shared_ptr<IObject> & newParent);
+                ParentChanged(const std::shared_ptr<IObject> & prevParent, const std::shared_ptr<IObject> & newParent);
 
-                inline const std::shared_ptr<IObject> & getPrevParent() const;
-                inline const std::shared_ptr<IObject> & getNewParent() const;
+                const std::shared_ptr<IObject> & getPrevParent() const;
+                const std::shared_ptr<IObject> & getNewParent() const;
 
             private:
                 std::shared_ptr<IObject> _prevParent;
@@ -118,9 +118,9 @@ namespace djv
             class ChildAdded : public Event
             {
             public:
-                inline ChildAdded(const std::shared_ptr<IObject> & child);
+                ChildAdded(const std::shared_ptr<IObject> & child);
 
-                inline const std::shared_ptr<IObject> & getChild() const;
+                const std::shared_ptr<IObject> & getChild() const;
 
             private:
                 std::shared_ptr<IObject> _child;
@@ -130,9 +130,9 @@ namespace djv
             class ChildRemoved : public Event
             {
             public:
-                inline ChildRemoved(const std::shared_ptr<IObject> & child);
+                ChildRemoved(const std::shared_ptr<IObject> & child);
 
-                inline const std::shared_ptr<IObject> & getChild() const;
+                const std::shared_ptr<IObject> & getChild() const;
 
             private:
                 std::shared_ptr<IObject> _child;
@@ -142,16 +142,16 @@ namespace djv
             class ChildOrder : public Event
             {
             public:
-                inline ChildOrder();
+                ChildOrder();
             };
 
             //! This class provides a locale event.
             class Locale : public Event
             {
             public:
-                inline Locale(const std::string &);
+                Locale(const std::string &);
 
-                inline const std::string & getLocale() const;
+                const std::string & getLocale() const;
 
             private:
                 std::string _locale;
@@ -161,10 +161,10 @@ namespace djv
             class Update : public Event
             {
             public:
-                inline Update(float t, float dt);
+                Update(float t, float dt);
 
-                inline float getTime() const;
-                inline float getDeltaTime() const;
+                float getTime() const;
+                float getDeltaTime() const;
 
             private:
                 float _t;
@@ -175,31 +175,31 @@ namespace djv
             class Style : public Event
             {
             public:
-                inline Style();
+                Style();
             };
 
             //! This class provides an event to prepare for user interface layout.
             class PreLayout : public Event
             {
             public:
-                inline PreLayout();
+                PreLayout();
             };
 
             //! This class provides an event for user interface layout.
             class Layout : public Event
             {
             public:
-                inline Layout();
+                Layout();
             };
 
             //! This class provides a clip event.
             class Clip : public Event
             {
             public:
-                inline Clip(const BBox2f & clipRect);
+                Clip(const BBox2f & clipRect);
 
-                inline const BBox2f & getClipRect() const;
-                inline void setClipRect(const BBox2f &);
+                const BBox2f & getClipRect() const;
+                void setClipRect(const BBox2f &);
 
             private:
                 BBox2f _clipRect;
@@ -209,10 +209,10 @@ namespace djv
             class Paint : public Event
             {
             public:
-                inline Paint(const BBox2f & clipRect);
+                Paint(const BBox2f & clipRect);
 
-                inline const BBox2f & getClipRect() const;
-                inline void setClipRect(const BBox2f &);
+                const BBox2f & getClipRect() const;
+                void setClipRect(const BBox2f &);
 
             private:
                 BBox2f _clipRect;
@@ -223,10 +223,10 @@ namespace djv
             class PaintOverlay : public Event
             {
             public:
-                inline PaintOverlay(const BBox2f& clipRect);
+                PaintOverlay(const BBox2f& clipRect);
 
-                inline const BBox2f& getClipRect() const;
-                inline void setClipRect(const BBox2f&);
+                const BBox2f& getClipRect() const;
+                void setClipRect(const BBox2f&);
 
             private:
                 BBox2f _clipRect;
@@ -247,23 +247,23 @@ namespace djv
                 glm::vec2 projectedPos = glm::vec2(-1.F, -1.F);
                 std::map<int, bool> buttons;
 
-                inline bool operator == (const PointerInfo&) const;
+                bool operator == (const PointerInfo&) const;
             };
 
             //! This class provides the interface for pointer events.
             class IPointer : public Event
             {
             protected:
-                inline IPointer(const PointerInfo &, Type);
+                IPointer(const PointerInfo &, Type);
 
             public:
-                inline ~IPointer() override = 0;
+                ~IPointer() override = 0;
 
-                inline bool isRejected() const;
-                inline void setRejected(bool);
-                inline void reject();
+                bool isRejected() const;
+                void setRejected(bool);
+                void reject();
 
-                inline const PointerInfo & getPointerInfo() const;
+                const PointerInfo & getPointerInfo() const;
 
             private:
                 bool _rejected = false;
@@ -274,44 +274,44 @@ namespace djv
             class PointerEnter : public IPointer
             {
             public:
-                inline PointerEnter(const PointerInfo &);
+                PointerEnter(const PointerInfo &);
             };
 
             //! This class provides a pointer leave event.
             class PointerLeave : public IPointer
             {
             public:
-                inline PointerLeave(const PointerInfo &);
+                PointerLeave(const PointerInfo &);
             };
 
             //! This class provides a pointer move event.
             class PointerMove : public IPointer
             {
             public:
-                inline PointerMove(const PointerInfo &);
+                PointerMove(const PointerInfo &);
             };
 
             //! This class provides a button press event.
             class ButtonPress : public IPointer
             {
             public:
-                inline ButtonPress(const PointerInfo &);
+                ButtonPress(const PointerInfo &);
             };
 
             //! This class provides a button release event.
             class ButtonRelease : public IPointer
             {
             public:
-                inline ButtonRelease(const PointerInfo &);
+                ButtonRelease(const PointerInfo &);
             };
 
             //! This class provides a scroll event.
             class Scroll : public IPointer
             {
             public:
-                inline Scroll(const glm::vec2 & scrollDelta, const PointerInfo &);
+                Scroll(const glm::vec2 & scrollDelta, const PointerInfo &);
 
-                inline const glm::vec2 & getScrollDelta() const;
+                const glm::vec2 & getScrollDelta() const;
 
             private:
                 glm::vec2 _scrollDelta;
@@ -321,9 +321,9 @@ namespace djv
             class Drop : public IPointer
             {
             public:
-                inline Drop(const std::vector<std::string> &, const PointerInfo &);
+                Drop(const std::vector<std::string> &, const PointerInfo &);
 
-                inline const std::vector<std::string> & getDropPaths() const;
+                const std::vector<std::string> & getDropPaths() const;
 
             private:
                 std::vector<std::string> _dropPaths;
@@ -333,13 +333,13 @@ namespace djv
             class IKey : public IPointer
             {
             protected:
-                inline IKey(int key, int keyModifiers, const PointerInfo &, Type);
+                IKey(int key, int keyModifiers, const PointerInfo &, Type);
                 
             public:
-                inline ~IKey() override = 0;
+                ~IKey() override = 0;
                 
-                inline int getKey() const;
-                inline int getKeyModifiers() const;
+                int getKey() const;
+                int getKeyModifiers() const;
 
             private:
                 int _key;
@@ -350,38 +350,38 @@ namespace djv
             class KeyPress : public IKey
             {
             public:
-                inline KeyPress(int key, int keyModifiers, const PointerInfo &);
+                KeyPress(int key, int keyModifiers, const PointerInfo &);
             };
 
             //! This class provides a key release event.
             class KeyRelease : public IKey
             {
             public:
-                inline KeyRelease(int key, int keyModifiers, const PointerInfo &);
+                KeyRelease(int key, int keyModifiers, const PointerInfo &);
             };
 
             //! This class provides a text focus event.
             class TextFocus : public Event
             {
             public:
-                inline TextFocus();
+                TextFocus();
             };
 
             //! This class provides a text focus lost event.
             class TextFocusLost : public Event
             {
             public:
-                inline TextFocusLost();
+                TextFocusLost();
             };
 
             //! This class provides a text event.
             class Text : public Event
             {
             public:
-                inline Text(const std::basic_string<djv_char_t>& utf32, int textModifiers);
+                Text(const std::basic_string<djv_char_t>& utf32, int textModifiers);
 
-                inline const std::basic_string<djv_char_t>& getUtf32() const;
-                inline int getTextModifiers() const;
+                const std::basic_string<djv_char_t>& getUtf32() const;
+                int getTextModifiers() const;
 
             private:
                 std::basic_string<djv_char_t> _utf32;

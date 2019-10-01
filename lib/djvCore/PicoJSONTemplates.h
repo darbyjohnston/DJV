@@ -34,7 +34,7 @@
 namespace djv
 {
     template<typename T>
-    inline picojson::value toJSON(const std::vector<T> &);
+    picojson::value toJSON(const std::vector<T> &);
     template<typename T>
     picojson::value toJSON(const std::map<std::string, T> &);
 

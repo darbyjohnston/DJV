@@ -49,19 +49,19 @@ namespace djv
         {
         protected:
             void _init(const std::string& name, const std::shared_ptr<Context>&);
-            inline ISystemBase();
+            ISystemBase();
 
         public:
             virtual ~ISystemBase() = 0;
 
             //! Get the system name.
-            inline const std::string& getSystemName() const;
+            const std::string& getSystemName() const;
 
             //! Get the context.
-            inline const std::weak_ptr<Context>& getContext() const;
+            const std::weak_ptr<Context>& getContext() const;
 
             //! Get the list of system dependencies.
-            inline const std::vector<std::shared_ptr<ISystemBase> >& getDependencies() const;
+            const std::vector<std::shared_ptr<ISystemBase> >& getDependencies() const;
             
             //! Add a system dependency.
             void addDependency(const std::shared_ptr<ISystemBase>&);
@@ -80,7 +80,7 @@ namespace djv
         {
         protected:
             void _init(const std::string& name, const std::shared_ptr<Context>&);
-            inline ISystem();
+            ISystem();
 
         public:
             ~ISystem() override;

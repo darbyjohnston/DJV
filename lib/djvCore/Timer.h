@@ -64,7 +64,7 @@ namespace djv
             {
                 DJV_NON_COPYABLE(Timer);
                 void _init(const std::shared_ptr<Context>&);
-                inline Timer();
+                Timer();
 
             public:
                 //! Create a new time.
@@ -73,13 +73,13 @@ namespace djv
                 //! \name Timer Options
                 ///@{
 
-                inline bool isRepeating() const;
+                bool isRepeating() const;
                 void setRepeating(bool);
 
                 ///@}
 
                 //! Is the timer active?
-                inline bool isActive() const;
+                bool isActive() const;
 
                 //! Start the timer.
                 void start(std::chrono::milliseconds, const std::function<void(float)> &);

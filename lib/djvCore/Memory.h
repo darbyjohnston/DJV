@@ -60,19 +60,19 @@ namespace djv
             DJV_ENUM_HELPERS(Endian);
 
             //! Get the current machine's endian.
-            inline Endian getEndian();
+            Endian getEndian();
 
             //! Get the opposite of the given endian.
-            inline Endian opposite(Endian);
+            Endian opposite(Endian);
 
             //! Convert the endianness of a block of memory in place.
-            inline void endian(
+            void endian(
                 void*  in,
                 size_t size,
                 size_t wordSize);
 
             //! Convert the endianness of a block of memory.
-            inline void endian(
+            void endian(
                 const void* in,
                 void*       out,
                 size_t      size,
@@ -85,7 +85,7 @@ namespace djv
             //! References:
             //! - http://www.boost.org/doc/libs/1_65_1/doc/html/hash/combine.html
             template <class T>
-            inline void hashCombine(std::size_t &, const T &);
+            void hashCombine(std::size_t &, const T &);
 
         } // namespace Memory
     } // namespace Core

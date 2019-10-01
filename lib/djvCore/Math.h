@@ -58,7 +58,7 @@ namespace djv
 
             //! Get the anti-logarithm.
             template<typename T>
-            inline T antiLog10(T);
+            T antiLog10(T);
 
             //! Step function.
             template<typename T>
@@ -94,10 +94,10 @@ namespace djv
             //! - Ken McGaugh, "Re: [Openexr-devel] Cineon -> half conversion?"
             //!   OpenEXR Mailing List 3/2/05
             template<typename T>
-            inline T softClip(T value, T softClip);
+            T softClip(T value, T softClip);
 
             template<typename T>
-            inline size_t getNumDigits(T);
+            size_t getNumDigits(T);
 
             //! \name Random Numbers
             ///@{
@@ -119,7 +119,7 @@ namespace djv
 
             //! Get a random item from a list.
             template<typename T>
-            inline const T & getRandom(const std::vector<T> &);
+            const T & getRandom(const std::vector<T> &);
 
             //! Seed the random value generator.
             void setRandomSeed(unsigned int);
@@ -137,7 +137,7 @@ namespace djv
             constexpr T getFraction(T);
 
             //! Find the closest power of two.
-            inline int toPow2(int);
+            int toPow2(int);
 
             //! Convert readians to degrees.
             constexpr float rad2deg(float);
@@ -158,8 +158,8 @@ namespace djv
         } // namespace Math
     } // namespace Core
 
-    inline bool fuzzyCompare(double a, double b, double e = .1e-9);
-    inline bool fuzzyCompare(float a, float b, float e = .1e-6f);
+    bool fuzzyCompare(double a, double b, double e = .1e-9);
+    bool fuzzyCompare(float a, float b, float e = .1e-6f);
 
 } // namespace djv
 

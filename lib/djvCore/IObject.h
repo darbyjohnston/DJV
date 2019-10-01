@@ -54,47 +54,47 @@ namespace djv
         protected:
             void _init(const std::shared_ptr<Context>&);
 
-            inline IObject();
+            IObject();
 
         public:
             virtual ~IObject() = 0;
 
-            inline const std::weak_ptr<Context>& getContext() const;
+            const std::weak_ptr<Context>& getContext() const;
 
-            inline const std::string & getClassName() const;
-            inline void setClassName(const std::string &);
+            const std::string & getClassName() const;
+            void setClassName(const std::string &);
 
-            inline const std::string & getObjectName() const;
-            inline void setObjectName(const std::string &);
+            const std::string & getObjectName() const;
+            void setObjectName(const std::string &);
 
             //! \name Object Hierarchy
             ///@{
 
             //! Get the parent object.
-            inline const std::weak_ptr<IObject> & getParent() const;
+            const std::weak_ptr<IObject> & getParent() const;
 
             //! Walk up the object hierarchy looking for a parent of the given type.
             template<typename T>
-            inline std::shared_ptr<T> getParentRecursiveT() const;
+            std::shared_ptr<T> getParentRecursiveT() const;
 
             //! Get the list of child objects.
-            inline const std::vector<std::shared_ptr<IObject> > & getChildren() const;
+            const std::vector<std::shared_ptr<IObject> > & getChildren() const;
 
             //! Get a list of child objects of the given type.
             template<typename T>
-            inline std::vector<std::shared_ptr<T> > getChildrenT() const;
+            std::vector<std::shared_ptr<T> > getChildrenT() const;
 
             //! Recursively find all child objects of the given type.
             template<typename T>
-            inline std::vector<std::shared_ptr<T> > getChildrenRecursiveT() const;
+            std::vector<std::shared_ptr<T> > getChildrenRecursiveT() const;
 
             //! Get the first child object of the given type.
             template <typename T>
-            inline std::shared_ptr<T> getFirstChildT() const;
+            std::shared_ptr<T> getFirstChildT() const;
 
             //! Recursively find the first child object of the given type.
             template <typename T>
-            inline std::shared_ptr<T> getFirstChildRecursiveT() const;
+            std::shared_ptr<T> getFirstChildRecursiveT() const;
 
             //! Add a child object.
             virtual void addChild(const std::shared_ptr<IObject> &);
@@ -117,7 +117,7 @@ namespace djv
             //! \name Enabled State
             ///@{
 
-            inline bool isEnabled(bool parents = false) const;
+            bool isEnabled(bool parents = false) const;
             virtual void setEnabled(bool);
 
             ///@}
@@ -165,9 +165,9 @@ namespace djv
 
             void _log(const std::string & message, Core::LogLevel = Core::LogLevel::Information);
 
-            inline std::shared_ptr<ResourceSystem> _getResourceSystem() const;
-            inline std::shared_ptr<LogSystem> _getLogSystem() const;
-            inline std::shared_ptr<TextSystem> _getTextSystem() const;
+            std::shared_ptr<ResourceSystem> _getResourceSystem() const;
+            std::shared_ptr<LogSystem> _getLogSystem() const;
+            std::shared_ptr<TextSystem> _getTextSystem() const;
 
             ///@}
 
@@ -175,9 +175,9 @@ namespace djv
             bool _eventFilter(Event::Event &);
 
             template<typename T>
-            inline static void _getChildrenRecursiveT(const std::shared_ptr<IObject> &, std::vector<std::shared_ptr<T> > &);
+            static void _getChildrenRecursiveT(const std::shared_ptr<IObject> &, std::vector<std::shared_ptr<T> > &);
             template<typename T>
-            inline static void _getFirstChildRecursiveT(const std::shared_ptr<IObject> &, std::shared_ptr<T> &);
+            static void _getFirstChildRecursiveT(const std::shared_ptr<IObject> &, std::shared_ptr<T> &);
 
             std::weak_ptr<Context> _context;
 

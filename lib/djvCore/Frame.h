@@ -61,18 +61,18 @@ namespace djv
             class Sequence
             {
             public:
-                inline Sequence();
-                inline Sequence(const Range& range, size_t pad = 0);
-                inline Sequence(const std::vector<Range>& ranges, size_t pad = 0);
+                Sequence();
+                Sequence(const Range& range, size_t pad = 0);
+                Sequence(const std::vector<Range>& ranges, size_t pad = 0);
 
                 std::vector<Range> ranges;
                 size_t pad = 0;
 
-                inline bool isValid() const;
-                inline bool contains(Index) const;
-                inline size_t getSize() const;
-                inline Number getFrame(Index) const;
-                inline Index getIndex(Number) const;
+                bool isValid() const;
+                bool contains(Index) const;
+                size_t getSize() const;
+                Number getFrame(Index) const;
+                Index getIndex(Number) const;
 
                 //! \name Utilities
                 ///@{
@@ -82,14 +82,14 @@ namespace djv
                 
                 ///@}
 
-                inline bool operator == (const Sequence&) const;
-                inline bool operator != (const Sequence&) const;
+                bool operator == (const Sequence&) const;
+                bool operator != (const Sequence&) const;
             };
 
             //! \name Utilities
             ///@{
 
-            inline bool isValid(const Range&);
+            bool isValid(const Range&);
 
             void sort(Range&);
 
@@ -98,21 +98,21 @@ namespace djv
             //! \name Conversion
             ///@{
 
-            inline std::vector<Number> toFrames(const Range&);
-            inline std::vector<Number> toFrames(const Sequence&);
+            std::vector<Number> toFrames(const Range&);
+            std::vector<Number> toFrames(const Sequence&);
             Sequence fromFrames(const std::vector<Number>&);
 
-            inline std::string toString(Number, size_t pad);
-            inline std::string toString(const Range&, size_t pad);
-            inline std::string toString(const Sequence&);
+            std::string toString(Number, size_t pad);
+            std::string toString(const Range&, size_t pad);
+            std::string toString(const Sequence&);
 
             //! Throws:
             //! - std::exception
-            inline void fromString(const std::string&, Range&, size_t& pad);
+            void fromString(const std::string&, Range&, size_t& pad);
 
             //! Throws:
             //! - std::exception
-            inline void fromString(const std::string&, Sequence&);
+            void fromString(const std::string&, Sequence&);
 
             ///@}
 

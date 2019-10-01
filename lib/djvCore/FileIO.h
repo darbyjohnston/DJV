@@ -53,7 +53,7 @@ namespace djv
                 DJV_NON_COPYABLE(FileIO);
 
             public:
-                inline FileIO();
+                FileIO();
                 FileIO(FileIO &&);
                 ~FileIO();
                 FileIO & operator = (FileIO &&);
@@ -83,23 +83,23 @@ namespace djv
                 bool close(std::string* error = nullptr);
 
                 //! Get whether the file is open.
-                inline bool isOpen() const;
+                bool isOpen() const;
 
                 //! Get the file name.
-                inline const std::string & getFileName() const;
+                const std::string & getFileName() const;
 
                 //! Get the file size.
-                inline size_t getSize() const;
+                size_t getSize() const;
 
                 //! \name File Position
                 ///@{
 
-                inline size_t getPos() const;
+                size_t getPos() const;
                 void setPos(size_t);
                 void seek(size_t);
 
                 //! Get whether the file position is EOF.
-                inline bool isEOF() const;
+                bool isEOF() const;
 
                 ///@}
 
@@ -110,13 +110,13 @@ namespace djv
 
                 void read(void *, size_t, size_t wordSize = 1);
 
-                inline void read8(int8_t *, size_t = 1);
-                inline void readU8(uint8_t *, size_t = 1);
-                inline void read16(int16_t *, size_t = 1);
-                inline void readU16(uint16_t *, size_t = 1);
-                inline void read32(int32_t *, size_t = 1);
-                inline void readU32(uint32_t *, size_t = 1);
-                inline void readF32(float *, size_t = 1);
+                void read8(int8_t *, size_t = 1);
+                void readU8(uint8_t *, size_t = 1);
+                void read16(int16_t *, size_t = 1);
+                void readU16(uint16_t *, size_t = 1);
+                void read32(int32_t *, size_t = 1);
+                void readU32(uint32_t *, size_t = 1);
+                void readF32(float *, size_t = 1);
 
                 ///@}
 
@@ -127,23 +127,23 @@ namespace djv
 
                 void write(const void *, size_t, size_t wordSize = 1);
 
-                inline void write8(const int8_t *, size_t);
-                inline void writeU8(const uint8_t *, size_t);
-                inline void write16(const int16_t *, size_t);
-                inline void writeU16(const uint16_t *, size_t);
-                inline void write32(const int32_t *, size_t);
-                inline void writeU32(const uint32_t *, size_t);
-                inline void writeF32(const float *, size_t);
+                void write8(const int8_t *, size_t);
+                void writeU8(const uint8_t *, size_t);
+                void write16(const int16_t *, size_t);
+                void writeU16(const uint16_t *, size_t);
+                void write32(const int32_t *, size_t);
+                void writeU32(const uint32_t *, size_t);
+                void writeF32(const float *, size_t);
 
-                inline void write8(int8_t);
-                inline void writeU8(uint8_t);
-                inline void write16(int16_t);
-                inline void writeU16(uint16_t);
-                inline void write32(int32_t);
-                inline void writeU32(uint32_t);
-                inline void writeF32(float);
+                void write8(int8_t);
+                void writeU8(uint8_t);
+                void write16(int16_t);
+                void writeU16(uint16_t);
+                void write32(int32_t);
+                void writeU32(uint32_t);
+                void writeF32(float);
 
-                inline void write(const std::string &);
+                void write(const std::string &);
 
                 ///@}
 
@@ -152,10 +152,10 @@ namespace djv
 
 #if defined(DJV_MMAP)
                 //! Get the current memory-map position.
-                inline const uint8_t * mmapP() const;
+                const uint8_t * mmapP() const;
 
                 //! Get a pointer to the end of the memory-map.
-                inline const uint8_t * mmapEnd() const;
+                const uint8_t * mmapEnd() const;
 #endif // DJV_MMAP
 
                 ///@}
@@ -164,7 +164,7 @@ namespace djv
                 ///@{
 
                 //! Get whether automatic endian conversion is performed.
-                inline bool getEndian() const;
+                bool getEndian() const;
 
                 //! Set whether automatic endian conversion is performed.
                 void setEndian(bool);

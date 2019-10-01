@@ -48,17 +48,17 @@ namespace djv
             //! \name Splitting and Joining
             ///@{
 
-            inline std::vector<std::string> split(const char *, size_t, char delimeter, bool keepEmpty = false);
-            inline std::vector<std::string> split(const std::string &, char delimeter, bool keepEmpty = false);
-            inline std::vector<std::string> split(const std::string &, const std::vector<char> & delimeters, bool keepEmpty = false);
+            std::vector<std::string> split(const char *, size_t, char delimeter, bool keepEmpty = false);
+            std::vector<std::string> split(const std::string &, char delimeter, bool keepEmpty = false);
+            std::vector<std::string> split(const std::string &, const std::vector<char> & delimeters, bool keepEmpty = false);
 
-            inline std::string join(const std::vector<std::string> &);
-            inline std::string join(const std::vector<std::string> &, char delimeter);
-            inline std::string join(const std::vector<std::string> &, const std::string & delimeter);
+            std::string join(const std::vector<std::string> &);
+            std::string join(const std::vector<std::string> &, char delimeter);
+            std::string join(const std::vector<std::string> &, const std::string & delimeter);
 
-            inline std::string joinSet(const std::set<std::string> &);
-            inline std::string joinSet(const std::set<std::string> &, char delimeter);
-            inline std::string joinSet(const std::set<std::string> &, const std::string & delimeter);
+            std::string joinSet(const std::set<std::string> &);
+            std::string joinSet(const std::set<std::string> &, char delimeter);
+            std::string joinSet(const std::set<std::string> &, const std::string & delimeter);
 
             ///@}
 
@@ -91,19 +91,19 @@ namespace djv
 
             //! Low-level function for converting an integer type to a string.
             template<typename T>
-            inline size_t intToString(
+            size_t intToString(
                 T      value,
                 char * string,
                 size_t maxLen = cStringLength);
 
             //! Low-level function for converting a string to an integer type.
-            inline void fromString(const char *, size_t size, int &);
+            void fromString(const char *, size_t size, int &);
 
             //! Low-level function for converting a string to an integer type.
-            inline void fromString(const char *, size_t size, int64_t &);
+            void fromString(const char *, size_t size, int64_t &);
 
             //! Low-level function for converting a string to an integer type.
-            inline void fromString(const char *, size_t size, size_t &);
+            void fromString(const char *, size_t size, size_t &);
 
             //! Low-level function for converting a string to a floating-point type.
             void fromString(const char *, size_t size, float &);

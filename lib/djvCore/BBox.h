@@ -44,10 +44,10 @@ namespace djv
             template<typename T, glm::precision P = glm::defaultp>
             struct tBBox2
             {
-                inline tBBox2();
-                inline tBBox2(const glm::tvec2<T, P> &);
-                inline tBBox2(const glm::tvec2<T, P> & min, const glm::tvec2<T, P> & max);
-                inline tBBox2(T x, T y, T w, T h);
+                tBBox2();
+                tBBox2(const glm::tvec2<T, P> &);
+                tBBox2(const glm::tvec2<T, P> & min, const glm::tvec2<T, P> & max);
+                tBBox2(T x, T y, T w, T h);
 
                 //! \name Box Components
                 ///@{
@@ -55,10 +55,10 @@ namespace djv
                 glm::tvec2<T, P> min;
                 glm::tvec2<T, P> max;
 
-                inline T x() const;
-                inline T y() const;
-                inline T w() const;
-                inline T h() const;
+                T x() const;
+                T y() const;
+                T w() const;
+                T h() const;
 
                 ///@}
 
@@ -66,20 +66,20 @@ namespace djv
                 ///@{
 
                 constexpr bool isValid() const;
-                inline glm::tvec2<T, P> getSize() const;
+                glm::tvec2<T, P> getSize() const;
                 constexpr glm::tvec2<T, P> getCenter() const;
-                inline T getArea() const;
-                inline float getAspect() const;
-                inline void zero();
+                T getArea() const;
+                float getAspect() const;
+                void zero();
 
                 constexpr bool contains(const tBBox2<T, P> &) const;
                 constexpr bool contains(const glm::tvec2<T, P> &) const;
 
                 constexpr bool intersects(const tBBox2<T, P> &) const;
-                inline tBBox2<T, P> intersect(const tBBox2<T, P> &) const;
+                tBBox2<T, P> intersect(const tBBox2<T, P> &) const;
 
-                inline void expand(const tBBox2<T, P> &);
-                inline void expand(const glm::tvec2<T, P> &);
+                void expand(const tBBox2<T, P> &);
+                void expand(const glm::tvec2<T, P> &);
 
                 constexpr tBBox2<T, P> margin(const glm::tvec2<T, P> &) const;
                 constexpr tBBox2<T, P> margin(T) const;
@@ -95,22 +95,22 @@ namespace djv
             template<typename T, glm::precision P = glm::defaultp>
             struct tBBox3
             {
-                inline tBBox3();
-                inline tBBox3(const glm::tvec3<T, P> &);
-                inline tBBox3(const glm::tvec3<T, P> & min, const glm::tvec3<T, P> & max);
-                inline tBBox3(T x, T y, T z, T w, T h, T d);
+                tBBox3();
+                tBBox3(const glm::tvec3<T, P> &);
+                tBBox3(const glm::tvec3<T, P> & min, const glm::tvec3<T, P> & max);
+                tBBox3(T x, T y, T z, T w, T h, T d);
 
                 //! \name Components
                 ///@{
 
                 glm::tvec3<T, P> min, max;
 
-                inline T x() const;
-                inline T y() const;
-                inline T z() const;
-                inline T w() const;
-                inline T h() const;
-                inline T d() const;
+                T x() const;
+                T y() const;
+                T z() const;
+                T w() const;
+                T h() const;
+                T d() const;
 
                 ///@}
 
@@ -118,19 +118,19 @@ namespace djv
                 ///@{
 
                 constexpr bool isValid() const;
-                inline glm::tvec3<T, P> getSize() const;
+                glm::tvec3<T, P> getSize() const;
                 constexpr glm::tvec3<T, P> getCenter() const;
-                inline void zero();
+                void zero();
 
                 constexpr bool contains(const tBBox3<T, P> &) const;
                 constexpr bool contains(const glm::tvec3<T, P> &) const;
 
                 constexpr bool intersects(const tBBox3<T, P> &) const;
-                inline tBBox3<T, P> intersect(const tBBox3<T, P> &) const;
-                inline bool intersect(const glm::tvec3<T, P> & start, const glm::tvec3<T, P> & end, glm::tvec3<T, P> & out) const;
+                tBBox3<T, P> intersect(const tBBox3<T, P> &) const;
+                bool intersect(const glm::tvec3<T, P> & start, const glm::tvec3<T, P> & end, glm::tvec3<T, P> & out) const;
 
-                inline void expand(const tBBox3<T, P> &);
-                inline void expand(const glm::tvec3<T, P> &);
+                void expand(const tBBox3<T, P> &);
+                void expand(const glm::tvec3<T, P> &);
 
                 ///@}
 
@@ -178,12 +178,12 @@ namespace djv
     } // namespace Core
 
     template<typename T, glm::precision P = glm::defaultp>
-    inline bool fuzzyCompare(const Core::BBox::tBBox2<T, P> &, const Core::BBox::tBBox2<T, P> &);
+    bool fuzzyCompare(const Core::BBox::tBBox2<T, P> &, const Core::BBox::tBBox2<T, P> &);
     template<typename T, glm::precision P = glm::defaultp>
-    inline bool fuzzyCompare(const Core::BBox::tBBox3<T, P> &, const Core::BBox::tBBox3<T, P> &);
+    bool fuzzyCompare(const Core::BBox::tBBox3<T, P> &, const Core::BBox::tBBox3<T, P> &);
 
     template<typename T, glm::precision P = glm::defaultp>
-    inline Core::BBox::tBBox3<T, P> operator * (const Core::BBox::tBBox3<T, P> &, const glm::mat4 &);
+    Core::BBox::tBBox3<T, P> operator * (const Core::BBox::tBBox3<T, P> &, const glm::mat4 &);
 
     picojson::value toJSON(const Core::BBox2i&);
     picojson::value toJSON(const Core::BBox2f&);
@@ -196,13 +196,13 @@ namespace djv
     void fromJSON(const picojson::value&, Core::BBox3f&);
 
     template<typename T, glm::precision P = glm::defaultp>
-    inline std::ostream & operator << (std::ostream &, const Core::BBox::tBBox2<T, P> &);
+    std::ostream & operator << (std::ostream &, const Core::BBox::tBBox2<T, P> &);
     template<typename T, glm::precision P = glm::defaultp>
-    inline std::ostream & operator << (std::ostream &, const Core::BBox::tBBox3<T, P> &);
+    std::ostream & operator << (std::ostream &, const Core::BBox::tBBox3<T, P> &);
     template<typename T, glm::precision P = glm::defaultp>
-    inline std::istream & operator >> (std::istream &, Core::BBox::tBBox2<T, P> &);
+    std::istream & operator >> (std::istream &, Core::BBox::tBBox2<T, P> &);
     template<typename T, glm::precision P = glm::defaultp>
-    inline std::istream & operator >> (std::istream &, Core::BBox::tBBox3<T, P> &);
+    std::istream & operator >> (std::istream &, Core::BBox::tBBox3<T, P> &);
 
 } // namespace djv
 

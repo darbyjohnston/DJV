@@ -52,22 +52,22 @@ namespace djv
             DJV_NON_COPYABLE(ListObserver);
 
         protected:
-            inline void _init(
+            void _init(
                 const std::weak_ptr<IListSubject<T> > &,
                 const std::function<void(const std::vector<T> &)> &);
 
-            inline ListObserver();
+            ListObserver();
 
         public:
-            inline ~ListObserver();
+            ~ListObserver();
 
             //! Create a new list observer.
-            static inline std::shared_ptr<ListObserver<T> > create(
+            static std::shared_ptr<ListObserver<T> > create(
                 const std::weak_ptr<IListSubject<T> > &,
                 const std::function<void(const std::vector<T> &)> &);
 
             //! Execute the callback.
-            inline void doCallback(const std::vector<T> &);
+            void doCallback(const std::vector<T> &);
 
         private:
             std::function<void(const std::vector<T> &)> _callback;
@@ -79,7 +79,7 @@ namespace djv
         class IListSubject
         {
         public:
-            inline virtual ~IListSubject() = 0;
+            virtual ~IListSubject() = 0;
 
             //! Get the list.
             virtual const std::vector<T> & get() const = 0;
@@ -100,8 +100,8 @@ namespace djv
             virtual size_t indexOf(const T &) const = 0;
 
         protected:
-            inline void _add(const std::weak_ptr<ListObserver<T> > &);
-            inline void _remove(ListObserver<T> *);
+            void _add(const std::weak_ptr<ListObserver<T> > &);
+            void _remove(ListObserver<T> *);
 
             std::vector<std::weak_ptr<ListObserver<T> > > _observers;
 
@@ -115,43 +115,43 @@ namespace djv
             DJV_NON_COPYABLE(ListSubject);
             
         protected:
-            inline ListSubject();
-            inline ListSubject(const std::vector<T> &);
+            ListSubject();
+            ListSubject(const std::vector<T> &);
 
         public:
             //! Create a new list subject.
-            static inline std::shared_ptr<ListSubject<T> > create();
+            static std::shared_ptr<ListSubject<T> > create();
 
             //! Create a new list subject with the given value.
-            static inline std::shared_ptr<ListSubject<T> > create(const std::vector<T> &);
+            static std::shared_ptr<ListSubject<T> > create(const std::vector<T> &);
             
             //! Set the list.
-            inline void setAlways(const std::vector<T> &);
+            void setAlways(const std::vector<T> &);
 
             //! Set the list only if it has changed.
-            inline bool setIfChanged(const std::vector<T> &);
+            bool setIfChanged(const std::vector<T> &);
 
             //! Clear the list.
-            inline void clear();
+            void clear();
 
             //! Set a list item.
-            inline void setItem(size_t, const T &);
+            void setItem(size_t, const T &);
 
             //! Set a list item only if it has changed.
-            inline void setItemOnlyIfChanged(size_t, const T &);
+            void setItemOnlyIfChanged(size_t, const T &);
 
             //! Append a list item.
-            inline void pushBack(const T &);
+            void pushBack(const T &);
 
             //! Remove an item.
-            inline void removeItem(size_t);
+            void removeItem(size_t);
 
-            inline const std::vector<T> & get() const override;
-            inline size_t getSize() const override;
-            inline bool isEmpty() const override;
-            inline const T & getItem(size_t) const override;
-            inline bool contains(const T &) const override;
-            inline size_t indexOf(const T &) const override;
+            const std::vector<T> & get() const override;
+            size_t getSize() const override;
+            bool isEmpty() const override;
+            const T & getItem(size_t) const override;
+            bool contains(const T &) const override;
+            size_t indexOf(const T &) const override;
 
         private:
             std::vector<T> _value;

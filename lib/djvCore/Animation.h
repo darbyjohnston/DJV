@@ -70,7 +70,7 @@ namespace djv
             {
                 DJV_NON_COPYABLE(Animation);
                 void _init(const std::shared_ptr<Context>&);
-                inline Animation();
+                Animation();
 
             public:
                 //! Create a new animation.
@@ -79,7 +79,7 @@ namespace djv
                 //! \name Animation Type
                 ///@{
 
-                inline Type getType() const;
+                Type getType() const;
                 void setType(Type);
 
                 ///@}
@@ -87,13 +87,13 @@ namespace djv
                 //! \name Animation Options
                 ///@{
 
-                inline bool isRepeating() const;
+                bool isRepeating() const;
                 void setRepeating(bool);
 
                 ///@}
 
                 //! Get whether the animation is active.
-                inline bool isActive() const;
+                bool isActive() const;
 
                 typedef std::function<void(float)> Callback;
 

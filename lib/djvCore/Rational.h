@@ -46,14 +46,14 @@ namespace djv
                 Rational();
                 Rational(int num, int den);
 
-                inline int getNum() const;
-                inline int getDen() const;
-                inline bool isValid() const;
+                int getNum() const;
+                int getDen() const;
+                bool isValid() const;
 
                 float toFloat() const;
                 static Rational fromFloat(float);
 
-                inline Rational swap() const;
+                Rational swap() const;
 
                 bool operator == (const Rational&) const;
                 bool operator != (const Rational&) const;

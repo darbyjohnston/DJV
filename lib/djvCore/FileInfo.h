@@ -116,16 +116,16 @@ namespace djv
             class FileInfo
             {
             public:
-                inline FileInfo();
-                inline FileInfo(const Path&, bool stat = true);
-                inline FileInfo(const Path&, FileType, bool stat = true);
-                inline FileInfo(const std::string &, bool stat = true);
+                FileInfo();
+                FileInfo(const Path&, bool stat = true);
+                FileInfo(const Path&, FileType, bool stat = true);
+                FileInfo(const std::string &, bool stat = true);
 
                 //! \name Path
                 ///@{
 
-                inline const Path& getPath() const;
-                inline bool isEmpty() const;
+                const Path& getPath() const;
+                bool isEmpty() const;
                 void setPath(const Path& path, bool stat = true);
                 void setPath(const Path& path, FileType fileType, bool stat = true);
 
@@ -137,16 +137,16 @@ namespace djv
                 std::string getFileName(Frame::Number frame = Frame::invalid, bool path = true) const;
 
                 //! Get whether this file exists.
-                inline bool doesExist() const;
+                bool doesExist() const;
 
                 //! \name File Information
                 ///@{
 
-                inline FileType getType() const;
-                inline uint64_t getSize() const;
-                inline uid_t getUser() const;
-                inline int getPermissions() const;
-                inline time_t getTime() const;
+                FileType getType() const;
+                uint64_t getSize() const;
+                uid_t getUser() const;
+                int getPermissions() const;
+                time_t getTime() const;
 
                 //! Get information from the file system.
                 //! Throws:
@@ -162,10 +162,10 @@ namespace djv
                 void setSequence(const Frame::Sequence &);
                 void evalSequence();
                 void sortSequence();
-                inline bool isSequenceValid() const;
-                inline bool isSequenceWildcard() const;
-                inline bool isCompatible(const FileInfo &) const;
-                inline bool addToSequence(const FileInfo &);
+                bool isSequenceValid() const;
+                bool isSequenceWildcard() const;
+                bool isCompatible(const FileInfo &) const;
+                bool addToSequence(const FileInfo &);
 
                 ///@}
 
@@ -184,11 +184,11 @@ namespace djv
 
                 ///@}
 
-                inline bool operator == (const FileInfo &) const;
-                inline bool operator != (const FileInfo &) const;
-                inline bool operator < (const FileInfo &) const;
+                bool operator == (const FileInfo &) const;
+                bool operator != (const FileInfo &) const;
+                bool operator < (const FileInfo &) const;
 
-                inline operator std::string() const;
+                operator std::string() const;
 
             private:
                 static void _fileSequence(FileInfo&, const DirectoryListOptions&, std::vector<FileInfo>&);

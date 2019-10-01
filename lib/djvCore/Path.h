@@ -100,19 +100,19 @@ namespace djv
             class Path
             {
             public:
-                inline Path();
-                inline Path(const std::string &);
-                inline Path(const Path &, const std::string &);
-                inline Path(const std::string &, const std::string &);
+                Path();
+                Path(const std::string &);
+                Path(const Path &, const std::string &);
+                Path(const std::string &, const std::string &);
 
                 //! \name Path
                 ///@{
 
-                inline std::string get() const;
+                std::string get() const;
                 void set(std::string);
                 void append(const std::string &);
 
-                inline bool isEmpty() const;
+                bool isEmpty() const;
                 bool isRoot() const;
 
                 //! Go up a directory.
@@ -123,11 +123,11 @@ namespace djv
                 //! \name Path Components
                 ///@{
 
-                inline const std::string& getDirectoryName() const;
-                inline std::string getFileName() const;
-                inline const std::string& getBaseName() const;
-                inline const std::string& getNumber() const;
-                inline const std::string& getExtension() const;
+                const std::string& getDirectoryName() const;
+                std::string getFileName() const;
+                const std::string& getBaseName() const;
+                const std::string& getNumber() const;
+                const std::string& getExtension() const;
                 void setDirectoryName(const std::string &);
                 void setFileName(const std::string &);
                 void setBaseName(const std::string &);
@@ -140,13 +140,13 @@ namespace djv
                 ///@{
 
                 //! Is this character a path separator?
-                inline static bool isSeparator(char);
+                static bool isSeparator(char);
 
                 //! Get the path separator.
-                inline static char getSeparator(PathSeparator);
+                static char getSeparator(PathSeparator);
 
                 //! Get the current path separator.
-                inline static char getCurrentSeparator();
+                static char getCurrentSeparator();
 
                 //! Remove a trailing path separator.
                 static void removeTrailingSeparator(std::string &);
@@ -189,11 +189,11 @@ namespace djv
 
                 ///@}
 
-                inline bool operator == (const Path &) const;
-                inline bool operator != (const Path &) const;
-                inline bool operator < (const Path &) const;
+                bool operator == (const Path &) const;
+                bool operator != (const Path &) const;
+                bool operator < (const Path &) const;
 
-                inline operator std::string() const;
+                operator std::string() const;
 
             private:
                 std::string _directoryName;
@@ -223,7 +223,7 @@ namespace std
     template<>
     struct hash<djv::Core::FileSystem::Path>
     {
-        inline std::size_t operator() (const djv::Core::FileSystem::Path &) const noexcept;
+        std::size_t operator() (const djv::Core::FileSystem::Path &) const noexcept;
     };
 
 } // namespace std
