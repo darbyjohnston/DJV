@@ -89,6 +89,7 @@ namespace djv
                 case 0: return p->r;
                 case 1: return p->g;
                 case 2: return p->b;
+                default: break;
                 }
                 return 0;
             }
@@ -126,6 +127,7 @@ namespace djv
                 case 0: p->r = value; break;
                 case 1: p->g = value; break;
                 case 2: p->b = value; break;
+                default: break;
                 }
             }
 

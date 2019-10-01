@@ -141,6 +141,7 @@ namespace djv
                     out[1] = p;
                     out[2] = q;
                     break;
+                default: break;
                 }
             }
 

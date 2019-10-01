@@ -316,6 +316,7 @@ namespace djv
                     case  8: return Type::L_U8;
                     case 16: return Type::L_U16;
                     case 32: return Type::L_U32;
+                    default: break;
                     }
                     break;
                 case 2:
@@ -324,6 +325,7 @@ namespace djv
                     case  8: return Type::LA_U8;
                     case 16: return Type::LA_U16;
                     case 32: return Type::LA_U32;
+                    default: break;
                     }
                     break;
                 case 3:
@@ -333,6 +335,7 @@ namespace djv
                     case 10: return Type::RGB_U10;
                     case 16: return Type::RGB_U16;
                     case 32: return Type::RGB_U32;
+                    default: break;
                     }
                     break;
                 case 4:
@@ -341,8 +344,10 @@ namespace djv
                     case  8: return Type::RGBA_U8;
                     case 16: return Type::RGBA_U16;
                     case 32: return Type::RGBA_U32;
+                    default: break;
                     }
                     break;
+                default: break;
                 }
                 return Type::None;
             }
@@ -356,6 +361,7 @@ namespace djv
                     {
                     case 16: return Type::L_F16;
                     case 32: return Type::L_F32;
+                    default: break;
                     }
                     break;
                 case 2:
@@ -363,6 +369,7 @@ namespace djv
                     {
                     case 16: return Type::LA_F16;
                     case 32: return Type::LA_F32;
+                    default: break;
                     }
                     break;
                 case 3:
@@ -370,6 +377,7 @@ namespace djv
                     {
                     case 16: return Type::RGB_F16;
                     case 32: return Type::RGB_F32;
+                    default: break;
                     }
                     break;
                 case 4:
@@ -377,8 +385,10 @@ namespace djv
                     {
                     case 16: return Type::RGBA_F16;
                     case 32: return Type::RGBA_F32;
+                    default: break;
                     }
                     break;
+                default: break;
                 }
                 return Type::None;
             }

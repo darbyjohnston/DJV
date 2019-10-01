@@ -51,7 +51,7 @@ namespace djv
                 IEventSystem();
 
             public:
-                virtual ~IEventSystem() = 0;
+                ~IEventSystem() override;
 
                 std::shared_ptr<IObject> getRootObject() const;
 

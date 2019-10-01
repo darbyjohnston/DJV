@@ -78,9 +78,9 @@ namespace djv
                         Core::FileSystem::DirectoryListOptions options;
                         options.fileSequences = true;
                         options.fileSequenceExtensions = io->getSequenceExtensions();
-                        for (const auto & i : Core::FileSystem::FileInfo::directoryList(fileInfo.getPath(), options))
+                        for (const auto & j : Core::FileSystem::FileInfo::directoryList(fileInfo.getPath(), options))
                         {
-                            _print(i, io, avSystem);
+                            _print(j, io, avSystem);
                         }
                         break;
                     }
@@ -104,7 +104,7 @@ namespace djv
             }
 
         private:
-            void _print(const Core::FileSystem::FileInfo fileInfo, std::shared_ptr<AV::IO::System>& io, std::shared_ptr<AV::AVSystem>& avSystem)
+            void _print(const Core::FileSystem::FileInfo& fileInfo, std::shared_ptr<AV::IO::System>& io, std::shared_ptr<AV::AVSystem>& avSystem)
             {
                 if (io->canRead(fileInfo))
                 {
@@ -123,12 +123,9 @@ namespace djv
                             std::cout << "        Type: " << video.info.type << std::endl;
                             std::cout << "        Speed: " << video.speed.toFloat() << std::endl;
                             std::cout << "        Duration: " << avSystem->getLabel(video.sequence.getSize(), video.speed);
-                            switch (avSystem->observeTimeUnits()->get())
+                            if (AV::TimeUnits::Frames == avSystem->observeTimeUnits()->get())
                             {
-                            case AV::TimeUnits::Frames:
                                 std::cout << " " << "frames";
-                                break;
-                            default: break;
                             }
                             std::cout << std::endl;
                             ++i;

@@ -69,6 +69,7 @@ namespace djv
                     case Error::Init:
                         ss << DJV_TEXT("The OpenGL frame buffer cannot be initialized.");
                         break;
+                    default: break;
                     }
                     return ss.str();
                 }

@@ -217,7 +217,7 @@ namespace djv
                     DJV_NON_COPYABLE(LUT3D);
 
                 public:
-                    LUT3D(size_t edgeLen = lut3DSize) :
+                    explicit LUT3D(size_t edgeLen = lut3DSize) :
                         _edgeLen(edgeLen),
                         _size(3 * edgeLen * edgeLen * edgeLen),
                         _data(new float[_size])

@@ -44,7 +44,7 @@ namespace djv
             {
             public:
                 Color();
-                Color(Type);
+                explicit Color(Type);
                 Color(int r, int g, int b, int a = U8Max);
                 Color(F32_T r, F32_T g, F32_T b, F32_T a = F32Max);
 

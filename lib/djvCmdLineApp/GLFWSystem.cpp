@@ -109,6 +109,7 @@ namespace djv
                 case Error::GLAD:
                     ss << DJV_TEXT("Cannot initialize GLAD.");
                     break;
+                default: break;
                 }
                 return ss.str();
             }

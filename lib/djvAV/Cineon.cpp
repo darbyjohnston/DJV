@@ -219,7 +219,7 @@ namespace djv
                     bool isValid(const float* in)
                     {
                         return
-                            *((uint32_t*)in) != 0x7F800000 &&
+                            *(reinterpret_cast<const uint32_t*>(in)) != 0x7F800000 &&
                             *in > -_floatMax &&
                             *in < _floatMax;
                     }
@@ -299,8 +299,10 @@ namespace djv
                         case 10:
                             imageType = Image::Type::RGB_U10;
                             break;
+                        default: break;
                         }
                         break;
+                    default: break;
                     }
                     if (Image::Type::None == imageType)
                     {
@@ -483,6 +485,7 @@ namespace djv
                         case 10: header.image.channel[i].highData = Image::U10Max; break;
                         case 12: header.image.channel[i].highData = Image::U12Max; break;
                         case 16: header.image.channel[i].highData = Image::U16Max; break;
+                        default: break;
                         }
                     }
                     header.image.interleave     = 0;

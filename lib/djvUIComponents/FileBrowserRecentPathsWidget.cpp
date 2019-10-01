@@ -102,11 +102,11 @@ namespace djv
                                     std::string s = path.getFileName();
                                     if (s.empty())
                                     {
-                                        s = i;
+                                        s = std::string(i);
                                     }
                                     button->setText(s);
                                     button->setInsideMargin(MetricsRole::Margin);
-                                    button->setTooltip(i);
+                                    button->setTooltip(std::string(i));
 
                                     widget->_p->itemLayout->addChild(button);
 

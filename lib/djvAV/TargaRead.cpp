@@ -104,6 +104,7 @@ namespace djv
                                     case 3: out[2] = in[2];
                                     case 2: out[1] = in[1];
                                     case 1: out[0] = in[0]; break;
+                                    default: break;
                                     }
                                 }
                                 in += channels;
@@ -118,6 +119,7 @@ namespace djv
                                     case 3: out[2] = in[2];
                                     case 2: out[1] = in[1];
                                     case 1: out[0] = in[0]; break;
+                                    default: break;
                                     }
                                 }
                             }
@@ -261,6 +263,7 @@ namespace djv
                             {
                             case 8:  info.type = Image::Type::L_U8; break;
                             case 16: info.type = Image::Type::LA_U8; break;
+                            default: break;
                             }
                             break;
                         case 2:
@@ -275,8 +278,10 @@ namespace djv
                                 info.type = Image::Type::RGBA_U8;
                                 bgr = true;
                                 break;
+                            default: break;
                             }
                             break;
+                        default: break;
                         }
                         if (Image::Type::None == info.type)
                         {

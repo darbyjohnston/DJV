@@ -31,6 +31,27 @@
 
 #include <string.h>
 
+#define _CONVERT(a, b) \
+    { \
+        const a##_T * inP = reinterpret_cast<const a##_T *>(data->getData()); \
+        b##_T * outP = reinterpret_cast<b##_T *>(out->getData()); \
+        for (size_t i = 0; i < sampleCount * channelCount; ++i, ++inP, ++outP) \
+        { \
+            a##To##b(*inP, *outP); \
+        } \
+    }
+
+#define _VOLUME(t) \
+    { \
+        const t##_T* inP = reinterpret_cast<const t##_T*>(in); \
+        t##_T* outP = reinterpret_cast<t##_T*>(out); \
+        t##_T* const endP = outP + sampleCount * channelCount; \
+        for (; outP < endP; ++inP, ++outP) \
+        { \
+            *outP = *inP * volume; \
+        } \
+    }
+
 namespace djv
 {
     namespace AV
@@ -63,16 +84,6 @@ namespace djv
                 out->_init(info);
                 return out;
             }
-
-#define _CONVERT(a, b) \
-    { \
-        const a##_T * inP = reinterpret_cast<const a##_T *>(data->getData()); \
-        b##_T * outP = reinterpret_cast<b##_T *>(out->getData()); \
-        for (size_t i = 0; i < sampleCount * channelCount; ++i, ++inP, ++outP) \
-        { \
-            a##To##b(*inP, *outP); \
-        } \
-    }
 
             std::shared_ptr<Data> Data::convert(const std::shared_ptr<Data> & data, Type type)
             {
@@ -234,17 +245,6 @@ namespace djv
                 }
                 return out;
             }
-
-#define _VOLUME(t) \
-    { \
-        const t##_T* inP = reinterpret_cast<const t##_T*>(in); \
-        t##_T* outP = reinterpret_cast<t##_T*>(out); \
-        t##_T* const endP = outP + sampleCount * channelCount; \
-        for (; outP < endP; ++inP, ++outP) \
-        { \
-            *outP = *inP * volume; \
-        } \
-    }
 
             void Data::volume(const uint8_t* in, uint8_t* out, float volume, size_t sampleCount, uint8_t channelCount, Type type)
             {

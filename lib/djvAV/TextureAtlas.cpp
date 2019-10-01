@@ -54,7 +54,7 @@ namespace djv
             class TextureAtlas::BoxPackingNode : public std::enable_shared_from_this< TextureAtlas::BoxPackingNode>
             {
             private:
-                BoxPackingNode(int border);
+                explicit BoxPackingNode(int border);
 
             public:
                 static std::shared_ptr<BoxPackingNode> create(int border);

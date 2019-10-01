@@ -199,7 +199,7 @@ namespace djv
             p.titleLabel->setText(media->getFileInfo().getFileName(Frame::invalid, false));
             p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
             p.titleLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin, UI::MetricsRole::Margin, UI::MetricsRole::None, UI::MetricsRole::None));
-            p.titleLabel->setTooltip(media->getFileInfo());
+            p.titleLabel->setTooltip(std::string(media->getFileInfo()));
 
             p.maximizeButton = UI::ToolButton::create(context);
             p.maximizeButton->setIcon("djvIconSDI");

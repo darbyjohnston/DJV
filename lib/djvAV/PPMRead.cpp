@@ -156,6 +156,7 @@ namespace djv
                     case 5: channelCount = 1; break;
                     case 3:
                     case 6: channelCount = 3; break;
+                    default: break;
                     }
                     char tmp[String::cStringLength] = "";
                     FileSystem::FileIO::readWord(io, tmp, String::cStringLength);

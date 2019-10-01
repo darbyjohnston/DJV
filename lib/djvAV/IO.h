@@ -154,7 +154,7 @@ namespace djv
             struct AudioFrame
             {
                 AudioFrame();
-                AudioFrame(const std::shared_ptr<Audio::Data>&);
+                explicit AudioFrame(const std::shared_ptr<Audio::Data>&);
 
                 std::shared_ptr<Audio::Data> audio;
             };

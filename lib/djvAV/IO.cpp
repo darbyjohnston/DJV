@@ -552,12 +552,12 @@ namespace djv
 
             bool IPlugin::canRead(const FileSystem::FileInfo& fileInfo) const
             {
-                return checkExtension(fileInfo, _fileExtensions);
+                return checkExtension(std::string(fileInfo), _fileExtensions);
             }
 
             bool IPlugin::canWrite(const FileSystem::FileInfo& fileInfo, const Info & info) const
             {
-                return checkExtension(fileInfo, _fileExtensions);
+                return checkExtension(std::string(fileInfo), _fileExtensions);
             }
 
             picojson::value IPlugin::getOptions() const
@@ -565,8 +565,10 @@ namespace djv
                 return picojson::value(std::string());
             }
 
-            void IPlugin::setOptions(const picojson::value &)
-            {}
+            void IPlugin::setOptions(const picojson::value&)
+            {
+                // Default implementation does nothing.
+            }
 
             std::shared_ptr<IRead> IPlugin::read(const FileSystem::FileInfo& fileInfo, const ReadOptions&) const
             {

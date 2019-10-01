@@ -162,7 +162,7 @@ namespace djv
                     bool isValid(const float* in)
                     {
                         return
-                            *((uint32_t*)in) != 0xffffffff &&
+                            *(reinterpret_cast<const uint32_t*>(in)) != 0xffffffff &&
                             *in > -_floatMax &&
                             *in < _floatMax;
                     }
@@ -272,8 +272,9 @@ namespace djv
                             default: break;
                             }
                             info.video[0].info.type = Image::getIntType(channels, out.image.elem[0].bitDepth);
+                            break;
                         }
-                        break;
+                        default: break;
                         }
                         break;
                     default: break;
@@ -594,6 +595,7 @@ namespace djv
                     case 10: header.image.elem[0].highData =  1023; break;
                     case 12: header.image.elem[0].highData =  4095; break;
                     case 16: header.image.elem[0].highData = 65535; break;
+                    default: break;
                     }
 
                     switch (colorProfile)

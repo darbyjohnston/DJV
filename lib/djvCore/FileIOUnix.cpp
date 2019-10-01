@@ -346,17 +346,17 @@ namespace djv
 
             void FileIO::write(const void* in, size_t size, size_t wordSize)
             {
-                uint8_t* inP = (uint8_t*)in;
+                const uint8_t* inP = reinterpret_cast<const uint8_t*>(in);
                 std::vector<uint8_t> tmp;
                 if (_endian && wordSize > 1)
                 {
                     tmp.resize(size * wordSize);
                     inP = tmp.data();
-                    Memory::endian(in, inP, size, wordSize);
+                    Memory::endian(in, tmp.data(), size, wordSize);
                 }
                 if (::write(_f, inP, size * wordSize) == -1)
                 {
-                        throw IOError(getErrorMessage(Error::Write, _fileName));
+                    throw IOError(getErrorMessage(Error::Write, _fileName));
                 }
                 _pos += size * wordSize;
                 _size = std::max(_pos, _size);

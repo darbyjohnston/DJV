@@ -182,7 +182,7 @@ namespace djv
                 bool operator != (const FileInfo &) const;
                 bool operator < (const FileInfo &) const;
 
-                operator std::string() const;
+                explicit operator std::string() const;
 
             private:
                 static void _fileSequence(FileInfo&, const DirectoryListOptions&, std::vector<FileInfo>&);

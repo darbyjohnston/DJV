@@ -179,7 +179,7 @@ namespace djv
                     {
                         if (setjmp(png_jmpbuf(png)))
                             return false;
-                        png_write_row(png, (png_byte *)in);
+                        png_write_row(png, reinterpret_cast<const png_byte*>(in));
                         return true;
                     }
 

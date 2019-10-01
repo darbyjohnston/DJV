@@ -154,6 +154,7 @@ namespace djv
                         {
                         case 1: return read<uint8_t>(in, end, out, size, false);
                         case 2: return read<uint16_t>(in, end, out, size, endian);
+                        default: break;
                         }
                         return false;
                     }
@@ -185,6 +186,7 @@ namespace djv
                                     case 3: outP[2] = inP[2];
                                     case 2: outP[1] = inP[1];
                                     case 1: outP[0] = inP[0];
+                                    default: break;
                                     }
                                 }
                             }

@@ -68,7 +68,7 @@ namespace djv
                     switch (fileInfo.getType())
                     {
                     case Core::FileSystem::FileType::File:
-                        _print(fileInfo);
+                        _print(std::string(fileInfo));
                         break;
                     case Core::FileSystem::FileType::Directory:
                     {
@@ -76,9 +76,9 @@ namespace djv
                         Core::FileSystem::DirectoryListOptions options;
                         options.fileSequences = true;
                         options.fileSequenceExtensions = io->getSequenceExtensions();
-                        for (const auto & i : Core::FileSystem::FileInfo::directoryList(fileInfo.getPath(), options))
+                        for (const auto & j : Core::FileSystem::FileInfo::directoryList(fileInfo.getPath(), options))
                         {
-                            _print(i);
+                            _print(std::string(j));
                         }
                         break;
                     }

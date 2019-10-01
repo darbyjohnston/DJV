@@ -350,8 +350,14 @@ namespace djv
                                 {
                                     widget->_p->mediaActionGroup->setChecked(i - widget->_p->media.begin());
                                 }
-                                widget->_p->mediaButton->setText(value ? value->getFileInfo().getFileName(Frame::invalid, false) : "-");
-                                widget->_p->mediaButton->setTooltip(value ? value->getFileInfo() : Core::FileSystem::FileInfo());
+                                widget->_p->mediaButton->setText(
+                                    value ?
+                                    value->getFileInfo().getFileName(Frame::invalid, false) :
+                                    "-");
+                                widget->_p->mediaButton->setTooltip(std::string(
+                                    value ?
+                                    value->getFileInfo() :
+                                    Core::FileSystem::FileInfo()));
                             }
                         });
 

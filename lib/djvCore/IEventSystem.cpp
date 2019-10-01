@@ -187,7 +187,9 @@ namespace djv
             }
 
             void IEventSystem::setClipboard(const std::string&)
-            {}
+            {
+                // Default implementation does nothing.
+            }
 
             std::string IEventSystem::getClipboard() const
             {

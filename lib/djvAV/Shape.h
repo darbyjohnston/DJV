@@ -54,7 +54,7 @@ namespace djv
             class Square : IShape
             {
             public:
-                Square(float radius = .5F);
+                explicit Square(float radius = .5F);
 
                 float getRadius() const { return _radius; }
                 void setRadius(float);
@@ -87,7 +87,7 @@ namespace djv
             class Cube : IShape
             {
             public:
-                Cube(float radius = .5F);
+                explicit Cube(float radius = .5F);
 
                 float getRadius() const { return _radius; }
                 void setRadius(float);
