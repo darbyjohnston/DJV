@@ -38,10 +38,18 @@ namespace djv
     {
         namespace OpenGL
         {
+            //! This enumeration provides the OpenGL offscreen types.
             enum class OffscreenType
             {
                 Default,
                 MultiSample
+            };
+            
+            //! This class provides an OpenGL offscreen buffer error.
+            class OffscreenBufferError : public std::runtime_error
+            {
+            public:
+                explicit OffscreenBufferError(const std::string&);
             };
 
             //! This class provides an OpenGL offscreen buffer.
@@ -54,6 +62,9 @@ namespace djv
             public:
                 ~OffscreenBuffer();
 
+                //! Create a new offscreen buffer.
+                //! Throws:
+                //! - OffscreenBufferError
                 static std::shared_ptr<OffscreenBuffer> create(const Image::Info &, OffscreenType = OffscreenType::Default);
 
                 const Image::Info & getInfo() const;

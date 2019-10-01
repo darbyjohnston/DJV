@@ -31,6 +31,7 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/FileIO.h>
+#include <djvCore/FileSystem.h>
 
 using namespace djv::Core;
 
@@ -140,12 +141,12 @@ namespace djv
                         {
                             if (!jpegScanline(&f.jpeg, out->getData(y), &f.jpegError))
                             {
-                                throw std::runtime_error(f.jpegError.msg);
+                                throw FileSystem::Error(f.jpegError.msg);
                             }
                         }
                         if (!jpegEnd(&f.jpeg, &f.jpegError))
                         {
-                            throw std::runtime_error(f.jpegError.msg);
+                            throw FileSystem::Error(f.jpegError.msg);
                         }
                     }
                     return out;
@@ -197,24 +198,24 @@ namespace djv
                     f.jpegError.msg[0] = 0;
                     if (!jpegInit(&f.jpeg, &f.jpegError))
                     {
-                        throw std::runtime_error(f.jpegError.msg);
+                        throw FileSystem::Error(f.jpegError.msg);
                     }
                     f.jpegInit = true;
 
                     f.f = FileSystem::fopen(fileName, "rb");
                     if (!f.f)
                     {
-                        throw std::runtime_error(DJV_TEXT("Cannot open file."));
+                        throw FileSystem::Error(DJV_TEXT("Cannot open file."));
                     }
                     if (!jpegOpen(f.f, &f.jpeg, &f.jpegError))
                     {
-                        throw std::runtime_error(f.jpegError.msg);
+                        throw FileSystem::Error(f.jpegError.msg);
                     }
 
                     Image::Type imageType = Image::getIntType(f.jpeg.out_color_components, 8);
                     if (Image::Type::None == imageType)
                     {
-                        throw std::runtime_error(DJV_TEXT("Unsupported color components."));
+                        throw FileSystem::Error(DJV_TEXT("Unsupported color components."));
                     }
                     auto info = Info(fileName, VideoInfo(Image::Info(f.jpeg.output_width, f.jpeg.output_height, imageType), _speed, _sequence));
 

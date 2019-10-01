@@ -32,6 +32,7 @@
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
 #include <djvCore/FileIO.h>
+#include <djvCore/FileSystem.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/OS.h>
 #include <djvCore/PicoJSON.h>
@@ -369,7 +370,7 @@ namespace djv
                     {
                         std::stringstream s;
                         s << DJV_TEXT("Error reading the text file") << " '" << path << "'. " << error;
-                        throw std::runtime_error(s.str());
+                        throw FileSystem::Error(s.str());
                     }
 
                     if (v.is<picojson::array>())

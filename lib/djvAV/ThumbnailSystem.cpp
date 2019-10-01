@@ -172,6 +172,10 @@ namespace djv
             future(std::move(future)),
             uid(uid)
         {}
+
+        ThumbnailError::ThumbnailError(const std::string& what) :
+            std::runtime_error(what)
+        {}
         
         struct ThumbnailSystem::Private
         {
@@ -233,7 +237,7 @@ namespace djv
             {
                 std::stringstream ss;
                 ss << DJV_TEXT("Cannot create GLFW window.");
-                throw std::runtime_error(ss.str());
+                throw ThumbnailError(ss.str());
             }
 
             p.statsTimer = Time::Timer::create(context);
@@ -269,7 +273,7 @@ namespace djv
                     {
                         std::stringstream ss;
                         ss << "Cannot initialize GLAD.";
-                        throw std::runtime_error(ss.str());
+                        throw ThumbnailError(ss.str());
                     }
 
                     auto convert = Image::Convert::create(resourceSystem);

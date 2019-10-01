@@ -292,13 +292,13 @@ namespace djv
                 //! Read a DPX file header.
                 //!
                 //! Throws:
-                //! - std::exception
+                //! - Core::FileSystem::Error
                 Header read(Core::FileSystem::FileIO&, Info&, Cineon::ColorProfile&);
                 
                 //! Write a DPX file header.
                 //!
                 //! Throws:
-                //! - std::exception
+                //! - Core::FileSystem::Error
                 void write(Core::FileSystem::FileIO&, const Info& info, Version, Endian, Cineon::ColorProfile);
 
                 //! Finish writing the DPX file header after image data is written.

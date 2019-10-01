@@ -30,6 +30,7 @@
 #include <djvAV/PNG.h>
 
 #include <djvCore/FileIO.h>
+#include <djvCore/FileSystem.h>
 
 using namespace djv::Core;
 
@@ -214,7 +215,7 @@ namespace djv
                     {
                         if (!pngScanline(f.png, out->getData(y)))
                         {
-                            throw std::runtime_error(f.pngError.msg);
+                            throw FileSystem::Error(f.pngError.msg);
                         }
                     }
                     pngEnd(f.png, f.pngInfoEnd);
@@ -225,15 +226,15 @@ namespace djv
                 {
                     if (!f.png)
                     {
-                        throw std::runtime_error(f.pngError.msg);
+                        throw FileSystem::Error(f.pngError.msg);
                     }
                     if (!f.open(fileName))
                     {
-                        throw std::runtime_error(DJV_TEXT("The file cannot be opened."));
+                        throw FileSystem::Error(DJV_TEXT("The file cannot be opened."));
                     }
                     if (!pngOpen(f.f, f.png, &f.pngInfo, &f.pngInfoEnd))
                     {
-                        throw std::runtime_error(f.pngError.msg);
+                        throw FileSystem::Error(f.pngError.msg);
                     }
 
                     int channels = png_get_channels(f.png, f.pngInfo);
@@ -253,7 +254,7 @@ namespace djv
                     Image::Type imageType = Image::getIntType(channels, bitDepth);
                     if (Image::Type::None == imageType)
                     {
-                        throw std::runtime_error("Unsupported image type.");
+                        throw FileSystem::Error("Unsupported image type.");
                     }
                     auto info = Image::Info(png_get_image_width(f.png, f.pngInfo), png_get_image_height(f.png, f.pngInfo), imageType);
 

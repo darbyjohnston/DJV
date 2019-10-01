@@ -202,3 +202,4 @@ std::shared_ptr<AV::Image::Image> jpegRead(const std::vector<uint8_t>& data)
 
     return out;
 }
+

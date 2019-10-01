@@ -30,6 +30,7 @@
 #include <djvAV/FFmpeg.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/FileSystem.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/String.h>
 

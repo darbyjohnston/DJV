@@ -115,6 +115,13 @@ namespace djv
                 int32_t                      lsbDelta  = 0;
                 int32_t                      rsbDelta  = 0;
             };
+            
+            //! This class provides a font error.
+            class Error : public std::runtime_error
+            {
+            public:
+                explicit Error(const std::string&);
+            };
 
             //! This class provides a font system.
             //!
@@ -132,6 +139,9 @@ namespace djv
             public:
                 virtual ~System();
 
+                //! Create a new font system.
+                //! Throws:
+                //! - Error
                 static std::shared_ptr<System> create(const std::shared_ptr<Core::Context>&);
 
                 //! Get the font names.

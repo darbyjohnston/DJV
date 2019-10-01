@@ -56,8 +56,6 @@ namespace djv
 
                 std::shared_ptr<IValueSubject<Path> > observePath() const;
 
-                //! Throws:
-                //! - std::exception
                 void setPath(const Path &);
 
                 void reload();

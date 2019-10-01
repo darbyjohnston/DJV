@@ -16,10 +16,11 @@ set(header
     Event.h
     EventInline.h
     Error.h
-    FileInfo.h
-    FileInfoInline.h
     FileIO.h
     FileIOInline.h
+    FileInfo.h
+    FileInfoInline.h
+    FileSystem.h
     Frame.h
     FrameInline.h
     ICommand.h
@@ -83,6 +84,7 @@ set(source
     Error.cpp
     FileIO.cpp
     FileInfo.cpp
+    FileSystem.cpp
     Frame.cpp
     ICommand.cpp
     IEventSystem.cpp
@@ -114,6 +116,7 @@ if (WIN32)
         ErrorWin32.cpp
         FileIOWin32.cpp
         FileInfoWin32.cpp
+        FileSystemWin32.cpp
         OSWin32.cpp
         PathWin32.cpp
         ResourceSystemWin32.cpp)
@@ -124,6 +127,7 @@ else()
         DrivesModelUnix.cpp
         FileIOUnix.cpp
         FileInfoUnix.cpp
+        FileSystemUnix.cpp
         OSUnix.cpp
         PathUnix.cpp
         ResourceSystemUnix.cpp)

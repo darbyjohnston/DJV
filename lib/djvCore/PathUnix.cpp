@@ -31,6 +31,7 @@
 
 #include <djvCore/Error.h>
 #include <djvCore/FileInfo.h>
+#include <djvCore/FileSystem.h>
 
 #include <sstream>
 
@@ -55,7 +56,7 @@ namespace djv
                 {
                     std::stringstream s;
                     s << DJV_TEXT("The directory") << " '" << value << "' " << DJV_TEXT("cannot be created") << ".";
-                    throw std::runtime_error(s.str());
+                    throw Error(s.str());
                 }
             }
             
@@ -67,13 +68,13 @@ namespace djv
                     buf[0] = 0;
                     switch (errno)
                     {
-                    case EACCES:       throw std::runtime_error("Permission denied");
-                    case EINVAL:       throw std::runtime_error("Invalid path");
-                    case EIO:          throw std::runtime_error("File system I/O error");
-                    case ELOOP:        throw std::runtime_error("Too many sumbolic links");
-                    case ENAMETOOLONG: throw std::runtime_error("Path too long");
-                    case ENOENT:       throw std::runtime_error("Path does not exist");
-                    case ENOTDIR:      throw std::runtime_error("Path is not a directory");
+                    case EACCES:       throw Error("Permission denied");
+                    case EINVAL:       throw Error("Invalid path");
+                    case EIO:          throw Error("File system I/O error");
+                    case ELOOP:        throw Error("Too many sumbolic links");
+                    case ENAMETOOLONG: throw Error("Path too long");
+                    case ENOENT:       throw Error("Path does not exist");
+                    case ENOTDIR:      throw Error("Path is not a directory");
                     }
                 }
                 return Path(buf);

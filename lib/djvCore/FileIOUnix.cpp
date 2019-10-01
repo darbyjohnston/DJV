@@ -58,50 +58,111 @@ namespace djv
         {
             namespace
             {
-                void openError(const std::string& fileName)
+                enum class Error
+                {
+                    Open,
+                    Stat,
+                    MemoryMap,
+                    Close,
+                    CloseMemoryMap,
+                    Read,
+                    ReadMemoryMap,
+                    Write,
+                    Seek,
+                    SeekMemoryMap
+                };
+                
+                std::string getErrorMessage(Error error, const std::string& fileName)
                 {
                     std::stringstream ss;
-                    ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ". ";
                     char buf[String::cStringLength] = "";
+                    switch (error)
+                    {
+                    case Error::Open:
+                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ". ";
 #if defined(DJV_PLATFORM_LINUX)
-                    ss << strerror_r(errno, buf, String::cStringLength);
+                        ss << strerror_r(errno, buf, String::cStringLength);
 #else // DJV_PLATFORM_LINUX
-                    strerror_r(errno, buf, String::cStringLength);
-                    ss << buf;
+                        strerror_r(errno, buf, String::cStringLength);
+                        ss << buf;
 #endif // DJV_PLATFORM_LINUX
-                    throw std::runtime_error(ss.str());
+                        break;
+                    case Error::Stat:
+                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be queried") << ". ";
+#if defined(DJV_PLATFORM_LINUX)
+                        ss << strerror_r(errno, buf, String::cStringLength);
+#else // DJV_PLATFORM_LINUX
+                        strerror_r(errno, buf, String::cStringLength);
+                        ss << buf;
+#endif // DJV_PLATFORM_LINUX
+                        break;
+                    case Error::MemoryMap:
+                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be mapped") << ". ";
+#if defined(DJV_PLATFORM_LINUX)
+                        ss << strerror_r(errno, buf, String::cStringLength);
+#else // DJV_PLATFORM_LINUX
+                        strerror_r(errno, buf, String::cStringLength);
+                        ss << buf;
+#endif // DJV_PLATFORM_LINUX
+                        break;
+                    case Error::Close:
+                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be unmapped") << ". ";
+#if defined(DJV_PLATFORM_LINUX)
+                        ss << strerror_r(errno, buf, String::cStringLength);
+#else // DJV_PLATFORM_LINUX
+                        strerror_r(errno, buf, String::cStringLength);
+                        ss << buf;
+#endif // DJV_PLATFORM_LINUX
+                        break;
+                    case Error::CloseMemoryMap:
+                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be closed") << ". ";
+#if defined(DJV_PLATFORM_LINUX)
+                        ss << strerror_r(errno, buf, String::cStringLength);
+#else // DJV_PLATFORM_LINUX
+                        strerror_r(errno, buf, String::cStringLength);
+                        ss << buf;
+#endif // DJV_PLATFORM_LINUX
+                        break;
+                    case Error::Read:
+                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be read") << ". ";
+#if defined(DJV_PLATFORM_LINUX)
+                        ss << strerror_r(errno, buf, String::cStringLength);
+#else // DJV_PLATFORM_LINUX
+                        strerror_r(errno, buf, String::cStringLength);
+                        ss << buf;
+#endif // DJV_PLATFORM_LINUX
+                        break;
+                    case Error::ReadMemoryMap:
+                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be read") << ".";
+                        break;
+                    case Error::Write:
+                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be written") << ". ";
+#if defined(DJV_PLATFORM_LINUX)
+                        ss << strerror_r(errno, buf, String::cStringLength);
+#else // DJV_PLATFORM_LINUX
+                        strerror_r(errno, buf, String::cStringLength);
+                        ss << buf;
+#endif // DJV_PLATFORM_LINUX
+                        break;
+                    case Error::Seek:
+                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be seeked") << ". ";
+#if defined(DJV_PLATFORM_LINUX)
+                        ss << strerror_r(errno, buf, String::cStringLength);
+#else // DJV_PLATFORM_LINUX
+                        strerror_r(errno, buf, String::cStringLength);
+                        ss << buf;
+#endif // DJV_PLATFORM_LINUX
+                        break;
+                    case Error::SeekMemoryMap:
+                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be seeked") << ".";
+                        break;
+                    default: break;
+                    }
+                    return ss.str();
                 }
             
-                void readError(const std::string& fileName)
-                {
-                    std::stringstream ss;
-                    ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be read") << ". ";
-                    char buf[String::cStringLength] = "";
-#if defined(DJV_PLATFORM_LINUX)
-                    ss << strerror_r(errno, buf, String::cStringLength);
-#else // DJV_PLATFORM_LINUX
-                    strerror_r(errno, buf, String::cStringLength);
-                    ss << buf;
-#endif // DJV_PLATFORM_LINUX
-                    throw std::runtime_error(ss.str());
-                }
-                
-                void seekError(const std::string& fileName)
-                {
-                    std::stringstream ss;
-                    ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be seeked") << ". ";
-                    char buf[String::cStringLength] = "";
-#if defined(DJV_PLATFORM_LINUX)
-                    ss << strerror_r(errno, buf, String::cStringLength);
-#else // DJV_PLATFORM_LINUX
-                    strerror_r(errno, buf, String::cStringLength);
-                    ss << buf;
-#endif // DJV_PLATFORM_LINUX
-                    throw std::runtime_error(ss.str());
-                }
-                
             } // namespace
-            
+                        
             void FileIO::open(const std::string& fileName, Mode mode)
             {
                 close();
@@ -131,7 +192,7 @@ namespace djv
                 _f = ::open(fileName.c_str(), openFlags, openMode);
                 if (-1 == _f)
                 {
-                    openError(fileName);
+                    throw IOError(getErrorMessage(Error::Open, fileName));
                 }
 
                 // Stat the file.
@@ -139,16 +200,7 @@ namespace djv
                 memset(&info, 0, sizeof(_STAT));
                 if (_STAT_FNC(fileName.c_str(), &info) != 0)
                 {
-                    std::stringstream ss;
-                    ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be queried") << ". ";
-                    char buf[String::cStringLength] = "";
-#if defined(DJV_PLATFORM_LINUX)
-                    ss << strerror_r(errno, buf, String::cStringLength);
-#else // DJV_PLATFORM_LINUX
-                    strerror_r(errno, buf, String::cStringLength);
-                    ss << buf;
-#endif // DJV_PLATFORM_LINUX
-                    throw std::runtime_error(ss.str());
+                    throw IOError(getErrorMessage(Error::Stat, fileName));
                 }
                 _fileName = fileName;
                 _mode     = mode;
@@ -163,16 +215,7 @@ namespace djv
                     madvise(_mmap, _size, MADV_SEQUENTIAL | MADV_SEQUENTIAL);
                     if (_mmap == (void *) - 1)
                     {
-                        std::stringstream ss;
-                        ss << DJV_TEXT("The file") << " '" << _fileName << "' " << DJV_TEXT("cannot be mapped") << ". ";
-                        char buf[String::cStringLength] = "";
-#if defined(DJV_PLATFORM_LINUX)
-                    ss << strerror_r(errno, buf, String::cStringLength);
-#else // DJV_PLATFORM_LINUX
-                    strerror_r(errno, buf, String::cStringLength);
-                    ss << buf;
-#endif // DJV_PLATFORM_LINUX
-                        throw std::runtime_error(ss.str());
+                        throw IOError(getErrorMessage(Error::MemoryMap, fileName));
                     }
                     _mmapStart = reinterpret_cast<const uint8_t *>(_mmap);
                     _mmapEnd   = _mmapStart + _size;
@@ -194,7 +237,7 @@ namespace djv
                 _f = mkstemp(buf.data());
                 if (-1 == _f)
                 {
-                    openError(fileName);
+                    throw IOError(getErrorMessage(Error::Open, fileName));
                 }
 
                 // Stat the file.
@@ -202,16 +245,7 @@ namespace djv
                 memset(&info, 0, sizeof(_STAT));
                 if (_STAT_FNC(buf.data(), &info) != 0)
                 {
-                    std::stringstream ss;
-                    ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be queried") << ". ";
-                    char buf[String::cStringLength] = "";
-#if defined(DJV_PLATFORM_LINUX)
-                    ss << strerror_r(errno, buf, String::cStringLength);
-#else // DJV_PLATFORM_LINUX
-                    strerror_r(errno, buf, String::cStringLength);
-                    ss << buf;
-#endif // DJV_PLATFORM_LINUX
-                    throw std::runtime_error(ss.str());
+                    throw IOError(getErrorMessage(Error::Stat, fileName));
                 }
                 _fileName = std::string(buf.data());
                 _mode     = Mode::ReadWrite;
@@ -233,16 +267,7 @@ namespace djv
                         out = false;
                         if (error)
                         {
-                            std::stringstream ss;
-                            ss << DJV_TEXT("The file") << " '" << _fileName << "' " << DJV_TEXT("cannot be unmapped") << ". ";
-                            char buf[String::cStringLength] = "";
-#if defined(DJV_PLATFORM_LINUX)
-                            ss << strerror_r(errno, buf, String::cStringLength);
-#else // DJV_PLATFORM_LINUX
-                            strerror_r(errno, buf, String::cStringLength);
-                            ss << buf;
-#endif // DJV_PLATFORM_LINUX
-                            *error = ss.str();
+                            *error = getErrorMessage(Error::CloseMemoryMap, _fileName);
                         }
                     }
                     _mmap = (void *)-1;
@@ -258,16 +283,7 @@ namespace djv
                         out = false;
                         if (error)
                         {
-                            std::stringstream ss;
-                            ss << DJV_TEXT("The file") << " '" << _fileName << "' " << DJV_TEXT("cannot be closed") << ". ";
-                            char buf[String::cStringLength] = "";
-#if defined(DJV_PLATFORM_LINUX)
-                            ss << strerror_r(errno, buf, String::cStringLength);
-#else // DJV_PLATFORM_LINUX
-                            strerror_r(errno, buf, String::cStringLength);
-                            ss << buf;
-#endif // DJV_PLATFORM_LINUX
-                            *error = ss.str();
+                            *error = getErrorMessage(Error::Close, _fileName);
                         }
                     }
                     _f = -1;
@@ -290,9 +306,7 @@ namespace djv
                     const uint8_t* mmapP = _mmapP + size * wordSize;
                     if (mmapP > _mmapEnd)
                     {
-                        std::stringstream s;
-                        s << DJV_TEXT("The file") << " '" << _fileName << "' " << DJV_TEXT("cannot be read") << ".";
-                        throw std::runtime_error(s.str());
+                        throw IOError(getErrorMessage(Error::ReadMemoryMap, _fileName));
                     }
                     if (_endian && wordSize > 1)
                     {
@@ -307,7 +321,7 @@ namespace djv
                     const size_t r = ::read(_f, in, size * wordSize);
                     if (r != size * wordSize)
                     {
-                        readError(_fileName);
+                        throw IOError(getErrorMessage(Error::Read, _fileName));
                     }
 #endif // DJV_MMAP
                     break;
@@ -317,7 +331,7 @@ namespace djv
                     const size_t r = ::read(_f, in, size * wordSize);
                     if (r != size * wordSize)
                     {
-                        readError(_fileName);
+                        throw IOError(getErrorMessage(Error::Read, _fileName));
                     }
                     if (_endian && wordSize > 1)
                     {
@@ -342,16 +356,7 @@ namespace djv
                 }
                 if (::write(_f, inP, size * wordSize) == -1)
                 {
-                    std::stringstream ss;
-                    ss << DJV_TEXT("The file") << " '" << _fileName << "' " << DJV_TEXT("cannot be written") << ". ";
-                    char buf[String::cStringLength] = "";
-#if defined(DJV_PLATFORM_LINUX)
-                    ss << strerror_r(errno, buf, String::cStringLength);
-#else // DJV_PLATFORM_LINUX
-                    strerror_r(errno, buf, String::cStringLength);
-                    ss << buf;
-#endif // DJV_PLATFORM_LINUX
-                    throw std::runtime_error(ss.str());
+                        throw IOError(getErrorMessage(Error::Write, _fileName));
                 }
                 _pos += size * wordSize;
                 _size = std::max(_pos, _size);
@@ -389,14 +394,12 @@ namespace djv
                     }
                     if (_mmapP > _mmapEnd)
                     {
-                        std::stringstream s;
-                        s << DJV_TEXT("The file") << " '" << _fileName << "' " << DJV_TEXT("cannot be seeked") << ".";
-                        throw std::runtime_error(s.str());
+                        throw IOError(getErrorMessage(Error::SeekMemoryMap, _fileName));
                     }
 #else // DJV_MMAP
                     if (::lseek(_f, in, ! seek ? SEEK_SET : SEEK_CUR) == (off_t) - 1)
                     {
-                        seekError(_fileName);
+                        throw IOError(getErrorMessage(Error::Seek, _fileName));
                     }
 #endif // DJV_MMAP
                     break;
@@ -406,7 +409,7 @@ namespace djv
                 {
                     if (::lseek(_f, in, ! seek ? SEEK_SET : SEEK_CUR) == (off_t) - 1)
                     {
-                        seekError(_fileName);
+                        throw IOError(getErrorMessage(Error::Seek, _fileName));
                     }
                     break;
                 }

@@ -54,7 +54,7 @@ namespace djv
     {
         namespace FileSystem
         {
-            bool FileInfo::stat()
+            bool FileInfo::stat(std::string* error)
             {
                 _exists      = false;
                 _size        = 0;
@@ -70,10 +70,12 @@ namespace djv
                         memset(&info, 0, sizeof(_STAT));
                         if (_STAT_FNC(String::toWide(getFileName(i)).c_str(), &info) != 0)
                         {
-                            std::string err;
-                            char tmp[String::cStringLength] = "";
-                            strerror_s(tmp, String::cStringLength, errno);
-                            err = tmp;
+                            if (error)
+                            {
+                                char tmp[String::cStringLength] = "";
+                                strerror_s(tmp, String::cStringLength, errno);
+                                error = tmp;
+                            }
                             return false;
                         }
                         _exists = true;
@@ -91,10 +93,12 @@ namespace djv
                     memset(&info, 0, sizeof(_STAT));
                     if (_STAT_FNC(String::toWide(_path.get()).c_str(), &info) != 0)
                     {
-                        std::string err;
-                        char tmp[String::cStringLength] = "";
-                        strerror_s(tmp, String::cStringLength, errno);
-                        err = tmp;
+                        if (error)
+                        {
+                            char tmp[String::cStringLength] = "";
+                            strerror_s(tmp, String::cStringLength, errno);
+                            error = tmp;
+                        }
                         return false;
                     }
                     _exists = true;

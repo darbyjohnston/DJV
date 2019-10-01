@@ -36,6 +36,7 @@
 #include <djvCore/Cache.h>
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
+#include <djvCore/FileSystem.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/ResourceSystem.h>
 #include <djvCore/Timer.h>
@@ -309,7 +310,7 @@ namespace djv
                     {
                         std::stringstream ss;
                         ss << "Error loading image" << " '" << i->path << "'.";
-                        throw std::runtime_error(ss.str());
+                        throw FileSystem::Error(ss.str());
                     }
                     catch (const std::exception& e)
                     {

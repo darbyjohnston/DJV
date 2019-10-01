@@ -30,6 +30,7 @@
 #include <djvAV/Targa.h>
 
 #include <djvCore/FileIO.h>
+#include <djvCore/FileSystem.h>
 
 using namespace djv::Core;
 
@@ -157,7 +158,7 @@ namespace djv
                                 channels);
                             if (!p)
                             {
-                                throw std::runtime_error(DJV_TEXT("Read error."));
+                                throw FileSystem::Error(DJV_TEXT("Read error."));
                             }
                         }
                     }
@@ -250,7 +251,7 @@ namespace djv
                         case 0:
                         case 8: break;
                         default:
-                            throw std::runtime_error(DJV_TEXT("File not supported."));
+                            throw FileSystem::Error(DJV_TEXT("File not supported."));
                         }
                         switch (_data.imageType)
                         {
@@ -279,12 +280,12 @@ namespace djv
                         }
                         if (Image::Type::None == info.type)
                         {
-                            throw std::runtime_error(DJV_TEXT("File not supported."));
+                            throw FileSystem::Error(DJV_TEXT("File not supported."));
                         }
                         const int bits = _data.pixelBits + alphaBits;
                         if (bits < (Image::getChannelCount(info.type) * 8) || (bits % 8) != 0)
                         {
-                            throw std::runtime_error(DJV_TEXT("File not supported."));
+                            throw FileSystem::Error(DJV_TEXT("File not supported."));
                         }
                         compression =
                             10 == _data.imageType ||

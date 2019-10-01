@@ -32,6 +32,7 @@
 #include <djvAV/ImageConvert.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/FileSystem.h>
 #include <djvCore/FileInfo.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/OS.h>
@@ -568,7 +569,7 @@ namespace djv
                 {
                     std::stringstream ss;
                     ss << DJV_TEXT("Cannot create GLFW window.");
-                    throw std::runtime_error(ss.str());
+                    throw FileSystem::Error(ss.str());
                 }
 
                 p.running = true;
@@ -587,7 +588,7 @@ namespace djv
                         {
                             std::stringstream ss;
                             ss << "Cannot initialize GLAD.";
-                            throw std::runtime_error(ss.str());
+                            throw FileSystem::Error(ss.str());
                         }
 
                         p.convert = Image::Convert::create(_resourceSystem);
@@ -638,7 +639,7 @@ namespace djv
                                     {
                                         std::stringstream ss;
                                         ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be written") << ".";
-                                        throw std::runtime_error(ss.str());
+                                        throw FileSystem::Error(ss.str());
                                     }
                                     const Image::Layout imageLayout = _getImageLayout();
                                     if (imageType != image->getType() || imageLayout != image->getLayout())

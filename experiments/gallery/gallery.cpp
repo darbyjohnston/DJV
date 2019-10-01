@@ -83,7 +83,7 @@ picojson::value readJson(const std::string& url)
     picojson::parse(out, s.begin(), s.end(), &error);
     if (!error.empty())
     {
-        throw std::runtime_error(error);
+        throw std::invalid_argument(error);
     }
     return out;
 }

@@ -29,6 +29,7 @@
 
 #include <djvAV/FFmpeg.h>
 
+#include <djvCore/FileSystem.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/Timer.h>
 #include <djvCore/Vector.h>
@@ -108,7 +109,7 @@ namespace djv
                                 std::stringstream ss;
                                 ss << DJV_TEXT("The file") << " '" << _fileInfo << "' " <<
                                     DJV_TEXT("cannot be opened") << ". " << FFmpeg::getErrorString(r);
-                                throw std::runtime_error(ss.str());
+                                throw FileSystem::Error(ss.str());
                             }
                             r = avformat_find_stream_info(p.avFormatContext, 0);
                             if (r < 0)
@@ -116,7 +117,7 @@ namespace djv
                                 std::stringstream ss;
                                 ss << DJV_TEXT("The file") << " '" << _fileInfo << "' " <<
                                     DJV_TEXT("cannot be opened") << ". " << FFmpeg::getErrorString(r);
-                                throw std::runtime_error(ss.str());
+                                throw FileSystem::Error(ss.str());
                             }
                             av_dump_format(p.avFormatContext, 0, _fileInfo.getFileName().c_str(), 0);
 
@@ -137,7 +138,7 @@ namespace djv
                                 std::stringstream ss;
                                 ss << DJV_TEXT("The file") << " '" << _fileInfo << "' " <<
                                     DJV_TEXT("does not have any video or audio streams") << ".";
-                                throw std::runtime_error(ss.str());
+                                throw FileSystem::Error(ss.str());
                             }
 
                             Info info;
@@ -161,7 +162,7 @@ namespace djv
                                     std::stringstream ss;
                                     ss << DJV_TEXT("The file") << " '" << _fileInfo << "' " <<
                                         DJV_TEXT("does not match any video codecs") << ".";
-                                    throw std::runtime_error(ss.str());
+                                    throw FileSystem::Error(ss.str());
                                 }
                                 p.avCodecParameters[p.avVideoStream] = avcodec_parameters_alloc();
                                 r = avcodec_parameters_copy(p.avCodecParameters[p.avVideoStream], avVideoCodecParameters);
@@ -170,7 +171,7 @@ namespace djv
                                     std::stringstream ss;
                                     ss << DJV_TEXT("The file") << " '" << _fileInfo << "' " <<
                                         DJV_TEXT("cannot be opened") << ". " << FFmpeg::getErrorString(r);
-                                    throw std::runtime_error(ss.str());
+                                    throw FileSystem::Error(ss.str());
                                 }
                                 p.avCodecContext[p.avVideoStream] = avcodec_alloc_context3(avVideoCodec);
                                 r = avcodec_parameters_to_context(p.avCodecContext[p.avVideoStream], p.avCodecParameters[p.avVideoStream]);
@@ -179,7 +180,7 @@ namespace djv
                                     std::stringstream ss;
                                     ss << DJV_TEXT("The file") << " '" << _fileInfo << "' " <<
                                         DJV_TEXT("cannot be opened") << ". " << FFmpeg::getErrorString(r);
-                                    throw std::runtime_error(ss.str());
+                                    throw FileSystem::Error(ss.str());
                                 }
                                 p.avCodecContext[p.avVideoStream]->thread_count = p.options.threadCount;
                                 p.avCodecContext[p.avVideoStream]->thread_type = FF_THREAD_SLICE;
@@ -189,7 +190,7 @@ namespace djv
                                     std::stringstream ss;
                                     ss << DJV_TEXT("The file") << " '" << _fileInfo << "' " <<
                                         DJV_TEXT("cannot be opened") << ". " << FFmpeg::getErrorString(r);
-                                    throw std::runtime_error(ss.str());
+                                    throw FileSystem::Error(ss.str());
                                 }
 
                                 // Initialize the buffers.
@@ -259,7 +260,7 @@ namespace djv
                                     ss << DJV_TEXT("The audio format") <<
                                         " '" << FFmpeg::toString(static_cast<AVSampleFormat>(avAudioCodecParameters->format)) << "' " <<
                                         DJV_TEXT("is not supported") << ".";
-                                    throw std::runtime_error(ss.str());
+                                    throw FileSystem::Error(ss.str());
                                 }
                                 auto avAudioCodec = avcodec_find_decoder(avAudioCodecParameters->codec_id);
                                 if (!avAudioCodec)
@@ -267,7 +268,7 @@ namespace djv
                                     std::stringstream ss;
                                     ss << DJV_TEXT("The file") << " '" << _fileInfo << "' " <<
                                         DJV_TEXT("does not match any audio codecs") << ".";
-                                    throw std::runtime_error(ss.str());
+                                    throw FileSystem::Error(ss.str());
                                 }
                                 p.avCodecParameters[p.avAudioStream] = avcodec_parameters_alloc();
                                 r = avcodec_parameters_copy(p.avCodecParameters[p.avAudioStream], avAudioCodecParameters);
@@ -276,7 +277,7 @@ namespace djv
                                     std::stringstream ss;
                                     ss << DJV_TEXT("The file") << " '" << _fileInfo << "' " <<
                                         DJV_TEXT("cannot be opened") << ". " << FFmpeg::getErrorString(r);
-                                    throw std::runtime_error(ss.str());
+                                    throw FileSystem::Error(ss.str());
                                 }
                                 p.avCodecContext[p.avAudioStream] = avcodec_alloc_context3(avAudioCodec);
                                 r = avcodec_parameters_to_context(p.avCodecContext[p.avAudioStream], p.avCodecParameters[p.avAudioStream]);
@@ -285,7 +286,7 @@ namespace djv
                                     std::stringstream ss;
                                     ss << DJV_TEXT("The file") << " '" << _fileInfo << "' " <<
                                         DJV_TEXT("cannot be opened") << ". " << FFmpeg::getErrorString(r);
-                                    throw std::runtime_error(ss.str());
+                                    throw FileSystem::Error(ss.str());
                                 }
                                 r = avcodec_open2(p.avCodecContext[p.avAudioStream], avAudioCodec, 0);
                                 if (r < 0)
@@ -293,7 +294,7 @@ namespace djv
                                     std::stringstream ss;
                                     ss << DJV_TEXT("The file") << " '" << _fileInfo << "' " <<
                                         DJV_TEXT("cannot be opened") << ". " << FFmpeg::getErrorString(r);
-                                    throw std::runtime_error(ss.str());
+                                    throw FileSystem::Error(ss.str());
                                 }
 
                                 // Get information.

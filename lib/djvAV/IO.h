@@ -362,15 +362,15 @@ namespace djv
                 virtual picojson::value getOptions() const;
 
                 //! Throws:
-                //! - std::exception
+                //! - std::invalid_argument
                 virtual void setOptions(const picojson::value &);
 
                 //! Throws:
-                //! - std::exception
+                //! - Core::FileSystem::Error
                 virtual std::shared_ptr<IRead> read(const Core::FileSystem::FileInfo&, const ReadOptions&) const;
 
                 //! Throws:
-                //! - std::exception
+                //! - Core::FileSystem::Error
                 virtual std::shared_ptr<IWrite> write(const Core::FileSystem::FileInfo&, const Info&, const WriteOptions&) const;
 
             protected:
@@ -402,7 +402,7 @@ namespace djv
                 picojson::value getOptions(const std::string & pluginName) const;
 
                 //! Throws:
-                //! - std::exception
+                //! - std::invalid_argument
                 void setOptions(const std::string & pluginName, const picojson::value &);
 
                 std::shared_ptr<Core::IValueSubject<bool> > observeOptionsChanged() const;
@@ -413,11 +413,11 @@ namespace djv
                 bool canWrite(const Core::FileSystem::FileInfo&, const Info &) const;
 
                 //! Throws:
-                //! - std::exception
+                //! - Core::FileSystem::Error
                 std::shared_ptr<IRead> read(const Core::FileSystem::FileInfo&, const ReadOptions& = ReadOptions());
 
                 //! Throws:
-                //! - std::exception
+                //! - Core::FileSystem::Error
                 std::shared_ptr<IWrite> write(const Core::FileSystem::FileInfo&, const Info &, const WriteOptions& = WriteOptions());
 
             private:

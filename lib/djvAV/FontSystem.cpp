@@ -160,6 +160,10 @@ namespace djv
                 return std::shared_ptr<Glyph>(new Glyph);
             }
 
+            Error::Error(const std::string& what) :
+                std::runtime_error(what)
+            {}
+
             struct System::Private
             {
                 FT_Library ftLibrary = nullptr;
@@ -416,7 +420,7 @@ namespace djv
                     FT_Error ftError = FT_Init_FreeType(&p.ftLibrary);
                     if (ftError)
                     {
-                        throw std::runtime_error("FreeType cannot be initialized.");
+                        throw Error("FreeType cannot be initialized.");
                     }
                     int versionMajor = 0;
                     int versionMinor = 0;
@@ -464,7 +468,7 @@ namespace djv
                     p.fontNamesPromise.set_value(p.fontNames);
                     if (!p.fontFaces.size())
                     {
-                        throw std::runtime_error("No fonts were found.");
+                        throw Error("No fonts were found.");
                     }
                 }
                 catch (const std::exception & e)

@@ -90,8 +90,37 @@ namespace djv
 
             unsigned char hiddenArrowPixel[] = { 0, 0, 0, 0 };
 
-        } // namespace
+            enum class Error
+            {
+                Init,
+                CreateWindow,
+                GLAD
+            };
+            
+            std::string getErrorMessage(Error error)
+            {
+                std::stringstream ss;
+                switch (error)
+                {
+                case Error::Init:
+                    ss << DJV_TEXT("Cannot initialize GLFW.");
+                    break;
+                case Error::CreateWindow:
+                    ss << DJV_TEXT("Cannot create GLFW window.");
+                    break;
+                case Error::GLAD:
+                    ss << DJV_TEXT("Cannot initialize GLAD.");
+                    break;
+                }
+                return ss.str();
+            }
 
+        } // namespace
+        
+        GLFWError::GLFWError(const std::string& what) :
+            std::runtime_error(what)
+        {}
+        
         struct GLFWSystem::Private
         {
             GLFWwindow* glfwWindow   = nullptr;
@@ -133,9 +162,7 @@ namespace djv
             }
             if (!glfwInit())
             {
-                std::stringstream ss;
-                ss << "Cannot initialize GLFW.";
-                throw std::runtime_error(ss.str());
+                throw GLFWError(getErrorMessage(Error::Init));
             }
 
             // Get monitor information.
@@ -193,9 +220,7 @@ namespace djv
                 context->getName().c_str(), NULL, NULL);
             if (!p.glfwWindow)
             {
-                std::stringstream ss;
-                ss << "Cannot create GLFW window.";
-                throw std::runtime_error(ss.str());
+                throw GLFWError(getErrorMessage(Error::CreateWindow));
             }
             glm::vec2 contentScale = glm::vec2(1.F, 1.F);
             glfwGetWindowContentScale(p.glfwWindow, &contentScale.x, &contentScale.y);
@@ -224,9 +249,7 @@ namespace djv
             if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 #endif // DJV_OPENGL_ES2
             {
-                std::stringstream ss;
-                ss << "Cannot initialize GLAD.";
-                throw std::runtime_error(ss.str());
+                throw GLFWError(getErrorMessage(Error::GLAD));
             }
 #if defined(DJV_OPENGL_ES2)
 #else // DJV_OPENGL_ES2

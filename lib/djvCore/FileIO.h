@@ -47,6 +47,13 @@ namespace djv
     {
         namespace FileSystem
         {
+            //! This class provides a file I/O error.
+            class IOError : public std::runtime_error
+            {
+            public:
+                explicit IOError(const std::string&);
+            };
+            
             //! This class provides file I/O.
             class FileIO
             {
@@ -71,12 +78,12 @@ namespace djv
 
                 //! Open the file.
                 //! Throws:
-                //! - std::exception
+                //! - IOError
                 void open(const std::string & fileName, Mode);
 
                 //! Open a temporary file.
                 //! Throws:
-                //! - std::exception
+                //! - IOError
                 void openTemp();
 
                 //! Close the file.
@@ -105,7 +112,7 @@ namespace djv
 
                 //! \name Reading
                 //! Throws:
-                //! - std::exception
+                //! - IOError
                 ///@{
 
                 void read(void *, size_t, size_t wordSize = 1);
@@ -122,7 +129,7 @@ namespace djv
 
                 //! \name Writing
                 //! Throws:
-                //! - std::exception
+                //! - IOError
                 ///@{
 
                 void write(const void *, size_t, size_t wordSize = 1);
@@ -176,28 +183,28 @@ namespace djv
 
                 //! Read the contents from a file.
                 //! Throws:
-                //! - std::exception
+                //! - IOError
                 static std::string readContents(FileIO &);
 
                 //! Read a word from a file.
                 //! Throws:
-                //! - std::exception
+                //! - IOError
                 static void readWord(FileIO &, char *, size_t maxLen = String::cStringLength);
 
                 //! Read a line from a file.
                 //! Throws:
-                //! - std::exception
+                //! - IOError
                 //! \todo Should we handle comments like readWord()?
                 static void readLine(FileIO &, char *, size_t maxLen = String::cStringLength);
 
                 //! Read all the lines from a file.
                 //! Throws:
-                //! - std::exception
+                //! - IOError
                 static std::vector<std::string> readLines(const std::string & fileName);
 
                 //! Write lines to a file.
                 //! Throws:
-                //! - std::exception
+                //! - IOError
                 static void writeLines(const std::string & fileName, const std::vector<std::string> &);
 
                 ///@}
@@ -234,11 +241,6 @@ namespace djv
 #endif // DJV_MMAP
 #endif //DJV_PLATFORM_WINDOWS
             };
-
-            //! This function provides a wrapper for fopen().
-            //! Throws:
-            //! - std::exception
-            FILE * fopen(const std::string & fileName, const std::string & mode);
 
         } // namespace FileSystem
     } // namespace Core

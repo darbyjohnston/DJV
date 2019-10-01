@@ -163,7 +163,7 @@ namespace djv
                         picojson::parse(v, bufP, bufEnd, &error);
                         if (!error.empty())
                         {
-                            throw std::runtime_error(error);
+                            throw std::invalid_argument(error);
                         }
 
                         if (v.is<picojson::object>())

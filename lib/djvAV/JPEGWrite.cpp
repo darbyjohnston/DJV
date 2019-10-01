@@ -31,6 +31,7 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/FileIO.h>
+#include <djvCore/FileSystem.h>
 
 using namespace djv::Core;
 
@@ -217,20 +218,20 @@ namespace djv
                     f.jpegError.msg[0] = 0;
                     if (!jpegInit(&f.jpeg, &f.jpegError))
                     {
-                        throw std::runtime_error(f.jpegError.msg);
+                        throw FileSystem::Error(f.jpegError.msg);
                     }
                     f.jpegInit = true;
 
                     f.f = FileSystem::fopen(fileName.c_str(), "wb");
                     if (!f.f)
                     {
-                        throw std::runtime_error(DJV_TEXT("Cannot open file."));
+                        throw FileSystem::Error(DJV_TEXT("Cannot open file."));
                     }
 
                     const auto& info = image->getInfo();
                     if (!jpegOpen(f.f, &f.jpeg, info, _info.tags, _p->options, &f.jpegError))
                     {
-                        throw std::runtime_error(f.jpegError.msg);
+                        throw FileSystem::Error(f.jpegError.msg);
                     }
 
                     const uint16_t h = image->getHeight();
@@ -238,13 +239,13 @@ namespace djv
                     {
                         if (!jpegScanline(&f.jpeg, image->getData(y), &f.jpegError))
                         {
-                            throw std::runtime_error(f.jpegError.msg);
+                            throw FileSystem::Error(f.jpegError.msg);
                         }
                     }
 
                     if (!jpeg_end(&f.jpeg, &f.jpegError))
                     {
-                        throw std::runtime_error(f.jpegError.msg);
+                        throw FileSystem::Error(f.jpegError.msg);
                     }
                 }
 

@@ -30,6 +30,7 @@
 #include <djvAV/OpenEXR.h>
 
 #include <djvCore/FileIO.h>
+#include <djvCore/FileSystem.h>
 
 #include <ImfChannelList.h>
 #include <ImfHeader.h>
@@ -77,9 +78,9 @@ namespace djv
                 {
                     DJV_PRIVATE_PTR();
                     if (p.pos >= p.size)
-                        throw std::runtime_error("Error reading OpenEXR file.");
+                        throw FileSystem::Error("Error reading OpenEXR file.");
                     if (p.pos + n > p.size)
-                        throw std::runtime_error("Error reading OpenEXR file.");
+                        throw FileSystem::Error("Error reading OpenEXR file.");
                     char* out = p.p + p.pos;
                     p.pos += n;
                     return out;
@@ -89,9 +90,9 @@ namespace djv
                 {
                     DJV_PRIVATE_PTR();
                     if (p.pos >= p.size)
-                        throw std::runtime_error("Error reading OpenEXR file.");
+                        throw FileSystem::Error("Error reading OpenEXR file.");
                     if (p.pos + n > p.size)
-                        throw std::runtime_error("Error reading OpenEXR file.");
+                        throw FileSystem::Error("Error reading OpenEXR file.");
                     memcpy(c, p.p + p.pos, n);
                     p.pos += n;
                     return p.pos < p.size;
@@ -283,7 +284,7 @@ namespace djv
                         }
                         if (Image::Type::None == info.type)
                         {
-                            throw std::runtime_error(DJV_TEXT("Unsupported image type."));
+                            throw FileSystem::Error(DJV_TEXT("Unsupported image type."));
                         }
                         out.video[i].sequence = _sequence;
                         out.video[i].speed = _speed;

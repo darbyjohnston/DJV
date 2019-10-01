@@ -112,13 +112,7 @@ namespace djv
     //! Throws:
     //! - std::exception
     void fromJSON(const picojson::value&, ViewApp::ImageViewLock&);
-
-    //! Throws:
-    //! - std::exception
     void fromJSON(const picojson::value&, ViewApp::ImageRotate&);
-
-    //! Throws:
-    //! - std::exception
     void fromJSON(const picojson::value&, ViewApp::ImageAspectRatio&);
 
 } // namespace djv

@@ -57,10 +57,13 @@ namespace djv
 
                 //! Note that this function requires an OpenGL context.
                 //! Throws:
-                //! - std::exception
+                //! - OpenGL::ShaderError
+                //! - Render::ShaderError
                 static std::shared_ptr<Convert> create(const std::shared_ptr<Core::ResourceSystem>&);
 
                 //! Note that this function requires an OpenGL context.
+                //! Throws:
+                //! - OpenGL::OffscreenBufferError
                 void process(const Data &, const Info &, Data &);
 
             private:

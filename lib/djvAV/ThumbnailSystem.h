@@ -64,6 +64,13 @@ namespace djv
             class Image;
             
         } // namespace Image
+            
+        //! This class provides a thumbnail error.
+        class ThumbnailError : public std::runtime_error
+        {
+        public:
+            explicit ThumbnailError(const std::string&);
+        };
         
         //! This class provides a system for generating thumbnail images from files.
         class ThumbnailSystem : public Core::ISystem
@@ -77,6 +84,9 @@ namespace djv
         public:
             virtual ~ThumbnailSystem();
 
+            //! Create a new thumbnail system.
+            //! Throws:
+            //! - ThumbnailError
             static std::shared_ptr<ThumbnailSystem> create(const std::shared_ptr<Core::Context>&);
 
             //! This structure provides information about a file.

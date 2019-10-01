@@ -29,12 +29,18 @@
 
 #include <djvCore/FileIO.h>
 
+#include <sstream>
+
 namespace djv
 {
     namespace Core
     {
         namespace FileSystem
         {
+            IOError::IOError(const std::string& what) :
+                std::runtime_error(what)
+            {}
+            
             FileIO::FileIO(FileIO && other) :
                 _f(other._f),
                 _fileName(std::move(other._fileName)),

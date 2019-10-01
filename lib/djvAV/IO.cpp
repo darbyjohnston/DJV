@@ -55,6 +55,7 @@
 #endif // TIFF_FOUND
 
 #include <djvCore/Context.h>
+#include <djvCore/FileSystem.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/Path.h>
 #include <djvCore/ResourceSystem.h>
@@ -756,7 +757,7 @@ namespace djv
                 {
                     std::stringstream s;
                     s << DJV_TEXT("The file") << " '" << fileInfo << "' " << DJV_TEXT("cannot be read") << ".";
-                    throw std::runtime_error(s.str());
+                    throw FileSystem::Error(s.str());
                 }
                 return out;
             }
@@ -777,7 +778,7 @@ namespace djv
                 {
                     std::stringstream s;
                     s << DJV_TEXT("The file") << " '" << fileInfo << "' " << DJV_TEXT("cannot be written") << ".";
-                    throw std::runtime_error(s.str());
+                    throw FileSystem::Error(s.str());
                 }
                 return out;
             }

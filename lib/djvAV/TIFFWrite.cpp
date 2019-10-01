@@ -29,6 +29,8 @@
 
 #include <djvAV/TIFF.h>
 
+#include <djvCore/FileSystem.h>
+
 using namespace djv::Core;
 
 namespace djv
@@ -132,7 +134,7 @@ namespace djv
 #endif // DJV_WINDOWS
                     if (!f.f)
                     {
-                        throw std::runtime_error(DJV_TEXT("Cannot open file."));
+                        throw FileSystem::Error(DJV_TEXT("Cannot open file."));
                     }
 
                     const auto& info = image->getInfo();
@@ -234,7 +236,7 @@ namespace djv
                     {
                         if (TIFFWriteScanline(f.f, (tdata_t *)image->getData(y), y) == -1)
                         {
-                            throw std::runtime_error(DJV_TEXT("Error writing scanline."));
+                            throw FileSystem::Error(DJV_TEXT("Error writing scanline."));
                         }
                     }
                 }

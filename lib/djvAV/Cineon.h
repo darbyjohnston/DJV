@@ -192,13 +192,13 @@ namespace djv
                 //! Read a Cineon file header.
                 //!
                 //! Throws:
-                //! - std::exception
+                //! - Core::FileSystem::Error
                 Header read(Core::FileSystem::FileIO&, Info&, ColorProfile&);
                 
                 //! Write a Cineon file header.
                 //!
                 //! Throws:
-                //! - std::exception
+                //! - Core::FileSystem::Error
                 void write(Core::FileSystem::FileIO&, const Info& info, ColorProfile);
 
                 //! Finish writing the Cineon file header after image data is written.

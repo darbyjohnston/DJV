@@ -61,10 +61,10 @@ namespace djv
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value &, bool &);
-    void fromJSON(const picojson::value &, int &);
+    void fromJSON(const picojson::value&, bool&);
+    void fromJSON(const picojson::value&, int&);
     void fromJSON(const picojson::value&, float&);
     void fromJSON(const picojson::value&, size_t&);
-    void fromJSON(const picojson::value &, std::string &);
+    void fromJSON(const picojson::value&, std::string&);
 
 } // namespace djv

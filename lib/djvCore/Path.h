@@ -169,22 +169,22 @@ namespace djv
 
                 //! Create a directory.
                 //! Throws:
-                //! - std::exception
+                //! - Error
                 static void mkdir(const Path &);
 
                 //! Get the absolute path.
                 //! Throws:
-                //! - std::exception
+                //! - Error
                 static Path getAbsolute(const Path &);
 
                 //! Get the current working directory path.
                 //! Throws:
-                //! - std::exception
+                //! - Error
                 static Path getCWD();
 
                 //! Get the temp file path.
                 //! Throws:
-                //! - std::exception
+                //! - Error
                 static Path getTemp();
 
                 ///@}

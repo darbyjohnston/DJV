@@ -43,6 +43,10 @@ namespace djv
     {
         namespace OpenGL
         {
+            ShaderError::ShaderError(const std::string& what) :
+                std::runtime_error(what)
+            {}
+            
             void Shader::_init(const std::shared_ptr<Render::Shader> & shader)
             {
                 _shader = shader;
@@ -52,7 +56,7 @@ namespace djv
                 {
                     std::stringstream ss;
                     ss << DJV_TEXT("The OpenGL vertex shader cannot be created.");
-                    throw std::runtime_error(ss.str());
+                    throw ShaderError(ss.str());
                 }
                 const char * src = _shader->getVertexSource().c_str();
                 glShaderSource(_vertex, 1, &src, NULL);
@@ -66,7 +70,7 @@ namespace djv
                     std::stringstream ss;
                     ss << DJV_TEXT("The OpenGL vertex shader") << " '" << _shader->getVertexName() << "' " <<
                         DJV_TEXT("cannot be compiled") << ". " << infoLog;
-                    throw std::runtime_error(ss.str());
+                    throw ShaderError(ss.str());
                 }
 
                 _fragment = glCreateShader(GL_FRAGMENT_SHADER);
@@ -74,7 +78,7 @@ namespace djv
                 {
                     std::stringstream ss;
                     ss << DJV_TEXT("The OpenGL fragment shader cannot be created.");
-                    throw std::runtime_error(ss.str());
+                    throw ShaderError(ss.str());
                 }
                 src = _shader->getFragmentSource().c_str();
                 glShaderSource(_fragment, 1, &src, NULL);
@@ -86,7 +90,7 @@ namespace djv
                     std::stringstream s;
                     s << DJV_TEXT("The OpenGL framgent shader") << " '" << _shader->getFragmentName() << "' " <<
                         DJV_TEXT("cannot be compiled") << ". " << infoLog;
-                    throw std::runtime_error(s.str());
+                    throw ShaderError(s.str());
                 }
 
                 _program = glCreateProgram();

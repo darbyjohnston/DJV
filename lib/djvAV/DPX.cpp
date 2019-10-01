@@ -30,6 +30,7 @@
 #include <djvAV/DPX.h>
 
 #include <djvCore/FileIO.h>
+#include <djvCore/FileSystem.h>
 #include <djvCore/Memory.h>
 #include <djvCore/String.h>
 
@@ -192,7 +193,7 @@ namespace djv
                     {
                         std::stringstream s;
                         s << DJV_TEXT("Bad magic number.");
-                        throw std::runtime_error(s.str());
+                        throw FileSystem::Error(s.str());
                     }
 
                     // Read the reset of the header.
@@ -214,7 +215,7 @@ namespace djv
                     {
                         std::stringstream s;
                         s << DJV_TEXT("Unsupported file.");
-                        throw std::runtime_error(s.str());
+                        throw FileSystem::Error(s.str());
                     }
                     info.video[0].info.size.w = out.image.size[0];
                     info.video[0].info.size.h = out.image.size[1];
@@ -281,27 +282,27 @@ namespace djv
                     {
                         std::stringstream s;
                         s << DJV_TEXT("Unsupported file.");
-                        throw std::runtime_error(s.str());
+                        throw FileSystem::Error(s.str());
                     }
                     if (io.getSize() - out.file.imageOffset != info.video[0].info.getDataByteCount())
                     {
                         std::stringstream s;
                         s << DJV_TEXT("Incomplete file.");
-                        throw std::runtime_error(s.str());
+                        throw FileSystem::Error(s.str());
                     }
 
                     if (out.image.elem[0].encoding)
                     {
                         std::stringstream s;
                         s << DJV_TEXT("Unsupported file.");
-                        throw std::runtime_error(s.str());
+                        throw FileSystem::Error(s.str());
                     }
 
                     if (isValid(&out.image.elem[0].linePadding) && out.image.elem[0].linePadding)
                     {
                         std::stringstream s;
                         s << DJV_TEXT("Unsupported file.");
-                        throw std::runtime_error(s.str());
+                        throw FileSystem::Error(s.str());
                     }
 
                     if (Transfer::FilmPrint == static_cast<Transfer>(out.image.elem[0].transfer))

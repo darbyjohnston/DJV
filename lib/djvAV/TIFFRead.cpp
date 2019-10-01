@@ -30,6 +30,7 @@
 #include <djvAV/TIFF.h>
 
 #include <djvCore/FileIO.h>
+#include <djvCore/FileSystem.h>
 
 using namespace djv::Core;
 
@@ -94,7 +95,7 @@ namespace djv
                     {
                         if (TIFFReadScanline(f.f, (tdata_t *)out->getData(y), y) == -1)
                         {
-                            throw std::runtime_error(DJV_TEXT("Error reading scanline."));
+                            throw FileSystem::Error(DJV_TEXT("Error reading scanline."));
                         }
                         if (f.palette)
                         {
@@ -117,7 +118,7 @@ namespace djv
 #endif // DJV_WINDOWS
                     if (!f.f)
                     {
-                        throw std::runtime_error(DJV_TEXT("Cannot open file."));
+                        throw FileSystem::Error(DJV_TEXT("Cannot open file."));
                     }
 
                     uint32   width            = 0;
@@ -166,7 +167,7 @@ namespace djv
                     }
                     if (Image::Type::None == imageType)
                     {
-                        throw std::runtime_error(DJV_TEXT("Unsupported image type."));
+                        throw FileSystem::Error(DJV_TEXT("Unsupported image type."));
                     }
 
                     Image::Layout layout;

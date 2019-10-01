@@ -30,6 +30,7 @@
 #include <djvAV/RLA.h>
 
 #include <djvCore/FileIO.h>
+#include <djvCore/FileSystem.h>
 
 using namespace djv::Core;
 
@@ -263,15 +264,15 @@ namespace djv
                     // Get file information.
                     if (header.matteChannels > 1)
                     {
-                        throw std::runtime_error(DJV_TEXT("File not supported."));
+                        throw FileSystem::Error(DJV_TEXT("File not supported."));
                     }
                     if (header.matteChannelType != header.colorChannelType)
                     {
-                        throw std::runtime_error(DJV_TEXT("File not supported."));
+                        throw FileSystem::Error(DJV_TEXT("File not supported."));
                     }
                     if (header.matteBitDepth != header.colorBitDepth)
                     {
-                        throw std::runtime_error(DJV_TEXT("File not supported."));
+                        throw FileSystem::Error(DJV_TEXT("File not supported."));
                     }
                     Image::Type type = Image::Type::None;
                     if (3 == header.colorChannelType)
@@ -283,16 +284,16 @@ namespace djv
                         type = Image::getIntType(header.colorChannels + header.matteChannels, header.colorBitDepth);
                         if (Image::DataType::U32 == Image::getDataType(type))
                         {
-                            throw std::runtime_error(DJV_TEXT("File not supported."));
+                            throw FileSystem::Error(DJV_TEXT("File not supported."));
                         }
                     }
                     if (Image::Type::None == type)
                     {
-                        throw std::runtime_error(DJV_TEXT("File not supported."));
+                        throw FileSystem::Error(DJV_TEXT("File not supported."));
                     }
                     if (header.field)
                     {
-                        throw std::runtime_error(DJV_TEXT("File not supported."));
+                        throw FileSystem::Error(DJV_TEXT("File not supported."));
                     }
 
                     auto imageInfo = Image::Info(w, h, type, Image::Mirror(false, true));

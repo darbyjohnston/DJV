@@ -62,6 +62,13 @@ namespace djv
 
         namespace OpenGL
         {
+            //! This class provides an OpenGL offscreen buffer error.
+            class ShaderError : public std::runtime_error
+            {
+            public:
+                explicit ShaderError(const std::string&);
+            };
+            
             //! This class provides an OpenGL shader.
             class Shader
             {
@@ -73,7 +80,7 @@ namespace djv
                 ~Shader();
 
                 //! Throws:
-                //! - std::exception
+                //! - ShaderError
                 static std::shared_ptr<Shader> create(const std::shared_ptr<Render::Shader> &);
 
                 GLuint getProgram() const;

@@ -40,6 +40,10 @@ namespace djv
     {
         namespace Render
         {
+            ShaderError::ShaderError(const std::string& what) :
+                std::runtime_error(what)
+            {}
+            
             Shader::Shader()
             {}
 
@@ -71,7 +75,7 @@ namespace djv
                 {
                     std::stringstream s;
                     s << DJV_TEXT("The shader cannot be created") << ". " << e.what();
-                    throw std::runtime_error(s.str());
+                    throw ShaderError(s.str());
                 }
                 return out;
             }

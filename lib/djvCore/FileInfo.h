@@ -149,9 +149,7 @@ namespace djv
                 time_t getTime() const;
 
                 //! Get information from the file system.
-                //! Throws:
-                //! - std::exception
-                bool stat();
+                bool stat(std::string* error = nullptr);
 
                 ///@}
 
@@ -173,13 +171,9 @@ namespace djv
                 ///@{
 
                 //! Get the contents of the given directory.
-                //! Throws:
-                //! - std::exception
                 static std::vector<FileInfo> directoryList(const Path& path, const DirectoryListOptions& options = DirectoryListOptions());
 
                 //! Get the file sequence for the given file.
-                //! Throws:
-                //! - std::exception
                 static FileInfo getFileSequence(const Path &, const std::set<std::string>& extensions);
 
                 ///@}
@@ -214,13 +208,7 @@ namespace djv
     //! Throws:
     //! - std::exception
     void fromJSON(const picojson::value&, Core::FileSystem::FileType&);
-
-    //! Throws:
-    //! - std::exception
     void fromJSON(const picojson::value&, Core::FileSystem::DirectoryListSort&);
-
-    //! Throws:
-    //! - std::exception
     void fromJSON(const picojson::value&, Core::FileSystem::FileInfo&);
 
     DJV_ENUM_SERIALIZE_HELPERS(Core::FileSystem::FileType);

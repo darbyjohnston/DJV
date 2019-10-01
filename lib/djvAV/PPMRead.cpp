@@ -30,6 +30,7 @@
 #include <djvAV/PPM.h>
 
 #include <djvCore/FileIO.h>
+#include <djvCore/FileSystem.h>
 
 using namespace djv::Core;
 
@@ -132,7 +133,7 @@ namespace djv
                     io.read(magic, 2);
                     if (magic[0] != 'P')
                     {
-                        throw std::runtime_error(DJV_TEXT("Bad magic number."));
+                        throw FileSystem::Error(DJV_TEXT("Bad magic number."));
                     }
                     switch (magic[1])
                     {
@@ -142,7 +143,7 @@ namespace djv
                     case '6': break;
                     default:
                     {
-                        throw std::runtime_error(DJV_TEXT("Bad magic number."));
+                        throw FileSystem::Error(DJV_TEXT("Bad magic number."));
                     }
                     }
                     const int ppmType = magic[1] - '0';
@@ -167,14 +168,14 @@ namespace djv
                     const auto imageType = Image::getIntType(channelCount, bitDepth);
                     if (Image::Type::None == imageType)
                     {
-                        throw std::runtime_error(DJV_TEXT("Unsupported image type."));
+                        throw FileSystem::Error(DJV_TEXT("Unsupported image type."));
                     }
                     Image::Layout layout;
                     layout.endian = data != Data::ASCII ? Memory::Endian::MSB : Memory::getEndian();
                     auto info = Image::Info(w, h, imageType, layout);
                     if (Data::Binary == data && io.getSize() - io.getPos() != info.getDataByteCount())
                     {
-                        throw std::runtime_error(DJV_TEXT("Incomplete file."));
+                        throw FileSystem::Error(DJV_TEXT("Incomplete file."));
                     }
                     return Info(fileName, VideoInfo(info, _speed, _sequence));
                 }

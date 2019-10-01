@@ -48,8 +48,37 @@ namespace djv
                 //! \todo Should this be configurable?
                 const size_t samples = 4;
 
+                enum class Error
+                {
+                    Texture,
+                    Create,
+                    Init
+                };
+                
+                std::string getErrorMessage(Error error)
+                {
+                    std::stringstream ss;
+                    switch (error)
+                    {
+                    case Error::Texture:
+                        ss << DJV_TEXT("The OpenGL texture cannot be created.");
+                        break;
+                    case Error::Create:
+                        ss << DJV_TEXT("The OpenGL frame buffer cannot be created.");
+                        break;
+                    case Error::Init:
+                        ss << DJV_TEXT("The OpenGL frame buffer cannot be initialized.");
+                        break;
+                    }
+                    return ss.str();
+                }
+                
             } // namespace
 
+            OffscreenBufferError::OffscreenBufferError(const std::string& what) :
+                std::runtime_error(what)
+            {}
+            
             void OffscreenBuffer::_init(const Image::Info & info, OffscreenType type)
             {
                 _info = info;
@@ -60,9 +89,7 @@ namespace djv
                 glGenTextures(1, &_textureID);
                 if (!_textureID)
                 {
-                    std::stringstream ss;
-                    ss << DJV_TEXT("The OpenGL texture cannot be created.");
-                    throw std::runtime_error(ss.str());
+                    throw OffscreenBufferError(getErrorMessage(Error::Texture));
                 }
                 GLenum target = GL_TEXTURE_2D;
 #if defined(DJV_OPENGL_ES2)
@@ -121,9 +148,7 @@ namespace djv
                 glGenFramebuffers(1, &_id);
                 if (!_id)
                 {
-                    std::stringstream ss;
-                    ss << DJV_TEXT("The OpenGL frame buffer cannot be created.");
-                    throw std::runtime_error(ss.str());
+                    throw OffscreenBufferError(getErrorMessage(Error::Create));
                 }
                 const OffscreenBufferBinding binding(shared_from_this());
                 glFramebufferTexture2D(
@@ -135,9 +160,7 @@ namespace djv
                 GLenum error = glCheckFramebufferStatus(GL_FRAMEBUFFER);
                 if (error != GL_FRAMEBUFFER_COMPLETE)
                 {
-                    std::stringstream ss;
-                    ss << DJV_TEXT("The OpenGL frame buffer cannot be initialized.");
-                    throw std::runtime_error(ss.str());
+                    throw OffscreenBufferError(getErrorMessage(Error::Init));
                 }
             }
 

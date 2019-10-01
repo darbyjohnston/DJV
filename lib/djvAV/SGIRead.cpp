@@ -30,6 +30,7 @@
 #include <djvAV/SGI.h>
 
 #include <djvCore/FileIO.h>
+#include <djvCore/FileSystem.h>
 
 using namespace djv::Core;
 
@@ -237,7 +238,7 @@ namespace djv
                                     bytes,
                                     io.getEndian()))
                                 {
-                                    throw std::runtime_error(DJV_TEXT("Read error."));
+                                    throw FileSystem::Error(DJV_TEXT("Read error."));
                                 }
                             }
                         }
@@ -292,7 +293,7 @@ namespace djv
                         io.readU16(&_data.magic);
                         if (_data.magic != 474)
                         {
-                            throw std::runtime_error(DJV_TEXT("File not supported."));
+                            throw FileSystem::Error(DJV_TEXT("File not supported."));
                         }
                         io.readU8(&_data.storage);
                         io.readU8(&_data.bytes);
@@ -310,7 +311,7 @@ namespace djv
                         info.type = Image::getIntType(_data.channels, 1 == _data.bytes ? 8 : 16);
                         if (Image::Type::None == info.type)
                         {
-                            throw std::runtime_error(DJV_TEXT("File not supported."));
+                            throw FileSystem::Error(DJV_TEXT("File not supported."));
                         }
                         info.layout.mirror.y = true;
                         info.layout.endian = Memory::Endian::MSB;

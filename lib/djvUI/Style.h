@@ -150,9 +150,6 @@ namespace djv
     //! Throws:
     //! - std::exception
     void fromJSON(const picojson::value &, UI::Style::Palette &);
-
-    //! Throws:
-    //! - std::exception
     void fromJSON(const picojson::value &, UI::Style::Metrics &);
 
 } // namespace djv

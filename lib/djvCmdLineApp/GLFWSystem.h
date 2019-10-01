@@ -39,6 +39,13 @@ namespace djv
 {
     namespace CmdLine
     {
+        //! This class provides a GLFW error.
+        class GLFWError : public std::runtime_error
+        {
+        public:
+            explicit GLFWError(const std::string&);
+        };
+        
         //! This class provides a system for GLFW functionality.
         class GLFWSystem : public Core::ISystem
         {
@@ -51,6 +58,9 @@ namespace djv
         public:
             virtual ~GLFWSystem();
 
+            //! Create a new GLFW system.
+            //! Throws:
+            //! - GLFWError
             static std::shared_ptr<GLFWSystem> create(const std::shared_ptr<Core::Context>&);
 
             GLFWwindow * getGLFWWindow() const;

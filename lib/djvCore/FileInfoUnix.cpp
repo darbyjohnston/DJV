@@ -54,7 +54,7 @@ namespace djv
     {
         namespace FileSystem
         {
-            bool FileInfo::stat()
+            bool FileInfo::stat(std::string*)
             {
                 _exists      = false;
                 _size        = 0;
@@ -70,7 +70,6 @@ namespace djv
                         memset(&info, 0, sizeof(_STAT));
                         if (_STAT_FNC(getFileName(i).c_str(), &info) != 0)
                         {
-                            std::string err;
                             return false;
                         }
                         _exists = true;
@@ -88,7 +87,6 @@ namespace djv
                     memset(&info, 0, sizeof(_STAT));
                     if (_STAT_FNC(_path.get().c_str(), &info) != 0)
                     {
-                        std::string err;
                         return false;
                     }
                     _exists = true;
@@ -189,11 +187,6 @@ namespace djv
                 _sort(options, out);
                 
                 return out;
-            }
-
-            FILE* fopen(const std::string& fileName, const std::string& mode)
-            {
-                return ::fopen(fileName.c_str(), mode.c_str());
             }
 
         } // namespace FileSystem

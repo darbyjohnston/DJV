@@ -49,6 +49,13 @@ namespace djv
     {
         namespace Render
         {
+            //! This class provides a shader error.
+            class ShaderError : public std::runtime_error
+            {
+            public:
+                explicit ShaderError(const std::string&);
+            };
+            
             //! This class provides shader source code.
             class Shader
             {
@@ -63,7 +70,7 @@ namespace djv
                 static std::shared_ptr<Shader> create(const std::string & vertex, const std::string & fragment);
 
                 //! Throws:
-                //! - std::exception
+                //! - ShaderError
                 static std::shared_ptr<Shader> create(const Core::FileSystem::Path & vertex, const Core::FileSystem::Path & fragment);
 
                 const std::string & getVertexName() const;

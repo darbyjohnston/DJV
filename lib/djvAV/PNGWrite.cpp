@@ -30,6 +30,7 @@
 #include <djvAV/PNG.h>
 
 #include <djvCore/FileIO.h>
+#include <djvCore/FileSystem.h>
 
 using namespace djv::Core;
 
@@ -228,16 +229,16 @@ namespace djv
                     File f;
                     if (!f.png)
                     {
-                        throw std::runtime_error(f.pngError.msg);
+                        throw FileSystem::Error(f.pngError.msg);
                     }
                     if (!f.open(fileName))
                     {
-                        throw std::runtime_error(DJV_TEXT("Cannot open file."));
+                        throw FileSystem::Error(DJV_TEXT("Cannot open file."));
                     }
                     const auto& info = image->getInfo();
                     if (!pngOpen(f.f, f.png, &f.pngInfo, info))
                     {
-                        throw std::runtime_error(f.pngError.msg);
+                        throw FileSystem::Error(f.pngError.msg);
                     }
                     if (Image::getBitDepth(info.type) > 8 && Memory::Endian::LSB == Memory::getEndian())
                     {
@@ -248,12 +249,12 @@ namespace djv
                     {
                         if (!pngScanline(f.png, image->getData(y)))
                         {
-                            throw std::runtime_error(f.pngError.msg);
+                            throw FileSystem::Error(f.pngError.msg);
                         }
                     }
                     if (!pngEnd(f.png, f.pngInfo))
                     {
-                        throw std::runtime_error(f.pngError.msg);
+                        throw FileSystem::Error(f.pngError.msg);
                     }
                 }
 
