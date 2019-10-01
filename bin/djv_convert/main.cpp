@@ -118,17 +118,12 @@ namespace djv
                 return out;
             }
 
-            int run()
+            void tick(float dt) override
             {
+                CmdLine::Application::tick(dt);
                 auto time = std::chrono::system_clock::now();
                 while (_write->isRunning())
                 {
-                    const auto now = std::chrono::system_clock::now();
-                    const std::chrono::duration<float> delta = now - time;
-                    time = now;
-                    const float dt = delta.count();
-                    tick(dt);
-
                     std::unique_lock<std::mutex> readLock(_read->getMutex(), std::try_to_lock);
                     if (readLock.owns_lock())
                     {
@@ -146,7 +141,7 @@ namespace djv
                         }
                     }
                 }
-                return 0;
+                exit();
             }
 
         private:
