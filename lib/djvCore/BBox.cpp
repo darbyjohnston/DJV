@@ -33,11 +33,6 @@
 
 namespace djv
 {
-    namespace Core
-    {
-
-    } // namespace Core
-
     picojson::value toJSON(const Core::BBox2i& value)
     {
         std::stringstream s;
