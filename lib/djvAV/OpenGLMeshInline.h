@@ -33,7 +33,7 @@ namespace djv
     {
         namespace OpenGL
         {
-            VBO::VBO()
+            inline VBO::VBO()
             {}
 
             inline size_t VBO::getSize() const
@@ -56,7 +56,7 @@ namespace djv
                 return _vbo;
             }
 
-            VAO::VAO()
+            inline VAO::VAO()
             {}
 
             inline GLuint VAO::getID() const

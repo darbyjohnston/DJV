@@ -48,7 +48,7 @@ namespace djv
 
             inline FileInfo::FileInfo(const std::string& path, bool stat)
             {
-                setPath(path, stat);
+                setPath(Path(path), stat);
             }
 
             inline const Path& FileInfo::getPath() const

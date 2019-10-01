@@ -437,7 +437,9 @@ namespace djv
                     Core::FileSystem::FileInfo fileInfo;
                     if (io->canSequence(i) && fileSettings->observeAutoDetectSequences()->get())
                     {
-                        fileInfo = Core::FileSystem::FileInfo::getFileSequence(i, io->getSequenceExtensions());
+                        fileInfo = Core::FileSystem::FileInfo::getFileSequence(
+                            Core::FileSystem::Path(i),
+                            io->getSequenceExtensions());
                     }
                     else
                     {

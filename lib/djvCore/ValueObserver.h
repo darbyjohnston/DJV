@@ -98,7 +98,7 @@ namespace djv
 
         protected:
             ValueSubject();
-            ValueSubject(const T &);
+            explicit ValueSubject(const T &);
 
         public:
             //! Create a new value subject.

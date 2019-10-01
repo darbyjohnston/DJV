@@ -94,7 +94,7 @@ namespace djv
             ++arg;
             while (arg != args.end())
             {
-                p.cmdlinePaths.push_back(*arg);
+                p.cmdlinePaths.push_back(Core::FileSystem::Path(*arg));
                 ++arg;
             }
 

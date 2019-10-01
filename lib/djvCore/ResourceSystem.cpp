@@ -59,7 +59,7 @@ namespace djv
                     if (FileInfo(Path(tmp, "djvCore.en.text")).doesExist() ||
                         FileInfo(Path(tmp, "etc/Text/djvCore.en.text")).doesExist())
                     {
-                        out = tmp;
+                        out = Path(tmp);
                         break;
                     }
                     pieces.pop_back();
@@ -76,7 +76,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             try
             {
-                p.applicationPath = Path::getAbsolute(Path(argv0).getDirectoryName());
+                p.applicationPath = Path::getAbsolute(Path(Path(argv0).getDirectoryName()));
             }
             catch (const std::exception & e)
             {
@@ -87,7 +87,7 @@ namespace djv
             std::string env = OS::getEnv("DJV_RESOURCE_PATH");
             if (!env.empty())
             {
-                p.paths[ResourcePath::Application] = env;
+                p.paths[ResourcePath::Application] = Path(env);
             }
             else
             {
@@ -98,7 +98,7 @@ namespace djv
             env = OS::getEnv("DJV_DOCUMENTS_PATH");
             if (!env.empty())
             {
-                documents = env;
+                documents = Path(env);
             }
             else
             {

@@ -84,7 +84,7 @@ namespace djv
             class Event
             {
             protected:
-                Event(Type);
+                explicit Event(Type);
 
             public:
                 virtual ~Event() = 0;
@@ -118,7 +118,7 @@ namespace djv
             class ChildAdded : public Event
             {
             public:
-                ChildAdded(const std::shared_ptr<IObject> & child);
+                explicit ChildAdded(const std::shared_ptr<IObject> & child);
 
                 const std::shared_ptr<IObject> & getChild() const;
 
@@ -130,7 +130,7 @@ namespace djv
             class ChildRemoved : public Event
             {
             public:
-                ChildRemoved(const std::shared_ptr<IObject> & child);
+                explicit ChildRemoved(const std::shared_ptr<IObject> & child);
 
                 const std::shared_ptr<IObject> & getChild() const;
 
@@ -149,7 +149,7 @@ namespace djv
             class Locale : public Event
             {
             public:
-                Locale(const std::string &);
+                explicit Locale(const std::string &);
 
                 const std::string & getLocale() const;
 
@@ -196,7 +196,7 @@ namespace djv
             class Clip : public Event
             {
             public:
-                Clip(const BBox2f & clipRect);
+                explicit Clip(const BBox2f & clipRect);
 
                 const BBox2f & getClipRect() const;
                 void setClipRect(const BBox2f &);
@@ -209,7 +209,7 @@ namespace djv
             class Paint : public Event
             {
             public:
-                Paint(const BBox2f & clipRect);
+                explicit Paint(const BBox2f & clipRect);
 
                 const BBox2f & getClipRect() const;
                 void setClipRect(const BBox2f &);
@@ -223,7 +223,7 @@ namespace djv
             class PaintOverlay : public Event
             {
             public:
-                PaintOverlay(const BBox2f& clipRect);
+                explicit PaintOverlay(const BBox2f& clipRect);
 
                 const BBox2f& getClipRect() const;
                 void setClipRect(const BBox2f&);
@@ -274,35 +274,35 @@ namespace djv
             class PointerEnter : public IPointer
             {
             public:
-                PointerEnter(const PointerInfo &);
+                explicit PointerEnter(const PointerInfo &);
             };
 
             //! This class provides a pointer leave event.
             class PointerLeave : public IPointer
             {
             public:
-                PointerLeave(const PointerInfo &);
+                explicit PointerLeave(const PointerInfo &);
             };
 
             //! This class provides a pointer move event.
             class PointerMove : public IPointer
             {
             public:
-                PointerMove(const PointerInfo &);
+                explicit PointerMove(const PointerInfo &);
             };
 
             //! This class provides a button press event.
             class ButtonPress : public IPointer
             {
             public:
-                ButtonPress(const PointerInfo &);
+                explicit ButtonPress(const PointerInfo &);
             };
 
             //! This class provides a button release event.
             class ButtonRelease : public IPointer
             {
             public:
-                ButtonRelease(const PointerInfo &);
+                explicit ButtonRelease(const PointerInfo &);
             };
 
             //! This class provides a scroll event.

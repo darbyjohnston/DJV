@@ -117,7 +117,7 @@ namespace djv
                 class Notify
                 {
                 public:
-                    Notify(const Path& path) :
+                    explicit Notify(const Path& path) :
                         _path(path)
                     {
                         _fd = ::inotify_init1(IN_NONBLOCK);

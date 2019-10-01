@@ -73,9 +73,9 @@ namespace djv
             {
             public:
                 Speed();
-                Speed(FPS);
-                Speed(int scale, int duration = 1);
-                Speed(const Math::Rational&);
+                explicit Speed(FPS);
+                explicit Speed(int scale, int duration = 1);
+                explicit Speed(const Math::Rational&);
             };
 
         } // namespace Time

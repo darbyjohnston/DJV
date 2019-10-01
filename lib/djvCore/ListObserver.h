@@ -116,7 +116,7 @@ namespace djv
             
         protected:
             ListSubject();
-            ListSubject(const std::vector<T> &);
+            explicit ListSubject(const std::vector<T> &);
 
         public:
             //! Create a new list subject.

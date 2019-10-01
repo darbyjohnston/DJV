@@ -101,7 +101,7 @@ namespace djv
             {
             public:
                 Path();
-                Path(const std::string &);
+                explicit Path(const std::string &);
                 Path(const Path &, const std::string &);
                 Path(const std::string &, const std::string &);
 

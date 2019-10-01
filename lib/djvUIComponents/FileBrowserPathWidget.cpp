@@ -152,7 +152,7 @@ namespace djv
                     {
                         if (widget->_p->pathCallback)
                         {
-                            widget->_p->pathCallback(value);
+                            widget->_p->pathCallback(FileSystem::Path(value));
                         }
                     }
                 });
@@ -189,7 +189,7 @@ namespace djv
                     std::vector<FileSystem::Path> paths;
                     while (split.size())
                     {
-                        paths.push_back(FileSystem::Path::joinDirs(split));
+                        paths.push_back(FileSystem::Path(FileSystem::Path::joinDirs(split)));
                         split.pop_back();
                     }
 

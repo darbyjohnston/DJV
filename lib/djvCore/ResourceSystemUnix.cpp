@@ -37,8 +37,7 @@ namespace djv
     {
         FileSystem::Path ResourceSystem::_getDocumentsPath()
         {
-            FileSystem::Path out;
-            out = OS::getEnv("HOME");
+            FileSystem::Path out(OS::getEnv("HOME"));
             out.append("Documents");
             return out;
         }

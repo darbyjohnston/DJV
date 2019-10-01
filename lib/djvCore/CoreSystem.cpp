@@ -43,7 +43,7 @@ namespace djv
         {
         };
 
-        void CoreSystem::_init(const std::string & argv0, const std::shared_ptr<Context>& context)
+        void CoreSystem::_init(const std::string&, const std::shared_ptr<Context>& context)
         {
             ISystem::_init("djv::Core::CoreSystem", context);
 

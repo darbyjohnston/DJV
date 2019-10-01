@@ -118,7 +118,7 @@ namespace djv
             public:
                 FileInfo();
                 FileInfo(const Path&, bool stat = true);
-                FileInfo(const Path&, FileType, bool stat = true);
+                explicit FileInfo(const Path&, FileType, bool stat = true);
                 FileInfo(const std::string &, bool stat = true);
 
                 //! \name Path

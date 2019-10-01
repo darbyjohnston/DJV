@@ -46,7 +46,7 @@ namespace djv
             {
             public:
                 tBBox2();
-                tBBox2(const glm::tvec2<T, P> &);
+                explicit tBBox2(const glm::tvec2<T, P> &);
                 tBBox2(const glm::tvec2<T, P> & min, const glm::tvec2<T, P> & max);
                 tBBox2(T x, T y, T w, T h);
 
@@ -98,7 +98,7 @@ namespace djv
             {
             public:
                 tBBox3();
-                tBBox3(const glm::tvec3<T, P> &);
+                explicit tBBox3(const glm::tvec3<T, P> &);
                 tBBox3(const glm::tvec3<T, P> & min, const glm::tvec3<T, P> & max);
                 tBBox3(T x, T y, T z, T w, T h, T d);
 

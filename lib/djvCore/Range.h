@@ -43,7 +43,7 @@ namespace djv
             struct Range
             {
                 constexpr Range();
-                constexpr Range(T minMax);
+                explicit constexpr Range(T minMax);
                 constexpr Range(T min, T max);
                 virtual ~Range();
 

@@ -175,7 +175,7 @@ namespace djv
                 DirectoryListOptions options;
                 options.fileSequences = true;
                 options.fileSequenceExtensions = extensions;
-                for (const auto & fileInfo : directoryList(path.getDirectoryName(), options))
+                for (const auto & fileInfo : directoryList(Path(path.getDirectoryName()), options))
                 {
                     if (fileInfo.getSequence().getSize() > 1 &&
                         fileInfo.isCompatible(path))
