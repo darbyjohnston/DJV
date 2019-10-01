@@ -23,12 +23,12 @@ before_script:
 - mkdir build
 - cd build
 - export PYTHONPATH=$PWD/build/lib:$PYTHONPATH
-- cmake .. -DCMAKE_BUILD_TYPE=Debug -DDJV_THIRD_PARTY=TRUE -DDJV_THIRD_PARTY_MINIMAL=TRUE -DDJV_TINY_BUILD=TRUE -DDJV_EXAMPLES=FALSE -DDJV_EXPERIMENTS=FALSE -DDJV_GCOV=TRUE -DDJV_PYTHON=FALSE
+- cmake .. -DCMAKE_BUILD_TYPE=Debug -DDJV_THIRD_PARTY=TRUE -DDJV_THIRD_PARTY_MINIMAL=TRUE -DDJV_TINY_BUILD=FALSE -DDJV_EXAMPLES=FALSE -DDJV_EXPERIMENTS=FALSE -DDJV_GCOV=TRUE -DDJV_PYTHON=FALSE
 # \bug https://community.sonarsource.com/t/sonarqube-c-ubuntu-build-wrapper-ld-preload-error/300/7
 - export wrapperscript=`which build-wrapper-linux-x86-64`
 - export wrapperdir=`dirname $wrapperscript`
 - cp $wrapperdir/libinterceptor-x86_64.so $wrapperdir/libinterceptor-haswell.so
-- build-wrapper-linux-x86-64 --out-dir ../bw-output make -j 2
+- build-wrapper-linux-x86-64 --out-dir ../bw-output make -j 3
 - make test
 - cat Testing/Temporary/LastTest.log
 - sh ../etc/Util/gcov.sh ..
