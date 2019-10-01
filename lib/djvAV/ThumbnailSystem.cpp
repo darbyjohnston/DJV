@@ -67,7 +67,7 @@ namespace djv
                     uid(createUID())
                 {}
 
-                InfoRequest(InfoRequest && other) noexcept :
+                InfoRequest(InfoRequest&& other) noexcept :
                     uid(other.uid),
                     fileInfo(other.fileInfo),
                     read(std::move(other.read)),
@@ -78,7 +78,7 @@ namespace djv
                 ~InfoRequest()
                 {}
 
-                InfoRequest & operator = (InfoRequest && other) noexcept
+                InfoRequest& operator = (InfoRequest&& other) noexcept
                 {
                     if (this != &other)
                     {
