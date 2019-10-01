@@ -131,7 +131,7 @@ namespace djv
                         _path(other._path),
                         _fd(other._fd),
                         _wd(other._wd),
-                        _lastModified(_lastModified)
+                        _lastModified(other._lastModified)
                     {}
                     
                     ~Notify()
