@@ -40,10 +40,11 @@ namespace djv
         //! This namespace provides bounding box functionality.
         namespace BBox
         {
-            //! This struct provides an axis aligned bounding box.
+            //! This class provides an axis aligned bounding box.
             template<typename T, glm::precision P = glm::defaultp>
-            struct tBBox2
+            class tBBox2
             {
+            public:
                 tBBox2();
                 tBBox2(const glm::tvec2<T, P> &);
                 tBBox2(const glm::tvec2<T, P> & min, const glm::tvec2<T, P> & max);
@@ -91,10 +92,11 @@ namespace djv
                 constexpr bool operator != (const tBBox2<T, P> &) const;
             };
 
-            //! This struct provides an axis aligned bounding box.
+            //! This class provides an axis aligned bounding box.
             template<typename T, glm::precision P = glm::defaultp>
-            struct tBBox3
+            class tBBox3
             {
+            public:
                 tBBox3();
                 tBBox3(const glm::tvec3<T, P> &);
                 tBBox3(const glm::tvec3<T, P> & min, const glm::tvec3<T, P> & max);
