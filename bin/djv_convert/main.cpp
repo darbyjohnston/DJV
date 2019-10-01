@@ -129,10 +129,10 @@ namespace djv
                     const float dt = delta.count();
                     tick(dt);
 
-                    std::unique_lock<std::mutex> lock(_read->getMutex(), std::try_to_lock);
-                    if (lock.owns_lock())
+                    std::unique_lock<std::mutex> readLock(_read->getMutex(), std::try_to_lock);
+                    if (readLock.owns_lock())
                     {
-                        std::lock_guard<std::mutex> lock(_write->getMutex());
+                        std::lock_guard<std::mutex> writeLock(_write->getMutex());
                         auto& readQueue = _read->getVideoQueue();
                         auto& writeQueue = _write->getVideoQueue();
                         if (!readQueue.isEmpty() && writeQueue.getCount() < writeQueue.getMax())
