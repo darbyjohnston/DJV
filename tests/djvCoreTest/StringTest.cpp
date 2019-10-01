@@ -151,7 +151,8 @@ namespace djv
                 std::vector<std::pair<std::string, std::string> > data =
                 {
                     { "", "" },
-                    { "test\n", "test" }
+                    { "test\n", "test" },
+                    { "test\r", "test" }
                 };
                 for (const auto & d : data)
                 {
@@ -172,7 +173,8 @@ namespace djv
                     { "", "", true },
                     { "test", ".*", true },
                     { "test", "t", true },
-                    { "test", "z", false }
+                    { "test", "z", false },
+                    { "test", "[", false }
                 };
                 for (const auto & d : data)
                 {
@@ -210,7 +212,7 @@ namespace djv
                 {
                     { "-100", -100 },
                     { "-10", -10 },
-                    { "0", 0 },
+                    { "", 0 },
                     { "10", 10 },
                     { "100", 100 }
                 };
@@ -231,7 +233,7 @@ namespace djv
                 {
                     { "-100", -100 },
                     { "-10", -10 },
-                    { "0", 0 },
+                    { "", 0 },
                     { "10", 10 },
                     { "100", 100 }
                 };
@@ -250,7 +252,7 @@ namespace djv
                 };
                 std::vector<Data> data =
                 {
-                    { "0", 0 },
+                    { "", 0 },
                     { "10", 10 },
                     { "100", 100 }
                 };
@@ -269,15 +271,15 @@ namespace djv
                 };
                 std::vector<Data> data =
                 {
-                    { "-100", -100.f },
-                    { "-10", -10.f },
-                    { "0", 0.f },
-                    { "10", 10.f },
-                    { "100", 100.f }
+                    { "-100.5", -100.5f },
+                    { "-10.5", -10.5f },
+                    { "", 0.f },
+                    { "10.5", 10.5f },
+                    { "100.5", 100.5f }
                 };
                 for (const auto & d : data)
                 {
-                    int64_t value = -1;
+                    float value = -1;
                     String::fromString(d.string.c_str(), d.string.size(), value);
                     DJV_ASSERT(d.value == value);
                 }
