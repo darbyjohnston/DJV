@@ -181,8 +181,8 @@ namespace djv
                 const auto& render = _getRender();
                 const BBox2f& g = getGeometry();
                 const AV::Image::Size& size = p.image->getSize();
-                glm::vec2 c(g.min.x + size.w / 2.f, g.min.y + size.h / 2.f);
-                float zoom = 1.f;
+                glm::vec2 c(g.min.x + size.w / 2.F, g.min.y + size.h / 2.F);
+                float zoom = 1.F;
                 if (p.scale)
                 {
                     zoom = g.w() / static_cast<float>(size.w);
@@ -193,22 +193,22 @@ namespace djv
                     c.x *= zoom;
                     c.y *= zoom;
                 }
-                glm::mat3x3 m(1.f);
+                glm::mat3x3 m(1.F);
                 const glm::vec2 pos(
-                    floorf(g.w() / 2.f - c.x),
-                    floorf(g.h() / 2.f - c.y));
+                    floorf(g.w() / 2.F - c.x),
+                    floorf(g.h() / 2.F - c.y));
                 m = glm::translate(m, g.min + pos);
                 m = glm::scale(m, glm::vec2(zoom, zoom));
                 render->pushTransform(m);
                 if (p.colorize)
                 {
                     render->setFillColor(style->getColor(UI::ColorRole::Button));
-                    render->drawFilledImage(p.image, glm::vec2(0.f, 0.f));
+                    render->drawFilledImage(p.image, glm::vec2(0.F, 0.F));
                 }
                 else
                 {
-                    render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f));
-                    render->drawImage(p.image, glm::vec2(0.f, 0.f));
+                    render->setFillColor(AV::Image::Color(1.F, 1.F, 1.F));
+                    render->drawImage(p.image, glm::vec2(0.F, 0.F));
                 }
                 render->popTransform();
             }

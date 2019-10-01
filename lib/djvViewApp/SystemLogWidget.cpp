@@ -84,7 +84,7 @@ namespace djv
             {
                 const auto& style = _getStyle();
                 const float s = style->getMetric(UI::MetricsRole::Dialog);
-                _setMinimumSize(glm::vec2(s * 2.f, s));
+                _setMinimumSize(glm::vec2(s * 2.F, s));
             }
         
         } // namespace

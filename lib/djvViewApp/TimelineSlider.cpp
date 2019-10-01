@@ -88,7 +88,7 @@ namespace djv
                 AV::IO::Info _info;
                 Frame::Sequence _sequence;
                 Time::Speed _speed;
-                glm::vec2 _pipPos = glm::vec2(0.f, 0.f);
+                glm::vec2 _pipPos = glm::vec2(0.F, 0.F);
                 BBox2f _timelineGeometry;
                 Frame::Index _currentFrame = 0;
                 std::shared_ptr<UI::ImageWidget> _imageWidget;
@@ -215,7 +215,7 @@ namespace djv
             {
                 const glm::vec2 size = _layout->getMinimumSize();
                 const glm::vec2 pos(
-                    Math::clamp(_pipPos.x - floorf(size.x / 2.f), _timelineGeometry.min.x, _timelineGeometry.max.x - size.x),
+                    Math::clamp(_pipPos.x - floorf(size.x / 2.F), _timelineGeometry.min.x, _timelineGeometry.max.x - size.x),
                     _pipPos.y - size.y);
                 _layout->setGeometry(BBox2f(pos.x, pos.y, size.x, size.y));
             }
@@ -269,9 +269,9 @@ namespace djv
             AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;
             std::string currentFrameText;
-            float currentFrameLength = 0.f;
+            float currentFrameLength = 0.F;
             std::future<glm::vec2> currentFrameSizeFuture;
-            float maxFrameLength = 0.f;
+            float maxFrameLength = 0.F;
             std::future<glm::vec2> maxFrameSizeFuture;
             uint32_t pressedID = Event::InvalidID;
             bool pip = true;
@@ -286,7 +286,7 @@ namespace djv
             std::shared_ptr<ValueObserver<Frame::Index> > currentFrameObserver;
             std::shared_ptr<ValueObserver<bool> > pipObserver;
             std::shared_ptr<ValueObserver<AV::TimeUnits> > timeUnitsObserver;
-            BBox2f geometryPrev = BBox2f(0.f, 0.f, -1.f, -1.f);
+            BBox2f geometryPrev = BBox2f(0.F, 0.F, -1.F, -1.F);
             struct TimeTick
             {
                 BBox2f geometry;
@@ -523,9 +523,9 @@ namespace djv
             const auto& style = _getStyle();
             const float m = style->getMetric(UI::MetricsRole::MarginSmall);
             const float b = style->getMetric(UI::MetricsRole::Border);
-            glm::vec2 size = glm::vec2(0.f, 0.f);
+            glm::vec2 size = glm::vec2(0.F, 0.F);
             size.x = style->getMetric(UI::MetricsRole::TextColumn);
-            size.y = p.fontMetrics.lineHeight * 2.f + b * 6.f + m * 2.f;
+            size.y = p.fontMetrics.lineHeight * 2.F + b * 6.F + m * 2.F;
             _setMinimumSize(size);
         }
 
@@ -546,13 +546,13 @@ namespace djv
                     float x = g.min.x + m;
                     float x2 = x;
                     //! \bug Why the extra subtract by one here?
-                    float y = g.max.y - m - b * 6.f - p.fontMetrics.lineHeight + p.fontMetrics.ascender - 1.f;
+                    float y = g.max.y - m - b * 6.F - p.fontMetrics.lineHeight + p.fontMetrics.ascender - 1.F;
                     const float speedF = p.speed.toFloat();
                     auto avSystem = context->getSystemT<AV::AVSystem>();
                     const std::vector<std::pair<float, std::function<Frame::Index(size_t, float)> > > units =
                     {
-                        { _getHourLength(), [](size_t value, float speed) { return static_cast<Frame::Index>(value * 60.f * 60.f * speed); } },
-                        { _getMinuteLength(), [](size_t value, float speed) { return static_cast<Frame::Index>(value * 60.f * speed); } },
+                        { _getHourLength(), [](size_t value, float speed) { return static_cast<Frame::Index>(value * 60.F * 60.F * speed); } },
+                        { _getMinuteLength(), [](size_t value, float speed) { return static_cast<Frame::Index>(value * 60.F * speed); } },
                         { _getSecondLength(), [](size_t value, float speed) { return static_cast<Frame::Index>(value * speed); } },
                         { _getFrameLength(), [](size_t value, float speed) { return static_cast<Frame::Index>(value); } }
                     };
@@ -570,13 +570,13 @@ namespace djv
                                     Private::TimeTick tick;
                                     tick.geometry = BBox2f(
                                         x,
-                                        g.max.y - b * 6.f - p.fontMetrics.lineHeight,
+                                        g.max.y - b * 6.F - p.fontMetrics.lineHeight,
                                         b,
                                         p.fontMetrics.lineHeight);
                                     tick.text = avSystem->getLabel(p.sequence.getFrame(i.second(unit, speedF)), p.speed);
                                     tick.textPos = glm::vec2(x + m, y);
                                     p.timeTicks.push_back(tick);
-                                    x2 = x + p.maxFrameLength + m * 2.f;
+                                    x2 = x + p.maxFrameLength + m * 2.F;
                                 }
                                 ++unit;
                                 x = _frameToPos(i.second(unit, speedF));
@@ -624,9 +624,9 @@ namespace djv
                     const float x1 = _frameToPos(p.outPoint + 1);
                     render->drawRect(BBox2f(
                         x0,
-                        g.max.y - m - b * 6.f,
+                        g.max.y - m - b * 6.F,
                         x1 - x0,
-                        b * 2.f));
+                        b * 2.F));
                 }
 
                 // Draw the cached frames.
@@ -638,9 +638,9 @@ namespace djv
                     const float x1 = _frameToPos(i.max + 1);
                     render->drawRect(BBox2f(
                         x0,
-                        g.max.y - m - b * 2.f,
+                        g.max.y - m - b * 2.F,
                         x1 - x0,
-                        b * 2.f));
+                        b * 2.F));
                 }
                 color = style->getColor(UI::ColorRole::Cached);
                 render->setFillColor(color);
@@ -650,33 +650,33 @@ namespace djv
                     const float x1 = _frameToPos(i.max + 1);
                     render->drawRect(BBox2f(
                         x0,
-                        g.max.y - m - b * 2.f,
+                        g.max.y - m - b * 2.F,
                         x1 - x0,
-                        b * 2.f));
+                        b * 2.F));
                 }
 
                 // Draw the frame ticks.
                 const size_t sequenceSize = p.sequence.getSize();
-                if (_getFrameLength() > b * 2.f)
+                if (_getFrameLength() > b * 2.F)
                 {
                     auto color = style->getColor(UI::ColorRole::Foreground);
-                    color.setF32(color.getF32(3) * .4f, 3);
+                    color.setF32(color.getF32(3) * .4F, 3);
                     render->setFillColor(color);
                     for (Frame::Index f2 = 0; f2 < sequenceSize; ++f2)
                     {
                         const float x = _frameToPos(f2);
-                        const float h = ceilf(p.fontMetrics.ascender * (1 / 4.f));
+                        const float h = ceilf(p.fontMetrics.ascender * (1 / 4.F));
                         render->drawRect(BBox2f(
                             x,
-                            g.max.y - m - b * 6.f,
+                            g.max.y - m - b * 6.F,
                             b,
-                            b * 6.f));
+                            b * 6.F));
                     }
                 }
 
                 // Draw the current frame.
                 color = style->getColor(UI::ColorRole::Foreground);
-                color.setF32(color.getF32(3) * .5f, 3);
+                color.setF32(color.getF32(3) * .5F, 3);
                 render->setFillColor(color);
                 render->drawRect(hg);
                 color = style->getColor(UI::ColorRole::Foreground);
@@ -684,7 +684,7 @@ namespace djv
                 float frameLeftPos = hg.min.x - m - p.currentFrameLength;
                 float frameRightPos = hg.max.x + m;
                 //! \bug Why the extra subtract by one here?
-                const float frameY = g.min.y + m + p.fontMetrics.ascender - 1.f;
+                const float frameY = g.min.y + m + p.fontMetrics.ascender - 1.F;
                 if ((frameRightPos + p.currentFrameLength) > g.max.x)
                 {
                     render->drawText(p.currentFrameText, glm::vec2(floorf(frameLeftPos), floorf(frameY)));
@@ -802,7 +802,7 @@ namespace djv
             const auto& style = _getStyle();
             const BBox2f& g = getGeometry();
             const float m = style->getMetric(UI::MetricsRole::MarginSmall);
-            const float v = value / (g.w() - m * 2.f);
+            const float v = value / (g.w() - m * 2.F);
             const size_t sequenceSize = p.sequence.getSize();
             Frame::Index out = sequenceSize ?
                 Math::clamp(
@@ -820,8 +820,8 @@ namespace djv
             const BBox2f& g = getGeometry();
             const float m = style->getMetric(UI::MetricsRole::MarginSmall);
             const size_t sequenceSize = p.sequence.getSize();
-            const float v = sequenceSize ? (value / static_cast<float>(sequenceSize)) : 0.f;
-            float out = g.min.x + m + v * (g.w() - m * 2.f);
+            const float v = sequenceSize ? (value / static_cast<float>(sequenceSize)) : 0.F;
+            float out = g.min.x + m + v * (g.w() - m * 2.F);
             return out;
         }
 
@@ -839,13 +839,13 @@ namespace djv
 
         float TimelineSlider::_getMinuteLength() const
         {
-            const Frame::Index f = static_cast<Frame::Index>(_p->speed.toFloat() * 60.f);
+            const Frame::Index f = static_cast<Frame::Index>(_p->speed.toFloat() * 60.F);
             return _frameToPos(f) - _frameToPos(0);
         }
 
         float TimelineSlider::_getHourLength() const
         {
-            const Frame::Index f = static_cast<Frame::Index>(_p->speed.toFloat() * 60.f * 60.f);
+            const Frame::Index f = static_cast<Frame::Index>(_p->speed.toFloat() * 60.F * 60.F);
             return _frameToPos(f) - _frameToPos(0);
         }
 
@@ -862,7 +862,7 @@ namespace djv
                 x0,
                 g.min.y + m,
                 std::max(x1 - x0, b),
-                g.h() - m * 2.f);
+                g.h() - m * 2.F);
             return out;
         }
 
@@ -892,7 +892,7 @@ namespace djv
                 default: break;
                 }
                 p.maxFrameSizeFuture = p.fontSystem->measure(maxFrameText, fontInfo);
-                p.geometryPrev = BBox2f(0.f, 0.f, -1.f, -1.f);
+                p.geometryPrev = BBox2f(0.F, 0.F, -1.F, -1.F);
                 _resize();
             }
         }

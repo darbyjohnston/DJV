@@ -154,7 +154,7 @@ namespace djv
 
         struct ColorSliders::Private
         {
-            AV::Image::Color color = AV::Image::Color(0.f, 0.f, 0.f);
+            AV::Image::Color color = AV::Image::Color(0.F, 0.F, 0.F);
             bool hsv = false;
             std::vector<std::shared_ptr<Label> > intLabels;
             std::vector<std::shared_ptr<IntEdit> > intEdits;
@@ -398,7 +398,7 @@ namespace djv
                 {
                     auto model = p.floatSliders[i]->getModel();
                     model->setRange(AV::Image::getFloatRange(type));
-                    float v = 0.f;
+                    float v = 0.F;
                     switch (AV::Image::getDataType(type))
                     {
                     case AV::Image::DataType::F16: v = p.color.getF16(i); break;
@@ -616,7 +616,7 @@ namespace djv
 
         struct ColorPicker::Private
         {
-            AV::Image::Color color = AV::Image::Color(0.f, 0.f, 0.f);
+            AV::Image::Color color = AV::Image::Color(0.F, 0.F, 0.F);
             std::shared_ptr<ColorSwatch> colorSwatch;
             std::shared_ptr<ColorSliders> sliders;
             std::shared_ptr<ColorTypeWidget> typeWidget;

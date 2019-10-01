@@ -67,7 +67,7 @@ namespace djv
 
             float Stack::heightForWidth(float value, const std::vector<std::shared_ptr<Widget> >& children, const Layout::Margin& margin, const std::shared_ptr<Style::Style>& style)
             {
-                float out = 0.f;
+                float out = 0.F;
                 const glm::vec2 m = margin.getSize(style);
                 for (const auto& child : children)
                 {
@@ -82,7 +82,7 @@ namespace djv
 
             glm::vec2 Stack::minimumSize(const std::vector<std::shared_ptr<Widget> >& children, const Layout::Margin& margin, const std::shared_ptr<Style::Style>& style)
             {
-                glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
+                glm::vec2 minimumSize = glm::vec2(0.F, 0.F);
                 for (const auto& child : children)
                 {
                     if (child->isVisible())

@@ -127,7 +127,7 @@ namespace djv
             p.resourceSystem = context->getSystemT<ResourceSystem>();
 
             p.imageCache.setMax(imageCacheMax);
-            p.imageCachePercentage = 0.f;
+            p.imageCachePercentage = 0.F;
 
             p.statsTimer = Time::Timer::create(context);
             p.statsTimer->setRepeating(true);

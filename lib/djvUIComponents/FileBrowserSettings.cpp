@@ -78,7 +78,7 @@ namespace djv
                 p.recentPaths = ListSubject<FileSystem::Path>::create();
                 p.viewType = ValueSubject<ViewType>::create(ViewType::Tiles);
                 p.thumbnailSize = ValueSubject<AV::Image::Size>::create(AV::Image::Size(200, 100));
-                p.listViewHeaderSplit = ListSubject<float>::create({ .7f, .8f, 1.f });
+                p.listViewHeaderSplit = ListSubject<float>::create({ .7F, .8F, 1.F });
                 p.fileSequences = ValueSubject<bool>::create(true);
                 p.showHidden = ValueSubject<bool>::create(false);
                 p.sort = ValueSubject<FileSystem::DirectoryListSort>::create(FileSystem::DirectoryListSort::Name);

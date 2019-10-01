@@ -94,12 +94,12 @@ namespace djv
                     std::string text;
                     std::string font;
                     AV::Font::Metrics fontMetrics;
-                    glm::vec2 textSize = glm::vec2(0.f, 0.f);
+                    glm::vec2 textSize = glm::vec2(0.F, 0.F);
                     std::string shortcutLabel;
-                    glm::vec2 shortcutSize = glm::vec2(0.f, 0.f);
+                    glm::vec2 shortcutSize = glm::vec2(0.F, 0.F);
                     bool enabled = true;
-                    glm::vec2 size = glm::vec2(0.f, 0.f);
-                    BBox2f geom = BBox2f(0.f, 0.f, 0.f, 0.f);
+                    glm::vec2 size = glm::vec2(0.F, 0.F);
+                    BBox2f geom = BBox2f(0.F, 0.F, 0.F, 0.F);
                 };
 
                 std::shared_ptr<Item> _getItem(const glm::vec2 &) const;
@@ -120,7 +120,7 @@ namespace djv
                 std::map<std::shared_ptr<Item>, std::future<glm::vec2> > _shortcutSizeFutures;
                 std::map<Event::PointerID, std::shared_ptr<Item> > _hoveredItems;
                 std::pair<Event::PointerID, std::shared_ptr<Item> > _pressed;
-                glm::vec2 _pressedPos = glm::vec2(0.f, 0.f);
+                glm::vec2 _pressedPos = glm::vec2(0.F, 0.F);
                 std::function<void(void)> _closeCallback;
                 std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<ButtonType> > > _buttonTypeObservers;
                 std::map<std::shared_ptr<Item>, std::shared_ptr<ValueObserver<bool> > > _checkedObservers;
@@ -231,8 +231,8 @@ namespace djv
                     }
                 }
 
-                glm::vec2 textSize(0.f, 0.f);
-                glm::vec2 shortcutSize(0.f, 0.f);
+                glm::vec2 textSize(0.F, 0.F);
+                glm::vec2 shortcutSize(0.F, 0.F);
                 for (const auto & i : _items)
                 {
                     const auto j = _itemToAction.find(i.second);
@@ -248,30 +248,30 @@ namespace djv
                     }
                 }
 
-                glm::vec2 itemSize(0.f, 0.f);
-                itemSize.x += iss + m * 2.f;
-                itemSize.y = std::max(itemSize.y, iss + m * 2.f);
+                glm::vec2 itemSize(0.F, 0.F);
+                itemSize.x += iss + m * 2.F;
+                itemSize.y = std::max(itemSize.y, iss + m * 2.F);
                 if (_hasIcons)
                 {
                     itemSize.x += is;
                     itemSize.y = std::max(itemSize.y, is);
                 }
-                itemSize.x += textSize.x + m * 2.f;
-                itemSize.y = std::max(itemSize.y, textSize.y + m * 2.f);
+                itemSize.x += textSize.x + m * 2.F;
+                itemSize.y = std::max(itemSize.y, textSize.y + m * 2.F);
                 if (_hasShortcuts)
                 {
-                    itemSize.x += shortcutSize.x + m * 2.f;
-                    itemSize.y = std::max(itemSize.y, shortcutSize.y + m * 2.f);
+                    itemSize.x += shortcutSize.x + m * 2.F;
+                    itemSize.y = std::max(itemSize.y, shortcutSize.y + m * 2.F);
                 }
 
                 std::map<size_t, glm::vec2> sizes;
                 for (auto & i : _items)
                 {
-                    glm::vec2 size(0.f, 0.f);
+                    glm::vec2 size(0.F, 0.F);
                     const auto j = _itemToAction.find(i.second);
                     if (j != _itemToAction.end() && j->second)
                     {
-                        size = itemSize + m * 2.f;
+                        size = itemSize + m * 2.F;
                     }
                     else
                     {
@@ -281,7 +281,7 @@ namespace djv
                     sizes[i.first] = size;
                 }
 
-                glm::vec2 size(0.f, 0.f);
+                glm::vec2 size(0.F, 0.F);
                 for (const auto & i : sizes)
                 {
                     size.x = std::max(size.x, i.second.x);
@@ -344,9 +344,9 @@ namespace djv
                 for (const auto & i : _items)
                 {
                     float x = i.second->geom.min.x + m;
-                    float y = 0.f;
+                    float y = 0.F;
 
-                    render->setAlphaMult(i.second->enabled ? 1.f : style->getPalette().getDisabledMult());
+                    render->setAlphaMult(i.second->enabled ? 1.F : style->getPalette().getDisabledMult());
 
                     switch (i.second->buttonType)
                     {
@@ -356,7 +356,7 @@ namespace djv
                     {
                         const BBox2f checkBoxGeometry(
                             x + m,
-                            floorf(i.second->geom.min.y + ceilf(i.second->size.y / 2.f - iss / 2.f)),
+                            floorf(i.second->geom.min.y + ceilf(i.second->size.y / 2.F - iss / 2.F)),
                             iss,
                             iss);
                         render->setFillColor(style->getColor(ColorRole::Border));
@@ -367,14 +367,14 @@ namespace djv
                     }
                     default: break;
                     }
-                    x += iss + m * 2.f;
+                    x += iss + m * 2.F;
 
                     if (_hasIcons)
                     {
                         render->setFillColor(style->getColor(ColorRole::Foreground));
                         if (i.second->icon)
                         {
-                            y = i.second->geom.min.y + ceilf(i.second->size.y / 2.f - is / 2.f);
+                            y = i.second->geom.min.y + ceilf(i.second->size.y / 2.F - is / 2.F);
                             render->drawFilledImage(i.second->icon, glm::vec2(x, y));
                         }
                         x += is;
@@ -384,13 +384,13 @@ namespace djv
                     const auto j = _itemToAction.find(i.second);
                     if (j != _itemToAction.end() && j->second)
                     {
-                        y = i.second->geom.min.y + ceilf(i.second->size.y / 2.f) - ceilf(i.second->fontMetrics.lineHeight / 2.f) + i.second->fontMetrics.ascender;
+                        y = i.second->geom.min.y + ceilf(i.second->size.y / 2.F) - ceilf(i.second->fontMetrics.lineHeight / 2.F) + i.second->fontMetrics.ascender;
                         const auto fontInfo = i.second->font.empty() ?
                             style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium) :
                             style->getFontInfo(i.second->font, AV::Font::faceDefault, MetricsRole::FontMedium);
                         render->setCurrentFont(fontInfo);
                         render->drawText(i.second->text, glm::vec2(x + m, y));
-                        x += i.second->textSize.x + m * 2.f;
+                        x += i.second->textSize.x + m * 2.F;
 
                         if (!i.second->shortcutLabel.empty())
                         {

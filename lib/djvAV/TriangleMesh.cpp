@@ -145,22 +145,22 @@ namespace djv
                 if (a > -epsilon && a < epsilon)
                     return false;
 
-                const float f = 1.f / a;
+                const float f = 1.F / a;
                 const glm::vec3 s = pos - v0;
                 const float u = f * glm::dot(s, h);
-                if (u < 0.f || u > 1.f)
+                if (u < 0.F || u > 1.F)
                     return false;
 
                 const glm::vec3 q = glm::cross(s, edge1);
                 const float v = f * glm::dot(dir, q);
-                if (v < 0.f || u + v > 1.f)
+                if (v < 0.F || u + v > 1.F)
                     return false;
 
                 const float t = f * glm::dot(edge2, q);
                 if (t > epsilon)
                 {
                     out = pos + dir * t;
-                    barycentric.x = 1.f - u - v;
+                    barycentric.x = 1.F - u - v;
                     barycentric.y = u;
                     barycentric.z = v;
                     return true;
@@ -175,7 +175,7 @@ namespace djv
                 glm::vec3 &          hit)
             {
                 bool out = false;
-                float closest = 0.f;
+                float closest = 0.F;
                 glm::vec3 barycentric;
                 bool first = true;
                 size_t i = 0;
@@ -219,7 +219,7 @@ namespace djv
                 glm::vec3 &          hitNormal)
             {
                 bool out = false;
-                float closest = 0.f;
+                float closest = 0.F;
                 glm::vec3 barycentric;
                 size_t index = 0;
                 bool first = true;
@@ -304,10 +304,10 @@ namespace djv
                 mesh.v.push_back(glm::vec3(value.max.x, value.max.y, value.min.z));
                 mesh.v.push_back(glm::vec3(value.min.x, value.max.y, value.min.z));
 
-                mesh.t.push_back(glm::vec3(0.f, 1.f, 0.f));
-                mesh.t.push_back(glm::vec3(1.f, 1.f, 0.f));
-                mesh.t.push_back(glm::vec3(1.f, 0.f, 0.f));
-                mesh.t.push_back(glm::vec3(0.f, 0.f, 0.f));
+                mesh.t.push_back(glm::vec3(0.F, 1.F, 0.F));
+                mesh.t.push_back(glm::vec3(1.F, 1.F, 0.F));
+                mesh.t.push_back(glm::vec3(1.F, 0.F, 0.F));
+                mesh.t.push_back(glm::vec3(0.F, 0.F, 0.F));
 
                 // Back
                 const size_t offset = 1;

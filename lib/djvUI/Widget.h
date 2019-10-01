@@ -251,13 +251,13 @@ namespace djv
             bool                _visibleInit     = true;
             bool                _parentsVisible  = true;
             bool                _clipped         = false;
-            Core::BBox2f        _clipRect        = Core::BBox2f(0.f, 0.f, 0.f, 0.f);
-            float               _opacity         = 1.f;
-            float               _parentsOpacity  = 1.f;
+            Core::BBox2f        _clipRect        = Core::BBox2f(0.F, 0.F, 0.F, 0.F);
+            float               _opacity         = 1.F;
+            float               _parentsOpacity  = 1.F;
 
-            Core::BBox2f        _geometry        = Core::BBox2f(0.f, 0.f, 0.f, 0.f);
-            glm::vec2           _minimumSize     = glm::vec2(0.f, 0.f);
-            glm::vec2           _desiredSize     = glm::vec2(0.f, 0.f);
+            Core::BBox2f        _geometry        = Core::BBox2f(0.F, 0.F, 0.F, 0.F);
+            glm::vec2           _minimumSize     = glm::vec2(0.F, 0.F);
+            glm::vec2           _desiredSize     = glm::vec2(0.F, 0.F);
             Layout::Margin      _margin;
             HAlign              _hAlign          = HAlign::Fill;
             VAlign              _vAlign          = VAlign::Fill;
@@ -276,7 +276,7 @@ namespace djv
             static bool         _tooltipsEnabled;
             struct TooltipData
             {
-                float timer = 0.f;
+                float timer = 0.F;
                 std::shared_ptr<Tooltip> tooltip;
             };
             std::map<Core::Event::PointerID, TooltipData>

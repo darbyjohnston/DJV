@@ -121,10 +121,10 @@ namespace djv
                 void triangulate(TriangleMesh &) const override;
 
             private:
-                float _radius = .5f;
+                float _radius = .5F;
                 Resolution _resolution;
-                Span _uSpan = Span(0.f, 1.f);
-                Span _vSpan = Span(0.f, 1.f);
+                Span _uSpan = Span(0.F, 1.F);
+                Span _vSpan = Span(0.F, 1.F);
                 bool _textureSpan = true;
             };
 
@@ -134,7 +134,7 @@ namespace djv
             public:
                 typedef std::pair<float, float> Span;
 
-                Cylinder(float radius = .5f, float length = 1.f, size_t resolution = 100);
+                Cylinder(float radius = .5f, float length = 1.F, size_t resolution = 100);
 
                 float getRadius() const { return _radius; }
                 float getLength() const { return _length; }
@@ -152,11 +152,11 @@ namespace djv
                 void triangulate(TriangleMesh &) const override;
 
             private:
-                float _radius = .5f;
-                float _length = 1.f;
+                float _radius = .5F;
+                float _length = 1.F;
                 bool _capped = false;
                 size_t _resolution = 10;
-                Span _span = Span(0.f, 1.f);
+                Span _span = Span(0.F, 1.F);
                 bool _textureSpan = true;
             };
 

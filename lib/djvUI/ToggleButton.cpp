@@ -59,7 +59,7 @@ namespace djv
             {
                 AV::Font::Metrics fontMetrics;
                 std::future<AV::Font::Metrics> fontMetricsFuture;
-                float animationValue = 0.f;
+                float animationValue = 0.F;
                 std::shared_ptr<Animation::Animation> animation;
             };
 
@@ -99,7 +99,7 @@ namespace djv
                     auto weak = std::weak_ptr<Toggle>(std::dynamic_pointer_cast<Toggle>(shared_from_this()));
                     p.animation->start(
                         p.animationValue,
-                        value ? 1.f : 0.f,
+                        value ? 1.F : 0.F,
                         std::chrono::milliseconds(animationDuration),
                         [weak](float value)
                     {
@@ -112,7 +112,7 @@ namespace djv
                 }
                 else
                 {
-                    p.animationValue = value ? 1.f : 0.f;
+                    p.animationValue = value ? 1.F : 0.F;
                 }
             }
 
@@ -141,8 +141,8 @@ namespace djv
                         _log(e.what(), LogLevel::Error);
                     }
                 }
-                glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
-                minimumSize.x = p.fontMetrics.lineHeight * 2.f;
+                glm::vec2 minimumSize = glm::vec2(0.F, 0.F);
+                minimumSize.x = p.fontMetrics.lineHeight * 2.F;
                 minimumSize.y = p.fontMetrics.lineHeight;
                 const auto& style = _getStyle();
                 _setMinimumSize(minimumSize + getMargin().getSize(style));
@@ -164,9 +164,9 @@ namespace djv
                 render->setFillColor(style->getColor(isChecked() ? ColorRole::Checked : ColorRole::Trough));
                 render->drawRect(g.margin(-b));
 
-                const float r = g.h() / 2.f;
+                const float r = g.h() / 2.F;
                 const float x = Math::lerp(p.animationValue, g.min.x + r, g.max.x - r);
-                const BBox2f handleBBox(x - r, g.min.y, r * 2.f, r * 2.f);
+                const BBox2f handleBBox(x - r, g.min.y, r * 2.F, r * 2.F);
                 auto color = style->getColor(ColorRole::Border);
                 render->setFillColor(color);
                 render->drawRect(handleBBox);

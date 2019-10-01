@@ -73,10 +73,10 @@ namespace djv
             AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;
             
-            glm::vec2 textSize = glm::vec2(0.f, 0.f);
+            glm::vec2 textSize = glm::vec2(0.F, 0.F);
             std::future<glm::vec2> textSizeFuture;
             std::string sizeString;
-            glm::vec2 sizeStringSize = glm::vec2(0.f, 0.f);
+            glm::vec2 sizeStringSize = glm::vec2(0.F, 0.F);
             std::future<glm::vec2> sizeStringFuture;
             size_t cursorPos = 0;
             size_t selectionAnchor = std::string::npos;
@@ -315,7 +315,7 @@ namespace djv
             }
 
             const glm::vec2 size(p.sizeString.empty() ? tc : p.sizeStringSize.x, p.fontMetrics.lineHeight);
-            _setMinimumSize(size + m * 2.f + getMargin().getSize(style));
+            _setMinimumSize(size + m * 2.F + getMargin().getSize(style));
         }
 
         void LineEditBase::_clipEvent(Event::Clip & event)
@@ -340,8 +340,8 @@ namespace djv
             render->setFillColor(style->getColor(ColorRole::Checked));
             if (p.cursorPos != p.selectionAnchor)
             {
-                float x0 = 0.f;
-                float x1 = 0.f;
+                float x0 = 0.F;
+                float x1 = 0.F;
                 const size_t glyphGeomSize = p.glyphGeom.size();
                 if (glyphGeomSize)
                 {
@@ -374,7 +374,7 @@ namespace djv
                     g.min.x + m + x0,
                     g.min.y + m,
                     x1 - x0,
-                    g.h() - m * 2.f));
+                    g.h() - m * 2.F));
             }
 
             auto fontInfo = p.font.empty() ?
@@ -385,12 +385,12 @@ namespace djv
             //! \bug Why the extra subtract by one here?
             glm::vec2 pos = g.min;
             pos += m;
-            pos.y = c.y - p.textSize.y / 2.f;
-            render->drawText(p.text, glm::vec2(floorf(pos.x), floorf(pos.y + p.fontMetrics.ascender - 1.f)));
+            pos.y = c.y - p.textSize.y / 2.F;
+            render->drawText(p.text, glm::vec2(floorf(pos.x), floorf(pos.y + p.fontMetrics.ascender - 1.F)));
 
             if (p.cursorBlink)
             {
-                float x = 0.f;
+                float x = 0.F;
                 const size_t glyphGeomSize = p.glyphGeom.size();
                 if (glyphGeomSize)
                 {
@@ -408,7 +408,7 @@ namespace djv
                     g.min.x + m + x,
                     g.min.y + m,
                     b,
-                    g.h() - m * 2.f));
+                    g.h() - m * 2.F));
             }
         }
 
@@ -437,7 +437,7 @@ namespace djv
                 const float m = style->getMetric(MetricsRole::MarginSmall);
                 float x = event.getPointerInfo().projectedPos.x - g.min.x - m;
                 size_t cursorPos = 0;
-                if (x >= 0.f)
+                if (x >= 0.F)
                 {
                     for (const auto& i : p.glyphGeom)
                     {

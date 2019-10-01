@@ -142,7 +142,7 @@ namespace djv
                     B##_T * outP = reinterpret_cast<B##_T *>(out); \
                     for (size_t i = 0; i < size; ++i, inP += 3, ++outP) \
                     { \
-                        const A##_T tmp = static_cast<A##_T>((inP[0] + inP[1] + inP[2]) / 3.f); \
+                        const A##_T tmp = static_cast<A##_T>((inP[0] + inP[1] + inP[2]) / 3.F); \
                         convert_##A##_##B(tmp, outP[0]); \
                     } \
                 }
@@ -153,7 +153,7 @@ namespace djv
                     B##_T * outP = reinterpret_cast<B##_T *>(out); \
                     for (size_t i = 0; i < size; ++i, inP += 3, outP += 2) \
                     { \
-                        const A##_T tmp = static_cast<A##_T>((inP[0] + inP[1] + inP[2]) / 3.f); \
+                        const A##_T tmp = static_cast<A##_T>((inP[0] + inP[1] + inP[2]) / 3.F); \
                         convert_##A##_##B(tmp, outP[0]); \
                         convert_##A##_##B(inP[1], outP[1]); \
                     } \
@@ -191,7 +191,7 @@ namespace djv
                     B##_T * outP = reinterpret_cast<B##_T *>(out); \
                     for (size_t i = 0; i < size; ++i, inP += 4, ++outP) \
                     { \
-                        const A##_T tmp = static_cast<A##_T>((inP[0] + inP[1] + inP[2]) / 3.f); \
+                        const A##_T tmp = static_cast<A##_T>((inP[0] + inP[1] + inP[2]) / 3.F); \
                         convert_##A##_##B(tmp, outP[0]); \
                     } \
                 }
@@ -202,7 +202,7 @@ namespace djv
                     B##_T * outP = reinterpret_cast<B##_T *>(out); \
                     for (size_t i = 0; i < size; ++i, inP += 4, outP += 2) \
                     { \
-                        const A##_T tmp = static_cast<A##_T>((inP[0] + inP[1] + inP[2]) / 3.f); \
+                        const A##_T tmp = static_cast<A##_T>((inP[0] + inP[1] + inP[2]) / 3.F); \
                         convert_##A##_##B(tmp, outP[0]); \
                         convert_##A##_##B(inP[1], outP[1]); \
                     } \
@@ -300,7 +300,7 @@ namespace djv
                     B##_T * outP = reinterpret_cast<B##_T *>(out); \
                     for (size_t i = 0; i < size; ++i, ++inP, ++outP) \
                     { \
-                        const U10_T tmp = static_cast<U10_T>((inP->r + inP->g + inP->b) / 3.f); \
+                        const U10_T tmp = static_cast<U10_T>((inP->r + inP->g + inP->b) / 3.F); \
                         convert_U10_##B(tmp, outP[0]); \
                     } \
                 }
@@ -311,7 +311,7 @@ namespace djv
                     B##_T * outP = reinterpret_cast<B##_T *>(out); \
                     for (size_t i = 0; i < size; ++i, ++inP, outP += 2) \
                     { \
-                        const U10_T tmp = static_cast<U10_T>((inP->r + inP->g + inP->b) / 3.f); \
+                        const U10_T tmp = static_cast<U10_T>((inP->r + inP->g + inP->b) / 3.F); \
                         convert_U10_##B(tmp, outP[0]); \
                         outP[1] = B##Max; \
                     } \

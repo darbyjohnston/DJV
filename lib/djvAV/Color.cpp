@@ -56,11 +56,11 @@ namespace djv
                 const float & min = std::min(in[0], std::min(in[1], in[2]));
                 const float & max = std::max(in[0], std::max(in[1], in[2]));
                 out[2] = max;
-                out[1] = max != 0.f ? (1.f - min / max) : 0.f;
-                const float v = (max - min) * 6.f;
+                out[1] = max != 0.F ? (1.F - min / max) : 0.F;
+                const float v = (max - min) * 6.F;
                 if (max == min)
                 {
-                    out[0] = 0.f;
+                    out[0] = 0.F;
                 }
                 else if (in[0] == max)
                 {
@@ -70,16 +70,16 @@ namespace djv
                     }
                     else
                     {
-                        out[0] = 1.f + (in[1] - in[2]) / v;
+                        out[0] = 1.F + (in[1] - in[2]) / v;
                     }
                 }
                 else if (in[1] == max)
                 {
-                    out[0] = 1.f / 3.f + (in[2] - in[0]) / v;
+                    out[0] = 1.F / 3.F + (in[2] - in[0]) / v;
                 }
                 else if (in[2] == max)
                 {
-                    out[0] = 2.f / 3.f + (in[0] - in[1]) / v;
+                    out[0] = 2.F / 3.F + (in[0] - in[1]) / v;
                 }
             }
 
@@ -88,10 +88,10 @@ namespace djv
                 inline float mod(float value, float mod)
                 {
                     float tmp = value;
-                    if (mod != 0.f)
+                    if (mod != 0.F)
                     {
                         tmp = value - (static_cast<int>(value / mod) * mod);
-                        if (tmp < 0.f)
+                        if (tmp < 0.F)
                         {
                             tmp += mod;
                         }
@@ -103,12 +103,12 @@ namespace djv
 
             void Color::hsvToRGB(const float in[3], float out[3])
             {
-                const float h = mod(in[0] * 6.f, 6.f);
+                const float h = mod(in[0] * 6.F, 6.F);
                 const int   i = static_cast<int>(floorf(h));
                 const float f = h - i;
-                const float p = in[2] * (1.f - in[1]);
-                const float q = in[2] * (1.f - (in[1] * f));
-                const float t = in[2] * (1.f - (in[1] * (1.f - f)));
+                const float p = in[2] * (1.F - in[1]);
+                const float q = in[2] * (1.F - (in[1] * f));
+                const float t = in[2] * (1.F - (in[1] * (1.F - f)));
                 switch (i)
                 {
                 case 0:
@@ -309,7 +309,7 @@ namespace djv
         {
             for (size_t i = 0; i < channelCount; ++i)
             {
-                AV::Image::F16_T tmp = 0.f;
+                AV::Image::F16_T tmp = 0.F;
                 is >> tmp;
                 value.setF16(tmp, i);
             }
@@ -319,7 +319,7 @@ namespace djv
         {
             for (size_t i = 0; i < channelCount; ++i)
             {
-                AV::Image::F32_T tmp = 0.f;
+                AV::Image::F32_T tmp = 0.F;
                 is >> tmp;
                 value.setF32(tmp, i);
             }

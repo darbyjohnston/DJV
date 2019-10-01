@@ -156,7 +156,7 @@ namespace djv
                 _resize();
             }
 
-            glm::vec2 size(0.f, 0.f);
+            glm::vec2 size(0.F, 0.F);
             if (p.image)
             {
                 size.x = p.image->getWidth();
@@ -180,11 +180,11 @@ namespace djv
             {
                 const uint16_t w = p.image->getWidth();
                 const uint16_t h = p.image->getHeight();
-                glm::vec2 pos = glm::vec2(0.f, 0.f);
+                glm::vec2 pos = glm::vec2(0.F, 0.F);
                 switch (getHAlign())
                 {
                 case HAlign::Center:
-                case HAlign::Fill:   pos.x = ceilf(c.x - w / 2.f); break;
+                case HAlign::Fill:   pos.x = ceilf(c.x - w / 2.F); break;
                 case HAlign::Left:   pos.x = g.min.x; break;
                 case HAlign::Right:  pos.x = g.max.x - w; break;
                 default: break;
@@ -192,7 +192,7 @@ namespace djv
                 switch (getVAlign())
                 {
                 case VAlign::Center:
-                case VAlign::Fill:   pos.y = ceilf(c.y - h / 2.f); break;
+                case VAlign::Fill:   pos.y = ceilf(c.y - h / 2.F); break;
                 case VAlign::Top:    pos.y = g.min.y; break;
                 case VAlign::Bottom: pos.y = g.max.y - h; break;
                 default: break;
@@ -205,7 +205,7 @@ namespace djv
                 }
                 else
                 {
-                    render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f));
+                    render->setFillColor(AV::Image::Color(1.F, 1.F, 1.F));
                     render->drawImage(p.image, pos);
                 }
             }

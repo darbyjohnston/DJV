@@ -96,7 +96,7 @@ namespace djv
                 Widget::addChild(value);
                 if (auto widget = std::dynamic_pointer_cast<Widget>(value))
                 {
-                    _widgetToPos[widget] = glm::vec2(0.f, 0.f);
+                    _widgetToPos[widget] = glm::vec2(0.F, 0.F);
                     _resize();
                 }
             }

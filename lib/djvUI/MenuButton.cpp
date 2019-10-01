@@ -243,7 +243,7 @@ namespace djv
                 const auto& style = _getStyle();
                 const float b = style->getMetric(MetricsRole::Border);
                 glm::vec2 size = p.layout->getMinimumSize();
-                _setMinimumSize(size + b * 2.f + getMargin().getSize(style));
+                _setMinimumSize(size + b * 2.F + getMargin().getSize(style));
             }
 
             void Menu::_layoutEvent(Event::Layout &)

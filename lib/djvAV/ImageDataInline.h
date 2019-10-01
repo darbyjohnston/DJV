@@ -105,7 +105,7 @@ namespace djv
 
             inline float Info::getAspectRatio() const
             {
-                return size.h > 0 ? (size.w / static_cast<float>(size.h)) : 1.f;
+                return size.h > 0 ? (size.w / static_cast<float>(size.h)) : 1.F;
             }
 
             inline GLenum Info::getGLFormat() const

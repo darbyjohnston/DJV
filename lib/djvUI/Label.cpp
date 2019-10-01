@@ -56,10 +56,10 @@ namespace djv
             MetricsRole fontSizeRole = MetricsRole::FontMedium;
             AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;
-            glm::vec2 textSize = glm::vec2(0.f, 0.f);
+            glm::vec2 textSize = glm::vec2(0.F, 0.F);
             std::future<glm::vec2> textSizeFuture;
             std::string sizeString;
-            glm::vec2 sizeStringSize = glm::vec2(0.f, 0.f);
+            glm::vec2 sizeStringSize = glm::vec2(0.F, 0.F);
             std::future<glm::vec2> sizeStringFuture;
         };
 
@@ -259,7 +259,7 @@ namespace djv
             switch (p.textHAlign)
             {
             case TextHAlign::Center:
-                pos.x = c.x - p.textSize.x / 2.f;
+                pos.x = c.x - p.textSize.x / 2.F;
                 break;
             case TextHAlign::Right:
                 pos.x = g.max.x - p.textSize.x;
@@ -269,7 +269,7 @@ namespace djv
             switch (p.textVAlign)
             {
             case TextVAlign::Center:
-                pos.y = c.y - p.textSize.y / 2.f;
+                pos.y = c.y - p.textSize.y / 2.F;
                 break;
             case TextVAlign::Top:
                 pos.y = g.min.y;
@@ -278,17 +278,17 @@ namespace djv
                 pos.y = g.max.y - p.textSize.y;
                 break;
             case TextVAlign::Baseline:
-                pos.y = c.y - p.fontMetrics.ascender / 2.f;
+                pos.y = c.y - p.fontMetrics.ascender / 2.F;
                 break;
             default: break;
             }
 
-            //render->setFillColor(AV::Image::Color(1.f, 0.f, 0.f));
+            //render->setFillColor(AV::Image::Color(1.F, 0.F, 0.F));
             //render->drawRect(BBox2f(pos.x, pos.y, p.textSize.x, p.textSize.y));
 
             render->setFillColor(style->getColor(p.textColorRole));
             //! \bug Why the extra subtract by one here?
-            render->drawText(p.text, glm::vec2(floorf(pos.x), floorf(pos.y + p.fontMetrics.ascender - 1.f)));
+            render->drawText(p.text, glm::vec2(floorf(pos.x), floorf(pos.y + p.fontMetrics.ascender - 1.F)));
         }
 
         void Label::_textUpdate()

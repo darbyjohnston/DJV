@@ -290,7 +290,7 @@ namespace djv
             float TextureAtlas::getPercentageUsed() const
             {
                 DJV_PRIVATE_PTR();
-                float out = 0.f;
+                float out = 0.F;
                 for (size_t i = 0; i < p.textureCount; ++i)
                 {
                     size_t used = 0;
@@ -305,7 +305,7 @@ namespace djv
                     }
                     out += used;
                 }
-                return out / static_cast<float>(p.textureSize * p.textureSize) / static_cast<float>(p.textureCount) * 100.f;
+                return out / static_cast<float>(p.textureSize * p.textureSize) / static_cast<float>(p.textureCount) * 100.F;
             }
 
             void TextureAtlas::_getAllNodes(

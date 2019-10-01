@@ -449,7 +449,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->scrollWidget->setScrollPos(glm::vec2(0.f, 0.f));
+                        widget->_p->scrollWidget->setScrollPos(glm::vec2(0.F, 0.F));
                     }
                     shortcutsWidget->setPath(value);
                     pathWidget->setPath(value);
@@ -796,8 +796,8 @@ namespace djv
                             if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                             {
                                 auto size = fileBrowserSettings->observeThumbnailSize()->get();
-                                size.w = Math::clamp(static_cast<int>(size.w * 1.25f), thumbnailSizeRange.min, thumbnailSizeRange.max);
-                                size.h = static_cast<int>(ceilf(size.w / 2.f));
+                                size.w = Math::clamp(static_cast<int>(size.w * 1.25F), thumbnailSizeRange.min, thumbnailSizeRange.max);
+                                size.h = static_cast<int>(ceilf(size.w / 2.F));
                                 fileBrowserSettings->setThumbnailSize(size);
                             }
                         }
@@ -816,8 +816,8 @@ namespace djv
                             if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                             {
                                 auto size = fileBrowserSettings->observeThumbnailSize()->get();
-                                size.w = Math::clamp(static_cast<int>(size.w * .75f), thumbnailSizeRange.min, thumbnailSizeRange.max);
-                                size.h = static_cast<int>(ceilf(size.w / 2.f));
+                                size.w = Math::clamp(static_cast<int>(size.w * .75F), thumbnailSizeRange.min, thumbnailSizeRange.max);
+                                size.h = static_cast<int>(ceilf(size.w / 2.F));
                                 fileBrowserSettings->setThumbnailSize(size);
                             }
                         }

@@ -463,8 +463,8 @@ namespace djv
                             }
                         }
                         const float percentage = cacheMaxByteCount ?
-                            (cacheByteCount / static_cast<float>(cacheMaxByteCount) * 100.f) :
-                            0.f;
+                            (cacheByteCount / static_cast<float>(cacheMaxByteCount) * 100.F) :
+                            0.F;
                         system->_p->cachePercentage->setIfChanged(percentage);
                     }
                 });

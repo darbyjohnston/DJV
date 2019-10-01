@@ -56,12 +56,12 @@ namespace djv
         {
             //! \todo Should this be configurable?
             const size_t velocityTimeout = 16;    // The timer resolution for velocity updates.
-            const float  velocityDecay = .99f;  // How quickly the velocity decays.
-            const float  velocityStopDelta = 5.f;   // The minimum amount of movement to stop the velocity.
+            const float  velocityDecay = .99F;  // How quickly the velocity decays.
+            const float  velocityStopDelta = 5.F;   // The minimum amount of movement to stop the velocity.
             const size_t pointerAverageCount = 5;     // The number of pointer samples to average.
-            const float  pointerAverageDecay = .99f;  // How quickly the pointer samples decay.
+            const float  pointerAverageDecay = .99F;  // How quickly the pointer samples decay.
             const size_t pointerAverageDecayTimeout = 100;   // The timer resolution for pointer sample decay.
-            const float  scrollWheelMult = 50.f;  // The scroll wheel multiplier.
+            const float  scrollWheelMult = 50.F;  // The scroll wheel multiplier.
 
             class ScrollBar : public Widget
             {
@@ -99,14 +99,14 @@ namespace djv
                 void _doScrollPosCallback();
 
                 Orientation _orientation = Orientation::Vertical;
-                float _viewSize = 0.f;
-                float _contentsSize = 0.f;
-                float _scrollPos = 0.f;
+                float _viewSize = 0.F;
+                float _contentsSize = 0.F;
+                float _scrollPos = 0.F;
                 std::function<void(float)> _scrollPosCallback;
                 std::map<Event::PointerID, bool> _hover;
                 Event::PointerID _pressedID = Event::InvalidID;
-                float _pressedPos = 0.f;
-                float _pressedScrollPos = 0.f;
+                float _pressedPos = 0.F;
+                float _pressedScrollPos = 0.F;
             };
 
             void ScrollBar::_init(Orientation orientation, const std::shared_ptr<Context>& context)
@@ -168,9 +168,9 @@ namespace djv
 
             void ScrollBar::_preLayoutEvent(Event::PreLayout&)
             {
-                glm::vec2 size = glm::vec2(0.f, 0.f);
+                glm::vec2 size = glm::vec2(0.F, 0.F);
                 const auto& style = _getStyle();
-                size += style->getMetric(MetricsRole::Handle) * 1.5f;
+                size += style->getMetric(MetricsRole::Handle) * 1.5F;
                 _setMinimumSize(size);
             }
 
@@ -268,7 +268,7 @@ namespace djv
                 {
                     // Calculate the new scroll position.
                     const auto& pos = event.getPointerInfo().projectedPos;
-                    float p = 0.f;
+                    float p = 0.F;
                     switch (_orientation)
                     {
                     case Orientation::Horizontal:
@@ -280,7 +280,7 @@ namespace djv
                     default: break;
                     }
                     const float v = _posToValue(p) - _posToValue(_pressedPos);
-                    _scrollPos = Math::clamp(_pressedScrollPos + v, 0.f, _contentsSize - _viewSize);
+                    _scrollPos = Math::clamp(_pressedScrollPos + v, 0.F, _contentsSize - _viewSize);
                     _doScrollPosCallback();
                     _redraw();
                 }
@@ -304,10 +304,10 @@ namespace djv
                 default: break;
                 }
                 const float v = _posToValue(_pressedPos);
-                const float jump = v < _scrollPos ? -_viewSize : (v > _scrollPos + _viewSize ? _viewSize : 0.f);
+                const float jump = v < _scrollPos ? -_viewSize : (v > _scrollPos + _viewSize ? _viewSize : 0.F);
                 if (jump != 0)
                 {
-                    _scrollPos = Math::clamp(_scrollPos + jump, 0.f, _contentsSize - _viewSize);
+                    _scrollPos = Math::clamp(_scrollPos + jump, 0.F, _contentsSize - _viewSize);
                     _doScrollPosCallback();
                 }
                 _pressedScrollPos = _scrollPos;
@@ -327,8 +327,8 @@ namespace djv
             {
                 const auto& style = _getStyle();
                 const BBox2f& g = getGeometry();
-                float out = 0.f;
-                const float v = std::min(value / (_contentsSize > 0 ? static_cast<float>(_contentsSize) : 1.f), 1.f);
+                float out = 0.F;
+                const float v = std::min(value / (_contentsSize > 0 ? static_cast<float>(_contentsSize) : 1.F), 1.F);
                 switch (_orientation)
                 {
                 case Orientation::Horizontal:
@@ -346,7 +346,7 @@ namespace djv
             {
                 const auto& style = _getStyle();
                 const BBox2f& g = getGeometry();
-                float v = 0.f;
+                float v = 0.F;
                 switch (_orientation)
                 {
                 case Orientation::Horizontal:
@@ -405,9 +405,9 @@ namespace djv
                 void _doScrollPosCallback();
 
                 ScrollType _scrollType = ScrollType::Both;
-                glm::vec2 _contentsSize = glm::vec2(0.f, 0.f);
+                glm::vec2 _contentsSize = glm::vec2(0.F, 0.F);
                 std::function<void(const glm::vec2 &)> _contentsSizeCallback;
-                glm::vec2 _scrollPos = glm::vec2(0.f, 0.f);
+                glm::vec2 _scrollPos = glm::vec2(0.F, 0.F);
                 std::function<void(const glm::vec2 &)> _scrollPosCallback;
                 MetricsRole _minimumSizeRole = MetricsRole::ScrollArea;
             };
@@ -443,8 +443,8 @@ namespace djv
             {
                 const BBox2f & g = getGeometry();
                 const glm::vec2 tmp(
-                    floorf(Math::clamp(value.x, 0.f, _contentsSize.x - g.w())),
-                    floorf(Math::clamp(value.y, 0.f, _contentsSize.y - g.h())));
+                    floorf(Math::clamp(value.x, 0.F, _contentsSize.x - g.w())),
+                    floorf(Math::clamp(value.y, 0.F, _contentsSize.y - g.h())));
                 if (tmp == _scrollPos)
                     return false;
                 _scrollPos = tmp;
@@ -468,7 +468,7 @@ namespace djv
 
             void ScrollArea::_preLayoutEvent(Event::PreLayout &)
             {
-                glm::vec2 childrenMinimumSize = glm::vec2(0.f, 0.f);
+                glm::vec2 childrenMinimumSize = glm::vec2(0.F, 0.F);
                 for (const auto & child : getChildWidgets())
                 {
                     if (child->isVisible())
@@ -501,7 +501,7 @@ namespace djv
                 const float gh = g.h();
 
                 // Update the contents size.
-                glm::vec2 contentsSize = glm::vec2(0.f, 0.f);
+                glm::vec2 contentsSize = glm::vec2(0.F, 0.F);
                 for (const auto & child : getChildWidgets())
                 {
                     if (child->isVisible())
@@ -536,8 +536,8 @@ namespace djv
 
                 // Update the scroll position.
                 const glm::vec2 scrollPos(
-                    Math::clamp(_scrollPos.x, 0.f, _contentsSize.x - gw),
-                    Math::clamp(_scrollPos.y, 0.f, _contentsSize.y - gh));
+                    Math::clamp(_scrollPos.x, 0.F, _contentsSize.x - gw),
+                    Math::clamp(_scrollPos.y, 0.F, _contentsSize.y - gh));
                 if (scrollPos != _scrollPos)
                 {
                     _scrollPos = scrollPos;
@@ -588,10 +588,10 @@ namespace djv
             bool autoHideScrollBars = true;
             std::shared_ptr<Border> border;
             Event::PointerID pointerID = Event::InvalidID;
-            glm::vec2 pointerPos = glm::vec2(0.f, 0.f);
+            glm::vec2 pointerPos = glm::vec2(0.F, 0.F);
             std::list<glm::vec2> pointerAverage;
             std::shared_ptr<Time::Timer> pointerAverageTimer;
-            glm::vec2 swipeVelocity = glm::vec2(0.f, 0.f);
+            glm::vec2 swipeVelocity = glm::vec2(0.F, 0.F);
             std::shared_ptr<Time::Timer> swipeTimer;
         };
 
@@ -632,7 +632,7 @@ namespace djv
             p.border->addChild(layout);
             Widget::addChild(p.border);
 
-            _updateScrollBars(glm::vec2(0.f, 0.f));
+            _updateScrollBars(glm::vec2(0.F, 0.F));
 
             auto weak = std::weak_ptr<ScrollWidget>(std::dynamic_pointer_cast<ScrollWidget>(shared_from_this()));
             p.scrollArea->setScrollPosCallback(
@@ -645,13 +645,13 @@ namespace djv
 
                     const BBox2f & g = widget->_p->scrollArea->getGeometry();
                     const glm::vec2 & contentsSize = widget->_p->scrollArea->getContentsSize();
-                    if (value.x <= 0.f || value.x >= contentsSize.x - g.w())
+                    if (value.x <= 0.F || value.x >= contentsSize.x - g.w())
                     {
-                        widget->_p->swipeVelocity.x = 0.f;
+                        widget->_p->swipeVelocity.x = 0.F;
                     }
-                    if (value.y <= 0.f || value.y >= contentsSize.y - g.h())
+                    if (value.y <= 0.F || value.y >= contentsSize.y - g.h())
                     {
-                        widget->_p->swipeVelocity.y = 0.f;
+                        widget->_p->swipeVelocity.y = 0.F;
                     }
                 }
             });
@@ -672,7 +672,7 @@ namespace djv
                     glm::vec2 scrollPos = widget->_p->scrollArea->getScrollPos();
                     scrollPos.x = value;
                     widget->_p->scrollArea->setScrollPos(scrollPos);
-                    widget->_p->swipeVelocity = glm::vec2(0.f, 0.f);
+                    widget->_p->swipeVelocity = glm::vec2(0.F, 0.F);
                 }
             });
 
@@ -684,7 +684,7 @@ namespace djv
                     glm::vec2 scrollPos = widget->_p->scrollArea->getScrollPos();
                     scrollPos.y = value;
                     widget->_p->scrollArea->setScrollPos(scrollPos);
-                    widget->_p->swipeVelocity = glm::vec2(0.f, 0.f);
+                    widget->_p->swipeVelocity = glm::vec2(0.F, 0.F);
                 }
             });
 
@@ -717,16 +717,16 @@ namespace djv
                     {
                         widget->_p->swipeVelocity *= velocityDecay;
                         const float v = glm::length(widget->_p->swipeVelocity);
-                        widget->_p->scrollAreaSwipe->setVisible(v > 1.f);
-                        if (v < 1.f)
+                        widget->_p->scrollAreaSwipe->setVisible(v > 1.F);
+                        if (v < 1.F)
                         {
-                            widget->_p->swipeVelocity = glm::vec2(0.f, 0.f);
+                            widget->_p->swipeVelocity = glm::vec2(0.F, 0.F);
                         }
                     }
                     else
                     {
                         widget->_p->scrollAreaSwipe->hide();
-                        widget->_p->swipeVelocity = glm::vec2(0.f, 0.f);
+                        widget->_p->swipeVelocity = glm::vec2(0.F, 0.F);
                     }
                 }
             });
@@ -770,7 +770,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const glm::vec2& scrollPos = p.scrollArea->getScrollPos();
-            setScrollPos(glm::vec2(scrollPos.x, 0.f));
+            setScrollPos(glm::vec2(scrollPos.x, 0.F));
         }
 
         void ScrollWidget::moveToEnd()
@@ -898,7 +898,7 @@ namespace djv
         {
             if (isClipped())
             {
-                _p->swipeVelocity = glm::vec2(0.f, 0.f);
+                _p->swipeVelocity = glm::vec2(0.F, 0.F);
             }
         }
 
@@ -1017,11 +1017,11 @@ namespace djv
                         p.scrollArea->setScrollPos(p.scrollArea->getScrollPos() + delta);
                         if (!Math::haveSameSign(p.swipeVelocity.x, delta.x))
                         {
-                            p.swipeVelocity.x = 0.f;
+                            p.swipeVelocity.x = 0.F;
                         }
                         if (!Math::haveSameSign(p.swipeVelocity.y, delta.y))
                         {
-                            p.swipeVelocity.y = 0.f;
+                            p.swipeVelocity.y = 0.F;
                         }
                     }
                 }
@@ -1053,7 +1053,7 @@ namespace djv
                     const auto delta = _getPointerAverage();
                     if (glm::length(delta) < velocityStopDelta)
                     {
-                        p.swipeVelocity = glm::vec2(0.f, 0.f);
+                        p.swipeVelocity = glm::vec2(0.F, 0.F);
                     }
                     else
                     {
@@ -1133,7 +1133,7 @@ namespace djv
 
         glm::vec2 ScrollWidget::_getPointerAverage() const
         {
-            glm::vec2 out = glm::vec2(0.f, 0.f);
+            glm::vec2 out = glm::vec2(0.F, 0.F);
             DJV_PRIVATE_PTR();
             if (p.pointerAverage.size())
             {

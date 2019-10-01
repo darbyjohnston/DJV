@@ -208,9 +208,9 @@ namespace djv
 
             p.io = io;
             p.infoCache.setMax(infoCacheMax);
-            p.infoCachePercentage = 0.f;
+            p.infoCachePercentage = 0.F;
             p.imageCache.setMax(imageCacheMax);
-            p.imageCachePercentage = 0.f;
+            p.imageCachePercentage = 0.F;
             p.clearCache = false;
 
 #if defined(DJV_OPENGL_ES2)
@@ -281,9 +281,9 @@ namespace djv
                         {
                             p.clearCache = false;
                             p.infoCache.clear();
-                            p.infoCachePercentage = 0.f;
+                            p.infoCachePercentage = 0.F;
                             p.imageCache.clear();
-                            p.imageCachePercentage = 0.f;
+                            p.imageCachePercentage = 0.F;
                         }
 
                         bool infoRequests  = p.pendingInfoRequests.size();
@@ -601,8 +601,8 @@ namespace djv
                     if (i->size != imageSize || i->type != Image::Type::None)
                     {
                         Image::Size size = i->size;
-                        const float aspect = size.h != 0 ? (size.w / static_cast<float>(size.h)) : 1.f;
-                        const float imageAspect = imageSize.h != 0 ? (imageSize.w / static_cast<float>(imageSize.h)) : 1.f;
+                        const float aspect = size.h != 0 ? (size.w / static_cast<float>(size.h)) : 1.F;
+                        const float imageAspect = imageSize.h != 0 ? (imageSize.w / static_cast<float>(imageSize.h)) : 1.F;
                         if (imageAspect < aspect)
                         {
                             size.w = static_cast<uint16_t>(size.h * imageAspect);

@@ -214,7 +214,7 @@ namespace djv
                 p.fontPath = _getResourceSystem()->getPath(FileSystem::ResourcePath::FontsDirectory);
                 p.glyphCache.setMax(glyphCacheMax);
                 p.glyphCacheSize = 0;
-                p.glyphCachePercentageUsed = 0.f;
+                p.glyphCachePercentageUsed = 0.F;
 
                 p.statsTimer = Time::Timer::create(context);
                 p.statsTimer->setRepeating(true);
@@ -504,7 +504,7 @@ namespace djv
                             /*FT_Error ftError = FT_Set_Char_Size(
                                 font->second,
                                 0,
-                                static_cast<int>(request.info.size * 64.f),
+                                static_cast<int>(request.info.size * 64.F),
                                 request.info.dpi,
                                 request.info.dpi);*/
                             FT_Error ftError = FT_Set_Pixel_Sizes(
@@ -513,9 +513,9 @@ namespace djv
                                 static_cast<int>(request.info.size));
                             if (!ftError)
                             {
-                                metrics.ascender   = font->second->size->metrics.ascender  / 64.f;
-                                metrics.descender  = font->second->size->metrics.descender / 64.f;
-                                metrics.lineHeight = font->second->size->metrics.height    / 64.f;
+                                metrics.ascender   = font->second->size->metrics.ascender  / 64.F;
+                                metrics.descender  = font->second->size->metrics.descender / 64.F;
+                                metrics.lineHeight = font->second->size->metrics.height    / 64.F;
                             }
                         }
                     }
@@ -532,7 +532,7 @@ namespace djv
                     std::basic_string<djv_char_t> utf32;
                     FT_Face font;
                     std::string error;
-                    glm::vec2 size = glm::vec2(0.f, 0.f);
+                    glm::vec2 size = glm::vec2(0.F, 0.F);
                     if (p.getText(request.text, request.info, utf32, font, error))
                     {
                         p.measure(utf32, request.info, font, request.maxLineWidth, size);
@@ -556,7 +556,7 @@ namespace djv
                     std::basic_string<djv_char_t> utf32;
                     FT_Face font;
                     std::string error;
-                    glm::vec2 size = glm::vec2(0.f, 0.f);
+                    glm::vec2 size = glm::vec2(0.F, 0.F);
                     std::vector<BBox2f> glyphGeom;
                     if (p.getText(request.text, request.info, utf32, font, error))
                     {
@@ -585,26 +585,26 @@ namespace djv
                     if (p.getText(request.text, request.info, utf32, font, error))
                     {
                         const auto utf32Begin = utf32.begin();
-                        glm::vec2 pos = glm::vec2(0.f, font->size->metrics.height / 64.f);
+                        glm::vec2 pos = glm::vec2(0.F, font->size->metrics.height / 64.F);
                         auto lineBegin = utf32Begin;
                         auto textLine = utf32.end();
-                        float textLineX = 0.f;
+                        float textLineX = 0.F;
                         int32_t rsbDeltaPrev = 0;
                         auto i = utf32.begin();
                         for (; i != utf32.end(); ++i)
                         {
                             const auto info = GlyphInfo(*i, request.info);
-                            float x = 0.f;
+                            float x = 0.F;
                             if (const auto glyph = p.getGlyph(info))
                             {
                                 x = glyph->advance;
                                 if (rsbDeltaPrev - glyph->lsbDelta > 32)
                                 {
-                                    x -= 1.f;
+                                    x -= 1.F;
                                 }
                                 else if (rsbDeltaPrev - glyph->lsbDelta < -31)
                                 {
-                                    x += 1.f;
+                                    x += 1.F;
                                 }
                                 rsbDeltaPrev = glyph->rsbDelta;
                             }
@@ -619,7 +619,7 @@ namespace djv
                                 {
                                     lines.push_back(TextLine(
                                         p.utf32.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
-                                        glm::vec2(pos.x, font->size->metrics.height / 64.f)));
+                                        glm::vec2(pos.x, font->size->metrics.height / 64.F)));
                                 }
                                 catch (const std::exception& e)
                                 {
@@ -627,12 +627,12 @@ namespace djv
                                     ss << "Error converting string" << " '" << request.text << "': " << e.what();
                                     _log(ss.str(), LogLevel::Error);
                                 }
-                                pos.x = 0.f;
-                                pos.y += font->size->metrics.height / 64.f;
+                                pos.x = 0.F;
+                                pos.y += font->size->metrics.height / 64.F;
                                 lineBegin = i;
                                 rsbDeltaPrev = 0;
                             }
-                            else if (pos.x > 0.f && pos.x + (!isSpace(*i) ? x : 0) >= request.maxLineWidth)
+                            else if (pos.x > 0.F && pos.x + (!isSpace(*i) ? x : 0) >= request.maxLineWidth)
                             {
                                 if (textLine != utf32.end())
                                 {
@@ -642,7 +642,7 @@ namespace djv
                                     {
                                         lines.push_back(TextLine(
                                             p.utf32.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
-                                            glm::vec2(textLineX, font->size->metrics.height / 64.f)));
+                                            glm::vec2(textLineX, font->size->metrics.height / 64.F)));
                                     }
                                     catch (const std::exception& e)
                                     {
@@ -650,8 +650,8 @@ namespace djv
                                         ss << "Error converting string" << " '" << request.text << "': " << e.what();
                                         _log(ss.str(), LogLevel::Error);
                                     }
-                                    pos.x = 0.f;
-                                    pos.y += font->size->metrics.height / 64.f;
+                                    pos.x = 0.F;
+                                    pos.y += font->size->metrics.height / 64.F;
                                     lineBegin = i + 1;
                                 }
                                 else
@@ -660,7 +660,7 @@ namespace djv
                                     {
                                         lines.push_back(TextLine(
                                         p.utf32.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
-                                        glm::vec2(pos.x, font->size->metrics.height / 64.f)));
+                                        glm::vec2(pos.x, font->size->metrics.height / 64.F)));
                                     }
                                     catch (const std::exception& e)
                                     {
@@ -669,7 +669,7 @@ namespace djv
                                         _log(ss.str(), LogLevel::Error);
                                     }
                                     pos.x = x;
-                                    pos.y += font->size->metrics.height / 64.f;
+                                    pos.y += font->size->metrics.height / 64.F;
                                     lineBegin = i;
                                 }
                                 rsbDeltaPrev = 0;
@@ -690,7 +690,7 @@ namespace djv
                             {
                                 lines.push_back(TextLine(
                                 p.utf32.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
-                                glm::vec2(pos.x, font->size->metrics.height / 64.f)));
+                                glm::vec2(pos.x, font->size->metrics.height / 64.F)));
                             }
                             catch (const std::exception& e)
                             {
@@ -819,7 +819,7 @@ namespace djv
                         /*FT_Error ftError = FT_Set_Char_Size(
                             ftFace,
                             0,
-                            static_cast<int>(request.info.size * 64.f),
+                            static_cast<int>(request.info.size * 64.F),
                             request.info.dpi,
                             request.info.dpi);*/
                         FT_Error ftError = FT_Set_Pixel_Sizes(
@@ -885,7 +885,7 @@ namespace djv
                             }
                             out->imageData = imageData;
                             out->offset = glm::vec2(ftFace->glyph->bitmap_left, ftFace->glyph->bitmap_top);
-                            out->advance = ftFace->glyph->advance.x / 64.f;
+                            out->advance = ftFace->glyph->advance.x / 64.F;
                             out->lsbDelta = ftFace->glyph->lsb_delta;
                             out->rsbDelta = ftFace->glyph->rsb_delta;
                             FT_Done_Glyph(ftGlyph);
@@ -906,9 +906,9 @@ namespace djv
                 glm::vec2& size,
                 std::vector<BBox2f>* glyphGeom)
             {
-                glm::vec2 pos(0.f, font->size->metrics.height / 64.f);
+                glm::vec2 pos(0.F, font->size->metrics.height / 64.F);
                 auto textLine = utf32.end();
-                float textLineX = 0.f;
+                float textLineX = 0.F;
                 int32_t rsbDeltaPrev = 0;
                 for (auto i = utf32.begin(); i != utf32.end(); ++i)
                 {
@@ -921,11 +921,11 @@ namespace djv
                             pos.x,
                             glyph->advance,
                             glyph->advance,
-                            font->size->metrics.height / 64.f));
+                            font->size->metrics.height / 64.F));
                     }
 
                     int32_t x = 0;
-                    glm::vec2 posAndSize(0.f, 0.f);
+                    glm::vec2 posAndSize(0.F, 0.F);
                     if (glyph->imageData)
                     {
                         x = glyph->advance;
@@ -947,25 +947,25 @@ namespace djv
                     if (isNewline(*i))
                     {
                         size.x = std::max(size.x, pos.x);
-                        pos.x = 0.f;
-                        pos.y += font->size->metrics.height / 64.f;
+                        pos.x = 0.F;
+                        pos.y += font->size->metrics.height / 64.F;
                         rsbDeltaPrev = 0;
                     }
-                    else if (pos.x > 0.f && pos.x + (!isSpace(*i) ? x : 0.f) >= maxLineWidth)
+                    else if (pos.x > 0.F && pos.x + (!isSpace(*i) ? x : 0.F) >= maxLineWidth)
                     {
                         if (textLine != utf32.end())
                         {
                             i = textLine;
                             textLine = utf32.end();
                             size.x = std::max(size.x, textLineX);
-                            pos.x = 0.f;
-                            pos.y += font->size->metrics.height / 64.f;
+                            pos.x = 0.F;
+                            pos.y += font->size->metrics.height / 64.F;
                         }
                         else
                         {
                             size.x = std::max(size.x, pos.x);
                             pos.x = x;
-                            pos.y += font->size->metrics.height / 64.f;
+                            pos.y += font->size->metrics.height / 64.F;
                         }
                         rsbDeltaPrev = 0;
                     }

@@ -125,7 +125,7 @@ namespace djv
 
             BBox2f getPopupGeometry(const BBox2f& area, const glm::vec2& pos, const glm::vec2& minimumSize)
             {
-                BBox2f out(0.f, 0.f, 0.f, 0.f);
+                BBox2f out(0.F, 0.F, 0.F, 0.F);
                 std::map<float, BBox2f> popupCandidates;
                 size_t j = 0;
                 for (; j < 4; ++j)
@@ -148,7 +148,7 @@ namespace djv
 
             BBox2f getPopupGeometry(const BBox2f& area, const BBox2f& button, const glm::vec2& minimumSize)
             {
-                BBox2f out(0.f, 0.f, 0.f, 0.f);
+                BBox2f out(0.F, 0.F, 0.F, 0.F);
                 std::map<float, BBox2f> popupCandidates;
                 size_t j = 0;
                 for (; j < 4; ++j)

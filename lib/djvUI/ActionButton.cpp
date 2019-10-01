@@ -103,7 +103,7 @@ namespace djv
                     const auto& style = _getStyle();
                     const float m = style->getMetric(MetricsRole::MarginSmall);
                     const float is = style->getMetric(MetricsRole::IconSmall);
-                    _setMinimumSize(glm::vec2(is + m * 2.f, is + m * 2.f));
+                    _setMinimumSize(glm::vec2(is + m * 2.F, is + m * 2.F));
                 }
 
                 void CheckBox::_paintEvent(Event::Paint&)

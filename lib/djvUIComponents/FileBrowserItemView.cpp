@@ -79,7 +79,7 @@ namespace djv
                 std::map<FileSystem::FileType, std::future<std::shared_ptr<AV::Image::Image> > > iconsFutures;
                 std::map<size_t, std::string> sizeText;
                 std::map<size_t, std::string> timeText;
-                std::vector<float> split = { .7f, .8f, 1.f };
+                std::vector<float> split = { .7F, .8F, 1.F };
                 AV::AlphaBlend alphaBlend = AV::AlphaBlend::First;
                 AV::OCIO::Config ocioConfig;
                 std::string outputColorSpace;
@@ -90,7 +90,7 @@ namespace djv
                 size_t hover = invalid;
                 size_t grab = invalid;
                 Event::PointerID pressedId = Event::InvalidID;
-                glm::vec2 pressedPos = glm::vec2(0.f, 0.f);
+                glm::vec2 pressedPos = glm::vec2(0.F, 0.F);
                 std::function<void(const FileSystem::FileInfo &)> callback;
             };
 
@@ -192,7 +192,7 @@ namespace djv
             float ItemView::getHeightForWidth(float value) const
             {
                 DJV_PRIVATE_PTR();
-                float out = 0.f;
+                float out = 0.F;
                 if (const size_t itemCount = p.items.size())
                 {
                     const auto& style = _getStyle();
@@ -204,7 +204,7 @@ namespace djv
                     case ViewType::Tiles:
                     {
                         size_t columns = 1;
-                        const float itemWidth = p.thumbnailSize.w + sh * 2.f;
+                        const float itemWidth = p.thumbnailSize.w + sh * 2.F;
                         float x = s + itemWidth;
                         while (x < value - itemWidth)
                         {
@@ -212,12 +212,12 @@ namespace djv
                             x += itemWidth + s;
                         }
                         const size_t rows = itemCount / columns + (itemCount % columns ? 1 : 0);
-                        out = (p.thumbnailSize.h + p.nameFontMetrics.lineHeight * 2.f + m * 2.f + sh * 2.f) * rows;
+                        out = (p.thumbnailSize.h + p.nameFontMetrics.lineHeight * 2.F + m * 2.F + sh * 2.F) * rows;
                         out += s * (rows + 1);
                         break;
                     }
                     case ViewType::List:
-                        out = std::max(static_cast<float>(p.thumbnailSize.h), p.nameFontMetrics.lineHeight + m * 2.f) * itemCount;
+                        out = std::max(static_cast<float>(p.thumbnailSize.h), p.nameFontMetrics.lineHeight + m * 2.F) * itemCount;
                         break;
                     default: break;
                     }
@@ -266,8 +266,8 @@ namespace djv
                     pos += s;
                     for (; item != p.items.end(); ++item, ++i)
                     {
-                        const float itemHeight = p.thumbnailSize.h + p.nameFontMetrics.lineHeight * 2.f + m * 2.f + sh * 2.f;
-                        const float itemWidth = p.thumbnailSize.w + sh * 2.f;
+                        const float itemHeight = p.thumbnailSize.h + p.nameFontMetrics.lineHeight * 2.F + m * 2.F + sh * 2.F;
+                        const float itemWidth = p.thumbnailSize.w + sh * 2.F;
                         p.itemGeometry[i] = BBox2f(pos.x, pos.y, itemWidth, itemHeight);
                         pos.x += itemWidth;
                         if (pos.x > g.max.x - itemWidth)
@@ -284,7 +284,7 @@ namespace djv
                 case ViewType::List:
                     for (; item != p.items.end(); ++item, ++i)
                     {
-                        const float itemHeight = std::max(static_cast<float>(p.thumbnailSize.h), p.nameFontMetrics.lineHeight + m * 2.f);
+                        const float itemHeight = std::max(static_cast<float>(p.thumbnailSize.h), p.nameFontMetrics.lineHeight + m * 2.F);
                         p.itemGeometry[i] = BBox2f(pos.x, pos.y, g.w(), itemHeight);
                         pos.y += itemHeight;
                     }
@@ -319,7 +319,7 @@ namespace djv
                                         p.names[i.first] = fileInfo.getFileName(Frame::invalid, false);
                                         p.nameLinesFutures[i.first] = p.fontSystem->textLines(
                                             p.names[i.first],
-                                            p.thumbnailSize.w - static_cast<uint16_t>(m * 2.f),
+                                            p.thumbnailSize.w - static_cast<uint16_t>(m * 2.F),
                                             fontInfo);
                                     }
                                 }
@@ -425,35 +425,35 @@ namespace djv
                                 itemGeometry.w() * p.split[0],
                                 itemGeometry.h()));
                         }
-                        float opacity = 0.f;
+                        float opacity = 0.F;
                         {
                             const auto j = p.thumbnails.find(index);
                             if (j != p.thumbnails.end())
                             {
                                 if (j->second)
                                 {
-                                    opacity = 1.f;
+                                    opacity = 1.F;
                                     const auto k = p.thumbnailTimers.find(index);
                                     if (k != p.thumbnailTimers.end())
                                     {
-                                        opacity = std::min((ut - k->second) / thumbnailFadeTime, 1.f);
+                                        opacity = std::min((ut - k->second) / thumbnailFadeTime, 1.F);
                                     }
                                     const uint16_t w = j->second->getWidth();
                                     const uint16_t h = j->second->getHeight();
-                                    glm::vec2 pos(0.f, 0.f);
+                                    glm::vec2 pos(0.F, 0.F);
                                     switch (p.viewType)
                                     {
                                     case ViewType::Tiles:
-                                        pos.x = floor(i->second.min.x + sh + p.thumbnailSize.w / 2.f - w / 2.f);
+                                        pos.x = floor(i->second.min.x + sh + p.thumbnailSize.w / 2.F - w / 2.F);
                                         pos.y = floor(i->second.min.y + sh + p.thumbnailSize.h - h);
                                         break;
                                     case ViewType::List:
                                         pos.x = floor(i->second.min.x);
-                                        pos.y = floor(i->second.min.y + i->second.h() / 2.f - h / 2.f);
+                                        pos.y = floor(i->second.min.y + i->second.h() / 2.F - h / 2.F);
                                         break;
                                     default: break;
                                     }
-                                    render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f, opacity));
+                                    render->setFillColor(AV::Image::Color(1.F, 1.F, 1.F, opacity));
                                     AV::Render::ImageOptions options;
                                     options.alphaBlend = p.alphaBlend;
                                     auto i = p.ocioConfig.colorSpaces.find(j->second->getPluginName());
@@ -474,28 +474,28 @@ namespace djv
                                 }
                             }
                         }
-                        if (opacity < 1.f)
+                        if (opacity < 1.F)
                         {
                             const auto j = p.icons.find(item->getType());
                             if (j != p.icons.end())
                             {
                                 const uint16_t w = j->second->getWidth();
                                 const uint16_t h = j->second->getHeight();
-                                glm::vec2 pos(0.f, 0.f);
+                                glm::vec2 pos(0.F, 0.F);
                                 switch (p.viewType)
                                 {
                                 case ViewType::Tiles:
-                                    pos.x = floor(i->second.min.x + sh + p.thumbnailSize.w / 2.f - w / 2.f);
+                                    pos.x = floor(i->second.min.x + sh + p.thumbnailSize.w / 2.F - w / 2.F);
                                     pos.y = floor(i->second.min.y + sh + p.thumbnailSize.h - h);
                                     break;
                                 case ViewType::List:
                                     pos.x = floor(i->second.min.x);
-                                    pos.y = floor(i->second.min.y + i->second.h() / 2.f - h / 2.f);
+                                    pos.y = floor(i->second.min.y + i->second.h() / 2.F - h / 2.F);
                                     break;
                                 default: break;
                                 }
                                 auto c = style->getColor(ColorRole::Button).convert(AV::Image::Type::RGBA_F32);
-                                c.setF32(1.f - opacity, 3);
+                                c.setF32(1.F - opacity, 3);
                                 render->setFillColor(c);
                                 render->drawFilledImage(j->second, pos);
                             }
@@ -520,9 +520,9 @@ namespace djv
                                         render->drawText(
                                             l->text,
                                             glm::vec2(
-                                                //floorf(x + p.thumbnailSize.x / 2.f - l->size.x / 2.f),
+                                                //floorf(x + p.thumbnailSize.x / 2.F - l->size.x / 2.F),
                                                 floor(x),
-                                                floorf(y + p.nameFontMetrics.ascender - 1.f)));
+                                                floorf(y + p.nameFontMetrics.ascender - 1.F)));
                                         y += p.nameFontMetrics.lineHeight;
                                     }
                                 }
@@ -531,13 +531,13 @@ namespace djv
                             case ViewType::List:
                             {
                                 float x = i->second.min.x + p.thumbnailSize.w + s;
-                                float y = i->second.min.y + i->second.h() / 2.f - p.nameFontMetrics.lineHeight / 2.f;
+                                float y = i->second.min.y + i->second.h() / 2.F - p.nameFontMetrics.lineHeight / 2.F;
                                 //! \bug Why the extra subtract by one here?
                                 render->drawText(
                                     item->getFileName(Frame::invalid, false),
                                     glm::vec2(
                                         floorf(x),
-                                        floorf(y + p.nameFontMetrics.ascender - 1.f)));
+                                        floorf(y + p.nameFontMetrics.ascender - 1.F)));
 
                                 render->popClipRect();
 
@@ -556,7 +556,7 @@ namespace djv
                                         j->second,
                                         glm::vec2(
                                             floorf(x),
-                                            floorf(y + p.nameFontMetrics.ascender - 1.f)));
+                                            floorf(y + p.nameFontMetrics.ascender - 1.F)));
 
                                     render->popClipRect();
                                 }
@@ -576,7 +576,7 @@ namespace djv
                                         j->second,
                                         glm::vec2(
                                             floorf(x),
-                                            floorf(y + p.nameFontMetrics.ascender - 1.f)));
+                                            floorf(y + p.nameFontMetrics.ascender - 1.F)));
 
                                     render->popClipRect();
                                 }
@@ -915,9 +915,9 @@ namespace djv
                         ss << _getText(DJV_TEXT("Channels")) << ": " << static_cast<int>(audioInfo.info.channelCount) << '\n';
                         ss << _getText(DJV_TEXT("Type")) << ": " << audioInfo.info.type << '\n';
                         ss << _getText(DJV_TEXT("Sample rate")) << ": " <<
-                            audioInfo.info.sampleRate / 1000.f << _getText(DJV_TEXT("kHz")) << '\n';
+                            audioInfo.info.sampleRate / 1000.F << _getText(DJV_TEXT("kHz")) << '\n';
                         ss << _getText(DJV_TEXT("Duration")) << ": " <<
-                            (audioInfo.info.sampleRate > 0 ? (audioInfo.sampleCount / static_cast<float>(audioInfo.info.sampleRate)) : 0.f) <<
+                            (audioInfo.info.sampleRate > 0 ? (audioInfo.sampleCount / static_cast<float>(audioInfo.info.sampleRate)) : 0.F) <<
                             " " << _getText(DJV_TEXT("seconds"));
                         ++track;
                     }
@@ -990,7 +990,7 @@ namespace djv
                                             p.names[i.first] = fileInfo.getFileName(Frame::invalid, false);
                                             p.nameLinesFutures[i.first] = p.fontSystem->textLines(
                                                 p.names[i.first],
-                                                p.thumbnailSize.w - static_cast<uint16_t>(m * 2.f),
+                                                p.thumbnailSize.w - static_cast<uint16_t>(m * 2.F),
                                                 fontInfo);
                                         }
                                     }

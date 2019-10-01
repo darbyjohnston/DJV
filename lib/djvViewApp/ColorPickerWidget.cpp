@@ -47,7 +47,7 @@ namespace djv
     {
         struct ColorPickerWidget::Private
         {
-            AV::Image::Color color = AV::Image::Color(0.f, 0.f, 0.f);
+            AV::Image::Color color = AV::Image::Color(0.F, 0.F, 0.F);
             bool hsv = false;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> colorActionGroup;

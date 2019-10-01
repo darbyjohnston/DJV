@@ -85,14 +85,14 @@ namespace djv
             {
                 Side side = Side::First;
                 bool open = false;
-                float size = .3f;
+                float size = .3F;
                 std::shared_ptr<Stack> childLayout;
                 std::shared_ptr<Layout::Spacer> spacer;
                 std::shared_ptr<DrawerLayout> layout;
                 std::vector<Event::PointerID> pointerHover;
                 Event::PointerID pressedID = Event::InvalidID;
-                glm::vec2 pressedPos = glm::vec2(0.f, 0.f);
-                float pressedSize = 0.f;
+                glm::vec2 pressedPos = glm::vec2(0.F, 0.F);
+                float pressedSize = 0.F;
             };
 
             void Drawer::_init(Side side, const std::shared_ptr<Context>& context)

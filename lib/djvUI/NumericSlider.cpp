@@ -50,14 +50,14 @@ namespace djv
         struct NumericSlider::Private
         {
             Orientation orientation = Orientation::First;
-            float handleWidth = 0.f;
+            float handleWidth = 0.F;
             AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;
             std::chrono::milliseconds delay = std::chrono::milliseconds(0);
             std::shared_ptr<Time::Timer> delayTimer;
             Event::PointerID pressedID = Event::InvalidID;
-            glm::vec2 pressedPos = glm::vec2(0.f, 0.f);
-            glm::vec2 prevPos = glm::vec2(0.f, 0.f);
+            glm::vec2 pressedPos = glm::vec2(0.F, 0.F);
+            glm::vec2 prevPos = glm::vec2(0.F, 0.F);
         };
 
         void NumericSlider::_init(Orientation orientation, const std::shared_ptr<Context>& context)
@@ -137,15 +137,15 @@ namespace djv
 
             const BBox2f g2 = g.margin(-(m + b));
 
-            float troughHeight = 0.f;
+            float troughHeight = 0.F;
             switch (p.orientation)
             {
             case Orientation::Horizontal:
             {
-                troughHeight = g2.h() / 3.f;
+                troughHeight = g2.h() / 3.F;
                 const BBox2f g3 = BBox2f(
                     g2.min.x,
-                    floorf(g2.min.y + g2.h() / 2.f - troughHeight / 2.f),
+                    floorf(g2.min.y + g2.h() / 2.F - troughHeight / 2.F),
                     g2.w(),
                     troughHeight);
                 render->setFillColor(style->getColor(ColorRole::Border));
@@ -157,15 +157,15 @@ namespace djv
                 render->drawRect(BBox2f(
                     g4.min.x,
                     g4.min.y,
-                    ceilf((g4.w() - p.handleWidth / 2.f) * v),
+                    ceilf((g4.w() - p.handleWidth / 2.F) * v),
                     g4.h()));
                 break;
             }
             case Orientation::Vertical:
             {
-                troughHeight = g2.w() / 3.f;
+                troughHeight = g2.w() / 3.F;
                 const BBox2f g3 = BBox2f(
-                    floorf(g2.min.x + g2.w() / 2.f - troughHeight / 2.f),
+                    floorf(g2.min.x + g2.w() / 2.F - troughHeight / 2.F),
                     g2.min.y,
                     troughHeight,
                     g2.h());
@@ -179,7 +179,7 @@ namespace djv
                     g4.min.x,
                     g4.min.y,
                     m,
-                    ceilf((g4.h() - p.handleWidth / 2.f) * v)));
+                    ceilf((g4.h() - p.handleWidth / 2.F) * v)));
                 break;
             }
             default: break;
@@ -190,7 +190,7 @@ namespace djv
             {
             case Orientation::Horizontal:
                 handleBBox = BBox2f(
-                    floorf(pos - p.handleWidth / 2.f),
+                    floorf(pos - p.handleWidth / 2.F),
                     g2.min.y,
                     p.handleWidth,
                     g2.h());
@@ -198,7 +198,7 @@ namespace djv
             case Orientation::Vertical:
                 handleBBox = BBox2f(
                     g2.min.x,
-                    floorf(pos - p.handleWidth / 2.f),
+                    floorf(pos - p.handleWidth / 2.F),
                     g2.w(),
                     p.handleWidth);
                 break;
@@ -250,14 +250,14 @@ namespace djv
             const float s = style->getMetric(MetricsRole::Slider);
             const float m = style->getMetric(MetricsRole::MarginSmall);
             const float b = style->getMetric(MetricsRole::Border);
-            glm::vec2 size(0.f, 0.f);
+            glm::vec2 size(0.F, 0.F);
             switch (p.orientation)
             {
             case Orientation::Horizontal: size = glm::vec2(s, p.fontMetrics.lineHeight); break;
             case Orientation::Vertical:   size = glm::vec2(p.fontMetrics.lineHeight, s); break;
             default: break;
             }
-            _setMinimumSize(size + m * 2.f + b * 2.f + getMargin().getSize(style));
+            _setMinimumSize(size + m * 2.F + b * 2.F + getMargin().getSize(style));
         }
 
         void NumericSlider::_pointerEnterEvent(Event::PointerEnter & event)
@@ -288,7 +288,7 @@ namespace djv
             const auto & pointerInfo = event.getPointerInfo();
             if (pointerInfo.id == p.pressedID)
             {
-                float v = 0.f;
+                float v = 0.F;
                 switch (p.orientation)
                 {
                 case Orientation::Horizontal:
@@ -300,7 +300,7 @@ namespace djv
                 default: break;
                 }
                 _pointerMove(v);
-                if (p.delay > std::chrono::milliseconds(0) && glm::length(pointerInfo.projectedPos - p.prevPos) > 0.f)
+                if (p.delay > std::chrono::milliseconds(0) && glm::length(pointerInfo.projectedPos - p.prevPos) > 0.F)
                 {
                     _resetTimer();
                 }
@@ -320,7 +320,7 @@ namespace djv
             p.pressedID = pointerInfo.id;
             p.pressedPos = pointerInfo.projectedPos;
             p.prevPos = pointerInfo.projectedPos;
-            float v = 0.f;
+            float v = 0.F;
             switch (p.orientation)
             {
             case Orientation::Horizontal:

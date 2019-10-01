@@ -59,7 +59,7 @@ namespace djv
                 std::shared_ptr<AV::OpenGL::VBO> vbo;
                 std::shared_ptr<AV::OpenGL::VAO> vao;
                 std::shared_ptr<AV::OpenGL::Shader> shader;
-                glm::mat4x4 mvp = glm::mat4x4(1.f);
+                glm::mat4x4 mvp = glm::mat4x4(1.F);
             };
 
             void Convert::_init(const std::shared_ptr<ResourceSystem>& resourceSystem)
@@ -108,18 +108,18 @@ namespace djv
                 {
                     p.size = info.size;
                     glm::mat4x4 modelMatrix(1);
-                    modelMatrix = glm::rotate(modelMatrix, Core::Math::deg2rad(90.f), glm::vec3(1.f, 0.f, 0.f));
-                    modelMatrix = glm::scale(modelMatrix, glm::vec3(info.size.w, 0.f, info.size.h));
-                    modelMatrix = glm::translate(modelMatrix, glm::vec3(.5f, 0.f, -.5f));
+                    modelMatrix = glm::rotate(modelMatrix, Core::Math::deg2rad(90.F), glm::vec3(1.F, 0.F, 0.F));
+                    modelMatrix = glm::scale(modelMatrix, glm::vec3(info.size.w, 0.F, info.size.h));
+                    modelMatrix = glm::translate(modelMatrix, glm::vec3(.5F, 0.F, -.5F));
                     glm::mat4x4 viewMatrix(1);
                     glm::mat4x4 projectionMatrix(1);
                     projectionMatrix = glm::ortho(
-                        0.f,
-                        static_cast<float>(info.size.w) - 1.f,
-                        0.f,
-                        static_cast<float>(info.size.h) - 1.f,
-                        -1.f,
-                        1.f);
+                        0.F,
+                        static_cast<float>(info.size.w) - 1.F,
+                        0.F,
+                        static_cast<float>(info.size.h) - 1.F,
+                        -1.F,
+                        1.F);
                     p.mvp = projectionMatrix * viewMatrix * modelMatrix;
                 }
                 p.shader->setUniform("transform.mvp", p.mvp);
@@ -155,7 +155,7 @@ namespace djv
                 p.vao->bind();
 
                 glViewport(0, 0, info.size.w, info.size.h);
-                glClearColor(0.f, 0.f, 0.f, 0.f);
+                glClearColor(0.F, 0.F, 0.F, 0.F);
                 glClear(GL_COLOR_BUFFER_BIT);
                 glActiveTexture(GL_TEXTURE0);
 

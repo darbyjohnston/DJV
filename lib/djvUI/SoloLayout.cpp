@@ -143,7 +143,7 @@ namespace djv
             float Solo::getHeightForWidth(float value) const
             {
                 DJV_PRIVATE_PTR();
-                float out = 0.f;
+                float out = 0.F;
                 const auto& style = _getStyle();
                 const glm::vec2 m = getMargin().getSize(style);
                 for (const auto & child : getChildWidgets())
@@ -186,7 +186,7 @@ namespace djv
             void Solo::_preLayoutEvent(Event::PreLayout &)
             {
                 DJV_PRIVATE_PTR();
-                glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
+                glm::vec2 minimumSize = glm::vec2(0.F, 0.F);
                 for (const auto & child : getChildWidgets())
                 {
                     if (child->isVisible() || p.soloMinimumSize != SoloMinimumSize::None)

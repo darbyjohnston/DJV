@@ -155,15 +155,15 @@ namespace djv
 
         BBox2f Widget::getAlign(const BBox2f & value, const glm::vec2 & minimumSize, HAlign hAlign, VAlign vAlign)
         {
-            float x = 0.f;
-            float y = 0.f;
-            float w = 0.f;
-            float h = 0.f;
+            float x = 0.F;
+            float y = 0.F;
+            float w = 0.F;
+            float h = 0.F;
             switch (hAlign)
             {
             case HAlign::Center:
                 w = minimumSize.x;
-                x = value.min.x + value.w() / 2.f - minimumSize.x / 2.f;
+                x = value.min.x + value.w() / 2.F - minimumSize.x / 2.F;
                 break;
             case HAlign::Left:
                 x = value.min.x;
@@ -183,7 +183,7 @@ namespace djv
             {
             case VAlign::Center:
                 h = minimumSize.y;
-                y = value.min.y + value.h() / 2.f - minimumSize.y / 2.f;
+                y = value.min.y + value.h() / 2.F - minimumSize.y / 2.F;
                 break;
             case VAlign::Top:
                 y = value.min.y;
@@ -455,7 +455,7 @@ namespace djv
                     {
                         releaseTextFocus();
                     }
-                    _clipRect = BBox2f(0.f, 0.f, 0.f, 0.f);
+                    _clipRect = BBox2f(0.F, 0.F, 0.F, 0.F);
                     _redraw();
                     break;
                 }
@@ -546,15 +546,15 @@ namespace djv
                             !clipEvent.getClipRect().isValid() ||
                             !_visible ||
                             !_parentsVisible ||
-                            0.f == _opacity ||
-                            0.f == _parentsOpacity;
+                            0.F == _opacity ||
+                            0.F == _parentsOpacity;
                         _clipRect = clipEvent.getClipRect();
                     }
                     else
                     {
                         _parentsVisible = true;
                         _clipped = false;
-                        _clipRect = BBox2f(0.f, 0.f, 0.f, 0.f);
+                        _clipRect = BBox2f(0.F, 0.F, 0.F, 0.F);
                     }
                     if (_clipped)
                     {
@@ -576,12 +576,12 @@ namespace djv
                     }
                     else
                     {
-                        _parentsOpacity = 1.f;
+                        _parentsOpacity = 1.F;
                     }
                     if (!_visibleInit)
                     {
                         float opacity = getOpacity(true);
-                        opacity *= isEnabled(true) ? 1.f : _style->getPalette().getDisabledMult();
+                        opacity *= isEnabled(true) ? 1.F : _style->getPalette().getDisabledMult();
                         _render->setAlphaMult(opacity);
                         _paintEvent(static_cast<Event::Paint &>(event));
                     }

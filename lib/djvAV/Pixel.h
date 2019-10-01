@@ -127,10 +127,10 @@ namespace djv
             const U16_T U16Max = std::numeric_limits<uint16_t>::max();
             const U32_T U32Min = std::numeric_limits<uint32_t>::min();
             const U32_T U32Max = std::numeric_limits<uint32_t>::max();
-            const F16_T F16Min = 0.f;
-            const F16_T F16Max = 1.f;
-            const F32_T F32Min = 0.f;
-            const F32_T F32Max = 1.f;
+            const F16_T F16Min = 0.F;
+            const F16_T F16Max = 1.F;
+            const F32_T F32Min = 0.F;
+            const F32_T F32Max = 1.F;
 
             //! This struct provides 10-bit MSB pixel data.
             struct U10_S_MSB

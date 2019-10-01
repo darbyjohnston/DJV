@@ -42,7 +42,7 @@ namespace djv
         struct ThermometerWidget::Private
         {
             Orientation orientation = Orientation::Horizontal;
-            float percentage = 0.f;
+            float percentage = 0.F;
             ColorRole colorRole = ColorRole::Checked;
             MetricsRole sizeRole = MetricsRole::Slider;
         };
@@ -131,7 +131,7 @@ namespace djv
             const auto& style = _getStyle();
             const float sr = style->getMetric(p.sizeRole);
             const float hw = style->getMetric(MetricsRole::Handle);
-            glm::vec2 size(0.f, 0.f);
+            glm::vec2 size(0.F, 0.F);
             switch (p.orientation)
             {
             case Orientation::Horizontal: size = glm::vec2(sr, hw); break;
@@ -156,13 +156,13 @@ namespace djv
             {
             case Orientation::Horizontal:
             {
-                const float w = p.percentage / 100.f * g.w();
+                const float w = p.percentage / 100.F * g.w();
                 render->drawRect(BBox2f(g.min.x, g.min.y, w, g.h()));
                 break;
             }
             case Orientation::Vertical:
             {
-                const float h = p.percentage / 100.f * g.h();
+                const float h = p.percentage / 100.F * g.h();
                 render->drawRect(BBox2f(g.min.x, g.max.y - h, g.w(), h));
                 break;
             }

@@ -264,7 +264,7 @@ namespace djv
                 }
                 for (int y = 0; y < gridSize.y; ++y)
                 {
-                    float heightForWidth = 0.f;
+                    float heightForWidth = 0.F;
                     for (int x = 0; x < gridSize.x; ++x)
                     {
                         const auto i = p.widgets.find(glm::ivec2(x, y));
@@ -272,7 +272,7 @@ namespace djv
                         {
                             if (i->second->isVisible())
                             {
-                                float w = 0.f;
+                                float w = 0.F;
                                 if (expandList[Orientation::Horizontal][x])
                                 {
                                     w = ((value - m.x) - minimumWidth) / static_cast<float>(expandCount[Orientation::Horizontal]);
@@ -338,11 +338,11 @@ namespace djv
                 DJV_PRIVATE_PTR();
 
                 // Get the child sizes.
-                glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
+                glm::vec2 minimumSize = glm::vec2(0.F, 0.F);
                 const glm::ivec2 gridSize = getGridSize();
                 for (int x = 0; x < gridSize.x; ++x)
                 {
-                    float minimumSizeMax = 0.f;
+                    float minimumSizeMax = 0.F;
                     for (int y = 0; y < gridSize.y; ++y)
                     {
                         const auto i = p.widgets.find(glm::ivec2(x, y));
@@ -358,7 +358,7 @@ namespace djv
                 }
                 for (int y = 0; y < gridSize.y; ++y)
                 {
-                    float minimumSizeMax = 0.f;
+                    float minimumSizeMax = 0.F;
                     for (int x = 0; x < gridSize.x; ++x)
                     {
                         const auto i = p.widgets.find(glm::ivec2(x, y));
@@ -398,7 +398,7 @@ namespace djv
                 const float gh = g.h();
 
                 // Get the child sizes.
-                glm::vec2 minimumSize(0.f, 0.f);
+                glm::vec2 minimumSize(0.F, 0.F);
                 std::map<Orientation, std::vector<float> > minimumSizes;
                 std::map<Orientation, std::vector<bool> > expandList;
                 std::map<Orientation, size_t> expandCount =
@@ -409,7 +409,7 @@ namespace djv
                 const glm::ivec2 gridSize = getGridSize();
                 for (int x = 0; x < gridSize.x; ++x)
                 {
-                    float minimumSizeMax = 0.f;
+                    float minimumSizeMax = 0.F;
                     bool expand = false;
                     for (int y = 0; y < gridSize.y; ++y)
                     {
@@ -441,7 +441,7 @@ namespace djv
                 }
                 for (int y = 0; y < gridSize.y; ++y)
                 {
-                    float minimumSizeMax = 0.f;
+                    float minimumSizeMax = 0.F;
                     bool expand = false;
                     for (int x = 0; x < gridSize.x; ++x)
                     {
@@ -450,7 +450,7 @@ namespace djv
                         {
                             if (i->second->isVisible())
                             {
-                                float w = 0.f;
+                                float w = 0.F;
                                 if (expandList[Orientation::Horizontal][x])
                                 {
                                     w = (gw - getMargin().getWidth(style) - minimumSize.x) / static_cast<float>(expandCount[Orientation::Horizontal]);
@@ -497,7 +497,7 @@ namespace djv
                 glm::vec2 pos(g.min.x + getMargin().get(Side::Left, style), g.min.y + getMargin().get(Side::Top, style));
                 for (int x = 0; x < gridSize.x; ++x)
                 {
-                    float w = 0.f;
+                    float w = 0.F;
                     if (expandList[Orientation::Horizontal][x])
                     {
                         w = (gw - getMargin().getWidth(style) - minimumSize.x) / static_cast<float>(expandCount[Orientation::Horizontal]);
@@ -512,7 +512,7 @@ namespace djv
                             {
                                 p.columnPosAndWidth[x].first = pos.x;
                                 p.columnPosAndWidth[x].second = std::max(p.columnPosAndWidth[x].second, w);
-                                childrenGeometry[i->second] = BBox2f(pos.x, 0.f, w, 0.f);
+                                childrenGeometry[i->second] = BBox2f(pos.x, 0.F, w, 0.F);
                             }
                         }
                     }
@@ -520,7 +520,7 @@ namespace djv
                 }
                 for (int y = 0; y < gridSize.y; ++y)
                 {
-                    float h = 0.f;
+                    float h = 0.F;
                     if (expandList[Orientation::Vertical][y])
                     {
                         h = (gh - getMargin().getHeight(style) - minimumSize.y) / static_cast<float>(expandCount[Orientation::Vertical]);

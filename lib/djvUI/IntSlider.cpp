@@ -133,7 +133,7 @@ namespace djv
         float BasicIntSlider::_valueToPos(int value) const
         {
             DJV_PRIVATE_PTR();
-            float out = 0.f;
+            float out = 0.F;
             if (auto model = getModel())
             {
                 const auto& style = _getStyle();
@@ -147,11 +147,11 @@ namespace djv
                 switch (getOrientation())
                 {
                 case Orientation::Horizontal:
-                    out = g2.x() + ceilf(handleWidth / 2.f + (g2.w() - handleWidth) * v);
+                    out = g2.x() + ceilf(handleWidth / 2.F + (g2.w() - handleWidth) * v);
                     break;
                 case Orientation::Vertical:
-                    v = 1.f - v;
-                    out = g2.y() + ceilf(handleWidth / 2.f + (g2.h() - handleWidth) * v);
+                    v = 1.F - v;
+                    out = g2.y() + ceilf(handleWidth / 2.F + (g2.h() - handleWidth) * v);
                     break;
                 default: break;
                 }
@@ -172,15 +172,15 @@ namespace djv
                 const float handleWidth = _getHandleWidth();
                 const auto & range = model->observeRange()->get();
                 const BBox2f g2 = g.margin(-(m + b));
-                const float step = g2.w() / static_cast<float>(range.max - range.min) / 2.f;
-                float v = 0.f;
+                const float step = g2.w() / static_cast<float>(range.max - range.min) / 2.F;
+                float v = 0.F;
                 switch (getOrientation())
                 {
                 case Orientation::Horizontal:
-                    v = Math::clamp((value + step - g2.x() - handleWidth / 2.f) / (g2.w() - handleWidth), 0.f, 1.f);
+                    v = Math::clamp((value + step - g2.x() - handleWidth / 2.F) / (g2.w() - handleWidth), 0.F, 1.F);
                     break;
                 case Orientation::Vertical:
-                    v = 1.f - Math::clamp((value + step - g2.y() - handleWidth / 2.f) / (g2.h() - handleWidth), 0.f, 1.f);
+                    v = 1.F - Math::clamp((value + step - g2.y() - handleWidth / 2.F) / (g2.h() - handleWidth), 0.F, 1.F);
                     break;
                 default: break;
                 }

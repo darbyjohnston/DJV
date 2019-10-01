@@ -55,7 +55,7 @@ namespace djv
                 std::function<void(bool)> checkedCallback;
 
                 Event::PointerID pressedID = Event::InvalidID;
-                glm::vec2 pressedPos = glm::vec2(0.f, 0.f);
+                glm::vec2 pressedPos = glm::vec2(0.F, 0.F);
                 bool canRejectPressed = true;
 
                 std::shared_ptr<ValueObserver<ButtonType> > buttonTypeObserver;

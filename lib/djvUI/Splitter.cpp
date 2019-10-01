@@ -45,7 +45,7 @@ namespace djv
             {
                 Orientation orientation = Orientation::Horizontal;
                 std::vector<float> split;
-                float splitterWidth = 0.f;
+                float splitterWidth = 0.F;
                 ColorRole handleColorRole = ColorRole::Background;
                 std::map<Event::PointerID, size_t> hover;
                 std::pair<Event::PointerID, size_t> pressedID;
@@ -112,7 +112,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const auto& children = getChildWidgets();
                 p.split.resize(children.size());
-                const float size = children.size() ? 1.f / children.size() : 0.f;
+                const float size = children.size() ? 1.F / children.size() : 0.F;
                 float x = size;
                 for (size_t i = 0; i < children.size(); ++i)
                 {
@@ -139,7 +139,7 @@ namespace djv
             float Splitter::getHeightForWidth(float value) const
             {
                 DJV_PRIVATE_PTR();
-                float out = 0.f;
+                float out = 0.F;
                 const auto& style = _getStyle();
                 const glm::vec2 m = getMargin().getSize(style);
                 size_t i = 0;
@@ -203,7 +203,7 @@ namespace djv
             void Splitter::_preLayoutEvent(Event::PreLayout & event)
             {
                 DJV_PRIVATE_PTR();
-                glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
+                glm::vec2 minimumSize = glm::vec2(0.F, 0.F);
                 size_t i = 0;
                 for (const auto & child : getChildWidgets())
                 {
@@ -306,7 +306,7 @@ namespace djv
                 const auto & pos = event.getPointerInfo().projectedPos;
                 if (p.pressedID.first)
                 {
-                    float newPos = 0.f;
+                    float newPos = 0.F;
                     switch (p.orientation)
                     {
                     case Orientation::Horizontal:
@@ -397,7 +397,7 @@ namespace djv
             float Splitter::_valueToPos(float value) const
             {
                 DJV_PRIVATE_PTR();
-                float out = 0.f;
+                float out = 0.F;
                 const auto& style = _getStyle();
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
                 switch (p.orientation)
@@ -416,16 +416,16 @@ namespace djv
             float Splitter::_posToValue(float value) const
             {
                 DJV_PRIVATE_PTR();
-                float out = 0.f;
+                float out = 0.F;
                 const auto& style = _getStyle();
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
                 switch (p.orientation)
                 {
                 case Orientation::Horizontal:
-                    out = Math::clamp((value - g.min.x) / g.w(), 0.f, 1.f);
+                    out = Math::clamp((value - g.min.x) / g.w(), 0.F, 1.F);
                     break;
                 case Orientation::Vertical:
-                    out = Math::clamp((value - g.min.y) / g.h(), 0.f, 1.f);
+                    out = Math::clamp((value - g.min.y) / g.h(), 0.F, 1.F);
                     break;
                 default: break;
                 }
@@ -438,7 +438,7 @@ namespace djv
                 std::vector<BBox2f> out;
                 const auto& style = _getStyle();
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
-                const float sw = ceilf(p.splitterWidth / 2.f);
+                const float sw = ceilf(p.splitterWidth / 2.F);
                 float x = g.min.x;
                 float y = g.min.y;
                 const auto& children = getChildWidgets();
@@ -475,7 +475,7 @@ namespace djv
                 std::vector<BBox2f> out;
                 const auto& style = _getStyle();
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
-                const float sw = ceilf(p.splitterWidth / 2.f);
+                const float sw = ceilf(p.splitterWidth / 2.F);
                 float x = g.min.x;
                 float y = g.min.y;
                 const auto& children = getChildWidgets();

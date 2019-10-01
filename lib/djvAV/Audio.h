@@ -73,8 +73,8 @@ namespace djv
             const S16_T S16Max = std::numeric_limits<int16_t>::max();
             const S32_T S32Min = std::numeric_limits<int32_t>::min();
             const S32_T S32Max = std::numeric_limits<int32_t>::max();
-            const F32_T F32Min = -1.f;
-            const F32_T F32Max =  1.f;
+            const F32_T F32Min = -1.F;
+            const F32_T F32Max =  1.F;
             const F64_T F64Min = -1.0;
             const F64_T F64Max =  1.0;
 

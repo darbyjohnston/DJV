@@ -46,7 +46,7 @@ namespace djv
         {
             std::list<float> samples;
             size_t samplesSize = 0;
-            FloatRange samplesRange = FloatRange(0.f, 0.f);
+            FloatRange samplesRange = FloatRange(0.F, 0.F);
             size_t precision = 2;
             std::shared_ptr<Label> label;
         };
@@ -123,7 +123,7 @@ namespace djv
         {
             const auto& style = _getStyle();
             const float tc = style->getMetric(MetricsRole::TextColumn);
-            _setMinimumSize(glm::vec2(tc, tc / 3.f));
+            _setMinimumSize(glm::vec2(tc, tc / 3.F));
         }
 
         void LineGraphWidget::_layoutEvent(Event::Layout&)
@@ -131,9 +131,9 @@ namespace djv
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const BBox2f& g = getGeometry();
-            const float b = style->getMetric(MetricsRole::Border) * 2.f;
+            const float b = style->getMetric(MetricsRole::Border) * 2.F;
             const float w = g.w();
-            p.samplesSize = static_cast<size_t>(w > 0.f ? (g.w() / b) : 0.f);
+            p.samplesSize = static_cast<size_t>(w > 0.F ? (g.w() / b) : 0.F);
             while (p.samples.size() > p.samplesSize)
             {
                 p.samples.pop_back();
@@ -147,12 +147,12 @@ namespace djv
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const float b = style->getMetric(MetricsRole::Border) * 2.f;
+            const float b = style->getMetric(MetricsRole::Border) * 2.F;
             const BBox2f& g = getMargin().bbox(getGeometry(), style).margin(0, 0, 0, -b);
             auto render = _getRender();
             auto color1 = style->getColor(ColorRole::Checked);
             auto color2 = style->getColor(ColorRole::Checked);
-            color2.setF32(color2.getF32(3) * .5f, 3);
+            color2.setF32(color2.getF32(3) * .5F, 3);
             float x = g.min.x;
             const float range = p.samplesRange.max - p.samplesRange.min;
             for (const auto& i : p.samples)
@@ -177,7 +177,7 @@ namespace djv
             std::stringstream ss;
             ss.precision(p.precision);
             ss << std::fixed;
-            float v = p.samples.size() ? p.samples.front() : 0.f;
+            float v = p.samples.size() ? p.samples.front() : 0.F;
             ss << _getText(DJV_TEXT("Min")) << ": " << p.samplesRange.min << ", " <<
                 _getText(DJV_TEXT("Max")) << ": " << p.samplesRange.max << ", " <<
                 _getText(DJV_TEXT("Current")) << ": " << v;

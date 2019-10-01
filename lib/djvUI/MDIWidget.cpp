@@ -44,7 +44,7 @@ namespace djv
             struct IWidget::Private
             {
                 bool active = false;
-                float maximize = 0.f;
+                float maximize = 0.F;
                 Handle hovered = Handle::None;
                 Handle pressed = Handle::None;
             };
@@ -67,7 +67,7 @@ namespace djv
                 std::map<Handle, std::vector<BBox2f> > out;
                 const BBox2f & g = getGeometry();
                 const auto& style = _getStyle();
-                const float corner = style->getMetric(MetricsRole::Handle) * 2.f;
+                const float corner = style->getMetric(MetricsRole::Handle) * 2.F;
                 out =
                 {
                     {
@@ -149,8 +149,8 @@ namespace djv
                 std::map<Handle, std::vector<BBox2f> > out;
                 const BBox2f & g = getGeometry();
                 const auto& style = _getStyle();
-                const float edge = ceilf(style->getMetric(MetricsRole::Handle) * .75f);
-                const float corner = style->getMetric(MetricsRole::Handle) * 2.f;
+                const float edge = ceilf(style->getMetric(MetricsRole::Handle) * .75F);
+                const float corner = style->getMetric(MetricsRole::Handle) * 2.F;
                 out =
                 {
                     {
@@ -271,7 +271,7 @@ namespace djv
             void IWidget::_paintEvent(Event::Paint& event)
             {
                 DJV_PRIVATE_PTR();
-                if (p.maximize < 1.f)
+                if (p.maximize < 1.F)
                 {
                     const auto& style = _getStyle();
                     const float sh = style->getMetric(MetricsRole::Shadow);
@@ -288,7 +288,7 @@ namespace djv
             void IWidget::_paintOverlayEvent(Event::PaintOverlay&)
             {
                 DJV_PRIVATE_PTR();
-                if (p.maximize < 1.f)
+                if (p.maximize < 1.F)
                 {
                     const auto& style = _getStyle();
                     const BBox2f& g = getGeometry();

@@ -82,8 +82,8 @@ namespace djv
             {
                 const auto& style = _getStyle();
                 const glm::vec2 s = _p->spacing.get(style);
-                glm::vec2 pos = glm::vec2(0.f, 0.f);
-                float h = 0.f;
+                glm::vec2 pos = glm::vec2(0.F, 0.F);
+                float h = 0.F;
                 const auto& children = getChildWidgets();
                 const int childrenSize = static_cast<int>(children.size());
                 for (int i = 0, j = 0; i < childrenSize; ++i, ++j)
@@ -91,7 +91,7 @@ namespace djv
                     const auto& ms = children[i]->getMinimumSize();
                     if (j && pos.x + ms.x > width - getMargin().getWidth(style))
                     {
-                        pos.x = 0.f;
+                        pos.x = 0.F;
                         pos.y += h + s.y;
                         h = ms.y;
                         j = 0;
@@ -110,7 +110,7 @@ namespace djv
             {
                 const auto& style = _getStyle();
                 const float tc = style->getMetric(MetricsRole::TextColumn);
-                glm::vec2 size = glm::vec2(0.f, 0.f);
+                glm::vec2 size = glm::vec2(0.F, 0.F);
                 for (const auto & child : getChildWidgets())
                 {
                     const auto & childMinimumSize = child->getMinimumSize();
@@ -149,7 +149,7 @@ namespace djv
 
                 for (const auto & i : rows)
                 {
-                    float h = 0.f;
+                    float h = 0.F;
                     for (auto j : i.second)
                     {
                         h = std::max(h, j.second.h());

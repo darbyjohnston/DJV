@@ -152,22 +152,22 @@ namespace djv
                         {
                             const size_t v = vertices[k]->v;
                             float* pf = reinterpret_cast<float*>(p);
-                            pf[0] = v ? mesh.v[v - 1][0] : 0.f;
-                            pf[1] = v ? mesh.v[v - 1][1] : 0.f;
-                            pf[2] = v ? mesh.v[v - 1][2] : 0.f;
+                            pf[0] = v ? mesh.v[v - 1][0] : 0.F;
+                            pf[1] = v ? mesh.v[v - 1][1] : 0.F;
+                            pf[2] = v ? mesh.v[v - 1][2] : 0.F;
                             p += 3 * sizeof(float);
 
                             const size_t t = vertices[k]->t;
                             uint16_t* pu16 = reinterpret_cast<uint16_t*>(p);
-                            pu16[0] = t ? Math::clamp(static_cast<int>(mesh.t[t - 1][0] * 65535.f), 0, 65535) : 0;
-                            pu16[1] = t ? Math::clamp(static_cast<int>(mesh.t[t - 1][1] * 65535.f), 0, 65535) : 0;
+                            pu16[0] = t ? Math::clamp(static_cast<int>(mesh.t[t - 1][0] * 65535.F), 0, 65535) : 0;
+                            pu16[1] = t ? Math::clamp(static_cast<int>(mesh.t[t - 1][1] * 65535.F), 0, 65535) : 0;
                             p += 2 * sizeof(uint16_t);
 
                             const size_t n = vertices[k]->n;
                             auto packedNormal = reinterpret_cast<PackedNormal*>(p);
-                            packedNormal->x = n ? Math::clamp(static_cast<int>(mesh.n[n - 1][0] * 511.f), -512, 511) : 0;
-                            packedNormal->y = n ? Math::clamp(static_cast<int>(mesh.n[n - 1][1] * 511.f), -512, 511) : 0;
-                            packedNormal->z = n ? Math::clamp(static_cast<int>(mesh.n[n - 1][2] * 511.f), -512, 511) : 0;
+                            packedNormal->x = n ? Math::clamp(static_cast<int>(mesh.n[n - 1][0] * 511.F), -512, 511) : 0;
+                            packedNormal->y = n ? Math::clamp(static_cast<int>(mesh.n[n - 1][1] * 511.F), -512, 511) : 0;
+                            packedNormal->z = n ? Math::clamp(static_cast<int>(mesh.n[n - 1][2] * 511.F), -512, 511) : 0;
                             p += sizeof(PackedNormal);
                         }
                     }
@@ -185,28 +185,28 @@ namespace djv
                         {
                             const size_t v = vertices[k]->v;
                             float* pf = reinterpret_cast<float*>(p);
-                            pf[0] = v ? mesh.v[v - 1][0] : 0.f;
-                            pf[1] = v ? mesh.v[v - 1][1] : 0.f;
-                            pf[2] = v ? mesh.v[v - 1][2] : 0.f;
+                            pf[0] = v ? mesh.v[v - 1][0] : 0.F;
+                            pf[1] = v ? mesh.v[v - 1][1] : 0.F;
+                            pf[2] = v ? mesh.v[v - 1][2] : 0.F;
                             p += 3 * sizeof(float);
 
                             const size_t t = vertices[k]->t;
                             uint16_t* pu16 = reinterpret_cast<uint16_t*>(p);
-                            pu16[0] = t ? Math::clamp(static_cast<int>(mesh.t[t - 1][0] * 65535.f), 0, 65535) : 0;
-                            pu16[1] = t ? Math::clamp(static_cast<int>(mesh.t[t - 1][1] * 65535.f), 0, 65535) : 0;
+                            pu16[0] = t ? Math::clamp(static_cast<int>(mesh.t[t - 1][0] * 65535.F), 0, 65535) : 0;
+                            pu16[1] = t ? Math::clamp(static_cast<int>(mesh.t[t - 1][1] * 65535.F), 0, 65535) : 0;
                             p += 2 * sizeof(uint16_t);
 
                             const size_t n = vertices[k]->n;
                             auto packedNormal = reinterpret_cast<PackedNormal*>(p);
-                            packedNormal->x = n ? Math::clamp(static_cast<int>(mesh.n[n - 1][0] * 511.f), -512, 511) : 0;
-                            packedNormal->y = n ? Math::clamp(static_cast<int>(mesh.n[n - 1][1] * 511.f), -512, 511) : 0;
-                            packedNormal->z = n ? Math::clamp(static_cast<int>(mesh.n[n - 1][2] * 511.f), -512, 511) : 0;
+                            packedNormal->x = n ? Math::clamp(static_cast<int>(mesh.n[n - 1][0] * 511.F), -512, 511) : 0;
+                            packedNormal->y = n ? Math::clamp(static_cast<int>(mesh.n[n - 1][1] * 511.F), -512, 511) : 0;
+                            packedNormal->z = n ? Math::clamp(static_cast<int>(mesh.n[n - 1][2] * 511.F), -512, 511) : 0;
                             p += sizeof(PackedNormal);
 
                             auto packedColor = reinterpret_cast<PackedColor*>(p);
-                            packedColor->r = v ? Math::clamp(static_cast<int>(mesh.c[v - 1][0] * 255.f), 0, 255) : 0;
-                            packedColor->g = v ? Math::clamp(static_cast<int>(mesh.c[v - 1][1] * 255.f), 0, 255) : 0;
-                            packedColor->b = v ? Math::clamp(static_cast<int>(mesh.c[v - 1][2] * 255.f), 0, 255) : 0;
+                            packedColor->r = v ? Math::clamp(static_cast<int>(mesh.c[v - 1][0] * 255.F), 0, 255) : 0;
+                            packedColor->g = v ? Math::clamp(static_cast<int>(mesh.c[v - 1][1] * 255.F), 0, 255) : 0;
+                            packedColor->b = v ? Math::clamp(static_cast<int>(mesh.c[v - 1][2] * 255.F), 0, 255) : 0;
                             packedColor->a = 255;
                             p += sizeof(PackedColor);
                         }
@@ -225,28 +225,28 @@ namespace djv
                         {
                             const size_t v = vertices[k]->v;
                             float* pf = reinterpret_cast<float*>(p);
-                            pf[0] = v ? mesh.v[v - 1][0] : 0.f;
-                            pf[1] = v ? mesh.v[v - 1][1] : 0.f;
-                            pf[2] = v ? mesh.v[v - 1][2] : 0.f;
+                            pf[0] = v ? mesh.v[v - 1][0] : 0.F;
+                            pf[1] = v ? mesh.v[v - 1][1] : 0.F;
+                            pf[2] = v ? mesh.v[v - 1][2] : 0.F;
                             p += 3 * sizeof(float);
 
                             const size_t t = vertices[k]->t;
                             pf = reinterpret_cast<float*>(p);
-                            pf[0] = t ? mesh.t[t - 1][0] : 0.f;
-                            pf[1] = t ? mesh.t[t - 1][1] : 0.f;
+                            pf[0] = t ? mesh.t[t - 1][0] : 0.F;
+                            pf[1] = t ? mesh.t[t - 1][1] : 0.F;
                             p += 2 * sizeof(float);
 
                             const size_t n = vertices[k]->n;
                             pf = reinterpret_cast<float*>(p);
-                            pf[0] = n ? mesh.n[n - 1][0] : 0.f;
-                            pf[1] = n ? mesh.n[n - 1][1] : 0.f;
-                            pf[2] = n ? mesh.n[n - 1][2] : 0.f;
+                            pf[0] = n ? mesh.n[n - 1][0] : 0.F;
+                            pf[1] = n ? mesh.n[n - 1][1] : 0.F;
+                            pf[2] = n ? mesh.n[n - 1][2] : 0.F;
                             p += 3 * sizeof(float);
 
                             pf = reinterpret_cast<float*>(p);
-                            pf[0] = v ? mesh.c[v - 1][0] : 1.f;
-                            pf[1] = v ? mesh.c[v - 1][1] : 1.f;
-                            pf[2] = v ? mesh.c[v - 1][2] : 1.f;
+                            pf[0] = v ? mesh.c[v - 1][0] : 1.F;
+                            pf[1] = v ? mesh.c[v - 1][1] : 1.F;
+                            pf[2] = v ? mesh.c[v - 1][2] : 1.F;
                             p += 3 * sizeof(float);
                         }
                     }

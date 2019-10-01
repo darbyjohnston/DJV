@@ -95,11 +95,11 @@ namespace djv
                 struct Primitive
                 {
                     std::shared_ptr<AV::Image::Image> image;
-                    float size = 0.f;
-                    glm::vec2 pos = glm::vec2(0.f, 0.f);
-                    glm::vec2 vel = glm::vec2(0.f, 0.f);
-                    float age = 0.f;
-                    float lifespan = 0.f;
+                    float size = 0.F;
+                    glm::vec2 pos = glm::vec2(0.F, 0.F);
+                    glm::vec2 vel = glm::vec2(0.F, 0.F);
+                    float age = 0.F;
+                    float lifespan = 0.F;
                 };
                 std::vector<Primitive> _primitives;
                 std::shared_ptr<Time::Timer> _timer;
@@ -181,7 +181,7 @@ namespace djv
                 for (const auto& i : _primitives)
                 {
                     AV::Image::Color color = style->getColor(UI::ColorRole::Button);
-                    const float v = 1.f - ((cos((i.age / i.lifespan) * Math::pi * 2.f) + 1.f) * .5f);
+                    const float v = 1.F - ((cos((i.age / i.lifespan) * Math::pi * 2.F) + 1.F) * .5F);
                     color.setF32(color.getF32(3) * primitiveOpacity * v, 3);
                     render->setFillColor(color);
                     render->drawFilledImage(i.image, i.pos);
@@ -209,10 +209,10 @@ namespace djv
                 {
                     Primitive p;
                     p.image = _images[Math::getRandom(static_cast<int>(_images.size()) - 1)];
-                    p.size = Math::getRandom(1, 4) * 512.f;
-                    p.pos = glm::vec2(Math::getRandom(-1000.f, 1000.f), Math::getRandom(-1000.f, 1000.f));
-                    p.vel = glm::vec2(Math::getRandom(-50.f, 50.f), Math::getRandom(-50.f, 50.f));
-                    p.lifespan = Math::getRandom(5.f, 20.f);
+                    p.size = Math::getRandom(1, 4) * 512.F;
+                    p.pos = glm::vec2(Math::getRandom(-1000.F, 1000.F), Math::getRandom(-1000.F, 1000.F));
+                    p.vel = glm::vec2(Math::getRandom(-50.F, 50.F), Math::getRandom(-50.F, 50.F));
+                    p.lifespan = Math::getRandom(5.F, 20.F);
                     _primitives.push_back(p);
                 }
                 _redraw();
@@ -357,8 +357,8 @@ namespace djv
                 if (auto widget = weak.lock())
                 {
                     widget->_p->fadeOutAnimation->start(
-                        1.f,
-                        0.f,
+                        1.F,
+                        0.F,
                         std::chrono::milliseconds(1000),
                         [weak](float value)
                     {

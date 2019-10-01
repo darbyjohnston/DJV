@@ -49,28 +49,28 @@ namespace djv
                 _colors =
                 {
                     // These colors should be specified as RGBA F32.
-                    { ColorRole::None, AV::Image::Color(0.f, 0.f, 0.f, 0.f) },
-                    { ColorRole::Background, AV::Image::Color(.18f, .18f, .18f, 1.f) },
-                    { ColorRole::BackgroundHeader, AV::Image::Color(.4f, .4f, .4f, 1.f) },
-                    { ColorRole::BackgroundBellows, AV::Image::Color(.3f, .3f, .3f, 1.f) },
-                    { ColorRole::BackgroundToolBar, AV::Image::Color(.35f, .35f, .35f, 1.f) },
-                    { ColorRole::Foreground, AV::Image::Color(1.f, 1.f, 1.f, 1.f) },
-                    { ColorRole::ForegroundDim, AV::Image::Color(.67f, .67f, .67f, 1.f) },
-                    { ColorRole::Border, AV::Image::Color(.25f, .25f, .25f, 1.f) },
-                    { ColorRole::BorderButton, AV::Image::Color(.49f, .49f, .49f, 1.f) },
-                    { ColorRole::Trough, AV::Image::Color(.15f, .15f, .15f, 1.f) },
-                    { ColorRole::Button, AV::Image::Color(.4f, .4f, .4f, 1.f) },
-                    { ColorRole::Hovered, AV::Image::Color(1.f, 1.f, 1.f, .06f) },
-                    { ColorRole::Pressed, AV::Image::Color(1.f, 1.f, 1.f, .18f) },
-                    { ColorRole::Checked, AV::Image::Color(.58f, .32f, .18f, 1.f) },
-                    { ColorRole::TextFocus, AV::Image::Color(.7f, .5f, .2f, 1.f) },
-                    { ColorRole::TooltipBackground, AV::Image::Color(1.f, 1.f, .75f, 1.f) },
-                    { ColorRole::TooltipForeground, AV::Image::Color(0.f, 0.f, 0.f, 1.f) },
-                    { ColorRole::Overlay, AV::Image::Color(0.f, 0.f, 0.f, .7f) },
-                    { ColorRole::OverlayLight, AV::Image::Color(0.f, 0.f, 0.f, .7f) },
-                    { ColorRole::Shadow, AV::Image::Color(0.f, 0.f, 0.f, .16f) },
-                    { ColorRole::Handle, AV::Image::Color(.58f, .32f, .18f, 1.f) },
-                    { ColorRole::Cached, AV::Image::Color(.32f, .58f, .18f, 1.f) }
+                    { ColorRole::None, AV::Image::Color(0.F, 0.F, 0.F, 0.F) },
+                    { ColorRole::Background, AV::Image::Color(.18F, .18F, .18F, 1.F) },
+                    { ColorRole::BackgroundHeader, AV::Image::Color(.4F, .4F, .4F, 1.F) },
+                    { ColorRole::BackgroundBellows, AV::Image::Color(.3F, .3F, .3F, 1.F) },
+                    { ColorRole::BackgroundToolBar, AV::Image::Color(.35F, .35F, .35F, 1.F) },
+                    { ColorRole::Foreground, AV::Image::Color(1.F, 1.F, 1.F, 1.F) },
+                    { ColorRole::ForegroundDim, AV::Image::Color(.67F, .67F, .67F, 1.F) },
+                    { ColorRole::Border, AV::Image::Color(.25F, .25F, .25F, 1.F) },
+                    { ColorRole::BorderButton, AV::Image::Color(.49F, .49F, .49F, 1.F) },
+                    { ColorRole::Trough, AV::Image::Color(.15F, .15F, .15F, 1.F) },
+                    { ColorRole::Button, AV::Image::Color(.4F, .4F, .4F, 1.F) },
+                    { ColorRole::Hovered, AV::Image::Color(1.F, 1.F, 1.F, .06F) },
+                    { ColorRole::Pressed, AV::Image::Color(1.F, 1.F, 1.F, .18F) },
+                    { ColorRole::Checked, AV::Image::Color(.58F, .32F, .18F, 1.F) },
+                    { ColorRole::TextFocus, AV::Image::Color(.7F, .5F, .2F, 1.F) },
+                    { ColorRole::TooltipBackground, AV::Image::Color(1.F, 1.F, .75F, 1.F) },
+                    { ColorRole::TooltipForeground, AV::Image::Color(0.F, 0.F, 0.F, 1.F) },
+                    { ColorRole::Overlay, AV::Image::Color(0.F, 0.F, 0.F, .7f) },
+                    { ColorRole::OverlayLight, AV::Image::Color(0.F, 0.F, 0.F, .7F) },
+                    { ColorRole::Shadow, AV::Image::Color(0.F, 0.F, 0.F, .16f) },
+                    { ColorRole::Handle, AV::Image::Color(.58F, .32F, .18F, 1.F) },
+                    { ColorRole::Cached, AV::Image::Color(.32F, .58F, .18F, 1.F) }
                 };
             }
 
@@ -96,37 +96,37 @@ namespace djv
             {
                 _metrics =
                 {
-                    { MetricsRole::None, 0.f },
-                    { MetricsRole::Border, 1.f },
-                    { MetricsRole::Margin, 10.f },
-                    { MetricsRole::MarginSmall, 5.f },
-                    { MetricsRole::MarginLarge, 20.f },
-                    { MetricsRole::MarginDialog, 50.f },
-                    { MetricsRole::Spacing, 10.f },
-                    { MetricsRole::SpacingSmall, 5.f },
-                    { MetricsRole::SpacingLarge, 40.f },
-                    { MetricsRole::Drag, 20.f },
+                    { MetricsRole::None, 0.F },
+                    { MetricsRole::Border, 1.F },
+                    { MetricsRole::Margin, 10.F },
+                    { MetricsRole::MarginSmall, 5.F },
+                    { MetricsRole::MarginLarge, 20.F },
+                    { MetricsRole::MarginDialog, 50.F },
+                    { MetricsRole::Spacing, 10.F },
+                    { MetricsRole::SpacingSmall, 5.F },
+                    { MetricsRole::SpacingLarge, 40.F },
+                    { MetricsRole::Drag, 20.F },
                     { MetricsRole::Icon, static_cast<float>(iconSizeDefault) },
-                    { MetricsRole::IconSmall, 16.f },
-                    { MetricsRole::FontSmall, 12.f },
-                    { MetricsRole::FontMedium, 14.f },
-                    { MetricsRole::FontLarge, 18.f },
-                    { MetricsRole::FontHeader, 22.f },
-                    { MetricsRole::FontTitle, 32.f },
-                    { MetricsRole::Swatch, 50.f },
-                    { MetricsRole::Slider, 100.f },
-                    { MetricsRole::ScrollArea, 200.f },
-                    { MetricsRole::Menu, 600.f },
-                    { MetricsRole::TextColumn, 200.f },
-                    { MetricsRole::TextColumnLarge, 300.f },
-                    { MetricsRole::SearchBox, 100.f },
-                    { MetricsRole::Dialog, 400.f },
-                    { MetricsRole::Shadow, 20.f },
-                    { MetricsRole::ShadowSmall, 10.f },
-                    { MetricsRole::TooltipOffset, 10.f },
-                    { MetricsRole::Handle, 10.f },
-                    { MetricsRole::Move, 10.f },
-                    { MetricsRole::Scrub, 10.f }
+                    { MetricsRole::IconSmall, 16.F },
+                    { MetricsRole::FontSmall, 12.F },
+                    { MetricsRole::FontMedium, 14.F },
+                    { MetricsRole::FontLarge, 18.F },
+                    { MetricsRole::FontHeader, 22.F },
+                    { MetricsRole::FontTitle, 32.F },
+                    { MetricsRole::Swatch, 50.F },
+                    { MetricsRole::Slider, 100.F },
+                    { MetricsRole::ScrollArea, 200.F },
+                    { MetricsRole::Menu, 600.F },
+                    { MetricsRole::TextColumn, 200.F },
+                    { MetricsRole::TextColumnLarge, 300.F },
+                    { MetricsRole::SearchBox, 100.F },
+                    { MetricsRole::Dialog, 400.F },
+                    { MetricsRole::Shadow, 20.F },
+                    { MetricsRole::ShadowSmall, 10.F },
+                    { MetricsRole::TooltipOffset, 10.F },
+                    { MetricsRole::Handle, 10.F },
+                    { MetricsRole::Move, 10.F },
+                    { MetricsRole::Scrub, 10.F }
                 };
             }
 
@@ -293,7 +293,7 @@ namespace djv
                 }
                 else if ("DisabledMult" == i.first)
                 {
-                    float v = 0.f;
+                    float v = 0.F;
                     fromJSON(i.second, v);
                     out.setDisabledMult(v);
                 }

@@ -150,7 +150,7 @@ namespace djv
                     size_t      threadCount         = 4;
                     Channels    channels            = Channels::Known;
                     Compression compression         = Compression::None;
-                    float       dwaCompressionLevel = 45.f;
+                    float       dwaCompressionLevel = 45.F;
                 };
 
                 //! This class provides a memory-mapped input stream.

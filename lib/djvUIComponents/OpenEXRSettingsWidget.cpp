@@ -69,7 +69,7 @@ namespace djv
             p.compressionComboBox = ComboBox::create(context);
 
             p.dwaCompressionLevelSlider = FloatSlider::create(context);
-            p.dwaCompressionLevelSlider->setRange(FloatRange(0.f, 200.f));
+            p.dwaCompressionLevelSlider->setRange(FloatRange(0.F, 200.F));
 
             p.layout = FormLayout::create(context);
             p.layout->addChild(p.threadCountSlider);

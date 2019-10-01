@@ -142,16 +142,16 @@ namespace djv
         void ImageWidget::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
-            glm::vec2 size(0.f, 0.f);
+            glm::vec2 size(0.F, 0.F);
             const auto& style = _getStyle();
             if (p.sizeRole != MetricsRole::None)
             {
                 size.x = style->getMetric(p.sizeRole);
-                size.y = ceilf(size.x / 2.f);
+                size.y = ceilf(size.x / 2.F);
                 if (p.image)
                 {
                     const float aspectRatio = p.image->getAspectRatio();
-                    if (aspectRatio > 0.f)
+                    if (aspectRatio > 0.F)
                     {
                         size.y = ceilf(size.x / aspectRatio);
                     }
@@ -176,11 +176,11 @@ namespace djv
                 const glm::vec2 c = g.getCenter();
                 const auto& info = p.image->getInfo();
                 glm::vec2 size = glm::vec2(info.size.w, info.size.h);
-                glm::vec2 pos = glm::vec2(0.f, 0.f);
+                glm::vec2 pos = glm::vec2(0.F, 0.F);
                 switch (getHAlign())
                 {
                 case HAlign::Center:
-                    pos.x = ceilf(c.x - size.x / 2.f);
+                    pos.x = ceilf(c.x - size.x / 2.F);
                     break;
                 case HAlign::Fill:
                     pos.x = g.min.x;
@@ -193,7 +193,7 @@ namespace djv
                 switch (getVAlign())
                 {
                 case VAlign::Center:
-                    pos.y = ceilf(c.y - size.y / 2.f);
+                    pos.y = ceilf(c.y - size.y / 2.F);
                     break;
                 case VAlign::Fill:
                     pos.y = g.min.y;
@@ -206,7 +206,7 @@ namespace djv
 
                 AV::Render::ImageOptions options;
                 options.cache = AV::Render::ImageCache::Dynamic;
-                glm::mat3x3 m(1.f);
+                glm::mat3x3 m(1.F);
                 m = glm::translate(m, pos);
                 m = glm::scale(m, glm::vec2(size.x / static_cast<float>(info.size.w), size.y / static_cast<float>(info.size.h)));
                 auto i = p.ocioConfig.colorSpaces.find(p.image->getPluginName());
@@ -229,12 +229,12 @@ namespace djv
                 switch (p.imageColorRole)
                 {
                 case ColorRole::None:
-                    render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f, getOpacity(true)));
-                    render->drawImage(p.image, glm::vec2(0.f, 0.f), options);
+                    render->setFillColor(AV::Image::Color(1.F, 1.F, 1.F, getOpacity(true)));
+                    render->drawImage(p.image, glm::vec2(0.F, 0.F), options);
                     break;
                 default:
                     render->setFillColor(style->getColor(p.imageColorRole));
-                    render->drawFilledImage(p.image, glm::vec2(0.f, 0.f), options);
+                    render->drawFilledImage(p.image, glm::vec2(0.F, 0.F), options);
                     break;
                 }
                 render->popTransform();

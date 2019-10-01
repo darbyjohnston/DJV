@@ -37,10 +37,10 @@ namespace djv
         {
             const float values[] =
             {
-                0.f,
-                90.f,
-                180.f,
-                270.f
+                0.F,
+                90.F,
+                180.F,
+                270.F
             };
             return values[static_cast<size_t>(value)];
         }
@@ -49,11 +49,11 @@ namespace djv
         {
             const float values[] =
             {
-                1.f,
-                1.f,
-                1.78f,
-                1.85f,
-                2.35f
+                1.F,
+                1.F,
+                1.78F,
+                1.85F,
+                2.35F
             };
             return values[static_cast<size_t>(value)];
         }

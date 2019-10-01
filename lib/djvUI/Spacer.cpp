@@ -96,7 +96,7 @@ namespace djv
 
             void Spacer::_preLayoutEvent(Event::PreLayout & event)
             {
-                glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
+                glm::vec2 minimumSize = glm::vec2(0.F, 0.F);
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
                 switch (p.orientation)

@@ -62,15 +62,15 @@ namespace djv
             {
                 mesh.clear();
 
-                mesh.v.push_back(glm::vec3(-_radius, 0.f, _radius));
-                mesh.v.push_back(glm::vec3(_radius, 0.f, _radius));
-                mesh.v.push_back(glm::vec3(_radius, 0.f, -_radius));
-                mesh.v.push_back(glm::vec3(-_radius, 0.f, -_radius));
+                mesh.v.push_back(glm::vec3(-_radius, 0.F, _radius));
+                mesh.v.push_back(glm::vec3(_radius, 0.F, _radius));
+                mesh.v.push_back(glm::vec3(_radius, 0.F, -_radius));
+                mesh.v.push_back(glm::vec3(-_radius, 0.F, -_radius));
 
-                mesh.t.push_back(glm::vec3(0.f, 0.f, 0.f));
-                mesh.t.push_back(glm::vec3(1.f, 0.f, 0.f));
-                mesh.t.push_back(glm::vec3(1.f, 1.f, 0.f));
-                mesh.t.push_back(glm::vec3(0.f, 1.f, 0.f));
+                mesh.t.push_back(glm::vec3(0.F, 0.F, 0.F));
+                mesh.t.push_back(glm::vec3(1.F, 0.F, 0.F));
+                mesh.t.push_back(glm::vec3(1.F, 1.F, 0.F));
+                mesh.t.push_back(glm::vec3(0.F, 1.F, 0.F));
 
                 TriangleMesh::Triangle triangle;
                 triangle.v0.v = triangle.v0.t = 0 + offset;
@@ -111,8 +111,8 @@ namespace djv
                     const float v = i / static_cast<float>(_resolution);
                     const float c = cosf(v * Math::pi2);
                     const float s = sinf(v * Math::pi2);
-                    mesh.v.push_back(glm::vec3(c * _radius, 0.f, s * _radius));
-                    mesh.t.push_back(glm::vec3((c + 1.f) / 2.f, (s + 1.f) / 2.f, 0.f));
+                    mesh.v.push_back(glm::vec3(c * _radius, 0.F, s * _radius));
+                    mesh.t.push_back(glm::vec3((c + 1.F) / 2.F, (s + 1.F) / 2.F, 0.F));
                 }
 
                 TriangleMesh::Triangle triangle;
@@ -197,11 +197,11 @@ namespace djv
                         mesh.v.push_back(glm::vec3(x, y, z));
                         if (_textureSpan)
                         {
-                            mesh.t.push_back(glm::vec3(u1, 1.f - v1, 0.f));
+                            mesh.t.push_back(glm::vec3(u1, 1.F - v1, 0.F));
                         }
                         else
                         {
-                            mesh.t.push_back(glm::vec3(u2, 1.f - v2, 0.f));
+                            mesh.t.push_back(glm::vec3(u2, 1.F - v2, 0.F));
                         }
                     }
                 }
@@ -274,21 +274,21 @@ namespace djv
                     mesh.v.push_back(v);
                     if (_textureSpan)
                     {
-                        mesh.t.push_back(glm::vec3(u1, 0.f, 0.f));
+                        mesh.t.push_back(glm::vec3(u1, 0.F, 0.F));
                     }
                     else
                     {
-                        mesh.t.push_back(glm::vec3(u2, 0.f, 0.f));
+                        mesh.t.push_back(glm::vec3(u2, 0.F, 0.F));
                     }
                     v.y = l;
                     mesh.v.push_back(v);
                     if (_textureSpan)
                     {
-                        mesh.t.push_back(glm::vec3(u1, 1.f, 0.f));
+                        mesh.t.push_back(glm::vec3(u1, 1.F, 0.F));
                     }
                     else
                     {
-                        mesh.t.push_back(glm::vec3(u2, 1.f, 0.f));
+                        mesh.t.push_back(glm::vec3(u2, 1.F, 0.F));
                     }
                 }
 

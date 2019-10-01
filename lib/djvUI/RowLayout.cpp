@@ -155,7 +155,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
 
-                float out = 0.f;
+                float out = 0.F;
 
                 // Get the child sizes.
                 const auto& style = _getStyle();
@@ -233,7 +233,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
 
                 // Get the child sizes.
-                glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
+                glm::vec2 minimumSize = glm::vec2(0.F, 0.F);
                 size_t visibleChildren = 0;
                 for (const auto & child : getChildWidgets())
                 {
@@ -286,7 +286,7 @@ namespace djv
                 const float gh = g.h();
 
                 // Get the child sizes.
-                glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
+                glm::vec2 minimumSize = glm::vec2(0.F, 0.F);
                 size_t expandCount = 0;
                 const auto& children = getChildWidgets();
                 size_t visibleChildren = 0;
@@ -353,7 +353,7 @@ namespace djv
                     {
                         if (child->isVisible())
                         {
-                            float cellSize = 0.f;
+                            float cellSize = 0.F;
                             switch (p.stretch[child])
                             {
                             case RowStretch::None:
@@ -377,7 +377,7 @@ namespace djv
                     {
                         if (child->isVisible())
                         {
-                            float cellSize = 0.f;
+                            float cellSize = 0.F;
                             switch (p.stretch[child])
                             {
                             case RowStretch::None:

@@ -70,26 +70,26 @@ namespace djv
                 palettes[DJV_TEXT("Dark")] = UI::Style::Palette();
 
                 UI::Style::Palette palette;
-                palette.setColor(ColorRole::Background, AV::Image::Color(.92f, .92f, .92f, 1.f));
-                palette.setColor(ColorRole::BackgroundBellows, AV::Image::Color(.85f, .85f, .85f, 1.f));
-                palette.setColor(ColorRole::BackgroundHeader, AV::Image::Color(.8f, .8f, .8f, 1.f));
-                palette.setColor(ColorRole::BackgroundToolBar, AV::Image::Color(.88f, .88f, .88f, 1.f));
-                palette.setColor(ColorRole::Border, AV::Image::Color(.65f, .65f, .65f, 1.f));
-                palette.setColor(ColorRole::BorderButton, AV::Image::Color(.85f, .85f, .85f, 1.f));
-                palette.setColor(ColorRole::Button, AV::Image::Color(1.f, 1.f, 1.f, 1.f));
-                palette.setColor(ColorRole::Checked, AV::Image::Color(.69f, .76f, .89f, 1.f));
-                palette.setColor(ColorRole::TextFocus, AV::Image::Color(.49f, .66f, .89f, 1.f));
-                palette.setColor(ColorRole::Foreground, AV::Image::Color(0.f, 0.f, 0.f, 1.f));
-                palette.setColor(ColorRole::ForegroundDim, AV::Image::Color(.5f, .5f, .5f, 1.f));
-                palette.setColor(ColorRole::Handle, AV::Image::Color(.49f, .66f, .89f, 1.f));
-                palette.setColor(ColorRole::Hovered, AV::Image::Color(0.f, 0.f, 0.f, .06f));
-                palette.setColor(ColorRole::Overlay, AV::Image::Color(0.f, 0.f, 0.f, .7f));
-                palette.setColor(ColorRole::OverlayLight, AV::Image::Color(1.f, 1.f, 1.f, .7f));
-                palette.setColor(ColorRole::Pressed, AV::Image::Color(0.f, 0.f, 0.f, .1f));
-                palette.setColor(ColorRole::Shadow, AV::Image::Color(0.f, 0.f, 0.f, .12f));
-                palette.setColor(ColorRole::Trough, AV::Image::Color(.95f, .95f, .95f, 1.f));
-                palette.setColor(ColorRole::Cached, AV::Image::Color(.69f, .89f, .76f, 1.f));
-                palette.setDisabledMult(.5f);
+                palette.setColor(ColorRole::Background, AV::Image::Color(.92F, .92F, .92F, 1.F));
+                palette.setColor(ColorRole::BackgroundBellows, AV::Image::Color(.85F, .85F, .85F, 1.F));
+                palette.setColor(ColorRole::BackgroundHeader, AV::Image::Color(.8F, .8F, .8F, 1.F));
+                palette.setColor(ColorRole::BackgroundToolBar, AV::Image::Color(.88F, .88F, .88F, 1.F));
+                palette.setColor(ColorRole::Border, AV::Image::Color(.65F, .65F, .65F, 1.F));
+                palette.setColor(ColorRole::BorderButton, AV::Image::Color(.85F, .85F, .85F, 1.F));
+                palette.setColor(ColorRole::Button, AV::Image::Color(1.F, 1.F, 1.F, 1.F));
+                palette.setColor(ColorRole::Checked, AV::Image::Color(.69F, .76F, .89F, 1.F));
+                palette.setColor(ColorRole::TextFocus, AV::Image::Color(.49F, .66F, .89F, 1.F));
+                palette.setColor(ColorRole::Foreground, AV::Image::Color(0.F, 0.F, 0.F, 1.F));
+                palette.setColor(ColorRole::ForegroundDim, AV::Image::Color(.5F, .5F, .5F, 1.F));
+                palette.setColor(ColorRole::Handle, AV::Image::Color(.49F, .66F, .89F, 1.F));
+                palette.setColor(ColorRole::Hovered, AV::Image::Color(0.F, 0.F, 0.F, .06F));
+                palette.setColor(ColorRole::Overlay, AV::Image::Color(0.F, 0.F, 0.F, .7F));
+                palette.setColor(ColorRole::OverlayLight, AV::Image::Color(1.F, 1.F, 1.F, .7F));
+                palette.setColor(ColorRole::Pressed, AV::Image::Color(0.F, 0.F, 0.F, .1F));
+                palette.setColor(ColorRole::Shadow, AV::Image::Color(0.F, 0.F, 0.F, .12F));
+                palette.setColor(ColorRole::Trough, AV::Image::Color(.95F, .95F, .95F, 1.F));
+                palette.setColor(ColorRole::Cached, AV::Image::Color(.69F, .89F, .76F, 1.F));
+                palette.setDisabledMult(.5F);
                 palettes[DJV_TEXT("Light")] = palette;
                 
                 std::map<std::string, UI::Style::Metrics> metricsList;
@@ -103,9 +103,9 @@ namespace djv
                 {
                     const UI::MetricsRole m = static_cast<UI::MetricsRole>(i);
                     const float v = metrics.getMetric(m);
-                    smallMetrics.setMetric(m, ceilf(v * .75f));
-                    largeMetrics.setMetric(m, ceilf(v * 1.5f));
-                    extraLargeMetrics.setMetric(m, ceilf(v * 2.f));
+                    smallMetrics.setMetric(m, ceilf(v * .75F));
+                    largeMetrics.setMetric(m, ceilf(v * 1.5F));
+                    extraLargeMetrics.setMetric(m, ceilf(v * 2.F));
                 }
                 metricsList[DJV_TEXT("Small")] = smallMetrics;
                 metricsList[DJV_TEXT("Large")] = largeMetrics;

@@ -52,7 +52,7 @@ namespace djv
         {
             std::shared_ptr<Media> currentMedia;
             AV::IO::Info info;
-            float volume = 1.f;
+            float volume = 1.F;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
@@ -137,8 +137,8 @@ namespace djv
                     if (auto system = weak.lock())
                     {
                         system->_p->currentMedia = value;
-                        system->_p->actions["IncreaseVolume"]->setEnabled(value ? (system->_p->volume < 1.f) : false);
-                        system->_p->actions["DecreaseVolume"]->setEnabled(value ? (system->_p->volume > 0.f) : false);
+                        system->_p->actions["IncreaseVolume"]->setEnabled(value ? (system->_p->volume < 1.F) : false);
+                        system->_p->actions["DecreaseVolume"]->setEnabled(value ? (system->_p->volume > 0.F) : false);
                         system->_p->actions["Mute"]->setEnabled(value ? true : false);
                         if (value)
                         {
@@ -239,8 +239,8 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const bool hasAudio = p.info.audio.size();
-            p.actions["IncreaseVolume"]->setEnabled(hasAudio && p.volume < 1.f);
-            p.actions["DecreaseVolume"]->setEnabled(hasAudio && p.volume > 0.f);
+            p.actions["IncreaseVolume"]->setEnabled(hasAudio && p.volume < 1.F);
+            p.actions["DecreaseVolume"]->setEnabled(hasAudio && p.volume > 0.F);
             p.actions["Mute"]->setEnabled(hasAudio);
         }
 

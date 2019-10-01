@@ -95,7 +95,7 @@ namespace djv
             std::shared_ptr<AV::Image::Image> image;
             Time::Speed defaultSpeed;
             Time::Speed speed;
-            float realSpeed = 0.f;
+            float realSpeed = 0.F;
             bool playEveryFrame = false;
             Frame::Sequence sequence;
             Frame::Index currentFrame = Frame::invalidIndex;
@@ -108,10 +108,10 @@ namespace djv
             bool frameStoreEnabled = false;
             std::shared_ptr<AV::Image::Image> frameStore;
             bool audioEnabled = false;
-            float audioVolume = 0.f;
+            float audioVolume = 0.F;
             bool audioMute = false;
             bool active = false;
-            float fade = 1.f;
+            float fade = 1.F;
 
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> playbackActionGroup;
@@ -248,7 +248,7 @@ namespace djv
             p.audioLabel->setMargin(UI::MetricsRole::MarginSmall);
             p.audioLabel->setBackgroundRole(UI::ColorRole::Trough);
             p.audioVolumeSlider = UI::FloatSlider::create(context);
-            p.audioVolumeSlider->setRange(FloatRange(0.f, 100.f));
+            p.audioVolumeSlider->setRange(FloatRange(0.F, 100.F));
             p.audioMuteButton = UI::ToolButton::create(context);
             p.audioMuteButton->setIcon("djvIconAudioMute");
             p.audioMuteButton->setButtonType(UI::ButtonType::Toggle);
@@ -454,7 +454,7 @@ namespace djv
                 {
                     if (auto media = widget->_p->media)
                     {
-                        media->setVolume(value / 100.f);
+                        media->setVolume(value / 100.F);
                     }
                 }
             });
@@ -859,7 +859,7 @@ namespace djv
                 break;
             default: break;
             }
-            resize(size + sh * 2.f);
+            resize(size + sh * 2.F);
         }
 
         std::shared_ptr<Core::IValueSubject<PointerData> > MediaWidget::observeHover() const
@@ -881,7 +881,7 @@ namespace djv
         float MediaWidget::_getPlaybackHeight() const
         {
             DJV_PRIVATE_PTR();
-            return p.playbackLayout->isVisible() ? p.playbackLayout->getMinimumSize().y : 0.f;
+            return p.playbackLayout->isVisible() ? p.playbackLayout->getMinimumSize().y : 0.F;
         }
 
 
@@ -919,14 +919,14 @@ namespace djv
 
             glm::vec2 imageSize = p.imageView->getMinimumSize();
             const float ar = p.imageView->getImageBBox().getAspect();
-            if (ar > 1.f)
+            if (ar > 1.F)
             {
-                imageSize.x = std::max(imageSize.x * 2.f, minimumSize.x);
+                imageSize.x = std::max(imageSize.x * 2.F, minimumSize.x);
                 imageSize.y = imageSize.x / ar;
             }
-            else if (ar > 0.f)
+            else if (ar > 0.F)
             {
-                imageSize.y = std::max(imageSize.y * 2.f, minimumSize.y);
+                imageSize.y = std::max(imageSize.y * 2.F, minimumSize.y);
                 imageSize.x = imageSize.y * ar;
             }
             glm::vec2 size(ceilf(imageSize.x), ceilf(imageSize.y));
@@ -939,7 +939,7 @@ namespace djv
             default: break;
             }
 
-            _setMinimumSize(size + sh * 2.f);
+            _setMinimumSize(size + sh * 2.F);
         }
 
         void MediaWidget::_layoutEvent(Event::Layout&)
@@ -1059,21 +1059,21 @@ namespace djv
         void MediaWidget::_audioUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.audioVolumeSlider->setValue(p.audioVolume * 100.f);
+            p.audioVolumeSlider->setValue(p.audioVolume * 100.F);
             p.audioMuteButton->setChecked(p.audioMute);
             if (!p.audioEnabled || p.audioMute)
             {
                 p.audioPopupWidget->setIcon("djvIconAudioMute");
             }
-            else if (p.audioVolume < 1.f / 4.f)
+            else if (p.audioVolume < 1.F / 4.F)
             {
                 p.audioPopupWidget->setIcon("djvIconAudio0");
             }
-            else if (p.audioVolume < 2.f / 4.f)
+            else if (p.audioVolume < 2.F / 4.F)
             {
                 p.audioPopupWidget->setIcon("djvIconAudio1");
             }
-            else if (p.audioVolume < 3.f / 4.f)
+            else if (p.audioVolume < 3.F / 4.F)
             {
                 p.audioPopupWidget->setIcon("djvIconAudio2");
             }
@@ -1086,7 +1086,7 @@ namespace djv
         void MediaWidget::_opacityUpdate()
         {
             DJV_PRIVATE_PTR();
-            const float maximize = 1.f - _getMaximize();
+            const float maximize = 1.F - _getMaximize();
             p.titleBar->setOpacity(p.fade * maximize);
             p.playbackLayout->setOpacity(p.fade);
         }

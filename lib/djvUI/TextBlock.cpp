@@ -59,7 +59,7 @@ namespace djv
             MetricsRole fontSizeRole = MetricsRole::FontMedium;
             AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;
-            glm::vec2 textSize = glm::vec2(0.f, 0.f);
+            glm::vec2 textSize = glm::vec2(0.F, 0.F);
             size_t textSizeHash = 0;
             std::vector<AV::Font::TextLine> textLines;
             BBox2f clipRect;
@@ -201,7 +201,7 @@ namespace djv
         float TextBlock::getHeightForWidth(float value) const
         {
             DJV_PRIVATE_PTR();
-            float out = 0.f;
+            float out = 0.F;
             const auto& style = _getStyle();
             const float w = value - getMargin().getWidth(style);
             _calcSize(w);
@@ -231,7 +231,7 @@ namespace djv
         {
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
-            if (p.textSize.x > 0.f && p.textSize.y > 0.f)
+            if (p.textSize.x > 0.F && p.textSize.y > 0.F)
             {
                 const auto& style = _getStyle();
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
@@ -263,7 +263,7 @@ namespace djv
                         switch (p.textHAlign)
                         {
                         case TextHAlign::Center:
-                            pos.x = ceilf(c.x - line.size.x / 2.f);
+                            pos.x = ceilf(c.x - line.size.x / 2.F);
                             break;
                         case TextHAlign::Right:
                             pos.x = g.max.x - line.size.x;
@@ -275,7 +275,7 @@ namespace djv
                         //! \bug Why the extra subtract by one here?
                         render->drawText(
                             line.text,
-                            glm::vec2(floorf(pos.x), floorf(pos.y + p.fontMetrics.ascender - 1.f)));
+                            glm::vec2(floorf(pos.x), floorf(pos.y + p.fontMetrics.ascender - 1.F)));
                     }
                     pos.y += line.size.y;
                 }
@@ -298,7 +298,7 @@ namespace djv
             {
                 p.textSizeHash = hash;
                 p.textLines = p.fontSystem->textLines(p.text, value, fontInfo).get();
-                p.textSize = glm::vec2(0.f, 0.f);
+                p.textSize = glm::vec2(0.F, 0.F);
                 for (const auto& i : p.textLines)
                 {
                     p.textSize.x = std::max(p.textSize.x, i.size.x);

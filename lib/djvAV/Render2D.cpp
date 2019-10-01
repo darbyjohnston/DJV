@@ -325,13 +325,13 @@ namespace djv
 
                 Image::Size                             size;
                 std::list<glm::mat3x3>                  transforms;
-                glm::mat3x3                             currentTransform = glm::mat3x3(1.f);
+                glm::mat3x3                             currentTransform = glm::mat3x3(1.F);
                 std::list<BBox2f>                       clipRects;
-                BBox2f                                  currentClipRect  = BBox2f(0.f, 0.f, 0.f, 0.f);
-                float                                   fillColor[4]     = { 1.f, 1.f, 1.f, 1.f };
-                float                                   colorMult        = 1.f;
-                float                                   alphaMult        = 1.f;
-                float                                   finalColor[4]    = { 1.f, 1.f, 1.f, 1.f };
+                BBox2f                                  currentClipRect  = BBox2f(0.F, 0.F, 0.F, 0.F);
+                float                                   fillColor[4]     = { 1.F, 1.F, 1.F, 1.F };
+                float                                   colorMult        = 1.F;
+                float                                   alphaMult        = 1.F;
+                float                                   finalColor[4]    = { 1.F, 1.F, 1.F, 1.F };
                 std::weak_ptr<Font::System>             fontSystem;
                 Font::Info                              currentFont;
                 std::shared_ptr<ValueSubject<bool> >    lcdText;
@@ -463,7 +463,7 @@ namespace djv
                     [this](float)
                 {
                     DJV_PRIVATE_PTR();
-                    float average = 1.f;
+                    float average = 1.F;
                     for (const auto & i : p.fpsSamples)
                     {
                         average += i;
@@ -493,8 +493,8 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 p.size = size;
-                p.currentClipRect = BBox2f(0.f, 0.f, static_cast<float>(size.w), static_cast<float>(size.h));
-                p.viewport = BBox2f(0.f, 0.f, static_cast<float>(size.w), static_cast<float>(size.h));
+                p.currentClipRect = BBox2f(0.F, 0.F, static_cast<float>(size.w), static_cast<float>(size.h));
+                p.viewport = BBox2f(0.F, 0.F, static_cast<float>(size.w), static_cast<float>(size.h));
             }
 
             void Render2D::endFrame()
@@ -534,7 +534,7 @@ namespace djv
                     static_cast<GLint>(p.viewport.min.y),
                     static_cast<GLsizei>(p.viewport.w()),
                     static_cast<GLsizei>(p.viewport.h()));
-                glClearColor(0.f, 0.f, 0.f, 0.f);
+                glClearColor(0.F, 0.F, 0.F, 0.F);
                 glClear(GL_COLOR_BUFFER_BIT);
 
                 const auto viewMatrix = glm::ortho(
@@ -542,7 +542,7 @@ namespace djv
                     p.viewport.max.x,
                     p.viewport.max.y,
                     p.viewport.min.y,
-                    -1.f, 1.f);
+                    -1.F, 1.F);
                 p.shader->setUniform(p.mvpLoc, viewMatrix);
 
                 const auto& atlasTextures = p.textureAtlas->getTextures();
@@ -622,7 +622,7 @@ namespace djv
                 const auto now = std::chrono::system_clock::now();
                 const std::chrono::duration<float> delta = now - p.fpsTime;
                 p.fpsTime = now;
-                p.fpsSamples.push_back(1.f / delta.count());
+                p.fpsSamples.push_back(1.F / delta.count());
                 while (p.fpsSamples.size() > 10)
                 {
                     p.fpsSamples.erase(p.fpsSamples.begin());
@@ -788,7 +788,7 @@ namespace djv
                     const size_t vboDataSize = p.vboDataSize;
                     p.updateVBODataSize(primitive->vaoSize);
                     const float h = rect.h();
-                    const float radius = h / 2.f;
+                    const float radius = h / 2.F;
                     VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataSize]);
                     pData->vx = rect.min.x + radius;
                     pData->vy = rect.min.y;
@@ -816,11 +816,11 @@ namespace djv
                         pData->vx = x;
                         pData->vy = y;
                         ++pData;
-                        float degrees = i / static_cast<float>(facets) * 180.f + 90.f;
+                        float degrees = i / static_cast<float>(facets) * 180.F + 90.F;
                         pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
                         pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
                         ++pData;
-                        degrees = (i + 1) / static_cast<float>(facets) * 180.f + 90.f;
+                        degrees = (i + 1) / static_cast<float>(facets) * 180.F + 90.F;
                         pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
                         pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
                         ++pData;
@@ -833,11 +833,11 @@ namespace djv
                         pData->vx = x;
                         pData->vy = y;
                         ++pData;
-                        float degrees = i / static_cast<float>(facets) * 180.f + 270.f;
+                        float degrees = i / static_cast<float>(facets) * 180.F + 270.F;
                         pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
                         pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
                         ++pData;
-                        degrees = (i + 1) / static_cast<float>(facets) * 180.f + 270.f;
+                        degrees = (i + 1) / static_cast<float>(facets) * 180.F + 270.F;
                         pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
                         pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
                         ++pData;
@@ -848,7 +848,7 @@ namespace djv
             void Render2D::drawCircle(const glm::vec2 & pos, float radius, size_t facets)
             {
                 DJV_PRIVATE_PTR();
-                const BBox2f rect(pos.x - radius, pos.y - radius, radius * 2.f, radius * 2.f);
+                const BBox2f rect(pos.x - radius, pos.y - radius, radius * 2.F, radius * 2.F);
                 if (rect.intersects(p.viewport))
                 {
                     auto primitive = new Primitive;
@@ -869,11 +869,11 @@ namespace djv
                         pData->vx = pos.x;
                         pData->vy = pos.y;
                         ++pData;
-                        float degrees = i / static_cast<float>(facets) * 360.f;
+                        float degrees = i / static_cast<float>(facets) * 360.F;
                         pData->vx = pos.x + cosf(Math::deg2rad(degrees)) * radius;
                         pData->vy = pos.y + sinf(Math::deg2rad(degrees)) * radius;
                         ++pData;
-                        degrees = (i + 1) / static_cast<float>(facets) * 360.f;
+                        degrees = (i + 1) / static_cast<float>(facets) * 360.F;
                         pData->vx = pos.x + cosf(Math::deg2rad(degrees)) * radius;
                         pData->vy = pos.y + sinf(Math::deg2rad(degrees)) * radius;
                         ++pData;
@@ -922,7 +922,7 @@ namespace djv
                     try
                     {
                         TextPrimitive* primitive = nullptr;
-                        float x = 0.f;
+                        float x = 0.F;
                         int32_t rsbDeltaPrev = 0;
 
                         const auto glyphs = fontSystem->getGlyphs(value, p.currentFont).get();
@@ -930,11 +930,11 @@ namespace djv
                         {
                             if (rsbDeltaPrev - glyph->lsbDelta > 32)
                             {
-                                x -= 1.f;
+                                x -= 1.F;
                             }
                             else if (rsbDeltaPrev - glyph->lsbDelta < -31)
                             {
-                                x += 1.f;
+                                x += 1.F;
                             }
                             rsbDeltaPrev = glyph->rsbDelta;
 
@@ -1229,12 +1229,12 @@ namespace djv
                         pData->vy = y;
                         pData->tx = 65535;
                         ++pData;
-                        float degrees = i / static_cast<float>(facets) * 90.f + 180.f;
+                        float degrees = i / static_cast<float>(facets) * 90.F + 180.F;
                         pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
                         pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
                         pData->tx = 0;
                         ++pData;
-                        degrees = (i + 1) / static_cast<float>(facets) * 90.f + 180.f;
+                        degrees = (i + 1) / static_cast<float>(facets) * 90.F + 180.F;
                         pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
                         pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
                         pData->tx = 0;
@@ -1250,12 +1250,12 @@ namespace djv
                         pData->vy = y;
                         pData->tx = 65535;
                         ++pData;
-                        float degrees = i / static_cast<float>(facets) * 90.f + 270.f;
+                        float degrees = i / static_cast<float>(facets) * 90.F + 270.F;
                         pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
                         pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
                         pData->tx = 0;
                         ++pData;
-                        degrees = (i + 1) / static_cast<float>(facets) * 90.f + 270.f;
+                        degrees = (i + 1) / static_cast<float>(facets) * 90.F + 270.F;
                         pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
                         pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
                         pData->tx = 0;
@@ -1271,12 +1271,12 @@ namespace djv
                         pData->vy = y;
                         pData->tx = 65535;
                         ++pData;
-                        float degrees = i / static_cast<float>(facets) * 90.f;
+                        float degrees = i / static_cast<float>(facets) * 90.F;
                         pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
                         pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
                         pData->tx = 0;
                         ++pData;
-                        degrees = (i + 1) / static_cast<float>(facets) * 90.f;
+                        degrees = (i + 1) / static_cast<float>(facets) * 90.F;
                         pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
                         pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
                         pData->tx = 0;
@@ -1292,12 +1292,12 @@ namespace djv
                         pData->vy = y;
                         pData->tx = 65535;
                         ++pData;
-                        float degrees = i / static_cast<float>(facets) * 90.f + 90.f;
+                        float degrees = i / static_cast<float>(facets) * 90.F + 90.F;
                         pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
                         pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
                         pData->tx = 0;
                         ++pData;
-                        degrees = (i + 1) / static_cast<float>(facets) * 90.f + 90.f;
+                        degrees = (i + 1) / static_cast<float>(facets) * 90.F + 90.F;
                         pData->vx = x + cosf(Math::deg2rad(degrees)) * radius;
                         pData->vy = y + sinf(Math::deg2rad(degrees)) * radius;
                         pData->tx = 0;
@@ -1323,7 +1323,7 @@ namespace djv
 
             void Render2D::Private::updateCurrentTransform()
             {
-                currentTransform = glm::mat3x3(1.f);
+                currentTransform = glm::mat3x3(1.F);
                 for (const auto& i : transforms)
                 {
                     currentTransform *= i;
@@ -1332,8 +1332,8 @@ namespace djv
 
             void Render2D::Private::updateCurrentClipRect()
             {
-                currentClipRect.min.x = 0.f;
-                currentClipRect.min.y = 0.f;
+                currentClipRect.min.x = 0.F;
+                currentClipRect.min.y = 0.F;
                 currentClipRect.max.x = static_cast<float>(size.w);
                 currentClipRect.max.y = static_cast<float>(size.h);
                 for (const auto & i : clipRects)
@@ -1363,16 +1363,16 @@ namespace djv
                 static glm::vec3 pts[4];
                 pts[0].x = pos.x;
                 pts[0].y = pos.y;
-                pts[0].z = 1.f;
+                pts[0].z = 1.F;
                 pts[1].x = pos.x + info.size.w;
                 pts[1].y = pos.y;
-                pts[1].z = 1.f;
+                pts[1].z = 1.F;
                 pts[2].x = pos.x + info.size.w;
                 pts[2].y = pos.y + info.size.h;
-                pts[2].z = 1.f;
+                pts[2].z = 1.F;
                 pts[3].x = pos.x;
                 pts[3].y = pos.y + info.size.h;
-                pts[3].z = 1.f;
+                pts[3].z = 1.F;
                 for (auto& i : pts)
                 {
                     i = currentTransform * i;
@@ -1468,23 +1468,23 @@ namespace djv
                         }
                         if (info.layout.mirror.x)
                         {
-                            textureU.min = 1.f;
-                            textureU.max = 0.f;
+                            textureU.min = 1.F;
+                            textureU.max = 0.F;
                         }
                         else
                         {
-                            textureU.min = 0.f;
-                            textureU.max = 1.f;
+                            textureU.min = 0.F;
+                            textureU.max = 1.F;
                         }
                         if (info.layout.mirror.y)
                         {
-                            textureV.min = 1.f;
-                            textureV.max = 0.f;
+                            textureV.min = 1.F;
+                            textureV.max = 0.F;
                         }
                         else
                         {
-                            textureV.min = 0.f;
-                            textureV.max = 1.f;
+                            textureV.min = 0.F;
+                            textureV.max = 1.F;
                         }
                         break;
                     }
@@ -1492,13 +1492,13 @@ namespace djv
                     }
                     if (options.mirror.x)
                     {
-                        textureU.min = 1.f - textureU.min;
-                        textureU.max = 1.f - textureU.max;
+                        textureU.min = 1.F - textureU.min;
+                        textureU.max = 1.F - textureU.max;
                     }
                     if (options.mirror.y)
                     {
-                        textureV.min = 1.f - textureV.min;
-                        textureV.max = 1.f - textureV.max;
+                        textureV.min = 1.F - textureV.min;
+                        textureV.max = 1.F - textureV.max;
                     }
 #if !defined(DJV_OPENGL_ES2)
                     if (options.colorSpace.isValid())

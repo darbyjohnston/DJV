@@ -223,7 +223,7 @@ namespace djv
                     {
                         auto settingsSystem = context->getSystemT<UI::Settings::System>();
                         auto fileBrowserSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
-                        fileBrowserSettings->setThumbnailSize(AV::Image::Size(value, ceilf(value / 2.f)));
+                        fileBrowserSettings->setThumbnailSize(AV::Image::Size(value, ceilf(value / 2.F)));
                     }
                 });
 
@@ -238,8 +238,8 @@ namespace djv
                         auto settingsSystem = context->getSystemT<UI::Settings::System>();
                         auto fileBrowserSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
                         auto size = fileBrowserSettings->observeThumbnailSize()->get();
-                        size.w = Math::clamp(static_cast<int>(size.w * 1.25f), UI::FileBrowser::thumbnailSizeRange.min, UI::FileBrowser::thumbnailSizeRange.max);
-                        size.h = static_cast<int>(ceilf(size.w / 2.f));
+                        size.w = Math::clamp(static_cast<int>(size.w * 1.25F), UI::FileBrowser::thumbnailSizeRange.min, UI::FileBrowser::thumbnailSizeRange.max);
+                        size.h = static_cast<int>(ceilf(size.w / 2.F));
                         fileBrowserSettings->setThumbnailSize(size);
                     }
                 }
@@ -256,8 +256,8 @@ namespace djv
                         auto settingsSystem = context->getSystemT<UI::Settings::System>();
                         auto fileBrowserSettings = settingsSystem->getSettingsT<UI::Settings::FileBrowser>();
                         auto size = fileBrowserSettings->observeThumbnailSize()->get();
-                        size.w = Math::clamp(static_cast<int>(size.w * .75f), UI::FileBrowser::thumbnailSizeRange.min, UI::FileBrowser::thumbnailSizeRange.max);
-                        size.h = static_cast<int>(ceilf(size.w / 2.f));
+                        size.w = Math::clamp(static_cast<int>(size.w * .75F), UI::FileBrowser::thumbnailSizeRange.min, UI::FileBrowser::thumbnailSizeRange.max);
+                        size.h = static_cast<int>(ceilf(size.w / 2.F));
                         fileBrowserSettings->setThumbnailSize(size);
                     }
                 }

@@ -275,30 +275,30 @@ namespace djv
                 using namespace Core;
                 const FloatRange data[] =
                 {
-                    FloatRange(0.f, 0.f),
+                    FloatRange(0.F, 0.F),
 
-                    FloatRange(0.f, 0.f),
-                    FloatRange(0.f, 0.f),
-                    FloatRange(0.f, 0.f),
+                    FloatRange(0.F, 0.F),
+                    FloatRange(0.F, 0.F),
+                    FloatRange(0.F, 0.F),
                     FloatRange(F16Min, F16Max),
                     FloatRange(F32Min, F32Max),
 
-                    FloatRange(0.f, 0.f),
-                    FloatRange(0.f, 0.f),
-                    FloatRange(0.f, 0.f),
+                    FloatRange(0.F, 0.F),
+                    FloatRange(0.F, 0.F),
+                    FloatRange(0.F, 0.F),
                     FloatRange(F16Min, F16Max),
                     FloatRange(F32Min, F32Max),
 
-                    FloatRange(0.f, 0.f),
-                    FloatRange(0.f, 0.f),
-                    FloatRange(0.f, 0.f),
-                    FloatRange(0.f, 0.f),
+                    FloatRange(0.F, 0.F),
+                    FloatRange(0.F, 0.F),
+                    FloatRange(0.F, 0.F),
+                    FloatRange(0.F, 0.F),
                     FloatRange(F16Min, F16Max),
                     FloatRange(F32Min, F32Max),
 
-                    FloatRange(0.f, 0.f),
-                    FloatRange(0.f, 0.f),
-                    FloatRange(0.f, 0.f),
+                    FloatRange(0.F, 0.F),
+                    FloatRange(0.F, 0.F),
+                    FloatRange(0.F, 0.F),
                     FloatRange(F16Min, F16Max),
                     FloatRange(F32Min, F32Max),
                 };

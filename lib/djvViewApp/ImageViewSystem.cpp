@@ -59,9 +59,9 @@ namespace djv
             std::shared_ptr<ImageViewSettings> settings;
             
             bool currentTool = false;
-            glm::vec2 hoverPos = glm::vec2(0.f, 0.f);
-            glm::vec2 dragStart = glm::vec2(0.f, 0.f);
-            glm::vec2 dragImagePos = glm::vec2(0.f, 0.f);
+            glm::vec2 hoverPos = glm::vec2(0.F, 0.F);
+            glm::vec2 dragStart = glm::vec2(0.F, 0.F);
+            glm::vec2 dragImagePos = glm::vec2(0.F, 0.F);
 
             std::shared_ptr<MediaWidget> activeWidget;
             std::shared_ptr<ValueSubject<ImageViewLock> > lock;
@@ -184,7 +184,7 @@ namespace djv
                     {
                         if (auto system = weak.lock())
                         {
-                            system->_panImage(glm::vec2(1.f, 0.f));
+                            system->_panImage(glm::vec2(1.F, 0.F));
                         }
                     }
                 });
@@ -198,7 +198,7 @@ namespace djv
                         if (auto system = weak.lock())
                         {
                             system->_p->settings->setLock(ImageViewLock::None);
-                            system->_panImage(glm::vec2(-1.f, 0.f));
+                            system->_panImage(glm::vec2(-1.F, 0.F));
                         }
                     }
                 });
@@ -212,7 +212,7 @@ namespace djv
                         if (auto system = weak.lock())
                         {
                             system->_p->settings->setLock(ImageViewLock::None);
-                            system->_panImage(glm::vec2(0.f, 1.f));
+                            system->_panImage(glm::vec2(0.F, 1.F));
                         }
                     }
                 });
@@ -226,7 +226,7 @@ namespace djv
                         if (auto system = weak.lock())
                         {
                             system->_p->settings->setLock(ImageViewLock::None);
-                            system->_panImage(glm::vec2(0.f, -1.f));
+                            system->_panImage(glm::vec2(0.F, -1.F));
                         }
                     }
                 });
@@ -240,7 +240,7 @@ namespace djv
                         if (auto system = weak.lock())
                         {
                             system->_p->settings->setLock(ImageViewLock::None);
-                            system->_panImage(glm::vec2(1.f, 1.f));
+                            system->_panImage(glm::vec2(1.F, 1.F));
                         }
                     }
                 });
@@ -254,7 +254,7 @@ namespace djv
                         if (auto system = weak.lock())
                         {
                             system->_p->settings->setLock(ImageViewLock::None);
-                            system->_panImage(glm::vec2(-1.f, 1.f));
+                            system->_panImage(glm::vec2(-1.F, 1.F));
                         }
                     }
                 });
@@ -268,7 +268,7 @@ namespace djv
                         if (auto system = weak.lock())
                         {
                             system->_p->settings->setLock(ImageViewLock::None);
-                            system->_panImage(glm::vec2(-1.f, -1.f));
+                            system->_panImage(glm::vec2(-1.F, -1.F));
                         }
                     }
                 });
@@ -282,7 +282,7 @@ namespace djv
                         if (auto system = weak.lock())
                         {
                             system->_p->settings->setLock(ImageViewLock::None);
-                            system->_panImage(glm::vec2(1.f, -1.f));
+                            system->_panImage(glm::vec2(1.F, -1.F));
                         }
                     }
                 });
@@ -295,7 +295,7 @@ namespace djv
                     {
                         if (auto system = weak.lock())
                         {
-                            system->_zoomAction(2.f);
+                            system->_zoomAction(2.F);
                         }
                     }
                 });
@@ -322,7 +322,7 @@ namespace djv
                         if (auto system = weak.lock())
                         {
                             system->_p->settings->setLock(ImageViewLock::None);
-                            system->_zoomImage(1.f);
+                            system->_zoomImage(1.F);
                         }
                     }
                 });
@@ -558,15 +558,15 @@ namespace djv
                 auto imageView = widget->getImageView();
                 const float w = imageView->getWidth();
                 const float h = imageView->getHeight();
-                glm::vec2 focus = glm::vec2(0.f, 0.f);
-                if (BBox2f(0.f, 0.f, w, h).contains(p.hoverPos))
+                glm::vec2 focus = glm::vec2(0.F, 0.F);
+                if (BBox2f(0.F, 0.F, w, h).contains(p.hoverPos))
                 {
                     focus = p.hoverPos;
                 }
                 else
                 {
-                    focus.x = w / 2.f;
-                    focus.y = h / 2.f;
+                    focus.x = w / 2.F;
+                    focus.y = h / 2.F;
                 }
                 imageView->setImageZoomFocus(value, focus);
             }

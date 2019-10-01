@@ -39,7 +39,7 @@ namespace djv
     namespace AV
     {
         //! This constant provides the default DPI.
-        const float dpiDefault = 96.f;
+        const float dpiDefault = 96.F;
         
     } // namespace AV
 } // namespace djv

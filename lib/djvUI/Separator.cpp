@@ -43,7 +43,7 @@ namespace djv
         {
             struct Separator::Private
             {
-                float width = 0.f;
+                float width = 0.F;
             };
 
             void Separator::_init(const std::shared_ptr<Context>& context)
@@ -74,7 +74,7 @@ namespace djv
                 const auto& style = _getStyle();
                 p.width = style->getMetric(MetricsRole::Border);
 
-                glm::vec2 minimumSize = glm::vec2(0.f, 0.f);
+                glm::vec2 minimumSize = glm::vec2(0.F, 0.F);
                 minimumSize += p.width;
                 _setMinimumSize(minimumSize);
             }

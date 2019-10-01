@@ -184,7 +184,7 @@ namespace djv
                                     scb,
                                     sampling.x,
                                     sampling.y,
-                                    0.f));
+                                    0.F));
                         }
                         f.f->setFrameBuffer(frameBuffer);
                         f.f->readPixels(f.displayWindow.min.y, f.displayWindow.max.y);
@@ -206,7 +206,7 @@ namespace djv
                                     0,
                                     sampling.x,
                                     sampling.y,
-                                    0.f));
+                                    0.F));
                         }
                         f.f->setFrameBuffer(frameBuffer);
                         for (int y = f.displayWindow.min.y; y <= f.displayWindow.max.y; ++y)

@@ -63,9 +63,9 @@ namespace djv
             std::shared_ptr<ValueSubject<ImageRotate> > imageRotate;
             std::shared_ptr<ValueSubject<ImageAspectRatio> > imageAspectRatio;
             ImageViewLock lock = ImageViewLock::None;
-            BBox2f lockFrame = BBox2f(0.f, 0.f, 0.f, 0.f);
-            AV::Image::Color backgroundColor = AV::Image::Color(0.f, 0.f, 0.f);
-            glm::vec2 pressedImagePos = glm::vec2(0.f, 0.f);
+            BBox2f lockFrame = BBox2f(0.F, 0.F, 0.F, 0.F);
+            AV::Image::Color backgroundColor = AV::Image::Color(0.F, 0.F, 0.F);
+            glm::vec2 pressedImagePos = glm::vec2(0.F, 0.F);
             bool viewInit = true;
             std::shared_ptr<ValueObserver<ImageViewLock> > lockObserver;
             std::shared_ptr<ValueObserver<AV::Image::Color> > backgroundColorObserver;
@@ -215,11 +215,11 @@ namespace djv
         float ImageView::getPixelAspectRatio() const
         {
             DJV_PRIVATE_PTR();
-            float out = 1.f;
+            float out = 1.F;
             switch (p.imageAspectRatio->get())
             {
             case ImageAspectRatio::Default:
-                out = p.image ? p.image->getInfo().pixelAspectRatio : 1.f;
+                out = p.image ? p.image->getInfo().pixelAspectRatio : 1.F;
                 break;
             default: break;
             }
@@ -229,13 +229,13 @@ namespace djv
         float ImageView::getAspectRatioScale() const
         {
             DJV_PRIVATE_PTR();
-            float out = 1.f;
+            float out = 1.F;
             switch (p.imageAspectRatio->get())
             {
             case ImageAspectRatio::_16_9:
             case ImageAspectRatio::_1_85:
             case ImageAspectRatio::_2_35:
-                out = (p.image ? p.image->getAspectRatio() : 1.f) / getImageAspectRatio(p.imageAspectRatio->get());
+                out = (p.image ? p.image->getAspectRatio() : 1.F) / getImageAspectRatio(p.imageAspectRatio->get());
                 break;
             default: break;
             }
@@ -313,8 +313,8 @@ namespace djv
                 }
                 setImagePosAndZoom(
                     glm::vec2(
-                        g.w() / 2.f - c.x * zoom,
-                        g.h() / 2.f - c.y * zoom),
+                        g.w() / 2.F - c.x * zoom,
+                        g.h() / 2.F - c.y * zoom),
                     zoom);
             }
         }
@@ -340,8 +340,8 @@ namespace djv
                 }
                 setImagePosAndZoom(
                     glm::vec2(
-                        (p.lockFrame.min.x - g.min.x) + p.lockFrame.w() / 2.f - c.x * zoom,
-                        (p.lockFrame.min.y - g.min.y) + p.lockFrame.h() / 2.f - c.y * zoom),
+                        (p.lockFrame.min.x - g.min.x) + p.lockFrame.w() / 2.F - c.x * zoom,
+                        (p.lockFrame.min.y - g.min.y) + p.lockFrame.h() / 2.F - c.y * zoom),
                     zoom);
             }
         }
@@ -355,9 +355,9 @@ namespace djv
                 const glm::vec2 c = _getCenter(_getImagePoints());
                 setImagePosAndZoom(
                     glm::vec2(
-                        g.w() / 2.f - c.x,
-                        g.h() / 2.f - c.y),
-                    1.f);
+                        g.w() / 2.F - c.x,
+                        g.h() / 2.F - c.y),
+                    1.F);
             }
         }
 
@@ -396,9 +396,9 @@ namespace djv
                 auto render = _getRender();
                 render->setFillColor(p.backgroundColor);
                 render->drawRect(g);
-                render->setFillColor(AV::Image::Color(1.f, 1.f, 1.f));
+                render->setFillColor(AV::Image::Color(1.F, 1.F, 1.F));
 
-                glm::mat3x3 m(1.f);
+                glm::mat3x3 m(1.F);
                 m = glm::translate(m, g.min + p.imagePos->get());
                 m = glm::rotate(m, Math::deg2rad(getImageRotate(p.imageRotate->get())));
                 m = glm::scale(m, glm::vec2(
@@ -421,7 +421,7 @@ namespace djv
                 }
                 options.colorSpace.output = p.outputColorSpace;
                 options.cache = AV::Render::ImageCache::Dynamic;
-                render->drawImage(p.image, glm::vec2(0.f, 0.f), options);
+                render->drawImage(p.image, glm::vec2(0.F, 0.F), options);
                 render->popTransform();
             }
         }
@@ -433,22 +433,22 @@ namespace djv
             if (p.image)
             {
                 const AV::Image::Size& imageSize = p.image->getSize();
-                glm::mat3x3 m(1.f);
+                glm::mat3x3 m(1.F);
                 m = glm::rotate(m, Math::deg2rad(getImageRotate(p.imageRotate->get())));
                 m = glm::scale(m, glm::vec2(getPixelAspectRatio(), getAspectRatioScale()));
                 out.resize(4);
-                out[0].x = 0.f;
-                out[0].y = 0.f;
-                out[0].z = 1.f;
-                out[1].x = 0.f + imageSize.w;
-                out[1].y = 0.f;
-                out[1].z = 1.f;
-                out[2].x = 0.f + imageSize.w;
-                out[2].y = 0.f + imageSize.h;
-                out[2].z = 1.f;
-                out[3].x = 0.f;
-                out[3].y = 0.f + imageSize.h;
-                out[3].z = 1.f;
+                out[0].x = 0.F;
+                out[0].y = 0.F;
+                out[0].z = 1.F;
+                out[1].x = 0.F + imageSize.w;
+                out[1].y = 0.F;
+                out[1].z = 1.F;
+                out[2].x = 0.F + imageSize.w;
+                out[2].y = 0.F + imageSize.h;
+                out[2].z = 1.F;
+                out[3].x = 0.F;
+                out[3].y = 0.F + imageSize.h;
+                out[3].z = 1.F;
                 for (auto& i : out)
                 {
                     i = m * i;
@@ -459,7 +459,7 @@ namespace djv
 
         glm::vec2 ImageView::_getCenter(const std::vector<glm::vec3>& value)
         {
-            glm::vec2 out(0.f, 0.f);
+            glm::vec2 out(0.F, 0.F);
             if (value.size())
             {
                 for (const auto& i : value)
@@ -475,7 +475,7 @@ namespace djv
         
         BBox2f ImageView::_getBBox(const std::vector<glm::vec3>& value)
         {
-            BBox2f out(0.f, 0.f, 0.f, 0.f);
+            BBox2f out(0.F, 0.F, 0.F, 0.F);
             if (value.size())
             {
                 out.min = out.max = value[0];

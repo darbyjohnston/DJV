@@ -106,7 +106,7 @@ namespace djv
             p.activeWidget = ValueSubject<std::shared_ptr<MediaWidget> >::create();
             p.fullScreen = ValueSubject<bool>::create(false);
             p.maximize = ValueSubject<bool>::create(false);
-            p.fade = ValueSubject<float>::create(1.f);
+            p.fade = ValueSubject<float>::create(1.F);
             p.pointerMotionTimer = Time::Timer::create(context);
             p.fadeAnimation = Animation::Animation::create(context);
 
@@ -203,7 +203,7 @@ namespace djv
                     {
                         system->_p->fadeAnimation->stop();
                         system->_p->pointerMotionTimer->stop();
-                        system->_p->fade->setIfChanged(1.f);
+                        system->_p->fade->setIfChanged(1.F);
                     }
                 }
             });
@@ -341,7 +341,7 @@ namespace djv
                             }
                             p.fadeAnimation->start(
                                 p.fade->get(),
-                                1.f,
+                                1.F,
                                 std::chrono::milliseconds(fadeInTime),
                                 [weak](float value)
                                 {
@@ -375,7 +375,7 @@ namespace djv
                             {
                                 system->_p->fadeAnimation->start(
                                     system->_p->fade->get(),
-                                    0.f,
+                                    0.F,
                                     std::chrono::milliseconds(fadeOutTime),
                                     [weak](float value)
                                     {

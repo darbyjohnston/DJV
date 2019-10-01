@@ -155,13 +155,13 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (p.fadeIn && p.fadeAnimation)
                 {
-                    setOpacity(0.f);
+                    setOpacity(0.F);
                     if (value)
                     {
                         auto weak = std::weak_ptr<Overlay>(std::dynamic_pointer_cast<Overlay>(shared_from_this()));
                         p.fadeAnimation->start(
                             getOpacity(),
-                            1.f,
+                            1.F,
                             std::chrono::milliseconds(100),
                             [weak](float value)
                         {
@@ -181,7 +181,7 @@ namespace djv
                 }
                 else
                 {
-                    setOpacity(1.f);
+                    setOpacity(1.F);
                 }
             }
 

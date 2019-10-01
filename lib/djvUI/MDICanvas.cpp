@@ -60,17 +60,17 @@ namespace djv
                 struct Pressed
                 {
                     std::shared_ptr<IWidget> widget;
-                    glm::vec2 pointer = glm::vec2(0.f, 0.f);
+                    glm::vec2 pointer = glm::vec2(0.F, 0.F);
                     Handle handle = Handle::None;
-                    glm::vec2 pos = glm::vec2(0.f, 0.f);
-                    glm::vec2 size = glm::vec2(0.f, 0.f);
+                    glm::vec2 pos = glm::vec2(0.F, 0.F);
+                    glm::vec2 size = glm::vec2(0.F, 0.F);
                 };
 
             } // namespace
 
             struct Canvas::Private
             {
-                glm::vec2 canvasSize = glm::vec2(10000.f, 10000.f);
+                glm::vec2 canvasSize = glm::vec2(10000.F, 10000.F);
                 std::map<std::shared_ptr<IWidget>, bool> widgetInit;
                 std::map<std::shared_ptr<IWidget>, BBox2f> widgetToGeometry;
                 std::map<Event::PointerID, Hovered> hovered;
@@ -78,7 +78,7 @@ namespace djv
                 std::shared_ptr<IWidget> activeWidget;
                 std::function<void(const std::shared_ptr<IWidget> &)> activeCallback;
                 bool maximize = false;
-                float maximizeValue = 0.f;
+                float maximizeValue = 0.F;
                 std::weak_ptr<IWidget> maximizeWidget;
                 std::function<void(bool)> maximizeCallback;
                 std::shared_ptr<Animation::Animation> maximizeAnimation;
@@ -157,7 +157,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const auto i = p.widgetToGeometry.find(widget);
-                return i != p.widgetToGeometry.end() ? i->second.min : glm::vec2(0.f, 0.f);
+                return i != p.widgetToGeometry.end() ? i->second.min : glm::vec2(0.F, 0.F);
             }
 
             void Canvas::setWidgetPos(const std::shared_ptr<IWidget>& widget, const glm::vec2& pos)
@@ -226,8 +226,8 @@ namespace djv
                         std::max(i->second.h(), widgetMinimumSize.y));
                     auto weak = std::weak_ptr<Canvas>(std::dynamic_pointer_cast<Canvas>(shared_from_this()));
                     p.maximizeAnimation->start(
-                        p.maximize ? 0.f : 1.f,
-                        p.maximize ? 1.f : 0.f,
+                        p.maximize ? 0.F : 1.F,
+                        p.maximize ? 1.F : 0.F,
                         std::chrono::milliseconds(maximizeAnimationDuration),
                         [weak, canvasGeometry, maximizeWeak, maximizeWidgetGeometry](float value)
                     {
@@ -257,7 +257,7 @@ namespace djv
                 }
                 else
                 {
-                    p.maximizeValue = value ? 1.f : 0.f;
+                    p.maximizeValue = value ? 1.F : 0.F;
                 }
                 if (p.maximizeCallback)
                 {
@@ -296,8 +296,8 @@ namespace djv
                             widgetSize.x = ceilf(std::max(widgetSize.x, std::max(widgetMinimumSize.x, widgetDesiredSize.x)));
                             widgetSize.y = ceilf(std::max(widgetSize.y, std::max(widgetMinimumSize.y, widgetDesiredSize.y)));
                             const glm::vec2 c = g.getCenter();
-                            i.second.min.x = floorf(c.x - widgetSize.x / 2.f);
-                            i.second.min.y = floorf(c.y - widgetSize.y / 2.f);
+                            i.second.min.x = floorf(c.x - widgetSize.x / 2.F);
+                            i.second.min.y = floorf(c.y - widgetSize.y / 2.F);
                             i.second.max.x = i.second.min.x + widgetSize.x;
                             i.second.max.y = i.second.min.y + widgetSize.y;
                         }
@@ -345,7 +345,7 @@ namespace djv
                     if (p.activeWidget)
                     {
                         p.activeWidget->_setActiveWidget(false);
-                        p.activeWidget->_setMaximize(0.f);
+                        p.activeWidget->_setMaximize(0.F);
                     }
                     p.activeWidget = widget;
                     p.activeWidget->_setActiveWidget(true);
@@ -355,7 +355,7 @@ namespace djv
                     if (i == p.widgetToGeometry.end())
                     {
                         p.widgetInit[p.activeWidget] = true;
-                        p.widgetToGeometry[p.activeWidget] = BBox2f(0.f, 0.f, 0.f, 0.f);
+                        p.widgetToGeometry[p.activeWidget] = BBox2f(0.F, 0.F, 0.F, 0.F);
                     }
                     _resize();
                     _doActiveCallback();
@@ -373,7 +373,7 @@ namespace djv
                         if (p.activeWidget)
                         {
                             p.activeWidget->_setActiveWidget(false);
-                            p.activeWidget->_setMaximize(0.f);
+                            p.activeWidget->_setMaximize(0.F);
                         }
                         const auto & children = getChildrenT<IWidget>();
                         p.activeWidget = children.size() ? children.back() : nullptr;
@@ -414,7 +414,7 @@ namespace djv
                         if (p.activeWidget)
                         {
                             p.activeWidget->_setActiveWidget(false);
-                            p.activeWidget->_setMaximize(0.f);
+                            p.activeWidget->_setMaximize(0.F);
                             const auto i = p.widgetToGeometry.find(p.activeWidget);
                             if (i != p.widgetToGeometry.end())
                             {
@@ -499,8 +499,8 @@ namespace djv
                                 const glm::vec2& minimumSize = widget->getMinimumSize();
                                 const glm::vec2 d = pointerInfo.projectedPos - i->second.pointer;
                                 const glm::vec2 d2(
-                                    d.x - std::max(0.f, minimumSize.x - (i->second.size.x - d.x)),
-                                    d.y - std::max(0.f, minimumSize.y - (i->second.size.y - d.y)));
+                                    d.x - std::max(0.F, minimumSize.x - (i->second.size.x - d.x)),
+                                    d.y - std::max(0.F, minimumSize.y - (i->second.size.y - d.y)));
                                 switch (i->second.handle)
                                 {
                                 case Handle::Move:

@@ -130,7 +130,7 @@ namespace djv
             p.inOutPointsEnabled = ValueSubject<bool>::create(false);
             p.inPoint = ValueSubject<Frame::Index>::create(Frame::invalid);
             p.outPoint = ValueSubject<Frame::Index>::create(Frame::invalid);
-            p.volume = ValueSubject<float>::create(1.f);
+            p.volume = ValueSubject<float>::create(1.F);
             p.audioEnabled = ValueSubject<bool>::create(false);
             p.mute = ValueSubject<bool>::create(false);
             p.threadCount = ValueSubject<size_t>::create(4);
@@ -514,7 +514,7 @@ namespace djv
 
         void Media::setVolume(float value)
         {
-            _p->volume->setIfChanged(Math::clamp(value, 0.f, 1.f));
+            _p->volume->setIfChanged(Math::clamp(value, 0.F, 1.F));
         }
 
         void Media::setMute(bool value)
@@ -1034,7 +1034,7 @@ namespace djv
                 const bool forward = Playback::Forward == playback;
                 const auto now = std::chrono::system_clock::now();
                 const std::chrono::duration<double> playEveryFrameDelta = now - p.playEveryFrameTime;
-                const float frameTime = 1.f / p.speed->get().toFloat();
+                const float frameTime = 1.F / p.speed->get().toFloat();
                 const bool playEveryFrameAdvance = playEveryFrameDelta.count() > frameTime;
                 const Frame::Index currentFrame = p.currentFrame->get();
                 AV::IO::VideoFrame frame;
@@ -1105,7 +1105,7 @@ namespace djv
             size_t outputSampleCount = static_cast<size_t>(nFrames);
             size_t sampleCount = 0;
             const size_t sampleByteCount = info.info.channelCount * AV::Audio::getByteCount(info.info.type);
-            const float volume = !media->_p->mute->get() ? media->_p->volume->get() : 0.f;
+            const float volume = !media->_p->mute->get() ? media->_p->volume->get() : 0.F;
 
             if (media->_p->audioData)
             {

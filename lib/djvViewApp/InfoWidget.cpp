@@ -260,7 +260,7 @@ namespace djv
                     label = UI::Label::create(context);
                     {
                         std::stringstream ss;
-                        ss << i.info.sampleRate / 1000.f << _getText(DJV_TEXT("kHz"));
+                        ss << i.info.sampleRate / 1000.F << _getText(DJV_TEXT("kHz"));
                         label->setText(ss.str());
                     }
                     label->setHAlign(UI::HAlign::Left);

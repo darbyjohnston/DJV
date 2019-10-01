@@ -81,7 +81,7 @@ namespace djv
                 TextLine(const std::string&, const glm::vec2 &);
 
                 std::string text;
-                glm::vec2   size = glm::vec2(0.f, 0.f);
+                glm::vec2   size = glm::vec2(0.F, 0.F);
             };
 
             //! This struct provides font glyph information.
@@ -110,7 +110,7 @@ namespace djv
 
                 GlyphInfo                    info;
                 std::shared_ptr<Image::Data> imageData;
-                glm::vec2                    offset    = glm::vec2(0.f, 0.f);
+                glm::vec2                    offset    = glm::vec2(0.F, 0.F);
                 uint16_t                     advance   = 0;
                 int32_t                      lsbDelta  = 0;
                 int32_t                      rsbDelta  = 0;

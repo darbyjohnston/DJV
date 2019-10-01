@@ -141,9 +141,9 @@ namespace djv
                 const float b = style->getMetric(MetricsRole::Border);
                 const float is = style->getMetric(MetricsRole::IconSmall);
                 glm::vec2 size = _p->label->getMinimumSize();
-                size.x += is + m * 2.f;
-                size.y = std::max(size.y, is + m * 2.f);
-                _setMinimumSize(size + b * 2.f);
+                size.x += is + m * 2.F;
+                size.y = std::max(size.y, is + m * 2.F);
+                _setMinimumSize(size + b * 2.F);
             }
 
             void CheckBox::_layoutEvent(Event::Layout &)
@@ -235,9 +235,9 @@ namespace djv
                 const float b = style->getMetric(MetricsRole::Border);
                 const float m = style->getMetric(MetricsRole::MarginSmall);
                 const float is = style->getMetric(MetricsRole::IconSmall);
-                const float size = is + m * 2.f;
+                const float size = is + m * 2.F;
                 const BBox2f g2 = g.margin(-b);
-                return BBox2f(g2.min.x, floorf(g2.min.y + g2.h() / 2.f - size / 2.f), size, size);
+                return BBox2f(g2.min.x, floorf(g2.min.y + g2.h() / 2.F - size / 2.F), size, size);
             }
 
             BBox2f CheckBox::_getLabelGeometry() const
@@ -247,7 +247,7 @@ namespace djv
                 const float b = style->getMetric(MetricsRole::Border);
                 const float m = style->getMetric(MetricsRole::MarginSmall);
                 const float is = style->getMetric(MetricsRole::IconSmall);
-                const float size = is + m * 2.f;
+                const float size = is + m * 2.F;
                 const BBox2f g2 = g.margin(-b);
                 return BBox2f(g2.min.x + size, g2.min.y, g2.w() - size, g2.h());
             }

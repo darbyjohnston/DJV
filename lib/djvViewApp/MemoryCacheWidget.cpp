@@ -49,7 +49,7 @@ namespace djv
     {
         struct MemoryCacheWidget::Private
         {
-            float percentageUsed = 0.f;
+            float percentageUsed = 0.F;
 
             std::shared_ptr<UI::Label> titleLabel;
             std::shared_ptr<UI::CheckBox> enabledCheckBox;
