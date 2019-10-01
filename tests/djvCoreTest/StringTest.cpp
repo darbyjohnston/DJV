@@ -312,6 +312,32 @@ namespace djv
                     DJV_ASSERT(d == b);
                 }
             }
+            {
+                _print(String::getAlphabetLower());
+                _print(String::getAlphabetUpper());
+                for (const auto& i : String::getTestNames())
+                {
+                    _print(i);
+                }
+                for (const auto& i : String::getRandomNames(10))
+                {
+                    _print(i);
+                }
+                _print(String::getRandomName());
+                for (const auto& i : String::getTestSentences())
+                {
+                    _print(i);
+                }
+                _print(String::getRandomSentence());
+                for (const auto& i : String::getRandomSentences(10))
+                {
+                    _print(i);
+                }
+                for (auto i : { 1, 10, 100 })
+                {
+                    _print(String::getRandomText(i));
+                }
+            }
         }
         
     } // namespace CoreTest
