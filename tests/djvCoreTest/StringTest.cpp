@@ -46,6 +46,254 @@ namespace djv
         void StringTest::run(const std::vector<std::string>& args)
         {
             {
+                std::vector<std::pair<std::string, std::vector<std::string> > > data =
+                {
+                    { "",      {} },
+                    { "a/b",   { "a", "b" } },
+                    { "a/",    { "a" } },
+                    { "/b",    { "b" } },
+                    { "a/b/c", { "a", "b", "c" } }
+                };
+                for (const auto& d : data)
+                {
+                    const auto s = String::split(d.first.c_str(), '/');
+                    DJV_ASSERT(s == d.second);
+                }
+                for (const auto& d : data)
+                {
+                    const auto s = String::split(d.first, '/');
+                    DJV_ASSERT(s == d.second);
+                }
+            }
+            {
+                std::vector<std::pair<std::string, std::vector<std::string> > > data =
+                {
+                    { "",      {} },
+                    { "a/b|",  { "a", "b" } },
+                    { "|a/",   { "a" } },
+                    { "/b|",   { "b" } },
+                    { "a/b|c", { "a", "b", "c" } }
+                };
+                for (const auto& d : data)
+                {
+                    const auto s = String::split(d.first, { '/', '|' });
+                    DJV_ASSERT(s == d.second);
+                }
+            }
+            {
+                std::vector<std::pair<std::vector<std::string>, std::string > > data =
+                {
+                    { {},                "" },
+                    { { "a", "b" },      "ab" },
+                    { { "a", "b", "c" }, "abc" }
+                };
+                for (const auto& d : data)
+                {
+                    const auto s = String::join(d.first);
+                    DJV_ASSERT(s == d.second);
+                }
+            }
+            {
+                std::vector<std::pair<std::vector<std::string>, std::string > > data =
+                {
+                    { {},                "" },
+                    { { "a", "b" },      "a/b" },
+                    { { "a", "b", "c" }, "a/b/c" }
+                };
+                for (const auto& d : data)
+                {
+                    const auto s = String::join(d.first, '/');
+                    DJV_ASSERT(s == d.second);
+                }
+                for (const auto& d : data)
+                {
+                    const auto s = String::join(d.first, "/");
+                    DJV_ASSERT(s == d.second);
+                }
+            }
+            {
+                std::vector<std::pair<std::string, std::string> > data =
+                {
+                    { "", "" },
+                    { "upper", "UPPER" },
+                    { "UPPER", "UPPER" }
+                };
+                for (const auto & d : data)
+                {
+                    DJV_ASSERT(String::toUpper(d.first) == d.second);
+                }
+            }
+            {
+                std::vector<std::pair<std::string, std::string> > data =
+                {
+                    { "", "" },
+                    { "LOWER", "lower" },
+                    { "lower", "lower" }
+                };
+                for (const auto & d : data)
+                {
+                    DJV_ASSERT(String::toLower(d.first) == d.second);
+                }
+            }
+            {
+                std::vector<std::pair<int, std::string> > data =
+                {
+                    { 0, "" },
+                    { 1, "    " },
+                    { 2, "        " }
+                };
+                for (const auto & d : data)
+                {
+                    DJV_ASSERT(String::indent(d.first) == d.second);
+                }
+            }
+            {
+                std::vector<std::pair<std::string, std::string> > data =
+                {
+                    { "", "" },
+                    { "test\n", "test" }
+                };
+                for (const auto & d : data)
+                {
+                    auto s = d.first;
+                    String::removeTrailingNewline(s);
+                    DJV_ASSERT(s == d.second);
+                }
+            }
+            {
+                struct Data
+                {
+                    std::string value;
+                    std::string expression;
+                    bool result;
+                };
+                std::vector<Data> data =
+                {
+                    { "", "", true },
+                    { "test", ".*", true },
+                    { "test", "t", true },
+                    { "test", "z", false }
+                };
+                for (const auto & d : data)
+                {
+                    DJV_ASSERT(String::match(d.value, d.expression) == d.result);
+                }
+            }
+            {
+                struct Data
+                {
+                    int value;
+                    std::string string;
+                    size_t maxLen;
+                    size_t size;
+                };
+                std::vector<Data> data =
+                {
+                    { 0, "0", String::cStringLength, 1 },
+                    { 10, "10", String::cStringLength, 2 },
+                    { 100, "100", String::cStringLength, 3 }
+                };
+                for (const auto & d : data)
+                {
+                    char buf[String::cStringLength];
+                    DJV_ASSERT(String::intToString(d.value, buf, d.maxLen) == d.size);
+                    DJV_ASSERT(d.string == std::string(buf));
+                }
+            }
+            {
+                struct Data
+                {
+                    std::string string;
+                    int value;
+                };
+                std::vector<Data> data =
+                {
+                    { "-100", -100 },
+                    { "-10", -10 },
+                    { "0", 0 },
+                    { "10", 10 },
+                    { "100", 100 }
+                };
+                for (const auto & d : data)
+                {
+                    int value = -1;
+                    String::fromString(d.string.c_str(), d.string.size(), value);
+                    DJV_ASSERT(d.value == value);
+                }
+            }
+            {
+                struct Data
+                {
+                    std::string string;
+                    int64_t value;
+                };
+                std::vector<Data> data =
+                {
+                    { "-100", -100 },
+                    { "-10", -10 },
+                    { "0", 0 },
+                    { "10", 10 },
+                    { "100", 100 }
+                };
+                for (const auto & d : data)
+                {
+                    int64_t value = -1;
+                    String::fromString(d.string.c_str(), d.string.size(), value);
+                    DJV_ASSERT(d.value == value);
+                }
+            }
+            {
+                struct Data
+                {
+                    std::string string;
+                    size_t value;
+                };
+                std::vector<Data> data =
+                {
+                    { "0", 0 },
+                    { "10", 10 },
+                    { "100", 100 }
+                };
+                for (const auto & d : data)
+                {
+                    size_t value = size_t(-1);
+                    String::fromString(d.string.c_str(), d.string.size(), value);
+                    DJV_ASSERT(d.value == value);
+                }
+            }
+            {
+                struct Data
+                {
+                    std::string string;
+                    float value;
+                };
+                std::vector<Data> data =
+                {
+                    { "-100", -100.f },
+                    { "-10", -10.f },
+                    { "0", 0.f },
+                    { "10", 10.f },
+                    { "100", 100.f }
+                };
+                for (const auto & d : data)
+                {
+                    int64_t value = -1;
+                    String::fromString(d.string.c_str(), d.string.size(), value);
+                    DJV_ASSERT(d.value == value);
+                }
+            }
+            {
+                std::vector<std::string> data =
+                {
+                    { "" },
+                    { "Hello world!" }
+                };
+                for (const auto & d : data)
+                {
+                    DJV_ASSERT(String::fromWide(String::toWide(d)) == d);
+                }
+            }
+            {
                 std::vector<std::string> data =
                 {
                     "",
