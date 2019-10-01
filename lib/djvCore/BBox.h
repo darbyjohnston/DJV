@@ -105,7 +105,8 @@ namespace djv
                 //! \name Components
                 ///@{
 
-                glm::tvec3<T, P> min, max;
+                glm::tvec3<T, P> min;
+                glm::tvec3<T, P> max;
 
                 T x() const;
                 T y() const;
