@@ -111,7 +111,7 @@ namespace djv
                 _active = false;
             }
 
-            void Animation::_tick(float dt)
+            void Animation::_tick(float)
             {
                 if (_active)
                 {
