@@ -67,7 +67,7 @@ namespace djv
 
         protected:
             void _init(const std::shared_ptr<Core::Context>&);
-            inline Widget();
+            Widget();
 
         public:
             virtual ~Widget();
@@ -81,15 +81,15 @@ namespace djv
             //! \name Visibility
             ///@{
 
-            inline bool isVisible(bool parents = false) const;
+            bool isVisible(bool parents = false) const;
             virtual void setVisible(bool);
-            inline void show();
-            inline void hide();
+            void show();
+            void hide();
 
-            inline bool isClipped() const;
-            inline const Core::BBox2f & getClipRect() const;
+            bool isClipped() const;
+            const Core::BBox2f & getClipRect() const;
 
-            inline float getOpacity(bool parents = false) const;
+            float getOpacity(bool parents = false) const;
             void setOpacity(float);
 
             ///@}
@@ -97,26 +97,26 @@ namespace djv
             //! \name Layout
             ///@{
 
-            inline const glm::vec2& getMinimumSize() const;
-            inline const glm::vec2& getDesiredSize() const;
-            inline const Core::BBox2f & getGeometry() const;
-            inline glm::vec2 getSize() const;
-            inline float getWidth() const;
-            inline float getHeight() const;
+            const glm::vec2& getMinimumSize() const;
+            const glm::vec2& getDesiredSize() const;
+            const Core::BBox2f & getGeometry() const;
+            glm::vec2 getSize() const;
+            float getWidth() const;
+            float getHeight() const;
             void setGeometry(const Core::BBox2f &);
-            inline void move(const glm::vec2 &);
-            inline void resize(const glm::vec2 &);
+            void move(const glm::vec2 &);
+            void resize(const glm::vec2 &);
 
             //! This function is called during the layout event to determine the height of a
             //! widget based upon the given width. This is used for example by FlowLayout
             //! and TextBlock.
-            inline virtual float getHeightForWidth(float) const;
+            virtual float getHeightForWidth(float) const;
 
-            inline const Layout::Margin & getMargin() const;
+            const Layout::Margin & getMargin() const;
             void setMargin(const Layout::Margin &);
 
-            inline HAlign getHAlign() const;
-            inline VAlign getVAlign() const;
+            HAlign getHAlign() const;
+            VAlign getVAlign() const;
             void setHAlign(HAlign);
             void setVAlign(VAlign);
 
@@ -132,10 +132,10 @@ namespace djv
             //! \name Style
             ///@{
 
-            inline ColorRole getBackgroundRole() const;
+            ColorRole getBackgroundRole() const;
             virtual void setBackgroundRole(ColorRole);
 
-            inline const std::vector<Side>& getShadowOverlay() const;
+            const std::vector<Side>& getShadowOverlay() const;
             void setShadowOverlay(const std::vector<Side>&);
 
             ///@}
@@ -143,7 +143,7 @@ namespace djv
             //! \name Input
             ///@{
 
-            inline bool isPointerEnabled() const;
+            bool isPointerEnabled() const;
             void setPointerEnabled(bool);
 
             virtual std::shared_ptr<Widget> getFocusWidget();
@@ -159,7 +159,7 @@ namespace djv
             //! \name Actions
             ///@{
 
-            inline const std::vector<std::shared_ptr<Action> > & getActions() const;
+            const std::vector<std::shared_ptr<Action> > & getActions() const;
             virtual void addAction(const std::shared_ptr<Action> &);
             virtual void removeAction(const std::shared_ptr<Action> &);
             virtual void clearActions();
@@ -169,16 +169,16 @@ namespace djv
             //! \name Tooltip
             ///@{
 
-            inline const std::string & getTooltip() const;
+            const std::string & getTooltip() const;
             void setTooltip(const std::string &);
 
-            static inline bool areTooltipsEnabled();
+            static bool areTooltipsEnabled();
             static void setTooltipsEnabled(bool);
 
             ///@}
 
             //! Get the child widgets.
-            inline const std::vector<std::shared_ptr<Widget> >& getChildWidgets() const;
+            const std::vector<std::shared_ptr<Widget> >& getChildWidgets() const;
 
             //! Get the number of widgets that currently exist.
             static size_t getGlobalWidgetCount();
@@ -216,17 +216,17 @@ namespace djv
             //! \name Convenience Functions
             ///@{
 
-            inline const std::weak_ptr<Core::Event::IEventSystem>& _getEventSystem() const;
-            inline const std::shared_ptr<AV::Render::Render2D>& _getRender() const;
-            inline const std::shared_ptr<Style::Style> & _getStyle() const;
+            const std::weak_ptr<Core::Event::IEventSystem>& _getEventSystem() const;
+            const std::shared_ptr<AV::Render::Render2D>& _getRender() const;
+            const std::shared_ptr<Style::Style> & _getStyle() const;
 
             ///@}
 
             //! Call this function when the widget needs resizing.
-            inline void _resize();
+            void _resize();
 
             //! Call this function to redraw the widget.
-            inline void _redraw();
+            void _redraw();
 
             //! Set the minimum size. This is computed and set in the pre-layout event.
             void _setMinimumSize(const glm::vec2&);
@@ -234,8 +234,8 @@ namespace djv
             //! Set the desired size. This is computed and set in the pre-layout event.
             void _setDesiredSize(const glm::vec2&);
 
-            static inline float _getUpdateTime();
-            inline const std::map<Core::Event::PointerID, glm::vec2> _getPointerHover() const;
+            static float _getUpdateTime();
+            const std::map<Core::Event::PointerID, glm::vec2> _getPointerHover() const;
 
             std::string _getTooltipText() const;
             std::shared_ptr<Widget> _createTooltipDefault(const std::string &);

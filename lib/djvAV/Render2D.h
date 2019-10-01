@@ -80,8 +80,8 @@ namespace djv
                 AV::OCIO::Convert colorSpace;
                 ImageCache        cache         = ImageCache::Atlas;
 
-                inline bool operator == (const ImageOptions&) const;
-                inline bool operator != (const ImageOptions&) const;
+                bool operator == (const ImageOptions&) const;
+                bool operator != (const ImageOptions&) const;
             };
 
             //! This class provides a 2D renderer.

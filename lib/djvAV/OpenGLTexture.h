@@ -46,7 +46,7 @@ namespace djv
                     const Image::Info&,
                     GLenum filterMin = GL_LINEAR,
                     GLenum filterMag = GL_LINEAR);
-                inline Texture();
+                Texture();
 
             public:
                 ~Texture();
@@ -56,8 +56,8 @@ namespace djv
                     GLenum filterMin = GL_LINEAR,
                     GLenum filterMag = GL_LINEAR);
 
-                inline const Image::Info& getInfo() const;
-                inline GLuint getID() const;
+                const Image::Info& getInfo() const;
+                GLuint getID() const;
 
                 void set(const Image::Info&);
                 void copy(const Image::Data&);
@@ -84,7 +84,7 @@ namespace djv
                 void _init(
                     const Image::Info&,
                     GLenum filter = GL_LINEAR);
-                inline Texture1D();
+                Texture1D();
 
             public:
                 ~Texture1D();
@@ -93,8 +93,8 @@ namespace djv
                     const Image::Info&,
                     GLenum filter = GL_LINEAR);
 
-                inline const Image::Info& getInfo() const;
-                inline GLuint getID() const;
+                const Image::Info& getInfo() const;
+                GLuint getID() const;
 
                 void copy(const Image::Data&);
                 void copy(const Image::Data&, uint16_t);

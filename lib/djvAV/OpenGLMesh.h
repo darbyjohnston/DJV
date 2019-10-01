@@ -62,17 +62,17 @@ namespace djv
             {
                 DJV_NON_COPYABLE(VBO);
                 void _init(size_t size, size_t vertexCount, VBOType);
-                inline VBO();
+                VBO();
 
             public:
                 ~VBO();
 
                 static std::shared_ptr<VBO> create(size_t size, size_t vertexCount, VBOType);
 
-                inline size_t getSize() const;
-                inline size_t getVertexCount() const;
-                inline VBOType getType() const;
-                inline GLuint getID() const;
+                size_t getSize() const;
+                size_t getVertexCount() const;
+                VBOType getType() const;
+                GLuint getID() const;
 
                 void copy(const std::vector<uint8_t> &);
                 void copy(const std::vector<uint8_t>&, size_t offset);
@@ -93,14 +93,14 @@ namespace djv
             {
                 DJV_NON_COPYABLE(VAO);
                 void _init(VBOType, GLuint vbo);
-                inline VAO();
+                VAO();
 
             public:
                 ~VAO();
 
                 static std::shared_ptr<VAO> create(VBOType, GLuint vbo);
 
-                inline GLuint getID() const;
+                GLuint getID() const;
 
                 void bind();
                 void draw(size_t offset, size_t size);

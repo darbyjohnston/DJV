@@ -155,65 +155,65 @@ namespace djv
             typedef U10_S_LSB U10_S;
 #endif
 
-            inline Channels getChannels(Type);
-            inline uint8_t getChannelCount(Type);
-            inline DataType getDataType(Type);
-            inline uint8_t getBitDepth(Type);
-            inline uint8_t getBitDepth(DataType);
-            inline uint8_t getByteCount(Type);
-            inline uint8_t getByteCount(DataType);
+            Channels getChannels(Type);
+            uint8_t getChannelCount(Type);
+            DataType getDataType(Type);
+            uint8_t getBitDepth(Type);
+            uint8_t getBitDepth(DataType);
+            uint8_t getByteCount(Type);
+            uint8_t getByteCount(DataType);
 
-            inline bool isIntType(Type);
-            inline bool isFloatType(Type);
-            inline Core::IntRange getIntRange(Type);
-            inline Core::FloatRange getFloatRange(Type);
-            inline Type getIntType(uint8_t channelCount, uint8_t bitDepth);
-            inline Type getFloatType(uint8_t channelCount, uint8_t bitDepth);
+            bool isIntType(Type);
+            bool isFloatType(Type);
+            Core::IntRange getIntRange(Type);
+            Core::FloatRange getFloatRange(Type);
+            Type getIntType(uint8_t channelCount, uint8_t bitDepth);
+            Type getFloatType(uint8_t channelCount, uint8_t bitDepth);
 
-            inline GLenum getGLFormat(Type);
-            inline GLenum getGLType(Type);
+            GLenum getGLFormat(Type);
+            GLenum getGLType(Type);
 
-            inline void convert_U8_U8(U8_T, U8_T &);
-            inline void convert_U8_U10(U8_T, U10_T &);
-            inline void convert_U8_U16(U8_T, U16_T &);
-            inline void convert_U8_U32(U8_T, U32_T &);
-            inline void convert_U8_F16(U8_T, F16_T &);
-            inline void convert_U8_F32(U8_T, F32_T &);
+            void convert_U8_U8(U8_T, U8_T &);
+            void convert_U8_U10(U8_T, U10_T &);
+            void convert_U8_U16(U8_T, U16_T &);
+            void convert_U8_U32(U8_T, U32_T &);
+            void convert_U8_F16(U8_T, F16_T &);
+            void convert_U8_F32(U8_T, F32_T &);
 
-            inline void convert_U16_U8(U16_T, U8_T &);
-            inline void convert_U16_U10(U16_T, U10_T &);
-            inline void convert_U16_U16(U16_T, U16_T &);
-            inline void convert_U16_U32(U16_T, U32_T &);
-            inline void convert_U16_F16(U16_T, F16_T &);
-            inline void convert_U16_F32(U16_T, F32_T &);
+            void convert_U16_U8(U16_T, U8_T &);
+            void convert_U16_U10(U16_T, U10_T &);
+            void convert_U16_U16(U16_T, U16_T &);
+            void convert_U16_U32(U16_T, U32_T &);
+            void convert_U16_F16(U16_T, F16_T &);
+            void convert_U16_F32(U16_T, F32_T &);
 
-            inline void convert_U10_U8(U16_T, U8_T &);
-            inline void convert_U10_U10(U10_T, U10_T &);
-            inline void convert_U10_U16(U16_T, U10_T &);
-            inline void convert_U10_U32(U16_T, U32_T &);
-            inline void convert_U10_F16(U16_T, F16_T &);
-            inline void convert_U10_F32(U16_T, F32_T &);
+            void convert_U10_U8(U16_T, U8_T &);
+            void convert_U10_U10(U10_T, U10_T &);
+            void convert_U10_U16(U16_T, U10_T &);
+            void convert_U10_U32(U16_T, U32_T &);
+            void convert_U10_F16(U16_T, F16_T &);
+            void convert_U10_F32(U16_T, F32_T &);
 
-            inline void convert_U32_U8(U32_T, U8_T &);
-            inline void convert_U32_U10(U32_T, U10_T &);
-            inline void convert_U32_U16(U32_T, U16_T &);
-            inline void convert_U32_U32(U32_T, U32_T &);
-            inline void convert_U32_F16(U32_T, F16_T &);
-            inline void convert_U32_F32(U32_T, F32_T &);
+            void convert_U32_U8(U32_T, U8_T &);
+            void convert_U32_U10(U32_T, U10_T &);
+            void convert_U32_U16(U32_T, U16_T &);
+            void convert_U32_U32(U32_T, U32_T &);
+            void convert_U32_F16(U32_T, F16_T &);
+            void convert_U32_F32(U32_T, F32_T &);
 
-            inline void convert_F16_U8(F16_T, U8_T &);
-            inline void convert_F16_U10(F16_T, U10_T &);
-            inline void convert_F16_U16(F16_T, U16_T &);
-            inline void convert_F16_U32(F16_T, U32_T &);
-            inline void convert_F16_F16(F16_T, F16_T &);
-            inline void convert_F16_F32(F16_T, F32_T &);
+            void convert_F16_U8(F16_T, U8_T &);
+            void convert_F16_U10(F16_T, U10_T &);
+            void convert_F16_U16(F16_T, U16_T &);
+            void convert_F16_U32(F16_T, U32_T &);
+            void convert_F16_F16(F16_T, F16_T &);
+            void convert_F16_F32(F16_T, F32_T &);
 
-            inline void convert_F32_U8(F32_T, U8_T &);
-            inline void convert_F32_U10(F32_T, U10_T &);
-            inline void convert_F32_U16(F32_T, U16_T &);
-            inline void convert_F32_U32(F32_T, U32_T &);
-            inline void convert_F32_F16(F32_T, F16_T &);
-            inline void convert_F32_F32(F32_T, F32_T &);
+            void convert_F32_U8(F32_T, U8_T &);
+            void convert_F32_U10(F32_T, U10_T &);
+            void convert_F32_U16(F32_T, U16_T &);
+            void convert_F32_U32(F32_T, U32_T &);
+            void convert_F32_F16(F32_T, F16_T &);
+            void convert_F32_F32(F32_T, F32_T &);
 
             void convert(const void *, Type, void *, Type, size_t);
 
@@ -231,7 +231,7 @@ namespace std
     template<>
     struct hash<djv::AV::Image::Type>
     {
-        inline std::size_t operator() (djv::AV::Image::Type) const noexcept;
+        std::size_t operator() (djv::AV::Image::Type) const noexcept;
     };
 
 } // namespace std

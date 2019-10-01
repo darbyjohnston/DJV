@@ -380,6 +380,7 @@ namespace djv
                 case 2:
                     if (hit.x > bbox.min.x && hit.x < bbox.max.x && hit.y > bbox.min.y && hit.y < bbox.max.y) return true;
                     break;
+                default: break;
                 }
                 return false;
             }

@@ -51,25 +51,25 @@ namespace djv
             class Margin
             {
             public:
-                inline Margin();
-                inline Margin(MetricsRole);
+                Margin();
+                Margin(MetricsRole);
                 //! \todo Change the ordering to match the Side enum? (left, top, right, bottom)
-                inline Margin(MetricsRole left, MetricsRole right, MetricsRole top, MetricsRole bottom);
+                Margin(MetricsRole left, MetricsRole right, MetricsRole top, MetricsRole bottom);
 
-                inline void set(MetricsRole);
-                inline void set(MetricsRole left, MetricsRole right, MetricsRole top, MetricsRole bottom);
+                void set(MetricsRole);
+                void set(MetricsRole left, MetricsRole right, MetricsRole top, MetricsRole bottom);
 
                 float get(Side, const std::shared_ptr<Style::Style> &) const;
-                inline glm::vec2 getSize(const std::shared_ptr<Style::Style> &) const;
-                inline float getWidth(const std::shared_ptr<Style::Style> &) const;
-                inline float getHeight(const std::shared_ptr<Style::Style> &) const;
+                glm::vec2 getSize(const std::shared_ptr<Style::Style> &) const;
+                float getWidth(const std::shared_ptr<Style::Style> &) const;
+                float getHeight(const std::shared_ptr<Style::Style> &) const;
 
-                inline Core::BBox2f bbox(const Core::BBox2f &, const std::shared_ptr<Style::Style> &) const;
+                Core::BBox2f bbox(const Core::BBox2f &, const std::shared_ptr<Style::Style> &) const;
 
-                inline MetricsRole operator [] (Side) const;
-                inline MetricsRole & operator [] (Side);
+                MetricsRole operator [] (Side) const;
+                MetricsRole & operator [] (Side);
 
-                inline bool operator == (const Margin &) const;
+                bool operator == (const Margin &) const;
 
             private:
                 MetricsRole _value[4] =

@@ -54,7 +54,7 @@ namespace djv
             //! This class provides font information.
             struct Info
             {
-                inline Info();
+                Info();
                 constexpr Info(FamilyID, FaceID, uint16_t size, uint16_t DPI);
 
                 FamilyID family = 1;
@@ -62,8 +62,8 @@ namespace djv
                 uint16_t size   = 0;
                 uint16_t dpi    = dpiDefault;
 
-                inline bool operator == (const Info &) const;
-                inline bool operator < (const Info&) const;
+                bool operator == (const Info &) const;
+                bool operator < (const Info&) const;
             };
 
             //! This struct provides font metrics.
@@ -77,8 +77,8 @@ namespace djv
             //! This struct provides a line of text.
             struct TextLine
             {
-                inline TextLine();
-                inline TextLine(const std::string&, const glm::vec2 &);
+                TextLine();
+                TextLine(const std::string&, const glm::vec2 &);
 
                 std::string text;
                 glm::vec2   size = glm::vec2(0.f, 0.f);
@@ -87,14 +87,14 @@ namespace djv
             //! This struct provides font glyph information.
             struct GlyphInfo
             {
-                inline GlyphInfo();
-                inline GlyphInfo(uint32_t code, const Info &);
+                GlyphInfo();
+                GlyphInfo(uint32_t code, const Info &);
 
                 uint32_t code = 0;
                 Info     info;
 
-                inline bool operator == (const GlyphInfo&) const;
-                inline bool operator < (const GlyphInfo&) const;
+                bool operator == (const GlyphInfo&) const;
+                bool operator < (const GlyphInfo&) const;
             };
 
             //! This struct provides a font glyph.
@@ -103,7 +103,7 @@ namespace djv
                 DJV_NON_COPYABLE(Glyph);
 
             protected:
-                inline Glyph();
+                Glyph();
 
             public:
                 static std::shared_ptr<Glyph> create();

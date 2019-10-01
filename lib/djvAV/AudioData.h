@@ -63,34 +63,34 @@ namespace djv
 
             protected:
                 void _init(const DataInfo &);
-                inline Data();
+                Data();
 
             public:
                 static std::shared_ptr<Data> create(const DataInfo &);
 
                 void zero();
 
-                inline const DataInfo & getInfo() const;
-                inline uint8_t getChannelCount() const;
-                inline Type getType() const;
-                inline size_t getSampleRate() const;
-                inline size_t getSampleCount() const;
-                inline bool isValid() const;
-                inline size_t getByteCount() const;
+                const DataInfo & getInfo() const;
+                uint8_t getChannelCount() const;
+                Type getType() const;
+                size_t getSampleRate() const;
+                size_t getSampleCount() const;
+                bool isValid() const;
+                size_t getByteCount() const;
 
-                inline uint8_t * getData();
-                inline const uint8_t * getData() const;
-                inline uint8_t * getData(size_t offset);
-                inline const uint8_t * getData(size_t offset) const;
+                uint8_t * getData();
+                const uint8_t * getData() const;
+                uint8_t * getData(size_t offset);
+                const uint8_t * getData(size_t offset) const;
 
                 static std::shared_ptr<Data> convert(const std::shared_ptr<Data> &, Type);
 
                 template<typename T>
-                static inline void extract(const T*, T*, size_t sampleCount, uint8_t inChannelCount, uint8_t outChannelCount);
+                static void extract(const T*, T*, size_t sampleCount, uint8_t inChannelCount, uint8_t outChannelCount);
 
                 static std::shared_ptr<Data> planarInterleave(const std::shared_ptr<Data>&);
                 template<typename T>
-                static inline void planarInterleave(const T**, T*, size_t sampleCount, uint8_t channelCount);
+                static void planarInterleave(const T**, T*, size_t sampleCount, uint8_t channelCount);
                 static std::shared_ptr<Data> planarDeinterleave(const std::shared_ptr<Data> &);
 
                 static void volume(const uint8_t*, uint8_t*, float volume, size_t sampleCount, uint8_t channelCount, Type);

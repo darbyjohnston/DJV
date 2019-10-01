@@ -58,11 +58,11 @@ namespace djv
                 static std::shared_ptr<System> create(const std::shared_ptr<Core::Context>&);
 
                 //! Get the list of settings.
-                inline const std::vector<std::shared_ptr<ISettings> > & getSettings() const;
+                const std::vector<std::shared_ptr<ISettings> > & getSettings() const;
 
                 //! Get a setting of the given type.
                 template<typename T>
-                inline std::shared_ptr<T> getSettingsT() const;
+                std::shared_ptr<T> getSettingsT() const;
 
             private:
                 void _addSettings(const std::shared_ptr<ISettings> &);

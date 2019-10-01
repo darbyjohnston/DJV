@@ -131,17 +131,17 @@ namespace djv
             public:
                 VideoQueue();
 
-                inline size_t getMax() const;
+                size_t getMax() const;
                 void setMax(size_t);
 
-                inline bool isEmpty() const;
-                inline size_t getCount() const;
-                inline VideoFrame getFrame() const;
+                bool isEmpty() const;
+                size_t getCount() const;
+                VideoFrame getFrame() const;
                 void addFrame(const VideoFrame&);
                 VideoFrame popFrame();
                 void clearFrames();
 
-                inline bool isFinished() const;
+                bool isFinished() const;
                 void setFinished(bool);
 
             private:
@@ -167,17 +167,17 @@ namespace djv
             public:
                 AudioQueue();
 
-                inline size_t getMax() const;
+                size_t getMax() const;
                 void setMax(size_t);
 
-                inline bool isEmpty() const;
-                inline size_t getCount() const;
-                inline AudioFrame getFrame() const;
+                bool isEmpty() const;
+                size_t getCount() const;
+                AudioFrame getFrame() const;
                 void addFrame(const AudioFrame &);
                 AudioFrame popFrame();
                 void clearFrames();
 
-                inline bool isFinished() const;
+                bool isFinished() const;
                 void setFinished(bool);
 
             private:
@@ -213,9 +213,9 @@ namespace djv
                 size_t getThreadCount() const;
                 void setThreadCount(size_t);
 
-                inline std::mutex& getMutex();
-                inline VideoQueue& getVideoQueue();
-                inline AudioQueue& getAudioQueue();
+                std::mutex& getMutex();
+                VideoQueue& getVideoQueue();
+                AudioQueue& getAudioQueue();
 
             protected:
                 std::shared_ptr<Core::LogSystem> _logSystem;
@@ -351,9 +351,9 @@ namespace djv
             public:
                 virtual ~IPlugin() = 0;
 
-                inline const std::string & getPluginName() const;
-                inline const std::string & getPluginInfo() const;
-                inline const std::set<std::string> & getFileExtensions() const;
+                const std::string & getPluginName() const;
+                const std::string & getPluginInfo() const;
+                const std::set<std::string> & getFileExtensions() const;
 
                 virtual bool canSequence() const;
                 virtual bool canRead(const Core::FileSystem::FileInfo&) const;

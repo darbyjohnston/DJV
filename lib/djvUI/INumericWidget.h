@@ -60,21 +60,21 @@ namespace djv
         class INumericWidget
         {
         public:
-            inline virtual ~INumericWidget() = 0;
+            virtual ~INumericWidget() = 0;
 
-            inline const Core::Range::Range<T>& getRange() const;
-            inline void setRange(const Core::Range::Range<T>&);
+            const Core::Range::Range<T>& getRange() const;
+            void setRange(const Core::Range::Range<T>&);
 
-            inline T getValue() const;
-            inline void setValue(T);
-            inline void setValueCallback(const std::function<void(T)>&);
+            T getValue() const;
+            void setValue(T);
+            void setValueCallback(const std::function<void(T)>&);
 
-            inline const std::shared_ptr<Core::INumericValueModel<T> >& getModel() const;
-            inline virtual void setModel(const std::shared_ptr<Core::INumericValueModel<T> >&);
+            const std::shared_ptr<Core::INumericValueModel<T> >& getModel() const;
+            virtual void setModel(const std::shared_ptr<Core::INumericValueModel<T> >&);
 
         protected:
-            inline void _doCallback();
-            inline bool _keyPress(NumericWidgetKey);
+            void _doCallback();
+            bool _keyPress(NumericWidgetKey);
 
             std::shared_ptr<Core::INumericValueModel<T> > _model;
             std::function<void(T)> _callback;
@@ -85,7 +85,7 @@ namespace djv
         class INumericEdit : public INumericWidget<T>
         {
         public:
-            inline virtual ~INumericEdit() = 0;
+            virtual ~INumericEdit() = 0;
         };
 
         //! This class provides an interface for numeric slider widgets.
@@ -93,13 +93,13 @@ namespace djv
         class INumericSlider : public INumericWidget<T>
         {
         public:
-            inline virtual ~INumericSlider() = 0;
+            virtual ~INumericSlider() = 0;
 
         protected:
-            inline void _pointerMove(float, std::chrono::milliseconds);
-            inline void _buttonPress(float, std::chrono::milliseconds);
-            inline void _buttonRelease(std::chrono::milliseconds);
-            inline void _valueUpdate();
+            void _pointerMove(float, std::chrono::milliseconds);
+            void _buttonPress(float, std::chrono::milliseconds);
+            void _buttonRelease(std::chrono::milliseconds);
+            void _valueUpdate();
 
             virtual float _valueToPos(T) const = 0;
             virtual T _posToValue(float) const = 0;

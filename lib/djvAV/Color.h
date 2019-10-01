@@ -43,29 +43,29 @@ namespace djv
             class Color
             {
             public:
-                inline Color();
-                inline Color(Type);
-                inline Color(int r, int g, int b, int a = U8Max);
-                inline Color(F32_T r, F32_T g, F32_T b, F32_T a = F32Max);
+                Color();
+                Color(Type);
+                Color(int r, int g, int b, int a = U8Max);
+                Color(F32_T r, F32_T g, F32_T b, F32_T a = F32Max);
 
-                inline Type getType() const;
-                inline bool isValid() const;
+                Type getType() const;
+                bool isValid() const;
 
-                inline U8_T  getU8(size_t channel) const;
-                inline U10_T getU10(size_t channel) const;
-                inline U16_T getU16(size_t channel) const;
-                inline U32_T getU32(size_t channel) const;
-                inline F16_T getF16(size_t channel) const;
-                inline F32_T getF32(size_t channel) const;
-                inline void setU8(U8_T, size_t channel);
-                inline void setU10(U10_T, size_t channel);
-                inline void setU16(U16_T, size_t channel);
-                inline void setU32(U32_T, size_t channel);
-                inline void setF16(F16_T, size_t channel);
-                inline void setF32(F32_T, size_t channel);
+                U8_T  getU8(size_t channel) const;
+                U10_T getU10(size_t channel) const;
+                U16_T getU16(size_t channel) const;
+                U32_T getU32(size_t channel) const;
+                F16_T getF16(size_t channel) const;
+                F32_T getF32(size_t channel) const;
+                void setU8(U8_T, size_t channel);
+                void setU10(U10_T, size_t channel);
+                void setU16(U16_T, size_t channel);
+                void setU32(U32_T, size_t channel);
+                void setF16(F16_T, size_t channel);
+                void setF32(F32_T, size_t channel);
 
-                inline const uint8_t * getData() const;
-                inline uint8_t * getData();
+                const uint8_t * getData() const;
+                uint8_t * getData();
 
                 void zero();
 
@@ -74,8 +74,8 @@ namespace djv
                 static void rgbToHSV(const float[3], float[3]);
                 static void hsvToRGB(const float[3], float[3]);
 
-                inline bool operator == (const Color &) const;
-                inline bool operator != (const Color &) const;
+                bool operator == (const Color &) const;
+                bool operator != (const Color &) const;
 
             private:
                 Type _type = Type::None;

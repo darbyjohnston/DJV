@@ -49,17 +49,17 @@ namespace djv
             {
                 DJV_NON_COPYABLE(OffscreenBuffer);
                 void _init(const Image::Info &, OffscreenType);
-                inline OffscreenBuffer();
+                OffscreenBuffer();
 
             public:
                 ~OffscreenBuffer();
 
                 static std::shared_ptr<OffscreenBuffer> create(const Image::Info &, OffscreenType = OffscreenType::Default);
 
-                inline const Image::Info & getInfo() const;
-                inline OffscreenType getType() const;
-                inline GLuint getID() const;
-                inline GLuint getTextureID() const;
+                const Image::Info & getInfo() const;
+                OffscreenType getType() const;
+                GLuint getID() const;
+                GLuint getTextureID() const;
 
                 void bind();
 

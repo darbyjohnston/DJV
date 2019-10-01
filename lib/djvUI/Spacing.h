@@ -42,20 +42,20 @@ namespace djv
             class Spacing
             {
             public:
-                inline Spacing();
-                inline Spacing(MetricsRole);
-                inline Spacing(MetricsRole horizontal, MetricsRole vertical);
+                Spacing();
+                Spacing(MetricsRole);
+                Spacing(MetricsRole horizontal, MetricsRole vertical);
 
-                inline void set(MetricsRole);
-                inline void set(MetricsRole horizontal, MetricsRole vertical);
+                void set(MetricsRole);
+                void set(MetricsRole horizontal, MetricsRole vertical);
 
-                inline glm::vec2 get(const std::shared_ptr<Style::Style> &) const;
-                inline float get(Orientation, const std::shared_ptr<Style::Style> &) const;
+                glm::vec2 get(const std::shared_ptr<Style::Style> &) const;
+                float get(Orientation, const std::shared_ptr<Style::Style> &) const;
 
-                inline MetricsRole operator [] (Orientation) const;
-                inline MetricsRole & operator [] (Orientation);
+                MetricsRole operator [] (Orientation) const;
+                MetricsRole & operator [] (Orientation);
 
-                inline bool operator == (const Spacing &) const;
+                bool operator == (const Spacing &) const;
 
             private:
                 MetricsRole _value[2] =

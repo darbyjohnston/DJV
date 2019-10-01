@@ -43,16 +43,16 @@ namespace djv
             //! Throws:
             //! - std::exception
             template<typename T>
-            inline void read(const std::string & name, const picojson::object &, T &);
+            void read(const std::string & name, const picojson::object &, T &);
             template<typename T>
-            inline void read(const std::string & name, const picojson::object &, std::shared_ptr<Core::ValueSubject<T> > &);
+            void read(const std::string & name, const picojson::object &, std::shared_ptr<Core::ValueSubject<T> > &);
             template<typename T>
-            inline void read(const std::string & name, const picojson::object &, std::shared_ptr<Core::ListSubject<T> > &);
+            void read(const std::string & name, const picojson::object &, std::shared_ptr<Core::ListSubject<T> > &);
             template<typename T>
-            inline void read(const std::string & name, const picojson::object &, std::shared_ptr<Core::MapSubject<std::string, T> > &);
+            void read(const std::string & name, const picojson::object &, std::shared_ptr<Core::MapSubject<std::string, T> > &);
 
             template<typename T>
-            inline void write(const std::string & name, const T &, picojson::object &);
+            void write(const std::string & name, const T &, picojson::object &);
 
         } // namespace Settings
     } // namespace UI

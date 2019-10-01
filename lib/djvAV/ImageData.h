@@ -68,7 +68,7 @@ namespace djv
             //! This struct provides information about the data layout.
             struct Layout
             {
-                inline Layout();
+                Layout();
                 constexpr Layout(const Mirror &, GLint alignment = 1, Core::Memory::Endian = Core::Memory::getEndian());
 
                 Mirror mirror;
@@ -82,21 +82,21 @@ namespace djv
             //! This struct provides the image size.
             struct Size
             {
-                inline Size(uint16_t w = 0, uint16_t h = 0);
+                Size(uint16_t w = 0, uint16_t h = 0);
 
                 uint16_t w = 0;
                 uint16_t h = 0;
 
-                inline bool operator == (const Size&) const;
-                inline bool operator != (const Size&) const;
+                bool operator == (const Size&) const;
+                bool operator != (const Size&) const;
             };
 
             //! This struct provides image data information.
             struct Info
             {
-                inline Info();
-                inline Info(const Size&, Type, const Layout & = Layout());
-                inline Info(uint16_t width, uint16_t height, Type, const Layout & = Layout());
+                Info();
+                Info(const Size&, Type, const Layout & = Layout());
+                Info(uint16_t width, uint16_t height, Type, const Layout & = Layout());
 
                 std::string name;
                 Size size;
@@ -104,16 +104,16 @@ namespace djv
                 Type type = Type::None;
                 Layout layout;
 
-                inline float getAspectRatio() const;
-                inline GLenum getGLFormat() const;
-                inline GLenum getGLType() const;
-                inline bool isValid() const;
-                inline uint8_t getPixelByteCount() const;
-                inline size_t getScanlineByteCount() const;
-                inline size_t getDataByteCount() const;
+                float getAspectRatio() const;
+                GLenum getGLFormat() const;
+                GLenum getGLType() const;
+                bool isValid() const;
+                uint8_t getPixelByteCount() const;
+                size_t getScanlineByteCount() const;
+                size_t getDataByteCount() const;
 
-                inline bool operator == (const Info &) const;
-                inline bool operator != (const Info &) const;
+                bool operator == (const Info &) const;
+                bool operator != (const Info &) const;
             };
 
             //! This struct provides image data.
@@ -123,7 +123,7 @@ namespace djv
 
             protected:
                 void _init(const Info &, const std::shared_ptr<Core::FileSystem::FileIO>&);
-                inline Data();
+                Data();
 
             public:
                 ~Data();
@@ -133,30 +133,30 @@ namespace djv
                 static std::shared_ptr<Data> create(const Info&, const std::shared_ptr<Core::FileSystem::FileIO>&);
 #endif // DJV_MMAP
 
-                inline Core::UID getUID() const;
+                Core::UID getUID() const;
 
-                inline const Info & getInfo() const;
-                inline const Size& getSize() const;
-                inline uint16_t getWidth() const;
-                inline uint16_t getHeight() const;
-                inline float getAspectRatio() const;
+                const Info & getInfo() const;
+                const Size& getSize() const;
+                uint16_t getWidth() const;
+                uint16_t getHeight() const;
+                float getAspectRatio() const;
 
-                inline Type getType() const;
-                inline GLenum getGLFormat() const;
-                inline GLenum getGLType() const;
-                inline const Layout & getLayout() const;
+                Type getType() const;
+                GLenum getGLFormat() const;
+                GLenum getGLType() const;
+                const Layout & getLayout() const;
 
-                inline bool isValid() const;
-                inline uint8_t getPixelByteCount() const;
-                inline size_t getScanlineByteCount() const;
+                bool isValid() const;
+                uint8_t getPixelByteCount() const;
+                size_t getScanlineByteCount() const;
                 size_t getDataByteCount() const;
 
-                inline const uint8_t * getData() const;
-                inline const uint8_t * getData(uint16_t y) const;
-                inline const uint8_t * getData(uint16_t x, uint16_t y) const;
-                inline uint8_t * getData();
-                inline uint8_t * getData(uint16_t y);
-                inline uint8_t * getData(uint16_t x, uint16_t y);
+                const uint8_t * getData() const;
+                const uint8_t * getData(uint16_t y) const;
+                const uint8_t * getData(uint16_t x, uint16_t y) const;
+                uint8_t * getData();
+                uint8_t * getData(uint16_t y);
+                uint8_t * getData(uint16_t x, uint16_t y);
 
                 void zero();
 

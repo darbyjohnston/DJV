@@ -55,10 +55,10 @@ namespace djv
             public:
                 Palette();
 
-                inline const AV::Image::Color & getColor(ColorRole) const;
+                const AV::Image::Color & getColor(ColorRole) const;
                 void setColor(ColorRole, const AV::Image::Color &);
 
-                inline float getDisabledMult() const;
+                float getDisabledMult() const;
                 void setDisabledMult(float);
 
                 bool operator == (const Palette &) const;
@@ -74,7 +74,7 @@ namespace djv
             public:
                 Metrics();
 
-                inline float getMetric(MetricsRole role) const;
+                float getMetric(MetricsRole role) const;
                 void setMetric(MetricsRole, float);
 
                 bool operator == (const Metrics &) const;
@@ -97,8 +97,8 @@ namespace djv
                 //! \name Color Palette
                 ///@{
 
-                inline const Palette & getPalette() const;
-                inline const AV::Image::Color & getColor(ColorRole) const;
+                const Palette & getPalette() const;
+                const AV::Image::Color & getColor(ColorRole) const;
 
                 void setPalette(const Palette &);
 
@@ -107,10 +107,10 @@ namespace djv
                 //! \name Size Metrics
                 ///@{
 
-                inline const glm::vec2& getDPI() const;
-                inline const Metrics & getMetrics() const;
-                inline float getScale() const;
-                inline float getMetric(MetricsRole) const;
+                const glm::vec2& getDPI() const;
+                const Metrics & getMetrics() const;
+                float getScale() const;
+                float getMetric(MetricsRole) const;
 
                 void setDPI(const glm::vec2&);
                 void setMetrics(const Metrics &);
@@ -120,7 +120,7 @@ namespace djv
                 //! \name Fonts
                 ///@{
 
-                inline const std::string getFont() const;
+                const std::string getFont() const;
                 void setFont(const std::string &);
 
                 AV::Font::Info getFontInfo(const std::string & family, const std::string & face, MetricsRole) const;
@@ -128,7 +128,7 @@ namespace djv
 
                 ///@}
 
-                inline bool isDirty() const;
+                bool isDirty() const;
                 void setClean();
 
             private:
