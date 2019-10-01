@@ -135,7 +135,7 @@ namespace djv
                 glm::vec3 &       out,
                 glm::vec3 &       barycentric)
             {
-                const float epsilon = .1e-6f;
+                const float epsilon = .1e-6F;
 
                 const glm::vec3 edge1 = v1 - v0;
                 const glm::vec3 edge2 = v2 - v0;

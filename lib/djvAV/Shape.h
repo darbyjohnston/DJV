@@ -54,7 +54,7 @@ namespace djv
             class Square : IShape
             {
             public:
-                Square(float radius = .5f);
+                Square(float radius = .5F);
 
                 float getRadius() const { return _radius; }
                 void setRadius(float);
@@ -62,14 +62,14 @@ namespace djv
                 void triangulate(TriangleMesh &) const override;
 
             private:
-                float _radius = .5f;
+                float _radius = .5F;
             };
 
             //! This class provides a circle shape.
             class Circle : IShape
             {
             public:
-                Circle(float radius = .5f, size_t resolution = 10);
+                Circle(float radius = .5F, size_t resolution = 10);
 
                 float getRadius() const { return _radius; }
                 size_t getResolution() const { return _resolution; }
@@ -79,7 +79,7 @@ namespace djv
                 void triangulate(TriangleMesh &) const override;
 
             private:
-                float _radius = .5f;
+                float _radius = .5F;
                 size_t _resolution = 10;
             };
 
@@ -87,7 +87,7 @@ namespace djv
             class Cube : IShape
             {
             public:
-                Cube(float radius = .5f);
+                Cube(float radius = .5F);
 
                 float getRadius() const { return _radius; }
                 void setRadius(float);
@@ -95,7 +95,7 @@ namespace djv
                 void triangulate(TriangleMesh &) const override;
 
             private:
-                float _radius = .5f;
+                float _radius = .5F;
             };
 
             //! This class provides a sphere shape.
@@ -105,7 +105,7 @@ namespace djv
                 typedef std::pair<size_t, size_t> Resolution;
                 typedef std::pair<float, float> Span;
 
-                Sphere(float radius = .5f, const Resolution & = Resolution(10, 10));
+                Sphere(float radius = .5F, const Resolution & = Resolution(10, 10));
 
                 float getRadius() const { return _radius; }
                 const Resolution & getResolution() const { return _resolution; }
@@ -134,7 +134,7 @@ namespace djv
             public:
                 typedef std::pair<float, float> Span;
 
-                Cylinder(float radius = .5f, float length = 1.F, size_t resolution = 100);
+                Cylinder(float radius = .5F, float length = 1.F, size_t resolution = 100);
 
                 float getRadius() const { return _radius; }
                 float getLength() const { return _length; }

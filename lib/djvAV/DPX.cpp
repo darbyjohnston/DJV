@@ -140,8 +140,8 @@ namespace djv
                 {
                     //! These hard-coded values are meant to catch uninitialized values.
                     const int32_t _intMax   = 1000000;
-                    const float   _floatMax = 1000000.f;
-                    const float   _minSpeed = .000001f;
+                    const float   _floatMax = 1000000.F;
+                    const float   _minSpeed = .000001F;
 
                     bool isValid(const uint8_t* in)
                     {

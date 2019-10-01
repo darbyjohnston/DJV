@@ -52,7 +52,7 @@ namespace djv
             namespace
             {
                 //! \todo Should this be configurable?
-                const float thumbnailFadeTime = .2f;
+                const float thumbnailFadeTime = .2F;
 
                 const size_t invalid = static_cast<size_t>(-1);
 

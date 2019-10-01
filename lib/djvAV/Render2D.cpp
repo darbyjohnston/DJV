@@ -111,7 +111,7 @@ namespace djv
                     virtual ~Primitive() {}
                     
                     BBox2f      clipRect;
-                    float       color[4]    = { 0.f, 0.f, 0.f, 0.f };
+                    float       color[4]    = { 0.F, 0.F, 0.F, 0.F };
                     size_t      vaoOffset   = 0;
                     size_t      vaoSize     = 0;
                     AlphaBlend  alphaBlend  = AlphaBlend::Straight;
@@ -204,8 +204,8 @@ namespace djv
 
                     void setTextureCoord(float tx, float ty)
                     {
-                        this->tx = Math::clamp(static_cast<int>(tx * 65535.f), 0, 65535);
-                        this->ty = Math::clamp(static_cast<int>(ty * 65535.f), 0, 65535);
+                        this->tx = Math::clamp(static_cast<int>(tx * 65535.F), 0, 65535);
+                        this->ty = Math::clamp(static_cast<int>(ty * 65535.F), 0, 65535);
                     }
                 };
 

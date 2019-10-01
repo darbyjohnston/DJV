@@ -263,7 +263,7 @@ namespace djv
             {
                 mesh.clear();
 
-                const float l = _length / 2.f;
+                const float l = _length / 2.F;
                 for (size_t u = 0; u <= _resolution; ++u)
                 {
                     const float u1 = u / static_cast<float>(_resolution);

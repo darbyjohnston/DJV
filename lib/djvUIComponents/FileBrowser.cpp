@@ -779,7 +779,7 @@ namespace djv
                             auto settingsSystem = context->getSystemT<Settings::System>();
                             if (auto fileBrowserSettings = settingsSystem->getSettingsT<Settings::FileBrowser>())
                             {
-                                fileBrowserSettings->setThumbnailSize(AV::Image::Size(value, ceilf(value / 2.f)));
+                                fileBrowserSettings->setThumbnailSize(AV::Image::Size(value, ceilf(value / 2.F)));
                             }
                         }
                     });

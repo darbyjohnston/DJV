@@ -98,7 +98,7 @@ namespace djv
                 for (size_t i = 0; i < static_cast<size_t>(FPS::Count); ++i)
                 {
                     const FPS fps = static_cast<FPS>(i);
-                    if (fabs(value.toFloat() - toRational(fps).toFloat()) < .000001f)
+                    if (fabs(value.toFloat() - toRational(fps).toFloat()) < .000001F)
                     {
                         return fps;
                     }

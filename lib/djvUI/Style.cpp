@@ -66,9 +66,9 @@ namespace djv
                     { ColorRole::TextFocus, AV::Image::Color(.7F, .5F, .2F, 1.F) },
                     { ColorRole::TooltipBackground, AV::Image::Color(1.F, 1.F, .75F, 1.F) },
                     { ColorRole::TooltipForeground, AV::Image::Color(0.F, 0.F, 0.F, 1.F) },
-                    { ColorRole::Overlay, AV::Image::Color(0.F, 0.F, 0.F, .7f) },
+                    { ColorRole::Overlay, AV::Image::Color(0.F, 0.F, 0.F, .7F) },
                     { ColorRole::OverlayLight, AV::Image::Color(0.F, 0.F, 0.F, .7F) },
-                    { ColorRole::Shadow, AV::Image::Color(0.F, 0.F, 0.F, .16f) },
+                    { ColorRole::Shadow, AV::Image::Color(0.F, 0.F, 0.F, .16F) },
                     { ColorRole::Handle, AV::Image::Color(.58F, .32F, .18F, 1.F) },
                     { ColorRole::Cached, AV::Image::Color(.32F, .58F, .18F, 1.F) }
                 };

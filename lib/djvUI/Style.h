@@ -65,7 +65,7 @@ namespace djv
 
             private:
                 std::map<ColorRole, AV::Image::Color> _colors;
-                float _disabledMult = .65f;
+                float _disabledMult = .65F;
             };
 
             //! This class provides size metrics.

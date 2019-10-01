@@ -922,7 +922,7 @@ namespace djv
                             {
                                 const auto now = std::chrono::system_clock::now();
                                 std::chrono::duration<double> delta = now - media->_p->realSpeedTime;
-                                media->_p->realSpeed->setIfChanged(delta.count() ? (media->_p->realSpeedFrameCount / static_cast<float>(delta.count())) : 0.f);
+                                media->_p->realSpeed->setIfChanged(delta.count() ? (media->_p->realSpeedFrameCount / static_cast<float>(delta.count())) : 0.F);
                                 media->_p->realSpeedTime = now;
                                 media->_p->realSpeedFrameCount = 0;
                             }

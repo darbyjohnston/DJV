@@ -159,7 +159,7 @@ namespace djv
     } // namespace Core
 
     bool fuzzyCompare(double a, double b, double e = .1e-9);
-    bool fuzzyCompare(float a, float b, float e = .1e-6f);
+    bool fuzzyCompare(float a, float b, float e = .1e-6F);
 
 } // namespace djv
 

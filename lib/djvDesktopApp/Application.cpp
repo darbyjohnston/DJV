@@ -98,7 +98,7 @@ namespace djv
             {
                 p.running = true;
                 auto time = std::chrono::system_clock::now();
-                float dt = 0.f;
+                float dt = 0.F;
                 while (p.running && glfwWindow && !glfwWindowShouldClose(glfwWindow))
                 {
                     glfwPollEvents();

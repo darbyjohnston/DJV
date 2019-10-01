@@ -102,7 +102,7 @@ namespace djv
                     }
                     if (frame && size)
                     {
-                        std::cout << (frame / static_cast<float>(size - 1) * 100.f) << "%" << std::endl;
+                        std::cout << (frame / static_cast<float>(size - 1) * 100.F) << "%" << std::endl;
                     }
                 });
             }

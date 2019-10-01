@@ -87,7 +87,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.running = true;
             auto time = std::chrono::system_clock::now();
-            float dt = 0.f;
+            float dt = 0.F;
             while (p.running)
             {
                 tick(dt);

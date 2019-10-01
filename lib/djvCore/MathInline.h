@@ -71,7 +71,7 @@ namespace djv
             template<>
             inline float bias(float value, float bias)
             {
-                return pow(value, log(bias) / log(.5f));
+                return pow(value, log(bias) / log(.5F));
             }
 
             template<>
@@ -203,12 +203,12 @@ namespace djv
 
             constexpr float rad2deg(float value)
             {
-                return value / (3.14159265359f * 2.F) * 360.F;
+                return value / (3.14159265359F * 2.F) * 360.F;
             }
 
             constexpr float deg2rad(float value)
             {
-                return value / 360.F * (3.14159265359f * 2.F);
+                return value / 360.F * (3.14159265359F * 2.F);
             }
 
             constexpr bool haveSameSign(float a, float b)

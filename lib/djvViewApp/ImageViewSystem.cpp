@@ -308,7 +308,7 @@ namespace djv
                     {
                         if (auto system = weak.lock())
                         {
-                            system->_zoomAction(.5f);
+                            system->_zoomAction(.5F);
                         }
                     }
                 });

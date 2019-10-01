@@ -93,7 +93,7 @@ namespace djv
                     {
                         if (auto media = system->_p->currentMedia)
                         {
-                            media->setVolume(system->_p->volume + .1f);
+                            media->setVolume(system->_p->volume + .1F);
                         }
                     }
                 }
@@ -109,7 +109,7 @@ namespace djv
                     {
                         if (auto media = system->_p->currentMedia)
                         {
-                            media->setVolume(system->_p->volume - .1f);
+                            media->setVolume(system->_p->volume - .1F);
                         }
                     }
                 }

@@ -65,8 +65,8 @@ namespace djv
             bool playEveryFrame = false;
             Playback playback = Playback::Forward;
             bool inOutPointsEnabled = false;
-            glm::vec2 hoverPos = glm::vec2(0.f, 0.f);
-            glm::vec2 dragStart = glm::vec2(0.f, 0.f);
+            glm::vec2 hoverPos = glm::vec2(0.F, 0.F);
+            glm::vec2 dragStart = glm::vec2(0.F, 0.F);
             Frame::Index dragStartFrame = Frame::invalidIndex;
             Playback dragStartPlayback = Playback::Stop;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;

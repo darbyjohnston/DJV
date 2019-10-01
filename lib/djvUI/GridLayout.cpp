@@ -216,13 +216,13 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
 
-                float out = 0.f;
+                float out = 0.F;
 
                 // Get the child sizes.
                 const auto& style = _getStyle();
                 const glm::vec2 m = getMargin().getSize(style);
                 const glm::ivec2 gridSize = getGridSize();
-                float minimumWidth = 0.f;
+                float minimumWidth = 0.F;
                 std::vector<float> minimumWidths;
                 std::map<Orientation, std::vector<bool> > expandList;
                 std::map<Orientation, size_t> expandCount =
@@ -232,7 +232,7 @@ namespace djv
                 };
                 for (int x = 0; x < gridSize.x; ++x)
                 {
-                    float minimumWidthMax = 0.f;
+                    float minimumWidthMax = 0.F;
                     bool expand = false;
                     for (int y = 0; y < gridSize.y; ++y)
                     {

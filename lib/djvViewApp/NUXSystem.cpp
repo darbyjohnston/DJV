@@ -70,7 +70,7 @@ namespace djv
         namespace
         {
             const size_t primitiveCount = 10;
-            const float  primitiveOpacity = .5f;
+            const float  primitiveOpacity = .5F;
 
             class BackgroundWidget : public UI::Widget
             {

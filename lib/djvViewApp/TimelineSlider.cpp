@@ -604,7 +604,7 @@ namespace djv
 
                 // Draw the time ticks.
                 auto color = style->getColor(UI::ColorRole::Foreground);
-                color.setF32(color.getF32(3) * .4f, 3);
+                color.setF32(color.getF32(3) * .4F, 3);
                 auto render = _getRender();
                 render->setFillColor(color);
                 const auto fontInfo = style->getFontInfo(AV::Font::familyMono, AV::Font::faceDefault, UI::MetricsRole::FontSmall);

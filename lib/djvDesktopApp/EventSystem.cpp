@@ -108,7 +108,7 @@ namespace djv
             p.glfwWindow = glfwWindow;
             p.render = context->getSystemT<AV::Render::Render2D>();
 
-            glm::vec2 contentScale = glm::vec2(1.f, 1.f);
+            glm::vec2 contentScale = glm::vec2(1.F, 1.F);
             glfwGetWindowContentScale(p.glfwWindow, &contentScale.x, &contentScale.y);
             auto system = context->getSystemT<UI::UISystem>();
             system->getStyle()->setDPI(glm::vec2(AV::dpiDefault * contentScale.x, AV::dpiDefault * contentScale.y));
@@ -239,7 +239,7 @@ namespace djv
                             Event::Layout layout;
                             _layoutRecursive(i, layout);
 
-                            Event::Clip clip(BBox2f(0.f, 0.f, static_cast<float>(size.w), static_cast<float>(size.h)));
+                            Event::Clip clip(BBox2f(0.F, 0.F, static_cast<float>(size.w), static_cast<float>(size.h)));
                             _clipRecursive(i, clip);
                         }
                     }
@@ -253,8 +253,8 @@ namespace djv
                     {
                         if (i->isVisible())
                         {
-                            Event::Paint paintEvent(BBox2f(0.f, 0.f, static_cast<float>(size.w), static_cast<float>(size.h)));
-                            Event::PaintOverlay paintOverlayEvent(BBox2f(0.f, 0.f, static_cast<float>(size.w), static_cast<float>(size.h)));
+                            Event::Paint paintEvent(BBox2f(0.F, 0.F, static_cast<float>(size.w), static_cast<float>(size.h)));
+                            Event::PaintOverlay paintOverlayEvent(BBox2f(0.F, 0.F, static_cast<float>(size.w), static_cast<float>(size.h)));
                             _paintRecursive(i, paintEvent, paintOverlayEvent);
                         }
                     }
@@ -296,17 +296,17 @@ namespace djv
                     0,
                     GLsizei(size.w),
                     GLsizei(size.h));
-                glClearColor(0.f, 0.f, 0.f, 0.f);
+                glClearColor(0.F, 0.F, 0.F, 0.F);
                 glClear(GL_COLOR_BUFFER_BIT);
 #if defined(DJV_OPENGL_ES2)
                 p.shader->bind();
                 const auto viewMatrix = glm::ortho(
-                    0.f,
+                    0.F,
                     static_cast<float>(size.w),
-                    0.f,
+                    0.F,
                     static_cast<float>(size.h),
-                    -1.f,
-                    1.f);
+                    -1.F,
+                    1.F);
                 p.shader->setUniform("transform.mvp", viewMatrix);
                 
                 glActiveTexture(GL_TEXTURE0);
@@ -315,7 +315,7 @@ namespace djv
                 p.shader->setUniform("transform.mvp", viewMatrix);
                 p.shader->setUniform("imageFormat", 3);
                 p.shader->setUniform("colorMode", 5);
-                const GLfloat color[] = { 1.f, 1.f, 1.f, 1.f };
+                const GLfloat color[] = { 1.F, 1.F, 1.F, 1.F };
                 p.shader->setUniform("color", color);
                 p.shader->setUniform("textureSampler", 0);
                                 
@@ -327,13 +327,13 @@ namespace djv
                     uint16_t u, v;
                 };
                 Data* vboP = reinterpret_cast<Data*>(&vboData[0]);
-                vboP->x = 0.f;
-                vboP->y = 0.f;
-                vboP->u = 0.f;
-                vboP->v = 0.f;
+                vboP->x = 0.F;
+                vboP->y = 0.F;
+                vboP->u = 0.F;
+                vboP->v = 0.F;
                 ++vboP;
                 vboP->x = size.w;
-                vboP->y = 0.f;
+                vboP->y = 0.F;
                 vboP->u = 65535;
                 vboP->v = 0;
                 ++vboP;
@@ -347,13 +347,13 @@ namespace djv
                 vboP->u = 65535;
                 vboP->v = 65535;
                 ++vboP;
-                vboP->x = 0.f;
+                vboP->x = 0.F;
                 vboP->y = size.h;
                 vboP->u = 0;
                 vboP->v = 65535;
                 ++vboP;
-                vboP->x = 0.f;
-                vboP->y = 0.f;
+                vboP->x = 0.F;
+                vboP->y = 0.F;
                 vboP->u = 0;
                 vboP->v = 0;
                 ++vboP;
@@ -448,10 +448,10 @@ namespace djv
                 info.id = pointerID;
                 info.pos.x = static_cast<float>(x);
                 info.pos.y = static_cast<float>(y);
-                info.pos.z = 0.f;
-                info.dir.x = 0.f;
-                info.dir.y = 0.f;
-                info.dir.z = 1.f;
+                info.pos.z = 0.F;
+                info.dir.x = 0.F;
+                info.dir.y = 0.F;
+                info.dir.z = 1.F;
                 info.projectedPos = info.pos;
                 system->_pointerMove(info);
             }

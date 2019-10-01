@@ -59,14 +59,14 @@ namespace djv
         namespace
         {
             //! \todo Should this be configurable?
-            const float tooltipTimeout   =  .5f;
-            const float tooltipHideDelta = 1.f;
+            const float tooltipTimeout   =  .5F;
+            const float tooltipHideDelta = 1.F;
 
             size_t globalWidgetCount = 0;
 
         } // namespace
 
-        float Widget::_updateTime      = 0.f;
+        float Widget::_updateTime      = 0.F;
         bool  Widget::_tooltipsEnabled = true;
         bool  Widget::_resizeRequest   = true;
         bool  Widget::_redrawRequest   = true;
