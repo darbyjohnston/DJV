@@ -68,7 +68,7 @@ namespace djv
             template<>
             inline void Range<float>::zero()
             {
-                min = max = 0.f;
+                min = max = 0.F;
             }
 
             template<typename T>

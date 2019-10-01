@@ -100,7 +100,7 @@ namespace djv
 
             void fromString(const char * s, size_t size, float & out)
             {
-                out = 0.f;
+                out = 0.F;
 
                 // Find the sign.
                 int isize = int(size);
@@ -144,8 +144,8 @@ namespace djv
                 }
 
                 // Add up the digits.
-                float tens = 1.f;
-                for (int j = (decimalPoint != -1 ? decimalPoint : isize) - 1; j >= 0; --j, tens *= 10.f)
+                float tens = 1.F;
+                for (int j = (decimalPoint != -1 ? decimalPoint : isize) - 1; j >= 0; --j, tens *= 10.F)
                 {
                     out += (s[j] - 48) * tens;
                 }
@@ -153,8 +153,8 @@ namespace djv
                 // Add up the decimal digits.
                 if (decimalPoint != -1)
                 {
-                    tens = .1f;
-                    for (int j = decimalPoint + 1; j < isize; ++j, tens /= 10.f)
+                    tens = .1F;
+                    for (int j = decimalPoint + 1; j < isize; ++j, tens /= 10.F)
                     {
                         out += (s[j] - 48) * tens;
                     }
@@ -163,7 +163,7 @@ namespace djv
                 // Apply the engineering notation.
                 if (e != 0)
                 {
-                    tens = e < 0 ? .1f : 10.f;
+                    tens = e < 0 ? .1F : 10.F;
                     if (e < 0) e = -e;
                     for (int j = 0; j < e; ++j)
                     {

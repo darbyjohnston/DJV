@@ -48,12 +48,12 @@ namespace djv
                 const std::vector<Function> data =
                 {
                     [](float t) { return t; },
-                    [](float t) { return powf(t, 2.f); },
-                    [](float t) { return powf(t, .5f); },
-                    [](float t) { return Math::smoothStep(t, 0.f, 1.f); },
+                    [](float t) { return powf(t, 2.F); },
+                    [](float t) { return powf(t, .5F); },
+                    [](float t) { return Math::smoothStep(t, 0.F, 1.F); },
                     [](float t)
                 {
-                    return (sinf(t * Math::pi2 - Math::pi / 2.f) + 1.f) * .5f;
+                    return (sinf(t * Math::pi2 - Math::pi / 2.F) + 1.F) * .5F;
                 }
                 };
                 DJV_ASSERT(data.size() == static_cast<size_t>(Type::Count));
@@ -118,16 +118,16 @@ namespace djv
                     const auto now = std::chrono::system_clock::now();
                     const auto diff = std::chrono::duration<float>(now - _start);
 
-                    const float t = Math::clamp(diff.count() / std::chrono::duration<float>(_duration).count(), 0.f, 1.f);
+                    const float t = Math::clamp(diff.count() / std::chrono::duration<float>(_duration).count(), 0.F, 1.F);
 
-                    float v = 0.f;
+                    float v = 0.F;
                     if (_begin < _end)
                     {
                         v = Math::lerp(_function(t), _begin, _end);
                     }
                     else
                     {
-                        v = Math::lerp(_function(1.f - t), _end, _begin);
+                        v = Math::lerp(_function(1.F - t), _end, _begin);
                     }
                     _callback(v);
 

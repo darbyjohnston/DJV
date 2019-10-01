@@ -47,7 +47,7 @@ namespace djv
             template<>
             inline float antiLog10(float value)
             {
-                return exp(value * log(10.f));
+                return exp(value * log(10.F));
             }
 
             template<>
@@ -83,24 +83,24 @@ namespace djv
             template<>
             inline float gain(float value, float gain)
             {
-                const float almostZero = FLT_MIN * 2.f;
-                const float almostOne = 1.f - almostZero;
+                const float almostZero = FLT_MIN * 2.F;
+                const float almostOne = 1.F - almostZero;
                 if (value < almostZero)
                 {
-                    return 0.f;
+                    return 0.F;
                 }
                 else if (value > almostOne)
                 {
-                    return 1.f;
+                    return 1.F;
                 }
-                const float tmp = logf(1.f - gain) / logf(.5f);
-                if (value < .5f)
+                const float tmp = logf(1.F - gain) / logf(.5F);
+                if (value < .5F)
                 {
-                    return powf(2.f * value, tmp) / 2.f;
+                    return powf(2.F * value, tmp) / 2.F;
                 }
                 else
                 {
-                    return 1.f - powf(2.f * (1.f - value), tmp) / 2.f;
+                    return 1.F - powf(2.F * (1.F - value), tmp) / 2.F;
                 }
             }
 
@@ -142,7 +142,7 @@ namespace djv
 
             constexpr float smoothStep(float value, float min, float max)
             {
-                return lerp(value * value * (3.f - (2.f * value)), min, max);
+                return lerp(value * value * (3.F - (2.F * value)), min, max);
             }
 
             constexpr double smoothStep(double value, double min, double max)
@@ -203,17 +203,17 @@ namespace djv
 
             constexpr float rad2deg(float value)
             {
-                return value / (3.14159265359f * 2.f) * 360.f;
+                return value / (3.14159265359f * 2.F) * 360.F;
             }
 
             constexpr float deg2rad(float value)
             {
-                return value / 360.f * (3.14159265359f * 2.f);
+                return value / 360.F * (3.14159265359f * 2.F);
             }
 
             constexpr bool haveSameSign(float a, float b)
             {
-                return ((a > 0.f && b > 0.f) || (a < 0.f && b < 0.f));
+                return ((a > 0.F && b > 0.F) || (a < 0.F && b < 0.F));
             }
 
         } // namespace Math

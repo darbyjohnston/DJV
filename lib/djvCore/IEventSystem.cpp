@@ -74,7 +74,7 @@ namespace djv
                 std::vector<std::shared_ptr<IObject> > objectsCreated;
                 std::shared_ptr<RootObject> rootObject;
                 std::weak_ptr<TextSystem> textSystem;
-                float t = 0.f;
+                float t = 0.F;
                 PointerInfo pointerInfo;
                 std::shared_ptr<ValueSubject<PointerInfo> > pointerSubject;
                 std::shared_ptr<ValueSubject<std::shared_ptr<IObject> > > hover;

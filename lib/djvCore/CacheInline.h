@@ -112,7 +112,7 @@ namespace djv
             template<typename T, typename U>
             inline float Cache<T, U>::getPercentageUsed() const
             {
-                return _map.size() / static_cast<float>(_max) * 100.f;
+                return _map.size() / static_cast<float>(_max) * 100.F;
             }
 
             template<typename T, typename U>

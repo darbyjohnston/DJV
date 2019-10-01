@@ -43,8 +43,8 @@ namespace djv
 
             template<>
             inline tBBox2<float>::tBBox2() :
-                min(0.f, 0.f),
-                max(0.f, 0.f)
+                min(0.F, 0.F),
+                max(0.F, 0.F)
             {}
 
             template<>
@@ -55,8 +55,8 @@ namespace djv
 
             template<>
             inline tBBox3<float>::tBBox3() :
-                min(0.f, 0.f, 0.f),
-                max(0.f, 0.f, 0.f)
+                min(0.F, 0.F, 0.F),
+                max(0.F, 0.F, 0.F)
             {}
 
             template<typename T, glm::precision P>
@@ -219,17 +219,17 @@ namespace djv
             constexpr glm::tvec2<T, P> tBBox2<T, P>::getCenter() const
             {
                 return glm::tvec2<T, P>(
-                    min.x + (max.x - min.x) / 2.f,
-                    min.y + (max.y - min.y) / 2.f);
+                    min.x + (max.x - min.x) / 2.F,
+                    min.y + (max.y - min.y) / 2.F);
             }
 
             template<typename T, glm::precision P>
             constexpr glm::tvec3<T, P> tBBox3<T, P>::getCenter() const
             {
                 return glm::tvec3<T, P>(
-                    min.x + (max.x - min.x) / 2.f,
-                    min.y + (max.y - min.y) / 2.f,
-                    min.z + (max.z - min.z) / 2.f);
+                    min.x + (max.x - min.x) / 2.F,
+                    min.y + (max.y - min.y) / 2.F,
+                    min.z + (max.z - min.z) / 2.F);
             }
 
             template<>
@@ -248,14 +248,14 @@ namespace djv
             inline float tBBox2<int>::getAspect() const
             {
                 const int h = this->h();
-                return h != 0 ? w() / static_cast<float>(h) : 0.f;
+                return h != 0 ? w() / static_cast<float>(h) : 0.F;
             }
 
             template<>
             inline float tBBox2<float>::getAspect() const
             {
                 const float h = this->h();
-                return h != 0 ? w() / h : 0.f;
+                return h != 0 ? w() / h : 0.F;
             }
 
             template<>
@@ -267,13 +267,13 @@ namespace djv
             template<>
             inline void tBBox2<float>::zero()
             {
-                min.x = min.y = max.x = max.y = 0.f;
+                min.x = min.y = max.x = max.y = 0.F;
             }
 
             template<>
             inline void tBBox3<float>::zero()
             {
-                min.x = min.y = min.z = max.x = max.y = max.z = 0.f;
+                min.x = min.y = min.z = max.x = max.y = max.z = 0.F;
             }
 
             template<typename T, glm::precision P>
@@ -530,14 +530,14 @@ namespace djv
     inline Core::BBox::tBBox3<T, P> operator * (const Core::BBox::tBBox3<T, P> & bbox, const glm::mat4 & m)
     {
         std::vector<glm::tvec4<T, P> > pts;
-        pts.push_back(glm::tvec4<T, P>(bbox.min.x, bbox.min.y, bbox.min.z, 1.f));
-        pts.push_back(glm::tvec4<T, P>(bbox.max.x, bbox.min.y, bbox.min.z, 1.f));
-        pts.push_back(glm::tvec4<T, P>(bbox.max.x, bbox.min.y, bbox.max.z, 1.f));
-        pts.push_back(glm::tvec4<T, P>(bbox.min.x, bbox.min.y, bbox.max.z, 1.f));
-        pts.push_back(glm::tvec4<T, P>(bbox.min.x, bbox.max.y, bbox.min.z, 1.f));
-        pts.push_back(glm::tvec4<T, P>(bbox.max.x, bbox.max.y, bbox.min.z, 1.f));
-        pts.push_back(glm::tvec4<T, P>(bbox.max.x, bbox.max.y, bbox.max.z, 1.f));
-        pts.push_back(glm::tvec4<T, P>(bbox.min.x, bbox.max.y, bbox.max.z, 1.f));
+        pts.push_back(glm::tvec4<T, P>(bbox.min.x, bbox.min.y, bbox.min.z, 1.F));
+        pts.push_back(glm::tvec4<T, P>(bbox.max.x, bbox.min.y, bbox.min.z, 1.F));
+        pts.push_back(glm::tvec4<T, P>(bbox.max.x, bbox.min.y, bbox.max.z, 1.F));
+        pts.push_back(glm::tvec4<T, P>(bbox.min.x, bbox.min.y, bbox.max.z, 1.F));
+        pts.push_back(glm::tvec4<T, P>(bbox.min.x, bbox.max.y, bbox.min.z, 1.F));
+        pts.push_back(glm::tvec4<T, P>(bbox.max.x, bbox.max.y, bbox.min.z, 1.F));
+        pts.push_back(glm::tvec4<T, P>(bbox.max.x, bbox.max.y, bbox.max.z, 1.F));
+        pts.push_back(glm::tvec4<T, P>(bbox.min.x, bbox.max.y, bbox.max.z, 1.F));
 
         Core::BBox::tBBox3<T, P> out(m * pts[0]);
         for (size_t i = 1; i < 8; ++i)

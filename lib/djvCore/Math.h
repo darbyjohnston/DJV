@@ -49,8 +49,8 @@ namespace djv
         //! This namespace provides math functionality.
         namespace Math
         {
-            static const float pi = 3.14159265359f;
-            static const float pi2 = pi * 2.f;
+            static const float pi = 3.14159265359F;
+            static const float pi2 = pi * 2.F;
 
             //! Get the absolute value.
             template<typename T>

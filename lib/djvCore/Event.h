@@ -242,9 +242,9 @@ namespace djv
             struct PointerInfo
             {
                 PointerID id = InvalidID;
-                glm::vec3 pos = glm::vec3(0.f, 0.f, 0.f);
-                glm::vec3 dir = glm::vec3(0.f, 0.f, 0.f);
-                glm::vec2 projectedPos = glm::vec2(-1.f, -1.f);
+                glm::vec3 pos = glm::vec3(0.F, 0.F, 0.F);
+                glm::vec3 dir = glm::vec3(0.F, 0.F, 0.F);
+                glm::vec2 projectedPos = glm::vec2(-1.F, -1.F);
                 std::map<int, bool> buttons;
 
                 inline bool operator == (const PointerInfo&) const;

@@ -115,8 +115,8 @@ namespace djv
                 Function                  _function;
                 bool                      _repeating   = false;
                 bool                      _active      = false;
-                float                     _begin       = 0.f;
-                float                     _end         = 0.f;
+                float                     _begin       = 0.F;
+                float                     _end         = 0.F;
                 std::chrono::milliseconds _duration    = std::chrono::milliseconds(0);
                 Callback                  _callback;
                 Callback                  _endCallback;

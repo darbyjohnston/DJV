@@ -54,9 +54,9 @@ namespace djv
         void FloatValueModel::_init()
         {
             INumericValueModel<float>::_init();
-            setRange(FloatRange(0.f, 1.f));
-            setSmallIncrement(.1f);
-            setLargeIncrement(.2f);
+            setRange(FloatRange(0.F, 1.F));
+            setSmallIncrement(.1F);
+            setLargeIncrement(.2F);
         }
 
         FloatValueModel::FloatValueModel()

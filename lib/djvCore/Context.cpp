@@ -117,12 +117,12 @@ namespace djv
             const auto now = std::chrono::system_clock::now();
             const std::chrono::duration<float> delta = now - _fpsTime;
             _fpsTime = now;
-            _fpsSamples.push_front(1.f / delta.count());
+            _fpsSamples.push_front(1.F / delta.count());
             while (_fpsSamples.size() > fpsSamplesCount)
             {
                 _fpsSamples.pop_back();
             }
-            _fpsAverage = 0.f;
+            _fpsAverage = 0.F;
             for (auto i : _fpsSamples)
             {
                 _fpsAverage += i;

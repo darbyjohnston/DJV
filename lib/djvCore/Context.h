@@ -113,7 +113,7 @@ namespace djv
             std::vector<std::shared_ptr<ISystemBase> > _systems;
             std::chrono::time_point<std::chrono::system_clock> _fpsTime = std::chrono::system_clock::now();
             std::list<float> _fpsSamples;
-            float _fpsAverage = 0.f;
+            float _fpsAverage = 0.F;
             std::shared_ptr<Time::Timer> _fpsTimer;
 
             friend class ISystemBase;
