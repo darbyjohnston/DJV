@@ -28,7 +28,7 @@ before_script:
 - export wrapperscript=`which build-wrapper-linux-x86-64`
 - export wrapperdir=`dirname $wrapperscript`
 - cp $wrapperdir/libinterceptor-x86_64.so $wrapperdir/libinterceptor-haswell.so
-- build-wrapper-linux-x86-64 --out-dir ../bw-output make -j 3
+- build-wrapper-linux-x86-64 --out-dir ../bw-output make -j 4
 - make test
 - cat Testing/Temporary/LastTest.log
 - sh ../etc/Util/gcov.sh ..
