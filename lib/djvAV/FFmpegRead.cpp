@@ -142,7 +142,7 @@ namespace djv
                             }
 
                             Info info;
-                            info.fileName = _fileInfo;
+                            info.fileName = std::string(_fileInfo);
 
                             if (p.avVideoStream != -1 || p.avAudioStream != -1)
                             {
