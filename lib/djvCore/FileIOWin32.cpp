@@ -64,10 +64,10 @@ namespace djv
                     SeekMemoryMap
                 };
                 
-                std::string getErrorMessage(ErrorType error, const std::string& fileName)
+                std::string getErrorMessage(ErrorType type, const std::string& fileName)
                 {
                     std::stringstream ss;
-                    switch (error)
+                    switch (type)
                     {
                     case ErrorType::Open:
                         ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ". " << Core::Error::getLastError();
@@ -144,7 +144,7 @@ namespace djv
                 _f = CreateFileW(utf16.from_bytes(fileName).c_str(), desiredAccess, shareMode, 0, disposition, flags, 0);
                 if (INVALID_HANDLE_VALUE == _f)
                 {
-                    throw IOError(getErrorMessage(Error::Open, fileName));
+                    throw Error(getErrorMessage(ErrorType::Open, fileName));
                 }
                 _fileName = fileName;
                 _mode = mode;
@@ -157,13 +157,13 @@ namespace djv
                     _mmap = CreateFileMapping(_f, 0, PAGE_READONLY, 0, 0, 0);
                     if (!_mmap)
                     {
-                        throw IOError(getErrorMessage(Error::MemoryMap, fileName));
+                        throw Error(getErrorMessage(ErrorType::MemoryMap, fileName));
                     }
 
                     _mmapStart = reinterpret_cast<const uint8_t *>(MapViewOfFile(_mmap, FILE_MAP_READ, 0, 0, 0));
                     if (!_mmapStart)
                     {
-                        throw IOError(getErrorMessage(Error::MemoryMap, fileName));
+                        throw Error(getErrorMessage(ErrorType::MemoryMap, fileName));
                     }
 
                     _mmapEnd = _mmapStart + _size;
@@ -301,7 +301,7 @@ namespace djv
                     const uint8_t * p = _mmapP + size * wordSize;
                     if (p > _mmapEnd)
                     {
-                        throw IOError(getErrorMessage(Error::ReadMemoryMap, _fileName));
+                        throw Error(getErrorMessage(ErrorType::ReadMemoryMap, _fileName));
                     }
                     if (_endian && wordSize > 1)
                     {
@@ -316,7 +316,7 @@ namespace djv
                     /*DWORD n;
                     if (!::ReadFile(_f, in, static_cast<DWORD>(size * wordSize), &n, 0))
                     {
-                        throw IOError(getErrorMessage(Error::Read, _fileName));
+                        throw Error(getErrorMessage(ErrorType::Read, _fileName));
                     }*/
                     size_t r = fread(in, 1, size * wordSize, _f);
                     if (r != size * wordSize)
@@ -335,7 +335,7 @@ namespace djv
                     DWORD n;
                     /*if (!::ReadFile(_f, in, static_cast<DWORD>(size * wordSize), &n, 0))
                     {
-                        throw IOError(getErrorMessage(Error::Read, _fileName));
+                        throw Error(getErrorMessage(ErrorType::Read, _fileName));
                     }*/
                     size_t r = fread(in, 1, size * wordSize, _f);
                     if (r != size * wordSize)
@@ -368,7 +368,7 @@ namespace djv
                 /*DWORD n = 0;
                 if (!::WriteFile(_f, p, static_cast<DWORD>(size * wordSize), &n, 0))
                 {
-                    throw IOError(getErrorMessage(Error::Write, _fileName));
+                    throw Error(getErrorMessage(ErrorType::Write, _fileName));
                 }*/
                 size_t r = fwrite(p, 1, size * wordSize, _f);
                 if (r != size * wordSize)
@@ -402,7 +402,7 @@ namespace djv
                     }
                     if (_mmapP > _mmapEnd)
                     {
-                        throw IOError(getErrorMessage(Error::SeekMemoryMap, _fileName));
+                        throw Error(getErrorMessage(ErrorType::SeekMemoryMap, _fileName));
                     }
 #else // DJV_MMAP
                     /*LARGE_INTEGER v;
@@ -413,7 +413,7 @@ namespace djv
                         0,
                         !seek ? FILE_BEGIN : FILE_CURRENT))
                     {
-                        throw IOError(getErrorMessage(Error::Seek, _fileName));
+                        throw Error(getErrorMessage(ErrorType::Seek, _fileName));
                     }*/
                     if (fseek(_f, value, !seek ? SEEK_SET : SEEK_CUR) != 0)
                     {
@@ -434,7 +434,7 @@ namespace djv
                         0,
                         !seek ? FILE_BEGIN : FILE_CURRENT))
                     {
-                        throw IOError(getErrorMessage(Error::Seek, _fileName));
+                        throw Error(getErrorMessage(ErrorType::Seek, _fileName));
                     }*/
                     if (fseek(_f, value, !seek ? SEEK_SET : SEEK_CUR) != 0)
                     {
