@@ -30,6 +30,7 @@
 #include <djvCore/FileIO.h>
 
 #include <djvCore/Error.h>
+#include <djvCore/FileSystem.h>
 #include <djvCore/Math.h>
 #include <djvCore/Memory.h>
 
