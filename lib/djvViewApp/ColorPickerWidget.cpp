@@ -101,16 +101,16 @@ namespace djv
             p.popupMenu->setMenu(p.menu);
 
             p.layout = UI::VerticalLayout::create(context);
-            p.layout->setSpacing(UI::MetricsRole::None);
+            p.layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::MetricsRole::None);
+            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             hLayout->addChild(p.colorSwatch);
             hLayout->addChild(p.sliders);
             hLayout->setStretch(p.sliders, UI::RowStretch::Expand);
             p.layout->addChild(hLayout);
             p.layout->setStretch(hLayout, UI::RowStretch::Expand);
             hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::MetricsRole::None);
+            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             hLayout->addChild(p.sampleSizeSlider);
             hLayout->setStretch(p.sampleSizeSlider, UI::RowStretch::Expand);
             hLayout->addChild(p.typeWidget);

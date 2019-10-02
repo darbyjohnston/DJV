@@ -121,7 +121,7 @@ namespace djv
             p.clearButton = UI::PushButton::create(context);
 
             auto layout = UI::VerticalLayout::create(context);
-            layout->setSpacing(UI::MetricsRole::None);
+            layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             layout->addChild(scrollWidget);
             layout->setStretch(scrollWidget, UI::RowStretch::Expand);
             auto hLayout = UI::HorizontalLayout::create(context);

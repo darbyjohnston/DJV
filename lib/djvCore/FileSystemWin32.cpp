@@ -29,6 +29,9 @@
 
 #include <djvCore/FileIO.h>
 
+#include <codecvt>
+#include <locale>
+
 namespace djv
 {
     namespace Core

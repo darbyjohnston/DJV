@@ -46,13 +46,13 @@ namespace djv
     {
         namespace Image
         {
-            struct Size;
+            class Size;
         
         } // namespace Image
 
         namespace IO
         {
-            struct Info;
+            class Info;
 
         } // namespace IO
     } // namespace AV

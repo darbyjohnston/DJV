@@ -30,6 +30,7 @@
 #include <djvCore/FileIO.h>
 
 #include <djvCore/Error.h>
+#include <djvCore/FileSystem.h>
 #include <djvCore/Math.h>
 #include <djvCore/Memory.h>
 #include <djvCore/Path.h>
@@ -49,7 +50,7 @@ namespace djv
         {
             namespace
             {
-                enum class Error
+                enum class ErrorType
                 {
                     Open,
                     OpenTemp,
@@ -63,39 +64,39 @@ namespace djv
                     SeekMemoryMap
                 };
                 
-                std::string getErrorMessage(Error error, const std::string& fileName)
+                std::string getErrorMessage(ErrorType error, const std::string& fileName)
                 {
                     std::stringstream ss;
                     switch (error)
                     {
-                    case Error::Open:
-                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ". " << Error::getLastError();
+                    case ErrorType::Open:
+                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be opened") << ". " << Core::Error::getLastError();
                         break;
-                    case Error::OpenTemp:
-                        ss << DJV_TEXT("The temporary file cannot be opened") << ". " << Error::getLastError();
+                    case ErrorType::OpenTemp:
+                        ss << DJV_TEXT("The temporary file cannot be opened") << ". " << Core::Error::getLastError();
                         break;
-                    case Error::MemoryMap:
-                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be mapped") << ". " << Error::getLastError();
+                    case ErrorType::MemoryMap:
+                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be mapped") << ". " << Core::Error::getLastError();
                         break;
-                    case Error::Close:
-                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be closed") << ". " << Error::getLastError();
+                    case ErrorType::Close:
+                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be closed") << ". " << Core::Error::getLastError();
                         break;
-                    case Error::CloseMemoryMap:
-                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be unmapped") << ". " << Error::getLastError();
+                    case ErrorType::CloseMemoryMap:
+                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be unmapped") << ". " << Core::Error::getLastError();
                         break;
-                    case Error::Read:
-                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be read") << ". " << Error::getLastError();
+                    case ErrorType::Read:
+                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be read") << ". " << Core::Error::getLastError();
                         break;
-                    case Error::ReadMemoryMap:
+                    case ErrorType::ReadMemoryMap:
                         ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be read") << ".";
                         break;
-                    case Error::Write:
-                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be written") << ". " << Error::getLastError();
+                    case ErrorType::Write:
+                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be written") << ". " << Core::Error::getLastError();
                         break;
-                    case Error::Seek:
-                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be seeked") << ". " << Error::getLastError();
+                    case ErrorType::Seek:
+                        ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be seeked") << ". " << Core::Error::getLastError();
                         break;
-                    case Error::SeekMemoryMap:
+                    case ErrorType::SeekMemoryMap:
                         ss << DJV_TEXT("The file") << " '" << fileName << "' " << DJV_TEXT("cannot be seeked") << ".";
                         break;
                     default: break;
@@ -189,19 +190,19 @@ namespace djv
                 _f = fopen(fileName.c_str(), modeStr.c_str());
                 if (!_f)
                 {
-                    throw IOError(getErrorMessage(Error::Open, fileName));
+                    throw Error(getErrorMessage(ErrorType::Open, fileName));
                 }
                 _fileName = fileName;
                 _mode = mode;
                 _pos = 0;
                 if (fseek(_f, 0, SEEK_END) != 0)
                 {
-                    throw IOError(getErrorMessage(Error::Open, fileName));
+                    throw Error(getErrorMessage(ErrorType::Open, fileName));
                 }
                 _size = ftell(_f);
                 if (fseek(_f, 0, SEEK_SET) != 0)
                 {
-                    throw IOError(getErrorMessage(Error::Open, fileName));
+                    throw Error(getErrorMessage(ErrorType::Open, fileName));
                 }
 #endif // DJV_MMAP
             }
@@ -212,7 +213,7 @@ namespace djv
                 DWORD r = GetTempPathW(MAX_PATH, path);
                 if (!r)
                 {
-                    throw IOError(getErrorMessage(Error::OpenTemp, std::string()));
+                    throw Error(getErrorMessage(ErrorType::OpenTemp, std::string()));
                 }
                 WCHAR buf[MAX_PATH];
                 std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
@@ -222,7 +223,7 @@ namespace djv
                 }
                 else
                 {
-                    throw IOError(getErrorMessage(Error::OpenTemp, _fileName));
+                    throw Error(getErrorMessage(ErrorType::OpenTemp, _fileName));
                 }
             }
 
@@ -320,7 +321,7 @@ namespace djv
                     size_t r = fread(in, 1, size * wordSize, _f);
                     if (r != size * wordSize)
                     {
-                        throw IOError(getErrorMessage(Error::Read, _fileName));
+                        throw Error(getErrorMessage(ErrorType::Read, _fileName));
                     }
                     if (_endian && wordSize > 1)
                     {
@@ -339,7 +340,7 @@ namespace djv
                     size_t r = fread(in, 1, size * wordSize, _f);
                     if (r != size * wordSize)
                     {
-                        throw IOError(getErrorMessage(Error::Read, _fileName));
+                        throw Error(getErrorMessage(ErrorType::Read, _fileName));
                     }
                     if (_endian && wordSize > 1)
                     {
@@ -372,7 +373,7 @@ namespace djv
                 size_t r = fwrite(p, 1, size * wordSize, _f);
                 if (r != size * wordSize)
                 {
-                    throw IOError(getErrorMessage(Error::Write, _fileName));
+                    throw Error(getErrorMessage(ErrorType::Write, _fileName));
                 }
 
                 _pos += size * wordSize;
@@ -416,7 +417,7 @@ namespace djv
                     }*/
                     if (fseek(_f, value, !seek ? SEEK_SET : SEEK_CUR) != 0)
                     {
-                        throw IOError(getErrorMessage(Error::Seek, _fileName));
+                        throw Error(getErrorMessage(ErrorType::Seek, _fileName));
                     }
 #endif // DJV_MMAP
                     break;
@@ -437,7 +438,7 @@ namespace djv
                     }*/
                     if (fseek(_f, value, !seek ? SEEK_SET : SEEK_CUR) != 0)
                     {
-                        throw IOError(getErrorMessage(Error::Seek, _fileName));
+                        throw Error(getErrorMessage(ErrorType::Seek, _fileName));
                     }
                     break;
                 }

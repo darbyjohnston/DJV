@@ -110,18 +110,18 @@ namespace djv
             p.closeButton->setInsideMargin(Layout::Margin(MetricsRole::MarginSmall));
 
             p.titleBarLayout = HorizontalLayout::create(context);
-            p.titleBarLayout->setSpacing(MetricsRole::None);
+            p.titleBarLayout->setSpacing(Layout::Spacing(MetricsRole::None));
 
             p.childLayout = VerticalLayout::create(context);
-            p.childLayout->setSpacing(MetricsRole::None);
+            p.childLayout->setSpacing(Layout::Spacing(MetricsRole::None));
 
             p.layout = VerticalLayout::create(context);
             p.layout->setMargin(Layout::Margin(MetricsRole::MarginDialog));
             auto layout = DialogLayout::create(context);
-            layout->setSpacing(MetricsRole::None);
+            layout->setSpacing(Layout::Spacing(MetricsRole::None));
             layout->setBackgroundRole(ColorRole::Background);
             auto hLayout = HorizontalLayout::create(context);
-            hLayout->setSpacing(MetricsRole::None);
+            hLayout->setSpacing(Layout::Spacing(MetricsRole::None));
             hLayout->setBackgroundRole(ColorRole::BackgroundHeader);
             hLayout->addChild(p.titleLabel);
             hLayout->addExpander();

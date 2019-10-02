@@ -47,13 +47,6 @@ namespace djv
     {
         namespace FileSystem
         {
-            //! This class provides a file I/O error.
-            class IOError : public std::runtime_error
-            {
-            public:
-                explicit IOError(const std::string&);
-            };
-            
             //! This class provides file I/O.
             class FileIO
             {

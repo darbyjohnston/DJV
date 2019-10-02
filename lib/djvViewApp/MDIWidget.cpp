@@ -68,7 +68,7 @@ namespace djv
 
             p.titleBar = UI::HorizontalLayout::create(context);
             p.titleBar->setBackgroundRole(UI::ColorRole::BackgroundHeader);
-            p.titleBar->setSpacing(UI::MetricsRole::None);
+            p.titleBar->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             p.titleBar->addChild(p.titleLabel);
             p.titleBar->setStretch(p.titleLabel, UI::RowStretch::Expand);
             p.titleBar->addChild(p.closeButton);
@@ -78,7 +78,7 @@ namespace djv
 
             auto layout = UI::VerticalLayout::create(context);
             layout->setBackgroundRole(UI::ColorRole::OverlayLight);
-            layout->setSpacing(UI::MetricsRole::None);
+            layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             layout->addChild(p.titleBar);
             layout->addSeparator();
             layout->addChild(p.childLayout);

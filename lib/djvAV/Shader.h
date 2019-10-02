@@ -32,6 +32,7 @@
 #include <djvAV/AV.h>
 
 #include <memory>
+#include <stdexcept>
 #include <string>
 
 namespace djv

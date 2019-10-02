@@ -78,7 +78,7 @@ namespace djv
                 {
                     auto flowLayout = UI::FlowLayout::create(context);
                     flowLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginLarge));
-                    flowLayout->setSpacing(UI::MetricsRole::SpacingLarge);
+                    flowLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingLarge));
                     for (const auto& j : i.second)
                     {
                         auto groupBox = UI::GroupBox::create(context);

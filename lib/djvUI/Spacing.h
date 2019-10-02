@@ -43,7 +43,7 @@ namespace djv
             {
             public:
                 Spacing();
-                Spacing(MetricsRole);
+                explicit Spacing(MetricsRole);
                 Spacing(MetricsRole horizontal, MetricsRole vertical);
 
                 void set(MetricsRole);

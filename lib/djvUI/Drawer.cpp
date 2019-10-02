@@ -124,7 +124,7 @@ namespace djv
                     break;
                 default: break;
                 }
-                p.layout->setSpacing(MetricsRole::None);
+                p.layout->setSpacing(Layout::Spacing(MetricsRole::None));
                 p.layout->setBackgroundRole(ColorRole::Background);
                 p.layout->setPointerEnabled(true);
                 switch (side)

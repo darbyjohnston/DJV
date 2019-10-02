@@ -86,15 +86,15 @@ namespace djv
             p.percentageLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
 
             p.layout = UI::VerticalLayout::create(context);
-            p.layout->setSpacing(UI::MetricsRole::None);
+            p.layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             p.layout->addChild(p.titleLabel);
             p.layout->addSeparator();
             auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::MetricsRole::None);
+            vLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             vLayout->addChild(p.enabledCheckBox);
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-            hLayout->setSpacing(UI::MetricsRole::SpacingSmall);
+            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
             hLayout->addChild(p.maxGBSlider);
             hLayout->setStretch(p.maxGBSlider, UI::RowStretch::Expand);
             hLayout->addChild(p.maxGBLabel);

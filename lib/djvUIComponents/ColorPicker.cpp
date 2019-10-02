@@ -641,7 +641,7 @@ namespace djv
             p.layout = HorizontalLayout::create(context);
             p.layout->addChild(p.colorSwatch);
             auto vLayout = VerticalLayout::create(context);
-            vLayout->setSpacing(MetricsRole::None);
+            vLayout->setSpacing(Layout::Spacing(MetricsRole::None));
             vLayout->addChild(p.sliders);
             vLayout->addChild(p.typeWidget);
             p.layout->addChild(vLayout);

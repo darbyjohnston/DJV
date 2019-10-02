@@ -64,7 +64,7 @@ namespace djv
             setClassName("djv::ViewApp::InfoWidget");
 
             p.layout = UI::VerticalLayout::create(context);
-            p.layout->setSpacing(UI::MetricsRole::None);
+            p.layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
 
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Both, context);
             scrollWidget->setBorder(false);
@@ -143,7 +143,7 @@ namespace djv
                     label->setHAlign(UI::HAlign::Left);
                     auto formLayout = UI::FormLayout::create(context);
                     formLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
-                    formLayout->setSpacing(UI::MetricsRole::None);
+                    formLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
                     formLayout->addChild(label);
                     formLayout->setText(label, _getText(DJV_TEXT("File name")) + ":");
                     p.layout->addChild(formLayout);
@@ -154,7 +154,7 @@ namespace djv
                 {
                     auto formLayout = UI::FormLayout::create(context);
                     formLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
-                    formLayout->setSpacing(UI::MetricsRole::None);
+                    formLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
                     formLayout->setShadowOverlay({ UI::Side::Top });
 
                     auto label = UI::Label::create(context);
@@ -234,7 +234,7 @@ namespace djv
                 {
                     auto formLayout = UI::FormLayout::create(context);
                     formLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
-                    formLayout->setSpacing(UI::MetricsRole::None);
+                    formLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
                     formLayout->setShadowOverlay({ UI::Side::Top });
 
                     auto label = UI::Label::create(context);
@@ -299,7 +299,7 @@ namespace djv
                 {
                     auto formLayout = UI::FormLayout::create(context);
                     formLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
-                    formLayout->setSpacing(UI::MetricsRole::None);
+                    formLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
                     formLayout->setShadowOverlay({ UI::Side::Top });
 
                     for (const auto& i : p.info.tags.getTags())

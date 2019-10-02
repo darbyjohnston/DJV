@@ -39,7 +39,7 @@
 #include <djvCoreTest/StringTest.h>
 #include <djvCoreTest/TimeTest.h>
 
-#if not defined(DJV_TINY_BUILD)
+#if !defined(DJV_TINY_BUILD)
 #include <djvAVTest/AudioTest.h>
 #include <djvAVTest/ColorTest.h>
 #include <djvAVTest/PixelTest.h>
@@ -70,7 +70,7 @@ int main(int argc, char ** argv)
         (new CoreTest::StringTest(context))->run(args);
         (new CoreTest::TimeTest(context))->run(args);
 
-#if not defined(DJV_TINY_BUILD)
+#if !defined(DJV_TINY_BUILD)
         (new AVTest::AudioTest(context))->run(args);
         (new AVTest::ColorTest(context))->run(args);
         (new AVTest::PixelTest(context))->run(args);

@@ -211,7 +211,7 @@ namespace djv
             p.edit->setModel(p.slider->getModel());
 
             p.layout = HorizontalLayout::create(context);
-            p.layout->setSpacing(MetricsRole::SpacingSmall);
+            p.layout->setSpacing(Layout::Spacing(MetricsRole::SpacingSmall));
             p.layout->addChild(p.edit);
             p.layout->addChild(p.slider);
             p.layout->setStretch(p.slider, RowStretch::Expand);

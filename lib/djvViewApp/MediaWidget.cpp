@@ -210,7 +210,7 @@ namespace djv
             p.closeButton->setInsideMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
 
             p.titleBar = UI::HorizontalLayout::create(context);
-            p.titleBar->setSpacing(UI::MetricsRole::None);
+            p.titleBar->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             p.titleBar->setBackgroundRole(UI::ColorRole::OverlayLight);
             p.titleBar->addChild(p.titleLabel);
             p.titleBar->setStretch(p.titleLabel, UI::RowStretch::Expand);
@@ -253,12 +253,12 @@ namespace djv
             p.audioMuteButton->setIcon("djvIconAudioMute");
             p.audioMuteButton->setButtonType(UI::ButtonType::Toggle);
             auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::MetricsRole::None);
+            vLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             vLayout->addChild(p.audioLabel);
             vLayout->addSeparator();
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-            hLayout->setSpacing(UI::MetricsRole::SpacingSmall);
+            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
             hLayout->addChild(p.audioVolumeSlider);
             hLayout->addChild(p.audioMuteButton);
             vLayout->addChild(hLayout);

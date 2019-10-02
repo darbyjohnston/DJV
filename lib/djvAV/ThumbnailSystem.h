@@ -52,14 +52,14 @@ namespace djv
     {
         namespace IO
         {
-            struct Info;
+            class Info;
 
         } // namespace IO
 
         namespace Image
         {
-            struct Size;
-            struct Info;
+            class Size;
+            class Info;
             class Convert;
             class Image;
             

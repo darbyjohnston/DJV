@@ -101,7 +101,7 @@ void MDIWidget::_init(const std::string & title, const std::shared_ptr<Core::Con
     scrollWidget->addChild(textBlock);
 
     auto layout = UI::VerticalLayout::create(context);
-    layout->setSpacing(UI::MetricsRole::None);
+    layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
     layout->setBackgroundRole(UI::ColorRole::Background);
     layout->addChild(titleBar);
     layout->addChild(scrollWidget);

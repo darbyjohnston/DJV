@@ -80,10 +80,10 @@ namespace djv
                 p.removeButtonGroup = ButtonGroup::create(ButtonType::Push);
                 
                 auto layout = VerticalLayout::create(context);
-                layout->setSpacing(MetricsRole::None);
+                layout->setSpacing(Layout::Spacing(MetricsRole::None));
                 auto hLayout = HorizontalLayout::create(context);
                 hLayout->setBackgroundRole(UI::ColorRole::Trough);
-                hLayout->setSpacing(MetricsRole::None);
+                hLayout->setSpacing(Layout::Spacing(MetricsRole::None));
                 hLayout->addChild(p.titleLabel);
                 hLayout->addExpander();
                 hLayout->addChild(p.addButton);
@@ -91,9 +91,9 @@ namespace djv
                 layout->addChild(hLayout);
                 layout->addSeparator();
                 auto vLayout = VerticalLayout::create(context);
-                vLayout->setSpacing(MetricsRole::None);
+                vLayout->setSpacing(Layout::Spacing(MetricsRole::None));
                 p.itemLayout = GridLayout::create(context);
-                p.itemLayout->setSpacing(MetricsRole::None);
+                p.itemLayout->setSpacing(Layout::Spacing(MetricsRole::None));
                 vLayout->addChild(p.itemLayout);
                 layout->addChild(vLayout);
                 p.scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);

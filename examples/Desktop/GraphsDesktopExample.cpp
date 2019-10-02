@@ -56,7 +56,7 @@ int main(int argc, char ** argv)
         // Create a top-level layout.
         auto layout = UI::VerticalLayout::create(app);
         layout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginLarge));
-        layout->setSpacing(UI::MetricsRole::SpacingLarge);
+        layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingLarge));
 
         // Create some line graph widgets.
         std::vector<std::shared_ptr<UI::LineGraphWidget> > lineGraphWidgets;

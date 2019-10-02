@@ -69,13 +69,13 @@ namespace djv
                 p.titleLabel->setBackgroundRole(UI::ColorRole::Trough);
 
                 auto layout = VerticalLayout::create(context);
-                layout->setSpacing(MetricsRole::None);
+                layout->setSpacing(Layout::Spacing(MetricsRole::None));
                 layout->addChild(p.titleLabel);
                 layout->addSeparator();
                 auto vLayout = VerticalLayout::create(context);
-                vLayout->setSpacing(MetricsRole::None);
+                vLayout->setSpacing(Layout::Spacing(MetricsRole::None));
                 p.itemLayout = VerticalLayout::create(context);
-                p.itemLayout->setSpacing(MetricsRole::None);
+                p.itemLayout->setSpacing(Layout::Spacing(MetricsRole::None));
                 vLayout->addChild(p.itemLayout);
                 layout->addChild(vLayout);
                 p.scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);

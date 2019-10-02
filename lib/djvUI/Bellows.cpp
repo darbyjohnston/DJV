@@ -97,7 +97,7 @@ namespace djv
 
                     _layout = HorizontalLayout::create(context);
                     _layout->setMargin(Margin(MetricsRole::MarginSmall));
-                    _layout->setSpacing(MetricsRole::SpacingSmall);
+                    _layout->setSpacing(Spacing(MetricsRole::SpacingSmall));
                     _layout->addChild(_icon);
                     _layout->addChild(_label);
                     _layout->setStretch(_label, RowStretch::Expand);
@@ -188,7 +188,7 @@ namespace djv
                 p.childLayout->addChild(p.spacer);
 
                 p.layout = VerticalLayout::create(context);
-                p.layout->setSpacing(MetricsRole::None);
+                p.layout->setSpacing(Layout::Spacing(MetricsRole::None));
                 p.layout->addChild(p.button);
                 p.layout->addSeparator();
                 p.layout->addChild(p.childLayout);

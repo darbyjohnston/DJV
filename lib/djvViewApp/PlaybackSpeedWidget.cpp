@@ -93,18 +93,18 @@ namespace djv
 
             p.speedButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
             p.speedButtonLayout = UI::VerticalLayout::create(context);
-            p.speedButtonLayout->setSpacing(UI::MetricsRole::None);
+            p.speedButtonLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
 
             p.defaultSpeedButton = UI::ListButton::create(context);
 
             p.playEveryFrameCheckBox = UI::CheckBox::create(context);
 
             auto layout = UI::VerticalLayout::create(context);
-            layout->setSpacing(UI::MetricsRole::None);
+            layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             layout->addChild(p.titleLabel);
             layout->addSeparator();
             auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::MetricsRole::None);
+            vLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             vLayout->addChild(p.defaultSpeedButton);
             vLayout->addChild(p.playEveryFrameCheckBox);
             vLayout->addChild(p.speedButtonLayout);

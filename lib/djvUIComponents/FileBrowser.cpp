@@ -270,11 +270,11 @@ namespace djv
                 showHiddenButton->addAction(p.actions["ShowHidden"]);
 
                 auto vLayout = VerticalLayout::create(context);
-                vLayout->setSpacing(MetricsRole::None);
+                vLayout->setSpacing(Layout::Spacing(MetricsRole::None));
                 vLayout->addChild(p.sortTitleLabel);
                 vLayout->addSeparator();
                 auto vLayout2 = VerticalLayout::create(context);
-                vLayout2->setSpacing(MetricsRole::None);
+                vLayout2->setSpacing(Layout::Spacing(MetricsRole::None));
                 vLayout2->addChild(sortByNameButton);
                 vLayout2->addChild(sortBySizeButton);
                 vLayout2->addChild(sortByTimeButton);
@@ -293,11 +293,11 @@ namespace djv
                 p.thumbnailSizeSlider->setDelay(Time::getMilliseconds(Time::TimerValue::Medium));
                 p.thumbnailSizeSlider->setMargin(Layout::Margin(MetricsRole::MarginSmall));
                 vLayout = VerticalLayout::create(context);
-                vLayout->setSpacing(MetricsRole::None);
+                vLayout->setSpacing(Layout::Spacing(MetricsRole::None));
                 vLayout->addChild(p.viewTypeLabel);
                 vLayout->addSeparator();
                 vLayout2 = VerticalLayout::create(context);
-                vLayout2->setSpacing(MetricsRole::None);
+                vLayout2->setSpacing(Layout::Spacing(MetricsRole::None));
                 vLayout2->addChild(tilesButton);
                 vLayout2->addChild(listButton);
                 vLayout->addChild(vLayout2);
@@ -305,7 +305,7 @@ namespace djv
                 vLayout->addChild(p.thumbnailSizeLabel);
                 vLayout->addSeparator();
                 vLayout2 = VerticalLayout::create(context);
-                vLayout2->setSpacing(MetricsRole::None);
+                vLayout2->setSpacing(Layout::Spacing(MetricsRole::None));
                 vLayout2->addChild(increaseThumbnailSizeButton);
                 vLayout2->addChild(decreaseThumbnailSizeButton);
                 vLayout2->addChild(p.thumbnailSizeSlider);
@@ -314,7 +314,7 @@ namespace djv
                 vLayout->addChild(p.miscSettingsLabel);
                 vLayout->addSeparator();
                 vLayout2 = VerticalLayout::create(context);
-                vLayout2->setSpacing(MetricsRole::None);
+                vLayout2->setSpacing(Layout::Spacing(MetricsRole::None));
                 vLayout2->addChild(fileSequencesButton);
                 vLayout2->addChild(showHiddenButton);
                 vLayout->addChild(vLayout2);
@@ -353,11 +353,11 @@ namespace djv
                 p.itemCountLabel->setMargin(Layout::Margin(MetricsRole::Margin));
 
                 p.layout = VerticalLayout::create(context);
-                p.layout->setSpacing(MetricsRole::None);
+                p.layout->setSpacing(Layout::Spacing(MetricsRole::None));
                 p.layout->addChild(toolBar);
                 p.layout->addSeparator();
                 p.listViewLayout = VerticalLayout::create(context);
-                p.listViewLayout->setSpacing(MetricsRole::None);
+                p.listViewLayout->setSpacing(Layout::Spacing(MetricsRole::None));
                 p.listViewLayout->addChild(p.listViewHeader);
                 p.layout->addChild(p.listViewLayout);
                 auto stackLayout = StackLayout::create(context);

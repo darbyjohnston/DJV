@@ -201,14 +201,14 @@ namespace djv
             p.menuBar->addChild(maximizeButton);
             p.menuBar->addSeparator(UI::Side::Right);
             auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::MetricsRole::None);
+            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             hLayout->addChild(viewLockFullButton);
             hLayout->addChild(viewLockFrameButton);
             hLayout->addChild(viewLockCenterButton);
             p.menuBar->addChild(hLayout);
             p.menuBar->addSeparator(UI::Side::Right);
             hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::MetricsRole::None);
+            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             for (const auto& i : toolButtons)
             {
                 hLayout->addChild(i.second);
@@ -236,7 +236,7 @@ namespace djv
             stackLayout->addChild(p.canvas);
             p.layout->addChild(stackLayout);
             auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::MetricsRole::None);
+            vLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             vLayout->addChild(p.menuBar);
             vLayout->addExpander();
             p.layout->addChild(vLayout);

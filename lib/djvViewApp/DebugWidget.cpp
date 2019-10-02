@@ -603,7 +603,7 @@ namespace djv
             setClassName("djv::ViewApp::DebugWidget");
 
             auto layout = UI::VerticalLayout::create(context);
-            layout->setSpacing(UI::MetricsRole::None);
+            layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
 
             auto generalDebugWidget = GeneralDebugWidget::create(context);
             p.bellows["General"] = UI::Bellows::create(context);

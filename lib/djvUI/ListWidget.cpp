@@ -63,7 +63,7 @@ namespace djv
             p.buttonGroup = ButtonGroup::create(ButtonType::Radio);
 
             p.layout = VerticalLayout::create(context);
-            p.layout->setSpacing(MetricsRole::None);
+            p.layout->setSpacing(Layout::Spacing(MetricsRole::None));
 
             p.scrollWidget = ScrollWidget::create(ScrollType::Vertical, context);
             p.scrollWidget->addChild(p.layout);

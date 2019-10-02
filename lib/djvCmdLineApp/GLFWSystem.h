@@ -33,6 +33,8 @@
 
 #include <djvCore/ISystem.h>
 
+#include <stdexcept>
+
 struct GLFWwindow;
 
 namespace djv

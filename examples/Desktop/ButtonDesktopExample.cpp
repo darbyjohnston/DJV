@@ -55,7 +55,7 @@ int main(int argc, char ** argv)
         // Create a top-level layout.
         auto layout = UI::VerticalLayout::create(app);
         layout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginLarge));
-        layout->setSpacing(UI::MetricsRole::SpacingLarge);
+        layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingLarge));
 
         // Create a group of push buttons.
         auto pushButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);

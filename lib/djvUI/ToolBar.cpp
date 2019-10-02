@@ -64,7 +64,7 @@ namespace djv
             setBackgroundRole(ColorRole::BackgroundToolBar);
 
             p.layout = HorizontalLayout::create(context);
-            p.layout->setSpacing(MetricsRole::None);
+            p.layout->setSpacing(Layout::Spacing(MetricsRole::None));
             Widget::addChild(p.layout);
         }
 

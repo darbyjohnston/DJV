@@ -44,7 +44,7 @@ namespace djv
     {
         namespace Image
         {
-            struct Size;
+            class Size;
     
         } // namespace Image
     } // namespace AV

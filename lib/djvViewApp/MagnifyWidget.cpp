@@ -72,11 +72,11 @@ namespace djv
             p.zoomOutButton->setIcon("djvIconSubtract");
 
             auto layout = UI::VerticalLayout::create(context);
-            layout->setSpacing(UI::MetricsRole::None);
+            layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             layout->addChild(p.imageWidget);
             layout->setStretch(p.imageWidget, UI::RowStretch::Expand);
             auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::MetricsRole::None);
+            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             hLayout->addChild(p.magnificationSlider);
             hLayout->setStretch(p.magnificationSlider, UI::RowStretch::Expand);
             hLayout->addChild(p.zoomInButton);

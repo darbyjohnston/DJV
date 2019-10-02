@@ -124,7 +124,7 @@ namespace djv
                             WCHAR* p2 = p;
                             for (; p2 < end && *p2 && *p2 != '\\'; ++p2)
                                 ;
-                            out.push_back(utf16.to_bytes(std::wstring(p, p2 - p)));
+                            out.push_back(Path(utf16.to_bytes(std::wstring(p, p2 - p))));
                             if ('\\' == *p2)
                             {
                                 p2++;

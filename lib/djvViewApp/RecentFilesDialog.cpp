@@ -115,12 +115,12 @@ namespace djv
             p.thumbnailSizeSlider->setDelay(Time::getMilliseconds(Time::TimerValue::Medium));
             p.thumbnailSizeSlider->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
             auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::MetricsRole::None);
+            vLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             vLayout->addChild(p.thumbnailSizeLabel);
             vLayout->addSeparator();
             auto vLayout2 = UI::VerticalLayout::create(context);
             vLayout2->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-            vLayout2->setSpacing(UI::MetricsRole::SpacingSmall);
+            vLayout2->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
             vLayout2->addChild(increaseThumbnailSizeButton);
             vLayout2->addChild(decreaseThumbnailSizeButton);
             vLayout2->addChild(p.thumbnailSizeSlider);
@@ -155,7 +155,7 @@ namespace djv
                 p.layout->addAction(action.second);
             }
             vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::MetricsRole::None);
+            vLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             vLayout->addChild(toolBar);
             vLayout->addSeparator();
             vLayout->addChild(scrollWidget);

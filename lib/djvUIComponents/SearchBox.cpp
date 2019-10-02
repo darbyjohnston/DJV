@@ -72,7 +72,7 @@ namespace djv
             clearButton->setInsideMargin(Layout::Margin(MetricsRole::None));
             
             auto layout = HorizontalLayout::create(context);
-            layout->setSpacing(MetricsRole::None);
+            layout->setSpacing(Layout::Spacing(MetricsRole::None));
             layout->setBackgroundRole(ColorRole::Trough);
             layout->addChild(p.lineEditBase);
             layout->setStretch(p.lineEditBase, RowStretch::Expand);

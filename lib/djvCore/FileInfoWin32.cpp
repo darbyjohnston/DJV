@@ -74,7 +74,7 @@ namespace djv
                             {
                                 char tmp[String::cStringLength] = "";
                                 strerror_s(tmp, String::cStringLength, errno);
-                                error = tmp;
+                                *error = tmp;
                             }
                             return false;
                         }
@@ -97,7 +97,7 @@ namespace djv
                         {
                             char tmp[String::cStringLength] = "";
                             strerror_s(tmp, String::cStringLength, errno);
-                            error = tmp;
+                            *error = tmp;
                         }
                         return false;
                     }

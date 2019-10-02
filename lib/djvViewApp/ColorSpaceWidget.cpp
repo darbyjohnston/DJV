@@ -113,7 +113,7 @@ namespace djv
             p.bellows["Image"] = UI::Bellows::create(context);
             p.editImageButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
             p.addImageLayout = UI::VerticalLayout::create(context);
-            p.addImageLayout->setSpacing(UI::MetricsRole::None);
+            p.addImageLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             p.addImagePopupWidget = UI::PopupWidget::create(context);
             p.addImagePopupWidget->setIcon("djvIconAddSmall");
             p.addImagePopupWidget->addChild(p.addImageLayout);
@@ -128,16 +128,16 @@ namespace djv
             p.viewComboBox->setHAlign(UI::HAlign::Fill);
 
             auto layout = UI::VerticalLayout::create(context);
-            layout->setSpacing(UI::MetricsRole::None);
+            layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             layout->setShadowOverlay({ UI::Side::Top });
 
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
             p.configLayout = UI::VerticalLayout::create(context);
-            p.configLayout->setSpacing(UI::MetricsRole::None);
+            p.configLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             vLayout->addChild(p.configLayout);
             auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::MetricsRole::None);
+            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             hLayout->addExpander();
             hLayout->addChild(p.addConfigButton);
             hLayout->addChild(p.editConfigButton);
@@ -150,7 +150,7 @@ namespace djv
             p.imageLayout = UI::FormLayout::create(context);
             vLayout->addChild(p.imageLayout);
             hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::MetricsRole::None);
+            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             hLayout->addExpander();
             hLayout->addChild(p.addImagePopupWidget);
             hLayout->addChild(p.editImageButton);
@@ -471,7 +471,7 @@ namespace djv
                     p.textFocusWidgets[deleteButton->getFocusWidget()] = id++;
 
                     auto hLayout = UI::HorizontalLayout::create(context);
-                    hLayout->setSpacing(UI::MetricsRole::None);
+                    hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
                     hLayout->addChild(button);
                     hLayout->setStretch(button, UI::RowStretch::Expand);
                     hLayout->addChild(deleteButton);
@@ -533,7 +533,7 @@ namespace djv
                     p.textFocusWidgets[deleteButton->getFocusWidget()] = id++;
 
                     auto hLayout = UI::HorizontalLayout::create(context);
-                    hLayout->setSpacing(UI::MetricsRole::None);
+                    hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
                     hLayout->addChild(comboBox);
                     hLayout->setStretch(comboBox, UI::RowStretch::Expand);
                     hLayout->addChild(deleteButton);

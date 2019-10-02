@@ -36,6 +36,7 @@
 #include <glm/vec4.hpp>
 
 #include <memory>
+#include <stdexcept>
 #include <string>
 
 namespace djv

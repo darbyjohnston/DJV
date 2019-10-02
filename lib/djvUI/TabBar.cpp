@@ -170,7 +170,7 @@ namespace djv
             p.buttonGroup = ButtonGroup::create(ButtonType::Radio);
 
             p.layout = HorizontalLayout::create(context);
-            p.layout->setSpacing(MetricsRole::None);
+            p.layout->setSpacing(Layout::Spacing(MetricsRole::None));
             addChild(p.layout);
 
             auto weak = std::weak_ptr<TabBar>(std::dynamic_pointer_cast<TabBar>(shared_from_this()));

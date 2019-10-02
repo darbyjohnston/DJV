@@ -161,7 +161,7 @@ namespace djv
 
                 p.layout = HorizontalLayout::create(context);
                 p.layout->setMargin(Layout::Margin(MetricsRole::MarginSmall));
-                p.layout->setSpacing(MetricsRole::None);
+                p.layout->setSpacing(Layout::Spacing(MetricsRole::None));
                 p.layout->addChild(p.checkBox);
                 p.layout->addChild(p.icon);
                 p.layout->addChild(p.textLabel);
