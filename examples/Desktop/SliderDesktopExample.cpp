@@ -57,12 +57,12 @@ int main(int argc, char ** argv)
 
         // Create a top-level layout.
         auto layout = UI::VerticalLayout::create(app);
-        layout->setMargin(UI::MetricsRole::MarginLarge);
+        layout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginLarge));
         layout->setSpacing(UI::MetricsRole::SpacingLarge);
 
         // Create some integer sliders.
         auto vLayout = UI::VerticalLayout::create(app);
-        vLayout->setMargin(UI::MetricsRole::Margin);
+        vLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
         const std::vector<Core::IntRange> intRange =
         {
             Core::IntRange(    0,   10),
@@ -87,7 +87,7 @@ int main(int argc, char ** argv)
         
         // Create some floating-point sliders.
         vLayout = UI::VerticalLayout::create(app);
-        vLayout->setMargin(UI::MetricsRole::Margin);
+        vLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
         const std::vector<Core::FloatRange> floatRange =
         {
             Core::FloatRange(   0.f,   1.f),

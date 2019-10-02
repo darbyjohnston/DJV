@@ -466,6 +466,7 @@ namespace djv
                 {
                 case GLFW_PRESS:   system->_buttonPress  (fromGLFWPointerButton(button)); break;
                 case GLFW_RELEASE: system->_buttonRelease(fromGLFWPointerButton(button)); break;
+                default: break;
                 }
             }
         }
@@ -494,6 +495,7 @@ namespace djv
                 case GLFW_PRESS:   system->_keyPress  (key, modifiers); break;
                 case GLFW_REPEAT:  system->_keyPress  (key, modifiers); break;
                 case GLFW_RELEASE: system->_keyRelease(key, modifiers); break;
+                default: break;
                 }
             }
         }

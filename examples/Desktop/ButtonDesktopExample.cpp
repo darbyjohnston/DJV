@@ -54,13 +54,13 @@ int main(int argc, char ** argv)
 
         // Create a top-level layout.
         auto layout = UI::VerticalLayout::create(app);
-        layout->setMargin(UI::MetricsRole::MarginLarge);
+        layout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginLarge));
         layout->setSpacing(UI::MetricsRole::SpacingLarge);
 
         // Create a group of push buttons.
         auto pushButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
         auto hLayout = UI::HorizontalLayout::create(app);
-        hLayout->setMargin(UI::MetricsRole::Margin);
+        hLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
         for (size_t i = 0; i < 3; ++i)
         {
             std::stringstream ss;
@@ -83,7 +83,7 @@ int main(int argc, char ** argv)
         // Create a group of toggle buttons.
         auto toggleButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Toggle);
         hLayout = UI::HorizontalLayout::create(app);
-        hLayout->setMargin(UI::MetricsRole::Margin);
+        hLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
         for (size_t i = 0; i < 3; ++i)
         {
             std::stringstream ss;
@@ -106,7 +106,7 @@ int main(int argc, char ** argv)
         // Create a group of radio buttons.
         auto radioButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Radio);
         hLayout = UI::HorizontalLayout::create(app);
-        hLayout->setMargin(UI::MetricsRole::Margin);
+        hLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
         for (size_t i = 0; i < 3; ++i)
         {
             std::stringstream ss;
@@ -129,7 +129,7 @@ int main(int argc, char ** argv)
         // Create a group of exclusive buttons.
         auto exclusiveButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Exclusive);
         hLayout = UI::HorizontalLayout::create(app);
-        hLayout->setMargin(UI::MetricsRole::Margin);
+        hLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
         for (size_t i = 0; i < 3; ++i)
         {
             std::stringstream ss;

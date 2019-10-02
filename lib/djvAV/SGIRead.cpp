@@ -182,10 +182,14 @@ namespace djv
                                 {
                                     switch (channelByteCount)
                                     {
-                                    case 4: outP[3] = inP[3];
-                                    case 3: outP[2] = inP[2];
-                                    case 2: outP[1] = inP[1];
-                                    case 1: outP[0] = inP[0];
+                                    case 4: // Fourth byte.
+                                        outP[3] = inP[3];
+                                    case 3: // Third byte.
+                                        outP[2] = inP[2];
+                                    case 2: // Second byte.
+                                        outP[1] = inP[1];
+                                    case 1: // First byte.
+                                        outP[0] = inP[0];
                                     default: break;
                                     }
                                 }
@@ -272,8 +276,8 @@ namespace djv
                             uint16_t channels;
                             uint32_t pixelMin;
                             uint32_t pixelMax;
-                        }
-                        _data;
+                        };
+                        Data _data;
                     };
 
                     Header::Header()

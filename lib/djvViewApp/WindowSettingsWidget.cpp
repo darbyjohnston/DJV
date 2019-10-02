@@ -289,7 +289,7 @@ namespace djv
                                             auto settingsSystem = context->getSystemT<UI::Settings::System>();
                                             if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
                                             {
-                                                windowSettings->setBackgroundImage(value.getPath());
+                                                windowSettings->setBackgroundImage(std::string(value.getPath()));
                                             }
                                         }
                                     }

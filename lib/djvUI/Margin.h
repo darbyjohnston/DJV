@@ -52,7 +52,7 @@ namespace djv
             {
             public:
                 Margin();
-                Margin(MetricsRole);
+                explicit Margin(MetricsRole);
                 //! \todo Change the ordering to match the Side enum? (left, top, right, bottom)
                 Margin(MetricsRole left, MetricsRole right, MetricsRole top, MetricsRole bottom);
 

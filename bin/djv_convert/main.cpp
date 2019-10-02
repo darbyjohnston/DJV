@@ -121,7 +121,6 @@ namespace djv
             void tick(float dt) override
             {
                 CmdLine::Application::tick(dt);
-                auto time = std::chrono::system_clock::now();
                 while (_write->isRunning())
                 {
                     std::unique_lock<std::mutex> readLock(_read->getMutex(), std::try_to_lock);

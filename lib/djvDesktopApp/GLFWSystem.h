@@ -83,8 +83,6 @@ namespace djv
             void showCursor();
             void hideCursor();
 
-            void tick(float dt) override;
-
         private:
             DJV_PRIVATE();
         };

@@ -65,64 +65,52 @@ namespace djv
                         tmp  = p[0];
                         p[0] = p[1];
                         p[1] = tmp;
-                        
                         p += 2;
                     }
                     break;
-
                 case 4:
                     while (size--)
                     {
                         tmp  = p[0];
                         p[0] = p[3];
                         p[3] = tmp;
-                        
                         tmp  = p[1];
                         p[1] = p[2];
                         p[2] = tmp;
-                        
                         p += 4;
                     }
                     break;
-
                 case 8:
                     while (size--)
                     {
                         tmp  = p[0];
                         p[0] = p[7];
                         p[7] = tmp;
-                        
                         tmp  = p[1];
                         p[1] = p[6];
                         p[6] = tmp;
-                        
                         tmp  = p[2];
                         p[2] = p[5];
                         p[5] = tmp;
-                        
                         tmp  = p[3];
                         p[3] = p[4];
                         p[4] = tmp;
-                        
                         tmp  = p[4];
                         p[4] = p[3];
                         p[3] = tmp;
-                        
                         tmp  = p[5];
                         p[5] = p[2];
                         p[2] = tmp;
-                        
                         tmp  = p[6];
                         p[6] = p[1];
                         p[1] = tmp;
-                        
                         tmp  = p[7];
                         p[7] = p[0];
                         p[0] = tmp;
-                        
                         p += 8;
                     }
                     break;
+                default: break;
                 }
             }
 

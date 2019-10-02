@@ -63,7 +63,7 @@ namespace djv
             p.label = Label::create(context);
             p.label->setFontSizeRole(MetricsRole::FontSmall);
             p.label->setBackgroundRole(ColorRole::OverlayLight);
-            p.label->setMargin(MetricsRole::Border);
+            p.label->setMargin(Layout::Margin(MetricsRole::Border));
             addChild(p.label);
         }
 

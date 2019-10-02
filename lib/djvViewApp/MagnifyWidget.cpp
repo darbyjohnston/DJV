@@ -63,7 +63,7 @@ namespace djv
             
             p.magnificationSlider = UI::IntSlider::create(context);
             p.magnificationSlider->setRange(IntRange(1, 10));
-            p.magnificationSlider->setMargin(UI::MetricsRole::MarginSmall);
+            p.magnificationSlider->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
 
             p.zoomInButton = UI::ToolButton::create(context);
             p.zoomInButton->setIcon("djvIconAdd");

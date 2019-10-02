@@ -69,7 +69,7 @@ namespace djv
             clearButton->setIcon("djvIconClear");
             clearButton->setTextFocusEnabled(false);
             clearButton->setBackgroundRole(ColorRole::None);
-            clearButton->setInsideMargin(MetricsRole::None);
+            clearButton->setInsideMargin(Layout::Margin(MetricsRole::None));
             
             auto layout = HorizontalLayout::create(context);
             layout->setSpacing(MetricsRole::None);
@@ -82,7 +82,7 @@ namespace djv
             layout->addChild(p.soloLayout);
             
             p.border = Border::create(context);
-            p.border->setMargin(MetricsRole::Border);
+            p.border->setMargin(Layout::Margin(MetricsRole::Border));
             p.border->addChild(layout);
             addChild(p.border);
 

@@ -193,7 +193,7 @@ namespace djv
                 bool operator != (const Path &) const;
                 bool operator < (const Path &) const;
 
-                operator std::string() const;
+                explicit operator std::string() const;
 
             private:
                 std::string _directoryName;

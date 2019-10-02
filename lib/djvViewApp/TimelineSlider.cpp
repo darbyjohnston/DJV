@@ -110,7 +110,7 @@ namespace djv
                 _timeLabel->setFontSizeRole(UI::MetricsRole::FontSmall);
                 _timeLabel->setBackgroundRole(UI::ColorRole::OverlayLight);
                 _timeLabel->setVAlign(UI::VAlign::Bottom);
-                _timeLabel->setMargin(UI::MetricsRole::Border);
+                _timeLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::Border));
 
                 _layout = UI::StackLayout::create(context);
                 _layout->setBackgroundRole(UI::ColorRole::OverlayLight);
@@ -539,7 +539,6 @@ namespace djv
                 if (auto context = getContext().lock())
                 {
                     const float w = g.w();
-                    const float h = g.h();
                     const auto& style = _getStyle();
                     const float m = style->getMetric(UI::MetricsRole::MarginSmall);
                     const float b = style->getMetric(UI::MetricsRole::Border);
@@ -595,8 +594,6 @@ namespace djv
             if (auto context = getContext().lock())
             {
                 const BBox2f& g = getGeometry();
-                const float w = g.w();
-                const float h = g.h();
                 const auto& style = _getStyle();
                 const float m = style->getMetric(UI::MetricsRole::MarginSmall);
                 const float b = style->getMetric(UI::MetricsRole::Border);
@@ -665,7 +662,6 @@ namespace djv
                     for (Frame::Index f2 = 0; f2 < sequenceSize; ++f2)
                     {
                         const float x = _frameToPos(f2);
-                        const float h = ceilf(p.fontMetrics.ascender * (1 / 4.F));
                         render->drawRect(BBox2f(
                             x,
                             g.max.y - m - b * 6.F,

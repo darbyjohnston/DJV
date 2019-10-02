@@ -132,7 +132,7 @@ namespace djv
             layout->setShadowOverlay({ UI::Side::Top });
 
             auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->setMargin(UI::MetricsRole::Margin);
+            vLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
             p.configLayout = UI::VerticalLayout::create(context);
             p.configLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addChild(p.configLayout);
@@ -146,7 +146,7 @@ namespace djv
             layout->addChild(p.bellows["Config"]);
 
             vLayout = UI::VerticalLayout::create(context);
-            vLayout->setMargin(UI::MetricsRole::Margin);
+            vLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
             p.imageLayout = UI::FormLayout::create(context);
             vLayout->addChild(p.imageLayout);
             hLayout = UI::HorizontalLayout::create(context);
@@ -159,7 +159,7 @@ namespace djv
             layout->addChild(p.bellows["Image"]);
 
             p.displayLayout = UI::FormLayout::create(context);
-            p.displayLayout->setMargin(UI::MetricsRole::Margin);
+            p.displayLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
             p.displayLayout->addChild(p.displayComboBox);
             p.displayLayout->addChild(p.viewComboBox);
             p.bellows["Display"]->addChild(p.displayLayout);
@@ -218,7 +218,7 @@ namespace djv
                                             widget->_p->fileBrowserWindow.reset();
                                             auto ocioSystem = context->getSystemT<AV::OCIO::System>();
                                             AV::OCIO::Config config;
-                                            config.fileName = value.getPath();
+                                            config.fileName = std::string(value.getPath());
                                             config.name = AV::OCIO::Config::getNameFromFileName(config.fileName);
                                             ocioSystem->addConfig(config);
                                         }
@@ -466,7 +466,7 @@ namespace djv
                     auto deleteButton = UI::ToolButton::create(context);
                     deleteButton->setIcon("djvIconCloseSmall");
                     deleteButton->setVisible(p.editConfig);
-                    deleteButton->setInsideMargin(UI::MetricsRole::None);
+                    deleteButton->setInsideMargin(UI::Layout::Margin(UI::MetricsRole::None));
                     deleteButton->setVAlign(UI::VAlign::Fill);
                     p.textFocusWidgets[deleteButton->getFocusWidget()] = id++;
 
@@ -528,7 +528,7 @@ namespace djv
                     auto deleteButton = UI::ToolButton::create(context);
                     deleteButton->setIcon("djvIconCloseSmall");
                     deleteButton->setVisible(p.editImage);
-                    deleteButton->setInsideMargin(UI::MetricsRole::None);
+                    deleteButton->setInsideMargin(UI::Layout::Margin(UI::MetricsRole::None));
                     deleteButton->setVAlign(UI::VAlign::Fill);
                     p.textFocusWidgets[deleteButton->getFocusWidget()] = id++;
 
@@ -603,7 +603,7 @@ namespace djv
                             s = _getText("Default");
                         }
                         button->setText(s);
-                        button->setInsideMargin(UI::MetricsRole::Margin);
+                        button->setInsideMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
                         p.addImageLayout->addChild(button);
                         std::string pluginName = i;
                         button->setClickedCallback(

@@ -153,7 +153,7 @@ namespace djv
             }
                     
             auto textLayout = UI::VerticalLayout::create(context);
-            textLayout->setMargin(UI::MetricsRole::Margin);
+            textLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
             textLayout->setSpacing(UI::MetricsRole::SpacingLarge);
             
             auto vLayout = UI::VerticalLayout::create(context);

@@ -229,7 +229,7 @@ namespace djv
 
                 p.sortTitleLabel = Label::create(context);
                 p.sortTitleLabel->setTextHAlign(UI::TextHAlign::Left);
-                p.sortTitleLabel->setMargin(UI::MetricsRole::MarginSmall);
+                p.sortTitleLabel->setMargin(Layout::Margin(MetricsRole::MarginSmall));
                 p.sortTitleLabel->setBackgroundRole(UI::ColorRole::Trough);
                 auto sortByNameButton = ActionButton::create(context);
                 sortByNameButton->addAction(p.actions["SortByName"]);
@@ -244,7 +244,7 @@ namespace djv
 
                 p.viewTypeLabel = Label::create(context);
                 p.viewTypeLabel->setTextHAlign(TextHAlign::Left);
-                p.viewTypeLabel->setMargin(UI::MetricsRole::MarginSmall);
+                p.viewTypeLabel->setMargin(Layout::Margin(MetricsRole::MarginSmall));
                 p.viewTypeLabel->setBackgroundRole(UI::ColorRole::Trough);
                 auto tilesButton = ActionButton::create(context);
                 tilesButton->addAction(p.actions["Tiles"]);
@@ -253,7 +253,7 @@ namespace djv
 
                 p.thumbnailSizeLabel = Label::create(context);
                 p.thumbnailSizeLabel->setTextHAlign(TextHAlign::Left);
-                p.thumbnailSizeLabel->setMargin(UI::MetricsRole::MarginSmall);
+                p.thumbnailSizeLabel->setMargin(Layout::Margin(MetricsRole::MarginSmall));
                 p.thumbnailSizeLabel->setBackgroundRole(UI::ColorRole::Trough);
                 auto increaseThumbnailSizeButton = ActionButton::create(context);
                 increaseThumbnailSizeButton->addAction(p.actions["IncreaseThumbnailSize"]);
@@ -262,7 +262,7 @@ namespace djv
 
                 p.miscSettingsLabel = Label::create(context);
                 p.miscSettingsLabel->setTextHAlign(TextHAlign::Left);
-                p.miscSettingsLabel->setMargin(UI::MetricsRole::MarginSmall);
+                p.miscSettingsLabel->setMargin(Layout::Margin(MetricsRole::MarginSmall));
                 p.miscSettingsLabel->setBackgroundRole(UI::ColorRole::Trough);
                 auto fileSequencesButton = ActionButton::create(context);
                 fileSequencesButton->addAction(p.actions["FileSequences"]);
@@ -291,7 +291,7 @@ namespace djv
                 p.thumbnailSizeSlider = IntSlider::create(context);
                 p.thumbnailSizeSlider->setRange(thumbnailSizeRange);
                 p.thumbnailSizeSlider->setDelay(Time::getMilliseconds(Time::TimerValue::Medium));
-                p.thumbnailSizeSlider->setMargin(MetricsRole::MarginSmall);
+                p.thumbnailSizeSlider->setMargin(Layout::Margin(MetricsRole::MarginSmall));
                 vLayout = VerticalLayout::create(context);
                 vLayout->setSpacing(MetricsRole::None);
                 vLayout->addChild(p.viewTypeLabel);
@@ -350,7 +350,7 @@ namespace djv
                 p.itemCountLabel = Label::create(context);
                 p.itemCountLabel->setTextHAlign(TextHAlign::Right);
                 p.itemCountLabel->setTextVAlign(TextVAlign::Bottom);
-                p.itemCountLabel->setMargin(MetricsRole::Margin);
+                p.itemCountLabel->setMargin(Layout::Margin(MetricsRole::Margin));
 
                 p.layout = VerticalLayout::create(context);
                 p.layout->setSpacing(MetricsRole::None);

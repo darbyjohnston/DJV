@@ -885,7 +885,8 @@ namespace djv
                     p.realSpeedTimer->stop();
                     _seek(p.currentFrame->get());
                     break;
-                case Playback::Forward: forward = true;
+                case Playback::Forward: // Forward or reverse.
+                    forward = true;
                 case Playback::Reverse:
                 {
                     p.ioDirection = forward ? AV::IO::Direction::Forward : AV::IO::Direction::Reverse;
@@ -941,7 +942,8 @@ namespace djv
             bool forward = false;
             switch (playback)
             {
-            case Playback::Forward: forward = true;
+            case Playback::Forward: // Forward or reverse.
+                forward = true;
             case Playback::Reverse:
             {
                 const auto& speed = p.speed->get();
@@ -1031,7 +1033,6 @@ namespace djv
             {
                 // Update the video queue.
                 const Playback playback = p.playback->get();
-                const bool forward = Playback::Forward == playback;
                 const auto now = std::chrono::system_clock::now();
                 const std::chrono::duration<double> playEveryFrameDelta = now - p.playEveryFrameTime;
                 const float frameTime = 1.F / p.speed->get().toFloat();

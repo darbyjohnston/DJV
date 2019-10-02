@@ -187,11 +187,6 @@ namespace djv
                 distributeEvenly();
             }
 
-            void Splitter::clearChildren()
-            {
-                Widget::clearChildren();
-            }
-
             void Splitter::_styleEvent(Event::Style &)
             {
                 DJV_PRIVATE_PTR();

@@ -64,7 +64,7 @@ namespace djv
                 p.label = Label::create(context);
                 p.label->setTextHAlign(TextHAlign::Left);
                 p.label->setTextColorRole(getForegroundColorRole());
-                p.label->setMargin(MetricsRole::MarginSmall);
+                p.label->setMargin(Layout::Margin(MetricsRole::MarginSmall));
                 addChild(p.label);
             }
 
@@ -159,7 +159,6 @@ namespace djv
                 const BBox2f& g = getGeometry();
                 const float m = style->getMetric(MetricsRole::MarginSmall);
                 const float b = style->getMetric(MetricsRole::Border);
-                const float is = style->getMetric(MetricsRole::IconSmall);
 
                 if (_isPressed())
                 {

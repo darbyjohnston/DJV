@@ -223,11 +223,6 @@ namespace djv
                 }
             }
 
-            void Row::clearChildren()
-            {
-                Widget::clearChildren();
-            }
-
             void Row::_preLayoutEvent(Event::PreLayout &)
             {
                 DJV_PRIVATE_PTR();

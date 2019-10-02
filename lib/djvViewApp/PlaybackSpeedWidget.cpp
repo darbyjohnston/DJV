@@ -88,7 +88,7 @@ namespace djv
 
             p.titleLabel = UI::Label::create(context);
             p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
-            p.titleLabel->setMargin(UI::MetricsRole::MarginSmall);
+            p.titleLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
             p.titleLabel->setBackgroundRole(UI::ColorRole::Trough);
 
             p.speedButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);

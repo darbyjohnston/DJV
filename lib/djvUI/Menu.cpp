@@ -169,7 +169,6 @@ namespace djv
             {
                 const auto& style = _getStyle();
                 const float m = style->getMetric(MetricsRole::MarginSmall);
-                const float s = style->getMetric(MetricsRole::Spacing);
                 const float b = style->getMetric(MetricsRole::Border);
                 const float is = style->getMetric(MetricsRole::Icon);
                 const float iss = style->getMetric(MetricsRole::IconSmall);
@@ -311,7 +310,6 @@ namespace djv
                 const BBox2f & g = getGeometry();
                 const auto& style = _getStyle();
                 const float m = style->getMetric(MetricsRole::MarginSmall);
-                const float s = style->getMetric(MetricsRole::Spacing);
                 const float b = style->getMetric(MetricsRole::Border);
                 const float is = style->getMetric(MetricsRole::Icon);
                 const float iss = style->getMetric(MetricsRole::IconSmall);

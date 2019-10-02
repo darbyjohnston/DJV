@@ -61,12 +61,12 @@ namespace djv
 
                     _textBlock = TextBlock::create(context);
                     _textBlock->setTextHAlign(TextHAlign::Center);
-                    _textBlock->setMargin(MetricsRole::MarginLarge);
+                    _textBlock->setMargin(Layout::Margin(MetricsRole::MarginLarge));
 
                     _closeButton = PushButton::create(context);
 
                     auto layout = VerticalLayout::create(context);
-                    layout->setMargin(MetricsRole::Margin);
+                    layout->setMargin(Layout::Margin(MetricsRole::Margin));
                     layout->addChild(_textBlock);
                     layout->addChild(_closeButton);
                     addChild(layout);
@@ -123,13 +123,13 @@ namespace djv
                     
                     _textBlock = TextBlock::create(context);
                     _textBlock->setTextHAlign(TextHAlign::Center);
-                    _textBlock->setMargin(MetricsRole::MarginLarge);
+                    _textBlock->setMargin(Layout::Margin(MetricsRole::MarginLarge));
 
                     _acceptButton = PushButton::create(context);
                     _cancelButton = PushButton::create(context);
 
                     auto layout = VerticalLayout::create(context);
-                    layout->setMargin(MetricsRole::Margin);
+                    layout->setMargin(Layout::Margin(MetricsRole::Margin));
                     layout->addChild(_textBlock);
                     layout->setStretch(_textBlock, RowStretch::Expand);
                     auto hLayout = HorizontalLayout::create(context);

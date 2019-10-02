@@ -68,7 +68,7 @@ namespace djv
 
                 p.titleLabel = Label::create(context);
                 p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
-                p.titleLabel->setMargin(UI::MetricsRole::MarginSmall);
+                p.titleLabel->setMargin(Layout::Margin(UI::MetricsRole::MarginSmall));
 
                 p.addButton = ToolButton::create(context);
                 p.addButton->setIcon("djvIconAddSmall");
@@ -149,11 +149,11 @@ namespace djv
                                     std::string s = i.getFileName();
                                     if (s.empty())
                                     {
-                                        s = i;
+                                        s = std::string(i);
                                     }
                                     button->setText(s);
-                                    button->setInsideMargin(MetricsRole::Margin);
-                                    button->setTooltip(i);
+                                    button->setInsideMargin(Layout::Margin(MetricsRole::Margin));
+                                    button->setTooltip(std::string(i));
 
                                     auto removeButton = ToolButton::create(context);
                                     removeButton->setIcon("djvIconCloseSmall");

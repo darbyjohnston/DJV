@@ -149,7 +149,7 @@ namespace djv
                 }
 
                 _layout = UI::VerticalLayout::create(context);
-                _layout->setMargin(UI::MetricsRole::Margin);
+                _layout->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
                 _layout->addChild(_labels["FPS"]);
                 _layout->addChild(_labels["ObjectCount"]);
                 _layout->addChild(_lineGraphs["ObjectCount"]);
@@ -314,7 +314,7 @@ namespace djv
                 }
 
                 _layout = UI::VerticalLayout::create(context);
-                _layout->setMargin(UI::MetricsRole::Margin);
+                _layout->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
                 _layout->addChild(_labels["TextureAtlas"]);
                 _layout->addChild(_thermometerWidgets["TextureAtlas"]);
                 _layout->addChild(_labels["DynamicTextureCount"]);
@@ -436,7 +436,7 @@ namespace djv
                 }
 
                 _layout = UI::VerticalLayout::create(context);
-                _layout->setMargin(UI::MetricsRole::Margin);
+                _layout->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
                 _layout->addChild(_labels["CurrentFrame"]);
                 _layout->addChild(_labels["VideoQueue"]);
                 _layout->addChild(_lineGraphs["VideoQueue"]);

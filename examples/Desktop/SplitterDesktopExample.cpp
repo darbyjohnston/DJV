@@ -61,7 +61,7 @@ int main(int argc, char ** argv)
             auto textBlock = UI::TextBlock::create(app);
             textBlock->setText(Core::String::getRandomText(20));
             textBlock->setFontSizeRole(UI::MetricsRole::FontLarge);
-            textBlock->setMargin(UI::MetricsRole::Margin);
+            textBlock->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
 
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, app);
             scrollWidget->addChild(textBlock);

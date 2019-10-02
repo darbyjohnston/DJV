@@ -178,11 +178,6 @@ namespace djv
                 }
             }
 
-            void Solo::clearChildren()
-            {
-                Widget::clearChildren();
-            }
-
             void Solo::_preLayoutEvent(Event::PreLayout &)
             {
                 DJV_PRIVATE_PTR();

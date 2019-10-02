@@ -72,7 +72,7 @@ namespace djv
                 setButtonType(ButtonType::Toggle);
                 setHAlign(HAlign::Left);
                 setVAlign(VAlign::Center);
-                setMargin(MetricsRole::MarginSmall);
+                setMargin(Layout::Margin(MetricsRole::MarginSmall));
                 p.animation = Animation::Animation::create(context);
             }
 

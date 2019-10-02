@@ -121,14 +121,15 @@ namespace djv
                     std::shared_ptr<IWrite> write(const Core::FileSystem::FileInfo&, const Info &, const WriteOptions&) const override;
                 };
 
-                extern "C"
-                {
-                    void djvPngError(png_structp, png_const_charp);
-                    void djvPngWarning(png_structp, png_const_charp);
-
-                } // extern "C"
-
             } // namespace PNG
         } // namespace IO
     } // namespace AV
 } // namespace djv
+
+extern "C"
+{
+    void djvPngError(png_structp, png_const_charp);
+    void djvPngWarning(png_structp, png_const_charp);
+
+} // extern "C"
+

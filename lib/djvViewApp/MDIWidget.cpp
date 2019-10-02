@@ -64,7 +64,7 @@ namespace djv
 
             p.closeButton = UI::ToolButton::create(context);
             p.closeButton->setIcon("djvIconClose");
-            p.closeButton->setInsideMargin(UI::MetricsRole::MarginSmall);
+            p.closeButton->setInsideMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
 
             p.titleBar = UI::HorizontalLayout::create(context);
             p.titleBar->setBackgroundRole(UI::ColorRole::BackgroundHeader);
@@ -85,7 +85,7 @@ namespace djv
             layout->setStretch(p.childLayout, UI::RowStretch::Expand);
 
             p.layout = UI::VerticalLayout::create(context);
-            p.layout->setMargin(UI::MetricsRole::Shadow);
+            p.layout->setMargin(UI::Layout::Margin(UI::MetricsRole::Shadow));
             p.layout->addChild(layout);
             p.layout->setStretch(layout, UI::RowStretch::Expand);
             IWidget::addChild(p.layout);

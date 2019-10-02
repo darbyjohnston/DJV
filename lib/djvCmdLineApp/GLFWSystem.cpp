@@ -243,10 +243,5 @@ namespace djv
             return _p->glfwWindow;
         }
 
-        void GLFWSystem::tick(float dt)
-        {
-            ISystem::tick(dt);
-        }
-
     } // namespace CmdLine
 } // namespace djv

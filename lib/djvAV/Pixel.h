@@ -135,7 +135,10 @@ namespace djv
             //! This struct provides 10-bit MSB pixel data.
             struct U10_S_MSB
             {
-                uint32_t r : 10, g : 10, b : 10, pad : 2;
+                uint32_t r : 10;
+                uint32_t g : 10;
+                uint32_t b : 10;
+                uint32_t pad : 2;
 
                 constexpr bool operator == (const U10_S_MSB &) const;
                 constexpr bool operator != (const U10_S_MSB &) const;

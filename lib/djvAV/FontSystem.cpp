@@ -63,8 +63,9 @@ namespace djv
                 const size_t glyphCacheMax = 10000;
                 const bool lcdHinting = true;
 
-                struct MetricsRequest
+                class MetricsRequest
                 {
+                public:
                     MetricsRequest() {}
                     MetricsRequest(MetricsRequest && other) = default;
                     MetricsRequest & operator = (MetricsRequest &&) = default;
@@ -73,8 +74,9 @@ namespace djv
                     std::promise<Metrics> promise;
                 };
 
-                struct MeasureRequest
+                class MeasureRequest
                 {
+                public:
                     MeasureRequest() {}
                     MeasureRequest(MeasureRequest&&) = default;
                     MeasureRequest& operator = (MeasureRequest&& other) = default;
@@ -85,8 +87,9 @@ namespace djv
                     std::promise<glm::vec2> promise;
                 };
 
-                struct MeasureGlyphsRequest
+                class MeasureGlyphsRequest
                 {
+                public:
                     MeasureGlyphsRequest() {}
                     MeasureGlyphsRequest(MeasureGlyphsRequest&&) = default;
                     MeasureGlyphsRequest& operator = (MeasureGlyphsRequest&& other) = default;
@@ -97,8 +100,9 @@ namespace djv
                     std::promise<std::vector<BBox2f> > promise;
                 };
 
-                struct TextLinesRequest
+                class TextLinesRequest
                 {
+                public:
                     TextLinesRequest() {}
                     TextLinesRequest(TextLinesRequest &&) = default;
                     TextLinesRequest & operator = (TextLinesRequest &&) = default;
@@ -109,8 +113,9 @@ namespace djv
                     std::promise<std::vector<TextLine> > promise;
                 };
 
-                struct GlyphsRequest
+                class GlyphsRequest
                 {
+                public:
                     GlyphsRequest() {}
                     GlyphsRequest(GlyphsRequest &&) = default;
                     GlyphsRequest & operator = (GlyphsRequest &&) = default;
@@ -187,7 +192,7 @@ namespace djv
                 std::list<TextLinesRequest> textLinesRequests;
                 std::list<GlyphsRequest> glyphsRequests;
 
-                std::wstring_convert<std::codecvt_utf8<djv_char_t>, djv_char_t> utf32;
+                std::wstring_convert<std::codecvt_utf8<djv_char_t>, djv_char_t> utf32Convert;
                 Memory::Cache<GlyphInfo, std::shared_ptr<Glyph> > glyphCache;
                 std::atomic<size_t> glyphCacheSize;
                 std::atomic<float> glyphCachePercentageUsed;
@@ -622,7 +627,7 @@ namespace djv
                                 try
                                 {
                                     lines.push_back(TextLine(
-                                        p.utf32.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
+                                        p.utf32Convert.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
                                         glm::vec2(pos.x, font->size->metrics.height / 64.F)));
                                 }
                                 catch (const std::exception& e)
@@ -645,7 +650,7 @@ namespace djv
                                     try
                                     {
                                         lines.push_back(TextLine(
-                                            p.utf32.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
+                                            p.utf32Convert.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
                                             glm::vec2(textLineX, font->size->metrics.height / 64.F)));
                                     }
                                     catch (const std::exception& e)
@@ -663,7 +668,7 @@ namespace djv
                                     try
                                     {
                                         lines.push_back(TextLine(
-                                        p.utf32.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
+                                        p.utf32Convert.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
                                         glm::vec2(pos.x, font->size->metrics.height / 64.F)));
                                     }
                                     catch (const std::exception& e)
@@ -693,7 +698,7 @@ namespace djv
                             try
                             {
                                 lines.push_back(TextLine(
-                                p.utf32.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
+                                p.utf32Convert.to_bytes(utf32.substr(lineBegin - utf32.begin(), i - lineBegin)),
                                 glm::vec2(pos.x, font->size->metrics.height / 64.F)));
                             }
                             catch (const std::exception& e)
@@ -723,7 +728,7 @@ namespace djv
                     std::basic_string<djv_char_t> utf32;
                     try
                     {
-                        utf32 = p.utf32.from_bytes(request.text);
+                        utf32 = p.utf32Convert.from_bytes(request.text);
                     }
                     catch (const std::exception & e)
                     {
@@ -780,7 +785,7 @@ namespace djv
                         {
                             try
                             {
-                                utf32 = this->utf32.from_bytes(value);
+                                utf32 = utf32Convert.from_bytes(value);
                                 font = i->second;
                                 out = true;
                             }
@@ -797,14 +802,12 @@ namespace djv
             std::shared_ptr<Glyph> System::Private::getGlyph(const GlyphInfo & info)
             {
                 std::shared_ptr<Glyph> out;
-                FamilyID family = 0;
-                FaceID   face   = 0;
                 FT_Face  ftFace = nullptr;
                 if (!glyphCache.get(info, out))
                 {
                     out = Glyph::create();
                     out->info = info;
-                    if (info.info.family != family || info.info.face != face)
+                    if (info.info.family != 0 || info.info.face != 0)
                     {
                         const auto i = fontFaces.find(info.info.family);
                         if (i != fontFaces.end())
@@ -812,8 +815,6 @@ namespace djv
                             const auto j = i->second.find(info.info.face);
                             if (j != i->second.end())
                             {
-                                family = info.info.family;
-                                face   = info.info.face;
                                 ftFace = j->second;
                             }
                         }

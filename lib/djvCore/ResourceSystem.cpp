@@ -52,7 +52,7 @@ namespace djv
             Path getApplicationRoot(const Path & value)
             {
                 Path out;
-                auto pieces = Path::splitDir(value);
+                auto pieces = Path::splitDir(std::string(value));
                 while (pieces.size())
                 {
                     const std::string tmp = Path::joinDirs(pieces);

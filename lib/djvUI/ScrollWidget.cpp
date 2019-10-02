@@ -325,7 +325,6 @@ namespace djv
 
             float ScrollBar::_valueToPos(float value) const
             {
-                const auto& style = _getStyle();
                 const BBox2f& g = getGeometry();
                 float out = 0.F;
                 const float v = std::min(value / (_contentsSize > 0 ? static_cast<float>(_contentsSize) : 1.F), 1.F);
@@ -344,7 +343,6 @@ namespace djv
 
             float ScrollBar::_posToValue(float value) const
             {
-                const auto& style = _getStyle();
                 const BBox2f& g = getGeometry();
                 float v = 0.F;
                 switch (_orientation)
@@ -399,7 +397,6 @@ namespace djv
             protected:
                 void _preLayoutEvent(Event::PreLayout &) override;
                 void _layoutEvent(Event::Layout &) override;
-                void _paintEvent(Event::Paint &) override;
 
             private:
                 void _doScrollPosCallback();
@@ -565,9 +562,6 @@ namespace djv
                     }
                 }
             }
-
-            void ScrollArea::_paintEvent(Event::Paint & event)
-            {}
 
             void ScrollArea::_doScrollPosCallback()
             {

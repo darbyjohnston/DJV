@@ -67,7 +67,7 @@ namespace djv
             void addDependency(const std::shared_ptr<ISystemBase>&);
 
             //! Override this function to do work each frame.
-            virtual void tick(float dt) {};
+            virtual void tick(float dt);
 
         private:
             std::string _name;

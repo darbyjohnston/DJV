@@ -65,7 +65,7 @@ namespace djv
 
                 p.titleLabel = UI::Label::create(context);
                 p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
-                p.titleLabel->setMargin(UI::MetricsRole::MarginSmall);
+                p.titleLabel->setMargin(Layout::Margin(UI::MetricsRole::MarginSmall));
                 p.titleLabel->setBackgroundRole(UI::ColorRole::Trough);
 
                 auto layout = VerticalLayout::create(context);
@@ -105,7 +105,7 @@ namespace djv
                                         s = std::string(i);
                                     }
                                     button->setText(s);
-                                    button->setInsideMargin(MetricsRole::Margin);
+                                    button->setInsideMargin(Layout::Margin(MetricsRole::Margin));
                                     button->setTooltip(std::string(i));
 
                                     widget->_p->itemLayout->addChild(button);

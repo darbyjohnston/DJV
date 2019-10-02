@@ -69,8 +69,9 @@ namespace djv
 
                 namespace
                 {
-                    struct File
+                    class File
                     {
+                    public:
                         File()
                         {
                             memset(&pngError, 0, sizeof(ErrorStruct));

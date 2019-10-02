@@ -72,7 +72,7 @@ namespace djv
                 setVAlign(VAlign::Center);
 
                 p.layout = HorizontalLayout::create(context);
-                p.layout->setMargin(MetricsRole::MarginSmall);
+                p.layout->setMargin(Layout::Margin(MetricsRole::MarginSmall));
 
                 p.border = Border::create(context);
                 p.border->setBorderColorRole(ColorRole::BorderButton);
@@ -325,6 +325,7 @@ namespace djv
                             setChecked(!isChecked());
                             _doCheckedCallback(isChecked());
                             break;
+                        default: break;
                         }
                         break;
                     case GLFW_KEY_ESCAPE:

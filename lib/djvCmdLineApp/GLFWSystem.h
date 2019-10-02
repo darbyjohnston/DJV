@@ -65,8 +65,6 @@ namespace djv
 
             GLFWwindow * getGLFWWindow() const;
 
-            void tick(float dt) override;
-
         private:
             DJV_PRIVATE();
         };

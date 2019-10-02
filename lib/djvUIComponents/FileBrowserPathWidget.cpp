@@ -185,7 +185,7 @@ namespace djv
             {
                 if (auto context = getContext().lock())
                 {
-                    auto split = FileSystem::Path::splitDir(path);
+                    auto split = FileSystem::Path::splitDir(std::string(path));
                     std::vector<FileSystem::Path> paths;
                     while (split.size())
                     {
@@ -224,7 +224,7 @@ namespace djv
                         {
                             auto label = Label::create(context);
                             label->setText(i->isRoot() ? i->get() : i->getFileName());
-                            label->setMargin(MetricsRole::MarginSmall);
+                            label->setMargin(Layout::Margin(MetricsRole::MarginSmall));
                             label->setShadowOverlay({ Side::Left });
 
                             _p->buttonLayout->addChild(label);
@@ -251,7 +251,7 @@ namespace djv
                 for (const auto & i : p.history)
                 {
                     auto action = Action::create();
-                    action->setText(i);
+                    action->setText(std::string(i));
                     p.historyActionGroup->addAction(action);
                     p.historyMenu->addAction(action);
                 }

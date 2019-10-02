@@ -65,6 +65,11 @@ namespace djv
         {
             _dependencies.push_back(value);
         }
+        
+        void ISystemBase::tick(float)
+        {
+            // Default implementation does nothing.
+        }
 
         void ISystem::_init(const std::string & name, const std::shared_ptr<Context>& context)
         {

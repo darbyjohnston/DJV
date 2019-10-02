@@ -42,8 +42,9 @@ namespace djv
         {
             namespace PNG
             {
-                struct Read::File
+                class Read::File
                 {
+                public:
                     File()
                     {
                         memset(&pngError, 0, sizeof(ErrorStruct));

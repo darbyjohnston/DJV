@@ -173,7 +173,7 @@ namespace djv
 
             inline FileInfo::operator std::string() const
             {
-                return _path;
+                return std::string(_path);
             }
 
         } // namespace FileSystem

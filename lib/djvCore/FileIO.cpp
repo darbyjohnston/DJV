@@ -126,7 +126,7 @@ namespace djv
                     case '\r':
                         // End of a comment or word.
                         parse = Parse::Word;
-                    case ' ':
+                    case ' ': // White space...
                     case '\t':
                         if (out[0])
                         {

@@ -71,7 +71,7 @@ namespace djv
 
             p.titleLabel = UI::Label::create(context);
             p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
-            p.titleLabel->setMargin(UI::MetricsRole::MarginSmall);
+            p.titleLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
             p.titleLabel->setBackgroundRole(UI::ColorRole::Trough);
 
             p.enabledCheckBox = UI::CheckBox::create(context);
@@ -83,7 +83,7 @@ namespace djv
 
             p.percentageLabel = UI::Label::create(context);
             p.percentageLabel->setTextHAlign(UI::TextHAlign::Left);
-            p.percentageLabel->setMargin(UI::MetricsRole::MarginSmall);
+            p.percentageLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
 
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::MetricsRole::None);
@@ -93,7 +93,7 @@ namespace djv
             vLayout->setSpacing(UI::MetricsRole::None);
             vLayout->addChild(p.enabledCheckBox);
             auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setMargin(UI::MetricsRole::MarginSmall);
+            hLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
             hLayout->setSpacing(UI::MetricsRole::SpacingSmall);
             hLayout->addChild(p.maxGBSlider);
             hLayout->setStretch(p.maxGBSlider, UI::RowStretch::Expand);

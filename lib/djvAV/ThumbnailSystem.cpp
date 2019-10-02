@@ -481,7 +481,7 @@ namespace djv
                         i.infoFuture = i.read->getInfo();
                         p.pendingInfoRequests.push_back(std::move(i));
                     }
-                    catch (const std::exception & e)
+                    catch (const std::exception &)
                     {
                         try
                         {
@@ -509,7 +509,7 @@ namespace djv
                         p.infoCachePercentage = p.infoCache.getPercentageUsed();
                         i->promise.set_value(info);
                     }
-                    catch (const std::exception & e)
+                    catch (const std::exception &)
                     {
                         try
                         {
@@ -571,7 +571,7 @@ namespace djv
                             i.promise.set_value(nullptr);
                         }
                     }
-                    catch (const std::exception & e)
+                    catch (const std::exception &)
                     {
                         try
                         {

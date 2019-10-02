@@ -67,8 +67,9 @@ namespace djv
         namespace IO
         {
             //! This class provides video I/O information.
-            struct VideoInfo
+            class VideoInfo
             {
+            public:
                 VideoInfo();
                 VideoInfo(
                     const Image::Info &,
@@ -84,8 +85,9 @@ namespace djv
             };
 
             //! This class provides audio I/O information.
-            struct AudioInfo
+            class AudioInfo
             {
+            public:
                 AudioInfo();
                 AudioInfo(const Audio::DataInfo &, size_t sampleCount = 0);
 
@@ -97,8 +99,9 @@ namespace djv
             };
 
             //! This class provides I/O information.
-            struct Info
+            class Info
             {
+            public:
                 Info();
                 Info(const std::string & fileName, const VideoInfo &);
                 Info(const std::string & fileName, const AudioInfo &);
@@ -114,8 +117,9 @@ namespace djv
             };
 
             //! This struct provides a video frame.
-            struct VideoFrame
+            class VideoFrame
             {
+            public:
                 VideoFrame();
                 VideoFrame(Core::Frame::Number, const std::shared_ptr<Image::Image>&);
 

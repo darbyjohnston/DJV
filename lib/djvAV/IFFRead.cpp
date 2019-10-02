@@ -198,7 +198,10 @@ namespace djv
                                         uint32_t imageSize = size;
 
                                         // Get tile coordinates.
-                                        uint16_t xmin, xmax, ymin, ymax;
+                                        uint16_t xmin;
+                                        uint16_t xmax;
+                                        uint16_t ymin;
+                                        uint16_t ymax;
                                         io.readU16(&xmin, 1);
                                         io.readU16(&ymin, 1);
                                         io.readU16(&xmax, 1);
@@ -488,8 +491,9 @@ namespace djv
 
                 namespace
                 {
-                    struct Header
+                    class Header
                     {
+                    public:
                         void read(FileSystem::FileIO&, Image::Info&, int& tiles, bool& compression);
 
                     private:
@@ -502,8 +506,8 @@ namespace djv
                             uint8_t  pixelBits = 0;
                             uint8_t  pixelChannels = 0;
                             uint16_t tiles = 0;
-                        }
-                        _data;
+                        };
+                        Data _data;
                     };
 
                     void Header::read(

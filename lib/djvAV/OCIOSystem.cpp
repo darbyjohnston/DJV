@@ -302,7 +302,7 @@ namespace djv
 
             namespace
             {
-                std::vector<std::string> getViews(const std::string display, const std::vector<Display>& displays)
+                std::vector<std::string> getViews(const std::string& display, const std::vector<Display>& displays)
                 {
                     std::vector<std::string> out;
                     for (const auto& i : displays)

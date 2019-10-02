@@ -103,8 +103,8 @@ namespace djv
                         char     name[100];
                         char     time[24];
                         uint8_t  pad[36];
-                    }
-                        file;
+                    };
+                    File file;
 
                     struct Image
                     {
@@ -122,8 +122,8 @@ namespace djv
                             float    lowQuantity;
                             float    highData;
                             float    highQuantity;
-                        }
-                            channel[8];
+                        };
+                        Channel channel[8];
 
                         float    white[2];
                         float    red[2];
@@ -138,8 +138,8 @@ namespace djv
                         uint32_t linePadding;
                         uint32_t channelPadding;
                         uint8_t  pad3[20];
-                    }
-                        image;
+                    };
+                    Image image;
 
                     struct Source
                     {
@@ -152,8 +152,8 @@ namespace djv
                         float   inputPitch[2];
                         float   gamma;
                         char    pad[40];
-                    }
-                        source;
+                    };
+                    Source source;
 
                     struct Film
                     {
@@ -169,8 +169,8 @@ namespace djv
                         char     frameId[32];
                         char     slate[200];
                         char     pad2[740];
-                    }
-                        film;
+                    };
+                    Film film;
                 };
 
                 //! Check whether the value is valid.
@@ -222,9 +222,7 @@ namespace djv
                         const std::shared_ptr<Core::LogSystem>&);
 
                     static std::shared_ptr<Image::Image> readImage(
-                        Info,
-                        Cineon::ColorProfile,
-                        const std::string& colorSpace,
+                        const Info&,
                         Core::FileSystem::FileIO&);
 
                 protected:

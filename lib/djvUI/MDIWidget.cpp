@@ -291,9 +291,6 @@ namespace djv
                 if (p.maximize < 1.F)
                 {
                     const auto& style = _getStyle();
-                    const BBox2f& g = getGeometry();
-                    const float m = style->getMetric(MetricsRole::MarginSmall);
-                    const float sh = style->getMetric(MetricsRole::Shadow);
                     auto render = _getRender();
                     render->setFillColor(style->getColor(ColorRole::Handle));
                     const auto& handles = _getHandlesDraw();

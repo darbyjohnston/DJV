@@ -236,6 +236,36 @@ namespace djv
             }
         }
 
+        void IObject::_parentChangedEvent(Event::ParentChanged &)
+        {
+            // Default implementation does nothing.
+        }
+        
+        void IObject::_childAddedEvent(Event::ChildAdded &)
+        {
+            // Default implementation does nothing.
+        }
+        
+        void IObject::_childRemovedEvent(Event::ChildRemoved &)
+        {
+            // Default implementation does nothing.
+        }
+        
+        void IObject::_childOrderEvent(Event::ChildOrder &)
+        {
+            // Default implementation does nothing.
+        }
+        
+        void IObject::_localeEvent(Event::Locale &)
+        {
+            // Default implementation does nothing.
+        }
+        
+        void IObject::_updateEvent(Event::Update &)
+        {
+            // Default implementation does nothing.
+        }
+
         std::string IObject::_getText(const std::string & id) const
         {
             return _textSystem->getText(id);

@@ -75,7 +75,6 @@ namespace djv
 
                 void addChild(const std::shared_ptr<IObject> &) override;
                 void removeChild(const std::shared_ptr<IObject> &) override;
-                void clearChildren() override;
 
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout &) override;

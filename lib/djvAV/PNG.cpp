@@ -65,26 +65,26 @@ namespace djv
                     return Write::create(fileInfo, info, options, _resourceSystem, _logSystem);
                 }
 
-                extern "C"
-                {
-                    void djvPngError(png_structp in, png_const_charp msg)
-                    {
-                        auto error = reinterpret_cast<ErrorStruct *>(png_get_error_ptr(in));
-                        DJV_STRNCPY(error->msg, msg, String::cStringLength);
-                        longjmp(png_jmpbuf(in), 1);
-                    }
-
-                    void djvPngWarning(png_structp in, png_const_charp msg)
-                    {
-                        auto error = reinterpret_cast<ErrorStruct *>(png_get_error_ptr(in));
-                        DJV_STRNCPY(error->msg, msg, String::cStringLength);
-                        longjmp(png_jmpbuf(in), 1);
-                    }
-
-                } // extern "C"
-
             } // namespace PNG
         } // namespace IO
     } // namespace AV
 } // namespace djv
+
+extern "C"
+{
+    void djvPngError(png_structp in, png_const_charp msg)
+    {
+        auto error = reinterpret_cast<djv::AV::IO::PNG::ErrorStruct *>(png_get_error_ptr(in));
+        DJV_STRNCPY(error->msg, msg, djv::Core::String::cStringLength);
+        longjmp(png_jmpbuf(in), 1);
+    }
+
+    void djvPngWarning(png_structp in, png_const_charp msg)
+    {
+        auto error = reinterpret_cast<djv::AV::IO::PNG::ErrorStruct *>(png_get_error_ptr(in));
+        DJV_STRNCPY(error->msg, msg, djv::Core::String::cStringLength);
+        longjmp(png_jmpbuf(in), 1);
+    }
+
+} // extern "C"
 

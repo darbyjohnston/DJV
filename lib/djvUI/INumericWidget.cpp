@@ -51,6 +51,7 @@ namespace djv
             case GLFW_KEY_LEFT:         out = NumericWidgetKey::Left;       break;
             case GLFW_KEY_PAGE_UP:      out = NumericWidgetKey::PageUp;     break;
             case GLFW_KEY_PAGE_DOWN:    out = NumericWidgetKey::PageDown;   break;
+            default: break;
             }
             return out;
         }

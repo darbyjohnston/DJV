@@ -719,7 +719,6 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             event.accept();
-            const size_t size = p.utf32.size();
             const auto& selection = _getSelection();
             const auto& utf32 = event.getUtf32();
             if (selection.min != selection.max)

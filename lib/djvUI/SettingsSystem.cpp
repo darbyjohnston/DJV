@@ -145,7 +145,7 @@ namespace djv
                         _log(s.str());
 
                         FileSystem::FileIO fileIO;
-                        fileIO.open(path, FileSystem::FileIO::Mode::Read);
+                        fileIO.open(std::string(path), FileSystem::FileIO::Mode::Read);
 #if defined(DJV_MMAP)
                         const char * bufP = reinterpret_cast<const char *>(fileIO.mmapP());
                         const char * bufEnd = reinterpret_cast<const char *>(fileIO.mmapEnd());
@@ -205,7 +205,7 @@ namespace djv
                     _log(s.str());
 
                     FileSystem::FileIO fileIO;
-                    fileIO.open(path, FileSystem::FileIO::Mode::Write);
+                    fileIO.open(std::string(path), FileSystem::FileIO::Mode::Write);
                     PicoJSON::write(value, fileIO);
                     fileIO.write("\n");
                 }

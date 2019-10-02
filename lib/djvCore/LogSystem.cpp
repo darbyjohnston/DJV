@@ -110,7 +110,7 @@ namespace djv
                 try
                 {
                     FileSystem::FileIO io;
-                    io.open(p.path, FileSystem::FileIO::Mode::Write);
+                    io.open(std::string(p.path), FileSystem::FileIO::Mode::Write);
                 }
                 catch (const std::exception& e)
                 {
@@ -232,7 +232,7 @@ namespace djv
                 std::vector<std::string> errors;
 
                 FileSystem::FileIO io;
-                io.open(p.path, FileSystem::FileIO::Mode::Append);
+                io.open(std::string(p.path), FileSystem::FileIO::Mode::Append);
                 io.seek(io.getSize());
 
                 std::map<LogLevel, std::string> labels =

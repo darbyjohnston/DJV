@@ -243,7 +243,7 @@ namespace djv
                     _getAllNodes(p.boxPackingNodes[i], nodes);
                 }
                 std::sort(nodes.begin(), nodes.end(),
-                    [](const std::shared_ptr<BoxPackingNode>& a, const std::shared_ptr<BoxPackingNode>& b) -> bool
+                    [](const std::shared_ptr<BoxPackingNode>& a, const std::shared_ptr<BoxPackingNode>& b)
                 {
                     return a->timestamp < b->timestamp;
                 });

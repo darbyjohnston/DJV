@@ -555,7 +555,7 @@ namespace djv
                 return checkExtension(std::string(fileInfo), _fileExtensions);
             }
 
-            bool IPlugin::canWrite(const FileSystem::FileInfo& fileInfo, const Info & info) const
+            bool IPlugin::canWrite(const FileSystem::FileInfo& fileInfo, const Info&) const
             {
                 return checkExtension(std::string(fileInfo), _fileExtensions);
             }
@@ -570,12 +570,12 @@ namespace djv
                 // Default implementation does nothing.
             }
 
-            std::shared_ptr<IRead> IPlugin::read(const FileSystem::FileInfo& fileInfo, const ReadOptions&) const
+            std::shared_ptr<IRead> IPlugin::read(const FileSystem::FileInfo&, const ReadOptions&) const
             {
                 return nullptr;
             }
 
-            std::shared_ptr<IWrite> IPlugin::write(const FileSystem::FileInfo& fileInfo, const Info&, const WriteOptions&) const
+            std::shared_ptr<IWrite> IPlugin::write(const FileSystem::FileInfo&, const Info&, const WriteOptions&) const
             {
                 return nullptr;
             }

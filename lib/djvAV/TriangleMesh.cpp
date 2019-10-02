@@ -311,7 +311,8 @@ namespace djv
 
                 // Back
                 const size_t offset = 1;
-                TriangleMesh::Triangle a, b;
+                TriangleMesh::Triangle a;
+                TriangleMesh::Triangle b;
                 a.v0.v = 0 + offset;
                 a.v1.v = 3 + offset;
                 a.v2.v = 2 + offset;

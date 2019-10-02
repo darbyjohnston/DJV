@@ -77,7 +77,7 @@ namespace djv
                 if (i.second.size())
                 {
                     auto flowLayout = UI::FlowLayout::create(context);
-                    flowLayout->setMargin(UI::MetricsRole::MarginLarge);
+                    flowLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginLarge));
                     flowLayout->setSpacing(UI::MetricsRole::SpacingLarge);
                     for (const auto& j : i.second)
                     {

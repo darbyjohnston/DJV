@@ -78,7 +78,7 @@ namespace djv
                 setVAlign(VAlign::Center);
 
                 p.layout = HorizontalLayout::create(context);
-                p.layout->setMargin(MetricsRole::MarginSmall);
+                p.layout->setMargin(Layout::Margin(MetricsRole::MarginSmall));
                 p.border = Layout::Border::create(context);
                 p.border->setBorderColorRole(UI::ColorRole::None);
                 p.border->addChild(p.layout);

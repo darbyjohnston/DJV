@@ -196,8 +196,8 @@ namespace djv
                         char     copyright[200];
                         uint32_t encryptionKey;
                         uint8_t  pad[104];
-                    }
-                        file;
+                    };
+                    File file;
 
                     struct Image
                     {
@@ -226,8 +226,8 @@ namespace djv
 
                         Elem    elem[8];
                         uint8_t pad[52];
-                    }
-                        image;
+                    };
+                    Image image;
 
                     struct Source
                     {
@@ -242,8 +242,8 @@ namespace djv
                         uint32_t pixelAspect[2];
                         float    scanSize[2]; // V2.0
                         uint8_t  pad[20];
-                    }
-                        source;
+                    };
+                    Source source;
 
                     struct Film
                     {
@@ -261,8 +261,8 @@ namespace djv
                         char     frameId[32];
                         char     slate[100];
                         uint8_t  pad[56];
-                    }
-                        film;
+                    };
+                    Film film;
 
                     struct TV
                     {
@@ -282,8 +282,8 @@ namespace djv
                         float    whiteLevel;
                         float    integrationTimes;
                         uint8_t  pad2[76];
-                    }
-                        tv;
+                    };
+                    TV tv;
                 };
 
                 //! Zero out the data in a DPX file header.

@@ -77,7 +77,7 @@ namespace djv
 
                 p.label = Label::create(context);
                 p.label->setHAlign(HAlign::Left);
-                p.label->setMargin(MetricsRole::MarginSmall);
+                p.label->setMargin(Layout::Margin(MetricsRole::MarginSmall));
                 switch (menuStyle)
                 {
                 case MenuStyle::Flat:
@@ -97,10 +97,10 @@ namespace djv
                     p.layout->setMargin(Layout::Margin(MetricsRole::MarginSmall, MetricsRole::MarginSmall, MetricsRole::None, MetricsRole::None));
                     break;
                 case MenuStyle::Tool:
-                    p.layout->setMargin(MetricsRole::MarginSmall);
+                    p.layout->setMargin(Layout::Margin(MetricsRole::MarginSmall));
                     break;
                 case MenuStyle::ComboBox:
-                    p.layout->setMargin(MetricsRole::None);
+                    p.layout->setMargin(Layout::Margin(MetricsRole::None));
                     break;
                 default: break;
                 }

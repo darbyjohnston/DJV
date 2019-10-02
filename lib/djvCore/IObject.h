@@ -146,12 +146,12 @@ namespace djv
             //! \name Events
             ///@{
 
-            virtual void _parentChangedEvent(Event::ParentChanged &) {}
-            virtual void _childAddedEvent(Event::ChildAdded &) {}
-            virtual void _childRemovedEvent(Event::ChildRemoved &) {}
-            virtual void _childOrderEvent(Event::ChildOrder &) {}
-            virtual void _localeEvent(Event::Locale &) {}
-            virtual void _updateEvent(Event::Update &) {}
+            virtual void _parentChangedEvent(Event::ParentChanged &);
+            virtual void _childAddedEvent(Event::ChildAdded &);
+            virtual void _childRemovedEvent(Event::ChildRemoved &);
+            virtual void _childOrderEvent(Event::ChildOrder &);
+            virtual void _localeEvent(Event::Locale &);
+            virtual void _updateEvent(Event::Update &);
 
             //! Over-ride this function to filter events for other objects.
             virtual bool _eventFilter(const std::shared_ptr<IObject> &, Event::Event &) { return false; }

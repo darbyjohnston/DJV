@@ -59,7 +59,6 @@ namespace djv
 
                 void addChild(const std::shared_ptr<IObject>&) override;
                 void removeChild(const std::shared_ptr<IObject>&) override;
-                void clearChildren() override;
 
             protected:
                 void _layoutEvent(Core::Event::Layout &) override;
@@ -113,12 +112,7 @@ namespace djv
                     }
                 }
             }
-
-            void TooltipLayout::clearChildren()
-            {
-                Widget::clearChildren();
-            }
-
+            
             void TooltipLayout::_layoutEvent(Event::Layout &)
             {
                 const BBox2f & g = getGeometry();
@@ -153,7 +147,7 @@ namespace djv
                     geomCandidates.push_back(belowLeft);
                     geomCandidates.push_back(aboveLeft);
                     std::sort(geomCandidates.begin(), geomCandidates.end(),
-                        [g](const BBox2f & a, const BBox2f & b) -> bool
+                        [g](const BBox2f & a, const BBox2f & b)
                     {
                         return a.intersect(g).getArea() > b.intersect(g).getArea();
                     });

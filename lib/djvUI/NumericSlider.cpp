@@ -118,7 +118,6 @@ namespace djv
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const BBox2f & g = getMargin().bbox(getGeometry(), style);
-            const glm::vec2 c = g.getCenter();
             const float m = style->getMetric(MetricsRole::MarginSmall);
             const float b = style->getMetric(MetricsRole::Border);
             auto render = _getRender();

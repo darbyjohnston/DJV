@@ -224,7 +224,6 @@ namespace djv
             void Drawer::_layoutEvent(Event::Layout & event)
             {
                 DJV_PRIVATE_PTR();
-                const auto& style = _getStyle();
                 const BBox2f & g = getGeometry();
                 const glm::vec2 & minimumSize = p.layout->getMinimumSize();
                 BBox2f childGeometry = g;
@@ -317,7 +316,6 @@ namespace djv
                     if (auto widget = std::dynamic_pointer_cast<Widget>(object))
                     {
                         event.accept();
-                        const auto& style = _getStyle();
                         const BBox2f& g = getGeometry();
                         const float w = g.w();
                         const float h = g.h();

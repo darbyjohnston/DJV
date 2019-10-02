@@ -85,7 +85,7 @@ namespace djv
                     auto label = Label::create(context);
                     label->setText(text);
                     label->setTextHAlign(TextHAlign::Left);
-                    label->setMargin(MetricsRole::MarginSmall);
+                    label->setMargin(Margin(MetricsRole::MarginSmall));
                     glm::ivec2 gridPos = p.layout->getGridPos(value);
                     p.layout->addChild(label);
                     p.layout->setGridPos(label, glm::ivec2(0, gridPos.y));

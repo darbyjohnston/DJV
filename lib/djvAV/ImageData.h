@@ -53,8 +53,9 @@ namespace djv
         namespace Image
         {
             //! This struct provides information about mirroring the image.
-            struct Mirror
+            class Mirror
             {
+            public:
                 constexpr Mirror();
                 constexpr Mirror(bool x, bool y);
 
@@ -66,8 +67,9 @@ namespace djv
             };
 
             //! This struct provides information about the data layout.
-            struct Layout
+            class Layout
             {
+            public:
                 Layout();
                 constexpr Layout(const Mirror &, GLint alignment = 1, Core::Memory::Endian = Core::Memory::getEndian());
 
@@ -80,8 +82,9 @@ namespace djv
             };
 
             //! This struct provides the image size.
-            struct Size
+            class Size
             {
+            public:
                 Size(uint16_t w = 0, uint16_t h = 0);
 
                 uint16_t w = 0;
@@ -92,8 +95,9 @@ namespace djv
             };
 
             //! This struct provides image data information.
-            struct Info
+            class Info
             {
+            public:
                 Info();
                 Info(const Size&, Type, const Layout & = Layout());
                 Info(uint16_t width, uint16_t height, Type, const Layout & = Layout());

@@ -51,7 +51,7 @@ namespace djv
             };
 
             //! This class provides a square shape.
-            class Square : IShape
+            class Square : public IShape
             {
             public:
                 explicit Square(float radius = .5F);
@@ -66,7 +66,7 @@ namespace djv
             };
 
             //! This class provides a circle shape.
-            class Circle : IShape
+            class Circle : public IShape
             {
             public:
                 Circle(float radius = .5F, size_t resolution = 10);
@@ -84,7 +84,7 @@ namespace djv
             };
 
             //! This class provides a cube shape.
-            class Cube : IShape
+            class Cube : public IShape
             {
             public:
                 explicit Cube(float radius = .5F);
@@ -99,7 +99,7 @@ namespace djv
             };
 
             //! This class provides a sphere shape.
-            class Sphere : IShape
+            class Sphere : public IShape
             {
             public:
                 typedef std::pair<size_t, size_t> Resolution;
@@ -129,7 +129,7 @@ namespace djv
             };
 
             //! This class provides a cylinder shape.
-            class Cylinder : IShape
+            class Cylinder : public IShape
             {
             public:
                 typedef std::pair<float, float> Span;

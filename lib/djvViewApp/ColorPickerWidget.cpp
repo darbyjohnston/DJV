@@ -83,11 +83,11 @@ namespace djv
             p.colorSwatch = UI::ColorSwatch::create(context);
 
             p.sliders = UI::ColorSliders::create(context);
-            p.sliders->setMargin(UI::MetricsRole::MarginSmall);
+            p.sliders->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
 
             p.sampleSizeSlider = UI::IntSlider::create(context);
             p.sampleSizeSlider->setRange(IntRange(1, 100));
-            p.sampleSizeSlider->setMargin(UI::MetricsRole::MarginSmall);
+            p.sampleSizeSlider->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
 
             p.typeWidget = UI::ColorTypeWidget::create(context);
 

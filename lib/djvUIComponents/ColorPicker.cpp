@@ -634,7 +634,7 @@ namespace djv
             p.colorSwatch = ColorSwatch::create(context);
 
             p.sliders = ColorSliders::create(context);
-            p.sliders->setMargin(MetricsRole::MarginSmall);
+            p.sliders->setMargin(Layout::Margin(MetricsRole::MarginSmall));
 
             p.typeWidget = ColorTypeWidget::create(context);
 
@@ -751,7 +751,7 @@ namespace djv
                     _colorPicker = ColorPicker::create(context);
 
                     auto layout = VerticalLayout::create(context);
-                    layout->setMargin(MetricsRole::Margin);
+                    layout->setMargin(Layout::Margin(MetricsRole::Margin));
                     layout->setShadowOverlay({ UI::Side::Top });
                     layout->addChild(_colorPicker);
                     addChild(layout);
@@ -778,8 +778,6 @@ namespace djv
                 {
                     _colorPicker->setColorCallback(value);
                 }
-
-            protected:
 
             private:
                 std::shared_ptr<ColorPicker> _colorPicker;

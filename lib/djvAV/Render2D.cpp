@@ -125,7 +125,7 @@ namespace djv
                 };
 
                 //! This class provides a text render primitive.
-                struct TextPrimitive : public Primitive
+                struct TextPrimitive : Primitive
                 {
                     uint8_t atlasIndex = 0;
 
@@ -141,7 +141,7 @@ namespace djv
                 };
 
                 //! This class provides an image render primitive.
-                struct ImagePrimitive : public Primitive
+                struct ImagePrimitive : Primitive
                 {
                     ColorMode       colorMode           = ColorMode::ColorAndTexture;
                     Image::Channels imageChannels       = Image::Channels::RGBA;
@@ -185,7 +185,7 @@ namespace djv
                 };
 
                 //! This class provides a shadow render primitive.
-                struct ShadowPrimitive : public Primitive
+                struct ShadowPrimitive : Primitive
                 {
                     void bind(const PrimitiveData& data, const std::shared_ptr<OpenGL::Shader>& shader) override
                     {
@@ -424,10 +424,14 @@ namespace djv
                 try
                 {
                     FileSystem::FileIO io;
-                    io.open(FileSystem::Path(shaderPath, "djvAVRender2DVertex.glsl"), FileSystem::FileIO::Mode::Read);
+                    io.open(
+                        std::string(FileSystem::Path(shaderPath, "djvAVRender2DVertex.glsl")),
+                        FileSystem::FileIO::Mode::Read);
                     p.vertexSource = FileSystem::FileIO::readContents(io);
                     io.close();
-                    io.open(FileSystem::Path(shaderPath, "djvAVRender2DFragment.glsl"), FileSystem::FileIO::Mode::Read);
+                    io.open(
+                        std::string(FileSystem::Path(shaderPath, "djvAVRender2DFragment.glsl")),
+                        FileSystem::FileIO::Mode::Read);
                     p.fragmentSource = FileSystem::FileIO::readContents(io);
                 }
                 catch (const std::exception& e)
@@ -858,7 +862,7 @@ namespace djv
                     primitive->color[1] = p.finalColor[1];
                     primitive->color[2] = p.finalColor[2];
                     primitive->color[3] = p.finalColor[3];
-                    primitive->vaoOffset = p.vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);;
+                    primitive->vaoOffset = p.vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
                     primitive->vaoSize = 3 * facets;
 
                     const size_t vboDataSize = p.vboDataSize;

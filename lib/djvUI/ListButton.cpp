@@ -65,7 +65,7 @@ namespace djv
                 setClassName("djv::UI::Button::List");
 
                 p.layout = HorizontalLayout::create(context);
-                p.layout->setMargin(MetricsRole::MarginSmall);
+                p.layout->setMargin(Layout::Margin(MetricsRole::MarginSmall));
                 addChild(p.layout);
             }
 

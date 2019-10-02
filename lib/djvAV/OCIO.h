@@ -42,8 +42,9 @@ namespace djv
         namespace OCIO
         {
             //! This struct provides a color space conversion.
-            struct Convert
+            class Convert
             {
+            public:
                 Convert();
                 Convert(const std::string&, const std::string&);
 
@@ -57,8 +58,9 @@ namespace djv
             };
 
             //! This struct provides information about a view.
-            struct View
+            class View
             {
+            public:
                 std::string name;
                 std::string colorSpace;
                 std::string looks;
@@ -67,8 +69,9 @@ namespace djv
             };
 
             //! This struct provides information about a display.
-            struct Display
+            class Display
             {
+            public:
                 std::string name;
                 std::string defaultView;
                 std::vector<View> views;

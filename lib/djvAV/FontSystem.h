@@ -52,8 +52,9 @@ namespace djv
             const std::string familyMono    = "Noto Mono";
 
             //! This class provides font information.
-            struct Info
+            class Info
             {
+            public:
                 Info();
                 constexpr Info(FamilyID, FaceID, uint16_t size, uint16_t DPI);
 
@@ -85,8 +86,9 @@ namespace djv
             };
 
             //! This struct provides font glyph information.
-            struct GlyphInfo
+            class GlyphInfo
             {
+            public:
                 GlyphInfo();
                 GlyphInfo(uint32_t code, const Info &);
 
@@ -98,7 +100,7 @@ namespace djv
             };
 
             //! This struct provides a font glyph.
-            struct Glyph
+            class Glyph
             {
                 DJV_NON_COPYABLE(Glyph);
 

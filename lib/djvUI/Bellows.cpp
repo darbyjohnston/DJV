@@ -96,7 +96,7 @@ namespace djv
                     _label->setTextHAlign(TextHAlign::Left);
 
                     _layout = HorizontalLayout::create(context);
-                    _layout->setMargin(MetricsRole::MarginSmall);
+                    _layout->setMargin(Margin(MetricsRole::MarginSmall));
                     _layout->setSpacing(MetricsRole::SpacingSmall);
                     _layout->addChild(_icon);
                     _layout->addChild(_label);

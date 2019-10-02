@@ -75,6 +75,7 @@ namespace djv
                     case ENAMETOOLONG: throw Error("Path too long");
                     case ENOENT:       throw Error("Path does not exist");
                     case ENOTDIR:      throw Error("Path is not a directory");
+                    default: break;
                     }
                 }
                 return Path(buf);

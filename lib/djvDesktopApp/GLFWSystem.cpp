@@ -335,10 +335,5 @@ namespace djv
             glfwSetCursor(p.glfwWindow, p.hiddenCursor);
         }
 
-        void GLFWSystem::tick(float dt)
-        {
-            ISystem::tick(dt);
-        }
-
     } // namespace Desktop
 } // namespace djv

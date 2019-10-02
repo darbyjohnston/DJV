@@ -203,11 +203,11 @@ namespace djv
 
             p.maximizeButton = UI::ToolButton::create(context);
             p.maximizeButton->setIcon("djvIconSDI");
-            p.maximizeButton->setInsideMargin(UI::MetricsRole::MarginSmall);
+            p.maximizeButton->setInsideMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
 
             p.closeButton = UI::ToolButton::create(context);
             p.closeButton->setIcon("djvIconClose");
-            p.closeButton->setInsideMargin(UI::MetricsRole::MarginSmall);
+            p.closeButton->setInsideMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
 
             p.titleBar = UI::HorizontalLayout::create(context);
             p.titleBar->setSpacing(UI::MetricsRole::None);
@@ -238,14 +238,14 @@ namespace djv
             p.durationLabel = UI::Label::create(context);
             p.durationLabel->setFont(AV::Font::familyMono);
             p.durationLabel->setFontSizeRole(UI::MetricsRole::FontSmall);
-            p.durationLabel->setMargin(UI::MetricsRole::MarginSmall);
+            p.durationLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
 
             p.timelineSlider = TimelineSlider::create(context);
             p.timelineSlider->setMedia(p.media);
 
             p.audioLabel = UI::Label::create(context);
             p.audioLabel->setTextHAlign(UI::TextHAlign::Left);
-            p.audioLabel->setMargin(UI::MetricsRole::MarginSmall);
+            p.audioLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
             p.audioLabel->setBackgroundRole(UI::ColorRole::Trough);
             p.audioVolumeSlider = UI::FloatSlider::create(context);
             p.audioVolumeSlider->setRange(FloatRange(0.F, 100.F));
@@ -257,7 +257,7 @@ namespace djv
             vLayout->addChild(p.audioLabel);
             vLayout->addSeparator();
             auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setMargin(UI::MetricsRole::MarginSmall);
+            hLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
             hLayout->setSpacing(UI::MetricsRole::SpacingSmall);
             hLayout->addChild(p.audioVolumeSlider);
             hLayout->addChild(p.audioMuteButton);

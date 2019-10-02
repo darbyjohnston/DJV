@@ -191,11 +191,6 @@ namespace djv
                         return *in != 0xff;
                     }
 
-                    bool isValid(const uint16_t* in)
-                    {
-                        return *in != 0xffff;
-                    }
-
                     // Constants to catch uninitialized values.
                     const int32_t _intMax   = 1000000;
                     const float   _floatMax = 1000000.F;
@@ -350,6 +345,7 @@ namespace djv
                     case Orient::BottomTopLeftRight:
                     case Orient::BottomTopRightLeft:
                         //! \todo Implement these image orientations.
+                        break;
                     default: break;
                     }
                     if (isValid(out.file.time, 24))
@@ -540,7 +536,11 @@ namespace djv
                     }
                     if (info.tags.hasTag("Keycode"))
                     {
-                        int id = 0, type = 0, prefix = 0, count = 0, offset = 0;
+                        int id     = 0;
+                        int type   = 0;
+                        int prefix = 0;
+                        int count  = 0;
+                        int offset = 0;
                         Time::stringToKeycode(info.tags.getTag("Keycode"), id, type, prefix, count, offset);
                         header.film.id     = id;
                         header.film.type   = type;

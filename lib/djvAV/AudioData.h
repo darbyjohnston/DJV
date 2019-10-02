@@ -40,8 +40,9 @@ namespace djv
         namespace Audio
         {
             //! This struct provides audio data information.
-            struct DataInfo
+            class DataInfo
             {
+            public:
                 constexpr DataInfo();
                 constexpr DataInfo(uint8_t channelCount, Type, size_t sampleRate, size_t sampleCount);
 

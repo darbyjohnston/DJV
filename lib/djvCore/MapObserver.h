@@ -109,7 +109,7 @@ namespace djv
             DJV_NON_COPYABLE(MapSubject);
 
             MapSubject();
-            MapSubject(const std::map<T, U> &);
+            explicit MapSubject(const std::map<T, U> &);
 
         public:
             //! Create a new map subject.

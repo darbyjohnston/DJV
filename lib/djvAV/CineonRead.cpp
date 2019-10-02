@@ -67,26 +67,25 @@ namespace djv
                 }
                 
                 std::shared_ptr<Image::Image> Read::readImage(
-                    Info info,
-                    Cineon::ColorProfile colorProfile,
-                    const std::string& colorSpace,
+                    const Info& info,
                     FileSystem::FileIO& io)
                 {
 #if defined(DJV_MMAP)
                     auto out = Image::Image::create(info.video[0].info, io);
 #else // DJV_MMAP
+                    auto infoTmp = info;
                     bool convertEndian = false;
-                    if (info.video[0].info.layout.endian != Memory::getEndian())
+                    if (infoTmp.video[0].info.layout.endian != Memory::getEndian())
                     {
                         convertEndian = true;
-                        info.video[0].info.layout.endian = Memory::getEndian();
+                        infoTmp.video[0].info.layout.endian = Memory::getEndian();
                     }
-                    auto out = Image::Image::create(info.video[0].info);
+                    auto out = Image::Image::create(infoTmp.video[0].info);
                     io.read(out->getData(), io.getSize() - io.getPos());
                     if (convertEndian)
                     {
                         const size_t dataByteCount = out->getDataByteCount();
-                        switch (Image::getDataType(info.video[0].info.type))
+                        switch (Image::getDataType(infoTmp.video[0].info.type))
                         {
                             case Image::DataType::U10:
                                 Memory::endian(out->getData(), dataByteCount / 4, 4);
@@ -98,7 +97,7 @@ namespace djv
                         }
                     }
 #endif // DJV_MMAP
-                    out->setTags(info.tags);
+                    out->setTags(infoTmp.tags);
                     return out;
                 }
 
@@ -113,7 +112,7 @@ namespace djv
                     DJV_PRIVATE_PTR();
                     FileSystem::FileIO io;
                     const auto info = _open(fileName, io);
-                    auto out = readImage(info, p.colorProfile, _options.colorSpace, io);
+                    auto out = readImage(info, io);
                     out->setPluginName(pluginName);
                     return out;
                 }

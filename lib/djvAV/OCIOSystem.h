@@ -46,8 +46,9 @@ namespace djv
         namespace OCIO
         {
             //! This struct provides a color space configuration.
-            struct Config
+            class Config
             {
+            public:
                 std::string fileName;
                 std::string name;
                 std::map<std::string, std::string> colorSpaces;

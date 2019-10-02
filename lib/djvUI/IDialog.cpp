@@ -102,12 +102,12 @@ namespace djv
             p.titleLabel = Label::create(context);
             p.titleLabel->setFontSizeRole(MetricsRole::FontHeader);
             p.titleLabel->setTextHAlign(TextHAlign::Left);
-            p.titleLabel->setMargin(MetricsRole::Margin);
+            p.titleLabel->setMargin(Layout::Margin(MetricsRole::Margin));
             p.titleLabel->hide();
 
             p.closeButton = ToolButton::create(context);
             p.closeButton->setIcon("djvIconClose");
-            p.closeButton->setInsideMargin(MetricsRole::MarginSmall);
+            p.closeButton->setInsideMargin(Layout::Margin(MetricsRole::MarginSmall));
 
             p.titleBarLayout = HorizontalLayout::create(context);
             p.titleBarLayout->setSpacing(MetricsRole::None);
@@ -116,7 +116,7 @@ namespace djv
             p.childLayout->setSpacing(MetricsRole::None);
 
             p.layout = VerticalLayout::create(context);
-            p.layout->setMargin(MetricsRole::MarginDialog);
+            p.layout->setMargin(Layout::Margin(MetricsRole::MarginDialog));
             auto layout = DialogLayout::create(context);
             layout->setSpacing(MetricsRole::None);
             layout->setBackgroundRole(ColorRole::Background);

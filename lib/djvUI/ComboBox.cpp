@@ -275,7 +275,6 @@ namespace djv
 
         void ComboBox::_preLayoutEvent(Event::PreLayout & event)
         {
-            const auto& style = _getStyle();
             _setMinimumSize(_p->button->getMinimumSize());
         }
 
@@ -309,6 +308,7 @@ namespace djv
                     event.accept();
                     nextItem(Callback::Trigger);
                     break;
+                default: break;
                 }
                 if (currentItem != p.currentItem && p.callback)
                 {

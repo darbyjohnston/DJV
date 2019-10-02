@@ -119,7 +119,6 @@ namespace djv
                         const BBox2f& g = getGeometry();
                         const float m = style->getMetric(MetricsRole::MarginSmall);
                         const float b = style->getMetric(MetricsRole::Border);
-                        const float is = style->getMetric(MetricsRole::IconSmall);
                         render->setFillColor(style->getColor(ColorRole::Border));
                         drawBorder(render, g.margin(-m), b);
                         render->setFillColor(style->getColor(_checked ? ColorRole::Checked : ColorRole::Trough));
@@ -156,12 +155,12 @@ namespace djv
                 p.icon = Icon::create(context);
                 p.textLabel = Label::create(context);
                 p.textLabel->setTextHAlign(TextHAlign::Left);
-                p.textLabel->setMargin(MetricsRole::MarginSmall);
+                p.textLabel->setMargin(Layout::Margin(MetricsRole::MarginSmall));
                 p.shortcutsLabel = Label::create(context);
-                p.shortcutsLabel->setMargin(MetricsRole::MarginSmall);
+                p.shortcutsLabel->setMargin(Layout::Margin(MetricsRole::MarginSmall));
 
                 p.layout = HorizontalLayout::create(context);
-                p.layout->setMargin(MetricsRole::MarginSmall);
+                p.layout->setMargin(Layout::Margin(MetricsRole::MarginSmall));
                 p.layout->setSpacing(MetricsRole::None);
                 p.layout->addChild(p.checkBox);
                 p.layout->addChild(p.icon);

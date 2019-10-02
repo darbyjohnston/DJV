@@ -104,7 +104,7 @@ namespace djv
             p.textBlock = UI::TextBlock::create(context);
             p.textBlock->setFontFamily(AV::Font::familyMono);
             p.textBlock->setFontSizeRole(UI::MetricsRole::FontSmall);
-            p.textBlock->setMargin(UI::MetricsRole::Margin);
+            p.textBlock->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
 
             auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             scrollWidget->setBorder(false);
@@ -121,7 +121,7 @@ namespace djv
             layout->setStretch(scrollWidget, UI::RowStretch::Expand);
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setBackgroundRole(UI::ColorRole::BackgroundToolBar);
-            hLayout->setMargin(UI::MetricsRole::MarginSmall);
+            hLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
             hLayout->addChild(p.popupCheckBox);
             hLayout->addExpander();
             hLayout->addChild(p.copyButton);

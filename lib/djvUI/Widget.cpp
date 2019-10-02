@@ -783,7 +783,7 @@ namespace djv
 
                 // Sort the actions so that we test those with keyboard modifiers first.
                 std::sort(shortcuts.begin(), shortcuts.end(),
-                    [](const std::shared_ptr<Shortcut>& a, const std::shared_ptr<Shortcut>& b) -> bool
+                    [](const std::shared_ptr<Shortcut>& a, const std::shared_ptr<Shortcut>& b)
                     {
                         return a->observeShortcutModifiers()->get() > b->observeShortcutModifiers()->get();
                     });
@@ -848,7 +848,7 @@ namespace djv
                 textBlock->setText(text);
                 textBlock->setTextColorRole(ColorRole::TooltipForeground);
                 textBlock->setBackgroundRole(ColorRole::TooltipBackground);
-                textBlock->setMargin(MetricsRole::Margin);
+                textBlock->setMargin(Layout::Margin(MetricsRole::Margin));
                 out = textBlock;
             }
             return out;

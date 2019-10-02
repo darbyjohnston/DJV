@@ -327,12 +327,7 @@ namespace djv
                     }
                 }
             }
-
-            void Grid::clearChildren()
-            {
-                Widget::clearChildren();
-            }
-
+            
             void Grid::_preLayoutEvent(Event::PreLayout &)
             {
                 DJV_PRIVATE_PTR();

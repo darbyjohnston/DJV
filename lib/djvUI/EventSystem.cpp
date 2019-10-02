@@ -127,10 +127,14 @@ namespace djv
         }
 
         void EventSystem::_pushClipRect(const Core::BBox2f &)
-        {}
+        {
+            // Default implementation does nothing.
+        }
 
         void EventSystem::_popClipRect()
-        {}
+        {
+            // Default implementation does nothing.
+        }
 
         bool EventSystem::_resizeRequest(const std::shared_ptr<Widget> & widget) const
         {

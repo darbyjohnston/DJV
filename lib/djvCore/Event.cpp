@@ -33,13 +33,6 @@
 
 namespace djv
 {
-    namespace Core
-    {
-        namespace Event
-        {
-        } // namespace Event
-    } // namespace Core
-
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         Core::Event,
         Type,
