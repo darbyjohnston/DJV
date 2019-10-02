@@ -182,14 +182,24 @@ namespace djv
                                 {
                                     switch (channelByteCount)
                                     {
-                                    case 4: // Fourth byte.
+                                    case 4:
                                         outP[3] = inP[3];
-                                    case 3: // Third byte.
                                         outP[2] = inP[2];
-                                    case 2: // Second byte.
                                         outP[1] = inP[1];
-                                    case 1: // First byte.
                                         outP[0] = inP[0];
+                                        break;
+                                    case 3:
+                                        outP[2] = inP[2];
+                                        outP[1] = inP[1];
+                                        outP[0] = inP[0];
+                                        break;
+                                    case 2:
+                                        outP[1] = inP[1];
+                                        outP[0] = inP[0];
+                                        break;
+                                    case 1:
+                                        outP[0] = inP[0];
+                                        break;
                                     default: break;
                                     }
                                 }

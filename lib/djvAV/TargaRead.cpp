@@ -100,14 +100,24 @@ namespace djv
                                 {
                                     switch (channels)
                                     {
-                                    case 4: // Fourth byte.
+                                    case 4:
                                         out[3] = in[3];
-                                    case 3: // Third byte.
                                         out[2] = in[2];
-                                    case 2: // Second byte.
                                         out[1] = in[1];
-                                    case 1: // First byte.
                                         out[0] = in[0];
+                                        break;
+                                    case 3:
+                                        out[2] = in[2];
+                                        out[1] = in[1];
+                                        out[0] = in[0];
+                                        break;
+                                    case 2:
+                                        out[1] = in[1];
+                                        out[0] = in[0];
+                                        break;
+                                    case 1:
+                                        out[0] = in[0];
+                                        break;
                                     default: break;
                                     }
                                 }
@@ -119,14 +129,24 @@ namespace djv
                                 {
                                     switch (channels)
                                     {
-                                    case 4: // Fourth byte.
+                                    case 4:
                                         out[3] = in[3];
-                                    case 3: // Third byte.
                                         out[2] = in[2];
-                                    case 2: // Second byte.
                                         out[1] = in[1];
-                                    case 1: // First byte.
                                         out[0] = in[0];
+                                        break;
+                                    case 3:
+                                        out[2] = in[2];
+                                        out[1] = in[1];
+                                        out[0] = in[0];
+                                        break;
+                                    case 2:
+                                        out[1] = in[1];
+                                        out[0] = in[0];
+                                        break;
+                                    case 1:
+                                        out[0] = in[0];
+                                        break;
                                     default: break;
                                     }
                                 }

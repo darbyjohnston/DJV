@@ -183,18 +183,24 @@ namespace djv
                 int i = 0;
                 switch (pieces.size())
                 {
-                case 4: // Hour.
-                    hour = std::stoi(pieces[i]);
-                    ++i;
-                case 3: // Minute.
-                    minute = std::stoi(pieces[i]);
-                    ++i;
-                case 2: // Second.
-                    second = std::stoi(pieces[i]);
-                    ++i;
-                case 1: // Frame.
+                case 4:
+                    hour   = std::stoi(pieces[i]); ++i;
+                    minute = std::stoi(pieces[i]); ++i;
+                    second = std::stoi(pieces[i]); ++i;
+                    frame  = std::stoi(pieces[i]);
+                    break;
+                case 3:
+                    minute = std::stoi(pieces[i]); ++i;
+                    second = std::stoi(pieces[i]); ++i;
+                    frame  = std::stoi(pieces[i]);
+                    break;
+                case 2:
+                    second = std::stoi(pieces[i]); ++i;
+                    frame  = std::stoi(pieces[i]);
+                    break;
+                case 1:
                     frame = std::stoi(pieces[i]);
-                    ++i;
+                    break;
                 default: break;
                 }
 
