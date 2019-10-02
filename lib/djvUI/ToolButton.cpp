@@ -396,6 +396,7 @@ namespace djv
                             setChecked(!isChecked());
                             _doCheckedCallback(isChecked());
                             break;
+                        default: break;
                         }
                         break;
                     case GLFW_KEY_ESCAPE:
