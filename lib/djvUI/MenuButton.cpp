@@ -53,7 +53,7 @@ namespace djv
             {
                 bool open = false;
                 MenuStyle menuStyle = MenuStyle::Flat;
-                bool textFocusEnabled = true;
+                bool textFocusEnabled = false;
                 std::shared_ptr<Icon> icon;
                 std::shared_ptr<Label> label;
                 std::shared_ptr<Icon> popupIcon;

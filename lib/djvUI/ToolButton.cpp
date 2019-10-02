@@ -62,7 +62,7 @@ namespace djv
                 std::string fontFace;
                 MetricsRole fontSizeRole = MetricsRole::FontMedium;
                 std::shared_ptr<Action> action;
-                bool textFocusEnabled = true;
+                bool textFocusEnabled = false;
                 std::shared_ptr<HorizontalLayout> layout;
                 std::shared_ptr<Border> border;
                 std::shared_ptr<ValueObserver<std::string> > iconObserver;

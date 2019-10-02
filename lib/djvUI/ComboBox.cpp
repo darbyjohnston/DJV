@@ -73,6 +73,7 @@ namespace djv
 
             p.button = Button::Menu::create(Button::MenuStyle::ComboBox, context);
             p.button->setPopupIcon("djvIconPopupMenu");
+            p.button->setTextFocusEnabled(true);
             p.button->setBackgroundRole(ColorRole::Button);
             addChild(p.button);
 
