@@ -1,4 +1,5 @@
 set(header
+    AnimationTest.h
 	CacheTest.h
     EnumTest.h
     FileIOTest.h
@@ -11,6 +12,7 @@ set(header
     StringTest.h
     TimeTest.h)
 set(source
+    AnimationTest.cpp
 	CacheTest.cpp
     EnumTest.cpp
     FileIOTest.cpp

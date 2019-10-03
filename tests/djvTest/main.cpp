@@ -27,6 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
+#include <djvCoreTest/AnimationTest.h>
 #include <djvCoreTest/CacheTest.h>
 #include <djvCoreTest/EnumTest.h>
 #include <djvCoreTest/FileIOTest.h>
@@ -58,6 +59,7 @@ int main(int argc, char ** argv)
         std::vector<std::string> args;
         auto context = Core::Context::create(args);
 
+        (new CoreTest::AnimationTest(context))->run(args);
         (new CoreTest::CacheTest(context))->run(args);
         (new CoreTest::EnumTest(context))->run(args);
         (new CoreTest::FrameTest(context))->run(args);
@@ -69,7 +71,6 @@ int main(int argc, char ** argv)
         (new CoreTest::SpeedTest(context))->run(args);
         (new CoreTest::StringTest(context))->run(args);
         (new CoreTest::TimeTest(context))->run(args);
-
 #if !defined(DJV_TINY_BUILD)
         (new AVTest::AudioTest(context))->run(args);
         (new AVTest::ColorTest(context))->run(args);
