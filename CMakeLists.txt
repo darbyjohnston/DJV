@@ -63,22 +63,22 @@ add_definitions(-DDJV_ASSERT)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # Set whether to use OpenGL ES.
-set(DJV_OPENGL_ES2 FALSE CACHE STRING "Whether to enable OpenGL ES")
+set(DJV_OPENGL_ES2 FALSE CACHE BOOL "Whether to enable OpenGL ES")
 if(DJV_OPENGL_ES2)
     add_definitions(-DDJV_OPENGL_ES2)
 endif()
 
 # Set whether to use Python.
-set(DJV_PYTHON FALSE CACHE STRING "Whether to use Python")
+set(DJV_PYTHON FALSE CACHE BOOL "Whether to use Python")
 
 # Set whether to build examples.
-set(DJV_EXAMPLES TRUE CACHE STRING "Whether to build examples")
+set(DJV_EXAMPLES TRUE CACHE BOOL "Whether to build examples")
 
 # Set whether to build experiments.
-set(DJV_EXPERIMENTS TRUE CACHE STRING "Whether to build experiments")
+set(DJV_EXPERIMENTS TRUE CACHE BOOL "Whether to build experiments")
 
 # Set whether to enable a "tiny" build (djvCore + tests).
-set(DJV_TINY_BUILD FALSE CACHE STRING "Whether to enable a tiny build")
+set(DJV_TINY_BUILD FALSE CACHE BOOL "Whether to enable a tiny build")
 if(DJV_TINY_BUILD)
     add_definitions(-DDJV_TINY_BUILD)
 endif()
@@ -87,7 +87,7 @@ endif()
 enable_testing()
 
 # Enable gcov code coverage targets.
-set(DJV_GCOV FALSE CACHE STRING "Whether to enable gcov code coverage")
+set(DJV_GCOV FALSE CACHE BOOL "Whether to enable gcov code coverage")
 
 # Include directories.
 set(INCLUDE_DIRS
@@ -103,15 +103,19 @@ endif()
 include_directories(${INCLUDE_DIRS})
 
 #-------------------------------------------------------------------------------
-# Third Party Libraries
+# Third Party Packages
 #-------------------------------------------------------------------------------
 
-set(DJV_THIRD_PARTY_MINIMAL FALSE CACHE STRING "Whether to disable optional third party packages")
+# Whether to build third party packages.
+set(DJV_THIRD_PARTY TRUE CACHE BOOL "Whether to build third party packages")
 
-# This is used to disable ExternalProject_Add() for third party libraries. This
+# Whether to build optional third party packages.
+set(DJV_THIRD_PARTY_OPTIONAL TRUE CACHE BOOL "Whether to build optional third party packages")
+
+# This is used to disable ExternalProject_Add() for third party packages. This
 # can be helpful for speeding up compile iterations after the third party
-# libraries have been built.
-set(DJV_THIRD_PARTY_DISABLE_BUILD FALSE CACHE STRING "Whether to disable building third party libraries")
+# packages have been built.
+set(DJV_THIRD_PARTY_DISABLE_BUILD FALSE CACHE BOOL "Whether to disable building third party packages")
 
 find_package(Threads REQUIRED)
 find_package(OpenGL REQUIRED)
@@ -194,7 +198,7 @@ if(DJV_THIRD_PARTY)
     foreach(PACKAGE ${DJV_THIRD_PARTY_PACKAGES_REQUIRED})
         include(Build${PACKAGE})
     endforeach()
-    if(NOT DJV_THIRD_PARTY_MINIMAL)
+    if(DJV_THIRD_PARTY_OPTIONAL)
         foreach(PACKAGE ${DJV_THIRD_PARTY_PACKAGES_OPTIONAL})
             include(Build${PACKAGE})
         endforeach()
