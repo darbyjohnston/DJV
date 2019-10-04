@@ -27,9 +27,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvCoreTest/FileInfoTest.h>
+#include <djvCoreTest/EnumTest.h>
 
-#include <djvCore/FileInfo.h>
+#include <djvCore/Memory.h>
 
 namespace djv
 {
@@ -37,39 +37,39 @@ namespace djv
 
     namespace CoreTest
     {
-        FileInfoTest::FileInfoTest(const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::CoreTest::FileInfoTest", context)
+        EnumTest::EnumTest(const std::shared_ptr<Core::Context>& context) :
+            ITest("djv::CoreTest::EnumTest", context)
         {}
         
-        void FileInfoTest::run(const std::vector<std::string>& args)
+        void EnumTest::run(const std::vector<std::string>& args)
         {
-            _enum();
-        }
-
-        void FileInfoTest::_enum()
-        {
-            for (auto i : FileSystem::getFileTypeEnums())
+            for (auto i : Memory::getEndianEnums())
             {
                 std::stringstream ss;
-                ss << "File type string: " << i;
+                ss << "Endian string: " << i;
                 _print(ss.str());
             }
-            for (auto i :
+            for (auto i : Memory::getEndianEnums())
+            {
+                std::stringstream ss;
+                ss << i;
+                Memory::Endian j = Memory::Endian::First;
+                ss >> j;
+                DJV_ASSERT(i == j);
+            }
+            {
+                std::stringstream ss;
+                ss << "None";
+                try
                 {
-                    FileSystem::FilePermissions::Read,
-                    FileSystem::FilePermissions::Write,
-                    FileSystem::FilePermissions::Exec
-                })
-            {
-                std::stringstream ss;
-                ss << "File permissions string: " << FileSystem::getFilePermissionsLabel(static_cast<int>(i));
-                _print(ss.str());
-            }
-            for (auto i : FileSystem::getDirectoryListSortEnums())
-            {
-                std::stringstream ss;
-                ss << "Directory list sort string: " << i;
-                _print(ss.str());
+                    Memory::Endian endian = Memory::Endian::First;
+                    ss >> endian;
+                    DJV_ASSERT(true);
+                }
+                catch (const std::exception& e)
+                {
+                    _print(e.what());
+                }
             }
         }
         

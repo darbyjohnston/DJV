@@ -6,6 +6,7 @@ set(header
     DirectoryModelTest.h
     DirectoryWatcherTest.h
     DrivesModelTest.h
+    EnumTest.h
     ErrorTest.h
     EventTest.h
     FileIOTest.h
@@ -26,6 +27,7 @@ set(source
     DirectoryModelTest.cpp
     DirectoryWatcherTest.cpp
     DrivesModelTest.cpp
+    EnumTest.cpp
     ErrorTest.cpp
     EventTest.cpp
     FileIOTest.cpp

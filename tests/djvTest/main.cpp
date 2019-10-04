@@ -34,6 +34,7 @@
 #include <djvCoreTest/DirectoryModelTest.h>
 #include <djvCoreTest/DirectoryWatcherTest.h>
 #include <djvCoreTest/DrivesModelTest.h>
+#include <djvCoreTest/EnumTest.h>
 #include <djvCoreTest/ErrorTest.h>
 #include <djvCoreTest/EventTest.h>
 #include <djvCoreTest/FileIOTest.h>
@@ -73,6 +74,7 @@ int main(int argc, char ** argv)
         (new CoreTest::DirectoryModelTest(context))->run(args);
         (new CoreTest::DirectoryWatcherTest(context))->run(args);
         (new CoreTest::DrivesModelTest(context))->run(args);
+        (new CoreTest::EnumTest(context))->run(args);
         (new CoreTest::ErrorTest(context))->run(args);
         (new CoreTest::EventTest(context))->run(args);
         (new CoreTest::FrameTest(context))->run(args);

@@ -27,51 +27,21 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvCoreTest/FileInfoTest.h>
+#pragma once
 
-#include <djvCore/FileInfo.h>
+#include <djvTestLib/Test.h>
 
 namespace djv
 {
-    using namespace Core;
-
     namespace CoreTest
     {
-        FileInfoTest::FileInfoTest(const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::CoreTest::FileInfoTest", context)
-        {}
-        
-        void FileInfoTest::run(const std::vector<std::string>& args)
+        class EnumTest : public Test::ITest
         {
-            _enum();
-        }
-
-        void FileInfoTest::_enum()
-        {
-            for (auto i : FileSystem::getFileTypeEnums())
-            {
-                std::stringstream ss;
-                ss << "File type string: " << i;
-                _print(ss.str());
-            }
-            for (auto i :
-                {
-                    FileSystem::FilePermissions::Read,
-                    FileSystem::FilePermissions::Write,
-                    FileSystem::FilePermissions::Exec
-                })
-            {
-                std::stringstream ss;
-                ss << "File permissions string: " << FileSystem::getFilePermissionsLabel(static_cast<int>(i));
-                _print(ss.str());
-            }
-            for (auto i : FileSystem::getDirectoryListSortEnums())
-            {
-                std::stringstream ss;
-                ss << "Directory list sort string: " << i;
-                _print(ss.str());
-            }
-        }
+        public:
+            EnumTest(const std::shared_ptr<Core::Context>&);
+            
+            void run(const std::vector<std::string>&) override;
+        };
         
     } // namespace CoreTest
 } // namespace djv

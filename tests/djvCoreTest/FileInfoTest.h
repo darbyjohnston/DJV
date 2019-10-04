@@ -41,6 +41,9 @@ namespace djv
             FileInfoTest(const std::shared_ptr<Core::Context>&);
             
             void run(const std::vector<std::string>&) override;
+
+        private:
+            void _enum();
         };
         
     } // namespace CoreTest
