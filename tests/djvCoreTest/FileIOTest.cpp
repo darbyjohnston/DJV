@@ -31,6 +31,7 @@
 
 #include <djvCore/FileIO.h>
 
+#include <iostream>
 #include <sstream>
 
 namespace djv
@@ -286,6 +287,8 @@ namespace djv
                     DJV_ASSERT(a == _a);
                     io.setEndianConversion(true);
                     io.readU32(&_b);
+                    std::cout << "a: " << _a << " / " << a << std::endl;
+                    std::cout << "b: " << _b << " / " << b << std::endl;
                     DJV_ASSERT(a == _b);
                 }
                 catch (const std::exception& e)

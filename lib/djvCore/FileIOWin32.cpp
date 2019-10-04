@@ -345,14 +345,14 @@ namespace djv
 
             void FileIO::write(const void * in, size_t size, size_t wordSize)
             {
-                uint8_t * p = (uint8_t *)in;
+                const uint8_t* inP = reinterpret_cast<const uint8_t*>(in);
 
                 std::vector<uint8_t> tmp;
                 if (_endianConversion && wordSize > 1)
                 {
                     tmp.resize(size * wordSize);
                     p = tmp.data();
-                    Memory::endian(in, p, size, wordSize);
+                    Memory::endian(in, tmp.data(), size, wordSize);
                 }
 
                 /*DWORD n = 0;

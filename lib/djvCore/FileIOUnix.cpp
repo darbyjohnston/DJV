@@ -324,6 +324,10 @@ namespace djv
                     {
                         throw Error(getErrorMessage(ErrorType::Read, _fileName));
                     }
+                    if (_endianConversion && wordSize > 1)
+                    {
+                        Memory::endian(in, size, wordSize);
+                    }
 #endif // DJV_MMAP
                     break;
                 }
