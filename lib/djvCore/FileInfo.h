@@ -129,8 +129,6 @@ namespace djv
                 void setPath(const Path& path, bool stat = true);
                 void setPath(const Path& path, FileType fileType, bool stat = true);
 
-                ///@}
-
                 //! Get the file name.
                 //! \param frame Specify a frame number or -1 for the entire sequence.
                 //! \param path Include the path in the file name.
@@ -138,6 +136,8 @@ namespace djv
 
                 //! Get whether this file exists.
                 bool doesExist() const;
+
+                ///@}
 
                 //! \name File Information
                 ///@{

@@ -44,6 +44,14 @@ namespace djv
 
         private:
             void _enum();
+            void _path();
+            void _info();
+            void _sequences();
+            void _util();
+            void _operators();
+            void _serialize();
+
+            std::string _fileName;
         };
         
     } // namespace CoreTest

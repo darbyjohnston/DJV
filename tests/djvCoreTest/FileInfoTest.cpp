@@ -29,6 +29,7 @@
 
 #include <djvCoreTest/FileInfoTest.h>
 
+#include <djvCore/FileIO.h>
 #include <djvCore/FileInfo.h>
 
 namespace djv
@@ -38,12 +39,19 @@ namespace djv
     namespace CoreTest
     {
         FileInfoTest::FileInfoTest(const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::CoreTest::FileInfoTest", context)
+            ITest("djv::CoreTest::FileInfoTest", context),
+            _fileName("FileInfoTest")
         {}
         
         void FileInfoTest::run(const std::vector<std::string>& args)
         {
             _enum();
+            _path();
+            _info();
+            _sequences();
+            _util();
+            _operators();
+            _serialize();
         }
 
         void FileInfoTest::_enum()
@@ -71,6 +79,42 @@ namespace djv
                 ss << "Directory list sort string: " << i;
                 _print(ss.str());
             }
+        }
+
+        void FileInfoTest::_path()
+        {
+            {
+                FileSystem::FileIO io;
+                io.open(_fileName, FileSystem::FileIO::Mode::Write);
+                io.close();
+                FileSystem::FileInfo fileInfo;
+                fileInfo = _fileName;
+            }
+        }
+
+        void FileInfoTest::_info()
+        {
+
+        }
+
+        void FileInfoTest::_sequences()
+        {
+
+        }
+
+        void FileInfoTest::_util()
+        {
+
+        }
+
+        void FileInfoTest::_operators()
+        {
+
+        }
+
+        void FileInfoTest::_serialize()
+        {
+
         }
         
     } // namespace CoreTest
