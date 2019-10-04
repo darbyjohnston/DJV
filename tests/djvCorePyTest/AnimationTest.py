@@ -19,24 +19,27 @@ class AnimationTest(unittest.TestCase):
         self.app.exit()
 
     def test_Animation(self):
-        self.app = c.Application.create(sys.argv)
-        a = d.Animation.Animation.create(self.app)
-        self.assertTrue(a != None)
-        self.assertEqual(a.getType(), d.Animation.Type.Linear)
-        a.setType(d.Animation.Type.Sine)
-        self.assertEqual(a.getType(), d.Animation.Type.Sine)
-        self.assertFalse(a.isRepeating())
-        a.setRepeating(True)
-        self.assertTrue(a.isRepeating())
-        a.setRepeating(False)
-        self.assertFalse(a.isActive())
-        a.start(
-            0.0,
-            1.0,
-            timedelta(seconds=1),
-            self.animationValue,
-            self.animationFinished)
-        self.app.run()
+        for i in [
+            d.Animation.Type.Linear,
+            d.Animation.Type.EaseIn,
+            d.Animation.Type.EaseOut,
+            d.Animation.Type.SmoothStep,
+            d.Animation.Type.Sine]:
+            self.app = c.Application.create(sys.argv)
+            a = d.Animation.Animation.create(self.app)
+            self.assertFalse(a.isActive())
+            self.assertFalse(a.isRepeating())
+            a.setType(i)
+            a.setRepeating(True)
+            self.assertEqual(a.getType(), i)
+            self.assertTrue(a.isRepeating())
+            a.start(
+                0.0,
+                1.0,
+                timedelta(seconds=1),
+                self.animationValue,
+                self.animationFinished)
+            self.app.run()
 
 if __name__ == '__main__':
     unittest.main()

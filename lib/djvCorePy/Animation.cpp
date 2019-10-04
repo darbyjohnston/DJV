@@ -62,3 +62,4 @@ void wrapAnimation(pybind11::module& m)
         .def("start", &Animation::Animation::start)
         .def("stop", &Animation::Animation::stop);
 }
+

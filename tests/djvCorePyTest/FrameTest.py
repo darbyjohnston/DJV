@@ -4,11 +4,11 @@ import unittest
 
 class FrameTest(unittest.TestCase):
 
-    def test_Values(self):
-        print("Invalid frame =", f.invalid)
-        print("Invalid range =", f.invalidRange.min, f.invalidRange.max)
+    def test_values(self):
+        print("Invalid frame: ", f.invalid)
+        print("Invalid range: ", f.invalidRange.min, f.invalidRange.max)
 
-    def test_Range(self):
+    def test_range(self):
         r = f.Range()
         self.assertEqual(r.min, 0)
         self.assertEqual(r.max, 0)
@@ -29,7 +29,7 @@ class FrameTest(unittest.TestCase):
         self.assertEqual(r.min, 0)
         self.assertEqual(r.max, 100)
 
-    def test_Sequence(self):
+    def test_sequence(self):
         self.assertFalse(f.Sequence().isValid())
         s = f.Sequence(f.Range(10, 1))
         self.assertEqual(len(s.ranges), 1)
@@ -42,14 +42,14 @@ class FrameTest(unittest.TestCase):
         self.assertEqual(s.ranges[0].min, 1)
         self.assertEqual(s.ranges[0].max, 10)
 
-    def test_Util(self):
+    def test_util(self):
         self.assertFalse(f.isValid(f.invalidRange))
         r = f.Range(10, 1)
         f.sort(r)
         self.assertEqual(r.min, 1)
         self.assertEqual(r.max, 10)
 
-    def test_Conversion(self):
+    def test_conversion(self):
         self.assertEqual(f.toFrames(f.Range(1, 3)), [1, 2, 3])
         self.assertEqual(f.toFrames(f.Sequence([f.Range(1, 3), f.Range(5, 6)])), [1, 2, 3, 5, 6])
         self.assertEqual(f.fromFrames([1, 2, 3]), f.Sequence(f.Range(1, 3)))

@@ -43,9 +43,9 @@ namespace djv
             void run(const std::vector<std::string>&) override;
 
         private:
-            void _ctors();
+            void _ctor();
             void _components();
-            void _utils();
+            void _util();
             void _comparison();
             void _operators();
             void _serialize();

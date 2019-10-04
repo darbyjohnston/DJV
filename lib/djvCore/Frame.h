@@ -80,6 +80,8 @@ namespace djv
                 //! Sort the sequence so that the frame numbers are in ascending order.
                 void sort();
                 
+                bool merge(const Range&);
+                
                 ///@}
 
                 bool operator == (const Sequence&) const;

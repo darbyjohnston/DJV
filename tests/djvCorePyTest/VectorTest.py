@@ -13,7 +13,7 @@ class BBoxTest(unittest.TestCase):
         self.assertTrue(v.x, 3)
         self.assertTrue(v.y, 4)
 
-    def test_BBox2f(self):
+    def test_vec2(self):
         v = d.vec2(1.0, 2.0)
         self.assertTrue(v.x, 1.0)
         self.assertTrue(v.y, 2.0)

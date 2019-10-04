@@ -7,8 +7,8 @@ class ContextTest(unittest.TestCase):
 
     def test_Context(self):
         c = d.Context.create(sys.argv)
-        print("Args =", c.getArgs())
-        print("Name =", c.getName())
+        print("args: ", c.getArgs())
+        print("name: ", c.getName())
     
 if __name__ == '__main__':
     unittest.main()

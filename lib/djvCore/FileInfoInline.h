@@ -124,13 +124,17 @@ namespace djv
                 return true;
             }
 
-            inline bool FileInfo::addToSequence(const FileInfo & value)
+            inline bool FileInfo::addToSequence(const FileInfo& value)
             {
                 if (isCompatible(value))
                 {
-                    for (const auto & range : value._sequence.ranges)
+                    for (const auto& range : value._sequence.ranges)
                     {
-                        _sequence.ranges.push_back(range);
+                        bool merged = false;
+                        if (!_sequence.merge(range))
+                        {
+                            _sequence.ranges.push_back(range);
+                        }
                     }
                     if (value._sequence.pad > _sequence.pad)
                     {

@@ -40,14 +40,15 @@ namespace djv
     {
         FileInfoTest::FileInfoTest(const std::shared_ptr<Core::Context>& context) :
             ITest("djv::CoreTest::FileInfoTest", context),
-            _fileName("FileInfoTest")
+            _fileName("FileInfoTest"),
+            _sequenceName("/tmp/render.1-100.exr")
         {}
         
         void FileInfoTest::run(const std::vector<std::string>& args)
         {
             _enum();
+            _ctor();
             _path();
-            _info();
             _sequences();
             _util();
             _operators();
@@ -81,40 +82,183 @@ namespace djv
             }
         }
 
+        void FileInfoTest::_ctor()
+        {
+            {
+                const FileSystem::FileInfo fileInfo;
+                DJV_ASSERT(fileInfo.isEmpty());
+            }
+            {
+                const FileSystem::Path path("/");
+                const FileSystem::FileInfo fileInfo(path, false);
+                DJV_ASSERT(path == fileInfo.getPath());
+                DJV_ASSERT(!fileInfo.isEmpty());
+            }
+            {
+                const FileSystem::Path path("/");
+                const FileSystem::FileType fileType = FileSystem::FileType::File;
+                const FileSystem::FileInfo fileInfo(path, fileType, false);
+                DJV_ASSERT(fileType == fileInfo.getType());
+            }
+            {
+                const std::string path = "/";
+                const FileSystem::FileInfo fileInfo(path, false);
+                DJV_ASSERT(path == fileInfo.getPath().get());
+            }
+        }
+
         void FileInfoTest::_path()
         {
             {
                 FileSystem::FileIO io;
                 io.open(_fileName, FileSystem::FileIO::Mode::Write);
                 io.close();
-                FileSystem::FileInfo fileInfo;
-                fileInfo = _fileName;
             }
-        }
-
-        void FileInfoTest::_info()
-        {
-
+            {
+                FileSystem::FileInfo fileInfo;
+                fileInfo.setPath(FileSystem::Path(_fileName));
+                DJV_ASSERT(fileInfo.doesExist());
+                DJV_ASSERT(FileSystem::FileType::File == fileInfo.getType());
+                {
+                    std::stringstream ss;
+                    ss << "Size: " << fileInfo.getSize();
+                    _print(ss.str());
+                }
+                {
+                    std::stringstream ss;
+                    ss << "User: " << fileInfo.getUser();
+                    _print(ss.str());
+                }
+                {
+                    std::stringstream ss;
+                    ss << "Permissions: " << fileInfo.getPermissions();
+                    _print(ss.str());
+                }
+                {
+                    std::stringstream ss;
+                    ss << "Time: " << fileInfo.getTime();
+                    _print(ss.str());
+                }
+            }
+            {
+                FileSystem::FileInfo fileInfo;
+                fileInfo.setPath(FileSystem::Path(_fileName), false);
+                fileInfo.stat();
+                DJV_ASSERT(FileSystem::FileType::File == fileInfo.getType());
+                {
+                    std::stringstream ss;
+                    ss << "Size: " << fileInfo.getSize();
+                    _print(ss.str());
+                }
+                {
+                    std::stringstream ss;
+                    ss << "User: " << fileInfo.getUser();
+                    _print(ss.str());
+                }
+                {
+                    std::stringstream ss;
+                    ss << "Permissions: " << fileInfo.getPermissions();
+                    _print(ss.str());
+                }
+                {
+                    std::stringstream ss;
+                    ss << "Time: " << fileInfo.getTime();
+                    _print(ss.str());
+                }
+            }
+            {
+                FileSystem::FileInfo fileInfo(_sequenceName);
+                DJV_ASSERT(_sequenceName == fileInfo.getFileName());
+                DJV_ASSERT("/tmp/render.1.exr" != fileInfo.getFileName(1));
+                fileInfo.evalSequence();
+                DJV_ASSERT("/tmp/render.1.exr" == fileInfo.getFileName(1));
+                DJV_ASSERT("render.1.exr" == fileInfo.getFileName(1, false));
+            }
         }
 
         void FileInfoTest::_sequences()
         {
-
+            {
+                FileSystem::FileInfo fileInfo(_sequenceName);
+                DJV_ASSERT(!fileInfo.isSequenceValid());
+                DJV_ASSERT(!fileInfo.isSequenceWildcard());
+                DJV_ASSERT(!fileInfo.isCompatible(fileInfo));
+                fileInfo.evalSequence();
+                Frame::Range range(1, 100);
+                fileInfo.setSequence(range);
+                DJV_ASSERT(Frame::Sequence(range) == fileInfo.getSequence());
+                DJV_ASSERT(fileInfo.isSequenceValid());
+                FileSystem::FileInfo fileInfo2(fileInfo.getFileName(101));
+                fileInfo2.evalSequence();
+                DJV_ASSERT(fileInfo.isCompatible(fileInfo2));
+                fileInfo.addToSequence(fileInfo2);
+                std::cout << fileInfo.getSequence() << std::endl;
+                DJV_ASSERT(Frame::Sequence(Frame::Range(1, 101)) == fileInfo.getSequence());
+            }
         }
 
         void FileInfoTest::_util()
         {
-
+            for (const auto& i : FileSystem::FileInfo::directoryList(FileSystem::Path(".")))
+            {
+                _print(i.getFileName(Frame::invalid, false));
+            }
+            {
+                const FileSystem::Path path = FileSystem::Path(".");
+                const std::vector<std::string> fileNames =
+                {
+                    "render.1.exr",
+                    "render.2.exr",
+                    "render.3.exr"
+                };
+                for (const auto& i : fileNames)
+                {
+                    FileSystem::FileIO io;
+                    io.open(i, FileSystem::FileIO::Mode::Write);
+                }
+                const FileSystem::FileInfo fileInfo = FileSystem::FileInfo::getFileSequence(
+                    FileSystem::Path(".", fileNames[0]),
+                    { ".exr" });
+                std::stringstream ss;
+                ss << "File sequence: " << fileInfo;
+                _print(ss.str());
+                DJV_ASSERT(fileInfo.getFileName(Frame::invalid, false) == "render.1-3.exr");
+            }
         }
 
         void FileInfoTest::_operators()
         {
-
+            {
+                const FileSystem::FileInfo fileInfo(_fileName);
+                DJV_ASSERT(fileInfo == fileInfo);
+                DJV_ASSERT(fileInfo != FileSystem::FileInfo());
+                DJV_ASSERT(fileInfo < FileSystem::FileInfo());
+            }
         }
 
         void FileInfoTest::_serialize()
         {
-
+            for (const auto i : FileSystem::getFileTypeEnums())
+            {
+                auto json = toJSON(i);
+                FileSystem::FileType j = FileSystem::FileType::First;
+                fromJSON(json, j);
+                DJV_ASSERT(i == j);
+            }
+            for (const auto i : FileSystem::getDirectoryListSortEnums())
+            {
+                auto json = toJSON(i);
+                FileSystem::DirectoryListSort j = FileSystem::DirectoryListSort::First;
+                fromJSON(json, j);
+                DJV_ASSERT(i == j);
+            }
+            {
+                const FileSystem::FileInfo fileInfo(_fileName);
+                auto json = toJSON(fileInfo);
+                FileSystem::FileInfo fileInfo2;
+                fromJSON(json, fileInfo2);
+                DJV_ASSERT(fileInfo == fileInfo2);
+            }
         }
         
     } // namespace CoreTest

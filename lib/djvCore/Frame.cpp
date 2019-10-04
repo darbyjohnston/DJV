@@ -78,6 +78,34 @@ namespace djv
                     ranges = tmp;
                 }
             }
+            
+            bool Sequence::merge(const Range& value)
+            {
+                bool out = false;
+                for (auto& i : ranges)
+                {
+                    if (i.intersects(value))
+                    {
+                        i.min = std::min(i.min, value.min);
+                        i.max = std::min(i.max, value.max);
+                        out = true;
+                        break;
+                    }
+                    if (value.max == i.min - 1)
+                    {
+                        i.min = value.min;
+                        out = true;
+                        break;
+                    }
+                    if (value.min == i.max + 1)
+                    {
+                        i.max = value.max;
+                        out = true;
+                        break;
+                    }
+                }
+                return out;
+            }
 
             void sort(Range & out)
             {
@@ -86,7 +114,7 @@ namespace djv
                 out.min = _min;
                 out.max = _max;
             }
-
+            
             Sequence fromFrames(const std::vector<Number> & frames)
             {
                 Sequence out;

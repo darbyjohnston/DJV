@@ -51,6 +51,7 @@ namespace djv
         {
             _io();
             _io2();
+            _io3();
             _endian();
             _temp();
         }
@@ -116,13 +117,12 @@ namespace djv
                 try
                 {
                     FileSystem::FileIO io;
-                    io.open(_fileName, FileSystem::FileIO::Mode::Read);
-                    FileSystem::FileIO io2 = std::move(io);
+                    io.open(_fileName, FileSystem::FileIO::Mode::ReadWrite);
                     char buf[String::cStringLength];
-                    FileSystem::FileIO::readWord(io2, buf);
+                    FileSystem::FileIO::readWord(io, buf);
                     _print(buf);
                     DJV_ASSERT(_text == buf);
-                    FileSystem::FileIO::readWord(io2, buf);
+                    FileSystem::FileIO::readWord(io, buf);
                     _print(buf);
                     DJV_ASSERT(_text2 == buf);
                 }
@@ -131,6 +131,52 @@ namespace djv
                     _print(e.what());
                 }
             }
+            {
+                try
+                {
+                    FileSystem::FileIO io;
+                    io.open(std::string(), FileSystem::FileIO::Mode::Read);
+                    DJV_ASSERT(false);
+                }
+                catch (const std::exception& e)
+                {
+                    _print(e.what());
+                }
+                try
+                {
+                    FileSystem::FileIO io;
+                    io.open(std::string(), FileSystem::FileIO::Mode::Write);
+                    DJV_ASSERT(false);
+                }
+                catch (const std::exception& e)
+                {
+                    _print(e.what());
+                }
+                try
+                {
+                    FileSystem::FileIO io;
+                    io.open(std::string(), FileSystem::FileIO::Mode::ReadWrite);
+                    DJV_ASSERT(false);
+                }
+                catch (const std::exception& e)
+                {
+                    _print(e.what());
+                }
+                try
+                {
+                    FileSystem::FileIO io;
+                    io.open(std::string(), FileSystem::FileIO::Mode::Append);
+                    DJV_ASSERT(false);
+                }
+                catch (const std::exception& e)
+                {
+                    _print(e.what());
+                }
+            }
+        }
+
+        void FileIOTest::_io2()
+        {
             {
                 try
                 {
@@ -165,7 +211,13 @@ namespace djv
             {
                 try
                 {
-                    FileSystem::FileIO::writeLines(_fileName, { _text, _text2 });
+                    FileSystem::FileIO::writeLines(
+                        _fileName,
+                        {
+                            _text,
+                            "# This is a comment",
+                            _text2
+                        });
                 }
                 catch (const std::exception& e)
                 {
@@ -181,7 +233,7 @@ namespace djv
                         _print(i);
                     }
                     DJV_ASSERT(_text == lines[0]);
-                    DJV_ASSERT(_text2 == lines[1]);
+                    DJV_ASSERT(_text2 == lines[2]);
                 }
                 catch (const std::exception& e)
                 {
@@ -189,17 +241,17 @@ namespace djv
                 }
             }
         }
-
-        void FileIOTest::_io2()
+        
+        void FileIOTest::_io3()
         {
             {
-                const int8_t   i8 = std::numeric_limits<int8_t>::max();
-                const uint8_t  u8 = std::numeric_limits<uint8_t>::max();
+                const int8_t   i8  = std::numeric_limits<int8_t>::max();
+                const uint8_t  u8  = std::numeric_limits<uint8_t>::max();
                 const int16_t  i16 = std::numeric_limits<int16_t>::max();
                 const uint16_t u16 = std::numeric_limits<uint16_t>::max();
                 const int32_t  i32 = std::numeric_limits<int32_t>::max();
                 const uint32_t u32 = std::numeric_limits<uint32_t>::max();
-                const float    f = std::numeric_limits<float>::max();
+                const float    f   = std::numeric_limits<float>::max();
                 try
                 {
                     FileSystem::FileIO io;

@@ -43,15 +43,15 @@ namespace djv
         
         void BBoxTest::run(const std::vector<std::string>& args)
         {
-            _ctors();
+            _ctor();
             _components();
-            _utils();
+            _util();
             _comparison();
             _operators();
             _serialize();
         }
 
-        void BBoxTest::_ctors()
+        void BBoxTest::_ctor()
         {
             {
                 BBox2i b;
@@ -185,7 +185,7 @@ namespace djv
             }
         }
 
-        void BBoxTest::_utils()
+        void BBoxTest::_util()
         {
             {
                 BBox2i a(0, 1, 2, 3);

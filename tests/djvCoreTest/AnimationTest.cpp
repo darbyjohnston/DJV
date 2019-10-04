@@ -57,7 +57,6 @@ namespace djv
                     _print(ss.str());
                 }
             }
-
             if (auto context = getContext().lock())
             {
                 for (auto i : Animation::getTypeEnums())
