@@ -28,6 +28,7 @@
 //------------------------------------------------------------------------------
 
 #include <djvCoreTest/AnimationTest.h>
+#include <djvCoreTest/BBoxTest.h>
 #include <djvCoreTest/CacheTest.h>
 #include <djvCoreTest/EnumTest.h>
 #include <djvCoreTest/FileIOTest.h>
@@ -60,6 +61,7 @@ int main(int argc, char ** argv)
         auto context = Core::Context::create(args);
 
         (new CoreTest::AnimationTest(context))->run(args);
+        (new CoreTest::BBoxTest(context))->run(args);
         (new CoreTest::CacheTest(context))->run(args);
         (new CoreTest::EnumTest(context))->run(args);
         (new CoreTest::FrameTest(context))->run(args);

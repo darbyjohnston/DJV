@@ -61,17 +61,17 @@ namespace djv
                 T w() const;
                 T h() const;
 
-                ///@}
-
-                //! \name Utilities
-                ///@{
-
                 constexpr bool isValid() const;
                 glm::tvec2<T, P> getSize() const;
                 constexpr glm::tvec2<T, P> getCenter() const;
                 T getArea() const;
                 float getAspect() const;
                 void zero();
+
+                ///@}
+
+                //! \name Utilities
+                ///@{
 
                 constexpr bool contains(const tBBox2<T, P> &) const;
                 constexpr bool contains(const glm::tvec2<T, P> &) const;
@@ -115,15 +115,15 @@ namespace djv
                 T h() const;
                 T d() const;
 
-                ///@}
-
-                //! \name Box Utilities
-                ///@{
-
                 constexpr bool isValid() const;
                 glm::tvec3<T, P> getSize() const;
                 constexpr glm::tvec3<T, P> getCenter() const;
                 void zero();
+
+                ///@}
+
+                //! \name Box Utilities
+                ///@{
 
                 constexpr bool contains(const tBBox3<T, P> &) const;
                 constexpr bool contains(const glm::tvec3<T, P> &) const;

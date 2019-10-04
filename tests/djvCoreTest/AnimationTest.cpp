@@ -30,6 +30,7 @@
 #include <djvCoreTest/AnimationTest.h>
 
 #include <djvCore/Animation.h>
+#include <djvCore/Context.h>
 
 namespace djv
 {
@@ -79,6 +80,7 @@ namespace djv
                             _print(ss.str());
                         });
                     DJV_ASSERT(animation->isActive());
+                    context->tick(0.F);
                     animation->stop();
                     DJV_ASSERT(!animation->isActive());
                 }
