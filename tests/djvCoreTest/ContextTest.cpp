@@ -27,60 +27,54 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
+#include <djvCoreTest/ContextTest.h>
+
+#include <djvCore/Context.h>
+#include <djvCore/ResourceSystem.h>
+#include <djvCore/String.h>
+
 namespace djv
 {
-    namespace Core
+    using namespace Core;
+
+    namespace CoreTest
     {
-        inline Context::Context()
+        ContextTest::ContextTest(const std::shared_ptr<Core::Context>& context) :
+            ITest("djv::CoreTest::ContextTest", context)
         {}
-
-        inline const std::vector<std::string> & Context::getArgs() const
+        
+        void ContextTest::run(const std::vector<std::string>& args)
         {
-            return _args;
-        }
-           
-        inline const std::string & Context::getName() const
-        {
-            return _name;
-        }
-
-        inline std::vector<std::shared_ptr<ISystemBase> > Context::getSystems() const
-        {
-            return _systems;
-        }
-
-        template<typename T>
-        inline std::vector<std::shared_ptr<T> > Context::getSystemsT() const
-        {
-            std::vector<std::shared_ptr<T> > out;
-            for (const auto & i : _systems)
+            if (auto context = getContext().lock())
             {
-                if (auto system = std::dynamic_pointer_cast<T>(i))
                 {
-                    out.push_back(system);
+                    std::stringstream ss;
+                    ss << "args: " << String::join(context->getArgs(), ", ");
+                    _print(ss.str());
+                }
+                {
+                    std::stringstream ss;
+                    ss << "name: " << context->getName();
+                    _print(ss.str());
+                }
+                for (const auto& i : context->getSystems())
+                {
+                    std::stringstream ss;
+                    ss << "system: " << i->getSystemName();
+                    _print(ss.str());
+                }
+                auto resourceSystem = context->getSystemT<ResourceSystem>();
+                DJV_ASSERT(resourceSystem);
+                context->tick(0.f);
+                context->tick(0.f);
+                {
+                    std::stringstream ss;
+                    ss << "fps averge: " << context->getFPSAverage();
+                    _print(ss.str());
                 }
             }
-            return out;
         }
-
-        template<typename T>
-        inline std::shared_ptr<T> Context::getSystemT() const
-        {
-            for (const auto & i : _systems)
-            {
-                if (auto system = std::dynamic_pointer_cast<T>(i))
-                {
-                    return system;
-                }
-            }
-            return nullptr;
-        }
-
-        inline float Context::getFPSAverage() const
-        {
-            return _fpsAverage;
-        }
-
-    } // namespace Core
+        
+    } // namespace CoreTest
 } // namespace djv
 

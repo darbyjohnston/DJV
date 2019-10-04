@@ -76,9 +76,6 @@ namespace djv
             //! Get the context name.
             const std::string & getName() const;
 
-            //! Get the average FPS.
-            float getFpsAverage() const;
-
             //! \name Systems
             ///@{
 

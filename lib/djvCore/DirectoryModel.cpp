@@ -114,14 +114,6 @@ namespace djv
                 return out;
             }
 
-            std::shared_ptr<DirectoryModel> DirectoryModel::create(const Path & path, const std::shared_ptr<Context>& context)
-            {
-                auto out = std::shared_ptr<DirectoryModel>(new DirectoryModel);
-                out->_init(context);
-                out->setPath(path);
-                return out;
-            }
-
             std::shared_ptr<IValueSubject<Path> > DirectoryModel::observePath() const
             {
                 return _p->path;

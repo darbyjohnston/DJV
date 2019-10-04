@@ -27,60 +27,22 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
+#pragma once
+
+#include <djvTestLib/Test.h>
+
 namespace djv
 {
-    namespace Core
+    namespace CoreTest
     {
-        inline Context::Context()
-        {}
-
-        inline const std::vector<std::string> & Context::getArgs() const
+        class ContextTest : public Test::ITest
         {
-            return _args;
-        }
-           
-        inline const std::string & Context::getName() const
-        {
-            return _name;
-        }
-
-        inline std::vector<std::shared_ptr<ISystemBase> > Context::getSystems() const
-        {
-            return _systems;
-        }
-
-        template<typename T>
-        inline std::vector<std::shared_ptr<T> > Context::getSystemsT() const
-        {
-            std::vector<std::shared_ptr<T> > out;
-            for (const auto & i : _systems)
-            {
-                if (auto system = std::dynamic_pointer_cast<T>(i))
-                {
-                    out.push_back(system);
-                }
-            }
-            return out;
-        }
-
-        template<typename T>
-        inline std::shared_ptr<T> Context::getSystemT() const
-        {
-            for (const auto & i : _systems)
-            {
-                if (auto system = std::dynamic_pointer_cast<T>(i))
-                {
-                    return system;
-                }
-            }
-            return nullptr;
-        }
-
-        inline float Context::getFPSAverage() const
-        {
-            return _fpsAverage;
-        }
-
-    } // namespace Core
+        public:
+            ContextTest(const std::shared_ptr<Core::Context>&);
+            
+            void run(const std::vector<std::string>&) override;
+        };
+        
+    } // namespace CoreTest
 } // namespace djv
 

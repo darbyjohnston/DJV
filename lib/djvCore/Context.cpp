@@ -163,11 +163,6 @@ namespace djv
             }
         }
 
-        float Context::getFPSAverage() const
-        {
-            return _fpsAverage;
-        }
-
         void Context::_addSystem(const std::shared_ptr<ISystemBase> & system)
         {
             _systems.push_back(system);

@@ -2,6 +2,10 @@ set(header
     AnimationTest.h
     BBoxTest.h
 	CacheTest.h
+	ContextTest.h
+    DirectoryModelTest.h
+    DirectoryWatcherTest.h
+    DrivesModelTest.h
     EnumTest.h
     FileIOTest.h
 	FrameTest.h
@@ -16,6 +20,10 @@ set(source
     AnimationTest.cpp
     BBoxTest.cpp
 	CacheTest.cpp
+	ContextTest.cpp
+    DirectoryModelTest.cpp
+    DirectoryWatcherTest.cpp
+    DrivesModelTest.cpp
     EnumTest.cpp
     FileIOTest.cpp
 	FrameTest.cpp

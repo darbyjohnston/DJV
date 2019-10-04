@@ -30,6 +30,10 @@
 #include <djvCoreTest/AnimationTest.h>
 #include <djvCoreTest/BBoxTest.h>
 #include <djvCoreTest/CacheTest.h>
+#include <djvCoreTest/ContextTest.h>
+#include <djvCoreTest/DirectoryModelTest.h>
+#include <djvCoreTest/DirectoryWatcherTest.h>
+#include <djvCoreTest/DrivesModelTest.h>
 #include <djvCoreTest/EnumTest.h>
 #include <djvCoreTest/FileIOTest.h>
 #include <djvCoreTest/FrameTest.h>
@@ -63,6 +67,10 @@ int main(int argc, char ** argv)
         (new CoreTest::AnimationTest(context))->run(args);
         (new CoreTest::BBoxTest(context))->run(args);
         (new CoreTest::CacheTest(context))->run(args);
+        (new CoreTest::ContextTest(context))->run(args);
+        (new CoreTest::DirectoryModelTest(context))->run(args);
+        (new CoreTest::DirectoryWatcherTest(context))->run(args);
+        (new CoreTest::DrivesModelTest(context))->run(args);
         (new CoreTest::EnumTest(context))->run(args);
         (new CoreTest::FrameTest(context))->run(args);
         (new CoreTest::FileIOTest(context))->run(args);

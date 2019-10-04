@@ -27,60 +27,39 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
+#include <djvCoreTest/DirectoryWatcherTest.h>
+
+#include <djvCore/DirectoryWatcher.h>
+#include <djvCore/Path.h>
+
 namespace djv
 {
-    namespace Core
+    using namespace Core;
+
+    namespace CoreTest
     {
-        inline Context::Context()
+        DirectoryWatcherTest::DirectoryWatcherTest(const std::shared_ptr<Core::Context>& context) :
+            ITest("djv::CoreTest::DirectoryWatcherTest", context)
         {}
-
-        inline const std::vector<std::string> & Context::getArgs() const
+        
+        void DirectoryWatcherTest::run(const std::vector<std::string>& args)
         {
-            return _args;
-        }
-           
-        inline const std::string & Context::getName() const
-        {
-            return _name;
-        }
-
-        inline std::vector<std::shared_ptr<ISystemBase> > Context::getSystems() const
-        {
-            return _systems;
-        }
-
-        template<typename T>
-        inline std::vector<std::shared_ptr<T> > Context::getSystemsT() const
-        {
-            std::vector<std::shared_ptr<T> > out;
-            for (const auto & i : _systems)
+            if (auto context = getContext().lock())
             {
-                if (auto system = std::dynamic_pointer_cast<T>(i))
-                {
-                    out.push_back(system);
-                }
+                auto watcher = FileSystem::DirectoryWatcher::create(context);
+                const FileSystem::Path path(".");
+                watcher->setPath(path);
+                DJV_ASSERT(path == watcher->getPath());
+                watcher->setCallback(
+                    [this]
+                    {
+                        std::stringstream ss;
+                        ss << "changed!";
+                        _print(ss.str());
+                    });
             }
-            return out;
         }
-
-        template<typename T>
-        inline std::shared_ptr<T> Context::getSystemT() const
-        {
-            for (const auto & i : _systems)
-            {
-                if (auto system = std::dynamic_pointer_cast<T>(i))
-                {
-                    return system;
-                }
-            }
-            return nullptr;
-        }
-
-        inline float Context::getFPSAverage() const
-        {
-            return _fpsAverage;
-        }
-
-    } // namespace Core
+        
+    } // namespace CoreTest
 } // namespace djv
 
