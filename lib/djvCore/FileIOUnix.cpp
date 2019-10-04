@@ -309,7 +309,7 @@ namespace djv
                     {
                         throw Error(getErrorMessage(ErrorType::ReadMemoryMap, _fileName));
                     }
-                    if (_endian && wordSize > 1)
+                    if (_endianConversion && wordSize > 1)
                     {
                         Memory::endian(_mmapP, in, size, wordSize);
                     }
@@ -334,7 +334,7 @@ namespace djv
                     {
                         throw Error(getErrorMessage(ErrorType::Read, _fileName));
                     }
-                    if (_endian && wordSize > 1)
+                    if (_endianConversion && wordSize > 1)
                     {
                         Memory::endian(in, size, wordSize);
                     }
@@ -349,7 +349,7 @@ namespace djv
             {
                 const uint8_t* inP = reinterpret_cast<const uint8_t*>(in);
                 std::vector<uint8_t> tmp;
-                if (_endian && wordSize > 1)
+                if (_endianConversion && wordSize > 1)
                 {
                     tmp.resize(size * wordSize);
                     inP = tmp.data();
@@ -361,21 +361,6 @@ namespace djv
                 }
                 _pos += size * wordSize;
                 _size = std::max(_pos, _size);
-            }
-
-            void FileIO::setPos(size_t in)
-            {
-                _setPos(in, false);
-            }
-
-            void FileIO::seek(size_t in)
-            {
-                _setPos(in, true);
-            }
-
-            void FileIO::setEndian(bool in)
-            {
-                _endian = in;
             }
 
             void FileIO::_setPos(size_t in, bool seek)

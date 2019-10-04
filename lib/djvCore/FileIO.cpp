@@ -38,12 +38,12 @@ namespace djv
         namespace FileSystem
         {
             FileIO::FileIO(FileIO && other) :
-                _f(other._f),
                 _fileName(std::move(other._fileName)),
                 _mode(other._mode),
                 _pos(other._pos),
                 _size(other._size),
-                _endian(other._endian)
+                _endianConversion(other._endianConversion),
+                _f(other._f)
 #if defined(DJV_MMAP)
                 ,
                 _mmap(other._mmap),
@@ -58,16 +58,31 @@ namespace djv
                 close();
             }
 
+            void FileIO::setPos(size_t in)
+            {
+                _setPos(in, false);
+            }
+
+            void FileIO::seek(size_t in)
+            {
+                _setPos(in, true);
+            }
+
+            void FileIO::setEndianConversion(bool in)
+            {
+                _endianConversion = in;
+            }
+
             FileIO & FileIO::operator = (FileIO && other)
             {
                 if (this != &other)
                 {
-                    _f = other._f;
                     _fileName = std::move(other._fileName);
                     _mode = other._mode;
                     _pos = other._pos;
                     _size = other._size;
-                    _endian = other._endian;
+                    _endianConversion = other._endianConversion;
+                    _f = other._f;
 #if defined(DJV_MMAP)
                     _mmap = other._mmap;
                     _mmapStart = other._mmapStart;

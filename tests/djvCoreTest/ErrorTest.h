@@ -33,13 +33,12 @@
 
 namespace djv
 {
-    //! This namespace provides confidence tests for the Core library.
     namespace CoreTest
     {
-        class EnumTest : public Test::ITest
+        class ErrorTest : public Test::ITest
         {
         public:
-            EnumTest(const std::shared_ptr<Core::Context>&);
+            ErrorTest(const std::shared_ptr<Core::Context>&);
             
             void run(const std::vector<std::string>&) override;
         };

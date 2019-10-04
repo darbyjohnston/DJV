@@ -41,6 +41,16 @@ namespace djv
             FileIOTest(const std::shared_ptr<Core::Context>&);
             
             void run(const std::vector<std::string>&) override;
+
+        private:
+            void _io();
+            void _io2();
+            void _endian();
+            void _temp();
+
+            std::string _fileName;
+            std::string _text;
+            std::string _text2;
         };
         
     } // namespace CoreTest

@@ -252,7 +252,7 @@ namespace djv
                                     outP,
                                     imageInfo.size.w,
                                     bytes,
-                                    io.getEndian()))
+                                    io.hasEndianConversion()))
                                 {
                                     throw FileSystem::Error(DJV_TEXT("Read error."));
                                 }
@@ -339,7 +339,7 @@ namespace djv
 
                 Info Read::_open(const std::string & fileName, FileSystem::FileIO& io)
                 {
-                    io.setEndian(Memory::getEndian() != Memory::Endian::MSB);
+                    io.setEndianConversion(Memory::getEndian() != Memory::Endian::MSB);
                     io.open(fileName, FileSystem::FileIO::Mode::Read);
                     Image::Info imageInfo;
                     Header().read(io, imageInfo, _compression);

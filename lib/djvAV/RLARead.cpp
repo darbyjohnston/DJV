@@ -244,13 +244,13 @@ namespace djv
                 Info Read::_open(const std::string & fileName, FileSystem::FileIO& io)
                 {
                     // Open the file.
-                    io.setEndian(Memory::getEndian() != Memory::Endian::MSB);
+                    io.setEndianConversion(Memory::getEndian() != Memory::Endian::MSB);
                     io.open(fileName, FileSystem::FileIO::Mode::Read);
 
                     // Read the header.
                     Header header;
                     io.read(&header, sizeof(Header));
-                    if (io.getEndian())
+                    if (io.hasEndianConversion())
                     {
                         endian(&header);
                     }

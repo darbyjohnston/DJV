@@ -39,14 +39,13 @@ namespace djv
             inline bool FileIO::isOpen() const
             {
 #if defined(DJV_PLATFORM_WINDOWS)
-                return
-                    _f != INVALID_HANDLE_VALUE &&
-                    (_size ? _pos < _size : false);
+#if defined(DJV_MMAP)
+                return _f != INVALID_HANDLE_VALUE;
+#else // DJV_MMAP
+                return _f != nullptr;
+#endif // DJV_MMAP
 #else // DJV_PLATFORM_WINDOWS
-                return
-//                    _f != -1 &&
-                    _f &&
-                    (_size ? _pos < _size : false);
+                return _f != -1;
 #endif //DJV_PLATFORM_WINDOWS
             }
 
@@ -91,9 +90,9 @@ namespace djv
             }
 #endif // DJV_MMAP
 
-            inline bool FileIO::getEndian() const
+            inline bool FileIO::hasEndianConversion() const
             {
-                return _endian;
+                return _endianConversion;
             }
 
             inline void FileIO::read8(int8_t * value, size_t size)

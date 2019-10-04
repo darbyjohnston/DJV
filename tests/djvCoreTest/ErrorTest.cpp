@@ -27,29 +27,38 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvCoreTest/ErrorTest.h>
 
-#include <djvTestLib/Test.h>
+#include <djvCore/Error.h>
+
+#include <sstream>
+#include <stdexcept>
 
 namespace djv
 {
+    using namespace Core;
+
     namespace CoreTest
     {
-        class BBoxTest : public Test::ITest
+        ErrorTest::ErrorTest(const std::shared_ptr<Core::Context>& context) :
+            ITest("djv::CoreTest::ErrorTest", context)
+        {}
+        
+        void ErrorTest::run(const std::vector<std::string>& args)
         {
-        public:
-            BBoxTest(const std::shared_ptr<Core::Context>&);
-            
-            void run(const std::vector<std::string>&) override;
-
-        private:
-            void _ctors();
-            void _components();
-            void _utils();
-            void _comparison();
-            void _operators();
-            void _serialize();
-        };
+            {
+                std::stringstream ss;
+                ss << Error::format(std::invalid_argument("This is an error message."));
+                _print(ss.str());
+            }
+#if defined(DJV_PLATFORM_WINDOWS)
+            {
+                std::stringstream ss;
+                ss << "The last error: " << Error::getLastError();
+                _print(ss.str());
+            }
+#endif // DJV_PLATFORM_WINDOWS
+        }
         
     } // namespace CoreTest
 } // namespace djv

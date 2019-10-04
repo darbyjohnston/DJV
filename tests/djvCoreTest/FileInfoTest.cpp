@@ -27,29 +27,23 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvCoreTest/FileInfoTest.h>
 
-#include <djvTestLib/Test.h>
+#include <djvCore/FileInfo.h>
 
 namespace djv
 {
+    using namespace Core;
+
     namespace CoreTest
     {
-        class BBoxTest : public Test::ITest
+        FileInfoTest::FileInfoTest(const std::shared_ptr<Core::Context>& context) :
+            ITest("djv::CoreTest::FileInfoTest", context)
+        {}
+        
+        void FileInfoTest::run(const std::vector<std::string>& args)
         {
-        public:
-            BBoxTest(const std::shared_ptr<Core::Context>&);
-            
-            void run(const std::vector<std::string>&) override;
-
-        private:
-            void _ctors();
-            void _components();
-            void _utils();
-            void _comparison();
-            void _operators();
-            void _serialize();
-        };
+        }
         
     } // namespace CoreTest
 } // namespace djv

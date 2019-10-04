@@ -27,61 +27,29 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvCoreTest/EnumTest.h>
+#pragma once
 
-#include <djvCore/Memory.h>
+#include <djvTestLib/Test.h>
 
 namespace djv
 {
-    using namespace Core;
-
     namespace CoreTest
     {
-        EnumTest::EnumTest(const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::CoreTest::EnumTest", context)
-        {}
-        
-        void EnumTest::run(const std::vector<std::string>& args)
+        class EventTest : public Test::ITest
         {
-            {
-                for (auto i : Memory::getEndianEnums())
-                {
-                    std::stringstream ss;
-                    ss << "Endian string: " << i;
-                    _print(ss.str());
-                }
-            }
-            {
-                std::stringstream ss;
-                ss << Memory::Endian::MSB;
-                Memory::Endian endian = Memory::Endian::LSB;
-                ss >> endian;
-                DJV_ASSERT(Memory::Endian::MSB == endian);
-            }
-            {
-                std::stringstream ss;
-                ss << Memory::Endian::MSB << " " << Memory::Endian::LSB;
-                Memory::Endian endian = Memory::Endian::LSB;
-                ss >> endian;
-                DJV_ASSERT(Memory::Endian::MSB == endian);
-                ss >> endian;
-                DJV_ASSERT(Memory::Endian::LSB == endian);
-            }
-            {
-                std::stringstream ss;
-                ss << "None";
-                try
-                {
-                    Memory::Endian endian = Memory::Endian::LSB;
-                    ss >> endian;
-                    DJV_ASSERT(true);
-                }
-                catch (const std::exception & e)
-                {
-                    _print(e.what());
-                }
-            }
-        }
+        public:
+            EventTest(const std::shared_ptr<Core::Context>&);
+            
+            void run(const std::vector<std::string>&) override;
+
+        private:
+            void _enum();
+            void _event();
+            void _familyEvent();
+            void _coreEvent();
+            void _renderEvent();
+            void _inputEvent();
+        };
         
     } // namespace CoreTest
 } // namespace djv

@@ -43,6 +43,34 @@ namespace djv
         
         void MemoryTest::run(const std::vector<std::string>& args)
         {
+            for (auto i : Memory::getEndianEnums())
+            {
+                std::stringstream ss;
+                ss << "Endian string: " << i;
+                _print(ss.str());
+            }
+            for (auto i : Memory::getEndianEnums())
+            {
+                std::stringstream ss;
+                ss << i;
+                Memory::Endian j = Memory::Endian::First;
+                ss >> j;
+                DJV_ASSERT(i == j);
+            }
+            {
+                std::stringstream ss;
+                ss << "None";
+                try
+                {
+                    Memory::Endian endian = Memory::Endian::First;
+                    ss >> endian;
+                    DJV_ASSERT(true);
+                }
+                catch (const std::exception& e)
+                {
+                    _print(e.what());
+                }
+            }
             {
                 std::stringstream ss;
                 ss << "Current endian: " << Memory::getEndian();

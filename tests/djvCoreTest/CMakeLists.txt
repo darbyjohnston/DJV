@@ -6,8 +6,10 @@ set(header
     DirectoryModelTest.h
     DirectoryWatcherTest.h
     DrivesModelTest.h
-    EnumTest.h
+    ErrorTest.h
+    EventTest.h
     FileIOTest.h
+    FileInfoTest.h
 	FrameTest.h
     MathTest.h
     MemoryTest.h
@@ -24,8 +26,10 @@ set(source
     DirectoryModelTest.cpp
     DirectoryWatcherTest.cpp
     DrivesModelTest.cpp
-    EnumTest.cpp
+    ErrorTest.cpp
+    EventTest.cpp
     FileIOTest.cpp
+    FileInfoTest.cpp
 	FrameTest.cpp
     MathTest.cpp
     MemoryTest.cpp

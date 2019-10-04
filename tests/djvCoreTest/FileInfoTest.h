@@ -35,20 +35,12 @@ namespace djv
 {
     namespace CoreTest
     {
-        class BBoxTest : public Test::ITest
+        class FileInfoTest : public Test::ITest
         {
         public:
-            BBoxTest(const std::shared_ptr<Core::Context>&);
+            FileInfoTest(const std::shared_ptr<Core::Context>&);
             
             void run(const std::vector<std::string>&) override;
-
-        private:
-            void _ctors();
-            void _components();
-            void _utils();
-            void _comparison();
-            void _operators();
-            void _serialize();
         };
         
     } // namespace CoreTest

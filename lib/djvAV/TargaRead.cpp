@@ -330,7 +330,7 @@ namespace djv
 
                 Info Read::_open(const std::string & fileName, FileSystem::FileIO& io)
                 {
-                    io.setEndian(Memory::getEndian() != Memory::Endian::LSB);
+                    io.setEndianConversion(Memory::getEndian() != Memory::Endian::LSB);
                     io.open(fileName, FileSystem::FileIO::Mode::Read);
                     Image::Info imageInfo;
                     Header().read(io, imageInfo, _bgr, _compression);

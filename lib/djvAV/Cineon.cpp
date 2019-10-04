@@ -254,7 +254,7 @@ namespace djv
                     // Flip the endian of the data if necessary.
                     if (flipEndian)
                     {
-                        io.setEndian(true);
+                        io.setEndianConversion(true);
                         convertEndian(out);
                         info.video[0].info.layout.endian = Memory::opposite(Memory::getEndian());
                     }
@@ -573,7 +573,7 @@ namespace djv
 
                     // Write the header.
                     const bool flipEndian = Memory::getEndian() != Memory::Endian::MSB;
-                    io.setEndian(flipEndian);
+                    io.setEndianConversion(flipEndian);
                     if (flipEndian)
                     {
                         convertEndian(header);
