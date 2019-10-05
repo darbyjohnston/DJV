@@ -115,8 +115,6 @@ namespace djv
             {
                 if (!isSequenceValid())
                     return false;
-                if (_path.getNumber().empty())
-                    return false;
                 if (_path.getExtension() != value._path.getExtension())
                     return false;
                 if (_path.getBaseName() != value._path.getBaseName())

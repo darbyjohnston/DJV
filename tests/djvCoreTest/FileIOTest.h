@@ -46,6 +46,7 @@ namespace djv
             void _io();
             void _io2();
             void _io3();
+            void _io4();
             void _endian();
             void _temp();
 

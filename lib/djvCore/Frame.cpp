@@ -87,7 +87,7 @@ namespace djv
                     if (i.intersects(value))
                     {
                         i.min = std::min(i.min, value.min);
-                        i.max = std::min(i.max, value.max);
+                        i.max = std::max(i.max, value.max);
                         out = true;
                         break;
                     }

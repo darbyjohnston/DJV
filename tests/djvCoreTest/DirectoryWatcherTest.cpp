@@ -29,8 +29,12 @@
 
 #include <djvCoreTest/DirectoryWatcherTest.h>
 
+#include <djvCore/Context.h>
 #include <djvCore/DirectoryWatcher.h>
+#include <djvCore/FileIO.h>
 #include <djvCore/Path.h>
+
+#include <chrono>
 
 namespace djv
 {
@@ -50,13 +54,33 @@ namespace djv
                 const FileSystem::Path path(".");
                 watcher->setPath(path);
                 DJV_ASSERT(path == watcher->getPath());
+                bool changed = false;
                 watcher->setCallback(
-                    [this]
+                    [&changed]
                     {
-                        std::stringstream ss;
-                        ss << "changed!";
-                        _print(ss.str());
+                        changed = true;
                     });
+                auto now = std::chrono::system_clock::now();
+                auto timeout = now + std::chrono::milliseconds(1000);
+                while (now < timeout)
+                {
+                    context->tick(0.F);
+                    now = std::chrono::system_clock::now();
+                }
+                FileSystem::FileIO io;
+                io.open(
+                    std::string(FileSystem::Path(path, "DirectoryWatcherTest")),
+                    FileSystem::FileIO::Mode::Write);
+                io.close();
+                timeout = now + std::chrono::milliseconds(1000);
+                while (now < timeout)
+                {
+                    context->tick(0.F);
+                    now = std::chrono::system_clock::now();
+                }
+                std::stringstream ss;
+                ss << "changed: " << changed;
+                _print(ss.str());
             }
         }
         

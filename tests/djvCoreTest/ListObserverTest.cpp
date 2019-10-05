@@ -27,27 +27,46 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvCoreTest/ListObserverTest.h>
 
-#include <djvTestLib/Test.h>
+#include <djvCore/ListObserver.h>
 
 namespace djv
 {
+    using namespace Core;
+
     namespace CoreTest
     {
-        class FrameTest : public Test::ITest
+        ListObserverTest::ListObserverTest(const std::shared_ptr<Core::Context>& context) :
+            ITest("djv::CoreTest::ListObserverTest", context)
+        {}
+        
+        void ListObserverTest::run(const std::vector<std::string>& args)
         {
-        public:
-            FrameTest(const std::shared_ptr<Core::Context>&);
+            std::vector<int> value;
+            auto subject = ListSubject<int>::create(value);
+            std::vector<int> value2;
+            auto observer = ListObserver<int>::create(
+                subject,
+                [&value2](const std::vector<int> value)
+                {
+                    value2 = value;
+                });
+                
+            DJV_ASSERT(!subject->setIfChanged(value));
+            value.push_back(1);
+            subject->setAlways(value);
+            DJV_ASSERT(subject->get() == value2);
+            DJV_ASSERT(!subject->isEmpty());
+            DJV_ASSERT(1 == subject->getItem(0));
+            value.push_back(2);
+            DJV_ASSERT(subject->setIfChanged(value));
+            DJV_ASSERT(!subject->setIfChanged(value));
+            DJV_ASSERT(subject->get() == value2);
             
-            void run(const std::vector<std::string>&) override;
-            
-        private:
-            void _sequence();
-            void _util();
-            void _conversion();
-            void _serialize();
-        };
+            DJV_ASSERT(subject->contains(2));
+            DJV_ASSERT(1 == subject->indexOf(2));
+        }
         
     } // namespace CoreTest
 } // namespace djv

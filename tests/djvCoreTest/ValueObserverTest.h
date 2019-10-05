@@ -35,18 +35,12 @@ namespace djv
 {
     namespace CoreTest
     {
-        class FrameTest : public Test::ITest
+        class ValueObserverTest : public Test::ITest
         {
         public:
-            FrameTest(const std::shared_ptr<Core::Context>&);
+            ValueObserverTest(const std::shared_ptr<Core::Context>&);
             
             void run(const std::vector<std::string>&) override;
-            
-        private:
-            void _sequence();
-            void _util();
-            void _conversion();
-            void _serialize();
         };
         
     } // namespace CoreTest

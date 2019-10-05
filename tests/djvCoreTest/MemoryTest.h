@@ -41,6 +41,12 @@ namespace djv
             MemoryTest(const std::shared_ptr<Core::Context>&);
             
             void run(const std::vector<std::string>&) override;
+        
+        private:
+            void _label();
+            void _enum();
+            void _endian();
+            void _hash();
         };
         
     } // namespace CoreTest

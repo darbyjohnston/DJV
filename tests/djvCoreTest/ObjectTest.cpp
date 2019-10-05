@@ -29,7 +29,6 @@
 
 #include <djvCoreTest/ObjectTest.h>
 
-#include <djvCore/IEventSystem.h>
 #include <djvCore/IObject.h>
 
 namespace djv
@@ -44,22 +43,9 @@ namespace djv
         
         namespace
         {
-            class EventSystem : public Event::IEventSystem
+            class TestObject : public IObject
             {
-            public:
-                static std::shared_ptr<EventSystem> create(const std::shared_ptr<Context>& context)
-                {
-                    auto out = std::shared_ptr<EventSystem>(new EventSystem);
-                    out->_init("EventSystem", context);
-                    return out;
-                }
-
-                void _hover(Event::PointerMove &, std::shared_ptr<IObject> &) override {}
-            };
-
-            class Object : public IObject
-            {
-                DJV_NON_COPYABLE(Object);
+                DJV_NON_COPYABLE(TestObject);
 
             protected:
                 void _init(const std::shared_ptr<Context>& context)
@@ -67,13 +53,13 @@ namespace djv
                     IObject::_init(context);
                 }
 
-                Object()
+                TestObject()
                 {}
 
             public:
-                static std::shared_ptr<Object> create(const std::shared_ptr<Context>& context)
+                static std::shared_ptr<TestObject> create(const std::shared_ptr<Context>& context)
                 {
-                    auto out = std::shared_ptr<Object>(new Object);
+                    auto out = std::shared_ptr<TestObject>(new TestObject);
                     out->_init(context);
                     return out;
                 }
@@ -85,27 +71,62 @@ namespace djv
         {
             if (auto context = getContext().lock())
             {
-                auto eventSystem = EventSystem::create(context);
                 {
-                    auto o = Object::create(context);
+                    auto o = TestObject::create(context);
                     DJV_ASSERT(!o->getParent().lock());
                     DJV_ASSERT(o->getChildren().size() == 0);
                     DJV_ASSERT(o->isEnabled());
                 }
                 {
-                    auto parent = Object::create(context);
-                    auto child = Object::create(context);
+                    auto parent = TestObject::create(context);
+                    auto child = TestObject::create(context);
                     parent->addChild(child);
                     DJV_ASSERT(child->getParent().lock() == parent);
                     DJV_ASSERT(parent->getChildren().size() == 1 && parent->getChildren()[0] == child);
+
+                    auto child2 = TestObject::create(context);
+                    DJV_ASSERT(child2->isEnabled());
+                    child2->setEnabled(false);
+                    DJV_ASSERT(!child2->isEnabled());
+                    parent->addChild(child2);
+                    child2->moveToFront();
+                    child2->moveToBack();
+                    
+                    {
+                        std::stringstream ss;
+                        ss << "global object count: " << IObject::getGlobalObjectCount();
+                        _print(ss.str());
+                    }
+                    {
+                        std::map<std::string, size_t> counts;
+                        IObject::getObjectCounts(parent, counts);
+                        for (const auto& i : counts)
+                        {
+                            std::stringstream ss;
+                            ss << i.first << ": " << i.second;
+                            _print(ss.str());                            
+                        }
+                    }
+
                     parent->removeChild(child);
+                    DJV_ASSERT(parent->getChildren().size() == 1);
+                    parent->removeChild(child2);
                     DJV_ASSERT(parent->getChildren().size() == 0);
                     DJV_ASSERT(!child->getParent().lock());
+                    DJV_ASSERT(!child2->getParent().lock());
+                    
                     parent->addChild(child);
+                    parent->addChild(child2);
                     parent->clearChildren();
                     DJV_ASSERT(parent->getChildren().size() == 0);
                     DJV_ASSERT(!child->getParent().lock());
                 }
+            }
+
+            {
+                std::stringstream ss;
+                ss << "global object count: " << IObject::getGlobalObjectCount();
+                _print(ss.str());
             }
         }
         

@@ -68,6 +68,7 @@ namespace djv
 
                 void tick(float dt) override;
 
+                //! \todo How can we make this function protected?
                 void _objectCreated(const std::shared_ptr<IObject> &);
 
             protected:

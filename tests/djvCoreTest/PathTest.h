@@ -41,6 +41,14 @@ namespace djv
             PathTest(const std::shared_ptr<Core::Context>&);
             
             void run(const std::vector<std::string>&) override;
+            
+        private:
+            void _enum();
+            void _path();
+            void _split();
+            void _util();
+            void _operators();
+            void _serialize();
         };
         
     } // namespace CoreTest

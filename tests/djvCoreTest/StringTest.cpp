@@ -308,9 +308,9 @@ namespace djv
                 {
                     const auto a = String::escape(d);
                     const auto b = String::unescape(a);
-                    std::stringstream s;
-                    s << "escape()/unescape(): " << d << " = " << b;
-                    _print(s.str());
+                    std::stringstream ss;
+                    ss << "escape/unescape: " << d << " = " << b;
+                    _print(ss.str());
                     DJV_ASSERT(d == b);
                 }
             }

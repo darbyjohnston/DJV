@@ -27,27 +27,41 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvCoreTest/ValueObserverTest.h>
 
-#include <djvTestLib/Test.h>
+#include <djvCore/ValueObserver.h>
 
 namespace djv
 {
+    using namespace Core;
+
     namespace CoreTest
     {
-        class FrameTest : public Test::ITest
+        ValueObserverTest::ValueObserverTest(const std::shared_ptr<Core::Context>& context) :
+            ITest("djv::CoreTest::ValueObserverTest", context)
+        {}
+        
+        void ValueObserverTest::run(const std::vector<std::string>& args)
         {
-        public:
-            FrameTest(const std::shared_ptr<Core::Context>&);
-            
-            void run(const std::vector<std::string>&) override;
-            
-        private:
-            void _sequence();
-            void _util();
-            void _conversion();
-            void _serialize();
-        };
+            int value = 0;
+            auto subject = ValueSubject<int>::create(value);
+            int value2 = 0;
+            auto observer = ValueObserver<int>::create(
+                subject,
+                [&value2](int value)
+                {
+                    value2 = value;
+                });
+
+            DJV_ASSERT(!subject->setIfChanged(value));
+            ++value;
+            subject->setAlways(value);
+            DJV_ASSERT(subject->get() == value2);
+            ++value;
+            DJV_ASSERT(subject->setIfChanged(value));
+            DJV_ASSERT(!subject->setIfChanged(value));
+            DJV_ASSERT(subject->get() == value2);
+        }
         
     } // namespace CoreTest
 } // namespace djv

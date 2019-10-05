@@ -60,7 +60,7 @@ namespace djv
             for (auto i : FileSystem::getFileTypeEnums())
             {
                 std::stringstream ss;
-                ss << "File type string: " << i;
+                ss << "file type string: " << i;
                 _print(ss.str());
             }
             for (auto i :
@@ -71,13 +71,13 @@ namespace djv
                 })
             {
                 std::stringstream ss;
-                ss << "File permissions string: " << FileSystem::getFilePermissionsLabel(static_cast<int>(i));
+                ss << "file permissions string: " << FileSystem::getFilePermissionsLabel(static_cast<int>(i));
                 _print(ss.str());
             }
             for (auto i : FileSystem::getDirectoryListSortEnums())
             {
                 std::stringstream ss;
-                ss << "Directory list sort string: " << i;
+                ss << "directory list sort string: " << i;
                 _print(ss.str());
             }
         }
@@ -121,22 +121,22 @@ namespace djv
                 DJV_ASSERT(FileSystem::FileType::File == fileInfo.getType());
                 {
                     std::stringstream ss;
-                    ss << "Size: " << fileInfo.getSize();
+                    ss << "size: " << fileInfo.getSize();
                     _print(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << "User: " << fileInfo.getUser();
+                    ss << "user: " << fileInfo.getUser();
                     _print(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << "Permissions: " << fileInfo.getPermissions();
+                    ss << "permissions: " << fileInfo.getPermissions();
                     _print(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << "Time: " << fileInfo.getTime();
+                    ss << "time: " << fileInfo.getTime();
                     _print(ss.str());
                 }
             }
@@ -147,22 +147,22 @@ namespace djv
                 DJV_ASSERT(FileSystem::FileType::File == fileInfo.getType());
                 {
                     std::stringstream ss;
-                    ss << "Size: " << fileInfo.getSize();
+                    ss << "size: " << fileInfo.getSize();
                     _print(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << "User: " << fileInfo.getUser();
+                    ss << "user: " << fileInfo.getUser();
                     _print(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << "Permissions: " << fileInfo.getPermissions();
+                    ss << "permissions: " << fileInfo.getPermissions();
                     _print(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << "Time: " << fileInfo.getTime();
+                    ss << "time: " << fileInfo.getTime();
                     _print(ss.str());
                 }
             }
@@ -173,6 +173,11 @@ namespace djv
                 fileInfo.evalSequence();
                 DJV_ASSERT("/tmp/render.1.exr" == fileInfo.getFileName(1));
                 DJV_ASSERT("render.1.exr" == fileInfo.getFileName(1, false));
+            }
+            {
+                const std::string root(1, FileSystem::Path::getCurrentSeparator());
+                FileSystem::FileInfo fileInfo(root);
+                DJV_ASSERT(root == fileInfo.getFileName());
             }
         }
 
@@ -188,12 +193,27 @@ namespace djv
                 fileInfo.setSequence(range);
                 DJV_ASSERT(Frame::Sequence(range) == fileInfo.getSequence());
                 DJV_ASSERT(fileInfo.isSequenceValid());
-                FileSystem::FileInfo fileInfo2(fileInfo.getFileName(101));
-                fileInfo2.evalSequence();
+                FileSystem::FileInfo fileInfo2(fileInfo);
+                fileInfo2.setSequence(Frame::Sequence(Frame::Range(101, 110), 4));
                 DJV_ASSERT(fileInfo.isCompatible(fileInfo2));
                 fileInfo.addToSequence(fileInfo2);
-                std::cout << fileInfo.getSequence() << std::endl;
-                DJV_ASSERT(Frame::Sequence(Frame::Range(1, 101)) == fileInfo.getSequence());
+                DJV_ASSERT(Frame::Sequence(Frame::Range(1, 110), 4) == fileInfo.getSequence());
+            }
+            {
+                FileSystem::FileInfo fileInfo(_sequenceName);
+                fileInfo.evalSequence();
+                fileInfo.setPath(FileSystem::Path("render.1-10.exr"), FileSystem::FileType::Sequence);
+                DJV_ASSERT(Frame::Sequence(Frame::Range(1, 10)) == fileInfo.getSequence());
+            }
+            {
+                FileSystem::FileInfo fileInfo("render.1.exr");
+                fileInfo.evalSequence();
+                DJV_ASSERT(!fileInfo.isCompatible(FileSystem::FileInfo("render.1.png")));
+            }
+            {
+                FileSystem::FileInfo fileInfo("render.1.exr");
+                fileInfo.evalSequence();
+                DJV_ASSERT(!fileInfo.isCompatible(FileSystem::FileInfo("snapshot.1.exr")));
             }
         }
 
@@ -220,7 +240,7 @@ namespace djv
                     FileSystem::Path(".", fileNames[0]),
                     { ".exr" });
                 std::stringstream ss;
-                ss << "File sequence: " << fileInfo;
+                ss << "file sequence: " << fileInfo;
                 _print(ss.str());
                 DJV_ASSERT(fileInfo.getFileName(Frame::invalid, false) == "render.1-3.exr");
             }

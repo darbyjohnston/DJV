@@ -31,22 +31,37 @@
 
 #include <djvTestLib/Test.h>
 
+#include <djvCore/Event.h>
+#include <djvCore/ValueObserver.h>
+
 namespace djv
 {
     namespace CoreTest
     {
-        class FrameTest : public Test::ITest
+        class TestEventSystem;
+        class TestObject;
+        class TestObject2;
+        
+        class IEventSystemTest : public Test::ITest
         {
         public:
-            FrameTest(const std::shared_ptr<Core::Context>&);
+            IEventSystemTest(const std::shared_ptr<Core::Context>&);
             
             void run(const std::vector<std::string>&) override;
             
         private:
-            void _sequence();
-            void _util();
-            void _conversion();
-            void _serialize();
+            void _info();
+            void _clipboard();
+            void _textFocus();
+            void _tick();
+            
+            std::shared_ptr<TestEventSystem> _system;
+            std::shared_ptr<TestObject> _object;
+            std::shared_ptr<TestObject2> _object2;
+            std::shared_ptr<Core::ValueObserver<Core::Event::PointerInfo> > _pointerObserver;
+            std::shared_ptr<Core::ValueObserver<std::shared_ptr<Core::IObject> > > _hoverObserver;
+            std::shared_ptr<Core::ValueObserver<std::shared_ptr<Core::IObject> > > _grabObserver;
+            std::shared_ptr<Core::ValueObserver<std::shared_ptr<Core::IObject> > > _keyGrabObserver;
         };
         
     } // namespace CoreTest

@@ -46,7 +46,7 @@ namespace djv
             for (auto i : Memory::getEndianEnums())
             {
                 std::stringstream ss;
-                ss << "Endian string: " << i;
+                ss << "endian string: " << i;
                 _print(ss.str());
             }
             for (auto i : Memory::getEndianEnums())
@@ -59,7 +59,7 @@ namespace djv
             }
             {
                 std::stringstream ss;
-                ss << "None";
+                ss << "none";
                 try
                 {
                     Memory::Endian endian = Memory::Endian::First;

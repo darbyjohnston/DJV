@@ -31,6 +31,7 @@
 
 #include <djvCore/Frame.h>
 
+#include <iostream>
 #include <sstream>
 
 namespace djv
@@ -44,6 +45,76 @@ namespace djv
         {}
         
         void FrameTest::run(const std::vector<std::string>& args)
+        {
+            _sequence();
+            _util();
+            _conversion();
+            _serialize();
+        }
+
+        void FrameTest::_sequence()
+        {
+            {
+                const Frame::Sequence sequence;
+                DJV_ASSERT(0 == sequence.ranges.size());
+                DJV_ASSERT(0 == sequence.pad);
+                DJV_ASSERT(!sequence.isValid());
+                DJV_ASSERT(!sequence.contains(0));
+                DJV_ASSERT(0 == sequence.getSize());
+                DJV_ASSERT(Frame::invalid == sequence.getFrame(0));
+                DJV_ASSERT(Frame::invalid == sequence.getIndex(0));
+            }
+            {
+                const Frame::Sequence sequence(Frame::Range(0, 99), 4);
+                DJV_ASSERT(1 == sequence.ranges.size());
+                DJV_ASSERT(4 == sequence.pad);
+                DJV_ASSERT(sequence.isValid());
+                DJV_ASSERT(sequence.contains(0));
+                DJV_ASSERT(100 == sequence.getSize());
+                DJV_ASSERT(0 == sequence.getFrame(0));
+                DJV_ASSERT(0 == sequence.getIndex(0));                
+            }
+            {
+                const Frame::Sequence sequence({ Frame::Range(0, 9), Frame::Range(10, 99) }, 4);
+                DJV_ASSERT(2 == sequence.ranges.size());
+                DJV_ASSERT(4 == sequence.pad);
+                DJV_ASSERT(sequence.isValid());
+                DJV_ASSERT(sequence.contains(0));
+                DJV_ASSERT(100 == sequence.getSize());
+                DJV_ASSERT(0 == sequence.getFrame(0));
+                DJV_ASSERT(0 == sequence.getIndex(0));                
+            }
+            {
+                Frame::Sequence sequence({ Frame::Range(10, 9), Frame::Range(3, 1) });
+                sequence.sort();
+                DJV_ASSERT(sequence.ranges[0] == Frame::Range(1, 3));
+                DJV_ASSERT(sequence.ranges[1] == Frame::Range(9, 10));
+            }
+            {
+                Frame::Sequence sequence(Frame::Range(1, 3));
+                sequence.merge(Frame::Range(3, 10));
+                DJV_ASSERT(sequence.ranges[0] == Frame::Range(1, 10));
+                sequence.merge(Frame::Range(12, 100));
+                DJV_ASSERT(sequence.ranges[0] == Frame::Range(1, 10));
+            }
+        }
+        
+        void FrameTest::_util()
+        {
+            {
+                Frame::Range range = Frame::invalidRange;
+                DJV_ASSERT(!Frame::isValid(range));
+                range = Frame::Range(1, 100);
+                DJV_ASSERT(Frame::isValid(range));
+            }
+            {
+                Frame::Range range(100, 1);
+                Frame::sort(range);
+                DJV_ASSERT(Frame::Range(1, 100) == range);
+            }
+        }
+        
+        void FrameTest::_conversion()
         {
             {
                 std::vector<Frame::Number> frames = {};
@@ -139,6 +210,18 @@ namespace djv
             }
         }
         
+        void FrameTest::_serialize()
+        {
+            {
+                const Frame::Range range(1, 100);
+                std::stringstream ss;
+                ss << range;
+                Frame::Range range2;
+                ss >> range2;
+                DJV_ASSERT(range == range2);
+            }
+        }
+                
     } // namespace CoreTest
 } // namespace djv
 

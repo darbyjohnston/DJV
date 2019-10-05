@@ -40,6 +40,9 @@
 #include <djvCoreTest/FileIOTest.h>
 #include <djvCoreTest/FileInfoTest.h>
 #include <djvCoreTest/FrameTest.h>
+#include <djvCoreTest/IEventSystemTest.h>
+#include <djvCoreTest/ListObserverTest.h>
+#include <djvCoreTest/MapObserverTest.h>
 #include <djvCoreTest/MathTest.h>
 #include <djvCoreTest/MemoryTest.h>
 #include <djvCoreTest/ObjectTest.h>
@@ -47,6 +50,7 @@
 #include <djvCoreTest/SpeedTest.h>
 #include <djvCoreTest/StringTest.h>
 #include <djvCoreTest/TimeTest.h>
+#include <djvCoreTest/ValueObserverTest.h>
 
 #if !defined(DJV_TINY_BUILD)
 #include <djvAVTest/AudioTest.h>
@@ -65,33 +69,64 @@ int main(int argc, char ** argv)
     try
     {
         std::vector<std::string> args;
+        for (int i = 0; i < argc; ++i)
+        {
+            args.push_back(argv[i]);
+        }
         auto context = Core::Context::create(args);
-
-        (new CoreTest::AnimationTest(context))->run(args);
-        (new CoreTest::BBoxTest(context))->run(args);
-        (new CoreTest::CacheTest(context))->run(args);
-        (new CoreTest::ContextTest(context))->run(args);
-        (new CoreTest::DirectoryModelTest(context))->run(args);
-        (new CoreTest::DirectoryWatcherTest(context))->run(args);
-        (new CoreTest::DrivesModelTest(context))->run(args);
-        (new CoreTest::EnumTest(context))->run(args);
-        (new CoreTest::ErrorTest(context))->run(args);
-        (new CoreTest::EventTest(context))->run(args);
-        (new CoreTest::FrameTest(context))->run(args);
-        (new CoreTest::FileIOTest(context))->run(args);
-        (new CoreTest::FileInfoTest(context))->run(args);
-        (new CoreTest::MathTest(context))->run(args);
-        (new CoreTest::MemoryTest(context))->run(args);
-        (new CoreTest::ObjectTest(context))->run(args);
-        (new CoreTest::PathTest(context))->run(args);
-        (new CoreTest::SpeedTest(context))->run(args);
-        (new CoreTest::StringTest(context))->run(args);
-        (new CoreTest::TimeTest(context))->run(args);
+        
+        std::vector<std::unique_ptr<Test::ITest> > tests;
+        tests.emplace_back(new CoreTest::AnimationTest(context));
+        tests.emplace_back(new CoreTest::BBoxTest(context));
+        tests.emplace_back(new CoreTest::CacheTest(context));
+        tests.emplace_back(new CoreTest::DirectoryModelTest(context));
+        tests.emplace_back(new CoreTest::DirectoryWatcherTest(context));
+        tests.emplace_back(new CoreTest::DrivesModelTest(context));
+        tests.emplace_back(new CoreTest::EnumTest(context));
+        tests.emplace_back(new CoreTest::ErrorTest(context));
+        tests.emplace_back(new CoreTest::EventTest(context));
+        tests.emplace_back(new CoreTest::FileIOTest(context));
+        tests.emplace_back(new CoreTest::FileInfoTest(context));
+        tests.emplace_back(new CoreTest::FrameTest(context));
+        tests.emplace_back(new CoreTest::IEventSystemTest(context));
+        tests.emplace_back(new CoreTest::ListObserverTest(context));
+        tests.emplace_back(new CoreTest::MapObserverTest(context));
+        tests.emplace_back(new CoreTest::MathTest(context));
+        tests.emplace_back(new CoreTest::MemoryTest(context));
+        tests.emplace_back(new CoreTest::ObjectTest(context));
+        tests.emplace_back(new CoreTest::PathTest(context));
+        tests.emplace_back(new CoreTest::SpeedTest(context));
+        tests.emplace_back(new CoreTest::StringTest(context));
+        tests.emplace_back(new CoreTest::TimeTest(context));
+        tests.emplace_back(new CoreTest::ValueObserverTest(context));
 #if !defined(DJV_TINY_BUILD)
-        (new AVTest::AudioTest(context))->run(args);
-        (new AVTest::ColorTest(context))->run(args);
-        (new AVTest::PixelTest(context))->run(args);
+        tests.emplace_back(new AVTest::AudioTest(context));
+        tests.emplace_back(new AVTest::ColorTest(context));
+        tests.emplace_back(new AVTest::PixelTest(context));
 #endif // DJV_TINY_BUILD
+        
+        if (1 == argc)
+        {
+            for (auto& i : tests)
+            {
+                i->run(args);
+            }
+        }
+        else
+        {
+            for (int i = 1; i < argc; ++i)
+            {
+                const std::string name(argv[i]);
+                for (const auto& j : tests)
+                {
+                    if (name == j->getName())
+                    {
+                        j->run(args);
+                        break;
+                    }
+                }
+            }
+        }
     }
     catch (const std::exception & error)
     {

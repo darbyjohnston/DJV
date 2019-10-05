@@ -29,9 +29,11 @@
 
 #include <djvCoreTest/DrivesModelTest.h>
 
+#include <djvCore/Context.h>
 #include <djvCore/DrivesModel.h>
 #include <djvCore/Path.h>
 
+#include <chrono>
 #include <sstream>
 
 namespace djv
@@ -49,11 +51,23 @@ namespace djv
             if (auto context = getContext().lock())
             {
                 auto model = FileSystem::DrivesModel::create(context);
-                for (const auto& i : model->observeDrives()->get())
+                auto now = std::chrono::system_clock::now();
+                auto timeout = now + std::chrono::milliseconds(1000);
+                while (now < timeout)
                 {
-                    std::stringstream ss;
-                    ss << "drive: " << i;
-                    _print(ss.str());
+                    const auto drives = model->observeDrives()->get();
+                    if (drives.size())
+                    {
+                        for (const auto& i : model->observeDrives()->get())
+                        {
+                            std::stringstream ss;
+                            ss << "drive: " << i;
+                            _print(ss.str());
+                        }
+                        break;
+                    }
+                    context->tick(0.F);
+                    now = std::chrono::system_clock::now();
                 }
             }
         }

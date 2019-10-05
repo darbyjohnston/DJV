@@ -54,7 +54,7 @@ namespace djv
 #if defined(DJV_PLATFORM_WINDOWS)
             {
                 std::stringstream ss;
-                ss << "The last error: " << Error::getLastError();
+                ss << "last error: " << Error::getLastError();
                 _print(ss.str());
             }
 #endif // DJV_PLATFORM_WINDOWS

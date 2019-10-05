@@ -12,13 +12,17 @@ set(header
     FileIOTest.h
     FileInfoTest.h
 	FrameTest.h
+	IEventSystemTest.h
+    ListObserverTest.h
+    MapObserverTest.h
     MathTest.h
     MemoryTest.h
     ObjectTest.h
     PathTest.h
 	SpeedTest.h
     StringTest.h
-    TimeTest.h)
+    TimeTest.h
+    ValueObserverTest.h)
 set(source
     AnimationTest.cpp
     BBoxTest.cpp
@@ -33,13 +37,17 @@ set(source
     FileIOTest.cpp
     FileInfoTest.cpp
 	FrameTest.cpp
+	IEventSystemTest.cpp
+    ListObserverTest.cpp
+    MapObserverTest.cpp
     MathTest.cpp
     MemoryTest.cpp
     ObjectTest.cpp
     PathTest.cpp
 	SpeedTest.cpp
     StringTest.cpp
-    TimeTest.cpp)
+    TimeTest.cpp
+    ValueObserverTest.cpp)
 
 add_library(djvCoreTest ${header} ${source})
 target_link_libraries(djvCoreTest djvTestLib)

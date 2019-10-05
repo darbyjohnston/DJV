@@ -43,6 +43,12 @@ namespace djv
             ITest("djv::CoreTest::ContextTest", context)
         {}
         
+        namespace
+        {
+            class System : public ISystem {};
+        
+        } // namespace
+        
         void ContextTest::run(const std::vector<std::string>& args)
         {
             if (auto context = getContext().lock())
@@ -65,6 +71,7 @@ namespace djv
                 }
                 auto resourceSystem = context->getSystemT<ResourceSystem>();
                 DJV_ASSERT(resourceSystem);
+                DJV_ASSERT(!context->getSystemT<System>());
                 context->tick(0.f);
                 context->tick(0.f);
                 {
