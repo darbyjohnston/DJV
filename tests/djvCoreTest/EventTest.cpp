@@ -35,10 +35,10 @@
 #include <codecvt>
 #include <locale>
 
+using namespace djv::Core;
+
 namespace djv
 {
-    using namespace Core;
-
     namespace CoreTest
     {
         EventTest::EventTest(const std::shared_ptr<Core::Context>& context) :
@@ -63,6 +63,7 @@ namespace djv
                 ss << "event type string: " << i;
                 _print(ss.str());
             }
+            
             for (auto i : Event::getTypeEnums())
             {
                 std::stringstream ss;
@@ -130,18 +131,21 @@ namespace djv
                     DJV_ASSERT(event.getPrevParent() == prevParent);
                     DJV_ASSERT(event.getNewParent() == newParent);
                 }
+                
                 {
                     auto child = Object::create(context);
                     const Event::ChildAdded event(child);
                     DJV_ASSERT(event.getEventType() == Event::Type::ChildAdded);
                     DJV_ASSERT(event.getChild() == child);
                 }
+                
                 {
                     auto child = Object::create(context);
                     const Event::ChildRemoved event(child);
                     DJV_ASSERT(event.getEventType() == Event::Type::ChildRemoved);
                     DJV_ASSERT(event.getChild() == child);
                 }
+                
                 {
                     const Event::ChildOrder event;
                     DJV_ASSERT(event.getEventType() == Event::Type::ChildOrder);
@@ -157,6 +161,7 @@ namespace djv
                 DJV_ASSERT(event.getEventType() == Event::Type::Locale);
                 DJV_ASSERT(event.getLocale() == locale);
             }
+            
             {
                 const float t = 1.F;
                 const float dt = 2.F;
@@ -173,14 +178,17 @@ namespace djv
                 const Event::Style event;
                 DJV_ASSERT(event.getEventType() == Event::Type::Style);
             }
+            
             {
                 const Event::PreLayout event;
                 DJV_ASSERT(event.getEventType() == Event::Type::PreLayout);
             }
+            
             {
                 const Event::Layout event;
                 DJV_ASSERT(event.getEventType() == Event::Type::Layout);
             }
+            
             {
                 const BBox2f rect(1.F, 2.F, 3.F, 4.F);
                 Event::Clip event(rect);
@@ -190,6 +198,7 @@ namespace djv
                 event.setClipRect(rect2);
                 DJV_ASSERT(event.getClipRect() == rect2);
             }
+            
             {
                 const BBox2f rect(1.F, 2.F, 3.F, 4.F);
                 Event::Paint event(rect);
@@ -199,6 +208,7 @@ namespace djv
                 event.setClipRect(rect2);
                 DJV_ASSERT(event.getClipRect() == rect2);
             }
+            
             {
                 const BBox2f rect(1.F, 2.F, 3.F, 4.F);
                 Event::PaintOverlay event(rect);
@@ -236,6 +246,7 @@ namespace djv
                 const Event::PointerInfo info;
                 DJV_ASSERT(info == info);
             }
+            
             {
                 const Event::PointerInfo info;
                 TestPointerEvent event(info);
@@ -250,31 +261,37 @@ namespace djv
                 DJV_ASSERT(event.isRejected());
                 DJV_ASSERT(event.getPointerInfo() == info);
             }
+            
             {
                 const Event::PointerInfo info;
                 const Event::PointerEnter event(info);
                 DJV_ASSERT(event.getEventType() == Event::Type::PointerEnter);
             }
+            
             {
                 const Event::PointerInfo info;
                 const Event::PointerLeave event(info);
                 DJV_ASSERT(event.getEventType() == Event::Type::PointerLeave);
             }
+            
             {
                 const Event::PointerInfo info;
                 const Event::PointerMove event(info);
                 DJV_ASSERT(event.getEventType() == Event::Type::PointerMove);
             }
+            
             {
                 const Event::PointerInfo info;
                 const Event::ButtonPress event(info);
                 DJV_ASSERT(event.getEventType() == Event::Type::ButtonPress);
             }
+            
             {
                 const Event::PointerInfo info;
                 const Event::ButtonRelease event(info);
                 DJV_ASSERT(event.getEventType() == Event::Type::ButtonRelease);
             }
+            
             {
                 const glm::vec2 delta(1.f, 2.f);
                 const Event::PointerInfo info;
@@ -282,6 +299,7 @@ namespace djv
                 DJV_ASSERT(event.getEventType() == Event::Type::Scroll);
                 DJV_ASSERT(event.getScrollDelta() == delta);
             }
+            
             {
                 const std::vector<std::string> paths = { "a", "b" };
                 const Event::PointerInfo info;
@@ -289,6 +307,7 @@ namespace djv
                 DJV_ASSERT(event.getEventType() == Event::Type::Drop);
                 DJV_ASSERT(event.getDropPaths() == paths);
             }
+            
             {
                 const int key = 1;
                 const int keyModifiers = 2;
@@ -298,24 +317,29 @@ namespace djv
                 DJV_ASSERT(event.getKey() == key);
                 DJV_ASSERT(event.getKeyModifiers() == keyModifiers);
             }
+            
             {
                 const Event::PointerInfo info;
                 const Event::KeyPress event(1, 2, info);
                 DJV_ASSERT(event.getEventType() == Event::Type::KeyPress);
             }
+            
             {
                 const Event::PointerInfo info;
                 const Event::KeyRelease event(1, 2, info);
                 DJV_ASSERT(event.getEventType() == Event::Type::KeyRelease);
             }
+            
             {
                 const Event::TextFocus event;
                 DJV_ASSERT(event.getEventType() == Event::Type::TextFocus);
             }
+            
             {
                 const Event::TextFocusLost event;
                 DJV_ASSERT(event.getEventType() == Event::Type::TextFocusLost);
             }
+            
             {
                 std::wstring_convert<std::codecvt_utf8<djv_char_t>, djv_char_t> utf32Convert;
                 const std::basic_string<djv_char_t> utf32 = utf32Convert.from_bytes("text");

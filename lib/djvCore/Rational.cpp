@@ -72,16 +72,17 @@ namespace djv
         } // namespace Math
     } // namespace Core
 
-    std::ostream & operator << (std::ostream & is, const Core::Math::Rational& value)
+    std::ostream & operator << (std::ostream & os, const Core::Math::Rational& value)
     {
-        is << value.getNum() << '/' << value.getDen();
-        return is;
+        os << value.getNum() << '/' << value.getDen();
+        return os;
     }
 
-    std::istream & operator >> (std::istream & os, Core::Math::Rational& value)
+    std::istream & operator >> (std::istream & is, Core::Math::Rational& value)
     {
+        is.exceptions(std::istream::failbit | std::istream::badbit);
         std::string s;
-        os >> s;
+        is >> s;
         const auto split = Core::String::split(s, '/');
         if (2 == split.size())
         {
@@ -93,7 +94,8 @@ namespace djv
             ss << DJV_TEXT("Cannot parse the value") << " '" << s << "'.";
             throw std::invalid_argument(ss.str());
         }
-        return os;
+        return is;
     }
 
 } // namespace djv
+

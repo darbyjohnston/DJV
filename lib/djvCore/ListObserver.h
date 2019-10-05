@@ -98,6 +98,9 @@ namespace djv
 
             //! Get the index of the given item.
             virtual size_t indexOf(const T &) const = 0;
+            
+            //! Get the number of observers.
+            size_t getObserversCount() const;
 
         protected:
             void _add(const std::weak_ptr<ListObserver<T> > &);

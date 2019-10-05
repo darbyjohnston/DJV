@@ -29,16 +29,16 @@
 
 #pragma once
 
-#include <djvTestLib/TickTest.h>
+#include <djvTestLib/Test.h>
 
 namespace djv
 {
     namespace CoreTest
     {
-        class AnimationTest : public Test::ITickTest
+        class ISystemTest : public Test::ITest
         {
         public:
-            AnimationTest(const std::shared_ptr<Core::Context>&);
+            ISystemTest(const std::shared_ptr<Core::Context>&);
             
             void run(const std::vector<std::string>&) override;
         };

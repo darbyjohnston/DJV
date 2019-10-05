@@ -29,13 +29,13 @@
 
 #pragma once
 
-#include <djvTestLib/Test.h>
+#include <djvTestLib/TickTest.h>
 
 namespace djv
 {
     namespace CoreTest
     {
-        class DirectoryModelTest : public Test::ITest
+        class DirectoryModelTest : public Test::ITickTest
         {
         public:
             DirectoryModelTest(const std::shared_ptr<Core::Context>&);

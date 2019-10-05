@@ -31,12 +31,13 @@
 
 #include <djvCore/String.h>
 
+#include <iostream>
 #include <sstream>
+
+using namespace djv::Core;
 
 namespace djv
 {
-    using namespace Core;
-
     namespace CoreTest
     {
         StringTest::StringTest(const std::shared_ptr<Core::Context>& context) :
@@ -65,6 +66,28 @@ namespace djv
                     DJV_ASSERT(s == d.second);
                 }
             }
+            
+            {
+                std::vector<std::pair<std::string, std::vector<std::string> > > data =
+                {
+                    { "",      {} },
+                    { "a//b",   { "a", "", "b" } },
+                    { "a//",    { "a", "" } },
+                    { "//b",    { "", "b" } },
+                    { "a//b//c", { "a", "", "b", "", "c" } }
+                };
+                for (const auto& d : data)
+                {
+                    const auto s = String::split(d.first.c_str(), d.first.size(), '/', true);
+                    DJV_ASSERT(s == d.second);
+                }
+                for (const auto& d : data)
+                {
+                    const auto s = String::split(d.first, '/', true);
+                    DJV_ASSERT(s == d.second);
+                }
+            }
+            
             {
                 std::vector<std::pair<std::string, std::vector<std::string> > > data =
                 {
@@ -80,6 +103,23 @@ namespace djv
                     DJV_ASSERT(s == d.second);
                 }
             }
+            
+            {
+                std::vector<std::pair<std::string, std::vector<std::string> > > data =
+                {
+                    { "",      {} },
+                    { "a/|b",  { "a", "", "b" } },
+                    { "a/|",   { "a", "" } },
+                    { "/|b",   { "", "b" } },
+                    { "a//b||c", { "a", "", "b", "", "c" } }
+                };
+                for (const auto& d : data)
+                {
+                    const auto s = String::split(d.first, { '/', '|' }, true);
+                    DJV_ASSERT(s == d.second);
+                }
+            }
+            
             {
                 std::vector<std::pair<std::vector<std::string>, std::string > > data =
                 {
@@ -93,6 +133,7 @@ namespace djv
                     DJV_ASSERT(s == d.second);
                 }
             }
+            
             {
                 std::vector<std::pair<std::vector<std::string>, std::string > > data =
                 {
@@ -111,6 +152,7 @@ namespace djv
                     DJV_ASSERT(s == d.second);
                 }
             }
+            
             {
                 std::vector<std::pair<std::string, std::string> > data =
                 {
@@ -123,6 +165,7 @@ namespace djv
                     DJV_ASSERT(String::toUpper(d.first) == d.second);
                 }
             }
+            
             {
                 std::vector<std::pair<std::string, std::string> > data =
                 {
@@ -135,6 +178,7 @@ namespace djv
                     DJV_ASSERT(String::toLower(d.first) == d.second);
                 }
             }
+            
             {
                 std::vector<std::pair<int, std::string> > data =
                 {
@@ -147,6 +191,7 @@ namespace djv
                     DJV_ASSERT(String::indent(d.first) == d.second);
                 }
             }
+            
             {
                 std::vector<std::pair<std::string, std::string> > data =
                 {
@@ -161,6 +206,7 @@ namespace djv
                     DJV_ASSERT(s == d.second);
                 }
             }
+            
             {
                 struct Data
                 {
@@ -181,6 +227,7 @@ namespace djv
                     DJV_ASSERT(String::match(d.value, d.expression) == d.result);
                 }
             }
+            
             {
                 struct Data
                 {
@@ -193,7 +240,8 @@ namespace djv
                 {
                     { 0, "0", String::cStringLength, 1 },
                     { 10, "10", String::cStringLength, 2 },
-                    { 100, "100", String::cStringLength, 3 }
+                    { 100, "100", String::cStringLength, 3 },
+                    { -100, "-100", String::cStringLength, 4 }
                 };
                 for (const auto & d : data)
                 {
@@ -202,6 +250,7 @@ namespace djv
                     DJV_ASSERT(d.string == std::string(buf));
                 }
             }
+            
             {
                 struct Data
                 {
@@ -214,7 +263,8 @@ namespace djv
                     { "-10", -10 },
                     { "", 0 },
                     { "10", 10 },
-                    { "100", 100 }
+                    { "100", 100 },
+                    { "+100", 100 }
                 };
                 for (const auto & d : data)
                 {
@@ -223,6 +273,7 @@ namespace djv
                     DJV_ASSERT(d.value == value);
                 }
             }
+            
             {
                 struct Data
                 {
@@ -235,7 +286,8 @@ namespace djv
                     { "-10", -10 },
                     { "", 0 },
                     { "10", 10 },
-                    { "100", 100 }
+                    { "100", 100 },
+                    { "+100", 100 }
                 };
                 for (const auto & d : data)
                 {
@@ -244,6 +296,7 @@ namespace djv
                     DJV_ASSERT(d.value == value);
                 }
             }
+            
             {
                 struct Data
                 {
@@ -263,6 +316,7 @@ namespace djv
                     DJV_ASSERT(d.value == value);
                 }
             }
+            
             {
                 struct Data
                 {
@@ -271,11 +325,12 @@ namespace djv
                 };
                 std::vector<Data> data =
                 {
-                    { "-100.5", -100.5f },
-                    { "-10.5", -10.5f },
-                    { "", 0.f },
-                    { "10.5", 10.5f },
-                    { "100.5", 100.5f }
+                    { "-100.5", -100.5F },
+                    { "-10.5", -10.5F },
+                    { "", 0.F },
+                    { "10.5", 10.5F },
+                    { "+100.5", 100.5F },
+                    { "1E-1", .1F }
                 };
                 for (const auto & d : data)
                 {
@@ -284,6 +339,7 @@ namespace djv
                     DJV_ASSERT(d.value == value);
                 }
             }
+            
             {
                 std::vector<std::string> data =
                 {
@@ -295,6 +351,7 @@ namespace djv
                     DJV_ASSERT(String::fromWide(String::toWide(d)) == d);
                 }
             }
+            
             {
                 std::vector<std::string> data =
                 {
@@ -314,6 +371,7 @@ namespace djv
                     DJV_ASSERT(d == b);
                 }
             }
+            
             {
                 _print(String::getAlphabetLower());
                 _print(String::getAlphabetUpper());

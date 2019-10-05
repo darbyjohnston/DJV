@@ -528,7 +528,6 @@ namespace djv
         return out;
     }
 
-
     template<typename T, glm::precision P>
     inline std::ostream & operator << (std::ostream & s, const Core::BBox::tBBox2<T, P> & value)
     {
@@ -548,6 +547,7 @@ namespace djv
     template<typename T, glm::precision P>
     inline std::istream & operator >> (std::istream & s, Core::BBox::tBBox2<T, P> & out)
     {
+        s.exceptions(std::istream::failbit | std::istream::badbit);
         s >> out.min;
         s >> out.max;
         return s;
@@ -556,6 +556,7 @@ namespace djv
     template<typename T, glm::precision P>
     inline std::istream & operator >> (std::istream & s, Core::BBox::tBBox3<T, P> & out)
     {
+        s.exceptions(std::istream::failbit | std::istream::badbit);
         s >> out.min;
         s >> out.max;
         return s;

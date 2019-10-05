@@ -44,9 +44,7 @@ namespace djv
 
         private:
             void _io();
-            void _io2();
-            void _io3();
-            void _io4();
+            void _error();
             void _endian();
             void _temp();
 

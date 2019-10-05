@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvTestLib/Test.h>
+#include <djvTestLib/TickTest.h>
 
 #include <djvCore/Event.h>
 #include <djvCore/ValueObserver.h>
@@ -42,7 +42,7 @@ namespace djv
         class TestObject;
         class TestObject2;
         
-        class IEventSystemTest : public Test::ITest
+        class IEventSystemTest : public Test::ITickTest
         {
         public:
             IEventSystemTest(const std::shared_ptr<Core::Context>&);

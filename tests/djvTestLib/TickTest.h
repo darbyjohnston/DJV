@@ -29,20 +29,25 @@
 
 #pragma once
 
-#include <djvTestLib/TickTest.h>
+#include <djvTestLib/Test.h>
+
+#include <chrono>
 
 namespace djv
 {
-    namespace CoreTest
+    namespace Test
     {
-        class AnimationTest : public Test::ITickTest
+        //! This class provides an interface for confidence tests which need to be ticked.
+        class ITickTest : public ITest
         {
         public:
-            AnimationTest(const std::shared_ptr<Core::Context>&);
-            
-            void run(const std::vector<std::string>&) override;
+            ITickTest(const std::string & name, const std::shared_ptr<Core::Context>&);
+            virtual ~ITickTest() = 0;
+
+        protected:
+            void _tickFor(std::chrono::milliseconds);
         };
         
-    } // namespace CoreTest
+    } // namespace Test
 } // namespace djv
 

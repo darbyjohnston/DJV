@@ -31,10 +31,10 @@
 
 #include <djvCore/IObject.h>
 
+using namespace djv::Core;
+
 namespace djv
 {
-    using namespace Core;
-
     namespace CoreTest
     {
         ObjectTest::ObjectTest(const std::shared_ptr<Context>& context) :
@@ -51,6 +51,7 @@ namespace djv
                 void _init(const std::shared_ptr<Context>& context)
                 {
                     IObject::_init(context);
+                    _log(_getText("TestObject"));
                 }
 
                 TestObject()

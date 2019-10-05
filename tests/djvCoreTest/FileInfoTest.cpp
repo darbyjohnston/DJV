@@ -32,10 +32,10 @@
 #include <djvCore/FileIO.h>
 #include <djvCore/FileInfo.h>
 
+using namespace djv::Core;
+
 namespace djv
 {
-    using namespace Core;
-
     namespace CoreTest
     {
         FileInfoTest::FileInfoTest(const std::shared_ptr<Core::Context>& context) :
@@ -63,6 +63,7 @@ namespace djv
                 ss << "file type string: " << i;
                 _print(ss.str());
             }
+            
             for (auto i :
                 {
                     FileSystem::FilePermissions::Read,
@@ -74,6 +75,7 @@ namespace djv
                 ss << "file permissions string: " << FileSystem::getFilePermissionsLabel(static_cast<int>(i));
                 _print(ss.str());
             }
+            
             for (auto i : FileSystem::getDirectoryListSortEnums())
             {
                 std::stringstream ss;
@@ -88,18 +90,21 @@ namespace djv
                 const FileSystem::FileInfo fileInfo;
                 DJV_ASSERT(fileInfo.isEmpty());
             }
+            
             {
                 const FileSystem::Path path("/");
                 const FileSystem::FileInfo fileInfo(path, false);
                 DJV_ASSERT(path == fileInfo.getPath());
                 DJV_ASSERT(!fileInfo.isEmpty());
             }
+            
             {
                 const FileSystem::Path path("/");
                 const FileSystem::FileType fileType = FileSystem::FileType::File;
                 const FileSystem::FileInfo fileInfo(path, fileType, false);
                 DJV_ASSERT(fileType == fileInfo.getType());
             }
+            
             {
                 const std::string path = "/";
                 const FileSystem::FileInfo fileInfo(path, false);
@@ -114,6 +119,7 @@ namespace djv
                 io.open(_fileName, FileSystem::FileIO::Mode::Write);
                 io.close();
             }
+            
             {
                 FileSystem::FileInfo fileInfo;
                 fileInfo.setPath(FileSystem::Path(_fileName));
@@ -140,6 +146,7 @@ namespace djv
                     _print(ss.str());
                 }
             }
+            
             {
                 FileSystem::FileInfo fileInfo;
                 fileInfo.setPath(FileSystem::Path(_fileName), false);
@@ -166,6 +173,12 @@ namespace djv
                     _print(ss.str());
                 }
             }
+            
+            {
+                FileSystem::FileInfo fileInfo;
+                fileInfo.setPath(FileSystem::Path(), FileSystem::FileType::Sequence, false);
+            }
+            
             {
                 FileSystem::FileInfo fileInfo(_sequenceName);
                 DJV_ASSERT(_sequenceName == fileInfo.getFileName());
@@ -174,6 +187,7 @@ namespace djv
                 DJV_ASSERT("/tmp/render.1.exr" == fileInfo.getFileName(1));
                 DJV_ASSERT("render.1.exr" == fileInfo.getFileName(1, false));
             }
+            
             {
                 const std::string root(1, FileSystem::Path::getCurrentSeparator());
                 FileSystem::FileInfo fileInfo(root);
@@ -199,17 +213,20 @@ namespace djv
                 fileInfo.addToSequence(fileInfo2);
                 DJV_ASSERT(Frame::Sequence(Frame::Range(1, 110), 4) == fileInfo.getSequence());
             }
+            
             {
                 FileSystem::FileInfo fileInfo(_sequenceName);
                 fileInfo.evalSequence();
                 fileInfo.setPath(FileSystem::Path("render.1-10.exr"), FileSystem::FileType::Sequence);
                 DJV_ASSERT(Frame::Sequence(Frame::Range(1, 10)) == fileInfo.getSequence());
             }
+            
             {
                 FileSystem::FileInfo fileInfo("render.1.exr");
                 fileInfo.evalSequence();
                 DJV_ASSERT(!fileInfo.isCompatible(FileSystem::FileInfo("render.1.png")));
             }
+            
             {
                 FileSystem::FileInfo fileInfo("render.1.exr");
                 fileInfo.evalSequence();
@@ -219,10 +236,20 @@ namespace djv
 
         void FileInfoTest::_util()
         {
-            for (const auto& i : FileSystem::FileInfo::directoryList(FileSystem::Path(".")))
             {
-                _print(i.getFileName(Frame::invalid, false));
+                std::vector<FileSystem::DirectoryListOptions> optionsList;
+                for (auto i : FileSystem::getDirectoryListSortEnums())
+                {
+                    FileSystem::DirectoryListOptions options;
+                    options.sort = i;
+                    optionsList.push_back(options);
+                }
+                for (const auto& i : optionsList)
+                {
+                    FileSystem::FileInfo::directoryList(FileSystem::Path("."), i);
+                }
             }
+            
             {
                 const FileSystem::Path path = FileSystem::Path(".");
                 const std::vector<std::string> fileNames =
@@ -243,6 +270,12 @@ namespace djv
                 ss << "file sequence: " << fileInfo;
                 _print(ss.str());
                 DJV_ASSERT(fileInfo.getFileName(Frame::invalid, false) == "render.1-3.exr");
+            }
+            
+            {
+                FileSystem::Path path;
+                const FileSystem::FileInfo fileInfo = FileSystem::FileInfo::getFileSequence(path, {});
+                DJV_ASSERT(fileInfo.getPath() == path);
             }
         }
 
@@ -265,6 +298,17 @@ namespace djv
                 fromJSON(json, j);
                 DJV_ASSERT(i == j);
             }
+
+            try
+            {
+                auto json = picojson::value(picojson::object_type, true);
+                FileSystem::FileType t;
+                fromJSON(json, t);
+                DJV_ASSERT(false);
+            }
+            catch (const std::exception&)
+            {}
+            
             for (const auto i : FileSystem::getDirectoryListSortEnums())
             {
                 auto json = toJSON(i);
@@ -272,6 +316,17 @@ namespace djv
                 fromJSON(json, j);
                 DJV_ASSERT(i == j);
             }
+
+            try
+            {
+                auto json = picojson::value(picojson::object_type, true);
+                FileSystem::DirectoryListSort t;
+                fromJSON(json, t);
+                DJV_ASSERT(false);
+            }
+            catch (const std::exception&)
+            {}
+            
             {
                 const FileSystem::FileInfo fileInfo(_fileName);
                 auto json = toJSON(fileInfo);
@@ -279,6 +334,16 @@ namespace djv
                 fromJSON(json, fileInfo2);
                 DJV_ASSERT(fileInfo == fileInfo2);
             }
+
+            try
+            {
+                auto json = picojson::value(picojson::string_type, true);
+                FileSystem::FileInfo fileInfo;
+                fromJSON(json, fileInfo);
+                DJV_ASSERT(false);
+            }
+            catch (const std::exception&)
+            {}
         }
         
     } // namespace CoreTest

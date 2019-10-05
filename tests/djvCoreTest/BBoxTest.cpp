@@ -31,10 +31,10 @@
 
 #include <djvCore/BBox.h>
 
+using namespace djv::Core;
+
 namespace djv
 {
-    using namespace Core;
-
     namespace CoreTest
     {
         BBoxTest::BBoxTest(const std::shared_ptr<Core::Context>& context) :
@@ -71,6 +71,7 @@ namespace djv
                 DJV_ASSERT(1 == b.max.x);
                 DJV_ASSERT(3 == b.max.y);
             }
+            
             {
                 BBox2f b;
                 b = BBox2f(glm::vec2(0.F, 1.F));
@@ -89,6 +90,7 @@ namespace djv
                 DJV_ASSERT(2.F == b.max.x);
                 DJV_ASSERT(4.F == b.max.y);
             }
+            
             {
                 BBox3f b;
                 b = BBox3f(glm::vec3(0.F, 1.F, 2.F));
@@ -138,6 +140,7 @@ namespace djv
                 DJV_ASSERT(0 == b.max.x);
                 DJV_ASSERT(0 == b.max.y);
             }
+            
             {
                 BBox2f b(0.F, 1.F, 2.F, 3.F);
                 DJV_ASSERT(0.F == b.x());
@@ -159,6 +162,7 @@ namespace djv
                 DJV_ASSERT(0.F == b.max.x);
                 DJV_ASSERT(0.F == b.max.y);
             }
+            
             {
                 BBox3f b(0.F, 1.F, 2.F, 3.F, 4.F, 5.F);
                 DJV_ASSERT(0.F == b.x());
@@ -207,6 +211,7 @@ namespace djv
                 a = a.margin(1, 2, 3, 4);
                 DJV_ASSERT(a == BBox2i(-1, -2, 9, 14));
             }
+            
             {
                 BBox2f a(0.F, 1.F, 2.F, 3.F);
                 DJV_ASSERT(a.contains(BBox2f(0.F, 1.F, 1.F, 1.F)));
@@ -227,6 +232,7 @@ namespace djv
                 a = a.margin(1.F, 2.F, 3.F, 4.F);
                 DJV_ASSERT(a == BBox2f(-1.F, -2.F, 8.F, 13.F));
             }
+            
             {
                 BBox3f a(0.F, 1.F, 2.F, 3.F, 4.f, 5.f);
                 DJV_ASSERT(a.contains(BBox3f(0.F, 1.F, 2.f, 1.F, 1.F, 1.F)));
@@ -251,6 +257,7 @@ namespace djv
                 DJV_ASSERT(a == a);
                 DJV_ASSERT(a != b);
             }
+            
             {
                 const BBox2f a(0.F, 1.F, 2.F, 3.F);
                 const BBox2f b(0.F, 0.F, 0.F, 0.F);
@@ -259,6 +266,7 @@ namespace djv
                 DJV_ASSERT(fuzzyCompare(a, a));
                 DJV_ASSERT(!fuzzyCompare(a, b));
             }
+            
             {
                 const BBox3f a(0.F, 1.F, 2.F, 3.F, 4.F, 5.F);
                 const BBox3f b(0.F, 0.F, 0.F, 0.F, 0.F, 0.F);
@@ -291,6 +299,17 @@ namespace djv
                 ss >> b;
                 DJV_ASSERT(a == b);
             }
+            
+            try
+            {
+                auto json = picojson::value(picojson::object_type, true);
+                BBox2i b;
+                fromJSON(json, b);
+                DJV_ASSERT(false);
+            }
+            catch (const std::exception&)
+            {}
+            
             {
                 const BBox2f a(0.F, 1.F, 2.F, 3.F);
                 auto json = toJSON(a);
@@ -302,6 +321,17 @@ namespace djv
                 ss >> b;
                 DJV_ASSERT(a == b);
             }
+
+            try
+            {
+                auto json = picojson::value(picojson::object_type, true);
+                BBox2f b;
+                fromJSON(json, b);
+                DJV_ASSERT(false);
+            }
+            catch (const std::exception&)
+            {}
+
             {
                 const BBox3f a(0.F, 1.F, 2.F, 3.F, 4.F, 5.F);
                 auto json = toJSON(a);
@@ -313,6 +343,16 @@ namespace djv
                 ss >> b;
                 DJV_ASSERT(a == b);
             }
+
+            try
+            {
+                auto json = picojson::value(picojson::object_type, true);
+                BBox3f b;
+                fromJSON(json, b);
+                DJV_ASSERT(false);
+            }
+            catch (const std::exception&)
+            {}
         }
 
     } // namespace CoreTest

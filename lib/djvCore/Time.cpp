@@ -168,19 +168,12 @@ namespace djv
                 {
                     *ok = true;
                 }
-
                 int hour   = 0;
                 int minute = 0;
                 int second = 0;
                 int frame  = 0;
-
                 const auto pieces = String::split(in, ':');
-                if (pieces.size() != 4 && ok)
-                {
-                    *ok = false;
-                }
-
-                int i = 0;
+                size_t i = 0;
                 switch (pieces.size())
                 {
                 case 4:
@@ -201,9 +194,13 @@ namespace djv
                 case 1:
                     frame = std::stoi(pieces[i]);
                     break;
-                default: break;
+                default:
+                    if (ok)
+                    {
+                        *ok = false;
+                    }
+                    break;
                 }
-
                 out = timeToTimecode(hour, minute, second, frame);
             }
 

@@ -34,10 +34,10 @@
 #include <iostream>
 #include <sstream>
 
+using namespace djv::Core;
+
 namespace djv
 {
-    using namespace Core;
-
     namespace CoreTest
     {
         FrameTest::FrameTest(const std::shared_ptr<Context>& context) :
@@ -64,6 +64,7 @@ namespace djv
                 DJV_ASSERT(Frame::invalid == sequence.getFrame(0));
                 DJV_ASSERT(Frame::invalid == sequence.getIndex(0));
             }
+            
             {
                 const Frame::Sequence sequence(Frame::Range(0, 99), 4);
                 DJV_ASSERT(1 == sequence.ranges.size());
@@ -74,6 +75,7 @@ namespace djv
                 DJV_ASSERT(0 == sequence.getFrame(0));
                 DJV_ASSERT(0 == sequence.getIndex(0));                
             }
+            
             {
                 const Frame::Sequence sequence({ Frame::Range(0, 9), Frame::Range(10, 99) }, 4);
                 DJV_ASSERT(2 == sequence.ranges.size());
@@ -84,12 +86,14 @@ namespace djv
                 DJV_ASSERT(0 == sequence.getFrame(0));
                 DJV_ASSERT(0 == sequence.getIndex(0));                
             }
+            
             {
                 Frame::Sequence sequence({ Frame::Range(10, 9), Frame::Range(3, 1) });
                 sequence.sort();
                 DJV_ASSERT(sequence.ranges[0] == Frame::Range(1, 3));
                 DJV_ASSERT(sequence.ranges[1] == Frame::Range(9, 10));
             }
+            
             {
                 Frame::Sequence sequence(Frame::Range(1, 3));
                 sequence.merge(Frame::Range(3, 10));
@@ -107,6 +111,7 @@ namespace djv
                 range = Frame::Range(1, 100);
                 DJV_ASSERT(Frame::isValid(range));
             }
+            
             {
                 Frame::Range range(100, 1);
                 Frame::sort(range);
@@ -126,6 +131,7 @@ namespace djv
                 }
                 DJV_ASSERT(0 == sequence.ranges.size());
             }
+            
             {
                 std::vector<Frame::Number> frames = { 1 };
                 const auto sequence = Frame::fromFrames(frames);
@@ -138,6 +144,7 @@ namespace djv
                 DJV_ASSERT(1 == sequence.ranges[0].min);
                 DJV_ASSERT(1 == sequence.ranges[0].max);
             }
+            
             {
                 std::vector<Frame::Number> frames = { 1, 2, 3 };
                 const auto sequence = Frame::fromFrames(frames);
@@ -150,6 +157,7 @@ namespace djv
                 DJV_ASSERT(1 == sequence.ranges[0].min);
                 DJV_ASSERT(3 == sequence.ranges[0].max);
             }
+            
             {
                 std::vector<Frame::Number> frames = { 1, 3 };
                 const auto sequence = Frame::fromFrames(frames);
@@ -164,6 +172,7 @@ namespace djv
                 DJV_ASSERT(3 == sequence.ranges[1].min);
                 DJV_ASSERT(3 == sequence.ranges[1].max);
             }
+            
             {
                 std::vector<Frame::Number> frames = { 1, 2, 3, 5, 6, 8 };
                 const auto sequence = Frame::fromFrames(frames);
@@ -180,6 +189,7 @@ namespace djv
                 DJV_ASSERT(8 == sequence.ranges[2].min);
                 DJV_ASSERT(8 == sequence.ranges[2].max);
             }
+            
             {
                 const Frame::Sequence sequence(
                 {
@@ -196,6 +206,7 @@ namespace djv
                     DJV_ASSERT(frame == frames[i]);
                 }
             }
+            
             {
                 const Frame::Sequence sequence(
                 {
@@ -207,6 +218,24 @@ namespace djv
                 DJV_ASSERT(0 == sequence.getIndex(1));
                 DJV_ASSERT(2 == sequence.getIndex(3));
                 DJV_ASSERT(5 == sequence.getIndex(8));
+            }
+            
+            {
+                DJV_ASSERT("10" == Frame::toString(10, 0));
+                DJV_ASSERT("-10" == Frame::toString(-10, 0));
+                DJV_ASSERT("0010" == Frame::toString(10, 4));
+                DJV_ASSERT("1-10" == Frame::toString(Frame::Range(1, 10)));
+                DJV_ASSERT("0001-0010" == Frame::toString(Frame::Range(1, 10), 4));
+                DJV_ASSERT("1-10" == Frame::toString(Frame::Sequence(Frame::Range(1, 10))));
+                DJV_ASSERT("0001-0010" == Frame::toString(Frame::Sequence(Frame::Range(1, 10), 4)));
+            }
+            
+            {
+                Frame::Range range = Frame::invalidRange;
+                size_t pad = 0;
+                Frame::fromString("01-0010", range, pad);
+                DJV_ASSERT(range == Frame::Range(1, 10));
+                DJV_ASSERT(4 == pad);
             }
         }
         

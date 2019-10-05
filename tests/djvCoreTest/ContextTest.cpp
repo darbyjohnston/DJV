@@ -33,10 +33,10 @@
 #include <djvCore/ResourceSystem.h>
 #include <djvCore/String.h>
 
+using namespace djv::Core;
+
 namespace djv
 {
-    using namespace Core;
-
     namespace CoreTest
     {
         ContextTest::ContextTest(const std::shared_ptr<Core::Context>& context) :
@@ -58,22 +58,34 @@ namespace djv
                     ss << "args: " << String::join(context->getArgs(), ", ");
                     _print(ss.str());
                 }
+                
                 {
                     std::stringstream ss;
                     ss << "name: " << context->getName();
                     _print(ss.str());
                 }
+                
                 for (const auto& i : context->getSystems())
                 {
                     std::stringstream ss;
                     ss << "system: " << i->getSystemName();
                     _print(ss.str());
                 }
-                auto resourceSystem = context->getSystemT<ResourceSystem>();
-                DJV_ASSERT(resourceSystem);
-                DJV_ASSERT(!context->getSystemT<System>());
-                context->tick(0.f);
-                context->tick(0.f);
+                
+                {
+                    auto resourceSystem = context->getSystemT<ResourceSystem>();
+                    DJV_ASSERT(resourceSystem);
+                }
+                
+                {
+                    DJV_ASSERT(!context->getSystemT<System>());
+                }
+                
+                for (size_t i = 0; i < 100; ++i)
+                {
+                    context->tick(0.f);
+                }
+                
                 {
                     std::stringstream ss;
                     ss << "fps averge: " << context->getFPSAverage();

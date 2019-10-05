@@ -52,6 +52,33 @@ namespace djv
     } // namespace Core
 
     template<typename T, glm::precision P>
+    inline bool fuzzyCompare(const glm::tvec2<T, P> & a, const glm::tvec2<T, P> & b)
+    {
+        return
+            fuzzyCompare(a.x, b.x) &&
+            fuzzyCompare(a.y, b.y);
+    }
+
+    template<typename T, glm::precision P>
+    inline bool fuzzyCompare(const glm::tvec3<T, P> & a, const glm::tvec3<T, P> & b)
+    {
+        return
+            fuzzyCompare(a.x, b.x) &&
+            fuzzyCompare(a.y, b.y) &&
+            fuzzyCompare(a.z, b.z);
+    }
+
+    template<typename T, glm::precision P>
+    inline bool fuzzyCompare(const glm::tvec4<T, P> & a, const glm::tvec4<T, P> & b)
+    {
+        return
+            fuzzyCompare(a.x, b.x) &&
+            fuzzyCompare(a.y, b.y) &&
+            fuzzyCompare(a.z, b.z) &&
+            fuzzyCompare(a.w, b.w);
+    }
+
+    template<typename T, glm::precision P>
     inline std::ostream & operator << (std::ostream & s, const glm::tvec2<T, P> & value)
     {
         s << value.x << " ";
@@ -81,6 +108,7 @@ namespace djv
     template<typename T, glm::precision P>
     inline std::istream & operator >> (std::istream & s, glm::tvec2<T, P> & out)
     {
+        s.exceptions(std::istream::failbit | std::istream::badbit);
         s >> out.x;
         s >> out.y;
         return s;
@@ -89,6 +117,7 @@ namespace djv
     template<typename T, glm::precision P>
     inline std::istream & operator >> (std::istream & s, glm::tvec3<T, P> & out)
     {
+        s.exceptions(std::istream::failbit | std::istream::badbit);
         s >> out.x;
         s >> out.y;
         s >> out.z;
@@ -98,38 +127,12 @@ namespace djv
     template<typename T, glm::precision P>
     inline std::istream & operator >> (std::istream & s, glm::tvec4<T, P> & out)
     {
+        s.exceptions(std::istream::failbit | std::istream::badbit);
         s >> out.x;
         s >> out.y;
         s >> out.z;
         s >> out.w;
         return s;
-    }
-
-    template<typename T, glm::precision P>
-    inline bool fuzzyCompare(const glm::tvec2<T, P> & a, const glm::tvec2<T, P> & b)
-    {
-        return
-            fuzzyCompare(a.x, b.x) &&
-            fuzzyCompare(a.y, b.y);
-    }
-
-    template<typename T, glm::precision P>
-    inline bool fuzzyCompare(const glm::tvec3<T, P> & a, const glm::tvec3<T, P> & b)
-    {
-        return
-            fuzzyCompare(a.x, b.x) &&
-            fuzzyCompare(a.y, b.y) &&
-            fuzzyCompare(a.z, b.z);
-    }
-
-    template<typename T, glm::precision P>
-    inline bool fuzzyCompare(const glm::tvec4<T, P> & a, const glm::tvec4<T, P> & b)
-    {
-        return
-            fuzzyCompare(a.x, b.x) &&
-            fuzzyCompare(a.y, b.y) &&
-            fuzzyCompare(a.z, b.z) &&
-            fuzzyCompare(a.w, b.w);
     }
 
 } // namespace djv

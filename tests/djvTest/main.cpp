@@ -41,14 +41,20 @@
 #include <djvCoreTest/FileInfoTest.h>
 #include <djvCoreTest/FrameTest.h>
 #include <djvCoreTest/IEventSystemTest.h>
+#include <djvCoreTest/ISystemTest.h>
 #include <djvCoreTest/ListObserverTest.h>
+#include <djvCoreTest/LogSystemTest.h>
 #include <djvCoreTest/MapObserverTest.h>
 #include <djvCoreTest/MathTest.h>
 #include <djvCoreTest/MemoryTest.h>
+#include <djvCoreTest/OSTest.h>
 #include <djvCoreTest/ObjectTest.h>
 #include <djvCoreTest/PathTest.h>
+#include <djvCoreTest/PicoJSONTest.h>
+#include <djvCoreTest/RangeTest.h>
 #include <djvCoreTest/SpeedTest.h>
 #include <djvCoreTest/StringTest.h>
+#include <djvCoreTest/TextSystemTest.h>
 #include <djvCoreTest/TimeTest.h>
 #include <djvCoreTest/ValueObserverTest.h>
 
@@ -75,7 +81,7 @@ int main(int argc, char ** argv)
         }
         auto context = Core::Context::create(args);
         
-        std::vector<std::unique_ptr<Test::ITest> > tests;
+        std::vector<std::shared_ptr<Test::ITest> > tests;
         tests.emplace_back(new CoreTest::AnimationTest(context));
         tests.emplace_back(new CoreTest::BBoxTest(context));
         tests.emplace_back(new CoreTest::CacheTest(context));
@@ -89,14 +95,20 @@ int main(int argc, char ** argv)
         tests.emplace_back(new CoreTest::FileInfoTest(context));
         tests.emplace_back(new CoreTest::FrameTest(context));
         tests.emplace_back(new CoreTest::IEventSystemTest(context));
+        tests.emplace_back(new CoreTest::ISystemTest(context));
         tests.emplace_back(new CoreTest::ListObserverTest(context));
+        tests.emplace_back(new CoreTest::LogSystemTest(context));
         tests.emplace_back(new CoreTest::MapObserverTest(context));
         tests.emplace_back(new CoreTest::MathTest(context));
         tests.emplace_back(new CoreTest::MemoryTest(context));
+        tests.emplace_back(new CoreTest::OSTest(context));
         tests.emplace_back(new CoreTest::ObjectTest(context));
         tests.emplace_back(new CoreTest::PathTest(context));
+        tests.emplace_back(new CoreTest::PicoJSONTest(context));
+        tests.emplace_back(new CoreTest::RangeTest(context));
         tests.emplace_back(new CoreTest::SpeedTest(context));
         tests.emplace_back(new CoreTest::StringTest(context));
+        tests.emplace_back(new CoreTest::TextSystemTest(context));
         tests.emplace_back(new CoreTest::TimeTest(context));
         tests.emplace_back(new CoreTest::ValueObserverTest(context));
 #if !defined(DJV_TINY_BUILD)
@@ -105,11 +117,12 @@ int main(int argc, char ** argv)
         tests.emplace_back(new AVTest::PixelTest(context));
 #endif // DJV_TINY_BUILD
         
+        std::vector<std::shared_ptr<Test::ITest> > testsToRun;
         if (1 == argc)
         {
             for (auto& i : tests)
             {
-                i->run(args);
+                testsToRun.push_back(i);
             }
         }
         else
@@ -121,11 +134,16 @@ int main(int argc, char ** argv)
                 {
                     if (name == j->getName())
                     {
+                        testsToRun.push_back(j);
                         j->run(args);
                         break;
                     }
                 }
             }
+        }
+        for (const auto& i : testsToRun)
+        {
+            i->run(args);
         }
     }
     catch (const std::exception & error)

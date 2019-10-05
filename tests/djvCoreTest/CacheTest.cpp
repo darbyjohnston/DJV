@@ -31,10 +31,10 @@
 
 #include <djvCore/Cache.h>
 
+using namespace djv::Core;
+
 namespace djv
 {
-    using namespace Core;
-
     namespace CoreTest
     {
         CacheTest::CacheTest(const std::shared_ptr<Core::Context>& context) :
@@ -50,7 +50,10 @@ namespace djv
                 cache.add(3, "c");
                 DJV_ASSERT(cache.getKeys() == std::vector<int>({ 1, 2, 3 }));
                 DJV_ASSERT(cache.getValues() == std::vector<std::string>({ "a", "b", "c" }));
+                std::string key;
+                DJV_ASSERT(!cache.get(0, key));
             }
+            
             {
                 Memory::Cache<int, std::string> cache;
                 cache.setMax(2);

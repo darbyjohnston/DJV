@@ -27,9 +27,10 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvCoreTest/ValueObserverTest.h>
+#include <djvCoreTest/LogSystemTest.h>
 
-#include <djvCore/ValueObserver.h>
+#include <djvCore/Context.h>
+#include <djvCore/LogSystem.h>
 
 using namespace djv::Core;
 
@@ -37,36 +38,50 @@ namespace djv
 {
     namespace CoreTest
     {
-        ValueObserverTest::ValueObserverTest(const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::CoreTest::ValueObserverTest", context)
+        LogSystemTest::LogSystemTest(const std::shared_ptr<Core::Context>& context) :
+            ITickTest("djv::CoreTest::LogSystemTest", context)
         {}
-        
-        void ValueObserverTest::run(const std::vector<std::string>& args)
+                
+        void LogSystemTest::run(const std::vector<std::string>&)
         {
-            int value = 0;
-            auto subject = ValueSubject<int>::create(value);
+            if (auto context = getContext().lock())
             {
-                int value2 = 0;
-                auto observer = ValueObserver<int>::create(
-                    subject,
-                    [&value2](int value)
+                auto system = context->getSystemT<LogSystem>();
+                
+                auto warningsObserver = ListObserver<std::string>::create(
+                    system->observeWarnings(),
+                    [](const std::vector<std::string>& value)
                     {
-                        value2 = value;
+                        for (const auto& i : value)
+                        {
+                            std::cout << i << std::endl;
+                        }
                     });
-                DJV_ASSERT(1 == subject->getObserversCount());
+                auto errorsObserver = ListObserver<std::string>::create(
+                    system->observeErrors(),
+                    [](const std::vector<std::string>& value)
+                    {
+                        for (const auto& i : value)
+                        {
+                            std::cout << i << std::endl;
+                        }
+                    });
+                
+                system->setConsoleOutput(true);
+                DJV_ASSERT(system->hasConsoleOutput());
+                
+                _tickFor(std::chrono::milliseconds(500));
+                
+                system->log("LogSystemTest", "Message");
+                system->log("LogSystemTest", "Warning", LogLevel::Warning);
+                system->log("LogSystemTest", "Error", LogLevel::Error);
 
-                DJV_ASSERT(!subject->setIfChanged(value));
-                ++value;
-                subject->setAlways(value);
-                DJV_ASSERT(subject->get() == value2);
-                ++value;
-                DJV_ASSERT(subject->setIfChanged(value));
-                DJV_ASSERT(!subject->setIfChanged(value));
-                DJV_ASSERT(subject->get() == value2);
+                _tickFor(std::chrono::milliseconds(500));
+
+                system->setConsoleOutput(false);
             }
-            DJV_ASSERT(0 == subject->getObserversCount());
         }
-        
+                
     } // namespace CoreTest
 } // namespace djv
 

@@ -41,6 +41,11 @@ namespace djv
             MathTest(const std::shared_ptr<Core::Context>&);
             
             void run(const std::vector<std::string>&) override;
+            
+        private:
+            void _misc();
+            void _rational();
+            void _random();
         };
         
     } // namespace CoreTest

@@ -32,10 +32,10 @@
 #include <djvCore/Error.h>
 #include <djvCore/Path.h>
 
+using namespace djv::Core;
+
 namespace djv
 {
-    using namespace Core;
-
     namespace CoreTest
     {
         PathTest::PathTest(const std::shared_ptr<Core::Context>& context) :
@@ -68,6 +68,7 @@ namespace djv
                 const FileSystem::Path path;
                 DJV_ASSERT(path.isEmpty());
             }
+            
             {
                 FileSystem::Path path("/a/b");
                 DJV_ASSERT(!path.isEmpty());
@@ -182,11 +183,13 @@ namespace djv
                     _print(ss.str());
                 }
             }
+            
             {
                 std::string path("/a/b/");
                 FileSystem::Path::removeTrailingSeparator(path);
                 DJV_ASSERT("/a/b" == path);
             }
+            
             {
                 struct Data
                 {
@@ -216,13 +219,19 @@ namespace djv
                     DJV_ASSERT(d.path == path);
                 }
             }
+            
             {
+                const FileSystem::Path path("PathTestMkdir");
+                FileSystem::Path::mkdir(path);
+                FileSystem::Path::rmdir(path);
+            }
+
+            {            
+                const FileSystem::Path path("PathTestMkdir");
                 try
                 {
-                    FileSystem::Path path = FileSystem::Path::getAbsolute(FileSystem::Path("."));
-                    std::stringstream ss;
-                    ss << "absolute: " << path;
-                    _print(ss.str());
+                    FileSystem::Path::mkdir(path);
+                    FileSystem::Path::mkdir(path);
                 }
                 catch (const std::exception & e)
                 {
@@ -230,22 +239,41 @@ namespace djv
                 }
                 try
                 {
-                    FileSystem::Path path = FileSystem::Path::getAbsolute(FileSystem::Path(std::string()));
-                    DJV_ASSERT(false);
+                    FileSystem::Path::rmdir(path);
+                    FileSystem::Path::rmdir(path);
                 }
                 catch (const std::exception & e)
                 {
                     _print(Error::format(e));
                 }
             }
+            
             {
-                FileSystem::Path path = FileSystem::Path::getCWD();
+                const FileSystem::Path path = FileSystem::Path::getAbsolute(FileSystem::Path("."));
+                std::stringstream ss;
+                ss << "absolute: " << path;
+                _print(ss.str());
+            }
+            
+            try
+            {
+                const FileSystem::Path path = FileSystem::Path::getAbsolute(FileSystem::Path(std::string()));
+                DJV_ASSERT(false);
+            }
+            catch (const std::exception & e)
+            {
+                _print(Error::format(e));
+            }
+
+            {
+                const FileSystem::Path path = FileSystem::Path::getCWD();
                 std::stringstream ss;
                 ss << "cwd: " << path;
                 _print(ss.str());
             }
+
             {
-                FileSystem::Path path = FileSystem::Path::getTemp();
+                const FileSystem::Path path = FileSystem::Path::getTemp();
                 std::stringstream ss;
                 ss << "temp: " << path;
                 _print(ss.str());
@@ -263,11 +291,23 @@ namespace djv
         
         void PathTest::_serialize()
         {
-            const FileSystem::Path path("/a/b");
-            auto json = toJSON(path);
-            FileSystem::Path path2;
-            fromJSON(json, path2);
-            DJV_ASSERT(path == path2);
+            {
+                const FileSystem::Path path("/a/b");
+                auto json = toJSON(path);
+                FileSystem::Path path2;
+                fromJSON(json, path2);
+                DJV_ASSERT(path == path2);
+            }
+
+            try            
+            {
+                auto json = picojson::value(picojson::object_type, true);
+                FileSystem::Path path;
+                fromJSON(json, path);
+                DJV_ASSERT(false);
+            }
+            catch (const std::exception&)
+            {}
         }
                 
     } // namespace CoreTest

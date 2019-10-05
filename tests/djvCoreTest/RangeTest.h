@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2019 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -29,18 +29,24 @@
 
 #pragma once
 
-#include <djvTestLib/TickTest.h>
+#include <djvTestLib/Test.h>
 
 namespace djv
 {
     namespace CoreTest
     {
-        class AnimationTest : public Test::ITickTest
+        class RangeTest : public Test::ITest
         {
         public:
-            AnimationTest(const std::shared_ptr<Core::Context>&);
+            RangeTest(const std::shared_ptr<Core::Context>&);
             
             void run(const std::vector<std::string>&) override;
+        
+        private:
+            void _ctor();
+            void _util();
+            void _operators();
+            void _serialize();
         };
         
     } // namespace CoreTest

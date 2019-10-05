@@ -27,21 +27,67 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvCoreTest/OSTest.h>
 
-#include <djvTestLib/TickTest.h>
+#include <djvCore/OS.h>
+#include <djvCore/Path.h>
+
+using namespace djv::Core;
 
 namespace djv
 {
     namespace CoreTest
     {
-        class AnimationTest : public Test::ITickTest
+        OSTest::OSTest(const std::shared_ptr<Core::Context>& context) :
+            ITest("djv::CoreTest::OSTest", context)
+        {}
+        
+        void OSTest::run(const std::vector<std::string>& args)
         {
-        public:
-            AnimationTest(const std::shared_ptr<Core::Context>&);
+            for (auto i : OS::getDirectoryShortcutEnums())
+            {
+                std::stringstream ss;
+                ss << "directory shortcut string: " << i;
+                _print(ss.str());
+            }
             
-            void run(const std::vector<std::string>&) override;
-        };
+            for (auto i : OS::getDirectoryShortcutEnums())
+            {
+                std::stringstream ss;
+                ss << "directory shortcut: " << OS::getPath(i);
+                _print(ss.str());
+            }
+            
+            {
+                std::stringstream ss;
+                ss << "Information: " << OS::getInformation();
+                _print(ss.str());
+            }
+            
+            {
+                std::stringstream ss;
+                ss << "RAM: " << OS::getRAMSize();
+                _print(ss.str());
+            }
+            
+            {
+                std::stringstream ss;
+                ss << "Terminal width: " << OS::getTerminalWidth();
+                _print(ss.str());
+            }
+            
+            {
+                OS::setEnv("OSTest", "1");
+                DJV_ASSERT("1" == OS::getEnv("OSTest"));
+                DJV_ASSERT(1 == OS::getIntEnv("OSTest"));
+            }
+
+            {
+                std::stringstream ss;
+                ss << "User name: " << OS::getUserName();
+                _print(ss.str());
+            }
+        }
         
     } // namespace CoreTest
 } // namespace djv

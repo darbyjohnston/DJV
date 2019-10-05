@@ -142,6 +142,7 @@ namespace djv
     template<typename T>
     inline std::istream & operator >> (std::istream & s, Core::Range::Range<T> & out)
     {
+        s.exceptions(std::istream::failbit | std::istream::badbit);
         s >> out.min;
         s >> out.max;
         return s;

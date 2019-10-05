@@ -33,10 +33,10 @@
 
 #include <iostream>
 
+using namespace djv::Core;
+
 namespace djv
 {
-    using namespace Core;
-
     namespace CoreTest
     {
         MemoryTest::MemoryTest(const std::shared_ptr<Core::Context>& context) :
@@ -84,11 +84,22 @@ namespace djv
                 ss << "current endian: " << Memory::getEndian();
                 _print(ss.str());
             }
+            
             {
                 std::stringstream ss;
                 ss << "opposite endian: " << Memory::opposite(Memory::getEndian());
                 _print(ss.str());
             }
+            
+            {
+                uint8_t data = 0;
+                Memory::endian(&data, 1, sizeof(data));
+                DJV_ASSERT(0 == data);
+                uint8_t data2 = 0;
+                Memory::endian(&data, &data2, 1, sizeof(data));
+                DJV_ASSERT(0 == data2);
+            }
+            
             {
                 uint16_t data = 0;
                 uint8_t* p = reinterpret_cast<uint8_t*>(&data);
@@ -103,6 +114,7 @@ namespace djv
                 DJV_ASSERT(0 == p2[0]);
                 DJV_ASSERT(1 == p2[1]);
             }
+            
             {
                 uint32_t data = 0;
                 uint8_t* p = reinterpret_cast<uint8_t*>(&data);
@@ -123,6 +135,7 @@ namespace djv
                 DJV_ASSERT(2 == p2[2]);
                 DJV_ASSERT(3 == p2[3]);
             }
+            
             {
                 uint64_t data = 0;
                 uint8_t* p = reinterpret_cast<uint8_t*>(&data);
@@ -166,6 +179,7 @@ namespace djv
                 ss << "hash: " << hash;
                 _print(ss.str());
             }
+            
             Memory::hashCombine(hash, 100.f);
             {
                 std::stringstream ss;

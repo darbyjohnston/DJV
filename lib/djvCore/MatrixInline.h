@@ -51,6 +51,7 @@ namespace djv
 
     inline std::istream & operator >> (std::istream & s, glm::mat4x4 & out)
     {
+        s.exceptions(std::istream::failbit | std::istream::badbit);
         for (glm::mat4x4::length_type i = 0; i < 4; ++i)
         {
             for (glm::mat4x4::length_type j = 0; j < 4; ++j)

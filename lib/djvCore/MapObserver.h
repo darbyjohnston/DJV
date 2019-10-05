@@ -92,6 +92,9 @@ namespace djv
 
             //! Get a map item.
             virtual const U & getItem(const T &) const = 0;
+            
+            //! Get the number of observers.
+            size_t getObserversCount() const;
 
         protected:
             void _add(const std::weak_ptr<MapObserver<T, U> > &);

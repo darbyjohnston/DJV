@@ -13,14 +13,20 @@ set(header
     FileInfoTest.h
 	FrameTest.h
 	IEventSystemTest.h
+	ISystemTest.h
     ListObserverTest.h
+    LogSystemTest.h
     MapObserverTest.h
     MathTest.h
     MemoryTest.h
+    OSTest.h
     ObjectTest.h
     PathTest.h
+	PicoJSONTest.h
+	RangeTest.h
 	SpeedTest.h
     StringTest.h
+    TextSystemTest.h
     TimeTest.h
     ValueObserverTest.h)
 set(source
@@ -38,14 +44,20 @@ set(source
     FileInfoTest.cpp
 	FrameTest.cpp
 	IEventSystemTest.cpp
+	ISystemTest.cpp
     ListObserverTest.cpp
+    LogSystemTest.cpp
     MapObserverTest.cpp
     MathTest.cpp
     MemoryTest.cpp
+    OSTest.cpp
     ObjectTest.cpp
     PathTest.cpp
+	PicoJSONTest.cpp
+	RangeTest.cpp
 	SpeedTest.cpp
     StringTest.cpp
+    TextSystemTest.cpp
     TimeTest.cpp
     ValueObserverTest.cpp)
 

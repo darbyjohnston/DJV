@@ -31,10 +31,10 @@
 
 #include <djvCore/Memory.h>
 
+using namespace djv::Core;
+
 namespace djv
 {
-    using namespace Core;
-
     namespace CoreTest
     {
         EnumTest::EnumTest(const std::shared_ptr<Core::Context>& context) :
@@ -49,6 +49,7 @@ namespace djv
                 ss << "endian string: " << i;
                 _print(ss.str());
             }
+            
             for (auto i : Memory::getEndianEnums())
             {
                 std::stringstream ss;
@@ -57,6 +58,7 @@ namespace djv
                 ss >> j;
                 DJV_ASSERT(i == j);
             }
+            
             {
                 std::stringstream ss;
                 ss << "none";

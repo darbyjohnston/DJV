@@ -30,15 +30,16 @@
 #include <djvCoreTest/DirectoryModelTest.h>
 
 #include <djvCore/DirectoryModel.h>
+#include <djvCore/FileIO.h>
+
+using namespace djv::Core;
 
 namespace djv
 {
-    using namespace Core;
-
     namespace CoreTest
     {
         DirectoryModelTest::DirectoryModelTest(const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::CoreTest::DirectoryModelTest", context)
+            ITickTest("djv::CoreTest::DirectoryModelTest", context)
         {}
         
         void DirectoryModelTest::run(const std::vector<std::string>& args)
@@ -74,12 +75,11 @@ namespace djv
                     ss << "path 2: " << path2;
                     _print(ss.str());
                 }
-                {
-                    std::stringstream ss;
-                    ss << "has up: " << model->observeHasUp()->get();
-                    _print(ss.str());
-                }
+                DJV_ASSERT(model->observeHasUp()->get());
+
                 model->setHistoryMax(100);
+                model->setHistoryMax(100);
+                model->setHistoryMax(10);
                 model->setHistoryIndex(0);
                 DJV_ASSERT(path == model->observePath()->get());
                 model->goForward();
@@ -92,25 +92,18 @@ namespace djv
                     ss << "history: " << i;
                     _print(ss.str());
                 }
-                {
-                    std::stringstream ss;
-                    ss << "history index: " << model->observeHistoryIndex()->get();
-                    _print(ss.str());
-                }
-                {
-                    std::stringstream ss;
-                    ss << "has back: " << model->observeHasBack()->get();
-                    _print(ss.str());
-                }
-                {
-                    std::stringstream ss;
-                    ss << "has forward: " << model->observeHasForward()->get();
-                    _print(ss.str());
-                }
+                DJV_ASSERT(0 == model->observeHistoryIndex()->get());
+                DJV_ASSERT(!model->observeHasBack()->get());
+                DJV_ASSERT(model->observeHasForward()->get());
+                model->setPath(path2);
+                model->setPath(path);
+                model->setHistoryMax(0);
 
+                model->setFileExtensions({ ".txt" });
                 model->setFileExtensions({ ".txt" });
 
                 model->setFileSequences(true);
+                model->setFileSequenceExtensions({ ".txt" });
                 model->setFileSequenceExtensions({ ".txt" });
                 model->setShowHidden(true);
                 DJV_ASSERT(model->observeFileSequences()->get());
@@ -118,6 +111,8 @@ namespace djv
 
                 model->setSort(FileSystem::DirectoryListSort::Size);
                 model->setReverseSort(true);
+                model->setReverseSort(true);
+                model->setSortDirectoriesFirst(false);
                 model->setSortDirectoriesFirst(false);
                 DJV_ASSERT(FileSystem::DirectoryListSort::Size == model->observeSort()->get());
                 DJV_ASSERT(model->observeReverseSort()->get());
@@ -125,9 +120,18 @@ namespace djv
 
                 DJV_ASSERT(model->observeFilter()->get().empty());
                 model->setFilter("txt");
+                model->setFilter("txt");
                 DJV_ASSERT("txt" == model->observeFilter()->get());
                 model->clearFilter();
                 DJV_ASSERT(model->observeFilter()->get().empty());
+                
+                _tickFor(std::chrono::milliseconds(1000));
+
+                FileSystem::FileIO io;
+                io.open("DirectoryModelTest", FileSystem::FileIO::Mode::Write);
+                io.close();                
+
+                _tickFor(std::chrono::milliseconds(1000));
             }
         }
         

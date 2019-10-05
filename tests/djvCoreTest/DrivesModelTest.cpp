@@ -33,17 +33,16 @@
 #include <djvCore/DrivesModel.h>
 #include <djvCore/Path.h>
 
-#include <chrono>
 #include <sstream>
+
+using namespace djv::Core;
 
 namespace djv
 {
-    using namespace Core;
-
     namespace CoreTest
     {
         DrivesModelTest::DrivesModelTest(const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::CoreTest::DrivesModelTest", context)
+            ITickTest("djv::CoreTest::DrivesModelTest", context)
         {}
         
         void DrivesModelTest::run(const std::vector<std::string>& args)
@@ -51,23 +50,15 @@ namespace djv
             if (auto context = getContext().lock())
             {
                 auto model = FileSystem::DrivesModel::create(context);
-                auto now = std::chrono::system_clock::now();
-                auto timeout = now + std::chrono::milliseconds(1000);
-                while (now < timeout)
+                
+                _tickFor(std::chrono::milliseconds(1000));
+                
+                const auto drives = model->observeDrives()->get();
+                for (const auto& i : model->observeDrives()->get())
                 {
-                    const auto drives = model->observeDrives()->get();
-                    if (drives.size())
-                    {
-                        for (const auto& i : model->observeDrives()->get())
-                        {
-                            std::stringstream ss;
-                            ss << "drive: " << i;
-                            _print(ss.str());
-                        }
-                        break;
-                    }
-                    context->tick(0.F);
-                    now = std::chrono::system_clock::now();
+                    std::stringstream ss;
+                    ss << "drive: " << i;
+                    _print(ss.str());
                 }
             }
         }

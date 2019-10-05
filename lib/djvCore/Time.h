@@ -53,14 +53,14 @@ namespace djv
 
             void secondsToTime(
                 double,
-                int &    hours,
-                int &    minutes,
-                double & seconds);
+                int&    hours,
+                int&    minutes,
+                double& seconds);
 
             std::string getLabel(double seconds);
             std::string getLabel(time_t);
             
-            void localtime(const time_t *, tm *);
+            void localtime(const time_t*, tm*);
             
             ///@}
 

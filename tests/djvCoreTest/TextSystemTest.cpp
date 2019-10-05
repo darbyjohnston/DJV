@@ -27,22 +27,58 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvCoreTest/TextSystemTest.h>
 
-#include <djvTestLib/TickTest.h>
+#include <djvCore/Context.h>
+#include <djvCore/TextSystem.h>
+
+using namespace djv::Core;
 
 namespace djv
 {
     namespace CoreTest
     {
-        class AnimationTest : public Test::ITickTest
+        TextSystemTest::TextSystemTest(const std::shared_ptr<Core::Context>& context) :
+            ITickTest("djv::CoreTest::TextSystemTest", context)
+        {}
+                
+        void TextSystemTest::run(const std::vector<std::string>&)
         {
-        public:
-            AnimationTest(const std::shared_ptr<Core::Context>&);
-            
-            void run(const std::vector<std::string>&) override;
-        };
-        
+            if (auto context = getContext().lock())
+            {
+                auto system = context->getSystemT<TextSystem>();
+                
+                for (const auto& i : system->getLocales())
+                {
+                    std::stringstream ss;
+                    ss << "locale: " << i;
+                    _print(ss.str());
+                }
+                
+                {
+                    std::stringstream ss;
+                    ss << "current locale: " << system->getCurrentLocale();
+                    _print(ss.str());
+                }
+                
+                {
+                    system->setCurrentLocale("zh");
+                    system->setCurrentLocale("zh");
+                    std::stringstream ss;
+                    ss << "current locale: " << system->getCurrentLocale();
+                    _print(ss.str());
+                    DJV_ASSERT("zh" == system->getCurrentLocale());
+                }
+                
+                for (const std::string& i : { "File", "Window", "Image" })
+                {
+                    std::stringstream ss;
+                    ss << i << ": " << system->getText(i);
+                    _print(ss.str());
+                }
+            }
+        }
+                
     } // namespace CoreTest
 } // namespace djv
 

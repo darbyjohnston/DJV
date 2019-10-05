@@ -1,7 +1,9 @@
 set(header
-    Test.h)
+    Test.h
+    TickTest.h)
 set(source
-    Test.cpp)
+    Test.cpp
+    TickTest.cpp)
 
 add_library(djvTestLib ${header} ${source})
 target_link_libraries(djvTestLib djvCore)

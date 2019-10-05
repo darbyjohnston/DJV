@@ -34,16 +34,14 @@
 #include <djvCore/FileIO.h>
 #include <djvCore/Path.h>
 
-#include <chrono>
+using namespace djv::Core;
 
 namespace djv
 {
-    using namespace Core;
-
     namespace CoreTest
     {
         DirectoryWatcherTest::DirectoryWatcherTest(const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::CoreTest::DirectoryWatcherTest", context)
+            ITickTest("djv::CoreTest::DirectoryWatcherTest", context)
         {}
         
         void DirectoryWatcherTest::run(const std::vector<std::string>& args)
@@ -60,24 +58,17 @@ namespace djv
                     {
                         changed = true;
                     });
-                auto now = std::chrono::system_clock::now();
-                auto timeout = now + std::chrono::milliseconds(1000);
-                while (now < timeout)
-                {
-                    context->tick(0.F);
-                    now = std::chrono::system_clock::now();
-                }
+                
+                _tickFor(std::chrono::milliseconds(1000));
+                
                 FileSystem::FileIO io;
                 io.open(
                     std::string(FileSystem::Path(path, "DirectoryWatcherTest")),
                     FileSystem::FileIO::Mode::Write);
                 io.close();
-                timeout = now + std::chrono::milliseconds(1000);
-                while (now < timeout)
-                {
-                    context->tick(0.F);
-                    now = std::chrono::system_clock::now();
-                }
+                
+                _tickFor(std::chrono::milliseconds(1000));
+                
                 std::stringstream ss;
                 ss << "changed: " << changed;
                 _print(ss.str());

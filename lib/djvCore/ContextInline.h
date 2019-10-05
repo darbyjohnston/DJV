@@ -66,14 +66,16 @@ namespace djv
         template<typename T>
         inline std::shared_ptr<T> Context::getSystemT() const
         {
+            std::shared_ptr<T> out;
             for (const auto & i : _systems)
             {
                 if (auto system = std::dynamic_pointer_cast<T>(i))
                 {
-                    return system;
+                    out = system;
+                    break;
                 }
             }
-            return nullptr;
+            return out;
         }
 
         inline float Context::getFPSAverage() const

@@ -34,12 +34,10 @@
 #include <djvCore/IObject.h>
 #include <djvCore/Math.h>
 
-#include <chrono>
+using namespace djv::Core;
 
 namespace djv
 {
-    using namespace Core;
-
     namespace CoreTest
     {
         class TestObject : public IObject
@@ -87,13 +85,26 @@ namespace djv
                         event.accept();
                         break;
                     case Event::Type::PointerMove:
-                        event.accept();
+                        if (_buttonPress)
+                        {
+                            if (_moveCount < 3)
+                            {
+                                event.accept();
+                            }
+                            ++_moveCount;
+                        }
+                        else
+                        {
+                            event.accept();
+                        }
                         break;
                     case Event::Type::ButtonPress:
                         event.accept();
+                        _buttonPress = true;
                         break;
                     case Event::Type::ButtonRelease:
                         event.accept();
+                        _buttonPress = false;
                         break;
                     case Event::Type::Drop:
                         event.accept();
@@ -130,6 +141,10 @@ namespace djv
             {
                 return false;
             }
+            
+        private:
+            size_t _moveCount = 0;
+            bool _buttonPress = false;
         };
 
         class TestEventSystem : public Event::IEventSystem
@@ -159,25 +174,25 @@ namespace djv
                 _pointerInfo.projectedPos.y += Math::getRandom(1.f);
                 switch (_tick)
                 {
-                case 100:
+                case 1:
                     _buttonPress(0);
                     break;
-                case 200:
+                case 5:
                     _buttonRelease(0);
                     break;
-                case 300:
+                case 10:
                     _drop({ "one", "two", "three" });
                     break;
-                case 400:
+                case 15:
                     _keyPress(0, 0);
                     break;
-                case 500:
+                case 20:
                     _keyRelease(0, 0);
                     break;
-                case 600:
+                case 25:
                     _text(std::basic_string<djv_char_t>(), 0);
                     break;
-                case 700:
+                case 30:
                     _scroll(0.f, 0.f);
                     break;
                 }
@@ -235,21 +250,26 @@ namespace djv
         };
 
         IEventSystemTest::IEventSystemTest(const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::CoreTest::IEventSystemTest", context)
-        {
-            _system = TestEventSystem::create(context);
-            _object = TestObject::create(context);
-            _object2 = TestObject2::create(context);
-            _object2->installEventFilter(_object);
-            _object->addChild(_object2);
-        }
+            ITickTest("djv::CoreTest::IEventSystemTest", context)
+        {}
                 
         void IEventSystemTest::run(const std::vector<std::string>& args)
         {
-            _info();
-            _clipboard();
-            _textFocus();
-            _tick();
+            if (auto context = getContext().lock())
+            {
+                _system = TestEventSystem::create(context);
+                _object = TestObject::create(context);
+                _object2 = TestObject2::create(context);
+                _object2->installEventFilter(_object);
+                _object->addChild(_object2);
+
+                _info();
+                _clipboard();
+                _textFocus();
+                _tick();
+                
+                _system.reset();
+            }
         }
         
         void IEventSystemTest::_info()
@@ -335,14 +355,7 @@ namespace djv
                         }
                     });
 
-                auto now = std::chrono::system_clock::now();
-                auto timeout = now + std::chrono::milliseconds(1000);
-                Event::PointerInfo pointerInfo;
-                while (now < timeout)
-                {
-                    context->tick(0.F);
-                    now = std::chrono::system_clock::now();
-                }
+                _tickFor(std::chrono::milliseconds(2000));
 
                 _object2->removeEventFilter(_object);
             }

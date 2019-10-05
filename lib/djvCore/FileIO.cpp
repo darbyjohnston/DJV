@@ -123,7 +123,7 @@ namespace djv
                 while (parse != Parse::End)
                 {
                     // Get the next character.
-                    uint8_t c;
+                    uint8_t c = 0;
                     io.read(&c, 1);
 
                     switch (c)

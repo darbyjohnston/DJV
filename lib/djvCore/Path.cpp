@@ -222,14 +222,6 @@ namespace djv
         os << value.get();
         return os;
     }
-    
-    std::istream & operator >> (std::istream & is, Core::FileSystem::Path & value)
-    {
-        std::string s;
-        is >> s;
-        value = Core::FileSystem::Path(s);
-        return is;
-    }
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         Core::FileSystem,

@@ -170,7 +170,12 @@ namespace djv
                 //! Create a directory.
                 //! Throws:
                 //! - Error
-                static void mkdir(const Path &);
+                static void mkdir(const Path&);
+
+                //! Remove a directory. The directory must be empty.
+                //! Throws:
+                //! - Error
+                static void rmdir(const Path&);
 
                 //! Get the absolute path.
                 //! Throws:
@@ -214,7 +219,6 @@ namespace djv
     void fromJSON(const picojson::value &, Core::FileSystem::Path &);
 
     std::ostream & operator << (std::ostream &, const Core::FileSystem::Path &);
-    std::istream & operator >> (std::istream &, Core::FileSystem::Path &);
 
 } // namespace djv
 

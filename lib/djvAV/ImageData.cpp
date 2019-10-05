@@ -177,6 +177,7 @@ namespace djv
 
     std::istream& operator >> (std::istream& s, AV::Image::Size& value)
     {
+        s.exceptions(std::istream::failbit | std::istream::badbit);
         s >> value.w;
         s >> value.h;
         return s;

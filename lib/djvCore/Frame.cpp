@@ -160,6 +160,8 @@ namespace djv
 
     std::istream & operator >> (std::istream & s, Core::Frame::Sequence & out)
     {
+        s.exceptions(std::istream::failbit | std::istream::badbit);
+
         std::string tmp;
         s >> tmp;
 

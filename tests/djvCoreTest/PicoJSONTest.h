@@ -29,18 +29,22 @@
 
 #pragma once
 
-#include <djvTestLib/TickTest.h>
+#include <djvTestLib/Test.h>
 
 namespace djv
 {
     namespace CoreTest
     {
-        class AnimationTest : public Test::ITickTest
+        class PicoJSONTest : public Test::ITest
         {
         public:
-            AnimationTest(const std::shared_ptr<Core::Context>&);
+            PicoJSONTest(const std::shared_ptr<Core::Context>&);
             
             void run(const std::vector<std::string>&) override;
+        
+        private:
+            void _io();
+            void _conversion();
         };
         
     } // namespace CoreTest

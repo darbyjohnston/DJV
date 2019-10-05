@@ -181,7 +181,7 @@ namespace djv
                     openMode  = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
                     break;
                 case Mode::ReadWrite:
-                    openFlags = O_RDWR | O_CREAT | O_TRUNC;
+                    openFlags = O_RDWR | O_CREAT;
                     openMode  = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
                     break;
                 case Mode::Append:

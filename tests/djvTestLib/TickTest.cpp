@@ -27,22 +27,54 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
-
 #include <djvTestLib/TickTest.h>
+
+#include <djvCore/Context.h>
+
+#include <thread>
 
 namespace djv
 {
-    namespace CoreTest
+    namespace Test
     {
-        class AnimationTest : public Test::ITickTest
+        namespace
         {
-        public:
-            AnimationTest(const std::shared_ptr<Core::Context>&);
-            
-            void run(const std::vector<std::string>&) override;
-        };
+            //! \todo Should this be configurable?
+            const size_t frameRate = 60;
         
-    } // namespace CoreTest
+        } // namespace
+        
+        ITickTest::ITickTest(const std::string & name, const std::shared_ptr<Core::Context>& context) :
+            ITest(name, context)
+        {}
+        
+        ITickTest::~ITickTest()
+        {}
+
+        void ITickTest::_tickFor(std::chrono::milliseconds value)
+        {
+            if (auto context = getContext().lock())
+            {
+                auto time = std::chrono::system_clock::now();
+                auto timeout = time + value;
+                float dt = 0.F;
+                while (time < timeout)
+                {
+                    context->tick(dt);
+
+                    auto t = std::chrono::system_clock::now();
+                    std::chrono::duration<float> delta = t - time;
+                    const float sleep = 1 / static_cast<float>(frameRate) - delta.count();
+                    std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(sleep * 1000)));
+                    
+                    t = std::chrono::system_clock::now();
+                    delta = t - time;
+                    dt = delta.count();
+                    time = t;
+                }
+            }
+        }
+                
+    } // namespace Test
 } // namespace djv
 

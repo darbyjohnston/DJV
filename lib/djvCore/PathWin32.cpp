@@ -60,6 +60,17 @@ namespace djv
                 }
             }
 
+            void Path::rmdir(const Path & value)
+            {
+                std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
+                if (_wrmdir(utf16.from_bytes(value.get()).c_str()) != 0)
+                {
+                    std::stringstream s;
+                    s << DJV_TEXT("The directory") << " '" << value << "' " << DJV_TEXT("cannot be removed") << ".";
+                    throw std::invalid_argument(s.str());
+                }
+            }
+
             Path Path::getAbsolute(const Path & value)
             {
                 wchar_t buf[MAX_PATH];

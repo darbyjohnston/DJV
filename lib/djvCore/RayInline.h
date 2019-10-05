@@ -72,6 +72,7 @@ namespace djv
     template<typename T, glm::precision P>
     inline std::istream & operator >> (std::istream & s, Core::Ray::tRay3<T, P> & out)
     {
+        s.exceptions(std::istream::failbit | std::istream::badbit);
         s >> value.start;
         s >> value.end;
         return s;

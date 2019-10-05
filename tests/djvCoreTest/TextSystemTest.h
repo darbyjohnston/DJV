@@ -35,10 +35,10 @@ namespace djv
 {
     namespace CoreTest
     {
-        class AnimationTest : public Test::ITickTest
+        class TextSystemTest : public Test::ITickTest
         {
         public:
-            AnimationTest(const std::shared_ptr<Core::Context>&);
+            TextSystemTest(const std::shared_ptr<Core::Context>&);
             
             void run(const std::vector<std::string>&) override;
         };

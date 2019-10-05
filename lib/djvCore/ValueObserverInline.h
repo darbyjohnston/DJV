@@ -67,6 +67,12 @@ namespace djv
         template<typename T>
         inline IValueSubject<T>::~IValueSubject()
         {}
+        
+        template<typename T>
+        inline size_t IValueSubject<T>::getObserversCount() const
+        {
+            return _observers.size();
+        }
 
         template<typename T>
         inline void IValueSubject<T>::_add(const std::weak_ptr<ValueObserver<T> > & observer)
@@ -77,20 +83,29 @@ namespace djv
         template<typename T>
         inline void IValueSubject<T>::_remove(ValueObserver<T> * observer)
         {
-            const auto i = std::find_if(
-                _observers.begin(),
-                _observers.end(),
-                [observer](const std::weak_ptr<ValueObserver<T> > & other)
+            auto i = _observers.begin();
+            while (i != _observers.end())
             {
-                if (auto i = other.lock())
+                bool erase = false;
+                if (auto j = i->lock())
                 {
-                    return observer == i.get();
+                    if (observer == j.get())
+                    {
+                        erase = true;
+                    }
                 }
-                return false;
-            });
-            if (i != _observers.end())
-            {
-                _observers.erase(i);
+                else
+                {
+                    erase = true;
+                }
+                if (erase)
+                {
+                    i = _observers.erase(i);
+                }
+                else
+                {
+                    ++i;
+                }
             }
         }
 

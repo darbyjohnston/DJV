@@ -60,6 +60,16 @@ namespace djv
                 }
             }
             
+            void Path::rmdir(const Path& value)
+            {
+                if (::rmdir(value.get().c_str()) != 0)
+                {
+                    std::stringstream s;
+                    s << DJV_TEXT("The directory") << " '" << value << "' " << DJV_TEXT("cannot be removed") << ".";
+                    throw Error(s.str());
+                }
+            }
+            
             Path Path::getAbsolute(const Path& value)
             {
                 char buf[PATH_MAX];

@@ -79,6 +79,12 @@ namespace djv
         template<typename T>
         inline IListSubject<T>::~IListSubject()
         {}
+        
+        template<typename T>
+        inline size_t IListSubject<T>::getObserversCount() const
+        {
+            return _observers.size();
+        }
 
         template<typename T>
         inline void IListSubject<T>::_add(const std::weak_ptr<ListObserver<T> > & observer)
@@ -89,20 +95,29 @@ namespace djv
         template<typename T>
         inline void IListSubject<T>::_remove(ListObserver<T> * observer)
         {
-            const auto i = std::find_if(
-                _observers.begin(),
-                _observers.end(),
-                [observer](const std::weak_ptr<ListObserver<T> > & other)
+            auto i = _observers.begin();
+            while (i != _observers.end())
             {
-                if (auto i = other.lock())
+                bool erase = false;
+                if (auto j = i->lock())
                 {
-                    return observer == i.get();
+                    if (observer == j.get())
+                    {
+                        erase = true;
+                    }
                 }
-                return false;
-            });
-            if (i != _observers.end())
-            {
-                _observers.erase(i);
+                else
+                {
+                    erase = true;
+                }
+                if (erase)
+                {
+                    i = _observers.erase(i);
+                }
+                else
+                {
+                    ++i;
+                }
             }
         }
 

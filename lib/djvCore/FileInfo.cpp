@@ -118,8 +118,9 @@ namespace djv
                 {
                     try
                     {
-                        std::stringstream s(_path.getNumber());
-                        s >> _sequence;
+                        std::stringstream ss(_path.getNumber());
+                        ss.exceptions(std::istream::failbit | std::istream::badbit);
+                        ss >> _sequence;
                     }
                     catch (const std::exception&)
                     {
@@ -148,14 +149,15 @@ namespace djv
                 {
                     try
                     {
-                        std::stringstream s(_path.getNumber());
-                        s >> _sequence;
+                        std::stringstream ss(_path.getNumber());
+                        ss.exceptions(std::istream::failbit | std::istream::badbit);
+                        ss >> _sequence;
                         if (_sequence.ranges.size())
                         {
                             _type = FileType::Sequence;
                         }
                     }
-                    catch (const std::exception &)
+                    catch (const std::exception&)
                     {
                         _sequence = Frame::Sequence();
                     }
@@ -369,6 +371,6 @@ namespace djv
         DirectoryListSort,
         DJV_TEXT("Name"),
         DJV_TEXT("Size"),
-        DJV_TEXT("Type"));
+        DJV_TEXT("Time"));
 
 } // namespace djv

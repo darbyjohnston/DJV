@@ -32,14 +32,14 @@
 #include <djvCore/Animation.h>
 #include <djvCore/Context.h>
 
+using namespace djv::Core;
+
 namespace djv
 {
-    using namespace Core;
-
     namespace CoreTest
     {
         AnimationTest::AnimationTest(const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::CoreTest::AnimationTest", context)
+            ITickTest("djv::CoreTest::AnimationTest", context)
         {}
         
         void AnimationTest::run(const std::vector<std::string>& args)
@@ -57,6 +57,7 @@ namespace djv
                     _print(ss.str());
                 }
             }
+            
             if (auto context = getContext().lock())
             {
                 for (auto i : Animation::getTypeEnums())
@@ -68,10 +69,17 @@ namespace djv
                     animation->setRepeating(true);
                     DJV_ASSERT(animation->getType() == i);
                     DJV_ASSERT(animation->isRepeating());
+                    
                     animation->start(
                         0.F,
                         1.F,
-                        std::chrono::milliseconds(1000),
+                        std::chrono::milliseconds(250),
+                        [this](float v)
+                        {
+                            std::stringstream ss;
+                            ss << v;
+                            _print(ss.str());
+                        },
                         [this](float v)
                         {
                             std::stringstream ss;
@@ -79,7 +87,9 @@ namespace djv
                             _print(ss.str());
                         });
                     DJV_ASSERT(animation->isActive());
-                    context->tick(0.F);
+                    
+                    _tickFor(std::chrono::milliseconds(250));
+                    
                     animation->stop();
                     DJV_ASSERT(!animation->isActive());
                 }

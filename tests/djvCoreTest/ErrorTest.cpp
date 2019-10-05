@@ -34,10 +34,10 @@
 #include <sstream>
 #include <stdexcept>
 
+using namespace djv::Core;
+
 namespace djv
 {
-    using namespace Core;
-
     namespace CoreTest
     {
         ErrorTest::ErrorTest(const std::shared_ptr<Core::Context>& context) :
@@ -51,6 +51,7 @@ namespace djv
                 ss << Error::format(std::invalid_argument("This is an error message."));
                 _print(ss.str());
             }
+            
 #if defined(DJV_PLATFORM_WINDOWS)
             {
                 std::stringstream ss;

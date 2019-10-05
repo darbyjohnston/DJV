@@ -260,6 +260,7 @@ namespace djv
 
     std::istream & operator >> (std::istream & is, AV::Image::Color & value)
     {
+        is.exceptions(std::istream::failbit | std::istream::badbit);
         AV::Image::Type type = AV::Image::Type::None;
         is >> type;
         value = AV::Image::Color(type);
