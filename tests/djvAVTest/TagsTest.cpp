@@ -27,49 +27,62 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvAVTest/TagsTest.h>
 
-#include <djvAV/ImageData.h>
+#include <djvAV/Tags.h>
+
+using namespace djv::Core;
+using namespace djv::AV;
 
 namespace djv
 {
-    namespace Core
+    namespace AVTest
     {
-        class ResourceSystem;
-
-    } // namespace Core
-
-    namespace AV
-    {
-        namespace Image
+        TagsTest::TagsTest(const std::shared_ptr<Core::Context>& context) :
+            ITest("djv::AVTest::TagsTest", context)
+        {}
+        
+        void TagsTest::run(const std::vector<std::string>& args)
         {
-            //! This class provides image data conversion.
-            class Convert
             {
-                DJV_NON_COPYABLE(Convert);
+                const Tags tags;
+                DJV_ASSERT(tags.isEmpty());
+                DJV_ASSERT(0 == tags.getCount());
+                DJV_ASSERT(tags.getTags().empty());
+                DJV_ASSERT(!tags.hasTag("tag"));
+                DJV_ASSERT(tags.getTag("tag").empty());
+            }
+            
+            {
+                Tags tags;
+                const std::map<std::string, std::string> map =
+                {
+                    { "a", "1" },
+                    { "b", "2" },
+                    { "c", "3" }
+                };
+                tags.setTags(map);
+                DJV_ASSERT(map == tags.getTags());
+                tags.setTag("d", "4");
+                DJV_ASSERT(tags.hasTag("d"));
+                DJV_ASSERT("4" == tags.getTag("d"));
+            }
+            
+            {
+                Tags tags;
+                const std::map<std::string, std::string> map =
+                {
+                    { "a", "1" },
+                    { "b", "2" },
+                    { "c", "3" }
+                };
+                tags.setTags(map);
+                Tags tags2;
+                tags2.setTags(map);
+                DJV_ASSERT(tags == tags2);
+            }
+        }
 
-            protected:
-                void _init(const std::shared_ptr<Core::ResourceSystem>&);
-                Convert();
-
-            public:
-                ~Convert();
-
-                //! Note that this function requires an OpenGL context.
-                //! Throws:
-                //! - OpenGL::ShaderError
-                //! - Render::ShaderError
-                static std::shared_ptr<Convert> create(const std::shared_ptr<Core::ResourceSystem>&);
-
-                //! Note that this function requires an OpenGL context.
-                //! Throws:
-                //! - OpenGL::OffscreenBufferError
-                void process(const Data&, const Info&, Data&);
-
-            private:
-                DJV_PRIVATE();
-            };
-
-        } // namespace Image
-    } // namespace AV
+    } // namespace AVTest
 } // namespace djv
+

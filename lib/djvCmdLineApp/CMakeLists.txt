@@ -1,10 +1,8 @@
 set(header
     Application.h
-    CmdLineApp.h
-	GLFWSystem.h)
+    CmdLineApp.h)
 set(source
-    Application.cpp
-	GLFWSystem.cpp)
+    Application.cpp)
 
 add_library(djvCmdLineApp ${header} ${source})
 target_link_libraries(djvCmdLineApp djvAV)

@@ -35,6 +35,7 @@
 #include <djvUI/UISystem.h>
 
 #include <djvAV/AVSystem.h>
+#include <djvAV/GLFWSystem.h>
 #include <djvAV/IO.h>
 #include <djvAV/Render2D.h>
 
@@ -67,14 +68,11 @@ namespace djv
             Context::_init(args);
             DJV_PRIVATE_PTR();
 
-            auto glfwSystem = GLFWSystem::create(shared_from_this());
             auto avSystem = AV::AVSystem::create(shared_from_this());
-            auto io = getSystemT<AV::IO::System>();
-            io->addDependency(glfwSystem);
-            getSystemT<AV::Render::Render2D>()->addDependency(glfwSystem);
-
+            auto glfwSystem = GLFWSystem::create(shared_from_this());
             auto uiSystem = UI::UISystem::create(shared_from_this());
-            auto eventSystem = EventSystem::create(glfwSystem->getGLFWWindow(), shared_from_this());
+            auto avGLFWSystem = getSystemT<AV::GLFW::System>();
+            auto eventSystem = EventSystem::create(avGLFWSystem->getGLFWWindow(), shared_from_this());
         }
         
         Application::Application() :
@@ -94,7 +92,8 @@ namespace djv
         int Application::run()
         {
             DJV_PRIVATE_PTR();
-            if (auto glfwWindow = getSystemT<GLFWSystem>()->getGLFWWindow())
+            auto avGLFWSystem = getSystemT<AV::GLFW::System>();
+            if (auto glfwWindow = avGLFWSystem->getGLFWWindow())
             {
                 p.running = true;
                 auto time = std::chrono::system_clock::now();

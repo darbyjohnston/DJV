@@ -43,7 +43,6 @@ namespace djv
             void run(const std::vector<std::string>&) override;
             
         private:
-            void _util();
             void _compare();
             void _serialize();
             void _hash();

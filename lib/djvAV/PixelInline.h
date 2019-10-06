@@ -176,9 +176,9 @@ namespace djv
                 return data[static_cast<size_t>(value)];
             }
 
-            inline uint8_t getByteCount(Type value)
+            inline size_t getByteCount(Type value)
             {
-                const uint8_t data[] =
+                const size_t data[] =
                 {
                     0,
                     1, 2, 4, 2, 4,
@@ -190,9 +190,9 @@ namespace djv
                 return data[static_cast<size_t>(value)];
             }
 
-            inline uint8_t getByteCount(DataType value)
+            inline size_t getByteCount(DataType value)
             {
-                const uint8_t data[] =
+                const size_t data[] =
                 {
                     0,
                     1,
@@ -241,28 +241,28 @@ namespace djv
                 {
                     IntRange(0, 0),
 
-                    IntRange(U8Min, U8Max),
-                    IntRange(U16Min, U16Max),
-                    IntRange(U32Min, U32Max),
+                    IntRange(U8Range.min, U8Range.max),
+                    IntRange(U16Range.min, U16Range.max),
+                    IntRange(U32Range.min, U32Range.max),
                     IntRange(0, 0),
                     IntRange(0, 0),
 
-                    IntRange(U8Min, U8Max),
-                    IntRange(U16Min, U16Max),
-                    IntRange(U32Min, U32Max),
+                    IntRange(U8Range.min, U8Range.max),
+                    IntRange(U16Range.min, U16Range.max),
+                    IntRange(U32Range.min, U32Range.max),
                     IntRange(0, 0),
                     IntRange(0, 0),
 
-                    IntRange(U8Min, U8Max),
-                    IntRange(U10Min, U10Max),
-                    IntRange(U16Min, U16Max),
-                    IntRange(U32Min, U32Max),
+                    IntRange(U8Range.min, U8Range.max),
+                    IntRange(U10Range.min, U10Range.max),
+                    IntRange(U16Range.min, U16Range.max),
+                    IntRange(U32Range.min, U32Range.max),
                     IntRange(0, 0),
                     IntRange(0, 0),
 
-                    IntRange(U8Min, U8Max),
-                    IntRange(U16Min, U16Max),
-                    IntRange(U32Min, U32Max),
+                    IntRange(U8Range.min, U8Range.max),
+                    IntRange(U16Range.min, U16Range.max),
+                    IntRange(U32Range.min, U32Range.max),
                     IntRange(0, 0),
                     IntRange(0, 0),
                 };
@@ -280,27 +280,27 @@ namespace djv
                     FloatRange(0.F, 0.F),
                     FloatRange(0.F, 0.F),
                     FloatRange(0.F, 0.F),
-                    FloatRange(F16Min, F16Max),
-                    FloatRange(F32Min, F32Max),
+                    FloatRange(F16Range.min, F16Range.max),
+                    FloatRange(F32Range.min, F32Range.max),
 
                     FloatRange(0.F, 0.F),
                     FloatRange(0.F, 0.F),
                     FloatRange(0.F, 0.F),
-                    FloatRange(F16Min, F16Max),
-                    FloatRange(F32Min, F32Max),
+                    FloatRange(F16Range.min, F16Range.max),
+                    FloatRange(F32Range.min, F32Range.max),
 
                     FloatRange(0.F, 0.F),
                     FloatRange(0.F, 0.F),
                     FloatRange(0.F, 0.F),
                     FloatRange(0.F, 0.F),
-                    FloatRange(F16Min, F16Max),
-                    FloatRange(F32Min, F32Max),
+                    FloatRange(F16Range.min, F16Range.max),
+                    FloatRange(F32Range.min, F32Range.max),
 
                     FloatRange(0.F, 0.F),
                     FloatRange(0.F, 0.F),
                     FloatRange(0.F, 0.F),
-                    FloatRange(F16Min, F16Max),
-                    FloatRange(F32Min, F32Max),
+                    FloatRange(F16Range.min, F16Range.max),
+                    FloatRange(F32Range.min, F32Range.max),
                 };
                 DJV_ASSERT(sizeof(data) / sizeof(data[0]) == static_cast<size_t>(Type::Count));
                 return data[static_cast<size_t>(value)];
@@ -532,12 +532,12 @@ namespace djv
 
             inline void convert_U8_F16(U8_T in, F16_T & out)
             {
-                out = in / static_cast<float>(U8Max);
+                out = in / static_cast<float>(U8Range.max);
             }
 
             inline void convert_U8_F32(U8_T in, F32_T & out)
             {
-                out = in / static_cast<float>(U8Max);
+                out = in / static_cast<float>(U8Range.max);
             }
 
             inline void convert_U10_U8(U10_T in, U8_T & out)
@@ -562,12 +562,12 @@ namespace djv
 
             inline void convert_U10_F16(U10_T in, F16_T & out)
             {
-                out = in / static_cast<float>(U10Max);
+                out = in / static_cast<float>(U10Range.max);
             }
 
             inline void convert_U10_F32(U10_T in, F32_T & out)
             {
-                out = in / static_cast<float>(U10Max);
+                out = in / static_cast<float>(U10Range.max);
             }
 
             inline void convert_U16_U8(U16_T in, U8_T & out)
@@ -592,12 +592,12 @@ namespace djv
 
             inline void convert_U16_F16(U16_T in, F16_T & out)
             {
-                out = in / static_cast<float>(U16Max);
+                out = in / static_cast<float>(U16Range.max);
             }
 
             inline void convert_U16_F32(U16_T in, F32_T & out)
             {
-                out = in / static_cast<float>(U16Max);
+                out = in / static_cast<float>(U16Range.max);
             }
 
             inline void convert_U32_U8(U32_T in, U8_T & out)
@@ -622,44 +622,44 @@ namespace djv
 
             inline void convert_U32_F16(U32_T in, F16_T & out)
             {
-                out = in / static_cast<float>(U32Max);
+                out = in / static_cast<float>(U32Range.max);
             }
 
             inline void convert_U32_F32(U32_T in, F32_T & out)
             {
-                out = in / static_cast<float>(U32Max);
+                out = in / static_cast<float>(U32Range.max);
             }
 
             inline void convert_F16_U8(F16_T in, U8_T & out)
             {
                 out = static_cast<U8_T>(Core::Math::clamp(
-                    static_cast<uint16_t>(in * U8Max),
-                    static_cast<uint16_t>(U8Min),
-                    static_cast<uint16_t>(U8Max)));
+                    static_cast<uint16_t>(in * U8Range.max),
+                    static_cast<uint16_t>(U8Range.min),
+                    static_cast<uint16_t>(U8Range.max)));
             }
 
             inline void convert_F16_U10(F16_T in, U10_T & out)
             {
                 out = static_cast<U10_T>(Core::Math::clamp(
-                    static_cast<uint16_t>(in * U10Max),
-                    static_cast<uint16_t>(U10Min),
-                    static_cast<uint16_t>(U10Max)));
+                    static_cast<uint16_t>(in * U10Range.max),
+                    static_cast<uint16_t>(U10Range.min),
+                    static_cast<uint16_t>(U10Range.max)));
             }
 
             inline void convert_F16_U16(F16_T in, U16_T & out)
             {
                 out = static_cast<U16_T>(Core::Math::clamp(
-                    static_cast<uint32_t>(in * U16Max),
-                    static_cast<uint32_t>(U16Min),
-                    static_cast<uint32_t>(U16Max)));
+                    static_cast<uint32_t>(in * U16Range.max),
+                    static_cast<uint32_t>(U16Range.min),
+                    static_cast<uint32_t>(U16Range.max)));
             }
 
             inline void convert_F16_U32(F16_T in, U32_T & out)
             {
                 out = static_cast<U32_T>(Core::Math::clamp(
-                    static_cast<uint64_t>(static_cast<double>(in) * static_cast<uint64_t>(U32Max)),
-                    static_cast<uint64_t>(U32Min),
-                    static_cast<uint64_t>(U32Max)));
+                    static_cast<uint64_t>(static_cast<double>(in) * static_cast<uint64_t>(U32Range.max)),
+                    static_cast<uint64_t>(U32Range.min),
+                    static_cast<uint64_t>(U32Range.max)));
             }
 
             inline void convert_F16_F16(F16_T in, F16_T & out)
@@ -675,33 +675,33 @@ namespace djv
             inline void convert_F32_U8(F32_T in, U8_T & out)
             {
                 out = static_cast<U8_T>(Core::Math::clamp(
-                    static_cast<uint16_t>(in * U8Max),
-                    static_cast<uint16_t>(U8Min),
-                    static_cast<uint16_t>(U8Max)));
+                    static_cast<uint16_t>(in * U8Range.max),
+                    static_cast<uint16_t>(U8Range.min),
+                    static_cast<uint16_t>(U8Range.max)));
             }
 
             inline void convert_F32_U10(F32_T in, U10_T & out)
             {
                 out = static_cast<U10_T>(Core::Math::clamp(
-                    static_cast<uint16_t>(in * U10Max),
-                    static_cast<uint16_t>(U10Min),
-                    static_cast<uint16_t>(U10Max)));
+                    static_cast<uint16_t>(in * U10Range.max),
+                    static_cast<uint16_t>(U10Range.min),
+                    static_cast<uint16_t>(U10Range.max)));
             }
 
             inline void convert_F32_U16(F32_T in, U16_T & out)
             {
                 out = static_cast<U16_T>(Core::Math::clamp(
-                    static_cast<uint32_t>(in * U16Max),
-                    static_cast<uint32_t>(U16Min),
-                    static_cast<uint32_t>(U16Max)));
+                    static_cast<uint32_t>(in * U16Range.max),
+                    static_cast<uint32_t>(U16Range.min),
+                    static_cast<uint32_t>(U16Range.max)));
             }
 
             inline void convert_F32_U32(F32_T in, U32_T & out)
             {
                 out = static_cast<U32_T>(Core::Math::clamp(
-                    static_cast<uint64_t>(static_cast<double>(in) * static_cast<uint64_t>(U32Max)),
-                    static_cast<uint64_t>(U32Min),
-                    static_cast<uint64_t>(U32Max)));
+                    static_cast<uint64_t>(static_cast<double>(in) * static_cast<uint64_t>(U32Range.max)),
+                    static_cast<uint64_t>(U32Range.min),
+                    static_cast<uint64_t>(U32Range.max)));
             }
 
             inline void convert_F32_F16(F32_T in, F16_T & out)
@@ -716,6 +716,27 @@ namespace djv
 
         } // namespace Image
     } // namespace AV
+
+    template<>
+    inline std::ostream& operator << (std::ostream& os, const Core::Range::Range<uint8_t>& value)
+    {
+        os << static_cast<uint16_t>(value.min) << " ";
+        os << static_cast<uint16_t>(value.max);
+        return os;
+    }
+    
+    template<>
+    inline std::istream& operator >> (std::istream& is, Core::Range::Range<uint8_t>& value)
+    {
+        is.exceptions(std::istream::failbit | std::istream::badbit);
+        uint16_t tmp = 0;
+        is >> tmp;
+        value.min = static_cast<uint8_t>(tmp);
+        is >> tmp;
+        value.max = static_cast<uint8_t>(tmp);
+        return is;
+    }
+
 } // namespace djv
 
 namespace std
@@ -728,3 +749,4 @@ namespace std
     }
 
 } // namespace std
+

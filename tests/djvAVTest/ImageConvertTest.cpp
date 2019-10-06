@@ -27,49 +27,52 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvAVTest/ImageConvertTest.h>
 
-#include <djvAV/ImageData.h>
+#include <djvAV/ImageConvert.h>
+
+#include <djvCore/Context.h>
+#include <djvCore/ResourceSystem.h>
+
+using namespace djv::Core;
+using namespace djv::AV;
 
 namespace djv
 {
-    namespace Core
+    namespace AVTest
     {
-        class ResourceSystem;
-
-    } // namespace Core
-
-    namespace AV
-    {
-        namespace Image
+        ImageConvertTest::ImageConvertTest(const std::shared_ptr<Core::Context>& context) :
+            ITest("djv::AVTest::ImageConvertTest", context)
+        {}
+        
+        void ImageConvertTest::run(const std::vector<std::string>& args)
         {
-            //! This class provides image data conversion.
-            class Convert
+            if (auto context = getContext().lock())
             {
-                DJV_NON_COPYABLE(Convert);
-
-            protected:
-                void _init(const std::shared_ptr<Core::ResourceSystem>&);
-                Convert();
-
-            public:
-                ~Convert();
-
-                //! Note that this function requires an OpenGL context.
-                //! Throws:
-                //! - OpenGL::ShaderError
-                //! - Render::ShaderError
-                static std::shared_ptr<Convert> create(const std::shared_ptr<Core::ResourceSystem>&);
-
-                //! Note that this function requires an OpenGL context.
-                //! Throws:
-                //! - OpenGL::OffscreenBufferError
-                void process(const Data&, const Info&, Data&);
-
-            private:
-                DJV_PRIVATE();
-            };
-
-        } // namespace Image
-    } // namespace AV
+                const Image::Info info(64, 64, Image::Type::RGB_U8);
+                auto data = Image::Data::create(info);
+                data->getData()[0] = Image::U8Range.max;
+                {
+                    std::stringstream ss;
+                    ss << "U8: " << int(data->getData()[0]);
+                    _print(ss.str());
+                }
+                
+                const Image::Info info2(64, 64, Image::Type::RGB_U16);
+                auto data2 = Image::Data::create(info2);
+                
+                auto convert = Image::Convert::create(context->getSystemT<ResourceSystem>());
+                convert->process(*data, info2, *data2);
+                const Image::U16_T u16 = reinterpret_cast<const Image::U16_T*>(data2->getData())[0];
+                {
+                    std::stringstream ss;
+                    ss << "U16: " << u16;
+                    _print(ss.str());
+                }
+                DJV_ASSERT(Image::U16Range.max == u16);
+            }
+        }
+                
+    } // namespace AVTest
 } // namespace djv
+

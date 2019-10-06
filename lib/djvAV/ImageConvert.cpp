@@ -85,7 +85,7 @@ namespace djv
                 return out;
             }
 
-            void Convert::process(const Data & data, const Info & info, Data & out)
+            void Convert::process(const Data& data, const Info& info, Data& out)
             {
                 DJV_PRIVATE_PTR();
                 if (!p.offscreenBuffer || (p.offscreenBuffer && info != p.offscreenBuffer->getInfo()))

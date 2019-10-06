@@ -27,49 +27,20 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
-
-#include <djvAV/ImageData.h>
+#include <djvTestLib/Test.h>
 
 namespace djv
 {
-    namespace Core
+    namespace AVTest
     {
-        class ResourceSystem;
-
-    } // namespace Core
-
-    namespace AV
-    {
-        namespace Image
+        class ImageConvertTest : public Test::ITest
         {
-            //! This class provides image data conversion.
-            class Convert
-            {
-                DJV_NON_COPYABLE(Convert);
-
-            protected:
-                void _init(const std::shared_ptr<Core::ResourceSystem>&);
-                Convert();
-
-            public:
-                ~Convert();
-
-                //! Note that this function requires an OpenGL context.
-                //! Throws:
-                //! - OpenGL::ShaderError
-                //! - Render::ShaderError
-                static std::shared_ptr<Convert> create(const std::shared_ptr<Core::ResourceSystem>&);
-
-                //! Note that this function requires an OpenGL context.
-                //! Throws:
-                //! - OpenGL::OffscreenBufferError
-                void process(const Data&, const Info&, Data&);
-
-            private:
-                DJV_PRIVATE();
-            };
-
-        } // namespace Image
-    } // namespace AV
+        public:
+            ImageConvertTest(const std::shared_ptr<Core::Context>&);
+            
+            void run(const std::vector<std::string>&) override;
+        };
+        
+    } // namespace AVTest
 } // namespace djv
+

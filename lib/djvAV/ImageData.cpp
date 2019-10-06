@@ -37,7 +37,7 @@ namespace djv
     {
         namespace Image
         {
-            void Data::_init(const Info & info, const std::shared_ptr<Core::FileSystem::FileIO>& fileIO)
+            void Data::_init(const Info& info, const std::shared_ptr<Core::FileSystem::FileIO>& fileIO)
             {
                 _uid = Core::createUID();
                 _info = info;
@@ -69,18 +69,18 @@ namespace djv
                 delete[] _data;
             }
 
-            std::shared_ptr<Data> Data::create(const Info& info)
-            {
-                auto out = std::shared_ptr<Data>(new Data);
-                out->_init(info, nullptr);
-                return out;
-            }
-
 #if defined(DJV_MMAP)
             std::shared_ptr<Data> Data::create(const Info& info, const std::shared_ptr<Core::FileSystem::FileIO>& fileIO)
             {
                 auto out = std::shared_ptr<Data>(new Data);
                 out->_init(info, fileIO);
+                return out;
+            }
+#else // DJV_MMAP
+            std::shared_ptr<Data> Data::create(const Info& info)
+            {
+                auto out = std::shared_ptr<Data>(new Data);
+                out->_init(info, nullptr);
                 return out;
             }
 #endif // DJV_MMAP
@@ -96,13 +96,15 @@ namespace djv
 
             void Data::zero()
             {
+#if defined(DJV_MMAP)
                 detach();
+#endif // DJV_MMAP
                 memset(_data, 0, _dataByteCount);
             }
 
+#if defined(DJV_MMAP)
             void Data::detach()
             {
-#if defined(DJV_MMAP)
                 if (_fileIO)
                 {
                     _data = new uint8_t[_dataByteCount];
@@ -110,10 +112,10 @@ namespace djv
                     _p = _data;
                     _fileIO.reset();
                 }
-#endif // DJV_MMAP
             }
+#endif // DJV_MMAP
 
-            bool Data::operator == (const Data & other) const
+            bool Data::operator == (const Data& other) const
             {
                 if (other._info == _info)
                 {
@@ -145,6 +147,11 @@ namespace djv
                 return false;
             }
 
+            bool Data::operator != (const Data& other) const
+            {
+                return !(*this == other);
+            }
+            
         } // namespace Image
     } // namespace AV
 

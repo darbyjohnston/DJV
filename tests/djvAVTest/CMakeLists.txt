@@ -1,11 +1,19 @@
 set(header
     AudioTest.h
     ColorTest.h
-    PixelTest.h)
+    ImageConvertTest.h
+    ImageDataTest.h
+    ImageTest.h
+    PixelTest.h
+    TagsTest.h)
 set(source
     AudioTest.cpp
     ColorTest.cpp
-    PixelTest.cpp)
+    ImageConvertTest.cpp
+    ImageDataTest.cpp
+    ImageTest.cpp
+    PixelTest.cpp
+    TagsTest.cpp)
 
 add_library(djvAVTest ${header} ${source})
 target_link_libraries(djvAVTest djvTestLib djvAV)

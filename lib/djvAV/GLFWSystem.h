@@ -29,47 +29,73 @@
 
 #pragma once
 
-#include <djvAV/ImageData.h>
+#include <djvAV/AV.h>
+
+#include <djvCore/ISystem.h>
+
+#include <stdexcept>
+
+struct GLFWwindow;
 
 namespace djv
 {
     namespace Core
     {
-        class ResourceSystem;
+        class Context;
 
     } // namespace Core
-
+    
     namespace AV
     {
-        namespace Image
+        namespace GLFW
         {
-            //! This class provides image data conversion.
-            class Convert
+            //! This enumeration provides GLFW error strings.
+            enum class ErrorString
             {
-                DJV_NON_COPYABLE(Convert);
-
+                Init,
+                CreateWindow,
+                GLAD
+            };
+            
+            //! Get a GLFW error string.
+            std::string getErrorMessage(ErrorString);
+            
+            //! This class provides a GLFW error.
+            class Error : public std::runtime_error
+            {
+            public:
+                explicit Error(const std::string&);
+            };
+        
+            //! Initialize GLFW.
+            //! Throws:
+            //! - Error
+            void init(const std::shared_ptr<Core::Context>&);
+        
+            //! This class provides a system for GLFW functionality.
+            class System : public Core::ISystem
+            {
+                DJV_NON_COPYABLE(System);
+                
             protected:
-                void _init(const std::shared_ptr<Core::ResourceSystem>&);
-                Convert();
+                void _init(const std::shared_ptr<Core::Context>&);
+                System();
 
             public:
-                ~Convert();
+                virtual ~System();
 
-                //! Note that this function requires an OpenGL context.
+                //! Create a new GLFW system.
                 //! Throws:
-                //! - OpenGL::ShaderError
-                //! - Render::ShaderError
-                static std::shared_ptr<Convert> create(const std::shared_ptr<Core::ResourceSystem>&);
+                //! - Error
+                static std::shared_ptr<System> create(const std::shared_ptr<Core::Context>&);
 
-                //! Note that this function requires an OpenGL context.
-                //! Throws:
-                //! - OpenGL::OffscreenBufferError
-                void process(const Data&, const Info&, Data&);
+                GLFWwindow* getGLFWWindow() const;
 
             private:
                 DJV_PRIVATE();
             };
-
-        } // namespace Image
+        
+        } // namespace GLFW
     } // namespace AV
 } // namespace djv
+

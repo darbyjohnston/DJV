@@ -62,7 +62,13 @@
 #if !defined(DJV_TINY_BUILD)
 #include <djvAVTest/AudioTest.h>
 #include <djvAVTest/ColorTest.h>
+#include <djvAVTest/ImageConvertTest.h>
+#include <djvAVTest/ImageDataTest.h>
+#include <djvAVTest/ImageTest.h>
 #include <djvAVTest/PixelTest.h>
+#include <djvAVTest/TagsTest.h>
+
+#include <djvAV/AVSystem.h>
 #endif // DJV_TINY_BUILD
 
 #include <djvCore/Context.h>
@@ -81,6 +87,9 @@ int main(int argc, char ** argv)
             args.push_back(argv[i]);
         }
         auto context = Core::Context::create(args);
+#if !defined(DJV_TINY_BUILD)
+        auto avSystem = AV::AVSystem::create(context);
+#endif // DJV_TINY_BUILD
         
         std::vector<std::shared_ptr<Test::ITest> > tests;
         tests.emplace_back(new CoreTest::AnimationTest(context));
@@ -116,7 +125,11 @@ int main(int argc, char ** argv)
 #if !defined(DJV_TINY_BUILD)
         tests.emplace_back(new AVTest::AudioTest(context));
         tests.emplace_back(new AVTest::ColorTest(context));
+        tests.emplace_back(new AVTest::ImageConvertTest(context));
+        tests.emplace_back(new AVTest::ImageDataTest(context));
+        tests.emplace_back(new AVTest::ImageTest(context));
         tests.emplace_back(new AVTest::PixelTest(context));
+        tests.emplace_back(new AVTest::TagsTest(context));
 #endif // DJV_TINY_BUILD
         
         std::vector<std::shared_ptr<Test::ITest> > testsToRun;

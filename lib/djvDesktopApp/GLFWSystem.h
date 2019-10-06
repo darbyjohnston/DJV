@@ -42,13 +42,6 @@ namespace djv
 {
     namespace Desktop
     {
-        //! This class provides a GLFW error.
-        class GLFWError : public std::runtime_error
-        {
-        public:
-            explicit GLFWError(const std::string&);
-        };
-        
         //! This struct provides information about monitors.
         struct MonitorInfo
         {
@@ -59,7 +52,7 @@ namespace djv
             bool operator == (const MonitorInfo&) const;
         };
 
-        //! This class provides GLFW functionality.
+            //! This class provides a system for GLFW functionality.
         class GLFWSystem : public Core::ISystem
         {
             DJV_NON_COPYABLE(GLFWSystem);
@@ -72,13 +65,9 @@ namespace djv
             virtual ~GLFWSystem();
             
             //! Create a new GLFW system.
-            //! Throws:
-            //! - GLFWError
             static std::shared_ptr<GLFWSystem> create(const std::shared_ptr<Core::Context>&);
 
             std::shared_ptr<Core::IListSubject<MonitorInfo> > observeMonitorInfo() const;
-
-            GLFWwindow * getGLFWWindow() const;
 
             void showCursor();
             void hideCursor();

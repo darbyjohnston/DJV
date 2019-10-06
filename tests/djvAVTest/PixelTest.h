@@ -39,6 +39,11 @@ namespace djv
             PixelTest(const std::shared_ptr<Core::Context>&);
             
             void run(const std::vector<std::string>&) override;
+            
+        private:
+            void _enum();
+            void _constants();
+            void _convert();
         };
         
     } // namespace AVTest

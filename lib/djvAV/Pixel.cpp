@@ -51,7 +51,7 @@
         for (size_t i = 0; i < size; ++i, ++inP, outP += 2) \
         { \
             convert_##A##_##B(inP[0], outP[0]); \
-            outP[1] = B##Max; \
+            outP[1] = B##Range.max; \
         } \
     }
 #define CONVERT_L_RGB(A, B) \
@@ -76,7 +76,7 @@
             convert_##A##_##B(inP[0], outP[0]); \
             outP[1] = outP[0]; \
             outP[2] = outP[0]; \
-            outP[3] = B##Max; \
+            outP[3] = B##Range.max; \
         } \
     }
 
@@ -172,7 +172,7 @@
             convert_##A##_##B(inP[0], outP[0]); \
             convert_##A##_##B(inP[1], outP[1]); \
             convert_##A##_##B(inP[2], outP[2]); \
-            outP[3] = B##Max; \
+            outP[3] = B##Range.max; \
         } \
     }
 
@@ -305,7 +305,7 @@
         { \
             const U10_T tmp = static_cast<U10_T>((inP->r + inP->g + inP->b) / 3.F); \
             convert_U10_##B(tmp, outP[0]); \
-            outP[1] = B##Max; \
+            outP[1] = B##Range.max; \
         } \
     }
 #define CONVERT_RGB_U10_RGB(B) \
@@ -330,7 +330,7 @@
             convert_U10_##B(inP->r, outP[0]); \
             convert_U10_##B(inP->g, outP[1]); \
             convert_U10_##B(inP->b, outP[2]); \
-            outP[3] = B##Max; \
+            outP[3] = B##Range.max; \
         } \
     }
 #define CONVERT_RGB_U10_RGB_U10() \

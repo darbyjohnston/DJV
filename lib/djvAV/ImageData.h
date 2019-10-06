@@ -62,8 +62,8 @@ namespace djv
                 bool x = false;
                 bool y = false;
 
-                constexpr bool operator == (const Mirror &) const;
-                constexpr bool operator != (const Mirror &) const;
+                constexpr bool operator == (const Mirror&) const;
+                constexpr bool operator != (const Mirror&) const;
             };
 
             //! This struct provides information about the data layout.
@@ -71,14 +71,14 @@ namespace djv
             {
             public:
                 Layout();
-                constexpr Layout(const Mirror &, GLint alignment = 1, Core::Memory::Endian = Core::Memory::getEndian());
+                constexpr Layout(const Mirror&, GLint alignment = 1, Core::Memory::Endian = Core::Memory::getEndian());
 
                 Mirror mirror;
                 GLint alignment = 1;
                 Core::Memory::Endian endian = Core::Memory::getEndian();
 
-                constexpr bool operator == (const Layout &) const;
-                constexpr bool operator != (const Layout &) const;
+                constexpr bool operator == (const Layout&) const;
+                constexpr bool operator != (const Layout&) const;
             };
 
             //! This struct provides the image size.
@@ -89,18 +89,23 @@ namespace djv
 
                 uint16_t w = 0;
                 uint16_t h = 0;
+                
+                float getAspectRatio() const;
 
                 bool operator == (const Size&) const;
                 bool operator != (const Size&) const;
             };
 
+            //! This constant provides the default name.
+            const std::string nameDefault = "Default";
+            
             //! This struct provides image data information.
             class Info
             {
             public:
                 Info();
-                Info(const Size&, Type, const Layout & = Layout());
-                Info(uint16_t width, uint16_t height, Type, const Layout & = Layout());
+                Info(const Size&, Type, const Layout& = Layout());
+                Info(uint16_t width, uint16_t height, Type, const Layout& = Layout());
 
                 std::string name;
                 Size size;
@@ -112,12 +117,12 @@ namespace djv
                 GLenum getGLFormat() const;
                 GLenum getGLType() const;
                 bool isValid() const;
-                uint8_t getPixelByteCount() const;
+                size_t getPixelByteCount() const;
                 size_t getScanlineByteCount() const;
                 size_t getDataByteCount() const;
 
-                bool operator == (const Info &) const;
-                bool operator != (const Info &) const;
+                bool operator == (const Info&) const;
+                bool operator != (const Info&) const;
             };
 
             //! This struct provides image data.
@@ -126,20 +131,21 @@ namespace djv
                 DJV_NON_COPYABLE(Data);
 
             protected:
-                void _init(const Info &, const std::shared_ptr<Core::FileSystem::FileIO>&);
+                void _init(const Info&, const std::shared_ptr<Core::FileSystem::FileIO>&);
                 Data();
 
             public:
                 ~Data();
 
-                static std::shared_ptr<Data> create(const Info&);
 #if defined(DJV_MMAP)
-                static std::shared_ptr<Data> create(const Info&, const std::shared_ptr<Core::FileSystem::FileIO>&);
+                static std::shared_ptr<Data> create(const Info&, const std::shared_ptr<Core::FileSystem::FileIO>& = nullptr);
+#else // DJV_MMAP
+                static std::shared_ptr<Data> create(const Info&);
 #endif // DJV_MMAP
 
                 Core::UID getUID() const;
 
-                const Info & getInfo() const;
+                const Info& getInfo() const;
                 const Size& getSize() const;
                 uint16_t getWidth() const;
                 uint16_t getHeight() const;
@@ -148,26 +154,28 @@ namespace djv
                 Type getType() const;
                 GLenum getGLFormat() const;
                 GLenum getGLType() const;
-                const Layout & getLayout() const;
+                const Layout& getLayout() const;
 
                 bool isValid() const;
                 uint8_t getPixelByteCount() const;
                 size_t getScanlineByteCount() const;
                 size_t getDataByteCount() const;
 
-                const uint8_t * getData() const;
-                const uint8_t * getData(uint16_t y) const;
-                const uint8_t * getData(uint16_t x, uint16_t y) const;
-                uint8_t * getData();
-                uint8_t * getData(uint16_t y);
-                uint8_t * getData(uint16_t x, uint16_t y);
+                const uint8_t* getData() const;
+                const uint8_t* getData(uint16_t y) const;
+                const uint8_t* getData(uint16_t x, uint16_t y) const;
+                uint8_t* getData();
+                uint8_t* getData(uint16_t y);
+                uint8_t* getData(uint16_t x, uint16_t y);
 
                 void zero();
 
+#if defined(DJV_MMAP)
                 void detach();
+#endif // DJV_MMAP
 
-                bool operator == (const Data &) const;
-                bool operator != (const Data &) const;
+                bool operator == (const Data&) const;
+                bool operator != (const Data&) const;
 
             private:
                 Core::UID _uid = 0;
@@ -175,8 +183,8 @@ namespace djv
                 uint8_t _pixelByteCount = 0;
                 size_t _scanlineByteCount = 0;
                 size_t _dataByteCount = 0;
-                uint8_t * _data = nullptr;
-                const uint8_t * _p = nullptr;
+                uint8_t* _data = nullptr;
+                const uint8_t* _p = nullptr;
 #if defined(DJV_MMAP)
                 std::shared_ptr<Core::FileSystem::FileIO> _fileIO;
 #endif // DJV_MMAP

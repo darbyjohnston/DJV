@@ -45,6 +45,7 @@
 #include <djvUI/UISystem.h>
 
 #include <djvAV/AVSystem.h>
+#include <djvAV/GLFWSystem.h>
 
 #include <djvCore/Animation.h>
 #include <djvCore/Context.h>
@@ -426,8 +427,8 @@ namespace djv
 
         void WindowSystem::Private::setFullScreen(bool value, const std::shared_ptr<Core::Context>& context)
         {
-            auto glfwSystem = context->getSystemT<Desktop::GLFWSystem>();
-            auto glfwWindow = glfwSystem->getGLFWWindow();
+            auto avGLFWSystem = context->getSystemT<AV::GLFW::System>();
+            auto glfwWindow = avGLFWSystem->getGLFWWindow();
             auto glfwMonitor = glfwGetWindowMonitor(glfwWindow);
             if (value && !glfwMonitor)
             {

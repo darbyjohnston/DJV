@@ -42,15 +42,16 @@ namespace djv
         class Tags
         {
         public:
-            size_t getTagsCount() const;
-            const std::map<std::string, std::string> & getTags() const;
+            bool isEmpty() const;
+            size_t getCount() const;
+            const std::map<std::string, std::string>& getTags() const;
             bool hasTag(const std::string& key) const;
-            const std::string & getTag(const std::string & key) const;
+            const std::string& getTag(const std::string& key) const;
 
-            void setTags(const std::map<std::string, std::string> &);
-            void setTag(const std::string & key, const std::string & value);
+            void setTags(const std::map<std::string, std::string>&);
+            void setTag(const std::string& key, const std::string& value);
 
-            bool operator == (const Tags &) const;
+            bool operator == (const Tags&) const;
 
         private:
             std::map<std::string, std::string> _tags;

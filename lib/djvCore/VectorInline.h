@@ -32,25 +32,6 @@
 
 namespace djv
 {
-    namespace Core
-    {
-        namespace Vector
-        {
-            template<>
-            inline float getAspect<float>(const glm::vec2 & value)
-            {
-                return value.y > 0.F ? value.x / value.y : 1.F;
-            }
-
-            template<>
-            inline float getAspect<int>(const glm::ivec2 & value)
-            {
-                return value.y > 0 ? value.x / static_cast<float>(value.y) : 1.F;
-            }
-
-        } // namespace Vector
-    } // namespace Core
-
     template<typename T, glm::precision P>
     inline bool fuzzyCompare(const glm::tvec2<T, P> & a, const glm::tvec2<T, P> & b)
     {

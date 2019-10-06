@@ -44,27 +44,11 @@ namespace djv
         
         void VectorTest::run(const std::vector<std::string>& args)
         {
-            _util();
             _compare();
             _serialize();
             _hash();
         }
 
-        void VectorTest::_util()
-        {
-            for (const glm::vec2 i :
-            {
-                glm::vec2(1.F, 1.F),
-                glm::vec2(1.F, 2.F),
-                glm::vec2(2.F, 1.F)
-            })
-            {
-                std::stringstream ss;
-                ss << "aspect: " << Vector::getAspect(i);
-                _print(ss.str());
-            }
-        }
-        
         void VectorTest::_compare()
         {
             {

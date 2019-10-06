@@ -13,6 +13,7 @@ set(header
     Enum.h
     FontSystem.h
     FontSystemInline.h
+    GLFWSystem.h
     IFF.h
     IO.h
     IOInline.h
@@ -58,6 +59,7 @@ set(source
     DPXWrite.cpp
     Enum.cpp
     FontSystem.cpp
+    GLFWSystem.cpp
     IFF.cpp
     IFFRead.cpp
     IO.cpp

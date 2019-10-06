@@ -28,9 +28,9 @@
 //------------------------------------------------------------------------------
 
 #include <djvCmdLineApp/Application.h>
-#include <djvCmdLineApp/GLFWSystem.h>
 
 #include <djvAV/Color.h>
+#include <djvAV/GLFWSystem.h>
 #include <djvAV/OpenGL.h>
 #include <djvAV/Render2D.h>
 
@@ -124,7 +124,7 @@ void Application::_init(int argc, char ** argv)
         }
     });
 
-    auto glfwWindow = getSystemT<CmdLine::GLFWSystem>()->getGLFWWindow();
+    auto glfwWindow = getSystemT<AV::GLFW::System>()->getGLFWWindow();
     glfwSetWindowSize(glfwWindow, _windowSize.w, _windowSize.h);
     glfwShowWindow(glfwWindow);
 }
@@ -142,7 +142,7 @@ std::shared_ptr<Application> Application::create(int argc, char ** argv)
 int Application::run()
 {
     auto time = std::chrono::system_clock::now();
-    auto glfwWindow = getSystemT<CmdLine::GLFWSystem>()->getGLFWWindow();
+    auto glfwWindow = getSystemT<AV::GLFW::System>()->getGLFWWindow();
     while (!glfwWindowShouldClose(glfwWindow))
     {
         auto now = std::chrono::system_clock::now();
@@ -164,7 +164,7 @@ void Application::_render()
 {
     if (auto render = getSystemT<AV::Render::Render2D>())
     {
-        auto glfwWindow = getSystemT<CmdLine::GLFWSystem>()->getGLFWWindow();
+        auto glfwWindow = getSystemT<AV::GLFW::System>()->getGLFWWindow();
         glm::ivec2 windowSize = glm::ivec2(0, 0);
         glfwGetWindowSize(glfwWindow, &windowSize.x, &windowSize.y);
         _windowSize.w = windowSize.x;

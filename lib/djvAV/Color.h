@@ -45,8 +45,8 @@ namespace djv
             public:
                 Color();
                 explicit Color(Type);
-                Color(int r, int g, int b, int a = U8Max);
-                Color(F32_T r, F32_T g, F32_T b, F32_T a = F32Max);
+                Color(int r, int g, int b, int a = U8Range.max);
+                Color(F32_T r, F32_T g, F32_T b, F32_T a = F32Range.max);
 
                 Type getType() const;
                 bool isValid() const;

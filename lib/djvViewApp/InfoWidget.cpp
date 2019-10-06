@@ -295,7 +295,7 @@ namespace djv
                     ++j;
                 }
 
-                if (p.info.tags.getTagsCount())
+                if (!p.info.tags.isEmpty())
                 {
                     auto formLayout = UI::FormLayout::create(context);
                     formLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);

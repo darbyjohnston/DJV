@@ -31,6 +31,20 @@
 
 #include <djvAV/Pixel.h>
 
+using namespace djv::Core;
+using namespace djv::AV;
+
+#define CONVERT(A, RANGE, B) \
+    { \
+        auto bMin = static_cast<Image::B##_T>(0); \
+        auto bMax = static_cast<Image::B##_T>(0); \
+        Image::convert_##A##_##B(RANGE.min, bMin); \
+        Image::convert_##A##_##B(RANGE.max, bMax); \
+        std::stringstream ss; \
+        ss << "    " << #B << " " << static_cast<int64_t>(bMin) << " " << static_cast<int64_t>(bMax); \
+        _print(ss.str()); \
+    }
+
 namespace djv
 {
     namespace AVTest
@@ -39,110 +53,157 @@ namespace djv
             ITest("djv::AVTest::PixelTest", context)
         {}
         
-#define CONVERT(A, MIN, MAX, B) \
-    { \
-        auto bMin = static_cast<AV::Image::B##_T>(0); \
-        auto bMax = static_cast<AV::Image::B##_T>(0); \
-        AV::Image::convert_##A##_##B(MIN, bMin); \
-        AV::Image::convert_##A##_##B(MAX, bMax); \
-        std::stringstream ss; \
-        ss << "    " << #B << " " << static_cast<int64_t>(bMin) << " " << static_cast<int64_t>(bMax); \
-        _print(ss.str()); \
-    }
-
         void PixelTest::run(const std::vector<std::string>& args)
         {
-            for (auto i : AV::Image::getChannelsEnums())
+            _enum();
+            _constants();
+            _convert();
+        }
+                
+        void PixelTest::_enum()
+        {
+            for (auto i : Image::getTypeEnums())
             {
                 std::stringstream ss;
-                ss << "channel string: " << i;
+                ss << "type string: " << i;
                 _print(ss.str());
             }
-
-            for (auto i : AV::Image::getDataTypeEnums())
+            
+            for (auto i : Image::getChannelsEnums())
+            {
+                std::stringstream ss;
+                ss << "channels string: " << i;
+                _print(ss.str());
+            }
+            
+            for (auto i : Image::getDataTypeEnums())
             {
                 std::stringstream ss;
                 ss << "data type string: " << i;
                 _print(ss.str());
             }
+        }
         
+        void PixelTest::_constants()
+        {
             {
                 std::stringstream ss;
-                ss << AV::Image::Type::RGBA_U8;
+                ss << "U8 range: " << Image::U8Range;
+                _print(ss.str());
+            }
+            
+            {
+                std::stringstream ss;
+                ss << "U10 range: " << Image::U10Range;
+                _print(ss.str());
+            }
+            
+            {
+                std::stringstream ss;
+                ss << "U12 range: " << Image::U12Range;
+                _print(ss.str());
+            }
+            
+            {
+                std::stringstream ss;
+                ss << "U16 range: " << Image::U16Range;
+                _print(ss.str());
+            }
+            
+            {
+                std::stringstream ss;
+                ss << "U32 range: " << Image::U32Range;
+                _print(ss.str());
+            }
+            
+            {
+                std::stringstream ss;
+                ss << "F16 range: " << Image::F16Range;
+                _print(ss.str());
+            }
+            
+            {
+                std::stringstream ss;
+                ss << "F32 range: " << Image::F32Range;
+                _print(ss.str());
+            }
+        }
+        
+        void PixelTest::_convert()
+        {
+            {
+                std::stringstream ss;
+                ss << Image::Type::RGBA_U8;
                 DJV_ASSERT("RGBA_U8" == ss.str());
-                AV::Image::Type type;
+                Image::Type type;
                 ss >> type;
-                DJV_ASSERT(AV::Image::Type::RGBA_U8 == type);
+                DJV_ASSERT(Image::Type::RGBA_U8 == type);
             }
             
             {
                 std::stringstream ss;
-                ss << "U8 " << static_cast<int64_t>(AV::Image::U8Min) << " " << static_cast<int64_t>(AV::Image::U8Max) << " =";
+                ss << "U8 " << Image::U8Range << " =";
                 _print(ss.str());
-                CONVERT(U8, AV::Image::U8Min, AV::Image::U8Max, U10);
-                CONVERT(U8, AV::Image::U8Min, AV::Image::U8Max, U16);
-                CONVERT(U8, AV::Image::U8Min, AV::Image::U8Max, U32);
-                CONVERT(U8, AV::Image::U8Min, AV::Image::U8Max, F16);
-                CONVERT(U8, AV::Image::U8Min, AV::Image::U8Max, F32);
+                CONVERT(U8, Image::U8Range, U10);
+                CONVERT(U8, Image::U8Range, U16);
+                CONVERT(U8, Image::U8Range, U32);
+                CONVERT(U8, Image::U8Range, F16);
+                CONVERT(U8, Image::U8Range, F32);
             }
             
             {
                 std::stringstream ss;
-                ss << "U10 " << static_cast<int64_t>(AV::Image::U10Min) << " " << static_cast<int64_t>(AV::Image::U10Max) << " =";
+                ss << "U10 " << Image::U10Range << " =";
                 _print(ss.str());
-                CONVERT(U10, AV::Image::U10Min, AV::Image::U10Max, U8);
-                CONVERT(U10, AV::Image::U10Min, AV::Image::U10Max, U16);
-                CONVERT(U10, AV::Image::U10Min, AV::Image::U10Max, U32);
-                CONVERT(U10, AV::Image::U10Min, AV::Image::U10Max, F16);
-                CONVERT(U10, AV::Image::U10Min, AV::Image::U10Max, F32);
+                CONVERT(U10, Image::U10Range, U8);
+                CONVERT(U10, Image::U10Range, U16);
+                CONVERT(U10, Image::U10Range, U32);
+                CONVERT(U10, Image::U10Range, F16);
+                CONVERT(U10, Image::U10Range, F32);
             }
             
             {
                 std::stringstream ss;
-                ss << "U16 " << static_cast<int64_t>(AV::Image::U16Min) << " " << static_cast<int64_t>(AV::Image::U16Max) << " =";
+                ss << "U16 " << Image::U16Range << " =";
                 _print(ss.str());
-                CONVERT(U16, AV::Image::U16Min, AV::Image::U16Max, U8);
-                CONVERT(U16, AV::Image::U16Min, AV::Image::U16Max, U10);
-                CONVERT(U16, AV::Image::U16Min, AV::Image::U16Max, U32);
-                CONVERT(U16, AV::Image::U16Min, AV::Image::U16Max, F16);
-                CONVERT(U16, AV::Image::U16Min, AV::Image::U16Max, F32);
+                CONVERT(U16, Image::U16Range, U8);
+                CONVERT(U16, Image::U16Range, U10);
+                CONVERT(U16, Image::U16Range, U32);
+                CONVERT(U16, Image::U16Range, F16);
+                CONVERT(U16, Image::U16Range, F32);
             }
             
             {
                 std::stringstream ss;
-                ss << "U32 " << static_cast<int64_t>(AV::Image::U32Min) << " " << static_cast<int64_t>(AV::Image::U32Max) << " =";
+                ss << "U32 " << Image::U32Range << " =";
                 _print(ss.str());
-                CONVERT(U32, AV::Image::U32Min, AV::Image::U32Max, U8);
-                CONVERT(U32, AV::Image::U32Min, AV::Image::U32Max, U10);
-                CONVERT(U32, AV::Image::U32Min, AV::Image::U32Max, U16);
-                CONVERT(U32, AV::Image::U32Min, AV::Image::U32Max, F16);
-                CONVERT(U32, AV::Image::U32Min, AV::Image::U32Max, F32);
+                CONVERT(U32, Image::U32Range, U8);
+                CONVERT(U32, Image::U32Range, U10);
+                CONVERT(U32, Image::U32Range, U16);
+                CONVERT(U32, Image::U32Range, F16);
+                CONVERT(U32, Image::U32Range, F32);
             }
             
             {
                 std::stringstream ss;
-                ss << "F16 " << static_cast<int64_t>(AV::Image::F16Min) << " " << static_cast<int64_t>(AV::Image::F16Max) << " =";
+                ss << "F16 " << Image::F16Range << " =";
                 _print(ss.str());
-                CONVERT(F16, AV::Image::F16Min, AV::Image::F16Max, U8);
-                CONVERT(F16, AV::Image::F16Min, AV::Image::F16Max, U10);
-                CONVERT(F16, AV::Image::F16Min, AV::Image::F16Max, U16);
-                CONVERT(F16, AV::Image::F16Min, AV::Image::F16Max, U32);
-                CONVERT(F16, AV::Image::F16Min, AV::Image::F16Max, F32);
+                CONVERT(F16, Image::F16Range, U8);
+                CONVERT(F16, Image::F16Range, U10);
+                CONVERT(F16, Image::F16Range, U16);
+                CONVERT(F16, Image::F16Range, U32);
+                CONVERT(F16, Image::F16Range, F32);
             }
             
             {
                 std::stringstream ss;
-                ss << "F32 " << static_cast<int64_t>(AV::Image::F32Min) << " " << static_cast<int64_t>(AV::Image::F32Max) << " =";
+                ss << "F32 " << Image::F32Range << " =";
                 _print(ss.str());
-                CONVERT(F32, AV::Image::F32Min, AV::Image::F32Max, U8);
-                CONVERT(F32, AV::Image::F32Min, AV::Image::F32Max, U10);
-                CONVERT(F32, AV::Image::F32Min, AV::Image::F32Max, U16);
-                CONVERT(F32, AV::Image::F32Min, AV::Image::F32Max, U32);
-                CONVERT(F32, AV::Image::F32Min, AV::Image::F32Max, F16);
-            }
-            
-            {
-                
+                CONVERT(F32, Image::F32Range, U8);
+                CONVERT(F32, Image::F32Range, U10);
+                CONVERT(F32, Image::F32Range, U16);
+                CONVERT(F32, Image::F32Range, U32);
+                CONVERT(F32, Image::F32Range, F16);
             }
         }
         

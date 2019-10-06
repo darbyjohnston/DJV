@@ -132,20 +132,20 @@ namespace djv
     } // namespace Core
 
     template<typename T>
-    inline std::ostream & operator << (std::ostream & s, const Core::Range::Range<T> & value)
+    inline std::ostream& operator << (std::ostream& is, const Core::Range::Range<T>& value)
     {
-        s << value.min << " ";
-        s << value.max;
-        return s;
+        is << value.min << " ";
+        is << value.max;
+        return is;
     }
 
     template<typename T>
-    inline std::istream & operator >> (std::istream & s, Core::Range::Range<T> & out)
+    inline std::istream& operator >> (std::istream& os, Core::Range::Range<T>& out)
     {
-        s.exceptions(std::istream::failbit | std::istream::badbit);
-        s >> out.min;
-        s >> out.max;
-        return s;
+        os.exceptions(std::istream::failbit | std::istream::badbit);
+        os >> out.min;
+        os >> out.max;
+        return os;
     }
 
 } // namespace djv

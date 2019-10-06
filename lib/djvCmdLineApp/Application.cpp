@@ -29,8 +29,6 @@
 
 #include <djvCmdLineApp/Application.h>
 
-#include <djvCmdLineApp/GLFWSystem.h>
-
 #include <djvAV/AVSystem.h>
 #include <djvAV/IO.h>
 #include <djvAV/OpenGL.h>
@@ -60,12 +58,7 @@ namespace djv
         void Application::_init(const std::vector<std::string>& args)
         {
             Context::_init(args);
-
-            auto glfwSystem = GLFWSystem::create(shared_from_this());
             auto avSystem = AV::AVSystem::create(shared_from_this());
-
-            getSystemT<AV::IO::System>()->addDependency(glfwSystem);
-            getSystemT<AV::Render::Render2D>()->addDependency(glfwSystem);
         }
 
         Application::Application() :

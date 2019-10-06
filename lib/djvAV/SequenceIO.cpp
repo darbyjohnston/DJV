@@ -383,7 +383,9 @@ namespace djv
                         images.push_back(std::make_pair(result.frame, result.image));
                         if (cacheEnabled)
                         {
+#if defined(DJV_MMAP)
                             result.image->detach();
+#endif // DJV_MMAP
                             _cache.add(result.frame, result.image);
                         }
                     }
@@ -499,7 +501,9 @@ namespace djv
                         const auto result = i->get();
                         if (result.image)
                         {
+#if defined(DJV_MMAP)
                             result.image->detach();
+#endif // DJV_MMAP
                             _cache.add(result.frame, result.image);
                         }
                         i = p.cacheFutures.erase(i);

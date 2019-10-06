@@ -50,8 +50,11 @@ namespace djv
             public:
                 ~Image();
 
+#if defined(DJV_MMAP)
+                static std::shared_ptr<Image> create(const Info&, const std::shared_ptr<Core::FileSystem::FileIO>& = nullptr);
+#else // DJV_MMAP
                 static std::shared_ptr<Image> create(const Info&);
-                static std::shared_ptr<Image> create(const Info&, const std::shared_ptr<Core::FileSystem::FileIO>&);
+#endif // DJV_MMAP
 
                 const std::string& getPluginName() const;
                 void setPluginName(const std::string&);

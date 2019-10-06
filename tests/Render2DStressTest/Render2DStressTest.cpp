@@ -28,10 +28,10 @@
 //------------------------------------------------------------------------------
 
 #include <djvCmdLineApp/Application.h>
-#include <djvCmdLineApp/GLFWSystem.h>
 
 #include <djvAV/AVSystem.h>
 #include <djvAV/Color.h>
+#include <djvAV/GLFWSystem.h>
 #include <djvAV/IO.h>
 #include <djvAV/OpenGL.h>
 #include <djvAV/Render2D.h>
@@ -129,7 +129,7 @@ private:
     void _drawRandomIcon();
     void _render();
 
-    GLFWwindow*  _glfwWindow = nullptr;
+    GLFWwindow*  _glfwWindow   = nullptr;
     std::shared_ptr<AV::Render::Render2D> _render2D;
     RandomColor* _randomColors = nullptr;
     RandomColor* _currentColor = nullptr;
@@ -152,7 +152,7 @@ void Application::_init(int argc, char ** argv)
         args.push_back(argv[i]);
     }
     CmdLine::Application::_init(args);
-    _glfwWindow = getSystemT<CmdLine::GLFWSystem>()->getGLFWWindow();
+    _glfwWindow = getSystemT<AV::GLFW::System>()->getGLFWWindow();
     //glfwSetWindowSize(_glfwWindow, 1280, 720);
     glfwShowWindow(_glfwWindow);
     _render2D = getSystemT<AV::Render::Render2D>();

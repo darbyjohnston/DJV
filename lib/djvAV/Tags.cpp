@@ -35,7 +35,12 @@ namespace djv
     {
         const std::string Tags::_empty;
 
-        size_t Tags::getTagsCount() const
+        bool Tags::isEmpty() const
+        {
+            return 0 == _tags.size();
+        }
+
+        size_t Tags::getCount() const
         {
             return _tags.size();
         }

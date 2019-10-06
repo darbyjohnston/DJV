@@ -31,6 +31,7 @@
 
 #include <djvAV/Cineon.h>
 #include <djvAV/DPX.h>
+#include <djvAV/GLFWSystem.h>
 #include <djvAV/IFF.h>
 #include <djvAV/OCIOSystem.h>
 #include <djvAV/PPM.h>
@@ -593,13 +594,11 @@ namespace djv
 
                 DJV_PRIVATE_PTR();
 
+                addDependency(context->getSystemT<GLFW::System>());
                 addDependency(context->getSystemT<OCIO::System>());
 
                 p.optionsChanged = ValueSubject<bool>::create();
 
-                auto logSystem = context->getSystemT<LogSystem>();
-                auto resourceSystem = context->getSystemT<ResourceSystem>();
-                auto ocioSystem = context->getSystemT<OCIO::System>();
                 p.plugins[Cineon::pluginName] = Cineon::Plugin::create(context);
                 p.plugins[DPX::pluginName] = DPX::Plugin::create(context);
                 p.plugins[IFF::pluginName] = IFF::Plugin::create(context);

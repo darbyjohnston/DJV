@@ -855,9 +855,9 @@ namespace djv
             const float x0 = _frameToPos(p.currentFrame);
             const float x1 = _frameToPos(p.currentFrame + 1);
             BBox2f out = BBox2f(
-                x0,
+                floorf(x0),
                 g.min.y + m,
-                std::max(x1 - x0, b),
+                ceilf(std::max(x1 - x0, b)),
                 g.h() - m * 2.F);
             return out;
         }

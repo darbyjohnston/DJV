@@ -41,12 +41,12 @@ namespace djv
                 y(y)
             {}
 
-            constexpr bool Mirror::operator == (const Mirror & other) const
+            constexpr bool Mirror::operator == (const Mirror& other) const
             {
                 return other.x == x && other.y == y;
             }
 
-            constexpr bool Mirror::operator != (const Mirror & other) const
+            constexpr bool Mirror::operator != (const Mirror& other) const
             {
                 return !(other == *this);
             }
@@ -54,18 +54,18 @@ namespace djv
             inline Layout::Layout()
             {}
 
-            constexpr Layout::Layout(const Mirror & mirror, GLint alignment, Core::Memory::Endian endian) :
+            constexpr Layout::Layout(const Mirror& mirror, GLint alignment, Core::Memory::Endian endian) :
                 mirror(mirror),
                 alignment(alignment),
                 endian(endian)
             {}
 
-            constexpr bool Layout::operator == (const Layout & other) const
+            constexpr bool Layout::operator == (const Layout& other) const
             {
                 return other.mirror == mirror && other.alignment == alignment && other.endian == endian;
             }
 
-            constexpr bool Layout::operator != (const Layout & other) const
+            constexpr bool Layout::operator != (const Layout& other) const
             {
                 return !(other == *this);
             }
@@ -74,6 +74,11 @@ namespace djv
                 w(w),
                 h(h)
             {}
+
+            inline float Size::getAspectRatio() const
+            {
+                return h > 0 ? (w / static_cast<float>(h)) : 1.F;
+            }
 
             inline bool Size::operator == (const Size& other) const
             {
@@ -86,18 +91,18 @@ namespace djv
             }
 
             inline Info::Info() :
-                name(DJV_TEXT("Default"))
+                name(DJV_TEXT(nameDefault))
             {}
 
-            inline Info::Info(const Size& size, Type type, const Layout & layout) :
-                name(DJV_TEXT("Default")),
+            inline Info::Info(const Size& size, Type type, const Layout& layout) :
+                name(DJV_TEXT(nameDefault)),
                 size(size),
                 type(type),
                 layout(layout)
             {}
 
-            inline Info::Info(uint16_t width, uint16_t height, Type type, const Layout & layout) :
-                name(DJV_TEXT("Default")),
+            inline Info::Info(uint16_t width, uint16_t height, Type type, const Layout& layout) :
+                name(DJV_TEXT(nameDefault)),
                 size(width, height),
                 type(type),
                 layout(layout)
@@ -105,7 +110,7 @@ namespace djv
 
             inline float Info::getAspectRatio() const
             {
-                return size.h > 0 ? (size.w / static_cast<float>(size.h)) : 1.F;
+                return size.getAspectRatio();
             }
 
             inline GLenum Info::getGLFormat() const
@@ -123,7 +128,7 @@ namespace djv
                 return size.w > 0 && size.h > 0 && type != Type::None;
             }
 
-            inline uint8_t Info::getPixelByteCount() const
+            inline size_t Info::getPixelByteCount() const
             {
                 return AV::Image::getByteCount(type);
             }
@@ -141,7 +146,7 @@ namespace djv
                 return size.h * getScanlineByteCount();
             }
 
-            inline bool Info::operator == (const Info & other) const
+            inline bool Info::operator == (const Info& other) const
             {
                 return
                     other.size.w == size.w &&
@@ -150,7 +155,7 @@ namespace djv
                     other.layout == layout;
             }
 
-            inline bool Info::operator != (const Info & other) const
+            inline bool Info::operator != (const Info& other) const
             {
                 return !(other == *this);
             }
@@ -208,7 +213,7 @@ namespace djv
                 return _info.getGLType();
             }
 
-            inline const Layout & Data::getLayout() const
+            inline const Layout& Data::getLayout() const
             {
                 return _info.layout;
             }
@@ -223,36 +228,42 @@ namespace djv
                 return _scanlineByteCount;
             }
 
-            inline const uint8_t * Data::getData() const
+            inline const uint8_t* Data::getData() const
             {
                 return _p;
             }
 
-            inline const uint8_t * Data::getData(uint16_t y) const
+            inline const uint8_t* Data::getData(uint16_t y) const
             {
                 return _p + y * _scanlineByteCount;
             }
 
-            inline const uint8_t * Data::getData(uint16_t x, uint16_t y) const
+            inline const uint8_t* Data::getData(uint16_t x, uint16_t y) const
             {
                 return _p + y * _scanlineByteCount + x * static_cast<size_t>(_pixelByteCount);
             }
 
-            inline uint8_t * Data::getData()
+            inline uint8_t* Data::getData()
             {
+#if defined(DJV_MMAP)
                 detach();
+#endif // DJV_MMAP
                 return _data;
             }
 
-            inline uint8_t * Data::getData(uint16_t y)
+            inline uint8_t* Data::getData(uint16_t y)
             {
+#if defined(DJV_MMAP)
                 detach();
+#endif // DJV_MMAP
                 return _data + y * _scanlineByteCount;
             }
 
-            inline uint8_t * Data::getData(uint16_t x, uint16_t y)
+            inline uint8_t* Data::getData(uint16_t x, uint16_t y)
             {
+#if defined(DJV_MMAP)
                 detach();
+#endif // DJV_MMAP
                 return _data + y * _scanlineByteCount + x * static_cast<size_t>(_pixelByteCount);
             }
 

@@ -30,6 +30,7 @@
 #include <djvAV/Render2D.h>
 
 #include <djvAV/Color.h>
+#include <djvAV/GLFWSystem.h>
 #include <djvAV/OpenGLMesh.h>
 #include <djvAV/OpenGLShader.h>
 #include <djvAV/OpenGLTexture.h>
@@ -380,6 +381,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 p.system = this;
 
+                addDependency(context->getSystemT<AV::GLFW::System>());
                 auto fontSystem = context->getSystemT<Font::System>();
                 p.fontSystem = fontSystem;
                 addDependency(fontSystem);

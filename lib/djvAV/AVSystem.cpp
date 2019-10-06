@@ -31,6 +31,7 @@
 
 #include <djvAV/AudioSystem.h>
 #include <djvAV/FontSystem.h>
+#include <djvAV/GLFWSystem.h>
 #include <djvAV/IO.h>
 #include <djvAV/OCIOSystem.h>
 #include <djvAV/Render2D.h>
@@ -67,6 +68,7 @@ namespace djv
             p.alphaBlend = ValueSubject<AlphaBlend>::create(AlphaBlend::First);
             p.defaultSpeed = ValueSubject<Time::FPS>::create(Time::getDefaultSpeed());
 
+            auto glfwSystem = GLFW::System::create(context);
             auto ocioSystem = OCIO::System::create(context);
             auto ioSystem = IO::System::create(context);
             auto fontSystem = Font::System::create(context);
@@ -74,8 +76,9 @@ namespace djv
             auto render2D = Render::Render2D::create(context);
             auto audioSystem = Audio::System::create(context);
 
-            addDependency(ioSystem);
+            addDependency(glfwSystem);
             addDependency(ocioSystem);
+            addDependency(ioSystem);
             addDependency(fontSystem);
             addDependency(p.thumbnailSystem);
             addDependency(render2D);

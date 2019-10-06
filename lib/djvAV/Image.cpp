@@ -46,19 +46,21 @@ namespace djv
             Image::~Image()
             {}
 
-            std::shared_ptr<Image> Image::create(const Info & value)
-            {
-                auto out = std::shared_ptr<Image>(new Image);
-                out->_init(value, nullptr);
-                return out;
-            }
-
+#if defined(DJV_MMAP)
             std::shared_ptr<Image> Image::create(const Info& value, const std::shared_ptr<Core::FileSystem::FileIO>& io)
             {
                 auto out = std::shared_ptr<Image>(new Image);
                 out->_init(value, io);
                 return out;
             }
+#else // DJV_MMAP
+            std::shared_ptr<Image> Image::create(const Info & value)
+            {
+                auto out = std::shared_ptr<Image>(new Image);
+                out->_init(value, nullptr);
+                return out;
+            }
+#endif // DJV_MMAP
 
             const std::string& Image::getPluginName() const
             {

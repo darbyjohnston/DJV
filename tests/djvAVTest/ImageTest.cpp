@@ -27,49 +27,43 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvAVTest/ImageTest.h>
 
-#include <djvCmdLineApp/CmdLineApp.h>
+#include <djvAV/Image.h>
 
-#include <djvCore/ISystem.h>
-
-#include <stdexcept>
-
-struct GLFWwindow;
+using namespace djv::Core;
+using namespace djv::AV;
 
 namespace djv
 {
-    namespace CmdLine
+    namespace AVTest
     {
-        //! This class provides a GLFW error.
-        class GLFWError : public std::runtime_error
-        {
-        public:
-            explicit GLFWError(const std::string&);
-        };
+        ImageTest::ImageTest(const std::shared_ptr<Core::Context>& context) :
+            ITest("djv::AVTest::ImageTest", context)
+        {}
         
-        //! This class provides a system for GLFW functionality.
-        class GLFWSystem : public Core::ISystem
+        void ImageTest::run(const std::vector<std::string>& args)
         {
-            DJV_NON_COPYABLE(GLFWSystem);
-            
-        protected:
-            void _init(const std::shared_ptr<Core::Context>&);
-            GLFWSystem();
+            {
+                auto image = Image::Image::create(Image::Info(1, 2, Image::Type::RGB_U8));
+                DJV_ASSERT(image->getPluginName().empty());
+                const std::string name = "TIFF";
+                image->setPluginName(name);
+                DJV_ASSERT(name == image->getPluginName());
+            }
 
-        public:
-            virtual ~GLFWSystem();
-
-            //! Create a new GLFW system.
-            //! Throws:
-            //! - GLFWError
-            static std::shared_ptr<GLFWSystem> create(const std::shared_ptr<Core::Context>&);
-
-            GLFWwindow * getGLFWWindow() const;
-
-        private:
-            DJV_PRIVATE();
-        };
-
-    } // namespace CmdLine
+            {
+                auto image = Image::Image::create(Image::Info(1, 2, Image::Type::RGB_U8));
+                DJV_ASSERT(image->getTags().isEmpty());
+                Tags tags;
+                tags.setTag("a", "1");
+                tags.setTag("b", "2");
+                tags.setTag("c", "3");
+                image->setTags(tags);
+                DJV_ASSERT(tags == image->getTags());
+            }
+        }
+                
+    } // namespace AVTest
 } // namespace djv
+

@@ -31,6 +31,9 @@
 
 #include <djvAV/Color.h>
 
+using namespace djv::Core;
+using namespace djv::AV;
+
 namespace djv
 {
     namespace AVTest
@@ -51,26 +54,26 @@ namespace djv
         void ColorTest::_ctor()
         {
             {
-                AV::Image::Color c;
+                Image::Color c;
                 DJV_ASSERT(!c.isValid());
             }
             
             {
-                const AV::Image::Type type = AV::Image::Type::L_U8;
-                AV::Image::Color c(type);
+                const Image::Type type = Image::Type::L_U8;
+                Image::Color c(type);
                 DJV_ASSERT(type == c.getType());
                 DJV_ASSERT(c.isValid());
             }
             
             {
-                AV::Image::Color c(0, 1, 2, 3);
-                DJV_ASSERT(AV::Image::Type::RGBA_U8 == c.getType());
+                Image::Color c(0, 1, 2, 3);
+                DJV_ASSERT(Image::Type::RGBA_U8 == c.getType());
                 DJV_ASSERT(c.isValid());
             }
             
             {
-                AV::Image::Color c(0.F, 1.F, 2.F, 3.F);
-                DJV_ASSERT(AV::Image::Type::RGBA_F32 == c.getType());
+                Image::Color c(0.F, 1.F, 2.F, 3.F);
+                DJV_ASSERT(Image::Type::RGBA_F32 == c.getType());
                 DJV_ASSERT(c.isValid());
             }
         }
@@ -78,27 +81,27 @@ namespace djv
         void ColorTest::_getSet()
         {
             {
-                AV::Image::Color c(AV::Image::Type::L_U8);
+                Image::Color c(Image::Type::L_U8);
                 c.setU8(1, 0);
                 DJV_ASSERT(1 == c.getU8(0));
             }
             {
-                AV::Image::Color c(AV::Image::Type::L_U16);
+                Image::Color c(Image::Type::L_U16);
                 c.setU16(1, 0);
                 DJV_ASSERT(1 == c.getU16(0));
             }
             {
-                AV::Image::Color c(AV::Image::Type::L_U32);
+                Image::Color c(Image::Type::L_U32);
                 c.setU32(1, 0);
                 DJV_ASSERT(1 == c.getU32(0));
             }
             {
-                AV::Image::Color c(AV::Image::Type::L_F16);
+                Image::Color c(Image::Type::L_F16);
                 c.setF16(1.F, 0);
                 DJV_ASSERT(1.F == c.getF16(0));
             }
             {
-                AV::Image::Color c(AV::Image::Type::L_F32);
+                Image::Color c(Image::Type::L_F32);
                 c.setF32(1.F, 0);
                 DJV_ASSERT(1.f == c.getF32(0));
             }
@@ -108,7 +111,7 @@ namespace djv
         {
             float rgb[3] = { r, g, b };
             float hsv[3] = { 0.F, 0.F, 0.F };
-            AV::Image::Color::rgbToHSV(rgb, hsv);
+            Image::Color::rgbToHSV(rgb, hsv);
             std::stringstream ss;
             ss << "rgbToHSV: " << rgb[0] << "," << rgb[1] << "," << rgb[2] << " = " <<
                 hsv[0] << "," << hsv[1] << "," << hsv[2];
@@ -139,7 +142,7 @@ namespace djv
             {
                 float hsv[3] = { v, v, v };
                 float rgb[3] = { 0.F, 0.F, 0.F };
-                AV::Image::Color::hsvToRGB(hsv, rgb);
+                Image::Color::hsvToRGB(hsv, rgb);
                 std::stringstream ss;
                 ss << "hsvToRGB: " << hsv[0] << "," << hsv[1] << "," << hsv[2] << " = " <<
                     rgb[0] << "," << rgb[1] << "," << rgb[2];
@@ -149,113 +152,113 @@ namespace djv
         
         void ColorTest::_operators()
         {
-            const AV::Image::Color c(0, 1, 2, 3);
+            const Image::Color c(0, 1, 2, 3);
             DJV_ASSERT(c == c);
-            DJV_ASSERT(c != AV::Image::Color());
+            DJV_ASSERT(c != Image::Color());
         }
         
         void ColorTest::_serialize()
         {
             {
-                auto u8 = AV::Image::Color(AV::Image::Type::L_U8);
+                auto u8 = Image::Color(Image::Type::L_U8);
                 u8.setU8(255, 0);
-                const auto u16 = u8.convert(AV::Image::Type::L_U16);
+                const auto u16 = u8.convert(Image::Type::L_U16);
                 std::stringstream ss;
                 ss << "U8 = " << static_cast<int>(u8.getU8(0)) << ", " << "U16 = " << u16.getU16(0);
                 _print(ss.str());
             }
             
             {
-                auto u8 = AV::Image::Color(AV::Image::Type::L_U8);
+                auto u8 = Image::Color(Image::Type::L_U8);
                 u8.setU8(255, 0);
-                const auto u10 = u8.convert(AV::Image::Type::RGB_U10);
+                const auto u10 = u8.convert(Image::Type::RGB_U10);
                 std::stringstream ss;
                 ss << "U8 = " << static_cast<int>(u8.getU8(0)) << ", " << "U10 = " << u10.getU10(0) << ", " << u10.getU10(1) << ", " << u10.getU10(2);
                 _print(ss.str());
             }
             
             {
-                auto u8 = AV::Image::Color(AV::Image::Type::L_U8);
+                auto u8 = Image::Color(Image::Type::L_U8);
                 u8.setU8(255, 0);
-                const auto f32 = u8.convert(AV::Image::Type::L_F32);
+                const auto f32 = u8.convert(Image::Type::L_F32);
                 std::stringstream ss;
                 ss << "U8 = " << static_cast<int>(u8.getU8(0)) << ", " << "F32 = " << f32.getF32(0);
                 _print(ss.str());
             }
             
             {
-                for (size_t i = 1; i < static_cast<size_t>(AV::Image::Type::Count); ++i)
+                for (size_t i = 1; i < static_cast<size_t>(Image::Type::Count); ++i)
                 {
-                    for (size_t j = 1; j < static_cast<size_t>(AV::Image::Type::Count); ++j)
+                    for (size_t j = 1; j < static_cast<size_t>(Image::Type::Count); ++j)
                     {
-                        AV::Image::Color(static_cast<AV::Image::Type>(i)).convert(static_cast<AV::Image::Type>(j));
+                        Image::Color(static_cast<Image::Type>(i)).convert(static_cast<Image::Type>(j));
                     }
                 }
             }
             
             {
-                const AV::Image::Color c(0, 1, 2, 3);
+                const Image::Color c(0, 1, 2, 3);
                 auto json = toJSON(c);
-                AV::Image::Color c2;
+                Image::Color c2;
                 fromJSON(json, c2);
                 DJV_ASSERT(c == c2);
             }
             
             {
-                AV::Image::Color c(AV::Image::Type::RGB_U10);
+                Image::Color c(Image::Type::RGB_U10);
                 c.setU10(0, 0);
                 c.setU10(1, 1);
                 c.setU10(2, 2);
                 auto json = toJSON(c);
-                AV::Image::Color c2;
+                Image::Color c2;
                 fromJSON(json, c2);
                 DJV_ASSERT(c == c2);
             }
             
             {
-                AV::Image::Color c(AV::Image::Type::RGBA_U16);
+                Image::Color c(Image::Type::RGBA_U16);
                 c.setU16(0, 0);
                 c.setU16(1, 1);
                 c.setU16(3, 2);
                 c.setU16(3, 3);
                 auto json = toJSON(c);
-                AV::Image::Color c2;
+                Image::Color c2;
                 fromJSON(json, c2);
                 DJV_ASSERT(c == c2);
             }
             
             {
-                AV::Image::Color c(AV::Image::Type::RGBA_U32);
+                Image::Color c(Image::Type::RGBA_U32);
                 c.setU32(0, 0);
                 c.setU32(1, 1);
                 c.setU32(2, 2);
                 c.setU32(3, 3);
                 auto json = toJSON(c);
-                AV::Image::Color c2;
+                Image::Color c2;
                 fromJSON(json, c2);
                 DJV_ASSERT(c == c2);
             }
             
             {
-                AV::Image::Color c(AV::Image::Type::RGBA_F16);
+                Image::Color c(Image::Type::RGBA_F16);
                 c.setF16(0.F, 0);
                 c.setF16(1.F, 1);
                 c.setF16(2.F, 2);
                 c.setF16(3.F, 3);
                 auto json = toJSON(c);
-                AV::Image::Color c2;
+                Image::Color c2;
                 fromJSON(json, c2);
                 DJV_ASSERT(c == c2);
             }
             
             {
-                AV::Image::Color c(AV::Image::Type::RGBA_F32);
+                Image::Color c(Image::Type::RGBA_F32);
                 c.setF32(0.F, 0);
                 c.setF32(1.F, 1);
                 c.setF32(2.F, 2);
                 c.setF32(3.F, 3);
                 auto json = toJSON(c);
-                AV::Image::Color c2;
+                Image::Color c2;
                 fromJSON(json, c2);
                 DJV_ASSERT(c == c2);
             }
@@ -263,7 +266,7 @@ namespace djv
             try
             {
                 auto json = picojson::value(picojson::object_type, true);
-                AV::Image::Color c;
+                Image::Color c;
                 fromJSON(json, c);
                 DJV_ASSERT(false);
             }

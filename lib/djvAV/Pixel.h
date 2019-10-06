@@ -117,27 +117,32 @@ namespace djv
             typedef half     F16_T;
             typedef float    F32_T;
 
-            const U8_T   U8Min = std::numeric_limits<uint8_t>::min();
-            const U8_T   U8Max = std::numeric_limits<uint8_t>::max();
-            const U10_T U10Min = 0;
-            const U10_T U10Max = 1023;
-            const U10_T U12Min = 0;
-            const U10_T U12Max = 4095;
-            const U16_T U16Min = std::numeric_limits<uint16_t>::min();
-            const U16_T U16Max = std::numeric_limits<uint16_t>::max();
-            const U32_T U32Min = std::numeric_limits<uint32_t>::min();
-            const U32_T U32Max = std::numeric_limits<uint32_t>::max();
-            const F16_T F16Min = 0.F;
-            const F16_T F16Max = 1.F;
-            const F32_T F32Min = 0.F;
-            const F32_T F32Max = 1.F;
+            const Core::Range::Range<U8_T> U8Range(
+                std::numeric_limits<uint8_t>::min(),
+                std::numeric_limits<uint8_t>::max());
+            
+            const Core::Range::Range<uint16_t> U10Range(0, 1023);
+            
+            const Core::Range::Range<uint16_t> U12Range(0, 4095);
+            
+            const Core::Range::Range<U16_T> U16Range(
+                std::numeric_limits<uint16_t>::min(),
+                std::numeric_limits<uint16_t>::max());
+            
+            const Core::Range::Range<U32_T> U32Range(
+                std::numeric_limits<uint32_t>::min(),
+                std::numeric_limits<uint32_t>::max());
+            
+            const Core::Range::Range<F16_T> F16Range(0.F, 1.F);
+            
+            const Core::Range::Range<F32_T> F32Range(0.F, 1.F);
 
             //! This struct provides 10-bit MSB pixel data.
             struct U10_S_MSB
             {
-                uint32_t r : 10;
-                uint32_t g : 10;
-                uint32_t b : 10;
+                uint32_t r   : 10;
+                uint32_t g   : 10;
+                uint32_t b   : 10;
                 uint32_t pad : 2;
 
                 constexpr bool operator == (const U10_S_MSB &) const;
@@ -163,8 +168,8 @@ namespace djv
             DataType getDataType(Type);
             uint8_t getBitDepth(Type);
             uint8_t getBitDepth(DataType);
-            uint8_t getByteCount(Type);
-            uint8_t getByteCount(DataType);
+            size_t getByteCount(Type);
+            size_t getByteCount(DataType);
 
             bool isIntType(Type);
             bool isFloatType(Type);

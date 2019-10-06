@@ -29,8 +29,6 @@
 
 #include <djvViewApp/Application.h>
 
-#include <djvDesktopApp/GLFWSystem.h>
-
 #include <djvViewApp/AnnotateSystem.h>
 #include <djvViewApp/AudioSystem.h>
 #include <djvViewApp/ColorPickerSystem.h>
@@ -54,6 +52,7 @@
 #include <djvUI/SettingsSystem.h>
 
 #include <djvAV/AVSystem.h>
+#include <djvAV/GLFWSystem.h>
 #include <djvAV/IO.h>
 #include <djvAV/Render2D.h>
 
@@ -182,7 +181,7 @@ namespace djv
                     if (!p.read.size())
                     {
                         p.timer->stop();
-                        auto glfwSystem = getSystemT<Desktop::GLFWSystem>();
+                        auto glfwSystem = getSystemT<AV::GLFW::System>();
                         auto glfwWindow = glfwSystem->getGLFWWindow();
                         std::vector<GLFWimage> glfwImages;
                         for (const auto& i : p.icons)

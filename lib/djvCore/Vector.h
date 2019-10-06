@@ -37,17 +37,6 @@
 
 namespace djv
 {
-    namespace Core
-    {
-        //! This namespace provides vector functionality.
-        namespace Vector
-        {
-            template<typename T, glm::precision P = glm::defaultp>
-            float getAspect(const glm::tvec2<T, P> &);
-
-        } // namespace Vector
-    } // namespace Core
-
     template<typename T, glm::precision P = glm::defaultp>
     bool fuzzyCompare(const glm::tvec2<T, P> &, const glm::tvec2<T, P> &);
     template<typename T, glm::precision P = glm::defaultp>
