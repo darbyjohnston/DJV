@@ -83,15 +83,16 @@ namespace djv
 
             inline U10_T Color::getU10(size_t channel) const
             {
+                U10_T out = 0;
                 auto p = reinterpret_cast<const U10_S *>(_data.data());
                 switch (channel)
                 {
-                case 0: return p->r;
-                case 1: return p->g;
-                case 2: return p->b;
+                case 0: out = p->r; break;
+                case 1: out = p->g; break;
+                case 2: out = p->b; break;
                 default: break;
                 }
-                return 0;
+                return out;
             }
 
             inline U16_T Color::getU16(size_t channel) const

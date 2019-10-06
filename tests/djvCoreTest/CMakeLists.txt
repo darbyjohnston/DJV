@@ -28,7 +28,8 @@ set(header
     StringTest.h
     TextSystemTest.h
     TimeTest.h
-    ValueObserverTest.h)
+    ValueObserverTest.h
+    VectorTest.h)
 set(source
     AnimationTest.cpp
     BBoxTest.cpp
@@ -59,7 +60,8 @@ set(source
     StringTest.cpp
     TextSystemTest.cpp
     TimeTest.cpp
-    ValueObserverTest.cpp)
+    ValueObserverTest.cpp
+    VectorTest.cpp)
 
 add_library(djvCoreTest ${header} ${source})
 target_link_libraries(djvCoreTest djvTestLib)

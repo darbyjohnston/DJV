@@ -85,7 +85,7 @@ namespace djv
             //! References:
             //! - http://www.boost.org/doc/libs/1_65_1/doc/html/hash/combine.html
             template <class T>
-            void hashCombine(std::size_t &, const T &);
+            void hashCombine(std::size_t&, const T&);
 
         } // namespace Memory
     } // namespace Core

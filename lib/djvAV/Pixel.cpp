@@ -562,10 +562,6 @@ namespace djv
                 {
                     function(in, out, size);
                 }
-                else
-                {
-                    DJV_ASSERT(0);
-                }
             }
 
         } // namespace Image

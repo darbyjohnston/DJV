@@ -27,28 +27,28 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
+#pragma once
+
 #include <djvTestLib/Test.h>
 
 namespace djv
 {
-    namespace AVTest
+    namespace CoreTest
     {
-        class ColorTest : public Test::ITest
+        class VectorTest : public Test::ITest
         {
         public:
-            ColorTest(const std::shared_ptr<Core::Context>&);
+            VectorTest(const std::shared_ptr<Core::Context>&);
             
             void run(const std::vector<std::string>&) override;
             
         private:
-            void _ctor();
-            void _getSet();
-            void _rgbToHSV(float, float, float);
             void _util();
-            void _operators();
+            void _compare();
             void _serialize();
+            void _hash();
         };
         
-    } // namespace AVTest
+    } // namespace CoreTest
 } // namespace djv
 

@@ -57,6 +57,7 @@
 #include <djvCoreTest/TextSystemTest.h>
 #include <djvCoreTest/TimeTest.h>
 #include <djvCoreTest/ValueObserverTest.h>
+#include <djvCoreTest/VectorTest.h>
 
 #if !defined(DJV_TINY_BUILD)
 #include <djvAVTest/AudioTest.h>
@@ -111,6 +112,7 @@ int main(int argc, char ** argv)
         tests.emplace_back(new CoreTest::TextSystemTest(context));
         tests.emplace_back(new CoreTest::TimeTest(context));
         tests.emplace_back(new CoreTest::ValueObserverTest(context));
+        tests.emplace_back(new CoreTest::VectorTest(context));
 #if !defined(DJV_TINY_BUILD)
         tests.emplace_back(new AVTest::AudioTest(context));
         tests.emplace_back(new AVTest::ColorTest(context));
@@ -135,7 +137,6 @@ int main(int argc, char ** argv)
                     if (name == j->getName())
                     {
                         testsToRun.push_back(j);
-                        j->run(args);
                         break;
                     }
                 }

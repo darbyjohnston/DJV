@@ -52,6 +52,20 @@ namespace djv
 
         void PixelTest::run(const std::vector<std::string>& args)
         {
+            for (auto i : AV::Image::getChannelsEnums())
+            {
+                std::stringstream ss;
+                ss << "channel string: " << i;
+                _print(ss.str());
+            }
+
+            for (auto i : AV::Image::getDataTypeEnums())
+            {
+                std::stringstream ss;
+                ss << "data type string: " << i;
+                _print(ss.str());
+            }
+        
             {
                 std::stringstream ss;
                 ss << AV::Image::Type::RGBA_U8;
@@ -60,6 +74,7 @@ namespace djv
                 ss >> type;
                 DJV_ASSERT(AV::Image::Type::RGBA_U8 == type);
             }
+            
             {
                 std::stringstream ss;
                 ss << "U8 " << static_cast<int64_t>(AV::Image::U8Min) << " " << static_cast<int64_t>(AV::Image::U8Max) << " =";
@@ -70,6 +85,7 @@ namespace djv
                 CONVERT(U8, AV::Image::U8Min, AV::Image::U8Max, F16);
                 CONVERT(U8, AV::Image::U8Min, AV::Image::U8Max, F32);
             }
+            
             {
                 std::stringstream ss;
                 ss << "U10 " << static_cast<int64_t>(AV::Image::U10Min) << " " << static_cast<int64_t>(AV::Image::U10Max) << " =";
@@ -80,6 +96,7 @@ namespace djv
                 CONVERT(U10, AV::Image::U10Min, AV::Image::U10Max, F16);
                 CONVERT(U10, AV::Image::U10Min, AV::Image::U10Max, F32);
             }
+            
             {
                 std::stringstream ss;
                 ss << "U16 " << static_cast<int64_t>(AV::Image::U16Min) << " " << static_cast<int64_t>(AV::Image::U16Max) << " =";
@@ -90,6 +107,7 @@ namespace djv
                 CONVERT(U16, AV::Image::U16Min, AV::Image::U16Max, F16);
                 CONVERT(U16, AV::Image::U16Min, AV::Image::U16Max, F32);
             }
+            
             {
                 std::stringstream ss;
                 ss << "U32 " << static_cast<int64_t>(AV::Image::U32Min) << " " << static_cast<int64_t>(AV::Image::U32Max) << " =";
@@ -100,6 +118,7 @@ namespace djv
                 CONVERT(U32, AV::Image::U32Min, AV::Image::U32Max, F16);
                 CONVERT(U32, AV::Image::U32Min, AV::Image::U32Max, F32);
             }
+            
             {
                 std::stringstream ss;
                 ss << "F16 " << static_cast<int64_t>(AV::Image::F16Min) << " " << static_cast<int64_t>(AV::Image::F16Max) << " =";
@@ -110,6 +129,7 @@ namespace djv
                 CONVERT(F16, AV::Image::F16Min, AV::Image::F16Max, U32);
                 CONVERT(F16, AV::Image::F16Min, AV::Image::F16Max, F32);
             }
+            
             {
                 std::stringstream ss;
                 ss << "F32 " << static_cast<int64_t>(AV::Image::F32Min) << " " << static_cast<int64_t>(AV::Image::F32Max) << " =";
@@ -119,6 +139,10 @@ namespace djv
                 CONVERT(F32, AV::Image::F32Min, AV::Image::F32Max, U16);
                 CONVERT(F32, AV::Image::F32Min, AV::Image::F32Max, U32);
                 CONVERT(F32, AV::Image::F32Min, AV::Image::F32Max, F16);
+            }
+            
+            {
+                
             }
         }
         
