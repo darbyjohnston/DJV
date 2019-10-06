@@ -60,6 +60,8 @@
 #include <djvCoreTest/VectorTest.h>
 
 #if !defined(DJV_TINY_BUILD)
+#include <djvAVTest/AVSystemTest.h>
+#include <djvAVTest/AudioDataTest.h>
 #include <djvAVTest/AudioTest.h>
 #include <djvAVTest/ColorTest.h>
 #include <djvAVTest/ImageConvertTest.h>
@@ -123,6 +125,8 @@ int main(int argc, char ** argv)
         tests.emplace_back(new CoreTest::ValueObserverTest(context));
         tests.emplace_back(new CoreTest::VectorTest(context));
 #if !defined(DJV_TINY_BUILD)
+        tests.emplace_back(new AVTest::AVSystemTest(context));
+        tests.emplace_back(new AVTest::AudioDataTest(context));
         tests.emplace_back(new AVTest::AudioTest(context));
         tests.emplace_back(new AVTest::ColorTest(context));
         tests.emplace_back(new AVTest::ImageConvertTest(context));
@@ -163,6 +167,7 @@ int main(int argc, char ** argv)
     catch (const std::exception & error)
     {
         std::cout << Core::Error::format(error) << std::endl;
+        DJV_ASSERT(false);
     }
     return r;
 }

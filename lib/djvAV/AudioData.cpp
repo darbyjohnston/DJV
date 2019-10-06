@@ -58,7 +58,7 @@ namespace djv
     {
         namespace Audio
         {
-            bool DataInfo::operator == (const DataInfo & other) const
+            bool Info::operator == (const Info & other) const
             {
                 return
                     channelCount == other.channelCount &&
@@ -67,22 +67,27 @@ namespace djv
                     sampleCount == other.sampleCount;
             }
 
-            bool DataInfo::operator != (const DataInfo & other) const
+            bool Info::operator != (const Info & other) const
             {
                 return !(*this == other);
             }
 
-            void Data::_init(const DataInfo & info)
+            void Data::_init(const Info & info)
             {
                 _info = info;
                 _data.resize(getByteCount());
             }
 
-            std::shared_ptr<Data> Data::create(const DataInfo & info)
+            std::shared_ptr<Data> Data::create(const Info & info)
             {
                 auto out = std::shared_ptr<Data>(new Data);
                 out->_init(info);
                 return out;
+            }
+            
+            void Data::zero()
+            {
+                memset(_data.data(), 0, getByteCount());
             }
 
             std::shared_ptr<Data> Data::convert(const std::shared_ptr<Data> & data, Type type)
@@ -90,7 +95,7 @@ namespace djv
                 const Type dataType = data->getType();
                 const size_t sampleCount = data->getSampleCount();
                 const size_t channelCount = static_cast<size_t>(data->getChannelCount());
-                auto out = Data::create(DataInfo(channelCount, type, data->getSampleRate(), sampleCount));
+                auto out = Data::create(Info(channelCount, type, data->getSampleRate(), sampleCount));
                 if (dataType == type)
                 {
                     memcpy(out->getData(), data->getData(), sampleCount * channelCount * Audio::getByteCount(type));

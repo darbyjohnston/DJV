@@ -321,7 +321,7 @@ namespace djv
                                 default: channelCount = 2; break;
                                 }
                                 p.audioInfo = AudioInfo(
-                                    Audio::DataInfo(
+                                    Audio::Info(
                                         channelCount,
                                         audioType,
                                         p.avCodecParameters[p.avAudioStream]->sample_rate,

@@ -40,11 +40,15 @@ namespace djv
         namespace Audio
         {
             //! This struct provides audio data information.
-            class DataInfo
+            class Info
             {
             public:
-                constexpr DataInfo();
-                constexpr DataInfo(uint8_t channelCount, Type, size_t sampleRate, size_t sampleCount);
+                constexpr Info();
+                constexpr Info(
+                    uint8_t channelCount,
+                    Type    type,
+                    size_t  sampleRate,
+                    size_t  sampleCount);
 
                 uint8_t channelCount = 0;
                 Type    type         = Audio::Type::None;
@@ -52,9 +56,10 @@ namespace djv
                 size_t  sampleCount  = 0;
                 
                 constexpr bool isValid() const;
+                size_t getByteCount() const;
 
-                bool operator == (const DataInfo &) const;
-                bool operator != (const DataInfo &) const;
+                bool operator == (const Info&) const;
+                bool operator != (const Info&) const;
             };
 
             //! This struct provides audio data.
@@ -63,15 +68,13 @@ namespace djv
                 DJV_NON_COPYABLE(Data);
 
             protected:
-                void _init(const DataInfo &);
+                void _init(const Info&);
                 Data();
 
             public:
-                static std::shared_ptr<Data> create(const DataInfo &);
+                static std::shared_ptr<Data> create(const Info&);
 
-                void zero();
-
-                const DataInfo & getInfo() const;
+                const Info& getInfo() const;
                 uint8_t getChannelCount() const;
                 Type getType() const;
                 size_t getSampleRate() const;
@@ -84,7 +87,9 @@ namespace djv
                 uint8_t * getData(size_t offset);
                 const uint8_t * getData(size_t offset) const;
 
-                static std::shared_ptr<Data> convert(const std::shared_ptr<Data> &, Type);
+                void zero();
+
+                static std::shared_ptr<Data> convert(const std::shared_ptr<Data>&, Type);
 
                 template<typename T>
                 static void extract(const T*, T*, size_t sampleCount, uint8_t inChannelCount, uint8_t outChannelCount);
@@ -92,15 +97,15 @@ namespace djv
                 static std::shared_ptr<Data> planarInterleave(const std::shared_ptr<Data>&);
                 template<typename T>
                 static void planarInterleave(const T**, T*, size_t sampleCount, uint8_t channelCount);
-                static std::shared_ptr<Data> planarDeinterleave(const std::shared_ptr<Data> &);
+                static std::shared_ptr<Data> planarDeinterleave(const std::shared_ptr<Data>&);
 
                 static void volume(const uint8_t*, uint8_t*, float volume, size_t sampleCount, uint8_t channelCount, Type);
 
-                bool operator == (const Data &) const;
-                bool operator != (const Data &) const;
+                bool operator == (const Data&) const;
+                bool operator != (const Data&) const;
 
             private:
-                DataInfo _info;
+                Info _info;
                 std::vector<uint8_t> _data;
             };
 

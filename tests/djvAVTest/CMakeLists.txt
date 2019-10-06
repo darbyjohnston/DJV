@@ -1,4 +1,6 @@
 set(header
+    AVSystemTest.h
+    AudioDataTest.h
     AudioTest.h
     ColorTest.h
     ImageConvertTest.h
@@ -7,6 +9,8 @@ set(header
     PixelTest.h
     TagsTest.h)
 set(source
+    AVSystemTest.cpp
+    AudioDataTest.cpp
     AudioTest.cpp
     ColorTest.cpp
     ImageConvertTest.cpp

@@ -202,6 +202,11 @@ namespace djv
         void ImageDataTest::_data()
         {
             {
+                auto data = Image::Data::create(Image::Info());
+                DJV_ASSERT(!data->isValid());
+            }
+            
+            {
                 const Image::Info info(1, 2, Image::Type::RGB_U8);
                 auto data = Image::Data::create(info);
                 DJV_ASSERT(info == data->getInfo());

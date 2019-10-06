@@ -27,12 +27,12 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvAVTest/ImageConvertTest.h>
+#include <djvAVTest/AVSystemTest.h>
 
-#include <djvAV/ImageConvert.h>
+#include <djvAV/AVSystem.h>
 
 #include <djvCore/Context.h>
-#include <djvCore/ResourceSystem.h>
+#include <djvCore/ValueObserver.h>
 
 using namespace djv::Core;
 using namespace djv::AV;
@@ -41,38 +41,59 @@ namespace djv
 {
     namespace AVTest
     {
-        ImageConvertTest::ImageConvertTest(const std::shared_ptr<Core::Context>& context) :
-            ITest("djv::AVTest::ImageConvertTest", context)
+        AVSystemTest::AVSystemTest(const std::shared_ptr<Core::Context>& context) :
+            ITest("djv::AVTest::AVSystemTest", context)
         {}
         
-        void ImageConvertTest::run(const std::vector<std::string>& args)
+        void AVSystemTest::run(const std::vector<std::string>& args)
         {
             if (auto context = getContext().lock())
             {
-                const Image::Info info(64, 64, Image::Type::L_U8);
-                auto data = Image::Data::create(info);
-                data->getData()[0] = Image::U8Range.max;
+                auto avSystem = context->getSystemT<AV::AVSystem>();
+                
+                auto timeUnitsObserver = ValueObserver<AV::TimeUnits>::create(
+                    avSystem->observeTimeUnits(),
+                    [this](AV::TimeUnits value)
+                    {
+                        std::stringstream ss;
+                        ss << "time units: " << value;
+                        _print(ss.str());
+                    });
+                auto alphaBlendObserver = ValueObserver<AV::AlphaBlend>::create(
+                    avSystem->observeAlphaBlend(),
+                    [this](AV::AlphaBlend value)
+                    {
+                        std::stringstream ss;
+                        ss << "alpha blend: " << value;
+                        _print(ss.str());
+                    });
+                auto defaultSpeedObserver = ValueObserver<Time::FPS>::create(
+                    avSystem->observeDefaultSpeed(),
+                    [this](Time::FPS value)
+                    {
+                        std::stringstream ss;
+                        ss << "defaut speed: " << value;
+                        _print(ss.str());
+                    });
+
                 {
                     std::stringstream ss;
-                    ss << "input: " << static_cast<uint16_t>(data->getData()[0]);
+                    ss << "frame number label: " << avSystem->getLabel(100, Time::Speed());
                     _print(ss.str());
                 }
-                
-                const Image::Info info2(64, 64, Image::Type::RGBA_U8);
-                auto data2 = Image::Data::create(info2);
-                
-                auto convert = Image::Convert::create(context->getSystemT<ResourceSystem>());
-                convert->process(*data, info2, *data2);
-                const Image::U8_T u8 = reinterpret_cast<const Image::U8_T*>(data2->getData())[0];
+
+                avSystem->setTimeUnits(AV::TimeUnits::Frames);
+                avSystem->setAlphaBlend(AV::AlphaBlend::Premultiplied);
+                avSystem->setDefaultSpeed(Time::FPS::_60);
+
                 {
                     std::stringstream ss;
-                    ss << "output: " << static_cast<uint16_t>(u8);
+                    ss << "frame number label: " << avSystem->getLabel(100, Time::Speed());
                     _print(ss.str());
                 }
-                //DJV_ASSERT(Image::U8Range.max == u8);
             }
         }
-                
+
     } // namespace AVTest
 } // namespace djv
 

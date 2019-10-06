@@ -32,6 +32,7 @@
 #include <djvAV/AV.h>
 
 #include <djvCore/Enum.h>
+#include <djvCore/Range.h>
 
 //#include <AL/al.h>
 //#include <AL/alc.h>
@@ -67,16 +68,20 @@ namespace djv
             typedef float   F32_T;
             typedef double  F64_T;
 
-            const S8_T   S8Min = std::numeric_limits<int8_t>::min();
-            const S8_T   S8Max = std::numeric_limits<int8_t>::max();
-            const S16_T S16Min = std::numeric_limits<int16_t>::min();
-            const S16_T S16Max = std::numeric_limits<int16_t>::max();
-            const S32_T S32Min = std::numeric_limits<int32_t>::min();
-            const S32_T S32Max = std::numeric_limits<int32_t>::max();
-            const F32_T F32Min = -1.F;
-            const F32_T F32Max =  1.F;
-            const F64_T F64Min = -1.0;
-            const F64_T F64Max =  1.0;
+            const Core::Range::Range<S8_T> S8Range(
+                std::numeric_limits<S8_T>::min(),
+                std::numeric_limits<S8_T>::max());
+
+            const Core::Range::Range<S16_T> S16Range(
+                std::numeric_limits<S16_T>::min(),
+                std::numeric_limits<S16_T>::max());
+
+            const Core::Range::Range<S32_T> S32Range(
+                std::numeric_limits<S32_T>::min(),
+                std::numeric_limits<S32_T>::max());
+
+            const Core::Range::Range<F32_T> F32Range(-1.F, 1.f);
+            const Core::Range::Range<F64_T> F64Range(-1.F, 1.f);
 
             uint8_t getByteCount(Type);
             Type getIntType(uint8_t);

@@ -112,26 +112,27 @@ namespace djv
 
             typedef uint8_t   U8_T;
             typedef uint16_t U10_T;
+            typedef uint16_t U12_T;
             typedef uint16_t U16_T;
             typedef uint32_t U32_T;
             typedef half     F16_T;
             typedef float    F32_T;
 
             const Core::Range::Range<U8_T> U8Range(
-                std::numeric_limits<uint8_t>::min(),
-                std::numeric_limits<uint8_t>::max());
+                std::numeric_limits<U8_T>::min(),
+                std::numeric_limits<U8_T>::max());
             
-            const Core::Range::Range<uint16_t> U10Range(0, 1023);
+            const Core::Range::Range<U10_T> U10Range(0, 1023);
             
-            const Core::Range::Range<uint16_t> U12Range(0, 4095);
+            const Core::Range::Range<U12_T> U12Range(0, 4095);
             
             const Core::Range::Range<U16_T> U16Range(
-                std::numeric_limits<uint16_t>::min(),
-                std::numeric_limits<uint16_t>::max());
+                std::numeric_limits<U16_T>::min(),
+                std::numeric_limits<U16_T>::max());
             
             const Core::Range::Range<U32_T> U32Range(
-                std::numeric_limits<uint32_t>::min(),
-                std::numeric_limits<uint32_t>::max());
+                std::numeric_limits<U32_T>::min(),
+                std::numeric_limits<U32_T>::max());
             
             const Core::Range::Range<F16_T> F16Range(0.F, 1.F);
             

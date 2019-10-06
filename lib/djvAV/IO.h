@@ -89,9 +89,9 @@ namespace djv
             {
             public:
                 AudioInfo();
-                AudioInfo(const Audio::DataInfo &, size_t sampleCount = 0);
+                AudioInfo(const Audio::Info &, size_t sampleCount = 0);
 
-                Audio::DataInfo info;
+                Audio::Info info;
                 size_t sampleCount = 0;
                 std::string codec;
 

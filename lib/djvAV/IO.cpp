@@ -87,7 +87,7 @@ namespace djv
             AudioInfo::AudioInfo()
             {}
 
-            AudioInfo::AudioInfo(const Audio::DataInfo & info, size_t sampleCount) :
+            AudioInfo::AudioInfo(const Audio::Info & info, size_t sampleCount) :
                 info(info),
                 sampleCount(sampleCount)
             {}
