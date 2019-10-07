@@ -252,6 +252,14 @@ namespace djv
         };
         DJV_ENUM_HELPERS(MetricsRole);
 
+        //! This enumeration provides information about how text input was
+        //! finished.
+        enum class TextFinished
+        {
+            Accepted,
+            LostFocus
+        };
+
         //! This enumeration provides the text focus navigation direction.
         enum class TextFocusDirection
         {

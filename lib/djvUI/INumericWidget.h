@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/UI.h>
+#include <djvUI/Enum.h>
 
 #include <djvCore/INumericValueModel.h>
 #include <djvCore/Range.h>
@@ -67,17 +67,17 @@ namespace djv
 
             T getValue() const;
             void setValue(T);
-            void setValueCallback(const std::function<void(T)>&);
+            void setValueCallback(const std::function<void(T, TextFinished)>&);
 
             const std::shared_ptr<Core::INumericValueModel<T> >& getModel() const;
             virtual void setModel(const std::shared_ptr<Core::INumericValueModel<T> >&);
 
         protected:
-            void _doCallback();
+            void _doCallback(TextFinished);
             bool _keyPress(NumericWidgetKey);
 
             std::shared_ptr<Core::INumericValueModel<T> > _model;
-            std::function<void(T)> _callback;
+            std::function<void(T, TextFinished)> _callback;
         };
 
         //! This class provides an interface for numeric editor widgets.

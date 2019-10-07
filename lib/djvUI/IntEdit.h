@@ -53,7 +53,7 @@ namespace djv
             void setModel(const std::shared_ptr<Core::INumericValueModel<int> > &) override;
 
         protected:
-            void _finishedEditing(const std::string&) override;
+            void _finishedEditing(const std::string&, TextFinished) override;
             bool _keyPress(int) override;
 
         private:

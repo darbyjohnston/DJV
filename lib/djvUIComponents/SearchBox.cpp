@@ -107,10 +107,7 @@ namespace djv
                         currentWidget = clearButton;
                     }
                     widget->_p->soloLayout->setCurrentWidget(currentWidget);
-                    if (widget->_p->filterCallback)
-                    {
-                        widget->_p->filterCallback(value);
-                    }
+                    widget->_doFilterCallback();
                 }
             });
 
@@ -120,6 +117,7 @@ namespace djv
                 if (auto widget = weak.lock())
                 {
                     widget->clearFilter();
+                    widget->_doFilterCallback();
                 }
             });
         }
@@ -177,6 +175,15 @@ namespace djv
             const BBox2f g = getGeometry();
             const auto& style = _getStyle();
             _p->border->setGeometry(getMargin().bbox(g, style));
+        }
+
+        void SearchBox::_doFilterCallback()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.filterCallback)
+            {
+                p.filterCallback(p.lineEditBase->getText());
+            }
         }
 
     } // namespace UI

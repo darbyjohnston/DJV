@@ -61,6 +61,8 @@ namespace djv
             void _layoutEvent(Core::Event::Layout &) override;
 
         private:
+            void _doFilterCallback();
+
             DJV_PRIVATE();
         };
 

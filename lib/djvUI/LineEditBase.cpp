@@ -89,7 +89,7 @@ namespace djv
             std::shared_ptr<Time::Timer> cursorBlinkTimer;
             
             std::function<void(std::string)> textChangedCallback;
-            std::function<void(std::string)> textFinishedCallback;
+            std::function<void(const std::string&, TextFinished)> textFinishedCallback;
             std::function<void(bool)> focusCallback;
         };
 
@@ -142,7 +142,6 @@ namespace djv
             _textUpdate();
             _cursorUpdate();
             _viewUpdate();
-            _doTextChangedCallback();
         }
 
         ColorRole LineEditBase::getTextColorRole() const
@@ -240,7 +239,7 @@ namespace djv
             _p->textChangedCallback = value;
         }
 
-        void LineEditBase::setTextFinishedCallback(const std::function<void(const std::string &)> & value)
+        void LineEditBase::setTextFinishedCallback(const std::function<void(const std::string&, TextFinished)>& value)
         {
             _p->textFinishedCallback = value;
         }
@@ -575,7 +574,7 @@ namespace djv
                     }
                     case GLFW_KEY_ENTER:
                         event.accept();
-                        _doTextFinishedCallback();
+                        _doTextFinishedCallback(TextFinished::Accepted);
                         break;
                     case GLFW_KEY_LEFT:
                         event.accept();
@@ -744,7 +743,7 @@ namespace djv
             p.cursorBlinkTimer->stop();
             p.cursorBlink = false;
             _redraw();
-            _doTextFinishedCallback();
+            _doTextFinishedCallback(TextFinished::LostFocus);
             _doFocusCallback(false);
         }
 
@@ -935,12 +934,12 @@ namespace djv
             }
         }
 
-        void LineEditBase::_doTextFinishedCallback()
+        void LineEditBase::_doTextFinishedCallback(TextFinished finished)
         {
             DJV_PRIVATE_PTR();
             if (p.textFinishedCallback)
             {
-                p.textFinishedCallback(p.text);
+                p.textFinishedCallback(p.text, finished);
             }
         }
 

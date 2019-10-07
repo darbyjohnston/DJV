@@ -101,7 +101,7 @@ namespace djv
             }
         }
 
-        void IntEdit::_finishedEditing(const std::string& value)
+        void IntEdit::_finishedEditing(const std::string& value, TextFinished finished)
         {
             if (auto model = getModel())
             {
@@ -114,7 +114,7 @@ namespace djv
                     _log(e.what(), LogLevel::Error);
                 }
                 _textUpdate();
-                _doCallback();
+                _doCallback(finished);
             }
         }
 

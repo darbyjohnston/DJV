@@ -63,11 +63,11 @@ namespace djv
 
             auto weak = std::weak_ptr<NumericEdit>(std::dynamic_pointer_cast<NumericEdit>(shared_from_this()));
             p.lineEdit->setTextFinishedCallback(
-                [weak](const std::string & value)
+                [weak](const std::string & value, TextFinished finished)
             {
                 if (auto widget = weak.lock())
                 {
-                    widget->_finishedEditing(value);
+                    widget->_finishedEditing(value, finished);
                 }
             });
         }

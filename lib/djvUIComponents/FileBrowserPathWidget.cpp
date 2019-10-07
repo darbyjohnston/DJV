@@ -53,6 +53,7 @@ namespace djv
         {
             struct PathWidget::Private
             {
+                FileSystem::Path path;
                 std::vector<FileSystem::Path> history;
                 std::shared_ptr<ActionGroup> historyActionGroup;
                 std::shared_ptr<Menu> historyMenu;
@@ -146,13 +147,22 @@ namespace djv
                     });
 
                 p.lineEditBase->setTextFinishedCallback(
-                    [weak](const std::string & value)
+                    [weak](const std::string& value, UI::TextFinished finished)
                 {
                     if (auto widget = weak.lock())
                     {
-                        if (widget->_p->pathCallback)
+                        switch (finished)
                         {
-                            widget->_p->pathCallback(FileSystem::Path(value));
+                        case UI::TextFinished::Accepted:
+                            if (widget->_p->pathCallback)
+                            {
+                                widget->_p->pathCallback(FileSystem::Path(value));
+                            }
+                            break;
+                        case UI::TextFinished::LostFocus:
+                            widget->_p->lineEditBase->setText(widget->_p->path.get());
+                            break;
+                        default: break;
                         }
                     }
                 });
@@ -183,8 +193,13 @@ namespace djv
 
             void PathWidget::setPath(const FileSystem::Path & path)
             {
+                DJV_PRIVATE_PTR();
                 if (auto context = getContext().lock())
                 {
+                    if (path == p.path)
+                        return;
+                    p.path = path;
+
                     auto split = FileSystem::Path::splitDir(std::string(path));
                     std::vector<FileSystem::Path> paths;
                     while (split.size())
@@ -193,7 +208,7 @@ namespace djv
                         split.pop_back();
                     }
 
-                    _p->buttonLayout->clearChildren();
+                    p.buttonLayout->clearChildren();
                     size_t j = 0;
                     for (auto i = paths.rbegin(); i != paths.rend(); ++i, ++j)
                     {
@@ -204,7 +219,7 @@ namespace djv
                             button->setForegroundColorRole(ColorRole::ForegroundDim);
                             button->setShadowOverlay({ Side::Left });
 
-                            _p->buttonLayout->addChild(button);
+                            p.buttonLayout->addChild(button);
 
                             const auto path = *i;
                             auto weak = std::weak_ptr<PathWidget>(std::dynamic_pointer_cast<PathWidget>(shared_from_this()));
@@ -227,11 +242,11 @@ namespace djv
                             label->setMargin(Layout::Margin(MetricsRole::MarginSmall));
                             label->setShadowOverlay({ Side::Left });
 
-                            _p->buttonLayout->addChild(label);
+                            p.buttonLayout->addChild(label);
                         }
                     }
 
-                    _p->lineEditBase->setText(path.get());
+                    p.lineEditBase->setText(path.get());
                 }
             }
 

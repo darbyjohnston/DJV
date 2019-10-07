@@ -60,7 +60,7 @@ namespace djv
         }
 
         template<typename T>
-        inline void INumericWidget<T>::setValueCallback(const std::function<void(T)>& callback)
+        inline void INumericWidget<T>::setValueCallback(const std::function<void(T, TextFinished)>& callback)
         {
             _callback = callback;
         }
@@ -78,11 +78,11 @@ namespace djv
         }
 
         template<typename T>
-        inline void INumericWidget<T>::_doCallback()
+        inline void INumericWidget<T>::_doCallback(TextFinished finished)
         {
             if (_callback)
             {
-                _callback(_model->observeValue()->get());
+                _callback(_model->observeValue()->get(), finished);
             }
         }
 
@@ -158,7 +158,7 @@ namespace djv
                 if (std::chrono::milliseconds(0) == delay)
                 {
                     INumericWidget<T>::_model->setValue(_value);
-                    INumericWidget<T>::_doCallback();
+                    INumericWidget<T>::_doCallback(TextFinished::Accepted);
                 }
             }
         }
@@ -172,7 +172,7 @@ namespace djv
                 if (std::chrono::milliseconds(0) == delay)
                 {
                     INumericWidget<T>::_model->setValue(_value);
-                    INumericWidget<T>::_doCallback();
+                    INumericWidget<T>::_doCallback(TextFinished::Accepted);
                 }
             }
         }
@@ -185,7 +185,7 @@ namespace djv
                 if (delay > std::chrono::milliseconds(0))
                 {
                     INumericWidget<T>::_model->setValue(_value);
-                    INumericWidget<T>::_doCallback();
+                    INumericWidget<T>::_doCallback(TextFinished::Accepted);
                 }
             }
         }
@@ -196,7 +196,7 @@ namespace djv
             if (INumericWidget<T>::_model)
             {
                 INumericWidget<T>::_model->setValue(_value);
-                INumericWidget<T>::_doCallback();
+                INumericWidget<T>::_doCallback(TextFinished::Accepted);
             }
         }
 

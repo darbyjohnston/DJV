@@ -202,7 +202,7 @@ namespace djv
                 });
 
             _lineEdit->setTextFinishedCallback(
-                [weak](const std::string& value)
+                [weak](const std::string& value, UI::TextFinished)
                 {
                     if (auto widget = weak.lock())
                     {
