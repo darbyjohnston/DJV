@@ -156,7 +156,7 @@ namespace djv
 #endif // DJV_OPENGL_ES2
                 glfwWindowHint(GLFW_SAMPLES, 1);
                 glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-                glfwWindowHint(GLFW_DOUBLEBUFFER, GL_FALSE);
+                glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
                 if (OS::getIntEnv("DJV_OPENGL_DEBUG") != 0)
                 {
                     glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
