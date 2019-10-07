@@ -117,7 +117,10 @@ namespace djv
             p.addColorProfileLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             p.addColorProfilePopupWidget = UI::PopupWidget::create(context);
             p.addColorProfilePopupWidget->setIcon("djvIconAddSmall");
-            p.addColorProfilePopupWidget->addChild(p.addColorProfileLayout);
+            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            scrollWidget->setBorder(false);
+            scrollWidget->addChild(p.addColorProfileLayout);
+            p.addColorProfilePopupWidget->addChild(scrollWidget);
             p.editColorProfilesButton = UI::ToolButton::create(context);
             p.editColorProfilesButton->setButtonType(UI::ButtonType::Toggle);
             p.editColorProfilesButton->setIcon("djvIconEditSmall");
