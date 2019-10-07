@@ -110,13 +110,13 @@ namespace djv
 
                 std::string get() const;
                 void set(std::string);
-                void append(const std::string &);
+                void append(const std::string &, char separator = getCurrentSeparator());
 
                 bool isEmpty() const;
                 bool isRoot() const;
 
                 //! Go up a directory.
-                bool cdUp();
+                bool cdUp(char separator = getCurrentSeparator());
 
                 ///@}
 

@@ -73,13 +73,13 @@ namespace djv
                 FileSystem::Path path("/a/b");
                 DJV_ASSERT(!path.isEmpty());
                 DJV_ASSERT(!path.isRoot());
-                DJV_ASSERT(path.cdUp());
+                DJV_ASSERT(path.cdUp('/'));
                 DJV_ASSERT("/a" == path.get());
-                DJV_ASSERT(path.cdUp());
+                DJV_ASSERT(path.cdUp('/'));
                 DJV_ASSERT("/" == path.get());
-                DJV_ASSERT(!path.cdUp());
-                path.append("a");
-                path.append("b");
+                DJV_ASSERT(!path.cdUp('/'));
+                path.append("a", '/');
+                path.append("b", '/');
                 DJV_ASSERT("/a/b" == path.get());
                 path.set("/");
                 DJV_ASSERT(path.isRoot());
@@ -255,6 +255,8 @@ namespace djv
                 _print(ss.str());
             }
             
+            //! \todo On Windows this returns the absolute path of the current directory; is that OK?
+#if !defined(DJV_PLATFORM_WINDOWS)
             try
             {
                 const FileSystem::Path path = FileSystem::Path::getAbsolute(FileSystem::Path(std::string()));
@@ -264,6 +266,7 @@ namespace djv
             {
                 _print(Error::format(e));
             }
+#endif
 
             {
                 const FileSystem::Path path = FileSystem::Path::getCWD();

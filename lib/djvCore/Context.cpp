@@ -119,7 +119,7 @@ namespace djv
             {
                 if (value == *i)
                 {
-                    _systems.erase(i);
+                    i = _systems.erase(i);
                 }
                 else
                 {

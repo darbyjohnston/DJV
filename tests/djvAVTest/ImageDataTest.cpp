@@ -263,7 +263,7 @@ namespace djv
                 
                 data2->getData()[0] = 1;
                 data2->getData(0)[1] = 2;
-                data2->getData(2, 0)[0] = 3;
+                data2->getData(0, 1)[0] = 3;
                 DJV_ASSERT(*data != *data2);
             }
             
@@ -278,7 +278,7 @@ namespace djv
                 
                 data2->getData()[0] = 1;
                 data2->getData(0)[1] = 2;
-                data2->getData(2, 0)[0] = 3;
+                data2->getData(0, 1)[0] = 3;
                 DJV_ASSERT(*data != *data2);
             }
         }

@@ -52,19 +52,19 @@ namespace djv
 #if defined(DJV_PLATFORM_WINDOWS)
                 if (!value.empty() && value[value.size() - 1] == ':')
                 {
-                    value += getCurrentSeparator();
+                    value += getSeparator(PathSeparator::Windows);
                 }
 #endif // DJV_PLATFORM_WINDOWS
                 split(value, _directoryName, _baseName, _number, _extension);
             }
 
-            void Path::append(const std::string & value)
+            void Path::append(const std::string & value, char separator)
             {
                 const std::string path = get();
                 const size_t pathSize = path.size();
                 if (value.size() && pathSize && !isSeparator(path[pathSize - 1]))
                 {
-                    set(path + getCurrentSeparator() + value);
+                    set(path + separator + value);
                 }
                 else
                 {
@@ -82,13 +82,13 @@ namespace djv
                 return unixStyle || windowsStyle1 || windowsStyle2;
             }
 
-            bool Path::cdUp()
+            bool Path::cdUp(char separator)
             {
                 auto subDirectories = splitDir(get());
                 if (subDirectories.size() > 1)
                 {
                     subDirectories.pop_back();
-                    const auto join = joinDirs(subDirectories);
+                    const auto join = joinDirs(subDirectories, separator);
                     set(join);
                     return true;
                 }

@@ -351,8 +351,8 @@ namespace djv
                 if (_endianConversion && wordSize > 1)
                 {
                     tmp.resize(size * wordSize);
-                    p = tmp.data();
                     Memory::endian(in, tmp.data(), size, wordSize);
+                    in = tmp.data();
                 }
 
                 /*DWORD n = 0;
@@ -360,7 +360,7 @@ namespace djv
                 {
                     throw Error(getErrorMessage(ErrorType::Write, _fileName));
                 }*/
-                size_t r = fwrite(p, 1, size * wordSize, _f);
+                size_t r = fwrite(in, 1, size * wordSize, _f);
                 if (r != size * wordSize)
                 {
                     throw Error(getErrorMessage(ErrorType::Write, _fileName));

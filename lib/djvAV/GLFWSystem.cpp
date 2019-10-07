@@ -99,7 +99,7 @@ namespace djv
                 case ErrorString::Init:
                     ss << DJV_TEXT("Cannot initialize GLFW.");
                     break;
-                case ErrorString::CreateWindow:
+                case ErrorString::Window:
                     ss << DJV_TEXT("Cannot create GLFW window.");
                     break;
                 case ErrorString::GLAD:
@@ -167,7 +167,7 @@ namespace djv
                     getSystemName().c_str(), NULL, NULL);
                 if (!p.glfwWindow)
                 {
-                    throw Error(AV::GLFW::getErrorMessage(ErrorString::CreateWindow));
+                    throw Error(AV::GLFW::getErrorMessage(ErrorString::Window));
                 }
                 {
                     int glMajor = glfwGetWindowAttrib(_p->glfwWindow, GLFW_CONTEXT_VERSION_MAJOR);

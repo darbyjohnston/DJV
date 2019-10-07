@@ -53,7 +53,7 @@ namespace djv
             enum class ErrorString
             {
                 Init,
-                CreateWindow,
+                Window,
                 GLAD
             };
             
