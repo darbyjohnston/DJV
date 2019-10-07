@@ -10,6 +10,8 @@ set(header
     ImageDataTest.h
     ImageTest.h
     PixelTest.h
+    Render2DTest.h
+    ThumbnailSystemTest.h
     TagsTest.h)
 set(source
     AVSystemTest.cpp
@@ -23,6 +25,8 @@ set(source
     ImageDataTest.cpp
     ImageTest.cpp
     PixelTest.cpp
+    Render2DTest.cpp
+    ThumbnailSystemTest.cpp
     TagsTest.cpp)
 
 add_library(djvAVTest ${header} ${source})

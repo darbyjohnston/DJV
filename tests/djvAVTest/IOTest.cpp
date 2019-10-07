@@ -53,7 +53,8 @@ namespace djv
                 {
                     ".cin",
                     ".dpx",
-                    ".ppm"
+                    ".ppm",
+                    ".png"
                 };
                 for (const auto& i : extensions)
                 {

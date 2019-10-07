@@ -71,6 +71,8 @@
 #include <djvAVTest/ImageDataTest.h>
 #include <djvAVTest/ImageTest.h>
 #include <djvAVTest/PixelTest.h>
+#include <djvAVTest/Render2DTest.h>
+#include <djvAVTest/ThumbnailSystemTest.h>
 #include <djvAVTest/TagsTest.h>
 
 #include <djvAV/AVSystem.h>
@@ -139,6 +141,8 @@ int main(int argc, char ** argv)
         tests.emplace_back(new AVTest::ImageDataTest(context));
         tests.emplace_back(new AVTest::ImageTest(context));
         tests.emplace_back(new AVTest::PixelTest(context));
+        tests.emplace_back(new AVTest::Render2DTest(context));
+        tests.emplace_back(new AVTest::ThumbnailSystemTest(context));
         tests.emplace_back(new AVTest::TagsTest(context));
 #endif // DJV_TINY_BUILD
         
