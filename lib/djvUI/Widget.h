@@ -82,6 +82,8 @@ namespace djv
             ///@{
 
             bool isVisible(bool parents = false) const;
+            //! \todo Should we have show/hide events instead of making this function
+            //! virtual?
             virtual void setVisible(bool);
             void show();
             void hide();
