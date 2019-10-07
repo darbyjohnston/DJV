@@ -144,7 +144,7 @@ namespace djv
             {
                 auto fontSystem = context->getSystemT<AV::Font::System>();
                 auto weak = std::weak_ptr<Style>(shared_from_this());
-                auto fontNamesObserver = MapObserver<AV::Font::FamilyID, std::string>::create(
+                _fontNamesObserver = MapObserver<AV::Font::FamilyID, std::string>::create(
                     fontSystem->observeFontNames(),
                     [weak](const std::map<AV::Font::FamilyID, std::string>& value)
                     {
