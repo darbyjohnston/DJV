@@ -175,7 +175,9 @@ namespace djv
                 FileSystem::Path fontPath;
                 std::map<FamilyID, std::string> fontFileNames;
                 std::map<FamilyID, std::string> fontNames;
-                std::promise<std::map<FamilyID, std::string> > fontNamesPromise;
+                std::shared_ptr<MapSubject<FamilyID, std::string> > fontNamesSubject;
+                std::mutex fontNamesMutex;
+                std::shared_ptr<Time::Timer> fontNamesTimer;
                 std::map<FamilyID, std::map<FaceID, std::string> > fontFaceNames;
                 std::map<FamilyID, std::map<FaceID, FT_Face> > fontFaces;
 
@@ -221,9 +223,25 @@ namespace djv
                 addDependency(context->getSystemT<CoreSystem>());
 
                 p.fontPath = _getResourceSystem()->getPath(FileSystem::ResourcePath::FontsDirectory);
+                p.fontNamesSubject = MapSubject<FamilyID, std::string>::create();
                 p.glyphCache.setMax(glyphCacheMax);
                 p.glyphCacheSize = 0;
                 p.glyphCachePercentageUsed = 0.F;
+
+                p.fontNamesTimer = Time::Timer::create(context);
+                p.fontNamesTimer->setRepeating(true);
+                p.fontNamesTimer->start(
+                    Time::getMilliseconds(Time::TimerValue::Medium),
+                    [this](float)
+                {
+                    DJV_PRIVATE_PTR();
+                    std::map<FamilyID, std::string> fontNames;
+                    {
+                        std::unique_lock<std::mutex> lock(p.fontNamesMutex);
+                        fontNames = p.fontNames;
+                    }
+                    p.fontNamesSubject->setIfChanged(fontNames);
+                });
 
                 p.statsTimer = Time::Timer::create(context);
                 p.statsTimer->setRepeating(true);
@@ -311,11 +329,10 @@ namespace djv
                 out->_init(context);
                 return out;
             }
-
-            std::future<std::map<FamilyID, std::string> > System::getFontNames()
+            
+            std::shared_ptr<Core::IMapSubject<FamilyID, std::string> > System::observeFontNames() const
             {
-                auto future = _p->fontNamesPromise.get_future();
-                return future;
+                return _p->fontNamesSubject;
             }
 
             std::future<Metrics> System::getMetrics(const Info & info)
@@ -470,7 +487,6 @@ namespace djv
                             p.fontFaces[familyID][faceID] = ftFace;
                         }
                     }
-                    p.fontNamesPromise.set_value(p.fontNames);
                     if (!p.fontFaces.size())
                     {
                         throw Error("No fonts were found.");

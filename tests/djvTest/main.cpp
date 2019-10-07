@@ -75,6 +75,11 @@
 #include <djvAVTest/ThumbnailSystemTest.h>
 #include <djvAVTest/TagsTest.h>
 
+#include <djvUITest/EnumTest.h>
+#include <djvUITest/WidgetTest.h>
+
+#include <djvUI/UISystem.h>
+
 #include <djvAV/AVSystem.h>
 #endif // DJV_TINY_BUILD
 
@@ -96,6 +101,7 @@ int main(int argc, char ** argv)
         auto context = Core::Context::create(args);
 #if !defined(DJV_TINY_BUILD)
         auto avSystem = AV::AVSystem::create(context);
+        auto uiSystem = UI::UISystem::create(context);
 #endif // DJV_TINY_BUILD
         
         std::vector<std::shared_ptr<Test::ITest> > tests;
@@ -144,6 +150,9 @@ int main(int argc, char ** argv)
         tests.emplace_back(new AVTest::Render2DTest(context));
         tests.emplace_back(new AVTest::ThumbnailSystemTest(context));
         tests.emplace_back(new AVTest::TagsTest(context));
+
+        tests.emplace_back(new UITest::EnumTest(context));
+        tests.emplace_back(new UITest::WidgetTest(context));
 #endif // DJV_TINY_BUILD
         
         std::vector<std::shared_ptr<Test::ITest> > testsToRun;

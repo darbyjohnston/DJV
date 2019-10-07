@@ -112,6 +112,22 @@ namespace djv
             return out;
         }
 
+        void Context::removeSystem(const std::shared_ptr<ISystemBase>& value)
+        {
+            auto i = _systems.begin();
+            while (i != _systems.end())
+            {
+                if (value == *i)
+                {
+                    _systems.erase(i);
+                }
+                else
+                {
+                    ++i;
+                }
+            }
+        }
+        
         void Context::tick(float dt)
         {
             const auto now = std::chrono::system_clock::now();

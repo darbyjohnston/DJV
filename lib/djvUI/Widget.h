@@ -216,7 +216,7 @@ namespace djv
             //! \name Convenience Functions
             ///@{
 
-            const std::weak_ptr<Core::Event::IEventSystem>& _getEventSystem() const;
+            const std::weak_ptr<EventSystem>& _getEventSystem() const;
             const std::shared_ptr<AV::Render::Render2D>& _getRender() const;
             const std::shared_ptr<Style::Style> & _getStyle() const;
 
@@ -285,9 +285,9 @@ namespace djv
             static bool         _resizeRequest;
             static bool         _redrawRequest;
 
-            std::weak_ptr<Core::Event::IEventSystem> _eventSystem;
-            std::shared_ptr<AV::Render::Render2D>    _render;
-            std::shared_ptr<Style::Style>            _style;
+            std::weak_ptr<EventSystem>              _eventSystem;
+            std::shared_ptr<AV::Render::Render2D>   _render;
+            std::shared_ptr<Style::Style>           _style;
 
             friend class EventSystem;
         };

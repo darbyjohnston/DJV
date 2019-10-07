@@ -29,6 +29,7 @@
 
 #include <djvUI/LineEditBase.h>
 
+#include <djvUI/EventSystem.h>
 #include <djvUI/Shortcut.h>
 #include <djvUI/Style.h>
 
@@ -36,7 +37,6 @@
 #include <djvAV/Render2D.h>
 
 #include <djvCore/Context.h>
-#include <djvCore/IEventSystem.h>
 #include <djvCore/Timer.h>
 
 #define GLFW_INCLUDE_NONE
@@ -636,8 +636,10 @@ namespace djv
                             {
                                 const auto utf32 = p.utf32.substr(selection.min, selection.max - selection.min);
                                 p.utf32.erase(selection.min, selection.max - selection.min);
-                                auto eventSystem = context->getSystemT<Event::IEventSystem>();
-                                eventSystem->setClipboard(_fromUtf32(utf32));
+                                if (auto eventSystem = _getEventSystem().lock())
+                                {
+                                    eventSystem->setClipboard(_fromUtf32(utf32));
+                                }
                                 p.text = _fromUtf32(p.utf32);
                                 p.cursorPos = selection.min;
                                 p.selectionAnchor = p.cursorPos;
@@ -655,8 +657,10 @@ namespace djv
                             if (selection.min != selection.max)
                             {
                                 const auto utf32 = p.utf32.substr(selection.min, selection.max - selection.min);
-                                auto eventSystem = context->getSystemT<Event::IEventSystem>();
-                                eventSystem->setClipboard(_fromUtf32(utf32));
+                                if (auto eventSystem = _getEventSystem().lock())
+                                {
+                                    eventSystem->setClipboard(_fromUtf32(utf32));
+                                }
                             }
                         }
                         break;
@@ -664,24 +668,26 @@ namespace djv
                         if (modifiers & UI::Shortcut::getSystemModifier())
                         {
                             event.accept();
-                            auto eventSystem = context->getSystemT<Event::IEventSystem>();
-                            const auto utf32 = _toUtf32(eventSystem->getClipboard());
-                            const auto& selection = _getSelection();
-                            if (selection.min != selection.max)
+                            if (auto eventSystem = _getEventSystem().lock())
                             {
-                                p.utf32.replace(selection.min, selection.max - selection.min, utf32);
-                                p.cursorPos = selection.min + utf32.size();
+                                const auto utf32 = _toUtf32(eventSystem->getClipboard());
+                                const auto& selection = _getSelection();
+                                if (selection.min != selection.max)
+                                {
+                                    p.utf32.replace(selection.min, selection.max - selection.min, utf32);
+                                    p.cursorPos = selection.min + utf32.size();
+                                }
+                                else
+                                {
+                                    p.utf32.insert(p.cursorPos, utf32);
+                                    p.cursorPos += utf32.size();
+                                }
+                                p.text = _fromUtf32(p.utf32);
+                                p.selectionAnchor = p.cursorPos;
+                                _textUpdate();
+                                _cursorUpdate();
+                                _doTextChangedCallback();
                             }
-                            else
-                            {
-                                p.utf32.insert(p.cursorPos, utf32);
-                                p.cursorPos += utf32.size();
-                            }
-                            p.text = _fromUtf32(p.utf32);
-                            p.selectionAnchor = p.cursorPos;
-                            _textUpdate();
-                            _cursorUpdate();
-                            _doTextChangedCallback();
                         }
                         break;
                     default:

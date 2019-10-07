@@ -30,6 +30,7 @@
 #include <djvUI/Widget.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/EventSystem.h>
 #include <djvUI/Shortcut.h>
 #include <djvUI/Style.h>
 #include <djvUI/TextBlock.h>
@@ -40,7 +41,6 @@
 #include <djvAV/Render2D.h>
 
 #include <djvCore/Context.h>
-#include <djvCore/IEventSystem.h>
 #include <djvCore/Math.h>
 
 #define GLFW_INCLUDE_NONE
@@ -79,7 +79,7 @@ namespace djv
 
             ++globalWidgetCount;
 
-            _eventSystem = context->getSystemT<Event::IEventSystem>();
+            _eventSystem = context->getSystemT<EventSystem>();
             _render = context->getSystemT<AV::Render::Render2D>();
             auto uiSystem = context->getSystemT<UISystem>();
             _style = uiSystem->getStyle();
@@ -266,7 +266,7 @@ namespace djv
         bool Widget::hasTextFocus() const
         {
             bool out = false;
-            if (auto eventSystem = _eventSystem.lock())
+            if (auto eventSystem = _getEventSystem().lock())
             {
                 out = eventSystem->getTextFocus().lock() == shared_from_this();
             }
@@ -275,7 +275,7 @@ namespace djv
 
         void Widget::takeTextFocus()
         {
-            if (auto eventSystem = _eventSystem.lock())
+            if (auto eventSystem = _getEventSystem().lock())
             {
                 eventSystem->setTextFocus(shared_from_this());
             }
@@ -283,7 +283,7 @@ namespace djv
 
         void Widget::releaseTextFocus()
         {
-            if (auto eventSystem = _eventSystem.lock())
+            if (auto eventSystem = _getEventSystem().lock())
             {
                 if (eventSystem->getTextFocus().lock() == shared_from_this())
                 {

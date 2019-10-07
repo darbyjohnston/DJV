@@ -6,6 +6,7 @@ set(libraries)
 if(NOT DJV_TINY_BUILD)
     set(libraries
         ${libraries}
+        djvUITest
         djvAVTest)
 endif()
 set(libraries ${libraries} djvCoreTest)

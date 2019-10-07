@@ -36,6 +36,7 @@
 #include <djvUIComponents/ThermometerWidget.h>
 
 #include <djvUI/Bellows.h>
+#include <djvUI/EventSystem.h>
 #include <djvUI/IconSystem.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
@@ -47,7 +48,6 @@
 #include <djvAV/ThumbnailSystem.h>
 
 #include <djvCore/Context.h>
-#include <djvCore/IEventSystem.h>
 #include <djvCore/Timer.h>
 
 using namespace djv::Core;
@@ -199,7 +199,7 @@ namespace djv
                     const float fps = context->getFPSAverage();
                     const size_t objectCount = IObject::getGlobalObjectCount();
                     const size_t widgetCount = UI::Widget::getGlobalWidgetCount();
-                    auto eventSystem = context->getSystemT<Event::IEventSystem>();
+                    auto eventSystem = context->getSystemT<UI::EventSystem>();
                     auto fontSystem = context->getSystemT<AV::Font::System>();
                     const float glyphCachePercentage = fontSystem->getGlyphCachePercentage();
                     auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>();

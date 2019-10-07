@@ -67,7 +67,7 @@ namespace djv
                 IO::Info info;
                 std::shared_ptr<Image::Image> image;
                 while (
-                    infoFuture.future.valid() &&
+                    infoFuture.future.valid() ||
                     imageFuture.future.valid())
                 {
                     _tickFor(Time::getMilliseconds(Time::TimerValue::Fast));

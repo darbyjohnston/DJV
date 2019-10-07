@@ -29,6 +29,8 @@
 
 #include <djvCoreTest/ObjectTest.h>
 
+#include <djvCore/Context.h>
+#include <djvCore/IEventSystem.h>
 #include <djvCore/IObject.h>
 
 using namespace djv::Core;
@@ -65,6 +67,30 @@ namespace djv
                     return out;
                 }
             };
+            
+            class TestEventSystem : public Event::IEventSystem
+            {
+                DJV_NON_COPYABLE(TestEventSystem);
+                void _init(const std::shared_ptr<Context>& context)
+                {
+                    IEventSystem::_init("TestEventSystem", context);
+                }
+                
+                TestEventSystem()
+                {}
+
+            public:
+                static std::shared_ptr<TestEventSystem> create(const std::shared_ptr<Context>& context)
+                {
+                    auto out = std::shared_ptr<TestEventSystem>(new TestEventSystem);
+                    out->_init(context);
+                    return out;
+                }
+            
+            protected:
+                void _hover(Event::PointerMove&, std::shared_ptr<IObject>&) override
+                {}
+            };
         
         } // namespace
 
@@ -72,12 +98,15 @@ namespace djv
         {
             if (auto context = getContext().lock())
             {
+                auto system = TestEventSystem::create(context);
+                
                 {
                     auto o = TestObject::create(context);
                     DJV_ASSERT(!o->getParent().lock());
                     DJV_ASSERT(o->getChildren().size() == 0);
                     DJV_ASSERT(o->isEnabled());
                 }
+                
                 {
                     auto parent = TestObject::create(context);
                     auto child = TestObject::create(context);
@@ -122,8 +151,10 @@ namespace djv
                     DJV_ASSERT(parent->getChildren().size() == 0);
                     DJV_ASSERT(!child->getParent().lock());
                 }
-            }
 
+                context->removeSystem(system);
+            }
+            
             {
                 std::stringstream ss;
                 ss << "global object count: " << IObject::getGlobalObjectCount();

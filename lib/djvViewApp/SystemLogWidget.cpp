@@ -31,6 +31,7 @@
 
 #include <djvDesktopApp/GLFWSystem.h>
 
+#include <djvUI/EventSystem.h>
 #include <djvUI/PushButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
@@ -40,7 +41,6 @@
 
 #include <djvCore/Context.h>
 #include <djvCore/FileIO.h>
-#include <djvCore/IEventSystem.h>
 #include <djvCore/Path.h>
 #include <djvCore/ResourceSystem.h>
 #include <djvCore/String.h>
@@ -146,7 +146,7 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            auto eventSystem = context->getSystemT<Event::IEventSystem>();
+                            auto eventSystem = context->getSystemT<UI::EventSystem>();
                             eventSystem->setClipboard(String::join(widget->_p->log, '\n'));
                         }
                     }

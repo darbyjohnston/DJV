@@ -133,8 +133,19 @@ namespace djv
             if (auto context = getContext().lock())
             {
                 auto system = context->getSystemT<Font::System>();
-                
-                auto fontNamesFuture = system->getFontNames();
+                                
+                auto fontNamesObserver = MapObserver<Font::FamilyID, std::string>::create(
+                    system->observeFontNames(),
+                    [this](const std::map<Font::FamilyID, std::string>& value)
+                    {
+                        for (const auto& i : value)
+                        {
+                            std::stringstream ss;
+                            ss << "font: " << i.second;
+                            _print(ss.str());
+                        }
+                    });
+
                 Font::Info info;
                 info.size = 14;
                 auto metricsFuture = system->getMetrics(info);
@@ -145,26 +156,19 @@ namespace djv
                 auto glyphsFuture = system->getGlyphs(text, info);
                 system->cacheGlyphs(text, info);
                 
-                std::map<Font::FamilyID, std::string> fontNames;
                 Font::Metrics metrics;
                 glm::vec2 measure = glm::vec2(0.F, 0.F);
                 std::vector<BBox2f> measureGlyphs;
                 std::vector<Font::TextLine> textLines;
                 std::vector<std::shared_ptr<Font::Glyph> > glyphs;
                 while (
-                    fontNamesFuture.valid() &&
-                    metricsFuture.valid() &&
-                    measureFuture.valid() &&
-                    measureGlyphsFuture.valid() &&
-                    textLinesFuture.valid() &&
+                    metricsFuture.valid() ||
+                    measureFuture.valid() ||
+                    measureGlyphsFuture.valid() ||
+                    textLinesFuture.valid() ||
                     glyphsFuture.valid())
                 {
                     _tickFor(Time::getMilliseconds(Time::TimerValue::Fast));
-                    if (fontNamesFuture.valid() &&
-                        fontNamesFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
-                    {
-                        fontNames = fontNamesFuture.get();
-                    }
                     if (metricsFuture.valid() &&
                         metricsFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                     {
@@ -192,12 +196,6 @@ namespace djv
                     }
                 }
                 
-                for (const auto& i : fontNames)
-                {
-                    std::stringstream ss;
-                    ss << "font: " << i.second;
-                    _print(ss.str());
-                }
                 {
                     std::stringstream ss;
                     ss << "ascender: " << metrics.ascender;

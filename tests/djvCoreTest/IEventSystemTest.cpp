@@ -258,6 +258,7 @@ namespace djv
             if (auto context = getContext().lock())
             {
                 _system = TestEventSystem::create(context);
+                
                 _object = TestObject::create(context);
                 _object2 = TestObject2::create(context);
                 _object2->installEventFilter(_object);
@@ -268,6 +269,7 @@ namespace djv
                 _textFocus();
                 _tick();
                 
+                context->removeSystem(_system);
                 _system.reset();
             }
         }

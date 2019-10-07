@@ -33,6 +33,7 @@
 
 #include <djvCore/BBox.h>
 #include <djvCore/ISystem.h>
+#include <djvCore/MapObserver.h>
 #include <djvCore/Range.h>
 
 #include <future>
@@ -146,8 +147,8 @@ namespace djv
                 //! - Error
                 static std::shared_ptr<System> create(const std::shared_ptr<Core::Context>&);
 
-                //! Get the font names.
-                std::future<std::map<FamilyID, std::string> > getFontNames();
+                //! Observe the font names.
+                std::shared_ptr<Core::IMapSubject<FamilyID, std::string> > observeFontNames() const;
 
                 //! Get font metrics.
                 std::future<Metrics> getMetrics(const Info &);

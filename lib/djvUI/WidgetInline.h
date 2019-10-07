@@ -163,7 +163,7 @@ namespace djv
             return _childWidgets;
         }
 
-        inline const std::weak_ptr<Core::Event::IEventSystem>& Widget::_getEventSystem() const
+        inline const std::weak_ptr<EventSystem>& Widget::_getEventSystem() const
         {
             return _eventSystem;
         }

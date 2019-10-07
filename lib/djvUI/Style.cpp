@@ -143,13 +143,21 @@ namespace djv
             void Style::_init(const std::shared_ptr<Core::Context>& context)
             {
                 auto fontSystem = context->getSystemT<AV::Font::System>();
-                _fontNames = fontSystem->getFontNames().get();
-                for (const auto & i : _fontNames)
-                {
-                    _fontNameToId[i.second] = i.first;
-                }
-
-                _dirty = true;
+                auto weak = std::weak_ptr<Style>(shared_from_this());
+                auto fontNamesObserver = MapObserver<AV::Font::FamilyID, std::string>::create(
+                    fontSystem->observeFontNames(),
+                    [weak](const std::map<AV::Font::FamilyID, std::string>& value)
+                    {
+                        if (auto style = weak.lock())
+                        {
+                            style->_fontNames = value;
+                            for (const auto & i : style->_fontNames)
+                            {
+                                style->_fontNameToId[i.second] = i.first;
+                            }
+                            style->_dirty = true;
+                        }
+                    });
             }
 
             Style::Style()

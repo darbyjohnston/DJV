@@ -90,6 +90,9 @@ namespace djv
             //! null pointer is returned.
             template<typename T>
             std::shared_ptr<T> getSystemT() const;
+            
+            //! Remove a system.
+            void removeSystem(const std::shared_ptr<ISystemBase>&);
 
             //! This function is called by the application event loop.
             virtual void tick(float dt);
