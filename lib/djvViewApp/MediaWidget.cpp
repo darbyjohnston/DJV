@@ -29,6 +29,7 @@
 
 #include <djvViewApp/MediaWidget.h>
 
+#include <djvViewApp/FileSettings.h>
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/ImageSystem.h>
 #include <djvViewApp/ImageView.h>
@@ -156,6 +157,7 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > audioEnabledObserver;
             std::shared_ptr<ValueObserver<float> > volumeObserver;
             std::shared_ptr<ValueObserver<bool> > muteObserver;
+            std::shared_ptr<ValueObserver<bool> > cacheEnabledObserver;
             std::shared_ptr<ValueObserver<Frame::Sequence> > cacheSequenceObserver;
             std::shared_ptr<ValueObserver<Frame::Sequence> > cachedFramesObserver;
             std::shared_ptr<ValueObserver<float> > fadeObserver;
@@ -746,6 +748,20 @@ namespace djv
                     }
                 });
 
+            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
+            {
+                p.cacheEnabledObserver = ValueObserver<bool>::create(
+                    fileSettings->observeCacheEnabled(),
+                    [weak](bool value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->timelineSlider->setCacheEnabled(value);
+                        }
+                    });
+            }
+
             p.cacheSequenceObserver = ValueObserver<Frame::Sequence>::create(
                 p.media->observeCacheSequence(),
                 [weak](const Frame::Sequence& value)
@@ -780,7 +796,6 @@ namespace djv
                     });
             }
 
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
             if (auto imageViewSettings = settingsSystem->getSettingsT<ImageViewSettings>())
             {
                 p.viewLockObserver = ValueObserver<ImageViewLock>::create(

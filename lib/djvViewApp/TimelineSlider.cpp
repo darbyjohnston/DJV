@@ -264,6 +264,7 @@ namespace djv
             bool inOutPointsEnabled = false;
             Frame::Index inPoint = Frame::invalidIndex;
             Frame::Index outPoint = Frame::invalidIndex;
+            bool cacheEnabled = false;
             Frame::Sequence cacheSequence;
             Frame::Sequence cachedFrames;
             AV::Font::Metrics fontMetrics;
@@ -452,6 +453,14 @@ namespace djv
             _redraw();
         }
 
+        void TimelineSlider::setCacheEnabled(bool value)
+        {
+            if (value == _p->cacheEnabled)
+                return;
+            _p->cacheEnabled = value;
+            _redraw();
+        }
+
         void TimelineSlider::setCacheSequence(const Frame::Sequence& value)
         {
             if (value == _p->cacheSequence)
@@ -627,29 +636,32 @@ namespace djv
                 }
 
                 // Draw the cached frames.
-                color = style->getColor(UI::ColorRole::Checked);
-                render->setFillColor(color);
-                for (const auto& i : p.cacheSequence.ranges)
+                if (p.cacheEnabled)
                 {
-                    const float x0 = _frameToPos(i.min);
-                    const float x1 = _frameToPos(i.max + 1);
-                    render->drawRect(BBox2f(
-                        x0,
-                        g.max.y - m - b * 2.F,
-                        x1 - x0,
-                        b * 2.F));
-                }
-                color = style->getColor(UI::ColorRole::Cached);
-                render->setFillColor(color);
-                for (const auto& i : p.cachedFrames.ranges)
-                {
-                    const float x0 = _frameToPos(i.min);
-                    const float x1 = _frameToPos(i.max + 1);
-                    render->drawRect(BBox2f(
-                        x0,
-                        g.max.y - m - b * 2.F,
-                        x1 - x0,
-                        b * 2.F));
+                    color = style->getColor(UI::ColorRole::Checked);
+                    render->setFillColor(color);
+                    for (const auto& i : p.cacheSequence.ranges)
+                    {
+                        const float x0 = _frameToPos(i.min);
+                        const float x1 = _frameToPos(i.max + 1);
+                        render->drawRect(BBox2f(
+                            x0,
+                            g.max.y - m - b * 2.F,
+                            x1 - x0,
+                            b * 2.F));
+                    }
+                    color = style->getColor(UI::ColorRole::Cached);
+                    render->setFillColor(color);
+                    for (const auto& i : p.cachedFrames.ranges)
+                    {
+                        const float x0 = _frameToPos(i.min);
+                        const float x1 = _frameToPos(i.max + 1);
+                        render->drawRect(BBox2f(
+                            x0,
+                            g.max.y - m - b * 2.F,
+                            x1 - x0,
+                            b * 2.F));
+                    }
                 }
 
                 // Draw the frame ticks.

@@ -61,6 +61,7 @@ namespace djv
             void setInOutPointsEnabled(bool);
             void setInPoint(Core::Frame::Index);
             void setOutPoint(Core::Frame::Index);
+            void setCacheEnabled(bool);
             void setCacheSequence(const Core::Frame::Sequence&);
             void setCachedFrames(const Core::Frame::Sequence&);
 
