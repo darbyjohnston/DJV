@@ -42,6 +42,8 @@ namespace djv
         class Tags
         {
         public:
+            Tags();
+            
             bool isEmpty() const;
             size_t getCount() const;
             const std::map<std::string, std::string>& getTags() const;

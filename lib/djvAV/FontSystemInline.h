@@ -59,6 +59,9 @@ namespace djv
                 return std::tie(dpi, size, face, family) < std::tie(other.dpi, other.size, other.face, other.family);
             }
 
+            inline Metrics::Metrics()
+            {}
+
             inline TextLine::TextLine()
             {}
 

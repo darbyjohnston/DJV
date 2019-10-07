@@ -69,16 +69,20 @@ namespace djv
             };
 
             //! This struct provides font metrics.
-            struct Metrics
+            class Metrics
             {
+            public:
+                Metrics();
+                
                 uint16_t ascender   = 0;
                 uint16_t descender  = 0;
                 uint16_t lineHeight = 0;
             };
 
             //! This struct provides a line of text.
-            struct TextLine
+            class TextLine
             {
+            public:
                 TextLine();
                 TextLine(const std::string&, const glm::vec2 &);
 

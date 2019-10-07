@@ -161,7 +161,7 @@ namespace djv
             }
 
             template<>
-            constexpr glm::tvec2<int> tBBox2<int>::getCenter() const
+            inline glm::tvec2<int> tBBox2<int>::getCenter() const
             {
                 return glm::tvec2<int>(
                     min.x + (max.x - min.x + 1) / 2.F,
@@ -169,7 +169,7 @@ namespace djv
             }
 
             template<>
-            constexpr glm::tvec2<float> tBBox2<float>::getCenter() const
+            inline glm::tvec2<float> tBBox2<float>::getCenter() const
             {
                 return glm::tvec2<float>(
                     min.x + (max.x - min.x) / 2.F,
@@ -177,7 +177,7 @@ namespace djv
             }
 
             template<typename T, glm::precision P>
-            constexpr glm::tvec3<T, P> tBBox3<T, P>::getCenter() const
+            inline glm::tvec3<T, P> tBBox3<T, P>::getCenter() const
             {
                 return glm::tvec3<T, P>(
                     min.x + (max.x - min.x) / 2.F,
