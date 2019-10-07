@@ -31,7 +31,6 @@
 
 #include <djvUIComponents/FileBrowserDialog.h>
 
-#include <djvUI/Bellows.h>
 #include <djvUI/ButtonGroup.h>
 #include <djvUI/CheckBox.h>
 #include <djvUI/ComboBox.h>
@@ -41,6 +40,7 @@
 #include <djvUI/PopupWidget.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
+#include <djvUI/TabWidget.h>
 #include <djvUI/ToolButton.h>
 #include <djvUI/Window.h>
 
@@ -63,25 +63,28 @@ namespace djv
             int currentConfig = -1;
             bool editConfig = false;
             std::vector<std::string> colorSpaces;
-            bool editImage = false;
+            bool editColorProfiles = false;
             std::vector<AV::OCIO::Display> displays;
             std::vector<std::string> views;
             Core::FileSystem::Path fileBrowserPath = Core::FileSystem::Path(".");
 
-            std::map<std::string, std::shared_ptr<UI::Bellows> > bellows;
             std::shared_ptr<UI::ButtonGroup> configButtonGroup;
             std::shared_ptr<UI::ButtonGroup> editConfigButtonGroup;
             std::shared_ptr<UI::ToolButton> addConfigButton;
             std::shared_ptr<UI::ToolButton> editConfigButton;
-            std::shared_ptr<UI::VerticalLayout> configLayout;
-            std::shared_ptr<UI::ButtonGroup> editImageButtonGroup;
-            std::shared_ptr<UI::FormLayout> imageLayout;
-            std::shared_ptr<UI::VerticalLayout> addImageLayout;
-            std::shared_ptr<UI::PopupWidget> addImagePopupWidget;
-            std::shared_ptr<UI::ToolButton> editImageButton;
+            std::shared_ptr<UI::VerticalLayout> configItemLayout;
+            std::shared_ptr<UI::ScrollWidget> configScrollWidget;
+            std::shared_ptr<UI::ButtonGroup> editColorProfilesButtonGroup;
+            std::shared_ptr<UI::FormLayout> colorProfilesItemLayout;
+            std::shared_ptr<UI::VerticalLayout> addColorProfileLayout;
+            std::shared_ptr<UI::PopupWidget> addColorProfilePopupWidget;
+            std::shared_ptr<UI::ToolButton> editColorProfilesButton;
+            std::shared_ptr<UI::ScrollWidget> colorProfilesScrollWidget;
             std::shared_ptr<UI::ComboBox> displayComboBox;
             std::shared_ptr<UI::ComboBox> viewComboBox;
             std::shared_ptr<UI::FormLayout> displayLayout;
+            std::shared_ptr<UI::TabWidget> tabWidget;
+            std::map<std::shared_ptr<UI::Widget>, size_t> widgetToTab;
             std::shared_ptr<UI::FileBrowser::Dialog> fileBrowserDialog;
             std::shared_ptr<UI::Window> fileBrowserWindow;
             std::map<std::shared_ptr<UI::Widget>, int> textFocusWidgets;
@@ -101,7 +104,6 @@ namespace djv
 
             setClassName("djv::ViewApp::ColorSpaceWidget");
 
-            p.bellows["Config"] = UI::Bellows::create(context);
             p.configButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Radio);
             p.editConfigButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
             p.addConfigButton = UI::ToolButton::create(context);
@@ -110,65 +112,67 @@ namespace djv
             p.editConfigButton->setButtonType(UI::ButtonType::Toggle);
             p.editConfigButton->setIcon("djvIconEditSmall");
 
-            p.bellows["Image"] = UI::Bellows::create(context);
-            p.editImageButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
-            p.addImageLayout = UI::VerticalLayout::create(context);
-            p.addImageLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
-            p.addImagePopupWidget = UI::PopupWidget::create(context);
-            p.addImagePopupWidget->setIcon("djvIconAddSmall");
-            p.addImagePopupWidget->addChild(p.addImageLayout);
-            p.editImageButton = UI::ToolButton::create(context);
-            p.editImageButton->setButtonType(UI::ButtonType::Toggle);
-            p.editImageButton->setIcon("djvIconEditSmall");
+            p.editColorProfilesButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
+            p.addColorProfileLayout = UI::VerticalLayout::create(context);
+            p.addColorProfileLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            p.addColorProfilePopupWidget = UI::PopupWidget::create(context);
+            p.addColorProfilePopupWidget->setIcon("djvIconAddSmall");
+            p.addColorProfilePopupWidget->addChild(p.addColorProfileLayout);
+            p.editColorProfilesButton = UI::ToolButton::create(context);
+            p.editColorProfilesButton->setButtonType(UI::ButtonType::Toggle);
+            p.editColorProfilesButton->setIcon("djvIconEditSmall");
 
-            p.bellows["Display"] = UI::Bellows::create(context);
             p.displayComboBox = UI::ComboBox::create(context);
             p.displayComboBox->setHAlign(UI::HAlign::Fill);
             p.viewComboBox = UI::ComboBox::create(context);
             p.viewComboBox->setHAlign(UI::HAlign::Fill);
 
-            auto layout = UI::VerticalLayout::create(context);
-            layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
-            layout->setShadowOverlay({ UI::Side::Top });
+            p.tabWidget = UI::TabWidget::create(context);
+            p.tabWidget->setShadowOverlay({ UI::Side::Top });
+            addChild(p.tabWidget);
 
             auto vLayout = UI::VerticalLayout::create(context);
-            vLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
-            p.configLayout = UI::VerticalLayout::create(context);
-            p.configLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
-            vLayout->addChild(p.configLayout);
+            vLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+            vLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+            p.configItemLayout = UI::VerticalLayout::create(context);
+            p.configItemLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            vLayout->addChild(p.configItemLayout);
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             hLayout->addExpander();
             hLayout->addChild(p.addConfigButton);
             hLayout->addChild(p.editConfigButton);
             vLayout->addChild(hLayout);
-            p.bellows["Config"]->addChild(vLayout);
-            layout->addChild(p.bellows["Config"]);
+            p.configScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            p.configScrollWidget->setBorder(false);
+            p.configScrollWidget->setShadowOverlay({ UI::Side::Top });
+            p.configScrollWidget->addChild(vLayout);
+            p.widgetToTab[p.configScrollWidget] = p.tabWidget->addTab(std::string(), p.configScrollWidget);
 
             vLayout = UI::VerticalLayout::create(context);
-            vLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
-            p.imageLayout = UI::FormLayout::create(context);
-            vLayout->addChild(p.imageLayout);
+            vLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+            p.colorProfilesItemLayout = UI::FormLayout::create(context);
+            p.colorProfilesItemLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+            vLayout->addChild(p.colorProfilesItemLayout);
             hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             hLayout->addExpander();
-            hLayout->addChild(p.addImagePopupWidget);
-            hLayout->addChild(p.editImageButton);
+            hLayout->addChild(p.addColorProfilePopupWidget);
+            hLayout->addChild(p.editColorProfilesButton);
             vLayout->addChild(hLayout);
-            p.bellows["Image"]->addChild(vLayout);
-            layout->addChild(p.bellows["Image"]);
+            p.colorProfilesScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            p.colorProfilesScrollWidget->setBorder(false);
+            p.colorProfilesScrollWidget->setShadowOverlay({ UI::Side::Top });
+            p.colorProfilesScrollWidget->addChild(vLayout);
+            p.widgetToTab[p.colorProfilesScrollWidget] = p.tabWidget->addTab(std::string(), p.colorProfilesScrollWidget);
 
             p.displayLayout = UI::FormLayout::create(context);
-            p.displayLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
+            p.displayLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+            p.displayLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+            p.displayLayout->setShadowOverlay({ UI::Side::Top });
             p.displayLayout->addChild(p.displayComboBox);
             p.displayLayout->addChild(p.viewComboBox);
-            p.bellows["Display"]->addChild(p.displayLayout);
-            layout->addChild(p.bellows["Display"]);
-
-            auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            scrollWidget->setBorder(false);
-            scrollWidget->addChild(layout);
-            addChild(scrollWidget);
+            p.widgetToTab[p.displayLayout] = p.tabWidget->addTab(std::string(), p.displayLayout);
 
             _widgetUpdate();
 
@@ -253,12 +257,12 @@ namespace djv
                     }
                 });
 
-            p.editImageButton->setCheckedCallback(
+            p.editColorProfilesButton->setCheckedCallback(
                 [weak](bool value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->editImage = value;
+                        widget->_p->editColorProfiles = value;
                         widget->_widgetUpdate();
                     }
                 });
@@ -396,28 +400,14 @@ namespace djv
             return out;
         }
 
-        std::map<std::string, bool> ColorSpaceWidget::getBellowsState() const
+        int ColorSpaceWidget::getCurrentTab() const
         {
-            DJV_PRIVATE_PTR();
-            std::map<std::string, bool> out;
-            for (const auto& i : p.bellows)
-            {
-                out[i.first] = i.second->isOpen();
-            }
-            return out;
+            return _p->tabWidget->getCurrentTab();
         }
 
-        void ColorSpaceWidget::setBellowsState(const std::map<std::string, bool>& value)
+        void ColorSpaceWidget::setCurrentTab(int value)
         {
-            DJV_PRIVATE_PTR();
-            for (const auto& i : value)
-            {
-                const auto j = p.bellows.find(i.first);
-                if (j != p.bellows.end())
-                {
-                    j->second->setOpen(i.second);
-                }
-            }
+            _p->tabWidget->setCurrentTab(value);
         }
 
         void ColorSpaceWidget::_localeEvent(Event::Locale & event)
@@ -425,9 +415,13 @@ namespace djv
             MDIWidget::_localeEvent(event);
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Color Space")));
-            p.bellows["Config"]->setText(_getText(DJV_TEXT("OCIO Configuration")));
-            p.bellows["Image"]->setText(_getText(DJV_TEXT("Image Color Profiles")));
-            p.bellows["Display"]->setText(_getText(DJV_TEXT("Display")));
+            p.tabWidget->setText(p.widgetToTab[p.configScrollWidget], DJV_TEXT("Config"));
+            p.tabWidget->setText(p.widgetToTab[p.colorProfilesScrollWidget], DJV_TEXT("Image"));
+            p.tabWidget->setText(p.widgetToTab[p.displayLayout], DJV_TEXT("Display"));
+            p.addConfigButton->setTooltip(_getText(DJV_TEXT("Color space add config tooltip")));
+            p.editConfigButton->setTooltip(_getText(DJV_TEXT("Color space edit configs tooltip")));
+            p.addColorProfilePopupWidget->setTooltip(_getText(DJV_TEXT("Color space add color profile tooltip")));
+            p.editColorProfilesButton->setTooltip(_getText(DJV_TEXT("Color space edit color profiles tooltip")));
             p.displayLayout->setText(p.displayComboBox, _getText(DJV_TEXT("Name")) + ":");
             p.displayLayout->setText(p.viewComboBox, _getText(DJV_TEXT("View")) + ":");
             _widgetUpdate();
@@ -453,7 +447,7 @@ namespace djv
 
                 p.configButtonGroup->clearButtons();
                 p.editConfigButtonGroup->clearButtons();
-                p.configLayout->clearChildren();
+                p.configItemLayout->clearChildren();
                 auto contextWeak = std::weak_ptr<Context>(context);
                 int j = 0;
                 for (const auto& i : p.configs)
@@ -475,7 +469,7 @@ namespace djv
                     hLayout->addChild(button);
                     hLayout->setStretch(button, UI::RowStretch::Expand);
                     hLayout->addChild(deleteButton);
-                    p.configLayout->addChild(hLayout);
+                    p.configItemLayout->addChild(hLayout);
 
                     deleteButton->setClickedCallback(
                         [j, contextWeak]
@@ -492,8 +486,8 @@ namespace djv
                 p.configButtonGroup->setChecked(p.currentConfig);
                 p.editConfigButton->setEnabled(p.configs.size() > 0);
 
-                p.editImageButtonGroup->clearButtons();
-                p.imageLayout->clearChildren();
+                p.editColorProfilesButtonGroup->clearButtons();
+                p.colorProfilesItemLayout->clearChildren();
                 std::set<std::string> usedPluginNames;
                 auto weak = std::weak_ptr<ColorSpaceWidget>(std::dynamic_pointer_cast<ColorSpaceWidget>(shared_from_this()));
                 for (const auto& i : p.config.colorSpaces)
@@ -527,7 +521,7 @@ namespace djv
 
                     auto deleteButton = UI::ToolButton::create(context);
                     deleteButton->setIcon("djvIconCloseSmall");
-                    deleteButton->setVisible(p.editImage);
+                    deleteButton->setVisible(p.editColorProfiles);
                     deleteButton->setInsideMargin(UI::Layout::Margin(UI::MetricsRole::None));
                     deleteButton->setVAlign(UI::VAlign::Fill);
                     p.textFocusWidgets[deleteButton->getFocusWidget()] = id++;
@@ -537,13 +531,13 @@ namespace djv
                     hLayout->addChild(comboBox);
                     hLayout->setStretch(comboBox, UI::RowStretch::Expand);
                     hLayout->addChild(deleteButton);
-                    p.imageLayout->addChild(hLayout);
+                    p.colorProfilesItemLayout->addChild(hLayout);
                     std::string s = i.first;
                     if (s.empty())
                     {
                         s = _getText(DJV_TEXT("Default"));
                     }
-                    p.imageLayout->setText(hLayout, s + ":");
+                    p.colorProfilesItemLayout->setText(hLayout, s + ":");
 
                     std::string pluginName = i.first;
                     comboBox->setCallback(
@@ -583,7 +577,7 @@ namespace djv
                         });
                 }
 
-                p.addImageLayout->clearChildren();
+                p.addColorProfileLayout->clearChildren();
                 auto io = context->getSystemT<AV::IO::System>();
                 auto pluginNames = io->getPluginNames();
                 pluginNames.insert(pluginNames.begin(), std::string());
@@ -604,7 +598,7 @@ namespace djv
                         }
                         button->setText(s);
                         button->setInsideMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
-                        p.addImageLayout->addChild(button);
+                        p.addColorProfileLayout->addChild(button);
                         std::string pluginName = i;
                         button->setClickedCallback(
                             [pluginName, weak, contextWeak]
@@ -613,7 +607,7 @@ namespace djv
                                 {
                                     if (auto widget = weak.lock())
                                     {
-                                        widget->_p->addImagePopupWidget->close();
+                                        widget->_p->addColorProfilePopupWidget->close();
                                         widget->_p->config.colorSpaces[pluginName] = std::string();
                                         auto ocioSystem = context->getSystemT<AV::OCIO::System>();
                                         ocioSystem->setConfig(widget->_p->config);
@@ -624,10 +618,10 @@ namespace djv
                     }
                 }
 
-                p.addImagePopupWidget->setEnabled(
+                p.addColorProfilePopupWidget->setEnabled(
                     p.configs.size() > 0 &&
                     usedPluginNames.size() < pluginNames.size());
-                p.editImageButton->setEnabled(
+                p.editColorProfilesButton->setEnabled(
                     p.configs.size() > 0 &&
                     p.config.colorSpaces.size() > 0);
 

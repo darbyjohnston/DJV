@@ -45,7 +45,7 @@ namespace djv
     {
         struct ImageSettings::Private
         {
-            std::map<std::string, bool> colorSpaceBellowsState;
+            int colorSpaceCurrentTab = 0;
             std::shared_ptr<ValueSubject<ImageRotate> > rotate;
             std::shared_ptr<ValueSubject<ImageAspectRatio> > aspectRatio;
             std::map<std::string, BBox2f> widgetGeom;
@@ -72,14 +72,14 @@ namespace djv
             return out;
         }
 
-        std::map<std::string, bool> ImageSettings::getColorSpaceBellowsState() const
+        int ImageSettings::getColorSpaceCurrentTab() const
         {
-            return _p->colorSpaceBellowsState;
+            return _p->colorSpaceCurrentTab;
         }
 
-        void ImageSettings::setColorSpaceBellowsState(const std::map<std::string, bool>& value)
+        void ImageSettings::setColorSpaceCurrentTab(int value)
         {
-            _p->colorSpaceBellowsState = value;
+            _p->colorSpaceCurrentTab = value;
         }
 
         std::shared_ptr<IValueSubject<ImageRotate> > ImageSettings::observeRotate() const
@@ -118,7 +118,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const auto & object = value.get<picojson::object>();
-                UI::Settings::read("ColorSpaceBellowsState", object, p.colorSpaceBellowsState);
+                UI::Settings::read("ColorSpaceCurrentTab", object, p.colorSpaceCurrentTab);
                 UI::Settings::read("Rotate", object, p.rotate);
                 UI::Settings::read("AspectRatio", object, p.aspectRatio);
                 UI::Settings::read("WidgetGeom", object, p.widgetGeom);
@@ -130,7 +130,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             picojson::value out(picojson::object_type, true);
             auto & object = out.get<picojson::object>();
-            UI::Settings::write("ColorSpaceBellowsState", p.colorSpaceBellowsState, object);
+            UI::Settings::write("ColorSpaceCurrentTab", p.colorSpaceCurrentTab, object);
             UI::Settings::write("Rotate", p.rotate->get(), object);
             UI::Settings::write("AspectRatio", p.aspectRatio->get(), object);
             UI::Settings::write("WidgetGeom", p.widgetGeom, object);

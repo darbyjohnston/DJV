@@ -61,7 +61,7 @@ namespace djv
         {
             std::shared_ptr<ImageSettings> settings;
 
-            std::map<std::string, bool> colorSpaceBellowsState;
+            int colorSpaceCurrentTab = 0;
             std::shared_ptr<ValueSubject<bool> > frameStoreEnabled;
             std::shared_ptr<ValueSubject<std::shared_ptr<AV::Image::Image> > > frameStore;
             std::shared_ptr<AV::Image::Image> currentImage;
@@ -95,7 +95,7 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             p.settings = ImageSettings::create(context);
-            p.colorSpaceBellowsState = p.settings->getColorSpaceBellowsState();
+            p.colorSpaceCurrentTab= p.settings->getColorSpaceCurrentTab();
             _setWidgetGeom(p.settings->getWidgetGeom());
 
             p.frameStoreEnabled = ValueSubject<bool>::create();
@@ -253,7 +253,7 @@ namespace djv
                             if (value)
                             {
                                 auto colorSpaceWidget = ColorSpaceWidget::create(context);
-                                colorSpaceWidget->setBellowsState(system->_p->colorSpaceBellowsState);
+                                colorSpaceWidget->setCurrentTab(system->_p->colorSpaceCurrentTab);
                                 system->_p->colorSpaceWidget = colorSpaceWidget;
                                 system->_openWidget("ColorSpace", colorSpaceWidget);
                             }
@@ -420,7 +420,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             _closeWidget("ColorSpace");
-            p.settings->setColorSpaceBellowsState(p.colorSpaceBellowsState);
+            p.settings->setColorSpaceCurrentTab(p.colorSpaceCurrentTab);
             p.settings->setWidgetGeom(_getWidgetGeom());
         }
 
@@ -460,7 +460,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto colorSpaceWidget = p.colorSpaceWidget.lock())
             {
-                p.colorSpaceBellowsState = colorSpaceWidget->getBellowsState();
+                p.colorSpaceCurrentTab = colorSpaceWidget->getCurrentTab();
             }
             p.colorSpaceWidget.reset();
             const auto i = p.actions.find(value);
