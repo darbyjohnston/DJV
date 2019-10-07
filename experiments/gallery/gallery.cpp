@@ -314,8 +314,8 @@ int main(int argc, char ** argv)
         departmentLabel->setTextHAlign(UI::TextHAlign::Left);
 
         auto rowLayout = UI::VerticalLayout::create(app);
-        rowLayout->setMargin(UI::MetricsRole::Margin);
-        rowLayout->setSpacing(UI::MetricsRole::None);
+        rowLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
+        rowLayout->setSpacing(UI::Layout::Margin(UI::MetricsRole::None));
         rowLayout->setVAlign(UI::VAlign::Bottom);
         rowLayout->setBackgroundRole(UI::ColorRole::Overlay);
         rowLayout->addChild(titleLabel);
