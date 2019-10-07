@@ -176,7 +176,7 @@ namespace djv
                 //! Request font glyphs to be cached.
                 void cacheGlyphs(const std::string& text, const Info&);
 
-                //! Get the glyph cache sized.
+                //! Get the glyph cache size.
                 size_t getGlyphCacheSize() const;
 
                 //! Get the glyph cache percentage used.

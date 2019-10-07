@@ -3,6 +3,9 @@ set(header
     AudioDataTest.h
     AudioTest.h
     ColorTest.h
+    EnumTest.h
+    FontSystemTest.h
+    IOTest.h
     ImageConvertTest.h
     ImageDataTest.h
     ImageTest.h
@@ -13,6 +16,9 @@ set(source
     AudioDataTest.cpp
     AudioTest.cpp
     ColorTest.cpp
+    EnumTest.cpp
+    FontSystemTest.cpp
+    IOTest.cpp
     ImageConvertTest.cpp
     ImageDataTest.cpp
     ImageTest.cpp

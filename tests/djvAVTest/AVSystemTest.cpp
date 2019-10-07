@@ -49,26 +49,26 @@ namespace djv
         {
             if (auto context = getContext().lock())
             {
-                auto avSystem = context->getSystemT<AV::AVSystem>();
+                auto system = context->getSystemT<AVSystem>();
                 
-                auto timeUnitsObserver = ValueObserver<AV::TimeUnits>::create(
-                    avSystem->observeTimeUnits(),
-                    [this](AV::TimeUnits value)
+                auto timeUnitsObserver = ValueObserver<TimeUnits>::create(
+                    system->observeTimeUnits(),
+                    [this](TimeUnits value)
                     {
                         std::stringstream ss;
                         ss << "time units: " << value;
                         _print(ss.str());
                     });
-                auto alphaBlendObserver = ValueObserver<AV::AlphaBlend>::create(
-                    avSystem->observeAlphaBlend(),
-                    [this](AV::AlphaBlend value)
+                auto alphaBlendObserver = ValueObserver<AlphaBlend>::create(
+                    system->observeAlphaBlend(),
+                    [this](AlphaBlend value)
                     {
                         std::stringstream ss;
                         ss << "alpha blend: " << value;
                         _print(ss.str());
                     });
                 auto defaultSpeedObserver = ValueObserver<Time::FPS>::create(
-                    avSystem->observeDefaultSpeed(),
+                    system->observeDefaultSpeed(),
                     [this](Time::FPS value)
                     {
                         std::stringstream ss;
@@ -78,17 +78,17 @@ namespace djv
 
                 {
                     std::stringstream ss;
-                    ss << "frame number label: " << avSystem->getLabel(100, Time::Speed());
+                    ss << "frame number label: " << system->getLabel(100, Time::Speed());
                     _print(ss.str());
                 }
 
-                avSystem->setTimeUnits(AV::TimeUnits::Frames);
-                avSystem->setAlphaBlend(AV::AlphaBlend::Premultiplied);
-                avSystem->setDefaultSpeed(Time::FPS::_60);
+                system->setTimeUnits(TimeUnits::Frames);
+                system->setAlphaBlend(AlphaBlend::Premultiplied);
+                system->setDefaultSpeed(Time::FPS::_60);
 
                 {
                     std::stringstream ss;
-                    ss << "frame number label: " << avSystem->getLabel(100, Time::Speed());
+                    ss << "frame number label: " << system->getLabel(100, Time::Speed());
                     _print(ss.str());
                 }
             }

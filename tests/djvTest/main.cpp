@@ -64,6 +64,9 @@
 #include <djvAVTest/AudioDataTest.h>
 #include <djvAVTest/AudioTest.h>
 #include <djvAVTest/ColorTest.h>
+#include <djvAVTest/EnumTest.h>
+#include <djvAVTest/FontSystemTest.h>
+#include <djvAVTest/IOTest.h>
 #include <djvAVTest/ImageConvertTest.h>
 #include <djvAVTest/ImageDataTest.h>
 #include <djvAVTest/ImageTest.h>
@@ -129,6 +132,9 @@ int main(int argc, char ** argv)
         tests.emplace_back(new AVTest::AudioDataTest(context));
         tests.emplace_back(new AVTest::AudioTest(context));
         tests.emplace_back(new AVTest::ColorTest(context));
+        tests.emplace_back(new AVTest::EnumTest(context));
+        tests.emplace_back(new AVTest::FontSystemTest(context));
+        tests.emplace_back(new AVTest::IOTest(context));
         tests.emplace_back(new AVTest::ImageConvertTest(context));
         tests.emplace_back(new AVTest::ImageDataTest(context));
         tests.emplace_back(new AVTest::ImageTest(context));

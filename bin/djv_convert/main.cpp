@@ -123,21 +123,36 @@ namespace djv
                 CmdLine::Application::tick(dt);
                 while (_write->isRunning())
                 {
-                    std::unique_lock<std::mutex> readLock(_read->getMutex(), std::try_to_lock);
-                    if (readLock.owns_lock())
+                    bool sleep = false;
                     {
-                        std::lock_guard<std::mutex> writeLock(_write->getMutex());
-                        auto& readQueue = _read->getVideoQueue();
-                        auto& writeQueue = _write->getVideoQueue();
-                        if (!readQueue.isEmpty() && writeQueue.getCount() < writeQueue.getMax())
+                        std::unique_lock<std::mutex> readLock(_read->getMutex(), std::try_to_lock);
+                        if (readLock.owns_lock())
                         {
-                            auto frame = readQueue.popFrame();
-                            writeQueue.addFrame(frame);
+                            std::lock_guard<std::mutex> writeLock(_write->getMutex());
+                            auto& readQueue = _read->getVideoQueue();
+                            auto& writeQueue = _write->getVideoQueue();
+                            if (!readQueue.isEmpty() && writeQueue.getCount() < writeQueue.getMax())
+                            {
+                                auto frame = readQueue.popFrame();
+                                writeQueue.addFrame(frame);
+                            }
+                            else if (readQueue.isFinished())
+                            {
+                                writeQueue.setFinished(true);
+                            }
+                            else
+                            {
+                                sleep = true;
+                            }
                         }
-                        else if (readQueue.isFinished())
+                        else
                         {
-                            writeQueue.setFinished(true);
+                            sleep = true;
                         }
+                    }
+                    if (sleep)
+                    {
+                        std::this_thread::sleep_for(Core::Time::getMilliseconds(Core::Time::TimerValue::Fast));
                     }
                 }
                 exit();

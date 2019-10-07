@@ -197,7 +197,6 @@ namespace djv
                                 }
                             }
                         }
-
                         if (seek != Frame::invalid)
                         {
                             p.frame = seek;

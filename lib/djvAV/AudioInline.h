@@ -37,13 +37,13 @@ namespace djv
         {
             inline uint8_t getByteCount(Type value)
             {
-                const uint8_t data[] = { 0, 1, 2, 4, 4 };
+                const uint8_t data[] = { 0, 1, 2, 4, 4, 8 };
                 return data[static_cast<size_t>(value)];
             }
 
             inline Type getIntType(uint8_t value)
             {
-                const Type data[] = { Type::None, Type::S8, Type::S16, Type::S32, Type::None };
+                const Type data[] = { Type::None, Type::S8, Type::S16, Type::S32, Type::None, Type::None };
                 return value < sizeof(data) / sizeof(data[0]) ? data[value] : Type::None;
             }
 
