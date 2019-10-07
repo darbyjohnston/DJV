@@ -162,12 +162,8 @@ namespace djv
                 return out;
             }
 
-            void stringToTimecode(const std::string & in, uint32_t & out, bool * ok)
+            void stringToTimecode(const std::string & in, uint32_t & out)
             {
-                if (ok)
-                {
-                    *ok = true;
-                }
                 int hour   = 0;
                 int minute = 0;
                 int second = 0;
@@ -195,10 +191,7 @@ namespace djv
                     frame = std::stoi(pieces[i]);
                     break;
                 default:
-                    if (ok)
-                    {
-                        *ok = false;
-                    }
+                    throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
                     break;
                 }
                 out = timeToTimecode(hour, minute, second, frame);

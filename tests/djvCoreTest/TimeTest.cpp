@@ -138,40 +138,21 @@ namespace djv
                 uint32_t t = Time::timeToTimecode(1, 2, 3, 4);
                 std::string s = Time::timecodeToString(t);
                 uint32_t t2 = 0;
-                bool ok = false;
-                Time::stringToTimecode(s, t2, &ok);
+                Time::stringToTimecode(s, t2);
                 DJV_ASSERT(t == t2);
-                DJV_ASSERT(ok);
             }
-            
+
+            try
             {
                 uint32_t t2 = 0;
-                bool ok = false;
-                Time::stringToTimecode("1:2:3", t2, &ok);
-                DJV_ASSERT(ok);
+                Time::stringToTimecode("1:2:3", t2);
+                Time::stringToTimecode("1:2", t2);
+                Time::stringToTimecode("1", t2);
+                Time::stringToTimecode("1:2:3:4:5", t2);
+                DJV_ASSERT(false);
             }
-            
-            {
-                uint32_t t2 = 0;
-                bool ok = false;
-                Time::stringToTimecode("1:2", t2, &ok);
-                DJV_ASSERT(ok);
-            }
-            
-            {
-                uint32_t t2 = 0;
-                bool ok = false;
-                Time::stringToTimecode("1", t2, &ok);
-                DJV_ASSERT(ok);
-            }
-            
-            {
-                uint32_t t2 = 0;
-                bool ok = false;
-                Time::stringToTimecode("1:2:3:4:5", t2, &ok);
-                DJV_ASSERT(0 == t2);
-                DJV_ASSERT(!ok);
-            }
+            catch (const std::exception&)
+            {}
             
             {
                 int64_t f = Time::timecodeToFrame(0, Time::Speed(0, 0));

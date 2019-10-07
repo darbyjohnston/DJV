@@ -105,7 +105,10 @@ namespace djv
             uint32_t frameToTimecode(int64_t frame, const Math::Rational&);
 
             std::string timecodeToString(uint32_t);
-            void stringToTimecode(const std::string &, uint32_t &, bool * ok = nullptr);
+
+            //! Throws:
+            //! - std::exception
+            void stringToTimecode(const std::string &, uint32_t &);
 
             ///@}
 

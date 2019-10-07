@@ -212,12 +212,15 @@ namespace djv
                         case AV::TimeUnits::Timecode:
                         {
                             uint32_t timecode = 0;
-                            bool ok = false;
-                            Time::stringToTimecode(value, timecode, &ok);
-                            if (ok)
+                            try
                             {
+                                Time::stringToTimecode(value, timecode);
                                 const Frame::Number frame = Time::timecodeToFrame(timecode, widget->_speed);
                                 index = widget->_sequence.getIndex(frame);
+                            }
+                            catch (const std::exception& e)
+                            {
+                                widget->_log(e.what(), LogLevel::Error);
                             }
                             break;
                         }
