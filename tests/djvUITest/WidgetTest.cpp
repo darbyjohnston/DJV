@@ -30,10 +30,14 @@
 #include <djvUITest/WidgetTest.h>
 
 #include <djvUI/EventSystem.h>
-#include <djvUI/Widget.h>
+#include <djvUI/PushButton.h>
+#include <djvUI/StackLayout.h>
 #include <djvUI/Window.h>
 
 #include <djvCore/Context.h>
+
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
 
 using namespace djv::Core;
 using namespace djv::UI;
@@ -68,7 +72,7 @@ namespace djv
                 const glm::vec2 size(1280, 720);
                 
                 auto rootObject = getRootObject();
-                const auto windows = rootObject->getChildrenT<UI::Window>();
+                const auto windows = rootObject->getChildrenT<Window>();
                 for (const auto & i : windows)
                 {
                     i->resize(size);
@@ -111,10 +115,10 @@ namespace djv
                     _drop({ "one", "two", "three" });
                     break;
                 case 15:
-                    _keyPress(0, 0);
+                    _keyPress(GLFW_KEY_TAB, 0);
                     break;
                 case 20:
-                    _keyRelease(0, 0);
+                    _keyRelease(GLFW_KEY_TAB, 0);
                     break;
                 case 25:
                     _text(std::basic_string<djv_char_t>(), 0);
@@ -176,17 +180,39 @@ namespace djv
             if (auto context = getContext().lock())
             {
                 auto system = TestEventSystem::create(context);
-
                 {
-                    auto widget = UI::Widget::create(context);
+                    auto widget = PushButton::create(context);
                     
-                    auto window = UI::Window::create(context);
-                    window->addChild(widget);
-                    if (auto parentWindow = widget->getWindow())
+                    auto widget2 = PushButton::create(context);
+                    widget2->setHAlign(HAlign::Left);
+                    widget2->setHAlign(HAlign::Left);
+                    auto widget3 = PushButton::create(context);
+                    widget3->setHAlign(HAlign::Right);
+                    auto widget4 = PushButton::create(context);
+                    widget4->setHAlign(HAlign::Center);
+                    
+                    auto widget5 = PushButton::create(context);
+                    widget5->setVAlign(VAlign::Top);
+                    widget5->setVAlign(VAlign::Top);
+                    auto widget6 = PushButton::create(context);
+                    widget6->setVAlign(VAlign::Bottom);
+                    auto widget7 = PushButton::create(context);
+                    widget7->setVAlign(VAlign::Center);
+                    
+                    auto layout = StackLayout::create(context);
+                    layout->addChild(widget);
+                    layout->addChild(widget2);
+                    layout->addChild(widget3);
+                    layout->addChild(widget4);
+                    layout->addChild(widget5);
+                    layout->addChild(widget6);
+                    
+                    auto window = Window::create(context);
+                    window->addChild(layout);
+                    if (auto parentWindow = layout->getWindow())
                     {
                         DJV_ASSERT(window == parentWindow);
                     }
-
                     window->show();
                     
                     _tickFor(std::chrono::milliseconds(1000));
