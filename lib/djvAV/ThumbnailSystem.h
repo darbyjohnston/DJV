@@ -92,6 +92,7 @@ namespace djv
             //! This structure provides information about a file.
             struct InfoFuture
             {
+                InfoFuture();
                 InfoFuture(std::future<IO::Info> &, Core::UID);
                 std::future<IO::Info> future;
                 Core::UID uid = 0;
@@ -106,6 +107,7 @@ namespace djv
             //! This structure provides a thumbnail image for a file.
             struct ImageFuture
             {
+                ImageFuture();
                 ImageFuture(std::future<std::shared_ptr<Image::Image> > &, Core::UID);
                 std::future<std::shared_ptr<Image::Image> > future;
                 Core::UID uid = 0;

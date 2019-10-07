@@ -157,9 +157,15 @@ namespace djv
 
         } // namespace
         
+        ThumbnailSystem::InfoFuture::InfoFuture()
+        {}
+        
         ThumbnailSystem::InfoFuture::InfoFuture(std::future<IO::Info> & future, UID uid) :
             future(std::move(future)),
             uid(uid)
+        {}
+        
+        ThumbnailSystem::ImageFuture::ImageFuture()
         {}
         
         ThumbnailSystem::ImageFuture::ImageFuture(std::future<std::shared_ptr<Image::Image> > & future, UID uid) :

@@ -214,7 +214,7 @@ namespace djv
 
             if (p.offscreenBuffer)
             {
-                bool resizeRequest = p.resizeRequest;f
+                bool resizeRequest = p.resizeRequest;
                 bool redrawRequest = p.redrawRequest;
                 p.resizeRequest = false;
                 p.redrawRequest = false;
