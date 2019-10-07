@@ -220,7 +220,9 @@ namespace djv
                             }
                             catch (const std::exception& e)
                             {
-                                widget->_log(e.what(), LogLevel::Error);
+                                std::stringstream ss;
+                                ss << "Cannot parse the value.";
+                                widget->_log(ss.str(), LogLevel::Error);
                             }
                             break;
                         }
@@ -233,7 +235,9 @@ namespace djv
                             }
                             catch (const std::exception& e)
                             {
-                                widget->_log(e.what(), LogLevel::Error);
+                                std::stringstream ss;
+                                ss << "Cannot parse the value.";
+                                widget->_log(ss.str(), LogLevel::Error);
                             }
                             break;
                         }

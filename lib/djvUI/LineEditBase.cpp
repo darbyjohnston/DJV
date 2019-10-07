@@ -650,6 +650,10 @@ namespace djv
                             _cursorUpdate();
                             _viewUpdate();
                         }
+                        else if (!event.getKeyModifiers())
+                        {
+                            event.accept();
+                        }
                         break;
                     case GLFW_KEY_X:
                         if (modifiers & UI::Shortcut::getSystemModifier())
@@ -673,6 +677,10 @@ namespace djv
                                 _doTextChangedCallback();
                             }
                         }
+                        else if (!event.getKeyModifiers())
+                        {
+                            event.accept();
+                        }
                         break;
                     case GLFW_KEY_C:
                         if (modifiers & UI::Shortcut::getSystemModifier())
@@ -687,6 +695,10 @@ namespace djv
                                     eventSystem->setClipboard(_fromUtf32(utf32));
                                 }
                             }
+                        }
+                        else if (!event.getKeyModifiers())
+                        {
+                            event.accept();
                         }
                         break;
                     case GLFW_KEY_V:
@@ -714,6 +726,10 @@ namespace djv
                                 _viewUpdate();
                                 _doTextChangedCallback();
                             }
+                        }
+                        else if (!event.getKeyModifiers())
+                        {
+                            event.accept();
                         }
                         break;
                     default:
