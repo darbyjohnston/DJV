@@ -78,6 +78,7 @@ namespace djv
             std::string sizeString;
             glm::vec2 sizeStringSize = glm::vec2(0.F, 0.F);
             std::future<glm::vec2> sizeStringFuture;
+            float viewOffset = 0.f;
             size_t cursorPos = 0;
             size_t selectionAnchor = std::string::npos;
             std::future<std::vector<BBox2f> > glyphGeomFuture;
@@ -140,6 +141,7 @@ namespace djv
             p.selectionAnchor = p.cursorPos;
             _textUpdate();
             _cursorUpdate();
+            _viewUpdate();
             _doTextChangedCallback();
         }
 
@@ -194,6 +196,7 @@ namespace djv
             p.font = value;
             _textUpdate();
             _cursorUpdate();
+            _viewUpdate();
         }
 
         void LineEditBase::setFontFace(const std::string & value)
@@ -204,6 +207,7 @@ namespace djv
             p.fontFace = value;
             _textUpdate();
             _cursorUpdate();
+            _viewUpdate();
         }
 
         void LineEditBase::setFontSizeRole(MetricsRole value)
@@ -214,6 +218,7 @@ namespace djv
             p.fontSizeRole = value;
             _textUpdate();
             _cursorUpdate();
+            _viewUpdate();
         }
 
         const std::string & LineEditBase::getSizeString() const
@@ -260,6 +265,7 @@ namespace djv
         {
             _textUpdate();
             _cursorUpdate();
+            _viewUpdate();
         }
 
         void LineEditBase::_preLayoutEvent(Event::PreLayout & event)
@@ -307,6 +313,7 @@ namespace djv
                 try
                 {
                     p.glyphGeom = p.glyphGeomFuture.get();
+                    _viewUpdate();
                 }
                 catch (const std::exception & e)
                 {
@@ -318,11 +325,17 @@ namespace djv
             _setMinimumSize(size + m * 2.F + getMargin().getSize(style));
         }
 
+        void LineEditBase::_layoutEvent(Event::Layout&)
+        {
+            _viewUpdate();
+        }
+
         void LineEditBase::_clipEvent(Event::Clip & event)
         {
             if (isClipped())
             {
                 releaseTextFocus();
+                _p->viewOffset = 0.F;
             }
         }
 
@@ -336,13 +349,14 @@ namespace djv
             const float m = style->getMetric(MetricsRole::MarginSmall);
             const float b = style->getMetric(MetricsRole::Border);
 
+            // Draw the selection.
             auto render = _getRender();
             render->setFillColor(style->getColor(ColorRole::Checked));
+            const size_t glyphGeomSize = p.glyphGeom.size();
             if (p.cursorPos != p.selectionAnchor)
             {
                 float x0 = 0.F;
                 float x1 = 0.F;
-                const size_t glyphGeomSize = p.glyphGeom.size();
                 if (glyphGeomSize)
                 {
                     if (p.cursorPos < glyphGeomSize)
@@ -371,12 +385,13 @@ namespace djv
                     x1 = tmp;
                 }
                 render->drawRect(BBox2f(
-                    g.min.x + m + x0,
+                    g.min.x + m + x0 - p.viewOffset,
                     g.min.y + m,
                     x1 - x0,
                     g.h() - m * 2.F));
             }
 
+            // Draw the text.
             auto fontInfo = p.font.empty() ?
                 style->getFontInfo(p.fontFace, p.fontSizeRole) :
                 style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);
@@ -385,13 +400,14 @@ namespace djv
             //! \bug Why the extra subtract by one here?
             glm::vec2 pos = g.min;
             pos += m;
+            pos.x -= p.viewOffset;
             pos.y = c.y - p.textSize.y / 2.F;
             render->drawText(p.text, glm::vec2(floorf(pos.x), floorf(pos.y + p.fontMetrics.ascender - 1.F)));
 
+            // Draw the cursor.
             if (p.cursorBlink)
             {
                 float x = 0.F;
-                const size_t glyphGeomSize = p.glyphGeom.size();
                 if (glyphGeomSize)
                 {
                     if (p.cursorPos < glyphGeomSize)
@@ -405,7 +421,7 @@ namespace djv
                     }
                 }
                 render->drawRect(BBox2f(
-                    g.min.x + m + x,
+                    g.min.x + m + x - p.viewOffset,
                     g.min.y + m,
                     b,
                     g.h() - m * 2.F));
@@ -435,7 +451,7 @@ namespace djv
                 const auto& style = _getStyle();
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
                 const float m = style->getMetric(MetricsRole::MarginSmall);
-                float x = event.getPointerInfo().projectedPos.x - g.min.x - m;
+                float x = event.getPointerInfo().projectedPos.x - g.min.x - m + p.viewOffset;
                 size_t cursorPos = 0;
                 if (x >= 0.F)
                 {
@@ -452,6 +468,7 @@ namespace djv
                 {
                     p.cursorPos = cursorPos;
                     _cursorUpdate();
+                    _viewUpdate();
                 }
             }
         }
@@ -468,7 +485,7 @@ namespace djv
             const auto& style = _getStyle();
             const BBox2f& g = getMargin().bbox(getGeometry(), style);
             const float m = style->getMetric(MetricsRole::MarginSmall);
-            float x = event.getPointerInfo().projectedPos.x - g.min.x - m;
+            float x = event.getPointerInfo().projectedPos.x - g.min.x - m + p.viewOffset;
             size_t cursorPos = 0;
             for (const auto& i : p.glyphGeom)
             {
@@ -481,6 +498,7 @@ namespace djv
             p.cursorPos = cursorPos;
             p.selectionAnchor = cursorPos;
             _cursorUpdate();
+            _viewUpdate();
         }
 
         void LineEditBase::_buttonReleaseEvent(Event::ButtonRelease & event)
@@ -526,6 +544,7 @@ namespace djv
                             p.selectionAnchor = p.cursorPos;
                             _textUpdate();
                             _cursorUpdate();
+                            _viewUpdate();
                             _doTextChangedCallback();
                         }
                         break;
@@ -549,6 +568,7 @@ namespace djv
                             p.selectionAnchor = p.cursorPos;
                             _textUpdate();
                             _cursorUpdate();
+                            _viewUpdate();
                             _doTextChangedCallback();
                         }
                         break;
@@ -567,6 +587,7 @@ namespace djv
                                 p.selectionAnchor = p.cursorPos;
                             }
                             _cursorUpdate();
+                            _viewUpdate();
                         }
                         break;
                     case GLFW_KEY_RIGHT:
@@ -579,6 +600,7 @@ namespace djv
                                 p.selectionAnchor = p.cursorPos;
                             }
                             _cursorUpdate();
+                            _viewUpdate();
                         }
                         break;
                     case GLFW_KEY_HOME:
@@ -591,6 +613,7 @@ namespace djv
                                 p.selectionAnchor = p.cursorPos;
                             }
                             _cursorUpdate();
+                            _viewUpdate();
                         }
                         break;
                     case GLFW_KEY_END:
@@ -603,6 +626,7 @@ namespace djv
                                 p.selectionAnchor = p.cursorPos;
                             }
                             _cursorUpdate();
+                            _viewUpdate();
                         }
                         break;
                     case GLFW_KEY_ESCAPE:
@@ -625,6 +649,7 @@ namespace djv
                             p.selectionAnchor = p.utf32.size();
                             _textUpdate();
                             _cursorUpdate();
+                            _viewUpdate();
                         }
                         break;
                     case GLFW_KEY_X:
@@ -645,6 +670,7 @@ namespace djv
                                 p.selectionAnchor = p.cursorPos;
                                 _textUpdate();
                                 _cursorUpdate();
+                                _viewUpdate();
                                 _doTextChangedCallback();
                             }
                         }
@@ -686,6 +712,7 @@ namespace djv
                                 p.selectionAnchor = p.cursorPos;
                                 _textUpdate();
                                 _cursorUpdate();
+                                _viewUpdate();
                                 _doTextChangedCallback();
                             }
                         }
@@ -741,6 +768,7 @@ namespace djv
             p.selectionAnchor = p.cursorPos;
             _textUpdate();
             _cursorUpdate();
+            _viewUpdate();
             _doTextChangedCallback();
         }
 
@@ -809,12 +837,14 @@ namespace djv
             {
                 p.sizeStringFuture = p.fontSystem->measure(p.sizeString, fontInfo);
             }
+            p.glyphGeomFuture = p.fontSystem->measureGlyphs(p.text, fontInfo);
             _resize();
         }
 
         void LineEditBase::_cursorUpdate()
         {
             DJV_PRIVATE_PTR();
+
             const size_t size = p.utf32.size();
             if (size)
             {
@@ -826,12 +856,7 @@ namespace djv
                 p.cursorPos = 0;
                 p.selectionAnchor = 0;
             }
-
-            const auto& style = _getStyle();
-            const auto fontInfo = p.font.empty() ?
-                style->getFontInfo(p.fontFace, p.fontSizeRole) :
-                style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);
-            p.glyphGeomFuture = p.fontSystem->measureGlyphs(p.text, fontInfo);
+            _redraw();
 
             if (hasTextFocus())
             {
@@ -848,8 +873,57 @@ namespace djv
                     }
                 });
             }
+        }
 
-            _resize();
+        void LineEditBase::_viewUpdate()
+        {
+            DJV_PRIVATE_PTR();
+
+            float viewOffset = p.viewOffset;
+
+            const auto& style = _getStyle();
+            const BBox2f& g = getMargin().bbox(getGeometry(), style);
+            const float m = style->getMetric(MetricsRole::MarginSmall);
+            float xMin = 0.F;
+            float xMax = 0.F;
+            const size_t glyphGeomSize = p.glyphGeom.size();
+            if (p.cursorPos < glyphGeomSize)
+            {
+                xMin = p.glyphGeom[p.cursorPos].min.x;
+                xMax = p.glyphGeom[p.cursorPos].max.x;
+            }
+            else if (glyphGeomSize > 0)
+            {
+                xMin = p.glyphGeom[glyphGeomSize - 1].min.x;
+                xMax = p.glyphGeom[glyphGeomSize - 1].max.x;
+            }
+            const float viewWidth = g.w() - m * 2.F;
+            if (viewWidth > 0.F)
+            {
+                const size_t size = p.utf32.size();
+                if (0 == size)
+                {
+                    viewOffset = 0.F;
+                }
+                else if (size > 0 && p.cursorPos >= size && xMax > (viewOffset + viewWidth))
+                {
+                    viewOffset = xMax - viewWidth;
+                }
+                else if (xMin > (viewOffset + viewWidth))
+                {
+                    viewOffset = xMin - viewWidth;
+                }
+                else if (xMin < viewOffset)
+                {
+                    viewOffset = xMin;
+                }
+            }
+
+            if (viewOffset != p.viewOffset)
+            {
+                p.viewOffset = viewOffset;
+                _redraw();
+            }
         }
 
         void LineEditBase::_doTextChangedCallback()
