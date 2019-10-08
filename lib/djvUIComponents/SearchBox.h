@@ -54,6 +54,8 @@ namespace djv
             void clearFilter();
             void setFilterCallback(const std::function<void(const std::string &)> &);
 
+            void setBorder(bool);
+
             float getHeightForWidth(float) const override;
 
         protected:

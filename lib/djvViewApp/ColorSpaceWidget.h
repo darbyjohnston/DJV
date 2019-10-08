@@ -57,6 +57,7 @@ namespace djv
 
         private:
             void _widgetUpdate();
+            void _imageListUpdate();
 
             DJV_PRIVATE();
         };

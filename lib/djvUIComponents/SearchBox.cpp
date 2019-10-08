@@ -156,6 +156,13 @@ namespace djv
             _p->filterCallback = value;
         }
 
+        void SearchBox::setBorder(bool value)
+        {
+            DJV_PRIVATE_PTR();
+            p.border->setBorderSize(value ? MetricsRole::Border : MetricsRole::None);
+            p.border->setMargin(Layout::Margin(value ? MetricsRole::Border : MetricsRole::None));
+        }
+
         float SearchBox::getHeightForWidth(float value) const
         {
             const auto& style = _getStyle();
