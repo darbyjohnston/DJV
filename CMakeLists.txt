@@ -71,11 +71,17 @@ endif()
 # Set whether to use Python.
 set(DJV_PYTHON FALSE CACHE BOOL "Whether to use Python")
 
+# Set whether to build binaries.
+set(DJV_BUILD_BIN TRUE CACHE BOOL "Whether to build binaries")
+
+# Set whether to build documentation.
+set(DJV_BUILD_DOC TRUE CACHE BOOL "Whether to build documentation")
+
 # Set whether to build examples.
-set(DJV_EXAMPLES TRUE CACHE BOOL "Whether to build examples")
+set(DJV_BUILD_EXAMPLES TRUE CACHE BOOL "Whether to build examples")
 
 # Set whether to build experiments.
-set(DJV_EXPERIMENTS TRUE CACHE BOOL "Whether to build experiments")
+set(DJV_BUILD_EXPERIMENTS TRUE CACHE BOOL "Whether to build experiments")
 
 # Set whether to enable a "tiny" build (djvCore + tests).
 set(DJV_TINY_BUILD FALSE CACHE BOOL "Whether to enable a tiny build")
@@ -331,12 +337,16 @@ add_subdirectory(third-party)
 add_subdirectory(lib)
 add_subdirectory(tests)
 if(NOT DJV_TINY_BUILD)
-    add_subdirectory(bin)
-    add_subdirectory(doc)
-    if(DJV_EXAMPLES)
+    if(DJV_BUILD_BIN)
+        add_subdirectory(bin)
+    endif()
+    if(DJV_BUILD_DOC)
+        add_subdirectory(doc)
+    endif()
+    if(DJV_BUILD_EXAMPLES)
         add_subdirectory(examples)
     endif()
-    if(DJV_EXPERIMENTS)
+    if(DJV_BUILD_EXPERIMENTS)
         add_subdirectory(experiments)
     endif()
 endif()
