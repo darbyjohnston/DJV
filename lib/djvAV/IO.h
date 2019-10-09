@@ -125,6 +125,8 @@ namespace djv
 
                 Core::Frame::Number           frame = 0;
                 std::shared_ptr<Image::Image> image;
+
+                bool operator == (const VideoFrame&) const;
             };
 
             //! This class provides a queue of video frames.
@@ -161,6 +163,8 @@ namespace djv
                 explicit AudioFrame(const std::shared_ptr<Audio::Data>&);
 
                 std::shared_ptr<Audio::Data> audio;
+                
+                bool operator == (const AudioFrame&) const;
             };
 
             //! This class provides a queue of audio frames.
@@ -250,9 +254,12 @@ namespace djv
             class Cache
             {
             public:
+                Cache();
+                
                 size_t getMax() const;
-                size_t getByteCount() const;
-                std::vector<Core::Frame::Range> getFrames() const;
+                size_t getCount() const;
+                size_t getTotalByteCount() const;
+                Core::Frame::Sequence getFrames() const;
                 size_t getReadBehind() const;
                 const Core::Frame::Sequence& getSequence() const;
                 void setMax(size_t);
@@ -271,7 +278,7 @@ namespace djv
                 size_t _max = 0;
                 size_t _sequenceSize = 0;
                 Direction _direction = Direction::Forward;
-                Core::Frame::Index _currentFrame = Core::Frame::invalidIndex;
+                Core::Frame::Index _currentFrame = 0;
                 //! \todo Should this be configurable?
                 size_t _readBehind = 10;
                 Core::Frame::Sequence _sequence;

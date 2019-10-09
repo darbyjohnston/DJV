@@ -89,7 +89,7 @@ namespace djv
             std::shared_ptr<Time::Timer> cursorBlinkTimer;
             
             std::function<void(std::string)> textChangedCallback;
-            std::function<void(const std::string&, TextFinished)> textFinishedCallback;
+            std::function<void(const std::string&, TextEdit)> textEditCallback;
             std::function<void(bool)> focusCallback;
         };
 
@@ -239,9 +239,9 @@ namespace djv
             _p->textChangedCallback = value;
         }
 
-        void LineEditBase::setTextFinishedCallback(const std::function<void(const std::string&, TextFinished)>& value)
+        void LineEditBase::setTextEditCallback(const std::function<void(const std::string&, TextEdit)>& value)
         {
-            _p->textFinishedCallback = value;
+            _p->textEditCallback = value;
         }
 
         void LineEditBase::setFocusCallback(const std::function<void(bool)> & value)
@@ -574,7 +574,7 @@ namespace djv
                     }
                     case GLFW_KEY_ENTER:
                         event.accept();
-                        _doTextFinishedCallback(TextFinished::Accepted);
+                        _doTextEditCallback(TextEdit::Accepted);
                         break;
                     case GLFW_KEY_LEFT:
                         event.accept();
@@ -759,7 +759,7 @@ namespace djv
             p.cursorBlinkTimer->stop();
             p.cursorBlink = false;
             _redraw();
-            _doTextFinishedCallback(TextFinished::LostFocus);
+            _doTextEditCallback(TextEdit::LostFocus);
             _doFocusCallback(false);
         }
 
@@ -950,12 +950,12 @@ namespace djv
             }
         }
 
-        void LineEditBase::_doTextFinishedCallback(TextFinished finished)
+        void LineEditBase::_doTextEditCallback(TextEdit textEdit)
         {
             DJV_PRIVATE_PTR();
-            if (p.textFinishedCallback)
+            if (p.textEditCallback)
             {
-                p.textFinishedCallback(p.text, finished);
+                p.textEditCallback(p.text, textEdit);
             }
         }
 

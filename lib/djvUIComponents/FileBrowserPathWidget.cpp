@@ -146,20 +146,20 @@ namespace djv
                         }
                     });
 
-                p.lineEditBase->setTextFinishedCallback(
-                    [weak](const std::string& value, UI::TextFinished finished)
+                p.lineEditBase->setTextEditCallback(
+                    [weak](const std::string& value, UI::TextEdit textEdit)
                 {
                     if (auto widget = weak.lock())
                     {
-                        switch (finished)
+                        switch (textEdit)
                         {
-                        case UI::TextFinished::Accepted:
+                        case UI::TextEdit::Accepted:
                             if (widget->_p->pathCallback)
                             {
                                 widget->_p->pathCallback(FileSystem::Path(value));
                             }
                             break;
-                        case UI::TextFinished::LostFocus:
+                        case UI::TextEdit::LostFocus:
                             widget->_p->lineEditBase->setText(widget->_p->path.get());
                             break;
                         default: break;

@@ -60,7 +60,7 @@ namespace djv
         }
 
         template<typename T>
-        inline void INumericWidget<T>::setValueCallback(const std::function<void(T, TextFinished)>& callback)
+        inline void INumericWidget<T>::setValueCallback(const std::function<void(T, TextEdit)>& callback)
         {
             _callback = callback;
         }
@@ -78,11 +78,11 @@ namespace djv
         }
 
         template<typename T>
-        inline void INumericWidget<T>::_doCallback(TextFinished finished)
+        inline void INumericWidget<T>::_doCallback(TextEdit textEdit)
         {
             if (_callback)
             {
-                _callback(_model->observeValue()->get(), finished);
+                _callback(_model->observeValue()->get(), textEdit);
             }
         }
 
@@ -158,7 +158,7 @@ namespace djv
                 if (std::chrono::milliseconds(0) == delay)
                 {
                     INumericWidget<T>::_model->setValue(_value);
-                    INumericWidget<T>::_doCallback(TextFinished::Accepted);
+                    INumericWidget<T>::_doCallback(TextEdit::Accepted);
                 }
             }
         }
@@ -172,7 +172,7 @@ namespace djv
                 if (std::chrono::milliseconds(0) == delay)
                 {
                     INumericWidget<T>::_model->setValue(_value);
-                    INumericWidget<T>::_doCallback(TextFinished::Accepted);
+                    INumericWidget<T>::_doCallback(TextEdit::Accepted);
                 }
             }
         }
@@ -185,7 +185,7 @@ namespace djv
                 if (delay > std::chrono::milliseconds(0))
                 {
                     INumericWidget<T>::_model->setValue(_value);
-                    INumericWidget<T>::_doCallback(TextFinished::Accepted);
+                    INumericWidget<T>::_doCallback(TextEdit::Accepted);
                 }
             }
         }
@@ -196,7 +196,7 @@ namespace djv
             if (INumericWidget<T>::_model)
             {
                 INumericWidget<T>::_model->setValue(_value);
-                INumericWidget<T>::_doCallback(TextFinished::Accepted);
+                INumericWidget<T>::_doCallback(TextEdit::Accepted);
             }
         }
 

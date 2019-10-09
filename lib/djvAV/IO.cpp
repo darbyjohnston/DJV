@@ -70,81 +70,6 @@ namespace djv
     {
         namespace IO
         {
-            VideoInfo::VideoInfo()
-            {}
-
-            VideoInfo::VideoInfo(const Image::Info & info, const Time::Speed & speed, const Frame::Sequence& sequence) :
-                info(info),
-                speed(speed),
-                sequence(sequence)
-            {}
-
-            bool VideoInfo::operator == (const VideoInfo & other) const
-            {
-                return info == other.info && speed == other.speed && sequence == other.sequence;
-            }
-
-            AudioInfo::AudioInfo()
-            {}
-
-            AudioInfo::AudioInfo(const Audio::Info & info, size_t sampleCount) :
-                info(info),
-                sampleCount(sampleCount)
-            {}
-
-            bool AudioInfo::operator == (const AudioInfo & other) const
-            {
-                return info == other.info && sampleCount == other.sampleCount;
-            }
-
-            Info::Info()
-            {}
-
-            Info::Info(const std::string & fileName, const VideoInfo & video) :
-                fileName(fileName)
-            {
-                this->video.push_back(video);
-            }
-
-            Info::Info(const std::string & fileName, const AudioInfo & audio) :
-                fileName(fileName)
-            {
-                this->audio.push_back(audio);
-            }
-
-            Info::Info(const std::string & fileName, const VideoInfo & video, const AudioInfo & audio) :
-                fileName(fileName)
-            {
-                this->video.push_back(video);
-                this->audio.push_back(audio);
-            }
-
-            Info::Info(const std::string & fileName, const std::vector<VideoInfo> & video, const std::vector<AudioInfo> & audio) :
-                fileName(fileName),
-                video(video),
-                audio(audio)
-            {}
-
-            bool Info::operator == (const Info & other) const
-            {
-                return
-                    fileName == other.fileName &&
-                    video == other.video &&
-                    audio == other.audio &&
-                    tags == other.tags;
-            }
-
-            VideoFrame::VideoFrame()
-            {}
-
-            VideoFrame::VideoFrame(Frame::Number frame, const std::shared_ptr<Image::Image>& image) :
-                frame(frame),
-                image(image)
-            {}
-
-            VideoQueue::VideoQueue()
-            {}
-
             void VideoQueue::setMax(size_t value)
             {
                 _max = value;
@@ -178,16 +103,6 @@ namespace djv
             {
                 _finished = value;
             }
-
-            AudioFrame::AudioFrame()
-            {}
-
-            AudioFrame::AudioFrame(const std::shared_ptr<Audio::Data>& audio) :
-                audio(audio)
-            {}
-
-            AudioQueue::AudioQueue()
-            {}
 
             void AudioQueue::setMax(size_t value)
             {
@@ -239,35 +154,15 @@ namespace djv
             IIO::~IIO()
             {}
 
-            size_t IIO::getThreadCount() const
-            {
-                return _threadCount;
-            }
-
             void IIO::setThreadCount(size_t value)
             {
                 std::unique_lock<std::mutex> lock(_mutex);
                 _threadCount = value;
             }
 
-            size_t Cache::getMax() const
+            Frame::Sequence Cache::getFrames() const
             {
-                return _max;
-            }
-
-            size_t Cache::getByteCount() const
-            {
-                size_t out = 0;
-                for (const auto& i : _cache)
-                {
-                    out += i.second->getDataByteCount();
-                }
-                return out;
-            }
-
-            std::vector<Frame::Range> Cache::getFrames() const
-            {
-                std::vector<Frame::Range> out;
+                Frame::Sequence out;
                 std::vector<Frame::Index> frames;
                 for (const auto& i : _cache)
                 {
@@ -284,30 +179,20 @@ namespace djv
                     {
                         if (frames[i] != prevFrame + 1)
                         {
-                            out.push_back(Frame::Range(rangeStart, prevFrame));
+                            out.ranges.push_back(Frame::Range(rangeStart, prevFrame));
                             rangeStart = frames[i];
                         }
                     }
                     if (size > 1)
                     {
-                        out.push_back(Frame::Range(rangeStart, prevFrame));
+                        out.ranges.push_back(Frame::Range(rangeStart, prevFrame));
                     }
                     else
                     {
-                        out.push_back(Frame::Range(rangeStart));
+                        out.ranges.push_back(Frame::Range(rangeStart));
                     }
                 }
                 return out;
-            }
-
-            size_t Cache::getReadBehind() const
-            {
-                return _readBehind;
-            }
-
-            const Frame::Sequence& Cache::getSequence() const
-            {
-                return _sequence;
             }
 
             void Cache::setMax(size_t value)

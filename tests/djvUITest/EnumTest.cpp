@@ -50,6 +50,83 @@ namespace djv
                 ss << "orientation string: " << i;
                 _print(ss.str());
             }
+            
+            for (auto i : getSideEnums())
+            {
+                std::stringstream ss;
+                ss << "side string: " << i;
+                _print(ss.str());
+            }
+            
+            for (auto i : getExpandEnums())
+            {
+                std::stringstream ss;
+                ss << "expand string: " << i;
+                _print(ss.str());
+            }
+            
+            for (auto i : getHAlignEnums())
+            {
+                std::stringstream ss;
+                ss << "horizontal align string: " << i;
+                _print(ss.str());
+            }
+            
+            for (auto i : getVAlignEnums())
+            {
+                std::stringstream ss;
+                ss << "vertical align string: " << i;
+                _print(ss.str());
+            }
+            
+            for (auto i : getTextHAlignEnums())
+            {
+                std::stringstream ss;
+                ss << "text horizontal align string: " << i;
+                _print(ss.str());
+            }
+            
+            for (auto i : getTextVAlignEnums())
+            {
+                std::stringstream ss;
+                ss << "text vertical align string: " << i;
+                _print(ss.str());
+            }
+            
+            for (auto i : getSelectionTypeEnums())
+            {
+                std::stringstream ss;
+                ss << "selection type string: " << i;
+                _print(ss.str());
+            }
+            
+            for (auto i : getSortOrderEnums())
+            {
+                std::stringstream ss;
+                ss << "sort order string: " << i;
+                _print(ss.str());
+            }
+            
+            for (auto i : getButtonTypeEnums())
+            {
+                std::stringstream ss;
+                ss << "button type string: " << i;
+                _print(ss.str());
+            }
+            
+            for (auto i : getColorRoleEnums())
+            {
+                std::stringstream ss;
+                ss << "color role string: " << i;
+                _print(ss.str());
+            }
+            
+            for (auto i : getMetricsRoleEnums())
+            {
+                std::stringstream ss;
+                ss << "metrics role string: " << i;
+                _print(ss.str());
+            }
         }
 
     } // namespace UITest

@@ -67,17 +67,17 @@ namespace djv
 
             T getValue() const;
             void setValue(T);
-            void setValueCallback(const std::function<void(T, TextFinished)>&);
+            void setValueCallback(const std::function<void(T, TextEdit)>&);
 
             const std::shared_ptr<Core::INumericValueModel<T> >& getModel() const;
             virtual void setModel(const std::shared_ptr<Core::INumericValueModel<T> >&);
 
         protected:
-            void _doCallback(TextFinished);
+            void _doCallback(TextEdit);
             bool _keyPress(NumericWidgetKey);
 
             std::shared_ptr<Core::INumericValueModel<T> > _model;
-            std::function<void(T, TextFinished)> _callback;
+            std::function<void(T, TextEdit)> _callback;
         };
 
         //! This class provides an interface for numeric editor widgets.

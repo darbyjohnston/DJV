@@ -68,7 +68,7 @@ namespace djv
             void setSizeString(const std::string &);
 
             void setTextChangedCallback(const std::function<void(const std::string &)> &);
-            void setTextFinishedCallback(const std::function<void(const std::string&, TextFinished)> &);
+            void setTextEditCallback(const std::function<void(const std::string&, TextEdit)> &);
             void setFocusCallback(const std::function<void(bool)> &);
 
             void setBackgroundRole(ColorRole) override;

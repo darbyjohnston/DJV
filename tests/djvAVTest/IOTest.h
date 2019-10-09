@@ -39,6 +39,19 @@ namespace djv
             IOTest(const std::shared_ptr<Core::Context>&);
             
             void run(const std::vector<std::string>&) override;
+            
+        private:
+            void _videoInfo();
+            void _audioInfo();
+            void _info();
+            void _videoFrame();
+            void _videoQueue();
+            void _audioFrame();
+            void _audioQueue();
+            void _cache();
+            void _io();
+            void _system();
+            void _operators();
         };
         
     } // namespace AVTest

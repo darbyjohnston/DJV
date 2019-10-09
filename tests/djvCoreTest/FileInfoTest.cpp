@@ -203,9 +203,9 @@ namespace djv
                 DJV_ASSERT(!fileInfo.isSequenceWildcard());
                 DJV_ASSERT(!fileInfo.isCompatible(fileInfo));
                 fileInfo.evalSequence();
-                Frame::Range range(1, 100);
-                fileInfo.setSequence(range);
-                DJV_ASSERT(Frame::Sequence(range) == fileInfo.getSequence());
+                Frame::Sequence sequence(1, 100);
+                fileInfo.setSequence(sequence);
+                DJV_ASSERT(sequence == fileInfo.getSequence());
                 DJV_ASSERT(fileInfo.isSequenceValid());
                 FileSystem::FileInfo fileInfo2(fileInfo);
                 fileInfo2.setSequence(Frame::Sequence(Frame::Range(101, 110), 4));

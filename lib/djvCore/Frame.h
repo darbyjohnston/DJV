@@ -55,15 +55,17 @@ namespace djv
 
             //! This value represents an invalid frame number range.
             const Range invalidRange = Range(invalid, invalid);
-
+            
             //! This class provides a sequence of frame numbers. A sequence is
             //! composed of multiple frame number ranges (e.g., 1-10,20-30).
             class Sequence
             {
             public:
                 Sequence();
-                Sequence(const Range& range, size_t pad = 0);
-                Sequence(const std::vector<Range>& ranges, size_t pad = 0);
+                explicit Sequence(Number);
+                Sequence(Number, Number, size_t pad = 0);
+                explicit Sequence(const Range& range, size_t pad = 0);
+                explicit Sequence(const std::vector<Range>& ranges, size_t pad = 0);
 
                 std::vector<Range> ranges;
                 size_t pad = 0;
@@ -104,8 +106,8 @@ namespace djv
             std::vector<Number> toFrames(const Sequence&);
             Sequence fromFrames(const std::vector<Number>&);
 
-            std::string toString(Number, size_t pad);
-            std::string toString(const Range&, size_t pad);
+            std::string toString(Number, size_t pad = 0);
+            std::string toString(const Range&, size_t pad = 0);
             std::string toString(const Sequence&);
 
             //! Throws:

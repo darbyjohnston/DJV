@@ -221,8 +221,8 @@ namespace djv
             }
             
             {
-                DJV_ASSERT("10" == Frame::toString(10, 0));
-                DJV_ASSERT("-10" == Frame::toString(-10, 0));
+                DJV_ASSERT("10" == Frame::toString(10));
+                DJV_ASSERT("-10" == Frame::toString(-10));
                 DJV_ASSERT("0010" == Frame::toString(10, 4));
                 DJV_ASSERT("1-10" == Frame::toString(Frame::Range(1, 10)));
                 DJV_ASSERT("0001-0010" == Frame::toString(Frame::Range(1, 10), 4));

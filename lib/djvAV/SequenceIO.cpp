@@ -226,7 +226,7 @@ namespace djv
                         if (delta.count() > infoTimeout)
                         {
                             p.infoTimer = now;
-                            size_t cacheByteCount = _cache.getByteCount();
+                            size_t cacheByteCount = _cache.getTotalByteCount();
                             auto cacheSequence = _cache.getSequence();
                             auto cachedFrames = _cache.getFrames();
                             {

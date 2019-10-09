@@ -48,7 +48,7 @@ namespace djv
             virtual ~NumericEdit() = 0;
 
         protected:
-            virtual void _finishedEditing(const std::string&, TextFinished) = 0;
+            virtual void _textEdit(const std::string&, TextEdit) = 0;
             virtual bool _keyPress(int) = 0;
             void _textUpdate(const std::string&, const std::string&);
 

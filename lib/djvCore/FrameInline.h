@@ -47,6 +47,17 @@ namespace djv
         {            
             inline Sequence::Sequence()
             {}
+       
+            inline Sequence::Sequence(Number number)
+            {
+                ranges.push_back(Range(number));
+            }
+       
+            inline Sequence::Sequence(Number min, Number max, size_t pad) :
+                pad(pad)
+            {
+                ranges.push_back(Range(min, max));
+            }
 
             inline Sequence::Sequence(const Range & range, size_t pad) :
                 pad(pad)

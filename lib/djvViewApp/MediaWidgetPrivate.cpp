@@ -201,8 +201,8 @@ namespace djv
                     }
                 });
 
-            _lineEdit->setTextFinishedCallback(
-                [weak](const std::string& value, UI::TextFinished)
+            _lineEdit->setTextEditCallback(
+                [weak](const std::string& value, UI::TextEdit)
                 {
                     if (auto widget = weak.lock())
                     {
