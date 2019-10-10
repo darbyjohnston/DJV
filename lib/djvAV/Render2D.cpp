@@ -107,8 +107,9 @@ namespace djv
                 };
 
                 //! This class provides the base functionality for render primitives.
-                struct Primitive
+                class Primitive
                 {
+                public:
                     virtual ~Primitive() {}
                     
                     BBox2f      clipRect;
@@ -126,8 +127,9 @@ namespace djv
                 };
 
                 //! This class provides a text render primitive.
-                struct TextPrimitive : Primitive
+                class TextPrimitive : public Primitive
                 {
+                public:
                     uint8_t atlasIndex = 0;
 
                     void bind(const PrimitiveData& data, const std::shared_ptr<OpenGL::Shader>& shader) override
@@ -142,8 +144,9 @@ namespace djv
                 };
 
                 //! This class provides an image render primitive.
-                struct ImagePrimitive : Primitive
+                class ImagePrimitive : public Primitive
                 {
+                public:
                     ColorMode       colorMode           = ColorMode::ColorAndTexture;
                     Image::Channels imageChannels       = Image::Channels::RGBA;
                     ImageChannel    imageChannel        = ImageChannel::None;
@@ -186,8 +189,9 @@ namespace djv
                 };
 
                 //! This class provides a shadow render primitive.
-                struct ShadowPrimitive : Primitive
+                class ShadowPrimitive : public Primitive
                 {
+                public:
                     void bind(const PrimitiveData& data, const std::shared_ptr<OpenGL::Shader>& shader) override
                     {
                         shader->setUniform(data.colorModeLoc, static_cast<int>(ColorMode::Shadow));

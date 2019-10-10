@@ -939,11 +939,9 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const Playback playback = p.playback->get();
-            bool forward = false;
             switch (playback)
             {
-            case Playback::Forward: // Forward or reverse.
-                forward = true;
+            case Playback::Forward:
             case Playback::Reverse:
             {
                 const auto& speed = p.speed->get();

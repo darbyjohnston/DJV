@@ -116,7 +116,7 @@ namespace djv
                 bool operator == (const Info &) const;
             };
 
-            //! This struct provides a video frame.
+            //! This class provides a video frame.
             class VideoFrame
             {
             public:
@@ -156,9 +156,10 @@ namespace djv
                 bool _finished = false;
             };
 
-            //! This struct provides an audio frame.
-            struct AudioFrame
+            //! This class provides an audio frame.
+            class AudioFrame
             {
+            public:
                 AudioFrame();
                 explicit AudioFrame(const std::shared_ptr<Audio::Data>&);
 

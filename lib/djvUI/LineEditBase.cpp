@@ -78,7 +78,7 @@ namespace djv
             std::string sizeString;
             glm::vec2 sizeStringSize = glm::vec2(0.F, 0.F);
             std::future<glm::vec2> sizeStringFuture;
-            float viewOffset = 0.f;
+            float viewOffset = 0.F;
             size_t cursorPos = 0;
             size_t selectionAnchor = std::string::npos;
             std::future<std::vector<BBox2f> > glyphGeomFuture;

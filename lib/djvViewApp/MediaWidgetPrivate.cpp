@@ -218,7 +218,7 @@ namespace djv
                                 const Frame::Number frame = Time::timecodeToFrame(timecode, widget->_speed);
                                 index = widget->_sequence.getIndex(frame);
                             }
-                            catch (const std::exception& e)
+                            catch (const std::exception&)
                             {
                                 std::stringstream ss;
                                 ss << "Cannot parse the value.";
@@ -233,7 +233,7 @@ namespace djv
                                 const Frame::Number frame = std::stoi(value);
                                 index = widget->_sequence.getIndex(frame);
                             }
-                            catch (const std::exception& e)
+                            catch (const std::exception&)
                             {
                                 std::stringstream ss;
                                 ss << "Cannot parse the value.";

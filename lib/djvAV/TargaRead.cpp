@@ -212,8 +212,9 @@ namespace djv
 
                 namespace
                 {
-                    struct Header
+                    class Header
                     {
+                    public:
                         Header();
 
                         void read(FileSystem::FileIO&, Image::Info&, bool& bgr, bool& compression);

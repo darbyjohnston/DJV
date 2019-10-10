@@ -80,8 +80,8 @@ namespace djv
                 std::numeric_limits<S32_T>::min(),
                 std::numeric_limits<S32_T>::max());
 
-            const Core::Range::Range<F32_T> F32Range(-1.F, 1.f);
-            const Core::Range::Range<F64_T> F64Range(-1.F, 1.f);
+            const Core::Range::Range<F32_T> F32Range(-1.F, 1.F);
+            const Core::Range::Range<F64_T> F64Range(-1.F, 1.F);
 
             uint8_t getByteCount(Type);
             Type getIntType(uint8_t);

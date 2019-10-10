@@ -237,11 +237,11 @@ namespace djv
                     }
                     else
                     {
-                        std::vector<uint8_t> tmp(size);
-                        io.read(tmp.data(), size / bytes, bytes);
-                        const uint8_t* inP = tmp.data();
+                        std::vector<uint8_t> rleData(size);
+                        io.read(rleData.data(), size / bytes, bytes);
+                        const uint8_t* inP = rleData.data();
                         const uint8_t* end = inP + size;
-                        uint8_t* outP = out->getData();
+                        uint8_t* outP = tmp->getData();
                         for (size_t c = 0; c < channels; ++c)
                         {
                             for (size_t y = 0; y < imageInfo.size.h; ++y, outP += imageInfo.size.w * bytes)
@@ -268,8 +268,9 @@ namespace djv
 
                 namespace
                 {
-                    struct Header
+                    class Header
                     {
+                    public:
                         Header();
 
                         void read(FileSystem::FileIO&, Image::Info&, bool& compression);

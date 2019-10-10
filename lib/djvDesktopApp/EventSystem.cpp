@@ -323,8 +323,10 @@ namespace djv
                 std::vector<uint8_t> vboData(6 * (2 * 4 + 2 * 2));
                 struct Data
                 {
-                    float x, y;
-                    uint16_t u, v;
+                    float x;
+                    float y;
+                    uint16_t u;
+                    uint16_t v;
                 };
                 Data* vboP = reinterpret_cast<Data*>(&vboData[0]);
                 vboP->x = 0.F;
