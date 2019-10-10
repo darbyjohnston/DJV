@@ -65,9 +65,11 @@ namespace djv
             p.settings = ColorPickerSettings::create(context);
             _setWidgetGeom(p.settings->getWidgetGeom());
 
+            //! \todo Implement me!
             p.actions["ColorPicker"] = UI::Action::create();
             p.actions["ColorPicker"]->setIcon("djvIconColorPicker");
             p.actions["ColorPicker"]->setShortcut(GLFW_KEY_2);
+            p.actions["ColorPicker"]->setEnabled(false);
 
             auto weak = std::weak_ptr<ColorPickerSystem>(std::dynamic_pointer_cast<ColorPickerSystem>(shared_from_this()));
             p.localeObserver = ValueObserver<std::string>::create(

@@ -67,9 +67,11 @@ namespace djv
             p.settings = AnnotateSettings::create(context);
             _setWidgetGeom(p.settings->getWidgetGeom());
 
+            //! \todo Implement me!
             p.actions["Annotate"] = UI::Action::create();
             p.actions["Annotate"]->setIcon("djvIconAnnotate");
             p.actions["Annotate"]->setShortcut(GLFW_KEY_4);
+            p.actions["Annotate"]->setEnabled(false);
 
             p.menu = UI::Menu::create(context);
 

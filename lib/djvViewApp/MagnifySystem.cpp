@@ -65,9 +65,11 @@ namespace djv
             p.settings = MagnifySettings::create(context);
             _setWidgetGeom(p.settings->getWidgetGeom());
 
+            //! \todo Implement me!
             p.actions["Magnify"] = UI::Action::create();
             p.actions["Magnify"]->setIcon("djvIconMagnify");
             p.actions["Magnify"]->setShortcut(GLFW_KEY_3);
+            p.actions["Magnify"]->setEnabled(false);
 
             auto weak = std::weak_ptr<MagnifySystem>(std::dynamic_pointer_cast<MagnifySystem>(shared_from_this()));
             p.localeObserver = ValueObserver<std::string>::create(
