@@ -119,7 +119,6 @@ namespace djv
             vLayout->addChild(p.thumbnailSizeLabel);
             vLayout->addSeparator();
             auto vLayout2 = UI::VerticalLayout::create(context);
-            vLayout2->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
             vLayout2->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
             vLayout2->addChild(increaseThumbnailSizeButton);
             vLayout2->addChild(decreaseThumbnailSizeButton);
