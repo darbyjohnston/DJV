@@ -176,15 +176,15 @@ set(DJV_THIRD_PARTY_PACKAGES_REQUIRED
 	OTIO
     FreeType)
 if(WIN32)
-#elseif(APPLE)
 else()
     set(DJV_THIRD_PARTY_PACKAGES_OPTIONAL
         ${DJV_THIRD_PARTY_PACKAGES_OPTIONAL}
-        MbedTLS)
+        #MbedTLS
+        )
 endif()
 set(DJV_THIRD_PARTY_PACKAGES_OPTIONAL
     ${DJV_THIRD_PARTY_PACKAGES_OPTIONAL}
-    curl
+    #curl
     JPEGTurbo
     TIFF
     OpenEXR)
