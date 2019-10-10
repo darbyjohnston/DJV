@@ -60,7 +60,7 @@ namespace djv
             p.fullscreenMonitor = ValueSubject<int>::create(0);
             p.maximize = ValueSubject<bool>::create(true);
             auto resourceSystem = context->getSystemT<Core::ResourceSystem>();
-            const auto& iconsPath = resourceSystem->getPath(FileSystem::ResourcePath::IconsDirectory);
+            const auto& iconsPath = resourceSystem->getPath(FileSystem::ResourcePath::Icons);
             p.backgroundImage = ValueSubject<std::string>::create(std::string(
                 FileSystem::Path(iconsPath, "djv-tshirt-v02.png")));
             p.backgroundImageScale = ValueSubject<bool>::create(false);

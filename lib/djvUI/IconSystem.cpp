@@ -152,7 +152,7 @@ namespace djv
                 try
                 {
                     // Find the DPI values.
-                    for (const auto & i : FileSystem::FileInfo::directoryList(p.resourceSystem->getPath(FileSystem::ResourcePath::IconsDirectory)))
+                    for (const auto & i : FileSystem::FileInfo::directoryList(p.resourceSystem->getPath(FileSystem::ResourcePath::Icons)))
                     {
                         const std::string fileName = i.getFileName(Frame::invalid, false);
                         const size_t size = fileName.size();
@@ -335,7 +335,7 @@ namespace djv
 
         FileSystem::Path IconSystem::Private::getPath(const std::string & name, uint16_t dpi, const std::shared_ptr<ResourceSystem>& resourceSystem) const
         {
-            FileSystem::Path out = resourceSystem->getPath(FileSystem::ResourcePath::IconsDirectory);
+            FileSystem::Path out = resourceSystem->getPath(FileSystem::ResourcePath::Icons);
             {
                 std::stringstream ss;
                 ss << dpi << "DPI";

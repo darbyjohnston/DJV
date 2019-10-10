@@ -40,6 +40,7 @@ namespace djv
     {
         namespace FileSystem
         {
+            class FileInfo;
             class Path;
         
         } // namespace FileSystem
@@ -54,14 +55,14 @@ namespace djv
             DJV_NON_COPYABLE(TextSystem);
 
         protected:
-            void _init(const FileSystem::Path &, const std::shared_ptr<Context>&);
+            void _init(const std::shared_ptr<Context>&);
             TextSystem();
 
         public:
             virtual ~TextSystem();
             
             //! Create a new text system.
-            static std::shared_ptr<TextSystem> create(const FileSystem::Path &, const std::shared_ptr<Context>&);
+            static std::shared_ptr<TextSystem> create(const std::shared_ptr<Context>&);
 
             //! \name Language Locale
             ///@{
@@ -84,14 +85,18 @@ namespace djv
             ///@{
 
             //! Get the text for the given ID.
-            //!
-            //! \todo Add a namespace argument.
-            const std::string & getText(const std::string & id) const;
+            const std::string & getText(const std::string& id) const;
+
+            //! Set the text for the given ID.
+            void setText(const std::string& id, const std::string& text);
 
             ///@}
 
         private:
-            void _readText(const FileSystem::Path &);
+            std::vector<FileSystem::FileInfo> _getTextFiles() const;
+            void _setFileText(const std::string& id, const std::string& text);
+            void _readText(const std::vector<FileSystem::FileInfo>&);
+            void _writeText();
 
             DJV_PRIVATE();
         };

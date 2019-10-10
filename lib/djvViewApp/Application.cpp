@@ -234,7 +234,7 @@ namespace djv
             try
             {
                 auto resourceSystem = getSystemT<Core::ResourceSystem>();
-                const auto& iconsPath = resourceSystem->getPath(Core::FileSystem::ResourcePath::IconsDirectory);
+                const auto& iconsPath = resourceSystem->getPath(Core::FileSystem::ResourcePath::Icons);
                 auto io = getSystemT<AV::IO::System>();
                 p.read.push_back(io->read(Core::FileSystem::Path(iconsPath, fileName)));
             }

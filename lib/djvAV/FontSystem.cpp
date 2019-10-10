@@ -222,7 +222,7 @@ namespace djv
 
                 addDependency(context->getSystemT<CoreSystem>());
 
-                p.fontPath = _getResourceSystem()->getPath(FileSystem::ResourcePath::FontsDirectory);
+                p.fontPath = _getResourceSystem()->getPath(FileSystem::ResourcePath::Fonts);
                 p.fontNamesSubject = MapSubject<FamilyID, std::string>::create();
                 p.glyphCache.setMax(glyphCacheMax);
                 p.glyphCacheSize = 0;

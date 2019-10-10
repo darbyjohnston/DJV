@@ -227,16 +227,17 @@ namespace djv
         Core::FileSystem,
         ResourcePath,
         DJV_TEXT("Application"),
+        DJV_TEXT("Documents"),
         DJV_TEXT("LogFile"),
         DJV_TEXT("SettingsFile"),
-        DJV_TEXT("AudioDirectory"),
-        DJV_TEXT("FontsDirectory"),
-        DJV_TEXT("IconsDirectory"),
-        DJV_TEXT("ImagesDirectory"),
-        DJV_TEXT("ModelsDirectory"),
-        DJV_TEXT("ShadersDirectory"),
-        DJV_TEXT("TextDirectory"),
-        DJV_TEXT("ColorDirectory"));
+        DJV_TEXT("Audio"),
+        DJV_TEXT("Fonts"),
+        DJV_TEXT("Icons"),
+        DJV_TEXT("Images"),
+        DJV_TEXT("Models"),
+        DJV_TEXT("Shaders"),
+        DJV_TEXT("Text"),
+        DJV_TEXT("Color"));
 
 } // namespace djv
 

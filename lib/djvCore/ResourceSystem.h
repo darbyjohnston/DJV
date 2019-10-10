@@ -61,8 +61,6 @@ namespace djv
             FileSystem::Path getPath(FileSystem::ResourcePath) const;
 
         private:
-            static FileSystem::Path _getDocumentsPath();
-
             DJV_PRIVATE();
         };
 

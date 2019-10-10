@@ -67,8 +67,8 @@ namespace djv
 
             _timerSystem = Time::TimerSystem::create(shared_from_this());
             _resourceSystem = ResourceSystem::create(argv0, shared_from_this());
-            _logSystem = LogSystem::create(_resourceSystem->getPath(FileSystem::ResourcePath::LogFile), shared_from_this());
-            _textSystem = TextSystem::create(_resourceSystem->getPath(FileSystem::ResourcePath::TextDirectory), shared_from_this());
+            _logSystem = LogSystem::create(shared_from_this());
+            _textSystem = TextSystem::create(shared_from_this());
             CoreSystem::create(argv0, shared_from_this());
 
             {

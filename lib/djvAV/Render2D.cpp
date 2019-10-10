@@ -426,7 +426,7 @@ namespace djv
                 }
 
                 auto resourceSystem = context->getSystemT<ResourceSystem>();
-                const FileSystem::Path shaderPath = resourceSystem->getPath(FileSystem::ResourcePath::ShadersDirectory);
+                const FileSystem::Path shaderPath = resourceSystem->getPath(FileSystem::ResourcePath::Shaders);
                 try
                 {
                     FileSystem::FileIO io;

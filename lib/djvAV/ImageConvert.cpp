@@ -65,7 +65,7 @@ namespace djv
             void Convert::_init(const std::shared_ptr<ResourceSystem>& resourceSystem)
             {
                 DJV_PRIVATE_PTR();
-                const FileSystem::Path shaderPath = resourceSystem->getPath(Core::FileSystem::ResourcePath::ShadersDirectory);
+                const FileSystem::Path shaderPath = resourceSystem->getPath(Core::FileSystem::ResourcePath::Shaders);
                 p.shader = AV::OpenGL::Shader::create(Render::Shader::create(
                     FileSystem::Path(shaderPath, "djvAVImageConvertVertex.glsl"),
                     FileSystem::Path(shaderPath, "djvAVImageConvertFragment.glsl")));

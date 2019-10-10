@@ -34,6 +34,7 @@
 #include <djvCore/FileIO.h>
 #include <djvCore/OS.h>
 #include <djvCore/Path.h>
+#include <djvCore/ResourceSystem.h>
 #include <djvCore/Time.h>
 #include <djvCore/Timer.h>
 
@@ -89,13 +90,15 @@ namespace djv
             std::shared_ptr<Time::Timer> warningsAndErrorsTimer;
         };
 
-        void LogSystem::_init(const FileSystem::Path & path, const std::shared_ptr<Context>& context)
+        void LogSystem::_init(const std::shared_ptr<Context>& context)
         {
             ISystemBase::_init(name, context);
-
             DJV_PRIVATE_PTR();
 
-            p.path = path;
+            auto resourceSystem = context->getSystemT<ResourceSystem>();
+            addDependency(resourceSystem);
+            
+            p.path = resourceSystem->getPath(FileSystem::ResourcePath::LogFile);
 
             p.warningsSubject = ListSubject<std::string>::create();
             p.errorsSubject = ListSubject<std::string>::create();
@@ -186,10 +189,10 @@ namespace djv
             }
         }
         
-        std::shared_ptr<LogSystem> LogSystem::create(const FileSystem::Path & logFile, const std::shared_ptr<Context>& context)
+        std::shared_ptr<LogSystem> LogSystem::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<LogSystem>(new LogSystem);
-            out->_init(logFile, context);
+            out->_init(context);
             return out;
         }
 

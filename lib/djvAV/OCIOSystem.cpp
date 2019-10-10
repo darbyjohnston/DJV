@@ -152,7 +152,7 @@ namespace djv
                         if (!fileInfo.doesExist())
                         {
                             auto resourceSystem = context->getSystemT<ResourceSystem>();
-                            FileSystem::Path resourcePath = FileSystem::Path(resourceSystem->getPath(FileSystem::ResourcePath::ColorDirectory), config.fileName);
+                            FileSystem::Path resourcePath = FileSystem::Path(resourceSystem->getPath(FileSystem::ResourcePath::Color), config.fileName);
                             FileSystem::DirectoryListOptions options;
                             options.filter = ".*\\.ocio$";
                             auto directoryList = FileSystem::FileInfo::directoryList(resourcePath, options);

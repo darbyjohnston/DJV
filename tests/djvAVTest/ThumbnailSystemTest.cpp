@@ -53,7 +53,7 @@ namespace djv
             {
                 auto resourceSystem = context->getSystemT<ResourceSystem>();
                 const FileSystem::FileInfo fileInfo(FileSystem::Path(
-                    resourceSystem->getPath(FileSystem::ResourcePath::IconsDirectory),
+                    resourceSystem->getPath(FileSystem::ResourcePath::Icons),
                     "96DPI/djvIconFile.png"));
                 auto system = context->getSystemT<ThumbnailSystem>();
                 auto infoFuture = system->getInfo(fileInfo);

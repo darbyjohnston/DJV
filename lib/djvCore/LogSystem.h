@@ -36,12 +36,6 @@ namespace djv
 {
     namespace Core
     {
-        namespace FileSystem
-        {
-            class Path;
-
-        } // namespace FileSystem
-
         //! This class provides logging functionality.
         //!
         //! Logging output is written to the given file, and can also be written to
@@ -50,14 +44,14 @@ namespace djv
         class LogSystem : public ISystemBase
         {
             DJV_NON_COPYABLE(LogSystem);
-            void _init(const FileSystem::Path &, const std::shared_ptr<Context>&);
+            void _init(const std::shared_ptr<Context>&);
             LogSystem();
 
         public:
             virtual ~LogSystem();
             
             //! Create a new logging system.
-            static std::shared_ptr<LogSystem> create(const FileSystem::Path &, const std::shared_ptr<Context>&);
+            static std::shared_ptr<LogSystem> create(const std::shared_ptr<Context>&);
             
             //! Log a message.
             void log(const std::string & prefix, const std::string & message, LogLevel = LogLevel::Information);

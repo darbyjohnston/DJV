@@ -168,7 +168,7 @@ void Application::_init(int argc, char ** argv)
         try
         {
             auto read = io->read(Core::FileSystem::Path(
-                resourceSystem->getPath(Core::FileSystem::ResourcePath::IconsDirectory),
+                resourceSystem->getPath(Core::FileSystem::ResourcePath::Icons),
                 i));
             while (1)
             {

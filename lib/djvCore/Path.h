@@ -49,16 +49,17 @@ namespace djv
             enum class ResourcePath
             {
                 Application,
+                Documents,
                 LogFile,
                 SettingsFile,
-                AudioDirectory,
-                FontsDirectory,
-                IconsDirectory,
-                ImagesDirectory,
-                ModelsDirectory,
-                ShadersDirectory,
-                TextDirectory,
-                ColorDirectory,
+                Audio,
+                Fonts,
+                Icons,
+                Images,
+                Models,
+                Shaders,
+                Text,
+                Color,
 
                 Count,
                 First = Application

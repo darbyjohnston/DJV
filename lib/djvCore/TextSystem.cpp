@@ -36,9 +36,9 @@
 #include <djvCore/LogSystem.h>
 #include <djvCore/OS.h>
 #include <djvCore/PicoJSON.h>
+#include <djvCore/ResourceSystem.h>
 #include <djvCore/Timer.h>
 
-#include <condition_variable>
 #include <future>
 #include <locale>
 #include <set>
@@ -49,17 +49,31 @@ namespace djv
 {
     namespace Core
     {
+        namespace
+        {
+            struct Text
+            {
+                std::string text;
+                std::string id;
+                std::string description;
+            };
+        }
+        
         struct TextSystem::Private
         {
+            std::shared_ptr<ResourceSystem> resourceSystem;
             std::shared_ptr<LogSystem> logSystem;
 
             std::vector<std::string> locales;
             std::string currentLocale;
-            bool currentLocaleChanged = false;
-            std::condition_variable currentLocaleChangedCV;
             std::shared_ptr<ValueSubject<std::string> > currentLocaleSubject;
 
             std::map<std::string, std::map<std::string, std::string> > text;
+            bool textChanged = true;
+            std::shared_ptr<ValueSubject<bool> > textSubject;
+            
+            std::map<std::string, std::vector<Text> > fileText;
+            std::set<std::string> saveFiles;
 
             std::thread thread;
             std::mutex mutex;
@@ -134,26 +148,30 @@ namespace djv
             }
         } // namespace
 
-        void TextSystem::_init(const FileSystem::Path & path, const std::shared_ptr<Context>& context)
+        void TextSystem::_init(const std::shared_ptr<Context>& context)
         {
             ISystemBase::_init("djv::Core::TextSystem", context);
 
+            auto resourceSystem = context->getSystemT<ResourceSystem>();
             auto logSystem = context->getSystemT<LogSystem>();
+            addDependency(resourceSystem);
             addDependency(logSystem);
             addDependency(context->getSystemT<Time::TimerSystem>());
 
             DJV_PRIVATE_PTR();
+            p.resourceSystem = resourceSystem;
             p.logSystem = logSystem;
             p.currentLocaleSubject = ValueSubject<std::string>::create();
+            p.textSubject = ValueSubject<bool>::create();
 
             p.thread = std::thread(
-                [this, path]
+                [this]
             {
                 DJV_PRIVATE_PTR();
                 std::unique_lock<std::mutex> lock(p.mutex);
 
                 p.currentLocale = "en";
-                p.currentLocaleChanged = true;
+                p.textChanged = true;
                 std::string djvLang = OS::getEnv("DJV_LANG");
                 std::stringstream ss;
                 if (djvLang.size())
@@ -184,15 +202,13 @@ namespace djv
                 p.logSystem->log(getSystemName(), ss.str());
 
                 // Find the .text files.
-                FileSystem::DirectoryListOptions options;
-                options.filter = "\\.text$";
-                const auto fileInfos = FileSystem::FileInfo::directoryList(path, options);
+                const auto textFiles = _getTextFiles();
 
                 // Extract the locale names.
                 std::set<std::string> localeSet;
-                for (const auto & fileInfo : fileInfos)
+                for (const auto& textFile : textFiles)
                 {
-                    std::string temp = FileSystem::Path(fileInfo.getPath().getBaseName()).getExtension();
+                    std::string temp = FileSystem::Path(textFile.getPath().getBaseName()).getExtension();
                     if (temp.size() && '.' == temp[0])
                     {
                         temp.erase(temp.begin());
@@ -231,9 +247,9 @@ namespace djv
                 p.logSystem->log(getSystemName(), ss.str());
 
                 // Read the .text files.
-                _readText(path);
+                _readText(textFiles);
             });
-
+            
             p.timer = Time::Timer::create(context);
             p.timer->setRepeating(true);
             p.timer->start(
@@ -242,25 +258,19 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 std::string currentLocale;
+                bool textChanged = false;
                 {
                     std::unique_lock<std::mutex> lock(p.mutex);
-                    if (p.currentLocaleChangedCV.wait_for(
-                        lock,
-                        std::chrono::milliseconds(0),
-                        [this]
-                    {
-                        return _p->currentLocaleChanged;
-                    }))
-                    {
-                        currentLocale = p.currentLocale;
-                        p.currentLocaleChanged = false;
-                    }
+                    currentLocale = p.currentLocale;
+                    textChanged = p.textChanged;
                 }
-                if (!currentLocale.empty())
+                p.currentLocaleSubject->setIfChanged(currentLocale);
+                if (textChanged)
                 {
-                    p.currentLocaleSubject->setAlways(p.currentLocale);
+                    p.textSubject->setAlways(true);
                 }
             });
+
         }
 
         TextSystem::TextSystem() :
@@ -274,12 +284,16 @@ namespace djv
             {
                 p.thread.join();
             }
+            if (p.saveFiles.size())
+            {
+                _writeText();
+            }
         }
 
-        std::shared_ptr<TextSystem> TextSystem::create(const FileSystem::Path & path, const std::shared_ptr<Context>& context)
+        std::shared_ptr<TextSystem> TextSystem::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<TextSystem>(new TextSystem);
-            out->_init(path, context);
+            out->_init(context);
             return out;
         }
 
@@ -309,7 +323,6 @@ namespace djv
             if (value == p.currentLocale)
                 return;
             p.currentLocale = value;
-            p.currentLocaleChanged = true;
         }
         
         const std::string & TextSystem::getText(const std::string & id) const
@@ -327,15 +340,86 @@ namespace djv
             }
             return id;
         }
+                
+        void TextSystem::setText(const std::string& id, const std::string& value)
+        {
+            DJV_PRIVATE_PTR();
+            std::unique_lock<std::mutex> lock(p.mutex);
+            auto i = p.text.find(p.currentLocale);
+            if (i != p.text.end())
+            {
+                auto j = i->second.find(id);
+                if (j != i->second.end())
+                {
+                    j->second = value;
+                    p.textChanged = true;
+                    _setFileText(id, value);
+                }
+            }
+        }
+        
+        std::vector<FileSystem::FileInfo> TextSystem::_getTextFiles() const
+        {
+            DJV_PRIVATE_PTR();
+            std::vector<FileSystem::FileInfo> out;
+            FileSystem::DirectoryListOptions options;
+            options.filter = "\\.text$";
+            const auto textPath = p.resourceSystem->getPath(FileSystem::ResourcePath::Text);
+            out = FileSystem::FileInfo::directoryList(textPath, options);
+            const auto documentsPath = p.resourceSystem->getPath(FileSystem::ResourcePath::Documents);
+            auto overrides = FileSystem::FileInfo::directoryList(documentsPath, options);
+            auto i = overrides.begin();
+            while (i != overrides.end())
+            {
+                auto j = out.begin();
+                for (; j != out.end(); ++j)
+                {
+                    if (i->getFileName(Frame::invalid, false) ==
+                        j->getFileName(Frame::invalid, false))
+                    {
+                        break;
+                    }
+                }
+                if (j != out.end())
+                {
+                    *j = *i;
+                    i = overrides.erase(i);
+                }
+                else
+                {
+                    ++i;
+                }
+            }
+            i = overrides.begin();
+            for (; i != overrides.end(); ++i)
+            {
+                out.push_back(*i);
+            }
+            return out;
+        }
+        
+        void TextSystem::_setFileText(const std::string& id, const std::string& text)
+        {
+            DJV_PRIVATE_PTR();
+            for (auto& i : p.fileText)
+            {
+                for (auto& j : i.second)
+                {
+                    if (id == j.id)
+                    {
+                        j.text = text;
+                        p.saveFiles.insert(i.first);
+                    }
+                }
+            }
+        }
 
-        void TextSystem::_readText(const FileSystem::Path & path)
+        void TextSystem::_readText(const std::vector<FileSystem::FileInfo>& textFiles)
         {
             DJV_PRIVATE_PTR();
             p.text.clear();
             p.logSystem->log(getSystemName(), "Reading text files:");
-            FileSystem::DirectoryListOptions options;
-            options.filter = "\\.text$";
-            for (const auto & i : FileSystem::FileInfo::directoryList(path, options))
+            for (const auto& i : textFiles)
             {
                 p.logSystem->log(getSystemName(), String::indent(1) + i.getPath().get());
                 try
@@ -343,9 +427,9 @@ namespace djv
                     const auto & path = i.getPath();
                     const auto & baseName = path.getBaseName();
                     std::string locale;
-                    for (auto i = baseName.rbegin(); i != baseName.rend() && *i != '.'; ++i)
+                    for (auto j = baseName.rbegin(); j != baseName.rend() && *j != '.'; ++j)
                     {
-                        locale.insert(locale.begin(), *i);
+                        locale.insert(locale.begin(), *j);
                     }
 
                     FileSystem::FileIO fileIO;
@@ -409,6 +493,22 @@ namespace djv
                 catch (const std::exception & e)
                 {
                     p.logSystem->log(getSystemName(), e.what(), LogLevel::Error);
+                }
+            }
+        }
+
+        void TextSystem::_writeText()
+        {
+            DJV_PRIVATE_PTR();
+            const FileSystem::Path documentsPath = p.resourceSystem->getPath(FileSystem::ResourcePath::Documents);
+            for (const auto& i : p.saveFiles)
+            {
+                const auto j = p.fileText.find(i);
+                if (j != p.fileText.end())
+                {
+                    const FileSystem::Path path(documentsPath, i);
+                    FileSystem::FileIO fileIO;
+                    fileIO.open(std::string(path), FileSystem::FileIO::Mode::Read);
                 }
             }
         }

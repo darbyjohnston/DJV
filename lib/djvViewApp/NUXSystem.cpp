@@ -113,7 +113,7 @@ namespace djv
                 {
                     auto io = context->getSystemT<AV::IO::System>();
                     auto resourceSystem = context->getSystemT<Core::ResourceSystem>();
-                    const auto& iconsPath = resourceSystem->getPath(FileSystem::ResourcePath::IconsDirectory);
+                    const auto& iconsPath = resourceSystem->getPath(FileSystem::ResourcePath::Icons);
                     _read.push_back(io->read(FileSystem::Path(iconsPath, "djvLogo512.png")));
                     _read.push_back(io->read(FileSystem::Path(iconsPath, "djvLogo1024.png")));
                     _read.push_back(io->read(FileSystem::Path(iconsPath, "djvLogo2048.png")));
