@@ -83,7 +83,7 @@ namespace djv
                 void _widgetUpdate();
 
                 std::vector<std::string> _items;
-                std::vector<std::string> _itemsFiltered;
+                std::string _filter;
                 std::shared_ptr<UI::ButtonGroup> _buttonGroup;
                 std::shared_ptr<UI::VerticalLayout> _buttonLayout;
                 std::shared_ptr<UI::SearchBox> _searchBox;
@@ -124,6 +124,16 @@ namespace djv
                             {
                                 widget->_callback(value);
                             }
+                        }
+                    });
+
+                _searchBox->setFilterCallback(
+                    [weak](const std::string& value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_filter = value;
+                            widget->_widgetUpdate();
                         }
                     });
             }
@@ -168,6 +178,10 @@ namespace djv
                     {
                         auto button = UI::ListButton::create(context);
                         button->setText(i);
+                        if (!_filter.empty())
+                        {
+                            button->setVisible(String::match(i, _filter));
+                        }
                         _buttonGroup->addButton(button);
                         _buttonLayout->addChild(button);
                     }
