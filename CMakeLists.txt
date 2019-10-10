@@ -80,9 +80,6 @@ set(DJV_BUILD_DOC TRUE CACHE BOOL "Whether to build documentation")
 # Set whether to build examples.
 set(DJV_BUILD_EXAMPLES TRUE CACHE BOOL "Whether to build examples")
 
-# Set whether to build experiments.
-set(DJV_BUILD_EXPERIMENTS TRUE CACHE BOOL "Whether to build experiments")
-
 # Set whether to enable a "tiny" build (djvCore + tests).
 set(DJV_TINY_BUILD FALSE CACHE BOOL "Whether to enable a tiny build")
 if(DJV_TINY_BUILD)
@@ -345,9 +342,6 @@ if(NOT DJV_TINY_BUILD)
     endif()
     if(DJV_BUILD_EXAMPLES)
         add_subdirectory(examples)
-    endif()
-    if(DJV_BUILD_EXPERIMENTS)
-        add_subdirectory(experiments)
     endif()
 endif()
 
