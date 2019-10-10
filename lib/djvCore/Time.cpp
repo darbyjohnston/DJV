@@ -192,7 +192,6 @@ namespace djv
                     break;
                 default:
                     throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
-                    break;
                 }
                 out = timeToTimecode(hour, minute, second, frame);
             }
