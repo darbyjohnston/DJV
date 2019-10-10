@@ -9,6 +9,8 @@ set(header
     ImageConvertTest.h
     ImageDataTest.h
     ImageTest.h
+    OCIOSystemTest.h
+    OCIOTest.h
     PixelTest.h
     Render2DTest.h
     ThumbnailSystemTest.h
@@ -24,6 +26,8 @@ set(source
     ImageConvertTest.cpp
     ImageDataTest.cpp
     ImageTest.cpp
+    OCIOSystemTest.cpp
+    OCIOTest.cpp
     PixelTest.cpp
     Render2DTest.cpp
     ThumbnailSystemTest.cpp

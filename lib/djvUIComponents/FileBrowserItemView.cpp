@@ -118,7 +118,7 @@ namespace djv
                 auto ocioSystem = context->getSystemT<AV::OCIO::System>();
                 auto contextWeak = std::weak_ptr<Context>(context);
                 p.ocioConfigObserver = ValueObserver<AV::OCIO::Config>::create(
-                    ocioSystem->observeConfig(),
+                    ocioSystem->observeCurrentConfig(),
                     [weak, contextWeak](const AV::OCIO::Config& value)
                     {
                         if (auto context = contextWeak.lock())

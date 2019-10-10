@@ -50,9 +50,9 @@ namespace djv
             struct ColorSpace::Private
             {
                 std::vector<AV::OCIO::Config> configs;
-                int currentConfig = 0;
+                int currentIndex = 0;
                 std::shared_ptr<ListObserver<AV::OCIO::Config> > configsObserver;
-                std::shared_ptr<ValueObserver<int> > currentConfigObserver;
+                std::shared_ptr<ValueObserver<int> > currentIndexObserver;
             };
 
             void ColorSpace::_init(const std::shared_ptr<Core::Context>& context)
@@ -110,7 +110,7 @@ namespace djv
                 {
                     ocioSystem->addConfig(i);
                 }
-                ocioSystem->setCurrentConfig(p.currentConfig);
+                ocioSystem->setCurrentIndex(p.currentIndex);
 
                 auto weak = std::weak_ptr<ColorSpace>(std::dynamic_pointer_cast<ColorSpace>(shared_from_this()));
                 p.configsObserver = ListObserver<AV::OCIO::Config>::create(
@@ -122,13 +122,13 @@ namespace djv
                             settings->_p->configs = value;
                         }
                     });
-                p.currentConfigObserver = ValueObserver<int>::create(
-                    ocioSystem->observeCurrentConfig(),
+                p.currentIndexObserver = ValueObserver<int>::create(
+                    ocioSystem->observeCurrentIndex(),
                     [weak](int value)
                     {
                         if (auto settings = weak.lock())
                         {
-                            settings->_p->currentConfig = value;
+                            settings->_p->currentIndex = value;
                         }
                     });
             }
@@ -155,7 +155,7 @@ namespace djv
                     const auto& object = value.get<picojson::object>();
                     std::vector<AV::OCIO::Config> configs;
                     UI::Settings::read("Configs", object, p.configs);
-                    UI::Settings::read("CurrentConfig", object, p.currentConfig);
+                    UI::Settings::read("CurrentIndex", object, p.currentIndex);
                 }
             }
 
@@ -165,7 +165,7 @@ namespace djv
                 picojson::value out(picojson::object_type, true);
                 auto& object = out.get<picojson::object>();
                 UI::Settings::write("Configs", p.configs, object);
-                UI::Settings::write("CurrentConfig", p.currentConfig, object);
+                UI::Settings::write("CurrentIndex", p.currentIndex, object);
                 return out;
             }
 

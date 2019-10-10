@@ -71,11 +71,11 @@ namespace djv
             {
                 std::vector<_OCIO::ConstConfigRcPtr> ocioConfigs;
                 std::vector<Config> configs;
-                Config config;
-                int currentConfig = -1;
+                Config currentConfig;
+                int currentIndex = -1;
                 std::shared_ptr<ListSubject<Config> > configsSubject;
-                std::shared_ptr<ValueSubject<Config> > configSubject;
-                std::shared_ptr<ValueSubject<int> > currentConfigSubject;
+                std::shared_ptr<ValueSubject<Config> > currentConfigSubject;
+                std::shared_ptr<ValueSubject<int> > currentIndexSubject;
                 std::shared_ptr<ListSubject<std::string> > colorSpacesSubject;
                 std::shared_ptr<ListSubject<Display> > displaysSubject;
                 std::shared_ptr<ListSubject<std::string> > viewsSubject;
@@ -89,8 +89,8 @@ namespace djv
                 addDependency(context->getSystemT<CoreSystem>());
 
                 p.configsSubject = ListSubject<AV::OCIO::Config>::create();
-                p.configSubject = ValueSubject<AV::OCIO::Config>::create();
-                p.currentConfigSubject = ValueSubject<int>::create(p.currentConfig);
+                p.currentConfigSubject = ValueSubject<AV::OCIO::Config>::create();
+                p.currentIndexSubject = ValueSubject<int>::create(p.currentIndex);
                 p.colorSpacesSubject = ListSubject<std::string>::create();
                 p.displaysSubject = ListSubject<Display>::create();
                 p.viewsSubject = ListSubject<std::string>::create();
@@ -116,7 +116,7 @@ namespace djv
                         p.ocioConfigs.push_back(ocioConfig);
                         p.configs.push_back(config);
                         p.configsSubject->setIfChanged(p.configs);
-                        setCurrentConfig(0);
+                        setCurrentIndex(0);
                     }
                 }
             }
@@ -186,7 +186,7 @@ namespace djv
                         tmp.fileName = fileName;
                         p.configs.push_back(tmp);
                         p.configsSubject->setIfChanged(p.configs);
-                        setCurrentConfig(out);
+                        setCurrentIndex(out);
                     }
                     catch (const std::exception& e)
                     {
@@ -207,24 +207,31 @@ namespace djv
                     p.configs.erase(p.configs.begin() + value);
                 }
                 p.configsSubject->setIfChanged(p.configs);
+                const size_t size = p.configs.size();
+                if (value >= size)
+                {
+                    value = static_cast<int>(size) - 1;
+                }
                 Config config;
                 if (value >= 0 && value < p.configs.size())
                 {
                     config = p.configs[value];
                 }
-                p.config = config;
-                p.configSubject->setIfChanged(p.config);
+                p.currentConfig = config;
+                p.currentConfigSubject->setIfChanged(p.currentConfig);
+                p.currentIndex = value;
+                p.currentIndexSubject->setIfChanged(value);
                 _configUpdate();
             }
 
-            std::shared_ptr<Core::IValueSubject<Config> > System::observeConfig() const
-            {
-                return _p->configSubject;
-            }
-
-            std::shared_ptr<Core::IValueSubject<int> > System::observeCurrentConfig() const
+            std::shared_ptr<Core::IValueSubject<Config> > System::observeCurrentConfig() const
             {
                 return _p->currentConfigSubject;
+            }
+
+            std::shared_ptr<Core::IValueSubject<int> > System::observeCurrentIndex() const
+            {
+                return _p->currentIndexSubject;
             }
 
             std::shared_ptr<Core::IListSubject<std::string> > System::observeColorSpaces() const
@@ -242,25 +249,25 @@ namespace djv
                 return _p->viewsSubject;
             }
 
-            void System::setConfig(const Config& value)
+            void System::setCurrentConfig(const Config& value)
             {
                 DJV_PRIVATE_PTR();
-                if (value == p.config)
+                if (value == p.currentConfig)
                     return;
-                const int index = p.currentConfig;
+                const int index = p.currentIndex;
                 Config config;
                 if (index >= 0 && index < p.configs.size())
                 {
                     p.configs[index] = value;
                     config = value;
                 }
-                p.config = config;
+                p.currentConfig = config;
                 _configUpdate();
                 p.configsSubject->setIfChanged(p.configs);
-                p.configSubject->setIfChanged(p.config);
+                p.currentConfigSubject->setIfChanged(p.currentConfig);
             }
 
-            void System::setCurrentConfig(int value)
+            void System::setCurrentIndex(int value)
             {
                 DJV_PRIVATE_PTR();
                 int tmp = -1;
@@ -268,18 +275,18 @@ namespace djv
                 {
                     tmp = Math::clamp(value, 0, static_cast<int>(p.configs.size()) - 1);
                 }
-                if (tmp == p.currentConfig)
+                if (tmp == p.currentIndex)
                     return;
-                p.currentConfig = tmp;
+                p.currentIndex = tmp;
                 Config config;
                 if (tmp != -1)
                 {
                     config = p.configs[tmp];
                 }
-                p.config = config;
+                p.currentConfig = config;
                 _configUpdate();
-                p.configSubject->setIfChanged(p.config);
                 p.currentConfigSubject->setIfChanged(p.currentConfig);
+                p.currentIndexSubject->setIfChanged(p.currentIndex);
             }
 
             std::string System::getColorSpace(const std::string& display, const std::string& view) const
@@ -331,7 +338,7 @@ namespace djv
                 std::string defaultView;
 
                 _OCIO::ConstConfigRcPtr ocioConfig;
-                int index = p.currentConfig;
+                int index = p.currentIndex;
                 if (index >= 0 && index < p.ocioConfigs.size())
                 {
                     ocioConfig = p.ocioConfigs[index];
@@ -394,16 +401,16 @@ namespace djv
                     size_t i = 0;
                     for (; i < views.size(); ++i)
                     {
-                        if (p.config.view == views[i])
+                        if (p.currentConfig.view == views[i])
                         {
                             break;
                         }
                     }
                     if (i == views.size())
                     {
-                        p.config.view = views.size() > 0 ? views[0] : std::string();
+                        p.currentConfig.view = views.size() > 0 ? views[0] : std::string();
                     }
-                    p.configSubject->setIfChanged(p.config);
+                    p.currentConfigSubject->setIfChanged(p.currentConfig);
                 }
             }
 

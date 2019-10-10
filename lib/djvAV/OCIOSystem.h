@@ -60,8 +60,7 @@ namespace djv
                 bool operator == (const Config&) const;
             };
 
-            //! This class provides information about the available color spaces,
-            //! displays, and views.
+            //! This class manages color space configurations.
             class System : public Core::ISystem
             {
                 DJV_NON_COPYABLE(System);
@@ -74,20 +73,38 @@ namespace djv
                 ~System() override;
                 static std::shared_ptr<System> create(const std::shared_ptr<Core::Context>&);
 
+                //! \name Configurations
+                ///@{
+
                 std::shared_ptr<Core::IListSubject<Config> > observeConfigs() const;
+
                 int addConfig(const Config&);
                 void removeConfig(int);
 
-                std::shared_ptr<Core::IValueSubject<Config> > observeConfig() const;
-                std::shared_ptr<Core::IValueSubject<int> > observeCurrentConfig() const;
+                ///@}
+
+                //! \name Current Configuration
+                ///@{
+
+                std::shared_ptr<Core::IValueSubject<Config> > observeCurrentConfig() const;
+                std::shared_ptr<Core::IValueSubject<int> > observeCurrentIndex() const;
                 std::shared_ptr<Core::IListSubject<std::string> > observeColorSpaces() const;
                 std::shared_ptr<Core::IListSubject<Display> > observeDisplays() const;
                 std::shared_ptr<Core::IListSubject<std::string> > observeViews() const;
-                void setConfig(const Config&);
-                void setCurrentConfig(int);
+            
+                void setCurrentConfig(const Config&);
+                void setCurrentIndex(int);
 
+                ///@}
+
+                //! \name Utilities
+                ///@{
+
+                //! Get the color space for the given display and view.
                 std::string getColorSpace(const std::string& display, const std::string& view) const;
 
+                ///@}
+                
             private:
                 void _configUpdate();
 

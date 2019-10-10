@@ -227,8 +227,8 @@ namespace djv
         struct ColorSpaceWidget::Private
         {
             std::vector<AV::OCIO::Config> configs;
-            AV::OCIO::Config config;
-            int currentConfig = -1;
+            AV::OCIO::Config currentConfig;
+            int currentIndex = -1;
             bool editConfig = false;
             std::vector<std::string> colorSpaces;
             bool editImage = false;
@@ -375,7 +375,7 @@ namespace djv
                             if (value >= 0 && value < widget->_p->configs.size())
                             {
                                 auto ocioSystem = context->getSystemT<AV::OCIO::System>();
-                                ocioSystem->setCurrentConfig(value);
+                                ocioSystem->setCurrentIndex(value);
                             }
                         }
                     }
@@ -465,10 +465,10 @@ namespace djv
                             {
                                 if (value >= 0 && value < widget->_p->displays.size())
                                 {
-                                    auto config = widget->_p->config;
+                                    auto config = widget->_p->currentConfig;
                                     config.display = widget->_p->displays[value].name;
                                     auto ocioSystem = context->getSystemT<AV::OCIO::System>();
-                                    ocioSystem->setConfig(config);
+                                    ocioSystem->setCurrentConfig(config);
                                 }
                             }
                         }
@@ -486,10 +486,10 @@ namespace djv
                             {
                                 if (value >= 0 && value < widget->_p->views.size())
                                 {
-                                    auto config = widget->_p->config;
+                                    auto config = widget->_p->currentConfig;
                                     config.view = widget->_p->views[value];
                                     auto ocioSystem = context->getSystemT<AV::OCIO::System>();
-                                    ocioSystem->setConfig(config);
+                                    ocioSystem->setCurrentConfig(config);
                                 }
                             }
                         }
@@ -517,13 +517,13 @@ namespace djv
                 });
 
             p.configObserver = ValueObserver<AV::OCIO::Config>::create(
-                ocioSystem->observeConfig(),
+                ocioSystem->observeCurrentConfig(),
                 [weak](const AV::OCIO::Config& value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        const bool imageListUpdate = hasImageListUpdate(value, widget->_p->config);
-                        widget->_p->config = value;
+                        const bool imageListUpdate = hasImageListUpdate(value, widget->_p->currentConfig);
+                        widget->_p->currentConfig = value;
                         if (imageListUpdate)
                         {
                             widget->_imageListUpdate();
@@ -536,14 +536,14 @@ namespace djv
                 });
 
             p.currentConfigObserver = ValueObserver<int>::create(
-                ocioSystem->observeCurrentConfig(),
+                ocioSystem->observeCurrentIndex(),
                 [weak, contextWeak](int value)
                 {
                     if (auto context = contextWeak.lock())
                     {
                         if (auto widget = weak.lock())
                         {
-                            widget->_p->currentConfig = value;
+                            widget->_p->currentIndex = value;
                             widget->_widgetUpdate();
                         }
                     }
@@ -687,14 +687,14 @@ namespace djv
 
                     ++j;
                 }
-                p.configButtonGroup->setChecked(p.currentConfig);
+                p.configButtonGroup->setChecked(p.currentIndex);
                 p.editConfigButton->setEnabled(p.configs.size() > 0);
 
                 p.editImageButtonGroup->clearButtons();
                 p.imageItemLayout->clearChildren();
                 std::set<std::string> usedPluginNames;
                 auto weak = std::weak_ptr<ColorSpaceWidget>(std::dynamic_pointer_cast<ColorSpaceWidget>(shared_from_this()));
-                for (const auto& i : p.config.colorSpaces)
+                for (const auto& i : p.currentConfig.colorSpaces)
                 {
                     usedPluginNames.insert(i.first);
 
@@ -759,10 +759,10 @@ namespace djv
                                 {
                                     if (value >= 0 && value < widget->_p->colorSpaces.size())
                                     {
-                                        AV::OCIO::Config config = widget->_p->config;
+                                        AV::OCIO::Config config = widget->_p->currentConfig;
                                         config.colorSpaces[pluginName] = widget->_p->colorSpaces[value];
                                         auto ocioSystem = context->getSystemT<AV::OCIO::System>();
-                                        ocioSystem->setConfig(config);
+                                        ocioSystem->setCurrentConfig(config);
                                     }
                                 }
                             }
@@ -774,14 +774,14 @@ namespace djv
                             {
                                 if (auto widget = weak.lock())
                                 {
-                                    AV::OCIO::Config config = widget->_p->config;
+                                    AV::OCIO::Config config = widget->_p->currentConfig;
                                     auto i = config.colorSpaces.find(pluginName);
                                     if (i != config.colorSpaces.end())
                                     {
                                         config.colorSpaces.erase(i);
                                     }
                                     auto ocioSystem = context->getSystemT<AV::OCIO::System>();
-                                    ocioSystem->setConfig(config);
+                                    ocioSystem->setCurrentConfig(config);
                                 }
                             }
                         });
@@ -818,9 +818,9 @@ namespace djv
                                     if (auto widget = weak.lock())
                                     {
                                         widget->_p->addImagePopupWidget->close();
-                                        widget->_p->config.colorSpaces[pluginName] = std::string();
+                                        widget->_p->currentConfig.colorSpaces[pluginName] = std::string();
                                         auto ocioSystem = context->getSystemT<AV::OCIO::System>();
-                                        ocioSystem->setConfig(widget->_p->config);
+                                        ocioSystem->setCurrentConfig(widget->_p->currentConfig);
                                     }
                                 }
                             });
@@ -833,7 +833,7 @@ namespace djv
                     usedPluginNames.size() < pluginNames.size());
                 p.editImageButton->setEnabled(
                     p.configs.size() > 0 &&
-                    p.config.colorSpaces.size() > 0);
+                    p.currentConfig.colorSpaces.size() > 0);
 
                 std::vector<std::string> displays;
                 for (const auto& i : p.displays)
@@ -846,9 +846,9 @@ namespace djv
                     displays.push_back(s);
                 }
                 int index = -1;
-                if (p.currentConfig >= 0 && p.currentConfig < p.configs.size())
+                if (p.currentIndex >= 0 && p.currentIndex < p.configs.size())
                 {
-                    const auto& config = p.configs[p.currentConfig];
+                    const auto& config = p.configs[p.currentIndex];
                     int j = 0;
                     for (const auto& i : p.displays)
                     {
@@ -879,7 +879,7 @@ namespace djv
                 j = 0;
                 for (const auto& i : p.views)
                 {
-                    if (p.config.view == i)
+                    if (p.currentConfig.view == i)
                     {
                         index = j;
                         break;
@@ -924,7 +924,7 @@ namespace djv
                 }
 
                 size_t j = 0;
-                for (const auto& i : p.config.colorSpaces)
+                for (const auto& i : p.currentConfig.colorSpaces)
                 {
                     int index = -1;
                     int k = 0;

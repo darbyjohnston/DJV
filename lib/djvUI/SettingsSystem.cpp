@@ -56,6 +56,12 @@ namespace djv
             void System::_init(const std::shared_ptr<Core::Context>& context)
             {
                 ISystem::_init("djv::UI::Settings::System", context);
+                
+                //! \todo Is there a better way to disable settings for tests?
+                if ("djvTest" == context->getName())
+                {
+                    _settingsIO = false;
+                }
 
                 addDependency(context->getSystemT<AV::AVSystem>());
 
@@ -97,6 +103,9 @@ namespace djv
 
             void System::_loadSettings(const std::shared_ptr<ISettings> & settings)
             {
+                if (!_settingsIO)
+                    return;
+
                 std::stringstream s;
                 s << "Loading settings: " << settings->getName();
                 _log(s.str());
@@ -121,6 +130,9 @@ namespace djv
 
             void System::_saveSettings()
             {
+                if (!_settingsIO)
+                    return;
+
                 picojson::value object(picojson::object_type, true);
                 object.get<picojson::object>()["SettingsVersion"] = toJSON(settingsVersion);
 

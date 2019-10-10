@@ -60,7 +60,7 @@ namespace djv
                 //! Get the list of settings.
                 const std::vector<std::shared_ptr<ISettings> > & getSettings() const;
 
-                //! Get a setting of the given type.
+                //! Get a settings of the given type.
                 template<typename T>
                 std::shared_ptr<T> getSettingsT() const;
 
@@ -77,6 +77,7 @@ namespace djv
                 std::map<std::string, picojson::value> _json;
                 std::vector<std::shared_ptr<ISettings> > _settings;
                 Core::FileSystem::Path _settingsPath;
+                bool _settingsIO = true;
 
                 friend class ISettings;
             };

@@ -67,7 +67,7 @@ namespace djv
             auto weak = std::weak_ptr<ImageWidget>(std::dynamic_pointer_cast<ImageWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<Context>(context);
             p.ocioConfigObserver = ValueObserver<AV::OCIO::Config>::create(
-                ocioSystem->observeConfig(),
+                ocioSystem->observeCurrentConfig(),
                 [weak, contextWeak](const AV::OCIO::Config& value)
                 {
                     if (auto context = contextWeak.lock())
