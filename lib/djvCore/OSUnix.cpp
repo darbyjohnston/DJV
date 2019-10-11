@@ -170,6 +170,10 @@ namespace djv
                 return out;
             }
 
+            void openURL(const std::string& value)
+            {
+            }
+
         } // namespace OS
     } // namespace Core
 } // namespace djv

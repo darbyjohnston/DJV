@@ -44,14 +44,24 @@ namespace djv
         //! This namespace provides operating system functionality.
         namespace OS
         {
+            //! \name Information
+            ///@{
+
             //! Get operating system information.
             std::string getInformation();
 
             //! Get the total amount of RAM available.
             size_t getRAMSize();
 
+            //! Get the current user.
+            //! Throws:
+            //! - std::exception
+            std::string getUserName();
+
             //! Get the width of the terminal.
             int getTerminalWidth();
+
+            ///@}
 
             //! \name Environment Variables
             ///@{
@@ -91,11 +101,6 @@ namespace djv
             bool setEnv(const std::string & name, const std::string &);
             
             ///@}
-
-            //! Get the current user.
-            //! Throws:
-            //! - std::exception
-            std::string getUserName();
             
             //! \name Directory Shortcuts
             ///@{
@@ -114,6 +119,13 @@ namespace djv
             DJV_ENUM_HELPERS(DirectoryShortcut);
 
             FileSystem::Path getPath(DirectoryShortcut);
+
+            ///@}
+            
+            //! \name Utility
+            ///@{
+
+            void openURL(const std::string&);
 
             ///@}
             

@@ -40,6 +40,7 @@
 #endif // NOMINMAX
 #include <windows.h>
 #include <Shlobj.h>
+#include <shellapi.h>
 #include <stdlib.h>
 #include <VersionHelpers.h>
 
@@ -120,6 +121,15 @@ namespace djv
                 return statex.ullTotalPhys;
             }
 
+            std::string getUserName()
+            {
+                WCHAR tmp[String::cStringLength] = { 0 };
+                DWORD size = String::cStringLength;
+                GetUserNameW(tmp, &size);
+                std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
+                return std::string(utf16.to_bytes(tmp));
+            }
+
             int getTerminalWidth()
             {
                 int out = 80;
@@ -160,15 +170,6 @@ namespace djv
                 std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
                 return _wputenv_s(utf16.from_bytes(name).c_str(), utf16.from_bytes(value).c_str()) == 0;
             }
-        
-            std::string getUserName()
-            {
-                WCHAR tmp[String::cStringLength] = { 0 };
-                DWORD size = String::cStringLength;
-                GetUserNameW(tmp, &size);
-                std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
-                return std::string(utf16.to_bytes(tmp));
-            }
 
             FileSystem::Path getPath(DirectoryShortcut value)
             {
@@ -192,6 +193,11 @@ namespace djv
                 }
                 CoTaskMemFree(path);
                 return out;
+            }
+
+            void openURL(const std::string& value)
+            {
+                ShellExecute(0, 0, value.c_str(), 0, 0, SW_SHOW);
             }
 
         } // namespace OS
