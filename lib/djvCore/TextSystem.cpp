@@ -348,11 +348,20 @@ namespace djv
             auto list = FileSystem::FileInfo::directoryList(documentsPath, options);
             out.insert(out.end(), list.begin(), list.end());
 
-            const auto envPaths = String::split(OS::getEnv("DJV_TEXT"), OS::getCurrentListSeparator());
-            for (const auto& path : envPaths)
+            try
             {
-                auto list = FileSystem::FileInfo::directoryList(FileSystem::Path(path), options);
-                out.insert(out.end(), list.begin(), list.end());
+                const auto envPaths = OS::getStringList("DJV_TEXT");
+                for (const auto& path : envPaths)
+                {
+                    auto list = FileSystem::FileInfo::directoryList(FileSystem::Path(path), options);
+                    out.insert(out.end(), list.begin(), list.end());
+                }
+            }
+            catch (const std::exception& e)
+            {
+                std::stringstream ss;
+                ss << DJV_TEXT("Error reading the environment varible") << " 'DJV_TEXT'. " << e.what();
+                p.logSystem->log(getSystemName(), ss.str(), LogLevel::Error);
             }
 
             return out;

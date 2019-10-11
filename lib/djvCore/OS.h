@@ -78,7 +78,13 @@ namespace djv
             //!
             //! Throws:
             //! - std::exception
-            int getIntEnv(const std::string & name);
+            int getIntEnv(const std::string& name);
+
+            //! Get an environment variable and convert it to a list of strings.
+            //!
+            //! Throws:
+            //! - std::exception
+            std::vector<std::string> getStringList(const std::string& name);
 
             //! Throws:
             //! - std::exception

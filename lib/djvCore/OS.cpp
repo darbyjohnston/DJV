@@ -29,6 +29,8 @@
 
 #include <djvCore/OS.h>
 
+#include <djvCore/String.h>
+
 #include <algorithm>
 
 //#pragma optimize("", off)
@@ -51,6 +53,11 @@ namespace djv
 #else
                 return getListSeparator(PathSeparator::Unix);
 #endif // DJV_PLATFORM_WINDOWS
+            }
+
+            std::vector<std::string> getStringList(const std::string& name)
+            {
+                return String::split(OS::getEnv(name), OS::getCurrentListSeparator());
             }
 
             int getIntEnv(const std::string & name)
