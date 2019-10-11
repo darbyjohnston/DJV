@@ -60,9 +60,9 @@ namespace djv
             return out;
         }
 
-        void AnnotateWidget::_localeEvent(Event::Locale & event)
+        void AnnotateWidget::_textUpdateEvent(Event::TextUpdate & event)
         {
-            MDIWidget::_localeEvent(event);
+            MDIWidget::_textUpdateEvent(event);
             setTitle(_getText(DJV_TEXT("Annotate")));
         }
 

@@ -55,7 +55,7 @@ namespace djv
             void setActiveCallback(const std::function<void(const std::shared_ptr<MediaWidget>&)>&);
 
         protected:
-            void _localeEvent(Core::Event::Locale&) override;
+            void _textUpdateEvent(Core::Event::TextUpdate&) override;
 
         private:
             DJV_PRIVATE();

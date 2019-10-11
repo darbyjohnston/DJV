@@ -72,7 +72,8 @@ namespace djv
             auto glfwSystem = GLFWSystem::create(shared_from_this());
             auto uiSystem = UI::UISystem::create(shared_from_this());
             auto avGLFWSystem = getSystemT<AV::GLFW::System>();
-            auto eventSystem = EventSystem::create(avGLFWSystem->getGLFWWindow(), shared_from_this());
+            auto glfwWindow = avGLFWSystem->getGLFWWindow();
+            auto eventSystem = EventSystem::create(glfwWindow, shared_from_this());
         }
         
         Application::Application() :

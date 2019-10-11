@@ -66,7 +66,8 @@ namespace djv
             void _zoomAction(float);
 
             void _actionsUpdate();
-            void _textUpdate();
+
+            void _textUpdate() override;
 
             DJV_PRIVATE();
         };

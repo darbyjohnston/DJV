@@ -975,7 +975,7 @@ namespace djv
             p.imageView->setImageFrame(imageFrame);
         }
 
-        void MediaWidget::_localeEvent(Event::Locale&)
+        void MediaWidget::_textUpdateEvent(Event::TextUpdate&)
         {
             DJV_PRIVATE_PTR();
             p.actions["Forward"]->setTooltip(_getText(DJV_TEXT("Forward tooltip")));

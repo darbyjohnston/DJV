@@ -40,7 +40,7 @@ namespace djv
         DJV_TEXT("ChildAdded"),
         DJV_TEXT("ChildRemoved"),
         DJV_TEXT("ChildOrder"),
-        DJV_TEXT("Locale"),
+        DJV_TEXT("TextUpdate"),
         DJV_TEXT("Update"),
         DJV_TEXT("Style"),
         DJV_TEXT("PreLayout"),
@@ -59,6 +59,6 @@ namespace djv
         DJV_TEXT("KeyRelease"),
         DJV_TEXT("TextFocus"),
         DJV_TEXT("TextFocusLost"),
-        DJV_TEXT("Text"));
+        DJV_TEXT("TextInput"));
 
 } // namespace djv

@@ -54,7 +54,6 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::weak_ptr<ColorPickerWidget> widget;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
-            std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
         void ColorPickerSystem::_init(const std::shared_ptr<Core::Context>& context)
@@ -70,17 +69,6 @@ namespace djv
             p.actions["ColorPicker"]->setIcon("djvIconColorPicker");
             p.actions["ColorPicker"]->setShortcut(GLFW_KEY_2);
             p.actions["ColorPicker"]->setEnabled(false);
-
-            auto weak = std::weak_ptr<ColorPickerSystem>(std::dynamic_pointer_cast<ColorPickerSystem>(shared_from_this()));
-            p.localeObserver = ValueObserver<std::string>::create(
-                context->getSystemT<TextSystem>()->observeCurrentLocale(),
-                [weak](const std::string & value)
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_textUpdate();
-                }
-            });
         }
 
         ColorPickerSystem::ColorPickerSystem() :
@@ -129,13 +117,6 @@ namespace djv
             return _p->actions;
         }
 
-        void ColorPickerSystem::_textUpdate()
-        {
-            DJV_PRIVATE_PTR();
-            p.actions["ColorPicker"]->setText(_getText(DJV_TEXT("Color Picker")));
-            p.actions["ColorPicker"]->setTooltip(_getText(DJV_TEXT("Color picker tooltip")));
-        }
-
         void ColorPickerSystem::_closeWidget(const std::string& value)
         {
             DJV_PRIVATE_PTR();
@@ -146,6 +127,16 @@ namespace djv
             }
             p.widget.reset();
             IToolSystem::_closeWidget(value);
+        }
+
+        void ColorPickerSystem::_textUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.actions.size())
+            {
+                p.actions["ColorPicker"]->setText(_getText(DJV_TEXT("Color Picker")));
+                p.actions["ColorPicker"]->setTooltip(_getText(DJV_TEXT("Color picker tooltip")));
+            }
         }
 
     } // namespace ViewApp

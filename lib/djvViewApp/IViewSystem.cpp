@@ -49,12 +49,29 @@ namespace djv
             std::shared_ptr<UI::MDI::Canvas> canvas;
             std::map<std::string, std::shared_ptr<MDIWidget> > widgets;
             std::map<std::string, BBox2f> widgetGeom;
+            std::shared_ptr<ValueObserver<bool> > textChangedObserver;
         };
 
         void IViewSystem::_init(const std::string & name, const std::shared_ptr<Core::Context>& context)
         {
             ISystem::_init(name, context);
+            DJV_PRIVATE_PTR();
+
             addDependency(context->getSystemT<UI::UIComponentsSystem>());
+
+            auto weak = std::weak_ptr<IViewSystem>(std::dynamic_pointer_cast<IViewSystem>(shared_from_this()));
+            p.textChangedObserver = ValueObserver<bool>::create(
+                context->getSystemT<TextSystem>()->observeTextChanged(),
+                [weak](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            system->_textUpdate();
+                        }
+                    }
+                });
         }
             
         IViewSystem::IViewSystem() :
@@ -134,6 +151,9 @@ namespace djv
         {
             _p->widgetGeom = value;
         }
+
+        void IViewSystem::_textUpdate()
+        {}
 
     } // namespace ViewApp
 } // namespace djv

@@ -160,9 +160,9 @@ namespace djv
             return "B";
         }
 
-        void FullscreenMonitorSettingsWidget::_localeEvent(Event::Locale& event)
+        void FullscreenMonitorSettingsWidget::_textUpdateEvent(Event::TextUpdate& event)
         {
-            ISettingsWidget::_localeEvent(event);
+            ISettingsWidget::_textUpdateEvent(event);
             DJV_PRIVATE_PTR();
             p.formLayout->setText(p.monitorComboBox, _getText(DJV_TEXT("Monitor")) + ":");
         }
@@ -432,9 +432,9 @@ namespace djv
             _imageUpdate();
         }
 
-        void BackgroundImageSettingsWidget::_localeEvent(Event::Locale& event)
+        void BackgroundImageSettingsWidget::_textUpdateEvent(Event::TextUpdate& event)
         {
-            ISettingsWidget::_localeEvent(event);
+            ISettingsWidget::_textUpdateEvent(event);
             DJV_PRIVATE_PTR();
             p.openButton->setTooltip(_getText(DJV_TEXT("Open the file browser")));
             p.closeButton->setTooltip(_getText(DJV_TEXT("Clear the background image")));

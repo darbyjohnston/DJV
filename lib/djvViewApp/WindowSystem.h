@@ -82,10 +82,10 @@ namespace djv
         protected:
             void _pointerUpdate(const Core::Event::PointerInfo&);
             void _actionsUpdate();
-            void _textUpdate();
+
+            void _textUpdate() override;
 
         private:
-            void _initWidget();
             DJV_PRIVATE();
         };
 

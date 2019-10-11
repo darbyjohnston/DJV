@@ -127,9 +127,9 @@ namespace djv
             return "G";
         }
 
-        void PlaybackSettingsWidget::_localeEvent(Event::Locale& event)
+        void PlaybackSettingsWidget::_textUpdateEvent(Event::TextUpdate& event)
         {
-            ISettingsWidget::_localeEvent(event);
+            ISettingsWidget::_textUpdateEvent(event);
             DJV_PRIVATE_PTR();
             p.startPlaybackButton->setText(_getText(DJV_TEXT("Automatically start playback")));
         }
@@ -249,9 +249,9 @@ namespace djv
             return "G";
         }
 
-        void PlaybackSpeedSettingsWidget::_localeEvent(Event::Locale& event)
+        void PlaybackSpeedSettingsWidget::_textUpdateEvent(Event::TextUpdate& event)
         {
-            ISettingsWidget::_localeEvent(event);
+            ISettingsWidget::_textUpdateEvent(event);
             DJV_PRIVATE_PTR();
             p.playEveryFrameButton->setText(_getText(DJV_TEXT("Playback every frame")));
             p.formLayout->setText(p.defaultSpeedComboBox, _getText(DJV_TEXT("Default speed")));
@@ -350,9 +350,9 @@ namespace djv
             return "G";
         }
 
-        void TimelineSettingsWidget::_localeEvent(Event::Locale& event)
+        void TimelineSettingsWidget::_textUpdateEvent(Event::TextUpdate& event)
         {
-            ISettingsWidget::_localeEvent(event);
+            ISettingsWidget::_textUpdateEvent(event);
             DJV_PRIVATE_PTR();
             p.pipButton->setText(_getText(DJV_TEXT("Show PIP (picture in picture)")));
         }

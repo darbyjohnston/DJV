@@ -68,7 +68,7 @@ namespace djv
                 void setCallback(const std::function<void(const Core::FileSystem::FileInfo&)>&);
 
             protected:
-                void _localeEvent(Core::Event::Locale&) override;
+                void _textUpdateEvent(Core::Event::TextUpdate&) override;
 
             private:
                 DJV_PRIVATE();

@@ -932,7 +932,7 @@ namespace djv
                 _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));
             }
 
-            void FileBrowser::_localeEvent(Event::Locale &)
+            void FileBrowser::_textUpdateEvent(Event::TextUpdate &)
             {
                 DJV_PRIVATE_PTR();
                 p.actions["Back"]->setText(_getText(DJV_TEXT("Back")));

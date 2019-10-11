@@ -53,8 +53,9 @@ namespace djv
             MenuData getMenu() const override;
 
         protected:
-            void _textUpdate();
             void _actionsUpdate();
+
+            void _textUpdate() override;
 
         private:
             DJV_PRIVATE();

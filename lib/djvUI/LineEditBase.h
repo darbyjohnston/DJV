@@ -94,7 +94,7 @@ namespace djv
             void _keyPressEvent(Core::Event::KeyPress&) override;
             void _textFocusEvent(Core::Event::TextFocus &) override;
             void _textFocusLostEvent(Core::Event::TextFocusLost &) override;
-            void _textEvent(Core::Event::Text &) override;
+            void _textInputEvent(Core::Event::TextInput&) override;
 
         private:
             std::string _fromUtf32(const std::basic_string<djv_char_t>&);

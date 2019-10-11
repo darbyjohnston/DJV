@@ -99,9 +99,9 @@ namespace djv
             return out;
         }
 
-        void MagnifyWidget::_localeEvent(Event::Locale & event)
+        void MagnifyWidget::_textUpdateEvent(Event::TextUpdate & event)
         {
-            MDIWidget::_localeEvent(event);
+            MDIWidget::_textUpdateEvent(event);
 
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Magnify")));

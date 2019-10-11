@@ -86,7 +86,6 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > cacheEnabledObserver;
             std::shared_ptr<ValueObserver<int> > cacheMaxGBObserver;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
-            std::shared_ptr<ValueObserver<std::string> > localeObserver;
             std::shared_ptr<Time::Timer> cacheTimer;
         };
 
@@ -434,16 +433,6 @@ namespace djv
                     }
                 });
 
-            p.localeObserver = ValueObserver<std::string>::create(
-                context->getSystemT<TextSystem>()->observeCurrentLocale(),
-                [weak](const std::string & value)
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_textUpdate();
-                }
-            });
-
             p.cacheTimer = Time::Timer::create(context);
             p.cacheTimer->setRepeating(true);
             p.cacheTimer->start(
@@ -664,41 +653,6 @@ namespace djv
             }
         }
 
-        void FileSystem::_textUpdate()
-        {
-            DJV_PRIVATE_PTR();
-            p.actions["Open"]->setText(_getText(DJV_TEXT("Open")));
-            p.actions["Open"]->setTooltip(_getText(DJV_TEXT("Open tooltip")));
-            p.actions["Recent"]->setText(_getText(DJV_TEXT("Recent")));
-            p.actions["Recent"]->setTooltip(_getText(DJV_TEXT("Recent tooltip")));
-            p.actions["Reload"]->setText(_getText(DJV_TEXT("Reload")));
-            p.actions["Reload"]->setTooltip(_getText(DJV_TEXT("Reload tooltip")));
-            p.actions["Close"]->setText(_getText(DJV_TEXT("Close")));
-            p.actions["Close"]->setTooltip(_getText(DJV_TEXT("Close tooltip")));
-            p.actions["CloseAll"]->setText(_getText(DJV_TEXT("Close All")));
-            p.actions["CloseAll"]->setTooltip(_getText(DJV_TEXT("Close all tooltip")));
-            p.actions["Export"]->setText(_getText(DJV_TEXT("Export")));
-            p.actions["Export"]->setTooltip(_getText(DJV_TEXT("Export tooltip")));
-            p.actions["Next"]->setText(_getText(DJV_TEXT("Next")));
-            p.actions["Next"]->setTooltip(_getText(DJV_TEXT("Next tooltip")));
-            p.actions["Prev"]->setText(_getText(DJV_TEXT("Previous")));
-            p.actions["Prev"]->setTooltip(_getText(DJV_TEXT("Prev tooltip")));
-            p.actions["Layers"]->setText(_getText(DJV_TEXT("Layers")));
-            p.actions["Layers"]->setTooltip(_getText(DJV_TEXT("Layers tooltip")));
-            p.actions["NextLayer"]->setText(_getText(DJV_TEXT("Next layer")));
-            p.actions["NextLayer"]->setTooltip(_getText(DJV_TEXT("Next layer tooltip")));
-            p.actions["PrevLayer"]->setText(_getText(DJV_TEXT("Previous Layer")));
-            p.actions["PrevLayer"]->setTooltip(_getText(DJV_TEXT("Previous layer tooltip")));
-            p.actions["8BitConversion"]->setText(_getText(DJV_TEXT("8-Bit Conversion")));
-            p.actions["8BitConversion"]->setTooltip(_getText(DJV_TEXT("8-bit conversion tooltip")));
-            p.actions["Cache"]->setText(_getText(DJV_TEXT("Memory Cache")));
-            p.actions["Cache"]->setTooltip(_getText(DJV_TEXT("Memory cache tooltip")));
-            p.actions["Exit"]->setText(_getText(DJV_TEXT("Exit")));
-            p.actions["Exit"]->setTooltip(_getText(DJV_TEXT("Exit tooltip")));
-
-            p.menu->setText(_getText(DJV_TEXT("File")));
-        }
-
         void FileSystem::_mediaInit(const std::shared_ptr<Media>& value)
         {
             DJV_PRIVATE_PTR();
@@ -811,6 +765,44 @@ namespace djv
                 i->second->setChecked(false);
             }
             IViewSystem::_closeWidget(value);
+        }
+
+        void FileSystem::_textUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.actions.size())
+            {
+                p.actions["Open"]->setText(_getText(DJV_TEXT("Open")));
+                p.actions["Open"]->setTooltip(_getText(DJV_TEXT("Open tooltip")));
+                p.actions["Recent"]->setText(_getText(DJV_TEXT("Recent")));
+                p.actions["Recent"]->setTooltip(_getText(DJV_TEXT("Recent tooltip")));
+                p.actions["Reload"]->setText(_getText(DJV_TEXT("Reload")));
+                p.actions["Reload"]->setTooltip(_getText(DJV_TEXT("Reload tooltip")));
+                p.actions["Close"]->setText(_getText(DJV_TEXT("Close")));
+                p.actions["Close"]->setTooltip(_getText(DJV_TEXT("Close tooltip")));
+                p.actions["CloseAll"]->setText(_getText(DJV_TEXT("Close All")));
+                p.actions["CloseAll"]->setTooltip(_getText(DJV_TEXT("Close all tooltip")));
+                p.actions["Export"]->setText(_getText(DJV_TEXT("Export")));
+                p.actions["Export"]->setTooltip(_getText(DJV_TEXT("Export tooltip")));
+                p.actions["Next"]->setText(_getText(DJV_TEXT("Next")));
+                p.actions["Next"]->setTooltip(_getText(DJV_TEXT("Next tooltip")));
+                p.actions["Prev"]->setText(_getText(DJV_TEXT("Previous")));
+                p.actions["Prev"]->setTooltip(_getText(DJV_TEXT("Prev tooltip")));
+                p.actions["Layers"]->setText(_getText(DJV_TEXT("Layers")));
+                p.actions["Layers"]->setTooltip(_getText(DJV_TEXT("Layers tooltip")));
+                p.actions["NextLayer"]->setText(_getText(DJV_TEXT("Next layer")));
+                p.actions["NextLayer"]->setTooltip(_getText(DJV_TEXT("Next layer tooltip")));
+                p.actions["PrevLayer"]->setText(_getText(DJV_TEXT("Previous Layer")));
+                p.actions["PrevLayer"]->setTooltip(_getText(DJV_TEXT("Previous layer tooltip")));
+                p.actions["8BitConversion"]->setText(_getText(DJV_TEXT("8-Bit Conversion")));
+                p.actions["8BitConversion"]->setTooltip(_getText(DJV_TEXT("8-bit conversion tooltip")));
+                p.actions["Cache"]->setText(_getText(DJV_TEXT("Memory Cache")));
+                p.actions["Cache"]->setTooltip(_getText(DJV_TEXT("Memory cache tooltip")));
+                p.actions["Exit"]->setText(_getText(DJV_TEXT("Exit")));
+                p.actions["Exit"]->setTooltip(_getText(DJV_TEXT("Exit tooltip")));
+
+                p.menu->setText(_getText(DJV_TEXT("File")));
+            }
         }
 
     } // namespace ViewApp

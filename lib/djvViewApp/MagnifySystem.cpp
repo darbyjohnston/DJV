@@ -54,7 +54,6 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::weak_ptr<MagnifyWidget> widget;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
-            std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
         void MagnifySystem::_init(const std::shared_ptr<Core::Context>& context)
@@ -70,17 +69,6 @@ namespace djv
             p.actions["Magnify"]->setIcon("djvIconMagnify");
             p.actions["Magnify"]->setShortcut(GLFW_KEY_3);
             p.actions["Magnify"]->setEnabled(false);
-
-            auto weak = std::weak_ptr<MagnifySystem>(std::dynamic_pointer_cast<MagnifySystem>(shared_from_this()));
-            p.localeObserver = ValueObserver<std::string>::create(
-                context->getSystemT<TextSystem>()->observeCurrentLocale(),
-                [weak](const std::string & value)
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_textUpdate();
-                }
-            });
         }
 
         MagnifySystem::MagnifySystem() :
@@ -129,13 +117,6 @@ namespace djv
             return _p->actions;
         }
 
-        void MagnifySystem::_textUpdate()
-        {
-            DJV_PRIVATE_PTR();
-            p.actions["Magnify"]->setText(_getText(DJV_TEXT("Magnify")));
-            p.actions["Magnify"]->setTooltip(_getText(DJV_TEXT("Magnify tooltip")));
-        }
-
         void MagnifySystem::_closeWidget(const std::string& value)
         {
             DJV_PRIVATE_PTR();
@@ -146,6 +127,16 @@ namespace djv
             }
             p.widget.reset();
             IToolSystem::_closeWidget(value);
+        }
+
+        void MagnifySystem::_textUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.actions.size())
+            {
+                p.actions["Magnify"]->setText(_getText(DJV_TEXT("Magnify")));
+                p.actions["Magnify"]->setTooltip(_getText(DJV_TEXT("Magnify tooltip")));
+            }
         }
 
     } // namespace ViewApp

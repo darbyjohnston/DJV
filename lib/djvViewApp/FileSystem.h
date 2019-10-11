@@ -86,11 +86,11 @@ namespace djv
             void _mediaInit(const std::shared_ptr<Media>&);
             void _actionsUpdate();
             void _cacheUpdate();
-            void _textUpdate();
             void _showFileBrowserDialog();
             void _showRecentFilesDialog();
 
             void _closeWidget(const std::string&) override;
+            void _textUpdate() override;
 
         private:
             DJV_PRIVATE();

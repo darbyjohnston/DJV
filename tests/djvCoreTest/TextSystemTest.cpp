@@ -54,20 +54,20 @@ namespace djv
                     ss << "locale: " << i;
                     _print(ss.str());
                 }
-                
-                {
-                    std::stringstream ss;
-                    ss << "current locale: " << system->getCurrentLocale();
-                    _print(ss.str());
-                }
+
+                auto localeObserver = ValueObserver<std::string>::create(
+                    system->observeCurrentLocale(),
+                    [this](const std::string& value)
+                    {
+                        std::stringstream ss;
+                        ss << "current locale: " << value;
+                        _print(ss.str());
+                    });
                 
                 {
                     system->setCurrentLocale("zh");
                     system->setCurrentLocale("zh");
-                    std::stringstream ss;
-                    ss << "current locale: " << system->getCurrentLocale();
-                    _print(ss.str());
-                    DJV_ASSERT("zh" == system->getCurrentLocale());
+                    DJV_ASSERT("zh" == system->observeCurrentLocale()->get());
                 }
                 
                 for (const std::string& i : { "File", "Window", "Image" })

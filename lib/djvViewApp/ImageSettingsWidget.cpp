@@ -119,9 +119,9 @@ namespace djv
             return "F";
         }
 
-        void ImageAlphaBlendSettingsWidget::_localeEvent(Event::Locale& event)
+        void ImageAlphaBlendSettingsWidget::_textUpdateEvent(Event::TextUpdate& event)
         {
-            ISettingsWidget::_localeEvent(event);
+            ISettingsWidget::_textUpdateEvent(event);
             _widgetUpdate();
         }
 
@@ -217,9 +217,9 @@ namespace djv
             return "F";
         }
 
-        void ImageAspectRatioSettingsWidget::_localeEvent(Event::Locale& event)
+        void ImageAspectRatioSettingsWidget::_textUpdateEvent(Event::TextUpdate& event)
         {
-            ISettingsWidget::_localeEvent(event);
+            ISettingsWidget::_textUpdateEvent(event);
             _widgetUpdate();
         }
 
@@ -315,9 +315,9 @@ namespace djv
             return "F";
         }
 
-        void ImageRotateSettingsWidget::_localeEvent(Event::Locale& event)
+        void ImageRotateSettingsWidget::_textUpdateEvent(Event::TextUpdate& event)
         {
-            ISettingsWidget::_localeEvent(event);
+            ISettingsWidget::_textUpdateEvent(event);
             _widgetUpdate();
         }
 

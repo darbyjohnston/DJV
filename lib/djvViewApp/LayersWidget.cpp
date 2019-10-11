@@ -136,9 +136,9 @@ namespace djv
             return out;
         }
 
-        void LayersWidget::_localeEvent(Event::Locale & event)
+        void LayersWidget::_textUpdateEvent(Event::TextUpdate & event)
         {
-            MDIWidget::_localeEvent(event);
+            MDIWidget::_textUpdateEvent(event);
             setTitle(_getText(DJV_TEXT("Layers")));
             _widgetUpdate();
         }

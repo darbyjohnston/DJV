@@ -102,7 +102,7 @@ namespace djv
                 std::shared_ptr<Widget> _createTooltip(const glm::vec2 & pos) override;
 
                 void _updateEvent(Core::Event::Update &) override;
-                void _localeEvent(Core::Event::Locale &) override;
+                void _textUpdateEvent(Core::Event::TextUpdate &) override;
 
             private:
                 std::string _getTooltip(const Core::FileSystem::FileInfo &) const;

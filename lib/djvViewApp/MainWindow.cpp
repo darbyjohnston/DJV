@@ -458,7 +458,7 @@ namespace djv
             }
         }
 
-        void MainWindow::_localeEvent(Event::Locale&)
+        void MainWindow::_textUpdateEvent(Event::TextUpdate&)
         {
             DJV_PRIVATE_PTR();
             p.mediaButton->setTooltip(_getText(DJV_TEXT("Media popup tooltip")));

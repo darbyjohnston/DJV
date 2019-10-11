@@ -115,7 +115,7 @@ namespace djv
                     case Event::Type::KeyRelease:
                         event.accept();
                         break;
-                    case Event::Type::Text:
+                    case Event::Type::TextInput:
                         event.accept();
                         break;
                     case Event::Type::Scroll:

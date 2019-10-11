@@ -77,7 +77,6 @@ namespace djv
             std::shared_ptr<ListObserver<std::string> > warningsObserver;
             std::shared_ptr<ListObserver<std::string> > errorsObserver;
             std::shared_ptr<ValueObserver<bool> > errorsPopupObserver;
-            std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
         void HelpSystem::_init(const std::shared_ptr<Core::Context>& context)
@@ -275,16 +274,6 @@ namespace djv
                         }
                     }
                 });
-
-            p.localeObserver = ValueObserver<std::string>::create(
-                context->getSystemT<TextSystem>()->observeCurrentLocale(),
-                [weak](const std::string & value)
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_textUpdate();
-                }
-            });
         }
 
         HelpSystem::HelpSystem() :
@@ -326,18 +315,6 @@ namespace djv
             };
         }
 
-        void HelpSystem::_textUpdate()
-        {
-            DJV_PRIVATE_PTR();
-            p.actions["Documentation"]->setText(_getText(DJV_TEXT("Documentation")));
-            p.actions["About"]->setText(_getText(DJV_TEXT("About")));
-            p.actions["Errors"]->setText(_getText(DJV_TEXT("Errors")));
-            p.actions["SystemLog"]->setText(_getText(DJV_TEXT("System Log")));
-            p.actions["Debug"]->setText(_getText(DJV_TEXT("Debugging")));
-
-            p.menu->setText(_getText(DJV_TEXT("Help")));
-        }
-
         void HelpSystem::_closeWidget(const std::string& value)
         {
             DJV_PRIVATE_PTR();
@@ -359,6 +336,21 @@ namespace djv
                 i->second->setChecked(false);
             }
             IViewSystem::_closeWidget(value);
+        }
+
+        void HelpSystem::_textUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.actions.size())
+            {
+                p.actions["Documentation"]->setText(_getText(DJV_TEXT("Documentation")));
+                p.actions["About"]->setText(_getText(DJV_TEXT("About")));
+                p.actions["Errors"]->setText(_getText(DJV_TEXT("Errors")));
+                p.actions["SystemLog"]->setText(_getText(DJV_TEXT("System Log")));
+                p.actions["Debug"]->setText(_getText(DJV_TEXT("Debugging")));
+
+                p.menu->setText(_getText(DJV_TEXT("Help")));
+            }
         }
 
         void HelpSystem::_errorsPopup()

@@ -166,9 +166,9 @@ namespace djv
             return out;
         }
 
-        void ColorPickerWidget::_localeEvent(Event::Locale & event)
+        void ColorPickerWidget::_textUpdateEvent(Event::TextUpdate & event)
         {
-            MDIWidget::_localeEvent(event);
+            MDIWidget::_textUpdateEvent(event);
 
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Color Picker")));

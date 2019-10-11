@@ -60,7 +60,6 @@ namespace djv
             std::shared_ptr<ValueObserver<AV::IO::Info> > infoObserver;
             std::shared_ptr<ValueObserver<float> > volumeObserver;
             std::shared_ptr<ValueObserver<bool> > muteObserver;
-            std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
         void AudioSystem::_init(const std::shared_ptr<Core::Context>& context)
@@ -182,16 +181,6 @@ namespace djv
                     }
                 });
             }
-
-            p.localeObserver = ValueObserver<std::string>::create(
-                context->getSystemT<TextSystem>()->observeCurrentLocale(),
-                [weak](const std::string & value)
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_textUpdate();
-                }
-            });
         }
 
         AudioSystem::AudioSystem() :
@@ -222,19 +211,6 @@ namespace djv
             };
         }
 
-        void AudioSystem::_textUpdate()
-        {
-            DJV_PRIVATE_PTR();
-            p.actions["IncreaseVolume"]->setText(_getText(DJV_TEXT("Increase Volume")));
-            p.actions["IncreaseVolume"]->setTooltip(_getText(DJV_TEXT("Increase volume tooltip")));
-            p.actions["DecreaseVolume"]->setText(_getText(DJV_TEXT("Decrease Volume")));
-            p.actions["DecreaseVolume"]->setTooltip(_getText(DJV_TEXT("Decrease volume tooltip")));
-            p.actions["Mute"]->setText(_getText(DJV_TEXT("Mute")));
-            p.actions["Mute"]->setTooltip(_getText(DJV_TEXT("Mute tooltip")));
-
-            p.menu->setText(_getText(DJV_TEXT("Audio")));
-        }
-
         void AudioSystem::_actionsUpdate()
         {
             DJV_PRIVATE_PTR();
@@ -242,6 +218,22 @@ namespace djv
             p.actions["IncreaseVolume"]->setEnabled(hasAudio && p.volume < 1.F);
             p.actions["DecreaseVolume"]->setEnabled(hasAudio && p.volume > 0.F);
             p.actions["Mute"]->setEnabled(hasAudio);
+        }
+
+        void AudioSystem::_textUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.actions.size())
+            {
+                p.actions["IncreaseVolume"]->setText(_getText(DJV_TEXT("Increase Volume")));
+                p.actions["IncreaseVolume"]->setTooltip(_getText(DJV_TEXT("Increase volume tooltip")));
+                p.actions["DecreaseVolume"]->setText(_getText(DJV_TEXT("Decrease Volume")));
+                p.actions["DecreaseVolume"]->setTooltip(_getText(DJV_TEXT("Decrease volume tooltip")));
+                p.actions["Mute"]->setText(_getText(DJV_TEXT("Mute")));
+                p.actions["Mute"]->setTooltip(_getText(DJV_TEXT("Mute tooltip")));
+
+                p.menu->setText(_getText(DJV_TEXT("Audio")));
+            }
         }
 
     } // namespace ViewApp

@@ -50,7 +50,7 @@ namespace djv
             static std::shared_ptr<HistogramWidget> create(const std::shared_ptr<Core::Context>&);
 
         protected:
-            void _localeEvent(Core::Event::Locale &) override;
+            void _textUpdateEvent(Core::Event::TextUpdate &) override;
 
         private:
             DJV_PRIVATE();

@@ -56,6 +56,19 @@ namespace djv
             //! \name Environment Variables
             ///@{
 
+            //! This enumeration provides the OS specific list separators.
+            enum class ListSeparator
+            {
+                Unix,
+                Windows
+            };
+
+            //! Get the list separator.
+            char getListSeparator(ListSeparator);
+
+            //! Get the current list separator.
+            char getCurrentListSeparator();
+
             //! Throws:
             //! - std::exception
             std::string getEnv(const std::string & name);

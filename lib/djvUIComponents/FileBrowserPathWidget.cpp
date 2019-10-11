@@ -306,7 +306,7 @@ namespace djv
                 _p->layout->setGeometry(getGeometry());
             }
 
-            void PathWidget::_localeEvent(Event::Locale &)
+            void PathWidget::_textUpdateEvent(Event::TextUpdate &)
             {
                 DJV_PRIVATE_PTR();
                 p.historyButton->setTooltip(_getText(DJV_TEXT("File browser history tooltip")));

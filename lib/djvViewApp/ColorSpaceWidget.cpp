@@ -627,9 +627,9 @@ namespace djv
             _p->tabWidget->setCurrentTab(value);
         }
 
-        void ColorSpaceWidget::_localeEvent(Event::Locale & event)
+        void ColorSpaceWidget::_textUpdateEvent(Event::TextUpdate & event)
         {
-            MDIWidget::_localeEvent(event);
+            MDIWidget::_textUpdateEvent(event);
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Color Space")));
             p.tabWidget->setText(p.widgetToTab[p.configLayout], DJV_TEXT("Config"));

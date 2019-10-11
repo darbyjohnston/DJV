@@ -166,7 +166,7 @@ namespace djv
             }
         }
 
-        void LineGraphWidget::_localeEvent(Event::Locale& event)
+        void LineGraphWidget::_textUpdateEvent(Event::TextUpdate& event)
         {
             _updateWidget();
         }

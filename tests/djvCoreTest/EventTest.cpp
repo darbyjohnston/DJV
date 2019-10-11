@@ -157,8 +157,8 @@ namespace djv
         {
             {
                 const std::string locale = "es";
-                const Event::Locale event(locale);
-                DJV_ASSERT(event.getEventType() == Event::Type::Locale);
+                const Event::TextUpdate event(locale);
+                DJV_ASSERT(event.getEventType() == Event::Type::TextUpdate);
                 DJV_ASSERT(event.getLocale() == locale);
             }
             
@@ -344,8 +344,8 @@ namespace djv
                 std::wstring_convert<std::codecvt_utf8<djv_char_t>, djv_char_t> utf32Convert;
                 const std::basic_string<djv_char_t> utf32 = utf32Convert.from_bytes("text");
                 const int textModifiers = 1;
-                const Event::Text event(utf32, textModifiers);
-                DJV_ASSERT(event.getEventType() == Event::Type::Text);
+                const Event::TextInput event(utf32, textModifiers);
+                DJV_ASSERT(event.getEventType() == Event::Type::TextInput);
                 DJV_ASSERT(event.getUtf32() == utf32);
                 DJV_ASSERT(event.getTextModifiers() == textModifiers);
             }

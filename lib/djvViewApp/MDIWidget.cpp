@@ -184,7 +184,7 @@ namespace djv
             _p->layout->setGeometry(getGeometry());
         }
 
-        void MDIWidget::_localeEvent(Event::Locale &)
+        void MDIWidget::_textUpdateEvent(Event::TextUpdate &)
         {
             DJV_PRIVATE_PTR();
             p.closeButton->setTooltip(_getText(DJV_TEXT("Close tooltip")));

@@ -86,7 +86,7 @@ namespace djv
                 virtual void _hover(PointerMove &, std::shared_ptr<IObject> &) = 0;
 
             private:
-                void _localeRecursive(const std::shared_ptr<IObject> &, Locale &);
+                void _textUpdateRecursive(const std::shared_ptr<IObject> &, TextUpdate &);
                 void _updateRecursive(const std::shared_ptr<IObject> &, Update &);
                 void _setHover(const std::shared_ptr<IObject> &);
 

@@ -412,7 +412,7 @@ namespace djv
             _p->finishCallback = callback;
         }
 
-        void NUXWidget::_localeEvent(Event::Locale&)
+        void NUXWidget::_textUpdateEvent(Event::TextUpdate&)
         {
             DJV_PRIVATE_PTR();
             p.labels["Language"]->setText(_getText(DJV_TEXT("Choose your language")) + ":");

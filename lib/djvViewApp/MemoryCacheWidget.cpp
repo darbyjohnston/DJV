@@ -196,7 +196,7 @@ namespace djv
             _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));
         }
 
-        void MemoryCacheWidget::_localeEvent(Event::Locale & event)
+        void MemoryCacheWidget::_textUpdateEvent(Event::TextUpdate & event)
         {
             _widgetUpdate();
         }

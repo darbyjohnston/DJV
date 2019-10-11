@@ -67,7 +67,7 @@ namespace djv
                 void _preLayoutEvent(Event::PreLayout&) override;
                 void _layoutEvent(Event::Layout&) override;
 
-                void _localeEvent(Event::Locale&) override;
+                void _textUpdateEvent(Event::TextUpdate&) override;
 
                 virtual void _widgetUpdate() = 0;
 
@@ -91,7 +91,7 @@ namespace djv
                 _layout->setGeometry(getGeometry());
             }
 
-            void IDebugWidget::_localeEvent(Event::Locale& event)
+            void IDebugWidget::_textUpdateEvent(Event::TextUpdate& event)
             {
                 _widgetUpdate();
             }
@@ -391,7 +391,7 @@ namespace djv
                 void _preLayoutEvent(Event::PreLayout&) override;
                 void _layoutEvent(Event::Layout&) override;
 
-                void _localeEvent(Event::Locale&) override;
+                void _textUpdateEvent(Event::TextUpdate&) override;
 
             private:
                 void _widgetUpdate();
@@ -564,7 +564,7 @@ namespace djv
                 _layout->setGeometry(getGeometry());
             }
 
-            void MediaDebugWidget::_localeEvent(Event::Locale& event)
+            void MediaDebugWidget::_textUpdateEvent(Event::TextUpdate& event)
             {
                 {
                     std::stringstream ss;
@@ -667,9 +667,9 @@ namespace djv
             }
         }
 
-        void DebugWidget::_localeEvent(Event::Locale & event)
+        void DebugWidget::_textUpdateEvent(Event::TextUpdate & event)
         {
-            MDIWidget::_localeEvent(event);
+            MDIWidget::_textUpdateEvent(event);
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Debug")));
             p.bellows["General"]->setText(_getText(DJV_TEXT("General")));

@@ -32,7 +32,7 @@
 #include <djvCore/ISystem.h>
 #include <djvCore/ValueObserver.h>
 
-#include <future>
+#include <map>
 
 namespace djv
 {
@@ -41,7 +41,6 @@ namespace djv
         namespace FileSystem
         {
             class FileInfo;
-            class Path;
         
         } // namespace FileSystem
 
@@ -50,6 +49,12 @@ namespace djv
         //! The current locale is determined in this order:
         //! - DJV_LANG environment variable
         //! - std::locale("")
+        //!
+        //! Text files are searched for in this order:
+        //! - FileSystem::ResourcePath::Text
+        //! - FileSystem::ResourcePath::Documents
+        //! - DJV_TEXT environment variable, a list of colon (Linux/OSX) or
+        //!   semicolon (Windows) separated paths to search
         class TextSystem : public ISystemBase
         {
             DJV_NON_COPYABLE(TextSystem);
@@ -70,9 +75,6 @@ namespace djv
             //! Get the list of locales.
             const std::vector<std::string> & getLocales() const;
 
-            //! Get the current locale.
-            const std::string & getCurrentLocale() const;
-
             //! Observe the current locale.
             std::shared_ptr<IValueSubject<std::string> > observeCurrentLocale() const;
 
@@ -87,16 +89,16 @@ namespace djv
             //! Get the text for the given ID.
             const std::string & getText(const std::string& id) const;
 
-            //! Set the text for the given ID.
-            void setText(const std::string& id, const std::string& text);
+            //! Observe whether the text has changed.
+            std::shared_ptr<IValueSubject<bool> > observeTextChanged() const;
 
             ///@}
 
         private:
             std::vector<FileSystem::FileInfo> _getTextFiles() const;
-            void _setFileText(const std::string& id, const std::string& text);
-            void _readText(const std::vector<FileSystem::FileInfo>&);
-            void _writeText();
+            void _reload(const FileSystem::FileInfo&);
+            typedef std::map<std::string, std::map<std::string, std::string> > TextMap;
+            TextMap _readText(const FileSystem::FileInfo&);
 
             DJV_PRIVATE();
         };

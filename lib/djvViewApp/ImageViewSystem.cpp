@@ -74,7 +74,6 @@ namespace djv
             std::shared_ptr<ValueObserver<ImageViewLock> > lockObserver;
             std::shared_ptr<ValueObserver<PointerData> > hoverObserver;
             std::shared_ptr<ValueObserver<PointerData> > dragObserver;
-            std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
         void ImageViewSystem::_init(const std::shared_ptr<Core::Context>& context)
@@ -480,16 +479,6 @@ namespace djv
                         }
                     }
                 });
-
-            p.localeObserver = ValueObserver<std::string>::create(
-                context->getSystemT<TextSystem>()->observeCurrentLocale(),
-                [weak](const std::string & value)
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_textUpdate();
-                }
-            });
         }
 
         ImageViewSystem::ImageViewSystem() :
@@ -607,48 +596,51 @@ namespace djv
         void ImageViewSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.actions["Tool"]->setText(_getText(DJV_TEXT("Pan View")));
-            p.actions["Tool"]->setTooltip(_getText(DJV_TEXT("Pan view tooltip")));
-            p.actions["Left"]->setText(_getText(DJV_TEXT("Left")));
-            p.actions["Left"]->setTooltip(_getText(DJV_TEXT("Left tooltip")));
-            p.actions["Right"]->setText(_getText(DJV_TEXT("Right")));
-            p.actions["Right"]->setTooltip(_getText(DJV_TEXT("Right tooltip")));
-            p.actions["Up"]->setText(_getText(DJV_TEXT("Up")));
-            p.actions["Up"]->setTooltip(_getText(DJV_TEXT("Up tooltip")));
-            p.actions["Down"]->setText(_getText(DJV_TEXT("Down")));
-            p.actions["Down"]->setTooltip(_getText(DJV_TEXT("Down tooltip")));
-            p.actions["NW"]->setText(_getText(DJV_TEXT("North West")));
-            p.actions["NW"]->setTooltip(_getText(DJV_TEXT("North west tooltip")));
-            p.actions["NE"]->setText(_getText(DJV_TEXT("North East")));
-            p.actions["NE"]->setTooltip(_getText(DJV_TEXT("North east tooltip")));
-            p.actions["SE"]->setText(_getText(DJV_TEXT("South east")));
-            p.actions["SE"]->setTooltip(_getText(DJV_TEXT("South east tooltip")));
-            p.actions["SW"]->setText(_getText(DJV_TEXT("South West")));
-            p.actions["SW"]->setTooltip(_getText(DJV_TEXT("South west tooltip")));
-            p.actions["ZoomIn"]->setText(_getText(DJV_TEXT("Zoom In")));
-            p.actions["ZoomIn"]->setTooltip(_getText(DJV_TEXT("Zoom in tooltip")));
-            p.actions["ZoomOut"]->setText(_getText(DJV_TEXT("Zoom Out")));
-            p.actions["ZoomOut"]->setTooltip(_getText(DJV_TEXT("Zoom out tooltip")));
-            p.actions["ZoomReset"]->setText(_getText(DJV_TEXT("Zoom Reset")));
-            p.actions["ZoomReset"]->setTooltip(_getText(DJV_TEXT("Zoom reset tooltip")));
-            p.actions["Full"]->setText(_getText(DJV_TEXT("Full")));
-            p.actions["Full"]->setTooltip(_getText(DJV_TEXT("Full view tooltip")));
-            p.actions["Frame"]->setText(_getText(DJV_TEXT("Frame")));
-            p.actions["Frame"]->setTooltip(_getText(DJV_TEXT("Frame view tooltip")));
-            p.actions["Center"]->setText(_getText(DJV_TEXT("Center")));
-            p.actions["Center"]->setTooltip(_getText(DJV_TEXT("Center view tooltip")));
-            p.actions["LockFull"]->setText(_getText(DJV_TEXT("Lock Full")));
-            p.actions["LockFull"]->setTooltip(_getText(DJV_TEXT("Lock full view tooltip")));
-            p.actions["LockFrame"]->setText(_getText(DJV_TEXT("Lock Frame")));
-            p.actions["LockFrame"]->setTooltip(_getText(DJV_TEXT("Lock frame view tooltip")));
-            p.actions["LockCenter"]->setText(_getText(DJV_TEXT("Lock Center")));
-            p.actions["LockCenter"]->setTooltip(_getText(DJV_TEXT("Lock center view tooltip")));
-            p.actions["Grid"]->setText(_getText(DJV_TEXT("Grid")));
-            p.actions["Grid"]->setTooltip(_getText(DJV_TEXT("Grid tooltip")));
-            p.actions["HUD"]->setText(_getText(DJV_TEXT("HUD")));
-            p.actions["HUD"]->setTooltip(_getText(DJV_TEXT("HUD tooltip")));
+            if (p.actions.size())
+            {
+                p.actions["Tool"]->setText(_getText(DJV_TEXT("Pan View")));
+                p.actions["Tool"]->setTooltip(_getText(DJV_TEXT("Pan view tooltip")));
+                p.actions["Left"]->setText(_getText(DJV_TEXT("Left")));
+                p.actions["Left"]->setTooltip(_getText(DJV_TEXT("Left tooltip")));
+                p.actions["Right"]->setText(_getText(DJV_TEXT("Right")));
+                p.actions["Right"]->setTooltip(_getText(DJV_TEXT("Right tooltip")));
+                p.actions["Up"]->setText(_getText(DJV_TEXT("Up")));
+                p.actions["Up"]->setTooltip(_getText(DJV_TEXT("Up tooltip")));
+                p.actions["Down"]->setText(_getText(DJV_TEXT("Down")));
+                p.actions["Down"]->setTooltip(_getText(DJV_TEXT("Down tooltip")));
+                p.actions["NW"]->setText(_getText(DJV_TEXT("North West")));
+                p.actions["NW"]->setTooltip(_getText(DJV_TEXT("North west tooltip")));
+                p.actions["NE"]->setText(_getText(DJV_TEXT("North East")));
+                p.actions["NE"]->setTooltip(_getText(DJV_TEXT("North east tooltip")));
+                p.actions["SE"]->setText(_getText(DJV_TEXT("South east")));
+                p.actions["SE"]->setTooltip(_getText(DJV_TEXT("South east tooltip")));
+                p.actions["SW"]->setText(_getText(DJV_TEXT("South West")));
+                p.actions["SW"]->setTooltip(_getText(DJV_TEXT("South west tooltip")));
+                p.actions["ZoomIn"]->setText(_getText(DJV_TEXT("Zoom In")));
+                p.actions["ZoomIn"]->setTooltip(_getText(DJV_TEXT("Zoom in tooltip")));
+                p.actions["ZoomOut"]->setText(_getText(DJV_TEXT("Zoom Out")));
+                p.actions["ZoomOut"]->setTooltip(_getText(DJV_TEXT("Zoom out tooltip")));
+                p.actions["ZoomReset"]->setText(_getText(DJV_TEXT("Zoom Reset")));
+                p.actions["ZoomReset"]->setTooltip(_getText(DJV_TEXT("Zoom reset tooltip")));
+                p.actions["Full"]->setText(_getText(DJV_TEXT("Full")));
+                p.actions["Full"]->setTooltip(_getText(DJV_TEXT("Full view tooltip")));
+                p.actions["Frame"]->setText(_getText(DJV_TEXT("Frame")));
+                p.actions["Frame"]->setTooltip(_getText(DJV_TEXT("Frame view tooltip")));
+                p.actions["Center"]->setText(_getText(DJV_TEXT("Center")));
+                p.actions["Center"]->setTooltip(_getText(DJV_TEXT("Center view tooltip")));
+                p.actions["LockFull"]->setText(_getText(DJV_TEXT("Lock Full")));
+                p.actions["LockFull"]->setTooltip(_getText(DJV_TEXT("Lock full view tooltip")));
+                p.actions["LockFrame"]->setText(_getText(DJV_TEXT("Lock Frame")));
+                p.actions["LockFrame"]->setTooltip(_getText(DJV_TEXT("Lock frame view tooltip")));
+                p.actions["LockCenter"]->setText(_getText(DJV_TEXT("Lock Center")));
+                p.actions["LockCenter"]->setTooltip(_getText(DJV_TEXT("Lock center view tooltip")));
+                p.actions["Grid"]->setText(_getText(DJV_TEXT("Grid")));
+                p.actions["Grid"]->setTooltip(_getText(DJV_TEXT("Grid tooltip")));
+                p.actions["HUD"]->setText(_getText(DJV_TEXT("HUD")));
+                p.actions["HUD"]->setTooltip(_getText(DJV_TEXT("HUD tooltip")));
 
-            p.menu->setText(_getText(DJV_TEXT("View")));
+                p.menu->setText(_getText(DJV_TEXT("View")));
+            }
         }
 
     } // namespace ViewApp

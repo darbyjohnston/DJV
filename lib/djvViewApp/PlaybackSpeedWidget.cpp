@@ -213,7 +213,7 @@ namespace djv
             _p->scrollWidget->setGeometry(getMargin().bbox(getGeometry(), style));
         }
 
-        void PlaybackSpeedWidget::_localeEvent(Event::Locale & event)
+        void PlaybackSpeedWidget::_textUpdateEvent(Event::TextUpdate & event)
         {
             _widgetUpdate();
         }

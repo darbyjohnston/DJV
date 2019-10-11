@@ -188,7 +188,7 @@ namespace djv
             _p->activeCallback = value;
         }
 
-        void MediaCanvas::_localeEvent(Event::Locale& event)
+        void MediaCanvas::_textUpdateEvent(Event::TextUpdate& event)
         {}
 
     } // namespace ViewApp

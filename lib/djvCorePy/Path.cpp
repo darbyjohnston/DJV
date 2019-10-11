@@ -47,15 +47,16 @@ void wrapPath(pybind11::module& m)
 
     py::enum_<FileSystem::ResourcePath>(m, "ResourcePath")
         .value("Application", FileSystem::ResourcePath::Application)
+        .value("Documents", FileSystem::ResourcePath::Documents)
         .value("LogFile", FileSystem::ResourcePath::LogFile)
         .value("SettingsFile", FileSystem::ResourcePath::SettingsFile)
-        .value("AudioDirectory", FileSystem::ResourcePath::AudioDirectory)
-        .value("FontsDirectory", FileSystem::ResourcePath::FontsDirectory)
-        .value("IconsDirectory", FileSystem::ResourcePath::IconsDirectory)
-        .value("ImagesDirectory", FileSystem::ResourcePath::ImagesDirectory)
-        .value("ModelsDirectory", FileSystem::ResourcePath::ModelsDirectory)
-        .value("ShadersDirectory", FileSystem::ResourcePath::ShadersDirectory)
-        .value("TextDirectory", FileSystem::ResourcePath::TextDirectory);
+        .value("Audio", FileSystem::ResourcePath::Audio)
+        .value("Fonts", FileSystem::ResourcePath::Fonts)
+        .value("Icons", FileSystem::ResourcePath::Icons)
+        .value("Images", FileSystem::ResourcePath::Images)
+        .value("Models", FileSystem::ResourcePath::Models)
+        .value("Shaders", FileSystem::ResourcePath::Shaders)
+        .value("Text", FileSystem::ResourcePath::Text);
 
     py::class_<FileSystem::Path>(m, "Path")
         .def(py::init<>())

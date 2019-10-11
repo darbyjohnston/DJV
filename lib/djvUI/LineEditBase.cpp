@@ -763,7 +763,7 @@ namespace djv
             _doFocusCallback(false);
         }
 
-        void LineEditBase::_textEvent(Event::Text & event)
+        void LineEditBase::_textInputEvent(Event::TextInput& event)
         {
             DJV_PRIVATE_PTR();
             event.accept();

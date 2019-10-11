@@ -88,7 +88,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 picojson::value out(picojson::object_type, true);
                 auto & object = out.get<picojson::object>();
-                write("CurrentLocale", p.textSystem->getCurrentLocale(), object);
+                write("CurrentLocale", p.textSystem->observeCurrentLocale()->get(), object);
                 return out;
             }
 

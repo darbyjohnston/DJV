@@ -106,9 +106,9 @@ namespace djv
             return "Z";
         }
 
-        void PPMSettingsWidget::_localeEvent(Event::Locale& event)
+        void PPMSettingsWidget::_textUpdateEvent(Event::TextUpdate& event)
         {
-            ISettingsWidget::_localeEvent(event);
+            ISettingsWidget::_textUpdateEvent(event);
             DJV_PRIVATE_PTR();
             p.layout->setText(p.comboBox, _getText(DJV_TEXT("Data type")) + ":");
             _widgetUpdate();

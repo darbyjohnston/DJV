@@ -113,9 +113,9 @@ namespace djv
             return "ZZ";
         }
 
-        void Render2DTextSettingsWidget::_localeEvent(Event::Locale& event)
+        void Render2DTextSettingsWidget::_textUpdateEvent(Event::TextUpdate& event)
         {
-            ISettingsWidget::_localeEvent(event);
+            ISettingsWidget::_textUpdateEvent(event);
             DJV_PRIVATE_PTR();
             p.lcdCheckBox->setText(_getText(DJV_TEXT("Enable LCD text rendering")));
         }

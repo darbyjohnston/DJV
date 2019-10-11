@@ -110,9 +110,9 @@ namespace djv
             return "Z";
         }
 
-        void JPEGSettingsWidget::_localeEvent(Event::Locale & event)
+        void JPEGSettingsWidget::_textUpdateEvent(Event::TextUpdate & event)
         {
-            ISettingsWidget::_localeEvent(event);
+            ISettingsWidget::_textUpdateEvent(event);
             DJV_PRIVATE_PTR();
             p.layout->setText(p.qualitySlider, _getText(DJV_TEXT("Compression quality")) + ":");
         }

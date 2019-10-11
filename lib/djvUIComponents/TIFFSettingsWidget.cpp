@@ -105,9 +105,9 @@ namespace djv
             return "Z";
         }
 
-        void TIFFSettingsWidget::_localeEvent(Event::Locale & event)
+        void TIFFSettingsWidget::_textUpdateEvent(Event::TextUpdate & event)
         {
-            ISettingsWidget::_localeEvent(event);
+            ISettingsWidget::_textUpdateEvent(event);
             DJV_PRIVATE_PTR();
             p.layout->setText(p.compressionComboBox, _getText(DJV_TEXT("File compression")) + ":");
             _widgetUpdate();

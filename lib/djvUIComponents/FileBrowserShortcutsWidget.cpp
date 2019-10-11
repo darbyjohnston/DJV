@@ -220,7 +220,7 @@ namespace djv
                 _p->scrollWidget->setGeometry(getGeometry());
             }
             
-            void ShortcutsWidget::_localeEvent(Event::Locale&)
+            void ShortcutsWidget::_textUpdateEvent(Event::TextUpdate&)
             {
                 DJV_PRIVATE_PTR();
                 p.titleLabel->setText(_getText(DJV_TEXT("Shortcuts")));

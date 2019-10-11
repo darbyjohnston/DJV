@@ -211,7 +211,7 @@ namespace djv
             virtual void _keyReleaseEvent(Core::Event::KeyRelease &) {}
             virtual void _textFocusEvent(Core::Event::TextFocus &) {}
             virtual void _textFocusLostEvent(Core::Event::TextFocusLost &) {}
-            virtual void _textEvent(Core::Event::Text &) {}
+            virtual void _textInputEvent(Core::Event::TextInput &) {}
 
             ///@}
 

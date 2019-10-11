@@ -53,7 +53,7 @@ namespace djv
             void setCurrentTab(int);
 
         protected:
-            void _localeEvent(Core::Event::Locale &) override;
+            void _textUpdateEvent(Core::Event::TextUpdate &) override;
 
         private:
             void _widgetUpdate();

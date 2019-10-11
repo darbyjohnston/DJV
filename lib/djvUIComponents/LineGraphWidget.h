@@ -61,7 +61,7 @@ namespace djv
             void _layoutEvent(Core::Event::Layout&) override;
             void _paintEvent(Core::Event::Paint&) override;
 
-            void _localeEvent(Core::Event::Locale&) override;
+            void _textUpdateEvent(Core::Event::TextUpdate&) override;
 
         private:
             void _updateWidget();

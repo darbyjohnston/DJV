@@ -114,7 +114,7 @@ namespace djv
                 _p->callback = value;
             }
 
-            void Dialog::_localeEvent(Event::Locale& event)
+            void Dialog::_textUpdateEvent(Event::TextUpdate& event)
             {
                 setTitle(_getText(DJV_TEXT("File Browser")));
             }

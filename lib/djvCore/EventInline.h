@@ -100,12 +100,12 @@ namespace djv
                 Event(Type::ChildOrder)
             {}
 
-            inline Locale::Locale(const std::string & locale) :
-                Event(Type::Locale),
+            inline TextUpdate::TextUpdate(const std::string & locale) :
+                Event(Type::TextUpdate),
                 _locale(locale)
             {}
 
-            inline const std::string & Locale::getLocale() const
+            inline const std::string & TextUpdate::getLocale() const
             {
                 return _locale;
             }
@@ -299,18 +299,18 @@ namespace djv
                 Event(Type::TextFocusLost)
             {}
 
-            inline Text::Text(const std::basic_string<djv_char_t>& utf32, int textModifiers) :
-                Event(Type::Text),
+            inline TextInput::TextInput(const std::basic_string<djv_char_t>& utf32, int textModifiers) :
+                Event(Type::TextInput),
                 _utf32(utf32),
                 _textModifiers(textModifiers)
             {}
 
-            inline const std::basic_string<djv_char_t>& Text::getUtf32() const
+            inline const std::basic_string<djv_char_t>& TextInput::getUtf32() const
             {
                 return _utf32;
             }
 
-            inline int Text::getTextModifiers() const
+            inline int TextInput::getTextModifiers() const
             {
                 return _textModifiers;
             }

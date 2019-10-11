@@ -158,7 +158,7 @@ namespace djv
                 _p->scrollWidget->setGeometry(getGeometry());
             }
 
-            void DrivesWidget::_localeEvent(Event::Locale&)
+            void DrivesWidget::_textUpdateEvent(Event::TextUpdate&)
             {
                 DJV_PRIVATE_PTR();
                 p.titleLabel->setText(_getText(DJV_TEXT("Drives")));

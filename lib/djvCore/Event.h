@@ -54,7 +54,7 @@ namespace djv
                 ChildAdded,
                 ChildRemoved,
                 ChildOrder,
-                Locale,
+                TextUpdate,
                 Update,
                 Style,
                 PreLayout,
@@ -73,7 +73,7 @@ namespace djv
                 KeyRelease,
                 TextFocus,
                 TextFocusLost,
-                Text,
+                TextInput,
 
                 Count,
                 First = Update
@@ -145,13 +145,13 @@ namespace djv
                 ChildOrder();
             };
 
-            //! This class provides a locale event.
-            class Locale : public Event
+            //! This class provides a text update event.
+            class TextUpdate : public Event
             {
             public:
-                explicit Locale(const std::string &);
+                explicit TextUpdate(const std::string &locale);
 
-                const std::string & getLocale() const;
+                const std::string& getLocale() const;
 
             private:
                 std::string _locale;
@@ -377,11 +377,11 @@ namespace djv
                 TextFocusLost();
             };
 
-            //! This class provides a text event.
-            class Text : public Event
+            //! This class provides a text input event.
+            class TextInput : public Event
             {
             public:
-                Text(const std::basic_string<djv_char_t>& utf32, int textModifiers);
+                TextInput(const std::basic_string<djv_char_t>& utf32, int textModifiers);
 
                 const std::basic_string<djv_char_t>& getUtf32() const;
                 int getTextModifiers() const;

@@ -90,7 +90,6 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > maximizeObserver;
             std::shared_ptr<ValueObserver<Event::PointerInfo> > pointerObserver;
             std::shared_ptr<ValueObserver<bool> > fadeObserver;
-            std::shared_ptr<ValueObserver<std::string> > localeObserver;
 
             std::shared_ptr<Animation::Animation> fadeAnimation;
 
@@ -208,16 +207,6 @@ namespace djv
                     }
                 }
             });
-
-            p.localeObserver = ValueObserver<std::string>::create(
-                context->getSystemT<TextSystem>()->observeCurrentLocale(),
-                [weak](const std::string & value)
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_textUpdate();
-                }
-            });
         }
 
         WindowSystem::WindowSystem() :
@@ -267,6 +256,67 @@ namespace djv
         std::shared_ptr<Core::IValueSubject<bool> > WindowSystem::observeFullScreen() const
         {
             return _p->fullScreen;
+        }
+
+        void WindowSystem::Private::setFullScreen(bool value, const std::shared_ptr<Core::Context>& context)
+        {
+            auto avGLFWSystem = context->getSystemT<AV::GLFW::System>();
+            auto glfwWindow = avGLFWSystem->getGLFWWindow();
+            auto glfwMonitor = glfwGetWindowMonitor(glfwWindow);
+            if (value && !glfwMonitor)
+            {
+                int monitor = settings->observeFullscreenMonitor()->get();
+                int monitorsCount = 0;
+                GLFWmonitor** monitors = glfwGetMonitors(&monitorsCount);
+                if (monitor >= 0 && monitor < monitorsCount)
+                {
+                    glfwMonitor = monitors[monitor];
+                }
+                else
+                {
+                    glfwMonitor = glfwGetPrimaryMonitor();
+                }
+                auto glfwMonitorMode = glfwGetVideoMode(glfwMonitor);
+                monitorSize.x = glfwMonitorMode->width;
+                monitorSize.y = glfwMonitorMode->height;
+                monitorRefresh = glfwMonitorMode->refreshRate;
+
+                int x = 0;
+                int y = 0;
+                int w = 0;
+                int h = 0;
+                glfwGetWindowPos(glfwWindow, &x, &y);
+                glfwGetWindowSize(glfwWindow, &w, &h);
+                windowGeom = BBox2i(x, y, w, h);
+
+                glfwSetWindowAttrib(glfwWindow, GLFW_AUTO_ICONIFY, glfwMonitor == glfwGetPrimaryMonitor());
+                glfwSetWindowMonitor(
+                    glfwWindow,
+                    glfwMonitor,
+                    0,
+                    0,
+                    glfwMonitorMode->width,
+                    glfwMonitorMode->height,
+                    glfwMonitorMode->refreshRate);
+            }
+            else if (!value && glfwMonitor)
+            {
+                glfwSetWindowMonitor(
+                    glfwWindow,
+                    NULL,
+                    windowGeom.x(),
+                    windowGeom.y(),
+                    windowGeom.w(),
+                    windowGeom.h(),
+                    0);
+
+                //! \bug Why is it neccessary to resize the window to get the correct geometry
+                //! when restoring full screen from a different monitor?
+                glfwSetWindowSize(
+                    glfwWindow,
+                    static_cast<int>(windowGeom.w()),
+                    static_cast<int>(windowGeom.h()));
+            }
         }
 
         void WindowSystem::setFullScreen(bool value)
@@ -415,74 +465,16 @@ namespace djv
         void WindowSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.actions["FullScreen"]->setText(_getText(DJV_TEXT("Full Screen")));
-            p.actions["FullScreen"]->setTooltip(_getText(DJV_TEXT("Full screen tooltip")));
-            p.actions["Maximize"]->setText(_getText(DJV_TEXT("Maximize")));
-            p.actions["Maximize"]->setTooltip(_getText(DJV_TEXT("Maximize tooltip")));
-            p.actions["Fit"]->setText(_getText(DJV_TEXT("Fit")));
-            p.actions["Fit"]->setTooltip(_getText(DJV_TEXT("Fit tooltip")));
-
-            p.menu->setText(_getText(DJV_TEXT("Window")));
-        }
-
-        void WindowSystem::Private::setFullScreen(bool value, const std::shared_ptr<Core::Context>& context)
-        {
-            auto avGLFWSystem = context->getSystemT<AV::GLFW::System>();
-            auto glfwWindow = avGLFWSystem->getGLFWWindow();
-            auto glfwMonitor = glfwGetWindowMonitor(glfwWindow);
-            if (value && !glfwMonitor)
+            if (p.actions.size())
             {
-                int monitor = settings->observeFullscreenMonitor()->get();
-                int monitorsCount = 0;
-                GLFWmonitor** monitors = glfwGetMonitors(&monitorsCount);
-                if (monitor >= 0 && monitor < monitorsCount)
-                {
-                    glfwMonitor = monitors[monitor];
-                }
-                else
-                {
-                    glfwMonitor = glfwGetPrimaryMonitor();
-                }
-                auto glfwMonitorMode = glfwGetVideoMode(glfwMonitor);
-                monitorSize.x = glfwMonitorMode->width;
-                monitorSize.y = glfwMonitorMode->height;
-                monitorRefresh = glfwMonitorMode->refreshRate;
+                p.actions["FullScreen"]->setText(_getText(DJV_TEXT("Full Screen")));
+                p.actions["FullScreen"]->setTooltip(_getText(DJV_TEXT("Full screen tooltip")));
+                p.actions["Maximize"]->setText(_getText(DJV_TEXT("Maximize")));
+                p.actions["Maximize"]->setTooltip(_getText(DJV_TEXT("Maximize tooltip")));
+                p.actions["Fit"]->setText(_getText(DJV_TEXT("Fit")));
+                p.actions["Fit"]->setTooltip(_getText(DJV_TEXT("Fit tooltip")));
 
-                int x = 0;
-                int y = 0;
-                int w = 0;
-                int h = 0;
-                glfwGetWindowPos(glfwWindow, &x, &y);
-                glfwGetWindowSize(glfwWindow, &w, &h);
-                windowGeom = BBox2i(x, y, w, h);
-
-                glfwSetWindowAttrib(glfwWindow, GLFW_AUTO_ICONIFY, glfwMonitor == glfwGetPrimaryMonitor());
-                glfwSetWindowMonitor(
-                    glfwWindow,
-                    glfwMonitor,
-                    0,
-                    0,
-                    glfwMonitorMode->width,
-                    glfwMonitorMode->height,
-                    glfwMonitorMode->refreshRate);
-            }
-            else if (!value && glfwMonitor)
-            {
-                glfwSetWindowMonitor(
-                    glfwWindow,
-                    NULL,
-                    windowGeom.x(),
-                    windowGeom.y(),
-                    windowGeom.w(),
-                    windowGeom.h(),
-                    0);
-
-                //! \bug Why is it neccessary to resize the window to get the correct geometry
-                //! when restoring full screen from a different monitor?
-                glfwSetWindowSize(
-                    glfwWindow,
-                    static_cast<int>(windowGeom.w()),
-                    static_cast<int>(windowGeom.h()));
+                p.menu->setText(_getText(DJV_TEXT("Window")));
             }
         }
 

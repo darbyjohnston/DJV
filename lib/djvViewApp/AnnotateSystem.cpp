@@ -56,7 +56,6 @@ namespace djv
             std::shared_ptr<UI::Menu> menu;
             std::weak_ptr<AnnotateWidget> widget;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
-            std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
         void AnnotateSystem::_init(const std::shared_ptr<Core::Context>& context)
@@ -74,17 +73,6 @@ namespace djv
             p.actions["Annotate"]->setEnabled(false);
 
             p.menu = UI::Menu::create(context);
-
-            auto weak = std::weak_ptr<AnnotateSystem>(std::dynamic_pointer_cast<AnnotateSystem>(shared_from_this()));
-            p.localeObserver = ValueObserver<std::string>::create(
-                context->getSystemT<TextSystem>()->observeCurrentLocale(),
-                [weak](const std::string & value)
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_textUpdate();
-                }
-            });
         }
 
         AnnotateSystem::AnnotateSystem() :
@@ -142,15 +130,6 @@ namespace djv
             };
         }
 
-        void AnnotateSystem::_textUpdate()
-        {
-            DJV_PRIVATE_PTR();
-            p.actions["Annotate"]->setText(_getText(DJV_TEXT("Annotate")));
-            p.actions["Annotate"]->setTooltip(_getText(DJV_TEXT("Annotate tooltip")));
-
-            p.menu->setText(_getText(DJV_TEXT("Annotate")));
-        }
-
         void AnnotateSystem::_closeWidget(const std::string& value)
         {
             DJV_PRIVATE_PTR();
@@ -161,6 +140,18 @@ namespace djv
             }
             p.widget.reset();
             IToolSystem::_closeWidget(value);
+        }
+
+        void AnnotateSystem::_textUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.actions.size())
+            {
+                p.actions["Annotate"]->setText(_getText(DJV_TEXT("Annotate")));
+                p.actions["Annotate"]->setTooltip(_getText(DJV_TEXT("Annotate tooltip")));
+            
+                p.menu->setText(_getText(DJV_TEXT("Annotate")));
+            }
         }
 
     } // namespace ViewApp

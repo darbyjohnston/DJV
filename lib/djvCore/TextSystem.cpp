@@ -37,6 +37,7 @@
 #include <djvCore/OS.h>
 #include <djvCore/PicoJSON.h>
 #include <djvCore/ResourceSystem.h>
+#include <djvCore/String.h>
 #include <djvCore/Timer.h>
 
 #include <future>
@@ -49,34 +50,20 @@ namespace djv
 {
     namespace Core
     {
-        namespace
-        {
-            struct Text
-            {
-                std::string text;
-                std::string id;
-                std::string description;
-            };
-        }
-        
         struct TextSystem::Private
         {
             std::shared_ptr<ResourceSystem> resourceSystem;
             std::shared_ptr<LogSystem> logSystem;
 
+            std::vector<FileSystem::FileInfo> textFiles;
+
             std::vector<std::string> locales;
-            std::string currentLocale;
-            std::shared_ptr<ValueSubject<std::string> > currentLocaleSubject;
+            std::shared_ptr<ValueSubject<std::string> > currentLocale;
 
-            std::map<std::string, std::map<std::string, std::string> > text;
-            bool textChanged = true;
-            std::shared_ptr<ValueSubject<bool> > textSubject;
-            
-            std::map<std::string, std::vector<Text> > fileText;
-            std::set<std::string> saveFiles;
+            TextMap text;
+            std::shared_ptr<ValueSubject<bool> > textChanged;
 
-            std::thread thread;
-            std::mutex mutex;
+            std::vector<std::future<TextMap> > readFutures;
             std::shared_ptr<Time::Timer> timer;
         };
 
@@ -161,116 +148,137 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.resourceSystem = resourceSystem;
             p.logSystem = logSystem;
-            p.currentLocaleSubject = ValueSubject<std::string>::create();
-            p.textSubject = ValueSubject<bool>::create();
+            p.textChanged = ValueSubject<bool>::create();
 
-            p.thread = std::thread(
-                [this]
+            std::string currentLocale;
+            std::string djvLang = OS::getEnv("DJV_LANG");
+            std::stringstream ss;
+            if (djvLang.size())
             {
-                DJV_PRIVATE_PTR();
-                std::unique_lock<std::mutex> lock(p.mutex);
-
-                p.currentLocale = "en";
-                p.textChanged = true;
-                std::string djvLang = OS::getEnv("DJV_LANG");
-                std::stringstream ss;
-                if (djvLang.size())
+                currentLocale = djvLang;
+            }
+            else
+            {
+                try
                 {
-                    p.currentLocale = djvLang;
-                }
-                else
-                {
-                    try
+                    std::locale locale("");
+                    std::string localeName = locale.name();
+                    ss << "Current std::locale: " << localeName;
+                    p.logSystem->log(getSystemName(), ss.str());
+                    std::string cppLocale = parseLocale(localeName);
+                    if (cppLocale.size())
                     {
-                        std::locale locale("");
-                        std::string localeName = locale.name();
-                        ss << "Current std::locale: " << localeName;
-                        p.logSystem->log(getSystemName(), ss.str());
-                        std::string cppLocale = parseLocale(localeName);
-                        if (cppLocale.size())
-                        {
-                            p.currentLocale = cppLocale;
-                        }
-                    }
-                    catch (const std::exception & e)
-                    {
-                        p.logSystem->log(getSystemName(), e.what(), LogLevel::Error);
+                        currentLocale = cppLocale;
                     }
                 }
-                ss.str(std::string());
-                ss << "Found locale: " << p.currentLocale;
-                p.logSystem->log(getSystemName(), ss.str());
-
-                // Find the .text files.
-                const auto textFiles = _getTextFiles();
-
-                // Extract the locale names.
-                std::set<std::string> localeSet;
-                for (const auto& textFile : textFiles)
+                catch (const std::exception& e)
                 {
-                    std::string temp = FileSystem::Path(textFile.getPath().getBaseName()).getExtension();
-                    if (temp.size() && '.' == temp[0])
-                    {
-                        temp.erase(temp.begin());
-                    }
-                    if (temp != "all")
-                    {
-                        localeSet.insert(temp);
-                    }
+                    p.logSystem->log(getSystemName(), e.what(), LogLevel::Error);
                 }
-                for (const auto & locale : localeSet)
-                {
-                    p.locales.push_back(locale);
-                }
-                ss.str(std::string());
-                ss << "Found text files: " << String::join(p.locales, ", ");
-                p.logSystem->log(getSystemName(), ss.str());
+            }
+            ss.str(std::string());
+            ss << "Found locale: " << currentLocale;
+            p.logSystem->log(getSystemName(), ss.str());
 
-                // Check that the current locale is valid.
-                const auto i = localeSet.find(p.currentLocale);
-                if (i == localeSet.end())
-                {
-                    // Fall back to using English.
-                    const auto j = localeSet.find("en");
-                    if (j != localeSet.end())
-                    {
-                        p.currentLocale = *j;
-                    }
-                    else if (localeSet.size())
-                    {
-                        // Fall back to using the first one in the list.
-                        p.currentLocale = *localeSet.begin();
-                    }
-                }
-                ss.str(std::string());
-                ss << "Current locale: " << p.currentLocale;
-                p.logSystem->log(getSystemName(), ss.str());
+            // Find the .text files.
+            p.textFiles = _getTextFiles();
 
-                // Read the .text files.
-                _readText(textFiles);
-            });
-            
+            // Extract the locale names.
+            std::set<std::string> localeSet;
+            for (const auto& textFile : p.textFiles)
+            {
+                std::string temp = FileSystem::Path(textFile.getPath().getBaseName()).getExtension();
+                if (temp.size() && '.' == temp[0])
+                {
+                    temp.erase(temp.begin());
+                }
+                if (temp != "all")
+                {
+                    localeSet.insert(temp);
+                }
+            }
+            for (const auto& locale : localeSet)
+            {
+                p.locales.push_back(locale);
+            }
+            ss.str(std::string());
+            ss << "Found text files: " << String::join(p.locales, ", ");
+            p.logSystem->log(getSystemName(), ss.str());
+
+            // Check that the current locale is valid.
+            const auto i = localeSet.find(currentLocale);
+            if (i == localeSet.end())
+            {
+                // Fall back to using English.
+                const auto j = localeSet.find("en");
+                if (j != localeSet.end())
+                {
+                    currentLocale = *j;
+                }
+                else if (localeSet.size())
+                {
+                    // Fall back to using the first one in the list.
+                    currentLocale = *localeSet.begin();
+                }
+            }
+            p.currentLocale = ValueSubject<std::string>::create(currentLocale);
+            ss.str(std::string());
+            ss << "Current locale: " << currentLocale;
+            p.logSystem->log(getSystemName(), ss.str());
+
+            // Load the text.
+            for (const auto& i : p.textFiles)
+            {
+                _reload(i);
+            }
+
             p.timer = Time::Timer::create(context);
             p.timer->setRepeating(true);
+            auto weak = std::weak_ptr<TextSystem>(std::dynamic_pointer_cast<TextSystem>(shared_from_this()));
             p.timer->start(
-                Time::getMilliseconds(Time::TimerValue::Medium),
-                [this](float)
-            {
-                DJV_PRIVATE_PTR();
-                std::string currentLocale;
-                bool textChanged = false;
+                Time::getMilliseconds(Time::TimerValue::Slow),
+                [weak](float)
                 {
-                    std::unique_lock<std::mutex> lock(p.mutex);
-                    currentLocale = p.currentLocale;
-                    textChanged = p.textChanged;
-                }
-                p.currentLocaleSubject->setIfChanged(currentLocale);
-                if (textChanged)
-                {
-                    p.textSubject->setAlways(true);
-                }
-            });
+                    if (auto system = weak.lock())
+                    {
+                        bool textChanged = false;
+                        auto i = system->_p->readFutures.begin();
+                        while (i != system->_p->readFutures.end())
+                        {
+                            if (i->valid() &&
+                                i->wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                            {
+                                for (const auto& j : i->get())
+                                {
+                                    for (const auto& k : j.second)
+                                    {
+                                        system->_p->text[j.first][k.first] = k.second;
+                                        textChanged = true;
+                                    }
+                                }
+                                i = system->_p->readFutures.erase(i);
+                            }
+                            else
+                            {
+                                ++i;
+                            }
+                        }
+                        if (textChanged)
+                        {
+                            system->_p->textChanged->setAlways(true);
+                        }
 
+                        for (auto i = system->_p->textFiles.begin(); i != system->_p->textFiles.end(); ++i)
+                        {
+                            FileSystem::FileInfo fileInfo(i->getFileName());
+                            if (fileInfo.getTime() > i->getTime())
+                            {
+                                system->_reload(fileInfo);
+                                *i = fileInfo;
+                            }
+                        }
+                    }
+                });
         }
 
         TextSystem::TextSystem() :
@@ -278,17 +286,7 @@ namespace djv
         {}
 
         TextSystem::~TextSystem()
-        {
-            DJV_PRIVATE_PTR();
-            if (p.thread.joinable())
-            {
-                p.thread.join();
-            }
-            if (p.saveFiles.size())
-            {
-                _writeText();
-            }
-        }
+        {}
 
         std::shared_ptr<TextSystem> TextSystem::create(const std::shared_ptr<Context>& context)
         {
@@ -299,37 +297,27 @@ namespace djv
 
         const std::vector<std::string> & TextSystem::getLocales() const
         {
-            DJV_PRIVATE_PTR();
-            std::unique_lock<std::mutex> lock(p.mutex);
-            return p.locales;
-        }
-
-        const std::string & TextSystem::getCurrentLocale() const
-        {
-            DJV_PRIVATE_PTR();
-            std::unique_lock<std::mutex> lock(p.mutex);
-            return p.currentLocale;
+            return _p->locales;
         }
 
         std::shared_ptr<IValueSubject<std::string> > TextSystem::observeCurrentLocale() const
         {
-            return _p->currentLocaleSubject;
+            return _p->currentLocale;
         }
 
         void TextSystem::setCurrentLocale(const std::string & value)
         {
             DJV_PRIVATE_PTR();
-            std::unique_lock<std::mutex> lock(p.mutex);
-            if (value == p.currentLocale)
-                return;
-            p.currentLocale = value;
+            if (p.currentLocale->setIfChanged(value))
+            {
+                p.textChanged->setAlways(true);
+            }
         }
         
         const std::string & TextSystem::getText(const std::string & id) const
         {
             DJV_PRIVATE_PTR();
-            std::unique_lock<std::mutex> lock(p.mutex);
-            const auto i = p.text.find(p.currentLocale);
+            const auto i = p.text.find(p.currentLocale->get());
             if (i != p.text.end())
             {
                 const auto j = i->second.find(id);
@@ -340,177 +328,136 @@ namespace djv
             }
             return id;
         }
-                
-        void TextSystem::setText(const std::string& id, const std::string& value)
+
+        std::shared_ptr<IValueSubject<bool> > TextSystem::observeTextChanged() const
         {
-            DJV_PRIVATE_PTR();
-            std::unique_lock<std::mutex> lock(p.mutex);
-            auto i = p.text.find(p.currentLocale);
-            if (i != p.text.end())
-            {
-                auto j = i->second.find(id);
-                if (j != i->second.end())
-                {
-                    j->second = value;
-                    p.textChanged = true;
-                    _setFileText(id, value);
-                }
-            }
+            return _p->textChanged;
         }
-        
+
         std::vector<FileSystem::FileInfo> TextSystem::_getTextFiles() const
         {
             DJV_PRIVATE_PTR();
             std::vector<FileSystem::FileInfo> out;
             FileSystem::DirectoryListOptions options;
             options.filter = "\\.text$";
+
             const auto textPath = p.resourceSystem->getPath(FileSystem::ResourcePath::Text);
             out = FileSystem::FileInfo::directoryList(textPath, options);
+            
             const auto documentsPath = p.resourceSystem->getPath(FileSystem::ResourcePath::Documents);
-            auto overrides = FileSystem::FileInfo::directoryList(documentsPath, options);
-            auto i = overrides.begin();
-            while (i != overrides.end())
+            auto list = FileSystem::FileInfo::directoryList(documentsPath, options);
+            out.insert(out.end(), list.begin(), list.end());
+
+            const auto envPaths = String::split(OS::getEnv("DJV_TEXT"), OS::getCurrentListSeparator());
+            for (const auto& path : envPaths)
             {
-                auto j = out.begin();
-                for (; j != out.end(); ++j)
-                {
-                    if (i->getFileName(Frame::invalid, false) ==
-                        j->getFileName(Frame::invalid, false))
-                    {
-                        break;
-                    }
-                }
-                if (j != out.end())
-                {
-                    *j = *i;
-                    i = overrides.erase(i);
-                }
-                else
-                {
-                    ++i;
-                }
+                auto list = FileSystem::FileInfo::directoryList(FileSystem::Path(path), options);
+                out.insert(out.end(), list.begin(), list.end());
             }
-            i = overrides.begin();
-            for (; i != overrides.end(); ++i)
-            {
-                out.push_back(*i);
-            }
+
             return out;
         }
         
-        void TextSystem::_setFileText(const std::string& id, const std::string& text)
+        void TextSystem::_reload(const FileSystem::FileInfo& value)
         {
             DJV_PRIVATE_PTR();
-            for (auto& i : p.fileText)
-            {
-                for (auto& j : i.second)
+            auto weak = std::weak_ptr<TextSystem>(std::dynamic_pointer_cast<TextSystem>(shared_from_this()));
+            auto fileInfo = value;
+            p.readFutures.push_back(std::async(
+                std::launch::async,
+                [weak, fileInfo]
                 {
-                    if (id == j.id)
+                    TextMap out;
+                    if (auto system = weak.lock())
                     {
-                        j.text = text;
-                        p.saveFiles.insert(i.first);
+                        out = system->_readText(fileInfo);
                     }
-                }
-            }
+                    return out;
+                }));
         }
 
-        void TextSystem::_readText(const std::vector<FileSystem::FileInfo>& textFiles)
+        TextSystem::TextMap TextSystem::_readText(const FileSystem::FileInfo& textFile)
         {
             DJV_PRIVATE_PTR();
-            p.text.clear();
-            p.logSystem->log(getSystemName(), "Reading text files:");
-            for (const auto& i : textFiles)
+            TextMap out;
             {
-                p.logSystem->log(getSystemName(), String::indent(1) + i.getPath().get());
-                try
+                std::stringstream ss;
+                ss << "Reading text file: " << textFile.getPath().get();
+                p.logSystem->log(getSystemName(), ss.str());
+            }
+            try
+            {
+                const auto& path = textFile.getPath();
+                const auto& baseName = path.getBaseName();
+                std::string locale;
+                for (auto j = baseName.rbegin(); j != baseName.rend() && *j != '.'; ++j)
                 {
-                    const auto & path = i.getPath();
-                    const auto & baseName = path.getBaseName();
-                    std::string locale;
-                    for (auto j = baseName.rbegin(); j != baseName.rend() && *j != '.'; ++j)
-                    {
-                        locale.insert(locale.begin(), *j);
-                    }
+                    locale.insert(locale.begin(), *j);
+                }
 
-                    FileSystem::FileIO fileIO;
-                    fileIO.open(std::string(path), FileSystem::FileIO::Mode::Read);
+                FileSystem::FileIO fileIO;
+                fileIO.open(std::string(path), FileSystem::FileIO::Mode::Read);
 #if defined(DJV_MMAP)
-                    const char * bufP = reinterpret_cast<const char *>(fileIO.mmapP());
-                    const char * bufEnd = reinterpret_cast<const char *>(fileIO.mmapEnd());
+                const char* bufP = reinterpret_cast<const char*>(fileIO.mmapP());
+                const char* bufEnd = reinterpret_cast<const char*>(fileIO.mmapEnd());
 #else // DJV_MMAP
-                    std::vector<char> buf;
-                    const size_t fileSize = fileIO.getSize();
-                    buf.resize(fileSize);
-                    fileIO.read(buf.data(), fileSize);
-                    const char* bufP = buf.data();
-                    const char* bufEnd = bufP + fileSize;
+                std::vector<char> buf;
+                const size_t fileSize = fileIO.getSize();
+                buf.resize(fileSize);
+                fileIO.read(buf.data(), fileSize);
+                const char* bufP = buf.data();
+                const char* bufEnd = bufP + fileSize;
 #endif // DJV_MMAP
 
-                    // Parse the JSON.
-                    picojson::value v;
-                    std::string error;
-                    picojson::parse(v, bufP, bufEnd, &error);
-                    if (!error.empty())
-                    {
-                        std::stringstream s;
-                        s << DJV_TEXT("Error reading the text file") << " '" << path << "'. " << error;
-                        throw FileSystem::Error(s.str());
-                    }
+                // Parse the JSON.
+                picojson::value v;
+                std::string error;
+                picojson::parse(v, bufP, bufEnd, &error);
+                if (!error.empty())
+                {
+                    std::stringstream s;
+                    s << DJV_TEXT("Error reading the text file") << " '" << path << "'. " << error;
+                    throw FileSystem::Error(s.str());
+                }
 
-                    if (v.is<picojson::array>())
+                if (v.is<picojson::array>())
+                {
+                    for (const auto& item : v.get<picojson::array>())
                     {
-                        for (const auto & item : v.get<picojson::array>())
+                        if (item.is<picojson::object>())
                         {
-                            if (item.is<picojson::object>())
+                            std::string id;
+                            std::string text;
+                            std::string description;
+                            const auto& obj = item.get<picojson::object>();
+                            for (auto i = obj.begin(); i != obj.end(); ++i)
                             {
-                                std::string id;
-                                std::string text;
-                                std::string description;
-                                const auto & obj = item.get<picojson::object>();
-                                for (auto i = obj.begin(); i != obj.end(); ++i)
+                                if ("id" == i->first)
                                 {
-                                    if ("id" == i->first)
-                                    {
-                                        id = i->second.to_str();
-                                    }
-                                    else if ("text" == i->first)
-                                    {
-                                        text = i->second.to_str();
-                                    }
-                                    else if ("description" == i->first)
-                                    {
-                                        description = i->second.to_str();
-                                    }
+                                    id = i->second.to_str();
                                 }
-                                if (!id.empty())
+                                else if ("text" == i->first)
                                 {
-                                    p.text[locale][id] = text;
+                                    text = i->second.to_str();
                                 }
+                                else if ("description" == i->first)
+                                {
+                                    description = i->second.to_str();
+                                }
+                            }
+                            if (!id.empty())
+                            {
+                                out[locale][id] = text;
                             }
                         }
                     }
                 }
-                catch (const std::exception & e)
-                {
-                    p.logSystem->log(getSystemName(), e.what(), LogLevel::Error);
-                }
             }
-        }
-
-        void TextSystem::_writeText()
-        {
-            DJV_PRIVATE_PTR();
-            const FileSystem::Path documentsPath = p.resourceSystem->getPath(FileSystem::ResourcePath::Documents);
-            for (const auto& i : p.saveFiles)
+            catch (const std::exception& e)
             {
-                const auto j = p.fileText.find(i);
-                if (j != p.fileText.end())
-                {
-                    const FileSystem::Path path(documentsPath, i);
-                    FileSystem::FileIO fileIO;
-                    fileIO.open(std::string(path), FileSystem::FileIO::Mode::Read);
-                }
+                p.logSystem->log(getSystemName(), e.what(), LogLevel::Error);
             }
+            return out;
         }
 
     } // namespace Core

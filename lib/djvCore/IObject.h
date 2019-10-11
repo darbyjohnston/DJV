@@ -150,7 +150,7 @@ namespace djv
             virtual void _childAddedEvent(Event::ChildAdded &);
             virtual void _childRemovedEvent(Event::ChildRemoved &);
             virtual void _childOrderEvent(Event::ChildOrder &);
-            virtual void _localeEvent(Event::Locale &);
+            virtual void _textUpdateEvent(Event::TextUpdate &);
             virtual void _updateEvent(Event::Update &);
 
             //! Over-ride this function to filter events for other objects.

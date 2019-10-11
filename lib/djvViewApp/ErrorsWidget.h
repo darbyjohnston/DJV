@@ -57,7 +57,7 @@ namespace djv
             void setClearCallback(const std::function<void(void)>&);
 
         protected:
-            void _localeEvent(Core::Event::Locale &) override;
+            void _textUpdateEvent(Core::Event::TextUpdate &) override;
 
         private:
             DJV_PRIVATE();

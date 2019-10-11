@@ -63,7 +63,7 @@ namespace djv
                 void _preLayoutEvent(Event::PreLayout&) override;
                 void _layoutEvent(Event::Layout&) override;
 
-                void _localeEvent(Event::Locale&) override;
+                void _textUpdateEvent(Event::TextUpdate&) override;
 
             private:
                 void _widgetUpdate();
@@ -146,7 +146,7 @@ namespace djv
                 _p->comboBox->setGeometry(getGeometry());
             }
 
-            void TimeUnitsWidget::_localeEvent(Event::Locale& event)
+            void TimeUnitsWidget::_textUpdateEvent(Event::TextUpdate& event)
             {
                 _widgetUpdate();
             }
@@ -218,9 +218,9 @@ namespace djv
             return "0";
         }
 
-        void TimeSettingsWidget::_localeEvent(Event::Locale & event)
+        void TimeSettingsWidget::_textUpdateEvent(Event::TextUpdate & event)
         {
-            ISettingsWidget::_localeEvent(event);
+            ISettingsWidget::_textUpdateEvent(event);
             DJV_PRIVATE_PTR();
             p.layout->setText(p.timeUnitsWidget, _getText(DJV_TEXT("Units")) + ":");
         }

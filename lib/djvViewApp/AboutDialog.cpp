@@ -285,9 +285,9 @@ namespace djv
             return out;
         }
 
-        void AboutDialog::_localeEvent(Event::Locale & event)
+        void AboutDialog::_textUpdateEvent(Event::TextUpdate & event)
         {
-            IDialog::_localeEvent(event);
+            IDialog::_textUpdateEvent(event);
             DJV_PRIVATE_PTR();
 
             std::stringstream ss;

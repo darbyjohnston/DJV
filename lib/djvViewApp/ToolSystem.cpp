@@ -61,7 +61,6 @@ namespace djv
             std::shared_ptr<UI::ActionGroup> toolActionGroup;
             std::shared_ptr<UI::Menu> menu;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
-            std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
         void ToolSystem::_init(const std::shared_ptr<Core::Context>& context)
@@ -159,16 +158,6 @@ namespace djv
                         }
                     }
                 });
-
-            p.localeObserver = ValueObserver<std::string>::create(
-                context->getSystemT<TextSystem>()->observeCurrentLocale(),
-                [weak](const std::string & value)
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_textUpdate();
-                }
-            });
         }
 
         ToolSystem::ToolSystem() :
@@ -203,16 +192,6 @@ namespace djv
             };
         }
 
-        void ToolSystem::_textUpdate()
-        {
-            DJV_PRIVATE_PTR();
-            p.menu->setText(_getText(DJV_TEXT("Tools")));
-            p.actions["Info"]->setText(_getText(DJV_TEXT("Information")));
-            p.actions["Info"]->setTooltip(_getText(DJV_TEXT("Information widget tooltip")));
-            p.actions["Settings"]->setText(_getText(DJV_TEXT("Settings")));
-            p.actions["Settings"]->setTooltip(_getText(DJV_TEXT("Settings tooltip")));
-        }
-
         void ToolSystem::_closeWidget(const std::string& value)
         {
             DJV_PRIVATE_PTR();
@@ -222,6 +201,20 @@ namespace djv
                 i->second->setChecked(false);
             }
             IViewSystem::_closeWidget(value);
+        }
+
+        void ToolSystem::_textUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.actions.size())
+            {
+                p.actions["Info"]->setText(_getText(DJV_TEXT("Information")));
+                p.actions["Info"]->setTooltip(_getText(DJV_TEXT("Information widget tooltip")));
+                p.actions["Settings"]->setText(_getText(DJV_TEXT("Settings")));
+                p.actions["Settings"]->setTooltip(_getText(DJV_TEXT("Settings tooltip")));
+
+                p.menu->setText(_getText(DJV_TEXT("Tools")));
+            }
         }
 
     } // namespace ViewApp

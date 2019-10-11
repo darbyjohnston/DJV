@@ -85,7 +85,6 @@ namespace djv
             std::shared_ptr<ValueObserver<ImageRotate> > imageRotateObserver;
             std::shared_ptr<ValueObserver<ImageAspectRatio> > imageAspectRatioObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
-            std::shared_ptr<ValueObserver<std::string> > localeObserver;
         };
 
         void ImageSystem::_init(const std::shared_ptr<Core::Context>& context)
@@ -400,16 +399,6 @@ namespace djv
                         }
                     });
             }
-
-            p.localeObserver = ValueObserver<std::string>::create(
-                context->getSystemT<TextSystem>()->observeCurrentLocale(),
-                [weak](const std::string & value)
-            {
-                if (auto system = weak.lock())
-                {
-                    system->_textUpdate();
-                }
-            });
         }
 
         ImageSystem::ImageSystem() :
@@ -500,50 +489,53 @@ namespace djv
         void ImageSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.actions["ColorSpace"]->setText(_getText(DJV_TEXT("Color Space")));
-            p.actions["ColorSpace"]->setTooltip(_getText(DJV_TEXT("Color space widget tooltip")));
-            p.actions["RedChannel"]->setText(_getText(DJV_TEXT("Red Channel")));
-            p.actions["RedChannel"]->setTooltip(_getText(DJV_TEXT("Red channel tooltip")));
-            p.actions["GreenChannel"]->setText(_getText(DJV_TEXT("Green Channel")));
-            p.actions["GreenChannel"]->setTooltip(_getText(DJV_TEXT("Green channel tooltip")));
-            p.actions["BlueChannel"]->setText(_getText(DJV_TEXT("Blue Channel")));
-            p.actions["BlueChannel"]->setTooltip(_getText(DJV_TEXT("Blue channel tooltip")));
-            p.actions["AlphaChannel"]->setText(_getText(DJV_TEXT("Alpha Channel")));
-            p.actions["AlphaChannel"]->setTooltip(_getText(DJV_TEXT("Alpha channel tooltip")));
-            p.actions["NoAlphaBlend"]->setText(_getText(DJV_TEXT("No Alpha")));
-            p.actions["NoAlphaBlend"]->setTooltip(_getText(DJV_TEXT("No Alpha")));
-            p.actions["StraightAlphaBlend"]->setText(_getText(DJV_TEXT("Straight Alpha")));
-            p.actions["StraightAlphaBlend"]->setTooltip(_getText(DJV_TEXT("Straight alpha blend tooltip")));
-            p.actions["PremultipliedAlphaBlend"]->setText(_getText(DJV_TEXT("Premultiplied Alpha")));
-            p.actions["PremultipliedAlphaBlend"]->setTooltip(_getText(DJV_TEXT("Premultiplied alpha blend tooltip")));
-            p.actions["MirrorH"]->setText(_getText(DJV_TEXT("Mirror Horizontal")));
-            p.actions["MirrorH"]->setTooltip(_getText(DJV_TEXT("Mirror horizontal tooltip")));
-            p.actions["MirrorV"]->setText(_getText(DJV_TEXT("Mirror Vertical")));
-            p.actions["MirrorV"]->setTooltip(_getText(DJV_TEXT("Mirror vertical tooltip")));
-            p.actions["Rotate_0"]->setText(_getText(DJV_TEXT("Rotate 0")));
-            p.actions["Rotate_0"]->setTooltip(_getText(DJV_TEXT("Rotate 0 tooltip")));
-            p.actions["Rotate_90"]->setText(_getText(DJV_TEXT("Rotate 90")));
-            p.actions["Rotate_90"]->setTooltip(_getText(DJV_TEXT("Rotate 90 tooltip")));
-            p.actions["Rotate_180"]->setText(_getText(DJV_TEXT("Rotate 180")));
-            p.actions["Rotate_180"]->setTooltip(_getText(DJV_TEXT("Rotate 180 tooltip")));
-            p.actions["Rotate_270"]->setText(_getText(DJV_TEXT("Rotate 270")));
-            p.actions["Rotate_270"]->setTooltip(_getText(DJV_TEXT("Rotate 270 tooltip")));
-            p.actions["AspectRatio_Native"]->setText(_getText(DJV_TEXT("Native Aspect Ratio")));
-            p.actions["AspectRatio_Native"]->setTooltip(_getText(DJV_TEXT("Native aspect ratio tooltip")));
-            p.actions["AspectRatio_Default"]->setText(_getText(DJV_TEXT("Default Aspect Ratio")));
-            p.actions["AspectRatio_Default"]->setTooltip(_getText(DJV_TEXT("Default aspect ratio tooltip")));
-            p.actions["AspectRatio_16_9"]->setText(_getText(DJV_TEXT("16:9")));
-            p.actions["AspectRatio_16_9"]->setTooltip(_getText(DJV_TEXT("16:9 aspect ratio tooltip")));
-            p.actions["AspectRatio_1_85"]->setText(_getText(DJV_TEXT("1.85")));
-            p.actions["AspectRatio_1_85"]->setTooltip(_getText(DJV_TEXT("1.85 aspect ratio tooltip")));
-            p.actions["AspectRatio_2_35"]->setText(_getText(DJV_TEXT("2.35")));
-            p.actions["AspectRatio_2_35"]->setTooltip(_getText(DJV_TEXT("2.35 aspect ratio tooltip")));
-            p.actions["FrameStoreEnabled"]->setText(_getText(DJV_TEXT("Frame Store")));
-            p.actions["FrameStoreEnabled"]->setTooltip(_getText(DJV_TEXT("Frame store tooltip")));
-            p.actions["LoadFrameStore"]->setText(_getText(DJV_TEXT("Load Frame Store")));
-            p.actions["LoadFrameStore"]->setTooltip(_getText(DJV_TEXT("Load frame store tooltip")));
+            if (p.actions.size())
+            {
+                p.actions["ColorSpace"]->setText(_getText(DJV_TEXT("Color Space")));
+                p.actions["ColorSpace"]->setTooltip(_getText(DJV_TEXT("Color space widget tooltip")));
+                p.actions["RedChannel"]->setText(_getText(DJV_TEXT("Red Channel")));
+                p.actions["RedChannel"]->setTooltip(_getText(DJV_TEXT("Red channel tooltip")));
+                p.actions["GreenChannel"]->setText(_getText(DJV_TEXT("Green Channel")));
+                p.actions["GreenChannel"]->setTooltip(_getText(DJV_TEXT("Green channel tooltip")));
+                p.actions["BlueChannel"]->setText(_getText(DJV_TEXT("Blue Channel")));
+                p.actions["BlueChannel"]->setTooltip(_getText(DJV_TEXT("Blue channel tooltip")));
+                p.actions["AlphaChannel"]->setText(_getText(DJV_TEXT("Alpha Channel")));
+                p.actions["AlphaChannel"]->setTooltip(_getText(DJV_TEXT("Alpha channel tooltip")));
+                p.actions["NoAlphaBlend"]->setText(_getText(DJV_TEXT("No Alpha")));
+                p.actions["NoAlphaBlend"]->setTooltip(_getText(DJV_TEXT("No Alpha")));
+                p.actions["StraightAlphaBlend"]->setText(_getText(DJV_TEXT("Straight Alpha")));
+                p.actions["StraightAlphaBlend"]->setTooltip(_getText(DJV_TEXT("Straight alpha blend tooltip")));
+                p.actions["PremultipliedAlphaBlend"]->setText(_getText(DJV_TEXT("Premultiplied Alpha")));
+                p.actions["PremultipliedAlphaBlend"]->setTooltip(_getText(DJV_TEXT("Premultiplied alpha blend tooltip")));
+                p.actions["MirrorH"]->setText(_getText(DJV_TEXT("Mirror Horizontal")));
+                p.actions["MirrorH"]->setTooltip(_getText(DJV_TEXT("Mirror horizontal tooltip")));
+                p.actions["MirrorV"]->setText(_getText(DJV_TEXT("Mirror Vertical")));
+                p.actions["MirrorV"]->setTooltip(_getText(DJV_TEXT("Mirror vertical tooltip")));
+                p.actions["Rotate_0"]->setText(_getText(DJV_TEXT("Rotate 0")));
+                p.actions["Rotate_0"]->setTooltip(_getText(DJV_TEXT("Rotate 0 tooltip")));
+                p.actions["Rotate_90"]->setText(_getText(DJV_TEXT("Rotate 90")));
+                p.actions["Rotate_90"]->setTooltip(_getText(DJV_TEXT("Rotate 90 tooltip")));
+                p.actions["Rotate_180"]->setText(_getText(DJV_TEXT("Rotate 180")));
+                p.actions["Rotate_180"]->setTooltip(_getText(DJV_TEXT("Rotate 180 tooltip")));
+                p.actions["Rotate_270"]->setText(_getText(DJV_TEXT("Rotate 270")));
+                p.actions["Rotate_270"]->setTooltip(_getText(DJV_TEXT("Rotate 270 tooltip")));
+                p.actions["AspectRatio_Native"]->setText(_getText(DJV_TEXT("Native Aspect Ratio")));
+                p.actions["AspectRatio_Native"]->setTooltip(_getText(DJV_TEXT("Native aspect ratio tooltip")));
+                p.actions["AspectRatio_Default"]->setText(_getText(DJV_TEXT("Default Aspect Ratio")));
+                p.actions["AspectRatio_Default"]->setTooltip(_getText(DJV_TEXT("Default aspect ratio tooltip")));
+                p.actions["AspectRatio_16_9"]->setText(_getText(DJV_TEXT("16:9")));
+                p.actions["AspectRatio_16_9"]->setTooltip(_getText(DJV_TEXT("16:9 aspect ratio tooltip")));
+                p.actions["AspectRatio_1_85"]->setText(_getText(DJV_TEXT("1.85")));
+                p.actions["AspectRatio_1_85"]->setTooltip(_getText(DJV_TEXT("1.85 aspect ratio tooltip")));
+                p.actions["AspectRatio_2_35"]->setText(_getText(DJV_TEXT("2.35")));
+                p.actions["AspectRatio_2_35"]->setTooltip(_getText(DJV_TEXT("2.35 aspect ratio tooltip")));
+                p.actions["FrameStoreEnabled"]->setText(_getText(DJV_TEXT("Frame Store")));
+                p.actions["FrameStoreEnabled"]->setTooltip(_getText(DJV_TEXT("Frame store tooltip")));
+                p.actions["LoadFrameStore"]->setText(_getText(DJV_TEXT("Load Frame Store")));
+                p.actions["LoadFrameStore"]->setTooltip(_getText(DJV_TEXT("Load frame store tooltip")));
 
-            p.menu->setText(_getText(DJV_TEXT("Image")));
+                p.menu->setText(_getText(DJV_TEXT("Image")));
+            }
         }
 
     } // namespace ViewApp

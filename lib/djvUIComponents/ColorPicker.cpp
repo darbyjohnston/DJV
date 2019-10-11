@@ -132,7 +132,7 @@ namespace djv
             _p->comboBox->setGeometry(getGeometry());
         }
 
-        void ColorTypeWidget::_localeEvent(Event::Locale &)
+        void ColorTypeWidget::_textUpdateEvent(Event::TextUpdate &)
         {
             DJV_PRIVATE_PTR();
             setTooltip(_getText(DJV_TEXT("Color type widget tooltip")));
@@ -251,7 +251,7 @@ namespace djv
             _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));
         }
 
-        void ColorSliders::_localeEvent(Event::Locale &)
+        void ColorSliders::_textUpdateEvent(Event::TextUpdate &)
         {
             _textUpdate();
         }

@@ -200,8 +200,8 @@ namespace djv
                 case Event::Type::ChildOrder:
                     _childOrderEvent(static_cast<Event::ChildOrder &>(event));
                     break;
-                case Event::Type::Locale:
-                    _localeEvent(static_cast<Event::Locale &>(event));
+                case Event::Type::TextUpdate:
+                    _textUpdateEvent(static_cast<Event::TextUpdate &>(event));
                     break;
                 case Event::Type::Update:
                     _updateEvent(static_cast<Event::Update &>(event));
@@ -256,7 +256,7 @@ namespace djv
             // Default implementation does nothing.
         }
         
-        void IObject::_localeEvent(Event::Locale &)
+        void IObject::_textUpdateEvent(Event::TextUpdate &)
         {
             // Default implementation does nothing.
         }

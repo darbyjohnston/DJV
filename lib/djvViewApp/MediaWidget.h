@@ -97,7 +97,7 @@ namespace djv
             void _preLayoutEvent(Core::Event::PreLayout&) override;
             void _layoutEvent(Core::Event::Layout&) override;
 
-            void _localeEvent(Core::Event::Locale&) override;
+            void _textUpdateEvent(Core::Event::TextUpdate&) override;
 
         private:
             void _widgetUpdate();

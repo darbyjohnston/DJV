@@ -164,7 +164,7 @@ namespace djv
                 p.glfwWindow = glfwCreateWindow(
                     windowSize.x,
                     windowSize.y,
-                    getSystemName().c_str(), NULL, NULL);
+                    context->getName().c_str(), NULL, NULL);
                 if (!p.glfwWindow)
                 {
                     throw Error(AV::GLFW::getErrorMessage(ErrorString::Window));

@@ -35,7 +35,6 @@
 #include <djvCore/Context.h>
 #include <djvCore/Error.h>
 #include <djvCore/FileInfo.h>
-#include <djvCore/TextSystem.h>
 #include <djvCore/Vector.h>
 
 using namespace djv;
@@ -58,9 +57,6 @@ namespace djv
                     args.push_back(argv[i]);
                 }
                 CmdLine::Application::_init(args);
-
-                auto textSystem = getSystemT<Core::TextSystem>();
-                const auto locale = textSystem->getCurrentLocale();
 
                 auto io = getSystemT<AV::IO::System>();
                 auto avSystem = getSystemT<AV::AVSystem>();

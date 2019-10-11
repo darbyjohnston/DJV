@@ -861,7 +861,7 @@ namespace djv
                 }
             }
 
-            void ItemView::_localeEvent(Event::Locale &)
+            void ItemView::_textUpdateEvent(Event::TextUpdate &)
             {
                 _itemsUpdate();
             }

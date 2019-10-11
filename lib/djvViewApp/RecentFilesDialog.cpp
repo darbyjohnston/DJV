@@ -282,9 +282,9 @@ namespace djv
             _p->callback = value;
         }
 
-        void RecentFilesDialog::_localeEvent(Event::Locale & event)
+        void RecentFilesDialog::_textUpdateEvent(Event::TextUpdate & event)
         {
-            IDialog::_localeEvent(event);
+            IDialog::_textUpdateEvent(event);
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Recent Files")));
 

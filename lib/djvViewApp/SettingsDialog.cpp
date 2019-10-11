@@ -125,7 +125,7 @@ namespace djv
             _p->tabWidget->setCurrentTab(value);
         }
 
-        void SettingsDialog::_localeEvent(Event::Locale & event)
+        void SettingsDialog::_textUpdateEvent(Event::TextUpdate & event)
         {
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Settings")));

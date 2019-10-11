@@ -489,7 +489,7 @@ namespace djv
                     break;
                 }
                 case Event::Type::ChildOrder:
-                case Event::Type::Locale:
+                case Event::Type::TextUpdate:
                     _resize();
                     break;
                 case Event::Type::Update:
@@ -667,8 +667,8 @@ namespace djv
                 case Event::Type::TextFocusLost:
                     _textFocusLostEvent(static_cast<Event::TextFocusLost &>(event));
                     break;
-                case Event::Type::Text:
-                    _textEvent(static_cast<Event::Text &>(event));
+                case Event::Type::TextInput:
+                    _textInputEvent(static_cast<Event::TextInput&>(event));
                     break;
                 default: break;
                 }

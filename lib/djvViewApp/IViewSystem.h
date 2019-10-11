@@ -89,6 +89,8 @@ namespace djv
             const std::map<std::string, Core::BBox2f>& _getWidgetGeom() const;
             void _setWidgetGeom(const std::map<std::string, Core::BBox2f>&);
 
+            virtual void _textUpdate();
+
         private:
             DJV_PRIVATE();
         };

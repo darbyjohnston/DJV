@@ -53,9 +53,8 @@ namespace djv
             MenuData getMenu() const override;
 
         protected:
-            void _textUpdate();
-
             void _closeWidget(const std::string&) override;
+            void _textUpdate() override;
 
         private:
             void _errorsPopup();

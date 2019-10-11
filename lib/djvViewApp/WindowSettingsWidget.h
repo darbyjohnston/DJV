@@ -54,7 +54,7 @@ namespace djv
             std::string getSettingsSortKey() const override;
 
         protected:
-            void _localeEvent(Core::Event::Locale&) override;
+            void _textUpdateEvent(Core::Event::TextUpdate&) override;
 
         private:
             void _widgetUpdate();
@@ -83,7 +83,7 @@ namespace djv
         protected:
             void _styleEvent(Core::Event::Style&) override;
 
-            void _localeEvent(Core::Event::Locale&) override;
+            void _textUpdateEvent(Core::Event::TextUpdate&) override;
             void _updateEvent(Core::Event::Update&) override;
 
         private:
