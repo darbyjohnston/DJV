@@ -51,7 +51,7 @@ namespace djv
 #if defined(DJV_PLATFORM_WINDOWS)
                 return getListSeparator(ListSeparator::Windows);
 #else
-                return getListSeparator(PathSeparator::Unix);
+                return getListSeparator(ListSeparator::Unix);
 #endif // DJV_PLATFORM_WINDOWS
             }
 
