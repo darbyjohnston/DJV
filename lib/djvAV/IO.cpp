@@ -515,11 +515,11 @@ namespace djv
                         p.sequenceExtensions.insert(fileExtensions.begin(), fileExtensions.end());
                     }
                 
-                    std::stringstream s;
-                    s << "I/O plugin: " << i.second->getPluginName() << '\n';
-                    s << "    Information: " << i.second->getPluginInfo() << '\n';
-                    s << "    File extensions: " << String::joinSet(i.second->getFileExtensions(), ", ") << '\n';
-                    _log(s.str());
+                    std::stringstream ss;
+                    ss << "I/O plugin: " << i.second->getPluginName() << '\n';
+                    ss << "    Information: " << i.second->getPluginInfo() << '\n';
+                    ss << "    File extensions: " << String::joinSet(i.second->getFileExtensions(), ", ") << '\n';
+                    _log(ss.str());
                 }
             }
 
@@ -641,9 +641,9 @@ namespace djv
                 }
                 if (!out)
                 {
-                    std::stringstream s;
-                    s << DJV_TEXT("The file") << " '" << fileInfo << "' " << DJV_TEXT("cannot be read") << ".";
-                    throw FileSystem::Error(s.str());
+                    std::stringstream ss;
+                    ss << DJV_TEXT("The file") << " '" << fileInfo << "' " << DJV_TEXT("cannot be read") << ".";
+                    throw FileSystem::Error(ss.str());
                 }
                 return out;
             }
@@ -662,9 +662,9 @@ namespace djv
                 }
                 if (!out)
                 {
-                    std::stringstream s;
-                    s << DJV_TEXT("The file") << " '" << fileInfo << "' " << DJV_TEXT("cannot be written") << ".";
-                    throw FileSystem::Error(s.str());
+                    std::stringstream ss;
+                    ss << DJV_TEXT("The file") << " '" << fileInfo << "' " << DJV_TEXT("cannot be written") << ".";
+                    throw FileSystem::Error(ss.str());
                 }
                 return out;
             }

@@ -39,9 +39,9 @@ namespace djv
         {
             std::string format(const std::exception & e)
             {
-                std::stringstream s;
-                s << "ERROR: " << e.what();
-                return s.str();
+                std::stringstream ss;
+                ss << "ERROR: " << e.what();
+                return ss.str();
             }
 
         } // namespace Error

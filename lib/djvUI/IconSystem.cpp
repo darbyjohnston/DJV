@@ -137,11 +137,11 @@ namespace djv
                 [this](float)
             {
                 DJV_PRIVATE_PTR();
-                std::stringstream s;
+                std::stringstream ss;
                 {
-                    s << "Image cache: " << p.imageCachePercentage << '%';
+                    ss << "Image cache: " << p.imageCachePercentage << '%';
                 }
-                _log(s.str());
+                _log(ss.str());
             });
 
             p.running = true;

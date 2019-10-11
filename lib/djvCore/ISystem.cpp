@@ -78,18 +78,18 @@ namespace djv
             _resourceSystem = context->getSystemT<ResourceSystem>();
             _textSystem = context->getSystemT<TextSystem>();
             {
-                std::stringstream s;
-                s << name << " starting...";
-                _log(s.str());
+                std::stringstream ss;
+                ss << name << " starting...";
+                _log(ss.str());
             }
         }
 
         ISystem::~ISystem()
         {
             {
-                std::stringstream s;
-                s << getSystemName() << " exiting...";
-                _log(s.str());
+                std::stringstream ss;
+                ss << getSystemName() << " exiting...";
+                _log(ss.str());
             }
         }
 

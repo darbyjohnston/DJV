@@ -424,9 +424,9 @@ namespace djv
                 picojson::parse(v, bufP, bufEnd, &error);
                 if (!error.empty())
                 {
-                    std::stringstream s;
-                    s << DJV_TEXT("Error reading the text file") << " '" << path << "'. " << error;
-                    throw FileSystem::Error(s.str());
+                    std::stringstream ss;
+                    ss << DJV_TEXT("Error reading the text file") << " '" << path << "'. " << error;
+                    throw FileSystem::Error(ss.str());
                 }
 
                 if (v.is<picojson::array>())

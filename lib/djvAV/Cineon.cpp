@@ -241,9 +241,9 @@ namespace djv
                     }
                     else
                     {
-                        std::stringstream s;
-                        s << DJV_TEXT("Bad magic number.");
-                        throw FileSystem::Error(s.str());
+                        std::stringstream ss;
+                        ss << DJV_TEXT("Bad magic number.");
+                        throw FileSystem::Error(ss.str());
                     }
 
                     // Read the rest of the header.
@@ -262,9 +262,9 @@ namespace djv
                     // Read the image section of the header.
                     if (!out.image.channels)
                     {
-                        std::stringstream s;
-                        s << DJV_TEXT("No image channels.");
-                        throw FileSystem::Error(s.str());
+                        std::stringstream ss;
+                        ss << DJV_TEXT("No image channels.");
+                        throw FileSystem::Error(ss.str());
                     }
                     uint8_t i = 1;
                     for (; i < out.image.channels; ++i)
@@ -281,9 +281,9 @@ namespace djv
                     }
                     if (i < out.image.channels)
                     {
-                        std::stringstream s;
-                        s << DJV_TEXT("Image channels must have the same size and bit depth.");
-                        throw FileSystem::Error(s.str());
+                        std::stringstream ss;
+                        ss << DJV_TEXT("Image channels must have the same size and bit depth.");
+                        throw FileSystem::Error(ss.str());
                     }
                     Image::Type imageType = Image::Type::None;
                     switch (out.image.channels)
@@ -301,21 +301,21 @@ namespace djv
                     }
                     if (Image::Type::None == imageType)
                     {
-                        std::stringstream s;
-                        s << DJV_TEXT("Unsupported bit depth.");
-                        throw FileSystem::Error(s.str());
+                        std::stringstream ss;
+                        ss << DJV_TEXT("Unsupported bit depth.");
+                        throw FileSystem::Error(ss.str());
                     }
                     if (isValid(&out.image.linePadding) && out.image.linePadding)
                     {
-                        std::stringstream s;
-                        s << DJV_TEXT("Line padding is unsupported.");
-                        throw FileSystem::Error(s.str());
+                        std::stringstream ss;
+                        ss << DJV_TEXT("Line padding is unsupported.");
+                        throw FileSystem::Error(ss.str());
                     }
                     if (isValid(&out.image.channelPadding) && out.image.channelPadding)
                     {
-                        std::stringstream s;
-                        s << DJV_TEXT("Channel padding is unsupported.");
-                        throw FileSystem::Error(s.str());
+                        std::stringstream ss;
+                        ss << DJV_TEXT("Channel padding is unsupported.");
+                        throw FileSystem::Error(ss.str());
                     }
 
                     // Collect information.
@@ -324,9 +324,9 @@ namespace djv
                     info.video[0].info.size.h = out.image.channel[0].size[1];
                     if (io.getSize() - out.file.imageOffset != info.video[0].info.getDataByteCount())
                     {
-                        std::stringstream s;
-                        s << DJV_TEXT("Incomplete file.");
-                        throw FileSystem::Error(s.str());
+                        std::stringstream ss;
+                        ss << DJV_TEXT("Incomplete file.");
+                        throw FileSystem::Error(ss.str());
                     }
                     switch (static_cast<Orient>(out.image.orient))
                     {

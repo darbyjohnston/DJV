@@ -120,9 +120,9 @@ namespace djv
                     std::cerr << name << ": " << e.what() << std::endl;
                 }
 
-                std::stringstream s;
-                s << "Log file path: " << p.path;
-                log("djv::Core::LogSystem", s.str());
+                std::stringstream ss;
+                ss << "Log file path: " << p.path;
+                log("djv::Core::LogSystem", ss.str());
 
                 const auto timeout = Time::getValue(Time::TimerValue::Slow);
                 while (p.running)

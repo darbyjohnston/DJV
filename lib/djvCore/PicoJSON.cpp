@@ -55,9 +55,9 @@ namespace djv
                     size_t i = 0;
                     for (const auto & key : object)
                     {
-                        std::stringstream s;
-                        s << "\"" << key.first << "\": ";
-                        fileIO.write(String::indent(indent) + s.str());
+                        std::stringstream ss;
+                        ss << "\"" << key.first << "\": ";
+                        fileIO.write(String::indent(indent) + ss.str());
                         write(key.second, fileIO, indent, true);
                         if (i < object.size() - 1)
                         {
@@ -93,9 +93,9 @@ namespace djv
                 }
                 else if (value.is<double>())
                 {
-                    std::stringstream s;
-                    s << "\"" << value.get<double>() << "\"";
-                    std::string tmp = s.str();
+                    std::stringstream ss;
+                    ss << "\"" << value.get<double>() << "\"";
+                    std::string tmp = ss.str();
                     if (!continueLine)
                     {
                         tmp = String::indent(indent) + tmp;
@@ -104,9 +104,9 @@ namespace djv
                 }
                 else if (value.is<std::string>())
                 {
-                    std::stringstream s;
-                    s << "\"" << value.get<std::string>() << "\"";
-                    std::string tmp = s.str();
+                    std::stringstream ss;
+                    ss << "\"" << value.get<std::string>() << "\"";
+                    std::string tmp = ss.str();
                     if (!continueLine)
                     {
                         tmp = String::indent(indent) + tmp;
@@ -120,30 +120,30 @@ namespace djv
 
     picojson::value toJSON(bool value)
     {
-        std::stringstream s;
-        s << (value ? "true" : "false");
-        return picojson::value(s.str());
+        std::stringstream ss;
+        ss << (value ? "true" : "false");
+        return picojson::value(ss.str());
     }
 
     picojson::value toJSON(int value)
     {
-        std::stringstream s;
-        s << value;
-        return picojson::value(s.str());
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
     }
 
     picojson::value toJSON(float value)
     {
-        std::stringstream s;
-        s << value;
-        return picojson::value(s.str());
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
     }
 
     picojson::value toJSON(size_t value)
     {
-        std::stringstream s;
-        s << value;
-        return picojson::value(s.str());
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
     }
 
     picojson::value toJSON(const std::string & value)

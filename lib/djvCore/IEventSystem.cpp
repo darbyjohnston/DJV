@@ -133,9 +133,9 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        std::stringstream s;
-                        s << "Global object count: " << IObject::getGlobalObjectCount();
-                        system->_log(s.str());
+                        std::stringstream ss;
+                        ss << "Global object count: " << IObject::getGlobalObjectCount();
+                        system->_log(ss.str());
                     }
                 });
             }

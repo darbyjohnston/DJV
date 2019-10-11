@@ -87,10 +87,10 @@ namespace djv
                 if (!success)
                 {
                     glGetShaderInfoLog(_fragment, String::cStringLength, NULL, infoLog);
-                    std::stringstream s;
-                    s << DJV_TEXT("The OpenGL framgent shader") << " '" << _shader->getFragmentName() << "' " <<
+                    std::stringstream ss;
+                    ss << DJV_TEXT("The OpenGL framgent shader") << " '" << _shader->getFragmentName() << "' " <<
                         DJV_TEXT("cannot be compiled") << ". " << infoLog;
-                    throw ShaderError(s.str());
+                    throw ShaderError(ss.str());
                 }
 
                 _program = glCreateProgram();
@@ -101,10 +101,10 @@ namespace djv
                 if (!success)
                 {
                     glGetProgramInfoLog(_program, String::cStringLength, NULL, infoLog);
-                    std::stringstream s;
-                    s << DJV_TEXT("The program") << " '" << _shader->getVertexName() << "' " <<
+                    std::stringstream ss;
+                    ss << DJV_TEXT("The program") << " '" << _shader->getVertexName() << "' " <<
                         DJV_TEXT("cannot be linked") << ". " << infoLog;
-                    throw std::invalid_argument(s.str());
+                    throw std::invalid_argument(ss.str());
                 }
             }
 

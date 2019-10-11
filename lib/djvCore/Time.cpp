@@ -69,13 +69,13 @@ namespace djv
                 int    minutes = 0;
                 double seconds = 0.0;
                 secondsToTime(value, hours, minutes, seconds);
-                std::stringstream s;
-                s << std::setfill('0') << std::setw(2) << hours;
-                s << std::setw(0) << ":";
-                s << std::setfill('0') << std::setw(2) << minutes;
-                s << std::setw(0) << ":";
-                s << std::setfill('0') << std::setw(2) << static_cast<int>(seconds);
-                return s.str();
+                std::stringstream ss;
+                ss << std::setfill('0') << std::setw(2) << hours;
+                ss << std::setw(0) << ":";
+                ss << std::setfill('0') << std::setw(2) << minutes;
+                ss << std::setw(0) << ":";
+                ss << std::setfill('0') << std::setw(2) << static_cast<int>(seconds);
+                return ss.str();
             }
 
             std::string getLabel(time_t value)
@@ -140,15 +140,15 @@ namespace djv
                 int frame  = 0;
                 timecodeToTime(in, hour, minute, second, frame);
 
-                /*std::stringstream s;
-                s << std::setfill('0') << std::setw(2) << hour;
-                s << std::setw(0) << ":";
-                s << std::setfill('0') << std::setw(2) << minute;
-                s << std::setw(0) << ":";
-                s << std::setfill('0') << std::setw(2) << second;
-                s << std::setw(0) << ":";
-                s << std::setfill('0') << std::setw(2) << frame;
-                return s.str();*/
+                /*std::stringstream ss;
+                ss << std::setfill('0') << std::setw(2) << hour;
+                ss << std::setw(0) << ":";
+                ss << std::setfill('0') << std::setw(2) << minute;
+                ss << std::setw(0) << ":";
+                ss << std::setfill('0') << std::setw(2) << second;
+                ss << std::setw(0) << ":";
+                ss << std::setfill('0') << std::setw(2) << frame;
+                return ss.str();*/
 
                 std::string out = "00:00:00:00";
                 out[ 0] = 48 +   hour / 10;

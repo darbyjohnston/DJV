@@ -35,23 +35,23 @@ namespace djv
 {
     picojson::value toJSON(const Core::BBox2i& value)
     {
-        std::stringstream s;
-        s << value;
-        return picojson::value(s.str());
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
     }
 
     picojson::value toJSON(const Core::BBox2f& value)
     {
-        std::stringstream s;
-        s << value;
-        return picojson::value(s.str());
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
     }
 
     picojson::value toJSON(const Core::BBox3f& value)
     {
-        std::stringstream s;
-        s << value;
-        return picojson::value(s.str());
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
     }
 
     void fromJSON(const picojson::value& value, Core::BBox2i& out)

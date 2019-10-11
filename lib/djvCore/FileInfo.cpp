@@ -55,34 +55,34 @@ namespace djv
 
             std::string FileInfo::getFileName(Frame::Number frame, bool path) const
             {
-                std::stringstream s;
+                std::stringstream ss;
                 const bool isRoot = std::string(1, Path::getCurrentSeparator()) == _path.get();
                 if (isRoot)
                 {
-                    s << _path;
+                    ss << _path;
                 }
                 else
                 {
                     if (path)
                     {
-                        s << _path.getDirectoryName();
+                        ss << _path.getDirectoryName();
                     }
-                    s << _path.getBaseName();
+                    ss << _path.getBaseName();
                     if (FileType::Sequence == _type && _sequence.ranges.size() && frame != Frame::invalid)
                     {
-                        s << Frame::toString(frame, _sequence.pad);
+                        ss << Frame::toString(frame, _sequence.pad);
                     }
                     else if (FileType::Sequence == _type && _sequence.ranges.size())
                     {
-                        s << _sequence;
+                        ss << _sequence;
                     }
                     else
                     {
-                        s << _path.getNumber();
+                        ss << _path.getNumber();
                     }
-                    s << _path.getExtension();
+                    ss << _path.getExtension();
                 }
-                return s.str();
+                return ss.str();
             }
 
             void FileInfo::setPath(const Path& value, bool stat)

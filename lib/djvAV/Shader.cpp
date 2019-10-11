@@ -73,9 +73,9 @@ namespace djv
                 }
                 catch (const std::exception & e)
                 {
-                    std::stringstream s;
-                    s << DJV_TEXT("The shader cannot be created") << ". " << e.what();
-                    throw ShaderError(s.str());
+                    std::stringstream ss;
+                    ss << DJV_TEXT("The shader cannot be created") << ". " << e.what();
+                    throw ShaderError(ss.str());
                 }
                 return out;
             }

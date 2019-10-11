@@ -72,18 +72,18 @@ namespace djv
             CoreSystem::create(argv0, shared_from_this());
 
             {
-                std::stringstream s;
-                s << "Application: " << _name << '\n';
-                s << "System information: " << OS::getInformation() << '\n';
-                s << "Hardware concurrency: " << std::thread::hardware_concurrency() << '\n';
-                s << "System RAM: " << (OS::getRAMSize() / Memory::gigabyte) << "GB" << '\n';
-                s << "argv0: " << argv0 << '\n';
-                s << "Resource paths:" << '\n';
+                std::stringstream ss;
+                ss << "Application: " << _name << '\n';
+                ss << "System information: " << OS::getInformation() << '\n';
+                ss << "Hardware concurrency: " << std::thread::hardware_concurrency() << '\n';
+                ss << "System RAM: " << (OS::getRAMSize() / Memory::gigabyte) << "GB" << '\n';
+                ss << "argv0: " << argv0 << '\n';
+                ss << "Resource paths:" << '\n';
                 for (auto path : FileSystem::getResourcePathEnums())
                 {
-                    s << "    " << path << ": " << _resourceSystem->getPath(path) << '\n';
+                    ss << "    " << path << ": " << _resourceSystem->getPath(path) << '\n';
                 }
-                _logSystem->log("djv::Core::Context", s.str());
+                _logSystem->log("djv::Core::Context", ss.str());
             }
 
             _fpsTimer = Time::Timer::create(shared_from_this());
@@ -95,9 +95,9 @@ namespace djv
             {
                 if (auto context = weak.lock())
                 {
-                    std::stringstream s;
-                    s << "FPS: " << context->_fpsAverage;
-                    context->_logSystem->log("djv::Core::Context", s.str());
+                    std::stringstream ss;
+                    ss << "FPS: " << context->_fpsAverage;
+                    context->_logSystem->log("djv::Core::Context", ss.str());
                 }
             });
         }
@@ -156,9 +156,9 @@ namespace djv
                 for (const auto & system : _systems)
                 {
                     {
-                        std::stringstream s;
-                        s << "Tick system #" << count << ": " << system->getSystemName();
-                        _logSystem->log("djv::Core::Context", s.str());
+                        std::stringstream ss;
+                        ss << "Tick system #" << count << ": " << system->getSystemName();
+                        _logSystem->log("djv::Core::Context", ss.str());
                         ++count;
                     }
                     for (const auto & dependency : system->getDependencies())

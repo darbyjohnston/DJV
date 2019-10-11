@@ -250,9 +250,9 @@ namespace djv
                     [this](float)
                 {
                     DJV_PRIVATE_PTR();
-                    std::stringstream s;
-                    s << "Glyph cache: " << p.glyphCacheSize << ", " << p.glyphCachePercentageUsed << "%";
-                    _log(s.str());
+                    std::stringstream ss;
+                    ss << "Glyph cache: " << p.glyphCacheSize << ", " << p.glyphCachePercentageUsed << "%";
+                    _log(ss.str());
                 });
 
                 p.running = true;
@@ -449,35 +449,35 @@ namespace djv
                     int versionPatch = 0;
                     FT_Library_Version(p.ftLibrary, &versionMajor, &versionMinor, &versionPatch);
                     {
-                        std::stringstream s;
-                        s << "FreeType version: " << versionMajor << "." << versionMinor << "." << versionPatch;
-                        _log(s.str());
+                        std::stringstream ss;
+                        ss << "FreeType version: " << versionMajor << "." << versionMinor << "." << versionPatch;
+                        _log(ss.str());
                     }
                     for (const auto & i : FileSystem::FileInfo::directoryList(p.fontPath))
                     {
                         const std::string & fileName = i.getFileName();
 
-                        std::stringstream s;
-                        s << "Loading font: " << fileName;
-                        _log(s.str());
+                        std::stringstream ss;
+                        ss << "Loading font: " << fileName;
+                        _log(ss.str());
 
                         FT_Face ftFace;
                         ftError = FT_New_Face(p.ftLibrary, fileName.c_str(), 0, &ftFace);
                         if (ftError)
                         {
-                            s = std::stringstream();
-                            s << "Cannot load font: " << fileName;
-                            _log(s.str(), LogLevel::Error);
+                            std::stringstream ss;
+                            ss << "Cannot load font: " << fileName;
+                            _log(ss.str(), LogLevel::Error);
                         }
                         else
                         {
-                            s = std::stringstream();
-                            s << "    Family: " << ftFace->family_name << '\n';
-                            s << "    Style: " << ftFace->style_name << '\n';
-                            s << "    Number of glyphs: " << static_cast<int>(ftFace->num_glyphs) << '\n';
-                            s << "    Scalable: " << (FT_IS_SCALABLE(ftFace) ? "true" : "false") << '\n';
-                            s << "    Kerning: " << (FT_HAS_KERNING(ftFace) ? "true" : "false");
-                            _log(s.str());
+                            std::stringstream ss;
+                            ss << "    Family: " << ftFace->family_name << '\n';
+                            ss << "    Style: " << ftFace->style_name << '\n';
+                            ss << "    Number of glyphs: " << static_cast<int>(ftFace->num_glyphs) << '\n';
+                            ss << "    Scalable: " << (FT_IS_SCALABLE(ftFace) ? "true" : "false") << '\n';
+                            ss << "    Kerning: " << (FT_HAS_KERNING(ftFace) ? "true" : "false");
+                            _log(ss.str());
                             static FamilyID familyID = 0;
                             static FaceID faceID = 1;
                             ++familyID;

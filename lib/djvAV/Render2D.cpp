@@ -453,17 +453,17 @@ namespace djv
                     [this](float)
                     {
                         DJV_PRIVATE_PTR();
-                        std::stringstream s;
-                        s << "Texture atlas: " << p.textureAtlas->getPercentageUsed() << "%\n";
-                        s << "Texture IDs: " << p.textureIDs.size() << "%\n";
-                        s << "Glyph texture IDs: " << p.glyphTextureIDs.size() << "\n";
-                        s << "Dynamic texture IDs: " << p.dynamicTextureIDs.size() << "\n";
-                        s << "Dynamic texture cache: " << p.dynamicTextureCache.size() << "\n";
+                        std::stringstream ss;
+                        ss << "Texture atlas: " << p.textureAtlas->getPercentageUsed() << "%\n";
+                        ss << "Texture IDs: " << p.textureIDs.size() << "%\n";
+                        ss << "Glyph texture IDs: " << p.glyphTextureIDs.size() << "\n";
+                        ss << "Dynamic texture IDs: " << p.dynamicTextureIDs.size() << "\n";
+                        ss << "Dynamic texture cache: " << p.dynamicTextureCache.size() << "\n";
 #if !defined(DJV_OPENGL_ES2)
-                        s << "Color space cache: " << p.colorSpaceCache.size() << "\n";
+                        ss << "Color space cache: " << p.colorSpaceCache.size() << "\n";
 #endif // DJV_OPENGL_ES2
-                        s << "VBO size: " << (p.vbo ? p.vbo->getSize() : 0);
-                        _log(s.str());
+                        ss << "VBO size: " << (p.vbo ? p.vbo->getSize() : 0);
+                        _log(ss.str());
                     });
 
                 /*p.fpsTimer = Time::Timer::create(context);
@@ -479,9 +479,9 @@ namespace djv
                         average += i;
                     }
                     average /= static_cast<float>(p.fpsSamples.size());
-                    std::stringstream s;
-                    s << "FPS: " << average;
-                    _log(s.str());
+                    std::stringstream ss;
+                    ss << "FPS: " << average;
+                    _log(ss.str());
                 });*/
             }
 

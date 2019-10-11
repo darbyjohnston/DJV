@@ -33,30 +33,30 @@ namespace djv
 {
     picojson::value toJSON(const glm::ivec2 & value)
     {
-        std::stringstream s;
-        s << value;
-        return picojson::value(s.str());
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
     }
 
     picojson::value toJSON(const glm::vec2 & value)
     {
-        std::stringstream s;
-        s << value;
-        return picojson::value(s.str());
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
     }
 
     picojson::value toJSON(const glm::vec3 & value)
     {
-        std::stringstream s;
-        s << value;
-        return picojson::value(s.str());
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
     }
 
     picojson::value toJSON(const glm::vec4 & value)
     {
-        std::stringstream s;
-        s << value;
-        return picojson::value(s.str());
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
     }
 
     void fromJSON(const picojson::value & value, glm::ivec2 & out)

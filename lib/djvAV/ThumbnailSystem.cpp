@@ -247,12 +247,12 @@ namespace djv
                 [this](float)
             {
                 DJV_PRIVATE_PTR();
-                std::stringstream s;
+                std::stringstream ss;
                 {
-                    s << "Info cache: " << p.infoCachePercentage << "%\n";
-                    s << "Image cache: " << p.imageCachePercentage << '%';
+                    ss << "Info cache: " << p.infoCachePercentage << "%\n";
+                    ss << "Image cache: " << p.imageCachePercentage << '%';
                 }
-                _log(s.str());
+                _log(ss.str());
             });
 
             auto logSystem = context->getSystemT<LogSystem>();

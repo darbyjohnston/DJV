@@ -54,9 +54,9 @@ namespace djv
                 std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
                 if (_wmkdir(utf16.from_bytes(value.get()).c_str()) != 0)
                 {
-                    std::stringstream s;
-                    s << DJV_TEXT("The directory") << " '" << value << "' " << DJV_TEXT("cannot be created") << ".";
-                    throw std::invalid_argument(s.str());
+                    std::stringstream ss;
+                    ss << DJV_TEXT("The directory") << " '" << value << "' " << DJV_TEXT("cannot be created") << ".";
+                    throw std::invalid_argument(ss.str());
                 }
             }
 
@@ -65,9 +65,9 @@ namespace djv
                 std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf16;
                 if (_wrmdir(utf16.from_bytes(value.get()).c_str()) != 0)
                 {
-                    std::stringstream s;
-                    s << DJV_TEXT("The directory") << " '" << value << "' " << DJV_TEXT("cannot be removed") << ".";
-                    throw std::invalid_argument(s.str());
+                    std::stringstream ss;
+                    ss << DJV_TEXT("The directory") << " '" << value << "' " << DJV_TEXT("cannot be removed") << ".";
+                    throw std::invalid_argument(ss.str());
                 }
             }
 

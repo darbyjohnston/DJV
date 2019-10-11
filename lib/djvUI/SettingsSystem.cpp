@@ -106,9 +106,9 @@ namespace djv
                 if (!_settingsIO)
                     return;
 
-                std::stringstream s;
-                s << "Loading settings: " << settings->getName();
-                _log(s.str());
+                std::stringstream ss;
+                ss << "Loading settings: " << settings->getName();
+                _log(ss.str());
 
                 picojson::value json;
                 const auto & name = settings->getName();
@@ -121,9 +121,9 @@ namespace djv
                     }
                     catch (const std::exception & e)
                     {
-                        std::stringstream s;
-                        s << "Cannot read settings" << " '" << name << "'. " << e.what();
-                        _log(s.str(), LogLevel::Error);
+                        std::stringstream ss;
+                        ss << "Cannot read settings" << " '" << name << "'. " << e.what();
+                        _log(ss.str(), LogLevel::Error);
                     }
                 }
             }
@@ -152,9 +152,9 @@ namespace djv
                 {
                     if (FileSystem::FileInfo(path).doesExist())
                     {
-                        std::stringstream s;
-                        s << "Reading settings: " << path;
-                        _log(s.str());
+                        std::stringstream ss;
+                        ss << "Reading settings: " << path;
+                        _log(ss.str());
 
                         FileSystem::FileIO fileIO;
                         fileIO.open(std::string(path), FileSystem::FileIO::Mode::Read);
@@ -202,9 +202,9 @@ namespace djv
                 }
                 catch (const std::exception & e)
                 {
-                    std::stringstream s;
-                    s << "Cannot read settings" << " '" << path << "'. " << e.what();
-                    _log(s.str(), LogLevel::Error);
+                    std::stringstream ss;
+                    ss << "Cannot read settings" << " '" << path << "'. " << e.what();
+                    _log(ss.str(), LogLevel::Error);
                 }
             }
 
@@ -212,9 +212,9 @@ namespace djv
             {
                 try
                 {
-                    std::stringstream s;
-                    s << "Writing settings: " << path;
-                    _log(s.str());
+                    std::stringstream ss;
+                    ss << "Writing settings: " << path;
+                    _log(ss.str());
 
                     FileSystem::FileIO fileIO;
                     fileIO.open(std::string(path), FileSystem::FileIO::Mode::Write);
@@ -223,9 +223,9 @@ namespace djv
                 }
                 catch (const std::exception & e)
                 {
-                    std::stringstream s;
-                    s << "Cannot write settings" << " '" << path << "'. " << e.what();
-                    _log(s.str(), LogLevel::Error);
+                    std::stringstream ss;
+                    ss << "Cannot write settings" << " '" << path << "'. " << e.what();
+                    _log(ss.str(), LogLevel::Error);
                 }
             }
 

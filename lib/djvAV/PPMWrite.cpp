@@ -124,15 +124,15 @@ namespace djv
                     io.open(fileName, FileSystem::FileIO::Mode::Write);
                     io.write(magic, 3);
 
-                    std::stringstream s;
-                    s << info.size.w << ' ' << info.size.h;
-                    io.write(s.str());
+                    std::stringstream ss;
+                    ss << info.size.w << ' ' << info.size.h;
+                    io.write(ss.str());
                     io.writeU8('\n');
                     const size_t bitDepth = Image::getBitDepth(info.type);
                     const int maxValue = 8 == bitDepth ? 255 : 65535;
-                    s = std::stringstream();
-                    s << maxValue;
-                    io.write(s.str());
+                    ss = std::stringstream();
+                    ss << maxValue;
+                    io.write(ss.str());
                     io.writeU8('\n');
 
                     switch (p.options.data)

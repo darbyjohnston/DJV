@@ -47,9 +47,9 @@ namespace djv
                     }
                     catch (const std::exception & e)
                     {
-                        std::stringstream s;
-                        s << "Cannot read settings '" << name << "'. " << e.what();
-                        throw std::invalid_argument(s.str());
+                        std::stringstream ss;
+                        ss << "Cannot read settings '" << name << "'. " << e.what();
+                        throw std::invalid_argument(ss.str());
                     }
                 }
             }
@@ -68,9 +68,9 @@ namespace djv
                     }
                     catch (const std::exception & e)
                     {
-                        std::stringstream s;
-                        s << "Cannot read settings '" << name << "'. " << e.what();
-                        throw std::invalid_argument(s.str());
+                        std::stringstream ss;
+                        ss << "Cannot read settings '" << name << "'. " << e.what();
+                        throw std::invalid_argument(ss.str());
                     }
                 }
             }
@@ -89,9 +89,9 @@ namespace djv
                     }
                     catch (const std::exception & e)
                     {
-                        std::stringstream s;
-                        s << "Cannot read settings '" << name << "'. " << e.what();
-                        throw std::invalid_argument(s.str());
+                        std::stringstream ss;
+                        ss << "Cannot read settings '" << name << "'. " << e.what();
+                        throw std::invalid_argument(ss.str());
                     }
                 }
             }
@@ -110,9 +110,9 @@ namespace djv
                     }
                     catch (const std::exception & e)
                     {
-                        std::stringstream s;
-                        s << "Cannot read settings '" << name << "'. " << e.what();
-                        throw std::invalid_argument(s.str());
+                        std::stringstream ss;
+                        ss << "Cannot read settings '" << name << "'. " << e.what();
+                        throw std::invalid_argument(ss.str());
                     }
                 }
             }
