@@ -115,7 +115,7 @@ namespace djv
 
 #if defined(DJV_OPENGL_ES2)
             auto resourceSystem = context->getSystemT<ResourceSystem>();
-            const Core::FileSystem::Path shaderPath = resourceSystem->getPath(Core::FileSystem::ResourcePath::ShadersDirectory);
+            const Core::FileSystem::Path shaderPath = resourceSystem->getPath(Core::FileSystem::ResourcePath::Shaders);
             p.shader = AV::OpenGL::Shader::create(AV::Render::Shader::create(
                 Core::FileSystem::Path(shaderPath, "djvAVRender2DVertex.glsl"),
                 Core::FileSystem::Path(shaderPath, "djvAVRender2DFragment.glsl")));
