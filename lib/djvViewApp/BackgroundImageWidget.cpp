@@ -88,40 +88,43 @@ namespace djv
                                 widget->_p->image.reset();
                                 widget->_p->read.reset();
                                 widget->_p->timer->stop();
-                                try
+                                if (!value.empty())
                                 {
-                                    auto io = context->getSystemT<AV::IO::System>();
-                                    widget->_p->read = io->read(value);
-                                    widget->_p->timer->start(
-                                        Time::getMilliseconds(Time::TimerValue::Fast),
-                                        [weak](float)
-                                        {
-                                            if (auto widget = weak.lock())
+                                    try
+                                    {
+                                        auto io = context->getSystemT<AV::IO::System>();
+                                        widget->_p->read = io->read(value);
+                                        widget->_p->timer->start(
+                                            Time::getMilliseconds(Time::TimerValue::Fast),
+                                            [weak](float)
                                             {
-                                                std::shared_ptr<AV::Image::Image> image;
+                                                if (auto widget = weak.lock())
                                                 {
-                                                    std::unique_lock<std::mutex> lock(widget->_p->read->getMutex());
-                                                    auto& queue = widget->_p->read->getVideoQueue();
-                                                    if (!queue.isEmpty())
+                                                    std::shared_ptr<AV::Image::Image> image;
                                                     {
-                                                        image = queue.popFrame().image;
+                                                        std::unique_lock<std::mutex> lock(widget->_p->read->getMutex());
+                                                        auto& queue = widget->_p->read->getVideoQueue();
+                                                        if (!queue.isEmpty())
+                                                        {
+                                                            image = queue.popFrame().image;
+                                                        }
+                                                    }
+                                                    if (image)
+                                                    {
+                                                        widget->_p->image = image;
+                                                        widget->_p->read.reset();
+                                                        widget->_p->timer->stop();
                                                     }
                                                 }
-                                                if (image)
-                                                {
-                                                    widget->_p->image = image;
-                                                    widget->_p->read.reset();
-                                                    widget->_p->timer->stop();
-                                                }
-                                            }
-                                        });
-                                }
-                                catch (const std::exception& e)
-                                {
-                                    std::stringstream ss;
-                                    ss << DJV_TEXT("The file") << " '" << value << "' " << DJV_TEXT("cannot be read") << ". " << e.what();
-                                    auto logSystem = context->getSystemT<LogSystem>();
-                                    logSystem->log("djv::ViewApp::BackgroundImageWidget", ss.str(), LogLevel::Error);
+                                            });
+                                    }
+                                    catch (const std::exception& e)
+                                    {
+                                        std::stringstream ss;
+                                        ss << DJV_TEXT("The file") << " '" << value << "' " << DJV_TEXT("cannot be read") << ". " << e.what();
+                                        auto logSystem = context->getSystemT<LogSystem>();
+                                        logSystem->log("djv::ViewApp::BackgroundImageWidget", ss.str(), LogLevel::Error);
+                                    }
                                 }
                             }
                         }

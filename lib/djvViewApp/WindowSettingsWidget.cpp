@@ -475,10 +475,13 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                const auto& style = _getStyle();
-                const float s = style->getMetric(UI::MetricsRole::TextColumn);
-                auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>();
-                p.imageFuture = thumbnailSystem->getImage(p.fileName, AV::Image::Size(s, s));
+                if (!p.fileName.empty())
+                {
+                    const auto& style = _getStyle();
+                    const float s = style->getMetric(UI::MetricsRole::TextColumn);
+                    auto thumbnailSystem = context->getSystemT<AV::ThumbnailSystem>();
+                    p.imageFuture = thumbnailSystem->getImage(p.fileName, AV::Image::Size(s, s));
+                }
             }
         }
 
