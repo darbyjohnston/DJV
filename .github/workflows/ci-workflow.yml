@@ -34,4 +34,5 @@ jobs:
       run: cd build && make
 
     - name: Run tests
-      run: cd build && export PYTHONPATH=$PWD/build/lib:$PYTHONPATH && make test
+      run: cd build && export PYTHONPATH=$PWD/build/lib:$PYTHONPATH && ./build/bin/djvTest && make test
+
