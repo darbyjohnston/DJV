@@ -47,6 +47,8 @@
 #include <djvCore/Context.h>
 #include <djvCore/IEventSystem.h>
 #include <djvCore/LogSystem.h>
+#include <djvCore/OS.h>
+#include <djvCore/ResourceSystem.h>
 #include <djvCore/TextSystem.h>
 
 #define GLFW_INCLUDE_NONE
@@ -88,9 +90,7 @@ namespace djv
             p.debugBellowsState = p.settings->getDebugBellowsState();
             _setWidgetGeom(p.settings->getWidgetGeom());
 
-            //! \todo Implement me!
             p.actions["Documentation"] = UI::Action::create();
-            p.actions["Documentation"]->setEnabled(false);
             p.actions["About"] = UI::Action::create();
             p.actions["Errors"] = UI::Action::create();
             p.actions["Errors"]->setButtonType(UI::ButtonType::Toggle);
@@ -111,6 +111,31 @@ namespace djv
 
             auto weak = std::weak_ptr<HelpSystem>(std::dynamic_pointer_cast<HelpSystem>(shared_from_this()));
             auto contextWeak = std::weak_ptr<Context>(context);
+            p.actionObservers["Documentation"] = ValueObserver<bool>::create(
+                p.actions["Documentation"]->observeClicked(),
+                [weak, contextWeak](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto context = contextWeak.lock())
+                        {
+                            if (auto system = weak.lock())
+                            {
+                                auto resourceSystem = context->getSystemT<ResourceSystem>();
+                                auto path = resourceSystem->getPath(Core::FileSystem::ResourcePath::Documentation);
+                                try
+                                {
+                                    OS::openURL(path.get());
+                                }
+                                catch (const std::exception& e)
+                                {
+                                    system->_log(e.what(), LogLevel::Error);
+                                }
+                            }
+                        }
+                    }
+                });
+                
             p.actionObservers["About"] = ValueObserver<bool>::create(
                 p.actions["About"]->observeClicked(),
                 [weak, contextWeak](bool value)

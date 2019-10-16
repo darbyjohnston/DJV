@@ -125,6 +125,8 @@ namespace djv
             //! \name Utility
             ///@{
 
+            //! Throws:
+            //! - std::exception
             void openURL(const std::string&);
 
             ///@}

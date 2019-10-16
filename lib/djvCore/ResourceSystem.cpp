@@ -135,26 +135,31 @@ namespace djv
             if (FileInfo(testPath).doesExist())
             {
                 // The resources are at the root (for example iOS).
-                p.paths[ResourcePath::Audio]   = p.paths[ResourcePath::Application];
-                p.paths[ResourcePath::Fonts]   = p.paths[ResourcePath::Application];
-                p.paths[ResourcePath::Icons]   = p.paths[ResourcePath::Application];
-                p.paths[ResourcePath::Images]  = p.paths[ResourcePath::Application];
-                p.paths[ResourcePath::Models]  = p.paths[ResourcePath::Application];
-                p.paths[ResourcePath::Shaders] = p.paths[ResourcePath::Application];
-                p.paths[ResourcePath::Text]    = p.paths[ResourcePath::Application];
-                p.paths[ResourcePath::Color]   = p.paths[ResourcePath::Application];
+                p.paths[ResourcePath::Audio]            = p.paths[ResourcePath::Application];
+                p.paths[ResourcePath::Fonts]            = p.paths[ResourcePath::Application];
+                p.paths[ResourcePath::Icons]            = p.paths[ResourcePath::Application];
+                p.paths[ResourcePath::Images]           = p.paths[ResourcePath::Application];
+                p.paths[ResourcePath::Models]           = p.paths[ResourcePath::Application];
+                p.paths[ResourcePath::Shaders]          = p.paths[ResourcePath::Application];
+                p.paths[ResourcePath::Text]             = p.paths[ResourcePath::Application];
+                p.paths[ResourcePath::Color]            = p.paths[ResourcePath::Application];
+                p.paths[ResourcePath::Documentation]    = p.paths[ResourcePath::Application];
             }
             else
             {
                 Path etc = Path(p.paths[ResourcePath::Application], "etc");
-                p.paths[ResourcePath::Audio]   = Path(etc, "Audio");
-                p.paths[ResourcePath::Fonts]   = Path(etc, "Fonts");
-                p.paths[ResourcePath::Icons]   = Path(etc, "Icons");
-                p.paths[ResourcePath::Images]  = Path(etc, "Images");
-                p.paths[ResourcePath::Models]  = Path(etc, "Models");
-                p.paths[ResourcePath::Shaders] = Path(etc, "Shaders");
-                p.paths[ResourcePath::Text]    = Path(etc, "Text");
-                p.paths[ResourcePath::Color]   = Path(etc, "Color");
+                p.paths[ResourcePath::Audio]            = Path(etc, "Audio");
+                p.paths[ResourcePath::Fonts]            = Path(etc, "Fonts");
+                p.paths[ResourcePath::Icons]            = Path(etc, "Icons");
+                p.paths[ResourcePath::Images]           = Path(etc, "Images");
+                p.paths[ResourcePath::Models]           = Path(etc, "Models");
+                p.paths[ResourcePath::Shaders]          = Path(etc, "Shaders");
+                p.paths[ResourcePath::Text]             = Path(etc, "Text");
+                p.paths[ResourcePath::Color]            = Path(etc, "Color");
+                Path docs = Path(p.paths[ResourcePath::Application], "docs");
+                docs = Path(docs, "_site");
+                docs = Path(docs, "documentation.html");
+                p.paths[ResourcePath::Documentation]    = docs;
             }
         }
 

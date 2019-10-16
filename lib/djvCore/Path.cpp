@@ -237,7 +237,8 @@ namespace djv
         DJV_TEXT("Models"),
         DJV_TEXT("Shaders"),
         DJV_TEXT("Text"),
-        DJV_TEXT("Color"));
+        DJV_TEXT("Color"),
+        DJV_TEXT("Documentation"));
 
 } // namespace djv
 

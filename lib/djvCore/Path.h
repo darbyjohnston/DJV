@@ -60,6 +60,7 @@ namespace djv
                 Shaders,
                 Text,
                 Color,
+                Documentation,
 
                 Count,
                 First = Application

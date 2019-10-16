@@ -29,6 +29,7 @@
 
 #include <djvCore/OS.h>
 
+#include <djvCore/Error.h>
 #include <djvCore/Path.h>
 
 #if defined(DJV_PLATFORM_OSX)
@@ -47,6 +48,7 @@
 #include <sys/termios.h>
 #include <sys/utsname.h>
 #include <pwd.h>
+#include <stdlib.h>
 #include <unistd.h>
 
 //#pragma optimize("", off)
@@ -172,6 +174,15 @@ namespace djv
 
             void openURL(const std::string& value)
             {
+                std::stringstream ss;
+                ss << "xdg-open" << " " << value;
+                int r = system(ss.str().c_str());
+                if (r != 0)
+                {
+                    std::stringstream s;
+                    s << DJV_TEXT("Cannot open the URL") << " '" << value << "', " << DJV_TEXT("the return code was") << " " << r << ".";
+                    throw std::runtime_error(s.str());
+                }
             }
 
         } // namespace OS
