@@ -59,6 +59,16 @@ div.indexVideo iframe
     box-shadow: 0em .5em 1em 1em rgba(0, 0, 0, 0.3);
 }
 
+div.row
+{
+    display: flex;
+}
+
+div.column
+{
+    flex: 50%;
+}
+
 p
 {
     font-size: 1em;
@@ -113,6 +123,12 @@ a.text
 }
 
 ul
+{
+    font-size: 1em;
+	color: rgb(190, 190, 190);
+}
+
+ol
 {
     font-size: 1em;
 	color: rgb(190, 190, 190);

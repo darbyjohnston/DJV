@@ -8,33 +8,42 @@ title: Contributing
     <a class="text" href="documentation.html">Documentation</a> |
     {{ page.title }}</p>
 	<ul>
-	    <li><a class="text" href="#Bugs">How to Report a Bug</a></li>
-	    <li><a class="text" href="#Bugs">How to Request a Change</a></li>
+	    <li><a class="text" href="#Bugs">Reporting Bugs</a></li>
+	    <li><a class="text" href="#Code">Contributing Code</a></li>
+	    <li><a class="text" href="#Translations">Translations</a></li>
 	</ul>
 </div>
 
 <div class="block">
-    <p class="header"><a name="Bug">How to Report a Bug</a></p>
+    <p class="header"><a name="Bugs">Reporting Bugs</a></p>
     <p>If you find a bug with DJV please report it by creating an
     issue on <a class="text" href="https://github.com/darbyjohnston/DJV/issues">GitHub</a>.
     Describe what led up to the bug and whether or not it is repeatable.
     Include a copy of the DJV system log by copying and pasting it from the
     application:</p>
+    <ol>
+        <li>Open the "Help" menu</li>
+        <li>Click the menu item "System Log"</li>
+        <li>Click the "Copy" button</li>
+    </ol>
     <p><img class="diagram" src="assets/djv_system_log_1.svg"></p>
     <p><img class="diagram" src="assets/djv_system_log_2.svg"></p>
     <p>You can also manually copy the log file from the path:
-    "Documents/DJV/djv.log".</p>
+    "$HOME/Documents/DJV/djv.log".</p>
 </div>
 
 <div class="separator"></div>
 
 <div class="block">
-    <p class="header"><a name="Bug">How to Request a Change</a></p>
-    <p>If you would like to request a change to DJV please create
-    an issue on <a class="text" href="https://github.com/darbyjohnston/DJV/issues">GitHub</a>
-    to provide an opportunity for discussion and feedback.</p>
-    <p>To start working on the change fork the DJV repository using
-    the GitHub website and clone the fork to your local machine:</p>
+    <p class="header"><a name="Code">Contributing Code</a></p>
+    <p>For new features consider creating an issue on
+    <a class="text" href="https://github.com/darbyjohnston/DJV/issues">GitHub</a>
+    to provide an opportunity for discussion and feedback about the
+    proposed changes.</p>
+    <p>The following steps describe an example workflow for contributing
+    code to DJV.</p>
+    <p>Fork the DJV repository using the GitHub website and clone it
+    to your local machine:</p>
     <pre>
 git clone https://github.com/you/DJV.git djv
 cd djv</pre>
@@ -42,10 +51,10 @@ cd djv</pre>
     up to date:</p>
     <pre>
 git remote add upstream https://github.com/darbyjohnston/DJV.git</pre>
-    <p>Create a new branch to do your work in:</p>
+    <p>Create a new branch for your work:</p>
     <pre>
 git checkout -b mychange upstream/master</pre>
-    <p>You can fetch and merge the latest changes like this:</p>
+    <p>Fetch and merge the latest changes like this:</p>
     <pre>
 git fetch upstream
 git merge upstream/master</pre>
@@ -54,8 +63,37 @@ git merge upstream/master</pre>
     <a class="text" href="build_osx.html">Apple macOS</a>, or
     <a class="text" href="build_windows.html">Microsoft Windows</a>.</p>
     <p>When making your change please follow the coding convention and
-    style of the file you are working in. Once the change is ready create
-    a pull request on GitHub. Use the git rebase and squash functionality
-    to keep the change as clean as possible.</p>
+    style of the file you are working in.</p>
+    <p>Once the change is ready create a pull request on GitHub. Use the
+    git rebase and squash functionality to keep the change as clean as
+    possible.</p>
+</div>
+
+<div class="separator"></div>
+
+<div class="block">
+    <p class="header"><a name="Translations">Translations</a></p>
+    <p>The inital batch of translations for DJV has been machine generated
+    which probably leads to some surprising text in the user interface,
+    apologies in advance. Any help with fixing these translations is greatly
+    appreciated though unfortunately the workflow is still a bit complicated.</p>
+    <p>If you are familiar with git the best way to contribute translations
+    would be the same way as contributing code, however for people unfamilar
+    with git the following workflow can also be used.</p>
+    <p>Locate the translation files you want to edit on
+    <a class="text" href="https://github.com/darbyjohnston/DJV/tree/master/etc/Text">GitHub</a>.
+    Note that the translations are split across multiple files corresponding
+    to the library or program they are located in.</p>
+    <p>Download the files you want to edit and move them to either the DJV
+    documents directory ($HOME/Documents/DJV), or a directory specified
+    with the DJV_TEXT_PATH environment variable. These files will now override
+    the default files installed with DJV.</p>
+    <p>Start DJV and switch to your desired language in the settings. Open
+    the text files in a UTF8 compatible text editor and start making changes.
+    DJV will monitor the files and automatically reload them so you can see
+    your changes interactively.</p>
+    <p>When you are finished with your changes create an issue on
+    <a class="text" href="https://github.com/darbyjohnston/DJV/issues">GitHub</a>
+    and attach the files you have edited.</p>
 </div>
 
