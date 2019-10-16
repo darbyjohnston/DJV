@@ -308,7 +308,7 @@ namespace djv
                 struct Options
                 {
                     Version     version    = Version::_2_0;
-                    Endian      endian     = Endian::Auto;
+                    Endian      endian     = Endian::MSB;
                 };
 
                 //! This class provides the DPX file reader.
