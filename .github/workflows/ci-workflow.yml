@@ -12,6 +12,9 @@ jobs:
     - name: Update
       run: sudo apt-get update
 
+    - name: Install lcov
+      run: sudo apt-get install lcov
+
     - name: Install NASM
       run: sudo apt-get install nasm
 
