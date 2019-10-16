@@ -61,6 +61,8 @@ namespace djv
             class View
             {
             public:
+                View();
+                
                 std::string name;
                 std::string colorSpace;
                 std::string looks;
@@ -72,6 +74,8 @@ namespace djv
             class Display
             {
             public:
+                Display();
+                
                 std::string name;
                 std::string defaultView;
                 std::vector<View> views;

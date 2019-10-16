@@ -49,6 +49,8 @@ namespace djv
             class Config
             {
             public:
+                Config();
+                
                 std::string fileName;
                 std::string name;
                 std::map<std::string, std::string> colorSpaces;

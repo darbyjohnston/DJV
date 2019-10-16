@@ -64,6 +64,9 @@ namespace djv
                 return std::tie(input, output) < std::tie(other.input, other.output);
             }
 
+            View::View()
+            {}
+            
             bool View::operator == (const View& other) const
             {
                 return
@@ -71,6 +74,9 @@ namespace djv
                     colorSpace == other.colorSpace &&
                     looks == other.looks;
             }
+            
+            Display::Display()
+            {}
 
             bool Display::operator == (const Display& other) const
             {
