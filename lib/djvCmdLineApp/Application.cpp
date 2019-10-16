@@ -52,7 +52,8 @@ namespace djv
 
         struct Application::Private
         {
-            bool running = false;
+            bool running = true;
+            int exit = 0;
         };
 
         void Application::_init(const std::vector<std::string>& args)
@@ -78,7 +79,6 @@ namespace djv
         int Application::run()
         {
             DJV_PRIVATE_PTR();
-            p.running = true;
             auto time = std::chrono::system_clock::now();
             float dt = 0.F;
             while (p.running)
@@ -95,12 +95,14 @@ namespace djv
                 dt = delta.count();
                 time = now;
             }
-            return 0;
+            return _p->exit;
         }
 
-        void Application::exit()
+        void Application::exit(int value)
         {
-            _p->running = false;
+            DJV_PRIVATE_PTR();
+            p.running = false;
+            p.exit = value;
         }
 
     } // namespace CmdLine

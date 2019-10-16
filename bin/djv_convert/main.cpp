@@ -40,7 +40,6 @@
 
 using namespace djv;
 
-
 namespace djv
 {
     //! This namespace provides functionality for djv_convert.
@@ -60,13 +59,22 @@ namespace djv
                 }
                 CmdLine::Application::_init(args);
 
-                _parseArgs();
+                if (!_parseArgs())
+                {
+                    exit(1);
+                    return;
+                }
 
                 auto io = getSystemT<AV::IO::System>();
+                Core::FileSystem::FileInfo readFileInfo(argv[1]);
+                if (_readSeq)
+                {
+                    readFileInfo.evalSequence();
+                }
                 AV::IO::ReadOptions readOptions;
-                //! \todo What's a good default for this?
-                readOptions.videoQueueSize = 10;
-                _read = io->read(std::string(argv[1]), readOptions);
+                readOptions.videoQueueSize = _readQueueSize;
+                _read = io->read(readFileInfo, readOptions);
+                _read->setThreadCount(_readThreadCount);
                 auto info = _read->getInfo().get();
                 auto & video = info.video;
                 if (!video.size())
@@ -79,8 +87,16 @@ namespace djv
                     video[0].info.size = *_resize;
                 }
                 const size_t size = videoInfo.sequence.getSize();
-                _write = io->write(std::string(argv[2]), info);
-
+                Core::FileSystem::FileInfo writeFileInfo(argv[2]);
+                if (_writeSeq)
+                {
+                    writeFileInfo.evalSequence();
+                }
+                AV::IO::WriteOptions writeOptions;
+                writeOptions.videoQueueSize = _writeQueueSize;
+                _write = io->write(writeFileInfo, info, writeOptions);
+                _write->setThreadCount(_writeThreadCount);
+                
                 _statsTimer = Core::Time::Timer::create(shared_from_this());
                 _statsTimer->setRepeating(true);
                 _statsTimer->start(
@@ -117,68 +133,99 @@ namespace djv
             void tick(float dt) override
             {
                 CmdLine::Application::tick(dt);
-                while (_write->isRunning())
+                if (_read && _write)
                 {
-                    bool sleep = false;
+                    std::unique_lock<std::mutex> readLock(_read->getMutex(), std::try_to_lock);
+                    if (readLock.owns_lock())
                     {
-                        std::unique_lock<std::mutex> readLock(_read->getMutex(), std::try_to_lock);
-                        if (readLock.owns_lock())
+                        std::lock_guard<std::mutex> writeLock(_write->getMutex());
+                        auto& readQueue = _read->getVideoQueue();
+                        auto& writeQueue = _write->getVideoQueue();
+                        if (!readQueue.isEmpty() && writeQueue.getCount() < writeQueue.getMax())
                         {
-                            std::lock_guard<std::mutex> writeLock(_write->getMutex());
-                            auto& readQueue = _read->getVideoQueue();
-                            auto& writeQueue = _write->getVideoQueue();
-                            if (!readQueue.isEmpty() && writeQueue.getCount() < writeQueue.getMax())
-                            {
-                                auto frame = readQueue.popFrame();
-                                writeQueue.addFrame(frame);
-                            }
-                            else if (readQueue.isFinished())
-                            {
-                                writeQueue.setFinished(true);
-                            }
-                            else
-                            {
-                                sleep = true;
-                            }
+                            auto frame = readQueue.popFrame();
+                            writeQueue.addFrame(frame);
                         }
-                        else
+                        else if (readQueue.isFinished())
                         {
-                            sleep = true;
+                            writeQueue.setFinished(true);
                         }
-                    }
-                    if (sleep)
-                    {
-                        std::this_thread::sleep_for(Core::Time::getMilliseconds(Core::Time::TimerValue::Fast));
                     }
                 }
-                exit();
+                if (_write && !_write->isRunning())
+                {
+                    exit(0);
+                }
             }
 
         private:
-            void _parseArgs()
+            bool _parseArgs()
             {
+                bool out = true;
                 auto args = getArgs();
                 auto i = args.begin();
                 while (i != args.end())
                 {
-                    if ("-resize" == *i)
+                    if ("-h" == *i || "-help" == *i)
+                    {
+                        out = false;
+                        _printUsage();
+                        break;
+                    }
+                    else if ("-resize" == *i)
                     {
                         i = args.erase(i);
-                        if (args.size() >= 2)
-                        {
-                            AV::Image::Size resize;
-                            resize.w = std::stoi(*i);
-                            i = args.erase(i);
-                            resize.h = std::stoi(*i);
-                            i = args.erase(i);
-                            _resize.reset(new AV::Image::Size(resize));
-                        }
-                        else
-                        {
-                            std::stringstream ss;
-                            ss << DJV_TEXT("Cannot parse the option '-resize'");
-                            throw std::invalid_argument(ss.str());
-                        }
+                        AV::Image::Size resize;
+                        std::stringstream ss(*i);
+                        ss >> resize;
+                        i = args.erase(i);
+                        _resize.reset(new AV::Image::Size(resize));
+                    }
+                    else if ("-readSeq" == *i)
+                    {
+                        i = args.erase(i);
+                        _readSeq = true;
+                    }
+                    else if ("-writeSeq" == *i)
+                    {
+                        i = args.erase(i);
+                        _writeSeq = true;
+                    }
+                    else if ("-readQueue" == *i)
+                    {
+                        i = args.erase(i);
+                        int value = 0;
+                        std::stringstream ss(*i);
+                        ss >> value;
+                        i = args.erase(i);
+                        _readQueueSize = std::max(value, 1);
+                    }
+                    else if ("-writeQueue" == *i)
+                    {
+                        i = args.erase(i);
+                        int value = 0;
+                        std::stringstream ss(*i);
+                        ss >> value;
+                        i = args.erase(i);
+                        _writeQueueSize = std::max(value, 1);
+                    }
+                    else if ("-readThreads" == *i)
+                    {
+                        i = args.erase(i);
+                        int value = 0;
+                        std::stringstream ss(*i);
+                        ss >> value;
+                        i = args.erase(i);
+                        _readThreadCount = std::max(value, 1);
+                    }
+                    else if ("-writeThreads" == *i)
+                    {
+                        i = args.erase(i);
+                        int value = 0;
+                        std::stringstream ss(*i);
+                        ss >> value;
+                        i = args.erase(i);
+                        _writeThreadCount = std::max(value, 1);
                     }
                     else
                     {
@@ -187,15 +234,56 @@ namespace djv
                 }
                 if (args.size() != 3)
                 {
-                    throw std::invalid_argument(DJV_TEXT("Usage: djv_convert (input) (output)"));
+                    out = false;
+                    _printUsage();
                 }
                 _input = args[1];
-                _input = args[2];
+                _output = args[2];
+                return out;
+            }
+            
+            void _printUsage()
+            {
+                std::cout << std::endl;
+                std::cout << DJV_TEXT(" Usage:") << std::endl;
+                std::cout << std::endl;
+                std::cout << DJV_TEXT("   djv_convert (input) (output) [option, ...]") << std::endl;
+                std::cout << std::endl;
+                std::cout << DJV_TEXT(" Options:") << std::endl;
+                std::cout << std::endl;
+                std::cout << DJV_TEXT("   -resize '(width) (height)'") << std::endl;
+                std::cout << DJV_TEXT("     Resize the image.") << std::endl;
+                std::cout << std::endl;
+                std::cout << DJV_TEXT("   -readSeq") << std::endl;
+                std::cout << DJV_TEXT("     Interpret the input file name as a sequence.") << std::endl;
+                std::cout << std::endl;
+                std::cout << DJV_TEXT("   -writeSeq") << std::endl;
+                std::cout << DJV_TEXT("     Interpret the output file name as a sequence.") << std::endl;
+                std::cout << std::endl;
+                std::cout << DJV_TEXT("   -readQueue (value)") << std::endl;
+                std::cout << DJV_TEXT("     Set the size of the read queue.") << std::endl;
+                std::cout << std::endl;
+                std::cout << DJV_TEXT("   -writeQueue (value)") << std::endl;
+                std::cout << DJV_TEXT("     Set the size of the write queue.") << std::endl;
+                std::cout << std::endl;
+                std::cout << DJV_TEXT("   -readThreads (value)") << std::endl;
+                std::cout << DJV_TEXT("     Set the number of threads for reading.") << std::endl;
+                std::cout << std::endl;
+                std::cout << DJV_TEXT("   -writeThreads (value)") << std::endl;
+                std::cout << DJV_TEXT("     Set the number of threads for writing.") << std::endl;
+                std::cout << std::endl;
             }
 
             std::string _input;
             std::string _output;
             std::unique_ptr<AV::Image::Size> _resize;
+            bool _readSeq = false;
+            bool _writeSeq = false;
+            //! \todo What's a good default for this?
+            size_t _readQueueSize = 30;
+            size_t _writeQueueSize = 30;
+            size_t _readThreadCount = 4;
+            size_t _writeThreadCount = 4;
             std::shared_ptr<AV::IO::IRead> _read;
             std::shared_ptr<Core::Time::Timer> _statsTimer;
             std::shared_ptr<AV::IO::IWrite> _write;

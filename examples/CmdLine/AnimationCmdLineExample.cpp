@@ -67,7 +67,7 @@ int main(int argc, char ** argv)
             },
             [app](float value)
             {
-                app->exit();
+                app->exit(0);
             });
 
         // Run the application.
