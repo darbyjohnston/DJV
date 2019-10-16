@@ -124,6 +124,11 @@ img.screenshot
     box-shadow: 0em .5em 1em 1em rgba(0, 0, 0, 0.3);
 }
 
+img.screenshotNoShadow
+{
+    width: 100%;
+}
+
 img.diagram
 {
     display: block;
