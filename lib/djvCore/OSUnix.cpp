@@ -33,6 +33,8 @@
 #include <djvCore/Path.h>
 
 #if defined(DJV_PLATFORM_OSX)
+#include <ApplicationServices/ApplicationServices.h>
+#include <CoreFoundation/CFBundle.h>
 #include <CoreServices/CoreServices.h>
 #endif // DJV_PLATFORM_OSX
 
@@ -155,7 +157,7 @@ namespace djv
                 {
                     out = FileSystem::Path(path);
                 }
-#elif defined(DJV_PLATFORM_LINUX)
+#else // DJV_PLATFORM_OSX
                 if (struct passwd* buf = ::getpwuid(::getuid()))
                 {
                     const std::string dir(buf->pw_dir);
@@ -174,6 +176,16 @@ namespace djv
 
             void openURL(const std::string& value)
             {
+#if defined(DJV_PLATFORM_OSX)
+                CFURLRef url = CFURLCreateWithBytes(
+                    NULL,
+                    (UInt8*)value.c_str(),
+                    value.size(),
+                    kCFStringEncodingASCII,
+                    NULL);
+                LSOpenCFURLRef(url, 0);
+                CFRelease(url);
+#else // DJV_PLATFORM_OSX
                 std::stringstream ss;
                 ss << "xdg-open" << " " << value;
                 int r = system(ss.str().c_str());
@@ -183,6 +195,7 @@ namespace djv
                     s << DJV_TEXT("Cannot open the URL") << " '" << value << "', " << DJV_TEXT("the return code was") << " " << r << ".";
                     throw std::runtime_error(s.str());
                 }
+#endif // DJV_PLATFORM_OSX
             }
 
         } // namespace OS
