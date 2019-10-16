@@ -1,0 +1,152 @@
+*
+{
+    font-family: sans-serif;
+}
+
+body
+{
+    margin: 0;
+    padding: 0;
+	background-color: rgb(46, 46, 46);
+}
+
+div.logo
+{
+    padding: 1em 4em 1em 4em;
+	background-color: rgb(30, 30, 30);
+    box-shadow: 0em .4em .2em .2em rgba(0, 0, 0, 0.2);
+}
+
+div.nav
+{
+    padding: .1em 4em .1em 4em;
+	background-color: rgb(60, 60, 60);
+    box-shadow: 0em .4em .2em .2em rgba(0, 0, 0, 0.2);
+}
+
+div.block
+{
+	margin: 4em;
+}
+
+div.separator
+{
+    padding: .1em 0 0 0;
+	background-color: rgb(30, 30, 30);
+}
+
+div.footer
+{
+    padding: .25em;
+	background-color: rgb(30, 30, 30);
+    box-shadow: 0em .4em .2em .2em rgba(0, 0, 0, 0.2);
+}
+
+div.indexVideo
+{
+	position: relative;
+	padding-bottom: 56.25%; /* 16:9 */
+	height: 0;
+}
+
+div.indexVideo iframe
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+    box-shadow: 0em .5em 1em 1em rgba(0, 0, 0, 0.3);
+}
+
+p
+{
+    font-size: 1em;
+	color: rgb(190, 190, 190);
+}
+
+p.indexHeader
+{
+    #text-align: center;
+    margin: 0 0 2em 0;
+    font-size: 1.5em;
+	color: rgb(240, 240, 240);
+}
+
+p.header
+{
+    margin: 2em 0 1em 0;
+    font-size: 1.5em;
+	color: rgb(240, 240, 240);
+}
+
+p.indexText
+{
+    #text-align: center;
+    font-size: 1em;
+	color: rgb(190, 190, 190);
+}
+
+p.quote
+{
+    margin: 2em 0 0 0;
+    font-size: 1em;
+	color: rgb(190, 190, 190);
+}
+
+p.quoteAuthor
+{
+    font-size: 1.2em;
+	color: rgb(240, 240, 240);
+}
+
+p.legal
+{
+    text-align: center;
+    font-size: .8em;
+	color: rgb(190, 190, 190);
+}
+
+a.text
+{
+	color: rgb(255, 255, 255);
+}
+
+ul
+{
+    font-size: 1em;
+	color: rgb(190, 190, 190);
+}
+
+img.screenshot
+{
+    width: 100%;
+    box-shadow: 0em .5em 1em 1em rgba(0, 0, 0, 0.3);
+}
+
+img.diagram
+{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+}
+
+img.button
+{
+    margin: .5em;
+    vertical-align: middle;
+}
+
+pre
+{
+	padding: 1em;
+	font-family: mono;
+    font-size: .9em;
+	color: rgb(190, 190, 190);
+	background-color: rgb(30, 30, 30);
+	border-style: solid;
+	border-width: 1px;
+	border-color: rgb(60, 60, 60);
+}
+

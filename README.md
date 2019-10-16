@@ -2,26 +2,17 @@
 [![Build Status](https://travis-ci.org/darbyjohnston/DJV.svg?branch=master)](https://travis-ci.org/darbyjohnston/DJV)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=darbyjohnston_DJV&metric=alert_status)](https://sonarcloud.io/dashboard?id=darbyjohnston_DJV)
 
-DJV Imaging
-===========
-Professional media review software for VFX, animation, and film.
-
-Features include:
-* Real-time image sequence and movie playback
-* Support for industry standard file formats including OpenEXR, DPX, and Cineon
-* Available for Linux, OS X, and Windows
+DJV
+===
+DJV provides professional review software for VFX, animation, and film
+production. Using the DJV application you can playback high resolution,
+high bit-depth, image sequences and videos with frame accurate control and
+full color management. Available for Linux, Apple macOS, and Microsoft Windows,
+with source code provided under a BSD style open source license.
 
 Links:
 * [Download](http://djv.sourceforge.net/Download.html)
-* [Screenshots](http://djv.sourceforge.net/Screenshots.html)
-* [Documentation](http://djv.sourceforge.net/Documentation.html)
-* [Forums](https://sourceforge.net/p/djv/discussion)
-
-
-License
--------
-DJV is released under a BSD style open source license, see this
-[page](http://djv.sourceforge.net/Legal.html) for details.
+* [Documentation]()
 
 
 Building on Linux
@@ -36,18 +27,18 @@ Required build tools:
 Required libraries:
 * [OpenGL 4.1](https://www.opengl.org)
 
-First clone the repository:
+Clone the repository:
 
     > git clone https://github.com/darbyjohnston/DJV.git djv-git
 
-Then create a new sub-directory and start the build:
+Create a new sub-directory and start the build:
 
     > mkdir djv-git-Debug
     > cd djv-git-Debug
-    > cmake ../djv-git -DCMAKE_BUILD_TYPE=Debug -DDJV_THIRD_PARTY=TRUE
+    > cmake ../djv-git -DCMAKE_BUILD_TYPE=Debug
     > make -j
 
-After the build completes add the install path to your LD_LIBRARY_PATH: 
+Add the install path to your LD_LIBRARY_PATH: 
 
     > export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/install/lib
 
@@ -55,11 +46,25 @@ Run the confidence tests:
 
     > make test
 
-Run the djv application:
+Run the djv player application:
 
     > ./build/bin/djv
 
 Additional information on building DJV can be found here:
-* [Building on Linux](http://djv.sourceforge.net/BuildLinux.html)
-* [Building on OS X](http://djv.sourceforge.net/BuildOSX.html)
-* [Building on Windows](http://djv.sourceforge.net/BuildWindows.html)
+* [Building on Linux]()
+* [Building on OS X]()
+* [Building on Windows]()
+
+
+License
+-------
+
+DJV is released under a BSD style open source license, see this
+[page]() for details.
+
+
+Contributing
+------------
+
+See this [page]() for information on contributing to DJV.
+

@@ -1,0 +1,61 @@
+---
+layout: page
+title: Contributing
+---
+
+<div class="nav">
+    <p><a class="text" href="/index.html">Home</a> |
+    <a class="text" href="/documentation.html">Documentation</a> |
+    {{ page.title }}</p>
+	<ul>
+	    <li><a class="text" href="#Bugs">How to Report a Bug</a></li>
+	    <li><a class="text" href="#Bugs">How to Request a Change</a></li>
+	</ul>
+</div>
+
+<div class="block">
+    <p class="header"><a name="Bug">How to Report a Bug</a></p>
+    <p>If you find a bug with DJV please report it by creating an
+    issue on <a class="text" href="https://github.com/darbyjohnston/DJV/issues">GitHub</a>.
+    Describe what led up to the bug and whether or not it is repeatable.
+    Include a copy of the DJV system log by copying and pasting it from the
+    application:</p>
+    <p><img class="diagram" src="/assets/djv_system_log_1.svg"></p>
+    <p><img class="diagram" src="/assets/djv_system_log_2.svg"></p>
+    <p>You can also manually copy the log file from the path:
+    "Documents/DJV/djv.log".</p>
+</div>
+
+<div class="separator"></div>
+
+<div class="block">
+    <p class="header"><a name="Bug">How to Request a Change</a></p>
+    <p>If you would like to request a change to DJV please create
+    an issue on <a class="text" href="https://github.com/darbyjohnston/DJV/issues">GitHub</a>
+    to provide an opportunity for discussion and feedback.</p>
+    <p>To start working on the change fork the DJV repository using
+    the GitHub website and clone the fork to your local machine:</p>
+    <pre>
+git clone https://github.com/you/DJV.git djv
+cd djv</pre>
+    <p>Add the DJV repository as an upstream to keep your source code
+    up to date:</p>
+    <pre>
+git remote add upstream https://github.com/darbyjohnston/DJV.git</pre>
+    <p>Create a new branch to do your work in:</p>
+    <pre>
+git checkout -b mychange upstream/master</pre>
+    <p>You can fetch and merge the latest changes like this:</p>
+    <pre>
+git fetch upstream
+git merge upstream/master</pre>
+    <p>Follow the build instructions for
+    <a class="text" href="/build_linux.html">Linux</a>,
+    <a class="text" href="/build_osx.html">Apple macOS</a>, or
+    <a class="text" href="/build_windows.html">Microsoft Windows</a>.</p>
+    <p>When making your change please follow the coding convention and
+    style of the file you are working in. Once the change is ready create
+    a pull request on GitHub. Use the git rebase and squash functionality
+    to keep the change as clean as possible.</p>
+</div>
+

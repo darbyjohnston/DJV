@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="assets/style.css">
+    <title>Building on Microsoft Windows</title>
+  </head>
+  <body>
+    <div class="logo">
+        <img src="assets/djv_logo.svg">
+    </div>
+    <div class="nav">
+    <p><a class="text" href="/index.html">Home</a> |
+    <a class="text" href="/documentation.html">Documentation</a> |
+    Building on Microsoft Windows</p>
+	<ul>
+	    <li><a class="text" href="#FFmpeg">FFmpeg</a></li>
+	    <li><a class="text" href="#Building">Building</a></li>
+	    <li><a class="text" href="#Packaging">Packaging</a></li>
+	</ul>
+</div>
+
+<div class="block">
+	<p class="header"><a name="FFmpeg">FFmpeg</a></p>
+	<p>To build FFmpeg on Windows cross-compile it with the Windows
+	Subsystem for Linux.</p>
+	<p>Enable the Windows Subsystem for Linux:</p>
+	<ul>
+		<li>Open the Windows control panel and click on "Programs and Features"</li>
+		<li>Click on "Turn Windows features on or off" on the left side of the "Programs and Features" window</li>
+		<li>Check the "Windows Subsystem for Linux" item in the "Windows Features" window</li>
+		<li>Restart your computer</li>
+		<li>Install Ubuntu from the Windows app store</li>
+	</ul>
+	<p>Start an Ubuntu shell and setup the environment:</p>
+	<pre>
+sudo apt update
+sudo apt install mingw-w64 yasm make unzip</pre>
+	<p>Build FFmpeg:</p>
+	<pre>
+./configure \
+      --disable-programs \
+      --disable-doc \
+      --disable-bzlib \
+      --disable-iconv \
+      --disable-lzma \
+      --enable-pic \
+      --arch=x86_64 \
+      --cross-prefix=x86_64-w64-mingw32- \
+      --target-os=mingw32 \
+      --enable-cross-compile \
+      --prefix=$CMAKE_BINARY_DIR\install \
+      --enable-shared
+make
+make install</pre>
+</div>
+
+<div class="separator"></div>
+
+<div class="block">
+	<p class="header"><a name="Building">Building</a></p>
+	<p>Required build tools:</p>
+	<ul>
+		<li>C++11 compiler</li>
+		<li><a class="text" href="https://cmake.org">CMake 3.12</a></li>
+		<li><a class="text" href="https://git-scm.com">git</a></li>
+		<li><a class="text" href="https://www.nasm.us">NASM</a></li>
+	</ul>
+	<p>Required libraries:</p>
+	<ul>
+		<li><a class="text" href="http://www.opengl.org">OpenGL 4.1</a></li>
+	</ul>
+	<p>Open a command prompt and clone the DJV repository:</p>
+	<pre>
+git clone https://github.com/darbyjohnston/DJV.git djv-git</pre>
+	<p>Create a new directory for the build and run CMake:</p>
+	<pre>
+mkdir djv-git-Debug
+cd djv-git-Debug
+cmake ..\djv-git -DCMAKE_BUILD_TYPE=Debug</pre>
+	<p>Add the install path to your PATH environment
+	variable in the Windows control panel:</p>
+	<pre>
+$CMAKE_BINARY_DIR\install\bin</pre>
+	<p>Open "DJV.sln" in Visual Studio and build the solution.</p>
+	<p>Run the confidence tests by building the RUN_TESTS target.</p>
+</div>
+
+<div class="separator"></div>
+
+<div class="block">
+	<p class="header"><a name="Packaging">Packaging</a></p>
+	<p>Create MSI and ZIP packages by building the PACKAGE target.</p>
+</div>
+
+
+
+
+    <div class="footer">
+        <p class="legal">
+            Copyright (c) 2004-2019 Darby Johnston -
+            <a class="text" href="/legal.html">Legal</a>
+        </p>
+    </div>
+  </body>
+</html>
+

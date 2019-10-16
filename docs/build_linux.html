@@ -1,0 +1,78 @@
+---
+layout: page
+title: Building on Linux
+---
+
+<div class="nav">
+    <p><a class="text" href="/index.html">Home</a> |
+    <a class="text" href="/documentation.html">Documentation</a> |
+    {{ page.title }}</p>
+	<ul>
+	    <li><a class="text" href="#Building">Building</a></li>
+	    <li><a class="text" href="#Packaging">Packaging</a></li>
+	</ul>
+</div>
+
+<div class="block">
+	<p class="header"><a name="Building">Building</a></p>
+	<p>Required build tools:</p>
+	<ul>
+		<li>C++11 compiler</li>
+		<li><a class="text" href="https://cmake.org">CMake 3.12</a></li>
+		<li><a class="text" href="https://git-scm.com">git</a></li>
+		<li><a class="text" href="https://www.nasm.us">NASM</a></li>
+	</ul>
+	<p>Required libraries:</p>
+	<ul>
+		<li><a class="text" href="http://www.opengl.org">OpenGL 4.1</a></li>
+	</ul>
+	<p>The following steps describe how to compile the DJV source code and the third
+	party libraries that it depends on.</p>
+	<p>Clone the repository:</p>
+	<pre>
+git clone https://github.com/darbyjohnston/DJV.git djv-git</pre>
+	<p>Create a new sub-directory and start the build:</p>
+	<pre>
+mkdir djv-git-Debug
+cd djv-git-Debug
+cmake ../djv-git -DCMAKE_BUILD_TYPE=Debug
+make -j</pre>
+	<p>Add the install path to your LD_LIBRARY_PATH:</p>
+	<pre>
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/install/lib</pre>
+	<p>Run the confidence tests:</p>
+	<pre>
+make test</pre>
+	<p>Run the djv player application:</p>
+	<pre>
+./build/bin/djv</pre>
+</div>
+
+<div class="separator"></div>
+
+<div class="block">
+	<p class="header"><a name="Packaging">Packaging</a></p>
+	<p style="margin: 2em 0 0 0">Set the new version in the top-level "CMakeLists.txt" and "Doxyfile" files.</p>
+	<p style="margin: .5em 0 0 0">Update the download information in "docs/index.html".</p>
+	<p style="margin: .5em 0 0 0">Tag the git repository:</p>
+	<pre>
+git tag -a 2.0.0 -m "Version 2.0.0"
+git push origin 2.0.0</pre>
+	<p>Update the web site:</p>
+	<pre>
+ssh -t USERNAME@shell.sourceforge.net create
+scp file USERNAME@web.sourceforge.net:/home/project-web/djv/htdocs</pre>
+	<p>Building an RPM package:</p>
+	<pre>
+cmake ../djv-git -DCPACK_GENERATOR=RPM -DCPACK_PACKAGING_INSTALL_PREFIX=/usr/local/DJV2 -DDJV_THIRD_PARTY_DISABLE_BUILD=TRUE
+make package</pre>
+	<p>Building a Debian package:</p>
+	<pre>
+cmake ../djv-git -DCPACK_GENERATOR=DEB -DCPACK_PACKAGING_INSTALL_PREFIX=/usr/local/DJV2 -DDJV_THIRD_PARTY_DISABLE_BUILD=TRUE
+make package</pre>
+	<p>Building a TGZ package:</p>
+	<pre>
+cmake ../djv-git -DCPACK_GENERATOR=TGZ -DCPACK_PACKAGING_INSTALL_PREFIX= -DDJV_THIRD_PARTY_DISABLE_BUILD=TRUE
+make package</pre>
+</div>
+

@@ -53,7 +53,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${DJV_BUILD_DIR}/bin)
 set(DJV_INSTALL_BIN bin)
 set(DJV_INSTALL_LIB lib)
 set(DJV_INSTALL_PLUGINS plugins)
-set(DJV_INSTALL_DOC doc)
+set(DJV_INSTALL_DOCS docs)
 set(DJV_INSTALL_TRANSLATIONS translations)
 
 # Set miscellaneous options.
@@ -75,7 +75,7 @@ set(DJV_PYTHON FALSE CACHE BOOL "Whether to use Python")
 set(DJV_BUILD_BIN TRUE CACHE BOOL "Whether to build binaries")
 
 # Set whether to build documentation.
-set(DJV_BUILD_DOC TRUE CACHE BOOL "Whether to build documentation")
+set(DJV_BUILD_DOCS TRUE CACHE BOOL "Whether to build documentation")
 
 # Set whether to build examples.
 set(DJV_BUILD_EXAMPLES TRUE CACHE BOOL "Whether to build examples")
@@ -189,7 +189,7 @@ set(DJV_THIRD_PARTY_PACKAGES_OPTIONAL
     TIFF
     OpenEXR)
 if(WIN32)
-    # See the directions for building FFmpeg on Windows in "doc/BuildWindows.html".
+    # See the directions for building FFmpeg on Windows in "docs/build_windows.html".
 	#find_package(FFmpeg)
 else()
     set(DJV_THIRD_PARTY_PACKAGES_OPTIONAL
@@ -337,8 +337,8 @@ if(NOT DJV_TINY_BUILD)
     if(DJV_BUILD_BIN)
         add_subdirectory(bin)
     endif()
-    if(DJV_BUILD_DOC)
-        add_subdirectory(doc)
+    if(DJV_BUILD_DOCS)
+        add_subdirectory(docs)
     endif()
     if(DJV_BUILD_EXAMPLES)
         add_subdirectory(examples)
