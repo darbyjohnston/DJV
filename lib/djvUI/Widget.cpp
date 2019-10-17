@@ -822,21 +822,47 @@ namespace djv
 
         std::string Widget::_getTooltipText() const
         {
-            std::string out;
-            for (const auto & action : _actions)
-            {
-                const auto & actionTooltip = action->observeTooltip()->get();
-                if (!actionTooltip.empty())
-                {
-                    out = actionTooltip;
-                    break;
-                }
-            }
+            std::stringstream out;
             if (!_tooltipText.empty())
             {
-                out = _tooltipText;
+                out << _tooltipText;
             }
-            return out;
+            else
+            {
+                for (const auto & action : _actions)
+                {
+                    const auto & actionTooltip = action->observeTooltip()->get();
+                    if (!actionTooltip.empty())
+                    {
+                        out << actionTooltip;
+                        break;
+                    }
+                }
+            }
+            for (const auto & action : _actions)
+            {
+                const auto& shortcuts = action->observeShortcuts()->get();
+                const size_t shortcutsSize = shortcuts.size();
+                if (shortcutsSize)
+                {
+                    out << "\n\n";
+                    out << "(";
+                    out << _getText(1 == shortcutsSize ?
+                        DJV_TEXT("Keyboard shortcut") :
+                        DJV_TEXT("Keyboard shortcuts"));
+                    out << ": ";
+                    std::vector<std::string> shortcutsText;
+                    const auto& textSystem = _getTextSystem();
+                    for (const auto& shortcut : action->observeShortcuts()->get())
+                    {
+                        shortcutsText.push_back(Shortcut::getText(shortcut, textSystem));
+                    }
+                    out << String::join(shortcutsText, ", ");
+                    out << ")";
+                }
+                break;
+            }
+            return out.str();
         }
 
         std::shared_ptr<Widget> Widget::_createTooltipDefault(const std::string & text)

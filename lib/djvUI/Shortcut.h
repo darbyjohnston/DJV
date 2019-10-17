@@ -73,6 +73,7 @@ namespace djv
             static int getSystemModifier();
             static std::string getKeyString(int);
             static std::string getModifierString(int);
+            static std::string getText(const std::shared_ptr<Shortcut>&, const std::shared_ptr<Core::TextSystem> &);
             static std::string getText(int key, int keyModifiers, const std::shared_ptr<Core::TextSystem> &);
 
         private:

@@ -272,6 +272,14 @@ namespace djv
             return i != data.end() ? i->second : std::string();
         }
 
+        std::string Shortcut::getText(const std::shared_ptr<Shortcut>& shortcut, const std::shared_ptr<TextSystem> & textSystem)
+        {
+            return getText(
+                shortcut->observeShortcutKey()->get(),
+                shortcut->observeShortcutModifiers()->get(),
+                textSystem);
+        }
+
         std::string Shortcut::getText(int key, int keyModifiers, const std::shared_ptr<TextSystem> & textSystem)
         {
             std::vector<std::string> out;
