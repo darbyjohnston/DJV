@@ -118,6 +118,7 @@ namespace djv
             struct TimerSystem::Private
             {
                 std::vector<std::weak_ptr<Timer> > timers;
+                std::vector<std::weak_ptr<Timer> > newTimers;
             };
 
             void TimerSystem::_init(const std::shared_ptr<Context>& context)
@@ -142,6 +143,8 @@ namespace djv
             void TimerSystem::tick(float dt)
             {
                 DJV_PRIVATE_PTR();
+                p.timers.insert(p.timers.end(), p.newTimers.begin(), p.newTimers.end());
+                p.newTimers.clear();
                 auto i = p.timers.begin();
                 while (i != p.timers.end())
                 {
@@ -159,7 +162,7 @@ namespace djv
 
             void TimerSystem::_addTimer(const std::weak_ptr<Timer> & value)
             {
-                _p->timers.push_back(value);
+                _p->newTimers.push_back(value);
             }
 
         } // namespace Time
