@@ -165,9 +165,9 @@ namespace djv
 
             void _log(const std::string & message, Core::LogLevel = Core::LogLevel::Information);
 
-            std::shared_ptr<ResourceSystem> _getResourceSystem() const;
-            std::shared_ptr<LogSystem> _getLogSystem() const;
-            std::shared_ptr<TextSystem> _getTextSystem() const;
+            const std::shared_ptr<ResourceSystem>& _getResourceSystem() const;
+            const std::shared_ptr<LogSystem>& _getLogSystem() const;
+            const std::shared_ptr<TextSystem>& _getTextSystem() const;
 
             ///@}
 

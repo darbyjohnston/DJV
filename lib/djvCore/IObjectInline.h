@@ -140,17 +140,17 @@ namespace djv
             return parents ? (_parentsEnabled && _enabled) : _enabled;
         }
 
-        inline std::shared_ptr<ResourceSystem> IObject::_getResourceSystem() const
+        inline const std::shared_ptr<ResourceSystem>& IObject::_getResourceSystem() const
         {
             return _resourceSystem;
         }
 
-        inline std::shared_ptr<LogSystem> IObject::_getLogSystem() const
+        inline const std::shared_ptr<LogSystem>& IObject::_getLogSystem() const
         {
             return _logSystem;
         }
 
-        inline std::shared_ptr<TextSystem> IObject::_getTextSystem() const
+        inline const std::shared_ptr<TextSystem>& IObject::_getTextSystem() const
         {
             return _textSystem;
         }
