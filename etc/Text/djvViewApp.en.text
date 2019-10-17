@@ -365,7 +365,7 @@
         "description": ""
     }, 
     {
-        "text": "Automatically hide the user interface when the mouse doesn't move for awhile", 
+        "text": "Automatically hide the user interface", 
         "id": "Auto-hide tooltip", 
         "description": ""
     }, 
