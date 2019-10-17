@@ -4,11 +4,10 @@
 
 DJV
 ===
-DJV provides professional review software for VFX, animation, and film
-production. Using the DJV application you can playback high resolution,
-high bit-depth, image sequences and videos with frame accurate control and
-full color management. Available for Linux, Apple macOS, and Microsoft Windows,
-with source code provided under a BSD style open source license.
+DJV provides professional review software for VFX, animation, and film production.
+Playback high resolution, high bit-depth, image sequences and videos with frame
+accurate control and full color management. Available for Linux, Apple macOS, and
+Microsoft Windows. Source code provided under a BSD style open source license.
 
 Links:
 * [Download](http://djv.sourceforge.net/Download.html)
