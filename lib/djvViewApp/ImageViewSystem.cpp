@@ -145,12 +145,12 @@ namespace djv
             p.lockActionGroup->addAction(p.actions["LockFrame"]);
             p.lockActionGroup->addAction(p.actions["LockCenter"]);
             //! \todo Implement me!
-            p.actions["Grid"] = UI::Action::create();
-            p.actions["Grid"]->setEnabled(false);
+            //p.actions["Grid"] = UI::Action::create();
+            //p.actions["Grid"]->setEnabled(false);
             //! \todo Implement me!
-            p.actions["HUD"] = UI::Action::create();
-            p.actions["HUD"]->setShortcut(GLFW_KEY_H);
-            p.actions["HUD"]->setEnabled(false);
+            //p.actions["HUD"] = UI::Action::create();
+            //p.actions["HUD"]->setShortcut(GLFW_KEY_H);
+            //p.actions["HUD"]->setEnabled(false);
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Left"]);
@@ -168,9 +168,9 @@ namespace djv
             p.menu->addAction(p.actions["LockFull"]);
             p.menu->addAction(p.actions["LockFrame"]);
             p.menu->addAction(p.actions["LockCenter"]);
-            p.menu->addSeparator();
-            p.menu->addAction(p.actions["Grid"]);
-            p.menu->addAction(p.actions["HUD"]);
+            //p.menu->addSeparator();
+            //p.menu->addAction(p.actions["Grid"]);
+            //p.menu->addAction(p.actions["HUD"]);
 
             _actionsUpdate();
 
@@ -634,10 +634,10 @@ namespace djv
                 p.actions["LockFrame"]->setTooltip(_getText(DJV_TEXT("Lock frame view tooltip")));
                 p.actions["LockCenter"]->setText(_getText(DJV_TEXT("Lock Center")));
                 p.actions["LockCenter"]->setTooltip(_getText(DJV_TEXT("Lock center view tooltip")));
-                p.actions["Grid"]->setText(_getText(DJV_TEXT("Grid")));
-                p.actions["Grid"]->setTooltip(_getText(DJV_TEXT("Grid tooltip")));
-                p.actions["HUD"]->setText(_getText(DJV_TEXT("HUD")));
-                p.actions["HUD"]->setTooltip(_getText(DJV_TEXT("HUD tooltip")));
+                //p.actions["Grid"]->setText(_getText(DJV_TEXT("Grid")));
+                //p.actions["Grid"]->setTooltip(_getText(DJV_TEXT("Grid tooltip")));
+                //p.actions["HUD"]->setText(_getText(DJV_TEXT("HUD")));
+                //p.actions["HUD"]->setTooltip(_getText(DJV_TEXT("HUD tooltip")));
 
                 p.menu->setText(_getText(DJV_TEXT("View")));
             }

@@ -119,9 +119,9 @@ namespace djv
             p.actions["CloseAll"] = UI::Action::create();
             p.actions["CloseAll"]->setShortcut(GLFW_KEY_E, GLFW_MOD_SHIFT | UI::Shortcut::getSystemModifier());
             //! \todo Implement me!
-            p.actions["Export"] = UI::Action::create();
-            p.actions["Export"]->setShortcut(GLFW_KEY_X, UI::Shortcut::getSystemModifier());
-            p.actions["Export"]->setEnabled(false);
+            //p.actions["Export"] = UI::Action::create();
+            //p.actions["Export"]->setShortcut(GLFW_KEY_X, UI::Shortcut::getSystemModifier());
+            //p.actions["Export"]->setEnabled(false);
             p.actions["Next"] = UI::Action::create();
             p.actions["Next"]->setShortcut(GLFW_KEY_PAGE_DOWN);
             p.actions["Prev"] = UI::Action::create();
@@ -134,9 +134,9 @@ namespace djv
             p.actions["PrevLayer"] = UI::Action::create();
             p.actions["PrevLayer"]->setShortcut(GLFW_KEY_MINUS, UI::Shortcut::getSystemModifier());
             //! \todo Implement me!
-            p.actions["8BitConversion"] = UI::Action::create();
-            p.actions["8BitConversion"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["8BitConversion"]->setEnabled(false);
+            //p.actions["8BitConversion"] = UI::Action::create();
+            //p.actions["8BitConversion"]->setButtonType(UI::ButtonType::Toggle);
+            //p.actions["8BitConversion"]->setEnabled(false);
             p.actions["Cache"] = UI::Action::create();
             p.actions["Cache"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["Exit"] = UI::Action::create();
@@ -148,7 +148,7 @@ namespace djv
             p.menu->addAction(p.actions["Reload"]);
             p.menu->addAction(p.actions["Close"]);
             p.menu->addAction(p.actions["CloseAll"]);
-            p.menu->addAction(p.actions["Export"]);
+            //p.menu->addAction(p.actions["Export"]);
             p.menu->addAction(p.actions["Next"]);
             p.menu->addAction(p.actions["Prev"]);
             p.menu->addSeparator();
@@ -156,7 +156,7 @@ namespace djv
             p.menu->addAction(p.actions["PrevLayer"]);
             p.menu->addAction(p.actions["Layers"]);
             p.menu->addSeparator();
-            p.menu->addAction(p.actions["8BitConversion"]);
+            //p.menu->addAction(p.actions["8BitConversion"]);
             p.menu->addSeparator();
             p.menu->addAction(p.actions["Cache"]);
             p.menu->addSeparator();
@@ -626,7 +626,7 @@ namespace djv
             p.actions["PrevLayer"]->setEnabled(size);
             p.actions["Close"]->setEnabled(size);
             p.actions["CloseAll"]->setEnabled(size);
-            p.actions["Export"]->setEnabled(size);
+            //p.actions["Export"]->setEnabled(size);
             p.actions["Next"]->setEnabled(size > 1);
             p.actions["Prev"]->setEnabled(size > 1);
         }
@@ -782,8 +782,8 @@ namespace djv
                 p.actions["Close"]->setTooltip(_getText(DJV_TEXT("Close tooltip")));
                 p.actions["CloseAll"]->setText(_getText(DJV_TEXT("Close All")));
                 p.actions["CloseAll"]->setTooltip(_getText(DJV_TEXT("Close all tooltip")));
-                p.actions["Export"]->setText(_getText(DJV_TEXT("Export")));
-                p.actions["Export"]->setTooltip(_getText(DJV_TEXT("Export tooltip")));
+                //p.actions["Export"]->setText(_getText(DJV_TEXT("Export")));
+                //p.actions["Export"]->setTooltip(_getText(DJV_TEXT("Export tooltip")));
                 p.actions["Next"]->setText(_getText(DJV_TEXT("Next")));
                 p.actions["Next"]->setTooltip(_getText(DJV_TEXT("Next tooltip")));
                 p.actions["Prev"]->setText(_getText(DJV_TEXT("Previous")));
@@ -794,8 +794,8 @@ namespace djv
                 p.actions["NextLayer"]->setTooltip(_getText(DJV_TEXT("Next layer tooltip")));
                 p.actions["PrevLayer"]->setText(_getText(DJV_TEXT("Previous Layer")));
                 p.actions["PrevLayer"]->setTooltip(_getText(DJV_TEXT("Previous layer tooltip")));
-                p.actions["8BitConversion"]->setText(_getText(DJV_TEXT("8-Bit Conversion")));
-                p.actions["8BitConversion"]->setTooltip(_getText(DJV_TEXT("8-bit conversion tooltip")));
+                //p.actions["8BitConversion"]->setText(_getText(DJV_TEXT("8-Bit Conversion")));
+                //p.actions["8BitConversion"]->setTooltip(_getText(DJV_TEXT("8-bit conversion tooltip")));
                 p.actions["Cache"]->setText(_getText(DJV_TEXT("Memory Cache")));
                 p.actions["Cache"]->setTooltip(_getText(DJV_TEXT("Memory cache tooltip")));
                 p.actions["Exit"]->setText(_getText(DJV_TEXT("Exit")));
