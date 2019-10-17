@@ -230,7 +230,7 @@ namespace djv
             }
 
             template<>
-            constexpr bool tBBox2<int>::contains(const tBBox2<int>& value) const
+            inline bool tBBox2<int>::contains(const tBBox2<int>& value) const
             {
                 return
                     value.min.x >= min.x && value.max.x < max.x &&
@@ -238,7 +238,7 @@ namespace djv
             }
 
             template<>
-            constexpr bool tBBox2<float>::contains(const tBBox2<float>& value) const
+            inline bool tBBox2<float>::contains(const tBBox2<float>& value) const
             {
                 return
                     value.min.x >= min.x && value.max.x <= max.x &&
@@ -246,7 +246,7 @@ namespace djv
             }
 
             template<typename T, glm::precision P>
-            constexpr bool tBBox3<T, P>::contains(const tBBox3<T, P> & value) const
+            inline bool tBBox3<T, P>::contains(const tBBox3<T, P> & value) const
             {
                 return
                     value.min.x >= min.x && value.max.x <= max.x &&
@@ -255,7 +255,7 @@ namespace djv
             }
 
             template<>
-            constexpr bool tBBox2<int>::contains(const glm::tvec2<int>& value) const
+            inline bool tBBox2<int>::contains(const glm::tvec2<int>& value) const
             {
                 return
                     value.x >= min.x && value.x < max.x &&
@@ -263,7 +263,7 @@ namespace djv
             }
 
             template<>
-            constexpr bool tBBox2<float>::contains(const glm::tvec2<float>& value) const
+            inline bool tBBox2<float>::contains(const glm::tvec2<float>& value) const
             {
                 return
                     value.x >= min.x && value.x <= max.x &&
@@ -271,7 +271,7 @@ namespace djv
             }
 
             template<typename T, glm::precision P>
-            constexpr bool tBBox3<T, P>::contains(const glm::tvec3<T, P> & value) const
+            inline bool tBBox3<T, P>::contains(const glm::tvec3<T, P> & value) const
             {
                 return
                     value.x >= min.x && value.x <= max.x &&
@@ -280,7 +280,7 @@ namespace djv
             }
 
             template<>
-            constexpr bool tBBox2<int>::intersects(const tBBox2<int>& value) const
+            inline bool tBBox2<int>::intersects(const tBBox2<int>& value) const
             {
                 return !(
                     value.max.x <= min.x ||
@@ -290,7 +290,7 @@ namespace djv
             }
 
             template<>
-            constexpr bool tBBox2<float>::intersects(const tBBox2<float>& value) const
+            inline bool tBBox2<float>::intersects(const tBBox2<float>& value) const
             {
                 return !(
                     value.max.x < min.x ||
@@ -300,7 +300,7 @@ namespace djv
             }
 
             template<typename T, glm::precision P>
-            constexpr bool tBBox3<T, P>::intersects(const tBBox3<T, P> & value) const
+            inline bool tBBox3<T, P>::intersects(const tBBox3<T, P> & value) const
             {
                 return !(
                     value.max.x < min.x ||

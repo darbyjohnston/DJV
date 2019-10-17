@@ -73,10 +73,10 @@ namespace djv
                 //! \name Utilities
                 ///@{
 
-                constexpr bool contains(const tBBox2<T, P> &) const;
-                constexpr bool contains(const glm::tvec2<T, P> &) const;
+                bool contains(const tBBox2<T, P> &) const;
+                bool contains(const glm::tvec2<T, P> &) const;
 
-                constexpr bool intersects(const tBBox2<T, P> &) const;
+                bool intersects(const tBBox2<T, P> &) const;
                 tBBox2<T, P> intersect(const tBBox2<T, P> &) const;
 
                 void expand(const tBBox2<T, P> &);
@@ -125,10 +125,10 @@ namespace djv
                 //! \name Box Utilities
                 ///@{
 
-                constexpr bool contains(const tBBox3<T, P> &) const;
-                constexpr bool contains(const glm::tvec3<T, P> &) const;
+                inline bool contains(const tBBox3<T, P> &) const;
+                inline bool contains(const glm::tvec3<T, P> &) const;
 
-                constexpr bool intersects(const tBBox3<T, P> &) const;
+                inline bool intersects(const tBBox3<T, P> &) const;
                 tBBox3<T, P> intersect(const tBBox3<T, P> &) const;
                 bool intersect(const glm::tvec3<T, P> & start, const glm::tvec3<T, P> & end, glm::tvec3<T, P> & out) const;
 
