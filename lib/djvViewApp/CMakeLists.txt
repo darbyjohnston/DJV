@@ -16,7 +16,6 @@ set(header
     FileSystem.h
     FileSettings.h
     FileSettingsWidget.h
-    HelpSettings.h
     HelpSystem.h
     HistogramWidget.h
     IToolSystem.h
@@ -78,7 +77,6 @@ set(source
     FileSettings.cpp
     FileSettingsWidget.cpp
     FileSystem.cpp
-    HelpSettings.cpp
     HelpSystem.cpp
     HistogramWidget.cpp
     IToolSystem.cpp

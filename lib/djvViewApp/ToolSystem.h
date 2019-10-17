@@ -58,6 +58,8 @@ namespace djv
             void _textUpdate() override;
 
         private:
+            void _errorsPopup();
+
             DJV_PRIVATE();
         };
 

@@ -32,6 +32,7 @@
 #include <djvUI/ISettings.h>
 
 #include <djvCore/BBox.h>
+#include <djvCore/ValueObserver.h>
 
 namespace djv
 {
@@ -51,6 +52,12 @@ namespace djv
             virtual ~ToolSettings();
 
             static std::shared_ptr<ToolSettings> create(const std::shared_ptr<Core::Context>&);
+
+            std::shared_ptr<Core::IValueSubject<bool> > observeErrorsPopup() const;
+            void setErrorsPopup(bool);
+
+            std::map<std::string, bool> getDebugBellowsState() const;
+            void setDebugBellowsState(const std::map<std::string, bool>&);
 
             const std::map<std::string, Core::BBox2f>& getWidgetGeom() const;
             void setWidgetGeom(const std::map<std::string, Core::BBox2f>&);

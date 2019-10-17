@@ -54,11 +54,10 @@ namespace djv
 
         protected:
             void _closeWidget(const std::string&) override;
+
             void _textUpdate() override;
 
         private:
-            void _errorsPopup();
-
             DJV_PRIVATE();
         };
 
