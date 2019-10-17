@@ -94,7 +94,7 @@ namespace djv
             void setImageRotate(ImageRotate);
             void setImageAspectRatio(ImageAspectRatio);
 
-            void imageFull();
+            void imageFill();
             void setImageFrame(const Core::BBox2f&);
             void imageFrame();
             void imageCenter();

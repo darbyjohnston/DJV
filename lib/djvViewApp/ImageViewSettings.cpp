@@ -54,7 +54,7 @@ namespace djv
             ISettings::_init("djv::ViewApp::ImageViewSettings", context);
 
             DJV_PRIVATE_PTR();
-            p.lock = ValueSubject<ImageViewLock>::create(ImageViewLock::Full);
+            p.lock = ValueSubject<ImageViewLock>::create(ImageViewLock::Fill);
             p.backgroundColor = ValueSubject<AV::Image::Color>::create(AV::Image::Color(0.F, 0.F, 0.F));
             _load();
         }

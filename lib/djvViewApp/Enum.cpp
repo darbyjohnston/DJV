@@ -64,7 +64,7 @@ namespace djv
         ViewApp,
         ImageViewLock,
         DJV_TEXT("None"),
-        DJV_TEXT("Full"),
+        DJV_TEXT("Fill"),
         DJV_TEXT("Frame"),
         DJV_TEXT("Center"));
 

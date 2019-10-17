@@ -297,7 +297,7 @@ namespace djv
             }
         }
 
-        void ImageView::imageFull()
+        void ImageView::imageFill()
         {
             DJV_PRIVATE_PTR();
             if (p.image)
@@ -373,14 +373,14 @@ namespace djv
             DJV_PRIVATE_PTR();
             switch (p.lock)
             {
-            case ImageViewLock::Full:   imageFull();   break;
+            case ImageViewLock::Fill:   imageFill();   break;
             case ImageViewLock::Frame:  imageFrame();  break;
             case ImageViewLock::Center: imageCenter(); break;
             default:
                 if (p.image && p.viewInit)
                 {
                     p.viewInit = false;
-                    imageFull();
+                    imageFill();
                 }
                 break;
             }

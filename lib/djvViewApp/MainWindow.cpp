@@ -153,15 +153,15 @@ namespace djv
                 maximizeButton->addAction(windowSystem->getActions()["Maximize"]);
             }
 
-            auto viewLockFullButton = UI::ToolButton::create(context);
-            auto viewLockFrameButton = UI::ToolButton::create(context);
-            auto viewLockCenterButton = UI::ToolButton::create(context);
+            auto viewFillButton = UI::ToolButton::create(context);
+            auto viewFrameButton = UI::ToolButton::create(context);
+            auto viewCenterButton = UI::ToolButton::create(context);
             auto imageViewSystem = context->getSystemT<ImageViewSystem>();
             if (imageViewSystem)
             {
-                viewLockFullButton->addAction(imageViewSystem->getActions()["LockFull"]);
-                viewLockFrameButton->addAction(imageViewSystem->getActions()["LockFrame"]);
-                viewLockCenterButton->addAction(imageViewSystem->getActions()["LockCenter"]);
+                viewFillButton->addAction(imageViewSystem->getActions()["Fill"]);
+                viewFrameButton->addAction(imageViewSystem->getActions()["Frame"]);
+                viewCenterButton->addAction(imageViewSystem->getActions()["Center"]);
             }
 
             std::map<std::string, std::shared_ptr<UI::ToolButton> > toolButtons;
@@ -202,9 +202,9 @@ namespace djv
             p.menuBar->addSeparator(UI::Side::Right);
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
-            hLayout->addChild(viewLockFullButton);
-            hLayout->addChild(viewLockFrameButton);
-            hLayout->addChild(viewLockCenterButton);
+            hLayout->addChild(viewFillButton);
+            hLayout->addChild(viewFrameButton);
+            hLayout->addChild(viewCenterButton);
             p.menuBar->addChild(hLayout);
             p.menuBar->addSeparator(UI::Side::Right);
             hLayout = UI::HorizontalLayout::create(context);

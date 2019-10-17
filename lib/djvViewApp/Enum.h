@@ -39,7 +39,7 @@ namespace djv
         enum class ImageViewLock
         {
             None,
-            Full,
+            Fill,
             Frame,
             Center,
 
