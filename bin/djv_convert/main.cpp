@@ -280,8 +280,8 @@ namespace djv
             bool _readSeq = false;
             bool _writeSeq = false;
             //! \todo What's a good default for this?
-            size_t _readQueueSize = 30;
-            size_t _writeQueueSize = 30;
+            size_t _readQueueSize = 10;
+            size_t _writeQueueSize = 10;
             size_t _readThreadCount = 4;
             size_t _writeThreadCount = 4;
             std::shared_ptr<AV::IO::IRead> _read;

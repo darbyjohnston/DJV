@@ -37,9 +37,6 @@
 
 #include <RtAudio.h>
 
-#include <condition_variable>
-#include <queue>
-
 using namespace djv::Core;
 
 namespace djv
@@ -50,7 +47,7 @@ namespace djv
         {
             //! \todo Should this be configurable?
             const size_t bufferFrameCount = 256;
-            const size_t videoQueueSize = 30;
+            const size_t videoQueueSize = 10;
             
         } // namespace
 
@@ -1111,6 +1108,7 @@ namespace djv
                 sampleCount += media->_p->audioData->getSampleCount() - media->_p->audioDataSamplesOffset;
             }
 
+            // Get audio frames from the read queue.
             std::vector<AV::IO::AudioFrame> frames;
             {
                 std::lock_guard<std::mutex> lock(media->_p->read->getMutex());
@@ -1124,10 +1122,13 @@ namespace djv
                 }
             }
 
+            // Use the remaining data from the frame.
             uint8_t* p = reinterpret_cast<uint8_t*>(outputBuffer);
             if (media->_p->audioData)
             {
-                const size_t size = std::min(media->_p->audioData->getSampleCount() - media->_p->audioDataSamplesOffset, outputSampleCount);
+                const size_t size = std::min(
+                    media->_p->audioData->getSampleCount() - media->_p->audioDataSamplesOffset,
+                    outputSampleCount);
                 //memcpy(
                 //    p,
                 //    media->_p->audioData->getData() + media->_p->audioDataSamplesOffset * sampleByteCount,
@@ -1151,6 +1152,7 @@ namespace djv
                 }
             }
 
+            // Process the frames.
             for (const auto& i : frames)
             {
                 media->_p->audioData = i.audio;
