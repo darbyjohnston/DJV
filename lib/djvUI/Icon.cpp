@@ -82,14 +82,19 @@ namespace djv
         void Icon::setIcon(const std::string & value)
         {
             DJV_PRIVATE_PTR();
-            if (value == p.name)
-                return;
-            p.name = value;
             if (auto context = getContext().lock())
             {
-                auto iconSystem = context->getSystemT<IconSystem>();
-                const auto& style = _getStyle();
-                p.imageFuture = iconSystem->getIcon(p.name, static_cast<int>(style->getMetric(p.iconSizeRole)));
+                if (value == p.name)
+                    return;
+                p.imageFuture = std::future<std::shared_ptr<AV::Image::Image> >();
+                p.image.reset();
+                p.name = value;
+                if (!p.name.empty())
+                {
+                    auto iconSystem = context->getSystemT<IconSystem>();
+                    const auto& style = _getStyle();
+                    p.imageFuture = iconSystem->getIcon(p.name, static_cast<int>(style->getMetric(p.iconSizeRole)));
+                }
                 _resize();
             }
         }
