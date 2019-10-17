@@ -167,6 +167,8 @@ namespace djv
                     {
                         std::stringstream ss;
                         ss << i.info.size;
+                        ss.precision(2);
+                        ss << " " << std::fixed << i.info.size.getAspectRatio();
                         label->setText(ss.str());
                     }
                     label->setHAlign(UI::HAlign::Left);

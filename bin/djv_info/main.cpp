@@ -114,8 +114,8 @@ namespace djv
                         {
                             std::cout << "    Video track " << i << ":" << std::endl;
                             std::cout << "        Name: " << video.info.name << std::endl;
-                            std::cout << "        Size: " << video.info.size << std::endl;
-                            std::cout << "        Aspect ratio: " << video.info.getAspectRatio() << std::endl;
+                            std::cout.precision(2);
+                            std::cout << "        Size: " << video.info.size << " " << std::fixed << video.info.getAspectRatio() << std::endl;
                             std::cout << "        Type: " << video.info.type << std::endl;
                             std::cout << "        Speed: " << video.speed.toFloat() << std::endl;
                             std::cout << "        Duration: " << avSystem->getLabel(video.sequence.getSize(), video.speed);
