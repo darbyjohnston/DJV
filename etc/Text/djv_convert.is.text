@@ -1,20 +1,122 @@
 [
     {
-        "id": "Nothing to convert", 
         "source": "Nothing to convert", 
-        "description": "", 
-        "text": "Ekkert a\u00f0 breyta"
+        "text": "Ekkert a\u00f0 breyta", 
+        "id": "Nothing to convert", 
+        "description": ""
     }, 
     {
-        "id": "Cannot parse the option '-resize'", 
         "source": "Cannot parse the option '-resize'", 
-        "description": "", 
-        "text": "Ekki er h\u00e6gt a\u00f0 flokka valkostinn &#39;-resize&#39;"
+        "text": "Ekki er h\u00e6gt a\u00f0 flokka valkostinn &#39;-resize&#39;", 
+        "id": "Cannot parse the option '-resize'", 
+        "description": ""
     }, 
     {
-        "id": "Usage: djv_convert (input) (output)", 
         "source": "Usage: djv_convert (input) (output)", 
-        "description": "", 
-        "text": "Notkun: djv_convert (inntak) (framlei\u00f0sla)"
+        "text": "Notkun: djv_convert (inntak) (framlei\u00f0sla)", 
+        "id": "Usage: djv_convert (input) (output)", 
+        "description": ""
+    }, 
+    {
+        "source": " Usage:", 
+        "text": "Notkun:", 
+        "id": " Usage:", 
+        "description": ""
+    }, 
+    {
+        "source": "   djv_convert (input) (output) [option, ...]", 
+        "text": "djv_convert (inntak) (framlei\u00f0sla) [valkostur, ...]", 
+        "id": "   djv_convert (input) (output) [option, ...]", 
+        "description": ""
+    }, 
+    {
+        "source": " Options:", 
+        "text": "Valkostir:", 
+        "id": " Options:", 
+        "description": ""
+    }, 
+    {
+        "source": "   -resize '(width) (height)'", 
+        "text": "-st\u00e6r\u00f0 &#39;(breidd) (h\u00e6\u00f0)&#39;", 
+        "id": "   -resize '(width) (height)'", 
+        "description": ""
+    }, 
+    {
+        "source": "     Resize the image.", 
+        "text": "Breyttu st\u00e6r\u00f0 myndarinnar.", 
+        "id": "     Resize the image.", 
+        "description": ""
+    }, 
+    {
+        "source": "   -readSeq", 
+        "text": "-readSeq", 
+        "id": "   -readSeq", 
+        "description": ""
+    }, 
+    {
+        "source": "     Interpret the input file name as a sequence.", 
+        "text": "T\u00falka heiti innsl\u00e1ttarskr\u00e1rinnar sem r\u00f6\u00f0.", 
+        "id": "     Interpret the input file name as a sequence.", 
+        "description": ""
+    }, 
+    {
+        "source": "   -writeSeq", 
+        "text": "-SkrifaSeq", 
+        "id": "   -writeSeq", 
+        "description": ""
+    }, 
+    {
+        "source": "     Interpret the output file name as a sequence.", 
+        "text": "T\u00falka\u00f0u framlei\u00f0sluskr\u00e1heiti\u00f0 sem r\u00f6\u00f0.", 
+        "id": "     Interpret the output file name as a sequence.", 
+        "description": ""
+    }, 
+    {
+        "source": "   -readQueue (value)", 
+        "text": "-readQueue (gildi)", 
+        "id": "   -readQueue (value)", 
+        "description": ""
+    }, 
+    {
+        "source": "     Set the size of the read queue.", 
+        "text": "Stilltu st\u00e6r\u00f0 lestrar bi\u00f0r\u00f6\u00f0.", 
+        "id": "     Set the size of the read queue.", 
+        "description": ""
+    }, 
+    {
+        "source": "   -writeQueue (value)", 
+        "text": "-Skrifa bi\u00f0r\u00f6\u00f0 (gildi)", 
+        "id": "   -writeQueue (value)", 
+        "description": ""
+    }, 
+    {
+        "source": "     Set the size of the write queue.", 
+        "text": "Stilltu st\u00e6r\u00f0 skrifa bi\u00f0r\u00f6\u00f0.", 
+        "id": "     Set the size of the write queue.", 
+        "description": ""
+    }, 
+    {
+        "source": "   -readThreads (value)", 
+        "text": "-readTreads (gildi)", 
+        "id": "   -readThreads (value)", 
+        "description": ""
+    }, 
+    {
+        "source": "     Set the number of threads for reading.", 
+        "text": "Stilltu fj\u00f6lda \u00fer\u00e1\u00f0a til a\u00f0 lesa.", 
+        "id": "     Set the number of threads for reading.", 
+        "description": ""
+    }, 
+    {
+        "source": "   -writeThreads (value)", 
+        "text": "-Skrifa \u00fer\u00e6\u00f0i (gildi)", 
+        "id": "   -writeThreads (value)", 
+        "description": ""
+    }, 
+    {
+        "source": "     Set the number of threads for writing.", 
+        "text": "Stilltu fj\u00f6lda \u00fer\u00e1\u00f0a til a\u00f0 skrifa.", 
+        "id": "     Set the number of threads for writing.", 
+        "description": ""
     }
 ]

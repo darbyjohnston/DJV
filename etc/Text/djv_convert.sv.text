@@ -1,20 +1,122 @@
 [
     {
-        "id": "Nothing to convert", 
         "source": "Nothing to convert", 
-        "description": "", 
-        "text": "Ingenting att konvertera"
+        "text": "Ingenting att konvertera", 
+        "id": "Nothing to convert", 
+        "description": ""
     }, 
     {
-        "id": "Cannot parse the option '-resize'", 
         "source": "Cannot parse the option '-resize'", 
-        "description": "", 
-        "text": "Kan inte analysera alternativet &#39;-resize&#39;"
+        "text": "Kan inte analysera alternativet &#39;-resize&#39;", 
+        "id": "Cannot parse the option '-resize'", 
+        "description": ""
     }, 
     {
-        "id": "Usage: djv_convert (input) (output)", 
         "source": "Usage: djv_convert (input) (output)", 
-        "description": "", 
-        "text": "Anv\u00e4ndning: djv_convert (ing\u00e5ng) (utg\u00e5ng)"
+        "text": "Anv\u00e4ndning: djv_convert (ing\u00e5ng) (utg\u00e5ng)", 
+        "id": "Usage: djv_convert (input) (output)", 
+        "description": ""
+    }, 
+    {
+        "source": " Usage:", 
+        "text": "Anv\u00e4ndande:", 
+        "id": " Usage:", 
+        "description": ""
+    }, 
+    {
+        "source": "   djv_convert (input) (output) [option, ...]", 
+        "text": "djv_convert (input) (output) [alternativ, ...]", 
+        "id": "   djv_convert (input) (output) [option, ...]", 
+        "description": ""
+    }, 
+    {
+        "source": " Options:", 
+        "text": "Alternativ:", 
+        "id": " Options:", 
+        "description": ""
+    }, 
+    {
+        "source": "   -resize '(width) (height)'", 
+        "text": "-storlek &#39;(bredd) (h\u00f6jd)&#39;", 
+        "id": "   -resize '(width) (height)'", 
+        "description": ""
+    }, 
+    {
+        "source": "     Resize the image.", 
+        "text": "\u00c4ndra storlek p\u00e5 bilden.", 
+        "id": "     Resize the image.", 
+        "description": ""
+    }, 
+    {
+        "source": "   -readSeq", 
+        "text": "-readSeq", 
+        "id": "   -readSeq", 
+        "description": ""
+    }, 
+    {
+        "source": "     Interpret the input file name as a sequence.", 
+        "text": "Tolk inmatningsfilens namn som en sekvens.", 
+        "id": "     Interpret the input file name as a sequence.", 
+        "description": ""
+    }, 
+    {
+        "source": "   -writeSeq", 
+        "text": "-writeSeq", 
+        "id": "   -writeSeq", 
+        "description": ""
+    }, 
+    {
+        "source": "     Interpret the output file name as a sequence.", 
+        "text": "Tolk utdatafilnamnet som en sekvens.", 
+        "id": "     Interpret the output file name as a sequence.", 
+        "description": ""
+    }, 
+    {
+        "source": "   -readQueue (value)", 
+        "text": "-readQueue (v\u00e4rde)", 
+        "id": "   -readQueue (value)", 
+        "description": ""
+    }, 
+    {
+        "source": "     Set the size of the read queue.", 
+        "text": "St\u00e4ll in storleken p\u00e5 l\u00e4sk\u00f6n.", 
+        "id": "     Set the size of the read queue.", 
+        "description": ""
+    }, 
+    {
+        "source": "   -writeQueue (value)", 
+        "text": "-SkrivQueue (v\u00e4rde)", 
+        "id": "   -writeQueue (value)", 
+        "description": ""
+    }, 
+    {
+        "source": "     Set the size of the write queue.", 
+        "text": "St\u00e4ll in storleken p\u00e5 skrivk\u00f6n.", 
+        "id": "     Set the size of the write queue.", 
+        "description": ""
+    }, 
+    {
+        "source": "   -readThreads (value)", 
+        "text": "-readTreads (v\u00e4rde)", 
+        "id": "   -readThreads (value)", 
+        "description": ""
+    }, 
+    {
+        "source": "     Set the number of threads for reading.", 
+        "text": "St\u00e4ll in antalet tr\u00e5dar f\u00f6r l\u00e4sning.", 
+        "id": "     Set the number of threads for reading.", 
+        "description": ""
+    }, 
+    {
+        "source": "   -writeThreads (value)", 
+        "text": "-writeThreads (v\u00e4rde)", 
+        "id": "   -writeThreads (value)", 
+        "description": ""
+    }, 
+    {
+        "source": "     Set the number of threads for writing.", 
+        "text": "St\u00e4ll in antalet tr\u00e5dar som ska skrivas.", 
+        "id": "     Set the number of threads for writing.", 
+        "description": ""
     }
 ]

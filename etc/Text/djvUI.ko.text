@@ -1,1190 +1,1214 @@
 [
     {
-        "id": "Cannot parse the value.", 
         "source": "Cannot parse the value.", 
-        "description": "", 
-        "text": "\uac12\uc744 \uad6c\ubb38 \ubd84\uc11d \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
+        "text": "\uac12\uc744 \uad6c\ubb38 \ubd84\uc11d \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
+        "id": "Cannot parse the value.", 
+        "description": ""
     }, 
     {
-        "id": "Horizontal", 
         "source": "Horizontal", 
-        "description": "", 
-        "text": "\uc218\ud3c9"
+        "text": "\uc218\ud3c9", 
+        "id": "Horizontal", 
+        "description": ""
     }, 
     {
-        "id": "Vertical", 
         "source": "Vertical", 
-        "description": "", 
-        "text": "\uc218\uc9c1\uc120"
+        "text": "\uc218\uc9c1\uc120", 
+        "id": "Vertical", 
+        "description": ""
     }, 
     {
-        "id": "Left", 
         "source": "Left", 
-        "description": "", 
-        "text": "\uc67c\ucabd"
+        "text": "\uc67c\ucabd", 
+        "id": "Left", 
+        "description": ""
     }, 
     {
-        "id": "Top", 
         "source": "Top", 
-        "description": "", 
-        "text": "\uc0c1\ub2e8"
+        "text": "\uc0c1\ub2e8", 
+        "id": "Top", 
+        "description": ""
     }, 
     {
-        "id": "Right", 
         "source": "Right", 
-        "description": "", 
-        "text": "\uad8c\ub9ac"
+        "text": "\uad8c\ub9ac", 
+        "id": "Right", 
+        "description": ""
     }, 
     {
-        "id": "Bottom", 
         "source": "Bottom", 
-        "description": "", 
-        "text": "\ubc14\ub2e5"
+        "text": "\ubc14\ub2e5", 
+        "id": "Bottom", 
+        "description": ""
     }, 
     {
-        "id": "None", 
         "source": "None", 
-        "description": "", 
-        "text": "\uc5c6\uc74c"
+        "text": "\uc5c6\uc74c", 
+        "id": "None", 
+        "description": ""
     }, 
     {
-        "id": "Both", 
         "source": "Both", 
-        "description": "", 
-        "text": "\uc591\uc790 \ubaa8\ub450"
+        "text": "\uc591\uc790 \ubaa8\ub450", 
+        "id": "Both", 
+        "description": ""
     }, 
     {
-        "id": "Center", 
         "source": "Center", 
-        "description": "", 
-        "text": "\uc13c\ud130"
+        "text": "\uc13c\ud130", 
+        "id": "Center", 
+        "description": ""
     }, 
     {
-        "id": "Fill", 
         "source": "Fill", 
-        "description": "", 
-        "text": "\uac00\ub4dd \ub530\ub974\ub2e4"
+        "text": "\uac00\ub4dd \ub530\ub974\ub2e4", 
+        "id": "Fill", 
+        "description": ""
     }, 
     {
-        "id": "Baseline", 
         "source": "Baseline", 
-        "description": "", 
-        "text": "\uae30\uc900\uc120"
+        "text": "\uae30\uc900\uc120", 
+        "id": "Baseline", 
+        "description": ""
     }, 
     {
-        "id": "Single", 
         "source": "Single", 
-        "description": "", 
-        "text": "\ub2e8\uc77c"
+        "text": "\ub2e8\uc77c", 
+        "id": "Single", 
+        "description": ""
     }, 
     {
-        "id": "Radio", 
         "source": "Radio", 
-        "description": "", 
-        "text": "\ub77c\ub514\uc624"
+        "text": "\ub77c\ub514\uc624", 
+        "id": "Radio", 
+        "description": ""
     }, 
     {
-        "id": "Multiple", 
         "source": "Multiple", 
-        "description": "", 
-        "text": "\ubc30\uc218"
+        "text": "\ubc30\uc218", 
+        "id": "Multiple", 
+        "description": ""
     }, 
     {
-        "id": "Forward", 
         "source": "Forward", 
-        "description": "", 
-        "text": "\uc55e\uc73c\ub85c"
+        "text": "\uc55e\uc73c\ub85c", 
+        "id": "Forward", 
+        "description": ""
     }, 
     {
-        "id": "Reverse", 
         "source": "Reverse", 
-        "description": "", 
-        "text": "\uc5ed"
+        "text": "\uc5ed", 
+        "id": "Reverse", 
+        "description": ""
     }, 
     {
-        "id": "Push", 
         "source": "Push", 
-        "description": "", 
-        "text": "\ud478\uc2dc"
+        "text": "\ud478\uc2dc", 
+        "id": "Push", 
+        "description": ""
     }, 
     {
-        "id": "Toggle", 
         "source": "Toggle", 
-        "description": "", 
-        "text": "\ube44\ub140\uc7a5"
+        "text": "\ube44\ub140\uc7a5", 
+        "id": "Toggle", 
+        "description": ""
     }, 
     {
-        "id": "Exclusive", 
         "source": "Exclusive", 
-        "description": "", 
-        "text": "\ub3c5\ud2b9\ud55c"
+        "text": "\ub3c5\ud2b9\ud55c", 
+        "id": "Exclusive", 
+        "description": ""
     }, 
     {
-        "id": "Tiles", 
         "source": "Tiles", 
-        "description": "", 
-        "text": "\ud0c0\uc77c"
+        "text": "\ud0c0\uc77c", 
+        "id": "Tiles", 
+        "description": ""
     }, 
     {
-        "id": "List", 
         "source": "List", 
-        "description": "", 
-        "text": "\uba85\ubd80"
+        "text": "\uba85\ubd80", 
+        "id": "List", 
+        "description": ""
     }, 
     {
-        "id": "Background", 
         "source": "Background", 
-        "description": "", 
-        "text": "\ubc30\uacbd"
+        "text": "\ubc30\uacbd", 
+        "id": "Background", 
+        "description": ""
     }, 
     {
-        "id": "BackgroundHeader", 
         "source": "Background Header", 
-        "description": "", 
-        "text": "\ubc30\uacbd \ud5e4\ub354"
+        "text": "\ubc30\uacbd \ud5e4\ub354", 
+        "id": "BackgroundHeader", 
+        "description": ""
     }, 
     {
-        "id": "BackgroundBellows", 
         "source": "Background Bellows", 
-        "description": "", 
-        "text": "\ubc30\uacbd \ubca8\ub85c\uc6b0\uc988"
+        "text": "\ubc30\uacbd \ubca8\ub85c\uc6b0\uc988", 
+        "id": "BackgroundBellows", 
+        "description": ""
     }, 
     {
-        "id": "BackgroundToolBar", 
         "source": "Background ToolBar", 
-        "description": "", 
-        "text": "\ubc30\uacbd \ub3c4\uad6c \ubaa8\uc74c"
+        "text": "\ubc30\uacbd \ub3c4\uad6c \ubaa8\uc74c", 
+        "id": "BackgroundToolBar", 
+        "description": ""
     }, 
     {
-        "id": "Foreground", 
         "source": "Foreground", 
-        "description": "", 
-        "text": "\uc804\uacbd"
+        "text": "\uc804\uacbd", 
+        "id": "Foreground", 
+        "description": ""
     }, 
     {
-        "id": "ForegroundDim", 
         "source": "Foreground Dim", 
-        "description": "", 
-        "text": "\uc804\uacbd \uc5b4\ub461\uac8c"
+        "text": "\uc804\uacbd \uc5b4\ub461\uac8c", 
+        "id": "ForegroundDim", 
+        "description": ""
     }, 
     {
-        "id": "Border", 
         "source": "Border", 
-        "description": "", 
-        "text": "\uacbd\uacc4"
+        "text": "\uacbd\uacc4", 
+        "id": "Border", 
+        "description": ""
     }, 
     {
-        "id": "BorderButton", 
         "source": "Border Button", 
-        "description": "", 
-        "text": "\ud14c\ub450\ub9ac \ubc84\ud2bc"
+        "text": "\ud14c\ub450\ub9ac \ubc84\ud2bc", 
+        "id": "BorderButton", 
+        "description": ""
     }, 
     {
-        "id": "Trough", 
         "source": "Trough", 
-        "description": "", 
-        "text": "\uad6c\uc720"
+        "text": "\uad6c\uc720", 
+        "id": "Trough", 
+        "description": ""
     }, 
     {
-        "id": "Button", 
         "source": "Button", 
-        "description": "", 
-        "text": "\ub2e8\ucd94"
+        "text": "\ub2e8\ucd94", 
+        "id": "Button", 
+        "description": ""
     }, 
     {
-        "id": "Hovered", 
         "source": "Hovered", 
-        "description": "", 
-        "text": "\ub36e\uc778"
+        "text": "\ub36e\uc778", 
+        "id": "Hovered", 
+        "description": ""
     }, 
     {
-        "id": "Pressed", 
         "source": "Pressed", 
-        "description": "", 
-        "text": "\ub20c\ub7ec\uc9c0\ub2e4"
+        "text": "\ub20c\ub7ec\uc9c0\ub2e4", 
+        "id": "Pressed", 
+        "description": ""
     }, 
     {
-        "id": "Checked", 
         "source": "Checked", 
-        "description": "", 
-        "text": "\uccb4\ud06c \ub428"
+        "text": "\uccb4\ud06c \ub428", 
+        "id": "Checked", 
+        "description": ""
     }, 
     {
-        "id": "TextFocus", 
         "source": "Text Focus", 
-        "description": "", 
-        "text": "\ud14d\uc2a4\ud2b8 \ud3ec\ucee4\uc2a4"
+        "text": "\ud14d\uc2a4\ud2b8 \ud3ec\ucee4\uc2a4", 
+        "id": "TextFocus", 
+        "description": ""
     }, 
     {
-        "id": "TooltipBackground", 
         "source": "Tooltip Background", 
-        "description": "", 
-        "text": "\ud234\ud301 \ubc30\uacbd"
+        "text": "\ud234\ud301 \ubc30\uacbd", 
+        "id": "TooltipBackground", 
+        "description": ""
     }, 
     {
-        "id": "TooltipForeground", 
         "source": "Tooltip Foreground", 
-        "description": "", 
-        "text": "\ud234\ud301 \ud3ec\uc5b4 \uadf8\ub77c\uc6b4\ub4dc"
+        "text": "\ud234\ud301 \ud3ec\uc5b4 \uadf8\ub77c\uc6b4\ub4dc", 
+        "id": "TooltipForeground", 
+        "description": ""
     }, 
     {
-        "id": "Overlay", 
         "source": "Overlay", 
-        "description": "", 
-        "text": "\uc704\uc5d0 \uae4c\ub294 \uac83"
+        "text": "\uc704\uc5d0 \uae4c\ub294 \uac83", 
+        "id": "Overlay", 
+        "description": ""
     }, 
     {
-        "id": "OverlayLight", 
         "source": "Overlay Light", 
-        "description": "", 
-        "text": "\uc624\ubc84\ub808\uc774 \ub77c\uc774\ud2b8"
+        "text": "\uc624\ubc84\ub808\uc774 \ub77c\uc774\ud2b8", 
+        "id": "OverlayLight", 
+        "description": ""
     }, 
     {
-        "id": "Shadow", 
         "source": "Shadow", 
-        "description": "", 
-        "text": "\uadf8\ub9bc\uc790"
+        "text": "\uadf8\ub9bc\uc790", 
+        "id": "Shadow", 
+        "description": ""
     }, 
     {
-        "id": "Handle", 
         "source": "Handle", 
-        "description": "", 
-        "text": "\ud578\ub4e4"
+        "text": "\ud578\ub4e4", 
+        "id": "Handle", 
+        "description": ""
     }, 
     {
-        "id": "Margin", 
         "source": "Margin", 
-        "description": "", 
-        "text": "\uc5ec\uc720"
+        "text": "\uc5ec\uc720", 
+        "id": "Margin", 
+        "description": ""
     }, 
     {
-        "id": "MarginSmall", 
         "source": "Margin Small", 
-        "description": "", 
-        "text": "\ub9c8\uc9c4 \uc791\uc740"
+        "text": "\ub9c8\uc9c4 \uc791\uc740", 
+        "id": "MarginSmall", 
+        "description": ""
     }, 
     {
-        "id": "MarginLarge", 
         "source": "Margin Large", 
-        "description": "", 
-        "text": "\ud070 \uc5ec\ubc31"
+        "text": "\ud070 \uc5ec\ubc31", 
+        "id": "MarginLarge", 
+        "description": ""
     }, 
     {
-        "id": "MarginDialog", 
         "source": "Margin Dialog", 
-        "description": "", 
-        "text": "\uc5ec\ubc31 \ub300\ud654 \uc0c1\uc790"
+        "text": "\uc5ec\ubc31 \ub300\ud654 \uc0c1\uc790", 
+        "id": "MarginDialog", 
+        "description": ""
     }, 
     {
-        "id": "Spacing", 
         "source": "Spacing", 
-        "description": "", 
-        "text": "\uac04\uaca9"
+        "text": "\uac04\uaca9", 
+        "id": "Spacing", 
+        "description": ""
     }, 
     {
-        "id": "SpacingSmall", 
         "source": "Spacing Small", 
-        "description": "", 
-        "text": "\uc791\uc740 \uacf5\ubc31"
+        "text": "\uc791\uc740 \uacf5\ubc31", 
+        "id": "SpacingSmall", 
+        "description": ""
     }, 
     {
-        "id": "SpacingLarge", 
         "source": "Spacing Large", 
-        "description": "", 
-        "text": "\ud070 \ub744\uc5b4\uc4f0\uae30"
+        "text": "\ud070 \ub744\uc5b4\uc4f0\uae30", 
+        "id": "SpacingLarge", 
+        "description": ""
     }, 
     {
-        "id": "Drag", 
         "source": "Drag", 
-        "description": "", 
-        "text": "\uacac\uc778"
+        "text": "\uacac\uc778", 
+        "id": "Drag", 
+        "description": ""
     }, 
     {
-        "id": "Icon", 
         "source": "Icon", 
-        "description": "", 
-        "text": "\uc0c1"
+        "text": "\uc0c1", 
+        "id": "Icon", 
+        "description": ""
     }, 
     {
-        "id": "IconSmall", 
         "source": "Icon Small", 
-        "description": "", 
-        "text": "\uc791\uc740 \uc544\uc774\ucf58"
+        "text": "\uc791\uc740 \uc544\uc774\ucf58", 
+        "id": "IconSmall", 
+        "description": ""
     }, 
     {
-        "id": "FontSmall", 
         "source": "Font Small", 
-        "description": "", 
-        "text": "\uc791\uc740 \uae00\uaf34"
+        "text": "\uc791\uc740 \uae00\uaf34", 
+        "id": "FontSmall", 
+        "description": ""
     }, 
     {
-        "id": "FontMedium", 
         "source": "Font Medium", 
-        "description": "", 
-        "text": "\uae00\uaf34 \uc911\uac04"
+        "text": "\uae00\uaf34 \uc911\uac04", 
+        "id": "FontMedium", 
+        "description": ""
     }, 
     {
-        "id": "FontLarge", 
         "source": "Font Large", 
-        "description": "", 
-        "text": "\ud070 \uae00\uaf34"
+        "text": "\ud070 \uae00\uaf34", 
+        "id": "FontLarge", 
+        "description": ""
     }, 
     {
-        "id": "FontHeader", 
         "source": "Font Header", 
-        "description": "", 
-        "text": "\uae00\uaf34 \uba38\ub9ac\uae00"
+        "text": "\uae00\uaf34 \uba38\ub9ac\uae00", 
+        "id": "FontHeader", 
+        "description": ""
     }, 
     {
-        "id": "FontTitle", 
         "source": "Font Title", 
-        "description": "", 
-        "text": "\uae00\uaf34 \uc81c\ubaa9"
+        "text": "\uae00\uaf34 \uc81c\ubaa9", 
+        "id": "FontTitle", 
+        "description": ""
     }, 
     {
-        "id": "Swatch", 
         "source": "Swatch", 
-        "description": "", 
-        "text": "\uacac\ubcf8"
+        "text": "\uacac\ubcf8", 
+        "id": "Swatch", 
+        "description": ""
     }, 
     {
-        "id": "Slider", 
         "source": "Slider", 
-        "description": "", 
-        "text": "\uc2ac\ub77c\uc774\ub354"
+        "text": "\uc2ac\ub77c\uc774\ub354", 
+        "id": "Slider", 
+        "description": ""
     }, 
     {
-        "id": "ScrollArea", 
         "source": "Scroll Area", 
-        "description": "", 
-        "text": "\uc2a4\ud06c\ub864 \uc601\uc5ed"
+        "text": "\uc2a4\ud06c\ub864 \uc601\uc5ed", 
+        "id": "ScrollArea", 
+        "description": ""
     }, 
     {
-        "id": "Menu", 
         "source": "Menu", 
-        "description": "", 
-        "text": "\uba54\ub274"
+        "text": "\uba54\ub274", 
+        "id": "Menu", 
+        "description": ""
     }, 
     {
-        "id": "TextColumn", 
         "source": "Text Column", 
-        "description": "", 
-        "text": "\ud14d\uc2a4\ud2b8 \uc5f4"
+        "text": "\ud14d\uc2a4\ud2b8 \uc5f4", 
+        "id": "TextColumn", 
+        "description": ""
     }, 
     {
-        "id": "TextColumnLarge", 
         "source": "Text Column Large", 
-        "description": "", 
-        "text": "\ud14d\uc2a4\ud2b8 \uc5f4 \ub300"
+        "text": "\ud14d\uc2a4\ud2b8 \uc5f4 \ub300", 
+        "id": "TextColumnLarge", 
+        "description": ""
     }, 
     {
-        "id": "SearchBox", 
         "source": "Search Box", 
-        "description": "", 
-        "text": "\uac80\uc0c9 \ucc3d"
+        "text": "\uac80\uc0c9 \ucc3d", 
+        "id": "SearchBox", 
+        "description": ""
     }, 
     {
-        "id": "Dialog", 
         "source": "Dialog", 
-        "description": "", 
-        "text": "\ub300\ud654"
+        "text": "\ub300\ud654", 
+        "id": "Dialog", 
+        "description": ""
     }, 
     {
-        "id": "ShadowSmall", 
         "source": "Shadow Small", 
-        "description": "", 
-        "text": "\uadf8\ub9bc\uc790 \uc791\uc740"
+        "text": "\uadf8\ub9bc\uc790 \uc791\uc740", 
+        "id": "ShadowSmall", 
+        "description": ""
     }, 
     {
-        "id": "TooltipOffset", 
         "source": "Tooltip Offset", 
-        "description": "", 
-        "text": "\ud234\ud301 \uc624\ud504\uc14b"
+        "text": "\ud234\ud301 \uc624\ud504\uc14b", 
+        "id": "TooltipOffset", 
+        "description": ""
     }, 
     {
-        "id": "Move", 
         "source": "Move", 
-        "description": "", 
-        "text": "\uc6c0\uc9c1\uc784"
+        "text": "\uc6c0\uc9c1\uc784", 
+        "id": "Move", 
+        "description": ""
     }, 
     {
-        "id": "Dark", 
         "source": "Dark", 
-        "description": "", 
-        "text": "\uc5b4\ub450\uc6b4"
+        "text": "\uc5b4\ub450\uc6b4", 
+        "id": "Dark", 
+        "description": ""
     }, 
     {
-        "id": "Light", 
         "source": "Light", 
-        "description": "", 
-        "text": "\ube5b"
+        "text": "\ube5b", 
+        "id": "Light", 
+        "description": ""
     }, 
     {
-        "id": "Medium", 
         "source": "Medium", 
-        "description": "", 
-        "text": "\ub9e4\uc9c8"
+        "text": "\ub9e4\uc9c8", 
+        "id": "Medium", 
+        "description": ""
     }, 
     {
-        "id": "Small", 
         "source": "Small", 
-        "description": "", 
-        "text": "\uc791\uc740"
+        "text": "\uc791\uc740", 
+        "id": "Small", 
+        "description": ""
     }, 
     {
-        "id": "Large", 
         "source": "Large", 
-        "description": "", 
-        "text": "\ud070"
+        "text": "\ud070", 
+        "id": "Large", 
+        "description": ""
     }, 
     {
-        "id": "ExtraLarge", 
         "source": "Extra Large", 
-        "description": "", 
-        "text": "\ud2b9\ub300"
+        "text": "\ud2b9\ub300", 
+        "id": "ExtraLarge", 
+        "description": ""
     }, 
     {
-        "id": "Default", 
         "source": "Default", 
-        "description": "", 
-        "text": "\ud0dc\ub9cc"
+        "text": "\ud0dc\ub9cc", 
+        "id": "Default", 
+        "description": ""
     }, 
     {
-        "id": "Expand", 
         "source": "Expand", 
-        "description": "", 
-        "text": "\ub113\ud788\ub2e4"
+        "text": "\ub113\ud788\ub2e4", 
+        "id": "Expand", 
+        "description": ""
     }, 
     {
-        "id": "Space", 
         "source": "Space", 
-        "description": "", 
-        "text": "\uacf5\uac04"
+        "text": "\uacf5\uac04", 
+        "id": "Space", 
+        "description": ""
     }, 
     {
-        "id": "Apostrophe", 
         "source": "Apostrophe", 
-        "description": "", 
-        "text": "\uc544\ud3ec\uc2a4\ud2b8\ub85c\ud53c"
+        "text": "\uc544\ud3ec\uc2a4\ud2b8\ub85c\ud53c", 
+        "id": "Apostrophe", 
+        "description": ""
     }, 
     {
-        "id": "Comma", 
         "source": "Comma", 
-        "description": "", 
-        "text": "\ucf64\ub9c8"
+        "text": "\ucf64\ub9c8", 
+        "id": "Comma", 
+        "description": ""
     }, 
     {
-        "id": "Minus", 
         "source": "Minus", 
-        "description": "", 
-        "text": "\ub9c8\uc774\ub108\uc2a4"
+        "text": "\ub9c8\uc774\ub108\uc2a4", 
+        "id": "Minus", 
+        "description": ""
     }, 
     {
-        "id": "Period", 
         "source": "Period", 
-        "description": "", 
-        "text": "\uae30\uac04"
+        "text": "\uae30\uac04", 
+        "id": "Period", 
+        "description": ""
     }, 
     {
-        "id": "Slash", 
         "source": "Slash", 
-        "description": "", 
-        "text": "\uc0ad\uac10"
+        "text": "\uc0ad\uac10", 
+        "id": "Slash", 
+        "description": ""
     }, 
     {
-        "id": "0", 
         "source": "0", 
-        "description": "", 
-        "text": "0"
+        "text": "0", 
+        "id": "0", 
+        "description": ""
     }, 
     {
-        "id": "1", 
         "source": "1", 
-        "description": "", 
-        "text": "1"
+        "text": "1", 
+        "id": "1", 
+        "description": ""
     }, 
     {
-        "id": "2", 
         "source": "2", 
-        "description": "", 
-        "text": "2"
+        "text": "2", 
+        "id": "2", 
+        "description": ""
     }, 
     {
-        "id": "3", 
         "source": "3", 
-        "description": "", 
-        "text": "\uc0bc"
+        "text": "\uc0bc", 
+        "id": "3", 
+        "description": ""
     }, 
     {
-        "id": "4", 
         "source": "4", 
-        "description": "", 
-        "text": "4"
+        "text": "4", 
+        "id": "4", 
+        "description": ""
     }, 
     {
-        "id": "5", 
         "source": "5", 
-        "description": "", 
-        "text": "5"
+        "text": "5", 
+        "id": "5", 
+        "description": ""
     }, 
     {
-        "id": "6", 
         "source": "6", 
-        "description": "", 
-        "text": "6"
+        "text": "6", 
+        "id": "6", 
+        "description": ""
     }, 
     {
-        "id": "7", 
         "source": "7", 
-        "description": "", 
-        "text": "7"
+        "text": "7", 
+        "id": "7", 
+        "description": ""
     }, 
     {
-        "id": "8", 
         "source": "8", 
-        "description": "", 
-        "text": "8"
+        "text": "8", 
+        "id": "8", 
+        "description": ""
     }, 
     {
-        "id": "9", 
         "source": "9", 
-        "description": "", 
-        "text": "9"
+        "text": "9", 
+        "id": "9", 
+        "description": ""
     }, 
     {
-        "id": "Semicolon", 
         "source": "Semicolon", 
-        "description": "", 
-        "text": "\uc138\ubbf8\ucf5c\ub860"
+        "text": "\uc138\ubbf8\ucf5c\ub860", 
+        "id": "Semicolon", 
+        "description": ""
     }, 
     {
-        "id": "Equal", 
         "source": "Equal", 
-        "description": "", 
-        "text": "\uac19\uc740"
+        "text": "\uac19\uc740", 
+        "id": "Equal", 
+        "description": ""
     }, 
     {
-        "id": "A", 
         "source": "A", 
-        "description": "", 
-        "text": "\uc5d0\uc774"
+        "text": "\uc5d0\uc774", 
+        "id": "A", 
+        "description": ""
     }, 
     {
-        "id": "B", 
         "source": "B", 
-        "description": "", 
-        "text": "\ube44"
+        "text": "\ube44", 
+        "id": "B", 
+        "description": ""
     }, 
     {
-        "id": "C", 
         "source": "C", 
-        "description": "", 
-        "text": "\uae30\uc74c"
+        "text": "\uae30\uc74c", 
+        "id": "C", 
+        "description": ""
     }, 
     {
-        "id": "D", 
         "source": "D", 
-        "description": "", 
-        "text": "\ub514"
+        "text": "\ub514", 
+        "id": "D", 
+        "description": ""
     }, 
     {
-        "id": "E", 
         "source": "E", 
-        "description": "", 
-        "text": "\uacfc"
+        "text": "\uacfc", 
+        "id": "E", 
+        "description": ""
     }, 
     {
-        "id": "F", 
         "source": "F", 
-        "description": "", 
-        "text": "\uc5d0\ud504"
+        "text": "\uc5d0\ud504", 
+        "id": "F", 
+        "description": ""
     }, 
     {
-        "id": "G", 
         "source": "G", 
-        "description": "", 
-        "text": "\uc9c0"
+        "text": "\uc9c0", 
+        "id": "G", 
+        "description": ""
     }, 
     {
-        "id": "H", 
         "source": "H", 
-        "description": "", 
-        "text": "H"
+        "text": "H", 
+        "id": "H", 
+        "description": ""
     }, 
     {
-        "id": "I", 
         "source": "I", 
-        "description": "", 
-        "text": "\ub098\ub294"
+        "text": "\ub098\ub294", 
+        "id": "I", 
+        "description": ""
     }, 
     {
-        "id": "J", 
         "source": "J", 
-        "description": "", 
-        "text": "\uc77c\ubcf8"
+        "text": "\uc77c\ubcf8", 
+        "id": "J", 
+        "description": ""
     }, 
     {
-        "id": "K", 
         "source": "K", 
-        "description": "", 
-        "text": "\ucf00\uc774"
+        "text": "\ucf00\uc774", 
+        "id": "K", 
+        "description": ""
     }, 
     {
-        "id": "L", 
         "source": "L", 
-        "description": "", 
-        "text": ""
+        "text": "", 
+        "id": "L", 
+        "description": ""
     }, 
     {
-        "id": "M", 
         "source": "M", 
-        "description": "", 
-        "text": "\uc5e0"
+        "text": "\uc5e0", 
+        "id": "M", 
+        "description": ""
     }, 
     {
-        "id": "N", 
         "source": "N", 
-        "description": "", 
-        "text": "\uc5d4"
+        "text": "\uc5d4", 
+        "id": "N", 
+        "description": ""
     }, 
     {
-        "id": "O", 
         "source": "O", 
-        "description": "", 
-        "text": "O"
+        "text": "O", 
+        "id": "O", 
+        "description": ""
     }, 
     {
-        "id": "P", 
         "source": "P", 
-        "description": "", 
-        "text": "\ud53c"
+        "text": "\ud53c", 
+        "id": "P", 
+        "description": ""
     }, 
     {
-        "id": "Q", 
         "source": "Q", 
-        "description": "", 
-        "text": "\ud050"
+        "text": "\ud050", 
+        "id": "Q", 
+        "description": ""
     }, 
     {
-        "id": "R", 
         "source": "R", 
-        "description": "", 
-        "text": "\uc544\ub974 \uc790\ud615"
+        "text": "\uc544\ub974 \uc790\ud615", 
+        "id": "R", 
+        "description": ""
     }, 
     {
-        "id": "S", 
         "source": "S", 
-        "description": "", 
-        "text": "\uc5d0\uc2a4"
+        "text": "\uc5d0\uc2a4", 
+        "id": "S", 
+        "description": ""
     }, 
     {
-        "id": "T", 
         "source": "T", 
-        "description": "", 
-        "text": "\ud2f0"
+        "text": "\ud2f0", 
+        "id": "T", 
+        "description": ""
     }, 
     {
-        "id": "U", 
         "source": "U", 
-        "description": "", 
-        "text": "\uc720"
+        "text": "\uc720", 
+        "id": "U", 
+        "description": ""
     }, 
     {
-        "id": "V", 
         "source": "V", 
-        "description": "", 
-        "text": "V"
+        "text": "V", 
+        "id": "V", 
+        "description": ""
     }, 
     {
-        "id": "W", 
         "source": "W", 
-        "description": "", 
-        "text": ""
+        "text": "", 
+        "id": "W", 
+        "description": ""
     }, 
     {
-        "id": "X", 
         "source": "X", 
-        "description": "", 
-        "text": "\uc5d1\uc2a4"
+        "text": "\uc5d1\uc2a4", 
+        "id": "X", 
+        "description": ""
     }, 
     {
-        "id": "Y", 
         "source": "Y", 
-        "description": "", 
-        "text": "Y"
+        "text": "Y", 
+        "id": "Y", 
+        "description": ""
     }, 
     {
-        "id": "Z", 
         "source": "Z", 
-        "description": "", 
-        "text": "\uc640"
+        "text": "\uc640", 
+        "id": "Z", 
+        "description": ""
     }, 
     {
-        "id": "LeftBracket", 
         "source": "Left Bracket", 
-        "description": "", 
-        "text": "\uc67c\ucabd \ube0c\ub798\ud0b7"
+        "text": "\uc67c\ucabd \ube0c\ub798\ud0b7", 
+        "id": "LeftBracket", 
+        "description": ""
     }, 
     {
-        "id": "Backslash", 
         "source": "Backslash", 
-        "description": "", 
-        "text": "\ubc31 \uc2ac\ub798\uc2dc"
+        "text": "\ubc31 \uc2ac\ub798\uc2dc", 
+        "id": "Backslash", 
+        "description": ""
     }, 
     {
-        "id": "RightBracket", 
         "source": "Right Bracket", 
-        "description": "", 
-        "text": "\uc624\ub978\ucabd \ube0c\ub798\ud0b7"
+        "text": "\uc624\ub978\ucabd \ube0c\ub798\ud0b7", 
+        "id": "RightBracket", 
+        "description": ""
     }, 
     {
-        "id": "GraveAccent", 
         "source": "Grave Accent", 
-        "description": "", 
-        "text": "\uc2ec\uac01\ud55c \uc545\uc13c\ud2b8"
+        "text": "\uc2ec\uac01\ud55c \uc545\uc13c\ud2b8", 
+        "id": "GraveAccent", 
+        "description": ""
     }, 
     {
-        "id": "World1", 
         "source": "World 1", 
-        "description": "", 
-        "text": "\uc138\uacc4 1"
+        "text": "\uc138\uacc4 1", 
+        "id": "World1", 
+        "description": ""
     }, 
     {
-        "id": "World2", 
         "source": "World 2", 
-        "description": "", 
-        "text": "\uc138\uacc4 2"
+        "text": "\uc138\uacc4 2", 
+        "id": "World2", 
+        "description": ""
     }, 
     {
-        "id": "Escape", 
         "source": "Escape", 
-        "description": "", 
-        "text": "\ud0c8\ucd9c"
+        "text": "\ud0c8\ucd9c", 
+        "id": "Escape", 
+        "description": ""
     }, 
     {
-        "id": "Enter", 
         "source": "Enter", 
-        "description": "", 
-        "text": "\ub4e4\uc5b4\uac00\ub2e4"
+        "text": "\ub4e4\uc5b4\uac00\ub2e4", 
+        "id": "Enter", 
+        "description": ""
     }, 
     {
-        "id": "Tab", 
         "source": "Tab", 
-        "description": "", 
-        "text": "\ud0ed"
+        "text": "\ud0ed", 
+        "id": "Tab", 
+        "description": ""
     }, 
     {
-        "id": "Backspace", 
         "source": "Backspace", 
-        "description": "", 
-        "text": "\uc5ed\ud589 \ud0a4\uc774"
+        "text": "\uc5ed\ud589 \ud0a4\uc774", 
+        "id": "Backspace", 
+        "description": ""
     }, 
     {
-        "id": "Insert", 
         "source": "Insert", 
-        "description": "", 
-        "text": "\ub07c\uc6cc \ub123\ub2e4"
+        "text": "\ub07c\uc6cc \ub123\ub2e4", 
+        "id": "Insert", 
+        "description": ""
     }, 
     {
-        "id": "Delete", 
         "source": "Delete", 
-        "description": "", 
-        "text": "\uc9c0\uc6b0\ub2e4"
+        "text": "\uc9c0\uc6b0\ub2e4", 
+        "id": "Delete", 
+        "description": ""
     }, 
     {
-        "id": "RightArrow", 
         "source": "Right Arrow", 
-        "description": "", 
-        "text": "\uc624\ub978\ucabd \ud654\uc0b4\ud45c"
+        "text": "\uc624\ub978\ucabd \ud654\uc0b4\ud45c", 
+        "id": "RightArrow", 
+        "description": ""
     }, 
     {
-        "id": "LeftArrow", 
         "source": "Left Arrow", 
-        "description": "", 
-        "text": "\uc67c\ucabd \ud654\uc0b4\ud45c"
+        "text": "\uc67c\ucabd \ud654\uc0b4\ud45c", 
+        "id": "LeftArrow", 
+        "description": ""
     }, 
     {
-        "id": "DownArrow", 
         "source": "Down Arrow", 
-        "description": "", 
-        "text": "\uc544\ub798\ucabd \ud654\uc0b4\ud45c"
+        "text": "\uc544\ub798\ucabd \ud654\uc0b4\ud45c", 
+        "id": "DownArrow", 
+        "description": ""
     }, 
     {
-        "id": "UpArrow", 
         "source": "Up Arrow", 
-        "description": "", 
-        "text": "\uc704\ucabd \ud654\uc0b4\ud45c"
+        "text": "\uc704\ucabd \ud654\uc0b4\ud45c", 
+        "id": "UpArrow", 
+        "description": ""
     }, 
     {
-        "id": "PageUp", 
         "source": "Page Up", 
-        "description": "", 
-        "text": "\ud398\uc774\uc9c0 \uc704\ub85c"
+        "text": "\ud398\uc774\uc9c0 \uc704\ub85c", 
+        "id": "PageUp", 
+        "description": ""
     }, 
     {
-        "id": "PageDown", 
         "source": "Page Down", 
-        "description": "", 
-        "text": "Page Down"
+        "text": "Page Down", 
+        "id": "PageDown", 
+        "description": ""
     }, 
     {
-        "id": "Home", 
         "source": "Home", 
-        "description": "", 
-        "text": "\uc9d1"
+        "text": "\uc9d1", 
+        "id": "Home", 
+        "description": ""
     }, 
     {
-        "id": "End", 
         "source": "End", 
-        "description": "", 
-        "text": "\uc885\ub8cc"
+        "text": "\uc885\ub8cc", 
+        "id": "End", 
+        "description": ""
     }, 
     {
-        "id": "CapsLock", 
         "source": "Caps Lock", 
-        "description": "", 
-        "text": "Caps Lock"
+        "text": "Caps Lock", 
+        "id": "CapsLock", 
+        "description": ""
     }, 
     {
-        "id": "ScrollLock", 
         "source": "Scroll Lock", 
-        "description": "", 
-        "text": "\uc2a4\ud06c\ub864 \uc7a0\uae08"
+        "text": "\uc2a4\ud06c\ub864 \uc7a0\uae08", 
+        "id": "ScrollLock", 
+        "description": ""
     }, 
     {
-        "id": "NumLock", 
         "source": "Num Lock", 
-        "description": "", 
-        "text": "Num \uc7a0\uae08"
+        "text": "Num \uc7a0\uae08", 
+        "id": "NumLock", 
+        "description": ""
     }, 
     {
-        "id": "PrintScreen", 
         "source": "Print Screen", 
-        "description": "", 
-        "text": "\ud654\uba74 \uc778\uc1c4"
+        "text": "\ud654\uba74 \uc778\uc1c4", 
+        "id": "PrintScreen", 
+        "description": ""
     }, 
     {
-        "id": "F1", 
         "source": "F1", 
-        "description": "", 
-        "text": "F1"
+        "text": "F1", 
+        "id": "F1", 
+        "description": ""
     }, 
     {
-        "id": "F2", 
         "source": "F2", 
-        "description": "", 
-        "text": "F2"
+        "text": "F2", 
+        "id": "F2", 
+        "description": ""
     }, 
     {
-        "id": "F3", 
         "source": "F3", 
-        "description": "", 
-        "text": "F3"
+        "text": "F3", 
+        "id": "F3", 
+        "description": ""
     }, 
     {
-        "id": "F4", 
         "source": "F4", 
-        "description": "", 
-        "text": "F4"
+        "text": "F4", 
+        "id": "F4", 
+        "description": ""
     }, 
     {
-        "id": "F5", 
         "source": "F5", 
-        "description": "", 
-        "text": "F5"
+        "text": "F5", 
+        "id": "F5", 
+        "description": ""
     }, 
     {
-        "id": "F6", 
         "source": "F6", 
-        "description": "", 
-        "text": "F6"
+        "text": "F6", 
+        "id": "F6", 
+        "description": ""
     }, 
     {
-        "id": "F7", 
         "source": "F7", 
-        "description": "", 
-        "text": "F7"
+        "text": "F7", 
+        "id": "F7", 
+        "description": ""
     }, 
     {
-        "id": "F8", 
         "source": "F8", 
-        "description": "", 
-        "text": "F8"
+        "text": "F8", 
+        "id": "F8", 
+        "description": ""
     }, 
     {
-        "id": "F9", 
         "source": "F9", 
-        "description": "", 
-        "text": "F9"
+        "text": "F9", 
+        "id": "F9", 
+        "description": ""
     }, 
     {
-        "id": "F10", 
         "source": "F10", 
-        "description": "", 
-        "text": "F10"
+        "text": "F10", 
+        "id": "F10", 
+        "description": ""
     }, 
     {
-        "id": "F11", 
         "source": "F11", 
-        "description": "", 
-        "text": "F11"
+        "text": "F11", 
+        "id": "F11", 
+        "description": ""
     }, 
     {
-        "id": "F12", 
         "source": "F12", 
-        "description": "", 
-        "text": "F12"
+        "text": "F12", 
+        "id": "F12", 
+        "description": ""
     }, 
     {
-        "id": "F13", 
         "source": "F13", 
-        "description": "", 
-        "text": "F13"
+        "text": "F13", 
+        "id": "F13", 
+        "description": ""
     }, 
     {
-        "id": "F14", 
         "source": "F14", 
-        "description": "", 
-        "text": "F14"
+        "text": "F14", 
+        "id": "F14", 
+        "description": ""
     }, 
     {
-        "id": "F15", 
         "source": "F15", 
-        "description": "", 
-        "text": "F15"
+        "text": "F15", 
+        "id": "F15", 
+        "description": ""
     }, 
     {
-        "id": "F16", 
         "source": "F16", 
-        "description": "", 
-        "text": "F16"
+        "text": "F16", 
+        "id": "F16", 
+        "description": ""
     }, 
     {
-        "id": "F17", 
         "source": "F17", 
-        "description": "", 
-        "text": "F17"
+        "text": "F17", 
+        "id": "F17", 
+        "description": ""
     }, 
     {
-        "id": "F18", 
         "source": "F18", 
-        "description": "", 
-        "text": "F18"
+        "text": "F18", 
+        "id": "F18", 
+        "description": ""
     }, 
     {
-        "id": "F19", 
         "source": "F19", 
-        "description": "", 
-        "text": "F19"
+        "text": "F19", 
+        "id": "F19", 
+        "description": ""
     }, 
     {
-        "id": "F20", 
         "source": "F20", 
-        "description": "", 
-        "text": "F20"
+        "text": "F20", 
+        "id": "F20", 
+        "description": ""
     }, 
     {
-        "id": "F21", 
         "source": "F21", 
-        "description": "", 
-        "text": "F21"
+        "text": "F21", 
+        "id": "F21", 
+        "description": ""
     }, 
     {
-        "id": "F22", 
         "source": "F22", 
-        "description": "", 
-        "text": "F22"
+        "text": "F22", 
+        "id": "F22", 
+        "description": ""
     }, 
     {
-        "id": "F23", 
         "source": "F23", 
-        "description": "", 
-        "text": "F23"
+        "text": "F23", 
+        "id": "F23", 
+        "description": ""
     }, 
     {
-        "id": "F24", 
         "source": "F24", 
-        "description": "", 
-        "text": "F24"
+        "text": "F24", 
+        "id": "F24", 
+        "description": ""
     }, 
     {
-        "id": "F25", 
         "source": "F25", 
-        "description": "", 
-        "text": "F25"
+        "text": "F25", 
+        "id": "F25", 
+        "description": ""
     }, 
     {
-        "id": "KeyPad0", 
         "source": "Key Pad 0", 
-        "description": "", 
-        "text": "\ud0a4\ud328\ub4dc 0"
+        "text": "\ud0a4\ud328\ub4dc 0", 
+        "id": "KeyPad0", 
+        "description": ""
     }, 
     {
-        "id": "KeyPad1", 
         "source": "Key Pad 1", 
-        "description": "", 
-        "text": "\ud0a4\ud328\ub4dc 1"
+        "text": "\ud0a4\ud328\ub4dc 1", 
+        "id": "KeyPad1", 
+        "description": ""
     }, 
     {
-        "id": "KeyPad2", 
         "source": "Key Pad 2", 
-        "description": "", 
-        "text": "\ud0a4\ud328\ub4dc 2"
+        "text": "\ud0a4\ud328\ub4dc 2", 
+        "id": "KeyPad2", 
+        "description": ""
     }, 
     {
-        "id": "KeyPad3", 
         "source": "Key Pad 3", 
-        "description": "", 
-        "text": "\ud0a4 \ud328\ub4dc 3"
+        "text": "\ud0a4 \ud328\ub4dc 3", 
+        "id": "KeyPad3", 
+        "description": ""
     }, 
     {
-        "id": "KeyPad4", 
         "source": "Key Pad 4", 
-        "description": "", 
-        "text": "\ud0a4 \ud328\ub4dc 4"
+        "text": "\ud0a4 \ud328\ub4dc 4", 
+        "id": "KeyPad4", 
+        "description": ""
     }, 
     {
-        "id": "KeyPad5", 
         "source": "Key Pad 5", 
-        "description": "", 
-        "text": "\ud0a4\ud328\ub4dc 5"
+        "text": "\ud0a4\ud328\ub4dc 5", 
+        "id": "KeyPad5", 
+        "description": ""
     }, 
     {
-        "id": "KeyPad6", 
         "source": "Key Pad 6", 
-        "description": "", 
-        "text": "\ud0a4\ud328\ub4dc 6"
+        "text": "\ud0a4\ud328\ub4dc 6", 
+        "id": "KeyPad6", 
+        "description": ""
     }, 
     {
-        "id": "KeyPad7", 
         "source": "Key Pad 7", 
-        "description": "", 
-        "text": "\ud0a4\ud328\ub4dc 7"
+        "text": "\ud0a4\ud328\ub4dc 7", 
+        "id": "KeyPad7", 
+        "description": ""
     }, 
     {
-        "id": "KeyPad8", 
         "source": "Key Pad 8", 
-        "description": "", 
-        "text": "\ud0a4\ud328\ub4dc 8"
+        "text": "\ud0a4\ud328\ub4dc 8", 
+        "id": "KeyPad8", 
+        "description": ""
     }, 
     {
-        "id": "KeyPad9", 
         "source": "Key Pad 9", 
-        "description": "", 
-        "text": "\ud0a4\ud328\ub4dc 9"
+        "text": "\ud0a4\ud328\ub4dc 9", 
+        "id": "KeyPad9", 
+        "description": ""
     }, 
     {
-        "id": "KeyPadDecimal", 
         "source": "Key Pad Decimal", 
-        "description": "", 
-        "text": "\ud0a4 \ud328\ub4dc \uc2ed\uc9c4\uc218"
+        "text": "\ud0a4 \ud328\ub4dc \uc2ed\uc9c4\uc218", 
+        "id": "KeyPadDecimal", 
+        "description": ""
     }, 
     {
-        "id": "KeyPadDivide", 
         "source": "Key Pad Divide", 
-        "description": "", 
-        "text": "\ud0a4 \ud328\ub4dc \ub098\ub204\uae30"
+        "text": "\ud0a4 \ud328\ub4dc \ub098\ub204\uae30", 
+        "id": "KeyPadDivide", 
+        "description": ""
     }, 
     {
-        "id": "KeyPadMultiply", 
         "source": "Key Pad Multiply", 
-        "description": "", 
-        "text": "\ud0a4\ud328\ub4dc \uacf1\ud558\uae30"
+        "text": "\ud0a4\ud328\ub4dc \uacf1\ud558\uae30", 
+        "id": "KeyPadMultiply", 
+        "description": ""
     }, 
     {
-        "id": "KeyPadSubstract", 
         "source": "Key Pad Substract", 
-        "description": "", 
-        "text": "\ud0a4 \ud328\ub4dc Substract"
+        "text": "\ud0a4 \ud328\ub4dc Substract", 
+        "id": "KeyPadSubstract", 
+        "description": ""
     }, 
     {
-        "id": "KeyPadAdd", 
         "source": "Key Pad Add", 
-        "description": "", 
-        "text": "\ud0a4 \ud328\ub4dc \ucd94\uac00"
+        "text": "\ud0a4 \ud328\ub4dc \ucd94\uac00", 
+        "id": "KeyPadAdd", 
+        "description": ""
     }, 
     {
-        "id": "KeyPadEnter", 
         "source": "Key Pad Enter", 
-        "description": "", 
-        "text": "\ud0a4 \ud328\ub4dc \uc785\ub825"
+        "text": "\ud0a4 \ud328\ub4dc \uc785\ub825", 
+        "id": "KeyPadEnter", 
+        "description": ""
     }, 
     {
-        "id": "KeyPadEqual", 
         "source": "Key Pad Equal", 
-        "description": "", 
-        "text": "\ud0a4\ud328\ub4dc \uac19\uc74c"
+        "text": "\ud0a4\ud328\ub4dc \uac19\uc74c", 
+        "id": "KeyPadEqual", 
+        "description": ""
     }, 
     {
-        "id": "LeftShift", 
         "source": "Left Shift", 
-        "description": "", 
-        "text": "\uc67c\ucabd \uc2dc\ud504\ud2b8"
+        "text": "\uc67c\ucabd \uc2dc\ud504\ud2b8", 
+        "id": "LeftShift", 
+        "description": ""
     }, 
     {
-        "id": "LeftControl", 
         "source": "Left Control", 
-        "description": "", 
-        "text": "\uc67c\ucabd \ucee8\ud2b8\ub864"
+        "text": "\uc67c\ucabd \ucee8\ud2b8\ub864", 
+        "id": "LeftControl", 
+        "description": ""
     }, 
     {
-        "id": "LeftAlt", 
         "source": "Left Alt", 
-        "description": "", 
-        "text": "\uc67c\ucabd Alt"
+        "text": "\uc67c\ucabd Alt", 
+        "id": "LeftAlt", 
+        "description": ""
     }, 
     {
-        "id": "LeftCommand", 
         "source": "Left Command", 
-        "description": "", 
-        "text": "\uc67c\ucabd \uba85\ub839"
+        "text": "\uc67c\ucabd \uba85\ub839", 
+        "id": "LeftCommand", 
+        "description": ""
     }, 
     {
-        "id": "RightShift", 
         "source": "Right Shift", 
-        "description": "", 
-        "text": "\uc624\ub978\ucabd \uc2dc\ud504\ud2b8"
+        "text": "\uc624\ub978\ucabd \uc2dc\ud504\ud2b8", 
+        "id": "RightShift", 
+        "description": ""
     }, 
     {
-        "id": "RightControl", 
         "source": "Right Control", 
-        "description": "", 
-        "text": "\uc624\ub978\ucabd \ucee8\ud2b8\ub864"
+        "text": "\uc624\ub978\ucabd \ucee8\ud2b8\ub864", 
+        "id": "RightControl", 
+        "description": ""
     }, 
     {
-        "id": "RightAlt", 
         "source": "Right Alt", 
-        "description": "", 
-        "text": "\uc624\ub978\ucabd Alt"
+        "text": "\uc624\ub978\ucabd Alt", 
+        "id": "RightAlt", 
+        "description": ""
     }, 
     {
-        "id": "RightCommand", 
         "source": "Right Command", 
-        "description": "", 
-        "text": "\uc624\ub978\ucabd \uba85\ub839"
+        "text": "\uc624\ub978\ucabd \uba85\ub839", 
+        "id": "RightCommand", 
+        "description": ""
     }, 
     {
-        "id": "Shift", 
         "source": "Shift", 
-        "description": "", 
-        "text": "\uc2dc\ud504\ud2b8"
+        "text": "\uc2dc\ud504\ud2b8", 
+        "id": "Shift", 
+        "description": ""
     }, 
     {
-        "id": "Ctrl", 
         "source": "Ctrl", 
-        "description": "", 
-        "text": "Ctrl"
+        "text": "Ctrl", 
+        "id": "Ctrl", 
+        "description": ""
     }, 
     {
-        "id": "Alt", 
         "source": "Alt", 
-        "description": "", 
-        "text": "\ubaa8\ub450"
+        "text": "\ubaa8\ub450", 
+        "id": "Alt", 
+        "description": ""
     }, 
     {
-        "id": "Command", 
         "source": "Command", 
-        "description": "", 
-        "text": "\uba85\ub839"
+        "text": "\uba85\ub839", 
+        "id": "Command", 
+        "description": ""
+    }, 
+    {
+        "source": "Cached", 
+        "text": "\uce90\uc2dc", 
+        "id": "Cached", 
+        "description": ""
+    }, 
+    {
+        "source": "Scrub", 
+        "text": "\ubd81\ubd81 \ub2e6\ub2e4", 
+        "id": "Scrub", 
+        "description": ""
+    }, 
+    {
+        "source": "Keyboard shortcut", 
+        "text": "\ud0a4\ubcf4\ub4dc \ub2e8\ucd95\ud0a4", 
+        "id": "Keyboard shortcut", 
+        "description": ""
+    }, 
+    {
+        "source": "Keyboard shortcuts", 
+        "text": "\ud0a4\ubcf4\ub4dc \ub2e8\ucd95\ud0a4", 
+        "id": "Keyboard shortcuts", 
+        "description": ""
     }
 ]

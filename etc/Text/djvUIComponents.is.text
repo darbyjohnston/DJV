@@ -1,644 +1,812 @@
 [
     {
-        "id": "Cineon", 
         "source": "Cineon", 
-        "description": "", 
-        "text": "Cineon"
+        "text": "Cineon", 
+        "id": "Cineon", 
+        "description": ""
     }, 
     {
-        "id": "I/O", 
         "source": "I/O", 
-        "description": "", 
-        "text": "I / O"
+        "text": "I / O", 
+        "id": "I/O", 
+        "description": ""
     }, 
     {
-        "id": "Color space", 
         "source": "Color space", 
-        "description": "", 
-        "text": "Litur pl\u00e1ss"
+        "text": "Litur pl\u00e1ss", 
+        "id": "Color space", 
+        "description": ""
     }, 
     {
-        "id": "Color Space", 
         "source": "Color Space", 
-        "description": "", 
-        "text": "Litur r\u00fam"
+        "text": "Litur r\u00fam", 
+        "id": "Color Space", 
+        "description": ""
     }, 
     {
-        "id": "General", 
         "source": "General", 
-        "description": "", 
-        "text": "Almennt"
+        "text": "Almennt", 
+        "id": "General", 
+        "description": ""
     }, 
     {
-        "id": "Input", 
         "source": "Input", 
-        "description": "", 
-        "text": "Inntak"
+        "text": "Inntak", 
+        "id": "Input", 
+        "description": ""
     }, 
     {
-        "id": "Display", 
         "source": "Display", 
-        "description": "", 
-        "text": "S\u00fdna"
+        "text": "S\u00fdna", 
+        "id": "Display", 
+        "description": ""
     }, 
     {
-        "id": "View", 
         "source": "View", 
-        "description": "", 
-        "text": "\u00dats\u00fdni"
+        "text": "\u00dats\u00fdni", 
+        "id": "View", 
+        "description": ""
     }, 
     {
-        "id": "DPX", 
         "source": "DPX", 
-        "description": "", 
-        "text": "DPX"
+        "text": "DPX", 
+        "id": "DPX", 
+        "description": ""
     }, 
     {
-        "id": "TIFF", 
         "source": "TIFF", 
-        "description": "", 
-        "text": "TIFF"
+        "text": "TIFF", 
+        "id": "TIFF", 
+        "description": ""
     }, 
     {
-        "id": "File compression", 
         "source": "File compression", 
-        "description": "", 
-        "text": "Skr\u00e1\u00fej\u00f6ppun"
+        "text": "Skr\u00e1\u00fej\u00f6ppun", 
+        "id": "File compression", 
+        "description": ""
     }, 
     {
-        "id": "The file", 
         "source": "The file", 
-        "description": "", 
-        "text": "Skr\u00e1in"
+        "text": "Skr\u00e1in", 
+        "id": "The file", 
+        "description": ""
     }, 
     {
-        "id": "cannot be read", 
         "source": "cannot be read", 
-        "description": "", 
-        "text": "ekki h\u00e6gt a\u00f0 lesa"
+        "text": "ekki h\u00e6gt a\u00f0 lesa", 
+        "id": "cannot be read", 
+        "description": ""
     }, 
     {
+        "source": "Size", 
+        "text": "St\u00e6r\u00f0", 
         "id": "Size", 
-        "source": "Size", 
-        "description": "", 
-        "text": "St\u00e6r\u00f0"
+        "description": ""
     }, 
     {
-        "id": "Last modification time", 
         "source": "Last modification time", 
-        "description": "", 
-        "text": "S\u00ed\u00f0asti breytingart\u00edmi"
+        "text": "S\u00ed\u00f0asti breytingart\u00edmi", 
+        "id": "Last modification time", 
+        "description": ""
     }, 
     {
-        "id": "Video track", 
         "source": "Video track", 
-        "description": "", 
-        "text": "Video lag"
+        "text": "Video lag", 
+        "id": "Video track", 
+        "description": ""
     }, 
     {
+        "source": "Name", 
+        "text": "Nafn", 
         "id": "Name", 
-        "source": "Name", 
-        "description": "", 
-        "text": "Nafn"
+        "description": ""
     }, 
     {
-        "id": "Type", 
         "source": "Type", 
-        "description": "", 
-        "text": "Tegund"
+        "text": "Tegund", 
+        "id": "Type", 
+        "description": ""
     }, 
     {
-        "id": "Speed", 
         "source": "Speed", 
-        "description": "", 
-        "text": "Hra\u00f0i"
+        "text": "Hra\u00f0i", 
+        "id": "Speed", 
+        "description": ""
     }, 
     {
-        "id": "FPS", 
         "source": "FPS", 
-        "description": "", 
-        "text": "FPS"
+        "text": "FPS", 
+        "id": "FPS", 
+        "description": ""
     }, 
     {
-        "id": "Duration", 
         "source": "Duration", 
-        "description": "", 
-        "text": "Lengd"
+        "text": "Lengd", 
+        "id": "Duration", 
+        "description": ""
     }, 
     {
-        "id": "Audio track", 
         "source": "Audio track", 
-        "description": "", 
-        "text": "Hlj\u00f3\u00f0skr\u00e1"
+        "text": "Hlj\u00f3\u00f0skr\u00e1", 
+        "id": "Audio track", 
+        "description": ""
     }, 
     {
-        "id": "Channels", 
         "source": "Channels", 
-        "description": "", 
-        "text": "R\u00e1sir"
+        "text": "R\u00e1sir", 
+        "id": "Channels", 
+        "description": ""
     }, 
     {
-        "id": "Sample rate", 
         "source": "Sample rate", 
-        "description": "", 
-        "text": "S\u00fdnishorn"
+        "text": "S\u00fdnishorn", 
+        "id": "Sample rate", 
+        "description": ""
     }, 
     {
-        "id": "kHz", 
         "source": "kHz", 
-        "description": "", 
-        "text": "kHz"
+        "text": "kHz", 
+        "id": "kHz", 
+        "description": ""
     }, 
     {
-        "id": "OpenEXR", 
         "source": "OpenEXR", 
-        "description": "", 
-        "text": "OpenEXR"
+        "text": "OpenEXR", 
+        "id": "OpenEXR", 
+        "description": ""
     }, 
     {
-        "id": "Thread count", 
         "source": "Thread count", 
-        "description": "", 
-        "text": "Thread count"
+        "text": "Thread count", 
+        "id": "Thread count", 
+        "description": ""
     }, 
     {
-        "id": "Channel grouping", 
         "source": "Channel grouping", 
-        "description": "", 
-        "text": "R\u00e1sarh\u00f3pur"
+        "text": "R\u00e1sarh\u00f3pur", 
+        "id": "Channel grouping", 
+        "description": ""
     }, 
     {
-        "id": "DWA compression level", 
         "source": "DWA compression level", 
-        "description": "", 
-        "text": "DWA sam\u00fej\u00f6ppunarstig"
+        "text": "DWA sam\u00fej\u00f6ppunarstig", 
+        "id": "DWA compression level", 
+        "description": ""
     }, 
     {
-        "id": "Color profile", 
         "source": "Color profile", 
-        "description": "", 
-        "text": "Litur uppsetningu"
+        "text": "Litur uppsetningu", 
+        "id": "Color profile", 
+        "description": ""
     }, 
     {
-        "id": "PPM", 
         "source": "PPM", 
-        "description": "", 
-        "text": "PPM"
+        "text": "PPM", 
+        "id": "PPM", 
+        "description": ""
     }, 
     {
-        "id": "Data type", 
         "source": "Data type", 
-        "description": "", 
-        "text": "G\u00f6gn ger\u00f0"
+        "text": "G\u00f6gn ger\u00f0", 
+        "id": "Data type", 
+        "description": ""
     }, 
     {
+        "source": "Time", 
+        "text": "T\u00edmi", 
         "id": "Time", 
-        "source": "Time", 
-        "description": "", 
-        "text": "T\u00edmi"
+        "description": ""
     }, 
     {
-        "id": "Units", 
         "source": "Units", 
-        "description": "", 
-        "text": "Einingar"
+        "text": "Einingar", 
+        "id": "Units", 
+        "description": ""
     }, 
     {
-        "id": "Tooltips", 
         "source": "Tooltips", 
-        "description": "", 
-        "text": "Verkf\u00e6ri"
+        "text": "Verkf\u00e6ri", 
+        "id": "Tooltips", 
+        "description": ""
     }, 
     {
-        "id": "Enable tooltips", 
         "source": "Enable tooltips", 
-        "description": "", 
-        "text": "Virkja verkf\u00e6ri"
+        "text": "Virkja verkf\u00e6ri", 
+        "id": "Enable tooltips", 
+        "description": ""
     }, 
     {
-        "id": "Color type widget tooltip", 
         "source": "Set the channels and data type of the color", 
-        "description": "", 
-        "text": "Stilltu r\u00e1sir og gagnategund litsins"
+        "text": "Stilltu r\u00e1sir og gagnategund litsins", 
+        "id": "Color type widget tooltip", 
+        "description": ""
     }, 
     {
-        "id": "L", 
         "source": "L", 
-        "description": "", 
-        "text": "The"
+        "text": "The", 
+        "id": "L", 
+        "description": ""
     }, 
     {
-        "id": "RGB color sliders luminance tooltip", 
         "source": "Set the luminance value", 
-        "description": "", 
-        "text": "Stilltu luminance gildi"
+        "text": "Stilltu luminance gildi", 
+        "id": "RGB color sliders luminance tooltip", 
+        "description": ""
     }, 
     {
-        "id": "A", 
         "source": "A", 
-        "description": "", 
-        "text": "A"
+        "text": "A", 
+        "id": "A", 
+        "description": ""
     }, 
     {
+        "source": "Set the alpha value", 
+        "text": "Stilltu alfa gildi", 
         "id": "RGB color sliders alpha tooltip", 
-        "source": "Set the alpha value", 
-        "description": "", 
-        "text": "Stilltu alfa gildi"
+        "description": ""
     }, 
     {
-        "id": "R", 
         "source": "R", 
-        "description": "", 
-        "text": "R"
+        "text": "R", 
+        "id": "R", 
+        "description": ""
     }, 
     {
-        "id": "G", 
         "source": "G", 
-        "description": "", 
-        "text": "G"
+        "text": "G", 
+        "id": "G", 
+        "description": ""
     }, 
     {
-        "id": "B", 
         "source": "B", 
-        "description": "", 
-        "text": "B"
+        "text": "B", 
+        "id": "B", 
+        "description": ""
     }, 
     {
-        "id": "RGB color sliders red tooltip", 
         "source": "Set the red value", 
-        "description": "", 
-        "text": "Stilltu rau\u00f0a gildi"
+        "text": "Stilltu rau\u00f0a gildi", 
+        "id": "RGB color sliders red tooltip", 
+        "description": ""
     }, 
     {
-        "id": "RGB color sliders green tooltip", 
         "source": "Set the green value", 
-        "description": "", 
-        "text": "Stilltu gr\u00e6na gildi\u00f0"
+        "text": "Stilltu gr\u00e6na gildi\u00f0", 
+        "id": "RGB color sliders green tooltip", 
+        "description": ""
     }, 
     {
-        "id": "RGB color sliders blue tooltip", 
         "source": "Set the blue value", 
-        "description": "", 
-        "text": "Stilltu bl\u00e1a gildi\u00f0"
+        "text": "Stilltu bl\u00e1a gildi\u00f0", 
+        "id": "RGB color sliders blue tooltip", 
+        "description": ""
     }, 
     {
-        "id": "V", 
         "source": "V", 
-        "description": "", 
-        "text": "V"
+        "text": "V", 
+        "id": "V", 
+        "description": ""
     }, 
     {
-        "id": "HSV color sliders value tooltip", 
         "source": "Set the value", 
-        "description": "", 
-        "text": "Stilltu gildi"
+        "text": "Stilltu gildi", 
+        "id": "HSV color sliders value tooltip", 
+        "description": ""
     }, 
     {
-        "id": "HSV color sliders alpha tooltip", 
         "source": "Set the alpha value", 
-        "description": "", 
-        "text": "Stilltu alfa gildi"
+        "text": "Stilltu alfa gildi", 
+        "id": "HSV color sliders alpha tooltip", 
+        "description": ""
     }, 
     {
-        "id": "H", 
         "source": "H", 
-        "description": "", 
-        "text": "H"
+        "text": "H", 
+        "id": "H", 
+        "description": ""
     }, 
     {
-        "id": "S", 
         "source": "S", 
-        "description": "", 
-        "text": "S"
+        "text": "S", 
+        "id": "S", 
+        "description": ""
     }, 
     {
-        "id": "HSV color sliders hue tooltip", 
         "source": "Set the hue", 
-        "description": "", 
-        "text": "Stilltu lit."
+        "text": "Stilltu lit.", 
+        "id": "HSV color sliders hue tooltip", 
+        "description": ""
     }, 
     {
-        "id": "HSV color sliders saturation tooltip", 
         "source": "Set the saturation", 
-        "description": "", 
-        "text": "Stilltu mettunina"
+        "text": "Stilltu mettunina", 
+        "id": "HSV color sliders saturation tooltip", 
+        "description": ""
     }, 
     {
+        "source": "Add the current directory to the list of shortcuts", 
+        "text": "B\u00e6ttu n\u00faverandi skr\u00e1 vi\u00f0 lista yfir fl\u00fdtilei\u00f0ir", 
         "id": "Add shortcut tooltip", 
-        "source": "Add the current directory to the list sof shortcuts", 
-        "description": "", 
-        "text": "B\u00e6ttu n\u00faverandi m\u00f6ppu vi\u00f0 fl\u00fdtilei\u00f0ir listans"
+        "description": ""
     }, 
     {
-        "id": "Edit shortcuts tooltip", 
         "source": "Edit the list of shortcuts", 
-        "description": "", 
-        "text": "Breyta lista yfir fl\u00fdtilei\u00f0ir"
+        "text": "Breyta lista yfir fl\u00fdtilei\u00f0ir", 
+        "id": "Edit shortcuts tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Back", 
         "source": "Back", 
-        "description": "", 
-        "text": "Til baka"
+        "text": "Til baka", 
+        "id": "Back", 
+        "description": ""
     }, 
     {
-        "id": "File browser back tooltip", 
         "source": "Go back a directory", 
-        "description": "", 
-        "text": "Fara aftur \u00e1 m\u00f6ppu"
+        "text": "Fara aftur \u00e1 m\u00f6ppu", 
+        "id": "File browser back tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Forward", 
         "source": "Forward", 
-        "description": "", 
-        "text": "\u00c1fram"
+        "text": "\u00c1fram", 
+        "id": "Forward", 
+        "description": ""
     }, 
     {
-        "id": "File browser forward tooltip", 
         "source": "Go forward a directory", 
-        "description": "", 
-        "text": "Fara \u00e1fram me\u00f0 m\u00f6ppu"
+        "text": "Fara \u00e1fram me\u00f0 m\u00f6ppu", 
+        "id": "File browser forward tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Up", 
         "source": "Up", 
-        "description": "", 
-        "text": "Upp"
+        "text": "Upp", 
+        "id": "Up", 
+        "description": ""
     }, 
     {
-        "id": "File browser up tooltip", 
         "source": "Go up a directory", 
-        "description": "", 
-        "text": "Fara upp skr\u00e1"
+        "text": "Fara upp skr\u00e1", 
+        "id": "File browser up tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Tile View", 
         "source": "Tile View", 
-        "description": "", 
-        "text": "Fl\u00edsar\u00fats\u00fdni"
+        "text": "Fl\u00edsar\u00fats\u00fdni", 
+        "id": "Tile View", 
+        "description": ""
     }, 
     {
-        "id": "File browser tile view tooltip", 
         "source": "Show directory items as tiles", 
-        "description": "", 
-        "text": "S\u00fdna m\u00f6ppu sem fl\u00edsar"
+        "text": "S\u00fdna m\u00f6ppu sem fl\u00edsar", 
+        "id": "File browser tile view tooltip", 
+        "description": ""
     }, 
     {
-        "id": "List View", 
         "source": "List View", 
-        "description": "", 
-        "text": "Listalisti"
+        "text": "Listalisti", 
+        "id": "List View", 
+        "description": ""
     }, 
     {
-        "id": "File browser list view tooltip", 
         "source": "Show directory items as a list", 
-        "description": "", 
-        "text": "S\u00fdna m\u00f6ppu sem lista"
+        "text": "S\u00fdna m\u00f6ppu sem lista", 
+        "id": "File browser list view tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Increase Thumbnail Size", 
         "source": "Increase Thumbnail Size", 
-        "description": "", 
-        "text": "Auka sm\u00e1myndir St\u00e6r\u00f0"
+        "text": "Auka sm\u00e1myndir St\u00e6r\u00f0", 
+        "id": "Increase Thumbnail Size", 
+        "description": ""
     }, 
     {
-        "id": "File browser increase thumbnail size tooltip", 
         "source": "Increase the size of the thumbnails", 
-        "description": "", 
-        "text": "St\u00e6kka st\u00e6r\u00f0 sm\u00e1myndirnar"
+        "text": "St\u00e6kka st\u00e6r\u00f0 sm\u00e1myndirnar", 
+        "id": "File browser increase thumbnail size tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Decrease Thumbnail Size", 
         "source": "Decrease Thumbnail Size", 
-        "description": "", 
-        "text": "Minnka\u00f0u sm\u00e1myndir st\u00e6r\u00f0"
+        "text": "Minnka\u00f0u sm\u00e1myndir st\u00e6r\u00f0", 
+        "id": "Decrease Thumbnail Size", 
+        "description": ""
     }, 
     {
-        "id": "File browser decrease thumbnail size tooltip", 
         "source": "Decrease the size of the thumbnails", 
-        "description": "", 
-        "text": "Minnka st\u00e6r\u00f0 sm\u00e1myndirnar"
+        "text": "Minnka st\u00e6r\u00f0 sm\u00e1myndirnar", 
+        "id": "File browser decrease thumbnail size tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Enable File Sequences", 
         "source": "Enable File Sequences", 
-        "description": "", 
-        "text": "Virkja skr\u00e1arsvi\u00f0"
+        "text": "Virkja skr\u00e1arsvi\u00f0", 
+        "id": "Enable File Sequences", 
+        "description": ""
     }, 
     {
-        "id": "File browser file sequences tooltip", 
         "source": "Show sequences of files as a single item", 
-        "description": "", 
-        "text": "S\u00fdni\u00f0 r\u00f6\u00f0 skr\u00e1a sem eitt atri\u00f0i"
+        "text": "S\u00fdni\u00f0 r\u00f6\u00f0 skr\u00e1a sem eitt atri\u00f0i", 
+        "id": "File browser file sequences tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Show Hidden Files", 
         "source": "Show Hidden Files", 
-        "description": "", 
-        "text": "S\u00fdna falinn skr\u00e1"
+        "text": "S\u00fdna falinn skr\u00e1", 
+        "id": "Show Hidden Files", 
+        "description": ""
     }, 
     {
-        "id": "File browser show hidden tooltip", 
         "source": "Show directory items that begin with a '.'", 
-        "description": "", 
-        "text": "S\u00fdna m\u00f6ppu sem byrja \u00e1 &#39;.&#39;"
+        "text": "S\u00fdna m\u00f6ppu sem byrja \u00e1 &#39;.&#39;", 
+        "id": "File browser show hidden tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Sort By Name", 
         "source": "Sort By Name", 
-        "description": "", 
-        "text": "Ra\u00f0a eftir nafni"
+        "text": "Ra\u00f0a eftir nafni", 
+        "id": "Sort By Name", 
+        "description": ""
     }, 
     {
-        "id": "File browser sort by name tooltip", 
         "source": "Sort directory items by name", 
-        "description": "", 
-        "text": "Ra\u00f0a skr\u00e1aratri\u00f0i eftir nafni"
+        "text": "Ra\u00f0a skr\u00e1aratri\u00f0i eftir nafni", 
+        "id": "File browser sort by name tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Sort By Size", 
         "source": "Sort By Size", 
-        "description": "", 
-        "text": "Ra\u00f0a eftir st\u00e6r\u00f0"
+        "text": "Ra\u00f0a eftir st\u00e6r\u00f0", 
+        "id": "Sort By Size", 
+        "description": ""
     }, 
     {
-        "id": "File browser sort by size tooltip", 
         "source": "Sort directory items by size", 
-        "description": "", 
-        "text": "Ra\u00f0a skr\u00e1r eftir st\u00e6r\u00f0"
+        "text": "Ra\u00f0a skr\u00e1r eftir st\u00e6r\u00f0", 
+        "id": "File browser sort by size tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Sort By Time", 
         "source": "Sort By Time", 
-        "description": "", 
-        "text": "Ra\u00f0a eftir t\u00edma"
+        "text": "Ra\u00f0a eftir t\u00edma", 
+        "id": "Sort By Time", 
+        "description": ""
     }, 
     {
-        "id": "File browser sort by time tooltip", 
         "source": "Sort directory items by time", 
-        "description": "", 
-        "text": "Ra\u00f0a skr\u00e1r eftir t\u00edma"
+        "text": "Ra\u00f0a skr\u00e1r eftir t\u00edma", 
+        "id": "File browser sort by time tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Reverse Sort", 
         "source": "Reverse Sort", 
-        "description": "", 
-        "text": "Reverse Ra\u00f0a"
+        "text": "Reverse Ra\u00f0a", 
+        "id": "Reverse Sort", 
+        "description": ""
     }, 
     {
+        "source": "Reverse the sort direction", 
+        "text": "Sn\u00fa\u00f0u r\u00f6\u00f0inni", 
         "id": "File browser reverse sort tooltip", 
-        "source": "Reverse the direction of sorting", 
-        "description": "", 
-        "text": "Sn\u00faa stefnu flokkunarinnar"
+        "description": ""
     }, 
     {
-        "id": "Sort Directories First", 
         "source": "Sort Directories First", 
-        "description": "", 
-        "text": "Ra\u00f0a m\u00f6ppur fyrst"
+        "text": "Ra\u00f0a m\u00f6ppur fyrst", 
+        "id": "Sort Directories First", 
+        "description": ""
     }, 
     {
-        "id": "File browser sort directories first tooltip", 
         "source": "Show directories before files", 
-        "description": "", 
-        "text": "S\u00fdna m\u00f6ppur fyrir skr\u00e1r"
+        "text": "S\u00fdna m\u00f6ppur fyrir skr\u00e1r", 
+        "id": "File browser sort directories first tooltip", 
+        "description": ""
     }, 
     {
-        "id": "File browser name column", 
         "source": "Name", 
-        "description": "", 
-        "text": "Nafn"
+        "text": "Nafn", 
+        "id": "File browser name column", 
+        "description": ""
     }, 
     {
-        "id": "File browse size column", 
         "source": "Size", 
-        "description": "", 
-        "text": "St\u00e6r\u00f0"
+        "text": "St\u00e6r\u00f0", 
+        "id": "File browse size column", 
+        "description": ""
     }, 
     {
-        "id": "File browser time column", 
         "source": "Time", 
-        "description": "", 
-        "text": "T\u00edmi"
+        "text": "T\u00edmi", 
+        "id": "File browser time column", 
+        "description": ""
     }, 
     {
-        "id": "File browser shortcuts tooltip", 
         "source": "Show the shortcuts", 
-        "description": "", 
-        "text": "S\u00fdna fl\u00fdtiv\u00edsana"
+        "text": "S\u00fdna fl\u00fdtiv\u00edsana", 
+        "id": "File browser shortcuts tooltip", 
+        "description": ""
     }, 
     {
+        "source": "Show the recently used directories", 
+        "text": "S\u00fdna n\u00fdlega nota\u00f0ar m\u00f6ppur", 
         "id": "File browser recent paths tooltip", 
-        "source": "Show recently used directories", 
-        "description": "", 
-        "text": "S\u00fdna n\u00fdlega nota\u00f0ar m\u00f6ppur"
+        "description": ""
     }, 
     {
-        "id": "File browser drives tooltip", 
         "source": "Show the drives", 
-        "description": "", 
-        "text": "S\u00fdna diska"
+        "text": "S\u00fdna diska", 
+        "id": "File browser drives tooltip", 
+        "description": ""
     }, 
     {
+        "source": "Show the file browser sorting options", 
+        "text": "S\u00fdna flokkunarvalkosti vafrans", 
         "id": "File browser sort tooltip", 
-        "source": "File browser sort tooltip", 
-        "description": "", 
-        "text": "Skr\u00e1arflettit\u00e6ki tegund t\u00f3ltip"
+        "description": ""
     }, 
     {
+        "source": "Show the file browser settings", 
+        "text": "S\u00fdna stillingar vafrans", 
         "id": "File browser settings tooltip", 
-        "source": "Open the file browser settings", 
-        "description": "", 
-        "text": "Opna\u00f0u stillingar vafrans"
+        "description": ""
     }, 
     {
-        "id": "File browser search tooltip", 
         "source": "Search for items in the directory", 
-        "description": "", 
-        "text": "Leita\u00f0u a\u00f0 hlutum \u00ed m\u00f6ppunni"
+        "text": "Leita\u00f0u a\u00f0 hlutum \u00ed m\u00f6ppunni", 
+        "id": "File browser search tooltip", 
+        "description": ""
     }, 
     {
-        "id": "Items", 
         "source": "Items", 
-        "description": "", 
-        "text": "Hlutir"
+        "text": "Hlutir", 
+        "id": "Items", 
+        "description": ""
     }, 
     {
-        "id": "File Browser", 
         "source": "File Browser", 
-        "description": "", 
-        "text": "File Browser"
+        "text": "File Browser", 
+        "id": "File Browser", 
+        "description": ""
     }, 
     {
+        "source": "Show the file browser history", 
+        "text": "S\u00fdna s\u00f6gu vafra", 
         "id": "File browser history tooltip", 
-        "source": "Open the file browser history", 
-        "description": "", 
-        "text": "Opna\u00f0u vafraferilinn"
+        "description": ""
     }, 
     {
-        "id": "JPEG", 
         "source": "JPEG", 
-        "description": "", 
-        "text": "JPEG"
+        "text": "JPEG", 
+        "id": "JPEG", 
+        "description": ""
     }, 
     {
-        "id": "Compression quality", 
         "source": "Compression quality", 
-        "description": "", 
-        "text": "\u00dej\u00f6ppun g\u00e6\u00f0i"
+        "text": "\u00dej\u00f6ppun g\u00e6\u00f0i", 
+        "id": "Compression quality", 
+        "description": ""
     }, 
     {
-        "id": "Language", 
         "source": "Language", 
-        "description": "", 
-        "text": "Tungum\u00e1l"
+        "text": "Tungum\u00e1l", 
+        "id": "Language", 
+        "description": ""
     }, 
     {
-        "id": "Min", 
         "source": "Min", 
-        "description": "", 
-        "text": "M\u00edn"
+        "text": "M\u00edn", 
+        "id": "Min", 
+        "description": ""
     }, 
     {
-        "id": "Max", 
         "source": "Max", 
-        "description": "", 
-        "text": "Max"
+        "text": "Max", 
+        "id": "Max", 
+        "description": ""
     }, 
     {
-        "id": "Current", 
         "source": "Current", 
-        "description": "", 
-        "text": "N\u00faverandi"
+        "text": "N\u00faverandi", 
+        "id": "Current", 
+        "description": ""
     }, 
     {
-        "id": "Palette", 
         "source": "Palette", 
-        "description": "", 
-        "text": "Palette"
+        "text": "Palette", 
+        "id": "Palette", 
+        "description": ""
     }, 
     {
         "source": "FFmpeg", 
+        "text": "FFmpeg", 
         "description": "", 
-        "id": "FFmpeg", 
-        "text": "FFmpeg"
+        "id": "FFmpeg"
     }, 
     {
         "source": "Threads", 
+        "text": "\u00der\u00e1\u00f0ur", 
         "description": "", 
-        "id": "Threads", 
-        "text": "\u00der\u00e1\u00f0ur"
+        "id": "Threads"
     }, 
     {
         "source": "frames", 
+        "text": "rammar", 
         "description": "", 
-        "id": "frames", 
-        "text": "rammar"
+        "id": "frames"
     }, 
     {
         "source": "seconds", 
+        "text": "sek\u00fandur", 
         "description": "", 
-        "id": "seconds", 
-        "text": "sek\u00fandur"
+        "id": "seconds"
+    }, 
+    {
+        "source": "Recent Paths", 
+        "text": "N\u00fdlegar sl\u00f3\u00f0ir", 
+        "id": "Recent Paths", 
+        "description": ""
+    }, 
+    {
+        "source": "Shortcuts", 
+        "text": "Fl\u00fdtilei\u00f0ir", 
+        "id": "Shortcuts", 
+        "description": ""
+    }, 
+    {
+        "source": "Color sliders luminance tooltip", 
+        "text": "Litat\u00f3lar l\u00fdsingart\u00f3l fyrir l\u00fdsingu", 
+        "id": "Color sliders luminance tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Color sliders alpha tooltip", 
+        "text": "Litur rennistiku alfa verkf\u00e6ri\u00f0", 
+        "id": "Color sliders alpha tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Color sliders hue tooltip", 
+        "text": "Litur rennistiku litat\u00f3l fyrir lit.", 
+        "id": "Color sliders hue tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Color sliders saturation tooltip", 
+        "text": "Litat\u00f3lar mettunart\u00e6ki\u00f0", 
+        "id": "Color sliders saturation tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Color sliders value tooltip", 
+        "text": "Verkf\u00e6ri\u00f0 \u00e1bending fyrir lit rennistiku", 
+        "id": "Color sliders value tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Color sliders red tooltip", 
+        "text": "Litir rennur rau\u00f0ur verkf\u00e6ri\u00f0", 
+        "id": "Color sliders red tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Color sliders green tooltip", 
+        "text": "Litir renna gr\u00e6nt verkf\u00e6ri", 
+        "id": "Color sliders green tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Color sliders blue tooltip", 
+        "text": "Litir renna bl\u00e1tt verkf\u00e6ri\u00f0", 
+        "id": "Color sliders blue tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Tiles", 
+        "text": "Fl\u00edsar", 
+        "id": "Tiles", 
+        "description": ""
+    }, 
+    {
+        "source": "List", 
+        "text": "Listi", 
+        "id": "List", 
+        "description": ""
+    }, 
+    {
+        "source": "Increase", 
+        "text": "Auka", 
+        "id": "Increase", 
+        "description": ""
+    }, 
+    {
+        "source": "Decrease", 
+        "text": "F\u00e6kka", 
+        "id": "Decrease", 
+        "description": ""
+    }, 
+    {
+        "source": "Enable file sequences", 
+        "text": "Virkja skr\u00e1r", 
+        "id": "Enable file sequences", 
+        "description": ""
+    }, 
+    {
+        "source": "Show hidden files", 
+        "text": "S\u00fdna falda skr\u00e1r", 
+        "id": "Show hidden files", 
+        "description": ""
+    }, 
+    {
+        "source": "Sort by name", 
+        "text": "Ra\u00f0a eftir nafni", 
+        "id": "Sort by name", 
+        "description": ""
+    }, 
+    {
+        "source": "Sort by size", 
+        "text": "Ra\u00f0a eftir st\u00e6r\u00f0", 
+        "id": "Sort by size", 
+        "description": ""
+    }, 
+    {
+        "source": "Sort by time", 
+        "text": "Ra\u00f0a eftir t\u00edma", 
+        "id": "Sort by time", 
+        "description": ""
+    }, 
+    {
+        "source": "Reverse sort", 
+        "text": "Reverse sort", 
+        "id": "Reverse sort", 
+        "description": ""
+    }, 
+    {
+        "source": "Sort directories first", 
+        "text": "Ra\u00f0a fyrst framkv\u00e6mdarstj\u00f3ra", 
+        "id": "Sort directories first", 
+        "description": ""
+    }, 
+    {
+        "source": "Sorting", 
+        "text": "Flokkun", 
+        "id": "Sorting", 
+        "description": ""
+    }, 
+    {
+        "source": "Thumbnail Size", 
+        "text": "Sm\u00e1myndast\u00e6r\u00f0", 
+        "id": "Thumbnail Size", 
+        "description": ""
+    }, 
+    {
+        "source": "Miscellaneous", 
+        "text": "\u00ddmislegt", 
+        "id": "Miscellaneous", 
+        "description": ""
+    }, 
+    {
+        "source": "Drives", 
+        "text": "Drif", 
+        "id": "Drives", 
+        "description": ""
+    }, 
+    {
+        "source": "Text", 
+        "text": "Texti", 
+        "id": "Text", 
+        "description": ""
+    }, 
+    {
+        "source": "Render 2D", 
+        "text": "Ger\u00f0u 2D", 
+        "id": "Render 2D", 
+        "description": ""
+    }, 
+    {
+        "source": "Enable LCD text rendering", 
+        "text": "Virkja LCD texta\u00fatg\u00e1fu", 
+        "id": "Enable LCD text rendering", 
+        "description": ""
     }
 ]

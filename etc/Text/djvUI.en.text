@@ -1,7 +1,7 @@
 [
     {
-        "text": "Both", 
-        "id": "Both", 
+        "text": "Cannot parse the value.", 
+        "id": "Cannot parse the value.", 
         "description": ""
     }, 
     {
@@ -12,11 +12,6 @@
     {
         "text": "Vertical", 
         "id": "Vertical", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot parse the value.", 
-        "id": "Cannot parse the value.", 
         "description": ""
     }, 
     {
@@ -42,6 +37,11 @@
     {
         "text": "None", 
         "id": "None", 
+        "description": ""
+    }, 
+    {
+        "text": "Both", 
+        "id": "Both", 
         "description": ""
     }, 
     {
@@ -210,6 +210,11 @@
         "description": ""
     }, 
     {
+        "text": "Cached", 
+        "id": "Cached", 
+        "description": ""
+    }, 
+    {
         "text": "Margin", 
         "id": "Margin", 
         "description": ""
@@ -340,38 +345,13 @@
         "description": ""
     }, 
     {
-        "text": "Dark", 
-        "id": "Dark", 
+        "text": "Scrub", 
+        "id": "Scrub", 
         "description": ""
     }, 
     {
-        "text": "Light", 
-        "id": "Light", 
-        "description": ""
-    }, 
-    {
-        "text": "Medium", 
-        "id": "Medium", 
-        "description": ""
-    }, 
-    {
-        "text": "Small", 
-        "id": "Small", 
-        "description": ""
-    }, 
-    {
-        "text": "Large", 
-        "id": "Large", 
-        "description": ""
-    }, 
-    {
-        "text": "Extra Large", 
-        "id": "ExtraLarge", 
-        "description": ""
-    }, 
-    {
-        "text": "Default", 
-        "id": "Default", 
+        "text": "Expand", 
+        "id": "Expand", 
         "description": ""
     }, 
     {
@@ -985,8 +965,48 @@
         "description": ""
     }, 
     {
-        "text": "Expand", 
-        "id": "Expand", 
+        "text": "Dark", 
+        "id": "Dark", 
+        "description": ""
+    }, 
+    {
+        "text": "Light", 
+        "id": "Light", 
+        "description": ""
+    }, 
+    {
+        "text": "Medium", 
+        "id": "Medium", 
+        "description": ""
+    }, 
+    {
+        "text": "Small", 
+        "id": "Small", 
+        "description": ""
+    }, 
+    {
+        "text": "Large", 
+        "id": "Large", 
+        "description": ""
+    }, 
+    {
+        "text": "Extra Large", 
+        "id": "ExtraLarge", 
+        "description": ""
+    }, 
+    {
+        "text": "Default", 
+        "id": "Default", 
+        "description": ""
+    }, 
+    {
+        "text": "Keyboard shortcut", 
+        "id": "Keyboard shortcut", 
+        "description": ""
+    }, 
+    {
+        "text": "Keyboard shortcuts", 
+        "id": "Keyboard shortcuts", 
         "description": ""
     }
 ]

@@ -1,20 +1,122 @@
 [
     {
-        "id": "Nothing to convert", 
         "source": "Nothing to convert", 
-        "description": "", 
-        "text": "\ubcc0\ud658 \ud560 \ub0b4\uc6a9\uc774 \uc5c6\uc2b5\ub2c8\ub2e4."
+        "text": "\ubcc0\ud658 \ud560 \ub0b4\uc6a9\uc774 \uc5c6\uc2b5\ub2c8\ub2e4.", 
+        "id": "Nothing to convert", 
+        "description": ""
     }, 
     {
-        "id": "Cannot parse the option '-resize'", 
         "source": "Cannot parse the option '-resize'", 
-        "description": "", 
-        "text": "&#39;-resize&#39;\uc635\uc158\uc744 \uad6c\ubb38 \ubd84\uc11d \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
+        "text": "&#39;-resize&#39;\uc635\uc158\uc744 \uad6c\ubb38 \ubd84\uc11d \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.", 
+        "id": "Cannot parse the option '-resize'", 
+        "description": ""
     }, 
     {
-        "id": "Usage: djv_convert (input) (output)", 
         "source": "Usage: djv_convert (input) (output)", 
-        "description": "", 
-        "text": "\uc0ac\uc6a9\ubc95 : djv_convert (\uc785\ub825) (\ucd9c\ub825)"
+        "text": "\uc0ac\uc6a9\ubc95 : djv_convert (\uc785\ub825) (\ucd9c\ub825)", 
+        "id": "Usage: djv_convert (input) (output)", 
+        "description": ""
+    }, 
+    {
+        "source": " Usage:", 
+        "text": "\uc6a9\ubc95:", 
+        "id": " Usage:", 
+        "description": ""
+    }, 
+    {
+        "source": "   djv_convert (input) (output) [option, ...]", 
+        "text": "djv_convert (\uc785\ub825) (\ucd9c\ub825) [\uc635\uc158, ...]", 
+        "id": "   djv_convert (input) (output) [option, ...]", 
+        "description": ""
+    }, 
+    {
+        "source": " Options:", 
+        "text": "\uc635\uc158 :", 
+        "id": " Options:", 
+        "description": ""
+    }, 
+    {
+        "source": "   -resize '(width) (height)'", 
+        "text": "\ud06c\uae30 \uc870\uc815 &#39;(\ud3ed) (\ub192\uc774)&#39;", 
+        "id": "   -resize '(width) (height)'", 
+        "description": ""
+    }, 
+    {
+        "source": "     Resize the image.", 
+        "text": "\uc774\ubbf8\uc9c0 \ud06c\uae30\ub97c \uc870\uc815\ud558\uc2ed\uc2dc\uc624.", 
+        "id": "     Resize the image.", 
+        "description": ""
+    }, 
+    {
+        "source": "   -readSeq", 
+        "text": "-readSeq", 
+        "id": "   -readSeq", 
+        "description": ""
+    }, 
+    {
+        "source": "     Interpret the input file name as a sequence.", 
+        "text": "\uc785\ub825 \ud30c\uc77c \uc774\ub984\uc744 \uc2dc\ud000\uc2a4\ub85c \ud574\uc11d\ud558\uc2ed\uc2dc\uc624.", 
+        "id": "     Interpret the input file name as a sequence.", 
+        "description": ""
+    }, 
+    {
+        "source": "   -writeSeq", 
+        "text": "-writeSeq", 
+        "id": "   -writeSeq", 
+        "description": ""
+    }, 
+    {
+        "source": "     Interpret the output file name as a sequence.", 
+        "text": "\ucd9c\ub825 \ud30c\uc77c \uc774\ub984\uc744 \uc2dc\ud000\uc2a4\ub85c \ud574\uc11d\ud558\uc2ed\uc2dc\uc624.", 
+        "id": "     Interpret the output file name as a sequence.", 
+        "description": ""
+    }, 
+    {
+        "source": "   -readQueue (value)", 
+        "text": "-readQueue (\uac12)", 
+        "id": "   -readQueue (value)", 
+        "description": ""
+    }, 
+    {
+        "source": "     Set the size of the read queue.", 
+        "text": "\uc77d\uae30 \ub300\uae30\uc5f4\uc758 \ud06c\uae30\ub97c \uc124\uc815\ud558\uc2ed\uc2dc\uc624.", 
+        "id": "     Set the size of the read queue.", 
+        "description": ""
+    }, 
+    {
+        "source": "   -writeQueue (value)", 
+        "text": "-writeQueue (\uac12)", 
+        "id": "   -writeQueue (value)", 
+        "description": ""
+    }, 
+    {
+        "source": "     Set the size of the write queue.", 
+        "text": "\uc4f0\uae30 \ub300\uae30\uc5f4\uc758 \ud06c\uae30\ub97c \uc124\uc815\ud558\uc2ed\uc2dc\uc624.", 
+        "id": "     Set the size of the write queue.", 
+        "description": ""
+    }, 
+    {
+        "source": "   -readThreads (value)", 
+        "text": "-readThreads (\uac12)", 
+        "id": "   -readThreads (value)", 
+        "description": ""
+    }, 
+    {
+        "source": "     Set the number of threads for reading.", 
+        "text": "\uc77d\uc744 \uc2a4\ub808\ub4dc \uc218\ub97c \uc124\uc815\ud558\uc2ed\uc2dc\uc624.", 
+        "id": "     Set the number of threads for reading.", 
+        "description": ""
+    }, 
+    {
+        "source": "   -writeThreads (value)", 
+        "text": "-writeThreads (\uac12)", 
+        "id": "   -writeThreads (value)", 
+        "description": ""
+    }, 
+    {
+        "source": "     Set the number of threads for writing.", 
+        "text": "\uc4f0\ub824\ub294 \uc2a4\ub808\ub4dc \uc218\ub97c \uc124\uc815\ud558\uc2ed\uc2dc\uc624.", 
+        "id": "     Set the number of threads for writing.", 
+        "description": ""
     }
 ]

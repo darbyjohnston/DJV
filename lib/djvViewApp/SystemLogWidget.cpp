@@ -211,8 +211,11 @@ namespace djv
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("System Log")));
             p.copyButton->setText(_getText(DJV_TEXT("Copy")));
+            p.copyButton->setTooltip(_getText(DJV_TEXT("System log copy tooltip")));
             p.reloadButton->setText(_getText(DJV_TEXT("Reload")));
+            p.reloadButton->setTooltip(_getText(DJV_TEXT("System log reload tooltip")));
             p.clearButton->setText(_getText(DJV_TEXT("Clear")));
+            p.clearButton->setTooltip(_getText(DJV_TEXT("System log clear tooltip")));
         }
 
     } // namespace ViewApp

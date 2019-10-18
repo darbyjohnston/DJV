@@ -502,7 +502,7 @@ namespace djv
                 p.actions["AlphaChannel"]->setText(_getText(DJV_TEXT("Alpha Channel")));
                 p.actions["AlphaChannel"]->setTooltip(_getText(DJV_TEXT("Alpha channel tooltip")));
                 p.actions["NoAlphaBlend"]->setText(_getText(DJV_TEXT("No Alpha")));
-                p.actions["NoAlphaBlend"]->setTooltip(_getText(DJV_TEXT("No Alpha")));
+                p.actions["NoAlphaBlend"]->setTooltip(_getText(DJV_TEXT("No alpha tooltip")));
                 p.actions["StraightAlphaBlend"]->setText(_getText(DJV_TEXT("Straight Alpha")));
                 p.actions["StraightAlphaBlend"]->setTooltip(_getText(DJV_TEXT("Straight alpha blend tooltip")));
                 p.actions["PremultipliedAlphaBlend"]->setText(_getText(DJV_TEXT("Premultiplied Alpha")));
