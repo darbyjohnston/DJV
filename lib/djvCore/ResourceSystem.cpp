@@ -53,14 +53,23 @@ namespace djv
             {
                 Path out;
                 auto pieces = Path::splitDir(std::string(value));
-                while (pieces.size())
+                const size_t max = 3;
+                for (size_t i = 0; i < max && pieces.size() && out.isEmpty(); ++i)
                 {
                     const std::string tmp = Path::joinDirs(pieces);
-                    if (FileInfo(Path(tmp, "djvCore.en.text")).doesExist() ||
-                        FileInfo(Path(tmp, "etc/Text/djvCore.en.text")).doesExist())
+                    const std::vector<std::string> tests =
                     {
-                        out = Path(tmp);
-                        break;
+                        "djvCore.en.text",
+                        "etc/Text/djvCore.en.text",
+                        "bin"
+                    };
+                    for (const auto& test : tests)
+                    {
+                        if (FileInfo(Path(tmp, test)).doesExist())
+                        {
+                            out = Path(tmp);
+                            break;
+                        }
                     }
                     pieces.pop_back();
                 }
