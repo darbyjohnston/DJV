@@ -100,6 +100,16 @@ namespace djv
                 return _fragment.second;
             }
 
+            void Shader::setVertexName(const std::string& value)
+            {
+                _vertex.first = value;
+            }
+            
+            void Shader::setFragmentName(const std::string& value)
+            {
+                _fragment.first = value;
+            }
+
         } // namespace Render
     } // namespace AV
 } // namespace djv

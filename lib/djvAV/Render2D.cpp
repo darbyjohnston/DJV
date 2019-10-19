@@ -98,12 +98,26 @@ namespace djv
                     GLint colorModeLoc          = 0;
                     GLint colorLoc              = 0;
                     GLint imageChannelsLoc      = 0;
-                    GLint imageChannelLoc       = 0;
-                    GLint textureSamplerLoc     = 0;
 #if !defined(DJV_OPENGL_ES2)
                     GLint colorSpaceLoc         = 0;
                     GLint colorSpaceSamplerLoc  = 0;
 #endif // DJV_OPENGL_ES2
+                    GLint colorMatrixLoc        = 0;
+                    GLint colorMatrixEnabledLoc = 0;
+                    GLint levelsInLowLoc        = 0;
+                    GLint levelsInHighLoc       = 0;
+                    GLint levelsGammaLoc        = 0;
+                    GLint levelsOutLowLoc       = 0;
+                    GLint levelsOutHighLoc      = 0;
+                    GLint levelsEnabledLoc      = 0;
+                    GLint exposureVLoc          = 0;
+                    GLint exposureDLoc          = 0;
+                    GLint exposureKLoc          = 0;
+                    GLint exposureFLoc          = 0;
+                    GLint exposureEnabledLoc    = 0;
+                    GLint softClipLoc           = 0;
+                    GLint imageChannelLoc       = 0;
+                    GLint textureSamplerLoc     = 0;
                 };
 
                 //! This class provides the base functionality for render primitives.
@@ -149,20 +163,62 @@ namespace djv
                 public:
                     ColorMode       colorMode           = ColorMode::ColorAndTexture;
                     Image::Channels imageChannels       = Image::Channels::RGBA;
-                    ImageChannel    imageChannel        = ImageChannel::None;
-                    ImageCache      imageCache          = ImageCache::Atlas;
-                    uint8_t         atlasIndex          = 0;
-                    GLuint          textureID           = 0;
 #if !defined(DJV_OPENGL_ES2)
                     uint8_t         colorSpace          = 0;
                     GLuint          colorSpaceTextureID = 0;
 #endif // DJV_OPENGL_ES2
+                    glm::mat4x4     colorMatrix;
+                    bool            colorMatrixEnabled  = false;
+                    ImageLevels     levels;
+                    bool            levelsEnabled       = false;
+                    float           exposureV           = 0.F;
+                    float           exposureD           = 0.F;
+                    float           exposureK           = 0.F;
+                    float           exposureF           = 0.F;
+                    bool            exposureEnabled     = false;
+                    float           softClip            = 0.F;
+                    ImageChannel    imageChannel        = ImageChannel::None;
+                    ImageCache      imageCache          = ImageCache::Atlas;
+                    uint8_t         atlasIndex          = 0;
+                    GLuint          textureID           = 0;
 
                     void bind(const PrimitiveData& data, const std::shared_ptr<OpenGL::Shader>& shader) override
                     {
                         shader->setUniform(data.colorModeLoc, static_cast<int>(colorMode));
                         shader->setUniform(data.colorLoc, reinterpret_cast<const GLfloat*>(color));
                         shader->setUniform(data.imageChannelsLoc, static_cast<int>(imageChannels));
+                        if (colorMatrixEnabled)
+                        {
+                            shader->setUniform(data.colorMatrixLoc, colorMatrix);
+                        }
+                        shader->setUniform(data.colorMatrixEnabledLoc, colorMatrixEnabled);
+                        if (levelsEnabled)
+                        {
+                            shader->setUniform(data.levelsInLowLoc, levels.inLow);
+                            shader->setUniform(data.levelsInHighLoc, levels.inHigh);
+                            shader->setUniform(data.levelsGammaLoc, 1.F / levels.gamma);
+                            shader->setUniform(data.levelsOutLowLoc, levels.outLow);
+                            shader->setUniform(data.levelsOutHighLoc, levels.outHigh);
+                        }
+                        shader->setUniform(data.levelsEnabledLoc, levelsEnabled);
+                        if (exposureEnabled)
+                        {
+                            shader->setUniform(data.exposureVLoc, exposureV);
+                            shader->setUniform(data.exposureDLoc, exposureD);
+                            shader->setUniform(data.exposureKLoc, exposureK);
+                            shader->setUniform(data.exposureFLoc, exposureF);
+                        }
+                        shader->setUniform(data.exposureEnabledLoc, exposureEnabled);
+                        shader->setUniform(data.softClipLoc, softClip);
+#if !defined(DJV_OPENGL_ES2)
+                        shader->setUniform(data.colorSpaceLoc, colorSpace);
+                        if (colorSpace > 0)
+                        {
+                            glActiveTexture(static_cast<GLenum>(GL_TEXTURE0 + data.textureAtlasCount + 1));
+                            glBindTexture(GL_TEXTURE_3D, colorSpaceTextureID);
+                            shader->setUniform(data.colorSpaceSamplerLoc, static_cast<int>(data.textureAtlasCount + 1));
+                        }
+#endif // DJV_OPENGL_ES2
                         shader->setUniform(data.imageChannelLoc, static_cast<int>(imageChannel));
                         switch (imageCache)
                         {
@@ -176,15 +232,6 @@ namespace djv
                             break;
                         default: break;
                         }
-#if !defined(DJV_OPENGL_ES2)
-                        shader->setUniform(data.colorSpaceLoc, colorSpace);
-                        if (colorSpace > 0)
-                        {
-                            glActiveTexture(static_cast<GLenum>(GL_TEXTURE0 + data.textureAtlasCount + 1));
-                            glBindTexture(GL_TEXTURE_3D, colorSpaceTextureID);
-                            shader->setUniform(data.colorSpaceSamplerLoc, static_cast<int>(data.textureAtlasCount + 1));
-                        }
-#endif // DJV_OPENGL_ES2
                     }
                 };
 
@@ -322,7 +369,89 @@ namespace djv
                     return out;
                 }
 
+                float knee(float x, float f)
+                {
+                    return logf(x * f + 1.F) / f;
+                }
+
+                float knee2(float x, float y)
+                {
+                    float f0 = 0.F;
+                    float f1 = 1.F;
+                    while (knee(x, f1) > y)
+                    {
+                        f0 = f1;
+                        f1 = f1 * 2.F;
+                    }
+                    for (size_t i = 0; i < 30; ++i)
+                    {
+                        const float f2 = (f0 + f1) / 2.F;
+                        if (knee(x, f2) < y)
+                        {
+                            f1 = f2;
+                        }
+                        else
+                        {
+                            f0 = f2;
+                        }
+                    }
+                    return (f0 + f1) / 2.F;
+                }
+
             } // namespace
+            
+            glm::mat4x4 brightnessMatrix(float r, float g, float b)
+            {
+                return glm::mat4x4(
+                      r, 0.F, 0.F, 0.F,
+                    0.F,   g, 0.F, 0.F,
+                    0.F, 0.F,   b, 0.F,
+                    0.F, 0.F, 0.F, 1.F);
+            }
+
+            glm::mat4x4 contrastMatrix(float r, float g, float b)
+            {
+                return
+                    glm::mat4x4(
+                        1.F, 0.F, 0.F, -.5f,
+                        0.F, 1.F, 0.F, -.5f,
+                        0.F, 0.F, 1.F, -.5f,
+                        0.F, 0.F, 0.F, 1.F) *
+                    glm::mat4x4(
+                          r, 0.F, 0.F, 0.F,
+                        0.F,   g, 0.F, 0.F,
+                        0.F, 0.F,   b, 0.F,
+                        0.F, 0.F, 0.F, 1.F) *
+                    glm::mat4x4(
+                        1.F, 0.F, 0.F, .5f,
+                        0.F, 1.F, 0.F, .5f,
+                        0.F, 0.F, 1.F, .5f,
+                        0.F, 0.F, 0.F, 1.F);
+            }
+
+            glm::mat4x4 saturationMatrix(float r, float g, float b)
+            {
+                const float s[] =
+                {
+                    (1.F - r) * .3086F,
+                    (1.F - g) * .6094F,
+                    (1.F - b) * .0820F
+                };
+                return glm::mat4x4(
+                    s[0] + r, s[1],     s[2],     0.F,
+                    s[0],     s[1] + g, s[2],     0.F,
+                    s[0],     s[1],     s[2] + b, 0.F,
+                     0.F,      0.F,      0.F,     1.F);
+            }
+
+            glm::mat4x4 colorMatrix(const ImageColor & in)
+            {
+                return
+                    brightnessMatrix(in.brightness, in.brightness, in.brightness) *
+                    contrastMatrix(in.contrast, in.contrast, in.contrast) *
+                    saturationMatrix(in.saturation, in.saturation, in.saturation);
+            }
+
 
             struct Render2D::Private
             {
@@ -356,7 +485,9 @@ namespace djv
                 size_t                                              vboDataSize         = 0;
                 std::shared_ptr<OpenGL::VBO>                        vbo;
                 std::shared_ptr<OpenGL::VAO>                        vao;
+                std::string                                         vertexFileName;
                 std::string                                         vertexSource;
+                std::string                                         fragmentFileName;
                 std::string                                         fragmentSource;
                 std::shared_ptr<OpenGL::Shader>                     shader;
                 GLint                                               mvpLoc              = 0;
@@ -429,15 +560,12 @@ namespace djv
                 const FileSystem::Path shaderPath = resourceSystem->getPath(FileSystem::ResourcePath::Shaders);
                 try
                 {
+                    p.vertexFileName = std::string(FileSystem::Path(shaderPath, "djvAVRender2DVertex.glsl"));
                     FileSystem::FileIO io;
-                    io.open(
-                        std::string(FileSystem::Path(shaderPath, "djvAVRender2DVertex.glsl")),
-                        FileSystem::FileIO::Mode::Read);
+                    io.open(p.vertexFileName, FileSystem::FileIO::Mode::Read);
                     p.vertexSource = FileSystem::FileIO::readContents(io);
-                    io.close();
-                    io.open(
-                        std::string(FileSystem::Path(shaderPath, "djvAVRender2DFragment.glsl")),
-                        FileSystem::FileIO::Mode::Read);
+                    p.fragmentFileName = std::string(FileSystem::Path(shaderPath, "djvAVRender2DFragment.glsl"));
+                    io.open(p.fragmentFileName, FileSystem::FileIO::Mode::Read);
                     p.fragmentSource = FileSystem::FileIO::readContents(io);
                 }
                 catch (const std::exception& e)
@@ -513,18 +641,35 @@ namespace djv
 
                 if (!p.shader)
                 {
-                    p.shader = OpenGL::Shader::create(Shader::create(p.vertexSource, p.getFragmentSource()));
+                    auto shader = Shader::create(p.vertexSource, p.getFragmentSource());
+                    shader->setVertexName(p.vertexFileName);
+                    shader->setFragmentName(p.fragmentFileName);
+                    p.shader = OpenGL::Shader::create(shader);
                     const auto program = p.shader->getProgram();
                     p.mvpLoc = glGetUniformLocation(program, "transform.mvp");
                     p.primitiveData.imageChannelsLoc = glGetUniformLocation(program, "imageChannels");
-                    p.primitiveData.imageChannelLoc = glGetUniformLocation(program, "imageChannel");
-                    p.primitiveData.colorModeLoc = glGetUniformLocation(program, "colorMode");
-                    p.primitiveData.colorLoc = glGetUniformLocation(program, "color");
-                    p.primitiveData.textureSamplerLoc = glGetUniformLocation(program, "textureSampler");
 #if !defined(DJV_OPENGL_ES2)
                     p.primitiveData.colorSpaceLoc = glGetUniformLocation(program, "colorSpace");
                     p.primitiveData.colorSpaceSamplerLoc = glGetUniformLocation(program, "colorSpaceSampler");
 #endif // DJV_OPENGL_ES2
+                    p.primitiveData.imageChannelLoc = glGetUniformLocation(program, "imageChannel");
+                    p.primitiveData.colorMatrixLoc = glGetUniformLocation(program, "colorMatrix");
+                    p.primitiveData.colorMatrixEnabledLoc = glGetUniformLocation(program, "colorMatrixEnabled");
+                    p.primitiveData.levelsInLowLoc = glGetUniformLocation(program, "levels.inLow");
+                    p.primitiveData.levelsInHighLoc = glGetUniformLocation(program, "levels.inHigh");
+                    p.primitiveData.levelsGammaLoc = glGetUniformLocation(program, "levels.gamma");
+                    p.primitiveData.levelsOutLowLoc = glGetUniformLocation(program, "levels.outLow");
+                    p.primitiveData.levelsOutHighLoc = glGetUniformLocation(program, "levels.outHigh");
+                    p.primitiveData.levelsEnabledLoc = glGetUniformLocation(program, "levelsEnabled");
+                    p.primitiveData.exposureVLoc = glGetUniformLocation(program, "exposure.v");
+                    p.primitiveData.exposureDLoc = glGetUniformLocation(program, "exposure.d");
+                    p.primitiveData.exposureKLoc = glGetUniformLocation(program, "exposure.k");
+                    p.primitiveData.exposureFLoc = glGetUniformLocation(program, "exposure.f");
+                    p.primitiveData.exposureEnabledLoc = glGetUniformLocation(program, "exposureEnabled");
+                    p.primitiveData.softClipLoc = glGetUniformLocation(program, "softClip");
+                    p.primitiveData.colorModeLoc = glGetUniformLocation(program, "colorMode");
+                    p.primitiveData.colorLoc = glGetUniformLocation(program, "color");
+                    p.primitiveData.textureSamplerLoc = glGetUniformLocation(program, "textureSampler");
                 }
                 p.shader->bind();
 
@@ -1411,8 +1556,31 @@ namespace djv
                     primitive->color[2] = finalColor[2];
                     primitive->color[3] = finalColor[3];
                     primitive->imageChannel = options.channel;
-                    primitive->imageCache = options.cache;
                     primitive->alphaBlend = options.alphaBlend;
+                    primitive->colorMatrixEnabled = options.colorEnabled;
+                    if (primitive->colorMatrixEnabled)
+                    {
+                        primitive->colorMatrix = colorMatrix(options.color);
+                    }
+                    primitive->levels = options.levels;
+                    primitive->levelsEnabled = options.levelsEnabled;
+                    primitive->exposureEnabled = options.exposureEnabled;
+                    if (primitive->exposureEnabled)
+                    {
+                        primitive->exposureV = powf(
+                            2.F,
+                            options.exposure.exposure + 2.47393F);
+                        primitive->exposureD = options.exposure.defog;
+                        primitive->exposureK = powf(
+                            2.F,
+                            options.exposure.kneeLow);
+                        primitive->exposureF = knee2(
+                            powf(2.F, options.exposure.kneeHigh) -
+                            primitive->exposureK,
+                            powf(2.F, 3.5F) - primitive->exposureK);
+                    }
+                    primitive->softClip = options.softClip;
+                    primitive->imageCache = options.cache;
                     FloatRange textureU;
                     FloatRange textureV;
                     const UID uid = image->getUID();

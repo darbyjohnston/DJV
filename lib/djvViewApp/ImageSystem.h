@@ -69,10 +69,11 @@ namespace djv
         protected:
             void _closeWidget(const std::string&) override;
 
+            void _textUpdate() override;
+
         private:
             void _actionsUpdate();
-
-            void _textUpdate() override;
+            void _widgetUpdate();
 
             DJV_PRIVATE();
         };

@@ -33,14 +33,63 @@ namespace djv
     {
         namespace Render
         {
+            inline bool ImageColor::operator == (const ImageColor& other) const
+            {
+                return
+                    brightness == other.brightness &&
+                    contrast   == other.contrast   &&
+                    saturation == other.saturation;
+            }
+            
+            inline bool ImageColor::operator != (const ImageColor& other) const
+            {
+                return !(*this == other);
+            }
+            
+            inline bool ImageLevels::operator == (const ImageLevels& other) const
+            {
+                return
+                    inLow   == other.inLow   &&
+                    inHigh  == other.inHigh  &&
+                    gamma   == other.gamma   &&
+                    outLow  == other.outLow  &&
+                    outHigh == other.outHigh;
+            }
+            
+            inline bool ImageLevels::operator != (const ImageLevels& other) const
+            {
+                return !(*this == other);
+            }
+
+            inline bool ImageExposure::operator == (const ImageExposure& other) const
+            {
+                return
+                    exposure == other.exposure &&
+                    defog    == other.defog    &&
+                    kneeLow  == other.kneeLow  &&
+                    kneeHigh == other.kneeHigh;
+            }
+
+            inline bool ImageExposure::operator != (const ImageExposure& other) const
+            {
+                return !(*this == other);
+            }
+            
             inline bool ImageOptions::operator == (const ImageOptions& other) const
             {
                 return
-                    channel == other.channel &&
-                    alphaBlend == other.alphaBlend &&
-                    mirror == other.mirror &&
-                    colorSpace == other.colorSpace &&
-                    cache == other.cache;
+                    channel         == other.channel         &&
+                    alphaBlend      == other.alphaBlend      &&
+                    mirror          == other.mirror          &&
+                    colorSpace      == other.colorSpace      &&
+                    color           == other.color           &&
+                    colorEnabled    == other.colorEnabled    &&
+                    levels          == other.levels          &&
+                    levelsEnabled   == other.levelsEnabled   &&
+                    exposure        == other.exposure        &&
+                    exposureEnabled == other.exposureEnabled &&
+                    softClip        == other.softClip        &&
+                    cache           == other.cache;
             }
 
             inline bool ImageOptions::operator != (const ImageOptions& other) const

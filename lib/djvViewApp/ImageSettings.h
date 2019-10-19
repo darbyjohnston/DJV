@@ -54,7 +54,9 @@ namespace djv
             static std::shared_ptr<ImageSettings> create(const std::shared_ptr<Core::Context>&);
 
             int getColorSpaceCurrentTab() const;
+            int getColorControlsCurrentTab() const;
             void setColorSpaceCurrentTab(int);
+            void setColorControlsCurrentTab(int);
 
             std::shared_ptr<Core::IValueSubject<ImageRotate> > observeRotate() const;
             std::shared_ptr<Core::IValueSubject<ImageAspectRatio> > observeAspectRatio() const;

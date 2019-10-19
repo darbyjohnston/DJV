@@ -1,3 +1,4 @@
+
 //------------------------------------------------------------------------------
 // Copyright (c) 2004-2019 Darby Johnston
 // All rights reserved.
@@ -29,6 +30,7 @@
 
 #include <djvViewApp/ImageSystem.h>
 
+#include <djvViewApp/ColorControlsWidget.h>
 #include <djvViewApp/ColorSpaceWidget.h>
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/ImageSettings.h>
@@ -62,6 +64,7 @@ namespace djv
             std::shared_ptr<ImageSettings> settings;
 
             int colorSpaceCurrentTab = 0;
+            int colorControlsCurrentTab = 0;
             std::shared_ptr<ValueSubject<bool> > frameStoreEnabled;
             std::shared_ptr<ValueSubject<std::shared_ptr<AV::Image::Image> > > frameStore;
             std::shared_ptr<AV::Image::Image> currentImage;
@@ -77,6 +80,7 @@ namespace djv
             std::shared_ptr<UI::ActionGroup> aspectRatioActionGroup;
             std::shared_ptr<UI::Menu> menu;
             std::weak_ptr<ColorSpaceWidget> colorSpaceWidget;
+            std::weak_ptr<ColorControlsWidget> colorControlsWidget;
 
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
@@ -94,7 +98,8 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             p.settings = ImageSettings::create(context);
-            p.colorSpaceCurrentTab= p.settings->getColorSpaceCurrentTab();
+            p.colorSpaceCurrentTab = p.settings->getColorSpaceCurrentTab();
+            p.colorControlsCurrentTab = p.settings->getColorControlsCurrentTab();
             _setWidgetGeom(p.settings->getWidgetGeom());
 
             p.frameStoreEnabled = ValueSubject<bool>::create();
@@ -103,6 +108,9 @@ namespace djv
             p.actions["ColorSpace"] = UI::Action::create();
             p.actions["ColorSpace"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["ColorSpace"]->setShortcut(GLFW_KEY_P, GLFW_MOD_CONTROL);
+            p.actions["ColorControls"] = UI::Action::create();
+            p.actions["ColorControls"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["ColorControls"]->setShortcut(GLFW_KEY_B, GLFW_MOD_CONTROL);
             p.actions["RedChannel"] = UI::Action::create();
             p.actions["RedChannel"]->setShortcut(GLFW_KEY_R);
             p.actions["GreenChannel"] = UI::Action::create();
@@ -158,6 +166,7 @@ namespace djv
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["ColorSpace"]);
+            p.menu->addAction(p.actions["ColorControls"]);
             p.menu->addSeparator();
             p.menu->addAction(p.actions["RedChannel"]);
             p.menu->addAction(p.actions["GreenChannel"]);
@@ -259,6 +268,92 @@ namespace djv
                             else
                             {
                                 system->_closeWidget("ColorSpace");
+                            }
+                        }
+                    }
+                });
+
+            p.actionObservers["ColorControls"] = ValueObserver<bool>::create(
+                p.actions["ColorControls"]->observeChecked(),
+                [weak, contextWeak](bool value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (value)
+                            {
+                                auto colorControlsWidget = ColorControlsWidget::create(context);
+                                colorControlsWidget->setCurrentTab(system->_p->colorControlsCurrentTab);
+                                system->_p->colorControlsWidget = colorControlsWidget;
+                                system->_openWidget("ColorControls", colorControlsWidget);
+                                system->_widgetUpdate();
+                                colorControlsWidget->setColorCallback(
+                                    [weak](const AV::Render::ImageColor& value)
+                                    {
+                                        if (auto system = weak.lock())
+                                        {
+                                            system->_p->imageOptions.color = value;
+                                            system->_p->imageOptions.colorEnabled = value != AV::Render::ImageColor();
+                                            if (system->_p->activeWidget)
+                                            {
+                                                system->_p->activeWidget->getImageView()->setImageOptions(system->_p->imageOptions);
+                                            }
+                                        }
+                                    });
+                                colorControlsWidget->setLevelsCallback(
+                                    [weak](const AV::Render::ImageLevels& value)
+                                    {
+                                        if (auto system = weak.lock())
+                                        {
+                                            system->_p->imageOptions.levels = value;
+                                            system->_p->imageOptions.levelsEnabled = value != AV::Render::ImageLevels();
+                                            if (system->_p->activeWidget)
+                                            {
+                                                system->_p->activeWidget->getImageView()->setImageOptions(system->_p->imageOptions);
+                                            }
+                                        }
+                                    });
+                                colorControlsWidget->setExposureCallback(
+                                    [weak](const AV::Render::ImageExposure& value)
+                                    {
+                                        if (auto system = weak.lock())
+                                        {
+                                            system->_p->imageOptions.exposure = value;
+                                            if (system->_p->activeWidget)
+                                            {
+                                                system->_p->activeWidget->getImageView()->setImageOptions(system->_p->imageOptions);
+                                            }
+                                        }
+                                    });
+                                colorControlsWidget->setExposureEnabledCallback(
+                                    [weak](bool value)
+                                    {
+                                        if (auto system = weak.lock())
+                                        {
+                                            system->_p->imageOptions.exposureEnabled = value;
+                                            if (system->_p->activeWidget)
+                                            {
+                                                system->_p->activeWidget->getImageView()->setImageOptions(system->_p->imageOptions);
+                                            }
+                                        }
+                                    });
+                                colorControlsWidget->setSoftClipCallback(
+                                    [weak](float value)
+                                    {
+                                        if (auto system = weak.lock())
+                                        {
+                                            system->_p->imageOptions.softClip = value;
+                                            if (system->_p->activeWidget)
+                                            {
+                                                system->_p->activeWidget->getImageView()->setImageOptions(system->_p->imageOptions);
+                                            }
+                                        }
+                                    });
+                            }
+                            else
+                            {
+                                system->_closeWidget("ColorControls");
                             }
                         }
                     }
@@ -366,6 +461,7 @@ namespace djv
                                         {
                                             system->_p->imageOptions = value;
                                             system->_actionsUpdate();
+                                            system->_widgetUpdate();
                                         }
                                     });
                                 system->_p->imageRotateObserver = ValueObserver<ImageRotate>::create(
@@ -396,6 +492,7 @@ namespace djv
                                 system->_p->imageAspectRatioObserver.reset();
                             }
                             system->_actionsUpdate();
+                            system->_widgetUpdate();
                         }
                     });
             }
@@ -409,7 +506,9 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             _closeWidget("ColorSpace");
+            _closeWidget("ColorControls");
             p.settings->setColorSpaceCurrentTab(p.colorSpaceCurrentTab);
+            p.settings->setColorControlsCurrentTab(p.colorControlsCurrentTab);
             p.settings->setWidgetGeom(_getWidgetGeom());
         }
 
@@ -447,43 +546,28 @@ namespace djv
         void ImageSystem::_closeWidget(const std::string& value)
         {
             DJV_PRIVATE_PTR();
-            if (auto colorSpaceWidget = p.colorSpaceWidget.lock())
+            if ("ColorSpace" == value)
             {
-                p.colorSpaceCurrentTab = colorSpaceWidget->getCurrentTab();
+                if (auto colorSpaceWidget = p.colorSpaceWidget.lock())
+                {
+                    p.colorSpaceCurrentTab = colorSpaceWidget->getCurrentTab();
+                }
+                p.colorSpaceWidget.reset();
             }
-            p.colorSpaceWidget.reset();
+            else if ("ColorControls" == value)
+            {
+                if (auto colorControlsWidget = p.colorControlsWidget.lock())
+                {
+                    p.colorControlsCurrentTab = colorControlsWidget->getCurrentTab();
+                }
+                p.colorControlsWidget.reset();
+            }
             const auto i = p.actions.find(value);
             if (i != p.actions.end())
             {
                 i->second->setChecked(false);
             }
             IViewSystem::_closeWidget(value);
-        }
-
-        void ImageSystem::_actionsUpdate()
-        {
-            DJV_PRIVATE_PTR();
-            const bool activeWidget = p.activeWidget.get();
-            p.actions["RedChannel"]->setEnabled(activeWidget);
-            p.actions["GreenChannel"]->setEnabled(activeWidget);
-            p.actions["BlueChannel"]->setEnabled(activeWidget);
-            p.actions["AlphaChannel"]->setEnabled(activeWidget);
-            p.actions["MirrorH"]->setEnabled(activeWidget);
-            p.actions["MirrorV"]->setEnabled(activeWidget);
-            p.actions["Rotate_0"]->setEnabled(activeWidget);
-            p.actions["Rotate_90"]->setEnabled(activeWidget);
-            p.actions["Rotate_180"]->setEnabled(activeWidget);
-            p.actions["Rotate_270"]->setEnabled(activeWidget);
-            p.actions["AspectRatio_Native"]->setEnabled(activeWidget);
-            p.actions["AspectRatio_Default"]->setEnabled(activeWidget);
-            p.actions["AspectRatio_16_9"]->setEnabled(activeWidget);
-            p.actions["AspectRatio_1_85"]->setEnabled(activeWidget);
-            p.actions["AspectRatio_2_35"]->setEnabled(activeWidget);
-
-            p.channelActionGroup->setChecked(static_cast<int>(p.imageOptions.channel) - 1);
-            p.alphaBlendActionGroup->setChecked(static_cast<int>(p.imageOptions.alphaBlend));
-            p.rotateActionGroup->setChecked(static_cast<int>(p.imageRotate));
-            p.aspectRatioActionGroup->setChecked(static_cast<int>(p.imageAspectRatio));
         }
 
         void ImageSystem::_textUpdate()
@@ -493,6 +577,8 @@ namespace djv
             {
                 p.actions["ColorSpace"]->setText(_getText(DJV_TEXT("Color Space")));
                 p.actions["ColorSpace"]->setTooltip(_getText(DJV_TEXT("Color space widget tooltip")));
+                p.actions["ColorControls"]->setText(_getText(DJV_TEXT("Color Controls")));
+                p.actions["ColorControls"]->setTooltip(_getText(DJV_TEXT("Color controls widget tooltip")));
                 p.actions["RedChannel"]->setText(_getText(DJV_TEXT("Red Channel")));
                 p.actions["RedChannel"]->setTooltip(_getText(DJV_TEXT("Red channel tooltip")));
                 p.actions["GreenChannel"]->setText(_getText(DJV_TEXT("Green Channel")));
@@ -535,6 +621,45 @@ namespace djv
                 p.actions["LoadFrameStore"]->setTooltip(_getText(DJV_TEXT("Load frame store tooltip")));
 
                 p.menu->setText(_getText(DJV_TEXT("Image")));
+            }
+        }
+
+        void ImageSystem::_actionsUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            const bool activeWidget = p.activeWidget.get();
+            p.actions["RedChannel"]->setEnabled(activeWidget);
+            p.actions["GreenChannel"]->setEnabled(activeWidget);
+            p.actions["BlueChannel"]->setEnabled(activeWidget);
+            p.actions["AlphaChannel"]->setEnabled(activeWidget);
+            p.actions["MirrorH"]->setEnabled(activeWidget);
+            p.actions["MirrorV"]->setEnabled(activeWidget);
+            p.actions["Rotate_0"]->setEnabled(activeWidget);
+            p.actions["Rotate_90"]->setEnabled(activeWidget);
+            p.actions["Rotate_180"]->setEnabled(activeWidget);
+            p.actions["Rotate_270"]->setEnabled(activeWidget);
+            p.actions["AspectRatio_Native"]->setEnabled(activeWidget);
+            p.actions["AspectRatio_Default"]->setEnabled(activeWidget);
+            p.actions["AspectRatio_16_9"]->setEnabled(activeWidget);
+            p.actions["AspectRatio_1_85"]->setEnabled(activeWidget);
+            p.actions["AspectRatio_2_35"]->setEnabled(activeWidget);
+
+            p.channelActionGroup->setChecked(static_cast<int>(p.imageOptions.channel) - 1);
+            p.alphaBlendActionGroup->setChecked(static_cast<int>(p.imageOptions.alphaBlend));
+            p.rotateActionGroup->setChecked(static_cast<int>(p.imageRotate));
+            p.aspectRatioActionGroup->setChecked(static_cast<int>(p.imageAspectRatio));
+        }
+        
+        void ImageSystem::_widgetUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (auto widget = p.colorControlsWidget.lock())
+            {
+                widget->setColor(p.imageOptions.color);
+                widget->setLevels(p.imageOptions.levels);
+                widget->setExposure(p.imageOptions.exposure);
+                widget->setExposureEnabled(p.imageOptions.exposureEnabled);
+                widget->setSoftClip(p.imageOptions.softClip);
             }
         }
 

@@ -29,17 +29,41 @@
 
 #version 410
 
-in vec2 Texture;
+struct Levels
+{
+    float inLow;
+    float inHigh;
+    float gamma;
+    float outLow;
+    float outHigh;
+};
 
+struct Exposure
+{
+    float v;
+    float d;
+    float k;
+    float f;
+    float g;
+};
+
+in vec2 Texture;
 out vec4 FragColor;
 
-uniform int imageChannels;
-uniform int imageChannel;
-uniform int colorMode;
-uniform vec4 color;
-uniform sampler2D textureSampler;
-uniform int colorSpace = 0;
-uniform sampler3D colorSpaceSampler;
+uniform int         imageChannels       = 0;
+uniform mat4        colorMatrix;
+uniform bool        colorMatrixEnabled  = false;
+uniform Levels      levels;
+uniform bool        levelsEnabled       = false;
+uniform Exposure    exposure;
+uniform bool        exposureEnabled     = false;
+uniform float       softClip            = 0.0;
+uniform int         imageChannel        = 0;
+uniform int         colorMode           = 0;
+uniform vec4        color;
+uniform sampler2D   textureSampler;
+uniform int         colorSpace          = 0;
+uniform sampler3D   colorSpaceSampler;
 
 // djv::AV::Image::Channels
 #define IMAGE_CHANNELS_L    1
@@ -64,6 +88,70 @@ uniform sampler3D colorSpaceSampler;
 #define COLOR_MODE_SHADOW                     6
 
 //$colorSpaceFunctions
+
+vec4 colorMatrixFunc(vec4 value, mat4 color)
+{
+    vec4 tmp;
+    tmp[0] = value[0];
+    tmp[1] = value[1];
+    tmp[2] = value[2];
+    tmp[3] = 1.0;
+    tmp *= color;
+    tmp[3] = value[3];
+    return tmp;
+};
+
+vec4 levelsFunc(vec4 value, Levels data)
+{
+    vec4 tmp;
+    tmp[0] = (value[0] - data.inLow) / data.inHigh;
+    tmp[1] = (value[1] - data.inLow) / data.inHigh;
+    tmp[2] = (value[2] - data.inLow) / data.inHigh;
+    if (tmp[0] >= 0.0)
+        tmp[0] = pow(tmp[0], data.gamma);
+    if (tmp[1] >= 0.0)
+        tmp[1] = pow(tmp[1], data.gamma);
+    if (tmp[2] >= 0.0)
+        tmp[2] = pow(tmp[2], data.gamma);
+    value[0] = tmp[0] * data.outHigh + data.outLow;
+    value[1] = tmp[1] * data.outHigh + data.outLow;
+    value[2] = tmp[2] * data.outHigh + data.outLow;
+    return value;
+}
+
+vec4 softClipFunc(vec4 value, float softClip)
+{
+    float tmp = 1.0 - softClip;
+    if (value[0] > tmp)
+        value[0] = tmp + (1.0 - exp(-(value[0] - tmp) / softClip)) * softClip;
+    if (value[1] > tmp)
+        value[1] = tmp + (1.0 - exp(-(value[1] - tmp) / softClip)) * softClip;
+    if (value[2] > tmp)
+        value[2] = tmp + (1.0 - exp(-(value[2] - tmp) / softClip)) * softClip;
+    return value;
+}
+
+float knee(float value, float f)
+{
+    return log(value * f + 1.0) / f;
+}
+
+vec4 exposureFunc(vec4 value, Exposure data)
+{
+    value[0] = max(0.0, value[0] - data.d) * data.v;
+    value[1] = max(0.0, value[1] - data.d) * data.v;
+    value[2] = max(0.0, value[2] - data.d) * data.v;
+    if (value[0] > data.k)
+        value[0] = data.k + knee(value[0] - data.k, data.f);
+    if (value[1] > data.k)
+        value[1] = data.k + knee(value[1] - data.k, data.f);
+    if (value[2] > data.k)
+        value[2] = data.k + knee(value[2] - data.k, data.f);
+    value[0] *= 0.332;
+    value[1] *= 0.332;
+    value[2] *= 0.332;
+    return value;
+}
 
 void main()
 {
@@ -125,6 +213,23 @@ void main()
 		}
 		
 //$colorSpaceBody
+
+        if (colorMatrixEnabled)
+        {
+            t = colorMatrixFunc(t, colorMatrix);
+        }
+        if (levelsEnabled)
+        {
+            t = levelsFunc(t, levels);
+        }
+        if (exposureEnabled)
+        {
+            t = exposureFunc(t, exposure);
+        }
+        if (softClip > 0.0)
+        {
+            t = softClipFunc(t, softClip);
+        }
 
         // Swizzle the channels for the given image channel configuration.
         if (IMAGE_CHANNEL_RED == imageChannel)

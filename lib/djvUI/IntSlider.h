@@ -92,6 +92,11 @@ namespace djv
             int getValue() const;
             void setValue(int);
             void setValueCallback(const std::function<void(int)> &);
+            
+            float getDefault() const;
+            void setDefault(float);
+            void setDefaultVisible(bool);
+            void resetValue();
 
             std::chrono::milliseconds getDelay() const;
             void setDelay(std::chrono::milliseconds);
@@ -102,7 +107,11 @@ namespace djv
             void _preLayoutEvent(Core::Event::PreLayout &) override;
             void _layoutEvent(Core::Event::Layout &) override;
 
+            void _textUpdateEvent(Core::Event::TextUpdate&) override;
+            
         private:
+            void _widgetUpdate();
+            
             DJV_PRIVATE();
         };
 

@@ -70,15 +70,70 @@ namespace djv
                 Atlas,
                 Dynamic
             };
+            
+            //! This struct provides color values.
+            struct ImageColor
+            {
+                float brightness = 1.F;
+                float contrast   = 1.F;
+                float saturation = 1.F;
+
+                bool operator == (const ImageColor&) const;
+                bool operator != (const ImageColor&) const;
+            };
+            
+            //! Create a brightness matrix.
+            glm::mat4x4 brightnessMatrix(float r, float g, float b);
+
+            //! Create a contrast matrix.
+            glm::mat4x4 contrastMatrix(float r, float g, float b);
+
+            //! Create a saturation matrix.
+            glm::mat4x4 saturationMatrix(float r, float g, float b);
+
+            //! Create a color matrix.
+            glm::mat4x4 colorMatrix(const ImageColor&);
+            
+            //! This struct provides levels values.
+            struct ImageLevels
+            {
+                float inLow   = 0.F;
+                float inHigh  = 1.F;
+                float gamma   = 1.F;
+                float outLow  = 0.F;
+                float outHigh = 1.F;
+
+                bool operator == (const ImageLevels&) const;
+                bool operator != (const ImageLevels&) const;
+            };
+            
+            //! This struct provides exposure values.
+            struct ImageExposure
+            {
+                float exposure = 0.f;
+                float defog    = 0.f;
+                float kneeLow  = 0.f;
+                float kneeHigh = 5.f;
+
+                bool operator == (const ImageExposure&) const;
+                bool operator != (const ImageExposure&) const;
+            };
 
             //! This struct provides image options.
             struct ImageOptions
             {
-                ImageChannel      channel       = ImageChannel::None;
-                AlphaBlend        alphaBlend    = AlphaBlend::Straight;
+                ImageChannel      channel           = ImageChannel::None;
+                AlphaBlend        alphaBlend        = AlphaBlend::Straight;
                 AV::Image::Mirror mirror;
                 AV::OCIO::Convert colorSpace;
-                ImageCache        cache         = ImageCache::Atlas;
+                ImageColor        color;
+                bool              colorEnabled      = false;
+                ImageLevels       levels;
+                bool              levelsEnabled     = false;
+                float             softClip          = 0.F;
+                ImageExposure     exposure;
+                bool              exposureEnabled   = false;
+                ImageCache        cache             = ImageCache::Atlas;
 
                 bool operator == (const ImageOptions&) const;
                 bool operator != (const ImageOptions&) const;

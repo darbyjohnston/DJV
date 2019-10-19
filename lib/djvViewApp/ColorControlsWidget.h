@@ -29,64 +29,52 @@
 
 #pragma once
 
-#include <djvAV/AV.h>
+#include <djvViewApp/MDIWidget.h>
 
-#include <memory>
-#include <stdexcept>
-#include <string>
+#include <djvAV/Render2D.h>
 
 namespace djv
 {
-    namespace Core
+    namespace ViewApp
     {
-        namespace FileSystem
+        //! This class provides the color controls widget.
+        class ColorControlsWidget : public MDIWidget
         {
-            class Path;
+            DJV_NON_COPYABLE(ColorControlsWidget);
 
-        } // namespace FileSystem
-    } // namespace Core
+        protected:
+            void _init(const std::shared_ptr<Core::Context>&);
+            ColorControlsWidget();
 
-    namespace AV
-    {
-        namespace Render
-        {
-            //! This class provides a shader error.
-            class ShaderError : public std::runtime_error
-            {
-            public:
-                explicit ShaderError(const std::string&);
-            };
+        public:
+            ~ColorControlsWidget() override;
+
+            static std::shared_ptr<ColorControlsWidget> create(const std::shared_ptr<Core::Context>&);
+
+            void setColor(const AV::Render::ImageColor&);
+            void setLevels(const AV::Render::ImageLevels&);
+            void setExposure(const AV::Render::ImageExposure&);
+            void setExposureEnabled(bool);
+            void setSoftClip(float);
             
-            //! This class provides shader source code.
-            class Shader
-            {
-                DJV_NON_COPYABLE(Shader);
+            int getCurrentTab() const;
+            void setCurrentTab(int);
+            
+            void setColorCallback(const std::function<void(const AV::Render::ImageColor&)>&);
+            void setLevelsCallback(const std::function<void(const AV::Render::ImageLevels&)>&);
+            void setExposureCallback(const std::function<void(const AV::Render::ImageExposure&)>&);
+            void setExposureEnabledCallback(const std::function<void(bool)>&);
+            void setSoftClipCallback(const std::function<void(float)>&);
 
-            protected:
-                Shader();
+        protected:
+            void _textUpdateEvent(Core::Event::TextUpdate &) override;
 
-            public:
-                ~Shader();
+        private:
+            DJV_PRIVATE();
 
-                static std::shared_ptr<Shader> create(const std::string & vertex, const std::string & fragment);
+            void _widgetUpdate();
+        };
 
-                //! Throws:
-                //! - ShaderError
-                static std::shared_ptr<Shader> create(const Core::FileSystem::Path & vertex, const Core::FileSystem::Path & fragment);
-
-                const std::string & getVertexName() const;
-                const std::string & getVertexSource() const;
-                const std::string & getFragmentName() const;
-                const std::string & getFragmentSource() const;
-
-                void setVertexName(const std::string&);
-                void setFragmentName(const std::string&);
-
-            private:
-                std::pair<std::string, std::string> _vertex;
-                std::pair<std::string, std::string> _fragment;
-            };
-
-        } // namespace Render
-    } // namespace AV
+    } // namespace ViewApp
 } // namespace djv
+

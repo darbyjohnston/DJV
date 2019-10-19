@@ -32,6 +32,7 @@
 #include <djvUI/DrawUtil.h>
 #include <djvUI/FloatEdit.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/ToolButton.h>
 
 #include <djvCore/NumericValueModels.h>
 #include <djvCore/ValueObserver.h>
@@ -190,8 +191,10 @@ namespace djv
 
         struct FloatSlider::Private
         {
+            float defaultValue = 0.F;
             std::shared_ptr<FloatEdit> edit;
             std::shared_ptr<BasicFloatSlider> slider;
+            std::shared_ptr<ToolButton> resetButton;
             std::shared_ptr<HorizontalLayout> layout;
             std::function<void(float)> callback;
             std::shared_ptr<ValueObserver<float> > valueObserver;
@@ -208,27 +211,44 @@ namespace djv
             p.edit = FloatEdit::create(context);
             p.slider = BasicFloatSlider::create(Orientation::Horizontal, context);
             p.edit->setModel(p.slider->getModel());
+            
+            p.resetButton = ToolButton::create(context);
+            p.resetButton->setIcon("djvIconCloseSmall");
+            p.resetButton->hide();
 
             p.layout = HorizontalLayout::create(context);
             p.layout->setSpacing(Layout::Spacing(MetricsRole::SpacingSmall));
             p.layout->addChild(p.edit);
             p.layout->addChild(p.slider);
             p.layout->setStretch(p.slider, RowStretch::Expand);
+            p.layout->addChild(p.resetButton);
             addChild(p.layout);
 
+            _widgetUpdate();
+            
             auto weak = std::weak_ptr<FloatSlider>(std::dynamic_pointer_cast<FloatSlider>(shared_from_this()));
+            p.resetButton->setClickedCallback(
+                [weak]
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->resetValue();
+                    }
+                });
+            
             p.valueObserver = ValueObserver<float>::create(
                 p.slider->getModel()->observeValue(),
                 [weak](float value)
-            {
-                if (auto widget = weak.lock())
                 {
-                    if (widget->_p->callback)
+                    if (auto widget = weak.lock())
                     {
-                        widget->_p->callback(value);
+                        widget->_widgetUpdate();
+                        if (widget->_p->callback)
+                        {
+                            widget->_p->callback(value);
+                        }
                     }
-                }
-            });
+                });
         }
 
         FloatSlider::FloatSlider() :
@@ -269,6 +289,30 @@ namespace djv
         {
             _p->callback = callback;
         }
+        
+        float FloatSlider::getDefault() const
+        {
+            return _p->defaultValue;
+        }
+        
+        void FloatSlider::setDefault(float value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value == p.defaultValue)
+                return;
+            p.defaultValue = value;
+            _widgetUpdate();
+        }
+        
+        void FloatSlider::setDefaultVisible(bool value)
+        {
+            _p->resetButton->setVisible(value);
+        }
+        
+        void FloatSlider::resetValue()
+        {
+            setValue(_p->defaultValue);
+        }
 
         std::chrono::milliseconds FloatSlider::getDelay() const
         {
@@ -295,6 +339,18 @@ namespace djv
         {
             const auto& style = _getStyle();
             _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));
+        }
+
+        void FloatSlider::_textUpdateEvent(Event::TextUpdate& value)
+        {
+            DJV_PRIVATE_PTR();
+            p.resetButton->setTooltip(_getText(DJV_TEXT("Reset the value.")));
+        }
+        
+        void FloatSlider::_widgetUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            p.resetButton->setEnabled(p.slider->getValue() != p.defaultValue);
         }
 
     } // namespace UI
