@@ -99,7 +99,7 @@ vec4 colorMatrixFunc(vec4 value, mat4 color)
     tmp *= color;
     tmp[3] = value[3];
     return tmp;
-};
+}
 
 vec4 levelsFunc(vec4 value, Levels data)
 {

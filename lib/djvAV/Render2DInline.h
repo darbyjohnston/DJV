@@ -33,6 +33,9 @@ namespace djv
     {
         namespace Render
         {
+            inline ImageColor::ImageColor()
+            {}
+            
             inline bool ImageColor::operator == (const ImageColor& other) const
             {
                 return
@@ -45,6 +48,9 @@ namespace djv
             {
                 return !(*this == other);
             }
+            
+            inline ImageLevels::ImageLevels()
+            {}
             
             inline bool ImageLevels::operator == (const ImageLevels& other) const
             {
@@ -61,6 +67,9 @@ namespace djv
                 return !(*this == other);
             }
 
+            inline ImageExposure::ImageExposure()
+            {}
+
             inline bool ImageExposure::operator == (const ImageExposure& other) const
             {
                 return
@@ -75,6 +84,9 @@ namespace djv
                 return !(*this == other);
             }
             
+            inline ImageOptions::ImageOptions()
+            {}
+
             inline bool ImageOptions::operator == (const ImageOptions& other) const
             {
                 return

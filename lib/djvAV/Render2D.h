@@ -71,9 +71,12 @@ namespace djv
                 Dynamic
             };
             
-            //! This struct provides color values.
-            struct ImageColor
+            //! This class provides color values.
+            class ImageColor
             {
+            public:
+                ImageColor();
+                
                 float brightness = 1.F;
                 float contrast   = 1.F;
                 float saturation = 1.F;
@@ -94,9 +97,12 @@ namespace djv
             //! Create a color matrix.
             glm::mat4x4 colorMatrix(const ImageColor&);
             
-            //! This struct provides levels values.
-            struct ImageLevels
+            //! This class provides levels values.
+            class ImageLevels
             {
+            public:
+                ImageLevels();
+                
                 float inLow   = 0.F;
                 float inHigh  = 1.F;
                 float gamma   = 1.F;
@@ -107,9 +113,12 @@ namespace djv
                 bool operator != (const ImageLevels&) const;
             };
             
-            //! This struct provides exposure values.
-            struct ImageExposure
+            //! This class provides exposure values.
+            class ImageExposure
             {
+            public:
+                ImageExposure();
+                
                 float exposure = 0.f;
                 float defog    = 0.f;
                 float kneeLow  = 0.f;
@@ -119,9 +128,12 @@ namespace djv
                 bool operator != (const ImageExposure&) const;
             };
 
-            //! This struct provides image options.
-            struct ImageOptions
+            //! This class provides image options.
+            class ImageOptions
             {
+            public:
+                ImageOptions();
+                
                 ImageChannel      channel           = ImageChannel::None;
                 AlphaBlend        alphaBlend        = AlphaBlend::Straight;
                 AV::Image::Mirror mirror;
