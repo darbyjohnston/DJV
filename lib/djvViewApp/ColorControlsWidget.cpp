@@ -466,21 +466,21 @@ namespace djv
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Color Controls")));
             
-            p.colorLayout->setText(p.colorSliders["Brightness"], _getText(DJV_TEXT("Brightness")) + ": ");
-            p.colorLayout->setText(p.colorSliders["Contrast"], _getText(DJV_TEXT("Contrast")) + ": ");
-            p.colorLayout->setText(p.colorSliders["Saturation"], _getText(DJV_TEXT("Saturation")) + ": ");
+            p.colorLayout->setText(p.colorSliders["Brightness"], _getText(DJV_TEXT("Brightness")) + ":");
+            p.colorLayout->setText(p.colorSliders["Contrast"], _getText(DJV_TEXT("Contrast")) + ":");
+            p.colorLayout->setText(p.colorSliders["Saturation"], _getText(DJV_TEXT("Saturation")) + ":");
 
-            p.levelsLayout->setText(p.levelsSliders["InLow"], _getText(DJV_TEXT("In Low")) + ": ");
-            p.levelsLayout->setText(p.levelsSliders["InHigh"], _getText(DJV_TEXT("In High")) + ": ");
-            p.levelsLayout->setText(p.levelsSliders["Gamma"], _getText(DJV_TEXT("Gamma")) + ": ");
-            p.levelsLayout->setText(p.levelsSliders["OutLow"], _getText(DJV_TEXT("Out Low")) + ": ");
-            p.levelsLayout->setText(p.levelsSliders["OutHigh"], _getText(DJV_TEXT("Out High")) + ": ");
+            p.levelsLayout->setText(p.levelsSliders["InLow"], _getText(DJV_TEXT("In Low")) + ":");
+            p.levelsLayout->setText(p.levelsSliders["InHigh"], _getText(DJV_TEXT("In High")) + ":");
+            p.levelsLayout->setText(p.levelsSliders["Gamma"], _getText(DJV_TEXT("Gamma")) + ":");
+            p.levelsLayout->setText(p.levelsSliders["OutLow"], _getText(DJV_TEXT("Out Low")) + ":");
+            p.levelsLayout->setText(p.levelsSliders["OutHigh"], _getText(DJV_TEXT("Out High")) + ":");
 
             p.exposureCheckBox->setText(_getText(DJV_TEXT("Enabled")));
-            p.exposureFormLayout->setText(p.exposureSliders["Exposure"], _getText(DJV_TEXT("Exposure")) + ": ");
-            p.exposureFormLayout->setText(p.exposureSliders["Defog"], _getText(DJV_TEXT("Defog")) + ": ");
-            p.exposureFormLayout->setText(p.exposureSliders["KneeLow"], _getText(DJV_TEXT("Knee Low")) + ": ");
-            p.exposureFormLayout->setText(p.exposureSliders["KneeHigh"], _getText(DJV_TEXT("Knee High")) + ": ");
+            p.exposureFormLayout->setText(p.exposureSliders["Exposure"], _getText(DJV_TEXT("Exposure")) + ":");
+            p.exposureFormLayout->setText(p.exposureSliders["Defog"], _getText(DJV_TEXT("Defog")) + ":");
+            p.exposureFormLayout->setText(p.exposureSliders["KneeLow"], _getText(DJV_TEXT("Knee Low")) + ":");
+            p.exposureFormLayout->setText(p.exposureSliders["KneeHigh"], _getText(DJV_TEXT("Knee High")) + ":");
 
             p.tabWidget->setText(p.tabIDs["Color"], _getText(DJV_TEXT("Color")));
             p.tabWidget->setText(p.tabIDs["Levels"], _getText(DJV_TEXT("Levels")));
