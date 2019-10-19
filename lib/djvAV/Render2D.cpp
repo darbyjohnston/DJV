@@ -399,7 +399,7 @@ namespace djv
                 }
 
             } // namespace
-            
+
             glm::mat4x4 brightnessMatrix(float r, float g, float b)
             {
                 return glm::mat4x4(

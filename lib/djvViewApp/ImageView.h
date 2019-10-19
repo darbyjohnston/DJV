@@ -47,7 +47,7 @@ namespace djv
 
         namespace Render
         {
-            struct ImageOptions;
+            class ImageOptions;
 
         } // namespace Render
     } // namespace AV
@@ -74,11 +74,7 @@ namespace djv
             void setImage(const std::shared_ptr<AV::Image::Image>&);
 
             std::shared_ptr<Core::IValueSubject<AV::Render::ImageOptions> > observeImageOptions() const;
-            std::shared_ptr<Core::IValueSubject<std::string> > observeColorDisplay() const;
-            std::shared_ptr<Core::IValueSubject<std::string> > observeColorView() const;
             void setImageOptions(const AV::Render::ImageOptions&);
-            void setColorDisplay(const std::string&);
-            void setColorView(const std::string&);
 
             std::shared_ptr<Core::IValueSubject<glm::vec2> > observeImagePos() const;
             std::shared_ptr<Core::IValueSubject<float> > observeImageZoom() const;
@@ -108,7 +104,6 @@ namespace djv
             std::vector<glm::vec3> _getImagePoints() const;
             static glm::vec2 _getCenter(const std::vector<glm::vec3>&);
             static Core::BBox2f _getBBox(const std::vector<glm::vec3>&);
-            void _colorSpaceUpdate();
 
             DJV_PRIVATE();
         };
