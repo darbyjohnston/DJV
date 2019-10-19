@@ -292,7 +292,7 @@ namespace djv
 
             setClassName("djv::ViewApp::ColorSpaceWidget");
 
-            p.configButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Radio);
+            p.configButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Exclusive);
             p.editConfigButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
             p.addConfigButton = UI::ToolButton::create(context);
             p.addConfigButton->setIcon("djvIconAddSmall");
@@ -379,18 +379,15 @@ namespace djv
 
             auto weak = std::weak_ptr<ColorSpaceWidget>(std::dynamic_pointer_cast<ColorSpaceWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<Context>(context);
-            p.configButtonGroup->setRadioCallback(
+            p.configButtonGroup->setExclusiveCallback(
                 [weak, contextWeak](int value)
                 {
                     if (auto context = contextWeak.lock())
                     {
                         if (auto widget = weak.lock())
                         {
-                            if (value >= 0 && value < widget->_p->configs.size())
-                            {
-                                auto ocioSystem = context->getSystemT<AV::OCIO::System>();
-                                ocioSystem->setCurrentIndex(value);
-                            }
+                            auto ocioSystem = context->getSystemT<AV::OCIO::System>();
+                            ocioSystem->setCurrentIndex(value);
                         }
                     }
                 });
@@ -671,7 +668,12 @@ namespace djv
                 for (const auto& i : p.configs)
                 {
                     auto button = UI::CheckBox::create(context);
-                    button->setText(i.name);
+                    std::string s = i.name;
+                    if (s.empty())
+                    {
+                        s = _getText(DJV_TEXT("None"));
+                    }
+                    button->setText(s);
                     p.configButtonGroup->addButton(button);
                     p.textFocusWidgets[button->getFocusWidget()] = id++;
 

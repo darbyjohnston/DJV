@@ -105,7 +105,7 @@ namespace djv
                     ss << "OCIO version: " << _OCIO::GetVersion();
                     _log(ss.str());
                 }
-
+                
                 _configUpdate();
 
                 std::string env = OS::getEnv("OCIO");
@@ -276,7 +276,7 @@ namespace djv
                 int tmp = -1;
                 if (p.configs.size())
                 {
-                    tmp = Math::clamp(value, 0, static_cast<int>(p.configs.size()) - 1);
+                    tmp = std::min(value, static_cast<int>(p.configs.size()) - 1);
                 }
                 if (tmp == p.currentIndex)
                     return;
