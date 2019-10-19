@@ -590,12 +590,17 @@ namespace djv
             while (i != p.pendingImageRequests.end())
             {
                 std::shared_ptr<Image::Image> image;
+                bool finished = false;
                 {
                     std::lock_guard<std::mutex> lock(i->read->getMutex());
                     auto& queue = i->read->getVideoQueue();
                     if (!queue.isEmpty())
                     {
                         image = queue.getFrame().image;
+                    }
+                    if (queue.isFinished())
+                    {
+                        finished = true;
                     }
                 }
                 if (image)
@@ -626,6 +631,13 @@ namespace djv
                     p.imageCache.add(getImageCacheKey(i->fileInfo, i->size, i->type), image);
                     p.imageCachePercentage = p.imageCache.getPercentageUsed();
                     i->promise.set_value(image);
+                }
+                else if (finished)
+                {
+                    i->promise.set_value(nullptr);
+                }
+                if (image || finished)
+                {
                     i = p.pendingImageRequests.erase(i);
                 }
                 else
