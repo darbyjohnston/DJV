@@ -373,7 +373,16 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->directoryModel->setPath(value);
+                        try
+                        {
+                            widget->_p->directoryModel->setPath(value);
+                        }
+                        catch (const std::exception& e)
+                        {
+                            std::stringstream ss;
+                            ss << widget->_getText(DJV_TEXT("Cannot set the path")) << " '" << value << "'. " << e.what();
+                            widget->_log(ss.str(), LogLevel::Error);
+                        }
                     }
                 });
                 pathWidget->setHistoryIndexCallback(
