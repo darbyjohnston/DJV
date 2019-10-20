@@ -190,7 +190,7 @@ set(DJV_THIRD_PARTY_PACKAGES_OPTIONAL
     OpenEXR)
 if(WIN32)
     # See the directions for building FFmpeg on Windows in "docs/build_windows.html".
-	find_package(FFmpeg)
+    #find_package(FFmpeg)
 else()
     set(DJV_THIRD_PARTY_PACKAGES_OPTIONAL
         ${DJV_THIRD_PARTY_PACKAGES_OPTIONAL}
