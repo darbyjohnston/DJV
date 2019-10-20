@@ -27,17 +27,19 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewApp/ImageViewSystem.h>
+#include <djvViewApp/ViewSystem.h>
 
 #include <djvViewApp/ImageView.h>
-#include <djvViewApp/ImageViewSettings.h>
 #include <djvViewApp/MediaWidget.h>
+#include <djvViewApp/ViewControlsWidget.h>
+#include <djvViewApp/ViewSettings.h>
 #include <djvViewApp/WindowSystem.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/SettingsSystem.h>
 #include <djvUI/Shortcut.h>
 #include <djvUI/Style.h>
 #include <djvUI/UISystem.h>
@@ -54,10 +56,13 @@ namespace djv
 {
     namespace ViewApp
     {
-        struct ImageViewSystem::Private
+        struct ViewSystem::Private
         {
-            std::shared_ptr<ImageViewSettings> settings;
-            
+            std::shared_ptr<ViewSettings> settings;
+
+            int widgetCurrentTab = 0;
+            GridOptions gridOptions;
+            std::vector<float> gridList;
             bool currentTool = false;
             glm::vec2 hoverPos = glm::vec2(0.F, 0.F);
             glm::vec2 dragStart = glm::vec2(0.F, 0.F);
@@ -68,23 +73,27 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> lockActionGroup;
             std::shared_ptr<UI::Menu> menu;
+            std::weak_ptr<ViewControlsWidget> viewControlsWidget;
             
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
             std::shared_ptr<ValueObserver<ImageViewLock> > lockObserver;
+            std::shared_ptr<ValueObserver<GridOptions> > gridOptionsObserver;
             std::shared_ptr<ValueObserver<PointerData> > hoverObserver;
             std::shared_ptr<ValueObserver<PointerData> > dragObserver;
         };
 
-        void ImageViewSystem::_init(const std::shared_ptr<Core::Context>& context)
+        void ViewSystem::_init(const std::shared_ptr<Core::Context>& context)
         {
-            IToolSystem::_init("djv::ViewApp::ImageViewSystem", context);
+            IToolSystem::_init("djv::ViewApp::ViewSystem", context);
 
             DJV_PRIVATE_PTR();
 
-            p.settings = ImageViewSettings::create(context);
+            p.settings = ViewSettings::create(context);
             p.lock = ValueSubject<ImageViewLock>::create();
 
+            p.actions["ViewControls"] = UI::Action::create();
+            p.actions["ViewControls"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["Tool"] = UI::Action::create();
             p.actions["Tool"]->setIcon("djvIconMove");
             p.actions["Tool"]->addShortcut(GLFW_KEY_1);
@@ -132,15 +141,16 @@ namespace djv
             p.lockActionGroup->addAction(p.actions["Fill"]);
             p.lockActionGroup->addAction(p.actions["Frame"]);
             p.lockActionGroup->addAction(p.actions["Center"]);
-            //! \todo Implement me!
-            //p.actions["Grid"] = UI::Action::create();
-            //p.actions["Grid"]->setEnabled(false);
+            p.actions["GridEnabled"] = UI::Action::create();
+            p.actions["GridEnabled"]->setButtonType(UI::ButtonType::Toggle);
             //! \todo Implement me!
             //p.actions["HUD"] = UI::Action::create();
             //p.actions["HUD"]->setShortcut(GLFW_KEY_H);
             //p.actions["HUD"]->setEnabled(false);
 
             p.menu = UI::Menu::create(context);
+            p.menu->addAction(p.actions["ViewControls"]);
+            p.menu->addSeparator();
             p.menu->addAction(p.actions["Left"]);
             p.menu->addAction(p.actions["Right"]);
             p.menu->addAction(p.actions["Up"]);
@@ -153,13 +163,67 @@ namespace djv
             p.menu->addAction(p.actions["Fill"]);
             p.menu->addAction(p.actions["Frame"]);
             p.menu->addAction(p.actions["Center"]);
-            //p.menu->addSeparator();
-            //p.menu->addAction(p.actions["Grid"]);
+            p.menu->addSeparator();
+            p.menu->addAction(p.actions["GridEnabled"]);
             //p.menu->addAction(p.actions["HUD"]);
 
             _actionsUpdate();
 
-            auto weak = std::weak_ptr<ImageViewSystem>(std::dynamic_pointer_cast<ImageViewSystem>(shared_from_this()));
+            auto weak = std::weak_ptr<ViewSystem>(std::dynamic_pointer_cast<ViewSystem>(shared_from_this()));
+            p.lockActionGroup->setExclusiveCallback(
+                [weak](int index)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        ImageViewLock lock = ImageViewLock::None;
+                        switch (index)
+                        {
+                        case 0: lock = ImageViewLock::Fill;   break;
+                        case 1: lock = ImageViewLock::Frame;  break;
+                        case 2: lock = ImageViewLock::Center; break;
+                        }
+                        system->_p->settings->setLock(lock);
+                    }
+                });
+
+            auto contextWeak = std::weak_ptr<Context>(context);
+            p.actionObservers["ViewControls"] = ValueObserver<bool>::create(
+                p.actions["ViewControls"]->observeChecked(),
+                [weak, contextWeak](bool value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (value)
+                            {
+                                auto widget = ViewControlsWidget::create(context);
+                                widget->setCurrentTab(system->_p->widgetCurrentTab);
+                                system->_p->viewControlsWidget = widget;
+                                system->_openWidget("ViewControls", widget);
+                                system->_widgetUpdate();
+                                widget->setGridOptionsCallback(
+                                    [weak](const GridOptions& value)
+                                    {
+                                        if (auto system = weak.lock())
+                                        {
+                                            system->_p->gridOptions = value;
+                                            system->_actionsUpdate();
+                                            if (system->_p->activeWidget)
+                                            {
+                                                system->_p->activeWidget->getImageView()->setGridOptions(system->_p->gridOptions);
+                                            }
+                                        }
+                                    });
+                            }
+                            else
+                            {
+                                system->_closeWidget("ViewControls");
+                            }
+                        }
+                    }
+                });
+
             p.actionObservers["Left"] = ValueObserver<bool>::create(
                 p.actions["Left"]->observeClicked(),
                 [weak](bool value)
@@ -311,6 +375,21 @@ namespace djv
                     }
                 });
 
+            p.actionObservers["GridEnabled"] = ValueObserver<bool>::create(
+                p.actions["GridEnabled"]->observeChecked(),
+                [weak](bool value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->_p->gridOptions.enabled = value;
+                        system->_widgetUpdate();
+                        if (system->_p->activeWidget)
+                        {
+                            system->_p->activeWidget->getImageView()->setGridOptions(system->_p->gridOptions);
+                        }
+                    }
+                });
+
             if (auto windowSystem = context->getSystemT<WindowSystem>())
             {
                 p.activeWidgetObserver = ValueObserver<std::shared_ptr<MediaWidget> >::create(
@@ -322,6 +401,17 @@ namespace djv
                             system->_p->activeWidget = value;
                             if (system->_p->activeWidget)
                             {
+                                system->_p->gridOptionsObserver = ValueObserver<GridOptions>::create(
+                                    system->_p->activeWidget->getImageView()->observeGridOptions(),
+                                    [weak](const GridOptions& value)
+                                    {
+                                        if (auto system = weak.lock())
+                                        {
+                                            system->_p->gridOptions = value;
+                                            system->_actionsUpdate();
+                                            system->_widgetUpdate();
+                                        }
+                                    });
                                 system->_p->hoverObserver = ValueObserver<PointerData>::create(
                                     system->_p->activeWidget->observeHover(),
                                     [weak](const PointerData& value)
@@ -361,6 +451,7 @@ namespace djv
                             }
                             else
                             {
+                                system->_p->gridOptionsObserver.reset();
                                 system->_p->hoverObserver.reset();
                                 system->_p->dragObserver.reset();
                             }
@@ -368,22 +459,6 @@ namespace djv
                         }
                     });
             }
-
-            p.lockActionGroup->setExclusiveCallback(
-                [weak](int index)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        ImageViewLock lock = ImageViewLock::None;
-                        switch (index)
-                        {
-                        case 0: lock = ImageViewLock::Fill;   break;
-                        case 1: lock = ImageViewLock::Frame;  break;
-                        case 2: lock = ImageViewLock::Center; break;
-                        }
-                        system->_p->settings->setLock(lock);
-                    }
-                });
 
             p.lockObserver = ValueObserver<ImageViewLock>::create(
                 p.settings->observeLock(),
@@ -412,21 +487,26 @@ namespace djv
                 });
         }
 
-        ImageViewSystem::ImageViewSystem() :
+        ViewSystem::ViewSystem() :
             _p(new Private)
         {}
 
-        ImageViewSystem::~ImageViewSystem()
-        {}
-
-        std::shared_ptr<ImageViewSystem> ImageViewSystem::create(const std::shared_ptr<Core::Context>& context)
+        ViewSystem::~ViewSystem()
         {
-            auto out = std::shared_ptr<ImageViewSystem>(new ImageViewSystem);
+            DJV_PRIVATE_PTR();
+            _closeWidget("ViewControls");
+            p.settings->setWidgetCurrentTab(p.widgetCurrentTab);
+            p.settings->setWidgetGeom(_getWidgetGeom());
+        }
+
+        std::shared_ptr<ViewSystem> ViewSystem::create(const std::shared_ptr<Core::Context>& context)
+        {
+            auto out = std::shared_ptr<ViewSystem>(new ViewSystem);
             out->_init(context);
             return out;
         }
 
-        ToolActionData ImageViewSystem::getToolAction() const
+        ToolActionData ViewSystem::getToolAction() const
         {
             return
             {
@@ -435,17 +515,17 @@ namespace djv
             };
         }
 
-        void ImageViewSystem::setCurrentTool(bool value)
+        void ViewSystem::setCurrentTool(bool value)
         {
             _p->currentTool = value;
         }
 
-        std::map<std::string, std::shared_ptr<UI::Action> > ImageViewSystem::getActions() const
+        std::map<std::string, std::shared_ptr<UI::Action> > ViewSystem::getActions() const
         {
             return _p->actions;
         }
 
-        MenuData ImageViewSystem::getMenu() const
+        MenuData ViewSystem::getMenu() const
         {
             return
             {
@@ -454,78 +534,32 @@ namespace djv
             };
         }
 
-        void ImageViewSystem::_panImage(const glm::vec2& value)
+        void ViewSystem::_closeWidget(const std::string& value)
         {
             DJV_PRIVATE_PTR();
-            if (auto context = getContext().lock())
+            if ("ViewControls" == value)
             {
-                if (auto widget = p.activeWidget)
+                if (auto widget = p.viewControlsWidget.lock())
                 {
-                    auto uiSystem = context->getSystemT<UI::UISystem>();
-                    auto style = uiSystem->getStyle();
-                    const float m = style->getMetric(UI::MetricsRole::Move);
-                    auto imageView = widget->getImageView();
-                    imageView->setImagePos(imageView->observeImagePos()->get() + value * m);
+                    p.widgetCurrentTab = widget->getCurrentTab();
                 }
+                p.viewControlsWidget.reset();
             }
+            const auto i = p.actions.find(value);
+            if (i != p.actions.end())
+            {
+                i->second->setChecked(false);
+            }
+            IViewSystem::_closeWidget(value);
         }
 
-        void ImageViewSystem::_zoomImage(float value)
-        {
-            DJV_PRIVATE_PTR();
-            if (auto widget = p.activeWidget)
-            {
-                auto imageView = widget->getImageView();
-                const float w = imageView->getWidth();
-                const float h = imageView->getHeight();
-                glm::vec2 focus = glm::vec2(0.F, 0.F);
-                if (BBox2f(0.F, 0.F, w, h).contains(p.hoverPos))
-                {
-                    focus = p.hoverPos;
-                }
-                else
-                {
-                    focus.x = w / 2.F;
-                    focus.y = h / 2.F;
-                }
-                imageView->setImageZoomFocus(value, focus);
-            }
-        }
-        
-        void ImageViewSystem::_zoomAction(float value)
-        {
-            DJV_PRIVATE_PTR();
-            p.settings->setLock(ImageViewLock::None);
-            if (auto widget = p.activeWidget)
-            {
-                auto imageView = widget->getImageView();
-                const float zoom = imageView->observeImageZoom()->get();
-                _zoomImage(zoom * value);
-            }
-        }
-
-        void ImageViewSystem::_actionsUpdate()
-        {
-            DJV_PRIVATE_PTR();
-            const bool activeWidget = p.activeWidget.get();
-            p.actions["Left"]->setEnabled(activeWidget);
-            p.actions["Right"]->setEnabled(activeWidget);
-            p.actions["Up"]->setEnabled(activeWidget);
-            p.actions["Down"]->setEnabled(activeWidget);
-            p.actions["NW"]->setEnabled(activeWidget);
-            p.actions["NE"]->setEnabled(activeWidget);
-            p.actions["SE"]->setEnabled(activeWidget);
-            p.actions["SW"]->setEnabled(activeWidget);
-            p.actions["ZoomIn"]->setEnabled(activeWidget);
-            p.actions["ZoomOut"]->setEnabled(activeWidget);
-            p.actions["ZoomReset"]->setEnabled(activeWidget);
-        }
-
-        void ImageViewSystem::_textUpdate()
+        void ViewSystem::_textUpdate()
         {
             DJV_PRIVATE_PTR();
             if (p.actions.size())
             {
+                p.actions["ViewControls"]->setText(_getText(DJV_TEXT("View Controls")));
+                p.actions["ViewControls"]->setTooltip(_getText(DJV_TEXT("View controls widget tooltip")));
                 p.actions["Tool"]->setText(_getText(DJV_TEXT("Pan View")));
                 p.actions["Tool"]->setTooltip(_getText(DJV_TEXT("Pan view tooltip")));
                 p.actions["Left"]->setText(_getText(DJV_TEXT("Left")));
@@ -556,12 +590,89 @@ namespace djv
                 p.actions["Frame"]->setTooltip(_getText(DJV_TEXT("Frame view tooltip")));
                 p.actions["Center"]->setText(_getText(DJV_TEXT("Center")));
                 p.actions["Center"]->setTooltip(_getText(DJV_TEXT("Center view tooltip")));
-                //p.actions["Grid"]->setText(_getText(DJV_TEXT("Grid")));
-                //p.actions["Grid"]->setTooltip(_getText(DJV_TEXT("Grid tooltip")));
+                p.actions["GridEnabled"]->setText(_getText(DJV_TEXT("Grid")));
+                p.actions["GridEnabled"]->setTooltip(_getText(DJV_TEXT("Grid enabled tooltip")));
                 //p.actions["HUD"]->setText(_getText(DJV_TEXT("HUD")));
                 //p.actions["HUD"]->setTooltip(_getText(DJV_TEXT("HUD tooltip")));
 
                 p.menu->setText(_getText(DJV_TEXT("View")));
+            }
+        }
+
+        void ViewSystem::_panImage(const glm::vec2& value)
+        {
+            DJV_PRIVATE_PTR();
+            if (auto context = getContext().lock())
+            {
+                if (auto widget = p.activeWidget)
+                {
+                    auto uiSystem = context->getSystemT<UI::UISystem>();
+                    auto style = uiSystem->getStyle();
+                    const float m = style->getMetric(UI::MetricsRole::Move);
+                    auto imageView = widget->getImageView();
+                    imageView->setImagePos(imageView->observeImagePos()->get() + value * m);
+                }
+            }
+        }
+
+        void ViewSystem::_zoomImage(float value)
+        {
+            DJV_PRIVATE_PTR();
+            if (auto widget = p.activeWidget)
+            {
+                auto imageView = widget->getImageView();
+                const float w = imageView->getWidth();
+                const float h = imageView->getHeight();
+                glm::vec2 focus = glm::vec2(0.F, 0.F);
+                if (BBox2f(0.F, 0.F, w, h).contains(p.hoverPos))
+                {
+                    focus = p.hoverPos;
+                }
+                else
+                {
+                    focus.x = w / 2.F;
+                    focus.y = h / 2.F;
+                }
+                imageView->setImageZoomFocus(value, focus);
+            }
+        }
+        
+        void ViewSystem::_zoomAction(float value)
+        {
+            DJV_PRIVATE_PTR();
+            p.settings->setLock(ImageViewLock::None);
+            if (auto widget = p.activeWidget)
+            {
+                auto imageView = widget->getImageView();
+                const float zoom = imageView->observeImageZoom()->get();
+                _zoomImage(zoom * value);
+            }
+        }
+
+        void ViewSystem::_actionsUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            const bool activeWidget = p.activeWidget.get();
+            p.actions["Left"]->setEnabled(activeWidget);
+            p.actions["Right"]->setEnabled(activeWidget);
+            p.actions["Up"]->setEnabled(activeWidget);
+            p.actions["Down"]->setEnabled(activeWidget);
+            p.actions["NW"]->setEnabled(activeWidget);
+            p.actions["NE"]->setEnabled(activeWidget);
+            p.actions["SE"]->setEnabled(activeWidget);
+            p.actions["SW"]->setEnabled(activeWidget);
+            p.actions["ZoomIn"]->setEnabled(activeWidget);
+            p.actions["ZoomOut"]->setEnabled(activeWidget);
+            p.actions["ZoomReset"]->setEnabled(activeWidget);
+            p.actions["GridEnabled"]->setChecked(p.gridOptions.enabled);
+        }
+
+        void ViewSystem::_widgetUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (auto widget = p.viewControlsWidget.lock())
+            {
+                widget->setGridOptions(p.gridOptions);
             }
         }
 

@@ -29,37 +29,53 @@
 
 #pragma once
 
-#include <djvUI/Widget.h>
+#include <djvViewApp/Enum.h>
+#include <djvViewApp/IToolSystem.h>
+
+#include <djvCore/ValueObserver.h>
+
+#include <glm/vec2.hpp>
 
 namespace djv
 {
-    namespace UI
+    namespace ViewApp
     {
-        //! This class provides a top-level window.
-        class Window : public Widget
+        //! This class provides the view system.
+        class ViewSystem : public IToolSystem
         {
-            DJV_NON_COPYABLE(Window);
-            
+            DJV_NON_COPYABLE(ViewSystem);
+
         protected:
             void _init(const std::shared_ptr<Core::Context>&);
-            Window();
+            ViewSystem();
 
         public:
-            virtual ~Window();
+            ~ViewSystem() override;
 
-            static std::shared_ptr<Window> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ViewSystem> create(const std::shared_ptr<Core::Context>&);
 
-            //! \bug Call this before destroying the window.
-            void close();
+            ToolActionData getToolAction() const override;
+            void setCurrentTool(bool) override;
+
+            std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
+            MenuData getMenu() const override;
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
+            void _closeWidget(const std::string&) override;
+
+            void _textUpdate() override;
 
         private:
+            void _panImage(const glm::vec2&);
+            void _zoomImage(float);
+            void _zoomAction(float);
+
+            void _actionsUpdate();
+            void _widgetUpdate();
+
             DJV_PRIVATE();
         };
 
-    } // namespace UI
+    } // namespace ViewApp
 } // namespace djv
 

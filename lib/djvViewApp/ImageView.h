@@ -33,6 +33,9 @@
 
 #include <djvUI/Widget.h>
 
+#include <djvAV/Color.h>
+
+#include <djvCore/PicoJSON.h>
 #include <djvCore/ValueObserver.h>
 
 namespace djv
@@ -55,6 +58,20 @@ namespace djv
     namespace ViewApp
     {
         class Media;
+
+        //! This class provides grid options.
+        class GridOptions
+        {
+        public:
+            GridOptions();
+
+            bool                enabled = false;
+            int                 current = 0;
+            float               size    = 0.F;
+            AV::Image::Color    color   = AV::Image::Color(0.F, 0.F, 0.F);
+
+            bool operator == (const GridOptions&) const;
+        };
 
         //! This class provides an image view widget.
         class ImageView : public UI::Widget
@@ -95,6 +112,9 @@ namespace djv
             void imageFrame();
             void imageCenter();
 
+            std::shared_ptr<Core::IValueSubject<GridOptions> > observeGridOptions() const;
+            void setGridOptions(const GridOptions&);
+
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;
             void _layoutEvent(Core::Event::Layout &) override;
@@ -104,10 +124,18 @@ namespace djv
             std::vector<glm::vec3> _getImagePoints() const;
             static glm::vec2 _getCenter(const std::vector<glm::vec3>&);
             static Core::BBox2f _getBBox(const std::vector<glm::vec3>&);
+            void _drawGrid(float gridSize);
 
             DJV_PRIVATE();
         };
 
     } // namespace ViewApp
+
+    picojson::value toJSON(const ViewApp::GridOptions&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const picojson::value&, ViewApp::GridOptions&);
+
 } // namespace djv
 

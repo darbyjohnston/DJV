@@ -222,7 +222,7 @@ namespace djv
                     auto bellows = UI::Bellows::create(context);
                     {
                         std::stringstream ss;
-                        ss << _getText(DJV_TEXT("Video track")) << " #" << j << ": ";
+                        ss << _getText(DJV_TEXT("Video track")) << " #" << j << ":";
                         bellows->setText(ss.str());
                     }
                     bellows->addChild(formLayout);
@@ -288,7 +288,7 @@ namespace djv
                     auto bellows = UI::Bellows::create(context);
                     {
                         std::stringstream ss;
-                        ss << _getText(DJV_TEXT("Audio track")) << " #" << j << ": ";
+                        ss << _getText(DJV_TEXT("Audio track")) << " #" << j << ":";
                         bellows->setText(ss.str());
                     }
                     bellows->addChild(formLayout);
@@ -311,7 +311,7 @@ namespace djv
                         label->setHAlign(UI::HAlign::Left);
                         formLayout->addChild(label);
                         std::stringstream ss;
-                        ss << i.first << ": ";
+                        ss << i.first << ":";
                         formLayout->setText(label, ss.str());
                     }
 

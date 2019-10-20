@@ -29,47 +29,42 @@
 
 #pragma once
 
-#include <djvViewApp/Enum.h>
-#include <djvViewApp/IToolSystem.h>
-
-#include <djvCore/ValueObserver.h>
-
-#include <glm/vec2.hpp>
+#include <djvViewApp/MDIWidget.h>
 
 namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the image view system.
-        class ImageViewSystem : public IToolSystem
+        class GridOptions;
+
+        //! This class provides the view controls widget.
+        class ViewControlsWidget : public MDIWidget
         {
-            DJV_NON_COPYABLE(ImageViewSystem);
+            DJV_NON_COPYABLE(ViewControlsWidget);
 
         protected:
             void _init(const std::shared_ptr<Core::Context>&);
-            ImageViewSystem();
+            ViewControlsWidget();
 
         public:
-            ~ImageViewSystem() override;
+            ~ViewControlsWidget() override;
 
-            static std::shared_ptr<ImageViewSystem> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ViewControlsWidget> create(const std::shared_ptr<Core::Context>&);
 
-            ToolActionData getToolAction() const override;
-            void setCurrentTool(bool) override;
+            void setGridOptions(const GridOptions&);
+            
+            int getCurrentTab() const;
+            void setCurrentTab(int);
+            
+            void setGridOptionsCallback(const std::function<void(const GridOptions&)>&);
 
-            std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
-            MenuData getMenu() const override;
+        protected:
+            void _textUpdateEvent(Core::Event::TextUpdate &) override;
 
         private:
-            void _panImage(const glm::vec2&);
-            void _zoomImage(float);
-            void _zoomAction(float);
-
-            void _actionsUpdate();
-
-            void _textUpdate() override;
-
             DJV_PRIVATE();
+
+            void _widgetUpdate();
         };
 
     } // namespace ViewApp

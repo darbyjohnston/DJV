@@ -34,7 +34,6 @@
 #include <djvViewApp/FileSettings.h>
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/IToolSystem.h>
-#include <djvViewApp/ImageViewSystem.h>
 #include <djvViewApp/MDIWidget.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaCanvas.h>
@@ -43,8 +42,9 @@
 #include <djvViewApp/SettingsDialog.h>
 #include <djvViewApp/SettingsSystem.h>
 #include <djvViewApp/ToolSystem.h>
-#include <djvViewApp/WindowSystem.h>
 #include <djvViewApp/UISettings.h>
+#include <djvViewApp/ViewSystem.h>
+#include <djvViewApp/WindowSystem.h>
 
 #include <djvUIComponents/ThermometerWidget.h>
 
@@ -156,12 +156,12 @@ namespace djv
             auto viewFillButton = UI::ToolButton::create(context);
             auto viewFrameButton = UI::ToolButton::create(context);
             auto viewCenterButton = UI::ToolButton::create(context);
-            auto imageViewSystem = context->getSystemT<ImageViewSystem>();
-            if (imageViewSystem)
+            auto viewSystem = context->getSystemT<ViewSystem>();
+            if (viewSystem)
             {
-                viewFillButton->addAction(imageViewSystem->getActions()["Fill"]);
-                viewFrameButton->addAction(imageViewSystem->getActions()["Frame"]);
-                viewCenterButton->addAction(imageViewSystem->getActions()["Center"]);
+                viewFillButton->addAction(viewSystem->getActions()["Fill"]);
+                viewFrameButton->addAction(viewSystem->getActions()["Frame"]);
+                viewCenterButton->addAction(viewSystem->getActions()["Center"]);
             }
 
             std::map<std::string, std::shared_ptr<UI::ToolButton> > toolButtons;

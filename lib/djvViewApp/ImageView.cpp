@@ -30,7 +30,7 @@
 #include <djvViewApp/ImageView.h>
 
 #include <djvViewApp/ImageSettings.h>
-#include <djvViewApp/ImageViewSettings.h>
+#include <djvViewApp/ViewSettings.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/SettingsSystem.h>
@@ -52,6 +52,17 @@ namespace djv
 {
     namespace ViewApp
     {
+        GridOptions::GridOptions()
+        {}
+
+        bool GridOptions::operator == (const GridOptions& other) const
+        {
+            return enabled == other.enabled &&
+                current == other.current &&
+                size == other.size &&
+                color == other.color;
+        }
+
         struct ImageView::Private
         {
             std::shared_ptr<AV::Image::Image> image;
@@ -64,10 +75,13 @@ namespace djv
             std::shared_ptr<ValueSubject<ImageAspectRatio> > imageAspectRatio;
             ImageViewLock lock = ImageViewLock::None;
             BBox2f lockFrame = BBox2f(0.F, 0.F, 0.F, 0.F);
+            std::shared_ptr<ValueSubject<GridOptions> > gridOptions;
+            std::vector<float> gridList;
             AV::Image::Color backgroundColor = AV::Image::Color(0.F, 0.F, 0.F);
             glm::vec2 pressedImagePos = glm::vec2(0.F, 0.F);
             bool viewInit = true;
             std::shared_ptr<ValueObserver<ImageViewLock> > lockObserver;
+            std::shared_ptr<ListObserver<float> > gridListObserver;
             std::shared_ptr<ValueObserver<AV::Image::Color> > backgroundColorObserver;
             std::shared_ptr<ValueObserver<AV::OCIO::Config> > ocioConfigObserver;
         };
@@ -82,6 +96,7 @@ namespace djv
             auto avSystem = context->getSystemT<AV::AVSystem>();
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
             auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
+            auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
             AV::Render::ImageOptions imageOptions;
             imageOptions.alphaBlend = avSystem->observeAlphaBlend()->get();
             p.imageOptions = ValueSubject<AV::Render::ImageOptions>::create(imageOptions);
@@ -89,11 +104,11 @@ namespace djv
             p.imageZoom = ValueSubject<float>::create();
             p.imageRotate = ValueSubject<ImageRotate>::create(imageSettings->observeRotate()->get());
             p.imageAspectRatio = ValueSubject<ImageAspectRatio>::create(imageSettings->observeAspectRatio()->get());
+            p.gridOptions = ValueSubject<GridOptions>::create(viewSettings->observeGridOptions()->get());
 
             auto weak = std::weak_ptr<ImageView>(std::dynamic_pointer_cast<ImageView>(shared_from_this()));
-            auto imageViewSettings = settingsSystem->getSettingsT<ImageViewSettings>();
             p.lockObserver = ValueObserver<ImageViewLock>::create(
-                imageViewSettings->observeLock(),
+                viewSettings->observeLock(),
                 [weak](ImageViewLock value)
                 {
                     if (auto widget = weak.lock())
@@ -106,8 +121,22 @@ namespace djv
                     }
                 });
 
+            p.gridListObserver = ListObserver<float>::create(
+                viewSettings->observeGridList(),
+                [weak](const std::vector<float>& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->gridList = value;
+                        if (widget->isVisible() && !widget->isClipped())
+                        {
+                            widget->_redraw();
+                        }
+                    }
+                });
+
             p.backgroundColorObserver = ValueObserver<AV::Image::Color>::create(
-                imageViewSettings->observeBackgroundColor(),
+                viewSettings->observeBackgroundColor(),
                 [weak](const AV::Image::Color& value)
                 {
                     if (auto widget = weak.lock())
@@ -361,6 +390,20 @@ namespace djv
             }
         }
 
+        std::shared_ptr<Core::IValueSubject<GridOptions> > ImageView::observeGridOptions() const
+        {
+            return _p->gridOptions;
+        }
+
+        void ImageView::setGridOptions(const GridOptions& value)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.gridOptions->setIfChanged(value))
+            {
+                _redraw();
+            }
+        }
+
         void ImageView::_preLayoutEvent(Event::PreLayout & event)
         {
             const auto& style = _getStyle();
@@ -423,6 +466,11 @@ namespace djv
                 options.cache = AV::Render::ImageCache::Dynamic;
                 render->drawImage(p.image, glm::vec2(0.F, 0.F), options);
                 render->popTransform();
+            }
+            const auto& gridOptions = p.gridOptions->get();
+            if (gridOptions.enabled && gridOptions.current >= 0 && gridOptions.current < static_cast<int>(p.gridList.size()))
+            {
+                _drawGrid(p.gridList[gridOptions.current]);
             }
         }
 
@@ -490,6 +538,79 @@ namespace djv
             return out;
         }
 
+        void ImageView::_drawGrid(float gridSize)
+        {
+            DJV_PRIVATE_PTR();
+            const float imageZoom = p.imageZoom->get();
+            if (gridSize * imageZoom <= 2.f)
+            {
+                return;
+            }
+            const glm::vec2& imagePos = p.imagePos->get();
+
+            const auto& style = _getStyle();
+            const float b = style->getMetric(UI::MetricsRole::Border);
+            const BBox2f& g = getMargin().bbox(getGeometry(), style);
+            const BBox2f area(
+                (floorf(-imagePos.x / imageZoom / gridSize) - 1.F) * gridSize,
+                (floorf(-imagePos.y / imageZoom / gridSize) - 1.F) * gridSize,
+                (ceilf(g.w() / imageZoom / gridSize) + 2.F) * gridSize,
+                (ceilf(g.h() / imageZoom / gridSize) + 2.F) * gridSize);
+
+            auto render = _getRender();
+            const auto& color = p.gridOptions->get().color;
+            render->setFillColor(color);
+            for (float y = 0; y < area.h(); y += gridSize)
+            {
+                render->drawRect(BBox2f(
+                    g.min.x + floorf(area.min.x * imageZoom + imagePos.x),
+                    g.min.y + floorf((area.min.y + y) * imageZoom + imagePos.y),
+                    ceilf(area.w() * imageZoom),
+                    b));
+            }
+            for (float x = 0; x < area.w(); x += gridSize)
+            {
+                render->drawRect(BBox2f(
+                    g.min.x + floorf((area.min.x + x) * imageZoom + imagePos.x),
+                    g.min.y + floorf(area.min.y * imageZoom + imagePos.y),
+                    b,
+                    ceilf(area.h() * imageZoom)));
+            }
+        }
+
     } // namespace ViewApp
+
+    picojson::value toJSON(const ViewApp::GridOptions& value)
+    {
+        picojson::value out(picojson::object_type, true);
+        out.get<picojson::object>()["Enabled"] = toJSON(value.enabled);
+        out.get<picojson::object>()["Current"] = toJSON(value.current);
+        out.get<picojson::object>()["Size"] = toJSON(value.size);
+        out.get<picojson::object>()["Color"] = toJSON(value.color);
+        return out;
+    }
+
+    void fromJSON(const picojson::value& value, ViewApp::GridOptions& out)
+    {
+        if (value.is<picojson::object>())
+        {
+            for (const auto& i : value.get<picojson::object>())
+            {
+                if ("Enabled" == i.first)
+                {
+                    fromJSON(i.second, out.enabled);
+                }
+                else if ("Current" == i.first)
+                {
+                    fromJSON(i.second, out.current);
+                }
+            }
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
+
 } // namespace djv
 

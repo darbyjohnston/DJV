@@ -25,9 +25,6 @@ set(header
 	ImageSettingsWidget.h
     ImageSystem.h
     ImageView.h
-	ImageViewSettings.h
-	ImageViewSettingsWidget.h
-    ImageViewSystem.h
     InfoWidget.h
 	LayersWidget.h
 	MDIWidget.h
@@ -57,6 +54,10 @@ set(header
 	UISettings.h
 	UISettingsWidget.h
     ViewApp.h
+    ViewControlsWidget.h
+	ViewSettings.h
+	ViewSettingsWidget.h
+    ViewSystem.h
 	WindowSettings.h
 	WindowSettingsWidget.h
     WindowSystem.h)
@@ -87,9 +88,6 @@ set(source
 	ImageSettingsWidget.cpp
     ImageSystem.cpp
     ImageView.cpp
-	ImageViewSettings.cpp
-	ImageViewSettingsWidget.cpp
-    ImageViewSystem.cpp
     InfoWidget.cpp
 	LayersWidget.cpp
 	MDIWidget.cpp
@@ -118,6 +116,10 @@ set(source
     ToolSystem.cpp
 	UISettings.cpp
 	UISettingsWidget.cpp
+    ViewControlsWidget.cpp
+	ViewSettings.cpp
+	ViewSettingsWidget.cpp
+    ViewSystem.cpp
 	WindowSettings.cpp
 	WindowSettingsWidget.cpp
     WindowSystem.cpp)

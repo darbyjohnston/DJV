@@ -128,6 +128,7 @@ namespace djv
             hLayout->addChild(p.clearButton);
             layout->addChild(hLayout);
             auto stackLayout = UI::StackLayout::create(context);
+            stackLayout->setBackgroundRole(UI::ColorRole::Background);
             stackLayout->addChild(SizeWidget::create(context));
             stackLayout->addChild(layout);
             addChild(stackLayout);

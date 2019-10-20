@@ -29,6 +29,7 @@
 
 #include <djvUI/ColorSwatch.h>
 
+#include <djvUI/DrawUtil.h>
 #include <djvUI/Style.h>
 
 #include <djvAV/Render2D.h>
@@ -114,18 +115,22 @@ namespace djv
             Widget::_paintEvent(event);
             const auto& style = _getStyle();
             const BBox2f & g = getGeometry();
+            const float b = style->getMetric(UI::MetricsRole::Border);
             auto render = _getRender();
+            render->setFillColor(style->getColor(UI::ColorRole::Border));
+            drawBorder(render, g, b);
             render->setFillColor(_p->color);
-            render->drawRect(g);
+            const BBox2f& g2 = g.margin(-b);
+            render->drawRect(g2);
             if (isEnabled(true) && _p->pressedID != 0)
             {
                 render->setFillColor(style->getColor(ColorRole::Pressed));
-                render->drawRect(g);
+                render->drawRect(g2);
             }
             else if (isEnabled(true) && _getPointerHover().size())
             {
                 render->setFillColor(style->getColor(ColorRole::Hovered));
-                render->drawRect(g);
+                render->drawRect(g2);
             }
         }
 

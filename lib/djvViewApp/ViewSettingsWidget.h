@@ -35,17 +35,17 @@ namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the image view background settings widget.
-        class ImageViewBackgroundSettingsWidget : public UI::ISettingsWidget
+        //! This class provides the view background settings widget.
+        class ViewBackgroundSettingsWidget : public UI::ISettingsWidget
         {
-            DJV_NON_COPYABLE(ImageViewBackgroundSettingsWidget);
+            DJV_NON_COPYABLE(ViewBackgroundSettingsWidget);
 
         protected:
             void _init(const std::shared_ptr<Core::Context>&);
-            ImageViewBackgroundSettingsWidget();
+            ViewBackgroundSettingsWidget();
 
         public:
-            static std::shared_ptr<ImageViewBackgroundSettingsWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ViewBackgroundSettingsWidget> create(const std::shared_ptr<Core::Context>&);
 
             std::string getSettingsName() const override;
             std::string getSettingsGroup() const override;

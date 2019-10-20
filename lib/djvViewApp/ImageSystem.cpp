@@ -64,7 +64,7 @@ namespace djv
             std::shared_ptr<ImageSettings> settings;
 
             int colorSpaceCurrentTab = 0;
-            int colorControlsCurrentTab = 0;
+            int colorCurrentTab = 0;
             std::shared_ptr<ValueSubject<bool> > frameStoreEnabled;
             std::shared_ptr<ValueSubject<std::shared_ptr<AV::Image::Image> > > frameStore;
             std::shared_ptr<AV::Image::Image> currentImage;
@@ -99,7 +99,7 @@ namespace djv
 
             p.settings = ImageSettings::create(context);
             p.colorSpaceCurrentTab = p.settings->getColorSpaceCurrentTab();
-            p.colorControlsCurrentTab = p.settings->getColorControlsCurrentTab();
+            p.colorCurrentTab = p.settings->getColorCurrentTab();
             _setWidgetGeom(p.settings->getWidgetGeom());
 
             p.frameStoreEnabled = ValueSubject<bool>::create();
@@ -284,7 +284,7 @@ namespace djv
                             if (value)
                             {
                                 auto colorControlsWidget = ColorControlsWidget::create(context);
-                                colorControlsWidget->setCurrentTab(system->_p->colorControlsCurrentTab);
+                                colorControlsWidget->setCurrentTab(system->_p->colorCurrentTab);
                                 system->_p->colorControlsWidget = colorControlsWidget;
                                 system->_openWidget("ColorControls", colorControlsWidget);
                                 system->_widgetUpdate();
@@ -508,7 +508,7 @@ namespace djv
             _closeWidget("ColorSpace");
             _closeWidget("ColorControls");
             p.settings->setColorSpaceCurrentTab(p.colorSpaceCurrentTab);
-            p.settings->setColorControlsCurrentTab(p.colorControlsCurrentTab);
+            p.settings->setColorCurrentTab(p.colorCurrentTab);
             p.settings->setWidgetGeom(_getWidgetGeom());
         }
 
@@ -558,7 +558,7 @@ namespace djv
             {
                 if (auto colorControlsWidget = p.colorControlsWidget.lock())
                 {
-                    p.colorControlsCurrentTab = colorControlsWidget->getCurrentTab();
+                    p.colorCurrentTab = colorControlsWidget->getCurrentTab();
                 }
                 p.colorControlsWidget.reset();
             }

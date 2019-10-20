@@ -46,7 +46,7 @@ namespace djv
         struct ImageSettings::Private
         {
             int colorSpaceCurrentTab = 0;
-            int colorControlsCurrentTab = 0;
+            int colorCurrentTab = 0;
             std::shared_ptr<ValueSubject<ImageRotate> > rotate;
             std::shared_ptr<ValueSubject<ImageAspectRatio> > aspectRatio;
             std::map<std::string, BBox2f> widgetGeom;
@@ -78,9 +78,9 @@ namespace djv
             return _p->colorSpaceCurrentTab;
         }
 
-        int ImageSettings::getColorControlsCurrentTab() const
+        int ImageSettings::getColorCurrentTab() const
         {
-            return _p->colorControlsCurrentTab;
+            return _p->colorCurrentTab;
         }
 
         void ImageSettings::setColorSpaceCurrentTab(int value)
@@ -88,9 +88,9 @@ namespace djv
             _p->colorSpaceCurrentTab = value;
         }
 
-        void ImageSettings::setColorControlsCurrentTab(int value)
+        void ImageSettings::setColorCurrentTab(int value)
         {
-            _p->colorControlsCurrentTab = value;
+            _p->colorCurrentTab = value;
         }
 
         std::shared_ptr<IValueSubject<ImageRotate> > ImageSettings::observeRotate() const
@@ -130,7 +130,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const auto & object = value.get<picojson::object>();
                 UI::Settings::read("ColorSpaceCurrentTab", object, p.colorSpaceCurrentTab);
-                UI::Settings::read("ColorControlsCurrentTab", object, p.colorControlsCurrentTab);
+                UI::Settings::read("ColorCurrentTab", object, p.colorCurrentTab);
                 UI::Settings::read("Rotate", object, p.rotate);
                 UI::Settings::read("AspectRatio", object, p.aspectRatio);
                 UI::Settings::read("WidgetGeom", object, p.widgetGeom);
@@ -143,7 +143,7 @@ namespace djv
             picojson::value out(picojson::object_type, true);
             auto & object = out.get<picojson::object>();
             UI::Settings::write("ColorSpaceCurrentTab", p.colorSpaceCurrentTab, object);
-            UI::Settings::write("ColorControlsCurrentTab", p.colorControlsCurrentTab, object);
+            UI::Settings::write("ColorCurrentTab", p.colorCurrentTab, object);
             UI::Settings::write("Rotate", p.rotate->get(), object);
             UI::Settings::write("AspectRatio", p.aspectRatio->get(), object);
             UI::Settings::write("WidgetGeom", p.widgetGeom, object);

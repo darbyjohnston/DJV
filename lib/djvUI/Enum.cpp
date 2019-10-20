@@ -199,6 +199,7 @@ namespace djv
         DJV_TEXT("FontHeader"),
         DJV_TEXT("FontTitle"),
         DJV_TEXT("Swatch"),
+        DJV_TEXT("SwatchSmall"),
         DJV_TEXT("Slider"),
         DJV_TEXT("ScrollArea"),
         DJV_TEXT("Menu"),

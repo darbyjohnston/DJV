@@ -29,19 +29,22 @@
 
 #include <djvUIComponents/ColorPicker.h>
 
+#include <djvUI/Border.h>
 #include <djvUI/ComboBox.h>
 #include <djvUI/ColorSwatch.h>
 #include <djvUI/GridLayout.h>
-#include <djvUI/IDialog.h>
 #include <djvUI/IntEdit.h>
 #include <djvUI/IntSlider.h>
 #include <djvUI/FloatEdit.h>
 #include <djvUI/FloatSlider.h>
 #include <djvUI/Label.h>
+#include <djvUI/LayoutUtil.h>
+#include <djvUI/Overlay.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Window.h>
 
 #include <djvAV/Color.h>
+#include <djvAV/Render2D.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/NumericValueModels.h>
@@ -736,117 +739,259 @@ namespace djv
 
         namespace
         {
-            class ColorPickerDialog : public IDialog
+            class OverlayLayout : public Widget
             {
-                DJV_NON_COPYABLE(ColorPickerDialog);
+                DJV_NON_COPYABLE(OverlayLayout);
 
             protected:
-                void _init(const std::shared_ptr<Context>& context)
-                {
-                    IDialog::_init(context);
-
-                    setClassName("djv::UI::ColorPickerDialog");
-                    setFillLayout(false);
-
-                    _colorPicker = ColorPicker::create(context);
-
-                    auto layout = VerticalLayout::create(context);
-                    layout->setMargin(Layout::Margin(MetricsRole::Margin));
-                    layout->setShadowOverlay({ UI::Side::Top });
-                    layout->addChild(_colorPicker);
-                    addChild(layout);
-                    setStretch(layout, RowStretch::Expand);
-                }
-
-                ColorPickerDialog()
-                {}
+                void _init(const std::shared_ptr<Context>&);
+                OverlayLayout();
 
             public:
-                static std::shared_ptr<ColorPickerDialog> create(const std::shared_ptr<Context>& context)
-                {
-                    auto out = std::shared_ptr<ColorPickerDialog>(new ColorPickerDialog);
-                    out->_init(context);
-                    return out;
-                }
+                static std::shared_ptr<OverlayLayout> create(const std::shared_ptr<Context>&);
 
-                void setColor(const AV::Image::Color& value)
-                {
-                    _colorPicker->setColor(value);
-                }
+                void setButton(const std::shared_ptr<Widget>&, const std::weak_ptr<Widget>&);
 
-                void setColorCallback(const std::function<void(const AV::Image::Color)>& value)
-                {
-                    _colorPicker->setColorCallback(value);
-                }
+            protected:
+                void _layoutEvent(Event::Layout&) override;
+                void _paintEvent(Event::Paint&) override;
+
+                void _childRemovedEvent(Event::ChildRemoved&) override;
 
             private:
-                std::shared_ptr<ColorPicker> _colorPicker;
+                std::map<std::shared_ptr<Widget>, std::weak_ptr<Widget> > _widgetToButton;
             };
+
+            void OverlayLayout::_init(const std::shared_ptr<Context>& context)
+            {
+                Widget::_init(context);
+                setClassName("djv::UI::PopupWidget::OverlayLayout");
+            }
+
+            OverlayLayout::OverlayLayout()
+            {}
+
+            std::shared_ptr<OverlayLayout> OverlayLayout::create(const std::shared_ptr<Context>& context)
+            {
+                auto out = std::shared_ptr<OverlayLayout>(new OverlayLayout);
+                out->_init(context);
+                return out;
+            }
+
+            void OverlayLayout::setButton(const std::shared_ptr<Widget>& widget, const std::weak_ptr<Widget>& button)
+            {
+                _widgetToButton[widget] = button;
+            }
+
+            void OverlayLayout::_layoutEvent(Event::Layout&)
+            {
+                const BBox2f& g = getGeometry();
+                for (const auto& i : _widgetToButton)
+                {
+                    if (auto button = i.second.lock())
+                    {
+                        const auto& buttonBBox = button->getGeometry();
+                        const auto& minimumSize = i.first->getMinimumSize();
+                        i.first->setGeometry(Layout::getPopupGeometry(g, buttonBBox, minimumSize));
+                    }
+                }
+            }
+
+            void OverlayLayout::_paintEvent(Event::Paint& event)
+            {
+                Widget::_paintEvent(event);
+                const auto& style = _getStyle();
+                const float sh = style->getMetric(MetricsRole::Shadow);
+                auto render = _getRender();
+                render->setFillColor(style->getColor(ColorRole::Shadow));
+                for (const auto& i : getChildWidgets())
+                {
+                    BBox2f g = i->getGeometry();
+                    g.min.x -= sh;
+                    g.max.x += sh;
+                    g.max.y += sh;
+                    if (g.isValid())
+                    {
+                        render->drawShadow(g, sh);
+                    }
+                }
+            }
+
+            void OverlayLayout::_childRemovedEvent(Event::ChildRemoved& event)
+            {
+                if (auto widget = std::dynamic_pointer_cast<Widget>(event.getChild()))
+                {
+                    const auto j = _widgetToButton.find(widget);
+                    if (j != _widgetToButton.end())
+                    {
+                        _widgetToButton.erase(j);
+                    }
+                }
+            }
 
         } // namespace
 
-        struct ColorPickerDialogSystem::Private
+        struct ColorPickerSwatch::Private
         {
+            AV::Image::Color color = AV::Image::Color(0.F, 0.F, 0.F);
+            std::shared_ptr<ColorSwatch> colorSwatch;
             std::shared_ptr<Window> window;
+            std::function<void(const AV::Image::Color&)> colorCallback;
         };
 
-        void ColorPickerDialogSystem::_init(const std::shared_ptr<Context>& context)
+        void ColorPickerSwatch::_init(const std::shared_ptr<Context>& context)
         {
-            ISystem::_init("djv::UI::ColorPickerDialogSystem", context);
+            Widget::_init(context);
+
+            DJV_PRIVATE_PTR();
+            setClassName("djv::UI::ColorPickerSwatch");
+            setHAlign(HAlign::Left);
+
+            p.colorSwatch = ColorSwatch::create(context);
+            addChild(p.colorSwatch);
+
+            _colorUpdate();
+
+            auto weak = std::weak_ptr<ColorPickerSwatch>(std::dynamic_pointer_cast<ColorPickerSwatch>(shared_from_this()));
+            p.colorSwatch->setClickedCallback(
+                [weak]
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->open();
+                    }
+                });
         }
 
-        ColorPickerDialogSystem::ColorPickerDialogSystem() :
+        ColorPickerSwatch::ColorPickerSwatch() :
             _p(new Private)
         {}
 
-        ColorPickerDialogSystem::~ColorPickerDialogSystem()
+        ColorPickerSwatch::~ColorPickerSwatch()
+        {}
+
+        std::shared_ptr<ColorPickerSwatch> ColorPickerSwatch::create(const std::shared_ptr<Context>& context)
+        {
+            auto out = std::shared_ptr<ColorPickerSwatch>(new ColorPickerSwatch);
+            out->_init(context);
+            return out;
+        }
+
+        const AV::Image::Color& ColorPickerSwatch::getColor() const
+        {
+            return _p->color;
+        }
+
+        void ColorPickerSwatch::setColor(const AV::Image::Color& value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value == p.color)
+                return;
+            p.color = value;
+            _colorUpdate();
+        }
+
+        void ColorPickerSwatch::setColorCallback(const std::function<void(const AV::Image::Color&)>& callback)
+        {
+            _p->colorCallback = callback;
+        }
+
+        MetricsRole ColorPickerSwatch::getSwatchSizeRole() const
+        {
+            return _p->colorSwatch->getSwatchSizeRole();
+        }
+
+        void ColorPickerSwatch::setSwatchSizeRole(MetricsRole value)
+        {
+            _p->colorSwatch->setSwatchSizeRole(value);
+        }
+
+        void ColorPickerSwatch::open()
+        {
+            DJV_PRIVATE_PTR();
+            if (auto context = getContext().lock())
+            {
+                if (!p.window)
+                {
+                    p.window = Window::create(context);
+                    p.window->setBackgroundRole(UI::ColorRole::None);
+
+                    auto colorPicker = ColorPicker::create(context);
+                    colorPicker->setColor(p.color);
+                    colorPicker->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+                    auto border = Layout::Border::create(context);
+                    border->setBackgroundRole(UI::ColorRole::Background);
+                    border->addChild(colorPicker);
+
+                    auto overlayLayout = OverlayLayout::create(context);
+                    overlayLayout->addChild(border);
+                    overlayLayout->setButton(border, p.colorSwatch);
+
+                    auto overlay = Layout::Overlay::create(context);
+                    overlay->setFadeIn(false);
+                    overlay->setBackgroundRole(UI::ColorRole::None);
+                    overlay->addChild(overlayLayout);
+
+                    p.window->addChild(overlay);
+                    
+                    auto weak = std::weak_ptr<ColorPickerSwatch>(std::dynamic_pointer_cast<ColorPickerSwatch>(shared_from_this()));
+                    colorPicker->setColorCallback(
+                        [weak](const AV::Image::Color& value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_p->color = value;
+                                widget->_colorUpdate();
+                                if (widget->_p->colorCallback)
+                                {
+                                    widget->_p->colorCallback(widget->_p->color);
+                                }
+                            }
+                        });
+
+                    overlay->setCloseCallback(
+                        [weak]
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->close();
+                            }
+                        });
+
+                    p.window->show();
+                }
+            }
+        }
+
+        void ColorPickerSwatch::close()
         {
             DJV_PRIVATE_PTR();
             if (p.window)
             {
                 p.window->close();
+                p.window.reset();
             }
         }
 
-        std::shared_ptr<ColorPickerDialogSystem> ColorPickerDialogSystem::create(const std::shared_ptr<Context>& context)
-        {
-            auto out = std::shared_ptr<ColorPickerDialogSystem>(new ColorPickerDialogSystem);
-            out->_init(context);
-            return out;
-        }
-
-        void ColorPickerDialogSystem::colorPicker(
-            const std::string& title,
-            const AV::Image::Color& color,
-            const std::function<void(const AV::Image::Color&)>& callback)
+        void ColorPickerSwatch::_preLayoutEvent(Event::PreLayout& event)
         {
             DJV_PRIVATE_PTR();
-            if (auto context = getContext().lock())
-            {
-                if (p.window)
-                {
-                    p.window->close();
-                    p.window.reset();
-                }
-                auto dialog = ColorPickerDialog::create(context);
-                dialog->setTitle(title);
-                dialog->setColor(color);
-                auto weak = std::weak_ptr<ColorPickerDialogSystem>(std::dynamic_pointer_cast<ColorPickerDialogSystem>(shared_from_this()));
-                dialog->setColorCallback(callback);
-                dialog->setCloseCallback(
-                    [weak]
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            system->_p->window->close();
-                            system->_p->window.reset();
-                        }
-                    });
-                p.window = Window::create(context);
-                p.window->setBackgroundRole(ColorRole::None);
-                p.window->addChild(dialog);
-                p.window->show();
-            }
+            const auto& style = _getStyle();
+            _setMinimumSize(p.colorSwatch->getMinimumSize() + getMargin().getSize(style));
+        }
+
+        void ColorPickerSwatch::_layoutEvent(Event::Layout&)
+        {
+            DJV_PRIVATE_PTR();
+            const BBox2f g = getGeometry();
+            const auto& style = _getStyle();
+            p.colorSwatch->setGeometry(getAlign(getMargin().bbox(g, style), p.colorSwatch->getMinimumSize(), getHAlign(), getVAlign()));
+        }
+
+        void ColorPickerSwatch::_colorUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            p.colorSwatch->setColor(p.color);
         }
 
     } // namespace UI

@@ -33,8 +33,6 @@
 
 #include <djvAV/Pixel.h>
 
-#include <djvCore/ISystem.h>
-
 namespace djv
 {
     namespace AV
@@ -129,13 +127,13 @@ namespace djv
 
             static std::shared_ptr<ColorPicker> create(const std::shared_ptr<Core::Context>&);
 
-            const AV::Image::Color & getColor() const;
-            void setColor(const AV::Image::Color &);
-            void setColorCallback(const std::function<void(const AV::Image::Color &)> &);
+            const AV::Image::Color& getColor() const;
+            void setColor(const AV::Image::Color&);
+            void setColorCallback(const std::function<void(const AV::Image::Color&)>&);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _layoutEvent(Core::Event::Layout &) override;
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
 
         private:
             void _colorUpdate();
@@ -143,26 +141,37 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        //! This class provides a global color picker dialog.
-        class ColorPickerDialogSystem : public Core::ISystem
+        //! This class provides a color swatch with a color picker.
+        class ColorPickerSwatch : public Widget
         {
-            DJV_NON_COPYABLE(ColorPickerDialogSystem);
+            DJV_NON_COPYABLE(ColorPickerSwatch);
 
         protected:
             void _init(const std::shared_ptr<Core::Context>&);
-            ColorPickerDialogSystem();
+            ColorPickerSwatch();
 
         public:
-            virtual ~ColorPickerDialogSystem();
+            ~ColorPickerSwatch() override;
 
-            static std::shared_ptr<ColorPickerDialogSystem> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ColorPickerSwatch> create(const std::shared_ptr<Core::Context>&);
 
-            void colorPicker(
-                const std::string& title,
-                const AV::Image::Color&,
-                const std::function<void(const AV::Image::Color&)>& callback);
+            const AV::Image::Color& getColor() const;
+            void setColor(const AV::Image::Color&);
+            void setColorCallback(const std::function<void(const AV::Image::Color&)>&);
+
+            MetricsRole getSwatchSizeRole() const;
+            void setSwatchSizeRole(MetricsRole);
+
+            void open();
+            void close();
+
+        protected:
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
 
         private:
+            void _colorUpdate();
+
             DJV_PRIVATE();
         };
 

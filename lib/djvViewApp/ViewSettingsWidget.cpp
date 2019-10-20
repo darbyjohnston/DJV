@@ -27,13 +27,13 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewApp/ImageViewSettingsWidget.h>
+#include <djvViewApp/ViewSettingsWidget.h>
 
-#include <djvViewApp/ImageViewSettings.h>
+#include <djvViewApp/ViewSettings.h>
 
 #include <djvUIComponents/ColorPicker.h>
 
-#include <djvUI/ColorSwatch.h>
+#include <djvUI/PopupWidget.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
 
@@ -46,57 +46,39 @@ namespace djv
 {
     namespace ViewApp
     {
-        struct ImageViewBackgroundSettingsWidget::Private
+        struct ViewBackgroundSettingsWidget::Private
         {
-            std::shared_ptr<UI::ColorSwatch> colorSwatch;
+            std::shared_ptr<UI::ColorPickerSwatch> colorSwatch;
             std::shared_ptr<ValueObserver<AV::Image::Color> > backgroundColorObserver;
         };
 
-        void ImageViewBackgroundSettingsWidget::_init(const std::shared_ptr<Context>& context)
+        void ViewBackgroundSettingsWidget::_init(const std::shared_ptr<Context>& context)
         {
             ISettingsWidget::_init(context);
 
             DJV_PRIVATE_PTR();
-            setClassName("djv::ViewApp::ImageViewBackgroundSettingsWidget");
+            setClassName("djv::ViewApp::ViewBackgroundSettingsWidget");
 
-            p.colorSwatch = UI::ColorSwatch::create(context);
-            p.colorSwatch->setPointerEnabled(true);
-
+            p.colorSwatch = UI::ColorPickerSwatch::create(context);
             addChild(p.colorSwatch);
 
-            auto weak = std::weak_ptr<ImageViewBackgroundSettingsWidget>(std::dynamic_pointer_cast<ImageViewBackgroundSettingsWidget>(shared_from_this()));
+            auto weak = std::weak_ptr<ViewBackgroundSettingsWidget>(std::dynamic_pointer_cast<ViewBackgroundSettingsWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<Context>(context);
-            p.colorSwatch->setClickedCallback(
-                [weak, contextWeak]
+            p.colorSwatch->setColorCallback(
+                [contextWeak](const AV::Image::Color& value)
             {
                     if (auto context = contextWeak.lock())
                     {
-                        if (auto widget = weak.lock())
-                        {
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                            auto imageViewSettings = settingsSystem->getSettingsT<ImageViewSettings>();
-                            auto colorPickerDialogSystem = context->getSystemT<UI::ColorPickerDialogSystem>();
-                            const auto color = imageViewSettings->observeBackgroundColor()->get();
-                            colorPickerDialogSystem->colorPicker(
-                                widget->_getText(DJV_TEXT("Color Picker")),
-                                color,
-                                [contextWeak](const AV::Image::Color& value)
-                                {
-                                    if (auto context = contextWeak.lock())
-                                    {
-                                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                                        auto imageViewSettings = settingsSystem->getSettingsT<ImageViewSettings>();
-                                        imageViewSettings->setBackgroundColor(value);
-                                    }
-                                });
-                        }
+                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                        auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                        viewSettings->setBackgroundColor(value);
                     }
             });
 
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
-            auto imageViewSettings = settingsSystem->getSettingsT<ImageViewSettings>();
+            auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
             p.backgroundColorObserver = ValueObserver<AV::Image::Color>::create(
-                imageViewSettings->observeBackgroundColor(),
+                viewSettings->observeBackgroundColor(),
                 [weak](const AV::Image::Color& value)
             {
                 if (auto widget = weak.lock())
@@ -106,28 +88,28 @@ namespace djv
             });
         }
 
-        ImageViewBackgroundSettingsWidget::ImageViewBackgroundSettingsWidget() :
+        ViewBackgroundSettingsWidget::ViewBackgroundSettingsWidget() :
             _p(new Private)
         {}
 
-        std::shared_ptr<ImageViewBackgroundSettingsWidget> ImageViewBackgroundSettingsWidget::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<ViewBackgroundSettingsWidget> ViewBackgroundSettingsWidget::create(const std::shared_ptr<Context>& context)
         {
-            auto out = std::shared_ptr<ImageViewBackgroundSettingsWidget>(new ImageViewBackgroundSettingsWidget);
+            auto out = std::shared_ptr<ViewBackgroundSettingsWidget>(new ViewBackgroundSettingsWidget);
             out->_init(context);
             return out;
         }
 
-        std::string ImageViewBackgroundSettingsWidget::getSettingsName() const
+        std::string ViewBackgroundSettingsWidget::getSettingsName() const
         {
             return DJV_TEXT("Background Color");
         }
 
-        std::string ImageViewBackgroundSettingsWidget::getSettingsGroup() const
+        std::string ViewBackgroundSettingsWidget::getSettingsGroup() const
         {
             return DJV_TEXT("View");
         }
 
-        std::string ImageViewBackgroundSettingsWidget::getSettingsSortKey() const
+        std::string ViewBackgroundSettingsWidget::getSettingsSortKey() const
         {
             return "E";
         }

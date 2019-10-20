@@ -33,11 +33,11 @@
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/ImageSystem.h>
 #include <djvViewApp/ImageView.h>
-#include <djvViewApp/ImageViewSettings.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaWidgetPrivate.h>
 #include <djvViewApp/PlaybackSpeedWidget.h>
 #include <djvViewApp/TimelineSlider.h>
+#include <djvViewApp/ViewSettings.h>
 #include <djvViewApp/WindowSystem.h>
 
 #include <djvUI/Action.h>
@@ -797,10 +797,10 @@ namespace djv
                     });
             }
 
-            if (auto imageViewSettings = settingsSystem->getSettingsT<ImageViewSettings>())
+            if (auto viewSettings = settingsSystem->getSettingsT<ViewSettings>())
             {
                 p.viewLockObserver = ValueObserver<ImageViewLock>::create(
-                    imageViewSettings->observeLock(),
+                    viewSettings->observeLock(),
                     [weak](ImageViewLock value)
                     {
                         if (auto widget = weak.lock())

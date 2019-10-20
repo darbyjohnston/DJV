@@ -61,7 +61,6 @@ namespace djv
                 bool hasFadeIn() const;
                 void setFadeIn(bool);
 
-                void setCloseOnEscape(bool);
                 void setCloseCallback(const std::function<void(void)> &);
 
                 void setVisible(bool) override;

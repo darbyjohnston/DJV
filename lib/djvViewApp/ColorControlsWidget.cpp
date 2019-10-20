@@ -59,8 +59,7 @@ namespace djv
             
             std::shared_ptr<UI::CheckBox> exposureCheckBox;
             std::map<std::string, std::shared_ptr<UI::FloatSlider> > exposureSliders;
-            std::shared_ptr<UI::FormLayout> exposureFormLayout;
-            std::shared_ptr<UI::VerticalLayout> exposureLayout;
+            std::shared_ptr<UI::FormLayout> exposureLayout;
 
             std::shared_ptr<UI::FloatSlider> softClipSlider;
             std::shared_ptr<UI::VerticalLayout> softClipLayout;
@@ -138,36 +137,40 @@ namespace djv
             p.colorLayout = UI::FormLayout::create(context);
             p.colorLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
             p.colorLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+            p.colorLayout->setShadowOverlay({ UI::Side::Top });
             for (const auto& i : { "Brightness", "Contrast", "Saturation" })
             {
                 p.colorLayout->addChild(p.colorSliders[i]);
             }
+
             p.levelsLayout = UI::FormLayout::create(context);
             p.levelsLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
             p.levelsLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+            p.levelsLayout->setShadowOverlay({ UI::Side::Top });
             for (const auto& i : { "InLow", "InHigh", "Gamma", "OutLow", "OutHigh" })
             {
                 p.levelsLayout->addChild(p.levelsSliders[i]);
             }
 
-            p.exposureLayout = UI::VerticalLayout::create(context);
+            p.exposureLayout = UI::FormLayout::create(context);
             p.exposureLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
             p.exposureLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
             p.exposureLayout->addChild(p.exposureCheckBox);
-            p.exposureFormLayout = UI::FormLayout::create(context);
-            p.exposureFormLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+            p.exposureLayout->setShadowOverlay({ UI::Side::Top });
             for (const auto& i : { "Exposure", "Defog", "KneeLow", "KneeHigh" })
             {
-                p.exposureFormLayout->addChild(p.exposureSliders[i]);
+                p.exposureLayout->addChild(p.exposureSliders[i]);
             }
-            p.exposureLayout->addChild(p.exposureFormLayout);
             
             p.softClipLayout = UI::VerticalLayout::create(context);
             p.softClipLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
             p.softClipLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+            p.softClipLayout->setShadowOverlay({ UI::Side::Top });
             p.softClipLayout->addChild(p.softClipSlider);
 
             p.tabWidget = UI::TabWidget::create(context);
+            p.tabWidget->setBackgroundRole(UI::ColorRole::Background);
+            p.tabWidget->setShadowOverlay({ UI::Side::Top });
             p.tabIDs["Color"] = p.tabWidget->addTab(std::string(), p.colorLayout);
             p.tabIDs["Levels"] = p.tabWidget->addTab(std::string(), p.levelsLayout);
             p.tabIDs["Exposure"] = p.tabWidget->addTab(std::string(), p.exposureLayout);
@@ -302,6 +305,11 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
+                        widget->_p->exposureEnabled = true;
+                        if (widget->_p->exposureEnabledCallback)
+                        {
+                            widget->_p->exposureEnabledCallback(widget->_p->exposureEnabled);
+                        }
                         widget->_p->exposure.exposure = value;
                         widget->_widgetUpdate();
                         if (widget->_p->exposureCallback)
@@ -315,6 +323,11 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
+                        widget->_p->exposureEnabled = true;
+                        if (widget->_p->exposureEnabledCallback)
+                        {
+                            widget->_p->exposureEnabledCallback(widget->_p->exposureEnabled);
+                        }
                         widget->_p->exposure.defog = value;
                         widget->_widgetUpdate();
                         if (widget->_p->exposureCallback)
@@ -328,6 +341,11 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
+                        widget->_p->exposureEnabled = true;
+                        if (widget->_p->exposureEnabledCallback)
+                        {
+                            widget->_p->exposureEnabledCallback(widget->_p->exposureEnabled);
+                        }
                         widget->_p->exposure.kneeLow = value;
                         widget->_widgetUpdate();
                         if (widget->_p->exposureCallback)
@@ -341,6 +359,11 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
+                        widget->_p->exposureEnabled = true;
+                        if (widget->_p->exposureEnabledCallback)
+                        {
+                            widget->_p->exposureEnabledCallback(widget->_p->exposureEnabled);
+                        }
                         widget->_p->exposure.kneeHigh = value;
                         widget->_widgetUpdate();
                         if (widget->_p->exposureCallback)
@@ -476,11 +499,11 @@ namespace djv
             p.levelsLayout->setText(p.levelsSliders["OutLow"], _getText(DJV_TEXT("Out Low")) + ":");
             p.levelsLayout->setText(p.levelsSliders["OutHigh"], _getText(DJV_TEXT("Out High")) + ":");
 
-            p.exposureCheckBox->setText(_getText(DJV_TEXT("Enabled")));
-            p.exposureFormLayout->setText(p.exposureSliders["Exposure"], _getText(DJV_TEXT("Exposure")) + ":");
-            p.exposureFormLayout->setText(p.exposureSliders["Defog"], _getText(DJV_TEXT("Defog")) + ":");
-            p.exposureFormLayout->setText(p.exposureSliders["KneeLow"], _getText(DJV_TEXT("Knee Low")) + ":");
-            p.exposureFormLayout->setText(p.exposureSliders["KneeHigh"], _getText(DJV_TEXT("Knee High")) + ":");
+            p.exposureLayout->setText(p.exposureCheckBox, _getText(DJV_TEXT("Enabled")) + ":");
+            p.exposureLayout->setText(p.exposureSliders["Exposure"], _getText(DJV_TEXT("Exposure")) + ":");
+            p.exposureLayout->setText(p.exposureSliders["Defog"], _getText(DJV_TEXT("Defog")) + ":");
+            p.exposureLayout->setText(p.exposureSliders["KneeLow"], _getText(DJV_TEXT("Knee Low")) + ":");
+            p.exposureLayout->setText(p.exposureSliders["KneeHigh"], _getText(DJV_TEXT("Knee High")) + ":");
 
             p.tabWidget->setText(p.tabIDs["Color"], _getText(DJV_TEXT("Color")));
             p.tabWidget->setText(p.tabIDs["Levels"], _getText(DJV_TEXT("Levels")));

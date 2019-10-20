@@ -30,9 +30,12 @@
 #pragma once
 
 #include <djvViewApp/Enum.h>
+#include <djvViewApp/ImageView.h>
 
 #include <djvUI/ISettings.h>
 
+#include <djvCore/BBox.h>
+#include <djvCore/ListObserver.h>
 #include <djvCore/ValueObserver.h>
 
 namespace djv
@@ -48,24 +51,35 @@ namespace djv
 
     namespace ViewApp
     {
-        //! This class provides the image view settings.
-        class ImageViewSettings : public UI::Settings::ISettings
+        //! This class provides the view settings.
+        class ViewSettings : public UI::Settings::ISettings
         {
-            DJV_NON_COPYABLE(ImageViewSettings);
+            DJV_NON_COPYABLE(ViewSettings);
 
         protected:
             void _init(const std::shared_ptr<Core::Context>& context);
 
-            ImageViewSettings();
+            ViewSettings();
 
         public:
-            static std::shared_ptr<ImageViewSettings> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ViewSettings> create(const std::shared_ptr<Core::Context>&);
+
+            int getWidgetCurrentTab() const;
+            void setWidgetCurrentTab(int);
 
             std::shared_ptr<Core::IValueSubject<ImageViewLock> > observeLock() const;
             void setLock(ImageViewLock);
 
+            std::shared_ptr<Core::IValueSubject<GridOptions> > observeGridOptions() const;
+            std::shared_ptr<Core::IListSubject<float> > observeGridList() const;
+            void setGridOptions(const GridOptions&);
+            void setGridList(const std::vector<float>&);
+
             std::shared_ptr<Core::IValueSubject<AV::Image::Color> > observeBackgroundColor() const;
             void setBackgroundColor(const AV::Image::Color&);
+
+            const std::map<std::string, Core::BBox2f>& getWidgetGeom() const;
+            void setWidgetGeom(const std::map<std::string, Core::BBox2f>&);
 
             void load(const picojson::value &) override;
             picojson::value save() override;

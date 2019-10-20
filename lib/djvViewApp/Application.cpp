@@ -36,7 +36,6 @@
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/HelpSystem.h>
 #include <djvViewApp/ImageSystem.h>
-#include <djvViewApp/ImageViewSystem.h>
 //#include <djvViewApp/MagnifySystem.h>
 #include <djvViewApp/MainWindow.h>
 #include <djvViewApp/Media.h>
@@ -45,6 +44,7 @@
 #include <djvViewApp/SettingsSystem.h>
 #include <djvViewApp/ToolSystem.h>
 #include <djvViewApp/UISettings.h>
+#include <djvViewApp/ViewSystem.h>
 #include <djvViewApp/WindowSystem.h>
 
 #include <djvUIComponents/UIComponentsSystem.h>
@@ -104,7 +104,7 @@ namespace djv
             p.systems.push_back(fileSystem);
             auto windowSystem = WindowSystem::create(shared_from_this());
             p.systems.push_back(windowSystem);
-            p.systems.push_back(ImageViewSystem::create(shared_from_this()));
+            p.systems.push_back(ViewSystem::create(shared_from_this()));
             p.systems.push_back(ImageSystem::create(shared_from_this()));
             p.systems.push_back(PlaybackSystem::create(shared_from_this()));
             p.systems.push_back(AudioSystem::create(shared_from_this()));

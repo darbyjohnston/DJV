@@ -233,6 +233,7 @@ namespace djv
             FontHeader,
             FontTitle,
             Swatch,
+            SwatchSmall,
             Slider,
             ScrollArea,
             Menu,
