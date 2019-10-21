@@ -202,6 +202,8 @@ namespace djv
         DJV_TEXT("SwatchSmall"),
         DJV_TEXT("Slider"),
         DJV_TEXT("ScrollArea"),
+        DJV_TEXT("ScrollBar"),
+        DJV_TEXT("ScrollBarSmall"),
         DJV_TEXT("Menu"),
         DJV_TEXT("TextColumn"),
         DJV_TEXT("TextColumnLarge"),

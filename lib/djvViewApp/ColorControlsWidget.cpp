@@ -30,12 +30,12 @@
 #include <djvViewApp/ColorControlsWidget.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/CheckBox.h>
 #include <djvUI/FloatSlider.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/IntSlider.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/TabWidget.h>
+#include <djvUI/ToggleButton.h>
 
 using namespace djv::Core;
 
@@ -57,7 +57,7 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::FloatSlider> > levelsSliders;
             std::shared_ptr<UI::FormLayout> levelsLayout;
             
-            std::shared_ptr<UI::CheckBox> exposureCheckBox;
+            std::shared_ptr<UI::ToggleButton> exposureButton;
             std::map<std::string, std::shared_ptr<UI::FloatSlider> > exposureSliders;
             std::shared_ptr<UI::FormLayout> exposureLayout;
 
@@ -112,7 +112,7 @@ namespace djv
                 slider.second->setDefaultVisible(true);
             }    
 
-            p.exposureCheckBox = UI::CheckBox::create(context);
+            p.exposureButton = UI::ToggleButton::create(context);
             p.exposureSliders["Exposure"] = UI::FloatSlider::create(context);
             p.exposureSliders["Exposure"]->setRange(FloatRange(-10.F, 10.F));
             const AV::Render::ImageExposure exposure;
@@ -155,7 +155,7 @@ namespace djv
             p.exposureLayout = UI::FormLayout::create(context);
             p.exposureLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
             p.exposureLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
-            p.exposureLayout->addChild(p.exposureCheckBox);
+            p.exposureLayout->addChild(p.exposureButton);
             p.exposureLayout->setShadowOverlay({ UI::Side::Top });
             for (const auto& i : { "Exposure", "Defog", "KneeLow", "KneeHigh" })
             {
@@ -287,7 +287,7 @@ namespace djv
                     }
                 });
               
-            p.exposureCheckBox->setCheckedCallback(
+            p.exposureButton->setCheckedCallback(
                 [weak](bool value)
                 {
                     if (auto widget = weak.lock())
@@ -499,7 +499,7 @@ namespace djv
             p.levelsLayout->setText(p.levelsSliders["OutLow"], _getText(DJV_TEXT("Out Low")) + ":");
             p.levelsLayout->setText(p.levelsSliders["OutHigh"], _getText(DJV_TEXT("Out High")) + ":");
 
-            p.exposureLayout->setText(p.exposureCheckBox, _getText(DJV_TEXT("Enabled")) + ":");
+            p.exposureLayout->setText(p.exposureButton, _getText(DJV_TEXT("Enabled")) + ":");
             p.exposureLayout->setText(p.exposureSliders["Exposure"], _getText(DJV_TEXT("Exposure")) + ":");
             p.exposureLayout->setText(p.exposureSliders["Defog"], _getText(DJV_TEXT("Defog")) + ":");
             p.exposureLayout->setText(p.exposureSliders["KneeLow"], _getText(DJV_TEXT("Knee Low")) + ":");
@@ -525,7 +525,7 @@ namespace djv
             p.levelsSliders["OutLow"]->setValue(p.levels.outLow);
             p.levelsSliders["OutHigh"]->setValue(p.levels.outHigh);
             
-            p.exposureCheckBox->setChecked(p.exposureEnabled);
+            p.exposureButton->setChecked(p.exposureEnabled);
             p.exposureSliders["Exposure"]->setValue(p.exposure.exposure);
             p.exposureSliders["Defog"]->setValue(p.exposure.defog);
             p.exposureSliders["KneeLow"]->setValue(p.exposure.kneeLow);

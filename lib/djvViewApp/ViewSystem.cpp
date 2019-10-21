@@ -62,7 +62,6 @@ namespace djv
 
             int widgetCurrentTab = 0;
             GridOptions gridOptions;
-            std::vector<float> gridList;
             bool currentTool = false;
             glm::vec2 hoverPos = glm::vec2(0.F, 0.F);
             glm::vec2 dragStart = glm::vec2(0.F, 0.F);

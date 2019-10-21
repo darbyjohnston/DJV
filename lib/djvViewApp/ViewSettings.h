@@ -71,9 +71,7 @@ namespace djv
             void setLock(ImageViewLock);
 
             std::shared_ptr<Core::IValueSubject<GridOptions> > observeGridOptions() const;
-            std::shared_ptr<Core::IListSubject<float> > observeGridList() const;
             void setGridOptions(const GridOptions&);
-            void setGridList(const std::vector<float>&);
 
             std::shared_ptr<Core::IValueSubject<AV::Image::Color> > observeBackgroundColor() const;
             void setBackgroundColor(const AV::Image::Color&);

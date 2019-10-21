@@ -34,12 +34,12 @@
 #include <djvUIComponents/ColorPicker.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/CheckBox.h>
-#include <djvUI/ComboBox.h>
 #include <djvUI/FormLayout.h>
+#include <djvUI/IntSlider.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/TabWidget.h>
+#include <djvUI/ToggleButton.h>
 
 #include <djvCore/Context.h>
 
@@ -52,18 +52,16 @@ namespace djv
         struct ViewControlsWidget::Private
         {
             GridOptions gridOptions;
-            std::vector<float> gridList;
 
-            std::shared_ptr<UI::CheckBox> gridEnabledCheckBox;
-            std::shared_ptr<UI::ComboBox> gridCurrentComboBox;
+            std::shared_ptr<UI::ToggleButton> gridEnabledButton;
+            std::shared_ptr<UI::IntSlider> gridSizeSlider;
             std::shared_ptr<UI::ColorPickerSwatch> gridColorPickerSwatch;
+            std::shared_ptr<UI::ToggleButton> gridLabelsButton;
             std::shared_ptr<UI::FormLayout> gridLayout;
                         
             std::shared_ptr<UI::TabWidget> tabWidget;
             std::map<std::string, size_t> tabIDs;
             std::function<void(const GridOptions&)> gridOptionsCallback;
-
-            std::shared_ptr<ListObserver<float> > gridListObserver;
         };
 
         void ViewControlsWidget::_init(const std::shared_ptr<Core::Context>& context)
@@ -73,20 +71,24 @@ namespace djv
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::ViewControlsWidget");
 
-            p.gridEnabledCheckBox = UI::CheckBox::create(context);
+            p.gridEnabledButton = UI::ToggleButton::create(context);
 
-            p.gridCurrentComboBox = UI::ComboBox::create(context);
+            p.gridSizeSlider = UI::IntSlider::create(context);
+            p.gridSizeSlider->setRange(IntRange(1, 500));
 
             p.gridColorPickerSwatch = UI::ColorPickerSwatch::create(context);
             p.gridColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
+
+            p.gridLabelsButton = UI::ToggleButton::create(context);
 
             p.gridLayout = UI::FormLayout::create(context);
             p.gridLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
             p.gridLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
             p.gridLayout->setShadowOverlay({ UI::Side::Top });
-            p.gridLayout->addChild(p.gridEnabledCheckBox);
-            p.gridLayout->addChild(p.gridCurrentComboBox);
+            p.gridLayout->addChild(p.gridEnabledButton);
+            p.gridLayout->addChild(p.gridSizeSlider);
             p.gridLayout->addChild(p.gridColorPickerSwatch);
+            p.gridLayout->addChild(p.gridLabelsButton);
 
             p.tabWidget = UI::TabWidget::create(context);
             p.tabWidget->setBackgroundRole(UI::ColorRole::Background);
@@ -97,7 +99,7 @@ namespace djv
             _widgetUpdate();
 
             auto weak = std::weak_ptr<ViewControlsWidget>(std::dynamic_pointer_cast<ViewControlsWidget>(shared_from_this()));
-            p.gridEnabledCheckBox->setCheckedCallback(
+            p.gridEnabledButton->setCheckedCallback(
                 [weak](bool value)
                 {
                     if (auto widget = weak.lock())
@@ -111,12 +113,12 @@ namespace djv
                     }
                 });
 
-            p.gridCurrentComboBox->setCallback(
+            p.gridSizeSlider->setValueCallback(
                 [weak](int value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->gridOptions.current = value;
+                        widget->_p->gridOptions.size = value;
                         widget->_widgetUpdate();
                         if (widget->_p->gridOptionsCallback)
                         {
@@ -139,16 +141,17 @@ namespace djv
                     }
                 });
 
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
-            auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-            p.gridListObserver = ListObserver<float>::create(
-                viewSettings->observeGridList(),
-                [weak](const std::vector<float>& value)
+            p.gridLabelsButton->setCheckedCallback(
+                [weak](bool value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->gridList = value;
+                        widget->_p->gridOptions.labels = value;
                         widget->_widgetUpdate();
+                        if (widget->_p->gridOptionsCallback)
+                        {
+                            widget->_p->gridOptionsCallback(widget->_p->gridOptions);
+                        }
                     }
                 });
         }
@@ -196,9 +199,10 @@ namespace djv
             MDIWidget::_textUpdateEvent(event);
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("View Controls")));
-            p.gridLayout->setText(p.gridEnabledCheckBox, _getText(DJV_TEXT("Enabled")) + ":");
-            p.gridLayout->setText(p.gridCurrentComboBox, _getText(DJV_TEXT("Size")) + ":");
+            p.gridLayout->setText(p.gridEnabledButton, _getText(DJV_TEXT("Enabled")) + ":");
+            p.gridLayout->setText(p.gridSizeSlider, _getText(DJV_TEXT("Size")) + ":");
             p.gridLayout->setText(p.gridColorPickerSwatch, _getText(DJV_TEXT("Color")) + ":");
+            p.gridLayout->setText(p.gridLabelsButton, _getText(DJV_TEXT("Labels")) + ":");
             p.tabWidget->setText(p.tabIDs["Grid"], _getText(DJV_TEXT("Grid")));
             _widgetUpdate();
         }
@@ -206,16 +210,10 @@ namespace djv
         void ViewControlsWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.gridEnabledCheckBox->setChecked(p.gridOptions.enabled);
-            p.gridCurrentComboBox->clearItems();
-            for (const auto& i : p.gridList)
-            {
-                std::stringstream ss;
-                ss << i;
-                p.gridCurrentComboBox->addItem(ss.str());
-            }
-            p.gridCurrentComboBox->setCurrentItem(p.gridOptions.current);
+            p.gridEnabledButton->setChecked(p.gridOptions.enabled);
+            p.gridSizeSlider->setValue(p.gridOptions.size);
             p.gridColorPickerSwatch->setColor(p.gridOptions.color);
+            p.gridLabelsButton->setChecked(p.gridOptions.labels);
         }
 
     } // namespace ViewApp

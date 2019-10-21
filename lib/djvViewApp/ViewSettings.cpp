@@ -48,7 +48,6 @@ namespace djv
             int widgetCurrentTab = 0;
             std::shared_ptr<ValueSubject<ImageViewLock> > lock;
             std::shared_ptr<ValueSubject<GridOptions> > gridOptions;
-            std::shared_ptr<ListSubject<float> > gridlist;
             std::shared_ptr<ValueSubject<AV::Image::Color> > backgroundColor;
             std::map<std::string, BBox2f> widgetGeom;
         };
@@ -60,7 +59,6 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.lock = ValueSubject<ImageViewLock>::create(ImageViewLock::Fill);
             p.gridOptions = ValueSubject<GridOptions>::create();
-            p.gridlist = ListSubject<float>::create({ 100.F, 10.F, 1.F });
             p.backgroundColor = ValueSubject<AV::Image::Color>::create(AV::Image::Color(0.F, 0.F, 0.F));
             _load();
         }
@@ -101,19 +99,9 @@ namespace djv
             return _p->gridOptions;
         }
 
-        std::shared_ptr<Core::IListSubject<float> > ViewSettings::observeGridList() const
-        {
-            return _p->gridlist;
-        }
-
         void ViewSettings::setGridOptions(const GridOptions& value)
         {
             _p->gridOptions->setIfChanged(value);
-        }
-
-        void ViewSettings::setGridList(const std::vector<float>& value)
-        {
-            _p->gridlist->setIfChanged(value);
         }
 
         std::shared_ptr<IValueSubject<AV::Image::Color> > ViewSettings::observeBackgroundColor() const
@@ -145,7 +133,6 @@ namespace djv
                 UI::Settings::read("WidgetCurrentTab", object, p.widgetCurrentTab);
                 UI::Settings::read("Lock", object, p.lock);
                 UI::Settings::read("GridOptions", object, p.gridOptions);
-                UI::Settings::read("GridList", object, p.gridlist);
                 UI::Settings::read("BackgroundColor", object, p.backgroundColor);
                 UI::Settings::read("WidgetGeom", object, p.widgetGeom);
             }
@@ -159,7 +146,6 @@ namespace djv
             UI::Settings::write("WidgetCurrentTab", p.widgetCurrentTab, object);
             UI::Settings::write("Lock", p.lock->get(), object);
             UI::Settings::write("GridOptions", p.gridOptions->get(), object);
-            UI::Settings::write("GridList", p.gridlist->get(), object);
             UI::Settings::write("BackgroundColor", p.backgroundColor->get(), object);
             UI::Settings::write("WidgetGeom", p.widgetGeom, object);
             return out;

@@ -66,9 +66,9 @@ namespace djv
             GridOptions();
 
             bool                enabled = false;
-            int                 current = 0;
-            float               size    = 0.F;
+            float               size    = 100.F;
             AV::Image::Color    color   = AV::Image::Color(0.F, 0.F, 0.F);
+            bool                labels  = true;
 
             bool operator == (const GridOptions&) const;
         };
@@ -116,6 +116,7 @@ namespace djv
             void setGridOptions(const GridOptions&);
 
         protected:
+            void _styleEvent(Core::Event::Style&) override;
             void _preLayoutEvent(Core::Event::PreLayout &) override;
             void _layoutEvent(Core::Event::Layout &) override;
             void _paintEvent(Core::Event::Paint &) override;
@@ -125,6 +126,7 @@ namespace djv
             static glm::vec2 _getCenter(const std::vector<glm::vec3>&);
             static Core::BBox2f _getBBox(const std::vector<glm::vec3>&);
             void _drawGrid(float gridSize);
+            void _textUpdate();
 
             DJV_PRIVATE();
         };

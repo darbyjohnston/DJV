@@ -58,13 +58,14 @@ namespace djv
         bool GridOptions::operator == (const GridOptions& other) const
         {
             return enabled == other.enabled &&
-                current == other.current &&
                 size == other.size &&
-                color == other.color;
+                color == other.color &&
+                labels == other.labels;
         }
 
         struct ImageView::Private
         {
+            std::shared_ptr<AV::Font::System> fontSystem;
             std::shared_ptr<AV::Image::Image> image;
             std::shared_ptr<ValueSubject<AV::Render::ImageOptions> > imageOptions;
             AV::OCIO::Config ocioConfig;
@@ -76,12 +77,15 @@ namespace djv
             ImageViewLock lock = ImageViewLock::None;
             BBox2f lockFrame = BBox2f(0.F, 0.F, 0.F, 0.F);
             std::shared_ptr<ValueSubject<GridOptions> > gridOptions;
-            std::vector<float> gridList;
             AV::Image::Color backgroundColor = AV::Image::Color(0.F, 0.F, 0.F);
             glm::vec2 pressedImagePos = glm::vec2(0.F, 0.F);
             bool viewInit = true;
+            AV::Font::Metrics fontMetrics;
+            std::future<AV::Font::Metrics> fontMetricsFuture;
+            std::vector<std::pair<std::string, glm::vec2> > text[2];
+            std::vector<std::future<glm::vec2> > textSizeFutures[2];
+            float textWidthMax = 0.F;
             std::shared_ptr<ValueObserver<ImageViewLock> > lockObserver;
-            std::shared_ptr<ListObserver<float> > gridListObserver;
             std::shared_ptr<ValueObserver<AV::Image::Color> > backgroundColorObserver;
             std::shared_ptr<ValueObserver<AV::OCIO::Config> > ocioConfigObserver;
         };
@@ -89,10 +93,12 @@ namespace djv
         void ImageView::_init(const std::shared_ptr<Core::Context>& context)
         {
             Widget::_init(context);
+            DJV_PRIVATE_PTR();
 
             setClassName("djv::ViewApp::ImageView");
 
-            DJV_PRIVATE_PTR();
+            p.fontSystem = context->getSystemT<AV::Font::System>();
+
             auto avSystem = context->getSystemT<AV::AVSystem>();
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
             auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
@@ -117,20 +123,6 @@ namespace djv
                         if (widget->isVisible() && !widget->isClipped())
                         {
                             widget->_resize();
-                        }
-                    }
-                });
-
-            p.gridListObserver = ListObserver<float>::create(
-                viewSettings->observeGridList(),
-                [weak](const std::vector<float>& value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->gridList = value;
-                        if (widget->isVisible() && !widget->isClipped())
-                        {
-                            widget->_redraw();
                         }
                     }
                 });
@@ -193,10 +185,7 @@ namespace djv
             if (value == p.image)
                 return;
             p.image = value;
-            if (isVisible() && !isClipped())
-            {
-                _resize();
-            }
+            _textUpdate();
         }
 
         std::shared_ptr<IValueSubject<AV::Render::ImageOptions> > ImageView::observeImageOptions() const
@@ -400,12 +389,49 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.gridOptions->setIfChanged(value))
             {
-                _redraw();
+                _textUpdate();
             }
+        }
+
+        void ImageView::_styleEvent(Event::Style& event)
+        {
+            _textUpdate();
         }
 
         void ImageView::_preLayoutEvent(Event::PreLayout & event)
         {
+            DJV_PRIVATE_PTR();
+            if (p.fontMetricsFuture.valid())
+            {
+                try
+                {
+                    p.fontMetrics = p.fontMetricsFuture.get();
+                }
+                catch (const std::exception& e)
+                {
+                    _log(e.what(), LogLevel::Error);
+                }
+            }
+            if (p.textSizeFutures[0].size() && p.textSizeFutures[0][0].valid())
+            {
+                p.textWidthMax = 0.F;
+                for (size_t i = 0; i < 2; ++i)
+                {
+                    for (size_t j = 0; j < p.textSizeFutures[i].size(); ++j)
+                    {
+                        try
+                        {
+                            const glm::vec2 size = p.textSizeFutures[i][j].get();
+                            p.text[i][j].second = size;
+                            p.textWidthMax = std::max(p.textWidthMax, size.x);
+                        }
+                        catch (const std::exception& e)
+                        {
+                            _log(e.what(), LogLevel::Error);
+                        }
+                    }
+                }
+            }
             const auto& style = _getStyle();
             const float sa = style->getMetric(UI::MetricsRole::ScrollArea);
             _setMinimumSize(glm::vec2(sa, sa));
@@ -468,9 +494,9 @@ namespace djv
                 render->popTransform();
             }
             const auto& gridOptions = p.gridOptions->get();
-            if (gridOptions.enabled && gridOptions.current >= 0 && gridOptions.current < static_cast<int>(p.gridList.size()))
+            if (gridOptions.enabled)
             {
-                _drawGrid(p.gridList[gridOptions.current]);
+                _drawGrid(gridOptions.size);
             }
         }
 
@@ -542,40 +568,128 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const float imageZoom = p.imageZoom->get();
-            if (gridSize * imageZoom <= 2.f)
+            if ((gridSize * imageZoom) > 2.f)
             {
-                return;
-            }
-            const glm::vec2& imagePos = p.imagePos->get();
+                const glm::vec2& imagePos = p.imagePos->get();
 
-            const auto& style = _getStyle();
-            const float b = style->getMetric(UI::MetricsRole::Border);
-            const BBox2f& g = getMargin().bbox(getGeometry(), style);
-            const BBox2f area(
-                (floorf(-imagePos.x / imageZoom / gridSize) - 1.F) * gridSize,
-                (floorf(-imagePos.y / imageZoom / gridSize) - 1.F) * gridSize,
-                (ceilf(g.w() / imageZoom / gridSize) + 2.F) * gridSize,
-                (ceilf(g.h() / imageZoom / gridSize) + 2.F) * gridSize);
+                const auto& style = _getStyle();
+                const float m = style->getMetric(UI::MetricsRole::MarginSmall);
+                const float b = style->getMetric(UI::MetricsRole::Border);
+                const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                const BBox2f area(
+                    (floorf(-imagePos.x / imageZoom / gridSize) - 1.F) * gridSize,
+                    (floorf(-imagePos.y / imageZoom / gridSize) - 1.F) * gridSize,
+                    (ceilf(g.w() / imageZoom / gridSize) + 2.F) * gridSize,
+                    (ceilf(g.h() / imageZoom / gridSize) + 2.F) * gridSize);
 
-            auto render = _getRender();
-            const auto& color = p.gridOptions->get().color;
-            render->setFillColor(color);
-            for (float y = 0; y < area.h(); y += gridSize)
-            {
-                render->drawRect(BBox2f(
-                    g.min.x + floorf(area.min.x * imageZoom + imagePos.x),
-                    g.min.y + floorf((area.min.y + y) * imageZoom + imagePos.y),
-                    ceilf(area.w() * imageZoom),
-                    b));
+                auto render = _getRender();
+                const auto& gridOptions = p.gridOptions->get();
+                render->setFillColor(gridOptions.color);
+                for (float y = 0; y < area.h(); y += gridSize)
+                {
+                    render->drawRect(BBox2f(
+                        g.min.x + floorf(area.min.x * imageZoom + imagePos.x),
+                        g.min.y + floorf((area.min.y + y) * imageZoom + imagePos.y),
+                        ceilf(area.w() * imageZoom),
+                        b));
+                }
+                for (float x = 0; x < area.w(); x += gridSize)
+                {
+                    render->drawRect(BBox2f(
+                        g.min.x + floorf((area.min.x + x) * imageZoom + imagePos.x),
+                        g.min.y + floorf(area.min.y * imageZoom + imagePos.y),
+                        b,
+                        ceilf(area.h() * imageZoom)));
+                }
+
+                if (gridOptions.labels && (p.textWidthMax + m * 2.F) < gridSize * imageZoom)
+                {
+                    render->setFillColor(style->getColor(UI::ColorRole::Overlay));
+                    float x = g.min.x + imagePos.x;
+                    float y = p.lockFrame.min.y;
+                    for (size_t i = 0; i < p.text[0].size(); ++i)
+                    {
+                        render->drawRect(BBox2f(x, y, p.text[0][i].second.x + m * 2.F, p.fontMetrics.lineHeight + m * 2.f));
+                        x += gridSize * imageZoom;
+                    }
+                    x = p.lockFrame.min.x;
+                    y = g.min.y + imagePos.y;
+                    for (size_t i = 0; i < p.text[1].size(); ++i)
+                    {
+                        render->drawRect(BBox2f(x, y, p.text[1][i].second.x + m * 2.F, p.fontMetrics.lineHeight + m * 2.f));
+                        y += gridSize * imageZoom;
+                    }
+
+                    render->setFillColor(style->getColor(UI::ColorRole::Foreground));
+                    render->setCurrentFont(style->getFontInfo(AV::Font::familyMono, AV::Font::faceDefault, UI::MetricsRole::FontSmall));
+                    x = g.min.x + imagePos.x + m;
+                    y = p.lockFrame.min.y + m;
+                    for (size_t i = 0; i < p.text[0].size(); ++i)
+                    {
+                        render->drawText(p.text[0][i].first, glm::vec2(floorf(x), floorf(y + p.fontMetrics.ascender - 1.F)));
+                        x += gridSize * imageZoom;
+                    }
+                    x = p.lockFrame.min.x + m;
+                    y = g.min.y + imagePos.y + m;
+                    for (size_t i = 0; i < p.text[1].size(); ++i)
+                    {
+                        render->drawText(p.text[1][i].first, glm::vec2(floorf(x), floorf(y + p.fontMetrics.ascender - 1.F)));
+                        y += gridSize * imageZoom;
+                    }
+                }
             }
-            for (float x = 0; x < area.w(); x += gridSize)
+        }
+
+        namespace
+        {
+            std::string getColumnLabel(size_t value)
             {
-                render->drawRect(BBox2f(
-                    g.min.x + floorf((area.min.x + x) * imageZoom + imagePos.x),
-                    g.min.y + floorf(area.min.y * imageZoom + imagePos.y),
-                    b,
-                    ceilf(area.h() * imageZoom)));
+                std::stringstream ss;
+                ss << "X" << value;
+                return ss.str();
             }
+
+            std::string getRowLabel(size_t value)
+            {
+                std::stringstream ss;
+                ss << "Y" << value;
+                return ss.str();
+            }
+
+        } // namespace
+
+        void ImageView::_textUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            const auto& gridOptions = p.gridOptions->get();
+            const float gridSize = gridOptions.size;
+            if (p.image && gridOptions.labels && (gridSize * p.imageZoom->get()) > 2.f)
+            {
+                const auto& style = _getStyle();
+                const auto fontInfo = style->getFontInfo(AV::Font::familyMono, AV::Font::faceDefault, UI::MetricsRole::FontSmall);
+                p.fontMetricsFuture = p.fontSystem->getMetrics(fontInfo);
+                for (size_t i = 0; i < 2; ++i)
+                {
+                    p.text[i].clear();
+                    p.textSizeFutures[i].clear();
+                }
+                const AV::Image::Size& imageSize = p.image->getSize();
+                size_t cells = static_cast<size_t>(imageSize.w / gridSize + 1);
+                for (size_t i = 0; i < cells; ++i)
+                {
+                    const std::string label = getColumnLabel(i);
+                    p.text[0].push_back(std::make_pair(label, glm::vec2(0.F, 0.F)));
+                    p.textSizeFutures[0].push_back(p.fontSystem->measure(label, fontInfo));
+                }
+                cells = static_cast<size_t>(imageSize.h / gridSize + 1);
+                for (size_t i = 0; i < cells; ++i)
+                {
+                    const std::string label = getRowLabel(i);
+                    p.text[1].push_back(std::make_pair(label, glm::vec2(0.F, 0.F)));
+                    p.textSizeFutures[1].push_back(p.fontSystem->measure(label, fontInfo));
+                }
+            }
+            _resize();
         }
 
     } // namespace ViewApp
@@ -584,9 +698,9 @@ namespace djv
     {
         picojson::value out(picojson::object_type, true);
         out.get<picojson::object>()["Enabled"] = toJSON(value.enabled);
-        out.get<picojson::object>()["Current"] = toJSON(value.current);
         out.get<picojson::object>()["Size"] = toJSON(value.size);
         out.get<picojson::object>()["Color"] = toJSON(value.color);
+        out.get<picojson::object>()["Labels"] = toJSON(value.labels);
         return out;
     }
 
@@ -600,9 +714,17 @@ namespace djv
                 {
                     fromJSON(i.second, out.enabled);
                 }
-                else if ("Current" == i.first)
+                else if ("Size" == i.first)
                 {
-                    fromJSON(i.second, out.current);
+                    fromJSON(i.second, out.size);
+                }
+                else if ("Color" == i.first)
+                {
+                    fromJSON(i.second, out.color);
+                }
+                else if ("Labels" == i.first)
+                {
+                    fromJSON(i.second, out.labels);
                 }
             }
         }

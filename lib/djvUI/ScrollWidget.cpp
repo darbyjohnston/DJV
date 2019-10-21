@@ -55,13 +55,13 @@ namespace djv
         namespace
         {
             //! \todo Should this be configurable?
-            const size_t velocityTimeout = 16;    // The timer resolution for velocity updates.
-            const float  velocityDecay = .99F;  // How quickly the velocity decays.
-            const float  velocityStopDelta = 5.F;   // The minimum amount of movement to stop the velocity.
-            const size_t pointerAverageCount = 5;     // The number of pointer samples to average.
-            const float  pointerAverageDecay = .99F;  // How quickly the pointer samples decay.
+            const size_t velocityTimeout            = 16;    // The timer resolution for velocity updates.
+            const float  velocityDecay              = .99F;  // How quickly the velocity decays.
+            const float  velocityStopDelta          = 5.F;   // The minimum amount of movement to stop the velocity.
+            const size_t pointerAverageCount        = 5;     // The number of pointer samples to average.
+            const float  pointerAverageDecay        = .99F;  // How quickly the pointer samples decay.
             const size_t pointerAverageDecayTimeout = 100;   // The timer resolution for pointer sample decay.
-            const float  scrollWheelMult = 50.F;  // The scroll wheel multiplier.
+            const float  scrollWheelMult            = 50.F;  // The scroll wheel multiplier.
 
             class ScrollBar : public Widget
             {
@@ -83,6 +83,9 @@ namespace djv
                 void setScrollPos(float);
                 void setScrollPosCallback(const std::function<void(float)>&);
 
+                MetricsRole getSizeRole() const;
+                void setSizeRole(MetricsRole);
+
             protected:
                 void _preLayoutEvent(Event::PreLayout&) override;
                 void _paintEvent(Event::Paint&) override;
@@ -103,6 +106,7 @@ namespace djv
                 float _contentsSize = 0.F;
                 float _scrollPos = 0.F;
                 std::function<void(float)> _scrollPosCallback;
+                MetricsRole _sizeRole = MetricsRole::ScrollBar;
                 std::map<Event::PointerID, bool> _hover;
                 Event::PointerID _pressedID = Event::InvalidID;
                 float _pressedPos = 0.F;
@@ -166,11 +170,24 @@ namespace djv
                 _scrollPosCallback = callback;
             }
 
+            MetricsRole ScrollBar::getSizeRole() const
+            {
+                return _sizeRole;
+            }
+
+            void ScrollBar::setSizeRole(MetricsRole value)
+            {
+                if (value == _sizeRole)
+                    return;
+                _sizeRole = value;
+                _resize();
+            }
+
             void ScrollBar::_preLayoutEvent(Event::PreLayout&)
             {
                 glm::vec2 size = glm::vec2(0.F, 0.F);
                 const auto& style = _getStyle();
-                size += style->getMetric(MetricsRole::Handle) * 1.5F;
+                size += style->getMetric(_sizeRole);
                 _setMinimumSize(size);
             }
 
@@ -851,9 +868,21 @@ namespace djv
             return _p->scrollArea->getMinimumSizeRole();
         }
 
+        MetricsRole ScrollWidget::getScrollBarSizeRole() const
+        {
+            return _p->scrollBars[Orientation::First]->getSizeRole();
+        }
+
         void ScrollWidget::setMinimumSizeRole(MetricsRole value)
         {
             _p->scrollArea->setMinimumSizeRole(value);
+        }
+
+        void ScrollWidget::setScrollBarSizeRole(MetricsRole value)
+        {
+            DJV_PRIVATE_PTR();
+            p.scrollBars[Orientation::Horizontal]->setSizeRole(value);
+            p.scrollBars[Orientation::Vertical]->setSizeRole(value);
         }
 
         void ScrollWidget::addChild(const std::shared_ptr<IObject> & value)

@@ -33,7 +33,9 @@
 #include <djvUI/IButton.h>
 #include <djvUI/Label.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/ScrollWidget.h>
 #include <djvUI/StackLayout.h>
+#include <djvUI/ToolButton.h>
 
 #include <djvAV/Render2D.h>
 
@@ -155,6 +157,7 @@ namespace djv
         {
             std::shared_ptr<ButtonGroup> buttonGroup;
             std::shared_ptr<HorizontalLayout> layout;
+            std::shared_ptr<ScrollWidget> scrollWidget;
             std::function<void(int)> callback;
             std::function<void(size_t)> removedCallback;
         };
@@ -171,7 +174,13 @@ namespace djv
 
             p.layout = HorizontalLayout::create(context);
             p.layout->setSpacing(Layout::Spacing(MetricsRole::None));
-            addChild(p.layout);
+
+            p.scrollWidget = ScrollWidget::create(ScrollType::Horizontal, context);
+            p.scrollWidget->setBorder(false);
+            p.scrollWidget->setMinimumSizeRole(UI::MetricsRole::None);
+            p.scrollWidget->setScrollBarSizeRole(UI::MetricsRole::ScrollBarSmall);
+            p.scrollWidget->addChild(p.layout);
+            addChild(p.scrollWidget);
 
             auto weak = std::weak_ptr<TabBar>(std::dynamic_pointer_cast<TabBar>(shared_from_this()));
             p.buttonGroup->setRadioCallback(
@@ -284,19 +293,19 @@ namespace djv
 
         float TabBar::getHeightForWidth(float value) const
         {
-            return _p->layout->getHeightForWidth(value);
+            return _p->scrollWidget->getHeightForWidth(value);
         }
 
         void TabBar::_preLayoutEvent(Event::PreLayout & event)
         {
-            _setMinimumSize(_p->layout->getMinimumSize());
+            _setMinimumSize(_p->scrollWidget->getMinimumSize());
         }
 
         void TabBar::_layoutEvent(Event::Layout & event)
         {
             const BBox2f & g = getGeometry();
             const auto& style = _getStyle();
-            _p->layout->setGeometry(getMargin().bbox(g, style));
+            _p->scrollWidget->setGeometry(getMargin().bbox(g, style));
         }
 
     } // namespace UI

@@ -87,7 +87,9 @@ namespace djv
             void setBorder(bool);
 
             MetricsRole getMinimumSizeRole() const;
+            MetricsRole getScrollBarSizeRole() const;
             void setMinimumSizeRole(MetricsRole);
+            void setScrollBarSizeRole(MetricsRole);
 
             void addChild(const std::shared_ptr<IObject> &) override;
             void removeChild(const std::shared_ptr<IObject> &) override;
