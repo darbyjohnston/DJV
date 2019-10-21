@@ -604,7 +604,7 @@ namespace djv
 
                 if (gridOptions.labels && (p.textWidthMax + m * 2.F) < gridSize * imageZoom)
                 {
-                    render->setFillColor(style->getColor(UI::ColorRole::Overlay));
+                    render->setFillColor(style->getColor(UI::ColorRole::OverlayLight));
                     float x = g.min.x + imagePos.x;
                     float y = p.lockFrame.min.y;
                     for (size_t i = 0; i < p.text[0].size(); ++i)
