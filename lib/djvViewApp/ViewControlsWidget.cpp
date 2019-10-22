@@ -221,12 +221,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->viewPos.x = value;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
-                        {
-                            widget->_p->activeWidget->getImageView()->setImagePos(widget->_p->viewPos);
-                        }
+                        widget->_setPos(glm::vec2(value, widget->_p->viewPos.y));
                     }
                 });
             p.viewPosEdit[1]->setValueCallback(
@@ -234,12 +229,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->viewPos.y = value;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
-                        {
-                            widget->_p->activeWidget->getImageView()->setImagePos(widget->_p->viewPos);
-                        }
+                        widget->_setPos(glm::vec2(widget->_p->viewPos.x, value));
                     }
                 });
 
@@ -248,12 +238,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->viewPos = glm::vec2(0.F, 0.F);
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
-                        {
-                            widget->_p->activeWidget->getImageView()->setImagePos(widget->_p->viewPos);
-                        }
+                        widget->_setPos(glm::vec2(0.F, 0.F));
                     }
                 });
 
@@ -262,12 +247,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->viewZoom = value;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
-                        {
-                            widget->_p->activeWidget->getImageView()->setImageZoomFocus(value);
-                        }
+                        widget->_setZoom(value);
                     }
                 });
 
@@ -276,12 +256,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->viewZoom = 1.F;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
-                        {
-                            widget->_p->activeWidget->getImageView()->setImageZoomFocus(widget->_p->viewZoom);
-                        }
+                        widget->_setZoom(1.F);
                     }
                 });
 
@@ -525,6 +500,40 @@ namespace djv
             p.tabWidget->setText(p.backgroundLayout, _getText(DJV_TEXT("Background")));
             
             _widgetUpdate();
+        }
+
+        void ViewControlsWidget::_setPos(const glm::vec2& value)
+        {
+            DJV_PRIVATE_PTR();
+            if (auto context = getContext().lock())
+            {
+                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                viewSettings->setLock(ImageViewLock::None);
+                p.viewPos = value;
+                _widgetUpdate();
+                if (p.activeWidget)
+                {
+                    p.activeWidget->getImageView()->setImagePos(p.viewPos);
+                }
+            }
+        }
+
+        void ViewControlsWidget::_setZoom(float value)
+        {
+            DJV_PRIVATE_PTR();
+            if (auto context = getContext().lock())
+            {
+                auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                viewSettings->setLock(ImageViewLock::None);
+                p.viewZoom = value;
+                _widgetUpdate();
+                if (p.activeWidget)
+                {
+                    p.activeWidget->getImageView()->setImageZoomFocus(value);
+                }
+            }
         }
 
         void ViewControlsWidget::_widgetUpdate()

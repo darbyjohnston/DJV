@@ -67,9 +67,11 @@ namespace djv
             void _textUpdateEvent(Core::Event::TextUpdate &) override;
 
         private:
-            DJV_PRIVATE();
-
+            void _setPos(const glm::vec2&);
+            void _setZoom(float);
             void _widgetUpdate();
+
+            DJV_PRIVATE();
         };
 
     } // namespace ViewApp

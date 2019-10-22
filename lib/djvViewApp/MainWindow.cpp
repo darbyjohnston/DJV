@@ -159,9 +159,9 @@ namespace djv
             auto viewSystem = context->getSystemT<ViewSystem>();
             if (viewSystem)
             {
-                viewFillButton->addAction(viewSystem->getActions()["Fill"]);
-                viewFrameButton->addAction(viewSystem->getActions()["Frame"]);
-                viewCenterButton->addAction(viewSystem->getActions()["Center"]);
+                viewFillButton->addAction(viewSystem->getActions()["FillLock"]);
+                viewFrameButton->addAction(viewSystem->getActions()["FrameLock"]);
+                viewCenterButton->addAction(viewSystem->getActions()["CenterLock"]);
             }
 
             std::map<std::string, std::shared_ptr<UI::ToolButton> > toolButtons;

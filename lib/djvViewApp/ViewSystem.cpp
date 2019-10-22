@@ -130,18 +130,30 @@ namespace djv
             p.actions["Fill"]->setIcon("djvIconViewFill");
             p.actions["Fill"]->addShortcut(GLFW_KEY_BACKSPACE);
             p.actions["Fill"]->addShortcut(GLFW_KEY_KP_MULTIPLY);
+            p.actions["FillLock"] = UI::Action::create();
+            p.actions["FillLock"]->setIcon("djvIconViewFill");
+            p.actions["FillLock"]->addShortcut(GLFW_KEY_BACKSPACE, GLFW_MOD_SHIFT);
+            p.actions["FillLock"]->addShortcut(GLFW_KEY_KP_MULTIPLY, GLFW_MOD_SHIFT);
             p.actions["Frame"] = UI::Action::create();
             p.actions["Frame"]->setIcon("djvIconViewFrame");
             p.actions["Frame"]->addShortcut(GLFW_KEY_PERIOD);
             p.actions["Frame"]->addShortcut(GLFW_KEY_KP_DECIMAL);
+            p.actions["FrameLock"] = UI::Action::create();
+            p.actions["FrameLock"]->setIcon("djvIconViewFrame");
+            p.actions["FrameLock"]->addShortcut(GLFW_KEY_PERIOD, GLFW_MOD_SHIFT);
+            p.actions["FrameLock"]->addShortcut(GLFW_KEY_KP_DECIMAL, GLFW_MOD_SHIFT);
             p.actions["Center"] = UI::Action::create();
             p.actions["Center"]->setIcon("djvIconViewCenter");
             p.actions["Center"]->addShortcut(GLFW_KEY_BACKSLASH);
             p.actions["Center"]->addShortcut(GLFW_KEY_KP_5);
+            p.actions["CenterLock"] = UI::Action::create();
+            p.actions["CenterLock"]->setIcon("djvIconViewCenter");
+            p.actions["CenterLock"]->addShortcut(GLFW_KEY_BACKSLASH, GLFW_MOD_SHIFT);
+            p.actions["CenterLock"]->addShortcut(GLFW_KEY_KP_5, GLFW_MOD_SHIFT);
             p.lockActionGroup = UI::ActionGroup::create(UI::ButtonType::Exclusive);
-            p.lockActionGroup->addAction(p.actions["Fill"]);
-            p.lockActionGroup->addAction(p.actions["Frame"]);
-            p.lockActionGroup->addAction(p.actions["Center"]);
+            p.lockActionGroup->addAction(p.actions["FillLock"]);
+            p.lockActionGroup->addAction(p.actions["FrameLock"]);
+            p.lockActionGroup->addAction(p.actions["CenterLock"]);
             p.actions["GridEnabled"] = UI::Action::create();
             p.actions["GridEnabled"]->setButtonType(UI::ButtonType::Toggle);
             //! \todo Implement me!
@@ -162,8 +174,11 @@ namespace djv
             p.menu->addAction(p.actions["ZoomReset"]);
             p.menu->addSeparator();
             p.menu->addAction(p.actions["Fill"]);
+            p.menu->addAction(p.actions["FillLock"]);
             p.menu->addAction(p.actions["Frame"]);
+            p.menu->addAction(p.actions["FrameLock"]);
             p.menu->addAction(p.actions["Center"]);
+            p.menu->addAction(p.actions["CenterLock"]);
             p.menu->addSeparator();
             p.menu->addAction(p.actions["GridEnabled"]);
             //p.menu->addAction(p.actions["HUD"]);
@@ -358,6 +373,54 @@ namespace djv
                         {
                             system->_p->settings->setLock(ImageViewLock::None);
                             system->_zoomImage(1.F);
+                        }
+                    }
+                });
+
+            p.actionObservers["Fill"] = ValueObserver<bool>::create(
+                p.actions["Fill"]->observeClicked(),
+                [weak](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (system->_p->activeWidget)
+                            {
+                                system->_p->activeWidget->getImageView()->imageFill();
+                            }
+                        }
+                    }
+                });
+
+            p.actionObservers["Frame"] = ValueObserver<bool>::create(
+                p.actions["Frame"]->observeClicked(),
+                [weak](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (system->_p->activeWidget)
+                            {
+                                system->_p->activeWidget->getImageView()->imageFrame();
+                            }
+                        }
+                    }
+                });
+
+            p.actionObservers["Center"] = ValueObserver<bool>::create(
+                p.actions["Center"]->observeClicked(),
+                [weak](bool value)
+                {
+                    if (value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (system->_p->activeWidget)
+                            {
+                                system->_p->activeWidget->getImageView()->imageCenter();
+                            }
                         }
                     }
                 });
@@ -571,10 +634,16 @@ namespace djv
                 p.actions["ZoomReset"]->setTooltip(_getText(DJV_TEXT("Zoom reset tooltip")));
                 p.actions["Fill"]->setText(_getText(DJV_TEXT("Fill")));
                 p.actions["Fill"]->setTooltip(_getText(DJV_TEXT("Fill view tooltip")));
+                p.actions["FillLock"]->setText(_getText(DJV_TEXT("Lock Fill")));
+                p.actions["FillLock"]->setTooltip(_getText(DJV_TEXT("Fill lock view tooltip")));
                 p.actions["Frame"]->setText(_getText(DJV_TEXT("Frame")));
                 p.actions["Frame"]->setTooltip(_getText(DJV_TEXT("Frame view tooltip")));
+                p.actions["FrameLock"]->setText(_getText(DJV_TEXT("Lock Frame")));
+                p.actions["FrameLock"]->setTooltip(_getText(DJV_TEXT("Frame lock view tooltip")));
                 p.actions["Center"]->setText(_getText(DJV_TEXT("Center")));
                 p.actions["Center"]->setTooltip(_getText(DJV_TEXT("Center view tooltip")));
+                p.actions["CenterLock"]->setText(_getText(DJV_TEXT("Lock Center")));
+                p.actions["CenterLock"]->setTooltip(_getText(DJV_TEXT("Center lock view tooltip")));
                 p.actions["GridEnabled"]->setText(_getText(DJV_TEXT("Grid")));
                 p.actions["GridEnabled"]->setTooltip(_getText(DJV_TEXT("Grid enabled tooltip")));
                 //p.actions["HUD"]->setText(_getText(DJV_TEXT("HUD")));
