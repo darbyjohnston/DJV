@@ -50,6 +50,7 @@ namespace djv
                 std::shared_ptr<ValueObserver<std::string> > text;
                 std::shared_ptr<ValueObserver<bool> > enabled;
                 std::shared_ptr<ValueObserver<std::string> > tooltip;
+                std::shared_ptr<ValueObserver<bool> > autoRepeat;
             };
             std::map<std::shared_ptr<Action>, Observers> observers;
             std::shared_ptr<HorizontalLayout> layout;
@@ -164,6 +165,12 @@ namespace djv
                     [button](const std::string& value)
                     {
                         button->setTooltip(value);
+                    });
+                p.observers[action].autoRepeat = ValueObserver<bool>::create(
+                    action->observeAutoRepeat(),
+                    [button](bool value)
+                    {
+                        button->setAutoRepeat(value);
                     });
             }
         }

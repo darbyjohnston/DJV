@@ -192,8 +192,10 @@ namespace djv
             p.actions["InPoint"]->setIcon("djvIconFrameStart");
             p.actions["PrevFrame"] = UI::Action::create();
             p.actions["PrevFrame"]->setIcon("djvIconFramePrev");
+            p.actions["PrevFrame"]->setAutoRepeat(true);
             p.actions["NextFrame"] = UI::Action::create();
             p.actions["NextFrame"]->setIcon("djvIconFrameNext");
+            p.actions["NextFrame"]->setAutoRepeat(true);
             p.actions["OutPoint"] = UI::Action::create();
             p.actions["OutPoint"]->setIcon("djvIconFrameEnd");
 

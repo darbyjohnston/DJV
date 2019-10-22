@@ -50,6 +50,7 @@ namespace djv
             std::shared_ptr<ListSubject<std::shared_ptr<Shortcut> > > shortcuts;
             std::shared_ptr<ValueSubject<bool> > enabled;
             std::shared_ptr<ValueSubject<std::string> > tooltip;
+            std::shared_ptr<ValueSubject<bool> > autoRepeat;
         };
 
         void Action::_init()
@@ -64,6 +65,7 @@ namespace djv
             p.shortcuts = ListSubject<std::shared_ptr<Shortcut> >::create();
             p.enabled = ValueSubject<bool>::create(true);
             p.tooltip = ValueSubject<std::string>::create();
+            p.autoRepeat = ValueSubject<bool>::create();
             _iconUpdate();
         }
 
@@ -241,9 +243,19 @@ namespace djv
             return _p->tooltip;
         }
 
-        void Action::setTooltip(const std::string & value)
+        void Action::setTooltip(const std::string& value)
         {
             _p->tooltip->setIfChanged(value);
+        }
+
+        std::shared_ptr<IValueSubject<bool> > Action::observeAutoRepeat() const
+        {
+            return _p->autoRepeat;
+        }
+
+        void Action::setAutoRepeat(bool value)
+        {
+            _p->autoRepeat->setIfChanged(value);
         }
 
         void Action::_iconUpdate()

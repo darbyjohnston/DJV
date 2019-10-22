@@ -85,7 +85,10 @@ namespace djv
             void setEnabled(bool);
 
             std::shared_ptr<Core::IValueSubject<std::string> > observeTooltip() const;
-            void setTooltip(const std::string &);
+            void setTooltip(const std::string&);
+
+            std::shared_ptr<Core::IValueSubject<bool> > observeAutoRepeat() const;
+            void setAutoRepeat(bool);
 
         private:
             void _iconUpdate();
