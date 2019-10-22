@@ -360,7 +360,9 @@ namespace djv
                             default: break;
                             }
                             const BBox2f cellGeometry(pos.x, pos.y, cellSize, gh);
-                            child->setGeometry(Widget::getAlign(cellGeometry, child->getMinimumSize(), child->getHAlign(), child->getVAlign()));
+                            BBox2f childGeometry = Widget::getAlign(cellGeometry, child->getMinimumSize(), child->getHAlign(), child->getVAlign());
+                            childGeometry.max.x = std::min(childGeometry.max.x, g.max.x);
+                            child->setGeometry(childGeometry);
                             pos.x += cellGeometry.w() + s.x;
                         }
                     }
@@ -392,7 +394,8 @@ namespace djv
                             default: break;
                             }
                             const BBox2f cellGeometry(pos.x, pos.y, gw, cellSize);
-                            const BBox2f childGeometry = Widget::getAlign(cellGeometry, child->getMinimumSize(), child->getHAlign(), child->getVAlign());
+                            BBox2f childGeometry = Widget::getAlign(cellGeometry, child->getMinimumSize(), child->getHAlign(), child->getVAlign());
+                            childGeometry.max.y = std::min(childGeometry.max.y, g.max.y);
                             child->setGeometry(childGeometry);
                             pos.y += cellGeometry.h() + s.y;
                         }
