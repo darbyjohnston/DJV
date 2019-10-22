@@ -29,12 +29,14 @@
 
 #include <djvUIComponents/SearchBox.h>
 
-#include <djvUI/Border.h>
+#include <djvUI/DrawUtil.h>
 #include <djvUI/Icon.h>
 #include <djvUI/LineEditBase.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SoloLayout.h>
 #include <djvUI/ToolButton.h>
+
+#include <djvAV/Render2D.h>
 
 using namespace djv::Core;
 
@@ -44,9 +46,10 @@ namespace djv
     {
         struct SearchBox::Private
         {
+            bool border = true;
             std::shared_ptr<LineEditBase> lineEditBase;
             std::shared_ptr<SoloLayout> soloLayout;
-            std::shared_ptr<Border> border;
+            std::shared_ptr<HorizontalLayout> layout;
             std::function<void(const std::string &)> filterCallback;
         };
 
@@ -71,20 +74,16 @@ namespace djv
             clearButton->setBackgroundRole(ColorRole::None);
             clearButton->setInsideMargin(Layout::Margin(MetricsRole::None));
             
-            auto layout = HorizontalLayout::create(context);
-            layout->setSpacing(Layout::Spacing(MetricsRole::None));
-            layout->setBackgroundRole(ColorRole::Trough);
-            layout->addChild(p.lineEditBase);
-            layout->setStretch(p.lineEditBase, RowStretch::Expand);
+            p.layout = HorizontalLayout::create(context);
+            p.layout->setSpacing(Layout::Spacing(MetricsRole::None));
+            p.layout->setBackgroundRole(ColorRole::Trough);
+            p.layout->addChild(p.lineEditBase);
+            p.layout->setStretch(p.lineEditBase, RowStretch::Expand);
             p.soloLayout = SoloLayout::create(context);
             p.soloLayout->addChild(searchIcon);
             p.soloLayout->addChild(clearButton);
-            layout->addChild(p.soloLayout);
-            
-            p.border = Border::create(context);
-            p.border->setMargin(Layout::Margin(MetricsRole::Border));
-            p.border->addChild(layout);
-            addChild(p.border);
+            p.layout->addChild(p.soloLayout);
+            addChild(p.layout);
 
             auto weak = std::weak_ptr<SearchBox>(std::dynamic_pointer_cast<SearchBox>(shared_from_this()));
             p.lineEditBase->setFocusCallback(
@@ -92,7 +91,7 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    widget->_p->border->setBorderColorRole(value ? ColorRole::TextFocus : ColorRole::Border);
+                    widget->_redraw();
                 }
             });
 
@@ -159,29 +158,67 @@ namespace djv
         void SearchBox::setBorder(bool value)
         {
             DJV_PRIVATE_PTR();
-            p.border->setBorderSize(value ? MetricsRole::Border : MetricsRole::None);
-            p.border->setMargin(Layout::Margin(value ? MetricsRole::Border : MetricsRole::None));
+            if (value == p.border)
+                return;
+            p.border = value;
+            _resize();
         }
 
         float SearchBox::getHeightForWidth(float value) const
         {
             const auto& style = _getStyle();
             const glm::vec2 m = getMargin().getSize(style);
-            float out = _p->border->getHeightForWidth(value - m.x) + m.y;
+            float out = _p->layout->getHeightForWidth(value - m.x) + m.y;
             return out;
         }
 
         void SearchBox::_preLayoutEvent(Event::PreLayout & event)
         {
+            DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            _setMinimumSize(_p->border->getMinimumSize() + getMargin().getSize(style));
+            const float b = style->getMetric(MetricsRole::Border);
+            glm::vec2 size = p.layout->getMinimumSize();
+            if (p.border)
+            {
+                size += b * 2.F;
+            }
+            _setMinimumSize(size + getMargin().getSize(style));
         }
 
         void SearchBox::_layoutEvent(Event::Layout & event)
         {
-            const BBox2f g = getGeometry();
+            DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            _p->border->setGeometry(getMargin().bbox(g, style));
+            const float b = style->getMetric(MetricsRole::Border);
+            const BBox2f g = getMargin().bbox(getGeometry(), style);
+            BBox2f g2;
+            if (p.border)
+            {
+                g2 = g.margin(-b * 2.F);
+            }
+            else
+            {
+                g2 = g;
+            }
+            _p->layout->setGeometry(g2);
+        }
+
+        void SearchBox::_paintEvent(Event::Paint& event)
+        {
+            Widget::_paintEvent(event);
+            DJV_PRIVATE_PTR();
+            const auto& style = _getStyle();
+            const BBox2f& g = getGeometry();
+            const float b = style->getMetric(UI::MetricsRole::Border);
+            auto render = _getRender();
+            if (p.lineEditBase->hasTextFocus())
+            {
+                render->setFillColor(style->getColor(UI::ColorRole::TextFocus));
+                drawBorder(render, g, b * 2.F);
+            }
+            render->setFillColor(style->getColor(UI::ColorRole::Border));
+            const BBox2f g2 = g.margin(-b * 2.F);
+            drawBorder(render, g2, b);
         }
 
         void SearchBox::_doFilterCallback()

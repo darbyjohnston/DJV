@@ -243,7 +243,14 @@ namespace djv
                 const auto& style = _getStyle();
                 const float b = style->getMetric(MetricsRole::Border);
                 glm::vec2 size = p.layout->getMinimumSize();
-                _setMinimumSize(size + b * 4.F + getMargin().getSize(style));
+                switch (p.menuStyle)
+                {
+                case MenuStyle::ComboBox:
+                    size += b * 4.F;
+                    break;
+                default: break;
+                }
+                _setMinimumSize(size + getMargin().getSize(style));
             }
 
             void Menu::_layoutEvent(Event::Layout &)
@@ -252,7 +259,17 @@ namespace djv
                 const auto& style = _getStyle();
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
                 const float b = style->getMetric(MetricsRole::Border);
-                _p->layout->setGeometry(g.margin(-b * 2.F));
+                BBox2f g2;
+                switch (p.menuStyle)
+                {
+                case MenuStyle::ComboBox:
+                    g2 = g.margin(-b * 2.F);
+                    break;
+                default:
+                    g2 = g;
+                    break;
+                }
+                _p->layout->setGeometry(g2);
             }
 
             void Menu::_paintEvent(Event::Paint & event)
@@ -263,13 +280,22 @@ namespace djv
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
                 auto render = _getRender();
 
-                if (hasTextFocus())
+                BBox2f g2;
+                switch (p.menuStyle)
                 {
-                    render->setFillColor(style->getColor(ColorRole::TextFocus));
-                    drawBorder(render, g, b * 2.F);
+                case MenuStyle::ComboBox:
+                    if (hasTextFocus())
+                    {
+                        render->setFillColor(style->getColor(ColorRole::TextFocus));
+                        drawBorder(render, g, b * 2.F);
+                    }
+                    g2 = g.margin(-b * 2.F);
+                    break;
+                default:
+                    g2 = g;
+                    break;
                 }
 
-                const BBox2f& g2 = g.margin(-b * 2.F);
                 render->setFillColor(style->getColor(getBackgroundRole()));
                 render->drawRect(g2);
                 switch (p.menuStyle)

@@ -174,6 +174,11 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.lineEditBase->setBackgroundRole(value);
         }
+
+        std::shared_ptr<Widget> LineEdit::getFocusWidget()
+        {
+            return _p->lineEditBase->getFocusWidget();
+        }
         
         void LineEdit::_preLayoutEvent(Event::PreLayout & event)
         {

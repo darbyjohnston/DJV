@@ -263,12 +263,12 @@ namespace djv
             return out;
         }
 
-        bool Widget::hasTextFocus() const
+        bool Widget::hasTextFocus()
         {
             bool out = false;
             if (auto eventSystem = _getEventSystem().lock())
             {
-                out = eventSystem->getTextFocus().lock() == shared_from_this();
+                out = eventSystem->getTextFocus().lock() == getFocusWidget();
             }
             return out;
         }
@@ -277,7 +277,7 @@ namespace djv
         {
             if (auto eventSystem = _getEventSystem().lock())
             {
-                eventSystem->setTextFocus(shared_from_this());
+                eventSystem->setTextFocus(getFocusWidget());
             }
         }
 
@@ -285,7 +285,7 @@ namespace djv
         {
             if (auto eventSystem = _getEventSystem().lock())
             {
-                if (eventSystem->getTextFocus().lock() == shared_from_this())
+                if (eventSystem->getTextFocus().lock() == getFocusWidget())
                 {
                     eventSystem->setTextFocus(nullptr);
                 }
@@ -313,7 +313,7 @@ namespace djv
             {
                 if (auto parent = std::dynamic_pointer_cast<Widget>(getParent().lock()))
                 {
-                    parent->nextTextFocus(std::dynamic_pointer_cast<Widget>(shared_from_this()));
+                    parent->nextTextFocus(std::dynamic_pointer_cast<Widget>(getFocusWidget()));
                 }
                 else
                 {
@@ -349,7 +349,7 @@ namespace djv
             {
                 if (auto parent = std::dynamic_pointer_cast<Widget>(getParent().lock()))
                 {
-                    parent->prevTextFocus(std::dynamic_pointer_cast<Widget>(shared_from_this()));
+                    parent->prevTextFocus(std::dynamic_pointer_cast<Widget>(getFocusWidget()));
                 }
                 else
                 {

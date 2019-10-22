@@ -150,7 +150,7 @@ namespace djv
 
             virtual std::shared_ptr<Widget> getFocusWidget();
             virtual bool acceptFocus(TextFocusDirection);
-            bool hasTextFocus() const;
+            bool hasTextFocus();
             void takeTextFocus();
             void releaseTextFocus();
             virtual void nextTextFocus(const std::shared_ptr<Widget>&);

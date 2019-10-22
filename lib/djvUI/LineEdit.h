@@ -72,6 +72,7 @@ namespace djv
             void setFocusCallback(const std::function<void(bool)> &);
 
             void setBackgroundRole(ColorRole) override;
+            std::shared_ptr<Widget> getFocusWidget() override;
 
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;

@@ -31,10 +31,9 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
-#include <djvUI/Border.h>
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
-#include <djvUI/LineEditBase.h>
+#include <djvUI/LineEdit.h>
 #include <djvUI/ListButton.h>
 #include <djvUI/Menu.h>
 #include <djvUI/MenuButton.h>
@@ -59,8 +58,7 @@ namespace djv
                 std::shared_ptr<Menu> historyMenu;
                 std::shared_ptr<Button::Menu> historyButton;
                 std::shared_ptr<HorizontalLayout> buttonLayout;
-                std::shared_ptr<LineEditBase> lineEditBase;
-                std::shared_ptr<Border> lineEditBorder;
+                std::shared_ptr<LineEdit> lineEdit;
                 std::shared_ptr<SoloLayout> soloLayout;
                 std::shared_ptr<HorizontalLayout> layout;
                 std::function<void(const FileSystem::Path &)> pathCallback;
@@ -87,12 +85,8 @@ namespace djv
                 p.buttonLayout->setPointerEnabled(true);
                 p.buttonLayout->installEventFilter(shared_from_this());
 
-                p.lineEditBase = LineEditBase::create(context);
-                p.lineEditBase->setBackgroundRole(ColorRole::Trough);
-                p.lineEditBase->installEventFilter(shared_from_this());
-                p.lineEditBorder = Border::create(context);
-                p.lineEditBorder->setVAlign(VAlign::Center);
-                p.lineEditBorder->addChild(p.lineEditBase);
+                p.lineEdit = LineEdit::create(context);
+                p.lineEdit->setBackgroundRole(ColorRole::Trough);
 
                 p.layout = HorizontalLayout::create(context);
                 p.layout->setSpacing(Layout::Spacing(MetricsRole::None));
@@ -102,7 +96,7 @@ namespace djv
                 p.layout->addChild(hLayout);
                 p.soloLayout = SoloLayout::create(context);
                 p.soloLayout->addChild(p.buttonLayout);
-                p.soloLayout->addChild(p.lineEditBorder);
+                p.soloLayout->addChild(p.lineEdit);
                 p.layout->addChild(p.soloLayout);
                 p.layout->setStretch(p.soloLayout, RowStretch::Expand);
                 addChild(p.layout);
@@ -146,35 +140,37 @@ namespace djv
                         }
                     });
 
-                p.lineEditBase->setTextEditCallback(
+                p.lineEdit->setTextEditCallback(
                     [weak](const std::string& value, UI::TextEdit textEdit)
-                {
-                    if (auto widget = weak.lock())
                     {
-                        switch (textEdit)
+                        if (auto widget = weak.lock())
                         {
-                        case UI::TextEdit::Accepted:
-                            if (widget->_p->pathCallback)
+                            switch (textEdit)
                             {
-                                widget->_p->pathCallback(FileSystem::Path(value));
+                            case UI::TextEdit::Accepted:
+                                if (widget->_p->pathCallback)
+                                {
+                                    widget->_p->pathCallback(FileSystem::Path(value));
+                                }
+                                break;
+                            case UI::TextEdit::LostFocus:
+                                widget->_p->lineEdit->setText(widget->_p->path.get());
+                                break;
+                            default: break;
                             }
-                            break;
-                        case UI::TextEdit::LostFocus:
-                            widget->_p->lineEditBase->setText(widget->_p->path.get());
-                            break;
-                        default: break;
                         }
-                    }
-                });
-
-                p.lineEditBase->setFocusCallback(
+                    });
+                p.lineEdit->setFocusCallback(
                     [weak](bool value)
-                {
-                    if (auto widget = weak.lock())
                     {
-                        widget->_p->lineEditBorder->setBorderColorRole(value ? ColorRole::TextFocus : ColorRole::Border);
-                    }
-                });
+                        if (auto widget = weak.lock())
+                        {
+                            if (!value)
+                            {
+                                widget->setEdit(false);
+                            }
+                        }
+                    });
             }
 
             PathWidget::PathWidget() :
@@ -246,7 +242,7 @@ namespace djv
                         }
                     }
 
-                    p.lineEditBase->setText(path.get());
+                    p.lineEdit->setText(path.get());
                 }
             }
 
@@ -288,11 +284,11 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (value)
                 {
-                    p.lineEditBase->takeTextFocus();
+                    p.lineEdit->takeTextFocus();
                 }
                 p.soloLayout->setCurrentWidget(
                     value ?
-                    std::static_pointer_cast<Widget>(p.lineEditBorder) :
+                    std::static_pointer_cast<Widget>(p.lineEdit) :
                     std::static_pointer_cast<Widget>(p.buttonLayout));
             }
 
@@ -321,16 +317,6 @@ namespace djv
                     {
                     case Event::Type::ButtonPress:
                         setEdit(true);
-                        break;
-                    default: break;
-                    }
-                }
-                else if (object == p.lineEditBase)
-                {
-                    switch (event.getEventType())
-                    {
-                    case Event::Type::TextFocusLost:
-                        setEdit(false);
                         break;
                     default: break;
                     }

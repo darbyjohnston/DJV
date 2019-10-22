@@ -56,7 +56,7 @@ namespace djv
             namespace
             {
                 //! \todo Should this be configurable?
-                const size_t autoRepeatStart = 600;
+                const size_t autoRepeatStart = 500;
                 const size_t autoRepeatTimeout = 150;
 
             } // namespace
@@ -89,7 +89,6 @@ namespace djv
                 DJV_PRIVATE_PTR();
 
                 setClassName("djv::UI::Button::Tool");
-                setVAlign(VAlign::Center);
 
                 p.layout = HorizontalLayout::create(context);
                 p.layout->setMargin(Layout::Margin(MetricsRole::MarginSmall));

@@ -247,7 +247,6 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             setClassName("djv::UI::PopupWidget");
-            setVAlign(VAlign::Center);
 
             p.button = Button::Menu::create(Button::MenuStyle::Tool, context);
             Widget::addChild(p.button);

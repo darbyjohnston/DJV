@@ -140,10 +140,11 @@ namespace djv
                 const auto& style = _getStyle();
                 const BBox2f g = getMargin().bbox(getGeometry(), style);
                 const float m = style->getMetric(MetricsRole::MarginSmall);
+                const float b = style->getMetric(MetricsRole::Border);
                 const float handleWidth = _getHandleWidth();
                 const auto & range = model->observeRange()->get();
                 float v = (value - range.min) / static_cast<float>(range.max - range.min);
-                const BBox2f g2 = g.margin(-m);
+                const BBox2f g2 = g.margin(-(m + b));
                 switch (getOrientation())
                 {
                 case Orientation::Horizontal:
@@ -168,9 +169,10 @@ namespace djv
                 const auto& style = _getStyle();
                 const BBox2f g = getMargin().bbox(getGeometry(), style);
                 const float m = style->getMetric(MetricsRole::MarginSmall);
+                const float b = style->getMetric(MetricsRole::Border);
                 const float handleWidth = _getHandleWidth();
                 const auto & range = model->observeRange()->get();
-                const BBox2f g2 = g.margin(-m);
+                const BBox2f g2 = g.margin(-(m + b));
                 float v = 0.F;
                 switch (getOrientation())
                 {
