@@ -32,7 +32,6 @@
 #include <djvUI/DrawUtil.h>
 #include <djvUI/Style.h>
 
-#include <djvAV/FontSystem.h>
 #include <djvAV/Render2D.h>
 
 #include <djvCore/Context.h>
@@ -51,8 +50,6 @@ namespace djv
         {
             Orientation orientation = Orientation::First;
             float handleWidth = 0.F;
-            AV::Font::Metrics fontMetrics;
-            std::future<AV::Font::Metrics> fontMetricsFuture;
             std::chrono::milliseconds delay = std::chrono::milliseconds(0);
             std::shared_ptr<Time::Timer> delayTimer;
             Event::PointerID pressedID = Event::InvalidID;
@@ -122,63 +119,63 @@ namespace djv
             const float b = style->getMetric(MetricsRole::Border);
             auto render = _getRender();
             
-            if (_getPointerHover().size())
-            {
-                render->setFillColor(style->getColor(ColorRole::Hovered));
-                render->drawRect(g);
-            }
-
             if (hasTextFocus())
             {
                 render->setFillColor(style->getColor(ColorRole::TextFocus));
-                drawBorder(render, g, b);
+                drawBorder(render, g, b * 2.F);
             }
 
-            const BBox2f g2 = g.margin(-(m + b));
+            const BBox2f g2 = g.margin(-b * 2.F);
+            if (_getPointerHover().size())
+            {
+                render->setFillColor(style->getColor(ColorRole::Hovered));
+                render->drawRect(g2);
+            }
 
+            const BBox2f g3 = g2.margin(-m);
             float troughHeight = 0.F;
             switch (p.orientation)
             {
             case Orientation::Horizontal:
             {
-                troughHeight = g2.h() / 3.F;
-                const BBox2f g3 = BBox2f(
-                    g2.min.x,
-                    floorf(g2.min.y + g2.h() / 2.F - troughHeight / 2.F),
-                    g2.w(),
+                troughHeight = g3.h() / 3.F;
+                const BBox2f g4 = BBox2f(
+                    g3.min.x,
+                    floorf(g3.min.y + g3.h() / 2.F - troughHeight / 2.F),
+                    g3.w(),
                     troughHeight);
                 render->setFillColor(style->getColor(ColorRole::Border));
-                drawBorder(render, g3, b);
+                drawBorder(render, g4, b);
                 render->setFillColor(style->getColor(ColorRole::Trough));
-                const BBox2f g4 = g3.margin(-b);
-                render->drawRect(g4);
+                const BBox2f g5 = g4.margin(-b);
+                render->drawRect(g5);
                 render->setFillColor(style->getColor(ColorRole::Checked));
                 render->drawRect(BBox2f(
-                    g4.min.x,
-                    g4.min.y,
-                    ceilf((g4.w() - p.handleWidth / 2.F) * v),
-                    g4.h()));
+                    g5.min.x,
+                    g5.min.y,
+                    ceilf((g5.w() - p.handleWidth / 2.F) * v),
+                    g5.h()));
                 break;
             }
             case Orientation::Vertical:
             {
-                troughHeight = g2.w() / 3.F;
-                const BBox2f g3 = BBox2f(
-                    floorf(g2.min.x + g2.w() / 2.F - troughHeight / 2.F),
-                    g2.min.y,
+                troughHeight = g3.w() / 3.F;
+                const BBox2f g4 = BBox2f(
+                    floorf(g3.min.x + g3.w() / 2.F - troughHeight / 2.F),
+                    g3.min.y,
                     troughHeight,
-                    g2.h());
+                    g3.h());
                 render->setFillColor(style->getColor(ColorRole::Border));
-                drawBorder(render, g3, b);
+                drawBorder(render, g4, b);
                 render->setFillColor(style->getColor(ColorRole::Trough));
-                const BBox2f g4 = g3.margin(-b);
-                render->drawRect(g4);
+                const BBox2f g5 = g4.margin(-b);
+                render->drawRect(g5);
                 render->setFillColor(style->getColor(ColorRole::Checked));
                 render->drawRect(BBox2f(
-                    g4.min.x,
-                    g4.min.y,
-                    m,
-                    ceilf((g4.h() - p.handleWidth / 2.F) * v)));
+                    g5.min.x,
+                    g5.min.y,
+                    g5.w(),
+                    ceilf((g5.h() - p.handleWidth / 2.F) * v)));
                 break;
             }
             default: break;
@@ -190,15 +187,15 @@ namespace djv
             case Orientation::Horizontal:
                 handleBBox = BBox2f(
                     floorf(pos - p.handleWidth / 2.F),
-                    g2.min.y,
+                    g3.min.y,
                     p.handleWidth,
-                    g2.h());
+                    g3.h());
                 break;
             case Orientation::Vertical:
                 handleBBox = BBox2f(
-                    g2.min.x,
+                    g3.min.x,
                     floorf(pos - p.handleWidth / 2.F),
-                    g2.w(),
+                    g3.w(),
                     p.handleWidth);
                 break;
             default: break;
@@ -224,39 +221,27 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                auto fontSystem = context->getSystemT<AV::Font::System>();
                 const auto& style = _getStyle();
                 p.handleWidth = style->getMetric(MetricsRole::Handle);
-                p.fontMetricsFuture = fontSystem->getMetrics(style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium));
             }
         }
 
         void NumericSlider::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
-            if (p.fontMetricsFuture.valid())
-            {
-                try
-                {
-                    p.fontMetrics = p.fontMetricsFuture.get();
-                }
-                catch (const std::exception& e)
-                {
-                    _log(e.what(), LogLevel::Error);
-                }
-            }
             const auto& style = _getStyle();
             const float s = style->getMetric(MetricsRole::Slider);
             const float m = style->getMetric(MetricsRole::MarginSmall);
             const float b = style->getMetric(MetricsRole::Border);
+            const float is = style->getMetric(MetricsRole::IconSmall);
             glm::vec2 size(0.F, 0.F);
             switch (p.orientation)
             {
-            case Orientation::Horizontal: size = glm::vec2(s, p.fontMetrics.lineHeight); break;
-            case Orientation::Vertical:   size = glm::vec2(p.fontMetrics.lineHeight, s); break;
+            case Orientation::Horizontal: size = glm::vec2(s, is); break;
+            case Orientation::Vertical:   size = glm::vec2(is, s); break;
             default: break;
             }
-            _setMinimumSize(size + m * 2.F + b * 2.F + getMargin().getSize(style));
+            _setMinimumSize(size + m * 2.F + b * 4.F + getMargin().getSize(style));
         }
 
         void NumericSlider::_pointerEnterEvent(Event::PointerEnter & event)
@@ -356,11 +341,22 @@ namespace djv
         {
             Widget::_keyPressEvent(event);
             DJV_PRIVATE_PTR();
-            if (!event.isAccepted())
+            if (!event.isAccepted() && hasTextFocus())
             {
                 if (_keyPress(event.getKey()))
                 {
                     event.accept();
+                }
+                else
+                {
+                    switch (event.getKey())
+                    {
+                    case GLFW_KEY_ESCAPE:
+                        event.accept();
+                        releaseTextFocus();
+                        break;
+                    default: break;
+                    }
                 }
             }
         }

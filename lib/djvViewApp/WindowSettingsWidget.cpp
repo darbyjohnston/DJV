@@ -224,13 +224,11 @@ namespace djv
             p.layout->addChild(p.imageWidget);
             auto vLayout = UI::VerticalLayout::create(context);
             auto hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             hLayout ->addChild(p.lineEdit);
             hLayout->setStretch(p.lineEdit, UI::RowStretch::Expand);
-            auto hLayout2 = UI::HorizontalLayout::create(context);
-            hLayout2->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
-            hLayout2->addChild(p.openButton);
-            hLayout2->addChild(p.closeButton);
-            hLayout->addChild(hLayout2);
+            hLayout->addChild(p.openButton);
+            hLayout->addChild(p.closeButton);
             vLayout->addChild(hLayout);
             vLayout->addChild(p.scaleCheckBox);
             vLayout->addChild(p.colorizeCheckBox);

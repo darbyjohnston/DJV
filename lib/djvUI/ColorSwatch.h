@@ -59,6 +59,8 @@ namespace djv
 
             void setClickedCallback(const std::function<void(void)>&);
 
+            bool acceptFocus(TextFocusDirection) override;
+
         protected:
             void _preLayoutEvent(Core::Event::PreLayout &) override;
             void _paintEvent(Core::Event::Paint &) override;
@@ -67,6 +69,9 @@ namespace djv
             void _pointerMoveEvent(Core::Event::PointerMove&) override;
             void _buttonPressEvent(Core::Event::ButtonPress&) override;
             void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;
+            void _keyPressEvent(Core::Event::KeyPress&) override;
+            void _textFocusEvent(Core::Event::TextFocus&) override;
+            void _textFocusLostEvent(Core::Event::TextFocusLost&) override;
 
         private:
             DJV_PRIVATE();

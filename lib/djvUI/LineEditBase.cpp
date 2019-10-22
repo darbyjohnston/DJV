@@ -517,7 +517,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                if (!event.isAccepted())
+                if (!event.isAccepted() && hasTextFocus())
                 {
                     const size_t size = p.utf32.size();
                     const int modifiers = event.getKeyModifiers();
@@ -629,11 +629,8 @@ namespace djv
                         }
                         break;
                     case GLFW_KEY_ESCAPE:
-                        if (hasTextFocus())
-                        {
-                            event.accept();
-                            releaseTextFocus();
-                        }
+                        event.accept();
+                        releaseTextFocus();
                         break;
                     case GLFW_KEY_UP:
                     case GLFW_KEY_DOWN:

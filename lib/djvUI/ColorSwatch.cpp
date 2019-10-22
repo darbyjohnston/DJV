@@ -34,6 +34,9 @@
 
 #include <djvAV/Render2D.h>
 
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
+
 using namespace djv::Core;
 
 namespace djv
@@ -44,6 +47,7 @@ namespace djv
         {
             AV::Image::Color color;
             MetricsRole swatchSizeRole = MetricsRole::Swatch;
+            ColorRole borderColor = ColorRole::Border;
             Event::PointerID pressedID = Event::InvalidID;
             std::function<void(void)> clickedCallback;
         };
@@ -103,11 +107,23 @@ namespace djv
             _p->clickedCallback = value;
         }
 
+        bool ColorSwatch::acceptFocus(TextFocusDirection)
+        {
+            bool out = false;
+            if (_p->clickedCallback && isEnabled(true) && isVisible(true) && !isClipped())
+            {
+                takeTextFocus();
+                out = true;
+            }
+            return out;
+        }
+
         void ColorSwatch::_preLayoutEvent(Event::PreLayout & event)
         {
             const auto& style = _getStyle();
+            const float b = style->getMetric(UI::MetricsRole::Border);
             const float sw = style->getMetric(_p->swatchSizeRole);
-            _setMinimumSize(glm::vec2(sw, sw));
+            _setMinimumSize(glm::vec2(sw, sw) + b * 4.f);
         }
 
         void ColorSwatch::_paintEvent(Event::Paint & event)
@@ -115,23 +131,32 @@ namespace djv
             Widget::_paintEvent(event);
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            const BBox2f & g = getGeometry();
             const float b = style->getMetric(UI::MetricsRole::Border);
+            const BBox2f & g = getGeometry();
+
             auto render = _getRender();
+            if (hasTextFocus())
+            {
+                render->setFillColor(style->getColor(UI::ColorRole::TextFocus));
+                drawBorder(render, g, b * 2.F);
+            }
+
+            const BBox2f& g2 = g.margin(-b * 2.F);
             render->setFillColor(style->getColor(UI::ColorRole::Border));
-            drawBorder(render, g, b);
+            drawBorder(render, g2, b);
             render->setFillColor(p.color);
-            const BBox2f& g2 = g.margin(-b);
-            render->drawRect(g2);
+            const BBox2f& g3 = g2.margin(-b);
+            render->drawRect(g3);
+
             if (isEnabled(true) && p.pressedID != 0)
             {
                 render->setFillColor(style->getColor(ColorRole::Pressed));
-                render->drawRect(g2);
+                render->drawRect(g3);
             }
             else if (isEnabled(true) && _getPointerHover().size() && p.clickedCallback)
             {
                 render->setFillColor(style->getColor(ColorRole::Hovered));
-                render->drawRect(g2);
+                render->drawRect(g3);
             }
         }
 
@@ -180,6 +205,7 @@ namespace djv
                 event.accept();
                 const auto& pointerInfo = event.getPointerInfo();
                 p.pressedID = pointerInfo.id;
+                takeTextFocus();
                 _redraw();
             }
         }
@@ -204,6 +230,40 @@ namespace djv
                     }
                 }
             }
+        }
+
+        void ColorSwatch::_keyPressEvent(Event::KeyPress& event)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.clickedCallback)
+            {
+                if (!event.isAccepted() && hasTextFocus())
+                {
+                    switch (event.getKey())
+                    {
+                    case GLFW_KEY_ENTER:
+                    case GLFW_KEY_SPACE:
+                        event.accept();
+                        p.clickedCallback();
+                        break;
+                    case GLFW_KEY_ESCAPE:
+                        event.accept();
+                        releaseTextFocus();
+                        break;
+                    default: break;
+                    }
+                }
+            }
+        }
+
+        void ColorSwatch::_textFocusEvent(Event::TextFocus&)
+        {
+            _redraw();
+        }
+
+        void ColorSwatch::_textFocusLostEvent(Event::TextFocusLost&)
+        {
+            _redraw();
         }
 
     } // namespace UI

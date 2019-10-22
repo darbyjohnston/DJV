@@ -38,6 +38,9 @@
 #include <djvCore/Animation.h>
 #include <djvCore/Context.h>
 
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
+
 //#pragma optimize("", off)
 
 using namespace djv::Core;
@@ -57,8 +60,6 @@ namespace djv
 
             struct Toggle::Private
             {
-                AV::Font::Metrics fontMetrics;
-                std::future<AV::Font::Metrics> fontMetricsFuture;
                 float animationValue = 0.F;
                 std::shared_ptr<Animation::Animation> animation;
             };
@@ -72,7 +73,6 @@ namespace djv
                 setButtonType(ButtonType::Toggle);
                 setHAlign(HAlign::Left);
                 setVAlign(VAlign::Center);
-                setMargin(Layout::Margin(MetricsRole::MarginSmall));
                 p.animation = Animation::Animation::create(context);
             }
 
@@ -116,73 +116,112 @@ namespace djv
                 }
             }
 
-            void Toggle::_styleEvent(Event::Style& event)
+            bool Toggle::acceptFocus(TextFocusDirection)
             {
-                DJV_PRIVATE_PTR();
-                if (auto context = getContext().lock())
+                bool out = false;
+                if (isEnabled(true) && isVisible(true) && !isClipped())
                 {
-                    auto fontSystem = context->getSystemT<AV::Font::System>();
-                    const auto& style = _getStyle();
-                    p.fontMetricsFuture = fontSystem->getMetrics(style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium));
+                    takeTextFocus();
+                    out = true;
                 }
+                return out;
             }
 
             void Toggle::_preLayoutEvent(Event::PreLayout & event)
             {
                 DJV_PRIVATE_PTR();
-                if (p.fontMetricsFuture.valid())
-                {
-                    try
-                    {
-                        p.fontMetrics = p.fontMetricsFuture.get();
-                    }
-                    catch (const std::exception& e)
-                    {
-                        _log(e.what(), LogLevel::Error);
-                    }
-                }
-                glm::vec2 minimumSize = glm::vec2(0.F, 0.F);
-                minimumSize.x = p.fontMetrics.lineHeight * 2.F;
-                minimumSize.y = p.fontMetrics.lineHeight;
                 const auto& style = _getStyle();
-                _setMinimumSize(minimumSize + getMargin().getSize(style));
+                const float b = style->getMetric(MetricsRole::Border);
+                const float is = style->getMetric(MetricsRole::IconSmall);
+                _setMinimumSize(glm::vec2(is * 2.F, is) + b * 4.F + getMargin().getSize(style));
             }
 
-            void Toggle::_paintEvent(Event::Paint & event)
+            void Toggle::_paintEvent(Event::Paint& event)
             {
                 Widget::_paintEvent(event);
 
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
                 const float b = style->getMetric(MetricsRole::Border);
-                const BBox2f & g = getMargin().bbox(getGeometry(), style);
+                const BBox2f& g = getMargin().bbox(getGeometry(), style);
 
                 auto render = _getRender();
+                if (hasTextFocus())
+                {
+                    render->setFillColor(style->getColor(ColorRole::TextFocus));
+                    drawBorder(render, g, b * 2.F);
+                }
+
+                const BBox2f& g2 = g.margin(-b * 2.F);
                 render->setFillColor(style->getColor(ColorRole::Border));
-                drawBorder(render, g, b);
-
+                drawBorder(render, g2, b);
                 render->setFillColor(style->getColor(isChecked() ? ColorRole::Checked : ColorRole::Trough));
-                render->drawRect(g.margin(-b));
+                render->drawRect(g2.margin(-b));
 
-                const float r = g.h() / 2.F;
-                const float x = Math::lerp(p.animationValue, g.min.x + r, g.max.x - r);
-                const BBox2f handleBBox(x - r, g.min.y, r * 2.F, r * 2.F);
+                if (_isHovered())
+                {
+                    render->setFillColor(style->getColor(ColorRole::Hovered));
+                    render->drawRect(g2);
+                }
+
+                const float r = g2.h() / 2.F;
+                const float x = Math::lerp(p.animationValue, g2.min.x + r, g2.max.x - r);
+                const BBox2f handleBBox = BBox2f(x - r, g2.min.y, r * 2.F, r * 2.F);
                 auto color = style->getColor(ColorRole::Border);
                 render->setFillColor(color);
                 render->drawRect(handleBBox);
                 color = style->getColor(ColorRole::Button);
                 render->setFillColor(color);
                 render->drawRect(handleBBox.margin(-b));
+
                 if (_isPressed())
                 {
                     render->setFillColor(style->getColor(ColorRole::Pressed));
                     render->drawRect(handleBBox);
                 }
-                else if (_isHovered())
+            }
+
+            void Toggle::_buttonPressEvent(Event::ButtonPress& event)
+            {
+                IButton::_buttonPressEvent(event);
+                DJV_PRIVATE_PTR();
+                if (event.isAccepted())
                 {
-                    render->setFillColor(style->getColor(ColorRole::Hovered));
-                    render->drawRect(handleBBox);
+                    takeTextFocus();
                 }
+            }
+
+            void Toggle::_keyPressEvent(Event::KeyPress& event)
+            {
+                IButton::_keyPressEvent(event);
+                DJV_PRIVATE_PTR();
+                if (!event.isAccepted() && hasTextFocus())
+                {
+                    switch (event.getKey())
+                    {
+                    case GLFW_KEY_ENTER:
+                    case GLFW_KEY_SPACE:
+                        event.accept();
+                        setChecked(!isChecked());
+                        _doCheckedCallback(isChecked());
+                        break;
+                    case GLFW_KEY_ESCAPE:
+                        event.accept();
+                        releaseTextFocus();
+                        break;
+                    default: break;
+                    }
+                }
+            }
+
+            void Toggle::_textFocusEvent(Event::TextFocus&)
+            {
+                _redraw();
+            }
+
+            void Toggle::_textFocusLostEvent(Event::TextFocusLost&)
+            {
+                _redraw();
             }
 
         } // namespace Button

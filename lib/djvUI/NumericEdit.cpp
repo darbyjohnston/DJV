@@ -29,11 +29,13 @@
 
 #include <djvUI/NumericEdit.h>
 
-#include <djvUI/LineEdit.h>
+#include <djvUI/DrawUtil.h>
+#include <djvUI/LineEditBase.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvAV/FontSystem.h>
+#include <djvAV/Render2D.h>
 
 #include <djvCore/NumericValueModels.h>
 #include <djvCore/ValueObserver.h>
@@ -49,7 +51,7 @@ namespace djv
     {
         struct NumericEdit::Private
         {
-            std::shared_ptr<LineEdit> lineEdit;
+            std::shared_ptr<LineEditBase> lineEditBase;
             std::shared_ptr<ToolButton> incButtons[2];
             std::shared_ptr<HorizontalLayout> layout;
         };
@@ -62,8 +64,8 @@ namespace djv
             setClassName("djv::UI::NumericEdit");
             setVAlign(VAlign::Center);
 
-            p.lineEdit = LineEdit::create(context);
-            p.lineEdit->setFont(AV::Font::familyMono);
+            p.lineEditBase = LineEditBase::create(context);
+            p.lineEditBase->setFont(AV::Font::familyMono);
 
             const std::vector<std::string> icons =
             {
@@ -82,9 +84,9 @@ namespace djv
             }
 
             p.layout = HorizontalLayout::create(context);
-            p.layout->setSpacing(Layout::Spacing(MetricsRole::Border));
-            p.layout->addChild(p.lineEdit);
-            p.layout->setStretch(p.lineEdit, RowStretch::Expand);
+            p.layout->setSpacing(Layout::Spacing(MetricsRole::None));
+            p.layout->addChild(p.lineEditBase);
+            p.layout->setStretch(p.lineEditBase, RowStretch::Expand);
             auto vLayout = VerticalLayout::create(context);
             vLayout->setSpacing(Layout::Spacing(MetricsRole::Border));
             for (size_t i = 0; i < 2; ++i)
@@ -96,7 +98,7 @@ namespace djv
             addChild(p.layout);
 
             auto weak = std::weak_ptr<NumericEdit>(std::dynamic_pointer_cast<NumericEdit>(shared_from_this()));
-            p.lineEdit->setTextEditCallback(
+            p.lineEditBase->setTextEditCallback(
                 [weak](const std::string & value, TextEdit textEdit)
             {
                 if (auto widget = weak.lock())
@@ -104,6 +106,14 @@ namespace djv
                     widget->_textEdit(value, textEdit);
                 }
             });
+            p.lineEditBase->setFocusCallback(
+                [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_redraw();
+                    }
+                });
 
             p.incButtons[0]->setClickedCallback(
                 [weak]
@@ -113,7 +123,6 @@ namespace djv
                         widget->_incrementValue();
                     }
                 });
-
             p.incButtons[1]->setClickedCallback(
                 [weak]
                 {
@@ -136,28 +145,49 @@ namespace djv
             DJV_PRIVATE_PTR();
             glm::vec2 size = p.layout->getMinimumSize();
             const auto& style = _getStyle();
-            _setMinimumSize(size + getMargin().getSize(style));
+            const float b = style->getMetric(MetricsRole::Border);
+            _setMinimumSize(size + b * 6.F + getMargin().getSize(style));
         }
 
         void NumericEdit::_layoutEvent(Event::Layout & event)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            p.layout->setGeometry(getMargin().bbox(getGeometry(), style));
+            const BBox2f& g = getMargin().bbox(getGeometry(), style);
+            const float b = style->getMetric(MetricsRole::Border);
+            p.layout->setGeometry(g.margin(-b * 3.F));
         }
 
         void NumericEdit::_textUpdate(const std::string& text, const std::string& sizeString)
         {
             DJV_PRIVATE_PTR();
-            p.lineEdit->setText(text);
-            p.lineEdit->setSizeString(sizeString);
+            p.lineEditBase->setText(text);
+            p.lineEditBase->setSizeString(sizeString);
+        }
+
+        void NumericEdit::_paintEvent(Event::Paint& event)
+        {
+            Widget::_paintEvent(event);
+            DJV_PRIVATE_PTR();
+            const auto& style = _getStyle();
+            const BBox2f& g = getGeometry();
+            const float b = style->getMetric(UI::MetricsRole::Border);
+            auto render = _getRender();
+            if (p.lineEditBase->hasTextFocus())
+            {
+                render->setFillColor(style->getColor(UI::ColorRole::TextFocus));
+                drawBorder(render, g, b * 2.F);
+            }
+            render->setFillColor(style->getColor(UI::ColorRole::Border));
+            const BBox2f g2 = g.margin(-b * 2.F);
+            drawBorder(render, g2, b);
         }
 
         void NumericEdit::_keyPressEvent(Event::KeyPress& event)
         {
             Widget::_keyPressEvent(event);
             DJV_PRIVATE_PTR();
-            if (!event.isAccepted())
+            if (!event.isAccepted() && p.lineEditBase->hasTextFocus())
             {
                 if (_keyPress(event.getKey()))
                 {

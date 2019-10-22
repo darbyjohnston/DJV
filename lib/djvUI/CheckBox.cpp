@@ -141,9 +141,9 @@ namespace djv
                 const float b = style->getMetric(MetricsRole::Border);
                 const float is = style->getMetric(MetricsRole::IconSmall);
                 glm::vec2 size = _p->label->getMinimumSize();
-                size.x += is + m * 2.F;
-                size.y = std::max(size.y, is + m * 2.F);
-                _setMinimumSize(size + b * 2.F);
+                size.x += is + m * 2.F + b * 4.F;
+                size.y = std::max(size.y, is + m * 2.F + b * 4.F);
+                _setMinimumSize(size);
             }
 
             void CheckBox::_layoutEvent(Event::Layout &)
@@ -160,21 +160,22 @@ namespace djv
                 const float m = style->getMetric(MetricsRole::MarginSmall);
                 const float b = style->getMetric(MetricsRole::Border);
 
+                if (hasTextFocus())
+                {
+                    render->setFillColor(style->getColor(ColorRole::TextFocus));
+                    drawBorder(render, g, b * 2.F);
+                }
+
+                const BBox2f& g2 = g.margin(-b * 2.F);
                 if (_isPressed())
                 {
                     render->setFillColor(style->getColor(ColorRole::Pressed));
-                    render->drawRect(g);
+                    render->drawRect(g2);
                 }
                 else if (_isHovered())
                 {
                     render->setFillColor(style->getColor(ColorRole::Hovered));
-                    render->drawRect(g);
-                }
-
-                if (hasTextFocus())
-                {
-                    render->setFillColor(style->getColor(ColorRole::TextFocus));
-                    drawBorder(render, g, b);
+                    render->drawRect(g2);
                 }
 
                 BBox2f checkGeometry = _getCheckGeometry().margin(-m);
@@ -198,7 +199,7 @@ namespace djv
             {
                 IButton::_keyPressEvent(event);
                 DJV_PRIVATE_PTR();
-                if (!event.isAccepted())
+                if (!event.isAccepted() && hasTextFocus())
                 {
                     switch (event.getKey())
                     {

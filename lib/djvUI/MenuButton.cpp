@@ -243,7 +243,7 @@ namespace djv
                 const auto& style = _getStyle();
                 const float b = style->getMetric(MetricsRole::Border);
                 glm::vec2 size = p.layout->getMinimumSize();
-                _setMinimumSize(size + b * 2.F + getMargin().getSize(style));
+                _setMinimumSize(size + b * 4.F + getMargin().getSize(style));
             }
 
             void Menu::_layoutEvent(Event::Layout &)
@@ -252,44 +252,44 @@ namespace djv
                 const auto& style = _getStyle();
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
                 const float b = style->getMetric(MetricsRole::Border);
-                _p->layout->setGeometry(g.margin(-b));
+                _p->layout->setGeometry(g.margin(-b * 2.F));
             }
 
             void Menu::_paintEvent(Event::Paint & event)
             {
-                Widget::_paintEvent(event);
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
-                const BBox2f& g = getMargin().bbox(getGeometry(), style);
                 const float b = style->getMetric(MetricsRole::Border);
+                const BBox2f& g = getMargin().bbox(getGeometry(), style);
                 auto render = _getRender();
-
-                if (p.open)
-                {
-                    render->setFillColor(style->getColor(ColorRole::Checked));
-                    render->drawRect(g);
-                }
-                if (_isHovered())
-                {
-                    render->setFillColor(style->getColor(ColorRole::Hovered));
-                    render->drawRect(g);
-                }
 
                 if (hasTextFocus())
                 {
                     render->setFillColor(style->getColor(ColorRole::TextFocus));
-                    drawBorder(render, g, b);
+                    drawBorder(render, g, b * 2.F);
                 }
-                else
+
+                const BBox2f& g2 = g.margin(-b * 2.F);
+                render->setFillColor(style->getColor(getBackgroundRole()));
+                render->drawRect(g2);
+                switch (p.menuStyle)
                 {
-                    switch (p.menuStyle)
-                    {
-                    case MenuStyle::ComboBox:
-                        render->setFillColor(style->getColor(ColorRole::BorderButton));
-                        drawBorder(render, g, b);
-                        break;
-                    default: break;
-                    }
+                case MenuStyle::ComboBox:
+                    render->setFillColor(style->getColor(ColorRole::BorderButton));
+                    drawBorder(render, g2, b);
+                    break;
+                default: break;
+                }
+                if (p.open)
+                {
+                    render->setFillColor(style->getColor(ColorRole::Checked));
+                    render->drawRect(g2);
+                }
+
+                if (_isHovered())
+                {
+                    render->setFillColor(style->getColor(ColorRole::Hovered));
+                    render->drawRect(g2);
                 }
             }
 
@@ -337,7 +337,7 @@ namespace djv
             {
                 Widget::_keyPressEvent(event);
                 DJV_PRIVATE_PTR();
-                if (!event.isAccepted())
+                if (!event.isAccepted() && hasTextFocus())
                 {
                     switch (event.getKey())
                     {

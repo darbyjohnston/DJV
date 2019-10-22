@@ -29,8 +29,11 @@
 
 #include <djvUI/LineEdit.h>
 
-#include <djvUI/Border.h>
+#include <djvUI/DrawUtil.h>
 #include <djvUI/LineEditBase.h>
+#include <djvUI/Style.h>
+
+#include <djvAV/Render2D.h>
 
 using namespace djv::Core;
 
@@ -41,7 +44,6 @@ namespace djv
         struct LineEdit::Private
         {
             std::shared_ptr<LineEditBase> lineEditBase;
-            std::shared_ptr<Border> border;
         };
 
         void LineEdit::_init(const std::shared_ptr<Context>& context)
@@ -55,10 +57,7 @@ namespace djv
 
             p.lineEditBase = LineEditBase::create(context);
             p.lineEditBase->setBackgroundRole(ColorRole::Trough);
-
-            p.border = Border::create(context);
-            p.border->addChild(p.lineEditBase);
-            addChild(p.border);
+            addChild(p.lineEditBase);
 
             auto weak = std::weak_ptr<LineEdit>(std::dynamic_pointer_cast<LineEdit>(shared_from_this()));
             p.lineEditBase->setFocusCallback(
@@ -66,7 +65,7 @@ namespace djv
             {
                 if (auto widget = weak.lock())
                 {
-                    widget->_p->border->setBorderColorRole(value ? ColorRole::TextFocus : ColorRole::Border);
+                    widget->_redraw();
                 }
             });
         }
@@ -179,9 +178,10 @@ namespace djv
         void LineEdit::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
-            glm::vec2 size = p.border->getMinimumSize();
+            glm::vec2 size = p.lineEditBase->getMinimumSize();
             const auto& style = _getStyle();
-            _setMinimumSize(size + getMargin().getSize(style));
+            const float b = style->getMetric(MetricsRole::Border);
+            _setMinimumSize(size + b * 6.F + getMargin().getSize(style));
         }
 
         void LineEdit::_layoutEvent(Event::Layout & event)
@@ -189,7 +189,26 @@ namespace djv
             DJV_PRIVATE_PTR();
             const BBox2f g = getGeometry();
             const auto& style = _getStyle();
-            p.border->setGeometry(getAlign(getMargin().bbox(g, style), p.border->getMinimumSize(), HAlign::Fill, VAlign::Center));
+            const float b = style->getMetric(MetricsRole::Border);
+            p.lineEditBase->setGeometry(g.margin(-b * 3.F));
+        }
+
+        void LineEdit::_paintEvent(Event::Paint& event)
+        {
+            Widget::_paintEvent(event);
+            DJV_PRIVATE_PTR();
+            const auto& style = _getStyle();
+            const BBox2f& g = getGeometry();
+            const float b = style->getMetric(UI::MetricsRole::Border);
+            auto render = _getRender();
+            if (p.lineEditBase->hasTextFocus())
+            {
+                render->setFillColor(style->getColor(UI::ColorRole::TextFocus));
+                drawBorder(render, g, b * 2.F);
+            }
+            render->setFillColor(style->getColor(UI::ColorRole::Border));
+            const BBox2f g2 = g.margin(-b * 2.F);
+            drawBorder(render, g2, b);
         }
 
     } // namespace UI

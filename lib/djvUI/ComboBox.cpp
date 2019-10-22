@@ -288,7 +288,7 @@ namespace djv
         {
             Widget::_keyPressEvent(event);
             DJV_PRIVATE_PTR();
-            if (!event.isAccepted())
+            if (!event.isAccepted() && hasTextFocus())
             {
                 const int currentItem = p.currentItem;
                 switch (event.getKey())
