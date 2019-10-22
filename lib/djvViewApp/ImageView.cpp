@@ -458,10 +458,13 @@ namespace djv
             default:
                 if (p.image && p.viewInit)
                 {
-                    p.viewInit = false;
                     imageFill();
                 }
                 break;
+            }
+            if (p.image && p.viewInit)
+            {
+                p.viewInit = false;
             }
         }
 
