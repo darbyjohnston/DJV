@@ -144,6 +144,7 @@ namespace djv
             if (auto model = getModel())
             {
                 model->incrementSmall();
+                _doCallback(TextEdit::Accepted);
             }
         }
 
@@ -152,6 +153,7 @@ namespace djv
             if (auto model = getModel())
             {
                 model->decrementSmall();
+                _doCallback(TextEdit::Accepted);
             }
         }
 
@@ -162,7 +164,8 @@ namespace djv
             {
                 std::stringstream ss;
                 ss.precision(p.precision);
-                ss << std::fixed << model->observeValue()->get();
+                const float value = model->observeValue()->get();
+                ss << std::fixed << value;
                 NumericEdit::_textUpdate(ss.str(), FloatLabel::getSizeString(model->observeRange()->get(), p.precision));
             }
             _resize();

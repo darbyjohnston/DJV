@@ -274,6 +274,14 @@ namespace djv
                 value);
         }
 
+        void ImageView::setImageZoomFocus(float value)
+        {
+            DJV_PRIVATE_PTR();
+            const BBox2f& g = getGeometry();
+            const glm::vec2& c = g.getCenter();
+            setImageZoomFocus(value, c);
+        }
+
         void ImageView::setImagePosAndZoom(const glm::vec2& pos, float zoom)
         {
             DJV_PRIVATE_PTR();

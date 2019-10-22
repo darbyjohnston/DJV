@@ -36,6 +36,7 @@
 #include <djvUIComponents/ColorPicker.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/FloatEdit.h>
 #include <djvUI/FormLayout.h>
 #include <djvUI/IntSlider.h>
 #include <djvUI/RowLayout.h>
@@ -45,6 +46,7 @@
 #include <djvUI/ToggleButton.h>
 
 #include <djvCore/Context.h>
+#include <djvCore/NumericValueModels.h>
 
 using namespace djv::Core;
 
@@ -54,12 +56,23 @@ namespace djv
     {
         struct ViewControlsWidget::Private
         {
+            glm::vec2 viewPos = glm::vec2(0.F, 0.F);
+            float viewZoom = 1.F;
             GridOptions gridOptions;
             AV::Image::Color backgroundColor;
 
             std::shared_ptr<MediaWidget> activeWidget;
 
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
+
+            std::shared_ptr<UI::FloatEdit> viewPosEdit[2];
+            std::shared_ptr<UI::ToolButton> viewPosResetButton;
+            std::shared_ptr<UI::FloatEdit> viewZoomEdit;
+            std::shared_ptr<UI::ToolButton> viewZoomResetButton;
+            std::shared_ptr<UI::FormLayout> viewFormLayout;
+            std::shared_ptr<UI::HorizontalLayout> viewPosLayout;
+            std::shared_ptr<UI::HorizontalLayout> viewZoomLayout;
+            std::shared_ptr<UI::VerticalLayout> viewLayout;
 
             std::shared_ptr<UI::ToggleButton> gridEnabledButton;
             std::shared_ptr<UI::IntSlider> gridSizeSlider;
@@ -77,6 +90,8 @@ namespace djv
             std::shared_ptr<UI::TabWidget> tabWidget;
 
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
+            std::shared_ptr<ValueObserver<glm::vec2> > viewPosObserver;
+            std::shared_ptr<ValueObserver<float> > viewZoomObserver;
             std::shared_ptr<ValueObserver<GridOptions> > gridOptionsObserver;
             std::shared_ptr<ValueObserver<GridOptions> > gridOptionsObserver2;
             std::shared_ptr<ValueObserver<AV::Image::Color> > backgroundColorObserver;
@@ -92,6 +107,48 @@ namespace djv
 
             p.actions["GridSettings"] = UI::Action::create();
             p.actions["BackgroundSettings"] = UI::Action::create();
+
+            for (size_t i = 0; i < 2; ++i)
+            {
+                p.viewPosEdit[i] = UI::FloatEdit::create(context);
+                auto model = FloatValueModel::create();
+                model->setRange(FloatRange(-1000000.F, 1000000.F));
+                model->setSmallIncrement(1.F);
+                model->setLargeIncrement(10.F);
+                p.viewPosEdit[i]->setModel(model);
+            }
+            p.viewPosResetButton = UI::ToolButton::create(context);
+            p.viewPosResetButton->setIcon("djvIconCloseSmall");
+            p.viewZoomEdit = UI::FloatEdit::create(context);
+            auto model = FloatValueModel::create();
+            model->setRange(FloatRange(.1F, 100.F));
+            model->setSmallIncrement(.1F);
+            model->setLargeIncrement(1.F);
+            p.viewZoomEdit->setModel(model);
+            p.viewZoomResetButton = UI::ToolButton::create(context);
+            p.viewZoomResetButton->setIcon("djvIconCloseSmall");
+
+            p.viewFormLayout = UI::FormLayout::create(context);
+            p.viewFormLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+            p.viewFormLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+            p.viewFormLayout->setShadowOverlay({ UI::Side::Top });
+            p.viewPosLayout = UI::HorizontalLayout::create(context);
+            p.viewPosLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+            for (size_t i = 0; i < 2; ++i)
+            {
+                p.viewPosLayout->addChild(p.viewPosEdit[i]);
+            }
+            p.viewPosLayout->addChild(p.viewPosResetButton);
+            p.viewFormLayout->addChild(p.viewPosLayout);
+            p.viewZoomLayout = UI::HorizontalLayout::create(context);
+            p.viewZoomLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+            p.viewZoomLayout->addChild(p.viewZoomEdit);
+            p.viewZoomLayout->addChild(p.viewZoomResetButton);
+            p.viewFormLayout->addChild(p.viewZoomLayout);
+            p.viewLayout = UI::VerticalLayout::create(context);
+            p.viewLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            p.viewLayout->addChild(p.viewFormLayout);
+            p.viewLayout->setStretch(p.viewFormLayout, UI::RowStretch::Expand);
 
             p.gridEnabledButton = UI::ToggleButton::create(context);
 
@@ -151,6 +208,7 @@ namespace djv
             p.tabWidget = UI::TabWidget::create(context);
             p.tabWidget->setBackgroundRole(UI::ColorRole::Background);
             p.tabWidget->setShadowOverlay({ UI::Side::Top });
+            p.tabWidget->addChild(p.viewLayout);
             p.tabWidget->addChild(p.gridLayout);
             p.tabWidget->addChild(p.backgroundLayout);
             addChild(p.tabWidget);
@@ -158,6 +216,75 @@ namespace djv
             _widgetUpdate();
 
             auto weak = std::weak_ptr<ViewControlsWidget>(std::dynamic_pointer_cast<ViewControlsWidget>(shared_from_this()));
+            p.viewPosEdit[0]->setValueCallback(
+                [weak](float value, UI::TextEdit)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->viewPos.x = value;
+                        widget->_widgetUpdate();
+                        if (widget->_p->activeWidget)
+                        {
+                            widget->_p->activeWidget->getImageView()->setImagePos(widget->_p->viewPos);
+                        }
+                    }
+                });
+            p.viewPosEdit[1]->setValueCallback(
+                [weak](float value, UI::TextEdit)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->viewPos.y = value;
+                        widget->_widgetUpdate();
+                        if (widget->_p->activeWidget)
+                        {
+                            widget->_p->activeWidget->getImageView()->setImagePos(widget->_p->viewPos);
+                        }
+                    }
+                });
+
+            p.viewPosResetButton->setClickedCallback(
+                [weak]
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->viewPos = glm::vec2(0.F, 0.F);
+                        widget->_widgetUpdate();
+                        if (widget->_p->activeWidget)
+                        {
+                            widget->_p->activeWidget->getImageView()->setImagePos(widget->_p->viewPos);
+                        }
+                    }
+                });
+
+            p.viewZoomEdit->setValueCallback(
+                [weak](float value, UI::TextEdit)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->viewZoom = value;
+                        widget->_widgetUpdate();
+                        if (widget->_p->activeWidget)
+                        {
+                            widget->_p->activeWidget->getImageView()->setImageZoomFocus(value);
+                        }
+                    }
+                });
+
+            p.viewZoomResetButton->setClickedCallback(
+                [weak]
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->viewZoom = 1.F;
+                        widget->_widgetUpdate();
+                        if (widget->_p->activeWidget)
+                        {
+                            widget->_p->activeWidget->getImageView()->setImageZoomFocus(widget->_p->viewZoom);
+                        }
+                    }
+                });
+
             p.gridEnabledButton->setCheckedCallback(
                 [weak](bool value)
                 {
@@ -268,6 +395,26 @@ namespace djv
                             widget->_p->activeWidget = value;
                             if (widget->_p->activeWidget)
                             {
+                                widget->_p->viewPosObserver = ValueObserver<glm::vec2>::create(
+                                    widget->_p->activeWidget->getImageView()->observeImagePos(),
+                                    [weak](const glm::vec2& value)
+                                    {
+                                        if (auto widget = weak.lock())
+                                        {
+                                            widget->_p->viewPos = value;
+                                            widget->_widgetUpdate();
+                                        }
+                                    });
+                                widget->_p->viewZoomObserver = ValueObserver<float>::create(
+                                    widget->_p->activeWidget->getImageView()->observeImageZoom(),
+                                    [weak](float value)
+                                    {
+                                        if (auto widget = weak.lock())
+                                        {
+                                            widget->_p->viewZoom = value;
+                                            widget->_widgetUpdate();
+                                        }
+                                    });
                                 widget->_p->gridOptionsObserver = ValueObserver<GridOptions>::create(
                                     widget->_p->activeWidget->getImageView()->observeGridOptions(),
                                     [weak](const GridOptions& value)
@@ -291,6 +438,8 @@ namespace djv
                             }
                             else
                             {
+                                widget->_p->viewPosObserver.reset();
+                                widget->_p->viewZoomObserver.reset();
                                 widget->_p->gridOptionsObserver.reset();
                                 widget->_p->backgroundColorObserver.reset();
                             }
@@ -357,15 +506,21 @@ namespace djv
             p.actions["GridSettings"]->setText(_getText(DJV_TEXT("Set as Default")));
             p.actions["BackgroundSettings"]->setText(_getText(DJV_TEXT("Set as Default")));
 
-            p.gridSettingsButton->setTooltip(_getText(DJV_TEXT("Set as default settings")));
+            p.viewPosResetButton->setTooltip(_getText(DJV_TEXT("Reset the value.")));
+            p.viewZoomResetButton->setTooltip(_getText(DJV_TEXT("Reset the value.")));
+            p.viewFormLayout->setText(p.viewPosLayout, _getText(DJV_TEXT("Position")) + ":");
+            p.viewFormLayout->setText(p.viewZoomLayout, _getText(DJV_TEXT("Zoom")) + ":");
+
+            p.gridSettingsButton->setTooltip(_getText(DJV_TEXT("Set as default settings.")));
             p.gridFormLayout->setText(p.gridEnabledButton, _getText(DJV_TEXT("Enabled")) + ":");
             p.gridFormLayout->setText(p.gridSizeSlider, _getText(DJV_TEXT("Size")) + ":");
             p.gridFormLayout->setText(p.gridColorPickerSwatch, _getText(DJV_TEXT("Color")) + ":");
             p.gridFormLayout->setText(p.gridLabelsButton, _getText(DJV_TEXT("Labels")) + ":");
                         
-            p.backgroundSettingsButton->setTooltip(_getText(DJV_TEXT("Set as default settings")));
+            p.backgroundSettingsButton->setTooltip(_getText(DJV_TEXT("Set as default settings.")));
             p.backgroundFormLayout->setText(p.backgroundColorPickerSwatch, _getText(DJV_TEXT("Color")) + ":");
             
+            p.tabWidget->setText(p.viewLayout, _getText(DJV_TEXT("View")));
             p.tabWidget->setText(p.gridLayout, _getText(DJV_TEXT("Grid")));
             p.tabWidget->setText(p.backgroundLayout, _getText(DJV_TEXT("Background")));
             
@@ -375,6 +530,12 @@ namespace djv
         void ViewControlsWidget::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();
+
+            p.viewPosEdit[0]->setValue(p.viewPos.x);
+            p.viewPosEdit[1]->setValue(p.viewPos.y);
+            p.viewPosResetButton->setEnabled(p.viewPos != glm::vec2(0.F, 0.F));
+            p.viewZoomEdit->setValue(p.viewZoom);
+            p.viewZoomResetButton->setEnabled(p.viewZoom != 1.F);
 
             p.gridEnabledButton->setChecked(p.gridOptions.enabled);
             p.gridSizeSlider->setValue(p.gridOptions.size);

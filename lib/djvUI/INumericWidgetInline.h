@@ -97,6 +97,7 @@ namespace djv
                 {
                     out = true;
                     _model->setMin();
+                    _doCallback(TextEdit::Accepted);
                 }
                 break;
             case NumericWidgetKey::End:
@@ -104,6 +105,7 @@ namespace djv
                 {
                     out = true;
                     _model->setMax();
+                    _doCallback(TextEdit::Accepted);
                 }
                 break;
             case NumericWidgetKey::Up:
@@ -112,6 +114,7 @@ namespace djv
                 {
                     out = true;
                     _model->incrementSmall();
+                    _doCallback(TextEdit::Accepted);
                 }
                 break;
             case NumericWidgetKey::Down:
@@ -120,6 +123,7 @@ namespace djv
                 {
                     out = true;
                     _model->decrementSmall();
+                    _doCallback(TextEdit::Accepted);
                 }
                 break;
             case NumericWidgetKey::PageUp:
@@ -127,6 +131,7 @@ namespace djv
                 {
                     out = true;
                     _model->incrementLarge();
+                    _doCallback(TextEdit::Accepted);
                 }
                 break;
             case NumericWidgetKey::PageDown:
@@ -134,6 +139,7 @@ namespace djv
                 {
                     out = true;
                     _model->decrementLarge();
+                    _doCallback(TextEdit::Accepted);
                 }
                 break;
             default: break;

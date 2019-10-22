@@ -86,6 +86,8 @@ namespace djv
 
             static std::shared_ptr<IntSlider> create(const std::shared_ptr<Core::Context>&);
 
+            void setModel(const std::shared_ptr<Core::INumericValueModel<int> >&);
+
             Core::IntRange getRange() const;
             void setRange(const Core::IntRange &);
 
@@ -110,6 +112,7 @@ namespace djv
             void _textUpdateEvent(Core::Event::TextUpdate&) override;
             
         private:
+            void _modelUpdate();
             void _widgetUpdate();
             
             DJV_PRIVATE();

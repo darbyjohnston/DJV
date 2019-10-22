@@ -84,6 +84,8 @@ namespace djv
 
             static std::shared_ptr<FloatSlider> create(const std::shared_ptr<Core::Context>&);
 
+            void setModel(const std::shared_ptr<Core::INumericValueModel<float> >&);
+
             Core::FloatRange getRange() const;
             void setRange(const Core::FloatRange &);
 
@@ -108,6 +110,7 @@ namespace djv
             void _textUpdateEvent(Core::Event::TextUpdate&) override;
 
         private:
+            void _modelUpdate();
             void _widgetUpdate();
             
             DJV_PRIVATE();

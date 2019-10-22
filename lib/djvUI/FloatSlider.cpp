@@ -191,6 +191,7 @@ namespace djv
 
         struct FloatSlider::Private
         {
+            std::shared_ptr<Core::INumericValueModel<float> > model;
             float defaultValue = 0.F;
             std::shared_ptr<FloatEdit> edit;
             std::shared_ptr<BasicFloatSlider> slider;
@@ -210,7 +211,7 @@ namespace djv
 
             p.edit = FloatEdit::create(context);
             p.slider = BasicFloatSlider::create(Orientation::Horizontal, context);
-            p.edit->setModel(p.slider->getModel());
+            p.model = p.slider->getModel();
             
             p.resetButton = ToolButton::create(context);
             p.resetButton->setIcon("djvIconCloseSmall");
@@ -224,6 +225,7 @@ namespace djv
             p.layout->addChild(p.resetButton);
             addChild(p.layout);
 
+            _modelUpdate();
             _widgetUpdate();
             
             auto weak = std::weak_ptr<FloatSlider>(std::dynamic_pointer_cast<FloatSlider>(shared_from_this()));
@@ -233,20 +235,6 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->resetValue();
-                    }
-                });
-            
-            p.valueObserver = ValueObserver<float>::create(
-                p.slider->getModel()->observeValue(),
-                [weak](float value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_widgetUpdate();
-                        if (widget->_p->callback)
-                        {
-                            widget->_p->callback(value);
-                        }
                     }
                 });
         }
@@ -263,6 +251,13 @@ namespace djv
             auto out = std::shared_ptr<FloatSlider>(new FloatSlider);
             out->_init(context);
             return out;
+        }
+
+        void FloatSlider::setModel(const std::shared_ptr<Core::INumericValueModel<float> >& model)
+        {
+            DJV_PRIVATE_PTR();
+            p.model = model;
+            _modelUpdate();
         }
 
         FloatRange FloatSlider::getRange() const
@@ -346,7 +341,28 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.resetButton->setTooltip(_getText(DJV_TEXT("Reset the value.")));
         }
-        
+
+        void FloatSlider::_modelUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            p.slider->setModel(p.model);
+            p.edit->setModel(p.model);
+            auto weak = std::weak_ptr<FloatSlider>(std::dynamic_pointer_cast<FloatSlider>(shared_from_this()));
+            p.valueObserver = ValueObserver<float>::create(
+                p.model->observeValue(),
+                [weak](float value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_widgetUpdate();
+                        if (widget->_p->callback)
+                        {
+                            widget->_p->callback(value);
+                        }
+                    }
+                });
+        }
+
         void FloatSlider::_widgetUpdate()
         {
             DJV_PRIVATE_PTR();

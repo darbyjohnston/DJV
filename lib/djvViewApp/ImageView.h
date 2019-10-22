@@ -102,7 +102,8 @@ namespace djv
             float getAspectRatioScale() const;
             void setImagePos(const glm::vec2&);
             void setImageZoom(float);
-            void setImageZoomFocus(float, const glm::vec2 &);
+            void setImageZoomFocus(float, const glm::vec2&);
+            void setImageZoomFocus(float);
             void setImagePosAndZoom(const glm::vec2&, float);
             void setImageRotate(ImageRotate);
             void setImageAspectRatio(ImageAspectRatio);
