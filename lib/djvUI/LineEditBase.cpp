@@ -262,6 +262,7 @@ namespace djv
 
         void LineEditBase::_styleEvent(Event::Style & event)
         {
+            _p->viewOffset = 0.F;
             _textUpdate();
             _cursorUpdate();
             _viewUpdate();
@@ -850,6 +851,7 @@ namespace djv
                 p.sizeStringFuture = p.fontSystem->measure(p.sizeString, fontInfo);
             }
             p.glyphGeomFuture = p.fontSystem->measureGlyphs(p.text, fontInfo);
+            p.glyphGeom.clear();
             _resize();
         }
 
@@ -890,51 +892,53 @@ namespace djv
         void LineEditBase::_viewUpdate()
         {
             DJV_PRIVATE_PTR();
-
-            float viewOffset = p.viewOffset;
-
-            const auto& style = _getStyle();
-            const BBox2f& g = getMargin().bbox(getGeometry(), style);
-            const float m = style->getMetric(MetricsRole::MarginSmall);
-            float xMin = 0.F;
-            float xMax = 0.F;
             const size_t glyphGeomSize = p.glyphGeom.size();
-            if (p.cursorPos < glyphGeomSize)
+            if (glyphGeomSize)
             {
-                xMin = p.glyphGeom[p.cursorPos].min.x;
-                xMax = p.glyphGeom[p.cursorPos].max.x;
-            }
-            else if (glyphGeomSize > 0)
-            {
-                xMin = p.glyphGeom[glyphGeomSize - 1].min.x;
-                xMax = p.glyphGeom[glyphGeomSize - 1].max.x;
-            }
-            const float viewWidth = g.w() - m * 2.F;
-            if (viewWidth > 0.F)
-            {
-                const size_t size = p.utf32.size();
-                if (0 == size)
-                {
-                    viewOffset = 0.F;
-                }
-                else if (size > 0 && p.cursorPos >= size && xMax > (viewOffset + viewWidth))
-                {
-                    viewOffset = xMax - viewWidth;
-                }
-                else if (xMin > (viewOffset + viewWidth))
-                {
-                    viewOffset = xMin - viewWidth;
-                }
-                else if (xMin < viewOffset)
-                {
-                    viewOffset = xMin;
-                }
-            }
+                float viewOffset = p.viewOffset;
 
-            if (viewOffset != p.viewOffset)
-            {
-                p.viewOffset = viewOffset;
-                _redraw();
+                const auto& style = _getStyle();
+                const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                const float m = style->getMetric(MetricsRole::MarginSmall);
+                float xMin = 0.F;
+                float xMax = 0.F;
+                if (p.cursorPos < glyphGeomSize)
+                {
+                    xMin = p.glyphGeom[p.cursorPos].min.x;
+                    xMax = p.glyphGeom[p.cursorPos].max.x;
+                }
+                else if (glyphGeomSize > 0)
+                {
+                    xMin = p.glyphGeom[glyphGeomSize - 1].min.x;
+                    xMax = p.glyphGeom[glyphGeomSize - 1].max.x;
+                }
+                const float viewWidth = g.w() - m * 2.F;
+                if (viewWidth > 0.F)
+                {
+                    const size_t size = p.utf32.size();
+                    if (0 == size)
+                    {
+                        viewOffset = 0.F;
+                    }
+                    else if (size > 0 && p.cursorPos >= size && xMax >= viewWidth)
+                    {
+                        viewOffset = xMax - viewWidth;
+                    }
+                    else if (xMax > (viewOffset + viewWidth))
+                    {
+                        viewOffset = xMax - viewWidth;
+                    }
+                    else if (xMin < viewOffset)
+                    {
+                        viewOffset = xMin;
+                    }
+                }
+
+                if (viewOffset != p.viewOffset)
+                {
+                    p.viewOffset = viewOffset;
+                    _redraw();
+                }
             }
         }
 
