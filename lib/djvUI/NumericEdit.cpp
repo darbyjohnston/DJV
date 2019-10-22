@@ -30,6 +30,8 @@
 #include <djvUI/NumericEdit.h>
 
 #include <djvUI/LineEdit.h>
+#include <djvUI/RowLayout.h>
+#include <djvUI/ToolButton.h>
 
 #include <djvAV/FontSystem.h>
 
@@ -48,6 +50,8 @@ namespace djv
         struct NumericEdit::Private
         {
             std::shared_ptr<LineEdit> lineEdit;
+            std::shared_ptr<ToolButton> incButtons[2];
+            std::shared_ptr<HorizontalLayout> layout;
         };
 
         void NumericEdit::_init(const std::shared_ptr<Context>& context)
@@ -56,10 +60,41 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             setClassName("djv::UI::NumericEdit");
+            setVAlign(VAlign::Center);
 
             p.lineEdit = LineEdit::create(context);
             p.lineEdit->setFont(AV::Font::familyMono);
-            addChild(p.lineEdit);
+
+            const std::vector<std::string> icons =
+            {
+                "djvIconIncrement",
+                "djvIconDecrement"
+            };
+            for (size_t i = 0; i < 2; ++i)
+            {
+                p.incButtons[i] = ToolButton::create(context);
+                p.incButtons[i]->setIcon(icons[i]);
+                p.incButtons[i]->setIconSizeRole(MetricsRole::IconMini);
+                p.incButtons[i]->setInsideMargin(Layout::Margin(MetricsRole::Border));
+                p.incButtons[i]->setAutoRepeat(true);
+                p.incButtons[i]->setVAlign(VAlign::Fill);
+                p.incButtons[i]->setBackgroundRole(ColorRole::Button);
+            }
+
+            p.layout = HorizontalLayout::create(context);
+            p.layout->setSpacing(Layout::Spacing(MetricsRole::None));
+            p.layout->addChild(p.lineEdit);
+            p.layout->setStretch(p.lineEdit, RowStretch::Expand);
+            auto vLayout = VerticalLayout::create(context);
+            vLayout->setMargin(Layout::Margin(MetricsRole::Border));
+            vLayout->setSpacing(Layout::Spacing(MetricsRole::Border));
+            for (size_t i = 0; i < 2; ++i)
+            {
+                vLayout->addChild(p.incButtons[i]);
+                vLayout->setStretch(p.incButtons[i], RowStretch::Expand);
+            }
+            p.layout->addChild(vLayout);
+            addChild(p.layout);
 
             auto weak = std::weak_ptr<NumericEdit>(std::dynamic_pointer_cast<NumericEdit>(shared_from_this()));
             p.lineEdit->setTextEditCallback(
@@ -70,6 +105,24 @@ namespace djv
                     widget->_textEdit(value, textEdit);
                 }
             });
+
+            p.incButtons[0]->setClickedCallback(
+                [weak]
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_incrementValue();
+                    }
+                });
+
+            p.incButtons[1]->setClickedCallback(
+                [weak]
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_decrementValue();
+                    }
+                });
         }
 
         NumericEdit::NumericEdit() :
@@ -82,7 +135,7 @@ namespace djv
         void NumericEdit::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
-            glm::vec2 size = p.lineEdit->getMinimumSize();
+            glm::vec2 size = p.layout->getMinimumSize();
             const auto& style = _getStyle();
             _setMinimumSize(size + getMargin().getSize(style));
         }
@@ -91,7 +144,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
-            p.lineEdit->setGeometry(getMargin().bbox(getGeometry(), style));
+            p.layout->setGeometry(getMargin().bbox(getGeometry(), style));
         }
 
         void NumericEdit::_textUpdate(const std::string& text, const std::string& sizeString)

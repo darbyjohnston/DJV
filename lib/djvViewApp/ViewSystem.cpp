@@ -89,6 +89,8 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             p.settings = ViewSettings::create(context);
+            _setWidgetGeom(p.settings->getWidgetGeom());
+
             p.lock = ValueSubject<ImageViewLock>::create();
 
             p.actions["ViewControls"] = UI::Action::create();
@@ -200,20 +202,6 @@ namespace djv
                                 widget->setCurrentTab(system->_p->widgetCurrentTab);
                                 system->_p->viewControlsWidget = widget;
                                 system->_openWidget("ViewControls", widget);
-                                system->_widgetUpdate();
-                                widget->setGridOptionsCallback(
-                                    [weak](const GridOptions& value)
-                                    {
-                                        if (auto system = weak.lock())
-                                        {
-                                            system->_p->gridOptions = value;
-                                            system->_actionsUpdate();
-                                            if (system->_p->activeWidget)
-                                            {
-                                                system->_p->activeWidget->getImageView()->setGridOptions(system->_p->gridOptions);
-                                            }
-                                        }
-                                    });
                             }
                             else
                             {
@@ -381,7 +369,6 @@ namespace djv
                     if (auto system = weak.lock())
                     {
                         system->_p->gridOptions.enabled = value;
-                        system->_widgetUpdate();
                         if (system->_p->activeWidget)
                         {
                             system->_p->activeWidget->getImageView()->setGridOptions(system->_p->gridOptions);
@@ -408,7 +395,6 @@ namespace djv
                                         {
                                             system->_p->gridOptions = value;
                                             system->_actionsUpdate();
-                                            system->_widgetUpdate();
                                         }
                                     });
                                 system->_p->hoverObserver = ValueObserver<PointerData>::create(
@@ -664,15 +650,6 @@ namespace djv
             p.actions["ZoomOut"]->setEnabled(activeWidget);
             p.actions["ZoomReset"]->setEnabled(activeWidget);
             p.actions["GridEnabled"]->setChecked(p.gridOptions.enabled);
-        }
-
-        void ViewSystem::_widgetUpdate()
-        {
-            DJV_PRIVATE_PTR();
-            if (auto widget = p.viewControlsWidget.lock())
-            {
-                widget->setGridOptions(p.gridOptions);
-            }
         }
 
     } // namespace ViewApp

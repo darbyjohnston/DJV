@@ -41,6 +41,7 @@ namespace djv
     {
         struct TabWidget::Private
         {
+            std::map<std::shared_ptr<IObject>, size_t> childToID;
             std::shared_ptr<TabBar> tabBar;
             std::shared_ptr<VerticalLayout> layout;
             std::shared_ptr<SoloLayout> soloLayout;
@@ -65,7 +66,7 @@ namespace djv
             p.layout->addSeparator();
             p.layout->addChild(p.soloLayout);
             p.layout->setStretch(p.soloLayout, RowStretch::Expand);
-            addChild(p.layout);
+            Widget::addChild(p.layout);
 
             auto weak = std::weak_ptr<TabWidget>(std::dynamic_pointer_cast<TabWidget>(shared_from_this()));
             p.tabBar->setCurrentTabCallback(
@@ -104,52 +105,14 @@ namespace djv
             return out;
         }
 
-        size_t TabWidget::getTabCount() const
-        {
-            return _p->tabBar->getTabCount();
-        }
-
-        size_t TabWidget::addTab(const std::string & text, const std::shared_ptr<Widget> & value)
+        void TabWidget::setText(const std::shared_ptr<IObject>& child, const std::string& text)
         {
             DJV_PRIVATE_PTR();
-            const size_t out = p.tabBar->addTab(text);
-            p.soloLayout->addChild(value);
-            return out;
-        }
-
-        void TabWidget::removeTab(const std::shared_ptr<Widget> & value)
-        {
-            size_t i = 0;
-            DJV_PRIVATE_PTR();
-            const auto & children = p.soloLayout->getChildWidgets();
-            for (const auto & child : children)
+            const auto i = p.childToID.find(child);
+            if (i != p.childToID.end())
             {
-                if (child == value)
-                {
-                    break;
-                }
-                ++i;
+                _p->tabBar->setText(i->second, text);
             }
-            if (i < children.size())
-            {
-                p.tabBar->removeTab(i);
-            }
-            p.soloLayout->removeChild(value);
-        }
-
-        void TabWidget::clearTabs()
-        {
-            _p->soloLayout->clearChildren();
-        }
-
-        void TabWidget::setTabRemovedCallback(const std::function<void(size_t)> & callback)
-        {
-            _p->removedCallback = callback;
-        }
-
-        void TabWidget::setText(size_t index, const std::string & value)
-        {
-            _p->tabBar->setText(index, value);
         }
 
         int TabWidget::getCurrentTab() const
@@ -171,7 +134,35 @@ namespace djv
 
         void TabWidget::closeCurrentTab()
         {
+            //! \todo Implement me!
+        }
 
+        void TabWidget::addChild(const std::shared_ptr<IObject>& value)
+        {
+            DJV_PRIVATE_PTR();
+            const size_t id = p.tabBar->addTab(std::string());
+            p.childToID[value] = id;
+            p.soloLayout->addChild(value);
+        }
+
+        void TabWidget::removeChild(const std::shared_ptr<IObject>& value)
+        {
+            DJV_PRIVATE_PTR();
+            const auto i = p.childToID.find(value);
+            if (i != p.childToID.end())
+            {
+                p.tabBar->removeTab(i->second);
+                p.childToID.erase(i);
+            }
+            p.soloLayout->removeChild(value);
+        }
+
+        void TabWidget::clearChildren()
+        {
+            DJV_PRIVATE_PTR();
+            p.childToID.clear();
+            p.tabBar->clearTabs();
+            p.soloLayout->clearChildren();
         }
 
         float TabWidget::getHeightForWidth(float value) const

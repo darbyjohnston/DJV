@@ -272,7 +272,6 @@ namespace djv
             std::shared_ptr<UI::FormLayout> displayLayout;
 
             std::shared_ptr<UI::TabWidget> tabWidget;
-            std::map<std::shared_ptr<UI::Widget>, size_t> widgetToTab;
             std::shared_ptr<UI::FileBrowser::Dialog> fileBrowserDialog;
             std::shared_ptr<UI::Window> fileBrowserWindow;
             std::map<std::shared_ptr<UI::Widget>, int> textFocusWidgets;
@@ -345,7 +344,7 @@ namespace djv
             hLayout->addChild(p.addConfigButton);
             hLayout->addChild(p.editConfigButton);
             p.configLayout->addChild(hLayout);
-            p.widgetToTab[p.configLayout] = p.tabWidget->addTab(std::string(), p.configLayout);
+            p.tabWidget->addChild(p.configLayout);
 
             p.imageLayout = UI::VerticalLayout::create(context);
             p.imageLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
@@ -365,7 +364,7 @@ namespace djv
             hLayout->addChild(p.addImagePopupWidget);
             hLayout->addChild(p.editImageButton);
             p.imageLayout->addChild(hLayout);
-            p.widgetToTab[p.imageLayout] = p.tabWidget->addTab(std::string(), p.imageLayout);
+            p.tabWidget->addChild(p.imageLayout);
 
             p.displayLayout = UI::FormLayout::create(context);
             p.displayLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
@@ -373,7 +372,7 @@ namespace djv
             p.displayLayout->setShadowOverlay({ UI::Side::Top });
             p.displayLayout->addChild(p.displayPopupWidget);
             p.displayLayout->addChild(p.viewPopupWidget);
-            p.widgetToTab[p.displayLayout] = p.tabWidget->addTab(std::string(), p.displayLayout);
+            p.tabWidget->addChild(p.displayLayout);
 
             _widgetUpdate();
 
@@ -629,9 +628,9 @@ namespace djv
             MDIWidget::_textUpdateEvent(event);
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Color Space")));
-            p.tabWidget->setText(p.widgetToTab[p.configLayout], DJV_TEXT("Config"));
-            p.tabWidget->setText(p.widgetToTab[p.imageLayout], DJV_TEXT("Image"));
-            p.tabWidget->setText(p.widgetToTab[p.displayLayout], DJV_TEXT("Display"));
+            p.tabWidget->setText(p.configLayout, DJV_TEXT("Config"));
+            p.tabWidget->setText(p.imageLayout, DJV_TEXT("Image"));
+            p.tabWidget->setText(p.displayLayout, DJV_TEXT("Display"));
             p.addConfigButton->setTooltip(_getText(DJV_TEXT("Color space add config tooltip")));
             p.editConfigButton->setTooltip(_getText(DJV_TEXT("Color space edit configs tooltip")));
             p.addImagePopupWidget->setTooltip(_getText(DJV_TEXT("Color space add image tooltip")));

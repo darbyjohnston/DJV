@@ -56,7 +56,6 @@ set(header
     ViewApp.h
     ViewControlsWidget.h
 	ViewSettings.h
-	ViewSettingsWidget.h
     ViewSystem.h
 	WindowSettings.h
 	WindowSettingsWidget.h
@@ -118,7 +117,6 @@ set(source
 	UISettingsWidget.cpp
     ViewControlsWidget.cpp
 	ViewSettings.cpp
-	ViewSettingsWidget.cpp
     ViewSystem.cpp
 	WindowSettings.cpp
 	WindowSettingsWidget.cpp

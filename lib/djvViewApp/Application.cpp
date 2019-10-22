@@ -31,7 +31,7 @@
 
 //#include <djvViewApp/AnnotateSystem.h>
 #include <djvViewApp/AudioSystem.h>
-//#include <djvViewApp/ColorPickerSystem.h>
+#include <djvViewApp/ColorPickerSystem.h>
 #include <djvViewApp/FileSettings.h>
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/HelpSystem.h>
@@ -109,7 +109,7 @@ namespace djv
             p.systems.push_back(PlaybackSystem::create(shared_from_this()));
             p.systems.push_back(AudioSystem::create(shared_from_this()));
             //p.systems.push_back(AnnotateSystem::create(shared_from_this()));
-            //p.systems.push_back(ColorPickerSystem::create(shared_from_this()));
+            p.systems.push_back(ColorPickerSystem::create(shared_from_this()));
             //p.systems.push_back(MagnifySystem::create(shared_from_this()));
             p.systems.push_back(ToolSystem::create(shared_from_this()));
             p.systems.push_back(HelpSystem::create(shared_from_this()));

@@ -50,6 +50,8 @@ namespace djv
         protected:
             virtual void _textEdit(const std::string&, TextEdit) = 0;
             virtual bool _keyPress(int) = 0;
+            virtual void _incrementValue() = 0;
+            virtual void _decrementValue() = 0;
             void _textUpdate(const std::string&, const std::string&);
 
             void _preLayoutEvent(Core::Event::PreLayout &) override;

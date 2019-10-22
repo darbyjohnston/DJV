@@ -124,8 +124,8 @@ namespace djv
             layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             layout->addChild(scrollWidget);
             layout->setStretch(scrollWidget, UI::RowStretch::Expand);
+            layout->addSeparator();
             auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setBackgroundRole(UI::ColorRole::BackgroundToolBar);
             hLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
             hLayout->addExpander();
             hLayout->addChild(p.copyButton);

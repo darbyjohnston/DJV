@@ -77,7 +77,7 @@ namespace djv
             ImageViewLock lock = ImageViewLock::None;
             BBox2f lockFrame = BBox2f(0.F, 0.F, 0.F, 0.F);
             std::shared_ptr<ValueSubject<GridOptions> > gridOptions;
-            AV::Image::Color backgroundColor = AV::Image::Color(0.F, 0.F, 0.F);
+            std::shared_ptr<ValueSubject<AV::Image::Color> > backgroundColor;
             glm::vec2 pressedImagePos = glm::vec2(0.F, 0.F);
             bool viewInit = true;
             AV::Font::Metrics fontMetrics;
@@ -86,7 +86,6 @@ namespace djv
             std::vector<std::future<glm::vec2> > textSizeFutures[2];
             float textWidthMax = 0.F;
             std::shared_ptr<ValueObserver<ImageViewLock> > lockObserver;
-            std::shared_ptr<ValueObserver<AV::Image::Color> > backgroundColorObserver;
             std::shared_ptr<ValueObserver<AV::OCIO::Config> > ocioConfigObserver;
         };
 
@@ -107,10 +106,13 @@ namespace djv
             imageOptions.alphaBlend = avSystem->observeAlphaBlend()->get();
             p.imageOptions = ValueSubject<AV::Render::ImageOptions>::create(imageOptions);
             p.imagePos = ValueSubject<glm::vec2>::create();
-            p.imageZoom = ValueSubject<float>::create();
+            p.imageZoom = ValueSubject<float>::create(1.F);
             p.imageRotate = ValueSubject<ImageRotate>::create(imageSettings->observeRotate()->get());
             p.imageAspectRatio = ValueSubject<ImageAspectRatio>::create(imageSettings->observeAspectRatio()->get());
             p.gridOptions = ValueSubject<GridOptions>::create(viewSettings->observeGridOptions()->get());
+            p.backgroundColor = ValueSubject<AV::Image::Color>::create(viewSettings->observeBackgroundColor()->get());
+
+            _textUpdate();
 
             auto weak = std::weak_ptr<ImageView>(std::dynamic_pointer_cast<ImageView>(shared_from_this()));
             p.lockObserver = ValueObserver<ImageViewLock>::create(
@@ -123,20 +125,6 @@ namespace djv
                         if (widget->isVisible() && !widget->isClipped())
                         {
                             widget->_resize();
-                        }
-                    }
-                });
-
-            p.backgroundColorObserver = ValueObserver<AV::Image::Color>::create(
-                viewSettings->observeBackgroundColor(),
-                [weak](const AV::Image::Color& value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->backgroundColor = value;
-                        if (widget->isVisible() && !widget->isClipped())
-                        {
-                            widget->_redraw();
                         }
                     }
                 });
@@ -393,6 +381,20 @@ namespace djv
             }
         }
 
+        std::shared_ptr<Core::IValueSubject<AV::Image::Color> > ImageView::observeBackgroundColor() const
+        {
+            return _p->backgroundColor;
+        }
+
+        void ImageView::setBackgroundColor(const AV::Image::Color& value)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.backgroundColor->setIfChanged(value))
+            {
+                _redraw();
+            }
+        }
+
         void ImageView::_styleEvent(Event::Style& event)
         {
             _textUpdate();
@@ -463,7 +465,7 @@ namespace djv
                 const auto& style = _getStyle();
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
                 auto render = _getRender();
-                render->setFillColor(p.backgroundColor);
+                render->setFillColor(p.backgroundColor->get());
                 render->drawRect(g);
                 render->setFillColor(AV::Image::Color(1.F, 1.F, 1.F));
 

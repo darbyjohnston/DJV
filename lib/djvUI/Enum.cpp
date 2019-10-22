@@ -193,6 +193,7 @@ namespace djv
         DJV_TEXT("Drag"),
         DJV_TEXT("Icon"),
         DJV_TEXT("IconSmall"),
+        DJV_TEXT("IconMini"),
         DJV_TEXT("FontSmall"),
         DJV_TEXT("FontMedium"),
         DJV_TEXT("FontLarge"),

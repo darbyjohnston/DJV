@@ -33,6 +33,15 @@
 
 namespace djv
 {
+    namespace AV
+    {
+        namespace Image
+        {
+            class Color;
+    
+        } // namespace Image
+    } // namespace AV
+
     namespace ViewApp
     {
         class GridOptions;
@@ -51,12 +60,8 @@ namespace djv
 
             static std::shared_ptr<ViewControlsWidget> create(const std::shared_ptr<Core::Context>&);
 
-            void setGridOptions(const GridOptions&);
-            
             int getCurrentTab() const;
-            void setCurrentTab(int);
-            
-            void setGridOptionsCallback(const std::function<void(const GridOptions&)>&);
+            void setCurrentTab(int);            
 
         protected:
             void _textUpdateEvent(Core::Event::TextUpdate &) override;

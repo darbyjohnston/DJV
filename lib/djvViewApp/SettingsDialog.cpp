@@ -51,7 +51,7 @@ namespace djv
         {
             std::shared_ptr<UI::TabWidget> tabWidget;
             std::map<std::string, std::vector<std::shared_ptr<UI::ISettingsWidget> > > widgets;
-            std::map<size_t, std::shared_ptr<UI::ISettingsWidget> > tabs;
+            std::map<std::shared_ptr<UI::ScrollWidget>, std::shared_ptr<UI::ISettingsWidget> > scrollToWidget;
             std::map<std::shared_ptr<UI::ISettingsWidget>, std::shared_ptr<UI::GroupBox> > groupBoxes;
         };
 
@@ -91,9 +91,9 @@ namespace djv
                     scrollWidget->setBorder(false);
                     scrollWidget->setShadowOverlay({ UI::Side::Top });
                     scrollWidget->addChild(flowLayout);
+                    p.tabWidget->addChild(scrollWidget);
 
-                    size_t id = p.tabWidget->addTab(i.second[0]->getSettingsGroup(), scrollWidget);
-                    p.tabs[id] = i.second[0];
+                    p.scrollToWidget[scrollWidget] = i.second[0];
                 }
             }
             
@@ -129,7 +129,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Settings")));
-            for (const auto& i : p.tabs)
+            for (const auto& i : p.scrollToWidget)
             {
                 p.tabWidget->setText(i.first, _getText(i.second->getSettingsGroup()));
             }

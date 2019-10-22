@@ -139,6 +139,22 @@ namespace djv
             return INumericEdit<float>::_keyPress(fromGLFWKey(value));
         }
 
+        void FloatEdit::_incrementValue()
+        {
+            if (auto model = getModel())
+            {
+                model->incrementSmall();
+            }
+        }
+
+        void FloatEdit::_decrementValue()
+        {
+            if (auto model = getModel())
+            {
+                model->decrementSmall();
+            }
+        }
+
         void FloatEdit::_textUpdate()
         {
             DJV_PRIVATE_PTR();

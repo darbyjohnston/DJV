@@ -123,6 +123,22 @@ namespace djv
             return INumericEdit<int>::_keyPress(fromGLFWKey(value));
         }
 
+        void IntEdit::_incrementValue()
+        {
+            if (auto model = getModel())
+            {
+                model->incrementSmall();
+            }
+        }
+
+        void IntEdit::_decrementValue()
+        {
+            if (auto model = getModel())
+            {
+                model->decrementSmall();
+            }
+        }
+
         void IntEdit::_textUpdate()
         {
             DJV_PRIVATE_PTR();

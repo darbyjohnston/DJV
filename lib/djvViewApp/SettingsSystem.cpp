@@ -35,7 +35,6 @@
 #include <djvViewApp/PlaybackSettingsWidget.h>
 #include <djvViewApp/SettingsDialog.h>
 #include <djvViewApp/UISettingsWidget.h>
-#include <djvViewApp/ViewSettingsWidget.h>
 #include <djvViewApp/WindowSettingsWidget.h>
 
 #include <djvUIComponents/IOSettingsWidget.h>
@@ -185,8 +184,7 @@ namespace djv
                     PlaybackSpeedSettingsWidget::create(context),
                     SequenceSettingsWidget::create(context),
                     TimelineSettingsWidget::create(context),
-                    UISettingsWidget::create(context),
-                    ViewBackgroundSettingsWidget::create(context)
+                    UISettingsWidget::create(context)
                 };
             }
             return out;

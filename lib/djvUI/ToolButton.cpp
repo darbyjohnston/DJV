@@ -38,6 +38,8 @@
 
 #include <djvAV/Render2D.h>
 
+#include <djvCore/Timer.h>
+
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
@@ -51,10 +53,19 @@ namespace djv
     {
         namespace Button
         {
+            namespace
+            {
+                //! \todo Should this be configurable?
+                const size_t autoRepeatStart = 600;
+                const size_t autoRepeatTimeout = 150;
+
+            } // namespace
+
             struct Tool::Private
             {
                 std::string icon;
                 std::string checkedIcon;
+                MetricsRole iconSizeRole = MetricsRole::Icon;
                 std::shared_ptr<Icon> iconWidget;
                 std::shared_ptr<Label> label;
                 TextHAlign textHAlign = TextHAlign::Left;
@@ -63,6 +74,9 @@ namespace djv
                 MetricsRole fontSizeRole = MetricsRole::FontMedium;
                 std::shared_ptr<Action> action;
                 bool textFocusEnabled = false;
+                bool autoRepeat = false;
+                std::shared_ptr<Time::Timer> autoRepeatStartTimer;
+                std::shared_ptr<Time::Timer> autoRepeatTimer;
                 std::shared_ptr<HorizontalLayout> layout;
                 std::shared_ptr<Border> border;
                 std::shared_ptr<ValueObserver<std::string> > iconObserver;
@@ -83,6 +97,10 @@ namespace djv
                 p.border->setBorderColorRole(UI::ColorRole::None);
                 p.border->addChild(p.layout);
                 addChild(p.border);
+
+                p.autoRepeatStartTimer = Time::Timer::create(context);
+                p.autoRepeatTimer = Time::Timer::create(context);
+                p.autoRepeatTimer->setRepeating(true);
 
                 _actionUpdate();
                 _iconUpdate();
@@ -139,7 +157,6 @@ namespace djv
                         if (!p.iconWidget)
                         {
                             p.iconWidget = Icon::create(context);
-                            p.iconWidget->setVAlign(VAlign::Center);
                             p.layout->addChild(p.iconWidget);
                             p.iconWidget->moveToFront();
                         }
@@ -151,6 +168,15 @@ namespace djv
                     p.layout->removeChild(p.iconWidget);
                     p.iconWidget.reset();
                 }
+            }
+            
+            void Tool::setIconSizeRole(MetricsRole value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.iconSizeRole)
+                    return;
+                p.iconSizeRole = value;
+                _iconUpdate();
             }
 
             void Tool::setCheckedIcon(const std::string& value)
@@ -277,6 +303,11 @@ namespace djv
                     releaseTextFocus();
                 }
             }
+            
+            void Tool::setAutoRepeat(bool value)
+            {
+                _p->autoRepeat = value;
+            }
 
             void Tool::setChecked(bool value)
             {
@@ -371,6 +402,38 @@ namespace djv
                     {
                         takeTextFocus();
                     }
+                    if (p.autoRepeat)
+                    {
+                        auto weak = std::weak_ptr<Tool>(std::dynamic_pointer_cast<Tool>(shared_from_this()));
+                        p.autoRepeatStartTimer->start(
+                            std::chrono::milliseconds(autoRepeatStart),
+                            [weak](float)
+                            {
+                                if (auto widget = weak.lock())
+                                {
+                                    widget->_p->autoRepeatTimer->start(
+                                        std::chrono::milliseconds(autoRepeatTimeout),
+                                        [weak](float)
+                                        {
+                                            if (auto widget = weak.lock())
+                                            {
+                                                widget->_doClickedCallback();
+                                            }
+                                        });
+                                }
+                            });
+                    }
+                }
+            }
+
+            void Tool::_buttonReleaseEvent(Event::ButtonRelease& event)
+            {
+                IButton::_buttonReleaseEvent(event);
+                DJV_PRIVATE_PTR();
+                if (event.isAccepted())
+                {
+                    p.autoRepeatStartTimer->stop();
+                    p.autoRepeatTimer->stop();
                 }
             }
 
@@ -449,6 +512,8 @@ namespace djv
                 if (p.iconWidget)
                 {
                     p.iconWidget->setIcon(isChecked() && !p.checkedIcon.empty() ? p.checkedIcon : p.icon);
+                    p.iconWidget->setIconSizeRole(p.iconSizeRole);
+                    p.iconWidget->setVAlign(VAlign::Center);
                 }
             }
 

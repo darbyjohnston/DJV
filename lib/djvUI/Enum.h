@@ -227,6 +227,7 @@ namespace djv
             Drag,
             Icon,
             IconSmall,
+            IconMini,
             FontSmall,
             FontMedium,
             FontLarge,

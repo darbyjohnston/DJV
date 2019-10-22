@@ -113,21 +113,22 @@ namespace djv
         void ColorSwatch::_paintEvent(Event::Paint & event)
         {
             Widget::_paintEvent(event);
+            DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const BBox2f & g = getGeometry();
             const float b = style->getMetric(UI::MetricsRole::Border);
             auto render = _getRender();
             render->setFillColor(style->getColor(UI::ColorRole::Border));
             drawBorder(render, g, b);
-            render->setFillColor(_p->color);
+            render->setFillColor(p.color);
             const BBox2f& g2 = g.margin(-b);
             render->drawRect(g2);
-            if (isEnabled(true) && _p->pressedID != 0)
+            if (isEnabled(true) && p.pressedID != 0)
             {
                 render->setFillColor(style->getColor(ColorRole::Pressed));
                 render->drawRect(g2);
             }
-            else if (isEnabled(true) && _getPointerHover().size())
+            else if (isEnabled(true) && _getPointerHover().size() && p.clickedCallback)
             {
                 render->setFillColor(style->getColor(ColorRole::Hovered));
                 render->drawRect(g2);

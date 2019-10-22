@@ -115,6 +115,9 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<GridOptions> > observeGridOptions() const;
             void setGridOptions(const GridOptions&);
 
+            std::shared_ptr<Core::IValueSubject<AV::Image::Color> > observeBackgroundColor() const;
+            void setBackgroundColor(const AV::Image::Color&);
+
         protected:
             void _styleEvent(Core::Event::Style&) override;
             void _preLayoutEvent(Core::Event::PreLayout &) override;

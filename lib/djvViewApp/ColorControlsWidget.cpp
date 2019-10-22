@@ -65,7 +65,6 @@ namespace djv
             std::shared_ptr<UI::VerticalLayout> softClipLayout;
                         
             std::shared_ptr<UI::TabWidget> tabWidget;
-            std::map<std::string, size_t> tabIDs;
             std::function<void(const AV::Render::ImageColor&)> colorCallback;
             std::function<void(const AV::Render::ImageLevels&)> levelsCallback;
             std::function<void(const AV::Render::ImageExposure&)> exposureCallback;
@@ -171,10 +170,10 @@ namespace djv
             p.tabWidget = UI::TabWidget::create(context);
             p.tabWidget->setBackgroundRole(UI::ColorRole::Background);
             p.tabWidget->setShadowOverlay({ UI::Side::Top });
-            p.tabIDs["Color"] = p.tabWidget->addTab(std::string(), p.colorLayout);
-            p.tabIDs["Levels"] = p.tabWidget->addTab(std::string(), p.levelsLayout);
-            p.tabIDs["Exposure"] = p.tabWidget->addTab(std::string(), p.exposureLayout);
-            p.tabIDs["SoftClip"] = p.tabWidget->addTab(std::string(), p.softClipLayout);
+            p.tabWidget->addChild(p.colorLayout);
+            p.tabWidget->addChild(p.levelsLayout);
+            p.tabWidget->addChild(p.exposureLayout);
+            p.tabWidget->addChild(p.softClipLayout);
             addChild(p.tabWidget);
 
             _widgetUpdate();
@@ -505,10 +504,10 @@ namespace djv
             p.exposureLayout->setText(p.exposureSliders["KneeLow"], _getText(DJV_TEXT("Knee Low")) + ":");
             p.exposureLayout->setText(p.exposureSliders["KneeHigh"], _getText(DJV_TEXT("Knee High")) + ":");
 
-            p.tabWidget->setText(p.tabIDs["Color"], _getText(DJV_TEXT("Color")));
-            p.tabWidget->setText(p.tabIDs["Levels"], _getText(DJV_TEXT("Levels")));
-            p.tabWidget->setText(p.tabIDs["Exposure"], _getText(DJV_TEXT("Exposure")));
-            p.tabWidget->setText(p.tabIDs["SoftClip"], _getText(DJV_TEXT("Soft Clip")));
+            p.tabWidget->setText(p.colorLayout, _getText(DJV_TEXT("Color")));
+            p.tabWidget->setText(p.levelsLayout, _getText(DJV_TEXT("Levels")));
+            p.tabWidget->setText(p.exposureLayout, _getText(DJV_TEXT("Exposure")));
+            p.tabWidget->setText(p.softClipLayout, _getText(DJV_TEXT("Soft Clip")));
         }
 
         void ColorControlsWidget::_widgetUpdate()

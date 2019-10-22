@@ -55,9 +55,9 @@ namespace djv
             std::shared_ptr<UI::ColorSliders> sliders;
             std::shared_ptr<UI::IntSlider> sampleSizeSlider;
             std::shared_ptr<UI::ColorTypeWidget> typeWidget;
-            std::shared_ptr<UI::VerticalLayout> layout;
             std::shared_ptr<UI::Menu> menu;
             std::shared_ptr<UI::PopupMenu> popupMenu;
+            std::shared_ptr<UI::VerticalLayout> layout;
         };
 
         void ColorPickerWidget::_init(const std::shared_ptr<Core::Context>& context)
@@ -66,7 +66,7 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             setClassName("djv::ViewApp::ColorPickerWidget");
-
+            
             p.actions["RGB"] = UI::Action::create();
             //! \todo Implement me!
             p.actions["HSV"] = UI::Action::create();
@@ -83,12 +83,10 @@ namespace djv
             p.colorSwatch = UI::ColorSwatch::create(context);
 
             p.sliders = UI::ColorSliders::create(context);
-            p.sliders->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
 
             p.sampleSizeSlider = UI::IntSlider::create(context);
             p.sampleSizeSlider->setRange(IntRange(1, 100));
             p.sampleSizeSlider->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-
             p.typeWidget = UI::ColorTypeWidget::create(context);
 
             p.menu = UI::Menu::create(context);
@@ -102,15 +100,19 @@ namespace djv
 
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            p.layout->setBackgroundRole(UI::ColorRole::Background);
+            p.layout->setShadowOverlay({ UI::Side::Top });
             auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            hLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
             hLayout->addChild(p.colorSwatch);
             hLayout->addChild(p.sliders);
             hLayout->setStretch(p.sliders, UI::RowStretch::Expand);
             p.layout->addChild(hLayout);
             p.layout->setStretch(hLayout, UI::RowStretch::Expand);
+            p.layout->addSeparator();
             hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
             hLayout->addChild(p.sampleSizeSlider);
             hLayout->setStretch(p.sampleSizeSlider, UI::RowStretch::Expand);
             hLayout->addChild(p.typeWidget);

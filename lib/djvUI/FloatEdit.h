@@ -58,6 +58,8 @@ namespace djv
         protected:
             void _textEdit(const std::string&, TextEdit) override;
             bool _keyPress(int) override;
+            void _incrementValue() override;
+            void _decrementValue() override;
 
         private:
             void _textUpdate();

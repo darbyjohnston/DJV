@@ -28,6 +28,7 @@ namespace djv
                 static std::shared_ptr<Tool> create(const std::shared_ptr<Core::Context>&);
 
                 void setIcon(const std::string &);
+                void setIconSizeRole(MetricsRole);
                 void setCheckedIcon(const std::string&);
 
                 std::string getText() const;
@@ -48,6 +49,8 @@ namespace djv
 
                 void setTextFocusEnabled(bool);
 
+                void setAutoRepeat(bool);
+
                 void setChecked(bool) override;
                 void setForegroundColorRole(ColorRole) override;
 
@@ -61,6 +64,7 @@ namespace djv
                 void _layoutEvent(Core::Event::Layout &) override;
                 void _paintEvent(Core::Event::Paint&) override;
                 void _buttonPressEvent(Core::Event::ButtonPress&) override;
+                void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;
                 void _keyPressEvent(Core::Event::KeyPress&) override;
                 void _textFocusEvent(Core::Event::TextFocus&) override;
                 void _textFocusLostEvent(Core::Event::TextFocusLost&) override;

@@ -108,6 +108,7 @@ namespace djv
                     { MetricsRole::Drag, 20.F },
                     { MetricsRole::Icon, static_cast<float>(iconSizeDefault) },
                     { MetricsRole::IconSmall, 16.F },
+                    { MetricsRole::IconMini, 8.F },
                     { MetricsRole::FontSmall, 12.F },
                     { MetricsRole::FontMedium, 14.F },
                     { MetricsRole::FontLarge, 18.F },
