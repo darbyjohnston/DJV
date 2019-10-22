@@ -82,11 +82,10 @@ namespace djv
             }
 
             p.layout = HorizontalLayout::create(context);
-            p.layout->setSpacing(Layout::Spacing(MetricsRole::None));
+            p.layout->setSpacing(Layout::Spacing(MetricsRole::Border));
             p.layout->addChild(p.lineEdit);
             p.layout->setStretch(p.lineEdit, RowStretch::Expand);
             auto vLayout = VerticalLayout::create(context);
-            vLayout->setMargin(Layout::Margin(MetricsRole::Border));
             vLayout->setSpacing(Layout::Spacing(MetricsRole::Border));
             for (size_t i = 0; i < 2; ++i)
             {
