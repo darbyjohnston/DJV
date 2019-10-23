@@ -839,8 +839,9 @@ namespace djv
                     }
                 }
             }
-            for (const auto & action : _actions)
+            if (_actions.size())
             {
+                const auto action = _actions[0];
                 const auto& shortcuts = action->observeShortcuts()->get();
                 const size_t shortcutsSize = shortcuts.size();
                 if (shortcutsSize)
@@ -860,7 +861,6 @@ namespace djv
                     out << String::join(shortcutsText, ", ");
                     out << ")";
                 }
-                break;
             }
             return out.str();
         }
