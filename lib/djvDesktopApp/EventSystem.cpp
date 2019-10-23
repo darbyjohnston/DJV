@@ -382,10 +382,14 @@ namespace djv
             const auto windows = rootObject->getChildrenT<UI::Window>();
             for (auto i = windows.rbegin(); i != windows.rend(); ++i)
             {
-                _hover(*i, event, hover);
-                if (event.isAccepted())
+                auto window = *i;
+                if (window->isVisible())
                 {
-                    break;
+                    _hover(window, event, hover);
+                    if (event.isAccepted())
+                    {
+                        break;
+                    }
                 }
             }
         }

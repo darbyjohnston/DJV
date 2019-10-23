@@ -182,7 +182,6 @@ namespace djv
 
                     auto button = Button::Menu::create(Button::MenuStyle::Flat, context);
                     button->setTextFocusEnabled(false);
-                    button->installEventFilter(shared_from_this());
 
                     p.menuLayout->addChild(button);
 
@@ -190,25 +189,33 @@ namespace djv
                     p.buttonsToMenus[button] = menu;
 
                     auto weak = std::weak_ptr<MenuBar>(std::dynamic_pointer_cast<MenuBar>(shared_from_this()));
+                    auto menuWeak = std::weak_ptr<Menu>(std::dynamic_pointer_cast<Menu>(menu));
+                    auto contextWeak = std::weak_ptr<Context>(context);
                     button->setOpenCallback(
-                        [weak, menu](bool value)
+                        [weak, menuWeak, contextWeak](bool value)
                         {
-                            if (auto widget = weak.lock())
+                            if (auto context = contextWeak.lock())
                             {
-                                widget->_p->closeMenus();
-                                if (value)
+                                if (auto menu = menuWeak.lock())
                                 {
-                                    const auto i = widget->_p->menusToButtons.find(menu);
-                                    if (i != widget->_p->menusToButtons.end())
+                                    if (auto widget = weak.lock())
                                     {
-                                        menu->popup(widget->getWindow(), i->second, widget->_p->menuLayout);
-                                        widget->_p->menuOpen = i->second;
+                                        widget->_p->closeMenus();
+                                        if (value)
+                                        {
+                                            const auto i = widget->_p->menusToButtons.find(menu);
+                                            if (i != widget->_p->menusToButtons.end())
+                                            {
+                                                auto popup = menu->popup(i->second, widget->_p->menuLayout);
+                                                popup->installEventFilter(widget);
+                                                widget->_p->menuOpen = i->second;
+                                            }
+                                        }
                                     }
                                 }
                             }
                         });
 
-                    auto menuWeak = std::weak_ptr<Menu>(std::dynamic_pointer_cast<Menu>(menu));
                     menu->setCloseCallback(
                         [weak, menuWeak]
                         {
@@ -306,20 +313,22 @@ namespace djv
             DJV_PRIVATE_PTR();
             switch (event.getEventType())
             {
-            case Event::Type::PointerEnter:
+            case Event::Type::PointerMove:
             {
-                if (auto button = std::dynamic_pointer_cast<Button::Menu>(object))
+                Event::PointerMove& moveEvent = static_cast<Event::PointerMove&>(event);
+                for (const auto& i : p.buttonsToMenus)
                 {
-                    if (p.menuOpen && p.menuOpen != button)
+                    if (i.first->getGeometry().contains(moveEvent.getPointerInfo().projectedPos))
                     {
-                        p.menuOpen->setOpen(false);                        
-                        p.closeMenus();
-                        const auto i = p.buttonsToMenus.find(button);
-                        if (i != p.buttonsToMenus.end())
+                        if (p.menuOpen && p.menuOpen != i.first)
                         {
-                            button->setOpen(true);
-                            i->second->popup(getWindow(), button, p.menuLayout);
-                            p.menuOpen = button;
+                            p.menuOpen->setOpen(false);
+                            p.closeMenus();
+                            auto popup = i.second->popup(i.first, p.menuLayout);
+                            popup->installEventFilter(shared_from_this());
+                            p.menuOpen = i.first;
+                            p.menuOpen->setOpen(true);
+                            break;
                         }
                     }
                 }

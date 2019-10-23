@@ -47,7 +47,6 @@ namespace djv
         struct EventSystem::Private
         {
             std::vector<std::weak_ptr<Window> > windows;
-            std::weak_ptr<Window> currentWindow;
             std::shared_ptr<Time::Timer> statsTimer;
         };
 
@@ -80,16 +79,6 @@ namespace djv
 
         EventSystem::~EventSystem()
         {}
-
-        const std::vector<std::weak_ptr<Window> > & EventSystem::getWindows() const
-        {
-            return _p->windows;
-        }
-
-        const std::weak_ptr<Window> EventSystem::getCurrentWindow() const
-        {
-            return _p->currentWindow;
-        }
 
         void EventSystem::tick(float dt)
         {
@@ -225,7 +214,6 @@ namespace djv
                 setTextFocus(nullptr);
                 getRootObject()->addChild(window);
                 p.windows.push_back(window);
-                p.currentWindow = window;
             }
             if (auto widget = std::dynamic_pointer_cast<Widget>(object))
             {

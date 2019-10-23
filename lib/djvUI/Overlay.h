@@ -77,8 +77,6 @@ namespace djv
                 void _keyPressEvent(Core::Event::KeyPress &) override;
 
             private:
-                bool _isInsideAnchor(const glm::vec2 &) const;
-
                 void _doCloseCallback();
 
                 DJV_PRIVATE();

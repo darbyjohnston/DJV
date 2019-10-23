@@ -972,6 +972,7 @@ namespace djv
                 p.window->close();
                 p.window.reset();
             }
+            p.colorSwatch->takeTextFocus();
         }
 
         void ColorPickerSwatch::_preLayoutEvent(Event::PreLayout& event)

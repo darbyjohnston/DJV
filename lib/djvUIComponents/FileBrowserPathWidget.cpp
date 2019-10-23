@@ -122,7 +122,7 @@ namespace djv
                         {
                             if (value)
                             {
-                                widget->_p->historyMenu->popup(widget->getWindow(), widget->_p->historyButton);
+                                widget->_p->historyMenu->popup(widget->_p->historyButton);
                             }
                             else
                             {

@@ -270,7 +270,7 @@ namespace djv
                     {
                         if (value)
                         {
-                            widget->_p->mediaMenu->popup(widget, widget->_p->mediaButton);
+                            widget->_p->mediaMenu->popup(widget->_p->mediaButton);
                         }
                         else
                         {

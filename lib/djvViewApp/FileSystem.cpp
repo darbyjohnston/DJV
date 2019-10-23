@@ -45,7 +45,6 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/Shortcut.h>
-#include <djvUI/Window.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
@@ -74,10 +73,8 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
             std::shared_ptr<UI::FileBrowser::Dialog> fileBrowserDialog;
-            std::shared_ptr<UI::Window> fileBrowserWindow;
             Core::FileSystem::Path fileBrowserPath = Core::FileSystem::Path(".");
             std::shared_ptr<RecentFilesDialog> recentFilesDialog;
-            std::shared_ptr<UI::Window> recentFilesWindow;
             size_t threadCount = 4;
             std::shared_ptr<Core::FileSystem::RecentFilesModel> recentFilesModel;
             std::shared_ptr<ListObserver<Core::FileSystem::FileInfo> > recentFilesObserver;
@@ -468,13 +465,13 @@ namespace djv
             DJV_PRIVATE_PTR();
             _closeWidget("Layers");
             p.settings->setWidgetGeom(_getWidgetGeom());
-            if (p.fileBrowserWindow)
+            if (p.fileBrowserDialog)
             {
-                p.fileBrowserWindow->close();
+                p.fileBrowserDialog->close();
             }
-            if (p.recentFilesWindow)
+            if (p.recentFilesDialog)
             {
-                p.recentFilesWindow->close();
+                p.recentFilesDialog->close();
             }
         }
 
@@ -676,10 +673,9 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                if (p.fileBrowserWindow)
+                if (p.fileBrowserDialog)
                 {
-                    p.fileBrowserWindow->close();
-                    p.fileBrowserWindow.reset();
+                    p.fileBrowserDialog->close();
                 }
                 p.fileBrowserDialog = UI::FileBrowser::Dialog::create(context);
                 auto io = context->getSystemT<AV::IO::System>();
@@ -692,9 +688,8 @@ namespace djv
                         if (auto system = weak.lock())
                         {
                             system->_p->fileBrowserPath = system->_p->fileBrowserDialog->getPath();
+                            system->_p->fileBrowserDialog->close();
                             system->_p->fileBrowserDialog.reset();
-                            system->_p->fileBrowserWindow->close();
-                            system->_p->fileBrowserWindow.reset();
                             system->open(value);
                         }
                     });
@@ -704,15 +699,11 @@ namespace djv
                         if (auto system = weak.lock())
                         {
                             system->_p->fileBrowserPath = system->_p->fileBrowserDialog->getPath();
+                            system->_p->fileBrowserDialog->close();
                             system->_p->fileBrowserDialog.reset();
-                            system->_p->fileBrowserWindow->close();
-                            system->_p->fileBrowserWindow.reset();
                         }
                     });
-                p.fileBrowserWindow = UI::Window::create(context);
-                p.fileBrowserWindow->setBackgroundRole(UI::ColorRole::None);
-                p.fileBrowserWindow->addChild(p.fileBrowserDialog);
-                p.fileBrowserWindow->show();
+                p.fileBrowserDialog->show();
             }
         }
 
@@ -721,10 +712,9 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                if (p.recentFilesWindow)
+                if (p.fileBrowserDialog)
                 {
-                    p.recentFilesWindow->close();
-                    p.recentFilesWindow.reset();
+                    p.fileBrowserDialog->close();
                 }
                 p.recentFilesDialog = RecentFilesDialog::create(context);
                 auto weak = std::weak_ptr<FileSystem>(std::dynamic_pointer_cast<FileSystem>(shared_from_this()));
@@ -733,9 +723,8 @@ namespace djv
                     {
                         if (auto system = weak.lock())
                         {
+                            system->_p->recentFilesDialog->close();
                             system->_p->recentFilesDialog.reset();
-                            system->_p->recentFilesWindow->close();
-                            system->_p->recentFilesWindow.reset();
                             system->open(value);
                         }
                     });
@@ -744,15 +733,11 @@ namespace djv
                     {
                         if (auto system = weak.lock())
                         {
+                            system->_p->recentFilesDialog->close();
                             system->_p->recentFilesDialog.reset();
-                            system->_p->recentFilesWindow->close();
-                            system->_p->recentFilesWindow.reset();
                         }
                     });
-                p.recentFilesWindow = UI::Window::create(context);
-                p.recentFilesWindow->setBackgroundRole(UI::ColorRole::None);
-                p.recentFilesWindow->addChild(p.recentFilesDialog);
-                p.recentFilesWindow->show();
+                p.recentFilesDialog->show();
             }
         }
 

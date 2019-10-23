@@ -44,7 +44,6 @@ namespace djv
     {
         struct PopupMenu::Private
         {
-            std::shared_ptr<Action> closeAction;
             std::shared_ptr<Menu> menu;
             std::shared_ptr<Button::Menu> button;
             std::shared_ptr<ValueObserver<std::string> > iconObserver;
@@ -58,10 +57,6 @@ namespace djv
 
             DJV_PRIVATE_PTR();
             setClassName("djv::UI::PopupMenu");
-
-            p.closeAction = Action::create();
-            p.closeAction->setShortcut(GLFW_KEY_ESCAPE);
-            addAction(p.closeAction);
 
             p.button = Button::Menu::create(Button::MenuStyle::Flat, context);
             addChild(p.button);
@@ -82,19 +77,6 @@ namespace djv
                         }
                     }
                 });
-
-            p.closeObserver = ValueObserver<bool>::create(
-                p.closeAction->observeClicked(),
-                [weak](bool value)
-            {
-                if (value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->close();
-                    }
-                }
-            });
         }
 
         PopupMenu::PopupMenu() :
@@ -166,11 +148,13 @@ namespace djv
         void PopupMenu::open()
         {
             DJV_PRIVATE_PTR();
-            if (p.menu)
+            if (auto context = getContext().lock())
             {
-                p.closeAction->setEnabled(true);
-                p.button->setOpen(true);
-                p.menu->popup(getWindow(), p.button);
+                if (p.menu)
+                {
+                    p.menu->close();
+                    p.button->setOpen(true);
+                }
             }
         }
 
@@ -179,7 +163,6 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.menu)
             {
-                p.closeAction->setEnabled(false);
                 p.button->setOpen(false);
                 p.menu->close();
             }

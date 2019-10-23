@@ -31,14 +31,7 @@
 
 #include <djvUIComponents/FileBrowser.h>
 
-#include <djvUI/EventSystem.h>
-#include <djvUI/UISystem.h>
-#include <djvUI/Window.h>
-
 #include <djvCore/Context.h>
-#include <djvCore/Path.h>
-
-#include <list>
 
 using namespace djv::Core;
 

@@ -100,6 +100,7 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->button->setOpen(false);
+                        widget->_p->button->takeTextFocus();
                     }
                 });
 
@@ -239,13 +240,15 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.currentItem >= 0 && p.currentItem < p.items.size())
             {
-                p.menu->popup(getWindow(), p.button);
+                p.menu->popup(p.button);
             }
         }
 
         void ComboBox::close()
         {
-            _p->menu->close();
+            DJV_PRIVATE_PTR();
+            p.menu->close();
+            takeTextFocus();
         }
 
         void ComboBox::setFont(int index, const std::string & font)

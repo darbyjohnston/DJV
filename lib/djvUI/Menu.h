@@ -40,7 +40,6 @@ namespace djv
     {
         class Action;
         class Widget;
-        class Window;
 
         namespace Button
         {
@@ -78,9 +77,9 @@ namespace djv
             ColorRole getBackgroundRole() const;
             void setBackgroundRole(ColorRole);
 
-            void popup(const std::shared_ptr<Window>&, const glm::vec2 &);
-            void popup(const std::shared_ptr<Window>&, const std::weak_ptr<Button::Menu> & button);
-            void popup(const std::shared_ptr<Window>&, const std::weak_ptr<Button::Menu> & button, const std::weak_ptr<Widget> & anchor);
+            std::shared_ptr<Widget> popup(const glm::vec2 &);
+            std::shared_ptr<Widget> popup(const std::weak_ptr<Button::Menu> & button);
+            std::shared_ptr<Widget> popup(const std::weak_ptr<Button::Menu> & button, const std::weak_ptr<Widget> & anchor);
 
             bool isOpen() const;
             void close();

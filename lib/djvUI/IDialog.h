@@ -30,13 +30,14 @@
 #pragma once
 
 #include <djvUI/RowLayout.h>
+#include <djvUI/Window.h>
 
 namespace djv
 {
     namespace UI
     {
         //! This class provides an interface for dialogs.
-        class IDialog : public Widget
+        class IDialog : public Window
         {
             DJV_NON_COPYABLE(IDialog);
 
@@ -70,10 +71,6 @@ namespace djv
 
             void _preLayoutEvent(Core::Event::PreLayout &) override;
             void _layoutEvent(Core::Event::Layout &) override;
-            void _pointerEnterEvent(Core::Event::PointerEnter &) override;
-            void _pointerLeaveEvent(Core::Event::PointerLeave &) override;
-            void _pointerMoveEvent(Core::Event::PointerMove &) override;
-            void _keyPressEvent(Core::Event::KeyPress &) override;
 
         private:
             DJV_PRIVATE();

@@ -207,7 +207,7 @@ namespace djv
 
             void Overlay::_pointerEnterEvent(Core::Event::PointerEnter & event)
             {
-                if (_p->capturePointer && !event.isRejected() && !_isInsideAnchor(event.getPointerInfo().projectedPos))
+                if (_p->capturePointer && !event.isRejected())
                 {
                     event.accept();
                 }
@@ -215,7 +215,7 @@ namespace djv
 
             void Overlay::_pointerLeaveEvent(Core::Event::PointerLeave & event)
             {
-                if (_p->capturePointer && !_isInsideAnchor(event.getPointerInfo().projectedPos))
+                if (_p->capturePointer)
                 {
                     event.accept();
                 }
@@ -223,7 +223,7 @@ namespace djv
 
             void Overlay::_pointerMoveEvent(Core::Event::PointerMove & event)
             {
-                if (_p->capturePointer && !_isInsideAnchor(event.getPointerInfo().projectedPos))
+                if (_p->capturePointer)
                 {
                     event.accept();
                 }
@@ -232,7 +232,7 @@ namespace djv
             void Overlay::_buttonPressEvent(Event::ButtonPress & event)
             {
                 DJV_PRIVATE_PTR();
-                if (p.capturePointer && !_isInsideAnchor(event.getPointerInfo().projectedPos))
+                if (p.capturePointer)
                 {
                     event.accept();
                     p.pressedIDs[event.getPointerInfo().id] = true;
@@ -267,16 +267,6 @@ namespace djv
                         event.accept();
                     }
                 }
-            }
-
-            bool Overlay::_isInsideAnchor(const glm::vec2 & pos) const
-            {
-                bool out = false;
-                if (auto anchor = _p->anchor.lock())
-                {
-                    out = anchor->getGeometry().contains(pos);
-                }
-                return out;
             }
 
             void Overlay::_doCloseCallback()

@@ -236,6 +236,7 @@ namespace djv
             std::shared_ptr<OverlayWidget> overlayWidget;
             std::shared_ptr<OverlayLayout> overlayLayout;
             std::shared_ptr<Layout::Overlay> overlay;
+            std::shared_ptr<UI::Window> window;
             std::function<void(int)> callback;
             std::function<void(void)> openCallback;
             std::function<void(void)> closeCallback;
@@ -262,7 +263,6 @@ namespace djv
             p.overlay->setFadeIn(false);
             p.overlay->setBackgroundRole(ColorRole::None);
             p.overlay->addChild(p.overlayLayout);
-            Widget::addChild(p.overlay);
 
             auto weak = std::weak_ptr<PopupWidget>(std::dynamic_pointer_cast<PopupWidget>(shared_from_this()));
             p.overlay->setCloseCallback(
@@ -298,9 +298,9 @@ namespace djv
         PopupWidget::~PopupWidget()
         {
             DJV_PRIVATE_PTR();
-            if (auto parent = p.overlay->getParent().lock())
+            if (p.window)
             {
-                parent->removeChild(p.overlay);
+                p.window->close();
             }
         }
 
@@ -316,15 +316,19 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                if (auto window = getWindow())
+                if (p.window)
                 {
-                    window->addChild(p.overlay);
-                    p.overlay->show();
-                    p.button->setOpen(true);
-                    if (p.openCallback)
-                    {
-                        p.openCallback();
-                    }
+                    p.window->removeChild(p.overlay);
+                    p.window->close();
+                }
+                p.window = Window::create(context);
+                p.window->setBackgroundRole(ColorRole::None);
+                p.window->addChild(p.overlay);
+                p.window->show();
+                p.button->setOpen(true);
+                if (p.openCallback)
+                {
+                    p.openCallback();
                 }
             }
         }
@@ -332,12 +336,12 @@ namespace djv
         void PopupWidget::close()
         {
             DJV_PRIVATE_PTR();
-            if (auto parent = p.overlay->getParent().lock())
+            if (p.window)
             {
-                p.overlay->hide();
-                parent->removeChild(p.overlay);
-                Widget::addChild(p.overlay);
+                p.window->removeChild(p.overlay);
+                p.window->close();
             }
+            p.window.reset();
             p.button->setOpen(false);
             if (p.closeCallback)
             {

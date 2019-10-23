@@ -92,12 +92,11 @@ namespace djv
 
         void IDialog::_init(const std::shared_ptr<Context>& context)
         {
-            Widget::_init(context);
-
+            Window::_init(context);
             DJV_PRIVATE_PTR();
+
             setClassName("djv::UI::IDialog");
             setBackgroundRole(ColorRole::None);
-            setPointerEnabled(true);
 
             p.titleLabel = Label::create(context);
             p.titleLabel->setFontSizeRole(MetricsRole::FontHeader);
@@ -136,7 +135,7 @@ namespace djv
 
             p.overlay = Layout::Overlay::create(context);
             p.overlay->addChild(p.layout);
-            Widget::addChild(p.overlay);
+            Window::addChild(p.overlay);
 
             auto weak = std::weak_ptr<IDialog>(std::dynamic_pointer_cast<IDialog>(shared_from_this()));
             p.closeButton->setClickedCallback(
@@ -207,15 +206,9 @@ namespace djv
 
         void IDialog::setVisible(bool value)
         {
-            Widget::setVisible(value);
+            Window::setVisible(value);
             DJV_PRIVATE_PTR();
-            if (value)
-            {
-                if (auto window = getWindow())
-                {
-                    window->moveToFront();
-                }
-            }
+            moveToFront();
             if (p.overlay)
             {
                 p.overlay->setVisible(value);
@@ -258,30 +251,6 @@ namespace djv
         void IDialog::_layoutEvent(Event::Layout &)
         {
             _p->overlay->setGeometry(getGeometry());
-        }
-
-        void IDialog::_pointerEnterEvent(Core::Event::PointerEnter & event)
-        {
-            event.accept();
-        }
-
-        void IDialog::_pointerLeaveEvent(Core::Event::PointerLeave & event)
-        {
-            event.accept();
-        }
-
-        void IDialog::_pointerMoveEvent(Core::Event::PointerMove & event)
-        {
-            event.accept();
-        }
-
-        void IDialog::_keyPressEvent(Event::KeyPress & event)
-        {
-            Widget::_keyPressEvent(event);
-            if (!event.isAccepted())
-            {
-                event.accept();
-            }
         }
 
     } // namespace UI

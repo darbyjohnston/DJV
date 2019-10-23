@@ -43,7 +43,6 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/ToolButton.h>
-#include <djvUI/Window.h>
 
 #include <djvAV/IO.h>
 #include <djvAV/ThumbnailSystem.h>
@@ -191,7 +190,6 @@ namespace djv
             std::shared_ptr<UI::CheckBox> colorizeCheckBox;
             std::shared_ptr<UI::HorizontalLayout> layout;
             std::shared_ptr<UI::FileBrowser::Dialog> fileBrowserDialog;
-            std::shared_ptr<UI::Window> fileBrowserWindow;
 
             std::shared_ptr<ValueObserver<std::string> > backgroundImageObserver;
             std::shared_ptr<ValueObserver<bool> > backgroundImageScaleObserver;
@@ -264,10 +262,9 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            if (widget->_p->fileBrowserWindow)
+                            if (widget->_p->fileBrowserDialog)
                             {
-                                widget->_p->fileBrowserWindow->close();
-                                widget->_p->fileBrowserWindow.reset();
+                                widget->_p->fileBrowserDialog->close();
                             }
                             widget->_p->fileBrowserDialog = UI::FileBrowser::Dialog::create(context);
                             auto io = context->getSystemT<AV::IO::System>();
@@ -281,9 +278,8 @@ namespace djv
                                         if (auto widget = weak.lock())
                                         {
                                             widget->_p->fileBrowserPath = widget->_p->fileBrowserDialog->getPath();
+                                            widget->_p->fileBrowserDialog->close();
                                             widget->_p->fileBrowserDialog.reset();
-                                            widget->_p->fileBrowserWindow->close();
-                                            widget->_p->fileBrowserWindow.reset();
                                             auto settingsSystem = context->getSystemT<UI::Settings::System>();
                                             if (auto windowSettings = settingsSystem->getSettingsT<WindowSettings>())
                                             {
@@ -298,15 +294,11 @@ namespace djv
                                     if (auto widget = weak.lock())
                                     {
                                         widget->_p->fileBrowserPath = widget->_p->fileBrowserDialog->getPath();
+                                        widget->_p->fileBrowserDialog->close();
                                         widget->_p->fileBrowserDialog.reset();
-                                        widget->_p->fileBrowserWindow->close();
-                                        widget->_p->fileBrowserWindow.reset();
                                     }
                                 });
-                            widget->_p->fileBrowserWindow = UI::Window::create(context);
-                            widget->_p->fileBrowserWindow->setBackgroundRole(UI::ColorRole::None);
-                            widget->_p->fileBrowserWindow->addChild(widget->_p->fileBrowserDialog);
-                            widget->_p->fileBrowserWindow->show();
+                            widget->_p->fileBrowserDialog->show();
                         }
                     }
                 });
@@ -396,9 +388,9 @@ namespace djv
         BackgroundImageSettingsWidget::~BackgroundImageSettingsWidget()
         {
             DJV_PRIVATE_PTR();
-            if (p.fileBrowserWindow)
+            if (p.fileBrowserDialog)
             {
-                p.fileBrowserWindow->close();
+                p.fileBrowserDialog->close();
             }
         }
 

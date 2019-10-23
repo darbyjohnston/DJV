@@ -63,7 +63,6 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/SoloLayout.h>
 #include <djvUI/ScrollWidget.h>
-#include <djvUI/Window.h>
 
 #include <djvCore/Context.h>
 
@@ -77,7 +76,6 @@ namespace djv
         {
             int currentTab = 0;
             std::shared_ptr<SettingsDialog> settingsDialog;
-            std::shared_ptr<UI::Window> settingsWindow;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
         };
@@ -95,9 +93,9 @@ namespace djv
         SettingsSystem::~SettingsSystem()
         {
             DJV_PRIVATE_PTR();
-            if (p.settingsWindow)
+            if (p.settingsDialog)
             {
-                p.settingsWindow->close();
+                p.settingsDialog->close();
             }
         }
 
@@ -113,10 +111,9 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
-                if (p.settingsWindow)
+                if (p.settingsDialog)
                 {
-                    p.settingsWindow->close();
-                    p.settingsWindow.reset();
+                    p.settingsDialog->close();
                 }
                 p.settingsDialog = SettingsDialog::create(context);
                 p.settingsDialog->setCurrentTab(p.currentTab);
@@ -127,15 +124,11 @@ namespace djv
                         if (auto widget = weak.lock())
                         {
                             widget->_p->currentTab = widget->_p->settingsDialog->getCurrentTab();
+                            widget->_p->settingsDialog->close();
                             widget->_p->settingsDialog.reset();
-                            widget->_p->settingsWindow->close();
-                            widget->_p->settingsWindow.reset();
                         }
                     });
-                p.settingsWindow = UI::Window::create(context);
-                p.settingsWindow->setBackgroundRole(UI::ColorRole::None);
-                p.settingsWindow->addChild(p.settingsDialog);
-                p.settingsWindow->show();
+                p.settingsDialog->show();
             }
         }
         
