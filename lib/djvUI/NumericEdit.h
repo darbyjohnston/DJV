@@ -35,6 +35,34 @@ namespace djv
 {
     namespace UI
     {
+        //! This class provides buttons for incrementing/decrementing a value.
+        class NumericEditButtons : public Widget
+        {
+            DJV_NON_COPYABLE(NumericEditButtons);
+
+        protected:
+            void _init(const std::shared_ptr<Core::Context>&);
+            NumericEditButtons();
+
+        public:
+            virtual ~NumericEditButtons();
+
+            static std::shared_ptr<NumericEditButtons> create(const std::shared_ptr<Core::Context>&);
+
+            void setIncrementEnabled(bool);
+            void setDecrementEnabled(bool);
+
+            void setIncrementCallback(const std::function<void(void)>&);
+            void setDecrementCallback(const std::function<void(void)>&);
+
+        protected:
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
+
+        private:
+            DJV_PRIVATE();
+        };
+
         //! This class provides the base functionality for numeric editor widgets.
         class NumericEdit : public Widget
         {
@@ -53,6 +81,8 @@ namespace djv
             virtual void _incrementValue() = 0;
             virtual void _decrementValue() = 0;
             void _textUpdate(const std::string&, const std::string&);
+            void _setIsMin(bool);
+            void _setIsMax(bool);
 
             void _preLayoutEvent(Core::Event::PreLayout &) override;
             void _layoutEvent(Core::Event::Layout &) override;
@@ -60,7 +90,6 @@ namespace djv
             void _keyPressEvent(Core::Event::KeyPress&) override;
 
         private:
-
             DJV_PRIVATE();
         };
 

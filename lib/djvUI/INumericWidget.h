@@ -75,8 +75,14 @@ namespace djv
         protected:
             void _doCallback(TextEdit);
             bool _keyPress(NumericWidgetKey);
+            virtual void _setIsMin(bool) {}
+            virtual void _setIsMax(bool) {}
 
             std::shared_ptr<Core::INumericValueModel<T> > _model;
+
+        private:
+            std::shared_ptr<Core::ValueObserver<bool> > _isMinObserver;
+            std::shared_ptr<Core::ValueObserver<bool> > _isMaxObserver;
             std::function<void(T, TextEdit)> _callback;
         };
 

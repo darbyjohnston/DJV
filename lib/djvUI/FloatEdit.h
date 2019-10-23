@@ -56,6 +56,9 @@ namespace djv
             void setModel(const std::shared_ptr<Core::INumericValueModel<float> >&) override;
 
         protected:
+            void _setIsMin(bool) override;
+            void _setIsMax(bool) override;
+
             void _textEdit(const std::string&, TextEdit) override;
             bool _keyPress(int) override;
             void _incrementValue() override;

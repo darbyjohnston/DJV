@@ -31,7 +31,8 @@
 
 #include <djvViewApp/MediaWidget.h>
 
-#include <djvUI/LineEdit.h>
+#include <djvUI/LineEditBase.h>
+#include <djvUI/NumericEdit.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/Widget.h>
 
@@ -94,6 +95,7 @@ namespace djv
         protected:
             void _preLayoutEvent(Core::Event::PreLayout&) override;
             void _layoutEvent(Core::Event::Layout&) override;
+            void _paintEvent(Core::Event::Paint&) override;
 
         private:
             void _setFrame(Core::Frame::Index);
@@ -103,7 +105,9 @@ namespace djv
             Core::Frame::Sequence _sequence;
             Core::Time::Speed _speed;
             Core::Frame::Index _index = 0;
-            std::shared_ptr<UI::LineEdit> _lineEdit;
+            std::shared_ptr<UI::LineEditBase> _lineEditBase;
+            std::shared_ptr<UI::NumericEditButtons> _buttons;
+            std::shared_ptr<UI::HorizontalLayout> _layout;
             std::function<void(Core::Frame::Index)> _callback;
             std::map<std::string, std::shared_ptr<Core::ValueObserver<bool> > > _actionObservers;
             std::shared_ptr<Core::ValueObserver<AV::TimeUnits> > _timeUnitsObserver;

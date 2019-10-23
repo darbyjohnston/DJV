@@ -61,6 +61,8 @@ namespace djv
             void setRange(const Range::Range<T> &);
 
             std::shared_ptr<IValueSubject<T> > observeValue() const;
+            std::shared_ptr<IValueSubject<bool> > observeIsMin() const;
+            std::shared_ptr<IValueSubject<bool> > observeIsMax() const;
             void setValue(T);
             void setMin();
             void setMax();
@@ -80,6 +82,8 @@ namespace djv
         private:
             std::shared_ptr<ValueSubject<Range::Range<T> > >     _range;
             std::shared_ptr<ValueSubject<T> >                    _value;
+            std::shared_ptr<ValueSubject<bool> >                 _isMin;
+            std::shared_ptr<ValueSubject<bool> >                 _isMax;
             std::shared_ptr<ValueSubject<T> >                    _smallIncrement;
             std::shared_ptr<ValueSubject<T> >                    _largeIncrement;
             std::shared_ptr<ValueSubject<NumericValueOverflow> > _overflow;

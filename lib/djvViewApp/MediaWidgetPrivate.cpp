@@ -30,8 +30,10 @@
 #include <djvViewApp/MediaWidgetPrivate.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/DrawUtil.h>
 
 #include <djvAV/AVSystem.h>
+#include <djvAV/Render2D.h>
 
 #include <djvCore/Context.h>
 
@@ -140,6 +142,7 @@ namespace djv
         {
             Widget::_init(context);
             setClassName("djv::ViewApp::MediaWidget::FrameWidget");
+            setVAlign(UI::VAlign::Center);
 
             auto nextAction = UI::Action::create();
             nextAction->setShortcut(GLFW_KEY_UP);
@@ -150,58 +153,29 @@ namespace djv
             auto prevX10Action = UI::Action::create();
             prevX10Action->setShortcut(GLFW_KEY_PAGE_DOWN);
 
-            _lineEdit = UI::LineEdit::create(context);
-            _lineEdit->setFont(AV::Font::familyMono);
-            _lineEdit->setFontSizeRole(UI::MetricsRole::FontSmall);
-            _lineEdit->setBackgroundRole(UI::ColorRole::None);
-            _lineEdit->addAction(nextAction);
-            _lineEdit->addAction(prevAction);
-            _lineEdit->addAction(nextX10Action);
-            _lineEdit->addAction(prevX10Action);
-            addChild(_lineEdit);
+            _lineEditBase = UI::LineEditBase::create(context);
+            _lineEditBase->setFont(AV::Font::familyMono);
+            _lineEditBase->setFontSizeRole(UI::MetricsRole::FontSmall);
+            _lineEditBase->setBackgroundRole(UI::ColorRole::None);
+            _lineEditBase->addAction(nextAction);
+            _lineEditBase->addAction(prevAction);
+            _lineEditBase->addAction(nextX10Action);
+            _lineEditBase->addAction(prevX10Action);
+
+            _buttons = UI::NumericEditButtons::create(context);
+            _buttons->setBackgroundRole(UI::ColorRole::None);
+
+            _layout = UI::HorizontalLayout::create(context);
+            _layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            _layout->addChild(_lineEditBase);
+            _layout->setStretch(_lineEditBase, UI::RowStretch::Expand);
+            _layout->addChild(_buttons);
+            addChild(_layout);
             
             _widgetUpdate();
             
             auto weak = std::weak_ptr<FrameWidget>(std::dynamic_pointer_cast<FrameWidget>(shared_from_this()));
-            _actionObservers["Next"] = ValueObserver<bool>::create(
-                nextAction->observeClicked(),
-                [weak](bool value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_setFrame(widget->_index + 1);
-                    }
-                });
-
-            _actionObservers["Prev"] = ValueObserver<bool>::create(
-                prevAction->observeClicked(),
-                [weak](bool value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_setFrame(widget->_index - 1);
-                    }
-                });
-            _actionObservers["NextX10"] = ValueObserver<bool>::create(
-                nextX10Action->observeClicked(),
-                [weak](bool value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_setFrame(widget->_index + 10);
-                    }
-                });
-            _actionObservers["PrevX10"] = ValueObserver<bool>::create(
-                prevX10Action->observeClicked(),
-                [weak](bool value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_setFrame(widget->_index - 10);
-                    }
-                });
-
-            _lineEdit->setTextEditCallback(
+            _lineEditBase->setTextEditCallback(
                 [weak](const std::string& value, UI::TextEdit)
                 {
                     if (auto widget = weak.lock())
@@ -244,6 +218,69 @@ namespace djv
                         default: break;
                         }
                         widget->_setFrame(index);
+                    }
+                });
+            _lineEditBase->setFocusCallback(
+                [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_redraw();
+                    }
+                });
+
+            _buttons->setIncrementCallback(
+                [weak]
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_setFrame(widget->_index + 1);
+                    }
+                });
+            _buttons->setDecrementCallback(
+                [weak]
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_setFrame(widget->_index - 1);
+                    }
+                });
+
+            _actionObservers["Next"] = ValueObserver<bool>::create(
+                nextAction->observeClicked(),
+                [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_setFrame(widget->_index + 1);
+                    }
+                });
+
+            _actionObservers["Prev"] = ValueObserver<bool>::create(
+                prevAction->observeClicked(),
+                [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_setFrame(widget->_index - 1);
+                    }
+                });
+            _actionObservers["NextX10"] = ValueObserver<bool>::create(
+                nextX10Action->observeClicked(),
+                [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_setFrame(widget->_index + 10);
+                    }
+                });
+            _actionObservers["PrevX10"] = ValueObserver<bool>::create(
+                prevX10Action->observeClicked(),
+                [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_setFrame(widget->_index - 10);
                     }
                 });
 
@@ -298,12 +335,33 @@ namespace djv
 
         void FrameWidget::_preLayoutEvent(Event::PreLayout&)
         {
-            _setMinimumSize(_lineEdit->getMinimumSize());
+            const auto& style = _getStyle();
+            const float b = style->getMetric(UI::MetricsRole::Border);
+            _setMinimumSize(_layout->getMinimumSize() + b * 6.F);
         }
 
         void FrameWidget::_layoutEvent(Event::Layout&)
         {
-            _lineEdit->setGeometry(getGeometry());
+            const auto& style = _getStyle();
+            const float b = style->getMetric(UI::MetricsRole::Border);
+            _layout->setGeometry(getGeometry().margin(-b * 3.0F));
+        }
+
+        void FrameWidget::_paintEvent(Event::Paint& event)
+        {
+            Widget::_paintEvent(event);
+            const auto& style = _getStyle();
+            const BBox2f& g = getGeometry();
+            const float b = style->getMetric(UI::MetricsRole::Border);
+            auto render = _getRender();
+            if (_lineEditBase->hasTextFocus())
+            {
+                render->setFillColor(style->getColor(UI::ColorRole::TextFocus));
+                UI::drawBorder(render, g, b * 2.F);
+            }
+            render->setFillColor(style->getColor(UI::ColorRole::Border));
+            const BBox2f g2 = g.margin(-b * 2.F);
+            UI::drawBorder(render, g2, b);
         }
 
         void FrameWidget::_setFrame(Frame::Index value)
@@ -325,19 +383,19 @@ namespace djv
             {
             case AV::TimeUnits::Timecode:
             {
-                _lineEdit->setSizeString("00:00:00:00");
+                _lineEditBase->setSizeString("00:00:00:00");
                 const uint32_t timecode = Time::frameToTimecode(_sequence.getFrame(_index), _speed);
                 const std::string s = Time::timecodeToString(timecode);
-                _lineEdit->setText(s);
+                _lineEditBase->setText(s);
                 break;
             }
             case AV::TimeUnits::Frames:
             {
-                _lineEdit->setSizeString("00000");
+                _lineEditBase->setSizeString("00000");
                 const Frame::Number frame = _sequence.getFrame(_index);
                 std::stringstream ss;
                 ss << frame;
-                _lineEdit->setText(ss.str());
+                _lineEditBase->setText(ss.str());
                 break;
             }
             default: break;

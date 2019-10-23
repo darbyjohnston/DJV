@@ -57,7 +57,6 @@ namespace djv
             std::map<std::shared_ptr<Button::Menu>, std::shared_ptr<Menu> > buttonsToMenus;
             std::map<std::shared_ptr<Menu>, std::shared_ptr<ValueObserver<std::string> > > iconObservers;
             std::map<std::shared_ptr<Menu>, std::shared_ptr<ValueObserver<std::string> > > textObservers;
-            std::shared_ptr<ValueObserver<bool> > closeObserver;
 
             void closeMenus();
         };
@@ -68,10 +67,6 @@ namespace djv
             
             DJV_PRIVATE_PTR();
             setClassName("djv::UI::MenuBar");
-
-            auto closeAction = Action::create();
-            closeAction->setShortcut(GLFW_KEY_ESCAPE);
-            addAction(closeAction);
 
             p.menuLayout = HorizontalLayout::create(context);
             p.menuLayout->setSpacing(Layout::Spacing(MetricsRole::None));
@@ -88,20 +83,6 @@ namespace djv
             p.layout->addChild(p.widgetLayout[Side::Right]);
             p.layout->setStretch(p.widgetLayout[Side::Right], RowStretch::Expand);
             Widget::addChild(p.layout);
-
-            auto weak = std::weak_ptr<MenuBar>(std::dynamic_pointer_cast<MenuBar>(shared_from_this()));
-            p.closeObserver = ValueObserver<bool>::create(
-                closeAction->observeClicked(),
-                [weak](bool value)
-            {
-                if (value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->closeMenus();
-                    }
-                }
-            });
         }
 
         MenuBar::MenuBar() :

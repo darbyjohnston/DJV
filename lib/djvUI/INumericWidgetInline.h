@@ -75,6 +75,18 @@ namespace djv
         inline void INumericWidget<T>::setModel(const std::shared_ptr<Core::INumericValueModel<T> >& value)
         {
             _model = value;
+            _isMinObserver = ValueObserver<bool>::create(
+                _model->observeIsMin(),
+                [this](bool value)
+                {
+                    _setIsMin(value);
+                });
+            _isMaxObserver = ValueObserver<bool>::create(
+                _model->observeIsMax(),
+                [this](bool value)
+                {
+                    _setIsMax(value);
+                });
         }
 
         template<typename T>

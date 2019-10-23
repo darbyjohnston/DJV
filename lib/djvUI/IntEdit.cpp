@@ -101,6 +101,16 @@ namespace djv
             }
         }
 
+        void IntEdit::_setIsMin(bool value)
+        {
+            NumericEdit::_setIsMin(value);
+        }
+
+        void IntEdit::_setIsMax(bool value)
+        {
+            NumericEdit::_setIsMax(value);
+        }
+
         void IntEdit::_textEdit(const std::string& value, TextEdit textEdit)
         {
             if (auto model = getModel())

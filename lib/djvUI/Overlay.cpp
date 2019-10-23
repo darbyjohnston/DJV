@@ -56,37 +56,18 @@ namespace djv
                 std::shared_ptr<Animation::Animation> fadeAnimation;
                 std::map<Event::PointerID, bool> pressedIDs;
                 std::function<void(void)> closeCallback;
-                std::shared_ptr<ValueObserver<bool> > closeObserver;
             };
 
             void Overlay::_init(const std::shared_ptr<Core::Context>& context)
             {
                 Widget::_init(context);
+                DJV_PRIVATE_PTR();
 
                 setClassName("djv::UI::Layout::Overlay");
                 setBackgroundRole(ColorRole::Overlay);
                 setPointerEnabled(true);
 
-                auto closeAction = Action::create();
-                closeAction->setShortcut(GLFW_KEY_ESCAPE);
-                addAction(closeAction);
-
-                DJV_PRIVATE_PTR();
                 p.fadeAnimation = Animation::Animation::create(context);
-
-                auto weak = std::weak_ptr<Overlay>(std::dynamic_pointer_cast<Overlay>(shared_from_this()));
-                p.closeObserver = ValueObserver<bool>::create(
-                    closeAction->observeClicked(),
-                    [weak](bool value)
-                {
-                    if (value)
-                    {
-                        if (auto overlay = weak.lock())
-                        {
-                            overlay->_doCloseCallback();
-                        }
-                    }
-                });
             }
 
             Overlay::Overlay() :

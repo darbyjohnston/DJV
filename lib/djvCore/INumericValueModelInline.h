@@ -38,6 +38,8 @@ namespace djv
         {
             _range          = ValueSubject<Range::Range<T> >::create();
             _value          = ValueSubject<T>::create();
+            _isMin          = ValueSubject<bool>::create();
+            _isMax          = ValueSubject<bool>::create();
             _smallIncrement = ValueSubject<T>::create();
             _largeIncrement = ValueSubject<T>::create();
             _overflow       = ValueSubject<NumericValueOverflow>::create(NumericValueOverflow::Clamp);
@@ -73,6 +75,18 @@ namespace djv
         }
 
         template<typename T>
+        inline std::shared_ptr<IValueSubject<bool> > INumericValueModel<T>::observeIsMin() const
+        {
+            return _isMin;
+        }
+
+        template<typename T>
+        inline std::shared_ptr<IValueSubject<bool> > INumericValueModel<T>::observeIsMax() const
+        {
+            return _isMax;
+        }
+
+        template<typename T>
         inline void INumericValueModel<T>::setValue(T value)
         {
             const auto & range = _range->get();
@@ -97,6 +111,8 @@ namespace djv
             default: break;
             }
             _value->setIfChanged(value);
+            _isMin->setIfChanged(value == range.min);
+            _isMax->setIfChanged(value == range.max);
         }
 
         template<typename T>

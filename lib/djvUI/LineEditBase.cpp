@@ -102,6 +102,7 @@ namespace djv
             setClassName("djv::UI::LineEditBase");
             setVAlign(VAlign::Center);
             setPointerEnabled(true);
+            setBackgroundRole(UI::ColorRole::Trough);
 
             p.fontSystem = context->getSystemT<AV::Font::System>();
 

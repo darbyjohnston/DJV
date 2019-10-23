@@ -49,23 +49,21 @@ namespace djv
 {
     namespace UI
     {
-        struct NumericEdit::Private
+        struct NumericEditButtons::Private
         {
-            std::shared_ptr<LineEditBase> lineEditBase;
             std::shared_ptr<ToolButton> incButtons[2];
-            std::shared_ptr<HorizontalLayout> layout;
+            std::shared_ptr<VerticalLayout> layout;
+            std::function<void(void)> incrementCallback;
+            std::function<void(void)> decrementCallback;
         };
 
-        void NumericEdit::_init(const std::shared_ptr<Context>& context)
+        void NumericEditButtons::_init(const std::shared_ptr<Context>& context)
         {
             Widget::_init(context);
             DJV_PRIVATE_PTR();
 
-            setClassName("djv::UI::NumericEdit");
-            setVAlign(VAlign::Center);
-
-            p.lineEditBase = LineEditBase::create(context);
-            p.lineEditBase->setFont(AV::Font::familyMono);
+            setClassName("djv::UI::NumericEditButtons");
+            setBackgroundRole(ColorRole::Button);
 
             const std::vector<std::string> icons =
             {
@@ -80,21 +78,113 @@ namespace djv
                 p.incButtons[i]->setInsideMargin(Layout::Margin(MetricsRole::Border));
                 p.incButtons[i]->setAutoRepeat(true);
                 p.incButtons[i]->setVAlign(VAlign::Fill);
-                p.incButtons[i]->setBackgroundRole(ColorRole::Button);
             }
+
+            p.layout = VerticalLayout::create(context);
+            p.layout->setSpacing(Layout::Spacing(MetricsRole::None));
+            for (size_t i = 0; i < 2; ++i)
+            {
+                p.layout->addChild(p.incButtons[i]);
+                p.layout->setStretch(p.incButtons[i], RowStretch::Expand);
+            }
+            addChild(p.layout);
+
+            auto weak = std::weak_ptr<NumericEditButtons>(std::dynamic_pointer_cast<NumericEditButtons>(shared_from_this()));
+            p.incButtons[0]->setClickedCallback(
+                [weak]
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        if (widget->_p->incrementCallback)
+                        {
+                            widget->_p->incrementCallback();
+                        }
+                    }
+                });
+            p.incButtons[1]->setClickedCallback(
+                [weak]
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        if (widget->_p->decrementCallback)
+                        {
+                            widget->_p->decrementCallback();
+                        }
+                    }
+                });
+        }
+
+        NumericEditButtons::NumericEditButtons() :
+            _p(new Private)
+        {}
+
+        NumericEditButtons::~NumericEditButtons()
+        {}
+
+        std::shared_ptr<NumericEditButtons> NumericEditButtons::create(const std::shared_ptr<Context>& value)
+        {
+            auto out = std::shared_ptr<NumericEditButtons>(new NumericEditButtons);
+            out->_init(value);
+            return out;
+        }
+
+        void NumericEditButtons::setIncrementEnabled(bool value)
+        {
+            _p->incButtons[0]->setEnabled(value);
+        }
+
+        void NumericEditButtons::setDecrementEnabled(bool value)
+        {
+            _p->incButtons[1]->setEnabled(value);
+        }
+
+        void NumericEditButtons::setIncrementCallback(const std::function<void(void)>& callback)
+        {
+            _p->incrementCallback = callback;
+        }
+
+        void NumericEditButtons::setDecrementCallback(const std::function<void(void)>& callback)
+        {
+            _p->decrementCallback = callback;
+        }
+
+        void NumericEditButtons::_preLayoutEvent(Event::PreLayout& event)
+        {
+            DJV_PRIVATE_PTR();
+            _setMinimumSize(p.layout->getMinimumSize());
+        }
+
+        void NumericEditButtons::_layoutEvent(Event::Layout& event)
+        {
+            DJV_PRIVATE_PTR();
+            p.layout->setGeometry(getGeometry());
+        }
+
+        struct NumericEdit::Private
+        {
+            std::shared_ptr<LineEditBase> lineEditBase;
+            std::shared_ptr<NumericEditButtons> buttons;
+            std::shared_ptr<HorizontalLayout> layout;
+        };
+
+        void NumericEdit::_init(const std::shared_ptr<Context>& context)
+        {
+            Widget::_init(context);
+            DJV_PRIVATE_PTR();
+
+            setClassName("djv::UI::NumericEdit");
+            setVAlign(VAlign::Center);
+
+            p.lineEditBase = LineEditBase::create(context);
+            p.lineEditBase->setFont(AV::Font::familyMono);
+
+            p.buttons = NumericEditButtons::create(context);
 
             p.layout = HorizontalLayout::create(context);
             p.layout->setSpacing(Layout::Spacing(MetricsRole::None));
             p.layout->addChild(p.lineEditBase);
             p.layout->setStretch(p.lineEditBase, RowStretch::Expand);
-            auto vLayout = VerticalLayout::create(context);
-            vLayout->setSpacing(Layout::Spacing(MetricsRole::Border));
-            for (size_t i = 0; i < 2; ++i)
-            {
-                vLayout->addChild(p.incButtons[i]);
-                vLayout->setStretch(p.incButtons[i], RowStretch::Expand);
-            }
-            p.layout->addChild(vLayout);
+            p.layout->addChild(p.buttons);
             addChild(p.layout);
 
             auto weak = std::weak_ptr<NumericEdit>(std::dynamic_pointer_cast<NumericEdit>(shared_from_this()));
@@ -115,7 +205,7 @@ namespace djv
                     }
                 });
 
-            p.incButtons[0]->setClickedCallback(
+            p.buttons->setIncrementCallback(
                 [weak]
                 {
                     if (auto widget = weak.lock())
@@ -123,7 +213,7 @@ namespace djv
                         widget->_incrementValue();
                     }
                 });
-            p.incButtons[1]->setClickedCallback(
+            p.buttons->setDecrementCallback(
                 [weak]
                 {
                     if (auto widget = weak.lock())
@@ -163,6 +253,18 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.lineEditBase->setText(text);
             p.lineEditBase->setSizeString(sizeString);
+        }
+
+        void NumericEdit::_setIsMin(bool value)
+        {
+            DJV_PRIVATE_PTR();
+            p.buttons->setDecrementEnabled(!value);
+        }
+
+        void NumericEdit::_setIsMax(bool value)
+        {
+            DJV_PRIVATE_PTR();
+            p.buttons->setIncrementEnabled(!value);
         }
 
         void NumericEdit::_paintEvent(Event::Paint& event)
