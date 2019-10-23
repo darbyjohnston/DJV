@@ -33,6 +33,7 @@
 
 #include <djvCore/INumericValueModel.h>
 #include <djvCore/Range.h>
+#include <djvCore/ValueObserver.h>
 
 #include <chrono>
 
