@@ -261,6 +261,7 @@ namespace djv
                 switch (_direction)
                 {
                 case Direction::Forward:
+                {
                     for (size_t i = 0; i < _readBehind; ++i)
                     {
                         --frame;
@@ -277,13 +278,21 @@ namespace djv
                         }
                     }
                     _sequence.ranges.push_back(Frame::Range(frame));
+                    const Frame::Index first = frame;
                     for (size_t i = 0; i < _max; ++i)
                     {
                         ++frame;
+                        if (first == frame)
+                        {
+                            break;
+                        }
                         if (frame >= _sequenceSize)
                         {
                             frame = 0;
-                            _sequence.ranges.push_back(Frame::Range(frame));
+                            if (frame != _sequence.ranges.back().max)
+                            {
+                                _sequence.ranges.push_back(Frame::Range(frame));
+                            }
                         }
                         else
                         {
@@ -291,7 +300,9 @@ namespace djv
                         }
                     }
                     break;
+                }
                 case Direction::Reverse:
+                {
                     for (size_t i = 0; i < _readBehind; ++i)
                     {
                         ++frame;
@@ -301,9 +312,14 @@ namespace djv
                         }
                     }
                     _sequence.ranges.push_back(Frame::Range(frame));
+                    const Frame::Index first = frame;
                     for (size_t i = 0; i < _max; ++i)
                     {
                         --frame;
+                        if (first == frame)
+                        {
+                            break;
+                        }
                         if (frame < 0)
                         {
                             if (_sequenceSize)
@@ -314,7 +330,10 @@ namespace djv
                             {
                                 frame = 0;
                             }
-                            _sequence.ranges.push_back(Frame::Range(frame));
+                            if (frame != _sequence.ranges.back().max)
+                            {
+                                _sequence.ranges.push_back(Frame::Range(frame));
+                            }
                         }
                         else
                         {
@@ -322,6 +341,7 @@ namespace djv
                         }
                     }
                     break;
+                }
                 default: break;
                 }
                 auto i = _cache.begin();
