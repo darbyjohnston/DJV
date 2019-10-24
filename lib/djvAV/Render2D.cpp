@@ -1802,4 +1802,20 @@ namespace djv
 
         } // namespace Render
     } // namespace AV
+    
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        AV::Render,
+        ImageChannel,
+        DJV_TEXT("None"),
+        DJV_TEXT("Red"),
+        DJV_TEXT("Green"),
+        DJV_TEXT("Blue"),
+        DJV_TEXT("Alpha"));
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        AV::Render,
+        ImageCache,
+        DJV_TEXT("Atlas"),
+        DJV_TEXT("Dynamic"));
+
 } // namespace djv

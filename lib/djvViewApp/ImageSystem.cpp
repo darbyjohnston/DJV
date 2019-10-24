@@ -1,4 +1,3 @@
-
 //------------------------------------------------------------------------------
 // Copyright (c) 2004-2019 Darby Johnston
 // All rights reserved.
@@ -33,6 +32,7 @@
 #include <djvViewApp/ColorControlsWidget.h>
 #include <djvViewApp/ColorSpaceWidget.h>
 #include <djvViewApp/FileSystem.h>
+#include <djvViewApp/ImageControlsWidget.h>
 #include <djvViewApp/ImageSettings.h>
 #include <djvViewApp/ImageView.h>
 #include <djvViewApp/Media.h>
@@ -79,6 +79,7 @@ namespace djv
             std::shared_ptr<UI::ActionGroup> rotateActionGroup;
             std::shared_ptr<UI::ActionGroup> aspectRatioActionGroup;
             std::shared_ptr<UI::Menu> menu;
+            std::weak_ptr<ImageControlsWidget> imageControlsWidget;
             std::weak_ptr<ColorSpaceWidget> colorSpaceWidget;
             std::weak_ptr<ColorControlsWidget> colorControlsWidget;
 
@@ -105,6 +106,9 @@ namespace djv
             p.frameStoreEnabled = ValueSubject<bool>::create();
             p.frameStore = ValueSubject<std::shared_ptr<AV::Image::Image> >::create();
 
+            p.actions["ImageControls"] = UI::Action::create();
+            p.actions["ImageControls"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["ImageControls"]->setShortcut(GLFW_KEY_M, GLFW_MOD_CONTROL);
             p.actions["ColorSpace"] = UI::Action::create();
             p.actions["ColorSpace"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["ColorSpace"]->setShortcut(GLFW_KEY_P, GLFW_MOD_CONTROL);
@@ -165,6 +169,7 @@ namespace djv
             p.actions["LoadFrameStore"]->setShortcut(GLFW_KEY_F, GLFW_MOD_SHIFT);
 
             p.menu = UI::Menu::create(context);
+            p.menu->addAction(p.actions["ImageControls"]);
             p.menu->addAction(p.actions["ColorSpace"]);
             p.menu->addAction(p.actions["ColorControls"]);
             p.menu->addSeparator();
@@ -249,7 +254,32 @@ namespace djv
                     }
                 });
 
+
             auto contextWeak = std::weak_ptr<Context>(context);
+            p.actionObservers["ImageControls"] = ValueObserver<bool>::create(
+                p.actions["ImageControls"]->observeChecked(),
+                [weak, contextWeak](bool value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (value)
+                            {
+                                auto widget = ImageControlsWidget::create(context);
+                                widget->setCurrentTab(system->_p->colorCurrentTab);
+                                system->_p->imageControlsWidget = widget;
+                                system->_openWidget("ImageControls", widget);
+                                system->_widgetUpdate();
+                            }
+                            else
+                            {
+                                system->_closeWidget("ImageControls");
+                            }
+                        }
+                    }
+                });
+
             p.actionObservers["ColorSpace"] = ValueObserver<bool>::create(
                 p.actions["ColorSpace"]->observeChecked(),
                 [weak, contextWeak](bool value)
@@ -283,12 +313,12 @@ namespace djv
                         {
                             if (value)
                             {
-                                auto colorControlsWidget = ColorControlsWidget::create(context);
-                                colorControlsWidget->setCurrentTab(system->_p->colorCurrentTab);
-                                system->_p->colorControlsWidget = colorControlsWidget;
-                                system->_openWidget("ColorControls", colorControlsWidget);
+                                auto widget = ColorControlsWidget::create(context);
+                                widget->setCurrentTab(system->_p->colorCurrentTab);
+                                system->_p->colorControlsWidget = widget;
+                                system->_openWidget("ColorControls", widget);
                                 system->_widgetUpdate();
-                                colorControlsWidget->setColorCallback(
+                                widget->setColorCallback(
                                     [weak](const AV::Render::ImageColor& value)
                                     {
                                         if (auto system = weak.lock())
@@ -301,7 +331,7 @@ namespace djv
                                             }
                                         }
                                     });
-                                colorControlsWidget->setLevelsCallback(
+                                widget->setLevelsCallback(
                                     [weak](const AV::Render::ImageLevels& value)
                                     {
                                         if (auto system = weak.lock())
@@ -314,7 +344,7 @@ namespace djv
                                             }
                                         }
                                     });
-                                colorControlsWidget->setExposureCallback(
+                                widget->setExposureCallback(
                                     [weak](const AV::Render::ImageExposure& value)
                                     {
                                         if (auto system = weak.lock())
@@ -326,7 +356,7 @@ namespace djv
                                             }
                                         }
                                     });
-                                colorControlsWidget->setExposureEnabledCallback(
+                                widget->setExposureEnabledCallback(
                                     [weak](bool value)
                                     {
                                         if (auto system = weak.lock())
@@ -338,7 +368,7 @@ namespace djv
                                             }
                                         }
                                     });
-                                colorControlsWidget->setSoftClipCallback(
+                                widget->setSoftClipCallback(
                                     [weak](float value)
                                     {
                                         if (auto system = weak.lock())
@@ -505,6 +535,7 @@ namespace djv
         ImageSystem::~ImageSystem()
         {
             DJV_PRIVATE_PTR();
+            _closeWidget("ImageControls");
             _closeWidget("ColorSpace");
             _closeWidget("ColorControls");
             p.settings->setColorSpaceCurrentTab(p.colorSpaceCurrentTab);
@@ -546,7 +577,15 @@ namespace djv
         void ImageSystem::_closeWidget(const std::string& value)
         {
             DJV_PRIVATE_PTR();
-            if ("ColorSpace" == value)
+            if ("ImageControls" == value)
+            {
+                if (auto imageControlsWidget = p.imageControlsWidget.lock())
+                {
+                    p.colorCurrentTab = imageControlsWidget->getCurrentTab();
+                }
+                p.imageControlsWidget.reset();
+            }
+            else if ("ColorSpace" == value)
             {
                 if (auto colorSpaceWidget = p.colorSpaceWidget.lock())
                 {
@@ -575,6 +614,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.actions.size())
             {
+                p.actions["ImageControls"]->setText(_getText(DJV_TEXT("Image Controls")));
+                p.actions["ImageControls"]->setTooltip(_getText(DJV_TEXT("Image controls widget tooltip")));
                 p.actions["ColorSpace"]->setText(_getText(DJV_TEXT("Color Space")));
                 p.actions["ColorSpace"]->setTooltip(_getText(DJV_TEXT("Color space widget tooltip")));
                 p.actions["ColorControls"]->setText(_getText(DJV_TEXT("Color Controls")));

@@ -61,15 +61,23 @@ namespace djv
                 Red,
                 Green,
                 Blue,
-                Alpha
+                Alpha,
+
+                Count,
+                First = None
             };
+            DJV_ENUM_HELPERS(ImageChannel);
 
             //! This eumeration provides the image cache options.
             enum class ImageCache
             {
                 Atlas,
-                Dynamic
+                Dynamic,
+
+                Count,
+                First = Atlas
             };
+            DJV_ENUM_HELPERS(ImageCache);
             
             //! This class provides color values.
             class ImageColor
@@ -262,6 +270,9 @@ namespace djv
 
         } // namespace Render
     } // namespace AV
+
+    DJV_ENUM_SERIALIZE_HELPERS(AV::Render::ImageChannel);
+    DJV_ENUM_SERIALIZE_HELPERS(AV::Render::ImageCache);
 
 } // namespace djv
 

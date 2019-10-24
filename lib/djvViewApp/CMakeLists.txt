@@ -21,6 +21,7 @@ set(header
     HistogramWidget.h
     IToolSystem.h
     IViewSystem.h
+    ImageControlsWidget.h
 	ImageSettings.h
 	ImageSettingsWidget.h
     ImageSystem.h
@@ -84,6 +85,7 @@ set(source
     HistogramWidget.cpp
     IToolSystem.cpp
     IViewSystem.cpp
+    ImageControlsWidget.cpp
 	ImageSettings.cpp
 	ImageSettingsWidget.cpp
     ImageSystem.cpp
