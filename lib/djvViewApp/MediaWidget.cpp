@@ -270,22 +270,24 @@ namespace djv
             hLayout->addChild(p.audioMuteButton);
             vLayout->addChild(hLayout);
             p.audioPopupWidget = UI::PopupWidget::create(context);
+            p.audioPopupWidget->setVAlign(UI::VAlign::Center);
             p.audioPopupWidget->addChild(vLayout);
 
-            auto toolbar = UI::ToolBar::create(context);
-            toolbar->setBackgroundRole(UI::ColorRole::None);
-            toolbar->addAction(p.actions["InPoint"]);
-            toolbar->addAction(p.actions["PrevFrame"]);
-            toolbar->addAction(p.actions["Reverse"]);
-            toolbar->addAction(p.actions["Forward"]);
-            toolbar->addAction(p.actions["NextFrame"]);
-            toolbar->addAction(p.actions["OutPoint"]);
+            auto toolBar = UI::ToolBar::create(context);
+            toolBar->setVAlign(UI::VAlign::Center);
+            toolBar->setBackgroundRole(UI::ColorRole::None);
+            toolBar->addAction(p.actions["InPoint"]);
+            toolBar->addAction(p.actions["PrevFrame"]);
+            toolBar->addAction(p.actions["Reverse"]);
+            toolBar->addAction(p.actions["Forward"]);
+            toolBar->addAction(p.actions["NextFrame"]);
+            toolBar->addAction(p.actions["OutPoint"]);
 
             p.playbackLayout = UI::GridLayout::create(context);
             p.playbackLayout->setBackgroundRole(UI::ColorRole::OverlayLight);
             p.playbackLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall, UI::MetricsRole::None));
-            p.playbackLayout->addChild(toolbar);
-            p.playbackLayout->setGridPos(toolbar, 0, 0);
+            p.playbackLayout->addChild(toolBar);
+            p.playbackLayout->setGridPos(toolBar, 0, 0);
             p.playbackLayout->addChild(p.timelineSlider);
             p.playbackLayout->setGridPos(p.timelineSlider, 1, 0);
             p.playbackLayout->setStretch(p.timelineSlider, UI::GridStretch::Horizontal);
