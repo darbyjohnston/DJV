@@ -48,6 +48,7 @@ set(header
     SettingsDialog.h
     SettingsSystem.h
     SystemLogWidget.h
+    TimelinePIPWidget.h
     TimelineSlider.h
     ToolSettings.h
     ToolSystem.h
@@ -110,6 +111,7 @@ set(source
     SettingsDialog.cpp
     SettingsSystem.cpp
     SystemLogWidget.cpp
+    TimelinePIPWidget.cpp
     TimelineSlider.cpp
     ToolSettings.cpp
     ToolSystem.cpp

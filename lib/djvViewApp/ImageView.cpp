@@ -73,7 +73,7 @@ namespace djv
             std::shared_ptr<ValueSubject<glm::vec2> > imagePos;
             std::shared_ptr<ValueSubject<float> > imageZoom;
             std::shared_ptr<ValueSubject<ImageRotate> > imageRotate;
-            std::shared_ptr<ValueSubject<ImageAspectRatio> > imageAspectRatio;
+            std::shared_ptr<ValueSubject<UI::ImageAspectRatio> > imageAspectRatio;
             ImageViewLock lock = ImageViewLock::None;
             BBox2f lockFrame = BBox2f(0.F, 0.F, 0.F, 0.F);
             std::shared_ptr<ValueSubject<GridOptions> > gridOptions;
@@ -108,7 +108,7 @@ namespace djv
             p.imagePos = ValueSubject<glm::vec2>::create();
             p.imageZoom = ValueSubject<float>::create(1.F);
             p.imageRotate = ValueSubject<ImageRotate>::create(imageSettings->observeRotate()->get());
-            p.imageAspectRatio = ValueSubject<ImageAspectRatio>::create(imageSettings->observeAspectRatio()->get());
+            p.imageAspectRatio = ValueSubject<UI::ImageAspectRatio>::create(imageSettings->observeAspectRatio()->get());
             p.gridOptions = ValueSubject<GridOptions>::create(viewSettings->observeGridOptions()->get());
             p.backgroundColor = ValueSubject<AV::Image::Color>::create(viewSettings->observeBackgroundColor()->get());
 
@@ -208,7 +208,7 @@ namespace djv
             return _p->imageRotate;
         }
 
-        std::shared_ptr<IValueSubject<ImageAspectRatio> > ImageView::observeImageAspectRatio() const
+        std::shared_ptr<IValueSubject<UI::ImageAspectRatio> > ImageView::observeImageAspectRatio() const
         {
             return _p->imageAspectRatio;
         }
@@ -216,36 +216,6 @@ namespace djv
         BBox2f ImageView::getImageBBox() const
         {
             return _getBBox(_getImagePoints());
-        }
-
-        float ImageView::getPixelAspectRatio() const
-        {
-            DJV_PRIVATE_PTR();
-            float out = 1.F;
-            switch (p.imageAspectRatio->get())
-            {
-            case ImageAspectRatio::Default:
-                out = p.image ? p.image->getInfo().pixelAspectRatio : 1.F;
-                break;
-            default: break;
-            }
-            return out;
-        }
-
-        float ImageView::getAspectRatioScale() const
-        {
-            DJV_PRIVATE_PTR();
-            float out = 1.F;
-            switch (p.imageAspectRatio->get())
-            {
-            case ImageAspectRatio::_16_9:
-            case ImageAspectRatio::_1_85:
-            case ImageAspectRatio::_2_35:
-                out = (p.image ? p.image->getAspectRatio() : 1.F) / getImageAspectRatio(p.imageAspectRatio->get());
-                break;
-            default: break;
-            }
-            return out;
         }
 
         void ImageView::setImagePos(const glm::vec2& value)
@@ -302,7 +272,7 @@ namespace djv
             }
         }
 
-        void ImageView::setImageAspectRatio(ImageAspectRatio value)
+        void ImageView::setImageAspectRatio(UI::ImageAspectRatio value)
         {
             DJV_PRIVATE_PTR();
             if (p.imageAspectRatio->setIfChanged(value))
@@ -484,8 +454,8 @@ namespace djv
                 m = glm::translate(m, g.min + p.imagePos->get());
                 m = glm::rotate(m, Math::deg2rad(getImageRotate(p.imageRotate->get())));
                 m = glm::scale(m, glm::vec2(
-                    p.imageZoom->get() * getPixelAspectRatio(),
-                    p.imageZoom->get() * getAspectRatioScale()));
+                    p.imageZoom->get() * UI::getPixelAspectRatio(p.imageAspectRatio->get(), p.image->getInfo().pixelAspectRatio),
+                    p.imageZoom->get() * UI::getAspectRatioScale(p.imageAspectRatio->get(), p.image->getAspectRatio())));
                 render->pushTransform(m);
                 AV::Render::ImageOptions options(p.imageOptions->get());
                 auto i = p.ocioConfig.colorSpaces.find(p.image->getPluginName());
@@ -522,7 +492,9 @@ namespace djv
                 const AV::Image::Size& imageSize = p.image->getSize();
                 glm::mat3x3 m(1.F);
                 m = glm::rotate(m, Math::deg2rad(getImageRotate(p.imageRotate->get())));
-                m = glm::scale(m, glm::vec2(getPixelAspectRatio(), getAspectRatioScale()));
+                m = glm::scale(m, glm::vec2(
+                    getPixelAspectRatio(p.imageAspectRatio->get(), p.image->getInfo().pixelAspectRatio),
+                    getAspectRatioScale(p.imageAspectRatio->get(), p.image->getAspectRatio())));
                 out.resize(4);
                 out[0].x = 0.F;
                 out[0].y = 0.F;

@@ -45,19 +45,6 @@ namespace djv
             return values[static_cast<size_t>(value)];
         }
 
-        float getImageAspectRatio(ImageAspectRatio value)
-        {
-            const float values[] =
-            {
-                1.F,
-                1.F,
-                1.78F,
-                1.85F,
-                2.35F
-            };
-            return values[static_cast<size_t>(value)];
-        }
-
     } // namespace ViewApp
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
@@ -75,15 +62,6 @@ namespace djv
         DJV_TEXT("90"),
         DJV_TEXT("180"),
         DJV_TEXT("270"));
-
-    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        ViewApp,
-        ImageAspectRatio,
-        DJV_TEXT("Native"),
-        DJV_TEXT("Default"),
-        DJV_TEXT("16:9"),
-        DJV_TEXT("1.85"),
-        DJV_TEXT("2.35"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         ViewApp,
@@ -113,13 +91,6 @@ namespace djv
         return picojson::value(ss.str());
     }
 
-    picojson::value toJSON(ViewApp::ImageAspectRatio value)
-    {
-        std::stringstream ss;
-        ss << value;
-        return picojson::value(ss.str());
-    }
-
     void fromJSON(const picojson::value& value, ViewApp::ImageViewLock& out)
     {
         if (value.is<std::string>())
@@ -134,19 +105,6 @@ namespace djv
     }
 
     void fromJSON(const picojson::value& value, ViewApp::ImageRotate& out)
-    {
-        if (value.is<std::string>())
-        {
-            std::stringstream ss(value.get<std::string>());
-            ss >> out;
-        }
-        else
-        {
-            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
-        }
-    }
-
-    void fromJSON(const picojson::value& value, ViewApp::ImageAspectRatio& out)
     {
         if (value.is<std::string>())
         {

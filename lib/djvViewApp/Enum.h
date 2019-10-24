@@ -61,20 +61,6 @@ namespace djv
         DJV_ENUM_HELPERS(ImageRotate);
         float getImageRotate(ImageRotate);
 
-        enum class ImageAspectRatio
-        {
-            Native,
-            Default,
-            _16_9,
-            _1_85,
-            _2_35,
-
-            Count,
-            First = Native
-        };
-        DJV_ENUM_HELPERS(ImageAspectRatio);
-        float getImageAspectRatio(ImageAspectRatio);
-
         enum class Playback
         {
             Stop,
@@ -101,19 +87,16 @@ namespace djv
 
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::ImageViewLock);
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::ImageRotate);
-    DJV_ENUM_SERIALIZE_HELPERS(ViewApp::ImageAspectRatio);
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::Playback);
     DJV_ENUM_SERIALIZE_HELPERS(ViewApp::PlaybackMode);
 
     picojson::value toJSON(ViewApp::ImageViewLock);
     picojson::value toJSON(ViewApp::ImageRotate);
-    picojson::value toJSON(ViewApp::ImageAspectRatio);
 
     //! Throws:
     //! - std::exception
     void fromJSON(const picojson::value&, ViewApp::ImageViewLock&);
     void fromJSON(const picojson::value&, ViewApp::ImageRotate&);
-    void fromJSON(const picojson::value&, ViewApp::ImageAspectRatio&);
 
 } // namespace djv
 

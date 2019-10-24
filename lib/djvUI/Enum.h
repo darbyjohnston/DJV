@@ -270,13 +270,32 @@ namespace djv
             Prev
         };
 
+        //! This enumeration provides image aspect ratios.
+        enum class ImageAspectRatio
+        {
+            Native,
+            Default,
+            _16_9,
+            _1_85,
+            _2_35,
+
+            Count,
+            First = Native
+        };
+        DJV_ENUM_HELPERS(ImageAspectRatio);
+        float getImageAspectRatio(ImageAspectRatio);
+        float getPixelAspectRatio(ImageAspectRatio, float pixelAspectRatio);
+        float getAspectRatioScale(ImageAspectRatio, float aspectRatio);
+
     } // namespace UI
 
     picojson::value toJSON(UI::ViewType);
+    picojson::value toJSON(UI::ImageAspectRatio);
 
     //! Throws:
     //! - std::exception
     void fromJSON(const picojson::value &, UI::ViewType &);
+    void fromJSON(const picojson::value&, UI::ImageAspectRatio&);
 
     DJV_ENUM_SERIALIZE_HELPERS(UI::Orientation);
     DJV_ENUM_SERIALIZE_HELPERS(UI::Side);
@@ -291,6 +310,7 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS(UI::ViewType);
     DJV_ENUM_SERIALIZE_HELPERS(UI::ColorRole);
     DJV_ENUM_SERIALIZE_HELPERS(UI::MetricsRole);
+    DJV_ENUM_SERIALIZE_HELPERS(UI::ImageAspectRatio);
 
 } // namespace djv
 

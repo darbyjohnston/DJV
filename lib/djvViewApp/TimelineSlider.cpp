@@ -32,8 +32,8 @@
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaWidget.h>
 #include <djvViewApp/PlaybackSettings.h>
+#include <djvViewApp/TimelinePIPWidget.h>
 
-#include <djvUI/ImageWidget.h>
 #include <djvUI/Label.h>
 #include <djvUI/Overlay.h>
 #include <djvUI/SettingsSystem.h>
@@ -56,204 +56,6 @@ namespace djv
 {
     namespace ViewApp
     {
-        namespace
-        {
-            class PIPWidget : public UI::Widget
-            {
-                DJV_NON_COPYABLE(PIPWidget);
-
-            protected:
-                void _init(const std::shared_ptr<Context>&);
-                PIPWidget()
-                {}
-
-            public:
-                ~PIPWidget() override
-                {}
-
-                static std::shared_ptr<PIPWidget> create(const std::shared_ptr<Context>&);
-
-                void setPIPFileInfo(const Core::FileSystem::FileInfo&);
-                void setPIPPos(const glm::vec2&, Frame::Index, const BBox2f&);
-
-            protected:
-                void _layoutEvent(Event::Layout&) override;
-                void _paintEvent(Event::Paint&) override;
-
-            private:
-                void _textUpdate();
-
-                Core::FileSystem::FileInfo _fileInfo;
-                std::shared_ptr<AV::IO::IRead> _read;
-                AV::IO::Info _info;
-                Frame::Sequence _sequence;
-                Time::Speed _speed;
-                glm::vec2 _pipPos = glm::vec2(0.F, 0.F);
-                BBox2f _timelineGeometry;
-                Frame::Index _currentFrame = 0;
-                std::shared_ptr<UI::ImageWidget> _imageWidget;
-                std::shared_ptr<UI::Label> _timeLabel;
-                std::shared_ptr<UI::StackLayout> _layout;
-                std::shared_ptr<Time::Timer> _timer;
-            };
-
-            void PIPWidget::_init(const std::shared_ptr<Context>& context)
-            {
-                Widget::_init(context);
-
-                setClassName("djv::ViewApp::PIPWidget");
-
-                _imageWidget = UI::ImageWidget::create(context);
-                _imageWidget->setSizeRole(UI::MetricsRole::TextColumn);
-
-                _timeLabel = UI::Label::create(context);
-                _timeLabel->setFontSizeRole(UI::MetricsRole::FontSmall);
-                _timeLabel->setBackgroundRole(UI::ColorRole::OverlayLight);
-                _timeLabel->setVAlign(UI::VAlign::Bottom);
-                _timeLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::Border));
-
-                _layout = UI::StackLayout::create(context);
-                _layout->setBackgroundRole(UI::ColorRole::OverlayLight);
-                _layout->addChild(_imageWidget);
-                _layout->addChild(_timeLabel);
-                addChild(_layout);
-
-                auto weak = std::weak_ptr<PIPWidget>(std::dynamic_pointer_cast<PIPWidget>(shared_from_this()));
-                _timer = Time::Timer::create(context);
-                _timer->setRepeating(true);
-                _timer->start(
-                    Time::getMilliseconds(Time::TimerValue::Fast),
-                    [weak](float)
-                    {
-                        if (auto widget = weak.lock())
-                        {
-                            if (widget->_read)
-                            {
-                                AV::IO::VideoFrame frame;
-                                {
-                                    std::lock_guard<std::mutex> lock(widget->_read->getMutex());
-                                    const auto& videoQueue = widget->_read->getVideoQueue();
-                                    if (!videoQueue.isEmpty())
-                                    {
-                                        frame = videoQueue.getFrame();
-                                    }
-                                }
-                                if (frame.image)
-                                {
-                                    widget->_currentFrame = frame.frame;
-                                    widget->_imageWidget->setImage(frame.image);
-                                    widget->_textUpdate();
-                                }
-                            }
-                            else if (widget->_imageWidget->getImage())
-                            {
-                                widget->_currentFrame = 0;
-                                widget->_imageWidget->setImage(nullptr);
-                                widget->_textUpdate();
-                            }
-                        }
-                    });
-            }
-
-            std::shared_ptr<PIPWidget> PIPWidget::create(const std::shared_ptr<Context>& context)
-            {
-                auto out = std::shared_ptr<PIPWidget>(new PIPWidget);
-                out->_init(context);
-                return out;
-            }
-
-            void PIPWidget::setPIPFileInfo(const Core::FileSystem::FileInfo& value)
-            {
-                if (auto context = getContext().lock())
-                {
-                    if (value == _fileInfo)
-                        return;
-                    _fileInfo = value;
-                    if (!_fileInfo.isEmpty())
-                    {
-                        try
-                        {
-                            auto io = context->getSystemT<AV::IO::System>();
-                            AV::IO::ReadOptions options;
-                            options.videoQueueSize = 1;
-                            options.audioQueueSize = 0;
-                            _read = io->read(value, options);
-                            const auto info = _read->getInfo().get();
-                            const auto& video = info.video;
-                            if (video.size())
-                            {
-                                _speed = video[0].speed;
-                                _sequence = video[0].sequence;
-                            }
-                        }
-                        catch (const std::exception& e)
-                        {
-                            _log(e.what(), LogLevel::Error);
-                        }
-                    }
-                    else
-                    {
-                        _read.reset();
-                    }
-                }
-            }
-
-            void PIPWidget::setPIPPos(const glm::vec2& value, Frame::Index frame, const BBox2f& timelineGeometry)
-            {
-                if (value == _pipPos && timelineGeometry == _timelineGeometry)
-                    return;
-                if (_read)
-                {
-                    _read->seek(frame, AV::IO::Direction::Forward);
-                }
-                _pipPos = value;
-                _timelineGeometry = timelineGeometry;
-                _resize();
-            }
-
-            void PIPWidget::_layoutEvent(Event::Layout&)
-            {
-                const glm::vec2 size = _layout->getMinimumSize();
-                const glm::vec2 pos(
-                    Math::clamp(_pipPos.x - floorf(size.x / 2.F), _timelineGeometry.min.x, _timelineGeometry.max.x - size.x),
-                    _pipPos.y - size.y);
-                _layout->setGeometry(BBox2f(pos.x, pos.y, size.x, size.y));
-            }
-
-            void PIPWidget::_paintEvent(Event::Paint& event)
-            {
-                UI::Widget::_paintEvent(event);
-                const auto& style = _getStyle();
-                const float sh = style->getMetric(UI::MetricsRole::Shadow);
-                auto render = _getRender();
-                render->setFillColor(style->getColor(UI::ColorRole::Shadow));
-                for (const auto& i : getChildrenT<UI::Widget>())
-                {
-                    if (i->isVisible())
-                    {
-                        BBox2f g = i->getGeometry();
-                        g.min.x -= sh;
-                        g.max.x += sh;
-                        g.max.y += sh;
-                        if (g.isValid())
-                        {
-                            render->drawShadow(g, sh);
-                        }
-                    }
-                }
-            }
-
-            void PIPWidget::_textUpdate()
-            {
-                if (auto context = getContext().lock())
-                {
-                    auto avSystem = context->getSystemT<AV::AVSystem>();
-                    _timeLabel->setText(avSystem->getLabel(_sequence.getFrame(_currentFrame), _speed));
-                }
-            }
-
-        } // namespace
-
         struct TimelineSlider::Private
         {
             std::shared_ptr<AV::Font::System> fontSystem;
@@ -277,7 +79,7 @@ namespace djv
             uint32_t pressedID = Event::InvalidID;
             bool pip = true;
             AV::TimeUnits timeUnits = AV::TimeUnits::First;
-            std::shared_ptr<PIPWidget> pipWidget;
+            std::shared_ptr<TimelinePIPWidget> pipWidget;
             std::shared_ptr<UI::Layout::Overlay> overlay;
             std::function<void(Frame::Index)> currentFrameCallback;
             std::function<void(bool)> currentFrameDragCallback;
@@ -306,7 +108,7 @@ namespace djv
 
             p.fontSystem = context->getSystemT<AV::Font::System>();
 
-            p.pipWidget = PIPWidget::create(context);
+            p.pipWidget = TimelinePIPWidget::create(context);
             p.overlay = UI::Layout::Overlay::create(context);
             p.overlay->setCaptureKeyboard(false);
             p.overlay->setCapturePointer(false);
@@ -418,7 +220,7 @@ namespace djv
                 p.currentFrame = 0;
                 p.speed = Time::Speed();
 
-                p.pipWidget->setPIPFileInfo(Core::FileSystem::FileInfo());
+                p.pipWidget->setFileInfo(Core::FileSystem::FileInfo());
 
                 p.infoObserver.reset();
                 p.speedObserver.reset();
@@ -475,6 +277,11 @@ namespace djv
                 return;
             _p->cachedFrames = value;
             _redraw();
+        }
+
+        void TimelineSlider::setImageAspectRatio(UI::ImageAspectRatio value)
+        {
+            _p->pipWidget->setImageAspectRatio(value);
         }
 
         void TimelineSlider::setCurrentFrameCallback(const std::function<void(Frame::Index)>& value)
@@ -714,7 +521,7 @@ namespace djv
                     event.accept();
                     if (p.pip && isEnabled())
                     {
-                        p.pipWidget->setPIPFileInfo(p.media->getFileInfo());
+                        p.pipWidget->setFileInfo(p.media->getFileInfo());
                         if (auto window = getWindow())
                         {
                             window->addChild(p.overlay);
@@ -748,7 +555,7 @@ namespace djv
                 {
                     const auto& style = _getStyle();
                     const float s = style->getMetric(UI::MetricsRole::Spacing);
-                    p.pipWidget->setPIPPos(glm::vec2(pos.x, g.min.y - s), frame, parent->getGeometry().margin(-s));
+                    p.pipWidget->setPos(glm::vec2(pos.x, g.min.y - s), frame, parent->getGeometry().margin(-s));
                 }
             }
             if (p.pressedID)

@@ -49,6 +49,7 @@ namespace djv
         struct ImageWidget::Private
         {
             std::shared_ptr<AV::Image::Image> image;
+            ImageAspectRatio imageAspectRatio = ImageAspectRatio::Native;;
             ColorRole imageColorRole = ColorRole::None;
             MetricsRole sizeRole = MetricsRole::None;
             AV::OCIO::Config ocioConfig;
@@ -111,6 +112,15 @@ namespace djv
             _resize();
         }
 
+        void ImageWidget::setImageAspectRatio(ImageAspectRatio value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value == p.imageAspectRatio)
+                return;
+            p.imageAspectRatio = value;
+            _resize();
+        }
+
         ColorRole ImageWidget::getImageColorRole() const
         {
             return _p->imageColorRole;
@@ -150,17 +160,18 @@ namespace djv
                 size.y = ceilf(size.x / 2.F);
                 if (p.image)
                 {
-                    const float aspectRatio = p.image->getAspectRatio();
-                    if (aspectRatio > 0.F)
-                    {
-                        size.y = ceilf(size.x / aspectRatio);
-                    }
+                    size.y = size.x / p.image->getAspectRatio();
                 }
             }
             else if (p.image)
             {
                 size.x = p.image->getWidth();
                 size.y = p.image->getHeight();
+            }
+            if (p.image)
+            {
+                size.x = ceilf(size.x * UI::getPixelAspectRatio(p.imageAspectRatio, p.image->getInfo().pixelAspectRatio));
+                size.y = ceilf(size.y * UI::getAspectRatioScale(p.imageAspectRatio, p.image->getAspectRatio()));
             }
             _setMinimumSize(size + getMargin().getSize(style));
         }
@@ -176,6 +187,8 @@ namespace djv
                 const glm::vec2 c = g.getCenter();
                 const auto& info = p.image->getInfo();
                 glm::vec2 size = glm::vec2(info.size.w, info.size.h);
+                size.x = ceilf(size.x * UI::getPixelAspectRatio(p.imageAspectRatio, p.image->getInfo().pixelAspectRatio));
+                size.y = ceilf(size.y * UI::getAspectRatioScale(p.imageAspectRatio, p.image->getAspectRatio()));
                 glm::vec2 pos = glm::vec2(0.F, 0.F);
                 switch (getHAlign())
                 {

@@ -140,9 +140,9 @@ namespace djv
 
         struct ImageAspectRatioSettingsWidget::Private
         {
-            ImageAspectRatio aspectRatio = ImageAspectRatio::First;
+            UI::ImageAspectRatio aspectRatio = UI::ImageAspectRatio::First;
             std::shared_ptr<UI::ComboBox> comboBox;
-            std::shared_ptr<ValueObserver<ImageAspectRatio> > aspectRatioObserver;
+            std::shared_ptr<ValueObserver<UI::ImageAspectRatio> > aspectRatioObserver;
         };
 
         void ImageAspectRatioSettingsWidget::_init(const std::shared_ptr<Context>& context)
@@ -169,7 +169,7 @@ namespace djv
                             auto settingsSystem = context->getSystemT<UI::Settings::System>();
                             if (auto imageSettings = settingsSystem->getSettingsT<ImageSettings>())
                             {
-                                imageSettings->setAspectRatio(static_cast<ImageAspectRatio>(value));
+                                imageSettings->setAspectRatio(static_cast<UI::ImageAspectRatio>(value));
                             }
                         }
                     }
@@ -178,9 +178,9 @@ namespace djv
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
             if (auto imageSettings = settingsSystem->getSettingsT<ImageSettings>())
             {
-                p.aspectRatioObserver = ValueObserver<ImageAspectRatio>::create(
+                p.aspectRatioObserver = ValueObserver<UI::ImageAspectRatio>::create(
                     imageSettings->observeAspectRatio(),
-                    [weak](ImageAspectRatio value)
+                    [weak](UI::ImageAspectRatio value)
                     {
                         if (auto widget = weak.lock())
                         {
@@ -227,7 +227,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             p.comboBox->clearItems();
-            for (auto i : getImageAspectRatioEnums())
+            for (auto i : UI::getImageAspectRatioEnums())
             {
                 std::stringstream ss;
                 ss << i;

@@ -60,6 +60,7 @@
 #include <djvUI/ToolButton.h>
 
 #include <djvAV/AVSystem.h>
+#include <djvAV/Render2D.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/NumericValueModels.h>
@@ -164,6 +165,7 @@ namespace djv
             std::shared_ptr<ValueObserver<ImageViewLock> > viewLockObserver;
             std::shared_ptr<ValueObserver<bool> > frameStoreEnabledObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > frameStoreObserver;
+            std::shared_ptr<ValueObserver<UI::ImageAspectRatio> > imageAspectRatioObserver;
         };
 
         void MediaWidget::_init(const std::shared_ptr<Media>& media, const std::shared_ptr<Context>& context)
@@ -835,6 +837,16 @@ namespace djv
                         }
                     });
             }
+
+            p.imageAspectRatioObserver = ValueObserver<UI::ImageAspectRatio>::create(
+                p.imageView->observeImageAspectRatio(),
+                [weak](UI::ImageAspectRatio value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->timelineSlider->setImageAspectRatio(value);
+                    }
+                });
         }
 
         MediaWidget::MediaWidget() :

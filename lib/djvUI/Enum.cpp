@@ -49,6 +49,47 @@ namespace djv
             return out;
         }
 
+        float getImageAspectRatio(ImageAspectRatio value)
+        {
+            const float values[] =
+            {
+                1.F,
+                1.F,
+                1.78F,
+                1.85F,
+                2.35F
+            };
+            return values[static_cast<size_t>(value)];
+        }
+
+        float getPixelAspectRatio(ImageAspectRatio value, float pixelAspectRatio)
+        {
+            float out = 1.F;
+            switch (value)
+            {
+            case UI::ImageAspectRatio::Default:
+                out = pixelAspectRatio;
+                break;
+            default: break;
+            }
+            return out;
+        }
+
+        float getAspectRatioScale(ImageAspectRatio value, float aspectRatio)
+        {
+            float out = 1.F;
+            switch (value)
+            {
+            case UI::ImageAspectRatio::_16_9:
+            case UI::ImageAspectRatio::_1_85:
+            case UI::ImageAspectRatio::_2_35:
+                out = aspectRatio / UI::getImageAspectRatio(value);
+                break;
+            default: break;
+            }
+            return out;
+        }
+
     } // namespace UI
    
     picojson::value toJSON(UI::ViewType value)
@@ -58,7 +99,27 @@ namespace djv
         return picojson::value(ss.str());
     }
 
+    picojson::value toJSON(UI::ImageAspectRatio value)
+    {
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
+    }
+
     void fromJSON(const picojson::value & value, UI::ViewType & out)
+    {
+        if (value.is<std::string>())
+        {
+            std::stringstream ss(value.get<std::string>());
+            ss >> out;
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
+
+    void fromJSON(const picojson::value& value, UI::ImageAspectRatio& out)
     {
         if (value.is<std::string>())
         {
@@ -216,6 +277,15 @@ namespace djv
         DJV_TEXT("Handle"),
         DJV_TEXT("Move"),
         DJV_TEXT("Scrub"));
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        UI,
+        ImageAspectRatio,
+        DJV_TEXT("Native"),
+        DJV_TEXT("Default"),
+        DJV_TEXT("16:9"),
+        DJV_TEXT("1.85"),
+        DJV_TEXT("2.35"));
 
 } // namespace djv
 

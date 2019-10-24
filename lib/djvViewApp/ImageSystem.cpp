@@ -71,7 +71,7 @@ namespace djv
             std::shared_ptr<MediaWidget> activeWidget;
             AV::Render::ImageOptions imageOptions;
             ImageRotate imageRotate = ImageRotate::First;
-            ImageAspectRatio imageAspectRatio = ImageAspectRatio::First;
+            UI::ImageAspectRatio imageAspectRatio = UI::ImageAspectRatio::First;
 
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> channelActionGroup;
@@ -87,7 +87,7 @@ namespace djv
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > currentImageObserver;
             std::shared_ptr<ValueObserver<AV::Render::ImageOptions> > imageOptionsObserver;
             std::shared_ptr<ValueObserver<ImageRotate> > imageRotateObserver;
-            std::shared_ptr<ValueObserver<ImageAspectRatio> > imageAspectRatioObserver;
+            std::shared_ptr<ValueObserver<UI::ImageAspectRatio> > imageAspectRatioObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
         };
 
@@ -241,7 +241,7 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        system->_p->imageAspectRatio = static_cast<ImageAspectRatio>(value);
+                        system->_p->imageAspectRatio = static_cast<UI::ImageAspectRatio>(value);
                         if (system->_p->activeWidget)
                         {
                             system->_p->activeWidget->getImageView()->setImageAspectRatio(system->_p->imageAspectRatio);
@@ -474,9 +474,9 @@ namespace djv
                                             system->_actionsUpdate();
                                         }
                                     });
-                                system->_p->imageAspectRatioObserver = ValueObserver<ImageAspectRatio>::create(
+                                system->_p->imageAspectRatioObserver = ValueObserver<UI::ImageAspectRatio>::create(
                                     system->_p->activeWidget->getImageView()->observeImageAspectRatio(),
-                                    [weak](ImageAspectRatio value)
+                                    [weak](UI::ImageAspectRatio value)
                                     {
                                         if (auto system = weak.lock())
                                         {

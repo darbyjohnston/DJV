@@ -31,6 +31,7 @@
 
 #include <djvViewApp/Enum.h>
 
+#include <djvUI/Enum.h>
 #include <djvUI/ISettings.h>
 
 #include <djvCore/BBox.h>
@@ -59,9 +60,9 @@ namespace djv
             void setColorCurrentTab(int);
 
             std::shared_ptr<Core::IValueSubject<ImageRotate> > observeRotate() const;
-            std::shared_ptr<Core::IValueSubject<ImageAspectRatio> > observeAspectRatio() const;
+            std::shared_ptr<Core::IValueSubject<UI::ImageAspectRatio> > observeAspectRatio() const;
             void setRotate(ImageRotate);
-            void setAspectRatio(ImageAspectRatio);
+            void setAspectRatio(UI::ImageAspectRatio);
 
             const std::map<std::string, Core::BBox2f>& getWidgetGeom() const;
             void setWidgetGeom(const std::map<std::string, Core::BBox2f>&);

@@ -29,53 +29,55 @@
 
 #pragma once
 
+#include <djvViewApp/Enum.h>
+
 #include <djvUI/Widget.h>
+
+#include <djvCore/Frame.h>
+
+#include <djvCore/ValueObserver.h>
 
 namespace djv
 {
-    namespace AV
+    namespace Core
     {
-        namespace Image
+        namespace FileSystem
         {
-            class Image;
+            class FileInfo;
 
-        } // namespace Image
-    } // namespace AV
+        } // namespace FileSystem
+    } // namespace Core
 
-    namespace UI
+    namespace ViewApp
     {
-        //! This class provides a widget that displays an image.
-        class ImageWidget : public Widget
+        class Media;
+
+        class TimelinePIPWidget : public UI::Widget
         {
-            DJV_NON_COPYABLE(ImageWidget);
+            DJV_NON_COPYABLE(TimelinePIPWidget);
 
         protected:
             void _init(const std::shared_ptr<Core::Context>&);
-            ImageWidget();
+            TimelinePIPWidget();
 
         public:
-            virtual ~ImageWidget();
+            ~TimelinePIPWidget() override;
 
-            static std::shared_ptr<ImageWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<TimelinePIPWidget> create(const std::shared_ptr<Core::Context>&);
 
-            const std::shared_ptr<AV::Image::Image> & getImage() const;
-            void setImage(const std::shared_ptr<AV::Image::Image> &);
-            void setImageAspectRatio(ImageAspectRatio);
-
-            ColorRole getImageColorRole() const;
-            void setImageColorRole(ColorRole);
-
-            MetricsRole getSizeRole() const;
-            void setSizeRole(MetricsRole);
+            void setFileInfo(const Core::FileSystem::FileInfo&);
+            void setPos(const glm::vec2&, Core::Frame::Index, const Core::BBox2f&);
+            void setImageAspectRatio(UI::ImageAspectRatio);
 
         protected:
-            void _preLayoutEvent(Core::Event::PreLayout &) override;
-            void _paintEvent(Core::Event::Paint &) override;
+            void _layoutEvent(Core::Event::Layout&) override;
+            void _paintEvent(Core::Event::Paint&) override;
 
         private:
+            void _textUpdate();
+
             DJV_PRIVATE();
         };
 
-    } // namespace UI
+    } // namespace ViewApp
 } // namespace djv
-
