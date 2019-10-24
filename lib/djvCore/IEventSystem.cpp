@@ -51,9 +51,7 @@ namespace djv
                 {
                 protected:
                     RootObject()
-                    {
-                        setClassName("djv::Core::Context::RootObject");
-                    }
+                    {}
 
                 public:
                     ~RootObject() override
@@ -63,6 +61,7 @@ namespace djv
                     {
                         auto out = std::shared_ptr<RootObject>(new RootObject);
                         out->_init(context);
+                        out->setClassName("djv::Core::Context::RootObject");
                         return out;
                     }
                 };
