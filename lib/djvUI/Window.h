@@ -49,7 +49,9 @@ namespace djv
 
             static std::shared_ptr<Window> create(const std::shared_ptr<Core::Context>&);
 
-            //! \bug Call this before destroying the window.
+            bool isClosed() const;
+
+            //! Call this before destroying the window.
             void close();
 
         protected:

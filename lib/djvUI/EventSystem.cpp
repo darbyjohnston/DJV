@@ -103,7 +103,20 @@ namespace djv
                 auto i = p.windows.begin();
                 while (i != p.windows.end())
                 {
-                    if (i->expired())
+                    bool erase = false;
+                    if (auto window = i->lock())
+                    {
+                        if (window->isClosed())
+                        {
+                            getRootObject()->removeChild(window);
+                            erase = true;
+                        }
+                    }
+                    else
+                    {
+                        erase = true;
+                    }
+                    if (erase)
                     {
                         i = p.windows.erase(i);
                     }

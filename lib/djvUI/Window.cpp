@@ -43,6 +43,7 @@ namespace djv
     {
         struct Window::Private
         {
+            bool closed = false;
         };
 
         void Window::_init(const std::shared_ptr<Context>& context)
@@ -68,12 +69,17 @@ namespace djv
             return out;
         }
 
+        bool Window::isClosed() const
+        {
+            return _p->closed;
+        }
+
         void Window::close()
         {
-            if (auto parent = getParent().lock())
-            {
-                parent->removeChild(shared_from_this());
-            }
+            DJV_PRIVATE_PTR();
+            p.closed = true;
+            hide();
+            moveToBack();
         }
 
         void Window::_preLayoutEvent(Event::PreLayout &)
