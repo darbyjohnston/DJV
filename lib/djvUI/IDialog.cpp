@@ -32,6 +32,7 @@
 #include <djvUI/Label.h>
 #include <djvUI/Overlay.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/StackLayout.h>
 #include <djvUI/ToolButton.h>
 #include <djvUI/Window.h>
 
@@ -87,6 +88,7 @@ namespace djv
             std::shared_ptr<VerticalLayout> childLayout;
             std::shared_ptr<VerticalLayout> layout;
             std::shared_ptr<Layout::Overlay> overlay;
+            std::shared_ptr<StackLayout> overlayLayout;
             std::function<void(void)> closeCallback;
         };
 
@@ -136,6 +138,9 @@ namespace djv
             p.overlay = Layout::Overlay::create(context);
             p.overlay->addChild(p.layout);
             Window::addChild(p.overlay);
+            p.overlayLayout = StackLayout::create(context);
+            p.overlayLayout->addChild(p.overlay);
+            Window::addChild(p.overlayLayout);
 
             auto weak = std::weak_ptr<IDialog>(std::dynamic_pointer_cast<IDialog>(shared_from_this()));
             p.closeButton->setClickedCallback(
@@ -222,17 +227,32 @@ namespace djv
 
         void IDialog::addChild(const std::shared_ptr<IObject> & value)
         {
-            _p->childLayout->addChild(value);
+            if (auto overlay = std::dynamic_pointer_cast<Layout::Overlay>(value))
+            {
+                _p->overlayLayout->addChild(value);
+            }
+            else
+            {
+                _p->childLayout->addChild(value);
+            }
         }
 
         void IDialog::removeChild(const std::shared_ptr<IObject> & value)
         {
-            _p->childLayout->removeChild(value);
+            if (auto overlay = std::dynamic_pointer_cast<Layout::Overlay>(value))
+            {
+                _p->overlayLayout->removeChild(value);
+            }
+            else
+            {
+                _p->childLayout->removeChild(value);
+            }
         }
 
         void IDialog::clearChildren()
         {
             _p->childLayout->clearChildren();
+            _p->overlayLayout->clearChildren();
         }
 
         void IDialog::_doCloseCallback()
@@ -251,6 +271,7 @@ namespace djv
         void IDialog::_layoutEvent(Event::Layout &)
         {
             _p->overlay->setGeometry(getGeometry());
+            _p->overlayLayout->setGeometry(getGeometry());
         }
 
     } // namespace UI
