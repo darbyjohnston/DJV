@@ -43,7 +43,6 @@
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/TabWidget.h>
 #include <djvUI/ToolButton.h>
-#include <djvUI/Window.h>
 
 #include <djvAV/IO.h>
 #include <djvAV/OCIOSystem.h>
@@ -273,7 +272,6 @@ namespace djv
 
             std::shared_ptr<UI::TabWidget> tabWidget;
             std::shared_ptr<UI::FileBrowser::Dialog> fileBrowserDialog;
-            std::shared_ptr<UI::Window> fileBrowserWindow;
             std::map<std::shared_ptr<UI::Widget>, int> textFocusWidgets;
 
             std::shared_ptr<ListObserver<AV::OCIO::Config> > configsObserver;
@@ -321,11 +319,6 @@ namespace djv
             p.viewPopupWidget->setPopupIcon("djvIconPopupMenu");
             p.viewPopupWidget->addChild(p.viewListWidget);
 
-            p.tabWidget = UI::TabWidget::create(context);
-            p.tabWidget->setBackgroundRole(UI::ColorRole::Background);
-            p.tabWidget->setShadowOverlay({ UI::Side::Top });
-            addChild(p.tabWidget);
-
             p.configLayout = UI::VerticalLayout::create(context);
             p.configLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             p.configItemLayout = UI::FormLayout::create(context);
@@ -344,7 +337,6 @@ namespace djv
             hLayout->addChild(p.addConfigButton);
             hLayout->addChild(p.editConfigButton);
             p.configLayout->addChild(hLayout);
-            p.tabWidget->addChild(p.configLayout);
 
             p.imageLayout = UI::VerticalLayout::create(context);
             p.imageLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
@@ -364,7 +356,6 @@ namespace djv
             hLayout->addChild(p.addImagePopupWidget);
             hLayout->addChild(p.editImageButton);
             p.imageLayout->addChild(hLayout);
-            p.tabWidget->addChild(p.imageLayout);
 
             p.displayLayout = UI::FormLayout::create(context);
             p.displayLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
@@ -372,7 +363,14 @@ namespace djv
             p.displayLayout->setShadowOverlay({ UI::Side::Top });
             p.displayLayout->addChild(p.displayPopupWidget);
             p.displayLayout->addChild(p.viewPopupWidget);
+
+            p.tabWidget = UI::TabWidget::create(context);
+            p.tabWidget->setBackgroundRole(UI::ColorRole::Background);
+            p.tabWidget->setShadowOverlay({ UI::Side::Top });
+            p.tabWidget->addChild(p.configLayout);
+            p.tabWidget->addChild(p.imageLayout);
             p.tabWidget->addChild(p.displayLayout);
+            addChild(p.tabWidget);
 
             _widgetUpdate();
 
@@ -398,10 +396,10 @@ namespace djv
                     {
                         if (auto widget = weak.lock())
                         {
-                            if (widget->_p->fileBrowserWindow)
+                            if (widget->_p->fileBrowserDialog)
                             {
-                                widget->_p->fileBrowserWindow->close();
-                                widget->_p->fileBrowserWindow.reset();
+                                widget->_p->fileBrowserDialog->close();
+                                widget->_p->fileBrowserDialog.reset();
                             }
                             widget->_p->fileBrowserDialog = UI::FileBrowser::Dialog::create(context);
                             widget->_p->fileBrowserDialog->setFileExtensions({ ".ocio" });
@@ -414,9 +412,8 @@ namespace djv
                                         if (auto widget = weak.lock())
                                         {
                                             widget->_p->fileBrowserPath = widget->_p->fileBrowserDialog->getPath();
+                                            widget->_p->fileBrowserDialog->close();
                                             widget->_p->fileBrowserDialog.reset();
-                                            widget->_p->fileBrowserWindow->close();
-                                            widget->_p->fileBrowserWindow.reset();
                                             auto ocioSystem = context->getSystemT<AV::OCIO::System>();
                                             AV::OCIO::Config config;
                                             config.fileName = std::string(value.getPath());
@@ -431,15 +428,11 @@ namespace djv
                                     if (auto widget = weak.lock())
                                     {
                                         widget->_p->fileBrowserPath = widget->_p->fileBrowserDialog->getPath();
+                                        widget->_p->fileBrowserDialog->close();
                                         widget->_p->fileBrowserDialog.reset();
-                                        widget->_p->fileBrowserWindow->close();
-                                        widget->_p->fileBrowserWindow.reset();
                                     }
                                 });
-                            widget->_p->fileBrowserWindow = UI::Window::create(context);
-                            widget->_p->fileBrowserWindow->setBackgroundRole(UI::ColorRole::None);
-                            widget->_p->fileBrowserWindow->addChild(widget->_p->fileBrowserDialog);
-                            widget->_p->fileBrowserWindow->show();
+                            widget->_p->fileBrowserDialog->show();
                         }
                     }
                 });
@@ -600,9 +593,9 @@ namespace djv
         ColorSpaceWidget::~ColorSpaceWidget()
         {
             DJV_PRIVATE_PTR();
-            if (p.fileBrowserWindow)
+            if (p.fileBrowserDialog)
             {
-                p.fileBrowserWindow->close();
+                p.fileBrowserDialog->close();
             }
         }
 
@@ -628,15 +621,15 @@ namespace djv
             MDIWidget::_textUpdateEvent(event);
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Color Space")));
-            p.tabWidget->setText(p.configLayout, DJV_TEXT("Config"));
-            p.tabWidget->setText(p.imageLayout, DJV_TEXT("Image"));
-            p.tabWidget->setText(p.displayLayout, DJV_TEXT("Display"));
             p.addConfigButton->setTooltip(_getText(DJV_TEXT("Color space add config tooltip")));
             p.editConfigButton->setTooltip(_getText(DJV_TEXT("Color space edit configs tooltip")));
             p.addImagePopupWidget->setTooltip(_getText(DJV_TEXT("Color space add image tooltip")));
             p.editImageButton->setTooltip(_getText(DJV_TEXT("Color space edit images tooltip")));
             p.displayLayout->setText(p.displayPopupWidget, _getText(DJV_TEXT("Name")) + ":");
             p.displayLayout->setText(p.viewPopupWidget, _getText(DJV_TEXT("View")) + ":");
+            p.tabWidget->setText(p.configLayout, DJV_TEXT("Config"));
+            p.tabWidget->setText(p.imageLayout, DJV_TEXT("Image"));
+            p.tabWidget->setText(p.displayLayout, DJV_TEXT("Display"));
             _widgetUpdate();
         }
 

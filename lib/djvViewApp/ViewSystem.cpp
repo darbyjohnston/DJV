@@ -156,6 +156,7 @@ namespace djv
             p.lockActionGroup->addAction(p.actions["CenterLock"]);
             p.actions["GridEnabled"] = UI::Action::create();
             p.actions["GridEnabled"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["GridEnabled"]->addShortcut(GLFW_KEY_G, GLFW_MOD_CONTROL);
             //! \todo Implement me!
             //p.actions["HUD"] = UI::Action::create();
             //p.actions["HUD"]->setShortcut(GLFW_KEY_H);

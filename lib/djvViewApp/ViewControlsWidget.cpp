@@ -40,6 +40,7 @@
 #include <djvUI/FormLayout.h>
 #include <djvUI/IntSlider.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/ScrollWidget.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/TabWidget.h>
 #include <djvUI/ToolButton.h>
@@ -72,7 +73,7 @@ namespace djv
             std::shared_ptr<UI::FormLayout> viewFormLayout;
             std::shared_ptr<UI::HorizontalLayout> viewPosLayout;
             std::shared_ptr<UI::HorizontalLayout> viewZoomLayout;
-            std::shared_ptr<UI::VerticalLayout> viewLayout;
+            std::shared_ptr<UI::ScrollWidget> viewScrollWidget;
 
             std::shared_ptr<UI::ToggleButton> gridEnabledButton;
             std::shared_ptr<UI::IntSlider> gridSizeSlider;
@@ -80,12 +81,12 @@ namespace djv
             std::shared_ptr<UI::ToggleButton> gridLabelsButton;
             std::shared_ptr<UI::ToolButton> gridSettingsButton;
             std::shared_ptr<UI::FormLayout> gridFormLayout;
-            std::shared_ptr<UI::VerticalLayout> gridLayout;
+            std::shared_ptr<UI::ScrollWidget> gridScrollWidget;
 
             std::shared_ptr<UI::ColorPickerSwatch> backgroundColorPickerSwatch;
             std::shared_ptr<UI::ToolButton> backgroundSettingsButton;
             std::shared_ptr<UI::FormLayout> backgroundFormLayout;
-            std::shared_ptr<UI::VerticalLayout> backgroundLayout;
+            std::shared_ptr<UI::ScrollWidget> backgroundScrollWidget;
 
             std::shared_ptr<UI::TabWidget> tabWidget;
 
@@ -128,6 +129,20 @@ namespace djv
             p.viewZoomResetButton = UI::ToolButton::create(context);
             p.viewZoomResetButton->setIcon("djvIconCloseSmall");
 
+            p.gridEnabledButton = UI::ToggleButton::create(context);
+            p.gridSizeSlider = UI::IntSlider::create(context);
+            p.gridSizeSlider->setRange(IntRange(1, 500));
+            p.gridColorPickerSwatch = UI::ColorPickerSwatch::create(context);
+            p.gridColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
+            p.gridLabelsButton = UI::ToggleButton::create(context);
+            p.gridSettingsButton = UI::ToolButton::create(context);
+            p.gridSettingsButton->setIcon("djvIconSettings");
+
+            p.backgroundColorPickerSwatch = UI::ColorPickerSwatch::create(context);
+            p.backgroundColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
+            p.backgroundSettingsButton = UI::ToolButton::create(context);
+            p.backgroundSettingsButton->setIcon("djvIconSettings");
+
             p.viewFormLayout = UI::FormLayout::create(context);
             p.viewFormLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
             p.viewFormLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
@@ -145,23 +160,12 @@ namespace djv
             p.viewZoomLayout->addChild(p.viewZoomEdit);
             p.viewZoomLayout->addChild(p.viewZoomResetButton);
             p.viewFormLayout->addChild(p.viewZoomLayout);
-            p.viewLayout = UI::VerticalLayout::create(context);
-            p.viewLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
-            p.viewLayout->addChild(p.viewFormLayout);
-            p.viewLayout->setStretch(p.viewFormLayout, UI::RowStretch::Expand);
-
-            p.gridEnabledButton = UI::ToggleButton::create(context);
-
-            p.gridSizeSlider = UI::IntSlider::create(context);
-            p.gridSizeSlider->setRange(IntRange(1, 500));
-
-            p.gridColorPickerSwatch = UI::ColorPickerSwatch::create(context);
-            p.gridColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
-
-            p.gridLabelsButton = UI::ToggleButton::create(context);
-
-            p.gridSettingsButton = UI::ToolButton::create(context);
-            p.gridSettingsButton->setIcon("djvIconSettings");
+            auto vLayout = UI::VerticalLayout::create(context);
+            vLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            vLayout->addChild(p.viewFormLayout);
+            vLayout->setStretch(p.viewFormLayout, UI::RowStretch::Expand);
+            p.viewScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            p.viewScrollWidget->addChild(vLayout);
 
             p.gridFormLayout = UI::FormLayout::create(context);
             p.gridFormLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
@@ -171,46 +175,44 @@ namespace djv
             p.gridFormLayout->addChild(p.gridSizeSlider);
             p.gridFormLayout->addChild(p.gridColorPickerSwatch);
             p.gridFormLayout->addChild(p.gridLabelsButton);
-            p.gridLayout = UI::VerticalLayout::create(context);
-            p.gridLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
-            p.gridLayout->addChild(p.gridFormLayout);
-            p.gridLayout->setStretch(p.gridFormLayout, UI::RowStretch::Expand);
-            p.gridLayout->addSeparator();
+            vLayout = UI::VerticalLayout::create(context);
+            vLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            vLayout->addChild(p.gridFormLayout);
+            vLayout->setStretch(p.gridFormLayout, UI::RowStretch::Expand);
+            vLayout->addSeparator();
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             hLayout->addExpander();
             hLayout->addChild(p.gridSettingsButton);
-            p.gridLayout->addChild(hLayout);
-
-            p.backgroundColorPickerSwatch = UI::ColorPickerSwatch::create(context);
-            p.backgroundColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
-
-            p.backgroundSettingsButton = UI::ToolButton::create(context);
-            p.backgroundSettingsButton->setIcon("djvIconSettings");
+            vLayout->addChild(hLayout);
+            vLayout->setStretch(p.viewFormLayout, UI::RowStretch::Expand);
+            p.gridScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            p.gridScrollWidget->addChild(vLayout);
 
             p.backgroundFormLayout = UI::FormLayout::create(context);
             p.backgroundFormLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
             p.backgroundFormLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
             p.backgroundFormLayout->setShadowOverlay({ UI::Side::Top });
             p.backgroundFormLayout->addChild(p.backgroundColorPickerSwatch);
-
-            p.backgroundLayout = UI::VerticalLayout::create(context);
-            p.backgroundLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
-            p.backgroundLayout->addChild(p.backgroundFormLayout);
-            p.backgroundLayout->setStretch(p.backgroundFormLayout, UI::RowStretch::Expand);
-            p.backgroundLayout->addSeparator();
+            vLayout = UI::VerticalLayout::create(context);
+            vLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            vLayout->addChild(p.backgroundFormLayout);
+            vLayout->setStretch(p.backgroundFormLayout, UI::RowStretch::Expand);
+            vLayout->addSeparator();
             hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             hLayout->addExpander();
             hLayout->addChild(p.backgroundSettingsButton);
-            p.backgroundLayout->addChild(hLayout);
+            vLayout->addChild(hLayout);
+            p.backgroundScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            p.backgroundScrollWidget->addChild(vLayout);
 
             p.tabWidget = UI::TabWidget::create(context);
             p.tabWidget->setBackgroundRole(UI::ColorRole::Background);
             p.tabWidget->setShadowOverlay({ UI::Side::Top });
-            p.tabWidget->addChild(p.viewLayout);
-            p.tabWidget->addChild(p.gridLayout);
-            p.tabWidget->addChild(p.backgroundLayout);
+            p.tabWidget->addChild(p.viewScrollWidget);
+            p.tabWidget->addChild(p.gridScrollWidget);
+            p.tabWidget->addChild(p.backgroundScrollWidget);
             addChild(p.tabWidget);
 
             _widgetUpdate();
@@ -495,9 +497,9 @@ namespace djv
             p.backgroundSettingsButton->setTooltip(_getText(DJV_TEXT("Set as default settings.")));
             p.backgroundFormLayout->setText(p.backgroundColorPickerSwatch, _getText(DJV_TEXT("Color")) + ":");
             
-            p.tabWidget->setText(p.viewLayout, _getText(DJV_TEXT("View")));
-            p.tabWidget->setText(p.gridLayout, _getText(DJV_TEXT("Grid")));
-            p.tabWidget->setText(p.backgroundLayout, _getText(DJV_TEXT("Background")));
+            p.tabWidget->setText(p.viewScrollWidget, _getText(DJV_TEXT("View")));
+            p.tabWidget->setText(p.gridScrollWidget, _getText(DJV_TEXT("Grid")));
+            p.tabWidget->setText(p.backgroundScrollWidget, _getText(DJV_TEXT("Background")));
             
             _widgetUpdate();
         }

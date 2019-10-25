@@ -49,7 +49,7 @@ namespace djv
         struct ImageWidget::Private
         {
             std::shared_ptr<AV::Image::Image> image;
-            ImageAspectRatio imageAspectRatio = ImageAspectRatio::Native;;
+            ImageAspectRatio imageAspectRatio = ImageAspectRatio::Default;
             ColorRole imageColorRole = ColorRole::None;
             MetricsRole sizeRole = MetricsRole::None;
             AV::OCIO::Config ocioConfig;
@@ -186,7 +186,17 @@ namespace djv
                 const BBox2f & g = getMargin().bbox(getGeometry(), style);
                 const glm::vec2 c = g.getCenter();
                 const auto& info = p.image->getInfo();
-                glm::vec2 size = glm::vec2(info.size.w, info.size.h);
+                glm::vec2 size(0.F, 0.F);
+                if (p.sizeRole != MetricsRole::None)
+                {
+                    size.x = style->getMetric(p.sizeRole);
+                    size.y = size.x / p.image->getAspectRatio();
+                }
+                else
+                {
+                    size.x = info.size.w;
+                    size.y = info.size.h;
+                }
                 size.x = ceilf(size.x * UI::getPixelAspectRatio(p.imageAspectRatio, p.image->getInfo().pixelAspectRatio));
                 size.y = ceilf(size.y * UI::getAspectRatioScale(p.imageAspectRatio, p.image->getAspectRatio()));
                 glm::vec2 pos = glm::vec2(0.F, 0.F);
@@ -218,6 +228,7 @@ namespace djv
                 }
 
                 AV::Render::ImageOptions options;
+                options.alphaBlend = AV::AlphaBlend::None;
                 options.cache = AV::Render::ImageCache::Dynamic;
                 glm::mat3x3 m(1.F);
                 m = glm::translate(m, pos);

@@ -70,14 +70,9 @@ namespace djv
             std::shared_ptr<AV::Image::Image> currentImage;
             std::shared_ptr<MediaWidget> activeWidget;
             AV::Render::ImageOptions imageOptions;
-            ImageRotate imageRotate = ImageRotate::First;
-            UI::ImageAspectRatio imageAspectRatio = UI::ImageAspectRatio::First;
 
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> channelActionGroup;
-            std::shared_ptr<UI::ActionGroup> alphaBlendActionGroup;
-            std::shared_ptr<UI::ActionGroup> rotateActionGroup;
-            std::shared_ptr<UI::ActionGroup> aspectRatioActionGroup;
             std::shared_ptr<UI::Menu> menu;
             std::weak_ptr<ImageControlsWidget> imageControlsWidget;
             std::weak_ptr<ColorSpaceWidget> colorSpaceWidget;
@@ -87,8 +82,6 @@ namespace djv
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > currentImageObserver;
             std::shared_ptr<ValueObserver<AV::Render::ImageOptions> > imageOptionsObserver;
-            std::shared_ptr<ValueObserver<ImageRotate> > imageRotateObserver;
-            std::shared_ptr<ValueObserver<UI::ImageAspectRatio> > imageAspectRatioObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
         };
 
@@ -128,45 +121,18 @@ namespace djv
             p.channelActionGroup->addAction(p.actions["GreenChannel"]);
             p.channelActionGroup->addAction(p.actions["BlueChannel"]);
             p.channelActionGroup->addAction(p.actions["AlphaChannel"]);
-            p.actions["NoAlphaBlend"] = UI::Action::create();
-            p.actions["StraightAlphaBlend"] = UI::Action::create();
-            p.actions["PremultipliedAlphaBlend"] = UI::Action::create();
-            p.alphaBlendActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
-            p.alphaBlendActionGroup->addAction(p.actions["NoAlphaBlend"]);
-            p.alphaBlendActionGroup->addAction(p.actions["StraightAlphaBlend"]);
-            p.alphaBlendActionGroup->addAction(p.actions["PremultipliedAlphaBlend"]);
             p.actions["MirrorH"] = UI::Action::create();
             p.actions["MirrorH"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["MirrorH"]->setShortcut(GLFW_KEY_H);
             p.actions["MirrorV"] = UI::Action::create();
             p.actions["MirrorV"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["MirrorV"]->setShortcut(GLFW_KEY_V);
-            p.actions["Rotate_0"] = UI::Action::create();
-            p.actions["Rotate_90"] = UI::Action::create();
-            p.actions["Rotate_180"] = UI::Action::create();
-            p.actions["Rotate_270"] = UI::Action::create();
-            p.rotateActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
-            p.rotateActionGroup->addAction(p.actions["Rotate_0"]);
-            p.rotateActionGroup->addAction(p.actions["Rotate_90"]);
-            p.rotateActionGroup->addAction(p.actions["Rotate_180"]);
-            p.rotateActionGroup->addAction(p.actions["Rotate_270"]);
-            p.actions["AspectRatio_Native"] = UI::Action::create();
-            p.actions["AspectRatio_Default"] = UI::Action::create();
-            p.actions["AspectRatio_16_9"] = UI::Action::create();
-            p.actions["AspectRatio_1_85"] = UI::Action::create();
-            p.actions["AspectRatio_2_35"] = UI::Action::create();
-            p.aspectRatioActionGroup = UI::ActionGroup::create(UI::ButtonType::Radio);
-            p.aspectRatioActionGroup->addAction(p.actions["AspectRatio_Native"]);
-            p.aspectRatioActionGroup->addAction(p.actions["AspectRatio_Default"]);
-            p.aspectRatioActionGroup->addAction(p.actions["AspectRatio_16_9"]);
-            p.aspectRatioActionGroup->addAction(p.actions["AspectRatio_1_85"]);
-            p.aspectRatioActionGroup->addAction(p.actions["AspectRatio_2_35"]);
+            p.actions["LoadFrameStore"] = UI::Action::create();
+            p.actions["LoadFrameStore"]->setShortcut(GLFW_KEY_F, GLFW_MOD_SHIFT);
             p.actions["FrameStoreEnabled"] = UI::Action::create();
             p.actions["FrameStoreEnabled"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["FrameStoreEnabled"]->setShortcut(GLFW_KEY_F);
             p.actions["FrameStoreEnabled"]->setEnabled(false);
-            p.actions["LoadFrameStore"] = UI::Action::create();
-            p.actions["LoadFrameStore"]->setShortcut(GLFW_KEY_F, GLFW_MOD_SHIFT);
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["ImageControls"]);
@@ -178,26 +144,11 @@ namespace djv
             p.menu->addAction(p.actions["BlueChannel"]);
             p.menu->addAction(p.actions["AlphaChannel"]);
             p.menu->addSeparator();
-            p.menu->addAction(p.actions["NoAlphaBlend"]);
-            p.menu->addAction(p.actions["StraightAlphaBlend"]);
-            p.menu->addAction(p.actions["PremultipliedAlphaBlend"]);
-            p.menu->addSeparator();
             p.menu->addAction(p.actions["MirrorH"]);
             p.menu->addAction(p.actions["MirrorV"]);
             p.menu->addSeparator();
-            p.menu->addAction(p.actions["Rotate_0"]);
-            p.menu->addAction(p.actions["Rotate_90"]);
-            p.menu->addAction(p.actions["Rotate_180"]);
-            p.menu->addAction(p.actions["Rotate_270"]);
-            p.menu->addSeparator();
-            p.menu->addAction(p.actions["AspectRatio_Native"]);
-            p.menu->addAction(p.actions["AspectRatio_Default"]);
-            p.menu->addAction(p.actions["AspectRatio_16_9"]);
-            p.menu->addAction(p.actions["AspectRatio_1_85"]);
-            p.menu->addAction(p.actions["AspectRatio_2_35"]);
-            p.menu->addSeparator();
-            p.menu->addAction(p.actions["FrameStoreEnabled"]);
             p.menu->addAction(p.actions["LoadFrameStore"]);
+            p.menu->addAction(p.actions["FrameStoreEnabled"]);
 
             _actionsUpdate();
 
@@ -214,46 +165,6 @@ namespace djv
                         }
                     }
                 });
-
-            p.alphaBlendActionGroup->setRadioCallback(
-                [weak](int value)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        system->_p->imageOptions.alphaBlend = static_cast<AV::AlphaBlend>(value);
-                        if (system->_p->activeWidget)
-                        {
-                            system->_p->activeWidget->getImageView()->setImageOptions(system->_p->imageOptions);
-                        }
-                    }
-                });
-
-            p.rotateActionGroup->setRadioCallback(
-                [weak](int value)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        system->_p->imageRotate = static_cast<ImageRotate>(value);
-                        if (system->_p->activeWidget)
-                        {
-                            system->_p->activeWidget->getImageView()->setImageRotate(system->_p->imageRotate);
-                        }
-                    }
-                });
-
-            p.aspectRatioActionGroup->setRadioCallback(
-                [weak](int value)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        system->_p->imageAspectRatio = static_cast<UI::ImageAspectRatio>(value);
-                        if (system->_p->activeWidget)
-                        {
-                            system->_p->activeWidget->getImageView()->setImageAspectRatio(system->_p->imageAspectRatio);
-                        }
-                    }
-                });
-
 
             auto contextWeak = std::weak_ptr<Context>(context);
             p.actionObservers["ImageControls"] = ValueObserver<bool>::create(
@@ -417,16 +328,6 @@ namespace djv
                     }
                 });
 
-            p.actionObservers["FrameStoreEnabled"] = ValueObserver<bool>::create(
-                p.actions["FrameStoreEnabled"]->observeChecked(),
-                [weak](bool value)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        system->_p->frameStoreEnabled->setIfChanged(value);
-                    }
-                });
-
             p.actionObservers["LoadFrameStore"] = ValueObserver<bool>::create(
                 p.actions["LoadFrameStore"]->observeClicked(),
                 [weak](bool value)
@@ -435,9 +336,18 @@ namespace djv
                     {
                         if (auto system = weak.lock())
                         {
-                            system->_p->actions["FrameStoreEnabled"]->setEnabled(system->_p->currentImage ? true : false);
-                            system->_p->frameStore->setIfChanged(system->_p->currentImage);
+                            system->loadFrameStore();
                         }
+                    }
+                });
+
+            p.actionObservers["FrameStoreEnabled"] = ValueObserver<bool>::create(
+                p.actions["FrameStoreEnabled"]->observeChecked(),
+                [weak](bool value)
+                {
+                    if (auto system = weak.lock())
+                    {
+                        system->setFrameStoreEnabled(value);
                     }
                 });
 
@@ -494,32 +404,10 @@ namespace djv
                                             system->_widgetUpdate();
                                         }
                                     });
-                                system->_p->imageRotateObserver = ValueObserver<ImageRotate>::create(
-                                    system->_p->activeWidget->getImageView()->observeImageRotate(),
-                                    [weak](ImageRotate value)
-                                    {
-                                        if (auto system = weak.lock())
-                                        {
-                                            system->_p->imageRotate = value;
-                                            system->_actionsUpdate();
-                                        }
-                                    });
-                                system->_p->imageAspectRatioObserver = ValueObserver<UI::ImageAspectRatio>::create(
-                                    system->_p->activeWidget->getImageView()->observeImageAspectRatio(),
-                                    [weak](UI::ImageAspectRatio value)
-                                    {
-                                        if (auto system = weak.lock())
-                                        {
-                                            system->_p->imageAspectRatio = value;
-                                            system->_actionsUpdate();
-                                        }
-                                    });
                             }
                             else
                             {
                                 system->_p->imageOptionsObserver.reset();
-                                system->_p->imageRotateObserver.reset();
-                                system->_p->imageAspectRatioObserver.reset();
                             }
                             system->_actionsUpdate();
                             system->_widgetUpdate();
@@ -553,6 +441,19 @@ namespace djv
         std::shared_ptr<Core::IValueSubject<bool> > ImageSystem::observeFrameStoreEnabled() const
         {
             return _p->frameStoreEnabled;
+        }
+
+        void ImageSystem::loadFrameStore()
+        {
+            DJV_PRIVATE_PTR();
+            p.actions["FrameStoreEnabled"]->setEnabled(p.currentImage ? true : false);
+            p.frameStore->setIfChanged(p.currentImage);
+        }
+
+        void ImageSystem::setFrameStoreEnabled(bool value)
+        {
+            DJV_PRIVATE_PTR();
+            p.frameStoreEnabled->setIfChanged(value);
         }
 
         std::shared_ptr<IValueSubject<std::shared_ptr<AV::Image::Image> > > ImageSystem::observeFrameStore() const
@@ -628,38 +529,14 @@ namespace djv
                 p.actions["BlueChannel"]->setTooltip(_getText(DJV_TEXT("Blue channel tooltip")));
                 p.actions["AlphaChannel"]->setText(_getText(DJV_TEXT("Alpha Channel")));
                 p.actions["AlphaChannel"]->setTooltip(_getText(DJV_TEXT("Alpha channel tooltip")));
-                p.actions["NoAlphaBlend"]->setText(_getText(DJV_TEXT("No Alpha")));
-                p.actions["NoAlphaBlend"]->setTooltip(_getText(DJV_TEXT("No alpha tooltip")));
-                p.actions["StraightAlphaBlend"]->setText(_getText(DJV_TEXT("Straight Alpha")));
-                p.actions["StraightAlphaBlend"]->setTooltip(_getText(DJV_TEXT("Straight alpha blend tooltip")));
-                p.actions["PremultipliedAlphaBlend"]->setText(_getText(DJV_TEXT("Premultiplied Alpha")));
-                p.actions["PremultipliedAlphaBlend"]->setTooltip(_getText(DJV_TEXT("Premultiplied alpha blend tooltip")));
                 p.actions["MirrorH"]->setText(_getText(DJV_TEXT("Mirror Horizontal")));
                 p.actions["MirrorH"]->setTooltip(_getText(DJV_TEXT("Mirror horizontal tooltip")));
                 p.actions["MirrorV"]->setText(_getText(DJV_TEXT("Mirror Vertical")));
                 p.actions["MirrorV"]->setTooltip(_getText(DJV_TEXT("Mirror vertical tooltip")));
-                p.actions["Rotate_0"]->setText(_getText(DJV_TEXT("Rotate 0")));
-                p.actions["Rotate_0"]->setTooltip(_getText(DJV_TEXT("Rotate 0 tooltip")));
-                p.actions["Rotate_90"]->setText(_getText(DJV_TEXT("Rotate 90")));
-                p.actions["Rotate_90"]->setTooltip(_getText(DJV_TEXT("Rotate 90 tooltip")));
-                p.actions["Rotate_180"]->setText(_getText(DJV_TEXT("Rotate 180")));
-                p.actions["Rotate_180"]->setTooltip(_getText(DJV_TEXT("Rotate 180 tooltip")));
-                p.actions["Rotate_270"]->setText(_getText(DJV_TEXT("Rotate 270")));
-                p.actions["Rotate_270"]->setTooltip(_getText(DJV_TEXT("Rotate 270 tooltip")));
-                p.actions["AspectRatio_Native"]->setText(_getText(DJV_TEXT("Native Aspect Ratio")));
-                p.actions["AspectRatio_Native"]->setTooltip(_getText(DJV_TEXT("Native aspect ratio tooltip")));
-                p.actions["AspectRatio_Default"]->setText(_getText(DJV_TEXT("Default Aspect Ratio")));
-                p.actions["AspectRatio_Default"]->setTooltip(_getText(DJV_TEXT("Default aspect ratio tooltip")));
-                p.actions["AspectRatio_16_9"]->setText(_getText(DJV_TEXT("16:9")));
-                p.actions["AspectRatio_16_9"]->setTooltip(_getText(DJV_TEXT("16:9 aspect ratio tooltip")));
-                p.actions["AspectRatio_1_85"]->setText(_getText(DJV_TEXT("1.85")));
-                p.actions["AspectRatio_1_85"]->setTooltip(_getText(DJV_TEXT("1.85 aspect ratio tooltip")));
-                p.actions["AspectRatio_2_35"]->setText(_getText(DJV_TEXT("2.35")));
-                p.actions["AspectRatio_2_35"]->setTooltip(_getText(DJV_TEXT("2.35 aspect ratio tooltip")));
-                p.actions["FrameStoreEnabled"]->setText(_getText(DJV_TEXT("Frame Store")));
-                p.actions["FrameStoreEnabled"]->setTooltip(_getText(DJV_TEXT("Frame store tooltip")));
                 p.actions["LoadFrameStore"]->setText(_getText(DJV_TEXT("Load Frame Store")));
                 p.actions["LoadFrameStore"]->setTooltip(_getText(DJV_TEXT("Load frame store tooltip")));
+                p.actions["FrameStoreEnabled"]->setText(_getText(DJV_TEXT("Frame Store")));
+                p.actions["FrameStoreEnabled"]->setTooltip(_getText(DJV_TEXT("Frame store tooltip")));
 
                 p.menu->setText(_getText(DJV_TEXT("Image")));
             }
@@ -675,20 +552,8 @@ namespace djv
             p.actions["AlphaChannel"]->setEnabled(activeWidget);
             p.actions["MirrorH"]->setEnabled(activeWidget);
             p.actions["MirrorV"]->setEnabled(activeWidget);
-            p.actions["Rotate_0"]->setEnabled(activeWidget);
-            p.actions["Rotate_90"]->setEnabled(activeWidget);
-            p.actions["Rotate_180"]->setEnabled(activeWidget);
-            p.actions["Rotate_270"]->setEnabled(activeWidget);
-            p.actions["AspectRatio_Native"]->setEnabled(activeWidget);
-            p.actions["AspectRatio_Default"]->setEnabled(activeWidget);
-            p.actions["AspectRatio_16_9"]->setEnabled(activeWidget);
-            p.actions["AspectRatio_1_85"]->setEnabled(activeWidget);
-            p.actions["AspectRatio_2_35"]->setEnabled(activeWidget);
 
             p.channelActionGroup->setChecked(static_cast<int>(p.imageOptions.channel) - 1);
-            p.alphaBlendActionGroup->setChecked(static_cast<int>(p.imageOptions.alphaBlend));
-            p.rotateActionGroup->setChecked(static_cast<int>(p.imageRotate));
-            p.aspectRatioActionGroup->setChecked(static_cast<int>(p.imageAspectRatio));
         }
         
         void ImageSystem::_widgetUpdate()

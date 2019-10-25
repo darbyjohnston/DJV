@@ -134,8 +134,6 @@ namespace djv
             //p.actions["8BitConversion"] = UI::Action::create();
             //p.actions["8BitConversion"]->setButtonType(UI::ButtonType::Toggle);
             //p.actions["8BitConversion"]->setEnabled(false);
-            p.actions["Cache"] = UI::Action::create();
-            p.actions["Cache"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["Exit"] = UI::Action::create();
             p.actions["Exit"]->setShortcut(GLFW_KEY_Q, UI::Shortcut::getSystemModifier());
 
@@ -154,8 +152,6 @@ namespace djv
             p.menu->addAction(p.actions["Layers"]);
             p.menu->addSeparator();
             //p.menu->addAction(p.actions["8BitConversion"]);
-            p.menu->addSeparator();
-            p.menu->addAction(p.actions["Cache"]);
             p.menu->addSeparator();
             p.menu->addAction(p.actions["Exit"]);
 
@@ -376,7 +372,6 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        system->_p->actions["Cache"]->setChecked(value);
                         system->_cacheUpdate();
                     }
                 });
@@ -388,16 +383,6 @@ namespace djv
                     if (auto system = weak.lock())
                     {
                         system->_cacheUpdate();
-                    }
-                });
-
-            p.actionObservers["Cache"] = ValueObserver<bool>::create(
-                p.actions["Cache"]->observeChecked(),
-                [weak](bool value)
-                {
-                    if (auto system = weak.lock())
-                    {
-                        system->_p->settings->setCacheEnabled(value);
                     }
                 });
 
@@ -782,8 +767,6 @@ namespace djv
                 p.actions["PrevLayer"]->setTooltip(_getText(DJV_TEXT("Previous layer tooltip")));
                 //p.actions["8BitConversion"]->setText(_getText(DJV_TEXT("8-Bit Conversion")));
                 //p.actions["8BitConversion"]->setTooltip(_getText(DJV_TEXT("8-bit conversion tooltip")));
-                p.actions["Cache"]->setText(_getText(DJV_TEXT("Memory Cache")));
-                p.actions["Cache"]->setTooltip(_getText(DJV_TEXT("Memory cache tooltip")));
                 p.actions["Exit"]->setText(_getText(DJV_TEXT("Exit")));
                 p.actions["Exit"]->setTooltip(_getText(DJV_TEXT("Exit tooltip")));
 

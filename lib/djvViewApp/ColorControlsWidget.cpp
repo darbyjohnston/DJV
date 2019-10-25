@@ -34,6 +34,7 @@
 #include <djvUI/FormLayout.h>
 #include <djvUI/IntSlider.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/ScrollWidget.h>
 #include <djvUI/TabWidget.h>
 #include <djvUI/ToggleButton.h>
 
@@ -53,17 +54,20 @@ namespace djv
 
             std::map<std::string, std::shared_ptr<UI::FloatSlider> > colorSliders;
             std::shared_ptr<UI::FormLayout> colorLayout;
+            std::shared_ptr<UI::ScrollWidget> colorScrollWidget;
 
             std::map<std::string, std::shared_ptr<UI::FloatSlider> > levelsSliders;
             std::shared_ptr<UI::FormLayout> levelsLayout;
-            
+            std::shared_ptr<UI::ScrollWidget> levelsScrollWidget;
+
             std::shared_ptr<UI::ToggleButton> exposureButton;
             std::map<std::string, std::shared_ptr<UI::FloatSlider> > exposureSliders;
             std::shared_ptr<UI::FormLayout> exposureLayout;
+            std::shared_ptr<UI::ScrollWidget> exposureScrollWidget;
 
             std::shared_ptr<UI::FloatSlider> softClipSlider;
-            std::shared_ptr<UI::VerticalLayout> softClipLayout;
-                        
+            std::shared_ptr<UI::ScrollWidget> softClipScrollWidget;
+
             std::shared_ptr<UI::TabWidget> tabWidget;
             std::function<void(const AV::Render::ImageColor&)> colorCallback;
             std::function<void(const AV::Render::ImageLevels&)> levelsCallback;
@@ -141,6 +145,9 @@ namespace djv
             {
                 p.colorLayout->addChild(p.colorSliders[i]);
             }
+            p.colorScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            p.colorScrollWidget->setBorder(false);
+            p.colorScrollWidget->addChild(p.colorLayout);
 
             p.levelsLayout = UI::FormLayout::create(context);
             p.levelsLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
@@ -150,6 +157,9 @@ namespace djv
             {
                 p.levelsLayout->addChild(p.levelsSliders[i]);
             }
+            p.levelsScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            p.levelsScrollWidget->setBorder(false);
+            p.levelsScrollWidget->addChild(p.levelsLayout);
 
             p.exposureLayout = UI::FormLayout::create(context);
             p.exposureLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
@@ -160,20 +170,26 @@ namespace djv
             {
                 p.exposureLayout->addChild(p.exposureSliders[i]);
             }
-            
-            p.softClipLayout = UI::VerticalLayout::create(context);
-            p.softClipLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-            p.softClipLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
-            p.softClipLayout->setShadowOverlay({ UI::Side::Top });
-            p.softClipLayout->addChild(p.softClipSlider);
+            p.exposureScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            p.exposureScrollWidget->setBorder(false);
+            p.exposureScrollWidget->addChild(p.exposureLayout);
+
+            auto vLayout = UI::VerticalLayout::create(context);
+            vLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+            vLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+            vLayout->setShadowOverlay({ UI::Side::Top });
+            vLayout->addChild(p.softClipSlider);
+            p.softClipScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            p.softClipScrollWidget->setBorder(false);
+            p.softClipScrollWidget->addChild(vLayout);
 
             p.tabWidget = UI::TabWidget::create(context);
             p.tabWidget->setBackgroundRole(UI::ColorRole::Background);
             p.tabWidget->setShadowOverlay({ UI::Side::Top });
-            p.tabWidget->addChild(p.colorLayout);
-            p.tabWidget->addChild(p.levelsLayout);
-            p.tabWidget->addChild(p.exposureLayout);
-            p.tabWidget->addChild(p.softClipLayout);
+            p.tabWidget->addChild(p.colorScrollWidget);
+            p.tabWidget->addChild(p.levelsScrollWidget);
+            p.tabWidget->addChild(p.exposureScrollWidget);
+            p.tabWidget->addChild(p.softClipScrollWidget);
             addChild(p.tabWidget);
 
             _widgetUpdate();
@@ -504,10 +520,10 @@ namespace djv
             p.exposureLayout->setText(p.exposureSliders["KneeLow"], _getText(DJV_TEXT("Knee Low")) + ":");
             p.exposureLayout->setText(p.exposureSliders["KneeHigh"], _getText(DJV_TEXT("Knee High")) + ":");
 
-            p.tabWidget->setText(p.colorLayout, _getText(DJV_TEXT("Color")));
-            p.tabWidget->setText(p.levelsLayout, _getText(DJV_TEXT("Levels")));
-            p.tabWidget->setText(p.exposureLayout, _getText(DJV_TEXT("Exposure")));
-            p.tabWidget->setText(p.softClipLayout, _getText(DJV_TEXT("Soft Clip")));
+            p.tabWidget->setText(p.colorScrollWidget, _getText(DJV_TEXT("Color")));
+            p.tabWidget->setText(p.levelsScrollWidget, _getText(DJV_TEXT("Levels")));
+            p.tabWidget->setText(p.exposureScrollWidget, _getText(DJV_TEXT("Exposure")));
+            p.tabWidget->setText(p.softClipScrollWidget, _getText(DJV_TEXT("Soft Clip")));
         }
 
         void ColorControlsWidget::_widgetUpdate()

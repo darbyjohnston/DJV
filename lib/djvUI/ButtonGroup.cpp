@@ -254,43 +254,43 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 p.callback = callback;
-                if (index >= 0 && index < static_cast<int>(p.buttons.size()))
+                switch (p.buttonType)
                 {
-                    switch (p.buttonType)
-                    {
-                    case ButtonType::Toggle:
+                case ButtonType::Toggle:
+                {
+                    if (index >= 0 && index < static_cast<int>(p.buttons.size()))
                     {
                         auto button = p.buttons[index];
                         button->setChecked(value);
-                        break;
                     }
-                    case ButtonType::Radio:
-                        if (value)
+                    break;
+                }
+                case ButtonType::Radio:
+                    if (value)
+                    {
+                        for (size_t i = 0; i < p.buttons.size(); ++i)
                         {
-                            for (size_t i = 0; i < p.buttons.size(); ++i)
-                            {
-                                auto button = p.buttons[i];
-                                button->setChecked(i == index);
-                            }
+                            auto button = p.buttons[i];
+                            button->setChecked(i == index);
                         }
-                        break;
-                    case ButtonType::Exclusive:
-                        if (value)
-                        {
-                            for (size_t i = 0; i < p.buttons.size(); ++i)
-                            {
-                                auto button = p.buttons[i];
-                                button->setChecked(i == index);
-                            }
-                        }
-                        else
-                        {
-                            auto button = p.buttons[index];
-                            button->setChecked(false);
-                        }
-                        break;
-                    default: break;
                     }
+                    break;
+                case ButtonType::Exclusive:
+                    if (value)
+                    {
+                        for (size_t i = 0; i < p.buttons.size(); ++i)
+                        {
+                            auto button = p.buttons[i];
+                            button->setChecked(i == index);
+                        }
+                    }
+                    else if (index >= 0 && index < static_cast<int>(p.buttons.size()))
+                    {
+                        auto button = p.buttons[index];
+                        button->setChecked(false);
+                    }
+                    break;
+                default: break;
                 }
                 p.callback = Callback::Trigger;
             }
