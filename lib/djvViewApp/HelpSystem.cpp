@@ -38,7 +38,6 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
 #include <djvUI/Shortcut.h>
-#include <djvUI/Window.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/OS.h>
@@ -59,7 +58,6 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::Menu> menu;
             std::shared_ptr<AboutDialog> aboutDialog;
-            std::shared_ptr<UI::Window> aboutWindow;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
         };
 
@@ -113,10 +111,10 @@ namespace djv
                     {
                         if (auto system = weak.lock())
                         {
-                            if (system->_p->aboutWindow)
+                            if (system->_p->aboutDialog)
                             {
-                                system->_p->aboutWindow->close();
-                                system->_p->aboutWindow.reset();
+                                system->_p->aboutDialog->close();
+                                system->_p->aboutDialog.reset();
                             }
                             system->_p->aboutDialog = AboutDialog::create(context);
                             system->_p->aboutDialog->setCloseCallback(
@@ -124,15 +122,11 @@ namespace djv
                                 {
                                     if (auto system = weak.lock())
                                     {
+                                        system->_p->aboutDialog->close();
                                         system->_p->aboutDialog.reset();
-                                        system->_p->aboutWindow->close();
-                                        system->_p->aboutWindow.reset();
                                     }
                                 });
-                            system->_p->aboutWindow = UI::Window::create(context);
-                            system->_p->aboutWindow->setBackgroundRole(UI::ColorRole::None);
-                            system->_p->aboutWindow->addChild(system->_p->aboutDialog);
-                            system->_p->aboutWindow->show();
+                            system->_p->aboutDialog->show();
                         }
                     }
                 }
@@ -146,9 +140,9 @@ namespace djv
         HelpSystem::~HelpSystem()
         {
             DJV_PRIVATE_PTR();
-            if (p.aboutWindow)
+            if (p.aboutDialog)
             {
-                p.aboutWindow->close();
+                p.aboutDialog->close();
             }
         }
 

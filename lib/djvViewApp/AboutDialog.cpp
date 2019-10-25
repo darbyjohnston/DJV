@@ -35,8 +35,6 @@
 #include <djvUI/ScrollWidget.h>
 #include <djvUI/TextBlock.h>
 
-#include <djvAV/ThumbnailSystem.h>
-
 #include <djvCore/Context.h>
 
 using namespace djv::Core;
@@ -49,7 +47,6 @@ namespace djv
         {
             std::map<std::string, std::shared_ptr<UI::Label> > headers;
             std::map<std::string, std::shared_ptr<UI::TextBlock> > textBlocks;
-            std::future<std::shared_ptr<AV::Image::Image> > imageFuture;
         };
 
         void AboutDialog::_init(const std::shared_ptr<Core::Context>& context)
