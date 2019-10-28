@@ -35,6 +35,7 @@
 #include <djvViewApp/ImageView.h>
 #include <djvViewApp/Media.h>
 #include <djvViewApp/MediaWidgetPrivate.h>
+#include <djvViewApp/PlaybackSettings.h>
 #include <djvViewApp/PlaybackSpeedWidget.h>
 #include <djvViewApp/TimelineSlider.h>
 #include <djvViewApp/ViewSettings.h>
@@ -364,27 +365,41 @@ namespace djv
                     }
                 });
 
+            auto contextWeak = std::weak_ptr<Context>(context);
             p.speedWidget->setSpeedCallback(
-                [weak](const Time::Speed& value)
+                [weak, contextWeak](const Time::Speed& value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        if (auto media = widget->_p->media)
+                        if (auto widget = weak.lock())
                         {
-                            media->setSpeed(value);
+                            if (auto media = widget->_p->media)
+                            {
+                                media->setSpeed(value);
+                            }
+                            auto avSystem = context->getSystemT<AV::AVSystem>();
+                            avSystem->setDefaultSpeed(Time::fromRational(value));
                             widget->_p->speedPopupWidget->close();
                         }
                     }
                 });
 
             p.speedWidget->setPlayEveryFrameCallback(
-                [weak](bool value)
+                [weak, contextWeak](bool value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        if (auto media = widget->_p->media)
+                        if (auto widget = weak.lock())
                         {
-                            media->setPlayEveryFrame(value);
+                            if (auto media = widget->_p->media)
+                            {
+                                media->setPlayEveryFrame(value);
+                            }
+                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
+                            {
+                                playbackSettings->setPlayEveryFrame(value);
+                            }
                         }
                     }
                 });
@@ -493,7 +508,6 @@ namespace djv
                     }
                 });
 
-            auto contextWeak = std::weak_ptr<Context>(context);
             p.closeButton->setClickedCallback(
                 [media, contextWeak]
                 {

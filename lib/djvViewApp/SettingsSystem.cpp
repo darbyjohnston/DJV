@@ -30,7 +30,6 @@
 #include <djvViewApp/SettingsSystem.h>
 
 #include <djvViewApp/FileSettingsWidget.h>
-#include <djvViewApp/ImageSettingsWidget.h>
 #include <djvViewApp/NUXSettingsWidget.h>
 #include <djvViewApp/PlaybackSettingsWidget.h>
 #include <djvViewApp/SettingsDialog.h>
@@ -169,12 +168,8 @@ namespace djv
 
                     FullscreenMonitorSettingsWidget::create(context),
                     BackgroundImageSettingsWidget::create(context),
-                    ImageAlphaBlendSettingsWidget::create(context),
-                    ImageAspectRatioSettingsWidget::create(context),
-                    ImageRotateSettingsWidget::create(context),
                     NUXSettingsWidget::create(context),
                     PlaybackSettingsWidget::create(context),
-                    PlaybackSpeedSettingsWidget::create(context),
                     SequenceSettingsWidget::create(context),
                     TimelineSettingsWidget::create(context),
                     UISettingsWidget::create(context)

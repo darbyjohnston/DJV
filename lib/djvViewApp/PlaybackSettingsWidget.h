@@ -58,31 +58,6 @@ namespace djv
             DJV_PRIVATE();
         };
 
-        //! This class provides the playback speed settings widget.
-        class PlaybackSpeedSettingsWidget : public UI::ISettingsWidget
-        {
-            DJV_NON_COPYABLE(PlaybackSpeedSettingsWidget);
-
-        protected:
-            void _init(const std::shared_ptr<Core::Context>&);
-            PlaybackSpeedSettingsWidget();
-
-        public:
-            static std::shared_ptr<PlaybackSpeedSettingsWidget> create(const std::shared_ptr<Core::Context>&);
-
-            std::string getSettingsName() const override;
-            std::string getSettingsGroup() const override;
-            std::string getSettingsSortKey() const override;
-
-        protected:
-            void _textUpdateEvent(Core::Event::TextUpdate&) override;
-
-        private:
-            void _widgetUpdate();
-
-            DJV_PRIVATE();
-        };
-
         //! This class provides the timeline settings widget.
         class TimelineSettingsWidget : public UI::ISettingsWidget
         {

@@ -29,6 +29,7 @@
 
 #include <djvViewApp/ImageControlsWidget.h>
 
+#include <djvViewApp/ImageSettings.h>
 #include <djvViewApp/ImageSystem.h>
 #include <djvViewApp/ImageView.h>
 #include <djvViewApp/MediaWidget.h>
@@ -42,8 +43,10 @@
 #include <djvUI/PushButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
+#include <djvUI/SettingsSystem.h>
 #include <djvUI/TabWidget.h>
 
+#include <djvAV/AVSystem.h>
 #include <djvAV/Render2D.h>
 
 #include <djvCore/Context.h>
@@ -181,16 +184,22 @@ namespace djv
                     }
                 });
 
+            auto contextWeak = std::weak_ptr<Context>(context);
             p.alphaComboBox->setCallback(
-                [weak](int value)
+                [weak, contextWeak](int value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        widget->_p->imageOptions.alphaBlend = static_cast<AV::AlphaBlend>(value);
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
+                        if (auto widget = weak.lock())
                         {
-                            widget->_p->activeWidget->getImageView()->setImageOptions(widget->_p->imageOptions);
+                            widget->_p->imageOptions.alphaBlend = static_cast<AV::AlphaBlend>(value);
+                            widget->_widgetUpdate();
+                            if (widget->_p->activeWidget)
+                            {
+                                widget->_p->activeWidget->getImageView()->setImageOptions(widget->_p->imageOptions);
+                            }
+                            auto avSystem = context->getSystemT<AV::AVSystem>();
+                            avSystem->setAlphaBlend(static_cast<AV::AlphaBlend>(value));
                         }
                     }
                 });
@@ -223,34 +232,45 @@ namespace djv
                 });
 
             p.rotateComboBox->setCallback(
-                [weak](int value)
+                [weak, contextWeak](int value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        widget->_p->rotate = static_cast<ImageRotate>(value);
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
+                        if (auto widget = weak.lock())
                         {
-                            widget->_p->activeWidget->getImageView()->setImageRotate(widget->_p->rotate);
+                            widget->_p->rotate = static_cast<ImageRotate>(value);
+                            widget->_widgetUpdate();
+                            if (widget->_p->activeWidget)
+                            {
+                                widget->_p->activeWidget->getImageView()->setImageRotate(widget->_p->rotate);
+                            }
+                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
+                            imageSettings->setRotate(widget->_p->rotate);
                         }
                     }
                 });
 
             p.aspectRatioComboBox->setCallback(
-                [weak](int value)
+                [weak, contextWeak](int value)
                 {
-                    if (auto widget = weak.lock())
+                    if (auto context = contextWeak.lock())
                     {
-                        widget->_p->aspectRatio = static_cast<UI::ImageAspectRatio>(value);
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
+                        if (auto widget = weak.lock())
                         {
-                            widget->_p->activeWidget->getImageView()->setImageAspectRatio(widget->_p->aspectRatio);
+                            widget->_p->aspectRatio = static_cast<UI::ImageAspectRatio>(value);
+                            widget->_widgetUpdate();
+                            if (widget->_p->activeWidget)
+                            {
+                                widget->_p->activeWidget->getImageView()->setImageAspectRatio(widget->_p->aspectRatio);
+                            }
+                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
+                            imageSettings->setAspectRatio(widget->_p->aspectRatio);
                         }
                     }
                 });
 
-            auto contextWeak = std::weak_ptr<Context>(context);
             p.loadFrameStoreButton->setClickedCallback(
                 [contextWeak]
                 {

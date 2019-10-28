@@ -79,12 +79,10 @@ namespace djv
             std::shared_ptr<UI::IntSlider> gridSizeSlider;
             std::shared_ptr<UI::ColorPickerSwatch> gridColorPickerSwatch;
             std::shared_ptr<UI::ToggleButton> gridLabelsButton;
-            std::shared_ptr<UI::ToolButton> gridSettingsButton;
             std::shared_ptr<UI::FormLayout> gridFormLayout;
             std::shared_ptr<UI::ScrollWidget> gridScrollWidget;
 
             std::shared_ptr<UI::ColorPickerSwatch> backgroundColorPickerSwatch;
-            std::shared_ptr<UI::ToolButton> backgroundSettingsButton;
             std::shared_ptr<UI::FormLayout> backgroundFormLayout;
             std::shared_ptr<UI::ScrollWidget> backgroundScrollWidget;
 
@@ -94,9 +92,7 @@ namespace djv
             std::shared_ptr<ValueObserver<glm::vec2> > viewPosObserver;
             std::shared_ptr<ValueObserver<float> > viewZoomObserver;
             std::shared_ptr<ValueObserver<GridOptions> > gridOptionsObserver;
-            std::shared_ptr<ValueObserver<GridOptions> > gridOptionsObserver2;
             std::shared_ptr<ValueObserver<AV::Image::Color> > backgroundColorObserver;
-            std::shared_ptr<ValueObserver<AV::Image::Color> > backgroundColorObserver2;
         };
 
         void ViewControlsWidget::_init(const std::shared_ptr<Core::Context>& context)
@@ -135,13 +131,9 @@ namespace djv
             p.gridColorPickerSwatch = UI::ColorPickerSwatch::create(context);
             p.gridColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
             p.gridLabelsButton = UI::ToggleButton::create(context);
-            p.gridSettingsButton = UI::ToolButton::create(context);
-            p.gridSettingsButton->setIcon("djvIconSettings");
 
             p.backgroundColorPickerSwatch = UI::ColorPickerSwatch::create(context);
             p.backgroundColorPickerSwatch->setSwatchSizeRole(UI::MetricsRole::SwatchSmall);
-            p.backgroundSettingsButton = UI::ToolButton::create(context);
-            p.backgroundSettingsButton->setIcon("djvIconSettings");
 
             p.viewFormLayout = UI::FormLayout::create(context);
             p.viewFormLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
@@ -175,37 +167,16 @@ namespace djv
             p.gridFormLayout->addChild(p.gridSizeSlider);
             p.gridFormLayout->addChild(p.gridColorPickerSwatch);
             p.gridFormLayout->addChild(p.gridLabelsButton);
-            vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
-            vLayout->addChild(p.gridFormLayout);
-            vLayout->setStretch(p.gridFormLayout, UI::RowStretch::Expand);
-            vLayout->addSeparator();
-            auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
-            hLayout->addExpander();
-            hLayout->addChild(p.gridSettingsButton);
-            vLayout->addChild(hLayout);
-            vLayout->setStretch(p.viewFormLayout, UI::RowStretch::Expand);
             p.gridScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            p.gridScrollWidget->addChild(vLayout);
+            p.gridScrollWidget->addChild(p.gridFormLayout);
 
             p.backgroundFormLayout = UI::FormLayout::create(context);
             p.backgroundFormLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
             p.backgroundFormLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
             p.backgroundFormLayout->setShadowOverlay({ UI::Side::Top });
             p.backgroundFormLayout->addChild(p.backgroundColorPickerSwatch);
-            vLayout = UI::VerticalLayout::create(context);
-            vLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
-            vLayout->addChild(p.backgroundFormLayout);
-            vLayout->setStretch(p.backgroundFormLayout, UI::RowStretch::Expand);
-            vLayout->addSeparator();
-            hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
-            hLayout->addExpander();
-            hLayout->addChild(p.backgroundSettingsButton);
-            vLayout->addChild(hLayout);
             p.backgroundScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-            p.backgroundScrollWidget->addChild(vLayout);
+            p.backgroundScrollWidget->addChild(p.backgroundFormLayout);
 
             p.tabWidget = UI::TabWidget::create(context);
             p.tabWidget->setBackgroundRole(UI::ColorRole::Background);
@@ -262,70 +233,80 @@ namespace djv
                     }
                 });
 
-            p.gridEnabledButton->setCheckedCallback(
-                [weak](bool value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->gridOptions.enabled = value;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
-                        {
-                            widget->_p->activeWidget->getImageView()->setGridOptions(widget->_p->gridOptions);
-                        }
-                    }
-                });
-
-            p.gridSizeSlider->setValueCallback(
-                [weak](int value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->gridOptions.size = value;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
-                        {
-                            widget->_p->activeWidget->getImageView()->setGridOptions(widget->_p->gridOptions);
-                        }
-                    }
-                });
-
-            p.gridColorPickerSwatch->setColorCallback(
-                [weak](const AV::Image::Color& value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->gridOptions.color = value;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
-                        {
-                            widget->_p->activeWidget->getImageView()->setGridOptions(widget->_p->gridOptions);
-                        }
-                    }
-                });
-
-            p.gridLabelsButton->setCheckedCallback(
-                [weak](bool value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->gridOptions.labels = value;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
-                        {
-                            widget->_p->activeWidget->getImageView()->setGridOptions(widget->_p->gridOptions);
-                        }
-                    }
-                });
-
             auto contextWeak = std::weak_ptr<Context>(context);
-            p.gridSettingsButton->setClickedCallback(
-                [weak, contextWeak]
+            p.gridEnabledButton->setCheckedCallback(
+                [weak, contextWeak](bool value)
                 {
                     if (auto context = contextWeak.lock())
                     {
                         if (auto widget = weak.lock())
                         {
+                            widget->_p->gridOptions.enabled = value;
+                            widget->_widgetUpdate();
+                            if (widget->_p->activeWidget)
+                            {
+                                widget->_p->activeWidget->getImageView()->setGridOptions(widget->_p->gridOptions);
+                            }
+                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                            viewSettings->setGridOptions(widget->_p->gridOptions);
+                        }
+                    }
+                });
+
+            p.gridSizeSlider->setValueCallback(
+                [weak, contextWeak](int value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->gridOptions.size = value;
+                            widget->_widgetUpdate();
+                            if (widget->_p->activeWidget)
+                            {
+                                widget->_p->activeWidget->getImageView()->setGridOptions(widget->_p->gridOptions);
+                            }
+                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                            viewSettings->setGridOptions(widget->_p->gridOptions);
+                        }
+                    }
+                });
+
+            p.gridColorPickerSwatch->setColorCallback(
+                [weak, contextWeak](const AV::Image::Color& value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->gridOptions.color = value;
+                            widget->_widgetUpdate();
+                            if (widget->_p->activeWidget)
+                            {
+                                widget->_p->activeWidget->getImageView()->setGridOptions(widget->_p->gridOptions);
+                            }
+                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+                            viewSettings->setGridOptions(widget->_p->gridOptions);
+                        }
+                    }
+                });
+
+            p.gridLabelsButton->setCheckedCallback(
+                [weak, contextWeak](bool value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->_p->gridOptions.labels = value;
+                            widget->_widgetUpdate();
+                            if (widget->_p->activeWidget)
+                            {
+                                widget->_p->activeWidget->getImageView()->setGridOptions(widget->_p->gridOptions);
+                            }
                             auto settingsSystem = context->getSystemT<UI::Settings::System>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
                             viewSettings->setGridOptions(widget->_p->gridOptions);
@@ -334,26 +315,18 @@ namespace djv
                 });
 
             p.backgroundColorPickerSwatch->setColorCallback(
-                [weak](const AV::Image::Color& value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->backgroundColor = value;
-                        widget->_widgetUpdate();
-                        if (widget->_p->activeWidget)
-                        {
-                            widget->_p->activeWidget->getImageView()->setBackgroundColor(widget->_p->backgroundColor);
-                        }
-                    }
-                });
-
-            p.backgroundSettingsButton->setClickedCallback(
-                [weak, contextWeak]
+                [weak, contextWeak](const AV::Image::Color& value)
                 {
                     if (auto context = contextWeak.lock())
                     {
                         if (auto widget = weak.lock())
                         {
+                            widget->_p->backgroundColor = value;
+                            widget->_widgetUpdate();
+                            if (widget->_p->activeWidget)
+                            {
+                                widget->_p->activeWidget->getImageView()->setBackgroundColor(widget->_p->backgroundColor);
+                            }
                             auto settingsSystem = context->getSystemT<UI::Settings::System>();
                             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
                             viewSettings->setBackgroundColor(widget->_p->backgroundColor);
@@ -423,30 +396,6 @@ namespace djv
                         }
                     });
             }
-
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
-            auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
-            p.gridOptionsObserver2 = ValueObserver<GridOptions>::create(
-                viewSettings->observeGridOptions(),
-                [weak](const GridOptions& value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->gridOptions = value;
-                        widget->_widgetUpdate();
-                    }
-                });
-
-            p.backgroundColorObserver2 = ValueObserver<AV::Image::Color>::create(
-                viewSettings->observeBackgroundColor(),
-                [weak](const AV::Image::Color& value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->backgroundColor = value;
-                        widget->_widgetUpdate();
-                    }
-                });
         }
 
         ViewControlsWidget::ViewControlsWidget() :
@@ -488,13 +437,11 @@ namespace djv
             p.viewFormLayout->setText(p.viewPosLayout, _getText(DJV_TEXT("Position")) + ":");
             p.viewFormLayout->setText(p.viewZoomLayout, _getText(DJV_TEXT("Zoom")) + ":");
 
-            p.gridSettingsButton->setTooltip(_getText(DJV_TEXT("Set as default settings.")));
             p.gridFormLayout->setText(p.gridEnabledButton, _getText(DJV_TEXT("Enabled")) + ":");
             p.gridFormLayout->setText(p.gridSizeSlider, _getText(DJV_TEXT("Size")) + ":");
             p.gridFormLayout->setText(p.gridColorPickerSwatch, _getText(DJV_TEXT("Color")) + ":");
             p.gridFormLayout->setText(p.gridLabelsButton, _getText(DJV_TEXT("Labels")) + ":");
-                        
-            p.backgroundSettingsButton->setTooltip(_getText(DJV_TEXT("Set as default settings.")));
+
             p.backgroundFormLayout->setText(p.backgroundColorPickerSwatch, _getText(DJV_TEXT("Color")) + ":");
             
             p.tabWidget->setText(p.viewScrollWidget, _getText(DJV_TEXT("View")));

@@ -23,7 +23,6 @@ set(header
     IViewSystem.h
     ImageControlsWidget.h
 	ImageSettings.h
-	ImageSettingsWidget.h
     ImageSystem.h
     ImageView.h
     InfoWidget.h
@@ -87,7 +86,6 @@ set(source
     IViewSystem.cpp
     ImageControlsWidget.cpp
 	ImageSettings.cpp
-	ImageSettingsWidget.cpp
     ImageSystem.cpp
     ImageView.cpp
     InfoWidget.cpp
