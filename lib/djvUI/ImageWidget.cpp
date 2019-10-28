@@ -50,6 +50,7 @@ namespace djv
         {
             std::shared_ptr<AV::Image::Image> image;
             ImageAspectRatio imageAspectRatio = ImageAspectRatio::Default;
+            AV::AlphaBlend imageAlphaBlend = AV::AlphaBlend::None;
             ColorRole imageColorRole = ColorRole::None;
             MetricsRole sizeRole = MetricsRole::None;
             AV::OCIO::Config ocioConfig;
@@ -119,6 +120,15 @@ namespace djv
                 return;
             p.imageAspectRatio = value;
             _resize();
+        }
+
+        void ImageWidget::setImageAlphaBlend(AV::AlphaBlend value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value == p.imageAlphaBlend)
+                return;
+            p.imageAlphaBlend = value;
+            _redraw();
         }
 
         ColorRole ImageWidget::getImageColorRole() const
@@ -228,7 +238,7 @@ namespace djv
                 }
 
                 AV::Render::ImageOptions options;
-                options.alphaBlend = AV::AlphaBlend::None;
+                options.alphaBlend = p.imageAlphaBlend;
                 options.cache = AV::Render::ImageCache::Dynamic;
                 glm::mat3x3 m(1.F);
                 m = glm::translate(m, pos);

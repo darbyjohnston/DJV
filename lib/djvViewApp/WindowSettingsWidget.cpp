@@ -204,6 +204,7 @@ namespace djv
             setClassName("djv::ViewApp::BackgroundImageSettingsWidget");
 
             p.imageWidget = UI::ImageWidget::create(context);
+            p.imageWidget->setImageAlphaBlend(AV::AlphaBlend::Straight);
             p.imageWidget->setSizeRole(UI::MetricsRole::TextColumn);
             p.imageWidget->setHAlign(UI::HAlign::Center);
             p.imageWidget->setVAlign(UI::VAlign::Center);
