@@ -133,7 +133,11 @@ namespace djv
             std::shared_ptr<UI::MultiStateButton> playbackModeButton;
             std::shared_ptr<FrameWidget> currentFrameWidget;
             std::shared_ptr<FrameWidget> inPointWidget;
+            std::shared_ptr<UI::ToolButton> inPointSetButton;
+            std::shared_ptr<UI::ToolButton> inPointResetButton;
             std::shared_ptr<FrameWidget> outPointWidget;
+            std::shared_ptr<UI::ToolButton> outPointSetButton;
+            std::shared_ptr<UI::ToolButton> outPointResetButton;
             std::shared_ptr<UI::Label> durationLabel;
             std::shared_ptr<TimelineSlider> timelineSlider;
             std::shared_ptr<UI::Label> audioLabel;
@@ -249,7 +253,23 @@ namespace djv
 
             p.currentFrameWidget = FrameWidget::create(context);
             p.inPointWidget = FrameWidget::create(context);
+            p.inPointSetButton = UI::ToolButton::create(context);
+            p.inPointSetButton->setIcon("djvIconFrameStartSmall");
+            p.inPointSetButton->setInsideMargin(UI::Layout::Margin(UI::MetricsRole::None));
+            p.inPointSetButton->setVAlign(UI::VAlign::Center);
+            p.inPointResetButton = UI::ToolButton::create(context);
+            p.inPointResetButton->setIcon("djvIconCloseSmall");
+            p.inPointResetButton->setInsideMargin(UI::Layout::Margin(UI::MetricsRole::None));
+            p.inPointResetButton->setVAlign(UI::VAlign::Center);
             p.outPointWidget = FrameWidget::create(context);
+            p.outPointSetButton = UI::ToolButton::create(context);
+            p.outPointSetButton->setIcon("djvIconFrameEndSmall");
+            p.outPointSetButton->setInsideMargin(UI::Layout::Margin(UI::MetricsRole::None));
+            p.outPointSetButton->setVAlign(UI::VAlign::Center);
+            p.outPointResetButton = UI::ToolButton::create(context);
+            p.outPointResetButton->setIcon("djvIconCloseSmall");
+            p.outPointResetButton->setInsideMargin(UI::Layout::Margin(UI::MetricsRole::None));
+            p.outPointResetButton->setVAlign(UI::VAlign::Center);
 
             p.durationLabel = UI::Label::create(context);
             p.durationLabel->setFont(AV::Font::familyMono);
@@ -311,9 +331,19 @@ namespace djv
             p.playbackLayout->setGridPos(hLayout, 0, 1);
             hLayout = UI::HorizontalLayout::create(context);
             hLayout->addChild(p.currentFrameWidget);
-            hLayout->addChild(p.inPointWidget);
+            auto hLayout2 = UI::HorizontalLayout::create(context);
+            hLayout2->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            hLayout2->addChild(p.inPointWidget);
+            hLayout2->addChild(p.inPointSetButton);
+            hLayout2->addChild(p.inPointResetButton);
+            hLayout->addChild(hLayout2);
             hLayout->addExpander();
-            hLayout->addChild(p.outPointWidget);
+            hLayout2 = UI::HorizontalLayout::create(context);
+            hLayout2->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            hLayout2->addChild(p.outPointResetButton);
+            hLayout2->addChild(p.outPointSetButton);
+            hLayout2->addChild(p.outPointWidget);
+            hLayout->addChild(hLayout2);
             hLayout->addChild(p.durationLabel);
             p.playbackLayout->addChild(hLayout);
             p.playbackLayout->setGridPos(hLayout, 1, 1);
@@ -460,6 +490,30 @@ namespace djv
                     }
                 });
 
+            p.inPointSetButton->setClickedCallback(
+                [weak]
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        if (auto media = widget->_p->media)
+                        {
+                            media->setInPoint();
+                        }
+                    }
+                });
+
+            p.inPointResetButton->setClickedCallback(
+                [weak]
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        if (auto media = widget->_p->media)
+                        {
+                            media->resetInPoint();
+                        }
+                    }
+                });
+
             p.outPointWidget->setCallback(
                 [weak](Frame::Index value)
                 {
@@ -468,6 +522,30 @@ namespace djv
                         if (auto media = widget->_p->media)
                         {
                             media->setOutPoint(value);
+                        }
+                    }
+                });
+
+            p.outPointSetButton->setClickedCallback(
+                [weak]
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        if (auto media = widget->_p->media)
+                        {
+                            media->setOutPoint();
+                        }
+                    }
+                });
+
+            p.outPointResetButton->setClickedCallback(
+                [weak]
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        if (auto media = widget->_p->media)
+                        {
+                            media->resetOutPoint();
                         }
                     }
                 });
@@ -1066,7 +1144,11 @@ namespace djv
             p.realSpeedLabel->setTooltip(_getText(DJV_TEXT("Real speed tooltip")));
             p.currentFrameWidget->setTooltip(_getText(DJV_TEXT("Current frame tooltip")));
             p.inPointWidget->setTooltip(_getText(DJV_TEXT("In point tooltip")));
+            p.inPointSetButton->setTooltip(_getText(DJV_TEXT("Set in point tooltip")));
+            p.inPointResetButton->setTooltip(_getText(DJV_TEXT("Reset in point tooltip")));
             p.outPointWidget->setTooltip(_getText(DJV_TEXT("Out point tooltip")));
+            p.outPointSetButton->setTooltip(_getText(DJV_TEXT("Set out point tooltip")));
+            p.outPointResetButton->setTooltip(_getText(DJV_TEXT("Reset out point tooltip")));
             p.durationLabel->setTooltip(_getText(DJV_TEXT("Duration tooltip")));
 
             p.audioLabel->setText(_getText(DJV_TEXT("Audio")));
@@ -1117,10 +1199,13 @@ namespace djv
                 p.inPointWidget->setSpeed(p.defaultSpeed);
                 p.inPointWidget->setFrame(p.inPoint);
                 p.inPointWidget->setEnabled(p.inOutPointsEnabled);
+                p.inPointResetButton->setEnabled(p.inOutPointsEnabled && p.inPoint != 0);
                 p.outPointWidget->setSequence(p.sequence);
                 p.outPointWidget->setSpeed(p.defaultSpeed);
                 p.outPointWidget->setFrame(p.outPoint);
                 p.outPointWidget->setEnabled(p.inOutPointsEnabled);
+                const size_t sequenceSize = p.sequence.getSize();
+                p.outPointResetButton->setEnabled(p.inOutPointsEnabled && sequenceSize > 0 && p.outPoint != (sequenceSize - 1));
 
                 auto avSystem = context->getSystemT<AV::AVSystem>();
                 p.durationLabel->setText(avSystem->getLabel(p.sequence.getSize(), p.defaultSpeed));
