@@ -416,7 +416,34 @@ namespace djv
 
         void Media::setPlayback(Playback value)
         {
-            if (_p->playback->setIfChanged(value))
+            DJV_PRIVATE_PTR();
+            switch (value)
+            {
+            case Playback::Forward:
+                if (PlaybackMode::Once == p.playbackMode->get())
+                {
+                    const auto& sequence = p.sequence->get();
+                    const size_t sequenceSize = sequence.getSize();
+                    if (sequenceSize && p.currentFrame->get() == (sequenceSize - 1))
+                    {
+                        setCurrentFrame(0);
+                    }
+                }
+                break;
+            case Playback::Reverse:
+                if (PlaybackMode::Once == p.playbackMode->get())
+                {
+                    const auto& sequence = p.sequence->get();
+                    const size_t sequenceSize = sequence.getSize();
+                    if (sequenceSize && 0 == p.currentFrame->get())
+                    {
+                        setCurrentFrame(sequenceSize - 1);
+                    }
+                }
+                break;
+            default: break;
+            }
+            if (p.playback->setIfChanged(value))
             {
                 _playbackUpdate();
             }
