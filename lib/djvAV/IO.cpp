@@ -369,6 +369,12 @@ namespace djv
             IRead::~IRead()
             {}
 
+            void IRead::setPlayback(bool value)
+            {
+                std::lock_guard<std::mutex> lock(_mutex);
+                _playback = value;
+            }
+
             bool IRead::isCacheEnabled() const
             {
                 return _cacheEnabled;

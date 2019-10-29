@@ -145,11 +145,13 @@ namespace djv
                     {
                         // Update the options.
                         size_t threadCount = 4;
+                        bool playback = false;
                         bool cacheEnabled = false;
                         size_t cacheMaxByteCount = 0;
                         {
                             std::lock_guard<std::mutex> lock(_mutex);
                             threadCount = _threadCount;
+                            playback = _playback;
                             cacheEnabled = _cacheEnabled;
                             cacheMaxByteCount = _cacheMaxByteCount;
                         }
@@ -181,7 +183,7 @@ namespace djv
                                     return _hasWork();
                                 }))
                             {
-                                queueCount = _getQueueCount(threadCount / 2);
+                                queueCount = _getQueueCount(playback ? threadCount : 1);
                                 if (p.direction != _direction)
                                 {
                                     p.direction = _direction;
@@ -217,7 +219,7 @@ namespace djv
                         // Fill the cache.
                         if (cacheEnabled)
                         {
-                            _readCache(threadCount / 2);
+                            _readCache(playback ? 0 : threadCount);
                         }
 
                         // Update information.
@@ -596,7 +598,7 @@ namespace djv
 
                         p.convert = Image::Convert::create(_resourceSystem);
 
-                        const auto timeout = Time::getValue(Time::TimerValue::Fast);
+                        const auto timeout = Time::getValue(Time::TimerValue::VeryFast);
                         while (p.running)
                         {
                             std::vector<std::shared_ptr<Image::Image> > images;

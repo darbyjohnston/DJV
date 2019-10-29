@@ -904,6 +904,10 @@ namespace djv
                 switch (p.playback->get())
                 {
                 case Playback::Stop:
+                    if (p.read)
+                    {
+                        p.read->setPlayback(false);
+                    }
                     _stopAudioStream();
                     p.playbackTimer->stop();
                     p.realSpeedTimer->stop();
@@ -913,6 +917,10 @@ namespace djv
                     forward = true;
                 case Playback::Reverse: // Forward or reverse.
                 {
+                    if (p.read)
+                    {
+                        p.read->setPlayback(true);
+                    }
                     p.ioDirection = forward ? AV::IO::Direction::Forward : AV::IO::Direction::Reverse;
                     _seek(p.currentFrame->get());
                     p.audioData.reset();

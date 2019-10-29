@@ -301,6 +301,8 @@ namespace djv
 
                 virtual std::future<Info> getInfo() = 0;
 
+                void setPlayback(bool);
+
                 //! \param value For video files this value represents the
                 //! frame number, for audio files it represents the audio sample.
                 virtual void seek(int64_t value, Direction) = 0;
@@ -317,6 +319,7 @@ namespace djv
             protected:
                 ReadOptions _options;
                 Direction _direction = Direction::Forward;
+                bool _playback = false;
                 bool _cacheEnabled = false;
                 size_t _cacheMaxByteCount = 0;
                 size_t _cacheByteCount = 0;
