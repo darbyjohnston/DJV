@@ -34,6 +34,7 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/Menu.h>
+#include <djvUI/Shortcut.h>
 #include <djvUI/RowLayout.h>
 
 #include <djvCore/Context.h>
@@ -75,11 +76,11 @@ namespace djv
 
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["IncreaseVolume"]);
-            p.actions["IncreaseVolume"]->setShortcut(GLFW_KEY_8);
+            p.actions["IncreaseVolume"]->setShortcut(GLFW_KEY_8, UI::Shortcut::getSystemModifier());
             p.menu->addAction(p.actions["DecreaseVolume"]);
-            p.actions["DecreaseVolume"]->setShortcut(GLFW_KEY_7);
+            p.actions["DecreaseVolume"]->setShortcut(GLFW_KEY_7, UI::Shortcut::getSystemModifier());
             p.menu->addAction(p.actions["Mute"]);
-            p.actions["Mute"]->setShortcut(GLFW_KEY_9);
+            p.actions["Mute"]->setShortcut(GLFW_KEY_9, UI::Shortcut::getSystemModifier());
 
             auto weak = std::weak_ptr<AudioSystem>(std::dynamic_pointer_cast<AudioSystem>(shared_from_this()));
             p.actionObservers["IncreaseVolume"] = ValueObserver<bool>::create(
