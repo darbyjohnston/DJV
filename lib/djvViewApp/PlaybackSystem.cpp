@@ -165,10 +165,6 @@ namespace djv
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["Forward"]);
             p.menu->addAction(p.actions["Reverse"]);
-            p.menu->addAction(p.actions["PlayOnce"]);
-            p.menu->addAction(p.actions["PlayLoop"]);
-            p.menu->addAction(p.actions["PlayPingPong"]);
-            p.menu->addAction(p.actions["PlayEveryFrame"]);
             p.menu->addSeparator();
             p.menu->addAction(p.actions["InPoint"]);
             p.menu->addAction(p.actions["OutPoint"]);

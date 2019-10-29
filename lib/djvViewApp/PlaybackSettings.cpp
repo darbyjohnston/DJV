@@ -45,6 +45,7 @@ namespace djv
         {
             std::shared_ptr<ValueSubject<bool> > startPlayback;
             std::shared_ptr<ValueSubject<bool> > playEveryFrame;
+            std::shared_ptr<ValueSubject<PlaybackMode> > playbackMode;
             std::shared_ptr<ValueSubject<bool> > pip;
         };
 
@@ -55,6 +56,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.startPlayback = ValueSubject<bool>::create(false);
             p.playEveryFrame = ValueSubject<bool>::create(false);
+            p.playbackMode = ValueSubject<PlaybackMode>::create(PlaybackMode::Loop);
             p.pip = ValueSubject<bool>::create(true);
             _load();
         }
@@ -90,6 +92,16 @@ namespace djv
             _p->playEveryFrame->setIfChanged(value);
         }
 
+        std::shared_ptr<IValueSubject<PlaybackMode> > PlaybackSettings::observePlaybackMode() const
+        {
+            return _p->playbackMode;
+        }
+
+        void PlaybackSettings::setPlaybackMode(PlaybackMode value)
+        {
+            _p->playbackMode->setIfChanged(value);
+        }
+
         std::shared_ptr<IValueSubject<bool> > PlaybackSettings::observePIP() const
         {
             return _p->pip;
@@ -108,6 +120,7 @@ namespace djv
                 const auto & object = value.get<picojson::object>();
                 UI::Settings::read("StartPlayback", object, p.startPlayback);
                 UI::Settings::read("PlayEveryFrame", object, p.playEveryFrame);
+                UI::Settings::read("PlaybackMode", object, p.playbackMode);
                 UI::Settings::read("PIP", object, p.pip);
             }
         }
@@ -119,6 +132,7 @@ namespace djv
             auto & object = out.get<picojson::object>();
             UI::Settings::write("StartPlayback", p.startPlayback->get(), object);
             UI::Settings::write("PlayEveryFrame", p.playEveryFrame->get(), object);
+            UI::Settings::write("PlaybackMode", p.playbackMode->get(), object);
             UI::Settings::write("PIP", p.pip->get(), object);
             return out;
         }

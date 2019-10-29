@@ -113,17 +113,17 @@ namespace djv
 
             p.fileInfo = fileInfo;
             p.info = ValueSubject<AV::IO::Info>::create();
-            p.reload = ValueSubject<bool>::create();
-            p.layer = ValueSubject<size_t>::create();
+            p.reload = ValueSubject<bool>::create(false);
+            p.layer = ValueSubject<size_t>::create(0);
             p.speed = ValueSubject<Time::Speed>::create();
             p.defaultSpeed = ValueSubject<Time::Speed>::create();
-            p.realSpeed = ValueSubject<float>::create();
-            p.playEveryFrame = ValueSubject<bool>::create();
+            p.realSpeed = ValueSubject<float>::create(0.F);
+            p.playEveryFrame = ValueSubject<bool>::create(false);
             p.sequence = ValueSubject<Frame::Sequence>::create();
-            p.currentFrame = ValueSubject<Frame::Index>::create();
+            p.currentFrame = ValueSubject<Frame::Index>::create(Frame::invalid);
             p.currentImage = ValueSubject<std::shared_ptr<AV::Image::Image> >::create();
-            p.playback = ValueSubject<Playback>::create();
-            p.playbackMode = ValueSubject<PlaybackMode>::create(PlaybackMode::Loop);
+            p.playback = ValueSubject<Playback>::create(Playback::First);
+            p.playbackMode = ValueSubject<PlaybackMode>::create(PlaybackMode::First);
             p.inOutPointsEnabled = ValueSubject<bool>::create(false);
             p.inPoint = ValueSubject<Frame::Index>::create(Frame::invalid);
             p.outPoint = ValueSubject<Frame::Index>::create(Frame::invalid);
@@ -882,9 +882,9 @@ namespace djv
                     p.realSpeedTimer->stop();
                     _seek(p.currentFrame->get());
                     break;
-                case Playback::Forward: // Forward or reverse.
+                case Playback::Forward:
                     forward = true;
-                case Playback::Reverse:
+                case Playback::Reverse: // Forward or reverse.
                 {
                     p.ioDirection = forward ? AV::IO::Direction::Forward : AV::IO::Direction::Reverse;
                     _seek(p.currentFrame->get());

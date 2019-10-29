@@ -52,6 +52,7 @@
 #include <djvUI/LineEdit.h>
 #include <djvUI/MDICanvas.h>
 #include <djvUI/MDIWidget.h>
+#include <djvUI/MultiStateButton.h>
 #include <djvUI/PopupWidget.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
@@ -100,6 +101,7 @@ namespace djv
             Time::Speed speed;
             float realSpeed = 0.F;
             bool playEveryFrame = false;
+            PlaybackMode playbackMode = PlaybackMode::First;
             Frame::Sequence sequence;
             Frame::Index currentFrame = Frame::invalidIndex;
             bool inOutPointsEnabled = false;
@@ -128,6 +130,7 @@ namespace djv
             std::shared_ptr<PlaybackSpeedWidget> speedWidget;
             std::shared_ptr<UI::PopupWidget> speedPopupWidget;
             std::shared_ptr<UI::Label> realSpeedLabel;
+            std::shared_ptr<UI::MultiStateButton> playbackModeButton;
             std::shared_ptr<FrameWidget> currentFrameWidget;
             std::shared_ptr<FrameWidget> inPointWidget;
             std::shared_ptr<FrameWidget> outPointWidget;
@@ -150,6 +153,7 @@ namespace djv
             std::shared_ptr<ValueObserver<Time::Speed> > defaultSpeedObserver;
             std::shared_ptr<ValueObserver<float> > realSpeedObserver;
             std::shared_ptr<ValueObserver<bool> > playEveryFrameObserver;
+            std::shared_ptr<ValueObserver<PlaybackMode> > playbackModeObserver;
             std::shared_ptr<ValueObserver<Frame::Sequence> > sequenceObserver;
             std::shared_ptr<ValueObserver<Frame::Index> > currentFrameObserver2;
             std::shared_ptr<ValueObserver<bool> > inOutPointsObserver;
@@ -238,6 +242,11 @@ namespace djv
             p.realSpeedLabel->setFont(AV::Font::familyMono);
             p.realSpeedLabel->setFontSizeRole(UI::MetricsRole::FontSmall);
 
+            p.playbackModeButton = UI::MultiStateButton::create(context);
+            p.playbackModeButton->addIcon("djvIconPlayOnce");
+            p.playbackModeButton->addIcon("djvIconPlayLoop");
+            p.playbackModeButton->addIcon("djvIconPlayPingPong");
+
             p.currentFrameWidget = FrameWidget::create(context);
             p.inPointWidget = FrameWidget::create(context);
             p.outPointWidget = FrameWidget::create(context);
@@ -297,6 +306,7 @@ namespace djv
             hLayout = UI::HorizontalLayout::create(context);
             hLayout->addChild(p.speedPopupWidget);
             hLayout->addChild(p.realSpeedLabel);
+            hLayout->addChild(p.playbackModeButton);
             p.playbackLayout->addChild(hLayout);
             p.playbackLayout->setGridPos(hLayout, 0, 1);
             hLayout = UI::HorizontalLayout::create(context);
@@ -400,6 +410,28 @@ namespace djv
                             {
                                 playbackSettings->setPlayEveryFrame(value);
                             }
+                        }
+                    }
+                });
+
+            p.playbackModeButton->setCallback(
+                [weak, contextWeak](int index)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            const PlaybackMode playbackMode = static_cast<PlaybackMode>(index);
+                            if (auto media = widget->_p->media)
+                            {
+                                media->setPlaybackMode(playbackMode);
+                            }
+                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
+                            {
+                                playbackSettings->setPlaybackMode(playbackMode);
+                            }
+                            widget->_widgetUpdate();
                         }
                     }
                 });
@@ -659,6 +691,18 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->playEveryFrame = value;
+                        widget->_widgetUpdate();
+                        widget->_speedUpdate();
+                    }
+                });
+
+            p.playbackModeObserver = ValueObserver<PlaybackMode>::create(
+                p.media->observePlaybackMode(),
+                [weak](PlaybackMode value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->playbackMode = value;
                         widget->_widgetUpdate();
                         widget->_speedUpdate();
                     }
@@ -1030,6 +1074,7 @@ namespace djv
             p.audioMuteButton->setTooltip(_getText(DJV_TEXT("Mute tooltip")));
             p.audioPopupWidget->setTooltip(_getText(DJV_TEXT("Audio popup tooltip")));
 
+            _widgetUpdate();
             _speedUpdate();
         }
 
@@ -1049,6 +1094,20 @@ namespace djv
                 case Playback::Forward: p.playbackActionGroup->setChecked( 0); break;
                 case Playback::Reverse: p.playbackActionGroup->setChecked( 1); break;
                 default: break;
+                }
+
+                p.playbackModeButton->setCurrentIndex(static_cast<int>(p.playbackMode));
+                switch (p.playbackMode)
+                {
+                case PlaybackMode::Once:
+                    p.playbackModeButton->setTooltip(_getText(DJV_TEXT("Playback mode once tooltip")));
+                    break;
+                case PlaybackMode::Loop:
+                    p.playbackModeButton->setTooltip(_getText(DJV_TEXT("Playback mode loop tooltip")));
+                    break;
+                case PlaybackMode::PingPong:
+                    p.playbackModeButton->setTooltip(_getText(DJV_TEXT("Playback mode ping-pong tooltip")));
+                    break;
                 }
 
                 p.currentFrameWidget->setSequence(p.sequence);

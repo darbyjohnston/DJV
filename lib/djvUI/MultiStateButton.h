@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2019 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -29,48 +29,56 @@
 
 #pragma once
 
-#include <djvViewApp/Enum.h>
-
-#include <djvUI/ISettings.h>
-
-#include <djvCore/ValueObserver.h>
+#include <djvUI/Widget.h>
 
 namespace djv
 {
-    namespace ViewApp
+    namespace UI
     {
-        //! This class provides the playback settings.
-        class PlaybackSettings : public UI::Settings::ISettings
+        namespace Button
         {
-            DJV_NON_COPYABLE(PlaybackSettings);
+            //! This class provides a multi-state button.
+            class MultiState : public Widget
+            {
+                DJV_NON_COPYABLE(MultiState);
 
-        protected:
-            void _init(const std::shared_ptr<Core::Context>&);
+            protected:
+                void _init(const std::shared_ptr<Core::Context>&);
+                MultiState();
 
-            PlaybackSettings();
+            public:
+                virtual ~MultiState();
 
-        public:
-            static std::shared_ptr<PlaybackSettings> create(const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<MultiState> create(const std::shared_ptr<Core::Context>&);
+                
+                void addIcon(const std::string&);
+                void clearIcons();
 
-            std::shared_ptr<Core::IValueSubject<bool> > observeStartPlayback() const;
-            void setStartPlayback(bool);
+                int getCurrentIndex() const;
+                void setCurrentIndex(int);
 
-            std::shared_ptr<Core::IValueSubject<bool> > observePlayEveryFrame() const;
-            void setPlayEveryFrame(bool);
+                void setCallback(const std::function<void(int)>&);
 
-            std::shared_ptr<Core::IValueSubject<PlaybackMode> > observePlaybackMode() const;
-            void setPlaybackMode(PlaybackMode);
+            protected:
+                void _preLayoutEvent(Core::Event::PreLayout&) override;
+                void _layoutEvent(Core::Event::Layout&) override;
+                void _paintEvent(Core::Event::Paint&) override;
+                void _pointerEnterEvent(Core::Event::PointerEnter&) override;
+                void _pointerLeaveEvent(Core::Event::PointerLeave&) override;
+                void _pointerMoveEvent(Core::Event::PointerMove&) override;
+                void _buttonPressEvent(Core::Event::ButtonPress&) override;
+                void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;
 
-            std::shared_ptr<Core::IValueSubject<bool> > observePIP() const;
-            void setPIP(bool);
+            private:
+                void _widgetUpdate();
 
-            void load(const picojson::value &) override;
-            picojson::value save() override;
+                DJV_PRIVATE();
+            };
 
-        private:
-            DJV_PRIVATE();
-        };
+        } // namespace Button
+        
+        typedef Button::MultiState MultiStateButton;
 
-    } // namespace ViewApp
+    } // namespace UI
 } // namespace djv
 

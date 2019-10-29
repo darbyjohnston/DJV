@@ -68,7 +68,7 @@ namespace djv
             Reverse,
 
             Count,
-            First = Forward
+            First = Stop
         };
         DJV_ENUM_HELPERS(Playback);
 
@@ -92,11 +92,13 @@ namespace djv
 
     picojson::value toJSON(ViewApp::ImageViewLock);
     picojson::value toJSON(ViewApp::ImageRotate);
+    picojson::value toJSON(ViewApp::PlaybackMode);
 
     //! Throws:
     //! - std::exception
     void fromJSON(const picojson::value&, ViewApp::ImageViewLock&);
     void fromJSON(const picojson::value&, ViewApp::ImageRotate&);
+    void fromJSON(const picojson::value&, ViewApp::PlaybackMode&);
 
 } // namespace djv
 

@@ -50,6 +50,7 @@ set(header
     Menu.h
     MenuBar.h
     MenuButton.h
+    MultiStateButton.h
     NumericEdit.h
     NumericSlider.h
     Overlay.h
@@ -132,6 +133,7 @@ set(source
     Menu.cpp
     MenuBar.cpp
     MenuButton.cpp
+    MultiStateButton.cpp
     NumericEdit.cpp
     NumericSlider.cpp
     Overlay.cpp

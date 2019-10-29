@@ -646,6 +646,7 @@ namespace djv
                 if (auto playbackSettings = settingsSystem->getSettingsT<PlaybackSettings>())
                 {
                     value->setPlayEveryFrame(playbackSettings->observePlayEveryFrame()->get());
+                    value->setPlaybackMode(playbackSettings->observePlaybackMode()->get());
                     if (playbackSettings->observeStartPlayback()->get())
                     {
                         value->setPlayback(Playback::Forward);

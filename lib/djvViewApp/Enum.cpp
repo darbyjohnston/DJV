@@ -91,6 +91,13 @@ namespace djv
         return picojson::value(ss.str());
     }
 
+    picojson::value toJSON(ViewApp::PlaybackMode value)
+    {
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
+    }
+
     void fromJSON(const picojson::value& value, ViewApp::ImageViewLock& out)
     {
         if (value.is<std::string>())
@@ -105,6 +112,19 @@ namespace djv
     }
 
     void fromJSON(const picojson::value& value, ViewApp::ImageRotate& out)
+    {
+        if (value.is<std::string>())
+        {
+            std::stringstream ss(value.get<std::string>());
+            ss >> out;
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
+
+    void fromJSON(const picojson::value& value, ViewApp::PlaybackMode& out)
     {
         if (value.is<std::string>())
         {
