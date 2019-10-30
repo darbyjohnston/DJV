@@ -29,7 +29,6 @@
 
 #include <djvViewApp/ImageSystem.h>
 
-#include <djvViewApp/ColorControlsWidget.h>
 #include <djvViewApp/ColorSpaceWidget.h>
 #include <djvViewApp/FileSystem.h>
 #include <djvViewApp/ImageControlsWidget.h>
@@ -76,7 +75,6 @@ namespace djv
             std::shared_ptr<UI::Menu> menu;
             std::weak_ptr<ImageControlsWidget> imageControlsWidget;
             std::weak_ptr<ColorSpaceWidget> colorSpaceWidget;
-            std::weak_ptr<ColorControlsWidget> colorControlsWidget;
 
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
@@ -105,9 +103,6 @@ namespace djv
             p.actions["ColorSpace"] = UI::Action::create();
             p.actions["ColorSpace"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["ColorSpace"]->setShortcut(GLFW_KEY_3);
-            p.actions["ColorControls"] = UI::Action::create();
-            p.actions["ColorControls"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["ColorControls"]->setShortcut(GLFW_KEY_4);
             p.actions["RedChannel"] = UI::Action::create();
             p.actions["RedChannel"]->setShortcut(GLFW_KEY_R);
             p.actions["GreenChannel"] = UI::Action::create();
@@ -137,7 +132,6 @@ namespace djv
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["ImageControls"]);
             p.menu->addAction(p.actions["ColorSpace"]);
-            p.menu->addAction(p.actions["ColorControls"]);
             p.menu->addSeparator();
             p.menu->addAction(p.actions["RedChannel"]);
             p.menu->addAction(p.actions["GreenChannel"]);
@@ -181,7 +175,6 @@ namespace djv
                                 widget->setCurrentTab(system->_p->colorCurrentTab);
                                 system->_p->imageControlsWidget = widget;
                                 system->_openWidget("ImageControls", widget);
-                                system->_widgetUpdate();
                             }
                             else
                             {
@@ -209,92 +202,6 @@ namespace djv
                             else
                             {
                                 system->_closeWidget("ColorSpace");
-                            }
-                        }
-                    }
-                });
-
-            p.actionObservers["ColorControls"] = ValueObserver<bool>::create(
-                p.actions["ColorControls"]->observeChecked(),
-                [weak, contextWeak](bool value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        if (auto system = weak.lock())
-                        {
-                            if (value)
-                            {
-                                auto widget = ColorControlsWidget::create(context);
-                                widget->setCurrentTab(system->_p->colorCurrentTab);
-                                system->_p->colorControlsWidget = widget;
-                                system->_openWidget("ColorControls", widget);
-                                system->_widgetUpdate();
-                                widget->setColorCallback(
-                                    [weak](const AV::Render::ImageColor& value)
-                                    {
-                                        if (auto system = weak.lock())
-                                        {
-                                            system->_p->imageOptions.color = value;
-                                            system->_p->imageOptions.colorEnabled = value != AV::Render::ImageColor();
-                                            if (system->_p->activeWidget)
-                                            {
-                                                system->_p->activeWidget->getImageView()->setImageOptions(system->_p->imageOptions);
-                                            }
-                                        }
-                                    });
-                                widget->setLevelsCallback(
-                                    [weak](const AV::Render::ImageLevels& value)
-                                    {
-                                        if (auto system = weak.lock())
-                                        {
-                                            system->_p->imageOptions.levels = value;
-                                            system->_p->imageOptions.levelsEnabled = value != AV::Render::ImageLevels();
-                                            if (system->_p->activeWidget)
-                                            {
-                                                system->_p->activeWidget->getImageView()->setImageOptions(system->_p->imageOptions);
-                                            }
-                                        }
-                                    });
-                                widget->setExposureCallback(
-                                    [weak](const AV::Render::ImageExposure& value)
-                                    {
-                                        if (auto system = weak.lock())
-                                        {
-                                            system->_p->imageOptions.exposure = value;
-                                            if (system->_p->activeWidget)
-                                            {
-                                                system->_p->activeWidget->getImageView()->setImageOptions(system->_p->imageOptions);
-                                            }
-                                        }
-                                    });
-                                widget->setExposureEnabledCallback(
-                                    [weak](bool value)
-                                    {
-                                        if (auto system = weak.lock())
-                                        {
-                                            system->_p->imageOptions.exposureEnabled = value;
-                                            if (system->_p->activeWidget)
-                                            {
-                                                system->_p->activeWidget->getImageView()->setImageOptions(system->_p->imageOptions);
-                                            }
-                                        }
-                                    });
-                                widget->setSoftClipCallback(
-                                    [weak](float value)
-                                    {
-                                        if (auto system = weak.lock())
-                                        {
-                                            system->_p->imageOptions.softClip = value;
-                                            if (system->_p->activeWidget)
-                                            {
-                                                system->_p->activeWidget->getImageView()->setImageOptions(system->_p->imageOptions);
-                                            }
-                                        }
-                                    });
-                            }
-                            else
-                            {
-                                system->_closeWidget("ColorControls");
                             }
                         }
                     }
@@ -401,7 +308,6 @@ namespace djv
                                         {
                                             system->_p->imageOptions = value;
                                             system->_actionsUpdate();
-                                            system->_widgetUpdate();
                                         }
                                     });
                             }
@@ -410,7 +316,6 @@ namespace djv
                                 system->_p->imageOptionsObserver.reset();
                             }
                             system->_actionsUpdate();
-                            system->_widgetUpdate();
                         }
                     });
             }
@@ -425,7 +330,6 @@ namespace djv
             DJV_PRIVATE_PTR();
             _closeWidget("ImageControls");
             _closeWidget("ColorSpace");
-            _closeWidget("ColorControls");
             p.settings->setColorSpaceCurrentTab(p.colorSpaceCurrentTab);
             p.settings->setColorCurrentTab(p.colorCurrentTab);
             p.settings->setWidgetGeom(_getWidgetGeom());
@@ -494,14 +398,6 @@ namespace djv
                 }
                 p.colorSpaceWidget.reset();
             }
-            else if ("ColorControls" == value)
-            {
-                if (auto colorControlsWidget = p.colorControlsWidget.lock())
-                {
-                    p.colorCurrentTab = colorControlsWidget->getCurrentTab();
-                }
-                p.colorControlsWidget.reset();
-            }
             const auto i = p.actions.find(value);
             if (i != p.actions.end())
             {
@@ -519,8 +415,6 @@ namespace djv
                 p.actions["ImageControls"]->setTooltip(_getText(DJV_TEXT("Image controls widget tooltip")));
                 p.actions["ColorSpace"]->setText(_getText(DJV_TEXT("Color Space")));
                 p.actions["ColorSpace"]->setTooltip(_getText(DJV_TEXT("Color space widget tooltip")));
-                p.actions["ColorControls"]->setText(_getText(DJV_TEXT("Color Controls")));
-                p.actions["ColorControls"]->setTooltip(_getText(DJV_TEXT("Color controls widget tooltip")));
                 p.actions["RedChannel"]->setText(_getText(DJV_TEXT("Red Channel")));
                 p.actions["RedChannel"]->setTooltip(_getText(DJV_TEXT("Red channel tooltip")));
                 p.actions["GreenChannel"]->setText(_getText(DJV_TEXT("Green Channel")));
@@ -554,19 +448,6 @@ namespace djv
             p.actions["MirrorV"]->setEnabled(activeWidget);
 
             p.channelActionGroup->setChecked(static_cast<int>(p.imageOptions.channel) - 1);
-        }
-        
-        void ImageSystem::_widgetUpdate()
-        {
-            DJV_PRIVATE_PTR();
-            if (auto widget = p.colorControlsWidget.lock())
-            {
-                widget->setColor(p.imageOptions.color);
-                widget->setLevels(p.imageOptions.levels);
-                widget->setExposure(p.imageOptions.exposure);
-                widget->setExposureEnabled(p.imageOptions.exposureEnabled);
-                widget->setSoftClip(p.imageOptions.softClip);
-            }
         }
 
     } // namespace ViewApp

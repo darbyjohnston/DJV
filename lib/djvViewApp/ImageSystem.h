@@ -75,7 +75,6 @@ namespace djv
 
         private:
             void _actionsUpdate();
-            void _widgetUpdate();
 
             DJV_PRIVATE();
         };

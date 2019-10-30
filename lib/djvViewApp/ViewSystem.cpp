@@ -98,7 +98,7 @@ namespace djv
             p.actions["ViewControls"]->addShortcut(GLFW_KEY_1);
             p.actions["Tool"] = UI::Action::create();
             p.actions["Tool"]->setIcon("djvIconMove");
-            p.actions["Tool"]->addShortcut(GLFW_KEY_5);
+            p.actions["Tool"]->addShortcut(GLFW_KEY_4);
             p.actions["Left"] = UI::Action::create();
             p.actions["Left"]->addShortcut(GLFW_KEY_KP_4);
             p.actions["Right"] = UI::Action::create();

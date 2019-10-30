@@ -6,7 +6,6 @@ set(header
     Application.h
 	AudioSystem.h
 	BackgroundImageWidget.h
-	ColorControlsWidget.h
     ColorPickerSettings.h
     ColorPickerSystem.h
     ColorPickerWidget.h
@@ -69,7 +68,6 @@ set(source
     Application.cpp
 	AudioSystem.cpp
 	BackgroundImageWidget.cpp
-	ColorControlsWidget.cpp
     ColorPickerSettings.cpp
     ColorPickerSystem.cpp
     ColorPickerWidget.cpp

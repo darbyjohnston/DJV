@@ -67,7 +67,7 @@ namespace djv
             //! \todo Implement me!
             p.actions["ColorPicker"] = UI::Action::create();
             p.actions["ColorPicker"]->setIcon("djvIconColorPicker");
-            p.actions["ColorPicker"]->setShortcut(GLFW_KEY_6);
+            p.actions["ColorPicker"]->setShortcut(GLFW_KEY_5);
             //p.actions["ColorPicker"]->setEnabled(false);
         }
 
