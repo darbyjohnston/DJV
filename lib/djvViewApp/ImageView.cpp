@@ -441,13 +441,15 @@ namespace djv
         void ImageView::_paintEvent(Event::Paint &)
         {
             DJV_PRIVATE_PTR();
+
+            const auto& style = _getStyle();
+            const BBox2f & g = getMargin().bbox(getGeometry(), style);
+            auto render = _getRender();
+            render->setFillColor(p.backgroundColor->get());
+            render->drawRect(g);
+
             if (p.image)
             {
-                const auto& style = _getStyle();
-                const BBox2f & g = getMargin().bbox(getGeometry(), style);
-                auto render = _getRender();
-                render->setFillColor(p.backgroundColor->get());
-                render->drawRect(g);
                 render->setFillColor(AV::Image::Color(1.F, 1.F, 1.F));
 
                 glm::mat3x3 m(1.F);

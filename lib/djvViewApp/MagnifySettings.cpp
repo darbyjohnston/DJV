@@ -41,6 +41,8 @@ namespace djv
     {
         struct MagnifySettings::Private
         {
+            int magnify = 1;
+            glm::vec2 magnifyPos = glm::vec2(0.F, 0.F);
             std::map<std::string, BBox2f> widgetGeom;
         };
 
@@ -57,6 +59,26 @@ namespace djv
 
         MagnifySettings::~MagnifySettings()
         {}
+
+        int MagnifySettings::getMagnify() const
+        {
+            return _p->magnify;
+        }
+
+        void MagnifySettings::setMagnify(int value)
+        {
+            _p->magnify = value;
+        }
+
+        const glm::vec2& MagnifySettings::getMagnifyPos() const
+        {
+            return _p->magnifyPos;
+        }
+
+        void MagnifySettings::setMagnifyPos(const glm::vec2& value)
+        {
+            _p->magnifyPos = value;
+        }
 
         std::shared_ptr<MagnifySettings> MagnifySettings::create(const std::shared_ptr<Core::Context>& context)
         {
@@ -81,6 +103,8 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const auto & object = value.get<picojson::object>();
+                UI::Settings::read("Magnify", object, p.magnify);
+                UI::Settings::read("MagnifyPos", object, p.magnifyPos);
                 UI::Settings::read("WidgetGeom", object, p.widgetGeom);
             }
         }
@@ -90,6 +114,8 @@ namespace djv
             DJV_PRIVATE_PTR();
             picojson::value out(picojson::object_type, true);
             auto & object = out.get<picojson::object>();
+            UI::Settings::write("Magnify", p.magnify, object);
+            UI::Settings::write("MagnifyPos", p.magnifyPos, object);
             UI::Settings::write("WidgetGeom", p.widgetGeom, object);
             return out;
         }

@@ -49,10 +49,18 @@ namespace djv
 
             static std::shared_ptr<MagnifyWidget> create(const std::shared_ptr<Core::Context>&);
 
+            int getMagnify() const;
+            const glm::vec2& getMagnifyPos() const;
+            void setMagnifyActive(bool);
+            void setMagnify(int);
+            void setMagnifyPos(const glm::vec2&);
+
         protected:
             void _textUpdateEvent(Core::Event::TextUpdate &) override;
 
         private:
+            void _widgetUpdate();
+
             DJV_PRIVATE();
         };
 

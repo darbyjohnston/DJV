@@ -51,6 +51,7 @@ namespace djv
         struct MagnifySystem::Private
         {
             std::shared_ptr<MagnifySettings> settings;
+            bool currentTool = false;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::weak_ptr<MagnifyWidget> widget;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
@@ -64,11 +65,9 @@ namespace djv
             p.settings = MagnifySettings::create(context);
             _setWidgetGeom(p.settings->getWidgetGeom());
 
-            //! \todo Implement me!
             p.actions["Magnify"] = UI::Action::create();
             p.actions["Magnify"]->setIcon("djvIconMagnify");
             p.actions["Magnify"]->setShortcut(GLFW_KEY_6);
-            p.actions["Magnify"]->setEnabled(false);
         }
 
         MagnifySystem::MagnifySystem() :
@@ -101,14 +100,21 @@ namespace djv
         void MagnifySystem::setCurrentTool(bool value)
         {
             DJV_PRIVATE_PTR();
+            p.currentTool = value;
             if (value && p.widget.expired())
             {
                 if (auto context = getContext().lock())
                 {
                     auto widget = MagnifyWidget::create(context);
+                    widget->setMagnify(p.settings->getMagnify());
+                    widget->setMagnifyPos(p.settings->getMagnifyPos());
                     p.widget = widget;
                     _openWidget("Magnify", widget);
                 }
+            }
+            if (auto widget = p.widget.lock())
+            {
+                widget->setMagnifyActive(p.currentTool);
             }
         }
 
@@ -125,7 +131,12 @@ namespace djv
             {
                 i->second->setChecked(false);
             }
-            p.widget.reset();
+            if (auto widget = p.widget.lock())
+            {
+                p.settings->setMagnify(widget->getMagnify());
+                p.settings->setMagnifyPos(widget->getMagnifyPos());
+                p.widget.reset();
+            }
             IToolSystem::_closeWidget(value);
         }
 
