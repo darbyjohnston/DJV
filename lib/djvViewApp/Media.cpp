@@ -693,6 +693,17 @@ namespace djv
                     p.inPoint->setIfChanged(0);
                     const size_t sequenceSize = sequence.getSize();
                     p.outPoint->setIfChanged(sequenceSize > 0 ? (static_cast<Frame::Index>(sequenceSize) - 1) : 0);
+                    const Frame::Index currentFrame = p.currentFrame->get();
+                    Frame::Index frame = Frame::invalid;
+                    if (Frame::invalid == currentFrame)
+                    {
+                        frame = p.sequence->get().getSize() > 0 ? 0 : Frame::invalid;
+                    }
+                    else if (sequenceSize > 0)
+                    {
+                        frame = Math::clamp(currentFrame, static_cast<Frame::Index>(0), static_cast<Frame::Index>(sequenceSize) - 1);
+                    }
+                    p.currentFrame->setIfChanged(frame);
                     if (_hasAudio())
                     {
                         if (p.rtAudio->isStreamOpen())
