@@ -32,6 +32,7 @@
 #include <djvAV/OpenGL.h>
 
 #include <djvCore/Enum.h>
+#include <djvCore/PicoJSON.h>
 #include <djvCore/Range.h>
 
 #include <OpenEXR/half.h>
@@ -232,6 +233,12 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS(AV::Image::Type);
     DJV_ENUM_SERIALIZE_HELPERS(AV::Image::Channels);
     DJV_ENUM_SERIALIZE_HELPERS(AV::Image::DataType);
+
+    picojson::value toJSON(AV::Image::Type);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const picojson::value&, AV::Image::Type&);
 
 } // namespace djv
 

@@ -39,6 +39,11 @@ namespace djv
     {
         namespace Image
         {
+            void Color::setData(const uint8_t* value)
+            {
+                memcpy(_data.data(), value, getByteCount(_type));
+            }
+
             void Color::zero()
             {
                 memset(_data.data(), 0, getByteCount(_type));

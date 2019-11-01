@@ -66,6 +66,7 @@ namespace djv
 
                 const uint8_t * getData() const;
                 uint8_t * getData();
+                void setData(const uint8_t*);
 
                 void zero();
 

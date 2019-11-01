@@ -85,12 +85,12 @@ namespace djv
             private:
                 std::shared_ptr<AV::Image::Image> _image;
                 AV::Render::ImageOptions _imageOptions;
-                AV::OCIO::Config _ocioConfig;
-                std::string _outputColorSpace;
                 glm::vec2 _imagePos = glm::vec2(0.F, 0.F);
                 float _imageZoom = 0.F;
                 ImageRotate _imageRotate = ImageRotate::First;
                 UI::ImageAspectRatio _imageAspectRatio = UI::ImageAspectRatio::First;
+                AV::OCIO::Config _ocioConfig;
+                std::string _outputColorSpace;
                 AV::Image::Color _backgroundColor;
                 int _magnify = 1;
                 glm::vec2 _magnifyPos = glm::vec2(0.F, 0.F);
@@ -260,7 +260,7 @@ namespace djv
 
         struct MagnifyWidget::Private
         {
-            bool magnifyActive = false;
+            bool active = false;
             int magnify = 1;
             glm::vec2 magnifyPos = glm::vec2(0.F, 0.F);
             std::shared_ptr<MediaWidget> activeWidget;
@@ -299,6 +299,7 @@ namespace djv
             layout->setBackgroundRole(UI::ColorRole::Background);
             layout->addChild(p.imageWidget);
             layout->setStretch(p.imageWidget, UI::RowStretch::Expand);
+            layout->addSeparator();
             layout->addChild(p.magnifySlider);
             addChild(layout);
 
@@ -403,7 +404,7 @@ namespace djv
                                     {
                                         if (auto widget = weak.lock())
                                         {
-                                            if (widget->_p->magnifyActive)
+                                            if (widget->_p->active)
                                             {
                                                 widget->_p->magnifyPos = value.pos;
                                                 widget->_p->imageWidget->setMagnifyPos(value.pos);
@@ -441,19 +442,24 @@ namespace djv
             return out;
         }
 
+        void MagnifyWidget::setActive(bool value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value == p.active)
+                return;
+            p.active = value;
+            _widgetUpdate();
+            _redraw();
+        }
+
         int MagnifyWidget::getMagnify() const
         {
             return _p->magnify;
         }
 
-        void MagnifyWidget::setMagnifyActive(bool value)
+        const glm::vec2& MagnifyWidget::getMagnifyPos() const
         {
-            DJV_PRIVATE_PTR();
-            if (value == p.magnifyActive)
-                return;
-            p.magnifyActive = value;
-            _widgetUpdate();
-            _redraw();
+            return _p->magnifyPos;
         }
 
         void MagnifyWidget::setMagnify(int value)
@@ -464,11 +470,6 @@ namespace djv
             p.magnify = value;
             _widgetUpdate();
             _redraw();
-        }
-
-        const glm::vec2& MagnifyWidget::getMagnifyPos() const
-        {
-            return _p->magnifyPos;
         }
 
         void MagnifyWidget::setMagnifyPos(const glm::vec2& value)

@@ -66,7 +66,7 @@ namespace djv
         struct ImageView::Private
         {
             std::shared_ptr<AV::Font::System> fontSystem;
-            std::shared_ptr<AV::Image::Image> image;
+            std::shared_ptr<ValueSubject<std::shared_ptr<AV::Image::Image> > > image;
             std::shared_ptr<ValueSubject<AV::Render::ImageOptions> > imageOptions;
             AV::OCIO::Config ocioConfig;
             std::string outputColorSpace;
@@ -102,6 +102,7 @@ namespace djv
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
             auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
+            p.image = ValueSubject<std::shared_ptr<AV::Image::Image> >::create();
             AV::Render::ImageOptions imageOptions;
             imageOptions.alphaBlend = avSystem->observeAlphaBlend()->get();
             p.imageOptions = ValueSubject<AV::Render::ImageOptions>::create(imageOptions);
@@ -162,7 +163,7 @@ namespace djv
             return out;
         }
 
-        const std::shared_ptr<AV::Image::Image> & ImageView::getImage() const
+        std::shared_ptr<Core::IValueSubject<std::shared_ptr<AV::Image::Image> > > ImageView::observeImage() const
         {
             return _p->image;
         }
@@ -170,10 +171,10 @@ namespace djv
         void ImageView::setImage(const std::shared_ptr<AV::Image::Image>& value)
         {
             DJV_PRIVATE_PTR();
-            if (value == p.image)
-                return;
-            p.image = value;
-            _textUpdate();
+            if (p.image->setIfChanged(value))
+            {
+                _textUpdate();
+            }
         }
 
         std::shared_ptr<IValueSubject<AV::Render::ImageOptions> > ImageView::observeImageOptions() const
@@ -284,7 +285,7 @@ namespace djv
         void ImageView::imageFill()
         {
             DJV_PRIVATE_PTR();
-            if (p.image)
+            if (p.image->get())
             {
                 const BBox2f& g = getGeometry();
                 const auto pts = _getImagePoints();
@@ -311,7 +312,7 @@ namespace djv
         void ImageView::imageFrame()
         {
             DJV_PRIVATE_PTR();
-            if (p.image)
+            if (p.image->get())
             {
                 const BBox2f& g = getGeometry();
                 const auto pts = _getImagePoints();
@@ -333,7 +334,7 @@ namespace djv
         void ImageView::imageCenter()
         {
             DJV_PRIVATE_PTR();
-            if (p.image)
+            if (p.image->get())
             {
                 const BBox2f& g = getGeometry();
                 const glm::vec2 c = _getCenter(_getImagePoints());
@@ -448,7 +449,7 @@ namespace djv
             render->setFillColor(p.backgroundColor->get());
             render->drawRect(g);
 
-            if (p.image)
+            if (auto image = p.image->get())
             {
                 render->setFillColor(AV::Image::Color(1.F, 1.F, 1.F));
 
@@ -456,11 +457,11 @@ namespace djv
                 m = glm::translate(m, g.min + p.imagePos->get());
                 m = glm::rotate(m, Math::deg2rad(getImageRotate(p.imageRotate->get())));
                 m = glm::scale(m, glm::vec2(
-                    p.imageZoom->get() * UI::getPixelAspectRatio(p.imageAspectRatio->get(), p.image->getInfo().pixelAspectRatio),
-                    p.imageZoom->get() * UI::getAspectRatioScale(p.imageAspectRatio->get(), p.image->getAspectRatio())));
+                    p.imageZoom->get() * UI::getPixelAspectRatio(p.imageAspectRatio->get(), image->getInfo().pixelAspectRatio),
+                    p.imageZoom->get() * UI::getAspectRatioScale(p.imageAspectRatio->get(), image->getAspectRatio())));
                 render->pushTransform(m);
                 AV::Render::ImageOptions options(p.imageOptions->get());
-                auto i = p.ocioConfig.colorSpaces.find(p.image->getPluginName());
+                auto i = p.ocioConfig.colorSpaces.find(image->getPluginName());
                 if (i != p.ocioConfig.colorSpaces.end())
                 {
                     options.colorSpace.input = i->second;
@@ -475,7 +476,7 @@ namespace djv
                 }
                 options.colorSpace.output = p.outputColorSpace;
                 options.cache = AV::Render::ImageCache::Dynamic;
-                render->drawImage(p.image, glm::vec2(0.F, 0.F), options);
+                render->drawImage(image, glm::vec2(0.F, 0.F), options);
                 render->popTransform();
             }
             const auto& gridOptions = p.gridOptions->get();
@@ -489,14 +490,14 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             std::vector<glm::vec3> out;
-            if (p.image)
+            if (auto image = p.image->get())
             {
-                const AV::Image::Size& imageSize = p.image->getSize();
+                const AV::Image::Size& imageSize = image->getSize();
                 glm::mat3x3 m(1.F);
                 m = glm::rotate(m, Math::deg2rad(getImageRotate(p.imageRotate->get())));
                 m = glm::scale(m, glm::vec2(
-                    getPixelAspectRatio(p.imageAspectRatio->get(), p.image->getInfo().pixelAspectRatio),
-                    getAspectRatioScale(p.imageAspectRatio->get(), p.image->getAspectRatio())));
+                    getPixelAspectRatio(p.imageAspectRatio->get(), image->getInfo().pixelAspectRatio),
+                    getAspectRatioScale(p.imageAspectRatio->get(), image->getAspectRatio())));
                 out.resize(4);
                 out[0].x = 0.F;
                 out[0].y = 0.F;
@@ -650,30 +651,33 @@ namespace djv
             DJV_PRIVATE_PTR();
             const auto& gridOptions = p.gridOptions->get();
             const float gridSize = gridOptions.size;
-            if (p.image && gridOptions.labels && (gridSize * p.imageZoom->get()) > 2.f)
+            if (auto image = p.image->get())
             {
-                const auto& style = _getStyle();
-                const auto fontInfo = style->getFontInfo(AV::Font::familyMono, AV::Font::faceDefault, UI::MetricsRole::FontSmall);
-                p.fontMetricsFuture = p.fontSystem->getMetrics(fontInfo);
-                for (size_t i = 0; i < 2; ++i)
+                if (gridOptions.labels && (gridSize * p.imageZoom->get()) > 2.f)
                 {
-                    p.text[i].clear();
-                    p.textSizeFutures[i].clear();
-                }
-                const AV::Image::Size& imageSize = p.image->getSize();
-                size_t cells = static_cast<size_t>(imageSize.w / gridSize + 1);
-                for (size_t i = 0; i < cells; ++i)
-                {
-                    const std::string label = getColumnLabel(i);
-                    p.text[0].push_back(std::make_pair(label, glm::vec2(0.F, 0.F)));
-                    p.textSizeFutures[0].push_back(p.fontSystem->measure(label, fontInfo));
-                }
-                cells = static_cast<size_t>(imageSize.h / gridSize + 1);
-                for (size_t i = 0; i < cells; ++i)
-                {
-                    const std::string label = getRowLabel(i);
-                    p.text[1].push_back(std::make_pair(label, glm::vec2(0.F, 0.F)));
-                    p.textSizeFutures[1].push_back(p.fontSystem->measure(label, fontInfo));
+                    const auto& style = _getStyle();
+                    const auto fontInfo = style->getFontInfo(AV::Font::familyMono, AV::Font::faceDefault, UI::MetricsRole::FontSmall);
+                    p.fontMetricsFuture = p.fontSystem->getMetrics(fontInfo);
+                    for (size_t i = 0; i < 2; ++i)
+                    {
+                        p.text[i].clear();
+                        p.textSizeFutures[i].clear();
+                    }
+                    const AV::Image::Size& imageSize = image->getSize();
+                    size_t cells = static_cast<size_t>(imageSize.w / gridSize + 1);
+                    for (size_t i = 0; i < cells; ++i)
+                    {
+                        const std::string label = getColumnLabel(i);
+                        p.text[0].push_back(std::make_pair(label, glm::vec2(0.F, 0.F)));
+                        p.textSizeFutures[0].push_back(p.fontSystem->measure(label, fontInfo));
+                    }
+                    cells = static_cast<size_t>(imageSize.h / gridSize + 1);
+                    for (size_t i = 0; i < cells; ++i)
+                    {
+                        const std::string label = getRowLabel(i);
+                        p.text[1].push_back(std::make_pair(label, glm::vec2(0.F, 0.F)));
+                        p.textSizeFutures[1].push_back(p.fontSystem->measure(label, fontInfo));
+                    }
                 }
             }
             _resize();

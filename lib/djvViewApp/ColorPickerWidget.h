@@ -31,6 +31,8 @@
 
 #include <djvViewApp/MDIWidget.h>
 
+#include <djvAV/Pixel.h>
+
 namespace djv
 {
     namespace ViewApp
@@ -49,13 +51,23 @@ namespace djv
 
             static std::shared_ptr<ColorPickerWidget> create(const std::shared_ptr<Core::Context>&);
 
+            void setActive(bool);
+
+            int getSampleSize() const;
+            AV::Image::Type getColorTypeLock() const;
+            const glm::vec2& getPickerPos() const;
+            void setSampleSize(int);
+            void setColorTypeLock(AV::Image::Type);
+            void setPickerPos(const glm::vec2&);
+
         protected:
             void _textUpdateEvent(Core::Event::TextUpdate &) override;
 
         private:
-            DJV_PRIVATE();
+            void _sampleUpdate();
+            void _widgetUpdate();
 
-            void _colorUpdate();
+            DJV_PRIVATE();
         };
 
     } // namespace ViewApp

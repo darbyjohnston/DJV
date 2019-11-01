@@ -41,6 +41,9 @@ namespace djv
     {
         struct ColorPickerSettings::Private
         {
+            int sampleSize = 1;
+            AV::Image::Type colorTypeLock = AV::Image::Type::None;
+            glm::vec2 pickerPos = glm::vec2(0.F, 0.F);
             std::map<std::string, BBox2f> widgetGeom;
         };
 
@@ -65,6 +68,36 @@ namespace djv
             return out;
         }
 
+        int ColorPickerSettings::getSampleSize() const
+        {
+            return _p->sampleSize;
+        }
+
+        AV::Image::Type ColorPickerSettings::getColorTypeLock() const
+        {
+            return _p->colorTypeLock;
+        }
+
+        const glm::vec2& ColorPickerSettings::getPickerPos() const
+        {
+            return _p->pickerPos;
+        }
+
+        void ColorPickerSettings::setSampleSize(int value)
+        {
+            _p->sampleSize = value;
+        }
+
+        void ColorPickerSettings::setColorTypeLock(AV::Image::Type value)
+        {
+            _p->colorTypeLock = value;
+        }
+
+        void ColorPickerSettings::setPickerPos(const glm::vec2& value)
+        {
+            _p->pickerPos = value;
+        }
+
         const std::map<std::string, BBox2f>& ColorPickerSettings::getWidgetGeom() const
         {
             return _p->widgetGeom;
@@ -81,6 +114,9 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const auto & object = value.get<picojson::object>();
+                UI::Settings::read("SampleSize", object, p.sampleSize);
+                UI::Settings::read("ColorTypeLock", object, p.colorTypeLock);
+                UI::Settings::read("PickerPos", object, p.pickerPos);
                 UI::Settings::read("WidgetGeom", object, p.widgetGeom);
             }
         }
@@ -90,6 +126,9 @@ namespace djv
             DJV_PRIVATE_PTR();
             picojson::value out(picojson::object_type, true);
             auto & object = out.get<picojson::object>();
+            UI::Settings::write("SampleSize", p.sampleSize, object);
+            UI::Settings::write("ColorTypeLock", p.colorTypeLock, object);
+            UI::Settings::write("PickerPos", p.pickerPos, object);
             UI::Settings::write("WidgetGeom", p.widgetGeom, object);
             return out;
         }

@@ -114,7 +114,7 @@ namespace djv
             }
             if (auto widget = p.widget.lock())
             {
-                widget->setMagnifyActive(p.currentTool);
+                widget->setActive(p.currentTool);
             }
         }
 

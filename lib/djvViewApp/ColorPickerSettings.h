@@ -31,6 +31,8 @@
 
 #include <djvUI/ISettings.h>
 
+#include <djvAV/Pixel.h>
+
 #include <djvCore/BBox.h>
 
 namespace djv
@@ -51,6 +53,13 @@ namespace djv
             virtual ~ColorPickerSettings();
 
             static std::shared_ptr<ColorPickerSettings> create(const std::shared_ptr<Core::Context>&);
+
+            int getSampleSize() const;
+            AV::Image::Type getColorTypeLock() const;
+            const glm::vec2& getPickerPos() const;
+            void setSampleSize(int);
+            void setColorTypeLock(AV::Image::Type);
+            void setPickerPos(const glm::vec2&);
 
             const std::map<std::string, Core::BBox2f>& getWidgetGeom() const;
             void setWidgetGeom(const std::map<std::string, Core::BBox2f>&);

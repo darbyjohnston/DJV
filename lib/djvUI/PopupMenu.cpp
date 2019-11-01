@@ -67,13 +67,16 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        if (value)
+                        if (widget->_p->menu)
                         {
-                            widget->open();
-                        }
-                        else
-                        {
-                            widget->close();
+                            if (value)
+                            {
+                                widget->_p->menu->popup(widget->_p->button);
+                            }
+                            else
+                            {
+                                widget->_p->menu->close();
+                            }
                         }
                     }
                 });
@@ -119,7 +122,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->close();
+                        widget->_p->button->setOpen(false);
                     }
                 });
 
@@ -142,29 +145,6 @@ namespace djv
                         widget->_p->button->setText(value);
                     }
                 });
-            }
-        }
-
-        void PopupMenu::open()
-        {
-            DJV_PRIVATE_PTR();
-            if (auto context = getContext().lock())
-            {
-                if (p.menu)
-                {
-                    p.menu->close();
-                    p.button->setOpen(true);
-                }
-            }
-        }
-
-        void PopupMenu::close()
-        {
-            DJV_PRIVATE_PTR();
-            if (p.menu)
-            {
-                p.button->setOpen(false);
-                p.menu->close();
             }
         }
 

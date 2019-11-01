@@ -347,6 +347,11 @@ namespace djv
             return _p->frameStoreEnabled;
         }
 
+        std::shared_ptr<IValueSubject<std::shared_ptr<AV::Image::Image> > > ImageSystem::observeFrameStore() const
+        {
+            return _p->frameStore;
+        }
+
         void ImageSystem::loadFrameStore()
         {
             DJV_PRIVATE_PTR();
@@ -358,11 +363,6 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             p.frameStoreEnabled->setIfChanged(value);
-        }
-
-        std::shared_ptr<IValueSubject<std::shared_ptr<AV::Image::Image> > > ImageSystem::observeFrameStore() const
-        {
-            return _p->frameStore;
         }
 
         std::map<std::string, std::shared_ptr<UI::Action> > ImageSystem::getActions() const

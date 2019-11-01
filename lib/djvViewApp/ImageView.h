@@ -87,7 +87,7 @@ namespace djv
 
             static std::shared_ptr<ImageView> create(const std::shared_ptr<Core::Context>&);
 
-            const std::shared_ptr<AV::Image::Image>& getImage() const;
+            std::shared_ptr<Core::IValueSubject<std::shared_ptr<AV::Image::Image> > > observeImage() const;
             void setImage(const std::shared_ptr<AV::Image::Image>&);
 
             std::shared_ptr<Core::IValueSubject<AV::Render::ImageOptions> > observeImageOptions() const;

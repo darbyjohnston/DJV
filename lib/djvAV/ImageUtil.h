@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2019 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -29,42 +29,21 @@
 
 #pragma once
 
-#include <djvViewApp/MDIWidget.h>
+#include <djvAV/AV.h>
+
+#include <memory>
 
 namespace djv
 {
-    namespace ViewApp
+    namespace AV
     {
-        //! This class provides the magnify widget.
-        class MagnifyWidget : public MDIWidget
+        namespace Image
         {
-            DJV_NON_COPYABLE(MagnifyWidget);
+            class Color;
+            class Data;
 
-        protected:
-            void _init(const std::shared_ptr<Core::Context>&);
-            MagnifyWidget();
+            Color getAverageColor(const std::shared_ptr<Data>&);
 
-        public:
-            ~MagnifyWidget() override;
-
-            static std::shared_ptr<MagnifyWidget> create(const std::shared_ptr<Core::Context>&);
-
-            void setActive(bool);
-
-            int getMagnify() const;
-            const glm::vec2& getMagnifyPos() const;
-            void setMagnify(int);
-            void setMagnifyPos(const glm::vec2&);
-
-        protected:
-            void _textUpdateEvent(Core::Event::TextUpdate &) override;
-
-        private:
-            void _widgetUpdate();
-
-            DJV_PRIVATE();
-        };
-
-    } // namespace ViewApp
+        } // namespace Image
+    } // namespace AV
 } // namespace djv
-

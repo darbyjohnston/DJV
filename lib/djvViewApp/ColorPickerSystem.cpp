@@ -51,6 +51,7 @@ namespace djv
         struct ColorPickerSystem::Private
         {
             std::shared_ptr<ColorPickerSettings> settings;
+            bool currentTool = false;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::weak_ptr<ColorPickerWidget> widget;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
@@ -64,11 +65,9 @@ namespace djv
             p.settings = ColorPickerSettings::create(context);
             _setWidgetGeom(p.settings->getWidgetGeom());
 
-            //! \todo Implement me!
             p.actions["ColorPicker"] = UI::Action::create();
             p.actions["ColorPicker"]->setIcon("djvIconColorPicker");
             p.actions["ColorPicker"]->setShortcut(GLFW_KEY_5);
-            //p.actions["ColorPicker"]->setEnabled(false);
         }
 
         ColorPickerSystem::ColorPickerSystem() :
@@ -101,14 +100,22 @@ namespace djv
         void ColorPickerSystem::setCurrentTool(bool value)
         {
             DJV_PRIVATE_PTR();
+            p.currentTool = value;
             if (value && p.widget.expired())
             {
                 if (auto context = getContext().lock())
                 {
                     auto widget = ColorPickerWidget::create(context);
+                    widget->setSampleSize(p.settings->getSampleSize());
+                    widget->setColorTypeLock(p.settings->getColorTypeLock());
+                    widget->setPickerPos(p.settings->getPickerPos());
                     p.widget = widget;
                     _openWidget("ColorPicker", widget);
                 }
+            }
+            if (auto widget = p.widget.lock())
+            {
+                widget->setActive(p.currentTool);
             }
         }
 
@@ -125,7 +132,13 @@ namespace djv
             {
                 i->second->setChecked(false);
             }
-            p.widget.reset();
+            if (auto widget = p.widget.lock())
+            {
+                p.settings->setSampleSize(widget->getSampleSize());
+                p.settings->setColorTypeLock(widget->getColorTypeLock());
+                p.settings->setPickerPos(widget->getPickerPos());
+                p.widget.reset();
+            }
             IToolSystem::_closeWidget(value);
         }
 

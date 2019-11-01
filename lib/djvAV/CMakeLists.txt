@@ -21,6 +21,7 @@ set(header
     ImageConvert.h
     ImageData.h
     ImageDataInline.h
+    ImageUtil.h
 	OCIO.h
 	OCIOSystem.h
     OpenGL.h
@@ -66,6 +67,7 @@ set(source
     Image.cpp
     ImageConvert.cpp
     ImageData.cpp
+    ImageUtil.cpp
 	OCIO.cpp
 	OCIOSystem.cpp
     OpenGLMesh.cpp
