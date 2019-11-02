@@ -55,11 +55,6 @@
         "description": ""
     }, 
     {
-        "text": "Cannot parse the value.", 
-        "id": "Cannot parse the value.", 
-        "description": ""
-    }, 
-    {
         "text": "File not supported.", 
         "id": "File not supported.", 
         "description": ""
@@ -107,6 +102,11 @@
     {
         "text": "Premultiplied", 
         "id": "Premultiplied", 
+        "description": ""
+    }, 
+    {
+        "text": "Cannot parse the value.", 
+        "id": "Cannot parse the value.", 
         "description": ""
     }, 
     {
@@ -335,6 +335,21 @@
         "description": ""
     }, 
     {
+        "text": "The file", 
+        "id": "The file", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot be read", 
+        "id": "cannot be read", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot be written", 
+        "id": "cannot be written", 
+        "description": ""
+    }, 
+    {
         "text": "L U8", 
         "id": "L_U8", 
         "description": ""
@@ -480,6 +495,36 @@
         "description": ""
     }, 
     {
+        "text": "Red", 
+        "id": "Red", 
+        "description": ""
+    }, 
+    {
+        "text": "Green", 
+        "id": "Green", 
+        "description": ""
+    }, 
+    {
+        "text": "Blue", 
+        "id": "Blue", 
+        "description": ""
+    }, 
+    {
+        "text": "Alpha", 
+        "id": "Alpha", 
+        "description": ""
+    }, 
+    {
+        "text": "Atlas", 
+        "id": "Atlas", 
+        "description": ""
+    }, 
+    {
+        "text": "Dynamic", 
+        "id": "Dynamic", 
+        "description": ""
+    }, 
+    {
         "text": "No image channels.", 
         "id": "No image channels.", 
         "description": ""
@@ -545,11 +590,6 @@
         "description": ""
     }, 
     {
-        "text": "The file", 
-        "id": "The file", 
-        "description": ""
-    }, 
-    {
         "text": "cannot be opened", 
         "id": "cannot be opened", 
         "description": ""
@@ -580,16 +620,6 @@
         "description": ""
     }, 
     {
-        "text": "cannot be read", 
-        "id": "cannot be read", 
-        "description": ""
-    }, 
-    {
-        "text": "cannot be written", 
-        "id": "cannot be written", 
-        "description": ""
-    }, 
-    {
         "text": "This plugin provides SGI image I/O.", 
         "id": "This plugin provides SGI image I/O.", 
         "description": ""
@@ -597,11 +627,6 @@
     {
         "text": "Read error.", 
         "id": "Read error.", 
-        "description": ""
-    }, 
-    {
-        "text": "The shader cannot be created", 
-        "id": "The shader cannot be created", 
         "description": ""
     }, 
     {
@@ -627,6 +652,11 @@
     {
         "text": "This plugin provides Targa image I/O.", 
         "id": "This plugin provides Targa image I/O.", 
+        "description": ""
+    }, 
+    {
+        "text": "The shader cannot be created", 
+        "id": "The shader cannot be created", 
         "description": ""
     }
 ]

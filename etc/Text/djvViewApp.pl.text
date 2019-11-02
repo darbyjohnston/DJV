@@ -1,2540 +1,2804 @@
 [
     {
         "source": "cannot create OpenAL source", 
-        "text": "nie mo\u017cna utworzy\u0107 \u017ar\u00f3d\u0142a OpenAL", 
+        "description": "", 
         "id": "cannot create OpenAL source", 
-        "description": ""
+        "text": "nie mo\u017cna utworzy\u0107 \u017ar\u00f3d\u0142a OpenAL"
     }, 
     {
         "source": "cannot create OpenAL buffers", 
-        "text": "nie mo\u017cna utworzy\u0107 bufor\u00f3w OpenAL", 
+        "description": "", 
         "id": "cannot create OpenAL buffers", 
-        "description": ""
+        "text": "nie mo\u017cna utworzy\u0107 bufor\u00f3w OpenAL"
     }, 
     {
         "source": "cannot open", 
-        "text": "nie mo\u017cna otworzy\u0107", 
+        "description": "", 
         "id": "cannot open", 
-        "description": ""
+        "text": "nie mo\u017cna otworzy\u0107"
     }, 
     {
         "source": "Annotate", 
-        "text": "Komentowa\u0107", 
+        "description": "", 
         "id": "Annotate", 
-        "description": ""
+        "text": "Komentowa\u0107"
     }, 
     {
         "source": "Increase Volume", 
-        "text": "Zwi\u0119ksz g\u0142o\u015bno\u015b\u0107", 
+        "description": "", 
         "id": "Increase Volume", 
-        "description": ""
+        "text": "Zwi\u0119ksz g\u0142o\u015bno\u015b\u0107"
     }, 
     {
         "source": "Increase the audio volume", 
-        "text": "Zwi\u0119ksz g\u0142o\u015bno\u015b\u0107 d\u017awi\u0119ku", 
+        "description": "", 
         "id": "Increase volume tooltip", 
-        "description": ""
+        "text": "Zwi\u0119ksz g\u0142o\u015bno\u015b\u0107 d\u017awi\u0119ku"
     }, 
     {
         "source": "Decrease Volume", 
-        "text": "Zmniejsz g\u0142o\u015bno\u015b\u0107", 
+        "description": "", 
         "id": "Decrease Volume", 
-        "description": ""
+        "text": "Zmniejsz g\u0142o\u015bno\u015b\u0107"
     }, 
     {
         "source": "Decrease the audio volume", 
-        "text": "Zmniejsz g\u0142o\u015bno\u015b\u0107 d\u017awi\u0119ku", 
+        "description": "", 
         "id": "Decrease volume tooltip", 
-        "description": ""
+        "text": "Zmniejsz g\u0142o\u015bno\u015b\u0107 d\u017awi\u0119ku"
     }, 
     {
         "source": "Mute", 
-        "text": "Niemy", 
+        "description": "", 
         "id": "Mute", 
-        "description": ""
+        "text": "Niemy"
     }, 
     {
         "source": "Mute the audio", 
-        "text": "Wycisz d\u017awi\u0119k", 
+        "description": "", 
         "id": "Mute tooltip", 
-        "description": ""
+        "text": "Wycisz d\u017awi\u0119k"
     }, 
     {
         "source": "Audio", 
-        "text": "Audio", 
+        "description": "", 
         "id": "Audio", 
-        "description": ""
+        "text": "Audio"
     }, 
     {
         "source": "Color Picker", 
-        "text": "Narz\u0119dzie do wybierania kolor\u00f3w", 
+        "description": "", 
         "id": "Color Picker", 
-        "description": ""
+        "text": "Narz\u0119dzie do wybierania kolor\u00f3w"
     }, 
     {
-        "source": "Activate the color picker tool", 
-        "text": "Aktywuj narz\u0119dzie do wybierania kolor\u00f3w", 
+        "source": "Show the color picker widget", 
+        "description": "", 
         "id": "Color picker tooltip", 
-        "description": ""
+        "text": "Poka\u017c wid\u017cet pr\u00f3bnika kolor\u00f3w"
     }, 
     {
         "source": "Lock Color Type", 
-        "text": "Zablokuj typ koloru", 
+        "description": "", 
         "id": "Lock Color Type", 
-        "description": ""
+        "text": "Zablokuj typ koloru"
     }, 
     {
         "source": "Don't change the color type to match the image", 
-        "text": "Nie zmieniaj typu koloru, aby dopasowa\u0107 obraz", 
+        "description": "", 
         "id": "Color picker lock color type tooltip", 
-        "description": ""
+        "text": "Nie zmieniaj typu koloru, aby dopasowa\u0107 obraz"
     }, 
     {
         "source": "RGB", 
-        "text": "RGB", 
+        "description": "", 
         "id": "RGB", 
-        "description": ""
+        "text": "RGB"
     }, 
     {
         "source": "HSV", 
-        "text": "HSV", 
+        "description": "", 
         "id": "HSV", 
-        "description": ""
+        "text": "HSV"
     }, 
     {
         "source": "Set the color picker sample size", 
-        "text": "Ustaw rozmiar pr\u00f3bki pr\u00f3bnika kolor\u00f3w", 
+        "description": "", 
         "id": "Color picker sample size tooltip", 
-        "description": ""
+        "text": "Ustaw rozmiar pr\u00f3bki pr\u00f3bnika kolor\u00f3w"
     }, 
     {
         "source": "FPS", 
-        "text": "FPS", 
+        "description": "", 
         "id": "FPS", 
-        "description": ""
+        "text": "FPS"
     }, 
     {
         "source": "Object count", 
-        "text": "Liczba obiekt\u00f3w", 
+        "description": "", 
         "id": "Object count", 
-        "description": ""
+        "text": "Liczba obiekt\u00f3w"
     }, 
     {
         "source": "Widget count", 
-        "text": "Liczba widget\u00f3w", 
+        "description": "", 
         "id": "Widget count", 
-        "description": ""
+        "text": "Liczba widget\u00f3w"
     }, 
     {
         "source": "Hover", 
-        "text": "Waha\u0107 si\u0119", 
+        "description": "", 
         "id": "Hover", 
-        "description": ""
+        "text": "Waha\u0107 si\u0119"
     }, 
     {
         "source": "None", 
-        "text": "\u017baden", 
+        "description": "", 
         "id": "None", 
-        "description": ""
+        "text": "\u017baden"
     }, 
     {
         "source": "Grab", 
-        "text": "Chwyci\u0107", 
+        "description": "", 
         "id": "Grab", 
-        "description": ""
+        "text": "Chwyci\u0107"
     }, 
     {
         "source": "Key grab", 
-        "text": "Kluczowy chwyt", 
+        "description": "", 
         "id": "Key grab", 
-        "description": ""
+        "text": "Kluczowy chwyt"
     }, 
     {
         "source": "Font system glyph cache", 
-        "text": "Pami\u0119\u0107 podr\u0119czna glif\u00f3w systemu czcionek", 
+        "description": "", 
         "id": "Font system glyph cache", 
-        "description": ""
+        "text": "Pami\u0119\u0107 podr\u0119czna glif\u00f3w systemu czcionek"
     }, 
     {
         "source": "Thumbnail system information cache", 
-        "text": "Pami\u0119\u0107 podr\u0119czna informacji o systemie miniatur", 
+        "description": "", 
         "id": "Thumbnail system information cache", 
-        "description": ""
+        "text": "Pami\u0119\u0107 podr\u0119czna informacji o systemie miniatur"
     }, 
     {
         "source": "Thumbnail system image cache", 
-        "text": "Pami\u0119\u0107 podr\u0119czna obrazu systemu miniatur", 
+        "description": "", 
         "id": "Thumbnail system image cache", 
-        "description": ""
+        "text": "Pami\u0119\u0107 podr\u0119czna obrazu systemu miniatur"
     }, 
     {
         "source": "Icon system cache", 
-        "text": "Pami\u0119\u0107 podr\u0119czna systemu ikon", 
+        "description": "", 
         "id": "Icon system cache", 
-        "description": ""
+        "text": "Pami\u0119\u0107 podr\u0119czna systemu ikon"
     }, 
     {
         "source": "Texture atlas", 
-        "text": "Atlas tekstury", 
+        "description": "", 
         "id": "Texture atlas", 
-        "description": ""
+        "text": "Atlas tekstury"
     }, 
     {
         "source": "Dynamic texture count", 
-        "text": "Dynamiczna liczba tekstur", 
+        "description": "", 
         "id": "Dynamic texture count", 
-        "description": ""
+        "text": "Dynamiczna liczba tekstur"
     }, 
     {
         "source": "VBO size", 
-        "text": "Rozmiar VBO", 
+        "description": "", 
         "id": "VBO size", 
-        "description": ""
+        "text": "Rozmiar VBO"
     }, 
     {
         "source": "Video queue", 
-        "text": "Kolejka wideo", 
+        "description": "", 
         "id": "Video queue", 
-        "description": ""
+        "text": "Kolejka wideo"
     }, 
     {
         "source": "Audio queue", 
-        "text": "Ogon audio", 
+        "description": "", 
         "id": "Audio queue", 
-        "description": ""
+        "text": "Ogon audio"
     }, 
     {
         "source": "OpenAL queue", 
-        "text": "Kolejka OpenAL", 
+        "description": "", 
         "id": "OpenAL queue", 
-        "description": ""
+        "text": "Kolejka OpenAL"
     }, 
     {
         "source": "Current time", 
-        "text": "Obecny czas", 
+        "description": "", 
         "id": "Current time", 
-        "description": ""
+        "text": "Obecny czas"
     }, 
     {
         "source": "Debug", 
-        "text": "Odpluskwi\u0107", 
+        "description": "", 
         "id": "Debug", 
-        "description": ""
+        "text": "Odpluskwi\u0107"
     }, 
     {
         "source": "General", 
-        "text": "Genera\u0142", 
+        "description": "", 
         "id": "General", 
-        "description": ""
+        "text": "Genera\u0142"
     }, 
     {
         "source": "Render", 
-        "text": "Renderowanie", 
+        "description": "", 
         "id": "Render", 
-        "description": ""
+        "text": "Renderowanie"
     }, 
     {
         "source": "Media", 
-        "text": "G\u0142oska bezd\u017awi\u0119czna", 
+        "description": "", 
         "id": "Media", 
-        "description": ""
+        "text": "G\u0142oska bezd\u017awi\u0119czna"
     }, 
     {
         "source": "Sequences", 
-        "text": "Sekwencje", 
+        "description": "", 
         "id": "Sequences", 
-        "description": ""
+        "text": "Sekwencje"
     }, 
     {
         "source": "File", 
-        "text": "Plik", 
+        "description": "", 
         "id": "File", 
-        "description": ""
+        "text": "Plik"
     }, 
     {
         "source": "Auto-detect file sequences", 
-        "text": "Automatyczne wykrywanie sekwencji plik\u00f3w", 
+        "description": "", 
         "id": "Auto-detect file sequences", 
-        "description": ""
+        "text": "Automatyczne wykrywanie sekwencji plik\u00f3w"
     }, 
     {
         "source": "Memory Cache", 
-        "text": "Pami\u0119\u0107 podr\u0119czna", 
+        "description": "", 
         "id": "Memory Cache", 
-        "description": ""
+        "text": "Pami\u0119\u0107 podr\u0119czna"
     }, 
     {
         "source": "Enabled", 
-        "text": "W\u0142\u0105czone", 
+        "description": "", 
         "id": "Enabled", 
-        "description": ""
+        "text": "W\u0142\u0105czone"
     }, 
     {
         "source": "Gigabytes", 
-        "text": "Gigabajty", 
+        "description": "", 
         "id": "Gigabytes", 
-        "description": ""
+        "text": "Gigabajty"
     }, 
     {
         "source": "Documentation", 
-        "text": "Dokumentacja", 
+        "description": "", 
         "id": "Documentation", 
-        "description": ""
+        "text": "Dokumentacja"
     }, 
     {
         "source": "About", 
-        "text": "O", 
+        "description": "", 
         "id": "About", 
-        "description": ""
+        "text": "O"
     }, 
     {
         "source": "System Log", 
-        "text": "Dziennik systemu", 
+        "description": "", 
         "id": "System Log", 
-        "description": ""
+        "text": "Dziennik systemu"
     }, 
     {
         "source": "Debug Widget", 
-        "text": "Wid\u017cet debugowania", 
+        "description": "", 
         "id": "Debug Widget", 
-        "description": ""
+        "text": "Wid\u017cet debugowania"
     }, 
     {
         "source": "Help", 
-        "text": "Wsparcie", 
+        "description": "", 
         "id": "Help", 
-        "description": ""
+        "text": "Wsparcie"
     }, 
     {
         "source": "Forward", 
-        "text": "Naprz\u00f3d", 
+        "description": "", 
         "id": "Forward", 
-        "description": ""
+        "text": "Naprz\u00f3d"
     }, 
     {
         "source": "Start forward playback", 
-        "text": "Rozpocznij odtwarzanie do przodu", 
+        "description": "", 
         "id": "Forward tooltip", 
-        "description": ""
+        "text": "Rozpocznij odtwarzanie do przodu"
     }, 
     {
         "source": "Reverse", 
-        "text": "Rewers", 
+        "description": "", 
         "id": "Reverse", 
-        "description": ""
+        "text": "Rewers"
     }, 
     {
         "source": "Start reverse playback", 
-        "text": "Rozpocznij odtwarzanie do ty\u0142u", 
+        "description": "", 
         "id": "Reverse tooltip", 
-        "description": ""
+        "text": "Rozpocznij odtwarzanie do ty\u0142u"
     }, 
     {
         "source": "Play Once", 
-        "text": "Graj raz", 
+        "description": "", 
         "id": "Play Once", 
-        "description": ""
+        "text": "Graj raz"
     }, 
     {
         "source": "Play the file once and then stop playback", 
-        "text": "Odtw\u00f3rz plik raz, a nast\u0119pnie zatrzymaj odtwarzanie", 
+        "description": "", 
         "id": "Play once tooltip", 
-        "description": ""
+        "text": "Odtw\u00f3rz plik raz, a nast\u0119pnie zatrzymaj odtwarzanie"
     }, 
     {
         "source": "Loop", 
-        "text": "P\u0119tla", 
+        "description": "", 
         "id": "Loop", 
-        "description": ""
+        "text": "P\u0119tla"
     }, 
     {
         "source": "Play the file over and over again", 
-        "text": "Odtwarzaj plik wielokrotnie", 
+        "description": "", 
         "id": "Loop tooltip", 
-        "description": ""
+        "text": "Odtwarzaj plik wielokrotnie"
     }, 
     {
         "source": "Ping Pong", 
-        "text": "Tenis sto\u0142owy", 
+        "description": "", 
         "id": "Ping Pong", 
-        "description": ""
+        "text": "Tenis sto\u0142owy"
     }, 
     {
         "source": "Play the file forwards and then backwards", 
-        "text": "Odtw\u00f3rz plik do przodu, a nast\u0119pnie do ty\u0142u", 
+        "description": "", 
         "id": "Ping pong tooltip", 
-        "description": ""
+        "text": "Odtw\u00f3rz plik do przodu, a nast\u0119pnie do ty\u0142u"
     }, 
     {
         "source": "Play Every Frame", 
-        "text": "Zagraj w ka\u017cd\u0105 klatk\u0119", 
+        "description": "", 
         "id": "Play Every Frame", 
-        "description": ""
+        "text": "Zagraj w ka\u017cd\u0105 klatk\u0119"
     }, 
     {
         "source": "Play every frame even if the proper speed cannot be maintained", 
-        "text": "Zagraj w ka\u017cd\u0105 klatk\u0119, nawet je\u015bli nie mo\u017cna utrzyma\u0107 w\u0142a\u015bciwej pr\u0119dko\u015bci", 
+        "description": "", 
         "id": "Play every frame tooltip", 
-        "description": ""
+        "text": "Zagraj w ka\u017cd\u0105 klatk\u0119, nawet je\u015bli nie mo\u017cna utrzyma\u0107 w\u0142a\u015bciwej pr\u0119dko\u015bci"
     }, 
     {
         "source": "Go to In Point", 
-        "text": "Id\u017a do In Point", 
+        "description": "", 
         "id": "Go to In Point", 
-        "description": ""
+        "text": "Id\u017a do In Point"
     }, 
     {
         "source": "Go to the playback in point", 
-        "text": "Przejd\u017a do punktu odtwarzania", 
+        "description": "", 
         "id": "Go to in point tooltip", 
-        "description": ""
+        "text": "Przejd\u017a do punktu odtwarzania"
     }, 
     {
         "source": "Go to Out Point", 
-        "text": "Id\u017a do Out Point", 
+        "description": "", 
         "id": "Go to Out Point", 
-        "description": ""
+        "text": "Id\u017a do Out Point"
     }, 
     {
         "source": "Go to the playback out point", 
-        "text": "Przejd\u017a do punktu wyj\u015bcia odtwarzania", 
+        "description": "", 
         "id": "Go to out point tooltip", 
-        "description": ""
+        "text": "Przejd\u017a do punktu wyj\u015bcia odtwarzania"
     }, 
     {
         "source": "Go to Start Frame", 
-        "text": "Id\u017a do Start Frame", 
+        "description": "", 
         "id": "Go to Start Frame", 
-        "description": ""
+        "text": "Id\u017a do Start Frame"
     }, 
     {
         "source": "Go to the start frame", 
-        "text": "Przejd\u017a do ramki pocz\u0105tkowej", 
+        "description": "", 
         "id": "Go to start frame tooltip", 
-        "description": ""
+        "text": "Przejd\u017a do ramki pocz\u0105tkowej"
     }, 
     {
         "source": "Go to End Frame", 
-        "text": "Id\u017a do Zako\u0144cz ramk\u0119", 
+        "description": "", 
         "id": "Go to End Frame", 
-        "description": ""
+        "text": "Id\u017a do Zako\u0144cz ramk\u0119"
     }, 
     {
         "source": "Go to the end frame", 
-        "text": "Przejd\u017a do ramki ko\u0144cowej", 
+        "description": "", 
         "id": "Go to end frame tooltip", 
-        "description": ""
+        "text": "Przejd\u017a do ramki ko\u0144cowej"
     }, 
     {
         "source": "Next Frame", 
-        "text": "Nast\u0119pna ramka", 
+        "description": "", 
         "id": "Next Frame", 
-        "description": ""
+        "text": "Nast\u0119pna ramka"
     }, 
     {
         "source": "Go to the next frame", 
-        "text": "Przejd\u017a do nast\u0119pnej klatki", 
+        "description": "", 
         "id": "Next frame tooltip", 
-        "description": ""
+        "text": "Przejd\u017a do nast\u0119pnej klatki"
     }, 
     {
         "source": "Next Frame X10", 
-        "text": "Nast\u0119pna klatka X10", 
+        "description": "", 
         "id": "Next Frame X10", 
-        "description": ""
+        "text": "Nast\u0119pna klatka X10"
     }, 
     {
         "source": "Skip forward 10 frames", 
-        "text": "Przeskocz do 10 klatek", 
+        "description": "", 
         "id": "Next frame X10 tooltip", 
-        "description": ""
+        "text": "Przeskocz do 10 klatek"
     }, 
     {
         "source": "Next Frame X100", 
-        "text": "Nast\u0119pna klatka X100", 
+        "description": "", 
         "id": "Next Frame X100", 
-        "description": ""
+        "text": "Nast\u0119pna klatka X100"
     }, 
     {
         "source": "Skip forward 100 frames", 
-        "text": "Przeskocz do 100 klatek", 
+        "description": "", 
         "id": "Next frame X100 tooltip", 
-        "description": ""
+        "text": "Przeskocz do 100 klatek"
     }, 
     {
         "source": "Previous Frame", 
-        "text": "Poprzednia ramka", 
+        "description": "", 
         "id": "Previous Frame", 
-        "description": ""
+        "text": "Poprzednia ramka"
     }, 
     {
         "source": "Go to the previous frame", 
-        "text": "Przejd\u017a do poprzedniej klatki", 
+        "description": "", 
         "id": "Previous frame tooltip", 
-        "description": ""
+        "text": "Przejd\u017a do poprzedniej klatki"
     }, 
     {
         "source": "Previous Frame X10", 
-        "text": "Poprzednia ramka X10", 
+        "description": "", 
         "id": "Previous Frame X10", 
-        "description": ""
+        "text": "Poprzednia ramka X10"
     }, 
     {
         "source": "Skip backwards 10 frames", 
-        "text": "Przeskocz do ty\u0142u o 10 klatek", 
+        "description": "", 
         "id": "Previous frame X10 tooltip", 
-        "description": ""
+        "text": "Przeskocz do ty\u0142u o 10 klatek"
     }, 
     {
         "source": "Previous Frame X100", 
-        "text": "Poprzednia ramka X100", 
+        "description": "", 
         "id": "Previous Frame X100", 
-        "description": ""
+        "text": "Poprzednia ramka X100"
     }, 
     {
         "source": "Skip backwards 100 frames", 
-        "text": "Pomi\u0144 100 klatek do ty\u0142u", 
+        "description": "", 
         "id": "Previous frame X100 tooltip", 
-        "description": ""
+        "text": "Pomi\u0144 100 klatek do ty\u0142u"
     }, 
     {
         "source": "Enable In/Out Points", 
-        "text": "W\u0142\u0105cz punkty wej\u015bcia / wyj\u015bcia", 
+        "description": "", 
         "id": "Enable In/Out Points", 
-        "description": ""
+        "text": "W\u0142\u0105cz punkty wej\u015bcia / wyj\u015bcia"
     }, 
     {
         "source": "Enable the in/out points", 
-        "text": "W\u0142\u0105cz punkty wej\u015bcia / wyj\u015bcia", 
+        "description": "", 
         "id": "Enable in/out points tooltip", 
-        "description": ""
+        "text": "W\u0142\u0105cz punkty wej\u015bcia / wyj\u015bcia"
     }, 
     {
         "source": "Set In Point", 
-        "text": "Ustaw w punkcie", 
+        "description": "", 
         "id": "Set In Point", 
-        "description": ""
+        "text": "Ustaw w punkcie"
     }, 
     {
-        "source": "Set the in point", 
-        "text": "Ustaw punkt pocz\u0105tkowy", 
+        "source": "Set the playback in point", 
+        "description": "", 
         "id": "Set in point tooltip", 
-        "description": ""
+        "text": "Ustaw odtwarzanie w punkcie"
     }, 
     {
         "source": "Set Out Point", 
-        "text": "Ustaw punkt", 
+        "description": "", 
         "id": "Set Out Point", 
-        "description": ""
+        "text": "Ustaw punkt"
     }, 
     {
         "source": "Set the playback out point", 
-        "text": "Ustaw punkt wyj\u015bcia odtwarzania", 
+        "description": "", 
         "id": "Set out point tooltip", 
-        "description": ""
+        "text": "Ustaw punkt wyj\u015bcia odtwarzania"
     }, 
     {
         "source": "Reset In Point", 
-        "text": "Zresetuj w punkcie", 
+        "description": "", 
         "id": "Reset In Point", 
-        "description": ""
+        "text": "Zresetuj w punkcie"
     }, 
     {
         "source": "Reset the playback in point", 
-        "text": "Zresetuj odtwarzanie w punkcie", 
+        "description": "", 
         "id": "Reset in point tooltip", 
-        "description": ""
+        "text": "Zresetuj odtwarzanie w punkcie"
     }, 
     {
         "source": "Reset Out Point", 
-        "text": "Zresetuj punkt wyj\u015bcia", 
+        "description": "", 
         "id": "Reset Out Point", 
-        "description": ""
+        "text": "Zresetuj punkt wyj\u015bcia"
     }, 
     {
         "source": "Reset the playback out point", 
-        "text": "Zresetuj punkt wyj\u015bcia odtwarzania", 
+        "description": "", 
         "id": "Reset out point tooltip", 
-        "description": ""
+        "text": "Zresetuj punkt wyj\u015bcia odtwarzania"
     }, 
     {
         "source": "Playback", 
-        "text": "Odtwarzanie nagranego d\u017awi\u0119ku", 
+        "description": "", 
         "id": "Playback", 
-        "description": ""
+        "text": "Odtwarzanie nagranego d\u017awi\u0119ku"
     }, 
     {
         "source": "Histogram", 
-        "text": "Histogram", 
+        "description": "", 
         "id": "Histogram", 
-        "description": ""
+        "text": "Histogram"
     }, 
     {
         "source": "Open", 
-        "text": "otwarty", 
+        "description": "", 
         "id": "Open", 
-        "description": ""
+        "text": "otwarty"
     }, 
     {
         "source": "Open a new file", 
-        "text": "Otw\u00f3rz nowy plik", 
+        "description": "", 
         "id": "Open tooltip", 
-        "description": ""
+        "text": "Otw\u00f3rz nowy plik"
     }, 
     {
         "source": "Recent", 
-        "text": "Niedawny", 
+        "description": "", 
         "id": "Recent", 
-        "description": ""
+        "text": "Niedawny"
     }, 
     {
         "source": "Show the recently opened files", 
-        "text": "Poka\u017c ostatnio otwarte pliki", 
+        "description": "", 
         "id": "Recent tooltip", 
-        "description": ""
+        "text": "Poka\u017c ostatnio otwarte pliki"
     }, 
     {
         "source": "Reload", 
-        "text": "Prze\u0142adowa\u0107", 
+        "description": "", 
         "id": "Reload", 
-        "description": ""
+        "text": "Prze\u0142adowa\u0107"
     }, 
     {
         "source": "Reload the current file", 
-        "text": "Za\u0142aduj ponownie bie\u017c\u0105cy plik", 
+        "description": "", 
         "id": "Reload tooltip", 
-        "description": ""
+        "text": "Za\u0142aduj ponownie bie\u017c\u0105cy plik"
     }, 
     {
         "source": "Close", 
-        "text": "Blisko", 
+        "description": "", 
         "id": "Close", 
-        "description": ""
+        "text": "Blisko"
     }, 
     {
         "source": "Close the current file", 
-        "text": "Zamknij bie\u017c\u0105cy plik", 
+        "description": "", 
         "id": "Close tooltip", 
-        "description": ""
+        "text": "Zamknij bie\u017c\u0105cy plik"
     }, 
     {
         "source": "Close All", 
-        "text": "Zamknij wszystko", 
+        "description": "", 
         "id": "Close All", 
-        "description": ""
+        "text": "Zamknij wszystko"
     }, 
     {
         "source": "Close all open files", 
-        "text": "Zamknij wszystkie otwarte pliki", 
+        "description": "", 
         "id": "Close all tooltip", 
-        "description": ""
+        "text": "Zamknij wszystkie otwarte pliki"
     }, 
     {
         "source": "Export", 
-        "text": "Eksport", 
+        "description": "", 
         "id": "Export", 
-        "description": ""
+        "text": "Eksport"
     }, 
     {
         "source": "Export the file", 
-        "text": "Eksportuj plik", 
+        "description": "", 
         "id": "Export tooltip", 
-        "description": ""
+        "text": "Eksportuj plik"
     }, 
     {
         "source": "Next", 
-        "text": "Kolejny", 
+        "description": "", 
         "id": "Next", 
-        "description": ""
+        "text": "Kolejny"
     }, 
     {
         "source": "Go to the next file", 
-        "text": "Przejd\u017a do nast\u0119pnego pliku", 
+        "description": "", 
         "id": "Next tooltip", 
-        "description": ""
+        "text": "Przejd\u017a do nast\u0119pnego pliku"
     }, 
     {
         "source": "Previous", 
-        "text": "Poprzedni", 
+        "description": "", 
         "id": "Previous", 
-        "description": ""
+        "text": "Poprzedni"
     }, 
     {
         "source": "Go to the previous file", 
-        "text": "Przejd\u017a do poprzedniego pliku", 
+        "description": "", 
         "id": "Prev tooltip", 
-        "description": ""
+        "text": "Przejd\u017a do poprzedniego pliku"
     }, 
     {
         "source": "Layers Widget", 
-        "text": "Widget Warstw", 
+        "description": "", 
         "id": "Layers Widget", 
-        "description": ""
+        "text": "Widget Warstw"
     }, 
     {
         "source": "Show the layers widget", 
-        "text": "Poka\u017c wid\u017cet warstw", 
+        "description": "", 
         "id": "Layers widget tooltip", 
-        "description": ""
+        "text": "Poka\u017c wid\u017cet warstw"
     }, 
     {
         "source": "Next layer", 
-        "text": "Nast\u0119pna warstwa", 
+        "description": "", 
         "id": "Next layer", 
-        "description": ""
+        "text": "Nast\u0119pna warstwa"
     }, 
     {
         "source": "Go to the next layer", 
-        "text": "Przejd\u017a do nast\u0119pnej warstwy", 
+        "description": "", 
         "id": "Next layer tooltip", 
-        "description": ""
+        "text": "Przejd\u017a do nast\u0119pnej warstwy"
     }, 
     {
         "source": "Previous Layer", 
-        "text": "Poprzednia warstwa", 
+        "description": "", 
         "id": "Previous Layer", 
-        "description": ""
+        "text": "Poprzednia warstwa"
     }, 
     {
         "source": "Go to the previous layer", 
-        "text": "Przejd\u017a do poprzedniej warstwy", 
+        "description": "", 
         "id": "Previous layer tooltip", 
-        "description": ""
+        "text": "Przejd\u017a do poprzedniej warstwy"
     }, 
     {
         "source": "8-Bit Conversion", 
-        "text": "8-bitowa konwersja", 
+        "description": "", 
         "id": "8-Bit Conversion", 
-        "description": ""
+        "text": "8-bitowa konwersja"
     }, 
     {
         "source": "Down convert files to 8-bits to conserve memory", 
-        "text": "W d\u00f3\u0142 konwertuj pliki na 8 bit\u00f3w, aby zaoszcz\u0119dzi\u0107 pami\u0119\u0107", 
+        "description": "", 
         "id": "8-bit conversion tooltip", 
-        "description": ""
+        "text": "W d\u00f3\u0142 konwertuj pliki na 8 bit\u00f3w, aby zaoszcz\u0119dzi\u0107 pami\u0119\u0107"
     }, 
     {
         "source": "Show the memory cache settings", 
-        "text": "Poka\u017c ustawienia pami\u0119ci podr\u0119cznej", 
+        "description": "", 
         "id": "Memory cache tooltip", 
-        "description": ""
+        "text": "Poka\u017c ustawienia pami\u0119ci podr\u0119cznej"
     }, 
     {
         "source": "Exit", 
-        "text": "Wyj\u015bcie", 
+        "description": "", 
         "id": "Exit", 
-        "description": ""
+        "text": "Wyj\u015bcie"
     }, 
     {
         "source": "Exit the application", 
-        "text": "Zamknij aplikacj\u0119", 
+        "description": "", 
         "id": "Exit tooltip", 
-        "description": ""
+        "text": "Zamknij aplikacj\u0119"
     }, 
     {
         "source": "Aspect Ratio", 
-        "text": "Wsp\u00f3\u0142czynnik proporcji", 
+        "description": "", 
         "id": "Aspect Ratio", 
-        "description": ""
+        "text": "Wsp\u00f3\u0142czynnik proporcji"
     }, 
     {
         "source": "Image", 
-        "text": "Obraz", 
+        "description": "", 
         "id": "Image", 
-        "description": ""
+        "text": "Obraz"
     }, 
     {
         "source": "Rotate", 
-        "text": "Obraca\u0107 si\u0119", 
+        "description": "", 
         "id": "Rotate", 
-        "description": ""
+        "text": "Obraca\u0107 si\u0119"
     }, 
     {
         "source": "Maximize the current window", 
-        "text": "Maksymalizuj bie\u017c\u0105ce okno", 
+        "description": "", 
         "id": "Maximize tooltip", 
-        "description": ""
+        "text": "Maksymalizuj bie\u017c\u0105ce okno"
     }, 
     {
         "source": "Show the playback speed settings", 
-        "text": "Poka\u017c ustawienia pr\u0119dko\u015bci odtwarzania", 
+        "description": "", 
         "id": "Speed popup tooltip", 
-        "description": ""
+        "text": "Poka\u017c ustawienia pr\u0119dko\u015bci odtwarzania"
     }, 
     {
         "source": "The actual playback speed", 
-        "text": "Rzeczywista pr\u0119dko\u015b\u0107 odtwarzania", 
+        "description": "", 
         "id": "Real speed tooltip", 
-        "description": ""
+        "text": "Rzeczywista pr\u0119dko\u015b\u0107 odtwarzania"
     }, 
     {
         "source": "The current time", 
-        "text": "Aktualny czas", 
+        "description": "", 
         "id": "Current time tooltip", 
-        "description": ""
+        "text": "Aktualny czas"
     }, 
     {
         "source": "The playback duration", 
-        "text": "Czas odtwarzania", 
+        "description": "", 
         "id": "Duration tooltip", 
-        "description": ""
+        "text": "Czas odtwarzania"
     }, 
     {
         "source": "Set the audio volume", 
-        "text": "Ustaw g\u0142o\u015bno\u015b\u0107 d\u017awi\u0119ku", 
+        "description": "", 
         "id": "Volume tooltip", 
-        "description": ""
+        "text": "Ustaw g\u0142o\u015bno\u015b\u0107 d\u017awi\u0119ku"
     }, 
     {
         "source": "Show the audio settings", 
-        "text": "Poka\u017c ustawienia audio", 
+        "description": "", 
         "id": "Audio popup tooltip", 
-        "description": ""
+        "text": "Poka\u017c ustawienia audio"
     }, 
     {
         "source": "Set the memory cache size in gigabytes", 
-        "text": "Ustaw rozmiar pami\u0119ci podr\u0119cznej w gigabajtach", 
+        "description": "", 
         "id": "Memory cache maximum tooltip", 
-        "description": ""
+        "text": "Ustaw rozmiar pami\u0119ci podr\u0119cznej w gigabajtach"
     }, 
     {
         "source": "Enable the memory cache", 
-        "text": "W\u0142\u0105cz pami\u0119\u0107 podr\u0119czn\u0105", 
+        "description": "", 
         "id": "Memory cache enabled tooltip", 
-        "description": ""
+        "text": "W\u0142\u0105cz pami\u0119\u0107 podr\u0119czn\u0105"
     }, 
     {
         "source": "Default", 
-        "text": "Domy\u015blna", 
+        "description": "", 
         "id": "Default", 
-        "description": ""
+        "text": "Domy\u015blna"
     }, 
     {
         "source": "Play every frame", 
-        "text": "Graj w ka\u017cd\u0105 klatk\u0119", 
+        "description": "", 
         "id": "Play every frame", 
-        "description": ""
+        "text": "Graj w ka\u017cd\u0105 klatk\u0119"
     }, 
     {
         "source": "Background Color", 
-        "text": "Kolor t\u0142a", 
+        "description": "", 
         "id": "Background Color", 
-        "description": ""
+        "text": "Kolor t\u0142a"
     }, 
     {
         "source": "View", 
-        "text": "Widok", 
+        "description": "", 
         "id": "View", 
-        "description": ""
+        "text": "Widok"
     }, 
     {
         "source": "Information", 
-        "text": "Informacja", 
+        "description": "", 
         "id": "Information", 
-        "description": ""
+        "text": "Informacja"
     }, 
     {
         "source": "File name", 
-        "text": "Nazwa pliku", 
+        "description": "", 
         "id": "File name", 
-        "description": ""
+        "text": "Nazwa pliku"
     }, 
     {
         "source": "Name", 
-        "text": "Imi\u0119", 
+        "description": "", 
         "id": "Name", 
-        "description": ""
+        "text": "Imi\u0119"
     }, 
     {
         "source": "Size", 
-        "text": "Rozmiar", 
+        "description": "", 
         "id": "Size", 
-        "description": ""
+        "text": "Rozmiar"
     }, 
     {
         "source": "Type", 
-        "text": "Rodzaj", 
+        "description": "", 
         "id": "Type", 
-        "description": ""
+        "text": "Rodzaj"
     }, 
     {
         "source": "Speed", 
-        "text": "Pr\u0119dko\u015b\u0107", 
+        "description": "", 
         "id": "Speed", 
-        "description": ""
+        "text": "Pr\u0119dko\u015b\u0107"
     }, 
     {
         "source": "Duration", 
-        "text": "Trwanie", 
+        "description": "", 
         "id": "Duration", 
-        "description": ""
+        "text": "Trwanie"
     }, 
     {
         "source": "Codec", 
-        "text": "Kodek", 
+        "description": "", 
         "id": "Codec", 
-        "description": ""
+        "text": "Kodek"
     }, 
     {
         "source": "Video track", 
-        "text": "\u015acie\u017cka wideo", 
+        "description": "", 
         "id": "Video track", 
-        "description": ""
+        "text": "\u015acie\u017cka wideo"
     }, 
     {
         "source": "Channels", 
-        "text": "Kana\u0142y", 
+        "description": "", 
         "id": "Channels", 
-        "description": ""
+        "text": "Kana\u0142y"
     }, 
     {
         "source": "kHz", 
-        "text": "kHz", 
+        "description": "", 
         "id": "kHz", 
-        "description": ""
+        "text": "kHz"
     }, 
     {
         "source": "Sample rate", 
-        "text": "Pr\u00f3bna stawka", 
+        "description": "", 
         "id": "Sample rate", 
-        "description": ""
+        "text": "Pr\u00f3bna stawka"
     }, 
     {
         "source": "Audio track", 
-        "text": "\u015acie\u017cka d\u017awi\u0119kowa", 
+        "description": "", 
         "id": "Audio track", 
-        "description": ""
+        "text": "\u015acie\u017cka d\u017awi\u0119kowa"
     }, 
     {
         "source": "Tags", 
-        "text": "Tagi", 
+        "description": "", 
         "id": "Tags", 
-        "description": ""
+        "text": "Tagi"
     }, 
     {
         "source": "Layers", 
-        "text": "Warstwy", 
+        "description": "", 
         "id": "Layers", 
-        "description": ""
+        "text": "Warstwy"
     }, 
     {
         "source": "Magnify", 
-        "text": "Powi\u0119ksza\u0107", 
+        "description": "", 
         "id": "Magnify", 
-        "description": ""
+        "text": "Powi\u0119ksza\u0107"
     }, 
     {
-        "source": "Activate the magnify tool", 
-        "text": "Aktywuj narz\u0119dzie powi\u0119kszania", 
+        "source": "Show the magnify widget", 
+        "description": "", 
         "id": "Magnify tooltip", 
-        "description": ""
+        "text": "Poka\u017c wid\u017cet powi\u0119kszenia"
     }, 
     {
         "source": "Zoom into the image", 
-        "text": "Powi\u0119ksz obraz", 
+        "description": "", 
         "id": "Magnify zoom in tooltip", 
-        "description": ""
+        "text": "Powi\u0119ksz obraz"
     }, 
     {
         "source": "Zoom out of the image", 
-        "text": "Pomniejsz obraz", 
+        "description": "", 
         "id": "Magnify zoom out tooltip", 
-        "description": ""
+        "text": "Pomniejsz obraz"
     }, 
     {
         "source": "NUX", 
-        "text": "NUX", 
+        "description": "", 
         "id": "NUX", 
-        "description": ""
+        "text": "NUX"
     }, 
     {
         "source": "Enable new-user experience on startup", 
-        "text": "W\u0142\u0105cz obs\u0142ug\u0119 nowego u\u017cytkownika podczas uruchamiania", 
+        "description": "", 
         "id": "Enable new-user experience on startup", 
-        "description": ""
+        "text": "W\u0142\u0105cz obs\u0142ug\u0119 nowego u\u017cytkownika podczas uruchamiania"
     }, 
     {
         "source": "Choose your language", 
-        "text": "Wybierz sw\u00f3j j\u0119zyk", 
+        "description": "", 
         "id": "Choose your language", 
-        "description": ""
+        "text": "Wybierz sw\u00f3j j\u0119zyk"
     }, 
     {
         "source": "Choose a user interface size", 
-        "text": "Wybierz rozmiar interfejsu u\u017cytkownika", 
+        "description": "", 
         "id": "Choose a user interface size", 
-        "description": ""
+        "text": "Wybierz rozmiar interfejsu u\u017cytkownika"
     }, 
     {
         "source": "Choose a palette", 
-        "text": "Wybierz palet\u0119", 
+        "description": "", 
         "id": "Choose a palette", 
-        "description": ""
+        "text": "Wybierz palet\u0119"
     }, 
     {
         "source": "Finish", 
-        "text": "koniec", 
+        "description": "", 
         "id": "Finish", 
-        "description": ""
+        "text": "koniec"
     }, 
     {
         "source": "Show timeline PIP", 
-        "text": "Poka\u017c o\u015b czasu PIP", 
+        "description": "", 
         "id": "Show timeline PIP", 
-        "description": ""
+        "text": "Poka\u017c o\u015b czasu PIP"
     }, 
     {
         "source": "Recent Files", 
-        "text": "Ostatnie pliki", 
+        "description": "", 
         "id": "Recent Files", 
-        "description": ""
+        "text": "Ostatnie pliki"
     }, 
     {
         "source": "Increase Thumbnail Size", 
-        "text": "Zwi\u0119ksz rozmiar miniaturki", 
+        "description": "", 
         "id": "Increase Thumbnail Size", 
-        "description": ""
+        "text": "Zwi\u0119ksz rozmiar miniaturki"
     }, 
     {
         "source": "Increase the size of the thumbnails", 
-        "text": "Zwi\u0119ksz rozmiar miniatur", 
+        "description": "", 
         "id": "Recent files increase thumbnail size tooltip", 
-        "description": ""
+        "text": "Zwi\u0119ksz rozmiar miniatur"
     }, 
     {
         "source": "Decrease Thumbnail Size", 
-        "text": "Zmniejsz rozmiar miniatur", 
+        "description": "", 
         "id": "Decrease Thumbnail Size", 
-        "description": ""
+        "text": "Zmniejsz rozmiar miniatur"
     }, 
     {
         "source": "Decrease the size of the thumbnails", 
-        "text": "Zmniejsz rozmiar miniatur", 
+        "description": "", 
         "id": "Recent files decrease thumbnail size tooltip", 
-        "description": ""
+        "text": "Zmniejsz rozmiar miniatur"
     }, 
     {
         "source": "Search the recent files", 
-        "text": "Wyszukaj najnowsze pliki", 
+        "description": "", 
         "id": "Recent files search tooltip", 
-        "description": ""
+        "text": "Wyszukaj najnowsze pliki"
     }, 
     {
         "source": "Show the recent files settings", 
-        "text": "Poka\u017c ostatnie ustawienia plik\u00f3w", 
+        "description": "", 
         "id": "Recent files settings tooltip", 
-        "description": ""
+        "text": "Poka\u017c ostatnie ustawienia plik\u00f3w"
     }, 
     {
         "source": "Items", 
-        "text": "Przedmiot\u00f3w", 
+        "description": "", 
         "id": "Items", 
-        "description": ""
+        "text": "Przedmiot\u00f3w"
     }, 
     {
         "source": "Settings", 
-        "text": "Ustawienia", 
+        "description": "", 
         "id": "Settings", 
-        "description": ""
+        "text": "Ustawienia"
     }, 
     {
         "source": "Copy", 
-        "text": "Kopiuj", 
+        "description": "", 
         "id": "Copy", 
-        "description": ""
+        "text": "Kopiuj"
     }, 
     {
         "source": "Clear", 
-        "text": "Jasny", 
+        "description": "", 
         "id": "Clear", 
-        "description": ""
+        "text": "Jasny"
     }, 
     {
         "source": "Tools", 
-        "text": "Przybory", 
+        "description": "", 
         "id": "Tools", 
-        "description": ""
+        "text": "Przybory"
     }, 
     {
         "source": "Information Widget", 
-        "text": "Widget informacyjny", 
+        "description": "", 
         "id": "Information Widget", 
-        "description": ""
+        "text": "Widget informacyjny"
     }, 
     {
         "source": "Show the information widget", 
-        "text": "Poka\u017c wid\u017cet informacji", 
+        "description": "", 
         "id": "Information widget tooltip", 
-        "description": ""
+        "text": "Poka\u017c wid\u017cet informacji"
     }, 
     {
         "source": "Auto Hide", 
-        "text": "Automatyczne ukrywanie", 
+        "description": "", 
         "id": "Auto Hide", 
-        "description": ""
+        "text": "Automatyczne ukrywanie"
+    }, 
+    {
+        "source": "Automatically hide the user interface", 
+        "description": "", 
+        "id": "Automatically hide the user interface", 
+        "text": "Automatycznie ukryj interfejs u\u017cytkownika"
+    }, 
+    {
+        "source": "Background Image", 
+        "description": "", 
+        "id": "Background Image", 
+        "text": "Zdj\u0119cie w tle"
+    }, 
+    {
+        "source": "Window", 
+        "description": "", 
+        "id": "Window", 
+        "text": "Okno"
+    }, 
+    {
+        "source": "Open the file browser", 
+        "description": "", 
+        "id": "Open the file browser", 
+        "text": "Otw\u00f3rz przegl\u0105dark\u0119 plik\u00f3w"
+    }, 
+    {
+        "source": "Clear the background image", 
+        "description": "", 
+        "id": "Clear the background image", 
+        "text": "Wyczy\u015b\u0107 obraz t\u0142a"
+    }, 
+    {
+        "source": "Colorize with the UI style", 
+        "description": "", 
+        "id": "Colorize with the UI style", 
+        "text": "Koloruj za pomoc\u0105 stylu interfejsu u\u017cytkownika"
+    }, 
+    {
+        "source": "Full Screen", 
+        "description": "", 
+        "id": "Full Screen", 
+        "text": "Pe\u0142ny ekran"
+    }, 
+    {
+        "source": "Toggle full screen mode", 
+        "description": "", 
+        "id": "Full screen tooltip", 
+        "text": "Prze\u0142\u0105cz tryb pe\u0142noekranowy"
+    }, 
+    {
+        "source": "Maximized", 
+        "description": "", 
+        "id": "Maximized", 
+        "text": "Zmaksymalizowany"
+    }, 
+    {
+        "source": "Maximize the window", 
+        "description": "", 
+        "id": "Maximized tooltip", 
+        "text": "Maksymalizuj okno"
+    }, 
+    {
+        "source": "DJV Imaging", 
+        "description": "", 
+        "id": "About Title", 
+        "text": "DJV Imaging"
+    }, 
+    {
+        "source": "Credits", 
+        "description": "", 
+        "id": "Credits", 
+        "text": "Kredyty"
+    }, 
+    {
+        "source": "Sponsors", 
+        "description": "", 
+        "id": "Sponsors", 
+        "text": "Sponsorzy"
+    }, 
+    {
+        "source": "License", 
+        "description": "", 
+        "id": "License", 
+        "text": "Licencja"
+    }, 
+    {
+        "source": "Copyright", 
+        "description": "", 
+        "id": "Copyright", 
+        "text": "Prawo autorskie"
+    }, 
+    {
+        "source": "Third Party Software", 
+        "description": "", 
+        "id": "Third Party", 
+        "text": "Oprogramowanie stron trzecich"
+    }, 
+    {
+        "source": "Trademarks", 
+        "description": "", 
+        "id": "Trademarks", 
+        "text": "Znaki towarowe"
+    }, 
+    {
+        "source": "Darby Johnston", 
+        "description": "", 
+        "id": "Credits Darby Johnston", 
+        "text": "Darby Johnston"
+    }, 
+    {
+        "source": "Principal author", 
+        "description": "", 
+        "id": "Credits Darby Johnston Text", 
+        "text": "G\u0142\u00f3wny autor"
+    }, 
+    {
+        "source": "Kent Oberheu https://semafore.com", 
+        "description": "", 
+        "id": "Credits Kent Oberheu", 
+        "text": "Kent Oberheu https://semafore.com"
+    }, 
+    {
+        "source": "Identity, Iconography, UI / UX design", 
+        "description": "", 
+        "id": "Credits Kent Oberheu Text", 
+        "text": "To\u017csamo\u015b\u0107, ikonografia, projekt interfejsu u\u017cytkownika / UX"
+    }, 
+    {
+        "source": "Siciliana Johnston", 
+        "description": "", 
+        "id": "Credits Siciliana Johnston", 
+        "text": "Sycylijski Johnston"
+    }, 
+    {
+        "source": "Web design", 
+        "description": "", 
+        "id": "Credits Siciliana Johnston Text", 
+        "text": "projektowanie stron"
+    }, 
+    {
+        "source": "Mikael Sundell", 
+        "description": "", 
+        "id": "Credits Mikael Sundell", 
+        "text": "Mikael Sundell"
+    }, 
+    {
+        "source": "IFF image file format support, example images", 
+        "description": "", 
+        "id": "Credits Mikael Sundell Text", 
+        "text": "Obs\u0142uga formatu pliku obrazu IFF, przyk\u0142adowe obrazy"
+    }, 
+    {
+        "source": "unexpected GmbH, https://www.unexpected.de", 
+        "description": "", 
+        "id": "Sponsors unexpected", 
+        "text": "nieoczekiwany GmbH, https://www.u nieoczekiwany.de"
+    }, 
+    {
+        "source": "Copyright (c) 2004-2019 Darby Johnston, All rights reserved", 
+        "description": "", 
+        "id": "License 1", 
+        "text": "Copyright (c) 2004-2019 Darby Johnston, Wszelkie prawa zastrze\u017cone"
+    }, 
+    {
+        "source": "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:", 
+        "description": "", 
+        "id": "License 2", 
+        "text": "Redystrybucja i wykorzystanie w postaci \u017ar\u00f3d\u0142owej i binarnej, z modyfikacjami lub bez, s\u0105 dozwolone pod warunkiem spe\u0142nienia nast\u0119puj\u0105cych warunk\u00f3w:"
+    }, 
+    {
+        "source": "* Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.", 
+        "description": "", 
+        "id": "License 3", 
+        "text": "* Redystrybucje kodu \u017ar\u00f3d\u0142owego musz\u0105 zawiera\u0107 powy\u017csz\u0105 informacj\u0119 o prawach autorskich, niniejsz\u0105 list\u0119 warunk\u00f3w oraz poni\u017csze zastrze\u017cenie."
+    }, 
+    {
+        "source": "* Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution.", 
+        "description": "", 
+        "id": "License 4", 
+        "text": "* Redystrybucje w formie binarnej musz\u0105 zawiera\u0107 powy\u017csz\u0105 informacj\u0119 o prawach autorskich, niniejsz\u0105 list\u0119 warunk\u00f3w oraz poni\u017csze zastrze\u017cenie w dokumentacji i / lub innych materia\u0142ach dostarczonych wraz z dystrybucj\u0105."
+    }, 
+    {
+        "source": "* Neither the names of the copyright holders nor the names of any contributors may be used to endorse or promote products derived from this software without specific prior written permission.", 
+        "description": "", 
+        "id": "License 5", 
+        "text": "* Ani nazwy w\u0142a\u015bcicieli praw autorskich, ani nazwy jakichkolwiek autor\u00f3w nie mog\u0105 by\u0107 u\u017cywane do promowania lub promowania produkt\u00f3w pochodz\u0105cych z tego oprogramowania bez uprzedniej pisemnej zgody."
+    }, 
+    {
+        "source": "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.", 
+        "description": "", 
+        "id": "License 6", 
+        "text": "NINIEJSZE OPROGRAMOWANIE JEST DOSTARCZANE PRZEZ POSIADACZE PRAW AUTORSKICH I KONTRAHENT\u00d3W \u201eW STANIE TAKIM, W JAKIM SI\u0118 ZNAJDUJ\u0104\u201d ORAZ JAKIEKOLWIEK WYRA\u0179NE LUB DOROZUMIANE GWARANCJE, W TYM, ALE NIE OGRANICZONE, DOMNIEMANE GWARANCJE WARTO\u015aCI HANDLOWEJ I PRZYDATNO\u015aCI DO OKRE\u015aLONEGO CELU S\u0104 WYKLUCZONE. W \u017bADNYM WYPADKU UDZIELAJ\u0104CY PRAWA AUTORSKIEGO I SK\u0141ADNIK\u00d3W NIE PONOSI ODPOWIEDZIALNO\u015aCI ZA BEZPO\u015aREDNIE, PO\u015aREDNIE, PRZYPADKOWE, SZCZEG\u00d3LNE, PRZYK\u0141ADOWE LUB WT\u00d3RNE SZKODY (W TYM, ALE NIE OGRANICZONE DO, ZAM\u00d3WIENIA TOWAR\u00d3W LUB US\u0141UG; UTRATA U\u017bYTKOWANIA, DANYCH LUB ZYSK\u00d3W; LUB PRZERWANIE BIZNESU) JEDNAK PRZYCZYNA I NA WSZELKIEJ TEORII ODPOWIEDZIALNO\u015aCI, W KONTRAKCIE, SZKODLIWYCH ODPOWIEDZIALNO\u015aCI LUB TORTU (W TYM ZACHOWANIA LUB INNYCH) WYNIKAJ\u0104CYCH W JAKIMKOLWIEK SPOS\u00d3B KORZYSTANIA Z NINIEJSZEGO OPROGRAMOWANIA, NAWET JE\u015aLI ZOSTA\u0141O UZGODNIONE TAKIE USZKODZENIE."
+    }, 
+    {
+        "source": "Portions of this software are copyright (in alphabetical order):", 
+        "description": "", 
+        "id": "Copyright Text", 
+        "text": "Cz\u0119\u015bci tego oprogramowania s\u0105 chronione prawem autorskim (w kolejno\u015bci alfabetycznej):"
+    }, 
+    {
+        "source": "* Copyright (c) 2004-2019 Darby Johnston, All rights reserved", 
+        "description": "", 
+        "id": "Copyright Darby Johnston", 
+        "text": "* Prawa autorskie (c) 2004-2019 Darby Johnston, Wszelkie prawa zastrze\u017cone"
+    }, 
+    {
+        "source": "* Copyright (c) 2019 Kent Oberheu, All rights reserved", 
+        "description": "", 
+        "id": "Copyright Kent Oberheu", 
+        "text": "* Prawa autorskie (c) 2019 Kent Oberheu, Wszelkie prawa zastrze\u017cone"
+    }, 
+    {
+        "source": "* Copyright (c) 2008-2009 Mikael Sundell, All rights reserved", 
+        "description": "", 
+        "id": "Copyright Mikael Sundell", 
+        "text": "* Prawa autorskie (c) 2008-2009 Mikael Sundell, Wszelkie prawa zastrze\u017cone"
+    }, 
+    {
+        "source": "This software is based in part on the works of (in alphabetical order):", 
+        "description": "", 
+        "id": "Third Party Text", 
+        "text": "To oprogramowanie jest cz\u0119\u015bciowo oparte na pracach (w porz\u0105dku alfabetycznym):"
+    }, 
+    {
+        "source": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium, All rights reserved", 
+        "description": "", 
+        "id": "Third Party CMake", 
+        "text": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium, Wszelkie prawa zastrze\u017cone"
+    }, 
+    {
+        "source": "* FFMpeg, http://www.ffmpeg.org, Licensed under the LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html", 
+        "description": "", 
+        "id": "Third Party FFMpeg", 
+        "text": "* FFMpeg, http://www.ffmpeg.org, licencjonowany pod LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html"
+    }, 
+    {
+        "source": "* FreeType, http://www.freetype.org, Copyright (c) 2018, The FreeType Project", 
+        "description": "", 
+        "id": "Third Party FreeType", 
+        "text": "* FreeType, http://www.freetype.org, Copyright (c) 2018, The FreeType Project"
+    }, 
+    {
+        "source": "* GLFW, http://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla L\u00f6wy <elmindreda@glfw.org>", 
+        "description": "", 
+        "id": "Third Party GLFW", 
+        "text": "* GLFW, http://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla L\u00f6wy <elmindreda@glfw.org>"
+    }, 
+    {
+        "source": "* GLM, http://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation", 
+        "description": "", 
+        "id": "Third Party GLM", 
+        "text": "* GLM, http://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation"
+    }, 
+    {
+        "source": "* MbedTLS, http://tls.mbed.org, Copyright \u00a9 2008 - 2016 ARM Limited, All rights reserved", 
+        "description": "", 
+        "id": "Third Party MbedTLS", 
+        "text": "* MbedTLS, http://tls.mbed.org, Copyright \u00a9 2008 - 2016 ARM Limited, Wszelkie prawa zastrze\u017cone"
+    }, 
+    {
+        "source": "* OpenAL, http://www.openal.org, Copyright (C) 1999-2000 by Loki Software", 
+        "description": "", 
+        "id": "Third Party OpenAL", 
+        "text": "* OpenAL, http://www.openal.org, Copyright (C) 1999-2000 przez Loki Software"
+    }, 
+    {
+        "source": "* OpenColorIO, http://opencolorio.org, Copyright (c) 2003-2010 Sony Pictures Imageworks Inc., et al., All rights reserved", 
+        "description": "", 
+        "id": "Third Party OpenColorIO", 
+        "text": "* OpenColorIO, http://opencolorio.org, Copyright (c) 2003-2010 Sony Pictures Imageworks Inc., et al., Wszelkie prawa zastrze\u017cone"
+    }, 
+    {
+        "source": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, a division of Lucasfilm Entertainment Company Ltd.", 
+        "description": "", 
+        "id": "Third Party OpenEXR", 
+        "text": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, oddzia\u0142 Lucasfilm Entertainment Company Ltd."
+    }, 
+    {
+        "source": "* curl, http://curl.haxx.se/libcurl, Copyright (c) 1996 - 2019, Daniel Stenberg, <daniel@haxx.se>, and many contributors, see the THANKS file", 
+        "description": "", 
+        "id": "Third Party curl", 
+        "text": "* curl, http://curl.haxx.se/libcurl, Copyright (c) 1996 - 2019, Daniel Stenberg, <daniel@haxx.se> oraz wielu autor\u00f3w, zobacz plik THANKS"
+    }, 
+    {
+        "source": "* dr_libs, http://github.com/mackron/dr_libs, David Reid", 
+        "description": "", 
+        "id": "Third Party dr_libs", 
+        "text": "* dr_libs, http://github.com/mackron/dr_libs, David Reid"
+    }, 
+    {
+        "source": "* glad, http://github.com/Dav1dde/glad, Copyright (c) 2013-2018 David Herberth", 
+        "description": "", 
+        "id": "Third Party glad", 
+        "text": "* ciesz\u0119 si\u0119, http://github.com/Dav1dde/glad, Copyright (c) 2013-2018 David Herberth"
+    }, 
+    {
+        "source": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding", 
+        "description": "", 
+        "id": "Third Party libjpeg", 
+        "text": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding"
+    }, 
+    {
+        "source": "* libjpeg-turbo, http://libjpeg-turbo.org, Copyright (C)2009-2019 D. R. Commander, All Rights Reserved, Copyright (C)2015 Viktor Szathm\u00e1ry, All Rights Reserved", 
+        "description": "", 
+        "id": "Third Party libjpeg-turbo", 
+        "text": "* libjpeg-turbo, http://libjpeg-turbo.org, Copyright (C) 2009-2019 DR Commander, Wszelkie prawa zastrze\u017cone, Copyright (C) 2015 Viktor Szathm\u00e1ry, Wszelkie prawa zastrze\u017cone"
+    }, 
+    {
+        "source": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson", 
+        "description": "", 
+        "id": "Third Party libpng", 
+        "text": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson"
+    }, 
+    {
+        "source": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc", 
+        "description": "", 
+        "id": "Third Party libtiff", 
+        "text": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc"
+    }, 
+    {
+        "source": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler", 
+        "description": "", 
+        "id": "Third Party zlib", 
+        "text": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly i Mark Adler"
+    }, 
+    {
+        "source": "Trademarks named in the documentation (in alphabetical order):", 
+        "description": "", 
+        "id": "Trademarks Text", 
+        "text": "Znaki towarowe wymienione w dokumentacji (w kolejno\u015bci alfabetycznej):"
+    }, 
+    {
+        "source": "* Apple, OS X, ProRes, and QuickTime are registered trademarks of Apple, Inc.", 
+        "description": "", 
+        "id": "Trademarks Apple", 
+        "text": "* Apple, OS X, ProRes i QuickTime s\u0105 zastrze\u017conymi znakami towarowymi firmy Apple, Inc."
+    }, 
+    {
+        "source": "* AMD and ATI are registered trademarks of Advanced Micro Devices, Inc.", 
+        "description": "", 
+        "id": "Trademarks AMD", 
+        "text": "* AMD i ATI s\u0105 zastrze\u017conymi znakami towarowymi Advanced Micro Devices, Inc."
+    }, 
+    {
+        "source": "* Autodesk, Inferno, Maya, Softimage, and XSI are registered trademarks of Autodesk, Inc.", 
+        "description": "", 
+        "id": "Trademarks Autodesk", 
+        "text": "* Autodesk, Inferno, Maya, Softimage i XSI s\u0105 zastrze\u017conymi znakami towarowymi Autodesk, Inc."
+    }, 
+    {
+        "source": "* Debian is a registered trademark of Software in the Public Interest, Inc.", 
+        "description": "", 
+        "id": "Trademarks Debian", 
+        "text": "* Debian jest zastrze\u017conym znakiem towarowym Software in the Public Interest, Inc."
+    }, 
+    {
+        "source": "* FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project", 
+        "description": "", 
+        "id": "Trademarks FFmpeg", 
+        "text": "* FFmpeg jest znakiem towarowym Fabrice Bellard, tw\u00f3rcy projektu FFmpeg"
+    }, 
+    {
+        "source": "* FreeBSD is a registered trademark of The FreeBSD Foundation", 
+        "description": "", 
+        "id": "Trademarks FreeBSD", 
+        "text": "* FreeBSD jest zastrze\u017conym znakiem towarowym Fundacji FreeBSD"
+    }, 
+    {
+        "source": "* Intel is a registered trademark of Intel Corporation", 
+        "description": "", 
+        "id": "Trademarks Intel", 
+        "text": "* Intel jest zastrze\u017conym znakiem towarowym Intel Corporation"
+    }, 
+    {
+        "source": "* Industrial Light and Magic and ILM are registered trademarks of Lucasfilm Ltd.", 
+        "description": "", 
+        "id": "Trademarks Lucasfilm", 
+        "text": "* Industrial Light and Magic i ILM s\u0105 zastrze\u017conymi znakami towarowymi Lucasfilm Ltd."
+    }, 
+    {
+        "source": "* Kodak and Cineon are a registered trademarks of the Eastman Kodak Company", 
+        "description": "", 
+        "id": "Trademarks Kodak", 
+        "text": "* Kodak i Cineon s\u0105 zastrze\u017conymi znakami towarowymi firmy Eastman Kodak Company"
+    }, 
+    {
+        "source": "* Linux is a registered trademark of Linus Torvalds", 
+        "description": "", 
+        "id": "Trademarks Linux", 
+        "text": "* Linux jest zastrze\u017conym znakiem towarowym Linusa Torvaldsa"
+    }, 
+    {
+        "source": "* Microsoft and Microsoft Windows are registered trademarks of Microsoft, Inc.", 
+        "description": "", 
+        "id": "Trademarks Microsoft", 
+        "text": "* Microsoft i Microsoft Windows s\u0105 zastrze\u017conymi znakami towarowymi firmy Microsoft, Inc."
+    }, 
+    {
+        "source": "* MIPS is a registered trademark of MIPS Technologies, Inc.", 
+        "description": "", 
+        "id": "Trademarks MIPS", 
+        "text": "* MIPS jest zastrze\u017conym znakiem towarowym MIPS Technologies, Inc."
+    }, 
+    {
+        "source": "* NVIDIA is a registered trademark of NVIDIA Corporation", 
+        "description": "", 
+        "id": "Trademarks NVIDIA", 
+        "text": "* NVIDIA jest zastrze\u017conym znakiem towarowym NVIDIA Corporation"
+    }, 
+    {
+        "source": "* Red Hat and Fedora are registered trademarks of Red Hat, Inc.", 
+        "description": "", 
+        "id": "Trademarks Red Hat", 
+        "text": "* Red Hat i Fedora s\u0105 zastrze\u017conymi znakami towarowymi Red Hat, Inc."
+    }, 
+    {
+        "source": "* Silicon Graphics, SGI, IRIX, and OpenGL are registered trademarks of Silicon Graphics International Corp.", 
+        "description": "", 
+        "id": "Trademarks SGI", 
+        "text": "* Silicon Graphics, SGI, IRIX i OpenGL s\u0105 zastrze\u017conymi znakami towarowymi Silicon Graphics International Corp."
+    }, 
+    {
+        "source": "* SMPTE is a registered trademark of the Society of Motion Picture and Television Engineers", 
+        "description": "", 
+        "id": "Trademarks SMPTE", 
+        "text": "* SMPTE jest zastrze\u017conym znakiem towarowym Society of Motion Picture and Television Engineers"
+    }, 
+    {
+        "source": "* SourceForge.net is a registered trademark of VA Software Corporation", 
+        "description": "", 
+        "id": "Trademarks SourceForge", 
+        "text": "* SourceForge.net jest zastrze\u017conym znakiem towarowym VA Software Corporation"
+    }, 
+    {
+        "source": "* SuSE is a registered trademark of Novell, Inc.", 
+        "description": "", 
+        "id": "Trademarks SuSE", 
+        "text": "* SuSE jest zastrze\u017conym znakiem towarowym firmy Novell, Inc."
+    }, 
+    {
+        "source": "* Ubuntu is a registered trademark of Canonical Ltd.", 
+        "description": "", 
+        "id": "Trademarks Ubuntu", 
+        "text": "* Ubuntu jest zastrze\u017conym znakiem towarowym Canonical Ltd."
+    }, 
+    {
+        "source": "* UNIX is a registered trademark of The Open Group", 
+        "description": "", 
+        "id": "Trademarks UNIX", 
+        "text": "* UNIX jest zastrze\u017conym znakiem towarowym The Open Group"
+    }, 
+    {
+        "source": "All other products named in the documentation are trademarks of their respective owners.", 
+        "description": "", 
+        "id": "Trademarks End", 
+        "text": "Wszystkie inne produkty wymienione w dokumentacji s\u0105 znakami towarowymi ich w\u0142a\u015bcicieli."
+    }, 
+    {
+        "source": "Made in Berkeley, CA, USA", 
+        "description": "", 
+        "id": "Made In", 
+        "text": "Wykonane w Berkeley, CA, USA"
+    }, 
+    {
+        "source": "Cannot parse the value.", 
+        "description": "", 
+        "id": "Cannot parse the value.", 
+        "text": "Nie mo\u017cna przeanalizowa\u0107 warto\u015bci."
+    }, 
+    {
+        "source": "Fit", 
+        "description": "", 
+        "id": "Fit", 
+        "text": "Dopasowanie"
+    }, 
+    {
+        "source": "Center", 
+        "description": "", 
+        "id": "Center", 
+        "text": "\u015arodek"
+    }, 
+    {
+        "source": "0", 
+        "description": "", 
+        "id": "0", 
+        "text": "0"
+    }, 
+    {
+        "source": "90", 
+        "description": "", 
+        "id": "90", 
+        "text": "90"
+    }, 
+    {
+        "source": "180", 
+        "description": "", 
+        "id": "180", 
+        "text": "180"
+    }, 
+    {
+        "source": "270", 
+        "description": "", 
+        "id": "270", 
+        "text": "270"
+    }, 
+    {
+        "source": "Native", 
+        "description": "", 
+        "id": "Native", 
+        "text": "Ojczysty"
+    }, 
+    {
+        "source": "16:9", 
+        "description": "", 
+        "id": "16:9", 
+        "text": "16: 9"
+    }, 
+    {
+        "source": "1.85", 
+        "description": "", 
+        "id": "1.85", 
+        "text": "1,85"
+    }, 
+    {
+        "source": "2.35", 
+        "description": "", 
+        "id": "2.35", 
+        "text": "2.35"
+    }, 
+    {
+        "source": "Stop", 
+        "description": "", 
+        "id": "Stop", 
+        "text": "Zatrzyma\u0107"
+    }, 
+    {
+        "source": "Once", 
+        "description": "", 
+        "id": "Once", 
+        "text": "Pewnego razu"
+    }, 
+    {
+        "source": "Ping Pong", 
+        "description": "", 
+        "id": "PingPong", 
+        "text": "Tenis sto\u0142owy"
+    }, 
+    {
+        "source": "Color Space Widget", 
+        "description": "", 
+        "id": "Color Space Widget", 
+        "text": "Widget przestrzeni kolor\u00f3w"
+    }, 
+    {
+        "source": "Show the color space widget", 
+        "description": "", 
+        "id": "Color space widget tooltip", 
+        "text": "Poka\u017c wid\u017cet przestrzeni kolor\u00f3w"
+    }, 
+    {
+        "source": "Red Channel", 
+        "description": "", 
+        "id": "Red Channel", 
+        "text": "Kana\u0142 czerwony"
+    }, 
+    {
+        "source": "Show the red channel", 
+        "description": "", 
+        "id": "Red channel tooltip", 
+        "text": "Poka\u017c czerwony kana\u0142"
+    }, 
+    {
+        "source": "Green Channel", 
+        "description": "", 
+        "id": "Green Channel", 
+        "text": "Kana\u0142 zielony"
+    }, 
+    {
+        "source": "Show the green channel", 
+        "description": "", 
+        "id": "Green channel tooltip", 
+        "text": "Poka\u017c zielony kana\u0142"
+    }, 
+    {
+        "source": "Blue Channel", 
+        "description": "", 
+        "id": "Blue Channel", 
+        "text": "Niebieski kana\u0142"
+    }, 
+    {
+        "source": "Show the blue channel", 
+        "description": "", 
+        "id": "Blue channel tooltip", 
+        "text": "Poka\u017c niebieski kana\u0142"
+    }, 
+    {
+        "source": "Alpha Channel", 
+        "description": "", 
+        "id": "Alpha Channel", 
+        "text": "Kana\u0142 alfa"
+    }, 
+    {
+        "source": "Show the alpha channel", 
+        "description": "", 
+        "id": "Alpha channel tooltip", 
+        "text": "Poka\u017c kana\u0142 alfa"
+    }, 
+    {
+        "source": "Premultiplied Alpha", 
+        "description": "", 
+        "id": "Premultiplied Alpha", 
+        "text": "Premultiplied Alpha"
+    }, 
+    {
+        "source": "Premultiply the color channels by the alpha channel", 
+        "description": "", 
+        "id": "Premultiplied alpha tooltip", 
+        "text": "Premultiply kana\u0142\u00f3w koloru przez kana\u0142 alfa"
+    }, 
+    {
+        "source": "Mirror Horizontal", 
+        "description": "", 
+        "id": "Mirror Horizontal", 
+        "text": "Lustro poziome"
+    }, 
+    {
+        "source": "Mirror the image horizontally", 
+        "description": "", 
+        "id": "Mirror horizontal tooltip", 
+        "text": "Odbij obraz w poziomie"
+    }, 
+    {
+        "source": "Mirror Vertical", 
+        "description": "", 
+        "id": "Mirror Vertical", 
+        "text": "Lustro w pionie"
+    }, 
+    {
+        "source": "Mirror the image vertically", 
+        "description": "", 
+        "id": "Mirror vertical tooltip", 
+        "text": "Odbij obraz w pionie"
+    }, 
+    {
+        "source": "Rotate 0", 
+        "description": "", 
+        "id": "Rotate 0", 
+        "text": "Obr\u00f3\u0107 0"
+    }, 
+    {
+        "source": "Rotate the image 0 degrees", 
+        "description": "", 
+        "id": "Rotate 0 tooltip", 
+        "text": "Obr\u00f3\u0107 obraz o 0 stopni"
+    }, 
+    {
+        "source": "Rotate 90", 
+        "description": "", 
+        "id": "Rotate 90", 
+        "text": "Obr\u00f3\u0107 o 90"
+    }, 
+    {
+        "source": "Rotate the image 90 degrees", 
+        "description": "", 
+        "id": "Rotate 90 tooltip", 
+        "text": "Obr\u00f3\u0107 obraz o 90 stopni"
+    }, 
+    {
+        "source": "Rotate 180", 
+        "description": "", 
+        "id": "Rotate 180", 
+        "text": "Obr\u00f3\u0107 o 180"
+    }, 
+    {
+        "source": "Rotate the image 180 degrees", 
+        "description": "", 
+        "id": "Rotate 180 tooltip", 
+        "text": "Obr\u00f3\u0107 obraz o 180 stopni"
+    }, 
+    {
+        "source": "Rotate 270", 
+        "description": "", 
+        "id": "Rotate 270", 
+        "text": "Obr\u00f3\u0107 270"
+    }, 
+    {
+        "source": "Rotate the image 270 degrees", 
+        "description": "", 
+        "id": "Rotate 270 tooltip", 
+        "text": "Obr\u00f3\u0107 obraz o 270 stopni"
+    }, 
+    {
+        "source": "Native Aspect Ratio", 
+        "description": "", 
+        "id": "Native Aspect Ratio", 
+        "text": "Rodzimy wsp\u00f3\u0142czynnik proporcji"
+    }, 
+    {
+        "source": "Show the image at it's native resolution", 
+        "description": "", 
+        "id": "Native aspect ratio tooltip", 
+        "text": "Poka\u017c obraz w natywnej rozdzielczo\u015bci"
+    }, 
+    {
+        "source": "Default Aspect Ratio", 
+        "description": "", 
+        "id": "Default Aspect Ratio", 
+        "text": "Domy\u015blny wsp\u00f3\u0142czynnik proporcji"
+    }, 
+    {
+        "source": "Show the image at it's intended resolution", 
+        "description": "", 
+        "id": "Default aspect ratio tooltip", 
+        "text": "Poka\u017c obraz w zamierzonej rozdzielczo\u015bci"
+    }, 
+    {
+        "source": "Show the image with a 16:9 aspect ratio", 
+        "description": "", 
+        "id": "16:9 aspect ratio tooltip", 
+        "text": "Poka\u017c obraz w formacie 16: 9"
+    }, 
+    {
+        "source": "Show the image with a 1.85 aspect ratio", 
+        "description": "", 
+        "id": "1.85 aspect ratio tooltip", 
+        "text": "Poka\u017c obraz o wsp\u00f3\u0142czynniku proporcji 1,85"
+    }, 
+    {
+        "source": "Show the image with a 2.35 aspect ratio", 
+        "description": "", 
+        "id": "2.35 aspect ratio tooltip", 
+        "text": "Poka\u017c obraz o wsp\u00f3\u0142czynniku proporcji 2,35"
+    }, 
+    {
+        "source": "Frame Store", 
+        "description": "", 
+        "id": "Frame Store", 
+        "text": "Sklep z ramkami"
+    }, 
+    {
+        "source": "Show the frame store", 
+        "description": "", 
+        "id": "Frame store tooltip", 
+        "text": "Poka\u017c magazyn ramek"
+    }, 
+    {
+        "source": "Load Frame Store", 
+        "description": "", 
+        "id": "Load Frame Store", 
+        "text": "Za\u0142aduj sklep z ramkami"
+    }, 
+    {
+        "source": "Load the current frame into the frame store", 
+        "description": "", 
+        "id": "Load frame store tooltip", 
+        "text": "Za\u0142aduj bie\u017c\u0105c\u0105 ramk\u0119 do magazynu ramek"
+    }, 
+    {
+        "source": "Pan View", 
+        "description": "", 
+        "id": "Pan View", 
+        "text": "Pan View"
+    }, 
+    {
+        "source": "Activate the pan view tool", 
+        "description": "", 
+        "id": "Pan view tooltip", 
+        "text": "Aktywuj narz\u0119dzie widoku panoramowania"
+    }, 
+    {
+        "source": "Left", 
+        "description": "", 
+        "id": "Left", 
+        "text": "Lewo"
+    }, 
+    {
+        "source": "Move the view left", 
+        "description": "", 
+        "id": "Left tooltip", 
+        "text": "Przesu\u0144 widok w lewo"
+    }, 
+    {
+        "source": "Right", 
+        "description": "", 
+        "id": "Right", 
+        "text": "Dobrze"
+    }, 
+    {
+        "source": "Move the view right", 
+        "description": "", 
+        "id": "Right tooltip", 
+        "text": "Przesu\u0144 widok w prawo"
+    }, 
+    {
+        "source": "Up", 
+        "description": "", 
+        "id": "Up", 
+        "text": "W g\u00f3r\u0119"
+    }, 
+    {
+        "source": "Move the view up", 
+        "description": "", 
+        "id": "Up tooltip", 
+        "text": "Przenie\u015b widok w g\u00f3r\u0119"
+    }, 
+    {
+        "source": "Down", 
+        "description": "", 
+        "id": "Down", 
+        "text": "Na d\u00f3\u0142"
+    }, 
+    {
+        "source": "Move the view down", 
+        "description": "", 
+        "id": "Down tooltip", 
+        "text": "Przesu\u0144 widok w d\u00f3\u0142"
+    }, 
+    {
+        "source": "North West", 
+        "description": "", 
+        "id": "North West", 
+        "text": "p\u00f3\u0142nocny zach\u00f3d"
+    }, 
+    {
+        "source": "Move the view Northwest", 
+        "description": "", 
+        "id": "North west tooltip", 
+        "text": "Przesu\u0144 widok na p\u00f3\u0142nocny zach\u00f3d"
+    }, 
+    {
+        "source": "North East", 
+        "description": "", 
+        "id": "North East", 
+        "text": "P\u00f3\u0142nocny wsch\u00f3d"
+    }, 
+    {
+        "source": "North the view Northeast", 
+        "description": "", 
+        "id": "North east tooltip", 
+        "text": "Na p\u00f3\u0142noc od p\u00f3\u0142nocnego wschodu"
+    }, 
+    {
+        "source": "South east", 
+        "description": "", 
+        "id": "South east", 
+        "text": "Po\u0142udniowy wsch\u00f3d"
+    }, 
+    {
+        "source": "Move the view Southeast", 
+        "description": "", 
+        "id": "South east tooltip", 
+        "text": "Przesu\u0144 widok na po\u0142udniowy wsch\u00f3d"
+    }, 
+    {
+        "source": "South West", 
+        "description": "", 
+        "id": "South West", 
+        "text": "Po\u0142udniowy zach\u00f3d"
+    }, 
+    {
+        "source": "Move the view Southwest", 
+        "description": "", 
+        "id": "South west tooltip", 
+        "text": "Przesu\u0144 widok na po\u0142udniowy zach\u00f3d"
+    }, 
+    {
+        "source": "Zoom In", 
+        "description": "", 
+        "id": "Zoom In", 
+        "text": "Zbli\u017cenie"
+    }, 
+    {
+        "source": "Zoom the view in", 
+        "description": "", 
+        "id": "Zoom in tooltip", 
+        "text": "Powi\u0119ksz widok"
+    }, 
+    {
+        "source": "Zoom Out", 
+        "description": "", 
+        "id": "Zoom Out", 
+        "text": "Pomniejsz"
+    }, 
+    {
+        "source": "Zoom the view out", 
+        "description": "", 
+        "id": "Zoom out tooltip", 
+        "text": "Pomniejsz widok"
+    }, 
+    {
+        "source": "Fit To Image", 
+        "description": "", 
+        "id": "Fit To Image", 
+        "text": "Dopasuj do obrazu"
+    }, 
+    {
+        "source": "Fit the image to the window", 
+        "description": "", 
+        "id": "Fit to image tooltip", 
+        "text": "Dopasuj obraz do okna"
+    }, 
+    {
+        "source": "Center the image in the window with a 1:1 zoom", 
+        "description": "", 
+        "id": "Center image tooltip", 
+        "text": "Wy\u015brodkuj obraz w oknie z zoomem 1: 1"
+    }, 
+    {
+        "source": "Lock Fit To Image", 
+        "description": "", 
+        "id": "Lock Fit To Image", 
+        "text": "Zablokuj pasuje do obrazu"
+    }, 
+    {
+        "source": "Lock the image fitted to the window", 
+        "description": "", 
+        "id": "Lock fit to image tooltip", 
+        "text": "Zablokuj obraz dopasowany do okna"
+    }, 
+    {
+        "source": "Lock Center", 
+        "description": "", 
+        "id": "Lock Center", 
+        "text": "Lock Center"
+    }, 
+    {
+        "source": "Lock the image centered in the window with a 1:1 zoom", 
+        "description": "", 
+        "id": "Lock center image tooltip", 
+        "text": "Zablokuj obraz w \u015brodku okna z zoomem 1: 1"
+    }, 
+    {
+        "source": "Grid", 
+        "description": "", 
+        "id": "Grid", 
+        "text": "Krata"
+    }, 
+    {
+        "source": "Show a grid", 
+        "description": "", 
+        "id": "Grid tooltip", 
+        "text": "Poka\u017c siatk\u0119"
+    }, 
+    {
+        "source": "HUD", 
+        "description": "", 
+        "id": "HUD", 
+        "text": "HUD"
+    }, 
+    {
+        "source": "Show the heads up display", 
+        "description": "", 
+        "id": "HUD tooltip", 
+        "text": "Poka\u017c wy\u015bwietlacz Head Up"
+    }, 
+    {
+        "source": "Show the opened files", 
+        "description": "", 
+        "id": "Media popup tooltip", 
+        "text": "Poka\u017c otwarte pliki"
+    }, 
+    {
+        "source": "Automatically hide the user interface when the mouse doesn't move", 
+        "description": "", 
+        "id": "Auto hide tooltip", 
+        "text": "Automatycznie ukryj interfejs u\u017cytkownika, gdy mysz si\u0119 nie porusza"
+    }, 
+    {
+        "source": "Show the settings", 
+        "description": "", 
+        "id": "Settings tooltip", 
+        "text": "Poka\u017c ustawienia"
+    }, 
+    {
+        "source": "Activate the annotation tool", 
+        "description": "", 
+        "id": "Annotate tooltip", 
+        "text": "Aktywuj narz\u0119dzie adnotacji"
+    }, 
+    {
+        "source": "Color Space", 
+        "description": "", 
+        "id": "Color Space", 
+        "text": "Przestrze\u0144 kolor\u00f3w"
+    }, 
+    {
+        "source": "(empty)", 
+        "description": "", 
+        "id": "(empty)", 
+        "text": "(pusty)"
+    }, 
+    {
+        "source": "Input:", 
+        "description": "", 
+        "id": "Input:", 
+        "text": "Wk\u0142ad:"
+    }, 
+    {
+        "source": "Display:", 
+        "description": "", 
+        "id": "Display:", 
+        "text": "Pokaz:"
+    }, 
+    {
+        "source": "View:", 
+        "description": "", 
+        "id": "View:", 
+        "text": "Widok:"
     }, 
     {
         "source": "Automatically hide the user interface", 
         "text": "Automatycznie ukryj interfejs u\u017cytkownika", 
-        "id": "Automatically hide the user interface", 
-        "description": ""
-    }, 
-    {
-        "source": "Background Image", 
-        "text": "Zdj\u0119cie w tle", 
-        "id": "Background Image", 
-        "description": ""
-    }, 
-    {
-        "source": "Window", 
-        "text": "Okno", 
-        "id": "Window", 
-        "description": ""
-    }, 
-    {
-        "source": "Open the file browser", 
-        "text": "Otw\u00f3rz przegl\u0105dark\u0119 plik\u00f3w", 
-        "id": "Open the file browser", 
-        "description": ""
-    }, 
-    {
-        "source": "Clear the background image", 
-        "text": "Wyczy\u015b\u0107 obraz t\u0142a", 
-        "id": "Clear the background image", 
-        "description": ""
-    }, 
-    {
-        "source": "Colorize with the UI style", 
-        "text": "Koloruj za pomoc\u0105 stylu interfejsu u\u017cytkownika", 
-        "id": "Colorize with the UI style", 
-        "description": ""
-    }, 
-    {
-        "source": "Full Screen", 
-        "text": "Pe\u0142ny ekran", 
-        "id": "Full Screen", 
-        "description": ""
-    }, 
-    {
-        "source": "Toggle full screen mode", 
-        "text": "Prze\u0142\u0105cz tryb pe\u0142noekranowy", 
-        "id": "Full screen tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Maximized", 
-        "text": "Zmaksymalizowany", 
-        "id": "Maximized", 
-        "description": ""
-    }, 
-    {
-        "source": "Maximize the window", 
-        "text": "Maksymalizuj okno", 
-        "id": "Maximized tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "DJV Imaging", 
-        "text": "DJV Imaging", 
-        "id": "About Title", 
-        "description": ""
-    }, 
-    {
-        "source": "Credits", 
-        "text": "Kredyty", 
-        "id": "Credits", 
-        "description": ""
-    }, 
-    {
-        "source": "Sponsors", 
-        "text": "Sponsorzy", 
-        "id": "Sponsors", 
-        "description": ""
-    }, 
-    {
-        "source": "License", 
-        "text": "Licencja", 
-        "id": "License", 
-        "description": ""
-    }, 
-    {
-        "source": "Copyright", 
-        "text": "Prawo autorskie", 
-        "id": "Copyright", 
-        "description": ""
-    }, 
-    {
-        "source": "Third Party Software", 
-        "text": "Oprogramowanie stron trzecich", 
-        "id": "Third Party", 
-        "description": ""
-    }, 
-    {
-        "source": "Trademarks", 
-        "text": "Znaki towarowe", 
-        "id": "Trademarks", 
-        "description": ""
-    }, 
-    {
-        "source": "Darby Johnston", 
-        "text": "Darby Johnston", 
-        "id": "Credits Darby Johnston", 
-        "description": ""
-    }, 
-    {
-        "source": "Principal author", 
-        "text": "G\u0142\u00f3wny autor", 
-        "id": "Credits Darby Johnston Text", 
-        "description": ""
-    }, 
-    {
-        "source": "Kent Oberheu https://semafore.com", 
-        "text": "Kent Oberheu https://semafore.com", 
-        "id": "Credits Kent Oberheu", 
-        "description": ""
-    }, 
-    {
-        "source": "Identity, Iconography, UI / UX design", 
-        "text": "To\u017csamo\u015b\u0107, ikonografia, projekt interfejsu u\u017cytkownika / UX", 
-        "id": "Credits Kent Oberheu Text", 
-        "description": ""
-    }, 
-    {
-        "source": "Siciliana Johnston", 
-        "text": "Sycylijski Johnston", 
-        "id": "Credits Siciliana Johnston", 
-        "description": ""
-    }, 
-    {
-        "source": "Web design", 
-        "text": "projektowanie stron", 
-        "id": "Credits Siciliana Johnston Text", 
-        "description": ""
-    }, 
-    {
-        "source": "Mikael Sundell", 
-        "text": "Mikael Sundell", 
-        "id": "Credits Mikael Sundell", 
-        "description": ""
-    }, 
-    {
-        "source": "IFF image file format support, example images", 
-        "text": "Obs\u0142uga formatu pliku obrazu IFF, przyk\u0142adowe obrazy", 
-        "id": "Credits Mikael Sundell Text", 
-        "description": ""
-    }, 
-    {
-        "source": "unexpected GmbH, https://www.unexpected.de", 
-        "text": "nieoczekiwany GmbH, https://www.u nieoczekiwany.de", 
-        "id": "Sponsors unexpected", 
-        "description": ""
-    }, 
-    {
-        "source": "Copyright (c) 2004-2019 Darby Johnston, All rights reserved", 
-        "text": "Copyright (c) 2004-2019 Darby Johnston, Wszelkie prawa zastrze\u017cone", 
-        "id": "License 1", 
-        "description": ""
-    }, 
-    {
-        "source": "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:", 
-        "text": "Redystrybucja i wykorzystanie w postaci \u017ar\u00f3d\u0142owej i binarnej, z modyfikacjami lub bez, s\u0105 dozwolone pod warunkiem spe\u0142nienia nast\u0119puj\u0105cych warunk\u00f3w:", 
-        "id": "License 2", 
-        "description": ""
-    }, 
-    {
-        "source": "* Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.", 
-        "text": "* Redystrybucje kodu \u017ar\u00f3d\u0142owego musz\u0105 zawiera\u0107 powy\u017csz\u0105 informacj\u0119 o prawach autorskich, niniejsz\u0105 list\u0119 warunk\u00f3w oraz poni\u017csze zastrze\u017cenie.", 
-        "id": "License 3", 
-        "description": ""
-    }, 
-    {
-        "source": "* Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution.", 
-        "text": "* Redystrybucje w formie binarnej musz\u0105 zawiera\u0107 powy\u017csz\u0105 informacj\u0119 o prawach autorskich, niniejsz\u0105 list\u0119 warunk\u00f3w oraz poni\u017csze zastrze\u017cenie w dokumentacji i / lub innych materia\u0142ach dostarczonych wraz z dystrybucj\u0105.", 
-        "id": "License 4", 
-        "description": ""
-    }, 
-    {
-        "source": "* Neither the names of the copyright holders nor the names of any contributors may be used to endorse or promote products derived from this software without specific prior written permission.", 
-        "text": "* Ani nazwy w\u0142a\u015bcicieli praw autorskich, ani nazwy jakichkolwiek autor\u00f3w nie mog\u0105 by\u0107 u\u017cywane do promowania lub promowania produkt\u00f3w pochodz\u0105cych z tego oprogramowania bez uprzedniej pisemnej zgody.", 
-        "id": "License 5", 
-        "description": ""
-    }, 
-    {
-        "source": "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.", 
-        "text": "NINIEJSZE OPROGRAMOWANIE JEST DOSTARCZANE PRZEZ POSIADACZE PRAW AUTORSKICH I KONTRAHENT\u00d3W \u201eW STANIE TAKIM, W JAKIM SI\u0118 ZNAJDUJ\u0104\u201d ORAZ JAKIEKOLWIEK WYRA\u0179NE LUB DOROZUMIANE GWARANCJE, W TYM, ALE NIE OGRANICZONE, DOMNIEMANE GWARANCJE WARTO\u015aCI HANDLOWEJ I PRZYDATNO\u015aCI DO OKRE\u015aLONEGO CELU S\u0104 WYKLUCZONE. W \u017bADNYM WYPADKU UDZIELAJ\u0104CY PRAWA AUTORSKIEGO I SK\u0141ADNIK\u00d3W NIE PONOSI ODPOWIEDZIALNO\u015aCI ZA BEZPO\u015aREDNIE, PO\u015aREDNIE, PRZYPADKOWE, SZCZEG\u00d3LNE, PRZYK\u0141ADOWE LUB WT\u00d3RNE SZKODY (W TYM, ALE NIE OGRANICZONE DO, ZAM\u00d3WIENIA TOWAR\u00d3W LUB US\u0141UG; UTRATA U\u017bYTKOWANIA, DANYCH LUB ZYSK\u00d3W; LUB PRZERWANIE BIZNESU) JEDNAK PRZYCZYNA I NA WSZELKIEJ TEORII ODPOWIEDZIALNO\u015aCI, W KONTRAKCIE, SZKODLIWYCH ODPOWIEDZIALNO\u015aCI LUB TORTU (W TYM ZACHOWANIA LUB INNYCH) WYNIKAJ\u0104CYCH W JAKIMKOLWIEK SPOS\u00d3B KORZYSTANIA Z NINIEJSZEGO OPROGRAMOWANIA, NAWET JE\u015aLI ZOSTA\u0141O UZGODNIONE TAKIE USZKODZENIE.", 
-        "id": "License 6", 
-        "description": ""
-    }, 
-    {
-        "source": "Portions of this software are copyright (in alphabetical order):", 
-        "text": "Cz\u0119\u015bci tego oprogramowania s\u0105 chronione prawem autorskim (w kolejno\u015bci alfabetycznej):", 
-        "id": "Copyright Text", 
-        "description": ""
-    }, 
-    {
-        "source": "* Copyright (c) 2004-2019 Darby Johnston, All rights reserved", 
-        "text": "* Prawa autorskie (c) 2004-2019 Darby Johnston, Wszelkie prawa zastrze\u017cone", 
-        "id": "Copyright Darby Johnston", 
-        "description": ""
-    }, 
-    {
-        "source": "* Copyright (c) 2019 Kent Oberheu, All rights reserved", 
-        "text": "* Prawa autorskie (c) 2019 Kent Oberheu, Wszelkie prawa zastrze\u017cone", 
-        "id": "Copyright Kent Oberheu", 
-        "description": ""
-    }, 
-    {
-        "source": "* Copyright (c) 2008-2009 Mikael Sundell, All rights reserved", 
-        "text": "* Prawa autorskie (c) 2008-2009 Mikael Sundell, Wszelkie prawa zastrze\u017cone", 
-        "id": "Copyright Mikael Sundell", 
-        "description": ""
-    }, 
-    {
-        "source": "This software is based in part on the works of (in alphabetical order):", 
-        "text": "To oprogramowanie jest cz\u0119\u015bciowo oparte na pracach (w porz\u0105dku alfabetycznym):", 
-        "id": "Third Party Text", 
-        "description": ""
-    }, 
-    {
-        "source": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium, All rights reserved", 
-        "text": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium, Wszelkie prawa zastrze\u017cone", 
-        "id": "Third Party CMake", 
-        "description": ""
-    }, 
-    {
-        "source": "* FFMpeg, http://www.ffmpeg.org, Licensed under the LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html", 
-        "text": "* FFMpeg, http://www.ffmpeg.org, licencjonowany pod LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html", 
-        "id": "Third Party FFMpeg", 
-        "description": ""
-    }, 
-    {
-        "source": "* FreeType, http://www.freetype.org, Copyright (c) 2018, The FreeType Project", 
-        "text": "* FreeType, http://www.freetype.org, Copyright (c) 2018, The FreeType Project", 
-        "id": "Third Party FreeType", 
-        "description": ""
-    }, 
-    {
-        "source": "* GLFW, http://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla L\u00f6wy <elmindreda@glfw.org>", 
-        "text": "* GLFW, http://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla L\u00f6wy <elmindreda@glfw.org>", 
-        "id": "Third Party GLFW", 
-        "description": ""
-    }, 
-    {
-        "source": "* GLM, http://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation", 
-        "text": "* GLM, http://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation", 
-        "id": "Third Party GLM", 
-        "description": ""
-    }, 
-    {
-        "source": "* MbedTLS, http://tls.mbed.org, Copyright \u00a9 2008 - 2016 ARM Limited, All rights reserved", 
-        "text": "* MbedTLS, http://tls.mbed.org, Copyright \u00a9 2008 - 2016 ARM Limited, Wszelkie prawa zastrze\u017cone", 
-        "id": "Third Party MbedTLS", 
-        "description": ""
-    }, 
-    {
-        "source": "* OpenAL, http://www.openal.org, Copyright (C) 1999-2000 by Loki Software", 
-        "text": "* OpenAL, http://www.openal.org, Copyright (C) 1999-2000 przez Loki Software", 
-        "id": "Third Party OpenAL", 
-        "description": ""
-    }, 
-    {
-        "source": "* OpenColorIO, http://opencolorio.org, Copyright (c) 2003-2010 Sony Pictures Imageworks Inc., et al., All rights reserved", 
-        "text": "* OpenColorIO, http://opencolorio.org, Copyright (c) 2003-2010 Sony Pictures Imageworks Inc., et al., Wszelkie prawa zastrze\u017cone", 
-        "id": "Third Party OpenColorIO", 
-        "description": ""
-    }, 
-    {
-        "source": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, a division of Lucasfilm Entertainment Company Ltd.", 
-        "text": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, oddzia\u0142 Lucasfilm Entertainment Company Ltd.", 
-        "id": "Third Party OpenEXR", 
-        "description": ""
-    }, 
-    {
-        "source": "* curl, http://curl.haxx.se/libcurl, Copyright (c) 1996 - 2019, Daniel Stenberg, <daniel@haxx.se>, and many contributors, see the THANKS file", 
-        "text": "* curl, http://curl.haxx.se/libcurl, Copyright (c) 1996 - 2019, Daniel Stenberg, <daniel@haxx.se> oraz wielu autor\u00f3w, zobacz plik THANKS", 
-        "id": "Third Party curl", 
-        "description": ""
-    }, 
-    {
-        "source": "* dr_libs, http://github.com/mackron/dr_libs, David Reid", 
-        "text": "* dr_libs, http://github.com/mackron/dr_libs, David Reid", 
-        "id": "Third Party dr_libs", 
-        "description": ""
-    }, 
-    {
-        "source": "* glad, http://github.com/Dav1dde/glad, Copyright (c) 2013-2018 David Herberth", 
-        "text": "* ciesz\u0119 si\u0119, http://github.com/Dav1dde/glad, Copyright (c) 2013-2018 David Herberth", 
-        "id": "Third Party glad", 
-        "description": ""
-    }, 
-    {
-        "source": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding", 
-        "text": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding", 
-        "id": "Third Party libjpeg", 
-        "description": ""
-    }, 
-    {
-        "source": "* libjpeg-turbo, http://libjpeg-turbo.org, Copyright (C)2009-2019 D. R. Commander, All Rights Reserved, Copyright (C)2015 Viktor Szathm\u00e1ry, All Rights Reserved", 
-        "text": "* libjpeg-turbo, http://libjpeg-turbo.org, Copyright (C) 2009-2019 DR Commander, Wszelkie prawa zastrze\u017cone, Copyright (C) 2015 Viktor Szathm\u00e1ry, Wszelkie prawa zastrze\u017cone", 
-        "id": "Third Party libjpeg-turbo", 
-        "description": ""
-    }, 
-    {
-        "source": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson", 
-        "text": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson", 
-        "id": "Third Party libpng", 
-        "description": ""
-    }, 
-    {
-        "source": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc", 
-        "text": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc", 
-        "id": "Third Party libtiff", 
-        "description": ""
-    }, 
-    {
-        "source": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler", 
-        "text": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly i Mark Adler", 
-        "id": "Third Party zlib", 
-        "description": ""
-    }, 
-    {
-        "source": "Trademarks named in the documentation (in alphabetical order):", 
-        "text": "Znaki towarowe wymienione w dokumentacji (w kolejno\u015bci alfabetycznej):", 
-        "id": "Trademarks Text", 
-        "description": ""
-    }, 
-    {
-        "source": "* Apple, OS X, ProRes, and QuickTime are registered trademarks of Apple, Inc.", 
-        "text": "* Apple, OS X, ProRes i QuickTime s\u0105 zastrze\u017conymi znakami towarowymi firmy Apple, Inc.", 
-        "id": "Trademarks Apple", 
-        "description": ""
-    }, 
-    {
-        "source": "* AMD and ATI are registered trademarks of Advanced Micro Devices, Inc.", 
-        "text": "* AMD i ATI s\u0105 zastrze\u017conymi znakami towarowymi Advanced Micro Devices, Inc.", 
-        "id": "Trademarks AMD", 
-        "description": ""
-    }, 
-    {
-        "source": "* Autodesk, Inferno, Maya, Softimage, and XSI are registered trademarks of Autodesk, Inc.", 
-        "text": "* Autodesk, Inferno, Maya, Softimage i XSI s\u0105 zastrze\u017conymi znakami towarowymi Autodesk, Inc.", 
-        "id": "Trademarks Autodesk", 
-        "description": ""
-    }, 
-    {
-        "source": "* Debian is a registered trademark of Software in the Public Interest, Inc.", 
-        "text": "* Debian jest zastrze\u017conym znakiem towarowym Software in the Public Interest, Inc.", 
-        "id": "Trademarks Debian", 
-        "description": ""
-    }, 
-    {
-        "source": "* FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project", 
-        "text": "* FFmpeg jest znakiem towarowym Fabrice Bellard, tw\u00f3rcy projektu FFmpeg", 
-        "id": "Trademarks FFmpeg", 
-        "description": ""
-    }, 
-    {
-        "source": "* FreeBSD is a registered trademark of The FreeBSD Foundation", 
-        "text": "* FreeBSD jest zastrze\u017conym znakiem towarowym Fundacji FreeBSD", 
-        "id": "Trademarks FreeBSD", 
-        "description": ""
-    }, 
-    {
-        "source": "* Intel is a registered trademark of Intel Corporation", 
-        "text": "* Intel jest zastrze\u017conym znakiem towarowym Intel Corporation", 
-        "id": "Trademarks Intel", 
-        "description": ""
-    }, 
-    {
-        "source": "* Industrial Light and Magic and ILM are registered trademarks of Lucasfilm Ltd.", 
-        "text": "* Industrial Light and Magic i ILM s\u0105 zastrze\u017conymi znakami towarowymi Lucasfilm Ltd.", 
-        "id": "Trademarks Lucasfilm", 
-        "description": ""
-    }, 
-    {
-        "source": "* Kodak and Cineon are a registered trademarks of the Eastman Kodak Company", 
-        "text": "* Kodak i Cineon s\u0105 zastrze\u017conymi znakami towarowymi firmy Eastman Kodak Company", 
-        "id": "Trademarks Kodak", 
-        "description": ""
-    }, 
-    {
-        "source": "* Linux is a registered trademark of Linus Torvalds", 
-        "text": "* Linux jest zastrze\u017conym znakiem towarowym Linusa Torvaldsa", 
-        "id": "Trademarks Linux", 
-        "description": ""
-    }, 
-    {
-        "source": "* Microsoft and Microsoft Windows are registered trademarks of Microsoft, Inc.", 
-        "text": "* Microsoft i Microsoft Windows s\u0105 zastrze\u017conymi znakami towarowymi firmy Microsoft, Inc.", 
-        "id": "Trademarks Microsoft", 
-        "description": ""
-    }, 
-    {
-        "source": "* MIPS is a registered trademark of MIPS Technologies, Inc.", 
-        "text": "* MIPS jest zastrze\u017conym znakiem towarowym MIPS Technologies, Inc.", 
-        "id": "Trademarks MIPS", 
-        "description": ""
-    }, 
-    {
-        "source": "* NVIDIA is a registered trademark of NVIDIA Corporation", 
-        "text": "* NVIDIA jest zastrze\u017conym znakiem towarowym NVIDIA Corporation", 
-        "id": "Trademarks NVIDIA", 
-        "description": ""
-    }, 
-    {
-        "source": "* Red Hat and Fedora are registered trademarks of Red Hat, Inc.", 
-        "text": "* Red Hat i Fedora s\u0105 zastrze\u017conymi znakami towarowymi Red Hat, Inc.", 
-        "id": "Trademarks Red Hat", 
-        "description": ""
-    }, 
-    {
-        "source": "* Silicon Graphics, SGI, IRIX, and OpenGL are registered trademarks of Silicon Graphics International Corp.", 
-        "text": "* Silicon Graphics, SGI, IRIX i OpenGL s\u0105 zastrze\u017conymi znakami towarowymi Silicon Graphics International Corp.", 
-        "id": "Trademarks SGI", 
-        "description": ""
-    }, 
-    {
-        "source": "* SMPTE is a registered trademark of the Society of Motion Picture and Television Engineers", 
-        "text": "* SMPTE jest zastrze\u017conym znakiem towarowym Society of Motion Picture and Television Engineers", 
-        "id": "Trademarks SMPTE", 
-        "description": ""
-    }, 
-    {
-        "source": "* SourceForge.net is a registered trademark of VA Software Corporation", 
-        "text": "* SourceForge.net jest zastrze\u017conym znakiem towarowym VA Software Corporation", 
-        "id": "Trademarks SourceForge", 
-        "description": ""
-    }, 
-    {
-        "source": "* SuSE is a registered trademark of Novell, Inc.", 
-        "text": "* SuSE jest zastrze\u017conym znakiem towarowym firmy Novell, Inc.", 
-        "id": "Trademarks SuSE", 
-        "description": ""
-    }, 
-    {
-        "source": "* Ubuntu is a registered trademark of Canonical Ltd.", 
-        "text": "* Ubuntu jest zastrze\u017conym znakiem towarowym Canonical Ltd.", 
-        "id": "Trademarks Ubuntu", 
-        "description": ""
-    }, 
-    {
-        "source": "* UNIX is a registered trademark of The Open Group", 
-        "text": "* UNIX jest zastrze\u017conym znakiem towarowym The Open Group", 
-        "id": "Trademarks UNIX", 
-        "description": ""
-    }, 
-    {
-        "source": "All other products named in the documentation are trademarks of their respective owners.", 
-        "text": "Wszystkie inne produkty wymienione w dokumentacji s\u0105 znakami towarowymi ich w\u0142a\u015bcicieli.", 
-        "id": "Trademarks End", 
-        "description": ""
-    }, 
-    {
-        "source": "Made in Berkeley, CA, USA", 
-        "text": "Wykonane w Berkeley, CA, USA", 
-        "id": "Made In", 
-        "description": ""
-    }, 
-    {
-        "source": "Cannot parse the value.", 
-        "text": "Nie mo\u017cna przeanalizowa\u0107 warto\u015bci.", 
-        "id": "Cannot parse the value.", 
-        "description": ""
-    }, 
-    {
-        "source": "Fit", 
-        "text": "Dopasowanie", 
-        "id": "Fit", 
-        "description": ""
-    }, 
-    {
-        "source": "Center", 
-        "text": "\u015arodek", 
-        "id": "Center", 
-        "description": ""
-    }, 
-    {
-        "source": "0", 
-        "text": "0", 
-        "id": "0", 
-        "description": ""
-    }, 
-    {
-        "source": "90", 
-        "text": "90", 
-        "id": "90", 
-        "description": ""
-    }, 
-    {
-        "source": "180", 
-        "text": "180", 
-        "id": "180", 
-        "description": ""
-    }, 
-    {
-        "source": "270", 
-        "text": "270", 
-        "id": "270", 
-        "description": ""
-    }, 
-    {
-        "source": "Native", 
-        "text": "Ojczysty", 
-        "id": "Native", 
-        "description": ""
-    }, 
-    {
-        "source": "16:9", 
-        "text": "16: 9", 
-        "id": "16:9", 
-        "description": ""
-    }, 
-    {
-        "source": "1.85", 
-        "text": "1,85", 
-        "id": "1.85", 
-        "description": ""
-    }, 
-    {
-        "source": "2.35", 
-        "text": "2.35", 
-        "id": "2.35", 
-        "description": ""
-    }, 
-    {
-        "source": "Stop", 
-        "text": "Zatrzyma\u0107", 
-        "id": "Stop", 
-        "description": ""
-    }, 
-    {
-        "source": "Once", 
-        "text": "Pewnego razu", 
-        "id": "Once", 
-        "description": ""
-    }, 
-    {
-        "source": "Ping Pong", 
-        "text": "Tenis sto\u0142owy", 
-        "id": "PingPong", 
-        "description": ""
-    }, 
-    {
-        "source": "Color Space Widget", 
-        "text": "Widget przestrzeni kolor\u00f3w", 
-        "id": "Color Space Widget", 
-        "description": ""
-    }, 
-    {
-        "source": "Show the color space widget", 
-        "text": "Poka\u017c wid\u017cet przestrzeni kolor\u00f3w", 
-        "id": "Color space widget tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Red Channel", 
-        "text": "Kana\u0142 czerwony", 
-        "id": "Red Channel", 
-        "description": ""
-    }, 
-    {
-        "source": "Show the red channel", 
-        "text": "Poka\u017c czerwony kana\u0142", 
-        "id": "Red channel tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Green Channel", 
-        "text": "Kana\u0142 zielony", 
-        "id": "Green Channel", 
-        "description": ""
-    }, 
-    {
-        "source": "Show the green channel", 
-        "text": "Poka\u017c zielony kana\u0142", 
-        "id": "Green channel tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Blue Channel", 
-        "text": "Niebieski kana\u0142", 
-        "id": "Blue Channel", 
-        "description": ""
-    }, 
-    {
-        "source": "Show the blue channel", 
-        "text": "Poka\u017c niebieski kana\u0142", 
-        "id": "Blue channel tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Alpha Channel", 
-        "text": "Kana\u0142 alfa", 
-        "id": "Alpha Channel", 
-        "description": ""
-    }, 
-    {
-        "source": "Show the alpha channel", 
-        "text": "Poka\u017c kana\u0142 alfa", 
-        "id": "Alpha channel tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Premultiplied Alpha", 
-        "text": "Premultiplied Alpha", 
-        "id": "Premultiplied Alpha", 
-        "description": ""
-    }, 
-    {
-        "source": "Premultiply the color channels by the alpha channel", 
-        "text": "Premultiply kana\u0142\u00f3w koloru przez kana\u0142 alfa", 
-        "id": "Premultiplied alpha tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Mirror Horizontal", 
-        "text": "Lustro poziome", 
-        "id": "Mirror Horizontal", 
-        "description": ""
-    }, 
-    {
-        "source": "Mirror the image horizontally", 
-        "text": "Odbij obraz w poziomie", 
-        "id": "Mirror horizontal tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Mirror Vertical", 
-        "text": "Lustro w pionie", 
-        "id": "Mirror Vertical", 
-        "description": ""
-    }, 
-    {
-        "source": "Mirror the image vertically", 
-        "text": "Odbij obraz w pionie", 
-        "id": "Mirror vertical tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Rotate 0", 
-        "text": "Obr\u00f3\u0107 0", 
-        "id": "Rotate 0", 
-        "description": ""
-    }, 
-    {
-        "source": "Rotate the image 0 degrees", 
-        "text": "Obr\u00f3\u0107 obraz o 0 stopni", 
-        "id": "Rotate 0 tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Rotate 90", 
-        "text": "Obr\u00f3\u0107 o 90", 
-        "id": "Rotate 90", 
-        "description": ""
-    }, 
-    {
-        "source": "Rotate the image 90 degrees", 
-        "text": "Obr\u00f3\u0107 obraz o 90 stopni", 
-        "id": "Rotate 90 tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Rotate 180", 
-        "text": "Obr\u00f3\u0107 o 180", 
-        "id": "Rotate 180", 
-        "description": ""
-    }, 
-    {
-        "source": "Rotate the image 180 degrees", 
-        "text": "Obr\u00f3\u0107 obraz o 180 stopni", 
-        "id": "Rotate 180 tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Rotate 270", 
-        "text": "Obr\u00f3\u0107 270", 
-        "id": "Rotate 270", 
-        "description": ""
-    }, 
-    {
-        "source": "Rotate the image 270 degrees", 
-        "text": "Obr\u00f3\u0107 obraz o 270 stopni", 
-        "id": "Rotate 270 tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Native Aspect Ratio", 
-        "text": "Rodzimy wsp\u00f3\u0142czynnik proporcji", 
-        "id": "Native Aspect Ratio", 
-        "description": ""
-    }, 
-    {
-        "source": "Show the image at it's native resolution", 
-        "text": "Poka\u017c obraz w natywnej rozdzielczo\u015bci", 
-        "id": "Native aspect ratio tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Default Aspect Ratio", 
-        "text": "Domy\u015blny wsp\u00f3\u0142czynnik proporcji", 
-        "id": "Default Aspect Ratio", 
-        "description": ""
-    }, 
-    {
-        "source": "Show the image at it's intended resolution", 
-        "text": "Poka\u017c obraz w zamierzonej rozdzielczo\u015bci", 
-        "id": "Default aspect ratio tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Show the image with a 16:9 aspect ratio", 
-        "text": "Poka\u017c obraz w formacie 16: 9", 
-        "id": "16:9 aspect ratio tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Show the image with a 1.85 aspect ratio", 
-        "text": "Poka\u017c obraz o wsp\u00f3\u0142czynniku proporcji 1,85", 
-        "id": "1.85 aspect ratio tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Show the image with a 2.35 aspect ratio", 
-        "text": "Poka\u017c obraz o wsp\u00f3\u0142czynniku proporcji 2,35", 
-        "id": "2.35 aspect ratio tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Frame Store", 
-        "text": "Sklep z ramkami", 
-        "id": "Frame Store", 
-        "description": ""
-    }, 
-    {
-        "source": "Show the frame store", 
-        "text": "Poka\u017c magazyn ramek", 
-        "id": "Frame store tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Load Frame Store", 
-        "text": "Za\u0142aduj sklep z ramkami", 
-        "id": "Load Frame Store", 
-        "description": ""
-    }, 
-    {
-        "source": "Load the current frame into the frame store", 
-        "text": "Za\u0142aduj bie\u017c\u0105c\u0105 ramk\u0119 do magazynu ramek", 
-        "id": "Load frame store tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Pan View", 
-        "text": "Pan View", 
-        "id": "Pan View", 
-        "description": ""
-    }, 
-    {
-        "source": "Activate the pan view tool", 
-        "text": "Aktywuj narz\u0119dzie widoku panoramowania", 
-        "id": "Pan view tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Left", 
-        "text": "Lewo", 
-        "id": "Left", 
-        "description": ""
-    }, 
-    {
-        "source": "Move the view left", 
-        "text": "Przesu\u0144 widok w lewo", 
-        "id": "Left tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Right", 
-        "text": "Dobrze", 
-        "id": "Right", 
-        "description": ""
-    }, 
-    {
-        "source": "Move the view right", 
-        "text": "Przesu\u0144 widok w prawo", 
-        "id": "Right tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Up", 
-        "text": "W g\u00f3r\u0119", 
-        "id": "Up", 
-        "description": ""
-    }, 
-    {
-        "source": "Move the view up", 
-        "text": "Przenie\u015b widok w g\u00f3r\u0119", 
-        "id": "Up tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Down", 
-        "text": "Na d\u00f3\u0142", 
-        "id": "Down", 
-        "description": ""
-    }, 
-    {
-        "source": "Move the view down", 
-        "text": "Przesu\u0144 widok w d\u00f3\u0142", 
-        "id": "Down tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "North West", 
-        "text": "p\u00f3\u0142nocny zach\u00f3d", 
-        "id": "North West", 
-        "description": ""
-    }, 
-    {
-        "source": "Move the view Northwest", 
-        "text": "Przesu\u0144 widok na p\u00f3\u0142nocny zach\u00f3d", 
-        "id": "North west tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "North East", 
-        "text": "P\u00f3\u0142nocny wsch\u00f3d", 
-        "id": "North East", 
-        "description": ""
-    }, 
-    {
-        "source": "North the view Northeast", 
-        "text": "Na p\u00f3\u0142noc od p\u00f3\u0142nocnego wschodu", 
-        "id": "North east tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "South east", 
-        "text": "Po\u0142udniowy wsch\u00f3d", 
-        "id": "South east", 
-        "description": ""
-    }, 
-    {
-        "source": "Move the view Southeast", 
-        "text": "Przesu\u0144 widok na po\u0142udniowy wsch\u00f3d", 
-        "id": "South east tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "South West", 
-        "text": "Po\u0142udniowy zach\u00f3d", 
-        "id": "South West", 
-        "description": ""
-    }, 
-    {
-        "source": "Move the view Southwest", 
-        "text": "Przesu\u0144 widok na po\u0142udniowy zach\u00f3d", 
-        "id": "South west tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Zoom In", 
-        "text": "Zbli\u017cenie", 
-        "id": "Zoom In", 
-        "description": ""
-    }, 
-    {
-        "source": "Zoom the view in", 
-        "text": "Powi\u0119ksz widok", 
-        "id": "Zoom in tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Zoom Out", 
-        "text": "Pomniejsz", 
-        "id": "Zoom Out", 
-        "description": ""
-    }, 
-    {
-        "source": "Zoom the view out", 
-        "text": "Pomniejsz widok", 
-        "id": "Zoom out tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Fit To Image", 
-        "text": "Dopasuj do obrazu", 
-        "id": "Fit To Image", 
-        "description": ""
-    }, 
-    {
-        "source": "Fit the image to the window", 
-        "text": "Dopasuj obraz do okna", 
-        "id": "Fit to image tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Center the image in the window with a 1:1 zoom", 
-        "text": "Wy\u015brodkuj obraz w oknie z zoomem 1: 1", 
-        "id": "Center image tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Lock Fit To Image", 
-        "text": "Zablokuj pasuje do obrazu", 
-        "id": "Lock Fit To Image", 
-        "description": ""
-    }, 
-    {
-        "source": "Lock the image fitted to the window", 
-        "text": "Zablokuj obraz dopasowany do okna", 
-        "id": "Lock fit to image tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Lock Center", 
-        "text": "Lock Center", 
-        "id": "Lock Center", 
-        "description": ""
-    }, 
-    {
-        "source": "Lock the image centered in the window with a 1:1 zoom", 
-        "text": "Zablokuj obraz w \u015brodku okna z zoomem 1: 1", 
-        "id": "Lock center image tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Grid", 
-        "text": "Krata", 
-        "id": "Grid", 
-        "description": ""
-    }, 
-    {
-        "source": "Show a grid", 
-        "text": "Poka\u017c siatk\u0119", 
-        "id": "Grid tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "HUD", 
-        "text": "HUD", 
-        "id": "HUD", 
-        "description": ""
-    }, 
-    {
-        "source": "Show the heads up display", 
-        "text": "Poka\u017c wy\u015bwietlacz Head Up", 
-        "id": "HUD tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Show the opened files", 
-        "text": "Poka\u017c otwarte pliki", 
-        "id": "Media popup tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Automatically hide the user interface when the mouse doesn't move", 
-        "text": "Automatycznie ukryj interfejs u\u017cytkownika, gdy mysz si\u0119 nie porusza", 
-        "id": "Auto hide tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Show the settings", 
-        "text": "Poka\u017c ustawienia", 
-        "id": "Settings tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Activate the annotation tool", 
-        "text": "Aktywuj narz\u0119dzie adnotacji", 
-        "id": "Annotate tooltip", 
-        "description": ""
-    }, 
-    {
-        "source": "Color Space", 
-        "text": "Przestrze\u0144 kolor\u00f3w", 
-        "id": "Color Space", 
-        "description": ""
-    }, 
-    {
-        "source": "(empty)", 
-        "text": "(pusty)", 
-        "id": "(empty)", 
-        "description": ""
-    }, 
-    {
-        "source": "Input:", 
-        "text": "Wk\u0142ad:", 
-        "id": "Input:", 
-        "description": ""
-    }, 
-    {
-        "source": "Display:", 
-        "text": "Pokaz:", 
-        "id": "Display:", 
-        "description": ""
-    }, 
-    {
-        "source": "View:", 
-        "text": "Widok:", 
-        "id": "View:", 
-        "description": ""
-    }, 
-    {
         "id": "Auto-hide tooltip", 
-        "source": "Automatically hide the user interface", 
-        "description": "", 
-        "text": "Automatycznie ukryj interfejs u\u017cytkownika"
+        "description": ""
     }, 
     {
-        "id": "Auto-Hide", 
         "source": "Auto-Hide", 
-        "description": "", 
-        "text": "Autoukrywanie"
+        "text": "Autoukrywanie", 
+        "id": "Auto-Hide", 
+        "description": ""
     }, 
     {
+        "id": "Fullscreen", 
         "source": "Fullscreen", 
-        "text": "Pe\u0142ny ekran", 
         "description": "", 
-        "id": "Fullscreen"
+        "text": "Pe\u0142ny ekran"
     }, 
     {
+        "id": "Monitor", 
         "source": "Monitor", 
-        "text": "Monitor", 
         "description": "", 
-        "id": "Monitor"
+        "text": "Monitor"
     }, 
     {
+        "id": "frames", 
         "source": "frames", 
-        "text": "ramki", 
         "description": "", 
-        "id": "frames"
+        "text": "ramki"
     }, 
     {
+        "id": "Zoom Reset", 
         "source": "Zoom Reset", 
-        "text": "Zoom Reset", 
         "description": "", 
-        "id": "Zoom Reset"
+        "text": "Zoom Reset"
     }, 
     {
+        "id": "Zoom reset tooltip", 
         "source": "Reset the zoom to 1.0", 
-        "text": "Zresetuj zoom do 1.0", 
         "description": "", 
-        "id": "Zoom reset tooltip"
+        "text": "Zresetuj zoom do 1.0"
     }, 
     {
+        "id": "Full", 
         "source": "Full", 
-        "text": "Pe\u0142ny", 
         "description": "", 
-        "id": "Full"
+        "text": "Pe\u0142ny"
     }, 
     {
+        "id": "Full view tooltip", 
         "source": "Set the view so the image fills the window", 
-        "text": "Ustaw widok, aby obraz wype\u0142nia\u0142 okno", 
         "description": "", 
-        "id": "Full view tooltip"
+        "text": "Ustaw widok, aby obraz wype\u0142nia\u0142 okno"
     }, 
     {
+        "id": "Frame", 
         "source": "Frame", 
-        "text": "Rama", 
         "description": "", 
-        "id": "Frame"
+        "text": "Rama"
     }, 
     {
+        "id": "Frame view tooltip", 
         "source": "Frame the image within the view", 
-        "text": "Wykadruj obraz w widoku", 
         "description": "", 
-        "id": "Frame view tooltip"
+        "text": "Wykadruj obraz w widoku"
     }, 
     {
+        "id": "Center view tooltip", 
         "source": "Center the view and set the zoom to 1.0", 
-        "text": "Wy\u015brodkuj widok i ustaw powi\u0119kszenie na 1,0", 
         "description": "", 
-        "id": "Center view tooltip"
+        "text": "Wy\u015brodkuj widok i ustaw powi\u0119kszenie na 1,0"
     }, 
     {
+        "id": "Lock Full", 
         "source": "Lock Full", 
-        "text": "Zablokuj pe\u0142ny", 
         "description": "", 
-        "id": "Lock Full"
+        "text": "Zablokuj pe\u0142ny"
     }, 
     {
+        "id": "Lock full view tooltip", 
         "source": "Lock the view so the image fills the window", 
-        "text": "Zablokuj widok, aby obraz wype\u0142ni\u0142 okno", 
         "description": "", 
-        "id": "Lock full view tooltip"
+        "text": "Zablokuj widok, aby obraz wype\u0142ni\u0142 okno"
     }, 
     {
+        "id": "Lock Frame", 
         "source": "Lock Frame", 
-        "text": "Zablokuj ramk\u0119", 
         "description": "", 
-        "id": "Lock Frame"
+        "text": "Zablokuj ramk\u0119"
     }, 
     {
+        "id": "Lock frame view tooltip", 
         "source": "Lock the view so the image fills the window without being obscured by the user interface", 
-        "text": "Zablokuj widok, aby obraz wype\u0142nia\u0142 okno bez zas\u0142aniania interfejsu u\u017cytkownika", 
         "description": "", 
-        "id": "Lock frame view tooltip"
+        "text": "Zablokuj widok, aby obraz wype\u0142nia\u0142 okno bez zas\u0142aniania interfejsu u\u017cytkownika"
     }, 
     {
+        "id": "Lock center view tooltip", 
         "source": "Lock the view so the image is centered and the zoom is 1:1", 
-        "text": "Zablokuj widok, aby obraz by\u0142 wy\u015brodkowany, a powi\u0119kszenie 1: 1", 
         "description": "", 
-        "id": "Lock center view tooltip"
+        "text": "Zablokuj widok, aby obraz by\u0142 wy\u015brodkowany, a powi\u0119kszenie 1: 1"
     }, 
     {
         "source": "Maximize", 
+        "text": "Wyolbrzymia\u0107", 
         "description": "", 
-        "id": "Maximize", 
-        "text": "Wyolbrzymia\u0107"
+        "id": "Maximize"
     }, 
     {
         "source": "Fit the window to the image", 
+        "text": "Dopasuj okno do obrazu", 
         "description": "", 
-        "id": "Fit tooltip", 
-        "text": "Dopasuj okno do obrazu"
+        "id": "Fit tooltip"
     }, 
     {
         "source": "The file", 
-        "text": "Plik", 
+        "description": "", 
         "id": "The file", 
-        "description": ""
+        "text": "Plik"
     }, 
     {
         "source": "cannot be read", 
-        "text": "nie mo\u017cna odczyta\u0107", 
+        "description": "", 
         "id": "cannot be read", 
-        "description": ""
+        "text": "nie mo\u017cna odczyta\u0107"
     }, 
     {
         "source": "Config", 
-        "text": "Config", 
+        "description": "", 
         "id": "Config", 
-        "description": ""
+        "text": "Config"
     }, 
     {
         "source": "Display", 
-        "text": "Pokaz", 
+        "description": "", 
         "id": "Display", 
-        "description": ""
+        "text": "Pokaz"
     }, 
     {
         "source": "Add a new OpenColorIO configuration", 
-        "text": "Dodaj now\u0105 konfiguracj\u0119 OpenColorIO", 
+        "description": "", 
         "id": "Color space add config tooltip", 
-        "description": ""
+        "text": "Dodaj now\u0105 konfiguracj\u0119 OpenColorIO"
     }, 
     {
         "source": "Edit the list of OpenColorIO configurations", 
-        "text": "Edytuj list\u0119 konfiguracji OpenColorIO", 
+        "description": "", 
         "id": "Color space edit configs tooltip", 
-        "description": ""
+        "text": "Edytuj list\u0119 konfiguracji OpenColorIO"
     }, 
     {
         "source": "Assign a color space to a file format", 
-        "text": "Przypisz przestrze\u0144 kolor\u00f3w do formatu pliku", 
+        "description": "", 
         "id": "Color space add image tooltip", 
-        "description": ""
+        "text": "Przypisz przestrze\u0144 kolor\u00f3w do formatu pliku"
     }, 
     {
         "source": "Edit the list of color spaces", 
-        "text": "Edytuj list\u0119 przestrzeni kolor\u00f3w", 
+        "description": "", 
         "id": "Color space edit images tooltip", 
-        "description": ""
+        "text": "Edytuj list\u0119 przestrzeni kolor\u00f3w"
     }, 
     {
         "source": "Fill", 
-        "text": "Nape\u0142ni\u0107", 
+        "description": "", 
         "id": "Fill", 
-        "description": ""
+        "text": "Nape\u0142ni\u0107"
     }, 
     {
         "source": "Errors", 
-        "text": "B\u0142\u0119dy", 
+        "description": "", 
         "id": "Errors", 
-        "description": ""
+        "text": "B\u0142\u0119dy"
     }, 
     {
         "source": "Popup", 
-        "text": "Popup", 
+        "description": "", 
         "id": "Popup", 
-        "description": ""
+        "text": "Popup"
     }, 
     {
         "source": "Show this window when there are errors", 
-        "text": "Poka\u017c to okno, gdy wyst\u0105pi\u0105 b\u0142\u0119dy", 
+        "description": "", 
         "id": "Errors widget popup tooltip", 
-        "description": ""
+        "text": "Poka\u017c to okno, gdy wyst\u0105pi\u0105 b\u0142\u0119dy"
     }, 
     {
         "source": "Copy the errors to the clipboard", 
-        "text": "Skopiuj b\u0142\u0119dy do schowka", 
+        "description": "", 
         "id": "Errors widget copy tooltip", 
-        "description": ""
+        "text": "Skopiuj b\u0142\u0119dy do schowka"
     }, 
     {
         "source": "Clear the errors", 
-        "text": "Usu\u0144 b\u0142\u0119dy", 
+        "description": "", 
         "id": "Errors widget clear tooltip", 
-        "description": ""
+        "text": "Usu\u0144 b\u0142\u0119dy"
     }, 
     {
         "source": "Show the layers widget", 
-        "text": "Poka\u017c wid\u017cet warstw", 
+        "description": "", 
         "id": "Layers tooltip", 
-        "description": ""
+        "text": "Poka\u017c wid\u017cet warstw"
     }, 
     {
         "source": "Alpha Blend", 
-        "text": "Mieszanka alfa", 
+        "description": "", 
         "id": "Alpha Blend", 
-        "description": ""
+        "text": "Mieszanka alfa"
     }, 
     {
         "source": "No Alpha", 
-        "text": "Bez alfa", 
+        "description": "", 
         "id": "No Alpha", 
-        "description": ""
+        "text": "Bez alfa"
     }, 
     {
         "source": "No alpha blending", 
-        "text": "Bez mieszania alfa", 
+        "description": "", 
         "id": "No alpha tooltip", 
-        "description": ""
+        "text": "Bez mieszania alfa"
     }, 
     {
         "source": "Straight Alpha", 
-        "text": "Prosta alfa", 
+        "description": "", 
         "id": "Straight Alpha", 
-        "description": ""
+        "text": "Prosta alfa"
     }, 
     {
         "source": "Straight alpha blending", 
-        "text": "Proste mieszanie alfa", 
+        "description": "", 
         "id": "Straight alpha blend tooltip", 
-        "description": ""
+        "text": "Proste mieszanie alfa"
     }, 
     {
         "source": "Premultiplied alpha blending", 
-        "text": "Wst\u0119pnie zwielokrotnione mieszanie alfa", 
+        "description": "", 
         "id": "Premultiplied alpha blend tooltip", 
-        "description": ""
+        "text": "Wst\u0119pnie zwielokrotnione mieszanie alfa"
     }, 
     {
         "source": "Fill the view with the image", 
-        "text": "Wype\u0142nij widok obrazem", 
+        "description": "", 
         "id": "Fill view tooltip", 
-        "description": ""
+        "text": "Wype\u0142nij widok obrazem"
     }, 
     {
         "source": "Memory cache thermometer tooltip", 
-        "text": "Etykietka termometru pami\u0119ci podr\u0119cznej", 
+        "description": "", 
         "id": "Memory cache thermometer tooltip", 
-        "description": ""
+        "text": "Etykietka termometru pami\u0119ci podr\u0119cznej"
     }, 
     {
-        "source": "Current frame tooltip", 
-        "text": "Bie\u017c\u0105ca etykieta ramki", 
+        "source": "The current frame", 
+        "description": "", 
         "id": "Current frame tooltip", 
-        "description": ""
+        "text": "Bie\u017c\u0105ca ramka"
     }, 
     {
-        "source": "In point tooltip", 
-        "text": "W opisie punktu", 
+        "source": "The playback in point", 
+        "description": "", 
         "id": "In point tooltip", 
-        "description": ""
+        "text": "Odtwarzanie w punkcie"
     }, 
     {
-        "source": "Out point tooltip", 
-        "text": "Etykietka Out point", 
+        "source": "The playback out point", 
+        "description": "", 
         "id": "Out point tooltip", 
-        "description": ""
+        "text": "Punkt wyj\u015bcia odtwarzania"
     }, 
     {
         "source": "Enable", 
-        "text": "W\u0142\u0105czy\u0107", 
+        "description": "", 
         "id": "Enable", 
-        "description": ""
+        "text": "W\u0142\u0105czy\u0107"
     }, 
     {
         "source": "GB", 
-        "text": "GB", 
+        "description": "", 
         "id": "GB", 
-        "description": ""
+        "text": "GB"
     }, 
     {
         "source": "Used", 
-        "text": "U\u017cywany", 
+        "description": "", 
         "id": "Used", 
-        "description": ""
+        "text": "U\u017cywany"
     }, 
     {
         "source": "Automatically start playback", 
-        "text": "Automatycznie rozpocznij odtwarzanie", 
+        "description": "", 
         "id": "Automatically start playback", 
-        "description": ""
+        "text": "Automatycznie rozpocznij odtwarzanie"
     }, 
     {
         "source": "Playback Speed", 
-        "text": "Szybko\u015b\u0107 odtwarzania", 
+        "description": "", 
         "id": "Playback Speed", 
-        "description": ""
+        "text": "Szybko\u015b\u0107 odtwarzania"
     }, 
     {
         "source": "Playback every frame", 
-        "text": "Odtwarzaj ka\u017cd\u0105 klatk\u0119", 
+        "description": "", 
         "id": "Playback every frame", 
-        "description": ""
+        "text": "Odtwarzaj ka\u017cd\u0105 klatk\u0119"
     }, 
     {
         "source": "Default speed", 
-        "text": "Domy\u015blna pr\u0119dko\u015b\u0107", 
+        "description": "", 
         "id": "Default speed", 
-        "description": ""
+        "text": "Domy\u015blna pr\u0119dko\u015b\u0107"
     }, 
     {
         "source": "Timeline", 
-        "text": "O\u015b czasu", 
+        "description": "", 
         "id": "Timeline", 
-        "description": ""
+        "text": "O\u015b czasu"
     }, 
     {
         "source": "Show PIP (picture in picture)", 
-        "text": "Poka\u017c PIP (obraz w obrazie)", 
+        "description": "", 
         "id": "Show PIP (picture in picture)", 
-        "description": ""
+        "text": "Poka\u017c PIP (obraz w obrazie)"
     }, 
     {
         "source": "Reset speed", 
-        "text": "Zresetuj pr\u0119dko\u015b\u0107", 
+        "description": "", 
         "id": "Reset speed", 
-        "description": ""
+        "text": "Zresetuj pr\u0119dko\u015b\u0107"
     }, 
     {
         "source": "Reset speed tooltip", 
-        "text": "Wyzeruj etykietk\u0119 pr\u0119dko\u015bci", 
+        "description": "", 
         "id": "Reset speed tooltip", 
-        "description": ""
+        "text": "Wyzeruj etykietk\u0119 pr\u0119dko\u015bci"
     }, 
     {
         "source": "Increase", 
-        "text": "Zwi\u0119ksza\u0107", 
+        "description": "", 
         "id": "Increase", 
-        "description": ""
+        "text": "Zwi\u0119ksza\u0107"
     }, 
     {
         "source": "Decrease", 
-        "text": "Zmniejsza\u0107", 
+        "description": "", 
         "id": "Decrease", 
-        "description": ""
+        "text": "Zmniejsza\u0107"
     }, 
     {
         "source": "Thumbnail Size", 
-        "text": "Wielko\u015b\u0107 miniaturki", 
+        "description": "", 
         "id": "Thumbnail Size", 
-        "description": ""
+        "text": "Wielko\u015b\u0107 miniaturki"
     }, 
     {
         "source": "Copy the system log to the clipboard", 
-        "text": "Skopiuj dziennik systemowy do schowka", 
+        "description": "", 
         "id": "System log copy tooltip", 
-        "description": ""
+        "text": "Skopiuj dziennik systemowy do schowka"
     }, 
     {
         "source": "Reload the system log", 
-        "text": "Ponownie za\u0142aduj dziennik systemu", 
+        "description": "", 
         "id": "System log reload tooltip", 
-        "description": ""
+        "text": "Ponownie za\u0142aduj dziennik systemu"
     }, 
     {
         "source": "Clear the system log", 
-        "text": "Wyczy\u015b\u0107 dziennik systemu", 
+        "description": "", 
         "id": "System log clear tooltip", 
-        "description": ""
+        "text": "Wyczy\u015b\u0107 dziennik systemu"
     }, 
     {
         "source": "Warning", 
-        "text": "Ostrze\u017cenie", 
+        "description": "", 
         "id": "Warning", 
-        "description": ""
+        "text": "Ostrze\u017cenie"
     }, 
     {
         "source": "ERROR", 
-        "text": "B\u0141\u0104D", 
+        "description": "", 
         "id": "ERROR", 
-        "description": ""
+        "text": "B\u0141\u0104D"
     }, 
     {
         "source": "Show the errors widget", 
-        "text": "Poka\u017c wid\u017cet b\u0142\u0119d\u00f3w", 
+        "description": "", 
         "id": "Errors widget tooltip", 
-        "description": ""
+        "text": "Poka\u017c wid\u017cet b\u0142\u0119d\u00f3w"
     }, 
     {
         "source": "Show the system log widget", 
-        "text": "Poka\u017c wid\u017cet dziennika systemu", 
+        "description": "", 
         "id": "System log widget tooltip", 
-        "description": ""
+        "text": "Poka\u017c wid\u017cet dziennika systemu"
     }, 
     {
         "source": "Debugging", 
-        "text": "Debugowanie", 
+        "description": "", 
         "id": "Debugging", 
-        "description": ""
+        "text": "Debugowanie"
     }, 
     {
         "source": "Show the debugging widget", 
-        "text": "Poka\u017c wid\u017cet debugowania", 
+        "description": "", 
         "id": "Debugging widget tooltip", 
-        "description": ""
+        "text": "Poka\u017c wid\u017cet debugowania"
     }, 
     {
         "source": "Scale to fit", 
-        "text": "Skalowanie w celu dopasowania", 
+        "description": "", 
         "id": "Scale to fit", 
-        "description": ""
+        "text": "Skalowanie w celu dopasowania"
     }, 
     {
         "source": "Color picker RGB tooltip", 
-        "text": "Etykietka RGB pr\u00f3bnika kolor\u00f3w", 
+        "description": "", 
         "id": "Color picker RGB tooltip", 
-        "description": ""
+        "text": "Etykietka RGB pr\u00f3bnika kolor\u00f3w"
     }, 
     {
         "source": "Color picker HSV tooltip", 
-        "text": "Etykietka HSV selektora kolor\u00f3w", 
+        "description": "", 
         "id": "Color picker HSV tooltip", 
-        "description": ""
+        "text": "Etykietka HSV selektora kolor\u00f3w"
     }, 
     {
         "source": "Audio cannot be initialized", 
-        "text": "Nie mo\u017cna zainicjowa\u0107 d\u017awi\u0119ku", 
+        "description": "", 
         "id": "Audio cannot be initialized", 
-        "description": ""
+        "text": "Nie mo\u017cna zainicjowa\u0107 d\u017awi\u0119ku"
     }, 
     {
         "source": "The audio stream cannot be opened", 
-        "text": "Strumienia audio nie mo\u017cna otworzy\u0107", 
+        "description": "", 
         "id": "The audio stream cannot be opened", 
-        "description": ""
+        "text": "Strumienia audio nie mo\u017cna otworzy\u0107"
     }, 
     {
         "source": "Cannot start audio stream", 
-        "text": "Nie mo\u017cna uruchomi\u0107 strumienia audio", 
+        "description": "", 
         "id": "Cannot start audio stream", 
-        "description": ""
+        "text": "Nie mo\u017cna uruchomi\u0107 strumienia audio"
     }, 
     {
         "source": "Cannot stop audio stream", 
-        "text": "Nie mo\u017cna zatrzyma\u0107 strumienia audio", 
+        "description": "", 
         "id": "Cannot stop audio stream", 
-        "description": ""
+        "text": "Nie mo\u017cna zatrzyma\u0107 strumienia audio"
     }, 
     {
         "source": "Third Party RtAudio", 
-        "text": "RtAudio innej firmy", 
+        "description": "", 
         "id": "Third Party RtAudio", 
+        "text": "RtAudio innej firmy"
+    }, 
+    {
+        "source": "Lock color type", 
+        "text": "Zablokuj typ koloru", 
+        "id": "Lock color type", 
+        "description": ""
+    }, 
+    {
+        "source": "Copy the color to the clipboard", 
+        "text": "Skopiuj kolor do schowka", 
+        "id": "Color picker copy tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Cannot sample color", 
+        "text": "Nie mo\u017cna pr\u00f3bkowa\u0107 koloru", 
+        "id": "Cannot sample color", 
+        "description": ""
+    }, 
+    {
+        "source": "Playback once", 
+        "text": "Odtwarzanie raz", 
+        "id": "Playback mode once tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Playback in a loop", 
+        "text": "Odtwarzanie w p\u0119tli", 
+        "id": "Playback mode loop tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Playback ping-pong", 
+        "text": "Ping-pong do odtwarzania", 
+        "id": "Playback mode ping-pong tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "View Controls", 
+        "text": "Wy\u015bwietl elementy steruj\u0105ce", 
+        "id": "View Controls", 
+        "description": ""
+    }, 
+    {
+        "source": "Show the wiew controls widget", 
+        "text": "Poka\u017c widget kontroli wiew", 
+        "id": "View controls widget tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Lock Fill", 
+        "text": "Zablokuj wype\u0142nienie", 
+        "id": "Lock Fill", 
+        "description": ""
+    }, 
+    {
+        "source": "Fill the view with the image (locked)", 
+        "text": "Wype\u0142nij widok obrazem (zablokowany)", 
+        "id": "Fill lock view tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Frame the image within the view (locked)", 
+        "text": "Wykadruj obraz w widoku (zablokowany)", 
+        "id": "Frame lock view tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Center the view and set the zoom to 1.0 (locked)", 
+        "text": "Wy\u015brodkuj widok i ustaw zoom na 1.0 (zablokowany)", 
+        "id": "Center lock view tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Show the grid", 
+        "text": "Poka\u017c siatk\u0119", 
+        "id": "Grid enabled tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Image Controls", 
+        "text": "Kontrola obrazu", 
+        "id": "Image Controls", 
+        "description": ""
+    }, 
+    {
+        "source": "Show the image controls widget", 
+        "text": "Poka\u017c widget kontroli obrazu", 
+        "id": "Image controls widget tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Alpha blend", 
+        "text": "Mieszanka alfa", 
+        "id": "Alpha blend", 
+        "description": ""
+    }, 
+    {
+        "source": "Mirror horizontal", 
+        "text": "Lustro poziome", 
+        "id": "Mirror horizontal", 
+        "description": ""
+    }, 
+    {
+        "source": "Mirror vertical", 
+        "text": "Lustro pionowe", 
+        "id": "Mirror vertical", 
+        "description": ""
+    }, 
+    {
+        "source": "Aspect ratio", 
+        "text": "Wsp\u00f3\u0142czynnik kszta\u0142tu", 
+        "id": "Aspect ratio", 
+        "description": ""
+    }, 
+    {
+        "source": "Brightness", 
+        "text": "Jasno\u015b\u0107", 
+        "id": "Brightness", 
+        "description": ""
+    }, 
+    {
+        "source": "Contrast", 
+        "text": "Kontrast", 
+        "id": "Contrast", 
+        "description": ""
+    }, 
+    {
+        "source": "Saturation", 
+        "text": "Nasycenie", 
+        "id": "Saturation", 
+        "description": ""
+    }, 
+    {
+        "source": "Invert", 
+        "text": "Odwraca\u0107", 
+        "id": "Invert", 
+        "description": ""
+    }, 
+    {
+        "source": "In Low", 
+        "text": "W niskiej", 
+        "id": "In Low", 
+        "description": ""
+    }, 
+    {
+        "source": "In High", 
+        "text": "W wysokiej", 
+        "id": "In High", 
+        "description": ""
+    }, 
+    {
+        "source": "Gamma", 
+        "text": "Gamma", 
+        "id": "Gamma", 
+        "description": ""
+    }, 
+    {
+        "source": "Out Low", 
+        "text": "Out Low", 
+        "id": "Out Low", 
+        "description": ""
+    }, 
+    {
+        "source": "Out High", 
+        "text": "Out High", 
+        "id": "Out High", 
+        "description": ""
+    }, 
+    {
+        "source": "Exposure", 
+        "text": "Ekspozycja", 
+        "id": "Exposure", 
+        "description": ""
+    }, 
+    {
+        "source": "Defog", 
+        "text": "Defog", 
+        "id": "Defog", 
+        "description": ""
+    }, 
+    {
+        "source": "Knee Low", 
+        "text": "Kolano Low", 
+        "id": "Knee Low", 
+        "description": ""
+    }, 
+    {
+        "source": "Knee High", 
+        "text": "Podkolan\u00f3wki", 
+        "id": "Knee High", 
+        "description": ""
+    }, 
+    {
+        "source": "Load", 
+        "text": "Obci\u0105\u017cenie", 
+        "id": "Load", 
+        "description": ""
+    }, 
+    {
+        "source": "Transform", 
+        "text": "Przekszta\u0142ca\u0107", 
+        "id": "Transform", 
+        "description": ""
+    }, 
+    {
+        "source": "Color", 
+        "text": "Kolor", 
+        "id": "Color", 
+        "description": ""
+    }, 
+    {
+        "source": "Levels", 
+        "text": "Poziomy", 
+        "id": "Levels", 
+        "description": ""
+    }, 
+    {
+        "source": "Soft Clip", 
+        "text": "Mi\u0119kki klip", 
+        "id": "Soft Clip", 
+        "description": ""
+    }, 
+    {
+        "source": "Set the magnification", 
+        "text": "Ustaw powi\u0119kszenie", 
+        "id": "Magnify slider tooltip", 
+        "description": ""
+    }, 
+    {
+        "source": "Set as Default", 
+        "text": "Ustaw jako domy\u015blne", 
+        "id": "Set as Default", 
+        "description": ""
+    }, 
+    {
+        "source": "Reset the value.", 
+        "text": "Zresetuj warto\u015b\u0107.", 
+        "id": "Reset the value.", 
+        "description": ""
+    }, 
+    {
+        "source": "Position", 
+        "text": "Pozycja", 
+        "id": "Position", 
+        "description": ""
+    }, 
+    {
+        "source": "Zoom", 
+        "text": "Powi\u0119kszenie", 
+        "id": "Zoom", 
+        "description": ""
+    }, 
+    {
+        "source": "Labels", 
+        "text": "Etykiety", 
+        "id": "Labels", 
+        "description": ""
+    }, 
+    {
+        "source": "Background", 
+        "text": "t\u0142o", 
+        "id": "Background", 
         "description": ""
     }
 ]

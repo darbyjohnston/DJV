@@ -265,6 +265,11 @@
         "description": ""
     }, 
     {
+        "text": "IconMini", 
+        "id": "IconMini", 
+        "description": ""
+    }, 
+    {
         "text": "Font Small", 
         "id": "FontSmall", 
         "description": ""
@@ -295,6 +300,11 @@
         "description": ""
     }, 
     {
+        "text": "SwatchSmall", 
+        "id": "SwatchSmall", 
+        "description": ""
+    }, 
+    {
         "text": "Slider", 
         "id": "Slider", 
         "description": ""
@@ -302,6 +312,16 @@
     {
         "text": "Scroll Area", 
         "id": "ScrollArea", 
+        "description": ""
+    }, 
+    {
+        "text": "ScrollBar", 
+        "id": "ScrollBar", 
+        "description": ""
+    }, 
+    {
+        "text": "ScrollBarSmall", 
+        "id": "ScrollBarSmall", 
         "description": ""
     }, 
     {
@@ -347,6 +367,36 @@
     {
         "text": "Scrub", 
         "id": "Scrub", 
+        "description": ""
+    }, 
+    {
+        "text": "Native", 
+        "id": "Native", 
+        "description": ""
+    }, 
+    {
+        "text": "Default", 
+        "id": "Default", 
+        "description": ""
+    }, 
+    {
+        "text": "16:9", 
+        "id": "16:9", 
+        "description": ""
+    }, 
+    {
+        "text": "1.85", 
+        "id": "1.85", 
+        "description": ""
+    }, 
+    {
+        "text": "2.35", 
+        "id": "2.35", 
+        "description": ""
+    }, 
+    {
+        "text": "Reset the value.", 
+        "id": "Reset the value.", 
         "description": ""
     }, 
     {
@@ -992,11 +1042,6 @@
     {
         "text": "Extra Large", 
         "id": "ExtraLarge", 
-        "description": ""
-    }, 
-    {
-        "text": "Default", 
-        "id": "Default", 
         "description": ""
     }, 
     {

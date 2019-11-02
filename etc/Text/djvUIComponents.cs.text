@@ -1,812 +1,818 @@
 [
     {
         "source": "Cineon", 
-        "text": "Cineon", 
+        "description": "", 
         "id": "Cineon", 
-        "description": ""
+        "text": "Cineon"
     }, 
     {
         "source": "I/O", 
-        "text": "I / O", 
+        "description": "", 
         "id": "I/O", 
-        "description": ""
+        "text": "I / O"
     }, 
     {
         "source": "Color space", 
-        "text": "Barevn\u00fd prostor", 
+        "description": "", 
         "id": "Color space", 
-        "description": ""
+        "text": "Barevn\u00fd prostor"
     }, 
     {
         "source": "Color Space", 
-        "text": "Barevn\u00fd prostor", 
+        "description": "", 
         "id": "Color Space", 
-        "description": ""
+        "text": "Barevn\u00fd prostor"
     }, 
     {
         "source": "General", 
-        "text": "V\u0161eobecn\u00e9", 
+        "description": "", 
         "id": "General", 
-        "description": ""
+        "text": "V\u0161eobecn\u00e9"
     }, 
     {
         "source": "Input", 
-        "text": "Vstup", 
+        "description": "", 
         "id": "Input", 
-        "description": ""
+        "text": "Vstup"
     }, 
     {
         "source": "Display", 
-        "text": "Zobrazit", 
+        "description": "", 
         "id": "Display", 
-        "description": ""
+        "text": "Zobrazit"
     }, 
     {
         "source": "View", 
-        "text": "Pohled", 
+        "description": "", 
         "id": "View", 
-        "description": ""
+        "text": "Pohled"
     }, 
     {
         "source": "DPX", 
-        "text": "DPX", 
+        "description": "", 
         "id": "DPX", 
-        "description": ""
+        "text": "DPX"
     }, 
     {
         "source": "TIFF", 
-        "text": "TIFF", 
+        "description": "", 
         "id": "TIFF", 
-        "description": ""
+        "text": "TIFF"
     }, 
     {
         "source": "File compression", 
-        "text": "Komprese soubor\u016f", 
+        "description": "", 
         "id": "File compression", 
-        "description": ""
+        "text": "Komprese soubor\u016f"
     }, 
     {
         "source": "The file", 
-        "text": "Soubor", 
+        "description": "", 
         "id": "The file", 
-        "description": ""
+        "text": "Soubor"
     }, 
     {
         "source": "cannot be read", 
-        "text": "nelze \u010d\u00edst", 
+        "description": "", 
         "id": "cannot be read", 
-        "description": ""
+        "text": "nelze \u010d\u00edst"
     }, 
     {
         "source": "Size", 
-        "text": "Velikost", 
+        "description": "", 
         "id": "Size", 
-        "description": ""
+        "text": "Velikost"
     }, 
     {
         "source": "Last modification time", 
-        "text": "\u010cas posledn\u00ed \u00fapravy", 
+        "description": "", 
         "id": "Last modification time", 
-        "description": ""
+        "text": "\u010cas posledn\u00ed \u00fapravy"
     }, 
     {
         "source": "Video track", 
-        "text": "Video stopa", 
+        "description": "", 
         "id": "Video track", 
-        "description": ""
+        "text": "Video stopa"
     }, 
     {
         "source": "Name", 
-        "text": "n\u00e1zev", 
+        "description": "", 
         "id": "Name", 
-        "description": ""
+        "text": "n\u00e1zev"
     }, 
     {
         "source": "Type", 
-        "text": "Typ", 
+        "description": "", 
         "id": "Type", 
-        "description": ""
+        "text": "Typ"
     }, 
     {
         "source": "Speed", 
-        "text": "Rychlost", 
+        "description": "", 
         "id": "Speed", 
-        "description": ""
+        "text": "Rychlost"
     }, 
     {
         "source": "FPS", 
-        "text": "FPS", 
+        "description": "", 
         "id": "FPS", 
-        "description": ""
+        "text": "FPS"
     }, 
     {
         "source": "Duration", 
-        "text": "Doba trv\u00e1n\u00ed", 
+        "description": "", 
         "id": "Duration", 
-        "description": ""
+        "text": "Doba trv\u00e1n\u00ed"
     }, 
     {
         "source": "Audio track", 
-        "text": "Zvukov\u00e1 stopa", 
+        "description": "", 
         "id": "Audio track", 
-        "description": ""
+        "text": "Zvukov\u00e1 stopa"
     }, 
     {
         "source": "Channels", 
-        "text": "Kan\u00e1ly", 
+        "description": "", 
         "id": "Channels", 
-        "description": ""
+        "text": "Kan\u00e1ly"
     }, 
     {
         "source": "Sample rate", 
-        "text": "Vzorkovac\u00ed frekvence", 
+        "description": "", 
         "id": "Sample rate", 
-        "description": ""
+        "text": "Vzorkovac\u00ed frekvence"
     }, 
     {
         "source": "kHz", 
-        "text": "kHz", 
+        "description": "", 
         "id": "kHz", 
-        "description": ""
+        "text": "kHz"
     }, 
     {
         "source": "OpenEXR", 
-        "text": "OpenEXR", 
+        "description": "", 
         "id": "OpenEXR", 
-        "description": ""
+        "text": "OpenEXR"
     }, 
     {
         "source": "Thread count", 
-        "text": "Po\u010det vl\u00e1ken", 
+        "description": "", 
         "id": "Thread count", 
-        "description": ""
+        "text": "Po\u010det vl\u00e1ken"
     }, 
     {
         "source": "Channel grouping", 
-        "text": "Seskupen\u00ed kan\u00e1l\u016f", 
+        "description": "", 
         "id": "Channel grouping", 
-        "description": ""
+        "text": "Seskupen\u00ed kan\u00e1l\u016f"
     }, 
     {
         "source": "DWA compression level", 
-        "text": "\u00darove\u0148 komprese DWA", 
+        "description": "", 
         "id": "DWA compression level", 
-        "description": ""
+        "text": "\u00darove\u0148 komprese DWA"
     }, 
     {
         "source": "Color profile", 
-        "text": "Barevn\u00fd profil", 
+        "description": "", 
         "id": "Color profile", 
-        "description": ""
+        "text": "Barevn\u00fd profil"
     }, 
     {
         "source": "PPM", 
-        "text": "PPM", 
+        "description": "", 
         "id": "PPM", 
-        "description": ""
+        "text": "PPM"
     }, 
     {
         "source": "Data type", 
-        "text": "Datov\u00fd typ", 
+        "description": "", 
         "id": "Data type", 
-        "description": ""
+        "text": "Datov\u00fd typ"
     }, 
     {
         "source": "Time", 
-        "text": "\u010cas", 
+        "description": "", 
         "id": "Time", 
-        "description": ""
+        "text": "\u010cas"
     }, 
     {
         "source": "Units", 
-        "text": "Jednotky", 
+        "description": "", 
         "id": "Units", 
-        "description": ""
+        "text": "Jednotky"
     }, 
     {
         "source": "Tooltips", 
-        "text": "Popisky", 
+        "description": "", 
         "id": "Tooltips", 
-        "description": ""
+        "text": "Popisky"
     }, 
     {
         "source": "Enable tooltips", 
-        "text": "Povolit popisky", 
+        "description": "", 
         "id": "Enable tooltips", 
-        "description": ""
+        "text": "Povolit popisky"
     }, 
     {
-        "source": "Set the channels and data type of the color", 
-        "text": "Nastavte kan\u00e1ly a datov\u00fd typ barvy", 
+        "source": "Set the color type", 
+        "description": "", 
         "id": "Color type widget tooltip", 
-        "description": ""
+        "text": "Nastavte typ barvy"
     }, 
     {
         "source": "L", 
-        "text": "", 
+        "description": "", 
         "id": "L", 
-        "description": ""
+        "text": ""
     }, 
     {
         "source": "Set the luminance value", 
-        "text": "Nastavte hodnotu jasu", 
+        "description": "", 
         "id": "RGB color sliders luminance tooltip", 
-        "description": ""
+        "text": "Nastavte hodnotu jasu"
     }, 
     {
         "source": "A", 
-        "text": "A", 
+        "description": "", 
         "id": "A", 
-        "description": ""
+        "text": "A"
     }, 
     {
         "source": "Set the alpha value", 
-        "text": "Nastavte hodnotu alfa", 
+        "description": "", 
         "id": "RGB color sliders alpha tooltip", 
-        "description": ""
+        "text": "Nastavte hodnotu alfa"
     }, 
     {
         "source": "R", 
-        "text": "R", 
+        "description": "", 
         "id": "R", 
-        "description": ""
+        "text": "R"
     }, 
     {
         "source": "G", 
-        "text": "G", 
+        "description": "", 
         "id": "G", 
-        "description": ""
+        "text": "G"
     }, 
     {
         "source": "B", 
-        "text": "B", 
+        "description": "", 
         "id": "B", 
-        "description": ""
+        "text": "B"
     }, 
     {
         "source": "Set the red value", 
-        "text": "Nastavte \u010dervenou hodnotu", 
+        "description": "", 
         "id": "RGB color sliders red tooltip", 
-        "description": ""
+        "text": "Nastavte \u010dervenou hodnotu"
     }, 
     {
         "source": "Set the green value", 
-        "text": "Nastavte zelenou hodnotu", 
+        "description": "", 
         "id": "RGB color sliders green tooltip", 
-        "description": ""
+        "text": "Nastavte zelenou hodnotu"
     }, 
     {
         "source": "Set the blue value", 
-        "text": "Nastavte modrou hodnotu", 
+        "description": "", 
         "id": "RGB color sliders blue tooltip", 
-        "description": ""
+        "text": "Nastavte modrou hodnotu"
     }, 
     {
         "source": "V", 
-        "text": "V", 
+        "description": "", 
         "id": "V", 
-        "description": ""
+        "text": "V"
     }, 
     {
         "source": "Set the value", 
-        "text": "Nastavte hodnotu", 
+        "description": "", 
         "id": "HSV color sliders value tooltip", 
-        "description": ""
+        "text": "Nastavte hodnotu"
     }, 
     {
         "source": "Set the alpha value", 
-        "text": "Nastavte hodnotu alfa", 
+        "description": "", 
         "id": "HSV color sliders alpha tooltip", 
-        "description": ""
+        "text": "Nastavte hodnotu alfa"
     }, 
     {
         "source": "H", 
-        "text": "H", 
+        "description": "", 
         "id": "H", 
-        "description": ""
+        "text": "H"
     }, 
     {
         "source": "S", 
-        "text": "S", 
+        "description": "", 
         "id": "S", 
-        "description": ""
+        "text": "S"
     }, 
     {
         "source": "Set the hue", 
-        "text": "Nastavte odst\u00edn", 
+        "description": "", 
         "id": "HSV color sliders hue tooltip", 
-        "description": ""
+        "text": "Nastavte odst\u00edn"
     }, 
     {
         "source": "Set the saturation", 
-        "text": "Nastavte nasycen\u00ed", 
+        "description": "", 
         "id": "HSV color sliders saturation tooltip", 
-        "description": ""
+        "text": "Nastavte nasycen\u00ed"
     }, 
     {
         "source": "Add the current directory to the list of shortcuts", 
-        "text": "Do seznamu zkratek p\u0159idejte aktu\u00e1ln\u00ed adres\u00e1\u0159", 
+        "description": "", 
         "id": "Add shortcut tooltip", 
-        "description": ""
+        "text": "Do seznamu zkratek p\u0159idejte aktu\u00e1ln\u00ed adres\u00e1\u0159"
     }, 
     {
         "source": "Edit the list of shortcuts", 
-        "text": "Upravte seznam zkratek", 
+        "description": "", 
         "id": "Edit shortcuts tooltip", 
-        "description": ""
+        "text": "Upravte seznam zkratek"
     }, 
     {
         "source": "Back", 
-        "text": "Zadn\u00ed", 
+        "description": "", 
         "id": "Back", 
-        "description": ""
+        "text": "Zadn\u00ed"
     }, 
     {
         "source": "Go back a directory", 
-        "text": "P\u0159ej\u00edt zp\u011bt do adres\u00e1\u0159e", 
+        "description": "", 
         "id": "File browser back tooltip", 
-        "description": ""
+        "text": "P\u0159ej\u00edt zp\u011bt do adres\u00e1\u0159e"
     }, 
     {
         "source": "Forward", 
-        "text": "Vp\u0159ed", 
+        "description": "", 
         "id": "Forward", 
-        "description": ""
+        "text": "Vp\u0159ed"
     }, 
     {
         "source": "Go forward a directory", 
-        "text": "Jd\u011bte vp\u0159ed do adres\u00e1\u0159e", 
+        "description": "", 
         "id": "File browser forward tooltip", 
-        "description": ""
+        "text": "Jd\u011bte vp\u0159ed do adres\u00e1\u0159e"
     }, 
     {
         "source": "Up", 
-        "text": "Nahoru", 
+        "description": "", 
         "id": "Up", 
-        "description": ""
+        "text": "Nahoru"
     }, 
     {
         "source": "Go up a directory", 
-        "text": "P\u0159ej\u00edt nahoru do adres\u00e1\u0159e", 
+        "description": "", 
         "id": "File browser up tooltip", 
-        "description": ""
+        "text": "P\u0159ej\u00edt nahoru do adres\u00e1\u0159e"
     }, 
     {
         "source": "Tile View", 
-        "text": "Dla\u017edice", 
+        "description": "", 
         "id": "Tile View", 
-        "description": ""
+        "text": "Dla\u017edice"
     }, 
     {
         "source": "Show directory items as tiles", 
-        "text": "Zobrazit polo\u017eky adres\u00e1\u0159e jako dla\u017edice", 
+        "description": "", 
         "id": "File browser tile view tooltip", 
-        "description": ""
+        "text": "Zobrazit polo\u017eky adres\u00e1\u0159e jako dla\u017edice"
     }, 
     {
         "source": "List View", 
-        "text": "Zobrazen\u00ed seznamu", 
+        "description": "", 
         "id": "List View", 
-        "description": ""
+        "text": "Zobrazen\u00ed seznamu"
     }, 
     {
         "source": "Show directory items as a list", 
-        "text": "Zobrazit polo\u017eky adres\u00e1\u0159e jako seznam", 
+        "description": "", 
         "id": "File browser list view tooltip", 
-        "description": ""
+        "text": "Zobrazit polo\u017eky adres\u00e1\u0159e jako seznam"
     }, 
     {
         "source": "Increase Thumbnail Size", 
-        "text": "Zv\u011bt\u0161ete velikost miniatur", 
+        "description": "", 
         "id": "Increase Thumbnail Size", 
-        "description": ""
+        "text": "Zv\u011bt\u0161ete velikost miniatur"
     }, 
     {
         "source": "Increase the size of the thumbnails", 
-        "text": "Zv\u011bt\u0161ete velikost miniatur", 
+        "description": "", 
         "id": "File browser increase thumbnail size tooltip", 
-        "description": ""
+        "text": "Zv\u011bt\u0161ete velikost miniatur"
     }, 
     {
         "source": "Decrease Thumbnail Size", 
-        "text": "Zmen\u0161it velikost miniatury", 
+        "description": "", 
         "id": "Decrease Thumbnail Size", 
-        "description": ""
+        "text": "Zmen\u0161it velikost miniatury"
     }, 
     {
         "source": "Decrease the size of the thumbnails", 
-        "text": "Sni\u017ete velikost miniatur", 
+        "description": "", 
         "id": "File browser decrease thumbnail size tooltip", 
-        "description": ""
+        "text": "Sni\u017ete velikost miniatur"
     }, 
     {
         "source": "Enable File Sequences", 
-        "text": "Povolit sekvence soubor\u016f", 
+        "description": "", 
         "id": "Enable File Sequences", 
-        "description": ""
+        "text": "Povolit sekvence soubor\u016f"
     }, 
     {
         "source": "Show sequences of files as a single item", 
-        "text": "Zobrazit sekvence soubor\u016f jako jednu polo\u017eku", 
+        "description": "", 
         "id": "File browser file sequences tooltip", 
-        "description": ""
+        "text": "Zobrazit sekvence soubor\u016f jako jednu polo\u017eku"
     }, 
     {
         "source": "Show Hidden Files", 
-        "text": "Zobrazit skryt\u00e9 soubory", 
+        "description": "", 
         "id": "Show Hidden Files", 
-        "description": ""
+        "text": "Zobrazit skryt\u00e9 soubory"
     }, 
     {
         "source": "Show directory items that begin with a '.'", 
-        "text": "Zobrazit polo\u017eky adres\u00e1\u0159e, kter\u00e9 za\u010d\u00ednaj\u00ed znakem \u201e.\u201c", 
+        "description": "", 
         "id": "File browser show hidden tooltip", 
-        "description": ""
+        "text": "Zobrazit polo\u017eky adres\u00e1\u0159e, kter\u00e9 za\u010d\u00ednaj\u00ed znakem \u201e.\u201c"
     }, 
     {
         "source": "Sort By Name", 
-        "text": "Se\u0159a\u010f dle jm\u00e9na", 
+        "description": "", 
         "id": "Sort By Name", 
-        "description": ""
+        "text": "Se\u0159a\u010f dle jm\u00e9na"
     }, 
     {
         "source": "Sort directory items by name", 
-        "text": "Se\u0159adit polo\u017eky adres\u00e1\u0159e podle n\u00e1zvu", 
+        "description": "", 
         "id": "File browser sort by name tooltip", 
-        "description": ""
+        "text": "Se\u0159adit polo\u017eky adres\u00e1\u0159e podle n\u00e1zvu"
     }, 
     {
         "source": "Sort By Size", 
-        "text": "Se\u0159adit podle velikosti", 
+        "description": "", 
         "id": "Sort By Size", 
-        "description": ""
+        "text": "Se\u0159adit podle velikosti"
     }, 
     {
         "source": "Sort directory items by size", 
-        "text": "Se\u0159adit polo\u017eky adres\u00e1\u0159e podle velikosti", 
+        "description": "", 
         "id": "File browser sort by size tooltip", 
-        "description": ""
+        "text": "Se\u0159adit polo\u017eky adres\u00e1\u0159e podle velikosti"
     }, 
     {
         "source": "Sort By Time", 
-        "text": "Se\u0159adit podle \u010dasu", 
+        "description": "", 
         "id": "Sort By Time", 
-        "description": ""
+        "text": "Se\u0159adit podle \u010dasu"
     }, 
     {
         "source": "Sort directory items by time", 
-        "text": "Se\u0159adit polo\u017eky adres\u00e1\u0159e podle \u010dasu", 
+        "description": "", 
         "id": "File browser sort by time tooltip", 
-        "description": ""
+        "text": "Se\u0159adit polo\u017eky adres\u00e1\u0159e podle \u010dasu"
     }, 
     {
         "source": "Reverse Sort", 
-        "text": "Zp\u011btn\u00e9 \u0159azen\u00ed", 
+        "description": "", 
         "id": "Reverse Sort", 
-        "description": ""
+        "text": "Zp\u011btn\u00e9 \u0159azen\u00ed"
     }, 
     {
         "source": "Reverse the sort direction", 
-        "text": "Obr\u00e1tit sm\u011br \u0159azen\u00ed", 
+        "description": "", 
         "id": "File browser reverse sort tooltip", 
-        "description": ""
+        "text": "Obr\u00e1tit sm\u011br \u0159azen\u00ed"
     }, 
     {
         "source": "Sort Directories First", 
-        "text": "T\u0159\u00eddit adres\u00e1\u0159e jako prvn\u00ed", 
+        "description": "", 
         "id": "Sort Directories First", 
-        "description": ""
+        "text": "T\u0159\u00eddit adres\u00e1\u0159e jako prvn\u00ed"
     }, 
     {
         "source": "Show directories before files", 
-        "text": "Zobrazit adres\u00e1\u0159e p\u0159ed soubory", 
+        "description": "", 
         "id": "File browser sort directories first tooltip", 
-        "description": ""
+        "text": "Zobrazit adres\u00e1\u0159e p\u0159ed soubory"
     }, 
     {
         "source": "Name", 
-        "text": "n\u00e1zev", 
+        "description": "", 
         "id": "File browser name column", 
-        "description": ""
+        "text": "n\u00e1zev"
     }, 
     {
         "source": "Size", 
-        "text": "Velikost", 
+        "description": "", 
         "id": "File browse size column", 
-        "description": ""
+        "text": "Velikost"
     }, 
     {
         "source": "Time", 
-        "text": "\u010cas", 
+        "description": "", 
         "id": "File browser time column", 
-        "description": ""
+        "text": "\u010cas"
     }, 
     {
         "source": "Show the shortcuts", 
-        "text": "Zobrazit zkratky", 
+        "description": "", 
         "id": "File browser shortcuts tooltip", 
-        "description": ""
+        "text": "Zobrazit zkratky"
     }, 
     {
         "source": "Show the recently used directories", 
-        "text": "Zobrazit naposledy pou\u017eit\u00e9 adres\u00e1\u0159e", 
+        "description": "", 
         "id": "File browser recent paths tooltip", 
-        "description": ""
+        "text": "Zobrazit naposledy pou\u017eit\u00e9 adres\u00e1\u0159e"
     }, 
     {
         "source": "Show the drives", 
-        "text": "Uka\u017e jednotky", 
+        "description": "", 
         "id": "File browser drives tooltip", 
-        "description": ""
+        "text": "Uka\u017e jednotky"
     }, 
     {
         "source": "Show the file browser sorting options", 
-        "text": "Zobrazit mo\u017enosti t\u0159\u00edd\u011bn\u00ed v prohl\u00ed\u017ee\u010di soubor\u016f", 
+        "description": "", 
         "id": "File browser sort tooltip", 
-        "description": ""
+        "text": "Zobrazit mo\u017enosti t\u0159\u00edd\u011bn\u00ed v prohl\u00ed\u017ee\u010di soubor\u016f"
     }, 
     {
         "source": "Show the file browser settings", 
-        "text": "Zobrazit nastaven\u00ed prohl\u00ed\u017ee\u010de soubor\u016f", 
+        "description": "", 
         "id": "File browser settings tooltip", 
-        "description": ""
+        "text": "Zobrazit nastaven\u00ed prohl\u00ed\u017ee\u010de soubor\u016f"
     }, 
     {
         "source": "Search for items in the directory", 
-        "text": "Vyhledejte polo\u017eky v adres\u00e1\u0159i", 
+        "description": "", 
         "id": "File browser search tooltip", 
-        "description": ""
+        "text": "Vyhledejte polo\u017eky v adres\u00e1\u0159i"
     }, 
     {
         "source": "Items", 
-        "text": "Polo\u017eky", 
+        "description": "", 
         "id": "Items", 
-        "description": ""
+        "text": "Polo\u017eky"
     }, 
     {
         "source": "File Browser", 
-        "text": "Prohl\u00ed\u017ee\u010d soubor\u016f", 
+        "description": "", 
         "id": "File Browser", 
-        "description": ""
+        "text": "Prohl\u00ed\u017ee\u010d soubor\u016f"
     }, 
     {
         "source": "Show the file browser history", 
-        "text": "Zobrazit historii prohl\u00ed\u017ee\u010de soubor\u016f", 
+        "description": "", 
         "id": "File browser history tooltip", 
-        "description": ""
+        "text": "Zobrazit historii prohl\u00ed\u017ee\u010de soubor\u016f"
     }, 
     {
         "source": "JPEG", 
-        "text": "JPEG", 
+        "description": "", 
         "id": "JPEG", 
-        "description": ""
+        "text": "JPEG"
     }, 
     {
         "source": "Compression quality", 
-        "text": "Kvalita komprese", 
+        "description": "", 
         "id": "Compression quality", 
-        "description": ""
+        "text": "Kvalita komprese"
     }, 
     {
         "source": "Language", 
-        "text": "Jazyk", 
+        "description": "", 
         "id": "Language", 
-        "description": ""
+        "text": "Jazyk"
     }, 
     {
         "source": "Min", 
-        "text": "Min", 
+        "description": "", 
         "id": "Min", 
-        "description": ""
+        "text": "Min"
     }, 
     {
         "source": "Max", 
-        "text": "Max", 
+        "description": "", 
         "id": "Max", 
-        "description": ""
+        "text": "Max"
     }, 
     {
         "source": "Current", 
-        "text": "Proud", 
+        "description": "", 
         "id": "Current", 
-        "description": ""
+        "text": "Proud"
     }, 
     {
         "source": "Palette", 
-        "text": "Paleta", 
+        "description": "", 
         "id": "Palette", 
-        "description": ""
+        "text": "Paleta"
     }, 
     {
+        "id": "FFmpeg", 
         "source": "FFmpeg", 
-        "text": "FFmpeg", 
         "description": "", 
-        "id": "FFmpeg"
+        "text": "FFmpeg"
     }, 
     {
+        "id": "Threads", 
         "source": "Threads", 
-        "text": "Vl\u00e1kna", 
         "description": "", 
-        "id": "Threads"
+        "text": "Vl\u00e1kna"
     }, 
     {
+        "id": "frames", 
         "source": "frames", 
-        "text": "r\u00e1my", 
         "description": "", 
-        "id": "frames"
+        "text": "r\u00e1my"
     }, 
     {
+        "id": "seconds", 
         "source": "seconds", 
-        "text": "sekundy", 
         "description": "", 
-        "id": "seconds"
+        "text": "sekundy"
     }, 
     {
         "source": "Recent Paths", 
-        "text": "Posledn\u00ed cesty", 
+        "description": "", 
         "id": "Recent Paths", 
-        "description": ""
+        "text": "Posledn\u00ed cesty"
     }, 
     {
         "source": "Shortcuts", 
-        "text": "Kl\u00e1vesov\u00e9 zkratky", 
+        "description": "", 
         "id": "Shortcuts", 
-        "description": ""
+        "text": "Kl\u00e1vesov\u00e9 zkratky"
     }, 
     {
         "source": "Color sliders luminance tooltip", 
-        "text": "Popisek barev posuvn\u00edk\u016f jasu", 
+        "description": "", 
         "id": "Color sliders luminance tooltip", 
-        "description": ""
+        "text": "Popisek barev posuvn\u00edk\u016f jasu"
     }, 
     {
         "source": "Color sliders alpha tooltip", 
-        "text": "Barevn\u00e9 posuvn\u00edky alfa popis", 
+        "description": "", 
         "id": "Color sliders alpha tooltip", 
-        "description": ""
+        "text": "Barevn\u00e9 posuvn\u00edky alfa popis"
     }, 
     {
         "source": "Color sliders hue tooltip", 
-        "text": "Popis barvy odst\u00edn\u016f posuvn\u00edk\u016f", 
+        "description": "", 
         "id": "Color sliders hue tooltip", 
-        "description": ""
+        "text": "Popis barvy odst\u00edn\u016f posuvn\u00edk\u016f"
     }, 
     {
         "source": "Color sliders saturation tooltip", 
-        "text": "Popisek saturace barevn\u00fdch posuvn\u00edk\u016f", 
+        "description": "", 
         "id": "Color sliders saturation tooltip", 
-        "description": ""
+        "text": "Popisek saturace barevn\u00fdch posuvn\u00edk\u016f"
     }, 
     {
         "source": "Color sliders value tooltip", 
-        "text": "Popisky hodnot barvy posuvn\u00edk\u016f", 
+        "description": "", 
         "id": "Color sliders value tooltip", 
-        "description": ""
+        "text": "Popisky hodnot barvy posuvn\u00edk\u016f"
     }, 
     {
         "source": "Color sliders red tooltip", 
-        "text": "Barevn\u00e9 posuvn\u00edky \u010derven\u00fd popis", 
+        "description": "", 
         "id": "Color sliders red tooltip", 
-        "description": ""
+        "text": "Barevn\u00e9 posuvn\u00edky \u010derven\u00fd popis"
     }, 
     {
         "source": "Color sliders green tooltip", 
-        "text": "Barevn\u00e9 posuvn\u00edky zelen\u00fd popis", 
+        "description": "", 
         "id": "Color sliders green tooltip", 
-        "description": ""
+        "text": "Barevn\u00e9 posuvn\u00edky zelen\u00fd popis"
     }, 
     {
         "source": "Color sliders blue tooltip", 
-        "text": "Barevn\u00e9 posuvn\u00edky modr\u00fd popis", 
+        "description": "", 
         "id": "Color sliders blue tooltip", 
-        "description": ""
+        "text": "Barevn\u00e9 posuvn\u00edky modr\u00fd popis"
     }, 
     {
         "source": "Tiles", 
-        "text": "Dla\u017edice", 
+        "description": "", 
         "id": "Tiles", 
-        "description": ""
+        "text": "Dla\u017edice"
     }, 
     {
         "source": "List", 
-        "text": "Seznam", 
+        "description": "", 
         "id": "List", 
-        "description": ""
+        "text": "Seznam"
     }, 
     {
         "source": "Increase", 
-        "text": "Zv\u00fd\u0161it", 
+        "description": "", 
         "id": "Increase", 
-        "description": ""
+        "text": "Zv\u00fd\u0161it"
     }, 
     {
         "source": "Decrease", 
-        "text": "Pokles", 
+        "description": "", 
         "id": "Decrease", 
-        "description": ""
+        "text": "Pokles"
     }, 
     {
         "source": "Enable file sequences", 
-        "text": "Povolit sekvence soubor\u016f", 
+        "description": "", 
         "id": "Enable file sequences", 
-        "description": ""
+        "text": "Povolit sekvence soubor\u016f"
     }, 
     {
         "source": "Show hidden files", 
-        "text": "Zobrazit skryt\u00e9 soubory", 
+        "description": "", 
         "id": "Show hidden files", 
-        "description": ""
+        "text": "Zobrazit skryt\u00e9 soubory"
     }, 
     {
         "source": "Sort by name", 
-        "text": "Se\u0159adit podle jm\u00e9na", 
+        "description": "", 
         "id": "Sort by name", 
-        "description": ""
+        "text": "Se\u0159adit podle jm\u00e9na"
     }, 
     {
         "source": "Sort by size", 
-        "text": "Se\u0159adit podle velikosti", 
+        "description": "", 
         "id": "Sort by size", 
-        "description": ""
+        "text": "Se\u0159adit podle velikosti"
     }, 
     {
         "source": "Sort by time", 
-        "text": "Se\u0159adit podle \u010dasu", 
+        "description": "", 
         "id": "Sort by time", 
-        "description": ""
+        "text": "Se\u0159adit podle \u010dasu"
     }, 
     {
         "source": "Reverse sort", 
-        "text": "Zp\u011btn\u00e9 \u0159azen\u00ed", 
+        "description": "", 
         "id": "Reverse sort", 
-        "description": ""
+        "text": "Zp\u011btn\u00e9 \u0159azen\u00ed"
     }, 
     {
         "source": "Sort directories first", 
-        "text": "Nejprve se\u0159a\u010fte adres\u00e1\u0159e", 
+        "description": "", 
         "id": "Sort directories first", 
-        "description": ""
+        "text": "Nejprve se\u0159a\u010fte adres\u00e1\u0159e"
     }, 
     {
         "source": "Sorting", 
-        "text": "T\u0159\u00edd\u011bn\u00ed", 
+        "description": "", 
         "id": "Sorting", 
-        "description": ""
+        "text": "T\u0159\u00edd\u011bn\u00ed"
     }, 
     {
         "source": "Thumbnail Size", 
-        "text": "Velikost miniatury", 
+        "description": "", 
         "id": "Thumbnail Size", 
-        "description": ""
+        "text": "Velikost miniatury"
     }, 
     {
         "source": "Miscellaneous", 
-        "text": "Sm\u00ed\u0161en\u00fd", 
+        "description": "", 
         "id": "Miscellaneous", 
-        "description": ""
+        "text": "Sm\u00ed\u0161en\u00fd"
     }, 
     {
         "source": "Drives", 
-        "text": "Disky", 
+        "description": "", 
         "id": "Drives", 
-        "description": ""
+        "text": "Disky"
     }, 
     {
         "source": "Text", 
-        "text": "Text", 
+        "description": "", 
         "id": "Text", 
-        "description": ""
+        "text": "Text"
     }, 
     {
         "source": "Render 2D", 
-        "text": "Vykreslen\u00ed 2D", 
+        "description": "", 
         "id": "Render 2D", 
-        "description": ""
+        "text": "Vykreslen\u00ed 2D"
     }, 
     {
         "source": "Enable LCD text rendering", 
-        "text": "Povolit vykreslov\u00e1n\u00ed textu na LCD", 
+        "description": "", 
         "id": "Enable LCD text rendering", 
+        "text": "Povolit vykreslov\u00e1n\u00ed textu na LCD"
+    }, 
+    {
+        "source": "Cannot set the path", 
+        "text": "Cesta nelze nastavit", 
+        "id": "Cannot set the path", 
         "description": ""
     }
 ]

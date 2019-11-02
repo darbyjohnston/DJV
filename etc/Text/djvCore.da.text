@@ -1,1724 +1,1724 @@
 [
     {
         "source": "Parent Changed", 
-        "text": "For\u00e6ldre \u00e6ndret", 
+        "description": "", 
         "id": "ParentChanged", 
-        "description": ""
+        "text": "For\u00e6ldre \u00e6ndret"
     }, 
     {
         "source": "Child Added", 
-        "text": "Barn tilf\u00f8jet", 
+        "description": "", 
         "id": "ChildAdded", 
-        "description": ""
+        "text": "Barn tilf\u00f8jet"
     }, 
     {
         "source": "Child Removed", 
-        "text": "Barn fjernet", 
+        "description": "", 
         "id": "ChildRemoved", 
-        "description": ""
+        "text": "Barn fjernet"
     }, 
     {
         "source": "Child Order", 
-        "text": "B\u00f8rneordre", 
+        "description": "", 
         "id": "ChildOrder", 
-        "description": ""
+        "text": "B\u00f8rneordre"
     }, 
     {
         "source": "Locale", 
-        "text": "lokal", 
+        "description": "", 
         "id": "Locale", 
-        "description": ""
+        "text": "lokal"
     }, 
     {
         "source": "Update", 
-        "text": "Opdatering", 
+        "description": "", 
         "id": "Update", 
-        "description": ""
+        "text": "Opdatering"
     }, 
     {
         "source": "Style", 
-        "text": "Stil", 
+        "description": "", 
         "id": "Style", 
-        "description": ""
+        "text": "Stil"
     }, 
     {
         "source": "Pre Layout", 
-        "text": "Pre Layout", 
+        "description": "", 
         "id": "PreLayout", 
-        "description": ""
+        "text": "Pre Layout"
     }, 
     {
         "source": "Layout", 
-        "text": "Layout", 
+        "description": "", 
         "id": "Layout", 
-        "description": ""
+        "text": "Layout"
     }, 
     {
         "source": "Clip", 
-        "text": "Clip", 
+        "description": "", 
         "id": "Clip", 
-        "description": ""
+        "text": "Clip"
     }, 
     {
         "source": "Paint", 
-        "text": "Maling", 
+        "description": "", 
         "id": "Paint", 
-        "description": ""
+        "text": "Maling"
     }, 
     {
         "source": "Paint Overlay", 
-        "text": "Maloverl\u00e6g", 
+        "description": "", 
         "id": "PaintOverlay", 
-        "description": ""
+        "text": "Maloverl\u00e6g"
     }, 
     {
         "source": "Pointer Enter", 
-        "text": "Pointer Enter", 
+        "description": "", 
         "id": "PointerEnter", 
-        "description": ""
+        "text": "Pointer Enter"
     }, 
     {
         "source": "Pointer Leave", 
-        "text": "Pointer Leave", 
+        "description": "", 
         "id": "PointerLeave", 
-        "description": ""
+        "text": "Pointer Leave"
     }, 
     {
         "source": "Pointer Move", 
-        "text": "Mark\u00f8r Flyt", 
+        "description": "", 
         "id": "PointerMove", 
-        "description": ""
+        "text": "Mark\u00f8r Flyt"
     }, 
     {
         "source": "Button Press", 
-        "text": "Knappen Tryk", 
+        "description": "", 
         "id": "ButtonPress", 
-        "description": ""
+        "text": "Knappen Tryk"
     }, 
     {
         "source": "Button Release", 
-        "text": "Button Release", 
+        "description": "", 
         "id": "ButtonRelease", 
-        "description": ""
+        "text": "Button Release"
     }, 
     {
         "source": "Scroll", 
-        "text": "Rul", 
+        "description": "", 
         "id": "Scroll", 
-        "description": ""
+        "text": "Rul"
     }, 
     {
         "source": "Drop", 
-        "text": "Dr\u00e5be", 
+        "description": "", 
         "id": "Drop", 
-        "description": ""
+        "text": "Dr\u00e5be"
     }, 
     {
         "source": "Key Press", 
-        "text": "Tastetryk", 
+        "description": "", 
         "id": "KeyPress", 
-        "description": ""
+        "text": "Tastetryk"
     }, 
     {
         "source": "Key Release", 
-        "text": "Key Release", 
+        "description": "", 
         "id": "KeyRelease", 
-        "description": ""
+        "text": "Key Release"
     }, 
     {
         "source": "Text Focus", 
-        "text": "Tekstfokus", 
+        "description": "", 
         "id": "TextFocus", 
-        "description": ""
+        "text": "Tekstfokus"
     }, 
     {
         "source": "Text Focus Lost", 
-        "text": "Tekstfokus tapt", 
+        "description": "", 
         "id": "TextFocusLost", 
-        "description": ""
+        "text": "Tekstfokus tapt"
     }, 
     {
         "source": "Text", 
-        "text": "Tekst", 
+        "description": "", 
         "id": "Text", 
-        "description": ""
+        "text": "Tekst"
     }, 
     {
         "source": "The file", 
-        "text": "Filen", 
+        "description": "", 
         "id": "The file", 
-        "description": ""
+        "text": "Filen"
     }, 
     {
         "source": "cannot be opened", 
-        "text": "kan ikke \u00e5bnes", 
+        "description": "", 
         "id": "cannot be opened", 
-        "description": ""
+        "text": "kan ikke \u00e5bnes"
     }, 
     {
         "source": "cannot be closed", 
-        "text": "kan ikke lukkes", 
+        "description": "", 
         "id": "cannot be closed", 
-        "description": ""
+        "text": "kan ikke lukkes"
     }, 
     {
         "source": "cannot be mapped", 
-        "text": "kan ikke kortl\u00e6gges", 
+        "description": "", 
         "id": "cannot be mapped", 
-        "description": ""
+        "text": "kan ikke kortl\u00e6gges"
     }, 
     {
         "source": "cannot be unmapped", 
-        "text": "kan ikke omformuleres", 
+        "description": "", 
         "id": "cannot be unmapped", 
-        "description": ""
+        "text": "kan ikke omformuleres"
     }, 
     {
         "source": "cannot be read", 
-        "text": "kan ikke l\u00e6ses", 
+        "description": "", 
         "id": "cannot be read", 
-        "description": ""
+        "text": "kan ikke l\u00e6ses"
     }, 
     {
         "source": "cannot be written", 
-        "text": "kan ikke skrives", 
+        "description": "", 
         "id": "cannot be written", 
-        "description": ""
+        "text": "kan ikke skrives"
     }, 
     {
         "source": "Error reading the text file", 
-        "text": "Fejl ved l\u00e6sning af tekstfilen", 
+        "description": "", 
         "id": "Error reading the text file", 
-        "description": ""
+        "text": "Fejl ved l\u00e6sning af tekstfilen"
     }, 
     {
         "source": "MSB", 
-        "text": "MSB", 
+        "description": "", 
         "id": "MSB", 
-        "description": ""
+        "text": "MSB"
     }, 
     {
         "source": "LSB", 
-        "text": "LSB", 
+        "description": "", 
         "id": "LSB", 
-        "description": ""
+        "text": "LSB"
     }, 
     {
         "source": "Home", 
-        "text": "Hjem", 
+        "description": "", 
         "id": "Home", 
-        "description": ""
+        "text": "Hjem"
     }, 
     {
         "source": "Desktop", 
-        "text": "Desktop", 
+        "description": "", 
         "id": "Desktop", 
-        "description": ""
+        "text": "Desktop"
     }, 
     {
         "source": "Documents", 
-        "text": "Dokumenter", 
+        "description": "", 
         "id": "Documents", 
-        "description": ""
+        "text": "Dokumenter"
     }, 
     {
         "source": "Downloads", 
-        "text": "Downloads", 
+        "description": "", 
         "id": "Downloads", 
-        "description": ""
+        "text": "Downloads"
     }, 
     {
         "source": "The directory", 
-        "text": "Biblioteket", 
+        "description": "", 
         "id": "The directory", 
-        "description": ""
+        "text": "Biblioteket"
     }, 
     {
         "source": "cannot be created", 
-        "text": "kan ikke oprettes", 
+        "description": "", 
         "id": "cannot be created", 
-        "description": ""
+        "text": "kan ikke oprettes"
     }, 
     {
         "source": "Cannot parse the value", 
-        "text": "Kan ikke analysere v\u00e6rdien", 
+        "description": "", 
         "id": "Cannot parse the value", 
-        "description": ""
+        "text": "Kan ikke analysere v\u00e6rdien"
     }, 
     {
         "source": "Cannot parse the value.", 
-        "text": "Kan ikke analysere v\u00e6rdien.", 
+        "description": "", 
         "id": "Cannot parse the value.", 
-        "description": ""
+        "text": "Kan ikke analysere v\u00e6rdien."
     }, 
     {
         "source": "cannot be queried", 
-        "text": "kan ikke foresp\u00f8rges", 
+        "description": "", 
         "id": "cannot be queried", 
-        "description": ""
+        "text": "kan ikke foresp\u00f8rges"
     }, 
     {
         "source": "Application", 
-        "text": "Ans\u00f8gning", 
+        "description": "", 
         "id": "Application", 
-        "description": ""
+        "text": "Ans\u00f8gning"
     }, 
     {
         "source": "Log File", 
-        "text": "Logfil", 
+        "description": "", 
         "id": "LogFile", 
-        "description": ""
+        "text": "Logfil"
     }, 
     {
         "source": "Settings File", 
-        "text": "Indstillinger Fil", 
+        "description": "", 
         "id": "SettingsFile", 
-        "description": ""
+        "text": "Indstillinger Fil"
     }, 
     {
         "source": "Audio Directory", 
-        "text": "Audio Directory", 
+        "description": "", 
         "id": "AudioDirectory", 
-        "description": ""
+        "text": "Audio Directory"
     }, 
     {
         "source": "Fonts Directory", 
-        "text": "Fonts Directory", 
+        "description": "", 
         "id": "FontsDirectory", 
-        "description": ""
+        "text": "Fonts Directory"
     }, 
     {
         "source": "Icons Directory", 
-        "text": "Ikoner Directory", 
+        "description": "", 
         "id": "IconsDirectory", 
-        "description": ""
+        "text": "Ikoner Directory"
     }, 
     {
         "source": "Images Directory", 
-        "text": "Billeder Katalog", 
+        "description": "", 
         "id": "ImagesDirectory", 
-        "description": ""
+        "text": "Billeder Katalog"
     }, 
     {
         "source": "Models Directory", 
-        "text": "Modeller Directory", 
+        "description": "", 
         "id": "ModelsDirectory", 
-        "description": ""
+        "text": "Modeller Directory"
     }, 
     {
         "source": "Shaders Directory", 
-        "text": "Shaders Directory", 
+        "description": "", 
         "id": "ShadersDirectory", 
-        "description": ""
+        "text": "Shaders Directory"
     }, 
     {
         "source": "Text Directory", 
-        "text": "Tekstmappe", 
+        "description": "", 
         "id": "TextDirectory", 
-        "description": ""
+        "text": "Tekstmappe"
     }, 
     {
         "source": "File", 
-        "text": "Fil", 
+        "description": "", 
         "id": "File", 
-        "description": ""
+        "text": "Fil"
     }, 
     {
         "source": "Sequence", 
-        "text": "sekvens", 
+        "description": "", 
         "id": "Sequence", 
-        "description": ""
+        "text": "sekvens"
     }, 
     {
         "source": "Directory", 
-        "text": "Vejviser", 
+        "description": "", 
         "id": "Directory", 
-        "description": ""
+        "text": "Vejviser"
     }, 
     {
         "source": "Name", 
-        "text": "Navn", 
+        "description": "", 
         "id": "Name", 
-        "description": ""
+        "text": "Navn"
     }, 
     {
         "source": "Size", 
-        "text": "St\u00f8rrelse", 
+        "description": "", 
         "id": "Size", 
-        "description": ""
+        "text": "St\u00f8rrelse"
     }, 
     {
         "source": "Type", 
-        "text": "Type", 
+        "description": "", 
         "id": "Type", 
-        "description": ""
+        "text": "Type"
     }, 
     {
         "source": "Linear", 
-        "text": "Line\u00e6r", 
+        "description": "", 
         "id": "Linear", 
-        "description": ""
+        "text": "Line\u00e6r"
     }, 
     {
         "source": "Ease In", 
-        "text": "Let i", 
+        "description": "", 
         "id": "EaseIn", 
-        "description": ""
+        "text": "Let i"
     }, 
     {
         "source": "Ease Out", 
-        "text": "Let ud", 
+        "description": "", 
         "id": "EaseOut", 
-        "description": ""
+        "text": "Let ud"
     }, 
     {
         "source": "Smooth Step", 
-        "text": "Glat trin", 
+        "description": "", 
         "id": "SmoothStep", 
-        "description": ""
+        "text": "Glat trin"
     }, 
     {
         "source": "Sine", 
-        "text": "dens", 
+        "description": "", 
         "id": "Sine", 
-        "description": ""
+        "text": "dens"
     }, 
     {
         "source": "Error finding the change notification for", 
-        "text": "Fejl ved at finde \u00e6ndringsmeddelelsen til", 
+        "description": "", 
         "id": "Error finding the change notification for", 
-        "description": ""
+        "text": "Fejl ved at finde \u00e6ndringsmeddelelsen til"
     }, 
     {
         "source": "Error watching the directory", 
-        "text": "Fejl ved at se biblioteket", 
+        "description": "", 
         "id": "Error watching the directory", 
-        "description": ""
+        "text": "Fejl ved at se biblioteket"
     }, 
     {
         "source": "Amargosa Canyon Speckled Dace", 
-        "text": "Amargosa Canyon Speckled Dace", 
+        "description": "", 
         "id": "Amargosa Canyon Speckled Dace", 
-        "description": ""
+        "text": "Amargosa Canyon Speckled Dace"
     }, 
     {
         "source": "Amargosa River Pupfish", 
-        "text": "Amargosa River Pupfish", 
+        "description": "", 
         "id": "Amargosa River Pupfish", 
-        "description": ""
+        "text": "Amargosa River Pupfish"
     }, 
     {
         "source": "American Shad", 
-        "text": "American Shad", 
+        "description": "", 
         "id": "American Shad", 
-        "description": ""
+        "text": "American Shad"
     }, 
     {
         "source": "Arroyo Chub", 
-        "text": "Arroyo Chub", 
+        "description": "", 
         "id": "Arroyo Chub", 
-        "description": ""
+        "text": "Arroyo Chub"
     }, 
     {
         "source": "Bigeye Marbled Sculpin", 
-        "text": "Bigeye Marbled Sculpin", 
+        "description": "", 
         "id": "Bigeye Marbled Sculpin", 
-        "description": ""
+        "text": "Bigeye Marbled Sculpin"
     }, 
     {
         "source": "Bigscale Logperch", 
-        "text": "Bigscale Logperch", 
+        "description": "", 
         "id": "Bigscale Logperch", 
-        "description": ""
+        "text": "Bigscale Logperch"
     }, 
     {
         "source": "Black Bullhead", 
-        "text": "Black Bullhead", 
+        "description": "", 
         "id": "Black Bullhead", 
-        "description": ""
+        "text": "Black Bullhead"
     }, 
     {
         "source": "Black Crappie", 
-        "text": "Sort Crappie", 
+        "description": "", 
         "id": "Black Crappie", 
-        "description": ""
+        "text": "Sort Crappie"
     }, 
     {
         "source": "Blue Catfish", 
-        "text": "Bl\u00e5 Havkat", 
+        "description": "", 
         "id": "Blue Catfish", 
-        "description": ""
+        "text": "Bl\u00e5 Havkat"
     }, 
     {
         "source": "Blue Chub", 
-        "text": "Bl\u00e5 Chub", 
+        "description": "", 
         "id": "Blue Chub", 
-        "description": ""
+        "text": "Bl\u00e5 Chub"
     }, 
     {
         "source": "Bluefin Killifish", 
-        "text": "Bluefin Killifish", 
+        "description": "", 
         "id": "Bluefin Killifish", 
-        "description": ""
+        "text": "Bluefin Killifish"
     }, 
     {
         "source": "Bluegill", 
-        "text": "Bluegill", 
+        "description": "", 
         "id": "Bluegill", 
-        "description": ""
+        "text": "Bluegill"
     }, 
     {
         "source": "Lepomis macrochirus", 
-        "text": "Lepomis macrochirus", 
+        "description": "", 
         "id": "Lepomis macrochirus", 
-        "description": ""
+        "text": "Lepomis macrochirus"
     }, 
     {
         "source": "Bonytail", 
-        "text": "Bonytail", 
+        "description": "", 
         "id": "Bonytail", 
-        "description": ""
+        "text": "Bonytail"
     }, 
     {
         "source": "Brook Stickleback", 
-        "text": "Brook Stickleback", 
+        "description": "", 
         "id": "Brook Stickleback", 
-        "description": ""
+        "text": "Brook Stickleback"
     }, 
     {
         "source": "Brook Trout", 
-        "text": "Brook \u00d8rred", 
+        "description": "", 
         "id": "Brook Trout", 
-        "description": ""
+        "text": "Brook \u00d8rred"
     }, 
     {
         "source": "Brown Bullhead", 
-        "text": "Brown Bullhead", 
+        "description": "", 
         "id": "Brown Bullhead", 
-        "description": ""
+        "text": "Brown Bullhead"
     }, 
     {
         "source": "Brown Trout", 
-        "text": "Brown Forell", 
+        "description": "", 
         "id": "Brown Trout", 
-        "description": ""
+        "text": "Brown Forell"
     }, 
     {
         "source": "Bull Trout", 
-        "text": "Tyr\u00f8rred", 
+        "description": "", 
         "id": "Bull Trout", 
-        "description": ""
+        "text": "Tyr\u00f8rred"
     }, 
     {
         "source": "California Coast Fall Chinook Salmon", 
-        "text": "California Coast Fall Chinook Laks", 
+        "description": "", 
         "id": "California Coast Fall Chinook Salmon", 
-        "description": ""
+        "text": "California Coast Fall Chinook Laks"
     }, 
     {
         "source": "California Golden Trout", 
-        "text": "Californien Golden Trout", 
+        "description": "", 
         "id": "California Golden Trout", 
-        "description": ""
+        "text": "Californien Golden Trout"
     }, 
     {
         "source": "California Killifish", 
-        "text": "Californien Killifish", 
+        "description": "", 
         "id": "California Killifish", 
-        "description": ""
+        "text": "Californien Killifish"
     }, 
     {
         "source": "California Tilapia", 
-        "text": "Californien Tilapia", 
+        "description": "", 
         "id": "California Tilapia", 
-        "description": ""
+        "text": "Californien Tilapia"
     }, 
     {
         "source": "Central California Coast Winter Steelhead", 
-        "text": "Central California Coast Winter Steelhead", 
+        "description": "", 
         "id": "Central California Coast Winter Steelhead", 
-        "description": ""
+        "text": "Central California Coast Winter Steelhead"
     }, 
     {
         "source": "Central California Roach", 
-        "text": "Central California Roach", 
+        "description": "", 
         "id": "Central California Roach", 
-        "description": ""
+        "text": "Central California Roach"
     }, 
     {
         "source": "Central Coast Coho Salmon", 
-        "text": "Central Coast Coho Laks", 
+        "description": "", 
         "id": "Central Coast Coho Salmon", 
-        "description": ""
+        "text": "Central Coast Coho Laks"
     }, 
     {
         "source": "Central Valley Fall Chinook Salmon", 
-        "text": "Central Valley Fall Chinook Laks", 
+        "description": "", 
         "id": "Central Valley Fall Chinook Salmon", 
-        "description": ""
+        "text": "Central Valley Fall Chinook Laks"
     }, 
     {
         "source": "Central Valley late Fall Chinook Salmon", 
-        "text": "Central Valley Sen Fall Chinook Laks", 
+        "description": "", 
         "id": "Central Valley late Fall Chinook Salmon", 
-        "description": ""
+        "text": "Central Valley Sen Fall Chinook Laks"
     }, 
     {
         "source": "Oncorhynchus tshawytscha", 
-        "text": "Oncorhynchus tshawytscha", 
+        "description": "", 
         "id": "Oncorhynchus tshawytscha", 
-        "description": ""
+        "text": "Oncorhynchus tshawytscha"
     }, 
     {
         "source": "Central Valley spring Chinook Salmon", 
-        "text": "Central Valley for\u00e5ret Chinook Laks", 
+        "description": "", 
         "id": "Central Valley spring Chinook Salmon", 
-        "description": ""
+        "text": "Central Valley for\u00e5ret Chinook Laks"
     }, 
     {
         "source": "Central Valley Steelhead", 
-        "text": "Central Valley Steelhead", 
+        "description": "", 
         "id": "Central Valley Steelhead", 
-        "description": ""
+        "text": "Central Valley Steelhead"
     }, 
     {
         "source": "Central Valley Winter Chinook Salmon", 
-        "text": "Central Valley Winter Chinook Laks", 
+        "description": "", 
         "id": "Central Valley Winter Chinook Salmon", 
-        "description": ""
+        "text": "Central Valley Winter Chinook Laks"
     }, 
     {
         "source": "Channel Catfish", 
-        "text": "Kanal Havkat", 
+        "description": "", 
         "id": "Channel Catfish", 
-        "description": ""
+        "text": "Kanal Havkat"
     }, 
     {
         "source": "Chum Salmon", 
-        "text": "Chum laks", 
+        "description": "", 
         "id": "Chum Salmon", 
-        "description": ""
+        "text": "Chum laks"
     }, 
     {
         "source": "Clear Lake Hitch", 
-        "text": "Clear Lake Hitch", 
+        "description": "", 
         "id": "Clear Lake Hitch", 
-        "description": ""
+        "text": "Clear Lake Hitch"
     }, 
     {
         "source": "Clear Lake Prickly Sculpin", 
-        "text": "Clear Lake Prickly Sculpin", 
+        "description": "", 
         "id": "Clear Lake Prickly Sculpin", 
-        "description": ""
+        "text": "Clear Lake Prickly Sculpin"
     }, 
     {
         "source": "Clear Lake Roach", 
-        "text": "Clear Lake Roach", 
+        "description": "", 
         "id": "Clear Lake Roach", 
-        "description": ""
+        "text": "Clear Lake Roach"
     }, 
     {
         "source": "Clear Lake Splittail", 
-        "text": "Clear Lake Splittail", 
+        "description": "", 
         "id": "Clear Lake Splittail", 
-        "description": ""
+        "text": "Clear Lake Splittail"
     }, 
     {
         "source": "Clear Lake Tule Perch", 
-        "text": "Clear Lake Tule Aborre", 
+        "description": "", 
         "id": "Clear Lake Tule Perch", 
-        "description": ""
+        "text": "Clear Lake Tule Aborre"
     }, 
     {
         "source": "Coastal Cutthroat Trout", 
-        "text": "Coastal Cutthroat Forell", 
+        "description": "", 
         "id": "Coastal Cutthroat Trout", 
-        "description": ""
+        "text": "Coastal Cutthroat Forell"
     }, 
     {
         "source": "Coastal Rainbow Trout", 
-        "text": "Coastal Rainbow Trout", 
+        "description": "", 
         "id": "Coastal Rainbow Trout", 
-        "description": ""
+        "text": "Coastal Rainbow Trout"
     }, 
     {
         "source": "Coastal Threespine Stickleback", 
-        "text": "Coastal Threespine Stickleback", 
+        "description": "", 
         "id": "Coastal Threespine Stickleback", 
-        "description": ""
+        "text": "Coastal Threespine Stickleback"
     }, 
     {
         "source": "Coastrange Sculpin", 
-        "text": "Coastrange Sculpin", 
+        "description": "", 
         "id": "Coastrange Sculpin", 
-        "description": ""
+        "text": "Coastrange Sculpin"
     }, 
     {
         "source": "Colorado Pikeminnow", 
-        "text": "Colorado Pikeminnow", 
+        "description": "", 
         "id": "Colorado Pikeminnow", 
-        "description": ""
+        "text": "Colorado Pikeminnow"
     }, 
     {
         "source": "Colorado River Cutthroat Trout", 
-        "text": "Colorado River Cutthroat Forell", 
+        "description": "", 
         "id": "Colorado River Cutthroat Trout", 
-        "description": ""
+        "text": "Colorado River Cutthroat Forell"
     }, 
     {
         "source": "Common Carp", 
-        "text": "F\u00e6lles karpe", 
+        "description": "", 
         "id": "Common Carp", 
-        "description": ""
+        "text": "F\u00e6lles karpe"
     }, 
     {
         "source": "Cottonball Marsh Pupfish", 
-        "text": "Cottonball Marsh Pupfish", 
+        "description": "", 
         "id": "Cottonball Marsh Pupfish", 
-        "description": ""
+        "text": "Cottonball Marsh Pupfish"
     }, 
     {
         "source": "Cow Head Tui Chub", 
-        "text": "Cow Head Tui Chub", 
+        "description": "", 
         "id": "Cow Head Tui Chub", 
-        "description": ""
+        "text": "Cow Head Tui Chub"
     }, 
     {
         "source": "Delta Smelt", 
-        "text": "Delta Melt", 
+        "description": "", 
         "id": "Delta Smelt", 
-        "description": ""
+        "text": "Delta Melt"
     }, 
     {
         "source": "Desert Pupfish", 
-        "text": "Desert Pupfish", 
+        "description": "", 
         "id": "Desert Pupfish", 
-        "description": ""
+        "text": "Desert Pupfish"
     }, 
     {
         "source": "Eagle Lake Rainbow Trout", 
-        "text": "Eagle Lake Rainbow Trout", 
+        "description": "", 
         "id": "Eagle Lake Rainbow Trout", 
-        "description": ""
+        "text": "Eagle Lake Rainbow Trout"
     }, 
     {
         "source": "Eagle Lake Tui Chub", 
-        "text": "Eagle Lake Tui Chub", 
+        "description": "", 
         "id": "Eagle Lake Tui Chub", 
-        "description": ""
+        "text": "Eagle Lake Tui Chub"
     }, 
     {
         "source": "Eulachon", 
-        "text": "Eulachon", 
+        "description": "", 
         "id": "Eulachon", 
-        "description": ""
+        "text": "Eulachon"
     }, 
     {
         "source": "Fathead Minnow", 
-        "text": "Fathead Minnow", 
+        "description": "", 
         "id": "Fathead Minnow", 
-        "description": ""
+        "text": "Fathead Minnow"
     }, 
     {
         "source": "Flannelmouth Sucker", 
-        "text": "Flannelmouth Sucker", 
+        "description": "", 
         "id": "Flannelmouth Sucker", 
-        "description": ""
+        "text": "Flannelmouth Sucker"
     }, 
     {
         "source": "Flathead Catfish", 
-        "text": "Flathead Catfish", 
+        "description": "", 
         "id": "Flathead Catfish", 
-        "description": ""
+        "text": "Flathead Catfish"
     }, 
     {
         "source": "Golden Shiner", 
-        "text": "Golden Shiner", 
+        "description": "", 
         "id": "Golden Shiner", 
-        "description": ""
+        "text": "Golden Shiner"
     }, 
     {
         "source": "Goldfish", 
-        "text": "Guldfisk", 
+        "description": "", 
         "id": "Goldfish", 
-        "description": ""
+        "text": "Guldfisk"
     }, 
     {
         "source": "Goose Lake Lamprey", 
-        "text": "Goose Lake Lamprey", 
+        "description": "", 
         "id": "Goose Lake Lamprey", 
-        "description": ""
+        "text": "Goose Lake Lamprey"
     }, 
     {
         "source": "Goose Lake Redband Trout", 
-        "text": "Goose Lake Redband Forell", 
+        "description": "", 
         "id": "Goose Lake Redband Trout", 
-        "description": ""
+        "text": "Goose Lake Redband Forell"
     }, 
     {
         "source": "Goose Lake Sucker", 
-        "text": "Goose Lake Sucker", 
+        "description": "", 
         "id": "Goose Lake Sucker", 
-        "description": ""
+        "text": "Goose Lake Sucker"
     }, 
     {
         "source": "Goose Lake Tui Chub", 
-        "text": "Goose Lake Tui Chub", 
+        "description": "", 
         "id": "Goose Lake Tui Chub", 
-        "description": ""
+        "text": "Goose Lake Tui Chub"
     }, 
     {
         "source": "Grass Carp", 
-        "text": "Gr\u00e6skarpe", 
+        "description": "", 
         "id": "Grass Carp", 
-        "description": ""
+        "text": "Gr\u00e6skarpe"
     }, 
     {
         "source": "Green Sunfish", 
-        "text": "Gr\u00f8n Sunfish", 
+        "description": "", 
         "id": "Green Sunfish", 
-        "description": ""
+        "text": "Gr\u00f8n Sunfish"
     }, 
     {
         "source": "Gualala Roach", 
-        "text": "Gualala Roach", 
+        "description": "", 
         "id": "Gualala Roach", 
-        "description": ""
+        "text": "Gualala Roach"
     }, 
     {
         "source": "Hardhead", 
-        "text": "h\u00e5rdt hoved", 
+        "description": "", 
         "id": "Hardhead", 
-        "description": ""
+        "text": "h\u00e5rdt hoved"
     }, 
     {
         "source": "High Rock Springs Tui Chub", 
-        "text": "High Rock Springs Tui Chub", 
+        "description": "", 
         "id": "High Rock Springs Tui Chub", 
-        "description": ""
+        "text": "High Rock Springs Tui Chub"
     }, 
     {
         "source": "Humboldt Sucker", 
-        "text": "Humboldt Sucker", 
+        "description": "", 
         "id": "Humboldt Sucker", 
-        "description": ""
+        "text": "Humboldt Sucker"
     }, 
     {
         "source": "Inland Threespine Stickleback", 
-        "text": "Indlands Threespine Stickleback", 
+        "description": "", 
         "id": "Inland Threespine Stickleback", 
-        "description": ""
+        "text": "Indlands Threespine Stickleback"
     }, 
     {
         "source": "Kern Brook Lamprey", 
-        "text": "Kern Brook Lamprey", 
+        "description": "", 
         "id": "Kern Brook Lamprey", 
-        "description": ""
+        "text": "Kern Brook Lamprey"
     }, 
     {
         "source": "Kern River Rainbow Trout", 
-        "text": "Kern River Rainbow Trout", 
+        "description": "", 
         "id": "Kern River Rainbow Trout", 
-        "description": ""
+        "text": "Kern River Rainbow Trout"
     }, 
     {
         "source": "Klamath Largescale Sucker", 
-        "text": "Klamath Largescale Sucker", 
+        "description": "", 
         "id": "Klamath Largescale Sucker", 
-        "description": ""
+        "text": "Klamath Largescale Sucker"
     }, 
     {
         "source": "Klamath Mountains Province Summer Steelhead", 
-        "text": "Klamath Mountains Province Summer Steelhead", 
+        "description": "", 
         "id": "Klamath Mountains Province Summer Steelhead", 
-        "description": ""
+        "text": "Klamath Mountains Province Summer Steelhead"
     }, 
     {
         "source": "Klamath Mountains Province Winter Steelhead", 
-        "text": "Klamath Mountains Province Winter Steelhead", 
+        "description": "", 
         "id": "Klamath Mountains Province Winter Steelhead", 
-        "description": ""
+        "text": "Klamath Mountains Province Winter Steelhead"
     }, 
     {
         "source": "Klamath River Lamprey", 
-        "text": "Klamath River Lamprey", 
+        "description": "", 
         "id": "Klamath River Lamprey", 
-        "description": ""
+        "text": "Klamath River Lamprey"
     }, 
     {
         "source": "Klamath Smallscale Sucker", 
-        "text": "Klamath Smallscale Sucker", 
+        "description": "", 
         "id": "Klamath Smallscale Sucker", 
-        "description": ""
+        "text": "Klamath Smallscale Sucker"
     }, 
     {
         "source": "Klamath Speckled Dace", 
-        "text": "Klamath Speckled Dace", 
+        "description": "", 
         "id": "Klamath Speckled Dace", 
-        "description": ""
+        "text": "Klamath Speckled Dace"
     }, 
     {
         "source": "Klamath Tui Chub", 
-        "text": "Klamath Tui Chub", 
+        "description": "", 
         "id": "Klamath Tui Chub", 
-        "description": ""
+        "text": "Klamath Tui Chub"
     }, 
     {
         "source": "Lahontan Cutthroat Trout", 
-        "text": "Lahontan Cutthroat \u00d8rred", 
+        "description": "", 
         "id": "Lahontan Cutthroat Trout", 
-        "description": ""
+        "text": "Lahontan Cutthroat \u00d8rred"
     }, 
     {
         "source": "Lahontan Lake Tui Chub", 
-        "text": "Lahontan Lake Tui Chub", 
+        "description": "", 
         "id": "Lahontan Lake Tui Chub", 
-        "description": ""
+        "text": "Lahontan Lake Tui Chub"
     }, 
     {
         "source": "Lahontan Mountain Sucker", 
-        "text": "Lahontan Mountain Sucker", 
+        "description": "", 
         "id": "Lahontan Mountain Sucker", 
-        "description": ""
+        "text": "Lahontan Mountain Sucker"
     }, 
     {
         "source": "Lahontan Redside", 
-        "text": "Lahontan Redside", 
+        "description": "", 
         "id": "Lahontan Redside", 
-        "description": ""
+        "text": "Lahontan Redside"
     }, 
     {
         "source": "Lahontan Speckled Dace", 
-        "text": "Lahontan Speckled Dace", 
+        "description": "", 
         "id": "Lahontan Speckled Dace", 
-        "description": ""
+        "text": "Lahontan Speckled Dace"
     }, 
     {
         "source": "Lahontan Stream Tui Chub", 
-        "text": "Lahontan Stream Tui Chub", 
+        "description": "", 
         "id": "Lahontan Stream Tui Chub", 
-        "description": ""
+        "text": "Lahontan Stream Tui Chub"
     }, 
     {
         "source": "Lake Trout", 
-        "text": "S\u00f8\u00f8rred", 
+        "description": "", 
         "id": "Lake Trout", 
-        "description": ""
+        "text": "S\u00f8\u00f8rred"
     }, 
     {
         "source": "Largemouth Bass", 
-        "text": "Largemouth Bass", 
+        "description": "", 
         "id": "Largemouth Bass", 
-        "description": ""
+        "text": "Largemouth Bass"
     }, 
     {
         "source": "Little Kern Golden Trout", 
-        "text": "Lille Kern Golden Forell", 
+        "description": "", 
         "id": "Little Kern Golden Trout", 
-        "description": ""
+        "text": "Lille Kern Golden Forell"
     }, 
     {
         "source": "Long Valley Speckled Dace", 
-        "text": "Long Valley Speckled Dace", 
+        "description": "", 
         "id": "Long Valley Speckled Dace", 
-        "description": ""
+        "text": "Long Valley Speckled Dace"
     }, 
     {
         "source": "Longfin Smelt", 
-        "text": "Longfin Smelt", 
+        "description": "", 
         "id": "Longfin Smelt", 
-        "description": ""
+        "text": "Longfin Smelt"
     }, 
     {
         "source": "Longjaw Mudsucker", 
-        "text": "Longjaw Mudsucker", 
+        "description": "", 
         "id": "Longjaw Mudsucker", 
-        "description": ""
+        "text": "Longjaw Mudsucker"
     }, 
     {
         "source": "Lost River Sucker", 
-        "text": "Lost River Sucker", 
+        "description": "", 
         "id": "Lost River Sucker", 
-        "description": ""
+        "text": "Lost River Sucker"
     }, 
     {
         "source": "Lower Klamath Marbled Sculpin", 
-        "text": "Nedre Klamath Marbled Sculpin", 
+        "description": "", 
         "id": "Lower Klamath Marbled Sculpin", 
-        "description": ""
+        "text": "Nedre Klamath Marbled Sculpin"
     }, 
     {
         "source": "McCloud River Redband Trout", 
-        "text": "McCloud River Redband Trout", 
+        "description": "", 
         "id": "McCloud River Redband Trout", 
-        "description": ""
+        "text": "McCloud River Redband Trout"
     }, 
     {
         "source": "Mississippi Silversides", 
-        "text": "Mississippi Silversides", 
+        "description": "", 
         "id": "Mississippi Silversides", 
-        "description": ""
+        "text": "Mississippi Silversides"
     }, 
     {
         "source": "Modoc Sucker", 
-        "text": "Modoc Sucker", 
+        "description": "", 
         "id": "Modoc Sucker", 
-        "description": ""
+        "text": "Modoc Sucker"
     }, 
     {
         "source": "Mojave Tui Chub", 
-        "text": "Mojave Tui Chub", 
+        "description": "", 
         "id": "Mojave Tui Chub", 
-        "description": ""
+        "text": "Mojave Tui Chub"
     }, 
     {
         "source": "Monterey Hitch", 
-        "text": "Monterey Hitch", 
+        "description": "", 
         "id": "Monterey Hitch", 
-        "description": ""
+        "text": "Monterey Hitch"
     }, 
     {
         "source": "Monterey Roach", 
-        "text": "Monterey Roach", 
+        "description": "", 
         "id": "Monterey Roach", 
-        "description": ""
+        "text": "Monterey Roach"
     }, 
     {
         "source": "Monterey Sucker", 
-        "text": "Monterey Sucker", 
+        "description": "", 
         "id": "Monterey Sucker", 
-        "description": ""
+        "text": "Monterey Sucker"
     }, 
     {
         "source": "Mountain Whitefish", 
-        "text": "Bjerg Hvidfisk", 
+        "description": "", 
         "id": "Mountain Whitefish", 
-        "description": ""
+        "text": "Bjerg Hvidfisk"
     }, 
     {
         "source": "Navarro Roach", 
-        "text": "Navarro Roach", 
+        "description": "", 
         "id": "Navarro Roach", 
-        "description": ""
+        "text": "Navarro Roach"
     }, 
     {
         "source": "Northern (Pit) Roach", 
-        "text": "Northern (Pit) Roach", 
+        "description": "", 
         "id": "Northern (Pit) Roach", 
-        "description": ""
+        "text": "Northern (Pit) Roach"
     }, 
     {
         "source": "Northern California Brook Lamprey", 
-        "text": "Nordlige Californien Brook Lamprey", 
+        "description": "", 
         "id": "Northern California Brook Lamprey", 
-        "description": ""
+        "text": "Nordlige Californien Brook Lamprey"
     }, 
     {
         "source": "Northern California Coast Summer Steelhead", 
-        "text": "Northern California Coast Summer Steelhead", 
+        "description": "", 
         "id": "Northern California Coast Summer Steelhead", 
-        "description": ""
+        "text": "Northern California Coast Summer Steelhead"
     }, 
     {
         "source": "Northern California Coast Winter Steelhead", 
-        "text": "Northern California Coast Winter Steelhead", 
+        "description": "", 
         "id": "Northern California Coast Winter Steelhead", 
-        "description": ""
+        "text": "Northern California Coast Winter Steelhead"
     }, 
     {
         "source": "Northern Green Sturgeon", 
-        "text": "Northern Green Sturgeon", 
+        "description": "", 
         "id": "Northern Green Sturgeon", 
-        "description": ""
+        "text": "Northern Green Sturgeon"
     }, 
     {
         "source": "Owens Pupfish", 
-        "text": "Owens Pupfish", 
+        "description": "", 
         "id": "Owens Pupfish", 
-        "description": ""
+        "text": "Owens Pupfish"
     }, 
     {
         "source": "Owens Speckled Dace", 
-        "text": "Owens Speckled Dace", 
+        "description": "", 
         "id": "Owens Speckled Dace", 
-        "description": ""
+        "text": "Owens Speckled Dace"
     }, 
     {
         "source": "Owens Sucker", 
-        "text": "Owens Sucker", 
+        "description": "", 
         "id": "Owens Sucker", 
-        "description": ""
+        "text": "Owens Sucker"
     }, 
     {
         "source": "Owens Tui Chub", 
-        "text": "Owens Tui Chub", 
+        "description": "", 
         "id": "Owens Tui Chub", 
-        "description": ""
+        "text": "Owens Tui Chub"
     }, 
     {
         "source": "Pacific Lamprey", 
-        "text": "Stillehavet Lamprey", 
+        "description": "", 
         "id": "Pacific Lamprey", 
-        "description": ""
+        "text": "Stillehavet Lamprey"
     }, 
     {
         "source": "Paiute Cutthroat Trout", 
-        "text": "Paiute Cutthroat Forell", 
+        "description": "", 
         "id": "Paiute Cutthroat Trout", 
-        "description": ""
+        "text": "Paiute Cutthroat Forell"
     }, 
     {
         "source": "Paiute Sculpin", 
-        "text": "Paiute Sculpin", 
+        "description": "", 
         "id": "Paiute Sculpin", 
-        "description": ""
+        "text": "Paiute Sculpin"
     }, 
     {
         "source": "Pink Salmon", 
-        "text": "Pink laks", 
+        "description": "", 
         "id": "Pink Salmon", 
-        "description": ""
+        "text": "Pink laks"
     }, 
     {
         "source": "Pit River Tui Chub", 
-        "text": "Pit River Tui Chub", 
+        "description": "", 
         "id": "Pit River Tui Chub", 
-        "description": ""
+        "text": "Pit River Tui Chub"
     }, 
     {
         "source": "Pit Sculpin", 
-        "text": "Pit Sculpin", 
+        "description": "", 
         "id": "Pit Sculpin", 
-        "description": ""
+        "text": "Pit Sculpin"
     }, 
     {
         "source": "Pit-Klamath Brook Lamprey", 
-        "text": "Pit-Klamath Brook Lamprey", 
+        "description": "", 
         "id": "Pit-Klamath Brook Lamprey", 
-        "description": ""
+        "text": "Pit-Klamath Brook Lamprey"
     }, 
     {
         "source": "Porthole Livebearer", 
-        "text": "Porthole Livebearer", 
+        "description": "", 
         "id": "Porthole Livebearer", 
-        "description": ""
+        "text": "Porthole Livebearer"
     }, 
     {
         "source": "Prickly Sculpin", 
-        "text": "Prickly Sculpin", 
+        "description": "", 
         "id": "Prickly Sculpin", 
-        "description": ""
+        "text": "Prickly Sculpin"
     }, 
     {
         "source": "Pumpkinseed", 
-        "text": "pumpkinseed", 
+        "description": "", 
         "id": "Pumpkinseed", 
-        "description": ""
+        "text": "pumpkinseed"
     }, 
     {
         "source": "Rainwater Killifish", 
-        "text": "Rainwater Killifish", 
+        "description": "", 
         "id": "Rainwater Killifish", 
-        "description": ""
+        "text": "Rainwater Killifish"
     }, 
     {
         "source": "Razorback Sucker", 
-        "text": "Razorback Sucker", 
+        "description": "", 
         "id": "Razorback Sucker", 
-        "description": ""
+        "text": "Razorback Sucker"
     }, 
     {
         "source": "Red Hills Roach", 
-        "text": "Red Hills Roach", 
+        "description": "", 
         "id": "Red Hills Roach", 
-        "description": ""
+        "text": "Red Hills Roach"
     }, 
     {
         "source": "Red Shiner", 
-        "text": "Red Shiner", 
+        "description": "", 
         "id": "Red Shiner", 
-        "description": ""
+        "text": "Red Shiner"
     }, 
     {
         "source": "Redear Sunfish", 
-        "text": "Redear Sunfish", 
+        "description": "", 
         "id": "Redear Sunfish", 
-        "description": ""
+        "text": "Redear Sunfish"
     }, 
     {
         "source": "Redeye Bass", 
-        "text": "Redeye Bass", 
+        "description": "", 
         "id": "Redeye Bass", 
-        "description": ""
+        "text": "Redeye Bass"
     }, 
     {
         "source": "Reticulate Sculpin", 
-        "text": "Reticulate Sculpin", 
+        "description": "", 
         "id": "Reticulate Sculpin", 
-        "description": ""
+        "text": "Reticulate Sculpin"
     }, 
     {
         "source": "Riffle Sculpin", 
-        "text": "Riffle Sculpin", 
+        "description": "", 
         "id": "Riffle Sculpin", 
-        "description": ""
+        "text": "Riffle Sculpin"
     }, 
     {
         "source": "River Lamprey", 
-        "text": "River Lamprey", 
+        "description": "", 
         "id": "River Lamprey", 
-        "description": ""
+        "text": "River Lamprey"
     }, 
     {
         "source": "Rough Sculpin", 
-        "text": "Rough Sculpin", 
+        "description": "", 
         "id": "Rough Sculpin", 
-        "description": ""
+        "text": "Rough Sculpin"
     }, 
     {
         "source": "Russian River Roach", 
-        "text": "Russian River Roach", 
+        "description": "", 
         "id": "Russian River Roach", 
-        "description": ""
+        "text": "Russian River Roach"
     }, 
     {
         "source": "Russian River Tule Perch", 
-        "text": "Russian River Tule Aborre", 
+        "description": "", 
         "id": "Russian River Tule Perch", 
-        "description": ""
+        "text": "Russian River Tule Aborre"
     }, 
     {
         "source": "Sacramento Blackfish", 
-        "text": "Sacramento Blackfish", 
+        "description": "", 
         "id": "Sacramento Blackfish", 
-        "description": ""
+        "text": "Sacramento Blackfish"
     }, 
     {
         "source": "Sacramento Hitch", 
-        "text": "Sacramento Hitch", 
+        "description": "", 
         "id": "Sacramento Hitch", 
-        "description": ""
+        "text": "Sacramento Hitch"
     }, 
     {
         "source": "Sacramento Perch", 
-        "text": "Sacramento Aborre", 
+        "description": "", 
         "id": "Sacramento Perch", 
-        "description": ""
+        "text": "Sacramento Aborre"
     }, 
     {
         "source": "Sacramento Pikeminnow", 
-        "text": "Sacramento Pikeminnow", 
+        "description": "", 
         "id": "Sacramento Pikeminnow", 
-        "description": ""
+        "text": "Sacramento Pikeminnow"
     }, 
     {
         "source": "Sacramento Speckled Dace", 
-        "text": "Sacramento Speckled Dace", 
+        "description": "", 
         "id": "Sacramento Speckled Dace", 
-        "description": ""
+        "text": "Sacramento Speckled Dace"
     }, 
     {
         "source": "Sacramento Splittail", 
-        "text": "Sacramento Splittail", 
+        "description": "", 
         "id": "Sacramento Splittail", 
-        "description": ""
+        "text": "Sacramento Splittail"
     }, 
     {
         "source": "Sacramento Sucker", 
-        "text": "Sacramento Sucker", 
+        "description": "", 
         "id": "Sacramento Sucker", 
-        "description": ""
+        "text": "Sacramento Sucker"
     }, 
     {
         "source": "Sacramento Tule Perch", 
-        "text": "Sacramento Tule Aborre", 
+        "description": "", 
         "id": "Sacramento Tule Perch", 
-        "description": ""
+        "text": "Sacramento Tule Aborre"
     }, 
     {
         "source": "Sailfin Molly", 
-        "text": "Sailfin Molly", 
+        "description": "", 
         "id": "Sailfin Molly", 
-        "description": ""
+        "text": "Sailfin Molly"
     }, 
     {
         "source": "Salt Creek Pupfish", 
-        "text": "Salt Creek Pupfish", 
+        "description": "", 
         "id": "Salt Creek Pupfish", 
-        "description": ""
+        "text": "Salt Creek Pupfish"
     }, 
     {
         "source": "Santa Ana Speckled Dace", 
-        "text": "Santa Ana Speckled Dace", 
+        "description": "", 
         "id": "Santa Ana Speckled Dace", 
-        "description": ""
+        "text": "Santa Ana Speckled Dace"
     }, 
     {
         "source": "Santa Ana Sucker", 
-        "text": "Santa Ana Sucker", 
+        "description": "", 
         "id": "Santa Ana Sucker", 
-        "description": ""
+        "text": "Santa Ana Sucker"
     }, 
     {
         "source": "Saratoga Springs Pupfish", 
-        "text": "Saratoga Springs Pupfish", 
+        "description": "", 
         "id": "Saratoga Springs Pupfish", 
-        "description": ""
+        "text": "Saratoga Springs Pupfish"
     }, 
     {
         "source": "Shay Creek Stickleback", 
-        "text": "Shay Creek Stickleback", 
+        "description": "", 
         "id": "Shay Creek Stickleback", 
-        "description": ""
+        "text": "Shay Creek Stickleback"
     }, 
     {
         "source": "Shimofuri Goby", 
-        "text": "Shimofuri Goby", 
+        "description": "", 
         "id": "Shimofuri Goby", 
-        "description": ""
+        "text": "Shimofuri Goby"
     }, 
     {
         "source": "Shiner Perch", 
-        "text": "Shiner aborre", 
+        "description": "", 
         "id": "Shiner Perch", 
-        "description": ""
+        "text": "Shiner aborre"
     }, 
     {
         "source": "Shortfin Molly", 
-        "text": "Shortfin Molly", 
+        "description": "", 
         "id": "Shortfin Molly", 
-        "description": ""
+        "text": "Shortfin Molly"
     }, 
     {
         "source": "Shortnose Sucker", 
-        "text": "Shortnose Sucker", 
+        "description": "", 
         "id": "Shortnose Sucker", 
-        "description": ""
+        "text": "Shortnose Sucker"
     }, 
     {
         "source": "Shoshone Pupfish", 
-        "text": "Shoshone Pupfish", 
+        "description": "", 
         "id": "Shoshone Pupfish", 
-        "description": ""
+        "text": "Shoshone Pupfish"
     }, 
     {
         "source": "Smallmouth Bass", 
-        "text": "Smallmouth Bass", 
+        "description": "", 
         "id": "Smallmouth Bass", 
-        "description": ""
+        "text": "Smallmouth Bass"
     }, 
     {
         "source": "Sockeye (Kokanee) Salmon", 
-        "text": "Sockeye (Kokanee) Laks", 
+        "description": "", 
         "id": "Sockeye (Kokanee) Salmon", 
-        "description": ""
+        "text": "Sockeye (Kokanee) Laks"
     }, 
     {
         "source": "South Central California Coast Steelhead", 
-        "text": "South Central California Coast Steelhead", 
+        "description": "", 
         "id": "South Central California Coast Steelhead", 
-        "description": ""
+        "text": "South Central California Coast Steelhead"
     }, 
     {
         "source": "Southern California Steelhead", 
-        "text": "Southern California Steelhead", 
+        "description": "", 
         "id": "Southern California Steelhead", 
-        "description": ""
+        "text": "Southern California Steelhead"
     }, 
     {
         "source": "Southern Green Sturgeon", 
-        "text": "Southern Green Sturgeon", 
+        "description": "", 
         "id": "Southern Green Sturgeon", 
-        "description": ""
+        "text": "Southern Green Sturgeon"
     }, 
     {
         "source": "Southern Oregon Northern California Coast Coho Salmon", 
-        "text": "Southern Oregon Northern California Coast Coho Laks", 
+        "description": "", 
         "id": "Southern Oregon Northern California Coast Coho Salmon", 
-        "description": ""
+        "text": "Southern Oregon Northern California Coast Coho Laks"
     }, 
     {
         "source": "Southern Oregon Northern California Coast Fall Chinook Salmon", 
-        "text": "Southern Oregon Northern California Coast Efter\u00e5r Chinook Laks", 
+        "description": "", 
         "id": "Southern Oregon Northern California Coast Fall Chinook Salmon", 
-        "description": ""
+        "text": "Southern Oregon Northern California Coast Efter\u00e5r Chinook Laks"
     }, 
     {
         "source": "Spotted Bass", 
-        "text": "Spotted Bass", 
+        "description": "", 
         "id": "Spotted Bass", 
-        "description": ""
+        "text": "Spotted Bass"
     }, 
     {
         "source": "Staghorn Sculpin", 
-        "text": "Staghorn Sculpin", 
+        "description": "", 
         "id": "Staghorn Sculpin", 
-        "description": ""
+        "text": "Staghorn Sculpin"
     }, 
     {
         "source": "Starry Flounder", 
-        "text": "Starry Flounder", 
+        "description": "", 
         "id": "Starry Flounder", 
-        "description": ""
+        "text": "Starry Flounder"
     }, 
     {
         "source": "Striped Bass", 
-        "text": "Stripet Bass", 
+        "description": "", 
         "id": "Striped Bass", 
-        "description": ""
+        "text": "Stripet Bass"
     }, 
     {
         "source": "Striped Mullet", 
-        "text": "Stribet Mullet", 
+        "description": "", 
         "id": "Striped Mullet", 
-        "description": ""
+        "text": "Stribet Mullet"
     }, 
     {
         "source": "Surf Smelt", 
-        "text": "Surf Smelt", 
+        "description": "", 
         "id": "Surf Smelt", 
-        "description": ""
+        "text": "Surf Smelt"
     }, 
     {
         "source": "Tahoe Sucker", 
-        "text": "Tahoe Sucker", 
+        "description": "", 
         "id": "Tahoe Sucker", 
-        "description": ""
+        "text": "Tahoe Sucker"
     }, 
     {
         "source": "Tecopa Pupfish", 
-        "text": "Tecopa Pupfish", 
+        "description": "", 
         "id": "Tecopa Pupfish", 
-        "description": ""
+        "text": "Tecopa Pupfish"
     }, 
     {
         "source": "Tench", 
-        "text": "suder", 
+        "description": "", 
         "id": "Tench", 
-        "description": ""
+        "text": "suder"
     }, 
     {
         "source": "Thicktail Chub", 
-        "text": "Thicktail Chub", 
+        "description": "", 
         "id": "Thicktail Chub", 
-        "description": ""
+        "text": "Thicktail Chub"
     }, 
     {
         "source": "Threadfin Shad", 
-        "text": "Threadfin Shad", 
+        "description": "", 
         "id": "Threadfin Shad", 
-        "description": ""
+        "text": "Threadfin Shad"
     }, 
     {
         "source": "Tidewater Goby", 
-        "text": "Tidewater Goby", 
+        "description": "", 
         "id": "Tidewater Goby", 
-        "description": ""
+        "text": "Tidewater Goby"
     }, 
     {
         "source": "Tomales Roach", 
-        "text": "Tomales Roach", 
+        "description": "", 
         "id": "Tomales Roach", 
-        "description": ""
+        "text": "Tomales Roach"
     }, 
     {
         "source": "Topsmelt", 
-        "text": "Topsmelt", 
+        "description": "", 
         "id": "Topsmelt", 
-        "description": ""
+        "text": "Topsmelt"
     }, 
     {
         "source": "Unarmored Threespine Stickleback", 
-        "text": "Unarmored Threespine Stickleback", 
+        "description": "", 
         "id": "Unarmored Threespine Stickleback", 
-        "description": ""
+        "text": "Unarmored Threespine Stickleback"
     }, 
     {
         "source": "Upper Klamath Marbled Sculpin", 
-        "text": "Upper Klamath Marbled Sculpin", 
+        "description": "", 
         "id": "Upper Klamath Marbled Sculpin", 
-        "description": ""
+        "text": "Upper Klamath Marbled Sculpin"
     }, 
     {
         "source": "Upper Klamath-Trinity Fall Chinook Salmon", 
-        "text": "\u00d8verste Klamath-Trinity Fall Chinook Laks", 
+        "description": "", 
         "id": "Upper Klamath-Trinity Fall Chinook Salmon", 
-        "description": ""
+        "text": "\u00d8verste Klamath-Trinity Fall Chinook Laks"
     }, 
     {
         "source": "Upper Klamath-Trinity Spring Chinook Salmon", 
-        "text": "Upper Klamath-Trinity Spring Chinook Laks", 
+        "description": "", 
         "id": "Upper Klamath-Trinity Spring Chinook Salmon", 
-        "description": ""
+        "text": "Upper Klamath-Trinity Spring Chinook Laks"
     }, 
     {
         "source": "Wakasagi", 
-        "text": "Wakasagi", 
+        "description": "", 
         "id": "Wakasagi", 
-        "description": ""
+        "text": "Wakasagi"
     }, 
     {
         "source": "Warmouth", 
-        "text": "Warmouth", 
+        "description": "", 
         "id": "Warmouth", 
-        "description": ""
+        "text": "Warmouth"
     }, 
     {
         "source": "Western Brook Lamprey", 
-        "text": "Western Brook Lamprey", 
+        "description": "", 
         "id": "Western Brook Lamprey", 
-        "description": ""
+        "text": "Western Brook Lamprey"
     }, 
     {
         "source": "Western Mosquitofish", 
-        "text": "Western Mosquitofish", 
+        "description": "", 
         "id": "Western Mosquitofish", 
-        "description": ""
+        "text": "Western Mosquitofish"
     }, 
     {
         "source": "White Bass", 
-        "text": "Hvid Bass", 
+        "description": "", 
         "id": "White Bass", 
-        "description": ""
+        "text": "Hvid Bass"
     }, 
     {
         "source": "White Catfish", 
-        "text": "Hvid Havkat", 
+        "description": "", 
         "id": "White Catfish", 
-        "description": ""
+        "text": "Hvid Havkat"
     }, 
     {
         "source": "White Crappie", 
-        "text": "Hvid Crappie", 
+        "description": "", 
         "id": "White Crappie", 
-        "description": ""
+        "text": "Hvid Crappie"
     }, 
     {
         "source": "White Sturgeon", 
-        "text": "White Sturgeon", 
+        "description": "", 
         "id": "White Sturgeon", 
-        "description": ""
+        "text": "White Sturgeon"
     }, 
     {
         "source": "Yellow Bullhead", 
-        "text": "Yellow Bullhead", 
+        "description": "", 
         "id": "Yellow Bullhead", 
-        "description": ""
+        "text": "Yellow Bullhead"
     }, 
     {
         "source": "Yellow Perch", 
-        "text": "Gul aborre", 
+        "description": "", 
         "id": "Yellow Perch", 
-        "description": ""
+        "text": "Gul aborre"
     }, 
     {
         "source": "Yellowfin Goby", 
-        "text": "Yellowfin Goby", 
+        "description": "", 
         "id": "Yellowfin Goby", 
-        "description": ""
+        "text": "Yellowfin Goby"
     }, 
     {
         "source": "Speckled Dace are capable of living in an array of habitats from small springs or streams to large rivers and deep lakes.", 
-        "text": "Speckled Dace er i stand til at leve i en r\u00e6kke af levesteder fra sm\u00e5 kilder eller vandl\u00f8b til store floder og dybe s\u00f8er.", 
+        "description": "", 
         "id": "Speckled Dace are capable of living in an array of habitats from small springs or streams to large rivers and deep lakes.", 
-        "description": ""
+        "text": "Speckled Dace er i stand til at leve i en r\u00e6kke af levesteder fra sm\u00e5 kilder eller vandl\u00f8b til store floder og dybe s\u00f8er."
     }, 
     {
         "source": "Speckled Dace prefer habitat that includes clear, well oxygenated water, with movement due to a current or waves.", 
-        "text": "Speckled Dace foretr\u00e6kker habitat, der indeholder klart, godt iltet vand, med bev\u00e6gelse p\u00e5 grund af str\u00f8m eller b\u00f8lger.", 
+        "description": "", 
         "id": "Speckled Dace prefer habitat that includes clear, well oxygenated water, with movement due to a current or waves.", 
-        "description": ""
+        "text": "Speckled Dace foretr\u00e6kker habitat, der indeholder klart, godt iltet vand, med bev\u00e6gelse p\u00e5 grund af str\u00f8m eller b\u00f8lger."
     }, 
     {
         "source": "In addition the fish thrive in areas with deep cover or overhead protection from vegetation or woody debris.", 
-        "text": "Desuden trives fisken i omr\u00e5der med dybt d\u00e6kke eller overliggende beskyttelse mod vegetation eller tr\u00e6affald.", 
+        "description": "", 
         "id": "In addition the fish thrive in areas with deep cover or overhead protection from vegetation or woody debris.", 
-        "description": ""
+        "text": "Desuden trives fisken i omr\u00e5der med dybt d\u00e6kke eller overliggende beskyttelse mod vegetation eller tr\u00e6affald."
     }, 
     {
         "source": "Speckled Dace predominantly occupy small streams of the second to third order where they feed and forage for aquatic insects.", 
-        "text": "Speckled Dace indtager overvejende sm\u00e5 str\u00f8mme i anden til tredje r\u00e6kke, hvor de fodrer og foder til vandlevende insekter.", 
+        "description": "", 
         "id": "Speckled Dace predominantly occupy small streams of the second to third order where they feed and forage for aquatic insects.", 
-        "description": ""
+        "text": "Speckled Dace indtager overvejende sm\u00e5 str\u00f8mme i anden til tredje r\u00e6kke, hvor de fodrer og foder til vandlevende insekter."
     }, 
     {
         "source": "The species is very adaptable and is found in cold alpine lakes such as Lake Tahoe, but has also been able to survive adversity in temperatures at or above 31\\u2103 with a dissolved oxygen concentration of 1 mg / L.", 
-        "text": "Arten er meget tilpasningsbar og findes i kolde alpine s\u00f8er som Lake Tahoe, men har ogs\u00e5 v\u00e6ret i stand til at overleve modgang i temperaturer p\u00e5 eller over 31 \\ u2103 med en opl\u00f8st oxygenkoncentration p\u00e5 1 mg / L.", 
+        "description": "", 
         "id": "The species is very adaptable and is found in cold alpine lakes such as Lake Tahoe, but has also been able to survive adversity in temperatures at or above 31\\u2103 with a dissolved oxygen concentration of 1 mg / L.", 
-        "description": ""
+        "text": "Arten er meget tilpasningsbar og findes i kolde alpine s\u00f8er som Lake Tahoe, men har ogs\u00e5 v\u00e6ret i stand til at overleve modgang i temperaturer p\u00e5 eller over 31 \\ u2103 med en opl\u00f8st oxygenkoncentration p\u00e5 1 mg / L."
     }, 
     {
         "source": "In streams speckled dace swim along the bottom looking for small invertebrates while in lakes they are opportunistic feeders that may feed on zooplankton, algae, nymphs, or the resulting flying insects.", 
-        "text": "I vandl\u00f8b sv\u00f8mmer spejlet sv\u00f8mme langs bunden efter sm\u00e5 hvirvell\u00f8se dyr, mens de i s\u00f8er er opportunistiske feedere, der kan fodre p\u00e5 zooplankton, alger, nymfer eller de resulterende flyvende insekter.", 
+        "description": "", 
         "id": "In streams speckled dace swim along the bottom looking for small invertebrates while in lakes they are opportunistic feeders that may feed on zooplankton, algae, nymphs, or the resulting flying insects.", 
-        "description": ""
+        "text": "I vandl\u00f8b sv\u00f8mmer spejlet sv\u00f8mme langs bunden efter sm\u00e5 hvirvell\u00f8se dyr, mens de i s\u00f8er er opportunistiske feedere, der kan fodre p\u00e5 zooplankton, alger, nymfer eller de resulterende flyvende insekter."
     }, 
     {
         "source": "Speckled Dace typically have a life span of three years, but may live 6 or more years, during which time females typically grow more rapidly than males.", 
-        "text": "Speckled Dace har typisk en levetid p\u00e5 tre \u00e5r, men kan leve 6 eller flere \u00e5r, i hvilken tid kvinder vokser typisk hurtigere end m\u00e6nd.", 
+        "description": "", 
         "id": "Speckled Dace typically have a life span of three years, but may live 6 or more years, during which time females typically grow more rapidly than males.", 
-        "description": ""
+        "text": "Speckled Dace har typisk en levetid p\u00e5 tre \u00e5r, men kan leve 6 eller flere \u00e5r, i hvilken tid kvinder vokser typisk hurtigere end m\u00e6nd."
     }, 
     {
         "source": "The fish become sexually mature in their second year and during the summer months the dace spawn.", 
-        "text": "Fisken bliver seksuelt moden i deres andet \u00e5r, og i sommerm\u00e5nederne springer fisken.", 
+        "description": "", 
         "id": "The fish become sexually mature in their second year and during the summer months the dace spawn.", 
-        "description": ""
+        "text": "Fisken bliver seksuelt moden i deres andet \u00e5r, og i sommerm\u00e5nederne springer fisken."
     }, 
     {
         "source": "Stream dwellers spawn in riffles or gravely areas, while the lake inhabitants spawn in tributaries or in shallow shoreline regions.", 
-        "text": "Str\u00f8mboere kaster i riffler eller grusomme omr\u00e5der, mens s\u00f8en befinder sig i bifloder eller i lavvandede strande.", 
+        "description": "", 
         "id": "Stream dwellers spawn in riffles or gravely areas, while the lake inhabitants spawn in tributaries or in shallow shoreline regions.", 
-        "description": ""
+        "text": "Str\u00f8mboere kaster i riffler eller grusomme omr\u00e5der, mens s\u00f8en befinder sig i bifloder eller i lavvandede strande."
     }, 
     {
         "source": "The embryos hatch in 6 days, and the larvae remain in the safety of the gravel for 7 - 8 days.", 
-        "text": "Embryoerne lukkes om 6 dage, og larverne forbliver i grusens sikkerhed i 7 - 8 dage.", 
+        "description": "", 
         "id": "The embryos hatch in 6 days, and the larvae remain in the safety of the gravel for 7 - 8 days.", 
-        "description": ""
+        "text": "Embryoerne lukkes om 6 dage, og larverne forbliver i grusens sikkerhed i 7 - 8 dage."
     }, 
     {
         "source": "The young fry then spend the early part of their lives in the shallow warm areas of the stream or lake where they hatched.", 
-        "text": "Den unge yngel bringer derefter den tidlige del af deres liv i de lavvandede varme omr\u00e5der af str\u00f8mmen eller s\u00f8en, hvor de lukkede.", 
+        "description": "", 
         "id": "The young fry then spend the early part of their lives in the shallow warm areas of the stream or lake where they hatched.", 
-        "description": ""
+        "text": "Den unge yngel bringer derefter den tidlige del af deres liv i de lavvandede varme omr\u00e5der af str\u00f8mmen eller s\u00f8en, hvor de lukkede."
     }, 
     {
         "source": "False", 
-        "text": "Falsk", 
+        "description": "", 
         "id": "False", 
-        "description": ""
+        "text": "Falsk"
     }, 
     {
         "source": "True", 
-        "text": "Rigtigt", 
+        "description": "", 
         "id": "True", 
-        "description": ""
+        "text": "Rigtigt"
     }, 
     {
         "source": "Slow", 
-        "text": "Langsom", 
+        "description": "", 
         "id": "Slow", 
-        "description": ""
+        "text": "Langsom"
     }, 
     {
         "source": "Medium", 
-        "text": "Medium", 
+        "description": "", 
         "id": "Medium", 
-        "description": ""
+        "text": "Medium"
     }, 
     {
         "source": "Fast", 
-        "text": "Hurtig", 
+        "description": "", 
         "id": "Fast", 
-        "description": ""
+        "text": "Hurtig"
     }, 
     {
         "source": "Very Fast", 
-        "text": "Meget hurtig", 
+        "description": "", 
         "id": "VeryFast", 
-        "description": ""
+        "text": "Meget hurtig"
     }, 
     {
+        "id": "cannot be seeked", 
         "source": "cannot be seeked", 
-        "text": "kan ikke s\u00f8ges", 
         "description": "", 
-        "id": "cannot be seeked"
+        "text": "kan ikke s\u00f8ges"
     }, 
     {
+        "id": "The temporary file cannot be opened", 
         "source": "The temporary file cannot be opened", 
-        "text": "Den midlertidige fil kan ikke \u00e5bnes", 
         "description": "", 
-        "id": "The temporary file cannot be opened"
+        "text": "Den midlertidige fil kan ikke \u00e5bnes"
     }, 
     {
         "source": "TextUpdate", 
-        "text": "TextUpdate", 
+        "description": "", 
         "id": "TextUpdate", 
-        "description": ""
+        "text": "TextUpdate"
     }, 
     {
         "source": "TextInput", 
-        "text": "TextInput", 
+        "description": "", 
         "id": "TextInput", 
-        "description": ""
+        "text": "TextInput"
     }, 
     {
         "source": "Time", 
-        "text": "Tid", 
+        "description": "", 
         "id": "Time", 
-        "description": ""
+        "text": "Tid"
     }, 
     {
         "source": "Cannot open the URL", 
-        "text": "URL&#39;en kan ikke \u00e5bnes", 
+        "description": "", 
         "id": "Cannot open the URL", 
-        "description": ""
+        "text": "URL&#39;en kan ikke \u00e5bnes"
     }, 
     {
         "source": "the return code was", 
-        "text": "returkoden var", 
+        "description": "", 
         "id": "the return code was", 
-        "description": ""
+        "text": "returkoden var"
     }, 
     {
         "source": "Audio", 
-        "text": "Lyd", 
+        "description": "", 
         "id": "Audio", 
-        "description": ""
+        "text": "Lyd"
     }, 
     {
         "source": "Fonts", 
-        "text": "Skrifttyper", 
+        "description": "", 
         "id": "Fonts", 
-        "description": ""
+        "text": "Skrifttyper"
     }, 
     {
         "source": "Icons", 
-        "text": "Ikoner", 
+        "description": "", 
         "id": "Icons", 
-        "description": ""
+        "text": "Ikoner"
     }, 
     {
         "source": "Images", 
-        "text": "Billeder", 
+        "description": "", 
         "id": "Images", 
-        "description": ""
+        "text": "Billeder"
     }, 
     {
         "source": "Models", 
-        "text": "modeller", 
+        "description": "", 
         "id": "Models", 
-        "description": ""
+        "text": "modeller"
     }, 
     {
         "source": "Shaders", 
-        "text": "shaders", 
+        "description": "", 
         "id": "Shaders", 
-        "description": ""
+        "text": "shaders"
     }, 
     {
         "source": "Color", 
-        "text": "Farve", 
+        "description": "", 
         "id": "Color", 
-        "description": ""
+        "text": "Farve"
     }, 
     {
         "source": "Documentation", 
-        "text": "Dokumentation", 
+        "description": "", 
         "id": "Documentation", 
-        "description": ""
+        "text": "Dokumentation"
     }, 
     {
         "source": "cannot be removed", 
-        "text": "kan ikke fjernes", 
+        "description": "", 
         "id": "cannot be removed", 
-        "description": ""
+        "text": "kan ikke fjernes"
     }, 
     {
         "source": "Error reading the environment varible", 
-        "text": "Fejl ved l\u00e6sning af milj\u00f8et varibelt", 
+        "description": "", 
         "id": "Error reading the environment varible", 
-        "description": ""
+        "text": "Fejl ved l\u00e6sning af milj\u00f8et varibelt"
     }
 ]

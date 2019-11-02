@@ -1,10 +1,5 @@
 [
     {
-        "text": "Show the file browser history", 
-        "id": "File browser history tooltip", 
-        "description": ""
-    }, 
-    {
         "text": "Recent Paths", 
         "id": "Recent Paths", 
         "description": ""
@@ -140,7 +135,7 @@
         "description": ""
     }, 
     {
-        "text": "Set the channels and data type of the color", 
+        "text": "Set the color type", 
         "id": "Color type widget tooltip", 
         "description": ""
     }, 
@@ -225,8 +220,8 @@
         "description": ""
     }, 
     {
-        "text": "FFmpeg", 
-        "id": "FFmpeg", 
+        "text": "Cannot set the path", 
+        "id": "Cannot set the path", 
         "description": ""
     }, 
     {
@@ -440,8 +435,13 @@
         "description": ""
     }, 
     {
-        "text": "File Browser", 
-        "id": "File Browser", 
+        "text": "Show the file browser history", 
+        "id": "File browser history tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "FFmpeg", 
+        "id": "FFmpeg", 
         "description": ""
     }, 
     {
@@ -537,6 +537,11 @@
     {
         "text": "Enable LCD text rendering", 
         "id": "Enable LCD text rendering", 
+        "description": ""
+    }, 
+    {
+        "text": "File Browser", 
+        "id": "File Browser", 
         "description": ""
     }
 ]

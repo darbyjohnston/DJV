@@ -1,776 +1,812 @@
 [
     {
         "source": "Cannot parse the value.", 
-        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u043f\u0440\u043e\u0430\u043d\u0430\u043b\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435.", 
+        "description": "", 
         "id": "Cannot parse the value.", 
-        "description": ""
+        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u043f\u0440\u043e\u0430\u043d\u0430\u043b\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435."
     }, 
     {
         "source": "The file", 
-        "text": "\u0424\u0430\u0439\u043b", 
+        "description": "", 
         "id": "The file", 
-        "description": ""
+        "text": "\u0424\u0430\u0439\u043b"
     }, 
     {
         "source": "cannot be opened", 
-        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u043e\u0442\u043a\u0440\u044b\u0442", 
+        "description": "", 
         "id": "cannot be opened", 
-        "description": ""
+        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u043e\u0442\u043a\u0440\u044b\u0442"
     }, 
     {
         "source": "does not have any video or audio streams", 
-        "text": "\u043d\u0435 \u0438\u043c\u0435\u0435\u0442 \u0432\u0438\u0434\u0435\u043e \u0438\u043b\u0438 \u0430\u0443\u0434\u0438\u043e \u043f\u043e\u0442\u043e\u043a\u043e\u0432", 
+        "description": "", 
         "id": "does not have any video or audio streams", 
-        "description": ""
+        "text": "\u043d\u0435 \u0438\u043c\u0435\u0435\u0442 \u0432\u0438\u0434\u0435\u043e \u0438\u043b\u0438 \u0430\u0443\u0434\u0438\u043e \u043f\u043e\u0442\u043e\u043a\u043e\u0432"
     }, 
     {
         "source": "does not match any video codecs", 
-        "text": "\u043d\u0435 \u0441\u043e\u043e\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0443\u0435\u0442 \u043d\u0438 \u043e\u0434\u043d\u043e\u043c\u0443 \u0432\u0438\u0434\u0435\u043e \u043a\u043e\u0434\u0435\u043a\u0443", 
+        "description": "", 
         "id": "does not match any video codecs", 
-        "description": ""
+        "text": "\u043d\u0435 \u0441\u043e\u043e\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0443\u0435\u0442 \u043d\u0438 \u043e\u0434\u043d\u043e\u043c\u0443 \u0432\u0438\u0434\u0435\u043e \u043a\u043e\u0434\u0435\u043a\u0443"
     }, 
     {
         "source": "The audio format ", 
-        "text": "\u0410\u0443\u0434\u0438\u043e \u0444\u043e\u0440\u043c\u0430\u0442", 
+        "description": "", 
         "id": "The audio format ", 
-        "description": ""
+        "text": "\u0410\u0443\u0434\u0438\u043e \u0444\u043e\u0440\u043c\u0430\u0442"
     }, 
     {
         "source": "is not supported", 
-        "text": "\u043d\u0435 \u043f\u043e\u0434\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u0442\u0441\u044f", 
+        "description": "", 
         "id": "is not supported", 
-        "description": ""
+        "text": "\u043d\u0435 \u043f\u043e\u0434\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u0442\u0441\u044f"
     }, 
     {
         "source": "does not match any audio codecs", 
-        "text": "\u043d\u0435 \u0441\u043e\u043e\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0443\u0435\u0442 \u043d\u0438 \u043e\u0434\u043d\u043e\u043c\u0443 \u0430\u0443\u0434\u0438\u043e\u043a\u043e\u0434\u0435\u043a\u0443", 
+        "description": "", 
         "id": "does not match any audio codecs", 
-        "description": ""
+        "text": "\u043d\u0435 \u0441\u043e\u043e\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0443\u0435\u0442 \u043d\u0438 \u043e\u0434\u043d\u043e\u043c\u0443 \u0430\u0443\u0434\u0438\u043e\u043a\u043e\u0434\u0435\u043a\u0443"
     }, 
     {
         "source": "None", 
-        "text": "\u041d\u0438\u043a\u0442\u043e", 
+        "description": "", 
         "id": "None", 
-        "description": ""
+        "text": "\u041d\u0438\u043a\u0442\u043e"
     }, 
     {
         "source": "Left", 
-        "text": "\u041e\u0441\u0442\u0430\u0432\u0438\u043b", 
+        "description": "", 
         "id": "Left", 
-        "description": ""
+        "text": "\u041e\u0441\u0442\u0430\u0432\u0438\u043b"
     }, 
     {
         "source": "Top", 
-        "text": "\u0432\u0435\u0440\u0445\u043d\u0438\u0439", 
+        "description": "", 
         "id": "Top", 
-        "description": ""
+        "text": "\u0432\u0435\u0440\u0445\u043d\u0438\u0439"
     }, 
     {
         "source": "Right", 
-        "text": "\u041f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u043e", 
+        "description": "", 
         "id": "Right", 
-        "description": ""
+        "text": "\u041f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u043e"
     }, 
     {
         "source": "Bottom", 
-        "text": "\u041d\u0438\u0437", 
+        "description": "", 
         "id": "Bottom", 
-        "description": ""
+        "text": "\u041d\u0438\u0437"
     }, 
     {
         "source": "Timecode", 
-        "text": "Timecode", 
+        "description": "", 
         "id": "Timecode", 
-        "description": ""
+        "text": "Timecode"
     }, 
     {
         "source": "Frames", 
-        "text": "\u0420\u0430\u043c\u043a\u0438", 
+        "description": "", 
         "id": "Frames", 
-        "description": ""
+        "text": "\u0420\u0430\u043c\u043a\u0438"
     }, 
     {
         "source": "Bad magic number.", 
-        "text": "\u041f\u043b\u043e\u0445\u043e\u0439 \u043c\u0430\u0433\u0438\u0447\u0435\u0441\u043a\u0438\u0439 \u043d\u043e\u043c\u0435\u0440.", 
+        "description": "", 
         "id": "Bad magic number.", 
-        "description": ""
+        "text": "\u041f\u043b\u043e\u0445\u043e\u0439 \u043c\u0430\u0433\u0438\u0447\u0435\u0441\u043a\u0438\u0439 \u043d\u043e\u043c\u0435\u0440."
     }, 
     {
         "source": "Unsupported file.", 
-        "text": "\u041d\u0435\u043f\u043e\u0434\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u043c\u044b\u0439 \u0444\u0430\u0439\u043b.", 
+        "description": "", 
         "id": "Unsupported file.", 
-        "description": ""
+        "text": "\u041d\u0435\u043f\u043e\u0434\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u043c\u044b\u0439 \u0444\u0430\u0439\u043b."
     }, 
     {
         "source": "Incomplete file.", 
-        "text": "\u041d\u0435\u043f\u043e\u043b\u043d\u044b\u0439 \u0444\u0430\u0439\u043b.", 
+        "description": "", 
         "id": "Incomplete file.", 
-        "description": ""
+        "text": "\u041d\u0435\u043f\u043e\u043b\u043d\u044b\u0439 \u0444\u0430\u0439\u043b."
     }, 
     {
         "source": "This plugin provides DPX image I/O.", 
-        "text": "\u042d\u0442\u043e\u0442 \u043f\u043b\u0430\u0433\u0438\u043d \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0438\u0432\u0430\u0435\u0442 \u0432\u0432\u043e\u0434 / \u0432\u044b\u0432\u043e\u0434 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f DPX.", 
+        "description": "", 
         "id": "This plugin provides DPX image I/O.", 
-        "description": ""
+        "text": "\u042d\u0442\u043e\u0442 \u043f\u043b\u0430\u0433\u0438\u043d \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0438\u0432\u0430\u0435\u0442 \u0432\u0432\u043e\u0434 / \u0432\u044b\u0432\u043e\u0434 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f DPX."
     }, 
     {
         "source": "1.0", 
-        "text": "1,0", 
+        "description": "", 
         "id": "1.0", 
-        "description": ""
+        "text": "1,0"
     }, 
     {
         "source": "2.0", 
-        "text": "2,0", 
+        "description": "", 
         "id": "2.0", 
-        "description": ""
+        "text": "2,0"
     }, 
     {
         "source": "Auto", 
-        "text": "\u0410\u0432\u0442\u043e", 
+        "description": "", 
         "id": "Auto", 
-        "description": ""
+        "text": "\u0410\u0432\u0442\u043e"
     }, 
     {
         "source": "MSB", 
-        "text": "MSB", 
+        "description": "", 
         "id": "MSB", 
-        "description": ""
+        "text": "MSB"
     }, 
     {
         "source": "LSB", 
-        "text": "LSB", 
+        "description": "", 
         "id": "LSB", 
-        "description": ""
+        "text": "LSB"
     }, 
     {
         "source": "Cannot open file.", 
-        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u043e\u0442\u043a\u0440\u044b\u0442\u044c \u0444\u0430\u0439\u043b.", 
+        "description": "", 
         "id": "Cannot open file.", 
-        "description": ""
+        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u043e\u0442\u043a\u0440\u044b\u0442\u044c \u0444\u0430\u0439\u043b."
     }, 
     {
         "source": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
-        "text": "\u042d\u0442\u043e\u0442 \u043f\u043b\u0430\u0433\u0438\u043d \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0438\u0432\u0430\u0435\u0442 \u0432\u0432\u043e\u0434 / \u0432\u044b\u0432\u043e\u0434 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f Portable Network Graphics (PNG).", 
+        "description": "", 
         "id": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
-        "description": ""
+        "text": "\u042d\u0442\u043e\u0442 \u043f\u043b\u0430\u0433\u0438\u043d \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0438\u0432\u0430\u0435\u0442 \u0432\u0432\u043e\u0434 / \u0432\u044b\u0432\u043e\u0434 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f Portable Network Graphics (PNG)."
     }, 
     {
         "source": "This plugin provides NetPBM image I/O.", 
-        "text": "\u042d\u0442\u043e\u0442 \u043f\u043b\u0430\u0433\u0438\u043d \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0438\u0432\u0430\u0435\u0442 \u0432\u0432\u043e\u0434 / \u0432\u044b\u0432\u043e\u0434 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f NetPBM.", 
+        "description": "", 
         "id": "This plugin provides NetPBM image I/O.", 
-        "description": ""
+        "text": "\u042d\u0442\u043e\u0442 \u043f\u043b\u0430\u0433\u0438\u043d \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0438\u0432\u0430\u0435\u0442 \u0432\u0432\u043e\u0434 / \u0432\u044b\u0432\u043e\u0434 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f NetPBM."
     }, 
     {
         "source": "ASCII", 
-        "text": "ASCII", 
+        "description": "", 
         "id": "ASCII", 
-        "description": ""
+        "text": "ASCII"
     }, 
     {
         "source": "Binary", 
-        "text": "\u0434\u0432\u043e\u0438\u0447\u043d\u044b\u0439", 
+        "description": "", 
         "id": "Binary", 
-        "description": ""
+        "text": "\u0434\u0432\u043e\u0438\u0447\u043d\u044b\u0439"
     }, 
     {
         "source": "Error reading scanline.", 
-        "text": "\u041e\u0448\u0438\u0431\u043a\u0430 \u0447\u0442\u0435\u043d\u0438\u044f \u0441\u043a\u0430\u043d\u043b\u0430\u0439\u043d\u0430.", 
+        "description": "", 
         "id": "Error reading scanline.", 
-        "description": ""
+        "text": "\u041e\u0448\u0438\u0431\u043a\u0430 \u0447\u0442\u0435\u043d\u0438\u044f \u0441\u043a\u0430\u043d\u043b\u0430\u0439\u043d\u0430."
     }, 
     {
         "source": "Unsupported image type.", 
-        "text": "\u041d\u0435\u043f\u043e\u0434\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u043c\u044b\u0439 \u0442\u0438\u043f \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f.", 
+        "description": "", 
         "id": "Unsupported image type.", 
-        "description": ""
+        "text": "\u041d\u0435\u043f\u043e\u0434\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u043c\u044b\u0439 \u0442\u0438\u043f \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f."
     }, 
     {
         "source": "Unknown", 
-        "text": "\u043d\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043d\u044b\u0439", 
+        "description": "", 
         "id": "Unknown", 
-        "description": ""
+        "text": "\u043d\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043d\u044b\u0439"
     }, 
     {
         "source": "Out of memory", 
-        "text": "\u041d\u0435\u0434\u043e\u0441\u0442\u0430\u0442\u043e\u0447\u043d\u043e \u043f\u0430\u043c\u044f\u0442\u0438", 
+        "description": "", 
         "id": "Out of memory", 
-        "description": ""
+        "text": "\u041d\u0435\u0434\u043e\u0441\u0442\u0430\u0442\u043e\u0447\u043d\u043e \u043f\u0430\u043c\u044f\u0442\u0438"
     }, 
     {
         "source": "Invalid value", 
-        "text": "\u041d\u0435\u0432\u0435\u0440\u043d\u043e\u0435 \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435", 
+        "description": "", 
         "id": "Invalid value", 
-        "description": ""
+        "text": "\u041d\u0435\u0432\u0435\u0440\u043d\u043e\u0435 \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435"
     }, 
     {
         "source": "Invalid enum", 
-        "text": "\u041d\u0435\u0432\u0435\u0440\u043d\u043e\u0435 \u043f\u0435\u0440\u0435\u0447\u0438\u0441\u043b\u0435\u043d\u0438\u0435", 
+        "description": "", 
         "id": "Invalid enum", 
-        "description": ""
+        "text": "\u041d\u0435\u0432\u0435\u0440\u043d\u043e\u0435 \u043f\u0435\u0440\u0435\u0447\u0438\u0441\u043b\u0435\u043d\u0438\u0435"
     }, 
     {
         "source": "U8", 
-        "text": "U8", 
+        "description": "", 
         "id": "U8", 
-        "description": ""
+        "text": "U8"
     }, 
     {
         "source": "S16", 
-        "text": "S16", 
+        "description": "", 
         "id": "S16", 
-        "description": ""
+        "text": "S16"
     }, 
     {
         "source": "S32", 
-        "text": "S32", 
+        "description": "", 
         "id": "S32", 
-        "description": ""
+        "text": "S32"
     }, 
     {
         "source": "F32", 
-        "text": "F32", 
+        "description": "", 
         "id": "F32", 
-        "description": ""
+        "text": "F32"
     }, 
     {
         "source": "Unsupported color components.", 
-        "text": "\u041d\u0435\u043f\u043e\u0434\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u043c\u044b\u0435 \u043a\u043e\u043c\u043f\u043e\u043d\u0435\u043d\u0442\u044b \u0446\u0432\u0435\u0442\u0430.", 
+        "description": "", 
         "id": "Unsupported color components.", 
-        "description": ""
+        "text": "\u041d\u0435\u043f\u043e\u0434\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u043c\u044b\u0435 \u043a\u043e\u043c\u043f\u043e\u043d\u0435\u043d\u0442\u044b \u0446\u0432\u0435\u0442\u0430."
     }, 
     {
         "source": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
-        "text": "\u042d\u0442\u043e\u0442 \u043f\u043b\u0430\u0433\u0438\u043d \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0438\u0432\u0430\u0435\u0442 \u0432\u0432\u043e\u0434 / \u0432\u044b\u0432\u043e\u0434 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f \u0432 \u0444\u043e\u0440\u043c\u0430\u0442\u0435 TIFF.", 
+        "description": "", 
         "id": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
-        "description": ""
+        "text": "\u042d\u0442\u043e\u0442 \u043f\u043b\u0430\u0433\u0438\u043d \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0438\u0432\u0430\u0435\u0442 \u0432\u0432\u043e\u0434 / \u0432\u044b\u0432\u043e\u0434 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f \u0432 \u0444\u043e\u0440\u043c\u0430\u0442\u0435 TIFF."
     }, 
     {
         "source": "RLE", 
-        "text": "RLE", 
+        "description": "", 
         "id": "RLE", 
-        "description": ""
+        "text": "RLE"
     }, 
     {
         "source": "LZW", 
-        "text": "LZW", 
+        "description": "", 
         "id": "LZW", 
-        "description": ""
+        "text": "LZW"
     }, 
     {
         "source": "The OpenGL texture cannot be created.", 
-        "text": "\u0422\u0435\u043a\u0441\u0442\u0443\u0440\u0430 OpenGL \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0441\u043e\u0437\u0434\u0430\u043d\u0430.", 
+        "description": "", 
         "id": "The OpenGL texture cannot be created.", 
-        "description": ""
+        "text": "\u0422\u0435\u043a\u0441\u0442\u0443\u0440\u0430 OpenGL \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0441\u043e\u0437\u0434\u0430\u043d\u0430."
     }, 
     {
         "source": "The OpenGL frame buffer cannot be created.", 
-        "text": "\u0411\u0443\u0444\u0435\u0440 \u043a\u0430\u0434\u0440\u043e\u0432 OpenGL \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0441\u043e\u0437\u0434\u0430\u043d.", 
+        "description": "", 
         "id": "The OpenGL frame buffer cannot be created.", 
-        "description": ""
+        "text": "\u0411\u0443\u0444\u0435\u0440 \u043a\u0430\u0434\u0440\u043e\u0432 OpenGL \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0441\u043e\u0437\u0434\u0430\u043d."
     }, 
     {
         "source": "The OpenGL frame buffer cannot be initialized.", 
-        "text": "\u0411\u0443\u0444\u0435\u0440 \u043a\u0430\u0434\u0440\u0430 OpenGL \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0438\u043d\u0438\u0446\u0438\u0430\u043b\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u043d.", 
+        "description": "", 
         "id": "The OpenGL frame buffer cannot be initialized.", 
-        "description": ""
+        "text": "\u0411\u0443\u0444\u0435\u0440 \u043a\u0430\u0434\u0440\u0430 OpenGL \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0438\u043d\u0438\u0446\u0438\u0430\u043b\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u043d."
     }, 
     {
         "source": "Error writing scanline.", 
-        "text": "\u041e\u0448\u0438\u0431\u043a\u0430 \u0437\u0430\u043f\u0438\u0441\u0438 \u0441\u043a\u0430\u043d\u043b\u0430\u0439\u043d\u0430.", 
+        "description": "", 
         "id": "Error writing scanline.", 
-        "description": ""
+        "text": "\u041e\u0448\u0438\u0431\u043a\u0430 \u0437\u0430\u043f\u0438\u0441\u0438 \u0441\u043a\u0430\u043d\u043b\u0430\u0439\u043d\u0430."
     }, 
     {
         "source": "The OpenGL vertex shader cannot be created.", 
-        "text": "\u0412\u0435\u0440\u0448\u0438\u043d\u043d\u044b\u0439 \u0448\u0435\u0439\u0434\u0435\u0440 OpenGL \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0441\u043e\u0437\u0434\u0430\u043d.", 
+        "description": "", 
         "id": "The OpenGL vertex shader cannot be created.", 
-        "description": ""
+        "text": "\u0412\u0435\u0440\u0448\u0438\u043d\u043d\u044b\u0439 \u0448\u0435\u0439\u0434\u0435\u0440 OpenGL \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0441\u043e\u0437\u0434\u0430\u043d."
     }, 
     {
         "source": "The OpenGL vertex shader", 
-        "text": "\u0412\u0435\u0440\u0448\u0438\u043d\u043d\u044b\u0439 \u0448\u0435\u0439\u0434\u0435\u0440 OpenGL", 
+        "description": "", 
         "id": "The OpenGL vertex shader", 
-        "description": ""
+        "text": "\u0412\u0435\u0440\u0448\u0438\u043d\u043d\u044b\u0439 \u0448\u0435\u0439\u0434\u0435\u0440 OpenGL"
     }, 
     {
         "source": "cannot be compiled", 
-        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0441\u043a\u043e\u043c\u043f\u0438\u043b\u0438\u0440\u043e\u0432\u0430\u043d\u043e", 
+        "description": "", 
         "id": "cannot be compiled", 
-        "description": ""
+        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0441\u043a\u043e\u043c\u043f\u0438\u043b\u0438\u0440\u043e\u0432\u0430\u043d\u043e"
     }, 
     {
         "source": "The OpenGL fragment shader cannot be created.", 
-        "text": "\u0424\u0440\u0430\u0433\u043c\u0435\u043d\u0442\u043d\u044b\u0439 \u0448\u0435\u0439\u0434\u0435\u0440 OpenGL \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0441\u043e\u0437\u0434\u0430\u043d.", 
+        "description": "", 
         "id": "The OpenGL fragment shader cannot be created.", 
-        "description": ""
+        "text": "\u0424\u0440\u0430\u0433\u043c\u0435\u043d\u0442\u043d\u044b\u0439 \u0448\u0435\u0439\u0434\u0435\u0440 OpenGL \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0441\u043e\u0437\u0434\u0430\u043d."
     }, 
     {
         "source": "The OpenGL framgent shader", 
-        "text": "\u041f\u0440\u044f\u043c\u043e\u0439 \u0448\u0435\u0439\u0434\u0435\u0440 OpenGL", 
+        "description": "", 
         "id": "The OpenGL framgent shader", 
-        "description": ""
+        "text": "\u041f\u0440\u044f\u043c\u043e\u0439 \u0448\u0435\u0439\u0434\u0435\u0440 OpenGL"
     }, 
     {
         "source": "The program", 
-        "text": "\u041f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u0430", 
+        "description": "", 
         "id": "The program", 
-        "description": ""
+        "text": "\u041f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u0430"
     }, 
     {
         "source": "cannot be linked", 
-        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0441\u0432\u044f\u0437\u0430\u043d\u043e", 
+        "description": "", 
         "id": "cannot be linked", 
-        "description": ""
+        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0441\u0432\u044f\u0437\u0430\u043d\u043e"
     }, 
     {
         "source": "L U8", 
-        "text": "50 U8", 
+        "description": "", 
         "id": "L_U8", 
-        "description": ""
+        "text": "50 U8"
     }, 
     {
         "source": "L U16", 
-        "text": "L U16", 
+        "description": "", 
         "id": "L_U16", 
-        "description": ""
+        "text": "L U16"
     }, 
     {
         "source": "L U32", 
-        "text": "L U32", 
+        "description": "", 
         "id": "L_U32", 
-        "description": ""
+        "text": "L U32"
     }, 
     {
         "source": "L F16", 
-        "text": "L F16", 
+        "description": "", 
         "id": "L_F16", 
-        "description": ""
+        "text": "L F16"
     }, 
     {
         "source": "L F32", 
-        "text": "L F32", 
+        "description": "", 
         "id": "L_F32", 
-        "description": ""
+        "text": "L F32"
     }, 
     {
         "source": "LA U8", 
-        "text": "U8", 
+        "description": "", 
         "id": "LA_U8", 
-        "description": ""
+        "text": "U8"
     }, 
     {
         "source": "LA U16", 
-        "text": "U16", 
+        "description": "", 
         "id": "LA_U16", 
-        "description": ""
+        "text": "U16"
     }, 
     {
         "source": "LA U32", 
-        "text": "U32", 
+        "description": "", 
         "id": "LA_U32", 
-        "description": ""
+        "text": "U32"
     }, 
     {
         "source": "LA F16", 
-        "text": "F16", 
+        "description": "", 
         "id": "LA_F16", 
-        "description": ""
+        "text": "F16"
     }, 
     {
         "source": "LA F32", 
-        "text": "LA F32", 
+        "description": "", 
         "id": "LA_F32", 
-        "description": ""
+        "text": "LA F32"
     }, 
     {
         "source": "RGB U8", 
-        "text": "RGB U8", 
+        "description": "", 
         "id": "RGB_U8", 
-        "description": ""
+        "text": "RGB U8"
     }, 
     {
         "source": "RGB U10", 
-        "text": "RGB U10", 
+        "description": "", 
         "id": "RGB_U10", 
-        "description": ""
+        "text": "RGB U10"
     }, 
     {
         "source": "RGB U16", 
-        "text": "RGB U16", 
+        "description": "", 
         "id": "RGB_U16", 
-        "description": ""
+        "text": "RGB U16"
     }, 
     {
         "source": "RGB U32", 
-        "text": "RGB U32", 
+        "description": "", 
         "id": "RGB_U32", 
-        "description": ""
+        "text": "RGB U32"
     }, 
     {
         "source": "RGB F16", 
-        "text": "RGB F16", 
+        "description": "", 
         "id": "RGB_F16", 
-        "description": ""
+        "text": "RGB F16"
     }, 
     {
         "source": "RGB F32", 
-        "text": "RGB F32", 
+        "description": "", 
         "id": "RGB_F32", 
-        "description": ""
+        "text": "RGB F32"
     }, 
     {
         "source": "RGBA U8", 
-        "text": "RGBA U8", 
+        "description": "", 
         "id": "RGBA_U8", 
-        "description": ""
+        "text": "RGBA U8"
     }, 
     {
         "source": "RGBA U16", 
-        "text": "RGBA U16", 
+        "description": "", 
         "id": "RGBA_U16", 
-        "description": ""
+        "text": "RGBA U16"
     }, 
     {
         "source": "RGBA U32", 
-        "text": "RGBA U32", 
+        "description": "", 
         "id": "RGBA_U32", 
-        "description": ""
+        "text": "RGBA U32"
     }, 
     {
         "source": "RGBA F16", 
-        "text": "RGBA F16", 
+        "description": "", 
         "id": "RGBA_F16", 
-        "description": ""
+        "text": "RGBA F16"
     }, 
     {
         "source": "RGBA F32", 
-        "text": "RGBA F32", 
+        "description": "", 
         "id": "RGBA_F32", 
-        "description": ""
+        "text": "RGBA F32"
     }, 
     {
         "source": "L", 
-        "text": "", 
+        "description": "", 
         "id": "L", 
-        "description": ""
+        "text": ""
     }, 
     {
         "source": "LA", 
-        "text": "", 
+        "description": "", 
         "id": "LA", 
-        "description": ""
+        "text": ""
     }, 
     {
         "source": "RGB", 
-        "text": "RGB", 
+        "description": "", 
         "id": "RGB", 
-        "description": ""
+        "text": "RGB"
     }, 
     {
         "source": "RGBA", 
-        "text": "RGBA", 
+        "description": "", 
         "id": "RGBA", 
-        "description": ""
+        "text": "RGBA"
     }, 
     {
         "source": "U10", 
-        "text": "U10", 
+        "description": "", 
         "id": "U10", 
-        "description": ""
+        "text": "U10"
     }, 
     {
         "source": "U16", 
-        "text": "U16", 
+        "description": "", 
         "id": "U16", 
-        "description": ""
+        "text": "U16"
     }, 
     {
         "source": "U32", 
-        "text": "U32", 
+        "description": "", 
         "id": "U32", 
-        "description": ""
+        "text": "U32"
     }, 
     {
         "source": "F16", 
-        "text": "F16", 
+        "description": "", 
         "id": "F16", 
-        "description": ""
+        "text": "F16"
     }, 
     {
         "source": "The shader cannot be created", 
-        "text": "\u0428\u0435\u0439\u0434\u0435\u0440 \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0441\u043e\u0437\u0434\u0430\u043d", 
+        "description": "", 
         "id": "The shader cannot be created", 
-        "description": ""
+        "text": "\u0428\u0435\u0439\u0434\u0435\u0440 \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0441\u043e\u0437\u0434\u0430\u043d"
     }, 
     {
         "source": "Cannot create GLFW window.", 
-        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0441\u043e\u0437\u0434\u0430\u0442\u044c \u043e\u043a\u043d\u043e GLFW.", 
+        "description": "", 
         "id": "Cannot create GLFW window.", 
-        "description": ""
+        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u0441\u043e\u0437\u0434\u0430\u0442\u044c \u043e\u043a\u043d\u043e GLFW."
     }, 
     {
         "source": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
-        "text": "\u042d\u0442\u043e\u0442 \u043f\u043b\u0430\u0433\u0438\u043d \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0438\u0432\u0430\u0435\u0442 \u0432\u0432\u043e\u0434 / \u0432\u044b\u0432\u043e\u0434 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f \u041e\u0431\u044a\u0435\u0434\u0438\u043d\u0435\u043d\u043d\u043e\u0439 \u0433\u0440\u0443\u043f\u043f\u044b \u044d\u043a\u0441\u043f\u0435\u0440\u0442\u043e\u0432 \u043f\u043e \u0444\u043e\u0442\u043e\u0433\u0440\u0430\u0444\u0438\u0438 (JPEG).", 
+        "description": "", 
         "id": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
-        "description": ""
+        "text": "\u042d\u0442\u043e\u0442 \u043f\u043b\u0430\u0433\u0438\u043d \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0438\u0432\u0430\u0435\u0442 \u0432\u0432\u043e\u0434 / \u0432\u044b\u0432\u043e\u0434 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f \u041e\u0431\u044a\u0435\u0434\u0438\u043d\u0435\u043d\u043d\u043e\u0439 \u0433\u0440\u0443\u043f\u043f\u044b \u044d\u043a\u0441\u043f\u0435\u0440\u0442\u043e\u0432 \u043f\u043e \u0444\u043e\u0442\u043e\u0433\u0440\u0430\u0444\u0438\u0438 (JPEG)."
     }, 
     {
         "source": "This plugin provides OpenEXR file I/O.", 
-        "text": "\u042d\u0442\u043e\u0442 \u043f\u043b\u0430\u0433\u0438\u043d \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0438\u0432\u0430\u0435\u0442 \u0432\u0432\u043e\u0434 / \u0432\u044b\u0432\u043e\u0434 \u0444\u0430\u0439\u043b\u0430 OpenEXR.", 
+        "description": "", 
         "id": "This plugin provides OpenEXR file I/O.", 
-        "description": ""
+        "text": "\u042d\u0442\u043e\u0442 \u043f\u043b\u0430\u0433\u0438\u043d \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0438\u0432\u0430\u0435\u0442 \u0432\u0432\u043e\u0434 / \u0432\u044b\u0432\u043e\u0434 \u0444\u0430\u0439\u043b\u0430 OpenEXR."
     }, 
     {
         "source": "Known", 
-        "text": "\u0418\u0437\u0432\u0435\u0441\u0442\u0435\u043d", 
+        "description": "", 
         "id": "Known", 
-        "description": ""
+        "text": "\u0418\u0437\u0432\u0435\u0441\u0442\u0435\u043d"
     }, 
     {
         "source": "All", 
-        "text": "\u0412\u0441\u0435", 
+        "description": "", 
         "id": "All", 
-        "description": ""
+        "text": "\u0412\u0441\u0435"
     }, 
     {
         "source": "ZIPS", 
-        "text": "\u041c\u043e\u043b\u043d\u0438\u0438", 
+        "description": "", 
         "id": "ZIPS", 
-        "description": ""
+        "text": "\u041c\u043e\u043b\u043d\u0438\u0438"
     }, 
     {
         "source": "ZIP", 
-        "text": "ZIP", 
+        "description": "", 
         "id": "ZIP", 
-        "description": ""
+        "text": "ZIP"
     }, 
     {
         "source": "PIZ", 
-        "text": "PIZ", 
+        "description": "", 
         "id": "PIZ", 
-        "description": ""
+        "text": "PIZ"
     }, 
     {
         "source": "PXR24", 
-        "text": "PXR24", 
+        "description": "", 
         "id": "PXR24", 
-        "description": ""
+        "text": "PXR24"
     }, 
     {
         "source": "B44", 
-        "text": "B44", 
+        "description": "", 
         "id": "B44", 
-        "description": ""
+        "text": "B44"
     }, 
     {
         "source": "B44A", 
-        "text": "B44A", 
+        "description": "", 
         "id": "B44A", 
-        "description": ""
+        "text": "B44A"
     }, 
     {
         "source": "DWAA", 
-        "text": "DWAA", 
+        "description": "", 
         "id": "DWAA", 
-        "description": ""
+        "text": "DWAA"
     }, 
     {
         "source": "DWAB", 
-        "text": "DWAB", 
+        "description": "", 
         "id": "DWAB", 
-        "description": ""
+        "text": "DWAB"
     }, 
     {
         "source": "cannot be read", 
-        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u043f\u0440\u043e\u0447\u0438\u0442\u0430\u043d\u043e", 
+        "description": "", 
         "id": "cannot be read", 
-        "description": ""
+        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u043f\u0440\u043e\u0447\u0438\u0442\u0430\u043d\u043e"
     }, 
     {
         "source": "cannot be written", 
-        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u043d\u0430\u043f\u0438\u0441\u0430\u043d\u043e", 
+        "description": "", 
         "id": "cannot be written", 
-        "description": ""
+        "text": "\u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u043d\u0430\u043f\u0438\u0441\u0430\u043d\u043e"
     }, 
     {
         "source": "Float", 
-        "text": "\u0442\u0435\u0440\u043a\u0430", 
+        "description": "", 
         "id": "Float", 
-        "description": ""
+        "text": "\u0442\u0435\u0440\u043a\u0430"
     }, 
     {
         "source": "Double", 
-        "text": "\u0434\u0432\u043e\u0439\u043d\u043e\u0439", 
+        "description": "", 
         "id": "Double", 
-        "description": ""
+        "text": "\u0434\u0432\u043e\u0439\u043d\u043e\u0439"
     }, 
     {
         "source": "U8 Planar", 
-        "text": "U8 Planar", 
+        "description": "", 
         "id": "U8 Planar", 
-        "description": ""
+        "text": "U8 Planar"
     }, 
     {
         "source": "S16 Planar", 
-        "text": "S16 Planar", 
+        "description": "", 
         "id": "S16 Planar", 
-        "description": ""
+        "text": "S16 Planar"
     }, 
     {
         "source": "S32 Planar", 
-        "text": "S32 Planar", 
+        "description": "", 
         "id": "S32 Planar", 
-        "description": ""
+        "text": "S32 Planar"
     }, 
     {
         "source": "Float Planar", 
-        "text": "Float Planar", 
+        "description": "", 
         "id": "Float Planar", 
-        "description": ""
+        "text": "Float Planar"
     }, 
     {
         "source": "Double Planar", 
-        "text": "\u0414\u0432\u043e\u0439\u043d\u043e\u0439 \u041f\u043b\u0430\u043d\u0430\u0440", 
+        "description": "", 
         "id": "Double Planar", 
-        "description": ""
+        "text": "\u0414\u0432\u043e\u0439\u043d\u043e\u0439 \u041f\u043b\u0430\u043d\u0430\u0440"
     }, 
     {
         "source": "This plugin provides FFmpeg image and audio I/O.", 
-        "text": "\u042d\u0442\u043e\u0442 \u043f\u043b\u0430\u0433\u0438\u043d \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0438\u0432\u0430\u0435\u0442 FFmpeg \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f \u0438 \u0430\u0443\u0434\u0438\u043e \u0432\u0432\u043e\u0434\u0430 / \u0432\u044b\u0432\u043e\u0434\u0430.", 
+        "description": "", 
         "id": "This plugin provides FFmpeg image and audio I/O.", 
-        "description": ""
+        "text": "\u042d\u0442\u043e\u0442 \u043f\u043b\u0430\u0433\u0438\u043d \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0438\u0432\u0430\u0435\u0442 FFmpeg \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f \u0438 \u0430\u0443\u0434\u0438\u043e \u0432\u0432\u043e\u0434\u0430 / \u0432\u044b\u0432\u043e\u0434\u0430."
     }, 
     {
         "source": "The file cannot be opened.", 
-        "text": "\u0424\u0430\u0439\u043b \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u043e\u0442\u043a\u0440\u044b\u0442.", 
+        "description": "", 
         "id": "The file cannot be opened.", 
-        "description": ""
+        "text": "\u0424\u0430\u0439\u043b \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u043e\u0442\u043a\u0440\u044b\u0442."
     }, 
     {
         "source": "No image channels.", 
-        "text": "\u041d\u0435\u0442 \u043a\u0430\u043d\u0430\u043b\u043e\u0432 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f.", 
+        "description": "", 
         "id": "No image channels.", 
-        "description": ""
+        "text": "\u041d\u0435\u0442 \u043a\u0430\u043d\u0430\u043b\u043e\u0432 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f."
     }, 
     {
         "source": "Image channels must have the same size and bit depth.", 
-        "text": "\u041a\u0430\u043d\u0430\u043b\u044b \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f \u0434\u043e\u043b\u0436\u043d\u044b \u0438\u043c\u0435\u0442\u044c \u043e\u0434\u0438\u043d\u0430\u043a\u043e\u0432\u044b\u0439 \u0440\u0430\u0437\u043c\u0435\u0440 \u0438 \u0431\u0438\u0442\u043e\u0432\u0443\u044e \u0433\u043b\u0443\u0431\u0438\u043d\u0443.", 
+        "description": "", 
         "id": "Image channels must have the same size and bit depth.", 
-        "description": ""
+        "text": "\u041a\u0430\u043d\u0430\u043b\u044b \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f \u0434\u043e\u043b\u0436\u043d\u044b \u0438\u043c\u0435\u0442\u044c \u043e\u0434\u0438\u043d\u0430\u043a\u043e\u0432\u044b\u0439 \u0440\u0430\u0437\u043c\u0435\u0440 \u0438 \u0431\u0438\u0442\u043e\u0432\u0443\u044e \u0433\u043b\u0443\u0431\u0438\u043d\u0443."
     }, 
     {
         "source": "Unsupported bit depth.", 
-        "text": "\u041d\u0435\u043f\u043e\u0434\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u043c\u0430\u044f \u0431\u0438\u0442\u043e\u0432\u0430\u044f \u0433\u043b\u0443\u0431\u0438\u043d\u0430.", 
+        "description": "", 
         "id": "Unsupported bit depth.", 
-        "description": ""
+        "text": "\u041d\u0435\u043f\u043e\u0434\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u043c\u0430\u044f \u0431\u0438\u0442\u043e\u0432\u0430\u044f \u0433\u043b\u0443\u0431\u0438\u043d\u0430."
     }, 
     {
         "source": "Line padding is unsupported.", 
-        "text": "\u0417\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u0438\u0435 \u0441\u0442\u0440\u043e\u043a \u043d\u0435 \u043f\u043e\u0434\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u0442\u0441\u044f.", 
+        "description": "", 
         "id": "Line padding is unsupported.", 
-        "description": ""
+        "text": "\u0417\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u0438\u0435 \u0441\u0442\u0440\u043e\u043a \u043d\u0435 \u043f\u043e\u0434\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u0442\u0441\u044f."
     }, 
     {
         "source": "Channel padding is unsupported.", 
-        "text": "\u0417\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u0438\u0435 \u043a\u0430\u043d\u0430\u043b\u0430 \u043d\u0435 \u043f\u043e\u0434\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u0442\u0441\u044f.", 
+        "description": "", 
         "id": "Channel padding is unsupported.", 
-        "description": ""
+        "text": "\u0417\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u0438\u0435 \u043a\u0430\u043d\u0430\u043b\u0430 \u043d\u0435 \u043f\u043e\u0434\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u0442\u0441\u044f."
     }, 
     {
         "source": "This plugin provides Cineon image I/O.", 
-        "text": "\u042d\u0442\u043e\u0442 \u043f\u043b\u0430\u0433\u0438\u043d \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0438\u0432\u0430\u0435\u0442 \u0432\u0432\u043e\u0434 / \u0432\u044b\u0432\u043e\u0434 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f Cineon.", 
+        "description": "", 
         "id": "This plugin provides Cineon image I/O.", 
-        "description": ""
+        "text": "\u042d\u0442\u043e\u0442 \u043f\u043b\u0430\u0433\u0438\u043d \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0438\u0432\u0430\u0435\u0442 \u0432\u0432\u043e\u0434 / \u0432\u044b\u0432\u043e\u0434 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f Cineon."
     }, 
     {
         "source": "Default", 
-        "text": "\u041f\u043e \u0443\u043c\u043e\u043b\u0447\u0430\u043d\u0438\u044e", 
+        "description": "", 
         "id": "Default", 
-        "description": ""
+        "text": "\u041f\u043e \u0443\u043c\u043e\u043b\u0447\u0430\u043d\u0438\u044e"
     }, 
     {
+        "id": "The audio format", 
         "source": "The audio format", 
-        "text": "\u0410\u0443\u0434\u0438\u043e \u0444\u043e\u0440\u043c\u0430\u0442", 
         "description": "", 
-        "id": "The audio format"
+        "text": "\u0410\u0443\u0434\u0438\u043e \u0444\u043e\u0440\u043c\u0430\u0442"
     }, 
     {
         "source": "F64", 
-        "text": "F64", 
+        "description": "", 
         "id": "F64", 
-        "description": ""
+        "text": "F64"
     }, 
     {
         "source": "RtAudio cannot be initialized", 
-        "text": "RtAudio \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0438\u043d\u0438\u0446\u0438\u0430\u043b\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u043d", 
+        "description": "", 
         "id": "RtAudio cannot be initialized", 
-        "description": ""
+        "text": "RtAudio \u043d\u0435 \u043c\u043e\u0436\u0435\u0442 \u0431\u044b\u0442\u044c \u0438\u043d\u0438\u0446\u0438\u0430\u043b\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u043d"
     }, 
     {
         "source": "File not supported.", 
-        "text": "\u0424\u0430\u0439\u043b \u043d\u0435 \u043f\u043e\u0434\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u0442\u0441\u044f.", 
+        "description": "", 
         "id": "File not supported.", 
-        "description": ""
+        "text": "\u0424\u0430\u0439\u043b \u043d\u0435 \u043f\u043e\u0434\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u0442\u0441\u044f."
     }, 
     {
         "source": "Error reading header.", 
-        "text": "\u041e\u0448\u0438\u0431\u043a\u0430 \u0447\u0442\u0435\u043d\u0438\u044f \u0437\u0430\u0433\u043e\u043b\u043e\u0432\u043a\u0430.", 
+        "description": "", 
         "id": "Error reading header.", 
-        "description": ""
+        "text": "\u041e\u0448\u0438\u0431\u043a\u0430 \u0447\u0442\u0435\u043d\u0438\u044f \u0437\u0430\u0433\u043e\u043b\u043e\u0432\u043a\u0430."
     }, 
     {
         "source": "Straight", 
-        "text": "\u041f\u0440\u044f\u043c\u043e", 
+        "description": "", 
         "id": "Straight", 
-        "description": ""
+        "text": "\u041f\u0440\u044f\u043c\u043e"
     }, 
     {
         "source": "Premultiplied", 
-        "text": "\u043f\u0440\u0435\u0434\u0432\u0430\u0440\u0438\u0442\u0435\u043b\u044c\u043d\u043e \u0443\u043c\u043d\u043e\u0436\u0435\u043d\u043d\u044b\u0435", 
+        "description": "", 
         "id": "Premultiplied", 
-        "description": ""
+        "text": "\u043f\u0440\u0435\u0434\u0432\u0430\u0440\u0438\u0442\u0435\u043b\u044c\u043d\u043e \u0443\u043c\u043d\u043e\u0436\u0435\u043d\u043d\u044b\u0435"
     }, 
     {
         "source": "This plugin provides IFF image I/O.", 
-        "text": "\u042d\u0442\u043e\u0442 \u043f\u043b\u0430\u0433\u0438\u043d \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0438\u0432\u0430\u0435\u0442 \u0432\u0432\u043e\u0434-\u0432\u044b\u0432\u043e\u0434 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f IFF.", 
+        "description": "", 
         "id": "This plugin provides IFF image I/O.", 
-        "description": ""
+        "text": "\u042d\u0442\u043e\u0442 \u043f\u043b\u0430\u0433\u0438\u043d \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0438\u0432\u0430\u0435\u0442 \u0432\u0432\u043e\u0434-\u0432\u044b\u0432\u043e\u0434 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f IFF."
     }, 
     {
         "source": "Cannot initialize GLFW.", 
-        "text": "\u041d\u0435 \u0443\u0434\u0430\u0435\u0442\u0441\u044f \u0438\u043d\u0438\u0446\u0438\u0430\u043b\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u0442\u044c GLFW.", 
+        "description": "", 
         "id": "Cannot initialize GLFW.", 
-        "description": ""
+        "text": "\u041d\u0435 \u0443\u0434\u0430\u0435\u0442\u0441\u044f \u0438\u043d\u0438\u0446\u0438\u0430\u043b\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u0442\u044c GLFW."
     }, 
     {
         "source": "Cannot initialize GLAD.", 
-        "text": "\u041d\u0435 \u0443\u0434\u0430\u0435\u0442\u0441\u044f \u0438\u043d\u0438\u0446\u0438\u0430\u043b\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u0442\u044c GLAD.", 
+        "description": "", 
         "id": "Cannot initialize GLAD.", 
-        "description": ""
+        "text": "\u041d\u0435 \u0443\u0434\u0430\u0435\u0442\u0441\u044f \u0438\u043d\u0438\u0446\u0438\u0430\u043b\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u0442\u044c GLAD."
     }, 
     {
         "source": "This plugin provides RLA image I/O.", 
-        "text": "\u042d\u0442\u043e\u0442 \u043f\u043b\u0430\u0433\u0438\u043d \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0438\u0432\u0430\u0435\u0442 \u0432\u0432\u043e\u0434 / \u0432\u044b\u0432\u043e\u0434 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f RLA.", 
+        "description": "", 
         "id": "This plugin provides RLA image I/O.", 
-        "description": ""
+        "text": "\u042d\u0442\u043e\u0442 \u043f\u043b\u0430\u0433\u0438\u043d \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0438\u0432\u0430\u0435\u0442 \u0432\u0432\u043e\u0434 / \u0432\u044b\u0432\u043e\u0434 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f RLA."
     }, 
     {
         "source": "This plugin provides SGI image I/O.", 
-        "text": "\u042d\u0442\u043e\u0442 \u043f\u043b\u0430\u0433\u0438\u043d \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0438\u0432\u0430\u0435\u0442 \u0432\u0432\u043e\u0434 / \u0432\u044b\u0432\u043e\u0434 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f SGI.", 
+        "description": "", 
         "id": "This plugin provides SGI image I/O.", 
-        "description": ""
+        "text": "\u042d\u0442\u043e\u0442 \u043f\u043b\u0430\u0433\u0438\u043d \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0438\u0432\u0430\u0435\u0442 \u0432\u0432\u043e\u0434 / \u0432\u044b\u0432\u043e\u0434 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f SGI."
     }, 
     {
         "source": "Read error.", 
-        "text": "\u041e\u0448\u0438\u0431\u043a\u0430 \u0447\u0442\u0435\u043d\u0438\u044f.", 
+        "description": "", 
         "id": "Read error.", 
-        "description": ""
+        "text": "\u041e\u0448\u0438\u0431\u043a\u0430 \u0447\u0442\u0435\u043d\u0438\u044f."
     }, 
     {
         "source": "This plugin provides Targa image I/O.", 
-        "text": "\u042d\u0442\u043e\u0442 \u043f\u043b\u0430\u0433\u0438\u043d \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0438\u0432\u0430\u0435\u0442 \u0432\u0432\u043e\u0434 / \u0432\u044b\u0432\u043e\u0434 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f Targa.", 
+        "description": "", 
         "id": "This plugin provides Targa image I/O.", 
+        "text": "\u042d\u0442\u043e\u0442 \u043f\u043b\u0430\u0433\u0438\u043d \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0438\u0432\u0430\u0435\u0442 \u0432\u0432\u043e\u0434 / \u0432\u044b\u0432\u043e\u0434 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f Targa."
+    }, 
+    {
+        "source": "Red", 
+        "text": "\u043a\u0440\u0430\u0441\u043d\u044b\u0439", 
+        "id": "Red", 
+        "description": ""
+    }, 
+    {
+        "source": "Green", 
+        "text": "\u0437\u0435\u043b\u0435\u043d\u044b\u0439", 
+        "id": "Green", 
+        "description": ""
+    }, 
+    {
+        "source": "Blue", 
+        "text": "\u0441\u0438\u043d\u0438\u0439", 
+        "id": "Blue", 
+        "description": ""
+    }, 
+    {
+        "source": "Alpha", 
+        "text": "\u0410\u043b\u044c\u0444\u0430", 
+        "id": "Alpha", 
+        "description": ""
+    }, 
+    {
+        "source": "Atlas", 
+        "text": "\u0410\u0442\u043b\u0430\u0441", 
+        "id": "Atlas", 
+        "description": ""
+    }, 
+    {
+        "source": "Dynamic", 
+        "text": "\u0434\u0438\u043d\u0430\u043c\u0438\u0447\u0435\u0441\u043a\u0438\u0439", 
+        "id": "Dynamic", 
         "description": ""
     }
 ]
