@@ -35,6 +35,8 @@
 
 #include <djvCore/ValueObserver.h>
 
+#include <glm/vec2.hpp>
+
 namespace djv
 {
     namespace ViewApp
@@ -53,6 +55,9 @@ namespace djv
             virtual ~WindowSettings();
 
             static std::shared_ptr<WindowSettings> create(const std::shared_ptr<Core::Context>&);
+
+            const glm::ivec2& getWindowSize() const;
+            void setWindowSize(const glm::ivec2&);
 
             std::shared_ptr<Core::IValueSubject<int> > observeFullscreenMonitor() const;
             void setFullscreenMonitor(int);

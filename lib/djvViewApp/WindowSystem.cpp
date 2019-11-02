@@ -65,13 +65,15 @@ namespace djv
         namespace
         {
             //! \todo Should this be configurable?
-            const size_t fadeTimeout = 3000;
-            const size_t fadeInTime  = 200;
-            const size_t fadeOutTime = 1000;
+            const glm::ivec2 windowSizeMin = glm::ivec2(320, 240);
+            const size_t     fadeTimeout   = 3000;
+            const size_t     fadeInTime    = 200;
+            const size_t     fadeOutTime   = 1000;
         }
 
         struct WindowSystem::Private
         {
+            std::shared_ptr<AV::GLFW::System> glfwSystem;
             std::shared_ptr<WindowSettings> settings;
             std::weak_ptr<MediaCanvas> canvas;
             std::shared_ptr<ValueSubject<std::shared_ptr<MediaWidget> > > activeWidget;
@@ -102,7 +104,17 @@ namespace djv
 
             DJV_PRIVATE_PTR();
 
+            p.glfwSystem = context->getSystemT<AV::GLFW::System>();
+
             p.settings = WindowSettings::create(context);
+
+            auto glfwWindow = p.glfwSystem->getGLFWWindow();
+            const glm::ivec2& windowSize = p.settings->getWindowSize();
+            glfwSetWindowSize(
+                glfwWindow,
+                std::max(windowSize.x, windowSizeMin.x),
+                std::max(windowSize.y, windowSizeMin.y));
+
             p.activeWidget = ValueSubject<std::shared_ptr<MediaWidget> >::create();
             p.fullScreen = ValueSubject<bool>::create(false);
             p.maximize = ValueSubject<bool>::create(false);
@@ -214,7 +226,13 @@ namespace djv
         {}
 
         WindowSystem::~WindowSystem()
-        {}
+        {
+            DJV_PRIVATE_PTR();
+            auto glfwWindow = p.glfwSystem->getGLFWWindow();
+            glm::ivec2 windowSize = p.settings->getWindowSize();
+            glfwGetWindowSize(glfwWindow, &windowSize.x, &windowSize.y);
+            p.settings->setWindowSize(windowSize);
+        }
 
         std::shared_ptr<WindowSystem> WindowSystem::create(const std::shared_ptr<Core::Context>& context)
         {

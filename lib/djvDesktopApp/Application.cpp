@@ -96,6 +96,7 @@ namespace djv
             auto avGLFWSystem = getSystemT<AV::GLFW::System>();
             if (auto glfwWindow = avGLFWSystem->getGLFWWindow())
             {
+                glfwShowWindow(glfwWindow);
                 p.running = true;
                 auto time = std::chrono::system_clock::now();
                 float dt = 0.F;

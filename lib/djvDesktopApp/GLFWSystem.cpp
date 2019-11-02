@@ -139,8 +139,6 @@ namespace djv
             image.pixels = hiddenArrowPixel;
             GLFWcursor* cursor = glfwCreateCursor(&image, 0, 0);
             p.hiddenCursor = cursor;
-
-            glfwShowWindow(glfwWindow);
         }
 
         GLFWSystem::GLFWSystem() :

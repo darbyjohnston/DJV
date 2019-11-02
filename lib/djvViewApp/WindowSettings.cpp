@@ -32,6 +32,7 @@
 #include <djvCore/Context.h>
 #include <djvCore/FileInfo.h>
 #include <djvCore/ResourceSystem.h>
+#include <djvCore/Vector.h>
 
 // These need to be included last on OSX.
 #include <djvCore/PicoJSONTemplates.h>
@@ -45,6 +46,7 @@ namespace djv
     {
         struct WindowSettings::Private
         {
+            glm::ivec2 windowSize = glm::ivec2(1280, 720);
             std::shared_ptr<ValueSubject<int> > fullscreenMonitor;
             std::shared_ptr<ValueSubject<bool> > maximize;
             std::shared_ptr<ValueSubject<std::string> > backgroundImage;
@@ -80,6 +82,16 @@ namespace djv
             auto out = std::shared_ptr<WindowSettings>(new WindowSettings);
             out->_init(context);
             return out;
+        }
+
+        const glm::ivec2& WindowSettings::getWindowSize() const
+        {
+            return _p->windowSize;
+        }
+
+        void WindowSettings::setWindowSize(const glm::ivec2& value)
+        {
+            _p->windowSize = value;
         }
 
         std::shared_ptr<IValueSubject<int> > WindowSettings::observeFullscreenMonitor() const
@@ -138,6 +150,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const auto & object = value.get<picojson::object>();
+                UI::Settings::read("WindowSize", object, p.windowSize);
                 UI::Settings::read("FullscreenMonitor", object, p.fullscreenMonitor);
                 UI::Settings::read("Maximize", object, p.maximize);
                 UI::Settings::read("BackgroundImage", object, p.backgroundImage);
@@ -151,6 +164,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             picojson::value out(picojson::object_type, true);
             auto & object = out.get<picojson::object>();
+            UI::Settings::write("WindowSize", p.windowSize, object);
             UI::Settings::write("FullscreenMonitor", p.fullscreenMonitor->get(), object);
             UI::Settings::write("Maximize", p.maximize->get(), object);
             UI::Settings::write("BackgroundImage", p.backgroundImage->get(), object);
