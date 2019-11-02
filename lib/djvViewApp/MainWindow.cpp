@@ -173,13 +173,21 @@ namespace djv
                 toolButtons[data.sortKey] = button;
             }
 
+            auto colorPickerButton = UI::ToolButton::create(context);
+            auto magnifyButton = UI::ToolButton::create(context);
+            auto toolSystem = context->getSystemT<ToolSystem>();
+            if (toolSystem)
+            {
+                colorPickerButton->addAction(toolSystem->getActions()["ColorPicker"]);
+                magnifyButton->addAction(toolSystem->getActions()["Magnify"]);
+            }
+
             p.autoHideButton = UI::ToolButton::create(context);
             p.autoHideButton->setButtonType(UI::ButtonType::Toggle);
             p.autoHideButton->setCheckedIcon("djvIconHidden");
             p.autoHideButton->setIcon("djvIconVisible");
 
             p.settingsButton = UI::ToolButton::create(context);
-            auto toolSystem = context->getSystemT<ToolSystem>();
             if (toolSystem)
             {
                 p.settingsButton->addAction(toolSystem->getActions()["Settings"]);
@@ -213,6 +221,8 @@ namespace djv
             {
                 hLayout->addChild(i.second);
             }
+            hLayout->addChild(colorPickerButton);
+            hLayout->addChild(magnifyButton);
             p.menuBar->addChild(hLayout);
             p.menuBar->addSeparator(UI::Side::Right);
             p.menuBar->addChild(p.autoHideButton);

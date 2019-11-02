@@ -31,6 +31,8 @@
 
 #include <djvUI/ISettings.h>
 
+#include <djvAV/Pixel.h>
+
 #include <djvCore/BBox.h>
 #include <djvCore/ValueObserver.h>
 
@@ -52,6 +54,18 @@ namespace djv
             virtual ~ToolSettings();
 
             static std::shared_ptr<ToolSettings> create(const std::shared_ptr<Core::Context>&);
+
+            int getColorPickerSampleSize() const;
+            AV::Image::Type getColorPickerTypeLock() const;
+            const glm::vec2& getColorPickerPos() const;
+            void setColorPickerSampleSize(int);
+            void setColorPickerTypeLock(AV::Image::Type);
+            void setColorPickerPos(const glm::vec2&);
+
+            int getMagnify() const;
+            const glm::vec2& getMagnifyPos() const;
+            void setMagnify(int);
+            void setMagnifyPos(const glm::vec2&);
 
             std::shared_ptr<Core::IValueSubject<bool> > observeErrorsPopup() const;
             void setErrorsPopup(bool);

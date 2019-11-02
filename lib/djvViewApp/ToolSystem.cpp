@@ -29,10 +29,12 @@
 
 #include <djvViewApp/ToolSystem.h>
 
+#include <djvViewApp/ColorPickerWidget.h>
 #include <djvViewApp/DebugWidget.h>
 #include <djvViewApp/ErrorsWidget.h>
 #include <djvViewApp/IToolSystem.h>
 #include <djvViewApp/InfoWidget.h>
+#include <djvViewApp/MagnifyWidget.h>
 #include <djvViewApp/SettingsSystem.h>
 #include <djvViewApp/SystemLogWidget.h>
 #include <djvViewApp/ToolSettings.h>
@@ -68,6 +70,8 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> toolActionGroup;
             std::shared_ptr<UI::Menu> menu;
+            std::weak_ptr<ColorPickerWidget> colorPickerWidget;
+            std::weak_ptr<MagnifyWidget> magnifyWidget;
             std::weak_ptr<ErrorsWidget> errorsWidget;
             std::weak_ptr<DebugWidget> debugWidget;
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
@@ -104,6 +108,14 @@ namespace djv
             {
                 p.toolActionGroup->addAction(i.second);
             }
+            p.actions["Magnify"] = UI::Action::create();
+            p.actions["Magnify"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["Magnify"]->setIcon("djvIconMagnify");
+            p.actions["Magnify"]->setShortcut(GLFW_KEY_6);
+            p.actions["ColorPicker"] = UI::Action::create();
+            p.actions["ColorPicker"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["ColorPicker"]->setIcon("djvIconColorPicker");
+            p.actions["ColorPicker"]->setShortcut(GLFW_KEY_5);
             p.actions["Info"] = UI::Action::create();
             p.actions["Info"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["Info"]->setShortcut(GLFW_KEY_8);
@@ -123,6 +135,8 @@ namespace djv
                 p.menu->addAction(i.second);
             }
             p.menu->addSeparator();
+            p.menu->addAction(p.actions["ColorPicker"]);
+            p.menu->addAction(p.actions["Magnify"]);
             p.menu->addAction(p.actions["Info"]);
             p.menu->addSeparator();
             p.menu->addAction(p.actions["Errors"]);
@@ -150,6 +164,55 @@ namespace djv
                 });
 
             auto contextWeak = std::weak_ptr<Context>(context);
+            p.actionObservers["ColorPicker"] = ValueObserver<bool>::create(
+                p.actions["ColorPicker"]->observeChecked(),
+                [weak, contextWeak](bool value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (value)
+                            {
+                                auto widget = ColorPickerWidget::create(context);
+                                widget->setSampleSize(system->_p->settings->getColorPickerSampleSize());
+                                widget->setColorTypeLock(system->_p->settings->getColorPickerTypeLock());
+                                widget->setPickerPos(system->_p->settings->getColorPickerPos());
+                                system->_p->colorPickerWidget = widget;
+                                system->_openWidget("ColorPicker", widget);
+                            }
+                            else
+                            {
+                                system->_closeWidget("ColorPicker");
+                            }
+                        }
+                    }
+                });
+
+            p.actionObservers["Magnify"] = ValueObserver<bool>::create(
+                p.actions["Magnify"]->observeChecked(),
+                [weak, contextWeak](bool value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            if (value)
+                            {
+                                auto widget = MagnifyWidget::create(context);
+                                widget->setMagnify(system->_p->settings->getMagnify());
+                                widget->setMagnifyPos(system->_p->settings->getMagnifyPos());
+                                system->_p->magnifyWidget = widget;
+                                system->_openWidget("Magnify", widget);
+                            }
+                            else
+                            {
+                                system->_closeWidget("Magnify");
+                            }
+                        }
+                    }
+                });
+
             p.actionObservers["Info"] = ValueObserver<bool>::create(
                 p.actions["Info"]->observeChecked(),
                 [weak, contextWeak](bool value)
@@ -321,6 +384,8 @@ namespace djv
         ToolSystem::~ToolSystem()
         {
             DJV_PRIVATE_PTR();
+            _closeWidget("ColorPicker");
+            _closeWidget("Magnify");
             _closeWidget("Info");
             _closeWidget("Errors");
             _closeWidget("SystemLog");
@@ -353,7 +418,26 @@ namespace djv
         void ToolSystem::_closeWidget(const std::string& value)
         {
             DJV_PRIVATE_PTR();
-            if ("Errors" == value)
+            if ("ColorPicker" == value)
+            {
+                if (auto widget = p.colorPickerWidget.lock())
+                {
+                    p.settings->setColorPickerSampleSize(widget->getSampleSize());
+                    p.settings->setColorPickerTypeLock(widget->getColorTypeLock());
+                    p.settings->setColorPickerPos(widget->getPickerPos());
+                }
+                p.colorPickerWidget.reset();
+            }
+            else if ("Magnify" == value)
+            {
+                if (auto widget = p.magnifyWidget.lock())
+                {
+                    p.settings->setMagnify(widget->getMagnify());
+                    p.settings->setMagnifyPos(widget->getMagnifyPos());
+                }
+                p.magnifyWidget.reset();
+            }
+            else if ("Errors" == value)
             {
                 p.errorsWidget.reset();
             }
@@ -378,6 +462,10 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.actions.size())
             {
+                p.actions["ColorPicker"]->setText(_getText(DJV_TEXT("Color Picker")));
+                p.actions["ColorPicker"]->setTooltip(_getText(DJV_TEXT("Color picker tooltip")));
+                p.actions["Magnify"]->setText(_getText(DJV_TEXT("Magnify")));
+                p.actions["Magnify"]->setTooltip(_getText(DJV_TEXT("Magnify tooltip")));
                 p.actions["Info"]->setText(_getText(DJV_TEXT("Information")));
                 p.actions["Info"]->setTooltip(_getText(DJV_TEXT("Information widget tooltip")));
                 p.actions["Errors"]->setText(_getText(DJV_TEXT("Errors")));

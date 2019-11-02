@@ -6,8 +6,6 @@ set(header
     Application.h
 	AudioSystem.h
 	BackgroundImageWidget.h
-    ColorPickerSettings.h
-    ColorPickerSystem.h
     ColorPickerWidget.h
 	ColorSpaceWidget.h
     DebugWidget.h
@@ -27,8 +25,6 @@ set(header
     InfoWidget.h
 	LayersWidget.h
 	MDIWidget.h
-    MagnifySettings.h
-    MagnifySystem.h
     MagnifyWidget.h
     MainWindow.h
     Media.h
@@ -68,8 +64,6 @@ set(source
     Application.cpp
 	AudioSystem.cpp
 	BackgroundImageWidget.cpp
-    ColorPickerSettings.cpp
-    ColorPickerSystem.cpp
     ColorPickerWidget.cpp
 	ColorSpaceWidget.cpp
     DebugWidget.cpp
@@ -89,8 +83,6 @@ set(source
     InfoWidget.cpp
 	LayersWidget.cpp
 	MDIWidget.cpp
-    MagnifySettings.cpp
-    MagnifySystem.cpp
     MagnifyWidget.cpp
     MainWindow.cpp
     Media.cpp

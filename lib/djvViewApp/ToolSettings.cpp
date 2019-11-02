@@ -41,8 +41,17 @@ namespace djv
     {
         struct ToolSettings::Private
         {
+            int colorPickerSampleSize = 1;
+            AV::Image::Type colorPickerTypeLock = AV::Image::Type::None;
+            glm::vec2 colorPickerPos = glm::vec2(0.F, 0.F);
+
+            int magnify = 1;
+            glm::vec2 magnifyPos = glm::vec2(0.F, 0.F);
+
             std::shared_ptr<ValueSubject<bool> > errorsPopup;
+
             std::map<std::string, bool> debugBellowsState;
+
             std::map<std::string, BBox2f> widgetGeom;
         };
 
@@ -66,6 +75,56 @@ namespace djv
             auto out = std::shared_ptr<ToolSettings>(new ToolSettings);
             out->_init(context);
             return out;
+        }
+
+        int ToolSettings::getColorPickerSampleSize() const
+        {
+            return _p->colorPickerSampleSize;
+        }
+
+        AV::Image::Type ToolSettings::getColorPickerTypeLock() const
+        {
+            return _p->colorPickerTypeLock;
+        }
+
+        const glm::vec2& ToolSettings::getColorPickerPos() const
+        {
+            return _p->colorPickerPos;
+        }
+
+        void ToolSettings::setColorPickerSampleSize(int value)
+        {
+            _p->colorPickerSampleSize = value;
+        }
+
+        void ToolSettings::setColorPickerTypeLock(AV::Image::Type value)
+        {
+            _p->colorPickerTypeLock = value;
+        }
+
+        void ToolSettings::setColorPickerPos(const glm::vec2& value)
+        {
+            _p->colorPickerPos = value;
+        }
+
+        int ToolSettings::getMagnify() const
+        {
+            return _p->magnify;
+        }
+
+        void ToolSettings::setMagnify(int value)
+        {
+            _p->magnify = value;
+        }
+
+        const glm::vec2& ToolSettings::getMagnifyPos() const
+        {
+            return _p->magnifyPos;
+        }
+
+        void ToolSettings::setMagnifyPos(const glm::vec2& value)
+        {
+            _p->magnifyPos = value;
         }
 
         std::shared_ptr<IValueSubject<bool> > ToolSettings::observeErrorsPopup() const
@@ -104,6 +163,11 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const auto & object = value.get<picojson::object>();
+                UI::Settings::read("ColorPickerSampleSize", object, p.colorPickerSampleSize);
+                UI::Settings::read("ColorPickerTypeLock", object, p.colorPickerTypeLock);
+                UI::Settings::read("ColorPickerPos", object, p.colorPickerPos);
+                UI::Settings::read("Magnify", object, p.magnify);
+                UI::Settings::read("MagnifyPos", object, p.magnifyPos);
                 UI::Settings::read("ErrorsPopup", object, p.errorsPopup);
                 UI::Settings::read("DebugBellowsState", object, p.debugBellowsState);
                 UI::Settings::read("WidgetGeom", object, p.widgetGeom);
@@ -115,6 +179,11 @@ namespace djv
             DJV_PRIVATE_PTR();
             picojson::value out(picojson::object_type, true);
             auto & object = out.get<picojson::object>();
+            UI::Settings::write("ColorPickerSampleSize", p.colorPickerSampleSize, object);
+            UI::Settings::write("ColorPickerTypeLock", p.colorPickerTypeLock, object);
+            UI::Settings::write("ColorPickerPos", p.colorPickerPos, object);
+            UI::Settings::write("Magnify", p.magnify, object);
+            UI::Settings::write("MagnifyPos", p.magnifyPos, object);
             UI::Settings::write("ErrorsPopup", p.errorsPopup->get(), object);
             UI::Settings::write("DebugBellowsState", p.debugBellowsState, object);
             UI::Settings::write("WidgetGeom", p.widgetGeom, object);
