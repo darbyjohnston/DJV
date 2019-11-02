@@ -82,6 +82,7 @@ namespace djv
             std::shared_ptr<UI::ScrollWidget> transformScrollWidget;
 
             std::map<std::string, std::shared_ptr<UI::FloatSlider> > colorSliders;
+            std::shared_ptr<UI::CheckBox> colorInvertCheckBox;
             std::shared_ptr<UI::FormLayout> colorLayout;
             std::shared_ptr<UI::ScrollWidget> colorScrollWidget;
 
@@ -148,6 +149,7 @@ namespace djv
             {
                 slider.second->setDefaultVisible(true);
             }
+            p.colorInvertCheckBox = UI::CheckBox::create(context);
 
             p.levelsSliders["InLow"] = UI::FloatSlider::create(context);
             const AV::Render::ImageLevels levels;
@@ -229,6 +231,7 @@ namespace djv
             {
                 p.colorLayout->addChild(p.colorSliders[i]);
             }
+            p.colorLayout->addChild(p.colorInvertCheckBox);
             p.colorScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             p.colorScrollWidget->setBorder(false);
             p.colorScrollWidget->addChild(p.colorLayout);
@@ -407,7 +410,6 @@ namespace djv
                         }
                     }
                 });
-
             p.colorSliders["Contrast"]->setValueCallback(
                 [weak](float value)
                 {
@@ -428,6 +430,20 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->imageOptions.color.saturation = value;
+                        widget->_p->imageOptions.colorEnabled = widget->_p->imageOptions.color != AV::Render::ImageColor();
+                        widget->_widgetUpdate();
+                        if (widget->_p->activeWidget)
+                        {
+                            widget->_p->activeWidget->getImageView()->setImageOptions(widget->_p->imageOptions);
+                        }
+                    }
+                });
+            p.colorInvertCheckBox->setCheckedCallback(
+                [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->imageOptions.color.invert = value;
                         widget->_p->imageOptions.colorEnabled = widget->_p->imageOptions.color != AV::Render::ImageColor();
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
@@ -761,6 +777,7 @@ namespace djv
             p.colorLayout->setText(p.colorSliders["Brightness"], _getText(DJV_TEXT("Brightness")) + ":");
             p.colorLayout->setText(p.colorSliders["Contrast"], _getText(DJV_TEXT("Contrast")) + ":");
             p.colorLayout->setText(p.colorSliders["Saturation"], _getText(DJV_TEXT("Saturation")) + ":");
+            p.colorLayout->setText(p.colorInvertCheckBox, _getText(DJV_TEXT("Invert")) + ":");
 
             p.levelsLayout->setText(p.levelsSliders["InLow"], _getText(DJV_TEXT("In Low")) + ":");
             p.levelsLayout->setText(p.levelsSliders["InHigh"], _getText(DJV_TEXT("In High")) + ":");
@@ -803,6 +820,7 @@ namespace djv
             p.colorSliders["Brightness"]->setValue(p.imageOptions.color.brightness);
             p.colorSliders["Contrast"]->setValue(p.imageOptions.color.contrast);
             p.colorSliders["Saturation"]->setValue(p.imageOptions.color.saturation);
+            p.colorInvertCheckBox->setChecked(p.imageOptions.color.invert);
 
             p.levelsSliders["InLow"]->setValue(p.imageOptions.levels.inLow);
             p.levelsSliders["InHigh"]->setValue(p.imageOptions.levels.inHigh);

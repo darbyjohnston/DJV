@@ -88,6 +88,7 @@ namespace djv
                 float brightness = 1.F;
                 float contrast   = 1.F;
                 float saturation = 1.F;
+                bool  invert     = false;
 
                 bool operator == (const ImageColor&) const;
                 bool operator != (const ImageColor&) const;

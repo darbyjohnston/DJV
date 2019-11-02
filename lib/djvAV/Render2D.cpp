@@ -104,6 +104,7 @@ namespace djv
 #endif // DJV_OPENGL_ES2
                     GLint colorMatrixLoc        = 0;
                     GLint colorMatrixEnabledLoc = 0;
+                    GLint colorInvertLoc        = 0;
                     GLint levelsInLowLoc        = 0;
                     GLint levelsInHighLoc       = 0;
                     GLint levelsGammaLoc        = 0;
@@ -169,6 +170,7 @@ namespace djv
 #endif // DJV_OPENGL_ES2
                     glm::mat4x4     colorMatrix;
                     bool            colorMatrixEnabled  = false;
+                    bool            colorInvert         = false;
                     ImageLevels     levels;
                     bool            levelsEnabled       = false;
                     float           exposureV           = 0.F;
@@ -192,6 +194,7 @@ namespace djv
                             shader->setUniform(data.colorMatrixLoc, colorMatrix);
                         }
                         shader->setUniform(data.colorMatrixEnabledLoc, colorMatrixEnabled);
+                        shader->setUniform(data.colorInvertLoc, colorInvert);
                         if (levelsEnabled)
                         {
                             shader->setUniform(data.levelsInLowLoc, levels.inLow);
@@ -655,6 +658,7 @@ namespace djv
                     p.primitiveData.imageChannelLoc = glGetUniformLocation(program, "imageChannel");
                     p.primitiveData.colorMatrixLoc = glGetUniformLocation(program, "colorMatrix");
                     p.primitiveData.colorMatrixEnabledLoc = glGetUniformLocation(program, "colorMatrixEnabled");
+                    p.primitiveData.colorInvertLoc = glGetUniformLocation(program, "colorInvert");
                     p.primitiveData.levelsInLowLoc = glGetUniformLocation(program, "levels.inLow");
                     p.primitiveData.levelsInHighLoc = glGetUniformLocation(program, "levels.inHigh");
                     p.primitiveData.levelsGammaLoc = glGetUniformLocation(program, "levels.gamma");
@@ -1562,6 +1566,7 @@ namespace djv
                     {
                         primitive->colorMatrix = colorMatrix(options.color);
                     }
+                    primitive->colorInvert = options.color.invert;
                     primitive->levels = options.levels;
                     primitive->levelsEnabled = options.levelsEnabled;
                     primitive->exposureEnabled = options.exposureEnabled;

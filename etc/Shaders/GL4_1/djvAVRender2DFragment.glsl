@@ -53,6 +53,7 @@ out vec4 FragColor;
 uniform int         imageChannels       = 0;
 uniform mat4        colorMatrix;
 uniform bool        colorMatrixEnabled  = false;
+uniform bool        colorInvert         = false;
 uniform Levels      levels;
 uniform bool        levelsEnabled       = false;
 uniform Exposure    exposure;
@@ -217,6 +218,12 @@ void main()
         if (colorMatrixEnabled)
         {
             t = colorMatrixFunc(t, colorMatrix);
+        }
+        if (colorInvert)
+        {
+            t.r = 1.0 - t.r;
+            t.g = 1.0 - t.g;
+            t.b = 1.0 - t.b;
         }
         if (levelsEnabled)
         {

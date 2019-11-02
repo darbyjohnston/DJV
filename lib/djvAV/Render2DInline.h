@@ -41,7 +41,8 @@ namespace djv
                 return
                     brightness == other.brightness &&
                     contrast   == other.contrast   &&
-                    saturation == other.saturation;
+                    saturation == other.saturation &&
+                    invert     == other.invert;
             }
             
             inline bool ImageColor::operator != (const ImageColor& other) const

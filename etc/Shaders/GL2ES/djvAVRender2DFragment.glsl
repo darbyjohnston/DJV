@@ -54,6 +54,7 @@ varying vec2 Texture;
 uniform int         imageChannels;
 uniform mat4        colorMatrix;
 uniform bool        colorMatrixEnabled;
+uniform bool        colorInvert;
 uniform Levels      levels;
 uniform bool        levelsEnabled;
 uniform Exposure    exposure;
@@ -209,6 +210,12 @@ void main()
         if (colorMatrixEnabled)
         {
             t = colorMatrixFunc(t, colorMatrix);
+        }
+        if (colorInvert)
+        {
+            t.r = 1.0 - t.r;
+            t.g = 1.0 - t.g;
+            t.b = 1.0 - t.b;
         }
         if (levelsEnabled)
         {
