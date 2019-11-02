@@ -93,6 +93,7 @@ namespace djv
         {
             std::shared_ptr<ValueSubject<PointerData> > hover;
             std::shared_ptr<ValueSubject<PointerData> > drag;
+            std::shared_ptr<ValueSubject<glm::vec2> > scroll;
 
             std::shared_ptr<Media> media;
             AV::IO::Info ioInfo;
@@ -186,6 +187,7 @@ namespace djv
 
             p.hover = ValueSubject<PointerData>::create();
             p.drag = ValueSubject<PointerData>::create();
+            p.scroll = ValueSubject<glm::vec2>::create();
 
             p.media = media;
 
@@ -393,7 +395,6 @@ namespace djv
                         widget->_p->hover->setIfChanged(PointerData(data.state, data.pos - g.min, data.buttons));
                     }
                 });
-
             p.pointerWidget->setDragCallback(
                 [weak](const PointerData& data)
                 {
@@ -402,6 +403,16 @@ namespace djv
                         widget->moveToFront();
                         const BBox2f& g = widget->_p->imageView->getGeometry();
                         widget->_p->drag->setIfChanged(PointerData(data.state, data.pos - g.min, data.buttons));
+                    }
+                });
+            p.pointerWidget->setScrollCallback(
+                [weak](const glm::vec2& data)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->moveToFront();
+                        const BBox2f& g = widget->_p->imageView->getGeometry();
+                        widget->_p->scroll->setAlways(data);
                     }
                 });
 
@@ -1030,14 +1041,19 @@ namespace djv
             resize(size + sh * 2.F);
         }
 
-        std::shared_ptr<Core::IValueSubject<PointerData> > MediaWidget::observeHover() const
+        std::shared_ptr<IValueSubject<PointerData> > MediaWidget::observeHover() const
         {
             return _p->hover;
         }
 
-        std::shared_ptr<Core::IValueSubject<PointerData> > MediaWidget::observeDrag() const
+        std::shared_ptr<IValueSubject<PointerData> > MediaWidget::observeDrag() const
         {
             return _p->drag;
+        }
+
+        std::shared_ptr<IValueSubject<glm::vec2> > MediaWidget::observeScroll() const
+        {
+            return _p->scroll;
         }
 
         float MediaWidget::_getTitleBarHeight() const
@@ -1053,7 +1069,7 @@ namespace djv
         }
 
 
-        std::map<UI::MDI::Handle, std::vector<Core::BBox2f> > MediaWidget::_getHandles() const
+        std::map<UI::MDI::Handle, std::vector<BBox2f> > MediaWidget::_getHandles() const
         {
             auto out = IWidget::_getHandles();
             out[UI::MDI::Handle::Move] = { _p->titleBar->getGeometry() };

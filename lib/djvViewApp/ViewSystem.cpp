@@ -80,9 +80,10 @@ namespace djv
             std::shared_ptr<ValueObserver<GridOptions> > gridOptionsObserver;
             std::shared_ptr<ValueObserver<PointerData> > hoverObserver;
             std::shared_ptr<ValueObserver<PointerData> > dragObserver;
+            std::shared_ptr<ValueObserver<glm::vec2> > scrollObserver;
         };
 
-        void ViewSystem::_init(const std::shared_ptr<Core::Context>& context)
+        void ViewSystem::_init(const std::shared_ptr<Context>& context)
         {
             IToolSystem::_init("djv::ViewApp::ViewSystem", context);
 
@@ -498,12 +499,24 @@ namespace djv
                                             }
                                         }
                                     });
+                                system->_p->scrollObserver = ValueObserver<glm::vec2>::create(
+                                    system->_p->activeWidget->observeScroll(),
+                                    [weak](const glm::vec2& value)
+                                    {
+                                        if (auto system = weak.lock())
+                                        {
+                                            auto imageView = system->_p->activeWidget->getImageView();
+                                            const float zoom = imageView->observeImageZoom()->get();
+                                            imageView->setImageZoomFocus(zoom + value.y * .1F, system->_p->hoverPos);
+                                        }
+                                    });
                             }
                             else
                             {
                                 system->_p->gridOptionsObserver.reset();
                                 system->_p->hoverObserver.reset();
                                 system->_p->dragObserver.reset();
+                                system->_p->scrollObserver.reset();
                             }
                             system->_actionsUpdate();
                         }
@@ -549,7 +562,7 @@ namespace djv
             p.settings->setWidgetGeom(_getWidgetGeom());
         }
 
-        std::shared_ptr<ViewSystem> ViewSystem::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<ViewSystem> ViewSystem::create(const std::shared_ptr<Context>& context)
         {
             auto out = std::shared_ptr<ViewSystem>(new ViewSystem);
             out->_init(context);

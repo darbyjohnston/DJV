@@ -69,6 +69,11 @@ namespace djv
             _dragCallback = callback;
         }
 
+        void PointerWidget::setScrollCallback(const std::function<void(const glm::vec2&)>& callback)
+        {
+            _scrollCallback = callback;
+        }
+
         void PointerWidget::_pointerEnterEvent(Event::PointerEnter& event)
         {
             if (!event.isRejected())
@@ -120,6 +125,15 @@ namespace djv
             _pressedID = Event::InvalidID;
             _buttons = std::map<int, bool>();
             _doDragCallback(PointerData(PointerState::End, info.pos, info.buttons));
+        }
+
+        void PointerWidget::_scrollEvent(Event::Scroll& event)
+        {
+            event.accept();
+            if (_scrollCallback)
+            {
+                _scrollCallback(event.getScrollDelta());
+            }
         }
 
         void PointerWidget::_doHoverCallback(const PointerData& value)

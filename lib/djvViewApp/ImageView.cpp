@@ -231,7 +231,7 @@ namespace djv
         void ImageView::setImageZoom(float value)
         {
             DJV_PRIVATE_PTR();
-            if (p.imageZoom->setIfChanged(value))
+            if (p.imageZoom->setIfChanged(std::max(0.F, value)))
             {
                 _resize();
             }
@@ -241,7 +241,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             setImagePosAndZoom(
-                mouse + (p.imagePos->get() - mouse) * (value / p.imageZoom->get()),
+                mouse + (p.imagePos->get() - mouse) * (value / _p->imageZoom->get()),
                 value);
         }
 
@@ -257,7 +257,7 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const bool posChanged = p.imagePos->setIfChanged(pos);
-            const bool zoomChanged = p.imageZoom->setIfChanged(zoom);
+            const bool zoomChanged = p.imageZoom->setIfChanged(std::max(0.F, zoom));
             if (posChanged || zoomChanged)
             {
                 _resize();
@@ -453,12 +453,13 @@ namespace djv
             {
                 render->setFillColor(AV::Image::Color(1.F, 1.F, 1.F));
 
+                const float zoom = _p->imageZoom->get();
                 glm::mat3x3 m(1.F);
                 m = glm::translate(m, g.min + p.imagePos->get());
                 m = glm::rotate(m, Math::deg2rad(getImageRotate(p.imageRotate->get())));
                 m = glm::scale(m, glm::vec2(
-                    p.imageZoom->get() * UI::getPixelAspectRatio(p.imageAspectRatio->get(), image->getInfo().pixelAspectRatio),
-                    p.imageZoom->get() * UI::getAspectRatioScale(p.imageAspectRatio->get(), image->getAspectRatio())));
+                    zoom * UI::getPixelAspectRatio(p.imageAspectRatio->get(), image->getInfo().pixelAspectRatio),
+                    zoom * UI::getAspectRatioScale(p.imageAspectRatio->get(), image->getAspectRatio())));
                 render->pushTransform(m);
                 AV::Render::ImageOptions options(p.imageOptions->get());
                 auto i = p.ocioConfig.colorSpaces.find(image->getPluginName());
@@ -555,8 +556,8 @@ namespace djv
         void ImageView::_drawGrid(float gridSize)
         {
             DJV_PRIVATE_PTR();
-            const float imageZoom = p.imageZoom->get();
-            if ((gridSize * imageZoom) > 2.f)
+            const float zoom = _p->imageZoom->get();
+            if ((gridSize * zoom) > 2.f)
             {
                 const glm::vec2& imagePos = p.imagePos->get();
 
@@ -565,10 +566,10 @@ namespace djv
                 const float b = style->getMetric(UI::MetricsRole::Border);
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
                 const BBox2f area(
-                    (floorf(-imagePos.x / imageZoom / gridSize) - 1.F) * gridSize,
-                    (floorf(-imagePos.y / imageZoom / gridSize) - 1.F) * gridSize,
-                    (ceilf(g.w() / imageZoom / gridSize) + 2.F) * gridSize,
-                    (ceilf(g.h() / imageZoom / gridSize) + 2.F) * gridSize);
+                    (floorf(-imagePos.x / zoom / gridSize) - 1.F) * gridSize,
+                    (floorf(-imagePos.y / zoom / gridSize) - 1.F) * gridSize,
+                    (ceilf(g.w() / zoom / gridSize) + 2.F) * gridSize,
+                    (ceilf(g.h() / zoom / gridSize) + 2.F) * gridSize);
 
                 auto render = _getRender();
                 const auto& gridOptions = p.gridOptions->get();
@@ -576,21 +577,21 @@ namespace djv
                 for (float y = 0; y < area.h(); y += gridSize)
                 {
                     render->drawRect(BBox2f(
-                        g.min.x + floorf(area.min.x * imageZoom + imagePos.x),
-                        g.min.y + floorf((area.min.y + y) * imageZoom + imagePos.y),
-                        ceilf(area.w() * imageZoom),
+                        g.min.x + floorf(area.min.x * zoom + imagePos.x),
+                        g.min.y + floorf((area.min.y + y) * zoom + imagePos.y),
+                        ceilf(area.w() * zoom),
                         b));
                 }
                 for (float x = 0; x < area.w(); x += gridSize)
                 {
                     render->drawRect(BBox2f(
-                        g.min.x + floorf((area.min.x + x) * imageZoom + imagePos.x),
-                        g.min.y + floorf(area.min.y * imageZoom + imagePos.y),
+                        g.min.x + floorf((area.min.x + x) * zoom + imagePos.x),
+                        g.min.y + floorf(area.min.y * zoom + imagePos.y),
                         b,
-                        ceilf(area.h() * imageZoom)));
+                        ceilf(area.h() * zoom)));
                 }
 
-                if (gridOptions.labels && (p.textWidthMax + m * 2.F) < gridSize * imageZoom)
+                if (gridOptions.labels && (p.textWidthMax + m * 2.F) < gridSize * zoom)
                 {
                     render->setFillColor(style->getColor(UI::ColorRole::OverlayLight));
                     float x = g.min.x + imagePos.x;
@@ -598,14 +599,14 @@ namespace djv
                     for (size_t i = 0; i < p.text[0].size(); ++i)
                     {
                         render->drawRect(BBox2f(x, y, p.text[0][i].second.x + m * 2.F, p.fontMetrics.lineHeight + m * 2.f));
-                        x += gridSize * imageZoom;
+                        x += gridSize * zoom;
                     }
                     x = p.lockFrame.min.x;
                     y = g.min.y + imagePos.y;
                     for (size_t i = 0; i < p.text[1].size(); ++i)
                     {
                         render->drawRect(BBox2f(x, y, p.text[1][i].second.x + m * 2.F, p.fontMetrics.lineHeight + m * 2.f));
-                        y += gridSize * imageZoom;
+                        y += gridSize * zoom;
                     }
 
                     render->setFillColor(style->getColor(UI::ColorRole::Foreground));
@@ -615,14 +616,14 @@ namespace djv
                     for (size_t i = 0; i < p.text[0].size(); ++i)
                     {
                         render->drawText(p.text[0][i].first, glm::vec2(floorf(x), floorf(y + p.fontMetrics.ascender - 1.F)));
-                        x += gridSize * imageZoom;
+                        x += gridSize * zoom;
                     }
                     x = p.lockFrame.min.x + m;
                     y = g.min.y + imagePos.y + m;
                     for (size_t i = 0; i < p.text[1].size(); ++i)
                     {
                         render->drawText(p.text[1][i].first, glm::vec2(floorf(x), floorf(y + p.fontMetrics.ascender - 1.F)));
-                        y += gridSize * imageZoom;
+                        y += gridSize * zoom;
                     }
                 }
             }
@@ -653,7 +654,7 @@ namespace djv
             const float gridSize = gridOptions.size;
             if (auto image = p.image->get())
             {
-                if (gridOptions.labels && (gridSize * p.imageZoom->get()) > 2.f)
+                if (gridOptions.labels && (gridSize * _p->imageZoom->get()) > 2.f)
                 {
                     const auto& style = _getStyle();
                     const auto fontInfo = style->getFontInfo(AV::Font::familyMono, AV::Font::faceDefault, UI::MetricsRole::FontSmall);

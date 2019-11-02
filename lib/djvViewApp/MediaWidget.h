@@ -85,6 +85,7 @@ namespace djv
 
             std::shared_ptr<Core::IValueSubject<PointerData> > observeHover() const;
             std::shared_ptr<Core::IValueSubject<PointerData> > observeDrag() const;
+            std::shared_ptr<Core::IValueSubject<glm::vec2> > observeScroll() const;
 
         protected:
             float _getTitleBarHeight() const;
