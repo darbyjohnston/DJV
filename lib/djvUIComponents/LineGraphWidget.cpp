@@ -30,6 +30,7 @@
 #include <djvUIComponents/LineGraphWidget.h>
 
 #include <djvUI/Label.h>
+#include <djvUI/RowLayout.h>
 #include <djvUI/Style.h>
 
 #include <djvAV/Render2D.h>
@@ -49,6 +50,8 @@ namespace djv
             FloatRange samplesRange = FloatRange(0.F, 0.F);
             size_t precision = 2;
             std::shared_ptr<Label> label;
+            std::shared_ptr<Label> labelValue;
+            std::shared_ptr<HorizontalLayout> layout;
         };
 
         void LineGraphWidget::_init(const std::shared_ptr<Context>& context)
@@ -62,9 +65,18 @@ namespace djv
 
             p.label = Label::create(context);
             p.label->setFontSizeRole(MetricsRole::FontSmall);
-            p.label->setBackgroundRole(ColorRole::OverlayLight);
-            p.label->setMargin(Layout::Margin(MetricsRole::Border));
-            addChild(p.label);
+            
+            p.labelValue = Label::create(context);
+            p.labelValue->setFont(AV::Font::familyMono);
+            p.labelValue->setFontSizeRole(MetricsRole::FontSmall);
+            
+            p.layout = HorizontalLayout::create(context);
+            p.layout->setMargin(Layout::Margin(MetricsRole::Border));
+            p.layout->setSpacing(Layout::Spacing(MetricsRole::SpacingSmall));
+            p.layout->setBackgroundRole(ColorRole::OverlayLight);
+            p.layout->addChild(p.label);
+            p.layout->addChild(p.labelValue);
+            addChild(p.layout);
         }
 
         LineGraphWidget::LineGraphWidget() :
@@ -138,8 +150,8 @@ namespace djv
             {
                 p.samples.pop_back();
             }
-            const glm::vec2 labelSize = p.label->getMinimumSize();
-            p.label->setGeometry(BBox2f(g.min.x, g.max.y - labelSize.y, labelSize.x, labelSize.y));
+            const glm::vec2 layoutSize = p.layout->getMinimumSize();
+            p.layout->setGeometry(BBox2f(g.min.x, g.max.y - layoutSize.y, layoutSize.x, layoutSize.y));
         }
 
         void LineGraphWidget::_paintEvent(Event::Paint& event)
@@ -174,14 +186,21 @@ namespace djv
         void LineGraphWidget::_updateWidget()
         {
             DJV_PRIVATE_PTR();
-            std::stringstream ss;
-            ss.precision(p.precision);
-            ss << std::fixed;
-            float v = p.samples.size() ? p.samples.front() : 0.F;
-            ss << _getText(DJV_TEXT("Min")) << ": " << p.samplesRange.min << ", " <<
-                _getText(DJV_TEXT("Max")) << ": " << p.samplesRange.max << ", " <<
-                _getText(DJV_TEXT("Current")) << ": " << v;
-            p.label->setText(ss.str());
+            {
+                std::stringstream ss;
+                ss << _getText(DJV_TEXT("Current")) << ", " <<
+                    _getText(DJV_TEXT("min")) << ", " <<
+                    _getText(DJV_TEXT("max")) << ": ";
+                p.label->setText(ss.str());
+            }
+            {
+                std::stringstream ss;
+                ss.precision(p.precision);
+                ss << std::fixed;
+                float v = p.samples.size() ? p.samples.front() : 0.F;
+                ss << v << "/" << p.samplesRange.min << "/" << p.samplesRange.max;
+                p.labelValue->setText(ss.str());
+            }
         }
 
     } // namespace UI

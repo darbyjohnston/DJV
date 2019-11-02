@@ -118,12 +118,18 @@ namespace djv
                 setClassName("djv::ViewApp::GeneralDebugWidget");
 
                 _labels["FPS"] = UI::Label::create(context);
+                _labels["FPSValue"] = UI::Label::create(context);
+                _labels["FPSValue"]->setFont(AV::Font::familyMono);
 
                 _labels["ObjectCount"] = UI::Label::create(context);
+                _labels["ObjectCountValue"] = UI::Label::create(context);
+                _labels["ObjectCountValue"]->setFont(AV::Font::familyMono);
                 _lineGraphs["ObjectCount"] = UI::LineGraphWidget::create(context);
                 _lineGraphs["ObjectCount"]->setPrecision(0);
 
                 _labels["WidgetCount"] = UI::Label::create(context);
+                _labels["WidgetCountValue"] = UI::Label::create(context);
+                _labels["WidgetCountValue"]->setFont(AV::Font::familyMono);
                 _lineGraphs["WidgetCount"] = UI::LineGraphWidget::create(context);
                 _lineGraphs["WidgetCount"]->setPrecision(0);
 
@@ -132,15 +138,23 @@ namespace djv
                 _labels["KeyGrab"] = UI::Label::create(context);
 
                 _labels["GlyphCache"] = UI::Label::create(context);
+                _labels["GlyphCacheValue"] = UI::Label::create(context);
+                _labels["GlyphCacheValue"]->setFont(AV::Font::familyMono);
                 _thermometerWidgets["GlyphCache"] = UI::ThermometerWidget::create(context);
 
                 _labels["ThumbnailInfoCache"] = UI::Label::create(context);
+                _labels["ThumbnailInfoCacheValue"] = UI::Label::create(context);
+                _labels["ThumbnailInfoCacheValue"]->setFont(AV::Font::familyMono);
                 _thermometerWidgets["ThumbnailInfoCache"] = UI::ThermometerWidget::create(context);
 
                 _labels["ThumbnailImageCache"] = UI::Label::create(context);
+                _labels["ThumbnailImageCacheValue"] = UI::Label::create(context);
+                _labels["ThumbnailInfoCacheValue"]->setFont(AV::Font::familyMono);
                 _thermometerWidgets["ThumbnailImageCache"] = UI::ThermometerWidget::create(context);
 
                 _labels["IconCache"] = UI::Label::create(context);
+                _labels["IconCacheValue"] = UI::Label::create(context);
+                _labels["IconCacheValue"]->setFont(AV::Font::familyMono);
                 _thermometerWidgets["IconCache"] = UI::ThermometerWidget::create(context);
 
                 for (auto& i : _labels)
@@ -151,20 +165,38 @@ namespace djv
                 _layout = UI::VerticalLayout::create(context);
                 _layout->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
                 _layout->addChild(_labels["FPS"]);
-                _layout->addChild(_labels["ObjectCount"]);
+                auto hLayout = UI::HorizontalLayout::create(context);
+                hLayout->addChild(_labels["ObjectCount"]);
+                hLayout->addChild(_labels["ObjectCountValue"]);
+                _layout->addChild(hLayout);
                 _layout->addChild(_lineGraphs["ObjectCount"]);
-                _layout->addChild(_labels["WidgetCount"]);
+                hLayout = UI::HorizontalLayout::create(context);
+                hLayout->addChild(_labels["WidgetCount"]);
+                hLayout->addChild(_labels["WidgetCountValue"]);
+                _layout->addChild(hLayout);
                 _layout->addChild(_lineGraphs["WidgetCount"]);
                 _layout->addChild(_labels["Hover"]);
                 _layout->addChild(_labels["Grab"]);
                 _layout->addChild(_labels["KeyGrab"]);
-                _layout->addChild(_labels["GlyphCache"]);
+                hLayout = UI::HorizontalLayout::create(context);
+                hLayout->addChild(_labels["GlyphCache"]);
+                hLayout->addChild(_labels["GlyphCacheValue"]);
+                _layout->addChild(hLayout);
                 _layout->addChild(_thermometerWidgets["GlyphCache"]);
-                _layout->addChild(_labels["ThumbnailInfoCache"]);
+                hLayout = UI::HorizontalLayout::create(context);
+                hLayout->addChild(_labels["ThumbnailInfoCache"]);
+                hLayout->addChild(_labels["ThumbnailInfoCacheValue"]);
+                _layout->addChild(hLayout);
                 _layout->addChild(_thermometerWidgets["ThumbnailInfoCache"]);
-                _layout->addChild(_labels["ThumbnailImageCache"]);
+                hLayout = UI::HorizontalLayout::create(context);
+                hLayout->addChild(_labels["ThumbnailImageCache"]);
+                hLayout->addChild(_labels["ThumbnailImageCacheValue"]);
+                _layout->addChild(hLayout);
                 _layout->addChild(_thermometerWidgets["ThumbnailImageCache"]);
-                _layout->addChild(_labels["IconCache"]);
+                hLayout = UI::HorizontalLayout::create(context);
+                hLayout->addChild(_labels["IconCache"]);
+                hLayout->addChild(_labels["IconCacheValue"]);
+                _layout->addChild(hLayout);
                 _layout->addChild(_thermometerWidgets["IconCache"]);
                 addChild(_layout);
 
@@ -217,19 +249,34 @@ namespace djv
 
                     {
                         std::stringstream ss;
-                        ss.precision(2);
-                        ss << _getText(DJV_TEXT("FPS")) << ": " << std::fixed << fps;
+                        ss << _getText(DJV_TEXT("FPS")) << ":";
                         _labels["FPS"]->setText(ss.str());
                     }
                     {
                         std::stringstream ss;
-                        ss << _getText(DJV_TEXT("Object count")) << ": " << objectCount;
+                        ss.precision(2);
+                        ss << std::fixed << fps;
+                        _labels["FPSValue"]->setText(ss.str());
+                    }
+                    {
+                        std::stringstream ss;
+                        ss << _getText(DJV_TEXT("Object count")) << ":";
                         _labels["ObjectCount"]->setText(ss.str());
                     }
                     {
                         std::stringstream ss;
-                        ss << _getText(DJV_TEXT("Widget count")) << ": " << widgetCount;
+                        ss << objectCount;
+                        _labels["ObjectCountValue"]->setText(ss.str());
+                    }
+                    {
+                        std::stringstream ss;
+                        ss << _getText(DJV_TEXT("Widget count")) << ":";
                         _labels["WidgetCount"]->setText(ss.str());
+                    }
+                    {
+                        std::stringstream ss;
+                        ss << widgetCount;
+                        _labels["WidgetCountValue"]->setText(ss.str());
                     }
                     {
                         std::stringstream ss;
@@ -251,27 +298,47 @@ namespace djv
                     }
                     {
                         std::stringstream ss;
-                        ss.precision(2);
-                        ss << _getText(DJV_TEXT("Font system glyph cache")) << ": " << std::fixed << glyphCachePercentage << "%";
+                        ss << _getText(DJV_TEXT("Font system glyph cache")) << ":";
                         _labels["GlyphCache"]->setText(ss.str());
                     }
                     {
                         std::stringstream ss;
                         ss.precision(2);
-                        ss << _getText(DJV_TEXT("Thumbnail system information cache")) << ": " << std::fixed << thumbnailInfoCachePercentage << "%";
+                        ss << std::fixed << glyphCachePercentage << "%";
+                        _labels["GlyphCacheValue"]->setText(ss.str());
+                    }
+                    {
+                        std::stringstream ss;
+                        ss << _getText(DJV_TEXT("Thumbnail system information cache")) << ":";
                         _labels["ThumbnailInfoCache"]->setText(ss.str());
                     }
                     {
                         std::stringstream ss;
                         ss.precision(2);
-                        ss << _getText(DJV_TEXT("Thumbnail system image cache")) << ": " << std::fixed << thumbnailImageCachePercentage << "%";
+                        ss << std::fixed << thumbnailInfoCachePercentage << "%";
+                        _labels["ThumbnailInfoCacheValue"]->setText(ss.str());
+                    }
+                    {
+                        std::stringstream ss;
+                        ss << _getText(DJV_TEXT("Thumbnail system image cache")) << ":";
                         _labels["ThumbnailImageCache"]->setText(ss.str());
                     }
                     {
                         std::stringstream ss;
                         ss.precision(2);
-                        ss << _getText(DJV_TEXT("Icon system cache")) << ": " << std::fixed << iconCachePercentage << "%";
+                        ss << std::fixed << thumbnailImageCachePercentage << "%";
+                        _labels["ThumbnailImageCacheValue"]->setText(ss.str());
+                    }
+                    {
+                        std::stringstream ss;
+                        ss << _getText(DJV_TEXT("Icon system cache")) << ":";
                         _labels["IconCache"]->setText(ss.str());
+                    }
+                    {
+                        std::stringstream ss;
+                        ss.precision(2);
+                        ss << std::fixed << iconCachePercentage << "%";
+                        _labels["IconCacheValue"]->setText(ss.str());
                     }
                 }
             }
@@ -298,13 +365,19 @@ namespace djv
                 setClassName("djv::ViewApp::RenderDebugWidget");
 
                 _labels["TextureAtlas"] = UI::Label::create(context);
+                _labels["TextureAtlasValue"] = UI::Label::create(context);
+                _labels["TextureAtlasValue"]->setFont(AV::Font::familyMono);
                 _thermometerWidgets["TextureAtlas"] = UI::ThermometerWidget::create(context);
 
                 _labels["DynamicTextureCount"] = UI::Label::create(context);
+                _labels["DynamicTextureCountValue"] = UI::Label::create(context);
+                _labels["DynamicTextureCountValue"]->setFont(AV::Font::familyMono);
                 _lineGraphs["DynamicTextureCount"] = UI::LineGraphWidget::create(context);
                 _lineGraphs["DynamicTextureCount"]->setPrecision(0);
 
                 _labels["VBOSize"] = UI::Label::create(context);
+                _labels["VBOSizeValue"] = UI::Label::create(context);
+                _labels["VBOSizeValue"]->setFont(AV::Font::familyMono);
                 _lineGraphs["VBOSize"] = UI::LineGraphWidget::create(context);
                 _lineGraphs["VBOSize"]->setPrecision(0);
 
@@ -315,11 +388,20 @@ namespace djv
 
                 _layout = UI::VerticalLayout::create(context);
                 _layout->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
-                _layout->addChild(_labels["TextureAtlas"]);
+                auto hLayout = UI::HorizontalLayout::create(context);
+                hLayout->addChild(_labels["TextureAtlas"]);
+                hLayout->addChild(_labels["TextureAtlasValue"]);
+                _layout->addChild(hLayout);
                 _layout->addChild(_thermometerWidgets["TextureAtlas"]);
-                _layout->addChild(_labels["DynamicTextureCount"]);
+                hLayout = UI::HorizontalLayout::create(context);
+                hLayout->addChild(_labels["DynamicTextureCount"]);
+                hLayout->addChild(_labels["DynamicTextureCountValue"]);
+                _layout->addChild(hLayout);
                 _layout->addChild(_lineGraphs["DynamicTextureCount"]);
-                _layout->addChild(_labels["VBOSize"]);
+                hLayout = UI::HorizontalLayout::create(context);
+                hLayout->addChild(_labels["VBOSize"]);
+                hLayout->addChild(_labels["VBOSizeValue"]);
+                _layout->addChild(hLayout);
                 _layout->addChild(_lineGraphs["VBOSize"]);
                 addChild(_layout);
 
@@ -360,19 +442,34 @@ namespace djv
 
                 {
                     std::stringstream ss;
-                    ss.precision(2);
-                    ss << _getText(DJV_TEXT("Texture atlas")) << ": " << std::fixed << textureAtlasPercentage << "%";
+                    ss << _getText(DJV_TEXT("Texture atlas")) << ":";
                     _labels["TextureAtlas"]->setText(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << _getText(DJV_TEXT("Dynamic texture count")) << ": " << dynamicTextureCount;
+                    ss.precision(2);
+                    ss << std::fixed << textureAtlasPercentage << "%";
+                    _labels["TextureAtlasValue"]->setText(ss.str());
+                }
+                {
+                    std::stringstream ss;
+                    ss << _getText(DJV_TEXT("Dynamic texture count")) << ":";
                     _labels["DynamicTextureCount"]->setText(ss.str());
                 }
                 {
                     std::stringstream ss;
-                    ss << _getText(DJV_TEXT("VBO size")) << ": " << vboSize;
+                    ss << dynamicTextureCount;
+                    _labels["DynamicTextureCountValue"]->setText(ss.str());
+                }
+                {
+                    std::stringstream ss;
+                    ss << _getText(DJV_TEXT("VBO size")) << ":";
                     _labels["VBOSize"]->setText(ss.str());
+                }
+                {
+                    std::stringstream ss;
+                    ss << vboSize;
+                    _labels["VBOSizeValue"]->setText(ss.str());
                 }
             }
 
@@ -421,6 +518,8 @@ namespace djv
                 setClassName("djv::ViewApp::MediaDebugWidget");
 
                 _labels["CurrentFrame"] = UI::Label::create(context);
+                _labels["CurrentFrameValue"] = UI::Label::create(context);
+                _labels["CurrentFrameValue"]->setFont(AV::Font::familyMono);
                 
                 _labels["VideoQueue"] = UI::Label::create(context);
                 _lineGraphs["VideoQueue"] = UI::LineGraphWidget::create(context);
@@ -437,7 +536,10 @@ namespace djv
 
                 _layout = UI::VerticalLayout::create(context);
                 _layout->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
-                _layout->addChild(_labels["CurrentFrame"]);
+                auto hLayout = UI::HorizontalLayout::create(context);
+                hLayout->addChild(_labels["CurrentFrame"]);
+                hLayout->addChild(_labels["CurrentFrameValue"]);
+                _layout->addChild(hLayout);
                 _layout->addChild(_labels["VideoQueue"]);
                 _layout->addChild(_lineGraphs["VideoQueue"]);
                 _layout->addChild(_labels["AudioQueue"]);
@@ -583,8 +685,13 @@ namespace djv
             {
                 {
                     std::stringstream ss;
-                    ss << _getText(DJV_TEXT("Current time")) << ": " << _currentFrame << " / " << _sequence.getSize();
+                    ss << _getText(DJV_TEXT("Current time")) << ":";
                     _labels["CurrentFrame"]->setText(ss.str());
+                }
+                {
+                    std::stringstream ss;
+                    ss << _currentFrame << " / " << _sequence.getSize();
+                    _labels["CurrentFrameValue"]->setText(ss.str());
                 }
             }
 
