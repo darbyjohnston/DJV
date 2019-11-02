@@ -54,10 +54,12 @@ namespace djv
             void setActive(bool);
 
             int getSampleSize() const;
-            AV::Image::Type getColorTypeLock() const;
-            const glm::vec2& getPickerPos() const;
             void setSampleSize(int);
+
+            AV::Image::Type getColorTypeLock() const;
             void setColorTypeLock(AV::Image::Type);
+
+            const glm::vec2& getPickerPos() const;
             void setPickerPos(const glm::vec2&);
 
         protected:

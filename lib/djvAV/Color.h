@@ -75,6 +75,8 @@ namespace djv
                 static void rgbToHSV(const float[3], float[3]);
                 static void hsvToRGB(const float[3], float[3]);
 
+                static std::string getLabel(const Color&, int precision = 2, bool pad = true);
+
                 bool operator == (const Color &) const;
                 bool operator != (const Color &) const;
 

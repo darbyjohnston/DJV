@@ -39,10 +39,13 @@
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
 #include <djvUI/ColorSwatch.h>
+#include <djvUI/EventSystem.h>
 #include <djvUI/IntSlider.h>
+#include <djvUI/Label.h>
 #include <djvUI/Menu.h>
 #include <djvUI/PopupMenu.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/ToolButton.h>
 
 #include <djvAV/OCIOSystem.h>
 #include <djvAV/ImageUtil.h>
@@ -97,7 +100,8 @@ namespace djv
 
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ColorSwatch> colorSwatch;
-            std::shared_ptr<UI::ColorSliders> sliders;
+            std::shared_ptr<UI::Label> colorLabel;
+            std::shared_ptr<UI::ToolButton> copyButton;
             std::shared_ptr<UI::IntSlider> sampleSizeSlider;
             std::shared_ptr<UI::ColorTypeWidget> typeWidget;
             std::shared_ptr<UI::Menu> menu;
@@ -132,12 +136,18 @@ namespace djv
             p.actions["Lock"]->setButtonType(UI::ButtonType::Toggle);
 
             p.colorSwatch = UI::ColorSwatch::create(context);
+            p.colorSwatch->setHAlign(UI::HAlign::Fill);
 
-            p.sliders = UI::ColorSliders::create(context);
+            p.colorLabel = UI::Label::create(context);
+            p.colorLabel->setFont(AV::Font::familyMono);
+            p.colorLabel->setHAlign(UI::HAlign::Left);
+            p.colorLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+
+            p.copyButton = UI::ToolButton::create(context);
+            p.copyButton->setIcon("djvIconShare");
 
             p.sampleSizeSlider = UI::IntSlider::create(context);
             p.sampleSizeSlider->setRange(IntRange(1, sampleSizeMax));
-            p.sampleSizeSlider->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
 
             p.typeWidget = UI::ColorTypeWidget::create(context);
 
@@ -148,23 +158,19 @@ namespace djv
             p.popupMenu->setMenu(p.menu);
 
             p.layout = UI::VerticalLayout::create(context);
+            p.layout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
             p.layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             p.layout->setBackgroundRole(UI::ColorRole::Background);
             p.layout->setShadowOverlay({ UI::Side::Top });
+            p.layout->addChild(p.colorSwatch);
+            p.layout->setStretch(p.colorSwatch, UI::RowStretch::Expand);
+            p.layout->addChild(p.colorLabel);
+            p.layout->addChild(p.sampleSizeSlider);
             auto hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
-            hLayout->addChild(p.colorSwatch);
-            hLayout->addChild(p.sliders);
-            hLayout->setStretch(p.sliders, UI::RowStretch::Expand);
-            p.layout->addChild(hLayout);
-            p.layout->setStretch(hLayout, UI::RowStretch::Expand);
-            p.layout->addSeparator();
-            hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
-            hLayout->addChild(p.sampleSizeSlider);
-            hLayout->setStretch(p.sampleSizeSlider, UI::RowStretch::Expand);
+            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             hLayout->addChild(p.typeWidget);
+            hLayout->addExpander();
+            hLayout->addChild(p.copyButton);
             hLayout->addChild(p.popupMenu);
             p.layout->addChild(hLayout);
             addChild(p.layout);
@@ -181,13 +187,15 @@ namespace djv
             _widgetUpdate();
 
             auto weak = std::weak_ptr<ColorPickerWidget>(std::dynamic_pointer_cast<ColorPickerWidget>(shared_from_this()));
-            p.sliders->setColorCallback(
-                [weak](const AV::Image::Color & value)
+            p.copyButton->setClickedCallback(
+                [weak]
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->color = value;
-                        widget->_widgetUpdate();
+                        if (auto eventSystem = widget->_getEventSystem().lock())
+                        {
+                            eventSystem->setClipboard(AV::Image::Color::getLabel(widget->_p->color));
+                        }
                     }
                 });
 
@@ -394,16 +402,6 @@ namespace djv
             return _p->sampleSize;
         }
 
-        AV::Image::Type ColorPickerWidget::getColorTypeLock() const
-        {
-            return _p->colorTypeLock;
-        }
-
-        const glm::vec2& ColorPickerWidget::getPickerPos() const
-        {
-            return _p->pickerPos;
-        }
-
         void ColorPickerWidget::setSampleSize(int value)
         {
             DJV_PRIVATE_PTR();
@@ -412,6 +410,11 @@ namespace djv
             p.sampleSize = value;
             _widgetUpdate();
             _redraw();
+        }
+
+        AV::Image::Type ColorPickerWidget::getColorTypeLock() const
+        {
+            return _p->colorTypeLock;
         }
 
         void ColorPickerWidget::setColorTypeLock(AV::Image::Type value)
@@ -426,6 +429,11 @@ namespace djv
             }
             _widgetUpdate();
             _redraw();
+        }
+
+        const glm::vec2& ColorPickerWidget::getPickerPos() const
+        {
+            return _p->pickerPos;
         }
 
         void ColorPickerWidget::setPickerPos(const glm::vec2& value)
@@ -446,10 +454,12 @@ namespace djv
 
             setTitle(_getText(DJV_TEXT("Color Picker")));
 
-            p.actions["Lock"]->setText(_getText(DJV_TEXT("Lock Color Type")));
+            p.actions["Lock"]->setText(_getText(DJV_TEXT("Lock color type")));
             p.actions["Lock"]->setTooltip(_getText(DJV_TEXT("Color picker lock color type tooltip")));
 
             p.sampleSizeSlider->setTooltip(_getText(DJV_TEXT("Color picker sample size tooltip")));
+
+            p.copyButton->setTooltip(_getText(DJV_TEXT("Color picker copy tooltip")));
         }
 
         void ColorPickerWidget::_sampleUpdate()
@@ -546,7 +556,7 @@ namespace djv
             p.actions["Lock"]->setChecked(lock);
 
             p.colorSwatch->setColor(p.color);
-            p.sliders->setColor(p.color);
+            p.colorLabel->setText(AV::Image::Color::getLabel(p.color));
             p.sampleSizeSlider->setValue(p.sampleSize);
         }
 

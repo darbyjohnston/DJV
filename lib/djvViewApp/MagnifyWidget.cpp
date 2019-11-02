@@ -457,11 +457,6 @@ namespace djv
             return _p->magnify;
         }
 
-        const glm::vec2& MagnifyWidget::getMagnifyPos() const
-        {
-            return _p->magnifyPos;
-        }
-
         void MagnifyWidget::setMagnify(int value)
         {
             DJV_PRIVATE_PTR();
@@ -470,6 +465,11 @@ namespace djv
             p.magnify = value;
             _widgetUpdate();
             _redraw();
+        }
+
+        const glm::vec2& MagnifyWidget::getMagnifyPos() const
+        {
+            return _p->magnifyPos;
         }
 
         void MagnifyWidget::setMagnifyPos(const glm::vec2& value)

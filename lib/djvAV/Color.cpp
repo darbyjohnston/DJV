@@ -29,7 +29,9 @@
 
 #include <djvAV/Color.h>
 
-#include <string.h>
+#include <djvCore/Math.h>
+
+#include <iomanip>
 
 using namespace djv::Core;
 
@@ -150,6 +152,103 @@ namespace djv
                 }
             }
 
+            std::string Color::getLabel(const Color& value, int precision, bool pad)
+            {
+                std::stringstream ss;
+                ss.precision(precision);
+                const Type type = value.getType();
+                const uint8_t channelCount = AV::Image::getChannelCount(type);
+                switch (AV::Image::getDataType(type))
+                {
+                case AV::Image::DataType::U8:
+                {
+                    for (uint8_t i = 0; i < channelCount; ++i)
+                    {
+                        if (pad)
+                        {
+                            ss << std::setfill(' ') << std::setw(3);
+                        }
+                        ss << static_cast<uint32_t>(value.getU8(i));
+                        if (i < channelCount - 1)
+                        {
+                            ss << " ";
+                        }
+                    }
+                    break;
+                }
+                case AV::Image::DataType::U10:
+                {
+                    for (uint8_t i = 0; i < channelCount; ++i)
+                    {
+                        if (pad)
+                        {
+                            ss << std::setfill(' ') << std::setw(4);
+                        }
+                        ss << std::fixed << value.getU10(i);
+                        if (i < channelCount - 1)
+                        {
+                            ss << " ";
+                        }
+                    }
+                    break;
+                }
+                case AV::Image::DataType::U16:
+                {
+                    for (uint8_t i = 0; i < channelCount; ++i)
+                    {
+                        if (pad)
+                        {
+                            ss << std::setfill(' ') << std::setw(5);
+                        }
+                        ss << std::fixed << value.getU16(i);
+                        if (i < channelCount - 1)
+                        {
+                            ss << " ";
+                        }
+                    }
+                    break;
+                }
+                case AV::Image::DataType::U32:
+                {
+                    for (uint8_t i = 0; i < channelCount; ++i)
+                    {
+                        ss << std::fixed << value.getU32(i);
+                        if (i < channelCount - 1)
+                        {
+                            ss << " ";
+                        }
+                    }
+                    break;
+                }
+                case AV::Image::DataType::F16:
+                {
+                    for (uint8_t i = 0; i < channelCount; ++i)
+                    {
+                        ss << std::fixed << value.getF16(i);
+                        if (i < channelCount - 1)
+                        {
+                            ss << " ";
+                        }
+                    }
+                    break;
+                }
+                case AV::Image::DataType::F32:
+                {
+                    for (uint8_t i = 0; i < channelCount; ++i)
+                    {
+                        ss << std::fixed << value.getF32(i);
+                        if (i < channelCount - 1)
+                        {
+                            ss << " ";
+                        }
+                    }
+                    break;
+                }
+                default: break;
+                }
+                return ss.str();
+            }
+
         } // namepsace Image
     } // namespace AV
 
@@ -177,13 +276,13 @@ namespace djv
     {
         const auto type = value.getType();
         os << type;
-        const size_t channelCount = AV::Image::getChannelCount(type);
+        const uint8_t channelCount = AV::Image::getChannelCount(type);
         switch (AV::Image::getDataType(type))
         {
         case AV::Image::DataType::U8:
         {
             os << " ";
-            for (size_t i = 0; i < channelCount; ++i)
+            for (uint8_t i = 0; i < channelCount; ++i)
             {
                 os << static_cast<uint32_t>(value.getU8(i));
                 if (i < channelCount - 1)
@@ -196,7 +295,7 @@ namespace djv
         case AV::Image::DataType::U10:
         {
             os << " ";
-            for (size_t i = 0; i < channelCount; ++i)
+            for (uint8_t i = 0; i < channelCount; ++i)
             {
                 os << value.getU10(i);
                 if (i < channelCount - 1)
@@ -209,7 +308,7 @@ namespace djv
         case AV::Image::DataType::U16:
         {
             os << " ";
-            for (size_t i = 0; i < channelCount; ++i)
+            for (uint8_t i = 0; i < channelCount; ++i)
             {
                 os << value.getU16(i);
                 if (i < channelCount - 1)
@@ -222,7 +321,7 @@ namespace djv
         case AV::Image::DataType::U32:
         {
             os << " ";
-            for (size_t i = 0; i < channelCount; ++i)
+            for (uint8_t i = 0; i < channelCount; ++i)
             {
                 os << value.getU32(i);
                 if (i < channelCount - 1)
@@ -235,7 +334,7 @@ namespace djv
         case AV::Image::DataType::F16:
         {
             os << " ";
-            for (size_t i = 0; i < channelCount; ++i)
+            for (uint8_t i = 0; i < channelCount; ++i)
             {
                 os << value.getF16(i);
                 if (i < channelCount - 1)
@@ -248,7 +347,7 @@ namespace djv
         case AV::Image::DataType::F32:
         {
             os << " ";
-            for (size_t i = 0; i < channelCount; ++i)
+            for (uint8_t i = 0; i < channelCount; ++i)
             {
                 os << value.getF32(i);
                 if (i < channelCount - 1)

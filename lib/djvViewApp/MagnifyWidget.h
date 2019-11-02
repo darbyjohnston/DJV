@@ -52,8 +52,9 @@ namespace djv
             void setActive(bool);
 
             int getMagnify() const;
-            const glm::vec2& getMagnifyPos() const;
             void setMagnify(int);
+
+            const glm::vec2& getMagnifyPos() const;
             void setMagnifyPos(const glm::vec2&);
 
         protected:
