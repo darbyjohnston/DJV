@@ -62,6 +62,7 @@ namespace djv
             p.listWidget = UI::ListWidget::create(context);
             p.listWidget->setBorder(false);
             p.listWidget->setShadowOverlay({ UI::Side::Top });
+            p.listWidget->setBackgroundRole(UI::ColorRole::Background);
             addChild(p.listWidget);
 
             auto weak = std::weak_ptr<LayersWidget>(std::dynamic_pointer_cast<LayersWidget>(shared_from_this()));
