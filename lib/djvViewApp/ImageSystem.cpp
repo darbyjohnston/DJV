@@ -42,6 +42,7 @@
 #include <djvUI/ActionGroup.h>
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
+#include <djvUI/Shortcut.h>
 
 #include <djvAV/Image.h>
 #include <djvAV/Render2D.h>
@@ -99,10 +100,10 @@ namespace djv
 
             p.actions["ImageControls"] = UI::Action::create();
             p.actions["ImageControls"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["ImageControls"]->setShortcut(GLFW_KEY_2);
+            p.actions["ImageControls"]->setShortcut(GLFW_KEY_M, UI::Shortcut::getSystemModifier());
             p.actions["ColorSpace"] = UI::Action::create();
             p.actions["ColorSpace"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["ColorSpace"]->setShortcut(GLFW_KEY_3);
+            p.actions["ColorSpace"]->setShortcut(GLFW_KEY_P, UI::Shortcut::getSystemModifier());
             p.actions["RedChannel"] = UI::Action::create();
             p.actions["RedChannel"]->setShortcut(GLFW_KEY_R);
             p.actions["GreenChannel"] = UI::Action::create();

@@ -111,14 +111,14 @@ namespace djv
             p.actions["Magnify"] = UI::Action::create();
             p.actions["Magnify"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["Magnify"]->setIcon("djvIconMagnify");
-            p.actions["Magnify"]->setShortcut(GLFW_KEY_6);
+            p.actions["Magnify"]->setShortcut(GLFW_KEY_Y, UI::Shortcut::getSystemModifier());
             p.actions["ColorPicker"] = UI::Action::create();
             p.actions["ColorPicker"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["ColorPicker"]->setIcon("djvIconColorPicker");
-            p.actions["ColorPicker"]->setShortcut(GLFW_KEY_5);
+            p.actions["ColorPicker"]->setShortcut(GLFW_KEY_K, UI::Shortcut::getSystemModifier());
             p.actions["Info"] = UI::Action::create();
             p.actions["Info"]->setButtonType(UI::ButtonType::Toggle);
-            p.actions["Info"]->setShortcut(GLFW_KEY_8);
+            p.actions["Info"]->setShortcut(GLFW_KEY_I, UI::Shortcut::getSystemModifier());
             p.actions["Errors"] = UI::Action::create();
             p.actions["Errors"]->setButtonType(UI::ButtonType::Toggle);
             p.actions["SystemLog"] = UI::Action::create();
