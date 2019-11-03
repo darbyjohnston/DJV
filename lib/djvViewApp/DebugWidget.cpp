@@ -165,8 +165,11 @@ namespace djv
 
                 _layout = UI::VerticalLayout::create(context);
                 _layout->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
-                _layout->addChild(_labels["FPS"]);
                 auto hLayout = UI::HorizontalLayout::create(context);
+                hLayout->addChild(_labels["FPS"]);
+                hLayout->addChild(_labels["FPSValue"]);
+                _layout->addChild(hLayout);
+                hLayout = UI::HorizontalLayout::create(context);
                 hLayout->addChild(_labels["ObjectCount"]);
                 hLayout->addChild(_labels["ObjectCountValue"]);
                 _layout->addChild(hLayout);
