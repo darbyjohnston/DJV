@@ -183,7 +183,7 @@ namespace djv
                                     return _hasWork();
                                 }))
                             {
-                                queueCount = _getQueueCount(playback ? threadCount : 1);
+                                queueCount = _getQueueCount(playback ? (threadCount / 2) : 1);
                                 if (p.direction != _direction)
                                 {
                                     p.direction = _direction;
@@ -219,7 +219,7 @@ namespace djv
                         // Fill the cache.
                         if (cacheEnabled)
                         {
-                            _readCache(playback ? 0 : threadCount);
+                            _readCache(playback ? (threadCount / 2) : threadCount);
                         }
 
                         // Update information.
