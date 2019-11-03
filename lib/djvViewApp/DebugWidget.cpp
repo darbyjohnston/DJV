@@ -136,6 +136,7 @@ namespace djv
                 _labels["Hover"] = UI::Label::create(context);
                 _labels["Grab"] = UI::Label::create(context);
                 _labels["KeyGrab"] = UI::Label::create(context);
+                _labels["TextFocus"] = UI::Label::create(context);
 
                 _labels["GlyphCache"] = UI::Label::create(context);
                 _labels["GlyphCacheValue"] = UI::Label::create(context);
@@ -178,6 +179,7 @@ namespace djv
                 _layout->addChild(_labels["Hover"]);
                 _layout->addChild(_labels["Grab"]);
                 _layout->addChild(_labels["KeyGrab"]);
+                _layout->addChild(_labels["TextFocus"]);
                 hLayout = UI::HorizontalLayout::create(context);
                 hLayout->addChild(_labels["GlyphCache"]);
                 hLayout->addChild(_labels["GlyphCacheValue"]);
@@ -295,6 +297,20 @@ namespace djv
                         auto object = eventSystem->observeKeyGrab()->get();
                         ss << _getText(DJV_TEXT("Key grab")) << ": " << (object ? object->getClassName() : _getText(DJV_TEXT("None")));
                         _labels["KeyGrab"]->setText(ss.str());
+                    }
+                    {
+                        std::stringstream ss;
+                        std::string name;
+                        if (auto object = eventSystem->getTextFocus().lock())
+                        {
+                            name = object->getClassName();
+                        }
+                        else
+                        {
+                            name = _getText(DJV_TEXT("None"));
+                        }
+                        ss << _getText(DJV_TEXT("Text focus")) << ": " << name;
+                        _labels["TextFocus"]->setText(ss.str());
                     }
                     {
                         std::stringstream ss;
