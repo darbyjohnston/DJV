@@ -449,12 +449,26 @@ namespace djv
                 {
                 case Event::Type::ParentChanged:
                 {
-                    auto & parentChangedEvent = static_cast<Event::ParentChanged &>(event);
-                    _clipped = parentChangedEvent.getNewParent() ? true : false;
-                    if (_clipped)
+                    auto& parentChangedEvent = static_cast<Event::ParentChanged &>(event);
+                    const bool hasParent = parentChangedEvent.getNewParent() ? true : false;
+                    if (!hasParent)
                     {
-                        releaseTextFocus();
+                        if (auto eventSystem = _getEventSystem().lock())
+                        {
+                            auto parent = shared_from_this();
+                            auto widget = eventSystem->getTextFocus().lock();
+                            while (widget)
+                            {
+                                if (widget == parent)
+                                {
+                                    eventSystem->setTextFocus(nullptr);
+                                    break;
+                                }
+                                widget = widget->getParent().lock();
+                            }
+                        }
                     }
+                    _clipped = hasParent;
                     _clipRect = BBox2f(0.F, 0.F, 0.F, 0.F);
                     _redraw();
                     break;
