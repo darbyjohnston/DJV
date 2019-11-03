@@ -55,18 +55,18 @@
         "description": ""
     }, 
     {
-        "text": "Min", 
-        "id": "Min", 
-        "description": ""
-    }, 
-    {
-        "text": "Max", 
-        "id": "Max", 
-        "description": ""
-    }, 
-    {
         "text": "Current", 
         "id": "Current", 
+        "description": ""
+    }, 
+    {
+        "text": "min", 
+        "id": "min", 
+        "description": ""
+    }, 
+    {
+        "text": "max", 
+        "id": "max", 
         "description": ""
     }, 
     {

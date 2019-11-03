@@ -1290,101 +1290,6 @@
         "description": ""
     }, 
     {
-        "text": "Object count", 
-        "id": "Object count", 
-        "description": ""
-    }, 
-    {
-        "text": "Widget count", 
-        "id": "Widget count", 
-        "description": ""
-    }, 
-    {
-        "text": "Hover", 
-        "id": "Hover", 
-        "description": ""
-    }, 
-    {
-        "text": "Grab", 
-        "id": "Grab", 
-        "description": ""
-    }, 
-    {
-        "text": "Key grab", 
-        "id": "Key grab", 
-        "description": ""
-    }, 
-    {
-        "text": "Font system glyph cache", 
-        "id": "Font system glyph cache", 
-        "description": ""
-    }, 
-    {
-        "text": "Thumbnail system information cache", 
-        "id": "Thumbnail system information cache", 
-        "description": ""
-    }, 
-    {
-        "text": "Thumbnail system image cache", 
-        "id": "Thumbnail system image cache", 
-        "description": ""
-    }, 
-    {
-        "text": "Icon system cache", 
-        "id": "Icon system cache", 
-        "description": ""
-    }, 
-    {
-        "text": "Texture atlas", 
-        "id": "Texture atlas", 
-        "description": ""
-    }, 
-    {
-        "text": "Dynamic texture count", 
-        "id": "Dynamic texture count", 
-        "description": ""
-    }, 
-    {
-        "text": "VBO size", 
-        "id": "VBO size", 
-        "description": ""
-    }, 
-    {
-        "text": "Video queue", 
-        "id": "Video queue", 
-        "description": ""
-    }, 
-    {
-        "text": "Audio queue", 
-        "id": "Audio queue", 
-        "description": ""
-    }, 
-    {
-        "text": "Current time", 
-        "id": "Current time", 
-        "description": ""
-    }, 
-    {
-        "text": "Debug", 
-        "id": "Debug", 
-        "description": ""
-    }, 
-    {
-        "text": "General", 
-        "id": "General", 
-        "description": ""
-    }, 
-    {
-        "text": "Render", 
-        "id": "Render", 
-        "description": ""
-    }, 
-    {
-        "text": "Media", 
-        "id": "Media", 
-        "description": ""
-    }, 
-    {
         "text": "Magnify", 
         "id": "Magnify", 
         "description": ""
@@ -1405,7 +1310,7 @@
         "description": ""
     }, 
     {
-        "text": "Memory cache thermometer tooltip", 
+        "text": "Memory cache usage", 
         "id": "Memory cache thermometer tooltip", 
         "description": ""
     }, 
@@ -1437,6 +1342,11 @@
     {
         "text": "NUX", 
         "id": "NUX", 
+        "description": ""
+    }, 
+    {
+        "text": "General", 
+        "id": "General", 
         "description": ""
     }, 
     {
@@ -1582,6 +1492,101 @@
     {
         "text": "Items", 
         "id": "Items", 
+        "description": ""
+    }, 
+    {
+        "text": "Object count", 
+        "id": "Object count", 
+        "description": ""
+    }, 
+    {
+        "text": "Widget count", 
+        "id": "Widget count", 
+        "description": ""
+    }, 
+    {
+        "text": "Hover", 
+        "id": "Hover", 
+        "description": ""
+    }, 
+    {
+        "text": "Grab", 
+        "id": "Grab", 
+        "description": ""
+    }, 
+    {
+        "text": "Key grab", 
+        "id": "Key grab", 
+        "description": ""
+    }, 
+    {
+        "text": "Text focus", 
+        "id": "Text focus", 
+        "description": ""
+    }, 
+    {
+        "text": "Font system glyph cache", 
+        "id": "Font system glyph cache", 
+        "description": ""
+    }, 
+    {
+        "text": "Thumbnail system information cache", 
+        "id": "Thumbnail system information cache", 
+        "description": ""
+    }, 
+    {
+        "text": "Thumbnail system image cache", 
+        "id": "Thumbnail system image cache", 
+        "description": ""
+    }, 
+    {
+        "text": "Icon system cache", 
+        "id": "Icon system cache", 
+        "description": ""
+    }, 
+    {
+        "text": "Texture atlas", 
+        "id": "Texture atlas", 
+        "description": ""
+    }, 
+    {
+        "text": "Dynamic texture count", 
+        "id": "Dynamic texture count", 
+        "description": ""
+    }, 
+    {
+        "text": "VBO size", 
+        "id": "VBO size", 
+        "description": ""
+    }, 
+    {
+        "text": "Video queue", 
+        "id": "Video queue", 
+        "description": ""
+    }, 
+    {
+        "text": "Audio queue", 
+        "id": "Audio queue", 
+        "description": ""
+    }, 
+    {
+        "text": "Current time", 
+        "id": "Current time", 
+        "description": ""
+    }, 
+    {
+        "text": "Debug", 
+        "id": "Debug", 
+        "description": ""
+    }, 
+    {
+        "text": "Render", 
+        "id": "Render", 
+        "description": ""
+    }, 
+    {
+        "text": "Media", 
+        "id": "Media", 
         "description": ""
     }, 
     {
