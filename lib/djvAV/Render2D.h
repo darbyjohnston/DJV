@@ -39,8 +39,6 @@
 #include <djvCore/Range.h>
 #include <djvCore/ValueObserver.h>
 
-#include <mutex>
-
 namespace djv
 {
     namespace AV
