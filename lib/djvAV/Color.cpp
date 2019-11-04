@@ -92,7 +92,7 @@ namespace djv
 
             namespace
             {
-                inline float mod(float value, float mod)
+                float mod(float value, float mod)
                 {
                     float tmp = value;
                     if (mod != 0.F)
