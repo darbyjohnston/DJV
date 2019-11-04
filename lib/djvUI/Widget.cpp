@@ -313,7 +313,7 @@ namespace djv
             {
                 if (auto parent = std::dynamic_pointer_cast<Widget>(getParent().lock()))
                 {
-                    parent->nextTextFocus(std::dynamic_pointer_cast<Widget>(getFocusWidget()));
+                    parent->nextTextFocus(getFocusWidget());
                 }
                 else
                 {
@@ -349,7 +349,7 @@ namespace djv
             {
                 if (auto parent = std::dynamic_pointer_cast<Widget>(getParent().lock()))
                 {
-                    parent->prevTextFocus(std::dynamic_pointer_cast<Widget>(getFocusWidget()));
+                    parent->prevTextFocus(getFocusWidget());
                 }
                 else
                 {
@@ -702,27 +702,30 @@ namespace djv
 
         void Widget::_paintOverlayEvent(Event::PaintOverlay& event)
         {
-            const auto& style = _getStyle();
-            const float ss = style->getMetric(MetricsRole::ShadowSmall);
-            const BBox2f& g = getGeometry();
-            _render->setFillColor(_style->getColor(ColorRole::Shadow));
-            for (const auto& i : _shadowOverlay)
+            if (_shadowOverlay.size())
             {
-                switch (i)
+                const auto& style = _getStyle();
+                const float ss = style->getMetric(MetricsRole::ShadowSmall);
+                const BBox2f& g = getGeometry();
+                _render->setFillColor(_style->getColor(ColorRole::Shadow));
+                for (const auto& i : _shadowOverlay)
                 {
-                case Side::Left:
-                    _render->drawShadow(BBox2f(g.min.x, g.min.y, ss, g.h()), AV::Side::Right);
-                    break;
-                case Side::Right:
-                    _render->drawShadow(BBox2f(g.max.x - ss, g.min.y, ss, g.h()), AV::Side::Left);
-                    break;
-                case Side::Top:
-                    _render->drawShadow(BBox2f(g.min.x, g.min.y, g.w(), ss), AV::Side::Bottom);
-                    break;
-                case Side::Bottom:
-                    _render->drawShadow(BBox2f(g.min.x, g.max.y - ss, g.w(), ss), AV::Side::Top);
-                    break;
-                default: break;
+                    switch (i)
+                    {
+                    case Side::Left:
+                        _render->drawShadow(BBox2f(g.min.x, g.min.y, ss, g.h()), AV::Side::Right);
+                        break;
+                    case Side::Right:
+                        _render->drawShadow(BBox2f(g.max.x - ss, g.min.y, ss, g.h()), AV::Side::Left);
+                        break;
+                    case Side::Top:
+                        _render->drawShadow(BBox2f(g.min.x, g.min.y, g.w(), ss), AV::Side::Bottom);
+                        break;
+                    case Side::Bottom:
+                        _render->drawShadow(BBox2f(g.min.x, g.max.y - ss, g.w(), ss), AV::Side::Top);
+                        break;
+                    default: break;
+                    }
                 }
             }
         }

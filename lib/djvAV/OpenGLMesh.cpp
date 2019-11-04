@@ -65,23 +65,6 @@ namespace djv
 
             } // namespace
 
-            size_t getVertexByteCount(VBOType value)
-            {
-                switch (value)
-                {
-                case VBOType::Pos2_F32_UV_U16:
-                    return 2 * sizeof(float) + 2 * sizeof(uint16_t);
-                case VBOType::Pos3_F32_UV_U16_Normal_U10:
-                    return 3 * sizeof(float) + 2 * sizeof(uint16_t) + sizeof(PackedNormal);
-                case VBOType::Pos3_F32_UV_U16_Normal_U10_Color_U8:
-                    return 3 * sizeof(float) + 2 * sizeof(uint16_t) + sizeof(PackedNormal) + sizeof(PackedColor);
-                case VBOType::Pos3_F32_UV_F32_Normal_F32_Color_F32:
-                    return 3 * sizeof(float) + 2 * sizeof(float) + 3 * sizeof(float) + 3 * sizeof(float);
-                default: break;
-                }
-                return 0;
-            }
-
             void VBO::_init(size_t size, size_t vertexCount, VBOType type)
             {
                 _size = size;

@@ -244,8 +244,7 @@ namespace djv
             virtual std::shared_ptr<Widget> _createTooltip(const glm::vec2 & pos);
 
         private:
-            std::vector<std::shared_ptr<Widget> >
-                                _childWidgets;
+            std::vector<std::shared_ptr<Widget> > _childWidgets;
 
             static float        _updateTime;
 

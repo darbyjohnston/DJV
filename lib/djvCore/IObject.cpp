@@ -183,7 +183,11 @@ namespace djv
 
         bool IObject::event(Event::Event & event)
         {
-            bool out = _eventFilter(event);
+            bool out = false;
+            if (_filters.size())
+            {
+                out = _eventFilter(event);
+            }
             if (!out)
             {
                 switch (event.getEventType())
