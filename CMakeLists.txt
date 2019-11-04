@@ -314,9 +314,11 @@ set(DJV_RESOURCE_FILES
 
 if(UNIX)
     if(CMAKE_COMPILER_IS_GNUCXX)
-        # Set profiling options.    
-        #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg")
-        #set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -pg")
+        # Set profiling options.
+        if(DJV_GPROF)
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg")
+            set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -pg")
+        endif()
 
         # Set gcov options.
         if(DJV_GCOV)
