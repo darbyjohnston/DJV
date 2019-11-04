@@ -256,12 +256,6 @@ namespace djv
                     float    vy;
                     uint16_t tx;
                     uint16_t ty;
-
-                    void setTextureCoord(float tx, float ty)
-                    {
-                        this->tx = Math::clamp(static_cast<int>(tx * 65535.F), 0, 65535);
-                        this->ty = Math::clamp(static_cast<int>(ty * 65535.F), 0, 65535);
-                    }
                 };
 
 #if !defined(DJV_OPENGL_ES2)
@@ -1143,27 +1137,33 @@ namespace djv
                                     VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataSize]);
                                     pData->vx = bbox.min.x;
                                     pData->vy = bbox.min.y;
-                                    pData->setTextureCoord(item.textureU.min, item.textureV.min);
+                                    pData->tx = static_cast<uint16_t>(item.textureU.min * 65535.F);
+                                    pData->ty = static_cast<uint16_t>(item.textureV.min * 65535.F);
                                     ++pData;
                                     pData->vx = bbox.max.x;
                                     pData->vy = bbox.min.y;
-                                    pData->setTextureCoord(item.textureU.max, item.textureV.min);
+                                    pData->tx = static_cast<uint16_t>(item.textureU.max * 65535.F);
+                                    pData->ty = static_cast<uint16_t>(item.textureV.min * 65535.F);
                                     ++pData;
                                     pData->vx = bbox.max.x;
                                     pData->vy = bbox.max.y;
-                                    pData->setTextureCoord(item.textureU.max, item.textureV.max);
+                                    pData->tx = static_cast<uint16_t>(item.textureU.max * 65535.F);
+                                    pData->ty = static_cast<uint16_t>(item.textureV.max * 65535.F);
                                     ++pData;
                                     pData->vx = bbox.max.x;
                                     pData->vy = bbox.max.y;
-                                    pData->setTextureCoord(item.textureU.max, item.textureV.max);
+                                    pData->tx = static_cast<uint16_t>(item.textureU.max * 65535.F);
+                                    pData->ty = static_cast<uint16_t>(item.textureV.max * 65535.F);
                                     ++pData;
                                     pData->vx = bbox.min.x;
                                     pData->vy = bbox.max.y;
-                                    pData->setTextureCoord(item.textureU.min, item.textureV.max);
+                                    pData->tx = static_cast<uint16_t>(item.textureU.min * 65535.F);
+                                    pData->ty = static_cast<uint16_t>(item.textureV.max * 65535.F);
                                     ++pData;
                                     pData->vx = bbox.min.x;
                                     pData->vy = bbox.min.y;
-                                    pData->setTextureCoord(item.textureU.min, item.textureV.min);
+                                    pData->tx = static_cast<uint16_t>(item.textureU.min * 65535.F);
+                                    pData->ty = static_cast<uint16_t>(item.textureV.min * 65535.F);
                                 }
                             }
 
@@ -1735,27 +1735,33 @@ namespace djv
                     VBOVertex* pData = reinterpret_cast<VBOVertex*>(&vboData[vboDataSize]);
                     pData->vx = pts[0].x;
                     pData->vy = pts[0].y;
-                    pData->setTextureCoord(textureU.min, textureV.min);
+                    pData->tx = static_cast<uint16_t>(textureU.min * 65535.F);
+                    pData->ty = static_cast<uint16_t>(textureV.min * 65535.F);
                     ++pData;
                     pData->vx = pts[1].x;
                     pData->vy = pts[1].y;
-                    pData->setTextureCoord(textureU.max, textureV.min);
+                    pData->tx = static_cast<uint16_t>(textureU.max * 65535.F);
+                    pData->ty = static_cast<uint16_t>(textureV.min * 65535.F);
                     ++pData;
                     pData->vx = pts[2].x;
                     pData->vy = pts[2].y;
-                    pData->setTextureCoord(textureU.max, textureV.max);
+                    pData->tx = static_cast<uint16_t>(textureU.max * 65535.F);
+                    pData->ty = static_cast<uint16_t>(textureV.max * 65535.F);
                     ++pData;
                     pData->vx = pts[2].x;
                     pData->vy = pts[2].y;
-                    pData->setTextureCoord(textureU.max, textureV.max);
+                    pData->tx = static_cast<uint16_t>(textureU.max * 65535.F);
+                    pData->ty = static_cast<uint16_t>(textureV.max * 65535.F);
                     ++pData;
                     pData->vx = pts[3].x;
                     pData->vy = pts[3].y;
-                    pData->setTextureCoord(textureU.min, textureV.max);
+                    pData->tx = static_cast<uint16_t>(textureU.min * 65535.F);
+                    pData->ty = static_cast<uint16_t>(textureV.max * 65535.F);
                     ++pData;
                     pData->vx = pts[0].x;
                     pData->vy = pts[0].y;
-                    pData->setTextureCoord(textureU.min, textureV.min);
+                    pData->tx = static_cast<uint16_t>(textureU.min * 65535.F);
+                    pData->ty = static_cast<uint16_t>(textureV.min * 65535.F);
                 }
             }
 
