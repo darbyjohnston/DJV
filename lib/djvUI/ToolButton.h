@@ -44,8 +44,8 @@ namespace djv
                 void setFontFace(const std::string &);
                 void setFontSizeRole(MetricsRole);
 
-                const Layout::Margin & getInsideMargin() const;
-                void setInsideMargin(const Layout::Margin &);
+                MetricsRole getInsideMargin() const;
+                void setInsideMargin(MetricsRole);
 
                 void setTextFocusEnabled(bool);
 
@@ -71,6 +71,7 @@ namespace djv
 
             private:
                 void _actionUpdate();
+                void _widgetUpdate();
                 void _iconUpdate();
 
                 DJV_PRIVATE();

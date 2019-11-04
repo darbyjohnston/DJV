@@ -672,7 +672,7 @@ namespace djv
                     auto deleteButton = UI::ToolButton::create(context);
                     deleteButton->setIcon("djvIconCloseSmall");
                     deleteButton->setVisible(p.editConfig);
-                    deleteButton->setInsideMargin(UI::Layout::Margin(UI::MetricsRole::None));
+                    deleteButton->setInsideMargin(UI::MetricsRole::None);
                     deleteButton->setVAlign(UI::VAlign::Fill);
                     p.textFocusWidgets[deleteButton->getFocusWidget()] = id++;
 
@@ -740,7 +740,7 @@ namespace djv
                     auto deleteButton = UI::ToolButton::create(context);
                     deleteButton->setIcon("djvIconCloseSmall");
                     deleteButton->setVisible(p.editImage);
-                    deleteButton->setInsideMargin(UI::Layout::Margin(UI::MetricsRole::None));
+                    deleteButton->setInsideMargin(UI::MetricsRole::None);
                     deleteButton->setVAlign(UI::VAlign::Fill);
                     p.textFocusWidgets[deleteButton->getFocusWidget()] = id++;
 

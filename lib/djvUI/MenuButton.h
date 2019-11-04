@@ -75,7 +75,7 @@ namespace djv
 
             private:
                 bool _isHovered() const;
-
+                                
                 void _doOpenCallback();
 
                 DJV_PRIVATE();

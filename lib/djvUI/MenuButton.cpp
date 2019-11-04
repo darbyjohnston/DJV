@@ -32,7 +32,6 @@
 #include <djvUI/DrawUtil.h>
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
-#include <djvUI/RowLayout.h>
 
 #include <djvAV/Render2D.h>
 
@@ -54,10 +53,12 @@ namespace djv
                 bool open = false;
                 MenuStyle menuStyle = MenuStyle::Flat;
                 bool textFocusEnabled = false;
+                std::string font;
+                std::string fontFace;
+                MetricsRole fontSizeRole = MetricsRole::FontMedium;
                 std::shared_ptr<Icon> icon;
                 std::shared_ptr<Label> label;
                 std::shared_ptr<Icon> popupIcon;
-                std::shared_ptr<HorizontalLayout> layout;
                 std::function<void(bool)> openCallback;
             };
 
@@ -70,46 +71,6 @@ namespace djv
 
                 setClassName("djv::UI::Button::Menu");
                 setPointerEnabled(true);
-
-                p.icon = Icon::create(context);
-                p.icon->setVAlign(VAlign::Center);
-                p.icon->hide();
-
-                p.label = Label::create(context);
-                p.label->setHAlign(HAlign::Left);
-                p.label->setMargin(Layout::Margin(MetricsRole::MarginSmall));
-                switch (menuStyle)
-                {
-                case MenuStyle::Flat:
-                case MenuStyle::Tool: p.label->hide(); break;
-                default: break;
-                }
-
-                p.popupIcon = Icon::create(context);
-                p.popupIcon->setVAlign(VAlign::Center);
-                p.popupIcon->hide();
-
-                p.layout = HorizontalLayout::create(context);
-                p.layout->setSpacing(Layout::Spacing(MetricsRole::None));
-                switch (menuStyle)
-                {
-                case MenuStyle::Flat:
-                    p.layout->setMargin(Layout::Margin(MetricsRole::MarginSmall, MetricsRole::MarginSmall, MetricsRole::None, MetricsRole::None));
-                    break;
-                case MenuStyle::Tool:
-                    p.layout->setMargin(Layout::Margin(MetricsRole::MarginSmall));
-                    break;
-                case MenuStyle::ComboBox:
-                    p.layout->setMargin(Layout::Margin(MetricsRole::None));
-                    break;
-                default: break;
-                }
-                p.layout->addChild(p.icon);
-                p.layout->addChild(p.label);
-                p.layout->setStretch(p.label, RowStretch::Expand);
-                p.layout->addChild(p.popupIcon);
-
-                addChild(p.layout);
             }
 
             Menu::Menu() :
@@ -139,15 +100,49 @@ namespace djv
             void Menu::setIcon(const std::string& value)
             {
                 DJV_PRIVATE_PTR();
-                p.icon->setIcon(value);
-                p.icon->setVisible(!value.empty());
+                if (!value.empty())
+                {
+                    if (!p.icon)
+                    {
+                        if (auto context = getContext().lock())
+                        {
+                            p.icon = Icon::create(context);
+                            p.icon->setVAlign(VAlign::Center);
+                            addChild(p.icon);
+                        }
+                    }
+                    p.icon->setIcon(value);
+                }
+                else
+                {
+                    removeChild(p.icon);
+                    p.icon.reset();
+                    _resize();
+                }
             }
 
             void Menu::setPopupIcon(const std::string& value)
             {
                 DJV_PRIVATE_PTR();
-                p.popupIcon->setIcon(value);
-                p.popupIcon->setVisible(!value.empty());
+                if (!value.empty())
+                {
+                    if (!p.popupIcon)
+                    {
+                        if (auto context = getContext().lock())
+                        {
+                            p.popupIcon = Icon::create(context);
+                            p.popupIcon->setVAlign(VAlign::Center);
+                            addChild(p.popupIcon);
+                        }
+                    }
+                    p.popupIcon->setIcon(value);
+                }
+                else
+                {
+                    removeChild(p.popupIcon);
+                    p.popupIcon.reset();
+                    _resize();
+                }
             }
 
             const std::string & Menu::getText() const
@@ -158,44 +153,74 @@ namespace djv
             void Menu::setText(const std::string & value)
             {
                 DJV_PRIVATE_PTR();
-                p.label->setText(value);
-                switch (p.menuStyle)
+                if (!value.empty())
                 {
-                case MenuStyle::Flat:
-                case MenuStyle::Tool:       p.label->setVisible(!value.empty());    break;
-                case MenuStyle::ComboBox:   p.label->show();                        break;
-                default: break;
+                    if (!p.label)
+                    {
+                        if (auto context = getContext().lock())
+                        {
+                            p.label = Label::create(context);
+                            p.label->setFont(p.font);
+                            p.label->setFontFace(p.fontFace);
+                            p.label->setFontSizeRole(p.fontSizeRole);
+                            p.label->setHAlign(HAlign::Left);
+                            p.label->setMargin(Layout::Margin(MetricsRole::MarginSmall));
+                            addChild(p.label);
+                        }
+                    }
+                    p.label->setText(value);
+                }
+                else
+                {
+                    removeChild(p.label);
+                    p.label.reset();
+                    _resize();
                 }
             }
 
             const std::string& Menu::getFont() const
             {
-                return _p->label->getFont();
+                return _p->font;
             }
 
             const std::string& Menu::getFontFace() const
             {
-                return _p->label->getFontFace();
+                return _p->fontFace;
             }
 
             MetricsRole Menu::getFontSizeRole() const
             {
-                return _p->label->getFontSizeRole();
+                return _p->fontSizeRole;
             }
 
             void Menu::setFont(const std::string& value)
             {
-                _p->label->setFont(value);
+                DJV_PRIVATE_PTR();
+                p.font = value;
+                if (p.label)
+                {
+                    p.label->setFont(value);
+                }
             }
 
             void Menu::setFontFace(const std::string& value)
             {
-                _p->label->setFontFace(value);
+                DJV_PRIVATE_PTR();
+                p.fontFace = value;
+                if (p.label)
+                {
+                    p.label->setFontFace(value);
+                }
             }
 
             void Menu::setFontSizeRole(MetricsRole value)
             {
-                _p->label->setFontSizeRole(value);
+                DJV_PRIVATE_PTR();
+                p.fontSizeRole = value;
+                if (p.label)
+                {
+                    p.label->setFontSizeRole(value);
+                }
             }
 
             bool Menu::isOpen() const
@@ -241,13 +266,32 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
+                const float m = style->getMetric(MetricsRole::MarginSmall);
                 const float b = style->getMetric(MetricsRole::Border);
-                glm::vec2 size = p.layout->getMinimumSize();
+                glm::vec2 size = glm::vec2(0.F, 0.F);
+                if (p.icon)
+                {
+                    const auto& tmp = p.icon->getMinimumSize();
+                    size.x += tmp.x;
+                    size.y = std::max(size.y, tmp.y);
+                }
+                if (p.label)
+                {
+                    const auto& tmp = p.label->getMinimumSize();
+                    size.x += tmp.x;
+                    size.y = std::max(size.y, tmp.y);
+                }
+                if (p.popupIcon)
+                {
+                    const auto& tmp = p.popupIcon->getMinimumSize();
+                    size.x += tmp.x;
+                    size.y = std::max(size.y, tmp.y);
+                }                
                 switch (p.menuStyle)
                 {
-                case MenuStyle::ComboBox:
-                    size += b * 4.F;
-                    break;
+                case MenuStyle::Flat:     size.x += m * 2.F; break;
+                case MenuStyle::Tool:     size += m * 2.F;   break;
+                case MenuStyle::ComboBox: size += b * 4.F;   break;
                 default: break;
                 }
                 _setMinimumSize(size + getMargin().getSize(style));
@@ -258,18 +302,37 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                const float m = style->getMetric(MetricsRole::MarginSmall);
                 const float b = style->getMetric(MetricsRole::Border);
                 BBox2f g2;
                 switch (p.menuStyle)
                 {
-                case MenuStyle::ComboBox:
-                    g2 = g.margin(-b * 2.F);
-                    break;
-                default:
-                    g2 = g;
-                    break;
+                case MenuStyle::Flat:     g2 = g.margin(-m, 0, -m, 0); break;
+                case MenuStyle::Tool:     g2 = g.margin(-m);           break;
+                case MenuStyle::ComboBox: g2 = g.margin(-b * 2.F);     break;
+                default: break;
                 }
-                _p->layout->setGeometry(g2);
+                float x = g2.min.x;
+                float y = g2.min.y + g2.h() / 2.F;
+                float w = g2.w();
+                if (p.icon)
+                {
+                    const auto& tmp = p.icon->getMinimumSize();
+                    p.icon->setGeometry(BBox2f(x, floorf(y - tmp.y / 2.F), tmp.x, tmp.y));
+                    x += tmp.x;
+                    w -= tmp.x;
+                }
+                if (p.popupIcon)
+                {
+                    const auto& tmp = p.popupIcon->getMinimumSize();
+                    p.popupIcon->setGeometry(BBox2f(g2.max.x - tmp.x, floorf(y - tmp.y / 2.F), tmp.x, tmp.y));
+                    w -= tmp.x;
+                }
+                if (p.label)
+                {
+                    const auto& tmp = p.label->getMinimumSize();
+                    p.label->setGeometry(BBox2f(x, floorf(y - tmp.y / 2.F), w, tmp.y));
+                }
             }
 
             void Menu::_paintEvent(Event::Paint & event)

@@ -30,11 +30,9 @@
 #include <djvUI/ToolButton.h>
 
 #include <djvUI/Action.h>
-#include <djvUI/Border.h>
 #include <djvUI/DrawUtil.h>
 #include <djvUI/Icon.h>
 #include <djvUI/Label.h>
-#include <djvUI/RowLayout.h>
 
 #include <djvAV/Render2D.h>
 
@@ -72,13 +70,12 @@ namespace djv
                 std::string font;
                 std::string fontFace;
                 MetricsRole fontSizeRole = MetricsRole::FontMedium;
+                MetricsRole insideMargin = MetricsRole::MarginSmall;
                 std::shared_ptr<Action> action;
                 bool textFocusEnabled = false;
                 bool autoRepeat = false;
                 std::shared_ptr<Time::Timer> autoRepeatStartTimer;
                 std::shared_ptr<Time::Timer> autoRepeatTimer;
-                std::shared_ptr<HorizontalLayout> layout;
-                std::shared_ptr<Border> border;
                 std::shared_ptr<ValueObserver<std::string> > iconObserver;
             };
 
@@ -89,13 +86,6 @@ namespace djv
                 DJV_PRIVATE_PTR();
 
                 setClassName("djv::UI::Button::Tool");
-
-                p.layout = HorizontalLayout::create(context);
-                p.layout->setMargin(Layout::Margin(MetricsRole::MarginSmall));
-                p.border = Layout::Border::create(context);
-                p.border->setBorderColorRole(UI::ColorRole::None);
-                p.border->addChild(p.layout);
-                addChild(p.border);
 
                 p.autoRepeatStartTimer = Time::Timer::create(context);
                 p.autoRepeatTimer = Time::Timer::create(context);
@@ -149,24 +139,7 @@ namespace djv
                 if (value == p.icon)
                     return;
                 p.icon = value;
-                if (!value.empty())
-                {
-                    if (auto context = getContext().lock())
-                    {
-                        if (!p.iconWidget)
-                        {
-                            p.iconWidget = Icon::create(context);
-                            p.layout->addChild(p.iconWidget);
-                            p.iconWidget->moveToFront();
-                        }
-                        _iconUpdate();
-                    }
-                }
-                else
-                {
-                    p.layout->removeChild(p.iconWidget);
-                    p.iconWidget.reset();
-                }
+                _iconUpdate();
             }
             
             void Tool::setIconSizeRole(MetricsRole value)
@@ -198,9 +171,9 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 if (!value.empty())
                 {
-                    if (auto context = getContext().lock())
+                    if (!p.label)
                     {
-                        if (!p.label)
+                        if (auto context = getContext().lock())
                         {
                             p.label = Label::create(context);
                             p.label->setTextHAlign(p.textHAlign);
@@ -208,17 +181,16 @@ namespace djv
                             p.label->setFontFace(p.fontFace);
                             p.label->setFontSizeRole(p.fontSizeRole);
                             p.label->setTextColorRole(isChecked() ? ColorRole::Checked : getForegroundColorRole());
-                            p.layout->addChild(p.label);
-                            p.layout->setStretch(p.label, RowStretch::Expand);
-                            p.label->moveToBack();
+                            addChild(p.label);
                         }
                         p.label->setText(value);
                     }
                 }
                 else
                 {
-                    p.layout->removeChild(p.label);
+                    removeChild(p.label);
                     p.label.reset();
+                    _resize();
                 }
             }
 
@@ -282,14 +254,18 @@ namespace djv
                 }
             }
 
-            const Layout::Margin & Tool::getInsideMargin() const
+            MetricsRole Tool::getInsideMargin() const
             {
-                return _p->border->getMargin();
+                return _p->insideMargin;
             }
 
-            void Tool::setInsideMargin(const Layout::Margin & value)
+            void Tool::setInsideMargin(MetricsRole value)
             {
-                _p->layout->setMargin(value);
+                DJV_PRIVATE_PTR();
+                if (value == p.insideMargin)
+                    return;
+                p.insideMargin = value;
+                _resize();
             }
 
             void Tool::setTextFocusEnabled(bool value)
@@ -359,12 +335,49 @@ namespace djv
 
             void Tool::_preLayoutEvent(Event::PreLayout & event)
             {
-                _setMinimumSize(_p->border->getMinimumSize());
+                DJV_PRIVATE_PTR();
+                const auto& style = _getStyle();
+                const float m = style->getMetric(p.insideMargin);
+                const float b = style->getMetric(MetricsRole::Border);
+                glm::vec2 size = glm::vec2(0.F, 0.F);
+                if (p.iconWidget)
+                {
+                    const auto& tmp = p.iconWidget->getMinimumSize();
+                    size.x += tmp.x;
+                    size.y = std::max(size.y, tmp.y);
+                }
+                if (p.label)
+                {
+                    const auto& tmp = p.label->getMinimumSize();
+                    size.x += tmp.x;
+                    size.y = std::max(size.y, tmp.y);
+                }
+                _setMinimumSize(size + m * 2.F + b * 2.F + getMargin().getSize(style));
             }
 
             void Tool::_layoutEvent(Event::Layout &)
             {
-                _p->border->setGeometry(getGeometry());
+                DJV_PRIVATE_PTR();
+                const auto& style = _getStyle();
+                const BBox2f& g = getMargin().bbox(getGeometry(), style);
+                const float m = style->getMetric(p.insideMargin);
+                const float b = style->getMetric(MetricsRole::Border);
+                BBox2f g2 = g.margin(-(m + b));
+                float x = g2.min.x;
+                float y = g2.min.y + g2.h() / 2.F;
+                float w = g2.w();
+                if (p.iconWidget)
+                {
+                    const auto& tmp = p.iconWidget->getMinimumSize();
+                    p.iconWidget->setGeometry(BBox2f(x, floorf(y - tmp.y / 2.F), tmp.x, tmp.y));
+                    x += tmp.x;
+                    w -= tmp.x;
+                }
+                if (p.label)
+                {
+                    const auto& tmp = p.label->getMinimumSize();
+                    p.label->setGeometry(BBox2f(x, floorf(y - tmp.y / 2.F), w, tmp.y));
+                }
             }
 
             void Tool::_paintEvent(Event::Paint& event)
@@ -372,6 +385,7 @@ namespace djv
                 Widget::_paintEvent(event);
                 const auto& style = _getStyle();
                 const BBox2f& g = getGeometry();
+                const float b = style->getMetric(MetricsRole::Border);
                 auto render = _getRender();
 
                 if (_isToggled())
@@ -388,6 +402,12 @@ namespace djv
                 {
                     render->setFillColor(style->getColor(ColorRole::Hovered));
                     render->drawRect(g);
+                }
+
+                if (hasTextFocus())
+                {
+                    render->setFillColor(style->getColor(ColorRole::TextFocus));
+                    drawBorder(render, g, b * 2.F);
                 }
             }
 
@@ -472,12 +492,12 @@ namespace djv
 
             void Tool::_textFocusEvent(Event::TextFocus&)
             {
-                _p->border->setBorderColorRole(UI::ColorRole::TextFocus);
+                _redraw();
             }
 
             void Tool::_textFocusLostEvent(Event::TextFocusLost&)
             {
-                _p->border->setBorderColorRole(UI::ColorRole::None);
+                _redraw();
             }
 
             void Tool::_actionUpdate()
@@ -508,11 +528,25 @@ namespace djv
             void ToolButton::_iconUpdate()
             {
                 DJV_PRIVATE_PTR();
-                if (p.iconWidget)
+                const std::string& icon = isChecked() && !p.checkedIcon.empty() ? p.checkedIcon : p.icon;
+                if (!icon.empty())
                 {
-                    p.iconWidget->setIcon(isChecked() && !p.checkedIcon.empty() ? p.checkedIcon : p.icon);
+                    if (!p.iconWidget)
+                    {
+                        if (auto context = getContext().lock())
+                        {
+                            p.iconWidget = Icon::create(context);
+                            addChild(p.iconWidget);
+                        }
+                    }
+                    p.iconWidget->setIcon(icon);
                     p.iconWidget->setIconSizeRole(p.iconSizeRole);
-                    p.iconWidget->setVAlign(VAlign::Center);
+                }
+                else
+                {
+                    removeChild(p.iconWidget);
+                    p.iconWidget.reset();
+                    _resize();
                 }
             }
 

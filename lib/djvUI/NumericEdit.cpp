@@ -52,7 +52,6 @@ namespace djv
         struct NumericEditButtons::Private
         {
             std::shared_ptr<ToolButton> incButtons[2];
-            std::shared_ptr<VerticalLayout> layout;
             std::function<void(void)> incrementCallback;
             std::function<void(void)> decrementCallback;
         };
@@ -75,19 +74,11 @@ namespace djv
                 p.incButtons[i] = ToolButton::create(context);
                 p.incButtons[i]->setIcon(icons[i]);
                 p.incButtons[i]->setIconSizeRole(MetricsRole::IconMini);
-                p.incButtons[i]->setInsideMargin(Layout::Margin(MetricsRole::Border));
+                p.incButtons[i]->setInsideMargin(MetricsRole::Border);
                 p.incButtons[i]->setAutoRepeat(true);
                 p.incButtons[i]->setVAlign(VAlign::Fill);
+                addChild(p.incButtons[i]);
             }
-
-            p.layout = VerticalLayout::create(context);
-            p.layout->setSpacing(Layout::Spacing(MetricsRole::None));
-            for (size_t i = 0; i < 2; ++i)
-            {
-                p.layout->addChild(p.incButtons[i]);
-                p.layout->setStretch(p.incButtons[i], RowStretch::Expand);
-            }
-            addChild(p.layout);
 
             auto weak = std::weak_ptr<NumericEditButtons>(std::dynamic_pointer_cast<NumericEditButtons>(shared_from_this()));
             p.incButtons[0]->setClickedCallback(
@@ -151,20 +142,33 @@ namespace djv
         void NumericEditButtons::_preLayoutEvent(Event::PreLayout& event)
         {
             DJV_PRIVATE_PTR();
-            _setMinimumSize(p.layout->getMinimumSize());
+            glm::vec2 size = glm::vec2(0.F, 0.F);
+            for (size_t i = 0; i < 2; ++i)
+            {
+                const auto& tmp = p.incButtons[i]->getMinimumSize();
+                size.x = std::max(size.x, tmp.x);
+                size.y += tmp.y;
+            }
+            _setMinimumSize(size);
         }
 
         void NumericEditButtons::_layoutEvent(Event::Layout& event)
         {
             DJV_PRIVATE_PTR();
-            p.layout->setGeometry(getGeometry());
+            const BBox2f& g = getGeometry();
+            float x = g.min.x;
+            float y = g.min.y;
+            float w = g.w();
+            float h = floorf(g.h() / 2.F);
+            p.incButtons[0]->setGeometry(BBox2f(x, y, w, h));
+            y = g.max.y - h;
+            p.incButtons[1]->setGeometry(BBox2f(x, y, w, h));
         }
 
         struct NumericEdit::Private
         {
             std::shared_ptr<LineEditBase> lineEditBase;
             std::shared_ptr<NumericEditButtons> buttons;
-            std::shared_ptr<HorizontalLayout> layout;
         };
 
         void NumericEdit::_init(const std::shared_ptr<Context>& context)
@@ -177,15 +181,10 @@ namespace djv
 
             p.lineEditBase = LineEditBase::create(context);
             p.lineEditBase->setFont(AV::Font::familyMono);
+            addChild(p.lineEditBase);
 
             p.buttons = NumericEditButtons::create(context);
-
-            p.layout = HorizontalLayout::create(context);
-            p.layout->setSpacing(Layout::Spacing(MetricsRole::None));
-            p.layout->addChild(p.lineEditBase);
-            p.layout->setStretch(p.lineEditBase, RowStretch::Expand);
-            p.layout->addChild(p.buttons);
-            addChild(p.layout);
+            addChild(p.buttons);
 
             auto weak = std::weak_ptr<NumericEdit>(std::dynamic_pointer_cast<NumericEdit>(shared_from_this()));
             p.lineEditBase->setTextEditCallback(
@@ -233,7 +232,13 @@ namespace djv
         void NumericEdit::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
-            glm::vec2 size = p.layout->getMinimumSize();
+            glm::vec2 size = glm::vec2(0.F, 0.F);
+            glm::vec2 tmp = p.lineEditBase->getMinimumSize();
+            size.x += tmp.x;
+            size.y = std::max(size.y, tmp.y);
+            tmp = p.buttons->getMinimumSize();
+            size.x += tmp.x;
+            size.y = std::max(size.y, tmp.y);
             const auto& style = _getStyle();
             const float b = style->getMetric(MetricsRole::Border);
             _setMinimumSize(size + b * 6.F + getMargin().getSize(style));
@@ -245,7 +250,16 @@ namespace djv
             const auto& style = _getStyle();
             const BBox2f& g = getMargin().bbox(getGeometry(), style);
             const float b = style->getMetric(MetricsRole::Border);
-            p.layout->setGeometry(g.margin(-b * 3.F));
+            glm::vec2 tmp = p.buttons->getMinimumSize();
+            BBox2f g2 = g.margin(-b * 3.F);
+            float x = g2.max.x - tmp.x;
+            float y = g2.min.y;
+            float w = tmp.x;
+            float h = g2.h();
+            p.buttons->setGeometry(BBox2f(x, y, w, h));
+            x = g2.min.x;
+            w = g2.w() - tmp.x;
+            p.lineEditBase->setGeometry(BBox2f(x, y, w, h));
         }
 
         void NumericEdit::_textUpdate(const std::string& text, const std::string& sizeString)

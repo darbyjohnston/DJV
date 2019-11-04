@@ -72,7 +72,7 @@ namespace djv
             clearButton->setIcon("djvIconClear");
             clearButton->setTextFocusEnabled(false);
             clearButton->setBackgroundRole(ColorRole::None);
-            clearButton->setInsideMargin(Layout::Margin(MetricsRole::None));
+            clearButton->setInsideMargin(MetricsRole::None);
             
             p.layout = HorizontalLayout::create(context);
             p.layout->setSpacing(Layout::Spacing(MetricsRole::None));

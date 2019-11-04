@@ -50,6 +50,25 @@ namespace djv
             std::shared_ptr<Time::Timer> statsTimer;
         };
 
+        namespace
+        {
+            void getClassNames(const std::shared_ptr<IObject>& object, std::map<std::string, size_t>& out)
+            {
+                const std::string& className = object->getClassName();
+                const auto i = out.find(className);
+                if (i == out.end())
+                {
+                    out[className] = 0;
+                }
+                out[className]++;
+                for (const auto& j : object->getChildren())
+                {
+                    getClassNames(j, out);
+                }
+            }
+        
+        } // namespace
+        
         void EventSystem::_init(const std::string & name, const std::shared_ptr<Core::Context>& context)
         {
             IEventSystem::_init(name, context);
@@ -69,6 +88,15 @@ namespace djv
                     std::stringstream ss;
                     ss << "Global widget count: " << Widget::getGlobalWidgetCount();
                     system->_log(ss.str());
+                    
+                    /*std::map<std::string, size_t> classNames;
+                    getClassNames(system->getRootObject(), classNames);
+                    for (const auto& i : classNames)
+                    {
+                        std::stringstream ss;
+                        ss << i.first << " count: " << i.second;
+                        system->_log(ss.str());
+                    }*/
                 }
             });
         }

@@ -83,7 +83,7 @@ void MDIWidget::_init(const std::string & title, const std::shared_ptr<Core::Con
 
     _closeButton = UI::ToolButton::create(context);
     _closeButton->setIcon("djvIconCloseSmall");
-    _closeButton->setInsideMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+    _closeButton->setInsideMargin(UI::MetricsRole::MarginSmall);
 
     auto titleBar = UI::HorizontalLayout::create(context);
     titleBar->setClassName("djv::UI::MDI::TitleBar");

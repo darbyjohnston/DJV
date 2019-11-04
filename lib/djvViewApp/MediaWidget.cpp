@@ -220,11 +220,11 @@ namespace djv
 
             p.maximizeButton = UI::ToolButton::create(context);
             p.maximizeButton->setIcon("djvIconSDI");
-            p.maximizeButton->setInsideMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+            p.maximizeButton->setInsideMargin(UI::MetricsRole::MarginSmall);
 
             p.closeButton = UI::ToolButton::create(context);
             p.closeButton->setIcon("djvIconClose");
-            p.closeButton->setInsideMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+            p.closeButton->setInsideMargin(UI::MetricsRole::MarginSmall);
 
             p.titleBar = UI::HorizontalLayout::create(context);
             p.titleBar->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
@@ -257,20 +257,20 @@ namespace djv
             p.inPointWidget = FrameWidget::create(context);
             p.inPointSetButton = UI::ToolButton::create(context);
             p.inPointSetButton->setIcon("djvIconFrameStartSmall");
-            p.inPointSetButton->setInsideMargin(UI::Layout::Margin(UI::MetricsRole::None));
+            p.inPointSetButton->setInsideMargin(UI::MetricsRole::None);
             p.inPointSetButton->setVAlign(UI::VAlign::Center);
             p.inPointResetButton = UI::ToolButton::create(context);
             p.inPointResetButton->setIcon("djvIconCloseSmall");
-            p.inPointResetButton->setInsideMargin(UI::Layout::Margin(UI::MetricsRole::None));
+            p.inPointResetButton->setInsideMargin(UI::MetricsRole::None);
             p.inPointResetButton->setVAlign(UI::VAlign::Center);
             p.outPointWidget = FrameWidget::create(context);
             p.outPointSetButton = UI::ToolButton::create(context);
             p.outPointSetButton->setIcon("djvIconFrameEndSmall");
-            p.outPointSetButton->setInsideMargin(UI::Layout::Margin(UI::MetricsRole::None));
+            p.outPointSetButton->setInsideMargin(UI::MetricsRole::None);
             p.outPointSetButton->setVAlign(UI::VAlign::Center);
             p.outPointResetButton = UI::ToolButton::create(context);
             p.outPointResetButton->setIcon("djvIconCloseSmall");
-            p.outPointResetButton->setInsideMargin(UI::Layout::Margin(UI::MetricsRole::None));
+            p.outPointResetButton->setInsideMargin(UI::MetricsRole::None);
             p.outPointResetButton->setVAlign(UI::VAlign::Center);
 
             p.durationLabel = UI::Label::create(context);
