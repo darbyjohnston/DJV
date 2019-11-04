@@ -825,7 +825,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 p.clipRects.push_back(value);
-                p.updateCurrentClipRect();
+                p.currentClipRect = p.currentClipRect.intersect(value);
             }
 
             void Render2D::popClipRect()
@@ -888,7 +888,7 @@ namespace djv
             void Render2D::drawRect(const BBox2f & value)
             {
                 DJV_PRIVATE_PTR();
-                if (value.intersects(p.viewport))
+                if (value.intersects(p.currentClipRect))
                 {
                     auto primitive = new Primitive;
                     p.primitives.push_back(primitive);
@@ -926,7 +926,7 @@ namespace djv
             void Render2D::drawPill(const Core::BBox2f& rect, size_t facets)
             {
                 DJV_PRIVATE_PTR();
-                if (rect.intersects(p.viewport))
+                if (rect.intersects(p.currentClipRect))
                 {
                     auto primitive = new Primitive;
                     p.primitives.push_back(primitive);
@@ -1002,7 +1002,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const BBox2f rect(pos.x - radius, pos.y - radius, radius * 2.F, radius * 2.F);
-                if (rect.intersects(p.viewport))
+                if (rect.intersects(p.currentClipRect))
                 {
                     auto primitive = new Primitive;
                     p.primitives.push_back(primitive);
@@ -1097,7 +1097,7 @@ namespace djv
                                 const uint16_t height = glyph->imageData->getHeight();
                                 const glm::vec2& offset = glyph->offset;
                                 const BBox2f bbox(pos.x + x + offset.x, pos.y - offset.y, width, height);
-                                if (bbox.intersects(p.viewport))
+                                if (bbox.intersects(p.currentClipRect))
                                 {
                                     const auto uid = glyph->imageData->getUID();
                                     uint64_t id = 0;
@@ -1180,7 +1180,7 @@ namespace djv
             void Render2D::drawShadow(const BBox2f& value, Side side)
             {
                 DJV_PRIVATE_PTR();
-                if (value.intersects(p.viewport))
+                if (value.intersects(p.currentClipRect))
                 {
                     auto primitive = new ShadowPrimitive;
                     p.primitives.push_back(primitive);
@@ -1233,7 +1233,7 @@ namespace djv
             void Render2D::drawShadow(const BBox2f& value, float radius, size_t facets)
             {
                 DJV_PRIVATE_PTR();
-                if (value.intersects(p.viewport))
+                if (value.intersects(p.currentClipRect))
                 {
                     auto primitive = new ShadowPrimitive;
                     p.primitives.push_back(primitive);
@@ -1548,7 +1548,7 @@ namespace djv
                     bbox.max.y = std::max(bbox.max.y, pts[i].y);
                 }
 
-                if (bbox.intersects(viewport))
+                if (bbox.intersects(currentClipRect))
                 {
                     auto primitive = new ImagePrimitive;
                     primitives.push_back(primitive);
