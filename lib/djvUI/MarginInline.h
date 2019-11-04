@@ -27,6 +27,8 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
+#include <djvUI/Style.h>
+
 namespace djv
 {
     namespace UI
@@ -62,6 +64,11 @@ namespace djv
                 _value[static_cast<size_t>(Side::Bottom)] = bottom;
             }
 
+            inline float Margin::get(Side side, const std::shared_ptr<Style::Style> & style) const
+            {
+                return style->getMetric(_value[static_cast<size_t>(side)]);
+            }
+            
             inline glm::vec2 Margin::getSize(const std::shared_ptr<Style::Style> & style) const
             {
                 return glm::vec2(getWidth(style), getHeight(style));

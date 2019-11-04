@@ -129,7 +129,6 @@ set(source
     LineEditBase.cpp
     MDICanvas.cpp
     MDIWidget.cpp
-    Margin.cpp
     Menu.cpp
     MenuBar.cpp
     MenuButton.cpp
