@@ -62,7 +62,7 @@ namespace djv
             std::future<AV::Font::Metrics> fontMetricsFuture;
             typedef std::pair<AV::Font::Info, float> TextCacheKey;
             typedef std::pair<std::vector<AV::Font::TextLine>, glm::vec2> TextCacheValue;
-            Memory::Cache <TextCacheKey, TextCacheValue> textCache;
+            Memory::Cache<TextCacheKey, TextCacheValue> textCache;
             BBox2f clipRect;
 
             TextCacheValue textLines(float);
@@ -207,7 +207,7 @@ namespace djv
             const auto& style = _getStyle();
             const float w = value - getMargin().getWidth(style);
             const glm::vec2 textSize = p.textLines(w).second;
-            return textSize.y + getMargin().getHeight(style);;
+            return textSize.y + getMargin().getHeight(style);
         }
 
         void TextBlock::_styleEvent(Event::Style & event)
@@ -221,7 +221,9 @@ namespace djv
             const auto& style = _getStyle();
             const float w = style->getMetric(p.textSizeRole);
             const glm::vec2 textSize = p.textLines(w).second;
-            _setMinimumSize(textSize + getMargin().getSize(style));
+            glm::vec2 size = textSize;
+            size.x = std::max(size.x, w);
+            _setMinimumSize(size + getMargin().getSize(style));
         }
 
         void TextBlock::_layoutEvent(Event::Layout& event)
@@ -245,6 +247,7 @@ namespace djv
             const auto& style = _getStyle();
             const BBox2f& g = getMargin().bbox(getGeometry(), style);
             const auto key = std::make_pair(p.fontInfo, g.w());
+
             Private::TextCacheValue cacheValue;
             if (p.textCache.get(key, cacheValue))
             {
