@@ -107,7 +107,7 @@ namespace djv
                 
                 Font::Info fontInfo(1, 1, 64, AV::dpiDefault);
                 render->setCurrentFont(fontInfo);
-                render->drawText(String::getRandomText(5), glm::vec2(200.F, 200.F), 400.F);
+                render->drawText(String::getRandomText(5), glm::vec2(200.F, 200.F));
                 
                 render->drawShadow(BBox2f(700.F, 500.F, 100.F, 100.F), Side::Right);
                 render->drawShadow(BBox2f(800.F, 600.F, 100.F, 100.F), 32.F);
