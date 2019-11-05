@@ -160,10 +160,10 @@ namespace djv
                         if (auto context = getContext().lock())
                         {
                             p.label = Label::create(context);
+                            p.label->setTextHAlign(TextHAlign::Left);
                             p.label->setFont(p.font);
                             p.label->setFontFace(p.fontFace);
                             p.label->setFontSizeRole(p.fontSizeRole);
-                            p.label->setHAlign(HAlign::Left);
                             p.label->setMargin(Layout::Margin(MetricsRole::MarginSmall));
                             addChild(p.label);
                         }
