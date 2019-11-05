@@ -55,13 +55,13 @@ namespace djv
         namespace
         {
             //! \todo Should this be configurable?
-            const size_t velocityTimeout            = 16;    // The timer resolution for velocity updates.
-            const float  velocityDecay              = .99F;  // How quickly the velocity decays.
-            const float  velocityStopDelta          = 5.F;   // The minimum amount of movement to stop the velocity.
-            const size_t pointerAverageCount        = 5;     // The number of pointer samples to average.
-            const float  pointerAverageDecay        = .99F;  // How quickly the pointer samples decay.
-            const size_t pointerAverageDecayTimeout = 100;   // The timer resolution for pointer sample decay.
-            const float  scrollWheelMult            = 50.F;  // The scroll wheel multiplier.
+            const size_t velocityTimeout            = 16;   // The timer resolution for velocity updates.
+            const float  velocityDecay              = .5F;  // How quickly the velocity decays.
+            const float  velocityStopDelta          = 5.F;  // The minimum amount of movement to stop the velocity.
+            const size_t pointerAverageCount        = 5;    // The number of pointer samples to average.
+            const float  pointerAverageDecay        = 1.F;  // How quickly the pointer samples decay.
+            const size_t pointerAverageDecayTimeout = 16;   // The timer resolution for pointer sample decay.
+            const float  scrollWheelMult            = 50.F; // The scroll wheel multiplier.
 
             class ScrollBar : public Widget
             {
@@ -709,7 +709,22 @@ namespace djv
                 {
                     for (auto & i : widget->_p->pointerAverage)
                     {
-                        i *= pointerAverageDecay;
+                        if (i.x > 0.F)
+                        {
+                            i.x -= pointerAverageDecay;
+                        }
+                        else if (i.x < 0.F)
+                        {
+                            i.x += pointerAverageDecay;
+                        }
+                        if (i.y > 0.F)
+                        {
+                            i.y -= pointerAverageDecay;
+                        }
+                        else if (i.y < 0.F)
+                        {
+                            i.y += pointerAverageDecay;
+                        }
                     }
                 }
             });
@@ -726,7 +741,24 @@ namespace djv
                     glm::vec2 scrollPos(ceilf(pos.x + widget->_p->swipeVelocity.x), ceilf(pos.y + widget->_p->swipeVelocity.y));
                     if (widget->_p->scrollArea->setScrollPos(scrollPos))
                     {
-                        widget->_p->swipeVelocity *= velocityDecay;
+                        const float mult = value / (velocityTimeout / 1000.F);
+                        const float decay = velocityDecay * mult;
+                        if (widget->_p->swipeVelocity.x > 0.F)
+                        {
+                            widget->_p->swipeVelocity.x -= decay;
+                        }
+                        else if (widget->_p->swipeVelocity.x < 0.F)
+                        {
+                            widget->_p->swipeVelocity.x += decay;
+                        }
+                        if (widget->_p->swipeVelocity.y > 0.F)
+                        {
+                            widget->_p->swipeVelocity.y -= decay;
+                        }
+                        else if (widget->_p->swipeVelocity.y < 0.F)
+                        {
+                            widget->_p->swipeVelocity.y += decay;
+                        }
                         const float v = glm::length(widget->_p->swipeVelocity);
                         widget->_p->scrollAreaSwipe->setVisible(v > 1.F);
                         if (v < 1.F)
