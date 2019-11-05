@@ -39,18 +39,21 @@ namespace djv
     {
         void drawBorder(const std::shared_ptr<AV::Render::Render2D>& render, const Core::BBox2f& box, float border)
         {
-            render->drawRect(BBox2f(
-                glm::vec2(box.min.x, box.min.y),
-                glm::vec2(box.max.x, box.min.y + border)));
-            render->drawRect(BBox2f(
-                glm::vec2(box.min.x, box.max.y - border),
-                glm::vec2(box.max.x, box.max.y)));
-            render->drawRect(BBox2f(
-                glm::vec2(box.min.x, box.min.y + border),
-                glm::vec2(box.min.x + border, box.max.y - border)));
-            render->drawRect(BBox2f(
-                glm::vec2(box.max.x - border, box.min.y + border),
-                glm::vec2(box.max.x, box.max.y - border)));
+            render->drawRects(
+                {
+                    BBox2f(
+                        glm::vec2(box.min.x, box.min.y),
+                        glm::vec2(box.max.x, box.min.y + border)),
+                    BBox2f(
+                        glm::vec2(box.min.x, box.max.y - border),
+                        glm::vec2(box.max.x, box.max.y)),
+                    BBox2f(
+                        glm::vec2(box.min.x, box.min.y + border),
+                        glm::vec2(box.min.x + border, box.max.y - border)),
+                    BBox2f(
+                        glm::vec2(box.max.x - border, box.min.y + border),
+                        glm::vec2(box.max.x, box.max.y - border))
+                });
         }
 
     } // namespace UI

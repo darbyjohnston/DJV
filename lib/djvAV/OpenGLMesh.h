@@ -61,16 +61,15 @@ namespace djv
             class VBO
             {
                 DJV_NON_COPYABLE(VBO);
-                void _init(size_t size, size_t vertexCount, VBOType);
+                void _init(size_t size, VBOType);
                 VBO();
 
             public:
                 ~VBO();
 
-                static std::shared_ptr<VBO> create(size_t size, size_t vertexCount, VBOType);
+                static std::shared_ptr<VBO> create(size_t size, VBOType);
 
                 size_t getSize() const;
-                size_t getVertexCount() const;
                 VBOType getType() const;
                 GLuint getID() const;
 
@@ -83,7 +82,6 @@ namespace djv
 
             private:
                 size_t _size = 0;
-                size_t _vertexCount = 0;
                 VBOType _type = VBOType::First;
                 GLuint _vbo = 0;
             };
@@ -103,7 +101,7 @@ namespace djv
                 GLuint getID() const;
 
                 void bind();
-                void draw(size_t offset, size_t size);
+                void draw(GLenum mode, size_t offset, size_t size);
 
             private:
                 GLuint _vao = 0;

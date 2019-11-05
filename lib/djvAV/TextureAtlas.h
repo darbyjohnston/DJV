@@ -44,7 +44,7 @@ namespace djv
             {
                 uint16_t w = 0;
                 uint16_t h = 0;
-                size_t textureIndex = 0;
+                uint8_t textureIndex = 0;
                 Core::FloatRange textureU;
                 Core::FloatRange textureV;
             };
@@ -55,11 +55,11 @@ namespace djv
                 DJV_NON_COPYABLE(TextureAtlas);
 
             public:
-                TextureAtlas(size_t textureCount, int textureSize, Image::Type, GLenum filter = GL_LINEAR, int border = 1);
+                TextureAtlas(uint8_t textureCount, uint16_t textureSize, Image::Type, GLenum filter = GL_LINEAR, uint8_t border = 1);
                 ~TextureAtlas();
 
-                size_t getTextureCount() const;
-                int getTextureSize() const;
+                uint8_t getTextureCount() const;
+                uint16_t getTextureSize() const;
                 Image::Type getTextureType() const;
                 std::vector<GLuint> getTextures() const;
 

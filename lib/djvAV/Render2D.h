@@ -211,6 +211,7 @@ namespace djv
                 ///@{
 
                 void drawRect(const Core::BBox2f&);
+                void drawRects(const std::vector<Core::BBox2f>&);
                 void drawPill(const Core::BBox2f&, size_t facets = 32);
                 void drawCircle(const glm::vec2 & pos, float radius, size_t facets = 64);
 
@@ -241,15 +242,8 @@ namespace djv
 
                 void setLCDText(bool);
 
-                std::vector<std::shared_ptr<Font::Glyph> > drawText(
-                    const std::string & text,
-                    const glm::vec2 &   position,
-                    size_t              maxLineWidth = 0);
-
-                void drawText(
-                    const std::vector<std::shared_ptr<Font::Glyph> >& glyphs,
-                    const glm::vec2 &                                 position,
-                    size_t                                            maxLineWidth = 0);
+                std::vector<std::shared_ptr<Font::Glyph> > drawText(const std::string& text, const glm::vec2& position);
+                void drawText(const std::vector<std::shared_ptr<Font::Glyph> >& glyphs, const glm::vec2& position);
 
                 ///@}
 

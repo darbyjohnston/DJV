@@ -422,11 +422,13 @@ namespace djv
                 render->setFillColor(color);
                 const auto fontInfo = style->getFontInfo(AV::Font::familyMono, AV::Font::faceDefault, UI::MetricsRole::FontSmall);
                 render->setCurrentFont(fontInfo);
+                std::vector<BBox2f> boxes;
                 for (const auto& tick : p.timeTicks)
                 {
-                    render->drawRect(tick.geometry);
+                    boxes.push_back(tick.geometry);
                     render->drawText(tick.text, glm::vec2(floorf(tick.textPos.x), floorf(tick.textPos.y)));
                 }
+                render->drawRects(boxes);
 
                 // Draw the in/out points.
                 if (p.inOutPointsEnabled)
@@ -447,28 +449,32 @@ namespace djv
                 {
                     color = style->getColor(UI::ColorRole::Checked);
                     render->setFillColor(color);
+                    boxes.clear();
                     for (const auto& i : p.cacheSequence.ranges)
                     {
                         const float x0 = _frameToPos(i.min);
                         const float x1 = _frameToPos(i.max + 1);
-                        render->drawRect(BBox2f(
+                        boxes.push_back(BBox2f(
                             x0,
                             g.max.y - m - b * 2.F,
                             x1 - x0,
                             b * 2.F));
                     }
+                    render->drawRects(boxes);
                     color = style->getColor(UI::ColorRole::Cached);
                     render->setFillColor(color);
+                    boxes.clear();
                     for (const auto& i : p.cachedFrames.ranges)
                     {
                         const float x0 = _frameToPos(i.min);
                         const float x1 = _frameToPos(i.max + 1);
-                        render->drawRect(BBox2f(
+                        boxes.push_back(BBox2f(
                             x0,
                             g.max.y - m - b * 2.F,
                             x1 - x0,
                             b * 2.F));
                     }
+                    render->drawRects(boxes);
                 }
 
                 // Draw the frame ticks.
@@ -478,15 +484,17 @@ namespace djv
                     auto color = style->getColor(UI::ColorRole::Foreground);
                     color.setF32(color.getF32(3) * .4F, 3);
                     render->setFillColor(color);
+                    boxes.clear();
                     for (Frame::Index f2 = 0; f2 < sequenceSize; ++f2)
                     {
                         const float x = _frameToPos(f2);
-                        render->drawRect(BBox2f(
+                        boxes.push_back(BBox2f(
                             x,
                             g.max.y - m - b * 6.F,
                             b,
                             b * 6.F));
                     }
+                    render->drawRects(boxes);
                 }
 
                 // Draw the current frame.

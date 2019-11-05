@@ -53,11 +53,6 @@ namespace djv
                 return _size;
             }
 
-            inline size_t VBO::getVertexCount() const
-            {
-                return _vertexCount;
-            }
-
             inline VBOType VBO::getType() const
             {
                 return _type;

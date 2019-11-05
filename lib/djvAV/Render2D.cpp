@@ -63,13 +63,13 @@ namespace djv
             namespace
             {
                 //! \todo Should this be configurable?
-                const size_t textureAtlasCount      = 4;
-                const size_t textureAtlasSize       = 8192;
-                const size_t dynamicTextureIDCount  = 16;
-                const size_t dynamicTextureCacheMax = 16;
+                const uint8_t  textureAtlasCount      = 4;
+                const uint16_t textureAtlasSize       = 8192;
+                const size_t   dynamicTextureIDCount  = 16;
+                const size_t   dynamicTextureCacheMax = 16;
 #if !defined(DJV_OPENGL_ES2)
-                const size_t lut3DSize              = 32;
-                const size_t colorSpaceCacheMax     = 32;
+                const size_t   lut3DSize              = 32;
+                const size_t   colorSpaceCacheMax     = 32;
 #endif // DJV_OPENGL_ES2
 
                 // This enumeration provides how the color is used to draw the render primitive.
@@ -90,7 +90,7 @@ namespace djv
                 struct PrimitiveData
                 {
                     // Used as an offset to find textures.
-                    size_t textureAtlasCount = 0;
+                    uint8_t textureAtlasCount = 0;
 
                     // Shader uniform variable locations.
                     GLint colorModeLoc          = 0;
@@ -127,6 +127,7 @@ namespace djv
                     
                     BBox2f      clipRect;
                     float       color[4]    = { 0.F, 0.F, 0.F, 0.F };
+                    GLenum      type        = GL_TRIANGLES;
                     size_t      vaoOffset   = 0;
                     size_t      vaoSize     = 0;
                     AlphaBlend  alphaBlend  = AlphaBlend::Straight;
@@ -521,8 +522,8 @@ namespace djv
                     ss << "Maximum OpenGL texture size: " << maxTextureSize;
                     logSystem->log("djv::AV::Render::Render2D", ss.str());
                 }
-                const size_t _textureAtlasCount = std::min(size_t(maxTextureUnits), textureAtlasCount);
-                const int _textureAtlasSize = std::min(maxTextureSize, int(textureAtlasSize));
+                const uint8_t _textureAtlasCount = std::min(maxTextureUnits, static_cast<GLint>(textureAtlasCount));
+                const uint16_t _textureAtlasSize = std::min(maxTextureSize, static_cast<GLint>(textureAtlasSize));
                 {
                     auto logSystem = context->getSystemT<LogSystem>();
                     std::stringstream ss;
@@ -696,9 +697,9 @@ namespace djv
                 }
 
                 const size_t vertexByteCount = AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
-                if (!p.vbo || p.vboDataSize / 3 / vertexByteCount > p.vbo->getSize())
+                if (!p.vbo || p.vboDataSize / vertexByteCount > p.vbo->getSize())
                 {
-                    p.vbo = OpenGL::VBO::create(p.vboDataSize / 3 / vertexByteCount, 3, OpenGL::VBOType::Pos2_F32_UV_U16);
+                    p.vbo = OpenGL::VBO::create(p.vboDataSize / vertexByteCount, OpenGL::VBOType::Pos2_F32_UV_U16);
                     p.vao = OpenGL::VAO::create(p.vbo->getType(), p.vbo->getID());
                 }
                 p.vbo->copy(p.vboData, 0, p.vboDataSize);
@@ -747,18 +748,18 @@ namespace djv
                         primitive->bind(p.primitiveData, p.shader);
                         p.shader->setUniform(p.primitiveData.colorModeLoc, static_cast<int>(ColorMode::ColorWithTextureAlphaR));
                         glColorMask(GL_TRUE, GL_FALSE, GL_FALSE, GL_TRUE);
-                        p.vao->draw(primitive->vaoOffset, primitive->vaoSize);
+                        p.vao->draw(primitive->type, primitive->vaoOffset, primitive->vaoSize);
                         p.shader->setUniform(p.primitiveData.colorModeLoc, static_cast<int>(ColorMode::ColorWithTextureAlphaG));
                         glColorMask(GL_FALSE, GL_TRUE, GL_FALSE, GL_FALSE);
-                        p.vao->draw(primitive->vaoOffset, primitive->vaoSize);
+                        p.vao->draw(primitive->type, primitive->vaoOffset, primitive->vaoSize);
                         p.shader->setUniform(p.primitiveData.colorModeLoc, static_cast<int>(ColorMode::ColorWithTextureAlphaB));
                         glColorMask(GL_FALSE, GL_FALSE, GL_TRUE, GL_FALSE);
-                        p.vao->draw(primitive->vaoOffset, primitive->vaoSize);
+                        p.vao->draw(primitive->type, primitive->vaoOffset, primitive->vaoSize);
                     }
                     else
                     {
                         primitive->bind(p.primitiveData, p.shader);
-                        p.vao->draw(primitive->vaoOffset, primitive->vaoSize);
+                        p.vao->draw(primitive->type, primitive->vaoOffset, primitive->vaoSize);
                     }
                 }
 
@@ -809,11 +810,12 @@ namespace djv
                     primitive->color[1] = _finalColor[1];
                     primitive->color[2] = _finalColor[2];
                     primitive->color[3] = _finalColor[3];
+                    primitive->type = GL_TRIANGLE_STRIP;
                     primitive->vaoOffset = p.vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
-                    primitive->vaoSize = 6;
+                    primitive->vaoSize = 4;
 
                     const size_t vboDataSize = p.vboDataSize;
-                    p.updateVBODataSize(6);
+                    p.updateVBODataSize(4);
                     VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataSize]);
                     pData->vx = value.min.x;
                     pData->vy = value.min.y;
@@ -821,17 +823,62 @@ namespace djv
                     pData->vx = value.max.x;
                     pData->vy = value.min.y;
                     ++pData;
-                    pData->vx = value.max.x;
-                    pData->vy = value.max.y;
-                    ++pData;
-                    pData->vx = value.max.x;
-                    pData->vy = value.max.y;
-                    ++pData;
                     pData->vx = value.min.x;
                     pData->vy = value.max.y;
                     ++pData;
-                    pData->vx = value.min.x;
-                    pData->vy = value.min.y;
+                    pData->vx = value.max.x;
+                    pData->vy = value.max.y;
+                }
+            }
+
+            void Render2D::drawRects(const std::vector<BBox2f>& value)
+            {
+                DJV_PRIVATE_PTR();
+                std::vector<const BBox2f*> clipped;
+                for (const auto& i : value)
+                {
+                    if (i.intersects(_currentClipRect))
+                    {
+                        clipped.push_back(&i);
+                    }
+                }
+                const size_t clippedSize = clipped.size();
+                if (clippedSize > 0)
+                {
+                    auto primitive = new Primitive;
+                    p.primitives.push_back(primitive);
+                    primitive->clipRect = _currentClipRect;
+                    primitive->color[0] = _finalColor[0];
+                    primitive->color[1] = _finalColor[1];
+                    primitive->color[2] = _finalColor[2];
+                    primitive->color[3] = _finalColor[3];
+                    primitive->vaoOffset = p.vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
+                    primitive->vaoSize = clippedSize * 6;
+
+                    const size_t vboDataSize = p.vboDataSize;
+                    p.updateVBODataSize(clippedSize * 6);
+                    VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataSize]);
+                    for (const auto& i : clipped)
+                    {
+                        pData->vx = i->min.x;
+                        pData->vy = i->min.y;
+                        ++pData;
+                        pData->vx = i->max.x;
+                        pData->vy = i->min.y;
+                        ++pData;
+                        pData->vx = i->max.x;
+                        pData->vy = i->max.y;
+                        ++pData;
+                        pData->vx = i->max.x;
+                        pData->vy = i->max.y;
+                        ++pData;
+                        pData->vx = i->min.x;
+                        pData->vy = i->max.y;
+                        ++pData;
+                        pData->vx = i->min.x;
+                        pData->vy = i->min.y;
+                        ++pData;
+                    }
                 }
             }
 
@@ -923,6 +970,8 @@ namespace djv
                     primitive->color[1] = _finalColor[1];
                     primitive->color[2] = _finalColor[2];
                     primitive->color[3] = _finalColor[3];
+                    //! \todo Implement me!
+                    //primitive->type = GL_TRIANGLE_FAN;
                     primitive->vaoOffset = p.vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
                     primitive->vaoSize = 3 * facets;
 
@@ -979,7 +1028,7 @@ namespace djv
                 _p->lcdText->setIfChanged(value);
             }
 
-            std::vector<std::shared_ptr<Font::Glyph> > Render2D::drawText(const std::string & value, const glm::vec2 & pos, size_t maxLineWidth)
+            std::vector<std::shared_ptr<Font::Glyph> > Render2D::drawText(const std::string & value, const glm::vec2 & pos)
             {
                 DJV_PRIVATE_PTR();
                 std::vector<std::shared_ptr<Font::Glyph> > out;
@@ -994,16 +1043,24 @@ namespace djv
                 {
                     _log(e.what());
                 }
-                drawText(out, pos, maxLineWidth);
+                drawText(out, pos);
                 return out;
             }
 
-            void Render2D::drawText(const std::vector<std::shared_ptr<Font::Glyph> >& glyphs, const glm::vec2 & pos, size_t maxLineWidth)
+            void Render2D::drawText(const std::vector<std::shared_ptr<Font::Glyph> >& glyphs, const glm::vec2 & pos)
             {
                 DJV_PRIVATE_PTR();
-                TextPrimitive* primitive = nullptr;
+
                 float x = 0.F;
                 int32_t rsbDeltaPrev = 0;
+                struct GlyphData
+                {
+                    std::shared_ptr<Font::Glyph> glyph;
+                    BBox2f bbox;
+                    TextureAtlasItem item;
+                };
+                std::vector<std::vector<GlyphData> > clipped;
+                uint8_t textureIndex = 0;
                 for (const auto& glyph : glyphs)
                 {
                     if (rsbDeltaPrev - glyph->lsbDelta > 32)
@@ -1024,6 +1081,9 @@ namespace djv
                         const BBox2f bbox(pos.x + x + offset.x, pos.y - offset.y, width, height);
                         if (bbox.intersects(_currentClipRect))
                         {
+                            GlyphData data;
+                            data.glyph = glyph;
+                            data.bbox = bbox;
                             const auto uid = glyph->imageData->getUID();
                             uint64_t id = 0;
                             const auto i = p.glyphTextureIDs.find(uid);
@@ -1031,68 +1091,75 @@ namespace djv
                             {
                                 id = i->second;
                             }
-                            TextureAtlasItem item;
-                            if (!p.textureAtlas->getItem(id, item))
+                            if (!p.textureAtlas->getItem(id, data.item))
                             {
-                                id = p.textureAtlas->addItem(glyph->imageData, item);
+                                id = p.textureAtlas->addItem(glyph->imageData, data.item);
                                 p.glyphTextureIDs[uid] = id;
                             }
-
-                            if (!primitive)
+                            
+                            if (data.item.textureIndex != textureIndex || 0 == clipped.size())
                             {
-                                primitive = new TextPrimitive;
-                                p.primitives.push_back(primitive);
-                                primitive->clipRect = _currentClipRect;
-                                primitive->color[0] = _finalColor[0];
-                                primitive->color[1] = _finalColor[1];
-                                primitive->color[2] = _finalColor[2];
-                                primitive->color[3] = _finalColor[3];
-                                primitive->atlasIndex = item.textureIndex;
-                                primitive->vaoOffset = p.vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
-                                primitive->vaoSize = 6;
-                                primitive->lcdText = p.lcdText->get();
+                                textureIndex = data.item.textureIndex;
+                                clipped.push_back({});
                             }
-                            else
-                            {
-                                primitive->vaoSize += 6;
-                            }
-
-                            const size_t vboDataSize = p.vboDataSize;
-                            p.updateVBODataSize(6);
-                            VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataSize]);
-                            pData->vx = bbox.min.x;
-                            pData->vy = bbox.min.y;
-                            pData->tx = static_cast<uint16_t>(item.textureU.min * 65535.F);
-                            pData->ty = static_cast<uint16_t>(item.textureV.min * 65535.F);
-                            ++pData;
-                            pData->vx = bbox.max.x;
-                            pData->vy = bbox.min.y;
-                            pData->tx = static_cast<uint16_t>(item.textureU.max * 65535.F);
-                            pData->ty = static_cast<uint16_t>(item.textureV.min * 65535.F);
-                            ++pData;
-                            pData->vx = bbox.max.x;
-                            pData->vy = bbox.max.y;
-                            pData->tx = static_cast<uint16_t>(item.textureU.max * 65535.F);
-                            pData->ty = static_cast<uint16_t>(item.textureV.max * 65535.F);
-                            ++pData;
-                            pData->vx = bbox.max.x;
-                            pData->vy = bbox.max.y;
-                            pData->tx = static_cast<uint16_t>(item.textureU.max * 65535.F);
-                            pData->ty = static_cast<uint16_t>(item.textureV.max * 65535.F);
-                            ++pData;
-                            pData->vx = bbox.min.x;
-                            pData->vy = bbox.max.y;
-                            pData->tx = static_cast<uint16_t>(item.textureU.min * 65535.F);
-                            pData->ty = static_cast<uint16_t>(item.textureV.max * 65535.F);
-                            ++pData;
-                            pData->vx = bbox.min.x;
-                            pData->vy = bbox.min.y;
-                            pData->tx = static_cast<uint16_t>(item.textureU.min * 65535.F);
-                            pData->ty = static_cast<uint16_t>(item.textureV.min * 65535.F);
+                            
+                            clipped.back().push_back(data);
                         }
                     }
 
                     x += glyph->advance;
+                }
+                
+                for (const auto& i : clipped)
+                {
+                    auto primitive = new TextPrimitive;
+                    p.primitives.push_back(primitive);
+                    primitive->clipRect = _currentClipRect;
+                    primitive->color[0] = _finalColor[0];
+                    primitive->color[1] = _finalColor[1];
+                    primitive->color[2] = _finalColor[2];
+                    primitive->color[3] = _finalColor[3];
+                    primitive->atlasIndex = i.front().item.textureIndex;
+                    primitive->vaoOffset = p.vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
+                    primitive->vaoSize = i.size() * 6;
+                    primitive->lcdText = p.lcdText->get();
+                    
+                    const size_t vboDataSize = p.vboDataSize;
+                    p.updateVBODataSize(i.size() * 6);
+                    VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataSize]);
+                    for (const auto& j : i)
+                    {
+                        pData->vx = j.bbox.min.x;
+                        pData->vy = j.bbox.min.y;
+                        pData->tx = static_cast<uint16_t>(j.item.textureU.min * 65535.F);
+                        pData->ty = static_cast<uint16_t>(j.item.textureV.min * 65535.F);
+                        ++pData;
+                        pData->vx = j.bbox.max.x;
+                        pData->vy = j.bbox.min.y;
+                        pData->tx = static_cast<uint16_t>(j.item.textureU.max * 65535.F);
+                        pData->ty = static_cast<uint16_t>(j.item.textureV.min * 65535.F);
+                        ++pData;
+                        pData->vx = j.bbox.max.x;
+                        pData->vy = j.bbox.max.y;
+                        pData->tx = static_cast<uint16_t>(j.item.textureU.max * 65535.F);
+                        pData->ty = static_cast<uint16_t>(j.item.textureV.max * 65535.F);
+                        ++pData;
+                        pData->vx = j.bbox.max.x;
+                        pData->vy = j.bbox.max.y;
+                        pData->tx = static_cast<uint16_t>(j.item.textureU.max * 65535.F);
+                        pData->ty = static_cast<uint16_t>(j.item.textureV.max * 65535.F);
+                        ++pData;
+                        pData->vx = j.bbox.min.x;
+                        pData->vy = j.bbox.max.y;
+                        pData->tx = static_cast<uint16_t>(j.item.textureU.min * 65535.F);
+                        pData->ty = static_cast<uint16_t>(j.item.textureV.max * 65535.F);
+                        ++pData;
+                        pData->vx = j.bbox.min.x;
+                        pData->vy = j.bbox.min.y;
+                        pData->tx = static_cast<uint16_t>(j.item.textureU.min * 65535.F);
+                        pData->ty = static_cast<uint16_t>(j.item.textureV.min * 65535.F);
+                        ++pData;
+                    }
                 }
             }
 
@@ -1108,20 +1175,21 @@ namespace djv
                     primitive->color[1] = _finalColor[1];
                     primitive->color[2] = _finalColor[2];
                     primitive->color[3] = _finalColor[3];
+                    primitive->type = GL_TRIANGLE_STRIP;
                     primitive->vaoOffset = p.vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
-                    primitive->vaoSize = 6;
+                    primitive->vaoSize = 4;
 
-                    static const uint16_t u[][6] =
+                    static const uint16_t u[][4] =
                     {
-                        { 0, 0, 0, 0, 0, 0 },
-                        { 0, 65535, 65535, 65535, 0, 0 },
-                        { 0, 0, 65535, 65535, 65535, 0 },
-                        { 65535, 0, 0, 0, 65535, 65535 },
-                        { 65535, 65535, 0, 0, 0, 65535 }
+                        {     0,     0,     0,     0 },
+                        {     0, 65535,     0, 65535 },
+                        {     0,     0, 65535, 65535 },
+                        { 65535,     0, 65535,     0 },
+                        { 65535, 65535,     0,     0 }
                     };
 
                     const size_t vboDataSize = p.vboDataSize;
-                    p.updateVBODataSize(6);
+                    p.updateVBODataSize(4);
                     VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataSize]);
                     pData->vx = value.min.x;
                     pData->vy = value.min.y;
@@ -1131,21 +1199,13 @@ namespace djv
                     pData->vy = value.min.y;
                     pData->tx = u[static_cast<size_t>(side)][1];
                     ++pData;
-                    pData->vx = value.max.x;
+                    pData->vx = value.min.x;
                     pData->vy = value.max.y;
                     pData->tx = u[static_cast<size_t>(side)][2];
                     ++pData;
                     pData->vx = value.max.x;
                     pData->vy = value.max.y;
                     pData->tx = u[static_cast<size_t>(side)][3];
-                    ++pData;
-                    pData->vx = value.min.x;
-                    pData->vy = value.max.y;
-                    pData->tx = u[static_cast<size_t>(side)][4];
-                    ++pData;
-                    pData->vx = value.min.x;
-                    pData->vy = value.min.y;
-                    pData->tx = u[static_cast<size_t>(side)][5];
                 }
             }
 
@@ -1628,11 +1688,12 @@ namespace djv
                         primitive->colorSpaceTextureID = colorSpaceData.lut3D ? colorSpaceData.lut3D->getID() : 0;
                     }
 #endif // DJV_OPENGL_ES2
+                    primitive->type = GL_TRIANGLE_STRIP;
                     primitive->vaoOffset = vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
-                    primitive->vaoSize = 6;
+                    primitive->vaoSize = 4;
 
                     const size_t vboDataSize = this->vboDataSize;
-                    updateVBODataSize(6);
+                    updateVBODataSize(4);
                     VBOVertex* pData = reinterpret_cast<VBOVertex*>(&vboData[vboDataSize]);
                     pData->vx = pts[0].x;
                     pData->vy = pts[0].y;
@@ -1644,25 +1705,15 @@ namespace djv
                     pData->tx = static_cast<uint16_t>(textureU.max * 65535.F);
                     pData->ty = static_cast<uint16_t>(textureV.min * 65535.F);
                     ++pData;
-                    pData->vx = pts[2].x;
-                    pData->vy = pts[2].y;
-                    pData->tx = static_cast<uint16_t>(textureU.max * 65535.F);
-                    pData->ty = static_cast<uint16_t>(textureV.max * 65535.F);
-                    ++pData;
-                    pData->vx = pts[2].x;
-                    pData->vy = pts[2].y;
-                    pData->tx = static_cast<uint16_t>(textureU.max * 65535.F);
-                    pData->ty = static_cast<uint16_t>(textureV.max * 65535.F);
-                    ++pData;
                     pData->vx = pts[3].x;
                     pData->vy = pts[3].y;
                     pData->tx = static_cast<uint16_t>(textureU.min * 65535.F);
                     pData->ty = static_cast<uint16_t>(textureV.max * 65535.F);
                     ++pData;
-                    pData->vx = pts[0].x;
-                    pData->vy = pts[0].y;
-                    pData->tx = static_cast<uint16_t>(textureU.min * 65535.F);
-                    pData->ty = static_cast<uint16_t>(textureV.min * 65535.F);
+                    pData->vx = pts[2].x;
+                    pData->vy = pts[2].y;
+                    pData->tx = static_cast<uint16_t>(textureU.max * 65535.F);
+                    pData->ty = static_cast<uint16_t>(textureV.max * 65535.F);
                 }
             }
 

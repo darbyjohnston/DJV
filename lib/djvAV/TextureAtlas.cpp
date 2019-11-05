@@ -63,8 +63,8 @@ namespace djv
                 uint64_t timestamp = 0;
 
                 BBox2i bbox;
-                int border = 0;
-                size_t textureIndex = 0;
+                uint8_t border = 0;
+                uint8_t textureIndex = 0;
                 std::shared_ptr<BoxPackingNode> children[2];
 
                 bool isBranch() const { return children[0].get(); }
@@ -144,16 +144,16 @@ namespace djv
 
             struct TextureAtlas::Private
             {
-                size_t textureCount = 0;
-                int textureSize = 0;
+                uint8_t textureCount = 0;
+                uint16_t textureSize = 0;
                 Image::Type textureType = Image::Type::None;
-                int border = 0;
+                uint8_t border = 0;
                 std::vector<std::shared_ptr<OpenGL::Texture> > textures;
                 std::vector<std::shared_ptr<BoxPackingNode> > boxPackingNodes;
                 std::map<UID, std::shared_ptr<BoxPackingNode> > cache;
             };
 
-            TextureAtlas::TextureAtlas(size_t textureCount, int textureSize, Image::Type textureType, GLenum filter, int border) :
+            TextureAtlas::TextureAtlas(uint8_t textureCount, uint16_t textureSize, Image::Type textureType, GLenum filter, uint8_t border) :
                 _p(new Private)
             {
                 DJV_PRIVATE_PTR();
@@ -161,7 +161,7 @@ namespace djv
                 p.textureSize = textureSize;
                 p.textureType = textureType;
 
-                for (size_t i = 0; i < p.textureCount; ++i)
+                for (uint8_t i = 0; i < p.textureCount; ++i)
                 {
                     auto texture = OpenGL::Texture::create(Image::Info(textureSize, textureSize, textureType), filter, filter);
                     p.textures.push_back(std::move(texture));
@@ -179,12 +179,12 @@ namespace djv
             TextureAtlas::~TextureAtlas()
             {}
 
-            size_t TextureAtlas::getTextureCount() const
+            uint8_t TextureAtlas::getTextureCount() const
             {
                 return _p->textureCount;
             }
 
-            int TextureAtlas::getTextureSize() const
+            uint16_t TextureAtlas::getTextureSize() const
             {
                 return _p->textureSize;
             }
@@ -223,7 +223,7 @@ namespace djv
 
                 static UID _uid = 0;
 
-                for (size_t i = 0; i < p.textureCount; ++i)
+                for (uint8_t i = 0; i < p.textureCount; ++i)
                 {
                     if (auto node = p.boxPackingNodes[i]->insert(data))
                     {
@@ -238,7 +238,7 @@ namespace djv
 
                 // The atlas is full, over-write older data.
                 std::vector<std::shared_ptr<BoxPackingNode> > nodes;
-                for (size_t i = 0; i < p.textureCount; ++i)
+                for (uint8_t i = 0; i < p.textureCount; ++i)
                 {
                     _getAllNodes(p.boxPackingNodes[i], nodes);
                 }
@@ -257,7 +257,7 @@ namespace djv
                         _removeFromAtlas(old);
                         if (old->isBranch())
                         {
-                            for (size_t i = 0; i < 2; ++i)
+                            for (uint8_t i = 0; i < 2; ++i)
                             {
                                 old->children[i].reset();
                             }
@@ -291,7 +291,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 float out = 0.F;
-                for (size_t i = 0; i < p.textureCount; ++i)
+                for (uint8_t i = 0; i < p.textureCount; ++i)
                 {
                     size_t used = 0;
                     std::vector<std::shared_ptr<BoxPackingNode> > leafs;

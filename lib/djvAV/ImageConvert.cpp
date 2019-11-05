@@ -148,7 +148,7 @@ namespace djv
                         mesh.t[1].y = mesh.t[3].y;
                         mesh.t[3].y = tmp;
                     }
-                    p.vbo = AV::OpenGL::VBO::create(2, 3, AV::OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
+                    p.vbo = AV::OpenGL::VBO::create(2 * 3, AV::OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
                     p.vbo->copy(AV::OpenGL::VBO::convert(mesh, p.vbo->getType()));
                     p.vao = AV::OpenGL::VAO::create(p.vbo->getType(), p.vbo->getID());
                 }
@@ -159,7 +159,7 @@ namespace djv
                 glClear(GL_COLOR_BUFFER_BIT);
                 glActiveTexture(GL_TEXTURE0);
 
-                p.vao->draw(0, 6);
+                p.vao->draw(GL_TRIANGLES, 0, 6);
 
                 glPixelStorei(GL_PACK_ALIGNMENT, 1);
 #if !defined(DJV_OPENGL_ES2)

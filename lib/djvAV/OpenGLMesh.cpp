@@ -65,14 +65,13 @@ namespace djv
 
             } // namespace
 
-            void VBO::_init(size_t size, size_t vertexCount, VBOType type)
+            void VBO::_init(size_t size, VBOType type)
             {
                 _size = size;
-                _vertexCount = vertexCount;
                 _type = type;
                 glGenBuffers(1, &_vbo);
                 glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-                glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizei>(_size * _vertexCount * getVertexByteCount(type)), NULL, GL_DYNAMIC_DRAW);
+                glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizei>(_size * getVertexByteCount(type)), NULL, GL_DYNAMIC_DRAW);
             }
 
             VBO::~VBO()
@@ -84,10 +83,10 @@ namespace djv
                 }
             }
 
-            std::shared_ptr<VBO> VBO::create(size_t size, size_t vertexCount, VBOType type)
+            std::shared_ptr<VBO> VBO::create(size_t size, VBOType type)
             {
                 auto out = std::shared_ptr<VBO>(new VBO);
-                out->_init(size, vertexCount, type);
+                out->_init(size, type);
                 return out;
             }
 
@@ -322,9 +321,9 @@ namespace djv
 #endif // DJV_OPENGL_ES2
             }
 
-            void VAO::draw(size_t offset, size_t size)
+            void VAO::draw(GLenum mode, size_t offset, size_t size)
             {
-                glDrawArrays(GL_TRIANGLES, static_cast<GLsizei>(offset), static_cast<GLsizei>(size));
+                glDrawArrays(mode, static_cast<GLsizei>(offset), static_cast<GLsizei>(size));
             }
 
         } // namespace OpenGL

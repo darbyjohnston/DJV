@@ -167,15 +167,19 @@ namespace djv
             color2.setF32(color2.getF32(3) * .5F, 3);
             float x = g.min.x;
             const float range = p.samplesRange.max - p.samplesRange.min;
+            std::vector<BBox2f> boxes1;
+            std::vector<BBox2f> boxes2;
             for (const auto& i : p.samples)
             {
                 float h = (i - p.samplesRange.min) / range * g.h();
-                render->setFillColor(color1);
-                render->drawRect(BBox2f(x, g.min.y + g.h() - h, b, b));
-                render->setFillColor(color2);
-                render->drawRect(BBox2f(x, g.min.y + g.h() - h + b, b, h));
+                boxes1.push_back(BBox2f(x, g.min.y + g.h() - h, b, b));
+                boxes2.push_back(BBox2f(x, g.min.y + g.h() - h + b, b, h));
                 x += b;
             }
+            render->setFillColor(color1);
+            render->drawRects(boxes1);
+            render->setFillColor(color2);
+            render->drawRects(boxes2);
         }
 
         void LineGraphWidget::_textUpdateEvent(Event::TextUpdate& event)
