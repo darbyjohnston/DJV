@@ -207,7 +207,7 @@ namespace djv
             const auto& style = _getStyle();
             const float w = value - getMargin().getWidth(style);
             const glm::vec2 textSize = p.textLines(w).second;
-            return textSize.y;
+            return textSize.y + getMargin().getHeight(style);;
         }
 
         void TextBlock::_styleEvent(Event::Style & event)
