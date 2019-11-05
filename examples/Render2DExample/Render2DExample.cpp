@@ -154,8 +154,8 @@ int Application::run()
         glfwPollEvents();
         tick(dt);
         _render();
-        //glfwSwapBuffers(glfwWindow);
-        glFlush();
+        glfwSwapBuffers(glfwWindow);
+        //glFlush();
     }
     return 0;
 }

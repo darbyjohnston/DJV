@@ -39,6 +39,8 @@
 #include <djvCore/Range.h>
 #include <djvCore/ValueObserver.h>
 
+#include <list>
+
 namespace djv
 {
     namespace AV
@@ -239,10 +241,15 @@ namespace djv
 
                 void setLCDText(bool);
 
-                void drawText(
+                std::vector<std::shared_ptr<Font::Glyph> > drawText(
                     const std::string & text,
                     const glm::vec2 &   position,
                     size_t              maxLineWidth = 0);
+
+                void drawText(
+                    const std::vector<std::shared_ptr<Font::Glyph> >& glyphs,
+                    const glm::vec2 &                                 position,
+                    size_t                                            maxLineWidth = 0);
 
                 ///@}
 
@@ -264,6 +271,19 @@ namespace djv
                 ///@}
 
             private:
+                void _updateCurrentTransform();
+                void _updateCurrentClipRect();
+
+                Image::Size             _size;
+                std::list<glm::mat3x3>  _transforms;
+                glm::mat3x3             _currentTransform = glm::mat3x3(1.F);
+                std::list<Core::BBox2f> _clipRects;
+                Core::BBox2f            _currentClipRect  = Core::BBox2f(0.F, 0.F, 0.F, 0.F);
+                float                   _fillColor[4]     = { 1.F, 1.F, 1.F, 1.F };
+                float                   _colorMult        = 1.F;
+                float                   _alphaMult        = 1.F;
+                float                   _finalColor[4]    = { 1.F, 1.F, 1.F, 1.F };
+                
                 DJV_PRIVATE();
             };
 

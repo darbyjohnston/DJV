@@ -57,15 +57,22 @@ namespace djv
             {
             public:
                 Info();
-                constexpr Info(FamilyID, FaceID, uint16_t size, uint16_t DPI);
+                Info(FamilyID, FaceID, uint16_t size, uint16_t DPI);
 
-                FamilyID family = 1;
-                FaceID   face   = 1;
-                uint16_t size   = 0;
-                uint16_t dpi    = dpiDefault;
+                FamilyID getFamily() const;
+                FaceID   getFace() const;
+                uint16_t getSize() const;
+                uint16_t getDPI() const;
 
                 bool operator == (const Info &) const;
                 bool operator < (const Info&) const;
+                
+            private:
+                FamilyID _family = 1;
+                FaceID   _face   = 1;
+                uint16_t _size   = 0;
+                uint16_t _dpi    = dpiDefault;
+                size_t   _hash   = 0;
             };
 
             //! This struct provides font metrics.

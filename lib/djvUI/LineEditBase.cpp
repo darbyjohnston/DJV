@@ -83,6 +83,8 @@ namespace djv
             size_t selectionAnchor = std::string::npos;
             std::future<std::vector<BBox2f> > glyphGeomFuture;
             std::vector<BBox2f> glyphGeom;
+            std::vector<std::shared_ptr<AV::Font::Glyph> > glyphs;
+            bool glyphsValid = false;
             bool cursorBlink = false;
             Event::PointerID pressedID = Event::InvalidID;
 
@@ -398,12 +400,20 @@ namespace djv
                 style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);
             render->setCurrentFont(fontInfo);
             render->setFillColor(style->getColor(p.textColorRole));
-            //! \bug Why the extra subtract by one here?
             glm::vec2 pos = g.min;
             pos += m;
             pos.x -= p.viewOffset;
             pos.y = c.y - p.textSize.y / 2.F;
-            render->drawText(p.text, glm::vec2(floorf(pos.x), floorf(pos.y + p.fontMetrics.ascender - 1.F)));
+            if (!p.glyphsValid)
+            {
+                p.glyphsValid = true;
+                //! \bug Why the extra subtract by one here?
+                p.glyphs = render->drawText(p.text, glm::vec2(floorf(pos.x), floorf(pos.y + p.fontMetrics.ascender - 1.F)));
+            }
+            else
+            {
+                render->drawText(p.glyphs, glm::vec2(floorf(pos.x), floorf(pos.y + p.fontMetrics.ascender - 1.F)));
+            }
 
             // Draw the cursor.
             if (p.cursorBlink)
@@ -853,6 +863,8 @@ namespace djv
             }
             p.glyphGeomFuture = p.fontSystem->measureGlyphs(p.text, fontInfo);
             p.glyphGeom.clear();
+            p.glyphs.clear();
+            p.glyphsValid = false;
             _resize();
         }
 

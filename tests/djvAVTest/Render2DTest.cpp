@@ -105,8 +105,7 @@ namespace djv
                 render->setFillColor(Image::Color(.6F, 1.F, .4F));
                 render->drawFilledImage(image, glm::vec2(600.f, 200.f));
                 
-                Font::Info fontInfo;
-                fontInfo.size = 64;
+                Font::Info fontInfo(1, 1, 64, AV::dpiDefault);
                 render->setCurrentFont(fontInfo);
                 render->drawText(String::getRandomText(5), glm::vec2(200.F, 200.F), 400.F);
                 

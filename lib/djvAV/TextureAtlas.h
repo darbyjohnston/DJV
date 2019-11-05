@@ -79,7 +79,7 @@ namespace djv
                     std::vector<std::shared_ptr<BoxPackingNode> >&) const;
                 void _toTextureAtlasItem(
                     const std::shared_ptr<BoxPackingNode>&,
-                    TextureAtlasItem &);
+                    TextureAtlasItem&);
                 void _removeFromAtlas(const std::shared_ptr<BoxPackingNode>&);
 
                 DJV_PRIVATE();

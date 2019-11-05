@@ -60,18 +60,18 @@ namespace djv
         {
             {
                 const Font::Info info;
-                DJV_ASSERT(1 == info.family);
-                DJV_ASSERT(1 == info.face);
-                DJV_ASSERT(0 == info.size);
-                DJV_ASSERT(dpiDefault == info.dpi);
+                DJV_ASSERT(1 == info.getFamily());
+                DJV_ASSERT(1 == info.getFace());
+                DJV_ASSERT(0 == info.getSize());
+                DJV_ASSERT(dpiDefault == info.getDPI());
             }
             
             {
                 const Font::Info info(2, 3, 4, 5);
-                DJV_ASSERT(2 == info.family);
-                DJV_ASSERT(3 == info.face);
-                DJV_ASSERT(4 == info.size);
-                DJV_ASSERT(5 == info.dpi);
+                DJV_ASSERT(2 == info.getFamily());
+                DJV_ASSERT(3 == info.getFace());
+                DJV_ASSERT(4 == info.getSize());
+                DJV_ASSERT(5 == info.getDPI());
             }
         }
         
@@ -146,8 +146,7 @@ namespace djv
                         }
                     });
 
-                Font::Info info;
-                info.size = 14;
+                Font::Info info(1, 1, 14, dpiDefault);
                 auto metricsFuture = system->getMetrics(info);
                 const std::string text = String::getRandomText(5);
                 auto measureFuture = system->measure(text, info);

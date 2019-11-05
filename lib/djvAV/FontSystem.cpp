@@ -520,22 +520,22 @@ namespace djv
                 for (auto & request : p.metricsRequests)
                 {
                     Metrics metrics;
-                    const auto family = p.fontFaces.find(request.info.family);
+                    const auto family = p.fontFaces.find(request.info.getFamily());
                     if (family != p.fontFaces.end())
                     {
-                        const auto font = family->second.find(request.info.face);
+                        const auto font = family->second.find(request.info.getFace());
                         if (font != family->second.end())
                         {
                             /*FT_Error ftError = FT_Set_Char_Size(
                                 font->second,
                                 0,
-                                static_cast<int>(request.info.size * 64.F),
-                                request.info.dpi,
-                                request.info.dpi);*/
+                                static_cast<int>(request.info.getSize() * 64.F),
+                                request.info.getDPI(),
+                                request.info.getDPI());*/
                             FT_Error ftError = FT_Set_Pixel_Sizes(
                                 font->second,
                                 0,
-                                static_cast<int>(request.info.size));
+                                static_cast<int>(request.info.getSize()));
                             if (!ftError)
                             {
                                 metrics.ascender   = font->second->size->metrics.ascender  / 64.F;
@@ -781,22 +781,22 @@ namespace djv
                 std::string& error)
             {
                 bool out = false;
-                const auto family = fontFaces.find(info.family);
+                const auto family = fontFaces.find(info.getFamily());
                 if (family != fontFaces.end())
                 {
-                    auto i = family->second.find(info.face);
+                    auto i = family->second.find(info.getFace());
                     if (i != family->second.end())
                     {
                         /*FT_Error ftError = FT_Set_Char_Size(
                             i->second,
                             0,
-                            static_cast<int>(info.size * 64.f),
-                            info.dpi,
-                            info.dpi);*/
+                            static_cast<int>(info.getSize() * 64.f),
+                            info.getDPI(),
+                            info.getDPI());*/
                         FT_Error ftError = FT_Set_Pixel_Sizes(
                             i->second,
                             0,
-                            static_cast<int>(info.size));
+                            static_cast<int>(info.getSize()));
                         if (!ftError)
                         {
                             try
@@ -818,17 +818,17 @@ namespace djv
             std::shared_ptr<Glyph> System::Private::getGlyph(const GlyphInfo & info)
             {
                 std::shared_ptr<Glyph> out;
-                FT_Face  ftFace = nullptr;
+                FT_Face ftFace = nullptr;
                 if (!glyphCache.get(info, out))
                 {
                     out = Glyph::create();
                     out->info = info;
-                    if (info.info.family != 0 || info.info.face != 0)
+                    if (info.info.getFamily() != 0 || info.info.getFace() != 0)
                     {
-                        const auto i = fontFaces.find(info.info.family);
+                        const auto i = fontFaces.find(info.info.getFamily());
                         if (i != fontFaces.end())
                         {
-                            const auto j = i->second.find(info.info.face);
+                            const auto j = i->second.find(info.info.getFace());
                             if (j != i->second.end())
                             {
                                 ftFace = j->second;
@@ -840,13 +840,13 @@ namespace djv
                         /*FT_Error ftError = FT_Set_Char_Size(
                             ftFace,
                             0,
-                            static_cast<int>(request.info.size * 64.F),
-                            request.info.dpi,
-                            request.info.dpi);*/
+                            static_cast<int>(request.info.getSize() * 64.F),
+                            request.info.getDPI(),
+                            request.info.getDPI());*/
                         FT_Error ftError = FT_Set_Pixel_Sizes(
                             ftFace,
                             0,
-                            static_cast<int>(info.info.size));
+                            static_cast<int>(info.info.getSize()));
                         if (ftError)
                         {
                             //std::cout << "FT_Set_Char_Size error: " << getFTError(ftError) << std::endl;

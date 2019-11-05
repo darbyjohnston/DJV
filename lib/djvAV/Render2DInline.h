@@ -27,6 +27,8 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
+#include <djvAV/Color.h>
+
 namespace djv
 {
     namespace AV
@@ -108,6 +110,98 @@ namespace djv
             inline bool ImageOptions::operator != (const ImageOptions& other) const
             {
                 return !(*this == other);
+            }
+
+            inline void Render2D::pushTransform(const glm::mat3x3& value)
+            {
+                _transforms.push_back(value);
+                _currentTransform *= value;
+            }
+
+            inline void Render2D::popTransform()
+            {
+                _transforms.pop_back();
+                _updateCurrentTransform();
+            }
+
+            inline void Render2D::pushClipRect(const Core::BBox2f & value)
+            {
+                _clipRects.push_back(value);
+                _currentClipRect = _currentClipRect.intersect(value);
+            }
+
+            inline void Render2D::popClipRect()
+            {
+                _clipRects.pop_back();
+                _updateCurrentClipRect();
+            }
+
+            inline void Render2D::setFillColor(const Image::Color & value)
+            {
+                if (Image::Type::RGBA_F32 == value.getType())
+                {
+                    const float* d = reinterpret_cast<const float*>(value.getData());
+                    _fillColor[0] = d[0];
+                    _fillColor[1] = d[1];
+                    _fillColor[2] = d[2];
+                    _fillColor[3] = d[3];
+                }
+                else
+                {
+                    const Image::Color tmp = value.convert(Image::Type::RGBA_F32);
+                    const float* d = reinterpret_cast<const float*>(tmp.getData());
+                    _fillColor[0] = d[0];
+                    _fillColor[1] = d[1];
+                    _fillColor[2] = d[2];
+                    _fillColor[3] = d[3];
+                }
+                _finalColor[0] = _fillColor[0] * _colorMult;
+                _finalColor[1] = _fillColor[1] * _colorMult;
+                _finalColor[2] = _fillColor[2] * _colorMult;
+                _finalColor[3] = _fillColor[3] * _alphaMult;
+            }
+
+            inline void Render2D::setColorMult(float value)
+            {
+                if (value == _colorMult)
+                    return;
+                _colorMult = value;
+                _finalColor[0] = _fillColor[0] * _colorMult;
+                _finalColor[1] = _fillColor[1] * _colorMult;
+                _finalColor[2] = _fillColor[2] * _colorMult;
+                _finalColor[3] = _fillColor[3] * _alphaMult;
+            }
+
+            inline void Render2D::setAlphaMult(float value)
+            {
+                if (value == _alphaMult)
+                    return;
+                _alphaMult = value;
+                _finalColor[0] = _fillColor[0] * _colorMult;
+                _finalColor[1] = _fillColor[1] * _colorMult;
+                _finalColor[2] = _fillColor[2] * _colorMult;
+                _finalColor[3] = _fillColor[3] * _alphaMult;
+            }
+
+            inline void Render2D::_updateCurrentTransform()
+            {
+                _currentTransform = glm::mat3x3(1.F);
+                for (const auto& i : _transforms)
+                {
+                    _currentTransform *= i;
+                }
+            }
+
+            inline void Render2D::_updateCurrentClipRect()
+            {
+                _currentClipRect.min.x = 0.F;
+                _currentClipRect.min.y = 0.F;
+                _currentClipRect.max.x = static_cast<float>(_size.w);
+                _currentClipRect.max.y = static_cast<float>(_size.h);
+                for (const auto & i : _clipRects)
+                {
+                    _currentClipRect = _currentClipRect.intersect(i);
+                }
             }
 
         } // namespace Render

@@ -61,6 +61,8 @@ namespace djv
             std::string sizeString;
             glm::vec2 sizeStringSize = glm::vec2(0.F, 0.F);
             std::future<glm::vec2> sizeStringFuture;
+            std::vector<std::shared_ptr<AV::Font::Glyph> > glyphs;
+            bool glyphsValid = false;
         };
 
         void Label::_init(const std::shared_ptr<Context>& context)
@@ -287,8 +289,16 @@ namespace djv
             //render->drawRect(BBox2f(pos.x, pos.y, p.textSize.x, p.textSize.y));
 
             render->setFillColor(style->getColor(p.textColorRole));
-            //! \bug Why the extra subtract by one here?
-            render->drawText(p.text, glm::vec2(floorf(pos.x), floorf(pos.y + p.fontMetrics.ascender - 1.F)));
+            if (!p.glyphsValid)
+            {
+                p.glyphsValid = true;
+                //! \bug Why the extra subtract by one here?
+                p.glyphs = render->drawText(p.text, glm::vec2(floorf(pos.x), floorf(pos.y + p.fontMetrics.ascender - 1.F)));
+            }
+            else
+            {
+                render->drawText(p.glyphs, glm::vec2(floorf(pos.x), floorf(pos.y + p.fontMetrics.ascender - 1.F)));
+            }
         }
 
         void Label::_textUpdate()
@@ -304,6 +314,8 @@ namespace djv
             {
                 p.sizeStringFuture = p.fontSystem->measure(p.sizeString, fontInfo);
             }
+            p.glyphs.clear();
+            p.glyphsValid = false;
             _resize();
         }
 

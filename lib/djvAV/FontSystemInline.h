@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <utility>
+#include <djvCore/Memory.h>
 
 namespace djv
 {
@@ -38,25 +38,46 @@ namespace djv
             inline Info::Info()
             {}
 
-            constexpr Info::Info(FamilyID family, FaceID face, uint16_t size, uint16_t dpi) :
-                family(family),
-                face(face),
-                size(size),
-                dpi(dpi)
-            {}
+            inline Info::Info(FamilyID family, FaceID face, uint16_t size, uint16_t dpi) :
+                _family(family),
+                _face(face),
+                _size(size),
+                _dpi(dpi)
+            {
+                Core::Memory::hashCombine(_hash, _family);
+                Core::Memory::hashCombine(_hash, _face);
+                Core::Memory::hashCombine(_hash, _size);
+                Core::Memory::hashCombine(_hash, _dpi);
+            }
+
+            inline FamilyID Info::getFamily() const
+            {
+                return _family;
+            }
+            
+            inline FaceID   Info::getFace() const
+            {
+                return _face;
+            }
+            
+            inline uint16_t Info::getSize() const
+            {
+                return _size;
+            }
+            
+            inline uint16_t Info::getDPI() const
+            {
+                return _dpi;
+            }
 
             inline bool Info::operator == (const Info & other) const
             {
-                return
-                    dpi    == other.dpi    &&
-                    size   == other.size   &&
-                    face   == other.face   &&
-                    family == other.family;
+                return _hash == other._hash;
             }
 
             inline bool Info::operator < (const Info& other) const
             {
-                return std::tie(dpi, size, face, family) < std::tie(other.dpi, other.size, other.face, other.family);
+                return _hash < other._hash;
             }
 
             inline Metrics::Metrics()

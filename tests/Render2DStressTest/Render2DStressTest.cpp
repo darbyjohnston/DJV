@@ -208,8 +208,8 @@ int Application::run()
     {
         glfwPollEvents();
         _render();
-        //glfwSwapBuffers(_glfwWindow);
-        glFlush();
+        glfwSwapBuffers(_glfwWindow);
+        //glFlush();
         auto now = std::chrono::system_clock::now();
         std::chrono::duration<float> delta = now - time;
         time = now;
@@ -316,9 +316,7 @@ void Application::_drawRandomCircle()
 void Application::_drawRandomText()
 {
     _render2D->setFillColor(_currentColor->c);
-    AV::Font::Info fontInfo;
-    fontInfo.size = _currentText->size;
-    _render2D->setCurrentFont(fontInfo);
+    _render2D->setCurrentFont(AV::Font::Info(1, 1, _currentText->size, AV::dpiDefault));
     _render2D->drawText(_currentText->s, _currentPos->v);
     _currentColor = _currentColor->next;
     _currentPos = _currentPos->next;
