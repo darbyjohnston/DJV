@@ -260,6 +260,7 @@ namespace djv
 
         struct MagnifyWidget::Private
         {
+            bool current = false;
             int magnify = 1;
             glm::vec2 magnifyPos = glm::vec2(0.F, 0.F);
             std::shared_ptr<MediaWidget> activeWidget;
@@ -401,8 +402,11 @@ namespace djv
                                     {
                                         if (auto widget = weak.lock())
                                         {
-                                            widget->_p->magnifyPos = value.pos;
-                                            widget->_p->imageWidget->setMagnifyPos(value.pos);
+                                            if (widget->_p->current)
+                                            {
+                                                widget->_p->magnifyPos = value.pos;
+                                                widget->_p->imageWidget->setMagnifyPos(value.pos);
+                                            }
                                         }
                                     });
                             }
@@ -434,6 +438,11 @@ namespace djv
             auto out = std::shared_ptr<MagnifyWidget>(new MagnifyWidget);
             out->_init(context);
             return out;
+        }
+        
+        void MagnifyWidget::setCurrent(bool value)
+        {
+            _p->current = value;
         }
 
         int MagnifyWidget::getMagnify() const

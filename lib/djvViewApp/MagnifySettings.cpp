@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2019 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvViewApp/ToolSettings.h>
+#include <djvViewApp/MagnifySettings.h>
 
 // These need to be included last on OSX.
 #include <djvCore/PicoJSONTemplates.h>
@@ -39,86 +39,82 @@ namespace djv
 {
     namespace ViewApp
     {
-        struct ToolSettings::Private
+        struct MagnifySettings::Private
         {
-            std::shared_ptr<ValueSubject<bool> > errorsPopup;
-
-            std::map<std::string, bool> debugBellowsState;
-
+            int magnify = 1;
+            glm::vec2 magnifyPos = glm::vec2(0.F, 0.F);
             std::map<std::string, BBox2f> widgetGeom;
         };
 
-        void ToolSettings::_init(const std::shared_ptr<Core::Context>& context)
+        void MagnifySettings::_init(const std::shared_ptr<Core::Context>& context)
         {
-            ISettings::_init("djv::ViewApp::ToolSettings", context);
-            DJV_PRIVATE_PTR();
-            p.errorsPopup = ValueSubject<bool>::create(true);
+            ISettings::_init("djv::ViewApp::MagnifySettings", context);
             _load();
         }
 
-        ToolSettings::ToolSettings() :
+        MagnifySettings::MagnifySettings() :
             _p(new Private)
         {}
 
-        ToolSettings::~ToolSettings()
+        MagnifySettings::~MagnifySettings()
         {}
 
-        std::shared_ptr<ToolSettings> ToolSettings::create(const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<MagnifySettings> MagnifySettings::create(const std::shared_ptr<Core::Context>& context)
         {
-            auto out = std::shared_ptr<ToolSettings>(new ToolSettings);
+            auto out = std::shared_ptr<MagnifySettings>(new MagnifySettings);
             out->_init(context);
             return out;
         }
 
-        std::shared_ptr<IValueSubject<bool> > ToolSettings::observeErrorsPopup() const
+        int MagnifySettings::getMagnify() const
         {
-            return _p->errorsPopup;
+            return _p->magnify;
         }
 
-        void ToolSettings::setErrorsPopup(bool value)
+        void MagnifySettings::setMagnify(int value)
         {
-            _p->errorsPopup->setIfChanged(value);
+            _p->magnify = value;
         }
 
-        std::map<std::string, bool> ToolSettings::getDebugBellowsState() const
+        const glm::vec2& MagnifySettings::getMagnifyPos() const
         {
-            return _p->debugBellowsState;
+            return _p->magnifyPos;
         }
 
-        void ToolSettings::setDebugBellowsState(const std::map<std::string, bool>& value)
+        void MagnifySettings::setMagnifyPos(const glm::vec2& value)
         {
-            _p->debugBellowsState = value;
+            _p->magnifyPos = value;
         }
 
-        const std::map<std::string, BBox2f>& ToolSettings::getWidgetGeom() const
+        const std::map<std::string, BBox2f>& MagnifySettings::getWidgetGeom() const
         {
             return _p->widgetGeom;
         }
 
-        void ToolSettings::setWidgetGeom(const std::map<std::string, BBox2f>& value)
+        void MagnifySettings::setWidgetGeom(const std::map<std::string, BBox2f>& value)
         {
             _p->widgetGeom = value;
         }
 
-        void ToolSettings::load(const picojson::value & value)
+        void MagnifySettings::load(const picojson::value & value)
         {
             if (value.is<picojson::object>())
             {
                 DJV_PRIVATE_PTR();
                 const auto & object = value.get<picojson::object>();
-                UI::Settings::read("ErrorsPopup", object, p.errorsPopup);
-                UI::Settings::read("DebugBellowsState", object, p.debugBellowsState);
+                UI::Settings::read("Magnify", object, p.magnify);
+                UI::Settings::read("MagnifyPos", object, p.magnifyPos);
                 UI::Settings::read("WidgetGeom", object, p.widgetGeom);
             }
         }
 
-        picojson::value ToolSettings::save()
+        picojson::value MagnifySettings::save()
         {
             DJV_PRIVATE_PTR();
             picojson::value out(picojson::object_type, true);
             auto & object = out.get<picojson::object>();
-            UI::Settings::write("ErrorsPopup", p.errorsPopup->get(), object);
-            UI::Settings::write("DebugBellowsState", p.debugBellowsState, object);
+            UI::Settings::write("Magnify", p.magnify, object);
+            UI::Settings::write("MagnifyPos", p.magnifyPos, object);
             UI::Settings::write("WidgetGeom", p.widgetGeom, object);
             return out;
         }

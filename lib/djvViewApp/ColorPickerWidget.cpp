@@ -83,8 +83,9 @@ namespace djv
 
         struct ColorPickerWidget::Private
         {
+            bool current = false;
             int sampleSize = 1;
-            AV::Image::Type colorTypeLock = AV::Image::Type::None;
+            AV::Image::Type typeLock = AV::Image::Type::None;
             AV::Image::Color color = AV::Image::Color(0.F, 0.F, 0.F);
             glm::vec2 pickerPos = glm::vec2(0.F, 0.F);
             std::shared_ptr<AV::Image::Image> image;
@@ -219,9 +220,9 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->color = widget->_p->color.convert(value);
-                        if (widget->_p->colorTypeLock != AV::Image::Type::None)
+                        if (widget->_p->typeLock != AV::Image::Type::None)
                         {
-                            widget->_p->colorTypeLock = value;
+                            widget->_p->typeLock = value;
                         }
                         widget->_widgetUpdate();
                     }
@@ -235,11 +236,11 @@ namespace djv
                     {
                         if (value)
                         {
-                            widget->_p->colorTypeLock = widget->_p->typeWidget->getType();
+                            widget->_p->typeLock = widget->_p->typeWidget->getType();
                         }
                         else
                         {
-                            widget->_p->colorTypeLock = AV::Image::Type::None;
+                            widget->_p->typeLock = AV::Image::Type::None;
                         }
                     }
                 });
@@ -333,9 +334,12 @@ namespace djv
                                     {
                                         if (auto widget = weak.lock())
                                         {
-                                            widget->_p->pickerPos = value.pos;
-                                            widget->_sampleUpdate();
-                                            widget->_widgetUpdate();
+                                            if (widget->_p->current)
+                                            {
+                                                widget->_p->pickerPos = value.pos;
+                                                widget->_sampleUpdate();
+                                                widget->_widgetUpdate();
+                                            }
                                         }
                                     });
                             }
@@ -386,6 +390,11 @@ namespace djv
             out->_init(context);
             return out;
         }
+        
+        void ColorPickerWidget::setCurrent(bool value)
+        {
+            _p->current = value;
+        }
 
         int ColorPickerWidget::getSampleSize() const
         {
@@ -402,20 +411,20 @@ namespace djv
             _redraw();
         }
 
-        AV::Image::Type ColorPickerWidget::getColorTypeLock() const
+        AV::Image::Type ColorPickerWidget::getTypeLock() const
         {
-            return _p->colorTypeLock;
+            return _p->typeLock;
         }
 
-        void ColorPickerWidget::setColorTypeLock(AV::Image::Type value)
+        void ColorPickerWidget::setTypeLock(AV::Image::Type value)
         {
             DJV_PRIVATE_PTR();
-            if (value == p.colorTypeLock)
+            if (value == p.typeLock)
                 return;
-            p.colorTypeLock = value;
-            if (p.colorTypeLock != AV::Image::Type::None)
+            p.typeLock = value;
+            if (p.typeLock != AV::Image::Type::None)
             {
-                p.color = p.color.convert(p.colorTypeLock);
+                p.color = p.color.convert(p.typeLock);
             }
             _widgetUpdate();
             _redraw();
@@ -459,7 +468,7 @@ namespace djv
             {
                 try
                 {
-                    const AV::Image::Type type = p.colorTypeLock != AV::Image::Type::None ? p.colorTypeLock : p.image->getType();
+                    const AV::Image::Type type = p.typeLock != AV::Image::Type::None ? p.typeLock : p.image->getType();
                     const size_t sampleSize = std::max(static_cast<size_t>(ceilf(p.sampleSize * p.imageZoom)), bufferSizeMin);
                     const AV::Image::Info info(sampleSize, sampleSize, type);
                     if (p.offscreenBuffer)
@@ -542,7 +551,7 @@ namespace djv
             const AV::Image::Type type = p.color.getType();
             p.typeWidget->setType(type);
 
-            const bool lock = p.colorTypeLock != AV::Image::Type::None;
+            const bool lock = p.typeLock != AV::Image::Type::None;
             p.actions["Lock"]->setChecked(lock);
 
             p.colorSwatch->setColor(p.color);

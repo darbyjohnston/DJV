@@ -1600,12 +1600,12 @@
         "description": ""
     }, 
     {
-        "text": "Show the color picker widget", 
+        "text": "Activate the color picker tool", 
         "id": "Color picker tooltip", 
         "description": ""
     }, 
     {
-        "text": "Show the magnify widget", 
+        "text": "Activate the magnify tool", 
         "id": "Magnify tooltip", 
         "description": ""
     }, 

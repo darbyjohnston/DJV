@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2019 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -29,40 +29,46 @@
 
 #pragma once
 
-#include <djvViewApp/MDIWidget.h>
+#include <djvUI/ISettings.h>
+
+#include <djvAV/Pixel.h>
+
+#include <djvCore/BBox.h>
+#include <djvCore/ValueObserver.h>
 
 namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the magnify widget.
-        class MagnifyWidget : public MDIWidget
+        //! This class provides the color picker settings.
+        class ColorPickerSettings : public UI::Settings::ISettings
         {
-            DJV_NON_COPYABLE(MagnifyWidget);
+            DJV_NON_COPYABLE(ColorPickerSettings);
 
         protected:
             void _init(const std::shared_ptr<Core::Context>&);
-            MagnifyWidget();
+
+            ColorPickerSettings();
 
         public:
-            ~MagnifyWidget() override;
+            virtual ~ColorPickerSettings();
 
-            static std::shared_ptr<MagnifyWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ColorPickerSettings> create(const std::shared_ptr<Core::Context>&);
 
-            void setCurrent(bool);
+            int getSampleSize() const;
+            AV::Image::Type getTypeLock() const;
+            const glm::vec2& getPickerPos() const;
+            void setSampleSize(int);
+            void setTypeLock(AV::Image::Type);
+            void setPickerPos(const glm::vec2&);
 
-            int getMagnify() const;
-            void setMagnify(int);
+            const std::map<std::string, Core::BBox2f>& getWidgetGeom() const;
+            void setWidgetGeom(const std::map<std::string, Core::BBox2f>&);
 
-            const glm::vec2& getMagnifyPos() const;
-            void setMagnifyPos(const glm::vec2&);
-
-        protected:
-            void _textUpdateEvent(Core::Event::TextUpdate &) override;
+            void load(const picojson::value &) override;
+            picojson::value save() override;
 
         private:
-            void _widgetUpdate();
-
             DJV_PRIVATE();
         };
 

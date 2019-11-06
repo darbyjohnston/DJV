@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2019 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -29,40 +29,36 @@
 
 #pragma once
 
-#include <djvViewApp/MDIWidget.h>
+#include <djvViewApp/IToolSystem.h>
 
 namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the magnify widget.
-        class MagnifyWidget : public MDIWidget
+        //! This class provides the color picker system.
+        class ColorPickerSystem : public IToolSystem
         {
-            DJV_NON_COPYABLE(MagnifyWidget);
+            DJV_NON_COPYABLE(ColorPickerSystem);
 
         protected:
             void _init(const std::shared_ptr<Core::Context>&);
-            MagnifyWidget();
+            ColorPickerSystem();
 
         public:
-            ~MagnifyWidget() override;
+            ~ColorPickerSystem() override;
 
-            static std::shared_ptr<MagnifyWidget> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ColorPickerSystem> create(const std::shared_ptr<Core::Context>&);
 
-            void setCurrent(bool);
+            ToolActionData getToolAction() const override;
+            void setCurrentTool(bool) override;
 
-            int getMagnify() const;
-            void setMagnify(int);
-
-            const glm::vec2& getMagnifyPos() const;
-            void setMagnifyPos(const glm::vec2&);
+            std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
 
         protected:
-            void _textUpdateEvent(Core::Event::TextUpdate &) override;
+            void _closeWidget(const std::string&) override;
+            void _textUpdate() override;
 
         private:
-            void _widgetUpdate();
-
             DJV_PRIVATE();
         };
 

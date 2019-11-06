@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2019 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -29,40 +29,42 @@
 
 #pragma once
 
-#include <djvViewApp/MDIWidget.h>
+#include <djvUI/ISettings.h>
+
+#include <djvCore/BBox.h>
+#include <djvCore/ValueObserver.h>
 
 namespace djv
 {
     namespace ViewApp
     {
-        //! This class provides the magnify widget.
-        class MagnifyWidget : public MDIWidget
+        //! This class provides the magnify settings.
+        class MagnifySettings : public UI::Settings::ISettings
         {
-            DJV_NON_COPYABLE(MagnifyWidget);
+            DJV_NON_COPYABLE(MagnifySettings);
 
         protected:
             void _init(const std::shared_ptr<Core::Context>&);
-            MagnifyWidget();
+
+            MagnifySettings();
 
         public:
-            ~MagnifyWidget() override;
+            virtual ~MagnifySettings();
 
-            static std::shared_ptr<MagnifyWidget> create(const std::shared_ptr<Core::Context>&);
-
-            void setCurrent(bool);
+            static std::shared_ptr<MagnifySettings> create(const std::shared_ptr<Core::Context>&);
 
             int getMagnify() const;
-            void setMagnify(int);
-
             const glm::vec2& getMagnifyPos() const;
+            void setMagnify(int);
             void setMagnifyPos(const glm::vec2&);
 
-        protected:
-            void _textUpdateEvent(Core::Event::TextUpdate &) override;
+            const std::map<std::string, Core::BBox2f>& getWidgetGeom() const;
+            void setWidgetGeom(const std::map<std::string, Core::BBox2f>&);
+
+            void load(const picojson::value &) override;
+            picojson::value save() override;
 
         private:
-            void _widgetUpdate();
-
             DJV_PRIVATE();
         };
 
