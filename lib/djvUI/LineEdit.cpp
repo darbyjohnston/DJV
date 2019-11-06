@@ -159,7 +159,7 @@ namespace djv
             _p->lineEditBase->setTextChangedCallback(callback);
         }
 
-        void LineEdit::setTextEditCallback(const std::function<void(const std::string&, TextEdit)> & callback)
+        void LineEdit::setTextEditCallback(const std::function<void(const std::string&, TextEditReason)> & callback)
         {
             _p->lineEditBase->setTextEditCallback(callback);
         }

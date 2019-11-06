@@ -75,6 +75,7 @@ set(header
     TabBar.h
     TabWidget.h
     TextBlock.h
+    TextEdit.h
     ToggleButton.h
     ToolBar.h
     ToolButton.h
@@ -153,6 +154,7 @@ set(source
     TabBar.cpp
     TabWidget.cpp
     TextBlock.cpp
+    TextEdit.cpp
     ToggleButton.cpp
     ToolBar.cpp
     ToolButton.cpp

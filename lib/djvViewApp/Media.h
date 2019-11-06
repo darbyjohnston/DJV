@@ -53,6 +53,8 @@ namespace djv
 
     namespace ViewApp
     {
+        class AnnotatePrimitive;
+        
         //! This class provides a media object.
         class Media : public std::enable_shared_from_this<Media>
         {
@@ -170,6 +172,16 @@ namespace djv
 
             void setCacheEnabled(bool);
             void setCacheMaxByteCount(size_t);
+
+            ///@}
+
+            //! \name Annotations
+            ///@{
+            
+            std::shared_ptr<Core::IListSubject<std::shared_ptr<AnnotatePrimitive> > > observeAnnotations() const;
+            
+            void addAnnotation(const std::shared_ptr<AnnotatePrimitive>&);
+            void clearAnnotations();
 
             ///@}
 

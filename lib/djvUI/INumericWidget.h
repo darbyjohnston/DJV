@@ -68,13 +68,13 @@ namespace djv
 
             T getValue() const;
             void setValue(T);
-            void setValueCallback(const std::function<void(T, TextEdit)>&);
+            void setValueCallback(const std::function<void(T, TextEditReason)>&);
 
             const std::shared_ptr<Core::INumericValueModel<T> >& getModel() const;
             virtual void setModel(const std::shared_ptr<Core::INumericValueModel<T> >&);
 
         protected:
-            void _doCallback(TextEdit);
+            void _doCallback(TextEditReason);
             bool _keyPress(NumericWidgetKey);
             virtual void _setIsMin(bool) {}
             virtual void _setIsMax(bool) {}
@@ -84,7 +84,7 @@ namespace djv
         private:
             std::shared_ptr<Core::ValueObserver<bool> > _isMinObserver;
             std::shared_ptr<Core::ValueObserver<bool> > _isMaxObserver;
-            std::function<void(T, TextEdit)> _callback;
+            std::function<void(T, TextEditReason)> _callback;
         };
 
         //! This class provides an interface for numeric editor widgets.

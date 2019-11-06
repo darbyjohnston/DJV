@@ -56,7 +56,7 @@ namespace djv
             void _setIsMin(bool) override;
             void _setIsMax(bool) override;
 
-            void _textEdit(const std::string&, TextEdit) override;
+            void _textEdit(const std::string&, TextEditReason) override;
             bool _keyPress(int) override;
             void _incrementValue() override;
             void _decrementValue() override;

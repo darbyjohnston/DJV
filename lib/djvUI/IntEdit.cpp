@@ -111,7 +111,7 @@ namespace djv
             NumericEdit::_setIsMax(value);
         }
 
-        void IntEdit::_textEdit(const std::string& value, TextEdit textEdit)
+        void IntEdit::_textEdit(const std::string& value, TextEditReason reason)
         {
             if (auto model = getModel())
             {
@@ -124,7 +124,7 @@ namespace djv
                     _log(e.what(), LogLevel::Error);
                 }
                 _textUpdate();
-                _doCallback(textEdit);
+                _doCallback(reason);
             }
         }
 

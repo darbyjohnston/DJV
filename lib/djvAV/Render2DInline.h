@@ -183,6 +183,11 @@ namespace djv
                 _finalColor[3] = _fillColor[3] * _alphaMult;
             }
 
+            inline void Render2D::setLineWidth(float value)
+            {
+                _lineWidth = value;
+            }
+
             inline void Render2D::_updateCurrentTransform()
             {
                 _currentTransform = glm::mat3x3(1.F);

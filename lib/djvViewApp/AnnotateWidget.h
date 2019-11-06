@@ -33,6 +33,15 @@
 
 namespace djv
 {
+    namespace AV
+    {
+        namespace Image
+        {
+            class Color;
+            
+        } // namespace Image
+    } // namespace AV
+    
     namespace ViewApp
     {
         //! This class provides the annotation widget.
@@ -48,6 +57,12 @@ namespace djv
             ~AnnotateWidget() override;
 
             static std::shared_ptr<AnnotateWidget> create(const std::shared_ptr<Core::Context>&);
+            
+            void setColor(const AV::Image::Color&);
+            void setColorCallback(const std::function<void(const AV::Image::Color)>&);
+
+            void setLineWidth(float);
+            void setLineWidthCallback(const std::function<void(float)>&);
 
         protected:
             void _textUpdateEvent(Core::Event::TextUpdate &) override;

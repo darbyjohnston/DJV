@@ -29,6 +29,8 @@
 
 #include <djvViewApp/Media.h>
 
+#include <djvViewApp/Annotate.h>
+
 #include <djvAV/AVSystem.h>
 
 #include <djvCore/Context.h>
@@ -79,6 +81,7 @@ namespace djv
             std::shared_ptr<ValueSubject<size_t> > threadCount;
             std::shared_ptr<ValueSubject<Frame::Sequence> > cacheSequence;
             std::shared_ptr<ValueSubject<Frame::Sequence> > cachedFrames;
+            std::shared_ptr<ListSubject<std::shared_ptr<AnnotatePrimitive> > > annotations;
 
             std::shared_ptr<ValueSubject<size_t> > videoQueueMax;
             std::shared_ptr<ValueSubject<size_t> > videoQueueCount;
@@ -133,7 +136,8 @@ namespace djv
             p.threadCount = ValueSubject<size_t>::create(4);
             p.cacheSequence = ValueSubject<Frame::Sequence>::create();
             p.cachedFrames = ValueSubject<Frame::Sequence>::create();
-
+            p.annotations = ListSubject<std::shared_ptr<AnnotatePrimitive> >::create();
+            
             p.videoQueueMax = ValueSubject<size_t>::create();
             p.audioQueueMax = ValueSubject<size_t>::create();
             p.videoQueueCount = ValueSubject<size_t>::create();
@@ -607,6 +611,21 @@ namespace djv
             {
                 p.read->setCacheMaxByteCount(value);
             }
+        }
+            
+        std::shared_ptr<Core::IListSubject<std::shared_ptr<AnnotatePrimitive> > > Media::observeAnnotations() const
+        {
+            return _p->annotations;
+        }
+        
+        void Media::addAnnotation(const std::shared_ptr<AnnotatePrimitive>& value)
+        {
+            _p->annotations->pushBack(value);
+        }
+        
+        void Media::clearAnnotations()
+        {
+            _p->annotations->clear();
         }
 
         std::shared_ptr<IValueSubject<size_t> > Media::observeVideoQueueMax() const

@@ -57,6 +57,7 @@ namespace djv
 
     namespace ViewApp
     {
+        class AnnotatePrimitive;
         class Media;
 
         //! This class provides grid options.
@@ -116,6 +117,8 @@ namespace djv
 
             std::shared_ptr<Core::IValueSubject<AV::Image::Color> > observeBackgroundColor() const;
             void setBackgroundColor(const AV::Image::Color&);
+
+            void setAnnotations(const std::vector<std::shared_ptr<AnnotatePrimitive> >&);
 
         protected:
             void _styleEvent(Core::Event::Style&) override;

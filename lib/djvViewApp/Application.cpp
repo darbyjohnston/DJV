@@ -29,7 +29,7 @@
 
 #include <djvViewApp/Application.h>
 
-//#include <djvViewApp/AnnotateSystem.h>
+#include <djvViewApp/AnnotateSystem.h>
 #include <djvViewApp/AudioSystem.h>
 #include <djvViewApp/FileSettings.h>
 #include <djvViewApp/FileSystem.h>
@@ -106,7 +106,7 @@ namespace djv
             p.systems.push_back(ImageSystem::create(shared_from_this()));
             p.systems.push_back(PlaybackSystem::create(shared_from_this()));
             p.systems.push_back(AudioSystem::create(shared_from_this()));
-            //p.systems.push_back(AnnotateSystem::create(shared_from_this()));
+            p.systems.push_back(AnnotateSystem::create(shared_from_this()));
             p.systems.push_back(ToolSystem::create(shared_from_this()));
             p.systems.push_back(HelpSystem::create(shared_from_this()));
             auto nuxSystem = NUXSystem::create(shared_from_this());

@@ -257,7 +257,7 @@ namespace djv
         DJV_ENUM_HELPERS(MetricsRole);
 
         //! This enumeration provides information about text editing.
-        enum class TextEdit
+        enum class TextEditReason
         {
             Accepted,
             LostFocus

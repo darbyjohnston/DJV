@@ -190,7 +190,7 @@ namespace djv
             
             auto weak = std::weak_ptr<FrameWidget>(std::dynamic_pointer_cast<FrameWidget>(shared_from_this()));
             _lineEditBase->setTextEditCallback(
-                [weak](const std::string& value, UI::TextEdit)
+                [weak](const std::string& value, UI::TextEditReason)
                 {
                     if (auto widget = weak.lock())
                     {

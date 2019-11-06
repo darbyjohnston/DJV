@@ -50,6 +50,8 @@
 #include <OpenColorIO/OpenColorIO.h>
 
 #include <glm/gtc/matrix_transform.hpp>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/perpendicular.hpp>
 
 using namespace djv::Core;
 namespace _OCIO = OCIO_NAMESPACE;
@@ -743,9 +745,9 @@ namespace djv
                             glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
                         }
                     }
+                    primitive->bind(p.primitiveData, p.shader);
                     if (currentLCDText)
                     {
-                        primitive->bind(p.primitiveData, p.shader);
                         p.shader->setUniform(p.primitiveData.colorModeLoc, static_cast<int>(ColorMode::ColorWithTextureAlphaR));
                         glColorMask(GL_TRUE, GL_FALSE, GL_FALSE, GL_TRUE);
                         p.vao->draw(primitive->type, primitive->vaoOffset, primitive->vaoSize);
@@ -758,7 +760,6 @@ namespace djv
                     }
                     else
                     {
-                        primitive->bind(p.primitiveData, p.shader);
                         p.vao->draw(primitive->type, primitive->vaoOffset, primitive->vaoSize);
                     }
                 }
@@ -797,38 +798,70 @@ namespace djv
                 }
 #endif // DJV_OPENGL_ES2
             }
-
-            void Render2D::drawRect(const BBox2f & value)
+            
+            void Render2D::drawPolyline(const std::vector<glm::vec2>& value)
             {
                 DJV_PRIVATE_PTR();
-                if (value.intersects(_currentClipRect))
+                const size_t size = value.size();
+                if (size > 1)
                 {
-                    auto primitive = new Primitive;
-                    p.primitives.push_back(primitive);
-                    primitive->clipRect = _currentClipRect;
-                    primitive->color[0] = _finalColor[0];
-                    primitive->color[1] = _finalColor[1];
-                    primitive->color[2] = _finalColor[2];
-                    primitive->color[3] = _finalColor[3];
-                    primitive->type = GL_TRIANGLE_STRIP;
-                    primitive->vaoOffset = p.vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
-                    primitive->vaoSize = 4;
+                    std::vector<glm::vec2> pts;
+                    for (size_t i = 1; i < size; ++i)
+                    {
+                        const glm::vec2 v = value[i] - value[i - 1];
+                        const glm::vec2 perp = glm::normalize(glm::vec2(-v.y, v.x)) * _lineWidth;
+                        const glm::vec2 pt[2] =
+                        {
+                            value[i] - perp,
+                            value[i] + perp
+                        };
+                        for (size_t i = 0; i < 2; ++i)
+                        {
+                            const glm::vec3 tmp = _currentTransform * glm::vec3(pt[i].x, pt[i].y, 1.F);
+                            pts.push_back(glm::vec2(tmp.x, tmp.y));
+                        }
+                    }
+                    
+                    BBox2f bbox;
+                    bbox.min = bbox.max = glm::vec2(pts[0].x, pts[0].y);
+                    const size_t ptsSize = pts.size();
+                    for (size_t i = 1; i < ptsSize; ++i)
+                    {
+                        bbox.expand(pts[i]);
+                    }
+                    if (bbox.intersects(_currentClipRect))
+                    {
+                        auto primitive = new Primitive;
+                        p.primitives.push_back(primitive);
+                        primitive->clipRect = _currentClipRect;
+                        primitive->color[0] = _finalColor[0];
+                        primitive->color[1] = _finalColor[1];
+                        primitive->color[2] = _finalColor[2];
+                        primitive->color[3] = _finalColor[3];
+                        primitive->type = GL_TRIANGLE_STRIP;
+                        primitive->vaoOffset = p.vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
+                        primitive->vaoSize = ptsSize;
 
-                    const size_t vboDataSize = p.vboDataSize;
-                    p.updateVBODataSize(4);
-                    VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataSize]);
-                    pData->vx = value.min.x;
-                    pData->vy = value.min.y;
-                    ++pData;
-                    pData->vx = value.max.x;
-                    pData->vy = value.min.y;
-                    ++pData;
-                    pData->vx = value.min.x;
-                    pData->vy = value.max.y;
-                    ++pData;
-                    pData->vx = value.max.x;
-                    pData->vy = value.max.y;
+                        const size_t vboDataSize = p.vboDataSize;
+                        p.updateVBODataSize(ptsSize);
+                        const glm::vec2* pPts = pts.data();
+                        VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataSize]);
+                        for (size_t i = 0; i < size; ++i, pPts += 2)
+                        {
+                            pData->vx = pPts[0].x;
+                            pData->vy = pPts[0].y;
+                            ++pData;
+                            pData->vx = pPts[1].x;
+                            pData->vy = pPts[1].y;
+                            ++pData;
+                        }
+                    }
                 }
+            }
+            
+            void Render2D::drawRect(const BBox2f & value)
+            {
+                drawRects({ value });
             }
 
             void Render2D::drawRects(const std::vector<BBox2f>& value)

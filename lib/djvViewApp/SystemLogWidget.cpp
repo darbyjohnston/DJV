@@ -127,6 +127,7 @@ namespace djv
             layout->addSeparator();
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
             hLayout->addExpander();
             hLayout->addChild(p.copyButton);
             hLayout->addChild(p.reloadButton);

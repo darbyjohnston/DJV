@@ -29,6 +29,7 @@
 
 #include <djvViewApp/ImageView.h>
 
+#include <djvViewApp/Annotate.h>
 #include <djvViewApp/ImageSettings.h>
 #include <djvViewApp/ViewSettings.h>
 
@@ -78,6 +79,7 @@ namespace djv
             BBox2f lockFrame = BBox2f(0.F, 0.F, 0.F, 0.F);
             std::shared_ptr<ValueSubject<GridOptions> > gridOptions;
             std::shared_ptr<ValueSubject<AV::Image::Color> > backgroundColor;
+            std::vector<std::shared_ptr<AnnotatePrimitive> > annotations;
             glm::vec2 pressedImagePos = glm::vec2(0.F, 0.F);
             bool viewInit = true;
             AV::Font::Metrics fontMetrics;
@@ -373,6 +375,12 @@ namespace djv
                 _redraw();
             }
         }
+        
+        void ImageView::setAnnotations(const std::vector<std::shared_ptr<AnnotatePrimitive> >& value)
+        {
+            _p->annotations = value;
+            _redraw();
+        }
 
         void ImageView::_styleEvent(Event::Style& event)
         {
@@ -449,13 +457,14 @@ namespace djv
             render->setFillColor(p.backgroundColor->get());
             render->drawRect(g);
 
+            const float zoom = p.imageZoom->get();
+            const glm::vec2& pos = p.imagePos->get();
             if (auto image = p.image->get())
             {
                 render->setFillColor(AV::Image::Color(1.F, 1.F, 1.F));
 
-                const float zoom = _p->imageZoom->get();
                 glm::mat3x3 m(1.F);
-                m = glm::translate(m, g.min + p.imagePos->get());
+                m = glm::translate(m, g.min + pos);
                 m = glm::rotate(m, Math::deg2rad(getImageRotate(p.imageRotate->get())));
                 m = glm::scale(m, glm::vec2(
                     zoom * UI::getPixelAspectRatio(p.imageAspectRatio->get(), image->getInfo().pixelAspectRatio),
@@ -480,10 +489,24 @@ namespace djv
                 render->drawImage(image, glm::vec2(0.F, 0.F), options);
                 render->popTransform();
             }
+            
             const auto& gridOptions = p.gridOptions->get();
             if (gridOptions.enabled)
             {
                 _drawGrid(gridOptions.size);
+            }
+
+            if (p.annotations.size())
+            {
+                glm::mat3x3 m(1.F);
+                m = glm::translate(m, g.min + pos);
+                m = glm::scale(m, glm::vec2(zoom, zoom));
+                render->pushTransform(m);
+                for (const auto& i : p.annotations)
+                {
+                    i->draw(render);
+                }
+                render->popTransform();
             }
         }
 

@@ -91,7 +91,7 @@ namespace djv
             std::shared_ptr<Time::Timer> cursorBlinkTimer;
             
             std::function<void(std::string)> textChangedCallback;
-            std::function<void(const std::string&, TextEdit)> textEditCallback;
+            std::function<void(const std::string&, TextEditReason)> textEditCallback;
             std::function<void(bool)> focusCallback;
         };
 
@@ -242,7 +242,7 @@ namespace djv
             _p->textChangedCallback = value;
         }
 
-        void LineEditBase::setTextEditCallback(const std::function<void(const std::string&, TextEdit)>& value)
+        void LineEditBase::setTextEditCallback(const std::function<void(const std::string&, TextEditReason)>& value)
         {
             _p->textEditCallback = value;
         }
@@ -586,7 +586,7 @@ namespace djv
                     }
                     case GLFW_KEY_ENTER:
                         event.accept();
-                        _doTextEditCallback(TextEdit::Accepted);
+                        _doTextEditCallback(TextEditReason::Accepted);
                         break;
                     case GLFW_KEY_LEFT:
                         event.accept();
@@ -768,7 +768,7 @@ namespace djv
             p.cursorBlinkTimer->stop();
             p.cursorBlink = false;
             _redraw();
-            _doTextEditCallback(TextEdit::LostFocus);
+            _doTextEditCallback(TextEditReason::LostFocus);
             _doFocusCallback(false);
         }
 
@@ -964,12 +964,12 @@ namespace djv
             }
         }
 
-        void LineEditBase::_doTextEditCallback(TextEdit textEdit)
+        void LineEditBase::_doTextEditCallback(TextEditReason reason)
         {
             DJV_PRIVATE_PTR();
             if (p.textEditCallback)
             {
-                p.textEditCallback(p.text, textEdit);
+                p.textEditCallback(p.text, reason);
             }
         }
 

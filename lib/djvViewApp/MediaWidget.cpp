@@ -171,6 +171,7 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > cacheEnabledObserver;
             std::shared_ptr<ValueObserver<Frame::Sequence> > cacheSequenceObserver;
             std::shared_ptr<ValueObserver<Frame::Sequence> > cachedFramesObserver;
+            std::shared_ptr<ListObserver<std::shared_ptr<AnnotatePrimitive> > > annotationsObserver;
             std::shared_ptr<ValueObserver<float> > fadeObserver;
             std::shared_ptr<ValueObserver<ImageViewLock> > viewLockObserver;
             std::shared_ptr<ValueObserver<bool> > frameStoreEnabledObserver;
@@ -933,6 +934,16 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->timelineSlider->setCachedFrames(value);
+                    }
+                });
+
+            p.annotationsObserver = ListObserver<std::shared_ptr<AnnotatePrimitive> >::create(
+                p.media->observeAnnotations(),
+                [weak](const std::vector<std::shared_ptr<AnnotatePrimitive> >& value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->imageView->setAnnotations(value);
                     }
                 });
 

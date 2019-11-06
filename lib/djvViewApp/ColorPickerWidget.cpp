@@ -135,6 +135,7 @@ namespace djv
             p.actions["Lock"]->setButtonType(UI::ButtonType::Toggle);
 
             p.colorSwatch = UI::ColorSwatch::create(context);
+            p.colorSwatch->setBorder(false);
             p.colorSwatch->setHAlign(UI::HAlign::Fill);
 
             p.colorLabel = UI::Label::create(context);
@@ -157,19 +158,22 @@ namespace djv
             p.popupMenu->setMenu(p.menu);
 
             p.layout = UI::VerticalLayout::create(context);
-            p.layout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
             p.layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             p.layout->setBackgroundRole(UI::ColorRole::Background);
             p.layout->setShadowOverlay({ UI::Side::Top });
             p.layout->addChild(p.colorSwatch);
             p.layout->setStretch(p.colorSwatch, UI::RowStretch::Expand);
-            p.layout->addChild(p.colorLabel);
-            p.layout->addChild(p.sampleSizeSlider);
             auto hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            hLayout->addChild(p.colorLabel);
+            hLayout->setStretch(p.colorLabel, UI::RowStretch::Expand);
+            hLayout->addChild(p.copyButton);
+            p.layout->addChild(hLayout);
+            p.layout->addChild(p.sampleSizeSlider);
+            hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             hLayout->addChild(p.typeWidget);
             hLayout->addExpander();
-            hLayout->addChild(p.copyButton);
             hLayout->addChild(p.popupMenu);
             p.layout->addChild(hLayout);
             addChild(p.layout);

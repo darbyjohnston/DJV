@@ -241,7 +241,7 @@ namespace djv
             auto weak = std::weak_ptr<BackgroundImageSettingsWidget>(std::dynamic_pointer_cast<BackgroundImageSettingsWidget>(shared_from_this()));
             auto contextWeak = std::weak_ptr<Context>(context);
             p.lineEdit->setTextEditCallback(
-                [weak, contextWeak](const std::string& value, UI::TextEdit)
+                [weak, contextWeak](const std::string& value, UI::TextEditReason)
                 {
                     if (auto context = contextWeak.lock())
                     {

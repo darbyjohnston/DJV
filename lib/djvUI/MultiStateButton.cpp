@@ -48,6 +48,7 @@ namespace djv
                 int currentIndex = -1;
                 std::shared_ptr<Icon> icon;
                 std::function<void(int)> callback;
+                MetricsRole insideMargin = MetricsRole::MarginSmall;
                 Event::PointerID pressedID = Event::InvalidID;
                 glm::vec2 pressedPos = glm::vec2(0.F, 0.F);
                 bool canRejectPressed = true;
@@ -127,11 +128,27 @@ namespace djv
                 _p->callback = callback;
             }
 
+            MetricsRole MultiState::getInsideMargin() const
+            {
+                return _p->insideMargin;
+            }
+
+            void MultiState::setInsideMargin(MetricsRole value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.insideMargin)
+                    return;
+                p.insideMargin = value;
+                _resize();
+            }
+            
             void MultiState::_preLayoutEvent(Event::PreLayout& event)
             {
                 DJV_PRIVATE_PTR();
-                glm::vec2 size = p.icon->getMinimumSize();
                 const auto& style = _getStyle();
+                const float m = style->getMetric(p.insideMargin);
+                glm::vec2 size = p.icon->getMinimumSize();
+                size += m * 2.F;
                 _setMinimumSize(size + getMargin().getSize(style));
             }
 
@@ -140,7 +157,8 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
                 const BBox2f g = getMargin().bbox(getGeometry(), style);
-                p.icon->setGeometry(g);
+                const float m = style->getMetric(p.insideMargin);
+                p.icon->setGeometry(g.margin(-m));
             }
 
             void MultiState::_paintEvent(Event::Paint& event)
@@ -149,6 +167,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
                 const BBox2f g = getMargin().bbox(getGeometry(), style);
+                const float m = style->getMetric(p.insideMargin);
                 auto render = _getRender();
                 if (p.pressedID != Event::InvalidID)
                 {

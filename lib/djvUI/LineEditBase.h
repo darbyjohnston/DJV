@@ -75,7 +75,7 @@ namespace djv
             void setSizeString(const std::string &);
 
             void setTextChangedCallback(const std::function<void(const std::string &)> &);
-            void setTextEditCallback(const std::function<void(const std::string&, TextEdit)> &);
+            void setTextEditCallback(const std::function<void(const std::string&, TextEditReason)> &);
             void setFocusCallback(const std::function<void(bool)> &);
 
             bool acceptFocus(TextFocusDirection) override;
@@ -107,7 +107,7 @@ namespace djv
             void _viewUpdate();
 
             void _doTextChangedCallback();
-            void _doTextEditCallback(TextEdit);
+            void _doTextEditCallback(TextEditReason);
             void _doFocusCallback(bool);
 
             DJV_PRIVATE();

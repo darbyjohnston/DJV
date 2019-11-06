@@ -59,6 +59,9 @@ namespace djv
 
                 void setCallback(const std::function<void(int)>&);
 
+                MetricsRole getInsideMargin() const;
+                void setInsideMargin(MetricsRole);
+
             protected:
                 void _preLayoutEvent(Core::Event::PreLayout&) override;
                 void _layoutEvent(Core::Event::Layout&) override;

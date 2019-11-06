@@ -188,11 +188,11 @@ namespace djv
 
             auto weak = std::weak_ptr<NumericEdit>(std::dynamic_pointer_cast<NumericEdit>(shared_from_this()));
             p.lineEditBase->setTextEditCallback(
-                [weak](const std::string & value, TextEdit textEdit)
+                [weak](const std::string & value, TextEditReason reason)
             {
                 if (auto widget = weak.lock())
                 {
-                    widget->_textEdit(value, textEdit);
+                    widget->_textEdit(value, reason);
                 }
             });
             p.lineEditBase->setFocusCallback(

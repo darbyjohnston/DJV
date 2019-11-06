@@ -1035,12 +1035,13 @@ namespace djv
 
         void Menu::setBackgroundRole(ColorRole value)
         {
-            if (value == _p->backgroundRole)
+            DJV_PRIVATE_PTR();
+            if (value == p.backgroundRole)
                 return;
-            _p->backgroundRole = value;
-            if (_p->popupWidget)
+            p.backgroundRole = value;
+            if (p.popupWidget)
             {
-                _p->popupWidget->setBackgroundRole(_p->backgroundRole);
+                p.popupWidget->setBackgroundRole(p.backgroundRole);
             }
         }
 
@@ -1048,14 +1049,14 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             std::shared_ptr<Widget> out;
-            if (p.count > 0)
+            _createWidgets();
+            if (p.popupWidget)
             {
-                _createWidgets();
                 p.layout->setPos(p.popupWidget, pos);
-                p.overlay->show();
-                p.window->show();
-                out = p.overlay;
             }
+            p.overlay->show();
+            p.window->show();
+            out = p.overlay;
             return out;
         }
 
@@ -1063,15 +1064,15 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             std::shared_ptr<Widget> out;
-            if (p.count > 0)
+            _createWidgets();
+            if (p.popupWidget)
             {
-                _createWidgets();
                 p.layout->setButton(p.popupWidget, button);
-                p.overlay->setAnchor(button);
-                p.overlay->show();
-                p.window->show();
-                out = p.overlay;
             }
+            p.overlay->setAnchor(button);
+            p.overlay->show();
+            p.window->show();
+            out = p.overlay;
             return out;
         }
 
@@ -1079,15 +1080,15 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             std::shared_ptr<Widget> out;
-            if (p.count > 0)
+            _createWidgets();
+            if (p.popupWidget)
             {
-                _createWidgets();
                 p.layout->setButton(p.popupWidget, button);
-                p.overlay->setAnchor(anchor);
-                p.overlay->show();
-                p.window->show();
-                out = p.overlay;
             }
+            p.overlay->setAnchor(anchor);
+            p.overlay->show();
+            p.window->show();
+            out = p.overlay;
             return out;
         }
 
@@ -1129,14 +1130,20 @@ namespace djv
                     p.window.reset();
                 }
 
-                p.popupWidget = MenuPopupWidget::create(context);
-                p.popupWidget->setActions(p.actions);
-                p.popupWidget->setMinimumSizeRole(p.minimumSizeRole);
-                p.popupWidget->setBackgroundRole(p.backgroundRole);
-
+                if (p.count)
+                {
+                    p.popupWidget = MenuPopupWidget::create(context);
+                    p.popupWidget->setActions(p.actions);
+                    p.popupWidget->setMinimumSizeRole(p.minimumSizeRole);
+                    p.popupWidget->setBackgroundRole(p.backgroundRole);
+                }
+                
                 p.layout = MenuLayout::create(context);
                 p.layout->setMargin(Layout::Margin(MetricsRole::None, MetricsRole::None, MetricsRole::Margin, MetricsRole::Margin));
-                p.layout->addChild(p.popupWidget);
+                if (p.popupWidget)
+                {
+                    p.layout->addChild(p.popupWidget);
+                }
 
                 p.overlay = Layout::Overlay::create(context);
                 p.overlay->setFadeIn(false);
@@ -1148,15 +1155,18 @@ namespace djv
                 p.window->addChild(p.overlay);
 
                 auto weak = std::weak_ptr<Menu>(std::dynamic_pointer_cast<Menu>(shared_from_this()));
-                p.popupWidget->setCloseCallback(
-                    [weak]
-                    {
-                        if (auto menu = weak.lock())
+                if (p.popupWidget)
+                {
+                    p.popupWidget->setCloseCallback(
+                        [weak]
                         {
-                            menu->close();
-                        }
-                    });
-
+                            if (auto menu = weak.lock())
+                            {
+                                menu->close();
+                            }
+                        });
+                }
+                
                 p.overlay->setCloseCallback(
                     [weak]
                     {

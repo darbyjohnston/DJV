@@ -29,45 +29,53 @@
 
 #pragma once
 
-#include <djvViewApp/IToolSystem.h>
+#include <djvUI/Margin.h>
+#include <djvUI/Widget.h>
 
 namespace djv
 {
-    namespace ViewApp
+    namespace UI
     {
-        //! This class provides the annotation system.
-        class AnnotateSystem : public IToolSystem
+        //! This class provides a text editor widget.
+        class TextEdit : public Widget
         {
-            DJV_NON_COPYABLE(AnnotateSystem);
-
+            DJV_NON_COPYABLE(TextEdit);
+            
         protected:
             void _init(const std::shared_ptr<Core::Context>&);
-            AnnotateSystem();
+            TextEdit();
 
         public:
-            ~AnnotateSystem() override;
+            virtual ~TextEdit();
 
-            static std::shared_ptr<AnnotateSystem> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<TextEdit> create(const std::shared_ptr<Core::Context>&);
 
-            ToolActionData getToolAction() const override;
-            void setCurrentTool(bool) override;
+            const std::string & getText() const;
+            void setText(const std::string&);
+            void appendText(const std::string&);
+            void clearText();
 
-            std::map<std::string, std::shared_ptr<UI::Action> > getActions() const override;
-            MenuData getMenu() const override;
+            MetricsRole getTextSizeRole() const;
+            void setTextSizeRole(MetricsRole);
+
+            const std::string & getFontFamily() const;
+            const std::string & getFontFace() const;
+            MetricsRole getFontSizeRole() const;
+            void setFontFamily(const std::string &);
+            void setFontFace(const std::string &);
+            void setFontSizeRole(MetricsRole);
+
+            void setBorder(bool);
+            
+            float getHeightForWidth(float) const override;
 
         protected:
-            void _closeWidget(const std::string&) override;
-            void _textUpdate() override;
+            void _preLayoutEvent(Core::Event::PreLayout&) override;
+            void _layoutEvent(Core::Event::Layout&) override;
 
         private:
-            glm::vec2 _xformDrag(const glm::vec2&) const;
-            void _dragStart(const glm::vec2&);
-            void _dragMove(const glm::vec2&);
-            void _dragEnd(const glm::vec2&);
-            
             DJV_PRIVATE();
         };
 
-    } // namespace ViewApp
+    } // namespace UI
 } // namespace djv
-

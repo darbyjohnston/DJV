@@ -157,6 +157,7 @@ namespace djv
             vLayout->addChild(p.viewFormLayout);
             vLayout->setStretch(p.viewFormLayout, UI::RowStretch::Expand);
             p.viewScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            p.viewScrollWidget->setBorder(false);
             p.viewScrollWidget->addChild(vLayout);
 
             p.gridFormLayout = UI::FormLayout::create(context);
@@ -168,6 +169,7 @@ namespace djv
             p.gridFormLayout->addChild(p.gridColorPickerSwatch);
             p.gridFormLayout->addChild(p.gridLabelsButton);
             p.gridScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            p.gridScrollWidget->setBorder(false);
             p.gridScrollWidget->addChild(p.gridFormLayout);
 
             p.backgroundFormLayout = UI::FormLayout::create(context);
@@ -176,6 +178,7 @@ namespace djv
             p.backgroundFormLayout->setShadowOverlay({ UI::Side::Top });
             p.backgroundFormLayout->addChild(p.backgroundColorPickerSwatch);
             p.backgroundScrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+            p.backgroundScrollWidget->setBorder(false);
             p.backgroundScrollWidget->addChild(p.backgroundFormLayout);
 
             p.tabWidget = UI::TabWidget::create(context);
@@ -190,7 +193,7 @@ namespace djv
 
             auto weak = std::weak_ptr<ViewControlsWidget>(std::dynamic_pointer_cast<ViewControlsWidget>(shared_from_this()));
             p.viewPosEdit[0]->setValueCallback(
-                [weak](float value, UI::TextEdit)
+                [weak](float value, UI::TextEditReason)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -198,7 +201,7 @@ namespace djv
                     }
                 });
             p.viewPosEdit[1]->setValueCallback(
-                [weak](float value, UI::TextEdit)
+                [weak](float value, UI::TextEditReason)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -216,7 +219,7 @@ namespace djv
                 });
 
             p.viewZoomEdit->setValueCallback(
-                [weak](float value, UI::TextEdit)
+                [weak](float value, UI::TextEditReason)
                 {
                     if (auto widget = weak.lock())
                     {

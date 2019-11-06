@@ -47,7 +47,7 @@ namespace djv
         {
             AV::Image::Color color;
             MetricsRole swatchSizeRole = MetricsRole::Swatch;
-            ColorRole borderColor = ColorRole::Border;
+            bool border = true;
             Event::PointerID pressedID = Event::InvalidID;
             std::function<void(void)> clickedCallback;
         };
@@ -102,6 +102,15 @@ namespace djv
             _resize();
         }
 
+        void ColorSwatch::setBorder(bool value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value == p.border)
+                return;
+            p.border = value;
+            _resize();            
+        }
+
         void ColorSwatch::setClickedCallback(const std::function<void(void)>& value)
         {
             _p->clickedCallback = value;
@@ -120,10 +129,20 @@ namespace djv
 
         void ColorSwatch::_preLayoutEvent(Event::PreLayout & event)
         {
+            DJV_PRIVATE_PTR();
             const auto& style = _getStyle();
             const float b = style->getMetric(UI::MetricsRole::Border);
-            const float sw = style->getMetric(_p->swatchSizeRole);
-            _setMinimumSize(glm::vec2(sw, sw) + b * 4.f);
+            const float sw = style->getMetric(p.swatchSizeRole);
+            glm::vec2 size = glm::vec2(sw, sw);
+            if (p.clickedCallback)
+            {
+                size += b * 4.F;
+            }
+            if (p.border)
+            {
+                size += b * 2.F;
+            }
+            _setMinimumSize(size);
         }
 
         void ColorSwatch::_paintEvent(Event::Paint & event)
@@ -134,29 +153,37 @@ namespace djv
             const float b = style->getMetric(UI::MetricsRole::Border);
             const BBox2f & g = getGeometry();
 
+            BBox2f g2 = g;
             auto render = _getRender();
-            if (hasTextFocus())
+            if (p.clickedCallback)
             {
-                render->setFillColor(style->getColor(UI::ColorRole::TextFocus));
-                drawBorder(render, g, b * 2.F);
+                if (hasTextFocus())
+                {
+                    render->setFillColor(style->getColor(UI::ColorRole::TextFocus));
+                    drawBorder(render, g, b * 2.F);
+                }
+                g2 = g2.margin(-b * 2.F);
             }
 
-            const BBox2f& g2 = g.margin(-b * 2.F);
-            render->setFillColor(style->getColor(UI::ColorRole::Border));
-            drawBorder(render, g2, b);
+            if (p.border)
+            {
+                render->setFillColor(style->getColor(UI::ColorRole::Border));
+                drawBorder(render, g2, b);
+                g2 = g2.margin(-b);
+            }
+            
             render->setFillColor(p.color);
-            const BBox2f& g3 = g2.margin(-b);
-            render->drawRect(g3);
+            render->drawRect(g2);
 
             if (isEnabled(true) && p.pressedID != 0)
             {
                 render->setFillColor(style->getColor(ColorRole::Pressed));
-                render->drawRect(g3);
+                render->drawRect(g2);
             }
             else if (isEnabled(true) && _getPointerHover().size() && p.clickedCallback)
             {
                 render->setFillColor(style->getColor(ColorRole::Hovered));
-                render->drawRect(g3);
+                render->drawRect(g2);
             }
         }
 

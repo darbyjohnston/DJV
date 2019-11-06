@@ -1,5 +1,6 @@
 set(header
     AboutDialog.h
+	Annotate.h
 	AnnotateSettings.h
 	AnnotateSystem.h
 	AnnotateWidget.h
@@ -58,6 +59,7 @@ set(header
     WindowSystem.h)
 set(source
     AboutDialog.cpp
+	Annotate.cpp
 	AnnotateSettings.cpp
 	AnnotateSystem.cpp
 	AnnotateWidget.cpp

@@ -60,7 +60,7 @@ namespace djv
         }
 
         template<typename T>
-        inline void INumericWidget<T>::setValueCallback(const std::function<void(T, TextEdit)>& callback)
+        inline void INumericWidget<T>::setValueCallback(const std::function<void(T, TextEditReason)>& callback)
         {
             _callback = callback;
         }
@@ -90,11 +90,11 @@ namespace djv
         }
 
         template<typename T>
-        inline void INumericWidget<T>::_doCallback(TextEdit textEdit)
+        inline void INumericWidget<T>::_doCallback(TextEditReason reason)
         {
             if (_callback)
             {
-                _callback(_model->observeValue()->get(), textEdit);
+                _callback(_model->observeValue()->get(), reason);
             }
         }
 
@@ -109,7 +109,7 @@ namespace djv
                 {
                     out = true;
                     _model->setMin();
-                    _doCallback(TextEdit::Accepted);
+                    _doCallback(TextEditReason::Accepted);
                 }
                 break;
             case NumericWidgetKey::End:
@@ -117,7 +117,7 @@ namespace djv
                 {
                     out = true;
                     _model->setMax();
-                    _doCallback(TextEdit::Accepted);
+                    _doCallback(TextEditReason::Accepted);
                 }
                 break;
             case NumericWidgetKey::Up:
@@ -126,7 +126,7 @@ namespace djv
                 {
                     out = true;
                     _model->incrementSmall();
-                    _doCallback(TextEdit::Accepted);
+                    _doCallback(TextEditReason::Accepted);
                 }
                 break;
             case NumericWidgetKey::Down:
@@ -135,7 +135,7 @@ namespace djv
                 {
                     out = true;
                     _model->decrementSmall();
-                    _doCallback(TextEdit::Accepted);
+                    _doCallback(TextEditReason::Accepted);
                 }
                 break;
             case NumericWidgetKey::PageUp:
@@ -143,7 +143,7 @@ namespace djv
                 {
                     out = true;
                     _model->incrementLarge();
-                    _doCallback(TextEdit::Accepted);
+                    _doCallback(TextEditReason::Accepted);
                 }
                 break;
             case NumericWidgetKey::PageDown:
@@ -151,7 +151,7 @@ namespace djv
                 {
                     out = true;
                     _model->decrementLarge();
-                    _doCallback(TextEdit::Accepted);
+                    _doCallback(TextEditReason::Accepted);
                 }
                 break;
             default: break;
@@ -176,7 +176,7 @@ namespace djv
                 if (std::chrono::milliseconds(0) == delay)
                 {
                     INumericWidget<T>::_model->setValue(_value);
-                    INumericWidget<T>::_doCallback(TextEdit::Accepted);
+                    INumericWidget<T>::_doCallback(TextEditReason::Accepted);
                 }
             }
         }
@@ -190,7 +190,7 @@ namespace djv
                 if (std::chrono::milliseconds(0) == delay)
                 {
                     INumericWidget<T>::_model->setValue(_value);
-                    INumericWidget<T>::_doCallback(TextEdit::Accepted);
+                    INumericWidget<T>::_doCallback(TextEditReason::Accepted);
                 }
             }
         }
@@ -203,7 +203,7 @@ namespace djv
                 if (delay > std::chrono::milliseconds(0))
                 {
                     INumericWidget<T>::_model->setValue(_value);
-                    INumericWidget<T>::_doCallback(TextEdit::Accepted);
+                    INumericWidget<T>::_doCallback(TextEditReason::Accepted);
                 }
             }
         }
@@ -214,7 +214,7 @@ namespace djv
             if (INumericWidget<T>::_model)
             {
                 INumericWidget<T>::_model->setValue(_value);
-                INumericWidget<T>::_doCallback(TextEdit::Accepted);
+                INumericWidget<T>::_doCallback(TextEditReason::Accepted);
             }
         }
 

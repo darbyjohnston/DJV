@@ -127,7 +127,7 @@ namespace djv
             NumericEdit::_setIsMax(value);
         }
 
-        void FloatEdit::_textEdit(const std::string& value, TextEdit textEdit)
+        void FloatEdit::_textEdit(const std::string& value, TextEditReason reason)
         {
             if (auto model = getModel())
             {
@@ -140,7 +140,7 @@ namespace djv
                     _log(e.what(), LogLevel::Error);
                 }
                 _textUpdate();
-                _doCallback(textEdit);
+                _doCallback(reason);
             }
         }
 
@@ -154,7 +154,7 @@ namespace djv
             if (auto model = getModel())
             {
                 model->incrementSmall();
-                _doCallback(TextEdit::Accepted);
+                _doCallback(TextEditReason::Accepted);
             }
         }
 
@@ -163,7 +163,7 @@ namespace djv
             if (auto model = getModel())
             {
                 model->decrementSmall();
-                _doCallback(TextEdit::Accepted);
+                _doCallback(TextEditReason::Accepted);
             }
         }
 

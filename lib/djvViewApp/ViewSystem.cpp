@@ -66,9 +66,9 @@ namespace djv
             glm::vec2 hoverPos = glm::vec2(0.F, 0.F);
             glm::vec2 dragStart = glm::vec2(0.F, 0.F);
             glm::vec2 dragImagePos = glm::vec2(0.F, 0.F);
-
             std::shared_ptr<MediaWidget> activeWidget;
             std::shared_ptr<ValueSubject<ImageViewLock> > lock;
+            
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> lockActionGroup;
             std::shared_ptr<UI::Menu> menu;
@@ -505,9 +505,13 @@ namespace djv
                                     {
                                         if (auto system = weak.lock())
                                         {
-                                            auto imageView = system->_p->activeWidget->getImageView();
-                                            const float zoom = imageView->observeImageZoom()->get();
-                                            imageView->setImageZoomFocus(zoom + value.y * .1F, system->_p->hoverPos);
+                                            if (value.x != 0.F && value.y != 0.F)
+                                            {
+                                                system->_p->settings->setLock(ImageViewLock::None);
+                                                auto imageView = system->_p->activeWidget->getImageView();
+                                                const float zoom = imageView->observeImageZoom()->get();
+                                                imageView->setImageZoomFocus(zoom + value.y * .1F, system->_p->hoverPos);
+                                            }
                                         }
                                     });
                             }

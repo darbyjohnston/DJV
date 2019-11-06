@@ -57,6 +57,8 @@ namespace djv
             MetricsRole getSwatchSizeRole() const;
             void setSwatchSizeRole(MetricsRole);
 
+            void setBorder(bool);
+
             void setClickedCallback(const std::function<void(void)>&);
 
             bool acceptFocus(TextFocusDirection) override;

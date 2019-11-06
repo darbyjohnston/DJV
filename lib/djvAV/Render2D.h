@@ -207,9 +207,17 @@ namespace djv
 
                 ///@}
 
+                //! \name Line Width
+                ///@{
+
+                void setLineWidth(float);
+
+                ///@}
+
                 //! \name Primitives
                 ///@{
 
+                void drawPolyline(const std::vector<glm::vec2>&);
                 void drawRect(const Core::BBox2f&);
                 void drawRects(const std::vector<Core::BBox2f>&);
                 void drawPill(const Core::BBox2f&, size_t facets = 32);
@@ -277,6 +285,7 @@ namespace djv
                 float                   _colorMult        = 1.F;
                 float                   _alphaMult        = 1.F;
                 float                   _finalColor[4]    = { 1.F, 1.F, 1.F, 1.F };
+                float                   _lineWidth        = 1.0F;
                 
                 DJV_PRIVATE();
             };

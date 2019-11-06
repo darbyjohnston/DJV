@@ -45,6 +45,7 @@ namespace djv
         //! This enumeration provides the pointer state.
         enum class PointerState
         {
+            None,
             Start,
             Move,
             End
@@ -56,7 +57,7 @@ namespace djv
             PointerData();
             PointerData(PointerState, const glm::vec2&, const std::map<int, bool>& buttons);
 
-            PointerState state = PointerState::Start;
+            PointerState state = PointerState::None;
             glm::vec2 pos = glm::vec2(0.F, 0.F);
             std::map<int, bool> buttons;
 

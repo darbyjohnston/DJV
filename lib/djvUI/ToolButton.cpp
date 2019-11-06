@@ -352,7 +352,12 @@ namespace djv
                     size.x += tmp.x;
                     size.y = std::max(size.y, tmp.y);
                 }
-                _setMinimumSize(size + m * 2.F + b * 2.F + getMargin().getSize(style));
+                size += m * 2.F;
+                if (p.textFocusEnabled)
+                {
+                    size += b * 2.F;
+                }
+                _setMinimumSize(size + getMargin().getSize(style));
             }
 
             void Tool::_layoutEvent(Event::Layout &)
@@ -362,7 +367,12 @@ namespace djv
                 const BBox2f& g = getMargin().bbox(getGeometry(), style);
                 const float m = style->getMetric(p.insideMargin);
                 const float b = style->getMetric(MetricsRole::Border);
-                BBox2f g2 = g.margin(-(m + b));
+                BBox2f g2 = g;
+                if (p.textFocusEnabled)
+                {
+                    g2 = g2.margin(-b);
+                }
+                g2 = g2.margin(-m);
                 float x = g2.min.x;
                 float y = g2.min.y + g2.h() / 2.F;
                 float w = g2.w();
