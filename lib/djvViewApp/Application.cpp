@@ -110,7 +110,7 @@ namespace djv
             p.systems.push_back(AudioSystem::create(shared_from_this()));
             p.systems.push_back(ColorPickerSystem::create(shared_from_this()));
             p.systems.push_back(MagnifySystem::create(shared_from_this()));
-            p.systems.push_back(AnnotateSystem::create(shared_from_this()));
+            //p.systems.push_back(AnnotateSystem::create(shared_from_this()));
             p.systems.push_back(ToolSystem::create(shared_from_this()));
             p.systems.push_back(HelpSystem::create(shared_from_this()));
             auto nuxSystem = NUXSystem::create(shared_from_this());
