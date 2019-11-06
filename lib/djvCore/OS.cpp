@@ -55,7 +55,7 @@ namespace djv
 #endif // DJV_PLATFORM_WINDOWS
             }
 
-            std::vector<std::string> getStringList(const std::string& name)
+            std::vector<std::string> getStringListEnv(const std::string& name)
             {
                 return String::split(OS::getEnv(name), OS::getCurrentListSeparator());
             }

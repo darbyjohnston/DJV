@@ -94,7 +94,7 @@ namespace djv
             //!
             //! Throws:
             //! - std::exception
-            std::vector<std::string> getStringList(const std::string& name);
+            std::vector<std::string> getStringListEnv(const std::string& name);
 
             //! Throws:
             //! - std::exception

@@ -350,7 +350,7 @@ namespace djv
 
             try
             {
-                const auto envPaths = OS::getStringList("DJV_TEXT_PATH");
+                const auto envPaths = OS::getStringListEnv("DJV_TEXT_PATH");
                 for (const auto& path : envPaths)
                 {
                     auto list = FileSystem::FileInfo::directoryList(FileSystem::Path(path), options);
