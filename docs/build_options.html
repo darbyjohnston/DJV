@@ -1,0 +1,94 @@
+---
+layout: page
+title: Build options
+---
+
+<div class="nav">
+    <p><a class="text" href="index.html">Home</a> |
+    <a class="text" href="documentation.html">Documentation</a> |
+    {{ page.title }}</p>
+</div>
+
+<div class="separator"></div>
+
+<div class="block">
+	<p class="header">Build Options</a></p>
+	<p>These CMake variables can be used to customize how DJV is built:</p>
+    <table>
+        <tr>
+            <th>Variable</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>DJV_OPENGL_ES2</td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>OpenGL ES 2.0 rendering. Experimental.</td>
+        </tr>
+        <tr>
+            <td>DJV_PYTHON</td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>Python support. Experimental.</td>
+        </tr>
+        <tr>
+            <td>DJV_BUILD_BIN</td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>Build binaries.</td>
+        </tr>
+        <tr>
+            <td>DJV_BUILD_DOCS</td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>Build documentation.</td>
+        </tr>
+        <tr>
+            <td>DJV_BUILD_EXAMPLES</td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>Build examples.</td>
+        </tr>
+        <tr>
+            <td>DJV_TINY_BUILD</td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>Enable a "tiny" build (only core libraries + tests).</td>
+        </tr>
+        <tr>
+            <td>DJV_GPROF</td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>Enable gprof profiling.</td>
+        </tr>
+        <tr>
+            <td>DJV_GCOV</td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>Enable gcov code coverage targets.</td>
+        </tr>
+        <tr>
+            <td>DJV_THIRD_PARTY</td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>Build third party packages.</td>
+        </tr>
+        <tr>
+            <td>DJV_THIRD_PARTY_OPTIONAL</td>
+            <td>Boolean</td>
+            <td>True</td>
+            <td>Build optional third party packages.</td>
+        </tr>
+        <tr>
+            <td>DJV_THIRD_PARTY_DISABLE_BUILD</td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>This is used to disable ExternalProject_Add() for third party
+            packages. This can be helpful for speeding up compile iterations after
+            the third party packages have been built.</td>
+        </tr>
+    </table>
+</div>
+

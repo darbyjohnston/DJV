@@ -171,3 +171,25 @@ pre
 	border-color: rgb(60, 60, 60);
 }
 
+b.emphasis
+{
+    font-size: 1em;
+	color: rgb(240, 240, 240);
+}
+
+table
+{
+    border: .1em solid rgb(30, 30, 30);
+    border-collapse: collapse;
+    font-size: 1em;
+	color: rgb(190, 190, 190);
+}
+
+th, td
+{
+    border: .1em solid rgb(30, 30, 30);
+    text-align: left;
+    vertical-align: top;
+    padding: 1em;
+}
+

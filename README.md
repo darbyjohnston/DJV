@@ -5,13 +5,13 @@
 DJV
 ===
 DJV provides professional review software for VFX, animation, and film production.
-Playback high resolution, high bit-depth, image sequences and videos with frame
+Playback high resolution, high bit-depth, image sequences and videos, with frame
 accurate control and full color management. Available for Linux, Apple macOS, and
 Microsoft Windows. Source code provided under a BSD style open source license.
 
-Links:
-* [Download](http://djv.sourceforge.net/Download.html)
-* [Documentation]()
+* [Download](download.html)
+* [Contribute](contributing.html)
+* [Documentation](documentation.html)
 
 
 Building on Linux
@@ -50,20 +50,20 @@ Run the djv player application:
     > ./build/bin/djv
 
 Additional information on building DJV can be found here:
-* [Building on Linux]()
-* [Building on OS X]()
-* [Building on Windows]()
+* [Building on Linux](build_linux.html)
+* [Building on OS X](build_osx.html)
+* [Building on Windows](build_windows.html)
 
 
 License
 -------
 
 DJV is released under a BSD style open source license, see this
-[page]() for details.
+[page](legal.html) for details.
 
 
 Contributing
 ------------
 
-See this [page]() for information on contributing to DJV.
+See this [page](contributing.html) for information on contributing to DJV.
 

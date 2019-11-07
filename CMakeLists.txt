@@ -13,7 +13,7 @@ add_definitions(-DDJV_VERSION="${DJV_VERSION}")
 project(
     DJV
     VERSION ${DJV_VERSION}
-    DESCRIPTION "Professional media review software for VFX, animation, and film production"
+    DESCRIPTION "Professional review software for VFX, animation, and film production"
     HOMEPAGE_URL "http://djv.sourceforge.net"
     LANGUAGES C CXX)
 
@@ -62,26 +62,26 @@ set(DJV_INSTALL_TRANSLATIONS translations)
 add_definitions(-DDJV_ASSERT)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-# Set whether to use OpenGL ES.
-set(DJV_OPENGL_ES2 FALSE CACHE BOOL "Whether to enable OpenGL ES")
+# OpenGL ES 2.0 rendering. Experimental.
+set(DJV_OPENGL_ES2 FALSE CACHE BOOL "OpenGL ES 2.0 rendering (experiemental)")
 if(DJV_OPENGL_ES2)
     add_definitions(-DDJV_OPENGL_ES2)
 endif()
 
-# Set whether to use Python.
-set(DJV_PYTHON FALSE CACHE BOOL "Whether to use Python")
+# Python support. Experimental.
+set(DJV_PYTHON FALSE CACHE BOOL "Python support (experimental)")
 
-# Set whether to build binaries.
-set(DJV_BUILD_BIN TRUE CACHE BOOL "Whether to build binaries")
+# Build binaries.
+set(DJV_BUILD_BIN TRUE CACHE BOOL "Build binaries")
 
-# Set whether to build documentation.
-set(DJV_BUILD_DOCS TRUE CACHE BOOL "Whether to build documentation")
+# Build documentation.
+set(DJV_BUILD_DOCS TRUE CACHE BOOL "Build documentation")
 
-# Set whether to build examples.
-set(DJV_BUILD_EXAMPLES TRUE CACHE BOOL "Whether to build examples")
+# Build examples.
+set(DJV_BUILD_EXAMPLES TRUE CACHE BOOL "Build examples")
 
-# Set whether to enable a "tiny" build (djvCore + tests).
-set(DJV_TINY_BUILD FALSE CACHE BOOL "Whether to enable a tiny build")
+# Enable a "tiny" build (only core libraries + tests).
+set(DJV_TINY_BUILD FALSE CACHE BOOL "Enable a 'tiny' build (only core libraries + tests)")
 if(DJV_TINY_BUILD)
     add_definitions(-DDJV_TINY_BUILD)
 endif()
@@ -89,8 +89,11 @@ endif()
 # Enable testing.
 enable_testing()
 
+# Enable gprof profiling.
+set(DJV_GPROF FALSE CACHE BOOL "Enable gprof profiling")
+
 # Enable gcov code coverage targets.
-set(DJV_GCOV FALSE CACHE BOOL "Whether to enable gcov code coverage")
+set(DJV_GCOV FALSE CACHE BOOL "Enable gcov code coverage")
 
 # Include directories.
 set(INCLUDE_DIRS
@@ -109,16 +112,16 @@ include_directories(${INCLUDE_DIRS})
 # Third Party Packages
 #-------------------------------------------------------------------------------
 
-# Whether to build third party packages.
-set(DJV_THIRD_PARTY TRUE CACHE BOOL "Whether to build third party packages")
+# Build third party packages.
+set(DJV_THIRD_PARTY TRUE CACHE BOOL "Build third party packages")
 
-# Whether to build optional third party packages.
-set(DJV_THIRD_PARTY_OPTIONAL TRUE CACHE BOOL "Whether to build optional third party packages")
+# Build optional third party packages.
+set(DJV_THIRD_PARTY_OPTIONAL TRUE CACHE BOOL "Build optional third party packages")
 
 # This is used to disable ExternalProject_Add() for third party packages. This
 # can be helpful for speeding up compile iterations after the third party
 # packages have been built.
-set(DJV_THIRD_PARTY_DISABLE_BUILD FALSE CACHE BOOL "Whether to disable building third party packages")
+set(DJV_THIRD_PARTY_DISABLE_BUILD FALSE CACHE BOOL "Disable building third party packages")
 
 find_package(Threads REQUIRED)
 find_package(OpenGL REQUIRED)
