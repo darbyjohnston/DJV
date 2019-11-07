@@ -226,7 +226,7 @@ namespace djv
             _setMinimumSize(size + getMargin().getSize(style));
         }
 
-        void TextBlock::_layoutEvent(Event::Layout& event)
+        void TextBlock::_layoutEvent(Event::Layout&)
         {
             DJV_PRIVATE_PTR();
             const auto& style = _getStyle();

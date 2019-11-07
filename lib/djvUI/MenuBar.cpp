@@ -173,27 +173,11 @@ namespace djv
                     auto menuWeak = std::weak_ptr<Menu>(std::dynamic_pointer_cast<Menu>(menu));
                     auto contextWeak = std::weak_ptr<Context>(context);
                     button->setOpenCallback(
-                        [weak, menuWeak, contextWeak](bool value)
+                        [weak, menuWeak](bool open)
                         {
-                            if (auto context = contextWeak.lock())
+                            if (auto widget = weak.lock())
                             {
-                                if (auto menu = menuWeak.lock())
-                                {
-                                    if (auto widget = weak.lock())
-                                    {
-                                        widget->_p->closeMenus();
-                                        if (value)
-                                        {
-                                            const auto i = widget->_p->menusToButtons.find(menu);
-                                            if (i != widget->_p->menusToButtons.end())
-                                            {
-                                                auto popup = menu->popup(i->second, widget->_p->menuLayout);
-                                                popup->installEventFilter(widget);
-                                                widget->_p->menuOpen = i->second;
-                                            }
-                                        }
-                                    }
-                                }
+                                widget->_openCallback(open, menuWeak);
                             }
                         });
 
@@ -202,15 +186,7 @@ namespace djv
                         {
                             if (auto widget = weak.lock())
                             {
-                                if (auto menu = menuWeak.lock())
-                                {
-                                    const auto i = widget->_p->menusToButtons.find(menu);
-                                    if (i != widget->_p->menusToButtons.end())
-                                    {
-                                        i->second->setOpen(false);
-                                    }
-                                }
-                                widget->_p->menuOpen.reset();
+                                widget->_closeCallback(menuWeak);
                             }
                         });
 
@@ -289,7 +265,7 @@ namespace djv
             _p->layout->setGeometry(getMargin().bbox(g, style));
         }
 
-        bool MenuBar::_eventFilter(const std::shared_ptr<IObject> & object, Event::Event & event)
+        bool MenuBar::_eventFilter(const std::shared_ptr<IObject> &, Event::Event & event)
         {
             DJV_PRIVATE_PTR();
             switch (event.getEventType())
@@ -318,6 +294,42 @@ namespace djv
             default: break;
             }
             return false;
+        }
+        
+        void MenuBar::_openCallback(bool open, const std::weak_ptr<Menu>& menuWeak)
+        {
+            DJV_PRIVATE_PTR();
+            if (auto context = getContext().lock())
+            {
+                if (auto menu = menuWeak.lock())
+                {
+                    p.closeMenus();
+                    if (open)
+                    {
+                        const auto i = p.menusToButtons.find(menu);
+                        if (i != p.menusToButtons.end())
+                        {
+                            auto popup = menu->popup(i->second, p.menuLayout);
+                            popup->installEventFilter(shared_from_this());
+                            p.menuOpen = i->second;
+                        }
+                    }
+                }
+            }
+        }
+        
+        void MenuBar::_closeCallback(const std::weak_ptr<Menu>& menuWeak)
+        {
+            DJV_PRIVATE_PTR();
+            if (auto menu = menuWeak.lock())
+            {
+                const auto i = p.menusToButtons.find(menu);
+                if (i != p.menusToButtons.end())
+                {
+                    i->second->setOpen(false);
+                }
+            }
+            p.menuOpen.reset();
         }
 
         void MenuBar::Private::closeMenus()

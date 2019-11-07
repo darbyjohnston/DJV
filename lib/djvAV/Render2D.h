@@ -128,10 +128,10 @@ namespace djv
             public:
                 ImageExposure();
                 
-                float exposure = 0.f;
-                float defog    = 0.f;
-                float kneeLow  = 0.f;
-                float kneeHigh = 5.f;
+                float exposure = 0.F;
+                float defog    = 0.F;
+                float kneeLow  = 0.F;
+                float kneeHigh = 5.F;
 
                 bool operator == (const ImageExposure&) const;
                 bool operator != (const ImageExposure&) const;

@@ -444,9 +444,9 @@ namespace djv
                                         std::chrono::milliseconds(autoRepeatTimeout),
                                         [weak](float)
                                         {
-                                            if (auto widget = weak.lock())
+                                            if (auto widget2 = weak.lock())
                                             {
-                                                widget->_doClickedCallback();
+                                                widget2->_doClickedCallback();
                                             }
                                         });
                                 }

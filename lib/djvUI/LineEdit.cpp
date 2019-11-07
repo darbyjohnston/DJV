@@ -61,7 +61,7 @@ namespace djv
 
             auto weak = std::weak_ptr<LineEdit>(std::dynamic_pointer_cast<LineEdit>(shared_from_this()));
             p.lineEditBase->setFocusCallback(
-                [weak](bool value)
+                [weak](bool)
             {
                 if (auto widget = weak.lock())
                 {

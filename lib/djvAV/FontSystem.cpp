@@ -456,10 +456,11 @@ namespace djv
                     for (const auto & i : FileSystem::FileInfo::directoryList(p.fontPath))
                     {
                         const std::string & fileName = i.getFileName();
-
-                        std::stringstream ss;
-                        ss << "Loading font: " << fileName;
-                        _log(ss.str());
+                        {
+                            std::stringstream ss;
+                            ss << "Loading font: " << fileName;
+                            _log(ss.str());
+                        }
 
                         FT_Face ftFace;
                         ftError = FT_New_Face(p.ftLibrary, fileName.c_str(), 0, &ftFace);

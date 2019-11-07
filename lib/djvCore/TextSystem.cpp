@@ -227,9 +227,9 @@ namespace djv
             p.logSystem->log(getSystemName(), ss.str());
 
             // Load the text.
-            for (const auto& i : p.textFiles)
+            for (const auto& j : p.textFiles)
             {
-                _reload(i);
+                _reload(j);
             }
 
             p.timer = Time::Timer::create(context);
@@ -242,25 +242,25 @@ namespace djv
                     if (auto system = weak.lock())
                     {
                         bool textChanged = false;
-                        auto i = system->_p->readFutures.begin();
-                        while (i != system->_p->readFutures.end())
+                        auto j = system->_p->readFutures.begin();
+                        while (j != system->_p->readFutures.end())
                         {
-                            if (i->valid() &&
-                                i->wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                            if (j->valid() &&
+                                j->wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                             {
-                                for (const auto& j : i->get())
+                                for (const auto& k : j->get())
                                 {
-                                    for (const auto& k : j.second)
+                                    for (const auto& l : k.second)
                                     {
-                                        system->_p->text[j.first][k.first] = k.second;
+                                        system->_p->text[k.first][l.first] = l.second;
                                         textChanged = true;
                                     }
                                 }
-                                i = system->_p->readFutures.erase(i);
+                                j = system->_p->readFutures.erase(j);
                             }
                             else
                             {
-                                ++i;
+                                ++j;
                             }
                         }
                         if (textChanged)
@@ -268,13 +268,13 @@ namespace djv
                             system->_p->textChanged->setAlways(true);
                         }
 
-                        for (auto i = system->_p->textFiles.begin(); i != system->_p->textFiles.end(); ++i)
+                        for (auto j = system->_p->textFiles.begin(); j != system->_p->textFiles.end(); ++j)
                         {
-                            FileSystem::FileInfo fileInfo(i->getFileName());
-                            if (fileInfo.getTime() > i->getTime())
+                            FileSystem::FileInfo fileInfo(j->getFileName());
+                            if (fileInfo.getTime() > j->getTime())
                             {
                                 system->_reload(fileInfo);
-                                *i = fileInfo;
+                                *j = fileInfo;
                             }
                         }
                     }

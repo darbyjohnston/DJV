@@ -144,12 +144,12 @@ namespace djv
             return _p->scrollWidget->getHeightForWidth(value);
         }
 
-        void TextEdit::_preLayoutEvent(Event::PreLayout& event)
+        void TextEdit::_preLayoutEvent(Event::PreLayout&)
         {
             _setMinimumSize(_p->scrollWidget->getMinimumSize());
         }
 
-        void TextEdit::_layoutEvent(Event::Layout& event)
+        void TextEdit::_layoutEvent(Event::Layout&)
         {
             _p->scrollWidget->setGeometry(getGeometry());
         }

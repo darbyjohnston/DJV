@@ -71,6 +71,9 @@ namespace djv
             bool _eventFilter(const std::shared_ptr<IObject> &, Core::Event::Event &) override;
 
         private:
+            void _openCallback(bool, const std::weak_ptr<Menu>&);
+            void _closeCallback(const std::weak_ptr<Menu>&);
+            
             DJV_PRIVATE();
         };
 

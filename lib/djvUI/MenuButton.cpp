@@ -335,7 +335,7 @@ namespace djv
                 }
             }
 
-            void Menu::_paintEvent(Event::Paint & event)
+            void Menu::_paintEvent(Event::Paint &)
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();

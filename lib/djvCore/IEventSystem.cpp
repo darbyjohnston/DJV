@@ -115,7 +115,7 @@ namespace djv
                         });
                     p.textChangedObserver = ValueObserver<bool>::create(
                         textSystem->observeTextChanged(),
-                        [weak](bool value)
+                        [weak](bool)
                         {
                             if (auto system = weak.lock())
                             {

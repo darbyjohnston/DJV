@@ -142,7 +142,7 @@ namespace djv
                 _resize();
             }
             
-            void MultiState::_preLayoutEvent(Event::PreLayout& event)
+            void MultiState::_preLayoutEvent(Event::PreLayout&)
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
@@ -152,7 +152,7 @@ namespace djv
                 _setMinimumSize(size + getMargin().getSize(style));
             }
 
-            void MultiState::_layoutEvent(Event::Layout& event)
+            void MultiState::_layoutEvent(Event::Layout&)
             {
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
@@ -167,7 +167,6 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 const auto& style = _getStyle();
                 const BBox2f g = getMargin().bbox(getGeometry(), style);
-                const float m = style->getMetric(p.insideMargin);
                 auto render = _getRender();
                 if (p.pressedID != Event::InvalidID)
                 {

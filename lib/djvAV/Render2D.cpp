@@ -411,9 +411,9 @@ namespace djv
             {
                 return
                     glm::mat4x4(
-                        1.F, 0.F, 0.F, -.5f,
-                        0.F, 1.F, 0.F, -.5f,
-                        0.F, 0.F, 1.F, -.5f,
+                        1.F, 0.F, 0.F, -.5F,
+                        0.F, 1.F, 0.F, -.5F,
+                        0.F, 0.F, 1.F, -.5F,
                         0.F, 0.F, 0.F, 1.F) *
                     glm::mat4x4(
                           r, 0.F, 0.F, 0.F,
@@ -421,9 +421,9 @@ namespace djv
                         0.F, 0.F,   b, 0.F,
                         0.F, 0.F, 0.F, 1.F) *
                     glm::mat4x4(
-                        1.F, 0.F, 0.F, .5f,
-                        0.F, 1.F, 0.F, .5f,
-                        0.F, 0.F, 1.F, .5f,
+                        1.F, 0.F, 0.F, .5F,
+                        0.F, 1.F, 0.F, .5F,
+                        0.F, 0.F, 1.F, .5F,
                         0.F, 0.F, 0.F, 1.F);
             }
 
@@ -815,9 +815,9 @@ namespace djv
                             value[i] - perp,
                             value[i] + perp
                         };
-                        for (size_t i = 0; i < 2; ++i)
+                        for (size_t j = 0; j < 2; ++j)
                         {
-                            const glm::vec3 tmp = _currentTransform * glm::vec3(pt[i].x, pt[i].y, 1.F);
+                            const glm::vec3 tmp = _currentTransform * glm::vec3(pt[j].x, pt[j].y, 1.F);
                             pts.push_back(glm::vec2(tmp.x, tmp.y));
                         }
                     }

@@ -139,7 +139,7 @@ namespace djv
             _p->decrementCallback = callback;
         }
 
-        void NumericEditButtons::_preLayoutEvent(Event::PreLayout& event)
+        void NumericEditButtons::_preLayoutEvent(Event::PreLayout&)
         {
             DJV_PRIVATE_PTR();
             glm::vec2 size = glm::vec2(0.F, 0.F);
@@ -152,7 +152,7 @@ namespace djv
             _setMinimumSize(size);
         }
 
-        void NumericEditButtons::_layoutEvent(Event::Layout& event)
+        void NumericEditButtons::_layoutEvent(Event::Layout&)
         {
             DJV_PRIVATE_PTR();
             const BBox2f& g = getGeometry();
@@ -196,7 +196,7 @@ namespace djv
                 }
             });
             p.lineEditBase->setFocusCallback(
-                [weak](bool value)
+                [weak](bool)
                 {
                     if (auto widget = weak.lock())
                     {

@@ -64,7 +64,7 @@ namespace djv
                     }
                 }
 
-                void getAverageColorU10(const uint8_t* data, uint16_t width, uint16_t height, uint8_t channels, uint8_t* out)
+                void getAverageColorU10(const uint8_t* data, uint16_t width, uint16_t height, uint8_t* out)
                 {
                     uint64_t average[3] = { 0, 0, 0 };
                     const U10_S_LSB* p = reinterpret_cast<const U10_S_LSB*>(data);
@@ -101,7 +101,7 @@ namespace djv
                     {
                     case DataType::U8:  getAverageColor<U8_T,  uint64_t>(p, w, h, c, out.getData()); break;
                     case DataType::U16: getAverageColor<U16_T, uint64_t>(p, w, h, c, out.getData()); break;
-                    case DataType::U10: getAverageColorU10(p, w, h, c, out.getData()); break;
+                    case DataType::U10: getAverageColorU10(p, w, h, out.getData()); break;
                     case DataType::U32: getAverageColor<U32_T, uint64_t>(p, w, h, c, out.getData()); break;
                     case DataType::F16: getAverageColor<F16_T, double>(p, w, h, c, out.getData()); break;
                     case DataType::F32: getAverageColor<F32_T, double>(p, w, h, c, out.getData()); break;
