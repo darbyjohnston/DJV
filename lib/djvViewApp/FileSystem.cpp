@@ -152,7 +152,7 @@ namespace djv
             p.menu->addAction(p.actions["Layers"]);
             p.menu->addSeparator();
             //p.menu->addAction(p.actions["8BitConversion"]);
-            p.menu->addSeparator();
+            //p.menu->addSeparator();
             p.menu->addAction(p.actions["Exit"]);
 
             p.recentFilesModel = Core::FileSystem::RecentFilesModel::create(context);
