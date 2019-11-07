@@ -160,22 +160,21 @@ namespace djv
                 const float m = style->getMetric(MetricsRole::MarginSmall);
                 const float b = style->getMetric(MetricsRole::Border);
 
-                if (hasTextFocus())
-                {
-                    render->setFillColor(style->getColor(ColorRole::TextFocus));
-                    drawBorder(render, g, b * 2.F);
-                }
-
-                const BBox2f& g2 = g.margin(-b * 2.F);
                 if (_isPressed())
                 {
                     render->setFillColor(style->getColor(ColorRole::Pressed));
-                    render->drawRect(g2);
+                    render->drawRect(g);
                 }
                 else if (_isHovered())
                 {
                     render->setFillColor(style->getColor(ColorRole::Hovered));
-                    render->drawRect(g2);
+                    render->drawRect(g);
+                }
+
+                if (hasTextFocus())
+                {
+                    render->setFillColor(style->getColor(ColorRole::TextFocus));
+                    drawBorder(render, g, b * 2.F);
                 }
 
                 BBox2f checkGeometry = _getCheckGeometry().margin(-m);
