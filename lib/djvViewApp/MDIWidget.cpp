@@ -29,11 +29,15 @@
 
 #include <djvViewApp/MDIWidget.h>
 
+#include <djvViewApp/WindowSystem.h>
+
 #include <djvUI/Label.h>
 #include <djvUI/MDICanvas.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/StackLayout.h>
 #include <djvUI/ToolButton.h>
+
+#include <djvCore/Context.h>
 
 using namespace djv::Core;
 
@@ -49,6 +53,7 @@ namespace djv
             std::shared_ptr<UI::VerticalLayout> childLayout;
             std::shared_ptr<UI::VerticalLayout> layout;
             std::function<void(void)> closeCallback;
+            std::shared_ptr<ValueObserver<float> > fadeObserver;
         };
 
         void MDIWidget::_init(const std::shared_ptr<Core::Context>& context)
@@ -99,6 +104,19 @@ namespace djv
                     widget->close();
                 }
             });
+        
+            if (auto windowSystem = context->getSystemT<WindowSystem>())
+            {
+                p.fadeObserver = ValueObserver<float>::create(
+                    windowSystem->observeFade(),
+                    [weak](float value)
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            widget->setOpacity(value);
+                        }
+                    });
+            }
         }
 
         MDIWidget::MDIWidget() :
