@@ -252,7 +252,7 @@ namespace djv
             {
                 const Font::Info info(2, 3, 4, 5);
                 DJV_ASSERT(info == info);
-                DJV_ASSERT(info < Font::Info());
+                DJV_ASSERT(Font::Info() < info);
             }
             
             {

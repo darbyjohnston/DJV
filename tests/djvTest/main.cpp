@@ -59,7 +59,6 @@
 #include <djvCoreTest/ValueObserverTest.h>
 #include <djvCoreTest/VectorTest.h>
 
-#if !defined(DJV_TINY_BUILD)
 #include <djvAVTest/AVSystemTest.h>
 #include <djvAVTest/AudioDataTest.h>
 #include <djvAVTest/AudioTest.h>
@@ -83,7 +82,6 @@
 #include <djvUI/UISystem.h>
 
 #include <djvAV/AVSystem.h>
-#endif // DJV_TINY_BUILD
 
 #include <djvCore/Context.h>
 #include <djvCore/Error.h>
@@ -101,10 +99,8 @@ int main(int argc, char ** argv)
             args.push_back(argv[i]);
         }
         auto context = Core::Context::create(args);
-#if !defined(DJV_TINY_BUILD)
         auto avSystem = AV::AVSystem::create(context);
         auto uiSystem = UI::UISystem::create(context);
-#endif // DJV_TINY_BUILD
         
         std::vector<std::shared_ptr<Test::ITest> > tests;
         tests.emplace_back(new CoreTest::AnimationTest(context));
@@ -137,7 +133,7 @@ int main(int argc, char ** argv)
         tests.emplace_back(new CoreTest::TimeTest(context));
         tests.emplace_back(new CoreTest::ValueObserverTest(context));
         tests.emplace_back(new CoreTest::VectorTest(context));
-#if !defined(DJV_TINY_BUILD)
+
         tests.emplace_back(new AVTest::AVSystemTest(context));
         tests.emplace_back(new AVTest::AudioDataTest(context));
         tests.emplace_back(new AVTest::AudioTest(context));
@@ -157,7 +153,6 @@ int main(int argc, char ** argv)
 
         tests.emplace_back(new UITest::EnumTest(context));
         tests.emplace_back(new UITest::WidgetTest(context));
-#endif // DJV_TINY_BUILD
         
         std::vector<std::shared_ptr<Test::ITest> > testsToRun;
         if (1 == argc)

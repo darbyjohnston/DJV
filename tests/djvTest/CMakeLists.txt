@@ -2,14 +2,11 @@ set(source
     main.cpp)
 
 add_executable(djvTest ${header} ${source})
-set(libraries)
-if(NOT DJV_TINY_BUILD)
-    set(libraries
-        ${libraries}
-        djvUITest
-        djvAVTest)
-endif()
-set(libraries ${libraries} djvCoreTest)
+set(libraries
+    ${libraries}
+    djvUITest
+    djvAVTest
+    djvCoreTest)
 target_link_libraries(djvTest ${libraries})
 set_target_properties(
     djvTest
