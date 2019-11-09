@@ -53,9 +53,9 @@ namespace djv
                 
                 std::string fileName;
                 std::string name;
-                std::map<std::string, std::string> colorSpaces;
                 std::string display;
                 std::string view;
+                std::map<std::string, std::string> fileColorSpaces;
 
                 static std::string getNameFromFileName(const std::string&);
 

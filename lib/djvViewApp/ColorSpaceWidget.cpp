@@ -197,11 +197,11 @@ namespace djv
                 {
                     std::vector<std::string> aKeys;
                     std::vector<std::string> bKeys;
-                    for (const auto& j : a.colorSpaces)
+                    for (const auto& j : a.fileColorSpaces)
                     {
                         aKeys.push_back(j.first);
                     }
-                    for (const auto& j : b.colorSpaces)
+                    for (const auto& j : b.fileColorSpaces)
                     {
                         bKeys.push_back(j.first);
                     }
@@ -256,6 +256,12 @@ namespace djv
             std::shared_ptr<UI::FormLayout> configItemLayout;
             std::shared_ptr<UI::VerticalLayout> configLayout;
 
+            std::shared_ptr<ListWidget> displayListWidget;
+            std::shared_ptr<UI::PopupWidget> displayPopupWidget;
+            std::shared_ptr<ListWidget> viewListWidget;
+            std::shared_ptr<UI::PopupWidget> viewPopupWidget;
+            std::shared_ptr<UI::FormLayout> displayLayout;
+
             std::shared_ptr<UI::ButtonGroup> editImageButtonGroup;
             std::shared_ptr<UI::FormLayout> imageItemLayout;
             std::shared_ptr<UI::VerticalLayout> addImageLayout;
@@ -263,12 +269,6 @@ namespace djv
             std::shared_ptr<UI::ToolButton> editImageButton;
             std::shared_ptr<UI::VerticalLayout> imageLayout;
             std::vector<std::shared_ptr<UI::PopupWidget> > imagePopupWidgets;
-
-            std::shared_ptr<ListWidget> displayListWidget;
-            std::shared_ptr<UI::PopupWidget> displayPopupWidget;
-            std::shared_ptr<ListWidget> viewListWidget;
-            std::shared_ptr<UI::PopupWidget> viewPopupWidget;
-            std::shared_ptr<UI::FormLayout> displayLayout;
 
             std::shared_ptr<UI::TabWidget> tabWidget;
             std::shared_ptr<UI::FileBrowser::Dialog> fileBrowserDialog;
@@ -297,6 +297,15 @@ namespace djv
             p.editConfigButton->setButtonType(UI::ButtonType::Toggle);
             p.editConfigButton->setIcon("djvIconEditSmall");
 
+            p.displayListWidget = ListWidget::create(context);
+            p.displayPopupWidget = UI::PopupWidget::create(context);
+            p.displayPopupWidget->setPopupIcon("djvIconPopupMenu");
+            p.displayPopupWidget->addChild(p.displayListWidget);
+            p.viewListWidget = ListWidget::create(context);
+            p.viewPopupWidget = UI::PopupWidget::create(context);
+            p.viewPopupWidget->setPopupIcon("djvIconPopupMenu");
+            p.viewPopupWidget->addChild(p.viewListWidget);
+
             p.editImageButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
             p.addImageLayout = UI::VerticalLayout::create(context);
             p.addImageLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
@@ -309,15 +318,6 @@ namespace djv
             p.editImageButton = UI::ToolButton::create(context);
             p.editImageButton->setButtonType(UI::ButtonType::Toggle);
             p.editImageButton->setIcon("djvIconEditSmall");
-
-            p.displayListWidget = ListWidget::create(context);
-            p.displayPopupWidget = UI::PopupWidget::create(context);
-            p.displayPopupWidget->setPopupIcon("djvIconPopupMenu");
-            p.displayPopupWidget->addChild(p.displayListWidget);
-            p.viewListWidget = ListWidget::create(context);
-            p.viewPopupWidget = UI::PopupWidget::create(context);
-            p.viewPopupWidget->setPopupIcon("djvIconPopupMenu");
-            p.viewPopupWidget->addChild(p.viewListWidget);
 
             p.configLayout = UI::VerticalLayout::create(context);
             p.configLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
@@ -338,6 +338,13 @@ namespace djv
             hLayout->addChild(p.editConfigButton);
             p.configLayout->addChild(hLayout);
 
+            p.displayLayout = UI::FormLayout::create(context);
+            p.displayLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
+            p.displayLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+            p.displayLayout->setShadowOverlay({ UI::Side::Top });
+            p.displayLayout->addChild(p.displayPopupWidget);
+            p.displayLayout->addChild(p.viewPopupWidget);
+
             p.imageLayout = UI::VerticalLayout::create(context);
             p.imageLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             p.imageItemLayout = UI::FormLayout::create(context);
@@ -357,19 +364,12 @@ namespace djv
             hLayout->addChild(p.editImageButton);
             p.imageLayout->addChild(hLayout);
 
-            p.displayLayout = UI::FormLayout::create(context);
-            p.displayLayout->setAlternateRowsRoles(UI::ColorRole::None, UI::ColorRole::Trough);
-            p.displayLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
-            p.displayLayout->setShadowOverlay({ UI::Side::Top });
-            p.displayLayout->addChild(p.displayPopupWidget);
-            p.displayLayout->addChild(p.viewPopupWidget);
-
             p.tabWidget = UI::TabWidget::create(context);
             p.tabWidget->setBackgroundRole(UI::ColorRole::Background);
             p.tabWidget->setShadowOverlay({ UI::Side::Top });
             p.tabWidget->addChild(p.configLayout);
-            p.tabWidget->addChild(p.imageLayout);
             p.tabWidget->addChild(p.displayLayout);
+            p.tabWidget->addChild(p.imageLayout);
             addChild(p.tabWidget);
 
             _widgetUpdate();
@@ -444,16 +444,6 @@ namespace djv
                     }
                 });
 
-            p.editImageButton->setCheckedCallback(
-                [weak](bool value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->editImage = value;
-                        widget->_widgetUpdate();
-                    }
-                });
-
             p.displayListWidget->setCallback(
                 [weak, contextWeak](int value)
                 {
@@ -493,6 +483,16 @@ namespace djv
                                 }
                             }
                         }
+                    }
+                });
+
+            p.editImageButton->setCheckedCallback(
+                [weak](bool value)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_p->editImage = value;
+                        widget->_widgetUpdate();
                     }
                 });
 
@@ -620,13 +620,13 @@ namespace djv
             setTitle(_getText(DJV_TEXT("Color Space")));
             p.addConfigButton->setTooltip(_getText(DJV_TEXT("Color space add config tooltip")));
             p.editConfigButton->setTooltip(_getText(DJV_TEXT("Color space edit configs tooltip")));
-            p.addImagePopupWidget->setTooltip(_getText(DJV_TEXT("Color space add image tooltip")));
-            p.editImageButton->setTooltip(_getText(DJV_TEXT("Color space edit images tooltip")));
             p.displayLayout->setText(p.displayPopupWidget, _getText(DJV_TEXT("Name")) + ":");
             p.displayLayout->setText(p.viewPopupWidget, _getText(DJV_TEXT("View")) + ":");
+            p.addImagePopupWidget->setTooltip(_getText(DJV_TEXT("Color space add image tooltip")));
+            p.editImageButton->setTooltip(_getText(DJV_TEXT("Color space edit images tooltip")));
             p.tabWidget->setText(p.configLayout, DJV_TEXT("Config"));
-            p.tabWidget->setText(p.imageLayout, DJV_TEXT("Image"));
             p.tabWidget->setText(p.displayLayout, DJV_TEXT("Display"));
+            p.tabWidget->setText(p.imageLayout, DJV_TEXT("Image"));
             _widgetUpdate();
         }
 
@@ -695,11 +695,66 @@ namespace djv
                 p.configButtonGroup->setChecked(p.currentIndex);
                 p.editConfigButton->setEnabled(p.configs.size() > 0);
 
+                std::vector<std::string> displays;
+                for (const auto& i : p.displays)
+                {
+                    std::string s = i.name;
+                    if (s.empty())
+                    {
+                        s = _getText(DJV_TEXT("None"));
+                    }
+                    displays.push_back(s);
+                }
+                int index = -1;
+                if (p.currentIndex >= 0 && p.currentIndex < p.configs.size())
+                {
+                    const auto& config = p.configs[p.currentIndex];
+                    int j = 0;
+                    for (const auto& i : p.displays)
+                    {
+                        if (config.display == i.name)
+                        {
+                            index = j;
+                            break;
+                        }
+                        ++j;
+                    }
+                }
+                p.displayListWidget->setItems(displays);
+                p.displayPopupWidget->setText((index >= 0 && index < displays.size()) ? displays[index] : std::string());
+                p.textFocusWidgets[p.displayPopupWidget->getFocusWidget()] = id++;
+
+                p.viewPopupWidget->setEnabled(p.views.size() > 0);
+                std::vector<std::string> views;
+                for (const auto& i : p.views)
+                {
+                    std::string s = i;
+                    if (s.empty())
+                    {
+                        s = _getText(DJV_TEXT("None"));
+                    }
+                    views.push_back(s);
+                }
+                index = -1;
+                j = 0;
+                for (const auto& i : p.views)
+                {
+                    if (p.currentConfig.view == i)
+                    {
+                        index = j;
+                        break;
+                    }
+                    ++j;
+                }
+                p.viewListWidget->setItems(views);
+                p.viewPopupWidget->setText((index >= 0 && index < views.size()) ? views[index] : std::string());
+                p.textFocusWidgets[p.viewPopupWidget->getFocusWidget()] = id++;
+
                 p.editImageButtonGroup->clearButtons();
                 p.imageItemLayout->clearChildren();
                 std::set<std::string> usedPluginNames;
                 auto weak = std::weak_ptr<ColorSpaceWidget>(std::dynamic_pointer_cast<ColorSpaceWidget>(shared_from_this()));
-                for (const auto& i : p.currentConfig.colorSpaces)
+                for (const auto& i : p.currentConfig.fileColorSpaces)
                 {
                     usedPluginNames.insert(i.first);
 
@@ -765,7 +820,7 @@ namespace djv
                                     if (value >= 0 && value < widget->_p->colorSpaces.size())
                                     {
                                         AV::OCIO::Config config = widget->_p->currentConfig;
-                                        config.colorSpaces[pluginName] = widget->_p->colorSpaces[value];
+                                        config.fileColorSpaces[pluginName] = widget->_p->colorSpaces[value];
                                         auto ocioSystem = context->getSystemT<AV::OCIO::System>();
                                         ocioSystem->setCurrentConfig(config);
                                     }
@@ -780,10 +835,10 @@ namespace djv
                                 if (auto widget = weak.lock())
                                 {
                                     AV::OCIO::Config config = widget->_p->currentConfig;
-                                    auto i = config.colorSpaces.find(pluginName);
-                                    if (i != config.colorSpaces.end())
+                                    auto i = config.fileColorSpaces.find(pluginName);
+                                    if (i != config.fileColorSpaces.end())
                                     {
-                                        config.colorSpaces.erase(i);
+                                        config.fileColorSpaces.erase(i);
                                     }
                                     auto ocioSystem = context->getSystemT<AV::OCIO::System>();
                                     ocioSystem->setCurrentConfig(config);
@@ -823,7 +878,7 @@ namespace djv
                                     if (auto widget = weak.lock())
                                     {
                                         widget->_p->addImagePopupWidget->close();
-                                        widget->_p->currentConfig.colorSpaces[pluginName] = std::string();
+                                        widget->_p->currentConfig.fileColorSpaces[pluginName] = std::string();
                                         auto ocioSystem = context->getSystemT<AV::OCIO::System>();
                                         ocioSystem->setCurrentConfig(widget->_p->currentConfig);
                                     }
@@ -838,62 +893,7 @@ namespace djv
                     usedPluginNames.size() < pluginNames.size());
                 p.editImageButton->setEnabled(
                     p.configs.size() > 0 &&
-                    p.currentConfig.colorSpaces.size() > 0);
-
-                std::vector<std::string> displays;
-                for (const auto& i : p.displays)
-                {
-                    std::string s = i.name;
-                    if (s.empty())
-                    {
-                        s = _getText(DJV_TEXT("None"));
-                    }
-                    displays.push_back(s);
-                }
-                int index = -1;
-                if (p.currentIndex >= 0 && p.currentIndex < p.configs.size())
-                {
-                    const auto& config = p.configs[p.currentIndex];
-                    int j = 0;
-                    for (const auto& i : p.displays)
-                    {
-                        if (config.display == i.name)
-                        {
-                            index = j;
-                            break;
-                        }
-                        ++j;
-                    }
-                }
-                p.displayListWidget->setItems(displays);
-                p.displayPopupWidget->setText((index >= 0 && index < displays.size()) ? displays[index] : std::string());
-                p.textFocusWidgets[p.displayPopupWidget->getFocusWidget()] = id++;
-
-                p.viewPopupWidget->setEnabled(p.views.size() > 0);
-                std::vector<std::string> views;
-                for (const auto& i : p.views)
-                {
-                    std::string s = i;
-                    if (s.empty())
-                    {
-                        s = _getText(DJV_TEXT("None"));
-                    }
-                    views.push_back(s);
-                }
-                index = -1;
-                j = 0;
-                for (const auto& i : p.views)
-                {
-                    if (p.currentConfig.view == i)
-                    {
-                        index = j;
-                        break;
-                    }
-                    ++j;
-                }
-                p.viewListWidget->setItems(views);
-                p.viewPopupWidget->setText((index >= 0 && index < views.size()) ? views[index] : std::string());
-                p.textFocusWidgets[p.viewPopupWidget->getFocusWidget()] = id++;
+                    p.currentConfig.fileColorSpaces.size() > 0);
 
                 if (restoreTextFocusID != -1)
                 {
@@ -929,7 +929,7 @@ namespace djv
                 }
 
                 size_t j = 0;
-                for (const auto& i : p.currentConfig.colorSpaces)
+                for (const auto& i : p.currentConfig.fileColorSpaces)
                 {
                     int index = -1;
                     int k = 0;

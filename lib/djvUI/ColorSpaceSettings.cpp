@@ -63,43 +63,43 @@ namespace djv
                     AV::OCIO::Config config;
                     config.fileName = "nuke-default";
                     config.name = "nuke-default";
-                    config.colorSpaces =
+                    config.display = "default";
+                    config.view = "sRGB";
+                    config.fileColorSpaces =
                     {
                         { "",        "sRGB" },
                         { "Cineon",  "Cineon" },
                         { "DPX",     "Cineon" },
                         { "OpenEXR", "linear" }
                     };
-                    config.display = "default";
-                    config.view = "sRGB";
                     p.configs.push_back(config);
                 }
                 {
                     AV::OCIO::Config config;
                     config.fileName = "spi-anim";
                     config.name = "spi-anim";
-                    config.colorSpaces =
+                    config.display = "sRGB";
+                    config.view = "Film";
+                    config.fileColorSpaces =
                     {
                         { "",        "" },
                         { "OpenEXR", "lnh" }
                     };
-                    config.display = "sRGB";
-                    config.view = "Film";
                     p.configs.push_back(config);
                 }
                 {
                     AV::OCIO::Config config;
                     config.fileName = "spi-vfx";
                     config.name = "spi-vfx";
-                    config.colorSpaces =
+                    config.display = "sRGB";
+                    config.view = "Film";
+                    config.fileColorSpaces =
                     {
                         { "",        "" },
                         { "Cineon",  "lg10" },
                         { "DPX",     "lg10" },
                         { "OpenEXR", "lnh" }
                     };
-                    config.display = "sRGB";
-                    config.view = "Film";
                     p.configs.push_back(config);
                 }
 

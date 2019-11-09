@@ -65,9 +65,9 @@ namespace djv
                 return
                     fileName == value.fileName &&
                     name == value.name &&
-                    colorSpaces == value.colorSpaces &&
                     display == value.display &&
-                    view == value.view;
+                    view == value.view &&
+                    fileColorSpaces == value.fileColorSpaces;
             }
 
             struct System::Private
@@ -315,9 +315,9 @@ namespace djv
                         tmp.fileName = fileName;
                         if (init)
                         {
-                            tmp.colorSpaces[std::string()] = std::string();
                             tmp.display = ocioConfig->getDefaultDisplay();
                             tmp.view = ocioConfig->getDefaultView(tmp.display.c_str());
+                            tmp.fileColorSpaces[std::string()] = std::string();
                         }
                         p.configs.push_back(tmp);
                         p.configsSubject->setIfChanged(p.configs);
@@ -448,9 +448,9 @@ namespace djv
         picojson::value out(picojson::object_type, true);
         out.get<picojson::object>()["FileName"] = toJSON(value.fileName);
         out.get<picojson::object>()["Name"] = toJSON(value.name);
-        out.get<picojson::object>()["ColorSpaces"] = toJSON(value.colorSpaces);
         out.get<picojson::object>()["Display"] = toJSON(value.display);
         out.get<picojson::object>()["View"] = toJSON(value.view);
+        out.get<picojson::object>()["FileColorSpaces"] = toJSON(value.fileColorSpaces);
         return out;
     }
 
@@ -468,10 +468,6 @@ namespace djv
                 {
                     fromJSON(i.second, out.name);
                 }
-                else if ("ColorSpaces" == i.first)
-                {
-                    fromJSON(i.second, out.colorSpaces);
-                }
                 else if ("Display" == i.first)
                 {
                     fromJSON(i.second, out.display);
@@ -479,6 +475,10 @@ namespace djv
                 else if ("View" == i.first)
                 {
                     fromJSON(i.second, out.view);
+                }
+                else if ("FileColorSpaces" == i.first)
+                {
+                    fromJSON(i.second, out.fileColorSpaces);
                 }
             }
         }

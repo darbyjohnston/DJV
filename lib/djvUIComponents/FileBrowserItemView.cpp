@@ -456,15 +456,15 @@ namespace djv
                                     render->setFillColor(AV::Image::Color(1.F, 1.F, 1.F, opacity));
                                     AV::Render::ImageOptions options;
                                     options.alphaBlend = p.alphaBlend;
-                                    auto l = p.ocioConfig.colorSpaces.find(j->second->getPluginName());
-                                    if (l != p.ocioConfig.colorSpaces.end())
+                                    auto l = p.ocioConfig.fileColorSpaces.find(j->second->getPluginName());
+                                    if (l != p.ocioConfig.fileColorSpaces.end())
                                     {
                                         options.colorSpace.input = l->second;
                                     }
                                     else
                                     {
-                                        l = p.ocioConfig.colorSpaces.find(std::string());
-                                        if (l != p.ocioConfig.colorSpaces.end())
+                                        l = p.ocioConfig.fileColorSpaces.find(std::string());
+                                        if (l != p.ocioConfig.fileColorSpaces.end())
                                         {
                                             options.colorSpace.input = l->second;
                                         }

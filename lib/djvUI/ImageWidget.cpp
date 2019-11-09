@@ -243,15 +243,15 @@ namespace djv
                 glm::mat3x3 m(1.F);
                 m = glm::translate(m, pos);
                 m = glm::scale(m, glm::vec2(size.x / static_cast<float>(info.size.w), size.y / static_cast<float>(info.size.h)));
-                auto i = p.ocioConfig.colorSpaces.find(p.image->getPluginName());
-                if (i != p.ocioConfig.colorSpaces.end())
+                auto i = p.ocioConfig.fileColorSpaces.find(p.image->getPluginName());
+                if (i != p.ocioConfig.fileColorSpaces.end())
                 {
                     options.colorSpace.input = i->second;
                 }
                 else
                 {
-                    i = p.ocioConfig.colorSpaces.find(std::string());
-                    if (i != p.ocioConfig.colorSpaces.end())
+                    i = p.ocioConfig.fileColorSpaces.find(std::string());
+                    if (i != p.ocioConfig.fileColorSpaces.end())
                     {
                         options.colorSpace.input = i->second;
                     }
