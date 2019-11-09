@@ -59,9 +59,9 @@ namespace djv
                 const OCIO::Config config;
                 DJV_ASSERT(config.fileName.empty());
                 DJV_ASSERT(config.name.empty());
-                DJV_ASSERT(config.colorSpaces.empty());
                 DJV_ASSERT(config.display.empty());
                 DJV_ASSERT(config.view.empty());
+                DJV_ASSERT(config.fileColorSpaces.empty());
             }
             
             {
@@ -76,9 +76,9 @@ namespace djv
                 OCIO::Config config;
                 config.fileName = "fileName";
                 config.name = "name";
-                config.colorSpaces = { { "PNG", "sRGB" }, { "DPX", "Cineon" } };
                 config.display = "display";
                 config.view = "view";
+                config.fileColorSpaces = { { "PNG", "sRGB" }, { "DPX", "Cineon" } };
                 return config;
             }
         
