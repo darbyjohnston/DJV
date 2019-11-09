@@ -761,6 +761,7 @@ namespace djv
 
             private:
                 std::map<std::shared_ptr<Widget>, std::weak_ptr<Widget> > _widgetToButton;
+                std::map< std::shared_ptr<Widget>, Popup> _widgetToPopup;
             };
 
             void OverlayLayout::_init(const std::shared_ptr<Context>& context)
@@ -793,7 +794,18 @@ namespace djv
                     {
                         const auto& buttonBBox = button->getGeometry();
                         const auto& minimumSize = i.first->getMinimumSize();
-                        i.first->setGeometry(Layout::getPopupGeometry(g, buttonBBox, minimumSize));
+                        Popup popup = Popup::BelowRight;
+                        auto j = _widgetToPopup.find(i.first);
+                        if (j != _widgetToPopup.end())
+                        {
+                            popup = j->second;
+                        }
+                        else
+                        {
+                            popup = Layout::getPopup(popup, g, buttonBBox, minimumSize);
+                            _widgetToPopup[i.first] = popup;
+                        }
+                        i.first->setGeometry(Layout::getPopupGeometry(popup, buttonBBox, minimumSize).intersect(g));
                     }
                 }
             }

@@ -827,6 +827,7 @@ namespace djv
             private:
                 std::map<std::shared_ptr<Widget>, glm::vec2> _widgetToPos;
                 std::map<std::shared_ptr<Widget>, std::weak_ptr<Button::Menu> > _widgetToButton;
+                std::map< std::shared_ptr<Widget>, Popup> _widgetToPopup;
             };
 
             void MenuLayout::_init(const std::shared_ptr<Context>& context)
@@ -881,7 +882,18 @@ namespace djv
                 {
                     const auto & pos = i.second;
                     const auto & minimumSize = i.first->getMinimumSize();
-                    i.first->setGeometry(Layout::getPopupGeometry(g, pos, minimumSize));
+                    Popup popup = Popup::BelowRight;
+                    auto j = _widgetToPopup.find(i.first);
+                    if (j != _widgetToPopup.end())
+                    {
+                        popup = j->second;
+                    }
+                    else
+                    {
+                        popup = Layout::getPopup(popup, g, pos, minimumSize);
+                        _widgetToPopup[i.first] = popup;
+                    }
+                    i.first->setGeometry(Layout::getPopupGeometry(popup, pos, minimumSize).intersect(g));
                 }
                 for (const auto & i : _widgetToButton)
                 {
@@ -889,7 +901,17 @@ namespace djv
                     {
                         const auto & buttonBBox = button->getGeometry();
                         const auto & minimumSize = i.first->getMinimumSize();
-                        const BBox2f popupGeometry = Layout::getPopupGeometry(g, buttonBBox, minimumSize);
+                        Popup popup = Popup::BelowRight;
+                        auto j = _widgetToPopup.find(i.first);
+                        if (j != _widgetToPopup.end())
+                        {
+                            popup = j->second;
+                        }
+                        else
+                        {
+                            popup = Layout::getPopup(popup, g, buttonBBox, minimumSize);
+                        }
+                        const BBox2f popupGeometry = Layout::getPopupGeometry(popup, buttonBBox, minimumSize);
                         i.first->setGeometry(popupGeometry);
                     }
                 }

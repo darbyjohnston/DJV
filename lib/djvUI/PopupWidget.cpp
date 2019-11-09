@@ -149,7 +149,9 @@ namespace djv
             public:
                 static std::shared_ptr<OverlayLayout> create(const std::shared_ptr<Context>&);
 
-                void setButton(const std::shared_ptr<Widget> &, const std::weak_ptr<Widget> &);
+                void setButton(const std::shared_ptr<Widget>&, const std::weak_ptr<Widget>&);
+
+                void clearPopup();
 
             protected:
                 void _layoutEvent(Event::Layout &) override;
@@ -159,6 +161,7 @@ namespace djv
 
             private:
                 std::map<std::shared_ptr<Widget>, std::weak_ptr<Widget> > _widgetToButton;
+                std::map< std::shared_ptr<Widget>, Popup> _widgetToPopup;
             };
 
             void OverlayLayout::_init(const std::shared_ptr<Context>& context)
@@ -182,6 +185,11 @@ namespace djv
                 _widgetToButton[widget] = button;
             }
 
+            void OverlayLayout::clearPopup()
+            {
+                _widgetToPopup.clear();
+            }
+
             void OverlayLayout::_layoutEvent(Event::Layout &)
             {
                 const BBox2f & g = getGeometry();
@@ -191,7 +199,18 @@ namespace djv
                     {
                         const auto & buttonBBox = button->getGeometry();
                         const auto & minimumSize = i.first->getMinimumSize();
-                        i.first->setGeometry(Layout::getPopupGeometry(g, buttonBBox, minimumSize));
+                        Popup popup = Popup::BelowRight;
+                        auto j = _widgetToPopup.find(i.first);
+                        if (j != _widgetToPopup.end())
+                        {
+                            popup = j->second;
+                        }
+                        else
+                        {
+                            popup = Layout::getPopup(popup, g, buttonBBox, minimumSize);
+                            _widgetToPopup[i.first] = popup;
+                        }
+                        i.first->setGeometry(Layout::getPopupGeometry(popup, buttonBBox, minimumSize).intersect(g));
                     }
                 }
             }
@@ -336,6 +355,7 @@ namespace djv
         void PopupWidget::close()
         {
             DJV_PRIVATE_PTR();
+            p.overlayLayout->clearPopup();
             if (p.window)
             {
                 p.window->removeChild(p.overlay);
