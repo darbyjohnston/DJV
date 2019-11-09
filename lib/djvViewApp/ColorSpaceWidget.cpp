@@ -415,10 +415,7 @@ namespace djv
                                             widget->_p->fileBrowserDialog->close();
                                             widget->_p->fileBrowserDialog.reset();
                                             auto ocioSystem = context->getSystemT<AV::OCIO::System>();
-                                            AV::OCIO::Config config;
-                                            config.fileName = std::string(value.getPath());
-                                            config.name = AV::OCIO::Config::getNameFromFileName(config.fileName);
-                                            ocioSystem->addConfig(config);
+                                            ocioSystem->addConfig(value.getPath().get());
                                         }
                                     }
                                 });

@@ -80,6 +80,7 @@ namespace djv
 
                 std::shared_ptr<Core::IListSubject<Config> > observeConfigs() const;
 
+                int addConfig(const std::string& fileName);
                 int addConfig(const Config&);
                 void removeConfig(int);
 
@@ -108,6 +109,7 @@ namespace djv
                 ///@}
                 
             private:
+                int _addConfig(const Config&, bool init);
                 void _configUpdate();
 
                 DJV_PRIVATE();

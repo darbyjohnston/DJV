@@ -143,62 +143,17 @@ namespace djv
                 return _p->configsSubject;
             }
 
+            int System::addConfig(const std::string& fileName)
+            {
+                AV::OCIO::Config config;
+                config.fileName = fileName;
+                config.name = AV::OCIO::Config::getNameFromFileName(fileName);
+                return _addConfig(config, true);
+            }
+
             int System::addConfig(const Config& config)
             {
-                DJV_PRIVATE_PTR();
-                int out = -1;
-                if (auto context = getContext().lock())
-                {
-                    try
-                    {
-                        FileSystem::FileInfo fileInfo(config.fileName);
-                        if (!fileInfo.doesExist())
-                        {
-                            auto resourceSystem = context->getSystemT<ResourceSystem>();
-                            FileSystem::Path resourcePath = FileSystem::Path(resourceSystem->getPath(FileSystem::ResourcePath::Color), config.fileName);
-                            FileSystem::DirectoryListOptions options;
-                            options.filter = ".*\\.ocio$";
-                            auto directoryList = FileSystem::FileInfo::directoryList(resourcePath, options);
-                            if (directoryList.size())
-                            {
-                                fileInfo = directoryList[0];
-                            }
-                        }
-
-                        const std::string& fileName = fileInfo.getFileName();
-                        auto i = p.configs.begin();
-                        auto j = p.ocioConfigs.begin();
-                        while (i != p.configs.end() && j != p.ocioConfigs.end())
-                        {
-                            if (i->fileName == fileName)
-                            {
-                                i = p.configs.erase(i);
-                                j = p.ocioConfigs.erase(j);
-                            }
-                            else
-                            {
-                                ++i;
-                                ++j;
-                            }
-                        }
-
-                        auto ocioConfig = _OCIO::Config::CreateFromFile(fileName.c_str());
-                        p.ocioConfigs.push_back(ocioConfig);
-                        out = static_cast<int>(p.configs.size());
-                        Config tmp = config;
-                        tmp.fileName = fileName;
-                        p.configs.push_back(tmp);
-                        p.configsSubject->setIfChanged(p.configs);
-                        setCurrentIndex(out);
-                    }
-                    catch (const std::exception& e)
-                    {
-                        std::stringstream ss;
-                        ss << e.what();
-                        _log(ss.str(), LogLevel::Error);
-                    }
-                }
-                return out;
+                return _addConfig(config, false);
             }
 
             void System::removeConfig(int value)
@@ -308,6 +263,74 @@ namespace djv
                     }
                 }
                 return std::string();
+            }
+
+            int System::_addConfig(const Config& config, bool init)
+            {
+                DJV_PRIVATE_PTR();
+                int out = -1;
+                if (auto context = getContext().lock())
+                {
+                    try
+                    {
+                        FileSystem::FileInfo fileInfo(config.fileName);
+
+                        // If the file doesn't exist try looking for it in the resource path.
+                        if (!fileInfo.doesExist())
+                        {
+                            auto resourceSystem = context->getSystemT<ResourceSystem>();
+                            FileSystem::Path resourcePath = FileSystem::Path(resourceSystem->getPath(FileSystem::ResourcePath::Color), config.fileName);
+                            FileSystem::DirectoryListOptions options;
+                            options.filter = ".*\\.ocio$";
+                            auto directoryList = FileSystem::FileInfo::directoryList(resourcePath, options);
+                            if (directoryList.size())
+                            {
+                                fileInfo = directoryList[0];
+                            }
+                        }
+
+                        // Remove any existing configurations with the same file name.
+                        const std::string& fileName = fileInfo.getFileName();
+                        auto i = p.configs.begin();
+                        auto j = p.ocioConfigs.begin();
+                        while (i != p.configs.end() && j != p.ocioConfigs.end())
+                        {
+                            if (i->fileName == fileName)
+                            {
+                                i = p.configs.erase(i);
+                                j = p.ocioConfigs.erase(j);
+                            }
+                            else
+                            {
+                                ++i;
+                                ++j;
+                            }
+                        }
+
+                        // Add the configuration.
+                        auto ocioConfig = _OCIO::Config::CreateFromFile(fileName.c_str());
+                        p.ocioConfigs.push_back(ocioConfig);
+                        out = static_cast<int>(p.configs.size());
+                        Config tmp = config;
+                        tmp.fileName = fileName;
+                        if (init)
+                        {
+                            tmp.colorSpaces[std::string()] = std::string();
+                            tmp.display = ocioConfig->getDefaultDisplay();
+                            tmp.view = ocioConfig->getDefaultView(tmp.display.c_str());
+                        }
+                        p.configs.push_back(tmp);
+                        p.configsSubject->setIfChanged(p.configs);
+                        setCurrentIndex(out);
+                    }
+                    catch (const std::exception& e)
+                    {
+                        std::stringstream ss;
+                        ss << e.what();
+                        _log(ss.str(), LogLevel::Error);
+                    }
+                }
+                return out;
             }
 
             namespace
