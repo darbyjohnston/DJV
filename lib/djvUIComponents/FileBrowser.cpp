@@ -330,9 +330,9 @@ namespace djv
                 toolBar->addChild(p.shortcutsPopupWidget);
                 toolBar->addChild(p.recentPathsPopupWidget);
                 toolBar->addChild(p.drivesPopupWidget);
-                toolBar->addAction(p.actions["Up"]);
                 toolBar->addAction(p.actions["Back"]);
                 toolBar->addAction(p.actions["Forward"]);
+                toolBar->addAction(p.actions["Up"]);
                 toolBar->addChild(pathWidget);
                 toolBar->setStretch(pathWidget, RowStretch::Expand);
                 toolBar->addChild(p.sortPopupWidget);
