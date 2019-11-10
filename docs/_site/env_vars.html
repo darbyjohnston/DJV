@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="assets/style.css">
-    <title>Environment variables</title>
+    <title>Environment Variables</title>
   </head>
   <body>
     <div class="logo">
@@ -12,14 +12,33 @@
     <div class="nav">
     <p><a class="text" href="index.html">Home</a> |
     <a class="text" href="documentation.html">Documentation</a> |
-    Environment variables</p>
+    Environment Variables</p>
+	<ul>
+	    <li><a class="text" href="#General">General</a></li>
+	    <li><a class="text" href="#Paths">Paths</a></li>
+	    <li><a class="text" href="#Debugging">Debugging</a></li>
+	</ul>
 </div>
 
 <div class="separator"></div>
 
 <div class="block">
-	<p class="header">Environment Variables</a></p>
-	<p>These environment variables can be used to customize DJV:</p>
+	<p class="header"><a name="General">General</a></p>
+	<p>These environment variables can be used to customize DJV at runtime.</p>
+    <table>
+        <tr>
+            <td>DJV_LANG</td>
+            <td>Set the language, for example "en", "es", or "ko". This is over-ridden
+            by std::locale(""), and the user interface settings respectively.</td>
+        </tr>
+    </table>
+</div>
+
+<div class="separator"></div>
+
+<div class="block">
+	<p class="header"><a name="Paths">Paths</a></p>
+	<p>These environment variables can be used to customize file system paths.</p>
     <table>
         <tr>
             <td>DJV_RESOURCE_PATH</td>
@@ -27,15 +46,19 @@
             default the installation path is used.</td>
         </tr>
         <tr>
-            <td>DJV_LANG</td>
-            <td>Set the language, for example "en", "es", or "ko". This is over-ridden
-            by std::locale(""), and the user interface settings respectively.</td>
-        </tr>
-        <tr>
             <td>DJV_DOCUMENTS_PATH</td>
             <td>Override the path where the user interface settings and log files
             are written. By default this is $HOME/Documents/DJV.</td>
         </tr>
+    </table>
+</div>
+
+<div class="separator"></div>
+
+<div class="block">
+	<p class="header"><a name="Debugging">Debugging</a></p>
+	<p>These environment variables can be used for debugging.</p>
+    <table>
         <tr>
             <td>DJV_LOG_CONSOLE</td>
             <td>Print the system log to the console.</td>

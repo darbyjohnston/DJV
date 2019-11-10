@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="assets/style.css">
-    <title>Build options</title>
+    <title>Build Options</title>
   </head>
   <body>
     <div class="logo">
@@ -12,32 +12,26 @@
     <div class="nav">
     <p><a class="text" href="index.html">Home</a> |
     <a class="text" href="documentation.html">Documentation</a> |
-    Build options</p>
+    Build Options</p>
+	<ul>
+	    <li><a class="text" href="#General">General</a></li>
+	    <li><a class="text" href="#Testing">Testing</a></li>
+	    <li><a class="text" href="#ThirdParty">Third Party</a></li>
+	    <li><a class="text" href="#Experimental">Experimental</a></li>
+	</ul>
 </div>
 
 <div class="separator"></div>
 
 <div class="block">
-	<p class="header">Build Options</a></p>
-	<p>These CMake variables can be used to customize how DJV is built:</p>
+	<p class="header"><a name="General">General</a></p>
+	<p>These CMake variables can be used to customize how DJV is built.</p>
     <table>
         <tr>
             <th>Variable</th>
             <th>Type</th>
             <th>Default</th>
             <th>Description</th>
-        </tr>
-        <tr>
-            <td>DJV_OPENGL_ES2</td>
-            <td>Boolean</td>
-            <td>False</td>
-            <td>OpenGL ES 2.0 rendering. Experimental.</td>
-        </tr>
-        <tr>
-            <td>DJV_PYTHON</td>
-            <td>Boolean</td>
-            <td>False</td>
-            <td>Python support. Experimental.</td>
         </tr>
         <tr>
             <td>DJV_BUILD_BIN</td>
@@ -58,10 +52,26 @@
             <td>Build examples.</td>
         </tr>
         <tr>
-            <td>DJV_TINY_BUILD</td>
+            <td>DJV_BUILD_TINY</td>
             <td>Boolean</td>
             <td>False</td>
-            <td>Enable a "tiny" build (only core libraries + tests).</td>
+            <td>Enable a "tiny" build (only build core libraries + tests). This is
+            used for CI builds to keep the build time within limits.</td>
+        </tr>
+    </table>
+</div>
+
+<div class="separator"></div>
+
+<div class="block">
+	<p class="header"><a name="Testing">Testing</a></p>
+	<p>These CMake variables can be used to enable testing.</p>
+    <table>
+        <tr>
+            <th>Variable</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
         </tr>
         <tr>
             <td>DJV_GPROF</td>
@@ -74,6 +84,22 @@
             <td>Boolean</td>
             <td>False</td>
             <td>Enable gcov code coverage targets.</td>
+        </tr>
+    </table>
+</div>
+
+<div class="separator"></div>
+
+<div class="block">
+	<p class="header"><a name="ThirdParty">Third Party</a></p>
+	<p>These CMake variables can be used to customize the third party software
+	dependencies.</p>
+    <table>
+        <tr>
+            <th>Variable</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
         </tr>
         <tr>
             <td>DJV_THIRD_PARTY</td>
@@ -94,6 +120,33 @@
             <td>This is used to disable ExternalProject_Add() for third party
             packages. This can be helpful for speeding up compile iterations after
             the third party packages have been built.</td>
+        </tr>
+    </table>
+</div>
+
+<div class="separator"></div>
+
+<div class="block">
+	<p class="header"><a name="Experimental">Experimental</a></p>
+	<p>These CMake variables can be used to enable experimental functionality.</p>
+    <table>
+        <tr>
+            <th>Variable</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>DJV_OPENGL_ES2</td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>Enable OpenGL ES 2.0 rendering.</td>
+        </tr>
+        <tr>
+            <td>DJV_PYTHON</td>
+            <td>Boolean</td>
+            <td>False</td>
+            <td>Enable Python support.</td>
         </tr>
     </table>
 </div>

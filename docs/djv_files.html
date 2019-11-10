@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Working with files
+title: Working with Files
 ---
 
 <div class="nav">
@@ -8,33 +8,109 @@ title: Working with files
     <a class="text" href="documentation.html">Documentation</a> |
     {{ page.title }}</p>
 	<ul>
-	    <li><a class="text" href="#Open">Opening files</a></li>
-	    <li><a class="text" href="#Recent">Recent files</a></li>
-	    <li><a class="text" href="#Switching">Switching between files</a></li>
+	    <li><a class="text" href="#Supported">Supported Files</a></li>
+	    <li><a class="text" href="#Open">Opening Files</a></li>
+	    <li><a class="text" href="#Recent">Recent Files</a></li>
+	    <li><a class="text" href="#Switching">Switching Between Files</a></li>
 	</ul>
 </div>
 
 <div class="separator"></div>
 
 <div class="block">
-    <p class="header"><a name="Open">Opening files</a></p>
-    <p>Open the file browser:</p>
+    <p class="header"><a name="Supported">Supported Files</a></p>
+    <p>These file types are supported for both still images and image sequences:</p>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>File Extensions</th>
+            <th>Notes</th>
+        </tr>
+        <tr>
+            <td>Cineon</td>
+            <td>.cin</td>
+            <td>Only 10-bit RGB files are currently supported</td>
+        </tr>
+        <tr>
+            <td>DPX</td>
+            <td>.dpx</td>
+            <td>Only 10-bit RGB files are currently supported</td>
+        </tr>
+        <tr>
+            <td>IFF - Generic interchange file format</td>
+            <td>.iff, .z</td>
+            <td>Read-only</td>
+        </tr>
+        <tr>
+            <td>JPEG - Joint photographic experts group file format</td>
+            <td>.jpeg, .jpg, .jfif</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>OpenEXR</td>
+            <td>.exr</td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>PNG - Portable network graphics file format</td>
+            <td>.png</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>PPM - NetPBM file format</td>
+            <td>.ppm</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>RLA - Wavefront file format</td>
+            <td>.rla, .rpf</td>
+            <td>Read-only</td>
+        </tr>
+        <tr>
+            <td>SGI - Silicon Graphics file format</td>
+            <td>.sgi, .rgba, .rgb, .bw</td>
+            <td>Read-only</td>
+        </tr>
+        <tr>
+            <td>TGA - Targa file format</td>
+            <td>.tga</td>
+            <td>Read-only</td>
+        </tr>
+        <tr>
+            <td>TIFF - Tagged image file format</td>
+            <td>.tif, .tiff</td>
+            <td></td>
+        </tr>
+    </table>
+    <p>These file types are supported for movies:</p>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>File Extensions</th>
+            <th>Notes</th>
+        </tr>
+        <tr>
+            <td>FFmpeg</td>
+            <td>.avi, .dv, .gif, .flv, .mkv, .mov, .mpg, .mpeg, .mp3, .mp4, .m4v, .mxf, .wav, .webp</td>
+            <td>Read-only</td>
+        </tr>
+    </table>
+</div>
+
+<div class="separator"></div>
+
+<div class="block">
+    <p class="header"><a name="Open">Opening Files</a></p>
+    <p>You can open files by using the file browser, dragging and dropping
+    files onto the application window, or listing them on the command line.</p>
+    <p>Opening files with the file browser:</p>
     <ol>
         <li>Open the "File" menu</li>
         <li>Click the menu item "Open"</li>
+        <li>Navigate to the directory where your files are</li>
+        <li>Click on a file thumbnail</li>
     </ol>
     <p><img class="diagram" src="assets/djv_files_1.svg"></p>
-    <p>File browser controls:</p>
-    <ol>
-        <li>The current directory; click to edit the path</li>
-        <li>Go up a directory</li>
-        <li>Go back or forward a directory</li>
-        <li>Shortcuts, recently used directories, and drives</li>
-        <li>Sorting options</li>
-        <li>Search for items in the directory</li>
-        <li>Show the settings</li>
-        <li>Click a file to open it</li>
-    </ol>
     <p><img class="diagram" src="assets/djv_files_2.svg"></p>
 </div>
 
@@ -42,24 +118,19 @@ title: Working with files
 
 <div class="block">
     <p class="header"><a name="Recent">Recent Files</a></p>
-    <p>Open the recent files:</p>
+    <p>You can open recently used files from the recent files browser:</p>
     <ol>
         <li>Open the "File" menu</li>
         <li>Click the menu item "Recent"</li>
+        <li>Click on a file thumbnail</li>
     </ol>
     <p><img class="diagram" src="assets/djv_files_3.svg"></p>
-    <p>Recent files controls:</p>
-    <ol>
-        <li>Click a file to open it</li>
-        <li>Search for items</li>
-        <li>Show the settings</li>
-    </ol>
     <p><img class="diagram" src="assets/djv_files_4.svg"></p>
 </div>
 
 <div class="separator"></div>
 
 <div class="block">
-    <p class="header"><a name="Switching">Switching between files</a></p>
+    <p class="header"><a name="Switching">Switching Between Files</a></p>
 </div>
 
