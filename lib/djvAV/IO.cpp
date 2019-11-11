@@ -211,6 +211,16 @@ namespace djv
                 _cacheUpdate();
             }
 
+            void Cache::setInOutPoints(bool enabled, Frame::Index inPoint, Frame::Index outPoint)
+            {
+                if (enabled == _inOutPointsEnabled && inPoint == _inPoint && outPoint == _outPoint)
+                    return;
+                _inOutPointsEnabled = enabled;
+                _inPoint = inPoint;
+                _outPoint = outPoint;
+                _cacheUpdate();
+            }
+
             void Cache::setDirection(Direction value)
             {
                 if (value == _direction)
@@ -256,6 +266,19 @@ namespace djv
 
             void Cache::_cacheUpdate()
             {
+                Frame::Index start = 0;
+                Frame::Index end = _sequenceSize ? (_sequenceSize - 1) : 0;
+                if (_inOutPointsEnabled)
+                {
+                    if (_inPoint != Frame::invalid)
+                    {
+                        start = _inPoint;
+                    }
+                    if (_outPoint != Frame::invalid)
+                    {
+                        end = _outPoint;
+                    }
+                }
                 Frame::Index frame = _currentFrame;
                 _sequence = Frame::Sequence();
                 switch (_direction)
@@ -265,16 +288,9 @@ namespace djv
                     for (size_t i = 0; i < _readBehind; ++i)
                     {
                         --frame;
-                        if (frame < 0)
+                        if (frame < start)
                         {
-                            if (_sequenceSize)
-                            {
-                                frame = _sequenceSize - 1;
-                            }
-                            else
-                            {
-                                frame = 0;
-                            }
+                            frame = end;
                         }
                     }
                     _sequence.ranges.push_back(Frame::Range(frame));
@@ -286,9 +302,9 @@ namespace djv
                         {
                             break;
                         }
-                        if (frame >= _sequenceSize)
+                        if (frame > end)
                         {
-                            frame = 0;
+                            frame = start;
                             if (frame != _sequence.ranges.back().max)
                             {
                                 _sequence.ranges.push_back(Frame::Range(frame));
@@ -306,9 +322,9 @@ namespace djv
                     for (size_t i = 0; i < _readBehind; ++i)
                     {
                         ++frame;
-                        if (frame >= _sequenceSize)
+                        if (frame > end)
                         {
-                            frame = 0;
+                            frame = start;
                         }
                     }
                     _sequence.ranges.push_back(Frame::Range(frame));
@@ -320,16 +336,9 @@ namespace djv
                         {
                             break;
                         }
-                        if (frame < 0)
+                        if (frame < start)
                         {
-                            if (_sequenceSize)
-                            {
-                                frame = _sequenceSize - 1;
-                            }
-                            else
-                            {
-                                frame = 0;
-                            }
+                            frame = end;
                             if (frame != _sequence.ranges.back().max)
                             {
                                 _sequence.ranges.push_back(Frame::Range(frame));
@@ -374,7 +383,15 @@ namespace djv
                 std::lock_guard<std::mutex> lock(_mutex);
                 _playback = value;
             }
-
+            
+            void IRead::setInOutPoints(bool enabled, Frame::Index inPoint, Frame::Index outPoint)
+            {
+                std::lock_guard<std::mutex> lock(_mutex);
+                _inOutPointsEnabled = enabled;
+                _inPoint = inPoint;
+                _outPoint = outPoint;
+            }
+            
             bool IRead::isCacheEnabled() const
             {
                 return _cacheEnabled;

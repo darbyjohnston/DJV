@@ -265,6 +265,7 @@ namespace djv
                 const Core::Frame::Sequence& getSequence() const;
                 void setMax(size_t);
                 void setSequenceSize(size_t);
+                void setInOutPoints(bool, Core::Frame::Index, Core::Frame::Index);
                 void setDirection(Direction);
                 void setCurrentFrame(Core::Frame::Index);
 
@@ -278,6 +279,9 @@ namespace djv
 
                 size_t _max = 0;
                 size_t _sequenceSize = 0;
+                bool _inOutPointsEnabled = false;
+                Core::Frame::Index _inPoint = Core::Frame::invalid;
+                Core::Frame::Index _outPoint = Core::Frame::invalid;
                 Direction _direction = Direction::Forward;
                 Core::Frame::Index _currentFrame = 0;
                 //! \todo Should this be configurable?
@@ -302,6 +306,7 @@ namespace djv
                 virtual std::future<Info> getInfo() = 0;
 
                 void setPlayback(bool);
+                void setInOutPoints(bool, Core::Frame::Index, Core::Frame::Index);
 
                 //! \param value For video files this value represents the
                 //! frame number, for audio files it represents the audio sample.
@@ -318,6 +323,9 @@ namespace djv
 
             protected:
                 ReadOptions _options;
+                bool _inOutPointsEnabled = false;
+                Core::Frame::Index _inPoint = Core::Frame::invalid;
+                Core::Frame::Index _outPoint = Core::Frame::invalid;
                 Direction _direction = Direction::Forward;
                 bool _playback = false;
                 bool _cacheEnabled = false;

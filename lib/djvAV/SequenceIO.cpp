@@ -146,12 +146,18 @@ namespace djv
                         // Update the options.
                         size_t threadCount = 4;
                         bool playback = false;
+                        bool inOutPointsEnabled = false;
+                        Frame::Index inPoint = Frame::invalid;
+                        Frame::Index outPoint = Frame::invalid;
                         bool cacheEnabled = false;
                         size_t cacheMaxByteCount = 0;
                         {
                             std::lock_guard<std::mutex> lock(_mutex);
                             threadCount = _threadCount;
                             playback = _playback;
+                            inOutPointsEnabled = _inOutPointsEnabled;
+                            inPoint = _inPoint;
+                            outPoint = _outPoint;
                             cacheEnabled = _cacheEnabled;
                             cacheMaxByteCount = _cacheMaxByteCount;
                         }
@@ -164,6 +170,7 @@ namespace djv
                             const size_t dataByteCount = info.video[_options.layer].info.getDataByteCount();
                             _cache.setMax(dataByteCount ? (cacheMaxByteCount / dataByteCount) : 0);
                             _cache.setSequenceSize(info.video[_options.layer].sequence.getSize());
+                            _cache.setInOutPoints(inOutPointsEnabled, inPoint, outPoint);
                         }
                         else
                         {

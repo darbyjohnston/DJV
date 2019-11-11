@@ -68,7 +68,6 @@ namespace djv
                 Core::Time::Speed _speed;
                 Core::Frame::Sequence _sequence;
 
-
             private:
                 bool _hasWork() const;
                 size_t _getQueueCount(size_t threadCount) const;
