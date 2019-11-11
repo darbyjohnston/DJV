@@ -80,7 +80,7 @@ namespace djv
             std::shared_ptr<ValueObserver<Frame::Sequence> > sequenceObserver;
             std::shared_ptr<ValueObserver<Playback> > playbackObserver;
             std::shared_ptr<ValueObserver<PlaybackMode> > playbackModeObserver;
-            std::shared_ptr<ValueObserver<bool> > inOutPointsEnabledObserver;
+            std::shared_ptr<ValueObserver<AV::IO::InOutPoints> > inOutPointsEnabledObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
             std::shared_ptr<ValueObserver<PointerData> > hoverObserver;
             std::shared_ptr<ValueObserver<PointerData> > dragObserver;
@@ -417,7 +417,8 @@ namespace djv
                     {
                         if (auto media = system->_p->currentMedia)
                         {
-                            media->setInOutPointsEnabled(value);
+                            const auto& inOutPoints = media->observeInOutPoints()->get();
+                            media->setInOutPoints(AV::IO::InOutPoints(value, inOutPoints.getIn(), inOutPoints.getOut()));
                         }
                     }
                 });
@@ -564,13 +565,13 @@ namespace djv
                                 }
                             });
 
-                            system->_p->inOutPointsEnabledObserver = ValueObserver<bool>::create(
-                                value->observeInOutPointsEnabled(),
-                                [weak](bool value)
+                            system->_p->inOutPointsEnabledObserver = ValueObserver<AV::IO::InOutPoints>::create(
+                                value->observeInOutPoints(),
+                                [weak](const AV::IO::InOutPoints& value)
                                 {
                                     if (auto system = weak.lock())
                                     {
-                                        system->_p->inOutPointsEnabled = value;
+                                        system->_p->inOutPointsEnabled = value.isEnabled();
                                         system->_actionsUpdate();
                                     }
                                 });

@@ -105,9 +105,7 @@ namespace djv
             PlaybackMode playbackMode = PlaybackMode::First;
             Frame::Sequence sequence;
             Frame::Index currentFrame = Frame::invalidIndex;
-            bool inOutPointsEnabled = false;
-            Frame::Index inPoint = Frame::invalidIndex;
-            Frame::Index outPoint = Frame::invalidIndex;
+            AV::IO::InOutPoints inOutPoints;
             Playback playbackPrev = Playback::Count;
             AV::TimeUnits timeUnits = AV::TimeUnits::First;
             ImageViewLock viewLock = ImageViewLock::First;
@@ -161,9 +159,7 @@ namespace djv
             std::shared_ptr<ValueObserver<PlaybackMode> > playbackModeObserver;
             std::shared_ptr<ValueObserver<Frame::Sequence> > sequenceObserver;
             std::shared_ptr<ValueObserver<Frame::Index> > currentFrameObserver2;
-            std::shared_ptr<ValueObserver<bool> > inOutPointsObserver;
-            std::shared_ptr<ValueObserver<Frame::Index> > inPointObserver;
-            std::shared_ptr<ValueObserver<Frame::Index> > outPointObserver;
+            std::shared_ptr<ValueObserver<AV::IO::InOutPoints> > inOutPointsObserver;
             std::shared_ptr<ValueObserver<Playback> > playbackObserver;
             std::shared_ptr<ValueObserver<bool> > audioEnabledObserver;
             std::shared_ptr<ValueObserver<float> > volumeObserver;
@@ -497,7 +493,13 @@ namespace djv
                     {
                         if (auto media = widget->_p->media)
                         {
-                            media->setInPoint(value);
+                            const auto& inOutPoints = media->observeInOutPoints()->get();
+                            const size_t sequenceSize = widget->_p->sequence.getSize();
+                            media->setInOutPoints(AV::IO::InOutPoints(
+                                inOutPoints.isEnabled(),
+                                Math::clamp(value, static_cast<Frame::Index>(0), static_cast<Frame::Index>(sequenceSize > 0 ? (sequenceSize - 1) : 0)),
+                                inOutPoints.getOut()));
+                            widget->_widgetUpdate();
                         }
                     }
                 });
@@ -533,7 +535,13 @@ namespace djv
                     {
                         if (auto media = widget->_p->media)
                         {
-                            media->setOutPoint(value);
+                            const auto& inOutPoints = media->observeInOutPoints()->get();
+                            const size_t sequenceSize = widget->_p->sequence.getSize();
+                            media->setInOutPoints(AV::IO::InOutPoints(
+                                inOutPoints.isEnabled(),
+                                inOutPoints.getIn(),
+                                Math::clamp(value, static_cast<Frame::Index>(0), static_cast<Frame::Index>(sequenceSize > 0 ? (sequenceSize - 1) : 0))));
+                            widget->_widgetUpdate();
                         }
                     }
                 });
@@ -820,35 +828,13 @@ namespace djv
                     }
                 });
 
-            p.inOutPointsObserver = ValueObserver<bool>::create(
-                p.media->observeInOutPointsEnabled(),
-                [weak](bool value)
+            p.inOutPointsObserver = ValueObserver<AV::IO::InOutPoints>::create(
+                p.media->observeInOutPoints(),
+                [weak](const AV::IO::InOutPoints& value)
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->inOutPointsEnabled = value;
-                        widget->_widgetUpdate();
-                    }
-                });
-
-            p.inPointObserver = ValueObserver<Frame::Index>::create(
-                p.media->observeInPoint(),
-                [weak](Frame::Index value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->inPoint = value;
-                        widget->_widgetUpdate();
-                    }
-                });
-
-            p.outPointObserver = ValueObserver<Frame::Index>::create(
-                p.media->observeOutPoint(),
-                [weak](Frame::Index value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->outPoint = value;
+                        widget->_p->inOutPoints = value;
                         widget->_widgetUpdate();
                     }
                 });
@@ -1224,22 +1210,27 @@ namespace djv
                 p.currentFrameWidget->setFrame(p.currentFrame);
                 p.inPointWidget->setSequence(p.sequence);
                 p.inPointWidget->setSpeed(p.defaultSpeed);
-                p.inPointWidget->setFrame(p.inPoint);
-                p.inPointWidget->setEnabled(p.inOutPointsEnabled);
-                p.inPointResetButton->setEnabled(p.inOutPointsEnabled && p.inPoint != 0);
+                p.inPointWidget->setFrame(p.inOutPoints.getIn());
+                p.inPointWidget->setEnabled(p.inOutPoints.isEnabled());
+                p.inPointResetButton->setEnabled(
+                    p.inOutPoints.isEnabled() &&
+                    p.inOutPoints.getIn() != 0);
                 p.outPointWidget->setSequence(p.sequence);
                 p.outPointWidget->setSpeed(p.defaultSpeed);
-                p.outPointWidget->setFrame(p.outPoint);
-                p.outPointWidget->setEnabled(p.inOutPointsEnabled);
+                p.outPointWidget->setFrame(p.inOutPoints.getOut());
+                p.outPointWidget->setEnabled(p.inOutPoints.isEnabled());
                 const size_t sequenceSize = p.sequence.getSize();
-                p.outPointResetButton->setEnabled(p.inOutPointsEnabled && sequenceSize > 0 && p.outPoint != (sequenceSize - 1));
+                p.outPointResetButton->setEnabled(
+                    p.inOutPoints.isEnabled() &&
+                    sequenceSize > 0 &&
+                    p.inOutPoints.getOut() != (sequenceSize - 1));
 
                 auto avSystem = context->getSystemT<AV::AVSystem>();
                 p.durationLabel->setText(avSystem->getLabel(p.sequence.getSize(), p.defaultSpeed));
 
-                p.timelineSlider->setInOutPointsEnabled(p.inOutPointsEnabled);
-                p.timelineSlider->setInPoint(p.inPoint);
-                p.timelineSlider->setOutPoint(p.outPoint);
+                p.timelineSlider->setInOutPointsEnabled(p.inOutPoints.isEnabled());
+                p.timelineSlider->setInPoint(p.inOutPoints.getIn());
+                p.timelineSlider->setOutPoint(p.inOutPoints.getOut());
 
                 p.playbackLayout->setVisible(p.sequence.getSize() > 1);
             }

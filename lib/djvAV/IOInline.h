@@ -198,6 +198,56 @@ namespace djv
                 return  _audioQueue;
             }
 
+            inline InOutPoints::InOutPoints()
+            {}
+
+            inline InOutPoints::InOutPoints(bool enabled, Core::Frame::Index in, Core::Frame::Index out) :
+                _enabled(enabled),
+                _in(std::min(in, out)),
+                _out(std::max(in, out))
+            {}
+
+            inline bool InOutPoints::isEnabled() const
+            {
+                return _enabled;
+            }
+
+            inline Core::Frame::Index InOutPoints::getIn() const
+            {
+                return _in;
+            }
+
+            inline Core::Frame::Index InOutPoints::getOut() const
+            {
+                return _out;
+            }
+
+            inline Core::Range::Range<Core::Frame::Index> InOutPoints::getRange(size_t size) const
+            {
+                Core::Range::Range<Core::Frame::Index> out;
+                out.min = 0;
+                out.max = size ? (size - 1) : 0;
+                if (_enabled)
+                {
+                    if (_in != Core::Frame::invalid)
+                    {
+                        out.min = _in;
+                    }
+                    if (_out != Core::Frame::invalid)
+                    {
+                        out.max = _out;
+                    }
+                }
+                return out;
+            }
+
+            inline bool InOutPoints::operator == (const InOutPoints& other) const
+            {
+                return _enabled == other._enabled &&
+                    _in == other._in &&
+                    _out == other._out;
+            }
+
             inline Cache::Cache()
             {}
             
