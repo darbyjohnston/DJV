@@ -64,7 +64,9 @@ namespace djv
             
             void setSpeedCallback(const std::function<void(const Core::Time::Speed&)>&);
             void setPlayEveryFrameCallback(const std::function<void(bool)>&);
-
+            void setUseCustomSpeedCallback(const std::function<void(bool)>&);
+            void setCustomSpeedCallback(const std::function<void(const Core::Time::Speed&)>&);
+        
         protected:
             void _preLayoutEvent(Core::Event::PreLayout&) override;
             void _layoutEvent(Core::Event::Layout&) override;

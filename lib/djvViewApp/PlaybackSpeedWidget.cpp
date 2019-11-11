@@ -35,6 +35,7 @@
 #include <djvUI/ListButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
+#include <djvUI/LineEditBase.h>
 
 #include <djvCore/Speed.h>
 
@@ -49,6 +50,7 @@ namespace djv
             std::vector<Time::Speed> speeds;
             Time::Speed speed;
             Time::Speed defaultSpeed;
+            Time::Speed customSpeed;
             bool playEveryFrame = false;
 
             std::shared_ptr<UI::Label> titleLabel;
@@ -56,9 +58,14 @@ namespace djv
             std::shared_ptr<UI::VerticalLayout> speedButtonLayout;
             std::shared_ptr<UI::ListButton> defaultSpeedButton;
             std::shared_ptr<UI::CheckBox> playEveryFrameCheckBox;
+            std::shared_ptr<UI::ListButton> useCustomSpeedButton;
+            std::shared_ptr<UI::LineEditBase> customSpeedLineEdit;
             std::shared_ptr<UI::ScrollWidget> scrollWidget;
             std::function<void(const Core::Time::Speed&)> speedCallback;
             std::function<void(bool)> playEveryFrameCallback;
+            std::function<void(bool)> useCustomSpeedCallback;
+            std::function<void(const Core::Time::Speed&)> setCustomSpeedCallback;
+
         };
 
         void PlaybackSpeedWidget::_init(const std::shared_ptr<Core::Context>& context)
@@ -99,16 +106,26 @@ namespace djv
 
             p.playEveryFrameCheckBox = UI::CheckBox::create(context);
 
+            p.useCustomSpeedButton = UI::ListButton::create(context);
+            p.customSpeedLineEdit = UI::LineEditBase::create(context);
+            p.customSpeedLineEdit->setText("1.0");
+
             auto layout = UI::VerticalLayout::create(context);
             layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             layout->addChild(p.titleLabel);
             layout->addSeparator();
+
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             vLayout->addChild(p.defaultSpeedButton);
             vLayout->addChild(p.playEveryFrameCheckBox);
             vLayout->addChild(p.speedButtonLayout);
+            layout->addSeparator();
+            vLayout->addChild(p.useCustomSpeedButton);
+            vLayout->addChild(p.customSpeedLineEdit);
+
             layout->addChild(vLayout);
+
             p.scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             p.scrollWidget->setMinimumSizeRole(UI::MetricsRole::Menu);
             p.scrollWidget->setBorder(false);
@@ -119,6 +136,7 @@ namespace djv
 
             auto weak = std::weak_ptr<PlaybackSpeedWidget>(
                 std::dynamic_pointer_cast<PlaybackSpeedWidget>(shared_from_this()));
+
             p.speedButtonGroup->setPushCallback(
                 [weak](int value)
                 {
@@ -145,6 +163,49 @@ namespace djv
                         if (widget->_p->playEveryFrameCallback)
                         {
                             widget->_p->playEveryFrameCallback(value);
+                        }
+                    }
+                });
+
+            p.useCustomSpeedButton->setClickedCallback(
+                [weak]
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        widget->_doSpeedCallback(widget->_p->customSpeed);
+                    }
+                });
+
+            p.customSpeedLineEdit->setTextEditCallback(
+                [weak](const std::string& value, UI::TextEditReason)
+                {
+                    if (auto widget = weak.lock())
+                    {
+                        if (std::stof(value) >= 1)
+                        {
+                            try
+                            {
+                                widget->_p->customSpeed = Time::Speed(std::stoi(value));
+                            }
+                            catch (const std::exception&)
+                            {
+                                std::stringstream ss;
+                                ss << "Cannot parse the value.";
+                                widget->_log(ss.str(), LogLevel::Error);
+                            }
+                        }
+                        else if (1 > std::stof(value) > 0)
+                        {
+                            try
+                            {
+                                widget->_p->customSpeed = Time::Speed(std::floor(std::stof(value) * 1000), 1000);
+                            }
+                            catch (const std::exception&)
+                            {
+                                std::stringstream ss;
+                                ss << "Cannot parse the value as float.";
+                                widget->_log(ss.str(), LogLevel::Error);
+                            }
                         }
                     }
                 });
@@ -201,6 +262,16 @@ namespace djv
             _p->playEveryFrameCallback = value;
         }
 
+        void PlaybackSpeedWidget::setUseCustomSpeedCallback(const std::function<void(bool)>& value)
+        {
+            _p->useCustomSpeedCallback = value;
+        }
+
+        void PlaybackSpeedWidget::setCustomSpeedCallback(const std::function<void(const Time::Speed&)>& value)
+        {
+            _p->speedCallback = value;
+        }
+
         void PlaybackSpeedWidget::_preLayoutEvent(Event::PreLayout&)
         {
             const auto& style = _getStyle();
@@ -250,6 +321,9 @@ namespace djv
                 p.playEveryFrameCheckBox->setChecked(p.playEveryFrame);
                 p.playEveryFrameCheckBox->setText(DJV_TEXT("Play every frame"));
                 p.playEveryFrameCheckBox->setTooltip(_getText(DJV_TEXT("Play every frame tooltip")));
+
+                p.useCustomSpeedButton->setText(DJV_TEXT("Custom playback speed"));
+                p.useCustomSpeedButton->setTooltip(_getText(DJV_TEXT("Custom playback speed tooltip")));
             }
         }
 
