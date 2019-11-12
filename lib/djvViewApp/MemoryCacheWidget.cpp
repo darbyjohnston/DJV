@@ -56,6 +56,7 @@ namespace djv
             std::shared_ptr<UI::IntSlider> maxGBSlider;
             std::shared_ptr<UI::Label> maxGBLabel;
             std::shared_ptr<UI::Label> percentageLabel;
+            std::shared_ptr<UI::Label> percentageLabel2;
             std::shared_ptr<UI::VerticalLayout> layout;
 
             std::shared_ptr<ValueObserver<bool> > enabledObserver;
@@ -83,7 +84,8 @@ namespace djv
 
             p.percentageLabel = UI::Label::create(context);
             p.percentageLabel->setTextHAlign(UI::TextHAlign::Left);
-            p.percentageLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+            p.percentageLabel2 = UI::Label::create(context);
+            p.percentageLabel2->setFont(AV::Font::familyMono);
 
             p.layout = UI::VerticalLayout::create(context);
             p.layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
@@ -99,7 +101,12 @@ namespace djv
             hLayout->setStretch(p.maxGBSlider, UI::RowStretch::Expand);
             hLayout->addChild(p.maxGBLabel);
             vLayout->addChild(hLayout);
-            vLayout->addChild(p.percentageLabel);
+            hLayout = UI::HorizontalLayout::create(context);
+            hLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+            hLayout->addChild(p.percentageLabel);
+            hLayout->addChild(p.percentageLabel2);
+            vLayout->addChild(hLayout);
             p.layout->addChild(vLayout);
             addChild(p.layout);
 
@@ -207,12 +214,12 @@ namespace djv
             p.titleLabel->setText(_getText(DJV_TEXT("Memory Cache")));
             p.enabledCheckBox->setText(_getText(DJV_TEXT("Enable")));
             p.maxGBLabel->setText(_getText(DJV_TEXT("GB")));
+            p.percentageLabel->setText(_getText(DJV_TEXT("Used")) + ":");
             std::stringstream ss;
-            ss << _getText(DJV_TEXT("Used")) << ": ";
             ss.precision(2);
             ss << std::fixed << p.percentageUsed;
             ss << "%";
-            p.percentageLabel->setText(ss.str());
+            p.percentageLabel2->setText(ss.str());
         }
 
     } // namespace ViewApp
