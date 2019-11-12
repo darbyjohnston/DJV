@@ -894,7 +894,8 @@ namespace djv
                         popup = Layout::getPopup(popup, g, pos, minimumSize);
                         _widgetToPopup[i.first] = popup;
                     }
-                    i.first->setGeometry(Layout::getPopupGeometry(popup, pos, minimumSize).intersect(g));
+                    const BBox2f popupGeometry = Layout::getPopupGeometry(popup, pos, minimumSize);
+                    i.first->setGeometry(popupGeometry.intersect(g));
                 }
                 for (const auto & i : _widgetToButton)
                 {
@@ -913,7 +914,7 @@ namespace djv
                             popup = Layout::getPopup(popup, g, buttonBBox, minimumSize);
                         }
                         const BBox2f popupGeometry = Layout::getPopupGeometry(popup, buttonBBox, minimumSize);
-                        i.first->setGeometry(popupGeometry);
+                        i.first->setGeometry(popupGeometry.intersect(g));
                     }
                 }
             }
