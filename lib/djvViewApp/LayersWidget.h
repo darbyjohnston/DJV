@@ -50,7 +50,7 @@ namespace djv
             static std::shared_ptr<LayersWidget> create(const std::shared_ptr<Core::Context>&);
 
         protected:
-            void _textUpdateEvent(Core::Event::TextUpdate &) override;
+            void _initEvent(Core::Event::Init &) override;
 
         private:
             void _widgetUpdate();

@@ -188,9 +188,6 @@ namespace djv
             _p->activeCallback = value;
         }
 
-        void MediaCanvas::_textUpdateEvent(Event::TextUpdate& event)
-        {}
-
     } // namespace ViewApp
 } // namespace djv
 

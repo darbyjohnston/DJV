@@ -613,9 +613,9 @@ namespace djv
             _p->tabWidget->setCurrentTab(value);
         }
 
-        void ColorSpaceWidget::_textUpdateEvent(Event::TextUpdate & event)
+        void ColorSpaceWidget::_initEvent(Event::Init & event)
         {
-            MDIWidget::_textUpdateEvent(event);
+            MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Color Space")));
             p.addConfigButton->setTooltip(_getText(DJV_TEXT("Color space add config tooltip")));

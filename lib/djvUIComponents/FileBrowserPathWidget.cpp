@@ -67,7 +67,7 @@ namespace djv
 
             void PathWidget::_init(const std::shared_ptr<Context>& context)
             {
-                UI::Widget::_init(context);
+                Widget::_init(context);
 
                 DJV_PRIVATE_PTR();
                 setClassName("djv::UI::FileBrowser::PathWidget");
@@ -302,8 +302,9 @@ namespace djv
                 _p->layout->setGeometry(getGeometry());
             }
 
-            void PathWidget::_textUpdateEvent(Event::TextUpdate &)
+            void PathWidget::_initEvent(Event::Init & event)
             {
+                Widget::_initEvent(event);
                 DJV_PRIVATE_PTR();
                 p.historyButton->setTooltip(_getText(DJV_TEXT("File browser history tooltip")));
             }

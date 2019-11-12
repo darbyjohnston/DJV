@@ -121,10 +121,11 @@ namespace djv
             void setAnnotations(const std::vector<std::shared_ptr<AnnotatePrimitive> >&);
 
         protected:
-            void _styleEvent(Core::Event::Style&) override;
             void _preLayoutEvent(Core::Event::PreLayout &) override;
             void _layoutEvent(Core::Event::Layout &) override;
             void _paintEvent(Core::Event::Paint &) override;
+
+            void _initEvent(Core::Event::Init&) override;
 
         private:
             std::vector<glm::vec3> _getImagePoints() const;

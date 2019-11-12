@@ -282,9 +282,9 @@ namespace djv
             return out;
         }
 
-        void AboutDialog::_textUpdateEvent(Event::TextUpdate & event)
+        void AboutDialog::_initEvent(Event::Init & event)
         {
-            IDialog::_textUpdateEvent(event);
+            IDialog::_initEvent(event);
             DJV_PRIVATE_PTR();
 
             std::stringstream ss;

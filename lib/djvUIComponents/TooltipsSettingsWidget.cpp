@@ -117,9 +117,9 @@ namespace djv
             return "0";
         }
 
-        void TooltipsSettingsWidget::_textUpdateEvent(Event::TextUpdate & event)
+        void TooltipsSettingsWidget::_initEvent(Event::Init & event)
         {
-            ISettingsWidget::_textUpdateEvent(event);
+            ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
             p.tooltipsCheckBox->setText(_getText(DJV_TEXT("Enable tooltips")));
         }

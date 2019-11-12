@@ -125,8 +125,9 @@ namespace djv
             _p->tabWidget->setCurrentTab(value);
         }
 
-        void SettingsDialog::_textUpdateEvent(Event::TextUpdate & event)
+        void SettingsDialog::_initEvent(Event::Init & event)
         {
+            IDialog::_initEvent(event);
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Settings")));
             for (const auto& i : p.scrollToWidget)

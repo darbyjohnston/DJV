@@ -187,14 +187,6 @@ namespace djv
                 distributeEvenly();
             }
 
-            void Splitter::_styleEvent(Event::Style &)
-            {
-                DJV_PRIVATE_PTR();
-                const auto& style = _getStyle();
-                p.splitterWidth = style->getMetric(MetricsRole::Handle);
-                _resize();
-            }
-
             void Splitter::_preLayoutEvent(Event::PreLayout & event)
             {
                 DJV_PRIVATE_PTR();
@@ -387,6 +379,15 @@ namespace djv
                 p.pressedID.first = Event::InvalidID;
                 p.pressedID.second = 0;
                 _redraw();
+            }
+
+            void Splitter::_initEvent(Event::Init & event)
+            {
+                Widget::_initEvent(event);
+                DJV_PRIVATE_PTR();
+                const auto& style = _getStyle();
+                p.splitterWidth = style->getMetric(MetricsRole::Handle);
+                _resize();
             }
 
             float Splitter::_valueToPos(float value) const

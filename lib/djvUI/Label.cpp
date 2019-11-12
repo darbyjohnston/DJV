@@ -69,6 +69,7 @@ namespace djv
         {
             Widget::_init(context);
             setClassName("djv::UI::Label");
+            setVAlign(VAlign::Center);
             _p->fontSystem = context->getSystemT<AV::Font::System>();
         }
         
@@ -198,11 +199,6 @@ namespace djv
             _textUpdate();
         }
 
-        void Label::_styleEvent(Event::Style & event)
-        {
-            _textUpdate();
-        }
-
         void Label::_preLayoutEvent(Event::PreLayout &)
         {
             DJV_PRIVATE_PTR();
@@ -252,10 +248,13 @@ namespace djv
             const BBox2f & g = getMargin().bbox(getGeometry(), style);
             const glm::vec2 c = g.getCenter();
 
+            auto render = _getRender();
+            //render->setFillColor(AV::Image::Color(1.F, 0.F, 0.F, .5F));
+            //render->drawRect(g);
+
             auto fontInfo = p.font.empty() ?
                 style->getFontInfo(p.fontFace, p.fontSizeRole) :
                 style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);
-            auto render = _getRender();
             render->setCurrentFont(fontInfo);
             glm::vec2 pos = g.min;
             switch (p.textHAlign)
@@ -299,6 +298,12 @@ namespace djv
             {
                 render->drawText(p.glyphs, glm::vec2(floorf(pos.x), floorf(pos.y + p.fontMetrics.ascender - 1.F)));
             }
+        }
+
+        void Label::_initEvent(Event::Init & event)
+        {
+            Widget::_initEvent(event);
+            _textUpdate();
         }
 
         void Label::_textUpdate()

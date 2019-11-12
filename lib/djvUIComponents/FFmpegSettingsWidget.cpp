@@ -110,9 +110,9 @@ namespace djv
             return "Z";
         }
 
-        void FFmpegSettingsWidget::_textUpdateEvent(Event::TextUpdate& event)
+        void FFmpegSettingsWidget::_initEvent(Event::Init& event)
         {
-            ISettingsWidget::_textUpdateEvent(event);
+            ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
             p.layout->setText(p.threadCountSlider, _getText(DJV_TEXT("Thread count")) + ":");
             _widgetUpdate();

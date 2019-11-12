@@ -88,7 +88,6 @@ namespace djv
                 float getHeightForWidth(float) const override;
 
             protected:
-                void _styleEvent(Core::Event::Style &) override;
                 void _preLayoutEvent(Core::Event::PreLayout &) override;
                 void _layoutEvent(Core::Event::Layout &) override;
                 void _clipEvent(Core::Event::Clip &) override;
@@ -101,8 +100,8 @@ namespace djv
 
                 std::shared_ptr<Widget> _createTooltip(const glm::vec2 & pos) override;
 
+                void _initEvent(Core::Event::Init &) override;
                 void _updateEvent(Core::Event::Update &) override;
-                void _textUpdateEvent(Core::Event::TextUpdate &) override;
 
             private:
                 std::string _getTooltip(const Core::FileSystem::FileInfo &) const;

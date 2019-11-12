@@ -138,8 +138,9 @@ namespace djv
             _p->comboBox->setGeometry(getGeometry());
         }
 
-        void LanguageWidget::_textUpdateEvent(Event::TextUpdate& event)
+        void LanguageWidget::_initEvent(Event::Init& event)
         {
+            Widget::_initEvent(event);
             _widgetUpdate();
         }
 

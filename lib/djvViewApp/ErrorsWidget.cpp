@@ -186,9 +186,9 @@ namespace djv
             return out;
         }
 
-        void ErrorsWidget::_textUpdateEvent(Event::TextUpdate & event)
+        void ErrorsWidget::_initEvent(Event::Init & event)
         {
-            MDIWidget::_textUpdateEvent(event);
+            MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Errors")));
             p.popupCheckBox->setText(_getText(DJV_TEXT("Popup")));

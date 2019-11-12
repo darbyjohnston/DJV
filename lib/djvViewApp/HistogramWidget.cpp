@@ -60,9 +60,9 @@ namespace djv
             return out;
         }
 
-        void HistogramWidget::_textUpdateEvent(Event::TextUpdate & event)
+        void HistogramWidget::_initEvent(Event::Init & event)
         {
-            MDIWidget::_textUpdateEvent(event);
+            MDIWidget::_initEvent(event);
             setTitle(_getText(DJV_TEXT("Histogram")));
         }
 

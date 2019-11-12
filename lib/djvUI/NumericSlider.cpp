@@ -216,16 +216,6 @@ namespace djv
             }
         }
 
-        void NumericSlider::_styleEvent(Event::Style& event)
-        {
-            DJV_PRIVATE_PTR();
-            if (auto context = getContext().lock())
-            {
-                const auto& style = _getStyle();
-                p.handleWidth = style->getMetric(MetricsRole::Handle);
-            }
-        }
-
         void NumericSlider::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
@@ -369,6 +359,17 @@ namespace djv
         void NumericSlider::_textFocusLostEvent(Event::TextFocusLost&)
         {
             _redraw();
+        }
+
+        void NumericSlider::_initEvent(Event::Init& event)
+        {
+            Widget::_initEvent(event);
+            DJV_PRIVATE_PTR();
+            if (auto context = getContext().lock())
+            {
+                const auto& style = _getStyle();
+                p.handleWidth = style->getMetric(MetricsRole::Handle);
+            }
         }
 
         void NumericSlider::_resetTimer()

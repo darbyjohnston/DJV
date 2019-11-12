@@ -124,9 +124,9 @@ namespace djv
             return "Z";
         }
 
-        void IOThreadsSettingsWidget::_textUpdateEvent(Event::TextUpdate & event)
+        void IOThreadsSettingsWidget::_initEvent(Event::Init & event)
         {
-            ISettingsWidget::_textUpdateEvent(event);
+            ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
             p.layout->setText(p.threadCountSlider, _getText(DJV_TEXT("Thread count")) + ":");
         }

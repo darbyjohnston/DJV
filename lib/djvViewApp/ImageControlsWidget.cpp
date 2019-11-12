@@ -729,9 +729,9 @@ namespace djv
             _p->tabWidget->setCurrentTab(value);
         }
         
-        void ImageControlsWidget::_textUpdateEvent(Event::TextUpdate & event)
+        void ImageControlsWidget::_initEvent(Event::Init & event)
         {
-            MDIWidget::_textUpdateEvent(event);
+            MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
 
             setTitle(_getText(DJV_TEXT("Image Controls")));

@@ -159,9 +159,9 @@ namespace djv
             return "B";
         }
 
-        void FullscreenMonitorSettingsWidget::_textUpdateEvent(Event::TextUpdate& event)
+        void FullscreenMonitorSettingsWidget::_initEvent(Event::Init& event)
         {
-            ISettingsWidget::_textUpdateEvent(event);
+            ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
             p.formLayout->setText(p.monitorComboBox, _getText(DJV_TEXT("Monitor")) + ":");
         }
@@ -417,20 +417,15 @@ namespace djv
             return "B";
         }
 
-        void BackgroundImageSettingsWidget::_styleEvent(Event::Style& event)
+        void BackgroundImageSettingsWidget::_initEvent(Event::Init& event)
         {
-            ISettingsWidget::_styleEvent(event);
-            _imageUpdate();
-        }
-
-        void BackgroundImageSettingsWidget::_textUpdateEvent(Event::TextUpdate& event)
-        {
-            ISettingsWidget::_textUpdateEvent(event);
+            ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
             p.openButton->setTooltip(_getText(DJV_TEXT("Open the file browser")));
             p.closeButton->setTooltip(_getText(DJV_TEXT("Clear the background image")));
             p.scaleCheckBox->setText(_getText(DJV_TEXT("Scale to fit")));
             p.colorizeCheckBox->setText(_getText(DJV_TEXT("Colorize with the UI style")));
+            _imageUpdate();
         }
 
         void BackgroundImageSettingsWidget::_updateEvent(Event::Update&)

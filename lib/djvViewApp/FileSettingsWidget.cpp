@@ -122,9 +122,9 @@ namespace djv
             return "A";
         }
 
-        void SequenceSettingsWidget::_textUpdateEvent(Event::TextUpdate& event)
+        void SequenceSettingsWidget::_initEvent(Event::Init& event)
         {
-            ISettingsWidget::_textUpdateEvent(event);
+            ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
             p.checkBox->setText(_getText(DJV_TEXT("Auto-detect file sequences")));
         }

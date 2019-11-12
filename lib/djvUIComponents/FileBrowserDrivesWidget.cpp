@@ -61,7 +61,7 @@ namespace djv
 
             void DrivesWidget::_init(const std::shared_ptr<FileSystem::DrivesModel>& model, const std::shared_ptr<Context>& context)
             {
-                UI::Widget::_init(context);
+                Widget::_init(context);
                 DJV_PRIVATE_PTR();
 
                 setClassName("djv::UI::FileBrowser::DrivesWidget");
@@ -158,8 +158,9 @@ namespace djv
                 _p->scrollWidget->setGeometry(getGeometry());
             }
 
-            void DrivesWidget::_textUpdateEvent(Event::TextUpdate&)
+            void DrivesWidget::_initEvent(Event::Init& event)
             {
+                Widget::_initEvent(event);
                 DJV_PRIVATE_PTR();
                 p.titleLabel->setText(_getText(DJV_TEXT("Drives")));
             }

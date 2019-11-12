@@ -475,9 +475,9 @@ namespace djv
             _redraw();
         }
 
-        void MagnifyWidget::_textUpdateEvent(Event::TextUpdate & event)
+        void MagnifyWidget::_initEvent(Event::Init & event)
         {
-            MDIWidget::_textUpdateEvent(event);
+            MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
 
             setTitle(_getText(DJV_TEXT("Magnify")));

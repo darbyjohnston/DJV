@@ -294,12 +294,6 @@ namespace djv
             _p->currentFrameDragCallback = value;
         }
 
-        void TimelineSlider::_styleEvent(Event::Style &)
-        {
-            _textUpdate();
-            _currentFrameUpdate();
-        }
-
         void TimelineSlider::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
@@ -601,6 +595,13 @@ namespace djv
             p.pressedID = Event::InvalidID;
             _redraw();
             _doCurrentFrameDragCallback(false);
+        }
+
+        void TimelineSlider::_initEvent(Event::Init & event)
+        {
+            Widget::_initEvent(event);
+            _textUpdate();
+            _currentFrameUpdate();
         }
 
         void TimelineSlider::_updateEvent(Event::Update & event)

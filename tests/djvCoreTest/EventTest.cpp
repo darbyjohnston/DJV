@@ -156,10 +156,8 @@ namespace djv
         void EventTest::_coreEvent()
         {
             {
-                const std::string locale = "es";
-                const Event::TextUpdate event(locale);
-                DJV_ASSERT(event.getEventType() == Event::Type::TextUpdate);
-                DJV_ASSERT(event.getLocale() == locale);
+                const Event::Init event;
+                DJV_ASSERT(event.getEventType() == Event::Type::Init);
             }
             
             {
@@ -174,11 +172,6 @@ namespace djv
 
         void EventTest::_renderEvent()
         {
-            {
-                const Event::Style event;
-                DJV_ASSERT(event.getEventType() == Event::Type::Style);
-            }
-            
             {
                 const Event::PreLayout event;
                 DJV_ASSERT(event.getEventType() == Event::Type::PreLayout);

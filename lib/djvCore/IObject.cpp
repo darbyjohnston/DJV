@@ -193,8 +193,18 @@ namespace djv
                 switch (event.getEventType())
                 {
                 case Event::Type::ParentChanged:
-                    _parentChangedEvent(static_cast<Event::ParentChanged &>(event));
+                {
+                    auto& parentChangedEvent = static_cast<Event::ParentChanged &>(event);
+                    _parentChangedEvent(parentChangedEvent);
+                    const bool prevParent = parentChangedEvent.getPrevParent() ? true : false;
+                    const bool newParent = parentChangedEvent.getNewParent() ? true : false;
+                    if (newParent && !prevParent)
+                    {
+                        Event::Init event;
+                        _eventInitRecursive(shared_from_this(), event);
+                    }
                     break;
+                }
                 case Event::Type::ChildAdded:
                     _childAddedEvent(static_cast<Event::ChildAdded &>(event));
                     break;
@@ -204,8 +214,8 @@ namespace djv
                 case Event::Type::ChildOrder:
                     _childOrderEvent(static_cast<Event::ChildOrder &>(event));
                     break;
-                case Event::Type::TextUpdate:
-                    _textUpdateEvent(static_cast<Event::TextUpdate &>(event));
+                case Event::Type::Init:
+                    _initEvent(static_cast<Event::Init &>(event));
                     break;
                 case Event::Type::Update:
                     _updateEvent(static_cast<Event::Update &>(event));
@@ -260,7 +270,7 @@ namespace djv
             // Default implementation does nothing.
         }
         
-        void IObject::_textUpdateEvent(Event::TextUpdate &)
+        void IObject::_initEvent(Event::Init &)
         {
             // Default implementation does nothing.
         }
@@ -279,7 +289,16 @@ namespace djv
         {
             _logSystem->log(_className, message, level);
         }
-
+        
+        void IObject::_eventInitRecursive(const std::shared_ptr<IObject>& object, Event::Init& event)
+        {
+            for (const auto& i : object->_children)
+            {
+                _eventInitRecursive(i, event);
+            }
+            object->event(event);
+        }
+        
         bool IObject::_eventFilter(Event::Event & event)
         {
             bool filtered = false;

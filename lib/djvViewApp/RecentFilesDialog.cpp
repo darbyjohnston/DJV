@@ -144,8 +144,8 @@ namespace djv
             scrollWidget->addChild(p.itemView);
 
             p.itemCountLabel = UI::Label::create(context);
-            p.itemCountLabel->setTextHAlign(UI::TextHAlign::Right);
-            p.itemCountLabel->setTextVAlign(UI::TextVAlign::Bottom);
+            p.itemCountLabel->setHAlign(UI::HAlign::Right);
+            p.itemCountLabel->setVAlign(UI::VAlign::Bottom);
             p.itemCountLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin));
 
             p.layout = UI::StackLayout::create(context);
@@ -282,9 +282,9 @@ namespace djv
             _p->callback = value;
         }
 
-        void RecentFilesDialog::_textUpdateEvent(Event::TextUpdate & event)
+        void RecentFilesDialog::_initEvent(Event::Init & event)
         {
-            IDialog::_textUpdateEvent(event);
+            IDialog::_initEvent(event);
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Recent Files")));
 

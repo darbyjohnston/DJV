@@ -239,9 +239,9 @@ namespace djv
             _p->lineWidthCallback = value;
         }
         
-        void AnnotateWidget::_textUpdateEvent(Event::TextUpdate & event)
+        void AnnotateWidget::_initEvent(Event::Init & event)
         {
-            MDIWidget::_textUpdateEvent(event);
+            MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
             
             setTitle(_getText(DJV_TEXT("Annotate")));

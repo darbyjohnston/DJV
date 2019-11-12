@@ -68,7 +68,6 @@ namespace djv
                 void removeChild(const std::shared_ptr<IObject> &) override;
 
             protected:
-                void _styleEvent(Core::Event::Style &) override;
                 void _preLayoutEvent(Core::Event::PreLayout &) override;
                 void _layoutEvent(Core::Event::Layout &) override;
                 void _paintEvent(Core::Event::Paint &) override;
@@ -76,6 +75,8 @@ namespace djv
                 void _pointerMoveEvent(Core::Event::PointerMove &) override;
                 void _buttonPressEvent(Core::Event::ButtonPress &) override;
                 void _buttonReleaseEvent(Core::Event::ButtonRelease &) override;
+
+                void _initEvent(Core::Event::Init &) override;
 
             private:
                 float _valueToPos(float) const;

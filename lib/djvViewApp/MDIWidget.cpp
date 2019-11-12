@@ -202,8 +202,9 @@ namespace djv
             _p->layout->setGeometry(getGeometry());
         }
 
-        void MDIWidget::_textUpdateEvent(Event::TextUpdate &)
+        void MDIWidget::_initEvent(Event::Init & event)
         {
+            IWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
             p.closeButton->setTooltip(_getText(DJV_TEXT("Close tooltip")));
         }

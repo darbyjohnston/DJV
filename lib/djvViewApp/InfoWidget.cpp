@@ -122,9 +122,9 @@ namespace djv
             return out;
         }
 
-        void InfoWidget::_textUpdateEvent(Event::TextUpdate & event)
+        void InfoWidget::_initEvent(Event::Init & event)
         {
-            MDIWidget::_textUpdateEvent(event);
+            MDIWidget::_initEvent(event);
             setTitle(_getText(DJV_TEXT("Information")));
             _widgetUpdate();
         }

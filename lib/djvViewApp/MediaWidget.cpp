@@ -1140,9 +1140,11 @@ namespace djv
             p.imageView->setImageFrame(imageFrame);
         }
 
-        void MediaWidget::_textUpdateEvent(Event::TextUpdate&)
+        void MediaWidget::_initEvent(Event::Init& event)
         {
+            IWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
+            
             p.actions["Forward"]->setTooltip(_getText(DJV_TEXT("Forward tooltip")));
             p.actions["Reverse"]->setTooltip(_getText(DJV_TEXT("Reverse tooltip")));
             p.actions["InPoint"]->setTooltip(_getText(DJV_TEXT("Go to in point tooltip")));

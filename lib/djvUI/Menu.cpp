@@ -71,7 +71,6 @@ namespace djv
                 void setCloseCallback(const std::function<void(void)> &);
 
             protected:
-                void _styleEvent(Event::Style &) override;
                 void _preLayoutEvent(Event::PreLayout &) override;
                 void _layoutEvent(Event::Layout &) override;
                 void _paintEvent(Event::Paint &) override;
@@ -83,6 +82,7 @@ namespace djv
 
                 std::shared_ptr<Widget> _createTooltip(const glm::vec2 & pos) override;
 
+                void _initEvent(Event::Init &) override;
                 void _updateEvent(Event::Update &) override;
 
             private:
@@ -158,11 +158,6 @@ namespace djv
             void MenuWidget::setCloseCallback(const std::function<void(void)> & value)
             {
                 _closeCallback = value;
-            }
-
-            void MenuWidget::_styleEvent(Event::Style &)
-            {
-                _itemsUpdate();
             }
 
             void MenuWidget::_preLayoutEvent(Event::PreLayout &)
@@ -521,6 +516,12 @@ namespace djv
                         _redraw();
                     }
                 }
+            }
+
+            void MenuWidget::_initEvent(Event::Init & event)
+            {
+                Widget::_initEvent(event);
+                _itemsUpdate();
             }
 
             std::shared_ptr<Widget> MenuWidget::_createTooltip(const glm::vec2 & pos)

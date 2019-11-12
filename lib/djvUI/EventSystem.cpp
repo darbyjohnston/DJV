@@ -118,12 +118,12 @@ namespace djv
                 auto style = uiSystem->getStyle();
                 if (style->isDirty())
                 {
-                    Event::Style styleEvent;
+                    Event::Init initEvent;
                     for (auto i : p.windows)
                     {
                         if (auto window = i.lock())
                         {
-                            _styleRecursive(window, styleEvent);
+                            _initRecursive(window, initEvent);
                         }
                     }
                     style->setClean();
@@ -178,15 +178,6 @@ namespace djv
             bool out = widget->_redrawRequest;
             widget->_redrawRequest = false;
             return out;
-        }
-
-        void EventSystem::_styleRecursive(const std::shared_ptr<Widget> & widget, Event::Style & event)
-        {
-            widget->event(event);
-            for (const auto & child : widget->getChildWidgets())
-            {
-                _styleRecursive(child, event);
-            }
         }
 
         void EventSystem::_preLayoutRecursive(const std::shared_ptr<Widget> & widget, Event::PreLayout & event)
@@ -255,11 +246,6 @@ namespace djv
                 setTextFocus(nullptr);
                 getRootObject()->addChild(window);
                 p.windows.push_back(window);
-            }
-            if (auto widget = std::dynamic_pointer_cast<Widget>(object))
-            {
-                Event::Style styleEvent;
-                object->event(styleEvent);
             }
         }
 

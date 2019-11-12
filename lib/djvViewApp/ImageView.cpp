@@ -382,11 +382,6 @@ namespace djv
             _redraw();
         }
 
-        void ImageView::_styleEvent(Event::Style& event)
-        {
-            _textUpdate();
-        }
-
         void ImageView::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
@@ -508,6 +503,12 @@ namespace djv
                 }
                 render->popTransform();
             }
+        }
+
+        void ImageView::_initEvent(Event::Init& event)
+        {
+            Widget::_initEvent(event);
+            _textUpdate();
         }
 
         std::vector<glm::vec3> ImageView::_getImagePoints() const

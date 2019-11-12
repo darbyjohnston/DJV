@@ -336,8 +336,9 @@ namespace djv
             _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));
         }
 
-        void FloatSlider::_textUpdateEvent(Event::TextUpdate&)
+        void FloatSlider::_initEvent(Event::Init& event)
         {
+            Widget::_initEvent(event);
             DJV_PRIVATE_PTR();
             p.resetButton->setTooltip(_getText(DJV_TEXT("Reset the value.")));
         }

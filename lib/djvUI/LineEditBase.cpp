@@ -263,14 +263,6 @@ namespace djv
             return out;
         }
 
-        void LineEditBase::_styleEvent(Event::Style & event)
-        {
-            _p->viewOffset = 0.F;
-            _textUpdate();
-            _cursorUpdate();
-            _viewUpdate();
-        }
-
         void LineEditBase::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
@@ -794,6 +786,15 @@ namespace djv
             _cursorUpdate();
             _viewUpdate();
             _doTextChangedCallback();
+        }
+
+        void LineEditBase::_initEvent(Event::Init & event)
+        {
+            Widget::_initEvent(event);
+            _p->viewOffset = 0.F;
+            _textUpdate();
+            _cursorUpdate();
+            _viewUpdate();
         }
 
         std::string LineEditBase::_fromUtf32(const std::basic_string<djv_char_t>& value)

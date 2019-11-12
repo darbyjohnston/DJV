@@ -54,9 +54,8 @@ namespace djv
                 ChildAdded,
                 ChildRemoved,
                 ChildOrder,
-                TextUpdate,
+                Init,
                 Update,
-                Style,
                 PreLayout,
                 Layout,
                 Clip,
@@ -145,16 +144,11 @@ namespace djv
                 ChildOrder();
             };
 
-            //! This class provides a text update event.
-            class TextUpdate : public Event
+            //! This class provides an initialization event.
+            class Init : public Event
             {
             public:
-                explicit TextUpdate(const std::string &locale);
-
-                const std::string& getLocale() const;
-
-            private:
-                std::string _locale;
+                Init();
             };
 
             //! This class provides an update event.
@@ -169,13 +163,6 @@ namespace djv
             private:
                 float _t;
                 float _dt;
-            };
-
-            //! This class provides a style event.
-            class Style : public Event
-            {
-            public:
-                Style();
             };
 
             //! This class provides an event to prepare for user interface layout.

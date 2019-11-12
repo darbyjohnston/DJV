@@ -450,8 +450,8 @@ namespace djv
                 case Event::Type::ParentChanged:
                 {
                     auto& parentChangedEvent = static_cast<Event::ParentChanged &>(event);
-                    const bool hasParent = parentChangedEvent.getNewParent() ? true : false;
-                    if (!hasParent)
+                    const bool newParent = parentChangedEvent.getNewParent() ? true : false;
+                    if (!newParent)
                     {
                         if (auto eventSystem = _getEventSystem().lock())
                         {
@@ -468,7 +468,7 @@ namespace djv
                             }
                         }
                     }
-                    _clipped = hasParent;
+                    _clipped = newParent;
                     _clipRect = BBox2f(0.F, 0.F, 0.F, 0.F);
                     _redraw();
                     break;
@@ -503,7 +503,7 @@ namespace djv
                     break;
                 }
                 case Event::Type::ChildOrder:
-                case Event::Type::TextUpdate:
+                case Event::Type::Init:
                     _resize();
                     break;
                 case Event::Type::Update:
@@ -535,12 +535,6 @@ namespace djv
                             }
                         }
                     }
-                    break;
-                }
-                case Event::Type::Style:
-                {
-                    _styleEvent(static_cast<Event::Style &>(event));
-                    _resize();
                     break;
                 }
                 case Event::Type::PreLayout:

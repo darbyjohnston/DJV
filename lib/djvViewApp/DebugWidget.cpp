@@ -67,7 +67,7 @@ namespace djv
                 void _preLayoutEvent(Event::PreLayout&) override;
                 void _layoutEvent(Event::Layout&) override;
 
-                void _textUpdateEvent(Event::TextUpdate&) override;
+                void _initEvent(Event::Init&) override;
 
                 virtual void _widgetUpdate() = 0;
 
@@ -91,8 +91,9 @@ namespace djv
                 _layout->setGeometry(getGeometry());
             }
 
-            void IDebugWidget::_textUpdateEvent(Event::TextUpdate& event)
+            void IDebugWidget::_initEvent(Event::Init& event)
             {
+                Widget::_initEvent(event);
                 _widgetUpdate();
             }
 
@@ -507,7 +508,7 @@ namespace djv
                 void _preLayoutEvent(Event::PreLayout&) override;
                 void _layoutEvent(Event::Layout&) override;
 
-                void _textUpdateEvent(Event::TextUpdate&) override;
+                void _initEvent(Event::Init&) override;
 
             private:
                 void _widgetUpdate();
@@ -685,8 +686,9 @@ namespace djv
                 _layout->setGeometry(getGeometry());
             }
 
-            void MediaDebugWidget::_textUpdateEvent(Event::TextUpdate& event)
+            void MediaDebugWidget::_initEvent(Event::Init& event)
             {
+                Widget::_initEvent(event);
                 {
                     std::stringstream ss;
                     ss << _getText(DJV_TEXT("Video queue")) << ":";
@@ -794,9 +796,9 @@ namespace djv
             }
         }
 
-        void DebugWidget::_textUpdateEvent(Event::TextUpdate & event)
+        void DebugWidget::_initEvent(Event::Init & event)
         {
-            MDIWidget::_textUpdateEvent(event);
+            MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("Debug")));
             p.bellows["General"]->setText(_getText(DJV_TEXT("General")));

@@ -135,8 +135,9 @@ namespace djv
             _p->comboBox->setGeometry(getGeometry());
         }
 
-        void ColorTypeWidget::_textUpdateEvent(Event::TextUpdate &)
+        void ColorTypeWidget::_initEvent(Event::Init & event)
         {
+            Widget::_initEvent(event);
             DJV_PRIVATE_PTR();
             setTooltip(_getText(DJV_TEXT("Color type widget tooltip")));
             _widgetUpdate();
@@ -255,8 +256,9 @@ namespace djv
             _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));
         }
 
-        void ColorSliders::_textUpdateEvent(Event::TextUpdate &)
+        void ColorSliders::_initEvent(Event::Init & event)
         {
+            Widget::_initEvent(event);
             _textUpdate();
         }
 

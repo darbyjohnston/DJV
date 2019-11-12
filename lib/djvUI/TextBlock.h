@@ -74,11 +74,12 @@ namespace djv
             float getHeightForWidth(float) const override;
 
         protected:
-            void _styleEvent(Core::Event::Style &) override;
             void _preLayoutEvent(Core::Event::PreLayout&) override;
             void _layoutEvent(Core::Event::Layout&) override;
             void _clipEvent(Core::Event::Clip &) override;
             void _paintEvent(Core::Event::Paint &) override;
+
+            void _initEvent(Core::Event::Init &) override;
 
         private:
             void _textUpdate();

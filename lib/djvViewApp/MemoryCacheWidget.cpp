@@ -203,8 +203,9 @@ namespace djv
             _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));
         }
 
-        void MemoryCacheWidget::_textUpdateEvent(Event::TextUpdate & event)
+        void MemoryCacheWidget::_initEvent(Event::Init & event)
         {
+            Widget::_initEvent(event);
             _widgetUpdate();
         }
 
