@@ -71,6 +71,8 @@
 
 #include <iomanip>
 
+//#define IO_THREADS_DEMO
+
 using namespace djv::Core;
 
 namespace djv
@@ -145,9 +147,12 @@ namespace djv
             std::shared_ptr<UI::FloatSlider> audioVolumeSlider;
             std::shared_ptr<UI::ToolButton> audioMuteButton;
             std::shared_ptr<UI::PopupWidget> audioPopupWidget;
-            /*std::shared_ptr<UI::IntSlider> ioThreadsSlider;
+#ifdef IO_THREADS_DEMO
+            std::shared_ptr<UI::IntSlider> ioThreadsSlider;
             std::shared_ptr<UI::PopupWidget> ioThreadsPopupWidget;
-            std::shared_ptr<UI::Label> cachePercentageLabel;*/
+            std::shared_ptr<UI::Label> ioThreadsLabel;
+            std::shared_ptr<UI::Label> cachePercentageLabel;
+#endif // IO_THREADS_DEMO
             std::shared_ptr<UI::GridLayout> playbackLayout;
             std::shared_ptr<UI::StackLayout> layout;
 
@@ -169,7 +174,9 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > audioEnabledObserver;
             std::shared_ptr<ValueObserver<float> > volumeObserver;
             std::shared_ptr<ValueObserver<bool> > muteObserver;
-            //std::shared_ptr<ValueObserver<size_t> > ioThreadsObserver;
+#ifdef IO_THREADS_DEMO
+            std::shared_ptr<ValueObserver<size_t> > ioThreadsObserver;
+#endif // IO_THREADS_DEMO
             std::shared_ptr<ValueObserver<bool> > cacheEnabledObserver;
             std::shared_ptr<ValueObserver<Frame::Sequence> > cacheSequenceObserver;
             std::shared_ptr<ValueObserver<Frame::Sequence> > cachedFramesObserver;
@@ -308,13 +315,6 @@ namespace djv
             p.audioPopupWidget->setVAlign(UI::VAlign::Center);
             p.audioPopupWidget->addChild(vLayout);
 
-            /*p.ioThreadsSlider = UI::IntSlider::create(context);
-            p.ioThreadsSlider->setRange(IntRange(2, 64));
-            p.ioThreadsPopupWidget = UI::PopupWidget::create(context);
-            p.ioThreadsPopupWidget->setIcon("djvIconPopupMenu");
-            p.ioThreadsPopupWidget->setVAlign(UI::VAlign::Center);
-            p.ioThreadsPopupWidget->addChild(p.ioThreadsSlider);*/
-
             auto toolBar = UI::ToolBar::create(context);
             toolBar->setVAlign(UI::VAlign::Center);
             toolBar->setBackgroundRole(UI::ColorRole::None);
@@ -325,12 +325,23 @@ namespace djv
             toolBar->addAction(p.actions["NextFrame"]);
             toolBar->addAction(p.actions["OutPoint"]);
             
-            /*p.cachePercentageLabel = UI::Label::create(context);
+#ifdef IO_THREADS_DEMO
+            p.ioThreadsSlider = UI::IntSlider::create(context);
+            p.ioThreadsSlider->setRange(IntRange(2, 64));
+            p.ioThreadsPopupWidget = UI::PopupWidget::create(context);
+            p.ioThreadsPopupWidget->setIcon("djvIconPopupMenu");
+            p.ioThreadsPopupWidget->setVAlign(UI::VAlign::Center);
+            p.ioThreadsPopupWidget->addChild(p.ioThreadsSlider);
+
+            p.ioThreadsLabel = UI::Label::create(context);
+            p.ioThreadsLabel->setFontSizeRole(UI::MetricsRole::Swatch);
+            p.ioThreadsLabel->setTextHAlign(UI::TextHAlign::Left);
+
+            p.cachePercentageLabel = UI::Label::create(context);
+            p.cachePercentageLabel->setTextHAlign(UI::TextHAlign::Right);
             p.cachePercentageLabel->setFont(AV::Font::familyMono);
             p.cachePercentageLabel->setFontSizeRole(UI::MetricsRole::Slider);
-            p.cachePercentageLabel->setBackgroundRole(UI::ColorRole::OverlayLight);
-            p.cachePercentageLabel->setHAlign(UI::HAlign::Center);
-            p.cachePercentageLabel->setVAlign(UI::VAlign::Center);*/
+#endif // IO_THREADS_DEMO
             
             p.playbackLayout = UI::GridLayout::create(context);
             p.playbackLayout->setBackgroundRole(UI::ColorRole::OverlayLight);
@@ -342,8 +353,10 @@ namespace djv
             p.playbackLayout->setStretch(p.timelineSlider, UI::GridStretch::Horizontal);
             p.playbackLayout->addChild(p.audioPopupWidget);
             p.playbackLayout->setGridPos(p.audioPopupWidget, 2, 0);
-            //p.playbackLayout->addChild(p.ioThreadsPopupWidget);
-            //p.playbackLayout->setGridPos(p.ioThreadsPopupWidget, 2, 1);
+#ifdef IO_THREADS_DEMO
+            p.playbackLayout->addChild(p.ioThreadsPopupWidget);
+            p.playbackLayout->setGridPos(p.ioThreadsPopupWidget, 2, 1);
+#endif // IO_THREADS_DEMO
             hLayout = UI::HorizontalLayout::create(context);
             hLayout->addChild(p.speedPopupWidget);
             hLayout->addChild(p.realSpeedLabel);
@@ -378,7 +391,17 @@ namespace djv
             vLayout->addExpander();
             vLayout->addChild(p.playbackLayout);
             p.layout->addChild(vLayout);
-            //p.layout->addChild(p.cachePercentageLabel);
+#ifdef IO_THREADS_DEMO
+            vLayout = UI::VerticalLayout::create(context);
+            vLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginLarge));
+            vLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingLarge));
+            vLayout->setBackgroundRole(UI::ColorRole::OverlayLight);
+            vLayout->setHAlign(UI::HAlign::Center);
+            vLayout->setVAlign(UI::VAlign::Center);
+            vLayout->addChild(p.ioThreadsLabel);
+            vLayout->addChild(p.cachePercentageLabel);
+            p.layout->addChild(vLayout);
+#endif // IO_THREADS_DEMO
             addChild(p.layout);
 
             _widgetUpdate();
@@ -648,7 +671,8 @@ namespace djv
                     }
                 });
 
-            /*p.ioThreadsSlider->setValueCallback(
+#ifdef IO_THREADS_DEMO
+            p.ioThreadsSlider->setValueCallback(
                 [weak](int value)
             {
                 if (auto widget = weak.lock())
@@ -658,7 +682,8 @@ namespace djv
                         media->setThreadCount(value);
                     }
                 }
-            });*/
+            });
+#endif // IO_THREADS_DEMO
             
             p.maximizeButton->setClickedCallback(
                 [weak]
@@ -924,15 +949,21 @@ namespace djv
                     }
                 });
 
-            /*p.ioThreadsObserver = ValueObserver<size_t>::create(
+#ifdef IO_THREADS_DEMO
+            p.ioThreadsObserver = ValueObserver<size_t>::create(
                 p.media->observeThreadCount(),
                 [weak](size_t value)
                 {
                     if (auto widget = weak.lock())
                     {
                         widget->_p->ioThreadsSlider->setValue(value);
+                        
+                        std::stringstream ss;
+                        ss << value << " " << "threads";
+                        widget->_p->ioThreadsLabel->setText(ss.str());
                     }
-                });*/
+                });
+#endif // IO_THREADS_DEMO
 
             auto settingsSystem = context->getSystemT<UI::Settings::System>();
             if (auto fileSettings = settingsSystem->getSettingsT<FileSettings>())
@@ -966,13 +997,15 @@ namespace djv
                     {
                         widget->_p->timelineSlider->setCachedFrames(value);
                         
-                        /*const size_t sequenceSize = widget->_p->sequence.getSize();
+#ifdef IO_THREADS_DEMO
+                        const size_t sequenceSize = widget->_p->sequence.getSize();
                         const size_t cacheSize = value.getSize();
                         const float cachePercentage = sequenceSize > 0 ? (cacheSize / static_cast<float>(sequenceSize) * 100.F) : 0.F;
                         std::stringstream ss;
                         ss.precision(2);
                         ss << " " << std::fixed << std::setw(6) << cachePercentage << "% ";
-                        widget->_p->cachePercentageLabel->setText(ss.str());*/
+                        widget->_p->cachePercentageLabel->setText(ss.str());
+#endif // IO_THREADS_DEMO
                     }
                 });
 
@@ -1224,7 +1257,9 @@ namespace djv
             p.audioMuteButton->setTooltip(_getText(DJV_TEXT("Mute tooltip")));
             p.audioPopupWidget->setTooltip(_getText(DJV_TEXT("Audio popup tooltip")));
             
-            //p.ioThreadsPopupWidget->setTooltip(_getText(DJV_TEXT("I/O threads popup tooltip")));
+#ifdef IO_THREADS_DEMO
+            p.ioThreadsPopupWidget->setTooltip(_getText(DJV_TEXT("I/O threads popup tooltip")));
+#endif // IO_THREADS_DEMO
 
             _widgetUpdate();
             _speedUpdate();
