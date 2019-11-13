@@ -23,6 +23,8 @@ if(NOT DJV_THIRD_PARTY_DISABLE_BUILD)
             -DJPEG_SHARED_LIBS=${JPEG_SHARED_LIBS}
             -Djbig=OFF
             -Dlzma=OFF
+            -Dzstd=OFF
+            -Dwebp=OFF
             -Djpeg12=OFF)
 endif()
 
