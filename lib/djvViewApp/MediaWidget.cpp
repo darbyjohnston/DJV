@@ -1217,6 +1217,7 @@ namespace djv
                 case PlaybackMode::PingPong:
                     p.playbackModeButton->setTooltip(_getText(DJV_TEXT("Playback mode ping-pong tooltip")));
                     break;
+                default: break;
                 }
 
                 p.currentFrameWidget->setSequence(p.sequence);
