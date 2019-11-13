@@ -150,7 +150,7 @@ namespace djv
             virtual void _childAddedEvent(Event::ChildAdded &);
             virtual void _childRemovedEvent(Event::ChildRemoved &);
             virtual void _childOrderEvent(Event::ChildOrder &);
-            virtual void _textUpdateEvent(Event::TextUpdate &);
+            virtual void _initEvent(Event::Init &);
             virtual void _updateEvent(Event::Update &);
 
             //! Over-ride this function to filter events for other objects.
@@ -172,6 +172,7 @@ namespace djv
             ///@}
 
         private:
+            void _eventInitRecursive(const std::shared_ptr<IObject>&, Event::Init&);
             bool _eventFilter(Event::Event &);
 
             template<typename T>

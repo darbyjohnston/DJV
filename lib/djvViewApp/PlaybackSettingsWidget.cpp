@@ -127,9 +127,9 @@ namespace djv
             return "G";
         }
 
-        void PlaybackSettingsWidget::_textUpdateEvent(Event::TextUpdate& event)
+        void PlaybackSettingsWidget::_initEvent(Event::Init& event)
         {
-            ISettingsWidget::_textUpdateEvent(event);
+            ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
             p.startPlaybackButton->setText(_getText(DJV_TEXT("Automatically start playback")));
         }
@@ -213,9 +213,9 @@ namespace djv
             return "G";
         }
 
-        void TimelineSettingsWidget::_textUpdateEvent(Event::TextUpdate& event)
+        void TimelineSettingsWidget::_initEvent(Event::Init& event)
         {
-            ISettingsWidget::_textUpdateEvent(event);
+            ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
             p.pipButton->setText(_getText(DJV_TEXT("Show PIP (picture in picture)")));
         }

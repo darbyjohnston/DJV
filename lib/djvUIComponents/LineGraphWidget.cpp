@@ -182,8 +182,9 @@ namespace djv
             render->drawRects(boxes2);
         }
 
-        void LineGraphWidget::_textUpdateEvent(Event::TextUpdate& event)
+        void LineGraphWidget::_initEvent(Event::Init& event)
         {
+            Widget::_initEvent(event);
             _updateWidget();
         }
 

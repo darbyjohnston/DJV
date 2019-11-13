@@ -54,7 +54,7 @@ namespace djv
             std::string getSettingsSortKey() const override;
 
         protected:
-            void _textUpdateEvent(Core::Event::TextUpdate&) override;
+            void _initEvent(Core::Event::Init&) override;
 
         private:
             void _widgetUpdate();
@@ -81,9 +81,7 @@ namespace djv
             std::string getSettingsSortKey() const override;
 
         protected:
-            void _styleEvent(Core::Event::Style&) override;
-
-            void _textUpdateEvent(Core::Event::TextUpdate&) override;
+            void _initEvent(Core::Event::Init&) override;
             void _updateEvent(Core::Event::Update&) override;
 
         private:

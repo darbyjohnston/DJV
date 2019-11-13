@@ -46,7 +46,7 @@ namespace djv
             namespace TIFF
             {
                 static const std::string pluginName = "TIFF";
-                static const std::set<std::string> fileExtensions = { ".tif", ".tiff" };
+                static const std::set<std::string> fileExtensions = { ".tiff", ".tif" };
 
                 //! This enumeration provides the TIFF file compression types.
                 enum class Compression

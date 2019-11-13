@@ -173,9 +173,9 @@ namespace djv
             return "Z";
         }
 
-        void OpenEXRSettingsWidget::_textUpdateEvent(Event::TextUpdate& event)
+        void OpenEXRSettingsWidget::_initEvent(Event::Init& event)
         {
-            ISettingsWidget::_textUpdateEvent(event);
+            ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
             p.layout->setText(p.threadCountSlider, _getText(DJV_TEXT("Thread count")) + ":");
             p.layout->setText(p.channelsComboBox, _getText(DJV_TEXT("Channel grouping")) + ":");

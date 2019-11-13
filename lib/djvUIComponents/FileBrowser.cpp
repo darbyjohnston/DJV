@@ -141,7 +141,7 @@ namespace djv
 
             void FileBrowser::_init(const std::shared_ptr<Context>& context)
             {
-                UI::Widget::_init(context);
+                Widget::_init(context);
 
                 DJV_PRIVATE_PTR();
                 setClassName("djv::UI::FileBrowser::FileBrowser");
@@ -330,9 +330,9 @@ namespace djv
                 toolBar->addChild(p.shortcutsPopupWidget);
                 toolBar->addChild(p.recentPathsPopupWidget);
                 toolBar->addChild(p.drivesPopupWidget);
-                toolBar->addAction(p.actions["Up"]);
                 toolBar->addAction(p.actions["Back"]);
                 toolBar->addAction(p.actions["Forward"]);
+                toolBar->addAction(p.actions["Up"]);
                 toolBar->addChild(pathWidget);
                 toolBar->setStretch(pathWidget, RowStretch::Expand);
                 toolBar->addChild(p.sortPopupWidget);
@@ -348,8 +348,8 @@ namespace djv
                 p.scrollWidget->setShadowOverlay({ Side::Top });
 
                 p.itemCountLabel = Label::create(context);
-                p.itemCountLabel->setTextHAlign(TextHAlign::Right);
-                p.itemCountLabel->setTextVAlign(TextVAlign::Bottom);
+                p.itemCountLabel->setHAlign(HAlign::Right);
+                p.itemCountLabel->setVAlign(VAlign::Bottom);
                 p.itemCountLabel->setMargin(Layout::Margin(MetricsRole::Margin));
 
                 p.layout = VerticalLayout::create(context);
@@ -941,9 +941,11 @@ namespace djv
                 _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));
             }
 
-            void FileBrowser::_textUpdateEvent(Event::TextUpdate &)
+            void FileBrowser::_initEvent(Event::Init & event)
             {
+                Widget::_initEvent(event);
                 DJV_PRIVATE_PTR();
+                
                 p.actions["Back"]->setText(_getText(DJV_TEXT("Back")));
                 p.actions["Back"]->setTooltip(_getText(DJV_TEXT("File browser back tooltip")));
                 p.actions["Forward"]->setText(_getText(DJV_TEXT("Forward")));

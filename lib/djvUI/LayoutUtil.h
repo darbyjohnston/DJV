@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvUI/UI.h>
+#include <djvUI/Enum.h>
 
 #include <djvCore/BBox.h>
 
@@ -40,8 +40,25 @@ namespace djv
         //! This namespace provides layout functionality.
         namespace Layout
         {
-            Core::BBox2f getPopupGeometry(const Core::BBox2f& area, const glm::vec2& pos, const glm::vec2& minimumSize);
-            Core::BBox2f getPopupGeometry(const Core::BBox2f& area, const Core::BBox2f& button, const glm::vec2& minimumSize);
+            Core::BBox2f getPopupGeometry(
+                Popup,
+                const glm::vec2& pos,
+                const glm::vec2& minimumSize);
+            Core::BBox2f getPopupGeometry(
+                Popup,
+                const Core::BBox2f& button,
+                const glm::vec2& minimumSize);
+
+            Popup getPopup(
+                Popup,
+                const Core::BBox2f& area,
+                const glm::vec2& pos,
+                const glm::vec2& minimumSize);
+            Popup getPopup(
+                Popup,
+                const Core::BBox2f& area,
+                const Core::BBox2f& button,
+                const glm::vec2& minimumSize);
 
         } // namespace Layout
     } // namespace UI

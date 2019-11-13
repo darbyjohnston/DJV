@@ -382,11 +382,6 @@ namespace djv
             _redraw();
         }
 
-        void ImageView::_styleEvent(Event::Style& event)
-        {
-            _textUpdate();
-        }
-
         void ImageView::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
@@ -471,15 +466,15 @@ namespace djv
                     zoom * UI::getAspectRatioScale(p.imageAspectRatio->get(), image->getAspectRatio())));
                 render->pushTransform(m);
                 AV::Render::ImageOptions options(p.imageOptions->get());
-                auto i = p.ocioConfig.colorSpaces.find(image->getPluginName());
-                if (i != p.ocioConfig.colorSpaces.end())
+                auto i = p.ocioConfig.fileColorSpaces.find(image->getPluginName());
+                if (i != p.ocioConfig.fileColorSpaces.end())
                 {
                     options.colorSpace.input = i->second;
                 }
                 else
                 {
-                    i = p.ocioConfig.colorSpaces.find(std::string());
-                    if (i != p.ocioConfig.colorSpaces.end())
+                    i = p.ocioConfig.fileColorSpaces.find(std::string());
+                    if (i != p.ocioConfig.fileColorSpaces.end())
                     {
                         options.colorSpace.input = i->second;
                     }
@@ -508,6 +503,12 @@ namespace djv
                 }
                 render->popTransform();
             }
+        }
+
+        void ImageView::_initEvent(Event::Init& event)
+        {
+            Widget::_initEvent(event);
+            _textUpdate();
         }
 
         std::vector<glm::vec3> ImageView::_getImagePoints() const

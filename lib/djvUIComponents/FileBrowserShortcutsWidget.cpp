@@ -61,7 +61,7 @@ namespace djv
 
             void ShortcutsWidget::_init(const std::shared_ptr<ShortcutsModel> & model, const std::shared_ptr<Context>& context)
             {
-                UI::Widget::_init(context);
+                Widget::_init(context);
 
                 DJV_PRIVATE_PTR();
                 setClassName("djv::UI::FileBrowser::ShortcutsWidget");
@@ -220,8 +220,9 @@ namespace djv
                 _p->scrollWidget->setGeometry(getGeometry());
             }
             
-            void ShortcutsWidget::_textUpdateEvent(Event::TextUpdate&)
+            void ShortcutsWidget::_initEvent(Event::Init& event)
             {
+                Widget::_initEvent(event);
                 DJV_PRIVATE_PTR();
                 p.titleLabel->setText(_getText(DJV_TEXT("Shortcuts")));
                 p.addButton->setTooltip(_getText(DJV_TEXT("Add shortcut tooltip")));

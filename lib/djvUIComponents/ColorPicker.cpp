@@ -135,8 +135,9 @@ namespace djv
             _p->comboBox->setGeometry(getGeometry());
         }
 
-        void ColorTypeWidget::_textUpdateEvent(Event::TextUpdate &)
+        void ColorTypeWidget::_initEvent(Event::Init & event)
         {
+            Widget::_initEvent(event);
             DJV_PRIVATE_PTR();
             setTooltip(_getText(DJV_TEXT("Color type widget tooltip")));
             _widgetUpdate();
@@ -255,8 +256,9 @@ namespace djv
             _p->layout->setGeometry(getMargin().bbox(getGeometry(), style));
         }
 
-        void ColorSliders::_textUpdateEvent(Event::TextUpdate &)
+        void ColorSliders::_initEvent(Event::Init & event)
         {
+            Widget::_initEvent(event);
             _textUpdate();
         }
 
@@ -761,6 +763,7 @@ namespace djv
 
             private:
                 std::map<std::shared_ptr<Widget>, std::weak_ptr<Widget> > _widgetToButton;
+                std::map< std::shared_ptr<Widget>, Popup> _widgetToPopup;
             };
 
             void OverlayLayout::_init(const std::shared_ptr<Context>& context)
@@ -793,7 +796,18 @@ namespace djv
                     {
                         const auto& buttonBBox = button->getGeometry();
                         const auto& minimumSize = i.first->getMinimumSize();
-                        i.first->setGeometry(Layout::getPopupGeometry(g, buttonBBox, minimumSize));
+                        Popup popup = Popup::BelowRight;
+                        auto j = _widgetToPopup.find(i.first);
+                        if (j != _widgetToPopup.end())
+                        {
+                            popup = j->second;
+                        }
+                        else
+                        {
+                            popup = Layout::getPopup(popup, g, buttonBBox, minimumSize);
+                            _widgetToPopup[i.first] = popup;
+                        }
+                        i.first->setGeometry(Layout::getPopupGeometry(popup, buttonBBox, minimumSize).intersect(g));
                     }
                 }
             }

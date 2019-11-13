@@ -287,5 +287,13 @@ namespace djv
         DJV_TEXT("1.85"),
         DJV_TEXT("2.35"));
 
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        UI,
+        Popup,
+        DJV_TEXT("BelowRight"),
+        DJV_TEXT("BelowLeft"),
+        DJV_TEXT("AboveRight"),
+        DJV_TEXT("AboveLeft"));
+
 } // namespace djv
 

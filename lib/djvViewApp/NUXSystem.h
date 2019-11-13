@@ -52,7 +52,7 @@ namespace djv
             void setFinishCallback(const std::function<void(void)>&);
 
         protected:
-            void _textUpdateEvent(Core::Event::TextUpdate&) override;
+            void _initEvent(Core::Event::Init&) override;
 
         private:
             void _widgetUpdate();

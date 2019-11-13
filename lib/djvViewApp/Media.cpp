@@ -72,9 +72,7 @@ namespace djv
             std::shared_ptr<ValueSubject<std::shared_ptr<AV::Image::Image> > > currentImage;
             std::shared_ptr<ValueSubject<Playback> > playback;
             std::shared_ptr<ValueSubject<PlaybackMode> > playbackMode;
-            std::shared_ptr<ValueSubject<bool> > inOutPointsEnabled;
-            std::shared_ptr<ValueSubject<Frame::Index> > inPoint;
-            std::shared_ptr<ValueSubject<Frame::Index> > outPoint;
+            std::shared_ptr<ValueSubject<AV::IO::InOutPoints> > inOutPoints;
             std::shared_ptr<ValueSubject<bool> > audioEnabled;
             std::shared_ptr<ValueSubject<float> > volume;
             std::shared_ptr<ValueSubject<bool> > mute;
@@ -127,9 +125,7 @@ namespace djv
             p.currentImage = ValueSubject<std::shared_ptr<AV::Image::Image> >::create();
             p.playback = ValueSubject<Playback>::create(Playback::First);
             p.playbackMode = ValueSubject<PlaybackMode>::create(PlaybackMode::First);
-            p.inOutPointsEnabled = ValueSubject<bool>::create(false);
-            p.inPoint = ValueSubject<Frame::Index>::create(Frame::invalid);
-            p.outPoint = ValueSubject<Frame::Index>::create(Frame::invalid);
+            p.inOutPoints = ValueSubject<AV::IO::InOutPoints>::create();
             p.volume = ValueSubject<float>::create(1.F);
             p.audioEnabled = ValueSubject<bool>::create(false);
             p.mute = ValueSubject<bool>::create(false);
@@ -307,19 +303,9 @@ namespace djv
             return _p->playbackMode;
         }
 
-        std::shared_ptr<IValueSubject<bool> > Media::observeInOutPointsEnabled() const
+        std::shared_ptr<IValueSubject<AV::IO::InOutPoints> > Media::observeInOutPoints() const
         {
-            return _p->inOutPointsEnabled;
-        }
-
-        std::shared_ptr<IValueSubject<Frame::Index> > Media::observeInPoint() const
-        {
-            return _p->inPoint;
-        }
-
-        std::shared_ptr<IValueSubject<Frame::Index> > Media::observeOutPoint() const
-        {
-            return _p->outPoint;
+            return _p->inOutPoints;
         }
 
         void Media::setSpeed(const Time::Speed& value)
@@ -353,20 +339,23 @@ namespace djv
         void Media::setCurrentFrame(Frame::Index value, bool inOutPoints)
         {
             DJV_PRIVATE_PTR();
-            Frame::Index start = 0;
+            Range::Range<Frame::Index> range;
             const size_t size = p.sequence->get().getSize();
-            Frame::Index end = size > 0 ? (static_cast<Frame::Index>(size) - 1) : 0;
-            if (inOutPoints && p.inOutPointsEnabled->get())
+            if (inOutPoints)
             {
-                start = p.inPoint->get();
-                end = p.outPoint->get();
+                range = p.inOutPoints->get().getRange(size);
+            }
+            else
+            {
+                range.min = 0;
+                range.max = size > 0 ? (static_cast<Frame::Index>(size) - 1) : 0;
             }
             Frame::Index tmp = value;
-            while (tmp > end)
+            while (tmp > range.max)
             {
                 tmp -= size;
             }
-            while (tmp < start)
+            while (tmp < range.min)
             {
                 tmp += size;
             }
@@ -380,15 +369,17 @@ namespace djv
         void Media::inPoint()
         {
             DJV_PRIVATE_PTR();
-            setCurrentFrame(p.inOutPointsEnabled->get() ? p.inPoint->get() : 0);
+            const auto& inOutPoints = p.inOutPoints->get();
+            setCurrentFrame(inOutPoints.isEnabled() ? inOutPoints.getIn() : 0);
         }
 
         void Media::outPoint()
         {
             DJV_PRIVATE_PTR();
+            const auto& inOutPoints = p.inOutPoints->get();
             const size_t size = p.sequence->get().getSize();
             const Frame::Index end = size > 0 ? (size - 1) : 0;
-            setCurrentFrame(p.inOutPointsEnabled->get() ? p.outPoint->get() : end, false);
+            setCurrentFrame(inOutPoints.isEnabled() ? inOutPoints.getOut() : end, false);
         }
 
         void Media::start()
@@ -458,11 +449,15 @@ namespace djv
             _p->playbackMode->setIfChanged(value);
         }
 
-        void Media::setInOutPointsEnabled(bool value)
+        void Media::setInOutPoints(const AV::IO::InOutPoints& value)
         {
             DJV_PRIVATE_PTR();
-            if (p.inOutPointsEnabled->setIfChanged(value))
+            if (p.inOutPoints->setIfChanged(value))
             {
+                if (p.read)
+                {
+                    p.read->setInOutPoints(value);
+                }
                 _seek(p.currentFrame->get());
                 if (_hasAudioSyncPlayback())
                 {
@@ -473,56 +468,40 @@ namespace djv
 
         void Media::setInPoint()
         {
-            setInOutPointsEnabled(true);
-            setInPoint(_p->currentFrame->get());
-        }
-
-        void Media::setInPoint(Frame::Index value)
-        {
-            if (_p->inPoint->setIfChanged(value))
-            {
-                _p->outPoint->setIfChanged(std::max(_p->inPoint->get(), _p->outPoint->get()));
-            }
+            DJV_PRIVATE_PTR();
+            setInOutPoints(AV::IO::InOutPoints(true, p.currentFrame->get(), p.inOutPoints->get().getOut()));
         }
 
         void Media::setOutPoint()
         {
-            setInOutPointsEnabled(true);
-            setOutPoint(_p->currentFrame->get());
-        }
-
-        void Media::setOutPoint(Frame::Index value)
-        {
-            if (_p->outPoint->setIfChanged(value))
-            {
-                _p->inPoint->setIfChanged(std::min(_p->inPoint->get(), _p->outPoint->get()));
-            }
+            DJV_PRIVATE_PTR();
+            setInOutPoints(AV::IO::InOutPoints(true, p.inOutPoints->get().getIn(), p.currentFrame->get()));
         }
 
         void Media::resetInPoint()
         {
             DJV_PRIVATE_PTR();
-            if (_p->inPoint->setIfChanged(0))
+            const AV::IO::InOutPoints& value = p.inOutPoints->get();
+            bool enabled = true;
+            const size_t size = p.sequence->get().getSize();
+            if ((static_cast<Frame::Index>(size) - 1) == value.getOut())
             {
-                const size_t size = p.sequence->get().getSize();
-                if (_p->outPoint->get() == (static_cast<Frame::Index>(size) - 1))
-                {
-                    setInOutPointsEnabled(false);
-                }
+                enabled = false;
             }
+            setInOutPoints(AV::IO::InOutPoints(enabled, 0, value.getOut()));
         }
 
         void Media::resetOutPoint()
         {
             DJV_PRIVATE_PTR();
-            const size_t size = p.sequence->get().getSize();
-            if (p.outPoint->setIfChanged(size > 0 ? (static_cast<Frame::Index>(size) - 1) : 0))
+            const AV::IO::InOutPoints& value = p.inOutPoints->get();
+            bool enabled = true;
+            if (0 == value.getIn())
             {
-                if (_p->inPoint->get() == 0)
-                {
-                    setInOutPointsEnabled(false);
-                }
+                enabled = false;
             }
+            const size_t size = p.sequence->get().getSize();
+            setInOutPoints(AV::IO::InOutPoints(enabled, value.getIn(), size > 0 ? (static_cast<Frame::Index>(size) - 1) : 0));
         }
 
         std::shared_ptr<IValueSubject<bool> > Media::observeAudioEnabled() const
@@ -709,9 +688,8 @@ namespace djv
                     p.speed->setIfChanged(speed);
                     p.defaultSpeed->setIfChanged(speed);
                     p.sequence->setIfChanged(sequence);
-                    p.inPoint->setIfChanged(0);
                     const size_t sequenceSize = sequence.getSize();
-                    p.outPoint->setIfChanged(sequenceSize > 0 ? (static_cast<Frame::Index>(sequenceSize) - 1) : 0);
+                    p.inOutPoints->setIfChanged(AV::IO::InOutPoints(false, 0, sequenceSize > 0 ? (static_cast<Frame::Index>(sequenceSize) - 1) : 0));
                     const Frame::Index currentFrame = p.currentFrame->get();
                     Frame::Index frame = Frame::invalid;
                     if (Frame::invalid == currentFrame)
@@ -819,19 +797,13 @@ namespace djv
         void Media::_setCurrentFrame(Frame::Index value)
         {
             DJV_PRIVATE_PTR();
-            Frame::Index start = 0;
             const Frame::Sequence& sequence = p.sequence->get();
             const size_t size = sequence.getSize();
-            Frame::Index end = size > 0 ? (static_cast<Frame::Index>(size) - 1) : 0;
-            if (p.inOutPointsEnabled->get())
-            {
-                start = p.inPoint->get();
-                end   = p.outPoint->get();
-            }
+            const auto& range = p.inOutPoints->get().getRange(size);
             switch (p.playback->get())
             {
             case Playback::Forward:
-                if (value > end)
+                if (value > range.max)
                 {
                     switch (p.playbackMode->get())
                     {
@@ -841,7 +813,7 @@ namespace djv
                     case PlaybackMode::Loop:
                     {
                         setPlayback(Playback::Stop);
-                        setCurrentFrame(start);
+                        setCurrentFrame(range.min);
                         setPlayback(Playback::Forward);
                         break;
                     }
@@ -854,9 +826,9 @@ namespace djv
                     default: break;
                     }
                 }
-                else if (value < start)
+                else if (value < range.min)
                 {
-                    setCurrentFrame(start);
+                    setCurrentFrame(range.min);
                     setPlayback(Playback::Forward);
                 }
                 else
@@ -865,7 +837,7 @@ namespace djv
                 }
                 break;
             case Playback::Reverse:
-                if (value < start)
+                if (value < range.min)
                 {
                     switch (p.playbackMode->get())
                     {
@@ -875,7 +847,7 @@ namespace djv
                     case PlaybackMode::Loop:
                     {
                         setPlayback(Playback::Stop);
-                        setCurrentFrame(end);
+                        setCurrentFrame(range.max);
                         setPlayback(Playback::Reverse);
                         break;
                     }
@@ -888,9 +860,9 @@ namespace djv
                     default: break;
                     }
                 }
-                else if (value > end)
+                else if (value > range.max)
                 {
-                    setCurrentFrame(end);
+                    setCurrentFrame(range.max);
                     setPlayback(Playback::Reverse);
                 }
                 else

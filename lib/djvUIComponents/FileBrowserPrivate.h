@@ -85,7 +85,7 @@ namespace djv
                 void _preLayoutEvent(Core::Event::PreLayout &) override;
                 void _layoutEvent(Core::Event::Layout &) override;
 
-                void _textUpdateEvent(Core::Event::TextUpdate &) override;
+                void _initEvent(Core::Event::Init &) override;
                 bool _eventFilter(const std::shared_ptr<Core::IObject> &, Core::Event::Event &) override;
 
             private:
@@ -136,7 +136,7 @@ namespace djv
                 void _preLayoutEvent(Core::Event::PreLayout&) override;
                 void _layoutEvent(Core::Event::Layout&) override;
 
-                void _textUpdateEvent(Core::Event::TextUpdate&) override;
+                void _initEvent(Core::Event::Init&) override;
 
             private:
                 DJV_PRIVATE();
@@ -162,7 +162,7 @@ namespace djv
                 void _preLayoutEvent(Core::Event::PreLayout&) override;
                 void _layoutEvent(Core::Event::Layout&) override;
 
-                void _textUpdateEvent(Core::Event::TextUpdate&) override;
+                void _initEvent(Core::Event::Init&) override;
 
             private:
                 DJV_PRIVATE();
@@ -188,7 +188,7 @@ namespace djv
                 void _preLayoutEvent(Core::Event::PreLayout &) override;
                 void _layoutEvent(Core::Event::Layout &) override;
 
-                void _textUpdateEvent(Core::Event::TextUpdate&) override;
+                void _initEvent(Core::Event::Init&) override;
 
             private:
                 DJV_PRIVATE();

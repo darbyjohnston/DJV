@@ -211,6 +211,14 @@ namespace djv
                 _cacheUpdate();
             }
 
+            void Cache::setInOutPoints(const InOutPoints& value)
+            {
+                if (value == _inOutPoints)
+                    return;
+                _inOutPoints = value;
+                _cacheUpdate();
+            }
+
             void Cache::setDirection(Direction value)
             {
                 if (value == _direction)
@@ -256,6 +264,7 @@ namespace djv
 
             void Cache::_cacheUpdate()
             {
+                const auto range = _inOutPoints.getRange(_sequenceSize);
                 Frame::Index frame = _currentFrame;
                 _sequence = Frame::Sequence();
                 switch (_direction)
@@ -265,16 +274,9 @@ namespace djv
                     for (size_t i = 0; i < _readBehind; ++i)
                     {
                         --frame;
-                        if (frame < 0)
+                        if (frame < range.min)
                         {
-                            if (_sequenceSize)
-                            {
-                                frame = _sequenceSize - 1;
-                            }
-                            else
-                            {
-                                frame = 0;
-                            }
+                            frame = range.max;
                         }
                     }
                     _sequence.ranges.push_back(Frame::Range(frame));
@@ -286,9 +288,9 @@ namespace djv
                         {
                             break;
                         }
-                        if (frame >= _sequenceSize)
+                        if (frame > range.max)
                         {
-                            frame = 0;
+                            frame = range.min;
                             if (frame != _sequence.ranges.back().max)
                             {
                                 _sequence.ranges.push_back(Frame::Range(frame));
@@ -306,9 +308,9 @@ namespace djv
                     for (size_t i = 0; i < _readBehind; ++i)
                     {
                         ++frame;
-                        if (frame >= _sequenceSize)
+                        if (frame > range.max)
                         {
-                            frame = 0;
+                            frame = range.min;
                         }
                     }
                     _sequence.ranges.push_back(Frame::Range(frame));
@@ -320,16 +322,9 @@ namespace djv
                         {
                             break;
                         }
-                        if (frame < 0)
+                        if (frame < range.min)
                         {
-                            if (_sequenceSize)
-                            {
-                                frame = _sequenceSize - 1;
-                            }
-                            else
-                            {
-                                frame = 0;
-                            }
+                            frame = range.max;
                             if (frame != _sequence.ranges.back().max)
                             {
                                 _sequence.ranges.push_back(Frame::Range(frame));
@@ -374,7 +369,13 @@ namespace djv
                 std::lock_guard<std::mutex> lock(_mutex);
                 _playback = value;
             }
-
+            
+            void IRead::setInOutPoints(const InOutPoints& value)
+            {
+                std::lock_guard<std::mutex> lock(_mutex);
+                _inOutPoints = value;
+            }
+            
             bool IRead::isCacheEnabled() const
             {
                 return _cacheEnabled;

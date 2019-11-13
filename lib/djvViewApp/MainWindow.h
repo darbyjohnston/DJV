@@ -65,7 +65,7 @@ namespace djv
         protected:
             void _dropEvent(Core::Event::Drop&) override;
 
-            void _textUpdateEvent(Core::Event::TextUpdate &) override;
+            void _initEvent(Core::Event::Init &) override;
 
         private:
             DJV_PRIVATE();

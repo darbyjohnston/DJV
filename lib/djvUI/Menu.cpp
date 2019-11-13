@@ -71,7 +71,6 @@ namespace djv
                 void setCloseCallback(const std::function<void(void)> &);
 
             protected:
-                void _styleEvent(Event::Style &) override;
                 void _preLayoutEvent(Event::PreLayout &) override;
                 void _layoutEvent(Event::Layout &) override;
                 void _paintEvent(Event::Paint &) override;
@@ -83,6 +82,7 @@ namespace djv
 
                 std::shared_ptr<Widget> _createTooltip(const glm::vec2 & pos) override;
 
+                void _initEvent(Event::Init &) override;
                 void _updateEvent(Event::Update &) override;
 
             private:
@@ -158,11 +158,6 @@ namespace djv
             void MenuWidget::setCloseCallback(const std::function<void(void)> & value)
             {
                 _closeCallback = value;
-            }
-
-            void MenuWidget::_styleEvent(Event::Style &)
-            {
-                _itemsUpdate();
             }
 
             void MenuWidget::_preLayoutEvent(Event::PreLayout &)
@@ -523,6 +518,12 @@ namespace djv
                 }
             }
 
+            void MenuWidget::_initEvent(Event::Init & event)
+            {
+                Widget::_initEvent(event);
+                _itemsUpdate();
+            }
+
             std::shared_ptr<Widget> MenuWidget::_createTooltip(const glm::vec2 & pos)
             {
                 std::string text;
@@ -827,6 +828,7 @@ namespace djv
             private:
                 std::map<std::shared_ptr<Widget>, glm::vec2> _widgetToPos;
                 std::map<std::shared_ptr<Widget>, std::weak_ptr<Button::Menu> > _widgetToButton;
+                std::map< std::shared_ptr<Widget>, Popup> _widgetToPopup;
             };
 
             void MenuLayout::_init(const std::shared_ptr<Context>& context)
@@ -881,7 +883,19 @@ namespace djv
                 {
                     const auto & pos = i.second;
                     const auto & minimumSize = i.first->getMinimumSize();
-                    i.first->setGeometry(Layout::getPopupGeometry(g, pos, minimumSize));
+                    Popup popup = Popup::BelowRight;
+                    auto j = _widgetToPopup.find(i.first);
+                    if (j != _widgetToPopup.end())
+                    {
+                        popup = j->second;
+                    }
+                    else
+                    {
+                        popup = Layout::getPopup(popup, g, pos, minimumSize);
+                        _widgetToPopup[i.first] = popup;
+                    }
+                    const BBox2f popupGeometry = Layout::getPopupGeometry(popup, pos, minimumSize);
+                    i.first->setGeometry(popupGeometry.intersect(g));
                 }
                 for (const auto & i : _widgetToButton)
                 {
@@ -889,8 +903,18 @@ namespace djv
                     {
                         const auto & buttonBBox = button->getGeometry();
                         const auto & minimumSize = i.first->getMinimumSize();
-                        const BBox2f popupGeometry = Layout::getPopupGeometry(g, buttonBBox, minimumSize);
-                        i.first->setGeometry(popupGeometry);
+                        Popup popup = Popup::BelowRight;
+                        auto j = _widgetToPopup.find(i.first);
+                        if (j != _widgetToPopup.end())
+                        {
+                            popup = j->second;
+                        }
+                        else
+                        {
+                            popup = Layout::getPopup(popup, g, buttonBBox, minimumSize);
+                        }
+                        const BBox2f popupGeometry = Layout::getPopupGeometry(popup, buttonBBox, minimumSize);
+                        i.first->setGeometry(popupGeometry.intersect(g));
                     }
                 }
             }

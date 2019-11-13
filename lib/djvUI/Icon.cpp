@@ -127,20 +127,6 @@ namespace djv
             _resize();
         }
 
-        void Icon::_styleEvent(Event::Style & event)
-        {
-            DJV_PRIVATE_PTR();
-            if (!p.name.empty())
-            {
-                if (auto context = getContext().lock())
-                {
-                    auto iconSystem = context->getSystemT<IconSystem>();
-                    const auto& style = _getStyle();
-                    p.imageFuture = iconSystem->getIcon(p.name, static_cast<int>(style->getMetric(p.iconSizeRole)));
-                }
-            }
-        }
-
         void Icon::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
@@ -212,6 +198,21 @@ namespace djv
                 {
                     render->setFillColor(AV::Image::Color(1.F, 1.F, 1.F));
                     render->drawImage(p.image, pos);
+                }
+            }
+        }
+
+        void Icon::_initEvent(Event::Init & event)
+        {
+            Widget::_initEvent(event);
+            DJV_PRIVATE_PTR();
+            if (!p.name.empty())
+            {
+                if (auto context = getContext().lock())
+                {
+                    auto iconSystem = context->getSystemT<IconSystem>();
+                    const auto& style = _getStyle();
+                    p.imageFuture = iconSystem->getIcon(p.name, static_cast<int>(style->getMetric(p.iconSizeRole)));
                 }
             }
         }

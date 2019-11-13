@@ -96,7 +96,7 @@ namespace djv
 
             void ItemView::_init(const std::shared_ptr<Context>& context)
             {
-                UI::Widget::_init(context);
+                Widget::_init(context);
                 DJV_PRIVATE_PTR();
                 setClassName("djv::UI::FileBrowser::ItemView");
 
@@ -223,12 +223,6 @@ namespace djv
                     }
                 }
                 return out;
-            }
-
-            void ItemView::_styleEvent(Event::Style &)
-            {
-                _iconsUpdate();
-                _itemsUpdate();
             }
 
             void ItemView::_preLayoutEvent(Event::PreLayout & event)
@@ -456,15 +450,15 @@ namespace djv
                                     render->setFillColor(AV::Image::Color(1.F, 1.F, 1.F, opacity));
                                     AV::Render::ImageOptions options;
                                     options.alphaBlend = p.alphaBlend;
-                                    auto l = p.ocioConfig.colorSpaces.find(j->second->getPluginName());
-                                    if (l != p.ocioConfig.colorSpaces.end())
+                                    auto l = p.ocioConfig.fileColorSpaces.find(j->second->getPluginName());
+                                    if (l != p.ocioConfig.fileColorSpaces.end())
                                     {
                                         options.colorSpace.input = l->second;
                                     }
                                     else
                                     {
-                                        l = p.ocioConfig.colorSpaces.find(std::string());
-                                        if (l != p.ocioConfig.colorSpaces.end())
+                                        l = p.ocioConfig.fileColorSpaces.find(std::string());
+                                        if (l != p.ocioConfig.fileColorSpaces.end())
                                         {
                                             options.colorSpace.input = l->second;
                                         }
@@ -734,6 +728,13 @@ namespace djv
                 return !text.empty() ? _createTooltipDefault(text) : nullptr;
             }
 
+            void ItemView::_initEvent(Event::Init & event)
+            {
+                Widget::_initEvent(event);
+                _iconsUpdate();
+                _itemsUpdate();
+            }
+
             void ItemView::_updateEvent(Event::Update & event)
             {
                 DJV_PRIVATE_PTR();
@@ -859,11 +860,6 @@ namespace djv
                         }
                     }
                 }
-            }
-
-            void ItemView::_textUpdateEvent(Event::TextUpdate &)
-            {
-                _itemsUpdate();
             }
 
             std::string ItemView::_getTooltip(const FileSystem::FileInfo& fileInfo) const

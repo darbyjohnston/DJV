@@ -58,7 +58,7 @@ namespace djv
             void setMagnifyPos(const glm::vec2&);
 
         protected:
-            void _textUpdateEvent(Core::Event::TextUpdate &) override;
+            void _initEvent(Core::Event::Init &) override;
 
         private:
             void _widgetUpdate();

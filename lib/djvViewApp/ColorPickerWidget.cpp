@@ -446,9 +446,9 @@ namespace djv
             _redraw();
         }
 
-        void ColorPickerWidget::_textUpdateEvent(Event::TextUpdate & event)
+        void ColorPickerWidget::_initEvent(Event::Init & event)
         {
-            MDIWidget::_textUpdateEvent(event);
+            MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
 
             setTitle(_getText(DJV_TEXT("Color Picker")));
@@ -495,15 +495,15 @@ namespace djv
                         p.imageZoom * UI::getAspectRatioScale(p.imageAspectRatio, p.image->getAspectRatio())));
                     render->pushTransform(m);
                     AV::Render::ImageOptions options(p.imageOptions);
-                    auto i = p.ocioConfig.colorSpaces.find(p.image->getPluginName());
-                    if (i != p.ocioConfig.colorSpaces.end())
+                    auto i = p.ocioConfig.fileColorSpaces.find(p.image->getPluginName());
+                    if (i != p.ocioConfig.fileColorSpaces.end())
                     {
                         options.colorSpace.input = i->second;
                     }
                     else
                     {
-                        i = p.ocioConfig.colorSpaces.find(std::string());
-                        if (i != p.ocioConfig.colorSpaces.end())
+                        i = p.ocioConfig.fileColorSpaces.find(std::string());
+                        if (i != p.ocioConfig.fileColorSpaces.end())
                         {
                             options.colorSpace.input = i->second;
                         }

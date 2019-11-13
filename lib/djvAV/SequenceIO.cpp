@@ -146,12 +146,14 @@ namespace djv
                         // Update the options.
                         size_t threadCount = 4;
                         bool playback = false;
+                        InOutPoints inOutPoints;
                         bool cacheEnabled = false;
                         size_t cacheMaxByteCount = 0;
                         {
                             std::lock_guard<std::mutex> lock(_mutex);
                             threadCount = _threadCount;
                             playback = _playback;
+                            inOutPoints = _inOutPoints;
                             cacheEnabled = _cacheEnabled;
                             cacheMaxByteCount = _cacheMaxByteCount;
                         }
@@ -164,6 +166,7 @@ namespace djv
                             const size_t dataByteCount = info.video[_options.layer].info.getDataByteCount();
                             _cache.setMax(dataByteCount ? (cacheMaxByteCount / dataByteCount) : 0);
                             _cache.setSequenceSize(info.video[_options.layer].sequence.getSize());
+                            _cache.setInOutPoints(inOutPoints);
                         }
                         else
                         {
@@ -219,7 +222,7 @@ namespace djv
                         // Fill the cache.
                         if (cacheEnabled)
                         {
-                            _readCache(playback ? (threadCount / 2) : threadCount);
+                            _readCache(playback ? (threadCount / 2) : threadCount, inOutPoints);
                         }
 
                         // Update information.
@@ -414,7 +417,7 @@ namespace djv
                 return futures.size();
             }
 
-            void ISequenceRead::_readCache(size_t count)
+            void ISequenceRead::_readCache(size_t count, const AV::IO::InOutPoints& inOutPoints)
             {
                 DJV_PRIVATE_PTR();
 
@@ -429,6 +432,8 @@ namespace djv
                 }
                 if (count > 0 && frame != Frame::invalid)
                 {
+                    const size_t sequenceSize = _sequence.getSize();
+                    const auto range = inOutPoints.getRange(_sequence.getSize());
                     _cache.setDirection(p.direction);
                     _cache.setCurrentFrame(frame);
                     const size_t readBehind = _cache.getReadBehind();
@@ -436,13 +441,12 @@ namespace djv
                     {
                     case Direction::Forward:
                     {
-                        const size_t sequenceSize = _sequence.getSize();
                         for (size_t i = 0; i < readBehind; ++i)
                         {
                             --frame;
-                            if (frame < 0)
+                            if (frame < range.min)
                             {
-                                frame = sequenceSize - 1;
+                                frame = range.max;
                             }
                         }
                         const size_t max = std::min(_cache.getMax(), sequenceSize);
@@ -454,22 +458,21 @@ namespace djv
                                 p.cacheFutures.push_back(_getFuture(frame, fileName));
                             }
                             ++frame;
-                            if (frame >= sequenceSize)
+                            if (frame > range.max)
                             {
-                                frame = 0;
+                                frame = range.min;
                             }
                         }
                         break;
                     }
                     case Direction::Reverse:
                     {
-                        const size_t sequenceSize = _sequence.getSize();
                         for (size_t i = 0; i < readBehind; ++i)
                         {
                             ++frame;
-                            if (frame >= sequenceSize)
+                            if (frame > range.max)
                             {
-                                frame = 0;
+                                frame = range.min;
                             }
                         }
                         const size_t max = std::min(_cache.getMax(), sequenceSize);
@@ -481,9 +484,9 @@ namespace djv
                                 p.cacheFutures.push_back(_getFuture(frame, fileName));
                             }
                             --frame;
-                            if (frame < 0)
+                            if (frame < range.min)
                             {
-                                frame = sequenceSize - 1;
+                                frame = range.max;
                             }
                         }
                         break;

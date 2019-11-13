@@ -244,6 +244,27 @@ namespace djv
                 std::string colorSpace;
             };
 
+            //! This class provides playback in/out points.
+            class InOutPoints
+            {
+            public:
+                InOutPoints();
+                InOutPoints(bool, Core::Frame::Index, Core::Frame::Index);
+
+                bool isEnabled() const;
+                Core::Frame::Index getIn() const;
+                Core::Frame::Index getOut() const;
+
+                Core::Range::Range<Core::Frame::Index> getRange(size_t) const;
+
+                bool operator == (const InOutPoints&) const;
+
+            private:
+                bool _enabled = false;
+                Core::Frame::Index _in = Core::Frame::invalid;
+                Core::Frame::Index _out = Core::Frame::invalid;
+            };
+
             //! This enumeration provides the playback direction for caching.
             enum class Direction
             {
@@ -265,6 +286,7 @@ namespace djv
                 const Core::Frame::Sequence& getSequence() const;
                 void setMax(size_t);
                 void setSequenceSize(size_t);
+                void setInOutPoints(const InOutPoints&);
                 void setDirection(Direction);
                 void setCurrentFrame(Core::Frame::Index);
 
@@ -278,6 +300,7 @@ namespace djv
 
                 size_t _max = 0;
                 size_t _sequenceSize = 0;
+                InOutPoints _inOutPoints;
                 Direction _direction = Direction::Forward;
                 Core::Frame::Index _currentFrame = 0;
                 //! \todo Should this be configurable?
@@ -302,6 +325,7 @@ namespace djv
                 virtual std::future<Info> getInfo() = 0;
 
                 void setPlayback(bool);
+                void setInOutPoints(const InOutPoints&);
 
                 //! \param value For video files this value represents the
                 //! frame number, for audio files it represents the audio sample.
@@ -318,6 +342,7 @@ namespace djv
 
             protected:
                 ReadOptions _options;
+                InOutPoints _inOutPoints;
                 Direction _direction = Direction::Forward;
                 bool _playback = false;
                 bool _cacheEnabled = false;

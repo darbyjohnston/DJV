@@ -194,7 +194,6 @@ namespace djv
             //! \name Events
             ///@{
 
-            virtual void _styleEvent(Core::Event::Style &) {}
             virtual void _preLayoutEvent(Core::Event::PreLayout &) {}
             virtual void _layoutEvent(Core::Event::Layout &) {}
             virtual void _clipEvent(Core::Event::Clip &) {}
@@ -212,7 +211,7 @@ namespace djv
             virtual void _textFocusEvent(Core::Event::TextFocus &) {}
             virtual void _textFocusLostEvent(Core::Event::TextFocusLost &) {}
             virtual void _textInputEvent(Core::Event::TextInput &) {}
-
+            
             ///@}
 
             //! \name Convenience Functions

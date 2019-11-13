@@ -126,9 +126,9 @@ namespace djv
             return "0";
         }
 
-        void NUXSettingsWidget::_textUpdateEvent(Event::TextUpdate & event)
+        void NUXSettingsWidget::_initEvent(Event::Init & event)
         {
-            ISettingsWidget::_textUpdateEvent(event);
+            ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
             p.nuxCheckBox->setText(_getText(DJV_TEXT("Enable new-user experience on startup")));
         }

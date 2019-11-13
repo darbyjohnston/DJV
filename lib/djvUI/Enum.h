@@ -287,6 +287,19 @@ namespace djv
         float getPixelAspectRatio(ImageAspectRatio, float pixelAspectRatio);
         float getAspectRatioScale(ImageAspectRatio, float aspectRatio);
 
+        //! This enumeration provides menu popup directions.
+        enum class Popup
+        {
+            BelowRight,
+            BelowLeft,
+            AboveRight,
+            AboveLeft,
+
+            Count,
+            First = BelowRight
+        };
+        DJV_ENUM_HELPERS(Popup);
+
     } // namespace UI
 
     picojson::value toJSON(UI::ViewType);
@@ -311,6 +324,7 @@ namespace djv
     DJV_ENUM_SERIALIZE_HELPERS(UI::ColorRole);
     DJV_ENUM_SERIALIZE_HELPERS(UI::MetricsRole);
     DJV_ENUM_SERIALIZE_HELPERS(UI::ImageAspectRatio);
+    DJV_ENUM_SERIALIZE_HELPERS(UI::Popup);
 
 } // namespace djv
 

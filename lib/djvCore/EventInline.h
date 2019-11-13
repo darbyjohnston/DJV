@@ -100,15 +100,9 @@ namespace djv
                 Event(Type::ChildOrder)
             {}
 
-            inline TextUpdate::TextUpdate(const std::string & locale) :
-                Event(Type::TextUpdate),
-                _locale(locale)
+            inline Init::Init() :
+                Event(Type::Init)
             {}
-
-            inline const std::string & TextUpdate::getLocale() const
-            {
-                return _locale;
-            }
 
             inline Update::Update(float t, float dt) :
                 Event(Type::Update),
@@ -125,10 +119,6 @@ namespace djv
             {
                 return _dt;
             }
-
-            inline Style::Style() :
-                Event(Type::Style)
-            {}
 
             inline PreLayout::PreLayout() :
                 Event(Type::PreLayout)

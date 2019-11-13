@@ -57,7 +57,7 @@ namespace djv
             void setClearCallback(const std::function<void(void)>&);
 
         protected:
-            void _textUpdateEvent(Core::Event::TextUpdate &) override;
+            void _initEvent(Core::Event::Init &) override;
 
         private:
             DJV_PRIVATE();

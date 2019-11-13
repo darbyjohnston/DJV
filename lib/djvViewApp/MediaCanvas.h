@@ -54,9 +54,6 @@ namespace djv
             std::shared_ptr<MediaWidget> getActiveWidget() const;
             void setActiveCallback(const std::function<void(const std::shared_ptr<MediaWidget>&)>&);
 
-        protected:
-            void _textUpdateEvent(Core::Event::TextUpdate&) override;
-
         private:
             DJV_PRIVATE();
         };

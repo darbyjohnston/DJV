@@ -412,8 +412,9 @@ namespace djv
             _p->finishCallback = callback;
         }
 
-        void NUXWidget::_textUpdateEvent(Event::TextUpdate&)
+        void NUXWidget::_initEvent(Event::Init& event)
         {
+            Window::_initEvent(event);
             DJV_PRIVATE_PTR();
             p.labels["Language"]->setText(_getText(DJV_TEXT("Choose your language")) + ":");
             p.labels["DisplaySize"]->setText(_getText(DJV_TEXT("Choose a user interface size")) + ":");

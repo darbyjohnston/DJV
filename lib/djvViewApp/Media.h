@@ -115,9 +115,7 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<Core::Frame::Index> > observeCurrentFrame() const;
             std::shared_ptr<Core::IValueSubject<Playback> > observePlayback() const;
             std::shared_ptr<Core::IValueSubject<PlaybackMode> > observePlaybackMode() const;
-            std::shared_ptr<Core::IValueSubject<bool> > observeInOutPointsEnabled() const;
-            std::shared_ptr<Core::IValueSubject<Core::Frame::Index> > observeInPoint() const;
-            std::shared_ptr<Core::IValueSubject<Core::Frame::Index> > observeOutPoint() const;
+            std::shared_ptr<Core::IValueSubject<AV::IO::InOutPoints> > observeInOutPoints() const;
 
             void setSpeed(const Core::Time::Speed&);
             void setPlayEveryFrame(bool);
@@ -130,11 +128,9 @@ namespace djv
             void end();
             void nextFrame(size_t = 1);
             void prevFrame(size_t = 1);
-            void setInOutPointsEnabled(bool);
+            void setInOutPoints(const AV::IO::InOutPoints&);
             void setInPoint();
-            void setInPoint(Core::Frame::Index);
             void setOutPoint();
-            void setOutPoint(Core::Frame::Index);
             void resetInPoint();
             void resetOutPoint();
 

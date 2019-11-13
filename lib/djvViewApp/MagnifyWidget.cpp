@@ -236,15 +236,15 @@ namespace djv
 
                     render->pushTransform(m);
                     AV::Render::ImageOptions options(_imageOptions);
-                    auto i = _ocioConfig.colorSpaces.find(_image->getPluginName());
-                    if (i != _ocioConfig.colorSpaces.end())
+                    auto i = _ocioConfig.fileColorSpaces.find(_image->getPluginName());
+                    if (i != _ocioConfig.fileColorSpaces.end())
                     {
                         options.colorSpace.input = i->second;
                     }
                     else
                     {
-                        i = _ocioConfig.colorSpaces.find(std::string());
-                        if (i != _ocioConfig.colorSpaces.end())
+                        i = _ocioConfig.fileColorSpaces.find(std::string());
+                        if (i != _ocioConfig.fileColorSpaces.end())
                         {
                             options.colorSpace.input = i->second;
                         }
@@ -475,9 +475,9 @@ namespace djv
             _redraw();
         }
 
-        void MagnifyWidget::_textUpdateEvent(Event::TextUpdate & event)
+        void MagnifyWidget::_initEvent(Event::Init & event)
         {
-            MDIWidget::_textUpdateEvent(event);
+            MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
 
             setTitle(_getText(DJV_TEXT("Magnify")));

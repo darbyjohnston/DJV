@@ -68,14 +68,13 @@ namespace djv
                 Core::Time::Speed _speed;
                 Core::Frame::Sequence _sequence;
 
-
             private:
                 bool _hasWork() const;
                 size_t _getQueueCount(size_t threadCount) const;
                 struct Future;
                 std::future<Future> _getFuture(Core::Frame::Number, std::string fileName);
                 size_t _readQueue(size_t count, bool cacheEnabled);
-                void _readCache(size_t count);
+                void _readCache(size_t count, const AV::IO::InOutPoints&);
 
                 DJV_PRIVATE();
             };

@@ -207,9 +207,9 @@ namespace djv
             p.textBlock->setText(std::string());
         }
 
-        void SystemLogWidget::_textUpdateEvent(Event::TextUpdate & event)
+        void SystemLogWidget::_initEvent(Event::Init & event)
         {
-            MDIWidget::_textUpdateEvent(event);
+            MDIWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
             setTitle(_getText(DJV_TEXT("System Log")));
             p.copyButton->setText(_getText(DJV_TEXT("Copy")));

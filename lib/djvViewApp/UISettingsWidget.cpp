@@ -119,9 +119,9 @@ namespace djv
             return "0";
         }
 
-        void UISettingsWidget::_textUpdateEvent(Event::TextUpdate& event)
+        void UISettingsWidget::_initEvent(Event::Init& event)
         {
-            ISettingsWidget::_textUpdateEvent(event);
+            ISettingsWidget::_initEvent(event);
             DJV_PRIVATE_PTR();
             p.autoHideCheckBox->setText(_getText(DJV_TEXT("Automatically hide the user interface")));
         }

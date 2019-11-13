@@ -50,7 +50,7 @@ namespace djv
             static std::shared_ptr<AboutDialog> create(const std::shared_ptr<Core::Context>&);
 
         protected:
-            void _textUpdateEvent(Core::Event::TextUpdate &) override;
+            void _initEvent(Core::Event::Init &) override;
 
         private:
             DJV_PRIVATE();

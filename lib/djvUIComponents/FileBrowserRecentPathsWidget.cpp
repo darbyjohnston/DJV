@@ -58,15 +58,15 @@ namespace djv
 
             void RecentPathsWidget::_init(const std::shared_ptr<FileSystem::RecentFilesModel> & model, const std::shared_ptr<Context>& context)
             {
-                UI::Widget::_init(context);
+                Widget::_init(context);
 
                 DJV_PRIVATE_PTR();
                 setClassName("djv::UI::FileBrowser::RecentPathsWidget");
 
-                p.titleLabel = UI::Label::create(context);
-                p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
-                p.titleLabel->setMargin(Layout::Margin(UI::MetricsRole::MarginSmall));
-                p.titleLabel->setBackgroundRole(UI::ColorRole::Trough);
+                p.titleLabel = Label::create(context);
+                p.titleLabel->setTextHAlign(TextHAlign::Left);
+                p.titleLabel->setMargin(Layout::Margin(MetricsRole::MarginSmall));
+                p.titleLabel->setBackgroundRole(ColorRole::Trough);
 
                 auto layout = VerticalLayout::create(context);
                 layout->setSpacing(Layout::Spacing(MetricsRole::None));
@@ -156,8 +156,9 @@ namespace djv
                 _p->scrollWidget->setGeometry(getGeometry());
             }
 
-            void RecentPathsWidget::_textUpdateEvent(Event::TextUpdate&)
+            void RecentPathsWidget::_initEvent(Event::Init& event)
             {
+                Widget::_initEvent(event);
                 DJV_PRIVATE_PTR();
                 p.titleLabel->setText(_getText(DJV_TEXT("Recent Paths")));
             }

@@ -80,8 +80,7 @@ namespace djv
                 std::shared_ptr<ValueSubject<std::shared_ptr<IObject> > > grab;
                 std::shared_ptr<ValueSubject<std::shared_ptr<IObject> > > keyGrab;
                 std::weak_ptr<IObject> textFocus;
-                bool textUpdate = false;
-                std::string locale;
+                bool init = false;
                 std::shared_ptr<ValueObserver<std::string> > localeObserver;
                 std::shared_ptr<ValueObserver<bool> > textChangedObserver;
                 std::shared_ptr<Time::Timer> statsTimer;
@@ -109,8 +108,7 @@ namespace djv
                         {
                             if (auto system = weak.lock())
                             {
-                                system->_p->locale = value;
-                                system->_p->textUpdate = true;
+                                system->_p->init = true;
                             }
                         });
                     p.textChangedObserver = ValueObserver<bool>::create(
@@ -119,7 +117,7 @@ namespace djv
                         {
                             if (auto system = weak.lock())
                             {
-                                system->_p->textUpdate = true;
+                                system->_p->init = true;
                             }
                         });
                 }
@@ -216,11 +214,11 @@ namespace djv
                     _initObject(i);
                 }
 
-                if (p.textUpdate)
+                if (p.init)
                 {
-                    p.textUpdate = false;
-                    TextUpdate event(p.locale);
-                    _textUpdateRecursive(p.rootObject, event);
+                    p.init = false;
+                    Init event;
+                    _initRecursive(p.rootObject, event);
                 }
 
                 Update updateEvent(p.t, dt);
@@ -298,11 +296,13 @@ namespace djv
                 }
             }
 
-            void IEventSystem::_initObject(const std::shared_ptr<IObject> & object)
+            void IEventSystem::_initRecursive(const std::shared_ptr<IObject> & object, Init & event)
             {
-                DJV_PRIVATE_PTR();
-                TextUpdate event(p.locale);
                 object->event(event);
+                for (const auto & child : object->_children)
+                {
+                    _initRecursive(child, event);
+                }
             }
 
             void IEventSystem::_pointerMove(const PointerInfo & info)
@@ -456,15 +456,6 @@ namespace djv
             void IEventSystem::_objectCreated(const std::shared_ptr<IObject> & object)
             {
                 _p->objectsCreated.push_back(object);
-            }
-
-            void IEventSystem::_textUpdateRecursive(const std::shared_ptr<IObject> & object, TextUpdate & event)
-            {
-                object->event(event);
-                for (const auto & child : object->_children)
-                {
-                    _textUpdateRecursive(child, event);
-                }
             }
 
             void IEventSystem::_updateRecursive(const std::shared_ptr<IObject> & object, Update & event)

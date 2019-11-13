@@ -70,7 +70,6 @@ namespace djv
             void setCurrentFrameDragCallback(const std::function<void(bool)>&);
 
         protected:
-            void _styleEvent(Core::Event::Style&) override;
             void _preLayoutEvent(Core::Event::PreLayout&) override;
             void _layoutEvent(Core::Event::Layout&) override;
             void _paintEvent(Core::Event::Paint &) override;
@@ -80,6 +79,7 @@ namespace djv
             void _buttonPressEvent(Core::Event::ButtonPress &) override;
             void _buttonReleaseEvent(Core::Event::ButtonRelease &) override;
 
+            void _initEvent(Core::Event::Init&) override;
             void _updateEvent(Core::Event::Update &) override;
 
         private:

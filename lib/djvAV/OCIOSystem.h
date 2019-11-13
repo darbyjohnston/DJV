@@ -53,9 +53,9 @@ namespace djv
                 
                 std::string fileName;
                 std::string name;
-                std::map<std::string, std::string> colorSpaces;
                 std::string display;
                 std::string view;
+                std::map<std::string, std::string> fileColorSpaces;
 
                 static std::string getNameFromFileName(const std::string&);
 
@@ -80,6 +80,7 @@ namespace djv
 
                 std::shared_ptr<Core::IListSubject<Config> > observeConfigs() const;
 
+                int addConfig(const std::string& fileName);
                 int addConfig(const Config&);
                 void removeConfig(int);
 
@@ -108,6 +109,7 @@ namespace djv
                 ///@}
                 
             private:
+                int _addConfig(const Config&, bool init);
                 void _configUpdate();
 
                 DJV_PRIVATE();

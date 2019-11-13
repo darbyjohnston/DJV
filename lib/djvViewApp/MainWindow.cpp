@@ -458,8 +458,9 @@ namespace djv
             }
         }
 
-        void MainWindow::_textUpdateEvent(Event::TextUpdate&)
+        void MainWindow::_initEvent(Event::Init& event)
         {
+            Window::_initEvent(event);
             DJV_PRIVATE_PTR();
             p.mediaButton->setTooltip(_getText(DJV_TEXT("Media popup tooltip")));
             p.cachePopupWidget->setTooltip(_getText(DJV_TEXT("Memory cache tooltip")));

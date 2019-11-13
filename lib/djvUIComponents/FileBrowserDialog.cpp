@@ -107,8 +107,9 @@ namespace djv
                 _p->callback = value;
             }
 
-            void Dialog::_textUpdateEvent(Event::TextUpdate& event)
+            void Dialog::_initEvent(Event::Init& event)
             {
+                IDialog::_initEvent(event);
                 setTitle(_getText(DJV_TEXT("File Browser")));
             }
 

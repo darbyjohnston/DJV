@@ -210,11 +210,6 @@ namespace djv
             return textSize.y + getMargin().getHeight(style);
         }
 
-        void TextBlock::_styleEvent(Event::Style & event)
-        {
-            _textUpdate();
-        }
-
         void TextBlock::_preLayoutEvent(Event::PreLayout& event)
         {
             DJV_PRIVATE_PTR();
@@ -293,6 +288,12 @@ namespace djv
                     pos.y += line.size.y;
                 }
             }
+        }
+
+        void TextBlock::_initEvent(Event::Init & event)
+        {
+            Widget::_initEvent(event);
+            _textUpdate();
         }
 
         void TextBlock::_textUpdate()

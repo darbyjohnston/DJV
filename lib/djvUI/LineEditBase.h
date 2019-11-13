@@ -81,7 +81,6 @@ namespace djv
             bool acceptFocus(TextFocusDirection) override;
 
         protected:
-            void _styleEvent(Core::Event::Style &) override;
             void _preLayoutEvent(Core::Event::PreLayout&) override;
             void _layoutEvent(Core::Event::Layout&) override;
             void _clipEvent(Core::Event::Clip &) override;
@@ -95,6 +94,8 @@ namespace djv
             void _textFocusEvent(Core::Event::TextFocus &) override;
             void _textFocusLostEvent(Core::Event::TextFocusLost &) override;
             void _textInputEvent(Core::Event::TextInput&) override;
+
+            void _initEvent(Core::Event::Init &) override;
 
         private:
             std::string _fromUtf32(const std::basic_string<djv_char_t>&);
