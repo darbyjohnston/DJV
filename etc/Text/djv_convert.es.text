@@ -1,122 +1,122 @@
 [
     {
+        "id": "Nothing to convert", 
         "source": "Nothing to convert", 
-        "text": "Nada para convertir", 
         "description": "", 
-        "id": "Nothing to convert"
+        "text": "Nada para convertir"
     }, 
     {
+        "id": "Cannot parse the option '-resize'", 
         "source": "Cannot parse the option '-resize'", 
-        "text": "No se puede analizar la opci\u00f3n &#39;-resize&#39;", 
         "description": "", 
-        "id": "Cannot parse the option '-resize'"
+        "text": "No se puede analizar la opci\u00f3n &#39;-resize&#39;"
     }, 
     {
+        "id": "Usage: djv_convert (input) (output)", 
         "source": "Usage: djv_convert (input) (output)", 
-        "text": "Uso: djv_convert (entrada) (salida)", 
         "description": "", 
-        "id": "Usage: djv_convert (input) (output)"
+        "text": "Uso: djv_convert (entrada) (salida)"
     }, 
     {
+        "id": " Usage:", 
         "source": " Usage:", 
-        "text": "Uso:", 
         "description": "", 
-        "id": " Usage:"
+        "text": "Uso:"
     }, 
     {
+        "id": "   djv_convert (input) (output) [option, ...]", 
         "source": "   djv_convert (input) (output) [option, ...]", 
-        "text": "djv_convert (entrada) (salida) [opci\u00f3n, ...]", 
         "description": "", 
-        "id": "   djv_convert (input) (output) [option, ...]"
+        "text": "djv_convert (entrada) (salida) [opci\u00f3n, ...]"
     }, 
     {
+        "id": " Options:", 
         "source": " Options:", 
-        "text": "Opciones:", 
         "description": "", 
-        "id": " Options:"
+        "text": "Opciones:"
     }, 
     {
+        "id": "   -resize '(width) (height)'", 
         "source": "   -resize '(width) (height)'", 
-        "text": "-resize &#39;(ancho) (alto)&#39;", 
         "description": "", 
-        "id": "   -resize '(width) (height)'"
+        "text": "-resize &#39;(ancho) (alto)&#39;"
     }, 
     {
+        "id": "     Resize the image.", 
         "source": "     Resize the image.", 
-        "text": "Cambiar el tama\u00f1o de la imagen.", 
         "description": "", 
-        "id": "     Resize the image."
+        "text": "Cambiar el tama\u00f1o de la imagen."
     }, 
     {
+        "id": "   -readSeq", 
         "source": "   -readSeq", 
-        "text": "-readSeq", 
         "description": "", 
-        "id": "   -readSeq"
+        "text": "-readSeq"
     }, 
     {
+        "id": "     Interpret the input file name as a sequence.", 
         "source": "     Interpret the input file name as a sequence.", 
-        "text": "Interprete el nombre del archivo de entrada como una secuencia.", 
         "description": "", 
-        "id": "     Interpret the input file name as a sequence."
+        "text": "Interprete el nombre del archivo de entrada como una secuencia."
     }, 
     {
+        "id": "   -writeSeq", 
         "source": "   -writeSeq", 
-        "text": "-writeSeq", 
         "description": "", 
-        "id": "   -writeSeq"
+        "text": "-writeSeq"
     }, 
     {
+        "id": "     Interpret the output file name as a sequence.", 
         "source": "     Interpret the output file name as a sequence.", 
-        "text": "Interprete el nombre del archivo de salida como una secuencia.", 
         "description": "", 
-        "id": "     Interpret the output file name as a sequence."
+        "text": "Interprete el nombre del archivo de salida como una secuencia."
     }, 
     {
+        "id": "   -readQueue (value)", 
         "source": "   -readQueue (value)", 
-        "text": "-readQueue (valor)", 
         "description": "", 
-        "id": "   -readQueue (value)"
+        "text": "-readQueue (valor)"
     }, 
     {
+        "id": "     Set the size of the read queue.", 
         "source": "     Set the size of the read queue.", 
-        "text": "Establece el tama\u00f1o de la cola de lectura.", 
         "description": "", 
-        "id": "     Set the size of the read queue."
+        "text": "Establece el tama\u00f1o de la cola de lectura."
     }, 
     {
+        "id": "   -writeQueue (value)", 
         "source": "   -writeQueue (value)", 
-        "text": "-writeQueue (valor)", 
         "description": "", 
-        "id": "   -writeQueue (value)"
+        "text": "-writeQueue (valor)"
     }, 
     {
+        "id": "     Set the size of the write queue.", 
         "source": "     Set the size of the write queue.", 
-        "text": "Establece el tama\u00f1o de la cola de escritura.", 
         "description": "", 
-        "id": "     Set the size of the write queue."
+        "text": "Establece el tama\u00f1o de la cola de escritura."
     }, 
     {
+        "id": "   -readThreads (value)", 
         "source": "   -readThreads (value)", 
-        "text": "-readThreads (valor)", 
         "description": "", 
-        "id": "   -readThreads (value)"
+        "text": "-readThreads (valor)"
     }, 
     {
+        "id": "     Set the number of threads for reading.", 
         "source": "     Set the number of threads for reading.", 
-        "text": "Establece el n\u00famero de hilos para leer.", 
         "description": "", 
-        "id": "     Set the number of threads for reading."
+        "text": "Establece el n\u00famero de hilos para leer."
     }, 
     {
+        "id": "   -writeThreads (value)", 
         "source": "   -writeThreads (value)", 
-        "text": "-writeThreads (valor)", 
         "description": "", 
-        "id": "   -writeThreads (value)"
+        "text": "-writeThreads (valor)"
     }, 
     {
+        "id": "     Set the number of threads for writing.", 
         "source": "     Set the number of threads for writing.", 
-        "text": "Establece el n\u00famero de hilos para escribir.", 
         "description": "", 
-        "id": "     Set the number of threads for writing."
+        "text": "Establece el n\u00famero de hilos para escribir."
     }
 ]

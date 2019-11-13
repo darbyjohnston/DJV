@@ -395,6 +395,26 @@
         "description": ""
     }, 
     {
+        "text": "BelowRight", 
+        "id": "BelowRight", 
+        "description": ""
+    }, 
+    {
+        "text": "BelowLeft", 
+        "id": "BelowLeft", 
+        "description": ""
+    }, 
+    {
+        "text": "AboveRight", 
+        "id": "AboveRight", 
+        "description": ""
+    }, 
+    {
+        "text": "AboveLeft", 
+        "id": "AboveLeft", 
+        "description": ""
+    }, 
+    {
         "text": "Reset the value.", 
         "id": "Reset the value.", 
         "description": ""

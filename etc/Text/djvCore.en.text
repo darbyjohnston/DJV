@@ -1,125 +1,5 @@
 [
     {
-        "text": "Parent Changed", 
-        "id": "ParentChanged", 
-        "description": ""
-    }, 
-    {
-        "text": "Child Added", 
-        "id": "ChildAdded", 
-        "description": ""
-    }, 
-    {
-        "text": "Child Removed", 
-        "id": "ChildRemoved", 
-        "description": ""
-    }, 
-    {
-        "text": "Child Order", 
-        "id": "ChildOrder", 
-        "description": ""
-    }, 
-    {
-        "text": "TextUpdate", 
-        "id": "TextUpdate", 
-        "description": ""
-    }, 
-    {
-        "text": "Update", 
-        "id": "Update", 
-        "description": ""
-    }, 
-    {
-        "text": "Style", 
-        "id": "Style", 
-        "description": ""
-    }, 
-    {
-        "text": "Pre Layout", 
-        "id": "PreLayout", 
-        "description": ""
-    }, 
-    {
-        "text": "Layout", 
-        "id": "Layout", 
-        "description": ""
-    }, 
-    {
-        "text": "Clip", 
-        "id": "Clip", 
-        "description": ""
-    }, 
-    {
-        "text": "Paint", 
-        "id": "Paint", 
-        "description": ""
-    }, 
-    {
-        "text": "Paint Overlay", 
-        "id": "PaintOverlay", 
-        "description": ""
-    }, 
-    {
-        "text": "Pointer Enter", 
-        "id": "PointerEnter", 
-        "description": ""
-    }, 
-    {
-        "text": "Pointer Leave", 
-        "id": "PointerLeave", 
-        "description": ""
-    }, 
-    {
-        "text": "Pointer Move", 
-        "id": "PointerMove", 
-        "description": ""
-    }, 
-    {
-        "text": "Button Press", 
-        "id": "ButtonPress", 
-        "description": ""
-    }, 
-    {
-        "text": "Button Release", 
-        "id": "ButtonRelease", 
-        "description": ""
-    }, 
-    {
-        "text": "Scroll", 
-        "id": "Scroll", 
-        "description": ""
-    }, 
-    {
-        "text": "Drop", 
-        "id": "Drop", 
-        "description": ""
-    }, 
-    {
-        "text": "Key Press", 
-        "id": "KeyPress", 
-        "description": ""
-    }, 
-    {
-        "text": "Key Release", 
-        "id": "KeyRelease", 
-        "description": ""
-    }, 
-    {
-        "text": "Text Focus", 
-        "id": "TextFocus", 
-        "description": ""
-    }, 
-    {
-        "text": "Text Focus Lost", 
-        "id": "TextFocusLost", 
-        "description": ""
-    }, 
-    {
-        "text": "TextInput", 
-        "id": "TextInput", 
-        "description": ""
-    }, 
-    {
         "text": "Error finding the change notification for", 
         "id": "Error finding the change notification for", 
         "description": ""
@@ -215,6 +95,121 @@
         "description": ""
     }, 
     {
+        "text": "Parent Changed", 
+        "id": "ParentChanged", 
+        "description": ""
+    }, 
+    {
+        "text": "Child Added", 
+        "id": "ChildAdded", 
+        "description": ""
+    }, 
+    {
+        "text": "Child Removed", 
+        "id": "ChildRemoved", 
+        "description": ""
+    }, 
+    {
+        "text": "Child Order", 
+        "id": "ChildOrder", 
+        "description": ""
+    }, 
+    {
+        "text": "Init", 
+        "id": "Init", 
+        "description": ""
+    }, 
+    {
+        "text": "Update", 
+        "id": "Update", 
+        "description": ""
+    }, 
+    {
+        "text": "Pre Layout", 
+        "id": "PreLayout", 
+        "description": ""
+    }, 
+    {
+        "text": "Layout", 
+        "id": "Layout", 
+        "description": ""
+    }, 
+    {
+        "text": "Clip", 
+        "id": "Clip", 
+        "description": ""
+    }, 
+    {
+        "text": "Paint", 
+        "id": "Paint", 
+        "description": ""
+    }, 
+    {
+        "text": "Paint Overlay", 
+        "id": "PaintOverlay", 
+        "description": ""
+    }, 
+    {
+        "text": "Pointer Enter", 
+        "id": "PointerEnter", 
+        "description": ""
+    }, 
+    {
+        "text": "Pointer Leave", 
+        "id": "PointerLeave", 
+        "description": ""
+    }, 
+    {
+        "text": "Pointer Move", 
+        "id": "PointerMove", 
+        "description": ""
+    }, 
+    {
+        "text": "Button Press", 
+        "id": "ButtonPress", 
+        "description": ""
+    }, 
+    {
+        "text": "Button Release", 
+        "id": "ButtonRelease", 
+        "description": ""
+    }, 
+    {
+        "text": "Scroll", 
+        "id": "Scroll", 
+        "description": ""
+    }, 
+    {
+        "text": "Drop", 
+        "id": "Drop", 
+        "description": ""
+    }, 
+    {
+        "text": "Key Press", 
+        "id": "KeyPress", 
+        "description": ""
+    }, 
+    {
+        "text": "Key Release", 
+        "id": "KeyRelease", 
+        "description": ""
+    }, 
+    {
+        "text": "Text Focus", 
+        "id": "TextFocus", 
+        "description": ""
+    }, 
+    {
+        "text": "Text Focus Lost", 
+        "id": "TextFocusLost", 
+        "description": ""
+    }, 
+    {
+        "text": "TextInput", 
+        "id": "TextInput", 
+        "description": ""
+    }, 
+    {
         "text": "MSB", 
         "id": "MSB", 
         "description": ""
@@ -222,26 +217,6 @@
     {
         "text": "LSB", 
         "id": "LSB", 
-        "description": ""
-    }, 
-    {
-        "text": "Home", 
-        "id": "Home", 
-        "description": ""
-    }, 
-    {
-        "text": "Desktop", 
-        "id": "Desktop", 
-        "description": ""
-    }, 
-    {
-        "text": "Documents", 
-        "id": "Documents", 
-        "description": ""
-    }, 
-    {
-        "text": "Downloads", 
-        "id": "Downloads", 
         "description": ""
     }, 
     {
@@ -257,6 +232,11 @@
     {
         "text": "Application", 
         "id": "Application", 
+        "description": ""
+    }, 
+    {
+        "text": "Documents", 
+        "id": "Documents", 
         "description": ""
     }, 
     {
@@ -1362,6 +1342,21 @@
     {
         "text": "Very Fast", 
         "id": "VeryFast", 
+        "description": ""
+    }, 
+    {
+        "text": "Home", 
+        "id": "Home", 
+        "description": ""
+    }, 
+    {
+        "text": "Desktop", 
+        "id": "Desktop", 
+        "description": ""
+    }, 
+    {
+        "text": "Downloads", 
+        "id": "Downloads", 
         "description": ""
     }, 
     {

@@ -1,122 +1,122 @@
 [
     {
+        "id": "Nothing to convert", 
         "source": "Nothing to convert", 
-        "text": "\u03a4\u03af\u03c0\u03bf\u03c4\u03b1 \u03b4\u03b5\u03bd \u03bc\u03b5\u03c4\u03b1\u03c4\u03c1\u03ad\u03c0\u03b5\u03c4\u03b1\u03b9", 
         "description": "", 
-        "id": "Nothing to convert"
+        "text": "\u03a4\u03af\u03c0\u03bf\u03c4\u03b1 \u03b4\u03b5\u03bd \u03bc\u03b5\u03c4\u03b1\u03c4\u03c1\u03ad\u03c0\u03b5\u03c4\u03b1\u03b9"
     }, 
     {
+        "id": "Cannot parse the option '-resize'", 
         "source": "Cannot parse the option '-resize'", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b1\u03bd\u03ac\u03bb\u03c5\u03c3\u03b7 \u03c4\u03b7\u03c2 \u03b5\u03c0\u03b9\u03bb\u03bf\u03b3\u03ae\u03c2 &#39;-resize&#39;", 
         "description": "", 
-        "id": "Cannot parse the option '-resize'"
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b1\u03bd\u03ac\u03bb\u03c5\u03c3\u03b7 \u03c4\u03b7\u03c2 \u03b5\u03c0\u03b9\u03bb\u03bf\u03b3\u03ae\u03c2 &#39;-resize&#39;"
     }, 
     {
+        "id": "Usage: djv_convert (input) (output)", 
         "source": "Usage: djv_convert (input) (output)", 
-        "text": "\u03a7\u03c1\u03ae\u03c3\u03b7: djv_convert (\u03b5\u03af\u03c3\u03bf\u03b4\u03bf\u03c2) (\u03ad\u03be\u03bf\u03b4\u03bf\u03c2)", 
         "description": "", 
-        "id": "Usage: djv_convert (input) (output)"
+        "text": "\u03a7\u03c1\u03ae\u03c3\u03b7: djv_convert (\u03b5\u03af\u03c3\u03bf\u03b4\u03bf\u03c2) (\u03ad\u03be\u03bf\u03b4\u03bf\u03c2)"
     }, 
     {
+        "id": " Usage:", 
         "source": " Usage:", 
-        "text": "\u03a7\u03c1\u03ae\u03c3\u03b7:", 
         "description": "", 
-        "id": " Usage:"
+        "text": "\u03a7\u03c1\u03ae\u03c3\u03b7:"
     }, 
     {
+        "id": "   djv_convert (input) (output) [option, ...]", 
         "source": "   djv_convert (input) (output) [option, ...]", 
-        "text": "djv_convert (\u03b5\u03af\u03c3\u03bf\u03b4\u03bf\u03c2) (\u03ad\u03be\u03bf\u03b4\u03bf\u03c2) [\u03b5\u03c0\u03b9\u03bb\u03bf\u03b3\u03ae, ...]", 
         "description": "", 
-        "id": "   djv_convert (input) (output) [option, ...]"
+        "text": "djv_convert (\u03b5\u03af\u03c3\u03bf\u03b4\u03bf\u03c2) (\u03ad\u03be\u03bf\u03b4\u03bf\u03c2) [\u03b5\u03c0\u03b9\u03bb\u03bf\u03b3\u03ae, ...]"
     }, 
     {
+        "id": " Options:", 
         "source": " Options:", 
-        "text": "\u0395\u03c0\u03b9\u03bb\u03bf\u03b3\u03ad\u03c2:", 
         "description": "", 
-        "id": " Options:"
+        "text": "\u0395\u03c0\u03b9\u03bb\u03bf\u03b3\u03ad\u03c2:"
     }, 
     {
+        "id": "   -resize '(width) (height)'", 
         "source": "   -resize '(width) (height)'", 
-        "text": "&quot;(\u03c0\u03bb\u03ac\u03c4\u03bf\u03c2) (\u03cd\u03c8\u03bf\u03c2)&quot;", 
         "description": "", 
-        "id": "   -resize '(width) (height)'"
+        "text": "&quot;(\u03c0\u03bb\u03ac\u03c4\u03bf\u03c2) (\u03cd\u03c8\u03bf\u03c2)&quot;"
     }, 
     {
+        "id": "     Resize the image.", 
         "source": "     Resize the image.", 
-        "text": "\u0391\u03bb\u03bb\u03ac\u03be\u03c4\u03b5 \u03c4\u03bf \u03bc\u03ad\u03b3\u03b5\u03b8\u03bf\u03c2 \u03c4\u03b7\u03c2 \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1\u03c2.", 
         "description": "", 
-        "id": "     Resize the image."
+        "text": "\u0391\u03bb\u03bb\u03ac\u03be\u03c4\u03b5 \u03c4\u03bf \u03bc\u03ad\u03b3\u03b5\u03b8\u03bf\u03c2 \u03c4\u03b7\u03c2 \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1\u03c2."
     }, 
     {
+        "id": "   -readSeq", 
         "source": "   -readSeq", 
-        "text": "-readSeq", 
         "description": "", 
-        "id": "   -readSeq"
+        "text": "-readSeq"
     }, 
     {
+        "id": "     Interpret the input file name as a sequence.", 
         "source": "     Interpret the input file name as a sequence.", 
-        "text": "\u0395\u03c1\u03bc\u03b7\u03bd\u03b5\u03cd\u03c3\u03c4\u03b5 \u03c4\u03bf \u03cc\u03bd\u03bf\u03bc\u03b1 \u03c4\u03bf\u03c5 \u03b1\u03c1\u03c7\u03b5\u03af\u03bf\u03c5 \u03b5\u03b9\u03c3\u03cc\u03b4\u03bf\u03c5 \u03c9\u03c2 \u03b1\u03ba\u03bf\u03bb\u03bf\u03c5\u03b8\u03af\u03b1.", 
         "description": "", 
-        "id": "     Interpret the input file name as a sequence."
+        "text": "\u0395\u03c1\u03bc\u03b7\u03bd\u03b5\u03cd\u03c3\u03c4\u03b5 \u03c4\u03bf \u03cc\u03bd\u03bf\u03bc\u03b1 \u03c4\u03bf\u03c5 \u03b1\u03c1\u03c7\u03b5\u03af\u03bf\u03c5 \u03b5\u03b9\u03c3\u03cc\u03b4\u03bf\u03c5 \u03c9\u03c2 \u03b1\u03ba\u03bf\u03bb\u03bf\u03c5\u03b8\u03af\u03b1."
     }, 
     {
+        "id": "   -writeSeq", 
         "source": "   -writeSeq", 
-        "text": "-writeSeq", 
         "description": "", 
-        "id": "   -writeSeq"
+        "text": "-writeSeq"
     }, 
     {
+        "id": "     Interpret the output file name as a sequence.", 
         "source": "     Interpret the output file name as a sequence.", 
-        "text": "\u0395\u03c1\u03bc\u03b7\u03bd\u03b5\u03cd\u03c3\u03c4\u03b5 \u03c4\u03bf \u03cc\u03bd\u03bf\u03bc\u03b1 \u03c4\u03bf\u03c5 \u03b1\u03c1\u03c7\u03b5\u03af\u03bf\u03c5 \u03b5\u03be\u03cc\u03b4\u03bf\u03c5 \u03c9\u03c2 \u03b1\u03ba\u03bf\u03bb\u03bf\u03c5\u03b8\u03af\u03b1.", 
         "description": "", 
-        "id": "     Interpret the output file name as a sequence."
+        "text": "\u0395\u03c1\u03bc\u03b7\u03bd\u03b5\u03cd\u03c3\u03c4\u03b5 \u03c4\u03bf \u03cc\u03bd\u03bf\u03bc\u03b1 \u03c4\u03bf\u03c5 \u03b1\u03c1\u03c7\u03b5\u03af\u03bf\u03c5 \u03b5\u03be\u03cc\u03b4\u03bf\u03c5 \u03c9\u03c2 \u03b1\u03ba\u03bf\u03bb\u03bf\u03c5\u03b8\u03af\u03b1."
     }, 
     {
+        "id": "   -readQueue (value)", 
         "source": "   -readQueue (value)", 
-        "text": "-readQueue (\u03c4\u03b9\u03bc\u03ae)", 
         "description": "", 
-        "id": "   -readQueue (value)"
+        "text": "-readQueue (\u03c4\u03b9\u03bc\u03ae)"
     }, 
     {
+        "id": "     Set the size of the read queue.", 
         "source": "     Set the size of the read queue.", 
-        "text": "\u039f\u03c1\u03af\u03c3\u03c4\u03b5 \u03c4\u03bf \u03bc\u03ad\u03b3\u03b5\u03b8\u03bf\u03c2 \u03c4\u03b7\u03c2 \u03bf\u03c5\u03c1\u03ac\u03c2 \u03b1\u03bd\u03ac\u03b3\u03bd\u03c9\u03c3\u03b7\u03c2.", 
         "description": "", 
-        "id": "     Set the size of the read queue."
+        "text": "\u039f\u03c1\u03af\u03c3\u03c4\u03b5 \u03c4\u03bf \u03bc\u03ad\u03b3\u03b5\u03b8\u03bf\u03c2 \u03c4\u03b7\u03c2 \u03bf\u03c5\u03c1\u03ac\u03c2 \u03b1\u03bd\u03ac\u03b3\u03bd\u03c9\u03c3\u03b7\u03c2."
     }, 
     {
+        "id": "   -writeQueue (value)", 
         "source": "   -writeQueue (value)", 
-        "text": "-writeQueue (\u03c4\u03b9\u03bc\u03ae)", 
         "description": "", 
-        "id": "   -writeQueue (value)"
+        "text": "-writeQueue (\u03c4\u03b9\u03bc\u03ae)"
     }, 
     {
+        "id": "     Set the size of the write queue.", 
         "source": "     Set the size of the write queue.", 
-        "text": "\u039f\u03c1\u03af\u03c3\u03c4\u03b5 \u03c4\u03bf \u03bc\u03ad\u03b3\u03b5\u03b8\u03bf\u03c2 \u03c4\u03b7\u03c2 \u03bf\u03c5\u03c1\u03ac\u03c2 \u03b5\u03b3\u03b3\u03c1\u03b1\u03c6\u03ae\u03c2.", 
         "description": "", 
-        "id": "     Set the size of the write queue."
+        "text": "\u039f\u03c1\u03af\u03c3\u03c4\u03b5 \u03c4\u03bf \u03bc\u03ad\u03b3\u03b5\u03b8\u03bf\u03c2 \u03c4\u03b7\u03c2 \u03bf\u03c5\u03c1\u03ac\u03c2 \u03b5\u03b3\u03b3\u03c1\u03b1\u03c6\u03ae\u03c2."
     }, 
     {
+        "id": "   -readThreads (value)", 
         "source": "   -readThreads (value)", 
-        "text": "-readThreads (\u03c4\u03b9\u03bc\u03ae)", 
         "description": "", 
-        "id": "   -readThreads (value)"
+        "text": "-readThreads (\u03c4\u03b9\u03bc\u03ae)"
     }, 
     {
+        "id": "     Set the number of threads for reading.", 
         "source": "     Set the number of threads for reading.", 
-        "text": "\u039f\u03c1\u03af\u03c3\u03c4\u03b5 \u03c4\u03bf\u03bd \u03b1\u03c1\u03b9\u03b8\u03bc\u03cc \u03c4\u03c9\u03bd \u03bd\u03b7\u03bc\u03ac\u03c4\u03c9\u03bd \u03b3\u03b9\u03b1 \u03b1\u03bd\u03ac\u03b3\u03bd\u03c9\u03c3\u03b7.", 
         "description": "", 
-        "id": "     Set the number of threads for reading."
+        "text": "\u039f\u03c1\u03af\u03c3\u03c4\u03b5 \u03c4\u03bf\u03bd \u03b1\u03c1\u03b9\u03b8\u03bc\u03cc \u03c4\u03c9\u03bd \u03bd\u03b7\u03bc\u03ac\u03c4\u03c9\u03bd \u03b3\u03b9\u03b1 \u03b1\u03bd\u03ac\u03b3\u03bd\u03c9\u03c3\u03b7."
     }, 
     {
+        "id": "   -writeThreads (value)", 
         "source": "   -writeThreads (value)", 
-        "text": "-writeThreads (\u03c4\u03b9\u03bc\u03ae)", 
         "description": "", 
-        "id": "   -writeThreads (value)"
+        "text": "-writeThreads (\u03c4\u03b9\u03bc\u03ae)"
     }, 
     {
+        "id": "     Set the number of threads for writing.", 
         "source": "     Set the number of threads for writing.", 
-        "text": "\u039f\u03c1\u03af\u03c3\u03c4\u03b5 \u03c4\u03bf\u03bd \u03b1\u03c1\u03b9\u03b8\u03bc\u03cc \u03c4\u03c9\u03bd \u03ba\u03bb\u03c9\u03c3\u03c4\u03ce\u03bd \u03b3\u03b9\u03b1 \u03b5\u03b3\u03b3\u03c1\u03b1\u03c6\u03ae.", 
         "description": "", 
-        "id": "     Set the number of threads for writing."
+        "text": "\u039f\u03c1\u03af\u03c3\u03c4\u03b5 \u03c4\u03bf\u03bd \u03b1\u03c1\u03b9\u03b8\u03bc\u03cc \u03c4\u03c9\u03bd \u03ba\u03bb\u03c9\u03c3\u03c4\u03ce\u03bd \u03b3\u03b9\u03b1 \u03b5\u03b3\u03b3\u03c1\u03b1\u03c6\u03ae."
     }
 ]

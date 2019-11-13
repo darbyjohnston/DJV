@@ -1,122 +1,122 @@
 [
     {
+        "id": "Nothing to convert", 
         "source": "Nothing to convert", 
-        "text": "Nic p\u0159ev\u00e9st", 
         "description": "", 
-        "id": "Nothing to convert"
+        "text": "Nic p\u0159ev\u00e9st"
     }, 
     {
+        "id": "Cannot parse the option '-resize'", 
         "source": "Cannot parse the option '-resize'", 
-        "text": "Nelze analyzovat mo\u017enost &#39;-resize&#39;", 
         "description": "", 
-        "id": "Cannot parse the option '-resize'"
+        "text": "Nelze analyzovat mo\u017enost &#39;-resize&#39;"
     }, 
     {
+        "id": "Usage: djv_convert (input) (output)", 
         "source": "Usage: djv_convert (input) (output)", 
-        "text": "Pou\u017eit\u00ed: djv_convert (vstup) (v\u00fdstup)", 
         "description": "", 
-        "id": "Usage: djv_convert (input) (output)"
+        "text": "Pou\u017eit\u00ed: djv_convert (vstup) (v\u00fdstup)"
     }, 
     {
+        "id": " Usage:", 
         "source": " Usage:", 
-        "text": "Pou\u017e\u00edv\u00e1n\u00ed:", 
         "description": "", 
-        "id": " Usage:"
+        "text": "Pou\u017e\u00edv\u00e1n\u00ed:"
     }, 
     {
+        "id": "   djv_convert (input) (output) [option, ...]", 
         "source": "   djv_convert (input) (output) [option, ...]", 
-        "text": "djv_convert (vstup) (v\u00fdstup) [mo\u017enost, ...]", 
         "description": "", 
-        "id": "   djv_convert (input) (output) [option, ...]"
+        "text": "djv_convert (vstup) (v\u00fdstup) [mo\u017enost, ...]"
     }, 
     {
+        "id": " Options:", 
         "source": " Options:", 
-        "text": "Mo\u017enosti:", 
         "description": "", 
-        "id": " Options:"
+        "text": "Mo\u017enosti:"
     }, 
     {
+        "id": "   -resize '(width) (height)'", 
         "source": "   -resize '(width) (height)'", 
-        "text": "-resize &#39;(\u0161\u00ed\u0159ka) (v\u00fd\u0161ka)&#39;", 
         "description": "", 
-        "id": "   -resize '(width) (height)'"
+        "text": "-resize &#39;(\u0161\u00ed\u0159ka) (v\u00fd\u0161ka)&#39;"
     }, 
     {
+        "id": "     Resize the image.", 
         "source": "     Resize the image.", 
-        "text": "Zm\u011b\u0148te velikost obr\u00e1zku.", 
         "description": "", 
-        "id": "     Resize the image."
+        "text": "Zm\u011b\u0148te velikost obr\u00e1zku."
     }, 
     {
+        "id": "   -readSeq", 
         "source": "   -readSeq", 
-        "text": "-readSeq", 
         "description": "", 
-        "id": "   -readSeq"
+        "text": "-readSeq"
     }, 
     {
+        "id": "     Interpret the input file name as a sequence.", 
         "source": "     Interpret the input file name as a sequence.", 
-        "text": "Interpretujte n\u00e1zev vstupn\u00edho souboru jako sekvenci.", 
         "description": "", 
-        "id": "     Interpret the input file name as a sequence."
+        "text": "Interpretujte n\u00e1zev vstupn\u00edho souboru jako sekvenci."
     }, 
     {
+        "id": "   -writeSeq", 
         "source": "   -writeSeq", 
-        "text": "-writeSeq", 
         "description": "", 
-        "id": "   -writeSeq"
+        "text": "-writeSeq"
     }, 
     {
+        "id": "     Interpret the output file name as a sequence.", 
         "source": "     Interpret the output file name as a sequence.", 
-        "text": "Interpretovat n\u00e1zev v\u00fdstupn\u00edho souboru jako posloupnost.", 
         "description": "", 
-        "id": "     Interpret the output file name as a sequence."
+        "text": "Interpretovat n\u00e1zev v\u00fdstupn\u00edho souboru jako posloupnost."
     }, 
     {
+        "id": "   -readQueue (value)", 
         "source": "   -readQueue (value)", 
-        "text": "-readQueue (value)", 
         "description": "", 
-        "id": "   -readQueue (value)"
+        "text": "-readQueue (value)"
     }, 
     {
+        "id": "     Set the size of the read queue.", 
         "source": "     Set the size of the read queue.", 
-        "text": "Nastavte velikost \u010dtec\u00ed fronty.", 
         "description": "", 
-        "id": "     Set the size of the read queue."
+        "text": "Nastavte velikost \u010dtec\u00ed fronty."
     }, 
     {
+        "id": "   -writeQueue (value)", 
         "source": "   -writeQueue (value)", 
-        "text": "-writeQueue (hodnota)", 
         "description": "", 
-        "id": "   -writeQueue (value)"
+        "text": "-writeQueue (hodnota)"
     }, 
     {
+        "id": "     Set the size of the write queue.", 
         "source": "     Set the size of the write queue.", 
-        "text": "Nastavte velikost fronty pro z\u00e1pis.", 
         "description": "", 
-        "id": "     Set the size of the write queue."
+        "text": "Nastavte velikost fronty pro z\u00e1pis."
     }, 
     {
+        "id": "   -readThreads (value)", 
         "source": "   -readThreads (value)", 
-        "text": "-readThreads (hodnota)", 
         "description": "", 
-        "id": "   -readThreads (value)"
+        "text": "-readThreads (hodnota)"
     }, 
     {
+        "id": "     Set the number of threads for reading.", 
         "source": "     Set the number of threads for reading.", 
-        "text": "Nastavte po\u010det vl\u00e1ken pro \u010dten\u00ed.", 
         "description": "", 
-        "id": "     Set the number of threads for reading."
+        "text": "Nastavte po\u010det vl\u00e1ken pro \u010dten\u00ed."
     }, 
     {
+        "id": "   -writeThreads (value)", 
         "source": "   -writeThreads (value)", 
-        "text": "-writeThreads (hodnota)", 
         "description": "", 
-        "id": "   -writeThreads (value)"
+        "text": "-writeThreads (hodnota)"
     }, 
     {
+        "id": "     Set the number of threads for writing.", 
         "source": "     Set the number of threads for writing.", 
-        "text": "Nastavte po\u010det vl\u00e1ken pro z\u00e1pis.", 
         "description": "", 
-        "id": "     Set the number of threads for writing."
+        "text": "Nastavte po\u010det vl\u00e1ken pro z\u00e1pis."
     }
 ]

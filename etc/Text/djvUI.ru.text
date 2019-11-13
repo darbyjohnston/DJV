@@ -1,1268 +1,1292 @@
 [
     {
+        "id": "Cannot parse the value.", 
         "source": "Cannot parse the value.", 
-        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u043f\u0440\u043e\u0430\u043d\u0430\u043b\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435.", 
         "description": "", 
-        "id": "Cannot parse the value."
+        "text": "\u041d\u0435\u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e \u043f\u0440\u043e\u0430\u043d\u0430\u043b\u0438\u0437\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435."
     }, 
     {
+        "id": "Horizontal", 
         "source": "Horizontal", 
-        "text": "\u0433\u043e\u0440\u0438\u0437\u043e\u043d\u0442\u0430\u043b\u044c\u043d\u044b\u0439", 
         "description": "", 
-        "id": "Horizontal"
+        "text": "\u0433\u043e\u0440\u0438\u0437\u043e\u043d\u0442\u0430\u043b\u044c\u043d\u044b\u0439"
     }, 
     {
+        "id": "Vertical", 
         "source": "Vertical", 
-        "text": "\u0432\u0435\u0440\u0442\u0438\u043a\u0430\u043b\u044c\u043d\u044b\u0439", 
         "description": "", 
-        "id": "Vertical"
+        "text": "\u0432\u0435\u0440\u0442\u0438\u043a\u0430\u043b\u044c\u043d\u044b\u0439"
     }, 
     {
+        "id": "Left", 
         "source": "Left", 
-        "text": "\u041e\u0441\u0442\u0430\u0432\u0438\u043b", 
         "description": "", 
-        "id": "Left"
+        "text": "\u041e\u0441\u0442\u0430\u0432\u0438\u043b"
     }, 
     {
+        "id": "Top", 
         "source": "Top", 
-        "text": "\u0432\u0435\u0440\u0445\u043d\u0438\u0439", 
         "description": "", 
-        "id": "Top"
+        "text": "\u0432\u0435\u0440\u0445\u043d\u0438\u0439"
     }, 
     {
+        "id": "Right", 
         "source": "Right", 
-        "text": "\u041f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u043e", 
         "description": "", 
-        "id": "Right"
+        "text": "\u041f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u043e"
     }, 
     {
+        "id": "Bottom", 
         "source": "Bottom", 
-        "text": "\u041d\u0438\u0437", 
         "description": "", 
-        "id": "Bottom"
+        "text": "\u041d\u0438\u0437"
     }, 
     {
+        "id": "None", 
         "source": "None", 
-        "text": "\u041d\u0438\u043a\u0442\u043e", 
         "description": "", 
-        "id": "None"
+        "text": "\u041d\u0438\u043a\u0442\u043e"
     }, 
     {
+        "id": "Both", 
         "source": "Both", 
-        "text": "\u0418 \u0442\u043e \u0438 \u0434\u0440\u0443\u0433\u043e\u0435", 
         "description": "", 
-        "id": "Both"
+        "text": "\u0418 \u0442\u043e \u0438 \u0434\u0440\u0443\u0433\u043e\u0435"
     }, 
     {
+        "id": "Center", 
         "source": "Center", 
-        "text": "\u0426\u0435\u043d\u0442\u0440", 
         "description": "", 
-        "id": "Center"
+        "text": "\u0426\u0435\u043d\u0442\u0440"
     }, 
     {
+        "id": "Fill", 
         "source": "Fill", 
-        "text": "\u0437\u0430\u043f\u043e\u043b\u043d\u0438\u0442\u044c", 
         "description": "", 
-        "id": "Fill"
+        "text": "\u0437\u0430\u043f\u043e\u043b\u043d\u0438\u0442\u044c"
     }, 
     {
+        "id": "Baseline", 
         "source": "Baseline", 
-        "text": "\u0431\u0430\u0437\u0438\u0441\u043d\u044b\u0439", 
         "description": "", 
-        "id": "Baseline"
+        "text": "\u0431\u0430\u0437\u0438\u0441\u043d\u044b\u0439"
     }, 
     {
+        "id": "Single", 
         "source": "Single", 
-        "text": "\u043d\u0435 \u0437\u0430\u043c\u0443\u0436\u0435\u043c", 
         "description": "", 
-        "id": "Single"
+        "text": "\u043d\u0435 \u0437\u0430\u043c\u0443\u0436\u0435\u043c"
     }, 
     {
+        "id": "Radio", 
         "source": "Radio", 
-        "text": "\u0420\u0430\u0434\u0438\u043e", 
         "description": "", 
-        "id": "Radio"
+        "text": "\u0420\u0430\u0434\u0438\u043e"
     }, 
     {
+        "id": "Multiple", 
         "source": "Multiple", 
-        "text": "\u043c\u043d\u043e\u0436\u0435\u0441\u0442\u0432\u0435\u043d\u043d\u044b\u0439", 
         "description": "", 
-        "id": "Multiple"
+        "text": "\u043c\u043d\u043e\u0436\u0435\u0441\u0442\u0432\u0435\u043d\u043d\u044b\u0439"
     }, 
     {
+        "id": "Forward", 
         "source": "Forward", 
-        "text": "\u0412\u043f\u0435\u0440\u0435\u0434", 
         "description": "", 
-        "id": "Forward"
+        "text": "\u0412\u043f\u0435\u0440\u0435\u0434"
     }, 
     {
+        "id": "Reverse", 
         "source": "Reverse", 
-        "text": "\u0417\u0430\u0434\u043d\u0438\u0439 \u0445\u043e\u0434", 
         "description": "", 
-        "id": "Reverse"
+        "text": "\u0417\u0430\u0434\u043d\u0438\u0439 \u0445\u043e\u0434"
     }, 
     {
+        "id": "Push", 
         "source": "Push", 
-        "text": "\u041e\u0442 \u0441\u0435\u0431\u044f", 
         "description": "", 
-        "id": "Push"
+        "text": "\u041e\u0442 \u0441\u0435\u0431\u044f"
     }, 
     {
+        "id": "Toggle", 
         "source": "Toggle", 
-        "text": "\u0442\u0443\u043c\u0431\u043b\u0435\u0440", 
         "description": "", 
-        "id": "Toggle"
+        "text": "\u0442\u0443\u043c\u0431\u043b\u0435\u0440"
     }, 
     {
+        "id": "Exclusive", 
         "source": "Exclusive", 
-        "text": "\u0438\u0441\u043a\u043b\u044e\u0447\u0430\u044e\u0449\u0435\u0435", 
         "description": "", 
-        "id": "Exclusive"
+        "text": "\u0438\u0441\u043a\u043b\u044e\u0447\u0430\u044e\u0449\u0435\u0435"
     }, 
     {
+        "id": "Tiles", 
         "source": "Tiles", 
-        "text": "\u043f\u043b\u0438\u0442\u043a\u0438", 
         "description": "", 
-        "id": "Tiles"
+        "text": "\u043f\u043b\u0438\u0442\u043a\u0438"
     }, 
     {
+        "id": "List", 
         "source": "List", 
-        "text": "\u0421\u043f\u0438\u0441\u043e\u043a", 
         "description": "", 
-        "id": "List"
+        "text": "\u0421\u043f\u0438\u0441\u043e\u043a"
     }, 
     {
+        "id": "Background", 
         "source": "Background", 
-        "text": "\u0424\u043e\u043d", 
         "description": "", 
-        "id": "Background"
+        "text": "\u0424\u043e\u043d"
     }, 
     {
+        "id": "BackgroundHeader", 
         "source": "Background Header", 
-        "text": "\u0424\u043e\u043d\u043e\u0432\u044b\u0439 \u0437\u0430\u0433\u043e\u043b\u043e\u0432\u043e\u043a", 
         "description": "", 
-        "id": "BackgroundHeader"
+        "text": "\u0424\u043e\u043d\u043e\u0432\u044b\u0439 \u0437\u0430\u0433\u043e\u043b\u043e\u0432\u043e\u043a"
     }, 
     {
+        "id": "BackgroundBellows", 
         "source": "Background Bellows", 
-        "text": "\u0424\u043e\u043d\u043e\u0432\u044b\u0435 \u0441\u0438\u043b\u044c\u0444\u043e\u043d\u044b", 
         "description": "", 
-        "id": "BackgroundBellows"
+        "text": "\u0424\u043e\u043d\u043e\u0432\u044b\u0435 \u0441\u0438\u043b\u044c\u0444\u043e\u043d\u044b"
     }, 
     {
+        "id": "BackgroundToolBar", 
         "source": "Background ToolBar", 
-        "text": "\u0424\u043e\u043d\u043e\u0432\u0430\u044f \u043f\u0430\u043d\u0435\u043b\u044c \u0438\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442\u043e\u0432", 
         "description": "", 
-        "id": "BackgroundToolBar"
+        "text": "\u0424\u043e\u043d\u043e\u0432\u0430\u044f \u043f\u0430\u043d\u0435\u043b\u044c \u0438\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442\u043e\u0432"
     }, 
     {
+        "id": "Foreground", 
         "source": "Foreground", 
-        "text": "\u043f\u0435\u0440\u0435\u0434\u043d\u0438\u0439 \u043f\u043b\u0430\u043d", 
         "description": "", 
-        "id": "Foreground"
+        "text": "\u043f\u0435\u0440\u0435\u0434\u043d\u0438\u0439 \u043f\u043b\u0430\u043d"
     }, 
     {
+        "id": "ForegroundDim", 
         "source": "Foreground Dim", 
-        "text": "\u041f\u0435\u0440\u0435\u0434\u043d\u0438\u0439 \u043f\u043b\u0430\u043d \u0442\u0443\u0441\u043a\u043b\u044b\u0439", 
         "description": "", 
-        "id": "ForegroundDim"
+        "text": "\u041f\u0435\u0440\u0435\u0434\u043d\u0438\u0439 \u043f\u043b\u0430\u043d \u0442\u0443\u0441\u043a\u043b\u044b\u0439"
     }, 
     {
+        "id": "Border", 
         "source": "Border", 
-        "text": "\u0431\u043e\u0440\u0434\u044e\u0440", 
         "description": "", 
-        "id": "Border"
+        "text": "\u0431\u043e\u0440\u0434\u044e\u0440"
     }, 
     {
+        "id": "BorderButton", 
         "source": "Border Button", 
-        "text": "\u041a\u043d\u043e\u043f\u043a\u0430 \u0433\u0440\u0430\u043d\u0438\u0446\u044b", 
         "description": "", 
-        "id": "BorderButton"
+        "text": "\u041a\u043d\u043e\u043f\u043a\u0430 \u0433\u0440\u0430\u043d\u0438\u0446\u044b"
     }, 
     {
+        "id": "Trough", 
         "source": "Trough", 
-        "text": "\u0412\u043f\u0430\u0434\u0438\u043d\u0430", 
         "description": "", 
-        "id": "Trough"
+        "text": "\u0412\u043f\u0430\u0434\u0438\u043d\u0430"
     }, 
     {
+        "id": "Button", 
         "source": "Button", 
-        "text": "\u043a\u043d\u043e\u043f\u043a\u0430", 
         "description": "", 
-        "id": "Button"
+        "text": "\u043a\u043d\u043e\u043f\u043a\u0430"
     }, 
     {
+        "id": "Hovered", 
         "source": "Hovered", 
-        "text": "\u043f\u0430\u0440\u0438\u043b\u0438", 
         "description": "", 
-        "id": "Hovered"
+        "text": "\u043f\u0430\u0440\u0438\u043b\u0438"
     }, 
     {
+        "id": "Pressed", 
         "source": "Pressed", 
-        "text": "\u041f\u0440\u0435\u0441\u0441\u043e\u0432\u0430\u043d\u043d\u044b\u0435", 
         "description": "", 
-        "id": "Pressed"
+        "text": "\u041f\u0440\u0435\u0441\u0441\u043e\u0432\u0430\u043d\u043d\u044b\u0435"
     }, 
     {
+        "id": "Checked", 
         "source": "Checked", 
-        "text": "\u041f\u0440\u043e\u0432\u0435\u0440\u0435\u043d\u043e", 
         "description": "", 
-        "id": "Checked"
+        "text": "\u041f\u0440\u043e\u0432\u0435\u0440\u0435\u043d\u043e"
     }, 
     {
+        "id": "TextFocus", 
         "source": "Text Focus", 
-        "text": "\u0424\u043e\u043a\u0443\u0441 \u0442\u0435\u043a\u0441\u0442\u0430", 
         "description": "", 
-        "id": "TextFocus"
+        "text": "\u0424\u043e\u043a\u0443\u0441 \u0442\u0435\u043a\u0441\u0442\u0430"
     }, 
     {
+        "id": "TooltipBackground", 
         "source": "Tooltip Background", 
-        "text": "\u0412\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430", 
         "description": "", 
-        "id": "TooltipBackground"
+        "text": "\u0412\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0430\u044f \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430"
     }, 
     {
+        "id": "TooltipForeground", 
         "source": "Tooltip Foreground", 
-        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043f\u0435\u0440\u0435\u0434\u043d\u0435\u0433\u043e \u043f\u043b\u0430\u043d\u0430", 
         "description": "", 
-        "id": "TooltipForeground"
+        "text": "\u041f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0430 \u043f\u0435\u0440\u0435\u0434\u043d\u0435\u0433\u043e \u043f\u043b\u0430\u043d\u0430"
     }, 
     {
+        "id": "Overlay", 
         "source": "Overlay", 
-        "text": "\u043e\u0432\u0435\u0440\u043b\u0435\u0439", 
         "description": "", 
-        "id": "Overlay"
+        "text": "\u043e\u0432\u0435\u0440\u043b\u0435\u0439"
     }, 
     {
+        "id": "OverlayLight", 
         "source": "Overlay Light", 
-        "text": "\u041d\u0430\u043b\u043e\u0436\u0435\u043d\u0438\u0435 \u0441\u0432\u0435\u0442\u0430", 
         "description": "", 
-        "id": "OverlayLight"
+        "text": "\u041d\u0430\u043b\u043e\u0436\u0435\u043d\u0438\u0435 \u0441\u0432\u0435\u0442\u0430"
     }, 
     {
+        "id": "Shadow", 
         "source": "Shadow", 
-        "text": "\u0422\u0435\u043d\u044c", 
         "description": "", 
-        "id": "Shadow"
+        "text": "\u0422\u0435\u043d\u044c"
     }, 
     {
+        "id": "Handle", 
         "source": "Handle", 
-        "text": "\u0421\u043f\u0440\u0430\u0432\u0438\u0442\u044c\u0441\u044f", 
         "description": "", 
-        "id": "Handle"
+        "text": "\u0421\u043f\u0440\u0430\u0432\u0438\u0442\u044c\u0441\u044f"
     }, 
     {
+        "id": "Margin", 
         "source": "Margin", 
-        "text": "\u041f\u043e\u043b\u0435", 
         "description": "", 
-        "id": "Margin"
+        "text": "\u041f\u043e\u043b\u0435"
     }, 
     {
+        "id": "MarginSmall", 
         "source": "Margin Small", 
-        "text": "\u041d\u0435\u0431\u043e\u043b\u044c\u0448\u0430\u044f \u043c\u0430\u0440\u0436\u0430", 
         "description": "", 
-        "id": "MarginSmall"
+        "text": "\u041d\u0435\u0431\u043e\u043b\u044c\u0448\u0430\u044f \u043c\u0430\u0440\u0436\u0430"
     }, 
     {
+        "id": "MarginLarge", 
         "source": "Margin Large", 
-        "text": "\u0411\u043e\u043b\u044c\u0448\u0430\u044f \u043c\u0430\u0440\u0436\u0430", 
         "description": "", 
-        "id": "MarginLarge"
+        "text": "\u0411\u043e\u043b\u044c\u0448\u0430\u044f \u043c\u0430\u0440\u0436\u0430"
     }, 
     {
+        "id": "MarginDialog", 
         "source": "Margin Dialog", 
-        "text": "\u041c\u0430\u0440\u0436\u0438\u043d\u0430\u043b\u044c\u043d\u044b\u0439 \u0434\u0438\u0430\u043b\u043e\u0433", 
         "description": "", 
-        "id": "MarginDialog"
+        "text": "\u041c\u0430\u0440\u0436\u0438\u043d\u0430\u043b\u044c\u043d\u044b\u0439 \u0434\u0438\u0430\u043b\u043e\u0433"
     }, 
     {
+        "id": "Spacing", 
         "source": "Spacing", 
-        "text": "\u0440\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435", 
         "description": "", 
-        "id": "Spacing"
+        "text": "\u0440\u0430\u0441\u0441\u0442\u043e\u044f\u043d\u0438\u0435"
     }, 
     {
+        "id": "SpacingSmall", 
         "source": "Spacing Small", 
-        "text": "\u0418\u043d\u0442\u0435\u0440\u0432\u0430\u043b \u041c\u0430\u043b\u044b\u0439", 
         "description": "", 
-        "id": "SpacingSmall"
+        "text": "\u0418\u043d\u0442\u0435\u0440\u0432\u0430\u043b \u041c\u0430\u043b\u044b\u0439"
     }, 
     {
+        "id": "SpacingLarge", 
         "source": "Spacing Large", 
-        "text": "\u0411\u043e\u043b\u044c\u0448\u043e\u0439 \u0438\u043d\u0442\u0435\u0440\u0432\u0430\u043b", 
         "description": "", 
-        "id": "SpacingLarge"
+        "text": "\u0411\u043e\u043b\u044c\u0448\u043e\u0439 \u0438\u043d\u0442\u0435\u0440\u0432\u0430\u043b"
     }, 
     {
+        "id": "Drag", 
         "source": "Drag", 
-        "text": "\u0422\u0430\u0449\u0438\u0442\u044c, \u0442\u044f\u043d\u0443\u0442\u044c", 
         "description": "", 
-        "id": "Drag"
+        "text": "\u0422\u0430\u0449\u0438\u0442\u044c, \u0442\u044f\u043d\u0443\u0442\u044c"
     }, 
     {
+        "id": "Icon", 
         "source": "Icon", 
-        "text": "\u0417\u043d\u0430\u0447\u043e\u043a", 
         "description": "", 
-        "id": "Icon"
+        "text": "\u0417\u043d\u0430\u0447\u043e\u043a"
     }, 
     {
+        "id": "IconSmall", 
         "source": "Icon Small", 
-        "text": "\u0418\u043a\u043e\u043d\u043a\u0430 \u041c\u0430\u043b\u0435\u043d\u044c\u043a\u0430\u044f", 
         "description": "", 
-        "id": "IconSmall"
+        "text": "\u0418\u043a\u043e\u043d\u043a\u0430 \u041c\u0430\u043b\u0435\u043d\u044c\u043a\u0430\u044f"
     }, 
     {
+        "id": "FontSmall", 
         "source": "Font Small", 
-        "text": "\u041c\u0430\u043b\u0435\u043d\u044c\u043a\u0438\u0439 \u0448\u0440\u0438\u0444\u0442", 
         "description": "", 
-        "id": "FontSmall"
+        "text": "\u041c\u0430\u043b\u0435\u043d\u044c\u043a\u0438\u0439 \u0448\u0440\u0438\u0444\u0442"
     }, 
     {
+        "id": "FontMedium", 
         "source": "Font Medium", 
-        "text": "\u0421\u0440\u0435\u0434\u043d\u0438\u0439 \u0448\u0440\u0438\u0444\u0442", 
         "description": "", 
-        "id": "FontMedium"
+        "text": "\u0421\u0440\u0435\u0434\u043d\u0438\u0439 \u0448\u0440\u0438\u0444\u0442"
     }, 
     {
+        "id": "FontLarge", 
         "source": "Font Large", 
-        "text": "\u0411\u043e\u043b\u044c\u0448\u043e\u0439 \u0448\u0440\u0438\u0444\u0442", 
         "description": "", 
-        "id": "FontLarge"
+        "text": "\u0411\u043e\u043b\u044c\u0448\u043e\u0439 \u0448\u0440\u0438\u0444\u0442"
     }, 
     {
+        "id": "FontHeader", 
         "source": "Font Header", 
-        "text": "\u0417\u0430\u0433\u043e\u043b\u043e\u0432\u043e\u043a \u0448\u0440\u0438\u0444\u0442\u0430", 
         "description": "", 
-        "id": "FontHeader"
+        "text": "\u0417\u0430\u0433\u043e\u043b\u043e\u0432\u043e\u043a \u0448\u0440\u0438\u0444\u0442\u0430"
     }, 
     {
+        "id": "FontTitle", 
         "source": "Font Title", 
-        "text": "\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u0448\u0440\u0438\u0444\u0442\u0430", 
         "description": "", 
-        "id": "FontTitle"
+        "text": "\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u0448\u0440\u0438\u0444\u0442\u0430"
     }, 
     {
+        "id": "Swatch", 
         "source": "Swatch", 
-        "text": "\u043e\u0431\u0440\u0430\u0437\u0447\u0438\u043a \u0442\u043a\u0430\u043d\u0438", 
         "description": "", 
-        "id": "Swatch"
+        "text": "\u043e\u0431\u0440\u0430\u0437\u0447\u0438\u043a \u0442\u043a\u0430\u043d\u0438"
     }, 
     {
+        "id": "Slider", 
         "source": "Slider", 
-        "text": "\u043f\u043e\u043b\u0437\u0443\u043d\u043e\u043a", 
         "description": "", 
-        "id": "Slider"
+        "text": "\u043f\u043e\u043b\u0437\u0443\u043d\u043e\u043a"
     }, 
     {
+        "id": "ScrollArea", 
         "source": "Scroll Area", 
-        "text": "\u041e\u0431\u043b\u0430\u0441\u0442\u044c \u043f\u0440\u043e\u043a\u0440\u0443\u0442\u043a\u0438", 
         "description": "", 
-        "id": "ScrollArea"
+        "text": "\u041e\u0431\u043b\u0430\u0441\u0442\u044c \u043f\u0440\u043e\u043a\u0440\u0443\u0442\u043a\u0438"
     }, 
     {
+        "id": "Menu", 
         "source": "Menu", 
-        "text": "\u041c\u0435\u043d\u044e", 
         "description": "", 
-        "id": "Menu"
+        "text": "\u041c\u0435\u043d\u044e"
     }, 
     {
+        "id": "TextColumn", 
         "source": "Text Column", 
-        "text": "\u0422\u0435\u043a\u0441\u0442\u043e\u0432\u0430\u044f \u043a\u043e\u043b\u043e\u043d\u043a\u0430", 
         "description": "", 
-        "id": "TextColumn"
+        "text": "\u0422\u0435\u043a\u0441\u0442\u043e\u0432\u0430\u044f \u043a\u043e\u043b\u043e\u043d\u043a\u0430"
     }, 
     {
+        "id": "TextColumnLarge", 
         "source": "Text Column Large", 
-        "text": "\u0411\u043e\u043b\u044c\u0448\u043e\u0439 \u0442\u0435\u043a\u0441\u0442\u043e\u0432\u044b\u0439 \u0441\u0442\u043e\u043b\u0431\u0435\u0446", 
         "description": "", 
-        "id": "TextColumnLarge"
+        "text": "\u0411\u043e\u043b\u044c\u0448\u043e\u0439 \u0442\u0435\u043a\u0441\u0442\u043e\u0432\u044b\u0439 \u0441\u0442\u043e\u043b\u0431\u0435\u0446"
     }, 
     {
+        "id": "SearchBox", 
         "source": "Search Box", 
-        "text": "\u041f\u043e\u0438\u0441\u043a\u043e\u0432\u0430\u044f \u0441\u0442\u0440\u043e\u043a\u0430", 
         "description": "", 
-        "id": "SearchBox"
+        "text": "\u041f\u043e\u0438\u0441\u043a\u043e\u0432\u0430\u044f \u0441\u0442\u0440\u043e\u043a\u0430"
     }, 
     {
+        "id": "Dialog", 
         "source": "Dialog", 
-        "text": "\u0434\u0438\u0430\u043b\u043e\u0433", 
         "description": "", 
-        "id": "Dialog"
+        "text": "\u0434\u0438\u0430\u043b\u043e\u0433"
     }, 
     {
+        "id": "ShadowSmall", 
         "source": "Shadow Small", 
-        "text": "Shadow Small", 
         "description": "", 
-        "id": "ShadowSmall"
+        "text": "Shadow Small"
     }, 
     {
+        "id": "TooltipOffset", 
         "source": "Tooltip Offset", 
-        "text": "\u0421\u043c\u0435\u0449\u0435\u043d\u0438\u0435 \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0435\u0439 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438", 
         "description": "", 
-        "id": "TooltipOffset"
+        "text": "\u0421\u043c\u0435\u0449\u0435\u043d\u0438\u0435 \u0432\u0441\u043f\u043b\u044b\u0432\u0430\u044e\u0449\u0435\u0439 \u043f\u043e\u0434\u0441\u043a\u0430\u0437\u043a\u0438"
     }, 
     {
+        "id": "Move", 
         "source": "Move", 
-        "text": "\u041f\u0435\u0440\u0435\u0435\u0445\u0430\u0442\u044c", 
         "description": "", 
-        "id": "Move"
+        "text": "\u041f\u0435\u0440\u0435\u0435\u0445\u0430\u0442\u044c"
     }, 
     {
+        "id": "Dark", 
         "source": "Dark", 
-        "text": "\u0422\u0435\u043c\u043d\u043e", 
         "description": "", 
-        "id": "Dark"
+        "text": "\u0422\u0435\u043c\u043d\u043e"
     }, 
     {
+        "id": "Light", 
         "source": "Light", 
-        "text": "\u0421\u0432\u0435\u0442", 
         "description": "", 
-        "id": "Light"
+        "text": "\u0421\u0432\u0435\u0442"
     }, 
     {
+        "id": "Medium", 
         "source": "Medium", 
-        "text": "\u0421\u0440\u0435\u0434\u043d\u044f\u044f", 
         "description": "", 
-        "id": "Medium"
+        "text": "\u0421\u0440\u0435\u0434\u043d\u044f\u044f"
     }, 
     {
+        "id": "Small", 
         "source": "Small", 
-        "text": "\u041c\u0430\u043b\u0435\u043d\u044c\u043a\u0438\u0439", 
         "description": "", 
-        "id": "Small"
+        "text": "\u041c\u0430\u043b\u0435\u043d\u044c\u043a\u0438\u0439"
     }, 
     {
+        "id": "Large", 
         "source": "Large", 
-        "text": "\u0431\u043e\u043b\u044c\u0448\u043e\u0439", 
         "description": "", 
-        "id": "Large"
+        "text": "\u0431\u043e\u043b\u044c\u0448\u043e\u0439"
     }, 
     {
+        "id": "ExtraLarge", 
         "source": "Extra Large", 
-        "text": "\u041e\u0447\u0435\u043d\u044c \u0431\u043e\u043b\u044c\u0448\u043e\u0439", 
         "description": "", 
-        "id": "ExtraLarge"
+        "text": "\u041e\u0447\u0435\u043d\u044c \u0431\u043e\u043b\u044c\u0448\u043e\u0439"
     }, 
     {
+        "id": "Default", 
         "source": "Default", 
-        "text": "\u041f\u043e \u0443\u043c\u043e\u043b\u0447\u0430\u043d\u0438\u044e", 
         "description": "", 
-        "id": "Default"
+        "text": "\u041f\u043e \u0443\u043c\u043e\u043b\u0447\u0430\u043d\u0438\u044e"
     }, 
     {
+        "id": "Expand", 
         "source": "Expand", 
-        "text": "\u0440\u0430\u0441\u0448\u0438\u0440\u044f\u0442\u044c", 
         "description": "", 
-        "id": "Expand"
+        "text": "\u0440\u0430\u0441\u0448\u0438\u0440\u044f\u0442\u044c"
     }, 
     {
+        "id": "Space", 
         "source": "Space", 
-        "text": "\u041a\u043e\u0441\u043c\u043e\u0441", 
         "description": "", 
-        "id": "Space"
+        "text": "\u041a\u043e\u0441\u043c\u043e\u0441"
     }, 
     {
+        "id": "Apostrophe", 
         "source": "Apostrophe", 
-        "text": "\u0410\u043f\u043e\u0441\u0442\u0440\u043e\u0444", 
         "description": "", 
-        "id": "Apostrophe"
+        "text": "\u0410\u043f\u043e\u0441\u0442\u0440\u043e\u0444"
     }, 
     {
+        "id": "Comma", 
         "source": "Comma", 
-        "text": "\u0437\u0430\u043f\u044f\u0442\u0430\u044f", 
         "description": "", 
-        "id": "Comma"
+        "text": "\u0437\u0430\u043f\u044f\u0442\u0430\u044f"
     }, 
     {
+        "id": "Minus", 
         "source": "Minus", 
-        "text": "\u041c\u0438\u043d\u0443\u0441", 
         "description": "", 
-        "id": "Minus"
+        "text": "\u041c\u0438\u043d\u0443\u0441"
     }, 
     {
+        "id": "Period", 
         "source": "Period", 
-        "text": "\u043f\u0435\u0440\u0438\u043e\u0434", 
         "description": "", 
-        "id": "Period"
+        "text": "\u043f\u0435\u0440\u0438\u043e\u0434"
     }, 
     {
+        "id": "Slash", 
         "source": "Slash", 
-        "text": "\u0420\u0430\u0441\u0441\u0435\u0447\u0435\u043d\u0438\u0435", 
         "description": "", 
-        "id": "Slash"
+        "text": "\u0420\u0430\u0441\u0441\u0435\u0447\u0435\u043d\u0438\u0435"
     }, 
     {
+        "id": "0", 
         "source": "0", 
-        "text": "0", 
         "description": "", 
-        "id": "0"
+        "text": "0"
     }, 
     {
+        "id": "1", 
         "source": "1", 
-        "text": "1", 
         "description": "", 
-        "id": "1"
+        "text": "1"
     }, 
     {
+        "id": "2", 
         "source": "2", 
-        "text": "2", 
         "description": "", 
-        "id": "2"
+        "text": "2"
     }, 
     {
+        "id": "3", 
         "source": "3", 
-        "text": "3", 
         "description": "", 
-        "id": "3"
+        "text": "3"
     }, 
     {
+        "id": "4", 
         "source": "4", 
-        "text": "4", 
         "description": "", 
-        "id": "4"
+        "text": "4"
     }, 
     {
+        "id": "5", 
         "source": "5", 
-        "text": "5", 
         "description": "", 
-        "id": "5"
+        "text": "5"
     }, 
     {
+        "id": "6", 
         "source": "6", 
-        "text": "6", 
         "description": "", 
-        "id": "6"
+        "text": "6"
     }, 
     {
+        "id": "7", 
         "source": "7", 
-        "text": "7", 
         "description": "", 
-        "id": "7"
+        "text": "7"
     }, 
     {
+        "id": "8", 
         "source": "8", 
-        "text": "8", 
         "description": "", 
-        "id": "8"
+        "text": "8"
     }, 
     {
+        "id": "9", 
         "source": "9", 
-        "text": "9", 
         "description": "", 
-        "id": "9"
+        "text": "9"
     }, 
     {
+        "id": "Semicolon", 
         "source": "Semicolon", 
-        "text": "\u0422\u043e\u0447\u043a\u0430 \u0441 \u0437\u0430\u043f\u044f\u0442\u043e\u0439", 
         "description": "", 
-        "id": "Semicolon"
+        "text": "\u0422\u043e\u0447\u043a\u0430 \u0441 \u0437\u0430\u043f\u044f\u0442\u043e\u0439"
     }, 
     {
+        "id": "Equal", 
         "source": "Equal", 
-        "text": "\u0440\u0430\u0432\u043d\u044b\u0445", 
         "description": "", 
-        "id": "Equal"
+        "text": "\u0440\u0430\u0432\u043d\u044b\u0445"
     }, 
     {
+        "id": "A", 
         "source": "A", 
-        "text": "", 
         "description": "", 
-        "id": "A"
+        "text": ""
     }, 
     {
+        "id": "B", 
         "source": "B", 
-        "text": "\u0412", 
         "description": "", 
-        "id": "B"
+        "text": "\u0412"
     }, 
     {
+        "id": "C", 
         "source": "C", 
-        "text": "\u0421", 
         "description": "", 
-        "id": "C"
+        "text": "\u0421"
     }, 
     {
+        "id": "D", 
         "source": "D", 
-        "text": "D", 
         "description": "", 
-        "id": "D"
+        "text": "D"
     }, 
     {
+        "id": "E", 
         "source": "E", 
-        "text": "\u0438", 
         "description": "", 
-        "id": "E"
+        "text": "\u0438"
     }, 
     {
+        "id": "F", 
         "source": "F", 
-        "text": "F", 
         "description": "", 
-        "id": "F"
+        "text": "F"
     }, 
     {
+        "id": "G", 
         "source": "G", 
-        "text": "\u0433", 
         "description": "", 
-        "id": "G"
+        "text": "\u0433"
     }, 
     {
+        "id": "H", 
         "source": "H", 
-        "text": "\u0427\u0410\u0421", 
         "description": "", 
-        "id": "H"
+        "text": "\u0427\u0410\u0421"
     }, 
     {
+        "id": "I", 
         "source": "I", 
-        "text": "\u044f", 
         "description": "", 
-        "id": "I"
+        "text": "\u044f"
     }, 
     {
+        "id": "J", 
         "source": "J", 
-        "text": "J", 
         "description": "", 
-        "id": "J"
+        "text": "J"
     }, 
     {
+        "id": "K", 
         "source": "K", 
-        "text": "", 
         "description": "", 
-        "id": "K"
+        "text": ""
     }, 
     {
+        "id": "L", 
         "source": "L", 
-        "text": "", 
         "description": "", 
-        "id": "L"
+        "text": ""
     }, 
     {
+        "id": "M", 
         "source": "M", 
-        "text": "M", 
         "description": "", 
-        "id": "M"
+        "text": "M"
     }, 
     {
+        "id": "N", 
         "source": "N", 
-        "text": "N", 
         "description": "", 
-        "id": "N"
+        "text": "N"
     }, 
     {
+        "id": "O", 
         "source": "O", 
-        "text": "", 
         "description": "", 
-        "id": "O"
+        "text": ""
     }, 
     {
+        "id": "P", 
         "source": "P", 
-        "text": "\u043f", 
         "description": "", 
-        "id": "P"
+        "text": "\u043f"
     }, 
     {
+        "id": "Q", 
         "source": "Q", 
-        "text": "Q", 
         "description": "", 
-        "id": "Q"
+        "text": "Q"
     }, 
     {
+        "id": "R", 
         "source": "R", 
-        "text": "\u0440", 
         "description": "", 
-        "id": "R"
+        "text": "\u0440"
     }, 
     {
+        "id": "S", 
         "source": "S", 
-        "text": "S", 
         "description": "", 
-        "id": "S"
+        "text": "S"
     }, 
     {
+        "id": "T", 
         "source": "T", 
-        "text": "T", 
         "description": "", 
-        "id": "T"
+        "text": "T"
     }, 
     {
+        "id": "U", 
         "source": "U", 
-        "text": "", 
         "description": "", 
-        "id": "U"
+        "text": ""
     }, 
     {
+        "id": "V", 
         "source": "V", 
-        "text": "V", 
         "description": "", 
-        "id": "V"
+        "text": "V"
     }, 
     {
+        "id": "W", 
         "source": "W", 
-        "text": "", 
         "description": "", 
-        "id": "W"
+        "text": ""
     }, 
     {
+        "id": "X", 
         "source": "X", 
-        "text": "\u0418\u043a\u0441", 
         "description": "", 
-        "id": "X"
+        "text": "\u0418\u043a\u0441"
     }, 
     {
+        "id": "Y", 
         "source": "Y", 
-        "text": "\u0438", 
         "description": "", 
-        "id": "Y"
+        "text": "\u0438"
     }, 
     {
+        "id": "Z", 
         "source": "Z", 
-        "text": "\u0441", 
         "description": "", 
-        "id": "Z"
+        "text": "\u0441"
     }, 
     {
+        "id": "LeftBracket", 
         "source": "Left Bracket", 
-        "text": "\u041b\u0435\u0432\u044b\u0439 \u043a\u0440\u043e\u043d\u0448\u0442\u0435\u0439\u043d", 
         "description": "", 
-        "id": "LeftBracket"
+        "text": "\u041b\u0435\u0432\u044b\u0439 \u043a\u0440\u043e\u043d\u0448\u0442\u0435\u0439\u043d"
     }, 
     {
+        "id": "Backslash", 
         "source": "Backslash", 
-        "text": "\u0431\u044d\u043a\u0441\u043b\u044d\u0448", 
         "description": "", 
-        "id": "Backslash"
+        "text": "\u0431\u044d\u043a\u0441\u043b\u044d\u0448"
     }, 
     {
+        "id": "RightBracket", 
         "source": "Right Bracket", 
-        "text": "\u041f\u0440\u0430\u0432\u0430\u044f \u0441\u043a\u043e\u0431\u043a\u0430", 
         "description": "", 
-        "id": "RightBracket"
+        "text": "\u041f\u0440\u0430\u0432\u0430\u044f \u0441\u043a\u043e\u0431\u043a\u0430"
     }, 
     {
+        "id": "GraveAccent", 
         "source": "Grave Accent", 
-        "text": "\u0421\u0435\u0440\u044c\u0435\u0437\u043d\u044b\u0439 \u0410\u043a\u0446\u0435\u043d\u0442", 
         "description": "", 
-        "id": "GraveAccent"
+        "text": "\u0421\u0435\u0440\u044c\u0435\u0437\u043d\u044b\u0439 \u0410\u043a\u0446\u0435\u043d\u0442"
     }, 
     {
+        "id": "World1", 
         "source": "World 1", 
-        "text": "\u041c\u0438\u0440 1", 
         "description": "", 
-        "id": "World1"
+        "text": "\u041c\u0438\u0440 1"
     }, 
     {
+        "id": "World2", 
         "source": "World 2", 
-        "text": "\u041c\u0438\u0440 2", 
         "description": "", 
-        "id": "World2"
+        "text": "\u041c\u0438\u0440 2"
     }, 
     {
+        "id": "Escape", 
         "source": "Escape", 
-        "text": "\u041f\u043e\u0431\u0435\u0433", 
         "description": "", 
-        "id": "Escape"
+        "text": "\u041f\u043e\u0431\u0435\u0433"
     }, 
     {
+        "id": "Enter", 
         "source": "Enter", 
-        "text": "\u0412\u043e\u0439\u0442\u0438", 
         "description": "", 
-        "id": "Enter"
+        "text": "\u0412\u043e\u0439\u0442\u0438"
     }, 
     {
+        "id": "Tab", 
         "source": "Tab", 
-        "text": "\u0442\u0430\u0431\u0443\u043b\u044f\u0446\u0438\u044f", 
         "description": "", 
-        "id": "Tab"
+        "text": "\u0442\u0430\u0431\u0443\u043b\u044f\u0446\u0438\u044f"
     }, 
     {
+        "id": "Backspace", 
         "source": "Backspace", 
-        "text": "\u0432\u043e\u0437\u0432\u0440\u0430\u0442 \u043d\u0430 \u043e\u0434\u043d\u0443 \u043f\u043e\u0437\u0438\u0446\u0438\u044e", 
         "description": "", 
-        "id": "Backspace"
+        "text": "\u0432\u043e\u0437\u0432\u0440\u0430\u0442 \u043d\u0430 \u043e\u0434\u043d\u0443 \u043f\u043e\u0437\u0438\u0446\u0438\u044e"
     }, 
     {
+        "id": "Insert", 
         "source": "Insert", 
-        "text": "\u0412\u0441\u0442\u0430\u0432\u0438\u0442\u044c", 
         "description": "", 
-        "id": "Insert"
+        "text": "\u0412\u0441\u0442\u0430\u0432\u0438\u0442\u044c"
     }, 
     {
+        "id": "Delete", 
         "source": "Delete", 
-        "text": "\u0443\u0434\u0430\u043b\u044f\u0442\u044c", 
         "description": "", 
-        "id": "Delete"
+        "text": "\u0443\u0434\u0430\u043b\u044f\u0442\u044c"
     }, 
     {
+        "id": "RightArrow", 
         "source": "Right Arrow", 
-        "text": "\u041f\u0440\u0430\u0432\u0430\u044f \u0441\u0442\u0440\u0435\u043b\u043a\u0430", 
         "description": "", 
-        "id": "RightArrow"
+        "text": "\u041f\u0440\u0430\u0432\u0430\u044f \u0441\u0442\u0440\u0435\u043b\u043a\u0430"
     }, 
     {
+        "id": "LeftArrow", 
         "source": "Left Arrow", 
-        "text": "\u0421\u0442\u0440\u0435\u043b\u043a\u0430 \u0432\u043b\u0435\u0432\u043e", 
         "description": "", 
-        "id": "LeftArrow"
+        "text": "\u0421\u0442\u0440\u0435\u043b\u043a\u0430 \u0432\u043b\u0435\u0432\u043e"
     }, 
     {
+        "id": "DownArrow", 
         "source": "Down Arrow", 
-        "text": "\u0421\u0442\u0440\u0435\u043b\u043a\u0430 \u0432\u043d\u0438\u0437", 
         "description": "", 
-        "id": "DownArrow"
+        "text": "\u0421\u0442\u0440\u0435\u043b\u043a\u0430 \u0432\u043d\u0438\u0437"
     }, 
     {
+        "id": "UpArrow", 
         "source": "Up Arrow", 
-        "text": "\u0421\u0442\u0440\u0435\u043b\u043a\u0430 \u0432\u0432\u0435\u0440\u0445", 
         "description": "", 
-        "id": "UpArrow"
+        "text": "\u0421\u0442\u0440\u0435\u043b\u043a\u0430 \u0432\u0432\u0435\u0440\u0445"
     }, 
     {
+        "id": "PageUp", 
         "source": "Page Up", 
-        "text": "Page Up", 
         "description": "", 
-        "id": "PageUp"
+        "text": "Page Up"
     }, 
     {
+        "id": "PageDown", 
         "source": "Page Down", 
-        "text": "\u041b\u0438\u0441\u0442\u0430\u0442\u044c \u0432\u043d\u0438\u0437", 
         "description": "", 
-        "id": "PageDown"
+        "text": "\u041b\u0438\u0441\u0442\u0430\u0442\u044c \u0432\u043d\u0438\u0437"
     }, 
     {
+        "id": "Home", 
         "source": "Home", 
-        "text": "\u0413\u043b\u0430\u0432\u043d\u0430\u044f", 
         "description": "", 
-        "id": "Home"
+        "text": "\u0413\u043b\u0430\u0432\u043d\u0430\u044f"
     }, 
     {
+        "id": "End", 
         "source": "End", 
-        "text": "\u041a\u043e\u043d\u0435\u0446", 
         "description": "", 
-        "id": "End"
+        "text": "\u041a\u043e\u043d\u0435\u0446"
     }, 
     {
+        "id": "CapsLock", 
         "source": "Caps Lock", 
-        "text": "Caps Lock", 
         "description": "", 
-        "id": "CapsLock"
+        "text": "Caps Lock"
     }, 
     {
+        "id": "ScrollLock", 
         "source": "Scroll Lock", 
-        "text": "Scroll Lock", 
         "description": "", 
-        "id": "ScrollLock"
+        "text": "Scroll Lock"
     }, 
     {
+        "id": "NumLock", 
         "source": "Num Lock", 
-        "text": "Num Lock", 
         "description": "", 
-        "id": "NumLock"
+        "text": "Num Lock"
     }, 
     {
+        "id": "PrintScreen", 
         "source": "Print Screen", 
-        "text": "\u0421\u043d\u0438\u043c\u043e\u043a \u044d\u043a\u0440\u0430\u043d\u0430", 
         "description": "", 
-        "id": "PrintScreen"
+        "text": "\u0421\u043d\u0438\u043c\u043e\u043a \u044d\u043a\u0440\u0430\u043d\u0430"
     }, 
     {
+        "id": "F1", 
         "source": "F1", 
-        "text": "F1", 
         "description": "", 
-        "id": "F1"
+        "text": "F1"
     }, 
     {
+        "id": "F2", 
         "source": "F2", 
-        "text": "F2", 
         "description": "", 
-        "id": "F2"
+        "text": "F2"
     }, 
     {
+        "id": "F3", 
         "source": "F3", 
-        "text": "F3", 
         "description": "", 
-        "id": "F3"
+        "text": "F3"
     }, 
     {
+        "id": "F4", 
         "source": "F4", 
-        "text": "F4", 
         "description": "", 
-        "id": "F4"
+        "text": "F4"
     }, 
     {
+        "id": "F5", 
         "source": "F5", 
-        "text": "F5", 
         "description": "", 
-        "id": "F5"
+        "text": "F5"
     }, 
     {
+        "id": "F6", 
         "source": "F6", 
-        "text": "F6", 
         "description": "", 
-        "id": "F6"
+        "text": "F6"
     }, 
     {
+        "id": "F7", 
         "source": "F7", 
-        "text": "F7", 
         "description": "", 
-        "id": "F7"
+        "text": "F7"
     }, 
     {
+        "id": "F8", 
         "source": "F8", 
-        "text": "F8", 
         "description": "", 
-        "id": "F8"
+        "text": "F8"
     }, 
     {
+        "id": "F9", 
         "source": "F9", 
-        "text": "F9", 
         "description": "", 
-        "id": "F9"
+        "text": "F9"
     }, 
     {
+        "id": "F10", 
         "source": "F10", 
-        "text": "F10", 
         "description": "", 
-        "id": "F10"
+        "text": "F10"
     }, 
     {
+        "id": "F11", 
         "source": "F11", 
-        "text": "F11", 
         "description": "", 
-        "id": "F11"
+        "text": "F11"
     }, 
     {
+        "id": "F12", 
         "source": "F12", 
-        "text": "F12", 
         "description": "", 
-        "id": "F12"
+        "text": "F12"
     }, 
     {
+        "id": "F13", 
         "source": "F13", 
-        "text": "F13", 
         "description": "", 
-        "id": "F13"
+        "text": "F13"
     }, 
     {
+        "id": "F14", 
         "source": "F14", 
-        "text": "F14", 
         "description": "", 
-        "id": "F14"
+        "text": "F14"
     }, 
     {
+        "id": "F15", 
         "source": "F15", 
-        "text": "F15", 
         "description": "", 
-        "id": "F15"
+        "text": "F15"
     }, 
     {
+        "id": "F16", 
         "source": "F16", 
-        "text": "F16", 
         "description": "", 
-        "id": "F16"
+        "text": "F16"
     }, 
     {
+        "id": "F17", 
         "source": "F17", 
-        "text": "F17", 
         "description": "", 
-        "id": "F17"
+        "text": "F17"
     }, 
     {
+        "id": "F18", 
         "source": "F18", 
-        "text": "F18", 
         "description": "", 
-        "id": "F18"
+        "text": "F18"
     }, 
     {
+        "id": "F19", 
         "source": "F19", 
-        "text": "F19", 
         "description": "", 
-        "id": "F19"
+        "text": "F19"
     }, 
     {
+        "id": "F20", 
         "source": "F20", 
-        "text": "F20", 
         "description": "", 
-        "id": "F20"
+        "text": "F20"
     }, 
     {
+        "id": "F21", 
         "source": "F21", 
-        "text": "F21", 
         "description": "", 
-        "id": "F21"
+        "text": "F21"
     }, 
     {
+        "id": "F22", 
         "source": "F22", 
-        "text": "F22", 
         "description": "", 
-        "id": "F22"
+        "text": "F22"
     }, 
     {
+        "id": "F23", 
         "source": "F23", 
-        "text": "F23", 
         "description": "", 
-        "id": "F23"
+        "text": "F23"
     }, 
     {
+        "id": "F24", 
         "source": "F24", 
-        "text": "F24", 
         "description": "", 
-        "id": "F24"
+        "text": "F24"
     }, 
     {
+        "id": "F25", 
         "source": "F25", 
-        "text": "F25", 
         "description": "", 
-        "id": "F25"
+        "text": "F25"
     }, 
     {
+        "id": "KeyPad0", 
         "source": "Key Pad 0", 
-        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 0", 
         "description": "", 
-        "id": "KeyPad0"
+        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 0"
     }, 
     {
+        "id": "KeyPad1", 
         "source": "Key Pad 1", 
-        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 1", 
         "description": "", 
-        "id": "KeyPad1"
+        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 1"
     }, 
     {
+        "id": "KeyPad2", 
         "source": "Key Pad 2", 
-        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 2", 
         "description": "", 
-        "id": "KeyPad2"
+        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 2"
     }, 
     {
+        "id": "KeyPad3", 
         "source": "Key Pad 3", 
-        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 3", 
         "description": "", 
-        "id": "KeyPad3"
+        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 3"
     }, 
     {
+        "id": "KeyPad4", 
         "source": "Key Pad 4", 
-        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 4", 
         "description": "", 
-        "id": "KeyPad4"
+        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 4"
     }, 
     {
+        "id": "KeyPad5", 
         "source": "Key Pad 5", 
-        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 5", 
         "description": "", 
-        "id": "KeyPad5"
+        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 5"
     }, 
     {
+        "id": "KeyPad6", 
         "source": "Key Pad 6", 
-        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 6", 
         "description": "", 
-        "id": "KeyPad6"
+        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 6"
     }, 
     {
+        "id": "KeyPad7", 
         "source": "Key Pad 7", 
-        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 7", 
         "description": "", 
-        "id": "KeyPad7"
+        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 7"
     }, 
     {
+        "id": "KeyPad8", 
         "source": "Key Pad 8", 
-        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 8", 
         "description": "", 
-        "id": "KeyPad8"
+        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 8"
     }, 
     {
+        "id": "KeyPad9", 
         "source": "Key Pad 9", 
-        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 9", 
         "description": "", 
-        "id": "KeyPad9"
+        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 9"
     }, 
     {
+        "id": "KeyPadDecimal", 
         "source": "Key Pad Decimal", 
-        "text": "\u0414\u0435\u0441\u044f\u0442\u0438\u0447\u043d\u0430\u044f \u043a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430", 
         "description": "", 
-        "id": "KeyPadDecimal"
+        "text": "\u0414\u0435\u0441\u044f\u0442\u0438\u0447\u043d\u0430\u044f \u043a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430"
     }, 
     {
+        "id": "KeyPadDivide", 
         "source": "Key Pad Divide", 
-        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 \u0440\u0430\u0437\u0434\u0435\u043b\u0438\u0442\u044c", 
         "description": "", 
-        "id": "KeyPadDivide"
+        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 \u0440\u0430\u0437\u0434\u0435\u043b\u0438\u0442\u044c"
     }, 
     {
+        "id": "KeyPadMultiply", 
         "source": "Key Pad Multiply", 
-        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 Multiply", 
         "description": "", 
-        "id": "KeyPadMultiply"
+        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 Multiply"
     }, 
     {
+        "id": "KeyPadSubstract", 
         "source": "Key Pad Substract", 
-        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 Substract", 
         "description": "", 
-        "id": "KeyPadSubstract"
+        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 Substract"
     }, 
     {
+        "id": "KeyPadAdd", 
         "source": "Key Pad Add", 
-        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 \u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c", 
         "description": "", 
-        "id": "KeyPadAdd"
+        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 \u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c"
     }, 
     {
+        "id": "KeyPadEnter", 
         "source": "Key Pad Enter", 
-        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 Enter", 
         "description": "", 
-        "id": "KeyPadEnter"
+        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 Enter"
     }, 
     {
+        "id": "KeyPadEqual", 
         "source": "Key Pad Equal", 
-        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 \u0420\u0430\u0432\u043d\u0430\u044f", 
         "description": "", 
-        "id": "KeyPadEqual"
+        "text": "\u041a\u043b\u0430\u0432\u0438\u0430\u0442\u0443\u0440\u0430 \u0420\u0430\u0432\u043d\u0430\u044f"
     }, 
     {
+        "id": "LeftShift", 
         "source": "Left Shift", 
-        "text": "\u0421\u0434\u0432\u0438\u0433 \u0432\u043b\u0435\u0432\u043e", 
         "description": "", 
-        "id": "LeftShift"
+        "text": "\u0421\u0434\u0432\u0438\u0433 \u0432\u043b\u0435\u0432\u043e"
     }, 
     {
+        "id": "LeftControl", 
         "source": "Left Control", 
-        "text": "\u041b\u0435\u0432\u044b\u0439 \u043a\u043e\u043d\u0442\u0440\u043e\u043b\u044c", 
         "description": "", 
-        "id": "LeftControl"
+        "text": "\u041b\u0435\u0432\u044b\u0439 \u043a\u043e\u043d\u0442\u0440\u043e\u043b\u044c"
     }, 
     {
+        "id": "LeftAlt", 
         "source": "Left Alt", 
-        "text": "\u041b\u0435\u0432\u044b\u0439 Alt", 
         "description": "", 
-        "id": "LeftAlt"
+        "text": "\u041b\u0435\u0432\u044b\u0439 Alt"
     }, 
     {
+        "id": "LeftCommand", 
         "source": "Left Command", 
-        "text": "\u041b\u0435\u0432\u0430\u044f \u043a\u043e\u043c\u0430\u043d\u0434\u0430", 
         "description": "", 
-        "id": "LeftCommand"
+        "text": "\u041b\u0435\u0432\u0430\u044f \u043a\u043e\u043c\u0430\u043d\u0434\u0430"
     }, 
     {
+        "id": "RightShift", 
         "source": "Right Shift", 
-        "text": "\u0421\u0434\u0432\u0438\u0433 \u0432\u043f\u0440\u0430\u0432\u043e", 
         "description": "", 
-        "id": "RightShift"
+        "text": "\u0421\u0434\u0432\u0438\u0433 \u0432\u043f\u0440\u0430\u0432\u043e"
     }, 
     {
+        "id": "RightControl", 
         "source": "Right Control", 
-        "text": "\u041f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u044b\u0439 \u043a\u043e\u043d\u0442\u0440\u043e\u043b\u044c", 
         "description": "", 
-        "id": "RightControl"
+        "text": "\u041f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u044b\u0439 \u043a\u043e\u043d\u0442\u0440\u043e\u043b\u044c"
     }, 
     {
+        "id": "RightAlt", 
         "source": "Right Alt", 
-        "text": "\u041f\u0440\u0430\u0432\u043e Alt", 
         "description": "", 
-        "id": "RightAlt"
+        "text": "\u041f\u0440\u0430\u0432\u043e Alt"
     }, 
     {
+        "id": "RightCommand", 
         "source": "Right Command", 
-        "text": "\u041f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u0430\u044f \u043a\u043e\u043c\u0430\u043d\u0434\u0430", 
         "description": "", 
-        "id": "RightCommand"
+        "text": "\u041f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u0430\u044f \u043a\u043e\u043c\u0430\u043d\u0434\u0430"
     }, 
     {
+        "id": "Shift", 
         "source": "Shift", 
-        "text": "\u0441\u0434\u0432\u0438\u0433", 
         "description": "", 
-        "id": "Shift"
+        "text": "\u0441\u0434\u0432\u0438\u0433"
     }, 
     {
+        "id": "Ctrl", 
         "source": "Ctrl", 
-        "text": "Ctrl", 
         "description": "", 
-        "id": "Ctrl"
+        "text": "Ctrl"
     }, 
     {
+        "id": "Alt", 
         "source": "Alt", 
-        "text": "\u0432\u0441\u0435", 
         "description": "", 
-        "id": "Alt"
+        "text": "\u0432\u0441\u0435"
     }, 
     {
+        "id": "Command", 
         "source": "Command", 
-        "text": "\u043a\u043e\u043c\u0430\u043d\u0434\u0430", 
         "description": "", 
-        "id": "Command"
+        "text": "\u043a\u043e\u043c\u0430\u043d\u0434\u0430"
     }, 
     {
+        "id": "Cached", 
         "source": "Cached", 
-        "text": "\u0421\u043e\u0445\u0440\u0430\u043d\u0435\u043d\u043d\u0430\u044f \u043a\u043e\u043f\u0438\u044f", 
         "description": "", 
-        "id": "Cached"
+        "text": "\u0421\u043e\u0445\u0440\u0430\u043d\u0435\u043d\u043d\u0430\u044f \u043a\u043e\u043f\u0438\u044f"
     }, 
     {
+        "id": "Scrub", 
         "source": "Scrub", 
-        "text": "\u0442\u0435\u0440\u0435\u0442\u044c", 
         "description": "", 
-        "id": "Scrub"
+        "text": "\u0442\u0435\u0440\u0435\u0442\u044c"
     }, 
     {
+        "id": "Keyboard shortcut", 
         "source": "Keyboard shortcut", 
-        "text": "\u0421\u043e\u0447\u0435\u0442\u0430\u043d\u0438\u0435 \u043a\u043b\u0430\u0432\u0438\u0448", 
         "description": "", 
-        "id": "Keyboard shortcut"
+        "text": "\u0421\u043e\u0447\u0435\u0442\u0430\u043d\u0438\u0435 \u043a\u043b\u0430\u0432\u0438\u0448"
     }, 
     {
+        "id": "Keyboard shortcuts", 
         "source": "Keyboard shortcuts", 
-        "text": "\u0413\u043e\u0440\u044f\u0447\u0438\u0435 \u043a\u043b\u0430\u0432\u0438\u0448\u0438", 
         "description": "", 
-        "id": "Keyboard shortcuts"
+        "text": "\u0413\u043e\u0440\u044f\u0447\u0438\u0435 \u043a\u043b\u0430\u0432\u0438\u0448\u0438"
     }, 
     {
         "source": "IconMini", 
+        "text": "conMini", 
         "description": "", 
-        "id": "IconMini", 
-        "text": "conMini"
+        "id": "IconMini"
     }, 
     {
         "source": "SwatchSmall", 
+        "text": "SwatchSmall", 
         "description": "", 
-        "id": "SwatchSmall", 
-        "text": "SwatchSmall"
+        "id": "SwatchSmall"
     }, 
     {
         "source": "ScrollBar", 
+        "text": "\u041f\u043e\u043b\u043e\u0441\u0430 \u043f\u0440\u043e\u043a\u0440\u0443\u0442\u043a\u0438", 
         "description": "", 
-        "id": "ScrollBar", 
-        "text": "\u041f\u043e\u043b\u043e\u0441\u0430 \u043f\u0440\u043e\u043a\u0440\u0443\u0442\u043a\u0438"
+        "id": "ScrollBar"
     }, 
     {
         "source": "ScrollBarSmall", 
+        "text": "ScrollBarSmall", 
         "description": "", 
-        "id": "ScrollBarSmall", 
-        "text": "ScrollBarSmall"
+        "id": "ScrollBarSmall"
     }, 
     {
         "source": "Native", 
+        "text": "\u0420\u043e\u0434\u043d\u044b\u0435", 
         "description": "", 
-        "id": "Native", 
-        "text": "\u0420\u043e\u0434\u043d\u044b\u0435"
+        "id": "Native"
     }, 
     {
         "source": "16:9", 
+        "text": "16: 9", 
         "description": "", 
-        "id": "16:9", 
-        "text": "16: 9"
+        "id": "16:9"
     }, 
     {
         "source": "1.85", 
+        "text": "1,85", 
         "description": "", 
-        "id": "1.85", 
-        "text": "1,85"
+        "id": "1.85"
     }, 
     {
         "source": "2.35", 
+        "text": "2,35", 
         "description": "", 
-        "id": "2.35", 
-        "text": "2,35"
+        "id": "2.35"
     }, 
     {
         "source": "Reset the value.", 
+        "text": "\u0421\u0431\u0440\u043e\u0441\u0438\u0442\u044c \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435", 
         "description": "", 
-        "id": "Reset the value.", 
-        "text": "\u0421\u0431\u0440\u043e\u0441\u0438\u0442\u044c \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435"
+        "id": "Reset the value."
+    }, 
+    {
+        "source": "BelowRight", 
+        "text": "BelowRight", 
+        "id": "BelowRight", 
+        "description": ""
+    }, 
+    {
+        "source": "BelowLeft", 
+        "text": "BelowLeft", 
+        "id": "BelowLeft", 
+        "description": ""
+    }, 
+    {
+        "source": "AboveRight", 
+        "text": "\u0432\u044b\u0448\u0435 \u043f\u0440\u0430\u0432\u043e\u0439", 
+        "id": "AboveRight", 
+        "description": ""
+    }, 
+    {
+        "source": "AboveLeft", 
+        "text": "AboveLeft", 
+        "id": "AboveLeft", 
+        "description": ""
     }
 ]

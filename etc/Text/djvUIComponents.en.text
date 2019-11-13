@@ -1,107 +1,12 @@
 [
     {
-        "text": "Recent Paths", 
-        "id": "Recent Paths", 
-        "description": ""
-    }, 
-    {
-        "text": "Shortcuts", 
-        "id": "Shortcuts", 
-        "description": ""
-    }, 
-    {
-        "text": "Add the current directory to the list of shortcuts", 
-        "id": "Add shortcut tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Edit the list of shortcuts", 
-        "id": "Edit shortcuts tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Threads", 
-        "id": "Threads", 
-        "description": ""
-    }, 
-    {
-        "text": "I/O", 
-        "id": "I/O", 
-        "description": ""
-    }, 
-    {
-        "text": "Thread count", 
-        "id": "Thread count", 
-        "description": ""
-    }, 
-    {
-        "text": "JPEG", 
-        "id": "JPEG", 
-        "description": ""
-    }, 
-    {
-        "text": "Compression quality", 
-        "id": "Compression quality", 
-        "description": ""
-    }, 
-    {
-        "text": "Language", 
-        "id": "Language", 
+        "text": "Palette", 
+        "id": "Palette", 
         "description": ""
     }, 
     {
         "text": "General", 
         "id": "General", 
-        "description": ""
-    }, 
-    {
-        "text": "Current", 
-        "id": "Current", 
-        "description": ""
-    }, 
-    {
-        "text": "min", 
-        "id": "min", 
-        "description": ""
-    }, 
-    {
-        "text": "max", 
-        "id": "max", 
-        "description": ""
-    }, 
-    {
-        "text": "OpenEXR", 
-        "id": "OpenEXR", 
-        "description": ""
-    }, 
-    {
-        "text": "Channel grouping", 
-        "id": "Channel grouping", 
-        "description": ""
-    }, 
-    {
-        "text": "File compression", 
-        "id": "File compression", 
-        "description": ""
-    }, 
-    {
-        "text": "DWA compression level", 
-        "id": "DWA compression level", 
-        "description": ""
-    }, 
-    {
-        "text": "PPM", 
-        "id": "PPM", 
-        "description": ""
-    }, 
-    {
-        "text": "Data type", 
-        "id": "Data type", 
-        "description": ""
-    }, 
-    {
-        "text": "Palette", 
-        "id": "Palette", 
         "description": ""
     }, 
     {
@@ -115,6 +20,16 @@
         "description": ""
     }, 
     {
+        "text": "I/O", 
+        "id": "I/O", 
+        "description": ""
+    }, 
+    {
+        "text": "File compression", 
+        "id": "File compression", 
+        "description": ""
+    }, 
+    {
         "text": "Time", 
         "id": "Time", 
         "description": ""
@@ -122,16 +37,6 @@
     {
         "text": "Units", 
         "id": "Units", 
-        "description": ""
-    }, 
-    {
-        "text": "Tooltips", 
-        "id": "Tooltips", 
-        "description": ""
-    }, 
-    {
-        "text": "Enable tooltips", 
-        "id": "Enable tooltips", 
         "description": ""
     }, 
     {
@@ -217,6 +122,16 @@
     {
         "text": "Color sliders blue tooltip", 
         "id": "Color sliders blue tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "FFmpeg", 
+        "id": "FFmpeg", 
+        "description": ""
+    }, 
+    {
+        "text": "Thread count", 
+        "id": "Thread count", 
         "description": ""
     }, 
     {
@@ -435,21 +350,6 @@
         "description": ""
     }, 
     {
-        "text": "Show the file browser history", 
-        "id": "File browser history tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "FFmpeg", 
-        "id": "FFmpeg", 
-        "description": ""
-    }, 
-    {
-        "text": "Drives", 
-        "id": "Drives", 
-        "description": ""
-    }, 
-    {
         "text": "The file", 
         "id": "The file", 
         "description": ""
@@ -525,6 +425,81 @@
         "description": ""
     }, 
     {
+        "text": "Show the file browser history", 
+        "id": "File browser history tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Shortcuts", 
+        "id": "Shortcuts", 
+        "description": ""
+    }, 
+    {
+        "text": "Add the current directory to the list of shortcuts", 
+        "id": "Add shortcut tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Edit the list of shortcuts", 
+        "id": "Edit shortcuts tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Tooltips", 
+        "id": "Tooltips", 
+        "description": ""
+    }, 
+    {
+        "text": "Enable tooltips", 
+        "id": "Enable tooltips", 
+        "description": ""
+    }, 
+    {
+        "text": "Threads", 
+        "id": "Threads", 
+        "description": ""
+    }, 
+    {
+        "text": "JPEG", 
+        "id": "JPEG", 
+        "description": ""
+    }, 
+    {
+        "text": "Compression quality", 
+        "id": "Compression quality", 
+        "description": ""
+    }, 
+    {
+        "text": "Current", 
+        "id": "Current", 
+        "description": ""
+    }, 
+    {
+        "text": "min", 
+        "id": "min", 
+        "description": ""
+    }, 
+    {
+        "text": "max", 
+        "id": "max", 
+        "description": ""
+    }, 
+    {
+        "text": "OpenEXR", 
+        "id": "OpenEXR", 
+        "description": ""
+    }, 
+    {
+        "text": "Channel grouping", 
+        "id": "Channel grouping", 
+        "description": ""
+    }, 
+    {
+        "text": "DWA compression level", 
+        "id": "DWA compression level", 
+        "description": ""
+    }, 
+    {
         "text": "Text", 
         "id": "Text", 
         "description": ""
@@ -542,6 +517,31 @@
     {
         "text": "File Browser", 
         "id": "File Browser", 
+        "description": ""
+    }, 
+    {
+        "text": "Drives", 
+        "id": "Drives", 
+        "description": ""
+    }, 
+    {
+        "text": "Recent Paths", 
+        "id": "Recent Paths", 
+        "description": ""
+    }, 
+    {
+        "text": "Language", 
+        "id": "Language", 
+        "description": ""
+    }, 
+    {
+        "text": "PPM", 
+        "id": "PPM", 
+        "description": ""
+    }, 
+    {
+        "text": "Data type", 
+        "id": "Data type", 
         "description": ""
     }
 ]
