@@ -79,6 +79,7 @@ namespace djv
         struct MainWindow::Private
         {
             std::vector<std::shared_ptr<Media> > media;
+            
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> mediaActionGroup;
             std::shared_ptr<UI::Menu> mediaMenu;
@@ -91,6 +92,7 @@ namespace djv
             std::shared_ptr<MediaCanvas> mediaCanvas;
             std::shared_ptr<UI::MDI::Canvas> canvas;
             std::shared_ptr<UI::StackLayout> layout;
+            
             std::shared_ptr<ValueObserver<bool> > escapeActionObserver;
             std::shared_ptr<ListObserver<std::shared_ptr<Media> > > mediaObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
