@@ -42,6 +42,7 @@
 #include <djvUI/Menu.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/SettingsSystem.h>
+#include <djvUI/Shortcut.h>
 #include <djvUI/UISystem.h>
 
 #include <djvAV/AVSystem.h>
@@ -81,6 +82,7 @@ namespace djv
             std::shared_ptr<ValueSubject<bool> > maximize;
             std::shared_ptr<ValueSubject<float> > fade;
             bool fadeEnabled = true;
+            Event::PointerInfo pointerInfo;
             std::map<Core::Event::PointerID, glm::vec2> pointerMotion;
             std::shared_ptr<Time::Timer> pointerMotionTimer;
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
@@ -136,10 +138,17 @@ namespace djv
             p.actions["Fit"] = UI::Action::create();
             p.actions["Fit"]->setShortcut(GLFW_KEY_F);
 
+            p.actions["AutoHide"] = UI::Action::create();
+            p.actions["AutoHide"]->setButtonType(UI::ButtonType::Toggle);
+            p.actions["AutoHide"]->setIcon("djvIconVisible");
+            p.actions["AutoHide"]->setCheckedIcon("djvIconHidden");
+            p.actions["AutoHide"]->setShortcut(GLFW_KEY_H, UI::Shortcut::getSystemModifier());
+
             p.menu = UI::Menu::create(context);
             p.menu->addAction(p.actions["FullScreen"]);
             p.menu->addAction(p.actions["Maximize"]);
             p.menu->addAction(p.actions["Fit"]);
+            p.menu->addAction(p.actions["AutoHide"]);
 
             _actionsUpdate();
 
@@ -172,11 +181,29 @@ namespace djv
                 p.actions["Fit"]->observeClicked(),
                 [weak](bool value)
                 {
-                    if (auto system = weak.lock())
+                    if (value)
                     {
-                        if (auto widget = system->_p->activeWidget->get())
+                        if (auto system = weak.lock())
                         {
-                            widget->fitWindow();
+                            if (auto widget = system->_p->activeWidget->get())
+                            {
+                                widget->fitWindow();
+                            }
+                        }
+                    }
+                });
+
+            p.actionObservers["AutoHide"] = ValueObserver<bool>::create(
+                p.actions["AutoHide"]->observeChecked(),
+                [weak, contextWeak](bool value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto uiSettings = settingsSystem->getSettingsT<UISettings>();
+                            uiSettings->setAutoHide(value);
                         }
                     }
                 });
@@ -196,9 +223,10 @@ namespace djv
                 eventSystem->observePointer(),
                 [weak](const Event::PointerInfo & value)
             {
-                if (auto widget = weak.lock())
+                if (auto system = weak.lock())
                 {
-                    widget->_pointerUpdate(value);
+                    system->_p->pointerInfo = value;
+                    system->_pointerUpdate();
                 }
             });
 
@@ -210,13 +238,16 @@ namespace djv
             {
                 if (auto system = weak.lock())
                 {
-                    system->_p->fadeEnabled = value;
                     if (!value)
                     {
-                        system->_p->fadeAnimation->stop();
-                        system->_p->pointerMotionTimer->stop();
                         system->_p->fade->setIfChanged(1.F);
                     }
+                    system->_p->fadeEnabled = value;
+                    system->_p->fadeAnimation->stop();
+                    system->_p->pointerMotion.clear();
+                    system->_p->pointerMotionTimer->stop();
+                    system->_pointerUpdate();
+                    system->_actionsUpdate();
                 }
             });
         }
@@ -384,30 +415,31 @@ namespace djv
             };
         }
 
-        void WindowSystem::_pointerUpdate(const Core::Event::PointerInfo& info)
+        void WindowSystem::_pointerUpdate()
         {
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {
                 bool start = false;
                 auto weak = std::weak_ptr<WindowSystem>(std::dynamic_pointer_cast<WindowSystem>(shared_from_this()));
-                const auto j = p.pointerMotion.find(info.id);
+                const auto j = p.pointerMotion.find(p.pointerInfo.id);
                 if (j != p.pointerMotion.end())
                 {
-                    const float diff = glm::length(info.projectedPos - j->second);
+                    const float diff = glm::length(p.pointerInfo.projectedPos - j->second);
                     auto uiSystem = context->getSystemT<UI::UISystem>();
                     auto style = uiSystem->getStyle();
                     const float h = style->getMetric(UI::MetricsRole::Handle);
                     if (diff > h)
                     {
                         start = true;
-                        p.pointerMotion[info.id] = info.projectedPos;
-                        if (p.fadeEnabled)
+                        p.pointerMotion[p.pointerInfo.id] = p.pointerInfo.projectedPos;
+                        if (auto glfwSystem = context->getSystemT<Desktop::GLFWSystem>())
                         {
-                            if (auto glfwSystem = context->getSystemT<Desktop::GLFWSystem>())
-                            {
-                                glfwSystem->showCursor();
-                            }
+                            glfwSystem->showCursor();
+                        }
+                        const float fade = p.fade->get();
+                        if (fade < 1.F)
+                        {
                             p.fadeAnimation->start(
                                 p.fade->get(),
                                 1.F,
@@ -432,7 +464,7 @@ namespace djv
                 else
                 {
                     start = true;
-                    p.pointerMotion[info.id] = info.projectedPos;
+                    p.pointerMotion[p.pointerInfo.id] = p.pointerInfo.projectedPos;
                 }
                 if (start && p.fadeEnabled)
                 {
@@ -478,6 +510,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.actions["FullScreen"]->setChecked(p.fullScreen->get());
             p.actions["Maximize"]->setChecked(p.maximize->get());
+            p.actions["AutoHide"]->setChecked(p.fadeEnabled);
         }
 
         void WindowSystem::_textUpdate()
@@ -491,6 +524,8 @@ namespace djv
                 p.actions["Maximize"]->setTooltip(_getText(DJV_TEXT("Maximize tooltip")));
                 p.actions["Fit"]->setText(_getText(DJV_TEXT("Fit")));
                 p.actions["Fit"]->setTooltip(_getText(DJV_TEXT("Fit tooltip")));
+                p.actions["AutoHide"]->setText(_getText(DJV_TEXT("Auto-Hide Interface")));
+                p.actions["AutoHide"]->setTooltip(_getText(DJV_TEXT("Auto-hide tooltip")));
 
                 p.menu->setText(_getText(DJV_TEXT("Window")));
             }

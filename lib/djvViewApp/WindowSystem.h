@@ -36,15 +36,6 @@
 
 namespace djv
 {
-    namespace Core
-    {
-        namespace Event
-        {
-            struct PointerInfo;
-    
-        } // namespace Event
-    } // namespace Core
-
     namespace ViewApp
     {
         class MediaCanvas;
@@ -80,7 +71,7 @@ namespace djv
             MenuData getMenu() const override;
 
         protected:
-            void _pointerUpdate(const Core::Event::PointerInfo&);
+            void _pointerUpdate();
             void _actionsUpdate();
 
             void _textUpdate() override;

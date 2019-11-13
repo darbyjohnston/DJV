@@ -88,7 +88,6 @@ namespace djv
             std::shared_ptr<UI::Button::Menu> mediaButton;
             std::shared_ptr<UI::PopupWidget> cachePopupWidget;
             std::shared_ptr<UI::ThermometerWidget> cacheThermometerWidget;
-            std::shared_ptr<UI::ToolButton> autoHideButton;
             std::shared_ptr<UI::ToolButton> settingsButton;
             std::shared_ptr<UI::MenuBar> menuBar;
             std::shared_ptr<MediaCanvas> mediaCanvas;
@@ -105,7 +104,6 @@ namespace djv
             std::shared_ptr<ValueObserver<float> > cachePercentageObserver;
             std::shared_ptr<ValueObserver<bool> > maximizeObserver;
             std::shared_ptr<ValueObserver<float> > fadeObserver;
-            std::shared_ptr<ValueObserver<bool> > autoHideObserver;
         };
         
         void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
@@ -155,10 +153,12 @@ namespace djv
             p.cacheThermometerWidget->setBackgroundRole(UI::ColorRole::None);
 
             auto maximizeButton = UI::ToolButton::create(context);
+            auto autoHideButton = UI::ToolButton::create(context);
             auto windowSystem = context->getSystemT<WindowSystem>();
             if (windowSystem)
             {
                 maximizeButton->addAction(windowSystem->getActions()["Maximize"]);
+                autoHideButton->addAction(windowSystem->getActions()["AutoHide"]);
             }
 
             auto viewFillButton = UI::ToolButton::create(context);
@@ -181,11 +181,6 @@ namespace djv
                 toolButtons[data.sortKey] = button;
             }
 
-            p.autoHideButton = UI::ToolButton::create(context);
-            p.autoHideButton->setButtonType(UI::ButtonType::Toggle);
-            p.autoHideButton->setCheckedIcon("djvIconHidden");
-            p.autoHideButton->setIcon("djvIconVisible");
-
             p.settingsButton = UI::ToolButton::create(context);
             auto toolSystem = context->getSystemT<ToolSystem>();
             if (toolSystem)
@@ -207,6 +202,7 @@ namespace djv
             p.menuBar->addChild(p.cacheThermometerWidget);
             p.menuBar->addSeparator(UI::Side::Right);
             p.menuBar->addChild(maximizeButton);
+            p.menuBar->addChild(autoHideButton);
             p.menuBar->addSeparator(UI::Side::Right);
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
@@ -222,8 +218,6 @@ namespace djv
                 hLayout->addChild(i.second);
             }
             p.menuBar->addChild(hLayout);
-            p.menuBar->addSeparator(UI::Side::Right);
-            p.menuBar->addChild(p.autoHideButton);
             p.menuBar->addSeparator(UI::Side::Right);
             p.menuBar->addChild(p.settingsButton);
 
@@ -310,17 +304,6 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->mediaButton->setOpen(false);
-                    }
-                });
-
-            p.autoHideButton->setCheckedCallback(
-                [weak, contextWeak](bool value)
-                {
-                    if (auto context = contextWeak.lock())
-                    {
-                        auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                        auto uiSettings = settingsSystem->getSettingsT<UISettings>();
-                        uiSettings->setAutoHide(value);
                     }
                 });
 
@@ -420,18 +403,6 @@ namespace djv
                     }
                 });
             }
-
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
-            auto uiSettings = settingsSystem->getSettingsT<UISettings>();
-            p.autoHideObserver = ValueObserver<bool>::create(
-                uiSettings->observeAutoHide(),
-                [weak](bool value)
-                {
-                    if (auto widget = weak.lock())
-                    {
-                        widget->_p->autoHideButton->setChecked(value);
-                    }
-                });
         }
 
         MainWindow::MainWindow() :
@@ -490,7 +461,6 @@ namespace djv
             p.mediaButton->setTooltip(_getText(DJV_TEXT("Media popup tooltip")));
             p.cachePopupWidget->setTooltip(_getText(DJV_TEXT("Memory cache tooltip")));
             p.cacheThermometerWidget->setTooltip(_getText(DJV_TEXT("Memory cache thermometer tooltip")));
-            p.autoHideButton->setTooltip(_getText(DJV_TEXT("Auto-hide tooltip")));
 #ifdef DJV_DEMO
             p.titleLabel->setText(_getText(DJV_TEXT("DJV 2.0.4")));
             p.titleLabel2->setText(_getText(DJV_TEXT("http://djv.sourceforge.net/")));
