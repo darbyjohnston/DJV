@@ -736,7 +736,7 @@ namespace djv
 
                     auto weak = std::weak_ptr<Media>(std::dynamic_pointer_cast<Media>(shared_from_this()));
                     p.cacheTimer->start(
-                        Time::getMilliseconds(Time::TimerValue::Medium),
+                        Time::getMilliseconds(Time::TimerValue::Fast),
                         [weak](float)
                         {
                             if (auto media = weak.lock())
