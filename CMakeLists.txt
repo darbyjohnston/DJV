@@ -108,6 +108,12 @@ include_directories(${INCLUDE_DIRS})
 #add_definitions(-DDJV_OPENGL_PBO)
 add_definitions(-DDJV_ASSERT)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+if(DJV_DEMO)
+    add_definitions(-DDJV_DEMO)
+endif()
+if(DJV_DEMO_THREADS)
+    add_definitions(-DDJV_DEMO_THREADS)
+endif()
 
 # Test settings.
 if(UNIX)
