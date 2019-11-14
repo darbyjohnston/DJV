@@ -93,7 +93,6 @@ namespace djv
             std::shared_ptr<UI::MDI::Canvas> canvas;
 #ifdef DJV_DEMO
             std::shared_ptr<UI::Label> titleLabel;
-            std::shared_ptr<UI::Label> titleLabel2;
 #endif // DJV_DEMO
             std::shared_ptr<UI::StackLayout> layout;
             
@@ -232,11 +231,8 @@ namespace djv
 
 #ifdef DJV_DEMO
             p.titleLabel = UI::Label::create(context);
-            p.titleLabel->setFontSizeRole(UI::MetricsRole::Slider);
+            p.titleLabel->setFontSizeRole(UI::MetricsRole::TextColumn);
             p.titleLabel->setTextHAlign(UI::TextHAlign::Left);
-            p.titleLabel2 = UI::Label::create(context);
-            p.titleLabel2->setTextHAlign(UI::TextHAlign::Left);
-            p.titleLabel2->setFontSizeRole(UI::MetricsRole::Swatch);
 #endif // DJV_DEMO
 
             p.layout = UI::StackLayout::create(context);
@@ -255,7 +251,6 @@ namespace djv
             vLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginDialog));
             vLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingLarge));
             vLayout->addChild(p.titleLabel);
-            vLayout->addChild(p.titleLabel2);
             p.layout->addChild(vLayout);
 #endif // DJV_DEMO
             addChild(p.layout);
@@ -462,7 +457,6 @@ namespace djv
             p.cacheThermometerWidget->setTooltip(_getText(DJV_TEXT("Memory cache thermometer tooltip")));
 #ifdef DJV_DEMO
             p.titleLabel->setText(_getText(DJV_TEXT("DJV 2.0.4")));
-            p.titleLabel2->setText(_getText(DJV_TEXT("http://djv.sourceforge.net/")));
 #endif // DJV_DEMO
         }
 
