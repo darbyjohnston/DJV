@@ -217,9 +217,7 @@ namespace djv
             p.maxGBLabel->setText(_getText(DJV_TEXT("GB")));
             p.percentageLabel->setText(_getText(DJV_TEXT("Used")) + ":");
             std::stringstream ss;
-            ss.precision(2);
-            ss << std::fixed << p.percentageUsed;
-            ss << "%";
+            ss << static_cast<int>(p.percentageUsed) << "%";
             p.percentageLabel2->setText(ss.str());
         }
 
