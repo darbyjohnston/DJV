@@ -235,7 +235,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.imageZoom->setIfChanged(std::max(0.F, value)))
             {
-                _resize();
+                _textUpdate();
             }
         }
 
@@ -260,9 +260,13 @@ namespace djv
             DJV_PRIVATE_PTR();
             const bool posChanged = p.imagePos->setIfChanged(pos);
             const bool zoomChanged = p.imageZoom->setIfChanged(std::max(0.F, zoom));
-            if (posChanged || zoomChanged)
+            if (posChanged)
             {
                 _resize();
+            }
+            if (zoomChanged)
+            {
+                _textUpdate();
             }
         }
 
