@@ -40,6 +40,7 @@
 #include <djvUI/ActionGroup.h>
 #include <djvUI/ColorSwatch.h>
 #include <djvUI/EventSystem.h>
+#include <djvUI/FormLayout.h>
 #include <djvUI/IntSlider.h>
 #include <djvUI/Label.h>
 #include <djvUI/Menu.h>
@@ -64,6 +65,8 @@
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/matrix_transform_2d.hpp>
+
+#include <iomanip>
 
 using namespace djv::Core;
 
@@ -94,6 +97,7 @@ namespace djv
             float imageZoom = 1.F;
             ImageRotate imageRotate = ImageRotate::First;
             UI::ImageAspectRatio imageAspectRatio = UI::ImageAspectRatio::First;
+            glm::vec2 pixelPos = glm::vec2(0.F, 0.F);
             AV::OCIO::Config ocioConfig;
             std::string outputColorSpace;
             std::shared_ptr<MediaWidget> activeWidget;
@@ -101,11 +105,13 @@ namespace djv
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ColorSwatch> colorSwatch;
             std::shared_ptr<UI::Label> colorLabel;
-            std::shared_ptr<UI::ToolButton> copyButton;
+            std::shared_ptr<UI::Label> pixelLabel;
             std::shared_ptr<UI::IntSlider> sampleSizeSlider;
             std::shared_ptr<UI::ColorTypeWidget> typeWidget;
+            std::shared_ptr<UI::ToolButton> copyButton;
             std::shared_ptr<UI::Menu> menu;
             std::shared_ptr<UI::PopupMenu> popupMenu;
+            std::shared_ptr<UI::FormLayout> formLayout;
             std::shared_ptr<UI::VerticalLayout> layout;
 
             std::shared_ptr<AV::OpenGL::OffscreenBuffer> offscreenBuffer;
@@ -123,6 +129,8 @@ namespace djv
             std::shared_ptr<ValueObserver<UI::ImageAspectRatio> > imageAspectRatioObserver;
             std::shared_ptr<ValueObserver<AV::OCIO::Config> > ocioConfigObserver;
             std::shared_ptr<ValueObserver<PointerData> > dragObserver;
+
+            glm::mat3x3 getXForm() const;
         };
 
         void ColorPickerWidget::_init(const std::shared_ptr<Core::Context>& context)
@@ -142,15 +150,18 @@ namespace djv
             p.colorLabel = UI::Label::create(context);
             p.colorLabel->setFont(AV::Font::familyMono);
             p.colorLabel->setHAlign(UI::HAlign::Left);
-            p.colorLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
 
-            p.copyButton = UI::ToolButton::create(context);
-            p.copyButton->setIcon("djvIconShare");
+            p.pixelLabel = UI::Label::create(context);
+            p.pixelLabel->setFont(AV::Font::familyMono);
+            p.pixelLabel->setHAlign(UI::HAlign::Left);
 
             p.sampleSizeSlider = UI::IntSlider::create(context);
             p.sampleSizeSlider->setRange(IntRange(1, sampleSizeMax));
 
             p.typeWidget = UI::ColorTypeWidget::create(context);
+
+            p.copyButton = UI::ToolButton::create(context);
+            p.copyButton->setIcon("djvIconShare");
 
             p.menu = UI::Menu::create(context);
             p.menu->setIcon("djvIconSettings");
@@ -164,16 +175,17 @@ namespace djv
             p.layout->setShadowOverlay({ UI::Side::Top });
             p.layout->addChild(p.colorSwatch);
             p.layout->setStretch(p.colorSwatch, UI::RowStretch::Expand);
+            p.formLayout = UI::FormLayout::create(context);
+            p.formLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+            p.formLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+            p.formLayout->addChild(p.colorLabel);
+            p.formLayout->addChild(p.pixelLabel);
+            p.layout->addChild(p.formLayout);
+            p.layout->addChild(p.sampleSizeSlider);
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
-            hLayout->addChild(p.colorLabel);
-            hLayout->setStretch(p.colorLabel, UI::RowStretch::Expand);
-            hLayout->addChild(p.copyButton);
-            p.layout->addChild(hLayout);
-            p.layout->addChild(p.sampleSizeSlider);
-            hLayout = UI::HorizontalLayout::create(context);
-            hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
             hLayout->addChild(p.typeWidget);
+            hLayout->addChild(p.copyButton);
             hLayout->addExpander();
             hLayout->addChild(p.popupMenu);
             p.layout->addChild(hLayout);
@@ -198,7 +210,11 @@ namespace djv
                     {
                         if (auto eventSystem = widget->_getEventSystem().lock())
                         {
-                            eventSystem->setClipboard(AV::Image::Color::getLabel(widget->_p->color));
+                            std::stringstream ss;
+                            ss << AV::Image::Color::getLabel(widget->_p->color) << ", ";
+                            ss << floorf(widget->_p->pixelPos.x) << " ";
+                            ss << floorf(widget->_p->pixelPos.y);
+                            eventSystem->setClipboard(ss.str());
                         }
                     }
                 });
@@ -459,17 +475,25 @@ namespace djv
             p.sampleSizeSlider->setTooltip(_getText(DJV_TEXT("Color picker sample size tooltip")));
 
             p.copyButton->setTooltip(_getText(DJV_TEXT("Color picker copy tooltip")));
+            
+            p.formLayout->setText(p.colorLabel, _getText(DJV_TEXT("Color")) + ":");
+            p.formLayout->setText(p.pixelLabel, _getText(DJV_TEXT("Pixel")) + ":");
         }
-
+        
         void ColorPickerWidget::_sampleUpdate()
         {
             DJV_PRIVATE_PTR();
+            glm::vec3 pixelPos(0.F, 0.F, 1.F);
             if (p.image && p.image->isValid())
             {
                 try
                 {
+                    const glm::mat3x3 m = p.getXForm();
+                    const glm::mat3x3 pixelPosM = glm::translate(m, glm::vec2(-.5F, -.5F));
+                    pixelPos = glm::inverse(pixelPosM) * pixelPos;
+
                     const AV::Image::Type type = p.typeLock != AV::Image::Type::None ? p.typeLock : p.image->getType();
-                    const size_t sampleSize = std::max(static_cast<size_t>(ceilf(p.sampleSize * p.imageZoom)), bufferSizeMin);
+                    const size_t sampleSize = std::max(static_cast<size_t>(p.sampleSize), bufferSizeMin);
                     const AV::Image::Info info(sampleSize, sampleSize, type);
                     if (p.offscreenBuffer)
                     {
@@ -485,14 +509,9 @@ namespace djv
                     p.offscreenBuffer->bind();
                     const auto& render = _getRender();
                     render->beginFrame(info.size);
+                    render->setFillColor(AV::Image::Color(0.F, 0.F, 0.F));
+                    render->drawRect(BBox2f(0.F, 0.F, sampleSize, sampleSize));
                     render->setFillColor(AV::Image::Color(1.F, 1.F, 1.F));
-                    glm::mat3x3 m(1.F);
-                    m = glm::translate(m, glm::vec2(p.sampleSize * p.imageZoom / 2.F, p.sampleSize * p.imageZoom / 2.F) - p.pickerPos);
-                    m = glm::translate(m, p.imagePos);
-                    m = glm::rotate(m, Math::deg2rad(getImageRotate(p.imageRotate)));
-                    m = glm::scale(m, glm::vec2(
-                        p.imageZoom * UI::getPixelAspectRatio(p.imageAspectRatio, p.image->getInfo().pixelAspectRatio),
-                        p.imageZoom * UI::getAspectRatioScale(p.imageAspectRatio, p.image->getAspectRatio())));
                     render->pushTransform(m);
                     AV::Render::ImageOptions options(p.imageOptions);
                     auto i = p.ocioConfig.fileColorSpaces.find(p.image->getPluginName());
@@ -513,10 +532,7 @@ namespace djv
                     render->drawImage(p.image, glm::vec2(0.F, 0.F), options);
                     render->popTransform();
                     render->endFrame();
-                    auto data = AV::Image::Data::create(AV::Image::Info(
-                        ceilf(p.sampleSize * p.imageZoom),
-                        ceilf(p.sampleSize * p.imageZoom),
-                        type));
+                    auto data = AV::Image::Data::create(AV::Image::Info(p.sampleSize, p.sampleSize, type));
                     glBindFramebuffer(GL_FRAMEBUFFER, 0);
                     glBindFramebuffer(GL_READ_FRAMEBUFFER, p.offscreenBuffer->getID());
                     glClampColor(GL_CLAMP_READ_COLOR, GL_FALSE);
@@ -542,6 +558,8 @@ namespace djv
             {
                 p.offscreenBuffer.reset();
             }
+            p.pixelPos.x = pixelPos.x;
+            p.pixelPos.y = pixelPos.y;
         }
 
         void ColorPickerWidget::_widgetUpdate()
@@ -555,9 +573,31 @@ namespace djv
             p.actions["Lock"]->setChecked(lock);
 
             p.colorSwatch->setColor(p.color);
-            p.colorLabel->setText(AV::Image::Color::getLabel(p.color));
+            p.colorLabel->setText(AV::Image::Color::getLabel(p.color, 2, false));
+            p.colorLabel->setTooltip(_getText(DJV_TEXT("Color label tooltip")));
+            {
+                std::stringstream ss;
+                ss << floorf(p.pixelPos.x) << " " << floorf(p.pixelPos.y);
+                p.pixelLabel->setText(ss.str());
+            }
+            p.pixelLabel->setTooltip(_getText(DJV_TEXT("Pixel label tooltip")));
             p.sampleSizeSlider->setValue(p.sampleSize);
+        }
+
+        glm::mat3x3 ColorPickerWidget::Private::getXForm() const
+        {
+            glm::mat3x3 m(1.F);
+            m = glm::translate(m, -(pickerPos / imageZoom));
+            const float z = sampleSize / 2.F;
+            m = glm::translate(m, glm::vec2(z, z));
+            m = glm::translate(m, imagePos / imageZoom);
+            m = glm::rotate(m, Math::deg2rad(getImageRotate(imageRotate)));
+            m = glm::scale(m, glm::vec2(
+                UI::getPixelAspectRatio(imageAspectRatio, image->getInfo().pixelAspectRatio),
+                UI::getAspectRatioScale(imageAspectRatio, image->getAspectRatio())));
+            return m;
         }
 
     } // namespace ViewApp
 } // namespace djv
+
