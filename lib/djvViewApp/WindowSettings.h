@@ -65,6 +65,9 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<bool> > observeMaximize() const;
             void setMaximize(bool);
 
+            std::shared_ptr<Core::IValueSubject<bool> > observeAutoHide() const;
+            void setAutoHide(bool);
+            
             std::shared_ptr<Core::IValueSubject<std::string> > observeBackgroundImage() const;
             std::shared_ptr<Core::IValueSubject<bool> > observeBackgroundImageScale() const;
             std::shared_ptr<Core::IValueSubject<bool> > observeBackgroundImageColorize() const;

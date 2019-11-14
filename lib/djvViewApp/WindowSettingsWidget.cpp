@@ -57,6 +57,88 @@ namespace djv
 {
     namespace ViewApp
     {
+        struct AutoHideSettingsWidget::Private
+        {
+            std::shared_ptr<UI::CheckBox> autoHideCheckBox;
+            std::shared_ptr<UI::VerticalLayout> layout;
+            std::shared_ptr<ValueObserver<bool> > autoHideObserver;
+        };
+
+        void AutoHideSettingsWidget::_init(const std::shared_ptr<Context>& context)
+        {
+            ISettingsWidget::_init(context);
+
+            DJV_PRIVATE_PTR();
+            setClassName("djv::ViewApp::AutoHideSettingsWidget");
+
+            p.autoHideCheckBox = UI::CheckBox::create(context);
+
+            p.layout = UI::VerticalLayout::create(context);
+            p.layout->addChild(p.autoHideCheckBox);
+            addChild(p.layout);
+
+            auto weak = std::weak_ptr<AutoHideSettingsWidget>(std::dynamic_pointer_cast<AutoHideSettingsWidget>(shared_from_this()));
+            auto contextWeak = std::weak_ptr<Context>(context);
+            p.autoHideCheckBox->setCheckedCallback(
+                [weak, contextWeak](bool value)
+                {
+                    if (auto context = contextWeak.lock())
+                    {
+                        if (auto widget = weak.lock())
+                        {
+                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+                            auto windowSettings = settingsSystem->getSettingsT<WindowSettings>();
+                            windowSettings->setAutoHide(value);
+                        }
+                    }
+                });
+
+            auto settingsSystem = context->getSystemT<UI::Settings::System>();
+            auto windowSettings = settingsSystem->getSettingsT<WindowSettings>();
+            p.autoHideObserver = ValueObserver<bool>::create(
+                windowSettings->observeAutoHide(),
+                [weak](bool value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    widget->_p->autoHideCheckBox->setChecked(value);
+                }
+            });
+        }
+
+        AutoHideSettingsWidget::AutoHideSettingsWidget() :
+            _p(new Private)
+        {}
+
+        std::shared_ptr<AutoHideSettingsWidget> AutoHideSettingsWidget::create(const std::shared_ptr<Context>& context)
+        {
+            auto out = std::shared_ptr<AutoHideSettingsWidget>(new AutoHideSettingsWidget);
+            out->_init(context);
+            return out;
+        }
+
+        std::string AutoHideSettingsWidget::getSettingsName() const
+        {
+            return DJV_TEXT("Auto-Hide");
+        }
+
+        std::string AutoHideSettingsWidget::getSettingsGroup() const
+        {
+            return DJV_TEXT("Window");
+        }
+
+        std::string AutoHideSettingsWidget::getSettingsSortKey() const
+        {
+            return "B";
+        }
+
+        void AutoHideSettingsWidget::_initEvent(Event::Init& event)
+        {
+            ISettingsWidget::_initEvent(event);
+            DJV_PRIVATE_PTR();
+            p.autoHideCheckBox->setText(_getText(DJV_TEXT("Automatically hide the user interface")));
+        }
+        
         struct FullscreenMonitorSettingsWidget::Private
         {
             std::vector<std::string> monitorNames;

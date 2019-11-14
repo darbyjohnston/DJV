@@ -42,7 +42,6 @@
 #include <djvViewApp/SettingsDialog.h>
 #include <djvViewApp/SettingsSystem.h>
 #include <djvViewApp/ToolSystem.h>
-#include <djvViewApp/UISettings.h>
 #include <djvViewApp/ViewSystem.h>
 #include <djvViewApp/WindowSystem.h>
 

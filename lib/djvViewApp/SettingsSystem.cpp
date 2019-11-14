@@ -33,7 +33,6 @@
 #include <djvViewApp/NUXSettingsWidget.h>
 #include <djvViewApp/PlaybackSettingsWidget.h>
 #include <djvViewApp/SettingsDialog.h>
-#include <djvViewApp/UISettingsWidget.h>
 #include <djvViewApp/WindowSettingsWidget.h>
 
 #include <djvUIComponents/IOSettingsWidget.h>
@@ -166,13 +165,13 @@ namespace djv
                     UI::TIFFSettingsWidget::create(context),
 #endif
 
+                    AutoHideSettingsWidget::create(context),
                     FullscreenMonitorSettingsWidget::create(context),
                     BackgroundImageSettingsWidget::create(context),
                     NUXSettingsWidget::create(context),
                     PlaybackSettingsWidget::create(context),
                     SequenceSettingsWidget::create(context),
                     TimelineSettingsWidget::create(context),
-                    UISettingsWidget::create(context)
                 };
             }
             return out;

@@ -31,7 +31,6 @@
 
 #include <djvViewApp/MediaCanvas.h>
 #include <djvViewApp/MediaWidget.h>
-#include <djvViewApp/UISettings.h>
 #include <djvViewApp/WindowSettings.h>
 
 #include <djvDesktopApp/Application.h>
@@ -75,13 +74,14 @@ namespace djv
         struct WindowSystem::Private
         {
             std::shared_ptr<AV::GLFW::System> glfwSystem;
+            
             std::shared_ptr<WindowSettings> settings;
             std::weak_ptr<MediaCanvas> canvas;
             std::shared_ptr<ValueSubject<std::shared_ptr<MediaWidget> > > activeWidget;
             std::shared_ptr<ValueSubject<bool> > fullScreen;
             std::shared_ptr<ValueSubject<bool> > maximize;
             std::shared_ptr<ValueSubject<float> > fade;
-            bool fadeEnabled = true;
+            bool fadeEnabled = false;
             Event::PointerInfo pointerInfo;
             std::map<Core::Event::PointerID, glm::vec2> pointerMotion;
             std::shared_ptr<Time::Timer> pointerMotionTimer;
@@ -90,6 +90,7 @@ namespace djv
             glm::ivec2 monitorSize = glm::ivec2(0, 0);
             int monitorRefresh = 0;
             BBox2i windowGeom = BBox2i(0, 0, 0, 0);
+            
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<bool> > maximizeObserver;
             std::shared_ptr<ValueObserver<Event::PointerInfo> > pointerObserver;
@@ -193,6 +194,25 @@ namespace djv
                     }
                 });
 
+            p.fadeObserver = ValueObserver<bool>::create(
+                p.settings->observeAutoHide(),
+                [weak](bool value)
+            {
+                if (auto system = weak.lock())
+                {
+                    if (!value)
+                    {
+                        system->_p->fade->setIfChanged(1.F);
+                    }
+                    system->_p->fadeEnabled = value;
+                    system->_p->fadeAnimation->stop();
+                    system->_p->pointerMotion.clear();
+                    system->_p->pointerMotionTimer->stop();
+                    system->_pointerUpdate();
+                    system->_actionsUpdate();
+                }
+            });
+
             p.actionObservers["AutoHide"] = ValueObserver<bool>::create(
                 p.actions["AutoHide"]->observeChecked(),
                 [weak, contextWeak](bool value)
@@ -201,9 +221,7 @@ namespace djv
                     {
                         if (auto system = weak.lock())
                         {
-                            auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                            auto uiSettings = settingsSystem->getSettingsT<UISettings>();
-                            uiSettings->setAutoHide(value);
+                            system->_p->settings->setAutoHide(value);
                         }
                     }
                 });
@@ -227,27 +245,6 @@ namespace djv
                 {
                     system->_p->pointerInfo = value;
                     system->_pointerUpdate();
-                }
-            });
-
-            auto settingsSystem = context->getSystemT<UI::Settings::System>();
-            auto uiSettings = settingsSystem->getSettingsT<UISettings>();
-            p.fadeObserver = ValueObserver<bool>::create(
-                uiSettings->observeAutoHide(),
-                [weak](bool value)
-            {
-                if (auto system = weak.lock())
-                {
-                    if (!value)
-                    {
-                        system->_p->fade->setIfChanged(1.F);
-                    }
-                    system->_p->fadeEnabled = value;
-                    system->_p->fadeAnimation->stop();
-                    system->_p->pointerMotion.clear();
-                    system->_p->pointerMotionTimer->stop();
-                    system->_pointerUpdate();
-                    system->_actionsUpdate();
                 }
             });
         }

@@ -49,6 +49,7 @@ namespace djv
             glm::ivec2 windowSize = glm::ivec2(1280, 720);
             std::shared_ptr<ValueSubject<int> > fullscreenMonitor;
             std::shared_ptr<ValueSubject<bool> > maximize;
+            std::shared_ptr<ValueSubject<bool> > autoHide;
             std::shared_ptr<ValueSubject<std::string> > backgroundImage;
             std::shared_ptr<ValueSubject<bool> > backgroundImageScale;
             std::shared_ptr<ValueSubject<bool> > backgroundImageColorize;
@@ -61,6 +62,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.fullscreenMonitor = ValueSubject<int>::create(0);
             p.maximize = ValueSubject<bool>::create(true);
+            p.autoHide = ValueSubject<bool>::create(true);
             auto resourceSystem = context->getSystemT<Core::ResourceSystem>();
             const auto& iconsPath = resourceSystem->getPath(FileSystem::ResourcePath::Icons);
             p.backgroundImage = ValueSubject<std::string>::create(std::string(
@@ -114,6 +116,16 @@ namespace djv
             _p->maximize->setIfChanged(value);
         }
 
+        std::shared_ptr<IValueSubject<bool> > WindowSettings::observeAutoHide() const
+        {
+            return _p->autoHide;
+        }
+
+        void WindowSettings::setAutoHide(bool value)
+        {
+            _p->autoHide->setIfChanged(value);
+        }
+
         std::shared_ptr<IValueSubject<std::string> > WindowSettings::observeBackgroundImage() const
         {
             return _p->backgroundImage;
@@ -153,6 +165,7 @@ namespace djv
                 UI::Settings::read("WindowSize", object, p.windowSize);
                 UI::Settings::read("FullscreenMonitor", object, p.fullscreenMonitor);
                 UI::Settings::read("Maximize", object, p.maximize);
+                UI::Settings::read("AutoHide", object, p.autoHide);
                 UI::Settings::read("BackgroundImage", object, p.backgroundImage);
                 UI::Settings::read("BackgroundImageScale", object, p.backgroundImageScale);
                 UI::Settings::read("BackgroundImageColorize", object, p.backgroundImageColorize);
@@ -167,6 +180,7 @@ namespace djv
             UI::Settings::write("WindowSize", p.windowSize, object);
             UI::Settings::write("FullscreenMonitor", p.fullscreenMonitor->get(), object);
             UI::Settings::write("Maximize", p.maximize->get(), object);
+            UI::Settings::write("AutoHide", p.autoHide->get(), object);
             UI::Settings::write("BackgroundImage", p.backgroundImage->get(), object);
             UI::Settings::write("BackgroundImageScale", p.backgroundImageScale->get(), object);
             UI::Settings::write("BackgroundImageColorize", p.backgroundImageColorize->get(), object);

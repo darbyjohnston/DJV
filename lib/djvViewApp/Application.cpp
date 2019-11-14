@@ -43,7 +43,6 @@
 #include <djvViewApp/PlaybackSystem.h>
 #include <djvViewApp/SettingsSystem.h>
 #include <djvViewApp/ToolSystem.h>
-#include <djvViewApp/UISettings.h>
 #include <djvViewApp/ViewSystem.h>
 #include <djvViewApp/WindowSystem.h>
 
@@ -99,7 +98,6 @@ namespace djv
 
             // Create the systems.
             UI::UIComponentsSystem::create(shared_from_this());
-            UISettings::create(shared_from_this());
             auto fileSystem = FileSystem::create(shared_from_this());
             p.systems.push_back(fileSystem);
             auto windowSystem = WindowSystem::create(shared_from_this());

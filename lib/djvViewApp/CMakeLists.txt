@@ -52,8 +52,6 @@ set(header
     TimelineSlider.h
     ToolSettings.h
     ToolSystem.h
-	UISettings.h
-	UISettingsWidget.h
     ViewApp.h
     ViewControlsWidget.h
 	ViewSettings.h
@@ -115,8 +113,6 @@ set(source
     TimelineSlider.cpp
     ToolSettings.cpp
     ToolSystem.cpp
-	UISettings.cpp
-	UISettingsWidget.cpp
     ViewControlsWidget.cpp
 	ViewSettings.cpp
     ViewSystem.cpp
