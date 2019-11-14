@@ -118,7 +118,7 @@ namespace djv
             p.viewPosResetButton->setIcon("djvIconCloseSmall");
             p.viewZoomEdit = UI::FloatEdit::create(context);
             auto model = FloatValueModel::create();
-            model->setRange(FloatRange(.1F, 100.F));
+            model->setRange(FloatRange(.1F, 1000.F));
             model->setSmallIncrement(.1F);
             model->setLargeIncrement(1.F);
             p.viewZoomEdit->setModel(model);
