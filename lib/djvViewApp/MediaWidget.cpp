@@ -449,13 +449,13 @@ namespace djv
                     }
                 });
             p.pointerWidget->setScrollCallback(
-                [weak](const glm::vec2& data)
+                [weak](const glm::vec2& value)
                 {
                     if (auto widget = weak.lock())
                     {
                         widget->moveToFront();
                         const BBox2f& g = widget->_p->imageView->getGeometry();
-                        widget->_p->scroll->setAlways(data);
+                        widget->_p->scroll->setAlways(value);
                     }
                 });
 

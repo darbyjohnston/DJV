@@ -505,7 +505,7 @@ namespace djv
                                     {
                                         if (auto system = weak.lock())
                                         {
-                                            if (value.x != 0.F && value.y != 0.F)
+                                            if (value.x != 0.F || value.y != 0.F)
                                             {
                                                 system->_p->settings->setLock(ImageViewLock::None);
                                                 auto imageView = system->_p->activeWidget->getImageView();
