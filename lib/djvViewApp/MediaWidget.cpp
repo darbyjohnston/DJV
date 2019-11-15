@@ -335,10 +335,8 @@ namespace djv
 
             p.ioThreadsLabel = UI::Label::create(context);
             p.ioThreadsLabel->setFontSizeRole(UI::MetricsRole::Swatch);
-            p.ioThreadsLabel->setTextHAlign(UI::TextHAlign::Left);
 
             p.cachePercentageLabel = UI::Label::create(context);
-            p.cachePercentageLabel->setTextHAlign(UI::TextHAlign::Right);
             p.cachePercentageLabel->setFont(AV::Font::familyMono);
             p.cachePercentageLabel->setFontSizeRole(UI::MetricsRole::Slider);
 #endif // DJV_DEMO_THREADS
