@@ -77,7 +77,6 @@ p
 
 p.indexHeader
 {
-    #text-align: center;
     margin: 0 0 2em 0;
     font-size: 1.5em;
 	color: rgb(240, 240, 240);
@@ -90,9 +89,15 @@ p.header
 	color: rgb(240, 240, 240);
 }
 
+p.subHeader
+{
+    margin: 2em 0 1em 0;
+    font-size: 1.2em;
+	color: rgb(240, 240, 240);
+}
+
 p.indexText
 {
-    #text-align: center;
     font-size: 1em;
 	color: rgb(190, 190, 190);
 }

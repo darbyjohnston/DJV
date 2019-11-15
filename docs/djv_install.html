@@ -18,22 +18,32 @@ title: Installation
 
 <div class="block">
 	<p class="header"><a name="Linux">Linux</a></p>
+	<p class="subHeader">RPM</p>
 	<p>Installing a RPM package:</p>
 	<pre>
 sudo rpm -i DJV2-2.0.4-1.x86_64.rpm
 </pre>
-    <p>The default installation directory is "/usr/local/DJV".</p>
+    <p>The default installation directory is "/usr/local/DJV2".</p>
+    <p>Starting the DJV viewer:</p>
+    <pre>
+/usr/local/DJV2/bin/djv.sh
+</pre>
     <p>Uninstalling the RPM package:</p>
 	<pre>
 sudo rpm -e DJV2-2.0.4-1.x86_64
 </pre>
 </div>
 <div class="block">
+	<p class="subHeader">DEB</p>
 	<p>Installing a Debian package:</p>
     <pre>
 sudo dpkg -i DJV2_2.0.4_amd64.deb
 </pre>
-    <p>The default installation directory is "/usr/local/DJV".</p>
+    <p>The default installation directory is "/usr/local/DJV2".</p>
+    <p>Starting the DJV viewer:</p>
+    <pre>
+/usr/local/DJV2/bin/djv.sh
+</pre>
 	<p>Uninstalling the Debian package:</p>
 <pre>
 sudo dpkg --remove DJV2
@@ -44,11 +54,17 @@ sudo dpkg --remove DJV2
 
 <div class="block">
 	<p class="header"><a name="macOS">Apple macOS</a></p>
+	<p>Standard macOS DMG files are provided for installation. To
+	install, double-click the DMG file and drag and drop the
+	application to where you would like it installed.</p>
 </div>
 
 <div class="separator"></div>
 
 <div class="block">
 	<p class="header"><a name="Windows">Microsoft Windows</a></p>
+	<p>Standard Windows MSI files are provided for installation. To
+	install, double-click the MSI file to start the installation
+	process.</p>
 </div>
 
