@@ -99,18 +99,18 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<ImageRotate> > observeImageRotate() const;
             std::shared_ptr<Core::IValueSubject<UI::ImageAspectRatio> > observeImageAspectRatio() const;
             Core::BBox2f getImageBBox() const;
-            void setImagePos(const glm::vec2&);
-            void setImageZoom(float);
-            void setImageZoomFocus(float, const glm::vec2&);
-            void setImageZoomFocus(float);
-            void setImagePosAndZoom(const glm::vec2&, float);
+            void setImagePos(const glm::vec2&, bool animate = false);
+            void setImageZoom(float, bool animate = false);
+            void setImageZoomFocus(float, const glm::vec2&, bool animate = false);
+            void setImageZoomFocus(float, bool animate = false);
+            void setImagePosAndZoom(const glm::vec2&, float, bool animate = false);
             void setImageRotate(ImageRotate);
             void setImageAspectRatio(UI::ImageAspectRatio);
 
-            void imageFill();
+            void imageFill(bool animate = false);
             void setImageFrame(const Core::BBox2f&);
-            void imageFrame();
-            void imageCenter();
+            void imageFrame(bool animate = false);
+            void imageCenter(bool animate = false);
 
             std::shared_ptr<Core::IValueSubject<GridOptions> > observeGridOptions() const;
             void setGridOptions(const GridOptions&);
@@ -131,6 +131,8 @@ namespace djv
             std::vector<glm::vec3> _getImagePoints() const;
             static glm::vec2 _getCenter(const std::vector<glm::vec3>&);
             static Core::BBox2f _getBBox(const std::vector<glm::vec3>&);
+            void _animate(const glm::vec2&, float);
+            void _posAndZoom(const glm::vec2&, float);
             void _drawGrid(float gridSize);
             void _textUpdate();
 
