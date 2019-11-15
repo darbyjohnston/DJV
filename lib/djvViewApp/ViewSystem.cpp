@@ -44,6 +44,7 @@
 #include <djvUI/Style.h>
 #include <djvUI/UISystem.h>
 
+#include <djvCore/Animation.h>
 #include <djvCore/Context.h>
 #include <djvCore/TextSystem.h>
 
@@ -56,6 +57,13 @@ namespace djv
 {
     namespace ViewApp
     {
+        namespace
+        {
+            //! \todo Should this be configurable?
+            const size_t zoomAnimation = 200;
+            
+        } // namespace
+        
         struct ViewSystem::Private
         {
             std::shared_ptr<ViewSettings> settings;
@@ -81,6 +89,8 @@ namespace djv
             std::shared_ptr<ValueObserver<PointerData> > hoverObserver;
             std::shared_ptr<ValueObserver<PointerData> > dragObserver;
             std::shared_ptr<ValueObserver<glm::vec2> > scrollObserver;
+            
+            std::shared_ptr<Animation::Animation> zoomAnimation;
         };
 
         void ViewSystem::_init(const std::shared_ptr<Context>& context)
@@ -552,6 +562,8 @@ namespace djv
                         }
                     }
                 });
+                
+            p.zoomAnimation = Animation::Animation::create(context);
         }
 
         ViewSystem::ViewSystem() :
@@ -718,7 +730,25 @@ namespace djv
             {
                 auto imageView = widget->getImageView();
                 const float zoom = imageView->observeImageZoom()->get();
-                _zoomImage(zoom * value);
+                auto weak = std::weak_ptr<ViewSystem>(std::dynamic_pointer_cast<ViewSystem>(shared_from_this()));
+                p.zoomAnimation->start(
+                    zoom,
+                    zoom * value,
+                    std::chrono::milliseconds(zoomAnimation),
+                    [weak](float value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            system->_zoomImage(value);
+                        }
+                    },
+                    [weak](float value)
+                    {
+                        if (auto system = weak.lock())
+                        {
+                            system->_zoomImage(value);
+                        }
+                    });
             }
         }
 
