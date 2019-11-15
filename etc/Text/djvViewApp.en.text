@@ -110,7 +110,7 @@
         "description": ""
     }, 
     {
-        "text": "Copy the color to the clipboard", 
+        "text": "Copy the values to the clipboard", 
         "id": "Color picker copy tooltip", 
         "description": ""
     }, 
