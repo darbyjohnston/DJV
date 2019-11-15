@@ -31,6 +31,7 @@
 
 #include <djvCore/Core.h>
 
+#include <list>
 #include <set>
 #include <string>
 #include <vector>
@@ -55,6 +56,10 @@ namespace djv
             std::string join(const std::vector<std::string> &);
             std::string join(const std::vector<std::string> &, char delimeter);
             std::string join(const std::vector<std::string> &, const std::string & delimeter);
+
+            std::string joinList(const std::list<std::string> &);
+            std::string joinList(const std::list<std::string> &, char delimeter);
+            std::string joinList(const std::list<std::string> &, const std::string & delimeter);
 
             std::string joinSet(const std::set<std::string> &);
             std::string joinSet(const std::set<std::string> &, char delimeter);

@@ -190,6 +190,52 @@ namespace djv
                 return out;
             }
 
+            inline std::string joinList(const std::list<std::string> & value)
+            {
+                std::string out;
+                for (const auto & s : value)
+                {
+                    out += s;
+                }
+                return out;
+            }
+
+            inline std::string joinList(const std::list<std::string> & value, char delimeter)
+            {
+                std::string out;
+                if (const size_t size = value.size())
+                {
+                    size_t j = 0;
+                    for (auto i = value.begin(); i != value.end(); ++i, ++j)
+                    {
+                        out += *i;
+                        if (j < size - 1)
+                        {
+                            out += delimeter;
+                        }
+                    }
+                }
+                return out;
+            }
+
+            inline std::string joinList(const std::list<std::string> & value, const std::string & delimeter)
+            {
+                std::string out;
+                if (const size_t size = value.size())
+                {
+                    size_t j = 0;
+                    for (auto i = value.begin(); i != value.end(); ++i, ++j)
+                    {
+                        out += *i;
+                        if (j < size - 1)
+                        {
+                            out += delimeter;
+                        }
+                    }
+                }
+                return out;
+            }
+
             inline std::string joinSet(const std::set<std::string> & value)
             {
                 std::string out;

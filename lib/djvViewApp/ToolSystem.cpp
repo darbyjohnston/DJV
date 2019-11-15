@@ -46,6 +46,7 @@
 #include <djvCore/Context.h>
 #include <djvCore/IEventSystem.h>
 #include <djvCore/LogSystem.h>
+#include <djvCore/String.h>
 #include <djvCore/TextSystem.h>
 
 #define GLFW_INCLUDE_NONE
@@ -57,11 +58,18 @@ namespace djv
 {
     namespace ViewApp
     {
+        namespace
+        {
+            //! \todo Should this be configurable?
+            const size_t errorsMax = 100;
+            
+        } // namespace
+        
         struct ToolSystem::Private
         {
             std::shared_ptr<ToolSettings> settings;
             int currentToolSystem = -1;
-            std::string errorsText;
+            std::list<std::string> errorsText;
             bool errorsPopup = false;
             std::map<std::string, bool> debugBellowsState;
             std::vector<std::shared_ptr<IToolSystem> > toolSystems;
@@ -256,16 +264,20 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        std::stringstream ss(system->_p->errorsText);
                         for (const auto& i : value)
                         {
-                            ss << "\n";
+                            std::stringstream ss;
                             ss << system->_getText(DJV_TEXT("Warning")) << ": ";
                             ss << i;
+                            system->_p->errorsText.push_back(ss.str());
+                            while (system->_p->errorsText.size() > errorsMax)
+                            {
+                                system->_p->errorsText.pop_front();
+                            }
                         }
                         if (auto errorsWidget = system->_p->errorsWidget.lock())
                         {
-                            errorsWidget->setText(system->_p->errorsText);
+                            errorsWidget->setText(system->_getErrorsString());
                         }
                         if (system->_p->errorsPopup)
                         {
@@ -280,17 +292,20 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        std::stringstream ss;
                         for (const auto& i : value)
                         {
+                            std::stringstream ss;
                             ss << system->_getText(DJV_TEXT("ERROR")) << ": ";
                             ss << i;
-                            ss << "\n";
+                            system->_p->errorsText.push_back(ss.str());
+                            while (system->_p->errorsText.size() > errorsMax)
+                            {
+                                system->_p->errorsText.pop_front();
+                            }
                         }
-                        system->_p->errorsText.append(ss.str());
                         if (auto errorsWidget = system->_p->errorsWidget.lock())
                         {
-                            errorsWidget->setText(system->_p->errorsText);
+                            errorsWidget->setText(system->_getErrorsString());
                         }
                         if (system->_p->errorsPopup)
                         {
@@ -393,6 +408,11 @@ namespace djv
             }
         }
 
+        std::string ToolSystem::_getErrorsString() const
+        {
+            return String::joinList(_p->errorsText, '\n');
+        }
+
         void ToolSystem::_errorsPopup()
         {
             DJV_PRIVATE_PTR();
@@ -402,7 +422,6 @@ namespace djv
                 if (!p.errorsWidget.lock())
                 {
                     auto widget = ErrorsWidget::create(context);
-                    widget->setText(p.errorsText);
                     widget->setPopup(p.errorsPopup);
                     auto weak = std::weak_ptr<ToolSystem>(std::dynamic_pointer_cast<ToolSystem>(shared_from_this()));
                     widget->setPopupCallback(
@@ -421,7 +440,7 @@ namespace djv
                                 if (auto system = weak.lock())
                                 {
                                     auto eventSystem = context->getSystemT<Event::IEventSystem>();
-                                    eventSystem->setClipboard(system->_p->errorsText.c_str());
+                                    eventSystem->setClipboard(system->_getErrorsString().c_str());
                                 }
                             }
                         });
