@@ -279,7 +279,7 @@ namespace djv
                         {
                             errorsWidget->setText(system->_getErrorsString());
                         }
-                        if (system->_p->errorsPopup)
+                        if (system->_p->errorsPopup && value.size())
                         {
                             system->_errorsPopup();
                         }
@@ -307,7 +307,7 @@ namespace djv
                         {
                             errorsWidget->setText(system->_getErrorsString());
                         }
-                        if (system->_p->errorsPopup)
+                        if (system->_p->errorsPopup && value.size())
                         {
                             system->_errorsPopup();
                         }
