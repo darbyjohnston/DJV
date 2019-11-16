@@ -17,6 +17,13 @@ div.logo
     box-shadow: 0em .4em .2em .2em rgba(0, 0, 0, 0.2);
 }
 
+div.follow
+{
+    padding: .5em 4em .5em 4em;
+	background-color: rgb(60, 60, 60);
+    box-shadow: 0em .4em .2em .2em rgba(0, 0, 0, 0.2);
+}
+
 div.nav
 {
     padding: .1em 4em .1em 4em;
