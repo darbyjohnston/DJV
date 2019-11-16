@@ -279,7 +279,7 @@ namespace djv
                         {
                             errorsWidget->setText(system->_getErrorsString());
                         }
-                        if (system->_p->errorsPopup && value.size())
+                        if (system->_p->errorsPopup)
                         {
                             system->_errorsPopup();
                         }
@@ -307,7 +307,7 @@ namespace djv
                         {
                             errorsWidget->setText(system->_getErrorsString());
                         }
-                        if (system->_p->errorsPopup && value.size())
+                        if (system->_p->errorsPopup)
                         {
                             system->_errorsPopup();
                         }
@@ -423,6 +423,7 @@ namespace djv
                 {
                     auto widget = ErrorsWidget::create(context);
                     widget->setPopup(p.errorsPopup);
+                    widget->setText(_getErrorsString());
                     auto weak = std::weak_ptr<ToolSystem>(std::dynamic_pointer_cast<ToolSystem>(shared_from_this()));
                     widget->setPopupCallback(
                         [weak](bool value)
