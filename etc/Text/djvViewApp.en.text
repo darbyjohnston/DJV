@@ -80,6 +80,26 @@
         "description": ""
     }, 
     {
+        "text": "Show the opened files", 
+        "id": "Media popup tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Show the memory cache settings", 
+        "id": "Memory cache tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Memory cache usage", 
+        "id": "Memory cache thermometer tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "DJV 2.0.4", 
+        "id": "DJV 2.0.4", 
+        "description": ""
+    }, 
+    {
         "text": "The file", 
         "id": "The file", 
         "description": ""
@@ -90,33 +110,8 @@
         "description": ""
     }, 
     {
-        "text": "Color Picker", 
-        "id": "Color Picker", 
-        "description": ""
-    }, 
-    {
-        "text": "Lock color type", 
-        "id": "Lock color type", 
-        "description": ""
-    }, 
-    {
-        "text": "Don't change the color type to match the image", 
-        "id": "Color picker lock color type tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Set the color picker sample size", 
-        "id": "Color picker sample size tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Copy the values to the clipboard", 
-        "id": "Color picker copy tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot sample color", 
-        "id": "Cannot sample color", 
+        "text": "Cannot parse the value.", 
+        "id": "Cannot parse the value.", 
         "description": ""
     }, 
     {
@@ -290,6 +285,181 @@
         "description": ""
     }, 
     {
+        "text": "Errors", 
+        "id": "Errors", 
+        "description": ""
+    }, 
+    {
+        "text": "Popup", 
+        "id": "Popup", 
+        "description": ""
+    }, 
+    {
+        "text": "Show this window when there are errors", 
+        "id": "Errors widget popup tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Copy", 
+        "id": "Copy", 
+        "description": ""
+    }, 
+    {
+        "text": "Copy the errors to the clipboard", 
+        "id": "Errors widget copy tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Clear", 
+        "id": "Clear", 
+        "description": ""
+    }, 
+    {
+        "text": "Clear the errors", 
+        "id": "Errors widget clear tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Sequences", 
+        "id": "Sequences", 
+        "description": ""
+    }, 
+    {
+        "text": "File", 
+        "id": "File", 
+        "description": ""
+    }, 
+    {
+        "text": "Auto-detect file sequences", 
+        "id": "Auto-detect file sequences", 
+        "description": ""
+    }, 
+    {
+        "text": "Open", 
+        "id": "Open", 
+        "description": ""
+    }, 
+    {
+        "text": "Open a new file", 
+        "id": "Open tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Recent", 
+        "id": "Recent", 
+        "description": ""
+    }, 
+    {
+        "text": "Show the recently opened files", 
+        "id": "Recent tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Reload", 
+        "id": "Reload", 
+        "description": ""
+    }, 
+    {
+        "text": "Reload the current file", 
+        "id": "Reload tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Close", 
+        "id": "Close", 
+        "description": ""
+    }, 
+    {
+        "text": "Close the current file", 
+        "id": "Close tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Close All", 
+        "id": "Close All", 
+        "description": ""
+    }, 
+    {
+        "text": "Close all open files", 
+        "id": "Close all tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Export the file", 
+        "id": "Export tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Next", 
+        "id": "Next", 
+        "description": ""
+    }, 
+    {
+        "text": "Go to the next file", 
+        "id": "Next tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Previous", 
+        "id": "Previous", 
+        "description": ""
+    }, 
+    {
+        "text": "Go to the previous file", 
+        "id": "Prev tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Layers", 
+        "id": "Layers", 
+        "description": ""
+    }, 
+    {
+        "text": "Show the layers widget", 
+        "id": "Layers tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Next layer", 
+        "id": "Next layer", 
+        "description": ""
+    }, 
+    {
+        "text": "Go to the next layer", 
+        "id": "Next layer tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Previous Layer", 
+        "id": "Previous Layer", 
+        "description": ""
+    }, 
+    {
+        "text": "Go to the previous layer", 
+        "id": "Previous layer tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "8-Bit Conversion", 
+        "id": "8-Bit Conversion", 
+        "description": ""
+    }, 
+    {
+        "text": "Down convert files to 8-bits to conserve memory", 
+        "id": "8-bit conversion tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Exit", 
+        "id": "Exit", 
+        "description": ""
+    }, 
+    {
+        "text": "Exit the application", 
+        "id": "Exit tooltip", 
+        "description": ""
+    }, 
+    {
         "text": "Start forward playback", 
         "id": "Forward tooltip", 
         "description": ""
@@ -322,11 +492,6 @@
     {
         "text": "Maximize the current window", 
         "id": "Maximize tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Close the current file", 
-        "id": "Close tooltip", 
         "description": ""
     }, 
     {
@@ -417,391 +582,6 @@
     {
         "text": "Playback ping-pong", 
         "id": "Playback mode ping-pong tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Errors", 
-        "id": "Errors", 
-        "description": ""
-    }, 
-    {
-        "text": "Popup", 
-        "id": "Popup", 
-        "description": ""
-    }, 
-    {
-        "text": "Show this window when there are errors", 
-        "id": "Errors widget popup tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Copy", 
-        "id": "Copy", 
-        "description": ""
-    }, 
-    {
-        "text": "Copy the errors to the clipboard", 
-        "id": "Errors widget copy tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Clear", 
-        "id": "Clear", 
-        "description": ""
-    }, 
-    {
-        "text": "Clear the errors", 
-        "id": "Errors widget clear tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Sequences", 
-        "id": "Sequences", 
-        "description": ""
-    }, 
-    {
-        "text": "File", 
-        "id": "File", 
-        "description": ""
-    }, 
-    {
-        "text": "Auto-detect file sequences", 
-        "id": "Auto-detect file sequences", 
-        "description": ""
-    }, 
-    {
-        "text": "Open", 
-        "id": "Open", 
-        "description": ""
-    }, 
-    {
-        "text": "Open a new file", 
-        "id": "Open tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Recent", 
-        "id": "Recent", 
-        "description": ""
-    }, 
-    {
-        "text": "Show the recently opened files", 
-        "id": "Recent tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Reload", 
-        "id": "Reload", 
-        "description": ""
-    }, 
-    {
-        "text": "Reload the current file", 
-        "id": "Reload tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Close", 
-        "id": "Close", 
-        "description": ""
-    }, 
-    {
-        "text": "Close All", 
-        "id": "Close All", 
-        "description": ""
-    }, 
-    {
-        "text": "Close all open files", 
-        "id": "Close all tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Export the file", 
-        "id": "Export tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Next", 
-        "id": "Next", 
-        "description": ""
-    }, 
-    {
-        "text": "Go to the next file", 
-        "id": "Next tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Previous", 
-        "id": "Previous", 
-        "description": ""
-    }, 
-    {
-        "text": "Go to the previous file", 
-        "id": "Prev tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Layers", 
-        "id": "Layers", 
-        "description": ""
-    }, 
-    {
-        "text": "Show the layers widget", 
-        "id": "Layers tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Next layer", 
-        "id": "Next layer", 
-        "description": ""
-    }, 
-    {
-        "text": "Go to the next layer", 
-        "id": "Next layer tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Previous Layer", 
-        "id": "Previous Layer", 
-        "description": ""
-    }, 
-    {
-        "text": "Go to the previous layer", 
-        "id": "Previous layer tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "8-Bit Conversion", 
-        "id": "8-Bit Conversion", 
-        "description": ""
-    }, 
-    {
-        "text": "Down convert files to 8-bits to conserve memory", 
-        "id": "8-bit conversion tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Exit", 
-        "id": "Exit", 
-        "description": ""
-    }, 
-    {
-        "text": "Exit the application", 
-        "id": "Exit tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "View Controls", 
-        "id": "View Controls", 
-        "description": ""
-    }, 
-    {
-        "text": "Show the wiew controls widget", 
-        "id": "View controls widget tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Pan View", 
-        "id": "Pan View", 
-        "description": ""
-    }, 
-    {
-        "text": "Activate the pan view tool", 
-        "id": "Pan view tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Left", 
-        "id": "Left", 
-        "description": ""
-    }, 
-    {
-        "text": "Move the view left", 
-        "id": "Left tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Right", 
-        "id": "Right", 
-        "description": ""
-    }, 
-    {
-        "text": "Move the view right", 
-        "id": "Right tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Up", 
-        "id": "Up", 
-        "description": ""
-    }, 
-    {
-        "text": "Move the view up", 
-        "id": "Up tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Down", 
-        "id": "Down", 
-        "description": ""
-    }, 
-    {
-        "text": "Move the view down", 
-        "id": "Down tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "North West", 
-        "id": "North West", 
-        "description": ""
-    }, 
-    {
-        "text": "Move the view Northwest", 
-        "id": "North west tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "North East", 
-        "id": "North East", 
-        "description": ""
-    }, 
-    {
-        "text": "North the view Northeast", 
-        "id": "North east tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "South east", 
-        "id": "South east", 
-        "description": ""
-    }, 
-    {
-        "text": "Move the view Southeast", 
-        "id": "South east tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "South West", 
-        "id": "South West", 
-        "description": ""
-    }, 
-    {
-        "text": "Move the view Southwest", 
-        "id": "South west tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Zoom In", 
-        "id": "Zoom In", 
-        "description": ""
-    }, 
-    {
-        "text": "Zoom the view in", 
-        "id": "Zoom in tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Zoom Out", 
-        "id": "Zoom Out", 
-        "description": ""
-    }, 
-    {
-        "text": "Zoom the view out", 
-        "id": "Zoom out tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Zoom Reset", 
-        "id": "Zoom Reset", 
-        "description": ""
-    }, 
-    {
-        "text": "Reset the zoom to 1.0", 
-        "id": "Zoom reset tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Fill", 
-        "id": "Fill", 
-        "description": ""
-    }, 
-    {
-        "text": "Fill the view with the image", 
-        "id": "Fill view tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Lock Fill", 
-        "id": "Lock Fill", 
-        "description": ""
-    }, 
-    {
-        "text": "Fill the view with the image (locked)", 
-        "id": "Fill lock view tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Frame", 
-        "id": "Frame", 
-        "description": ""
-    }, 
-    {
-        "text": "Frame the image within the view", 
-        "id": "Frame view tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Lock Frame", 
-        "id": "Lock Frame", 
-        "description": ""
-    }, 
-    {
-        "text": "Frame the image within the view (locked)", 
-        "id": "Frame lock view tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Center", 
-        "id": "Center", 
-        "description": ""
-    }, 
-    {
-        "text": "Center the view and set the zoom to 1.0", 
-        "id": "Center view tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Lock Center", 
-        "id": "Lock Center", 
-        "description": ""
-    }, 
-    {
-        "text": "Center the view and set the zoom to 1.0 (locked)", 
-        "id": "Center lock view tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Grid", 
-        "id": "Grid", 
-        "description": ""
-    }, 
-    {
-        "text": "Show the grid", 
-        "id": "Grid enabled tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "HUD", 
-        "id": "HUD", 
-        "description": ""
-    }, 
-    {
-        "text": "Show the heads up display", 
-        "id": "HUD tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Cannot parse the value.", 
-        "id": "Cannot parse the value.", 
         "description": ""
     }, 
     {
@@ -1270,6 +1050,21 @@
         "description": ""
     }, 
     {
+        "text": "Fill", 
+        "id": "Fill", 
+        "description": ""
+    }, 
+    {
+        "text": "Frame", 
+        "id": "Frame", 
+        "description": ""
+    }, 
+    {
+        "text": "Center", 
+        "id": "Center", 
+        "description": ""
+    }, 
+    {
         "text": "0", 
         "id": "0", 
         "description": ""
@@ -1445,6 +1240,201 @@
         "description": ""
     }, 
     {
+        "text": "View Controls", 
+        "id": "View Controls", 
+        "description": ""
+    }, 
+    {
+        "text": "Show the wiew controls widget", 
+        "id": "View controls widget tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Pan View", 
+        "id": "Pan View", 
+        "description": ""
+    }, 
+    {
+        "text": "Activate the pan view tool", 
+        "id": "Pan view tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Left", 
+        "id": "Left", 
+        "description": ""
+    }, 
+    {
+        "text": "Move the view left", 
+        "id": "Left tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Right", 
+        "id": "Right", 
+        "description": ""
+    }, 
+    {
+        "text": "Move the view right", 
+        "id": "Right tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Up", 
+        "id": "Up", 
+        "description": ""
+    }, 
+    {
+        "text": "Move the view up", 
+        "id": "Up tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Down", 
+        "id": "Down", 
+        "description": ""
+    }, 
+    {
+        "text": "Move the view down", 
+        "id": "Down tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "North West", 
+        "id": "North West", 
+        "description": ""
+    }, 
+    {
+        "text": "Move the view Northwest", 
+        "id": "North west tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "North East", 
+        "id": "North East", 
+        "description": ""
+    }, 
+    {
+        "text": "North the view Northeast", 
+        "id": "North east tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "South east", 
+        "id": "South east", 
+        "description": ""
+    }, 
+    {
+        "text": "Move the view Southeast", 
+        "id": "South east tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "South West", 
+        "id": "South West", 
+        "description": ""
+    }, 
+    {
+        "text": "Move the view Southwest", 
+        "id": "South west tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Zoom In", 
+        "id": "Zoom In", 
+        "description": ""
+    }, 
+    {
+        "text": "Zoom the view in", 
+        "id": "Zoom in tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Zoom Out", 
+        "id": "Zoom Out", 
+        "description": ""
+    }, 
+    {
+        "text": "Zoom the view out", 
+        "id": "Zoom out tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Zoom Reset", 
+        "id": "Zoom Reset", 
+        "description": ""
+    }, 
+    {
+        "text": "Reset the zoom to 1.0", 
+        "id": "Zoom reset tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Fill the view with the image", 
+        "id": "Fill view tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Lock Fill", 
+        "id": "Lock Fill", 
+        "description": ""
+    }, 
+    {
+        "text": "Fill the view with the image (locked)", 
+        "id": "Fill lock view tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Frame the image within the view", 
+        "id": "Frame view tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Lock Frame", 
+        "id": "Lock Frame", 
+        "description": ""
+    }, 
+    {
+        "text": "Frame the image within the view (locked)", 
+        "id": "Frame lock view tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Center the view and set the zoom to 1.0", 
+        "id": "Center view tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Lock Center", 
+        "id": "Lock Center", 
+        "description": ""
+    }, 
+    {
+        "text": "Center the view and set the zoom to 1.0 (locked)", 
+        "id": "Center lock view tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Grid", 
+        "id": "Grid", 
+        "description": ""
+    }, 
+    {
+        "text": "Show the grid", 
+        "id": "Grid enabled tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "HUD", 
+        "id": "HUD", 
+        "description": ""
+    }, 
+    {
+        "text": "Show the heads up display", 
+        "id": "HUD tooltip", 
+        "description": ""
+    }, 
+    {
         "text": "Polyline", 
         "id": "Polyline", 
         "description": ""
@@ -1475,23 +1465,43 @@
         "description": ""
     }, 
     {
-        "text": "Show the opened files", 
-        "id": "Media popup tooltip", 
+        "text": "Full Screen", 
+        "id": "Full Screen", 
         "description": ""
     }, 
     {
-        "text": "Show the memory cache settings", 
-        "id": "Memory cache tooltip", 
+        "text": "Toggle full screen mode", 
+        "id": "Full screen tooltip", 
         "description": ""
     }, 
     {
-        "text": "Memory cache usage", 
-        "id": "Memory cache thermometer tooltip", 
+        "text": "Maximize", 
+        "id": "Maximize", 
+        "description": ""
+    }, 
+    {
+        "text": "Fit", 
+        "id": "Fit", 
+        "description": ""
+    }, 
+    {
+        "text": "Fit the window to the image", 
+        "id": "Fit tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Auto-Hide Interface", 
+        "id": "Auto-Hide Interface", 
         "description": ""
     }, 
     {
         "text": "Automatically hide the user interface", 
         "id": "Auto-hide tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Window", 
+        "id": "Window", 
         "description": ""
     }, 
     {
@@ -1582,36 +1592,6 @@
     {
         "text": "Show PIP (picture in picture)", 
         "id": "Show PIP (picture in picture)", 
-        "description": ""
-    }, 
-    {
-        "text": "Full Screen", 
-        "id": "Full Screen", 
-        "description": ""
-    }, 
-    {
-        "text": "Toggle full screen mode", 
-        "id": "Full screen tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Maximize", 
-        "id": "Maximize", 
-        "description": ""
-    }, 
-    {
-        "text": "Fit", 
-        "id": "Fit", 
-        "description": ""
-    }, 
-    {
-        "text": "Fit the window to the image", 
-        "id": "Fit tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Window", 
-        "id": "Window", 
         "description": ""
     }, 
     {
@@ -1742,6 +1722,51 @@
     {
         "text": "Tools", 
         "id": "Tools", 
+        "description": ""
+    }, 
+    {
+        "text": "Color Picker", 
+        "id": "Color Picker", 
+        "description": ""
+    }, 
+    {
+        "text": "Lock color type", 
+        "id": "Lock color type", 
+        "description": ""
+    }, 
+    {
+        "text": "Don't change the color type to match the image", 
+        "id": "Color picker lock color type tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Set the color picker sample size", 
+        "id": "Color picker sample size tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Copy the values to the clipboard", 
+        "id": "Color picker copy tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Pixel", 
+        "id": "Pixel", 
+        "description": ""
+    }, 
+    {
+        "text": "Cannot sample color", 
+        "id": "Cannot sample color", 
+        "description": ""
+    }, 
+    {
+        "text": "Color label tooltip", 
+        "id": "Color label tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Pixel label tooltip", 
+        "id": "Pixel label tooltip", 
         "description": ""
     }, 
     {

@@ -1,122 +1,122 @@
 [
     {
-        "id": "Nothing to convert", 
         "source": "Nothing to convert", 
-        "description": "", 
-        "text": "Intet at konvertere"
+        "text": "Intet at konvertere", 
+        "id": "Nothing to convert", 
+        "description": ""
     }, 
     {
-        "id": "Cannot parse the option '-resize'", 
         "source": "Cannot parse the option '-resize'", 
-        "description": "", 
-        "text": "Kan ikke analysere indstillingen &#39;-resize&#39;"
+        "text": "Kan ikke analysere indstillingen &#39;-resize&#39;", 
+        "id": "Cannot parse the option '-resize'", 
+        "description": ""
     }, 
     {
-        "id": "Usage: djv_convert (input) (output)", 
         "source": "Usage: djv_convert (input) (output)", 
-        "description": "", 
-        "text": "Anvendelse: djv_convert (input) (output)"
+        "text": "Anvendelse: djv_convert (input) (output)", 
+        "id": "Usage: djv_convert (input) (output)", 
+        "description": ""
     }, 
     {
-        "id": " Usage:", 
         "source": " Usage:", 
-        "description": "", 
-        "text": "Anvendelse:"
+        "text": "Anvendelse:", 
+        "id": " Usage:", 
+        "description": ""
     }, 
     {
-        "id": "   djv_convert (input) (output) [option, ...]", 
         "source": "   djv_convert (input) (output) [option, ...]", 
-        "description": "", 
-        "text": "djv_convert (input) (output) [option, ...]"
+        "text": "djv_convert (input) (output) [option, ...]", 
+        "id": "   djv_convert (input) (output) [option, ...]", 
+        "description": ""
     }, 
     {
-        "id": " Options:", 
         "source": " Options:", 
-        "description": "", 
-        "text": "Muligheder:"
+        "text": "Muligheder:", 
+        "id": " Options:", 
+        "description": ""
     }, 
     {
-        "id": "   -resize '(width) (height)'", 
         "source": "   -resize '(width) (height)'", 
-        "description": "", 
-        "text": "-st\u00f8rrelse &#39;(bredde) (h\u00f8jde)&#39;"
+        "text": "-st\u00f8rrelse &#39;(bredde) (h\u00f8jde)&#39;", 
+        "id": "   -resize '(width) (height)'", 
+        "description": ""
     }, 
     {
-        "id": "     Resize the image.", 
         "source": "     Resize the image.", 
-        "description": "", 
-        "text": "\u00c6ndre st\u00f8rrelse p\u00e5 billedet."
+        "text": "\u00c6ndre st\u00f8rrelse p\u00e5 billedet.", 
+        "id": "     Resize the image.", 
+        "description": ""
     }, 
     {
-        "id": "   -readSeq", 
         "source": "   -readSeq", 
-        "description": "", 
-        "text": "-readSeq"
+        "text": "-readSeq", 
+        "id": "   -readSeq", 
+        "description": ""
     }, 
     {
-        "id": "     Interpret the input file name as a sequence.", 
         "source": "     Interpret the input file name as a sequence.", 
-        "description": "", 
-        "text": "Fortolk inputfilens navn som en sekvens."
+        "text": "Fortolk inputfilens navn som en sekvens.", 
+        "id": "     Interpret the input file name as a sequence.", 
+        "description": ""
     }, 
     {
-        "id": "   -writeSeq", 
         "source": "   -writeSeq", 
-        "description": "", 
-        "text": "-writeSeq"
+        "text": "-writeSeq", 
+        "id": "   -writeSeq", 
+        "description": ""
     }, 
     {
-        "id": "     Interpret the output file name as a sequence.", 
         "source": "     Interpret the output file name as a sequence.", 
-        "description": "", 
-        "text": "Fortolk outputfilnavnet som en sekvens."
+        "text": "Fortolk outputfilnavnet som en sekvens.", 
+        "id": "     Interpret the output file name as a sequence.", 
+        "description": ""
     }, 
     {
-        "id": "   -readQueue (value)", 
         "source": "   -readQueue (value)", 
-        "description": "", 
-        "text": "-readQueue (v\u00e6rdi)"
+        "text": "-readQueue (v\u00e6rdi)", 
+        "id": "   -readQueue (value)", 
+        "description": ""
     }, 
     {
-        "id": "     Set the size of the read queue.", 
         "source": "     Set the size of the read queue.", 
-        "description": "", 
-        "text": "Indstil st\u00f8rrelsen p\u00e5 l\u00e6sek\u00f8en."
+        "text": "Indstil st\u00f8rrelsen p\u00e5 l\u00e6sek\u00f8en.", 
+        "id": "     Set the size of the read queue.", 
+        "description": ""
     }, 
     {
-        "id": "   -writeQueue (value)", 
         "source": "   -writeQueue (value)", 
-        "description": "", 
-        "text": "-skrivekva (v\u00e6rdi)"
+        "text": "-skrivekva (v\u00e6rdi)", 
+        "id": "   -writeQueue (value)", 
+        "description": ""
     }, 
     {
-        "id": "     Set the size of the write queue.", 
         "source": "     Set the size of the write queue.", 
-        "description": "", 
-        "text": "Indstil st\u00f8rrelsen p\u00e5 skrivek\u00f8en."
+        "text": "Indstil st\u00f8rrelsen p\u00e5 skrivek\u00f8en.", 
+        "id": "     Set the size of the write queue.", 
+        "description": ""
     }, 
     {
-        "id": "   -readThreads (value)", 
         "source": "   -readThreads (value)", 
-        "description": "", 
-        "text": "-readTreads (v\u00e6rdi)"
+        "text": "-readTreads (v\u00e6rdi)", 
+        "id": "   -readThreads (value)", 
+        "description": ""
     }, 
     {
-        "id": "     Set the number of threads for reading.", 
         "source": "     Set the number of threads for reading.", 
-        "description": "", 
-        "text": "Indstil antallet af tr\u00e5de til l\u00e6sning."
+        "text": "Indstil antallet af tr\u00e5de til l\u00e6sning.", 
+        "id": "     Set the number of threads for reading.", 
+        "description": ""
     }, 
     {
-        "id": "   -writeThreads (value)", 
         "source": "   -writeThreads (value)", 
-        "description": "", 
-        "text": "-writeThreads (v\u00e6rdi)"
+        "text": "-writeThreads (v\u00e6rdi)", 
+        "id": "   -writeThreads (value)", 
+        "description": ""
     }, 
     {
-        "id": "     Set the number of threads for writing.", 
         "source": "     Set the number of threads for writing.", 
-        "description": "", 
-        "text": "Indstil antallet af tr\u00e5de til skrivning."
+        "text": "Indstil antallet af tr\u00e5de til skrivning.", 
+        "id": "     Set the number of threads for writing.", 
+        "description": ""
     }
 ]

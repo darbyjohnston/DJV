@@ -1,122 +1,122 @@
 [
     {
-        "id": "Nothing to convert", 
         "source": "Nothing to convert", 
-        "description": "", 
-        "text": "Rien \u00e0 convertir"
+        "text": "Rien \u00e0 convertir", 
+        "id": "Nothing to convert", 
+        "description": ""
     }, 
     {
-        "id": "Cannot parse the option '-resize'", 
         "source": "Cannot parse the option '-resize'", 
-        "description": "", 
-        "text": "Impossible d&#39;analyser l&#39;option &#39;-resize&#39;"
+        "text": "Impossible d&#39;analyser l&#39;option &#39;-resize&#39;", 
+        "id": "Cannot parse the option '-resize'", 
+        "description": ""
     }, 
     {
-        "id": "Usage: djv_convert (input) (output)", 
         "source": "Usage: djv_convert (input) (output)", 
-        "description": "", 
-        "text": "Utilisation: djv_convert (entr\u00e9e) (sortie)"
+        "text": "Utilisation: djv_convert (entr\u00e9e) (sortie)", 
+        "id": "Usage: djv_convert (input) (output)", 
+        "description": ""
     }, 
     {
-        "id": " Usage:", 
         "source": " Usage:", 
-        "description": "", 
-        "text": "Usage:"
+        "text": "Usage:", 
+        "id": " Usage:", 
+        "description": ""
     }, 
     {
-        "id": "   djv_convert (input) (output) [option, ...]", 
         "source": "   djv_convert (input) (output) [option, ...]", 
-        "description": "", 
-        "text": "djv_convert (entr\u00e9e) (sortie) [option, ...]"
+        "text": "djv_convert (entr\u00e9e) (sortie) [option, ...]", 
+        "id": "   djv_convert (input) (output) [option, ...]", 
+        "description": ""
     }, 
     {
-        "id": " Options:", 
         "source": " Options:", 
-        "description": "", 
-        "text": "Les options:"
+        "text": "Les options:", 
+        "id": " Options:", 
+        "description": ""
     }, 
     {
-        "id": "   -resize '(width) (height)'", 
         "source": "   -resize '(width) (height)'", 
-        "description": "", 
-        "text": "-resize &#39;(largeur) (hauteur)&#39;"
+        "text": "-resize &#39;(largeur) (hauteur)&#39;", 
+        "id": "   -resize '(width) (height)'", 
+        "description": ""
     }, 
     {
-        "id": "     Resize the image.", 
         "source": "     Resize the image.", 
-        "description": "", 
-        "text": "Redimensionner l&#39;image."
+        "text": "Redimensionner l&#39;image.", 
+        "id": "     Resize the image.", 
+        "description": ""
     }, 
     {
-        "id": "   -readSeq", 
         "source": "   -readSeq", 
-        "description": "", 
-        "text": "-readSeq"
+        "text": "-readSeq", 
+        "id": "   -readSeq", 
+        "description": ""
     }, 
     {
-        "id": "     Interpret the input file name as a sequence.", 
         "source": "     Interpret the input file name as a sequence.", 
-        "description": "", 
-        "text": "Interpr\u00e9tez le nom du fichier d&#39;entr\u00e9e sous forme de s\u00e9quence."
+        "text": "Interpr\u00e9tez le nom du fichier d&#39;entr\u00e9e sous forme de s\u00e9quence.", 
+        "id": "     Interpret the input file name as a sequence.", 
+        "description": ""
     }, 
     {
-        "id": "   -writeSeq", 
         "source": "   -writeSeq", 
-        "description": "", 
-        "text": "-writeSeq"
+        "text": "-writeSeq", 
+        "id": "   -writeSeq", 
+        "description": ""
     }, 
     {
-        "id": "     Interpret the output file name as a sequence.", 
         "source": "     Interpret the output file name as a sequence.", 
-        "description": "", 
-        "text": "Interpr\u00e9tez le nom du fichier de sortie sous forme de s\u00e9quence."
+        "text": "Interpr\u00e9tez le nom du fichier de sortie sous forme de s\u00e9quence.", 
+        "id": "     Interpret the output file name as a sequence.", 
+        "description": ""
     }, 
     {
-        "id": "   -readQueue (value)", 
         "source": "   -readQueue (value)", 
-        "description": "", 
-        "text": "-readQueue (valeur)"
+        "text": "-readQueue (valeur)", 
+        "id": "   -readQueue (value)", 
+        "description": ""
     }, 
     {
-        "id": "     Set the size of the read queue.", 
         "source": "     Set the size of the read queue.", 
-        "description": "", 
-        "text": "D\u00e9finissez la taille de la file d&#39;attente de lecture."
+        "text": "D\u00e9finissez la taille de la file d&#39;attente de lecture.", 
+        "id": "     Set the size of the read queue.", 
+        "description": ""
     }, 
     {
-        "id": "   -writeQueue (value)", 
         "source": "   -writeQueue (value)", 
-        "description": "", 
-        "text": "-writeQueue (valeur)"
+        "text": "-writeQueue (valeur)", 
+        "id": "   -writeQueue (value)", 
+        "description": ""
     }, 
     {
-        "id": "     Set the size of the write queue.", 
         "source": "     Set the size of the write queue.", 
-        "description": "", 
-        "text": "D\u00e9finissez la taille de la file d&#39;attente d&#39;\u00e9criture."
+        "text": "D\u00e9finissez la taille de la file d&#39;attente d&#39;\u00e9criture.", 
+        "id": "     Set the size of the write queue.", 
+        "description": ""
     }, 
     {
-        "id": "   -readThreads (value)", 
         "source": "   -readThreads (value)", 
-        "description": "", 
-        "text": "-readThreads (valeur)"
+        "text": "-readThreads (valeur)", 
+        "id": "   -readThreads (value)", 
+        "description": ""
     }, 
     {
-        "id": "     Set the number of threads for reading.", 
         "source": "     Set the number of threads for reading.", 
-        "description": "", 
-        "text": "D\u00e9finissez le nombre de threads \u00e0 lire."
+        "text": "D\u00e9finissez le nombre de threads \u00e0 lire.", 
+        "id": "     Set the number of threads for reading.", 
+        "description": ""
     }, 
     {
-        "id": "   -writeThreads (value)", 
         "source": "   -writeThreads (value)", 
-        "description": "", 
-        "text": "-writeThreads (valeur)"
+        "text": "-writeThreads (valeur)", 
+        "id": "   -writeThreads (value)", 
+        "description": ""
     }, 
     {
-        "id": "     Set the number of threads for writing.", 
         "source": "     Set the number of threads for writing.", 
-        "description": "", 
-        "text": "D\u00e9finissez le nombre de threads pour l&#39;\u00e9criture."
+        "text": "D\u00e9finissez le nombre de threads pour l&#39;\u00e9criture.", 
+        "id": "     Set the number of threads for writing.", 
+        "description": ""
     }
 ]
