@@ -134,38 +134,38 @@ endif()
 if(WIN32)
     install(
         FILES
-        ${DJV_THIRD_PARTY}/bin/avcodec-58.dll
-        ${DJV_THIRD_PARTY}/bin/avdevice-58.dll
-        ${DJV_THIRD_PARTY}/bin/avfilter-7.dll
-        ${DJV_THIRD_PARTY}/bin/avformat-58.dll
-        ${DJV_THIRD_PARTY}/bin/avutil-56.dll
-        ${DJV_THIRD_PARTY}/bin/swresample-3.dll
-        ${DJV_THIRD_PARTY}/bin/swscale-5.dll
+        ${CMAKE_INSTALL_PREFIX}/bin/avcodec-58.dll
+        ${CMAKE_INSTALL_PREFIX}/bin/avdevice-58.dll
+        ${CMAKE_INSTALL_PREFIX}/bin/avfilter-7.dll
+        ${CMAKE_INSTALL_PREFIX}/bin/avformat-58.dll
+        ${CMAKE_INSTALL_PREFIX}/bin/avutil-56.dll
+        ${CMAKE_INSTALL_PREFIX}/bin/swresample-3.dll
+        ${CMAKE_INSTALL_PREFIX}/bin/swscale-5.dll
         DESTINATION ${DJV_INSTALL_BIN})
 elseif(APPLE)
     install(
         FILES
         ${FFmpeg_LIBAVCODEC}
-        ${DJV_THIRD_PARTY}/lib/libavcodec.58.dylib
-        ${DJV_THIRD_PARTY}/lib/libavcodec.58.54.100.dylib
+        ${CMAKE_INSTALL_PREFIX}/lib/libavcodec.58.dylib
+        ${CMAKE_INSTALL_PREFIX}/lib/libavcodec.58.54.100.dylib
         ${FFmpeg_LIBAVDEVICE}
-        ${DJV_THIRD_PARTY}/lib/libavdevice.58.dylib
-        ${DJV_THIRD_PARTY}/lib/libavdevice.58.8.100.dylib
+        ${CMAKE_INSTALL_PREFIX}/lib/libavdevice.58.dylib
+        ${CMAKE_INSTALL_PREFIX}/lib/libavdevice.58.8.100.dylib
         ${FFmpeg_LIBAVFILTER}
-        ${DJV_THIRD_PARTY}/lib/libavfilter.7.dylib
-        ${DJV_THIRD_PARTY}/lib/libavfilter.7.57.100.dylib
+        ${CMAKE_INSTALL_PREFIX}/lib/libavfilter.7.dylib
+        ${CMAKE_INSTALL_PREFIX}/lib/libavfilter.7.57.100.dylib
         ${FFmpeg_LIBAVFORMAT}
-        ${DJV_THIRD_PARTY}/lib/libavformat.58.dylib
-        ${DJV_THIRD_PARTY}/lib/libavformat.58.29.100.dylib
+        ${CMAKE_INSTALL_PREFIX}/lib/libavformat.58.dylib
+        ${CMAKE_INSTALL_PREFIX}/lib/libavformat.58.29.100.dylib
         ${FFmpeg_LIBAVUTIL}
-        ${DJV_THIRD_PARTY}/lib/libavutil.56.dylib
-        ${DJV_THIRD_PARTY}/lib/libavutil.56.31.100.dylib
+        ${CMAKE_INSTALL_PREFIX}/lib/libavutil.56.dylib
+        ${CMAKE_INSTALL_PREFIX}/lib/libavutil.56.31.100.dylib
         ${FFmpeg_LIBSWRESAMPLE}
-        ${DJV_THIRD_PARTY}/lib/libswresample.3.dylib
-        ${DJV_THIRD_PARTY}/lib/libswresample.3.5.100.dylib
+        ${CMAKE_INSTALL_PREFIX}/lib/libswresample.3.dylib
+        ${CMAKE_INSTALL_PREFIX}/lib/libswresample.3.5.100.dylib
         ${FFmpeg_LIBSWSCALE}
-        ${DJV_THIRD_PARTY}/lib/libswscale.5.dylib
-        ${DJV_THIRD_PARTY}/lib/libswscale.5.5.100.dylib
+        ${CMAKE_INSTALL_PREFIX}/lib/libswscale.5.dylib
+        ${CMAKE_INSTALL_PREFIX}/lib/libswscale.5.5.100.dylib
         DESTINATION ${DJV_INSTALL_LIB})
 else()
     install(

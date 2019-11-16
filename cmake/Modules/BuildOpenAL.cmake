@@ -62,14 +62,14 @@ endif()
 if(WIN32)
     install(
         FILES
-        ${DJV_THIRD_PARTY}/bin/OpenAL32.dll
+        ${CMAKE_INSTALL_PREFIX}/bin/OpenAL32.dll
         DESTINATION ${DJV_INSTALL_BIN})
 elseif(APPLE)
     install(
         FILES
         ${OPENAL_LIBRARY}
-        ${DJV_THIRD_PARTY}/lib/libopenal.1.dylib
-        ${DJV_THIRD_PARTY}/lib/libopenal.1.19.1.dylib
+        ${CMAKE_INSTALL_PREFIX}/lib/libopenal.1.dylib
+        ${CMAKE_INSTALL_PREFIX}/lib/libopenal.1.19.1.dylib
         DESTINATION ${DJV_INSTALL_LIB})
 else()
     install(
