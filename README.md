@@ -9,9 +9,9 @@ Playback high resolution, high bit-depth, image sequences and videos, with frame
 accurate control and color management. Available for Linux, Apple macOS, and
 Microsoft Windows. Source code is provided under a BSD style open source license.
 
-* [Download](download.html)
-* [Contribute](contributing.html)
-* [Documentation](documentation.html)
+* [Download](https://darbyjohnston.github.io/DJV/download.html)
+* [Contribute](https://darbyjohnston.github.io/DJV/contributing.html)
+* [Documentation](https://darbyjohnston.github.io/DJV/documentation.html)
 
 
 Building on Linux
@@ -50,20 +50,20 @@ Run the djv player application:
     > ./build/bin/djv
 
 Additional information on building DJV can be found here:
-* [Building on Linux](build_linux.html)
-* [Building on OS X](build_osx.html)
-* [Building on Windows](build_windows.html)
+* [Building on Linux](https://darbyjohnston.github.io/DJV/build_linux.html)
+* [Building on OS X](https://darbyjohnston.github.io/DJV/build_osx.html)
+* [Building on Windows](https://darbyjohnston.github.io/DJV/build_windows.html)
 
 
 License
 -------
 
 DJV is released under a BSD style open source license, see this
-[page](legal.html) for details.
+[page](https://darbyjohnston.github.io/DJV/legal.html) for details.
 
 
 Contributing
 ------------
 
-See this [page](contributing.html) for information on contributing to DJV.
+See this [page](https://darbyjohnston.github.io/DJV/contributing.html) for information on contributing to DJV.
 
