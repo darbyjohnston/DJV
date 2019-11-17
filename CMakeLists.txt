@@ -188,17 +188,10 @@ endif()
 set(DJV_THIRD_PARTY_OPTIONAL_DEPS
     ${DJV_THIRD_PARTY_OPTIONAL_DEPS}
     #curl
+    FFmpeg
     JPEGTurbo
     TIFF
     OpenEXR)
-if(WIN32)
-    # See the directions for building FFmpeg on Windows in "docs/build_windows.html".
-    #find_package(FFmpeg)
-else()
-    set(DJV_THIRD_PARTY_OPTIONAL_DEPS
-        ${DJV_THIRD_PARTY_OPTIONAL_DEPS}
-        FFmpeg)
-endif()
 
 # Set whether shared libraries are used for dependencies.
 if(DJV_THIRD_PARTY)
@@ -365,4 +358,3 @@ if(NOT DJV_BUILD_TINY)
 endif()
 
 include(CPack)
-
