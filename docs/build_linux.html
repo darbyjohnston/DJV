@@ -56,15 +56,15 @@ make test</pre>
 	<p class="header"><a name="Packaging">Packaging</a></p>
 	<p style="margin: 2em 0 0 0">Set the new version in "CMakeLists.txt", "Doxyfile",
 	"sonar-project.properties", and "docs/djv_install.html".</p>
+</div>
+<div class="block">
 	<p style="margin: .5em 0 0 0">Update the download information in "docs/index.html".</p>
+</div>
+<div class="block">
 	<p style="margin: .5em 0 0 0">Tag the git repository:</p>
 	<pre>
 git tag -a 2.0.0 -m "Version 2.0.0"
 git push origin 2.0.0</pre>
-	<p>Update the web site:</p>
-	<pre>
-ssh -t USERNAME@shell.sourceforge.net create
-scp file USERNAME@web.sourceforge.net:/home/project-web/djv/htdocs</pre>
 	<p>Building an RPM package:</p>
 	<pre>
 cmake ../djv-git -DCPACK_GENERATOR=RPM -DCPACK_PACKAGING_INSTALL_PREFIX=/usr/local/DJV2 -DDJV_THIRD_PARTY_DISABLE_BUILD=TRUE
