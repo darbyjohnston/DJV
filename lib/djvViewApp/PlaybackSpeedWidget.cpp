@@ -35,7 +35,7 @@
 #include <djvUI/ListButton.h>
 #include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
-#include <djvUI/LineEditBase.h>
+#include <djvUI/LineEdit.h>
 
 #include <djvCore/Speed.h>
 
@@ -50,8 +50,8 @@ namespace djv
             std::vector<Time::Speed> speeds;
             Time::Speed speed;
             Time::Speed defaultSpeed;
-            Time::Speed customSpeed;
-            bool playEveryFrame = false;
+            Time::Speed customSpeed = Time::Speed(1);
+            bool playEveryFrame;
 
             std::shared_ptr<UI::Label> titleLabel;
             std::shared_ptr<UI::ButtonGroup> speedButtonGroup;
@@ -59,7 +59,7 @@ namespace djv
             std::shared_ptr<UI::ListButton> defaultSpeedButton;
             std::shared_ptr<UI::CheckBox> playEveryFrameCheckBox;
             std::shared_ptr<UI::ListButton> useCustomSpeedButton;
-            std::shared_ptr<UI::LineEditBase> customSpeedLineEdit;
+            std::shared_ptr<UI::LineEdit> customSpeedLineEdit;
             std::shared_ptr<UI::ScrollWidget> scrollWidget;
             std::function<void(const Core::Time::Speed&)> speedCallback;
             std::function<void(bool)> playEveryFrameCallback;
@@ -107,8 +107,7 @@ namespace djv
             p.playEveryFrameCheckBox = UI::CheckBox::create(context);
 
             p.useCustomSpeedButton = UI::ListButton::create(context);
-            p.customSpeedLineEdit = UI::LineEditBase::create(context);
-            p.customSpeedLineEdit->setText("1.0");
+            p.customSpeedLineEdit = UI::LineEdit::create(context);
 
             auto layout = UI::VerticalLayout::create(context);
             layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
@@ -125,6 +124,7 @@ namespace djv
             vLayout->addChild(p.customSpeedLineEdit);
 
             layout->addChild(vLayout);
+			_widgetUpdate();
 
             p.scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             p.scrollWidget->setMinimumSizeRole(UI::MetricsRole::Menu);
@@ -181,11 +181,19 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        if (std::stof(value) >= 1)
                         {
                             try
                             {
-                                widget->_p->customSpeed = Time::Speed(std::stoi(value));
+								if (std::stof(value) >= 1) 
+								{
+									//widget->_doSpeedCallback(Time::Speed(std::stof(value)));
+									widget->_p->customSpeed = Time::Speed(std::stof(value));
+								}
+								else if (std::stof(value) > 0.F && std::stof(value) < 1.F)
+								{
+									//widget->_doSpeedCallback(Time::Speed(std::floor(std::stof(value) * 1000), 1000));
+									widget->_p->customSpeed = Time::Speed(std::floor(std::stof(value) * 1000), 1000);
+								}
                             }
                             catch (const std::exception&)
                             {
@@ -194,19 +202,8 @@ namespace djv
                                 widget->_log(ss.str(), LogLevel::Error);
                             }
                         }
-                        else if (1 > std::stof(value) > 0)
-                        {
-                            try
-                            {
-                                widget->_p->customSpeed = Time::Speed(std::floor(std::stof(value) * 1000), 1000);
-                            }
-                            catch (const std::exception&)
-                            {
-                                std::stringstream ss;
-                                ss << "Cannot parse the value as float.";
-                                widget->_log(ss.str(), LogLevel::Error);
-                            }
-                        }
+						widget->_doSpeedCallback(widget->_p->customSpeed);
+						widget->_widgetUpdate();
                     }
                 });
         }
@@ -324,6 +321,10 @@ namespace djv
 
                 p.useCustomSpeedButton->setText(DJV_TEXT("Custom playback speed"));
                 p.useCustomSpeedButton->setTooltip(_getText(DJV_TEXT("Custom playback speed tooltip")));
+				std::stringstream cs;
+				cs.precision(2);
+				cs << std::fixed << p.customSpeed.toFloat();
+				p.customSpeedLineEdit->setText(cs.str());
             }
         }
 
