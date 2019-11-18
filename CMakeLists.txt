@@ -191,7 +191,8 @@ set(DJV_THIRD_PARTY_OPTIONAL_DEPS
     FFmpeg
     JPEGTurbo
     TIFF
-    OpenEXR)
+    OpenEXR
+    OpenNURBS)
 
 # Set whether shared libraries are used for dependencies.
 if(DJV_THIRD_PARTY)
