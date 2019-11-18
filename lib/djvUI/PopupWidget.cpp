@@ -356,12 +356,12 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             p.overlayLayout->clearPopup();
-            if (p.window)
+            if (auto window = p.window.get())
             {
-                p.window->removeChild(p.overlay);
-                p.window->close();
+                p.window.reset();
+                window->removeChild(p.overlay);
+                window->close();
             }
-            p.window.reset();
             p.button->setOpen(false);
             if (p.closeCallback)
             {
