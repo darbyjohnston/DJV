@@ -65,6 +65,7 @@ namespace djv
                         glm::vec2(pos.x - minimumSize.x, pos.y - minimumSize.y),
                         glm::vec2(pos.x, pos.y));
                     break;
+                default: break;
                 }
                 return out;
             }
@@ -113,6 +114,7 @@ namespace djv
                             button.max.x,
                             button.min.y));
                     break;
+                default: break;
                 }
                 return out;
             }
