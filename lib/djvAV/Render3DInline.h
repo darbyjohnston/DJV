@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2019 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,29 +27,33 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
-
-#include <djvUI/UI.h>
-
-#include <djvCore/BBox.h>
-
-#include <memory>
-
 namespace djv
 {
     namespace AV
     {
-        namespace Render2D
+        namespace Render3D
         {
-            class Render;
+            inline void Render::pushTransform(const glm::mat4x4& value)
+            {
+                _transforms.push_back(value);
+                _currentTransform *= value;
+            }
 
-        } // namespace Render
+            inline void Render::popTransform()
+            {
+                _transforms.pop_back();
+                _updateCurrentTransform();
+            }
 
+            inline void Render::_updateCurrentTransform()
+            {
+                _currentTransform = glm::mat4x4(1.F);
+                for (const auto& i : _transforms)
+                {
+                    _currentTransform *= i;
+                }
+            }
+
+        } // namespace Render3D
     } // namespace AV
-
-    namespace UI
-    {
-        void drawBorder(const std::shared_ptr<AV::Render2D::Render>&, const Core::BBox2f&, float);
-
-    } // namespace UI
 } // namespace djv

@@ -37,9 +37,13 @@ set(header
     RLA.h
     Render2D.h
     Render2DInline.h
+    Render3D.h
+    Render3DInline.h
     SGI.h
+    Scene.h
     SequenceIO.h
     Shader.h
+    ShaderSystem.h
     Shape.h
     Tags.h
     Targa.h
@@ -81,11 +85,14 @@ set(source
     RLA.cpp
     RLARead.cpp
     Render2D.cpp
+    Render3D.cpp
     SequenceIO.cpp
     Shape.cpp
     Shader.cpp
+    ShaderSystem.cpp
     SGI.cpp
     SGIRead.cpp
+    Scene.cpp
     Tags.cpp
     Targa.cpp
     TargaRead.cpp

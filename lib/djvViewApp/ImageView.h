@@ -48,7 +48,7 @@ namespace djv
     
         } // namespace Image
 
-        namespace Render
+        namespace Render2D
         {
             class ImageOptions;
 
@@ -91,8 +91,8 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<std::shared_ptr<AV::Image::Image> > > observeImage() const;
             void setImage(const std::shared_ptr<AV::Image::Image>&);
 
-            std::shared_ptr<Core::IValueSubject<AV::Render::ImageOptions> > observeImageOptions() const;
-            void setImageOptions(const AV::Render::ImageOptions&);
+            std::shared_ptr<Core::IValueSubject<AV::Render2D::ImageOptions> > observeImageOptions() const;
+            void setImageOptions(const AV::Render2D::ImageOptions&);
 
             std::shared_ptr<Core::IValueSubject<glm::vec2> > observeImagePos() const;
             std::shared_ptr<Core::IValueSubject<float> > observeImageZoom() const;

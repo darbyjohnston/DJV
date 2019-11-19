@@ -168,7 +168,7 @@ namespace djv
             return _eventSystem;
         }
 
-        inline const std::shared_ptr<AV::Render::Render2D> & Widget::_getRender() const
+        inline const std::shared_ptr<AV::Render2D::Render> & Widget::_getRender() const
         {
             return _render;
         }

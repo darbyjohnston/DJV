@@ -69,7 +69,7 @@ namespace djv
             std::shared_ptr<ValueSubject<std::shared_ptr<AV::Image::Image> > > frameStore;
             std::shared_ptr<AV::Image::Image> currentImage;
             std::shared_ptr<MediaWidget> activeWidget;
-            AV::Render::ImageOptions imageOptions;
+            AV::Render2D::ImageOptions imageOptions;
 
             std::map<std::string, std::shared_ptr<UI::Action> > actions;
             std::shared_ptr<UI::ActionGroup> channelActionGroup;
@@ -80,7 +80,7 @@ namespace djv
             std::map<std::string, std::shared_ptr<ValueObserver<bool> > > actionObservers;
             std::shared_ptr<ValueObserver<std::shared_ptr<Media> > > currentMediaObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > currentImageObserver;
-            std::shared_ptr<ValueObserver<AV::Render::ImageOptions> > imageOptionsObserver;
+            std::shared_ptr<ValueObserver<AV::Render2D::ImageOptions> > imageOptionsObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
         };
 
@@ -153,7 +153,7 @@ namespace djv
                 {
                     if (auto system = weak.lock())
                     {
-                        system->_p->imageOptions.channel = static_cast<AV::Render::ImageChannel>(value + 1);
+                        system->_p->imageOptions.channel = static_cast<AV::Render2D::ImageChannel>(value + 1);
                         if (system->_p->activeWidget)
                         {
                             system->_p->activeWidget->getImageView()->setImageOptions(system->_p->imageOptions);
@@ -301,9 +301,9 @@ namespace djv
                             system->_p->activeWidget = value;
                             if (system->_p->activeWidget)
                             {
-                                system->_p->imageOptionsObserver = ValueObserver<AV::Render::ImageOptions>::create(
+                                system->_p->imageOptionsObserver = ValueObserver<AV::Render2D::ImageOptions>::create(
                                     system->_p->activeWidget->getImageView()->observeImageOptions(),
-                                    [weak](const AV::Render::ImageOptions& value)
+                                    [weak](const AV::Render2D::ImageOptions& value)
                                     {
                                         if (auto system = weak.lock())
                                         {

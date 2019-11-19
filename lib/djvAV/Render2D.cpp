@@ -60,7 +60,7 @@ namespace djv
 {
     namespace AV
     {
-        namespace Render
+        namespace Render2D
         {
             namespace
             {
@@ -451,9 +451,9 @@ namespace djv
             }
 
 
-            struct Render2D::Private
+            struct Render::Private
             {
-                Render2D* system = nullptr;
+                Render* system = nullptr;
 
                 std::weak_ptr<Font::System>             fontSystem;
                 Font::Info                              currentFont;
@@ -462,7 +462,7 @@ namespace djv
                 BBox2f                                              viewport;
                 std::vector<Primitive*>                             primitives;
                 PrimitiveData                                       primitiveData;
-                std::shared_ptr<TextureAtlas>                       textureAtlas;
+                std::shared_ptr<AV::Render::TextureAtlas>           textureAtlas;
                 std::map<UID, uint64_t>                             textureIDs;
                 std::map<UID, uint64_t>                             glyphTextureIDs;
                 std::vector<std::shared_ptr<OpenGL::Texture> >      dynamicTextureIDs;
@@ -499,10 +499,9 @@ namespace djv
                 std::string getFragmentSource() const;
             };
 
-            void Render2D::_init(const std::shared_ptr<Core::Context>& context)
+            void Render::_init(const std::shared_ptr<Core::Context>& context)
             {
-                ISystem::_init("djv::AV::Render::Render2D", context);
-
+                ISystem::_init("djv::AV::Render2D::Render", context);
                 DJV_PRIVATE_PTR();
                 p.system = this;
 
@@ -522,7 +521,7 @@ namespace djv
                     std::stringstream ss;
                     ss << "Maximum OpenGL texture units: " << maxTextureUnits << "\n";
                     ss << "Maximum OpenGL texture size: " << maxTextureSize;
-                    logSystem->log("djv::AV::Render::Render2D", ss.str());
+                    logSystem->log("djv::AV::Render2D::Render", ss.str());
                 }
                 const uint8_t _textureAtlasCount = std::min(maxTextureUnits, static_cast<GLint>(textureAtlasCount));
                 const uint16_t _textureAtlasSize = std::min(maxTextureSize, static_cast<GLint>(textureAtlasSize));
@@ -531,9 +530,9 @@ namespace djv
                     std::stringstream ss;
                     ss << "Texture atlas count: " << _textureAtlasCount << "\n";
                     ss << "Texture atlas size: " << _textureAtlasSize;
-                    logSystem->log("djv::AV::Render::Render2D", ss.str());
+                    logSystem->log("djv::AV::Render2D::Render", ss.str());
                 }
-                p.textureAtlas.reset(new TextureAtlas(
+                p.textureAtlas.reset(new AV::Render::TextureAtlas(
                     _textureAtlasCount,
                     _textureAtlasSize,
                     Image::Type::RGBA_U8,
@@ -603,21 +602,21 @@ namespace djv
                 });*/
             }
 
-            Render2D::Render2D() :
+            Render::Render() :
                 _p(new Private)
             {}
 
-            Render2D::~Render2D()
+            Render::~Render()
             {}
 
-            std::shared_ptr<Render2D> Render2D::create(const std::shared_ptr<Core::Context>& context)
+            std::shared_ptr<Render> Render::create(const std::shared_ptr<Core::Context>& context)
             {
-                auto out = std::shared_ptr<Render2D>(new Render2D);
+                auto out = std::shared_ptr<Render>(new Render);
                 out->_init(context);
                 return out;
             }
 
-            void Render2D::beginFrame(const Image::Size& size)
+            void Render::beginFrame(const Image::Size& size)
             {
                 DJV_PRIVATE_PTR();
                 _size = size;
@@ -625,13 +624,12 @@ namespace djv
                 p.viewport = BBox2f(0.F, 0.F, static_cast<float>(size.w), static_cast<float>(size.h));
             }
 
-            void Render2D::endFrame()
+            void Render::endFrame()
             {
                 DJV_PRIVATE_PTR();
-
                 if (!p.shader)
                 {
-                    auto shader = Shader::create(p.vertexSource, p.getFragmentSource());
+                    auto shader = AV::Render::Shader::create(p.vertexSource, p.getFragmentSource());
                     shader->setVertexName(p.vertexFileName);
                     shader->setFragmentName(p.fragmentFileName);
                     p.shader = OpenGL::Shader::create(shader);
@@ -799,7 +797,7 @@ namespace djv
 #endif // DJV_OPENGL_ES2
             }
             
-            void Render2D::drawPolyline(const std::vector<glm::vec2>& value)
+            void Render::drawPolyline(const std::vector<glm::vec2>& value)
             {
                 DJV_PRIVATE_PTR();
                 const size_t size = value.size();
@@ -859,12 +857,12 @@ namespace djv
                 }
             }
             
-            void Render2D::drawRect(const BBox2f & value)
+            void Render::drawRect(const BBox2f & value)
             {
                 drawRects({ value });
             }
 
-            void Render2D::drawRects(const std::vector<BBox2f>& value)
+            void Render::drawRects(const std::vector<BBox2f>& value)
             {
                 DJV_PRIVATE_PTR();
                 std::vector<const BBox2f*> clipped;
@@ -915,7 +913,7 @@ namespace djv
                 }
             }
 
-            void Render2D::drawPill(const Core::BBox2f& rect, size_t facets)
+            void Render::drawPill(const Core::BBox2f& rect, size_t facets)
             {
                 DJV_PRIVATE_PTR();
                 if (rect.intersects(_currentClipRect))
@@ -990,7 +988,7 @@ namespace djv
                 }
             }
 
-            void Render2D::drawCircle(const glm::vec2 & pos, float radius, size_t facets)
+            void Render::drawCircle(const glm::vec2 & pos, float radius, size_t facets)
             {
                 DJV_PRIVATE_PTR();
                 const BBox2f rect(pos.x - radius, pos.y - radius, radius * 2.F, radius * 2.F);
@@ -1028,7 +1026,7 @@ namespace djv
                 }
             }
 
-            void Render2D::drawImage(
+            void Render::drawImage(
                 const std::shared_ptr<Image::Image> & image,
                 const glm::vec2& pos,
                 const ImageOptions& options)
@@ -1037,7 +1035,7 @@ namespace djv
                 p.drawImage(image, pos, options, ColorMode::ColorAndTexture, _currentTransform, _currentClipRect, _finalColor);
             }
 
-            void Render2D::drawFilledImage(
+            void Render::drawFilledImage(
                 const std::shared_ptr<Image::Image> & image,
                 const glm::vec2& pos,
                 const ImageOptions& options)
@@ -1046,22 +1044,22 @@ namespace djv
                 p.drawImage(image, pos, options, ColorMode::ColorWithTextureAlpha, _currentTransform, _currentClipRect, _finalColor);
             }
 
-            void Render2D::setCurrentFont(const Font::Info & value)
+            void Render::setCurrentFont(const Font::Info & value)
             {
                 _p->currentFont = value;
             }
 
-            std::shared_ptr<IValueSubject<bool> > Render2D::observeLCDText() const
+            std::shared_ptr<IValueSubject<bool> > Render::observeLCDText() const
             {
                 return _p->lcdText;
             }
 
-            void Render2D::setLCDText(bool value)
+            void Render::setLCDText(bool value)
             {
                 _p->lcdText->setIfChanged(value);
             }
 
-            std::vector<std::shared_ptr<Font::Glyph> > Render2D::drawText(const std::string & value, const glm::vec2 & pos)
+            std::vector<std::shared_ptr<Font::Glyph> > Render::drawText(const std::string & value, const glm::vec2 & pos)
             {
                 DJV_PRIVATE_PTR();
                 std::vector<std::shared_ptr<Font::Glyph> > out;
@@ -1080,7 +1078,7 @@ namespace djv
                 return out;
             }
 
-            void Render2D::drawText(const std::vector<std::shared_ptr<Font::Glyph> >& glyphs, const glm::vec2 & pos)
+            void Render::drawText(const std::vector<std::shared_ptr<Font::Glyph> >& glyphs, const glm::vec2 & pos)
             {
                 DJV_PRIVATE_PTR();
 
@@ -1090,7 +1088,7 @@ namespace djv
                 {
                     std::shared_ptr<Font::Glyph> glyph;
                     BBox2f bbox;
-                    TextureAtlasItem item;
+                    AV::Render::TextureAtlasItem item;
                 };
                 std::vector<std::vector<GlyphData> > clipped;
                 uint8_t textureIndex = 0;
@@ -1196,7 +1194,7 @@ namespace djv
                 }
             }
 
-            void Render2D::drawShadow(const BBox2f& value, Side side)
+            void Render::drawShadow(const BBox2f& value, Side side)
             {
                 DJV_PRIVATE_PTR();
                 if (value.intersects(_currentClipRect))
@@ -1242,7 +1240,7 @@ namespace djv
                 }
             }
 
-            void Render2D::drawShadow(const BBox2f& value, float radius, size_t facets)
+            void Render::drawShadow(const BBox2f& value, float radius, size_t facets)
             {
                 DJV_PRIVATE_PTR();
                 if (value.intersects(_currentClipRect))
@@ -1477,22 +1475,22 @@ namespace djv
                 }
             }
 
-            float Render2D::getTextureAtlasPercentage() const
+            float Render::getTextureAtlasPercentage() const
             {
                 return _p->textureAtlas->getPercentageUsed();
             }
 
-            size_t Render2D::getDynamicTextureCount() const
+            size_t Render::getDynamicTextureCount() const
             {
                 return _p->dynamicTextureCache.size();
             }
 
-            size_t Render2D::getVBOSize() const
+            size_t Render::getVBOSize() const
             {
                 return _p->vbo ? _p->vbo->getSize() : 0;
             }
 
-            void Render2D::Private::updateVBODataSize(size_t value)
+            void Render::Private::updateVBODataSize(size_t value)
             {
                 const size_t vertexByteCount = AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
                 vboDataSize += value * vertexByteCount;
@@ -1502,7 +1500,7 @@ namespace djv
                 }
             }
 
-            void Render2D::Private::drawImage(
+            void Render::Private::drawImage(
                 const std::shared_ptr<Image::Image>& image,
                 const glm::vec2& pos,
                 const ImageOptions& options,
@@ -1587,7 +1585,7 @@ namespace djv
                     {
                     case ImageCache::Atlas:
                     {
-                        TextureAtlasItem item;
+                        AV::Render::TextureAtlasItem item;
                         uint64_t id = 0;
                         const auto i = textureIDs.find(uid);
                         if (i != textureIDs.end())
@@ -1750,7 +1748,7 @@ namespace djv
                 }
             }
 
-            std::string Render2D::Private::getFragmentSource() const
+            std::string Render::Private::getFragmentSource() const
             {
                 std::string out = fragmentSource;
 
@@ -1796,11 +1794,11 @@ namespace djv
                 return out;
             }
 
-        } // namespace Render
+        } // namespace Render2D
     } // namespace AV
     
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        AV::Render,
+        AV::Render2D,
         ImageChannel,
         DJV_TEXT("None"),
         DJV_TEXT("Red"),
@@ -1809,7 +1807,7 @@ namespace djv
         DJV_TEXT("Alpha"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
-        AV::Render,
+        AV::Render2D,
         ImageCache,
         DJV_TEXT("Atlas"),
         DJV_TEXT("Dynamic"));

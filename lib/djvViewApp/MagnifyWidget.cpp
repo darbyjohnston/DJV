@@ -69,7 +69,7 @@ namespace djv
                 static std::shared_ptr<ImageWidget> create(const std::shared_ptr<Context>&);
 
                 void setImage(const std::shared_ptr<AV::Image::Image>&);
-                void setImageOptions(const AV::Render::ImageOptions&);
+                void setImageOptions(const AV::Render2D::ImageOptions&);
                 void setImagePos(const glm::vec2&);
                 void setImageZoom(float);
                 void setImageRotate(ImageRotate);
@@ -84,7 +84,7 @@ namespace djv
 
             private:
                 std::shared_ptr<AV::Image::Image> _image;
-                AV::Render::ImageOptions _imageOptions;
+                AV::Render2D::ImageOptions _imageOptions;
                 glm::vec2 _imagePos = glm::vec2(0.F, 0.F);
                 float _imageZoom = 0.F;
                 ImageRotate _imageRotate = ImageRotate::First;
@@ -142,7 +142,7 @@ namespace djv
                 _redraw();
             }
 
-            void ImageWidget::setImageOptions(const AV::Render::ImageOptions& value)
+            void ImageWidget::setImageOptions(const AV::Render2D::ImageOptions& value)
             {
                 if (value == _imageOptions)
                     return;
@@ -235,7 +235,7 @@ namespace djv
                         _imageZoom * UI::getAspectRatioScale(_imageAspectRatio, _image->getAspectRatio()) * magnify));
 
                     render->pushTransform(m);
-                    AV::Render::ImageOptions options(_imageOptions);
+                    AV::Render2D::ImageOptions options(_imageOptions);
                     auto i = _ocioConfig.fileColorSpaces.find(_image->getPluginName());
                     if (i != _ocioConfig.fileColorSpaces.end())
                     {
@@ -250,7 +250,7 @@ namespace djv
                         }
                     }
                     options.colorSpace.output = _outputColorSpace;
-                    options.cache = AV::Render::ImageCache::Dynamic;
+                    options.cache = AV::Render2D::ImageCache::Dynamic;
                     render->drawImage(_image, glm::vec2(0.F, 0.F), options);
                     render->popTransform();
                 }
@@ -271,7 +271,7 @@ namespace djv
 
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
-            std::shared_ptr<ValueObserver<AV::Render::ImageOptions> > imageOptionsObserver;
+            std::shared_ptr<ValueObserver<AV::Render2D::ImageOptions> > imageOptionsObserver;
             std::shared_ptr<ValueObserver<glm::vec2> > imagePosObserver;
             std::shared_ptr<ValueObserver<float> > imageZoomObserver;
             std::shared_ptr<ValueObserver<ImageRotate> > imageRotateObserver;
@@ -336,9 +336,9 @@ namespace djv
                                         }
                                     });
 
-                                widget->_p->imageOptionsObserver = ValueObserver<AV::Render::ImageOptions>::create(
+                                widget->_p->imageOptionsObserver = ValueObserver<AV::Render2D::ImageOptions>::create(
                                     widget->_p->activeWidget->getImageView()->observeImageOptions(),
-                                    [weak](const AV::Render::ImageOptions& value)
+                                    [weak](const AV::Render2D::ImageOptions& value)
                                     {
                                         if (auto widget = weak.lock())
                                         {

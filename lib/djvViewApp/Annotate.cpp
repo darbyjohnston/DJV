@@ -91,7 +91,7 @@ namespace djv
             return out;
         }
             
-        void AnnotateLine::draw(const std::shared_ptr<AV::Render::Render2D>& render)
+        void AnnotateLine::draw(const std::shared_ptr<AV::Render2D::Render>& render)
         {
             DJV_PRIVATE_PTR();
             const auto& options = getOptions();

@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2019 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -29,42 +29,22 @@
 
 #include <djvCmdLineApp/Application.h>
 
-#include <djvAV/Color.h>
 #include <djvAV/GLFWSystem.h>
 #include <djvAV/OpenGL.h>
-#include <djvAV/Render2D.h>
+#include <djvAV/Render3D.h>
+#include <djvAV/Shape.h>
+#include <djvAV/TriangleMesh.h>
 
 #include <djvCore/Error.h>
+#include <djvCore/Math.h>
 #include <djvCore/Timer.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
+#include <glm/gtc/matrix_transform.hpp>
+
 using namespace djv;
-
-const size_t circleCount = 10000;
-
-struct Circle
-{
-    Circle(const glm::vec2 & area)
-    {
-        pos.x = Core::Math::getRandom(0.f, area.x);
-        pos.y = Core::Math::getRandom(0.f, area.x);
-        color = AV::Image::Color(
-            Core::Math::getRandom(0.f, 1.f),
-            Core::Math::getRandom(0.f, 1.f),
-            Core::Math::getRandom(0.f, 1.f),
-            1.f);
-        radiusRate = Core::Math::getRandom(.1f, 10.f);
-        alphaRate = Core::Math::getRandom(.001f, .01f);
-    }
-
-    glm::vec2           pos;
-    float               radius      = 0.f;
-    float               radiusRate;
-    AV::Image::Color    color;
-    float               alphaRate;
-};
 
 class Application : public CmdLine::Application
 {
@@ -83,8 +63,10 @@ public:
 private:
     void _render();
 
-    AV::Image::Size _windowSize = AV::Image::Size(1280, 720);
-    std::vector<Circle> _circles;
+    std::vector<AV::Geom::TriangleMesh> _meshes;
+    std::shared_ptr<AV::Render3D::IMaterial> _material;
+    glm::vec3 _camera = glm::vec3(15.F, 15.F, 15.F);
+    AV::Render3D::RenderOptions _options;
     std::shared_ptr<Core::Time::Timer> _timer;
 };
 
@@ -97,35 +79,60 @@ void Application::_init(int argc, char ** argv)
     }
     CmdLine::Application::_init(args);
 
+    for (size_t i = 0; i < 1000; ++i)
+    {
+        AV::Geom::TriangleMesh mesh;
+        switch (Core::Math::getRandom(0, 2))
+        {
+        case 0:
+        {
+            AV::Geom::Cube shape(Core::Math::getRandom(.1F, 1.F));
+            shape.triangulate(mesh);
+            break;
+        }
+        case 1:
+        {
+            AV::Geom::Sphere shape(Core::Math::getRandom(.1F, 1.F), AV::Geom::Sphere::Resolution(20, 20));
+            shape.triangulate(mesh);
+            break;
+        }
+        case 2:
+        {
+            AV::Geom::Cylinder shape(Core::Math::getRandom(.1F, 1.F), Core::Math::getRandom(.1F, 1.F), 20);
+            shape.setCapped(true);
+            shape.triangulate(mesh);
+            break;
+        }
+        }
+        const glm::vec3 pos(
+            Core::Math::getRandom(-10.F, 10.F),
+            Core::Math::getRandom(-10.F, 10.F),
+            Core::Math::getRandom(-10.F, 10.F));
+        for (size_t i = 0; i < mesh.v.size(); ++i)
+        {
+            auto& v = mesh.v[i];
+            v.x += pos.x;
+            v.y += pos.y;
+            v.z += pos.z;
+        }
+        _meshes.push_back(mesh);
+    }
+
+    _material = AV::Render3D::DefaultMaterial::create(shared_from_this());
+
+    _options.size = AV::Image::Size(1280, 720);
+
     _timer = Core::Time::Timer::create(shared_from_this());
     _timer->setRepeating(true);
     _timer->start(
         std::chrono::milliseconds(10),
         [this](float)
     {
-        while (_circles.size() < circleCount)
-        {
-            _circles.push_back(Circle(glm::vec2(_windowSize.w, _windowSize.h)));
-        }
-        auto i = _circles.begin();
-        while (i != _circles.end())
-        {
-            i->radius += i->radiusRate;
-            const float a = i->color.getF32(3) - i->alphaRate;
-            if (a <= 0.f)
-            {
-                i = _circles.erase(i);
-            }
-            else
-            {
-                i->color.setF32(a, 3);
-                ++i;
-            }
-        }
+            _camera.y += .1F;
     });
 
     auto glfwWindow = getSystemT<AV::GLFW::System>()->getGLFWWindow();
-    glfwSetWindowSize(glfwWindow, _windowSize.w, _windowSize.h);
+    glfwSetWindowSize(glfwWindow, _options.size.w, _options.size.h);
     glfwShowWindow(glfwWindow);
 }
 
@@ -162,22 +169,24 @@ int Application::run()
 
 void Application::_render()
 {
-    if (auto render = getSystemT<AV::Render2D::Render>())
+    auto render = getSystemT<AV::Render3D::Render>();
+    auto glfwWindow = getSystemT<AV::GLFW::System>()->getGLFWWindow();
+    glm::ivec2 windowSize = glm::ivec2(0, 0);
+    glfwGetWindowSize(glfwWindow, &windowSize.x, &windowSize.y);
+    //_options.camera.v = glm::lookAt(glm::vec3(0.F, 0.F, -5.F), glm::vec3(0.F, 0.F, 0.F), glm::vec3(0.F, 1.F, 0.F));
+    _options.camera.v = glm::translate(glm::mat4x4(1.F), glm::vec3(0.F, 0.F, -_camera.z));
+    _options.camera.v = glm::rotate(_options.camera.v, Core::Math::deg2rad(_camera.x), glm::vec3(1.F, 0.F, 0.F));
+    _options.camera.v = glm::rotate(_options.camera.v, Core::Math::deg2rad(_camera.y), glm::vec3(0.F, 1.F, 0.F));
+    _options.camera.p = glm::perspective(45.F, windowSize.x / static_cast<float>(windowSize.y), .01F, 1000.F);
+    _options.size.w = windowSize.x;
+    _options.size.h = windowSize.y;
+    render->beginFrame(_options);
+    render->setMaterial(_material);
+    for (const auto& i : _meshes)
     {
-        auto glfwWindow = getSystemT<AV::GLFW::System>()->getGLFWWindow();
-        glm::ivec2 windowSize = glm::ivec2(0, 0);
-        glfwGetWindowSize(glfwWindow, &windowSize.x, &windowSize.y);
-        _windowSize.w = windowSize.x;
-        _windowSize.h = windowSize.y;
-        render->beginFrame(_windowSize);
-        for (const auto & i : _circles)
-        {
-            render->setFillColor(i.color);
-            //render->drawCircle(i.pos, i.radius);
-            render->drawRect(Core::BBox2f(i.pos.x, i.pos.y, i.radius, i.radius));
-        }
-        render->endFrame();
+        render->drawTriangleMesh(i);
     }
+    render->endFrame();
 }
 
 int main(int argc, char ** argv)

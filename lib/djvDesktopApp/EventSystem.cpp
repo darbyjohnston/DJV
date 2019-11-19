@@ -91,7 +91,7 @@ namespace djv
             glm::ivec2 resize = glm::ivec2(0, 0);
             bool resizeRequest = true;
             bool redrawRequest = true;
-            std::shared_ptr<AV::Render::Render2D> render;
+            std::shared_ptr<AV::Render2D::Render> render;
             std::shared_ptr<AV::OpenGL::OffscreenBuffer> offscreenBuffer;
 #if defined(DJV_OPENGL_ES2)
             std::shared_ptr<AV::OpenGL::Shader> shader;
@@ -106,7 +106,7 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             p.glfwWindow = glfwWindow;
-            p.render = context->getSystemT<AV::Render::Render2D>();
+            p.render = context->getSystemT<AV::Render2D::Render>();
 
             glm::vec2 contentScale = glm::vec2(1.F, 1.F);
             glfwGetWindowContentScale(p.glfwWindow, &contentScale.x, &contentScale.y);

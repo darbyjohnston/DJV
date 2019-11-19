@@ -37,7 +37,7 @@ namespace djv
 {
     namespace UI
     {
-        void drawBorder(const std::shared_ptr<AV::Render::Render2D>& render, const Core::BBox2f& box, float border)
+        void drawBorder(const std::shared_ptr<AV::Render2D::Render>& render, const Core::BBox2f& box, float border)
         {
             render->drawRects(
                 {

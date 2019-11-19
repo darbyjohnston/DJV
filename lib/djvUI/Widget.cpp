@@ -80,7 +80,7 @@ namespace djv
             ++globalWidgetCount;
 
             _eventSystem = context->getSystemT<EventSystem>();
-            _render = context->getSystemT<AV::Render::Render2D>();
+            _render = context->getSystemT<AV::Render2D::Render>();
             auto uiSystem = context->getSystemT<UISystem>();
             _style = uiSystem->getStyle();
         }

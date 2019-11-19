@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2019 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,29 +27,13 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#version 410
 
-#include <djvUI/UI.h>
+in vec2 Texture;
+in vec3 Normal;
+out vec4 FragColor;
 
-#include <djvCore/BBox.h>
-
-#include <memory>
-
-namespace djv
+void main()
 {
-    namespace AV
-    {
-        namespace Render2D
-        {
-            class Render;
-
-        } // namespace Render
-
-    } // namespace AV
-
-    namespace UI
-    {
-        void drawBorder(const std::shared_ptr<AV::Render2D::Render>&, const Core::BBox2f&, float);
-
-    } // namespace UI
-} // namespace djv
+    FragColor = vec4(Normal.x, Normal.y, Normal.z, 1.0);
+}

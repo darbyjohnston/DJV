@@ -29,6 +29,8 @@
 
 #pragma once
 
+#include <djvAV/AV.h>
+
 #include <djvCore/BBox.h>
 
 namespace djv

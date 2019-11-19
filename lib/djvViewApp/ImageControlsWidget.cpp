@@ -61,7 +61,7 @@ namespace djv
     {
         struct ImageControlsWidget::Private
         {
-            AV::Render::ImageOptions imageOptions;
+            AV::Render2D::ImageOptions imageOptions;
             ImageRotate rotate = ImageRotate::First;
             UI::ImageAspectRatio aspectRatio = UI::ImageAspectRatio::First;
             bool frameStoreEnabled = false;
@@ -106,7 +106,7 @@ namespace djv
             std::shared_ptr<UI::TabWidget> tabWidget;
 
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
-            std::shared_ptr<ValueObserver<AV::Render::ImageOptions> > imageOptionsObserver;
+            std::shared_ptr<ValueObserver<AV::Render2D::ImageOptions> > imageOptionsObserver;
             std::shared_ptr<ValueObserver<ImageRotate> > rotateObserver;
             std::shared_ptr<ValueObserver<UI::ImageAspectRatio> > aspectRatioObserver;
             std::shared_ptr<ValueObserver<bool> > frameStoreEnabledObserver;
@@ -121,7 +121,7 @@ namespace djv
             setClassName("djv::ViewApp::ImageControlsWidget");
 
             p.channelButtonGroup = UI::ButtonGroup::create(UI::ButtonType::Exclusive);
-            for (size_t i = 1; i < static_cast<size_t>(AV::Render::ImageChannel::Count); ++i)
+            for (size_t i = 1; i < static_cast<size_t>(AV::Render2D::ImageChannel::Count); ++i)
             {
                 auto checkBox = UI::CheckBox::create(context);
                 p.channelButtonGroup->addButton(checkBox);
@@ -137,7 +137,7 @@ namespace djv
 
             p.colorSliders["Brightness"] = UI::FloatSlider::create(context);
             p.colorSliders["Brightness"]->setRange(FloatRange(0.F, 4.F));
-            const AV::Render::ImageColor color;
+            const AV::Render2D::ImageColor color;
             p.colorSliders["Brightness"]->setDefault(color.brightness);
             p.colorSliders["Contrast"] = UI::FloatSlider::create(context);
             p.colorSliders["Contrast"]->setRange(FloatRange(0.F, 4.F));
@@ -152,7 +152,7 @@ namespace djv
             p.colorInvertCheckBox = UI::CheckBox::create(context);
 
             p.levelsSliders["InLow"] = UI::FloatSlider::create(context);
-            const AV::Render::ImageLevels levels;
+            const AV::Render2D::ImageLevels levels;
             p.levelsSliders["InLow"]->setDefault(levels.inLow);
             p.levelsSliders["InHigh"] = UI::FloatSlider::create(context);
             p.levelsSliders["InHigh"]->setDefault(levels.inHigh);
@@ -171,7 +171,7 @@ namespace djv
             p.exposureButton = UI::ToggleButton::create(context);
             p.exposureSliders["Exposure"] = UI::FloatSlider::create(context);
             p.exposureSliders["Exposure"]->setRange(FloatRange(-10.F, 10.F));
-            const AV::Render::ImageExposure exposure;
+            const AV::Render2D::ImageExposure exposure;
             p.exposureSliders["Exposure"]->setDefault(exposure.exposure);
             p.exposureSliders["Defog"] = UI::FloatSlider::create(context);
             p.exposureSliders["Defog"]->setRange(FloatRange(0.F, .01F));
@@ -300,7 +300,7 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
-                        widget->_p->imageOptions.channel = static_cast<AV::Render::ImageChannel>(value + 1);
+                        widget->_p->imageOptions.channel = static_cast<AV::Render2D::ImageChannel>(value + 1);
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
@@ -402,7 +402,7 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->imageOptions.color.brightness = value;
-                        widget->_p->imageOptions.colorEnabled = widget->_p->imageOptions.color != AV::Render::ImageColor();
+                        widget->_p->imageOptions.colorEnabled = widget->_p->imageOptions.color != AV::Render2D::ImageColor();
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
@@ -416,7 +416,7 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->imageOptions.color.contrast = value;
-                        widget->_p->imageOptions.colorEnabled = widget->_p->imageOptions.color != AV::Render::ImageColor();
+                        widget->_p->imageOptions.colorEnabled = widget->_p->imageOptions.color != AV::Render2D::ImageColor();
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
@@ -430,7 +430,7 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->imageOptions.color.saturation = value;
-                        widget->_p->imageOptions.colorEnabled = widget->_p->imageOptions.color != AV::Render::ImageColor();
+                        widget->_p->imageOptions.colorEnabled = widget->_p->imageOptions.color != AV::Render2D::ImageColor();
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
@@ -444,7 +444,7 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->imageOptions.color.invert = value;
-                        widget->_p->imageOptions.colorEnabled = widget->_p->imageOptions.color != AV::Render::ImageColor();
+                        widget->_p->imageOptions.colorEnabled = widget->_p->imageOptions.color != AV::Render2D::ImageColor();
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
@@ -459,7 +459,7 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->imageOptions.levels.inLow = value;
-                        widget->_p->imageOptions.levelsEnabled = widget->_p->imageOptions.levels != AV::Render::ImageLevels();
+                        widget->_p->imageOptions.levelsEnabled = widget->_p->imageOptions.levels != AV::Render2D::ImageLevels();
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
@@ -473,7 +473,7 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->imageOptions.levels.inHigh = value;
-                        widget->_p->imageOptions.levelsEnabled = widget->_p->imageOptions.levels != AV::Render::ImageLevels();
+                        widget->_p->imageOptions.levelsEnabled = widget->_p->imageOptions.levels != AV::Render2D::ImageLevels();
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
@@ -487,7 +487,7 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->imageOptions.levels.gamma = value;
-                        widget->_p->imageOptions.levelsEnabled = widget->_p->imageOptions.levels != AV::Render::ImageLevels();
+                        widget->_p->imageOptions.levelsEnabled = widget->_p->imageOptions.levels != AV::Render2D::ImageLevels();
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
@@ -501,7 +501,7 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->imageOptions.levels.outLow = value;
-                        widget->_p->imageOptions.levelsEnabled = widget->_p->imageOptions.levels != AV::Render::ImageLevels();
+                        widget->_p->imageOptions.levelsEnabled = widget->_p->imageOptions.levels != AV::Render2D::ImageLevels();
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
@@ -515,7 +515,7 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->_p->imageOptions.levels.outHigh = value;
-                        widget->_p->imageOptions.levelsEnabled = widget->_p->imageOptions.levels != AV::Render::ImageLevels();
+                        widget->_p->imageOptions.levelsEnabled = widget->_p->imageOptions.levels != AV::Render2D::ImageLevels();
                         widget->_widgetUpdate();
                         if (widget->_p->activeWidget)
                         {
@@ -640,9 +640,9 @@ namespace djv
                             widget->_p->activeWidget = value;
                             if (widget->_p->activeWidget)
                             {
-                                widget->_p->imageOptionsObserver = ValueObserver<AV::Render::ImageOptions>::create(
+                                widget->_p->imageOptionsObserver = ValueObserver<AV::Render2D::ImageOptions>::create(
                                     widget->_p->activeWidget->getImageView()->observeImageOptions(),
-                                    [weak](const AV::Render::ImageOptions& value)
+                                    [weak](const AV::Render2D::ImageOptions& value)
                                     {
                                         if (auto widget = weak.lock())
                                         {
@@ -737,9 +737,9 @@ namespace djv
             setTitle(_getText(DJV_TEXT("Image Controls")));
             
             const auto& channelButtons = p.channelButtonGroup->getButtons();
-            const auto& channelEnums = AV::Render::getImageChannelEnums();
+            const auto& channelEnums = AV::Render2D::getImageChannelEnums();
             size_t j = 0;
-            for (size_t i = 1; i < static_cast<size_t>(AV::Render::ImageChannel::Count); ++i, ++j)
+            for (size_t i = 1; i < static_cast<size_t>(AV::Render2D::ImageChannel::Count); ++i, ++j)
             {
                 std::stringstream ss;
                 ss << channelEnums[i];

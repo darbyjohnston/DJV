@@ -237,9 +237,9 @@ namespace djv
                 default: break;
                 }
 
-                AV::Render::ImageOptions options;
+                AV::Render2D::ImageOptions options;
                 options.alphaBlend = p.imageAlphaBlend;
-                options.cache = AV::Render::ImageCache::Dynamic;
+                options.cache = AV::Render2D::ImageCache::Dynamic;
                 glm::mat3x3 m(1.F);
                 m = glm::translate(m, pos);
                 m = glm::scale(m, glm::vec2(size.x / static_cast<float>(info.size.w), size.y / static_cast<float>(info.size.h)));

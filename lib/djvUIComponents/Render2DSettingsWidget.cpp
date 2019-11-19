@@ -68,12 +68,12 @@ namespace djv
                 {
                     if (auto context = contextWeak.lock())
                     {
-                        auto render2D = context->getSystemT<AV::Render::Render2D>();
+                        auto render2D = context->getSystemT<AV::Render2D::Render>();
                         render2D->setLCDText(value);
                     }
                 });
 
-            auto render2D = context->getSystemT<AV::Render::Render2D>();
+            auto render2D = context->getSystemT<AV::Render2D::Render>();
             auto weak = std::weak_ptr<Render2DTextSettingsWidget>(std::dynamic_pointer_cast<Render2DTextSettingsWidget>(shared_from_this()));
             p.lcdTextObserver = ValueObserver<bool>::create(
                 render2D->observeLCDText(),

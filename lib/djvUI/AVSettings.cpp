@@ -52,7 +52,7 @@ namespace djv
             struct AV::Private
             {
                 std::shared_ptr<djv::AV::AVSystem> avSystem;
-                std::shared_ptr<djv::AV::Render::Render2D> renderSystem;
+                std::shared_ptr<djv::AV::Render2D::Render> renderSystem;
                 std::shared_ptr<djv::AV::IO::System> ioSystem;
             };
 
@@ -61,7 +61,7 @@ namespace djv
                 ISettings::_init("djv::UI::Settings::AV", context);
                 DJV_PRIVATE_PTR();
                 p.avSystem = context->getSystemT<djv::AV::AVSystem>();
-                p.renderSystem = context->getSystemT<djv::AV::Render::Render2D>();
+                p.renderSystem = context->getSystemT<djv::AV::Render2D::Render>();
                 p.ioSystem = context->getSystemT<djv::AV::IO::System>();
                 _load();
             }

@@ -33,7 +33,7 @@ namespace djv
 {
     namespace AV
     {
-        namespace Render
+        namespace Render2D
         {
             inline ImageColor::ImageColor()
             {}
@@ -112,31 +112,31 @@ namespace djv
                 return !(*this == other);
             }
 
-            inline void Render2D::pushTransform(const glm::mat3x3& value)
+            inline void Render::pushTransform(const glm::mat3x3& value)
             {
                 _transforms.push_back(value);
                 _currentTransform *= value;
             }
 
-            inline void Render2D::popTransform()
+            inline void Render::popTransform()
             {
                 _transforms.pop_back();
                 _updateCurrentTransform();
             }
 
-            inline void Render2D::pushClipRect(const Core::BBox2f & value)
+            inline void Render::pushClipRect(const Core::BBox2f & value)
             {
                 _clipRects.push_back(value);
                 _currentClipRect = _currentClipRect.intersect(value);
             }
 
-            inline void Render2D::popClipRect()
+            inline void Render::popClipRect()
             {
                 _clipRects.pop_back();
                 _updateCurrentClipRect();
             }
 
-            inline void Render2D::setFillColor(const Image::Color & value)
+            inline void Render::setFillColor(const Image::Color & value)
             {
                 if (Image::Type::RGBA_F32 == value.getType())
                 {
@@ -161,7 +161,7 @@ namespace djv
                 _finalColor[3] = _fillColor[3] * _alphaMult;
             }
 
-            inline void Render2D::setColorMult(float value)
+            inline void Render::setColorMult(float value)
             {
                 if (value == _colorMult)
                     return;
@@ -172,7 +172,7 @@ namespace djv
                 _finalColor[3] = _fillColor[3] * _alphaMult;
             }
 
-            inline void Render2D::setAlphaMult(float value)
+            inline void Render::setAlphaMult(float value)
             {
                 if (value == _alphaMult)
                     return;
@@ -183,12 +183,12 @@ namespace djv
                 _finalColor[3] = _fillColor[3] * _alphaMult;
             }
 
-            inline void Render2D::setLineWidth(float value)
+            inline void Render::setLineWidth(float value)
             {
                 _lineWidth = value;
             }
 
-            inline void Render2D::_updateCurrentTransform()
+            inline void Render::_updateCurrentTransform()
             {
                 _currentTransform = glm::mat3x3(1.F);
                 for (const auto& i : _transforms)
@@ -197,7 +197,7 @@ namespace djv
                 }
             }
 
-            inline void Render2D::_updateCurrentClipRect()
+            inline void Render::_updateCurrentClipRect()
             {
                 _currentClipRect.min.x = 0.F;
                 _currentClipRect.min.y = 0.F;
@@ -209,7 +209,7 @@ namespace djv
                 }
             }
 
-        } // namespace Render
+        } // namespace Render2D
     } // namespace AV
 } // namespace djv
 

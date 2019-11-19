@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2019 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,29 +27,23 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#version 410
 
-#include <djvUI/UI.h>
+in vec3 aPos;
+in vec2 aTexture;
+in vec3 aNormal;
 
-#include <djvCore/BBox.h>
+out vec2 Texture;
+out vec3 Normal;
 
-#include <memory>
-
-namespace djv
+uniform struct Transform
 {
-    namespace AV
-    {
-        namespace Render2D
-        {
-            class Render;
+    mat4 mvp;
+} transform;
 
-        } // namespace Render
-
-    } // namespace AV
-
-    namespace UI
-    {
-        void drawBorder(const std::shared_ptr<AV::Render2D::Render>&, const Core::BBox2f&, float);
-
-    } // namespace UI
-} // namespace djv
+void main()
+{
+    gl_Position = transform.mvp * vec4(aPos, 1.0);
+    Texture = aTexture;
+    Normal = aNormal;
+}

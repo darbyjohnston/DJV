@@ -45,9 +45,9 @@ namespace djv
 {
     namespace AV
     {
-        namespace Render
+        namespace Render2D
         {
-            class Render2D;
+            class Render;
 
         } // namespace Render
 
@@ -218,7 +218,7 @@ namespace djv
             ///@{
 
             const std::weak_ptr<EventSystem>& _getEventSystem() const;
-            const std::shared_ptr<AV::Render::Render2D>& _getRender() const;
+            const std::shared_ptr<AV::Render2D::Render>& _getRender() const;
             const std::shared_ptr<Style::Style> & _getStyle() const;
 
             ///@}
@@ -286,7 +286,7 @@ namespace djv
             static bool         _redrawRequest;
 
             std::weak_ptr<EventSystem>              _eventSystem;
-            std::shared_ptr<AV::Render::Render2D>   _render;
+            std::shared_ptr<AV::Render2D::Render>   _render;
             std::shared_ptr<Style::Style>           _style;
 
             friend class EventSystem;

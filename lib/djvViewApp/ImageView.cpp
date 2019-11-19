@@ -76,7 +76,7 @@ namespace djv
         {
             std::shared_ptr<AV::Font::System> fontSystem;
             std::shared_ptr<ValueSubject<std::shared_ptr<AV::Image::Image> > > image;
-            std::shared_ptr<ValueSubject<AV::Render::ImageOptions> > imageOptions;
+            std::shared_ptr<ValueSubject<AV::Render2D::ImageOptions> > imageOptions;
             AV::OCIO::Config ocioConfig;
             std::string outputColorSpace;
             std::shared_ptr<ValueSubject<glm::vec2> > imagePos;
@@ -114,9 +114,9 @@ namespace djv
             auto imageSettings = settingsSystem->getSettingsT<ImageSettings>();
             auto viewSettings = settingsSystem->getSettingsT<ViewSettings>();
             p.image = ValueSubject<std::shared_ptr<AV::Image::Image> >::create();
-            AV::Render::ImageOptions imageOptions;
+            AV::Render2D::ImageOptions imageOptions;
             imageOptions.alphaBlend = avSystem->observeAlphaBlend()->get();
-            p.imageOptions = ValueSubject<AV::Render::ImageOptions>::create(imageOptions);
+            p.imageOptions = ValueSubject<AV::Render2D::ImageOptions>::create(imageOptions);
             p.imagePos = ValueSubject<glm::vec2>::create();
             p.imageZoom = ValueSubject<float>::create(1.F);
             p.imageRotate = ValueSubject<ImageRotate>::create(imageSettings->observeRotate()->get());
@@ -191,12 +191,12 @@ namespace djv
             }
         }
 
-        std::shared_ptr<IValueSubject<AV::Render::ImageOptions> > ImageView::observeImageOptions() const
+        std::shared_ptr<IValueSubject<AV::Render2D::ImageOptions> > ImageView::observeImageOptions() const
         {
             return _p->imageOptions;
         }
 
-        void ImageView::setImageOptions(const AV::Render::ImageOptions& value)
+        void ImageView::setImageOptions(const AV::Render2D::ImageOptions& value)
         {
             DJV_PRIVATE_PTR();
             if (p.imageOptions->setIfChanged(value))
@@ -479,7 +479,7 @@ namespace djv
                     zoom * UI::getPixelAspectRatio(p.imageAspectRatio->get(), image->getInfo().pixelAspectRatio),
                     zoom * UI::getAspectRatioScale(p.imageAspectRatio->get(), image->getAspectRatio())));
                 render->pushTransform(m);
-                AV::Render::ImageOptions options(p.imageOptions->get());
+                AV::Render2D::ImageOptions options(p.imageOptions->get());
                 auto i = p.ocioConfig.fileColorSpaces.find(image->getPluginName());
                 if (i != p.ocioConfig.fileColorSpaces.end())
                 {
@@ -494,7 +494,7 @@ namespace djv
                     }
                 }
                 options.colorSpace.output = p.outputColorSpace;
-                options.cache = AV::Render::ImageCache::Dynamic;
+                options.cache = AV::Render2D::ImageCache::Dynamic;
                 render->drawImage(image, glm::vec2(0.F, 0.F), options);
                 render->popTransform();
             }

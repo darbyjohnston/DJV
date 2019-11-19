@@ -130,7 +130,7 @@ private:
     void _render();
 
     GLFWwindow*  _glfwWindow   = nullptr;
-    std::shared_ptr<AV::Render::Render2D> _render2D;
+    std::shared_ptr<AV::Render2D::Render> _render2D;
     RandomColor* _randomColors = nullptr;
     RandomColor* _currentColor = nullptr;
     RandomPos*   _randomPos    = nullptr;
@@ -155,7 +155,7 @@ void Application::_init(int argc, char ** argv)
     _glfwWindow = getSystemT<AV::GLFW::System>()->getGLFWWindow();
     //glfwSetWindowSize(_glfwWindow, 1280, 720);
     glfwShowWindow(_glfwWindow);
-    _render2D = getSystemT<AV::Render::Render2D>();
+    _render2D = getSystemT<AV::Render2D::Render>();
 
     static const std::vector<std::string> names =
     {

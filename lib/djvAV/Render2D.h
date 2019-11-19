@@ -52,7 +52,7 @@ namespace djv
         } // namespace Image
 
         //! This namespace provides rendering functionality.
-        namespace Render
+        namespace Render2D
         {
             //! This enumeration provides which image channels are displayed.
             enum class ImageChannel
@@ -160,19 +160,19 @@ namespace djv
                 bool operator != (const ImageOptions&) const;
             };
 
-            //! This class provides a 2D renderer.
-            class Render2D : public Core::ISystem
+            //! This class provides a 2D render system.
+            class Render : public Core::ISystem
             {
-                DJV_NON_COPYABLE(Render2D);
+                DJV_NON_COPYABLE(Render);
 
             protected:
                 void _init(const std::shared_ptr<Core::Context>&);
-                Render2D();
+                Render();
 
             public:
-                ~Render2D();
+                ~Render();
 
-                static std::shared_ptr<Render2D> create(const std::shared_ptr<Core::Context>&);
+                static std::shared_ptr<Render> create(const std::shared_ptr<Core::Context>&);
 
                 //! \name Begin and End
                 ///@{
@@ -290,11 +290,11 @@ namespace djv
                 DJV_PRIVATE();
             };
 
-        } // namespace Render
+        } // namespace Render2D
     } // namespace AV
 
-    DJV_ENUM_SERIALIZE_HELPERS(AV::Render::ImageChannel);
-    DJV_ENUM_SERIALIZE_HELPERS(AV::Render::ImageCache);
+    DJV_ENUM_SERIALIZE_HELPERS(AV::Render2D::ImageChannel);
+    DJV_ENUM_SERIALIZE_HELPERS(AV::Render2D::ImageCache);
 
 } // namespace djv
 

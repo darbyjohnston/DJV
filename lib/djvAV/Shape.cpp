@@ -60,8 +60,6 @@ namespace djv
 
             void Square::triangulate(TriangleMesh & mesh) const
             {
-                mesh.clear();
-
                 mesh.v.push_back(glm::vec3(-_radius, 0.F, _radius));
                 mesh.v.push_back(glm::vec3(_radius, 0.F, _radius));
                 mesh.v.push_back(glm::vec3(_radius, 0.F, -_radius));
@@ -104,8 +102,6 @@ namespace djv
 
             void Circle::triangulate(TriangleMesh & mesh) const
             {
-                mesh.clear();
-
                 for (size_t i = 0; i < _resolution; ++i)
                 {
                     const float v = i / static_cast<float>(_resolution);
@@ -179,8 +175,6 @@ namespace djv
 
             void Sphere::triangulate(TriangleMesh & mesh) const
             {
-                mesh.clear();
-
                 //! \bug Use only a single vertex at each pole.
                 for (size_t v = 0; v <= _resolution.second; ++v)
                 {
@@ -261,8 +255,6 @@ namespace djv
 
             void Cylinder::triangulate(TriangleMesh & mesh) const
             {
-                mesh.clear();
-
                 const float l = _length / 2.F;
                 for (size_t u = 0; u <= _resolution; ++u)
                 {

@@ -47,9 +47,9 @@ namespace djv
     
     namespace AV
     {
-        namespace Render
+        namespace Render2D
         {
-            class Render2D;
+            class Render;
             
         } // namespace Render
     } // namespace AV
@@ -88,7 +88,7 @@ namespace djv
             
             const AnnotateOptions& getOptions() const;
             
-            virtual void draw(const std::shared_ptr<AV::Render::Render2D>&) = 0;
+            virtual void draw(const std::shared_ptr<AV::Render2D::Render>&) = 0;
             
             virtual void addPoint(const glm::vec2&) = 0;
             
@@ -112,7 +112,7 @@ namespace djv
             
             static std::shared_ptr<AnnotateLine> create(const AnnotateOptions&, const std::shared_ptr<Core::Context>&);
             
-            void draw(const std::shared_ptr<AV::Render::Render2D>&) override;
+            void draw(const std::shared_ptr<AV::Render2D::Render>&) override;
             void addPoint(const glm::vec2&) override;
             
         private:

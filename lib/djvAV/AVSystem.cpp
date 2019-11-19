@@ -35,6 +35,8 @@
 #include <djvAV/IO.h>
 #include <djvAV/OCIOSystem.h>
 #include <djvAV/Render2D.h>
+#include <djvAV/Render3D.h>
+#include <djvAV/ShaderSystem.h>
 #include <djvAV/ThumbnailSystem.h>
 
 #include <djvCore/Context.h>
@@ -73,7 +75,9 @@ namespace djv
             auto ioSystem = IO::System::create(context);
             auto fontSystem = Font::System::create(context);
             p.thumbnailSystem = ThumbnailSystem::create(context);
-            auto render2D = Render::Render2D::create(context);
+            auto shaderSystem = Render::ShaderSystem::create(context);
+            auto render2D = Render2D::Render::create(context);
+            auto render3D = Render3D::Render::create(context);
             auto audioSystem = Audio::System::create(context);
 
             addDependency(glfwSystem);
@@ -81,7 +85,9 @@ namespace djv
             addDependency(ioSystem);
             addDependency(fontSystem);
             addDependency(p.thumbnailSystem);
+            addDependency(shaderSystem);
             addDependency(render2D);
+            addDependency(render3D);
             addDependency(audioSystem);
         }
 

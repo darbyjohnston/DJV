@@ -61,7 +61,7 @@ namespace djv
                 const Image::Info info(1280, 720, AV::Image::Type::RGBA_U8);
                 auto offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(info);
                 offscreenBuffer->bind();
-                auto render = context->getSystemT<AV::Render::Render2D>();
+                auto render = context->getSystemT<AV::Render2D::Render>();
                 render->beginFrame(info.size);
                 
                 render->pushTransform(glm::mat3x3(1.F));
@@ -82,19 +82,19 @@ namespace djv
                 
                 auto image = Image::Image::create(Image::Info(64, 64, AV::Image::Type::RGBA_U8));
                 image->zero();
-                std::vector<Render::ImageOptions> imageOptions;
+                std::vector<Render2D::ImageOptions> imageOptions;
                 {
-                    Render::ImageOptions options;
+                    Render2D::ImageOptions options;
                     imageOptions.push_back(options);
                 }
                 {
-                    Render::ImageOptions options;
-                    options.channel = Render::ImageChannel::Red;
+                    Render2D::ImageOptions options;
+                    options.channel = Render2D::ImageChannel::Red;
                     options.alphaBlend = AlphaBlend::Premultiplied;
                     options.mirror.x = true;
                     options.mirror.y = true;
                     options.colorSpace = OCIO::Convert("linear", "sRGB");
-                    options.cache = Render::ImageCache::Dynamic;
+                    options.cache = Render2D::ImageCache::Dynamic;
                     imageOptions.push_back(options);
                 }
                 for (const auto& i : imageOptions)
@@ -139,10 +139,10 @@ namespace djv
         void Render2DTest::_operators()
         {
             {
-                Render::ImageOptions options;
-                options.channel = Render::ImageChannel::Red;
+                Render2D::ImageOptions options;
+                options.channel = Render2D::ImageChannel::Red;
                 DJV_ASSERT(options == options);
-                DJV_ASSERT(options != Render::ImageOptions());
+                DJV_ASSERT(options != Render2D::ImageOptions());
             }
         }
         

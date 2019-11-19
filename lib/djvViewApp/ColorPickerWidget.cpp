@@ -92,7 +92,7 @@ namespace djv
             AV::Image::Color color = AV::Image::Color(0.F, 0.F, 0.F);
             glm::vec2 pickerPos = glm::vec2(0.F, 0.F);
             std::shared_ptr<AV::Image::Image> image;
-            AV::Render::ImageOptions imageOptions;
+            AV::Render2D::ImageOptions imageOptions;
             glm::vec2 imagePos = glm::vec2(0.F, 0.F);
             float imageZoom = 1.F;
             ImageRotate imageRotate = ImageRotate::First;
@@ -122,7 +122,7 @@ namespace djv
             std::shared_ptr<ValueObserver<bool> > lockObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<MediaWidget> > > activeWidgetObserver;
             std::shared_ptr<ValueObserver<std::shared_ptr<AV::Image::Image> > > imageObserver;
-            std::shared_ptr<ValueObserver<AV::Render::ImageOptions> > imageOptionsObserver;
+            std::shared_ptr<ValueObserver<AV::Render2D::ImageOptions> > imageOptionsObserver;
             std::shared_ptr<ValueObserver<glm::vec2> > imagePosObserver;
             std::shared_ptr<ValueObserver<float> > imageZoomObserver;
             std::shared_ptr<ValueObserver<ImageRotate> > imageRotateObserver;
@@ -194,7 +194,7 @@ namespace djv
 #if defined(DJV_OPENGL_ES2)
             auto resourceSystem = context->getSystemT<ResourceSystem>();
             const Core::FileSystem::Path shaderPath = resourceSystem->getPath(Core::FileSystem::ResourcePath::Shaders);
-            p.shader = AV::OpenGL::Shader::create(AV::Render::Shader::create(
+            p.shader = AV::OpenGL::Shader::create(AV::Render2D::Shader::create(
                 Core::FileSystem::Path(shaderPath, "djvAVRender2DVertex.glsl"),
                 Core::FileSystem::Path(shaderPath, "djvAVRender2DFragment.glsl")));
 #endif // DJV_OPENGL_ES2
@@ -284,9 +284,9 @@ namespace djv
                                         }
                                     });
 
-                                widget->_p->imageOptionsObserver = ValueObserver<AV::Render::ImageOptions>::create(
+                                widget->_p->imageOptionsObserver = ValueObserver<AV::Render2D::ImageOptions>::create(
                                     widget->_p->activeWidget->getImageView()->observeImageOptions(),
-                                    [weak](const AV::Render::ImageOptions& value)
+                                    [weak](const AV::Render2D::ImageOptions& value)
                                     {
                                         if (auto widget = weak.lock())
                                         {
@@ -513,7 +513,7 @@ namespace djv
                     render->drawRect(BBox2f(0.F, 0.F, sampleSize, sampleSize));
                     render->setFillColor(AV::Image::Color(1.F, 1.F, 1.F));
                     render->pushTransform(m);
-                    AV::Render::ImageOptions options(p.imageOptions);
+                    AV::Render2D::ImageOptions options(p.imageOptions);
                     auto i = p.ocioConfig.fileColorSpaces.find(p.image->getPluginName());
                     if (i != p.ocioConfig.fileColorSpaces.end())
                     {
@@ -528,7 +528,7 @@ namespace djv
                         }
                     }
                     options.colorSpace.output = p.outputColorSpace;
-                    options.cache = AV::Render::ImageCache::Dynamic;
+                    options.cache = AV::Render2D::ImageCache::Dynamic;
                     render->drawImage(p.image, glm::vec2(0.F, 0.F), options);
                     render->popTransform();
                     render->endFrame();

@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2019 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,29 +27,25 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvAV/Scene.h>
 
-#include <djvUI/UI.h>
-
-#include <djvCore/BBox.h>
-
-#include <memory>
+#include <djvAV/Render3D.h>
 
 namespace djv
 {
     namespace AV
     {
-        namespace Render2D
+        namespace Scene
         {
-            class Render;
+            void Scene::render(
+                const std::shared_ptr<Render::Render3D>& render,
+                const RenderOptions& renderOptions)
+            {
+                Render3D::RenderOptions render3DOptions;
+                render3DOptions.size = renderOptions.size;
+            }
 
-        } // namespace Render
-
+        } // namespace Scene
     } // namespace AV
-
-    namespace UI
-    {
-        void drawBorder(const std::shared_ptr<AV::Render2D::Render>&, const Core::BBox2f&, float);
-
-    } // namespace UI
 } // namespace djv
+
