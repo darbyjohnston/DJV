@@ -34,9 +34,9 @@
 #include <djvAV/OpenGLMesh.h>
 #include <djvAV/OpenGLShader.h>
 #include <djvAV/OpenGLTexture.h>
+#include <djvAV/OpenGLTextureAtlas.h>
 #include <djvAV/Shader.h>
 #include <djvAV/Shape.h>
-#include <djvAV/TextureAtlas.h>
 #include <djvAV/TriangleMesh.h>
 
 #include <djvCore/Cache.h>
@@ -462,7 +462,7 @@ namespace djv
                 BBox2f                                              viewport;
                 std::vector<Primitive*>                             primitives;
                 PrimitiveData                                       primitiveData;
-                std::shared_ptr<AV::Render::TextureAtlas>           textureAtlas;
+                std::shared_ptr<OpenGL::TextureAtlas>               textureAtlas;
                 std::map<UID, uint64_t>                             textureIDs;
                 std::map<UID, uint64_t>                             glyphTextureIDs;
                 std::vector<std::shared_ptr<OpenGL::Texture> >      dynamicTextureIDs;
@@ -532,7 +532,7 @@ namespace djv
                     ss << "Texture atlas size: " << _textureAtlasSize;
                     logSystem->log("djv::AV::Render2D::Render", ss.str());
                 }
-                p.textureAtlas.reset(new AV::Render::TextureAtlas(
+                p.textureAtlas.reset(new OpenGL::TextureAtlas(
                     _textureAtlasCount,
                     _textureAtlasSize,
                     Image::Type::RGBA_U8,
@@ -1088,7 +1088,7 @@ namespace djv
                 {
                     std::shared_ptr<Font::Glyph> glyph;
                     BBox2f bbox;
-                    AV::Render::TextureAtlasItem item;
+                    OpenGL::TextureAtlasItem item;
                 };
                 std::vector<std::vector<GlyphData> > clipped;
                 uint8_t textureIndex = 0;
@@ -1585,7 +1585,7 @@ namespace djv
                     {
                     case ImageCache::Atlas:
                     {
-                        AV::Render::TextureAtlasItem item;
+                        OpenGL::TextureAtlasItem item;
                         uint64_t id = 0;
                         const auto i = textureIDs.find(uid);
                         if (i != textureIDs.end())

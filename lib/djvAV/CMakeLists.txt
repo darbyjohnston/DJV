@@ -26,10 +26,12 @@ set(header
 	OCIOSystem.h
     OpenGL.h
     OpenGLMesh.h
+    OpenGLMeshCache.h
     OpenGLMeshInline.h
     OpenGLOffscreenBuffer.h
     OpenGLShader.h
     OpenGLTexture.h
+    OpenGLTextureAtlas.h
     OpenGLTextureInline.h
     PPM.h
     Pixel.h
@@ -47,7 +49,6 @@ set(header
     Shape.h
     Tags.h
     Targa.h
-    TextureAtlas.h
     ThumbnailSystem.h
     TriangleMesh.h)
 set(source
@@ -75,8 +76,10 @@ set(source
 	OCIO.cpp
 	OCIOSystem.cpp
     OpenGLMesh.cpp
+    OpenGLMeshCache.cpp
     OpenGLOffscreenBuffer.cpp
     OpenGLShader.cpp
+    OpenGLTextureAtlas.cpp
     OpenGLTexture.cpp
     PPM.cpp
     PPMRead.cpp
@@ -96,7 +99,6 @@ set(source
     Tags.cpp
     Targa.cpp
     TargaRead.cpp
-    TextureAtlas.cpp
     ThumbnailSystem.cpp
     TriangleMesh.cpp)
 if(FFmpeg_FOUND)

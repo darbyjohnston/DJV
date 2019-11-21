@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2019 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -31,9 +31,10 @@
 
 #include <djvAV/GLFWSystem.h>
 #include <djvAV/OpenGLMesh.h>
+#include <djvAV/OpenGLMeshCache.h>
 #include <djvAV/OpenGLShader.h>
+#include <djvAV/OpenGLTextureAtlas.h>
 #include <djvAV/ShaderSystem.h>
-#include <djvAV/TextureAtlas.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/LogSystem.h>
@@ -52,13 +53,14 @@ namespace djv
                 //! \todo Should this be configurable?
                 const uint8_t  textureAtlasCount = 4;
                 const uint16_t textureAtlasSize  = 8192;
+                const uint8_t  meshCacheCount    = 1;
+                const size_t   meshCacheSize     = 10000000;
 
                 struct Primitive
                 {
                     glm::mat4x4                 xform;
-                    GLenum                      type        = GL_TRIANGLES;
-                    size_t                      vaoOffset   = 0;
-                    size_t                      vaoSize     = 0;
+                    GLenum                      type     = GL_TRIANGLES;
+                    SizeTRange                  vaoRange;
                     std::shared_ptr<IMaterial>  material;
                 };
 
@@ -112,18 +114,14 @@ namespace djv
 
             struct Render::Private
             {
-                RenderOptions                               options;
-                std::shared_ptr<IMaterial>                  currentMaterial;
-                std::vector<Primitive*>                     primitives;
-                std::shared_ptr<AV::Render::TextureAtlas>   textureAtlas;
-                std::vector<uint8_t>                        vboData;
-                size_t                                      vboDataSize     = 0;
-                std::shared_ptr<OpenGL::VBO>                vbo;
-                std::shared_ptr<OpenGL::VAO>                vao;
+                RenderOptions                           options;
+                std::shared_ptr<IMaterial>              currentMaterial;
+                std::vector<Primitive*>                 primitives;
+                std::shared_ptr<OpenGL::TextureAtlas>   textureAtlas;
+                std::shared_ptr<OpenGL::MeshCache>      meshCache;
+                std::map<UID, UID>                      meshCacheUIDs;
 
-                std::shared_ptr<Time::Timer>                statsTimer;
-
-                void updateVBODataSize(size_t value);
+                std::shared_ptr<Time::Timer>            statsTimer;
             };
 
             void Render::_init(const std::shared_ptr<Context>& context)
@@ -153,12 +151,16 @@ namespace djv
                     ss << "Texture atlas size: " << _textureAtlasSize;
                     logSystem->log("djv::AV::Render3D::Render", ss.str());
                 }
-                p.textureAtlas.reset(new AV::Render::TextureAtlas(
+                p.textureAtlas.reset(new OpenGL::TextureAtlas(
                     _textureAtlasCount,
                     _textureAtlasSize,
                     Image::Type::RGBA_U8,
                     GL_NEAREST,
                     0));
+
+                p.meshCache.reset(new OpenGL::MeshCache(
+                    meshCacheSize,
+                    OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10));
 
                 p.statsTimer = Time::Timer::create(context);
                 p.statsTimer->setRepeating(true);
@@ -169,7 +171,7 @@ namespace djv
                         DJV_PRIVATE_PTR();
                         std::stringstream ss;
                         ss << "Texture atlas: " << p.textureAtlas->getPercentageUsed() << "%\n";
-                        ss << "VBO size: " << (p.vbo ? p.vbo->getSize() : 0);
+                        ss << "Mesh cache: " << p.meshCache->getPercentageUsed() << "%\n";
                         _log(ss.str());
                     });
             }
@@ -221,19 +223,13 @@ namespace djv
                     glBindTexture(GL_TEXTURE_2D, atlasTextures[i]);
                 }
 
-                const size_t vertexByteCount = AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
-                if (!p.vbo || p.vboDataSize / vertexByteCount > p.vbo->getSize())
-                {
-                    p.vbo = OpenGL::VBO::create(p.vboDataSize / vertexByteCount, OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
-                    p.vao = OpenGL::VAO::create(p.vbo->getType(), p.vbo->getID());
-                }
-                p.vbo->copy(p.vboData, 0, p.vboDataSize);
-                p.vao->bind();
+                auto vao = p.meshCache->getVAO();
+                vao->bind();
 
                 for (const auto& i : p.primitives)
                 {
                     i->material->bind(i->xform);
-                    p.vao->draw(i->type, i->vaoOffset, i->vaoSize);
+                    vao->draw(i->type, i->vaoRange.min, i->vaoRange.max - i->vaoRange.min + 1);
                 }
 
                 for (size_t i = 0; i < p.primitives.size(); ++i)
@@ -241,7 +237,6 @@ namespace djv
                     delete p.primitives[i];
                 }
                 p.primitives.clear();
-                p.vboDataSize = 0;
             }
 
             void Render::setMaterial(const std::shared_ptr<IMaterial>& value)
@@ -258,24 +253,21 @@ namespace djv
                     auto primitive = new Primitive;
                     p.primitives.push_back(primitive);
                     primitive->xform = p.options.camera.p * p.options.camera.v * _currentTransform;
-                    primitive->vaoOffset = p.vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
-                    primitive->vaoSize = value.triangles.size() * 3;
                     primitive->material = p.currentMaterial;
 
-                    const size_t vboDataSize = p.vboDataSize;
-                    p.updateVBODataSize(value.triangles.size() * 3);
-                    const auto data = OpenGL::VBO::convert(value, OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
-                    memcpy(p.vboData.data() + vboDataSize, data.data(), p.vboDataSize - vboDataSize);
-                }
-            }
-
-            void Render::Private::updateVBODataSize(size_t value)
-            {
-                const size_t vertexByteCount = AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
-                vboDataSize += value * vertexByteCount;
-                if (vboDataSize > vboData.size())
-                {
-                    vboData.resize(vboDataSize);
+                    SizeTRange range;
+                    const UID uid = value.getUID();
+                    const auto i = p.meshCacheUIDs.find(uid);
+                    if (i != p.meshCacheUIDs.end())
+                    {
+                        p.meshCache->getItem(i->second, range);
+                    }
+                    if (range.min == range.max)
+                    {
+                        const auto data = OpenGL::VBO::convert(value, OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
+                        p.meshCacheUIDs[value.getUID()] = p.meshCache->addItem(data, range);
+                    }
+                    primitive->vaoRange = range;
                 }
             }
 

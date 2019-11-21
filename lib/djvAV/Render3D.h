@@ -41,7 +41,7 @@ namespace djv
     {
         namespace Geom
         {
-            struct TriangleMesh;
+            class TriangleMesh;
         
         } // namespace Geom
 

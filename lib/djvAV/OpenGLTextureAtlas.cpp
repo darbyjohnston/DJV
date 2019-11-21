@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include "TextureAtlas.h"
+#include <djvAV/OpenGLTextureAtlas.h>
 
 #include <djvAV/OpenGLTexture.h>
 
@@ -39,7 +39,7 @@ namespace djv
 {
     namespace AV
     {
-        namespace Render
+        namespace OpenGL
         {
             namespace
             {
@@ -148,7 +148,7 @@ namespace djv
                 uint16_t textureSize = 0;
                 Image::Type textureType = Image::Type::None;
                 uint8_t border = 0;
-                std::vector<std::shared_ptr<OpenGL::Texture> > textures;
+                std::vector<std::shared_ptr<Texture> > textures;
                 std::vector<std::shared_ptr<BoxPackingNode> > boxPackingNodes;
                 std::map<UID, std::shared_ptr<BoxPackingNode> > cache;
             };
@@ -163,7 +163,7 @@ namespace djv
 
                 for (uint8_t i = 0; i < p.textureCount; ++i)
                 {
-                    auto texture = OpenGL::Texture::create(Image::Info(textureSize, textureSize, textureType), filter, filter);
+                    auto texture = Texture::create(Image::Info(textureSize, textureSize, textureType), filter, filter);
                     p.textures.push_back(std::move(texture));
 
                     auto node = BoxPackingNode::create(border);
@@ -367,6 +367,6 @@ namespace djv
                 }
             }
 
-        } // namespace Render
+        } // namespace OpenGL
     } // namespace AV
 } // namespace djv

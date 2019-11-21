@@ -79,26 +79,29 @@ void Application::_init(int argc, char ** argv)
     }
     CmdLine::Application::_init(args);
 
-    for (size_t i = 0; i < 1000; ++i)
+    size_t meshTriangles = 0;
+    size_t meshVertices = 0;
+    size_t meshNormals = 0;
+    for (size_t i = 0; i < 10000; ++i)
     {
         AV::Geom::TriangleMesh mesh;
         switch (Core::Math::getRandom(0, 2))
         {
         case 0:
         {
-            AV::Geom::Cube shape(Core::Math::getRandom(.1F, 1.F));
+            AV::Geom::Cube shape(Core::Math::getRandom(.1F, .2F));
             shape.triangulate(mesh);
             break;
         }
         case 1:
         {
-            AV::Geom::Sphere shape(Core::Math::getRandom(.1F, 1.F), AV::Geom::Sphere::Resolution(20, 20));
+            AV::Geom::Sphere shape(Core::Math::getRandom(.1F, .2F), AV::Geom::Sphere::Resolution(20, 20));
             shape.triangulate(mesh);
             break;
         }
         case 2:
         {
-            AV::Geom::Cylinder shape(Core::Math::getRandom(.1F, 1.F), Core::Math::getRandom(.1F, 1.F), 20);
+            AV::Geom::Cylinder shape(Core::Math::getRandom(.1F, .2F), Core::Math::getRandom(.1F, 1.F), 20);
             shape.setCapped(true);
             shape.triangulate(mesh);
             break;
@@ -116,7 +119,13 @@ void Application::_init(int argc, char ** argv)
             v.z += pos.z;
         }
         _meshes.push_back(mesh);
+        meshTriangles += mesh.triangles.size();
+        meshVertices += mesh.v.size();
+        meshNormals += mesh.n.size();
     }
+    std::cout << "triangles = " << meshTriangles << std::endl;
+    std::cout << "vertices = " << meshVertices << std::endl;
+    std::cout << "normals = " << meshNormals << std::endl;
 
     _material = AV::Render3D::DefaultMaterial::create(shared_from_this());
 
@@ -173,11 +182,10 @@ void Application::_render()
     auto glfwWindow = getSystemT<AV::GLFW::System>()->getGLFWWindow();
     glm::ivec2 windowSize = glm::ivec2(0, 0);
     glfwGetWindowSize(glfwWindow, &windowSize.x, &windowSize.y);
-    //_options.camera.v = glm::lookAt(glm::vec3(0.F, 0.F, -5.F), glm::vec3(0.F, 0.F, 0.F), glm::vec3(0.F, 1.F, 0.F));
     _options.camera.v = glm::translate(glm::mat4x4(1.F), glm::vec3(0.F, 0.F, -_camera.z));
     _options.camera.v = glm::rotate(_options.camera.v, Core::Math::deg2rad(_camera.x), glm::vec3(1.F, 0.F, 0.F));
     _options.camera.v = glm::rotate(_options.camera.v, Core::Math::deg2rad(_camera.y), glm::vec3(0.F, 1.F, 0.F));
-    _options.camera.p = glm::perspective(45.F, windowSize.x / static_cast<float>(windowSize.y), .01F, 1000.F);
+    _options.camera.p = glm::perspective(45.F, windowSize.x / static_cast<float>(windowSize.y > 0 ? windowSize.y : 1.F), .01F, 1000.F);
     _options.size.w = windowSize.x;
     _options.size.h = windowSize.y;
     render->beginFrame(_options);

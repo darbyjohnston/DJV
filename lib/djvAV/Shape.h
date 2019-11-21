@@ -39,7 +39,7 @@ namespace djv
     {
         namespace Geom
         {
-            struct TriangleMesh;
+            class TriangleMesh;
 
             //! This class provides the interface for shapes.
             class IShape

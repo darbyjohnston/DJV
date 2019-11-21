@@ -32,6 +32,7 @@
 #include <djvAV/AV.h>
 
 #include <djvCore/BBox.h>
+#include <djvCore/UID.h>
 
 namespace djv
 {
@@ -41,8 +42,13 @@ namespace djv
         namespace Geom
         {
             //! This struct provides a triangle mesh.
-            struct TriangleMesh
+            class TriangleMesh
             {
+            public:
+                TriangleMesh();
+
+                Core::UID getUID() const;
+
                 //! This struct provides a vertex.
                 struct Vertex
                 {
@@ -137,6 +143,9 @@ namespace djv
                 static void triangulateBBox(const Core::BBox3f &, TriangleMesh &);
 
                 ///@}
+
+            private:
+                Core::UID _uid = 0;
             };
 
         } // namespace Geom

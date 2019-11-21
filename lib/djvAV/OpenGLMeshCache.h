@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2019 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,8 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvAV/ImageData.h>
-#include <djvAV/OpenGL.h>
+#include <djvAV/OpenGLMesh.h>
 
 #include <djvCore/Range.h>
 #include <djvCore/UID.h>
@@ -37,54 +36,38 @@ namespace djv
 {
     namespace AV
     {
-        namespace Render
+        namespace OpenGL
         {
-            //! This struct provides information about a texture atlas item.
-            struct TextureAtlasItem
-            {
-                uint16_t w = 0;
-                uint16_t h = 0;
-                uint8_t textureIndex = 0;
-                Core::FloatRange textureU;
-                Core::FloatRange textureV;
-            };
+            class VBO;
+            class VAO;
 
-            //! This class provides a texture atlas.
-            class TextureAtlas
+            //! This class provides a mesh cache.
+            class MeshCache
             {
-                DJV_NON_COPYABLE(TextureAtlas);
+                DJV_NON_COPYABLE(MeshCache);
 
             public:
-                TextureAtlas(uint8_t textureCount, uint16_t textureSize, Image::Type, GLenum filter = GL_LINEAR, uint8_t border = 1);
-                ~TextureAtlas();
+                MeshCache(size_t vboSize, OpenGL::VBOType);
+                ~MeshCache();
 
-                uint8_t getTextureCount() const;
-                uint16_t getTextureSize() const;
-                Image::Type getTextureType() const;
-                std::vector<GLuint> getTextures() const;
+                size_t getVBOSize() const;
+                OpenGL::VBOType getVBOType() const;
+                const std::shared_ptr<OpenGL::VBO>& getVBO() const;
+                const std::shared_ptr<OpenGL::VAO>& getVAO() const;
 
-                bool getItem(Core::UID, TextureAtlasItem &);
-                Core::UID addItem(const std::shared_ptr<Image::Data> &, TextureAtlasItem &);
+                bool getItem(Core::UID, Core::SizeTRange&);
+                Core::UID addItem(const std::vector<uint8_t>&, Core::SizeTRange&);
 
                 float getPercentageUsed() const;
 
             private:
                 class BoxPackingNode;
 
-                void _getAllNodes(
-                    const std::shared_ptr<BoxPackingNode>&,
-                    std::vector<std::shared_ptr<BoxPackingNode> >&);
-                void _getLeafNodes(
-                    const std::shared_ptr<BoxPackingNode>&,
-                    std::vector<std::shared_ptr<BoxPackingNode> >&) const;
-                void _toTextureAtlasItem(
-                    const std::shared_ptr<BoxPackingNode>&,
-                    TextureAtlasItem&);
-                void _removeFromAtlas(const std::shared_ptr<BoxPackingNode>&);
+                bool _find(size_t, Core::SizeTRange&);
 
                 DJV_PRIVATE();
             };
 
-        } // namespace Render
+        } // namespace OpenGL
     } // namespace AV
 } // namespace djv

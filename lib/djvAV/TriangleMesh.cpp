@@ -39,6 +39,15 @@ namespace djv
     {
         namespace Geom
         {
+            TriangleMesh::TriangleMesh() :
+                _uid(createUID())
+            {}
+
+            UID TriangleMesh::getUID() const
+            {
+                return _uid;
+            }
+
             bool TriangleMesh::Vertex::operator == (const TriangleMesh::Vertex & other) const
             {
                 return
