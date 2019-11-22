@@ -38,11 +38,6 @@ namespace djv
     namespace UI
     {
         //! This class provides the base functionality for line edit widgets.
-        //!
-        //! \todo Click to set the cursor position.
-        //! \todo Add selection.
-        //! \todo Add cut/copy/paste.
-        //! \todo Add scrolling.
         class LineEditBase : public Widget
         {
             DJV_NON_COPYABLE(LineEditBase);
