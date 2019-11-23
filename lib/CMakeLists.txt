@@ -1,5 +1,6 @@
 add_subdirectory(djvCore)
 add_subdirectory(djvAV)
+add_subdirectory(djvScene)
 add_subdirectory(djvUI)
 if(NOT DJV_BUILD_TINY)
     add_subdirectory(djvCmdLineApp)

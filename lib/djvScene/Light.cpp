@@ -27,25 +27,29 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvAV/Scene.h>
+#include <djvScene/Light.h>
 
-#include <djvAV/Render3D.h>
+using namespace djv::Core;
 
 namespace djv
 {
-    namespace AV
+    namespace Scene
     {
-        namespace Scene
-        {
-            void Scene::render(
-                const std::shared_ptr<Render::Render3D>& render,
-                const RenderOptions& renderOptions)
-            {
-                Render3D::RenderOptions render3DOptions;
-                render3DOptions.size = renderOptions.size;
-            }
+        ILight::ILight()
+        {}
 
-        } // namespace Scene
-    } // namespace AV
+        ILight::~ILight()
+        {}
+
+        PointLight::PointLight()
+        {}
+
+        std::shared_ptr<PointLight> PointLight::create()
+        {
+            auto out = std::shared_ptr<PointLight>(new PointLight);
+            return out;
+        }
+
+    } // namespace Scene
 } // namespace djv
 

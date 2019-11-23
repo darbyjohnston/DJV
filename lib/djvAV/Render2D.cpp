@@ -250,6 +250,22 @@ namespace djv
                     }
                 };
 
+                //! This class provides a texture render primitive.
+                class TexturePrimitive : public Primitive
+                {
+                public:
+                    GLuint textureID = 0;
+
+                    void bind(const PrimitiveData& data, const std::shared_ptr<OpenGL::Shader>& shader) override
+                    {
+                        shader->setUniform(data.colorModeLoc, static_cast<int>(ColorMode::ColorAndTexture));
+                        shader->setUniform(data.colorLoc, reinterpret_cast<const GLfloat*>(color));
+                        glActiveTexture(static_cast<GLenum>(GL_TEXTURE0 + data.textureAtlasCount));
+                        glBindTexture(GL_TEXTURE_2D, textureID);
+                        shader->setUniform(data.textureSamplerLoc, static_cast<int>(data.textureAtlasCount));
+                    }
+                };
+
                 //! This struct provides the layout for a VBO vertex.
                 struct VBOVertex
                 {
@@ -1472,6 +1488,48 @@ namespace djv
                         pData->tx = 0;
                         ++pData;
                     }
+                }
+            }
+
+            void Render::drawTexture(const BBox2f& value, GLuint textureID)
+            {
+                DJV_PRIVATE_PTR();
+                if (value.intersects(_currentClipRect))
+                {
+                    auto primitive = new TexturePrimitive;
+                    p.primitives.push_back(primitive);
+                    primitive->clipRect = _currentClipRect;
+                    primitive->color[0] = _finalColor[0];
+                    primitive->color[1] = _finalColor[1];
+                    primitive->color[2] = _finalColor[2];
+                    primitive->color[3] = _finalColor[3];
+                    primitive->type = GL_TRIANGLE_STRIP;
+                    primitive->vaoOffset = p.vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
+                    primitive->vaoSize = 4;
+                    primitive->textureID = textureID;
+
+                    const size_t vboDataSize = p.vboDataSize;
+                    p.updateVBODataSize(4);
+                    VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataSize]);
+                    pData->vx = value.min.x;
+                    pData->vy = value.min.y;
+                    pData->tx = 0;
+                    pData->ty = 0;
+                    ++pData;
+                    pData->vx = value.max.x;
+                    pData->vy = value.min.y;
+                    pData->tx = 65535;
+                    pData->ty = 0;
+                    ++pData;
+                    pData->vx = value.min.x;
+                    pData->vy = value.max.y;
+                    pData->tx = 0;
+                    pData->ty = 65535;
+                    ++pData;
+                    pData->vx = value.max.x;
+                    pData->vy = value.max.y;
+                    pData->tx = 65535;
+                    pData->ty = 65535;
                 }
             }
 

@@ -58,7 +58,6 @@ namespace djv
             {
                 glm::mat4x4 v;
                 glm::mat4x4 p;
-                float fov = 45.F;
             };
 
             //! This class provides the base functionality for materials.

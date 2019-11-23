@@ -90,6 +90,7 @@ namespace djv
                 uint16_t w = 0;
                 uint16_t h = 0;
                 
+                bool isValid() const;
                 float getAspectRatio() const;
 
                 bool operator == (const Size&) const;

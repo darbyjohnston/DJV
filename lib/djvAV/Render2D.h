@@ -243,7 +243,6 @@ namespace djv
                 //! \name Text
                 ///@{
 
-
                 void setCurrentFont(const Font::Info &);
 
                 std::shared_ptr<Core::IValueSubject<bool> > observeLCDText() const;
@@ -260,6 +259,13 @@ namespace djv
 
                 void drawShadow(const Core::BBox2f&, Side);
                 void drawShadow(const Core::BBox2f&, float radius, size_t facets = 16);
+
+                ///@}
+
+                //! \name Textures
+                ///@{
+
+                void drawTexture(const Core::BBox2f&, GLuint);
 
                 ///@}
 

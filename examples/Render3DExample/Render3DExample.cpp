@@ -123,9 +123,9 @@ void Application::_init(int argc, char ** argv)
         meshVertices += mesh.v.size();
         meshNormals += mesh.n.size();
     }
-    std::cout << "triangles = " << meshTriangles << std::endl;
-    std::cout << "vertices = " << meshVertices << std::endl;
-    std::cout << "normals = " << meshNormals << std::endl;
+    //std::cout << "triangles = " << meshTriangles << std::endl;
+    //std::cout << "vertices = " << meshVertices << std::endl;
+    //std::cout << "normals = " << meshNormals << std::endl;
 
     _material = AV::Render3D::DefaultMaterial::create(shared_from_this());
 

@@ -75,6 +75,11 @@ namespace djv
                 h(h)
             {}
 
+            inline bool Size::isValid() const
+            {
+                return w > 0 && h > 0;
+            }
+
             inline float Size::getAspectRatio() const
             {
                 return h > 0 ? (w / static_cast<float>(h)) : 1.F;

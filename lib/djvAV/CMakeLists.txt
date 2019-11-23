@@ -42,7 +42,6 @@ set(header
     Render3D.h
     Render3DInline.h
     SGI.h
-    Scene.h
     SequenceIO.h
     Shader.h
     ShaderSystem.h
@@ -95,7 +94,6 @@ set(source
     ShaderSystem.cpp
     SGI.cpp
     SGIRead.cpp
-    Scene.cpp
     Tags.cpp
     Targa.cpp
     TargaRead.cpp
