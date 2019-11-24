@@ -33,6 +33,8 @@
 
 #include <djvAV/TriangleMesh.h>
 
+#include <memory>
+
 namespace djv
 {
     namespace Scene

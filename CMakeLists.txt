@@ -193,10 +193,10 @@ set(DJV_THIRD_PARTY_OPTIONAL_DEPS
     TIFF
     OpenEXR)
 if(WIN32)
-else()
     set(DJV_THIRD_PARTY_OPTIONAL_DEPS
         ${DJV_THIRD_PARTY_OPTIONAL_DEPS}
         OpenNURBS)
+else()
 endif()
 
 # Set whether shared libraries are used for dependencies.

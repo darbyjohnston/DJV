@@ -31,6 +31,8 @@
 
 #include <djvScene/Enum.h>
 
+#include <memory>
+
 namespace djv
 {
     namespace AV
