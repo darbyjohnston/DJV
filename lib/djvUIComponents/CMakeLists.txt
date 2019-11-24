@@ -14,6 +14,7 @@ set(header
     PPMSettingsWidget.h
     PaletteSettingsWidget.h
     Render2DSettingsWidget.h
+    SceneWidget.h
     SearchBox.h
     SizeSettingsWidget.h
 	ThermometerWidget.h
@@ -40,6 +41,7 @@ set(source
     PPMSettingsWidget.cpp
     PaletteSettingsWidget.cpp
     Render2DSettingsWidget.cpp
+    SceneWidget.cpp
     SearchBox.cpp
     SizeSettingsWidget.cpp
 	ThermometerWidget.cpp
@@ -81,7 +83,7 @@ if(TIFF_FOUND)
 endif()
 
 add_library(djvUIComponents ${header} ${source})
-target_link_libraries(djvUIComponents djvUI)
+target_link_libraries(djvUIComponents djvUI djvScene)
 set_target_properties(
     djvUIComponents
     PROPERTIES

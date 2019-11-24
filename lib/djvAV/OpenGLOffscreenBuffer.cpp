@@ -50,7 +50,8 @@ namespace djv
 
                 enum class Error
                 {
-                    Texture,
+                    ColorTexture,
+                    DepthTexture,
                     Create,
                     Init
                 };
@@ -60,8 +61,11 @@ namespace djv
                     std::stringstream ss;
                     switch (error)
                     {
-                    case Error::Texture:
-                        ss << DJV_TEXT("The OpenGL texture cannot be created.");
+                    case Error::ColorTexture:
+                        ss << DJV_TEXT("The OpenGL color texture cannot be created.");
+                        break;
+                    case Error::DepthTexture:
+                        ss << DJV_TEXT("The OpenGL depth texture cannot be created.");
                         break;
                     case Error::Create:
                         ss << DJV_TEXT("The OpenGL frame buffer cannot be created.");
@@ -76,74 +80,171 @@ namespace djv
                 
             } // namespace
 
+            GLenum getInternalFormat(OffscreenDepthType value)
+            {
+                const std::vector<GLenum> data =
+                {
+                    GL_NONE,
+                    GL_DEPTH_COMPONENT24,
+                    GL_DEPTH_COMPONENT32F
+                };
+                DJV_ASSERT(data.size() == static_cast<size_t>(OffscreenDepthType::Count));
+                return data[static_cast<size_t>(value)];
+            }
+
+            GLenum getGLFormat(OffscreenDepthType value)
+            {
+                const std::vector<GLenum> data =
+                {
+                    GL_NONE,
+                    GL_DEPTH_COMPONENT,
+                    GL_DEPTH_COMPONENT
+                };
+                DJV_ASSERT(data.size() == static_cast<size_t>(OffscreenDepthType::Count));
+                return data[static_cast<size_t>(value)];
+            }
+
+            GLenum getGLType(OffscreenDepthType value)
+            {
+                const std::vector<GLenum> data =
+                {
+                    GL_NONE,
+                    GL_UNSIGNED_INT,
+                    GL_FLOAT
+                };
+                DJV_ASSERT(data.size() == static_cast<size_t>(OffscreenDepthType::Count));
+                return data[static_cast<size_t>(value)];
+            }
+
             OffscreenBufferError::OffscreenBufferError(const std::string& what) :
                 std::runtime_error(what)
             {}
             
-            void OffscreenBuffer::_init(const Image::Info & info, OffscreenType type)
+            void OffscreenBuffer::_init(
+                const Image::Size& size,
+                Image::Type colorType,
+                OffscreenDepthType depthType,
+                OffscreenSampling sampling)
             {
-                _info = info;
-                _type = type;
+                _size = size;
+                _colorType = colorType;
+                _depthType = depthType;
+                _sampling = sampling;
 
-                // Create the texture.
-                //! \bug Fall back to a regular offscreen buffer if multi-sampling is not available.
-                glGenTextures(1, &_textureID);
-                if (!_textureID)
-                {
-                    throw OffscreenBufferError(getErrorMessage(Error::Texture));
-                }
                 GLenum target = GL_TEXTURE_2D;
-#if defined(DJV_OPENGL_ES2)
-#else // DJV_OPENGL_ES2
-                switch (type)
+#if !defined(DJV_OPENGL_ES2)
+                switch (sampling)
                 {
-                case OffscreenType::MultiSample: target = GL_TEXTURE_2D_MULTISAMPLE; break;
+                case OffscreenSampling::MultiSample: target = GL_TEXTURE_2D_MULTISAMPLE; break;
                 default: break;
                 }
 #endif // DJV_OPENGL_ES2
-                glBindTexture(target, _textureID);
-                glTexParameteri(target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-                glTexParameteri(target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-                glTexParameteri(target, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-                glTexParameteri(target, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-#if defined(DJV_OPENGL_ES2)
-                glTexImage2D(
-                    target,
-                    0,
-                    Texture::getInternalFormat(_info.type),
-                    _info.size.w,
-                    _info.size.h,
-                    0,
-                    _info.getGLFormat(),
-                    _info.getGLType(),
-                    0);
-#else // DJV_OPENGL_ES2
-                switch (type)
+
+                if (colorType != Image::Type::None)
                 {
-                case OffscreenType::MultiSample:
-                    glTexImage2DMultisample(
-                        target,
-                        static_cast<GLsizei>(samples),
-                        Texture::getInternalFormat(_info.type),
-                        _info.size.w,
-                        _info.size.h,
-                        false);
-                    break;
-                default:
+                    // Create the color texture.
+                    //! \bug Fall back to a regular offscreen buffer if multi-sampling is not available.
+                    glGenTextures(1, &_colorID);
+                    if (!_colorID)
+                    {
+                        throw OffscreenBufferError(getErrorMessage(Error::ColorTexture));
+                    }
+                    glBindTexture(target, _colorID);
+                    glTexParameteri(target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                    glTexParameteri(target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                    glTexParameteri(target, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                    glTexParameteri(target, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+#if defined(DJV_OPENGL_ES2)
                     glTexImage2D(
                         target,
                         0,
-                        Texture::getInternalFormat(_info.type),
-                        _info.size.w,
-                        _info.size.h,
+                        Texture::getInternalFormat(colorType),
+                        size.w,
+                        size.h,
                         0,
-                        _info.getGLFormat(),
-                        _info.getGLType(),
+                        Image::getGLFormat(colorType),
+                        Image::getGLType(colorType),
                         0);
-                    break;
-                }
+#else // DJV_OPENGL_ES2
+                    switch (sampling)
+                    {
+                    case OffscreenSampling::MultiSample:
+                        glTexImage2DMultisample(
+                            target,
+                            static_cast<GLsizei>(samples),
+                            Texture::getInternalFormat(colorType),
+                            size.w,
+                            size.h,
+                            false);
+                        break;
+                    default:
+                        glTexImage2D(
+                            target,
+                            0,
+                            Texture::getInternalFormat(colorType),
+                            size.w,
+                            size.h,
+                            0,
+                            Image::getGLFormat(colorType),
+                            Image::getGLType(colorType),
+                            0);
+                        break;
+                    }
 #endif // DJV_OPENGL_ES2
-                glBindTexture(target, 0);
+                }
+
+                if (depthType != OffscreenDepthType::None)
+                {
+                    // Create the depth texture.
+                    //! \bug Fall back to a regular offscreen buffer if multi-sampling is not available.
+                    glGenTextures(1, &_depthID);
+                    if (!_depthID)
+                    {
+                        throw OffscreenBufferError(getErrorMessage(Error::DepthTexture));
+                    }
+                    glBindTexture(target, _depthID);
+                    glTexParameteri(target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                    glTexParameteri(target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                    glTexParameteri(target, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                    glTexParameteri(target, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+#if defined(DJV_OPENGL_ES2)
+                    glTexImage2D(
+                        target,
+                        0,
+                        getInternalFormat(depthType),
+                        size.w,
+                        size.h,
+                        0,
+                        getGLFormat(depthType),
+                        getGLType(depthType),
+                        0);
+#else // DJV_OPENGL_ES2
+                    switch (sampling)
+                    {
+                    case OffscreenSampling::MultiSample:
+                        glTexImage2DMultisample(
+                            target,
+                            static_cast<GLsizei>(samples),
+                            getInternalFormat(depthType),
+                            size.w,
+                            size.h,
+                            false);
+                        break;
+                    default:
+                        glTexImage2D(
+                            target,
+                            0,
+                            getInternalFormat(depthType),
+                            size.w,
+                            size.h,
+                            0,
+                            getGLFormat(depthType),
+                            getGLType(depthType),
+                            0);
+                        break;
+                    }
+#endif // DJV_OPENGL_ES2
+                }
 
                 // Create the FBO.
                 glGenFramebuffers(1, &_id);
@@ -152,12 +253,24 @@ namespace djv
                     throw OffscreenBufferError(getErrorMessage(Error::Create));
                 }
                 const OffscreenBufferBinding binding(shared_from_this());
-                glFramebufferTexture2D(
-                    GL_FRAMEBUFFER,
-                    GL_COLOR_ATTACHMENT0,
-                    target,
-                    _textureID,
-                    0);
+                if (colorType != Image::Type::None)
+                {
+                    glFramebufferTexture2D(
+                        GL_FRAMEBUFFER,
+                        GL_COLOR_ATTACHMENT0,
+                        target,
+                        _colorID,
+                        0);
+                }
+                if (depthType != OffscreenDepthType::None)
+                {
+                    glFramebufferTexture2D(
+                        GL_FRAMEBUFFER,
+                        GL_DEPTH_ATTACHMENT,
+                        target,
+                        _depthID,
+                        0);
+                }
                 GLenum error = glCheckFramebufferStatus(GL_FRAMEBUFFER);
                 if (error != GL_FRAMEBUFFER_COMPLETE)
                 {
@@ -172,17 +285,26 @@ namespace djv
                     glDeleteFramebuffers(1, &_id);
                     _id = 0;
                 }
-                if (_textureID)
+                if (_colorID)
                 {
-                    glDeleteTextures(1, &_textureID);
-                    _textureID = 0;
+                    glDeleteTextures(1, &_colorID);
+                    _colorID = 0;
+                }
+                if (_depthID)
+                {
+                    glDeleteTextures(1, &_depthID);
+                    _depthID = 0;
                 }
             }
 
-            std::shared_ptr<OffscreenBuffer> OffscreenBuffer::create(const Image::Info & info, OffscreenType type)
+            std::shared_ptr<OffscreenBuffer> OffscreenBuffer::create(
+                const Image::Size& size,
+                Image::Type colorType,
+                OffscreenDepthType depthType,
+                OffscreenSampling sampling)
             {
                 auto out = std::shared_ptr<OffscreenBuffer>(new OffscreenBuffer);
-                out->_init(info, type);
+                out->_init(size, colorType, depthType, sampling);
                 return out;
             }
 

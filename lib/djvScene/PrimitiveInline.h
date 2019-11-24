@@ -47,6 +47,16 @@ namespace djv
             _name = value;
         }
 
+        inline const std::shared_ptr<AV::Geom::TriangleMesh>& IPrimitive::getMesh() const
+        {
+            return _mesh;
+        }
+
+        inline void  IPrimitive::setMesh(const std::shared_ptr<AV::Geom::TriangleMesh>& value)
+        {
+            _mesh = value;
+        }
+
         inline MaterialAssignment IPrimitive::getMaterialAssignment() const
         {
             return _materialAssignment;
@@ -82,24 +92,13 @@ namespace djv
             return std::weak_ptr<IPrimitive>();
         }
 
+        inline std::vector<std::shared_ptr<IPrimitive> > IPrimitive::getChildren() const
+        {
+            return {};
+        }
+
         inline MeshPrimitive::MeshPrimitive()
         {}
-
-        inline std::shared_ptr<MeshPrimitive> MeshPrimitive::create()
-        {
-            auto out = std::shared_ptr<MeshPrimitive>(new MeshPrimitive);
-            return out;
-        }
-
-        inline const AV::Geom::TriangleMesh& MeshPrimitive::getMesh() const
-        {
-            return _mesh;
-        }
-
-        inline void  MeshPrimitive::setMesh(const AV::Geom::TriangleMesh& value)
-        {
-            _mesh = value;
-        }
 
     } // namespace Scene
 } // namespace djv

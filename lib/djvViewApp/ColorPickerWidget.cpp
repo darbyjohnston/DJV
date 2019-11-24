@@ -492,23 +492,21 @@ namespace djv
                     const glm::mat3x3 pixelPosM = glm::translate(m, glm::vec2(-.5F, -.5F));
                     pixelPos = glm::inverse(pixelPosM) * pixelPos;
 
-                    const AV::Image::Type type = p.typeLock != AV::Image::Type::None ? p.typeLock : p.image->getType();
                     const size_t sampleSize = std::max(static_cast<size_t>(p.sampleSize), bufferSizeMin);
-                    const AV::Image::Info info(sampleSize, sampleSize, type);
-                    if (p.offscreenBuffer)
+                    const AV::Image::Size size(sampleSize, sampleSize);
+                    const AV::Image::Type type = p.typeLock != AV::Image::Type::None ? p.typeLock : p.image->getType();
+                    
+                    bool create = !p.offscreenBuffer;
+                    create |= p.offscreenBuffer && size != p.offscreenBuffer->getSize();
+                    create |= p.offscreenBuffer && type != p.offscreenBuffer->getColorType();
+                    if (create)
                     {
-                        if (info != p.offscreenBuffer->getInfo())
-                        {
-                            p.offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(info);
-                        }
+                        p.offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(size, type);
                     }
-                    else
-                    {
-                        p.offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(info);
-                    }
+
                     p.offscreenBuffer->bind();
                     const auto& render = _getRender();
-                    render->beginFrame(info.size);
+                    render->beginFrame(size);
                     render->setFillColor(AV::Image::Color(0.F, 0.F, 0.F));
                     render->drawRect(BBox2f(0.F, 0.F, sampleSize, sampleSize));
                     render->setFillColor(AV::Image::Color(1.F, 1.F, 1.F));
@@ -542,8 +540,8 @@ namespace djv
                         static_cast<int>(sampleSize) - static_cast<int>(data->getHeight()),
                         data->getWidth(),
                         data->getHeight(),
-                        info.getGLFormat(),
-                        info.getGLType(),
+                        AV::Image::getGLFormat(type),
+                        AV::Image::getGLType(type),
                         data->getData());
                     p.color = AV::Image::getAverageColor(data);
                 }

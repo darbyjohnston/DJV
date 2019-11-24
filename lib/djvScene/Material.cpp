@@ -37,10 +37,15 @@ namespace djv
 {
     namespace Scene
     {
-        std::shared_ptr<BasicMaterial> BasicMaterial::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<DefaultMaterial> DefaultMaterial::create()
         {
-            auto out = std::shared_ptr<BasicMaterial>(new BasicMaterial);
-            out->setMaterial(AV::Render3D::DefaultMaterial::create(context));
+            auto out = std::shared_ptr<DefaultMaterial>(new DefaultMaterial);
+            return out;
+        }
+
+        std::shared_ptr<AV::Render3D::IMaterial> DefaultMaterial::createMaterial(const std::shared_ptr<Core::Context>& context)
+        {
+            auto out = AV::Render3D::DefaultMaterial::create(context);
             return out;
         }
 

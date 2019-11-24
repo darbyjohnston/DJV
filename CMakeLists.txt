@@ -191,8 +191,13 @@ set(DJV_THIRD_PARTY_OPTIONAL_DEPS
     #FFmpeg
     JPEGTurbo
     TIFF
-    OpenEXR
-    OpenNURBS)
+    OpenEXR)
+if(WIN32)
+else()
+    set(DJV_THIRD_PARTY_OPTIONAL_DEPS
+        ${DJV_THIRD_PARTY_OPTIONAL_DEPS}
+        OpenNURBS)
+endif()
 
 # Set whether shared libraries are used for dependencies.
 if(DJV_THIRD_PARTY)

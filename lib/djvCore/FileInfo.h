@@ -66,8 +66,6 @@ namespace djv
                 Read  = 1, //!< Readable
                 Write = 2, //!< Writable
                 Exec  = 4, //!< Executable
-
-                Count = 3
             };
             std::string getFilePermissionsLabel(int);
 

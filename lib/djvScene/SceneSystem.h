@@ -27,47 +27,31 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvScene/Primitive.h>
+#pragma once
 
-#include <djvScene/Layer.h>
-#include <djvScene/Material.h>
-
-using namespace djv::Core;
+#include <djvCore/ISystem.h>
 
 namespace djv
 {
     namespace Scene
     {
-        std::shared_ptr<IMaterial> IPrimitive::getRenderMaterial() const
+        //! This class provides the scene system.
+        class SceneSystem : public Core::ISystem
         {
-            std::shared_ptr<IMaterial> out;
-            switch (getMaterialAssignment())
-            {
-            case MaterialAssignment::Layer:
-                if (auto layer = _layer.lock())
-                {
-                    out = layer->getMaterial();
-                }
-                break;
-            case MaterialAssignment::Parent:
-                if (auto parent = getParent().lock())
-                {
-                    out = parent->getRenderMaterial();
-                }
-                break;
-            case MaterialAssignment::Primitive:
-                out = _material;
-                break;
-            }
-            return out;
-        }
+            DJV_NON_COPYABLE(SceneSystem);
 
-        std::shared_ptr<MeshPrimitive> MeshPrimitive::create()
-        {
-            auto out = std::shared_ptr<MeshPrimitive>(new MeshPrimitive);
-            return out;
-        }
+        protected:
+            void _init(const std::shared_ptr<Core::Context>&);
+            SceneSystem();
+
+        public:
+            ~SceneSystem() override;
+
+            static std::shared_ptr<SceneSystem> create(const std::shared_ptr<Core::Context>&);
+
+        private:
+            DJV_PRIVATE();
+        };
 
     } // namespace Scene
 } // namespace djv
-

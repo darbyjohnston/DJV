@@ -27,10 +27,13 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvScene/Primitive.h>
+#include <djvScene/SceneSystem.h>
 
-#include <djvScene/Layer.h>
-#include <djvScene/Material.h>
+#include <djvScene/IO.h>
+
+#include <djvAV/AVSystem.h>
+
+#include <djvCore/Context.h>
 
 using namespace djv::Core;
 
@@ -38,36 +41,31 @@ namespace djv
 {
     namespace Scene
     {
-        std::shared_ptr<IMaterial> IPrimitive::getRenderMaterial() const
+        struct SceneSystem::Private
         {
-            std::shared_ptr<IMaterial> out;
-            switch (getMaterialAssignment())
-            {
-            case MaterialAssignment::Layer:
-                if (auto layer = _layer.lock())
-                {
-                    out = layer->getMaterial();
-                }
-                break;
-            case MaterialAssignment::Parent:
-                if (auto parent = getParent().lock())
-                {
-                    out = parent->getRenderMaterial();
-                }
-                break;
-            case MaterialAssignment::Primitive:
-                out = _material;
-                break;
-            }
+        };
+
+        void SceneSystem::_init(const std::shared_ptr<Core::Context>& context)
+        {
+            ISystem::_init("djv::Scene::AVSystem", context);
+            addDependency(context->getSystemT<AV::AVSystem>());
+            addDependency(IO::System::create(context));
+        }
+
+        SceneSystem::SceneSystem() :
+            _p(new Private)
+        {}
+
+        SceneSystem::~SceneSystem()
+        {}
+
+        std::shared_ptr<SceneSystem> SceneSystem::create(const std::shared_ptr<Core::Context>& context)
+        {
+            auto out = std::shared_ptr<SceneSystem>(new SceneSystem);
+            out->_init(context);
             return out;
         }
 
-        std::shared_ptr<MeshPrimitive> MeshPrimitive::create()
-        {
-            auto out = std::shared_ptr<MeshPrimitive>(new MeshPrimitive);
-            return out;
-        }
-
-    } // namespace Scene
+    } // namespace AV
 } // namespace djv
 

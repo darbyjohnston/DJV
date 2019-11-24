@@ -29,8 +29,6 @@
 
 #pragma once
 
-#include <djvDesktopApp/DesktopApp.h>
-
 #include <djvCore/BBox.h>
 #include <djvCore/ISystem.h>
 #include <djvCore/ListObserver.h>

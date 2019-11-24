@@ -32,43 +32,29 @@
 #include <djvScene/Camera.h>
 #include <djvScene/Primitive.h>
 
-#include <djvAV/Render3D.h>
-
 using namespace djv::Core;
 
 namespace djv
 {
     namespace Scene
     {
-        void Scene::_init(const std::shared_ptr<Context>& context)
-        {
-
-        }
-
         Scene::Scene()
         {}
 
-        std::shared_ptr<Scene> Scene::create(const std::shared_ptr<Context>& context)
+        std::shared_ptr<Scene> Scene::create()
         {
             auto out = std::shared_ptr<Scene>(new Scene);
-            out->_init(context);
             return out;
         }
 
-        void Scene::render(
-            const std::shared_ptr<AV::Render3D::Render>& render,
-            const RenderOptions& renderOptions)
+        void Scene::addCamera(const std::shared_ptr<ICamera>& value)
         {
-            AV::Render3D::RenderOptions render3DOptions;
-            render3DOptions.camera.v = renderOptions.camera->getV();
-            render3DOptions.camera.p = renderOptions.camera->getP();
-            render3DOptions.size = renderOptions.size;
-            render->beginFrame(render3DOptions);
-            for (const auto& i : _primitives)
-            {
-                i->render(render);
-            }
-            render->endFrame();
+            _cameras.push_back(value);
+        }
+
+        void Scene::addPrimitive(const std::shared_ptr<IPrimitive>& value)
+        {
+            _primitives.push_back(value);
         }
 
     } // namespace Scene

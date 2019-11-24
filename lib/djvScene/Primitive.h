@@ -35,15 +35,6 @@
 
 namespace djv
 {
-    namespace AV
-    {
-        namespace Render3D
-        {
-            class Render;
-
-        } // namespace Render
-    } // namespace AV
-
     namespace Scene
     {
         class IMaterial;
@@ -63,6 +54,9 @@ namespace djv
             const std::string& getName() const;
             void setName(const std::string&);
 
+            const std::shared_ptr<AV::Geom::TriangleMesh>& getMesh() const;
+            void setMesh(const std::shared_ptr<AV::Geom::TriangleMesh>&);
+
             MaterialAssignment getMaterialAssignment() const;
             void setMaterialAssignment(MaterialAssignment);
 
@@ -74,11 +68,11 @@ namespace djv
             void setLayer(const std::shared_ptr<Layer>&);
 
             virtual std::weak_ptr<IPrimitive> getParent() const;
-
-            virtual void render(const std::shared_ptr<AV::Render3D::Render>&) = 0;
+            virtual std::vector<std::shared_ptr<IPrimitive> > getChildren() const;
 
         private:
             std::string _name;
+            std::shared_ptr<AV::Geom::TriangleMesh> _mesh;
             MaterialAssignment _materialAssignment = MaterialAssignment::Primitive;
             std::shared_ptr<IMaterial> _material;
             std::weak_ptr<Layer> _layer;
@@ -87,19 +81,13 @@ namespace djv
         //! This class provides a mesh primitive.
         class MeshPrimitive : public IPrimitive
         {
+            DJV_NON_COPYABLE(MeshPrimitive);
+
         protected:
             MeshPrimitive();
 
         public:
             static std::shared_ptr<MeshPrimitive> create();
-
-            const AV::Geom::TriangleMesh& getMesh() const;
-            void setMesh(const AV::Geom::TriangleMesh&);
-
-            void render(const std::shared_ptr<AV::Render3D::Render>&) override;
-
-        private:
-            AV::Geom::TriangleMesh _mesh;
         };
 
     } // namespace Scene

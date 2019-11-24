@@ -37,9 +37,6 @@ namespace djv
 {
     namespace Scene
     {
-        void Block::render(const std::shared_ptr<AV::Render3D::Render>& render)
-        {
-        }
 
     } // namespace Scene
 } // namespace djv

@@ -29,14 +29,13 @@
 
 #pragma once
 
-#include <djvDesktopApp/DesktopApp.h>
-
 #include <djvCore/Context.h>
 
 struct GLFWwindow;
 
 namespace djv
 {
+    //! This namespace provides desktop application functionality.
     namespace Desktop
     {
         //! This class provides a desktop application.

@@ -29,8 +29,6 @@
 
 #pragma once
 
-#include <djvDesktopApp/DesktopApp.h>
-
 #include <djvUI/EventSystem.h>
 
 #include <glm/vec2.hpp>

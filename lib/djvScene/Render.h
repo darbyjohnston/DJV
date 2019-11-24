@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2019 Darby Johnston
+// Copyright (c) 2019 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -29,12 +29,59 @@
 
 #pragma once
 
-#include <djvCore/Core.h>
+#include <djvAV/ImageData.h>
 
 namespace djv
 {
-    //! This namespace provides desktop application functionality.
-    namespace Desktop
+    namespace AV
     {
-    } // namespace Desktop
+        namespace Render3D
+        {
+            class Render;
+
+        } // namespace Render3D
+    } // namespace AV
+
+    namespace Core
+    {
+        class Context;
+
+    } // namespace Core
+
+    //! This namespace provides scene functionality.
+    namespace Scene
+    {
+        class ICamera;
+        class Scene;
+
+        //! This struct provides render options.
+        struct RenderOptions
+        {
+            std::shared_ptr<ICamera> camera;
+            AV::Image::Size size;
+        };
+
+        //! This class provides a renderer.
+        class Render : public std::enable_shared_from_this<Render>
+        {
+            DJV_NON_COPYABLE(Render);
+            void _init(const std::shared_ptr<Core::Context>&);
+            Render();
+
+        public:
+            static std::shared_ptr<Render> create(const std::shared_ptr<Core::Context>&);
+
+            void setScene(const std::shared_ptr<Scene>&);
+
+            void render(
+                const std::shared_ptr<AV::Render3D::Render>&,
+                const RenderOptions&);
+
+            size_t getTriangleCount() const;
+
+        private:
+            DJV_PRIVATE();
+        };
+
+    } // namespace Scene
 } // namespace djv

@@ -29,7 +29,10 @@
 
 #pragma once
 
-#include <djvAV/ImageData.h>
+#include <djvCore/Core.h>
+
+#include <memory>
+#include <vector>
 
 namespace djv
 {
@@ -56,22 +59,14 @@ namespace djv
         class IPrimitive;
         class Layer;
 
-        //! This struct provides render options.
-        struct RenderOptions
-        {
-            std::shared_ptr<ICamera> camera;
-            AV::Image::Size size;
-        };
-
         //! This class provides a scene.
         class Scene : public std::enable_shared_from_this<Scene>
         {
             DJV_NON_COPYABLE(Scene);
-            void _init(const std::shared_ptr<Core::Context>&);
             Scene();
 
         public:
-            static std::shared_ptr<Scene> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<Scene> create();
 
             std::vector<std::shared_ptr<IPrimitive> > getPrimitives() const;
             std::vector<std::shared_ptr<ICamera> > getCameras() const;
@@ -80,10 +75,6 @@ namespace djv
 
             void addCamera(const std::shared_ptr<ICamera>&);
             void addPrimitive(const std::shared_ptr<IPrimitive>&);
-
-            void render(
-                const std::shared_ptr<AV::Render3D::Render>&,
-                const RenderOptions&);
 
         private:
             std::vector<std::shared_ptr<IPrimitive> > _primitives;

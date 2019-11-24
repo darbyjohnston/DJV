@@ -58,11 +58,11 @@ namespace djv
         {
             if (auto context = getContext().lock())
             {
-                const Image::Info info(1280, 720, AV::Image::Type::RGBA_U8);
-                auto offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(info);
+                const Image::Size size(1280, 720);
+                auto offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(size, AV::Image::Type::RGBA_U8);
                 offscreenBuffer->bind();
                 auto render = context->getSystemT<AV::Render2D::Render>();
-                render->beginFrame(info.size);
+                render->beginFrame(size);
                 
                 render->pushTransform(glm::mat3x3(1.F));
                 render->pushClipRect(BBox2f(10.F, 10.F, 1260.F, 700.F));

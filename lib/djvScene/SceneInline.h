@@ -51,15 +51,5 @@ namespace djv
             return _layers;
         }
 
-        inline void Scene::addCamera(const std::shared_ptr<ICamera>& value)
-        {
-            _cameras.push_back(value);
-        }
-
-        inline void Scene::addPrimitive(const std::shared_ptr<IPrimitive>& value)
-        {
-            _primitives.push_back(value);
-        }
-
     } // namespace Scene
 } // namespace djv

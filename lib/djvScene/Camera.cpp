@@ -87,15 +87,21 @@ namespace djv
             _update();
         }
 
-        void PolarCamera::setLat(float value)
+        void PolarCamera::setDistance(float value)
         {
-            _lat = value;
+            _distance = value;
             _update();
         }
 
-        void PolarCamera::setLon(float value)
+        void PolarCamera::setLatitude(float value)
         {
-            _lon = value;
+            _latitude = value;
+            _update();
+        }
+
+        void PolarCamera::setLongitude(float value)
+        {
+            _longitude = value;
             _update();
         }
 
@@ -120,8 +126,8 @@ namespace djv
         void PolarCamera::_update()
         {
             _v = glm::translate(glm::mat4x4(1.F), glm::vec3(0.F, 0.F, -_distance));
-            _v = glm::rotate(_v, Core::Math::deg2rad(_lat), glm::vec3(1.F, 0.F, 0.F));
-            _v = glm::rotate(_v, Core::Math::deg2rad(_lon), glm::vec3(0.F, 1.F, 0.F));
+            _v = glm::rotate(_v, Core::Math::deg2rad(_latitude), glm::vec3(1.F, 0.F, 0.F));
+            _v = glm::rotate(_v, Core::Math::deg2rad(_longitude), glm::vec3(0.F, 1.F, 0.F));
             _p = glm::perspective(_fov, _aspect, _clip.min, _clip.max);
         }
 

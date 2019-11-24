@@ -76,7 +76,7 @@ namespace djv
         private:
             void _update();
 
-            glm::vec3 _eye = glm::vec3(2.F, 3.F, -3.F);
+            glm::vec3 _eye = glm::vec3(10.F, 20.F, -20.F);
             glm::vec3 _target = glm::vec3(0.F, 0.F, 0.F);
             glm::vec3 _up = glm::vec3(0.F, 1.F, 0.F);
             float _fov = 45.F;
@@ -96,13 +96,13 @@ namespace djv
             static std::shared_ptr<PolarCamera> create();
 
             float getDistance() const;
-            float getLat() const;
-            float getLon() const;
+            float getLatitude() const;
+            float getLongitude() const;
 
             void setTarget(const glm::vec3&);
             void setDistance(float);
-            void setLat(float);
-            void setLon(float);
+            void setLatitude(float);
+            void setLongitude(float);
             void setFOV(float);
             void setAspect(float);
             void setClip(const Core::FloatRange&);
@@ -114,12 +114,12 @@ namespace djv
             void _update();
 
             glm::vec3 _target = glm::vec3(0.F, 0.F, 0.F);
-            float _distance = 3.F;
-            float _lat = 30.F;
-            float _lon = 30.F;
+            float _distance = 20.F;
+            float _latitude = 30.F;
+            float _longitude = 30.F;
             float _fov = 45.F;
             float _aspect = 1.F;
-            Core::FloatRange _clip = Core::FloatRange(0.1F, 10000.F);
+            Core::FloatRange _clip = Core::FloatRange(.1F, 10000.F);
             glm::mat4x4 _v = glm::mat4x4(1.F);
             glm::mat4x4 _p = glm::mat4x4(1.F);
         };

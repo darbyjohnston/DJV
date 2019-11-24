@@ -44,9 +44,6 @@ namespace djv
             return out;
         }
 
-        void Group::render(const std::shared_ptr<AV::Render3D::Render>&)
-        {}
-
     } // namespace Scene
 } // namespace djv
 

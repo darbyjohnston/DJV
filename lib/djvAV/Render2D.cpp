@@ -682,6 +682,7 @@ namespace djv
                 glEnable(GL_MULTISAMPLE);
 #endif // DJV_OPENGL_ES2
                 glEnable(GL_SCISSOR_TEST);
+                glDisable(GL_DEPTH_TEST);
                 glEnable(GL_BLEND);
 
                 glViewport(
@@ -777,6 +778,7 @@ namespace djv
                         p.vao->draw(primitive->type, primitive->vaoOffset, primitive->vaoSize);
                     }
                 }
+                glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 
                 const auto now = std::chrono::system_clock::now();
                 const std::chrono::duration<float> delta = now - p.fpsTime;
@@ -1514,22 +1516,22 @@ namespace djv
                     pData->vx = value.min.x;
                     pData->vy = value.min.y;
                     pData->tx = 0;
-                    pData->ty = 0;
+                    pData->ty = 65535;
                     ++pData;
                     pData->vx = value.max.x;
                     pData->vy = value.min.y;
                     pData->tx = 65535;
-                    pData->ty = 0;
+                    pData->ty = 65535;
                     ++pData;
                     pData->vx = value.min.x;
                     pData->vy = value.max.y;
                     pData->tx = 0;
-                    pData->ty = 65535;
+                    pData->ty = 0;
                     ++pData;
                     pData->vx = value.max.x;
                     pData->vy = value.max.y;
                     pData->tx = 65535;
-                    pData->ty = 65535;
+                    pData->ty = 0;
                 }
             }
 

@@ -54,7 +54,7 @@ namespace djv
                 const uint8_t  textureAtlasCount = 4;
                 const uint16_t textureAtlasSize  = 8192;
                 const uint8_t  meshCacheCount    = 1;
-                const size_t   meshCacheSize     = 10000000;
+                const size_t   meshCacheSize     = 50000000;
 
                 struct Primitive
                 {
@@ -202,6 +202,7 @@ namespace djv
 
                 glEnable(GL_SCISSOR_TEST);
                 glEnable(GL_DEPTH_TEST);
+                glDisable(GL_BLEND);
 
                 glViewport(
                     static_cast<GLint>(0),

@@ -447,9 +447,14 @@ namespace djv
             IPlugin::~IPlugin()
             {}
 
+            bool IPlugin::canSequence() const
+            {
+                return false;
+            }
+
             namespace
             {
-                bool checkExtension(const std::string & value, const std::set<std::string> & extensions)
+                bool checkExtension(const std::string& value, const std::set<std::string>& extensions)
                 {
                     std::string extension = FileSystem::Path(value).getExtension();
                     std::transform(extension.begin(), extension.end(), extension.begin(), tolower);
@@ -457,11 +462,6 @@ namespace djv
                 }
 
             } // namespace
-
-            bool IPlugin::canSequence() const
-            {
-                return false;
-            }
 
             bool IPlugin::canRead(const FileSystem::FileInfo& fileInfo) const
             {

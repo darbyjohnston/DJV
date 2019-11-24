@@ -37,7 +37,6 @@ namespace djv
     {
         namespace Render3D
         {
-            class BasicMaterial;
             class IMaterial;
 
         } // namespace Render3D
@@ -46,8 +45,8 @@ namespace djv
     namespace Core
     {
         class Context;
-    
-    } // namespace Core
+
+    } // namespace AV
 
     namespace Scene
     {
@@ -62,21 +61,19 @@ namespace djv
         public:
             virtual ~IMaterial() = 0;
 
-            const std::shared_ptr<AV::Render3D::IMaterial>& getMaterial() const;
-            void setMaterial(const std::shared_ptr<AV::Render3D::IMaterial>&);
-
-        private:
-            std::shared_ptr<AV::Render3D::IMaterial> _material;
+            virtual std::shared_ptr<AV::Render3D::IMaterial> createMaterial(const std::shared_ptr<Core::Context>&) = 0;
         };
 
-        //! This class provides a baisc material.
-        class BasicMaterial : public IMaterial
+        //! This class provides a default material.
+        class DefaultMaterial : public IMaterial
         {
         protected:
-            BasicMaterial();
+            DefaultMaterial();
 
         public:
-            static std::shared_ptr<BasicMaterial> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<DefaultMaterial> create();
+
+            std::shared_ptr<AV::Render3D::IMaterial> createMaterial(const std::shared_ptr<Core::Context>&) override;
         };
 
     } // namespace Scene

@@ -74,14 +74,14 @@ namespace djv
             return _distance;
         }
 
-        inline float PolarCamera::getLat() const
+        inline float PolarCamera::getLatitude() const
         {
-            return _lat;
+            return _latitude;
         }
 
-        inline float PolarCamera::getLon() const
+        inline float PolarCamera::getLongitude() const
         {
-            return _lon;
+            return _longitude;
         }
 
         inline const glm::mat4x4& PolarCamera::getV() const

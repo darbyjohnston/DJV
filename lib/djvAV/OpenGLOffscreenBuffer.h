@@ -38,13 +38,27 @@ namespace djv
     {
         namespace OpenGL
         {
-            //! This enumeration provides the OpenGL offscreen types.
-            enum class OffscreenType
+            //! This enumeration provides OpenGL offscreen depth buffer types.
+            enum class OffscreenDepthType
             {
-                Default,
+                None,
+                _24,
+                _32,
+
+                Count,
+                First = None
+            };
+            GLenum getInternalFormat(OffscreenDepthType);
+            GLenum getGLFormat(OffscreenDepthType);
+            GLenum getGLType(OffscreenDepthType);
+
+            //! This enumeration provides OpenGL offscreen buffer sampling options.
+            enum class OffscreenSampling
+            {
+                None,
                 MultiSample
             };
-            
+
             //! This class provides an OpenGL offscreen buffer error.
             class OffscreenBufferError : public std::runtime_error
             {
@@ -56,7 +70,11 @@ namespace djv
             class OffscreenBuffer : public std::enable_shared_from_this<OffscreenBuffer>
             {
                 DJV_NON_COPYABLE(OffscreenBuffer);
-                void _init(const Image::Info &, OffscreenType);
+                void _init(
+                    const Image::Size&,
+                    Image::Type,
+                    OffscreenDepthType,
+                    OffscreenSampling);
                 OffscreenBuffer();
 
             public:
@@ -65,20 +83,30 @@ namespace djv
                 //! Create a new offscreen buffer.
                 //! Throws:
                 //! - OffscreenBufferError
-                static std::shared_ptr<OffscreenBuffer> create(const Image::Info &, OffscreenType = OffscreenType::Default);
+                static std::shared_ptr<OffscreenBuffer> create(
+                    const Image::Size&,
+                    Image::Type,
+                    OffscreenDepthType = OffscreenDepthType::None,
+                    OffscreenSampling = OffscreenSampling::None);
 
-                const Image::Info & getInfo() const;
-                OffscreenType getType() const;
+                const Image::Size& getSize() const;
+                Image::Type getColorType() const;
+                OffscreenDepthType getDepthType() const;
+                OffscreenSampling getSampling() const;
                 GLuint getID() const;
-                GLuint getTextureID() const;
+                GLuint getColorID() const;
+                GLuint getDepthID() const;
 
                 void bind();
 
             private:
-                Image::Info _info;
-                OffscreenType _type = OffscreenType::Default;
+                Image::Size _size;
+                Image::Type _colorType = Image::Type::None;
+                OffscreenDepthType _depthType = OffscreenDepthType::None;
+                OffscreenSampling _sampling = OffscreenSampling::None;
                 GLuint _id = 0;
-                GLuint _textureID = 0;
+                GLuint _colorID = 0;
+                GLuint _depthID = 0;
             };
 
             //! This class provides a wrapper for automatically binding and unbinding an

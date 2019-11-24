@@ -27,47 +27,18 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvScene/Primitive.h>
+#pragma once
 
-#include <djvScene/Layer.h>
-#include <djvScene/Material.h>
-
-using namespace djv::Core;
+#include <djvScene/IO.h>
 
 namespace djv
 {
     namespace Scene
     {
-        std::shared_ptr<IMaterial> IPrimitive::getRenderMaterial() const
+        namespace IO
         {
-            std::shared_ptr<IMaterial> out;
-            switch (getMaterialAssignment())
-            {
-            case MaterialAssignment::Layer:
-                if (auto layer = _layer.lock())
-                {
-                    out = layer->getMaterial();
-                }
-                break;
-            case MaterialAssignment::Parent:
-                if (auto parent = getParent().lock())
-                {
-                    out = parent->getRenderMaterial();
-                }
-                break;
-            case MaterialAssignment::Primitive:
-                out = _material;
-                break;
-            }
-            return out;
-        }
 
-        std::shared_ptr<MeshPrimitive> MeshPrimitive::create()
-        {
-            auto out = std::shared_ptr<MeshPrimitive>(new MeshPrimitive);
-            return out;
-        }
-
+        } // namespace IO
     } // namespace Scene
 } // namespace djv
 

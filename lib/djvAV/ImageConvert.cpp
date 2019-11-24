@@ -88,9 +88,12 @@ namespace djv
             void Convert::process(const Data& data, const Info& info, Data& out)
             {
                 DJV_PRIVATE_PTR();
-                if (!p.offscreenBuffer || (p.offscreenBuffer && info != p.offscreenBuffer->getInfo()))
+                bool create = !p.offscreenBuffer;
+                create |= p.offscreenBuffer && info.size != p.offscreenBuffer->getSize();
+                create |= p.offscreenBuffer && info.type != p.offscreenBuffer->getColorType();
+                if (create)
                 {
-                    p.offscreenBuffer = OpenGL::OffscreenBuffer::create(info);
+                    p.offscreenBuffer = OpenGL::OffscreenBuffer::create(info.size, info.type);
                 }
                 const OpenGL::OffscreenBufferBinding binding(p.offscreenBuffer);
 

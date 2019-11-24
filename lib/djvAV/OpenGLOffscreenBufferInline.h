@@ -36,9 +36,24 @@ namespace djv
             inline OffscreenBuffer::OffscreenBuffer()
             {}
             
-            inline const Image::Info & OffscreenBuffer::getInfo() const
+            inline const Image::Size& OffscreenBuffer::getSize() const
             {
-                return _info;
+                return _size;
+            }
+
+            inline Image::Type OffscreenBuffer::getColorType() const
+            {
+                return _colorType;
+            }
+
+            inline OffscreenDepthType OffscreenBuffer::getDepthType() const
+            {
+                return _depthType;
+            }
+
+            inline OffscreenSampling OffscreenBuffer::getSampling() const
+            {
+                return _sampling;
             }
 
             inline GLuint OffscreenBuffer::getID() const
@@ -46,9 +61,14 @@ namespace djv
                 return _id;
             }
 
-            inline GLuint OffscreenBuffer::getTextureID() const
+            inline GLuint OffscreenBuffer::getColorID() const
             {
-                return _textureID;
+                return _colorID;
+            }
+
+            inline GLuint OffscreenBuffer::getDepthID() const
+            {
+                return _depthID;
             }
 
         } // namespace OpenGL

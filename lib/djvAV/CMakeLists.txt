@@ -29,6 +29,7 @@ set(header
     OpenGLMeshCache.h
     OpenGLMeshInline.h
     OpenGLOffscreenBuffer.h
+    OpenGLOffscreenBufferInline.h
     OpenGLShader.h
     OpenGLTexture.h
     OpenGLTextureAtlas.h

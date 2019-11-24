@@ -49,8 +49,6 @@ namespace djv
             const glm::mat4x4& getXForm() const;
             void setXForm(const glm::mat4x4&);
 
-            void render(const std::shared_ptr<AV::Render3D::Render>&) override;
-
         private:
             glm::mat4x4 _xform;
             std::vector<std::shared_ptr<IPrimitive> > _primitives;

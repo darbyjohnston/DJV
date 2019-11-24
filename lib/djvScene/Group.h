@@ -44,8 +44,6 @@ namespace djv
         public:
             static std::shared_ptr<Group> create();
 
-            void render(const std::shared_ptr<AV::Render3D::Render>&) override;
-
         private:
             std::vector<std::shared_ptr<IPrimitive> > _primitives;
         };

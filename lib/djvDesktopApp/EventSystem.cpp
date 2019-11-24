@@ -186,10 +186,10 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.resizeRequest)
             {
-                const AV::Image::Info info(p.resize.x, p.resize.y, AV::Image::Type::RGBA_U8);
-                if (info.isValid())
+                const AV::Image::Size size(p.resize.x, p.resize.y);
+                if (size.isValid())
                 {
-                    p.offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(info);
+                    p.offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(size, AV::Image::Type::RGBA_U8);
                 }
                 else
                 {
@@ -224,7 +224,7 @@ namespace djv
                     redrawRequest |= _redrawRequest(i);
                 }
 
-                const auto& size = p.offscreenBuffer->getInfo().size;
+                const auto& size = p.offscreenBuffer->getSize();
                 if (resizeRequest)
                 {
                     for (const auto & i : rootObject->getChildrenT<UI::Window>())
@@ -290,7 +290,7 @@ namespace djv
                 glDisable(GL_DEPTH_TEST);
                 glDisable(GL_SCISSOR_TEST);
                 glDisable(GL_BLEND);
-                const auto& size = p.offscreenBuffer->getInfo().size;
+                const auto& size = p.offscreenBuffer->getSize();
                 glViewport(
                     0,
                     0,

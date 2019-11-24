@@ -37,17 +37,7 @@ namespace djv
         inline IMaterial::~IMaterial()
         {}
 
-        inline const std::shared_ptr<AV::Render3D::IMaterial>& IMaterial::getMaterial() const
-        {
-            return _material;
-        }
-
-        inline void IMaterial::setMaterial(const std::shared_ptr<AV::Render3D::IMaterial>& value)
-        {
-            _material = value;
-        }
-
-        inline BasicMaterial::BasicMaterial()
+        inline DefaultMaterial::DefaultMaterial()
         {}
 
     } // namespace Scene

@@ -27,47 +27,51 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvScene/Primitive.h>
+#pragma once
 
-#include <djvScene/Layer.h>
-#include <djvScene/Material.h>
-
-using namespace djv::Core;
+#include <djvUI/Widget.h>
 
 namespace djv
 {
     namespace Scene
     {
-        std::shared_ptr<IMaterial> IPrimitive::getRenderMaterial() const
-        {
-            std::shared_ptr<IMaterial> out;
-            switch (getMaterialAssignment())
-            {
-            case MaterialAssignment::Layer:
-                if (auto layer = _layer.lock())
-                {
-                    out = layer->getMaterial();
-                }
-                break;
-            case MaterialAssignment::Parent:
-                if (auto parent = getParent().lock())
-                {
-                    out = parent->getRenderMaterial();
-                }
-                break;
-            case MaterialAssignment::Primitive:
-                out = _material;
-                break;
-            }
-            return out;
-        }
-
-        std::shared_ptr<MeshPrimitive> MeshPrimitive::create()
-        {
-            auto out = std::shared_ptr<MeshPrimitive>(new MeshPrimitive);
-            return out;
-        }
+        class Scene;
 
     } // namespace Scene
+
+    namespace UI
+    {
+        //! This class provides a scene view widget.
+        class SceneWidget : public Widget
+        {
+            DJV_NON_COPYABLE(SceneWidget);
+
+        protected:
+            void _init(const std::shared_ptr<Core::Context>&);
+            SceneWidget();
+
+        public:
+            virtual ~SceneWidget();
+
+            static std::shared_ptr<SceneWidget> create(const std::shared_ptr<Core::Context>&);
+
+            void setScene(const std::shared_ptr<Scene::Scene>&);
+
+            size_t getTriangleCount() const;
+
+        protected:
+            void _layoutEvent(Core::Event::Layout&) override;
+            void _paintEvent(Core::Event::Paint&) override;
+            void _pointerMoveEvent(Core::Event::PointerMove&) override;
+            void _buttonPressEvent(Core::Event::ButtonPress&) override;
+            void _buttonReleaseEvent(Core::Event::ButtonRelease&) override;
+
+            void _updateEvent(Core::Event::Update&) override;
+
+        private:
+            DJV_PRIVATE();
+        };
+
+    } // namespace UI
 } // namespace djv
 
