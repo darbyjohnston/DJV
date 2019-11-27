@@ -137,7 +137,7 @@ namespace djv
             p.actions["Maximize"]->setShortcut(GLFW_KEY_M);
 
             p.actions["Fit"] = UI::Action::create();
-            p.actions["Fit"]->setShortcut(GLFW_KEY_F);
+            p.actions["Fit"]->setShortcut(GLFW_KEY_F, UI::Shortcut::getSystemModifier());
 
             p.actions["AutoHide"] = UI::Action::create();
             p.actions["AutoHide"]->setButtonType(UI::ButtonType::Toggle);
