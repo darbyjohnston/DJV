@@ -12,6 +12,13 @@ jobs:
   - script: |
       mkdir build
       cd build
+      # ASWF container doesn't have lcov
+      yum install -y epel-release
+      yum install -y lcov
+      # OTIO build needs a git user
+      git config --global user.email "you@example.com"
+      git config --global user.name "Your Name"
+      
       export PYTHONPATH=$PWD/build/lib:$PYTHONPATH
       cmake .. -DCMAKE_BUILD_TYPE=Debug -DDJV_THIRD_PARTY_OPTIONAL=FALSE -DDJV_BUILD_TINY=TRUE -DDJV_GCOV=TRUE -DDJV_PYTHON=FALSE -DDJV_OPENGL_ES2=TRUE -DDJV_BUILD_BIN=FALSE -DDJV_BUILD_DOC=FALSE -DDJV_BUILD_EXAMPLES=FALSE -DDJV_BUILD_EXPERIMENTS=FALSE
       # \bug https://community.sonarsource.com/t/sonarqube-c-ubuntu-build-wrapper-ld-preload-error/300/7
