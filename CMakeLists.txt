@@ -174,7 +174,7 @@ set(DJV_THIRD_PARTY_REQUIRED_DEPS
     IlmBase
     PNG
     OCIO
-	OTIO
+    #OTIO
     FreeType)
 
 # Set the list of optional third party dependencies.
