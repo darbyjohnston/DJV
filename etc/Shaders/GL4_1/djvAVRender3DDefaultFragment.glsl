@@ -29,11 +29,41 @@
 
 #version 410
 
-in vec2 Texture;
-in vec3 Normal;
-out vec4 FragColor;
+struct PointLight
+{
+    vec3  position;
+    float intensity;
+};
+
+struct DefaultMaterial
+{
+    vec4  ambient;
+    vec4  diffuse;
+    vec4  emission;
+    vec4  specular;
+    float shine;
+    float transparency;
+    float reflectivity;
+    int   disableLighting;
+};
+
+layout(location = 0) in vec3 Position;
+layout(location = 1) in vec2 Texture;
+layout(location = 2) in vec3 Normal;
+layout(location = 0) out vec4 FragColor;
+
+uniform PointLight      pointLights[16];
+uniform int             pointLightsCount = 0;
+uniform DefaultMaterial defaultMaterial;
 
 void main()
 {
-    FragColor = vec4(Normal.x, Normal.y, Normal.z, 1.0);
+    FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+    for (int i = 0; i < pointLightsCount; ++i)
+    {
+        float ln = dot(normalize(Position - pointLights[i].position), Normal);
+        FragColor.r += defaultMaterial.diffuse.r * ln;
+        FragColor.g += defaultMaterial.diffuse.g * ln;
+        FragColor.b += defaultMaterial.diffuse.b * ln;
+    }
 }

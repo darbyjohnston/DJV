@@ -188,6 +188,26 @@ namespace djv
                 glUniform4fv(location, 1, value);
             }
 
+            void Shader::setUniform(GLint location, const std::vector<int>& value)
+            {
+                glUniform1iv(location, value.size(), &value[0]);
+            }
+
+            void Shader::setUniform(GLint location, const std::vector<float>& value)
+            {
+                glUniform1fv(location, value.size(), &value[0]);
+            }
+
+            void Shader::setUniform(GLint location, const std::vector<glm::vec3>& value)
+            {
+                glUniform3fv(location, value.size(), &value[0][0]);
+            }
+
+            void Shader::setUniform(GLint location, const std::vector<glm::vec4>& value)
+            {
+                glUniform4fv(location, value.size(), &value[0][0]);
+            }
+
             void Shader::setUniform(const std::string & name, int value)
             {
                 const GLint loc = glGetUniformLocation(_program, name.c_str());
@@ -241,6 +261,30 @@ namespace djv
             {
                 const GLint loc = glGetUniformLocation(_program, name.c_str());
                 glUniform4fv(loc, 1, value);
+            }
+
+            void Shader::setUniform(const std::string& name, const std::vector<int>& value)
+            {
+                const GLint loc = glGetUniformLocation(_program, name.c_str());
+                glUniform1iv(loc, value.size(), &value[0]);
+            }
+
+            void Shader::setUniform(const std::string& name, const std::vector<float>& value)
+            {
+                const GLint loc = glGetUniformLocation(_program, name.c_str());
+                glUniform1fv(loc, value.size(), &value[0]);
+            }
+
+            void Shader::setUniform(const std::string& name, const std::vector<glm::vec3>& value)
+            {
+                const GLint loc = glGetUniformLocation(_program, name.c_str());
+                glUniform3fv(loc, value.size(), &value[0][0]);
+            }
+
+            void Shader::setUniform(const std::string& name, const std::vector<glm::vec4>& value)
+            {
+                const GLint loc = glGetUniformLocation(_program, name.c_str());
+                glUniform4fv(loc, value.size(), &value[0][0]);
             }
 
             void Shader::bind()

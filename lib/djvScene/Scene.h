@@ -75,6 +75,8 @@ namespace djv
 
             void addCamera(const std::shared_ptr<ICamera>&);
             void addPrimitive(const std::shared_ptr<IPrimitive>&);
+            void addLight(const std::shared_ptr<ILight>&);
+            void addLayer(const std::shared_ptr<Layer>&);
 
         private:
             std::vector<std::shared_ptr<IPrimitive> > _primitives;

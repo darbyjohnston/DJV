@@ -38,6 +38,7 @@
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <vector>
 
 namespace djv
 {
@@ -96,6 +97,11 @@ namespace djv
                 void setUniform(GLint, const Image::Color&);
                 void setUniform(GLint, const float [4]);
 
+                void setUniform(GLint, const std::vector<int>&);
+                void setUniform(GLint, const std::vector<float>&);
+                void setUniform(GLint, const std::vector<glm::vec3>&);
+                void setUniform(GLint, const std::vector<glm::vec4>&);
+
                 void setUniform(const std::string &, int);
                 void setUniform(const std::string &, float);
                 void setUniform(const std::string &, const glm::vec2 &);
@@ -105,6 +111,11 @@ namespace djv
                 void setUniform(const std::string &, const glm::mat4x4 &);
                 void setUniform(const std::string &, const Image::Color &);
                 void setUniform(const std::string &, const float [4]);
+
+                void setUniform(const std::string&, const std::vector<int>&);
+                void setUniform(const std::string&, const std::vector<float>&);
+                void setUniform(const std::string&, const std::vector<glm::vec3>&);
+                void setUniform(const std::string&, const std::vector<glm::vec4>&);
 
                 void bind();
 

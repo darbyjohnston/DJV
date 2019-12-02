@@ -29,6 +29,7 @@
 
 #pragma once
 
+#include <djvAV/Color.h>
 #include <djvAV/ImageData.h>
 
 #include <djvCore/ISystem.h>
@@ -76,7 +77,10 @@ namespace djv
             public:
                 virtual ~IMaterial() = 0;
 
-                virtual void bind(const glm::mat4x4&);
+                virtual void bind();
+
+                const std::shared_ptr<OpenGL::Shader>& getShader() const;
+                GLint getMVPLoc() const;
 
             protected:
                 std::shared_ptr<OpenGL::Shader> _shader;
@@ -98,9 +102,66 @@ namespace djv
 
                 static std::shared_ptr<DefaultMaterial> create(const std::shared_ptr<Core::Context>&);
 
-                void bind(const glm::mat4x4&) override;
+                void setAmbient(const AV::Image::Color&);
+                void setDiffuse(const AV::Image::Color&);
+                void setEmission(const AV::Image::Color&);
+                void setSpecular(const AV::Image::Color&);
+                void setShine(float);
+                void setTransparency(float);
+                void setReflectivity(float);
+                void setDisableLighting(bool);
+
+                void bind() override;
 
             private:
+                AV::Image::Color _ambient = AV::Image::Color(0.F, 0.F, 0.4F);
+                AV::Image::Color _diffuse = AV::Image::Color(.5F, .5F, .5F);
+                AV::Image::Color _emission = AV::Image::Color(0.F, 0.F, 0.F);
+                AV::Image::Color _specular = AV::Image::Color(1.F, 1.F, 1.F);
+                float _shine = 0.F;
+                float _transparency = 0.F;
+                float _reflectivity = 0.F;
+                bool _disableLighting = false;
+                GLint _ambientLoc = 0;
+                GLint _diffuseLoc = 0;
+                GLint _emissionLoc = 0;
+                GLint _specularLoc = 0;
+                GLint _shineLoc = 0;
+                GLint _transparencyLoc = 0;
+                GLint _reflectivityLoc = 0;
+                GLint _disableLightingLoc = 0;
+            };
+
+            //! This class provides the base functionality for lights.
+            class ILight : public std::enable_shared_from_this<ILight>
+            {
+                DJV_NON_COPYABLE(ILight);
+
+            protected:
+                ILight();
+
+            public:
+                virtual ~ILight() = 0;
+            };
+
+            //! This class provides a point light.
+            class PointLight : public ILight
+            {
+            protected:
+                PointLight();
+
+            public:
+                static std::shared_ptr<PointLight> create();
+
+                const glm::vec3& getPosition() const;
+                float getIntensity() const;
+
+                void setPosition(const glm::vec3&);
+                void setIntensity(float);
+
+            private:
+                glm::vec3 _position = glm::vec3(0.F, 0.F, 0.F);
+                float _intensity = 1.F;
             };
 
             //! This struct provides render options.
@@ -147,6 +208,13 @@ namespace djv
 
                 ///@}
 
+                //! \name Lights
+                ///@{
+
+                void addLight(const std::shared_ptr<ILight>&);
+
+                ///@}
+
                 //! \name Primitives
                 ///@{
 
@@ -157,9 +225,6 @@ namespace djv
             private:
                 void _updateCurrentTransform();
                 void _updateCurrentClipRect();
-
-                std::list<glm::mat4x4>  _transforms;
-                glm::mat4x4             _currentTransform = glm::mat4x4(1.F);
 
                 DJV_PRIVATE();
             };

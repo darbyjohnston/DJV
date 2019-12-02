@@ -88,11 +88,15 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
     addChild(_sceneWidget);
     auto vLayout = UI::VerticalLayout::create(context);
     vLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
-    vLayout->addChild(menuBar);
-    vLayout->addSeparator();
-    vLayout->addChild(toolBar);
-    vLayout->addExpander();
     auto hLayout = UI::HorizontalLayout::create(context);
+    hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+    hLayout->addChild(menuBar);
+    hLayout->setStretch(menuBar, UI::RowStretch::Expand);
+    hLayout->addSeparator();
+    hLayout->addChild(toolBar);
+    vLayout->addChild(hLayout);
+    vLayout->addExpander();
+    hLayout = UI::HorizontalLayout::create(context);
     hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
     hLayout->setBackgroundRole(UI::ColorRole::OverlayLight);
     hLayout->setHAlign(UI::HAlign::Left);
@@ -198,6 +202,8 @@ void MainWindow::_initEvent(Core::Event::Init&)
     _actions["Open"]->setTooltip(_getText(DJV_TEXT("Open a file")));
     _actions["Close"]->setText(_getText(DJV_TEXT("Close")));
     _actions["Close"]->setTooltip(_getText(DJV_TEXT("Close the current file")));
+    _actions["Exit"]->setText(_getText(DJV_TEXT("Exit")));
+    _actions["Exit"]->setTooltip(_getText(DJV_TEXT("Exit the application")));
 
     _trianglesLabel->setText(_getText(DJV_TEXT("Triangles")) + ":");
 }

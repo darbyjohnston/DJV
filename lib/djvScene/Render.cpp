@@ -30,6 +30,7 @@
 #include <djvScene/Render.h>
 
 #include <djvScene/Camera.h>
+#include <djvScene/Light.h>
 #include <djvScene/Material.h>
 #include <djvScene/Primitive.h>
 #include <djvScene/Scene.h>
@@ -105,6 +106,19 @@ namespace djv
             render3DOptions.camera.p = renderOptions.camera->getP();
             render3DOptions.size = renderOptions.size;
             render->beginFrame(render3DOptions);
+            if (p.scene)
+            {
+                for (const auto& i : p.scene->getLights())
+                {
+                    if (auto pointLight = std::dynamic_pointer_cast<PointLight>(i))
+                    {
+                        auto renderPointLight = AV::Render3D::PointLight::create();
+                        renderPointLight->setPosition(pointLight->getPosition());
+                        renderPointLight->setIntensity(pointLight->getIntensity());
+                        render->addLight(renderPointLight);
+                    }
+                }
+            }
             p.triangleCount = 0;
             for (const auto& i : p.materialToMesh)
             {

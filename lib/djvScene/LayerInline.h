@@ -31,6 +31,22 @@ namespace djv
 {
     namespace Scene
     {
+        inline ILayerItem::ILayerItem()
+        {}
+
+        inline ILayerItem::~ILayerItem()
+        {}
+
+        inline const std::weak_ptr<Layer>& ILayerItem::getLayer() const
+        {
+            return _layer;
+        }
+
+        inline void ILayerItem::setLayer(const std::shared_ptr<Layer>& value)
+        {
+            _layer = value;
+        }
+
         inline Layer::Layer()
         {}
 
@@ -38,6 +54,36 @@ namespace djv
         {
             auto out = std::shared_ptr<Layer>(new Layer);
             return out;
+        }
+
+        inline const std::string& Layer::getName() const
+        {
+            return _name;
+        }
+
+        inline void Layer::setName(const std::string& value)
+        {
+            _name = value;
+        }
+
+        inline bool Layer::getVisible() const
+        {
+            return _visible;
+        }
+
+        inline void Layer::setVisible(bool value)
+        {
+            _visible = value;
+        }
+
+        inline const AV::Image::Color& Layer::getColor() const
+        {
+            return _color;
+        }
+
+        inline void Layer::setColor(const AV::Image::Color& value)
+        {
+            _color = value;
         }
 
         inline const std::shared_ptr<IMaterial>& Layer::getMaterial() const
@@ -48,6 +94,16 @@ namespace djv
         inline void Layer::setMaterial(const std::shared_ptr<IMaterial>& value)
         {
             _material = value;
+        }
+
+        inline void Layer::addLayer(const std::shared_ptr<Layer>& value)
+        {
+            _layers.push_back(value);
+        }
+
+        inline void Layer::addItem(const std::shared_ptr<ILayerItem>& value)
+        {
+            _items.push_back(value);
         }
 
     } // namespace Scene

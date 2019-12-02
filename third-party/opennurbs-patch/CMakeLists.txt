@@ -8,11 +8,13 @@ set(ON_INC
     opennurbs_3dm_properties.h
     opennurbs_3dm_settings.h
     opennurbs_annotationbase.h
+    opennurbs_apple_nsfont.h
     opennurbs_arc.h
     opennurbs_arccurve.h
     opennurbs_archive.h
     opennurbs_array.h
     opennurbs_array_defs.h
+    opennurbs_atomic_op.h
     opennurbs_base32.h
     opennurbs_base64.h
     opennurbs_beam.h
@@ -26,6 +28,8 @@ set(ON_INC
     opennurbs_compress.h
     opennurbs_compstat.h
     opennurbs_cone.h
+    opennurbs_convex_poly.h
+    opennurbs_cpp_base.h
     opennurbs_crc.h
     opennurbs_curve.h
     opennurbs_curveonsurface.h
@@ -60,6 +64,7 @@ set(ON_INC
     opennurbs_instance.h
     opennurbs_internal_defines.h
     opennurbs_internal_glyph.h
+    opennurbs_internal_unicode_cp.h
     opennurbs_internal_V2_annotation.h
     opennurbs_internal_V5_annotation.h
     opennurbs_internal_V5_dimstyle.h
@@ -105,9 +110,11 @@ set(ON_INC
     opennurbs_polyedgecurve.h
     opennurbs_polyline.h
     opennurbs_polylinecurve.h
+    opennurbs_private_wrap.h
     opennurbs_private_wrap_defs.h
     opennurbs_progress_reporter.h
     opennurbs_qsort_template.h
+    opennurbs_quacksort_template.h
     opennurbs_quaternion.h
     opennurbs_rand.h
     opennurbs_rendering.h
@@ -128,9 +135,11 @@ set(ON_INC
     opennurbs_system_compiler.h
     opennurbs_system_runtime.h
     opennurbs_terminator.h
+    #opennurbs_testclass.h
     opennurbs_text.h
     opennurbs_text_style.h
     opennurbs_textcontext.h
+    opennurbs_textdraw.h
     opennurbs_textglyph.h
     opennurbs_textiterator.h
     opennurbs_textlog.h
@@ -146,6 +155,7 @@ set(ON_INC
     opennurbs_version.h
     opennurbs_version_number.h
     opennurbs_viewport.h
+    opennurbs_win_dwrite.h
     opennurbs_windows_targetver.h
     opennurbs_wip.h
     opennurbs_workspace.h
@@ -153,6 +163,7 @@ set(ON_INC
     opennurbs_zlib.h)
 
 set(ON_SRC
+    opennurbs_3dm_attributes.cpp
     opennurbs_3dm_properties.cpp
     opennurbs_3dm_settings.cpp
     opennurbs_annotationbase.cpp
@@ -182,6 +193,7 @@ set(ON_SRC
     opennurbs_compress.cpp
     opennurbs_compstat.cpp
     opennurbs_cone.cpp
+    opennurbs_convex_poly.cpp
     opennurbs_crc.cpp
     opennurbs_curve.cpp
     opennurbs_curveonsurface.cpp
@@ -205,6 +217,7 @@ set(ON_SRC
     opennurbs_fsp.cpp
     opennurbs_function_list.cpp
     opennurbs_geometry.cpp
+    #opennurbs_gl.cpp
     opennurbs_glyph_outline.cpp
     opennurbs_group.cpp
     opennurbs_hash_table.cpp
@@ -303,9 +316,11 @@ set(ON_SRC
     opennurbs_surface.cpp
     opennurbs_surfaceproxy.cpp
     opennurbs_terminator.cpp
+    #opennurbs_testclass.cpp
     opennurbs_text.cpp
     opennurbs_text_style.cpp
     opennurbs_textcontext.cpp
+    opennurbs_textdraw.cpp
     opennurbs_textglyph.cpp
     opennurbs_textiterator.cpp
     opennurbs_textlog.cpp
@@ -314,6 +329,8 @@ set(ON_SRC
     opennurbs_topology.cpp
     opennurbs_torus.cpp
     opennurbs_unicode.cpp
+    opennurbs_unicode_cp932.cpp
+    opennurbs_unicode_cp949.cpp
     opennurbs_unicode_cpsb.cpp
     opennurbs_units.cpp
     opennurbs_userdata.cpp
@@ -322,11 +339,23 @@ set(ON_SRC
     opennurbs_version.cpp
     opennurbs_version_number.cpp
     opennurbs_viewport.cpp
+    opennurbs_win_dwrite.cpp
     opennurbs_workspace.cpp
     opennurbs_wstring.cpp
     opennurbs_xform.cpp
     opennurbs_zlib.cpp
-    opennurbs_zlib_memory.cpp)
+    opennurbs_zlib_memory.cpp
+    zlib/adler32.c
+    zlib/compress.c
+    zlib/crc32.c
+    zlib/deflate.c
+    zlib/infback.c
+    zlib/inffast.c
+    zlib/inflate.c
+    zlib/inftrees.c
+    zlib/trees.c
+    zlib/uncompr.c
+    zlib/zutil.c)
 
 add_library(opennurbs ${ON_INC} ${ON_SRC})
 target_compile_definitions(opennurbs PRIVATE ON_COMPILING_OPENNURBS)
@@ -337,4 +366,9 @@ if(WIN32)
         WIN64)
 endif()
 
+install(
+    TARGETS opennurbs
+    ARCHIVE DESTINATION ${DJV_INSTALL_LIB}
+    LIBRARY DESTINATION ${DJV_INSTALL_LIB}
+    RUNTIME DESTINATION ${DJV_INSTALL_BIN})
 install(FILES ${ON_INC} DESTINATION ${CMAKE_INSTALL_PREFIX}/include/opennurbs)

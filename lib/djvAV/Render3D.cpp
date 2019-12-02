@@ -40,6 +40,8 @@
 #include <djvCore/LogSystem.h>
 #include <djvCore/Timer.h>
 
+#include <unordered_map>
+
 using namespace djv::Core;
 
 namespace djv
@@ -83,15 +85,21 @@ namespace djv
             IMaterial::~IMaterial()
             {}
 
-            void IMaterial::bind(const glm::mat4x4& mvp)
-            {
-                _shader->bind();
-                _shader->setUniform(_mvpLoc, mvp);
-            }
+            void IMaterial::bind()
+            {}
 
             void DefaultMaterial::_init(const std::shared_ptr<Context>& context)
             {
                 IMaterial::_init("djvAVRender3DDefaultVertex.glsl", "djvAVRender3DDefaultFragment.glsl", context);
+                auto program = _shader->getProgram();
+                _ambientLoc = glGetUniformLocation(program, "defaultMaterial.ambient");
+                _diffuseLoc = glGetUniformLocation(program, "defaultMaterial.diffuse");
+                _emissionLoc = glGetUniformLocation(program, "defaultMaterial.emission");
+                _specularLoc = glGetUniformLocation(program, "defaultMaterial.specular");
+                _shineLoc = glGetUniformLocation(program, "defaultMaterial.shine");
+                _transparencyLoc = glGetUniformLocation(program, "defaultMaterial.transparency");
+                _reflectivityLoc = glGetUniformLocation(program, "defaultMaterial.reflectivity");
+                _disableLightingLoc = glGetUniformLocation(program, "defaultMaterial.disableLighting");
             }
 
             DefaultMaterial::DefaultMaterial()
@@ -107,19 +115,77 @@ namespace djv
                 return out;
             }
 
-            void DefaultMaterial::bind(const glm::mat4x4& mvp)
+            void DefaultMaterial::setAmbient(const AV::Image::Color& value)
             {
-                IMaterial::bind(mvp);
+                _ambient = value;
+            }
+
+            void DefaultMaterial::setDiffuse(const AV::Image::Color& value)
+            {
+                _diffuse = value;
+            }
+
+            void DefaultMaterial::setEmission(const AV::Image::Color& value)
+            {
+                _emission = value;
+            }
+
+            void DefaultMaterial::setSpecular(const AV::Image::Color& value)
+            {
+                _specular = value;
+            }
+
+            void DefaultMaterial::setShine(float value)
+            {
+                _shine = value;
+            }
+
+            void DefaultMaterial::setTransparency(float value)
+            {
+                _transparency = value;
+            }
+
+            void DefaultMaterial::setReflectivity(float value)
+            {
+                _reflectivity = value;
+            }
+
+            void DefaultMaterial::setDisableLighting(bool value)
+            {
+                _disableLighting = value;
+            }
+
+            void DefaultMaterial::bind()
+            {
+                _shader->setUniform(_ambientLoc, _ambient);
+                _shader->setUniform(_diffuseLoc, _diffuse);
+                _shader->setUniform(_emissionLoc, _emission);
+                _shader->setUniform(_specularLoc, _specular);
+                _shader->setUniform(_shineLoc, _shine);
+                _shader->setUniform(_transparencyLoc, _transparency);
+                _shader->setUniform(_reflectivityLoc, _reflectivity);
+                _shader->setUniform(_disableLightingLoc, _disableLighting);
+            }
+
+            std::shared_ptr<PointLight> PointLight::create()
+            {
+                auto out = std::shared_ptr<PointLight>(new PointLight);
+                return out;
             }
 
             struct Render::Private
             {
                 RenderOptions                           options;
+
+                std::list<glm::mat4x4>                  transforms;
+                glm::mat4x4                             currentTransform    = glm::mat4x4(1.F);
                 std::shared_ptr<IMaterial>              currentMaterial;
-                std::vector<Primitive*>                 primitives;
+                std::vector<std::shared_ptr<ILight> >   lights;
                 std::shared_ptr<OpenGL::TextureAtlas>   textureAtlas;
                 std::shared_ptr<OpenGL::MeshCache>      meshCache;
                 std::map<UID, UID>                      meshCacheUIDs;
+
+                std::map<std::shared_ptr<AV::OpenGL::Shader>, std::vector<std::shared_ptr<Primitive> > > primitives;
 
                 std::shared_ptr<Time::Timer>            statsTimer;
             };
@@ -227,17 +293,55 @@ namespace djv
                 auto vao = p.meshCache->getVAO();
                 vao->bind();
 
-                for (const auto& i : p.primitives)
+                for (const auto& shaderIt : p.primitives)
                 {
-                    i->material->bind(i->xform);
-                    vao->draw(i->type, i->vaoRange.min, i->vaoRange.max - i->vaoRange.min + 1);
+                    shaderIt.first->bind();
+                    size_t i = 0;
+                    for (auto light = p.lights.begin(); light != p.lights.end() && i < 16; ++light, ++i)
+                    {
+                        if (auto pointLight = std::dynamic_pointer_cast<PointLight>(*light))
+                        {
+                            {
+                                std::stringstream ss;
+                                ss << "pointLights[" << i << "].position";
+                                shaderIt.first->setUniform(ss.str(), pointLight->getPosition());
+                            }
+                            {
+                                std::stringstream ss;
+                                ss << "pointLights[" << i << "].intensity";
+                                shaderIt.first->setUniform("pointLights.intensity", pointLight->getIntensity());
+                            }
+                        }
+                    }
+                    shaderIt.first->setUniform("pointLightsCount", static_cast<int>(i));
+
+                    GLint mvpLoc = glGetUniformLocation(shaderIt.first->getProgram(), "transform.mvp");
+                    for (const auto& primitiveIt : shaderIt.second)
+                    {
+                        shaderIt.first->setUniform(mvpLoc, primitiveIt->xform);
+                        primitiveIt->material->bind();
+                        vao->draw(primitiveIt->type, primitiveIt->vaoRange.min, primitiveIt->vaoRange.max - primitiveIt->vaoRange.min + 1);
+                    }
                 }
 
-                for (size_t i = 0; i < p.primitives.size(); ++i)
-                {
-                    delete p.primitives[i];
-                }
+                p.transforms.clear();
+                p.currentTransform = glm::mat4x4(1.F);
                 p.primitives.clear();
+                p.lights.clear();
+            }
+
+            void Render::pushTransform(const glm::mat4x4& value)
+            {
+                DJV_PRIVATE_PTR();
+                p.transforms.push_back(value);
+                p.currentTransform *= value;
+            }
+
+            void Render::popTransform()
+            {
+                DJV_PRIVATE_PTR();
+                p.transforms.pop_back();
+                _updateCurrentTransform();
             }
 
             void Render::setMaterial(const std::shared_ptr<IMaterial>& value)
@@ -246,14 +350,19 @@ namespace djv
                 p.currentMaterial = value;
             }
 
+            void Render::addLight(const std::shared_ptr<ILight>& value)
+            {
+                DJV_PRIVATE_PTR();
+                p.lights.push_back(value);
+            }
+
             void Render::drawTriangleMesh(const Geom::TriangleMesh& value)
             {
                 DJV_PRIVATE_PTR();
                 if (value.triangles.size())
                 {
-                    auto primitive = new Primitive;
-                    p.primitives.push_back(primitive);
-                    primitive->xform = p.options.camera.p * p.options.camera.v * _currentTransform;
+                    auto primitive = std::shared_ptr<Primitive>(new Primitive);
+                    primitive->xform = p.options.camera.p * p.options.camera.v * p.currentTransform;
                     primitive->material = p.currentMaterial;
 
                     SizeTRange range;
@@ -269,6 +378,18 @@ namespace djv
                         p.meshCacheUIDs[value.getUID()] = p.meshCache->addItem(data, range);
                     }
                     primitive->vaoRange = range;
+
+                    p.primitives[primitive->material->getShader()].push_back(primitive);
+                }
+            }
+
+            void Render::_updateCurrentTransform()
+            {
+                DJV_PRIVATE_PTR();
+                p.currentTransform = glm::mat4x4(1.F);
+                for (const auto& i : p.transforms)
+                {
+                    p.currentTransform *= i;
                 }
             }
 

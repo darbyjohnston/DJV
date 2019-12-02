@@ -33,25 +33,43 @@ namespace djv
     {
         namespace Render3D
         {
-            inline void Render::pushTransform(const glm::mat4x4& value)
+            inline GLint IMaterial::getMVPLoc() const
             {
-                _transforms.push_back(value);
-                _currentTransform *= value;
+                return _mvpLoc;
             }
 
-            inline void Render::popTransform()
+            inline const std::shared_ptr<OpenGL::Shader>& IMaterial::getShader() const
             {
-                _transforms.pop_back();
-                _updateCurrentTransform();
+                return _shader;
             }
 
-            inline void Render::_updateCurrentTransform()
+            inline ILight::ILight()
+            {}
+
+            inline ILight::~ILight()
+            {}
+
+            inline PointLight::PointLight()
+            {}
+
+            inline const glm::vec3& PointLight::getPosition() const
             {
-                _currentTransform = glm::mat4x4(1.F);
-                for (const auto& i : _transforms)
-                {
-                    _currentTransform *= i;
-                }
+                return _position;
+            }
+
+            inline float PointLight::getIntensity() const
+            {
+                return _intensity;
+            }
+
+            inline void PointLight::setPosition(const glm::vec3& value)
+            {
+                _position = value;
+            }
+
+            inline void PointLight::setIntensity(float value)
+            {
+                _intensity = value;
             }
 
         } // namespace Render3D

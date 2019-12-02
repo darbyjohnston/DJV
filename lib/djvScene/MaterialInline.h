@@ -40,5 +40,85 @@ namespace djv
         inline DefaultMaterial::DefaultMaterial()
         {}
 
+        inline const AV::Image::Color& DefaultMaterial::getAmbient() const
+        {
+            return _ambient;
+        }
+
+        inline const AV::Image::Color& DefaultMaterial::getDiffuse() const
+        {
+            return _diffuse;
+        }
+
+        inline const AV::Image::Color& DefaultMaterial::getEmission() const
+        {
+            return _emission;
+        }
+
+        inline const AV::Image::Color& DefaultMaterial::getSpecular() const
+        {
+            return _specular;
+        }
+
+        inline float DefaultMaterial::getShine() const
+        {
+            return _shine;
+        }
+
+        inline float DefaultMaterial::getTransparency() const
+        {
+            return _transparency;
+        }
+
+        inline float DefaultMaterial::getReflectivity() const
+        {
+            return _reflectivity;
+        }
+
+        inline bool DefaultMaterial::hasDisableLighting() const
+        {
+            return _disableLighting;
+        }
+
+        inline void DefaultMaterial::setAmbient(const AV::Image::Color& value)
+        {
+            _ambient = value;
+        }
+
+        inline void DefaultMaterial::setDiffuse(const AV::Image::Color& value)
+        {
+            _diffuse = value;
+        }
+
+        inline void DefaultMaterial::setEmission(const AV::Image::Color& value)
+        {
+            _emission = value;
+        }
+
+        inline void DefaultMaterial::setSpecular(const AV::Image::Color& value)
+        {
+            _specular = value;
+        }
+
+        inline void DefaultMaterial::setShine(float value)
+        {
+            _shine = value;
+        }
+
+        inline void DefaultMaterial::setTransparency(float value)
+        {
+            _transparency = value;
+        }
+
+        inline void DefaultMaterial::setReflectivity(float value)
+        {
+            _reflectivity = value;
+        }
+
+        inline void DefaultMaterial::setDisableLighting(bool value)
+        {
+            _disableLighting = value;
+        }
+
     } // namespace Scene
 } // namespace djv

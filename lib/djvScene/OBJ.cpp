@@ -33,10 +33,10 @@
 #include <djvScene/Primitive.h>
 #include <djvScene/Scene.h>
 
-#include <djvAV/Shape.h>
 #include <djvAV/TriangleMesh.h>
 
 #include <djvCore/FileIO.h>
+#include <djvCore/LogSystem.h>
 
 using namespace djv::Core;
 
@@ -126,222 +126,214 @@ namespace djv
                         }
                     }
 
-                    bool read(const std::string& fileName, AV::Geom::TriangleMesh& mesh, size_t threads)
+                    void read(const std::string& fileName, AV::Geom::TriangleMesh& mesh, size_t threads)
                     {
-                        try
+                        // Open the file.
+                        FileSystem::FileIO f;
+                        f.open(fileName, FileSystem::FileIO::Mode::Read);
+                        const size_t fileSize = f.getSize();
+                        std::vector<char> data(fileSize);
+                        char* fileStart = data.data();
+                        const char* fileEnd = fileStart + fileSize;
+                        f.read(fileStart, fileSize);
+
+                        // Divide up the file for each thread.
+                        threads = std::max(threads, size_t(1));
+                        const size_t filePieceSize = fileSize / threads;
+                        typedef std::pair<const char*, const char*> FilePiece;
+                        std::vector<FilePiece> filePieces;
+                        const char* line = fileStart;
+                        const char* lineEnd = nullptr;
+                        for (size_t i = 0; i < threads; ++i, line = lineEnd)
                         {
-                            // Open the file.
-                            FileSystem::FileIO f;
-                            f.open(fileName, FileSystem::FileIO::Mode::Read);
-                            const size_t fileSize = f.getSize();
-                            std::vector<char> data(fileSize);
-                            char* fileStart = data.data();
-                            const char* fileEnd = fileStart + fileSize;
-                            f.read(fileStart, fileSize);
+                            // Find the end of the line for this piece of the file.
+                            lineEnd = findLineEnd(line + filePieceSize, fileEnd);
+                            if (lineEnd < fileEnd)
+                                ++lineEnd;
 
-                            // Divide up the file for each thread.
-                            threads = std::max(threads, size_t(1));
-                            const size_t filePieceSize = fileSize / threads;
-                            typedef std::pair<const char*, const char*> FilePiece;
-                            std::vector<FilePiece> filePieces;
-                            const char* line = fileStart;
-                            const char* lineEnd = nullptr;
-                            for (size_t i = 0; i < threads; ++i, line = lineEnd)
-                            {
-                                // Find the end of the line for this piece of the file.
-                                lineEnd = findLineEnd(line + filePieceSize, fileEnd);
-                                if (lineEnd < fileEnd)
-                                    ++lineEnd;
+                            // Add this piece to the list.
+                            filePieces.push_back(FilePiece(line, lineEnd));
+                        }
 
-                                // Add this piece to the list.
-                                filePieces.push_back(FilePiece(line, lineEnd));
-                            }
-
-                            // Read the file pieces.
-                            std::vector<AV::Geom::TriangleMesh*> meshPieces;
-                            meshPieces.push_back(&mesh);
-                            for (size_t i = 1; i < filePieces.size(); ++i)
-                            {
-                                meshPieces.push_back(new AV::Geom::TriangleMesh);
-                            }
-                            std::vector<std::future<void> > futures;
-                            for (size_t i = 0; i < filePieces.size(); ++i)
-                            {
-                                auto filePiece = filePieces[i];
-                                auto mesh = meshPieces[i];
-                                futures.push_back(std::async(
-                                    std::launch::async,
-                                    [filePiece, mesh]
+                        // Read the file pieces.
+                        std::vector<AV::Geom::TriangleMesh*> meshPieces;
+                        meshPieces.push_back(&mesh);
+                        for (size_t i = 1; i < filePieces.size(); ++i)
+                        {
+                            meshPieces.push_back(new AV::Geom::TriangleMesh);
+                        }
+                        std::vector<std::future<void> > futures;
+                        for (size_t i = 0; i < filePieces.size(); ++i)
+                        {
+                            auto filePiece = filePieces[i];
+                            auto mesh = meshPieces[i];
+                            futures.push_back(std::async(
+                                std::launch::async,
+                                [filePiece, mesh]
+                                {
+                                    const char* line = filePiece.first;
+                                    const char* lineEnd = filePiece.first;
+                                    const char* word = nullptr;
+                                    AV::Geom::TriangleMesh::Face face;
+                                    glm::vec3 v;
+                                    glm::vec3 c;
+                                    for (; line < filePiece.second; ++lineEnd, line = lineEnd)
                                     {
-                                        const char* line = filePiece.first;
-                                        const char* lineEnd = filePiece.first;
-                                        const char* word = nullptr;
-                                        AV::Geom::TriangleMesh::Face face;
-                                        glm::vec3 v;
-                                        glm::vec3 c;
-                                        for (; line < filePiece.second; ++lineEnd, line = lineEnd)
+                                        // Find the end of the line.
+                                        lineEnd = findLineEnd(lineEnd, filePiece.second);
+
+                                        // Skip white space.
+                                        line = findWhitespaceEnd(line, lineEnd);
+
+                                        const size_t lineSize = lineEnd - line;
+                                        if (lineSize >= 1 && '#' == line[0])
                                         {
-                                            // Find the end of the line.
-                                            lineEnd = findLineEnd(lineEnd, filePiece.second);
-
-                                            // Skip white space.
-                                            line = findWhitespaceEnd(line, lineEnd);
-
-                                            const size_t lineSize = lineEnd - line;
-                                            if (lineSize >= 1 && '#' == line[0])
+                                            // Skip comments.
+                                        }
+                                        else if (lineSize >= 2 && 'v' == line[0] && 'n' == line[1])
+                                        {
+                                            // Read a normal.
+                                            ++line;
+                                            ++line;
+                                            for (int component = 0; component < 3 && line < lineEnd; ++component)
                                             {
-                                                // Skip comments.
+                                                line = findWhitespaceEnd(line, lineEnd);
+                                                word = line;
+                                                line = findWordEnd(line, lineEnd);
+                                                String::fromString(word, line - word, v[component]);
                                             }
-                                            else if (lineSize >= 2 && 'v' == line[0] && 'n' == line[1])
+                                            mesh->n.push_back(v);
+                                        }
+                                        else if (lineSize >= 2 && 'v' == line[0] && 't' == line[1])
+                                        {
+                                            // Read a texture coordinate.
+                                            ++line;
+                                            ++line;
+                                            for (int component = 0; component < 3 && line < lineEnd; ++component)
                                             {
-                                                // Read a normal.
-                                                ++line;
-                                                ++line;
-                                                for (int component = 0; component < 3 && line < lineEnd; ++component)
-                                                {
-                                                    line = findWhitespaceEnd(line, lineEnd);
-                                                    word = line;
-                                                    line = findWordEnd(line, lineEnd);
-                                                    String::fromString(word, line - word, v[component]);
-                                                }
-                                                mesh->n.push_back(v);
+                                                line = findWhitespaceEnd(line, lineEnd);
+                                                word = line;
+                                                line = findWordEnd(line, lineEnd);
+                                                String::fromString(word, line - word, v[component]);
                                             }
-                                            else if (lineSize >= 2 && 'v' == line[0] && 't' == line[1])
+                                            mesh->t.push_back(v);
+                                        }
+                                        else if (lineSize >= 1 && 'v' == line[0])
+                                        {
+                                            // Read a vertex.
+                                            const char* lineBegin = line;
+                                            ++line;
+                                            int component = 0;
+                                            for (; component < 3 && line < lineEnd; ++component)
                                             {
-                                                // Read a texture coordinate.
-                                                ++line;
-                                                ++line;
-                                                for (int component = 0; component < 3 && line < lineEnd; ++component)
-                                                {
-                                                    line = findWhitespaceEnd(line, lineEnd);
-                                                    word = line;
-                                                    line = findWordEnd(line, lineEnd);
-                                                    String::fromString(word, line - word, v[component]);
-                                                }
-                                                mesh->t.push_back(v);
+                                                line = findWhitespaceEnd(line, lineEnd);
+                                                word = line;
+                                                line = findWordEnd(line, lineEnd);
+                                                String::fromString(word, line - word, v[component]);
                                             }
-                                            else if (lineSize >= 1 && 'v' == line[0])
+                                            mesh->v.push_back(v);
+                                            component = 0;
+                                            for (; component < 3 && line < lineEnd; ++component)
                                             {
-                                                // Read a vertex.
-                                                const char* lineBegin = line;
-                                                ++line;
-                                                int component = 0;
-                                                for (; component < 3 && line < lineEnd; ++component)
-                                                {
-                                                    line = findWhitespaceEnd(line, lineEnd);
-                                                    word = line;
-                                                    line = findWordEnd(line, lineEnd);
-                                                    String::fromString(word, line - word, v[component]);
-                                                }
-                                                mesh->v.push_back(v);
-                                                component = 0;
-                                                for (; component < 3 && line < lineEnd; ++component)
-                                                {
-                                                    line = findWhitespaceEnd(line, lineEnd);
-                                                    word = line;
-                                                    line = findWordEnd(line, lineEnd);
-                                                    String::fromString(word, line - word, c[component]);
-                                                }
-                                                if (3 == component)
-                                                {
-                                                    mesh->c.push_back(c);
-                                                }
+                                                line = findWhitespaceEnd(line, lineEnd);
+                                                word = line;
+                                                line = findWordEnd(line, lineEnd);
+                                                String::fromString(word, line - word, c[component]);
                                             }
-                                            else if (lineSize >= 1 && 'f' == line[0])
+                                            if (3 == component)
                                             {
-                                                // Read a face.
-                                                ++line;
-                                                face.v.resize(3);
-                                                int index = 0;
-                                                while (line < lineEnd)
-                                                {
-                                                    line = findWhitespaceEnd(line, lineEnd);
-                                                    word = line;
-                                                    line = findWordEnd(line, lineEnd);
-                                                    if (line - word)
-                                                    {
-                                                        size_t v = 0;
-                                                        size_t t = 0;
-                                                        size_t n = 0;
-                                                        parseFaceIndex(word, line - word, v, t, n);
-                                                        if (index < 3)
-                                                        {
-                                                            face.v[index].v = v;
-                                                            face.v[index].t = t;
-                                                            face.v[index++].n = n;
-                                                        }
-                                                        else
-                                                        {
-                                                            face.v.emplace_back(v, t, n);
-                                                        }
-                                                    }
-                                                }
-                                                AV::Geom::TriangleMesh::faceToTriangles(face, mesh->triangles);
+                                                mesh->c.push_back(c);
                                             }
                                         }
-                                    }));
-                            }
-                            for (auto& future : futures)
-                            {
-                                future.get();
-                            }
+                                        else if (lineSize >= 1 && 'f' == line[0])
+                                        {
+                                            // Read a face.
+                                            ++line;
+                                            face.v.resize(3);
+                                            int index = 0;
+                                            while (line < lineEnd)
+                                            {
+                                                line = findWhitespaceEnd(line, lineEnd);
+                                                word = line;
+                                                line = findWordEnd(line, lineEnd);
+                                                if (line - word)
+                                                {
+                                                    size_t v = 0;
+                                                    size_t t = 0;
+                                                    size_t n = 0;
+                                                    parseFaceIndex(word, line - word, v, t, n);
+                                                    if (index < 3)
+                                                    {
+                                                        face.v[index].v = v;
+                                                        face.v[index].t = t;
+                                                        face.v[index++].n = n;
+                                                    }
+                                                    else
+                                                    {
+                                                        face.v.emplace_back(v, t, n);
+                                                    }
+                                                }
+                                            }
+                                            AV::Geom::TriangleMesh::faceToTriangles(face, mesh->triangles);
+                                        }
+                                    }
+                                }));
+                        }
+                        for (auto& future : futures)
+                        {
+                            future.get();
+                        }
 
-                            // Combine the mesh pieces.
-                            for (size_t i = 1; i < meshPieces.size(); ++i)
-                            {
-                                auto meshPiece = meshPieces[i];
-                                for (const auto& v : meshPiece->v)
-                                    mesh.v.push_back(v);
-                                for (const auto& c : meshPiece->c)
-                                    mesh.c.push_back(c);
-                                for (const auto& t : meshPiece->t)
-                                    mesh.t.push_back(t);
-                                for (const auto& n : meshPiece->n)
-                                    mesh.n.push_back(n);
-                                for (const auto& t : meshPiece->triangles)
-                                    mesh.triangles.push_back(t);
-                                delete meshPieces[i];
-                            }
+                        // Combine the mesh pieces.
+                        for (size_t i = 1; i < meshPieces.size(); ++i)
+                        {
+                            auto meshPiece = meshPieces[i];
+                            for (const auto& v : meshPiece->v)
+                                mesh.v.push_back(v);
+                            for (const auto& c : meshPiece->c)
+                                mesh.c.push_back(c);
+                            for (const auto& t : meshPiece->t)
+                                mesh.t.push_back(t);
+                            for (const auto& n : meshPiece->n)
+                                mesh.n.push_back(n);
+                            for (const auto& t : meshPiece->triangles)
+                                mesh.triangles.push_back(t);
+                            delete meshPieces[i];
+                        }
 
-                            // Implied texture/normal indices.
-                            const bool impliedT = mesh.v.size() == mesh.t.size();
-                            const bool impliedN = mesh.v.size() == mesh.n.size();
-                            if (impliedT || impliedN)
+                        // Implied texture/normal indices.
+                        const bool impliedT = mesh.v.size() == mesh.t.size();
+                        const bool impliedN = mesh.v.size() == mesh.n.size();
+                        if (impliedT || impliedN)
+                        {
+                            for (auto& t : mesh.triangles)
                             {
-                                for (auto& t : mesh.triangles)
+                                if (impliedT && !t.v0.t)
                                 {
-                                    if (impliedT && !t.v0.t)
-                                    {
-                                        t.v0.t = t.v0.v;
-                                    }
-                                    if (impliedN && !t.v0.n)
-                                    {
-                                        t.v0.n = t.v0.v;
-                                    }
-                                    if (impliedT && !t.v1.t)
-                                    {
-                                        t.v1.t = t.v1.v;
-                                    }
-                                    if (impliedN && !t.v1.n)
-                                    {
-                                        t.v1.n = t.v1.v;
-                                    }
-                                    if (impliedT && !t.v2.t)
-                                    {
-                                        t.v2.t = t.v2.v;
-                                    }
-                                    if (impliedN && !t.v2.n)
-                                    {
-                                        t.v2.n = t.v2.v;
-                                    }
+                                    t.v0.t = t.v0.v;
+                                }
+                                if (impliedN && !t.v0.n)
+                                {
+                                    t.v0.n = t.v0.v;
+                                }
+                                if (impliedT && !t.v1.t)
+                                {
+                                    t.v1.t = t.v1.v;
+                                }
+                                if (impliedN && !t.v1.n)
+                                {
+                                    t.v1.n = t.v1.v;
+                                }
+                                if (impliedT && !t.v2.t)
+                                {
+                                    t.v2.t = t.v2.v;
+                                }
+                                if (impliedN && !t.v2.n)
+                                {
+                                    t.v2.n = t.v2.v;
                                 }
                             }
                         }
-                        catch (const std::exception&)
-                        {
-                            return false;
-                        }
-                        return true;
                     }
 
                 } // namespace
@@ -384,15 +376,25 @@ namespace djv
                         std::launch::async,
                         [this]
                         {
-                            auto scene = Scene::create();
-                            auto primitive = MeshPrimitive::create();
-                            auto mesh = std::shared_ptr<AV::Geom::TriangleMesh>(new AV::Geom::TriangleMesh);
-                            read(_fileInfo.getFileName(), *mesh, 1);
-                            primitive->setMesh(mesh);
-                            auto material = DefaultMaterial::create();
-                            primitive->setMaterial(material);
-                            scene->addPrimitive(primitive);
-                            return scene;
+                            std::shared_ptr<Scene> out;
+                            try
+                            {
+                                out = Scene::create();
+                                auto primitive = MeshPrimitive::create();
+                                auto mesh = std::shared_ptr<AV::Geom::TriangleMesh>(new AV::Geom::TriangleMesh);
+                                read(_fileInfo.getFileName(), *mesh, 1);
+                                primitive->setMesh(mesh);
+                                auto material = DefaultMaterial::create();
+                                primitive->setMaterial(material);
+                                out->addPrimitive(primitive);
+                            }
+                            catch (const std::exception& e)
+                            {
+                                std::stringstream ss;
+                                ss << DJV_TEXT("The file") << " '" << _fileInfo << "' " << DJV_TEXT("cannot be read") << ". " << e.what();
+                                _logSystem->log("djv::Scene::OBJ", ss.str(), LogLevel::Error);
+                            }
+                            return out;
                         });
                 }
 

@@ -10,6 +10,7 @@ set(header
     Layer.h
     LayerInline.h
     Light.h
+    LightInline.h
     Material.h
     MaterialInline.h
     OBJ.h

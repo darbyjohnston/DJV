@@ -31,64 +31,25 @@ namespace djv
 {
     namespace Scene
     {
-        inline IPrimitive::IPrimitive()
-        {}
-
-        inline IPrimitive::~IPrimitive()
-        {}
-
-        inline const std::string& IPrimitive::getName() const
+        inline const glm::vec3& PointLight::getPosition() const
         {
-            return _name;
+            return _position;
         }
 
-        inline void IPrimitive::setName(const std::string& value)
+        inline float PointLight::getIntensity() const
         {
-            _name = value;
+            return _intensity;
         }
 
-        inline const std::shared_ptr<AV::Geom::TriangleMesh>& IPrimitive::getMesh() const
+        inline void PointLight::setPosition(const glm::vec3& value)
         {
-            return _mesh;
+            _position = value;
         }
 
-        inline void  IPrimitive::setMesh(const std::shared_ptr<AV::Geom::TriangleMesh>& value)
+        inline void PointLight::setIntensity(float value)
         {
-            _mesh = value;
+            _intensity = value;
         }
-
-        inline MaterialAssignment IPrimitive::getMaterialAssignment() const
-        {
-            return _materialAssignment;
-        }
-
-        inline void IPrimitive::setMaterialAssignment(MaterialAssignment value)
-        {
-            _materialAssignment = value;
-        }
-
-        inline const std::shared_ptr<IMaterial>& IPrimitive::getMaterial() const
-        {
-            return _material;
-        }
-
-        inline void IPrimitive::setMaterial(const std::shared_ptr<IMaterial>& value)
-        {
-            _material = value;
-        }
-
-        inline std::weak_ptr<IPrimitive> IPrimitive::getParent() const
-        {
-            return std::weak_ptr<IPrimitive>();
-        }
-
-        inline std::vector<std::shared_ptr<IPrimitive> > IPrimitive::getChildren() const
-        {
-            return {};
-        }
-
-        inline MeshPrimitive::MeshPrimitive()
-        {}
 
     } // namespace Scene
 } // namespace djv

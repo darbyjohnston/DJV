@@ -30,6 +30,7 @@
 #pragma once
 
 #include <djvScene/Enum.h>
+#include <djvScene/Layer.h>
 
 #include <djvAV/TriangleMesh.h>
 
@@ -43,7 +44,7 @@ namespace djv
         class Layer;
 
         //! This class provides the base functionality for primitives.
-        class IPrimitive : public std::enable_shared_from_this<IPrimitive>
+        class IPrimitive : public ILayerItem
         {
             DJV_NON_COPYABLE(IPrimitive);
 
@@ -66,9 +67,6 @@ namespace djv
             std::shared_ptr<IMaterial> getRenderMaterial() const;
             void setMaterial(const std::shared_ptr<IMaterial>&);
 
-            const std::weak_ptr<Layer>& getLayer() const;
-            void setLayer(const std::shared_ptr<Layer>&);
-
             virtual std::weak_ptr<IPrimitive> getParent() const;
             virtual std::vector<std::shared_ptr<IPrimitive> > getChildren() const;
 
@@ -77,7 +75,6 @@ namespace djv
             std::shared_ptr<AV::Geom::TriangleMesh> _mesh;
             MaterialAssignment _materialAssignment = MaterialAssignment::Primitive;
             std::shared_ptr<IMaterial> _material;
-            std::weak_ptr<Layer> _layer;
         };
 
         //! This class provides a mesh primitive.

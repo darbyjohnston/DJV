@@ -57,5 +57,15 @@ namespace djv
             _primitives.push_back(value);
         }
 
+        void Scene::addLight(const std::shared_ptr<ILight>& value)
+        {
+            _lights.push_back(value);
+        }
+
+        void Scene::addLayer(const std::shared_ptr<Layer>& value)
+        {
+            _layers.push_back(value);
+        }
+
     } // namespace Scene
 } // namespace djv

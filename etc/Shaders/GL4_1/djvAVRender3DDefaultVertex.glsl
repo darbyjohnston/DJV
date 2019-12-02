@@ -33,8 +33,9 @@ in vec3 aPos;
 in vec2 aTexture;
 in vec3 aNormal;
 
-out vec2 Texture;
-out vec3 Normal;
+layout(location = 0) out vec3 Position;
+layout(location = 1) out vec2 Texture;
+layout(location = 2) out vec3 Normal;
 
 uniform struct Transform
 {
@@ -44,6 +45,7 @@ uniform struct Transform
 void main()
 {
     gl_Position = transform.mvp * vec4(aPos, 1.0);
+    Position = aPos;
     Texture = aTexture;
     Normal = aNormal;
 }

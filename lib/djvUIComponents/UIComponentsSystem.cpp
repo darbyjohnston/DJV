@@ -34,8 +34,6 @@
 
 #include <djvUI/UISystem.h>
 
-#include <djvScene/SceneSystem.h>
-
 #include <djvCore/Context.h>
 
 using namespace djv::Core;
@@ -55,7 +53,6 @@ namespace djv
             Settings::FileBrowser::create(context);
 
             addDependency(context->getSystemT<UISystem>());
-            addDependency(context->getSystemT<Scene::SceneSystem>());
         }
 
         UIComponentsSystem::UIComponentsSystem() :
