@@ -110,8 +110,19 @@ namespace djv
 
             glm::vec2 contentScale = glm::vec2(1.F, 1.F);
             glfwGetWindowContentScale(p.glfwWindow, &contentScale.x, &contentScale.y);
+            {
+                std::stringstream ss;
+                ss << "Content scale: " << contentScale;
+                _log(ss.str());
+            }
             auto system = context->getSystemT<UI::UISystem>();
-            system->getStyle()->setDPI(glm::vec2(AV::dpiDefault * contentScale.x, AV::dpiDefault * contentScale.y));
+            const glm::vec2 dpi(AV::dpiDefault * contentScale.x, AV::dpiDefault * contentScale.y);
+            {
+                std::stringstream ss;
+                ss << "DPI: " << dpi;
+                _log(ss.str());
+            }
+            system->getStyle()->setDPI(dpi);
 
 #if defined(DJV_OPENGL_ES2)
             auto resourceSystem = context->getSystemT<ResourceSystem>();
