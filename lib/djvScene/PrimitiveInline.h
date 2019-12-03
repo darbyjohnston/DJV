@@ -47,6 +47,16 @@ namespace djv
             _name = value;
         }
 
+        inline const glm::mat4x4& IPrimitive::getXForm() const
+        {
+            return _xform;
+        }
+
+        inline void IPrimitive::setXForm(const glm::mat4x4& value)
+        {
+            _xform = value;
+        }
+
         inline const std::shared_ptr<AV::Geom::TriangleMesh>& IPrimitive::getMesh() const
         {
             return _mesh;
@@ -77,14 +87,73 @@ namespace djv
             _material = value;
         }
 
-        inline std::weak_ptr<IPrimitive> IPrimitive::getParent() const
+        inline const std::weak_ptr<IPrimitive>& IPrimitive::getParent() const
         {
-            return std::weak_ptr<IPrimitive>();
+            return _parent;
         }
 
-        inline std::vector<std::shared_ptr<IPrimitive> > IPrimitive::getChildren() const
+        inline const std::vector<std::shared_ptr<IPrimitive> >& IPrimitive::getChildren() const
         {
-            return {};
+            return _children;
+        }
+
+        inline void IPrimitive::addChild(const std::shared_ptr<IPrimitive>& value)
+        {
+            if (auto prevParent = value->getParent().lock())
+            {
+                prevParent->removeChild(value);
+            }
+            _children.push_back(value);
+        }
+
+        inline void IPrimitive::removeChild(const std::shared_ptr<IPrimitive>& value)
+        {
+            const auto i = std::find(_children.begin(), _children.end(), value);
+            if (i != _children.end())
+            {
+                (*i)->_parent.reset();
+                _children.erase(i);
+            }
+        }
+
+        inline void IPrimitive::clearChildren()
+        {
+            for (auto& i : _children)
+            {
+                i->_parent.reset();
+            }
+            _children.clear();
+        }
+
+        inline const std::vector<std::shared_ptr<IPrimitive> >& IPrimitive::getPrimitives() const
+        {
+            return _children;
+        }
+
+        inline NullPrimitive::NullPrimitive()
+        {}
+
+        inline InstancePrimitive::InstancePrimitive()
+        {}
+
+        inline const std::vector<std::shared_ptr<IPrimitive> >& InstancePrimitive::getInstances() const
+        {
+            return _instances;
+        }
+
+        inline void InstancePrimitive::setInstances(const std::vector<std::shared_ptr<IPrimitive> >& value)
+        {
+            _instances = value;
+        }
+
+        inline void InstancePrimitive::addInstance(const std::shared_ptr<IPrimitive>& value)
+        {
+            _instances.push_back(value);
+        }
+
+        inline const std::vector<std::shared_ptr<IPrimitive> >& InstancePrimitive::getPrimitives() const
+        {
+            return _instances;
         }
 
         inline MeshPrimitive::MeshPrimitive()

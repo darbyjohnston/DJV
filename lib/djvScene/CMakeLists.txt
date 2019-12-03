@@ -1,6 +1,4 @@
 set(header
-    Block.h
-    BlockInline.h
     Camera.h
     CameraInline.h
     Enum.h
@@ -21,7 +19,6 @@ set(header
     SceneInline.h
     SceneSystem.h)
 set(source
-    Block.cpp
     Camera.cpp
     Enum.cpp
     Group.cpp

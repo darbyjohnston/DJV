@@ -29,6 +29,8 @@
 
 #pragma once
 
+#include <djvScene/Primitive.h>
+
 #include <djvCore/Range.h>
 
 #include <glm/mat4x4.hpp>
@@ -40,7 +42,7 @@ namespace djv
     namespace Scene
     {
         //! This class provides the base functionality for cameras.
-        class ICamera : public std::enable_shared_from_this<ICamera>
+        class ICamera : public IPrimitive
         {
             DJV_NON_COPYABLE(ICamera);
 

@@ -34,6 +34,8 @@
 
 #include <djvAV/TriangleMesh.h>
 
+#include <glm/mat4x4.hpp>
+
 #include <memory>
 
 namespace djv
@@ -41,7 +43,6 @@ namespace djv
     namespace Scene
     {
         class IMaterial;
-        class Layer;
 
         //! This class provides the base functionality for primitives.
         class IPrimitive : public ILayerItem
@@ -57,6 +58,9 @@ namespace djv
             const std::string& getName() const;
             void setName(const std::string&);
 
+            const glm::mat4x4& getXForm() const;
+            void setXForm(const glm::mat4x4&);
+
             const std::shared_ptr<AV::Geom::TriangleMesh>& getMesh() const;
             void setMesh(const std::shared_ptr<AV::Geom::TriangleMesh>&);
 
@@ -64,17 +68,60 @@ namespace djv
             void setMaterialAssignment(MaterialAssignment);
 
             const std::shared_ptr<IMaterial>& getMaterial() const;
-            std::shared_ptr<IMaterial> getRenderMaterial() const;
+            std::shared_ptr<IMaterial> getFinalMaterial() const;
             void setMaterial(const std::shared_ptr<IMaterial>&);
 
-            virtual std::weak_ptr<IPrimitive> getParent() const;
-            virtual std::vector<std::shared_ptr<IPrimitive> > getChildren() const;
+            const std::weak_ptr<IPrimitive>& getParent() const;
+            const std::vector<std::shared_ptr<IPrimitive> >& getChildren() const;
+            void addChild(const std::shared_ptr<IPrimitive>&);
+            void removeChild(const std::shared_ptr<IPrimitive>&);
+            void clearChildren();
+
+            virtual const std::vector<std::shared_ptr<IPrimitive> >& getPrimitives() const;
 
         private:
             std::string _name;
+            glm::mat4x4 _xform = glm::mat4x4(1.F);
             std::shared_ptr<AV::Geom::TriangleMesh> _mesh;
             MaterialAssignment _materialAssignment = MaterialAssignment::Primitive;
             std::shared_ptr<IMaterial> _material;
+            std::weak_ptr<IPrimitive> _parent;
+            std::vector<std::shared_ptr<IPrimitive> > _children;
+        };
+
+        //! This class provides a null primitive.
+        class NullPrimitive : public IPrimitive
+        {
+            DJV_NON_COPYABLE(NullPrimitive);
+
+        protected:
+            NullPrimitive();
+
+        public:
+            static std::shared_ptr<NullPrimitive> create();
+
+        private:
+        };
+
+        //! This class provides a primitive instance.
+        class InstancePrimitive : public IPrimitive
+        {
+            DJV_NON_COPYABLE(InstancePrimitive);
+
+        protected:
+            InstancePrimitive();
+
+        public:
+            static std::shared_ptr<InstancePrimitive> create();
+
+            const std::vector<std::shared_ptr<IPrimitive> >& getInstances() const;
+            void setInstances(const std::vector<std::shared_ptr<IPrimitive> >&);
+            void addInstance(const std::shared_ptr<IPrimitive>&);
+
+            const std::vector<std::shared_ptr<IPrimitive> >& getPrimitives() const override;
+
+        private:
+            std::vector<std::shared_ptr<IPrimitive> > _instances;
         };
 
         //! This class provides a mesh primitive.

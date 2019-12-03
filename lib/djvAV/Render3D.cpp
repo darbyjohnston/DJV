@@ -178,7 +178,8 @@ namespace djv
                 RenderOptions                           options;
 
                 std::list<glm::mat4x4>                  transforms;
-                glm::mat4x4                             currentTransform    = glm::mat4x4(1.F);
+                glm::mat4x4                             currentTransform        = glm::mat4x4(1.F);
+                glm::mat4x4                             currentInverseTransform = glm::mat4x4(1.F);
                 std::shared_ptr<IMaterial>              currentMaterial;
                 std::vector<std::shared_ptr<ILight> >   lights;
                 std::shared_ptr<OpenGL::TextureAtlas>   textureAtlas;
@@ -326,8 +327,19 @@ namespace djv
 
                 p.transforms.clear();
                 p.currentTransform = glm::mat4x4(1.F);
+                p.currentInverseTransform = glm::mat4x4(1.F);
                 p.primitives.clear();
                 p.lights.clear();
+            }
+
+            const glm::mat4x4& Render::getCurrentTransform() const
+            {
+                return _p->currentTransform;
+            }
+
+            const glm::mat4x4& Render::getCurrentInverseTransform() const
+            {
+                return _p->currentInverseTransform;
             }
 
             void Render::pushTransform(const glm::mat4x4& value)
@@ -335,6 +347,7 @@ namespace djv
                 DJV_PRIVATE_PTR();
                 p.transforms.push_back(value);
                 p.currentTransform *= value;
+                p.currentInverseTransform = glm::inverse(p.currentTransform);
             }
 
             void Render::popTransform()
@@ -391,6 +404,7 @@ namespace djv
                 {
                     p.currentTransform *= i;
                 }
+                p.currentInverseTransform = glm::inverse(p.currentTransform);
             }
 
         } // namespace Render3D

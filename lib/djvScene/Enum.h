@@ -36,6 +36,13 @@ namespace djv
 {
     namespace Scene
     {
+        //! This enumeration provides the scene orientation.
+        enum class SceneOrient
+        {
+            YUp,
+            ZUp
+        };
+
         //! This enumeration provides how materials are assigned.
         enum class MaterialAssignment
         {

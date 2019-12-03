@@ -38,7 +38,7 @@ namespace djv
 {
     namespace Scene
     {
-        std::shared_ptr<IMaterial> IPrimitive::getRenderMaterial() const
+        std::shared_ptr<IMaterial> IPrimitive::getFinalMaterial() const
         {
             std::shared_ptr<IMaterial> out;
             switch (getMaterialAssignment())
@@ -52,13 +52,25 @@ namespace djv
             case MaterialAssignment::Parent:
                 if (auto parent = getParent().lock())
                 {
-                    out = parent->getRenderMaterial();
+                    out = parent->getFinalMaterial();
                 }
                 break;
             case MaterialAssignment::Primitive:
                 out = _material;
                 break;
             }
+            return out;
+        }
+
+        std::shared_ptr<NullPrimitive> NullPrimitive::create()
+        {
+            auto out = std::shared_ptr<NullPrimitive>(new NullPrimitive);
+            return out;
+        }
+
+        std::shared_ptr<InstancePrimitive> InstancePrimitive::create()
+        {
+            auto out = std::shared_ptr<InstancePrimitive>(new InstancePrimitive);
             return out;
         }
 

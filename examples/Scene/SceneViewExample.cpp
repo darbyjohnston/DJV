@@ -37,14 +37,18 @@
 #include <djvUI/Shortcut.h>
 #include <djvUI/ToolBar.h>
 
+#include <djvScene/Light.h>
 #include <djvScene/SceneSystem.h>
 
 #include <djvCore/Error.h>
 #include <djvCore/LogSystem.h>
+#include <djvCore/ResourceSystem.h>
 #include <djvCore/Timer.h>
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
+
+#include <glm/gtc/matrix_transform.hpp>
 
 using namespace djv;
 
@@ -253,14 +257,32 @@ void Application::_init(const std::vector<std::string>& args)
 {
     Desktop::Application::_init(args);
 
+    std::vector<Core::FileSystem::Path> cmdlinePaths;
+    for (auto arg = args.begin() + 1; arg != args.end(); ++arg)
+    {
+        cmdlinePaths.push_back(Core::FileSystem::Path(*arg));
+    }
+
     Scene::SceneSystem::create(shared_from_this());
     UI::UIComponentsSystem::create(shared_from_this());
 
-    _sceneFutureTimer = Core::Time::Timer::create(shared_from_this());
-    _sceneFutureTimer->setRepeating(true);
+    try
+    {
+        auto resourceSystem = getSystemT<Core::ResourceSystem>();
+        auto io = getSystemT<Scene::IO::System>();
+        _pointLightSceneRead = io->read(Core::FileSystem::Path(resourceSystem->getPath(Core::FileSystem::ResourcePath::Models), "djvPointLight.3dm"));
+        _pointLightSceneFuture = _pointLightSceneRead->getScene();
+    }
+    catch (const std::exception& e)
+    {
+        auto logSystem = getSystemT<Core::LogSystem>();
+        logSystem->log("SceneViewExample", e.what(), Core::LogLevel::Error);
+    }
+
+    _futureTimer = Core::Time::Timer::create(shared_from_this());
+    _futureTimer->setRepeating(true);
 
     _mainWindow = MainWindow::create(shared_from_this());
-    _mainWindow->setScene(_scene);
 
     auto weak = std::weak_ptr<Application>(std::dynamic_pointer_cast<Application>(shared_from_this()));
     _mainWindow->setOpenCallback(
@@ -279,6 +301,11 @@ void Application::_init(const std::vector<std::string>& args)
                 app->exit();
             }
         });
+
+    for (const auto& i : cmdlinePaths)
+    {
+        _open(i);
+    }
 
     _mainWindow->show();
 }
@@ -308,28 +335,40 @@ void Application::_open(const Core::FileSystem::FileInfo& fileInfo)
         try
         {
             auto io = getSystemT<Scene::IO::System>();
-            _read = io->read(fileInfo);
-            _sceneFuture = _read->getScene();
+            _sceneRead = io->read(fileInfo);
+            _sceneFuture = _sceneRead->getScene();
             auto weak = std::weak_ptr<Application>(std::dynamic_pointer_cast<Application>(shared_from_this()));
-            _sceneFutureTimer->start(
+            _futureTimer->start(
                 Core::Time::getMilliseconds(Core::Time::TimerValue::Medium),
                 [weak](float)
                 {
                     if (auto app = weak.lock())
                     {
-                        if (app->_sceneFuture.valid())
+                        try
                         {
-                            try
+                            if (app->_pointLightSceneFuture.valid())
+                            {
+                                app->_pointLightScene = app->_pointLightSceneFuture.get();
+                                for (const auto& i : app->_pointLightScene->getPrimitives())
+                                {
+                                    app->_pointLightPrimitives.push_back(i);
+                                }
+                            }
+                            if (app->_sceneFuture.valid() &&
+                                app->_sceneFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                             {
                                 app->_scene = app->_sceneFuture.get();
-                                app->_sceneFutureTimer->stop();
+                                for (const auto& i : app->_scene->getPrimitives())
+                                {
+                                    app->_createPointLights(i);
+                                }
                                 app->_mainWindow->setScene(app->_scene);
                             }
-                            catch (const std::exception& e)
-                            {
-                                auto logSystem = app->getSystemT<Core::LogSystem>();
-                                logSystem->log("SceneViewExample", e.what(), Core::LogLevel::Error);
-                            }
+                        }
+                        catch (const std::exception& e)
+                        {
+                            auto logSystem = app->getSystemT<Core::LogSystem>();
+                            logSystem->log("SceneViewExample", e.what(), Core::LogLevel::Error);
                         }
                     }
                 });
@@ -339,6 +378,20 @@ void Application::_open(const Core::FileSystem::FileInfo& fileInfo)
             auto logSystem = getSystemT<Core::LogSystem>();
             logSystem->log("SceneViewExample", e.what(), Core::LogLevel::Error);
         }
+    }
+}
+
+void Application::_createPointLights(const std::shared_ptr<djv::Scene::IPrimitive>& primitive)
+{
+    if (auto pointLight = std::dynamic_pointer_cast<Scene::PointLight>(primitive))
+    {
+        auto instance = Scene::InstancePrimitive::create();
+        instance->setInstances(_pointLightPrimitives);
+        pointLight->addChild(instance);
+    }
+    for (const auto& i : primitive->getPrimitives())
+    {
+        _createPointLights(i);
     }
 }
 

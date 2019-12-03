@@ -31,24 +31,24 @@ namespace djv
 {
     namespace Scene
     {
-        inline std::vector<std::shared_ptr<IPrimitive> > Scene::getPrimitives() const
+        inline const std::vector<std::shared_ptr<IPrimitive> >& Scene::getPrimitives() const
         {
             return _primitives;
         }
 
-        inline std::vector<std::shared_ptr<ICamera> > Scene::getCameras() const
-        {
-            return _cameras;
-        }
-
-        inline std::vector<std::shared_ptr<ILight> > Scene::getLights() const
-        {
-            return _lights;
-        }
-
-        inline std::vector< std::shared_ptr<Layer> > Scene::getLayers() const
+        inline const std::vector<std::shared_ptr<Layer> >& Scene::getLayers() const
         {
             return _layers;
+        }
+
+        inline SceneOrient Scene::getSceneOrient() const
+        {
+            return _orient;
+        }
+
+        inline void Scene::setSceneOrient(SceneOrient value)
+        {
+            _orient = value;
         }
 
     } // namespace Scene

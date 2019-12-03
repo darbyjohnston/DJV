@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvScene/Layer.h>
+#include <djvScene/Primitive.h>
 
 #include <glm/vec3.hpp>
 
@@ -40,7 +40,7 @@ namespace djv
     namespace Scene
     {
         //! This class provides the base functionality for lights.
-        class ILight : public ILayerItem
+        class ILight : public IPrimitive
         {
             DJV_NON_COPYABLE(ILight);
 
@@ -60,14 +60,11 @@ namespace djv
         public:
             static std::shared_ptr<PointLight> create();
 
-            const glm::vec3& getPosition() const;
             float getIntensity() const;
 
-            void setPosition(const glm::vec3&);
             void setIntensity(float);
 
         private:
-            glm::vec3 _position = glm::vec3(0.F, 0.F, 0.F);
             float _intensity = 1.F;
         };
 

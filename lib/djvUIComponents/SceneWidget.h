@@ -55,6 +55,7 @@ namespace djv
 
             static std::shared_ptr<SceneWidget> create(const std::shared_ptr<Core::Context>&);
 
+            const std::shared_ptr<Scene::Scene>& getScene() const;
             void setScene(const std::shared_ptr<Scene::Scene>&);
 
             size_t getTriangleCount() const;

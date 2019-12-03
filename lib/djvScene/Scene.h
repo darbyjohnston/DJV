@@ -29,8 +29,11 @@
 
 #pragma once
 
-#include <djvCore/Core.h>
+#include <djvScene/Enum.h>
 
+#include <glm/mat4x4.hpp>
+
+#include <list>
 #include <memory>
 #include <vector>
 
@@ -54,8 +57,6 @@ namespace djv
     //! This namespace provides scene functionality.
     namespace Scene
     {
-        class ICamera;
-        class ILight;
         class IPrimitive;
         class Layer;
 
@@ -68,21 +69,19 @@ namespace djv
         public:
             static std::shared_ptr<Scene> create();
 
-            std::vector<std::shared_ptr<IPrimitive> > getPrimitives() const;
-            std::vector<std::shared_ptr<ICamera> > getCameras() const;
-            std::vector<std::shared_ptr<ILight> > getLights() const;
-            std::vector< std::shared_ptr<Layer> > getLayers() const;
+            const std::vector<std::shared_ptr<IPrimitive> >& getPrimitives() const;
+            const std::vector<std::shared_ptr<Layer> >& getLayers() const;
 
-            void addCamera(const std::shared_ptr<ICamera>&);
             void addPrimitive(const std::shared_ptr<IPrimitive>&);
-            void addLight(const std::shared_ptr<ILight>&);
             void addLayer(const std::shared_ptr<Layer>&);
+
+            SceneOrient getSceneOrient() const;
+            void setSceneOrient(SceneOrient);
 
         private:
             std::vector<std::shared_ptr<IPrimitive> > _primitives;
-            std::vector<std::shared_ptr<ICamera> > _cameras;
-            std::vector<std::shared_ptr<ILight> > _lights;
-            std::vector< std::shared_ptr<Layer> > _layers;
+            std::vector<std::shared_ptr<Layer> > _layers;
+            SceneOrient _orient = SceneOrient::YUp;
         };
 
     } // namespace Scene

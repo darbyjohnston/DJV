@@ -37,6 +37,8 @@
 
 #include <djvAV/Render3D.h>
 
+#include <glm/gtc/matrix_transform.hpp>
+
 using namespace djv::Core;
 
 namespace djv
@@ -48,7 +50,6 @@ namespace djv
             std::weak_ptr<Core::Context> context;
             std::shared_ptr<Scene> scene;
             std::map<std::shared_ptr<IMaterial>, std::shared_ptr<AV::Render3D::IMaterial> > materials;
-            std::map<std::shared_ptr<AV::Render3D::IMaterial>, std::vector<std::shared_ptr<AV::Geom::TriangleMesh> > > materialToMesh;
             size_t triangleCount = 0;
         };
 
@@ -72,28 +73,8 @@ namespace djv
         void Render::setScene(const std::shared_ptr<Scene>& value)
         {
             DJV_PRIVATE_PTR();
-            p.scene = value;
             p.materials.clear();
-            p.materialToMesh.clear();
-            if (auto context = p.context.lock())
-            {
-                if (p.scene)
-                {
-                    for (const auto& i : p.scene->getPrimitives())
-                    {
-                        if (const auto& mesh = i->getMesh())
-                        {
-                            auto material = i->getRenderMaterial();
-                            const auto j = p.materials.find(material);
-                            if (j == p.materials.end())
-                            {
-                                auto renderMaterial = material->createMaterial(context);
-                                p.materialToMesh[renderMaterial].push_back(mesh);
-                            }
-                        }
-                    }
-                }
-            }
+            p.scene = value;
         }
 
         void Render::render(
@@ -101,40 +82,92 @@ namespace djv
             const RenderOptions& renderOptions)
         {
             DJV_PRIVATE_PTR();
-            AV::Render3D::RenderOptions render3DOptions;
-            render3DOptions.camera.v = renderOptions.camera->getV();
-            render3DOptions.camera.p = renderOptions.camera->getP();
-            render3DOptions.size = renderOptions.size;
-            render->beginFrame(render3DOptions);
-            if (p.scene)
+            if (auto context = p.context.lock())
             {
-                for (const auto& i : p.scene->getLights())
+                AV::Render3D::RenderOptions render3DOptions;
+                render3DOptions.camera.v = renderOptions.camera->getV();
+                render3DOptions.camera.p = renderOptions.camera->getP();
+                render3DOptions.size = renderOptions.size;
+                render->beginFrame(render3DOptions);
+                if (p.scene)
                 {
-                    if (auto pointLight = std::dynamic_pointer_cast<PointLight>(i))
+                    glm::mat4x4 m(1.F);
+                    switch (p.scene->getSceneOrient())
                     {
-                        auto renderPointLight = AV::Render3D::PointLight::create();
-                        renderPointLight->setPosition(pointLight->getPosition());
-                        renderPointLight->setIntensity(pointLight->getIntensity());
-                        render->addLight(renderPointLight);
+                    case SceneOrient::ZUp:
+                    {
+                        m = glm::rotate(m, Math::deg2rad(-90.F), glm::vec3(1.F, 0.F, 0.F));
+                        break;
                     }
+                    default: break;
+                    }
+                    render->pushTransform(m);
+                    p.triangleCount = 0;
+                    for (const auto& i : p.scene->getPrimitives())
+                    {
+                        _renderPrimitive(i, render, context);
+                    }
+                    render->popTransform();
                 }
+                render->endFrame();
             }
-            p.triangleCount = 0;
-            for (const auto& i : p.materialToMesh)
-            {
-                render->setMaterial(i.first);
-                for (const auto& j : i.second)
-                {
-                    render->drawTriangleMesh(*j);
-                    p.triangleCount += j->triangles.size();
-                }
-            }
-            render->endFrame();
         }
 
         size_t Render::getTriangleCount() const
         {
             return _p->triangleCount;
+        }
+
+        void Render::_renderPrimitive(
+            const std::shared_ptr<IPrimitive>& primitive,
+            const std::shared_ptr<AV::Render3D::Render>& render,
+            const std::shared_ptr<Core::Context>& context)
+        {
+            DJV_PRIVATE_PTR();
+
+            render->pushTransform(primitive->getXForm());
+
+            std::shared_ptr<AV::Render3D::IMaterial> renderMaterial;
+            if (auto material = primitive->getFinalMaterial())
+            {
+                auto j = p.materials.find(material);
+                if (j != p.materials.end())
+                {
+                    renderMaterial = j->second;
+                }
+                else
+                {
+                    renderMaterial = material->createMaterial(context);
+                    p.materials[material] = renderMaterial;
+                }
+            }
+            if (renderMaterial)
+            {
+                if (auto mesh = primitive->getMesh())
+                {
+                    render->setMaterial(renderMaterial);
+                    render->drawTriangleMesh(*mesh);
+                    p.triangleCount += mesh->triangles.size();
+                }
+            }
+
+            if (auto pointLight = std::dynamic_pointer_cast<PointLight>(primitive))
+            {
+                auto renderPointLight = AV::Render3D::PointLight::create();
+                glm::vec4 position(0.F, 0.F, 0.F, 1.F);
+                const auto& xform = render->getCurrentInverseTransform();
+                position = xform * position;
+                renderPointLight->setPosition(position);
+                renderPointLight->setIntensity(pointLight->getIntensity());
+                render->addLight(renderPointLight);
+            }
+
+            for (const auto& i : primitive->getPrimitives())
+            {
+                _renderPrimitive(i, render, context);
+            }
+
+            render->popTransform();
         }
 
     } // namespace Scene

@@ -70,8 +70,6 @@ namespace djv
     {
         struct Application::Private
         {
-            std::vector<Core::FileSystem::Path> cmdlinePaths;
-
             std::vector<std::shared_ptr<ISystem> > systems;
 
             std::vector<std::shared_ptr<AV::IO::IRead> > read;
@@ -88,12 +86,10 @@ namespace djv
             DJV_PRIVATE_PTR();
 
             // Parse the command line.
-            auto arg = args.begin();
-            ++arg;
-            while (arg != args.end())
+            std::vector<Core::FileSystem::Path> cmdlinePaths;
+            for (auto arg = args.begin() + 1; arg != args.end(); ++arg)
             {
-                p.cmdlinePaths.push_back(Core::FileSystem::Path(*arg));
-                ++arg;
+                cmdlinePaths.push_back(Core::FileSystem::Path(*arg));
             }
 
             // Create the systems.
@@ -194,7 +190,7 @@ namespace djv
             auto settingsSystem = getSystemT<UI::Settings::System>();
             auto fileSettings = settingsSystem->getSettingsT<FileSettings>();
             auto io = getSystemT<AV::IO::System>();
-            for (const auto& i : p.cmdlinePaths)
+            for (const auto& i : cmdlinePaths)
             {
                 Core::FileSystem::FileInfo fileInfo;
                 if (io->canSequence(i) && fileSettings->observeAutoDetectSequences()->get())

@@ -40,6 +40,8 @@
 
 #include <opennurbs.h>
 
+#include <glm/gtc/matrix_transform.hpp>
+
 using namespace djv::Core;
 
 namespace djv
@@ -479,9 +481,9 @@ namespace djv
                                         if (onLight->IsPointLight())
                                         {
                                             auto light = PointLight::create();
-                                            light->setPosition(fromON(onLight->Location()));
+                                            light->setXForm(glm::translate(glm::mat4x4(1.F), fromON(onLight->Location())));
                                             light->setIntensity(onLight->Intensity());
-                                            scene->addLight(light);
+                                            scene->addPrimitive(light);
                                             if (layer)
                                             {
                                                 layer->addItem(light);
@@ -534,6 +536,7 @@ namespace djv
                         [this]
                         {
                             auto scene = Scene::create();
+                            scene->setSceneOrient(SceneOrient::ZUp);
                             read(_fileInfo.getFileName(), scene);
                             return scene;
                         });

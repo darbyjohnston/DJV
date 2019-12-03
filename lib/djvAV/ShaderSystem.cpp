@@ -75,7 +75,8 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 std::shared_ptr<OpenGL::Shader> out;
-                const auto i = p.shaders.find(std::make_pair(vertex, fragment));
+                const auto key = std::make_pair(vertex, fragment);
+                const auto i = p.shaders.find(key);
                 if (i != p.shaders.end())
                 {
                     out = i->second;
@@ -100,6 +101,8 @@ namespace djv
                         shader->setVertexName(vertexFileName);
                         shader->setFragmentName(fragmentFileName);
                         out = OpenGL::Shader::create(shader);
+
+                        p.shaders[key] = out;
                     }
                 }
                 return out;

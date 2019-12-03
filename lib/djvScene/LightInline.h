@@ -31,19 +31,9 @@ namespace djv
 {
     namespace Scene
     {
-        inline const glm::vec3& PointLight::getPosition() const
-        {
-            return _position;
-        }
-
         inline float PointLight::getIntensity() const
         {
             return _intensity;
-        }
-
-        inline void PointLight::setPosition(const glm::vec3& value)
-        {
-            _position = value;
         }
 
         inline void PointLight::setIntensity(float value)

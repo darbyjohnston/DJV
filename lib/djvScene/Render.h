@@ -52,6 +52,7 @@ namespace djv
     namespace Scene
     {
         class ICamera;
+        class IPrimitive;
         class Scene;
 
         //! This struct provides render options.
@@ -80,6 +81,11 @@ namespace djv
             size_t getTriangleCount() const;
 
         private:
+            void _renderPrimitive(
+                const std::shared_ptr<IPrimitive>&,
+                const std::shared_ptr<AV::Render3D::Render>&,
+                const std::shared_ptr<Core::Context>&);
+
             DJV_PRIVATE();
         };
 

@@ -196,6 +196,8 @@ namespace djv
                 //! \name Transform
                 ///@{
 
+                const glm::mat4x4& getCurrentTransform() const;
+                const glm::mat4x4& getCurrentInverseTransform() const;
                 void pushTransform(const glm::mat4x4&);
                 void popTransform();
 
