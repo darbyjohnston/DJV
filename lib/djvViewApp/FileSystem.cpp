@@ -539,6 +539,27 @@ namespace djv
             }
         }
 
+        void FileSystem::open(const std::vector<std::string>& fileNames)
+        {
+            DJV_PRIVATE_PTR();
+            for (const auto& i : _processFileNames(fileNames))
+            {
+                open(i);
+            }
+        }
+        
+        void FileSystem::open(const std::vector<std::string>& fileNames, const glm::vec2& pos, float spacing)
+        {
+            DJV_PRIVATE_PTR();
+            glm::vec2 tmp = pos;
+            for (const auto& i : _processFileNames(fileNames))
+            {
+                open(i, tmp);
+                tmp.x += spacing;
+                tmp.y += spacing;
+            }
+        }
+
         void FileSystem::close(const std::shared_ptr<Media>& media)
         {
             DJV_PRIVATE_PTR();
@@ -773,6 +794,81 @@ namespace djv
 
                 p.menu->setText(_getText(DJV_TEXT("File")));
             }
+        }
+
+        std::vector<Core::FileSystem::FileInfo> FileSystem::_processFileNames(std::vector<std::string> fileNames)
+        {
+            DJV_PRIVATE_PTR();
+            std::vector<Core::FileSystem::FileInfo> fileInfos;
+            if (auto context = getContext().lock())
+            {
+                const size_t openMax = p.settings->observeOpenMax()->get();
+                bool exceededMax = false;
+                if (p.settings->observeAutoDetectSequences()->get())
+                {
+                    auto io = context->getSystemT<AV::IO::System>();
+                    auto i = fileNames.begin();
+                    while (i != fileNames.end())
+                    {
+                        if (fileInfos.size() < openMax)
+                        {
+                            Core::FileSystem::FileInfo fileInfo(*i);
+                            fileInfo.evalSequence();
+                            if (fileInfo.isSequenceValid() &&
+                                1 == fileInfo.getSequence().getSize() &&
+                                io->canSequence(fileInfo))
+                            {
+                                auto j = i + 1;
+                                while (j != fileNames.end())
+                                {
+                                    if (fileInfo.addToSequence(*j))
+                                    {
+                                        j = fileNames.erase(j);
+                                    }
+                                    else
+                                    {
+                                        ++j;
+                                    }
+                                }
+                                fileInfo = Core::FileSystem::FileInfo::getFileSequence(
+                                    Core::FileSystem::Path(*i),
+                                    io->getSequenceExtensions());
+                            }
+                            fileInfos.push_back(fileInfo);
+                            ++i;
+                        }
+                        else
+                        {
+                            exceededMax = true;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    for (const auto& i : fileNames)
+                    {
+                        if (fileInfos.size() < openMax)
+                        {
+                            Core::FileSystem::FileInfo fileInfo(i);
+                            fileInfo.evalSequence();
+                            fileInfos.push_back(fileInfo);
+                        }
+                        else
+                        {
+                            exceededMax = true;
+                            break;
+                        }
+                    }
+                }
+                if (exceededMax)
+                {
+                    std::stringstream ss;
+                    ss << DJV_TEXT("Cannot open more than") << " " << openMax << " " << DJV_TEXT("files at once.");
+                    _log(ss.str(), LogLevel::Error);
+                }
+            }
+            return fileInfos;
         }
 
     } // namespace ViewApp

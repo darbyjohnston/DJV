@@ -425,26 +425,13 @@ namespace djv
                 const auto& style = _getStyle();
                 const float s = style->getMetric(UI::MetricsRole::SpacingLarge);
                 glm::vec2 pos = event.getPointerInfo().projectedPos;
+                std::vector<std::string> fileNames;
                 for (const auto& i : event.getDropPaths())
                 {
-                    auto io = context->getSystemT<AV::IO::System>();
-                    auto settingsSystem = context->getSystemT<UI::Settings::System>();
-                    auto fileSettings = settingsSystem->getSettingsT<FileSettings>();
-                    Core::FileSystem::FileInfo fileInfo;
-                    if (io->canSequence(i) && fileSettings->observeAutoDetectSequences()->get())
-                    {
-                        fileInfo = Core::FileSystem::FileInfo::getFileSequence(
-                            Core::FileSystem::Path(i),
-                            io->getSequenceExtensions());
-                    }
-                    else
-                    {
-                        fileInfo = i;
-                    }
-                    auto fileSystem = context->getSystemT<FileSystem>();
-                    fileSystem->open(fileInfo, pos);
-                    pos += s;
+                    fileNames.push_back(i);
                 }
+                auto fileSystem = context->getSystemT<FileSystem>();
+                fileSystem->open(fileNames, pos, s);
             }
         }
 

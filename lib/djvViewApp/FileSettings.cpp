@@ -46,6 +46,7 @@ namespace djv
     {
         struct FileSettings::Private
         {
+            std::shared_ptr<ValueSubject<size_t> > openMax;
             std::shared_ptr<ListSubject<Core::FileSystem::FileInfo> > recentFiles;
             std::shared_ptr<ValueSubject<bool> > autoDetectSequences;
             std::shared_ptr<ValueSubject<bool> > cacheEnabled;
@@ -57,6 +58,7 @@ namespace djv
         {
             ISettings::_init("djv::ViewApp::FileSettings", context);
             DJV_PRIVATE_PTR();
+            p.openMax = ValueSubject<size_t>::create(16);
             p.recentFiles = ListSubject<Core::FileSystem::FileInfo>::create();
             p.autoDetectSequences = ValueSubject<bool>::create(true);
             p.cacheEnabled = ValueSubject<bool>::create(true);
@@ -78,6 +80,16 @@ namespace djv
             return out;
         }
 
+        std::shared_ptr<IValueSubject<size_t> > FileSettings::observeOpenMax() const
+        {
+            return _p->openMax;
+        }
+
+        void FileSettings::setOpenMax(size_t value)
+        {
+            _p->openMax->setIfChanged(value);
+        }
+        
         std::shared_ptr<IListSubject<Core::FileSystem::FileInfo> > FileSettings::observeRecentFiles() const
         {
             return _p->recentFiles;
@@ -134,6 +146,7 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
                 const auto & object = value.get<picojson::object>();
+                UI::Settings::read("OpenMax", object, p.openMax);
                 UI::Settings::read("RecentFiles", object, p.recentFiles);
                 UI::Settings::read("AutoDetectSequences", object, p.autoDetectSequences);
                 UI::Settings::read("CacheEnabled", object, p.cacheEnabled);
@@ -147,6 +160,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             picojson::value out(picojson::object_type, true);
             auto & object = out.get<picojson::object>();
+            UI::Settings::write("OpenMax", p.openMax->get(), object);
             UI::Settings::write("RecentFiles", p.recentFiles->get(), object);
             UI::Settings::write("AutoDetectSequences", p.autoDetectSequences->get(), object);
             UI::Settings::write("CacheEnabled", p.cacheEnabled->get(), object);
