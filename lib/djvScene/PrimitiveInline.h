@@ -47,14 +47,34 @@ namespace djv
             _name = value;
         }
 
+        inline bool IPrimitive::isVisible() const
+        {
+            return _visible;
+        }
+
+        inline void IPrimitive::setVisible(bool value)
+        {
+            _visible = value;
+        }
+
         inline const glm::mat4x4& IPrimitive::getXForm() const
         {
             return _xform;
         }
 
+        inline const glm::mat4x4& IPrimitive::getXFormFinal() const
+        {
+            return _xformFinal;
+        }
+
         inline void IPrimitive::setXForm(const glm::mat4x4& value)
         {
             _xform = value;
+        }
+
+        inline void IPrimitive::setXFormFinal(const glm::mat4x4& value)
+        {
+            _xformFinal = value;
         }
 
         inline const std::shared_ptr<AV::Geom::TriangleMesh>& IPrimitive::getMesh() const
@@ -95,34 +115,6 @@ namespace djv
         inline const std::vector<std::shared_ptr<IPrimitive> >& IPrimitive::getChildren() const
         {
             return _children;
-        }
-
-        inline void IPrimitive::addChild(const std::shared_ptr<IPrimitive>& value)
-        {
-            if (auto prevParent = value->getParent().lock())
-            {
-                prevParent->removeChild(value);
-            }
-            _children.push_back(value);
-        }
-
-        inline void IPrimitive::removeChild(const std::shared_ptr<IPrimitive>& value)
-        {
-            const auto i = std::find(_children.begin(), _children.end(), value);
-            if (i != _children.end())
-            {
-                (*i)->_parent.reset();
-                _children.erase(i);
-            }
-        }
-
-        inline void IPrimitive::clearChildren()
-        {
-            for (auto& i : _children)
-            {
-                i->_parent.reset();
-            }
-            _children.clear();
         }
 
         inline const std::vector<std::shared_ptr<IPrimitive> >& IPrimitive::getPrimitives() const

@@ -51,5 +51,31 @@ namespace djv
             _orient = value;
         }
 
+        inline const std::vector<std::shared_ptr<IPrimitive> >& Scene::getVisiblePrimitives() const
+        {
+            return _visiblePrimitives;
+        }
+
+        inline const Core::BBox3f Scene::getBBox() const
+        {
+            return _bbox;
+        }
+
+        inline void Scene::_pushXForm(const glm::mat4x4& value)
+        {
+            _xforms.push_back(value);
+            _currentXForm *= value;
+        }
+
+        inline void Scene::_popXForm()
+        {
+            _xforms.pop_back();
+            _currentXForm = glm::mat4x4(1.f);
+            for (const auto& i : _xforms)
+            {
+                _currentXForm *= i;
+            }
+        }
+
     } // namespace Scene
 } // namespace djv

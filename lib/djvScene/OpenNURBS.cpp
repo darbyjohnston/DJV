@@ -340,7 +340,7 @@ namespace djv
                                 {
                                     if (auto onParentLayer = ON_Layer::Cast(onModelComponentRef.ModelComponent()))
                                     {
-                                        onLayerToLayer[onParentLayer]->addLayer(onLayerToLayer[i.first]);
+                                        onLayerToLayer[onParentLayer]->addItem(onLayerToLayer[i.first]);
                                     }
                                 }
                             }

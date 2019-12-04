@@ -38,28 +38,33 @@ namespace djv
 {
     namespace Scene
     {
-        std::shared_ptr<IMaterial> IPrimitive::getFinalMaterial() const
+        void IPrimitive::addChild(const std::shared_ptr<IPrimitive>& value)
         {
-            std::shared_ptr<IMaterial> out;
-            switch (getMaterialAssignment())
+            if (auto prevParent = value->getParent().lock())
             {
-            case MaterialAssignment::Layer:
-                if (auto layer = _layer.lock())
-                {
-                    out = layer->getMaterial();
-                }
-                break;
-            case MaterialAssignment::Parent:
-                if (auto parent = getParent().lock())
-                {
-                    out = parent->getFinalMaterial();
-                }
-                break;
-            case MaterialAssignment::Primitive:
-                out = _material;
-                break;
+                prevParent->removeChild(value);
             }
-            return out;
+            value->_parent = std::dynamic_pointer_cast<IPrimitive>(shared_from_this());
+            _children.push_back(value);
+        }
+
+        void IPrimitive::removeChild(const std::shared_ptr<IPrimitive>& value)
+        {
+            const auto i = std::find(_children.begin(), _children.end(), value);
+            if (i != _children.end())
+            {
+                (*i)->_parent.reset();
+                _children.erase(i);
+            }
+        }
+
+        void IPrimitive::clearChildren()
+        {
+            for (auto& i : _children)
+            {
+                i->_parent.reset();
+            }
+            _children.clear();
         }
 
         std::shared_ptr<NullPrimitive> NullPrimitive::create()

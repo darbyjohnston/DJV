@@ -89,26 +89,54 @@ namespace djv
                 render3DOptions.camera.p = renderOptions.camera->getP();
                 render3DOptions.size = renderOptions.size;
                 render->beginFrame(render3DOptions);
+
                 if (p.scene)
                 {
-                    glm::mat4x4 m(1.F);
-                    switch (p.scene->getSceneOrient())
-                    {
-                    case SceneOrient::ZUp:
-                    {
-                        m = glm::rotate(m, Math::deg2rad(-90.F), glm::vec3(1.F, 0.F, 0.F));
-                        break;
-                    }
-                    default: break;
-                    }
-                    render->pushTransform(m);
+                    p.scene->processPrimitives();
                     p.triangleCount = 0;
-                    for (const auto& i : p.scene->getPrimitives())
+                    for (const auto& i : p.scene->getVisiblePrimitives())
                     {
-                        _renderPrimitive(i, render, context);
+                        render->pushTransform(i->getXFormFinal());
+
+                        std::shared_ptr<AV::Render3D::IMaterial> renderMaterial;
+                        if (auto material = _getMaterial(i))
+                        {
+                            auto j = p.materials.find(material);
+                            if (j != p.materials.end())
+                            {
+                                renderMaterial = j->second;
+                            }
+                            else
+                            {
+                                renderMaterial = material->createMaterial(context);
+                                p.materials[material] = renderMaterial;
+                            }
+                        }
+                        if (renderMaterial)
+                        {
+                            if (auto mesh = i->getMesh())
+                            {
+                                render->setMaterial(renderMaterial);
+                                render->drawTriangleMesh(*mesh);
+                                p.triangleCount += mesh->triangles.size();
+                            }
+                        }
+
+                        if (auto pointLight = std::dynamic_pointer_cast<PointLight>(i))
+                        {
+                            auto renderPointLight = AV::Render3D::PointLight::create();
+                            glm::vec4 position(0.F, 0.F, 0.F, 1.F);
+                            const auto& xform = render->getCurrentInverseTransform();
+                            position = xform * position;
+                            renderPointLight->setPosition(position);
+                            renderPointLight->setIntensity(pointLight->getIntensity());
+                            render->addLight(renderPointLight);
+                        }
+
+                        render->popTransform();
                     }
-                    render->popTransform();
                 }
+
                 render->endFrame();
             }
         }
@@ -118,56 +146,28 @@ namespace djv
             return _p->triangleCount;
         }
 
-        void Render::_renderPrimitive(
-            const std::shared_ptr<IPrimitive>& primitive,
-            const std::shared_ptr<AV::Render3D::Render>& render,
-            const std::shared_ptr<Core::Context>& context)
+        std::shared_ptr<IMaterial> Render::_getMaterial(const std::shared_ptr<IPrimitive>& primitive) const
         {
-            DJV_PRIVATE_PTR();
-
-            render->pushTransform(primitive->getXForm());
-
-            std::shared_ptr<AV::Render3D::IMaterial> renderMaterial;
-            if (auto material = primitive->getFinalMaterial())
+            std::shared_ptr<IMaterial> out;
+            switch (primitive->getMaterialAssignment())
             {
-                auto j = p.materials.find(material);
-                if (j != p.materials.end())
+            case MaterialAssignment::Layer:
+                if (auto layer = primitive->getLayer().lock())
                 {
-                    renderMaterial = j->second;
+                    out = layer->getMaterial();
                 }
-                else
+                break;
+            case MaterialAssignment::Parent:
+                if (auto parent = primitive->getParent().lock())
                 {
-                    renderMaterial = material->createMaterial(context);
-                    p.materials[material] = renderMaterial;
+                    out = _getMaterial(parent);
                 }
+                break;
+            case MaterialAssignment::Primitive:
+                out = primitive->getMaterial();
+                break;
             }
-            if (renderMaterial)
-            {
-                if (auto mesh = primitive->getMesh())
-                {
-                    render->setMaterial(renderMaterial);
-                    render->drawTriangleMesh(*mesh);
-                    p.triangleCount += mesh->triangles.size();
-                }
-            }
-
-            if (auto pointLight = std::dynamic_pointer_cast<PointLight>(primitive))
-            {
-                auto renderPointLight = AV::Render3D::PointLight::create();
-                glm::vec4 position(0.F, 0.F, 0.F, 1.F);
-                const auto& xform = render->getCurrentInverseTransform();
-                position = xform * position;
-                renderPointLight->setPosition(position);
-                renderPointLight->setIntensity(pointLight->getIntensity());
-                render->addLight(renderPointLight);
-            }
-
-            for (const auto& i : primitive->getPrimitives())
-            {
-                _renderPrimitive(i, render, context);
-            }
-
-            render->popTransform();
+            return out;
         }
 
     } // namespace Scene

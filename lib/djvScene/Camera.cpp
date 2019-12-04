@@ -39,9 +39,9 @@ namespace djv
 {
     namespace Scene
     {
-        void BasicCamera::setEye(const glm::vec3& value)
+        void BasicCamera::setPosition(const glm::vec3& value)
         {
-            _eye = value;
+            _position = value;
             _update();
         }
 
@@ -77,7 +77,7 @@ namespace djv
 
         void BasicCamera::_update()
         {
-            _v = glm::lookAt(_eye, _target, _up);
+            _v = glm::lookAt(_position, _target, _up);
             _p = glm::perspective(_fov, _aspect, _clip.min, _clip.max);
         }
 

@@ -31,6 +31,8 @@
 
 #include <djvScene/Enum.h>
 
+#include <djvCore/BBox.h>
+
 #include <glm/mat4x4.hpp>
 
 #include <list>
@@ -78,10 +80,22 @@ namespace djv
             SceneOrient getSceneOrient() const;
             void setSceneOrient(SceneOrient);
 
+            void processPrimitives();
+            const std::vector<std::shared_ptr<IPrimitive> >& getVisiblePrimitives() const;
+            const Core::BBox3f getBBox() const;
+
         private:
+            void _pushXForm(const glm::mat4x4&);
+            void _popXForm();
+            void _processPrimitives(const std::shared_ptr<IPrimitive>&);
+
             std::vector<std::shared_ptr<IPrimitive> > _primitives;
             std::vector<std::shared_ptr<Layer> > _layers;
             SceneOrient _orient = SceneOrient::YUp;
+            std::vector<std::shared_ptr<IPrimitive> > _visiblePrimitives;
+            Core::BBox3f _bbox;
+            std::list<glm::mat4x4> _xforms;
+            glm::mat4x4 _currentXForm;
         };
 
     } // namespace Scene

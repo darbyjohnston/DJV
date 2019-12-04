@@ -179,8 +179,15 @@ namespace djv
 
             void Shader::setUniform(GLint location, const Image::Color& value)
             {
-                auto color = value.convert(Image::Type::RGBA_F32);
-                glUniform4fv(location, 1, reinterpret_cast<const GLfloat*>(color.getData()));
+                if (Image::Type::RGBA_F32 == value.getType())
+                {
+                    glUniform4fv(location, 1, reinterpret_cast<const GLfloat*>(value.getData()));
+                }
+                else
+                {
+                    auto color = value.convert(Image::Type::RGBA_F32);
+                    glUniform4fv(location, 1, reinterpret_cast<const GLfloat*>(color.getData()));
+                }
             }
 
             void Shader::setUniform(GLint location, const float value[4])

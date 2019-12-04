@@ -41,6 +41,7 @@ namespace djv
         class IMaterial;
         class Layer;
 
+        //! This class provides the base functionality for layer items.
         class ILayerItem : public std::enable_shared_from_this<ILayerItem>
         {
             DJV_NON_COPYABLE(ILayerItem);
@@ -56,10 +57,12 @@ namespace djv
 
         protected:
             std::weak_ptr<Layer> _layer;
+
+            friend class Layer;
         };
 
         //! This class provides a layer.
-        class Layer : public std::enable_shared_from_this<Layer>
+        class Layer : public ILayerItem
         {
             DJV_NON_COPYABLE(Layer);
             Layer();
@@ -70,7 +73,7 @@ namespace djv
             const std::string& getName() const;
             void setName(const std::string&);
 
-            bool getVisible() const;
+            bool isVisible() const;
             void setVisible(bool);
 
             const AV::Image::Color& getColor() const;
@@ -79,15 +82,16 @@ namespace djv
             const std::shared_ptr<IMaterial>& getMaterial() const;
             void setMaterial(const std::shared_ptr<IMaterial>&);
 
-            void addLayer(const std::shared_ptr<Layer>&);
+            const std::vector<std::shared_ptr<ILayerItem> >& getItems() const;
             void addItem(const std::shared_ptr<ILayerItem>&);
+            void removeItem(const std::shared_ptr<ILayerItem>&);
+            void clearItems();
 
         private:
             std::string _name;
             bool _visible = true;
             AV::Image::Color _color = AV::Image::Color(0.F, 0.F, 0.F);
             std::shared_ptr<IMaterial> _material;
-            std::vector<std::shared_ptr<Layer> > _layers;
             std::vector<std::shared_ptr<ILayerItem> > _items;
         };
 

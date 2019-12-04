@@ -32,6 +32,8 @@
 #include <djvScene/Camera.h>
 #include <djvScene/Primitive.h>
 
+#include <glm/gtc/matrix_transform.hpp>
+
 using namespace djv::Core;
 
 namespace djv
@@ -55,6 +57,62 @@ namespace djv
         void Scene::addLayer(const std::shared_ptr<Layer>& value)
         {
             _layers.push_back(value);
+        }
+
+        void Scene::processPrimitives()
+        {
+            _visiblePrimitives.clear();
+            _bbox = BBox3f();
+            _xforms.clear();
+            _currentXForm = glm::mat4x4(1.F);
+
+            switch (_orient)
+            {
+            case SceneOrient::ZUp:
+            {
+                _pushXForm(glm::rotate(_currentXForm, Math::deg2rad(-90.F), glm::vec3(1.F, 0.F, 0.F)));
+                break;
+            }
+            default: break;
+            }
+
+            for (const auto& i : _primitives)
+            {
+                _processPrimitives(i);
+            }
+
+            _popXForm();
+        }
+
+        void Scene::_processPrimitives(const std::shared_ptr<IPrimitive>& primitive)
+        {
+            if (bool visible = primitive->isVisible())
+            {
+                auto layer = primitive->getLayer().lock();
+                while (layer)
+                {
+                    visible &= layer->isVisible();
+                    if (visible)
+                    {
+                        layer = layer->getLayer().lock();
+                    }
+                    else
+                    {
+                        layer.reset();
+                    }
+                }
+                if (visible)
+                {
+                    _pushXForm(primitive->getXForm());
+                    primitive->setXFormFinal(_currentXForm);
+                    _visiblePrimitives.push_back(primitive);
+                    for (const auto& i : primitive->getChildren())
+                    {
+                        _processPrimitives(i);
+                    }
+                    _popXForm();
+                }
+            }
         }
 
     } // namespace Scene

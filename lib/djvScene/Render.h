@@ -52,6 +52,7 @@ namespace djv
     namespace Scene
     {
         class ICamera;
+        class IMaterial;
         class IPrimitive;
         class Scene;
 
@@ -81,10 +82,7 @@ namespace djv
             size_t getTriangleCount() const;
 
         private:
-            void _renderPrimitive(
-                const std::shared_ptr<IPrimitive>&,
-                const std::shared_ptr<AV::Render3D::Render>&,
-                const std::shared_ptr<Core::Context>&);
+            std::shared_ptr<IMaterial> _getMaterial(const std::shared_ptr<IPrimitive>&) const;
 
             DJV_PRIVATE();
         };

@@ -65,7 +65,7 @@ namespace djv
         public:
             static std::shared_ptr<BasicCamera> create();
 
-            void setEye(const glm::vec3&);
+            void setPosition(const glm::vec3&);
             void setTarget(const glm::vec3&);
             void setUp(const glm::vec3&);
             void setFOV(float);
@@ -78,7 +78,7 @@ namespace djv
         private:
             void _update();
 
-            glm::vec3 _eye = glm::vec3(10.F, 20.F, -20.F);
+            glm::vec3 _position = glm::vec3(10.F, 20.F, -20.F);
             glm::vec3 _target = glm::vec3(0.F, 0.F, 0.F);
             glm::vec3 _up = glm::vec3(0.F, 1.F, 0.F);
             float _fov = 45.F;

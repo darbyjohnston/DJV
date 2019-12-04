@@ -66,7 +66,7 @@ namespace djv
             _name = value;
         }
 
-        inline bool Layer::getVisible() const
+        inline bool Layer::isVisible() const
         {
             return _visible;
         }
@@ -96,14 +96,9 @@ namespace djv
             _material = value;
         }
 
-        inline void Layer::addLayer(const std::shared_ptr<Layer>& value)
+        inline const std::vector<std::shared_ptr<ILayerItem> >& Layer::getItems() const
         {
-            _layers.push_back(value);
-        }
-
-        inline void Layer::addItem(const std::shared_ptr<ILayerItem>& value)
-        {
-            _items.push_back(value);
+            return _items;
         }
 
     } // namespace Scene
