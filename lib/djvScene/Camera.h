@@ -78,12 +78,12 @@ namespace djv
         private:
             void _update();
 
-            glm::vec3 _position = glm::vec3(10.F, 20.F, -20.F);
-            glm::vec3 _target = glm::vec3(0.F, 0.F, 0.F);
-            glm::vec3 _up = glm::vec3(0.F, 1.F, 0.F);
             float _fov = 45.F;
             float _aspect = 1.F;
             Core::FloatRange _clip = Core::FloatRange(0.1F, 10000.F);
+            glm::vec3 _position = glm::vec3(10.F, 20.F, -20.F);
+            glm::vec3 _target = glm::vec3(0.F, 0.F, 0.F);
+            glm::vec3 _up = glm::vec3(0.F, 1.F, 0.F);
             glm::mat4x4 _v = glm::mat4x4(1.F);
             glm::mat4x4 _p = glm::mat4x4(1.F);
         };
@@ -97,17 +97,18 @@ namespace djv
         public:
             static std::shared_ptr<PolarCamera> create();
 
+            float getFOV() const;
             float getDistance() const;
             float getLatitude() const;
             float getLongitude() const;
 
+            void setFOV(float);
+            void setAspect(float);
+            void setClip(const Core::FloatRange&);
             void setTarget(const glm::vec3&);
             void setDistance(float);
             void setLatitude(float);
             void setLongitude(float);
-            void setFOV(float);
-            void setAspect(float);
-            void setClip(const Core::FloatRange&);
 
             const glm::mat4x4& getV() const override;
             const glm::mat4x4& getP() const override;
@@ -115,13 +116,13 @@ namespace djv
         private:
             void _update();
 
+            float _fov = 45.F;
+            float _aspect = 1.F;
+            Core::FloatRange _clip = Core::FloatRange(.1F, 10000.F);
             glm::vec3 _target = glm::vec3(0.F, 0.F, 0.F);
             float _distance = 20.F;
             float _latitude = 30.F;
             float _longitude = 30.F;
-            float _fov = 45.F;
-            float _aspect = 1.F;
-            Core::FloatRange _clip = Core::FloatRange(.1F, 10000.F);
             glm::mat4x4 _v = glm::mat4x4(1.F);
             glm::mat4x4 _p = glm::mat4x4(1.F);
         };

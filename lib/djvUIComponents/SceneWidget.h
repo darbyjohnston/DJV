@@ -58,6 +58,8 @@ namespace djv
             const std::shared_ptr<Scene::Scene>& getScene() const;
             void setScene(const std::shared_ptr<Scene::Scene>&);
 
+            void frameView();
+
             size_t getTriangleCount() const;
 
         protected:

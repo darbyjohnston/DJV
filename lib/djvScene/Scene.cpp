@@ -63,6 +63,7 @@ namespace djv
         {
             _visiblePrimitives.clear();
             _bbox = BBox3f();
+            _bboxInit = true;
             _xforms.clear();
             _currentXForm = glm::mat4x4(1.F);
 
@@ -105,8 +106,22 @@ namespace djv
                 {
                     _pushXForm(primitive->getXForm());
                     primitive->setXFormFinal(_currentXForm);
+                    if (auto mesh = primitive->getMesh())
+                    {
+                        BBox3f bbox = AV::Geom::TriangleMesh::getBBox(*mesh);
+                        bbox = bbox * _currentXForm;
+                        if (_bboxInit)
+                        {
+                            _bboxInit = false;
+                            _bbox = bbox;
+                        }
+                        else
+                        {
+                            _bbox.expand(bbox);
+                        }
+                    }
                     _visiblePrimitives.push_back(primitive);
-                    for (const auto& i : primitive->getChildren())
+                    for (const auto& i : primitive->getPrimitives())
                     {
                         _processPrimitives(i);
                     }

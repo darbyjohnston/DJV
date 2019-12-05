@@ -94,6 +94,7 @@ namespace djv
             SceneOrient _orient = SceneOrient::YUp;
             std::vector<std::shared_ptr<IPrimitive> > _visiblePrimitives;
             Core::BBox3f _bbox;
+            bool _bboxInit = true;
             std::list<glm::mat4x4> _xforms;
             glm::mat4x4 _currentXForm;
         };

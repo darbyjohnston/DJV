@@ -128,6 +128,7 @@ namespace djv
             _v = glm::translate(glm::mat4x4(1.F), glm::vec3(0.F, 0.F, -_distance));
             _v = glm::rotate(_v, Core::Math::deg2rad(_latitude), glm::vec3(1.F, 0.F, 0.F));
             _v = glm::rotate(_v, Core::Math::deg2rad(_longitude), glm::vec3(0.F, 1.F, 0.F));
+            _v = glm::translate(_v, -_target);
             _p = glm::perspective(_fov, _aspect, _clip.min, _clip.max);
         }
 

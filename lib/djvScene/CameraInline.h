@@ -68,7 +68,12 @@ namespace djv
             auto out = std::shared_ptr<PolarCamera>(new PolarCamera);
             return out;
         }
-        
+
+        inline float PolarCamera::getFOV() const
+        {
+            return _fov;
+        }
+
         inline float PolarCamera::getDistance() const
         {
             return _distance;

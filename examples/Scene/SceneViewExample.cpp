@@ -64,20 +64,29 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
     _actions["Close"]->setShortcut(GLFW_KEY_E, UI::Shortcut::getSystemModifier());
     _actions["Exit"] = UI::Action::create();
     _actions["Exit"]->setShortcut(GLFW_KEY_Q, UI::Shortcut::getSystemModifier());
+    _actions["Frame"] = UI::Action::create();
+    _actions["Frame"]->setIcon("djvIconViewFrame");
+    _actions["Frame"]->setShortcut(GLFW_KEY_F);
     for (const auto& i : _actions)
     {
         addAction(i.second);
     }
 
-    auto menu = UI::Menu::create(context);
-    menu->setText("File");
-    menu->addAction(_actions["Open"]);
-    menu->addAction(_actions["Close"]);
-    menu->addSeparator();
-    menu->addAction(_actions["Exit"]);
+    auto fileMenu = UI::Menu::create(context);
+    fileMenu->setText("File");
+    fileMenu->addAction(_actions["Open"]);
+    fileMenu->addAction(_actions["Close"]);
+    fileMenu->addSeparator();
+    fileMenu->addAction(_actions["Exit"]);
+
+    auto viewMenu = UI::Menu::create(context);
+    viewMenu->setText("View");
+    viewMenu->addAction(_actions["Frame"]);
+ 
     auto menuBar = UI::MenuBar::create(context);
     menuBar->setBackgroundRole(UI::ColorRole::OverlayLight);
-    menuBar->addChild(menu);
+    menuBar->addChild(fileMenu);
+    menuBar->addChild(viewMenu);
 
     _sceneWidget = UI::SceneWidget::create(context);
 
@@ -88,6 +97,8 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
     toolBar->setBackgroundRole(UI::ColorRole::OverlayLight);
     toolBar->addAction(_actions["Open"]);
     toolBar->addAction(_actions["Close"]);
+    toolBar->addSeparator();
+    toolBar->addAction(_actions["Frame"]);
 
     addChild(_sceneWidget);
     auto vLayout = UI::VerticalLayout::create(context);
@@ -157,6 +168,19 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
             }
         });
 
+    _actionObservers["Frame"] = Core::ValueObserver<bool>::create(
+        _actions["Frame"]->observeClicked(),
+        [weak](bool value)
+        {
+            if (value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    widget->_sceneWidget->frameView();
+                }
+            }
+        });
+
     _statsTimer = Core::Time::Timer::create(context);
     _statsTimer->setRepeating(true);
     _statsTimer->start(
@@ -181,6 +205,7 @@ MainWindow::~MainWindow()
 void MainWindow::setScene(const std::shared_ptr<Scene::Scene>& value)
 {
     _sceneWidget->setScene(value);
+    _sceneWidget->frameView();
 }
 
 void MainWindow::setOpenCallback(const std::function<void(const Core::FileSystem::FileInfo)>& value)
@@ -208,6 +233,8 @@ void MainWindow::_initEvent(Core::Event::Init&)
     _actions["Close"]->setTooltip(_getText(DJV_TEXT("Close the current file")));
     _actions["Exit"]->setText(_getText(DJV_TEXT("Exit")));
     _actions["Exit"]->setTooltip(_getText(DJV_TEXT("Exit the application")));
+    _actions["Frame"]->setText(_getText(DJV_TEXT("Frame")));
+    _actions["Frame"]->setTooltip(_getText(DJV_TEXT("Frame the view")));
 
     _trianglesLabel->setText(_getText(DJV_TEXT("Triangles")) + ":");
 }
@@ -358,10 +385,11 @@ void Application::_open(const Core::FileSystem::FileInfo& fileInfo)
                                 app->_sceneFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                             {
                                 app->_scene = app->_sceneFuture.get();
-                                for (const auto& i : app->_scene->getPrimitives())
-                                {
-                                    app->_createPointLights(i);
-                                }
+                                //for (const auto& i : app->_scene->getPrimitives())
+                                //{
+                                //    app->_createPointLights(i);
+                                //}
+                                app->_scene->processPrimitives();
                                 app->_mainWindow->setScene(app->_scene);
                             }
                         }

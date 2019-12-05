@@ -91,6 +91,22 @@ namespace djv
             _redraw();
         }
 
+        void SceneWidget::frameView()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.scene)
+            {
+                const BBox3f& bbox = p.scene->getBBox();
+                const glm::vec3& center = bbox.getCenter();
+                const float w = std::max(bbox.w(), std::max(bbox.h(), bbox.d()));
+                const float tan = tanf(Math::deg2rad(p.camera->getFOV()));
+                const float distance = (tan > 0.F) ? (w / tan) : 1.F;
+                p.camera->setTarget(center);
+                p.camera->setDistance(distance);
+                _redraw();
+            }
+        }
+
         size_t SceneWidget::getTriangleCount() const
         {
             return _p->render->getTriangleCount();
