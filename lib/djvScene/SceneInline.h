@@ -51,6 +51,16 @@ namespace djv
             _orient = value;
         }
 
+        inline const glm::mat4x4& Scene::getSceneXForm() const
+        {
+            return _xform;
+        }
+
+        inline void Scene::setSceneXForm(const glm::mat4x4& value)
+        {
+            _xform = value;
+        }
+
         inline const std::vector<std::shared_ptr<IPrimitive> >& Scene::getVisiblePrimitives() const
         {
             return _visiblePrimitives;

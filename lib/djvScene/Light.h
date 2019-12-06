@@ -49,6 +49,33 @@ namespace djv
 
         public:
             virtual ~ILight() = 0;
+
+            bool isEnabled() const;
+            float getIntensity() const;
+
+            void setEnabled(bool);
+            void setIntensity(float);
+
+        private:
+            bool _enabled = true;
+            float _intensity = 1.F;
+        };
+
+        //! This class provides a directional light.
+        class DirectionalLight : public ILight
+        {
+        protected:
+            DirectionalLight();
+
+        public:
+            static std::shared_ptr<DirectionalLight> create();
+
+            const glm::vec3& getDirection() const;
+
+            void setDirection(const glm::vec3&);
+
+        private:
+            glm::vec3 _direction = glm::vec3(-1.F, -1.F, -1.F);
         };
 
         //! This class provides a point light.
@@ -59,13 +86,26 @@ namespace djv
 
         public:
             static std::shared_ptr<PointLight> create();
+        };
 
-            float getIntensity() const;
+        //! This class provides a spot light.
+        class SpotLight : public ILight
+        {
+        protected:
+            SpotLight();
 
-            void setIntensity(float);
+        public:
+            static std::shared_ptr<SpotLight> create();
+
+            float getConeAngle() const;
+            const glm::vec3& getDirection() const;
+
+            void setConeAngle(float);
+            void setDirection(const glm::vec3&);
 
         private:
-            float _intensity = 1.F;
+            float _coneAngle = 90.F;
+            glm::vec3 _direction = glm::vec3(-1.F, -1.F, -1.F);
         };
 
     } // namespace Scene

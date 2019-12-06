@@ -59,6 +59,8 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
     _actions["Open"] = UI::Action::create();
     _actions["Open"]->setIcon("djvIconFileOpen");
     _actions["Open"]->setShortcut(GLFW_KEY_O, UI::Shortcut::getSystemModifier());
+    _actions["Reload"] = UI::Action::create();
+    _actions["Reload"]->setShortcut(GLFW_KEY_R, UI::Shortcut::getSystemModifier());
     _actions["Close"] = UI::Action::create();
     _actions["Close"]->setIcon("djvIconFileClose");
     _actions["Close"]->setShortcut(GLFW_KEY_E, UI::Shortcut::getSystemModifier());
@@ -67,14 +69,35 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
     _actions["Frame"] = UI::Action::create();
     _actions["Frame"]->setIcon("djvIconViewFrame");
     _actions["Frame"]->setShortcut(GLFW_KEY_F);
+    _actions["SceneRotateX"] = UI::Action::create();
+    _actions["SceneRotateX"]->setShortcut(GLFW_KEY_X);
+    _actions["SceneRotate-X"] = UI::Action::create();
+    _actions["SceneRotate-X"]->setShortcut(GLFW_KEY_X, GLFW_MOD_SHIFT);
+    _actions["SceneRotateY"] = UI::Action::create();
+    _actions["SceneRotateY"]->setShortcut(GLFW_KEY_Y);
+    _actions["SceneRotate-Y"] = UI::Action::create();
+    _actions["SceneRotate-Y"]->setShortcut(GLFW_KEY_Y, GLFW_MOD_SHIFT);
+    _actions["SceneRotateZ"] = UI::Action::create();
+    _actions["SceneRotateZ"]->setShortcut(GLFW_KEY_Z);
+    _actions["SceneRotate-Z"] = UI::Action::create();
+    _actions["SceneRotate-Z"]->setShortcut(GLFW_KEY_Z, GLFW_MOD_SHIFT);
     for (const auto& i : _actions)
     {
         addAction(i.second);
     }
 
+    _sceneRotateActionGroup = UI::ActionGroup::create(UI::ButtonType::Exclusive);
+    _sceneRotateActionGroup->addAction(_actions["SceneRotateX"]);
+    _sceneRotateActionGroup->addAction(_actions["SceneRotate-X"]);
+    _sceneRotateActionGroup->addAction(_actions["SceneRotateY"]);
+    _sceneRotateActionGroup->addAction(_actions["SceneRotate-Y"]);
+    _sceneRotateActionGroup->addAction(_actions["SceneRotateZ"]);
+    _sceneRotateActionGroup->addAction(_actions["SceneRotate-Z"]);
+
     auto fileMenu = UI::Menu::create(context);
     fileMenu->setText("File");
     fileMenu->addAction(_actions["Open"]);
+    fileMenu->addAction(_actions["Reload"]);
     fileMenu->addAction(_actions["Close"]);
     fileMenu->addSeparator();
     fileMenu->addAction(_actions["Exit"]);
@@ -82,16 +105,25 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
     auto viewMenu = UI::Menu::create(context);
     viewMenu->setText("View");
     viewMenu->addAction(_actions["Frame"]);
- 
+
+    auto sceneMenu = UI::Menu::create(context);
+    sceneMenu->setText("Scene");
+    sceneMenu->addAction(_actions["SceneRotateX"]);
+    sceneMenu->addAction(_actions["SceneRotate-X"]);
+    sceneMenu->addAction(_actions["SceneRotateY"]);
+    sceneMenu->addAction(_actions["SceneRotate-Y"]);
+    sceneMenu->addAction(_actions["SceneRotateZ"]);
+    sceneMenu->addAction(_actions["SceneRotate-Z"]);
+
     auto menuBar = UI::MenuBar::create(context);
     menuBar->setBackgroundRole(UI::ColorRole::OverlayLight);
     menuBar->addChild(fileMenu);
     menuBar->addChild(viewMenu);
+    menuBar->addChild(sceneMenu);
 
     _sceneWidget = UI::SceneWidget::create(context);
 
-    _trianglesLabel = UI::Label::create(context);
-    _trianglesLabel2 = UI::Label::create(context);
+    _infoLabel = UI::Label::create(context);
 
     auto toolBar = UI::ToolBar::create(context);
     toolBar->setBackgroundRole(UI::ColorRole::OverlayLight);
@@ -117,12 +149,21 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
     hLayout->setHAlign(UI::HAlign::Left);
     hLayout->setVAlign(UI::VAlign::Bottom);
     hLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-    hLayout->addChild(_trianglesLabel);
-    hLayout->addChild(_trianglesLabel2);
+    hLayout->addChild(_infoLabel);
     addChild(hLayout);
     addChild(vLayout);
 
     auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
+    _sceneRotateActionGroup->setExclusiveCallback(
+        [weak](int value)
+        {
+            if (auto widget = weak.lock())
+            {
+                widget->_sceneWidget->setSceneRotate(static_cast<UI::SceneRotate>(value + 1));
+                widget->_sceneWidget->frameView();
+            }
+        });
+    
     _actionObservers["Open"] = Core::ValueObserver<bool>::create(
         _actions["Open"]->observeClicked(),
         [weak](bool value)
@@ -132,6 +173,22 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
                 if (auto widget = weak.lock())
                 {
                     widget->_open();
+                }
+            }
+        });
+
+    _actionObservers["Reload"] = Core::ValueObserver<bool>::create(
+        _actions["Reload"]->observeClicked(),
+        [weak](bool value)
+        {
+            if (value)
+            {
+                if (auto widget = weak.lock())
+                {
+                    if (widget->_reloadCallback)
+                    {
+                        widget->_reloadCallback();
+                    }
                 }
             }
         });
@@ -189,9 +246,7 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
         {
             if (auto widget = weak.lock())
             {
-                std::stringstream ss;
-                ss << widget->_sceneWidget->getTriangleCount();
-                widget->_trianglesLabel2->setText(ss.str());
+                widget->_textUpdate();
             }
         });
 }
@@ -213,6 +268,11 @@ void MainWindow::setOpenCallback(const std::function<void(const Core::FileSystem
     _openCallback = value;
 }
 
+void MainWindow::setReloadCallback(const std::function<void(void)>& value)
+{
+    _reloadCallback = value;
+}
+
 void MainWindow::setExitCallback(const std::function<void(void)>& value)
 {
     _exitCallback = value;
@@ -227,16 +287,7 @@ std::shared_ptr<MainWindow> MainWindow::create(const std::shared_ptr<Core::Conte
 
 void MainWindow::_initEvent(Core::Event::Init&)
 {
-    _actions["Open"]->setText(_getText(DJV_TEXT("Open")));
-    _actions["Open"]->setTooltip(_getText(DJV_TEXT("Open a file")));
-    _actions["Close"]->setText(_getText(DJV_TEXT("Close")));
-    _actions["Close"]->setTooltip(_getText(DJV_TEXT("Close the current file")));
-    _actions["Exit"]->setText(_getText(DJV_TEXT("Exit")));
-    _actions["Exit"]->setTooltip(_getText(DJV_TEXT("Exit the application")));
-    _actions["Frame"]->setText(_getText(DJV_TEXT("Frame")));
-    _actions["Frame"]->setTooltip(_getText(DJV_TEXT("Frame the view")));
-
-    _trianglesLabel->setText(_getText(DJV_TEXT("Triangles")) + ":");
+    _textUpdate();
 }
 
 void MainWindow::_open()
@@ -280,6 +331,38 @@ void MainWindow::_open()
     }
 }
 
+void MainWindow::_textUpdate()
+{
+    _actions["Open"]->setText(_getText(DJV_TEXT("Open")));
+    _actions["Open"]->setTooltip(_getText(DJV_TEXT("Open a file")));
+    _actions["Reload"]->setText(_getText(DJV_TEXT("Reload")));
+    _actions["Reload"]->setTooltip(_getText(DJV_TEXT("Reload the current file")));
+    _actions["Close"]->setText(_getText(DJV_TEXT("Close")));
+    _actions["Close"]->setTooltip(_getText(DJV_TEXT("Close the current file")));
+    _actions["Exit"]->setText(_getText(DJV_TEXT("Exit")));
+    _actions["Exit"]->setTooltip(_getText(DJV_TEXT("Exit the application")));
+    _actions["Frame"]->setText(_getText(DJV_TEXT("Frame")));
+    _actions["Frame"]->setTooltip(_getText(DJV_TEXT("Frame the view")));
+    _actions["SceneRotateX"]->setText(_getText(DJV_TEXT("Rotate X 90")));
+    _actions["SceneRotateX"]->setTooltip(_getText(DJV_TEXT("Rotate the scene +90 degrees in X")));
+    _actions["SceneRotate-X"]->setText(_getText(DJV_TEXT("Rotate X -90")));
+    _actions["SceneRotate-X"]->setTooltip(_getText(DJV_TEXT("Rotate the scene -90 degrees in X")));
+    _actions["SceneRotateY"]->setText(_getText(DJV_TEXT("Rotate Y 90")));
+    _actions["SceneRotateY"]->setTooltip(_getText(DJV_TEXT("Rotate the scene +90 degrees in Y")));
+    _actions["SceneRotate-Y"]->setText(_getText(DJV_TEXT("Rotate Y -90")));
+    _actions["SceneRotate-Y"]->setTooltip(_getText(DJV_TEXT("Rotate the scene -90 degrees in Y")));
+    _actions["SceneRotateZ"]->setText(_getText(DJV_TEXT("Rotate Z 90")));
+    _actions["SceneRotateZ"]->setTooltip(_getText(DJV_TEXT("Rotate the scene +90 degrees in Z")));
+    _actions["SceneRotate-Z"]->setText(_getText(DJV_TEXT("Rotate Z -90")));
+    _actions["SceneRotateZ"]->setTooltip(_getText(DJV_TEXT("Rotate the scene -90 degrees in Z")));
+
+    {
+        std::stringstream ss;
+        ss << "Primitives: " << _sceneWidget->getPrimitivesCount() << ", triangles: " << _sceneWidget->getTriangleCount();
+        _infoLabel->setText(ss.str());
+    }
+}
+
 void Application::_init(const std::vector<std::string>& args)
 {
     Desktop::Application::_init(args);
@@ -320,6 +403,14 @@ void Application::_init(const std::vector<std::string>& args)
                 app->_open(value);
             }
         });
+    _mainWindow->setReloadCallback(
+        [weak]
+        {
+            if (auto app = weak.lock())
+            {
+                app->_open(app->_fileInfo);
+            }
+        });
     _mainWindow->setExitCallback(
         [weak]
         {
@@ -357,12 +448,13 @@ void Application::_open(const Core::FileSystem::FileInfo& fileInfo)
         _mainWindow->setScene(nullptr);
         _scene.reset();
     }
-    if (!fileInfo.isEmpty())
+    _fileInfo = fileInfo;
+    if (!_fileInfo.isEmpty())
     {
         try
         {
             auto io = getSystemT<Scene::IO::System>();
-            _sceneRead = io->read(fileInfo);
+            _sceneRead = io->read(_fileInfo);
             _sceneFuture = _sceneRead->getScene();
             auto weak = std::weak_ptr<Application>(std::dynamic_pointer_cast<Application>(shared_from_this()));
             _futureTimer->start(
@@ -389,7 +481,6 @@ void Application::_open(const Core::FileSystem::FileInfo& fileInfo)
                                 //{
                                 //    app->_createPointLights(i);
                                 //}
-                                app->_scene->processPrimitives();
                                 app->_mainWindow->setScene(app->_scene);
                             }
                         }

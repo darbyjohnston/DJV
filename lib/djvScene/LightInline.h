@@ -31,14 +31,69 @@ namespace djv
 {
     namespace Scene
     {
-        inline float PointLight::getIntensity() const
+        inline ILight::ILight()
+        {}
+
+        inline ILight::~ILight()
+        {}
+
+        inline bool ILight::isEnabled() const
+        {
+            return _enabled;
+        }
+
+        inline float ILight::getIntensity() const
         {
             return _intensity;
         }
 
-        inline void PointLight::setIntensity(float value)
+        inline void ILight::setEnabled(bool value)
+        {
+            _enabled = value;
+        }
+
+        inline void ILight::setIntensity(float value)
         {
             _intensity = value;
+        }
+
+        inline DirectionalLight::DirectionalLight()
+        {}
+
+        inline const glm::vec3& DirectionalLight::getDirection() const
+        {
+            return _direction;
+        }
+
+        inline void DirectionalLight::setDirection(const glm::vec3& value)
+        {
+            _direction = value;
+        }
+
+        inline PointLight::PointLight()
+        {}
+
+        inline SpotLight::SpotLight()
+        {}
+
+        inline float SpotLight::getConeAngle() const
+        {
+            return _coneAngle;
+        }
+
+        inline const glm::vec3& SpotLight::getDirection() const
+        {
+            return _direction;
+        }
+
+        inline void SpotLight::setConeAngle(float value)
+        {
+            _coneAngle = value;
+        }
+
+        inline void SpotLight::setDirection(const glm::vec3& value)
+        {
+            _direction = value;
         }
 
     } // namespace Scene

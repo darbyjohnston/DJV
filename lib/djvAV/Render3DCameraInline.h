@@ -27,32 +27,31 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvScene/Light.h>
-
-using namespace djv::Core;
-
 namespace djv
 {
-    namespace Scene
+    namespace AV
     {
-        std::shared_ptr<DirectionalLight> DirectionalLight::create()
+        namespace Render3D
         {
-            auto out = std::shared_ptr<DirectionalLight>(new DirectionalLight);
-            return out;
-        }
+            inline ICamera::ICamera()
+            {}
 
-        std::shared_ptr<PointLight> PointLight::create()
-        {
-            auto out = std::shared_ptr<PointLight>(new PointLight);
-            return out;
-        }
+            inline ICamera::~ICamera()
+            {}
 
-        std::shared_ptr<SpotLight> SpotLight::create()
-        {
-            auto out = std::shared_ptr<SpotLight>(new SpotLight);
-            return out;
-        }
+            inline const glm::mat4x4& ICamera::getV() const
+            {
+                return _v;
+            }
 
-    } // namespace Scene
+            inline const glm::mat4x4& ICamera::getP() const
+            {
+                return _p;
+            }
+
+            inline DefaultCamera::DefaultCamera()
+            {}
+
+        } // namespace Render3D
+    } // namespace AV
 } // namespace djv
-

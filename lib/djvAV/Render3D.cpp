@@ -34,13 +34,14 @@
 #include <djvAV/OpenGLMeshCache.h>
 #include <djvAV/OpenGLShader.h>
 #include <djvAV/OpenGLTextureAtlas.h>
+#include <djvAV/Render3DCamera.h>
+#include <djvAV/Render3DLight.h>
+#include <djvAV/Render3DMaterial.h>
 #include <djvAV/ShaderSystem.h>
 
 #include <djvCore/Context.h>
 #include <djvCore/LogSystem.h>
 #include <djvCore/Timer.h>
-
-#include <unordered_map>
 
 using namespace djv::Core;
 
@@ -68,118 +69,13 @@ namespace djv
 
             } // namespace
 
-            void IMaterial::_init(
-                const std::string& vertex,
-                const std::string& fragment,
-                const std::shared_ptr<Context>& context)
-            {
-                auto shaderSystem = context->getSystemT<AV::Render::ShaderSystem>();
-                _shader = shaderSystem->getShader(vertex, fragment);
-                auto program = _shader->getProgram();
-                _mvpLoc = glGetUniformLocation(program, "transform.mvp");
-            }
-
-            IMaterial::IMaterial()
-            {}
-
-            IMaterial::~IMaterial()
-            {}
-
-            void IMaterial::bind()
-            {}
-
-            void DefaultMaterial::_init(const std::shared_ptr<Context>& context)
-            {
-                IMaterial::_init("djvAVRender3DDefaultVertex.glsl", "djvAVRender3DDefaultFragment.glsl", context);
-                auto program = _shader->getProgram();
-                _ambientLoc = glGetUniformLocation(program, "defaultMaterial.ambient");
-                _diffuseLoc = glGetUniformLocation(program, "defaultMaterial.diffuse");
-                _emissionLoc = glGetUniformLocation(program, "defaultMaterial.emission");
-                _specularLoc = glGetUniformLocation(program, "defaultMaterial.specular");
-                _shineLoc = glGetUniformLocation(program, "defaultMaterial.shine");
-                _transparencyLoc = glGetUniformLocation(program, "defaultMaterial.transparency");
-                _reflectivityLoc = glGetUniformLocation(program, "defaultMaterial.reflectivity");
-                _disableLightingLoc = glGetUniformLocation(program, "defaultMaterial.disableLighting");
-            }
-
-            DefaultMaterial::DefaultMaterial()
-            {}
-
-            DefaultMaterial::~DefaultMaterial()
-            {}
-
-            std::shared_ptr<DefaultMaterial> DefaultMaterial::create(const std::shared_ptr<Context>& context)
-            {
-                auto out = std::shared_ptr<DefaultMaterial>(new DefaultMaterial);
-                out->_init(context);
-                return out;
-            }
-
-            void DefaultMaterial::setAmbient(const AV::Image::Color& value)
-            {
-                _ambient = value;
-            }
-
-            void DefaultMaterial::setDiffuse(const AV::Image::Color& value)
-            {
-                _diffuse = value;
-            }
-
-            void DefaultMaterial::setEmission(const AV::Image::Color& value)
-            {
-                _emission = value;
-            }
-
-            void DefaultMaterial::setSpecular(const AV::Image::Color& value)
-            {
-                _specular = value;
-            }
-
-            void DefaultMaterial::setShine(float value)
-            {
-                _shine = value;
-            }
-
-            void DefaultMaterial::setTransparency(float value)
-            {
-                _transparency = value;
-            }
-
-            void DefaultMaterial::setReflectivity(float value)
-            {
-                _reflectivity = value;
-            }
-
-            void DefaultMaterial::setDisableLighting(bool value)
-            {
-                _disableLighting = value;
-            }
-
-            void DefaultMaterial::bind()
-            {
-                _shader->setUniform(_ambientLoc, _ambient);
-                _shader->setUniform(_diffuseLoc, _diffuse);
-                _shader->setUniform(_emissionLoc, _emission);
-                _shader->setUniform(_specularLoc, _specular);
-                _shader->setUniform(_shineLoc, _shine);
-                _shader->setUniform(_transparencyLoc, _transparency);
-                _shader->setUniform(_reflectivityLoc, _reflectivity);
-                _shader->setUniform(_disableLightingLoc, _disableLighting);
-            }
-
-            std::shared_ptr<PointLight> PointLight::create()
-            {
-                auto out = std::shared_ptr<PointLight>(new PointLight);
-                return out;
-            }
-
             struct Render::Private
             {
                 RenderOptions                           options;
 
                 std::list<glm::mat4x4>                  transforms;
-                glm::mat4x4                             currentTransform        = glm::mat4x4(1.F);
-                glm::mat4x4                             currentInverseTransform = glm::mat4x4(1.F);
+                std::list<glm::mat4x4>                  inverseTransforms;
+                const glm::mat4x4                       identity            = glm::mat4x4(1.f);
                 std::shared_ptr<IMaterial>              currentMaterial;
                 std::vector<std::shared_ptr<ILight> >   lights;
                 std::shared_ptr<OpenGL::TextureAtlas>   textureAtlas;
@@ -294,67 +190,145 @@ namespace djv
                 auto vao = p.meshCache->getVAO();
                 vao->bind();
 
+                std::vector<std::shared_ptr<DirectionalLight> > directionalLights;
+                std::vector<std::shared_ptr<PointLight> >       pointLights;
+                std::vector<std::shared_ptr<SpotLight> >        spotLights;
+                for (auto light = p.lights.begin(); light != p.lights.end(); ++light)
+                {
+                    if (auto directionalLight = std::dynamic_pointer_cast<DirectionalLight>(*light))
+                    {
+                        if (directionalLights.size() < 16)
+                        {
+                            directionalLights.push_back(directionalLight);
+                        }
+                    }
+                    else if (auto pointLight = std::dynamic_pointer_cast<PointLight>(*light))
+                    {
+                        if (pointLights.size() < 16)
+                        {
+                            pointLights.push_back(pointLight);
+                        }
+                    }
+                    else if (auto spotLight = std::dynamic_pointer_cast<SpotLight>(*light))
+                    {
+                        if (spotLights.size() < 16)
+                        {
+                            spotLights.push_back(spotLight);
+                        }
+                    }
+                }
+                if (0 == directionalLights.size() && 0 == pointLights.size() && 0 == spotLights.size())
+                {
+                    auto directionalLight = DirectionalLight::create();
+                    directionalLights.push_back(directionalLight);
+                }
+
                 for (const auto& shaderIt : p.primitives)
                 {
                     shaderIt.first->bind();
-                    size_t i = 0;
-                    for (auto light = p.lights.begin(); light != p.lights.end() && i < 16; ++light, ++i)
+
+                    size_t size = directionalLights.size();
+                    for (size_t i = 0; i < size; ++i)
                     {
-                        if (auto pointLight = std::dynamic_pointer_cast<PointLight>(*light))
                         {
-                            {
-                                std::stringstream ss;
-                                ss << "pointLights[" << i << "].position";
-                                shaderIt.first->setUniform(ss.str(), pointLight->getPosition());
-                            }
-                            {
-                                std::stringstream ss;
-                                ss << "pointLights[" << i << "].intensity";
-                                shaderIt.first->setUniform("pointLights.intensity", pointLight->getIntensity());
-                            }
+                            std::stringstream ss;
+                            ss << "directionalLights[" << i << "].intensity";
+                            shaderIt.first->setUniform("directionalLights.intensity", directionalLights[i]->getIntensity());
+                        }
+                        {
+                            std::stringstream ss;
+                            ss << "directionalLights[" << i << "].direction";
+                            shaderIt.first->setUniform(ss.str(), glm::normalize(directionalLights[i]->getDirection()));
                         }
                     }
-                    shaderIt.first->setUniform("pointLightsCount", static_cast<int>(i));
+                    shaderIt.first->setUniform("directionalLightsCount", static_cast<int>(size));
 
-                    GLint mvpLoc = glGetUniformLocation(shaderIt.first->getProgram(), "transform.mvp");
+                    size = pointLights.size();
+                    for (size_t i = 0; i < size; ++i)
+                    {
+                        {
+                            std::stringstream ss;
+                            ss << "pointLights[" << i << "].intensity";
+                            shaderIt.first->setUniform("pointLights.intensity", pointLights[i]->getIntensity());
+                        }
+                        {
+                            std::stringstream ss;
+                            ss << "pointLights[" << i << "].position";
+                            shaderIt.first->setUniform(ss.str(), pointLights[i]->getPosition());
+                        }
+                    }
+                    shaderIt.first->setUniform("pointLightsCount", static_cast<int>(size));
+
+                    size = spotLights.size();
+                    for (size_t i = 0; i < size; ++i)
+                    {
+                        {
+                            std::stringstream ss;
+                            ss << "spotLights[" << i << "].intensity";
+                            shaderIt.first->setUniform("spotLights.intensity", spotLights[i]->getIntensity());
+                        }
+                        {
+                            std::stringstream ss;
+                            ss << "spotLights[" << i << "].coneAngle";
+                            shaderIt.first->setUniform(ss.str(), spotLights[i]->getConeAngle());
+                        }
+                        {
+                            std::stringstream ss;
+                            ss << "spotLights[" << i << "].direction";
+                            shaderIt.first->setUniform(ss.str(), glm::normalize(spotLights[i]->getDirection()));
+                        }
+                        {
+                            std::stringstream ss;
+                            ss << "spotLights[" << i << "].position";
+                            shaderIt.first->setUniform(ss.str(), spotLights[i]->getPosition());
+                        }
+                    }
+                    shaderIt.first->setUniform("spotLightsCount", static_cast<int>(size));
+
+                    const GLint mLoc = glGetUniformLocation(shaderIt.first->getProgram(), "transform.m");
+                    const GLint mvpLoc = glGetUniformLocation(shaderIt.first->getProgram(), "transform.mvp");
+                    const GLint normalsLoc = glGetUniformLocation(shaderIt.first->getProgram(), "transform.normals");
                     for (const auto& primitiveIt : shaderIt.second)
                     {
-                        shaderIt.first->setUniform(mvpLoc, primitiveIt->xform);
+                        shaderIt.first->setUniform(mLoc, primitiveIt->xform);
+                        shaderIt.first->setUniform(mvpLoc, p.options.camera->getP() * p.options.camera->getV() * primitiveIt->xform);
+                        shaderIt.first->setUniform(normalsLoc, glm::transpose(glm::inverse(glm::mat3x3(primitiveIt->xform))));
                         primitiveIt->material->bind();
                         vao->draw(primitiveIt->type, primitiveIt->vaoRange.min, primitiveIt->vaoRange.max - primitiveIt->vaoRange.min + 1);
                     }
                 }
 
                 p.transforms.clear();
-                p.currentTransform = glm::mat4x4(1.F);
-                p.currentInverseTransform = glm::mat4x4(1.F);
+                p.inverseTransforms.clear();
                 p.primitives.clear();
                 p.lights.clear();
             }
 
             const glm::mat4x4& Render::getCurrentTransform() const
             {
-                return _p->currentTransform;
+                DJV_PRIVATE_PTR();
+                return p.transforms.size() ? p.transforms.back() : p.identity;
             }
 
             const glm::mat4x4& Render::getCurrentInverseTransform() const
             {
-                return _p->currentInverseTransform;
+                DJV_PRIVATE_PTR();
+                return p.inverseTransforms.size() ? p.inverseTransforms.back() : p.identity;
             }
 
             void Render::pushTransform(const glm::mat4x4& value)
             {
                 DJV_PRIVATE_PTR();
-                p.transforms.push_back(value);
-                p.currentTransform *= value;
-                p.currentInverseTransform = glm::inverse(p.currentTransform);
+                p.transforms.push_back(getCurrentTransform() * value);
+                glm::mat4x4 inverse = glm::inverse(getCurrentTransform());
+                p.inverseTransforms.push_back(inverse);
             }
 
             void Render::popTransform()
             {
                 DJV_PRIVATE_PTR();
                 p.transforms.pop_back();
-                _updateCurrentTransform();
+                p.inverseTransforms.pop_back();
             }
 
             void Render::setMaterial(const std::shared_ptr<IMaterial>& value)
@@ -375,7 +349,7 @@ namespace djv
                 if (value.triangles.size())
                 {
                     auto primitive = std::shared_ptr<Primitive>(new Primitive);
-                    primitive->xform = p.options.camera.p * p.options.camera.v * p.currentTransform;
+                    primitive->xform = getCurrentTransform();
                     primitive->material = p.currentMaterial;
 
                     SizeTRange range;
@@ -394,17 +368,6 @@ namespace djv
 
                     p.primitives[primitive->material->getShader()].push_back(primitive);
                 }
-            }
-
-            void Render::_updateCurrentTransform()
-            {
-                DJV_PRIVATE_PTR();
-                p.currentTransform = glm::mat4x4(1.F);
-                for (const auto& i : p.transforms)
-                {
-                    p.currentTransform *= i;
-                }
-                p.currentInverseTransform = glm::inverse(p.currentTransform);
             }
 
         } // namespace Render3D

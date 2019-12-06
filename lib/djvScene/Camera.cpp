@@ -39,43 +39,43 @@ namespace djv
 {
     namespace Scene
     {
-        void BasicCamera::setPosition(const glm::vec3& value)
+        void DefaultCamera::setPosition(const glm::vec3& value)
         {
             _position = value;
             _update();
         }
 
-        void BasicCamera::setTarget(const glm::vec3& value)
+        void DefaultCamera::setTarget(const glm::vec3& value)
         {
             _target = value;
             _update();
         }
 
-        void BasicCamera::setUp(const glm::vec3& value)
+        void DefaultCamera::setUp(const glm::vec3& value)
         {
             _up = value;
             _update();
         }
 
-        void BasicCamera::setFOV(float value)
+        void DefaultCamera::setFOV(float value)
         {
             _fov = value;
             _update();
         }
 
-        void BasicCamera::setAspect(float value)
+        void DefaultCamera::setAspect(float value)
         {
             _aspect = value;
             _update();
         }
 
-        void BasicCamera::setClip(const FloatRange& value)
+        void DefaultCamera::setClip(const FloatRange& value)
         {
             _clip = value;
             _update();
         }
 
-        void BasicCamera::_update()
+        void DefaultCamera::_update()
         {
             _v = glm::lookAt(_position, _target, _up);
             _p = glm::perspective(_fov, _aspect, _clip.min, _clip.max);

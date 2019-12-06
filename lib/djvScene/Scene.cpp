@@ -67,21 +67,22 @@ namespace djv
             _xforms.clear();
             _currentXForm = glm::mat4x4(1.F);
 
+            glm::mat4x4 m(1.F);
             switch (_orient)
             {
             case SceneOrient::ZUp:
             {
-                _pushXForm(glm::rotate(_currentXForm, Math::deg2rad(-90.F), glm::vec3(1.F, 0.F, 0.F)));
+                m = glm::rotate(glm::mat4x4(1.F), Math::deg2rad(-90.F), glm::vec3(1.F, 0.F, 0.F));
                 break;
             }
             default: break;
             }
-
+            m = _xform * m;
+            _pushXForm(m);
             for (const auto& i : _primitives)
             {
                 _processPrimitives(i);
             }
-
             _popXForm();
         }
 
@@ -106,9 +107,9 @@ namespace djv
                 {
                     _pushXForm(primitive->getXForm());
                     primitive->setXFormFinal(_currentXForm);
-                    if (auto mesh = primitive->getMesh())
+                    for (auto i : primitive->getMeshes())
                     {
-                        BBox3f bbox = AV::Geom::TriangleMesh::getBBox(*mesh);
+                        BBox3f bbox = AV::Geom::TriangleMesh::getBBox(*i);
                         bbox = bbox * _currentXForm;
                         if (_bboxInit)
                         {

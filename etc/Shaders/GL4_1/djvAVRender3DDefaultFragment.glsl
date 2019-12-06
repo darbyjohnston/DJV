@@ -29,11 +29,42 @@
 
 #version 410
 
+struct DirectionalLight
+{
+    float intensity;
+    vec3  direction;
+};
+
 struct PointLight
 {
-    vec3  position;
     float intensity;
+    vec3  position;
 };
+
+struct SpotLight
+{
+    float intensity;
+    float coneAngle;
+    vec3  direction;
+    vec3  position;
+};
+
+vec3 getDirectionalLight(DirectionalLight light, vec3 normal)
+{
+    float ln = dot(-light.direction, normal);
+    return vec3(ln, ln, ln);
+} 
+
+vec3 getPointLight(PointLight light, vec3 position, vec3 normal)
+{
+    float ln = dot(normalize(position - light.position), normal);
+    return vec3(ln, ln, ln);
+} 
+
+vec3 getSpotLight(SpotLight light, vec3 position, vec3 normal)
+{
+    return vec3(0.0, 0.0, 0.0);
+} 
 
 struct DefaultMaterial
 {
@@ -52,18 +83,40 @@ layout(location = 1) in vec2 Texture;
 layout(location = 2) in vec3 Normal;
 layout(location = 0) out vec4 FragColor;
 
-uniform PointLight      pointLights[16];
-uniform int             pointLightsCount = 0;
-uniform DefaultMaterial defaultMaterial;
+uniform DirectionalLight directionalLights[16];
+uniform int              directionalLightsCount = 0;
+uniform PointLight       pointLights[16];
+uniform int              pointLightsCount = 0;
+uniform SpotLight        spotLights[16];
+uniform int              spotLightsCount = 0;
+uniform DefaultMaterial  defaultMaterial;
 
 void main()
 {
+    //FragColor.r = Normal.x;
+    //FragColor.g = Normal.y;
+    //FragColor.b = Normal.z;
+    //FragColor.a = 1.0;
     FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+    for (int i = 0; i < directionalLightsCount; ++i)
+    {
+        vec3 light = getDirectionalLight(directionalLights[i], Normal);
+        FragColor.r += defaultMaterial.diffuse.r * light.r;
+        FragColor.g += defaultMaterial.diffuse.g * light.g;
+        FragColor.b += defaultMaterial.diffuse.b * light.b;
+    }
     for (int i = 0; i < pointLightsCount; ++i)
     {
-        float ln = dot(normalize(Position - pointLights[i].position), Normal);
-        FragColor.r += defaultMaterial.diffuse.r * ln;
-        FragColor.g += defaultMaterial.diffuse.g * ln;
-        FragColor.b += defaultMaterial.diffuse.b * ln;
+        vec3 light = getPointLight(pointLights[i], Position, Normal);
+        FragColor.r += defaultMaterial.diffuse.r * light.r;
+        FragColor.g += defaultMaterial.diffuse.g * light.g;
+        FragColor.b += defaultMaterial.diffuse.b * light.b;
+    }
+    for (int i = 0; i < spotLightsCount; ++i)
+    {
+        vec3 light = getSpotLight(spotLights[i], Position, Normal);
+        FragColor.r += defaultMaterial.diffuse.r * light.r;
+        FragColor.g += defaultMaterial.diffuse.g * light.g;
+        FragColor.b += defaultMaterial.diffuse.b * light.b;
     }
 }

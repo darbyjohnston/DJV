@@ -383,7 +383,7 @@ namespace djv
                                 auto primitive = MeshPrimitive::create();
                                 auto mesh = std::shared_ptr<AV::Geom::TriangleMesh>(new AV::Geom::TriangleMesh);
                                 read(_fileInfo.getFileName(), *mesh, 1);
-                                primitive->setMesh(mesh);
+                                primitive->addMesh(mesh);
                                 auto material = DefaultMaterial::create();
                                 primitive->setMaterial(material);
                                 out->addPrimitive(primitive);

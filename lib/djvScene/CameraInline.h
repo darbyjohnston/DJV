@@ -37,25 +37,25 @@ namespace djv
         inline ICamera::~ICamera()
         {}
 
-        inline BasicCamera::BasicCamera()
-        {
-            _update();
-        }
-
-        inline std::shared_ptr<BasicCamera> BasicCamera::create()
-        {
-            auto out = std::shared_ptr<BasicCamera>(new BasicCamera);
-            return out;
-        }
-
-        inline const glm::mat4x4& BasicCamera::getV() const
+        inline const glm::mat4x4& ICamera::getV() const
         {
             return _v;
         }
 
-        inline const glm::mat4x4& BasicCamera::getP() const
+        inline const glm::mat4x4& ICamera::getP() const
         {
             return _p;
+        }
+
+        inline DefaultCamera::DefaultCamera()
+        {
+            _update();
+        }
+
+        inline std::shared_ptr<DefaultCamera> DefaultCamera::create()
+        {
+            auto out = std::shared_ptr<DefaultCamera>(new DefaultCamera);
+            return out;
         }
 
         inline PolarCamera::PolarCamera()
@@ -87,16 +87,6 @@ namespace djv
         inline float PolarCamera::getLongitude() const
         {
             return _longitude;
-        }
-
-        inline const glm::mat4x4& PolarCamera::getV() const
-        {
-            return _v;
-        }
-
-        inline const glm::mat4x4& PolarCamera::getP() const
-        {
-            return _p;
         }
 
     } // namespace Scene

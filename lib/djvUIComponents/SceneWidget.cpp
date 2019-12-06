@@ -39,6 +39,8 @@
 
 #include <djvCore/Context.h>
 
+#include <glm/gtc/matrix_transform.hpp>
+
 using namespace djv::Core;
 
 namespace djv
@@ -50,6 +52,7 @@ namespace djv
             std::shared_ptr<AV::Render3D::Render> render3D;
             AV::Image::Size size;
             std::shared_ptr<Scene::Scene> scene;
+            SceneRotate sceneRotate = SceneRotate::None;
             std::shared_ptr<Scene::PolarCamera> camera;
             std::shared_ptr<Scene::Render> render;
             std::shared_ptr<AV::OpenGL::OffscreenBuffer> offscreenBuffer;
@@ -88,7 +91,21 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.scene = value;
             p.render->setScene(p.scene);
-            _redraw();
+            _sceneUpdate();
+        }
+
+        SceneRotate SceneWidget::getSceneRotate() const
+        {
+            return _p->sceneRotate;
+        }
+
+        void SceneWidget::setSceneRotate(SceneRotate value)
+        {
+            DJV_PRIVATE_PTR();
+            if (value == p.sceneRotate)
+                return;
+            p.sceneRotate = value;
+            _sceneUpdate();
         }
 
         void SceneWidget::frameView()
@@ -105,6 +122,11 @@ namespace djv
                 p.camera->setDistance(distance);
                 _redraw();
             }
+        }
+
+        size_t SceneWidget::getPrimitivesCount() const
+        {
+            return _p->render->getPrimitivesCount();
         }
 
         size_t SceneWidget::getTriangleCount() const
@@ -211,6 +233,40 @@ namespace djv
                 options.size = p.size;
                 options.camera = p.camera;
                 p.render->render(p.render3D, options);
+            }
+        }
+
+        void SceneWidget::_sceneUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (p.scene)
+            {
+                glm::mat4x4 m = glm::mat4x4(1.F);
+                switch (p.sceneRotate)
+                {
+                case SceneRotate::X90:
+                    m = glm::rotate(glm::mat4x4(1.F), Math::deg2rad(90.F), glm::vec3(1.F, 0.F, 0.F));
+                    break;
+                case SceneRotate::X_90:
+                    m = glm::rotate(glm::mat4x4(1.F), Math::deg2rad(-90.F), glm::vec3(1.F, 0.F, 0.F));
+                    break;
+                case SceneRotate::Y90:
+                    m = glm::rotate(glm::mat4x4(1.F), Math::deg2rad(90.F), glm::vec3(0.F, 1.F, 0.F));
+                    break;
+                case SceneRotate::Y_90:
+                    m = glm::rotate(glm::mat4x4(1.F), Math::deg2rad(-90.F), glm::vec3(0.F, 1.F, 0.F));
+                    break;
+                case SceneRotate::Z90:
+                    m = glm::rotate(glm::mat4x4(1.F), Math::deg2rad(90.F), glm::vec3(1.F, 0.F, 0.F));
+                    break;
+                case SceneRotate::Z_90:
+                    m = glm::rotate(glm::mat4x4(1.F), Math::deg2rad(-90.F), glm::vec3(1.F, 0.F, 0.F));
+                    break;
+                default: break;
+                }
+                p.scene->setSceneXForm(m);
+                p.scene->processPrimitives();
+                _redraw();
             }
         }
 

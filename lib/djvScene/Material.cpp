@@ -29,7 +29,7 @@
 
 #include <djvScene/Material.h>
 
-#include <djvAV/Render3D.h>
+#include <djvAV/Render3DMaterial.h>
 
 using namespace djv::Core;
 

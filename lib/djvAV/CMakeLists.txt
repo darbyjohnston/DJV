@@ -41,7 +41,12 @@ set(header
     Render2D.h
     Render2DInline.h
     Render3D.h
-    Render3DInline.h
+    Render3DCamera.h
+    Render3DCameraInline.h
+    Render3DLight.h
+    Render3DLightInline.h
+    Render3DMaterial.h
+    Render3DMaterialInline.h
     SGI.h
     SequenceIO.h
     Shader.h
@@ -89,6 +94,9 @@ set(source
     RLARead.cpp
     Render2D.cpp
     Render3D.cpp
+    Render3DCamera.cpp
+    Render3DLight.cpp
+    Render3DMaterial.cpp
     SequenceIO.cpp
     Shape.cpp
     Shader.cpp

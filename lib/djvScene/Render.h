@@ -79,6 +79,7 @@ namespace djv
                 const std::shared_ptr<AV::Render3D::Render>&,
                 const RenderOptions&);
 
+            size_t getPrimitivesCount() const;
             size_t getTriangleCount() const;
 
         private:

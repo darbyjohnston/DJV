@@ -39,13 +39,15 @@ layout(location = 2) out vec3 Normal;
 
 uniform struct Transform
 {
+    mat4 m;
     mat4 mvp;
+    mat3 normals;
 } transform;
 
 void main()
 {
     gl_Position = transform.mvp * vec4(aPos, 1.0);
-    Position = aPos;
+    Position = vec3(transform.m * vec4(aPos, 1.0));
     Texture = aTexture;
-    Normal = aNormal;
+    Normal = vec3(transform.normals * aNormal);
 }

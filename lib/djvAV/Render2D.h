@@ -279,12 +279,12 @@ namespace djv
                 ///@}
 
             private:
-                void _updateCurrentTransform();
+                const glm::mat3x3& _getCurrentTransform() const;
                 void _updateCurrentClipRect();
 
                 Image::Size             _size;
                 std::list<glm::mat3x3>  _transforms;
-                glm::mat3x3             _currentTransform = glm::mat3x3(1.F);
+                const glm::mat3x3       _identity         = glm::mat3x3(1.F);
                 std::list<Core::BBox2f> _clipRects;
                 Core::BBox2f            _currentClipRect  = Core::BBox2f(0.F, 0.F, 0.F, 0.F);
                 float                   _fillColor[4]     = { 1.F, 1.F, 1.F, 1.F };

@@ -33,6 +33,7 @@
 #include <djvUIComponents/FileBrowserDialog.h>
 
 #include <djvUI/Action.h>
+#include <djvUI/ActionGroup.h>
 #include <djvUI/Label.h>
 #include <djvUI/Window.h>
 
@@ -57,6 +58,7 @@ public:
     void setScene(const std::shared_ptr<djv::Scene::Scene>&);
 
     void setOpenCallback(const std::function<void(const djv::Core::FileSystem::FileInfo)>&);
+    void setReloadCallback(const std::function<void(void)>&);
     void setExitCallback(const std::function<void(void)>&);
 
 protected:
@@ -64,14 +66,16 @@ protected:
 
 private:
     void _open();
+    void _textUpdate();
 
     std::map<std::string, std::shared_ptr<djv::UI::Action> > _actions;
-    std::shared_ptr<djv::UI::Label> _trianglesLabel;
-    std::shared_ptr<djv::UI::Label> _trianglesLabel2;
+    std::shared_ptr<djv::UI::ActionGroup> _sceneRotateActionGroup;
+    std::shared_ptr<djv::UI::Label> _infoLabel;
     std::shared_ptr<djv::UI::SceneWidget> _sceneWidget;
     std::shared_ptr<djv::UI::FileBrowser::Dialog> _fileBrowserDialog;
     djv::Core::FileSystem::Path _fileBrowserPath = djv::Core::FileSystem::Path(".");
     std::function<void(const djv::Core::FileSystem::FileInfo)> _openCallback;
+    std::function<void(void)> _reloadCallback;
     std::function<void(void)> _exitCallback;
     std::map<std::string, std::shared_ptr<djv::Core::ValueObserver<bool> > > _actionObservers;
     std::shared_ptr<djv::Core::Time::Timer> _statsTimer;
@@ -95,6 +99,7 @@ private:
     void _createPointLights(const std::shared_ptr<djv::Scene::IPrimitive>&);
     void _close();
 
+    djv::Core::FileSystem::FileInfo _fileInfo;
     std::shared_ptr<djv::Scene::Scene> _scene;
     std::shared_ptr<djv::Scene::IO::IRead> _sceneRead;
     std::future<std::shared_ptr<djv::Scene::Scene> > _sceneFuture;

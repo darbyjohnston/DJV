@@ -833,7 +833,7 @@ namespace djv
                         };
                         for (size_t j = 0; j < 2; ++j)
                         {
-                            const glm::vec3 tmp = _currentTransform * glm::vec3(pt[j].x, pt[j].y, 1.F);
+                            const glm::vec3 tmp = _getCurrentTransform() * glm::vec3(pt[j].x, pt[j].y, 1.F);
                             pts.push_back(glm::vec2(tmp.x, tmp.y));
                         }
                     }
@@ -1050,7 +1050,7 @@ namespace djv
                 const ImageOptions& options)
             {
                 DJV_PRIVATE_PTR();
-                p.drawImage(image, pos, options, ColorMode::ColorAndTexture, _currentTransform, _currentClipRect, _finalColor);
+                p.drawImage(image, pos, options, ColorMode::ColorAndTexture, _getCurrentTransform(), _currentClipRect, _finalColor);
             }
 
             void Render::drawFilledImage(
@@ -1059,7 +1059,7 @@ namespace djv
                 const ImageOptions& options)
             {
                 DJV_PRIVATE_PTR();
-                p.drawImage(image, pos, options, ColorMode::ColorWithTextureAlpha, _currentTransform, _currentClipRect, _finalColor);
+                p.drawImage(image, pos, options, ColorMode::ColorWithTextureAlpha, _getCurrentTransform(), _currentClipRect, _finalColor);
             }
 
             void Render::setCurrentFont(const Font::Info & value)

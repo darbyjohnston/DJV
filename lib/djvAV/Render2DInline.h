@@ -114,14 +114,15 @@ namespace djv
 
             inline void Render::pushTransform(const glm::mat3x3& value)
             {
-                _transforms.push_back(value);
-                _currentTransform *= value;
+                _transforms.push_back(_transforms.size() ? _transforms.back() * value : value);
             }
 
             inline void Render::popTransform()
             {
-                _transforms.pop_back();
-                _updateCurrentTransform();
+                if (_transforms.size())
+                {
+                    _transforms.pop_back();
+                }
             }
 
             inline void Render::pushClipRect(const Core::BBox2f & value)
@@ -188,13 +189,9 @@ namespace djv
                 _lineWidth = value;
             }
 
-            inline void Render::_updateCurrentTransform()
+            inline const glm::mat3x3& Render::_getCurrentTransform() const
             {
-                _currentTransform = glm::mat3x3(1.F);
-                for (const auto& i : _transforms)
-                {
-                    _currentTransform *= i;
-                }
+                return _transforms.size() ? _transforms.back() : _identity;
             }
 
             inline void Render::_updateCurrentClipRect()

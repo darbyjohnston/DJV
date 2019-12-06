@@ -80,6 +80,9 @@ namespace djv
             SceneOrient getSceneOrient() const;
             void setSceneOrient(SceneOrient);
 
+            const glm::mat4x4& getSceneXForm() const;
+            void setSceneXForm(const glm::mat4x4&);
+
             void processPrimitives();
             const std::vector<std::shared_ptr<IPrimitive> >& getVisiblePrimitives() const;
             const Core::BBox3f getBBox() const;
@@ -92,6 +95,7 @@ namespace djv
             std::vector<std::shared_ptr<IPrimitive> > _primitives;
             std::vector<std::shared_ptr<Layer> > _layers;
             SceneOrient _orient = SceneOrient::YUp;
+            glm::mat4x4 _xform = glm::mat4x4(1.F);
             std::vector<std::shared_ptr<IPrimitive> > _visiblePrimitives;
             Core::BBox3f _bbox;
             bool _bboxInit = true;

@@ -36,6 +36,8 @@
 #include <djvScene/Scene.h>
 
 #include <djvAV/Render3D.h>
+#include <djvAV/Render3DCamera.h>
+#include <djvAV/Render3DLight.h>
 
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -50,6 +52,7 @@ namespace djv
             std::weak_ptr<Core::Context> context;
             std::shared_ptr<Scene> scene;
             std::map<std::shared_ptr<IMaterial>, std::shared_ptr<AV::Render3D::IMaterial> > materials;
+            size_t primitivesCount = 0;
             size_t triangleCount = 0;
         };
 
@@ -84,17 +87,23 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = p.context.lock())
             {
+                p.primitivesCount = 0;
+                p.triangleCount = 0;
+
                 AV::Render3D::RenderOptions render3DOptions;
-                render3DOptions.camera.v = renderOptions.camera->getV();
-                render3DOptions.camera.p = renderOptions.camera->getP();
+                auto renderCamera = AV::Render3D::DefaultCamera::create();
+                renderCamera->setV(renderOptions.camera->getV());
+                renderCamera->setP(renderOptions.camera->getP());
+                render3DOptions.camera = renderCamera;
                 render3DOptions.size = renderOptions.size;
                 render->beginFrame(render3DOptions);
 
                 if (p.scene)
                 {
                     p.scene->processPrimitives();
-                    p.triangleCount = 0;
-                    for (const auto& i : p.scene->getVisiblePrimitives())
+                    const auto& primitives = p.scene->getVisiblePrimitives();
+                    p.primitivesCount = primitives.size();
+                    for (const auto& i : primitives)
                     {
                         render->pushTransform(i->getXFormFinal());
 
@@ -114,23 +123,52 @@ namespace djv
                         }
                         if (renderMaterial)
                         {
-                            if (auto mesh = i->getMesh())
+                            render->setMaterial(renderMaterial);
+                            for (const auto& j : i->getMeshes())
                             {
-                                render->setMaterial(renderMaterial);
-                                render->drawTriangleMesh(*mesh);
-                                p.triangleCount += mesh->triangles.size();
+                                render->drawTriangleMesh(*j);
+                                p.triangleCount += j->triangles.size();
                             }
                         }
 
-                        if (auto pointLight = std::dynamic_pointer_cast<PointLight>(i))
+                        if (auto directionalLight = std::dynamic_pointer_cast<DirectionalLight>(i))
                         {
-                            auto renderPointLight = AV::Render3D::PointLight::create();
-                            glm::vec4 position(0.F, 0.F, 0.F, 1.F);
-                            const auto& xform = render->getCurrentInverseTransform();
-                            position = xform * position;
-                            renderPointLight->setPosition(position);
-                            renderPointLight->setIntensity(pointLight->getIntensity());
-                            render->addLight(renderPointLight);
+                            if (directionalLight->isEnabled())
+                            {
+                                auto renderLight = AV::Render3D::DirectionalLight::create();
+                                const auto& direction = directionalLight->getDirection();
+                                glm::vec3 renderDirection = render->getCurrentTransform() * glm::vec4(direction.x, direction.y, direction.z, 1.F);
+                                glm::vec3 renderPosition = render->getCurrentTransform() * glm::vec4(0.F, 0.F, 0.F, 1.F);
+                                renderLight->setIntensity(directionalLight->getIntensity());
+                                renderLight->setDirection(renderDirection - renderPosition);
+                                render->addLight(renderLight);
+                            }
+                        }
+                        else if (auto pointLight = std::dynamic_pointer_cast<PointLight>(i))
+                        {
+                            if (pointLight->isEnabled())
+                            {
+                                auto renderLight = AV::Render3D::PointLight::create();
+                                glm::vec3 renderPosition = render->getCurrentTransform() * glm::vec4(0.F, 0.F, 0.F, 1.F);
+                                renderLight->setIntensity(pointLight->getIntensity());
+                                renderLight->setPosition(renderPosition);
+                                render->addLight(renderLight);
+                            }
+                        }
+                        else if (auto spotLight = std::dynamic_pointer_cast<SpotLight>(i))
+                        {
+                            if (spotLight->isEnabled())
+                            {
+                                auto renderLight = AV::Render3D::SpotLight::create();
+                                const auto& direction = directionalLight->getDirection();
+                                glm::vec3 renderDirection = render->getCurrentTransform() * glm::vec4(direction.x, direction.y, direction.z, 1.F);
+                                glm::vec3 renderPosition = render->getCurrentTransform() * glm::vec4(0.F, 0.F, 0.F, 1.F);
+                                renderLight->setIntensity(spotLight->getIntensity());
+                                renderLight->setConeAngle(spotLight->getConeAngle());
+                                renderLight->setPosition(renderPosition);
+                                renderLight->setDirection(renderDirection - renderPosition);
+                                render->addLight(renderLight);
+                            }
                         }
 
                         render->popTransform();
@@ -139,6 +177,11 @@ namespace djv
 
                 render->endFrame();
             }
+        }
+
+        size_t Render::getPrimitivesCount() const
+        {
+            return _p->primitivesCount;
         }
 
         size_t Render::getTriangleCount() const

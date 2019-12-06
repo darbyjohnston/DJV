@@ -77,14 +77,14 @@ namespace djv
             _xformFinal = value;
         }
 
-        inline const std::shared_ptr<AV::Geom::TriangleMesh>& IPrimitive::getMesh() const
+        inline const std::vector<std::shared_ptr<AV::Geom::TriangleMesh> >& IPrimitive::getMeshes() const
         {
-            return _mesh;
+            return _meshes;
         }
 
-        inline void  IPrimitive::setMesh(const std::shared_ptr<AV::Geom::TriangleMesh>& value)
+        inline void  IPrimitive::addMesh(const std::shared_ptr<AV::Geom::TriangleMesh>& value)
         {
-            _mesh = value;
+            _meshes.push_back(value);
         }
 
         inline MaterialAssignment IPrimitive::getMaterialAssignment() const

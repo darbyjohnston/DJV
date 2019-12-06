@@ -52,18 +52,22 @@ namespace djv
         public:
             virtual ~ICamera() = 0;
 
-            virtual const glm::mat4x4& getV() const = 0;
-            virtual const glm::mat4x4& getP() const = 0;
+            const glm::mat4x4& getV() const;
+            const glm::mat4x4& getP() const;
+
+        protected:
+            glm::mat4x4 _v = glm::mat4x4(1.F);
+            glm::mat4x4 _p = glm::mat4x4(1.F);
         };
 
-        //! This class provides a basic camera.
-        class BasicCamera : public ICamera
+        //! This class provides a default camera.
+        class DefaultCamera : public ICamera
         {
         protected:
-            BasicCamera();
+            DefaultCamera();
 
         public:
-            static std::shared_ptr<BasicCamera> create();
+            static std::shared_ptr<DefaultCamera> create();
 
             void setPosition(const glm::vec3&);
             void setTarget(const glm::vec3&);
@@ -71,9 +75,6 @@ namespace djv
             void setFOV(float);
             void setAspect(float);
             void setClip(const Core::FloatRange&);
-
-            const glm::mat4x4& getV() const override;
-            const glm::mat4x4& getP() const override;
 
         private:
             void _update();
@@ -84,8 +85,6 @@ namespace djv
             glm::vec3 _position = glm::vec3(10.F, 20.F, -20.F);
             glm::vec3 _target = glm::vec3(0.F, 0.F, 0.F);
             glm::vec3 _up = glm::vec3(0.F, 1.F, 0.F);
-            glm::mat4x4 _v = glm::mat4x4(1.F);
-            glm::mat4x4 _p = glm::mat4x4(1.F);
         };
 
         //! This class provides a polar camera.
@@ -110,9 +109,6 @@ namespace djv
             void setLatitude(float);
             void setLongitude(float);
 
-            const glm::mat4x4& getV() const override;
-            const glm::mat4x4& getP() const override;
-
         private:
             void _update();
 
@@ -123,8 +119,6 @@ namespace djv
             float _distance = 20.F;
             float _latitude = 30.F;
             float _longitude = 30.F;
-            glm::mat4x4 _v = glm::mat4x4(1.F);
-            glm::mat4x4 _p = glm::mat4x4(1.F);
         };
 
     } // namespace Scene

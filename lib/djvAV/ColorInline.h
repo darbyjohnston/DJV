@@ -162,6 +162,15 @@ namespace djv
                 return _data.data();
             }
 
+            inline Color Color::RGB_F32(float r, float g, float b)
+            {
+                Color out(Type::RGB_F32);
+                out.setF32(r, 0);
+                out.setF32(g, 1);
+                out.setF32(b, 2);
+                return out;
+            }
+
             inline bool Color::operator == (const Color& other) const
             {
                 return

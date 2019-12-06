@@ -27,32 +27,22 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvScene/Light.h>
-
-using namespace djv::Core;
-
 namespace djv
 {
-    namespace Scene
+    namespace AV
     {
-        std::shared_ptr<DirectionalLight> DirectionalLight::create()
+        namespace Render3D
         {
-            auto out = std::shared_ptr<DirectionalLight>(new DirectionalLight);
-            return out;
-        }
+            inline GLint IMaterial::getMVPLoc() const
+            {
+                return _mvpLoc;
+            }
 
-        std::shared_ptr<PointLight> PointLight::create()
-        {
-            auto out = std::shared_ptr<PointLight>(new PointLight);
-            return out;
-        }
+            inline const std::shared_ptr<OpenGL::Shader>& IMaterial::getShader() const
+            {
+                return _shader;
+            }
 
-        std::shared_ptr<SpotLight> SpotLight::create()
-        {
-            auto out = std::shared_ptr<SpotLight>(new SpotLight);
-            return out;
-        }
-
-    } // namespace Scene
+        } // namespace Render3D
+    } // namespace AV
 } // namespace djv
-

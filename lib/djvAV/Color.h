@@ -72,6 +72,8 @@ namespace djv
 
                 Color convert(Type) const;
 
+                static Color RGB_F32(float, float, float);
+
                 static void rgbToHSV(const float[3], float[3]);
                 static void hsvToRGB(const float[3], float[3]);
 

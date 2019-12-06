@@ -98,10 +98,10 @@ namespace djv
             void setDisableLighting(bool);
 
         private:
-            AV::Image::Color _ambient = AV::Image::Color(0.F, 0.F, 0.4F);
-            AV::Image::Color _diffuse = AV::Image::Color(.5F, .5F, .5F);
-            AV::Image::Color _emission = AV::Image::Color(0.F, 0.F, 0.F);
-            AV::Image::Color _specular = AV::Image::Color(1.F, 1.F, 1.F);
+            AV::Image::Color _ambient = AV::Image::Color::RGB_F32(0.F, 0.F, 0.4F);
+            AV::Image::Color _diffuse = AV::Image::Color::RGB_F32(.5F, .5F, .5F);
+            AV::Image::Color _emission = AV::Image::Color::RGB_F32(0.F, 0.F, 0.F);
+            AV::Image::Color _specular = AV::Image::Color::RGB_F32(1.F, 1.F, 1.F);
             float _shine = 0.F;
             float _transparency = 0.F;
             float _reflectivity = 0.F;

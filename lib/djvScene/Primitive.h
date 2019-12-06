@@ -66,8 +66,8 @@ namespace djv
             void setXForm(const glm::mat4x4&);
             void setXFormFinal(const glm::mat4x4&);
 
-            const std::shared_ptr<AV::Geom::TriangleMesh>& getMesh() const;
-            void setMesh(const std::shared_ptr<AV::Geom::TriangleMesh>&);
+            const std::vector<std::shared_ptr<AV::Geom::TriangleMesh> >& getMeshes() const;
+            void addMesh(const std::shared_ptr<AV::Geom::TriangleMesh>&);
 
             MaterialAssignment getMaterialAssignment() const;
             void setMaterialAssignment(MaterialAssignment);
@@ -88,7 +88,7 @@ namespace djv
             bool _visible = true;
             glm::mat4x4 _xform = glm::mat4x4(1.F);
             glm::mat4x4 _xformFinal = glm::mat4x4(1.F);
-            std::shared_ptr<AV::Geom::TriangleMesh> _mesh;
+            std::vector<std::shared_ptr<AV::Geom::TriangleMesh> > _meshes;
             MaterialAssignment _materialAssignment = MaterialAssignment::Primitive;
             std::shared_ptr<IMaterial> _material;
             std::weak_ptr<IPrimitive> _parent;

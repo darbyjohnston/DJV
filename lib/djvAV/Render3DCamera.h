@@ -27,51 +27,54 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
+#pragma once
+
+#include <djvAV/AV.h>
+
+#include <glm/mat4x4.hpp>
+
+#include <memory>
+
 namespace djv
 {
     namespace AV
     {
         namespace Render3D
         {
-            inline GLint IMaterial::getMVPLoc() const
+            //! This class provides the base functionality for cameras.
+            class ICamera : public std::enable_shared_from_this<ICamera>
             {
-                return _mvpLoc;
-            }
+                DJV_NON_COPYABLE(ICamera);
 
-            inline const std::shared_ptr<OpenGL::Shader>& IMaterial::getShader() const
+            protected:
+                ICamera();
+
+            public:
+                virtual ~ICamera() = 0;
+
+                const glm::mat4x4& getV() const;
+                const glm::mat4x4& getP() const;
+
+            protected:
+                glm::mat4x4 _v = glm::mat4x4(1.F);
+                glm::mat4x4 _p = glm::mat4x4(1.F);
+            };
+
+            //! This struct provides a default camera.
+            class DefaultCamera : public ICamera
             {
-                return _shader;
-            }
+            protected:
+                DefaultCamera();
 
-            inline ILight::ILight()
-            {}
+            public:
+                static std::shared_ptr<DefaultCamera> create();
 
-            inline ILight::~ILight()
-            {}
-
-            inline PointLight::PointLight()
-            {}
-
-            inline const glm::vec3& PointLight::getPosition() const
-            {
-                return _position;
-            }
-
-            inline float PointLight::getIntensity() const
-            {
-                return _intensity;
-            }
-
-            inline void PointLight::setPosition(const glm::vec3& value)
-            {
-                _position = value;
-            }
-
-            inline void PointLight::setIntensity(float value)
-            {
-                _intensity = value;
-            }
+                void setV(const glm::mat4x4&);
+                void setP(const glm::mat4x4&);
+            };
 
         } // namespace Render3D
     } // namespace AV
 } // namespace djv
+
+#include <djvAV/Render3DCameraInline.h>

@@ -41,6 +41,18 @@ namespace djv
 
     namespace UI
     {
+        //! This enum provides the scene rotation.
+        enum class SceneRotate
+        {
+            None,
+            X90,
+            X_90,
+            Y90,
+            Y_90,
+            Z90,
+            Z_90
+        };
+
         //! This class provides a scene view widget.
         class SceneWidget : public Widget
         {
@@ -58,8 +70,12 @@ namespace djv
             const std::shared_ptr<Scene::Scene>& getScene() const;
             void setScene(const std::shared_ptr<Scene::Scene>&);
 
+            SceneRotate getSceneRotate() const;
+            void setSceneRotate(SceneRotate);
+
             void frameView();
 
+            size_t getPrimitivesCount() const;
             size_t getTriangleCount() const;
 
         protected:
@@ -72,6 +88,8 @@ namespace djv
             void _updateEvent(Core::Event::Update&) override;
 
         private:
+            void _sceneUpdate();
+
             DJV_PRIVATE();
         };
 

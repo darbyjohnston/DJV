@@ -56,7 +56,7 @@ namespace djv
                 {
                     AV::Image::Color fromONColor3(const ON_Color& value)
                     {
-                        return AV::Image::Color(
+                        return AV::Image::Color::RGB_F32(
                             value.Red() / 255.f,
                             value.Green() / 255.f,
                             value.Blue() / 255.f);
@@ -84,6 +84,28 @@ namespace djv
                     glm::vec3 fromON(const ON_3fVector& value)
                     {
                         return glm::vec3(value.x, value.y, value.z);
+                    }
+
+                    glm::mat4x4 fromON(const ON_Xform& value)
+                    {
+                        glm::mat4x4 m;
+                        m[0][0] = value.m_xform[0][0];
+                        m[0][1] = value.m_xform[0][1];
+                        m[0][2] = value.m_xform[0][2];
+                        m[0][3] = value.m_xform[0][3];
+                        m[1][0] = value.m_xform[1][0];
+                        m[1][1] = value.m_xform[1][1];
+                        m[1][2] = value.m_xform[1][2];
+                        m[1][3] = value.m_xform[1][3];
+                        m[2][0] = value.m_xform[2][0];
+                        m[2][1] = value.m_xform[2][1];
+                        m[2][2] = value.m_xform[2][2];
+                        m[2][3] = value.m_xform[2][3];
+                        m[3][0] = value.m_xform[3][0];
+                        m[3][1] = value.m_xform[3][1];
+                        m[3][2] = value.m_xform[3][2];
+                        m[3][3] = value.m_xform[3][3];
+                        return m;
                     }
 
                     std::shared_ptr<AV::Geom::TriangleMesh> readMesh(const ON_Mesh* onMesh)
@@ -396,6 +418,7 @@ namespace djv
                                         }
                                     }
 
+                                    std::shared_ptr<IPrimitive> primitive;
                                     if (auto onCurve = ON_Curve::Cast(onModelGeometryComponent->Geometry(nullptr)))
                                     {
                                     }
@@ -405,34 +428,28 @@ namespace djv
                                         onMeshToMesh[onMesh] = mesh;
                                         if (attr->Mode() != ON::idef_object)
                                         {
-                                            auto primitive = MeshPrimitive::create();
-                                            primitive->setMesh(mesh);
-                                            primitive->setMaterial(material ? material : defaultMaterial);
-                                            scene->addPrimitive(primitive);
-                                            if (layer)
-                                            {
-                                                layer->addItem(primitive);
-                                            }
+                                            auto meshPrimitive = MeshPrimitive::create();
+                                            meshPrimitive->addMesh(mesh);
+                                            primitive = meshPrimitive;
                                         }
                                     }
                                     else if (auto onBrep = ON_Brep::Cast(onModelGeometryComponent->Geometry(nullptr)))
                                     {
                                         ON_SimpleArray<const ON_Mesh*> onMeshes(onBrep->m_F.Count());
+                                        std::shared_ptr<MeshPrimitive> meshPrimitive;
+                                        if (attr->Mode() != ON::idef_object)
+                                        {
+                                            meshPrimitive = MeshPrimitive::create();
+                                            primitive = meshPrimitive;
+                                        }
                                         const int onMeshCount = onBrep->GetMesh(ON::render_mesh, onMeshes);
                                         for (int i = 0; i < onMeshCount; ++i)
                                         {
                                             auto mesh = readMesh(onMeshes[i]);
                                             onMeshToMesh[onMeshes[i]] = mesh;
-                                            if (attr->Mode() != ON::idef_object)
+                                            if (meshPrimitive)
                                             {
-                                                auto primitive = MeshPrimitive::create();
-                                                primitive->setMesh(mesh);
-                                                primitive->setMaterial(material ? material : defaultMaterial);
-                                                scene->addPrimitive(primitive);
-                                                if (layer)
-                                                {
-                                                    layer->addItem(primitive);
-                                                }
+                                                meshPrimitive->addMesh(mesh);
                                             }
                                         }
                                     }
@@ -444,16 +461,22 @@ namespace djv
                                             onMeshToMesh[onMesh] = mesh;
                                             if (attr->Mode() != ON::idef_object)
                                             {
-                                                auto primitive = MeshPrimitive::create();
-                                                primitive->setMesh(mesh);
-                                                primitive->setMaterial(material ? material : defaultMaterial);
-                                                scene->addPrimitive(primitive);
-                                                if (layer)
-                                                {
-                                                    layer->addItem(primitive);
-                                                }
+                                                auto meshPrimitive = MeshPrimitive::create();
+                                                meshPrimitive->addMesh(mesh);
+                                                primitive = meshPrimitive;
                                             }
                                         }
+                                    }
+                                    if (primitive)
+                                    {
+                                        primitive->setName(std::string(ON_String(attr->Name())));
+                                        primitive->setVisible(attr->IsVisible());
+                                        primitive->setMaterial(material ? material : defaultMaterial);
+                                        if (layer)
+                                        {
+                                            layer->addItem(primitive);
+                                        }
+                                        scene->addPrimitive(primitive);
                                     }
                                 }
                             }
@@ -476,19 +499,42 @@ namespace djv
                                         }
                                     }
 
+                                    std::shared_ptr<IPrimitive> primitive;
                                     if (auto onLight = ON_Light::Cast(onModelGeometryComponent->Geometry(nullptr)))
                                     {
-                                        if (onLight->IsPointLight())
+                                        std::shared_ptr<ILight> light;
+                                        if (onLight->IsDirectionalLight())
                                         {
-                                            auto light = PointLight::create();
-                                            light->setXForm(glm::translate(glm::mat4x4(1.F), fromON(onLight->Location())));
-                                            light->setIntensity(onLight->Intensity());
-                                            scene->addPrimitive(light);
-                                            if (layer)
-                                            {
-                                                layer->addItem(light);
-                                            }
+                                            auto directionalLight = DirectionalLight::create();
+                                            directionalLight->setDirection(fromON(onLight->Direction()));
+                                            light = directionalLight;
                                         }
+                                        else if (onLight->IsPointLight())
+                                        {
+                                            auto pointLight = PointLight::create();
+                                            light = pointLight;
+                                        }
+                                        else if (onLight->IsSpotLight())
+                                        {
+                                            auto spotLight = SpotLight::create();
+                                            spotLight->setConeAngle(onLight->SpotAngleDegrees());
+                                            spotLight->setDirection(fromON(onLight->Direction()));
+                                            light = spotLight;
+                                        }
+                                        light->setXForm(glm::translate(glm::mat4x4(1.F), fromON(onLight->Location())));
+                                        light->setEnabled(onLight->IsEnabled());
+                                        light->setIntensity(onLight->Intensity());
+                                        primitive = light;
+                                    }
+                                    if (primitive)
+                                    {
+                                        primitive->setName(std::string(ON_String(attr->Name())));
+                                        primitive->setVisible(attr->IsVisible());
+                                        if (layer)
+                                        {
+                                            layer->addItem(primitive);
+                                        }
+                                        scene->addPrimitive(primitive);
                                     }
                                 }
                             }

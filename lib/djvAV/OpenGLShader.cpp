@@ -179,7 +179,25 @@ namespace djv
 
             void Shader::setUniform(GLint location, const Image::Color& value)
             {
-                if (Image::Type::RGBA_F32 == value.getType())
+                if (Image::Type::L_F32 == value.getType())
+                {
+                    const float* p = reinterpret_cast<const GLfloat*>(value.getData());
+                    const float v[] = { p[0], 0.F, 0.F, 1.F };
+                    glUniform4fv(location, 1, v);
+                }
+                else if (Image::Type::LA_F32 == value.getType())
+                {
+                    const float* p = reinterpret_cast<const GLfloat*>(value.getData());
+                    const float v[] = { p[0], p[1], 0.F, 1.F };
+                    glUniform4fv(location, 1, v);
+                }
+                else if (Image::Type::RGB_F32 == value.getType())
+                {
+                    const float* p = reinterpret_cast<const GLfloat*>(value.getData());
+                    const float v[] = { p[0], p[1], p[2], 1.F };
+                    glUniform4fv(location, 1, v);
+                }
+                else if (Image::Type::RGBA_F32 == value.getType())
                 {
                     glUniform4fv(location, 1, reinterpret_cast<const GLfloat*>(value.getData()));
                 }
