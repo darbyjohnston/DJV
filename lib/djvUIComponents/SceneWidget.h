@@ -31,6 +31,8 @@
 
 #include <djvUI/Widget.h>
 
+#include <djvCore/ValueObserver.h>
+
 namespace djv
 {
     namespace Scene
@@ -53,6 +55,18 @@ namespace djv
             Z_90
         };
 
+        //! This struct provides camera information.
+        struct CameraInfo
+        {
+            float fov = 0.F;
+            djv::Core::FloatRange clip;
+            float distance = 0.F;
+            float latitude = 0.F;
+            float longitude = 0.F;
+
+            bool operator == (const CameraInfo&) const;
+        };
+
         //! This class provides a scene view widget.
         class SceneWidget : public Widget
         {
@@ -70,13 +84,17 @@ namespace djv
             const std::shared_ptr<Scene::Scene>& getScene() const;
             void setScene(const std::shared_ptr<Scene::Scene>&);
 
-            SceneRotate getSceneRotate() const;
+            std::shared_ptr<Core::IValueSubject<SceneRotate> > observeSceneRotate() const;
             void setSceneRotate(SceneRotate);
+
+            std::shared_ptr<Core::IValueSubject<CameraInfo> > observeCameraInfo() const;
+            void setCameraInfo(const CameraInfo&);
 
             void frameView();
 
-            size_t getPrimitivesCount() const;
-            size_t getTriangleCount() const;
+            std::shared_ptr<Core::IValueSubject<Core::BBox3f> > observeBBox() const;
+            std::shared_ptr<Core::IValueSubject<size_t> > observePrimitivesCount() const;
+            std::shared_ptr<Core::IValueSubject<size_t> > observeTriangleCount() const;
 
         protected:
             void _layoutEvent(Core::Event::Layout&) override;

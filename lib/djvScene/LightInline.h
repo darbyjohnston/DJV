@@ -57,6 +57,44 @@ namespace djv
             _intensity = value;
         }
 
+        inline HemisphereLight::HemisphereLight()
+        {}
+
+        inline const glm::vec3& HemisphereLight::getUp() const
+        {
+            return _up;
+        }
+
+        inline const AV::Image::Color& HemisphereLight::getTopColor() const
+        {
+            return _topColor;
+        }
+
+        inline const AV::Image::Color& HemisphereLight::getBottomColor() const
+        {
+            return _bottomColor;
+        }
+
+        inline void HemisphereLight::setUp(const glm::vec3& value)
+        {
+            _up = value;
+        }
+
+        inline void HemisphereLight::setTopColor(const AV::Image::Color& value)
+        {
+            _topColor = value;
+        }
+
+        inline void HemisphereLight::setBottomColor(const AV::Image::Color& value)
+        {
+            _bottomColor = value;
+        }
+
+        inline std::string HemisphereLight::getClassName() const
+        {
+            return "HemisphereLight";
+        }
+
         inline DirectionalLight::DirectionalLight()
         {}
 
@@ -70,8 +108,18 @@ namespace djv
             _direction = value;
         }
 
+        inline std::string DirectionalLight::getClassName() const
+        {
+            return "DirectionalLight";
+        }
+
         inline PointLight::PointLight()
         {}
+
+        inline std::string PointLight::getClassName() const
+        {
+            return "PointLight";
+        }
 
         inline SpotLight::SpotLight()
         {}
@@ -94,6 +142,11 @@ namespace djv
         inline void SpotLight::setDirection(const glm::vec3& value)
         {
             _direction = value;
+        }
+
+        inline std::string SpotLight::getClassName() const
+        {
+            return "SpotLight";
         }
 
     } // namespace Scene

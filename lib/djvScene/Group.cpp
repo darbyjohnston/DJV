@@ -44,6 +44,11 @@ namespace djv
             return out;
         }
 
+        std::string Group::getClassName() const
+        {
+            return "Group";
+        }
+
     } // namespace Scene
 } // namespace djv
 

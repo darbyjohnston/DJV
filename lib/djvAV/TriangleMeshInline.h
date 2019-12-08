@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2019 Darby Johnston
+// Copyright (c) 2004-2019 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,38 +27,47 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvScene/Light.h>
-
-using namespace djv::Core;
-
 namespace djv
 {
-    namespace Scene
+    namespace AV
     {
-        std::shared_ptr<HemisphereLight> HemisphereLight::create()
+        namespace Geom
         {
-            auto out = std::shared_ptr<HemisphereLight>(new HemisphereLight);
-            return out;
-        }
+            inline bool TriangleMesh::Vertex::operator == (const TriangleMesh::Vertex& other) const
+            {
+                return
+                    v == other.v &&
+                    t == other.t &&
+                    n == other.n;
+            }
 
-        std::shared_ptr<DirectionalLight> DirectionalLight::create()
-        {
-            auto out = std::shared_ptr<DirectionalLight>(new DirectionalLight);
-            return out;
-        }
+            inline bool TriangleMesh::Face::operator == (const TriangleMesh::Face& other) const
+            {
+                return v == other.v;
+            }
 
-        std::shared_ptr<PointLight> PointLight::create()
-        {
-            auto out = std::shared_ptr<PointLight>(new PointLight);
-            return out;
-        }
+            inline bool TriangleMesh::Triangle::operator == (const TriangleMesh::Triangle& other) const
+            {
+                return
+                    v0 == other.v0 &&
+                    v1 == other.v1 &&
+                    v2 == other.v2;
+            }
 
-        std::shared_ptr<SpotLight> SpotLight::create()
-        {
-            auto out = std::shared_ptr<SpotLight>(new SpotLight);
-            return out;
-        }
+            inline TriangleMesh::TriangleMesh() :
+                _uid(Core::createUID())
+            {}
 
-    } // namespace Scene
+            inline Core::UID TriangleMesh::getUID() const
+            {
+                return _uid;
+            }
+
+            inline const Core::BBox3f& TriangleMesh::getBBox() const
+            {
+                return _bbox;
+            }
+
+        } // namespace Geom
+    } // namespace AV
 } // namespace djv
-

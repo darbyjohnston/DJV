@@ -27,38 +27,33 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvScene/Light.h>
+#include "RenderTool.h"
 
-using namespace djv::Core;
+#include <djvUI/RowLayout.h>
 
-namespace djv
+using namespace djv;
+
+void RenderTool::_init(const std::shared_ptr<Core::Context>& context)
 {
-    namespace Scene
-    {
-        std::shared_ptr<HemisphereLight> HemisphereLight::create()
-        {
-            auto out = std::shared_ptr<HemisphereLight>(new HemisphereLight);
-            return out;
-        }
+    ITool::_init(context);
+    auto weak = std::weak_ptr<RenderTool>(std::dynamic_pointer_cast<RenderTool>(shared_from_this()));
+}
 
-        std::shared_ptr<DirectionalLight> DirectionalLight::create()
-        {
-            auto out = std::shared_ptr<DirectionalLight>(new DirectionalLight);
-            return out;
-        }
+RenderTool::RenderTool()
+{}
 
-        std::shared_ptr<PointLight> PointLight::create()
-        {
-            auto out = std::shared_ptr<PointLight>(new PointLight);
-            return out;
-        }
+RenderTool::~RenderTool()
+{}
 
-        std::shared_ptr<SpotLight> SpotLight::create()
-        {
-            auto out = std::shared_ptr<SpotLight>(new SpotLight);
-            return out;
-        }
+std::shared_ptr<RenderTool> RenderTool::create(const std::shared_ptr<Core::Context>& context)
+{
+    auto out = std::shared_ptr<RenderTool>(new RenderTool);
+    out->_init(context);
+    return out;
+}
 
-    } // namespace Scene
-} // namespace djv
+void RenderTool::_initEvent(Core::Event::Init&)
+{
+    setTitle(_getText(DJV_TEXT("Render")));
+}
 

@@ -119,8 +119,6 @@ namespace djv
                 ///@}
 
             private:
-                void _updateCurrentClipRect();
-
                 DJV_PRIVATE();
             };
 

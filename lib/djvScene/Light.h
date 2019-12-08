@@ -61,6 +61,31 @@ namespace djv
             float _intensity = 1.F;
         };
 
+        //! This class provides a hemisphere light.
+        class HemisphereLight : public ILight
+        {
+        protected:
+            HemisphereLight();
+
+        public:
+            static std::shared_ptr<HemisphereLight> create();
+
+            const glm::vec3& getUp() const;
+            const AV::Image::Color& getTopColor() const;
+            const AV::Image::Color& getBottomColor() const;
+
+            void setUp(const glm::vec3&);
+            void setTopColor(const AV::Image::Color&);
+            void setBottomColor(const AV::Image::Color&);
+
+            std::string getClassName() const override;
+
+        private:
+            glm::vec3 _up = glm::vec3(0.F, 1.F, 0.F);
+            AV::Image::Color _topColor = AV::Image::Color::RGB_F32(1.F, 1.F, 1.F);
+            AV::Image::Color _bottomColor = AV::Image::Color::RGB_F32(.4F, .4F, .8F);
+        };
+
         //! This class provides a directional light.
         class DirectionalLight : public ILight
         {
@@ -74,6 +99,8 @@ namespace djv
 
             void setDirection(const glm::vec3&);
 
+            std::string getClassName() const override;
+
         private:
             glm::vec3 _direction = glm::vec3(-1.F, -1.F, -1.F);
         };
@@ -86,6 +113,8 @@ namespace djv
 
         public:
             static std::shared_ptr<PointLight> create();
+
+            std::string getClassName() const override;
         };
 
         //! This class provides a spot light.
@@ -102,6 +131,8 @@ namespace djv
 
             void setConeAngle(float);
             void setDirection(const glm::vec3&);
+
+            std::string getClassName() const override;
 
         private:
             float _coneAngle = 90.F;

@@ -27,38 +27,50 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvScene/Light.h>
+#pragma once
 
-using namespace djv::Core;
+#include <djvUI/Label.h>
+#include <djvUI/MDIWidget.h>
+#include <djvUI/RowLayout.h>
+#include <djvUI/ToolButton.h>
 
-namespace djv
+class ITool : public djv::UI::MDI::IWidget
 {
-    namespace Scene
-    {
-        std::shared_ptr<HemisphereLight> HemisphereLight::create()
-        {
-            auto out = std::shared_ptr<HemisphereLight>(new HemisphereLight);
-            return out;
-        }
+    DJV_NON_COPYABLE(ITool);
 
-        std::shared_ptr<DirectionalLight> DirectionalLight::create()
-        {
-            auto out = std::shared_ptr<DirectionalLight>(new DirectionalLight);
-            return out;
-        }
+protected:
+    void _init(const std::shared_ptr<djv::Core::Context>&);
+    ITool();
 
-        std::shared_ptr<PointLight> PointLight::create()
-        {
-            auto out = std::shared_ptr<PointLight>(new PointLight);
-            return out;
-        }
+public:
+    virtual ~ITool();
 
-        std::shared_ptr<SpotLight> SpotLight::create()
-        {
-            auto out = std::shared_ptr<SpotLight>(new SpotLight);
-            return out;
-        }
+    const std::string& getTitle() const;
+    void setTitle(const std::string&);
 
-    } // namespace Scene
-} // namespace djv
+    void close();
+    void setCloseCallback(const std::function<void(void)>&);
 
+    float getHeightForWidth(float) const override;
+
+    void addChild(const std::shared_ptr<IObject>&) override;
+    void removeChild(const std::shared_ptr<IObject>&) override;
+    void clearChildren() override;
+
+protected:
+    std::map<djv::UI::MDI::Handle, std::vector<djv::Core::BBox2f> > _getHandles() const override;
+    void _setActiveWidget(bool) override;
+
+    void _preLayoutEvent(djv::Core::Event::PreLayout&) override;
+    void _layoutEvent(djv::Core::Event::Layout&) override;
+
+    void _initEvent(djv::Core::Event::Init&) override;
+
+private:
+    std::shared_ptr<djv::UI::Label> _titleLabel;
+    std::shared_ptr<djv::UI::ToolButton> _closeButton;
+    std::shared_ptr<djv::UI::HorizontalLayout> _titleBar;
+    std::shared_ptr<djv::UI::VerticalLayout> _childLayout;
+    std::shared_ptr<djv::UI::VerticalLayout> _layout;
+    std::function<void(void)> _closeCallback;
+};

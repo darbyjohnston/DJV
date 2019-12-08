@@ -72,9 +72,11 @@ namespace djv
             static std::shared_ptr<Scene> create();
 
             const std::vector<std::shared_ptr<IPrimitive> >& getPrimitives() const;
+            const std::vector<std::shared_ptr<IPrimitive> >& getDefinitions() const;
             const std::vector<std::shared_ptr<Layer> >& getLayers() const;
 
             void addPrimitive(const std::shared_ptr<IPrimitive>&);
+            void addDefinition(const std::shared_ptr<IPrimitive>&);
             void addLayer(const std::shared_ptr<Layer>&);
 
             SceneOrient getSceneOrient() const;
@@ -83,24 +85,29 @@ namespace djv
             const glm::mat4x4& getSceneXForm() const;
             void setSceneXForm(const glm::mat4x4&);
 
-            void processPrimitives();
-            const std::vector<std::shared_ptr<IPrimitive> >& getVisiblePrimitives() const;
-            const Core::BBox3f getBBox() const;
+            void bboxUpdate();
+            const Core::BBox3f& getBBox() const;
+            float getBBoxMax() const;
+
+            void print();
 
         private:
+            const glm::mat4x4& _getCurrentXForm() const;
             void _pushXForm(const glm::mat4x4&);
             void _popXForm();
-            void _processPrimitives(const std::shared_ptr<IPrimitive>&);
+            void _bboxUpdate(const std::shared_ptr<IPrimitive>&, const std::string& indent);
+
+            static void _print(const std::shared_ptr<IPrimitive>&, const std::string& indent);
 
             std::vector<std::shared_ptr<IPrimitive> > _primitives;
+            std::vector<std::shared_ptr<IPrimitive> > _definitions;
             std::vector<std::shared_ptr<Layer> > _layers;
             SceneOrient _orient = SceneOrient::YUp;
             glm::mat4x4 _xform = glm::mat4x4(1.F);
-            std::vector<std::shared_ptr<IPrimitive> > _visiblePrimitives;
             Core::BBox3f _bbox;
             bool _bboxInit = true;
             std::list<glm::mat4x4> _xforms;
-            glm::mat4x4 _currentXForm;
+            const glm::mat4x4 _identity = glm::mat4x4(1.F);
         };
 
     } // namespace Scene

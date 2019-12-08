@@ -96,18 +96,21 @@ namespace djv
                 std::vector<glm::vec3> n;
                 std::vector<Triangle> triangles;
 
+                void clear();
+
                 ///@}
 
                 //! \name Mesh Utilities
                 ///@{
 
-                void clear();
+                //! Get the bounding-box of the mesh.
+                const Core::BBox3f& getBBox() const;
+
+                //! Compute the bounding-box of the mesh.
+                void bboxUpdate();
 
                 //! Convert a face into triangles.
                 static void faceToTriangles(const Face &, std::vector<Triangle> &);
-
-                //! Get the bounding-box of the mesh.
-                static Core::BBox3f getBBox(const TriangleMesh &);
 
                 //! Calculate the mesh normals.
                 //! \todo Implement smoothing.
@@ -146,8 +149,11 @@ namespace djv
 
             private:
                 Core::UID _uid = 0;
+                Core::BBox3f _bbox;
             };
 
         } // namespace Geom
     } // namespace AV
 } // namespace djv
+
+#include <djvAV/TriangleMeshInline.h>

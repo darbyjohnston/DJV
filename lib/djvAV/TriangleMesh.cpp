@@ -39,36 +39,6 @@ namespace djv
     {
         namespace Geom
         {
-            TriangleMesh::TriangleMesh() :
-                _uid(createUID())
-            {}
-
-            UID TriangleMesh::getUID() const
-            {
-                return _uid;
-            }
-
-            bool TriangleMesh::Vertex::operator == (const TriangleMesh::Vertex & other) const
-            {
-                return
-                    v == other.v &&
-                    t == other.t &&
-                    n == other.n;
-            }
-
-            bool TriangleMesh::Face::operator == (const TriangleMesh::Face & other) const
-            {
-                return v == other.v;
-            }
-
-            bool TriangleMesh::Triangle::operator == (const TriangleMesh::Triangle & other) const
-            {
-                return
-                    v0 == other.v0 &&
-                    v1 == other.v1 &&
-                    v2 == other.v2;
-            }
-
             void TriangleMesh::clear()
             {
                 v.clear();
@@ -76,6 +46,19 @@ namespace djv
                 t.clear();
                 n.clear();
                 triangles.clear();
+            }
+
+            void TriangleMesh::bboxUpdate()
+            {
+                _bbox.zero();
+                if (v.size())
+                {
+                    _bbox = BBox3f(v[0]);
+                    for (const auto& i : v)
+                    {
+                        _bbox.expand(i);
+                    }
+                }
             }
 
             void TriangleMesh::faceToTriangles(const Face & face, std::vector<Triangle> & triangles)
@@ -95,21 +78,6 @@ namespace djv
                     t.v2.n = face.v[i + 1].n;
                     triangles.push_back(t);
                 }
-            }
-
-            BBox3f TriangleMesh::getBBox(const TriangleMesh & mesh)
-            {
-                BBox3f bbox;
-                bbox.zero();
-                if (mesh.v.size())
-                {
-                    bbox = BBox3f(mesh.v[0]);
-                    for (const auto & v : mesh.v)
-                    {
-                        bbox.expand(v);
-                    }
-                }
-                return bbox;
             }
 
             void TriangleMesh::calcNormals(TriangleMesh & mesh)

@@ -27,38 +27,46 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvScene/Light.h>
+#pragma once
 
-using namespace djv::Core;
+#include <djvDesktopApp/Application.h>
 
-namespace djv
+#include <djvScene/IO.h>
+#include <djvScene/Scene.h>
+
+#include <djvCore/Timer.h>
+
+class MainWindow;
+
+class Application : public djv::Desktop::Application
 {
-    namespace Scene
-    {
-        std::shared_ptr<HemisphereLight> HemisphereLight::create()
-        {
-            auto out = std::shared_ptr<HemisphereLight>(new HemisphereLight);
-            return out;
-        }
+    DJV_NON_COPYABLE(Application);
 
-        std::shared_ptr<DirectionalLight> DirectionalLight::create()
-        {
-            auto out = std::shared_ptr<DirectionalLight>(new DirectionalLight);
-            return out;
-        }
+protected:
+    void _init(const std::vector<std::string>&);
+    Application();
 
-        std::shared_ptr<PointLight> PointLight::create()
-        {
-            auto out = std::shared_ptr<PointLight>(new PointLight);
-            return out;
-        }
+public:
+    virtual ~Application();
 
-        std::shared_ptr<SpotLight> SpotLight::create()
-        {
-            auto out = std::shared_ptr<SpotLight>(new SpotLight);
-            return out;
-        }
+    static std::shared_ptr<Application> create(const std::vector<std::string>&);
 
-    } // namespace Scene
-} // namespace djv
+private:
+    void _open(const djv::Core::FileSystem::FileInfo&);
+    void _createPointLights(const std::shared_ptr<djv::Scene::IPrimitive>&);
+    void _close();
 
+    djv::Core::FileSystem::FileInfo _fileInfo;
+    std::shared_ptr<djv::Scene::Scene> _scene;
+    std::shared_ptr<djv::Scene::IO::IRead> _sceneRead;
+    std::future<std::shared_ptr<djv::Scene::Scene> > _sceneFuture;
+
+    std::shared_ptr<djv::Scene::Scene> _pointLightScene;
+    std::vector<std::shared_ptr<djv::Scene::IPrimitive> > _pointLightPrimitives;
+    std::shared_ptr<djv::Scene::IO::IRead> _pointLightSceneRead;
+    std::future<std::shared_ptr<djv::Scene::Scene> > _pointLightSceneFuture;
+
+    std::shared_ptr<djv::Core::Time::Timer> _futureTimer;
+
+    std::shared_ptr<MainWindow> _mainWindow;
+};

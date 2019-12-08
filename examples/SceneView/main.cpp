@@ -27,38 +27,27 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvScene/Light.h>
+#include "Application.h"
 
-using namespace djv::Core;
+#include <djvCore/Error.h>
 
-namespace djv
+using namespace djv;
+
+int main(int argc, char ** argv)
 {
-    namespace Scene
+    int r = 0;
+    try
     {
-        std::shared_ptr<HemisphereLight> HemisphereLight::create()
+        std::vector<std::string> args;
+        for (int i = 0; i < argc; ++i)
         {
-            auto out = std::shared_ptr<HemisphereLight>(new HemisphereLight);
-            return out;
+            args.push_back(argv[i]);
         }
-
-        std::shared_ptr<DirectionalLight> DirectionalLight::create()
-        {
-            auto out = std::shared_ptr<DirectionalLight>(new DirectionalLight);
-            return out;
-        }
-
-        std::shared_ptr<PointLight> PointLight::create()
-        {
-            auto out = std::shared_ptr<PointLight>(new PointLight);
-            return out;
-        }
-
-        std::shared_ptr<SpotLight> SpotLight::create()
-        {
-            auto out = std::shared_ptr<SpotLight>(new SpotLight);
-            return out;
-        }
-
-    } // namespace Scene
-} // namespace djv
-
+        r = Application::create(args)->run();
+    }
+    catch (const std::exception & e)
+    {
+        std::cout << Core::Error::format(e) << std::endl;
+    }
+    return r;
+}

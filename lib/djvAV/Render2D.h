@@ -265,7 +265,7 @@ namespace djv
                 //! \name Textures
                 ///@{
 
-                void drawTexture(const Core::BBox2f&, GLuint);
+                void drawTexture(const Core::BBox2f&, GLuint, GLenum = GL_TEXTURE_2D);
 
                 ///@}
 

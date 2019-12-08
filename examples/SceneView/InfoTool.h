@@ -27,38 +27,44 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvScene/Light.h>
+#pragma once
 
-using namespace djv::Core;
+#include "ITool.h"
 
-namespace djv
+#include <djvUI/Label.h>
+#include <djvUI/FormLayout.h>
+
+class InfoTool : public ITool
 {
-    namespace Scene
-    {
-        std::shared_ptr<HemisphereLight> HemisphereLight::create()
-        {
-            auto out = std::shared_ptr<HemisphereLight>(new HemisphereLight);
-            return out;
-        }
+    DJV_NON_COPYABLE(InfoTool);
 
-        std::shared_ptr<DirectionalLight> DirectionalLight::create()
-        {
-            auto out = std::shared_ptr<DirectionalLight>(new DirectionalLight);
-            return out;
-        }
+protected:
+    void _init(const std::shared_ptr<djv::Core::Context>&);
+    InfoTool();
 
-        std::shared_ptr<PointLight> PointLight::create()
-        {
-            auto out = std::shared_ptr<PointLight>(new PointLight);
-            return out;
-        }
+public:
+    virtual ~InfoTool();
 
-        std::shared_ptr<SpotLight> SpotLight::create()
-        {
-            auto out = std::shared_ptr<SpotLight>(new SpotLight);
-            return out;
-        }
+    static std::shared_ptr<InfoTool> create(const std::shared_ptr<djv::Core::Context>&);
 
-    } // namespace Scene
-} // namespace djv
+    void setBBox(const djv::Core::BBox3f&);
+    void setPrimitivesCount(size_t);
+    void setTriangleCount(size_t);
+    void setFPS(float);
 
+protected:
+    void _initEvent(djv::Core::Event::Init&) override;
+
+private:
+    void _textUpdate();
+
+    djv::Core::BBox3f _bbox = djv::Core::BBox3f(0.F, 0.F, 0.F, 0.F, 0.F, 0.F);
+    size_t _primitivesCount = 0;
+    size_t _triangleCount = 0;
+    float _fps = 0.F;
+    std::shared_ptr<djv::UI::Label> _bboxLabel;
+    std::shared_ptr<djv::UI::Label> _primitivesCountLabel;
+    std::shared_ptr<djv::UI::Label> _triangleCountLabel;
+    std::shared_ptr<djv::UI::Label> _fpsLabel;
+    std::shared_ptr<djv::UI::FormLayout> _formLayout;
+};

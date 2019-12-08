@@ -55,7 +55,8 @@ set(header
     Tags.h
     Targa.h
     ThumbnailSystem.h
-    TriangleMesh.h)
+    TriangleMesh.h
+    TriangleMeshInline.h)
 set(source
     AVSystem.cpp
     Audio.cpp

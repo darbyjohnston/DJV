@@ -62,19 +62,15 @@ namespace djv
             return _xform;
         }
 
-        inline const glm::mat4x4& IPrimitive::getXFormFinal() const
+        inline bool IPrimitive::isXFormIdentity() const
         {
-            return _xformFinal;
+            return _xformIdentity;
         }
 
         inline void IPrimitive::setXForm(const glm::mat4x4& value)
         {
             _xform = value;
-        }
-
-        inline void IPrimitive::setXFormFinal(const glm::mat4x4& value)
-        {
-            _xformFinal = value;
+            _xformIdentity = value == glm::mat4x4(1.F);
         }
 
         inline const std::vector<std::shared_ptr<AV::Geom::TriangleMesh> >& IPrimitive::getMeshes() const
@@ -125,8 +121,18 @@ namespace djv
         inline NullPrimitive::NullPrimitive()
         {}
 
+        inline std::string NullPrimitive::getClassName() const
+        {
+            return "NullPrimitive";
+        }
+
         inline InstancePrimitive::InstancePrimitive()
         {}
+
+        inline std::string InstancePrimitive::getClassName() const
+        {
+            return "InstancePrimitive";
+        }
 
         inline const std::vector<std::shared_ptr<IPrimitive> >& InstancePrimitive::getInstances() const
         {
@@ -150,6 +156,11 @@ namespace djv
 
         inline MeshPrimitive::MeshPrimitive()
         {}
+
+        inline std::string MeshPrimitive::getClassName() const
+        {
+            return "MeshPrimitive";
+        }
 
     } // namespace Scene
 } // namespace djv

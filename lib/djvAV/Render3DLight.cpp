@@ -37,6 +37,12 @@ namespace djv
     {
         namespace Render3D
         {
+            std::shared_ptr<HemisphereLight> HemisphereLight::create()
+            {
+                auto out = std::shared_ptr<HemisphereLight>(new HemisphereLight);
+                return out;
+            }
+
             std::shared_ptr<DirectionalLight> DirectionalLight::create()
             {
                 auto out = std::shared_ptr<DirectionalLight>(new DirectionalLight);

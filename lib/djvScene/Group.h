@@ -44,6 +44,8 @@ namespace djv
         public:
             static std::shared_ptr<Group> create();
 
+            std::string getClassName() const override;
+
         private:
             std::vector<std::shared_ptr<IPrimitive> > _primitives;
         };

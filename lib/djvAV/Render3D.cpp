@@ -165,6 +165,7 @@ namespace djv
 
                 glEnable(GL_SCISSOR_TEST);
                 glEnable(GL_DEPTH_TEST);
+                glEnable(GL_MULTISAMPLE);
                 glDisable(GL_BLEND);
 
                 glViewport(
@@ -190,6 +191,7 @@ namespace djv
                 auto vao = p.meshCache->getVAO();
                 vao->bind();
 
+                std::shared_ptr<HemisphereLight>                hemisphereLight;
                 std::vector<std::shared_ptr<DirectionalLight> > directionalLights;
                 std::vector<std::shared_ptr<PointLight> >       pointLights;
                 std::vector<std::shared_ptr<SpotLight> >        spotLights;
@@ -219,6 +221,7 @@ namespace djv
                 }
                 if (0 == directionalLights.size() && 0 == pointLights.size() && 0 == spotLights.size())
                 {
+                    hemisphereLight = HemisphereLight::create();
                     auto directionalLight = DirectionalLight::create();
                     directionalLights.push_back(directionalLight);
                 }
@@ -227,13 +230,22 @@ namespace djv
                 {
                     shaderIt.first->bind();
 
+                    if (hemisphereLight)
+                    {
+                        shaderIt.first->setUniform("hemisphereLight.intensity", hemisphereLight->getIntensity());
+                        shaderIt.first->setUniform("hemisphereLight.up", hemisphereLight->getUp());
+                        shaderIt.first->setUniformF("hemisphereLight.topColor", hemisphereLight->getTopColor());
+                        shaderIt.first->setUniformF("hemisphereLight.bottomColor", hemisphereLight->getBottomColor());
+                        shaderIt.first->setUniform("hemisphereLightEnabled", 1);
+                    }
+
                     size_t size = directionalLights.size();
                     for (size_t i = 0; i < size; ++i)
                     {
                         {
                             std::stringstream ss;
                             ss << "directionalLights[" << i << "].intensity";
-                            shaderIt.first->setUniform("directionalLights.intensity", directionalLights[i]->getIntensity());
+                            shaderIt.first->setUniform(ss.str(), directionalLights[i]->getIntensity());
                         }
                         {
                             std::stringstream ss;
@@ -249,7 +261,7 @@ namespace djv
                         {
                             std::stringstream ss;
                             ss << "pointLights[" << i << "].intensity";
-                            shaderIt.first->setUniform("pointLights.intensity", pointLights[i]->getIntensity());
+                            shaderIt.first->setUniform(ss.str(), pointLights[i]->getIntensity());
                         }
                         {
                             std::stringstream ss;
@@ -265,7 +277,7 @@ namespace djv
                         {
                             std::stringstream ss;
                             ss << "spotLights[" << i << "].intensity";
-                            shaderIt.first->setUniform("spotLights.intensity", spotLights[i]->getIntensity());
+                            shaderIt.first->setUniform(ss.str(), spotLights[i]->getIntensity());
                         }
                         {
                             std::stringstream ss;
@@ -327,8 +339,14 @@ namespace djv
             void Render::popTransform()
             {
                 DJV_PRIVATE_PTR();
-                p.transforms.pop_back();
-                p.inverseTransforms.pop_back();
+                if (p.transforms.size())
+                {
+                    p.transforms.pop_back();
+                }
+                if (p.inverseTransforms.size())
+                {
+                    p.inverseTransforms.pop_back();
+                }
             }
 
             void Render::setMaterial(const std::shared_ptr<IMaterial>& value)

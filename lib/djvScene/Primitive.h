@@ -55,6 +55,8 @@ namespace djv
         public:
             virtual ~IPrimitive() = 0;
 
+            virtual std::string getClassName() const = 0;
+
             const std::string& getName() const;
             void setName(const std::string&);
 
@@ -62,9 +64,8 @@ namespace djv
             void setVisible(bool);
 
             const glm::mat4x4& getXForm() const;
-            const glm::mat4x4& getXFormFinal() const;
+            bool isXFormIdentity() const;
             void setXForm(const glm::mat4x4&);
-            void setXFormFinal(const glm::mat4x4&);
 
             const std::vector<std::shared_ptr<AV::Geom::TriangleMesh> >& getMeshes() const;
             void addMesh(const std::shared_ptr<AV::Geom::TriangleMesh>&);
@@ -87,7 +88,7 @@ namespace djv
             std::string _name;
             bool _visible = true;
             glm::mat4x4 _xform = glm::mat4x4(1.F);
-            glm::mat4x4 _xformFinal = glm::mat4x4(1.F);
+            bool _xformIdentity = true;
             std::vector<std::shared_ptr<AV::Geom::TriangleMesh> > _meshes;
             MaterialAssignment _materialAssignment = MaterialAssignment::Primitive;
             std::shared_ptr<IMaterial> _material;
@@ -105,6 +106,8 @@ namespace djv
 
         public:
             static std::shared_ptr<NullPrimitive> create();
+
+            std::string getClassName() const override;
 
         private:
         };
@@ -124,6 +127,7 @@ namespace djv
             void setInstances(const std::vector<std::shared_ptr<IPrimitive> >&);
             void addInstance(const std::shared_ptr<IPrimitive>&);
 
+            std::string getClassName() const override;
             const std::vector<std::shared_ptr<IPrimitive> >& getPrimitives() const override;
 
         private:
@@ -140,6 +144,8 @@ namespace djv
 
         public:
             static std::shared_ptr<MeshPrimitive> create();
+
+            std::string getClassName() const override;
         };
 
     } // namespace Scene

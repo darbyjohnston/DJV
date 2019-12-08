@@ -150,11 +150,11 @@ namespace djv
                         throw OffscreenBufferError(getErrorMessage(Error::ColorTexture));
                     }
                     glBindTexture(target, _colorID);
+#if defined(DJV_OPENGL_ES2)
                     glTexParameteri(target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
                     glTexParameteri(target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
                     glTexParameteri(target, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                     glTexParameteri(target, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-#if defined(DJV_OPENGL_ES2)
                     glTexImage2D(
                         target,
                         0,
@@ -178,6 +178,10 @@ namespace djv
                             false);
                         break;
                     default:
+                        glTexParameteri(target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                        glTexParameteri(target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                        glTexParameteri(target, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                        glTexParameteri(target, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
                         glTexImage2D(
                             target,
                             0,
@@ -203,11 +207,11 @@ namespace djv
                         throw OffscreenBufferError(getErrorMessage(Error::DepthTexture));
                     }
                     glBindTexture(target, _depthID);
+#if defined(DJV_OPENGL_ES2)
                     glTexParameteri(target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
                     glTexParameteri(target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
                     glTexParameteri(target, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                     glTexParameteri(target, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-#if defined(DJV_OPENGL_ES2)
                     glTexImage2D(
                         target,
                         0,
@@ -231,6 +235,10 @@ namespace djv
                             false);
                         break;
                     default:
+                        glTexParameteri(target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                        glTexParameteri(target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                        glTexParameteri(target, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                        glTexParameteri(target, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
                         glTexImage2D(
                             target,
                             0,

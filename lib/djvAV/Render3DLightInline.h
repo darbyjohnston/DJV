@@ -39,25 +39,58 @@ namespace djv
             inline ILight::~ILight()
             {}
 
-            inline DirectionalLight::DirectionalLight()
-            {}
-
-            inline float DirectionalLight::getIntensity() const
+            inline float ILight::getIntensity() const
             {
                 return _intensity;
             }
+
+            inline void ILight::setIntensity(float value)
+            {
+                _intensity = value;
+            }
+
+            inline HemisphereLight::HemisphereLight()
+            {}
+
+            inline const glm::vec3& HemisphereLight::getUp() const
+            {
+                return _up;
+            }
+
+            inline const AV::Image::Color& HemisphereLight::getTopColor() const
+            {
+                return _topColor;
+            }
+
+            inline const AV::Image::Color& HemisphereLight::getBottomColor() const
+            {
+                return _bottomColor;
+            }
+
+            inline void HemisphereLight::setUp(const glm::vec3& value)
+            {
+                _up = value;
+            }
+
+            inline void HemisphereLight::setTopColor(const AV::Image::Color& value)
+            {
+                _topColor = value;
+            }
+
+            inline void HemisphereLight::setBottomColor(const AV::Image::Color& value)
+            {
+                _bottomColor = value;
+            }
+
+            inline DirectionalLight::DirectionalLight()
+            {}
 
             inline const glm::vec3& DirectionalLight::getDirection() const
             {
                 return _direction;
             }
 
-            inline void DirectionalLight::setIntensity(float value)
-            {
-                _intensity = value;
-            }
-
-            inline void DirectionalLight::setDirection(const glm::vec3 & value)
+            inline void DirectionalLight::setDirection(const glm::vec3& value)
             {
                 _direction = value;
             }
@@ -65,19 +98,9 @@ namespace djv
             inline PointLight::PointLight()
             {}
 
-            inline float PointLight::getIntensity() const
-            {
-                return _intensity;
-            }
-
             inline const glm::vec3& PointLight::getPosition() const
             {
                 return _position;
-            }
-
-            inline void PointLight::setIntensity(float value)
-            {
-                _intensity = value;
             }
 
             inline void PointLight::setPosition(const glm::vec3& value)
@@ -87,11 +110,6 @@ namespace djv
 
             inline SpotLight::SpotLight()
             {}
-
-            inline float SpotLight::getIntensity() const
-            {
-                return _intensity;
-            }
 
             inline float SpotLight::getConeAngle() const
             {
@@ -106,11 +124,6 @@ namespace djv
             inline const glm::vec3& SpotLight::getPosition() const
             {
                 return _position;
-            }
-
-            inline void SpotLight::setIntensity(float value)
-            {
-                _intensity = value;
             }
 
             inline void SpotLight::setConeAngle(float value)

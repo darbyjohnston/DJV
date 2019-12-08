@@ -32,6 +32,8 @@
 #include <djvScene/Camera.h>
 #include <djvScene/Primitive.h>
 
+#include <djvCore/Matrix.h>
+
 #include <glm/gtc/matrix_transform.hpp>
 
 using namespace djv::Core;
@@ -54,19 +56,21 @@ namespace djv
             _primitives.push_back(value);
         }
 
+        void Scene::addDefinition(const std::shared_ptr<IPrimitive>& value)
+        {
+            _definitions.push_back(value);
+        }
+
         void Scene::addLayer(const std::shared_ptr<Layer>& value)
         {
             _layers.push_back(value);
         }
 
-        void Scene::processPrimitives()
+        void Scene::bboxUpdate()
         {
-            _visiblePrimitives.clear();
             _bbox = BBox3f();
             _bboxInit = true;
             _xforms.clear();
-            _currentXForm = glm::mat4x4(1.F);
-
             glm::mat4x4 m(1.F);
             switch (_orient)
             {
@@ -81,12 +85,31 @@ namespace djv
             _pushXForm(m);
             for (const auto& i : _primitives)
             {
-                _processPrimitives(i);
+                _bboxUpdate(i, std::string());
             }
             _popXForm();
         }
 
-        void Scene::_processPrimitives(const std::shared_ptr<IPrimitive>& primitive)
+        float Scene::getBBoxMax() const
+        {
+            return std::max(_bbox.w(), std::max(_bbox.h(), _bbox.d()));
+        }
+
+        void Scene::print()
+        {
+            std::cout << "Primitives" << std::endl;
+            for (const auto& i : _primitives)
+            {
+                _print(i, "    ");
+            }
+            std::cout << "Definitions" << std::endl;
+            for (const auto& i : _definitions)
+            {
+                _print(i, "    ");
+            }
+        }
+
+        void Scene::_bboxUpdate(const std::shared_ptr<IPrimitive>& primitive, const std::string& indent)
         {
             if (bool visible = primitive->isVisible())
             {
@@ -106,28 +129,46 @@ namespace djv
                 if (visible)
                 {
                     _pushXForm(primitive->getXForm());
-                    primitive->setXFormFinal(_currentXForm);
-                    for (auto i : primitive->getMeshes())
+                    const glm::mat4x4& xform = _getCurrentXForm();
+                    const auto& meshes = primitive->getMeshes();
+                    if (meshes.size())
                     {
-                        BBox3f bbox = AV::Geom::TriangleMesh::getBBox(*i);
-                        bbox = bbox * _currentXForm;
-                        if (_bboxInit)
+                        for (auto i : primitive->getMeshes())
                         {
-                            _bboxInit = false;
-                            _bbox = bbox;
-                        }
-                        else
-                        {
-                            _bbox.expand(bbox);
+                            if (_bboxInit)
+                            {
+                                _bboxInit = false;
+                                _bbox = i->getBBox() * xform;
+                            }
+                            else
+                            {
+                                _bbox.expand(i->getBBox() * xform);
+                            }
                         }
                     }
-                    _visiblePrimitives.push_back(primitive);
                     for (const auto& i : primitive->getPrimitives())
                     {
-                        _processPrimitives(i);
+                        _bboxUpdate(i, indent + "    ");
                     }
                     _popXForm();
                 }
+            }
+        }
+
+        void Scene::_print(const std::shared_ptr<IPrimitive>& primitive, const std::string& indent)
+        {
+            std::cout << indent << primitive->getClassName() << ": " << primitive->getName() << std::endl;
+            if (!primitive->isXFormIdentity())
+            {
+                std::cout << indent << primitive->getXForm() << std::endl;
+            }
+            for (const auto& i : primitive->getMeshes())
+            {
+                std::cout << indent << "Mesh: " << i << std::endl;
+            }
+            for (const auto& i : primitive->getPrimitives())
+            {
+                _print(i, indent + "    ");
             }
         }
 

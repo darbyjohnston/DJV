@@ -58,6 +58,11 @@ namespace djv
             return out;
         }
 
+        inline std::string DefaultCamera::getClassName() const
+        {
+            return "DefaultCamera";
+        }
+
         inline PolarCamera::PolarCamera()
         {
             _update();
@@ -74,6 +79,11 @@ namespace djv
             return _fov;
         }
 
+        inline const Core::FloatRange& PolarCamera::getClip() const
+        {
+            return _clip;
+        }
+
         inline float PolarCamera::getDistance() const
         {
             return _distance;
@@ -87,6 +97,11 @@ namespace djv
         inline float PolarCamera::getLongitude() const
         {
             return _longitude;
+        }
+
+        inline std::string PolarCamera::getClassName() const
+        {
+            return "PolarCamera";
         }
 
     } // namespace Scene

@@ -29,6 +29,14 @@
 
 #version 410
 
+struct HemisphereLight
+{
+    float intensity;
+    vec3 up;
+    vec3 topColor;
+    vec3 bottomColor;
+};
+
 struct DirectionalLight
 {
     float intensity;
@@ -49,22 +57,28 @@ struct SpotLight
     vec3  position;
 };
 
+vec3 getHemisphereLight(HemisphereLight light, vec3 normal)
+{
+    float w = 0.5 * (1.0 + dot(light.up, normal));
+    return light.intensity * ((w * light.topColor) + ((1.0 - w) * light.bottomColor));
+}
+
 vec3 getDirectionalLight(DirectionalLight light, vec3 normal)
 {
-    float ln = dot(-light.direction, normal);
-    return vec3(ln, ln, ln);
+    float ln = max(dot(-light.direction, normal), 0.0);
+    return light.intensity * vec3(ln, ln, ln);
 } 
 
 vec3 getPointLight(PointLight light, vec3 position, vec3 normal)
 {
-    float ln = dot(normalize(position - light.position), normal);
-    return vec3(ln, ln, ln);
+    float ln = max(dot(normalize(position - light.position), normal), 0.0);
+    return light.intensity * vec3(ln, ln, ln);
 } 
 
 vec3 getSpotLight(SpotLight light, vec3 position, vec3 normal)
 {
-    return vec3(0.0, 0.0, 0.0);
-} 
+    return light.intensity * vec3(0.0, 0.0, 0.0);
+}
 
 struct DefaultMaterial
 {
@@ -83,6 +97,8 @@ layout(location = 1) in vec2 Texture;
 layout(location = 2) in vec3 Normal;
 layout(location = 0) out vec4 FragColor;
 
+uniform HemisphereLight  hemisphereLight;
+uniform int              hemisphereLightEnabled = 0;
 uniform DirectionalLight directionalLights[16];
 uniform int              directionalLightsCount = 0;
 uniform PointLight       pointLights[16];
@@ -98,6 +114,13 @@ void main()
     //FragColor.b = Normal.z;
     //FragColor.a = 1.0;
     FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+    if (hemisphereLightEnabled != 0)
+    {
+        vec3 light = getHemisphereLight(hemisphereLight, Normal);
+        FragColor.r += defaultMaterial.diffuse.r * light.r;
+        FragColor.g += defaultMaterial.diffuse.g * light.g;
+        FragColor.b += defaultMaterial.diffuse.b * light.b;
+    }
     for (int i = 0; i < directionalLightsCount; ++i)
     {
         vec3 light = getDirectionalLight(directionalLights[i], Normal);

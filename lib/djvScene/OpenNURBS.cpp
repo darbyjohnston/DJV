@@ -57,17 +57,17 @@ namespace djv
                     AV::Image::Color fromONColor3(const ON_Color& value)
                     {
                         return AV::Image::Color::RGB_F32(
-                            value.Red() / 255.f,
+                            value.Red  () / 255.f,
                             value.Green() / 255.f,
-                            value.Blue() / 255.f);
+                            value.Blue () / 255.f);
                     }
 
                     AV::Image::Color fromONColor4(const ON_Color& value)
                     {
                         return AV::Image::Color(
-                            value.Red() / 255.f,
+                            value.Red  () / 255.f,
                             value.Green() / 255.f,
-                            value.Blue() / 255.f,
+                            value.Blue () / 255.f,
                             (255 - value.Alpha()) / 255.f);
                     }
 
@@ -88,24 +88,11 @@ namespace djv
 
                     glm::mat4x4 fromON(const ON_Xform& value)
                     {
-                        glm::mat4x4 m;
-                        m[0][0] = value.m_xform[0][0];
-                        m[0][1] = value.m_xform[0][1];
-                        m[0][2] = value.m_xform[0][2];
-                        m[0][3] = value.m_xform[0][3];
-                        m[1][0] = value.m_xform[1][0];
-                        m[1][1] = value.m_xform[1][1];
-                        m[1][2] = value.m_xform[1][2];
-                        m[1][3] = value.m_xform[1][3];
-                        m[2][0] = value.m_xform[2][0];
-                        m[2][1] = value.m_xform[2][1];
-                        m[2][2] = value.m_xform[2][2];
-                        m[2][3] = value.m_xform[2][3];
-                        m[3][0] = value.m_xform[3][0];
-                        m[3][1] = value.m_xform[3][1];
-                        m[3][2] = value.m_xform[3][2];
-                        m[3][3] = value.m_xform[3][3];
-                        return m;
+                        return glm::mat4x4(
+                            value.m_xform[0][0], value.m_xform[1][0], value.m_xform[2][0], value.m_xform[3][0],
+                            value.m_xform[0][1], value.m_xform[1][1], value.m_xform[2][1], value.m_xform[3][1],
+                            value.m_xform[0][2], value.m_xform[1][2], value.m_xform[2][2], value.m_xform[3][2],
+                            value.m_xform[0][3], value.m_xform[1][3], value.m_xform[2][3], value.m_xform[3][3]);
                     }
 
                     std::shared_ptr<AV::Geom::TriangleMesh> readMesh(const ON_Mesh* onMesh)
@@ -182,148 +169,165 @@ namespace djv
                                 out->triangles.push_back(a);
                             }
                         }
+
+                        out->bboxUpdate();
                         return out;
                     }
 
-                    glm::mat4x4 toGlm(const ON_Xform& value)
+                    struct ReadData
                     {
-                        auto out = glm::mat4x4(
-                            value.m_xform[0][0], value.m_xform[1][0], value.m_xform[2][0], value.m_xform[3][0],
-                            value.m_xform[0][1], value.m_xform[1][1], value.m_xform[2][1], value.m_xform[3][1],
-                            value.m_xform[0][2], value.m_xform[1][2], value.m_xform[2][2], value.m_xform[3][2],
-                            value.m_xform[0][3], value.m_xform[1][3], value.m_xform[2][3], value.m_xform[3][3]);
-                        return out;
-                    }
+                        std::shared_ptr<Scene> scene;
+                        std::map<const ON_Layer*, std::shared_ptr<Layer> > onLayerToLayer;
+                        std::map<const ON_Material*, std::shared_ptr<IMaterial> > onMaterialToMaterial;
+                        std::shared_ptr<IMaterial> defaultMaterial;
+                        std::map<const ON_InstanceDefinition*, std::shared_ptr<IPrimitive> > onInstanceDefToInstance;
+                        std::map<std::shared_ptr<InstancePrimitive>, const ON_InstanceDefinition* > instanceToOnInstanceDef;
+                        std::map<const ON_Mesh*, std::shared_ptr<AV::Geom::TriangleMesh> > onMeshToMesh;
+                    };
 
-                    /*void createInstances(
+                    std::shared_ptr<IPrimitive> readGeometryComponent(
                         const ONX_Model& onModel,
-                        const ON_ModelGeometryComponent* onInstanceComponent,
-                        std::map<const ON_Mesh*, std::shared_ptr<AV::Geom::TriangleMesh> >& onMeshToMesh,
-                        std::map<const ON_Layer*, std::shared_ptr<Layer> >& onLayerToLayer,
-                        std::map<const ON_Material*, std::shared_ptr<Material> >& onMaterialToMaterial,
-                        const std::shared_ptr<AV::OpenGL::Shader>& shader,
-                        const std::shared_ptr<Entity>& parent,
-                        const std::shared_ptr<Context>& context)
+                        const ON_ModelGeometryComponent* onModelGeometryComponent,
+                        ReadData& data)
                     {
-                        if (auto onInstanceRef = ON_InstanceRef::Cast(onInstanceComponent->Geometry(nullptr)))
+                        std::shared_ptr<IPrimitive> out;
+                        if (auto attr = onModelGeometryComponent->Attributes(nullptr))
                         {
-                            auto onModelComponentRef = onModel.ComponentFromId(ON_ModelComponent::Type::InstanceDefinition, onInstanceRef->m_instance_definition_uuid);
-                            if (auto onInstanceDef = ON_InstanceDefinition::Cast(onModelComponentRef.ModelComponent()))
+                            // Get the layer.
+                            std::shared_ptr<Layer> layer;
+                            auto onModelComponentRef = onModel.ComponentFromIndex(ON_ModelComponent::Type::Layer, attr->m_layer_index);
+                            if (!onModelComponentRef.IsEmpty())
                             {
-                                auto entity = Entity::create(context);
-                                ON_wString name;
-                                entity->setName(std::string(ON_String(onInstanceDef->GetName(name))));
-                                const Pose& pose = Pose::fromGlm(toGlm(onInstanceRef->m_xform));
-                                entity->setPose(pose);
-                                entity->setParent(parent);
-
-                                if (auto attr = onInstanceComponent->Attributes(nullptr))
+                                if (auto onLayer = ON_Layer::Cast(onModelComponentRef.ModelComponent()))
                                 {
-                                    std::shared_ptr<Layer> layer;
-                                    auto onModelComponentRef = onModel.ComponentFromIndex(ON_ModelComponent::Type::Layer, attr->m_layer_index);
-                                    if (!onModelComponentRef.IsEmpty())
+                                    const auto i = data.onLayerToLayer.find(onLayer);
+                                    if (i != data.onLayerToLayer.end())
                                     {
-                                        if (auto onLayer = ON_Layer::Cast(onModelComponentRef.ModelComponent()))
-                                        {
-                                            entity->setLayer(onLayerToLayer[onLayer]);
-                                        }
-                                    }
-                                }
-
-                                const auto& onGeometryIdList = onInstanceDef->InstanceGeometryIdList();
-                                for (int i = 0; i < onGeometryIdList.Count(); ++i)
-                                {
-                                    auto onGeometryRef = onModel.ComponentFromId(ON_ModelComponent::Type::ModelGeometry, onGeometryIdList[i]);
-                                    if (auto onModelGeometryComponent = ON_ModelGeometryComponent::Cast(onGeometryRef.ModelComponent()))
-                                    {
-                                        if (auto attr = onModelGeometryComponent->Attributes(nullptr))
-                                        {
-                                            std::shared_ptr<Layer> layer;
-                                            auto onModelComponentRef = onModel.ComponentFromIndex(ON_ModelComponent::Type::Layer, attr->m_layer_index);
-                                            if (!onModelComponentRef.IsEmpty())
-                                            {
-                                                if (auto onLayer = ON_Layer::Cast(onModelComponentRef.ModelComponent()))
-                                                {
-                                                    layer = onLayerToLayer[onLayer];
-                                                }
-                                            }
-
-                                            std::shared_ptr<Material> material;
-                                            {
-                                                auto onModelComponentRef = onModel.RenderMaterialFromIndex(attr->m_material_index);
-                                                if (auto onMaterial = ON_Material::Cast(onModelComponentRef.ModelComponent()))
-                                                {
-                                                    const auto i = onMaterialToMaterial.find(onMaterial);
-                                                    if (i != onMaterialToMaterial.end())
-                                                    {
-                                                        material = i->second;
-                                                    }
-                                                    else
-                                                    {
-                                                        material = Material::create(context);
-                                                        material->setShader(shader);
-                                                        material->setColor(fromONColor3(onMaterial->Diffuse()));
-                                                    }
-                                                }
-                                            }
-
-                                            if (auto onSubInstance = ON_InstanceRef::Cast(onModelGeometryComponent->Geometry(nullptr)))
-                                            {
-                                                createInstances(onModel, onModelGeometryComponent, onMeshToMesh, onLayerToLayer, onMaterialToMaterial, shader, entity, context);
-                                            }
-                                            else if (auto onMesh = ON_Mesh::Cast(onModelGeometryComponent->Geometry(nullptr)))
-                                            {
-                                                const auto j = onMeshToMesh.find(onMesh);
-                                                if (j != onMeshToMesh.end())
-                                                {
-                                                    auto meshInstanceComponent = MeshComponent::create(context);
-                                                    meshInstanceComponent->setMesh(j->second);
-                                                    meshInstanceComponent->setMaterial(material);
-                                                    meshInstanceComponent->setLayer(layer);
-                                                    meshInstanceComponent->setParent(entity);
-                                                }
-                                            }
-                                            else if (auto onBrep = ON_Brep::Cast(onModelGeometryComponent->Geometry(nullptr)))
-                                            {
-                                                ON_SimpleArray<const ON_Mesh*> onMeshes(onBrep->m_F.Count());
-                                                const int onMeshCount = onBrep->GetMesh(ON::render_mesh, onMeshes);
-                                                for (int j = 0; j < onMeshCount; ++j)
-                                                {
-                                                    const auto k = onMeshToMesh.find(onMeshes[j]);
-                                                    if (k != onMeshToMesh.end())
-                                                    {
-                                                        auto meshInstanceComponent = MeshComponent::create(context);
-                                                        meshInstanceComponent->setMesh(k->second);
-                                                        meshInstanceComponent->setMaterial(material);
-                                                        meshInstanceComponent->setLayer(layer);
-                                                        meshInstanceComponent->setParent(entity);
-                                                    }
-                                                }
-                                            }
-                                            else if (auto onExtrusion = ON_Extrusion::Cast(onModelGeometryComponent->Geometry(nullptr)))
-                                            {
-                                                if (auto onMesh = onExtrusion->m_mesh_cache.Mesh(ON::render_mesh))
-                                                {
-                                                    const auto j = onMeshToMesh.find(onMesh);
-                                                    if (j != onMeshToMesh.end())
-                                                    {
-                                                        auto meshInstanceComponent = MeshComponent::create(context);
-                                                        meshInstanceComponent->setMesh(j->second);
-                                                        meshInstanceComponent->setMaterial(material);
-                                                        meshInstanceComponent->setLayer(layer);
-                                                        meshInstanceComponent->setParent(entity);
-                                                    }
-                                                }
-                                            }
-                                        }
+                                        layer = i->second;
                                     }
                                 }
                             }
-                        }
-                    }*/
 
-                    void read(const std::string& fileName, const std::shared_ptr<Scene>& scene)
+                            // Get the material.
+                            std::shared_ptr<IMaterial> material;
+                            {
+                                auto onModelComponentRef = onModel.RenderMaterialFromIndex(attr->m_material_index);
+                                if (auto onMaterial = ON_Material::Cast(onModelComponentRef.ModelComponent()))
+                                {
+                                    const auto i = data.onMaterialToMaterial.find(onMaterial);
+                                    if (i != data.onMaterialToMaterial.end())
+                                    {
+                                        material = i->second;
+                                    }
+                                }
+                            }
+
+                            // Read the primitive.
+                            std::string name = ON_String(attr->Name());
+                            if (auto onCurve = ON_Curve::Cast(onModelGeometryComponent->Geometry(nullptr)))
+                            {
+                            }
+                            else if (auto onMesh = ON_Mesh::Cast(onModelGeometryComponent->Geometry(nullptr)))
+                            {
+                                std::shared_ptr<AV::Geom::TriangleMesh> mesh;
+                                const auto i = data.onMeshToMesh.find(onMesh);
+                                if (i != data.onMeshToMesh.end())
+                                {
+                                    mesh = i->second;
+                                }
+                                else
+                                {
+                                    mesh = readMesh(onMesh);
+                                    data.onMeshToMesh[onMesh] = mesh;
+                                }
+                                auto meshPrimitive = MeshPrimitive::create();
+                                meshPrimitive->addMesh(mesh);
+                                out = meshPrimitive;
+                            }
+                            else if (auto onBrep = ON_Brep::Cast(onModelGeometryComponent->Geometry(nullptr)))
+                            {
+                                ON_SimpleArray<const ON_Mesh*> onMeshes(onBrep->m_F.Count());
+                                auto meshPrimitive = MeshPrimitive::create();
+                                out = meshPrimitive;
+                                const int onMeshCount = onBrep->GetMesh(ON::render_mesh, onMeshes);
+                                for (int i = 0; i < onMeshCount; ++i)
+                                {
+                                    std::shared_ptr<AV::Geom::TriangleMesh> mesh;
+                                    const auto j = data.onMeshToMesh.find(onMeshes[i]);
+                                    if (j != data.onMeshToMesh.end())
+                                    {
+                                        mesh = j->second;
+                                    }
+                                    else
+                                    {
+                                        mesh = readMesh(onMeshes[i]);
+                                        data.onMeshToMesh[onMeshes[i]] = mesh;
+                                    }
+                                    meshPrimitive->addMesh(mesh);
+                                }
+                            }
+                            else if (auto onExtrusion = ON_Extrusion::Cast(onModelGeometryComponent->Geometry(nullptr)))
+                            {
+                                if (auto onMesh = onExtrusion->Mesh(ON::render_mesh))
+                                {
+                                    std::shared_ptr<AV::Geom::TriangleMesh> mesh;
+                                    const auto i = data.onMeshToMesh.find(onMesh);
+                                    if (i != data.onMeshToMesh.end())
+                                    {
+                                        mesh = i->second;
+                                    }
+                                    else
+                                    {
+                                        mesh = readMesh(onMesh);
+                                        data.onMeshToMesh[onMesh] = mesh;
+                                    }
+                                    auto meshPrimitive = MeshPrimitive::create();
+                                    meshPrimitive->addMesh(mesh);
+                                    out = meshPrimitive;
+                                }
+                            }
+                            else if (auto onInstanceRef = ON_InstanceRef::Cast(onModelGeometryComponent->Geometry(nullptr)))
+                            {
+                                auto onModelComponentRef = onModel.ComponentFromId(ON_ModelComponent::Type::InstanceDefinition, onInstanceRef->m_instance_definition_uuid);
+                                if (auto onInstanceDef = ON_InstanceDefinition::Cast(onModelComponentRef.ModelComponent()))
+                                {
+                                    auto instancePrimitive = InstancePrimitive::create();
+                                    instancePrimitive->setXForm(fromON(onInstanceRef->m_xform));
+                                    data.instanceToOnInstanceDef[instancePrimitive] = onInstanceDef;
+                                    out = instancePrimitive;
+                                    /*const auto i = data.onInstanceDefToInstance.find(onInstanceDef);
+                                    if (i != data.onInstanceDefToInstance.end())
+                                    {
+                                        auto instancePrimitive = InstancePrimitive::create();
+                                        if (name.empty())
+                                        {
+                                            std::stringstream ss;
+                                            ss << i->second->getName() << " Instance";
+                                            name = ss.str();
+                                        }
+                                        instancePrimitive->setXForm(fromON(onInstanceRef->m_xform));
+                                        instancePrimitive->addInstance(i->second);
+                                        out = instancePrimitive;
+                                    }*/
+                                }
+                            }
+                            if (out)
+                            {
+                                out->setName(name);
+                                out->setVisible(attr->IsVisible());
+                                out->setMaterial(material ? material : data.defaultMaterial);
+                                if (layer)
+                                {
+                                    layer->addItem(out);
+                                }
+                            }
+                        }
+                        return out;
+                    }
+
+                    void read(const std::string& fileName, ReadData& data, const std::shared_ptr<IPrimitive>& parent = nullptr)
                     {
+                        // Open the file.
                         ONX_Model onModel;
                         if (FILE * f = ON::OpenFile(String::toWide(fileName).c_str(), L"rb"))
                         {
@@ -339,7 +343,7 @@ namespace djv
                             ON::CloseFile(f);
                         }
 
-                        std::map<const ON_Layer*, std::shared_ptr<Layer> > onLayerToLayer;
+                        // Read the layers.
                         ONX_ModelComponentIterator layerIt(onModel, ON_ModelComponent::Type::Layer);
                         for (auto onModelComponent = layerIt.FirstComponent(); onModelComponent; onModelComponent = layerIt.NextComponent())
                         {
@@ -350,32 +354,84 @@ namespace djv
                                 layer->setName(std::string(ON_String(onLayer->GetName(onName))));
                                 layer->setVisible(onLayer->IsVisible());
                                 layer->setColor(fromONColor4(onLayer->m_color));
-                                onLayerToLayer[onLayer] = layer;
-                            }
-                        }
-                        for (const auto i : onLayerToLayer)
-                        {
-                            if (i.first->ParentIdIsNotNil())
-                            {
-                                auto onModelComponentRef = onModel.ComponentFromId(ON_ModelComponent::Type::Layer, i.first->ParentId());
-                                if (!onModelComponentRef.IsEmpty())
+                                data.onLayerToLayer[onLayer] = layer;
+                                if (onLayer->ParentIdIsNotNil())
                                 {
-                                    if (auto onParentLayer = ON_Layer::Cast(onModelComponentRef.ModelComponent()))
+                                    auto onModelComponentRef = onModel.ComponentFromId(ON_ModelComponent::Type::Layer, onLayer->ParentId());
+                                    if (!onModelComponentRef.IsEmpty())
                                     {
-                                        onLayerToLayer[onParentLayer]->addItem(onLayerToLayer[i.first]);
+                                        if (auto onParentLayer = ON_Layer::Cast(onModelComponentRef.ModelComponent()))
+                                        {
+                                            data.onLayerToLayer[onParentLayer]->addItem(data.onLayerToLayer[onLayer]);
+                                        }
                                     }
                                 }
-                            }
-                            else
-                            {
-                                scene->addLayer(onLayerToLayer[i.first]);
+                                else
+                                {
+                                    data.scene->addLayer(data.onLayerToLayer[onLayer]);
+                                }
                             }
                         }
 
-                        auto defaultMaterial = DefaultMaterial::create();
+                        // Read the materials.
+                        ONX_ModelComponentIterator materialIt(onModel, ON_ModelComponent::Type::RenderMaterial);
+                        for (auto onModelComponent = materialIt.FirstComponent(); onModelComponent; onModelComponent = materialIt.NextComponent())
+                        {
+                            if (auto onMaterial = ON_Material::Cast(onModelComponent))
+                            {
+                                auto material = DefaultMaterial::create();
+                                material->setAmbient(fromONColor3(onMaterial->Ambient()));
+                                material->setDiffuse(fromONColor3(onMaterial->Diffuse()));
+                                material->setSpecular(fromONColor3(onMaterial->Specular()));
+                                material->setShine(onMaterial->Shine() / 255.F);
+                                material->setTransparency(onMaterial->Transparency());
+                                material->setReflectivity(onMaterial->Reflectivity());
+                                material->setDisableLighting(onMaterial->DisableLighting());
+                                data.onMaterialToMaterial[onMaterial] = material;
+                            }
+                        }
 
-                        std::map<const ON_Mesh*, std::shared_ptr<AV::Geom::TriangleMesh> > onMeshToMesh;
-                        std::map<const ON_Material*, std::shared_ptr<IMaterial> > onMaterialToMaterial;
+                        // Create a default material.
+                        if (!data.defaultMaterial)
+                        {
+                            data.defaultMaterial = DefaultMaterial::create();
+                        }
+
+                        // Read the instance definitions.
+                        ONX_ModelComponentIterator instanceDefIt(onModel, ON_ModelComponent::Type::InstanceDefinition);
+                        for (auto onModelComponent = instanceDefIt.FirstComponent(); onModelComponent; onModelComponent = instanceDefIt.NextComponent())
+                        {
+                            if (auto onInstanceDef = ON_InstanceDefinition::Cast(onModelComponent))
+                            {
+                                auto primitive = NullPrimitive::create();
+                                primitive->setName(std::string(ON_String(onInstanceDef->Name())));
+                                const auto& onGeometryIdList = onInstanceDef->InstanceGeometryIdList();
+                                for (int i = 0; i < onGeometryIdList.Count(); ++i)
+                                {
+                                    auto onGeometryRef = onModel.ComponentFromId(ON_ModelComponent::Type::ModelGeometry, onGeometryIdList[i]);
+                                    if (auto onModelGeometryComponent = ON_ModelGeometryComponent::Cast(onGeometryRef.ModelComponent()))
+                                    {
+                                        if (auto child = readGeometryComponent(onModel, onModelGeometryComponent, data))
+                                        {
+                                            primitive->addChild(child);
+                                        }
+                                    }
+                                }
+                                if (ON_InstanceDefinition::IDEF_UPDATE_TYPE::Linked == onInstanceDef->InstanceDefinitionType())
+                                {
+                                    //const std::string& fileName = std::string(ON_String(onInstanceDef->LinkedFilePath()));
+                                    const std::string& fileName = std::string(ON_String(onInstanceDef->LinkedFileReference().FullPath()));
+                                    //primitive->setName(fileName);
+                                    ReadData data2;
+                                    data2.scene = data.scene;
+                                    read(fileName, data2, primitive);
+                                }
+                                data.onInstanceDefToInstance[onInstanceDef] = primitive;
+                                data.scene->addDefinition(primitive);
+                            }
+                        }
+
+                        // Read the primitives.
                         ONX_ModelComponentIterator geometryIt(onModel, ON_ModelComponent::Type::ModelGeometry);
                         for (auto onModelComponent = geometryIt.FirstComponent(); onModelComponent; onModelComponent = geometryIt.NextComponent())
                         {
@@ -383,105 +439,25 @@ namespace djv
                             {
                                 if (auto attr = onModelGeometryComponent->Attributes(nullptr))
                                 {
-                                    std::shared_ptr<Layer> layer;
-                                    auto onModelComponentRef = onModel.ComponentFromIndex(ON_ModelComponent::Type::Layer, attr->m_layer_index);
-                                    if (!onModelComponentRef.IsEmpty())
+                                    if (attr->Mode() != ON::idef_object)
                                     {
-                                        if (auto onLayer = ON_Layer::Cast(onModelComponentRef.ModelComponent()))
+                                        if (auto primitive = readGeometryComponent(onModel, onModelGeometryComponent, data))
                                         {
-                                            layer = onLayerToLayer[onLayer];
-                                        }
-                                    }
-
-                                    std::shared_ptr<IMaterial> material;
-                                    {
-                                        auto onModelComponentRef = onModel.RenderMaterialFromIndex(attr->m_material_index);
-                                        if (auto onMaterial = ON_Material::Cast(onModelComponentRef.ModelComponent()))
-                                        {
-                                            const auto i = onMaterialToMaterial.find(onMaterial);
-                                            if (i != onMaterialToMaterial.end())
+                                            if (parent)
                                             {
-                                                material = i->second;
+                                                parent->addChild(primitive);
                                             }
                                             else
                                             {
-                                                auto newMaterial = DefaultMaterial::create();
-                                                newMaterial->setAmbient(fromONColor3(onMaterial->Ambient()));
-                                                newMaterial->setDiffuse(fromONColor3(onMaterial->Diffuse()));
-                                                newMaterial->setSpecular(fromONColor3(onMaterial->Specular()));
-                                                newMaterial->setShine(onMaterial->Shine() / 255.F);
-                                                newMaterial->setTransparency(onMaterial->Transparency());
-                                                newMaterial->setReflectivity(onMaterial->Reflectivity());
-                                                newMaterial->setDisableLighting(onMaterial->DisableLighting());
-                                                material = newMaterial;
+                                                data.scene->addPrimitive(primitive);
                                             }
                                         }
-                                    }
-
-                                    std::shared_ptr<IPrimitive> primitive;
-                                    if (auto onCurve = ON_Curve::Cast(onModelGeometryComponent->Geometry(nullptr)))
-                                    {
-                                    }
-                                    else if (auto onMesh = ON_Mesh::Cast(onModelGeometryComponent->Geometry(nullptr)))
-                                    {
-                                        auto mesh = readMesh(onMesh);
-                                        onMeshToMesh[onMesh] = mesh;
-                                        if (attr->Mode() != ON::idef_object)
-                                        {
-                                            auto meshPrimitive = MeshPrimitive::create();
-                                            meshPrimitive->addMesh(mesh);
-                                            primitive = meshPrimitive;
-                                        }
-                                    }
-                                    else if (auto onBrep = ON_Brep::Cast(onModelGeometryComponent->Geometry(nullptr)))
-                                    {
-                                        ON_SimpleArray<const ON_Mesh*> onMeshes(onBrep->m_F.Count());
-                                        std::shared_ptr<MeshPrimitive> meshPrimitive;
-                                        if (attr->Mode() != ON::idef_object)
-                                        {
-                                            meshPrimitive = MeshPrimitive::create();
-                                            primitive = meshPrimitive;
-                                        }
-                                        const int onMeshCount = onBrep->GetMesh(ON::render_mesh, onMeshes);
-                                        for (int i = 0; i < onMeshCount; ++i)
-                                        {
-                                            auto mesh = readMesh(onMeshes[i]);
-                                            onMeshToMesh[onMeshes[i]] = mesh;
-                                            if (meshPrimitive)
-                                            {
-                                                meshPrimitive->addMesh(mesh);
-                                            }
-                                        }
-                                    }
-                                    else if (auto onExtrusion = ON_Extrusion::Cast(onModelGeometryComponent->Geometry(nullptr)))
-                                    {
-                                        if (auto onMesh = onExtrusion->m_mesh_cache.Mesh(ON::render_mesh))
-                                        {
-                                            auto mesh = readMesh(onMesh);
-                                            onMeshToMesh[onMesh] = mesh;
-                                            if (attr->Mode() != ON::idef_object)
-                                            {
-                                                auto meshPrimitive = MeshPrimitive::create();
-                                                meshPrimitive->addMesh(mesh);
-                                                primitive = meshPrimitive;
-                                            }
-                                        }
-                                    }
-                                    if (primitive)
-                                    {
-                                        primitive->setName(std::string(ON_String(attr->Name())));
-                                        primitive->setVisible(attr->IsVisible());
-                                        primitive->setMaterial(material ? material : defaultMaterial);
-                                        if (layer)
-                                        {
-                                            layer->addItem(primitive);
-                                        }
-                                        scene->addPrimitive(primitive);
                                     }
                                 }
                             }
                         }
 
+                        // Read the lights.
                         geometryIt = ONX_ModelComponentIterator(onModel, ON_ModelComponent::Type::RenderLight);
                         for (auto onModelComponent = geometryIt.FirstComponent(); onModelComponent; onModelComponent = geometryIt.NextComponent())
                         {
@@ -489,16 +465,18 @@ namespace djv
                             {
                                 if (auto attr = onModelGeometryComponent->Attributes(nullptr))
                                 {
+                                    // Get the layer.
                                     std::shared_ptr<Layer> layer;
                                     auto onModelComponentRef = onModel.ComponentFromIndex(ON_ModelComponent::Type::Layer, attr->m_layer_index);
                                     if (!onModelComponentRef.IsEmpty())
                                     {
                                         if (auto onLayer = ON_Layer::Cast(onModelComponentRef.ModelComponent()))
                                         {
-                                            layer = onLayerToLayer[onLayer];
+                                            layer = data.onLayerToLayer[onLayer];
                                         }
                                     }
 
+                                    // Read the light.
                                     std::shared_ptr<IPrimitive> primitive;
                                     if (auto onLight = ON_Light::Cast(onModelGeometryComponent->Geometry(nullptr)))
                                     {
@@ -521,10 +499,13 @@ namespace djv
                                             spotLight->setDirection(fromON(onLight->Direction()));
                                             light = spotLight;
                                         }
-                                        light->setXForm(glm::translate(glm::mat4x4(1.F), fromON(onLight->Location())));
-                                        light->setEnabled(onLight->IsEnabled());
-                                        light->setIntensity(onLight->Intensity());
-                                        primitive = light;
+                                        if (light)
+                                        {
+                                            light->setXForm(glm::translate(glm::mat4x4(1.F), fromON(onLight->Location())));
+                                            light->setEnabled(onLight->IsEnabled());
+                                            light->setIntensity(onLight->Intensity());
+                                            primitive = light;
+                                        }
                                     }
                                     if (primitive)
                                     {
@@ -534,9 +515,32 @@ namespace djv
                                         {
                                             layer->addItem(primitive);
                                         }
-                                        scene->addPrimitive(primitive);
+                                        if (parent)
+                                        {
+                                            parent->addChild(primitive);
+                                        }
+                                        else
+                                        {
+                                            data.scene->addPrimitive(primitive);
+                                        }
                                     }
                                 }
+                            }
+                        }
+
+                        // Assign the instances.
+                        for (const auto& i : data.instanceToOnInstanceDef)
+                        {
+                            const auto j = data.onInstanceDefToInstance.find(i.second);
+                            if (j != data.onInstanceDefToInstance.end())
+                            {
+                                if (i.first->getName().empty())
+                                {
+                                    std::stringstream ss;
+                                    ss << j->second->getName() << " Instance";
+                                    i.first->setName(ss.str());
+                                }
+                                i.first->addInstance(j->second);
                             }
                         }
                     }
@@ -545,7 +549,6 @@ namespace djv
 
                 struct Read::Private
                 {
-
                 };
 
                 Read::Read() :
@@ -581,10 +584,11 @@ namespace djv
                         std::launch::async,
                         [this]
                         {
-                            auto scene = Scene::create();
-                            scene->setSceneOrient(SceneOrient::ZUp);
-                            read(_fileInfo.getFileName(), scene);
-                            return scene;
+                            ReadData data;
+                            data.scene = Scene::create();
+                            data.scene->setSceneOrient(SceneOrient::ZUp);
+                            read(_fileInfo.getFileName(), data);
+                            return data.scene;
                         });
                 }
 

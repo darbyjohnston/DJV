@@ -27,38 +27,25 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvScene/Light.h>
+#pragma once
 
-using namespace djv::Core;
+#include "ITool.h"
 
-namespace djv
+class RenderTool : public ITool
 {
-    namespace Scene
-    {
-        std::shared_ptr<HemisphereLight> HemisphereLight::create()
-        {
-            auto out = std::shared_ptr<HemisphereLight>(new HemisphereLight);
-            return out;
-        }
+    DJV_NON_COPYABLE(RenderTool);
 
-        std::shared_ptr<DirectionalLight> DirectionalLight::create()
-        {
-            auto out = std::shared_ptr<DirectionalLight>(new DirectionalLight);
-            return out;
-        }
+protected:
+    void _init(const std::shared_ptr<djv::Core::Context>&);
+    RenderTool();
 
-        std::shared_ptr<PointLight> PointLight::create()
-        {
-            auto out = std::shared_ptr<PointLight>(new PointLight);
-            return out;
-        }
+public:
+    virtual ~RenderTool();
 
-        std::shared_ptr<SpotLight> SpotLight::create()
-        {
-            auto out = std::shared_ptr<SpotLight>(new SpotLight);
-            return out;
-        }
+    static std::shared_ptr<RenderTool> create(const std::shared_ptr<djv::Core::Context>&);
 
-    } // namespace Scene
-} // namespace djv
+protected:
+    void _initEvent(djv::Core::Event::Init&) override;
 
+private:
+};

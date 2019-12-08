@@ -52,6 +52,36 @@ namespace djv
 
             public:
                 virtual ~ILight() = 0;
+
+                float getIntensity() const;
+
+                void setIntensity(float);
+
+            private:
+                float _intensity = 1.F;
+            };
+
+            //! This class provides a hemisphere light.
+            class HemisphereLight : public ILight
+            {
+            protected:
+                HemisphereLight();
+
+            public:
+                static std::shared_ptr<HemisphereLight> create();
+
+                const glm::vec3& getUp() const;
+                const AV::Image::Color& getTopColor() const;
+                const AV::Image::Color& getBottomColor() const;
+
+                void setUp(const glm::vec3&);
+                void setTopColor(const AV::Image::Color&);
+                void setBottomColor(const AV::Image::Color&);
+
+            private:
+                glm::vec3 _up = glm::vec3(0.F, 1.F, 0.F);
+                AV::Image::Color _topColor = AV::Image::Color::RGB_F32(1.F, .8F, .7F);
+                AV::Image::Color _bottomColor = AV::Image::Color::RGB_F32(.4F, .4F, .8F);
             };
 
             //! This class provides a directional light.
@@ -63,14 +93,11 @@ namespace djv
             public:
                 static std::shared_ptr<DirectionalLight> create();
 
-                float getIntensity() const;
                 const glm::vec3& getDirection() const;
 
-                void setIntensity(float);
                 void setDirection(const glm::vec3&);
 
             private:
-                float _intensity = 1.F;
                 glm::vec3 _direction = glm::vec3(-1.F, -1.F, -1.F);
             };
 
@@ -83,14 +110,11 @@ namespace djv
             public:
                 static std::shared_ptr<PointLight> create();
 
-                float getIntensity() const;
                 const glm::vec3& getPosition() const;
 
-                void setIntensity(float);
                 void setPosition(const glm::vec3&);
 
             private:
-                float _intensity = 1.F;
                 glm::vec3 _position = glm::vec3(0.F, 0.F, 0.F);
             };
 
@@ -103,18 +127,15 @@ namespace djv
             public:
                 static std::shared_ptr<SpotLight> create();
 
-                float getIntensity() const;
                 float getConeAngle() const;
                 const glm::vec3& getDirection() const;
                 const glm::vec3& getPosition() const;
 
-                void setIntensity(float);
                 void setConeAngle(float);
                 void setDirection(const glm::vec3&);
                 void setPosition(const glm::vec3&);
 
             private:
-                float _intensity = 1.F;
                 float _coneAngle = 90.F;
                 glm::vec3 _direction = glm::vec3(-1.F, -1.F, -1.F);
                 glm::vec3 _position = glm::vec3(0.F, 0.F, 0.F);

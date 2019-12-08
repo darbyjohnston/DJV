@@ -76,6 +76,8 @@ namespace djv
             void setAspect(float);
             void setClip(const Core::FloatRange&);
 
+            std::string getClassName() const override;
+
         private:
             void _update();
 
@@ -97,6 +99,7 @@ namespace djv
             static std::shared_ptr<PolarCamera> create();
 
             float getFOV() const;
+            const Core::FloatRange& getClip() const;
             float getDistance() const;
             float getLatitude() const;
             float getLongitude() const;
@@ -108,6 +111,8 @@ namespace djv
             void setDistance(float);
             void setLatitude(float);
             void setLongitude(float);
+
+            std::string getClassName() const override;
 
         private:
             void _update();

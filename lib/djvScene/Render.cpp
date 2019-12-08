@@ -97,84 +97,26 @@ namespace djv
                 render3DOptions.camera = renderCamera;
                 render3DOptions.size = renderOptions.size;
                 render->beginFrame(render3DOptions);
-
                 if (p.scene)
                 {
-                    p.scene->processPrimitives();
-                    const auto& primitives = p.scene->getVisiblePrimitives();
-                    p.primitivesCount = primitives.size();
-                    for (const auto& i : primitives)
+                    glm::mat4x4 m(1.F);
+                    switch (p.scene->getSceneOrient())
                     {
-                        render->pushTransform(i->getXFormFinal());
-
-                        std::shared_ptr<AV::Render3D::IMaterial> renderMaterial;
-                        if (auto material = _getMaterial(i))
-                        {
-                            auto j = p.materials.find(material);
-                            if (j != p.materials.end())
-                            {
-                                renderMaterial = j->second;
-                            }
-                            else
-                            {
-                                renderMaterial = material->createMaterial(context);
-                                p.materials[material] = renderMaterial;
-                            }
-                        }
-                        if (renderMaterial)
-                        {
-                            render->setMaterial(renderMaterial);
-                            for (const auto& j : i->getMeshes())
-                            {
-                                render->drawTriangleMesh(*j);
-                                p.triangleCount += j->triangles.size();
-                            }
-                        }
-
-                        if (auto directionalLight = std::dynamic_pointer_cast<DirectionalLight>(i))
-                        {
-                            if (directionalLight->isEnabled())
-                            {
-                                auto renderLight = AV::Render3D::DirectionalLight::create();
-                                const auto& direction = directionalLight->getDirection();
-                                glm::vec3 renderDirection = render->getCurrentTransform() * glm::vec4(direction.x, direction.y, direction.z, 1.F);
-                                glm::vec3 renderPosition = render->getCurrentTransform() * glm::vec4(0.F, 0.F, 0.F, 1.F);
-                                renderLight->setIntensity(directionalLight->getIntensity());
-                                renderLight->setDirection(renderDirection - renderPosition);
-                                render->addLight(renderLight);
-                            }
-                        }
-                        else if (auto pointLight = std::dynamic_pointer_cast<PointLight>(i))
-                        {
-                            if (pointLight->isEnabled())
-                            {
-                                auto renderLight = AV::Render3D::PointLight::create();
-                                glm::vec3 renderPosition = render->getCurrentTransform() * glm::vec4(0.F, 0.F, 0.F, 1.F);
-                                renderLight->setIntensity(pointLight->getIntensity());
-                                renderLight->setPosition(renderPosition);
-                                render->addLight(renderLight);
-                            }
-                        }
-                        else if (auto spotLight = std::dynamic_pointer_cast<SpotLight>(i))
-                        {
-                            if (spotLight->isEnabled())
-                            {
-                                auto renderLight = AV::Render3D::SpotLight::create();
-                                const auto& direction = directionalLight->getDirection();
-                                glm::vec3 renderDirection = render->getCurrentTransform() * glm::vec4(direction.x, direction.y, direction.z, 1.F);
-                                glm::vec3 renderPosition = render->getCurrentTransform() * glm::vec4(0.F, 0.F, 0.F, 1.F);
-                                renderLight->setIntensity(spotLight->getIntensity());
-                                renderLight->setConeAngle(spotLight->getConeAngle());
-                                renderLight->setPosition(renderPosition);
-                                renderLight->setDirection(renderDirection - renderPosition);
-                                render->addLight(renderLight);
-                            }
-                        }
-
-                        render->popTransform();
+                    case SceneOrient::ZUp:
+                    {
+                        m = glm::rotate(glm::mat4x4(1.F), Math::deg2rad(-90.F), glm::vec3(1.F, 0.F, 0.F));
+                        break;
                     }
+                    default: break;
+                    }
+                    m = p.scene->getSceneXForm() * m;
+                    render->pushTransform(m);
+                    for (const auto& i : p.scene->getPrimitives())
+                    {
+                        _render(i, render, context);
+                    }
+                    render->popTransform();
                 }
-
                 render->endFrame();
             }
         }
@@ -211,6 +153,115 @@ namespace djv
                 break;
             }
             return out;
+        }
+
+        void Render::_render(
+            const std::shared_ptr<IPrimitive>& primitive,
+            const std::shared_ptr<AV::Render3D::Render>& render,
+            const std::shared_ptr<Core::Context>& context)
+        {
+            DJV_PRIVATE_PTR();
+
+            if (bool visible = primitive->isVisible())
+            {
+                auto layer = primitive->getLayer().lock();
+                while (layer)
+                {
+                    visible &= layer->isVisible();
+                    if (visible)
+                    {
+                        layer = layer->getLayer().lock();
+                    }
+                    else
+                    {
+                        layer.reset();
+                    }
+                }
+
+                if (visible)
+                {
+                    p.primitivesCount = p.primitivesCount + 1;
+
+                    if (!primitive->isXFormIdentity())
+                    {
+                        render->pushTransform(primitive->getXForm());
+                    }
+
+                    std::shared_ptr<AV::Render3D::IMaterial> renderMaterial;
+                    if (auto material = _getMaterial(primitive))
+                    {
+                        auto j = p.materials.find(material);
+                        if (j != p.materials.end())
+                        {
+                            renderMaterial = j->second;
+                        }
+                        else
+                        {
+                            renderMaterial = material->createMaterial(context);
+                            p.materials[material] = renderMaterial;
+                        }
+                    }
+                    if (renderMaterial)
+                    {
+                        render->setMaterial(renderMaterial);
+                        for (const auto& j : primitive->getMeshes())
+                        {
+                            render->drawTriangleMesh(*j);
+                            p.triangleCount += j->triangles.size();
+                        }
+                    }
+
+                    if (auto directionalLight = std::dynamic_pointer_cast<DirectionalLight>(primitive))
+                    {
+                        if (directionalLight->isEnabled())
+                        {
+                            auto renderLight = AV::Render3D::DirectionalLight::create();
+                            const auto& direction = directionalLight->getDirection();
+                            glm::vec3 renderDirection = render->getCurrentTransform() * glm::vec4(direction.x, direction.y, direction.z, 1.F);
+                            glm::vec3 renderPosition = render->getCurrentTransform() * glm::vec4(0.F, 0.F, 0.F, 1.F);
+                            renderLight->setIntensity(directionalLight->getIntensity());
+                            renderLight->setDirection(renderDirection - renderPosition);
+                            render->addLight(renderLight);
+                        }
+                    }
+                    else if (auto pointLight = std::dynamic_pointer_cast<PointLight>(primitive))
+                    {
+                        if (pointLight->isEnabled())
+                        {
+                            auto renderLight = AV::Render3D::PointLight::create();
+                            glm::vec3 renderPosition = render->getCurrentTransform() * glm::vec4(0.F, 0.F, 0.F, 1.F);
+                            renderLight->setIntensity(pointLight->getIntensity());
+                            renderLight->setPosition(renderPosition);
+                            render->addLight(renderLight);
+                        }
+                    }
+                    else if (auto spotLight = std::dynamic_pointer_cast<SpotLight>(primitive))
+                    {
+                        if (spotLight->isEnabled())
+                        {
+                            auto renderLight = AV::Render3D::SpotLight::create();
+                            const auto& direction = directionalLight->getDirection();
+                            glm::vec3 renderDirection = render->getCurrentTransform() * glm::vec4(direction.x, direction.y, direction.z, 1.F);
+                            glm::vec3 renderPosition = render->getCurrentTransform() * glm::vec4(0.F, 0.F, 0.F, 1.F);
+                            renderLight->setIntensity(spotLight->getIntensity());
+                            renderLight->setConeAngle(spotLight->getConeAngle());
+                            renderLight->setPosition(renderPosition);
+                            renderLight->setDirection(renderDirection - renderPosition);
+                            render->addLight(renderLight);
+                        }
+                    }
+
+                    for (const auto& i : primitive->getPrimitives())
+                    {
+                        _render(i, render, context);
+                    }
+
+                    if (!primitive->isXFormIdentity())
+                    {
+                        render->popTransform();
+                    }
+                }
+            }
         }
 
     } // namespace Scene

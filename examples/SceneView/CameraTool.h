@@ -27,38 +27,46 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvScene/Light.h>
+#pragma once
 
-using namespace djv::Core;
+#include "ITool.h"
 
-namespace djv
+#include <djvUIComponents/SceneWidget.h>
+
+#include <djvUI/FloatEdit.h>
+#include <djvUI/FloatSlider.h>
+#include <djvUI/FormLayout.h>
+#include <djvUI/RowLayout.h>
+
+class CameraTool : public ITool
 {
-    namespace Scene
-    {
-        std::shared_ptr<HemisphereLight> HemisphereLight::create()
-        {
-            auto out = std::shared_ptr<HemisphereLight>(new HemisphereLight);
-            return out;
-        }
+    DJV_NON_COPYABLE(CameraTool);
 
-        std::shared_ptr<DirectionalLight> DirectionalLight::create()
-        {
-            auto out = std::shared_ptr<DirectionalLight>(new DirectionalLight);
-            return out;
-        }
+protected:
+    void _init(const std::shared_ptr<djv::Core::Context>&);
+    CameraTool();
 
-        std::shared_ptr<PointLight> PointLight::create()
-        {
-            auto out = std::shared_ptr<PointLight>(new PointLight);
-            return out;
-        }
+public:
+    virtual ~CameraTool();
 
-        std::shared_ptr<SpotLight> SpotLight::create()
-        {
-            auto out = std::shared_ptr<SpotLight>(new SpotLight);
-            return out;
-        }
+    static std::shared_ptr<CameraTool> create(const std::shared_ptr<djv::Core::Context>&);
 
-    } // namespace Scene
-} // namespace djv
+    void setCameraInfo(const djv::UI::CameraInfo&);
+    void setCameraInfoCallback(const std::function<void(const djv::UI::CameraInfo&)>&);
 
+protected:
+    void _initEvent(djv::Core::Event::Init&) override;
+
+private:
+    void _widgetUpdate();
+
+    djv::UI::CameraInfo _cameraInfo;
+    std::shared_ptr<djv::UI::FloatSlider> _fovSlider;
+    std::shared_ptr<djv::UI::FloatEdit> _clipEdit[2];
+    std::shared_ptr<djv::UI::HorizontalLayout> _clipLayout;
+    std::shared_ptr<djv::UI::FloatEdit> _distanceEdit;
+    std::shared_ptr<djv::UI::FloatSlider> _latitudeSlider;
+    std::shared_ptr<djv::UI::FloatSlider> _longitudeSlider;
+    std::shared_ptr<djv::UI::FormLayout> _formLayout;
+    std::function<void(const djv::UI::CameraInfo&)> _cameraInfoCallback;
+};

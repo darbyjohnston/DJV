@@ -32,6 +32,8 @@
 #include <djvAV/GLFWSystem.h>
 #include <djvAV/OpenGL.h>
 #include <djvAV/Render3D.h>
+#include <djvAV/Render3DCamera.h>
+#include <djvAV/Render3DMaterial.h>
 #include <djvAV/Shape.h>
 #include <djvAV/TriangleMesh.h>
 
@@ -182,10 +184,15 @@ void Application::_render()
     auto glfwWindow = getSystemT<AV::GLFW::System>()->getGLFWWindow();
     glm::ivec2 windowSize = glm::ivec2(0, 0);
     glfwGetWindowSize(glfwWindow, &windowSize.x, &windowSize.y);
-    _options.camera.v = glm::translate(glm::mat4x4(1.F), glm::vec3(0.F, 0.F, -_camera.z));
-    _options.camera.v = glm::rotate(_options.camera.v, Core::Math::deg2rad(_camera.x), glm::vec3(1.F, 0.F, 0.F));
-    _options.camera.v = glm::rotate(_options.camera.v, Core::Math::deg2rad(_camera.y), glm::vec3(0.F, 1.F, 0.F));
-    _options.camera.p = glm::perspective(45.F, windowSize.x / static_cast<float>(windowSize.y > 0 ? windowSize.y : 1.F), .01F, 1000.F);
+    glm::mat4x4 v(1.F);
+    glm::mat4x4 p(1.F);
+    v = glm::translate(glm::mat4x4(1.F), glm::vec3(0.F, 0.F, -_camera.z));
+    v = glm::rotate(v, Core::Math::deg2rad(_camera.x), glm::vec3(1.F, 0.F, 0.F));
+    v = glm::rotate(v, Core::Math::deg2rad(_camera.y), glm::vec3(0.F, 1.F, 0.F));
+    p = glm::perspective(45.F, windowSize.x / static_cast<float>(windowSize.y > 0 ? windowSize.y : 1.F), .01F, 1000.F);
+    auto renderCamera = AV::Render3D::DefaultCamera::create();
+    renderCamera->setV(v);
+    renderCamera->setP(p);
     _options.size.w = windowSize.x;
     _options.size.h = windowSize.y;
     render->beginFrame(_options);

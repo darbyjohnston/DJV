@@ -27,20 +27,23 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvDesktopApp/Application.h>
+#pragma once
 
 #include <djvUIComponents/SceneWidget.h>
 #include <djvUIComponents/FileBrowserDialog.h>
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
-#include <djvUI/Label.h>
+#include <djvUI/MDICanvas.h>
 #include <djvUI/Window.h>
 
-#include <djvScene/IO.h>
-#include <djvScene/Scene.h>
-
+#include <djvCore/FileInfo.h>
 #include <djvCore/Timer.h>
+#include <djvCore/ValueObserver.h>
+
+class CameraTool;
+class InfoTool;
+class RenderTool;
 
 class MainWindow : public djv::UI::Window
 {
@@ -66,47 +69,28 @@ protected:
 
 private:
     void _open();
-    void _textUpdate();
 
-    std::map<std::string, std::shared_ptr<djv::UI::Action> > _actions;
+    std::map<std::string, std::map<std::string, std::shared_ptr<djv::UI::Action> > > _actions;
     std::shared_ptr<djv::UI::ActionGroup> _sceneRotateActionGroup;
-    std::shared_ptr<djv::UI::Label> _infoLabel;
+
     std::shared_ptr<djv::UI::SceneWidget> _sceneWidget;
+    std::shared_ptr<CameraTool> _cameraTool;
+    std::shared_ptr<InfoTool> _infoTool;
+    std::shared_ptr<RenderTool> _renderTool;
+    std::shared_ptr<djv::UI::MDI::Canvas> _mdiCanvas;
+
     std::shared_ptr<djv::UI::FileBrowser::Dialog> _fileBrowserDialog;
     djv::Core::FileSystem::Path _fileBrowserPath = djv::Core::FileSystem::Path(".");
+    
     std::function<void(const djv::Core::FileSystem::FileInfo)> _openCallback;
     std::function<void(void)> _reloadCallback;
     std::function<void(void)> _exitCallback;
-    std::map<std::string, std::shared_ptr<djv::Core::ValueObserver<bool> > > _actionObservers;
+    
+    std::map<std::string, std::map<std::string, std::shared_ptr<djv::Core::ValueObserver<bool> > > > _actionObservers;
+    std::shared_ptr<djv::Core::ValueObserver<djv::UI::CameraInfo> > _cameraInfoObserver;
+    std::shared_ptr<djv::Core::ValueObserver<djv::Core::BBox3f> > _bboxObserver;
+    std::shared_ptr<djv::Core::ValueObserver<size_t> > _primitivesCountObserver;
+    std::shared_ptr<djv::Core::ValueObserver<size_t> > _triangleCountObserver;
+
     std::shared_ptr<djv::Core::Time::Timer> _statsTimer;
-};
-
-class Application : public djv::Desktop::Application
-{
-    DJV_NON_COPYABLE(Application);
-
-protected:
-    void _init(const std::vector<std::string>&);
-    Application();
-
-public:
-    virtual ~Application();
-
-    static std::shared_ptr<Application> create(const std::vector<std::string>&);
-
-private:
-    void _open(const djv::Core::FileSystem::FileInfo&);
-    void _createPointLights(const std::shared_ptr<djv::Scene::IPrimitive>&);
-    void _close();
-
-    djv::Core::FileSystem::FileInfo _fileInfo;
-    std::shared_ptr<djv::Scene::Scene> _scene;
-    std::shared_ptr<djv::Scene::IO::IRead> _sceneRead;
-    std::future<std::shared_ptr<djv::Scene::Scene> > _sceneFuture;
-    std::shared_ptr<djv::Scene::Scene> _pointLightScene;
-    std::vector<std::shared_ptr<djv::Scene::IPrimitive> > _pointLightPrimitives;
-    std::shared_ptr<djv::Scene::IO::IRead> _pointLightSceneRead;
-    std::future<std::shared_ptr<djv::Scene::Scene> > _pointLightSceneFuture;
-    std::shared_ptr<djv::Core::Time::Timer> _futureTimer;
-    std::shared_ptr<MainWindow> _mainWindow;
 };

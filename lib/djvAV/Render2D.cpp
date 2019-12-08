@@ -255,13 +255,14 @@ namespace djv
                 {
                 public:
                     GLuint textureID = 0;
+                    GLenum target    = GL_TEXTURE_2D;
 
                     void bind(const PrimitiveData& data, const std::shared_ptr<OpenGL::Shader>& shader) override
                     {
                         shader->setUniform(data.colorModeLoc, static_cast<int>(ColorMode::ColorAndTexture));
                         shader->setUniform(data.colorLoc, reinterpret_cast<const GLfloat*>(color));
                         glActiveTexture(static_cast<GLenum>(GL_TEXTURE0 + data.textureAtlasCount));
-                        glBindTexture(GL_TEXTURE_2D, textureID);
+                        glBindTexture(target, textureID);
                         shader->setUniform(data.textureSamplerLoc, static_cast<int>(data.textureAtlasCount));
                     }
                 };
@@ -1493,7 +1494,7 @@ namespace djv
                 }
             }
 
-            void Render::drawTexture(const BBox2f& value, GLuint textureID)
+            void Render::drawTexture(const BBox2f& value, GLuint textureID, GLenum target)
             {
                 DJV_PRIVATE_PTR();
                 if (value.intersects(_currentClipRect))
@@ -1509,6 +1510,7 @@ namespace djv
                     primitive->vaoOffset = p.vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
                     primitive->vaoSize = 4;
                     primitive->textureID = textureID;
+                    primitive->target = target;
 
                     const size_t vboDataSize = p.vboDataSize;
                     p.updateVBODataSize(4);

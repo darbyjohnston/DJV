@@ -50,6 +50,9 @@ namespace djv
             {
                 namespace
                 {
+                    //! Should this be configurable?
+                    const size_t threadCount = 4;
+
                     inline const char* findLineEnd(const char* start, const char* end)
                     {
                         const char* out = start;
@@ -288,16 +291,11 @@ namespace djv
                         for (size_t i = 1; i < meshPieces.size(); ++i)
                         {
                             auto meshPiece = meshPieces[i];
-                            for (const auto& v : meshPiece->v)
-                                mesh.v.push_back(v);
-                            for (const auto& c : meshPiece->c)
-                                mesh.c.push_back(c);
-                            for (const auto& t : meshPiece->t)
-                                mesh.t.push_back(t);
-                            for (const auto& n : meshPiece->n)
-                                mesh.n.push_back(n);
-                            for (const auto& t : meshPiece->triangles)
-                                mesh.triangles.push_back(t);
+                            mesh.v.insert(mesh.v.end(), meshPiece->v.begin(), meshPiece->v.end());
+                            mesh.c.insert(mesh.c.end(), meshPiece->c.begin(), meshPiece->c.end());
+                            mesh.t.insert(mesh.t.end(), meshPiece->t.begin(), meshPiece->t.end());
+                            mesh.n.insert(mesh.n.end(), meshPiece->n.begin(), meshPiece->n.end());
+                            mesh.triangles.insert(mesh.triangles.end(), meshPiece->triangles.begin(), meshPiece->triangles.end());
                             delete meshPieces[i];
                         }
 
@@ -334,6 +332,8 @@ namespace djv
                                 }
                             }
                         }
+
+                        mesh.bboxUpdate();
                     }
 
                 } // namespace
@@ -382,7 +382,7 @@ namespace djv
                                 out = Scene::create();
                                 auto primitive = MeshPrimitive::create();
                                 auto mesh = std::shared_ptr<AV::Geom::TriangleMesh>(new AV::Geom::TriangleMesh);
-                                read(_fileInfo.getFileName(), *mesh, 1);
+                                read(_fileInfo.getFileName(), *mesh, threadCount);
                                 primitive->addMesh(mesh);
                                 auto material = DefaultMaterial::create();
                                 primitive->setMaterial(material);
