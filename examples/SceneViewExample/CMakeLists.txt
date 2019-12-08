@@ -14,10 +14,10 @@ set(source
     RenderTool.cpp
     main.cpp)
 
-add_executable(SceneView ${header} ${source})
-target_link_libraries(SceneView djvDesktopApp djvUIComponents)
+add_executable(SceneViewExample ${header} ${source})
+target_link_libraries(SceneViewExample djvDesktopApp djvUIComponents)
 set_target_properties(
-    SceneView
+    SceneViewExample
     PROPERTIES
     FOLDER examples
     CXX_STANDARD 11)
