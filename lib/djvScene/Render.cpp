@@ -204,9 +204,9 @@ namespace djv
                     if (renderMaterial)
                     {
                         render->setMaterial(renderMaterial);
+                        render->drawTriangleMeshes(primitive->getMeshes());
                         for (const auto& j : primitive->getMeshes())
                         {
-                            render->drawTriangleMesh(*j);
                             p.triangleCount += j->triangles.size();
                         }
                     }

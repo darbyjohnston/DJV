@@ -115,6 +115,8 @@ namespace djv
                 ///@{
 
                 void drawTriangleMesh(const Geom::TriangleMesh&);
+                void drawTriangleMeshes(const std::vector<Geom::TriangleMesh>&);
+                void drawTriangleMeshes(const std::vector<std::shared_ptr<Geom::TriangleMesh> >&);
 
                 ///@}
 

@@ -169,7 +169,6 @@ namespace djv
                                 out->triangles.push_back(a);
                             }
                         }
-
                         out->bboxUpdate();
                         return out;
                     }
@@ -188,6 +187,7 @@ namespace djv
                     std::shared_ptr<IPrimitive> readGeometryComponent(
                         const ONX_Model& onModel,
                         const ON_ModelGeometryComponent* onModelGeometryComponent,
+                        std::map<const ON_Material*, std::shared_ptr<IPrimitive> >& onMaterialToPrimitive,
                         ReadData& data)
                     {
                         std::shared_ptr<IPrimitive> out;
@@ -209,10 +209,11 @@ namespace djv
                             }
 
                             // Get the material.
+                            const ON_Material* onMaterial = nullptr;
                             std::shared_ptr<IMaterial> material;
                             {
                                 auto onModelComponentRef = onModel.RenderMaterialFromIndex(attr->m_material_index);
-                                if (auto onMaterial = ON_Material::Cast(onModelComponentRef.ModelComponent()))
+                                if (onMaterial = ON_Material::Cast(onModelComponentRef.ModelComponent()))
                                 {
                                     const auto i = data.onMaterialToMaterial.find(onMaterial);
                                     if (i != data.onMaterialToMaterial.end())
@@ -223,6 +224,12 @@ namespace djv
                             }
 
                             // Read the primitive.
+                            std::shared_ptr<IPrimitive> primitive;
+                            const auto i = onMaterialToPrimitive.find(onMaterial);
+                            if (i != onMaterialToPrimitive.end())
+                            {
+                                primitive = i->second;
+                            }
                             std::string name = ON_String(attr->Name());
                             if (auto onCurve = ON_Curve::Cast(onModelGeometryComponent->Geometry(nullptr)))
                             {
@@ -240,15 +247,25 @@ namespace djv
                                     mesh = readMesh(onMesh);
                                     data.onMeshToMesh[onMesh] = mesh;
                                 }
-                                auto meshPrimitive = MeshPrimitive::create();
-                                meshPrimitive->addMesh(mesh);
-                                out = meshPrimitive;
+                                if (mesh && mesh->triangles.size() > 0)
+                                {
+                                    if (primitive)
+                                    {
+                                        primitive->addMesh(mesh);
+                                    }
+                                    else
+                                    {
+                                        auto newPrimitive = MeshPrimitive::create();
+                                        newPrimitive->addMesh(mesh);
+                                        onMaterialToPrimitive[onMaterial] = newPrimitive;
+                                        out = newPrimitive;
+                                    }
+                                }
                             }
                             else if (auto onBrep = ON_Brep::Cast(onModelGeometryComponent->Geometry(nullptr)))
                             {
                                 ON_SimpleArray<const ON_Mesh*> onMeshes(onBrep->m_F.Count());
-                                auto meshPrimitive = MeshPrimitive::create();
-                                out = meshPrimitive;
+                                std::shared_ptr<MeshPrimitive> newPrimitive;
                                 const int onMeshCount = onBrep->GetMesh(ON::render_mesh, onMeshes);
                                 for (int i = 0; i < onMeshCount; ++i)
                                 {
@@ -263,7 +280,20 @@ namespace djv
                                         mesh = readMesh(onMeshes[i]);
                                         data.onMeshToMesh[onMeshes[i]] = mesh;
                                     }
-                                    meshPrimitive->addMesh(mesh);
+                                    if (!primitive && mesh && mesh->triangles.size() > 0 && !newPrimitive)
+                                    {
+                                        newPrimitive = MeshPrimitive::create();
+                                        onMaterialToPrimitive[onMaterial] = newPrimitive;
+                                        out = newPrimitive;
+                                    }
+                                    if (primitive)
+                                    {
+                                        primitive->addMesh(mesh);
+                                    }
+                                    else if (newPrimitive)
+                                    {
+                                        newPrimitive->addMesh(mesh);
+                                    }
                                 }
                             }
                             else if (auto onExtrusion = ON_Extrusion::Cast(onModelGeometryComponent->Geometry(nullptr)))
@@ -281,9 +311,20 @@ namespace djv
                                         mesh = readMesh(onMesh);
                                         data.onMeshToMesh[onMesh] = mesh;
                                     }
-                                    auto meshPrimitive = MeshPrimitive::create();
-                                    meshPrimitive->addMesh(mesh);
-                                    out = meshPrimitive;
+                                    if (mesh && mesh->triangles.size() > 0)
+                                    {
+                                        if (primitive)
+                                        {
+                                            primitive->addMesh(mesh);
+                                        }
+                                        else
+                                        {
+                                            auto newPrimitive = MeshPrimitive::create();
+                                            newPrimitive->addMesh(mesh);
+                                            onMaterialToPrimitive[onMaterial] = newPrimitive;
+                                            out = newPrimitive;
+                                        }
+                                    }
                                 }
                             }
                             else if (auto onInstanceRef = ON_InstanceRef::Cast(onModelGeometryComponent->Geometry(nullptr)))
@@ -295,20 +336,6 @@ namespace djv
                                     instancePrimitive->setXForm(fromON(onInstanceRef->m_xform));
                                     data.instanceToOnInstanceDef[instancePrimitive] = onInstanceDef;
                                     out = instancePrimitive;
-                                    /*const auto i = data.onInstanceDefToInstance.find(onInstanceDef);
-                                    if (i != data.onInstanceDefToInstance.end())
-                                    {
-                                        auto instancePrimitive = InstancePrimitive::create();
-                                        if (name.empty())
-                                        {
-                                            std::stringstream ss;
-                                            ss << i->second->getName() << " Instance";
-                                            name = ss.str();
-                                        }
-                                        instancePrimitive->setXForm(fromON(onInstanceRef->m_xform));
-                                        instancePrimitive->addInstance(i->second);
-                                        out = instancePrimitive;
-                                    }*/
                                 }
                             }
                             if (out)
@@ -405,13 +432,14 @@ namespace djv
                             {
                                 auto primitive = NullPrimitive::create();
                                 primitive->setName(std::string(ON_String(onInstanceDef->Name())));
+                                std::map<const ON_Material*, std::shared_ptr<IPrimitive> > onMaterialToPrimitive;
                                 const auto& onGeometryIdList = onInstanceDef->InstanceGeometryIdList();
                                 for (int i = 0; i < onGeometryIdList.Count(); ++i)
                                 {
                                     auto onGeometryRef = onModel.ComponentFromId(ON_ModelComponent::Type::ModelGeometry, onGeometryIdList[i]);
                                     if (auto onModelGeometryComponent = ON_ModelGeometryComponent::Cast(onGeometryRef.ModelComponent()))
                                     {
-                                        if (auto child = readGeometryComponent(onModel, onModelGeometryComponent, data))
+                                        if (auto child = readGeometryComponent(onModel, onModelGeometryComponent, onMaterialToPrimitive, data))
                                         {
                                             primitive->addChild(child);
                                         }
@@ -432,6 +460,7 @@ namespace djv
                         }
 
                         // Read the primitives.
+                        std::map<const ON_Material*, std::shared_ptr<IPrimitive> > onMaterialToPrimitive;
                         ONX_ModelComponentIterator geometryIt(onModel, ON_ModelComponent::Type::ModelGeometry);
                         for (auto onModelComponent = geometryIt.FirstComponent(); onModelComponent; onModelComponent = geometryIt.NextComponent())
                         {
@@ -441,7 +470,7 @@ namespace djv
                                 {
                                     if (attr->Mode() != ON::idef_object)
                                     {
-                                        if (auto primitive = readGeometryComponent(onModel, onModelGeometryComponent, data))
+                                        if (auto primitive = readGeometryComponent(onModel, onModelGeometryComponent, onMaterialToPrimitive, data))
                                         {
                                             if (parent)
                                             {

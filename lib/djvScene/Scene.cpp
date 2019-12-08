@@ -85,7 +85,7 @@ namespace djv
             _pushXForm(m);
             for (const auto& i : _primitives)
             {
-                _bboxUpdate(i, std::string());
+                _bboxUpdate(i);
             }
             _popXForm();
         }
@@ -109,7 +109,7 @@ namespace djv
             }
         }
 
-        void Scene::_bboxUpdate(const std::shared_ptr<IPrimitive>& primitive, const std::string& indent)
+        void Scene::_bboxUpdate(const std::shared_ptr<IPrimitive>& primitive)
         {
             if (bool visible = primitive->isVisible())
             {
@@ -135,20 +135,23 @@ namespace djv
                     {
                         for (auto i : primitive->getMeshes())
                         {
-                            if (_bboxInit)
+                            if (i->triangles.size())
                             {
-                                _bboxInit = false;
-                                _bbox = i->getBBox() * xform;
-                            }
-                            else
-                            {
-                                _bbox.expand(i->getBBox() * xform);
+                                if (_bboxInit)
+                                {
+                                    _bboxInit = false;
+                                    _bbox = i->getBBox() * xform;
+                                }
+                                else
+                                {
+                                    _bbox.expand(i->getBBox() * xform);
+                                }
                             }
                         }
                     }
                     for (const auto& i : primitive->getPrimitives())
                     {
-                        _bboxUpdate(i, indent + "    ");
+                        _bboxUpdate(i);
                     }
                     _popXForm();
                 }

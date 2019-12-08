@@ -95,7 +95,7 @@ namespace djv
             const glm::mat4x4& _getCurrentXForm() const;
             void _pushXForm(const glm::mat4x4&);
             void _popXForm();
-            void _bboxUpdate(const std::shared_ptr<IPrimitive>&, const std::string& indent);
+            void _bboxUpdate(const std::shared_ptr<IPrimitive>&);
 
             static void _print(const std::shared_ptr<IPrimitive>&, const std::string& indent);
 

@@ -123,7 +123,7 @@ namespace djv
                             bbox = widget->_p->scene->getBBox();
                         }
                         widget->_p->bbox->setIfChanged(bbox);
-                        widget->_p->primitivesCount->setIfChanged(widget->_p->render->getTriangleCount());
+                        widget->_p->primitivesCount->setIfChanged(widget->_p->render->getPrimitivesCount());
                         widget->_p->triangleCount->setIfChanged(widget->_p->render->getTriangleCount());
                     }
                 });

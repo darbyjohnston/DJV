@@ -130,6 +130,8 @@ namespace djv
             _v = glm::rotate(_v, Core::Math::deg2rad(_longitude), glm::vec3(0.F, 1.F, 0.F));
             _v = glm::translate(_v, -_target);
             _p = glm::perspective(Math::deg2rad(_fov), _aspect, _clip.min, _clip.max);
+            _p[2][2] = _clip.min / (_clip.min - _clip.max);
+            _p[3][2] = (_clip.max * _clip.min) / (_clip.min - _clip.max);
         }
 
     } // namespace Scene

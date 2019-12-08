@@ -42,20 +42,20 @@ void CameraTool::_init(const std::shared_ptr<Core::Context>& context)
     model->setLargeIncrement(10.F);
 
     _clipEdit[0] = UI::FloatEdit::create(context);
-    _clipEdit[0]->setRange(Core::FloatRange(.001F, 1000.F));
+    _clipEdit[0]->setRange(Core::FloatRange(.001F, 10000000.F));
     _clipEdit[0]->setPrecision(3);
     model = _clipEdit[0]->getModel();
     model->setSmallIncrement(.1F);
     model->setLargeIncrement(10.F);
     _clipEdit[1] = UI::FloatEdit::create(context);
-    _clipEdit[1]->setRange(Core::FloatRange(1.F, 10000000.F));
+    _clipEdit[1]->setRange(Core::FloatRange(.001F, 10000000.F));
     _clipEdit[1]->setPrecision(3);
     model = _clipEdit[1]->getModel();
     model->setSmallIncrement(.1F);
     model->setLargeIncrement(10.F);
 
     _distanceEdit = UI::FloatEdit::create(context);
-    _distanceEdit->setRange(Core::FloatRange(1.F, 1000000.F));
+    _distanceEdit->setRange(Core::FloatRange(1.F, 10000000.F));
     model = _clipEdit[0]->getModel();
     model->setSmallIncrement(.1F);
     model->setLargeIncrement(10.F);

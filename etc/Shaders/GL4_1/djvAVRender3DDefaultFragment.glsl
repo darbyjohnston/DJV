@@ -95,6 +95,7 @@ struct DefaultMaterial
 layout(location = 0) in vec3 Position;
 layout(location = 1) in vec2 Texture;
 layout(location = 2) in vec3 Normal;
+
 layout(location = 0) out vec4 FragColor;
 
 uniform HemisphereLight  hemisphereLight;
@@ -114,30 +115,35 @@ void main()
     //FragColor.b = Normal.z;
     //FragColor.a = 1.0;
     FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+    vec3 n = Normal;
+    if (!gl_FrontFacing)
+    {
+        n = -n;
+    }
     if (hemisphereLightEnabled != 0)
     {
-        vec3 light = getHemisphereLight(hemisphereLight, Normal);
+        vec3 light = getHemisphereLight(hemisphereLight, n);
         FragColor.r += defaultMaterial.diffuse.r * light.r;
         FragColor.g += defaultMaterial.diffuse.g * light.g;
         FragColor.b += defaultMaterial.diffuse.b * light.b;
     }
     for (int i = 0; i < directionalLightsCount; ++i)
     {
-        vec3 light = getDirectionalLight(directionalLights[i], Normal);
+        vec3 light = getDirectionalLight(directionalLights[i], n);
         FragColor.r += defaultMaterial.diffuse.r * light.r;
         FragColor.g += defaultMaterial.diffuse.g * light.g;
         FragColor.b += defaultMaterial.diffuse.b * light.b;
     }
     for (int i = 0; i < pointLightsCount; ++i)
     {
-        vec3 light = getPointLight(pointLights[i], Position, Normal);
+        vec3 light = getPointLight(pointLights[i], Position, n);
         FragColor.r += defaultMaterial.diffuse.r * light.r;
         FragColor.g += defaultMaterial.diffuse.g * light.g;
         FragColor.b += defaultMaterial.diffuse.b * light.b;
     }
     for (int i = 0; i < spotLightsCount; ++i)
     {
-        vec3 light = getSpotLight(spotLights[i], Position, Normal);
+        vec3 light = getSpotLight(spotLights[i], Position, n);
         FragColor.r += defaultMaterial.diffuse.r * light.r;
         FragColor.g += defaultMaterial.diffuse.g * light.g;
         FragColor.b += defaultMaterial.diffuse.b * light.b;
