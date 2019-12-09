@@ -53,18 +53,12 @@ public:
 
 private:
     void _open(const djv::Core::FileSystem::FileInfo&);
-    void _createPointLights(const std::shared_ptr<djv::Scene::IPrimitive>&);
     void _close();
 
     djv::Core::FileSystem::FileInfo _fileInfo;
     std::shared_ptr<djv::Scene::Scene> _scene;
     std::shared_ptr<djv::Scene::IO::IRead> _sceneRead;
-    std::future<std::shared_ptr<djv::Scene::Scene> > _sceneFuture;
-
-    std::shared_ptr<djv::Scene::Scene> _pointLightScene;
-    std::vector<std::shared_ptr<djv::Scene::IPrimitive> > _pointLightPrimitives;
-    std::shared_ptr<djv::Scene::IO::IRead> _pointLightSceneRead;
-    std::future<std::shared_ptr<djv::Scene::Scene> > _pointLightSceneFuture;
+    std::future<std::shared_ptr<djv::Scene::Scene> > _sceneReadFuture;
 
     std::shared_ptr<djv::Core::Time::Timer> _futureTimer;
 

@@ -372,6 +372,10 @@ namespace djv
                 }
                 p.scene->setSceneXForm(m);
                 p.scene->bboxUpdate();
+                const float max = p.scene->getBBoxMax();
+                auto cameraInfo = p.cameraInfo->get();
+                cameraInfo.clip = Core::FloatRange(max * .0001F, max * 10.F);
+                setCameraInfo(cameraInfo);
                 _redraw();
             }
         }

@@ -614,10 +614,11 @@ namespace djv
                         [this]
                         {
                             ReadData data;
-                            data.scene = Scene::create();
-                            data.scene->setSceneOrient(SceneOrient::ZUp);
+                            auto scene = Scene::create();
+                            scene->setSceneOrient(SceneOrient::ZUp);
+                            data.scene = scene;
                             read(_fileInfo.getFileName(), data);
-                            return data.scene;
+                            return scene;
                         });
                 }
 

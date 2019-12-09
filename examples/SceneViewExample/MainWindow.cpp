@@ -395,13 +395,6 @@ void MainWindow::setScene(const std::shared_ptr<Scene::Scene>& value)
 {
     _sceneWidget->setScene(value);
     _sceneWidget->frameView();
-    if (value)
-    {
-        const float max = value->getBBoxMax();
-        auto cameraInfo = _sceneWidget->observeCameraInfo()->get();
-        cameraInfo.clip = Core::FloatRange(max * .0001F, max * 10.F);
-        _sceneWidget->setCameraInfo(cameraInfo);
-    }
 }
 
 void MainWindow::setOpenCallback(const std::function<void(const Core::FileSystem::FileInfo)>& value)
