@@ -95,7 +95,7 @@ namespace djv
             return std::max(_bbox.w(), std::max(_bbox.h(), _bbox.d()));
         }
 
-        void Scene::print()
+        void Scene::printPrimitives()
         {
             std::cout << "Primitives" << std::endl;
             for (const auto& i : _primitives)
@@ -104,6 +104,15 @@ namespace djv
             }
             std::cout << "Definitions" << std::endl;
             for (const auto& i : _definitions)
+            {
+                _print(i, "    ");
+            }
+        }
+
+        void Scene::printLayers()
+        {
+            std::cout << "Layers" << std::endl;
+            for (const auto& i : _layers)
             {
                 _print(i, "    ");
             }
@@ -172,6 +181,18 @@ namespace djv
             for (const auto& i : primitive->getPrimitives())
             {
                 _print(i, indent + "    ");
+            }
+        }
+
+        void Scene::_print(const std::shared_ptr<Layer>& layer, const std::string& indent)
+        {
+            std::cout << indent << layer->getName() << ": " << layer->getItems().size() << std::endl;
+            for (const auto& i : layer->getItems())
+            {
+                if (auto subLayer = std::dynamic_pointer_cast<Layer>(i))
+                {
+                    _print(subLayer, indent + "    ");
+                }
             }
         }
 

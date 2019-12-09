@@ -31,6 +31,8 @@
 
 #include <djvAV/ImageData.h>
 
+#include <glm/mat4x4.hpp>
+
 namespace djv
 {
     namespace AV
@@ -84,9 +86,11 @@ namespace djv
 
         private:
             std::shared_ptr<IMaterial> _getMaterial(const std::shared_ptr<IPrimitive>&) const;
-            void _render(
+            const glm::mat4x4& _getCurrentTransform() const;
+            void _pushTransform(const glm::mat4x4&);
+            void _popTransform();
+            void _prePass(
                 const std::shared_ptr<IPrimitive>&,
-                const std::shared_ptr<AV::Render3D::Render>&,
                 const std::shared_ptr<Core::Context>&);
 
             DJV_PRIVATE();

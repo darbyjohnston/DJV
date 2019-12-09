@@ -396,57 +396,63 @@ namespace djv
             void Render::drawTriangleMeshes(const std::vector<Geom::TriangleMesh>& value)
             {
                 DJV_PRIVATE_PTR();
-                auto primitive = std::shared_ptr<Primitive>(new Primitive);
-                primitive->xform = getCurrentTransform();
-                primitive->material = p.currentMaterial;
-                for (const auto& i : value)
+                if (value.size())
                 {
-                    if (i.triangles.size())
+                    auto primitive = std::shared_ptr<Primitive>(new Primitive);
+                    primitive->xform = getCurrentTransform();
+                    primitive->material = p.currentMaterial;
+                    for (const auto& i : value)
                     {
-                        SizeTRange range;
-                        const UID uid = i.getUID();
-                        const auto j = p.meshCacheUIDs.find(uid);
-                        if (j != p.meshCacheUIDs.end())
+                        if (i.triangles.size())
                         {
-                            p.meshCache->getItem(j->second, range);
+                            SizeTRange range;
+                            const UID uid = i.getUID();
+                            const auto j = p.meshCacheUIDs.find(uid);
+                            if (j != p.meshCacheUIDs.end())
+                            {
+                                p.meshCache->getItem(j->second, range);
+                            }
+                            if (range.min == range.max)
+                            {
+                                const auto data = OpenGL::VBO::convert(i, OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
+                                p.meshCacheUIDs[i.getUID()] = p.meshCache->addItem(data, range);
+                            }
+                            primitive->vaoRange.push_back(range);
                         }
-                        if (range.min == range.max)
-                        {
-                            const auto data = OpenGL::VBO::convert(i, OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
-                            p.meshCacheUIDs[i.getUID()] = p.meshCache->addItem(data, range);
-                        }
-                        primitive->vaoRange.push_back(range);
                     }
+                    p.primitives[primitive->material->getShader()].push_back(primitive);
                 }
-                p.primitives[primitive->material->getShader()].push_back(primitive);
             }
 
             void Render::drawTriangleMeshes(const std::vector<std::shared_ptr<Geom::TriangleMesh> >& value)
             {
                 DJV_PRIVATE_PTR();
-                auto primitive = std::shared_ptr<Primitive>(new Primitive);
-                primitive->xform = getCurrentTransform();
-                primitive->material = p.currentMaterial;
-                for (const auto& i : value)
+                if (value.size())
                 {
-                    if (i->triangles.size())
+                    auto primitive = std::shared_ptr<Primitive>(new Primitive);
+                    primitive->xform = getCurrentTransform();
+                    primitive->material = p.currentMaterial;
+                    for (const auto& i : value)
                     {
-                        SizeTRange range;
-                        const UID uid = i->getUID();
-                        const auto j = p.meshCacheUIDs.find(uid);
-                        if (j != p.meshCacheUIDs.end())
+                        if (i->triangles.size())
                         {
-                            p.meshCache->getItem(j->second, range);
+                            SizeTRange range;
+                            const UID uid = i->getUID();
+                            const auto j = p.meshCacheUIDs.find(uid);
+                            if (j != p.meshCacheUIDs.end())
+                            {
+                                p.meshCache->getItem(j->second, range);
+                            }
+                            if (range.min == range.max)
+                            {
+                                const auto data = OpenGL::VBO::convert(*i, OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
+                                p.meshCacheUIDs[i->getUID()] = p.meshCache->addItem(data, range);
+                            }
+                            primitive->vaoRange.push_back(range);
                         }
-                        if (range.min == range.max)
-                        {
-                            const auto data = OpenGL::VBO::convert(*i, OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
-                            p.meshCacheUIDs[i->getUID()] = p.meshCache->addItem(data, range);
-                        }
-                        primitive->vaoRange.push_back(range);
                     }
+                    p.primitives[primitive->material->getShader()].push_back(primitive);
                 }
-                p.primitives[primitive->material->getShader()].push_back(primitive);
             }
 
         } // namespace Render3D

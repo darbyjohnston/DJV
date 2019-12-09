@@ -89,7 +89,8 @@ namespace djv
             const Core::BBox3f& getBBox() const;
             float getBBoxMax() const;
 
-            void print();
+            void printPrimitives();
+            void printLayers();
 
         private:
             const glm::mat4x4& _getCurrentXForm() const;
@@ -98,6 +99,7 @@ namespace djv
             void _bboxUpdate(const std::shared_ptr<IPrimitive>&);
 
             static void _print(const std::shared_ptr<IPrimitive>&, const std::string& indent);
+            static void _print(const std::shared_ptr<Layer>&, const std::string& indent);
 
             std::vector<std::shared_ptr<IPrimitive> > _primitives;
             std::vector<std::shared_ptr<IPrimitive> > _definitions;

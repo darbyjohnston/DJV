@@ -178,7 +178,6 @@ namespace djv
                         std::shared_ptr<Scene> scene;
                         std::map<const ON_Layer*, std::shared_ptr<Layer> > onLayerToLayer;
                         std::map<const ON_Material*, std::shared_ptr<IMaterial> > onMaterialToMaterial;
-                        std::shared_ptr<IMaterial> defaultMaterial;
                         std::map<const ON_InstanceDefinition*, std::shared_ptr<IPrimitive> > onInstanceDefToInstance;
                         std::map<std::shared_ptr<InstancePrimitive>, const ON_InstanceDefinition* > instanceToOnInstanceDef;
                         std::map<const ON_Mesh*, std::shared_ptr<AV::Geom::TriangleMesh> > onMeshToMesh;
@@ -187,7 +186,6 @@ namespace djv
                     std::shared_ptr<IPrimitive> readGeometryComponent(
                         const ONX_Model& onModel,
                         const ON_ModelGeometryComponent* onModelGeometryComponent,
-                        std::map<const ON_Material*, std::shared_ptr<IPrimitive> >& onMaterialToPrimitive,
                         ReadData& data)
                     {
                         std::shared_ptr<IPrimitive> out;
@@ -224,12 +222,6 @@ namespace djv
                             }
 
                             // Read the primitive.
-                            std::shared_ptr<IPrimitive> primitive;
-                            const auto i = onMaterialToPrimitive.find(onMaterial);
-                            if (i != onMaterialToPrimitive.end())
-                            {
-                                primitive = i->second;
-                            }
                             std::string name = ON_String(attr->Name());
                             if (auto onCurve = ON_Curve::Cast(onModelGeometryComponent->Geometry(nullptr)))
                             {
@@ -249,17 +241,9 @@ namespace djv
                                 }
                                 if (mesh && mesh->triangles.size() > 0)
                                 {
-                                    if (primitive)
-                                    {
-                                        primitive->addMesh(mesh);
-                                    }
-                                    else
-                                    {
-                                        auto newPrimitive = MeshPrimitive::create();
-                                        newPrimitive->addMesh(mesh);
-                                        onMaterialToPrimitive[onMaterial] = newPrimitive;
-                                        out = newPrimitive;
-                                    }
+                                    auto newPrimitive = MeshPrimitive::create();
+                                    newPrimitive->addMesh(mesh);
+                                    out = newPrimitive;
                                 }
                             }
                             else if (auto onBrep = ON_Brep::Cast(onModelGeometryComponent->Geometry(nullptr)))
@@ -280,17 +264,12 @@ namespace djv
                                         mesh = readMesh(onMeshes[i]);
                                         data.onMeshToMesh[onMeshes[i]] = mesh;
                                     }
-                                    if (!primitive && mesh && mesh->triangles.size() > 0 && !newPrimitive)
+                                    if (!newPrimitive && mesh && mesh->triangles.size() > 0)
                                     {
                                         newPrimitive = MeshPrimitive::create();
-                                        onMaterialToPrimitive[onMaterial] = newPrimitive;
                                         out = newPrimitive;
                                     }
-                                    if (primitive)
-                                    {
-                                        primitive->addMesh(mesh);
-                                    }
-                                    else if (newPrimitive)
+                                    if (newPrimitive)
                                     {
                                         newPrimitive->addMesh(mesh);
                                     }
@@ -313,17 +292,9 @@ namespace djv
                                     }
                                     if (mesh && mesh->triangles.size() > 0)
                                     {
-                                        if (primitive)
-                                        {
-                                            primitive->addMesh(mesh);
-                                        }
-                                        else
-                                        {
-                                            auto newPrimitive = MeshPrimitive::create();
-                                            newPrimitive->addMesh(mesh);
-                                            onMaterialToPrimitive[onMaterial] = newPrimitive;
-                                            out = newPrimitive;
-                                        }
+                                        auto newPrimitive = MeshPrimitive::create();
+                                        newPrimitive->addMesh(mesh);
+                                        out = newPrimitive;
                                     }
                                 }
                             }
@@ -342,7 +313,7 @@ namespace djv
                             {
                                 out->setName(name);
                                 out->setVisible(attr->IsVisible());
-                                out->setMaterial(material ? material : data.defaultMaterial);
+                                out->setMaterial(material);
                                 if (layer)
                                 {
                                     layer->addItem(out);
@@ -418,12 +389,6 @@ namespace djv
                             }
                         }
 
-                        // Create a default material.
-                        if (!data.defaultMaterial)
-                        {
-                            data.defaultMaterial = DefaultMaterial::create();
-                        }
-
                         // Read the instance definitions.
                         ONX_ModelComponentIterator instanceDefIt(onModel, ON_ModelComponent::Type::InstanceDefinition);
                         for (auto onModelComponent = instanceDefIt.FirstComponent(); onModelComponent; onModelComponent = instanceDefIt.NextComponent())
@@ -432,14 +397,13 @@ namespace djv
                             {
                                 auto primitive = NullPrimitive::create();
                                 primitive->setName(std::string(ON_String(onInstanceDef->Name())));
-                                std::map<const ON_Material*, std::shared_ptr<IPrimitive> > onMaterialToPrimitive;
                                 const auto& onGeometryIdList = onInstanceDef->InstanceGeometryIdList();
                                 for (int i = 0; i < onGeometryIdList.Count(); ++i)
                                 {
                                     auto onGeometryRef = onModel.ComponentFromId(ON_ModelComponent::Type::ModelGeometry, onGeometryIdList[i]);
                                     if (auto onModelGeometryComponent = ON_ModelGeometryComponent::Cast(onGeometryRef.ModelComponent()))
                                     {
-                                        if (auto child = readGeometryComponent(onModel, onModelGeometryComponent, onMaterialToPrimitive, data))
+                                        if (auto child = readGeometryComponent(onModel, onModelGeometryComponent, data))
                                         {
                                             primitive->addChild(child);
                                         }
@@ -460,7 +424,6 @@ namespace djv
                         }
 
                         // Read the primitives.
-                        std::map<const ON_Material*, std::shared_ptr<IPrimitive> > onMaterialToPrimitive;
                         ONX_ModelComponentIterator geometryIt(onModel, ON_ModelComponent::Type::ModelGeometry);
                         for (auto onModelComponent = geometryIt.FirstComponent(); onModelComponent; onModelComponent = geometryIt.NextComponent())
                         {
@@ -470,7 +433,7 @@ namespace djv
                                 {
                                     if (attr->Mode() != ON::idef_object)
                                     {
-                                        if (auto primitive = readGeometryComponent(onModel, onModelGeometryComponent, onMaterialToPrimitive, data))
+                                        if (auto primitive = readGeometryComponent(onModel, onModelGeometryComponent, data))
                                         {
                                             if (parent)
                                             {

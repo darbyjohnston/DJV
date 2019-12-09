@@ -135,6 +135,8 @@ void Application::_open(const Core::FileSystem::FileInfo& fileInfo)
                                 app->_sceneReadFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                             {
                                 app->_scene = app->_sceneReadFuture.get();
+                                //app->_scene->printPrimitives();
+                                //app->_scene->printLayers();
                                 app->_mainWindow->setScene(app->_scene);
                             }
                         }
