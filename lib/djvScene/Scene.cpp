@@ -76,12 +76,12 @@ namespace djv
             {
             case SceneOrient::ZUp:
             {
-                m = glm::rotate(glm::mat4x4(1.F), Math::deg2rad(-90.F), glm::vec3(1.F, 0.F, 0.F));
+                m = glm::rotate(m, Math::deg2rad(-90.F), glm::vec3(1.F, 0.F, 0.F));
                 break;
             }
             default: break;
             }
-            m = _xform * m;
+            m *= _xform;
             _pushXForm(m);
             for (const auto& i : _primitives)
             {
@@ -137,7 +137,10 @@ namespace djv
                 }
                 if (visible)
                 {
-                    _pushXForm(primitive->getXForm());
+                    if (!primitive->isXFormIdentity())
+                    {
+                        _pushXForm(primitive->getXForm());
+                    }
                     const glm::mat4x4& xform = _getCurrentXForm();
                     const auto& meshes = primitive->getMeshes();
                     if (meshes.size())
@@ -162,7 +165,10 @@ namespace djv
                     {
                         _bboxUpdate(i);
                     }
-                    _popXForm();
+                    if (!primitive->isXFormIdentity())
+                    {
+                        _popXForm();
+                    }
                 }
             }
         }

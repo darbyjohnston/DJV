@@ -40,6 +40,8 @@
 #include <djvAV/Render3DLight.h>
 #include <djvAV/Render3DMaterial.h>
 
+#include <djvCore/Matrix.h>
+
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <unordered_map>
@@ -69,7 +71,7 @@ namespace djv
             const glm::mat4x4 identity = glm::mat4x4(1.F);
             struct Primitive
             {
-                glm::mat4x4 m;
+                glm::mat4x4 m = glm::mat4x4(1.F);
                 std::map<std::shared_ptr<AV::Render3D::IMaterial>, std::vector<std::shared_ptr<AV::Geom::TriangleMesh> > > meshes;
             };
             std::list<Primitive> primitives;
@@ -122,12 +124,12 @@ namespace djv
                     {
                     case SceneOrient::ZUp:
                     {
-                        m = glm::rotate(glm::mat4x4(1.F), Math::deg2rad(-90.F), glm::vec3(1.F, 0.F, 0.F));
+                        m = glm::rotate(m, Math::deg2rad(-90.F), glm::vec3(1.F, 0.F, 0.F));
                         break;
                     }
                     default: break;
                     }
-                    m = p.scene->getSceneXForm() * m;
+                    m *= p.scene->getSceneXForm();
                     _pushTransform(m);
                     for (const auto& i : p.scene->getPrimitives())
                     {

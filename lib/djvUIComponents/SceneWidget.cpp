@@ -380,27 +380,28 @@ namespace djv
                 switch (p.sceneRotate->get())
                 {
                 case SceneRotate::X90:
-                    m = glm::rotate(glm::mat4x4(1.F), Math::deg2rad(90.F), glm::vec3(1.F, 0.F, 0.F));
+                    m = glm::rotate(m, Math::deg2rad(90.F), glm::vec3(1.F, 0.F, 0.F));
                     break;
                 case SceneRotate::X_90:
-                    m = glm::rotate(glm::mat4x4(1.F), Math::deg2rad(-90.F), glm::vec3(1.F, 0.F, 0.F));
+                    m = glm::rotate(m, Math::deg2rad(-90.F), glm::vec3(1.F, 0.F, 0.F));
                     break;
                 case SceneRotate::Y90:
-                    m = glm::rotate(glm::mat4x4(1.F), Math::deg2rad(90.F), glm::vec3(0.F, 1.F, 0.F));
+                    m = glm::rotate(m, Math::deg2rad(90.F), glm::vec3(0.F, 1.F, 0.F));
                     break;
                 case SceneRotate::Y_90:
-                    m = glm::rotate(glm::mat4x4(1.F), Math::deg2rad(-90.F), glm::vec3(0.F, 1.F, 0.F));
+                    m = glm::rotate(m, Math::deg2rad(-90.F), glm::vec3(0.F, 1.F, 0.F));
                     break;
                 case SceneRotate::Z90:
-                    m = glm::rotate(glm::mat4x4(1.F), Math::deg2rad(90.F), glm::vec3(1.F, 0.F, 0.F));
+                    m = glm::rotate(m, Math::deg2rad(90.F), glm::vec3(0.F, 0.F, 1.F));
                     break;
                 case SceneRotate::Z_90:
-                    m = glm::rotate(glm::mat4x4(1.F), Math::deg2rad(-90.F), glm::vec3(1.F, 0.F, 0.F));
+                    m = glm::rotate(m, Math::deg2rad(-90.F), glm::vec3(0.F, 0.F, 1.F));
                     break;
                 default: break;
                 }
                 p.scene->setSceneXForm(m);
                 p.scene->bboxUpdate();
+                p.render->setScene(p.scene);
                 const float max = p.scene->getBBoxMax();
                 auto cameraData = p.cameraData->get();
                 cameraData.clip = Core::FloatRange(max * nearMult, max * farMult);

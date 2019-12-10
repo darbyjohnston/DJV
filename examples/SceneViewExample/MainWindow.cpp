@@ -163,13 +163,13 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
 
     auto toolBar = UI::ToolBar::create(context);
     toolBar->setBackgroundRole(UI::ColorRole::OverlayLight);
-    toolBar->addChild(_fileInfoLabel);
-    toolBar->setStretch(_fileInfoLabel, UI::RowStretch::Expand);
-    toolBar->addSeparator();
     toolBar->addAction(_actions["File"]["Open"]);
     toolBar->addAction(_actions["File"]["Close"]);
     toolBar->addSeparator();
     toolBar->addAction(_actions["View"]["Frame"]);
+    toolBar->addSeparator();
+    toolBar->addChild(_fileInfoLabel);
+    toolBar->setStretch(_fileInfoLabel, UI::RowStretch::Expand);
 
     addChild(_sceneWidget);
     addChild(_mdiCanvas);
@@ -235,7 +235,7 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
             if (auto widget = weak.lock())
             {
                 widget->_sceneWidget->setSceneRotate(static_cast<UI::SceneRotate>(value + 1));
-                widget->_sceneWidget->frameView();
+                //widget->_sceneWidget->frameView();
             }
         });
     
