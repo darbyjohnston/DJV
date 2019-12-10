@@ -47,6 +47,16 @@ namespace djv
             return _p;
         }
 
+        inline bool DefaultCameraData::operator == (const DefaultCameraData& other) const
+        {
+            return fov == other.fov &&
+                aspect == other.aspect &&
+                clip == other.clip &&
+                position == other.position &&
+                target == other.target &&
+                up == other.up;
+        }
+
         inline DefaultCamera::DefaultCamera()
         {
             _update();
@@ -58,9 +68,25 @@ namespace djv
             return out;
         }
 
+        inline const DefaultCameraData& DefaultCamera::getData() const
+        {
+            return _data;
+        }
+
         inline std::string DefaultCamera::getClassName() const
         {
             return "DefaultCamera";
+        }
+
+        inline bool PolarCameraData::operator == (const PolarCameraData& other) const
+        {
+            return fov == other.fov &&
+                aspect == other.aspect &&
+                clip == other.clip &&
+                target == other.target &&
+                distance == other.distance &&
+                latitude == other.latitude &&
+                longitude == other.longitude;
         }
 
         inline PolarCamera::PolarCamera()
@@ -73,30 +99,40 @@ namespace djv
             auto out = std::shared_ptr<PolarCamera>(new PolarCamera);
             return out;
         }
+        
+        inline const PolarCameraData& PolarCamera::getData() const
+        {
+            return _data;
+        }
 
         inline float PolarCamera::getFOV() const
         {
-            return _fov;
+            return _data.fov;
         }
 
         inline const Core::FloatRange& PolarCamera::getClip() const
         {
-            return _clip;
+            return _data.clip;
+        }
+        
+        inline const glm::vec3& PolarCamera::getTarget() const
+        {
+            return _data.target;
         }
 
         inline float PolarCamera::getDistance() const
         {
-            return _distance;
+            return _data.distance;
         }
 
         inline float PolarCamera::getLatitude() const
         {
-            return _latitude;
+            return _data.latitude;
         }
 
         inline float PolarCamera::getLongitude() const
         {
-            return _longitude;
+            return _data.longitude;
         }
 
         inline std::string PolarCamera::getClassName() const

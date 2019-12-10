@@ -29,7 +29,7 @@
 
 #include "InfoTool.h"
 
-#include <djvUI/RowLayout.h>
+#include <djvUI/ScrollWidget.h>
 
 using namespace djv;
 
@@ -37,9 +37,21 @@ void InfoTool::_init(const std::shared_ptr<Core::Context>& context)
 {
     ITool::_init(context);
 
-    _bboxLabel = UI::Label::create(context);
-    _bboxLabel->setFont(AV::Font::familyMono);
-    _bboxLabel->setTextHAlign(UI::TextHAlign::Left);
+    _sceneSizeLabel = UI::Label::create(context);
+    _sceneSizeLabel->setFont(AV::Font::familyMono);
+    _sceneSizeLabel->setTextHAlign(UI::TextHAlign::Left);
+
+    _sceneXRangeLabel = UI::Label::create(context);
+    _sceneXRangeLabel->setFont(AV::Font::familyMono);
+    _sceneXRangeLabel->setTextHAlign(UI::TextHAlign::Left);
+
+    _sceneYRangeLabel = UI::Label::create(context);
+    _sceneYRangeLabel->setFont(AV::Font::familyMono);
+    _sceneYRangeLabel->setTextHAlign(UI::TextHAlign::Left);
+
+    _sceneZRangeLabel = UI::Label::create(context);
+    _sceneZRangeLabel->setFont(AV::Font::familyMono);
+    _sceneZRangeLabel->setTextHAlign(UI::TextHAlign::Left);
 
     _primitivesCountLabel = UI::Label::create(context);
     _primitivesCountLabel->setFont(AV::Font::familyMono);
@@ -56,11 +68,18 @@ void InfoTool::_init(const std::shared_ptr<Core::Context>& context)
     _formLayout = UI::FormLayout::create(context);
     _formLayout->setBackgroundRole(UI::ColorRole::Background);
     _formLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-    _formLayout->addChild(_bboxLabel);
+    _formLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+    _formLayout->addChild(_sceneSizeLabel);
+    _formLayout->addChild(_sceneXRangeLabel);
+    _formLayout->addChild(_sceneYRangeLabel);
+    _formLayout->addChild(_sceneZRangeLabel);
     _formLayout->addChild(_primitivesCountLabel);
     _formLayout->addChild(_triangleCountLabel);
     _formLayout->addChild(_fpsLabel);
-    addChild(_formLayout);
+    auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+    scrollWidget->setBackgroundRole(UI::ColorRole::Background);
+    scrollWidget->addChild(_formLayout);
+    addChild(scrollWidget);
 
     auto weak = std::weak_ptr<InfoTool>(std::dynamic_pointer_cast<InfoTool>(shared_from_this()));
 }
@@ -110,11 +129,29 @@ void InfoTool::_initEvent(Core::Event::Init&)
 void InfoTool::_textUpdate()
 {
     setTitle(_getText(DJV_TEXT("Information")));
-    _formLayout->setText(_bboxLabel, _getText(DJV_TEXT("Bounding box")) + ":");
+    _formLayout->setText(_sceneSizeLabel, _getText(DJV_TEXT("Scene size")) + ":");
     {
         std::stringstream ss;
-        ss << _bbox;
-        _bboxLabel->setText(ss.str());
+        ss << _bbox.w() << " x " << _bbox.h() << " x " << _bbox.d();
+        _sceneSizeLabel->setText(ss.str());
+    }
+    _formLayout->setText(_sceneXRangeLabel, _getText(DJV_TEXT("Scene X range")) + ":");
+    {
+        std::stringstream ss;
+        ss << _bbox.min.x << " - " << _bbox.max.x;
+        _sceneXRangeLabel->setText(ss.str());
+    }
+    _formLayout->setText(_sceneYRangeLabel, _getText(DJV_TEXT("Scene Y range")) + ":");
+    {
+        std::stringstream ss;
+        ss << _bbox.min.y << " - " << _bbox.max.y;
+        _sceneYRangeLabel->setText(ss.str());
+    }
+    _formLayout->setText(_sceneZRangeLabel, _getText(DJV_TEXT("Scene Z range")) + ":");
+    {
+        std::stringstream ss;
+        ss << _bbox.min.z << " - " << _bbox.max.z;
+        _sceneZRangeLabel->setText(ss.str());
     }
     _formLayout->setText(_primitivesCountLabel, _getText(DJV_TEXT("Primitives")) + ":");
     {

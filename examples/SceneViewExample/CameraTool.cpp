@@ -29,138 +29,206 @@
 
 #include "CameraTool.h"
 
+#include <djvUI/ScrollWidget.h>
+
 using namespace djv;
+
+namespace
+{
+    const float posMax = 10000000.F;
+}
 
 void CameraTool::_init(const std::shared_ptr<Core::Context>& context)
 {
     ITool::_init(context);
 
-    _fovSlider = UI::FloatSlider::create(context);
-    _fovSlider->setRange(Core::FloatRange(10.F, 170.F));
-    auto model = _fovSlider->getModel();
+    _floatEdits["FOV"] = UI::FloatEdit::create(context);
+    _floatEdits["FOV"]->setRange(Core::FloatRange(10.F, 170.F));
+    auto model = _floatEdits["FOV"]->getModel();
     model->setSmallIncrement(1.F);
     model->setLargeIncrement(10.F);
 
-    _clipEdit[0] = UI::FloatEdit::create(context);
-    _clipEdit[0]->setRange(Core::FloatRange(.001F, 10000000.F));
-    _clipEdit[0]->setPrecision(3);
-    model = _clipEdit[0]->getModel();
-    model->setSmallIncrement(.1F);
+    _floatEdits["NearClip"] = UI::FloatEdit::create(context);
+    _floatEdits["NearClip"]->setRange(Core::FloatRange(.001F, posMax));
+    _floatEdits["NearClip"]->setPrecision(3);
+    model = _floatEdits["NearClip"]->getModel();
+    model->setSmallIncrement(1.F);
     model->setLargeIncrement(10.F);
-    _clipEdit[1] = UI::FloatEdit::create(context);
-    _clipEdit[1]->setRange(Core::FloatRange(.001F, 10000000.F));
-    _clipEdit[1]->setPrecision(3);
-    model = _clipEdit[1]->getModel();
-    model->setSmallIncrement(.1F);
-    model->setLargeIncrement(10.F);
-
-    _distanceEdit = UI::FloatEdit::create(context);
-    _distanceEdit->setRange(Core::FloatRange(1.F, 10000000.F));
-    model = _clipEdit[0]->getModel();
-    model->setSmallIncrement(.1F);
-    model->setLargeIncrement(10.F);
-
-    _latitudeSlider = UI::FloatSlider::create(context);
-    _latitudeSlider->setRange(Core::FloatRange(-89.F, 89.F));
-    model = _latitudeSlider->getModel();
+    _floatEdits["FarClip"] = UI::FloatEdit::create(context);
+    _floatEdits["FarClip"]->setRange(Core::FloatRange(.001F, posMax));
+    _floatEdits["FarClip"]->setPrecision(3);
+    model = _floatEdits["FarClip"]->getModel();
     model->setSmallIncrement(1.F);
     model->setLargeIncrement(10.F);
 
-    _longitudeSlider = UI::FloatSlider::create(context);
-    _longitudeSlider->setRange(Core::FloatRange(0.F, 360.F));
-    model = _longitudeSlider->getModel();
+    _floatEdits["TargetX"] = UI::FloatEdit::create(context);
+    _floatEdits["TargetX"]->setRange(Core::FloatRange(-posMax, posMax));
+    model = _floatEdits["TargetX"]->getModel();
+    model->setSmallIncrement(1.F);
+    model->setLargeIncrement(10.F);
+
+    _floatEdits["TargetY"] = UI::FloatEdit::create(context);
+    _floatEdits["TargetY"]->setRange(Core::FloatRange(-posMax, posMax));
+    model = _floatEdits["TargetY"]->getModel();
+    model->setSmallIncrement(1.F);
+    model->setLargeIncrement(10.F);
+
+    _floatEdits["TargetZ"] = UI::FloatEdit::create(context);
+    _floatEdits["TargetZ"]->setRange(Core::FloatRange(-posMax, posMax));
+    model = _floatEdits["TargetZ"]->getModel();
+    model->setSmallIncrement(1.F);
+    model->setLargeIncrement(10.F);
+
+    _floatEdits["Distance"] = UI::FloatEdit::create(context);
+    _floatEdits["Distance"]->setRange(Core::FloatRange(1.F, posMax));
+    model = _floatEdits["Distance"]->getModel();
+    model->setSmallIncrement(1.F);
+    model->setLargeIncrement(10.F);
+
+    _floatEdits["Latitude"] = UI::FloatEdit::create(context);
+    _floatEdits["Latitude"]->setRange(Core::FloatRange(-89.F, 89.F));
+    model = _floatEdits["Latitude"]->getModel();
+    model->setSmallIncrement(1.F);
+    model->setLargeIncrement(10.F);
+
+    _floatEdits["Longitutde"] = UI::FloatEdit::create(context);
+    _floatEdits["Longitutde"]->setRange(Core::FloatRange(0.F, 360.F));
+    model = _floatEdits["Longitutde"]->getModel();
     model->setSmallIncrement(1.F);
     model->setLargeIncrement(10.F);
 
     _formLayout = UI::FormLayout::create(context);
-    _formLayout->setBackgroundRole(UI::ColorRole::Background);
     _formLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-    _formLayout->addChild(_fovSlider);
-    _clipLayout = UI::HorizontalLayout::create(context);
-    _clipLayout->addChild(_clipEdit[0]);
-    _clipLayout->addChild(_clipEdit[1]);
-    _formLayout->addChild(_clipLayout);
-    _formLayout->addChild(_distanceEdit);
-    _formLayout->addChild(_latitudeSlider);
-    _formLayout->addChild(_longitudeSlider);
-    addChild(_formLayout);
+    _formLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+    _formLayout->addChild(_floatEdits["FOV"]);
+    _formLayout->addChild(_floatEdits["NearClip"]);
+    _formLayout->addChild(_floatEdits["FarClip"]);
+    _formLayout->addChild(_floatEdits["TargetX"]);
+    _formLayout->addChild(_floatEdits["TargetY"]);
+    _formLayout->addChild(_floatEdits["TargetZ"]);
+    _formLayout->addChild(_floatEdits["Distance"]);
+    _formLayout->addChild(_floatEdits["Latitude"]);
+    _formLayout->addChild(_floatEdits["Longitutde"]);
+    auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+    scrollWidget->setBackgroundRole(UI::ColorRole::Background);
+    scrollWidget->addChild(_formLayout);
+    addChild(scrollWidget);
 
     _widgetUpdate();
 
     auto weak = std::weak_ptr<CameraTool>(std::dynamic_pointer_cast<CameraTool>(shared_from_this()));
-    _fovSlider->setValueCallback(
-        [weak](float value)
-        {
-            if (auto widget = weak.lock())
-            {
-                widget->_cameraInfo.fov = value;
-                if (widget->_cameraInfoCallback)
-                {
-                    widget->_cameraInfoCallback(widget->_cameraInfo);
-                }
-            }
-        });
-
-    _clipEdit[0]->setValueCallback(
+    _floatEdits["FOV"]->setValueCallback(
         [weak](float value, UI::TextEditReason)
         {
             if (auto widget = weak.lock())
             {
-                widget->_cameraInfo.clip.min = value;
-                if (widget->_cameraInfoCallback)
+                widget->_cameraData.fov = value;
+                if (widget->_cameraDataCallback)
                 {
-                    widget->_cameraInfoCallback(widget->_cameraInfo);
+                    widget->_cameraDataCallback(widget->_cameraData);
                 }
             }
         });
-    _clipEdit[1]->setValueCallback(
+
+    _floatEdits["NearClip"]->setValueCallback(
         [weak](float value, UI::TextEditReason)
         {
             if (auto widget = weak.lock())
             {
-                widget->_cameraInfo.clip.max = value;
-                if (widget->_cameraInfoCallback)
+                widget->_cameraData.clip.min = value;
+                if (widget->_cameraDataCallback)
                 {
-                    widget->_cameraInfoCallback(widget->_cameraInfo);
+                    widget->_cameraDataCallback(widget->_cameraData);
                 }
             }
         });
-
-    _distanceEdit->setValueCallback(
+    _floatEdits["FarClip"]->setValueCallback(
         [weak](float value, UI::TextEditReason)
         {
             if (auto widget = weak.lock())
             {
-                widget->_cameraInfo.distance = value;
-                if (widget->_cameraInfoCallback)
+                widget->_cameraData.clip.max = value;
+                if (widget->_cameraDataCallback)
                 {
-                    widget->_cameraInfoCallback(widget->_cameraInfo);
+                    widget->_cameraDataCallback(widget->_cameraData);
                 }
             }
         });
 
-    _latitudeSlider->setValueCallback(
-        [weak](float value)
+    _floatEdits["TargetX"]->setValueCallback(
+        [weak](float value, UI::TextEditReason)
         {
             if (auto widget = weak.lock())
             {
-                widget->_cameraInfo.latitude = value;
-                if (widget->_cameraInfoCallback)
+                widget->_cameraData.target.x = value;
+                if (widget->_cameraDataCallback)
                 {
-                    widget->_cameraInfoCallback(widget->_cameraInfo);
+                    widget->_cameraDataCallback(widget->_cameraData);
                 }
             }
         });
 
-    _longitudeSlider->setValueCallback(
-        [weak](float value)
+    _floatEdits["TargetY"]->setValueCallback(
+        [weak](float value, UI::TextEditReason)
         {
             if (auto widget = weak.lock())
             {
-                widget->_cameraInfo.longitude = value;
-                if (widget->_cameraInfoCallback)
+                widget->_cameraData.target.y = value;
+                if (widget->_cameraDataCallback)
                 {
-                    widget->_cameraInfoCallback(widget->_cameraInfo);
+                    widget->_cameraDataCallback(widget->_cameraData);
+                }
+            }
+        });
+
+    _floatEdits["TargetZ"]->setValueCallback(
+        [weak](float value, UI::TextEditReason)
+        {
+            if (auto widget = weak.lock())
+            {
+                widget->_cameraData.target.z = value;
+                if (widget->_cameraDataCallback)
+                {
+                    widget->_cameraDataCallback(widget->_cameraData);
+                }
+            }
+        });
+
+    _floatEdits["Distance"]->setValueCallback(
+        [weak](float value, UI::TextEditReason)
+        {
+            if (auto widget = weak.lock())
+            {
+                widget->_cameraData.distance = value;
+                if (widget->_cameraDataCallback)
+                {
+                    widget->_cameraDataCallback(widget->_cameraData);
+                }
+            }
+        });
+
+    _floatEdits["Latitude"]->setValueCallback(
+        [weak](float value, UI::TextEditReason)
+        {
+            if (auto widget = weak.lock())
+            {
+                widget->_cameraData.latitude = value;
+                if (widget->_cameraDataCallback)
+                {
+                    widget->_cameraDataCallback(widget->_cameraData);
+                }
+            }
+        });
+
+    _floatEdits["Longitutde"]->setValueCallback(
+        [weak](float value, UI::TextEditReason)
+        {
+            if (auto widget = weak.lock())
+            {
+                widget->_cameraData.longitude = value;
+                if (widget->_cameraDataCallback)
+                {
+                    widget->_cameraDataCallback(widget->_cameraData);
                 }
             }
         });
@@ -179,34 +247,41 @@ std::shared_ptr<CameraTool> CameraTool::create(const std::shared_ptr<Core::Conte
     return out;
 }
 
-void CameraTool::setCameraInfo(const UI::CameraInfo& value)
+void CameraTool::setCameraData(const Scene::PolarCameraData& value)
 {
-    _cameraInfo = value;
+    _cameraData = value;
     _widgetUpdate();
 }
 
-void CameraTool::setCameraInfoCallback(const std::function<void(const UI::CameraInfo&)>& value)
+void CameraTool::setCameraDataCallback(const std::function<void(const Scene::PolarCameraData&)>& value)
 {
-    _cameraInfoCallback = value;
+    _cameraDataCallback = value;
 }
 
 void CameraTool::_initEvent(Core::Event::Init&)
 {
     setTitle(_getText(DJV_TEXT("Camera")));
 
-    _formLayout->setText(_fovSlider, _getText(DJV_TEXT("FOV")) + ":");
-    _formLayout->setText(_clipLayout, _getText(DJV_TEXT("Clip")) + ":");
-    _formLayout->setText(_distanceEdit, _getText(DJV_TEXT("Distance")) + ":");
-    _formLayout->setText(_latitudeSlider, _getText(DJV_TEXT("Latitude")) + ":");
-    _formLayout->setText(_longitudeSlider, _getText(DJV_TEXT("Longitude")) + ":");
+    _formLayout->setText(_floatEdits["FOV"], _getText(DJV_TEXT("FOV")) + ":");
+    _formLayout->setText(_floatEdits["NearClip"], _getText(DJV_TEXT("Near clip")) + ":");
+    _formLayout->setText(_floatEdits["FarClip"], _getText(DJV_TEXT("Far clip")) + ":");
+    _formLayout->setText(_floatEdits["TargetX"], _getText(DJV_TEXT("Target X")) + ":");
+    _formLayout->setText(_floatEdits["TargetY"], _getText(DJV_TEXT("Target Y")) + ":");
+    _formLayout->setText(_floatEdits["TargetZ"], _getText(DJV_TEXT("Target Z")) + ":");
+    _formLayout->setText(_floatEdits["Distance"], _getText(DJV_TEXT("Distance")) + ":");
+    _formLayout->setText(_floatEdits["Latitude"], _getText(DJV_TEXT("Latitude")) + ":");
+    _formLayout->setText(_floatEdits["Longitutde"], _getText(DJV_TEXT("Longitude")) + ":");
 }
 
 void CameraTool::_widgetUpdate()
 {
-    _fovSlider->setValue(_cameraInfo.fov);
-    _clipEdit[0]->setValue(_cameraInfo.clip.min);
-    _clipEdit[1]->setValue(_cameraInfo.clip.max);
-    _distanceEdit->setValue(_cameraInfo.distance);
-    _latitudeSlider->setValue(_cameraInfo.latitude);
-    _longitudeSlider->setValue(_cameraInfo.longitude);
+    _floatEdits["FOV"]->setValue(_cameraData.fov);
+    _floatEdits["NearClip"]->setValue(_cameraData.clip.min);
+    _floatEdits["FarClip"]->setValue(_cameraData.clip.max);
+    _floatEdits["TargetX"]->setValue(_cameraData.target.x);
+    _floatEdits["TargetY"]->setValue(_cameraData.target.y);
+    _floatEdits["TargetZ"]->setValue(_cameraData.target.z);
+    _floatEdits["Distance"]->setValue(_cameraData.distance);
+    _floatEdits["Latitude"]->setValue(_cameraData.latitude);
+    _floatEdits["Longitutde"]->setValue(_cameraData.longitude);
 }

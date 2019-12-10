@@ -111,7 +111,7 @@ void Application::_open(const Core::FileSystem::FileInfo& fileInfo)
 {
     if (_scene)
     {
-        _mainWindow->setScene(nullptr);
+        _mainWindow->setScene(Core::FileSystem::FileInfo(), nullptr);
         _scene.reset();
     }
     _fileInfo = fileInfo;
@@ -125,7 +125,7 @@ void Application::_open(const Core::FileSystem::FileInfo& fileInfo)
             auto weak = std::weak_ptr<Application>(std::dynamic_pointer_cast<Application>(shared_from_this()));
             _futureTimer->start(
                 Core::Time::getMilliseconds(Core::Time::TimerValue::Medium),
-                [weak](float)
+                [weak, fileInfo](float)
                 {
                     if (auto app = weak.lock())
                     {
@@ -137,7 +137,7 @@ void Application::_open(const Core::FileSystem::FileInfo& fileInfo)
                                 app->_scene = app->_sceneReadFuture.get();
                                 //app->_scene->printPrimitives();
                                 //app->_scene->printLayers();
-                                app->_mainWindow->setScene(app->_scene);
+                                app->_mainWindow->setScene(fileInfo, app->_scene);
                             }
                         }
                         catch (const std::exception& e)

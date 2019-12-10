@@ -141,6 +141,10 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
     menuBar->addChild(sceneMenu);
     menuBar->addChild(toolsMenu);
 
+    _fileInfoLabel = UI::Label::create(context);
+    _fileInfoLabel->setTextHAlign(UI::TextHAlign::Left);
+    _fileInfoLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin, UI::MetricsRole::Margin, UI::MetricsRole::MarginSmall, UI::MetricsRole::MarginSmall));
+
     _sceneWidget = UI::SceneWidget::create(context);
 
     _cameraTool = CameraTool::create(context);
@@ -159,6 +163,9 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
 
     auto toolBar = UI::ToolBar::create(context);
     toolBar->setBackgroundRole(UI::ColorRole::OverlayLight);
+    toolBar->addChild(_fileInfoLabel);
+    toolBar->setStretch(_fileInfoLabel, UI::RowStretch::Expand);
+    toolBar->addSeparator();
     toolBar->addAction(_actions["File"]["Open"]);
     toolBar->addAction(_actions["File"]["Close"]);
     toolBar->addSeparator();
@@ -171,20 +178,20 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
     auto hLayout = UI::HorizontalLayout::create(context);
     hLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
     hLayout->addChild(menuBar);
-    hLayout->setStretch(menuBar, UI::RowStretch::Expand);
     hLayout->addSeparator();
     hLayout->addChild(toolBar);
+    hLayout->setStretch(toolBar, UI::RowStretch::Expand);
     vLayout->addChild(hLayout);
     vLayout->addExpander();
     addChild(vLayout);
 
     auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
-    _cameraTool->setCameraInfoCallback(
-        [weak](const UI::CameraInfo& value)
+    _cameraTool->setCameraDataCallback(
+        [weak](const Scene::PolarCameraData& value)
         {
             if (auto widget = weak.lock())
             {
-                widget->_sceneWidget->setCameraInfo(value);
+                widget->_sceneWidget->setCameraData(value);
             }
         });
     _cameraTool->setCloseCallback(
@@ -196,6 +203,14 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
             }
         });
 
+    _renderTool->setRenderOptionsCallback(
+        [weak](const UI::SceneRenderOptions& value)
+        {
+            if (auto widget = weak.lock())
+            {
+                widget->_sceneWidget->setRenderOptions(value);
+            }
+        });
     _renderTool->setCloseCallback(
         [weak]
         {
@@ -328,13 +343,23 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
             }
         });
 
-    _cameraInfoObserver = Core::ValueObserver<UI::CameraInfo>::create(
-        _sceneWidget->observeCameraInfo(),
-        [weak](const UI::CameraInfo& value)
+    _cameraDataObserver = Core::ValueObserver<Scene::PolarCameraData>::create(
+        _sceneWidget->observeCameraData(),
+        [weak](const Scene::PolarCameraData& value)
         {
             if (auto widget = weak.lock())
             {
-                widget->_cameraTool->setCameraInfo(value);
+                widget->_cameraTool->setCameraData(value);
+            }
+        });
+
+    _renderOptionsObserver = Core::ValueObserver<UI::SceneRenderOptions>::create(
+        _sceneWidget->observeRenderOptions(),
+        [weak](const UI::SceneRenderOptions& value)
+        {
+            if (auto widget = weak.lock())
+            {
+                widget->_renderTool->setRenderOptions(value);
             }
         });
 
@@ -391,8 +416,11 @@ MainWindow::MainWindow()
 MainWindow::~MainWindow()
 {}
 
-void MainWindow::setScene(const std::shared_ptr<Scene::Scene>& value)
+void MainWindow::setScene(
+    const djv::Core::FileSystem::FileInfo& fileInfo,
+    const std::shared_ptr<Scene::Scene>& value)
 {
+    _fileInfoLabel->setText(fileInfo.getFileName());
     _sceneWidget->setScene(value);
     _sceneWidget->frameView();
 }

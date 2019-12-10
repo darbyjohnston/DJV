@@ -34,9 +34,7 @@
 #include <djvUIComponents/SceneWidget.h>
 
 #include <djvUI/FloatEdit.h>
-#include <djvUI/FloatSlider.h>
 #include <djvUI/FormLayout.h>
-#include <djvUI/RowLayout.h>
 
 class CameraTool : public ITool
 {
@@ -51,8 +49,8 @@ public:
 
     static std::shared_ptr<CameraTool> create(const std::shared_ptr<djv::Core::Context>&);
 
-    void setCameraInfo(const djv::UI::CameraInfo&);
-    void setCameraInfoCallback(const std::function<void(const djv::UI::CameraInfo&)>&);
+    void setCameraData(const djv::Scene::PolarCameraData&);
+    void setCameraDataCallback(const std::function<void(const djv::Scene::PolarCameraData&)>&);
 
 protected:
     void _initEvent(djv::Core::Event::Init&) override;
@@ -60,13 +58,8 @@ protected:
 private:
     void _widgetUpdate();
 
-    djv::UI::CameraInfo _cameraInfo;
-    std::shared_ptr<djv::UI::FloatSlider> _fovSlider;
-    std::shared_ptr<djv::UI::FloatEdit> _clipEdit[2];
-    std::shared_ptr<djv::UI::HorizontalLayout> _clipLayout;
-    std::shared_ptr<djv::UI::FloatEdit> _distanceEdit;
-    std::shared_ptr<djv::UI::FloatSlider> _latitudeSlider;
-    std::shared_ptr<djv::UI::FloatSlider> _longitudeSlider;
+    djv::Scene::PolarCameraData _cameraData;
+    std::map<std::string, std::shared_ptr<djv::UI::FloatEdit> > _floatEdits;
     std::shared_ptr<djv::UI::FormLayout> _formLayout;
-    std::function<void(const djv::UI::CameraInfo&)> _cameraInfoCallback;
+    std::function<void(const djv::Scene::PolarCameraData&)> _cameraDataCallback;
 };

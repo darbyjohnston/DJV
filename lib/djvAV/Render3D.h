@@ -58,11 +58,24 @@ namespace djv
             class ILight;
             class IMaterial;
 
+            //! This enumeration provides depth buffer modes.
+            enum class DepthBufferMode
+            {
+                Standard,
+                Reverse,
+
+                Count,
+                First = Standard
+            };
+            DJV_ENUM_HELPERS(DepthBufferMode);
+
             //! This struct provides render options.
             struct RenderOptions
             {
-                std::shared_ptr<ICamera> camera;
-                Image::Size size;
+                std::shared_ptr<ICamera>    camera;
+                Image::Size                 size;
+                Core::FloatRange            clip;
+                DepthBufferMode             depthBufferMode = DepthBufferMode::Reverse;
             };
 
             //! This class provides a 3D render system.
@@ -126,4 +139,7 @@ namespace djv
 
         } // namespace Render3D
     } // namespace AV
+
+    DJV_ENUM_SERIALIZE_HELPERS(AV::Render3D::DepthBufferMode);
+
 } // namespace djv

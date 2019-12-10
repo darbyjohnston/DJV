@@ -31,6 +31,12 @@
 
 #include <djvUI/Widget.h>
 
+#include <djvScene/Camera.h>
+#include <djvScene/Render.h>
+
+#include <djvAV/OpenGLOffscreenBuffer.h>
+#include <djvAV/Render3D.h>
+
 #include <djvCore/ValueObserver.h>
 
 namespace djv
@@ -43,7 +49,7 @@ namespace djv
 
     namespace UI
     {
-        //! This enum provides the scene rotation.
+        //! This enumeration provides the scene rotation.
         enum class SceneRotate
         {
             None,
@@ -52,19 +58,22 @@ namespace djv
             Y90,
             Y_90,
             Z90,
-            Z_90
+            Z_90,
+
+            Count,
+            First = None
         };
+        DJV_ENUM_HELPERS(SceneRotate);
 
-        //! This struct provides camera information.
-        struct CameraInfo
+        //! This struct provides render options.
+        struct SceneRenderOptions
         {
-            float fov = 0.F;
-            djv::Core::FloatRange clip;
-            float distance = 0.F;
-            float latitude = 0.F;
-            float longitude = 0.F;
+            AV::Render3D::DefaultMaterialMode   shaderMode      = AV::Render3D::DefaultMaterialMode::Default;
+            AV::Render3D::DepthBufferMode       depthBufferMode = AV::Render3D::DepthBufferMode::Reverse;
+            AV::OpenGL::OffscreenDepthType      depthBufferType = AV::OpenGL::OffscreenDepthType::_32;
+            AV::OpenGL::OffscreenSampling       multiSampling   = AV::OpenGL::OffscreenSampling::_4;
 
-            bool operator == (const CameraInfo&) const;
+            bool operator == (const SceneRenderOptions&) const;
         };
 
         //! This class provides a scene view widget.
@@ -87,8 +96,11 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<SceneRotate> > observeSceneRotate() const;
             void setSceneRotate(SceneRotate);
 
-            std::shared_ptr<Core::IValueSubject<CameraInfo> > observeCameraInfo() const;
-            void setCameraInfo(const CameraInfo&);
+            std::shared_ptr<Core::IValueSubject<Scene::PolarCameraData> > observeCameraData() const;
+            void setCameraData(const Scene::PolarCameraData&);
+
+            std::shared_ptr<Core::IValueSubject<SceneRenderOptions> > observeRenderOptions() const;
+            void setRenderOptions(const SceneRenderOptions&);
 
             void frameView();
 
@@ -112,5 +124,8 @@ namespace djv
         };
 
     } // namespace UI
+
+    DJV_ENUM_SERIALIZE_HELPERS(UI::SceneRotate);
+
 } // namespace djv
 

@@ -45,9 +45,6 @@ namespace djv
         {
             namespace
             {
-                //! \todo Should this be configurable?
-                const size_t samples = 4;
-
                 enum class Error
                 {
                     ColorTexture,
@@ -132,10 +129,26 @@ namespace djv
                 _sampling = sampling;
 
                 GLenum target = GL_TEXTURE_2D;
+                size_t samples = 0;
 #if !defined(DJV_OPENGL_ES2)
                 switch (sampling)
                 {
-                case OffscreenSampling::MultiSample: target = GL_TEXTURE_2D_MULTISAMPLE; break;
+                case OffscreenSampling::_2:
+                    samples = 2;
+                    target = GL_TEXTURE_2D_MULTISAMPLE;
+                    break;
+                case OffscreenSampling::_4:
+                    samples = 4;
+                    target = GL_TEXTURE_2D_MULTISAMPLE;
+                    break;
+                case OffscreenSampling::_8:
+                    samples = 8;
+                    target = GL_TEXTURE_2D_MULTISAMPLE;
+                    break;
+                case OffscreenSampling::_16:
+                    samples = 16;
+                    target = GL_TEXTURE_2D_MULTISAMPLE;
+                    break;
                 default: break;
                 }
 #endif // DJV_OPENGL_ES2
@@ -168,7 +181,10 @@ namespace djv
 #else // DJV_OPENGL_ES2
                     switch (sampling)
                     {
-                    case OffscreenSampling::MultiSample:
+                    case OffscreenSampling::_2:
+                    case OffscreenSampling::_4:
+                    case OffscreenSampling::_8:
+                    case OffscreenSampling::_16:
                         glTexImage2DMultisample(
                             target,
                             static_cast<GLsizei>(samples),
@@ -225,7 +241,10 @@ namespace djv
 #else // DJV_OPENGL_ES2
                     switch (sampling)
                     {
-                    case OffscreenSampling::MultiSample:
+                    case OffscreenSampling::_2:
+                    case OffscreenSampling::_4:
+                    case OffscreenSampling::_8:
+                    case OffscreenSampling::_16:
                         glTexImage2DMultisample(
                             target,
                             static_cast<GLsizei>(samples),
@@ -332,4 +351,21 @@ namespace djv
 
         } // namespace OpenGL
     } // namespace AV
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        AV::OpenGL,
+        OffscreenDepthType,
+        DJV_TEXT("None"),
+        DJV_TEXT("24"),
+        DJV_TEXT("32"));
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        AV::OpenGL,
+        OffscreenSampling,
+        DJV_TEXT("None"),
+        DJV_TEXT("2"),
+        DJV_TEXT("4"),
+        DJV_TEXT("8"),
+        DJV_TEXT("16"));
+
 } // namespace djv

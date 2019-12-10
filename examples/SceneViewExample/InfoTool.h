@@ -62,7 +62,10 @@ private:
     size_t _primitivesCount = 0;
     size_t _triangleCount = 0;
     float _fps = 0.F;
-    std::shared_ptr<djv::UI::Label> _bboxLabel;
+    std::shared_ptr<djv::UI::Label> _sceneSizeLabel;
+    std::shared_ptr<djv::UI::Label> _sceneXRangeLabel;
+    std::shared_ptr<djv::UI::Label> _sceneYRangeLabel;
+    std::shared_ptr<djv::UI::Label> _sceneZRangeLabel;
     std::shared_ptr<djv::UI::Label> _primitivesCountLabel;
     std::shared_ptr<djv::UI::Label> _triangleCountLabel;
     std::shared_ptr<djv::UI::Label> _fpsLabel;

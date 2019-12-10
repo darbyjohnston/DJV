@@ -30,6 +30,8 @@
 #pragma once
 
 #include <djvAV/ImageData.h>
+#include <djvAV/Render3D.h>
+#include <djvAV/Render3DMaterial.h>
 
 #include <glm/mat4x4.hpp>
 
@@ -61,8 +63,13 @@ namespace djv
         //! This struct provides render options.
         struct RenderOptions
         {
-            std::shared_ptr<ICamera> camera;
-            AV::Image::Size size;
+            std::shared_ptr<ICamera>            camera;
+            AV::Image::Size                     size;
+            Core::FloatRange                    clip;
+            AV::Render3D::DefaultMaterialMode   shaderMode      = AV::Render3D::DefaultMaterialMode::Default;
+            AV::Render3D::DepthBufferMode       depthBufferMode = AV::Render3D::DepthBufferMode::Reverse;
+
+            bool operator == (const RenderOptions&) const;
         };
 
         //! This class provides a renderer.

@@ -50,6 +50,15 @@ namespace djv
 {
     namespace Scene
     {
+        bool RenderOptions::operator == (const RenderOptions& other) const
+        {
+            return camera == other.camera &&
+                size == other.size &&
+                clip == other.clip &&
+                shaderMode == other.shaderMode &&
+                depthBufferMode == other.depthBufferMode;
+        }
+
         struct Render::Private
         {
             std::weak_ptr<Core::Context> context;
@@ -142,7 +151,16 @@ namespace djv
                 renderCamera->setP(renderOptions.camera->getP());
                 render3DOptions.camera = renderCamera;
                 render3DOptions.size = renderOptions.size;
+                render3DOptions.clip = renderOptions.clip;
+                render3DOptions.depthBufferMode = renderOptions.depthBufferMode;
                 render->beginFrame(render3DOptions);
+                for (const auto& i : p.materials)
+                {
+                    if (auto defaultMaterial = std::dynamic_pointer_cast<AV::Render3D::DefaultMaterial>(i.second))
+                    {
+                        defaultMaterial->setMode(renderOptions.shaderMode);
+                    }
+                }
                 for (const auto& i : p.primitives)
                 {
                     render->pushTransform(i.m);

@@ -53,16 +53,18 @@ namespace djv
             //! \todo Should these be configurable?
             const float rotationSensitivity = .5F;
             const float zoomSensitivity     = .1F;
+            const float nearMult            = .0001F;
+            const float farMult             = 10.F;
         
         } // namespace
 
-        bool CameraInfo::operator == (const CameraInfo& other) const
+        bool SceneRenderOptions::operator == (const SceneRenderOptions& other) const
         {
-            return fov == other.fov &&
-                clip == other.clip &&
-                distance == other.distance &&
-                latitude == other.latitude &&
-                longitude == other.longitude;
+            return
+                shaderMode == other.shaderMode &&
+                depthBufferMode == other.depthBufferMode &&
+                depthBufferType == other.depthBufferType &&
+                multiSampling == other.multiSampling;
         }
 
         struct SceneWidget::Private
@@ -72,7 +74,8 @@ namespace djv
             std::shared_ptr<Scene::Scene> scene;
             std::shared_ptr<ValueSubject<SceneRotate> > sceneRotate;
             std::shared_ptr<Scene::PolarCamera> camera;
-            std::shared_ptr<ValueSubject<CameraInfo> > cameraInfo;
+            std::shared_ptr<ValueSubject<Scene::PolarCameraData> > cameraData;
+            std::shared_ptr<ValueSubject<SceneRenderOptions> > renderOptions;
             std::shared_ptr<Scene::Render> render;
             std::shared_ptr<AV::OpenGL::OffscreenBuffer> offscreenBuffer;
             std::shared_ptr<AV::OpenGL::OffscreenBuffer> offscreenBuffer2;
@@ -96,13 +99,8 @@ namespace djv
             p.sceneRotate = ValueSubject<SceneRotate>::create(SceneRotate::None);
             p.render3D = context->getSystemT<AV::Render3D::Render>();
             p.camera = Scene::PolarCamera::create();
-            CameraInfo cameraInfo;
-            cameraInfo.fov = p.camera->getFOV();
-            cameraInfo.clip = p.camera->getClip();
-            cameraInfo.distance = p.camera->getDistance();
-            cameraInfo.latitude = p.camera->getLatitude();
-            cameraInfo.longitude = p.camera->getLongitude();
-            p.cameraInfo = ValueSubject<CameraInfo>::create(cameraInfo);
+            p.cameraData = ValueSubject<Scene::PolarCameraData>::create(p.camera->getData());
+            p.renderOptions = ValueSubject<SceneRenderOptions>::create(SceneRenderOptions());
             p.render = Scene::Render::create(context);
             p.bbox = ValueSubject<BBox3f>::create(BBox3f(0.F, 0.F, 0.F, 0.F, 0.F, 0.F));
             p.primitivesCount = ValueSubject<size_t>::create(0);
@@ -164,20 +162,32 @@ namespace djv
             }
         }
 
-        std::shared_ptr<Core::IValueSubject<CameraInfo> > SceneWidget::observeCameraInfo() const
+        std::shared_ptr<Core::IValueSubject<Scene::PolarCameraData> > SceneWidget::observeCameraData() const
         {
-            return _p->cameraInfo;
+            return _p->cameraData;
         }
 
-        void SceneWidget::setCameraInfo(const CameraInfo& value)
+        void SceneWidget::setCameraData(const Scene::PolarCameraData& value)
         {
-            if (_p->cameraInfo->setIfChanged(value))
+            if (_p->cameraData->setIfChanged(value))
             {
-                _p->camera->setFOV(value.fov);
-                _p->camera->setClip(value.clip);
-                _p->camera->setDistance(value.distance);
-                _p->camera->setLatitude(value.latitude);
-                _p->camera->setLongitude(value.longitude);
+                _p->camera->setData(value);
+                _redraw();
+            }
+        }
+
+        std::shared_ptr<Core::IValueSubject<SceneRenderOptions> > SceneWidget::observeRenderOptions() const
+        {
+            return _p->renderOptions;
+        }
+
+        void SceneWidget::setRenderOptions(const SceneRenderOptions& value)
+        {
+            DJV_PRIVATE_PTR();
+            if (p.renderOptions->setIfChanged(value))
+            {
+                p.offscreenBuffer.reset();
+                p.offscreenBuffer2.reset();
                 _redraw();
             }
         }
@@ -192,10 +202,10 @@ namespace djv
                 const float max = p.scene->getBBoxMax();
                 const float tan = tanf(Math::deg2rad(p.camera->getFOV()));
                 const float distance = (tan > 0.F) ? (max / tan) : 1.F;
-                p.camera->setTarget(center);
-                auto cameraInfo = p.cameraInfo->get();
-                cameraInfo.distance = distance;
-                setCameraInfo(cameraInfo);
+                auto cameraData = p.cameraData->get();
+                cameraData.target = center;
+                cameraData.distance = distance;
+                setCameraData(cameraData);
                 _redraw();
             }
         }
@@ -221,7 +231,9 @@ namespace djv
             const BBox2f& g = getGeometry();
             p.size.w = g.w();
             p.size.h = g.h();
-            p.camera->setAspect(p.size.w / static_cast<float>(p.size.h > 0 ? p.size.h : 0));
+            auto cameraData = p.cameraData->get();
+            cameraData.aspect = p.size.w / static_cast<float>(p.size.h > 0 ? p.size.h : 0);
+            setCameraData(cameraData);
         }
 
         void SceneWidget::_paintEvent(Event::Paint&)
@@ -247,29 +259,29 @@ namespace djv
                 auto i = p.buttons.find(1);
                 if (i != p.buttons.end())
                 {
-                    auto cameraInfo = p.cameraInfo->get();
-                    cameraInfo.longitude += (pointerInfo.projectedPos.x - p.pointerPos.x) * rotationSensitivity;
-                    while (cameraInfo.longitude < 0.F)
+                    auto cameraData = p.cameraData->get();
+                    cameraData.longitude += (pointerInfo.projectedPos.x - p.pointerPos.x) * rotationSensitivity;
+                    while (cameraData.longitude < 0.F)
                     {
-                        cameraInfo.longitude += 360.F;
+                        cameraData.longitude += 360.F;
                     }
-                    while (cameraInfo.longitude > 360.F)
+                    while (cameraData.longitude > 360.F)
                     {
-                        cameraInfo.longitude -= 360.F;
+                        cameraData.longitude -= 360.F;
                     }
-                    cameraInfo.latitude += (pointerInfo.projectedPos.y - p.pointerPos.y) * rotationSensitivity;
-                    cameraInfo.latitude = Math::clamp(cameraInfo.latitude, -89.F, 89.F);
-                    setCameraInfo(cameraInfo);
+                    cameraData.latitude += (pointerInfo.projectedPos.y - p.pointerPos.y) * rotationSensitivity;
+                    cameraData.latitude = Math::clamp(cameraData.latitude, -89.F, 89.F);
+                    setCameraData(cameraData);
                 }
                 i = p.buttons.find(2);
                 if (i != p.buttons.end())
                 {
-                    auto cameraInfo = p.cameraInfo->get();
-                    cameraInfo.distance +=
+                    auto cameraData = p.cameraData->get();
+                    cameraData.distance +=
                         (pointerInfo.projectedPos.x - p.pointerPos.x) * zoomSensitivity +
                         (pointerInfo.projectedPos.y - p.pointerPos.y) * zoomSensitivity;
-                    cameraInfo.distance = std::max(cameraInfo.distance, 1.F);
-                    setCameraInfo(cameraInfo);
+                    cameraData.distance = std::max(cameraData.distance, 1.F);
+                    setCameraData(cameraData);
                 }
                 p.pointerPos = pointerInfo.projectedPos;
                 _redraw();
@@ -303,6 +315,7 @@ namespace djv
         void SceneWidget::_updateEvent(Event::Update&)
         {
             DJV_PRIVATE_PTR();
+            const auto& renderOptions = p.renderOptions->get();
             if (p.size.isValid())
             {
                 bool create = !p.offscreenBuffer;
@@ -312,8 +325,8 @@ namespace djv
                     p.offscreenBuffer = AV::OpenGL::OffscreenBuffer::create(
                         p.size,
                         AV::Image::Type::RGBA_U8,
-                        AV::OpenGL::OffscreenDepthType::_32,
-                        AV::OpenGL::OffscreenSampling::MultiSample);
+                        renderOptions.depthBufferType,
+                        renderOptions.multiSampling);
                     p.offscreenBuffer2 = AV::OpenGL::OffscreenBuffer::create(
                         p.size,
                         AV::Image::Type::RGBA_U8);
@@ -327,9 +340,25 @@ namespace djv
             if (p.offscreenBuffer && p.offscreenBuffer2)
             {
                 const AV::OpenGL::OffscreenBufferBinding binding(p.offscreenBuffer);
+                switch (renderOptions.multiSampling)
+                {
+                case AV::OpenGL::OffscreenSampling::None:
+                    glDisable(GL_MULTISAMPLE);
+                    break;
+                case AV::OpenGL::OffscreenSampling::_2:
+                case AV::OpenGL::OffscreenSampling::_4:
+                case AV::OpenGL::OffscreenSampling::_8:
+                case AV::OpenGL::OffscreenSampling::_16:
+                    glEnable(GL_MULTISAMPLE);
+                    break;
+                default: break;
+                }
                 Scene::RenderOptions options;
                 options.size = p.size;
                 options.camera = p.camera;
+                options.clip = p.camera->getClip();
+                options.shaderMode = renderOptions.shaderMode;
+                options.depthBufferMode = renderOptions.depthBufferMode;
                 p.render->render(p.render3D, options);
                 glBindFramebuffer(GL_READ_FRAMEBUFFER, p.offscreenBuffer->getID());
                 glBindFramebuffer(GL_DRAW_FRAMEBUFFER, p.offscreenBuffer2->getID());
@@ -373,12 +402,24 @@ namespace djv
                 p.scene->setSceneXForm(m);
                 p.scene->bboxUpdate();
                 const float max = p.scene->getBBoxMax();
-                auto cameraInfo = p.cameraInfo->get();
-                cameraInfo.clip = Core::FloatRange(max * .0001F, max * 10.F);
-                setCameraInfo(cameraInfo);
+                auto cameraData = p.cameraData->get();
+                cameraData.clip = Core::FloatRange(max * nearMult, max * farMult);
+                setCameraData(cameraData);
                 _redraw();
             }
         }
 
     } // namespace UI
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        UI,
+        SceneRotate,
+        DJV_TEXT("None"),
+        DJV_TEXT("X+90"),
+        DJV_TEXT("X-90"),
+        DJV_TEXT("Y+90"),
+        DJV_TEXT("Y-90"),
+        DJV_TEXT("Z+90"),
+        DJV_TEXT("Z-90"));
+
 } // namespace djv

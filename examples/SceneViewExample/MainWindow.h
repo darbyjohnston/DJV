@@ -34,6 +34,7 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
+#include <djvUI/Label.h>
 #include <djvUI/MDICanvas.h>
 #include <djvUI/Window.h>
 
@@ -58,7 +59,9 @@ public:
 
     static std::shared_ptr<MainWindow> create(const std::shared_ptr<djv::Core::Context>&);
 
-    void setScene(const std::shared_ptr<djv::Scene::Scene>&);
+    void setScene(
+        const djv::Core::FileSystem::FileInfo&,
+        const std::shared_ptr<djv::Scene::Scene>&);
 
     void setOpenCallback(const std::function<void(const djv::Core::FileSystem::FileInfo)>&);
     void setReloadCallback(const std::function<void(void)>&);
@@ -73,6 +76,7 @@ private:
     std::map<std::string, std::map<std::string, std::shared_ptr<djv::UI::Action> > > _actions;
     std::shared_ptr<djv::UI::ActionGroup> _sceneRotateActionGroup;
 
+    std::shared_ptr<djv::UI::Label> _fileInfoLabel;
     std::shared_ptr<djv::UI::SceneWidget> _sceneWidget;
     std::shared_ptr<CameraTool> _cameraTool;
     std::shared_ptr<InfoTool> _infoTool;
@@ -87,7 +91,8 @@ private:
     std::function<void(void)> _exitCallback;
     
     std::map<std::string, std::map<std::string, std::shared_ptr<djv::Core::ValueObserver<bool> > > > _actionObservers;
-    std::shared_ptr<djv::Core::ValueObserver<djv::UI::CameraInfo> > _cameraInfoObserver;
+    std::shared_ptr<djv::Core::ValueObserver<djv::Scene::PolarCameraData> > _cameraDataObserver;
+    std::shared_ptr<djv::Core::ValueObserver<djv::UI::SceneRenderOptions> > _renderOptionsObserver;
     std::shared_ptr<djv::Core::ValueObserver<djv::Core::BBox3f> > _bboxObserver;
     std::shared_ptr<djv::Core::ValueObserver<size_t> > _primitivesCountObserver;
     std::shared_ptr<djv::Core::ValueObserver<size_t> > _triangleCountObserver;

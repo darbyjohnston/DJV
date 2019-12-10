@@ -75,6 +75,19 @@ namespace djv
                 GLint _mvpLoc = 0;
             };
 
+            //! This enumeration provides the default material modes.
+            enum class DefaultMaterialMode
+            {
+                Default,
+                Unlit,
+                Normals,
+                UVs,
+
+                Count,
+                First = Default
+            };
+            DJV_ENUM_HELPERS(DefaultMaterialMode);
+
             //! This class provides a default material.
             class DefaultMaterial : public IMaterial
             {
@@ -90,6 +103,7 @@ namespace djv
 
                 static std::shared_ptr<DefaultMaterial> create(const std::shared_ptr<Core::Context>&);
 
+                void setMode(DefaultMaterialMode);
                 void setAmbient(const AV::Image::Color&);
                 void setDiffuse(const AV::Image::Color&);
                 void setEmission(const AV::Image::Color&);
@@ -102,6 +116,7 @@ namespace djv
                 void bind() override;
 
             private:
+                DefaultMaterialMode _mode = DefaultMaterialMode::Default;
                 AV::Image::Color _ambient = AV::Image::Color::RGB_F32(0.F, 0.F, 0.4F);
                 AV::Image::Color _diffuse = AV::Image::Color::RGB_F32(.5F, .5F, .5F);
                 AV::Image::Color _emission = AV::Image::Color::RGB_F32(0.F, 0.F, 0.F);
@@ -110,6 +125,7 @@ namespace djv
                 float _transparency = 0.F;
                 float _reflectivity = 0.F;
                 bool _disableLighting = false;
+                GLint _modeLoc = 0;
                 GLint _ambientLoc = 0;
                 GLint _diffuseLoc = 0;
                 GLint _emissionLoc = 0;
@@ -122,6 +138,9 @@ namespace djv
 
         } // namespace Render3D
     } // namespace AV
+
+    DJV_ENUM_SERIALIZE_HELPERS(AV::Render3D::DefaultMaterialMode);
+
 } // namespace djv
 
 #include <djvAV/Render3DMaterialInline.h>

@@ -165,9 +165,19 @@ namespace djv
 
                 glEnable(GL_SCISSOR_TEST);
                 glEnable(GL_DEPTH_TEST);
-                glDepthRangef(-1.0, 1.0);
-                glDepthFunc(GL_LESS);
-                glEnable(GL_MULTISAMPLE);
+                glm::mat4x4 cameraP = p.options.camera->getP();
+                switch (p.options.depthBufferMode)
+                {
+                case DepthBufferMode::Standard:
+                    glDepthRangef(0.0, 1.0);
+                    glDepthFunc(GL_LESS);
+                    break;
+                case DepthBufferMode::Reverse:
+                    glDepthRangef(-1.0, 1.0);
+                    cameraP[2][2] = p.options.clip.min / (p.options.clip.min - p.options.clip.max);
+                    cameraP[3][2] = (p.options.clip.max * p.options.clip.min) / (p.options.clip.min - p.options.clip.max);
+                    break;
+                }
                 glDisable(GL_BLEND);
 
                 glViewport(
@@ -305,7 +315,7 @@ namespace djv
                     for (const auto& primitiveIt : shaderIt.second)
                     {
                         shaderIt.first->setUniform(mLoc, primitiveIt->xform);
-                        shaderIt.first->setUniform(mvpLoc, p.options.camera->getP() * p.options.camera->getV() * primitiveIt->xform);
+                        shaderIt.first->setUniform(mvpLoc, cameraP * p.options.camera->getV() * primitiveIt->xform);
                         shaderIt.first->setUniform(normalsLoc, glm::transpose(glm::inverse(glm::mat3x3(primitiveIt->xform))));
                         primitiveIt->material->bind();
                         for (const auto& vaoIt : primitiveIt->vaoRange)
@@ -457,4 +467,11 @@ namespace djv
 
         } // namespace Render3D
     } // namespace AV
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        AV::Render3D,
+        DepthBufferMode,
+        DJV_TEXT("Standard"),
+        DJV_TEXT("Reverse"));
+
 } // namespace djv

@@ -82,6 +82,7 @@ vec3 getSpotLight(SpotLight light, vec3 position, vec3 normal)
 
 struct DefaultMaterial
 {
+    int   mode;
     vec4  ambient;
     vec4  diffuse;
     vec4  emission;
@@ -108,44 +109,70 @@ uniform SpotLight        spotLights[16];
 uniform int              spotLightsCount = 0;
 uniform DefaultMaterial  defaultMaterial;
 
+// djv::AV::Render3D::DefaultMaterialMode
+#define DEFAULT_MATERIAL_MODE_DEFAULT 0
+#define DEFAULT_MATERIAL_MODE_UNLIT   1
+#define DEFAULT_MATERIAL_MODE_NORMALS 2
+#define DEFAULT_MATERIAL_MODE_UVS     3
+
 void main()
 {
-    //FragColor.r = Normal.x;
-    //FragColor.g = Normal.y;
-    //FragColor.b = Normal.z;
-    //FragColor.a = 1.0;
-    FragColor = vec4(0.0, 0.0, 0.0, 1.0);
-    vec3 n = Normal;
-    if (!gl_FrontFacing)
+    if (DEFAULT_MATERIAL_MODE_DEFAULT == defaultMaterial.mode)
     {
-        n = -n;
+        FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+        vec3 n = Normal;
+        if (!gl_FrontFacing)
+        {
+            n = -n;
+        }
+        if (hemisphereLightEnabled != 0)
+        {
+            vec3 light = getHemisphereLight(hemisphereLight, n);
+            FragColor.r += defaultMaterial.diffuse.r * light.r;
+            FragColor.g += defaultMaterial.diffuse.g * light.g;
+            FragColor.b += defaultMaterial.diffuse.b * light.b;
+        }
+        for (int i = 0; i < directionalLightsCount; ++i)
+        {
+            vec3 light = getDirectionalLight(directionalLights[i], n);
+            FragColor.r += defaultMaterial.diffuse.r * light.r;
+            FragColor.g += defaultMaterial.diffuse.g * light.g;
+            FragColor.b += defaultMaterial.diffuse.b * light.b;
+        }
+        for (int i = 0; i < pointLightsCount; ++i)
+        {
+            vec3 light = getPointLight(pointLights[i], Position, n);
+            FragColor.r += defaultMaterial.diffuse.r * light.r;
+            FragColor.g += defaultMaterial.diffuse.g * light.g;
+            FragColor.b += defaultMaterial.diffuse.b * light.b;
+        }
+        for (int i = 0; i < spotLightsCount; ++i)
+        {
+            vec3 light = getSpotLight(spotLights[i], Position, n);
+            FragColor.r += defaultMaterial.diffuse.r * light.r;
+            FragColor.g += defaultMaterial.diffuse.g * light.g;
+            FragColor.b += defaultMaterial.diffuse.b * light.b;
+        }
     }
-    if (hemisphereLightEnabled != 0)
+    else if (DEFAULT_MATERIAL_MODE_UNLIT == defaultMaterial.mode)
     {
-        vec3 light = getHemisphereLight(hemisphereLight, n);
-        FragColor.r += defaultMaterial.diffuse.r * light.r;
-        FragColor.g += defaultMaterial.diffuse.g * light.g;
-        FragColor.b += defaultMaterial.diffuse.b * light.b;
+        FragColor.r = defaultMaterial.diffuse.r;
+        FragColor.g = defaultMaterial.diffuse.g;
+        FragColor.b = defaultMaterial.diffuse.b;
+        FragColor.a = 1.0;
     }
-    for (int i = 0; i < directionalLightsCount; ++i)
+    else if (DEFAULT_MATERIAL_MODE_NORMALS == defaultMaterial.mode)
     {
-        vec3 light = getDirectionalLight(directionalLights[i], n);
-        FragColor.r += defaultMaterial.diffuse.r * light.r;
-        FragColor.g += defaultMaterial.diffuse.g * light.g;
-        FragColor.b += defaultMaterial.diffuse.b * light.b;
+        FragColor.r = Normal.x;
+        FragColor.g = Normal.y;
+        FragColor.b = Normal.z;
+        FragColor.a = 1.0;
     }
-    for (int i = 0; i < pointLightsCount; ++i)
+    else if (DEFAULT_MATERIAL_MODE_UVS == defaultMaterial.mode)
     {
-        vec3 light = getPointLight(pointLights[i], Position, n);
-        FragColor.r += defaultMaterial.diffuse.r * light.r;
-        FragColor.g += defaultMaterial.diffuse.g * light.g;
-        FragColor.b += defaultMaterial.diffuse.b * light.b;
-    }
-    for (int i = 0; i < spotLightsCount; ++i)
-    {
-        vec3 light = getSpotLight(spotLights[i], Position, n);
-        FragColor.r += defaultMaterial.diffuse.r * light.r;
-        FragColor.g += defaultMaterial.diffuse.g * light.g;
-        FragColor.b += defaultMaterial.diffuse.b * light.b;
+        FragColor.r = Texture.x;
+        FragColor.g = Texture.y;
+        FragColor.b = 0.0;
+        FragColor.a = 1.0;
     }
 }

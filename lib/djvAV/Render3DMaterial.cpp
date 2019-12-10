@@ -67,6 +67,7 @@ namespace djv
             {
                 IMaterial::_init("djvAVRender3DDefaultVertex.glsl", "djvAVRender3DDefaultFragment.glsl", context);
                 auto program = _shader->getProgram();
+                _modeLoc = glGetUniformLocation(program, "defaultMaterial.mode");
                 _ambientLoc = glGetUniformLocation(program, "defaultMaterial.ambient");
                 _diffuseLoc = glGetUniformLocation(program, "defaultMaterial.diffuse");
                 _emissionLoc = glGetUniformLocation(program, "defaultMaterial.emission");
@@ -88,6 +89,11 @@ namespace djv
                 auto out = std::shared_ptr<DefaultMaterial>(new DefaultMaterial);
                 out->_init(context);
                 return out;
+            }
+
+            void DefaultMaterial::setMode(DefaultMaterialMode value)
+            {
+                _mode = value;
             }
 
             void DefaultMaterial::setAmbient(const AV::Image::Color& value)
@@ -132,6 +138,7 @@ namespace djv
 
             void DefaultMaterial::bind()
             {
+                _shader->setUniform(_modeLoc, static_cast<int>(_mode));
                 _shader->setUniform(_ambientLoc, _ambient);
                 _shader->setUniform(_diffuseLoc, _diffuse);
                 _shader->setUniform(_emissionLoc, _emission);
@@ -144,4 +151,14 @@ namespace djv
 
         } // namespace Render3D
     } // namespace AV
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        AV::Render3D,
+        DefaultMaterialMode,
+        DJV_TEXT("Default"),
+        DJV_TEXT("Unlit"),
+        DJV_TEXT("Normals"),
+        DJV_TEXT("UVs"));
+
+
 } // namespace djv
