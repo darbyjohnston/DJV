@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2019 Darby Johnston
+// Copyright (c) 2004-2019 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -29,45 +29,51 @@
 
 #pragma once
 
-#include "ITool.h"
+#include <djvAV/AV.h>
 
-#include <djvUI/Label.h>
-#include <djvUI/FormLayout.h>
+#include <djvCore/BBox.h>
+#include <djvCore/UID.h>
 
-class InfoTool : public ITool
+namespace djv
 {
-    DJV_NON_COPYABLE(InfoTool);
+    namespace AV
+    {
+        namespace Geom
+        {
+            //! This struct provides a point list.
+            class PointList
+            {
+            public:
+                PointList();
 
-protected:
-    void _init(const std::shared_ptr<djv::Core::Context>&);
-    InfoTool();
+                Core::UID getUID() const;
 
-public:
-    virtual ~InfoTool();
+                //! \name Components
+                ///@{
 
-    static std::shared_ptr<InfoTool> create(const std::shared_ptr<djv::Core::Context>&);
+                std::vector<glm::vec3> v;
+                std::vector<glm::vec3> c;
 
-    void setBBox(const djv::Core::BBox3f&);
-    void setPrimitivesCount(size_t);
-    void setPointCount(size_t);
-    void setFPS(float);
+                Core::BBox3f bbox = Core::BBox3f(0.F, 0.F, 0.F, 0.F, 0.F, 0.F);
 
-protected:
-    void _initEvent(djv::Core::Event::Init&) override;
+                void clear();
 
-private:
-    void _textUpdate();
+                ///@}
 
-    djv::Core::BBox3f _bbox = djv::Core::BBox3f(0.F, 0.F, 0.F, 0.F, 0.F, 0.F);
-    size_t _primitivesCount = 0;
-    size_t _pointCount = 0;
-    float _fps = 0.F;
-    std::shared_ptr<djv::UI::Label> _sceneSizeLabel;
-    std::shared_ptr<djv::UI::Label> _sceneXRangeLabel;
-    std::shared_ptr<djv::UI::Label> _sceneYRangeLabel;
-    std::shared_ptr<djv::UI::Label> _sceneZRangeLabel;
-    std::shared_ptr<djv::UI::Label> _primitivesCountLabel;
-    std::shared_ptr<djv::UI::Label> _pointCountLabel;
-    std::shared_ptr<djv::UI::Label> _fpsLabel;
-    std::shared_ptr<djv::UI::FormLayout> _formLayout;
-};
+                //! \name Utilities
+                ///@{
+
+                //! Compute the bounding-box.
+                void bboxUpdate();
+
+                ///@}
+
+            private:
+                Core::UID _uid = 0;
+            };
+
+        } // namespace Geom
+    } // namespace AV
+} // namespace djv
+
+#include <djvAV/PointListInline.h>

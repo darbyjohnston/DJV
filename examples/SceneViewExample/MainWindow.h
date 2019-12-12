@@ -95,7 +95,7 @@ private:
     std::shared_ptr<djv::Core::ValueObserver<djv::UI::SceneRenderOptions> > _renderOptionsObserver;
     std::shared_ptr<djv::Core::ValueObserver<djv::Core::BBox3f> > _bboxObserver;
     std::shared_ptr<djv::Core::ValueObserver<size_t> > _primitivesCountObserver;
-    std::shared_ptr<djv::Core::ValueObserver<size_t> > _triangleCountObserver;
+    std::shared_ptr<djv::Core::ValueObserver<size_t> > _pointCountObserver;
 
     std::shared_ptr<djv::Core::Time::Timer> _statsTimer;
 };

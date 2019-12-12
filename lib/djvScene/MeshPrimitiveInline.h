@@ -27,47 +27,49 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
-
-#include "ITool.h"
-
-#include <djvUI/Label.h>
-#include <djvUI/FormLayout.h>
-
-class InfoTool : public ITool
+namespace djv
 {
-    DJV_NON_COPYABLE(InfoTool);
+    namespace Scene
+    {
+        inline MeshPrimitive::MeshPrimitive()
+        {}
 
-protected:
-    void _init(const std::shared_ptr<djv::Core::Context>&);
-    InfoTool();
+        inline std::shared_ptr<MeshPrimitive> MeshPrimitive::create()
+        {
+            return std::shared_ptr<MeshPrimitive>(new MeshPrimitive);
+        }
 
-public:
-    virtual ~InfoTool();
+        inline const std::vector<std::shared_ptr<AV::Geom::TriangleMesh> >& MeshPrimitive::getMeshes() const
+        {
+            return _meshes;
+        }
 
-    static std::shared_ptr<InfoTool> create(const std::shared_ptr<djv::Core::Context>&);
+        inline void MeshPrimitive::addMesh(const std::shared_ptr<AV::Geom::TriangleMesh>& value)
+        {
+            _meshes.push_back(value);
+            Core::BBox3f bbox = getBBox();
+            if (!bbox.isValid())
+            {
+                bbox = value->bbox;
+            }
+            else
+            {
+                bbox.expand(value->bbox);
+            }
+            setBBox(bbox);
+            _pointCount += value->v.size();
+        }
 
-    void setBBox(const djv::Core::BBox3f&);
-    void setPrimitivesCount(size_t);
-    void setPointCount(size_t);
-    void setFPS(float);
+        inline std::string MeshPrimitive::getClassName() const
+        {
+            return "MeshPrimitive";
+        }
 
-protected:
-    void _initEvent(djv::Core::Event::Init&) override;
+        inline size_t MeshPrimitive::getPointCount() const
+        {
+            return _pointCount;
+        }
 
-private:
-    void _textUpdate();
+    } // namespace Scene
+} // namespace djv
 
-    djv::Core::BBox3f _bbox = djv::Core::BBox3f(0.F, 0.F, 0.F, 0.F, 0.F, 0.F);
-    size_t _primitivesCount = 0;
-    size_t _pointCount = 0;
-    float _fps = 0.F;
-    std::shared_ptr<djv::UI::Label> _sceneSizeLabel;
-    std::shared_ptr<djv::UI::Label> _sceneXRangeLabel;
-    std::shared_ptr<djv::UI::Label> _sceneYRangeLabel;
-    std::shared_ptr<djv::UI::Label> _sceneZRangeLabel;
-    std::shared_ptr<djv::UI::Label> _primitivesCountLabel;
-    std::shared_ptr<djv::UI::Label> _pointCountLabel;
-    std::shared_ptr<djv::UI::Label> _fpsLabel;
-    std::shared_ptr<djv::UI::FormLayout> _formLayout;
-};

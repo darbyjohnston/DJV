@@ -27,10 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvScene/Primitive.h>
-
-#include <djvScene/Layer.h>
-#include <djvScene/Material.h>
+#include <djvScene/IPrimitive.h>
 
 using namespace djv::Core;
 
@@ -67,22 +64,12 @@ namespace djv
             _children.clear();
         }
 
-        std::shared_ptr<NullPrimitive> NullPrimitive::create()
-        {
-            auto out = std::shared_ptr<NullPrimitive>(new NullPrimitive);
-            return out;
-        }
+        void IPrimitive::render(const glm::mat4x4&, const std::shared_ptr<AV::Render3D::Render>&)
+        {}
 
-        std::shared_ptr<InstancePrimitive> InstancePrimitive::create()
+        size_t IPrimitive::getPointCount() const
         {
-            auto out = std::shared_ptr<InstancePrimitive>(new InstancePrimitive);
-            return out;
-        }
-
-        std::shared_ptr<MeshPrimitive> MeshPrimitive::create()
-        {
-            auto out = std::shared_ptr<MeshPrimitive>(new MeshPrimitive);
-            return out;
+            return 0;
         }
 
     } // namespace Scene

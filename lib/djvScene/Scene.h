@@ -106,7 +106,7 @@ namespace djv
             std::vector<std::shared_ptr<Layer> > _layers;
             SceneOrient _orient = SceneOrient::YUp;
             glm::mat4x4 _xform = glm::mat4x4(1.F);
-            Core::BBox3f _bbox;
+            Core::BBox3f _bbox = Core::BBox3f(0.F, 0.F, 0.F, 0.F, 0.F, 0.F);
             bool _bboxInit = true;
             std::list<glm::mat4x4> _xforms;
             const glm::mat4x4 _identity = glm::mat4x4(1.F);

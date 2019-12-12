@@ -106,7 +106,7 @@ namespace djv
 
             std::shared_ptr<Core::IValueSubject<Core::BBox3f> > observeBBox() const;
             std::shared_ptr<Core::IValueSubject<size_t> > observePrimitivesCount() const;
-            std::shared_ptr<Core::IValueSubject<size_t> > observeTriangleCount() const;
+            std::shared_ptr<Core::IValueSubject<size_t> > observePointCount() const;
 
         protected:
             void _layoutEvent(Core::Event::Layout&) override;

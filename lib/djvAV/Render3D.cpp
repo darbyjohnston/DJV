@@ -35,7 +35,6 @@
 #include <djvAV/OpenGLShader.h>
 #include <djvAV/OpenGLTextureAtlas.h>
 #include <djvAV/Render3DCamera.h>
-#include <djvAV/Render3DLight.h>
 #include <djvAV/Render3DMaterial.h>
 #include <djvAV/ShaderSystem.h>
 
@@ -54,16 +53,17 @@ namespace djv
             namespace
             {
                 //! \todo Should this be configurable?
-                const uint8_t  textureAtlasCount = 4;
-                const uint16_t textureAtlasSize  = 8192;
-                const uint8_t  meshCacheCount    = 1;
-                const size_t   meshCacheSize     = 50000000;
+                const uint8_t  textureAtlasCount        = 4;
+                const uint16_t textureAtlasSize         = 8192;
+                const size_t   shadedMeshCacheSize      = 50000000;
+                const size_t   solidColorMeshCacheSize  = 10000000;
 
                 struct Primitive
                 {
                     glm::mat4x4                 xform;
                     GLenum                      type     = GL_TRIANGLES;
                     std::vector<SizeTRange>     vaoRange;
+                    AV::Image::Color            color;
                     std::shared_ptr<IMaterial>  material;
                 };
 
@@ -76,13 +76,14 @@ namespace djv
                 std::list<glm::mat4x4>                  transforms;
                 std::list<glm::mat4x4>                  inverseTransforms;
                 const glm::mat4x4                       identity            = glm::mat4x4(1.f);
+                AV::Image::Color                        currentColor;
                 std::shared_ptr<IMaterial>              currentMaterial;
                 std::vector<std::shared_ptr<ILight> >   lights;
                 std::shared_ptr<OpenGL::TextureAtlas>   textureAtlas;
-                std::shared_ptr<OpenGL::MeshCache>      meshCache;
-                std::map<UID, UID>                      meshCacheUIDs;
+                std::map<AV::OpenGL::VBOType, std::shared_ptr<OpenGL::MeshCache> >  meshCache;
+                std::map<AV::OpenGL::VBOType, std::map<UID, UID> >                  meshCacheUIDs;
 
-                std::map<std::shared_ptr<AV::OpenGL::Shader>, std::vector<std::shared_ptr<Primitive> > > primitives;
+                std::map< AV::OpenGL::VBOType, std::map<std::shared_ptr<IMaterial>, std::vector<std::shared_ptr<Primitive> > > > primitives;
 
                 std::shared_ptr<Time::Timer>            statsTimer;
             };
@@ -121,9 +122,12 @@ namespace djv
                     GL_NEAREST,
                     0));
 
-                p.meshCache.reset(new OpenGL::MeshCache(
-                    meshCacheSize,
+                p.meshCache[OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10].reset(new OpenGL::MeshCache(
+                    shadedMeshCacheSize,
                     OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10));
+                p.meshCache[OpenGL::VBOType::Pos3_F32].reset(new OpenGL::MeshCache(
+                    solidColorMeshCacheSize,
+                    OpenGL::VBOType::Pos3_F32));
 
                 p.statsTimer = Time::Timer::create(context);
                 p.statsTimer->setRepeating(true);
@@ -134,7 +138,10 @@ namespace djv
                         DJV_PRIVATE_PTR();
                         std::stringstream ss;
                         ss << "Texture atlas: " << p.textureAtlas->getPercentageUsed() << "%\n";
-                        ss << "Mesh cache: " << p.meshCache->getPercentageUsed() << "%\n";
+                        for (const auto& i : p.meshCache)
+                        {
+                            ss << "Mesh cache " << i.first << ": " << i.second->getPercentageUsed() << "%\n";
+                        }
                         _log(ss.str());
                     });
             }
@@ -179,6 +186,10 @@ namespace djv
                     break;
                 }
                 glDisable(GL_BLEND);
+                //glEnable(GL_POINT_SMOOTH);
+                glPointSize(2.0);
+                glEnable(GL_LINE_SMOOTH);
+                glLineWidth(1.0);
 
                 glViewport(
                     static_cast<GLint>(0),
@@ -200,127 +211,27 @@ namespace djv
                     glBindTexture(GL_TEXTURE_2D, atlasTextures[i]);
                 }
 
-                auto vao = p.meshCache->getVAO();
-                vao->bind();
-
-                std::shared_ptr<HemisphereLight>                hemisphereLight;
-                std::vector<std::shared_ptr<DirectionalLight> > directionalLights;
-                std::vector<std::shared_ptr<PointLight> >       pointLights;
-                std::vector<std::shared_ptr<SpotLight> >        spotLights;
-                for (auto light = p.lights.begin(); light != p.lights.end(); ++light)
+                BindData bindData;
+                bindData.lights = p.lights;
+                PrimitiveBindData primitiveBindData;
+                primitiveBindData.camera = p.options.camera->getP() * p.options.camera->getV();
+                for (const auto& i : p.primitives)
                 {
-                    if (auto directionalLight = std::dynamic_pointer_cast<DirectionalLight>(*light))
+                    auto vao = p.meshCache[i.first]->getVAO();
+                    vao->bind();
+                    for (const auto& j : i.second)
                     {
-                        if (directionalLights.size() < 16)
+                        j.first->getShader()->bind();
+                        j.first->bind(bindData);
+                        for (const auto& k : j.second)
                         {
-                            directionalLights.push_back(directionalLight);
-                        }
-                    }
-                    else if (auto pointLight = std::dynamic_pointer_cast<PointLight>(*light))
-                    {
-                        if (pointLights.size() < 16)
-                        {
-                            pointLights.push_back(pointLight);
-                        }
-                    }
-                    else if (auto spotLight = std::dynamic_pointer_cast<SpotLight>(*light))
-                    {
-                        if (spotLights.size() < 16)
-                        {
-                            spotLights.push_back(spotLight);
-                        }
-                    }
-                }
-                if (0 == directionalLights.size() && 0 == pointLights.size() && 0 == spotLights.size())
-                {
-                    hemisphereLight = HemisphereLight::create();
-                    auto directionalLight = DirectionalLight::create();
-                    directionalLights.push_back(directionalLight);
-                }
-
-                for (const auto& shaderIt : p.primitives)
-                {
-                    shaderIt.first->bind();
-
-                    if (hemisphereLight)
-                    {
-                        shaderIt.first->setUniform("hemisphereLight.intensity", hemisphereLight->getIntensity());
-                        shaderIt.first->setUniform("hemisphereLight.up", hemisphereLight->getUp());
-                        shaderIt.first->setUniformF("hemisphereLight.topColor", hemisphereLight->getTopColor());
-                        shaderIt.first->setUniformF("hemisphereLight.bottomColor", hemisphereLight->getBottomColor());
-                        shaderIt.first->setUniform("hemisphereLightEnabled", 1);
-                    }
-
-                    size_t size = directionalLights.size();
-                    for (size_t i = 0; i < size; ++i)
-                    {
-                        {
-                            std::stringstream ss;
-                            ss << "directionalLights[" << i << "].intensity";
-                            shaderIt.first->setUniform(ss.str(), directionalLights[i]->getIntensity());
-                        }
-                        {
-                            std::stringstream ss;
-                            ss << "directionalLights[" << i << "].direction";
-                            shaderIt.first->setUniform(ss.str(), glm::normalize(directionalLights[i]->getDirection()));
-                        }
-                    }
-                    shaderIt.first->setUniform("directionalLightsCount", static_cast<int>(size));
-
-                    size = pointLights.size();
-                    for (size_t i = 0; i < size; ++i)
-                    {
-                        {
-                            std::stringstream ss;
-                            ss << "pointLights[" << i << "].intensity";
-                            shaderIt.first->setUniform(ss.str(), pointLights[i]->getIntensity());
-                        }
-                        {
-                            std::stringstream ss;
-                            ss << "pointLights[" << i << "].position";
-                            shaderIt.first->setUniform(ss.str(), pointLights[i]->getPosition());
-                        }
-                    }
-                    shaderIt.first->setUniform("pointLightsCount", static_cast<int>(size));
-
-                    size = spotLights.size();
-                    for (size_t i = 0; i < size; ++i)
-                    {
-                        {
-                            std::stringstream ss;
-                            ss << "spotLights[" << i << "].intensity";
-                            shaderIt.first->setUniform(ss.str(), spotLights[i]->getIntensity());
-                        }
-                        {
-                            std::stringstream ss;
-                            ss << "spotLights[" << i << "].coneAngle";
-                            shaderIt.first->setUniform(ss.str(), spotLights[i]->getConeAngle());
-                        }
-                        {
-                            std::stringstream ss;
-                            ss << "spotLights[" << i << "].direction";
-                            shaderIt.first->setUniform(ss.str(), glm::normalize(spotLights[i]->getDirection()));
-                        }
-                        {
-                            std::stringstream ss;
-                            ss << "spotLights[" << i << "].position";
-                            shaderIt.first->setUniform(ss.str(), spotLights[i]->getPosition());
-                        }
-                    }
-                    shaderIt.first->setUniform("spotLightsCount", static_cast<int>(size));
-
-                    const GLint mLoc = glGetUniformLocation(shaderIt.first->getProgram(), "transform.m");
-                    const GLint mvpLoc = glGetUniformLocation(shaderIt.first->getProgram(), "transform.mvp");
-                    const GLint normalsLoc = glGetUniformLocation(shaderIt.first->getProgram(), "transform.normals");
-                    for (const auto& primitiveIt : shaderIt.second)
-                    {
-                        shaderIt.first->setUniform(mLoc, primitiveIt->xform);
-                        shaderIt.first->setUniform(mvpLoc, cameraP * p.options.camera->getV() * primitiveIt->xform);
-                        shaderIt.first->setUniform(normalsLoc, glm::transpose(glm::inverse(glm::mat3x3(primitiveIt->xform))));
-                        primitiveIt->material->bind();
-                        for (const auto& vaoIt : primitiveIt->vaoRange)
-                        {
-                            vao->draw(primitiveIt->type, vaoIt.min, vaoIt.max - vaoIt.min + 1);
+                            primitiveBindData.model = k->xform;
+                            primitiveBindData.color = k->color;
+                            j.first->primitiveBind(primitiveBindData);
+                            for (const auto& vaoIt : k->vaoRange)
+                            {
+                                vao->draw(k->type, vaoIt.min, vaoIt.max - vaoIt.min + 1);
+                            }
                         }
                     }
                 }
@@ -364,6 +275,12 @@ namespace djv
                 }
             }
 
+            void Render::setColor(const AV::Image::Color& value)
+            {
+                DJV_PRIVATE_PTR();
+                p.currentColor = value;
+            }
+
             void Render::setMaterial(const std::shared_ptr<IMaterial>& value)
             {
                 DJV_PRIVATE_PTR();
@@ -376,6 +293,67 @@ namespace djv
                 p.lights.push_back(value);
             }
 
+            void Render::drawPoints(const Geom::PointList& value, Core::UID uid)
+            {
+                DJV_PRIVATE_PTR();
+                if (value.v.size())
+                {
+                    auto primitive = std::shared_ptr<Primitive>(new Primitive);
+                    primitive->xform = getCurrentTransform();
+                    primitive->type = GL_POINTS;
+                    primitive->color = p.currentColor;
+                    primitive->material = p.currentMaterial;
+
+                    auto& meshCache = p.meshCache[OpenGL::VBOType::Pos3_F32];
+                    auto& meshCacheUIDs = p.meshCacheUIDs[OpenGL::VBOType::Pos3_F32];
+                    SizeTRange range;
+                    bool cached = false;
+                    const auto i = meshCacheUIDs.find(uid);
+                    if (i != meshCacheUIDs.end())
+                    {
+                        cached = meshCache->getItem(i->second, range);
+                    }
+                    if (!cached)
+                    {
+                        const auto data = OpenGL::VBO::convert(value, OpenGL::VBOType::Pos3_F32);
+                        meshCacheUIDs[uid] = meshCache->addItem(data, range);
+                    }
+                    primitive->vaoRange.push_back(range);
+
+                    p.primitives[OpenGL::VBOType::Pos3_F32][primitive->material].push_back(primitive);
+                }
+            }
+
+            void Render::drawPolyLine(const Geom::PointList& value, Core::UID uid)
+            {
+                DJV_PRIVATE_PTR();
+                if (value.v.size())
+                {
+                    auto primitive = std::shared_ptr<Primitive>(new Primitive);
+                    primitive->xform = getCurrentTransform();
+                    primitive->type = GL_LINE_STRIP;
+                    primitive->color = p.currentColor;
+                    primitive->material = p.currentMaterial;
+
+                    auto& meshCache = p.meshCache[OpenGL::VBOType::Pos3_F32];
+                    auto& meshCacheUIDs = p.meshCacheUIDs[OpenGL::VBOType::Pos3_F32];
+                    SizeTRange range;
+                    const auto i = meshCacheUIDs.find(uid);
+                    if (i != meshCacheUIDs.end())
+                    {
+                        meshCache->getItem(i->second, range);
+                    }
+                    if (range.min == range.max)
+                    {
+                        const auto data = OpenGL::VBO::convert(value, OpenGL::VBOType::Pos3_F32);
+                        meshCacheUIDs[uid] = meshCache->addItem(data, range);
+                    }
+                    primitive->vaoRange.push_back(range);
+
+                    p.primitives[OpenGL::VBOType::Pos3_F32][primitive->material].push_back(primitive);
+                }
+            }
+
             void Render::drawTriangleMesh(const Geom::TriangleMesh& value)
             {
                 DJV_PRIVATE_PTR();
@@ -383,23 +361,26 @@ namespace djv
                 {
                     auto primitive = std::shared_ptr<Primitive>(new Primitive);
                     primitive->xform = getCurrentTransform();
+                    primitive->color = p.currentColor;
                     primitive->material = p.currentMaterial;
 
+                    auto& meshCache = p.meshCache[OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10];
+                    auto& meshCacheUIDs = p.meshCacheUIDs[OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10];
                     SizeTRange range;
                     const UID uid = value.getUID();
-                    const auto i = p.meshCacheUIDs.find(uid);
-                    if (i != p.meshCacheUIDs.end())
+                    const auto i = meshCacheUIDs.find(uid);
+                    if (i != meshCacheUIDs.end())
                     {
-                        p.meshCache->getItem(i->second, range);
+                        meshCache->getItem(i->second, range);
                     }
                     if (range.min == range.max)
                     {
                         const auto data = OpenGL::VBO::convert(value, OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
-                        p.meshCacheUIDs[value.getUID()] = p.meshCache->addItem(data, range);
+                        meshCacheUIDs[uid] = meshCache->addItem(data, range);
                     }
                     primitive->vaoRange.push_back(range);
 
-                    p.primitives[primitive->material->getShader()].push_back(primitive);
+                    p.primitives[OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10][primitive->material].push_back(primitive);
                 }
             }
 
@@ -410,27 +391,31 @@ namespace djv
                 {
                     auto primitive = std::shared_ptr<Primitive>(new Primitive);
                     primitive->xform = getCurrentTransform();
+                    primitive->color = p.currentColor;
                     primitive->material = p.currentMaterial;
+
+                    auto& meshCache = p.meshCache[OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10];
+                    auto& meshCacheUIDs = p.meshCacheUIDs[OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10];
                     for (const auto& i : value)
                     {
                         if (i.triangles.size())
                         {
                             SizeTRange range;
                             const UID uid = i.getUID();
-                            const auto j = p.meshCacheUIDs.find(uid);
-                            if (j != p.meshCacheUIDs.end())
+                            const auto j = meshCacheUIDs.find(uid);
+                            if (j != meshCacheUIDs.end())
                             {
-                                p.meshCache->getItem(j->second, range);
+                                meshCache->getItem(j->second, range);
                             }
                             if (range.min == range.max)
                             {
                                 const auto data = OpenGL::VBO::convert(i, OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
-                                p.meshCacheUIDs[i.getUID()] = p.meshCache->addItem(data, range);
+                                meshCacheUIDs[uid] = meshCache->addItem(data, range);
                             }
                             primitive->vaoRange.push_back(range);
                         }
                     }
-                    p.primitives[primitive->material->getShader()].push_back(primitive);
+                    p.primitives[OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10][primitive->material].push_back(primitive);
                 }
             }
 
@@ -441,27 +426,31 @@ namespace djv
                 {
                     auto primitive = std::shared_ptr<Primitive>(new Primitive);
                     primitive->xform = getCurrentTransform();
+                    primitive->color = p.currentColor;
                     primitive->material = p.currentMaterial;
+
+                    auto& meshCache = p.meshCache[OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10];
+                    auto& meshCacheUIDs = p.meshCacheUIDs[OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10];
                     for (const auto& i : value)
                     {
                         if (i->triangles.size())
                         {
                             SizeTRange range;
                             const UID uid = i->getUID();
-                            const auto j = p.meshCacheUIDs.find(uid);
-                            if (j != p.meshCacheUIDs.end())
+                            const auto j = meshCacheUIDs.find(uid);
+                            if (j != meshCacheUIDs.end())
                             {
-                                p.meshCache->getItem(j->second, range);
+                                meshCache->getItem(j->second, range);
                             }
                             if (range.min == range.max)
                             {
                                 const auto data = OpenGL::VBO::convert(*i, OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10);
-                                p.meshCacheUIDs[i->getUID()] = p.meshCache->addItem(data, range);
+                                meshCacheUIDs[uid] = meshCache->addItem(data, range);
                             }
                             primitive->vaoRange.push_back(range);
                         }
                     }
-                    p.primitives[primitive->material->getShader()].push_back(primitive);
+                    p.primitives[OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10][primitive->material].push_back(primitive);
                 }
             }
 

@@ -57,9 +57,9 @@ void InfoTool::_init(const std::shared_ptr<Core::Context>& context)
     _primitivesCountLabel->setFont(AV::Font::familyMono);
     _primitivesCountLabel->setTextHAlign(UI::TextHAlign::Left);
 
-    _triangleCountLabel = UI::Label::create(context);
-    _triangleCountLabel->setFont(AV::Font::familyMono);
-    _triangleCountLabel->setTextHAlign(UI::TextHAlign::Left);
+    _pointCountLabel = UI::Label::create(context);
+    _pointCountLabel->setFont(AV::Font::familyMono);
+    _pointCountLabel->setTextHAlign(UI::TextHAlign::Left);
 
     _fpsLabel = UI::Label::create(context);
     _fpsLabel->setFont(AV::Font::familyMono);
@@ -74,7 +74,7 @@ void InfoTool::_init(const std::shared_ptr<Core::Context>& context)
     _formLayout->addChild(_sceneYRangeLabel);
     _formLayout->addChild(_sceneZRangeLabel);
     _formLayout->addChild(_primitivesCountLabel);
-    _formLayout->addChild(_triangleCountLabel);
+    _formLayout->addChild(_pointCountLabel);
     _formLayout->addChild(_fpsLabel);
     auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
     scrollWidget->setBackgroundRole(UI::ColorRole::Background);
@@ -109,9 +109,9 @@ void InfoTool::setPrimitivesCount(size_t value)
     _textUpdate();
 }
 
-void InfoTool::setTriangleCount(size_t value)
+void InfoTool::setPointCount(size_t value)
 {
-    _triangleCount = value;
+    _pointCount = value;
     _textUpdate();
 }
 
@@ -159,11 +159,11 @@ void InfoTool::_textUpdate()
         ss << _primitivesCount;
         _primitivesCountLabel->setText(ss.str());
     }
-    _formLayout->setText(_triangleCountLabel, _getText(DJV_TEXT("Triangles")) + ":");
+    _formLayout->setText(_pointCountLabel, _getText(DJV_TEXT("Points")) + ":");
     {
         std::stringstream ss;
-        ss << _triangleCount;
-        _triangleCountLabel->setText(ss.str());
+        ss << _pointCount;
+        _pointCountLabel->setText(ss.str());
     }
     _formLayout->setText(_fpsLabel, _getText(DJV_TEXT("FPS")) + ":");
     {

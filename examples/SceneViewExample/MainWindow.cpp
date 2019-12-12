@@ -383,13 +383,13 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
             }
         });
 
-    _triangleCountObserver = Core::ValueObserver<size_t>::create(
-        _sceneWidget->observeTriangleCount(),
+    _pointCountObserver = Core::ValueObserver<size_t>::create(
+        _sceneWidget->observePointCount(),
         [weak](size_t value)
         {
             if (auto widget = weak.lock())
             {
-                widget->_infoTool->setTriangleCount(value);
+                widget->_infoTool->setPointCount(value);
             }
         });
 
@@ -514,9 +514,12 @@ void MainWindow::_open()
             {
                 if (auto widget = weak.lock())
                 {
-                    widget->_fileBrowserPath = widget->_fileBrowserDialog->getPath();
-                    widget->_fileBrowserDialog->close();
-                    widget->_fileBrowserDialog.reset();
+                    if (widget->_fileBrowserDialog)
+                    {
+                        widget->_fileBrowserPath = widget->_fileBrowserDialog->getPath();
+                        widget->_fileBrowserDialog->close();
+                        widget->_fileBrowserDialog.reset();
+                    }
                 }
             });
         _fileBrowserDialog->show();

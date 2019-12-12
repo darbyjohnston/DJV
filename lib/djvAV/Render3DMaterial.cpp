@@ -50,23 +50,38 @@ namespace djv
             {
                 auto shaderSystem = context->getSystemT<AV::Render::ShaderSystem>();
                 _shader = shaderSystem->getShader(vertex, fragment);
-                auto program = _shader->getProgram();
-                _mvpLoc = glGetUniformLocation(program, "transform.mvp");
             }
 
-            IMaterial::IMaterial()
-            {}
+            void SolidColorMaterial::_init(const std::shared_ptr<Context> & context)
+            {
+                IMaterial::_init("djvAVRender3DSolidColorVertex.glsl", "djvAVRender3DSolidColorFragment.glsl", context);
+                auto program = _shader->getProgram();
+                _modelLoc = glGetUniformLocation(program, "transform.m");
+                _mvpLoc = glGetUniformLocation(program, "transform.mvp");
+                _colorLoc = glGetUniformLocation(program, "color");
+            }
 
-            IMaterial::~IMaterial()
-            {}
+            std::shared_ptr<SolidColorMaterial> SolidColorMaterial::create(const std::shared_ptr<Context> & context)
+            {
+                auto out = std::shared_ptr<SolidColorMaterial>(new SolidColorMaterial);
+                out->_init(context);
+                return out;
+            }
 
-            void IMaterial::bind()
-            {}
+            void SolidColorMaterial::primitiveBind(const PrimitiveBindData& data)
+            {
+                _shader->setUniform(_modelLoc, data.model);
+                _shader->setUniform(_mvpLoc, data.camera * data.model);
+                _shader->setUniform(_colorLoc, data.color);
+            }
 
             void DefaultMaterial::_init(const std::shared_ptr<Context>& context)
             {
                 IMaterial::_init("djvAVRender3DDefaultVertex.glsl", "djvAVRender3DDefaultFragment.glsl", context);
                 auto program = _shader->getProgram();
+                _modelLoc = glGetUniformLocation(program, "transform.m");
+                _mvpLoc = glGetUniformLocation(program, "transform.mvp");
+                _normalsLoc = glGetUniformLocation(program, "transform.normals");
                 _modeLoc = glGetUniformLocation(program, "defaultMaterial.mode");
                 _ambientLoc = glGetUniformLocation(program, "defaultMaterial.ambient");
                 _diffuseLoc = glGetUniformLocation(program, "defaultMaterial.diffuse");
@@ -78,12 +93,6 @@ namespace djv
                 _disableLightingLoc = glGetUniformLocation(program, "defaultMaterial.disableLighting");
             }
 
-            DefaultMaterial::DefaultMaterial()
-            {}
-
-            DefaultMaterial::~DefaultMaterial()
-            {}
-
             std::shared_ptr<DefaultMaterial> DefaultMaterial::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<DefaultMaterial>(new DefaultMaterial);
@@ -91,53 +100,87 @@ namespace djv
                 return out;
             }
 
-            void DefaultMaterial::setMode(DefaultMaterialMode value)
+            void DefaultMaterial::bind(const BindData& data)
             {
-                _mode = value;
-            }
+                size_t directionalLightCount = 0;
+                size_t pointLightCount = 0;
+                size_t spotLightCount = 0;
+                for (auto light = data.lights.begin(); light != data.lights.end(); ++light)
+                {
+                    if (auto hemisphereLight = std::dynamic_pointer_cast<HemisphereLight>(*light))
+                    {
+                        _shader->setUniform("hemisphereLight.intensity", hemisphereLight->getIntensity());
+                        _shader->setUniform("hemisphereLight.up", hemisphereLight->getUp());
+                        _shader->setUniformF("hemisphereLight.topColor", hemisphereLight->getTopColor());
+                        _shader->setUniformF("hemisphereLight.bottomColor", hemisphereLight->getBottomColor());
+                        _shader->setUniform("hemisphereLightEnabled", 1);
+                    }
+                    else if (auto directionalLight = std::dynamic_pointer_cast<DirectionalLight>(*light))
+                    {
+                        if (directionalLightCount < 16)
+                        {
+                            {
+                                std::stringstream ss;
+                                ss << "directionalLights[" << directionalLightCount << "].intensity";
+                                _shader->setUniform(ss.str(), directionalLight->getIntensity());
+                            }
+                            {
+                                std::stringstream ss;
+                                ss << "directionalLights[" << directionalLightCount << "].direction";
+                                _shader->setUniform(ss.str(), glm::normalize(directionalLight->getDirection()));
+                            }
+                            ++directionalLightCount;
+                        }
+                    }
+                    else if (auto pointLight = std::dynamic_pointer_cast<PointLight>(*light))
+                    {
+                        if (pointLightCount < 16)
+                        {
+                            {
+                                std::stringstream ss;
+                                ss << "pointLights[" << pointLightCount << "].intensity";
+                                _shader->setUniform(ss.str(), pointLight->getIntensity());
+                            }
+                            {
+                                std::stringstream ss;
+                                ss << "pointLights[" << pointLightCount << "].position";
+                                _shader->setUniform(ss.str(), pointLight->getPosition());
+                            }
+                            ++pointLightCount;
+                        }
+                    }
+                    else if (auto spotLight = std::dynamic_pointer_cast<SpotLight>(*light))
+                    {
+                        if (spotLightCount < 16)
+                        {
+                            {
+                                std::stringstream ss;
+                                ss << "spotLights[" << spotLightCount << "].intensity";
+                                _shader->setUniform(ss.str(), spotLight->getIntensity());
+                            }
+                            {
+                                std::stringstream ss;
+                                ss << "spotLights[" << spotLightCount << "].coneAngle";
+                                _shader->setUniform(ss.str(), spotLight->getConeAngle());
+                            }
+                            {
+                                std::stringstream ss;
+                                ss << "spotLights[" << spotLightCount << "].direction";
+                                _shader->setUniform(ss.str(), glm::normalize(spotLight->getDirection()));
+                            }
+                            {
+                                std::stringstream ss;
+                                ss << "spotLights[" << spotLightCount << "].position";
+                                _shader->setUniform(ss.str(), spotLight->getPosition());
+                            }
+                            ++spotLightCount;
+                        }
+                    }
+                }
+                _shader->setUniform("directionalLightsCount", static_cast<int>(directionalLightCount));
+                _shader->setUniform("pointLightsCount", static_cast<int>(pointLightCount));
+                _shader->setUniform("spotLightsCount", static_cast<int>(spotLightCount));
 
-            void DefaultMaterial::setAmbient(const AV::Image::Color& value)
-            {
-                _ambient = value;
-            }
-
-            void DefaultMaterial::setDiffuse(const AV::Image::Color& value)
-            {
-                _diffuse = value;
-            }
-
-            void DefaultMaterial::setEmission(const AV::Image::Color& value)
-            {
-                _emission = value;
-            }
-
-            void DefaultMaterial::setSpecular(const AV::Image::Color& value)
-            {
-                _specular = value;
-            }
-
-            void DefaultMaterial::setShine(float value)
-            {
-                _shine = value;
-            }
-
-            void DefaultMaterial::setTransparency(float value)
-            {
-                _transparency = value;
-            }
-
-            void DefaultMaterial::setReflectivity(float value)
-            {
-                _reflectivity = value;
-            }
-
-            void DefaultMaterial::setDisableLighting(bool value)
-            {
-                _disableLighting = value;
-            }
-
-            void DefaultMaterial::bind()
-            {
                 _shader->setUniform(_modeLoc, static_cast<int>(_mode));
                 _shader->setUniform(_ambientLoc, _ambient);
                 _shader->setUniform(_diffuseLoc, _diffuse);
@@ -147,6 +190,13 @@ namespace djv
                 _shader->setUniform(_transparencyLoc, _transparency);
                 _shader->setUniform(_reflectivityLoc, _reflectivity);
                 _shader->setUniform(_disableLightingLoc, _disableLighting);
+            }
+
+            void DefaultMaterial::primitiveBind(const PrimitiveBindData& data)
+            {
+                _shader->setUniform(_modelLoc, data.model);
+                _shader->setUniform(_mvpLoc, data.camera * data.model);
+                _shader->setUniform(_normalsLoc, glm::transpose(glm::inverse(glm::mat3x3(data.model))));
             }
 
         } // namespace Render3D

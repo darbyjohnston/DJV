@@ -29,45 +29,38 @@
 
 #pragma once
 
-#include "ITool.h"
+#include <djvScene/IPrimitive.h>
 
-#include <djvUI/Label.h>
-#include <djvUI/FormLayout.h>
+#include <djvAV/PointList.h>
 
-class InfoTool : public ITool
+namespace djv
 {
-    DJV_NON_COPYABLE(InfoTool);
+    namespace Scene
+    {
+        //! This class provides a poly-line primitive.
+        class PolyLinePrimitive : public IPrimitive
+        {
+            DJV_NON_COPYABLE(PolyLinePrimitive);
 
-protected:
-    void _init(const std::shared_ptr<djv::Core::Context>&);
-    InfoTool();
+        protected:
+            PolyLinePrimitive();
 
-public:
-    virtual ~InfoTool();
+        public:
+            static std::shared_ptr<PolyLinePrimitive> create();
 
-    static std::shared_ptr<InfoTool> create(const std::shared_ptr<djv::Core::Context>&);
+            const AV::Geom::PointList& getPointList() const;
+            void setPointList(const AV::Geom::PointList&);
 
-    void setBBox(const djv::Core::BBox3f&);
-    void setPrimitivesCount(size_t);
-    void setPointCount(size_t);
-    void setFPS(float);
+            std::string getClassName() const override;
+            bool isShaded() const override;
+            void render(const glm::mat4x4&, const std::shared_ptr<AV::Render3D::Render>&) override;
+            size_t getPointCount() const override;
 
-protected:
-    void _initEvent(djv::Core::Event::Init&) override;
+        private:
+            AV::Geom::PointList _pointList;
+        };
 
-private:
-    void _textUpdate();
+    } // namespace Scene
+} // namespace djv
 
-    djv::Core::BBox3f _bbox = djv::Core::BBox3f(0.F, 0.F, 0.F, 0.F, 0.F, 0.F);
-    size_t _primitivesCount = 0;
-    size_t _pointCount = 0;
-    float _fps = 0.F;
-    std::shared_ptr<djv::UI::Label> _sceneSizeLabel;
-    std::shared_ptr<djv::UI::Label> _sceneXRangeLabel;
-    std::shared_ptr<djv::UI::Label> _sceneYRangeLabel;
-    std::shared_ptr<djv::UI::Label> _sceneZRangeLabel;
-    std::shared_ptr<djv::UI::Label> _primitivesCountLabel;
-    std::shared_ptr<djv::UI::Label> _pointCountLabel;
-    std::shared_ptr<djv::UI::Label> _fpsLabel;
-    std::shared_ptr<djv::UI::FormLayout> _formLayout;
-};
+#include <djvScene/PolyLinePrimitiveInline.h>

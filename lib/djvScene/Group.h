@@ -29,7 +29,7 @@
 
 #pragma once
 
-#include <djvScene/Primitive.h>
+#include <djvScene/IPrimitive.h>
 
 namespace djv
 {

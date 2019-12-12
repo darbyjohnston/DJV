@@ -50,13 +50,13 @@ namespace djv
 
             void TriangleMesh::bboxUpdate()
             {
-                _bbox.zero();
+                bbox.zero();
                 if (v.size())
                 {
-                    _bbox = BBox3f(v[0]);
+                    bbox = BBox3f(v[0]);
                     for (const auto& i : v)
                     {
-                        _bbox.expand(i);
+                        bbox.expand(i);
                     }
                 }
             }

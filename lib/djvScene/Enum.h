@@ -43,6 +43,17 @@ namespace djv
             ZUp
         };
 
+        //! This enumeration provides how colors are assigned.
+        enum class ColorAssignment
+        {
+            Layer,
+            Parent,
+            Primitive,
+
+            Count,
+            First = Layer
+        };
+
         //! This enumeration provides how materials are assigned.
         enum class MaterialAssignment
         {

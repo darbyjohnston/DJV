@@ -30,7 +30,7 @@
 #include <djvScene/Scene.h>
 
 #include <djvScene/Camera.h>
-#include <djvScene/Primitive.h>
+#include <djvScene/IPrimitive.h>
 
 #include <djvCore/Matrix.h>
 
@@ -142,24 +142,15 @@ namespace djv
                         _pushXForm(primitive->getXForm());
                     }
                     const glm::mat4x4& xform = _getCurrentXForm();
-                    const auto& meshes = primitive->getMeshes();
-                    if (meshes.size())
+                    const BBox3f& bbox = primitive->getBBox();
+                    if (_bboxInit)
                     {
-                        for (auto i : primitive->getMeshes())
-                        {
-                            if (i->triangles.size())
-                            {
-                                if (_bboxInit)
-                                {
-                                    _bboxInit = false;
-                                    _bbox = i->getBBox() * xform;
-                                }
-                                else
-                                {
-                                    _bbox.expand(i->getBBox() * xform);
-                                }
-                            }
-                        }
+                        _bboxInit = false;
+                        _bbox = bbox * xform;
+                    }
+                    else
+                    {
+                        _bbox.expand(bbox * xform);
                     }
                     for (const auto& i : primitive->getPrimitives())
                     {
@@ -180,10 +171,7 @@ namespace djv
             {
                 std::cout << indent << primitive->getXForm() << std::endl;
             }
-            for (const auto& i : primitive->getMeshes())
-            {
-                std::cout << indent << "Mesh: " << i << std::endl;
-            }
+            std::cout << indent << "point count: " << primitive->getPointCount() << std::endl;
             for (const auto& i : primitive->getPrimitives())
             {
                 _print(i, indent + "    ");

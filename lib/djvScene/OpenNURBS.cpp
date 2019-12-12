@@ -29,10 +29,14 @@
 
 #include <djvScene/OpenNURBS.h>
 
+#include <djvScene/InstancePrimitive.h>
 #include <djvScene/Light.h>
 #include <djvScene/Layer.h>
 #include <djvScene/Material.h>
-#include <djvScene/Primitive.h>
+#include <djvScene/MeshPrimitive.h>
+#include <djvScene/NullPrimitive.h>
+#include <djvScene/PointListPrimitive.h>
+#include <djvScene/PolyLinePrimitive.h>
 #include <djvScene/Scene.h>
 
 #include <djvAV/Color.h>
@@ -56,19 +60,19 @@ namespace djv
                 {
                     AV::Image::Color fromONColor3(const ON_Color& value)
                     {
-                        return AV::Image::Color::RGB_F32(
-                            value.Red  () / 255.f,
-                            value.Green() / 255.f,
-                            value.Blue () / 255.f);
+                        return AV::Image::Color::RGB_U8(
+                            value.Red  (),
+                            value.Green(),
+                            value.Blue ());
                     }
 
                     AV::Image::Color fromONColor4(const ON_Color& value)
                     {
                         return AV::Image::Color(
-                            value.Red  () / 255.f,
-                            value.Green() / 255.f,
-                            value.Blue () / 255.f,
-                            (255 - value.Alpha()) / 255.f);
+                            value.Red  (),
+                            value.Green(),
+                            value.Blue (),
+                            (255 - value.Alpha()));
                     }
 
                     glm::vec2 fromON(const ON_2dPoint& value)
@@ -223,8 +227,29 @@ namespace djv
 
                             // Read the primitive.
                             std::string name = ON_String(attr->Name());
-                            if (auto onCurve = ON_Curve::Cast(onModelGeometryComponent->Geometry(nullptr)))
+                            if (auto onPoint = ON_Point::Cast(onModelGeometryComponent->Geometry(nullptr)))
                             {
+                                auto newPrimitive = PointListPrimitive::create();
+                                AV::Geom::PointList pointList;
+                                pointList.v.push_back(fromON(*onPoint));
+                                newPrimitive->setPointList(pointList);
+                                out = newPrimitive;
+                            }
+                            else if (auto onCurve = ON_Curve::Cast(onModelGeometryComponent->Geometry(nullptr)))
+                            {
+                                ON_SimpleArray<ON_3dPoint> onPoints;
+                                ON_SimpleArray<double> onParameters;
+                                if (onCurve->IsPolyline(&onPoints, &onParameters) >= 2)
+                                {
+                                    auto newPrimitive = PolyLinePrimitive::create();
+                                    AV::Geom::PointList pointList;
+                                    for (unsigned int i = 0; i < onPoints.Count(); ++i)
+                                    {
+                                        pointList.v.push_back(fromON(onPoints[i]));
+                                    }
+                                    newPrimitive->setPointList(pointList);
+                                    out = newPrimitive;
+                                }
                             }
                             else if (auto onMesh = ON_Mesh::Cast(onModelGeometryComponent->Geometry(nullptr)))
                             {
@@ -269,7 +294,7 @@ namespace djv
                                         newPrimitive = MeshPrimitive::create();
                                         out = newPrimitive;
                                     }
-                                    if (newPrimitive)
+                                    if (newPrimitive && mesh && mesh->triangles.size() > 0)
                                     {
                                         newPrimitive->addMesh(mesh);
                                     }
@@ -313,6 +338,7 @@ namespace djv
                             {
                                 out->setName(name);
                                 out->setVisible(attr->IsVisible());
+                                out->setColor(fromONColor4(attr->m_color));
                                 out->setMaterial(material);
                                 if (layer)
                                 {

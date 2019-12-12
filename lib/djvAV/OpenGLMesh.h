@@ -30,8 +30,10 @@
 #pragma once
 
 #include <djvAV/OpenGL.h>
+#include <djvAV/PointList.h>
 #include <djvAV/TriangleMesh.h>
 
+#include <djvCore/Enum.h>
 #include <djvCore/Range.h>
 
 #include <memory>
@@ -46,13 +48,16 @@ namespace djv
             enum class VBOType
             {
                 Pos2_F32_UV_U16,
+                Pos3_F32,
                 Pos3_F32_UV_U16_Normal_U10,
                 Pos3_F32_UV_U16_Normal_U10_Color_U8,
                 Pos3_F32_UV_F32_Normal_F32_Color_F32,
+                Pos3_F32_Color_U8,
 
                 Count,
                 First = Pos2_F32_UV_U16
             };
+            DJV_ENUM_HELPERS(VBOType);
 
             //! Get the VBO type byte count.
             size_t getVertexByteCount(VBOType);
@@ -77,6 +82,7 @@ namespace djv
                 void copy(const std::vector<uint8_t>&, size_t offset);
                 void copy(const std::vector<uint8_t>&, size_t offset, size_t size);
 
+                static std::vector<uint8_t> convert(const Geom::PointList&, VBOType);
                 static std::vector<uint8_t> convert(const Geom::TriangleMesh&, VBOType);
                 static std::vector<uint8_t> convert(const Geom::TriangleMesh &, VBOType, const Core::SizeTRange &);
 
@@ -109,6 +115,9 @@ namespace djv
 
         } // namespace OpenGL
     } // namespace AV
+
+    DJV_ENUM_SERIALIZE_HELPERS(AV::OpenGL::VBOType);
+
 } // namespace djv
 
 #include <djvAV/OpenGLMeshInline.h>

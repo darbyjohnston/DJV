@@ -179,22 +179,70 @@ namespace djv
 
             void Shader::setUniform(GLint location, const Image::Color& value)
             {
-                if (Image::Type::L_F32 == value.getType())
+                if (Image::Type::L_U8 == value.getType())
                 {
-                    const float* p = reinterpret_cast<const GLfloat*>(value.getData());
-                    const float v[] = { p[0], 0.F, 0.F, 1.F };
+                    const Image::U8_T* p = reinterpret_cast<const Image::U8_T*>(value.getData());
+                    const GLfloat v[] =
+                    {
+                        static_cast<GLfloat>(p[0] / Image::U8Range.max),
+                        0.F,
+                        0.F,
+                        1.F
+                    };
+                    glUniform4fv(location, 1, v);
+                }
+                else if (Image::Type::LA_U8 == value.getType())
+                {
+                    const Image::U8_T* p = reinterpret_cast<const Image::U8_T*>(value.getData());
+                    const GLfloat v[] =
+                    {
+                        static_cast<GLfloat>(p[0] / Image::U8Range.max),
+                        0.F,
+                        0.F,
+                        static_cast<GLfloat>(p[3] / Image::U8Range.max)
+                    };
+                    glUniform4fv(location, 1, v);
+                }
+                else if (Image::Type::RGB_U8 == value.getType())
+                {
+                    const Image::U8_T* p = reinterpret_cast<const Image::U8_T*>(value.getData());
+                    const GLfloat v[] =
+                    {
+                        static_cast<GLfloat>(p[0] / Image::U8Range.max),
+                        static_cast<GLfloat>(p[1] / Image::U8Range.max),
+                        static_cast<GLfloat>(p[2] / Image::U8Range.max),
+                        1.F
+                    };
+                    glUniform4fv(location, 1, v);
+                }
+                else if (Image::Type::RGBA_U8 == value.getType())
+                {
+                    const Image::U8_T* p = reinterpret_cast<const Image::U8_T*>(value.getData());
+                    const GLfloat v[] =
+                    {
+                        static_cast<GLfloat>(p[0] / Image::U8Range.max),
+                        static_cast<GLfloat>(p[1] / Image::U8Range.max),
+                        static_cast<GLfloat>(p[2] / Image::U8Range.max),
+                        static_cast<GLfloat>(p[3] / Image::U8Range.max)
+                    };
+                    glUniform4fv(location, 1, v);
+                }
+                else if (Image::Type::L_F32 == value.getType())
+                {
+                    const Image::F32_T* p = reinterpret_cast<const Image::F32_T*>(value.getData());
+                    const GLfloat v[] = { p[0], 0.F, 0.F, 1.F };
                     glUniform4fv(location, 1, v);
                 }
                 else if (Image::Type::LA_F32 == value.getType())
                 {
-                    const float* p = reinterpret_cast<const GLfloat*>(value.getData());
-                    const float v[] = { p[0], p[1], 0.F, 1.F };
+                    const Image::F32_T* p = reinterpret_cast<const Image::F32_T*>(value.getData());
+                    const GLfloat v[] = { p[0], p[1], 0.F, 1.F };
                     glUniform4fv(location, 1, v);
                 }
                 else if (Image::Type::RGB_F32 == value.getType())
                 {
-                    const float* p = reinterpret_cast<const GLfloat*>(value.getData());
-                    const float v[] = { p[0], p[1], p[2], 1.F };
+                    const Image::F32_T* p = reinterpret_cast<const Image::F32_T*>(value.getData());
+                    const GLfloat v[] = { p[0], p[1], p[2], 1.F };
                     glUniform4fv(location, 1, v);
                 }
                 else if (Image::Type::RGBA_F32 == value.getType())

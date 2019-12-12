@@ -31,6 +31,8 @@
 
 #include <djvAV/Color.h>
 
+#include <glm/mat4x4.hpp>
+
 namespace djv
 {
     namespace Core
@@ -49,6 +51,22 @@ namespace djv
 
         namespace Render3D
         {
+            class ILight;
+
+            //! This struct provides binding data.
+            struct BindData
+            {
+                std::vector<std::shared_ptr<ILight> > lights;
+            };
+
+            //! This struct provides per-primitive binding data.
+            struct PrimitiveBindData
+            {
+                glm::mat4x4 model;
+                glm::mat4x4 camera;
+                AV::Image::Color color;
+            };
+
             //! This class provides the base functionality for materials.
             class IMaterial : public std::enable_shared_from_this<IMaterial>
             {
@@ -65,14 +83,37 @@ namespace djv
             public:
                 virtual ~IMaterial() = 0;
 
-                virtual void bind();
+                virtual void bind(const BindData&);
+                virtual void primitiveBind(const PrimitiveBindData&);
 
                 const std::shared_ptr<OpenGL::Shader>& getShader() const;
-                GLint getMVPLoc() const;
 
             protected:
+                AV::Image::Color _color;
                 std::shared_ptr<OpenGL::Shader> _shader;
+            };
+
+            //! This class provides an unlit solid colored material.
+            class SolidColorMaterial : public IMaterial
+            {
+                DJV_NON_COPYABLE(SolidColorMaterial);
+
+            protected:
+                void _init(const std::shared_ptr<Core::Context>&);
+
+                SolidColorMaterial();
+
+            public:
+                ~SolidColorMaterial() override;
+
+                static std::shared_ptr<SolidColorMaterial> create(const std::shared_ptr<Core::Context>&);
+
+                void primitiveBind(const PrimitiveBindData&) override;
+
+            private:
+                GLint _modelLoc = 0;
                 GLint _mvpLoc = 0;
+                GLint _colorLoc = 0;
             };
 
             //! This enumeration provides the default material modes.
@@ -113,7 +154,8 @@ namespace djv
                 void setReflectivity(float);
                 void setDisableLighting(bool);
 
-                void bind() override;
+                void bind(const BindData&) override;
+                void primitiveBind(const PrimitiveBindData&) override;
 
             private:
                 DefaultMaterialMode _mode = DefaultMaterialMode::Default;
@@ -125,6 +167,9 @@ namespace djv
                 float _transparency = 0.F;
                 float _reflectivity = 0.F;
                 bool _disableLighting = false;
+                GLint _modelLoc = 0;
+                GLint _mvpLoc = 0;
+                GLint _normalsLoc = 0;
                 GLint _modeLoc = 0;
                 GLint _ambientLoc = 0;
                 GLint _diffuseLoc = 0;

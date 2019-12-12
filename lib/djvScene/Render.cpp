@@ -30,9 +30,9 @@
 #include <djvScene/Render.h>
 
 #include <djvScene/Camera.h>
+#include <djvScene/IPrimitive.h>
 #include <djvScene/Light.h>
 #include <djvScene/Material.h>
-#include <djvScene/Primitive.h>
 #include <djvScene/Scene.h>
 
 #include <djvAV/Render3D.h>
@@ -66,27 +66,29 @@ namespace djv
             std::weak_ptr<Core::Context> context;
             std::shared_ptr<Scene> scene;
             std::map<std::shared_ptr<IMaterial>, std::shared_ptr<AV::Render3D::IMaterial> > materials;
-            std::shared_ptr<IMaterial> defaultMaterial;
+            std::shared_ptr<AV::Render3D::IMaterial> colorMaterial;
+            std::shared_ptr<AV::Render3D::IMaterial> defaultMaterial;
             std::list<glm::mat4x4> transforms;
             const glm::mat4x4 identity = glm::mat4x4(1.F);
             struct Primitive
             {
-                glm::mat4x4 m = glm::mat4x4(1.F);
-                std::map<std::shared_ptr<AV::Render3D::IMaterial>, std::vector<std::shared_ptr<AV::Geom::TriangleMesh> > > meshes;
+                glm::mat4x4 transform = glm::mat4x4(1.F);
+                AV::Image::Color color;
+                std::shared_ptr<AV::Render3D::IMaterial> material;
+                std::shared_ptr<IPrimitive> primitive;
             };
-            std::list<Primitive> primitives;
-            std::vector<std::shared_ptr<AV::Render3D::DirectionalLight> > directionalLights;
-            std::vector<std::shared_ptr<AV::Render3D::PointLight> > pointLights;
-            std::vector<std::shared_ptr<AV::Render3D::SpotLight> > spotLights;
+            std::vector<Primitive> primitives;
             size_t primitivesCount = 0;
-            size_t triangleCount = 0;
+            size_t pointCount = 0;
+            size_t lightCount = 0;
         };
 
         void Render::_init(const std::shared_ptr<Core::Context>& context)
         {
             DJV_PRIVATE_PTR();
             p.context = context;
-            p.defaultMaterial = DefaultMaterial::create();
+            p.colorMaterial = AV::Render3D::SolidColorMaterial::create(context);
+            p.defaultMaterial = AV::Render3D::DefaultMaterial::create(context);
         }
 
         Render::Render() :
@@ -107,11 +109,9 @@ namespace djv
             p.materials.clear();
             p.transforms.clear();
             p.primitives.clear();
-            p.directionalLights.clear();
-            p.pointLights.clear();
-            p.spotLights.clear();
             p.primitivesCount = 0;
-            p.triangleCount = 0;
+            p.pointCount = 0;
+            p.lightCount = 0;
 
             p.scene = value;
             
@@ -147,15 +147,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (auto context = p.context.lock())
             {
-                AV::Render3D::RenderOptions render3DOptions;
-                auto renderCamera = AV::Render3D::DefaultCamera::create();
-                renderCamera->setV(renderOptions.camera->getV());
-                renderCamera->setP(renderOptions.camera->getP());
-                render3DOptions.camera = renderCamera;
-                render3DOptions.size = renderOptions.size;
-                render3DOptions.clip = renderOptions.clip;
-                render3DOptions.depthBufferMode = renderOptions.depthBufferMode;
-                render->beginFrame(render3DOptions);
+                // Set the default material shader mode.
                 for (const auto& i : p.materials)
                 {
                     if (auto defaultMaterial = std::dynamic_pointer_cast<AV::Render3D::DefaultMaterial>(i.second))
@@ -163,30 +155,35 @@ namespace djv
                         defaultMaterial->setMode(renderOptions.shaderMode);
                     }
                 }
+
+                // Create the render camera.
+                auto renderCamera = AV::Render3D::DefaultCamera::create();
+                renderCamera->setV(renderOptions.camera->getV());
+                renderCamera->setP(renderOptions.camera->getP());
+
+                // Create the default lights.
+                if (0 == p.lightCount)
+                {
+                    auto hemisphereLight = AV::Render3D::HemisphereLight::create();
+                    render->addLight(hemisphereLight);
+                    auto directionalLight = AV::Render3D::DirectionalLight::create();
+                    render->addLight(directionalLight);
+                }
+
+                // Setup the render options.
+                AV::Render3D::RenderOptions render3DOptions;
+                render3DOptions.camera = renderCamera;
+                render3DOptions.size = renderOptions.size;
+                render3DOptions.clip = renderOptions.clip;
+                render3DOptions.depthBufferMode = renderOptions.depthBufferMode;
+
+                // Render the primitives.
+                render->beginFrame(render3DOptions);
                 for (const auto& i : p.primitives)
                 {
-                    render->pushTransform(i.m);
-                    for (const auto& j : i.meshes)
-                    {
-                        if (j.second.size())
-                        {
-                            render->setMaterial(j.first);
-                            render->drawTriangleMeshes(j.second);
-                        }
-                    }
-                    render->popTransform();
-                }
-                for (const auto& i : p.directionalLights)
-                {
-                    render->addLight(i);
-                }
-                for (const auto& i : p.pointLights)
-                {
-                    render->addLight(i);
-                }
-                for (const auto& i : p.spotLights)
-                {
-                    render->addLight(i);
+                    render->setColor(i.color);
+                    render->setMaterial(i.material);
+                    i.primitive->render(i.transform, render);
                 }
                 render->endFrame();
             }
@@ -197,9 +194,33 @@ namespace djv
             return _p->primitivesCount;
         }
 
-        size_t Render::getTriangleCount() const
+        size_t Render::getPointCount() const
         {
-            return _p->triangleCount;
+            return _p->pointCount;
+        }
+
+        AV::Image::Color Render::_getColor(const std::shared_ptr<IPrimitive>& primitive) const
+        {
+            AV::Image::Color out(0.F, 0.F, 0.F);
+            switch (primitive->getColorAssignment())
+            {
+            case ColorAssignment::Layer:
+                if (auto layer = primitive->getLayer().lock())
+                {
+                    out = layer->getColor();
+                }
+                break;
+            case ColorAssignment::Parent:
+                if (auto parent = primitive->getParent().lock())
+                {
+                    out = _getColor(parent);
+                }
+                break;
+            case ColorAssignment::Primitive:
+                out = primitive->getColor();
+                break;
+            }
+            return out;
         }
 
         std::shared_ptr<IMaterial> Render::_getMaterial(const std::shared_ptr<IPrimitive>& primitive) const
@@ -223,10 +244,6 @@ namespace djv
                 out = primitive->getMaterial();
                 break;
             }
-            if (!out)
-            {
-                out = _p->defaultMaterial;
-            }
             return out;
         }
 
@@ -240,9 +257,6 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             p.transforms.push_back(_getCurrentTransform() * value);
-            Private::Primitive primitive;
-            primitive.m = _getCurrentTransform();
-            p.primitives.push_back(primitive);
         }
 
         void Render::_popTransform()
@@ -251,9 +265,6 @@ namespace djv
             if (p.transforms.size())
             {
                 p.transforms.pop_back();
-                Private::Primitive primitive;
-                primitive.m = _getCurrentTransform();
-                p.primitives.push_back(primitive);
             }
         }
 
@@ -304,56 +315,14 @@ namespace djv
                     }
                     const auto& currentTransform = _getCurrentTransform();
 
-                    if (renderMaterial)
-                    {
-                        auto& meshes = p.primitives.back().meshes[renderMaterial];
-                        const auto& primitiveMeshes = primitive->getMeshes();
-                        meshes.insert(meshes.end(), primitiveMeshes.begin(), primitiveMeshes.end());
-                        for (const auto& j : primitiveMeshes)
-                        {
-                            p.triangleCount += j->triangles.size();
-                        }
-                    }
-
-                    if (auto directionalLight = std::dynamic_pointer_cast<DirectionalLight>(primitive))
-                    {
-                        if (directionalLight->isEnabled())
-                        {
-                            auto renderLight = AV::Render3D::DirectionalLight::create();
-                            const auto& direction = directionalLight->getDirection();
-                            glm::vec3 renderDirection = _getCurrentTransform() * glm::vec4(direction.x, direction.y, direction.z, 1.F);
-                            glm::vec3 renderPosition = _getCurrentTransform() * glm::vec4(0.F, 0.F, 0.F, 1.F);
-                            renderLight->setIntensity(directionalLight->getIntensity());
-                            renderLight->setDirection(renderDirection - renderPosition);
-                            p.directionalLights.push_back(renderLight);
-                        }
-                    }
-                    else if (auto pointLight = std::dynamic_pointer_cast<PointLight>(primitive))
-                    {
-                        if (pointLight->isEnabled())
-                        {
-                            auto renderLight = AV::Render3D::PointLight::create();
-                            glm::vec3 renderPosition = _getCurrentTransform() * glm::vec4(0.F, 0.F, 0.F, 1.F);
-                            renderLight->setIntensity(pointLight->getIntensity());
-                            renderLight->setPosition(renderPosition);
-                            p.pointLights.push_back(renderLight);
-                        }
-                    }
-                    else if (auto spotLight = std::dynamic_pointer_cast<SpotLight>(primitive))
-                    {
-                        if (spotLight->isEnabled())
-                        {
-                            auto renderLight = AV::Render3D::SpotLight::create();
-                            const auto& direction = directionalLight->getDirection();
-                            glm::vec3 renderDirection = _getCurrentTransform() * glm::vec4(direction.x, direction.y, direction.z, 1.F);
-                            glm::vec3 renderPosition = _getCurrentTransform() * glm::vec4(0.F, 0.F, 0.F, 1.F);
-                            renderLight->setIntensity(spotLight->getIntensity());
-                            renderLight->setConeAngle(spotLight->getConeAngle());
-                            renderLight->setPosition(renderPosition);
-                            renderLight->setDirection(renderDirection - renderPosition);
-                            p.spotLights.push_back(renderLight);
-                        }
-                    }
+                    Private::Primitive pPrimitive;
+                    pPrimitive.color = _getColor(primitive);
+                    pPrimitive.material = renderMaterial ? renderMaterial : (primitive->isShaded() ? p.defaultMaterial : p.colorMaterial);
+                    pPrimitive.transform = currentTransform;
+                    pPrimitive.primitive = primitive;
+                    p.primitives.push_back(pPrimitive);
+                    p.primitivesCount += 1;
+                    p.pointCount += primitive->getPointCount();
 
                     for (const auto& i : primitive->getPrimitives())
                     {

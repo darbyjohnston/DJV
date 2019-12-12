@@ -96,15 +96,14 @@ namespace djv
                 std::vector<glm::vec3> n;
                 std::vector<Triangle> triangles;
 
+                Core::BBox3f bbox = Core::BBox3f(0.F, 0.F, 0.F, 0.F, 0.F, 0.F);
+
                 void clear();
 
                 ///@}
 
                 //! \name Mesh Utilities
                 ///@{
-
-                //! Get the bounding-box of the mesh.
-                const Core::BBox3f& getBBox() const;
 
                 //! Compute the bounding-box of the mesh.
                 void bboxUpdate();
@@ -149,7 +148,6 @@ namespace djv
 
             private:
                 Core::UID _uid = 0;
-                Core::BBox3f _bbox;
             };
 
         } // namespace Geom

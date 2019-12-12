@@ -32,7 +32,10 @@
 #include <djvScene/Enum.h>
 #include <djvScene/Layer.h>
 
-#include <djvAV/TriangleMesh.h>
+#include <djvAV/Color.h>
+
+#include <djvCore/BBox.h>
+#include <djvCore/UID.h>
 
 #include <glm/mat4x4.hpp>
 
@@ -40,6 +43,15 @@
 
 namespace djv
 {
+    namespace AV
+    {
+        namespace Render3D
+        {
+            class Render;
+
+        } // namespace Render3D
+    } // namespace AV
+
     namespace Scene
     {
         class IMaterial;
@@ -57,23 +69,30 @@ namespace djv
 
             virtual std::string getClassName() const = 0;
 
+            Core::UID getUID() const;
+
             const std::string& getName() const;
             void setName(const std::string&);
 
             bool isVisible() const;
             void setVisible(bool);
 
+            const Core::BBox3f& getBBox() const;
+            void setBBox(const Core::BBox3f&);
+
             const glm::mat4x4& getXForm() const;
             bool isXFormIdentity() const;
             void setXForm(const glm::mat4x4&);
 
-            const std::vector<std::shared_ptr<AV::Geom::TriangleMesh> >& getMeshes() const;
-            void addMesh(const std::shared_ptr<AV::Geom::TriangleMesh>&);
+            ColorAssignment getColorAssignment() const;
+            const AV::Image::Color& getColor() const;
+            void setColorAssignment(ColorAssignment);
+            void setColor(const AV::Image::Color&);
 
             MaterialAssignment getMaterialAssignment() const;
-            void setMaterialAssignment(MaterialAssignment);
-
             const std::shared_ptr<IMaterial>& getMaterial() const;
+            virtual bool isShaded() const;
+            void setMaterialAssignment(MaterialAssignment);
             void setMaterial(const std::shared_ptr<IMaterial>&);
 
             const std::weak_ptr<IPrimitive>& getParent() const;
@@ -84,71 +103,26 @@ namespace djv
 
             virtual const std::vector<std::shared_ptr<IPrimitive> >& getPrimitives() const;
 
+            virtual void render(const glm::mat4x4&, const std::shared_ptr<AV::Render3D::Render>&);
+
+            virtual size_t getPointCount() const;
+
         private:
+            Core::UID _uid = 0;
             std::string _name;
             bool _visible = true;
+            Core::BBox3f _bbox = Core::BBox3f(0.F, 0.F, 0.F, 0.F, 0.F, 0.F);
             glm::mat4x4 _xform = glm::mat4x4(1.F);
             bool _xformIdentity = true;
-            std::vector<std::shared_ptr<AV::Geom::TriangleMesh> > _meshes;
+            ColorAssignment _colorAssignment = ColorAssignment::Primitive;
+            AV::Image::Color _color;
             MaterialAssignment _materialAssignment = MaterialAssignment::Primitive;
             std::shared_ptr<IMaterial> _material;
             std::weak_ptr<IPrimitive> _parent;
             std::vector<std::shared_ptr<IPrimitive> > _children;
         };
 
-        //! This class provides a null primitive.
-        class NullPrimitive : public IPrimitive
-        {
-            DJV_NON_COPYABLE(NullPrimitive);
-
-        protected:
-            NullPrimitive();
-
-        public:
-            static std::shared_ptr<NullPrimitive> create();
-
-            std::string getClassName() const override;
-
-        private:
-        };
-
-        //! This class provides a primitive instance.
-        class InstancePrimitive : public IPrimitive
-        {
-            DJV_NON_COPYABLE(InstancePrimitive);
-
-        protected:
-            InstancePrimitive();
-
-        public:
-            static std::shared_ptr<InstancePrimitive> create();
-
-            const std::vector<std::shared_ptr<IPrimitive> >& getInstances() const;
-            void setInstances(const std::vector<std::shared_ptr<IPrimitive> >&);
-            void addInstance(const std::shared_ptr<IPrimitive>&);
-
-            std::string getClassName() const override;
-            const std::vector<std::shared_ptr<IPrimitive> >& getPrimitives() const override;
-
-        private:
-            std::vector<std::shared_ptr<IPrimitive> > _instances;
-        };
-
-        //! This class provides a mesh primitive.
-        class MeshPrimitive : public IPrimitive
-        {
-            DJV_NON_COPYABLE(MeshPrimitive);
-
-        protected:
-            MeshPrimitive();
-
-        public:
-            static std::shared_ptr<MeshPrimitive> create();
-
-            std::string getClassName() const override;
-        };
-
     } // namespace Scene
 } // namespace djv
 
-#include <djvScene/PrimitiveInline.h>
+#include <djvScene/IPrimitiveInline.h>

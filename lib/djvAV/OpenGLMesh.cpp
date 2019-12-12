@@ -108,6 +108,46 @@ namespace djv
                 glBufferSubData(GL_ARRAY_BUFFER, offset, static_cast<GLsizei>(size), (void*)data.data());
             }
 
+            std::vector<uint8_t> VBO::convert(const Geom::PointList& pointList, VBOType type)
+            {
+                const size_t size = pointList.v.size();
+                const size_t vertexByteCount = getVertexByteCount(type);
+                std::vector<uint8_t> out(size * vertexByteCount);
+                uint8_t* p = out.data();
+                switch (type)
+                {
+                case VBOType::Pos3_F32:
+                    for (size_t i = 0; i < size; ++i)
+                    {
+                        float* pf = reinterpret_cast<float*>(p);
+                        pf[0] = pointList.v[i].x;
+                        pf[1] = pointList.v[i].y;
+                        pf[2] = pointList.v[i].z;
+                        p += 3 * sizeof(float);
+                    }
+                    break;
+                case VBOType::Pos3_F32_Color_U8:
+                    for (size_t i = 0; i < size; ++i)
+                    {
+                        float* pf = reinterpret_cast<float*>(p);
+                        pf[0] = pointList.v[i].x;
+                        pf[1] = pointList.v[i].y;
+                        pf[2] = pointList.v[i].z;
+                        p += 3 * sizeof(float);
+
+                        auto packedColor = reinterpret_cast<PackedColor*>(p);
+                        packedColor->r = Math::clamp(static_cast<int>(pointList.c[i][0] * 255.F), 0, 255);
+                        packedColor->g = Math::clamp(static_cast<int>(pointList.c[i][1] * 255.F), 0, 255);
+                        packedColor->b = Math::clamp(static_cast<int>(pointList.c[i][2] * 255.F), 0, 255);
+                        packedColor->a = 255;
+                        p += sizeof(PackedColor);
+                    }
+                    break;
+                default: break;
+                }
+                return out;
+            }
+
             std::vector<uint8_t> VBO::convert(const Geom::TriangleMesh& mesh, VBOType type)
             {
                 const size_t size = mesh.triangles.size();
@@ -257,6 +297,10 @@ namespace djv
                     glVertexAttribPointer(1, 2, GL_UNSIGNED_SHORT, GL_TRUE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)8);
                     glEnableVertexAttribArray(1);
                     break;
+                case VBOType::Pos3_F32:
+                    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)0);
+                    glEnableVertexAttribArray(0);
+                    break;
 #if defined(DJV_OPENGL_ES2)
 #else // DJV_OPENGL_ES2
                 case VBOType::Pos3_F32_UV_U16_Normal_U10:
@@ -287,6 +331,12 @@ namespace djv
                     glEnableVertexAttribArray(2);
                     glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)32);
                     glEnableVertexAttribArray(3);
+                    break;
+                case VBOType::Pos3_F32_Color_U8:
+                    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)0);
+                    glEnableVertexAttribArray(0);
+                    glVertexAttribPointer(1, 4, GL_UNSIGNED_BYTE, GL_TRUE, static_cast<GLsizei>(vertexByteCount), (GLvoid*)12);
+                    glEnableVertexAttribArray(1);
                     break;
                 default: break;
                 }
@@ -328,5 +378,16 @@ namespace djv
 
         } // namespace OpenGL
     } // namespace AV
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        AV::OpenGL,
+        VBOType,
+        DJV_TEXT("Pos2_F32_UV_U16"),
+        DJV_TEXT("Pos3_F32"),
+        DJV_TEXT("Pos3_F32_UV_U16_Normal_U10"),
+        DJV_TEXT("Pos3_F32_UV_U16_Normal_U10_Color_U8"),
+        DJV_TEXT("Pos3_F32_UV_F32_Normal_F32_Color_F32"),
+        DJV_TEXT("Pos3_F32_U8"));
+
 } // namespace djv
 

@@ -5,15 +5,25 @@ set(header
     Group.h
     IO.h
     IOInline.h
+    IPrimitive.h
+    IPrimitiveInline.h
+    InstancePrimitive.h
+    InstancePrimitiveInline.h
     Layer.h
     LayerInline.h
     Light.h
     LightInline.h
     Material.h
     MaterialInline.h
+    MeshPrimitive.h
+    MeshPrimitiveInline.h
+    NullPrimitive.h
+    NullPrimitiveInline.h
     OBJ.h
-    Primitive.h
-    PrimitiveInline.h
+    PointListPrimitive.h
+    PointListPrimitiveInline.h
+    PolyLinePrimitive.h
+    PolyLinePrimitiveInline.h
     Render.h
     Scene.h
     SceneInline.h
@@ -23,11 +33,16 @@ set(source
     Enum.cpp
     Group.cpp
     IO.cpp
+    IPrimitive.cpp
+    InstancePrimitive.cpp
     Layer.cpp
     Light.cpp
     Material.cpp
+    MeshPrimitive.cpp
+    NullPrimitive.cpp
     OBJ.cpp
-    Primitive.cpp
+    PointListPrimitive.cpp
+    PolyLinePrimitive.cpp
     Render.cpp
     Scene.cpp
     SceneSystem.cpp)

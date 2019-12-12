@@ -29,45 +29,35 @@
 
 #pragma once
 
-#include "ITool.h"
+#include <djvScene/IPrimitive.h>
 
-#include <djvUI/Label.h>
-#include <djvUI/FormLayout.h>
-
-class InfoTool : public ITool
+namespace djv
 {
-    DJV_NON_COPYABLE(InfoTool);
+    namespace Scene
+    {
+        //! This class provides a primitive instance.
+        class InstancePrimitive : public IPrimitive
+        {
+            DJV_NON_COPYABLE(InstancePrimitive);
 
-protected:
-    void _init(const std::shared_ptr<djv::Core::Context>&);
-    InfoTool();
+        protected:
+            InstancePrimitive();
 
-public:
-    virtual ~InfoTool();
+        public:
+            static std::shared_ptr<InstancePrimitive> create();
 
-    static std::shared_ptr<InfoTool> create(const std::shared_ptr<djv::Core::Context>&);
+            const std::vector<std::shared_ptr<IPrimitive> >& getInstances() const;
+            void setInstances(const std::vector<std::shared_ptr<IPrimitive> >&);
+            void addInstance(const std::shared_ptr<IPrimitive>&);
 
-    void setBBox(const djv::Core::BBox3f&);
-    void setPrimitivesCount(size_t);
-    void setPointCount(size_t);
-    void setFPS(float);
+            std::string getClassName() const override;
+            const std::vector<std::shared_ptr<IPrimitive> >& getPrimitives() const override;
 
-protected:
-    void _initEvent(djv::Core::Event::Init&) override;
+        private:
+            std::vector<std::shared_ptr<IPrimitive> > _instances;
+        };
 
-private:
-    void _textUpdate();
+    } // namespace Scene
+} // namespace djv
 
-    djv::Core::BBox3f _bbox = djv::Core::BBox3f(0.F, 0.F, 0.F, 0.F, 0.F, 0.F);
-    size_t _primitivesCount = 0;
-    size_t _pointCount = 0;
-    float _fps = 0.F;
-    std::shared_ptr<djv::UI::Label> _sceneSizeLabel;
-    std::shared_ptr<djv::UI::Label> _sceneXRangeLabel;
-    std::shared_ptr<djv::UI::Label> _sceneYRangeLabel;
-    std::shared_ptr<djv::UI::Label> _sceneZRangeLabel;
-    std::shared_ptr<djv::UI::Label> _primitivesCountLabel;
-    std::shared_ptr<djv::UI::Label> _pointCountLabel;
-    std::shared_ptr<djv::UI::Label> _fpsLabel;
-    std::shared_ptr<djv::UI::FormLayout> _formLayout;
-};
+#include <djvScene/InstancePrimitiveInline.h>

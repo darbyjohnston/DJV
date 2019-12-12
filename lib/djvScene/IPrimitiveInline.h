@@ -31,11 +31,17 @@ namespace djv
 {
     namespace Scene
     {
-        inline IPrimitive::IPrimitive()
+        inline IPrimitive::IPrimitive() :
+            _uid(Core::createUID())
         {}
 
         inline IPrimitive::~IPrimitive()
         {}
+
+        inline Core::UID IPrimitive::getUID() const
+        {
+            return _uid;
+        }
 
         inline const std::string& IPrimitive::getName() const
         {
@@ -57,6 +63,16 @@ namespace djv
             _visible = value;
         }
 
+        inline const Core::BBox3f& IPrimitive::getBBox() const
+        {
+            return _bbox;
+        }
+
+        inline void IPrimitive::setBBox(const Core::BBox3f& value)
+        {
+            _bbox = value;
+        }
+
         inline const glm::mat4x4& IPrimitive::getXForm() const
         {
             return _xform;
@@ -73,14 +89,24 @@ namespace djv
             _xformIdentity = value == glm::mat4x4(1.F);
         }
 
-        inline const std::vector<std::shared_ptr<AV::Geom::TriangleMesh> >& IPrimitive::getMeshes() const
+        inline ColorAssignment IPrimitive::getColorAssignment() const
         {
-            return _meshes;
+            return _colorAssignment;
         }
 
-        inline void  IPrimitive::addMesh(const std::shared_ptr<AV::Geom::TriangleMesh>& value)
+        inline const AV::Image::Color& IPrimitive::getColor() const
         {
-            _meshes.push_back(value);
+            return _color;
+        }
+
+        inline void IPrimitive::setColorAssignment(ColorAssignment value)
+        {
+            _colorAssignment = value;
+        }
+
+        inline void IPrimitive::setColor(const AV::Image::Color& value)
+        {
+            _color = value;
         }
 
         inline MaterialAssignment IPrimitive::getMaterialAssignment() const
@@ -88,14 +114,19 @@ namespace djv
             return _materialAssignment;
         }
 
-        inline void IPrimitive::setMaterialAssignment(MaterialAssignment value)
-        {
-            _materialAssignment = value;
-        }
-
         inline const std::shared_ptr<IMaterial>& IPrimitive::getMaterial() const
         {
             return _material;
+        }
+
+        inline bool IPrimitive::isShaded() const
+        {
+            return true;
+        }
+
+        inline void IPrimitive::setMaterialAssignment(MaterialAssignment value)
+        {
+            _materialAssignment = value;
         }
 
         inline void IPrimitive::setMaterial(const std::shared_ptr<IMaterial>& value)
@@ -116,50 +147,6 @@ namespace djv
         inline const std::vector<std::shared_ptr<IPrimitive> >& IPrimitive::getPrimitives() const
         {
             return _children;
-        }
-
-        inline NullPrimitive::NullPrimitive()
-        {}
-
-        inline std::string NullPrimitive::getClassName() const
-        {
-            return "NullPrimitive";
-        }
-
-        inline InstancePrimitive::InstancePrimitive()
-        {}
-
-        inline std::string InstancePrimitive::getClassName() const
-        {
-            return "InstancePrimitive";
-        }
-
-        inline const std::vector<std::shared_ptr<IPrimitive> >& InstancePrimitive::getInstances() const
-        {
-            return _instances;
-        }
-
-        inline void InstancePrimitive::setInstances(const std::vector<std::shared_ptr<IPrimitive> >& value)
-        {
-            _instances = value;
-        }
-
-        inline void InstancePrimitive::addInstance(const std::shared_ptr<IPrimitive>& value)
-        {
-            _instances.push_back(value);
-        }
-
-        inline const std::vector<std::shared_ptr<IPrimitive> >& InstancePrimitive::getPrimitives() const
-        {
-            return _instances;
-        }
-
-        inline MeshPrimitive::MeshPrimitive()
-        {}
-
-        inline std::string MeshPrimitive::getClassName() const
-        {
-            return "MeshPrimitive";
         }
 
     } // namespace Scene

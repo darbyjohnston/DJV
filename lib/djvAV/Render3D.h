@@ -42,6 +42,7 @@ namespace djv
     {
         namespace Geom
         {
+            class PointList;
             class TriangleMesh;
         
         } // namespace Geom
@@ -110,9 +111,10 @@ namespace djv
 
                 ///@}
 
-                //! \name Material
+                //! \name Color and Material
                 ///@{
 
+                void setColor(const AV::Image::Color&);
                 void setMaterial(const std::shared_ptr<IMaterial>&);
 
                 ///@}
@@ -126,6 +128,10 @@ namespace djv
 
                 //! \name Primitives
                 ///@{
+
+                void drawPoints(const AV::Geom::PointList&, Core::UID);
+
+                void drawPolyLine(const AV::Geom::PointList&, Core::UID);
 
                 void drawTriangleMesh(const Geom::TriangleMesh&);
                 void drawTriangleMeshes(const std::vector<Geom::TriangleMesh>&);

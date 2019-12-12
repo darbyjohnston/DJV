@@ -84,7 +84,7 @@ namespace djv
             glm::vec2 pointerPos = glm::vec2(0.F, 0.F);
             std::shared_ptr<ValueSubject<BBox3f> > bbox;
             std::shared_ptr<ValueSubject<size_t> > primitivesCount;
-            std::shared_ptr<ValueSubject<size_t> > triangleCount;
+            std::shared_ptr<ValueSubject<size_t> > pointCount;
             std::shared_ptr<djv::Core::Time::Timer> statsTimer;
         };
 
@@ -104,7 +104,7 @@ namespace djv
             p.render = Scene::Render::create(context);
             p.bbox = ValueSubject<BBox3f>::create(BBox3f(0.F, 0.F, 0.F, 0.F, 0.F, 0.F));
             p.primitivesCount = ValueSubject<size_t>::create(0);
-            p.triangleCount = ValueSubject<size_t>::create(0);
+            p.pointCount = ValueSubject<size_t>::create(0);
 
             p.statsTimer = Core::Time::Timer::create(context);
             p.statsTimer->setRepeating(true);
@@ -122,7 +122,7 @@ namespace djv
                         }
                         widget->_p->bbox->setIfChanged(bbox);
                         widget->_p->primitivesCount->setIfChanged(widget->_p->render->getPrimitivesCount());
-                        widget->_p->triangleCount->setIfChanged(widget->_p->render->getTriangleCount());
+                        widget->_p->pointCount->setIfChanged(widget->_p->render->getPointCount());
                     }
                 });
         }
@@ -220,9 +220,9 @@ namespace djv
             return _p->primitivesCount;
         }
 
-        std::shared_ptr<Core::IValueSubject<size_t> > SceneWidget::observeTriangleCount() const
+        std::shared_ptr<Core::IValueSubject<size_t> > SceneWidget::observePointCount() const
         {
-            return _p->triangleCount;
+            return _p->pointCount;
         }
 
         void SceneWidget::_layoutEvent(Event::Layout&)

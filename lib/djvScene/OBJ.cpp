@@ -30,7 +30,7 @@
 #include <djvScene/OBJ.h>
 
 #include <djvScene/Material.h>
-#include <djvScene/Primitive.h>
+#include <djvScene/MeshPrimitive.h>
 #include <djvScene/Scene.h>
 
 #include <djvAV/TriangleMesh.h>

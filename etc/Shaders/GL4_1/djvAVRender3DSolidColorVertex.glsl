@@ -27,47 +27,20 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#version 410
 
-#include "ITool.h"
+in vec3 aPos;
 
-#include <djvUI/Label.h>
-#include <djvUI/FormLayout.h>
+layout(location = 0) out vec3 Position;
 
-class InfoTool : public ITool
+uniform struct Transform
 {
-    DJV_NON_COPYABLE(InfoTool);
+    mat4 m;
+    mat4 mvp;
+} transform;
 
-protected:
-    void _init(const std::shared_ptr<djv::Core::Context>&);
-    InfoTool();
-
-public:
-    virtual ~InfoTool();
-
-    static std::shared_ptr<InfoTool> create(const std::shared_ptr<djv::Core::Context>&);
-
-    void setBBox(const djv::Core::BBox3f&);
-    void setPrimitivesCount(size_t);
-    void setPointCount(size_t);
-    void setFPS(float);
-
-protected:
-    void _initEvent(djv::Core::Event::Init&) override;
-
-private:
-    void _textUpdate();
-
-    djv::Core::BBox3f _bbox = djv::Core::BBox3f(0.F, 0.F, 0.F, 0.F, 0.F, 0.F);
-    size_t _primitivesCount = 0;
-    size_t _pointCount = 0;
-    float _fps = 0.F;
-    std::shared_ptr<djv::UI::Label> _sceneSizeLabel;
-    std::shared_ptr<djv::UI::Label> _sceneXRangeLabel;
-    std::shared_ptr<djv::UI::Label> _sceneYRangeLabel;
-    std::shared_ptr<djv::UI::Label> _sceneZRangeLabel;
-    std::shared_ptr<djv::UI::Label> _primitivesCountLabel;
-    std::shared_ptr<djv::UI::Label> _pointCountLabel;
-    std::shared_ptr<djv::UI::Label> _fpsLabel;
-    std::shared_ptr<djv::UI::FormLayout> _formLayout;
-};
+void main()
+{
+    gl_Position = transform.mvp * vec4(aPos, 1.0);
+    Position = vec3(transform.m * vec4(aPos, 1.0));
+}

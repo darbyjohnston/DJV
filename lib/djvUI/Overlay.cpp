@@ -58,7 +58,7 @@ namespace djv
                 std::function<void(void)> closeCallback;
             };
 
-            void Overlay::_init(const std::shared_ptr<Core::Context>& context)
+            void Overlay::_init(const std::shared_ptr<Context>& context)
             {
                 Widget::_init(context);
                 DJV_PRIVATE_PTR();
@@ -77,7 +77,7 @@ namespace djv
             Overlay::~Overlay()
             {}
 
-            std::shared_ptr<Overlay> Overlay::create(const std::shared_ptr<Core::Context>& context)
+            std::shared_ptr<Overlay> Overlay::create(const std::shared_ptr<Context>& context)
             {
                 auto out = std::shared_ptr<Overlay>(new Overlay);
                 out->_init(context);
@@ -186,7 +186,7 @@ namespace djv
                 Stack::layout(getMargin().bbox(getGeometry(), style), getChildWidgets(), Margin(), style);
             }
 
-            void Overlay::_pointerEnterEvent(Core::Event::PointerEnter & event)
+            void Overlay::_pointerEnterEvent(Event::PointerEnter & event)
             {
                 if (_p->capturePointer && !event.isRejected())
                 {
@@ -194,7 +194,7 @@ namespace djv
                 }
             }
 
-            void Overlay::_pointerLeaveEvent(Core::Event::PointerLeave & event)
+            void Overlay::_pointerLeaveEvent(Event::PointerLeave & event)
             {
                 if (_p->capturePointer)
                 {
@@ -202,7 +202,7 @@ namespace djv
                 }
             }
 
-            void Overlay::_pointerMoveEvent(Core::Event::PointerMove & event)
+            void Overlay::_pointerMoveEvent(Event::PointerMove & event)
             {
                 if (_p->capturePointer)
                 {
@@ -221,7 +221,7 @@ namespace djv
                 }
             }
 
-            void Overlay::_buttonReleaseEvent(Core::Event::ButtonRelease & event)
+            void Overlay::_buttonReleaseEvent(Event::ButtonRelease & event)
             {
                 DJV_PRIVATE_PTR();
                 const auto i = p.pressedIDs.find(event.getPointerInfo().id);

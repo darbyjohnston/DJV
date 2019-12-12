@@ -35,6 +35,8 @@ set(header
     OpenGLTextureAtlas.h
     OpenGLTextureInline.h
     PPM.h
+    PointList.h
+    PointListInline.h
     Pixel.h
     PixelInline.h
     RLA.h

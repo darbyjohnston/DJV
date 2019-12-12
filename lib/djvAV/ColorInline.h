@@ -162,6 +162,15 @@ namespace djv
                 return _data.data();
             }
 
+            inline Color Color::RGB_U8(int r, int g, int b)
+            {
+                Color out(Type::RGB_U8);
+                out.setU8(r, 0);
+                out.setU8(g, 1);
+                out.setU8(b, 2);
+                return out;
+            }
+
             inline Color Color::RGB_F32(float r, float g, float b)
             {
                 Color out(Type::RGB_F32);

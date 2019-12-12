@@ -63,11 +63,6 @@ namespace djv
                 return _uid;
             }
 
-            inline const Core::BBox3f& TriangleMesh::getBBox() const
-            {
-                return _bbox;
-            }
-
         } // namespace Geom
     } // namespace AV
 } // namespace djv

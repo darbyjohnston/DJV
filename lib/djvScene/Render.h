@@ -89,9 +89,10 @@ namespace djv
                 const RenderOptions&);
 
             size_t getPrimitivesCount() const;
-            size_t getTriangleCount() const;
+            size_t getPointCount() const;
 
         private:
+            AV::Image::Color _getColor(const std::shared_ptr<IPrimitive>&) const;
             std::shared_ptr<IMaterial> _getMaterial(const std::shared_ptr<IPrimitive>&) const;
             const glm::mat4x4& _getCurrentTransform() const;
             void _pushTransform(const glm::mat4x4&);
