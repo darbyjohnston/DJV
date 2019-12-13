@@ -189,9 +189,9 @@ namespace djv
                         const glm::vec2& childMinimumSize = child->getMinimumSize();
                         switch (p.soloMinimumSize)
                         {
-                        case Horizontal: minimumSize.x = glm::max(minimumSize.x, childMinimumSize.x); break;
-                        case Vertical:   minimumSize.y = glm::max(minimumSize.y, childMinimumSize.y); break;
-                        case Both:       minimumSize   = glm::max(minimumSize, child->getMinimumSize()); break;
+                        case SoloMinimumSize::Horizontal: minimumSize.x = glm::max(minimumSize.x, childMinimumSize.x); break;
+                        case SoloMinimumSize::Vertical:   minimumSize.y = glm::max(minimumSize.y, childMinimumSize.y); break;
+                        case SoloMinimumSize::Both:       minimumSize   = glm::max(minimumSize, child->getMinimumSize()); break;
                         default: break;
                         }
                     }

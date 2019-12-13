@@ -34,17 +34,17 @@
 
 #include <djvUI/Action.h>
 #include <djvUI/ActionGroup.h>
+#include <djvUI/Drawer.h>
 #include <djvUI/Label.h>
-#include <djvUI/MDICanvas.h>
 #include <djvUI/Window.h>
 
 #include <djvCore/FileInfo.h>
 #include <djvCore/Timer.h>
 #include <djvCore/ValueObserver.h>
 
-class CameraTool;
-class InfoTool;
-class RenderTool;
+class CameraWidget;
+class InfoWidget;
+class RenderWidget;
 
 class MainWindow : public djv::UI::Window
 {
@@ -78,10 +78,10 @@ private:
 
     std::shared_ptr<djv::UI::Label> _fileInfoLabel;
     std::shared_ptr<djv::UI::SceneWidget> _sceneWidget;
-    std::shared_ptr<CameraTool> _cameraTool;
-    std::shared_ptr<InfoTool> _infoTool;
-    std::shared_ptr<RenderTool> _renderTool;
-    std::shared_ptr<djv::UI::MDI::Canvas> _mdiCanvas;
+    std::shared_ptr<CameraWidget> _cameraWidget;
+    std::shared_ptr<InfoWidget> _infoWidget;
+    std::shared_ptr<RenderWidget> _renderWidget;
+    std::shared_ptr<djv::UI::Drawer> _settingsDrawer;
 
     std::shared_ptr<djv::UI::FileBrowser::Dialog> _fileBrowserDialog;
     djv::Core::FileSystem::Path _fileBrowserPath = djv::Core::FileSystem::Path(".");

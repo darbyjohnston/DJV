@@ -71,7 +71,7 @@ namespace djv
             AV::Render3D::DefaultMaterialMode   shaderMode      = AV::Render3D::DefaultMaterialMode::Default;
             AV::Render3D::DepthBufferMode       depthBufferMode = AV::Render3D::DepthBufferMode::Reverse;
             AV::OpenGL::OffscreenDepthType      depthBufferType = AV::OpenGL::OffscreenDepthType::_32;
-            AV::OpenGL::OffscreenSampling       multiSampling   = AV::OpenGL::OffscreenSampling::_4;
+            AV::OpenGL::OffscreenSampling       multiSampling   = AV::OpenGL::OffscreenSampling::None;
 
             bool operator == (const SceneRenderOptions&) const;
         };

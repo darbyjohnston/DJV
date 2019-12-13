@@ -39,7 +39,7 @@ namespace djv
         {
             //! This enumeration provides options for how the Solo layout
             //! calculates it's minimum size.
-            enum SoloMinimumSize
+            enum class SoloMinimumSize
             {
                 None,
                 Horizontal,

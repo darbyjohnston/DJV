@@ -29,40 +29,46 @@
 
 #pragma once
 
-#include <djvScene/IPrimitive.h>
+#include "ISettingsWidget.h"
 
-#include <djvAV/PointList.h>
+#include <djvUI/FormLayout.h>
+#include <djvUI/Label.h>
+#include <djvUI/TextBlock.h>
 
-namespace djv
+class InfoWidget : public ISettingsWidget
 {
-    namespace Scene
-    {
-        //! This class provides a poly-line primitive.
-        class PolyLinePrimitive : public IPrimitive
-        {
-            DJV_NON_COPYABLE(PolyLinePrimitive);
+    DJV_NON_COPYABLE(InfoWidget);
 
-        protected:
-            PolyLinePrimitive();
+protected:
+    void _init(const std::shared_ptr<djv::Core::Context>&);
+    InfoWidget();
 
-        public:
-            static std::shared_ptr<PolyLinePrimitive> create();
+public:
+    virtual ~InfoWidget();
 
-            const std::vector<AV::Geom::PointList>& getPointLists() const;
-            void setPointLists(const std::vector<AV::Geom::PointList>&);
-            void addPointList(const AV::Geom::PointList&);
+    static std::shared_ptr<InfoWidget> create(const std::shared_ptr<djv::Core::Context>&);
 
-            std::string getClassName() const override;
-            bool isShaded() const override;
-            void render(const glm::mat4x4&, const std::shared_ptr<AV::Render3D::Render>&) override;
-            size_t getPointCount() const override;
+    void setBBox(const djv::Core::BBox3f&);
+    void setPrimitivesCount(size_t);
+    void setPointCount(size_t);
+    void setFPS(float);
 
-        private:
-            std::vector<AV::Geom::PointList> _pointLists;
-            size_t _pointCount = 0;
-        };
+protected:
+    void _initEvent(djv::Core::Event::Init&) override;
 
-    } // namespace Scene
-} // namespace djv
+private:
+    void _textUpdate();
 
-#include <djvScene/PolyLinePrimitiveInline.h>
+    djv::Core::BBox3f _bbox = djv::Core::BBox3f(0.F, 0.F, 0.F, 0.F, 0.F, 0.F);
+    size_t _primitivesCount = 0;
+    size_t _pointCount = 0;
+    float _fps = 0.F;
+    std::shared_ptr<djv::UI::TextBlock> _sceneSizeTextBlock;
+    std::shared_ptr<djv::UI::TextBlock> _sceneXRangeTextBlock;
+    std::shared_ptr<djv::UI::TextBlock> _sceneYRangeTextBlock;
+    std::shared_ptr<djv::UI::TextBlock> _sceneZRangeTextBlock;
+    std::shared_ptr<djv::UI::Label> _primitivesCountLabel;
+    std::shared_ptr<djv::UI::Label> _pointCountLabel;
+    std::shared_ptr<djv::UI::Label> _fpsLabel;
+    std::shared_ptr<djv::UI::FormLayout> _formLayout;
+};

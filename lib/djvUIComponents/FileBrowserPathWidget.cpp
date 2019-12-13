@@ -235,6 +235,7 @@ namespace djv
                         {
                             auto label = Label::create(context);
                             label->setText(i->isRoot() ? i->get() : i->getFileName());
+                            label->setVAlign(VAlign::Fill);
                             label->setMargin(Layout::Margin(MetricsRole::MarginSmall));
                             label->setShadowOverlay({ Side::Left });
 

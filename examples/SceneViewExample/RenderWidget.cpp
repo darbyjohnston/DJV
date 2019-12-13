@@ -27,7 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include "RenderTool.h"
+#include "RenderWidget.h"
 
 #include <djvUIComponents/SceneWidget.h>
 
@@ -37,9 +37,9 @@
 
 using namespace djv;
 
-void RenderTool::_init(const std::shared_ptr<Core::Context>& context)
+void RenderWidget::_init(const std::shared_ptr<Core::Context>& context)
 {
-    ITool::_init(context);
+    ISettingsWidget::_init(context);
 
     _shaderModeComboBox = UI::ComboBox::create(context);
 
@@ -51,19 +51,16 @@ void RenderTool::_init(const std::shared_ptr<Core::Context>& context)
 
     _formLayout = UI::FormLayout::create(context);
     _formLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-    _formLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+    _formLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
     _formLayout->addChild(_shaderModeComboBox);
     _formLayout->addChild(_depthBufferModeComboBox);
     _formLayout->addChild(_depthBufferTypeComboBox);
     _formLayout->addChild(_multiSamplingComboBox);
-    auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-    scrollWidget->setBackgroundRole(UI::ColorRole::Background);
-    scrollWidget->addChild(_formLayout);
-    addChild(scrollWidget);
+    addChild(_formLayout);
 
     _widgetUpdate();
 
-    auto weak = std::weak_ptr<RenderTool>(std::dynamic_pointer_cast<RenderTool>(shared_from_this()));
+    auto weak = std::weak_ptr<RenderWidget>(std::dynamic_pointer_cast<RenderWidget>(shared_from_this()));
     _shaderModeComboBox->setCallback(
         [weak](int value)
         {
@@ -117,31 +114,31 @@ void RenderTool::_init(const std::shared_ptr<Core::Context>& context)
         });
 }
 
-RenderTool::RenderTool()
+RenderWidget::RenderWidget()
 {}
 
-RenderTool::~RenderTool()
+RenderWidget::~RenderWidget()
 {}
 
-std::shared_ptr<RenderTool> RenderTool::create(const std::shared_ptr<Core::Context>& context)
+std::shared_ptr<RenderWidget> RenderWidget::create(const std::shared_ptr<Core::Context>& context)
 {
-    auto out = std::shared_ptr<RenderTool>(new RenderTool);
+    auto out = std::shared_ptr<RenderWidget>(new RenderWidget);
     out->_init(context);
     return out;
 }
 
-void RenderTool::setRenderOptions(const UI::SceneRenderOptions& value)
+void RenderWidget::setRenderOptions(const UI::SceneRenderOptions& value)
 {
     _renderOptions = value;
     _widgetUpdate();
 }
 
-void RenderTool::setRenderOptionsCallback(const std::function<void(const UI::SceneRenderOptions&)>& value)
+void RenderWidget::setRenderOptionsCallback(const std::function<void(const UI::SceneRenderOptions&)>& value)
 {
     _renderOptionsCallback = value;
 }
 
-void RenderTool::_initEvent(Core::Event::Init&)
+void RenderWidget::_initEvent(Core::Event::Init&)
 {
     setTitle(_getText(DJV_TEXT("Render")));
     _formLayout->setText(_shaderModeComboBox, _getText(DJV_TEXT("Shader mode")) + ":");
@@ -151,7 +148,7 @@ void RenderTool::_initEvent(Core::Event::Init&)
     _widgetUpdate();
 }
 
-void RenderTool::_widgetUpdate()
+void RenderWidget::_widgetUpdate()
 {
     _shaderModeComboBox->clearItems();
     for (const auto& i : AV::Render3D::getDefaultMaterialModeEnums())

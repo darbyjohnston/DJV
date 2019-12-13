@@ -129,9 +129,10 @@ namespace djv
                 //! \name Primitives
                 ///@{
 
-                void drawPoints(const AV::Geom::PointList&, Core::UID);
+                void drawPoints(const AV::Geom::PointList&);
 
-                void drawPolyLine(const AV::Geom::PointList&, Core::UID);
+                void drawPolyLine(const AV::Geom::PointList&);
+                void drawPolyLines(const std::vector<AV::Geom::PointList>&);
 
                 void drawTriangleMesh(const Geom::TriangleMesh&);
                 void drawTriangleMeshes(const std::vector<Geom::TriangleMesh>&);

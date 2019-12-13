@@ -29,28 +29,28 @@
 
 #pragma once
 
-#include "ITool.h"
+#include "ISettingsWidget.h"
 
 #include <djvUIComponents/SceneWidget.h>
 
-#include <djvUI/FloatEdit.h>
+#include <djvUI/ComboBox.h>
 #include <djvUI/FormLayout.h>
 
-class CameraTool : public ITool
+class RenderWidget : public ISettingsWidget
 {
-    DJV_NON_COPYABLE(CameraTool);
+    DJV_NON_COPYABLE(RenderWidget);
 
 protected:
     void _init(const std::shared_ptr<djv::Core::Context>&);
-    CameraTool();
+    RenderWidget();
 
 public:
-    virtual ~CameraTool();
+    virtual ~RenderWidget();
 
-    static std::shared_ptr<CameraTool> create(const std::shared_ptr<djv::Core::Context>&);
+    static std::shared_ptr<RenderWidget> create(const std::shared_ptr<djv::Core::Context>&);
 
-    void setCameraData(const djv::Scene::PolarCameraData&);
-    void setCameraDataCallback(const std::function<void(const djv::Scene::PolarCameraData&)>&);
+    void setRenderOptions(const djv::UI::SceneRenderOptions&);
+    void setRenderOptionsCallback(const std::function<void(const djv::UI::SceneRenderOptions&)>&);
 
 protected:
     void _initEvent(djv::Core::Event::Init&) override;
@@ -58,8 +58,11 @@ protected:
 private:
     void _widgetUpdate();
 
-    djv::Scene::PolarCameraData _cameraData;
-    std::map<std::string, std::shared_ptr<djv::UI::FloatEdit> > _floatEdits;
+    djv::UI::SceneRenderOptions _renderOptions;
+    std::shared_ptr<djv::UI::ComboBox> _shaderModeComboBox;
+    std::shared_ptr<djv::UI::ComboBox> _depthBufferModeComboBox;
+    std::shared_ptr<djv::UI::ComboBox> _depthBufferTypeComboBox;
+    std::shared_ptr<djv::UI::ComboBox> _multiSamplingComboBox;
     std::shared_ptr<djv::UI::FormLayout> _formLayout;
-    std::function<void(const djv::Scene::PolarCameraData&)> _cameraDataCallback;
+    std::function<void(const djv::UI::SceneRenderOptions&)> _renderOptionsCallback;
 };

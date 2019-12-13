@@ -247,7 +247,7 @@ namespace djv
                                     {
                                         pointList.v.push_back(fromON(onPoints[i]));
                                     }
-                                    newPrimitive->setPointList(pointList);
+                                    newPrimitive->addPointList(pointList);
                                     out = newPrimitive;
                                 }
                             }

@@ -297,12 +297,18 @@ namespace djv
             const auto& childWidgets = getChildWidgets();
             const int size = static_cast<int>(childWidgets.size());
             bool accepted = false;
-            auto i = std::find(childWidgets.begin(), childWidgets.end(), widget);
+            auto i = std::find_if(
+                childWidgets.begin(),
+                childWidgets.end(),
+                [widget](const std::shared_ptr<Widget>& value)
+                {
+                    return widget && widget->getFocusWidget() == value->getFocusWidget();
+                });
             if (i != childWidgets.end())
             {
                 for (int j = static_cast<int>(i - childWidgets.begin()) + 1; j < size; ++j)
                 {
-                    if (childWidgets[j]->acceptFocus(TextFocusDirection::Next))
+                    if (childWidgets[j]->getFocusWidget()->acceptFocus(TextFocusDirection::Next))
                     {
                         accepted = true;
                         break;
@@ -319,7 +325,7 @@ namespace djv
                 {
                     for (int j = 0; j < size; ++j)
                     {
-                        if (childWidgets[j]->acceptFocus(TextFocusDirection::Next))
+                        if (childWidgets[j]->getFocusWidget()->acceptFocus(TextFocusDirection::Next))
                         {
                             break;
                         }
@@ -333,12 +339,18 @@ namespace djv
             const auto& childWidgets = getChildWidgets();
             const int size = static_cast<int>(childWidgets.size());
             bool accepted = false;
-            auto i = std::find(childWidgets.begin(), childWidgets.end(), widget);
+            auto i = std::find_if(
+                childWidgets.begin(),
+                childWidgets.end(),
+                [widget](const std::shared_ptr<Widget>& value)
+                {
+                    return widget && widget->getFocusWidget() == value->getFocusWidget();
+                });
             if (i != childWidgets.end())
             {
                 for (int j = static_cast<int>(i - childWidgets.begin()) - 1; j >= 0; --j)
                 {
-                    if (childWidgets[j]->acceptFocus(TextFocusDirection::Prev))
+                    if (childWidgets[j]->getFocusWidget()->acceptFocus(TextFocusDirection::Prev))
                     {
                         accepted = true;
                         break;
@@ -355,7 +367,7 @@ namespace djv
                 {
                     for (int j = size - 1; j >= 0; --j)
                     {
-                        if (childWidgets[j]->acceptFocus(TextFocusDirection::Prev))
+                        if (childWidgets[j]->getFocusWidget()->acceptFocus(TextFocusDirection::Prev))
                         {
                             break;
                         }

@@ -29,45 +29,37 @@
 
 #pragma once
 
-#include "ITool.h"
+#include "ISettingsWidget.h"
 
-#include <djvUI/Label.h>
+#include <djvUIComponents/SceneWidget.h>
+
+#include <djvUI/FloatEdit.h>
 #include <djvUI/FormLayout.h>
 
-class InfoTool : public ITool
+class CameraWidget : public ISettingsWidget
 {
-    DJV_NON_COPYABLE(InfoTool);
+    DJV_NON_COPYABLE(CameraWidget);
 
 protected:
     void _init(const std::shared_ptr<djv::Core::Context>&);
-    InfoTool();
+    CameraWidget();
 
 public:
-    virtual ~InfoTool();
+    virtual ~CameraWidget();
 
-    static std::shared_ptr<InfoTool> create(const std::shared_ptr<djv::Core::Context>&);
+    static std::shared_ptr<CameraWidget> create(const std::shared_ptr<djv::Core::Context>&);
 
-    void setBBox(const djv::Core::BBox3f&);
-    void setPrimitivesCount(size_t);
-    void setPointCount(size_t);
-    void setFPS(float);
+    void setCameraData(const djv::Scene::PolarCameraData&);
+    void setCameraDataCallback(const std::function<void(const djv::Scene::PolarCameraData&)>&);
 
 protected:
     void _initEvent(djv::Core::Event::Init&) override;
 
 private:
-    void _textUpdate();
+    void _widgetUpdate();
 
-    djv::Core::BBox3f _bbox = djv::Core::BBox3f(0.F, 0.F, 0.F, 0.F, 0.F, 0.F);
-    size_t _primitivesCount = 0;
-    size_t _pointCount = 0;
-    float _fps = 0.F;
-    std::shared_ptr<djv::UI::Label> _sceneSizeLabel;
-    std::shared_ptr<djv::UI::Label> _sceneXRangeLabel;
-    std::shared_ptr<djv::UI::Label> _sceneYRangeLabel;
-    std::shared_ptr<djv::UI::Label> _sceneZRangeLabel;
-    std::shared_ptr<djv::UI::Label> _primitivesCountLabel;
-    std::shared_ptr<djv::UI::Label> _pointCountLabel;
-    std::shared_ptr<djv::UI::Label> _fpsLabel;
+    djv::Scene::PolarCameraData _cameraData;
+    std::map<std::string, std::shared_ptr<djv::UI::FloatEdit> > _floatEdits;
     std::shared_ptr<djv::UI::FormLayout> _formLayout;
+    std::function<void(const djv::Scene::PolarCameraData&)> _cameraDataCallback;
 };

@@ -27,131 +27,132 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include "InfoTool.h"
-
-#include <djvUI/ScrollWidget.h>
+#include "InfoWidget.h"
 
 using namespace djv;
 
-void InfoTool::_init(const std::shared_ptr<Core::Context>& context)
+void InfoWidget::_init(const std::shared_ptr<Core::Context>& context)
 {
-    ITool::_init(context);
+    ISettingsWidget::_init(context);
 
-    _sceneSizeLabel = UI::Label::create(context);
-    _sceneSizeLabel->setFont(AV::Font::familyMono);
-    _sceneSizeLabel->setTextHAlign(UI::TextHAlign::Left);
+    _sceneSizeTextBlock = UI::TextBlock::create(context);
+    _sceneSizeTextBlock->setFontFamily(AV::Font::familyMono);
+    _sceneSizeTextBlock->setTextSizeRole(UI::MetricsRole::Slider);
+    _sceneSizeTextBlock->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
 
-    _sceneXRangeLabel = UI::Label::create(context);
-    _sceneXRangeLabel->setFont(AV::Font::familyMono);
-    _sceneXRangeLabel->setTextHAlign(UI::TextHAlign::Left);
+    _sceneXRangeTextBlock = UI::TextBlock::create(context);
+    _sceneXRangeTextBlock->setFontFamily(AV::Font::familyMono);
+    _sceneXRangeTextBlock->setTextSizeRole(UI::MetricsRole::Slider);
+    _sceneXRangeTextBlock->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
 
-    _sceneYRangeLabel = UI::Label::create(context);
-    _sceneYRangeLabel->setFont(AV::Font::familyMono);
-    _sceneYRangeLabel->setTextHAlign(UI::TextHAlign::Left);
+    _sceneYRangeTextBlock = UI::TextBlock::create(context);
+    _sceneYRangeTextBlock->setFontFamily(AV::Font::familyMono);
+    _sceneYRangeTextBlock->setTextSizeRole(UI::MetricsRole::Slider);
+    _sceneYRangeTextBlock->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
 
-    _sceneZRangeLabel = UI::Label::create(context);
-    _sceneZRangeLabel->setFont(AV::Font::familyMono);
-    _sceneZRangeLabel->setTextHAlign(UI::TextHAlign::Left);
+    _sceneZRangeTextBlock = UI::TextBlock::create(context);
+    _sceneZRangeTextBlock->setFontFamily(AV::Font::familyMono);
+    _sceneZRangeTextBlock->setTextSizeRole(UI::MetricsRole::Slider);
+    _sceneZRangeTextBlock->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
 
     _primitivesCountLabel = UI::Label::create(context);
     _primitivesCountLabel->setFont(AV::Font::familyMono);
     _primitivesCountLabel->setTextHAlign(UI::TextHAlign::Left);
+    _primitivesCountLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
 
     _pointCountLabel = UI::Label::create(context);
     _pointCountLabel->setFont(AV::Font::familyMono);
     _pointCountLabel->setTextHAlign(UI::TextHAlign::Left);
+    _pointCountLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
 
     _fpsLabel = UI::Label::create(context);
     _fpsLabel->setFont(AV::Font::familyMono);
     _fpsLabel->setTextHAlign(UI::TextHAlign::Left);
+    _fpsLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
 
     _formLayout = UI::FormLayout::create(context);
-    _formLayout->setBackgroundRole(UI::ColorRole::Background);
     _formLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-    _formLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
-    _formLayout->addChild(_sceneSizeLabel);
-    _formLayout->addChild(_sceneXRangeLabel);
-    _formLayout->addChild(_sceneYRangeLabel);
-    _formLayout->addChild(_sceneZRangeLabel);
+    _formLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+    _formLayout->addChild(_sceneSizeTextBlock);
+    _formLayout->addChild(_sceneXRangeTextBlock);
+    _formLayout->addChild(_sceneYRangeTextBlock);
+    _formLayout->addChild(_sceneZRangeTextBlock);
     _formLayout->addChild(_primitivesCountLabel);
     _formLayout->addChild(_pointCountLabel);
     _formLayout->addChild(_fpsLabel);
-    auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-    scrollWidget->setBackgroundRole(UI::ColorRole::Background);
-    scrollWidget->addChild(_formLayout);
-    addChild(scrollWidget);
+    addChild(_formLayout);
 
-    auto weak = std::weak_ptr<InfoTool>(std::dynamic_pointer_cast<InfoTool>(shared_from_this()));
+    auto weak = std::weak_ptr<InfoWidget>(std::dynamic_pointer_cast<InfoWidget>(shared_from_this()));
 }
 
-InfoTool::InfoTool()
+InfoWidget::InfoWidget()
 {}
 
-InfoTool::~InfoTool()
+InfoWidget::~InfoWidget()
 {}
 
-std::shared_ptr<InfoTool> InfoTool::create(const std::shared_ptr<Core::Context>& context)
+std::shared_ptr<InfoWidget> InfoWidget::create(const std::shared_ptr<Core::Context>& context)
 {
-    auto out = std::shared_ptr<InfoTool>(new InfoTool);
+    auto out = std::shared_ptr<InfoWidget>(new InfoWidget);
     out->_init(context);
     return out;
 }
 
-void InfoTool::setBBox(const Core::BBox3f& value)
+void InfoWidget::setBBox(const Core::BBox3f& value)
 {
     _bbox = value;
     _textUpdate();
 }
 
-void InfoTool::setPrimitivesCount(size_t value)
+void InfoWidget::setPrimitivesCount(size_t value)
 {
     _primitivesCount = value;
     _textUpdate();
 }
 
-void InfoTool::setPointCount(size_t value)
+void InfoWidget::setPointCount(size_t value)
 {
     _pointCount = value;
     _textUpdate();
 }
 
-void InfoTool::setFPS(float value)
+void InfoWidget::setFPS(float value)
 {
     _fps = value;
     _textUpdate();
 }
 
-void InfoTool::_initEvent(Core::Event::Init&)
+void InfoWidget::_initEvent(Core::Event::Init&)
 {
     _textUpdate();
 }
 
-void InfoTool::_textUpdate()
+void InfoWidget::_textUpdate()
 {
     setTitle(_getText(DJV_TEXT("Information")));
-    _formLayout->setText(_sceneSizeLabel, _getText(DJV_TEXT("Scene size")) + ":");
+    _formLayout->setText(_sceneSizeTextBlock, _getText(DJV_TEXT("Scene size")) + ":");
     {
         std::stringstream ss;
         ss << _bbox.w() << " x " << _bbox.h() << " x " << _bbox.d();
-        _sceneSizeLabel->setText(ss.str());
+        _sceneSizeTextBlock->setText(ss.str());
     }
-    _formLayout->setText(_sceneXRangeLabel, _getText(DJV_TEXT("Scene X range")) + ":");
+    _formLayout->setText(_sceneXRangeTextBlock, _getText(DJV_TEXT("Scene X range")) + ":");
     {
         std::stringstream ss;
         ss << _bbox.min.x << " - " << _bbox.max.x;
-        _sceneXRangeLabel->setText(ss.str());
+        _sceneXRangeTextBlock->setText(ss.str());
     }
-    _formLayout->setText(_sceneYRangeLabel, _getText(DJV_TEXT("Scene Y range")) + ":");
+    _formLayout->setText(_sceneYRangeTextBlock, _getText(DJV_TEXT("Scene Y range")) + ":");
     {
         std::stringstream ss;
         ss << _bbox.min.y << " - " << _bbox.max.y;
-        _sceneYRangeLabel->setText(ss.str());
+        _sceneYRangeTextBlock->setText(ss.str());
     }
-    _formLayout->setText(_sceneZRangeLabel, _getText(DJV_TEXT("Scene Z range")) + ":");
+    _formLayout->setText(_sceneZRangeTextBlock, _getText(DJV_TEXT("Scene Z range")) + ":");
     {
         std::stringstream ss;
         ss << _bbox.min.z << " - " << _bbox.max.z;
-        _sceneZRangeLabel->setText(ss.str());
+        _sceneZRangeTextBlock->setText(ss.str());
     }
     _formLayout->setText(_primitivesCountLabel, _getText(DJV_TEXT("Primitives")) + ":");
     {

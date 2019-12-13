@@ -53,7 +53,7 @@ namespace djv
             //! \todo Should these be configurable?
             const float rotationSensitivity = .5F;
             const float zoomSensitivity     = .1F;
-            const float nearMult            = .0001F;
+            const float nearMult            = .001F;
             const float farMult             = 10.F;
         
         } // namespace

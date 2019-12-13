@@ -29,9 +29,10 @@
 
 #include "MainWindow.h"
 
-#include "CameraTool.h"
-#include "InfoTool.h"
-#include "RenderTool.h"
+#include "CameraWidget.h"
+#include "InfoWidget.h"
+#include "RenderWidget.h"
+#include "SettingsWidget.h"
 
 #include <djvUI/Menu.h>
 #include <djvUI/MenuBar.h>
@@ -81,15 +82,10 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
     _actions["Scene"]["Rotate-Z"] = UI::Action::create();
     _actions["Scene"]["Rotate-Z"]->setShortcut(GLFW_KEY_Z, GLFW_MOD_SHIFT);
 
-    _actions["Tools"]["Camera"] = UI::Action::create();
-    _actions["Tools"]["Camera"]->setButtonType(UI::ButtonType::Toggle);
-    _actions["Tools"]["Camera"]->setShortcut(GLFW_KEY_1);
-    _actions["Tools"]["Render"] = UI::Action::create();
-    _actions["Tools"]["Render"]->setButtonType(UI::ButtonType::Toggle);
-    _actions["Tools"]["Render"]->setShortcut(GLFW_KEY_2);
-    _actions["Tools"]["Info"] = UI::Action::create();
-    _actions["Tools"]["Info"]->setButtonType(UI::ButtonType::Toggle);
-    _actions["Tools"]["Info"]->setShortcut(GLFW_KEY_3);
+    _actions["Tools"]["Settings"] = UI::Action::create();
+    _actions["Tools"]["Settings"]->setButtonType(UI::ButtonType::Toggle);
+    _actions["Tools"]["Settings"]->setIcon("djvIconSettings");
+    _actions["Tools"]["Settings"]->setShortcut(GLFW_KEY_T, UI::Shortcut::getSystemModifier());
 
     for (const auto& i : _actions)
     {
@@ -130,9 +126,7 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
 
     auto toolsMenu = UI::Menu::create(context);
     toolsMenu->setText("Tools");
-    toolsMenu->addAction(_actions["Tools"]["Camera"]);
-    toolsMenu->addAction(_actions["Tools"]["Render"]);
-    toolsMenu->addAction(_actions["Tools"]["Info"]);
+    toolsMenu->addAction(_actions["Tools"]["Settings"]);
 
     auto menuBar = UI::MenuBar::create(context);
     menuBar->setBackgroundRole(UI::ColorRole::OverlayLight);
@@ -147,32 +141,29 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
 
     _sceneWidget = UI::SceneWidget::create(context);
 
-    _cameraTool = CameraTool::create(context);
-    _cameraTool->hide();
-
-    _renderTool = RenderTool::create(context);
-    _renderTool->hide();
-
-    _infoTool = InfoTool::create(context);
-    _infoTool->hide();
-
-    _mdiCanvas = UI::MDI::Canvas::create(context);
-    _mdiCanvas->addChild(_cameraTool);
-    _mdiCanvas->addChild(_renderTool);
-    _mdiCanvas->addChild(_infoTool);
+    _cameraWidget = CameraWidget::create(context);
+    _renderWidget = RenderWidget::create(context);
+    _infoWidget = InfoWidget::create(context);
+    auto settingsWidget = SettingsWidget::create(context);
+    settingsWidget->addChild(_cameraWidget);
+    settingsWidget->addChild(_renderWidget);
+    settingsWidget->addChild(_infoWidget);
+    _settingsDrawer = UI::Drawer::create(UI::Side::Right, context);
+    _settingsDrawer->addChild(settingsWidget);
 
     auto toolBar = UI::ToolBar::create(context);
     toolBar->setBackgroundRole(UI::ColorRole::OverlayLight);
+    toolBar->addChild(_fileInfoLabel);
+    toolBar->setStretch(_fileInfoLabel, UI::RowStretch::Expand);
+    toolBar->addSeparator();
     toolBar->addAction(_actions["File"]["Open"]);
     toolBar->addAction(_actions["File"]["Close"]);
     toolBar->addSeparator();
     toolBar->addAction(_actions["View"]["Frame"]);
     toolBar->addSeparator();
-    toolBar->addChild(_fileInfoLabel);
-    toolBar->setStretch(_fileInfoLabel, UI::RowStretch::Expand);
+    toolBar->addAction(_actions["Tools"]["Settings"]);
 
     addChild(_sceneWidget);
-    addChild(_mdiCanvas);
     auto vLayout = UI::VerticalLayout::create(context);
     vLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
     auto hLayout = UI::HorizontalLayout::create(context);
@@ -182,11 +173,12 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
     hLayout->addChild(toolBar);
     hLayout->setStretch(toolBar, UI::RowStretch::Expand);
     vLayout->addChild(hLayout);
-    vLayout->addExpander();
+    vLayout->addChild(_settingsDrawer);
+    vLayout->setStretch(_settingsDrawer, UI::RowStretch::Expand);
     addChild(vLayout);
 
     auto weak = std::weak_ptr<MainWindow>(std::dynamic_pointer_cast<MainWindow>(shared_from_this()));
-    _cameraTool->setCameraDataCallback(
+    _cameraWidget->setCameraDataCallback(
         [weak](const Scene::PolarCameraData& value)
         {
             if (auto widget = weak.lock())
@@ -194,38 +186,13 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
                 widget->_sceneWidget->setCameraData(value);
             }
         });
-    _cameraTool->setCloseCallback(
-        [weak]
-        {
-            if (auto widget = weak.lock())
-            {
-                widget->_actions["Tools"]["Camera"]->setChecked(false);
-            }
-        });
 
-    _renderTool->setRenderOptionsCallback(
+    _renderWidget->setRenderOptionsCallback(
         [weak](const UI::SceneRenderOptions& value)
         {
             if (auto widget = weak.lock())
             {
                 widget->_sceneWidget->setRenderOptions(value);
-            }
-        });
-    _renderTool->setCloseCallback(
-        [weak]
-        {
-            if (auto widget = weak.lock())
-            {
-                widget->_actions["Tools"]["Render"]->setChecked(false);
-            }
-        });
-
-    _infoTool->setCloseCallback(
-        [weak]
-        {
-            if (auto widget = weak.lock())
-            {
-                widget->_actions["Tools"]["Info"]->setChecked(false);
             }
         });
 
@@ -235,7 +202,7 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
             if (auto widget = weak.lock())
             {
                 widget->_sceneWidget->setSceneRotate(static_cast<UI::SceneRotate>(value + 1));
-                //widget->_sceneWidget->frameView();
+                widget->_sceneWidget->frameView();
             }
         });
     
@@ -313,33 +280,13 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
             }
         });
 
-    _actionObservers["Tools"]["Camera"] = Core::ValueObserver<bool>::create(
-        _actions["Tools"]["Camera"]->observeChecked(),
+    _actionObservers["Tools"]["Settings"] = Core::ValueObserver<bool>::create(
+        _actions["Tools"]["Settings"]->observeChecked(),
         [weak](bool value)
         {
             if (auto widget = weak.lock())
             {
-                widget->_cameraTool->setVisible(value);
-            }
-        });
-
-    _actionObservers["Tools"]["Render"] = Core::ValueObserver<bool>::create(
-        _actions["Tools"]["Render"]->observeChecked(),
-        [weak](bool value)
-        {
-            if (auto widget = weak.lock())
-            {
-                widget->_renderTool->setVisible(value);
-            }
-        });
-
-    _actionObservers["Tools"]["Info"] = Core::ValueObserver<bool>::create(
-        _actions["Tools"]["Info"]->observeChecked(),
-        [weak](bool value)
-        {
-            if (auto widget = weak.lock())
-            {
-                widget->_infoTool->setVisible(value);
+                widget->_settingsDrawer->setOpen(value);
             }
         });
 
@@ -349,7 +296,7 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
         {
             if (auto widget = weak.lock())
             {
-                widget->_cameraTool->setCameraData(value);
+                widget->_cameraWidget->setCameraData(value);
             }
         });
 
@@ -359,7 +306,7 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
         {
             if (auto widget = weak.lock())
             {
-                widget->_renderTool->setRenderOptions(value);
+                widget->_renderWidget->setRenderOptions(value);
             }
         });
 
@@ -369,7 +316,7 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
         {
             if (auto widget = weak.lock())
             {
-                widget->_infoTool->setBBox(value);
+                widget->_infoWidget->setBBox(value);
             }
         });
 
@@ -379,7 +326,7 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
         {
             if (auto widget = weak.lock())
             {
-                widget->_infoTool->setPrimitivesCount(value);
+                widget->_infoWidget->setPrimitivesCount(value);
             }
         });
 
@@ -389,7 +336,7 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
         {
             if (auto widget = weak.lock())
             {
-                widget->_infoTool->setPointCount(value);
+                widget->_infoWidget->setPointCount(value);
             }
         });
 
@@ -404,7 +351,7 @@ void MainWindow::_init(const std::shared_ptr<Core::Context>& context)
             {
                 if (auto widget = weak.lock())
                 {
-                    widget->_infoTool->setFPS(context->getFPSAverage());
+                    widget->_infoWidget->setFPS(context->getFPSAverage());
                 }
             }
         });
@@ -474,12 +421,8 @@ void MainWindow::_initEvent(Core::Event::Init&)
     _actions["Scene"]["Rotate-Z"]->setText(_getText(DJV_TEXT("Rotate Z -90")));
     _actions["Scene"]["Rotate+Z"]->setTooltip(_getText(DJV_TEXT("Rotate the scene -90 degrees in Z")));
 
-    _actions["Tools"]["Camera"]->setText(_getText(DJV_TEXT("Camera")));
-    _actions["Tools"]["Camera"]->setTooltip(_getText(DJV_TEXT("Show the camera tool")));
-    _actions["Tools"]["Render"]->setText(_getText(DJV_TEXT("Render")));
-    _actions["Tools"]["Render"]->setTooltip(_getText(DJV_TEXT("Show the render tool")));
-    _actions["Tools"]["Info"]->setText(_getText(DJV_TEXT("Information")));
-    _actions["Tools"]["Info"]->setTooltip(_getText(DJV_TEXT("Show the information tool")));
+    _actions["Tools"]["Settings"]->setText(_getText(DJV_TEXT("Settings")));
+    _actions["Tools"]["Settings"]->setTooltip(_getText(DJV_TEXT("Show the settings")));
 }
 
 void MainWindow::_open()

@@ -293,7 +293,7 @@ namespace djv
                 p.lights.push_back(value);
             }
 
-            void Render::drawPoints(const Geom::PointList& value, Core::UID uid)
+            void Render::drawPoints(const Geom::PointList& value)
             {
                 DJV_PRIVATE_PTR();
                 if (value.v.size())
@@ -308,6 +308,7 @@ namespace djv
                     auto& meshCacheUIDs = p.meshCacheUIDs[OpenGL::VBOType::Pos3_F32];
                     SizeTRange range;
                     bool cached = false;
+                    const UID uid = value.getUID();
                     const auto i = meshCacheUIDs.find(uid);
                     if (i != meshCacheUIDs.end())
                     {
@@ -324,7 +325,7 @@ namespace djv
                 }
             }
 
-            void Render::drawPolyLine(const Geom::PointList& value, Core::UID uid)
+            void Render::drawPolyLine(const Geom::PointList& value)
             {
                 DJV_PRIVATE_PTR();
                 if (value.v.size())
@@ -338,6 +339,7 @@ namespace djv
                     auto& meshCache = p.meshCache[OpenGL::VBOType::Pos3_F32];
                     auto& meshCacheUIDs = p.meshCacheUIDs[OpenGL::VBOType::Pos3_F32];
                     SizeTRange range;
+                    const UID uid = value.getUID();
                     const auto i = meshCacheUIDs.find(uid);
                     if (i != meshCacheUIDs.end())
                     {
@@ -349,6 +351,43 @@ namespace djv
                         meshCacheUIDs[uid] = meshCache->addItem(data, range);
                     }
                     primitive->vaoRange.push_back(range);
+
+                    p.primitives[OpenGL::VBOType::Pos3_F32][primitive->material].push_back(primitive);
+                }
+            }
+
+            void Render::drawPolyLines(const std::vector<Geom::PointList>& value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value.size())
+                {
+                    auto primitive = std::shared_ptr<Primitive>(new Primitive);
+                    primitive->xform = getCurrentTransform();
+                    primitive->type = GL_LINE_STRIP;
+                    primitive->color = p.currentColor;
+                    primitive->material = p.currentMaterial;
+
+                    for (const auto& i : value)
+                    {
+                        if (i.v.size())
+                        {
+                            auto& meshCache = p.meshCache[OpenGL::VBOType::Pos3_F32];
+                            auto& meshCacheUIDs = p.meshCacheUIDs[OpenGL::VBOType::Pos3_F32];
+                            SizeTRange range;
+                            const UID uid = i.getUID();
+                            const auto j = meshCacheUIDs.find(uid);
+                            if (j != meshCacheUIDs.end())
+                            {
+                                meshCache->getItem(j->second, range);
+                            }
+                            if (range.min == range.max)
+                            {
+                                const auto data = OpenGL::VBO::convert(i, OpenGL::VBOType::Pos3_F32);
+                                meshCacheUIDs[uid] = meshCache->addItem(data, range);
+                            }
+                            primitive->vaoRange.push_back(range);
+                        }
+                    }
 
                     p.primitives[OpenGL::VBOType::Pos3_F32][primitive->material].push_back(primitive);
                 }
@@ -415,6 +454,7 @@ namespace djv
                             primitive->vaoRange.push_back(range);
                         }
                     }
+
                     p.primitives[OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10][primitive->material].push_back(primitive);
                 }
             }
@@ -450,6 +490,7 @@ namespace djv
                             primitive->vaoRange.push_back(range);
                         }
                     }
+
                     p.primitives[OpenGL::VBOType::Pos3_F32_UV_U16_Normal_U10][primitive->material].push_back(primitive);
                 }
             }

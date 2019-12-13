@@ -111,9 +111,7 @@ namespace djv
                 void primitiveBind(const PrimitiveBindData&) override;
 
             private:
-                GLint _modelLoc = 0;
-                GLint _mvpLoc = 0;
-                GLint _colorLoc = 0;
+                std::map<std::string, GLint> _locations;
             };
 
             //! This enumeration provides the default material modes.
@@ -167,18 +165,7 @@ namespace djv
                 float _transparency = 0.F;
                 float _reflectivity = 0.F;
                 bool _disableLighting = false;
-                GLint _modelLoc = 0;
-                GLint _mvpLoc = 0;
-                GLint _normalsLoc = 0;
-                GLint _modeLoc = 0;
-                GLint _ambientLoc = 0;
-                GLint _diffuseLoc = 0;
-                GLint _emissionLoc = 0;
-                GLint _specularLoc = 0;
-                GLint _shineLoc = 0;
-                GLint _transparencyLoc = 0;
-                GLint _reflectivityLoc = 0;
-                GLint _disableLightingLoc = 0;
+                std::map<std::string, GLint> _locations;
             };
 
         } // namespace Render3D

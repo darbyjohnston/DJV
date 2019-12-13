@@ -40,7 +40,7 @@ namespace djv
         void PointListPrimitive::render(const glm::mat4x4& xform, const std::shared_ptr<AV::Render3D::Render>& render)
         {
             render->pushTransform(xform);
-            render->drawPoints(_pointList, getUID());
+            render->drawPoints(_pointList);
             render->popTransform();
         }
 

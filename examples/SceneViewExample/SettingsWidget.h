@@ -29,27 +29,29 @@
 
 #pragma once
 
-#include <djvUI/Label.h>
-#include <djvUI/MDIWidget.h>
+#include <djvUI/ButtonGroup.h>
+#include <djvUI/ListButton.h>
 #include <djvUI/RowLayout.h>
-#include <djvUI/ToolButton.h>
+#include <djvUI/ScrollWidget.h>
+#include <djvUI/SoloLayout.h>
+#include <djvUI/Widget.h>
 
-class ITool : public djv::UI::MDI::IWidget
+#include <djvCore/ValueObserver.h>
+
+class ISettingsWidget;
+
+class SettingsWidget : public djv::UI::Widget
 {
-    DJV_NON_COPYABLE(ITool);
+    DJV_NON_COPYABLE(SettingsWidget);
 
 protected:
     void _init(const std::shared_ptr<djv::Core::Context>&);
-    ITool();
+    SettingsWidget();
 
 public:
-    virtual ~ITool();
+    virtual ~SettingsWidget();
 
-    const std::string& getTitle() const;
-    void setTitle(const std::string&);
-
-    void close();
-    void setCloseCallback(const std::function<void(void)>&);
+    static std::shared_ptr<SettingsWidget> create(const std::shared_ptr<djv::Core::Context>&);
 
     float getHeightForWidth(float) const override;
 
@@ -58,19 +60,14 @@ public:
     void clearChildren() override;
 
 protected:
-    std::map<djv::UI::MDI::Handle, std::vector<djv::Core::BBox2f> > _getHandles() const override;
-    void _setActiveWidget(bool) override;
-
     void _preLayoutEvent(djv::Core::Event::PreLayout&) override;
     void _layoutEvent(djv::Core::Event::Layout&) override;
 
-    void _initEvent(djv::Core::Event::Init&) override;
-
 private:
-    std::shared_ptr<djv::UI::Label> _titleLabel;
-    std::shared_ptr<djv::UI::ToolButton> _closeButton;
-    std::shared_ptr<djv::UI::HorizontalLayout> _titleBar;
-    std::shared_ptr<djv::UI::VerticalLayout> _childLayout;
-    std::shared_ptr<djv::UI::VerticalLayout> _layout;
-    std::function<void(void)> _closeCallback;
+    std::shared_ptr<djv::UI::ButtonGroup> _buttonGroup;
+    std::map<std::shared_ptr<ISettingsWidget>, std::shared_ptr<djv::UI::ListButton> > _buttons;
+    std::map<std::shared_ptr<ISettingsWidget>, std::shared_ptr<djv::Core::ValueObserver<std::string> > > _titleObservers;
+    std::shared_ptr<djv::UI::VerticalLayout> _buttonLayout;
+    std::shared_ptr<djv::UI::ScrollWidget> _scrollWidget;
+    std::shared_ptr<djv::UI::SoloLayout> _layout;
 };

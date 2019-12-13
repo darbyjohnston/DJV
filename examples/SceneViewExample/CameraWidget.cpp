@@ -27,9 +27,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include "CameraTool.h"
-
-#include <djvUI/ScrollWidget.h>
+#include "CameraWidget.h"
 
 using namespace djv;
 
@@ -38,9 +36,9 @@ namespace
     const float posMax = 10000000.F;
 }
 
-void CameraTool::_init(const std::shared_ptr<Core::Context>& context)
+void CameraWidget::_init(const std::shared_ptr<Core::Context>& context)
 {
-    ITool::_init(context);
+    ISettingsWidget::_init(context);
 
     _floatEdits["FOV"] = UI::FloatEdit::create(context);
     _floatEdits["FOV"]->setRange(Core::FloatRange(10.F, 170.F));
@@ -99,7 +97,7 @@ void CameraTool::_init(const std::shared_ptr<Core::Context>& context)
 
     _formLayout = UI::FormLayout::create(context);
     _formLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-    _formLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+    _formLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
     _formLayout->addChild(_floatEdits["FOV"]);
     _formLayout->addChild(_floatEdits["NearClip"]);
     _formLayout->addChild(_floatEdits["FarClip"]);
@@ -109,14 +107,11 @@ void CameraTool::_init(const std::shared_ptr<Core::Context>& context)
     _formLayout->addChild(_floatEdits["Distance"]);
     _formLayout->addChild(_floatEdits["Latitude"]);
     _formLayout->addChild(_floatEdits["Longitutde"]);
-    auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
-    scrollWidget->setBackgroundRole(UI::ColorRole::Background);
-    scrollWidget->addChild(_formLayout);
-    addChild(scrollWidget);
+    addChild(_formLayout);
 
     _widgetUpdate();
 
-    auto weak = std::weak_ptr<CameraTool>(std::dynamic_pointer_cast<CameraTool>(shared_from_this()));
+    auto weak = std::weak_ptr<CameraWidget>(std::dynamic_pointer_cast<CameraWidget>(shared_from_this()));
     _floatEdits["FOV"]->setValueCallback(
         [weak](float value, UI::TextEditReason)
         {
@@ -234,34 +229,33 @@ void CameraTool::_init(const std::shared_ptr<Core::Context>& context)
         });
 }
 
-CameraTool::CameraTool()
+CameraWidget::CameraWidget()
 {}
 
-CameraTool::~CameraTool()
+CameraWidget::~CameraWidget()
 {}
 
-std::shared_ptr<CameraTool> CameraTool::create(const std::shared_ptr<Core::Context>& context)
+std::shared_ptr<CameraWidget> CameraWidget::create(const std::shared_ptr<Core::Context>& context)
 {
-    auto out = std::shared_ptr<CameraTool>(new CameraTool);
+    auto out = std::shared_ptr<CameraWidget>(new CameraWidget);
     out->_init(context);
     return out;
 }
 
-void CameraTool::setCameraData(const Scene::PolarCameraData& value)
+void CameraWidget::setCameraData(const Scene::PolarCameraData& value)
 {
     _cameraData = value;
     _widgetUpdate();
 }
 
-void CameraTool::setCameraDataCallback(const std::function<void(const Scene::PolarCameraData&)>& value)
+void CameraWidget::setCameraDataCallback(const std::function<void(const Scene::PolarCameraData&)>& value)
 {
     _cameraDataCallback = value;
 }
 
-void CameraTool::_initEvent(Core::Event::Init&)
+void CameraWidget::_initEvent(Core::Event::Init&)
 {
     setTitle(_getText(DJV_TEXT("Camera")));
-
     _formLayout->setText(_floatEdits["FOV"], _getText(DJV_TEXT("FOV")) + ":");
     _formLayout->setText(_floatEdits["NearClip"], _getText(DJV_TEXT("Near clip")) + ":");
     _formLayout->setText(_floatEdits["FarClip"], _getText(DJV_TEXT("Far clip")) + ":");
@@ -273,7 +267,7 @@ void CameraTool::_initEvent(Core::Event::Init&)
     _formLayout->setText(_floatEdits["Longitutde"], _getText(DJV_TEXT("Longitude")) + ":");
 }
 
-void CameraTool::_widgetUpdate()
+void CameraWidget::_widgetUpdate()
 {
     _floatEdits["FOV"]->setValue(_cameraData.fov);
     _floatEdits["NearClip"]->setValue(_cameraData.clip.min);

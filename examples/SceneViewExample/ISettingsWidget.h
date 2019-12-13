@@ -29,40 +29,46 @@
 
 #pragma once
 
-#include "ITool.h"
+#include <djvUI/Label.h>
+#include <djvUI/RowLayout.h>
+#include <djvUI/ToolButton.h>
 
-#include <djvUIComponents/SceneWidget.h>
+#include <djvCore/ValueObserver.h>
 
-#include <djvUI/ComboBox.h>
-#include <djvUI/FormLayout.h>
-
-class RenderTool : public ITool
+class ISettingsWidget : public djv::UI::Widget
 {
-    DJV_NON_COPYABLE(RenderTool);
+    DJV_NON_COPYABLE(ISettingsWidget);
 
 protected:
     void _init(const std::shared_ptr<djv::Core::Context>&);
-    RenderTool();
+    ISettingsWidget();
 
 public:
-    virtual ~RenderTool();
+    virtual ~ISettingsWidget();
 
-    static std::shared_ptr<RenderTool> create(const std::shared_ptr<djv::Core::Context>&);
+    std::shared_ptr<djv::Core::IValueSubject<std::string> > observeTitle() const;
+    void setTitle(const std::string&);
 
-    void setRenderOptions(const djv::UI::SceneRenderOptions&);
-    void setRenderOptionsCallback(const std::function<void(const djv::UI::SceneRenderOptions&)>&);
+    void setBackCallback(const std::function<void(void)>&);
+
+    float getHeightForWidth(float) const override;
+
+    void addChild(const std::shared_ptr<IObject>&) override;
+    void removeChild(const std::shared_ptr<IObject>&) override;
+    void clearChildren() override;
 
 protected:
+    void _preLayoutEvent(djv::Core::Event::PreLayout&) override;
+    void _layoutEvent(djv::Core::Event::Layout&) override;
+
     void _initEvent(djv::Core::Event::Init&) override;
 
 private:
-    void _widgetUpdate();
-
-    djv::UI::SceneRenderOptions _renderOptions;
-    std::shared_ptr<djv::UI::ComboBox> _shaderModeComboBox;
-    std::shared_ptr<djv::UI::ComboBox> _depthBufferModeComboBox;
-    std::shared_ptr<djv::UI::ComboBox> _depthBufferTypeComboBox;
-    std::shared_ptr<djv::UI::ComboBox> _multiSamplingComboBox;
-    std::shared_ptr<djv::UI::FormLayout> _formLayout;
-    std::function<void(const djv::UI::SceneRenderOptions&)> _renderOptionsCallback;
+    std::shared_ptr<djv::Core::ValueSubject<std::string> > _title;
+    std::shared_ptr<djv::UI::Label> _titleLabel;
+    std::shared_ptr<djv::UI::ToolButton> _backButton;
+    std::shared_ptr<djv::UI::HorizontalLayout> _titleBar;
+    std::shared_ptr<djv::UI::VerticalLayout> _childLayout;
+    std::shared_ptr<djv::UI::VerticalLayout> _layout;
+    std::function<void(void)> _backCallback;
 };

@@ -1,17 +1,19 @@
 set(header
     Application.h
-    CameraTool.h
-    ITool.h
-    InfoTool.h
+    CameraWidget.h
+    ISettingsWidget.h
+    InfoWidget.h
     MainWindow.h
-    RenderTool.h)
+    RenderWidget.h
+    SettingsWidget.h)
 set(source
     Application.cpp
-    CameraTool.cpp
-    ITool.cpp
-    InfoTool.cpp
+    CameraWidget.cpp
+    ISettingsWidget.cpp
+    InfoWidget.cpp
     MainWindow.cpp
-    RenderTool.cpp
+    RenderWidget.cpp
+    SettingsWidget.cpp
     main.cpp)
 
 add_executable(SceneViewExample ${header} ${source})

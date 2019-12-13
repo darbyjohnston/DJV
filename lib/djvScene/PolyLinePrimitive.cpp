@@ -40,7 +40,7 @@ namespace djv
         void PolyLinePrimitive::render(const glm::mat4x4& xform, const std::shared_ptr<AV::Render3D::Render>& render)
         {
             render->pushTransform(xform);
-            render->drawPolyLine(_pointList, getUID());
+            render->drawPolyLines(_pointLists);
             render->popTransform();
         }
 

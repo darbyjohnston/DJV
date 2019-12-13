@@ -27,95 +27,92 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include "ITool.h"
+#include "ISettingsWidget.h"
+
+#include <djvUI/ScrollWidget.h>
 
 #include <djvCore/Context.h>
 
 using namespace djv;
 
-void ITool::_init(const std::shared_ptr<Core::Context>& context)
+void ISettingsWidget::_init(const std::shared_ptr<Core::Context>& context)
 {
-    IWidget::_init(context);
+    Widget::_init(context);
+
+    _title = Core::ValueSubject<std::string>::create();
 
     _titleLabel = UI::Label::create(context);
     _titleLabel->setTextHAlign(UI::TextHAlign::Left);
     _titleLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::Margin, UI::MetricsRole::Margin, UI::MetricsRole::None, UI::MetricsRole::None));
 
-    _closeButton = UI::ToolButton::create(context);
-    _closeButton->setIcon("djvIconClose");
-    _closeButton->setInsideMargin(UI::MetricsRole::MarginSmall);
+    _backButton = UI::ToolButton::create(context);
+    _backButton->setIcon("djvIconArrowLeft");
+    _backButton->setInsideMargin(UI::MetricsRole::MarginSmall);
 
     _titleBar = UI::HorizontalLayout::create(context);
-    _titleBar->setBackgroundRole(UI::ColorRole::BackgroundHeader);
     _titleBar->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
     _titleBar->addChild(_titleLabel);
     _titleBar->setStretch(_titleLabel, UI::RowStretch::Expand);
-    _titleBar->addChild(_closeButton);
+    _titleBar->addChild(_backButton);
 
     _childLayout = UI::VerticalLayout::create(context);
     _childLayout->setPointerEnabled(true);
 
-    auto layout = UI::VerticalLayout::create(context);
-    layout->setBackgroundRole(UI::ColorRole::OverlayLight);
-    layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
-    layout->addChild(_titleBar);
-    layout->addSeparator();
-    layout->addChild(_childLayout);
-    layout->setStretch(_childLayout, UI::RowStretch::Expand);
-
     _layout = UI::VerticalLayout::create(context);
-    _layout->setMargin(UI::Layout::Margin(UI::MetricsRole::Shadow));
-    _layout->addChild(layout);
-    _layout->setStretch(layout, UI::RowStretch::Expand);
-    IWidget::addChild(_layout);
+    _layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+    _layout->addChild(_titleBar);
+    _layout->addSeparator();
+    auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+    scrollWidget->setBorder(false);
+    scrollWidget->addChild(_childLayout);
+    _layout->addChild(scrollWidget);
+    _layout->setStretch(scrollWidget, UI::RowStretch::Expand);
+    Widget::addChild(_layout);
 
-    auto weak = std::weak_ptr<ITool>(std::dynamic_pointer_cast<ITool>(shared_from_this()));
-    _closeButton->setClickedCallback(
+    auto weak = std::weak_ptr<ISettingsWidget>(std::dynamic_pointer_cast<ISettingsWidget>(shared_from_this()));
+    _backButton->setClickedCallback(
         [weak]
         {
             if (auto widget = weak.lock())
             {
-                widget->close();
+                if (widget->_backCallback)
+                {
+                    widget->_backCallback();
+                }
             }
         });
 }
 
-ITool::ITool()
+ISettingsWidget::ISettingsWidget()
 {}
 
-ITool::~ITool()
+ISettingsWidget::~ISettingsWidget()
 {}
 
-const std::string& ITool::getTitle() const
+std::shared_ptr<djv::Core::IValueSubject<std::string> > ISettingsWidget::observeTitle() const
 {
-    return _titleLabel->getText();
+    return _title;
 }
 
-void ITool::setTitle(const std::string& text)
+void ISettingsWidget::setTitle(const std::string& text)
 {
-    _titleLabel->setText(text);
-}
-
-void ITool::close()
-{
-    hide();
-    if (_closeCallback)
+    if (_title->setIfChanged(text))
     {
-        _closeCallback();
+        _titleLabel->setText(text);
     }
 }
 
-void ITool::setCloseCallback(const std::function<void(void)>& value)
+void ISettingsWidget::setBackCallback(const std::function<void(void)>& value)
 {
-    _closeCallback = value;
+    _backCallback = value;
 }
 
-float ITool::getHeightForWidth(float value) const
+float ISettingsWidget::getHeightForWidth(float value) const
 {
     return _layout->getHeightForWidth(value);
 }
 
-void ITool::addChild(const std::shared_ptr<IObject>& value)
+void ISettingsWidget::addChild(const std::shared_ptr<IObject>& value)
 {
     _childLayout->addChild(value);
     if (auto widget = std::dynamic_pointer_cast<Widget>(value))
@@ -124,40 +121,27 @@ void ITool::addChild(const std::shared_ptr<IObject>& value)
     }
 }
 
-void ITool::removeChild(const std::shared_ptr<IObject>& value)
+void ISettingsWidget::removeChild(const std::shared_ptr<IObject>& value)
 {
     _childLayout->removeChild(value);
 }
 
-void ITool::clearChildren()
+void ISettingsWidget::clearChildren()
 {
     _childLayout->clearChildren();
 }
 
-std::map<UI::MDI::Handle, std::vector<Core::BBox2f> > ITool::_getHandles() const
-{
-    auto out = IWidget::_getHandles();
-    out[UI::MDI::Handle::Move][0] = _titleBar->getGeometry();
-    return out;
-}
-
-void ITool::_setActiveWidget(bool value)
-{
-    IWidget::_setActiveWidget(value);
-    _titleLabel->setTextColorRole(value ? UI::ColorRole::Foreground : UI::ColorRole::ForegroundDim);
-    _closeButton->setForegroundColorRole(value ? UI::ColorRole::Foreground : UI::ColorRole::ForegroundDim);
-}
-
-void ITool::_preLayoutEvent(Core::Event::PreLayout& event)
+void ISettingsWidget::_preLayoutEvent(Core::Event::PreLayout& event)
 {
     _setMinimumSize(_layout->getMinimumSize());
 }
 
-void ITool::_layoutEvent(Core::Event::Layout&)
+void ISettingsWidget::_layoutEvent(Core::Event::Layout&)
 {
     _layout->setGeometry(getGeometry());
 }
 
-void ITool::_initEvent(Core::Event::Init&)
+void ISettingsWidget::_initEvent(Core::Event::Init&)
 {
+    _backButton->setTooltip(_getText(DJV_TEXT("Go to the previous page")));
 }

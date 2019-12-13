@@ -39,20 +39,42 @@ namespace djv
             return std::shared_ptr<PolyLinePrimitive>(new PolyLinePrimitive);
         }
 
-        inline const AV::Geom::PointList& PolyLinePrimitive::getPointList() const
+        inline const std::vector<AV::Geom::PointList>& PolyLinePrimitive::getPointLists() const
         {
-            return _pointList;
+            return _pointLists;
         }
 
-        inline void  PolyLinePrimitive::setPointList(const AV::Geom::PointList& value)
+        inline void PolyLinePrimitive::setPointLists(const std::vector<AV::Geom::PointList>& value)
         {
-            _pointList = value;
+            _pointLists = value;
+            _pointCount = 0;
             Core::BBox3f bbox = getBBox();
-            auto i = _pointList.v.begin();
-            if (i != _pointList.v.end())
+            for (const auto& i : _pointLists)
+            {
+                auto j = i.v.begin();
+                if (j != i.v.end())
+                {
+                    bbox.min = bbox.max = *j++;
+                    for (; j != i.v.end(); ++j)
+                    {
+                        bbox.expand(*j);
+                    }
+                }
+                _pointCount += i.v.size();
+            }
+            setBBox(bbox);
+        }
+
+        inline void PolyLinePrimitive::addPointList(const AV::Geom::PointList& value)
+        {
+            _pointLists.push_back(value);
+            _pointCount += value.v.size();
+            Core::BBox3f bbox = getBBox();
+            auto i = value.v.begin();
+            if (i != value.v.end())
             {
                 bbox.min = bbox.max = *i++;
-                for (; i != _pointList.v.end(); ++i)
+                for (; i != value.v.end(); ++i)
                 {
                     bbox.expand(*i);
                 }
@@ -72,7 +94,7 @@ namespace djv
 
         inline size_t PolyLinePrimitive::getPointCount() const
         {
-            return _pointList.v.size();
+            return _pointCount;
         }
 
     } // namespace Scene
