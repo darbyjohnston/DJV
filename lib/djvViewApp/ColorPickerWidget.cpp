@@ -534,8 +534,10 @@ namespace djv
                     render->endFrame();
                     auto data = AV::Image::Data::create(AV::Image::Info(p.sampleSize, p.sampleSize, type));
                     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+#if !defined(DJV_OPENGL_ES2)  // FIXME: GL_READ_FRAMEBUFFER, glClampColor not in OpenGL ES 2
                     glBindFramebuffer(GL_READ_FRAMEBUFFER, p.offscreenBuffer->getID());
                     glClampColor(GL_CLAMP_READ_COLOR, GL_FALSE);
+#endif
                     glPixelStorei(GL_PACK_ALIGNMENT, 1);
                     glReadPixels(
                         0,
