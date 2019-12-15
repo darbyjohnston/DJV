@@ -330,7 +330,7 @@ namespace djv
                 p.shader->setUniform("color", color);
                 p.shader->setUniform("textureSampler", 0);
                                 
-                auto vbo = AV::OpenGL::VBO::create(2, 4, AV::OpenGL::VBOType::Pos2_F32_UV_U16);
+                auto vbo = AV::OpenGL::VBO::create(2 * 4, AV::OpenGL::VBOType::Pos2_F32_UV_U16);
                 std::vector<uint8_t> vboData(6 * (2 * 4 + 2 * 2));
                 struct Data
                 {
