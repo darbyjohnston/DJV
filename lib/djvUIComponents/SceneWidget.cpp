@@ -192,6 +192,17 @@ namespace djv
             }
         }
 
+        namespace
+        {
+            float getDistance(float fov, float max)
+            {
+                const float tan = tanf(Math::deg2rad(fov / 2.F));
+                const float distance = (tan > 0.F) ? (max / 2.F / tan) : 1.F;
+                return distance;
+            }
+
+        } // namespace
+
         void SceneWidget::frameView()
         {
             DJV_PRIVATE_PTR();
@@ -199,9 +210,7 @@ namespace djv
             {
                 const BBox3f& bbox = p.scene->getBBox();
                 const glm::vec3& center = bbox.getCenter();
-                const float max = p.scene->getBBoxMax();
-                const float tan = tanf(Math::deg2rad(p.camera->getFOV()));
-                const float distance = (tan > 0.F) ? (max / tan) : 1.F;
+                const float distance = getDistance(p.camera->getFOV(), p.scene->getBBoxMax());
                 auto cameraData = p.cameraData->get();
                 cameraData.target = center;
                 cameraData.distance = distance;
