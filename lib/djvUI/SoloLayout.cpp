@@ -48,6 +48,8 @@ namespace djv
                 Widget::_init(context);
 
                 setClassName("djv::UI::Layout::Solo");
+
+                _widgetUpdate();
             }
 
             Solo::Solo() :
@@ -75,7 +77,7 @@ namespace djv
                 if (value == p.currentIndex)
                     return;
                 p.currentIndex = value;
-                _resize();
+                _widgetUpdate();
             }
 
             void Solo::setCurrentIndex(int value, Side side)
@@ -84,7 +86,7 @@ namespace djv
                 if (value == p.currentIndex)
                     return;
                 p.currentIndex = value;
-                _resize();
+                _widgetUpdate();
             }
 
             std::shared_ptr<Widget> Solo::getCurrentWidget() const
@@ -167,6 +169,7 @@ namespace djv
                 {
                     p.currentIndex = 0;
                 }
+                _widgetUpdate();
             }
 
             void Solo::removeChild(const std::shared_ptr<IObject> & value)
@@ -176,6 +179,7 @@ namespace djv
                 {
                     _p->currentIndex = -1;
                 }
+                _widgetUpdate();
             }
 
             void Solo::_preLayoutEvent(Event::PreLayout &)
@@ -210,7 +214,7 @@ namespace djv
                 }
             }
 
-            void Solo::_updateEvent(Event::Update & event)
+            void Solo::_widgetUpdate()
             {
                 int index = 0;
                 const auto& children = getChildWidgets();
@@ -219,6 +223,7 @@ namespace djv
                     child->setVisible(_p->currentIndex == index);
                     ++index;
                 }
+                _resize();
             }
 
         } // namespace Layout

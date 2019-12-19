@@ -41,7 +41,7 @@ void SettingsWidget::_init(const std::shared_ptr<Core::Context>& context)
 {
     Widget::_init(context);
 
-    setBackgroundRole(UI::ColorRole::OverlayLight);
+    setBackgroundRole(UI::ColorRole::Background);
 
     _buttonGroup = UI::ButtonGroup::create(UI::ButtonType::Push);
     _buttonLayout = UI::VerticalLayout::create(context);

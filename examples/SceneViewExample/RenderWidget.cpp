@@ -31,6 +31,7 @@
 
 #include <djvUIComponents/SceneWidget.h>
 
+#include <djvUI/RowLayout.h>
 #include <djvUI/ScrollWidget.h>
 
 #include <djvScene/Render.h>
@@ -42,21 +43,37 @@ void RenderWidget::_init(const std::shared_ptr<Core::Context>& context)
     ISettingsWidget::_init(context);
 
     _shaderModeComboBox = UI::ComboBox::create(context);
+    _layouts["Shader"] = UI::FormLayout::create(context);
+    _layouts["Shader"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+    _layouts["Shader"]->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+    _layouts["Shader"]->addChild(_shaderModeComboBox);
+    _bellows["Shader"] = UI::Bellows::create(context);
+    _bellows["Shader"]->addChild(_layouts["Shader"]);
 
     _depthBufferModeComboBox = UI::ComboBox::create(context);
-
     _depthBufferTypeComboBox = UI::ComboBox::create(context);
+    _layouts["DepthBuffer"] = UI::FormLayout::create(context);
+    _layouts["DepthBuffer"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+    _layouts["DepthBuffer"]->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+    _layouts["DepthBuffer"]->addChild(_depthBufferModeComboBox);
+    _layouts["DepthBuffer"]->addChild(_depthBufferTypeComboBox);
+    _bellows["DepthBuffer"] = UI::Bellows::create(context);
+    _bellows["DepthBuffer"]->addChild(_layouts["DepthBuffer"]);
 
     _multiSamplingComboBox = UI::ComboBox::create(context);
+    _layouts["Multisampling"] = UI::FormLayout::create(context);
+    _layouts["Multisampling"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+    _layouts["Multisampling"]->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+    _layouts["Multisampling"]->addChild(_multiSamplingComboBox);
+    _bellows["Multisampling"] = UI::Bellows::create(context);
+    _bellows["Multisampling"]->addChild(_layouts["Multisampling"]);
 
-    _formLayout = UI::FormLayout::create(context);
-    _formLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-    _formLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
-    _formLayout->addChild(_shaderModeComboBox);
-    _formLayout->addChild(_depthBufferModeComboBox);
-    _formLayout->addChild(_depthBufferTypeComboBox);
-    _formLayout->addChild(_multiSamplingComboBox);
-    addChild(_formLayout);
+    auto layout = UI::VerticalLayout::create(context);
+    layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+    layout->addChild(_bellows["Shader"]);
+    layout->addChild(_bellows["DepthBuffer"]);
+    layout->addChild(_bellows["Multisampling"]);
+    addChild(layout);
 
     _widgetUpdate();
 
@@ -141,10 +158,13 @@ void RenderWidget::setRenderOptionsCallback(const std::function<void(const UI::S
 void RenderWidget::_initEvent(Core::Event::Init&)
 {
     setTitle(_getText(DJV_TEXT("Render")));
-    _formLayout->setText(_shaderModeComboBox, _getText(DJV_TEXT("Shader mode")) + ":");
-    _formLayout->setText(_depthBufferModeComboBox, _getText(DJV_TEXT("Depth buffer mode")) + ":");
-    _formLayout->setText(_depthBufferTypeComboBox, _getText(DJV_TEXT("Depth buffer type")) + ":");
-    _formLayout->setText(_multiSamplingComboBox, _getText(DJV_TEXT("Multisampling")) + ":");
+    _layouts["Shader"]->setText(_shaderModeComboBox, _getText(DJV_TEXT("Mode")) + ":");
+    _layouts["DepthBuffer"]->setText(_depthBufferModeComboBox, _getText(DJV_TEXT("Mode")) + ":");
+    _layouts["DepthBuffer"]->setText(_depthBufferTypeComboBox, _getText(DJV_TEXT("Type")) + ":");
+    _layouts["Multisampling"]->setText(_multiSamplingComboBox, _getText(DJV_TEXT("Samples")) + ":");
+    _bellows["Shader"]->setText(_getText(DJV_TEXT("Shader")));
+    _bellows["DepthBuffer"]->setText(_getText(DJV_TEXT("Depth Buffer")));
+    _bellows["Multisampling"]->setText(_getText(DJV_TEXT("Multisampling")));
     _widgetUpdate();
 }
 

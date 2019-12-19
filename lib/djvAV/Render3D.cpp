@@ -83,7 +83,7 @@ namespace djv
                 std::map<AV::OpenGL::VBOType, std::shared_ptr<OpenGL::MeshCache> >  meshCache;
                 std::map<AV::OpenGL::VBOType, std::map<UID, UID> >                  meshCacheUIDs;
 
-                std::map< AV::OpenGL::VBOType, std::map<std::shared_ptr<IMaterial>, std::vector<std::shared_ptr<Primitive> > > > primitives;
+                std::map<AV::OpenGL::VBOType, std::map<std::shared_ptr<IMaterial>, std::vector<std::shared_ptr<Primitive> > > > primitives;
 
                 std::shared_ptr<Time::Timer>            statsTimer;
             };
@@ -293,10 +293,10 @@ namespace djv
                 p.lights.push_back(value);
             }
 
-            void Render::drawPoints(const Geom::PointList& value)
+            void Render::drawPoints(const std::vector<std::shared_ptr<Geom::PointList> >& value)
             {
                 DJV_PRIVATE_PTR();
-                if (value.v.size())
+                if (value.size())
                 {
                     auto primitive = std::shared_ptr<Primitive>(new Primitive);
                     primitive->xform = getCurrentTransform();
@@ -304,31 +304,37 @@ namespace djv
                     primitive->color = p.currentColor;
                     primitive->material = p.currentMaterial;
 
-                    auto& meshCache = p.meshCache[OpenGL::VBOType::Pos3_F32];
-                    auto& meshCacheUIDs = p.meshCacheUIDs[OpenGL::VBOType::Pos3_F32];
-                    SizeTRange range;
-                    bool cached = false;
-                    const UID uid = value.getUID();
-                    const auto i = meshCacheUIDs.find(uid);
-                    if (i != meshCacheUIDs.end())
+                    for (const auto& i : value)
                     {
-                        cached = meshCache->getItem(i->second, range);
+                        if (i && i->v.size())
+                        {
+                            auto& meshCache = p.meshCache[OpenGL::VBOType::Pos3_F32];
+                            auto& meshCacheUIDs = p.meshCacheUIDs[OpenGL::VBOType::Pos3_F32];
+                            SizeTRange range;
+                            bool cached = false;
+                            const UID uid = i->getUID();
+                            const auto j = meshCacheUIDs.find(uid);
+                            if (j != meshCacheUIDs.end())
+                            {
+                                cached = meshCache->getItem(j->second, range);
+                            }
+                            if (!cached)
+                            {
+                                const auto data = OpenGL::VBO::convert(*i, OpenGL::VBOType::Pos3_F32);
+                                meshCacheUIDs[uid] = meshCache->addItem(data, range);
+                            }
+                            primitive->vaoRange.push_back(range);
+                        }
                     }
-                    if (!cached)
-                    {
-                        const auto data = OpenGL::VBO::convert(value, OpenGL::VBOType::Pos3_F32);
-                        meshCacheUIDs[uid] = meshCache->addItem(data, range);
-                    }
-                    primitive->vaoRange.push_back(range);
 
                     p.primitives[OpenGL::VBOType::Pos3_F32][primitive->material].push_back(primitive);
                 }
             }
 
-            void Render::drawPolyLine(const Geom::PointList& value)
+            void Render::drawPolyLine(const std::shared_ptr<Geom::PointList>& value)
             {
                 DJV_PRIVATE_PTR();
-                if (value.v.size())
+                if (value->v.size())
                 {
                     auto primitive = std::shared_ptr<Primitive>(new Primitive);
                     primitive->xform = getCurrentTransform();
@@ -339,7 +345,7 @@ namespace djv
                     auto& meshCache = p.meshCache[OpenGL::VBOType::Pos3_F32];
                     auto& meshCacheUIDs = p.meshCacheUIDs[OpenGL::VBOType::Pos3_F32];
                     SizeTRange range;
-                    const UID uid = value.getUID();
+                    const UID uid = value->getUID();
                     const auto i = meshCacheUIDs.find(uid);
                     if (i != meshCacheUIDs.end())
                     {
@@ -347,7 +353,7 @@ namespace djv
                     }
                     if (range.min == range.max)
                     {
-                        const auto data = OpenGL::VBO::convert(value, OpenGL::VBOType::Pos3_F32);
+                        const auto data = OpenGL::VBO::convert(*value, OpenGL::VBOType::Pos3_F32);
                         meshCacheUIDs[uid] = meshCache->addItem(data, range);
                     }
                     primitive->vaoRange.push_back(range);
@@ -356,7 +362,7 @@ namespace djv
                 }
             }
 
-            void Render::drawPolyLines(const std::vector<Geom::PointList>& value)
+            void Render::drawPolyLines(const std::vector<std::shared_ptr<Geom::PointList> >& value)
             {
                 DJV_PRIVATE_PTR();
                 if (value.size())
@@ -369,12 +375,12 @@ namespace djv
 
                     for (const auto& i : value)
                     {
-                        if (i.v.size())
+                        if (i->v.size())
                         {
                             auto& meshCache = p.meshCache[OpenGL::VBOType::Pos3_F32];
                             auto& meshCacheUIDs = p.meshCacheUIDs[OpenGL::VBOType::Pos3_F32];
                             SizeTRange range;
-                            const UID uid = i.getUID();
+                            const UID uid = i->getUID();
                             const auto j = meshCacheUIDs.find(uid);
                             if (j != meshCacheUIDs.end())
                             {
@@ -382,7 +388,7 @@ namespace djv
                             }
                             if (range.min == range.max)
                             {
-                                const auto data = OpenGL::VBO::convert(i, OpenGL::VBOType::Pos3_F32);
+                                const auto data = OpenGL::VBO::convert(*i, OpenGL::VBOType::Pos3_F32);
                                 meshCacheUIDs[uid] = meshCache->addItem(data, range);
                             }
                             primitive->vaoRange.push_back(range);

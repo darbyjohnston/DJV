@@ -79,7 +79,6 @@ namespace djv
             void setBottomColor(const AV::Image::Color&);
 
             std::string getClassName() const override;
-            void render(const glm::mat4x4&, const std::shared_ptr<AV::Render3D::Render>&) override;
 
         private:
             glm::vec3 _up = glm::vec3(0.F, 1.F, 0.F);
@@ -101,7 +100,6 @@ namespace djv
             void setDirection(const glm::vec3&);
 
             std::string getClassName() const override;
-            void render(const glm::mat4x4&, const std::shared_ptr<AV::Render3D::Render>&) override;
 
         private:
             glm::vec3 _direction = glm::vec3(-1.F, -1.F, -1.F);
@@ -117,7 +115,6 @@ namespace djv
             static std::shared_ptr<PointLight> create();
 
             std::string getClassName() const override;
-            void render(const glm::mat4x4&, const std::shared_ptr<AV::Render3D::Render>&) override;
         };
 
         //! This class provides a spot light.
@@ -136,7 +133,6 @@ namespace djv
             void setDirection(const glm::vec3&);
 
             std::string getClassName() const override;
-            void render(const glm::mat4x4&, const std::shared_ptr<AV::Render3D::Render>&) override;
 
         private:
             float _coneAngle = 90.F;

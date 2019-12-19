@@ -35,52 +35,90 @@ void InfoWidget::_init(const std::shared_ptr<Core::Context>& context)
 {
     ISettingsWidget::_init(context);
 
-    _sceneSizeTextBlock = UI::TextBlock::create(context);
-    _sceneSizeTextBlock->setFontFamily(AV::Font::familyMono);
-    _sceneSizeTextBlock->setTextSizeRole(UI::MetricsRole::Slider);
-    _sceneSizeTextBlock->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+    _labels["SceneSizeW"] = UI::Label::create(context);
+    _labels["SceneSizeW"]->setFont(AV::Font::familyMono);
+    _labels["SceneSizeW"]->setTextHAlign(UI::TextHAlign::Left);
+    _labels["SceneSizeW"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+    _labels["SceneSizeH"] = UI::Label::create(context);
+    _labels["SceneSizeH"]->setFont(AV::Font::familyMono);
+    _labels["SceneSizeH"]->setTextHAlign(UI::TextHAlign::Left);
+    _labels["SceneSizeH"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+    _labels["SceneSizeD"] = UI::Label::create(context);
+    _labels["SceneSizeD"]->setFont(AV::Font::familyMono);
+    _labels["SceneSizeD"]->setTextHAlign(UI::TextHAlign::Left);
+    _labels["SceneSizeD"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+    _layouts["SceneSize"] = UI::FormLayout::create(context);
+    _layouts["SceneSize"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+    _layouts["SceneSize"]->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+    _layouts["SceneSize"]->addChild(_labels["SceneSizeW"]);
+    _layouts["SceneSize"]->addChild(_labels["SceneSizeH"]);
+    _layouts["SceneSize"]->addChild(_labels["SceneSizeD"]);
+    _bellows["SceneSize"] = UI::Bellows::create(context);
+    _bellows["SceneSize"]->addChild(_layouts["SceneSize"]);
 
-    _sceneXRangeTextBlock = UI::TextBlock::create(context);
-    _sceneXRangeTextBlock->setFontFamily(AV::Font::familyMono);
-    _sceneXRangeTextBlock->setTextSizeRole(UI::MetricsRole::Slider);
-    _sceneXRangeTextBlock->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+    _labels["SceneRangeMinX"] = UI::Label::create(context);
+    _labels["SceneRangeMinX"]->setFont(AV::Font::familyMono);
+    _labels["SceneRangeMinX"]->setTextHAlign(UI::TextHAlign::Left);
+    _labels["SceneRangeMinX"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+    _labels["SceneRangeMaxX"] = UI::Label::create(context);
+    _labels["SceneRangeMaxX"]->setFont(AV::Font::familyMono);
+    _labels["SceneRangeMaxX"]->setTextHAlign(UI::TextHAlign::Left);
+    _labels["SceneRangeMaxX"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+    _labels["SceneRangeMinY"] = UI::Label::create(context);
+    _labels["SceneRangeMinY"]->setFont(AV::Font::familyMono);
+    _labels["SceneRangeMinY"]->setTextHAlign(UI::TextHAlign::Left);
+    _labels["SceneRangeMinY"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+    _labels["SceneRangeMaxY"] = UI::Label::create(context);
+    _labels["SceneRangeMaxY"]->setFont(AV::Font::familyMono);
+    _labels["SceneRangeMaxY"]->setTextHAlign(UI::TextHAlign::Left);
+    _labels["SceneRangeMaxY"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+    _labels["SceneRangeMinZ"] = UI::Label::create(context);
+    _labels["SceneRangeMinZ"]->setFont(AV::Font::familyMono);
+    _labels["SceneRangeMinZ"]->setTextHAlign(UI::TextHAlign::Left);
+    _labels["SceneRangeMinZ"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+    _labels["SceneRangeMaxZ"] = UI::Label::create(context);
+    _labels["SceneRangeMaxZ"]->setFont(AV::Font::familyMono);
+    _labels["SceneRangeMaxZ"]->setTextHAlign(UI::TextHAlign::Left);
+    _labels["SceneRangeMaxZ"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+    _layouts["SceneRange"] = UI::FormLayout::create(context);
+    _layouts["SceneRange"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+    _layouts["SceneRange"]->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+    _layouts["SceneRange"]->addChild(_labels["SceneRangeMinX"]);
+    _layouts["SceneRange"]->addChild(_labels["SceneRangeMaxX"]);
+    _layouts["SceneRange"]->addChild(_labels["SceneRangeMinY"]);
+    _layouts["SceneRange"]->addChild(_labels["SceneRangeMaxY"]);
+    _layouts["SceneRange"]->addChild(_labels["SceneRangeMinZ"]);
+    _layouts["SceneRange"]->addChild(_labels["SceneRangeMaxZ"]);
+    _bellows["SceneRange"] = UI::Bellows::create(context);
+    _bellows["SceneRange"]->addChild(_layouts["SceneRange"]);
 
-    _sceneYRangeTextBlock = UI::TextBlock::create(context);
-    _sceneYRangeTextBlock->setFontFamily(AV::Font::familyMono);
-    _sceneYRangeTextBlock->setTextSizeRole(UI::MetricsRole::Slider);
-    _sceneYRangeTextBlock->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+    _labels["Primitives"] = UI::Label::create(context);
+    _labels["Primitives"]->setFont(AV::Font::familyMono);
+    _labels["Primitives"]->setTextHAlign(UI::TextHAlign::Left);
+    _labels["Primitives"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+    _labels["PointCount"] = UI::Label::create(context);
+    _labels["PointCount"]->setFont(AV::Font::familyMono);
+    _labels["PointCount"]->setTextHAlign(UI::TextHAlign::Left);
+    _labels["PointCount"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+    _labels["FPS"] = UI::Label::create(context);
+    _labels["FPS"]->setFont(AV::Font::familyMono);
+    _labels["FPS"]->setTextHAlign(UI::TextHAlign::Left);
+    _labels["FPS"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+    _layouts["Stats"] = UI::FormLayout::create(context);
+    _layouts["Stats"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+    _layouts["Stats"]->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+    _layouts["Stats"]->addChild(_labels["Primitives"]);
+    _layouts["Stats"]->addChild(_labels["PointCount"]);
+    _layouts["Stats"]->addChild(_labels["FPS"]);
+    _bellows["Stats"] = UI::Bellows::create(context);
+    _bellows["Stats"]->addChild(_layouts["Stats"]);
 
-    _sceneZRangeTextBlock = UI::TextBlock::create(context);
-    _sceneZRangeTextBlock->setFontFamily(AV::Font::familyMono);
-    _sceneZRangeTextBlock->setTextSizeRole(UI::MetricsRole::Slider);
-    _sceneZRangeTextBlock->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-
-    _primitivesCountLabel = UI::Label::create(context);
-    _primitivesCountLabel->setFont(AV::Font::familyMono);
-    _primitivesCountLabel->setTextHAlign(UI::TextHAlign::Left);
-    _primitivesCountLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-
-    _pointCountLabel = UI::Label::create(context);
-    _pointCountLabel->setFont(AV::Font::familyMono);
-    _pointCountLabel->setTextHAlign(UI::TextHAlign::Left);
-    _pointCountLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-
-    _fpsLabel = UI::Label::create(context);
-    _fpsLabel->setFont(AV::Font::familyMono);
-    _fpsLabel->setTextHAlign(UI::TextHAlign::Left);
-    _fpsLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-
-    _formLayout = UI::FormLayout::create(context);
-    _formLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-    _formLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
-    _formLayout->addChild(_sceneSizeTextBlock);
-    _formLayout->addChild(_sceneXRangeTextBlock);
-    _formLayout->addChild(_sceneYRangeTextBlock);
-    _formLayout->addChild(_sceneZRangeTextBlock);
-    _formLayout->addChild(_primitivesCountLabel);
-    _formLayout->addChild(_pointCountLabel);
-    _formLayout->addChild(_fpsLabel);
-    addChild(_formLayout);
+    auto layout = UI::VerticalLayout::create(context);
+    layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+    layout->addChild(_bellows["SceneSize"]);
+    layout->addChild(_bellows["SceneRange"]);
+    layout->addChild(_bellows["Stats"]);
+    addChild(layout);
 
     auto weak = std::weak_ptr<InfoWidget>(std::dynamic_pointer_cast<InfoWidget>(shared_from_this()));
 }
@@ -130,47 +168,81 @@ void InfoWidget::_initEvent(Core::Event::Init&)
 void InfoWidget::_textUpdate()
 {
     setTitle(_getText(DJV_TEXT("Information")));
-    _formLayout->setText(_sceneSizeTextBlock, _getText(DJV_TEXT("Scene size")) + ":");
     {
         std::stringstream ss;
-        ss << _bbox.w() << " x " << _bbox.h() << " x " << _bbox.d();
-        _sceneSizeTextBlock->setText(ss.str());
+        ss << _bbox.w();
+        _labels["SceneSizeW"]->setText(ss.str());
     }
-    _formLayout->setText(_sceneXRangeTextBlock, _getText(DJV_TEXT("Scene X range")) + ":");
     {
         std::stringstream ss;
-        ss << _bbox.min.x << " - " << _bbox.max.x;
-        _sceneXRangeTextBlock->setText(ss.str());
+        ss << _bbox.h();
+        _labels["SceneSizeH"]->setText(ss.str());
     }
-    _formLayout->setText(_sceneYRangeTextBlock, _getText(DJV_TEXT("Scene Y range")) + ":");
     {
         std::stringstream ss;
-        ss << _bbox.min.y << " - " << _bbox.max.y;
-        _sceneYRangeTextBlock->setText(ss.str());
+        ss << _bbox.d();
+        _labels["SceneSizeD"]->setText(ss.str());
     }
-    _formLayout->setText(_sceneZRangeTextBlock, _getText(DJV_TEXT("Scene Z range")) + ":");
     {
         std::stringstream ss;
-        ss << _bbox.min.z << " - " << _bbox.max.z;
-        _sceneZRangeTextBlock->setText(ss.str());
+        ss << _bbox.min.x;
+        _labels["SceneRangeMinX"]->setText(ss.str());
     }
-    _formLayout->setText(_primitivesCountLabel, _getText(DJV_TEXT("Primitives")) + ":");
+    {
+        std::stringstream ss;
+        ss << _bbox.max.x;
+        _labels["SceneRangeMaxX"]->setText(ss.str());
+    }
+    {
+        std::stringstream ss;
+        ss << _bbox.min.y;
+        _labels["SceneRangeMinY"]->setText(ss.str());
+    }
+    {
+        std::stringstream ss;
+        ss << _bbox.max.y;
+        _labels["SceneRangeMaxY"]->setText(ss.str());
+    }
+    {
+        std::stringstream ss;
+        ss << _bbox.min.z;
+        _labels["SceneRangeMinZ"]->setText(ss.str());
+    }
+    {
+        std::stringstream ss;
+        ss << _bbox.max.z;
+        _labels["SceneRangeMaxZ"]->setText(ss.str());
+    }
     {
         std::stringstream ss;
         ss << _primitivesCount;
-        _primitivesCountLabel->setText(ss.str());
+        _labels["Primitives"]->setText(ss.str());
     }
-    _formLayout->setText(_pointCountLabel, _getText(DJV_TEXT("Points")) + ":");
     {
         std::stringstream ss;
         ss << _pointCount;
-        _pointCountLabel->setText(ss.str());
+        _labels["PointCount"]->setText(ss.str());
     }
-    _formLayout->setText(_fpsLabel, _getText(DJV_TEXT("FPS")) + ":");
     {
         std::stringstream ss;
-        ss.precision(2);
-        ss << std::fixed << _fps;
-        _fpsLabel->setText(ss.str());
+        ss << _fps;
+        _labels["FPS"]->setText(ss.str());
     }
+
+    _layouts["SceneSize"]->setText(_labels["SceneSizeW"], _getText(DJV_TEXT("Width")) + ":");
+    _layouts["SceneSize"]->setText(_labels["SceneSizeH"], _getText(DJV_TEXT("Height")) + ":");
+    _layouts["SceneSize"]->setText(_labels["SceneSizeD"], _getText(DJV_TEXT("Depth")) + ":");
+    _layouts["SceneRange"]->setText(_labels["SceneRangeMinX"], _getText(DJV_TEXT("Min X")) + ":");
+    _layouts["SceneRange"]->setText(_labels["SceneRangeMaxX"], _getText(DJV_TEXT("Max X")) + ":");
+    _layouts["SceneRange"]->setText(_labels["SceneRangeMinY"], _getText(DJV_TEXT("Min Y")) + ":");
+    _layouts["SceneRange"]->setText(_labels["SceneRangeMaxY"], _getText(DJV_TEXT("Max Y")) + ":");
+    _layouts["SceneRange"]->setText(_labels["SceneRangeMinZ"], _getText(DJV_TEXT("Min Z")) + ":");
+    _layouts["SceneRange"]->setText(_labels["SceneRangeMaxZ"], _getText(DJV_TEXT("Max Z")) + ":");
+    _layouts["Stats"]->setText(_labels["Primitives"], _getText(DJV_TEXT("Primitives")) + ":");
+    _layouts["Stats"]->setText(_labels["PointCount"], _getText(DJV_TEXT("Point count")) + ":");
+    _layouts["Stats"]->setText(_labels["FPS"], _getText(DJV_TEXT("FPS")) + ":");
+
+    _bellows["SceneSize"]->setText(_getText(DJV_TEXT("Scene Size")));
+    _bellows["SceneRange"]->setText(_getText(DJV_TEXT("Scene Range")));
+    _bellows["Stats"]->setText(_getText(DJV_TEXT("Stats")));
 }

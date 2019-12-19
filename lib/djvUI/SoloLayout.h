@@ -38,7 +38,7 @@ namespace djv
         namespace Layout
         {
             //! This enumeration provides options for how the Solo layout
-            //! calculates it's minimum size.
+            //! calculates a minimum size from it's child widgets.
             enum class SoloMinimumSize
             {
                 None,
@@ -80,9 +80,9 @@ namespace djv
                 void _preLayoutEvent(Core::Event::PreLayout &) override;
                 void _layoutEvent(Core::Event::Layout &) override;
 
-                void _updateEvent(Core::Event::Update &) override;
-
             private:
+                void _widgetUpdate();
+
                 DJV_PRIVATE();
             };
 

@@ -33,6 +33,7 @@
 
 #include <djvUIComponents/SceneWidget.h>
 
+#include <djvUI/Bellows.h>
 #include <djvUI/ComboBox.h>
 #include <djvUI/FormLayout.h>
 
@@ -63,6 +64,7 @@ private:
     std::shared_ptr<djv::UI::ComboBox> _depthBufferModeComboBox;
     std::shared_ptr<djv::UI::ComboBox> _depthBufferTypeComboBox;
     std::shared_ptr<djv::UI::ComboBox> _multiSamplingComboBox;
-    std::shared_ptr<djv::UI::FormLayout> _formLayout;
+    std::map<std::string, std::shared_ptr<djv::UI::FormLayout> > _layouts;
+    std::map<std::string, std::shared_ptr<djv::UI::Bellows> > _bellows;
     std::function<void(const djv::UI::SceneRenderOptions&)> _renderOptionsCallback;
 };

@@ -45,6 +45,13 @@ namespace djv
 {
     namespace AV
     {
+        namespace Geom
+        {
+            class PointList;
+            class TriangleMesh;
+
+        } // namespace Geom
+
         namespace Render3D
         {
             class Render;
@@ -103,7 +110,9 @@ namespace djv
 
             virtual const std::vector<std::shared_ptr<IPrimitive> >& getPrimitives() const;
 
-            virtual void render(const glm::mat4x4&, const std::shared_ptr<AV::Render3D::Render>&);
+            virtual const std::vector<std::shared_ptr<AV::Geom::TriangleMesh> >& getMeshes() const;
+            virtual const std::vector<std::shared_ptr<AV::Geom::PointList> >& getPolyLines() const;
+            virtual const std::shared_ptr<AV::Geom::PointList>& getPointList() const;
 
             virtual size_t getPointCount() const;
 
@@ -120,6 +129,9 @@ namespace djv
             std::shared_ptr<IMaterial> _material;
             std::weak_ptr<IPrimitive> _parent;
             std::vector<std::shared_ptr<IPrimitive> > _children;
+            static std::vector<std::shared_ptr<AV::Geom::TriangleMesh> > _meshesDummy;
+            static std::vector<std::shared_ptr<AV::Geom::PointList> > _polyLinesDummy;
+            static std::shared_ptr<AV::Geom::PointList> _pointListDummy;
         };
 
     } // namespace Scene

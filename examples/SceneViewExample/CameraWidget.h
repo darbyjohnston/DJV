@@ -33,6 +33,7 @@
 
 #include <djvUIComponents/SceneWidget.h>
 
+#include <djvUI/Bellows.h>
 #include <djvUI/FloatEdit.h>
 #include <djvUI/FormLayout.h>
 
@@ -60,6 +61,7 @@ private:
 
     djv::Scene::PolarCameraData _cameraData;
     std::map<std::string, std::shared_ptr<djv::UI::FloatEdit> > _floatEdits;
-    std::shared_ptr<djv::UI::FormLayout> _formLayout;
+    std::map<std::string, std::shared_ptr<djv::UI::FormLayout> > _layouts;
+    std::map<std::string, std::shared_ptr<djv::UI::Bellows> > _bellows;
     std::function<void(const djv::Scene::PolarCameraData&)> _cameraDataCallback;
 };

@@ -37,12 +37,6 @@ namespace djv
 {
     namespace Scene
     {
-        void MeshPrimitive::render(const glm::mat4x4& xform, const std::shared_ptr<AV::Render3D::Render>& render)
-        {
-            render->pushTransform(xform);
-            render->drawTriangleMeshes(_meshes);
-            render->popTransform();
-        }
 
     } // namespace Scene
 } // namespace djv

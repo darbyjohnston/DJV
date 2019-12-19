@@ -149,6 +149,26 @@ namespace djv
             return _children;
         }
 
+        inline const std::vector<std::shared_ptr<AV::Geom::TriangleMesh> >& IPrimitive::getMeshes() const
+        {
+            return _meshesDummy;
+        }
+
+        inline const std::vector<std::shared_ptr<AV::Geom::PointList> >& IPrimitive::getPolyLines() const
+        {
+            return _polyLinesDummy;
+        }
+
+        inline const std::shared_ptr<AV::Geom::PointList>& IPrimitive::getPointList() const
+        {
+            return _pointListDummy;
+        }
+
+        inline size_t IPrimitive::getPointCount() const
+        {
+            return 0;
+        }
+
     } // namespace Scene
 } // namespace djv
 

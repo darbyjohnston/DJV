@@ -48,8 +48,9 @@ void ISettingsWidget::_init(const std::shared_ptr<Core::Context>& context)
     _backButton = UI::ToolButton::create(context);
     _backButton->setIcon("djvIconArrowLeft");
     _backButton->setInsideMargin(UI::MetricsRole::MarginSmall);
-
+    
     _titleBar = UI::HorizontalLayout::create(context);
+    _titleBar->setBackgroundRole(UI::ColorRole::BackgroundHeader);
     _titleBar->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
     _titleBar->addChild(_titleLabel);
     _titleBar->setStretch(_titleLabel, UI::RowStretch::Expand);
@@ -63,6 +64,7 @@ void ISettingsWidget::_init(const std::shared_ptr<Core::Context>& context)
     _layout->addChild(_titleBar);
     _layout->addSeparator();
     auto scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
+    scrollWidget->setShadowOverlay({ UI::Side::Top });
     scrollWidget->setBorder(false);
     scrollWidget->addChild(_childLayout);
     _layout->addChild(scrollWidget);

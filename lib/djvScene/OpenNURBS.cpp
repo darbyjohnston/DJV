@@ -230,8 +230,8 @@ namespace djv
                             if (auto onPoint = ON_Point::Cast(onModelGeometryComponent->Geometry(nullptr)))
                             {
                                 auto newPrimitive = PointListPrimitive::create();
-                                AV::Geom::PointList pointList;
-                                pointList.v.push_back(fromON(*onPoint));
+                                auto pointList = std::shared_ptr<AV::Geom::PointList>(new AV::Geom::PointList);
+                                pointList->v.push_back(fromON(*onPoint));
                                 newPrimitive->setPointList(pointList);
                                 out = newPrimitive;
                             }
@@ -242,10 +242,10 @@ namespace djv
                                 if (onCurve->IsPolyline(&onPoints, &onParameters) >= 2)
                                 {
                                     auto newPrimitive = PolyLinePrimitive::create();
-                                    AV::Geom::PointList pointList;
+                                    auto pointList = std::shared_ptr<AV::Geom::PointList>(new AV::Geom::PointList);
                                     for (unsigned int i = 0; i < onPoints.Count(); ++i)
                                     {
-                                        pointList.v.push_back(fromON(onPoints[i]));
+                                        pointList->v.push_back(fromON(onPoints[i]));
                                     }
                                     newPrimitive->addPointList(pointList);
                                     out = newPrimitive;
@@ -377,7 +377,7 @@ namespace djv
                                 ON_wString onName;
                                 layer->setName(std::string(ON_String(onLayer->GetName(onName))));
                                 layer->setVisible(onLayer->IsVisible());
-                                layer->setColor(fromONColor4(onLayer->m_color));
+                                layer->setColor(fromONColor4(onLayer->Color()));
                                 data.onLayerToLayer[onLayer] = layer;
                                 if (onLayer->ParentIdIsNotNil())
                                 {

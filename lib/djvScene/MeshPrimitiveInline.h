@@ -39,11 +39,6 @@ namespace djv
             return std::shared_ptr<MeshPrimitive>(new MeshPrimitive);
         }
 
-        inline const std::vector<std::shared_ptr<AV::Geom::TriangleMesh> >& MeshPrimitive::getMeshes() const
-        {
-            return _meshes;
-        }
-
         inline void MeshPrimitive::addMesh(const std::shared_ptr<AV::Geom::TriangleMesh>& value)
         {
             _meshes.push_back(value);
@@ -63,6 +58,11 @@ namespace djv
         inline std::string MeshPrimitive::getClassName() const
         {
             return "MeshPrimitive";
+        }
+
+        inline const std::vector<std::shared_ptr<AV::Geom::TriangleMesh> >& MeshPrimitive::getMeshes() const
+        {
+            return _meshes;
         }
 
         inline size_t MeshPrimitive::getPointCount() const

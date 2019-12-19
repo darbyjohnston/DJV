@@ -39,42 +39,37 @@ namespace djv
             return std::shared_ptr<PolyLinePrimitive>(new PolyLinePrimitive);
         }
 
-        inline const std::vector<AV::Geom::PointList>& PolyLinePrimitive::getPointLists() const
-        {
-            return _pointLists;
-        }
-
-        inline void PolyLinePrimitive::setPointLists(const std::vector<AV::Geom::PointList>& value)
+        inline void PolyLinePrimitive::setPointLists(const std::vector<std::shared_ptr<AV::Geom::PointList> >& value)
         {
             _pointLists = value;
             _pointCount = 0;
             Core::BBox3f bbox = getBBox();
             for (const auto& i : _pointLists)
             {
-                auto j = i.v.begin();
-                if (j != i.v.end())
+                auto j = i->v.begin();
+                if (j != i->v.end())
                 {
                     bbox.min = bbox.max = *j++;
-                    for (; j != i.v.end(); ++j)
+                    for (; j != i->v.end(); ++j)
                     {
                         bbox.expand(*j);
                     }
                 }
-                _pointCount += i.v.size();
+                _pointCount += i->v.size();
             }
             setBBox(bbox);
         }
 
-        inline void PolyLinePrimitive::addPointList(const AV::Geom::PointList& value)
+        inline void PolyLinePrimitive::addPointList(const std::shared_ptr<AV::Geom::PointList>& value)
         {
             _pointLists.push_back(value);
-            _pointCount += value.v.size();
+            _pointCount += value->v.size();
             Core::BBox3f bbox = getBBox();
-            auto i = value.v.begin();
-            if (i != value.v.end())
+            auto i = value->v.begin();
+            if (i != value->v.end())
             {
                 bbox.min = bbox.max = *i++;
-                for (; i != value.v.end(); ++i)
+                for (; i != value->v.end(); ++i)
                 {
                     bbox.expand(*i);
                 }
@@ -90,6 +85,11 @@ namespace djv
         inline bool PolyLinePrimitive::isShaded() const
         {
             return false;
+        }
+
+        inline const std::vector<std::shared_ptr<AV::Geom::PointList> >& PolyLinePrimitive::getPolyLines() const
+        {
+            return _pointLists;
         }
 
         inline size_t PolyLinePrimitive::getPointCount() const

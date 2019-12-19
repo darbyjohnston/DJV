@@ -39,20 +39,15 @@ namespace djv
             return std::shared_ptr<PointListPrimitive>(new PointListPrimitive);
         }
 
-        inline const AV::Geom::PointList& PointListPrimitive::getPointList() const
-        {
-            return _pointList;
-        }
-
-        inline void  PointListPrimitive::setPointList(const AV::Geom::PointList& value)
+        inline void  PointListPrimitive::setPointList(const std::shared_ptr<AV::Geom::PointList>& value)
         {
             _pointList = value;
             Core::BBox3f bbox = getBBox();
-            auto i = _pointList.v.begin();
-            if (i != _pointList.v.end())
+            auto i = _pointList->v.begin();
+            if (i != _pointList->v.end())
             {
                 bbox.min = bbox.max = *i++;
-                for (; i != _pointList.v.end(); ++i)
+                for (; i != _pointList->v.end(); ++i)
                 {
                     bbox.expand(*i);
                 }
@@ -70,11 +65,15 @@ namespace djv
             return false;
         }
 
+        inline const std::shared_ptr<AV::Geom::PointList>& PointListPrimitive::getPointList() const
+        {
+            return _pointList;
+        }
+
         inline size_t PointListPrimitive::getPointCount() const
         {
-            return _pointList.v.size();
+            return _pointList->v.size();
         }
 
     } // namespace Scene
 } // namespace djv
-

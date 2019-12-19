@@ -44,12 +44,12 @@ namespace djv
             return out;
         }
 
-        void HemisphereLight::render(const glm::mat4x4& xform, const std::shared_ptr<AV::Render3D::Render>& render)
+        /*void HemisphereLight::render(const glm::mat4x4& xform, const std::shared_ptr<AV::Render3D::Render>& render)
         {
             if (isEnabled())
             {
             }
-        }
+        }*/
 
         std::shared_ptr<DirectionalLight> DirectionalLight::create()
         {
@@ -57,7 +57,7 @@ namespace djv
             return out;
         }
 
-        void DirectionalLight::render(const glm::mat4x4& xform, const std::shared_ptr<AV::Render3D::Render>& render)
+        /*void DirectionalLight::render(const glm::mat4x4& xform, const std::shared_ptr<AV::Render3D::Render>& render)
         {
             if (isEnabled())
             {
@@ -68,7 +68,7 @@ namespace djv
                 renderLight->setDirection(renderDirection - renderPosition);
                 render->addLight(renderLight);
             }
-        }
+        }*/
 
         std::shared_ptr<PointLight> PointLight::create()
         {
@@ -76,7 +76,7 @@ namespace djv
             return out;
         }
 
-        void PointLight::render(const glm::mat4x4& xform, const std::shared_ptr<AV::Render3D::Render>& render)
+        /*void PointLight::render(const glm::mat4x4& xform, const std::shared_ptr<AV::Render3D::Render>& render)
         {
             if (isEnabled())
             {
@@ -86,7 +86,7 @@ namespace djv
                 renderLight->setPosition(renderPosition);
                 render->addLight(renderLight);
             }
-        }
+        }*/
 
         std::shared_ptr<SpotLight> SpotLight::create()
         {
@@ -94,7 +94,7 @@ namespace djv
             return out;
         }
 
-        void SpotLight::render(const glm::mat4x4& xform, const std::shared_ptr<AV::Render3D::Render>& render)
+        /*void SpotLight::render(const glm::mat4x4& xform, const std::shared_ptr<AV::Render3D::Render>& render)
         {
             if (isEnabled())
             {
@@ -107,7 +107,7 @@ namespace djv
                 renderLight->setDirection(renderDirection - renderPosition);
                 render->addLight(renderLight);
             }
-        }
+        }*/
 
     } // namespace Scene
 } // namespace djv

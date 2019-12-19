@@ -38,6 +38,8 @@
 
 #include <djvAV/Render2D.h>
 
+#include <djvCore/Animation.h>
+
 using namespace djv::Core;
 
 namespace djv
@@ -48,6 +50,9 @@ namespace djv
         {
             namespace
             {
+                //! \todo Should this be configurable?
+                const size_t animationTime = 100;
+
                 class Button : public UI::Button::IButton
                 {
                     DJV_NON_COPYABLE(Button);
@@ -160,14 +165,106 @@ namespace djv
                     }
                 }
 
+                class ChildLayout : public Widget
+                {
+                    DJV_NON_COPYABLE(ChildLayout);
+
+                protected:
+                    void _init(const std::shared_ptr<Context>&);
+                    ChildLayout();
+
+                public:
+                    virtual ~ChildLayout();
+
+                    static std::shared_ptr<ChildLayout> create(const std::shared_ptr<Context>&);
+
+                    void setOpen(float);
+
+                    float getHeightForWidth(float) const override;
+
+                    void addChild(const std::shared_ptr<IObject>&) override;
+                    void removeChild(const std::shared_ptr<IObject>&) override;
+                    void clearChildren() override;
+
+                protected:
+                    void _preLayoutEvent(Event::PreLayout&) override;
+                    void _layoutEvent(Core::Event::Layout&) override;
+
+                private:
+                    float _open = 1.F;
+                    std::shared_ptr<StackLayout> _layout;
+                };
+
+                void ChildLayout::_init(const std::shared_ptr<Context>& context)
+                {
+                    Widget::_init(context);
+                    
+                    _layout = StackLayout::create(context);
+                    Widget::addChild(_layout);
+                }
+
+                ChildLayout::ChildLayout()
+                {}
+
+                ChildLayout::~ChildLayout()
+                {}
+
+                std::shared_ptr<ChildLayout> ChildLayout::create(const std::shared_ptr<Context>& context)
+                {
+                    auto out = std::shared_ptr<ChildLayout>(new ChildLayout);
+                    out->_init(context);
+                    return out;
+                }
+
+                void ChildLayout::setOpen(float value)
+                {
+                    _open = value;
+                    _resize();
+                }
+
+                float ChildLayout::getHeightForWidth(float value) const
+                {
+                    return _layout->getHeightForWidth(value) * _open;
+                }
+
+                void ChildLayout::addChild(const std::shared_ptr<IObject>& value)
+                {
+                    _layout->addChild(value);
+                }
+
+                void ChildLayout::removeChild(const std::shared_ptr<IObject>& value)
+                {
+                    _layout->removeChild(value);
+                }
+
+                void ChildLayout::clearChildren()
+                {
+                    _layout->clearChildren();
+                }
+
+                void ChildLayout::_preLayoutEvent(Event::PreLayout& event)
+                {
+                    glm::vec2 size = _layout->getMinimumSize();
+                    _setMinimumSize(glm::vec2(size.x, size.y * _open));
+                }
+
+                void ChildLayout::_layoutEvent(Event::Layout& event)
+                {
+                    const BBox2f& g = getGeometry();
+                    glm::vec2 size = _layout->getMinimumSize();
+                    _layout->setGeometry(BBox2f(g.min.x, g.min.y, g.w(), size.y));
+                }
+
             } // namespace
 
             struct Bellows::Private
             {
                 std::shared_ptr<Button> button;
                 std::shared_ptr<Layout::Spacer> spacer;
-                std::shared_ptr<StackLayout> childLayout;
+                std::shared_ptr<ChildLayout> childLayout;
                 std::shared_ptr<VerticalLayout> layout;
+                bool open = true;
+                std::shared_ptr<Animation::Animation> openAnimation;
                 std::function<void(bool)> openCallback;
             };
 
@@ -179,11 +276,13 @@ namespace djv
                 setClassName("djv::UI::Layout::Bellows");
                 setVAlign(VAlign::Top);
 
+                p.openAnimation = Animation::Animation::create(context);
+
                 p.button = Button::create(context);
 
                 p.spacer = Layout::Spacer::create(Orientation::Vertical, context);
                 
-                p.childLayout = StackLayout::create(context);
+                p.childLayout = ChildLayout::create(context);
                 p.childLayout->setShadowOverlay({ Side::Top });
                 p.childLayout->addChild(p.spacer);
 
@@ -244,9 +343,56 @@ namespace djv
             void Bellows::setOpen(bool value)
             {
                 DJV_PRIVATE_PTR();
-                p.button->setChecked(value);
-                p.button->setIcon(value ? "djvIconArrowSmallDown" : "djvIconArrowSmallRight");
+                if (value == p.open)
+                    return;
+                p.open = value;
                 _childrenUpdate();
+                auto weak = std::weak_ptr<Bellows>(std::dynamic_pointer_cast<Bellows>(shared_from_this()));
+                if (p.open)
+                {
+                    p.openAnimation->start(
+                        0.F,
+                        1.F,
+                        std::chrono::milliseconds(animationTime),
+                        [weak](float value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_p->childLayout->setOpen(value);
+                            }
+                        },
+                        [weak](float value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_p->childLayout->setOpen(value);
+                            }
+                        });
+                }
+                else
+                {
+                    p.openAnimation->start(
+                        1.F,
+                        0.F,
+                        std::chrono::milliseconds(animationTime),
+                        [weak](float value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_p->childLayout->setOpen(value);
+                                widget->_resize();
+                            }
+                        },
+                        [weak](float value)
+                        {
+                            if (auto widget = weak.lock())
+                            {
+                                widget->_p->childLayout->setOpen(value);
+                                widget->_resize();
+                            }
+                        });
+                }
+                _resize();
             }
 
             void Bellows::open()
@@ -279,6 +425,7 @@ namespace djv
             void Bellows::clearChildren()
             {
                 _p->childLayout->clearChildren();
+                _childrenUpdate();
             }
 
             float Bellows::getHeightForWidth(float value) const
@@ -299,8 +446,9 @@ namespace djv
             void Bellows::_childrenUpdate()
             {
                 DJV_PRIVATE_PTR();
+                p.button->setChecked(p.open);
+                p.button->setIcon(p.open ? "djvIconArrowSmallDown" : "djvIconArrowSmallRight");
                 p.spacer->setVisible(p.childLayout->getChildWidgets().size() == 1);
-                p.childLayout->setVisible(p.button->isChecked());
             }
 
         } // namespace Layout

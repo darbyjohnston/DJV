@@ -35,6 +35,7 @@
 #include <djvScene/Material.h>
 #include <djvScene/Scene.h>
 
+#include <djvAV/PointList.h>
 #include <djvAV/Render3D.h>
 #include <djvAV/Render3DCamera.h>
 #include <djvAV/Render3DLight.h>
@@ -70,14 +71,24 @@ namespace djv
             std::shared_ptr<AV::Render3D::IMaterial> defaultMaterial;
             std::list<glm::mat4x4> transforms;
             const glm::mat4x4 identity = glm::mat4x4(1.F);
-            struct Primitive
+            struct Key
             {
                 glm::mat4x4 transform = glm::mat4x4(1.F);
                 AV::Image::Color color;
                 std::shared_ptr<AV::Render3D::IMaterial> material;
-                std::shared_ptr<IPrimitive> primitive;
+
+                bool operator == (const Key& other) const
+                {
+                    return transform == other.transform &&
+                        color == other.color &&
+                        material == other.material;
+                }
             };
-            std::vector<Primitive> primitives;
+            typedef std::pair<Key, std::vector<std::shared_ptr<AV::Geom::TriangleMesh> > > TriangleMeshesKeyValue;
+            typedef std::pair<Key, std::vector<std::shared_ptr<AV::Geom::PointList> > > PointListsKeyValue;
+            std::vector<TriangleMeshesKeyValue> triangleMeshes;
+            std::vector<PointListsKeyValue> polyLines;
+            std::vector<PointListsKeyValue> pointLists;
             size_t primitivesCount = 0;
             size_t pointCount = 0;
             size_t lightCount = 0;
@@ -108,7 +119,9 @@ namespace djv
             
             p.materials.clear();
             p.transforms.clear();
-            p.primitives.clear();
+            p.triangleMeshes.clear();
+            p.polyLines.clear();
+            p.pointLists.clear();
             p.primitivesCount = 0;
             p.pointCount = 0;
             p.lightCount = 0;
@@ -179,11 +192,29 @@ namespace djv
 
                 // Render the primitives.
                 render->beginFrame(render3DOptions);
-                for (const auto& i : p.primitives)
+                for (const auto& i : p.triangleMeshes)
                 {
-                    render->setColor(i.color);
-                    render->setMaterial(i.material);
-                    i.primitive->render(i.transform, render);
+                    render->setColor(i.first.color);
+                    render->setMaterial(i.first.material);
+                    render->pushTransform(i.first.transform);
+                    render->drawTriangleMeshes(i.second);
+                    render->popTransform();
+                }
+                for (const auto& i : p.polyLines)
+                {
+                    render->setColor(i.first.color);
+                    render->setMaterial(i.first.material);
+                    render->pushTransform(i.first.transform);
+                    render->drawPolyLines(i.second);
+                    render->popTransform();
+                }
+                for (const auto& i : p.pointLists)
+                {
+                    render->setColor(i.first.color);
+                    render->setMaterial(i.first.material);
+                    render->pushTransform(i.first.transform);
+                    render->drawPoints(i.second);
+                    render->popTransform();
                 }
                 render->endFrame();
             }
@@ -276,6 +307,7 @@ namespace djv
 
             if (bool visible = primitive->isVisible())
             {
+                // Check whether the primitive's layer is visible.
                 auto layer = primitive->getLayer().lock();
                 while (layer)
                 {
@@ -292,8 +324,7 @@ namespace djv
 
                 if (visible)
                 {
-                    p.primitivesCount = p.primitivesCount + 1;
-
+                    // Get the material.
                     std::shared_ptr<AV::Render3D::IMaterial> renderMaterial;
                     if (auto material = _getMaterial(primitive))
                     {
@@ -309,30 +340,90 @@ namespace djv
                         }
                     }
 
+                    // Setup the transform.
                     if (!primitive->isXFormIdentity())
                     {
                         _pushTransform(primitive->getXForm());
                     }
                     const auto& currentTransform = _getCurrentTransform();
 
-                    Private::Primitive pPrimitive;
-                    pPrimitive.color = _getColor(primitive);
-                    pPrimitive.material = renderMaterial ? renderMaterial : (primitive->isShaded() ? p.defaultMaterial : p.colorMaterial);
-                    pPrimitive.transform = currentTransform;
-                    pPrimitive.primitive = primitive;
-                    p.primitives.push_back(pPrimitive);
-                    p.primitivesCount += 1;
-                    p.pointCount += primitive->getPointCount();
+                    // Get the primitive's triangle meshes.
+                    Private::Key key;
+                    key.color = _getColor(primitive);
+                    key.material = renderMaterial ? renderMaterial : (primitive->isShaded() ? p.defaultMaterial : p.colorMaterial);
+                    key.transform = currentTransform;
+                    {
+                        const auto j = std::find_if(
+                            p.triangleMeshes.begin(),
+                            p.triangleMeshes.end(),
+                            [key](const Private::TriangleMeshesKeyValue& value)
+                            {
+                                return key == value.first;
+                            });
+                        if (j != p.triangleMeshes.end())
+                        {
+                            const auto& meshes = primitive->getMeshes();
+                            j->second.insert(j->second.end(), meshes.begin(), meshes.end());
+                        }
+                        else
+                        {
+                            p.triangleMeshes.push_back(std::make_pair(key, primitive->getMeshes()));
+                        }
+                    }
 
+                    // Get the primitive's poly-lines.
+                    {
+                        const auto j = std::find_if(
+                            p.polyLines.begin(),
+                            p.polyLines.end(),
+                            [key](const Private::PointListsKeyValue& value)
+                            {
+                                return key == value.first;
+                            });
+                        if (j != p.polyLines.end())
+                        {
+                            const auto& pointLists = primitive->getPolyLines();
+                            j->second.insert(j->second.end(), pointLists.begin(), pointLists.end());
+                        }
+                        else
+                        {
+                            p.polyLines.push_back(std::make_pair(key, primitive->getPolyLines()));
+                        }
+                    }
+
+                    // Get the primitive's points.
+                    {
+                        const auto j = std::find_if(
+                            p.pointLists.begin(),
+                            p.pointLists.end(),
+                            [key](const Private::PointListsKeyValue& value)
+                            {
+                                return key == value.first;
+                            });
+                        if (j != p.pointLists.end())
+                        {
+                            j->second.push_back(primitive->getPointList());
+                        }
+                        else
+                        {
+                            p.pointLists.push_back(Private::PointListsKeyValue(key, { primitive->getPointList() }));
+                        }
+                    }
+
+                    // Recurse.
                     for (const auto& i : primitive->getPrimitives())
                     {
                         _prePass(i, context);
                     }
 
+                    // Restore the transform.
                     if (!primitive->isXFormIdentity())
                     {
                         _popTransform();
                     }
+
+                    p.primitivesCount += 1;
+                    p.pointCount += primitive->getPointCount();
                 }
             }
         }

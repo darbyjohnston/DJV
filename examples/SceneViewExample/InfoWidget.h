@@ -31,9 +31,10 @@
 
 #include "ISettingsWidget.h"
 
+#include <djvUI/Bellows.h>
 #include <djvUI/FormLayout.h>
+#include <djvUI/GroupBox.h>
 #include <djvUI/Label.h>
-#include <djvUI/TextBlock.h>
 
 class InfoWidget : public ISettingsWidget
 {
@@ -63,12 +64,7 @@ private:
     size_t _primitivesCount = 0;
     size_t _pointCount = 0;
     float _fps = 0.F;
-    std::shared_ptr<djv::UI::TextBlock> _sceneSizeTextBlock;
-    std::shared_ptr<djv::UI::TextBlock> _sceneXRangeTextBlock;
-    std::shared_ptr<djv::UI::TextBlock> _sceneYRangeTextBlock;
-    std::shared_ptr<djv::UI::TextBlock> _sceneZRangeTextBlock;
-    std::shared_ptr<djv::UI::Label> _primitivesCountLabel;
-    std::shared_ptr<djv::UI::Label> _pointCountLabel;
-    std::shared_ptr<djv::UI::Label> _fpsLabel;
-    std::shared_ptr<djv::UI::FormLayout> _formLayout;
+    std::map<std::string, std::shared_ptr<djv::UI::Label> > _labels;
+    std::map<std::string, std::shared_ptr<djv::UI::FormLayout> > _layouts;
+    std::map<std::string, std::shared_ptr<djv::UI::Bellows> > _bellows;
 };

@@ -166,6 +166,10 @@ namespace djv
             const BBox2f & g = getMargin().bbox(getGeometry(), style);
             const glm::vec2 c = g.getCenter();
 
+            auto render = _getRender();
+            //render->setFillColor(AV::Image::Color(1.F, 0.F, 0.f));
+            //render->drawRect(g);
+
             // Draw the icon.
             if (p.image && p.image->isValid())
             {

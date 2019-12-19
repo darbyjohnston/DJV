@@ -29,6 +29,8 @@
 
 #include "CameraWidget.h"
 
+#include <djvUI/RowLayout.h>
+
 using namespace djv;
 
 namespace
@@ -45,69 +47,88 @@ void CameraWidget::_init(const std::shared_ptr<Core::Context>& context)
     auto model = _floatEdits["FOV"]->getModel();
     model->setSmallIncrement(1.F);
     model->setLargeIncrement(10.F);
+    _layouts["Lens"] = UI::FormLayout::create(context);
+    _layouts["Lens"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+    _layouts["Lens"]->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+    _layouts["Lens"]->addChild(_floatEdits["FOV"]);
+    _bellows["Lens"] = UI::Bellows::create(context);
+    _bellows["Lens"]->addChild(_layouts["Lens"]);
 
-    _floatEdits["NearClip"] = UI::FloatEdit::create(context);
-    _floatEdits["NearClip"]->setRange(Core::FloatRange(.001F, posMax));
-    _floatEdits["NearClip"]->setPrecision(3);
-    model = _floatEdits["NearClip"]->getModel();
+    _floatEdits["ClippingNear"] = UI::FloatEdit::create(context);
+    _floatEdits["ClippingNear"]->setRange(Core::FloatRange(.001F, posMax));
+    _floatEdits["ClippingNear"]->setPrecision(3);
+    model = _floatEdits["ClippingNear"]->getModel();
     model->setSmallIncrement(1.F);
     model->setLargeIncrement(10.F);
-    _floatEdits["FarClip"] = UI::FloatEdit::create(context);
-    _floatEdits["FarClip"]->setRange(Core::FloatRange(.001F, posMax));
-    _floatEdits["FarClip"]->setPrecision(3);
-    model = _floatEdits["FarClip"]->getModel();
+    _floatEdits["ClippingFar"] = UI::FloatEdit::create(context);
+    _floatEdits["ClippingFar"]->setRange(Core::FloatRange(.001F, posMax));
+    _floatEdits["ClippingFar"]->setPrecision(3);
+    model = _floatEdits["ClippingFar"]->getModel();
     model->setSmallIncrement(1.F);
     model->setLargeIncrement(10.F);
+    _layouts["Clipping"] = UI::FormLayout::create(context);
+    _layouts["Clipping"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+    _layouts["Clipping"]->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+    _layouts["Clipping"]->addChild(_floatEdits["ClippingNear"]);
+    _layouts["Clipping"]->addChild(_floatEdits["ClippingFar"]);
+    _bellows["Clipping"] = UI::Bellows::create(context);
+    _bellows["Clipping"]->addChild(_layouts["Clipping"]);
 
     _floatEdits["TargetX"] = UI::FloatEdit::create(context);
     _floatEdits["TargetX"]->setRange(Core::FloatRange(-posMax, posMax));
     model = _floatEdits["TargetX"]->getModel();
     model->setSmallIncrement(1.F);
     model->setLargeIncrement(10.F);
-
     _floatEdits["TargetY"] = UI::FloatEdit::create(context);
     _floatEdits["TargetY"]->setRange(Core::FloatRange(-posMax, posMax));
     model = _floatEdits["TargetY"]->getModel();
     model->setSmallIncrement(1.F);
     model->setLargeIncrement(10.F);
-
     _floatEdits["TargetZ"] = UI::FloatEdit::create(context);
     _floatEdits["TargetZ"]->setRange(Core::FloatRange(-posMax, posMax));
     model = _floatEdits["TargetZ"]->getModel();
     model->setSmallIncrement(1.F);
     model->setLargeIncrement(10.F);
+    _layouts["Target"] = UI::FormLayout::create(context);
+    _layouts["Target"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+    _layouts["Target"]->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+    _layouts["Target"]->addChild(_floatEdits["TargetX"]);
+    _layouts["Target"]->addChild(_floatEdits["TargetY"]);
+    _layouts["Target"]->addChild(_floatEdits["TargetZ"]);
+    _bellows["Target"] = UI::Bellows::create(context);
+    _bellows["Target"]->addChild(_layouts["Target"]);
 
-    _floatEdits["Distance"] = UI::FloatEdit::create(context);
-    _floatEdits["Distance"]->setRange(Core::FloatRange(1.F, posMax));
-    model = _floatEdits["Distance"]->getModel();
+    _floatEdits["PositionDistance"] = UI::FloatEdit::create(context);
+    _floatEdits["PositionDistance"]->setRange(Core::FloatRange(1.F, posMax));
+    model = _floatEdits["PositionDistance"]->getModel();
     model->setSmallIncrement(1.F);
     model->setLargeIncrement(10.F);
-
-    _floatEdits["Latitude"] = UI::FloatEdit::create(context);
-    _floatEdits["Latitude"]->setRange(Core::FloatRange(-89.F, 89.F));
-    model = _floatEdits["Latitude"]->getModel();
+    _floatEdits["PositionLatitude"] = UI::FloatEdit::create(context);
+    _floatEdits["PositionLatitude"]->setRange(Core::FloatRange(-89.F, 89.F));
+    model = _floatEdits["PositionLatitude"]->getModel();
     model->setSmallIncrement(1.F);
     model->setLargeIncrement(10.F);
-
-    _floatEdits["Longitutde"] = UI::FloatEdit::create(context);
-    _floatEdits["Longitutde"]->setRange(Core::FloatRange(0.F, 360.F));
-    model = _floatEdits["Longitutde"]->getModel();
+    _floatEdits["PositionLongitude"] = UI::FloatEdit::create(context);
+    _floatEdits["PositionLongitude"]->setRange(Core::FloatRange(0.F, 360.F));
+    model = _floatEdits["PositionLongitude"]->getModel();
     model->setSmallIncrement(1.F);
     model->setLargeIncrement(10.F);
+    _layouts["Position"] = UI::FormLayout::create(context);
+    _layouts["Position"]->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
+    _layouts["Position"]->setSpacing(UI::Layout::Spacing(UI::MetricsRole::SpacingSmall));
+    _layouts["Position"]->addChild(_floatEdits["PositionDistance"]);
+    _layouts["Position"]->addChild(_floatEdits["PositionLatitude"]);
+    _layouts["Position"]->addChild(_floatEdits["PositionLongitude"]);
+    _bellows["Position"] = UI::Bellows::create(context);
+    _bellows["Position"]->addChild(_layouts["Position"]);
 
-    _formLayout = UI::FormLayout::create(context);
-    _formLayout->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
-    _formLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
-    _formLayout->addChild(_floatEdits["FOV"]);
-    _formLayout->addChild(_floatEdits["NearClip"]);
-    _formLayout->addChild(_floatEdits["FarClip"]);
-    _formLayout->addChild(_floatEdits["TargetX"]);
-    _formLayout->addChild(_floatEdits["TargetY"]);
-    _formLayout->addChild(_floatEdits["TargetZ"]);
-    _formLayout->addChild(_floatEdits["Distance"]);
-    _formLayout->addChild(_floatEdits["Latitude"]);
-    _formLayout->addChild(_floatEdits["Longitutde"]);
-    addChild(_formLayout);
+    auto layout = UI::VerticalLayout::create(context);
+    layout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
+    layout->addChild(_bellows["Lens"]);
+    layout->addChild(_bellows["Clipping"]);
+    layout->addChild(_bellows["Target"]);
+    layout->addChild(_bellows["Position"]);
+    addChild(layout);
 
     _widgetUpdate();
 
@@ -125,7 +146,7 @@ void CameraWidget::_init(const std::shared_ptr<Core::Context>& context)
             }
         });
 
-    _floatEdits["NearClip"]->setValueCallback(
+    _floatEdits["ClippingNear"]->setValueCallback(
         [weak](float value, UI::TextEditReason)
         {
             if (auto widget = weak.lock())
@@ -137,7 +158,7 @@ void CameraWidget::_init(const std::shared_ptr<Core::Context>& context)
                 }
             }
         });
-    _floatEdits["FarClip"]->setValueCallback(
+    _floatEdits["ClippingFar"]->setValueCallback(
         [weak](float value, UI::TextEditReason)
         {
             if (auto widget = weak.lock())
@@ -189,7 +210,7 @@ void CameraWidget::_init(const std::shared_ptr<Core::Context>& context)
             }
         });
 
-    _floatEdits["Distance"]->setValueCallback(
+    _floatEdits["PositionDistance"]->setValueCallback(
         [weak](float value, UI::TextEditReason)
         {
             if (auto widget = weak.lock())
@@ -202,7 +223,7 @@ void CameraWidget::_init(const std::shared_ptr<Core::Context>& context)
             }
         });
 
-    _floatEdits["Latitude"]->setValueCallback(
+    _floatEdits["PositionLatitude"]->setValueCallback(
         [weak](float value, UI::TextEditReason)
         {
             if (auto widget = weak.lock())
@@ -215,7 +236,7 @@ void CameraWidget::_init(const std::shared_ptr<Core::Context>& context)
             }
         });
 
-    _floatEdits["Longitutde"]->setValueCallback(
+    _floatEdits["PositionLongitude"]->setValueCallback(
         [weak](float value, UI::TextEditReason)
         {
             if (auto widget = weak.lock())
@@ -256,26 +277,30 @@ void CameraWidget::setCameraDataCallback(const std::function<void(const Scene::P
 void CameraWidget::_initEvent(Core::Event::Init&)
 {
     setTitle(_getText(DJV_TEXT("Camera")));
-    _formLayout->setText(_floatEdits["FOV"], _getText(DJV_TEXT("FOV")) + ":");
-    _formLayout->setText(_floatEdits["NearClip"], _getText(DJV_TEXT("Near clip")) + ":");
-    _formLayout->setText(_floatEdits["FarClip"], _getText(DJV_TEXT("Far clip")) + ":");
-    _formLayout->setText(_floatEdits["TargetX"], _getText(DJV_TEXT("Target X")) + ":");
-    _formLayout->setText(_floatEdits["TargetY"], _getText(DJV_TEXT("Target Y")) + ":");
-    _formLayout->setText(_floatEdits["TargetZ"], _getText(DJV_TEXT("Target Z")) + ":");
-    _formLayout->setText(_floatEdits["Distance"], _getText(DJV_TEXT("Distance")) + ":");
-    _formLayout->setText(_floatEdits["Latitude"], _getText(DJV_TEXT("Latitude")) + ":");
-    _formLayout->setText(_floatEdits["Longitutde"], _getText(DJV_TEXT("Longitude")) + ":");
+    _layouts["Lens"]->setText(_floatEdits["FOV"], _getText(DJV_TEXT("FOV")) + ":");
+    _layouts["Clipping"]->setText(_floatEdits["ClippingNear"], _getText(DJV_TEXT("Near")) + ":");
+    _layouts["Clipping"]->setText(_floatEdits["ClippingFar"], _getText(DJV_TEXT("Far")) + ":");
+    _layouts["Target"]->setText(_floatEdits["TargetX"], _getText(DJV_TEXT("X")) + ":");
+    _layouts["Target"]->setText(_floatEdits["TargetY"], _getText(DJV_TEXT("Y")) + ":");
+    _layouts["Target"]->setText(_floatEdits["TargetZ"], _getText(DJV_TEXT("Z")) + ":");
+    _layouts["Position"]->setText(_floatEdits["PositionDistance"], _getText(DJV_TEXT("Distance")) + ":");
+    _layouts["Position"]->setText(_floatEdits["PositionLatitude"], _getText(DJV_TEXT("Latitude")) + ":");
+    _layouts["Position"]->setText(_floatEdits["PositionLongitude"], _getText(DJV_TEXT("Longitude")) + ":");
+    _bellows["Lens"]->setText(_getText(DJV_TEXT("Lens")));
+    _bellows["Clipping"]->setText(_getText(DJV_TEXT("Clipping")));
+    _bellows["Target"]->setText(_getText(DJV_TEXT("Target")));
+    _bellows["Position"]->setText(_getText(DJV_TEXT("Position")));
 }
 
 void CameraWidget::_widgetUpdate()
 {
     _floatEdits["FOV"]->setValue(_cameraData.fov);
-    _floatEdits["NearClip"]->setValue(_cameraData.clip.min);
-    _floatEdits["FarClip"]->setValue(_cameraData.clip.max);
+    _floatEdits["ClippingNear"]->setValue(_cameraData.clip.min);
+    _floatEdits["ClippingFar"]->setValue(_cameraData.clip.max);
     _floatEdits["TargetX"]->setValue(_cameraData.target.x);
     _floatEdits["TargetY"]->setValue(_cameraData.target.y);
     _floatEdits["TargetZ"]->setValue(_cameraData.target.z);
-    _floatEdits["Distance"]->setValue(_cameraData.distance);
-    _floatEdits["Latitude"]->setValue(_cameraData.latitude);
-    _floatEdits["Longitutde"]->setValue(_cameraData.longitude);
+    _floatEdits["PositionDistance"]->setValue(_cameraData.distance);
+    _floatEdits["PositionLatitude"]->setValue(_cameraData.latitude);
+    _floatEdits["PositionLongitude"]->setValue(_cameraData.longitude);
 }

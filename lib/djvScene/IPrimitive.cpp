@@ -35,6 +35,10 @@ namespace djv
 {
     namespace Scene
     {
+        std::vector<std::shared_ptr<AV::Geom::TriangleMesh> > IPrimitive::_meshesDummy;
+        std::vector<std::shared_ptr<AV::Geom::PointList> > IPrimitive::_polyLinesDummy;
+        std::shared_ptr<AV::Geom::PointList> IPrimitive::_pointListDummy;
+
         void IPrimitive::addChild(const std::shared_ptr<IPrimitive>& value)
         {
             if (auto prevParent = value->getParent().lock())
@@ -62,14 +66,6 @@ namespace djv
                 i->_parent.reset();
             }
             _children.clear();
-        }
-
-        void IPrimitive::render(const glm::mat4x4&, const std::shared_ptr<AV::Render3D::Render>&)
-        {}
-
-        size_t IPrimitive::getPointCount() const
-        {
-            return 0;
         }
 
     } // namespace Scene

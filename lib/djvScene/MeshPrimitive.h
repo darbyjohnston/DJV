@@ -48,11 +48,10 @@ namespace djv
         public:
             static std::shared_ptr<MeshPrimitive> create();
 
-            const std::vector<std::shared_ptr<AV::Geom::TriangleMesh> >& getMeshes() const;
             void addMesh(const std::shared_ptr<AV::Geom::TriangleMesh>&);
 
             std::string getClassName() const override;
-            void render(const glm::mat4x4&, const std::shared_ptr<AV::Render3D::Render>&) override;
+            const std::vector<std::shared_ptr<AV::Geom::TriangleMesh> >& getMeshes() const override;
             size_t getPointCount() const override;
 
         private:

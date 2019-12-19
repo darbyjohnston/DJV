@@ -48,17 +48,16 @@ namespace djv
         public:
             static std::shared_ptr<PolyLinePrimitive> create();
 
-            const std::vector<AV::Geom::PointList>& getPointLists() const;
-            void setPointLists(const std::vector<AV::Geom::PointList>&);
-            void addPointList(const AV::Geom::PointList&);
+            void setPointLists(const std::vector<std::shared_ptr<AV::Geom::PointList> >&);
+            void addPointList(const std::shared_ptr<AV::Geom::PointList>&);
 
             std::string getClassName() const override;
             bool isShaded() const override;
-            void render(const glm::mat4x4&, const std::shared_ptr<AV::Render3D::Render>&) override;
+            const std::vector<std::shared_ptr<AV::Geom::PointList> >& getPolyLines() const override;
             size_t getPointCount() const override;
 
         private:
-            std::vector<AV::Geom::PointList> _pointLists;
+            std::vector<std::shared_ptr<AV::Geom::PointList> > _pointLists;
             size_t _pointCount = 0;
         };
 
