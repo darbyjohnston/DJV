@@ -1,6 +1,6 @@
 #!/bin/sh
 
-for gcno in `find $PWD -name "*.gcno"`
+for gcno in `find $PWD -name "*.gcno" -and \( -not -name "CMakeC*CompilerId.gcno" \)`
 do
     #echo $gcno
     srcName=`basename -s .gcno $gcno`

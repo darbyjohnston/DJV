@@ -330,7 +330,7 @@ namespace djv
                 p.shader->setUniform("color", color);
                 p.shader->setUniform("textureSampler", 0);
                                 
-                auto vbo = AV::OpenGL::VBO::create(2, 4, AV::OpenGL::VBOType::Pos2_F32_UV_U16);
+                auto vbo = AV::OpenGL::VBO::create(2 * 4, AV::OpenGL::VBOType::Pos2_F32_UV_U16);
                 std::vector<uint8_t> vboData(6 * (2 * 4 + 2 * 2));
                 struct Data
                 {
@@ -372,7 +372,7 @@ namespace djv
                 ++vboP;
                 vbo->copy(vboData);
                 auto vao = AV::OpenGL::VAO::create(AV::OpenGL::VBOType::Pos2_F32_UV_U16, vbo->getID());
-                vao->draw(0, 6);
+                vao->draw(GL_TRIANGLES, 0, 6);
 #else // DJV_OPENGL_ES2
                 glBindFramebuffer(GL_READ_FRAMEBUFFER, p.offscreenBuffer->getID());
                 glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
