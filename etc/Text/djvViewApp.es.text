@@ -13,7 +13,7 @@
     }, 
     {
         "source": "cannot open", 
-        "text": "no puedo abrir", 
+        "text": "no se puedo abrir", 
         "id": "cannot open", 
         "description": ""
     }, 
@@ -49,7 +49,7 @@
     }, 
     {
         "source": "Mute", 
-        "text": "Mudo", 
+        "text": "Silenciar", 
         "id": "Mute", 
         "description": ""
     }, 
@@ -139,13 +139,13 @@
     }, 
     {
         "source": "Grab", 
-        "text": "Agarrar", 
+        "text": "Mover", 
         "id": "Grab", 
         "description": ""
     }, 
     {
         "source": "Key grab", 
-        "text": "Agarre clave", 
+        "text": "Mover clave", 
         "id": "Key grab", 
         "description": ""
     }, 
@@ -229,7 +229,7 @@
     }, 
     {
         "source": "Render", 
-        "text": "Hacer", 
+        "text": "Procesar", 
         "id": "Render", 
         "description": ""
     }, 
@@ -247,7 +247,7 @@
     }, 
     {
         "source": "File", 
-        "text": "Expediente", 
+        "text": "Archivo", 
         "id": "File", 
         "description": ""
     }, 
@@ -331,7 +331,7 @@
     }, 
     {
         "source": "Play Once", 
-        "text": "Jugar una vez", 
+        "text": "Reproducir una vez", 
         "id": "Play Once", 
         "description": ""
     }, 
@@ -343,7 +343,7 @@
     }, 
     {
         "source": "Loop", 
-        "text": "Lazo", 
+        "text": "Bucle", 
         "id": "Loop", 
         "description": ""
     }, 
@@ -367,13 +367,13 @@
     }, 
     {
         "source": "Play Every Frame", 
-        "text": "Jugar cada cuadro", 
+        "text": "Reproducir cada fotograma", 
         "id": "Play Every Frame", 
         "description": ""
     }, 
     {
         "source": "Play every frame even if the proper speed cannot be maintained", 
-        "text": "Juega cada cuadro incluso si no se puede mantener la velocidad adecuada", 
+        "text": "Reproduce cada fotograma incluso si no se puede mantener la velocidad adecuada", 
         "id": "Play every frame tooltip", 
         "description": ""
     }, 
@@ -403,25 +403,25 @@
     }, 
     {
         "source": "Go to Start Frame", 
-        "text": "Ir al cuadro de inicio", 
+        "text": "Ir al fotograma de inicio", 
         "id": "Go to Start Frame", 
         "description": ""
     }, 
     {
         "source": "Go to the start frame", 
-        "text": "Ir al cuadro de inicio", 
+        "text": "Ir al fotograma de inicio", 
         "id": "Go to start frame tooltip", 
         "description": ""
     }, 
     {
         "source": "Go to End Frame", 
-        "text": "Ir al cuadro final", 
+        "text": "Ir al fotograma final", 
         "id": "Go to End Frame", 
         "description": ""
     }, 
     {
         "source": "Go to the end frame", 
-        "text": "Ir al cuadro final", 
+        "text": "Ir al fotograma final", 
         "id": "Go to end frame tooltip", 
         "description": ""
     }, 
@@ -433,7 +433,7 @@
     }, 
     {
         "source": "Go to the next frame", 
-        "text": "Ir al siguiente cuadro", 
+        "text": "Ir al siguiente fotograma", 
         "id": "Next frame tooltip", 
         "description": ""
     }, 
@@ -445,7 +445,7 @@
     }, 
     {
         "source": "Skip forward 10 frames", 
-        "text": "Saltar hacia adelante 10 cuadros", 
+        "text": "Saltar hacia adelante 10 fotogramas", 
         "id": "Next frame X10 tooltip", 
         "description": ""
     }, 
@@ -457,43 +457,43 @@
     }, 
     {
         "source": "Skip forward 100 frames", 
-        "text": "Saltar hacia adelante 100 cuadros", 
+        "text": "Saltar hacia adelante 100 fotogramas", 
         "id": "Next frame X100 tooltip", 
         "description": ""
     }, 
     {
         "source": "Previous Frame", 
-        "text": "Marco anterior", 
+        "text": "Fotograma anterior", 
         "id": "Previous Frame", 
         "description": ""
     }, 
     {
         "source": "Go to the previous frame", 
-        "text": "Ir al cuadro anterior", 
+        "text": "Ir al fotograma anterior", 
         "id": "Previous frame tooltip", 
         "description": ""
     }, 
     {
         "source": "Previous Frame X10", 
-        "text": "Marco anterior X10", 
+        "text": "Fotograma anterior X10", 
         "id": "Previous Frame X10", 
         "description": ""
     }, 
     {
         "source": "Skip backwards 10 frames", 
-        "text": "Saltar hacia atr\u00e1s 10 cuadros", 
+        "text": "Saltar hacia atr\u00e1s 10 fotogramas", 
         "id": "Previous frame X10 tooltip", 
         "description": ""
     }, 
     {
         "source": "Previous Frame X100", 
-        "text": "Marco anterior X100", 
+        "text": "Fotograma anterior X100", 
         "id": "Previous Frame X100", 
         "description": ""
     }, 
     {
         "source": "Skip backwards 100 frames", 
-        "text": "Salta hacia atr\u00e1s 100 cuadros", 
+        "text": "Salta hacia atr\u00e1s 100 fotogramas", 
         "id": "Previous frame X100 tooltip", 
         "description": ""
     }, 
@@ -571,7 +571,7 @@
     }, 
     {
         "source": "Open", 
-        "text": "Abierto", 
+        "text": "Abrir", 
         "id": "Open", 
         "description": ""
     }, 
@@ -619,7 +619,7 @@
     }, 
     {
         "source": "Close All", 
-        "text": "Cierra todo", 
+        "text": "Cerrar todo", 
         "id": "Close All", 
         "description": ""
     }, 
@@ -721,7 +721,7 @@
     }, 
     {
         "source": "Exit", 
-        "text": "Salida", 
+        "text": "Salir", 
         "id": "Exit", 
         "description": ""
     }, 
@@ -811,7 +811,7 @@
     }, 
     {
         "source": "Play every frame", 
-        "text": "Juega cada cuadro", 
+        "text": "Juega cada fotograma", 
         "id": "Play every frame", 
         "description": ""
     }, 
@@ -847,7 +847,7 @@
     }, 
     {
         "source": "Size", 
-        "text": "tama\u00f1o", 
+        "text": "Tama\u00f1o", 
         "id": "Size", 
         "description": ""
     }, 
@@ -931,7 +931,7 @@
     }, 
     {
         "source": "Zoom into the image", 
-        "text": "Zoom en la imagen", 
+        "text": "Ajustar a la imagen", 
         "id": "Magnify zoom in tooltip", 
         "description": ""
     }, 
@@ -1039,13 +1039,13 @@
     }, 
     {
         "source": "Copy", 
-        "text": "Dupdo", 
+        "text": "Copia", 
         "id": "Copy", 
         "description": ""
     }, 
     {
         "source": "Clear", 
-        "text": "Claro", 
+        "text": "Limpiar", 
         "id": "Clear", 
         "description": ""
     }, 
@@ -1147,7 +1147,7 @@
     }, 
     {
         "source": "Sponsors", 
-        "text": "Los patrocinadores", 
+        "text": "Patrocinadores", 
         "id": "Sponsors", 
         "description": ""
     }, 
@@ -1165,7 +1165,7 @@
     }, 
     {
         "source": "Third Party Software", 
-        "text": "Software de terceros", 
+        "text": "Programas de terceros", 
         "id": "Third Party", 
         "description": ""
     }, 
@@ -1225,7 +1225,7 @@
     }, 
     {
         "source": "unexpected GmbH, https://www.unexpected.de", 
-        "text": "inesperado GmbH, https://www.unexpected.de", 
+        "text": "unexpected GmbH, https://www.unexpected.de", 
         "id": "Sponsors unexpected", 
         "description": ""
     }, 
@@ -1363,7 +1363,7 @@
     }, 
     {
         "source": "* glad, http://github.com/Dav1dde/glad, Copyright (c) 2013-2018 David Herberth", 
-        "text": "* contento, http://github.com/Dav1dde/glad, Copyright (c) 2013-2018 David Herberth", 
+        "text": "* glad, http://github.com/Dav1dde/glad, Copyright (c) 2013-2018 David Herberth", 
         "id": "Third Party glad", 
         "description": ""
     }, 
@@ -1543,7 +1543,7 @@
     }, 
     {
         "source": "Fit", 
-        "text": "Ajuste", 
+        "text": "Ajustar", 
         "id": "Fit", 
         "description": ""
     }, 
@@ -1681,7 +1681,7 @@
     }, 
     {
         "source": "Premultiplied Alpha", 
-        "text": "Alfa premultiplicada", 
+        "text": "Alfa premultiplicado", 
         "id": "Premultiplied Alpha", 
         "description": ""
     }, 
@@ -1807,25 +1807,25 @@
     }, 
     {
         "source": "Frame Store", 
-        "text": "Tienda de cuadros", 
+        "text": "Archivo de fotogramas", 
         "id": "Frame Store", 
         "description": ""
     }, 
     {
         "source": "Show the frame store", 
-        "text": "Mostrar la tienda de cuadros", 
+        "text": "Mostrar el archivo de fotogramas", 
         "id": "Frame store tooltip", 
         "description": ""
     }, 
     {
         "source": "Load Frame Store", 
-        "text": "Cargar marco de tienda", 
+        "text": "Cargar fotograma del archivo", 
         "id": "Load Frame Store", 
         "description": ""
     }, 
     {
         "source": "Load the current frame into the frame store", 
-        "text": "Cargue el marco actual en el almac\u00e9n de marcos", 
+        "text": "Cargue el fotograma actual en la archivo de fotogramas", 
         "id": "Load frame store tooltip", 
         "description": ""
     }, 
@@ -2107,7 +2107,7 @@
     }, 
     {
         "source": "frames", 
-        "text": "marcos", 
+        "text": "fotogramas", 
         "description": "", 
         "id": "frames"
     }, 
@@ -2131,13 +2131,13 @@
     }, 
     {
         "source": "Set the view so the image fills the window", 
-        "text": "Configure la vista para que la imagen llene la ventana", 
+        "text": "Configure la vista para que la imagen rellene la ventana", 
         "description": "", 
         "id": "Full view tooltip"
     }, 
     {
         "source": "Frame", 
-        "text": "Marco", 
+        "text": "Fotograma", 
         "description": "", 
         "id": "Frame"
     }, 
@@ -2167,7 +2167,7 @@
     }, 
     {
         "source": "Lock Frame", 
-        "text": "Marco de bloqueo", 
+        "text": "Fotograma de bloqueo", 
         "description": "", 
         "id": "Lock Frame"
     }, 
@@ -2245,7 +2245,7 @@
     }, 
     {
         "source": "Fill", 
-        "text": "Llenar", 
+        "text": "Rellenar", 
         "id": "Fill", 
         "description": ""
     }, 
@@ -2257,7 +2257,7 @@
     }, 
     {
         "source": "Popup", 
-        "text": "Surgir", 
+        "text": "Flotante", 
         "id": "Popup", 
         "description": ""
     }, 
@@ -2293,7 +2293,7 @@
     }, 
     {
         "source": "No Alpha", 
-        "text": "No alfa", 
+        "text": "Sin alfa", 
         "id": "No Alpha", 
         "description": ""
     }, 
@@ -2335,7 +2335,7 @@
     }, 
     {
         "source": "The current frame", 
-        "text": "El marco actual", 
+        "text": "El fotograma actual", 
         "id": "Current frame tooltip", 
         "description": ""
     }, 
@@ -2371,7 +2371,7 @@
     }, 
     {
         "source": "Automatically start playback", 
-        "text": "Iniciar autom\u00e1ticamente la reproducci\u00f3n", 
+        "text": "Iniciar la reproducci\u00f3n autom\u00e1ticamente", 
         "id": "Automatically start playback", 
         "description": ""
     }, 
@@ -2383,7 +2383,7 @@
     }, 
     {
         "source": "Playback every frame", 
-        "text": "Reproduzca cada cuadro", 
+        "text": "Reproduzca cada fotograma", 
         "id": "Playback every frame", 
         "description": ""
     }, 
@@ -2547,7 +2547,7 @@
         "id": "Color picker copy tooltip", 
         "source": "Copy the values to the clipboard", 
         "description": "", 
-        "text": "Copie los valores al portapapeles"
+        "text": "Copiar los valores al portapapeles"
     }, 
     {
         "id": "Cannot sample color", 
@@ -2595,19 +2595,19 @@
         "id": "Fill lock view tooltip", 
         "source": "Fill the view with the image (locked)", 
         "description": "", 
-        "text": "Rellene la vista con la imagen (bloqueada)"
+        "text": "Rellenar la vista con la imagen (bloqueada)"
     }, 
     {
         "id": "Frame lock view tooltip", 
         "source": "Frame the image within the view (locked)", 
         "description": "", 
-        "text": "Encuadre la imagen dentro de la vista (bloqueada)"
+        "text": "Encuadrar la imagen dentro de la vista (bloqueada)"
     }, 
     {
         "id": "Center lock view tooltip", 
         "source": "Center the view and set the zoom to 1.0 (locked)", 
         "description": "", 
-        "text": "Centra la vista y establece el zoom en 1.0 (bloqueado)"
+        "text": "Centra la vista y establece la ampliaci\u00f3n en 1.0 (bloqueado)"
     }, 
     {
         "id": "Grid enabled tooltip", 
@@ -2799,7 +2799,7 @@
         "id": "Background", 
         "source": "Background", 
         "description": "", 
-        "text": "Antecedentes"
+        "text": "Fondo"
     }, 
     {
         "source": "Text focus", 
@@ -2929,7 +2929,7 @@
     }, 
     {
         "source": "Auto-Hide Interface", 
-        "text": "Interfaz de ocultaci\u00f3n autom\u00e1tica", 
+        "text": "Ocultar Interfaz Autom\u00e1ticamente", 
         "id": "Auto-Hide Interface", 
         "description": ""
     }, 

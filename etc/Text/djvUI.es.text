@@ -61,7 +61,7 @@
     }, 
     {
         "source": "Fill", 
-        "text": "Llenar", 
+        "text": "Rellenar", 
         "id": "Fill", 
         "description": ""
     }, 
@@ -73,7 +73,7 @@
     }, 
     {
         "source": "Single", 
-        "text": "Soltero", 
+        "text": "Unico", 
         "id": "Single", 
         "description": ""
     }, 
@@ -121,7 +121,7 @@
     }, 
     {
         "source": "Tiles", 
-        "text": "Azulejos", 
+        "text": "Celdas", 
         "id": "Tiles", 
         "description": ""
     }, 
@@ -169,7 +169,7 @@
     }, 
     {
         "source": "Border", 
-        "text": "Frontera", 
+        "text": "Borde", 
         "id": "Border", 
         "description": ""
     }, 
@@ -223,13 +223,13 @@
     }, 
     {
         "source": "Tooltip Foreground", 
-        "text": "Tooltip Foreground", 
+        "text": "Frente de informaci\u00f3n sobre herramientas", 
         "id": "TooltipForeground", 
         "description": ""
     }, 
     {
         "source": "Overlay", 
-        "text": "Cubrir", 
+        "text": "Sobreimpresion", 
         "id": "Overlay", 
         "description": ""
     }, 
@@ -379,7 +379,7 @@
     }, 
     {
         "source": "Search Box", 
-        "text": "Caja de b\u00fasqeda", 
+        "text": "Caja de b\u00fasqueda", 
         "id": "SearchBox", 
         "description": ""
     }, 
@@ -427,7 +427,7 @@
     }, 
     {
         "source": "Small", 
-        "text": "Peque\u00f1a", 
+        "text": "Peque\u00f1o", 
         "id": "Small", 
         "description": ""
     }, 
@@ -1183,7 +1183,7 @@
     }, 
     {
         "source": "Command", 
-        "text": "Mando", 
+        "text": "Comando", 
         "id": "Command", 
         "description": ""
     }, 

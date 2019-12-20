@@ -319,7 +319,7 @@
     }, 
     {
         "source": "File", 
-        "text": "Expediente", 
+        "text": "Archivo", 
         "id": "File", 
         "description": ""
     }, 
@@ -343,7 +343,7 @@
     }, 
     {
         "source": "Size", 
-        "text": "tama\u00f1o", 
+        "text": "Tama\u00f1o", 
         "id": "Size", 
         "description": ""
     }, 

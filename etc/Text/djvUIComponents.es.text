@@ -55,7 +55,7 @@
     }, 
     {
         "source": "TIFF", 
-        "text": "PELEA", 
+        "text": "TIFF", 
         "id": "TIFF", 
         "description": ""
     }, 
@@ -337,13 +337,13 @@
     }, 
     {
         "source": "Back", 
-        "text": "Espalda", 
+        "text": "Atras", 
         "id": "Back", 
         "description": ""
     }, 
     {
         "source": "Go back a directory", 
-        "text": "Volver un directorio", 
+        "text": "Volver un directorio atras", 
         "id": "File browser back tooltip", 
         "description": ""
     }, 
@@ -373,13 +373,13 @@
     }, 
     {
         "source": "Tile View", 
-        "text": "Vista de azulejo", 
+        "text": "Vista de celdas", 
         "id": "Tile View", 
         "description": ""
     }, 
     {
         "source": "Show directory items as tiles", 
-        "text": "Mostrar elementos del directorio como azulejos", 
+        "text": "Mostrar elementos del directorio como celdas", 
         "id": "File browser tile view tooltip", 
         "description": ""
     }, 
@@ -499,7 +499,7 @@
     }, 
     {
         "source": "Show directories before files", 
-        "text": "Mostrar directorios antes de archivos", 
+        "text": "Mostrar directorios antes que los archivos", 
         "id": "File browser sort directories first tooltip", 
         "description": ""
     }, 
@@ -607,7 +607,7 @@
     }, 
     {
         "source": "Current", 
-        "text": "Corriente", 
+        "text": "Actual", 
         "id": "Current", 
         "description": ""
     }, 
@@ -625,7 +625,7 @@
     }, 
     {
         "source": "Threads", 
-        "text": "Trapos", 
+        "text": "Hilos", 
         "description": "", 
         "id": "Threads"
     }, 
@@ -703,7 +703,7 @@
     }, 
     {
         "source": "Tiles", 
-        "text": "Losas", 
+        "text": "Celdas", 
         "id": "Tiles", 
         "description": ""
     }, 
@@ -775,13 +775,13 @@
     }, 
     {
         "source": "Thumbnail Size", 
-        "text": "Tama\u00f1o de la u\u00f1a del pulgar", 
+        "text": "Tama\u00f1o de la u\u00f1a de las miniaturas", 
         "id": "Thumbnail Size", 
         "description": ""
     }, 
     {
         "source": "Miscellaneous", 
-        "text": "Diverso", 
+        "text": "Miscelaneo", 
         "id": "Miscellaneous", 
         "description": ""
     }, 
@@ -799,7 +799,7 @@
     }, 
     {
         "source": "Render 2D", 
-        "text": "Render 2D", 
+        "text": "Renderizado 2D", 
         "id": "Render 2D", 
         "description": ""
     }, 
