@@ -107,12 +107,17 @@ namespace djv
 
                     auto t = std::chrono::system_clock::now();
                     std::chrono::duration<float> delta = t - time;
-                    const float sleep = 1 / static_cast<float>(frameRate) - delta.count();
+                    const float oneOverFrameRate = 1 / static_cast<float>(frameRate);
+                    const float sleep = oneOverFrameRate - delta.count();
                     std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(sleep * 1000)));
 
                     t = std::chrono::system_clock::now();
                     delta = t - time;
                     dt = delta.count();
+                    //if (dt > oneOverFrameRate)
+                    //{
+                    //    std::cout << std::fixed << (dt - oneOverFrameRate) << std::endl;
+                    //}
                     time = t;
                 }
             }
