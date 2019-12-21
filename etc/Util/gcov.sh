@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#gcnoList=`find $PWD -name "*.gcno" -and \( -not -name "CMakeC*CompilerId.gcno" \)`
+gcnoList=`find $PWD -name "*.gcno" -and \( -not -name "CMakeC*CompilerId.gcno" \)`
 #echo "gcnoList="$gcnoList
 for gcno in $gcnoList
 do
