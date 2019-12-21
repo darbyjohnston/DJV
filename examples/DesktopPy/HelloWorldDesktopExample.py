@@ -49,6 +49,6 @@ try:
     # Run the application.
     app.run()
 
-except (error):
-    print(error.what())
+except Exception as e:
+	print(str(e))
 

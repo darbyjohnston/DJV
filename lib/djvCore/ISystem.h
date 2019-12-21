@@ -47,6 +47,8 @@ namespace djv
         //! This class provides the very base functionality for systems.
         class ISystemBase : public std::enable_shared_from_this<ISystemBase>
         {
+            DJV_NON_COPYABLE(ISystemBase);
+            
         protected:
             void _init(const std::string& name, const std::shared_ptr<Context>&);
             ISystemBase();
@@ -78,6 +80,8 @@ namespace djv
         //! This class provides the base functionality for systems.
         class ISystem : public ISystemBase
         {
+            DJV_NON_COPYABLE(ISystem);
+
         protected:
             void _init(const std::string& name, const std::shared_ptr<Context>&);
             ISystem();

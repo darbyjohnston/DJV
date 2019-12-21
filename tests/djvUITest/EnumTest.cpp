@@ -50,6 +50,13 @@ namespace djv
                 ss << "orientation string: " << i;
                 _print(ss.str());
             }
+
+            for (auto i : getOrientationEnums())
+            {
+                std::stringstream ss;
+                ss << "orientation opposite: " << getOpposite(i);
+                _print(ss.str());
+            }
             
             for (auto i : getSideEnums())
             {
@@ -125,6 +132,41 @@ namespace djv
             {
                 std::stringstream ss;
                 ss << "metrics role string: " << i;
+                _print(ss.str());
+            }
+            
+            for (auto i : getImageAspectRatioEnums())
+            {
+                std::stringstream ss;
+                ss << "image aspect ratio string: " << i;
+                _print(ss.str());
+            }
+            
+            for (auto i : getImageAspectRatioEnums())
+            {
+                std::stringstream ss;
+                ss << "image aspect ratio: " << getImageAspectRatio(i);
+                _print(ss.str());
+            }
+            
+            for (auto i : getImageAspectRatioEnums())
+            {
+                std::stringstream ss;
+                ss << "piexl aspect ratio: " << getPixelAspectRatio(i, 1.F);
+                _print(ss.str());
+            }
+
+            for (auto i : getImageAspectRatioEnums())
+            {
+                std::stringstream ss;
+                ss << "aspect ratio scale: " << getAspectRatioScale(i, 1.F);
+                _print(ss.str());
+            }
+            
+            for (auto i : getPopupEnums())
+            {
+                std::stringstream ss;
+                ss << "popup string: " << i;
                 _print(ss.str());
             }
         }

@@ -30,7 +30,13 @@
 #include <djvUITest/WidgetTest.h>
 
 #include <djvUI/EventSystem.h>
+#include <djvUI/IntSlider.h>
+#include <djvUI/FloatSlider.h>
+#include <djvUI/LineEdit.h>
+#include <djvUI/ListButton.h>
 #include <djvUI/PushButton.h>
+#include <djvUI/ToggleButton.h>
+#include <djvUI/ToolButton.h>
 #include <djvUI/StackLayout.h>
 #include <djvUI/Window.h>
 
@@ -183,20 +189,20 @@ namespace djv
                 {
                     auto widget = PushButton::create(context);
                     
-                    auto widget2 = PushButton::create(context);
+                    auto widget2 = ListButton::create(context);
                     widget2->setHAlign(HAlign::Left);
                     widget2->setHAlign(HAlign::Left);
-                    auto widget3 = PushButton::create(context);
+                    auto widget3 = ToolButton::create(context);
                     widget3->setHAlign(HAlign::Right);
-                    auto widget4 = PushButton::create(context);
+                    auto widget4 = ToggleButton::create(context);
                     widget4->setHAlign(HAlign::Center);
                     
-                    auto widget5 = PushButton::create(context);
+                    auto widget5 = IntSlider::create(context);
                     widget5->setVAlign(VAlign::Top);
                     widget5->setVAlign(VAlign::Top);
-                    auto widget6 = PushButton::create(context);
+                    auto widget6 = FloatSlider::create(context);
                     widget6->setVAlign(VAlign::Bottom);
-                    auto widget7 = PushButton::create(context);
+                    auto widget7 = LineEdit::create(context);
                     widget7->setVAlign(VAlign::Center);
                     
                     auto layout = StackLayout::create(context);
@@ -216,6 +222,8 @@ namespace djv
                     window->show();
                     
                     _tickFor(std::chrono::milliseconds(1000));
+                    
+                    window->close();
                 }
             }
         }
