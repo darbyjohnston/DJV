@@ -29,14 +29,21 @@
 
 #include <djvUITest/WidgetTest.h>
 
+#include <djvUI/CheckBox.h>
+#include <djvUI/ColorSwatch.h>
 #include <djvUI/EventSystem.h>
 #include <djvUI/IntSlider.h>
 #include <djvUI/FloatSlider.h>
+#include <djvUI/FormLayout.h>
+#include <djvUI/GridLayout.h>
+#include <djvUI/Icon.h>
+#include <djvUI/Label.h>
 #include <djvUI/LineEdit.h>
 #include <djvUI/ListButton.h>
 #include <djvUI/PushButton.h>
 #include <djvUI/ToggleButton.h>
 #include <djvUI/ToolButton.h>
+#include <djvUI/RowLayout.h>
 #include <djvUI/StackLayout.h>
 #include <djvUI/Window.h>
 
@@ -205,17 +212,36 @@ namespace djv
                     auto widget7 = LineEdit::create(context);
                     widget7->setVAlign(VAlign::Center);
                     
-                    auto layout = StackLayout::create(context);
-                    layout->addChild(widget);
-                    layout->addChild(widget2);
-                    layout->addChild(widget3);
-                    layout->addChild(widget4);
-                    layout->addChild(widget5);
-                    layout->addChild(widget6);
+                    auto stackLayout = StackLayout::create(context);
+                    stackLayout->addChild(widget);
+                    stackLayout->addChild(widget2);
+                    stackLayout->addChild(widget3);
+                    stackLayout->addChild(widget4);
+                    stackLayout->addChild(widget5);
+                    stackLayout->addChild(widget6);
                     
+                    auto rowLayout = HorizontalLayout::create(context);
+                    auto label = Label::create(context);
+                    label->setText("Hello world!");
+                    rowLayout->addChild(label);
+                    auto icon = Icon::create(context);
+                    icon->setIcon("djvIconFileOpen");
+                    rowLayout->addChild(icon);
+
+                    auto formLayout = FormLayout::create(context);
+                    formLayout->addChild(CheckBox::create(context));
+                    formLayout->addChild(ColorSwatch::create(context));
+
+                    auto gridLayout = GridLayout::create(context);
+                    gridLayout->addChild(stackLayout);
+                    gridLayout->addChild(rowLayout);
+                    gridLayout->setGridPos(rowLayout, 1, 0);
+                    gridLayout->addChild(formLayout);
+                    gridLayout->setGridPos(formLayout, 0, 1);
+
                     auto window = Window::create(context);
-                    window->addChild(layout);
-                    if (auto parentWindow = layout->getWindow())
+                    window->addChild(gridLayout);
+                    if (auto parentWindow = gridLayout->getWindow())
                     {
                         DJV_ASSERT(window == parentWindow);
                     }
