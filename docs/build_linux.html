@@ -54,9 +54,7 @@ make test</pre>
 
 <div class="block">
 	<p class="header"><a name="Packaging">Packaging</a></p>
-	<p>Set the new version in "CMakeLists.txt", "Doxyfile", "sonar-project.properties", and
-    "docs/djv_install.html".</p>
-	<p>Update the download information in "docs/index.html".</p>
+	<p>Update the download information in "docs/index.html" and "docs/djv_install.html".</p>
 	<p>Build the static web site.</p>
 	<p>Tag the git repository:</p>
 	<pre>
@@ -74,5 +72,6 @@ make package</pre>
 	<pre>
 cmake ../djv-git -DCPACK_GENERATOR=TGZ -DCPACK_PACKAGING_INSTALL_PREFIX= -DDJV_THIRD_PARTY_DISABLE_BUILD=TRUE
 make package</pre>
+	<p>Bump the version number in "CMakeLists.txt", "Doxyfile", and "sonar-project.properties".</p>
 </div>
 
