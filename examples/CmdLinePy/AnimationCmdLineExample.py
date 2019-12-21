@@ -41,7 +41,7 @@ def animationValue(v):
         buf += "#"
     print(buf)
 def animationFinished(v):
-    app.exit()
+    app.exit(0)
 
 try:
     # Create an application.
@@ -60,6 +60,6 @@ try:
 	# Run the application.
 	app.run()
 
-except (error):
-	print(error.what())
+except Exception as e:
+	print(str(e))
 
