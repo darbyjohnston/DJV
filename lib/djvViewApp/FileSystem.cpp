@@ -541,7 +541,6 @@ namespace djv
 
         void FileSystem::open(const std::vector<std::string>& fileNames)
         {
-            DJV_PRIVATE_PTR();
             for (const auto& i : _processFileNames(fileNames))
             {
                 open(i);
@@ -550,7 +549,6 @@ namespace djv
         
         void FileSystem::open(const std::vector<std::string>& fileNames, const glm::vec2& pos, float spacing)
         {
-            DJV_PRIVATE_PTR();
             glm::vec2 tmp = pos;
             for (const auto& i : _processFileNames(fileNames))
             {

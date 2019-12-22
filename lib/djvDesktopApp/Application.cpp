@@ -66,8 +66,6 @@ namespace djv
         void Application::_init(const std::vector<std::string>& args)
         {
             Context::_init(args);
-            DJV_PRIVATE_PTR();
-
             auto avSystem = AV::AVSystem::create(shared_from_this());
             auto glfwSystem = GLFWSystem::create(shared_from_this());
             auto uiSystem = UI::UISystem::create(shared_from_this());

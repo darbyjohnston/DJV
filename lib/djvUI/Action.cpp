@@ -260,7 +260,6 @@ namespace djv
 
         void Action::_iconUpdate()
         {
-            DJV_PRIVATE_PTR();
             if (_p->checked->get() && !_p->checkedIcon.empty())
             {
                 _p->iconSubject->setIfChanged(_p->checkedIcon);

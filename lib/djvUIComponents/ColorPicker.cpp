@@ -138,7 +138,6 @@ namespace djv
         void ColorTypeWidget::_initEvent(Event::Init & event)
         {
             Widget::_initEvent(event);
-            DJV_PRIVATE_PTR();
             setTooltip(_getText(DJV_TEXT("Color type widget tooltip")));
             _widgetUpdate();
         }

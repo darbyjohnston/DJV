@@ -47,7 +47,6 @@ namespace djv
         void AnnotateSettings::_init(const std::shared_ptr<Core::Context>& context)
         {
             ISettings::_init("djv::ViewApp::AnnotateSettings", context);
-            DJV_PRIVATE_PTR();
             _load();
         }
 

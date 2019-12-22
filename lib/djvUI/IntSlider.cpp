@@ -51,7 +51,6 @@ namespace djv
         void BasicIntSlider::_init(Orientation orientation, const std::shared_ptr<Context>& context)
         {
             NumericSlider::_init(orientation, context);
-            DJV_PRIVATE_PTR();
             setClassName("djv::UI::BasicIntSlider");
             setModel(IntValueModel::create());
         }
@@ -122,7 +121,6 @@ namespace djv
         void BasicIntSlider::_paintEvent(Event::Paint & event)
         {
             NumericSlider::_paintEvent(event);
-            DJV_PRIVATE_PTR();
             if (auto model = getModel())
             {
                 const auto& range = model->observeRange()->get();
@@ -133,7 +131,6 @@ namespace djv
 
         float BasicIntSlider::_valueToPos(int value) const
         {
-            DJV_PRIVATE_PTR();
             float out = 0.F;
             if (auto model = getModel())
             {
@@ -162,7 +159,6 @@ namespace djv
 
         int BasicIntSlider::_posToValue(float value) const
         {
-            DJV_PRIVATE_PTR();
             int out = 0;
             if (auto model = getModel())
             {

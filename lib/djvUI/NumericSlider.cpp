@@ -330,7 +330,6 @@ namespace djv
         void NumericSlider::_keyPressEvent(Event::KeyPress& event)
         {
             Widget::_keyPressEvent(event);
-            DJV_PRIVATE_PTR();
             if (!event.isAccepted() && hasTextFocus())
             {
                 if (_keyPress(event.getKey()))

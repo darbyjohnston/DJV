@@ -256,7 +256,6 @@ namespace djv
 
         void ImageView::setImageZoomFocus(float value, bool animate)
         {
-            DJV_PRIVATE_PTR();
             const BBox2f& g = getGeometry();
             const glm::vec2& c = g.getCenter();
             setImageZoomFocus(value, c, animate);
@@ -264,7 +263,6 @@ namespace djv
 
         void ImageView::setImagePosAndZoom(const glm::vec2& pos, float zoom, bool animate)
         {
-            DJV_PRIVATE_PTR();
             if (animate)
             {
                 _animate(pos, zoom);

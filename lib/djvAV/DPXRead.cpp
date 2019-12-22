@@ -77,7 +77,6 @@ namespace djv
 
                 std::shared_ptr<Image::Image> Read::_readImage(const std::string & fileName)
                 {
-                    DJV_PRIVATE_PTR();
                     FileSystem::FileIO io;
                     const auto info = _open(fileName, io);
                     auto out = Cineon::Read::readImage(info, io);

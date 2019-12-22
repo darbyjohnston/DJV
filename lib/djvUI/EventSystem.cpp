@@ -52,7 +52,7 @@ namespace djv
 
         namespace
         {
-            void getClassNames(const std::shared_ptr<IObject>& object, std::map<std::string, size_t>& out)
+            /*void getClassNames(const std::shared_ptr<IObject>& object, std::map<std::string, size_t>& out)
             {
                 const std::string& className = object->getClassName();
                 const auto i = out.find(className);
@@ -65,7 +65,7 @@ namespace djv
                 {
                     getClassNames(j, out);
                 }
-            }
+            }*/
         
         } // namespace
         

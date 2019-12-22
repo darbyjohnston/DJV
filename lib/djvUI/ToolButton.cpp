@@ -469,7 +469,6 @@ namespace djv
             void Tool::_keyPressEvent(Event::KeyPress& event)
             {
                 IButton::_keyPressEvent(event);
-                DJV_PRIVATE_PTR();
                 if (!event.isAccepted() && hasTextFocus())
                 {
                     switch (event.getKey())

@@ -128,7 +128,6 @@ namespace djv
                 {
                     for (const auto& range : value._sequence.ranges)
                     {
-                        bool merged = false;
                         if (!_sequence.merge(range))
                         {
                             _sequence.ranges.push_back(range);

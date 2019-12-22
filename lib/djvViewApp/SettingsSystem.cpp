@@ -81,7 +81,6 @@ namespace djv
         void SettingsSystem::_init(const std::shared_ptr<Core::Context>& context)
         {
             IViewSystem::_init("djv::ViewApp::SettingsSystem", context);
-            DJV_PRIVATE_PTR();
         }
 
         SettingsSystem::SettingsSystem() :

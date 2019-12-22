@@ -51,7 +51,6 @@ namespace djv
         void FloatEdit::_init(const std::shared_ptr<Context>& context)
         {
             NumericEdit::_init(context);
-            DJV_PRIVATE_PTR();
             setClassName("djv::UI::FloatEdit");
             setModel(FloatValueModel::create());
         }

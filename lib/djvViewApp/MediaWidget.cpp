@@ -452,7 +452,6 @@ namespace djv
                     if (auto widget = weak.lock())
                     {
                         widget->moveToFront();
-                        const BBox2f& g = widget->_p->imageView->getGeometry();
                         widget->_p->scroll->setAlways(value);
                     }
                 });

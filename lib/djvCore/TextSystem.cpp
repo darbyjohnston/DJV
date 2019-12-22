@@ -276,7 +276,7 @@ namespace djv
                             {
                                 auto textFiles = system->_p->statFuture.get();
                                 for (auto j = system->_p->textFiles.begin(), k = textFiles.begin();
-                                    j != system->_p->textFiles.end(), k != textFiles.end();
+                                    j != system->_p->textFiles.end() && k != textFiles.end();
                                     ++j, ++k)
                                 {
                                     if (k->getTime() > j->getTime())
