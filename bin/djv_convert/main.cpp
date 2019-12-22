@@ -114,7 +114,7 @@ namespace djv
                     }
                     if (frame && size)
                     {
-                        std::cout << (frame / static_cast<float>(size - 1) * 100.F) << "%" << std::endl;
+                        std::cout << static_cast<size_t>(frame / static_cast<float>(size - 1) * 100.F) << "%" << std::endl;
                     }
                 });
             }
@@ -232,13 +232,16 @@ namespace djv
                         ++i;
                     }
                 }
-                if (args.size() != 3)
+                if (3 == args.size())
+                {
+                    _input = args[1];
+                    _output = args[2];
+                }
+                else
                 {
                     out = false;
                     _printUsage();
                 }
-                _input = args[1];
-                _output = args[2];
                 return out;
             }
             
@@ -251,26 +254,26 @@ namespace djv
                 std::cout << std::endl;
                 std::cout << DJV_TEXT(" Options:") << std::endl;
                 std::cout << std::endl;
-                std::cout << DJV_TEXT("   -resize '(width) (height)'") << std::endl;
-                std::cout << DJV_TEXT("     Resize the image.") << std::endl;
+                std::cout << DJV_TEXT("   -resize \"(width) (height)\"") << std::endl;
+                std::cout << DJV_TEXT("   Resize the image.") << std::endl;
                 std::cout << std::endl;
                 std::cout << DJV_TEXT("   -readSeq") << std::endl;
-                std::cout << DJV_TEXT("     Interpret the input file name as a sequence.") << std::endl;
+                std::cout << DJV_TEXT("   Interpret the input file name as a sequence.") << std::endl;
                 std::cout << std::endl;
                 std::cout << DJV_TEXT("   -writeSeq") << std::endl;
-                std::cout << DJV_TEXT("     Interpret the output file name as a sequence.") << std::endl;
+                std::cout << DJV_TEXT("   Interpret the output file name as a sequence.") << std::endl;
                 std::cout << std::endl;
                 std::cout << DJV_TEXT("   -readQueue (value)") << std::endl;
-                std::cout << DJV_TEXT("     Set the size of the read queue.") << std::endl;
+                std::cout << DJV_TEXT("   Set the size of the read queue.") << std::endl;
                 std::cout << std::endl;
                 std::cout << DJV_TEXT("   -writeQueue (value)") << std::endl;
-                std::cout << DJV_TEXT("     Set the size of the write queue.") << std::endl;
+                std::cout << DJV_TEXT("   Set the size of the write queue.") << std::endl;
                 std::cout << std::endl;
                 std::cout << DJV_TEXT("   -readThreads (value)") << std::endl;
-                std::cout << DJV_TEXT("     Set the number of threads for reading.") << std::endl;
+                std::cout << DJV_TEXT("   Set the number of threads for reading.") << std::endl;
                 std::cout << std::endl;
                 std::cout << DJV_TEXT("   -writeThreads (value)") << std::endl;
-                std::cout << DJV_TEXT("     Set the number of threads for writing.") << std::endl;
+                std::cout << DJV_TEXT("   Set the number of threads for writing.") << std::endl;
                 std::cout << std::endl;
             }
 

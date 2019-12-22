@@ -1,5 +1,5 @@
-set(source main.cpp)
 set(header)
+set(source main.cpp)
 if (WIN32)
     set(header
         ${header}
