@@ -272,7 +272,7 @@ namespace djv
             std::cout << DJV_TEXT("   The number of frames to render. Default: ") << frameCountDefault << std::endl;
             std::cout << std::endl;
             std::cout << DJV_TEXT("   -size \"(width) (height)\"") << std::endl;
-            std::cout << DJV_TEXT("   The image size. Default: ") << sizeDefault << std::endl;
+            std::cout << DJV_TEXT("   The image resolution. Default: ") << sizeDefault << std::endl;
             std::cout << std::endl;
             std::cout << DJV_TEXT("   -type (value)") << std::endl;
             std::cout << DJV_TEXT("   The image type. Default: ") << typeDefault << std::endl;
