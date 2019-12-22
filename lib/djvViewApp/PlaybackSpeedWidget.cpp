@@ -51,7 +51,7 @@ namespace djv
             Time::Speed speed;
             Time::Speed defaultSpeed;
             Time::Speed customSpeed = Time::Speed(1);
-            bool playEveryFrame;
+            bool playEveryFrame = false;
 
             std::shared_ptr<UI::Label> titleLabel;
             std::shared_ptr<UI::ButtonGroup> speedButtonGroup;
@@ -181,26 +181,24 @@ namespace djv
                 {
                     if (auto widget = weak.lock())
                     {
+                        try
                         {
-                            try
+                            if (std::stof(value) >= 1) 
                             {
-                                if (std::stof(value) >= 1) 
-                                {
-                                    //widget->_doSpeedCallback(Time::Speed(std::stof(value)));
-                                    widget->_p->customSpeed = Time::Speed(std::stof(value));
-                                }
-                                else if (std::stof(value) > 0.F && std::stof(value) < 1.F)
-                                {
-                                    //widget->_doSpeedCallback(Time::Speed(std::floor(std::stof(value) * 1000), 1000));
-                                    widget->_p->customSpeed = Time::Speed(std::floor(std::stof(value) * 1000), 1000);
-                                }
+                                //widget->_doSpeedCallback(Time::Speed(std::stof(value)));
+                                widget->_p->customSpeed = Time::Speed(std::stof(value));
                             }
-                            catch (const std::exception&)
+                            else if (std::stof(value) > 0.F && std::stof(value) < 1.F)
                             {
-                                std::stringstream ss;
-                                ss << "Cannot parse the value.";
-                                widget->_log(ss.str(), LogLevel::Error);
+                                //widget->_doSpeedCallback(Time::Speed(std::floor(std::stof(value) * 1000), 1000));
+                                widget->_p->customSpeed = Time::Speed(std::floor(std::stof(value) * 1000), 1000);
                             }
+                        }
+                        catch (const std::exception&)
+                        {
+                            std::stringstream ss;
+                            ss << "Cannot parse the value.";
+                            widget->_log(ss.str(), LogLevel::Error);
                         }
                         widget->_doSpeedCallback(widget->_p->customSpeed);
                         widget->_widgetUpdate();
