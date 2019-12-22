@@ -124,7 +124,7 @@ namespace djv
             vLayout->addChild(p.customSpeedLineEdit);
 
             layout->addChild(vLayout);
-			_widgetUpdate();
+            _widgetUpdate();
 
             p.scrollWidget = UI::ScrollWidget::create(UI::ScrollType::Vertical, context);
             p.scrollWidget->setMinimumSizeRole(UI::MetricsRole::Menu);
@@ -184,16 +184,16 @@ namespace djv
                         {
                             try
                             {
-								if (std::stof(value) >= 1) 
-								{
-									widget->_doSpeedCallback(Time::Speed(std::stof(value)));
-									//widget->_p->customSpeed = Time::Speed(std::stof(value));
-								}
-								else if (std::stof(value) > 0.F && std::stof(value) < 1.F)
-								{
-									widget->_doSpeedCallback(Time::Speed(std::floor(std::stof(value) * 1000), 1000));
-									//widget->_p->customSpeed = Time::Speed(std::floor(std::stof(value) * 1000), 1000);
-								}
+                                if (std::stof(value) >= 1) 
+                                {
+                                    //widget->_doSpeedCallback(Time::Speed(std::stof(value)));
+                                    widget->_p->customSpeed = Time::Speed(std::stof(value));
+                                }
+                                else if (std::stof(value) > 0.F && std::stof(value) < 1.F)
+                                {
+                                    //widget->_doSpeedCallback(Time::Speed(std::floor(std::stof(value) * 1000), 1000));
+                                    widget->_p->customSpeed = Time::Speed(std::floor(std::stof(value) * 1000), 1000);
+                                }
                             }
                             catch (const std::exception&)
                             {
@@ -202,8 +202,8 @@ namespace djv
                                 widget->_log(ss.str(), LogLevel::Error);
                             }
                         }
-						//widget->_doSpeedCallback(widget->_p->customSpeed);
-						widget->_widgetUpdate();
+                        widget->_doSpeedCallback(widget->_p->customSpeed);
+                        widget->_widgetUpdate();
                     }
                 });
         }
@@ -321,10 +321,10 @@ namespace djv
 
                 p.useCustomSpeedButton->setText(DJV_TEXT("Custom playback speed"));
                 p.useCustomSpeedButton->setTooltip(_getText(DJV_TEXT("Custom playback speed tooltip")));
-				std::stringstream cs;
-				cs.precision(2);
-				cs << std::fixed << p.customSpeed.toFloat();
-				p.customSpeedLineEdit->setText(cs.str());
+                std::stringstream cs;
+                cs.precision(2);
+                cs << std::fixed << p.customSpeed.toFloat();
+                p.customSpeedLineEdit->setText(cs.str());
             }
         }
 
