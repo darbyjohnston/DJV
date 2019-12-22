@@ -725,7 +725,7 @@
         "description": ""
     }, 
     {
-        "text": "Kent Oberheu https://semafore.com", 
+        "text": "Kent Oberheu, https://semafore.com",
         "id": "Credits Kent Oberheu", 
         "description": ""
     }, 
@@ -752,6 +752,26 @@
     {
         "text": "IFF image file format support, example images", 
         "id": "Credits Mikael Sundell Text", 
+        "description": ""
+    }, 
+    {
+        "text": "CansecoGPC",
+        "id": "Credits CansecoGPC",
+        "description": ""
+    }, 
+    {
+        "text": "Spanish translation updates",
+        "id": "Credits CansecoGPC Text",
+        "description": ""
+    }, 
+    {
+        "text": "Jean-Francois Panisset",
+        "id": "Credits Jean-Francois Panisset",
+        "description": ""
+    }, 
+    {
+        "text": "Azure Pipelines CI integration",
+        "id": "Credits Jean-Francois Panisset Text",
         "description": ""
     }, 
     {
@@ -940,6 +960,11 @@
         "description": ""
     }, 
     {
+        "text": "* GITHUB®, the GITHUB® logo design, OCTOCAT® and the OCTOCAT® logo design are exclusive trademarks registered in the United States by GitHub, Inc.",
+        "id": "Trademarks GitHub",
+        "description": ""
+    }, 
+    {
         "text": "* Intel is a registered trademark of Intel Corporation", 
         "id": "Trademarks Intel", 
         "description": ""
@@ -960,7 +985,7 @@
         "description": ""
     }, 
     {
-        "text": "* Microsoft and Microsoft Windows are registered trademarks of Microsoft, Inc.", 
+        "text": "* Microsoft, Microsoft Windows, and Azure are registered trademarks of Microsoft, Inc.",
         "id": "Trademarks Microsoft", 
         "description": ""
     }, 

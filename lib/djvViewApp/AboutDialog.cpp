@@ -69,7 +69,8 @@ namespace djv
             
             const std::vector<std::string> credits = 
             {
-                "Credits1", "Credits2", "Credits3", "Credits4"
+                "Credits1", "Credits2", "Credits3", "Credits4", "Credits5",
+                "Credits6"
             };
             for (const auto& i : credits)
             {
@@ -79,7 +80,8 @@ namespace djv
             
             const std::vector<std::string> creditsText = 
             {
-                "Credits1Text", "Credits2Text", "Credits3Text", "Credits4Text"
+                "Credits1Text", "Credits2Text", "Credits3Text", "Credits4Text",
+                "Credits5Text", "Credits6Text"
             };
             for (const auto& i : creditsText)
             {
@@ -104,41 +106,45 @@ namespace djv
                 p.textBlocks[i] = UI::TextBlock::create(context);
             }
 
-            const std::vector<std::string> copyrightText = 
+            p.textBlocks["CopyrightText"] = UI::TextBlock::create(context);
+            const std::vector<std::string> copyrightText =
             {
-                "Copyright1", "Copyright2", "Copyright3", "Copyright4"
+                "Copyright1", "Copyright2", "Copyright3"
             };
             for (const auto& i : copyrightText)
             {
                 p.textBlocks[i] = UI::TextBlock::create(context);
             }
 
-            const std::vector<std::string> thirdPartyText = 
+            p.textBlocks["ThirdPartyText"] = UI::TextBlock::create(context);
+            const std::vector<std::string> thirdPartyText =
             {
                 "ThirdParty1", "ThirdParty2", "ThirdParty3", "ThirdParty4",
                 "ThirdParty5", "ThirdParty6", "ThirdParty7", "ThirdParty8",
                 "ThirdParty9", "ThirdParty10", "ThirdParty11", "ThirdParty12",
                 "ThirdParty13", "ThirdParty14", "ThirdParty15", "ThirdParty16",
-                "ThirdParty17", "ThirdParty18", "ThirdParty19"
+                "ThirdParty17", "ThirdParty18"
             };
             for (const auto& i : thirdPartyText)
             {
                 p.textBlocks[i] = UI::TextBlock::create(context);
             }
 
-            const std::vector<std::string> trademarksText = 
+            p.textBlocks["TrademarksText"] = UI::TextBlock::create(context);
+            const std::vector<std::string> trademarksText =
             {
                 "Trademarks1", "Trademarks2", "Trademarks3", "Trademarks4",
                 "Trademarks5", "Trademarks6", "Trademarks7", "Trademarks8",
                 "Trademarks9", "Trademarks10", "Trademarks11", "Trademarks12",
                 "Trademarks13", "Trademarks14", "Trademarks15", "Trademarks16",
                 "Trademarks17", "Trademarks18", "Trademarks19", "Trademarks20",
-                "Trademarks21", "Trademarks22",
+                "Trademarks21"
             };
             for (const auto& i : trademarksText)
             {
                 p.textBlocks[i] = UI::TextBlock::create(context);
             }
+            p.textBlocks["TrademarksEnd"] = UI::TextBlock::create(context);
 
             const std::vector<std::string> madeInText = 
             {
@@ -174,6 +180,14 @@ namespace djv
             gridLayout->setGridPos(p.textBlocks["Credits4"], glm::ivec2(0, 3));
             gridLayout->addChild(p.textBlocks["Credits4Text"]);
             gridLayout->setGridPos(p.textBlocks["Credits4Text"], glm::ivec2(1, 3));
+            gridLayout->addChild(p.textBlocks["Credits5"]);
+            gridLayout->setGridPos(p.textBlocks["Credits5"], glm::ivec2(0, 4));
+            gridLayout->addChild(p.textBlocks["Credits5Text"]);
+            gridLayout->setGridPos(p.textBlocks["Credits5Text"], glm::ivec2(1, 4));
+            gridLayout->addChild(p.textBlocks["Credits6"]);
+            gridLayout->setGridPos(p.textBlocks["Credits6"], glm::ivec2(0, 5));
+            gridLayout->addChild(p.textBlocks["Credits6Text"]);
+            gridLayout->setGridPos(p.textBlocks["Credits6Text"], glm::ivec2(1, 5));
             vLayout->addChild(gridLayout);
             textLayout->addChild(vLayout);
 
@@ -210,10 +224,10 @@ namespace djv
             vLayout = UI::VerticalLayout::create(context);
             vLayout->addChild(p.headers["Copyright"]);
             vLayout->addSeparator();
-            vLayout->addChild(p.textBlocks["Copyright1"]);
+            vLayout->addChild(p.textBlocks["CopyrightText"]);
             vLayout2 = UI::VerticalLayout::create(context);
             vLayout2->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
-            for (size_t i = 2; i <= copyrightText.size(); ++i)
+            for (size_t i = 1; i <= copyrightText.size(); ++i)
             {
                 std::stringstream ss;
                 ss << "Copyright" << i;
@@ -225,10 +239,10 @@ namespace djv
             vLayout = UI::VerticalLayout::create(context);
             vLayout->addChild(p.headers["ThirdParty"]);
             vLayout->addSeparator();
-            vLayout->addChild(p.textBlocks["ThirdParty1"]);
+            vLayout->addChild(p.textBlocks["ThirdPartyText"]);
             vLayout2 = UI::VerticalLayout::create(context);
             vLayout2->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
-            for (size_t i = 2; i <= thirdPartyText.size(); ++i)
+            for (size_t i = 1; i <= thirdPartyText.size(); ++i)
             {
                 std::stringstream ss;
                 ss << "ThirdParty" << i;
@@ -240,17 +254,17 @@ namespace djv
             vLayout = UI::VerticalLayout::create(context);
             vLayout->addChild(p.headers["Trademarks"]);
             vLayout->addSeparator();
-            vLayout->addChild(p.textBlocks["Trademarks1"]);
+            vLayout->addChild(p.textBlocks["TrademarksText"]);
             vLayout2 = UI::VerticalLayout::create(context);
             vLayout2->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));
-            for (size_t i = 2; i <= trademarksText.size(); ++i)
+            for (size_t i = 1; i <= trademarksText.size(); ++i)
             {
                 std::stringstream ss;
                 ss << "Trademarks" << i;
                 vLayout2->addChild(p.textBlocks[ss.str()]);
             }
             vLayout->addChild(vLayout2);
-            vLayout->addChild(p.textBlocks["Trademarks22"]);
+            vLayout->addChild(p.textBlocks["TrademarksEnd"]);
             textLayout->addChild(vLayout);
 
             vLayout = UI::VerticalLayout::create(context);
@@ -307,6 +321,10 @@ namespace djv
             p.textBlocks["Credits3Text"]->setText(_getText(DJV_TEXT("Credits Siciliana Johnston Text")));
             p.textBlocks["Credits4"]->setText(_getText(DJV_TEXT("Credits Mikael Sundell")));
             p.textBlocks["Credits4Text"]->setText(_getText(DJV_TEXT("Credits Mikael Sundell Text")));
+            p.textBlocks["Credits5"]->setText(_getText(DJV_TEXT("Credits CansecoGPC")));
+            p.textBlocks["Credits5Text"]->setText(_getText(DJV_TEXT("Credits CansecoGPC Text")));
+            p.textBlocks["Credits6"]->setText(_getText(DJV_TEXT("Credits Jean-Francois Panisset")));
+            p.textBlocks["Credits6Text"]->setText(_getText(DJV_TEXT("Credits Jean-Francois Panisset Text")));
             p.textBlocks["Sponsors1"]->setText(_getText(DJV_TEXT("Sponsors unexpected")));
             p.textBlocks["License1"]->setText(_getText(DJV_TEXT("License 1")));
             p.textBlocks["License2"]->setText(_getText(DJV_TEXT("License 2")));
@@ -314,36 +332,37 @@ namespace djv
             p.textBlocks["License4"]->setText(_getText(DJV_TEXT("License 4")));
             p.textBlocks["License5"]->setText(_getText(DJV_TEXT("License 5")));
             p.textBlocks["License6"]->setText(_getText(DJV_TEXT("License 6")));
-            p.textBlocks["Copyright1"]->setText(_getText(DJV_TEXT("Copyright Text")));
-            p.textBlocks["Copyright2"]->setText(_getText(DJV_TEXT("Copyright Darby Johnston")));
-            p.textBlocks["Copyright3"]->setText(_getText(DJV_TEXT("Copyright Kent Oberheu")));
-            p.textBlocks["Copyright4"]->setText(_getText(DJV_TEXT("Copyright Mikael Sundell")));
-            p.textBlocks["ThirdParty1"]->setText(_getText(DJV_TEXT("Third Party Text")));
-            p.textBlocks["ThirdParty2"]->setText(_getText(DJV_TEXT("Third Party CMake")));
-            p.textBlocks["ThirdParty3"]->setText(_getText(DJV_TEXT("Third Party FFMpeg")));
-            p.textBlocks["ThirdParty4"]->setText(_getText(DJV_TEXT("Third Party FreeType")));
-            p.textBlocks["ThirdParty5"]->setText(_getText(DJV_TEXT("Third Party GLFW")));
-            p.textBlocks["ThirdParty6"]->setText(_getText(DJV_TEXT("Third Party GLM")));
-            p.textBlocks["ThirdParty7"]->setText(_getText(DJV_TEXT("Third Party MbedTLS")));
-            p.textBlocks["ThirdParty8"]->setText(_getText(DJV_TEXT("Third Party OpenAL")));
-            p.textBlocks["ThirdParty9"]->setText(_getText(DJV_TEXT("Third Party OpenColorIO")));
-            p.textBlocks["ThirdParty10"]->setText(_getText(DJV_TEXT("Third Party OpenEXR")));
-            p.textBlocks["ThirdParty11"]->setText(_getText(DJV_TEXT("Third Party RtAudio")));
-            p.textBlocks["ThirdParty12"]->setText(_getText(DJV_TEXT("Third Party curl")));
-            p.textBlocks["ThirdParty13"]->setText(_getText(DJV_TEXT("Third Party dr_libs")));
-            p.textBlocks["ThirdParty14"]->setText(_getText(DJV_TEXT("Third Party glad")));
-            p.textBlocks["ThirdParty15"]->setText(_getText(DJV_TEXT("Third Party libjpeg")));
-            p.textBlocks["ThirdParty16"]->setText(_getText(DJV_TEXT("Third Party libjpeg-turbo")));
-            p.textBlocks["ThirdParty17"]->setText(_getText(DJV_TEXT("Third Party libpng")));
-            p.textBlocks["ThirdParty18"]->setText(_getText(DJV_TEXT("Third Party libtiff")));
-            p.textBlocks["ThirdParty19"]->setText(_getText(DJV_TEXT("Third Party zlib")));
-            p.textBlocks["Trademarks1"]->setText(_getText(DJV_TEXT("Trademarks Text")));
-            p.textBlocks["Trademarks2"]->setText(_getText(DJV_TEXT("Trademarks Apple")));
-            p.textBlocks["Trademarks3"]->setText(_getText(DJV_TEXT("Trademarks AMD")));
-            p.textBlocks["Trademarks4"]->setText(_getText(DJV_TEXT("Trademarks Autodesk")));
-            p.textBlocks["Trademarks5"]->setText(_getText(DJV_TEXT("Trademarks Debian")));
-            p.textBlocks["Trademarks6"]->setText(_getText(DJV_TEXT("Trademarks FFmpeg")));
-            p.textBlocks["Trademarks7"]->setText(_getText(DJV_TEXT("Trademarks FreeBSD")));
+            p.textBlocks["CopyrightText"]->setText(_getText(DJV_TEXT("Copyright Text")));
+            p.textBlocks["Copyright1"]->setText(_getText(DJV_TEXT("Copyright Darby Johnston")));
+            p.textBlocks["Copyright2"]->setText(_getText(DJV_TEXT("Copyright Kent Oberheu")));
+            p.textBlocks["Copyright3"]->setText(_getText(DJV_TEXT("Copyright Mikael Sundell")));
+            p.textBlocks["ThirdPartyText"]->setText(_getText(DJV_TEXT("Third Party Text")));
+            p.textBlocks["ThirdParty1"]->setText(_getText(DJV_TEXT("Third Party CMake")));
+            p.textBlocks["ThirdParty2"]->setText(_getText(DJV_TEXT("Third Party FFMpeg")));
+            p.textBlocks["ThirdParty3"]->setText(_getText(DJV_TEXT("Third Party FreeType")));
+            p.textBlocks["ThirdParty4"]->setText(_getText(DJV_TEXT("Third Party GLFW")));
+            p.textBlocks["ThirdParty5"]->setText(_getText(DJV_TEXT("Third Party GLM")));
+            p.textBlocks["ThirdParty6"]->setText(_getText(DJV_TEXT("Third Party MbedTLS")));
+            p.textBlocks["ThirdParty7"]->setText(_getText(DJV_TEXT("Third Party OpenAL")));
+            p.textBlocks["ThirdParty8"]->setText(_getText(DJV_TEXT("Third Party OpenColorIO")));
+            p.textBlocks["ThirdParty9"]->setText(_getText(DJV_TEXT("Third Party OpenEXR")));
+            p.textBlocks["ThirdParty10"]->setText(_getText(DJV_TEXT("Third Party RtAudio")));
+            p.textBlocks["ThirdParty11"]->setText(_getText(DJV_TEXT("Third Party curl")));
+            p.textBlocks["ThirdParty12"]->setText(_getText(DJV_TEXT("Third Party dr_libs")));
+            p.textBlocks["ThirdParty13"]->setText(_getText(DJV_TEXT("Third Party glad")));
+            p.textBlocks["ThirdParty14"]->setText(_getText(DJV_TEXT("Third Party libjpeg")));
+            p.textBlocks["ThirdParty15"]->setText(_getText(DJV_TEXT("Third Party libjpeg-turbo")));
+            p.textBlocks["ThirdParty16"]->setText(_getText(DJV_TEXT("Third Party libpng")));
+            p.textBlocks["ThirdParty17"]->setText(_getText(DJV_TEXT("Third Party libtiff")));
+            p.textBlocks["ThirdParty18"]->setText(_getText(DJV_TEXT("Third Party zlib")));
+            p.textBlocks["TrademarksText"]->setText(_getText(DJV_TEXT("Trademarks Text")));
+            p.textBlocks["Trademarks1"]->setText(_getText(DJV_TEXT("Trademarks Apple")));
+            p.textBlocks["Trademarks2"]->setText(_getText(DJV_TEXT("Trademarks AMD")));
+            p.textBlocks["Trademarks3"]->setText(_getText(DJV_TEXT("Trademarks Autodesk")));
+            p.textBlocks["Trademarks4"]->setText(_getText(DJV_TEXT("Trademarks Debian")));
+            p.textBlocks["Trademarks5"]->setText(_getText(DJV_TEXT("Trademarks FFmpeg")));
+            p.textBlocks["Trademarks6"]->setText(_getText(DJV_TEXT("Trademarks FreeBSD")));
+            p.textBlocks["Trademarks7"]->setText(_getText(DJV_TEXT("Trademarks GitHub")));
             p.textBlocks["Trademarks8"]->setText(_getText(DJV_TEXT("Trademarks Intel")));
             p.textBlocks["Trademarks9"]->setText(_getText(DJV_TEXT("Trademarks Lucasfilm")));
             p.textBlocks["Trademarks10"]->setText(_getText(DJV_TEXT("Trademarks Kodak")));
@@ -358,7 +377,7 @@ namespace djv
             p.textBlocks["Trademarks19"]->setText(_getText(DJV_TEXT("Trademarks SuSE")));
             p.textBlocks["Trademarks20"]->setText(_getText(DJV_TEXT("Trademarks Ubuntu")));
             p.textBlocks["Trademarks21"]->setText(_getText(DJV_TEXT("Trademarks UNIX")));
-            p.textBlocks["Trademarks22"]->setText(_getText(DJV_TEXT("Trademarks End")));
+            p.textBlocks["TrademarksEnd"]->setText(_getText(DJV_TEXT("Trademarks End")));
             p.textBlocks["MadeIn"]->setText(_getText(DJV_TEXT("Made In")));
         }
 
