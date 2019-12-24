@@ -93,10 +93,11 @@ namespace djv
             }
             
             {
-                const Font::TextLine textLine("line", glm::vec2(1.F, 2.F));
+                const Font::TextLine textLine("line", glm::vec2(1.F, 2.F), {});
                 DJV_ASSERT(!textLine.text.empty());
                 DJV_ASSERT(1.F == textLine.size.x);
                 DJV_ASSERT(2.F == textLine.size.y);
+                DJV_ASSERT(0 == textLine.glyphs.size());
             }
         }
         
