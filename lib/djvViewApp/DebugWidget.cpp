@@ -121,6 +121,18 @@ namespace djv
                 _labels["FPS"] = UI::Label::create(context);
                 _labels["FPSValue"] = UI::Label::create(context);
                 _labels["FPSValue"]->setFont(AV::Font::familyMono);
+                _lineGraphs["FPS"] = UI::LineGraphWidget::create(context);
+                _lineGraphs["FPS"]->setPrecision(0);
+
+                _labels["TotalSystemTime"] = UI::Label::create(context);
+                _labels["TotalSystemTimeValue"] = UI::Label::create(context);
+                _lineGraphs["TotalSystemTime"] = UI::LineGraphWidget::create(context);
+                _lineGraphs["TotalSystemTime"]->setPrecision(0);
+
+                _labels["TopSystemTime"] = UI::Label::create(context);
+                _labels["TopSystemTimeValue"] = UI::Label::create(context);
+                _lineGraphs["TopSystemTime"] = UI::LineGraphWidget::create(context);
+                _lineGraphs["TopSystemTime"]->setPrecision(0);
 
                 _labels["ObjectCount"] = UI::Label::create(context);
                 _labels["ObjectCountValue"] = UI::Label::create(context);
@@ -170,6 +182,17 @@ namespace djv
                 hLayout->addChild(_labels["FPS"]);
                 hLayout->addChild(_labels["FPSValue"]);
                 _layout->addChild(hLayout);
+                _layout->addChild(_lineGraphs["FPS"]);
+                hLayout = UI::HorizontalLayout::create(context);
+                hLayout->addChild(_labels["TotalSystemTime"]);
+                hLayout->addChild(_labels["TotalSystemTimeValue"]);
+                _layout->addChild(hLayout);
+                _layout->addChild(_lineGraphs["TotalSystemTime"]);
+                hLayout = UI::HorizontalLayout::create(context);
+                hLayout->addChild(_labels["TopSystemTime"]);
+                hLayout->addChild(_labels["TopSystemTimeValue"]);
+                _layout->addChild(hLayout);
+                _layout->addChild(_lineGraphs["TopSystemTime"]);
                 hLayout = UI::HorizontalLayout::create(context);
                 hLayout->addChild(_labels["ObjectCount"]);
                 hLayout->addChild(_labels["ObjectCountValue"]);
@@ -235,6 +258,20 @@ namespace djv
                 if (auto context = getContext().lock())
                 {
                     const float fps = context->getFPSAverage();
+                    const auto& systemTickTimes = context->getSystemTickTimes();
+                    float totalSystemTime = 0.F;
+                    for (const auto& i : systemTickTimes)
+                    {
+                        totalSystemTime += i.second;
+                    }
+                    std::string topSystemTime;
+                    float topSystemTimeValue = 0.F;
+                    if (systemTickTimes.size())
+                    {
+                        auto i = systemTickTimes.begin();
+                        topSystemTime = i->first;
+                        topSystemTimeValue = i->second;
+                    }
                     const size_t objectCount = IObject::getGlobalObjectCount();
                     const size_t widgetCount = UI::Widget::getGlobalWidgetCount();
                     auto eventSystem = context->getSystemT<UI::EventSystem>();
@@ -246,6 +283,9 @@ namespace djv
                     auto iconSystem = context->getSystemT<UI::IconSystem>();
                     const float iconCachePercentage = iconSystem->getCachePercentage();
 
+                    _lineGraphs["FPS"]->addSample(fps);
+                    _lineGraphs["TotalSystemTime"]->addSample(totalSystemTime);
+                    _lineGraphs["TopSystemTime"]->addSample(topSystemTimeValue);
                     _lineGraphs["ObjectCount"]->addSample(objectCount);
                     _lineGraphs["WidgetCount"]->addSample(widgetCount);
                     _thermometerWidgets["ThumbnailInfoCache"]->setPercentage(thumbnailInfoCachePercentage);
@@ -263,6 +303,28 @@ namespace djv
                         ss.precision(2);
                         ss << std::fixed << fps;
                         _labels["FPSValue"]->setText(ss.str());
+                    }
+                    {
+                        std::stringstream ss;
+                        ss << _getText(DJV_TEXT("Total system time")) << ":";
+                        _labels["TotalSystemTime"]->setText(ss.str());
+                    }
+                    {
+                        std::stringstream ss;
+                        ss.precision(2);
+                        ss << std::fixed << totalSystemTime << "ms";
+                        _labels["TotalSystemTimeValue"]->setText(ss.str());
+                    }
+                    {
+                        std::stringstream ss;
+                        ss << _getText(DJV_TEXT("Top system time")) << ":";
+                        _labels["TopSystemTime"]->setText(ss.str());
+                    }
+                    {
+                        std::stringstream ss;
+                        ss.precision(2);
+                        ss << std::fixed << topSystemTime << ", " << topSystemTimeValue << "ms";
+                        _labels["TopSystemTimeValue"]->setText(ss.str());
                     }
                     {
                         std::stringstream ss;

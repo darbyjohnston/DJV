@@ -77,8 +77,12 @@ namespace djv
                 std::map<size_t, float> thumbnailTimers;
                 std::map<FileSystem::FileType, std::shared_ptr<AV::Image::Image> > icons;
                 std::map<FileSystem::FileType, std::future<std::shared_ptr<AV::Image::Image> > > iconsFutures;
-                std::map<size_t, std::string> sizeText;
-                std::map<size_t, std::string> timeText;
+                std::map<size_t, std::vector<std::shared_ptr<AV::Font::Glyph> > > nameGlyphs;
+                std::map<size_t, std::future<std::vector<std::shared_ptr<AV::Font::Glyph> > > > nameGlyphsFutures;
+                std::map<size_t, std::vector<std::shared_ptr<AV::Font::Glyph> > > sizeGlyphs;
+                std::map<size_t, std::future<std::vector<std::shared_ptr<AV::Font::Glyph> > > > sizeGlyphsFutures;
+                std::map<size_t, std::vector<std::shared_ptr<AV::Font::Glyph> > > timeGlyphs;
+                std::map<size_t, std::future<std::vector<std::shared_ptr<AV::Font::Glyph> > > > timeGlyphsFutures;
                 std::vector<float> split = { .7F, .8F, 1.F };
                 AV::AlphaBlend alphaBlend = AV::AlphaBlend::First;
                 AV::OCIO::Config ocioConfig;
@@ -225,23 +229,6 @@ namespace djv
                 return out;
             }
 
-            void ItemView::_preLayoutEvent(Event::PreLayout & event)
-            {
-                DJV_PRIVATE_PTR();
-                if (p.nameFontMetricsFuture.valid() &&
-                    p.nameFontMetricsFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
-                {
-                    try
-                    {
-                        p.nameFontMetrics = p.nameFontMetricsFuture.get();
-                    }
-                    catch (const std::exception & e)
-                    {
-                        _log(e.what(), LogLevel::Error);
-                    }
-                }
-            }
-
             void ItemView::_layoutEvent(Event::Layout & event)
             {
                 DJV_PRIVATE_PTR();
@@ -345,18 +332,31 @@ namespace djv
                                     }
                                 }
                             }
+                            if (p.nameGlyphs.find(i.first) == p.nameGlyphs.end())
                             {
-                                const auto j = p.sizeText.find(i.first);
-                                if (j == p.sizeText.end())
+                                if (p.nameGlyphsFutures.find(i.first) == p.nameGlyphsFutures.end())
                                 {
-                                    p.sizeText[i.first] = Memory::getSizeLabel(fileInfo.getSize());
+                                    const std::string& label = fileInfo.getFileName(Frame::invalid, false);
+                                    const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium);
+                                    p.nameGlyphsFutures[i.first] = p.fontSystem->getGlyphs(label, fontInfo);
                                 }
                             }
+                            if (p.sizeGlyphs.find(i.first) == p.sizeGlyphs.end())
                             {
-                                const auto j = p.timeText.find(i.first);
-                                if (j == p.timeText.end())
+                                if (p.sizeGlyphsFutures.find(i.first) == p.sizeGlyphsFutures.end())
                                 {
-                                    p.timeText[i.first] = Time::getLabel(fileInfo.getTime());
+                                    const std::string& label = Memory::getSizeLabel(fileInfo.getSize());
+                                    const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium);
+                                    p.sizeGlyphsFutures[i.first] = p.fontSystem->getGlyphs(label, fontInfo);
+                                }
+                            }
+                            if (p.timeGlyphs.find(i.first) == p.timeGlyphs.end())
+                            {
+                                if (p.timeGlyphsFutures.find(i.first) == p.timeGlyphsFutures.end())
+                                {
+                                    const std::string& label = Time::getLabel(fileInfo.getTime());
+                                    const auto fontInfo = style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium);
+                                    p.timeGlyphsFutures[i.first] = p.fontSystem->getGlyphs(label, fontInfo);
                                 }
                             }
                         }
@@ -512,7 +512,7 @@ namespace djv
                                     {
                                         //! \bug Why the extra subtract by one here?
                                         render->drawText(
-                                            l->text,
+                                            l->glyphs,
                                             glm::vec2(
                                                 //floorf(x + p.thumbnailSize.x / 2.F - l->size.x / 2.F),
                                                 floor(x),
@@ -526,18 +526,22 @@ namespace djv
                             {
                                 float x = i->second.min.x + p.thumbnailSize.w + s;
                                 float y = i->second.min.y + i->second.h() / 2.F - p.nameFontMetrics.lineHeight / 2.F;
-                                //! \bug Why the extra subtract by one here?
-                                render->drawText(
-                                    item->getFileName(Frame::invalid, false),
-                                    glm::vec2(
-                                        floorf(x),
-                                        floorf(y + p.nameFontMetrics.ascender - 1.F)));
+                                auto j = p.nameGlyphs.find(index);
+                                if (j != p.nameGlyphs.end())
+                                {
+                                    //! \bug Why the extra subtract by one here?
+                                    render->drawText(
+                                        j->second,
+                                        glm::vec2(
+                                            floorf(x),
+                                            floorf(y + p.nameFontMetrics.ascender - 1.F)));
+                                }
 
                                 render->popClipRect();
 
                                 x = i->second.min.x + i->second.w() * p.split[0] + m;
-                                auto j = p.sizeText.find(index);
-                                if (j != p.sizeText.end())
+                                j = p.sizeGlyphs.find(index);
+                                if (j != p.sizeGlyphs.end())
                                 {
                                     render->pushClipRect(BBox2f(
                                         itemGeometry.min.x + itemGeometry.w() * p.split[0],
@@ -556,8 +560,8 @@ namespace djv
                                 }
 
                                 x = i->second.min.x + i->second.w() * p.split[1] + m;
-                                j = p.timeText.find(index);
-                                if (j != p.timeText.end())
+                                j = p.timeGlyphs.find(index);
+                                if (j != p.timeGlyphs.end())
                                 {
                                     render->pushClipRect(BBox2f(
                                         itemGeometry.min.x + itemGeometry.w() * p.split[1],
@@ -738,6 +742,18 @@ namespace djv
             void ItemView::_updateEvent(Event::Update & event)
             {
                 DJV_PRIVATE_PTR();
+                if (p.nameFontMetricsFuture.valid() &&
+                    p.nameFontMetricsFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                {
+                    try
+                    {
+                        p.nameFontMetrics = p.nameFontMetricsFuture.get();
+                    }
+                    catch (const std::exception & e)
+                    {
+                        _log(e.what(), LogLevel::Error);
+                    }
+                }
                 {
                     auto i = p.nameLinesFutures.begin();
                     while (i != p.nameLinesFutures.end())
@@ -825,7 +841,7 @@ namespace djv
                     auto i = p.thumbnailTimers.begin();
                     while (i != p.thumbnailTimers.end())
                     {
-                        if (ut - i->second > thumbnailFadeTime)
+                        if ((ut - i->second) > thumbnailFadeTime)
                         {
                             i = p.thumbnailTimers.erase(i);
                         }
@@ -853,6 +869,78 @@ namespace djv
                                 _log(e.what(), LogLevel::Error);
                             }
                             i = p.iconsFutures.erase(i);
+                        }
+                        else
+                        {
+                            ++i;
+                        }
+                    }
+                }
+                {
+                    auto i = p.nameGlyphsFutures.begin();
+                    while (i != p.nameGlyphsFutures.end())
+                    {
+                        if (i->second.valid() &&
+                            i->second.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                        {
+                            try
+                            {
+                                p.nameGlyphs[i->first] = i->second.get();
+                                _redraw();
+                            }
+                            catch (const std::exception & e)
+                            {
+                                _log(e.what(), LogLevel::Error);
+                            }
+                            i = p.nameGlyphsFutures.erase(i);
+                        }
+                        else
+                        {
+                            ++i;
+                        }
+                    }
+                }
+                {
+                    auto i = p.sizeGlyphsFutures.begin();
+                    while (i != p.sizeGlyphsFutures.end())
+                    {
+                        if (i->second.valid() &&
+                            i->second.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                        {
+                            try
+                            {
+                                p.sizeGlyphs[i->first] = i->second.get();
+                                _redraw();
+                            }
+                            catch (const std::exception & e)
+                            {
+                                _log(e.what(), LogLevel::Error);
+                            }
+                            i = p.sizeGlyphsFutures.erase(i);
+                        }
+                        else
+                        {
+                            ++i;
+                        }
+                    }
+                }
+                {
+                    auto i = p.timeGlyphsFutures.begin();
+                    while (i != p.timeGlyphsFutures.end())
+                    {
+                        if (i->second.valid() &&
+                            i->second.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                        {
+                            try
+                            {
+                                p.timeGlyphs[i->first] = i->second.get();
+                                _redraw();
+                            }
+                            catch (const std::exception & e)
+                            {
+                                _log(e.what(), LogLevel::Error);
+                            }
+                            i = p.timeGlyphsFutures.erase(i);
                         }
                         else
                         {
@@ -1030,9 +1118,13 @@ namespace djv
                         }
                     }
                     p.thumbnailFutures.clear();
-                    p.sizeText.clear();
-                    p.timeText.clear();
-                    _resize();
+                    p.thumbnailTimers.clear();
+                    p.nameGlyphs.clear();
+                    p.nameGlyphsFutures.clear();
+                    p.sizeGlyphs.clear();
+                    p.sizeGlyphsFutures.clear();
+                    p.timeGlyphs.clear();
+                    p.timeGlyphsFutures.clear();
                 }
             }
 

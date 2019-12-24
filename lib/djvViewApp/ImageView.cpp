@@ -92,8 +92,15 @@ namespace djv
             bool viewInit = true;
             AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;
-            std::map<UI::Orientation, std::vector<std::pair<std::string, glm::vec2> > > text;
-            std::map<UI::Orientation, std::vector<std::future<glm::vec2> > > textSizeFutures;
+            struct Text
+            {
+                std::string text;
+                glm::vec2 size = glm::vec2(0.F, 0.F);
+                std::vector<std::shared_ptr<AV::Font::Glyph> > glyphs;
+            };
+            std::map<UI::Orientation, std::vector<Text> > text;
+            std::map<UI::Orientation, std::vector<std::pair<size_t, std::future<glm::vec2> > > > textSizeFutures;
+            std::map<UI::Orientation, std::vector<std::pair<size_t, std::future<std::vector<std::shared_ptr<AV::Font::Glyph> > > > > > textGlyphsFutures;
             float textWidthMax = 0.F;
             std::shared_ptr<ValueObserver<ImageViewLock> > lockObserver;
             std::shared_ptr<ValueObserver<AV::OCIO::Config> > ocioConfigObserver;
@@ -395,39 +402,6 @@ namespace djv
         void ImageView::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
-            if (p.fontMetricsFuture.valid())
-            {
-                try
-                {
-                    p.fontMetrics = p.fontMetricsFuture.get();
-                }
-                catch (const std::exception& e)
-                {
-                    _log(e.what(), LogLevel::Error);
-                }
-            }
-            if (p.textSizeFutures[UI::Orientation::Horizontal].size() &&
-                p.textSizeFutures[UI::Orientation::Horizontal][0].valid())
-            {
-                p.textWidthMax = 0.F;
-                for (auto i : UI::getOrientationEnums())
-                {
-                    for (size_t j = 0; j < p.textSizeFutures[i].size(); ++j)
-                    {
-                        try
-                        {
-                            const glm::vec2 size = p.textSizeFutures[i][j].get();
-                            p.text[i][j].second = size;
-                            p.textWidthMax = std::max(p.textWidthMax, size.x);
-                        }
-                        catch (const std::exception& e)
-                        {
-                            _log(e.what(), LogLevel::Error);
-                        }
-                    }
-                }
-                p.textSizeFutures.clear();
-            }
             const auto& style = _getStyle();
             const float sa = style->getMetric(UI::MetricsRole::ScrollArea);
             _setMinimumSize(glm::vec2(sa, sa));
@@ -521,6 +495,77 @@ namespace djv
         {
             Widget::_initEvent(event);
             _textUpdate();
+        }
+
+        void ImageView::_updateEvent(Event::Update& event)
+        {
+            Widget::_updateEvent(event);
+            DJV_PRIVATE_PTR();
+            if (p.fontMetricsFuture.valid() &&
+                p.fontMetricsFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+            {
+                try
+                {
+                    p.fontMetrics = p.fontMetricsFuture.get();
+                    _redraw();
+                }
+                catch (const std::exception & e)
+                {
+                    _log(e.what(), LogLevel::Error);
+                }
+            }
+            for (auto& i : p.textSizeFutures)
+            {
+                auto j = i.second.begin();
+                while (j != i.second.end())
+                {
+                    if (j->second.valid() &&
+                        j->second.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                    {
+                        try
+                        {
+                            const glm::vec2 size = j->second.get();
+                            p.text[i.first][j->first].size = size;
+                            p.textWidthMax = std::max(p.textWidthMax, size.x);
+                            _redraw();
+                        }
+                        catch (const std::exception & e)
+                        {
+                            _log(e.what(), LogLevel::Error);
+                        }
+                        j = i.second.erase(j);
+                    }
+                    else
+                    {
+                        ++j;
+                    }
+                }
+            }
+            for (auto& i : p.textGlyphsFutures)
+            {
+                auto j = i.second.begin();
+                while (j != i.second.end())
+                {
+                    if (j->second.valid() &&
+                        j->second.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                    {
+                        try
+                        {
+                            p.text[i.first][j->first].glyphs = j->second.get();
+                            _redraw();
+                        }
+                        catch (const std::exception & e)
+                        {
+                            _log(e.what(), LogLevel::Error);
+                        }
+                        j = i.second.erase(j);
+                    }
+                    else
+                    {
+                        ++j;
+                    }
+                }
+            }
         }
 
         std::vector<glm::vec3> ImageView::_getImagePoints() const
@@ -681,14 +726,14 @@ namespace djv
                     float y = p.lockFrame.min.y;
                     for (size_t i = 0; i < p.text[UI::Orientation::Horizontal].size(); ++i)
                     {
-                        render->drawRect(BBox2f(x, y, p.text[UI::Orientation::Horizontal][i].second.x + m * 2.F, p.fontMetrics.lineHeight + m * 2.f));
+                        render->drawRect(BBox2f(x, y, p.text[UI::Orientation::Horizontal][i].size.x + m * 2.F, p.fontMetrics.lineHeight + m * 2.f));
                         x += gridSizeZoom;
                     }
                     x = p.lockFrame.min.x;
                     y = g.min.y + imagePos.y;
                     for (size_t i = 0; i < p.text[UI::Orientation::Vertical].size(); ++i)
                     {
-                        render->drawRect(BBox2f(x, y, p.text[UI::Orientation::Vertical][i].second.x + m * 2.F, p.fontMetrics.lineHeight + m * 2.f));
+                        render->drawRect(BBox2f(x, y, p.text[UI::Orientation::Vertical][i].size.x + m * 2.F, p.fontMetrics.lineHeight + m * 2.f));
                         y += gridSizeZoom;
                     }
 
@@ -698,14 +743,14 @@ namespace djv
                     y = p.lockFrame.min.y + m;
                     for (size_t i = 0; i < p.text[UI::Orientation::Horizontal].size(); ++i)
                     {
-                        render->drawText(p.text[UI::Orientation::Horizontal][i].first, glm::vec2(floorf(x), floorf(y + p.fontMetrics.ascender - 1.F)));
+                        render->drawText(p.text[UI::Orientation::Horizontal][i].glyphs, glm::vec2(floorf(x), floorf(y + p.fontMetrics.ascender - 1.F)));
                         x += gridSizeZoom;
                     }
                     x = p.lockFrame.min.x + m;
                     y = g.min.y + imagePos.y + m;
                     for (size_t i = 0; i < p.text[UI::Orientation::Vertical].size(); ++i)
                     {
-                        render->drawText(p.text[UI::Orientation::Vertical][i].first, glm::vec2(floorf(x), floorf(y + p.fontMetrics.ascender - 1.F)));
+                        render->drawText(p.text[UI::Orientation::Vertical][i].glyphs, glm::vec2(floorf(x), floorf(y + p.fontMetrics.ascender - 1.F)));
                         y += gridSizeZoom;
                     }
                 }
@@ -733,8 +778,8 @@ namespace djv
         void ImageView::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            p.text.clear();
             p.textSizeFutures.clear();
+            p.textGlyphsFutures.clear();
             if (auto image = p.image->get())
             {
                 const auto& gridOptions = p.gridOptions->get();
@@ -743,30 +788,33 @@ namespace djv
                 {
                     for (auto i : UI::getOrientationEnums())
                     {
-                        p.text[i] = std::vector<std::pair<std::string, glm::vec2> >();
-                        p.textSizeFutures[i] = std::vector<std::future<glm::vec2> >();
+                        p.textSizeFutures[i] = std::vector<std::pair<size_t, std::future<glm::vec2> > >();
+                        p.textGlyphsFutures[i] = std::vector< std::pair<size_t, std::future<std::vector<std::shared_ptr<AV::Font::Glyph> > > > >();
                     }
                     const auto& style = _getStyle();
                     const auto fontInfo = style->getFontInfo(AV::Font::familyMono, AV::Font::faceDefault, UI::MetricsRole::FontSmall);
                     p.fontMetricsFuture = p.fontSystem->getMetrics(fontInfo);
                     const AV::Image::Size& imageSize = image->getSize();
                     size_t cells = static_cast<size_t>(imageSize.w / gridSize + 1);
+                    p.text[UI::Orientation::Horizontal].resize(cells);
                     for (size_t i = 0; i < cells; ++i)
                     {
                         const std::string label = getColumnLabel(i);
-                        p.text[UI::Orientation::Horizontal].push_back(std::make_pair(label, glm::vec2(0.F, 0.F)));
-                        p.textSizeFutures[UI::Orientation::Horizontal].push_back(p.fontSystem->measure(label, fontInfo));
+                        p.text[UI::Orientation::Horizontal][i].text = label;
+                        p.textSizeFutures[UI::Orientation::Horizontal].push_back(std::make_pair(i, p.fontSystem->measure(label, fontInfo)));
+                        p.textGlyphsFutures[UI::Orientation::Horizontal].push_back(std::make_pair(i, p.fontSystem->getGlyphs(label, fontInfo)));
                     }
                     cells = static_cast<size_t>(imageSize.h / gridSize + 1);
+                    p.text[UI::Orientation::Vertical].resize(cells);
                     for (size_t i = 0; i < cells; ++i)
                     {
                         const std::string label = getRowLabel(i);
-                        p.text[UI::Orientation::Vertical].push_back(std::make_pair(label, glm::vec2(0.F, 0.F)));
-                        p.textSizeFutures[UI::Orientation::Vertical].push_back(p.fontSystem->measure(label, fontInfo));
+                        p.text[UI::Orientation::Vertical][i].text = label;
+                        p.textSizeFutures[UI::Orientation::Vertical].push_back(std::make_pair(i, p.fontSystem->measure(label, fontInfo)));
+                        p.textGlyphsFutures[UI::Orientation::Vertical].push_back(std::make_pair(i, p.fontSystem->getGlyphs(label, fontInfo)));
                     }
                 }
             }
-            _resize();
         }
 
     } // namespace ViewApp

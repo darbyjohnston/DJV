@@ -99,7 +99,7 @@ namespace djv
             p.timer = Time::Timer::create(context);
             p.timer->setRepeating(true);
             p.timer->start(
-                Time::getMilliseconds(Time::TimerValue::Fast),
+                Time::getMilliseconds(Time::TimerValue::VeryFast),
                 [weak](float)
                 {
                     if (auto widget = weak.lock())

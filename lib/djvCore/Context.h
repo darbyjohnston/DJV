@@ -100,6 +100,9 @@ namespace djv
             //! Get the average tick FPS.
             float getFPSAverage() const;
 
+            //! Get the system tick times.
+            const std::vector<std::pair<std::string, float> >& getSystemTickTimes() const;
+
         protected:
             void _addSystem(const std::shared_ptr<ISystemBase> &);
 
@@ -111,7 +114,8 @@ namespace djv
             std::shared_ptr<LogSystem> _logSystem;
             std::shared_ptr<TextSystem> _textSystem;
             std::vector<std::shared_ptr<ISystemBase> > _systems;
-            std::chrono::time_point<std::chrono::system_clock> _fpsTime = std::chrono::system_clock::now();
+            std::vector<std::pair<std::string, float> > _systemTickTimes;
+            std::chrono::time_point<std::chrono::steady_clock> _fpsTime = std::chrono::steady_clock::now();
             std::list<float> _fpsSamples;
             float _fpsAverage = 0.F;
             std::shared_ptr<Time::Timer> _fpsTimer;

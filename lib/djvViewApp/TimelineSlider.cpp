@@ -69,11 +69,14 @@ namespace djv
             bool cacheEnabled = false;
             Frame::Sequence cacheSequence;
             Frame::Sequence cachedFrames;
+            AV::Font::Info fontInfo;
             AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;
             std::string currentFrameText;
             float currentFrameLength = 0.F;
             std::future<glm::vec2> currentFrameSizeFuture;
+            std::vector<std::shared_ptr<AV::Font::Glyph> > currentFrameGlyphs;
+            std::future<std::vector<std::shared_ptr<AV::Font::Glyph> > > currentFrameGlyphsFuture;
             float maxFrameLength = 0.F;
             std::future<glm::vec2> maxFrameSizeFuture;
             uint32_t pressedID = Event::InvalidID;
@@ -95,8 +98,10 @@ namespace djv
                 BBox2f geometry;
                 std::string text;
                 glm::vec2 textPos;
+                std::vector<std::shared_ptr<AV::Font::Glyph> > glyphs;
+                std::future<std::vector<std::shared_ptr<AV::Font::Glyph> > > glyphsFuture;
             };
-            std::vector<TimeTick> timeTicks;
+            std::vector<std::shared_ptr<TimeTick> > timeTicks;
         };
 
         void TimelineSlider::_init(const std::shared_ptr<Context>& context)
@@ -297,39 +302,6 @@ namespace djv
         void TimelineSlider::_preLayoutEvent(Event::PreLayout & event)
         {
             DJV_PRIVATE_PTR();
-            if (p.fontMetricsFuture.valid())
-            {
-                try
-                {
-                    p.fontMetrics = p.fontMetricsFuture.get();
-                }
-                catch (const std::exception& e)
-                {
-                    _log(e.what(), LogLevel::Error);
-                }
-            }
-            if (p.currentFrameSizeFuture.valid())
-            {
-                try
-                {
-                    p.currentFrameLength = p.currentFrameSizeFuture.get().x;
-                }
-                catch (const std::exception& e)
-                {
-                    _log(e.what(), LogLevel::Error);
-                }
-            }
-            if (p.maxFrameSizeFuture.valid())
-            {
-                try
-                {
-                    p.maxFrameLength = p.maxFrameSizeFuture.get().x;
-                }
-                catch (const std::exception& e)
-                {
-                    _log(e.what(), LogLevel::Error);
-                }
-            }
             const auto& style = _getStyle();
             const float m = style->getMetric(UI::MetricsRole::MarginSmall);
             const float b = style->getMetric(UI::MetricsRole::Border);
@@ -376,14 +348,15 @@ namespace djv
                             {
                                 if (x >= x2)
                                 {
-                                    Private::TimeTick tick;
-                                    tick.geometry = BBox2f(
+                                    auto tick = std::shared_ptr<Private::TimeTick>(new Private::TimeTick);
+                                    tick->geometry = BBox2f(
                                         x,
                                         g.max.y - b * 6.F - p.fontMetrics.lineHeight,
                                         b,
                                         p.fontMetrics.lineHeight);
-                                    tick.text = avSystem->getLabel(p.sequence.getFrame(i.second(unit, speedF)), p.speed);
-                                    tick.textPos = glm::vec2(x + m, y);
+                                    tick->text = avSystem->getLabel(p.sequence.getFrame(i.second(unit, speedF)), p.speed);
+                                    tick->textPos = glm::vec2(x + m, y);
+                                    tick->glyphsFuture = p.fontSystem->getGlyphs(tick->text, p.fontInfo);
                                     p.timeTicks.push_back(tick);
                                     x2 = x + p.maxFrameLength + m * 2.F;
                                 }
@@ -419,8 +392,11 @@ namespace djv
                 std::vector<BBox2f> boxes;
                 for (const auto& tick : p.timeTicks)
                 {
-                    boxes.push_back(tick.geometry);
-                    render->drawText(tick.text, glm::vec2(floorf(tick.textPos.x), floorf(tick.textPos.y)));
+                    boxes.push_back(tick->geometry);
+                    if (tick->glyphs.size())
+                    {
+                        render->drawText(tick->glyphs, glm::vec2(floorf(tick->textPos.x), floorf(tick->textPos.y)));
+                    }
                 }
                 render->drawRects(boxes);
 
@@ -492,23 +468,26 @@ namespace djv
                 }
 
                 // Draw the current frame.
-                color = style->getColor(UI::ColorRole::Foreground);
-                color.setF32(color.getF32(3) * .5F, 3);
-                render->setFillColor(color);
-                render->drawRect(hg);
-                color = style->getColor(UI::ColorRole::Foreground);
-                render->setFillColor(color);
-                float frameLeftPos = hg.min.x - m - p.currentFrameLength;
-                float frameRightPos = hg.max.x + m;
-                //! \bug Why the extra subtract by one here?
-                const float frameY = g.min.y + m + p.fontMetrics.ascender - 1.F;
-                if ((frameRightPos + p.currentFrameLength) > g.max.x)
+                if (p.currentFrameGlyphs.size())
                 {
-                    render->drawText(p.currentFrameText, glm::vec2(floorf(frameLeftPos), floorf(frameY)));
-                }
-                else
-                {
-                    render->drawText(p.currentFrameText, glm::vec2(floorf(frameRightPos), floorf(frameY)));
+                    color = style->getColor(UI::ColorRole::Foreground);
+                    color.setF32(color.getF32(3) * .5F, 3);
+                    render->setFillColor(color);
+                    render->drawRect(hg);
+                    color = style->getColor(UI::ColorRole::Foreground);
+                    render->setFillColor(color);
+                    float frameLeftPos = hg.min.x - m - p.currentFrameLength;
+                    float frameRightPos = hg.max.x + m;
+                    //! \bug Why the extra subtract by one here?
+                    const float frameY = g.min.y + m + p.fontMetrics.ascender - 1.F;
+                    if ((frameRightPos + p.currentFrameLength) > g.max.x)
+                    {
+                        render->drawText(p.currentFrameGlyphs, glm::vec2(floorf(frameLeftPos), floorf(frameY)));
+                    }
+                    else
+                    {
+                        render->drawText(p.currentFrameGlyphs, glm::vec2(floorf(frameRightPos), floorf(frameY)));
+                    }
                 }
             }
         }
@@ -607,15 +586,72 @@ namespace djv
         void TimelineSlider::_updateEvent(Event::Update & event)
         {
             DJV_PRIVATE_PTR();
-            if (p.fontMetricsFuture.valid())
+            if (p.fontMetricsFuture.valid() &&
+                p.fontMetricsFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
             {
                 try
                 {
                     p.fontMetrics = p.fontMetricsFuture.get();
+                    _resize();
                 }
                 catch (const std::exception & e)
                 {
                     _log(e.what(), LogLevel::Error);
+                }
+            }
+            if (p.currentFrameSizeFuture.valid() &&
+                p.currentFrameSizeFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+            {
+                try
+                {
+                    p.currentFrameLength = p.currentFrameSizeFuture.get().x;
+                    _resize();
+                }
+                catch (const std::exception & e)
+                {
+                    _log(e.what(), LogLevel::Error);
+                }
+            }
+            if (p.currentFrameGlyphsFuture.valid() &&
+                p.currentFrameGlyphsFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+            {
+                try
+                {
+                    p.currentFrameGlyphs = p.currentFrameGlyphsFuture.get();
+                    _redraw();
+                }
+                catch (const std::exception & e)
+                {
+                    _log(e.what(), LogLevel::Error);
+                }
+            }
+            if (p.maxFrameSizeFuture.valid() &&
+                p.maxFrameSizeFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+            {
+                try
+                {
+                    p.maxFrameLength = p.maxFrameSizeFuture.get().x;
+                    _resize();
+                }
+                catch (const std::exception & e)
+                {
+                    _log(e.what(), LogLevel::Error);
+                }
+            }
+            for (const auto& i : p.timeTicks)
+            {
+                if (i->glyphsFuture.valid() &&
+                    i->glyphsFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                {
+                    try
+                    {
+                        i->glyphs = i->glyphsFuture.get();
+                        _resize();
+                    }
+                    catch (const std::exception & e)
+                    {
+                        _log(e.what(), LogLevel::Error);
+                    }
                 }
             }
         }
@@ -696,8 +732,8 @@ namespace djv
             if (auto context = getContext().lock())
             {
                 const auto& style = _getStyle();
-                const auto fontInfo = style->getFontInfo(AV::Font::familyMono, AV::Font::faceDefault, UI::MetricsRole::FontSmall);
-                p.fontMetricsFuture = p.fontSystem->getMetrics(fontInfo);
+                p.fontInfo = style->getFontInfo(AV::Font::familyMono, AV::Font::faceDefault, UI::MetricsRole::FontSmall);
+                p.fontMetricsFuture = p.fontSystem->getMetrics(p.fontInfo);
                 std::string maxFrameText;
                 switch (p.timeUnits)
                 {
@@ -715,9 +751,8 @@ namespace djv
                 }
                 default: break;
                 }
-                p.maxFrameSizeFuture = p.fontSystem->measure(maxFrameText, fontInfo);
+                p.maxFrameSizeFuture = p.fontSystem->measure(maxFrameText, p.fontInfo);
                 p.geometryPrev = BBox2f(0.F, 0.F, -1.F, -1.F);
-                _resize();
             }
         }
 
@@ -731,7 +766,7 @@ namespace djv
                 auto avSystem = context->getSystemT<AV::AVSystem>();
                 p.currentFrameText = avSystem->getLabel(p.sequence.getFrame(p.currentFrame), p.speed);
                 p.currentFrameSizeFuture = p.fontSystem->measure(p.currentFrameText, fontInfo);
-                _resize();
+                p.currentFrameGlyphsFuture = p.fontSystem->getGlyphs(p.currentFrameText, fontInfo);
             }
         }
 

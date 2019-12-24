@@ -96,27 +96,30 @@ namespace djv
             {
                 glfwShowWindow(glfwWindow);
                 p.running = true;
-                auto time = std::chrono::system_clock::now();
+                auto start = std::chrono::steady_clock::now();
                 float dt = 0.F;
                 while (p.running && glfwWindow && !glfwWindowShouldClose(glfwWindow))
                 {
                     glfwPollEvents();
                     tick(dt);
 
-                    auto t = std::chrono::system_clock::now();
-                    std::chrono::duration<float> delta = t - time;
-                    const float oneOverFrameRate = 1 / static_cast<float>(frameRate);
-                    const float sleep = oneOverFrameRate - delta.count();
-                    std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(sleep * 1000)));
+                    auto end = std::chrono::steady_clock::now();
+                    std::chrono::duration<float, std::milli> diff = end - start;
+                    const float frameDuration = 1000 / static_cast<float>(frameRate);
+                    float sleep = frameDuration - diff.count();
+                    //std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(sleep * 1000)));
+                    while (sleep > 0.F)
+                    {
+                        end = std::chrono::steady_clock::now();
+                        diff = end - start;
+                        sleep = frameDuration - diff.count();
+                    }
 
-                    t = std::chrono::system_clock::now();
-                    delta = t - time;
-                    dt = delta.count();
-                    //if (dt > oneOverFrameRate)
-                    //{
-                    //    std::cout << std::fixed << (dt - oneOverFrameRate) << std::endl;
-                    //}
-                    time = t;
+                    end = std::chrono::steady_clock::now();
+                    diff = end - start;
+                    dt = diff.count() / 1000.F;
+                    //std::cout << "frame: " << diff.count() << "/" << frameDuration << std::endl << std::endl;
+                    start = end;
                 }
             }
             return 0;

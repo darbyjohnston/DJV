@@ -83,6 +83,11 @@ namespace djv
             return _fpsAverage;
         }
 
+        inline const std::vector<std::pair<std::string, float> >& Context::getSystemTickTimes() const
+        {
+            return _systemTickTimes;
+        }
+
     } // namespace Core
 } // namespace djv
 

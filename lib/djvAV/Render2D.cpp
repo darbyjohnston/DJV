@@ -455,7 +455,6 @@ namespace djv
             {
                 Render2D* system = nullptr;
 
-                std::weak_ptr<Font::System>             fontSystem;
                 Font::Info                              currentFont;
                 std::shared_ptr<ValueSubject<bool> >    lcdText;
 
@@ -507,9 +506,6 @@ namespace djv
                 p.system = this;
 
                 addDependency(context->getSystemT<AV::GLFW::System>());
-                auto fontSystem = context->getSystemT<Font::System>();
-                p.fontSystem = fontSystem;
-                addDependency(fontSystem);
 
                 p.lcdText = ValueSubject<bool>::create(true);
 
@@ -1059,25 +1055,6 @@ namespace djv
             void Render2D::setLCDText(bool value)
             {
                 _p->lcdText->setIfChanged(value);
-            }
-
-            std::vector<std::shared_ptr<Font::Glyph> > Render2D::drawText(const std::string & value, const glm::vec2 & pos)
-            {
-                DJV_PRIVATE_PTR();
-                std::vector<std::shared_ptr<Font::Glyph> > out;
-                try
-                {
-                    if (auto fontSystem = p.fontSystem.lock())
-                    {
-                        out = fontSystem->getGlyphs(value, p.currentFont).get();
-                    }
-                }
-                catch (const std::exception& e)
-                {
-                    _log(e.what());
-                }
-                drawText(out, pos);
-                return out;
             }
 
             void Render2D::drawText(const std::vector<std::shared_ptr<Font::Glyph> >& glyphs, const glm::vec2 & pos)

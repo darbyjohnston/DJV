@@ -92,12 +92,12 @@ namespace djv
             std::shared_ptr<AV::Audio::Data> audioData;
             size_t audioDataSamplesOffset = 0;
             size_t audioDataSamplesCount = 0;
-            std::chrono::system_clock::time_point audioDataSamplesTime;
+            std::chrono::high_resolution_clock::time_point audioDataSamplesTime;
             Frame::Index frameOffset = 0;
-            std::chrono::system_clock::time_point startTime;
-            std::chrono::system_clock::time_point realSpeedTime;
+            std::chrono::high_resolution_clock::time_point startTime;
+            std::chrono::high_resolution_clock::time_point realSpeedTime;
             size_t realSpeedFrameCount = 0;
-            std::chrono::system_clock::time_point playEveryFrameTime;
+            std::chrono::high_resolution_clock::time_point playEveryFrameTime;
             std::shared_ptr<Time::Timer> queueTimer;
             std::shared_ptr<Time::Timer> playbackTimer;
             std::shared_ptr<Time::Timer> realSpeedTimer;
@@ -886,7 +886,7 @@ namespace djv
                 p.audioData.reset();
                 p.audioDataSamplesOffset = 0;
                 p.audioDataSamplesCount = 0;
-                const auto now = std::chrono::system_clock::now();
+                const auto now = std::chrono::high_resolution_clock::now();
                 p.audioDataSamplesTime = now;
                 p.frameOffset = p.currentFrame->get();
                 p.startTime = now;
@@ -928,7 +928,7 @@ namespace djv
                     p.audioData.reset();
                     p.audioDataSamplesOffset = 0;
                     p.audioDataSamplesCount = 0;
-                    const auto now = std::chrono::system_clock::now();
+                    const auto now = std::chrono::high_resolution_clock::now();
                     p.audioDataSamplesTime = now;
                     p.frameOffset = p.currentFrame->get();
                     p.startTime = now;
@@ -955,7 +955,7 @@ namespace djv
                         {
                             if (auto media = weak.lock())
                             {
-                                const auto now = std::chrono::system_clock::now();
+                                const auto now = std::chrono::high_resolution_clock::now();
                                 std::chrono::duration<double> delta = now - media->_p->realSpeedTime;
                                 media->_p->realSpeed->setIfChanged(delta.count() ? (media->_p->realSpeedFrameCount / static_cast<float>(delta.count())) : 0.F);
                                 media->_p->realSpeedTime = now;
@@ -979,7 +979,7 @@ namespace djv
             case Playback::Reverse:
             {
                 const auto& speed = p.speed->get();
-                const auto now = std::chrono::system_clock::now();
+                const auto now = std::chrono::high_resolution_clock::now();
                 if (_hasAudioSyncPlayback())
                 {
                     if (p.audioDataSamplesCount)
@@ -1065,7 +1065,7 @@ namespace djv
             {
                 // Update the video queue.
                 const Playback playback = p.playback->get();
-                const auto now = std::chrono::system_clock::now();
+                const auto now = std::chrono::high_resolution_clock::now();
                 const std::chrono::duration<double> playEveryFrameDelta = now - p.playEveryFrameTime;
                 const float frameTime = 1.F / p.speed->get().toFloat();
                 const bool playEveryFrameAdvance = playEveryFrameDelta.count() > frameTime;
@@ -1180,7 +1180,7 @@ namespace djv
                 p += size * sampleByteCount;
                 media->_p->audioDataSamplesOffset += size;
                 media->_p->audioDataSamplesCount += size;
-                media->_p->audioDataSamplesTime = std::chrono::system_clock::now();
+                media->_p->audioDataSamplesTime = std::chrono::high_resolution_clock::now();
                 outputSampleCount -= size;
                 if (media->_p->audioDataSamplesOffset >= media->_p->audioData->getSampleCount())
                 {
@@ -1208,7 +1208,7 @@ namespace djv
                 p += size * sampleByteCount;
                 media->_p->audioDataSamplesOffset = size;
                 media->_p->audioDataSamplesCount += size;
-                media->_p->audioDataSamplesTime = std::chrono::system_clock::now();
+                media->_p->audioDataSamplesTime = std::chrono::high_resolution_clock::now();
                 outputSampleCount -= size;
             }
 

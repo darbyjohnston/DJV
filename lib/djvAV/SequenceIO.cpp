@@ -140,7 +140,7 @@ namespace djv
 
                     // Start looping...
                     p.infoTimer = std::chrono::system_clock::now();
-                    const auto timeout = Time::getValue(Time::TimerValue::Fast);
+                    const auto timeout = Time::getValue(Time::TimerValue::VeryFast);
                     while (p.running)
                     {
                         // Update the options.

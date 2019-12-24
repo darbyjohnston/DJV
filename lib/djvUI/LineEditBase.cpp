@@ -84,7 +84,7 @@ namespace djv
             std::future<std::vector<BBox2f> > glyphGeomFuture;
             std::vector<BBox2f> glyphGeom;
             std::vector<std::shared_ptr<AV::Font::Glyph> > glyphs;
-            bool glyphsValid = false;
+            std::future<std::vector<std::shared_ptr<AV::Font::Glyph> > > glyphsFuture;
             bool cursorBlink = false;
             Event::PointerID pressedID = Event::InvalidID;
 
@@ -269,53 +269,6 @@ namespace djv
             const auto& style = _getStyle();
             const float m = style->getMetric(MetricsRole::MarginSmall);
             const float tc = style->getMetric(p.textSizeRole);
-
-            if (p.fontMetricsFuture.valid())
-            {
-                try
-                {
-                    p.fontMetrics = p.fontMetricsFuture.get();
-                }
-                catch (const std::exception & e)
-                {
-                    _log(e.what(), LogLevel::Error);
-                }
-            }
-            if (p.textSizeFuture.valid())
-            {
-                try
-                {
-                    p.textSize = p.textSizeFuture.get();
-                }
-                catch (const std::exception & e)
-                {
-                    _log(e.what(), LogLevel::Error);
-                }
-            }
-            if (p.sizeStringFuture.valid())
-            {
-                try
-                {
-                    p.sizeStringSize = p.sizeStringFuture.get();
-                }
-                catch (const std::exception & e)
-                {
-                    _log(e.what(), LogLevel::Error);
-                }
-            }
-            if (p.glyphGeomFuture.valid())
-            {
-                try
-                {
-                    p.glyphGeom = p.glyphGeomFuture.get();
-                    _viewUpdate();
-                }
-                catch (const std::exception & e)
-                {
-                    _log(e.what(), LogLevel::Error);
-                }
-            }
-
             const glm::vec2 size(p.sizeString.empty() ? tc : p.sizeStringSize.x, p.fontMetrics.lineHeight);
             _setMinimumSize(size + m * 2.F + getMargin().getSize(style));
         }
@@ -387,23 +340,18 @@ namespace djv
             }
 
             // Draw the text.
-            auto fontInfo = p.font.empty() ?
-                style->getFontInfo(p.fontFace, p.fontSizeRole) :
-                style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);
-            render->setCurrentFont(fontInfo);
-            render->setFillColor(style->getColor(p.textColorRole));
-            glm::vec2 pos = g.min;
-            pos += m;
-            pos.x -= p.viewOffset;
-            pos.y = c.y - p.textSize.y / 2.F;
-            if (!p.glyphsValid)
+            if (p.glyphs.size())
             {
-                p.glyphsValid = true;
+                auto fontInfo = p.font.empty() ?
+                    style->getFontInfo(p.fontFace, p.fontSizeRole) :
+                    style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);
+                render->setCurrentFont(fontInfo);
+                render->setFillColor(style->getColor(p.textColorRole));
+                glm::vec2 pos = g.min;
+                pos += m;
+                pos.x -= p.viewOffset;
+                pos.y = c.y - p.textSize.y / 2.F;
                 //! \bug Why the extra subtract by one here?
-                p.glyphs = render->drawText(p.text, glm::vec2(floorf(pos.x), floorf(pos.y + p.fontMetrics.ascender - 1.F)));
-            }
-            else
-            {
                 render->drawText(p.glyphs, glm::vec2(floorf(pos.x), floorf(pos.y + p.fontMetrics.ascender - 1.F)));
             }
 
@@ -787,13 +735,85 @@ namespace djv
             _doTextChangedCallback();
         }
 
-        void LineEditBase::_initEvent(Event::Init & event)
+        void LineEditBase::_initEvent(Event::Init& event)
         {
             Widget::_initEvent(event);
             _p->viewOffset = 0.F;
             _textUpdate();
             _cursorUpdate();
             _viewUpdate();
+        }
+
+        void LineEditBase::_updateEvent(Event::Update& event)
+        {
+            Widget::_updateEvent(event);
+            DJV_PRIVATE_PTR();
+            if (p.fontMetricsFuture.valid() &&
+                p.fontMetricsFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+            {
+                try
+                {
+                    p.fontMetrics = p.fontMetricsFuture.get();
+                    _resize();
+                }
+                catch (const std::exception & e)
+                {
+                    _log(e.what(), LogLevel::Error);
+                }
+            }
+            if (p.textSizeFuture.valid() &&
+                p.textSizeFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+            {
+                try
+                {
+                    p.textSize = p.textSizeFuture.get();
+                    _resize();
+                }
+                catch (const std::exception & e)
+                {
+                    _log(e.what(), LogLevel::Error);
+                }
+            }
+            if (p.sizeStringFuture.valid() &&
+                p.sizeStringFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+            {
+                try
+                {
+                    p.sizeStringSize = p.sizeStringFuture.get();
+                    _resize();
+                }
+                catch (const std::exception & e)
+                {
+                    _log(e.what(), LogLevel::Error);
+                }
+            }
+            if (p.glyphGeomFuture.valid() &&
+                p.glyphGeomFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+            {
+                try
+                {
+                    p.glyphGeom = p.glyphGeomFuture.get();
+                    _viewUpdate();
+                    _resize();
+                }
+                catch (const std::exception & e)
+                {
+                    _log(e.what(), LogLevel::Error);
+                }
+            }
+            if (p.glyphsFuture.valid() &&
+                p.glyphsFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+            {
+                try
+                {
+                    p.glyphs = p.glyphsFuture.get();
+                    _redraw();
+                }
+                catch (const std::exception & e)
+                {
+                    _log(e.what(), LogLevel::Error);
+                }
+            }
         }
 
         std::string LineEditBase::_fromUtf32(const std::basic_string<djv_char_t>& value)
@@ -863,9 +883,11 @@ namespace djv
             }
             p.glyphGeomFuture = p.fontSystem->measureGlyphs(p.text, fontInfo);
             p.glyphGeom.clear();
-            p.glyphs.clear();
-            p.glyphsValid = false;
-            _resize();
+            if (!p.text.size())
+            {
+                p.glyphs.clear();
+            }
+            p.glyphsFuture = p.fontSystem->getGlyphs(p.text, fontInfo);
         }
 
         void LineEditBase::_cursorUpdate()

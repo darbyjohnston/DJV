@@ -130,8 +130,8 @@ namespace djv
         
         void Context::tick(float dt)
         {
-            const auto now = std::chrono::system_clock::now();
-            const std::chrono::duration<float> delta = now - _fpsTime;
+            auto now = std::chrono::steady_clock::now();
+            std::chrono::duration<float> delta = now - _fpsTime;
             _fpsTime = now;
             _fpsSamples.push_front(1.F / delta.count());
             while (_fpsSamples.size() > fpsSamplesCount)
@@ -173,10 +173,31 @@ namespace djv
                 //FileSystem::FileIO::writeLines("systems.dot", dot);
             }
 
+            float total = 0.F;
+            auto start = std::chrono::steady_clock::now();
+            std::vector<std::pair<std::string, float> > systemTickTimes;
             for (const auto & system : _systems)
             {
                 system->tick(dt);
+                auto end = std::chrono::steady_clock::now();
+                std::chrono::duration<float, std::milli> diff = end - start;
+                systemTickTimes.push_back(std::make_pair(system->getSystemName(), diff.count()));
+                start = end;
+                total += diff.count();
             }
+            std::sort(
+                systemTickTimes.begin(),
+                systemTickTimes.end(),
+                [](const std::pair<std::string, float>& a, const std::pair<std::string, float>& b)
+                {
+                    return a.second > b.second;
+                });
+            /*for (const auto& i : systemTickTimes)
+            {
+                std::cout << i.first << ": " << i.second << std::endl;
+            }
+            std::cout << "total: " << total << std::endl << std::endl;*/
+            _systemTickTimes = systemTickTimes;
         }
 
         void Context::_addSystem(const std::shared_ptr<ISystemBase> & system)

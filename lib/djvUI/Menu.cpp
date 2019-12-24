@@ -95,8 +95,10 @@ namespace djv
                     std::string font;
                     AV::Font::Metrics fontMetrics;
                     glm::vec2 textSize = glm::vec2(0.F, 0.F);
+                    std::vector<std::shared_ptr<AV::Font::Glyph> > textGlyphs;
                     std::string shortcutLabel;
                     glm::vec2 shortcutSize = glm::vec2(0.F, 0.F);
+                    std::vector<std::shared_ptr<AV::Font::Glyph> > shortcutGlyphs;
                     bool enabled = true;
                     glm::vec2 size = glm::vec2(0.F, 0.F);
                     BBox2f geom = BBox2f(0.F, 0.F, 0.F, 0.F);
@@ -117,7 +119,9 @@ namespace djv
                 std::map<std::shared_ptr<Item>, std::future<std::shared_ptr<AV::Image::Image> > > _iconFutures;
                 std::map<std::shared_ptr<Item>, std::future<AV::Font::Metrics> > _fontMetricsFutures;
                 std::map<std::shared_ptr<Item>, std::future<glm::vec2> > _textSizeFutures;
+                std::map<std::shared_ptr<Item>, std::future<std::vector<std::shared_ptr<AV::Font::Glyph> > > > _textGlyphsFutures;
                 std::map<std::shared_ptr<Item>, std::future<glm::vec2> > _shortcutSizeFutures;
+                std::map<std::shared_ptr<Item>, std::future<std::vector<std::shared_ptr<AV::Font::Glyph> > > > _shortcutGlyphsFutures;
                 std::map<Event::PointerID, std::shared_ptr<Item> > _hoveredItems;
                 std::pair<Event::PointerID, std::shared_ptr<Item> > _pressed;
                 glm::vec2 _pressedPos = glm::vec2(0.F, 0.F);
@@ -167,63 +171,6 @@ namespace djv
                 const float b = style->getMetric(MetricsRole::Border);
                 const float is = style->getMetric(MetricsRole::Icon);
                 const float iss = style->getMetric(MetricsRole::IconSmall);
-
-                for (auto& i : _iconFutures)
-                {
-                    if (i.second.valid())
-                    {
-                        try
-                        {
-                            i.first->icon = i.second.get();
-                        }
-                        catch (const std::exception& e)
-                        {
-                            _log(e.what(), LogLevel::Error);
-                        }
-                    }
-                }
-                for (auto& i : _fontMetricsFutures)
-                {
-                    if (i.second.valid())
-                    {
-                        try
-                        {
-                            i.first->fontMetrics = i.second.get();
-                        }
-                        catch (const std::exception& e)
-                        {
-                            _log(e.what(), LogLevel::Error);
-                        }
-                    }
-                }
-                for (auto & i : _textSizeFutures)
-                {
-                    if (i.second.valid())
-                    {
-                        try
-                        {
-                            i.first->textSize = i.second.get();
-                        }
-                        catch (const std::exception & e)
-                        {
-                            _log(e.what(), LogLevel::Error);
-                        }
-                    }
-                }
-                for (auto & i : _shortcutSizeFutures)
-                {
-                    if (i.second.valid())
-                    {
-                        try
-                        {
-                            i.first->shortcutSize = i.second.get();
-                        }
-                        catch (const std::exception & e)
-                        {
-                            _log(e.what(), LogLevel::Error);
-                        }
-                    }
-                }
 
                 glm::vec2 textSize(0.F, 0.F);
                 glm::vec2 shortcutSize(0.F, 0.F);
@@ -382,13 +329,13 @@ namespace djv
                             style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium) :
                             style->getFontInfo(i.second->font, AV::Font::faceDefault, MetricsRole::FontMedium);
                         render->setCurrentFont(fontInfo);
-                        render->drawText(i.second->text, glm::vec2(x + m, y));
+                        render->drawText(i.second->textGlyphs, glm::vec2(x + m, y));
                         x += i.second->textSize.x + m * 2.F;
 
                         if (!i.second->shortcutLabel.empty())
                         {
                             x = g.max.x - i.second->shortcutSize.x - m;
-                            render->drawText(i.second->shortcutLabel, glm::vec2(x, y));
+                            render->drawText(i.second->shortcutGlyphs, glm::vec2(x, y));
                         }
                     }
                     else
@@ -518,12 +465,6 @@ namespace djv
                 }
             }
 
-            void MenuWidget::_initEvent(Event::Init & event)
-            {
-                Widget::_initEvent(event);
-                _itemsUpdate();
-            }
-
             std::shared_ptr<Widget> MenuWidget::_createTooltip(const glm::vec2 & pos)
             {
                 std::string text;
@@ -542,11 +483,107 @@ namespace djv
                 return !text.empty() ? _createTooltipDefault(text) : nullptr;
             }
 
+            void MenuWidget::_initEvent(Event::Init& event)
+            {
+                Widget::_initEvent(event);
+                _itemsUpdate();
+            }
+
             void MenuWidget::_updateEvent(Event::Update &)
             {
                 if (_textUpdateRequest)
                 {
                     _textUpdate();
+                }
+                for (auto& i : _iconFutures)
+                {
+                    if (i.second.valid() &&
+                        i.second.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                    {
+                        try
+                        {
+                            i.first->icon = i.second.get();
+                        }
+                        catch (const std::exception & e)
+                        {
+                            _log(e.what(), LogLevel::Error);
+                        }
+                    }
+                }
+                for (auto& i : _fontMetricsFutures)
+                {
+                    if (i.second.valid() &&
+                        i.second.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                    {
+                        try
+                        {
+                            i.first->fontMetrics = i.second.get();
+                        }
+                        catch (const std::exception & e)
+                        {
+                            _log(e.what(), LogLevel::Error);
+                        }
+                    }
+                }
+                for (auto& i : _textSizeFutures)
+                {
+                    if (i.second.valid() &&
+                        i.second.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                    {
+                        try
+                        {
+                            i.first->textSize = i.second.get();
+                        }
+                        catch (const std::exception & e)
+                        {
+                            _log(e.what(), LogLevel::Error);
+                        }
+                    }
+                }
+                for (auto& i : _textGlyphsFutures)
+                {
+                    if (i.second.valid() &&
+                        i.second.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                    {
+                        try
+                        {
+                            i.first->textGlyphs = i.second.get();
+                        }
+                        catch (const std::exception & e)
+                        {
+                            _log(e.what(), LogLevel::Error);
+                        }
+                    }
+                }
+                for (auto& i : _shortcutSizeFutures)
+                {
+                    if (i.second.valid() &&
+                        i.second.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                    {
+                        try
+                        {
+                            i.first->shortcutSize = i.second.get();
+                        }
+                        catch (const std::exception & e)
+                        {
+                            _log(e.what(), LogLevel::Error);
+                        }
+                    }
+                }
+                for (auto& i : _shortcutGlyphsFutures)
+                {
+                    if (i.second.valid() &&
+                        i.second.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
+                    {
+                        try
+                        {
+                            i.first->shortcutGlyphs = i.second.get();
+                        }
+                        catch (const std::exception & e)
+                        {
+                            _log(e.what(), LogLevel::Error);
+                        }
+                    }
                 }
             }
 
@@ -576,7 +613,9 @@ namespace djv
                 _iconFutures.clear();
                 _fontMetricsFutures.clear();
                 _textSizeFutures.clear();
+                _textGlyphsFutures.clear();
                 _shortcutSizeFutures.clear();
+                _shortcutGlyphsFutures.clear();
                 _buttonTypeObservers.clear();
                 _checkedObservers.clear();
                 _iconObservers.clear();
@@ -707,7 +746,9 @@ namespace djv
                         style->getFontInfo(i.second->font, AV::Font::faceDefault, MetricsRole::FontMedium);
                     _fontMetricsFutures[i.second] = _fontSystem->getMetrics(fontInfo);
                     _textSizeFutures[i.second] = _fontSystem->measure(i.second->text, fontInfo);
+                    _textGlyphsFutures[i.second] = _fontSystem->getGlyphs(i.second->text, fontInfo);
                     _shortcutSizeFutures[i.second] = _fontSystem->measure(i.second->shortcutLabel, fontInfo);
+                    _shortcutGlyphsFutures[i.second] = _fontSystem->getGlyphs(i.second->shortcutLabel, fontInfo);
                     _hasShortcuts |= i.second->shortcutLabel.size() > 0;
                 }
             }
