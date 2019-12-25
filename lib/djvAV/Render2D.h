@@ -36,8 +36,8 @@
 
 #include <djvCore/BBox.h>
 #include <djvCore/ISystem.h>
+#include <djvCore/PicoJSON.h>
 #include <djvCore/Range.h>
-#include <djvCore/ValueObserver.h>
 
 #include <list>
 
@@ -160,6 +160,30 @@ namespace djv
                 bool operator != (const ImageOptions&) const;
             };
 
+            //! This eumeration provides the image filtering options.
+            enum class ImageFilter
+            {
+                Nearest,
+                Linear,
+
+                Count,
+                First = Nearest
+            };
+            DJV_ENUM_HELPERS(ImageFilter);
+
+            class ImageFilterOptions
+            {
+            public:
+                ImageFilterOptions();
+                ImageFilterOptions(ImageFilter min, ImageFilter mag);
+
+                ImageFilter min = ImageFilter::Linear;
+                ImageFilter mag = ImageFilter::Nearest;
+
+                bool operator == (const ImageFilterOptions&) const;
+                bool operator != (const ImageFilterOptions&) const;
+            };
+
             //! This class provides a 2D renderer.
             class Render2D : public Core::ISystem
             {
@@ -228,6 +252,9 @@ namespace djv
                 //! \name Images
                 ///@{
 
+                //! This function should only be called outside of beginFrame()/endFrame().
+                void setImageFilterOptions(const ImageFilterOptions&);
+
                 void drawImage(
                     const std::shared_ptr<Image::Image> &,
                     const glm::vec2& pos,
@@ -243,11 +270,7 @@ namespace djv
                 //! \name Text
                 ///@{
 
-
                 void setCurrentFont(const Font::Info &);
-
-                std::shared_ptr<Core::IValueSubject<bool> > observeLCDText() const;
-
                 void setLCDText(bool);
 
                 void drawText(const std::vector<std::shared_ptr<Font::Glyph> >& glyphs, const glm::vec2& position);
@@ -274,6 +297,7 @@ namespace djv
             private:
                 void _updateCurrentTransform();
                 void _updateCurrentClipRect();
+                void _updateImageFilter();
 
                 Image::Size             _size;
                 std::list<glm::mat3x3>  _transforms;
@@ -294,6 +318,15 @@ namespace djv
 
     DJV_ENUM_SERIALIZE_HELPERS(AV::Render::ImageChannel);
     DJV_ENUM_SERIALIZE_HELPERS(AV::Render::ImageCache);
+    DJV_ENUM_SERIALIZE_HELPERS(AV::Render::ImageFilter);
+
+    picojson::value toJSON(AV::Render::ImageFilter);
+    picojson::value toJSON(const AV::Render::ImageFilterOptions&);
+
+    //! Throws:
+    //! - std::exception
+    void fromJSON(const picojson::value&, AV::Render::ImageFilter&);
+    void fromJSON(const picojson::value&, AV::Render::ImageFilterOptions&);
 
 } // namespace djv
 

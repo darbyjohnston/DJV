@@ -112,6 +112,24 @@ namespace djv
                 return !(*this == other);
             }
 
+            inline ImageFilterOptions::ImageFilterOptions()
+            {}
+
+            inline ImageFilterOptions::ImageFilterOptions(ImageFilter min, ImageFilter mag) :
+                min(min),
+                mag(mag)
+            {}
+
+            inline bool ImageFilterOptions::operator == (const ImageFilterOptions& other) const
+            {
+                return min == other.min && mag == other.mag;
+            }
+
+            inline bool ImageFilterOptions::operator != (const ImageFilterOptions& other) const
+            {
+                return !(*this == other);
+            }
+
             inline void Render2D::pushTransform(const glm::mat3x3& value)
             {
                 _transforms.push_back(value);

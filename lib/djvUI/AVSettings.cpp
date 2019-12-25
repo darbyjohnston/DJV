@@ -89,6 +89,7 @@ namespace djv
                     djv::AV::TimeUnits timeUnits = djv::AV::TimeUnits::First;
                     djv::AV::AlphaBlend alphaBlend = djv::AV::AlphaBlend::Straight;
                     Time::FPS defaultSpeed = Time::getDefaultSpeed();
+                    djv::AV::Render::ImageFilterOptions imageFilterOptions;
                     bool lcdText = false;
                     for (const auto & i : object)
                     {
@@ -107,6 +108,10 @@ namespace djv
                             std::stringstream ss(i.second.get<std::string>());
                             ss >> defaultSpeed;
                         }
+                        else if ("ImageFilterOptions" == i.first)
+                        {
+                            fromJSON(i.second, imageFilterOptions);
+                        }
                         else if ("LCDText" == i.first)
                         {
                             std::stringstream ss(i.second.get<std::string>());
@@ -116,6 +121,7 @@ namespace djv
                     p.avSystem->setTimeUnits(timeUnits);
                     p.avSystem->setAlphaBlend(alphaBlend);
                     p.avSystem->setDefaultSpeed(defaultSpeed);
+                    p.renderSystem->setImageFilterOptions(imageFilterOptions);
                     p.renderSystem->setLCDText(lcdText);
                     for (const auto & i : p.ioSystem->getPluginNames())
                     {
@@ -149,8 +155,11 @@ namespace djv
                     object["DefaultSpeed"] = picojson::value(ss.str());
                 }
                 {
+                    object["ImageFilterOptions"] = toJSON(p.avSystem->observeImageFilterOptions()->get());
+                }
+                {
                     std::stringstream ss;
-                    ss << p.renderSystem->observeLCDText()->get();
+                    ss << p.avSystem->observeLCDText()->get();
                     object["LCDText"] = picojson::value(ss.str());
                 }
                 for (const auto & i : p.ioSystem->getPluginNames())

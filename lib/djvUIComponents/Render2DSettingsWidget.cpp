@@ -32,7 +32,7 @@
 #include <djvUI/CheckBox.h>
 #include <djvUI/RowLayout.h>
 
-#include <djvAV/Render2D.h>
+#include <djvAV/AVSystem.h>
 
 #include <djvCore/Context.h>
 
@@ -68,15 +68,15 @@ namespace djv
                 {
                     if (auto context = contextWeak.lock())
                     {
-                        auto render2D = context->getSystemT<AV::Render::Render2D>();
-                        render2D->setLCDText(value);
+                        auto avSystem = context->getSystemT<AV::AVSystem>();
+                        avSystem->setLCDText(value);
                     }
                 });
 
-            auto render2D = context->getSystemT<AV::Render::Render2D>();
+            auto avSystem = context->getSystemT<AV::AVSystem>();
             auto weak = std::weak_ptr<Render2DTextSettingsWidget>(std::dynamic_pointer_cast<Render2DTextSettingsWidget>(shared_from_this()));
             p.lcdTextObserver = ValueObserver<bool>::create(
-                render2D->observeLCDText(),
+                avSystem->observeLCDText(),
                 [weak](bool value)
                 {
                     if (auto widget = weak.lock())

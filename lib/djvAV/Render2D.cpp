@@ -67,7 +67,7 @@ namespace djv
                 //! \todo Should this be configurable?
                 const uint8_t  textureAtlasCount      = 4;
                 const uint16_t textureAtlasSize       = 8192;
-                const size_t   dynamicTextureIDCount  = 16;
+                const size_t   dynamicTextureCount    = 16;
                 const size_t   dynamicTextureCacheMax = 16;
 #if !defined(DJV_OPENGL_ES2)
                 const size_t   lut3DSize              = 32;
@@ -456,7 +456,8 @@ namespace djv
                 Render2D* system = nullptr;
 
                 Font::Info                              currentFont;
-                std::shared_ptr<ValueSubject<bool> >    lcdText;
+                ImageFilterOptions                      imageFilterOptions  = ImageFilterOptions(ImageFilter::Linear, ImageFilter::Nearest);
+                bool                                    lcdText             = true;
 
                 BBox2f                                              viewport;
                 std::vector<Primitive*>                             primitives;
@@ -464,7 +465,7 @@ namespace djv
                 std::shared_ptr<TextureAtlas>                       textureAtlas;
                 std::map<UID, uint64_t>                             textureIDs;
                 std::map<UID, uint64_t>                             glyphTextureIDs;
-                std::vector<std::shared_ptr<OpenGL::Texture> >      dynamicTextureIDs;
+                std::vector<std::shared_ptr<OpenGL::Texture> >      dynamicTextures;
                 std::map<UID, std::shared_ptr<OpenGL::Texture> >    dynamicTextureCache;
 #if !defined(DJV_OPENGL_ES2)
                 std::map<OCIO::Convert, ColorSpaceData>             colorSpaceCache;
@@ -507,8 +508,6 @@ namespace djv
 
                 addDependency(context->getSystemT<AV::GLFW::System>());
 
-                p.lcdText = ValueSubject<bool>::create(true);
-
                 GLint maxTextureUnits = 0;
                 GLint maxTextureSize = 0;
                 glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &maxTextureUnits);
@@ -537,10 +536,7 @@ namespace djv
                     0));
                 p.primitiveData.textureAtlasCount = _textureAtlasCount;
 
-                for (size_t i = 0; i < dynamicTextureIDCount; ++i)
-                {
-                    p.dynamicTextureIDs.push_back(AV::OpenGL::Texture::create(AV::Image::Info(), GL_LINEAR, GL_NEAREST));
-                }
+                _updateImageFilter();
 
                 auto resourceSystem = context->getSystemT<ResourceSystem>();
                 const FileSystem::Path shaderPath = resourceSystem->getPath(FileSystem::ResourcePath::Shaders);
@@ -571,7 +567,7 @@ namespace djv
                         ss << "Texture atlas: " << p.textureAtlas->getPercentageUsed() << "%\n";
                         ss << "Texture IDs: " << p.textureIDs.size() << "%\n";
                         ss << "Glyph texture IDs: " << p.glyphTextureIDs.size() << "\n";
-                        ss << "Dynamic texture IDs: " << p.dynamicTextureIDs.size() << "\n";
+                        ss << "Dynamic textures: " << p.dynamicTextures.size() << "\n";
                         ss << "Dynamic texture cache: " << p.dynamicTextureCache.size() << "\n";
 #if !defined(DJV_OPENGL_ES2)
                         ss << "Color space cache: " << p.colorSpaceCache.size() << "\n";
@@ -779,12 +775,12 @@ namespace djv
                 while (p.dynamicTextureCache.size() > dynamicTextureCacheMax)
                 {
                     auto texture = p.dynamicTextureCache.begin();
-                    p.dynamicTextureIDs.push_back(texture->second);
+                    p.dynamicTextures.push_back(texture->second);
                     p.dynamicTextureCache.erase(texture);
                 }
-                while (p.dynamicTextureIDs.size() > dynamicTextureIDCount)
+                while (p.dynamicTextures.size() > dynamicTextureCount)
                 {
-                    p.dynamicTextureIDs.pop_back();
+                    p.dynamicTextures.pop_back();
                 }
 #if !defined(DJV_OPENGL_ES2)
                 while (p.colorSpaceCache.size() > colorSpaceCacheMax)
@@ -1024,6 +1020,15 @@ namespace djv
                 }
             }
 
+            void Render2D::setImageFilterOptions(const ImageFilterOptions& value)
+            {
+                DJV_PRIVATE_PTR();
+                if (value == p.imageFilterOptions)
+                    return;
+                p.imageFilterOptions = value;
+                _updateImageFilter();
+            }
+
             void Render2D::drawImage(
                 const std::shared_ptr<Image::Image> & image,
                 const glm::vec2& pos,
@@ -1047,14 +1052,9 @@ namespace djv
                 _p->currentFont = value;
             }
 
-            std::shared_ptr<IValueSubject<bool> > Render2D::observeLCDText() const
-            {
-                return _p->lcdText;
-            }
-
             void Render2D::setLCDText(bool value)
             {
-                _p->lcdText->setIfChanged(value);
+                _p->lcdText = value;
             }
 
             void Render2D::drawText(const std::vector<std::shared_ptr<Font::Glyph> >& glyphs, const glm::vec2 & pos)
@@ -1132,7 +1132,7 @@ namespace djv
                     primitive->atlasIndex = i.front().item.textureIndex;
                     primitive->vaoOffset = p.vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
                     primitive->vaoSize = i.size() * 6;
-                    primitive->lcdText = p.lcdText->get();
+                    primitive->lcdText = p.lcdText;
                     
                     const size_t vboDataSize = p.vboDataSize;
                     p.updateVBODataSize(i.size() * 6);
@@ -1469,6 +1469,17 @@ namespace djv
                 return _p->vbo ? _p->vbo->getSize() : 0;
             }
 
+            void Render2D::_updateImageFilter()
+            {
+                DJV_PRIVATE_PTR();
+                p.dynamicTextures.clear();
+                p.dynamicTextureCache.clear();
+                for (size_t i = 0; i < dynamicTextureCount; ++i)
+                {
+                    p.dynamicTextures.push_back(AV::OpenGL::Texture::create(AV::Image::Info(), GL_LINEAR, GL_NEAREST));
+                }
+            }
+
             void Render2D::Private::updateVBODataSize(size_t value)
             {
                 const size_t vertexByteCount = AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
@@ -1606,10 +1617,10 @@ namespace djv
                         else
                         {
                             std::shared_ptr<OpenGL::Texture> texture;
-                            if (dynamicTextureIDs.size())
+                            if (dynamicTextures.size())
                             {
-                                texture = dynamicTextureIDs.back();
-                                dynamicTextureIDs.pop_back();
+                                texture = dynamicTextures.back();
+                                dynamicTextures.pop_back();
                                 texture->set(image->getInfo());
                             }
                             else
@@ -1790,5 +1801,66 @@ namespace djv
         ImageCache,
         DJV_TEXT("Atlas"),
         DJV_TEXT("Dynamic"));
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        AV::Render,
+        ImageFilter,
+        DJV_TEXT("Nearest"),
+        DJV_TEXT("Linear"));
+
+    picojson::value toJSON(AV::Render::ImageFilter value)
+    {
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
+    }
+
+    picojson::value toJSON(const AV::Render::ImageFilterOptions& value)
+    {
+        picojson::value out(picojson::object_type, true);
+        {
+            picojson::value object(picojson::object_type, true);
+            out.get<picojson::object>()["Min"] = toJSON(value.min);
+            out.get<picojson::object>()["Mag"] = toJSON(value.mag);
+        }
+        return out;
+    }
+
+    void fromJSON(const picojson::value& value, AV::Render::ImageFilter& out)
+    {
+        if (value.is<std::string>())
+        {
+            std::stringstream ss(value.get<std::string>());
+            ss >> out;
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
+
+    void fromJSON(const picojson::value& value, AV::Render::ImageFilterOptions& out)
+    {
+        if (value.is<picojson::object>())
+        {
+            for (const auto& i : value.get<picojson::object>())
+            {
+                if ("Min" == i.first)
+                {
+                    std::stringstream ss(i.second.get<std::string>());
+                    ss >> out.min;
+                }
+                else if ("Mag" == i.first)
+                {
+                    std::stringstream ss(i.second.get<std::string>());
+                    ss >> out.mag;
+                }
+            }
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
 
 } // namespace djv

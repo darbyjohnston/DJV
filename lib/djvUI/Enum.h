@@ -307,7 +307,7 @@ namespace djv
 
     //! Throws:
     //! - std::exception
-    void fromJSON(const picojson::value &, UI::ViewType &);
+    void fromJSON(const picojson::value&, UI::ViewType&);
     void fromJSON(const picojson::value&, UI::ImageAspectRatio&);
 
     DJV_ENUM_SERIALIZE_HELPERS(UI::Orientation);
