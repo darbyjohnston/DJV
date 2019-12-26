@@ -768,12 +768,22 @@
         "text": "Jean-Francois Panisset",
         "id": "Credits Jean-Francois Panisset",
         "description": ""
-    }, 
+    },
     {
         "text": "Azure Pipelines CI integration",
         "id": "Credits Jean-Francois Panisset Text",
         "description": ""
-    }, 
+    },
+    {
+        "text": "Haryo Sukmawanto",
+        "id": "Credits Haryo Sukmawanto",
+        "description": ""
+    },
+    {
+        "text": "Custom playback frame rate UI",
+        "id": "Credits Haryo Sukmawanto Text",
+        "description": ""
+    },
     {
         "text": "unexpected GmbH, https://www.unexpected.de", 
         "id": "Sponsors unexpected", 
