@@ -170,6 +170,7 @@ namespace djv
                 First = Nearest
             };
             DJV_ENUM_HELPERS(ImageFilter);
+            GLenum toGL(ImageFilter);
 
             class ImageFilterOptions
             {

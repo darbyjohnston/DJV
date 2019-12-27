@@ -144,6 +144,7 @@ namespace djv
                     UI::LanguageSettingsWidget::create(context),
                     UI::SizeSettingsWidget::create(context),
                     UI::PaletteSettingsWidget::create(context),
+                    UI::Render2DImageSettingsWidget::create(context),
                     UI::Render2DTextSettingsWidget::create(context),
                     UI::TimeSettingsWidget::create(context),
                     UI::TooltipsSettingsWidget::create(context),

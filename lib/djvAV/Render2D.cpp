@@ -450,6 +450,17 @@ namespace djv
                     saturationMatrix(in.saturation, in.saturation, in.saturation);
             }
 
+            GLenum toGL(ImageFilter value)
+            {
+                GLenum out = GL_NONE;
+                switch (value)
+                {
+                case ImageFilter::Nearest: out = GL_NEAREST; break;
+                case ImageFilter::Linear:  out = GL_LINEAR;  break;
+                default: break;
+                }
+                return out;
+            }
 
             struct Render2D::Private
             {
@@ -1476,7 +1487,11 @@ namespace djv
                 p.dynamicTextureCache.clear();
                 for (size_t i = 0; i < dynamicTextureCount; ++i)
                 {
-                    p.dynamicTextures.push_back(AV::OpenGL::Texture::create(AV::Image::Info(), GL_LINEAR, GL_NEAREST));
+                    p.dynamicTextures.push_back(
+                        AV::OpenGL::Texture::create(
+                            AV::Image::Info(),
+                            toGL(p.imageFilterOptions.min),
+                            toGL(p.imageFilterOptions.mag)));
                 }
             }
 

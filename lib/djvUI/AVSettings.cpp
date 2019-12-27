@@ -52,7 +52,6 @@ namespace djv
             struct AV::Private
             {
                 std::shared_ptr<djv::AV::AVSystem> avSystem;
-                std::shared_ptr<djv::AV::Render::Render2D> renderSystem;
                 std::shared_ptr<djv::AV::IO::System> ioSystem;
             };
 
@@ -61,7 +60,6 @@ namespace djv
                 ISettings::_init("djv::UI::Settings::AV", context);
                 DJV_PRIVATE_PTR();
                 p.avSystem = context->getSystemT<djv::AV::AVSystem>();
-                p.renderSystem = context->getSystemT<djv::AV::Render::Render2D>();
                 p.ioSystem = context->getSystemT<djv::AV::IO::System>();
                 _load();
             }
@@ -121,8 +119,8 @@ namespace djv
                     p.avSystem->setTimeUnits(timeUnits);
                     p.avSystem->setAlphaBlend(alphaBlend);
                     p.avSystem->setDefaultSpeed(defaultSpeed);
-                    p.renderSystem->setImageFilterOptions(imageFilterOptions);
-                    p.renderSystem->setLCDText(lcdText);
+                    p.avSystem->setImageFilterOptions(imageFilterOptions);
+                    p.avSystem->setLCDText(lcdText);
                     for (const auto & i : p.ioSystem->getPluginNames())
                     {
                         const auto j = object.find(i);
@@ -155,7 +153,8 @@ namespace djv
                     object["DefaultSpeed"] = picojson::value(ss.str());
                 }
                 {
-                    object["ImageFilterOptions"] = toJSON(p.avSystem->observeImageFilterOptions()->get());
+                    auto value = p.avSystem->observeImageFilterOptions()->get();
+                    object["ImageFilterOptions"] = toJSON(value);
                 }
                 {
                     std::stringstream ss;

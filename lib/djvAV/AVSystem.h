@@ -68,11 +68,11 @@ namespace djv
             std::shared_ptr<Core::IValueSubject<Core::Time::FPS> > observeDefaultSpeed() const;
             void setDefaultSpeed(Core::Time::FPS);
 
-            std::shared_ptr<Core::IValueSubject<bool> > observeLCDText() const;
-            void setLCDText(bool);
-
             std::shared_ptr<Core::IValueSubject<Render::ImageFilterOptions> > observeImageFilterOptions() const;
             void setImageFilterOptions(const Render::ImageFilterOptions&);
+
+            std::shared_ptr<Core::IValueSubject<bool> > observeLCDText() const;
+            void setLCDText(bool);
 
             std::string getLabel(Core::Frame::Number, const Core::Time::Speed&) const;
 
