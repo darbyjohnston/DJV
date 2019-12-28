@@ -351,13 +351,16 @@ namespace djv
                 range.max = size > 0 ? (static_cast<Frame::Index>(size) - 1) : 0;
             }
             Frame::Index tmp = value;
-            while (tmp > range.max)
+            if (size)
             {
-                tmp -= size;
-            }
-            while (tmp < range.min)
-            {
-                tmp += size;
+                while (tmp > range.max)
+                {
+                    tmp -= size;
+                }
+                while (tmp < range.min)
+                {
+                    tmp += size;
+                }
             }
             if (p.currentFrame->setIfChanged(tmp))
             {
