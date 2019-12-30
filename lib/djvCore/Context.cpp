@@ -192,6 +192,10 @@ namespace djv
                 {
                     return a.second > b.second;
                 });
+            /*if (systemTickTimes.size() > 0)
+            {
+                std::cout << "System tick time: " << systemTickTimes[0].first << ", " << systemTickTimes[0].second << std::endl;
+            }*/
             /*for (const auto& i : systemTickTimes)
             {
                 std::cout << i.first << ": " << i.second << std::endl;

@@ -296,6 +296,27 @@ namespace djv
                 return _sequence;
             }
 
+            inline bool Cache::contains(Core::Frame::Index value) const
+            {
+                return _cache.find(value) != _cache.end();
+            }
+
+            inline bool Cache::get(Core::Frame::Index index, std::shared_ptr<AV::Image::Image>& out) const
+            {
+                const auto i = _cache.find(index);
+                const bool found = i != _cache.end();
+                if (found)
+                {
+                    out = i->second;
+                }
+                return found;
+            }
+
+            inline void Cache::clear()
+            {
+                _cache.clear();
+            }
+
         } // namespace IO
     } // namespace AV
 } // namespace djv

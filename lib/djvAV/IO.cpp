@@ -235,31 +235,10 @@ namespace djv
                 _cacheUpdate();
             }
 
-            bool Cache::contains(Frame::Index value) const
-            {
-                return _cache.find(value) != _cache.end();
-            }
-
-            bool Cache::get(Frame::Index index, std::shared_ptr<AV::Image::Image>& out) const
-            {
-                const auto i = _cache.find(index);
-                const bool found = i != _cache.end();
-                if (found)
-                {
-                    out = i->second;
-                }
-                return found;
-            }
-
             void Cache::add(Frame::Index index, const std::shared_ptr<AV::Image::Image>& image)
             {
                 _cache[index] = image;
                 _cacheUpdate();
-            }
-
-            void Cache::clear()
-            {
-                _cache.clear();
             }
 
             void Cache::_cacheUpdate()

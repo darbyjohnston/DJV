@@ -108,15 +108,14 @@ namespace djv
                     const float frameDuration = 1000 / static_cast<float>(frameRate);
                     float sleep = frameDuration - diff.count();
                     //std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(sleep * 1000)));
-                    while (sleep > 0.F)
+                    do
                     {
                         end = std::chrono::steady_clock::now();
                         diff = end - start;
                         sleep = frameDuration - diff.count();
                     }
+                    while (sleep > 0.F);
 
-                    end = std::chrono::steady_clock::now();
-                    diff = end - start;
                     dt = diff.count() / 1000.F;
                     //std::cout << "frame: " << diff.count() << "/" << frameDuration << std::endl << std::endl;
                     start = end;

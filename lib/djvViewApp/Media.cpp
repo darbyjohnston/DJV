@@ -48,8 +48,8 @@ namespace djv
         namespace
         {
             //! \todo Should this be configurable?
-            const size_t bufferFrameCount = 256;
-            const size_t videoQueueSize = 10;
+            const size_t audioBufferFrameCount = 256;
+            const size_t videoQueueSize        = 10;
             
         } // namespace
 
@@ -713,7 +713,7 @@ namespace djv
                         RtAudio::StreamParameters rtParameters;
                         rtParameters.deviceId = p.rtAudio->getDefaultOutputDevice();
                         rtParameters.nChannels = p.audioInfo.info.channelCount;
-                        unsigned int rtBufferFrames = bufferFrameCount;
+                        unsigned int rtBufferFrames = audioBufferFrameCount;
                         try
                         {
                             p.rtAudio->openStream(
@@ -762,23 +762,31 @@ namespace djv
                             {
                                 if (media->_p->read)
                                 {
+                                    bool valid = false;
                                     size_t videoQueueMax   = 0;
                                     size_t videoQueueCount = 0;
                                     size_t audioQueueMax   = 0;
                                     size_t audioQueueCount = 0;
                                     {
-                                        std::lock_guard<std::mutex> lock(media->_p->read->getMutex());
-                                        const auto& videoQueue = media->_p->read->getVideoQueue();
-                                        const auto& audioQueue = media->_p->read->getAudioQueue();
-                                        videoQueueMax   = videoQueue.getMax();
-                                        videoQueueCount = videoQueue.getCount();
-                                        audioQueueMax   = audioQueue.getMax();
-                                        audioQueueCount = audioQueue.getCount();
+                                        std::unique_lock<std::mutex> lock(media->_p->read->getMutex());
+                                        if (lock.owns_lock())
+                                        {
+                                            valid = true;
+                                            const auto& videoQueue = media->_p->read->getVideoQueue();
+                                            const auto& audioQueue = media->_p->read->getAudioQueue();
+                                            videoQueueMax   = videoQueue.getMax();
+                                            videoQueueCount = videoQueue.getCount();
+                                            audioQueueMax   = audioQueue.getMax();
+                                            audioQueueCount = audioQueue.getCount();
+                                        }
                                     }
-                                    media->_p->videoQueueMax->setAlways(videoQueueMax);
-                                    media->_p->videoQueueCount->setAlways(videoQueueCount);
-                                    media->_p->audioQueueMax->setAlways(audioQueueMax);
-                                    media->_p->audioQueueCount->setAlways(audioQueueCount);
+                                    if (valid)
+                                    {
+                                        media->_p->videoQueueMax->setAlways(videoQueueMax);
+                                        media->_p->videoQueueCount->setAlways(videoQueueCount);
+                                        media->_p->audioQueueMax->setAlways(audioQueueMax);
+                                        media->_p->audioQueueCount->setAlways(audioQueueCount);
+                                    }
                                 }
                             }
                         });
