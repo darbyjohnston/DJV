@@ -93,6 +93,7 @@ namespace djv
                     std::shared_ptr<AV::Image::Image> icon;
                     std::string text;
                     std::string font;
+                    AV::Font::Info fontInfo;
                     AV::Font::Metrics fontMetrics;
                     glm::vec2 textSize = glm::vec2(0.F, 0.F);
                     std::vector<std::shared_ptr<AV::Font::Glyph> > textGlyphs;
@@ -325,10 +326,7 @@ namespace djv
                     if (j != _itemToAction.end() && j->second)
                     {
                         y = i.second->geom.min.y + ceilf(i.second->size.y / 2.F) - ceilf(i.second->fontMetrics.lineHeight / 2.F) + i.second->fontMetrics.ascender;
-                        const auto fontInfo = i.second->font.empty() ?
-                            style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium) :
-                            style->getFontInfo(i.second->font, AV::Font::faceDefault, MetricsRole::FontMedium);
-                        render->setCurrentFont(fontInfo);
+                        render->setCurrentFont(i.second->fontInfo);
                         render->drawText(i.second->textGlyphs, glm::vec2(x + m, y));
                         x += i.second->textSize.x + m * 2.F;
 
@@ -739,16 +737,16 @@ namespace djv
                 const auto& style = _getStyle();
                 auto textSystem = _getTextSystem();
                 _hasShortcuts = false;
-                for (const auto & i : _items)
+                for (auto& i : _items)
                 {
-                    const auto fontInfo = i.second->font.empty() ?
+                    i.second->fontInfo = i.second->font.empty() ?
                         style->getFontInfo(AV::Font::faceDefault, MetricsRole::FontMedium) :
                         style->getFontInfo(i.second->font, AV::Font::faceDefault, MetricsRole::FontMedium);
-                    _fontMetricsFutures[i.second] = _fontSystem->getMetrics(fontInfo);
-                    _textSizeFutures[i.second] = _fontSystem->measure(i.second->text, fontInfo);
-                    _textGlyphsFutures[i.second] = _fontSystem->getGlyphs(i.second->text, fontInfo);
-                    _shortcutSizeFutures[i.second] = _fontSystem->measure(i.second->shortcutLabel, fontInfo);
-                    _shortcutGlyphsFutures[i.second] = _fontSystem->getGlyphs(i.second->shortcutLabel, fontInfo);
+                    _fontMetricsFutures[i.second] = _fontSystem->getMetrics(i.second->fontInfo);
+                    _textSizeFutures[i.second] = _fontSystem->measure(i.second->text, i.second->fontInfo);
+                    _textGlyphsFutures[i.second] = _fontSystem->getGlyphs(i.second->text, i.second->fontInfo);
+                    _shortcutSizeFutures[i.second] = _fontSystem->measure(i.second->shortcutLabel, i.second->fontInfo);
+                    _shortcutGlyphsFutures[i.second] = _fontSystem->getGlyphs(i.second->shortcutLabel, i.second->fontInfo);
                     _hasShortcuts |= i.second->shortcutLabel.size() > 0;
                 }
             }

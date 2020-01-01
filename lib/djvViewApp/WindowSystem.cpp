@@ -432,7 +432,10 @@ namespace djv
                         p.pointerMotion[p.pointerInfo.id] = p.pointerInfo.projectedPos;
                         if (auto glfwSystem = context->getSystemT<Desktop::GLFWSystem>())
                         {
-                            glfwSystem->showCursor();
+                            if (!glfwSystem->isCursorVisible())
+                            {
+                                glfwSystem->showCursor();
+                            }
                         }
                         const float fade = p.fade->get();
                         if (fade < 1.F)

@@ -115,6 +115,7 @@ namespace djv
             std::shared_ptr<TextSystem> _textSystem;
             std::vector<std::shared_ptr<ISystemBase> > _systems;
             std::vector<std::pair<std::string, float> > _systemTickTimes;
+            std::vector<std::pair<std::string, float> > _systemTickTimesTemp;
             std::chrono::time_point<std::chrono::steady_clock> _fpsTime = std::chrono::steady_clock::now();
             std::list<float> _fpsSamples;
             float _fpsAverage = 0.F;

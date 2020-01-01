@@ -297,7 +297,6 @@ namespace djv
 
             private:
                 void _updateCurrentTransform();
-                void _updateCurrentClipRect();
                 void _updateImageFilter();
 
                 Image::Size             _size;

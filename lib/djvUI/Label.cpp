@@ -54,6 +54,7 @@ namespace djv
             std::string font;
             std::string fontFace = AV::Font::faceDefault;
             MetricsRole fontSizeRole = MetricsRole::FontMedium;
+            AV::Font::Info fontInfo;
             AV::Font::Metrics fontMetrics;
             std::future<AV::Font::Metrics> fontMetricsFuture;
             glm::vec2 textSize = glm::vec2(0.F, 0.F);
@@ -164,7 +165,7 @@ namespace djv
             if (value == p.font)
                 return;
             p.font = value;
-            _textUpdate();
+            _fontUpdate();
         }
 
         void Label::setFontFace(const std::string & value)
@@ -173,7 +174,7 @@ namespace djv
             if (value == p.fontFace)
                 return;
             p.fontFace = value;
-            _textUpdate();
+            _fontUpdate();
         }
 
         void Label::setFontSizeRole(MetricsRole value)
@@ -182,7 +183,7 @@ namespace djv
             if (value == p.fontSizeRole)
                 return;
             p.fontSizeRole = value;
-            _textUpdate();
+            _fontUpdate();
         }
 
         const std::string & Label::getSizeString() const
@@ -196,7 +197,7 @@ namespace djv
             if (value == p.sizeString)
                 return;
             p.sizeString = value;
-            _textUpdate();
+            _sizeStringUpdate();
         }
 
         void Label::_preLayoutEvent(Event::PreLayout &)
@@ -221,10 +222,7 @@ namespace djv
                 //render->setFillColor(AV::Image::Color(1.F, 0.F, 0.F, .5F));
                 //render->drawRect(g);
 
-                auto fontInfo = p.font.empty() ?
-                    style->getFontInfo(p.fontFace, p.fontSizeRole) :
-                    style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);
-                render->setCurrentFont(fontInfo);
+                render->setCurrentFont(p.fontInfo);
                 glm::vec2 pos = g.min;
                 switch (p.textHAlign)
                 {
@@ -265,7 +263,7 @@ namespace djv
         void Label::_initEvent(Event::Init& event)
         {
             Widget::_initEvent(event);
-            _textUpdate();
+            _fontUpdate();
         }
 
         void Label::_updateEvent(Event::Update& event)
@@ -329,21 +327,33 @@ namespace djv
         void Label::_textUpdate()
         {
             DJV_PRIVATE_PTR();
-            const auto& style = _getStyle();
-            const auto fontInfo = p.font.empty() ?
-                style->getFontInfo(p.fontFace, p.fontSizeRole) :
-                style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);
-            p.fontMetricsFuture = p.fontSystem->getMetrics(fontInfo);
-            p.textSizeFuture = p.fontSystem->measure(p.text, fontInfo);
-            if (!p.sizeString.empty())
-            {
-                p.sizeStringFuture = p.fontSystem->measure(p.sizeString, fontInfo);
-            }
+            p.textSizeFuture = p.fontSystem->measure(p.text, p.fontInfo);
             if (!p.text.size())
             {
                 p.glyphs.clear();
             }
-            p.glyphsFuture = p.fontSystem->getGlyphs(p.text, fontInfo);
+            p.glyphsFuture = p.fontSystem->getGlyphs(p.text, p.fontInfo);
+        }
+
+        void Label::_sizeStringUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (!p.sizeString.empty())
+            {
+                p.sizeStringFuture = p.fontSystem->measure(p.sizeString, p.fontInfo);
+            }
+        }
+
+        void Label::_fontUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            const auto& style = _getStyle();
+            p.fontInfo = p.font.empty() ?
+                style->getFontInfo(p.fontFace, p.fontSizeRole) :
+                style->getFontInfo(p.font, p.fontFace, p.fontSizeRole);
+            p.fontMetricsFuture = p.fontSystem->getMetrics(p.fontInfo);
+            _textUpdate();
+            _sizeStringUpdate();
         }
 
     } // namespace UI

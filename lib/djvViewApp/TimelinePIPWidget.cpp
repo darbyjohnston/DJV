@@ -220,7 +220,7 @@ namespace djv
             const float sh = style->getMetric(UI::MetricsRole::Shadow);
             auto render = _getRender();
             render->setFillColor(style->getColor(UI::ColorRole::Shadow));
-            for (const auto& i : getChildrenT<UI::Widget>())
+            for (const auto& i : getChildWidgets())
             {
                 if (i->isVisible())
                 {

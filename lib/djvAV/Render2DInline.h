@@ -144,14 +144,28 @@ namespace djv
 
             inline void Render2D::pushClipRect(const Core::BBox2f & value)
             {
-                _clipRects.push_back(value);
-                _currentClipRect = _currentClipRect.intersect(value);
+                if (!_clipRects.size())
+                {
+                    _currentClipRect = value;
+                }
+                else
+                {
+                    _currentClipRect = _currentClipRect.intersect(value);
+                }
+                _clipRects.push_back(_currentClipRect);
             }
 
             inline void Render2D::popClipRect()
             {
                 _clipRects.pop_back();
-                _updateCurrentClipRect();
+                if (_clipRects.size())
+                {
+                    _currentClipRect = _clipRects.back();
+                }
+                else
+                {
+                    _currentClipRect.zero();
+                }
             }
 
             inline void Render2D::setFillColor(const Image::Color & value)
@@ -212,18 +226,6 @@ namespace djv
                 for (const auto& i : _transforms)
                 {
                     _currentTransform *= i;
-                }
-            }
-
-            inline void Render2D::_updateCurrentClipRect()
-            {
-                _currentClipRect.min.x = 0.F;
-                _currentClipRect.min.y = 0.F;
-                _currentClipRect.max.x = static_cast<float>(_size.w);
-                _currentClipRect.max.y = static_cast<float>(_size.h);
-                for (const auto & i : _clipRects)
-                {
-                    _currentClipRect = _currentClipRect.intersect(i);
                 }
             }
 

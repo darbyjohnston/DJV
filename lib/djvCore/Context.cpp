@@ -175,19 +175,23 @@ namespace djv
 
             float total = 0.F;
             auto start = std::chrono::steady_clock::now();
-            std::vector<std::pair<std::string, float> > systemTickTimes;
+            _systemTickTimesTemp.resize(_systems.size());
+            size_t i = 0;
             for (const auto & system : _systems)
             {
                 system->tick(dt);
                 auto end = std::chrono::steady_clock::now();
                 std::chrono::duration<float, std::milli> diff = end - start;
-                systemTickTimes.push_back(std::make_pair(system->getSystemName(), diff.count()));
+                auto& tickTimes = _systemTickTimesTemp[i];
+                tickTimes.first = system->getSystemName();
+                tickTimes.second = diff.count();
                 start = end;
                 total += diff.count();
+                ++i;
             }
             std::sort(
-                systemTickTimes.begin(),
-                systemTickTimes.end(),
+                _systemTickTimesTemp.begin(),
+                _systemTickTimesTemp.end(),
                 [](const std::pair<std::string, float>& a, const std::pair<std::string, float>& b)
                 {
                     return a.second > b.second;
@@ -201,7 +205,7 @@ namespace djv
                 std::cout << i.first << ": " << i.second << std::endl;
             }
             std::cout << "total: " << total << std::endl << std::endl;*/
-            _systemTickTimes = systemTickTimes;
+            _systemTickTimes = _systemTickTimesTemp;
         }
 
         void Context::_addSystem(const std::shared_ptr<ISystemBase> & system)

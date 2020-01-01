@@ -91,6 +91,8 @@ namespace djv
 
         private:
             void _textUpdate();
+            void _sizeStringUpdate();
+            void _fontUpdate();
 
             DJV_PRIVATE();
         };

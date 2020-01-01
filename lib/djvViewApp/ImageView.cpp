@@ -780,38 +780,41 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.textSizeFutures.clear();
             p.textGlyphsFutures.clear();
-            if (auto image = p.image->get())
+            const auto& gridOptions = p.gridOptions->get();
+            if (gridOptions.enabled)
             {
-                const auto& gridOptions = p.gridOptions->get();
-                const float gridSize = gridOptions.size;
-                if (gridOptions.labels && (gridSize * _p->imageZoom->get()) > 2.f)
+                if (auto image = p.image->get())
                 {
-                    for (auto i : UI::getOrientationEnums())
+                    const float gridSize = gridOptions.size;
+                    if (gridOptions.labels && (gridSize * _p->imageZoom->get()) > 2.f)
                     {
-                        p.textSizeFutures[i] = std::vector<std::pair<size_t, std::future<glm::vec2> > >();
-                        p.textGlyphsFutures[i] = std::vector< std::pair<size_t, std::future<std::vector<std::shared_ptr<AV::Font::Glyph> > > > >();
-                    }
-                    const auto& style = _getStyle();
-                    const auto fontInfo = style->getFontInfo(AV::Font::familyMono, AV::Font::faceDefault, UI::MetricsRole::FontSmall);
-                    p.fontMetricsFuture = p.fontSystem->getMetrics(fontInfo);
-                    const AV::Image::Size& imageSize = image->getSize();
-                    size_t cells = static_cast<size_t>(imageSize.w / gridSize + 1);
-                    p.text[UI::Orientation::Horizontal].resize(cells);
-                    for (size_t i = 0; i < cells; ++i)
-                    {
-                        const std::string label = getColumnLabel(i);
-                        p.text[UI::Orientation::Horizontal][i].text = label;
-                        p.textSizeFutures[UI::Orientation::Horizontal].push_back(std::make_pair(i, p.fontSystem->measure(label, fontInfo)));
-                        p.textGlyphsFutures[UI::Orientation::Horizontal].push_back(std::make_pair(i, p.fontSystem->getGlyphs(label, fontInfo)));
-                    }
-                    cells = static_cast<size_t>(imageSize.h / gridSize + 1);
-                    p.text[UI::Orientation::Vertical].resize(cells);
-                    for (size_t i = 0; i < cells; ++i)
-                    {
-                        const std::string label = getRowLabel(i);
-                        p.text[UI::Orientation::Vertical][i].text = label;
-                        p.textSizeFutures[UI::Orientation::Vertical].push_back(std::make_pair(i, p.fontSystem->measure(label, fontInfo)));
-                        p.textGlyphsFutures[UI::Orientation::Vertical].push_back(std::make_pair(i, p.fontSystem->getGlyphs(label, fontInfo)));
+                        for (auto i : UI::getOrientationEnums())
+                        {
+                            p.textSizeFutures[i] = std::vector<std::pair<size_t, std::future<glm::vec2> > >();
+                            p.textGlyphsFutures[i] = std::vector< std::pair<size_t, std::future<std::vector<std::shared_ptr<AV::Font::Glyph> > > > >();
+                        }
+                        const auto& style = _getStyle();
+                        const auto fontInfo = style->getFontInfo(AV::Font::familyMono, AV::Font::faceDefault, UI::MetricsRole::FontSmall);
+                        p.fontMetricsFuture = p.fontSystem->getMetrics(fontInfo);
+                        const AV::Image::Size& imageSize = image->getSize();
+                        size_t cells = static_cast<size_t>(imageSize.w / gridSize + 1);
+                        p.text[UI::Orientation::Horizontal].resize(cells);
+                        for (size_t i = 0; i < cells; ++i)
+                        {
+                            const std::string label = getColumnLabel(i);
+                            p.text[UI::Orientation::Horizontal][i].text = label;
+                            p.textSizeFutures[UI::Orientation::Horizontal].push_back(std::make_pair(i, p.fontSystem->measure(label, fontInfo)));
+                            p.textGlyphsFutures[UI::Orientation::Horizontal].push_back(std::make_pair(i, p.fontSystem->getGlyphs(label, fontInfo)));
+                        }
+                        cells = static_cast<size_t>(imageSize.h / gridSize + 1);
+                        p.text[UI::Orientation::Vertical].resize(cells);
+                        for (size_t i = 0; i < cells; ++i)
+                        {
+                            const std::string label = getRowLabel(i);
+                            p.text[UI::Orientation::Vertical][i].text = label;
+                            p.textSizeFutures[UI::Orientation::Vertical].push_back(std::make_pair(i, p.fontSystem->measure(label, fontInfo)));
+                            p.textGlyphsFutures[UI::Orientation::Vertical].push_back(std::make_pair(i, p.fontSystem->getGlyphs(label, fontInfo)));
+                        }
                     }
                 }
             }

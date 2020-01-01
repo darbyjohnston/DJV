@@ -167,13 +167,13 @@ namespace djv
             color2.setF32(color2.getF32(3) * .5F, 3);
             float x = g.min.x;
             const float range = p.samplesRange.max - p.samplesRange.min;
-            std::vector<BBox2f> boxes1;
-            std::vector<BBox2f> boxes2;
+            std::vector<BBox2f> boxes1(p.samples.size());
+            std::vector<BBox2f> boxes2(p.samples.size());
             for (const auto& i : p.samples)
             {
                 float h = (i - p.samplesRange.min) / range * g.h();
-                boxes1.push_back(BBox2f(x, g.min.y + g.h() - h, b, b));
-                boxes2.push_back(BBox2f(x, g.min.y + g.h() - h + b, b, h));
+                boxes1.emplace_back(BBox2f(x, g.min.y + g.h() - h, b, b));
+                boxes2.emplace_back(BBox2f(x, g.min.y + g.h() - h + b, b, h));
                 x += b;
             }
             render->setFillColor(color1);

@@ -387,8 +387,7 @@ namespace djv
                 color.setF32(color.getF32(3) * .4F, 3);
                 auto render = _getRender();
                 render->setFillColor(color);
-                const auto fontInfo = style->getFontInfo(AV::Font::familyMono, AV::Font::faceDefault, UI::MetricsRole::FontSmall);
-                render->setCurrentFont(fontInfo);
+                render->setCurrentFont(p.fontInfo);
                 std::vector<BBox2f> boxes;
                 for (const auto& tick : p.timeTicks)
                 {
@@ -762,11 +761,10 @@ namespace djv
             if (auto context = getContext().lock())
             {
                 const auto& style = _getStyle();
-                const auto fontInfo = style->getFontInfo(AV::Font::familyMono, AV::Font::faceDefault, UI::MetricsRole::FontSmall);
                 auto avSystem = context->getSystemT<AV::AVSystem>();
                 p.currentFrameText = avSystem->getLabel(p.sequence.getFrame(p.currentFrame), p.speed);
-                p.currentFrameSizeFuture = p.fontSystem->measure(p.currentFrameText, fontInfo);
-                p.currentFrameGlyphsFuture = p.fontSystem->getGlyphs(p.currentFrameText, fontInfo);
+                p.currentFrameSizeFuture = p.fontSystem->measure(p.currentFrameText, p.fontInfo);
+                p.currentFrameGlyphsFuture = p.fontSystem->getGlyphs(p.currentFrameText, p.fontInfo);
             }
         }
 

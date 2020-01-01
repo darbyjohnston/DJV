@@ -70,6 +70,7 @@ namespace djv
         {
             std::shared_ptr<ListSubject<MonitorInfo> > monitorInfo;
             std::shared_ptr<Time::Timer> monitorTimer;
+            bool cursorVisible = true;
             GLFWcursor* arrowCursor  = nullptr;
             GLFWcursor* hiddenCursor = nullptr;
         };
@@ -170,25 +171,38 @@ namespace djv
             return _p->monitorInfo;
         }
 
+        bool GLFWSystem::isCursorVisible() const
+        {
+            return _p->cursorVisible;
+        }
+
         void GLFWSystem::showCursor()
         {
             DJV_PRIVATE_PTR();
-            if (auto context = getContext().lock())
+            if (!p.cursorVisible)
             {
-                auto avGLFWSystem = context->getSystemT<AV::GLFW::System>();
-                auto glfwWindow = avGLFWSystem->getGLFWWindow();
-                glfwSetCursor(glfwWindow, p.arrowCursor);
+                p.cursorVisible = true;
+                if (auto context = getContext().lock())
+                {
+                    auto avGLFWSystem = context->getSystemT<AV::GLFW::System>();
+                    auto glfwWindow = avGLFWSystem->getGLFWWindow();
+                    glfwSetCursor(glfwWindow, p.arrowCursor);
+                }
             }
         }
 
         void GLFWSystem::hideCursor()
         {
             DJV_PRIVATE_PTR();
-            if (auto context = getContext().lock())
+            if (p.cursorVisible)
             {
-                auto avGLFWSystem = context->getSystemT<AV::GLFW::System>();
-                auto glfwWindow = avGLFWSystem->getGLFWWindow();
-                glfwSetCursor(glfwWindow, p.hiddenCursor);
+                p.cursorVisible = false;
+                if (auto context = getContext().lock())
+                {
+                    auto avGLFWSystem = context->getSystemT<AV::GLFW::System>();
+                    auto glfwWindow = avGLFWSystem->getGLFWWindow();
+                    glfwSetCursor(glfwWindow, p.hiddenCursor);
+                }
             }
         }
 

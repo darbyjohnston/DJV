@@ -786,7 +786,7 @@ namespace djv
                 while (p.dynamicTextureCache.size() > dynamicTextureCacheMax)
                 {
                     auto texture = p.dynamicTextureCache.begin();
-                    p.dynamicTextures.push_back(texture->second);
+                    p.dynamicTextures.emplace_back(texture->second);
                     p.dynamicTextureCache.erase(texture);
                 }
                 while (p.dynamicTextures.size() > dynamicTextureCount)
@@ -821,7 +821,7 @@ namespace djv
                         for (size_t j = 0; j < 2; ++j)
                         {
                             const glm::vec3 tmp = _currentTransform * glm::vec3(pt[j].x, pt[j].y, 1.F);
-                            pts.push_back(glm::vec2(tmp.x, tmp.y));
+                            pts.emplace_back(glm::vec2(tmp.x, tmp.y));
                         }
                     }
                     
@@ -835,7 +835,6 @@ namespace djv
                     if (bbox.intersects(_currentClipRect))
                     {
                         auto primitive = new Primitive;
-                        p.primitives.push_back(primitive);
                         primitive->clipRect = _currentClipRect;
                         primitive->color[0] = _finalColor[0];
                         primitive->color[1] = _finalColor[1];
@@ -844,6 +843,7 @@ namespace djv
                         primitive->type = GL_TRIANGLE_STRIP;
                         primitive->vaoOffset = p.vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
                         primitive->vaoSize = ptsSize;
+                        p.primitives.push_back(primitive);
 
                         const size_t vboDataSize = p.vboDataSize;
                         p.updateVBODataSize(ptsSize);
@@ -870,49 +870,42 @@ namespace djv
             void Render2D::drawRects(const std::vector<BBox2f>& value)
             {
                 DJV_PRIVATE_PTR();
-                std::vector<const BBox2f*> clipped;
+                auto primitive = new Primitive;
+                primitive->clipRect = _currentClipRect;
+                primitive->color[0] = _finalColor[0];
+                primitive->color[1] = _finalColor[1];
+                primitive->color[2] = _finalColor[2];
+                primitive->color[3] = _finalColor[3];
+                primitive->vaoOffset = p.vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
+                primitive->vaoSize = 0;
+                p.primitives.push_back(primitive);
+
                 for (const auto& i : value)
                 {
                     if (i.intersects(_currentClipRect))
                     {
-                        clipped.push_back(&i);
-                    }
-                }
-                const size_t clippedSize = clipped.size();
-                if (clippedSize > 0)
-                {
-                    auto primitive = new Primitive;
-                    p.primitives.push_back(primitive);
-                    primitive->clipRect = _currentClipRect;
-                    primitive->color[0] = _finalColor[0];
-                    primitive->color[1] = _finalColor[1];
-                    primitive->color[2] = _finalColor[2];
-                    primitive->color[3] = _finalColor[3];
-                    primitive->vaoOffset = p.vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
-                    primitive->vaoSize = clippedSize * 6;
+                        primitive->vaoSize += 6;
 
-                    const size_t vboDataSize = p.vboDataSize;
-                    p.updateVBODataSize(clippedSize * 6);
-                    VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataSize]);
-                    for (const auto& i : clipped)
-                    {
-                        pData->vx = i->min.x;
-                        pData->vy = i->min.y;
+                        const size_t vboDataSize = p.vboDataSize;
+                        p.updateVBODataSize(6);
+                        VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataSize]);
+                        pData->vx = i.min.x;
+                        pData->vy = i.min.y;
                         ++pData;
-                        pData->vx = i->max.x;
-                        pData->vy = i->min.y;
+                        pData->vx = i.max.x;
+                        pData->vy = i.min.y;
                         ++pData;
-                        pData->vx = i->max.x;
-                        pData->vy = i->max.y;
+                        pData->vx = i.max.x;
+                        pData->vy = i.max.y;
                         ++pData;
-                        pData->vx = i->max.x;
-                        pData->vy = i->max.y;
+                        pData->vx = i.max.x;
+                        pData->vy = i.max.y;
                         ++pData;
-                        pData->vx = i->min.x;
-                        pData->vy = i->max.y;
+                        pData->vx = i.min.x;
+                        pData->vy = i.max.y;
                         ++pData;
-                        pData->vx = i->min.x;
-                        pData->vy = i->min.y;
+                        pData->vx = i.min.x;
+                        pData->vy = i.min.y;
                         ++pData;
                     }
                 }
@@ -924,7 +917,6 @@ namespace djv
                 if (rect.intersects(_currentClipRect))
                 {
                     auto primitive = new Primitive;
-                    p.primitives.push_back(primitive);
                     primitive->clipRect = _currentClipRect;
                     primitive->color[0] = _finalColor[0];
                     primitive->color[1] = _finalColor[1];
@@ -932,6 +924,7 @@ namespace djv
                     primitive->color[3] = _finalColor[3];
                     primitive->vaoOffset = p.vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
                     primitive->vaoSize = 3 * 2 + facets * 2 * 3;
+                    p.primitives.push_back(primitive);
 
                     const size_t vboDataSize = p.vboDataSize;
                     p.updateVBODataSize(primitive->vaoSize);
@@ -1000,7 +993,6 @@ namespace djv
                 if (rect.intersects(_currentClipRect))
                 {
                     auto primitive = new Primitive;
-                    p.primitives.push_back(primitive);
                     primitive->clipRect = _currentClipRect;
                     primitive->color[0] = _finalColor[0];
                     primitive->color[1] = _finalColor[1];
@@ -1010,6 +1002,7 @@ namespace djv
                     //primitive->type = GL_TRIANGLE_FAN;
                     primitive->vaoOffset = p.vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
                     primitive->vaoSize = 3 * facets;
+                    p.primitives.push_back(primitive);
 
                     const size_t vboDataSize = p.vboDataSize;
                     p.updateVBODataSize(3 * facets);
@@ -1072,15 +1065,9 @@ namespace djv
             {
                 DJV_PRIVATE_PTR();
 
+                TextPrimitive* primitive = nullptr;
                 float x = 0.F;
                 int32_t rsbDeltaPrev = 0;
-                struct GlyphData
-                {
-                    std::shared_ptr<Font::Glyph> glyph;
-                    BBox2f bbox;
-                    TextureAtlasItem item;
-                };
-                std::vector<std::vector<GlyphData> > clipped;
                 uint8_t textureIndex = 0;
                 for (const auto& glyph : glyphs)
                 {
@@ -1102,9 +1089,6 @@ namespace djv
                         const BBox2f bbox(pos.x + x + offset.x, pos.y - offset.y, width, height);
                         if (bbox.intersects(_currentClipRect))
                         {
-                            GlyphData data;
-                            data.glyph = glyph;
-                            data.bbox = bbox;
                             const auto uid = glyph->imageData->getUID();
                             uint64_t id = 0;
                             const auto i = p.glyphTextureIDs.find(uid);
@@ -1112,75 +1096,66 @@ namespace djv
                             {
                                 id = i->second;
                             }
-                            if (!p.textureAtlas->getItem(id, data.item))
+                            TextureAtlasItem item;
+                            if (!p.textureAtlas->getItem(id, item))
                             {
-                                id = p.textureAtlas->addItem(glyph->imageData, data.item);
+                                id = p.textureAtlas->addItem(glyph->imageData, item);
                                 p.glyphTextureIDs[uid] = id;
                             }
                             
-                            if (data.item.textureIndex != textureIndex || 0 == clipped.size())
+                            if (!primitive || item.textureIndex != textureIndex)
                             {
-                                textureIndex = data.item.textureIndex;
-                                clipped.push_back({});
+                                primitive = new TextPrimitive;
+                                primitive->clipRect = _currentClipRect;
+                                primitive->color[0] = _finalColor[0];
+                                primitive->color[1] = _finalColor[1];
+                                primitive->color[2] = _finalColor[2];
+                                primitive->color[3] = _finalColor[3];
+                                primitive->atlasIndex = item.textureIndex;
+                                primitive->vaoOffset = p.vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
+                                primitive->vaoSize = 0;
+                                primitive->lcdText = p.lcdText;
+                                p.primitives.push_back(primitive);
+                                textureIndex = item.textureIndex;
                             }
                             
-                            clipped.back().push_back(data);
+                            primitive->vaoSize += 6;
+                            const size_t vboDataSize = p.vboDataSize;
+                            p.updateVBODataSize(6);
+                            VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataSize]);
+                            pData->vx = bbox.min.x;
+                            pData->vy = bbox.min.y;
+                            pData->tx = static_cast<uint16_t>(item.textureU.min * 65535.F);
+                            pData->ty = static_cast<uint16_t>(item.textureV.min * 65535.F);
+                            ++pData;
+                            pData->vx = bbox.max.x;
+                            pData->vy = bbox.min.y;
+                            pData->tx = static_cast<uint16_t>(item.textureU.max * 65535.F);
+                            pData->ty = static_cast<uint16_t>(item.textureV.min * 65535.F);
+                            ++pData;
+                            pData->vx = bbox.max.x;
+                            pData->vy = bbox.max.y;
+                            pData->tx = static_cast<uint16_t>(item.textureU.max * 65535.F);
+                            pData->ty = static_cast<uint16_t>(item.textureV.max * 65535.F);
+                            ++pData;
+                            pData->vx = bbox.max.x;
+                            pData->vy = bbox.max.y;
+                            pData->tx = static_cast<uint16_t>(item.textureU.max * 65535.F);
+                            pData->ty = static_cast<uint16_t>(item.textureV.max * 65535.F);
+                            ++pData;
+                            pData->vx = bbox.min.x;
+                            pData->vy = bbox.max.y;
+                            pData->tx = static_cast<uint16_t>(item.textureU.min * 65535.F);
+                            pData->ty = static_cast<uint16_t>(item.textureV.max * 65535.F);
+                            ++pData;
+                            pData->vx = bbox.min.x;
+                            pData->vy = bbox.min.y;
+                            pData->tx = static_cast<uint16_t>(item.textureU.min * 65535.F);
+                            pData->ty = static_cast<uint16_t>(item.textureV.min * 65535.F);
                         }
                     }
 
                     x += glyph->advance;
-                }
-                
-                for (const auto& i : clipped)
-                {
-                    auto primitive = new TextPrimitive;
-                    p.primitives.push_back(primitive);
-                    primitive->clipRect = _currentClipRect;
-                    primitive->color[0] = _finalColor[0];
-                    primitive->color[1] = _finalColor[1];
-                    primitive->color[2] = _finalColor[2];
-                    primitive->color[3] = _finalColor[3];
-                    primitive->atlasIndex = i.front().item.textureIndex;
-                    primitive->vaoOffset = p.vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
-                    primitive->vaoSize = i.size() * 6;
-                    primitive->lcdText = p.lcdText;
-                    
-                    const size_t vboDataSize = p.vboDataSize;
-                    p.updateVBODataSize(i.size() * 6);
-                    VBOVertex* pData = reinterpret_cast<VBOVertex*>(&p.vboData[vboDataSize]);
-                    for (const auto& j : i)
-                    {
-                        pData->vx = j.bbox.min.x;
-                        pData->vy = j.bbox.min.y;
-                        pData->tx = static_cast<uint16_t>(j.item.textureU.min * 65535.F);
-                        pData->ty = static_cast<uint16_t>(j.item.textureV.min * 65535.F);
-                        ++pData;
-                        pData->vx = j.bbox.max.x;
-                        pData->vy = j.bbox.min.y;
-                        pData->tx = static_cast<uint16_t>(j.item.textureU.max * 65535.F);
-                        pData->ty = static_cast<uint16_t>(j.item.textureV.min * 65535.F);
-                        ++pData;
-                        pData->vx = j.bbox.max.x;
-                        pData->vy = j.bbox.max.y;
-                        pData->tx = static_cast<uint16_t>(j.item.textureU.max * 65535.F);
-                        pData->ty = static_cast<uint16_t>(j.item.textureV.max * 65535.F);
-                        ++pData;
-                        pData->vx = j.bbox.max.x;
-                        pData->vy = j.bbox.max.y;
-                        pData->tx = static_cast<uint16_t>(j.item.textureU.max * 65535.F);
-                        pData->ty = static_cast<uint16_t>(j.item.textureV.max * 65535.F);
-                        ++pData;
-                        pData->vx = j.bbox.min.x;
-                        pData->vy = j.bbox.max.y;
-                        pData->tx = static_cast<uint16_t>(j.item.textureU.min * 65535.F);
-                        pData->ty = static_cast<uint16_t>(j.item.textureV.max * 65535.F);
-                        ++pData;
-                        pData->vx = j.bbox.min.x;
-                        pData->vy = j.bbox.min.y;
-                        pData->tx = static_cast<uint16_t>(j.item.textureU.min * 65535.F);
-                        pData->ty = static_cast<uint16_t>(j.item.textureV.min * 65535.F);
-                        ++pData;
-                    }
                 }
             }
 
@@ -1190,7 +1165,6 @@ namespace djv
                 if (value.intersects(_currentClipRect))
                 {
                     auto primitive = new ShadowPrimitive;
-                    p.primitives.push_back(primitive);
                     primitive->clipRect = _currentClipRect;
                     primitive->color[0] = _finalColor[0];
                     primitive->color[1] = _finalColor[1];
@@ -1199,6 +1173,7 @@ namespace djv
                     primitive->type = GL_TRIANGLE_STRIP;
                     primitive->vaoOffset = p.vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
                     primitive->vaoSize = 4;
+                    p.primitives.push_back(primitive);
 
                     static const uint16_t u[][4] =
                     {
@@ -1236,7 +1211,6 @@ namespace djv
                 if (value.intersects(_currentClipRect))
                 {
                     auto primitive = new ShadowPrimitive;
-                    p.primitives.push_back(primitive);
                     primitive->clipRect = _currentClipRect;
                     primitive->color[0] = _finalColor[0];
                     primitive->color[1] = _finalColor[1];
@@ -1244,6 +1218,7 @@ namespace djv
                     primitive->color[3] = _finalColor[3];
                     primitive->vaoOffset = p.vboDataSize / AV::OpenGL::getVertexByteCount(OpenGL::VBOType::Pos2_F32_UV_U16);
                     primitive->vaoSize = 5 * 2 * 3 + 4 * facets * 3;
+                    p.primitives.push_back(primitive);
 
                     const size_t vboDataSize = p.vboDataSize;
                     p.updateVBODataSize(primitive->vaoSize);
@@ -1487,7 +1462,7 @@ namespace djv
                 p.dynamicTextureCache.clear();
                 for (size_t i = 0; i < dynamicTextureCount; ++i)
                 {
-                    p.dynamicTextures.push_back(
+                    p.dynamicTextures.emplace_back(
                         AV::OpenGL::Texture::create(
                             AV::Image::Info(),
                             toGL(p.imageFilterOptions.min),
