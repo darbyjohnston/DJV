@@ -98,16 +98,16 @@ namespace djv
                 _time = t;
                 if (_active)
                 {
-                    if (t >= (_start + _timeout))
+                    if (_time >= (_start + _timeout))
                     {
                         if (_callback)
                         {
-                            const auto v = std::chrono::duration_cast<Unit>(t - _start);
-                            _callback(t, v);
+                            const auto v = std::chrono::duration_cast<Unit>(_time - _start);
+                            _callback(_time, v);
                         }
                         if (_repeating)
                         {
-                            _start = t;
+                            _start = _time;
                         }
                         else
                         {

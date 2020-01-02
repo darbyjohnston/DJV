@@ -108,6 +108,18 @@ namespace djv
             {
                 p.samples.pop_back();
             }
+            p.samplesRange.min = p.samplesRange.max = 0.F;
+            auto i = p.samples.begin();
+            if (i != p.samples.end())
+            {
+                p.samplesRange.min = p.samplesRange.max = p.samples.front();
+                ++i;
+            }
+            for (; i != p.samples.end(); ++i)
+            {
+                p.samplesRange.min = std::min(p.samplesRange.min, *i);
+                p.samplesRange.max = std::max(p.samplesRange.max, *i);
+            }
             _updateWidget();
             _redraw();
         }

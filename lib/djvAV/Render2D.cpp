@@ -1462,7 +1462,7 @@ namespace djv
             {
                 const auto& info = image->getInfo();
 
-                static glm::vec3 pts[4];
+                glm::vec3 pts[4];
                 pts[0].x = pos.x;
                 pts[0].y = pos.y;
                 pts[0].z = 1.F;
@@ -1480,7 +1480,7 @@ namespace djv
                     i = currentTransform * i;
                 }
 
-                static BBox2f bbox;
+                BBox2f bbox;
                 bbox.min = pts[0];
                 bbox.max = pts[0];
                 for (size_t i = 1; i < 4; ++i)

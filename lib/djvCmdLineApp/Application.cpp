@@ -87,7 +87,7 @@ namespace djv
 
                 auto end = std::chrono::steady_clock::now();
                 delta = std::chrono::duration_cast<Time::Unit>(end - time);
-                while (delta.count() < Time::timebase / frameRate)
+                while (delta < std::chrono::microseconds(1000000 / frameRate))
                 {
                     end = std::chrono::steady_clock::now();
                     delta = std::chrono::duration_cast<Time::Unit>(end - time);

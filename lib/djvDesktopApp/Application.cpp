@@ -97,21 +97,26 @@ namespace djv
                 glfwShowWindow(glfwWindow);
                 p.running = true;
                 auto start = std::chrono::steady_clock::now();
-                Time::Unit delta = Time::Unit::zero();
+                auto delta = Time::Unit::zero();
+                auto frameTime = std::chrono::microseconds(1000000 / frameRate);
                 while (p.running && glfwWindow && !glfwWindowShouldClose(glfwWindow))
                 {
                     glfwPollEvents();
                     tick(start, delta);
+                    //const auto systemTime = std::chrono::steady_clock::now();
                     glfwSwapBuffers(glfwWindow);
 
                     auto end = std::chrono::steady_clock::now();
-                    delta = std::chrono::duration_cast<Time::Unit>(end - start);
-                    while (delta < Time::Unit(Time::timebase / frameRate))
-                    {
-                        end = std::chrono::steady_clock::now();
-                        delta = std::chrono::duration_cast<Time::Unit>(end - start);
-                    }
-                    //std::cout << "frame: " << delta.count() << "/" << (Time::timebase / frameRate) << std::endl;
+                    //delta = std::chrono::duration_cast<Time::Unit>(end - start);
+                    //while (delta < frameTime)
+                    //{
+                    //    end = std::chrono::steady_clock::now();
+                    //    delta = std::chrono::duration_cast<Time::Unit>(end - start);
+                    //}
+                    //std::cout << "frame: " <<
+                    //    std::chrono::duration_cast<Time::Unit>(systemTime - start).count() << "/" <<
+                    //    delta.count() << "/" <<
+                    //    (1000000 / frameRate) << std::endl;
                     start = end;
                 }
             }

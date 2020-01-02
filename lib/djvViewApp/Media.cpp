@@ -963,9 +963,9 @@ namespace djv
                         {
                             if (auto media = weak.lock())
                             {
-                                const size_t delta = dt.count();
-                                media->_p->realSpeed->setIfChanged(delta > 0 ? (media->_p->realSpeedFrameCount / (delta / static_cast<float>(Time::timebase))) : 0.F);
-                                //std::cout << delta << ", " << media->_p->realSpeedFrameCount << std::endl;
+                                const float delta = std::chrono::duration<float>(dt).count();
+                                media->_p->realSpeed->setIfChanged(delta > 0.F ? (media->_p->realSpeedFrameCount / delta) : 0.F);
+                                std::cout << dt.count() << ", " << media->_p->realSpeedFrameCount << std::endl;
                                 media->_p->realSpeedFrameCount = 0;
                             }
                         });
@@ -995,7 +995,7 @@ namespace djv
                                 p.audioDataSamplesCount,
                                 Math::Rational(1, static_cast<int>(p.audioInfo.info.sampleRate)),
                                 speed.swap()) +
-                            p.audioDataSamplesTime.count() / static_cast<float>(Time::timebase) * speed.toFloat();
+                            std::chrono::duration<float>(p.audioDataSamplesTime).count() * speed.toFloat();
                         _setCurrentFrame(frame);
                     }
                 }
@@ -1004,7 +1004,7 @@ namespace djv
                 }
                 else
                 {
-                    Frame::Index elapsed = p.currentTime.count() / static_cast<float>(Time::timebase) * speed.toFloat();
+                    Frame::Index elapsed = std::chrono::duration<float>(p.currentTime).count() * speed.toFloat();
                     Frame::Index frame = Frame::invalid;
                     switch (playback)
                     {
@@ -1069,8 +1069,8 @@ namespace djv
             {
                 // Update the video queue.
                 const Playback playback = p.playback->get();
-                const size_t frameTime = static_cast<size_t>(Time::timebase / p.speed->get().toFloat());
-                const bool playEveryFrameAdvance = p.playEveryFrameTime.count() >= frameTime;
+                const auto frameTime = std::chrono::duration<float>(1.F / p.speed->get().toFloat());
+                const bool playEveryFrameAdvance = p.playEveryFrameTime >= frameTime;
                 //std::cout << "every frame: " << playEveryFrameAdvance << ", " << p.playEveryFrameTime.count() << "/" << frameTime << std::endl;
                 const Frame::Index currentFrame = p.currentFrame->get();
                 AV::IO::VideoFrame frame;
@@ -1084,8 +1084,8 @@ namespace djv
                         {
                             frame = queue.popFrame();
                             gotFrame = true;
-                            p.playEveryFrameTime = p.playEveryFrameTime - Time::Unit(frameTime);
                             p.realSpeedFrameCount = p.realSpeedFrameCount + 1;
+                            p.playEveryFrameTime = p.playEveryFrameTime - std::chrono::duration_cast<Time::Unit>(frameTime);
                         }
                     }
                     else
