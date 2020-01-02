@@ -80,8 +80,8 @@ namespace djv
             p.statsTimer->setRepeating(true);
             auto weak = std::weak_ptr<EventSystem>(std::dynamic_pointer_cast<EventSystem>(shared_from_this()));
             p.statsTimer->start(
-                Time::getMilliseconds(Time::TimerValue::VerySlow),
-                [weak](float)
+                Time::getTime(Time::TimerValue::VerySlow),
+                [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
             {
                 if (auto system = weak.lock())
                 {
@@ -108,9 +108,9 @@ namespace djv
         EventSystem::~EventSystem()
         {}
 
-        void EventSystem::tick(float dt)
+        void EventSystem::tick(const std::chrono::steady_clock::time_point& t, const Time::Unit& dt)
         {
-            IEventSystem::tick(dt);
+            IEventSystem::tick(t, dt);
             DJV_PRIVATE_PTR();
             if (auto context = getContext().lock())
             {

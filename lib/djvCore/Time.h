@@ -29,9 +29,9 @@
 
 #pragma once
 
-#include <djvCore/Frame.h>
-#include <djvCore/Speed.h>
+#include <djvCore/Rational.h>
 
+#include <chrono>
 #include <ctime>
 
 namespace djv
@@ -41,6 +41,9 @@ namespace djv
         //! This namespace provides time functionality.
         namespace Time
         {
+            //! This typedef provides the time units.
+            typedef std::chrono::microseconds Unit;
+
             //! \name Time Conversion
             ///@{
 

@@ -112,7 +112,7 @@ namespace djv
             p.thumbnailSizeLabel->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
             p.thumbnailSizeSlider = UI::IntSlider::create(context);
             p.thumbnailSizeSlider->setRange(UI::FileBrowser::thumbnailSizeRange);
-            p.thumbnailSizeSlider->setDelay(Time::getMilliseconds(Time::TimerValue::Medium));
+            p.thumbnailSizeSlider->setDelay(Time::getTime(Time::TimerValue::Medium));
             p.thumbnailSizeSlider->setMargin(UI::Layout::Margin(UI::MetricsRole::MarginSmall));
             auto vLayout = UI::VerticalLayout::create(context);
             vLayout->setSpacing(UI::Layout::Spacing(UI::MetricsRole::None));

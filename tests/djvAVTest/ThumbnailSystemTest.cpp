@@ -70,7 +70,7 @@ namespace djv
                     infoFuture.future.valid() ||
                     imageFuture.future.valid())
                 {
-                    _tickFor(Time::getMilliseconds(Time::TimerValue::Fast));
+                    _tickFor(Time::getTime(Time::TimerValue::Fast));
                     if (infoFuture.future.valid() &&
                         infoFuture.future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                     {

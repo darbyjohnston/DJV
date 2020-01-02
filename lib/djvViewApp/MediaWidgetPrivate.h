@@ -36,7 +36,8 @@
 #include <djvUI/RowLayout.h>
 #include <djvUI/Widget.h>
 
-#include <djvCore/Time.h>
+#include <djvCore/Frame.h>
+#include <djvCore/Speed.h>
 #include <djvCore/ValueObserver.h>
 
 namespace djv

@@ -99,8 +99,8 @@ namespace djv
             p.timer = Time::Timer::create(context);
             p.timer->setRepeating(true);
             p.timer->start(
-                Time::getMilliseconds(Time::TimerValue::VeryFast),
-                [weak](float)
+                Time::getTime(Time::TimerValue::VeryFast),
+                [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
                 {
                     if (auto widget = weak.lock())
                     {

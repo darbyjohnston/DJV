@@ -168,7 +168,7 @@ namespace djv
                     textLinesFuture.valid() ||
                     glyphsFuture.valid())
                 {
-                    _tickFor(Time::getMilliseconds(Time::TimerValue::Fast));
+                    _tickFor(Time::getTime(Time::TimerValue::Fast));
                     if (metricsFuture.valid() &&
                         metricsFuture.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                     {

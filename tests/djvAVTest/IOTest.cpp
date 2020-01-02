@@ -367,7 +367,7 @@ namespace djv
                                         }
                                         if (sleep)
                                         {
-                                            std::this_thread::sleep_for(Time::getMilliseconds(Time::TimerValue::Fast));
+                                            std::this_thread::sleep_for(Time::getTime(Time::TimerValue::Fast));
                                         }
                                     }
                                 }

@@ -49,8 +49,8 @@ namespace djv
 
             Orientation getOrientation() const;
             
-            std::chrono::milliseconds getDelay() const;
-            void setDelay(std::chrono::milliseconds);
+            const Core::Time::Unit& getDelay() const;
+            void setDelay(const Core::Time::Unit&);
 
             bool acceptFocus(TextFocusDirection) override;
 

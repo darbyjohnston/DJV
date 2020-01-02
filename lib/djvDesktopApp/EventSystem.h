@@ -64,7 +64,7 @@ namespace djv
             void setClipboard(const std::string&) override;
             std::string getClipboard() const override;
 
-            void tick(float dt) override;
+            void tick(const std::chrono::steady_clock::time_point&, const Core::Time::Unit& dt) override;
 
         protected:
             void _pushClipRect(const Core::BBox2f &) override;

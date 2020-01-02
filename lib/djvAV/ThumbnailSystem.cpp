@@ -243,8 +243,8 @@ namespace djv
             p.statsTimer = Time::Timer::create(context);
             p.statsTimer->setRepeating(true);
             p.statsTimer->start(
-                Time::getMilliseconds(Time::TimerValue::VerySlow),
-                [this](float)
+                Time::getTime(Time::TimerValue::VerySlow),
+                [this](const std::chrono::steady_clock::time_point&, const Time::Unit&)
             {
                 DJV_PRIVATE_PTR();
                 std::stringstream ss;

@@ -235,7 +235,7 @@ namespace djv
             //! Set the desired size. This is computed and set in the pre-layout event.
             void _setDesiredSize(const glm::vec2&);
 
-            static float _getUpdateTime();
+            static const std::chrono::steady_clock::time_point& _getUpdateTime();
             const std::map<Core::Event::PointerID, glm::vec2> _getPointerHover() const;
 
             std::string _getTooltipText() const;
@@ -245,7 +245,7 @@ namespace djv
         private:
             std::vector<std::shared_ptr<Widget> > _childWidgets;
 
-            static float        _updateTime;
+            static std::chrono::steady_clock::time_point _updateTime;
 
             bool                _visible         = true;
             bool                _visibleInit     = true;
@@ -276,7 +276,7 @@ namespace djv
             static bool         _tooltipsEnabled;
             struct TooltipData
             {
-                float timer = 0.F;
+                std::chrono::steady_clock::time_point timer;
                 std::shared_ptr<Tooltip> tooltip;
             };
             std::map<Core::Event::PointerID, TooltipData>

@@ -31,8 +31,9 @@
 
 #include <djvAV/Enum.h>
 
+#include <djvCore/Frame.h>
 #include <djvCore/ISystem.h>
-#include <djvCore/Time.h>
+#include <djvCore/Speed.h>
 #include <djvCore/ValueObserver.h>
 
 namespace djv

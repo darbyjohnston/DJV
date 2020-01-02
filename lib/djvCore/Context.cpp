@@ -90,8 +90,8 @@ namespace djv
             _fpsTimer->setRepeating(true);
             auto weak = std::weak_ptr<Context>(shared_from_this());
             _fpsTimer->start(
-                Time::getMilliseconds(Time::TimerValue::VerySlow),
-                [weak](float)
+                Time::getTime(Time::TimerValue::VerySlow),
+                [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
             {
                 if (auto context = weak.lock())
                 {
@@ -128,11 +128,10 @@ namespace djv
             }
         }
         
-        void Context::tick(float dt)
+        void Context::tick(const std::chrono::steady_clock::time_point& t, const Time::Unit& dt)
         {
-            auto now = std::chrono::steady_clock::now();
-            std::chrono::duration<float> delta = now - _fpsTime;
-            _fpsTime = now;
+            std::chrono::duration<float> delta = t - _fpsTime;
+            _fpsTime = t;
             _fpsSamples.push_front(1.F / delta.count());
             while (_fpsSamples.size() > fpsSamplesCount)
             {
@@ -173,26 +172,24 @@ namespace djv
                 //FileSystem::FileIO::writeLines("systems.dot", dot);
             }
 
-            float total = 0.F;
-            auto start = std::chrono::steady_clock::now();
+            Time::Unit total = Time::Unit::zero();
             _systemTickTimesTemp.resize(_systems.size());
             size_t i = 0;
             for (const auto & system : _systems)
             {
-                system->tick(dt);
+                system->tick(t, dt);
                 auto end = std::chrono::steady_clock::now();
-                std::chrono::duration<float, std::milli> diff = end - start;
+                const auto diff = std::chrono::duration_cast<Time::Unit>(end - t);
                 auto& tickTimes = _systemTickTimesTemp[i];
                 tickTimes.first = system->getSystemName();
-                tickTimes.second = diff.count();
-                start = end;
-                total += diff.count();
+                tickTimes.second = diff;
+                total += diff;
                 ++i;
             }
             std::sort(
                 _systemTickTimesTemp.begin(),
                 _systemTickTimesTemp.end(),
-                [](const std::pair<std::string, float>& a, const std::pair<std::string, float>& b)
+                [](const std::pair<std::string, Time::Unit>& a, const std::pair<std::string, Time::Unit>& b)
                 {
                     return a.second > b.second;
                 });

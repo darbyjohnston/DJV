@@ -31,10 +31,12 @@
 
 #include <djvCore/BBox.h>
 #include <djvCore/Enum.h>
+#include <djvCore/Time.h>
 
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 
+#include <chrono>
 #include <map>
 #include <memory>
 
@@ -155,14 +157,14 @@ namespace djv
             class Update : public Event
             {
             public:
-                Update(float t, float dt);
+                Update(const std::chrono::steady_clock::time_point&, const Time::Unit&);
 
-                float getTime() const;
-                float getDeltaTime() const;
+                const std::chrono::steady_clock::time_point& getTime() const;
+                const Time::Unit& getDeltaTime() const;
 
             private:
-                float _t;
-                float _dt;
+                std::chrono::steady_clock::time_point _t;
+                Time::Unit _dt;
             };
 
             //! This class provides an event to prepare for user interface layout.

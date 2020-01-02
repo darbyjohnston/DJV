@@ -100,8 +100,8 @@ namespace djv
                 _statsTimer = Core::Time::Timer::create(shared_from_this());
                 _statsTimer->setRepeating(true);
                 _statsTimer->start(
-                    Core::Time::getMilliseconds(Core::Time::TimerValue::Slow),
-                    [this, size](float)
+                    Core::Time::getTime(Core::Time::TimerValue::Slow),
+                    [this, size](const std::chrono::steady_clock::time_point&, const Core::Time::Unit&)
                 {
                     Core::Frame::Number frame = 0;
                     {
@@ -130,9 +130,9 @@ namespace djv
                 return out;
             }
 
-            void tick(float dt) override
+            void tick(const std::chrono::steady_clock::time_point& t, const Core::Time::Unit& dt) override
             {
-                CmdLine::Application::tick(dt);
+                CmdLine::Application::tick(t, dt);
                 if (_read && _write)
                 {
                     std::unique_lock<std::mutex> readLock(_read->getMutex(), std::try_to_lock);

@@ -52,7 +52,7 @@ namespace djv
             namespace
             {
                 //! \todo Should this be configurable?
-                const float thumbnailFadeTime = .2F;
+                const size_t thumbnailFadeTime = 200;
 
                 const size_t invalid = static_cast<size_t>(-1);
 
@@ -74,7 +74,7 @@ namespace djv
                 AV::Image::Size thumbnailSize = AV::Image::Size(100, 50);
                 std::map<size_t, std::shared_ptr<AV::Image::Image> > thumbnails;
                 std::map<size_t, AV::ThumbnailSystem::ImageFuture> thumbnailFutures;
-                std::map<size_t, float> thumbnailTimers;
+                std::map<size_t, std::chrono::steady_clock::time_point> thumbnailTimers;
                 std::map<FileSystem::FileType, std::shared_ptr<AV::Image::Image> > icons;
                 std::map<FileSystem::FileType, std::future<std::shared_ptr<AV::Image::Image> > > iconsFutures;
                 std::map<size_t, std::vector<std::shared_ptr<AV::Font::Glyph> > > nameGlyphs;
@@ -392,7 +392,7 @@ namespace djv
                 const float sh = style->getMetric(MetricsRole::Shadow);
 
                 auto render = _getRender();
-                const float ut = _getUpdateTime();
+                const auto& ut = _getUpdateTime();
                 auto item = p.items.begin();
                 size_t index = 0;
                 for (; item != p.items.end(); ++item, ++index)
@@ -430,7 +430,8 @@ namespace djv
                                     const auto k = p.thumbnailTimers.find(index);
                                     if (k != p.thumbnailTimers.end())
                                     {
-                                        opacity = std::min((ut - k->second) / thumbnailFadeTime, 1.F);
+                                        const auto t = std::chrono::duration_cast<std::chrono::milliseconds>(ut - k->second);
+                                        opacity = std::min(t.count() / static_cast<float>(thumbnailFadeTime), 1.F);
                                     }
                                     const uint16_t w = j->second->getWidth();
                                     const uint16_t h = j->second->getHeight();
@@ -837,11 +838,12 @@ namespace djv
                 }
                 if (p.thumbnailTimers.size())
                 {
-                    const float ut = _getUpdateTime();
+                    const auto& ut = _getUpdateTime();
                     auto i = p.thumbnailTimers.begin();
                     while (i != p.thumbnailTimers.end())
                     {
-                        if ((ut - i->second) > thumbnailFadeTime)
+                        const auto t = std::chrono::duration_cast<std::chrono::milliseconds>(ut - i->second);
+                        if (t.count() > thumbnailFadeTime)
                         {
                             i = p.thumbnailTimers.erase(i);
                         }

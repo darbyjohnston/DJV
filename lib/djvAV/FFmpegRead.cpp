@@ -370,7 +370,7 @@ namespace djv
                                     std::unique_lock<std::mutex> lock(_mutex);
                                     if (p.queueCV.wait_for(
                                         lock,
-                                        Time::getMilliseconds(Time::TimerValue::Fast),
+                                        Time::getTime(Time::TimerValue::Fast),
                                         [this, sequenceSize]
                                         //[this, sequenceSize, cacheEnabled, &cachedFrames]
                                     {

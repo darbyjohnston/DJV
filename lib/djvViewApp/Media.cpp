@@ -92,14 +92,13 @@ namespace djv
             std::shared_ptr<AV::Audio::Data> audioData;
             size_t audioDataSamplesOffset = 0;
             size_t audioDataSamplesCount = 0;
-            std::chrono::high_resolution_clock::time_point audioDataSamplesTime;
+            Time::Unit audioDataSamplesTime = Time::Unit::zero();
             Frame::Index frameOffset = 0;
-            std::chrono::high_resolution_clock::time_point startTime;
-            std::chrono::high_resolution_clock::time_point realSpeedTime;
+            Time::Unit currentTime = Time::Unit::zero();
             size_t realSpeedFrameCount = 0;
-            std::chrono::high_resolution_clock::time_point playEveryFrameTime;
-            std::shared_ptr<Time::Timer> queueTimer;
+            Time::Unit playEveryFrameTime = Time::Unit::zero();
             std::shared_ptr<Time::Timer> playbackTimer;
+            std::shared_ptr<Time::Timer> queueTimer;
             std::shared_ptr<Time::Timer> realSpeedTimer;
             std::shared_ptr<Time::Timer> cacheTimer;
             std::shared_ptr<Time::Timer> debugTimer;
@@ -139,10 +138,10 @@ namespace djv
             p.videoQueueCount = ValueSubject<size_t>::create();
             p.audioQueueCount = ValueSubject<size_t>::create();
 
-            p.queueTimer = Time::Timer::create(context);
-            p.queueTimer->setRepeating(true);
             p.playbackTimer = Time::Timer::create(context);
             p.playbackTimer->setRepeating(true);
+            p.queueTimer = Time::Timer::create(context);
+            p.queueTimer->setRepeating(true);
             p.realSpeedTimer = Time::Timer::create(context);
             p.realSpeedTimer->setRepeating(true);
             p.cacheTimer = Time::Timer::create(context);
@@ -166,8 +165,8 @@ namespace djv
 
             auto weak = std::weak_ptr<Media>(std::dynamic_pointer_cast<Media>(shared_from_this()));
             p.queueTimer->start(
-                Time::getMilliseconds(Time::TimerValue::VeryFast),
-                [weak](float)
+                Time::getTime(Time::TimerValue::VeryFast),
+                [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
                 {
                     if (auto media = weak.lock())
                     {
@@ -739,8 +738,8 @@ namespace djv
 
                     auto weak = std::weak_ptr<Media>(std::dynamic_pointer_cast<Media>(shared_from_this()));
                     p.cacheTimer->start(
-                        Time::getMilliseconds(Time::TimerValue::Fast),
-                        [weak](float)
+                        Time::getTime(Time::TimerValue::Fast),
+                        [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
                         {
                             if (auto media = weak.lock())
                             {
@@ -755,8 +754,8 @@ namespace djv
                         });
 
                     p.debugTimer->start(
-                        Time::getMilliseconds(Time::TimerValue::Medium),
-                        [weak](float)
+                        Time::getTime(Time::TimerValue::Medium),
+                        [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
                         {
                             if (auto media = weak.lock())
                             {
@@ -897,13 +896,11 @@ namespace djv
                 p.audioData.reset();
                 p.audioDataSamplesOffset = 0;
                 p.audioDataSamplesCount = 0;
-                const auto now = std::chrono::high_resolution_clock::now();
-                p.audioDataSamplesTime = now;
+                p.audioDataSamplesTime = Time::Unit::zero();
                 p.frameOffset = p.currentFrame->get();
-                p.startTime = now;
-                p.realSpeedTime = p.startTime;
+                p.currentTime = Time::Unit::zero();
                 p.realSpeedFrameCount = 0;
-                p.playEveryFrameTime = now;
+                p.playEveryFrameTime = Time::Unit::zero();
                 _stopAudioStream();
             }
         }
@@ -939,37 +936,36 @@ namespace djv
                     p.audioData.reset();
                     p.audioDataSamplesOffset = 0;
                     p.audioDataSamplesCount = 0;
-                    const auto now = std::chrono::high_resolution_clock::now();
-                    p.audioDataSamplesTime = now;
+                    p.audioDataSamplesTime = Time::Unit::zero();
                     p.frameOffset = p.currentFrame->get();
-                    p.startTime = now;
-                    p.realSpeedTime = p.startTime;
+                    p.currentTime = Time::Unit::zero();
                     p.realSpeedFrameCount = 0;
-                    p.playEveryFrameTime = now;
+                    p.playEveryFrameTime = Time::Unit::zero();
                     if (_hasAudioSyncPlayback())
                     {
                         _startAudioStream();
                     }
                     auto weak = std::weak_ptr<Media>(std::dynamic_pointer_cast<Media>(shared_from_this()));
                     p.playbackTimer->start(
-                        Time::getMilliseconds(Time::TimerValue::VeryFast),
-                        [weak](float)
+                        Time::getTime(Time::TimerValue::VeryFast),
+                        [weak](const std::chrono::steady_clock::time_point&, const Time::Unit& dt)
                     {
                         if (auto media = weak.lock())
                         {
+                            media->_p->currentTime += dt;
+                            media->_p->playEveryFrameTime += dt;
                             media->_playbackTick();
                         }
                     });
                     p.realSpeedTimer->start(
-                        Time::getMilliseconds(Time::TimerValue::Slow),
-                        [weak](float)
+                        Time::getTime(Time::TimerValue::Slow),
+                        [weak](const std::chrono::steady_clock::time_point&, const Time::Unit& dt)
                         {
                             if (auto media = weak.lock())
                             {
-                                const auto now = std::chrono::high_resolution_clock::now();
-                                std::chrono::duration<double> delta = now - media->_p->realSpeedTime;
-                                media->_p->realSpeed->setIfChanged(delta.count() ? (media->_p->realSpeedFrameCount / static_cast<float>(delta.count())) : 0.F);
-                                media->_p->realSpeedTime = now;
+                                const size_t delta = dt.count();
+                                media->_p->realSpeed->setIfChanged(delta > 0 ? (media->_p->realSpeedFrameCount / (delta / static_cast<float>(Time::timebase))) : 0.F);
+                                //std::cout << delta << ", " << media->_p->realSpeedFrameCount << std::endl;
                                 media->_p->realSpeedFrameCount = 0;
                             }
                         });
@@ -990,18 +986,16 @@ namespace djv
             case Playback::Reverse:
             {
                 const auto& speed = p.speed->get();
-                const auto now = std::chrono::high_resolution_clock::now();
                 if (_hasAudioSyncPlayback())
                 {
                     if (p.audioDataSamplesCount)
                     {
-                        std::chrono::duration<double> delta = now - p.audioDataSamplesTime;
                         Frame::Index frame = p.frameOffset +
                             Time::scale(
                                 p.audioDataSamplesCount,
                                 Math::Rational(1, static_cast<int>(p.audioInfo.info.sampleRate)),
                                 speed.swap()) +
-                            delta.count() * speed.toFloat();
+                            p.audioDataSamplesTime.count() / static_cast<float>(Time::timebase) * speed.toFloat();
                         _setCurrentFrame(frame);
                     }
                 }
@@ -1010,8 +1004,7 @@ namespace djv
                 }
                 else
                 {
-                    std::chrono::duration<double> delta = now - p.startTime;
-                    Frame::Index elapsed = static_cast<Frame::Index>(delta.count() * speed.toFloat());
+                    Frame::Index elapsed = p.currentTime.count() / static_cast<float>(Time::timebase) * speed.toFloat();
                     Frame::Index frame = Frame::invalid;
                     switch (playback)
                     {
@@ -1076,10 +1069,9 @@ namespace djv
             {
                 // Update the video queue.
                 const Playback playback = p.playback->get();
-                const auto now = std::chrono::high_resolution_clock::now();
-                const std::chrono::duration<double> playEveryFrameDelta = now - p.playEveryFrameTime;
-                const float frameTime = 1.F / p.speed->get().toFloat();
-                const bool playEveryFrameAdvance = playEveryFrameDelta.count() > frameTime;
+                const size_t frameTime = static_cast<size_t>(Time::timebase / p.speed->get().toFloat());
+                const bool playEveryFrameAdvance = p.playEveryFrameTime.count() >= frameTime;
+                //std::cout << "every frame: " << playEveryFrameAdvance << ", " << p.playEveryFrameTime.count() << "/" << frameTime << std::endl;
                 const Frame::Index currentFrame = p.currentFrame->get();
                 AV::IO::VideoFrame frame;
                 bool gotFrame = false;
@@ -1092,7 +1084,7 @@ namespace djv
                         {
                             frame = queue.popFrame();
                             gotFrame = true;
-                            p.playEveryFrameTime += std::chrono::milliseconds(static_cast<size_t>(1000 * frameTime));
+                            p.playEveryFrameTime = p.playEveryFrameTime - Time::Unit(frameTime);
                             p.realSpeedFrameCount = p.realSpeedFrameCount + 1;
                         }
                     }
@@ -1191,7 +1183,7 @@ namespace djv
                 p += size * sampleByteCount;
                 media->_p->audioDataSamplesOffset += size;
                 media->_p->audioDataSamplesCount += size;
-                media->_p->audioDataSamplesTime = std::chrono::high_resolution_clock::now();
+                media->_p->audioDataSamplesTime = Time::Unit::zero();
                 outputSampleCount -= size;
                 if (media->_p->audioDataSamplesOffset >= media->_p->audioData->getSampleCount())
                 {
@@ -1219,7 +1211,7 @@ namespace djv
                 p += size * sampleByteCount;
                 media->_p->audioDataSamplesOffset = size;
                 media->_p->audioDataSamplesCount += size;
-                media->_p->audioDataSamplesTime = std::chrono::high_resolution_clock::now();
+                media->_p->audioDataSamplesTime = Time::Unit::zero();
                 outputSampleCount -= size;
             }
 

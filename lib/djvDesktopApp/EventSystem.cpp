@@ -152,8 +152,8 @@ namespace djv
             p.statsTimer->setRepeating(true);
             auto weak = std::weak_ptr<EventSystem>(std::dynamic_pointer_cast<EventSystem>(shared_from_this()));
             p.statsTimer->start(
-                Time::getMilliseconds(Time::TimerValue::VerySlow),
-                [weak](float)
+                Time::getTime(Time::TimerValue::VerySlow),
+                [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
             {
                 if (auto system = weak.lock())
                 {
@@ -190,9 +190,9 @@ namespace djv
             return glfwGetClipboardString(p.glfwWindow);
         }
 
-        void EventSystem::tick(float dt)
+        void EventSystem::tick(const std::chrono::steady_clock::time_point& t, const Time::Unit& dt)
         {
-            UI::EventSystem::tick(dt);
+            UI::EventSystem::tick(t, dt);
 
             DJV_PRIVATE_PTR();
             if (p.resizeRequest)
@@ -382,8 +382,6 @@ namespace djv
                     GL_COLOR_BUFFER_BIT,
                     GL_NEAREST);
 #endif // DJV_OPENGL_ES2
-                //glFlush();
-                glfwSwapBuffers(p.glfwWindow);
             }
         }
 
@@ -407,7 +405,7 @@ namespace djv
 
         void EventSystem::_hover(const std::shared_ptr<UI::Widget> & widget, Event::PointerMove & event, std::shared_ptr<IObject> & hover)
         {
-            const auto children = widget->getChildrenT<UI::Widget>();
+            const auto children = widget->getChildWidgets();
             for (auto i = children.rbegin(); i != children.rend(); ++i)
             {
                 if ((*i)->isVisible() &&

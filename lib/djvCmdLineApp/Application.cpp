@@ -79,21 +79,20 @@ namespace djv
         int Application::run()
         {
             DJV_PRIVATE_PTR();
-            auto time = std::chrono::system_clock::now();
-            float dt = 0.F;
+            auto time = std::chrono::steady_clock::now();
+            Time::Unit delta = Time::Unit::zero();
             while (p.running)
             {
-                tick(dt);
+                tick(time, delta);
 
-                auto now = std::chrono::system_clock::now();
-                std::chrono::duration<float> delta = now - time;
-                const float sleep = 1 / static_cast<float>(frameRate) - delta.count();
-                std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(sleep * 1000)));
-
-                now = std::chrono::system_clock::now();
-                delta = now - time;
-                dt = delta.count();
-                time = now;
+                auto end = std::chrono::steady_clock::now();
+                delta = std::chrono::duration_cast<Time::Unit>(end - time);
+                while (delta.count() < Time::timebase / frameRate)
+                {
+                    end = std::chrono::steady_clock::now();
+                    delta = std::chrono::duration_cast<Time::Unit>(end - time);
+                }
+                time = end;
             }
             return _p->exit;
         }

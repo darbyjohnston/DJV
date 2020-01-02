@@ -306,12 +306,12 @@ namespace djv
             setValue(_p->defaultValue);
         }
 
-        std::chrono::milliseconds IntSlider::getDelay() const
+        const Time::Unit& IntSlider::getDelay() const
         {
             return _p->slider->getDelay();
         }
 
-        void IntSlider::setDelay(std::chrono::milliseconds value)
+        void IntSlider::setDelay(const Time::Unit& value)
         {
             _p->slider->setDelay(value);
         }

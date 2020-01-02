@@ -188,7 +188,7 @@ namespace djv
             _resizeRequest = true;
         }
 
-        inline float Widget::_getUpdateTime()
+        inline const std::chrono::steady_clock::time_point& Widget::_getUpdateTime()
         {
             return _updateTime;
         }

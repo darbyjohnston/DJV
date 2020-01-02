@@ -305,12 +305,12 @@ namespace djv
             setValue(_p->defaultValue);
         }
 
-        std::chrono::milliseconds FloatSlider::getDelay() const
+        const Time::Unit& FloatSlider::getDelay() const
         {
             return _p->slider->getDelay();
         }
 
-        void FloatSlider::setDelay(std::chrono::milliseconds value)
+        void FloatSlider::setDelay(const Time::Unit& value)
         {
             _p->slider->setDelay(value);
         }

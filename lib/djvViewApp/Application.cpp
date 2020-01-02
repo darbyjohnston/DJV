@@ -145,8 +145,8 @@ namespace djv
             p.timer = Time::Timer::create(shared_from_this());
             p.timer->setRepeating(true);
             p.timer->start(
-                Time::getMilliseconds(Time::TimerValue::Fast),
-                [this](float value)
+                Time::getTime(Time::TimerValue::Fast),
+                [this](const std::chrono::steady_clock::time_point&, const Time::Unit&)
                 {
                     DJV_PRIVATE_PTR();
                     auto i = p.read.begin();

@@ -493,8 +493,6 @@ namespace djv
                 GLint                                               mvpLoc              = 0;
 
                 std::shared_ptr<Time::Timer>                        statsTimer;
-                std::vector<float>                                  fpsSamples;
-                std::chrono::time_point<std::chrono::system_clock>  fpsTime             = std::chrono::system_clock::now();
 
                 void updateVBODataSize(size_t);
 
@@ -570,8 +568,8 @@ namespace djv
                 p.statsTimer = Time::Timer::create(context);
                 p.statsTimer->setRepeating(true);
                 p.statsTimer->start(
-                    Time::getMilliseconds(Time::TimerValue::VerySlow),
-                    [this](float)
+                    Time::getTime(Time::TimerValue::VerySlow),
+                    [this](const std::chrono::steady_clock::time_point&, const Time::Unit&)
                     {
                         DJV_PRIVATE_PTR();
                         std::stringstream ss;
@@ -586,24 +584,6 @@ namespace djv
                         ss << "VBO size: " << (p.vbo ? p.vbo->getSize() : 0);
                         _log(ss.str());
                     });
-
-                /*p.fpsTimer = Time::Timer::create(context);
-                p.fpsTimer->setRepeating(true);
-                p.fpsTimer->start(
-                    Time::getMilliseconds(Time::TimerValue::VerySlow),
-                    [this](float)
-                {
-                    DJV_PRIVATE_PTR();
-                    float average = 1.F;
-                    for (const auto & i : p.fpsSamples)
-                    {
-                        average += i;
-                    }
-                    average /= static_cast<float>(p.fpsSamples.size());
-                    std::stringstream ss;
-                    ss << "FPS: " << average;
-                    _log(ss.str());
-                });*/
             }
 
             Render2D::Render2D() :
@@ -765,15 +745,6 @@ namespace djv
                     {
                         p.vao->draw(primitive->type, primitive->vaoOffset, primitive->vaoSize);
                     }
-                }
-
-                const auto now = std::chrono::system_clock::now();
-                const std::chrono::duration<float> delta = now - p.fpsTime;
-                p.fpsTime = now;
-                p.fpsSamples.push_back(1.F / delta.count());
-                while (p.fpsSamples.size() > 10)
-                {
-                    p.fpsSamples.erase(p.fpsSamples.begin());
                 }
 
                 _clipRects.clear();

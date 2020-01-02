@@ -231,8 +231,8 @@ namespace djv
                 p.fontNamesTimer = Time::Timer::create(context);
                 p.fontNamesTimer->setRepeating(true);
                 p.fontNamesTimer->start(
-                    Time::getMilliseconds(Time::TimerValue::Medium),
-                    [this](float)
+                    Time::getTime(Time::TimerValue::Medium),
+                    [this](const std::chrono::steady_clock::time_point&, const Time::Unit&)
                 {
                     DJV_PRIVATE_PTR();
                     std::map<FamilyID, std::string> fontNames;
@@ -246,8 +246,8 @@ namespace djv
                 p.statsTimer = Time::Timer::create(context);
                 p.statsTimer->setRepeating(true);
                 p.statsTimer->start(
-                    Time::getMilliseconds(Time::TimerValue::VerySlow),
-                    [this](float)
+                    Time::getTime(Time::TimerValue::VerySlow),
+                    [this](const std::chrono::steady_clock::time_point&, const Time::Unit&)
                 {
                     DJV_PRIVATE_PTR();
                     std::stringstream ss;
@@ -261,14 +261,13 @@ namespace djv
                 {
                     DJV_PRIVATE_PTR();
                     _initFreeType();
-                    const auto timeout = Time::getValue(Time::TimerValue::Fast);
                     while (p.running)
                     {
                         {
                             std::unique_lock<std::mutex> lock(p.requestMutex);
                             p.requestCV.wait_for(
                                 lock,
-                                std::chrono::milliseconds(timeout),
+                                Time::getTime(Time::TimerValue::Fast),
                                 [this]
                             {
                                 DJV_PRIVATE_PTR();

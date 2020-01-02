@@ -61,7 +61,7 @@ namespace djv
                 p.drivesSubject = ListSubject<Path>::create();
 
                 p.running = true;
-                const auto timeout = Time::getValue(Time::TimerValue::Medium);
+                const auto timeout = Time::getTime(Time::TimerValue::Medium);
                 p.thread = std::thread(
                     [this, timeout]
                 {
@@ -73,15 +73,15 @@ namespace djv
                             std::lock_guard<std::mutex> lock(p.mutex);
                             p.drives = drives;
                         }
-                        std::this_thread::sleep_for(std::chrono::milliseconds(timeout));
+                        std::this_thread::sleep_for(timeout);
                     }
                 });
 
                 p.timer = Time::Timer::create(context);
                 p.timer->setRepeating(true);
                 p.timer->start(
-                    std::chrono::milliseconds(timeout),
-                    [this](float)
+                    timeout,
+                    [this](const std::chrono::steady_clock::time_point&, const Time::Unit&)
                 {
                     DJV_PRIVATE_PTR();
                     std::vector<Path> drives;

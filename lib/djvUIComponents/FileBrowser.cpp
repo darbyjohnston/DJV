@@ -290,7 +290,7 @@ namespace djv
 
                 p.thumbnailSizeSlider = IntSlider::create(context);
                 p.thumbnailSizeSlider->setRange(thumbnailSizeRange);
-                p.thumbnailSizeSlider->setDelay(Time::getMilliseconds(Time::TimerValue::Medium));
+                p.thumbnailSizeSlider->setDelay(Time::getTime(Time::TimerValue::Medium));
                 p.thumbnailSizeSlider->setMargin(Layout::Margin(MetricsRole::MarginSmall));
                 vLayout = VerticalLayout::create(context);
                 vLayout->setSpacing(Layout::Spacing(MetricsRole::None));

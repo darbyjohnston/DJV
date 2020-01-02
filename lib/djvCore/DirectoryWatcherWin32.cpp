@@ -70,7 +70,7 @@ namespace djv
             void DirectoryWatcher::_init(const std::shared_ptr<Context>& context)
             {
                 DJV_PRIVATE_PTR();
-                const auto timeout = Time::getValue(Time::TimerValue::Medium);
+                const auto timeout = Time::getTime(Time::TimerValue::Medium);
                 auto contextWeak = std::weak_ptr<Context>(context);
                 _p->thread = std::thread(
                     [this, timeout, contextWeak]
@@ -145,7 +145,7 @@ namespace djv
                             }
                         }
 
-                        std::this_thread::sleep_for(std::chrono::milliseconds(timeout));
+                        std::this_thread::sleep_for(timeout);
                     }
 
                     if (changeHandle)
@@ -157,8 +157,8 @@ namespace djv
                 p.timer = Time::Timer::create(context);
                 p.timer->setRepeating(true);
                 p.timer->start(
-                    std::chrono::milliseconds(timeout),
-                    [this](float)
+                    timeout,
+                    [this](const std::chrono::steady_clock::time_point&, const Time::Unit&)
                 {
                     DJV_PRIVATE_PTR();
                     bool changed = false;

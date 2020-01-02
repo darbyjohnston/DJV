@@ -98,8 +98,8 @@ namespace djv
             void setDefaultVisible(bool);
             void resetValue();
 
-            std::chrono::milliseconds getDelay() const;
-            void setDelay(std::chrono::milliseconds);
+            const Core::Time::Unit& getDelay() const;
+            void setDelay(const Core::Time::Unit&);
 
             const std::shared_ptr<Core::INumericValueModel<float>>& getModel() const;
 

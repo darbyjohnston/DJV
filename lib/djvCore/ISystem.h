@@ -29,8 +29,9 @@
 
 #pragma once
 
-#include <djvCore/Core.h>
+#include <djvCore/Time.h>
 
+#include <chrono>
 #include <memory>
 #include <string>
 #include <vector>
@@ -69,7 +70,7 @@ namespace djv
             void addDependency(const std::shared_ptr<ISystemBase>&);
 
             //! Override this function to do work each frame.
-            virtual void tick(float dt);
+            virtual void tick(const std::chrono::steady_clock::time_point&, const Time::Unit&);
 
         private:
             std::string _name;

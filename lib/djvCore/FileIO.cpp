@@ -58,22 +58,7 @@ namespace djv
                 close();
             }
 
-            void FileIO::setPos(size_t in)
-            {
-                _setPos(in, false);
-            }
-
-            void FileIO::seek(size_t in)
-            {
-                _setPos(in, true);
-            }
-
-            void FileIO::setEndianConversion(bool in)
-            {
-                _endianConversion = in;
-            }
-
-            FileIO & FileIO::operator = (FileIO && other)
+            FileIO& FileIO::operator = (FileIO&& other)
             {
                 if (this != &other)
                 {
@@ -91,6 +76,21 @@ namespace djv
 #endif // DJV_MMAP
                 }
                 return *this;
+            }
+
+            void FileIO::setPos(size_t in)
+            {
+                _setPos(in, false);
+            }
+
+            void FileIO::seek(size_t in)
+            {
+                _setPos(in, true);
+            }
+
+            void FileIO::setEndianConversion(bool in)
+            {
+                _endianConversion = in;
             }
 
             std::string FileIO::readContents(FileIO & fileIO)

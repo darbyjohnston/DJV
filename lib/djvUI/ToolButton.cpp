@@ -436,13 +436,13 @@ namespace djv
                         auto weak = std::weak_ptr<Tool>(std::dynamic_pointer_cast<Tool>(shared_from_this()));
                         p.autoRepeatStartTimer->start(
                             std::chrono::milliseconds(autoRepeatStart),
-                            [weak](float)
+                            [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
                             {
                                 if (auto widget = weak.lock())
                                 {
                                     widget->_p->autoRepeatTimer->start(
                                         std::chrono::milliseconds(autoRepeatTimeout),
-                                        [weak](float)
+                                        [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
                                         {
                                             if (auto widget2 = weak.lock())
                                             {

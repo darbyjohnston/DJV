@@ -209,7 +209,6 @@ int Application::run()
         glfwPollEvents();
         _render();
         glfwSwapBuffers(_glfwWindow);
-        //glFlush();
         auto now = std::chrono::system_clock::now();
         std::chrono::duration<float> delta = now - time;
         time = now;

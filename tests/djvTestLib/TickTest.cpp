@@ -51,25 +51,24 @@ namespace djv
         ITickTest::~ITickTest()
         {}
 
-        void ITickTest::_tickFor(std::chrono::milliseconds value)
+        void ITickTest::_tickFor(const Core::Time::Unit& value)
         {
             if (auto context = getContext().lock())
             {
-                auto time = std::chrono::system_clock::now();
+                auto time = std::chrono::steady_clock::now();
                 auto timeout = time + value;
-                float dt = 0.F;
+                Core::Time::Unit delta;
                 while (time < timeout)
                 {
-                    context->tick(dt);
+                    context->tick(time, delta);
 
-                    auto t = std::chrono::system_clock::now();
-                    std::chrono::duration<float> delta = t - time;
+                    auto t = std::chrono::steady_clock::now();
+                    delta = std::chrono::duration_cast<std::chrono::milliseconds>(t - time);
                     const float sleep = 1 / static_cast<float>(frameRate) - delta.count();
                     std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(sleep * 1000)));
                     
-                    t = std::chrono::system_clock::now();
-                    delta = t - time;
-                    dt = delta.count();
+                    t = std::chrono::steady_clock::now();
+                    delta = std::chrono::duration_cast<std::chrono::milliseconds>(t - time);
                     time = t;
                 }
             }

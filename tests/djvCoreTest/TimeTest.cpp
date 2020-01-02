@@ -29,6 +29,7 @@
 
 #include <djvCoreTest/TimeTest.h>
 
+#include <djvCore/Speed.h>
 #include <djvCore/Time.h>
 
 #include <iostream>

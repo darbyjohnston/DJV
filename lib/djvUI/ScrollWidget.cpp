@@ -703,7 +703,7 @@ namespace djv
             p.pointerAverageTimer->setRepeating(true);
             p.pointerAverageTimer->start(
                 std::chrono::milliseconds(pointerAverageDecayTimeout),
-                [weak](float value)
+                [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
             {
                 if (auto widget = weak.lock())
                 {
@@ -733,7 +733,7 @@ namespace djv
             p.swipeTimer->setRepeating(true);
             p.swipeTimer->start(
                 std::chrono::milliseconds(velocityTimeout),
-                [weak](float value)
+                [weak](const std::chrono::steady_clock::time_point&, const Time::Unit& value)
             {
                 if (auto widget = weak.lock())
                 {
@@ -741,7 +741,7 @@ namespace djv
                     glm::vec2 scrollPos(ceilf(pos.x + widget->_p->swipeVelocity.x), ceilf(pos.y + widget->_p->swipeVelocity.y));
                     if (widget->_p->scrollArea->setScrollPos(scrollPos))
                     {
-                        const float mult = value / (velocityTimeout / 1000.F);
+                        const float mult = value.count() / static_cast<float>(velocityTimeout);
                         const float decay = velocityDecay * mult;
                         if (widget->_p->swipeVelocity.x > 0.F)
                         {

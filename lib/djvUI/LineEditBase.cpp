@@ -913,7 +913,7 @@ namespace djv
                 auto weak = std::weak_ptr<LineEditBase>(std::dynamic_pointer_cast<LineEditBase>(shared_from_this()));
                 p.cursorBlinkTimer->start(
                     std::chrono::milliseconds(cursorTimeout),
-                    [weak](float)
+                    [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
                 {
                     if (auto widget = weak.lock())
                     {

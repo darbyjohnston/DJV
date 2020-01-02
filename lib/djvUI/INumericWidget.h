@@ -33,6 +33,7 @@
 
 #include <djvCore/INumericValueModel.h>
 #include <djvCore/Range.h>
+#include <djvCore/Time.h>
 #include <djvCore/ValueObserver.h>
 
 #include <chrono>
@@ -103,9 +104,9 @@ namespace djv
             virtual ~INumericSlider() = 0;
 
         protected:
-            void _pointerMove(float, std::chrono::milliseconds);
-            void _buttonPress(float, std::chrono::milliseconds);
-            void _buttonRelease(std::chrono::milliseconds);
+            void _pointerMove(float, const Core::Time::Unit&);
+            void _buttonPress(float, const Core::Time::Unit&);
+            void _buttonRelease(const Core::Time::Unit&);
             void _valueUpdate();
 
             virtual float _valueToPos(T) const = 0;

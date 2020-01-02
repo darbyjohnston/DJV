@@ -69,7 +69,7 @@ namespace djv
         public:
             static std::shared_ptr<Application> create(int& argc, char** argv);
 
-            void tick(float dt) override;
+            void tick(const std::chrono::steady_clock::time_point&, const Core::Time::Unit&) override;
 
         private:
             bool _parseArgs();
@@ -132,8 +132,8 @@ namespace djv
             _statsTimer = Core::Time::Timer::create(shared_from_this());
             _statsTimer->setRepeating(true);
             _statsTimer->start(
-                Core::Time::getMilliseconds(Core::Time::TimerValue::Slow),
-                [this](float)
+                Core::Time::getTime(Core::Time::TimerValue::Slow),
+                [this](const std::chrono::steady_clock::time_point&, const Core::Time::Unit&)
                 {
                     std::cout << static_cast<size_t>(_frame / static_cast<float>(*_frameCount - 1) * 100.F) << "%" << std::endl;
                 });
@@ -149,9 +149,9 @@ namespace djv
             return out;
         }
 
-        void Application::tick(float dt)
+        void Application::tick(const std::chrono::steady_clock::time_point& t, const Core::Time::Unit& dt)
         {
-            CmdLine::Application::tick(dt);
+            CmdLine::Application::tick(t, dt);
             {
                 std::lock_guard<std::mutex> writeLock(_write->getMutex());
                 auto& writeQueue = _write->getVideoQueue();

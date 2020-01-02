@@ -419,8 +419,8 @@ namespace djv
             p.cacheTimer = Time::Timer::create(context);
             p.cacheTimer->setRepeating(true);
             p.cacheTimer->start(
-                Time::getMilliseconds(Time::TimerValue::Medium),
-                [weak](float)
+                Time::getTime(Time::TimerValue::Medium),
+                [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
                 {
                     if (auto system = weak.lock())
                     {

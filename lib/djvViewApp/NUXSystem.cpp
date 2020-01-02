@@ -88,7 +88,7 @@ namespace djv
                 void _paintEvent(Event::Paint&) override;
 
             private:
-                void _primitivesUpdate(float);
+                void _primitivesUpdate(const Time::Unit&);
 
                 std::vector<std::shared_ptr<AV::IO::IRead> > _read;
                 std::vector<std::shared_ptr<AV::Image::Image> > _images;
@@ -128,8 +128,8 @@ namespace djv
                 _timer->setRepeating(true);
                 auto weak = std::weak_ptr<BackgroundWidget>(std::dynamic_pointer_cast<BackgroundWidget>(shared_from_this()));
                 _timer->start(
-                    Time::getMilliseconds(Time::TimerValue::Fast),
-                    [weak](float value)
+                    Time::getTime(Time::TimerValue::Fast),
+                    [weak](const std::chrono::steady_clock::time_point&, const Time::Unit& dt)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -159,7 +159,7 @@ namespace djv
                                 ++i;
                             }
                         }
-                        widget->_primitivesUpdate(value);
+                        widget->_primitivesUpdate(dt);
                     }
                 });
             }
@@ -188,14 +188,14 @@ namespace djv
                 }
             }
 
-            void BackgroundWidget::_primitivesUpdate(float value)
+            void BackgroundWidget::_primitivesUpdate(const Time::Unit& value)
             {
                 std::vector<std::vector<Primitive>::iterator> dead;
                 for (auto i = _primitives.begin(); i != _primitives.end(); ++i)
                 {
-                    i->pos.x += i->vel.x * value;
-                    i->pos.y += i->vel.y * value;
-                    i->age += value;
+                    i->pos.x += i->vel.x * value.count() / 1000.F;
+                    i->pos.y += i->vel.y * value.count() / 1000.F;
+                    i->age += value.count() / 1000.F;
                     if (i->age > i->lifespan)
                     {
                         dead.push_back(i);

@@ -101,7 +101,7 @@ void Application::_init(int argc, char ** argv)
     _timer->setRepeating(true);
     _timer->start(
         std::chrono::milliseconds(10),
-        [this](float)
+        [this](const std::chrono::steady_clock::time_point&, const Core::Time::Unit&)
     {
         while (_circles.size() < circleCount)
         {
@@ -141,21 +141,18 @@ std::shared_ptr<Application> Application::create(int argc, char ** argv)
 
 int Application::run()
 {
-    auto time = std::chrono::system_clock::now();
+    auto time = std::chrono::steady_clock::now();
     auto glfwWindow = getSystemT<AV::GLFW::System>()->getGLFWWindow();
     while (!glfwWindowShouldClose(glfwWindow))
     {
-        auto now = std::chrono::system_clock::now();
-        const std::chrono::duration<float> delta = now - time;
+        auto now = std::chrono::steady_clock::now();
+        auto delta = std::chrono::duration_cast<std::chrono::milliseconds>(now - time);
         time = now;
-        const float dt = delta.count();
-        //std::cout << "FPS: " << (dt > 0.f ? 1.f / dt : 0.f) << std::endl;
 
         glfwPollEvents();
-        tick(dt);
+        tick(time, delta);
         _render();
         glfwSwapBuffers(glfwWindow);
-        //glFlush();
     }
     return 0;
 }

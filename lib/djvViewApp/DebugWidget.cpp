@@ -233,8 +233,8 @@ namespace djv
                 _timer->setRepeating(true);
                 auto weak = std::weak_ptr<GeneralDebugWidget>(std::dynamic_pointer_cast<GeneralDebugWidget>(shared_from_this()));
                 _timer->start(
-                    Core::Time::getMilliseconds(Core::Time::TimerValue::Medium),
-                    [weak](float)
+                    Core::Time::getTime(Core::Time::TimerValue::Medium),
+                    [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
                 {
                     if (auto widget = weak.lock())
                     {
@@ -259,13 +259,13 @@ namespace djv
                 {
                     const float fps = context->getFPSAverage();
                     const auto& systemTickTimes = context->getSystemTickTimes();
-                    float totalSystemTime = 0.F;
+                    Time::Unit totalSystemTime = Time::Unit::zero();
                     for (const auto& i : systemTickTimes)
                     {
                         totalSystemTime += i.second;
                     }
                     std::string topSystemTime;
-                    float topSystemTimeValue = 0.F;
+                    Time::Unit topSystemTimeValue = Time::Unit::zero();
                     if (systemTickTimes.size())
                     {
                         auto i = systemTickTimes.begin();
@@ -284,8 +284,8 @@ namespace djv
                     const float iconCachePercentage = iconSystem->getCachePercentage();
 
                     _lineGraphs["FPS"]->addSample(fps);
-                    _lineGraphs["TotalSystemTime"]->addSample(totalSystemTime);
-                    _lineGraphs["TopSystemTime"]->addSample(topSystemTimeValue);
+                    _lineGraphs["TotalSystemTime"]->addSample(std::chrono::duration<float>(totalSystemTime).count());
+                    _lineGraphs["TopSystemTime"]->addSample(std::chrono::duration<float>(topSystemTimeValue).count());
                     _lineGraphs["ObjectCount"]->addSample(objectCount);
                     _lineGraphs["WidgetCount"]->addSample(widgetCount);
                     _thermometerWidgets["ThumbnailInfoCache"]->setPercentage(thumbnailInfoCachePercentage);
@@ -311,8 +311,7 @@ namespace djv
                     }
                     {
                         std::stringstream ss;
-                        ss.precision(2);
-                        ss << std::fixed << totalSystemTime << "ms";
+                        ss << std::fixed << std::chrono::duration<float>(totalSystemTime).count() << "s";
                         _labels["TotalSystemTimeValue"]->setText(ss.str());
                     }
                     {
@@ -322,8 +321,7 @@ namespace djv
                     }
                     {
                         std::stringstream ss;
-                        ss.precision(2);
-                        ss << std::fixed << topSystemTime << ", " << topSystemTimeValue << "ms";
+                        ss << std::fixed << topSystemTime << ", " << std::chrono::duration<float>(topSystemTimeValue).count() << "s";
                         _labels["TopSystemTimeValue"]->setText(ss.str());
                     }
                     {
@@ -491,8 +489,8 @@ namespace djv
                 _timer->setRepeating(true);
                 auto weak = std::weak_ptr<RenderDebugWidget>(std::dynamic_pointer_cast<RenderDebugWidget>(shared_from_this()));
                 _timer->start(
-                    Core::Time::getMilliseconds(Core::Time::TimerValue::Medium),
-                    [weak](float)
+                    Core::Time::getTime(Core::Time::TimerValue::Medium),
+                    [weak](const std::chrono::steady_clock::time_point&, const Time::Unit&)
                 {
                     if (auto widget = weak.lock())
                     {

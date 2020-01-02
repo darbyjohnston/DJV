@@ -104,18 +104,18 @@ namespace djv
                 Event(Type::Init)
             {}
 
-            inline Update::Update(float t, float dt) :
+            inline Update::Update(const std::chrono::steady_clock::time_point& t, const Time::Unit& dt) :
                 Event(Type::Update),
                 _t(t),
                 _dt(dt)
             {}
 
-            inline float Update::getTime() const
+            inline const std::chrono::steady_clock::time_point& Update::getTime() const
             {
                 return _t;
             }
 
-            inline float Update::getDeltaTime() const
+            inline const Time::Unit& Update::getDeltaTime() const
             {
                 return _dt;
             }
