@@ -963,9 +963,9 @@ namespace djv
                         {
                             if (auto media = weak.lock())
                             {
-                                const float delta = std::chrono::duration<float>(dt).count();
+                                const auto delta = std::chrono::duration<float>(dt).count();
                                 media->_p->realSpeed->setIfChanged(delta > 0.F ? (media->_p->realSpeedFrameCount / delta) : 0.F);
-                                std::cout << dt.count() << ", " << media->_p->realSpeedFrameCount << std::endl;
+                                //std::cout << dt.count() << ", " << media->_p->realSpeedFrameCount << std::endl;
                                 media->_p->realSpeedFrameCount = 0;
                             }
                         });
