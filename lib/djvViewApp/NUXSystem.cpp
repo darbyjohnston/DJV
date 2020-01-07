@@ -193,9 +193,10 @@ namespace djv
                 std::vector<std::vector<Primitive>::iterator> dead;
                 for (auto i = _primitives.begin(); i != _primitives.end(); ++i)
                 {
-                    i->pos.x += i->vel.x * value.count() / 1000.F;
-                    i->pos.y += i->vel.y * value.count() / 1000.F;
-                    i->age += value.count() / 1000.F;
+                    const float s = std::chrono::duration<float>(value).count();
+                    i->pos.x += i->vel.x * s;
+                    i->pos.y += i->vel.y * s;
+                    i->age += s;
                     if (i->age > i->lifespan)
                     {
                         dead.push_back(i);

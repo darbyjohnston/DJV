@@ -174,12 +174,14 @@ namespace djv
 
             Time::Unit total = Time::Unit::zero();
             _systemTickTimesTemp.resize(_systems.size());
+            auto sytemTime = t;
             size_t i = 0;
             for (const auto & system : _systems)
             {
                 system->tick(t, dt);
                 auto end = std::chrono::steady_clock::now();
-                const auto diff = std::chrono::duration_cast<Time::Unit>(end - t);
+                const auto diff = std::chrono::duration_cast<Time::Unit>(end - sytemTime);
+                sytemTime = end;
                 auto& tickTimes = _systemTickTimesTemp[i];
                 tickTimes.first = system->getSystemName();
                 tickTimes.second = diff;
@@ -193,15 +195,17 @@ namespace djv
                 {
                     return a.second > b.second;
                 });
-            /*if (systemTickTimes.size() > 0)
+            /*if (_systemTickTimesTemp.size() > 0)
             {
-                std::cout << "System tick time: " << systemTickTimes[0].first << ", " << systemTickTimes[0].second << std::endl;
-            }*/
-            /*for (const auto& i : systemTickTimes)
-            {
-                std::cout << i.first << ": " << i.second << std::endl;
+                std::cout << "System tick time: " <<
+                    _systemTickTimesTemp[0].first << ", " <<
+                    _systemTickTimesTemp[0].second.count() << std::endl;
             }
-            std::cout << "total: " << total << std::endl << std::endl;*/
+            for (const auto& i : _systemTickTimesTemp)
+            {
+                std::cout << i.first << ": " << i.second.count() << std::endl;
+            }
+            std::cout << "total: " << total.count() << std::endl << std::endl;*/
             _systemTickTimes = _systemTickTimesTemp;
         }
 

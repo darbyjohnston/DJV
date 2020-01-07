@@ -122,7 +122,7 @@ namespace djv
                 _labels["FPSValue"] = UI::Label::create(context);
                 _labels["FPSValue"]->setFont(AV::Font::familyMono);
                 _lineGraphs["FPS"] = UI::LineGraphWidget::create(context);
-                _lineGraphs["FPS"]->setPrecision(0);
+                _lineGraphs["FPS"]->setPrecision(2);
 
                 _labels["TotalSystemTime"] = UI::Label::create(context);
                 _labels["TotalSystemTimeValue"] = UI::Label::create(context);
@@ -284,8 +284,8 @@ namespace djv
                     const float iconCachePercentage = iconSystem->getCachePercentage();
 
                     _lineGraphs["FPS"]->addSample(fps);
-                    _lineGraphs["TotalSystemTime"]->addSample(std::chrono::duration<float>(totalSystemTime).count());
-                    _lineGraphs["TopSystemTime"]->addSample(std::chrono::duration<float>(topSystemTimeValue).count());
+                    _lineGraphs["TotalSystemTime"]->addSample(totalSystemTime.count());
+                    _lineGraphs["TopSystemTime"]->addSample(topSystemTimeValue.count());
                     _lineGraphs["ObjectCount"]->addSample(objectCount);
                     _lineGraphs["WidgetCount"]->addSample(widgetCount);
                     _thermometerWidgets["ThumbnailInfoCache"]->setPercentage(thumbnailInfoCachePercentage);
@@ -311,7 +311,7 @@ namespace djv
                     }
                     {
                         std::stringstream ss;
-                        ss << std::fixed << std::chrono::duration<float>(totalSystemTime).count() << "s";
+                        ss << std::fixed << totalSystemTime.count();
                         _labels["TotalSystemTimeValue"]->setText(ss.str());
                     }
                     {
@@ -321,7 +321,7 @@ namespace djv
                     }
                     {
                         std::stringstream ss;
-                        ss << std::fixed << topSystemTime << ", " << std::chrono::duration<float>(topSystemTimeValue).count() << "s";
+                        ss << std::fixed << topSystemTime << ", " << topSystemTimeValue.count();
                         _labels["TopSystemTimeValue"]->setText(ss.str());
                     }
                     {
