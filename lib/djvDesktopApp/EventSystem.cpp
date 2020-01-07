@@ -110,19 +110,7 @@ namespace djv
 
             glm::vec2 contentScale = glm::vec2(1.F, 1.F);
             glfwGetWindowContentScale(p.glfwWindow, &contentScale.x, &contentScale.y);
-            {
-                std::stringstream ss;
-                ss << "Content scale: " << contentScale;
-                _log(ss.str());
-            }
-            auto system = context->getSystemT<UI::UISystem>();
-            const glm::vec2 dpi(AV::dpiDefault * contentScale.x, AV::dpiDefault * contentScale.y);
-            {
-                std::stringstream ss;
-                ss << "DPI: " << dpi;
-                _log(ss.str());
-            }
-            system->getStyle()->setDPI(dpi);
+            _contentScale(contentScale);
 
 #if defined(DJV_OPENGL_ES2)
             auto resourceSystem = context->getSystemT<ResourceSystem>();
@@ -293,6 +281,22 @@ namespace djv
             p.resizeRequest = true;
         }
 
+        void EventSystem::_contentScale(const glm::vec2& value)
+        {
+            if (auto context = getContext().lock())
+            {
+                auto system = context->getSystemT<UI::UISystem>();
+                const glm::vec2 dpi(AV::dpiDefault * value.x, AV::dpiDefault * value.y);
+                {
+                    std::stringstream ss;
+                    ss << "Content scale: " << value << std::endl;
+                    ss << "DPI: " << dpi << std::endl;
+                    _log(ss.str());
+                }
+                system->getStyle()->setDPI(dpi);
+            }
+        }
+
         void EventSystem::_redraw()
         {
             DJV_PRIVATE_PTR();
@@ -441,8 +445,10 @@ namespace djv
         void EventSystem::_contentScaleCallback(GLFWwindow* window, float scaleX, float scaleY)
         {
             Context* context = reinterpret_cast<Context*>(glfwGetWindowUserPointer(window));
-            auto system = context->getSystemT<UI::UISystem>();
-            system->getStyle()->setDPI(glm::vec2(AV::dpiDefault * scaleX, AV::dpiDefault * scaleY));
+            if (auto system = context->getSystemT<EventSystem>())
+            {
+                system->_contentScale(glm::vec2(scaleX, scaleY));
+            }
         }
 
         void EventSystem::_redrawCallback(GLFWwindow * window)

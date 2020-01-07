@@ -121,11 +121,6 @@ namespace djv
             auto glfwWindow = avGLFWSystem->getGLFWWindow();
             glm::vec2 contentScale = glm::vec2(1.F, 1.F);
             glfwGetWindowContentScale(glfwWindow, &contentScale.x, &contentScale.y);
-            {
-                std::stringstream ss;
-                ss << "Window content scale: " << contentScale.x << "x" << contentScale.y;
-                _log(ss.str());
-            }
             glfwSetWindowSize(
                 glfwWindow,
                 static_cast<int>(windowSize.x * contentScale.x),
