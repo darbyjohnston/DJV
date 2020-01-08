@@ -90,6 +90,7 @@ namespace djv
             GLFWwindow * glfwWindow = nullptr;
             glm::ivec2 resize = glm::ivec2(0, 0);
             bool resizeRequest = true;
+            glm::vec2 contentScale = glm::vec2(1.F, 1.F);
             bool redrawRequest = true;
             std::shared_ptr<AV::Render::Render2D> render;
             std::shared_ptr<AV::OpenGL::OffscreenBuffer> offscreenBuffer;
@@ -285,11 +286,13 @@ namespace djv
         {
             if (auto context = getContext().lock())
             {
+                DJV_PRIVATE_PTR();
+                p.contentScale = value;
                 auto system = context->getSystemT<UI::UISystem>();
-                const glm::vec2 dpi(AV::dpiDefault * value.x, AV::dpiDefault * value.y);
+                const glm::vec2 dpi(AV::dpiDefault * p.contentScale.x, AV::dpiDefault * p.contentScale.y);
                 {
                     std::stringstream ss;
-                    ss << "Content scale: " << value << std::endl;
+                    ss << "Content scale: " << p.contentScale << std::endl;
                     ss << "DPI: " << dpi << std::endl;
                     _log(ss.str());
                 }
@@ -469,6 +472,10 @@ namespace djv
                 info.id = pointerID;
                 info.pos.x = static_cast<float>(x);
                 info.pos.y = static_cast<float>(y);
+#if defined(DJV_PLATFORM_OSX)
+                info.pos.x *= system->_p->contentScale.x;
+                info.pos.y *= system->_p->contentScale.y;
+#endif // DJV_PLATFORM_OSX
                 info.pos.z = 0.F;
                 info.dir.x = 0.F;
                 info.dir.y = 0.F;
