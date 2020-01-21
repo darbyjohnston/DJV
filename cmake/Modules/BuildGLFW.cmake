@@ -4,7 +4,7 @@ if(NOT DJV_THIRD_PARTY_DISABLE_BUILD)
     ExternalProject_Add(
         GLFWThirdParty
         PREFIX ${CMAKE_CURRENT_BINARY_DIR}/GLFW
-        URL http://github.com/glfw/glfw/releases/download/3.3.1/glfw-3.3.1.zip
+        URL http://github.com/glfw/glfw/releases/download/3.3.2/glfw-3.3.2.zip
         CMAKE_ARGS
             -DCMAKE_MODULE_PATH=${CMAKE_MODULE_PATH}
             -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
