@@ -33,6 +33,17 @@ namespace djv
 {
     namespace ViewApp
     {
+        float getScrollWheelZoomSpeed(ScrollWheelZoomSpeed value)
+        {
+            const float values[] =
+            {
+                .1,
+                .25,
+                .5
+            };
+            return values[static_cast<size_t>(value)];
+        }
+
         float getImageRotate(ImageRotate value)
         {
             const float values[] =
@@ -54,6 +65,13 @@ namespace djv
         DJV_TEXT("Fill"),
         DJV_TEXT("Frame"),
         DJV_TEXT("Center"));
+
+    DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
+        ViewApp,
+        ScrollWheelZoomSpeed,
+        DJV_TEXT("Slow"),
+        DJV_TEXT("Medium"),
+        DJV_TEXT("Fast"));
 
     DJV_ENUM_SERIALIZE_HELPERS_IMPLEMENTATION(
         ViewApp,
@@ -84,6 +102,13 @@ namespace djv
         return picojson::value(ss.str());
     }
 
+    picojson::value toJSON(ViewApp::ScrollWheelZoomSpeed value)
+    {
+        std::stringstream ss;
+        ss << value;
+        return picojson::value(ss.str());
+    }
+
     picojson::value toJSON(ViewApp::ImageRotate value)
     {
         std::stringstream ss;
@@ -99,6 +124,19 @@ namespace djv
     }
 
     void fromJSON(const picojson::value& value, ViewApp::ImageViewLock& out)
+    {
+        if (value.is<std::string>())
+        {
+            std::stringstream ss(value.get<std::string>());
+            ss >> out;
+        }
+        else
+        {
+            throw std::invalid_argument(DJV_TEXT("Cannot parse the value."));
+        }
+    }
+
+    void fromJSON(const picojson::value& value, ViewApp::ScrollWheelZoomSpeed& out)
     {
         if (value.is<std::string>())
         {

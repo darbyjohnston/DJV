@@ -510,7 +510,10 @@ namespace djv
                                                 system->_p->settings->setLock(ImageViewLock::None);
                                                 auto imageView = system->_p->activeWidget->getImageView();
                                                 const float zoom = imageView->observeImageZoom()->get();
-                                                imageView->setImageZoomFocus(zoom + value.y * .1F, system->_p->hoverPos);
+                                                const float speed = getScrollWheelZoomSpeed(system->_p->settings->observeScrollWheelZoomSpeed()->get());
+                                                imageView->setImageZoomFocus(
+                                                    zoom * (1.F + value.y * speed),
+                                                    system->_p->hoverPos);
                                             }
                                         }
                                     });

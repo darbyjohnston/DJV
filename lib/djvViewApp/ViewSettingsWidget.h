@@ -29,63 +29,34 @@
 
 #pragma once
 
-#include <djvViewApp/Enum.h>
-#include <djvViewApp/ImageView.h>
-
-#include <djvUI/ISettings.h>
-
-#include <djvCore/BBox.h>
-#include <djvCore/ListObserver.h>
-#include <djvCore/ValueObserver.h>
+#include <djvUIComponents/ISettingsWidget.h>
 
 namespace djv
 {
-    namespace AV
-    {
-        namespace Image
-        {
-            class Color;
-
-        } // namespace Image
-    } // namespace AV
-
     namespace ViewApp
     {
-        //! This class provides the view settings.
-        class ViewSettings : public UI::Settings::ISettings
+        //! This class provides the view settings widget.
+        class ViewSettingsWidget : public UI::ISettingsWidget
         {
-            DJV_NON_COPYABLE(ViewSettings);
+            DJV_NON_COPYABLE(ViewSettingsWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>& context);
-
-            ViewSettings();
+            void _init(const std::shared_ptr<Core::Context>&);
+            ViewSettingsWidget();
 
         public:
-            static std::shared_ptr<ViewSettings> create(const std::shared_ptr<Core::Context>&);
+            static std::shared_ptr<ViewSettingsWidget> create(const std::shared_ptr<Core::Context>&);
 
-            int getWidgetCurrentTab() const;
-            void setWidgetCurrentTab(int);
+            std::string getSettingsName() const override;
+            std::string getSettingsGroup() const override;
+            std::string getSettingsSortKey() const override;
 
-            std::shared_ptr<Core::IValueSubject<ImageViewLock> > observeLock() const;
-            void setLock(ImageViewLock);
-
-            std::shared_ptr<Core::IValueSubject<GridOptions> > observeGridOptions() const;
-            void setGridOptions(const GridOptions&);
-
-            std::shared_ptr<Core::IValueSubject<AV::Image::Color> > observeBackgroundColor() const;
-            void setBackgroundColor(const AV::Image::Color&);
-
-            std::shared_ptr<Core::IValueSubject<ScrollWheelZoomSpeed> > observeScrollWheelZoomSpeed() const;
-            void setScrollWheelZoomSpeed(ScrollWheelZoomSpeed);
-
-            const std::map<std::string, Core::BBox2f>& getWidgetGeom() const;
-            void setWidgetGeom(const std::map<std::string, Core::BBox2f>&);
-
-            void load(const picojson::value &) override;
-            picojson::value save() override;
+        protected:
+            void _initEvent(Core::Event::Init&) override;
 
         private:
+            void _widgetUpdate();
+
             DJV_PRIVATE();
         };
 
