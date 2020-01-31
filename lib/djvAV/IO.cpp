@@ -33,7 +33,6 @@
 #include <djvAV/DPX.h>
 #include <djvAV/GLFWSystem.h>
 #include <djvAV/IFF.h>
-#include <djvAV/OCIOSystem.h>
 #include <djvAV/PPM.h>
 #include <djvAV/RLA.h>
 #include <djvAV/SGI.h>
@@ -486,7 +485,6 @@ namespace djv
                 DJV_PRIVATE_PTR();
 
                 addDependency(context->getSystemT<GLFW::System>());
-                addDependency(context->getSystemT<OCIO::System>());
 
                 p.optionsChanged = ValueSubject<bool>::create();
 

@@ -57,12 +57,6 @@ namespace djv
 
     namespace AV
     {
-        namespace OCIO
-        {
-            class System;
-
-        } // namespace OCIO
-
         //! This namespace provides I/O functionality.
         namespace IO
         {
@@ -229,7 +223,6 @@ namespace djv
             protected:
                 std::shared_ptr<Core::LogSystem> _logSystem;
                 std::shared_ptr<Core::ResourceSystem> _resourceSystem;
-                std::shared_ptr<OCIO::System> _ocioSystem;
                 Core::FileSystem::FileInfo _fileInfo;
                 std::mutex _mutex;
                 VideoQueue _videoQueue;
