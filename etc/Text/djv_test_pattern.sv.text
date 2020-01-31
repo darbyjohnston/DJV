@@ -1,0 +1,86 @@
+[
+    {
+        "source": " Usage:", 
+        "text": "Anv\u00e4ndande:", 
+        "id": " Usage:", 
+        "description": ""
+    }, 
+    {
+        "source": "   djv_test_pattern (output) [option, ...]", 
+        "text": "djv_test_pattern (output) [alternativ, ...]", 
+        "id": "   djv_test_pattern (output) [option, ...]", 
+        "description": ""
+    }, 
+    {
+        "source": " Options:", 
+        "text": "Alternativ:", 
+        "id": " Options:", 
+        "description": ""
+    }, 
+    {
+        "source": "   -frameCount (value)", 
+        "text": "-frameCount (v\u00e4rde)", 
+        "id": "   -frameCount (value)", 
+        "description": ""
+    }, 
+    {
+        "source": "   The number of frames to render. Default: ", 
+        "text": "Antalet ramar som ska \u00e5terges. Standard:", 
+        "id": "   The number of frames to render. Default: ", 
+        "description": ""
+    }, 
+    {
+        "source": "   -size \\\"(width) (height)\\\"", 
+        "text": "-storlek \\ &quot;(bredd) (h\u00f6jd) \\&quot;", 
+        "id": "   -size \\\"(width) (height)\\\"", 
+        "description": ""
+    }, 
+    {
+        "source": "   The image resolution. Default: ", 
+        "text": "Bilduppl\u00f6sningen. Standard:", 
+        "id": "   The image resolution. Default: ", 
+        "description": ""
+    }, 
+    {
+        "source": "   -type (value)", 
+        "text": "-typ (v\u00e4rde)", 
+        "id": "   -type (value)", 
+        "description": ""
+    }, 
+    {
+        "source": "   The image type. Default: ", 
+        "text": "Bildtypen. Standard:", 
+        "id": "   The image type. Default: ", 
+        "description": ""
+    }, 
+    {
+        "source": " Examples:", 
+        "text": "Exempel:", 
+        "id": " Examples:", 
+        "description": ""
+    }, 
+    {
+        "source": "   > djv_test_pattern test.1.dpx", 
+        "text": "&gt; djv_test_pattern test.1.dpx", 
+        "id": "   > djv_test_pattern test.1.dpx", 
+        "description": ""
+    }, 
+    {
+        "source": "   Render a test pattern with the default values.", 
+        "text": "Ge ett testm\u00f6nster med standardv\u00e4rdena.", 
+        "id": "   Render a test pattern with the default values.", 
+        "description": ""
+    }, 
+    {
+        "source": "   > djv_test_pattern test.1.tif -size '3840 2160' -type RGB_U16", 
+        "text": "&gt; djv_test_pattern test.1.tif-storlek &#39;3840 2160&#39; -typ RGB_U16", 
+        "id": "   > djv_test_pattern test.1.tif -size '3840 2160' -type RGB_U16", 
+        "description": ""
+    }, 
+    {
+        "source": "   Render a UHD resolution test pattern with a RGB 16-bit image type.", 
+        "text": "G\u00f6r ett UHD-uppl\u00f6sningstestm\u00f6nster med en RGB 16-bitars bildtyp.", 
+        "id": "   Render a UHD resolution test pattern with a RGB 16-bit image type.", 
+        "description": ""
+    }
+]

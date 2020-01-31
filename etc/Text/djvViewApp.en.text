@@ -80,23 +80,48 @@
         "description": ""
     }, 
     {
-        "text": "Show the opened files", 
-        "id": "Media popup tooltip", 
+        "text": "Full Screen", 
+        "id": "Full Screen", 
         "description": ""
     }, 
     {
-        "text": "Show the memory cache settings", 
-        "id": "Memory cache tooltip", 
+        "text": "Toggle full screen mode", 
+        "id": "Full screen tooltip", 
         "description": ""
     }, 
     {
-        "text": "Memory cache usage", 
-        "id": "Memory cache thermometer tooltip", 
+        "text": "Maximize", 
+        "id": "Maximize", 
         "description": ""
     }, 
     {
-        "text": "DJV 2.0.4", 
-        "id": "DJV 2.0.4", 
+        "text": "Maximize the current window", 
+        "id": "Maximize tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Fit", 
+        "id": "Fit", 
+        "description": ""
+    }, 
+    {
+        "text": "Fit the window to the image", 
+        "id": "Fit tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Auto-Hide Interface", 
+        "id": "Auto-Hide Interface", 
+        "description": ""
+    }, 
+    {
+        "text": "Automatically hide the user interface", 
+        "id": "Auto-hide tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Window", 
+        "id": "Window", 
         "description": ""
     }, 
     {
@@ -175,108 +200,83 @@
         "description": ""
     }, 
     {
-        "text": "FPS", 
-        "id": "FPS", 
+        "text": "Fill", 
+        "id": "Fill", 
         "description": ""
     }, 
     {
-        "text": "Object count", 
-        "id": "Object count", 
+        "text": "Frame", 
+        "id": "Frame", 
         "description": ""
     }, 
     {
-        "text": "Widget count", 
-        "id": "Widget count", 
+        "text": "Center", 
+        "id": "Center", 
         "description": ""
     }, 
     {
-        "text": "Hover", 
-        "id": "Hover", 
+        "text": "Slow", 
+        "id": "Slow", 
         "description": ""
     }, 
     {
-        "text": "Grab", 
-        "id": "Grab", 
+        "text": "Medium", 
+        "id": "Medium", 
         "description": ""
     }, 
     {
-        "text": "Key grab", 
-        "id": "Key grab", 
+        "text": "Fast", 
+        "id": "Fast", 
         "description": ""
     }, 
     {
-        "text": "Text focus", 
-        "id": "Text focus", 
+        "text": "0", 
+        "id": "0", 
         "description": ""
     }, 
     {
-        "text": "Font system glyph cache", 
-        "id": "Font system glyph cache", 
+        "text": "90", 
+        "id": "90", 
         "description": ""
     }, 
     {
-        "text": "Thumbnail system information cache", 
-        "id": "Thumbnail system information cache", 
+        "text": "180", 
+        "id": "180", 
         "description": ""
     }, 
     {
-        "text": "Thumbnail system image cache", 
-        "id": "Thumbnail system image cache", 
+        "text": "270", 
+        "id": "270", 
         "description": ""
     }, 
     {
-        "text": "Icon system cache", 
-        "id": "Icon system cache", 
+        "text": "Stop", 
+        "id": "Stop", 
         "description": ""
     }, 
     {
-        "text": "Texture atlas", 
-        "id": "Texture atlas", 
+        "text": "Forward", 
+        "id": "Forward", 
         "description": ""
     }, 
     {
-        "text": "Dynamic texture count", 
-        "id": "Dynamic texture count", 
+        "text": "Reverse", 
+        "id": "Reverse", 
         "description": ""
     }, 
     {
-        "text": "VBO size", 
-        "id": "VBO size", 
+        "text": "Once", 
+        "id": "Once", 
         "description": ""
     }, 
     {
-        "text": "Video queue", 
-        "id": "Video queue", 
+        "text": "Loop", 
+        "id": "Loop", 
         "description": ""
     }, 
     {
-        "text": "Audio queue", 
-        "id": "Audio queue", 
-        "description": ""
-    }, 
-    {
-        "text": "Current time", 
-        "id": "Current time", 
-        "description": ""
-    }, 
-    {
-        "text": "Debug", 
-        "id": "Debug", 
-        "description": ""
-    }, 
-    {
-        "text": "General", 
-        "id": "General", 
-        "description": ""
-    }, 
-    {
-        "text": "Render", 
-        "id": "Render", 
-        "description": ""
-    }, 
-    {
-        "text": "Media", 
-        "id": "Media", 
+        "text": "Ping Pong", 
+        "id": "PingPong", 
         "description": ""
     }, 
     {
@@ -317,21 +317,6 @@
     {
         "text": "Clear the errors", 
         "id": "Errors widget clear tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Sequences", 
-        "id": "Sequences", 
-        "description": ""
-    }, 
-    {
-        "text": "File", 
-        "id": "File", 
-        "description": ""
-    }, 
-    {
-        "text": "Auto-detect file sequences", 
-        "id": "Auto-detect file sequences", 
         "description": ""
     }, 
     {
@@ -460,6 +445,31 @@
         "description": ""
     }, 
     {
+        "text": "File", 
+        "id": "File", 
+        "description": ""
+    }, 
+    {
+        "text": "Cannot open more than", 
+        "id": "Cannot open more than", 
+        "description": ""
+    }, 
+    {
+        "text": "files at once.", 
+        "id": "files at once.", 
+        "description": ""
+    }, 
+    {
+        "text": "Sequences", 
+        "id": "Sequences", 
+        "description": ""
+    }, 
+    {
+        "text": "Auto-detect file sequences", 
+        "id": "Auto-detect file sequences", 
+        "description": ""
+    }, 
+    {
         "text": "Start forward playback", 
         "id": "Forward tooltip", 
         "description": ""
@@ -487,11 +497,6 @@
     {
         "text": "Go to the playback out point", 
         "id": "Go to out point tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Maximize the current window", 
-        "id": "Maximize tooltip", 
         "description": ""
     }, 
     {
@@ -582,6 +587,11 @@
     {
         "text": "Playback ping-pong", 
         "id": "Playback mode ping-pong tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "FPS", 
+        "id": "FPS", 
         "description": ""
     }, 
     {
@@ -717,7 +727,8 @@
     {
         "text": "Darby Johnston", 
         "id": "Credits Darby Johnston", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "Principal author", 
@@ -725,9 +736,10 @@
         "description": ""
     }, 
     {
-        "text": "Kent Oberheu, https://semafore.com",
+        "text": "Kent Oberheu, https://semafore.com", 
         "id": "Credits Kent Oberheu", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "Identity, iconography, UI / UX design", 
@@ -737,7 +749,8 @@
     {
         "text": "Siciliana Johnston", 
         "id": "Credits Siciliana Johnston", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "Web design, social media", 
@@ -747,7 +760,8 @@
     {
         "text": "Mikael Sundell", 
         "id": "Credits Mikael Sundell", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "IFF image file format support, example images", 
@@ -755,69 +769,79 @@
         "description": ""
     }, 
     {
-        "text": "CansecoGPC",
-        "id": "Credits CansecoGPC",
+        "text": "CansecoGPC", 
+        "id": "Credits CansecoGPC", 
+        "description": "",
+        "language": "en"
+    }, 
+    {
+        "text": "Spanish translation updates", 
+        "id": "Credits CansecoGPC Text", 
         "description": ""
     }, 
     {
-        "text": "Spanish translation updates",
-        "id": "Credits CansecoGPC Text",
+        "text": "Jean-Francois Panisset", 
+        "id": "Credits Jean-Francois Panisset", 
+        "description": "",
+        "language": "en"
+    }, 
+    {
+        "text": "Azure Pipelines CI integration", 
+        "id": "Credits Jean-Francois Panisset Text", 
         "description": ""
     }, 
     {
-        "text": "Jean-Francois Panisset",
-        "id": "Credits Jean-Francois Panisset",
-        "description": ""
-    },
+        "text": "Haryo Sukmawanto", 
+        "id": "Credits Haryo Sukmawanto", 
+        "description": "",
+        "language": "en"
+    }, 
     {
-        "text": "Azure Pipelines CI integration",
-        "id": "Credits Jean-Francois Panisset Text",
+        "text": "Custom playback frame rate UI", 
+        "id": "Credits Haryo Sukmawanto Text", 
         "description": ""
-    },
-    {
-        "text": "Haryo Sukmawanto",
-        "id": "Credits Haryo Sukmawanto",
-        "description": ""
-    },
-    {
-        "text": "Custom playback frame rate UI",
-        "id": "Credits Haryo Sukmawanto Text",
-        "description": ""
-    },
+    }, 
     {
         "text": "unexpected GmbH, https://www.unexpected.de", 
         "id": "Sponsors unexpected", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "Copyright (c) 2004-2019 Darby Johnston, All rights reserved", 
         "id": "License 1", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:", 
         "id": "License 2", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.", 
         "id": "License 3", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution.", 
         "id": "License 4", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* Neither the names of the copyright holders nor the names of any contributors may be used to endorse or promote products derived from this software without specific prior written permission.", 
         "id": "License 5", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 'AS IS' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.", 
         "id": "License 6", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "Portions of this software are copyright (in alphabetical order):", 
@@ -827,17 +851,20 @@
     {
         "text": "* Copyright (c) 2004-2019 Darby Johnston, All rights reserved", 
         "id": "Copyright Darby Johnston", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* Copyright (c) 2019 Kent Oberheu, All rights reserved", 
         "id": "Copyright Kent Oberheu", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* Copyright (c) 2008-2009 Mikael Sundell, All rights reserved", 
         "id": "Copyright Mikael Sundell", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "This software is based in part on the works of (in alphabetical order):", 
@@ -847,92 +874,110 @@
     {
         "text": "* CMake, http://www.cmake.org, Copyright 2000-2011 Kitware, Inc., Insight Software Consortium, All rights reserved", 
         "id": "Third Party CMake", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* FFMpeg, http://www.ffmpeg.org, Licensed under the LGPLv2.1, http://www.gnu.org/pcenses/old-pcenses/lgpl-2.1.html", 
         "id": "Third Party FFMpeg", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* FreeType, http://www.freetype.org, Copyright (c) 2018, The FreeType Project", 
         "id": "Third Party FreeType", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* GLFW, http://www.glfw.org, Copyright (c) 2002-2006 Marcus Geelnard, Copyright (c) 2006-2016 Camilla L\u00f6wy <elmindreda@glfw.org>", 
         "id": "Third Party GLFW", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* GLM, http://glm.g-truc.net/0.9.9/index.html, Copyright (c) 2005-2017 G-Truc Creation", 
         "id": "Third Party GLM", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* MbedTLS, http://tls.mbed.org, Copyright \u00a9 2008 - 2016 ARM Limited, All rights reserved", 
         "id": "Third Party MbedTLS", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* OpenAL, http://www.openal.org, Copyright (C) 1999-2000 by Loki Software", 
         "id": "Third Party OpenAL", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* OpenColorIO, http://opencolorio.org, Copyright (c) 2003-2010 Sony Pictures Imageworks Inc., et al., All rights reserved", 
         "id": "Third Party OpenColorIO", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* OpenEXR, http://www.openexr.com, Copyright (c) 2006, Industrial Light and Magic, a division of Lucasfilm Entertainment Company Ltd.", 
         "id": "Third Party OpenEXR", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "Third Party RtAudio", 
         "id": "Third Party RtAudio", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* curl, http://curl.haxx.se/libcurl, Copyright (c) 1996 - 2019, Daniel Stenberg, <daniel@haxx.se>, and many contributors, see the THANKS file", 
         "id": "Third Party curl", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* dr_libs, http://github.com/mackron/dr_libs, David Reid", 
         "id": "Third Party dr_libs", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* glad, http://github.com/Dav1dde/glad, Copyright (c) 2013-2018 David Herberth", 
         "id": "Third Party glad", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* libjpeg, http://www.ijg.org, Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding", 
         "id": "Third Party libjpeg", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* libjpeg-turbo, http://libjpeg-turbo.org, Copyright (C)2009-2019 D. R. Commander, All Rights Reserved, Copyright (C)2015 Viktor Szathm\u00e1ry, All Rights Reserved", 
         "id": "Third Party libjpeg-turbo", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* libpng, http://www.libpng.org, Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson", 
         "id": "Third Party libpng", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* libtiff, http://www.libtiff.org, Copyright (c) 1988-1997 Sam Leffler, Copyright (c) 1991-1997 Silicon Graphics, Inc", 
         "id": "Third Party libtiff", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* zlib, http://www.zlib.net, Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler", 
         "id": "Third Party zlib", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "Trademarks named in the documentation (in alphabetical order):", 
@@ -942,107 +987,128 @@
     {
         "text": "* Apple, OS X, ProRes, and QuickTime are registered trademarks of Apple, Inc.", 
         "id": "Trademarks Apple", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* AMD and ATI are registered trademarks of Advanced Micro Devices, Inc.", 
         "id": "Trademarks AMD", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* Autodesk, Inferno, Maya, Softimage, and XSI are registered trademarks of Autodesk, Inc.", 
         "id": "Trademarks Autodesk", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* Debian is a registered trademark of Software in the Public Interest, Inc.", 
         "id": "Trademarks Debian", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project", 
         "id": "Trademarks FFmpeg", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* FreeBSD is a registered trademark of The FreeBSD Foundation", 
         "id": "Trademarks FreeBSD", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
-        "text": "* GITHUB®, the GITHUB® logo design, OCTOCAT® and the OCTOCAT® logo design are exclusive trademarks registered in the United States by GitHub, Inc.",
-        "id": "Trademarks GitHub",
-        "description": ""
+        "text": "* GITHUB\u00ae, the GITHUB\u00ae logo design, OCTOCAT\u00ae and the OCTOCAT\u00ae logo design are exclusive trademarks registered in the United States by GitHub, Inc.", 
+        "id": "Trademarks GitHub", 
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* Intel is a registered trademark of Intel Corporation", 
         "id": "Trademarks Intel", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* Industrial Light and Magic and ILM are registered trademarks of Lucasfilm Ltd.", 
         "id": "Trademarks Lucasfilm", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* Kodak and Cineon are a registered trademarks of the Eastman Kodak Company", 
         "id": "Trademarks Kodak", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* Linux is a registered trademark of Linus Torvalds", 
         "id": "Trademarks Linux", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
-        "text": "* Microsoft, Microsoft Windows, and Azure are registered trademarks of Microsoft, Inc.",
+        "text": "* Microsoft, Microsoft Windows, and Azure are registered trademarks of Microsoft, Inc.", 
         "id": "Trademarks Microsoft", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* MIPS is a registered trademark of MIPS Technologies, Inc.", 
         "id": "Trademarks MIPS", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* NVIDIA is a registered trademark of NVIDIA Corporation", 
         "id": "Trademarks NVIDIA", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* Red Hat and Fedora are registered trademarks of Red Hat, Inc.", 
         "id": "Trademarks Red Hat", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* Silicon Graphics, SGI, IRIX, and OpenGL are registered trademarks of Silicon Graphics International Corp.", 
         "id": "Trademarks SGI", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* SMPTE is a registered trademark of the Society of Motion Picture and Television Engineers", 
         "id": "Trademarks SMPTE", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* SourceForge.net is a registered trademark of VA Software Corporation", 
         "id": "Trademarks SourceForge", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* SuSE is a registered trademark of Novell, Inc.", 
         "id": "Trademarks SuSE", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* Ubuntu is a registered trademark of Canonical Ltd.", 
         "id": "Trademarks Ubuntu", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "* UNIX is a registered trademark of The Open Group", 
         "id": "Trademarks UNIX", 
-        "description": ""
+        "description": "",
+        "language": "en"
     }, 
     {
         "text": "All other products named in the documentation are trademarks of their respective owners.", 
@@ -1082,71 +1148,6 @@
     {
         "text": "Mute", 
         "id": "Mute", 
-        "description": ""
-    }, 
-    {
-        "text": "Fill", 
-        "id": "Fill", 
-        "description": ""
-    }, 
-    {
-        "text": "Frame", 
-        "id": "Frame", 
-        "description": ""
-    }, 
-    {
-        "text": "Center", 
-        "id": "Center", 
-        "description": ""
-    }, 
-    {
-        "text": "0", 
-        "id": "0", 
-        "description": ""
-    }, 
-    {
-        "text": "90", 
-        "id": "90", 
-        "description": ""
-    }, 
-    {
-        "text": "180", 
-        "id": "180", 
-        "description": ""
-    }, 
-    {
-        "text": "270", 
-        "id": "270", 
-        "description": ""
-    }, 
-    {
-        "text": "Stop", 
-        "id": "Stop", 
-        "description": ""
-    }, 
-    {
-        "text": "Forward", 
-        "id": "Forward", 
-        "description": ""
-    }, 
-    {
-        "text": "Reverse", 
-        "id": "Reverse", 
-        "description": ""
-    }, 
-    {
-        "text": "Once", 
-        "id": "Once", 
-        "description": ""
-    }, 
-    {
-        "text": "Loop", 
-        "id": "Loop", 
-        "description": ""
-    }, 
-    {
-        "text": "Ping Pong", 
-        "id": "PingPong", 
         "description": ""
     }, 
     {
@@ -1500,63 +1501,113 @@
         "description": ""
     }, 
     {
-        "text": "Full Screen", 
-        "id": "Full Screen", 
+        "text": "Total system time", 
+        "id": "Total system time", 
         "description": ""
     }, 
     {
-        "text": "Toggle full screen mode", 
-        "id": "Full screen tooltip", 
+        "text": "Top system time", 
+        "id": "Top system time", 
         "description": ""
     }, 
     {
-        "text": "Maximize", 
-        "id": "Maximize", 
+        "text": "Object count", 
+        "id": "Object count", 
         "description": ""
     }, 
     {
-        "text": "Fit", 
-        "id": "Fit", 
+        "text": "Widget count", 
+        "id": "Widget count", 
         "description": ""
     }, 
     {
-        "text": "Fit the window to the image", 
-        "id": "Fit tooltip", 
+        "text": "Hover", 
+        "id": "Hover", 
         "description": ""
     }, 
     {
-        "text": "Auto-Hide Interface", 
-        "id": "Auto-Hide Interface", 
+        "text": "Grab", 
+        "id": "Grab", 
         "description": ""
     }, 
     {
-        "text": "Automatically hide the user interface", 
-        "id": "Auto-hide tooltip", 
+        "text": "Key grab", 
+        "id": "Key grab", 
         "description": ""
     }, 
     {
-        "text": "Window", 
-        "id": "Window", 
+        "text": "Text focus", 
+        "id": "Text focus", 
         "description": ""
     }, 
     {
-        "text": "Audio cannot be initialized", 
-        "id": "Audio cannot be initialized", 
+        "text": "Font system glyph cache", 
+        "id": "Font system glyph cache", 
         "description": ""
     }, 
     {
-        "text": "The audio stream cannot be opened", 
-        "id": "The audio stream cannot be opened", 
+        "text": "Thumbnail system information cache", 
+        "id": "Thumbnail system information cache", 
         "description": ""
     }, 
     {
-        "text": "Cannot start audio stream", 
-        "id": "Cannot start audio stream", 
+        "text": "Thumbnail system image cache", 
+        "id": "Thumbnail system image cache", 
         "description": ""
     }, 
     {
-        "text": "Cannot stop audio stream", 
-        "id": "Cannot stop audio stream", 
+        "text": "Icon system cache", 
+        "id": "Icon system cache", 
+        "description": ""
+    }, 
+    {
+        "text": "Texture atlas", 
+        "id": "Texture atlas", 
+        "description": ""
+    }, 
+    {
+        "text": "Dynamic texture count", 
+        "id": "Dynamic texture count", 
+        "description": ""
+    }, 
+    {
+        "text": "VBO size", 
+        "id": "VBO size", 
+        "description": ""
+    }, 
+    {
+        "text": "Video queue", 
+        "id": "Video queue", 
+        "description": ""
+    }, 
+    {
+        "text": "Audio queue", 
+        "id": "Audio queue", 
+        "description": ""
+    }, 
+    {
+        "text": "Current time", 
+        "id": "Current time", 
+        "description": ""
+    }, 
+    {
+        "text": "Debug", 
+        "id": "Debug", 
+        "description": ""
+    }, 
+    {
+        "text": "General", 
+        "id": "General", 
+        "description": ""
+    }, 
+    {
+        "text": "Render", 
+        "id": "Render", 
+        "description": ""
+    }, 
+    {
+        "text": "Media", 
+        "id": "Media", 
         "description": ""
     }, 
     {
@@ -1652,6 +1703,16 @@
     {
         "text": "Play every frame even if the proper speed cannot be maintained", 
         "id": "Play every frame tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Custom playback speed", 
+        "id": "Custom playback speed", 
+        "description": ""
+    }, 
+    {
+        "text": "Custom playback speed tooltip", 
+        "id": "Custom playback speed tooltip", 
         "description": ""
     }, 
     {
@@ -1802,6 +1863,26 @@
     {
         "text": "Pixel label tooltip", 
         "id": "Pixel label tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Audio cannot be initialized", 
+        "id": "Audio cannot be initialized", 
+        "description": ""
+    }, 
+    {
+        "text": "The audio stream cannot be opened", 
+        "id": "The audio stream cannot be opened", 
+        "description": ""
+    }, 
+    {
+        "text": "Cannot start audio stream", 
+        "id": "Cannot start audio stream", 
+        "description": ""
+    }, 
+    {
+        "text": "Cannot stop audio stream", 
+        "id": "Cannot stop audio stream", 
         "description": ""
     }, 
     {
@@ -2085,6 +2166,27 @@
         "description": ""
     }, 
     {
+        "text": "Show the opened files", 
+        "id": "Media popup tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Show the memory cache settings", 
+        "id": "Memory cache tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Memory cache usage", 
+        "id": "Memory cache thermometer tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "DJV 2.0.5", 
+        "id": "DJV 2.0.5", 
+        "description": "",
+        "language": "en"
+    }, 
+    {
         "text": "Activate the color picker tool", 
         "id": "Color picker tooltip", 
         "description": ""
@@ -2117,6 +2219,11 @@
     {
         "text": "Background", 
         "id": "Background", 
+        "description": ""
+    }, 
+    {
+        "text": "Scroll wheel zoom speed", 
+        "id": "Scroll wheel zoom speed", 
         "description": ""
     }
 ]
