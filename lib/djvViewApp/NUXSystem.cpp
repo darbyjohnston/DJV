@@ -298,8 +298,8 @@ namespace djv
             vLayout->addChild(soloLayout);
             auto hLayout = UI::HorizontalLayout::create(context);
             hLayout->addChild(p.buttons["Prev"]);
-            hLayout->addExpander();
             hLayout->addChild(p.buttons["Next"]);
+            hLayout->addExpander();
             hLayout->addChild(p.buttons["Finish"]);
             hLayout->addChild(p.settingsPopupWidget);
             vLayout->addChild(hLayout);
