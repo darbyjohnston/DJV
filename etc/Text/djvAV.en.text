@@ -55,6 +55,21 @@
         "description": ""
     }, 
     {
+        "text": "The file", 
+        "id": "The file", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot be read", 
+        "id": "cannot be read", 
+        "description": ""
+    }, 
+    {
+        "text": "cannot be written", 
+        "id": "cannot be written", 
+        "description": ""
+    }, 
+    {
         "text": "File not supported.", 
         "id": "File not supported.", 
         "description": ""
@@ -107,41 +122,6 @@
     {
         "text": "Cannot parse the value.", 
         "id": "Cannot parse the value.", 
-        "description": ""
-    }, 
-    {
-        "text": "Float", 
-        "id": "Float", 
-        "description": ""
-    }, 
-    {
-        "text": "Double", 
-        "id": "Double", 
-        "description": ""
-    }, 
-    {
-        "text": "S16 Planar", 
-        "id": "S16 Planar", 
-        "description": ""
-    }, 
-    {
-        "text": "S32 Planar", 
-        "id": "S32 Planar", 
-        "description": ""
-    }, 
-    {
-        "text": "Float Planar", 
-        "id": "Float Planar", 
-        "description": ""
-    }, 
-    {
-        "text": "Double Planar", 
-        "id": "Double Planar", 
-        "description": ""
-    }, 
-    {
-        "text": "This plugin provides FFmpeg image and audio I/O.", 
-        "id": "This plugin provides FFmpeg image and audio I/O.", 
         "description": ""
     }, 
     {
@@ -275,11 +255,6 @@
         "description": ""
     }, 
     {
-        "text": "Unsupported image type.", 
-        "id": "Unsupported image type.", 
-        "description": ""
-    }, 
-    {
         "text": "This plugin provides RLA image I/O.", 
         "id": "This plugin provides RLA image I/O.", 
         "description": ""
@@ -327,6 +302,11 @@
     {
         "text": "Bad magic number.", 
         "id": "Bad magic number.", 
+        "description": ""
+    }, 
+    {
+        "text": "Unsupported image type.", 
+        "id": "Unsupported image type.", 
         "description": ""
     }, 
     {
@@ -480,21 +460,6 @@
         "description": ""
     }, 
     {
-        "text": "The file", 
-        "id": "The file", 
-        "description": ""
-    }, 
-    {
-        "text": "cannot be read", 
-        "id": "cannot be read", 
-        "description": ""
-    }, 
-    {
-        "text": "cannot be written", 
-        "id": "cannot be written", 
-        "description": ""
-    }, 
-    {
         "text": "No image channels.", 
         "id": "No image channels.", 
         "description": ""
@@ -620,6 +585,16 @@
         "description": ""
     }, 
     {
+        "text": "Nearest", 
+        "id": "Nearest", 
+        "description": ""
+    }, 
+    {
+        "text": "Linear", 
+        "id": "Linear", 
+        "description": ""
+    }, 
+    {
         "text": "This plugin provides SGI image I/O.", 
         "id": "This plugin provides SGI image I/O.", 
         "description": ""
@@ -657,6 +632,41 @@
     {
         "text": "The shader cannot be created", 
         "id": "The shader cannot be created", 
+        "description": ""
+    }, 
+    {
+        "text": "Float", 
+        "id": "Float", 
+        "description": ""
+    }, 
+    {
+        "text": "Double", 
+        "id": "Double", 
+        "description": ""
+    }, 
+    {
+        "text": "S16 Planar", 
+        "id": "S16 Planar", 
+        "description": ""
+    }, 
+    {
+        "text": "S32 Planar", 
+        "id": "S32 Planar", 
+        "description": ""
+    }, 
+    {
+        "text": "Float Planar", 
+        "id": "Float Planar", 
+        "description": ""
+    }, 
+    {
+        "text": "Double Planar", 
+        "id": "Double Planar", 
+        "description": ""
+    }, 
+    {
+        "text": "This plugin provides FFmpeg image and audio I/O.", 
+        "id": "This plugin provides FFmpeg image and audio I/O.", 
         "description": ""
     }
 ]

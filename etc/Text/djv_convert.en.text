@@ -20,13 +20,13 @@
         "description": ""
     }, 
     {
-        "text": "   -resize '(width) (height)'", 
-        "id": "   -resize '(width) (height)'", 
+        "text": "   -resize \\\"(width) (height)\\\"", 
+        "id": "   -resize \\\"(width) (height)\\\"", 
         "description": ""
     }, 
     {
-        "text": "     Resize the image.", 
-        "id": "     Resize the image.", 
+        "text": "   Resize the image.", 
+        "id": "   Resize the image.", 
         "description": ""
     }, 
     {
@@ -35,8 +35,8 @@
         "description": ""
     }, 
     {
-        "text": "     Interpret the input file name as a sequence.", 
-        "id": "     Interpret the input file name as a sequence.", 
+        "text": "   Interpret the input file name as a sequence.", 
+        "id": "   Interpret the input file name as a sequence.", 
         "description": ""
     }, 
     {
@@ -45,8 +45,8 @@
         "description": ""
     }, 
     {
-        "text": "     Interpret the output file name as a sequence.", 
-        "id": "     Interpret the output file name as a sequence.", 
+        "text": "   Interpret the output file name as a sequence.", 
+        "id": "   Interpret the output file name as a sequence.", 
         "description": ""
     }, 
     {
@@ -55,8 +55,8 @@
         "description": ""
     }, 
     {
-        "text": "     Set the size of the read queue.", 
-        "id": "     Set the size of the read queue.", 
+        "text": "   Set the size of the read queue.", 
+        "id": "   Set the size of the read queue.", 
         "description": ""
     }, 
     {
@@ -65,8 +65,8 @@
         "description": ""
     }, 
     {
-        "text": "     Set the size of the write queue.", 
-        "id": "     Set the size of the write queue.", 
+        "text": "   Set the size of the write queue.", 
+        "id": "   Set the size of the write queue.", 
         "description": ""
     }, 
     {
@@ -75,8 +75,8 @@
         "description": ""
     }, 
     {
-        "text": "     Set the number of threads for reading.", 
-        "id": "     Set the number of threads for reading.", 
+        "text": "   Set the number of threads for reading.", 
+        "id": "   Set the number of threads for reading.", 
         "description": ""
     }, 
     {
@@ -85,8 +85,8 @@
         "description": ""
     }, 
     {
-        "text": "     Set the number of threads for writing.", 
-        "id": "     Set the number of threads for writing.", 
+        "text": "   Set the number of threads for writing.", 
+        "id": "   Set the number of threads for writing.", 
         "description": ""
     }
 ]

@@ -1,812 +1,824 @@
 [
     {
         "source": "Cannot parse the value.", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b1\u03bd\u03ac\u03bb\u03c5\u03c3\u03b7 \u03c4\u03b7\u03c2 \u03c4\u03b9\u03bc\u03ae\u03c2.", 
+        "description": "", 
         "id": "Cannot parse the value.", 
-        "description": ""
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b1\u03bd\u03ac\u03bb\u03c5\u03c3\u03b7 \u03c4\u03b7\u03c2 \u03c4\u03b9\u03bc\u03ae\u03c2."
     }, 
     {
         "source": "The file", 
-        "text": "\u03a4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf", 
+        "description": "", 
         "id": "The file", 
-        "description": ""
+        "text": "\u03a4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf"
     }, 
     {
         "source": "cannot be opened", 
-        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b1\u03bd\u03bf\u03b9\u03c7\u03c4\u03b5\u03af", 
+        "description": "", 
         "id": "cannot be opened", 
-        "description": ""
+        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b1\u03bd\u03bf\u03b9\u03c7\u03c4\u03b5\u03af"
     }, 
     {
         "source": "does not have any video or audio streams", 
-        "text": "\u03b4\u03b5\u03bd \u03b4\u03b9\u03b1\u03b8\u03ad\u03c4\u03b5\u03b9 \u03c1\u03bf\u03ad\u03c2 \u03b2\u03af\u03bd\u03c4\u03b5\u03bf \u03ae \u03ae\u03c7\u03bf\u03c5", 
+        "description": "", 
         "id": "does not have any video or audio streams", 
-        "description": ""
+        "text": "\u03b4\u03b5\u03bd \u03b4\u03b9\u03b1\u03b8\u03ad\u03c4\u03b5\u03b9 \u03c1\u03bf\u03ad\u03c2 \u03b2\u03af\u03bd\u03c4\u03b5\u03bf \u03ae \u03ae\u03c7\u03bf\u03c5"
     }, 
     {
         "source": "does not match any video codecs", 
-        "text": "\u03b4\u03b5\u03bd \u03c4\u03b1\u03b9\u03c1\u03b9\u03ac\u03b6\u03b5\u03b9 \u03bc\u03b5 \u03ba\u03b1\u03bd\u03ad\u03bd\u03b1 \u03ba\u03c9\u03b4\u03b9\u03ba\u03bf\u03c0\u03bf\u03b9\u03b7\u03c4\u03ae \u03b2\u03af\u03bd\u03c4\u03b5\u03bf", 
+        "description": "", 
         "id": "does not match any video codecs", 
-        "description": ""
+        "text": "\u03b4\u03b5\u03bd \u03c4\u03b1\u03b9\u03c1\u03b9\u03ac\u03b6\u03b5\u03b9 \u03bc\u03b5 \u03ba\u03b1\u03bd\u03ad\u03bd\u03b1 \u03ba\u03c9\u03b4\u03b9\u03ba\u03bf\u03c0\u03bf\u03b9\u03b7\u03c4\u03ae \u03b2\u03af\u03bd\u03c4\u03b5\u03bf"
     }, 
     {
         "source": "The audio format ", 
-        "text": "\u0397 \u03bc\u03bf\u03c1\u03c6\u03ae \u03ae\u03c7\u03bf\u03c5", 
+        "description": "", 
         "id": "The audio format ", 
-        "description": ""
+        "text": "\u0397 \u03bc\u03bf\u03c1\u03c6\u03ae \u03ae\u03c7\u03bf\u03c5"
     }, 
     {
         "source": "is not supported", 
-        "text": "\u03b4\u03b5\u03bd \u03c5\u03c0\u03bf\u03c3\u03c4\u03b7\u03c1\u03af\u03b6\u03b5\u03c4\u03b1\u03b9", 
+        "description": "", 
         "id": "is not supported", 
-        "description": ""
+        "text": "\u03b4\u03b5\u03bd \u03c5\u03c0\u03bf\u03c3\u03c4\u03b7\u03c1\u03af\u03b6\u03b5\u03c4\u03b1\u03b9"
     }, 
     {
         "source": "does not match any audio codecs", 
-        "text": "\u03b4\u03b5\u03bd \u03c4\u03b1\u03b9\u03c1\u03b9\u03ac\u03b6\u03b5\u03b9 \u03bc\u03b5 \u03ba\u03b1\u03bd\u03ad\u03bd\u03b1 \u03ba\u03c9\u03b4\u03b9\u03ba\u03bf\u03c0\u03bf\u03b9\u03b7\u03c4\u03ae \u03ae\u03c7\u03bf\u03c5", 
+        "description": "", 
         "id": "does not match any audio codecs", 
-        "description": ""
+        "text": "\u03b4\u03b5\u03bd \u03c4\u03b1\u03b9\u03c1\u03b9\u03ac\u03b6\u03b5\u03b9 \u03bc\u03b5 \u03ba\u03b1\u03bd\u03ad\u03bd\u03b1 \u03ba\u03c9\u03b4\u03b9\u03ba\u03bf\u03c0\u03bf\u03b9\u03b7\u03c4\u03ae \u03ae\u03c7\u03bf\u03c5"
     }, 
     {
         "source": "None", 
-        "text": "\u039a\u03b1\u03bd\u03ad\u03bd\u03b1\u03c2", 
+        "description": "", 
         "id": "None", 
-        "description": ""
+        "text": "\u039a\u03b1\u03bd\u03ad\u03bd\u03b1\u03c2"
     }, 
     {
         "source": "Left", 
-        "text": "\u0391\u03c1\u03b9\u03c3\u03c4\u03b5\u03c1\u03ac", 
+        "description": "", 
         "id": "Left", 
-        "description": ""
+        "text": "\u0391\u03c1\u03b9\u03c3\u03c4\u03b5\u03c1\u03ac"
     }, 
     {
         "source": "Top", 
-        "text": "\u039c\u03c0\u03bb\u03bf\u03c5\u03b6\u03b1", 
+        "description": "", 
         "id": "Top", 
-        "description": ""
+        "text": "\u039c\u03c0\u03bb\u03bf\u03c5\u03b6\u03b1"
     }, 
     {
         "source": "Right", 
-        "text": "\u03c3\u03c9\u03c3\u03c4\u03ac", 
+        "description": "", 
         "id": "Right", 
-        "description": ""
+        "text": "\u03c3\u03c9\u03c3\u03c4\u03ac"
     }, 
     {
         "source": "Bottom", 
-        "text": "\u039a\u03ac\u03c4\u03c9 \u03bc\u03ad\u03c1\u03bf\u03c2", 
+        "description": "", 
         "id": "Bottom", 
-        "description": ""
+        "text": "\u039a\u03ac\u03c4\u03c9 \u03bc\u03ad\u03c1\u03bf\u03c2"
     }, 
     {
         "source": "Timecode", 
-        "text": "Timecode", 
+        "description": "", 
         "id": "Timecode", 
-        "description": ""
+        "text": "Timecode"
     }, 
     {
         "source": "Frames", 
-        "text": "\u039a\u03bf\u03c1\u03bd\u03af\u03b6\u03b5\u03c2", 
+        "description": "", 
         "id": "Frames", 
-        "description": ""
+        "text": "\u039a\u03bf\u03c1\u03bd\u03af\u03b6\u03b5\u03c2"
     }, 
     {
         "source": "Bad magic number.", 
-        "text": "\u039a\u03b1\u03ba\u03cc \u03bc\u03b1\u03b3\u03b9\u03ba\u03cc \u03b1\u03c1\u03b9\u03b8\u03bc\u03cc.", 
+        "description": "", 
         "id": "Bad magic number.", 
-        "description": ""
+        "text": "\u039a\u03b1\u03ba\u03cc \u03bc\u03b1\u03b3\u03b9\u03ba\u03cc \u03b1\u03c1\u03b9\u03b8\u03bc\u03cc."
     }, 
     {
         "source": "Unsupported file.", 
-        "text": "\u039c\u03b7 \u03c5\u03c0\u03bf\u03c3\u03c4\u03b7\u03c1\u03b9\u03b6\u03cc\u03bc\u03b5\u03bd\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf.", 
+        "description": "", 
         "id": "Unsupported file.", 
-        "description": ""
+        "text": "\u039c\u03b7 \u03c5\u03c0\u03bf\u03c3\u03c4\u03b7\u03c1\u03b9\u03b6\u03cc\u03bc\u03b5\u03bd\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf."
     }, 
     {
         "source": "Incomplete file.", 
-        "text": "\u0391\u03c4\u03b5\u03bb\u03ad\u03c2 \u03b1\u03c1\u03c7\u03b5\u03af\u03bf.", 
+        "description": "", 
         "id": "Incomplete file.", 
-        "description": ""
+        "text": "\u0391\u03c4\u03b5\u03bb\u03ad\u03c2 \u03b1\u03c1\u03c7\u03b5\u03af\u03bf."
     }, 
     {
         "source": "This plugin provides DPX image I/O.", 
-        "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf \u03c0\u03c1\u03cc\u03c3\u03b8\u03b5\u03c4\u03bf \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 I / O \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1 DPX.", 
+        "description": "", 
         "id": "This plugin provides DPX image I/O.", 
-        "description": ""
+        "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf \u03c0\u03c1\u03cc\u03c3\u03b8\u03b5\u03c4\u03bf \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 I / O \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1 DPX."
     }, 
     {
         "source": "1.0", 
-        "text": "1.0", 
+        "description": "", 
         "id": "1.0", 
-        "description": ""
+        "text": "1.0"
     }, 
     {
         "source": "2.0", 
-        "text": "2.0", 
+        "description": "", 
         "id": "2.0", 
-        "description": ""
+        "text": "2.0"
     }, 
     {
         "source": "Auto", 
-        "text": "\u0391\u03c5\u03c4\u03bf", 
+        "description": "", 
         "id": "Auto", 
-        "description": ""
+        "text": "\u0391\u03c5\u03c4\u03bf"
     }, 
     {
         "source": "MSB", 
-        "text": "MSB", 
+        "description": "", 
         "id": "MSB", 
-        "description": ""
+        "text": "MSB"
     }, 
     {
         "source": "LSB", 
-        "text": "LSB", 
+        "description": "", 
         "id": "LSB", 
-        "description": ""
+        "text": "LSB"
     }, 
     {
         "source": "Cannot open file.", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03cc \u03bd\u03b1 \u03b1\u03bd\u03bf\u03af\u03be\u03b5\u03b9 \u03c4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf.", 
+        "description": "", 
         "id": "Cannot open file.", 
-        "description": ""
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03cc \u03bd\u03b1 \u03b1\u03bd\u03bf\u03af\u03be\u03b5\u03b9 \u03c4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf."
     }, 
     {
         "source": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
-        "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf \u03c0\u03c1\u03cc\u03c3\u03b8\u03b5\u03c4\u03bf \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 I / O \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1 \u03c6\u03bf\u03c1\u03b7\u03c4\u03bf\u03cd \u03b4\u03b9\u03ba\u03c4\u03cd\u03bf\u03c5 \u03b3\u03c1\u03b1\u03c6\u03b9\u03ba\u03ce\u03bd (PNG).", 
+        "description": "", 
         "id": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
-        "description": ""
+        "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf \u03c0\u03c1\u03cc\u03c3\u03b8\u03b5\u03c4\u03bf \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 I / O \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1 \u03c6\u03bf\u03c1\u03b7\u03c4\u03bf\u03cd \u03b4\u03b9\u03ba\u03c4\u03cd\u03bf\u03c5 \u03b3\u03c1\u03b1\u03c6\u03b9\u03ba\u03ce\u03bd (PNG)."
     }, 
     {
         "source": "This plugin provides NetPBM image I/O.", 
-        "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf \u03c0\u03c1\u03cc\u03c3\u03b8\u03b5\u03c4\u03bf \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 I / O \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1 NetPBM.", 
+        "description": "", 
         "id": "This plugin provides NetPBM image I/O.", 
-        "description": ""
+        "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf \u03c0\u03c1\u03cc\u03c3\u03b8\u03b5\u03c4\u03bf \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 I / O \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1 NetPBM."
     }, 
     {
         "source": "ASCII", 
-        "text": "ASCII", 
+        "description": "", 
         "id": "ASCII", 
-        "description": ""
+        "text": "ASCII"
     }, 
     {
         "source": "Binary", 
-        "text": "\u0394\u03c5\u03ac\u03b4\u03b9\u03ba\u03bf\u03c2", 
+        "description": "", 
         "id": "Binary", 
-        "description": ""
+        "text": "\u0394\u03c5\u03ac\u03b4\u03b9\u03ba\u03bf\u03c2"
     }, 
     {
         "source": "Error reading scanline.", 
-        "text": "\u03a3\u03c6\u03ac\u03bb\u03bc\u03b1 \u03ba\u03b1\u03c4\u03ac \u03c4\u03b7\u03bd \u03b1\u03bd\u03ac\u03b3\u03bd\u03c9\u03c3\u03b7 \u03c4\u03b7\u03c2 \u03c3\u03ac\u03c1\u03c9\u03c3\u03b7\u03c2.", 
+        "description": "", 
         "id": "Error reading scanline.", 
-        "description": ""
+        "text": "\u03a3\u03c6\u03ac\u03bb\u03bc\u03b1 \u03ba\u03b1\u03c4\u03ac \u03c4\u03b7\u03bd \u03b1\u03bd\u03ac\u03b3\u03bd\u03c9\u03c3\u03b7 \u03c4\u03b7\u03c2 \u03c3\u03ac\u03c1\u03c9\u03c3\u03b7\u03c2."
     }, 
     {
         "source": "Unsupported image type.", 
-        "text": "\u039c\u03b7 \u03c5\u03c0\u03bf\u03c3\u03c4\u03b7\u03c1\u03b9\u03b6\u03cc\u03bc\u03b5\u03bd\u03bf\u03c2 \u03c4\u03cd\u03c0\u03bf\u03c2 \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1\u03c2.", 
+        "description": "", 
         "id": "Unsupported image type.", 
-        "description": ""
+        "text": "\u039c\u03b7 \u03c5\u03c0\u03bf\u03c3\u03c4\u03b7\u03c1\u03b9\u03b6\u03cc\u03bc\u03b5\u03bd\u03bf\u03c2 \u03c4\u03cd\u03c0\u03bf\u03c2 \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1\u03c2."
     }, 
     {
         "source": "Unknown", 
-        "text": "\u0391\u03b3\u03bd\u03c9\u03c3\u03c4\u03bf\u03c2", 
+        "description": "", 
         "id": "Unknown", 
-        "description": ""
+        "text": "\u0391\u03b3\u03bd\u03c9\u03c3\u03c4\u03bf\u03c2"
     }, 
     {
         "source": "Out of memory", 
-        "text": "\u039c\u03b7 \u03b4\u03b9\u03b1\u03b8\u03ad\u03c3\u03b9\u03bc\u03b7 \u03bc\u03bd\u03ae\u03bc\u03b7", 
+        "description": "", 
         "id": "Out of memory", 
-        "description": ""
+        "text": "\u039c\u03b7 \u03b4\u03b9\u03b1\u03b8\u03ad\u03c3\u03b9\u03bc\u03b7 \u03bc\u03bd\u03ae\u03bc\u03b7"
     }, 
     {
         "source": "Invalid value", 
-        "text": "\u039c\u03b7 \u03ad\u03b3\u03ba\u03c5\u03c1\u03b7 \u03c4\u03b9\u03bc\u03ae", 
+        "description": "", 
         "id": "Invalid value", 
-        "description": ""
+        "text": "\u039c\u03b7 \u03ad\u03b3\u03ba\u03c5\u03c1\u03b7 \u03c4\u03b9\u03bc\u03ae"
     }, 
     {
         "source": "Invalid enum", 
-        "text": "\u039c\u03b7 \u03ad\u03b3\u03ba\u03c5\u03c1\u03bf enum", 
+        "description": "", 
         "id": "Invalid enum", 
-        "description": ""
+        "text": "\u039c\u03b7 \u03ad\u03b3\u03ba\u03c5\u03c1\u03bf enum"
     }, 
     {
         "source": "U8", 
-        "text": "U8", 
+        "description": "", 
         "id": "U8", 
-        "description": ""
+        "text": "U8"
     }, 
     {
         "source": "S16", 
-        "text": "S16", 
+        "description": "", 
         "id": "S16", 
-        "description": ""
+        "text": "S16"
     }, 
     {
         "source": "S32", 
-        "text": "S32", 
+        "description": "", 
         "id": "S32", 
-        "description": ""
+        "text": "S32"
     }, 
     {
         "source": "F32", 
-        "text": "F32", 
+        "description": "", 
         "id": "F32", 
-        "description": ""
+        "text": "F32"
     }, 
     {
         "source": "Unsupported color components.", 
-        "text": "\u039c\u03b7 \u03c5\u03c0\u03bf\u03c3\u03c4\u03b7\u03c1\u03b9\u03b6\u03cc\u03bc\u03b5\u03bd\u03b1 \u03ad\u03b3\u03c7\u03c1\u03c9\u03bc\u03b1 \u03c3\u03c4\u03bf\u03b9\u03c7\u03b5\u03af\u03b1.", 
+        "description": "", 
         "id": "Unsupported color components.", 
-        "description": ""
+        "text": "\u039c\u03b7 \u03c5\u03c0\u03bf\u03c3\u03c4\u03b7\u03c1\u03b9\u03b6\u03cc\u03bc\u03b5\u03bd\u03b1 \u03ad\u03b3\u03c7\u03c1\u03c9\u03bc\u03b1 \u03c3\u03c4\u03bf\u03b9\u03c7\u03b5\u03af\u03b1."
     }, 
     {
         "source": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
-        "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf \u03c0\u03c1\u03cc\u03c3\u03b8\u03b5\u03c4\u03bf \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 I / O \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1 \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1\u03c2 \u03bc\u03bf\u03c1\u03c6\u03ae\u03c2 \u03b1\u03c1\u03c7\u03b5\u03af\u03bf\u03c5 \u03b5\u03c4\u03b9\u03ba\u03b5\u03c4\u03ce\u03bd (TIFF).", 
+        "description": "", 
         "id": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
-        "description": ""
+        "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf \u03c0\u03c1\u03cc\u03c3\u03b8\u03b5\u03c4\u03bf \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 I / O \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1 \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1\u03c2 \u03bc\u03bf\u03c1\u03c6\u03ae\u03c2 \u03b1\u03c1\u03c7\u03b5\u03af\u03bf\u03c5 \u03b5\u03c4\u03b9\u03ba\u03b5\u03c4\u03ce\u03bd (TIFF)."
     }, 
     {
         "source": "RLE", 
-        "text": "RLE", 
+        "description": "", 
         "id": "RLE", 
-        "description": ""
+        "text": "RLE"
     }, 
     {
         "source": "LZW", 
-        "text": "LZW", 
+        "description": "", 
         "id": "LZW", 
-        "description": ""
+        "text": "LZW"
     }, 
     {
         "source": "The OpenGL texture cannot be created.", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03c4\u03b7\u03c2 \u03c5\u03c6\u03ae\u03c2 OpenGL.", 
+        "description": "", 
         "id": "The OpenGL texture cannot be created.", 
-        "description": ""
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03c4\u03b7\u03c2 \u03c5\u03c6\u03ae\u03c2 OpenGL."
     }, 
     {
         "source": "The OpenGL frame buffer cannot be created.", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03c4\u03bf\u03c5 buffer \u03c4\u03bf\u03c5 \u03c0\u03bb\u03b1\u03b9\u03c3\u03af\u03bf\u03c5 OpenGL.", 
+        "description": "", 
         "id": "The OpenGL frame buffer cannot be created.", 
-        "description": ""
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03c4\u03bf\u03c5 buffer \u03c4\u03bf\u03c5 \u03c0\u03bb\u03b1\u03b9\u03c3\u03af\u03bf\u03c5 OpenGL."
     }, 
     {
         "source": "The OpenGL frame buffer cannot be initialized.", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03c0\u03c1\u03bf\u03b5\u03c4\u03bf\u03b9\u03bc\u03b1\u03c3\u03af\u03b1 \u03c4\u03bf\u03c5 buffer \u03c4\u03bf\u03c5 \u03c0\u03bb\u03b1\u03b9\u03c3\u03af\u03bf\u03c5 OpenGL.", 
+        "description": "", 
         "id": "The OpenGL frame buffer cannot be initialized.", 
-        "description": ""
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03c0\u03c1\u03bf\u03b5\u03c4\u03bf\u03b9\u03bc\u03b1\u03c3\u03af\u03b1 \u03c4\u03bf\u03c5 buffer \u03c4\u03bf\u03c5 \u03c0\u03bb\u03b1\u03b9\u03c3\u03af\u03bf\u03c5 OpenGL."
     }, 
     {
         "source": "Error writing scanline.", 
-        "text": "\u03a3\u03c6\u03ac\u03bb\u03bc\u03b1 \u03c3\u03c4\u03b7 \u03b3\u03c1\u03b1\u03c6\u03ae \u03c4\u03b7\u03c2 \u03b3\u03c1\u03b1\u03bc\u03bc\u03ae\u03c2 \u03c3\u03ac\u03c1\u03c9\u03c3\u03b7\u03c2", 
+        "description": "", 
         "id": "Error writing scanline.", 
-        "description": ""
+        "text": "\u03a3\u03c6\u03ac\u03bb\u03bc\u03b1 \u03c3\u03c4\u03b7 \u03b3\u03c1\u03b1\u03c6\u03ae \u03c4\u03b7\u03c2 \u03b3\u03c1\u03b1\u03bc\u03bc\u03ae\u03c2 \u03c3\u03ac\u03c1\u03c9\u03c3\u03b7\u03c2"
     }, 
     {
         "source": "The OpenGL vertex shader cannot be created.", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03c4\u03bf\u03c5 shader \u03ba\u03bf\u03c1\u03c5\u03c6\u03ae\u03c2 OpenGL.", 
+        "description": "", 
         "id": "The OpenGL vertex shader cannot be created.", 
-        "description": ""
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03c4\u03bf\u03c5 shader \u03ba\u03bf\u03c1\u03c5\u03c6\u03ae\u03c2 OpenGL."
     }, 
     {
         "source": "The OpenGL vertex shader", 
-        "text": "\u039f \u03c3\u03ba\u03b9\u03b1\u03c3\u03bc\u03cc\u03c2 \u03ba\u03bf\u03c1\u03c5\u03c6\u03ae\u03c2 OpenGL", 
+        "description": "", 
         "id": "The OpenGL vertex shader", 
-        "description": ""
+        "text": "\u039f \u03c3\u03ba\u03b9\u03b1\u03c3\u03bc\u03cc\u03c2 \u03ba\u03bf\u03c1\u03c5\u03c6\u03ae\u03c2 OpenGL"
     }, 
     {
         "source": "cannot be compiled", 
-        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03c3\u03c5\u03bd\u03c4\u03b1\u03c7\u03b8\u03b5\u03af", 
+        "description": "", 
         "id": "cannot be compiled", 
-        "description": ""
+        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03c3\u03c5\u03bd\u03c4\u03b1\u03c7\u03b8\u03b5\u03af"
     }, 
     {
         "source": "The OpenGL fragment shader cannot be created.", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03c4\u03bf\u03c5 shader \u03c4\u03bf\u03c5 \u03c4\u03bc\u03ae\u03bc\u03b1\u03c4\u03bf\u03c2 OpenGL.", 
+        "description": "", 
         "id": "The OpenGL fragment shader cannot be created.", 
-        "description": ""
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03c4\u03bf\u03c5 shader \u03c4\u03bf\u03c5 \u03c4\u03bc\u03ae\u03bc\u03b1\u03c4\u03bf\u03c2 OpenGL."
     }, 
     {
         "source": "The OpenGL framgent shader", 
-        "text": "\u039f \u03c3\u03ba\u03b9\u03b1\u03c3\u03bc\u03cc\u03c2 \u03c4\u03bf\u03c5 OpenGL \u03c0\u03c1\u03bf\u03c2 \u03c4\u03b1 \u03b5\u03bc\u03c0\u03c1\u03cc\u03c2", 
+        "description": "", 
         "id": "The OpenGL framgent shader", 
-        "description": ""
+        "text": "\u039f \u03c3\u03ba\u03b9\u03b1\u03c3\u03bc\u03cc\u03c2 \u03c4\u03bf\u03c5 OpenGL \u03c0\u03c1\u03bf\u03c2 \u03c4\u03b1 \u03b5\u03bc\u03c0\u03c1\u03cc\u03c2"
     }, 
     {
         "source": "The program", 
-        "text": "\u03a4\u03bf \u03c0\u03c1\u03cc\u03b3\u03c1\u03b1\u03bc\u03bc\u03b1", 
+        "description": "", 
         "id": "The program", 
-        "description": ""
+        "text": "\u03a4\u03bf \u03c0\u03c1\u03cc\u03b3\u03c1\u03b1\u03bc\u03bc\u03b1"
     }, 
     {
         "source": "cannot be linked", 
-        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03c3\u03c5\u03bd\u03b4\u03b5\u03b8\u03b5\u03af", 
+        "description": "", 
         "id": "cannot be linked", 
-        "description": ""
+        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03c3\u03c5\u03bd\u03b4\u03b5\u03b8\u03b5\u03af"
     }, 
     {
         "source": "L U8", 
-        "text": "50 U8", 
+        "description": "", 
         "id": "L_U8", 
-        "description": ""
+        "text": "50 U8"
     }, 
     {
         "source": "L U16", 
-        "text": "L U16", 
+        "description": "", 
         "id": "L_U16", 
-        "description": ""
+        "text": "L U16"
     }, 
     {
         "source": "L U32", 
-        "text": "L U32", 
+        "description": "", 
         "id": "L_U32", 
-        "description": ""
+        "text": "L U32"
     }, 
     {
         "source": "L F16", 
-        "text": "L F16", 
+        "description": "", 
         "id": "L_F16", 
-        "description": ""
+        "text": "L F16"
     }, 
     {
         "source": "L F32", 
-        "text": "L F32", 
+        "description": "", 
         "id": "L_F32", 
-        "description": ""
+        "text": "L F32"
     }, 
     {
         "source": "LA U8", 
-        "text": "\u03a4\u039f U8", 
+        "description": "", 
         "id": "LA_U8", 
-        "description": ""
+        "text": "\u03a4\u039f U8"
     }, 
     {
         "source": "LA U16", 
-        "text": "\u03a4\u039f U16", 
+        "description": "", 
         "id": "LA_U16", 
-        "description": ""
+        "text": "\u03a4\u039f U16"
     }, 
     {
         "source": "LA U32", 
-        "text": "\u03a4\u039f U32", 
+        "description": "", 
         "id": "LA_U32", 
-        "description": ""
+        "text": "\u03a4\u039f U32"
     }, 
     {
         "source": "LA F16", 
-        "text": "\u0397 F16", 
+        "description": "", 
         "id": "LA_F16", 
-        "description": ""
+        "text": "\u0397 F16"
     }, 
     {
         "source": "LA F32", 
-        "text": "LA F32", 
+        "description": "", 
         "id": "LA_F32", 
-        "description": ""
+        "text": "LA F32"
     }, 
     {
         "source": "RGB U8", 
-        "text": "RGB U8", 
+        "description": "", 
         "id": "RGB_U8", 
-        "description": ""
+        "text": "RGB U8"
     }, 
     {
         "source": "RGB U10", 
-        "text": "RGB U10", 
+        "description": "", 
         "id": "RGB_U10", 
-        "description": ""
+        "text": "RGB U10"
     }, 
     {
         "source": "RGB U16", 
-        "text": "RGB U16", 
+        "description": "", 
         "id": "RGB_U16", 
-        "description": ""
+        "text": "RGB U16"
     }, 
     {
         "source": "RGB U32", 
-        "text": "RGB U32", 
+        "description": "", 
         "id": "RGB_U32", 
-        "description": ""
+        "text": "RGB U32"
     }, 
     {
         "source": "RGB F16", 
-        "text": "RGB F16", 
+        "description": "", 
         "id": "RGB_F16", 
-        "description": ""
+        "text": "RGB F16"
     }, 
     {
         "source": "RGB F32", 
-        "text": "RGB F32", 
+        "description": "", 
         "id": "RGB_F32", 
-        "description": ""
+        "text": "RGB F32"
     }, 
     {
         "source": "RGBA U8", 
-        "text": "RGBA U8", 
+        "description": "", 
         "id": "RGBA_U8", 
-        "description": ""
+        "text": "RGBA U8"
     }, 
     {
         "source": "RGBA U16", 
-        "text": "RGBA U16", 
+        "description": "", 
         "id": "RGBA_U16", 
-        "description": ""
+        "text": "RGBA U16"
     }, 
     {
         "source": "RGBA U32", 
-        "text": "RGBA U32", 
+        "description": "", 
         "id": "RGBA_U32", 
-        "description": ""
+        "text": "RGBA U32"
     }, 
     {
         "source": "RGBA F16", 
-        "text": "RGBA F16", 
+        "description": "", 
         "id": "RGBA_F16", 
-        "description": ""
+        "text": "RGBA F16"
     }, 
     {
         "source": "RGBA F32", 
-        "text": "RGBA F32", 
+        "description": "", 
         "id": "RGBA_F32", 
-        "description": ""
+        "text": "RGBA F32"
     }, 
     {
         "source": "L", 
-        "text": "\u03bf", 
+        "description": "", 
         "id": "L", 
-        "description": ""
+        "text": "\u03bf"
     }, 
     {
         "source": "LA", 
-        "text": "LA", 
+        "description": "", 
         "id": "LA", 
-        "description": ""
+        "text": "LA"
     }, 
     {
         "source": "RGB", 
-        "text": "RGB", 
+        "description": "", 
         "id": "RGB", 
-        "description": ""
+        "text": "RGB"
     }, 
     {
         "source": "RGBA", 
-        "text": "RGBA", 
+        "description": "", 
         "id": "RGBA", 
-        "description": ""
+        "text": "RGBA"
     }, 
     {
         "source": "U10", 
-        "text": "U10", 
+        "description": "", 
         "id": "U10", 
-        "description": ""
+        "text": "U10"
     }, 
     {
         "source": "U16", 
-        "text": "U16", 
+        "description": "", 
         "id": "U16", 
-        "description": ""
+        "text": "U16"
     }, 
     {
         "source": "U32", 
-        "text": "U32", 
+        "description": "", 
         "id": "U32", 
-        "description": ""
+        "text": "U32"
     }, 
     {
         "source": "F16", 
-        "text": "F16", 
+        "description": "", 
         "id": "F16", 
-        "description": ""
+        "text": "F16"
     }, 
     {
         "source": "The shader cannot be created", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03c4\u03bf\u03c5 shader", 
+        "description": "", 
         "id": "The shader cannot be created", 
-        "description": ""
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03c4\u03bf\u03c5 shader"
     }, 
     {
         "source": "Cannot create GLFW window.", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03c0\u03b1\u03c1\u03b1\u03b8\u03cd\u03c1\u03bf\u03c5 GLFW.", 
+        "description": "", 
         "id": "Cannot create GLFW window.", 
-        "description": ""
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03c0\u03b1\u03c1\u03b1\u03b8\u03cd\u03c1\u03bf\u03c5 GLFW."
     }, 
     {
         "source": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
-        "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf \u03c0\u03c1\u03cc\u03c3\u03b8\u03b5\u03c4\u03bf \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1 I / O \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1\u03c2 \u03bf\u03bc\u03ac\u03b4\u03b1\u03c2 JPEG (Joint Photographic Experts Group).", 
+        "description": "", 
         "id": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
-        "description": ""
+        "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf \u03c0\u03c1\u03cc\u03c3\u03b8\u03b5\u03c4\u03bf \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1 I / O \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1\u03c2 \u03bf\u03bc\u03ac\u03b4\u03b1\u03c2 JPEG (Joint Photographic Experts Group)."
     }, 
     {
         "source": "This plugin provides OpenEXR file I/O.", 
-        "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf \u03c0\u03c1\u03cc\u03c3\u03b8\u03b5\u03c4\u03bf \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 \u03c4\u03bf I / O \u03b1\u03c1\u03c7\u03b5\u03af\u03bf OpenEXR.", 
+        "description": "", 
         "id": "This plugin provides OpenEXR file I/O.", 
-        "description": ""
+        "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf \u03c0\u03c1\u03cc\u03c3\u03b8\u03b5\u03c4\u03bf \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 \u03c4\u03bf I / O \u03b1\u03c1\u03c7\u03b5\u03af\u03bf OpenEXR."
     }, 
     {
         "source": "Known", 
-        "text": "\u0393\u03bd\u03c9\u03c3\u03c4\u03cc\u03c2", 
+        "description": "", 
         "id": "Known", 
-        "description": ""
+        "text": "\u0393\u03bd\u03c9\u03c3\u03c4\u03cc\u03c2"
     }, 
     {
         "source": "All", 
-        "text": "\u039f\u03bb\u03b1", 
+        "description": "", 
         "id": "All", 
-        "description": ""
+        "text": "\u039f\u03bb\u03b1"
     }, 
     {
         "source": "ZIPS", 
-        "text": "\u03c6\u03b5\u03c1\u03bc\u03bf\u03c5\u03ac\u03c1", 
+        "description": "", 
         "id": "ZIPS", 
-        "description": ""
+        "text": "\u03c6\u03b5\u03c1\u03bc\u03bf\u03c5\u03ac\u03c1"
     }, 
     {
         "source": "ZIP", 
-        "text": "\u03c6\u03b5\u03c1\u03bc\u03bf\u03c5\u03ac\u03c1", 
+        "description": "", 
         "id": "ZIP", 
-        "description": ""
+        "text": "\u03c6\u03b5\u03c1\u03bc\u03bf\u03c5\u03ac\u03c1"
     }, 
     {
         "source": "PIZ", 
-        "text": "PIZ", 
+        "description": "", 
         "id": "PIZ", 
-        "description": ""
+        "text": "PIZ"
     }, 
     {
         "source": "PXR24", 
-        "text": "PXR24", 
+        "description": "", 
         "id": "PXR24", 
-        "description": ""
+        "text": "PXR24"
     }, 
     {
         "source": "B44", 
-        "text": "\u039244", 
+        "description": "", 
         "id": "B44", 
-        "description": ""
+        "text": "\u039244"
     }, 
     {
         "source": "B44A", 
-        "text": "B44A", 
+        "description": "", 
         "id": "B44A", 
-        "description": ""
+        "text": "B44A"
     }, 
     {
         "source": "DWAA", 
-        "text": "DWAA", 
+        "description": "", 
         "id": "DWAA", 
-        "description": ""
+        "text": "DWAA"
     }, 
     {
         "source": "DWAB", 
-        "text": "DWAB", 
+        "description": "", 
         "id": "DWAB", 
-        "description": ""
+        "text": "DWAB"
     }, 
     {
         "source": "cannot be read", 
-        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b4\u03b9\u03b1\u03b2\u03b1\u03c3\u03c4\u03b5\u03af", 
+        "description": "", 
         "id": "cannot be read", 
-        "description": ""
+        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b4\u03b9\u03b1\u03b2\u03b1\u03c3\u03c4\u03b5\u03af"
     }, 
     {
         "source": "cannot be written", 
-        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b3\u03c1\u03b1\u03c6\u03c4\u03b5\u03af", 
+        "description": "", 
         "id": "cannot be written", 
-        "description": ""
+        "text": "\u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b3\u03c1\u03b1\u03c6\u03c4\u03b5\u03af"
     }, 
     {
         "source": "Float", 
-        "text": "\u03a6\u03bb\u03bf\u03c4\u03ad\u03c1", 
+        "description": "", 
         "id": "Float", 
-        "description": ""
+        "text": "\u03a6\u03bb\u03bf\u03c4\u03ad\u03c1"
     }, 
     {
         "source": "Double", 
-        "text": "\u0394\u03b9\u03c0\u03bb\u03cc", 
+        "description": "", 
         "id": "Double", 
-        "description": ""
+        "text": "\u0394\u03b9\u03c0\u03bb\u03cc"
     }, 
     {
         "source": "U8 Planar", 
-        "text": "U8 Planar", 
+        "description": "", 
         "id": "U8 Planar", 
-        "description": ""
+        "text": "U8 Planar"
     }, 
     {
         "source": "S16 Planar", 
-        "text": "S16 Planar", 
+        "description": "", 
         "id": "S16 Planar", 
-        "description": ""
+        "text": "S16 Planar"
     }, 
     {
         "source": "S32 Planar", 
-        "text": "S32 Planar", 
+        "description": "", 
         "id": "S32 Planar", 
-        "description": ""
+        "text": "S32 Planar"
     }, 
     {
         "source": "Float Planar", 
-        "text": "Float Planar", 
+        "description": "", 
         "id": "Float Planar", 
-        "description": ""
+        "text": "Float Planar"
     }, 
     {
         "source": "Double Planar", 
-        "text": "\u0394\u03b9\u03c0\u03bb\u03cc Planar", 
+        "description": "", 
         "id": "Double Planar", 
-        "description": ""
+        "text": "\u0394\u03b9\u03c0\u03bb\u03cc Planar"
     }, 
     {
         "source": "This plugin provides FFmpeg image and audio I/O.", 
-        "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf plugin \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 FFmpeg \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1 \u03ba\u03b1\u03b9 \u03ae\u03c7\u03bf I / O.", 
+        "description": "", 
         "id": "This plugin provides FFmpeg image and audio I/O.", 
-        "description": ""
+        "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf plugin \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 FFmpeg \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1 \u03ba\u03b1\u03b9 \u03ae\u03c7\u03bf I / O."
     }, 
     {
         "source": "The file cannot be opened.", 
-        "text": "\u03a4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf \u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b1\u03bd\u03bf\u03af\u03be\u03b5\u03b9.", 
+        "description": "", 
         "id": "The file cannot be opened.", 
-        "description": ""
+        "text": "\u03a4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf \u03b4\u03b5\u03bd \u03bc\u03c0\u03bf\u03c1\u03b5\u03af \u03bd\u03b1 \u03b1\u03bd\u03bf\u03af\u03be\u03b5\u03b9."
     }, 
     {
         "source": "No image channels.", 
-        "text": "\u0394\u03b5\u03bd \u03c5\u03c0\u03ac\u03c1\u03c7\u03bf\u03c5\u03bd \u03ba\u03b1\u03bd\u03ac\u03bb\u03b9\u03b1 \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1\u03c2.", 
+        "description": "", 
         "id": "No image channels.", 
-        "description": ""
+        "text": "\u0394\u03b5\u03bd \u03c5\u03c0\u03ac\u03c1\u03c7\u03bf\u03c5\u03bd \u03ba\u03b1\u03bd\u03ac\u03bb\u03b9\u03b1 \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1\u03c2."
     }, 
     {
         "source": "Image channels must have the same size and bit depth.", 
-        "text": "\u03a4\u03b1 \u03ba\u03b1\u03bd\u03ac\u03bb\u03b9\u03b1 \u03b5\u03b9\u03ba\u03cc\u03bd\u03c9\u03bd \u03c0\u03c1\u03ad\u03c0\u03b5\u03b9 \u03bd\u03b1 \u03ad\u03c7\u03bf\u03c5\u03bd \u03c4\u03bf \u03af\u03b4\u03b9\u03bf \u03bc\u03ad\u03b3\u03b5\u03b8\u03bf\u03c2 \u03ba\u03b1\u03b9 \u03c4\u03bf \u03b2\u03ac\u03b8\u03bf\u03c2 bit.", 
+        "description": "", 
         "id": "Image channels must have the same size and bit depth.", 
-        "description": ""
+        "text": "\u03a4\u03b1 \u03ba\u03b1\u03bd\u03ac\u03bb\u03b9\u03b1 \u03b5\u03b9\u03ba\u03cc\u03bd\u03c9\u03bd \u03c0\u03c1\u03ad\u03c0\u03b5\u03b9 \u03bd\u03b1 \u03ad\u03c7\u03bf\u03c5\u03bd \u03c4\u03bf \u03af\u03b4\u03b9\u03bf \u03bc\u03ad\u03b3\u03b5\u03b8\u03bf\u03c2 \u03ba\u03b1\u03b9 \u03c4\u03bf \u03b2\u03ac\u03b8\u03bf\u03c2 bit."
     }, 
     {
         "source": "Unsupported bit depth.", 
-        "text": "Unaccepted bit depth.", 
+        "description": "", 
         "id": "Unsupported bit depth.", 
-        "description": ""
+        "text": "Unaccepted bit depth."
     }, 
     {
         "source": "Line padding is unsupported.", 
-        "text": "\u0397 \u03b5\u03c0\u03ad\u03bd\u03b4\u03c5\u03c3\u03b7 \u03b3\u03c1\u03b1\u03bc\u03bc\u03ae\u03c2 \u03b4\u03b5\u03bd \u03c5\u03c0\u03bf\u03c3\u03c4\u03b7\u03c1\u03af\u03b6\u03b5\u03c4\u03b1\u03b9.", 
+        "description": "", 
         "id": "Line padding is unsupported.", 
-        "description": ""
+        "text": "\u0397 \u03b5\u03c0\u03ad\u03bd\u03b4\u03c5\u03c3\u03b7 \u03b3\u03c1\u03b1\u03bc\u03bc\u03ae\u03c2 \u03b4\u03b5\u03bd \u03c5\u03c0\u03bf\u03c3\u03c4\u03b7\u03c1\u03af\u03b6\u03b5\u03c4\u03b1\u03b9."
     }, 
     {
         "source": "Channel padding is unsupported.", 
-        "text": "\u03a4\u03bf \u03ba\u03b1\u03c0\u03ac\u03ba\u03b9 \u03c4\u03bf\u03c5 \u03ba\u03b1\u03bd\u03b1\u03bb\u03b9\u03bf\u03cd \u03b4\u03b5\u03bd \u03c5\u03c0\u03bf\u03c3\u03c4\u03b7\u03c1\u03af\u03b6\u03b5\u03c4\u03b1\u03b9.", 
+        "description": "", 
         "id": "Channel padding is unsupported.", 
-        "description": ""
+        "text": "\u03a4\u03bf \u03ba\u03b1\u03c0\u03ac\u03ba\u03b9 \u03c4\u03bf\u03c5 \u03ba\u03b1\u03bd\u03b1\u03bb\u03b9\u03bf\u03cd \u03b4\u03b5\u03bd \u03c5\u03c0\u03bf\u03c3\u03c4\u03b7\u03c1\u03af\u03b6\u03b5\u03c4\u03b1\u03b9."
     }, 
     {
         "source": "This plugin provides Cineon image I/O.", 
-        "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf \u03c0\u03c1\u03cc\u03c3\u03b8\u03b5\u03c4\u03bf \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1 Cineon I / O.", 
+        "description": "", 
         "id": "This plugin provides Cineon image I/O.", 
-        "description": ""
+        "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf \u03c0\u03c1\u03cc\u03c3\u03b8\u03b5\u03c4\u03bf \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1 Cineon I / O."
     }, 
     {
         "source": "Default", 
-        "text": "\u03a0\u03c1\u03bf\u03ba\u03b1\u03b8\u03bf\u03c1\u03b9\u03c3\u03bc\u03ad\u03bd\u03bf", 
+        "description": "", 
         "id": "Default", 
-        "description": ""
+        "text": "\u03a0\u03c1\u03bf\u03ba\u03b1\u03b8\u03bf\u03c1\u03b9\u03c3\u03bc\u03ad\u03bd\u03bf"
     }, 
     {
+        "id": "The audio format", 
         "source": "The audio format", 
-        "text": "\u0397 \u03bc\u03bf\u03c1\u03c6\u03ae \u03ae\u03c7\u03bf\u03c5", 
         "description": "", 
-        "id": "The audio format"
+        "text": "\u0397 \u03bc\u03bf\u03c1\u03c6\u03ae \u03ae\u03c7\u03bf\u03c5"
     }, 
     {
         "source": "F64", 
-        "text": "F64", 
+        "description": "", 
         "id": "F64", 
-        "description": ""
+        "text": "F64"
     }, 
     {
         "source": "RtAudio cannot be initialized", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03c0\u03c1\u03bf\u03b5\u03c4\u03bf\u03b9\u03bc\u03b1\u03c3\u03af\u03b1 \u03c4\u03bf\u03c5 RtAudio", 
+        "description": "", 
         "id": "RtAudio cannot be initialized", 
-        "description": ""
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03c0\u03c1\u03bf\u03b5\u03c4\u03bf\u03b9\u03bc\u03b1\u03c3\u03af\u03b1 \u03c4\u03bf\u03c5 RtAudio"
     }, 
     {
         "source": "File not supported.", 
-        "text": "\u03a4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf \u03b4\u03b5\u03bd \u03c5\u03c0\u03bf\u03c3\u03c4\u03b7\u03c1\u03af\u03b6\u03b5\u03c4\u03b1\u03b9.", 
+        "description": "", 
         "id": "File not supported.", 
-        "description": ""
+        "text": "\u03a4\u03bf \u03b1\u03c1\u03c7\u03b5\u03af\u03bf \u03b4\u03b5\u03bd \u03c5\u03c0\u03bf\u03c3\u03c4\u03b7\u03c1\u03af\u03b6\u03b5\u03c4\u03b1\u03b9."
     }, 
     {
         "source": "Error reading header.", 
-        "text": "\u03a3\u03c6\u03ac\u03bb\u03bc\u03b1 \u03c3\u03c4\u03b7\u03bd \u03b1\u03bd\u03ac\u03b3\u03bd\u03c9\u03c3\u03b7 \u03ba\u03b5\u03c6\u03b1\u03bb\u03af\u03b4\u03b1\u03c2.", 
+        "description": "", 
         "id": "Error reading header.", 
-        "description": ""
+        "text": "\u03a3\u03c6\u03ac\u03bb\u03bc\u03b1 \u03c3\u03c4\u03b7\u03bd \u03b1\u03bd\u03ac\u03b3\u03bd\u03c9\u03c3\u03b7 \u03ba\u03b5\u03c6\u03b1\u03bb\u03af\u03b4\u03b1\u03c2."
     }, 
     {
         "source": "Straight", 
-        "text": "\u0395\u03c5\u03b8\u03b5\u03af\u03b1", 
+        "description": "", 
         "id": "Straight", 
-        "description": ""
+        "text": "\u0395\u03c5\u03b8\u03b5\u03af\u03b1"
     }, 
     {
         "source": "Premultiplied", 
-        "text": "\u03a0\u03c1\u03bf\u03c0\u03bb\u03b7\u03c1\u03c9\u03bc\u03ad\u03bd\u03b7", 
+        "description": "", 
         "id": "Premultiplied", 
-        "description": ""
+        "text": "\u03a0\u03c1\u03bf\u03c0\u03bb\u03b7\u03c1\u03c9\u03bc\u03ad\u03bd\u03b7"
     }, 
     {
         "source": "This plugin provides IFF image I/O.", 
-        "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf plugin \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 I / O \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1 IFF.", 
+        "description": "", 
         "id": "This plugin provides IFF image I/O.", 
-        "description": ""
+        "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf plugin \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 I / O \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1 IFF."
     }, 
     {
         "source": "Cannot initialize GLFW.", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03c0\u03c1\u03bf\u03b5\u03c4\u03bf\u03b9\u03bc\u03b1\u03c3\u03af\u03b1 \u03c4\u03bf\u03c5 GLFW.", 
+        "description": "", 
         "id": "Cannot initialize GLFW.", 
-        "description": ""
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03c0\u03c1\u03bf\u03b5\u03c4\u03bf\u03b9\u03bc\u03b1\u03c3\u03af\u03b1 \u03c4\u03bf\u03c5 GLFW."
     }, 
     {
         "source": "Cannot initialize GLAD.", 
-        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03c0\u03c1\u03bf\u03b5\u03c4\u03bf\u03b9\u03bc\u03b1\u03c3\u03af\u03b1 \u03c4\u03bf\u03c5 GLAD.", 
+        "description": "", 
         "id": "Cannot initialize GLAD.", 
-        "description": ""
+        "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03c0\u03c1\u03bf\u03b5\u03c4\u03bf\u03b9\u03bc\u03b1\u03c3\u03af\u03b1 \u03c4\u03bf\u03c5 GLAD."
     }, 
     {
         "source": "This plugin provides RLA image I/O.", 
-        "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf plugin \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 I / O \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1 RLA.", 
+        "description": "", 
         "id": "This plugin provides RLA image I/O.", 
-        "description": ""
+        "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf plugin \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 I / O \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1 RLA."
     }, 
     {
         "source": "This plugin provides SGI image I/O.", 
-        "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf \u03c0\u03c1\u03cc\u03c3\u03b8\u03b5\u03c4\u03bf \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 I / O \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1 SGI.", 
+        "description": "", 
         "id": "This plugin provides SGI image I/O.", 
-        "description": ""
+        "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf \u03c0\u03c1\u03cc\u03c3\u03b8\u03b5\u03c4\u03bf \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 I / O \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1 SGI."
     }, 
     {
         "source": "Read error.", 
-        "text": "\u03a3\u03c6\u03ac\u03bb\u03bc\u03b1 \u03b1\u03bd\u03ac\u03b3\u03bd\u03c9\u03c3\u03b7\u03c2.", 
+        "description": "", 
         "id": "Read error.", 
-        "description": ""
+        "text": "\u03a3\u03c6\u03ac\u03bb\u03bc\u03b1 \u03b1\u03bd\u03ac\u03b3\u03bd\u03c9\u03c3\u03b7\u03c2."
     }, 
     {
         "source": "This plugin provides Targa image I/O.", 
-        "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf \u03c0\u03c1\u03cc\u03c3\u03b8\u03b5\u03c4\u03bf \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1 I / O Targa.", 
+        "description": "", 
         "id": "This plugin provides Targa image I/O.", 
+        "text": "\u0391\u03c5\u03c4\u03cc \u03c4\u03bf \u03c0\u03c1\u03cc\u03c3\u03b8\u03b5\u03c4\u03bf \u03c0\u03b1\u03c1\u03ad\u03c7\u03b5\u03b9 \u03b5\u03b9\u03ba\u03cc\u03bd\u03b1 I / O Targa."
+    }, 
+    {
+        "source": "Red", 
+        "text": "\u03c4\u03bf \u03ba\u03cc\u03ba\u03ba\u03b9\u03bd\u03bf", 
+        "id": "Red", 
         "description": ""
     }, 
     {
-        "id": "Red", 
-        "source": "Red", 
-        "description": "", 
-        "text": "\u03c4\u03bf \u03ba\u03cc\u03ba\u03ba\u03b9\u03bd\u03bf"
-    }, 
-    {
-        "id": "Green", 
         "source": "Green", 
-        "description": "", 
-        "text": "\u03a0\u03c1\u03ac\u03c3\u03b9\u03bd\u03bf\u03c2"
+        "text": "\u03a0\u03c1\u03ac\u03c3\u03b9\u03bd\u03bf\u03c2", 
+        "id": "Green", 
+        "description": ""
     }, 
     {
-        "id": "Blue", 
         "source": "Blue", 
-        "description": "", 
-        "text": "\u039c\u03c0\u03bb\u03b5"
+        "text": "\u039c\u03c0\u03bb\u03b5", 
+        "id": "Blue", 
+        "description": ""
     }, 
     {
-        "id": "Alpha", 
         "source": "Alpha", 
-        "description": "", 
-        "text": "\u0391\u03bb\u03c6\u03b1"
+        "text": "\u0391\u03bb\u03c6\u03b1", 
+        "id": "Alpha", 
+        "description": ""
     }, 
     {
-        "id": "Atlas", 
         "source": "Atlas", 
-        "description": "", 
-        "text": "\u0391\u03c4\u03bb\u03b1\u03c2"
+        "text": "\u0391\u03c4\u03bb\u03b1\u03c2", 
+        "id": "Atlas", 
+        "description": ""
     }, 
     {
-        "id": "Dynamic", 
         "source": "Dynamic", 
-        "description": "", 
-        "text": "\u0394\u03c5\u03bd\u03b1\u03bc\u03b9\u03ba\u03cc\u03c2"
+        "text": "\u0394\u03c5\u03bd\u03b1\u03bc\u03b9\u03ba\u03cc\u03c2", 
+        "id": "Dynamic", 
+        "description": ""
+    }, 
+    {
+        "source": "Nearest", 
+        "text": "\u03a0\u03bb\u03b7\u03c3\u03b9\u03ad\u03c3\u03c4\u03b5\u03c1\u03bf\u03c2", 
+        "id": "Nearest", 
+        "description": ""
+    }, 
+    {
+        "source": "Linear", 
+        "text": "\u0393\u03c1\u03b1\u03bc\u03bc\u03b9\u03ba\u03cc\u03c2", 
+        "id": "Linear", 
+        "description": ""
     }
 ]

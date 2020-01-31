@@ -1,1292 +1,1292 @@
 [
     {
         "source": "Cannot parse the value.", 
-        "text": "Impossible d&#39;analyser la valeur.", 
+        "description": "", 
         "id": "Cannot parse the value.", 
-        "description": ""
+        "text": "Impossible d&#39;analyser la valeur."
     }, 
     {
         "source": "Horizontal", 
-        "text": "Horizontal", 
+        "description": "", 
         "id": "Horizontal", 
-        "description": ""
+        "text": "Horizontal"
     }, 
     {
         "source": "Vertical", 
-        "text": "Verticale", 
+        "description": "", 
         "id": "Vertical", 
-        "description": ""
+        "text": "Verticale"
     }, 
     {
         "source": "Left", 
-        "text": "La gauche", 
+        "description": "", 
         "id": "Left", 
-        "description": ""
+        "text": "La gauche"
     }, 
     {
         "source": "Top", 
-        "text": "Haut", 
+        "description": "", 
         "id": "Top", 
-        "description": ""
+        "text": "Haut"
     }, 
     {
         "source": "Right", 
-        "text": "Droite", 
+        "description": "", 
         "id": "Right", 
-        "description": ""
+        "text": "Droite"
     }, 
     {
         "source": "Bottom", 
-        "text": "Bas", 
+        "description": "", 
         "id": "Bottom", 
-        "description": ""
+        "text": "Bas"
     }, 
     {
         "source": "None", 
-        "text": "Aucun", 
+        "description": "", 
         "id": "None", 
-        "description": ""
+        "text": "Aucun"
     }, 
     {
         "source": "Both", 
-        "text": "Tous les deux", 
+        "description": "", 
         "id": "Both", 
-        "description": ""
+        "text": "Tous les deux"
     }, 
     {
         "source": "Center", 
-        "text": "Centre", 
+        "description": "", 
         "id": "Center", 
-        "description": ""
+        "text": "Centre"
     }, 
     {
         "source": "Fill", 
-        "text": "Remplir", 
+        "description": "", 
         "id": "Fill", 
-        "description": ""
+        "text": "Remplir"
     }, 
     {
         "source": "Baseline", 
-        "text": "De base", 
+        "description": "", 
         "id": "Baseline", 
-        "description": ""
+        "text": "De base"
     }, 
     {
         "source": "Single", 
-        "text": "Unique", 
+        "description": "", 
         "id": "Single", 
-        "description": ""
+        "text": "Unique"
     }, 
     {
         "source": "Radio", 
-        "text": "Radio", 
+        "description": "", 
         "id": "Radio", 
-        "description": ""
+        "text": "Radio"
     }, 
     {
         "source": "Multiple", 
-        "text": "Plusieurs", 
+        "description": "", 
         "id": "Multiple", 
-        "description": ""
+        "text": "Plusieurs"
     }, 
     {
         "source": "Forward", 
-        "text": "Vers l&#39;avant", 
+        "description": "", 
         "id": "Forward", 
-        "description": ""
+        "text": "Vers l&#39;avant"
     }, 
     {
         "source": "Reverse", 
-        "text": "Sens inverse", 
+        "description": "", 
         "id": "Reverse", 
-        "description": ""
+        "text": "Sens inverse"
     }, 
     {
         "source": "Push", 
-        "text": "Pousser", 
+        "description": "", 
         "id": "Push", 
-        "description": ""
+        "text": "Pousser"
     }, 
     {
         "source": "Toggle", 
-        "text": "Basculer", 
+        "description": "", 
         "id": "Toggle", 
-        "description": ""
+        "text": "Basculer"
     }, 
     {
         "source": "Exclusive", 
-        "text": "Exclusif", 
+        "description": "", 
         "id": "Exclusive", 
-        "description": ""
+        "text": "Exclusif"
     }, 
     {
         "source": "Tiles", 
-        "text": "Carrelage", 
+        "description": "", 
         "id": "Tiles", 
-        "description": ""
+        "text": "Carrelage"
     }, 
     {
         "source": "List", 
-        "text": "liste", 
+        "description": "", 
         "id": "List", 
-        "description": ""
+        "text": "liste"
     }, 
     {
         "source": "Background", 
-        "text": "Contexte", 
+        "description": "", 
         "id": "Background", 
-        "description": ""
+        "text": "Contexte"
     }, 
     {
         "source": "Background Header", 
-        "text": "En-t\u00eate de fond", 
+        "description": "", 
         "id": "BackgroundHeader", 
-        "description": ""
+        "text": "En-t\u00eate de fond"
     }, 
     {
         "source": "Background Bellows", 
-        "text": "Soufflet de fond", 
+        "description": "", 
         "id": "BackgroundBellows", 
-        "description": ""
+        "text": "Soufflet de fond"
     }, 
     {
         "source": "Background ToolBar", 
-        "text": "Barre d&#39;outils de fond", 
+        "description": "", 
         "id": "BackgroundToolBar", 
-        "description": ""
+        "text": "Barre d&#39;outils de fond"
     }, 
     {
         "source": "Foreground", 
-        "text": "Premier plan", 
+        "description": "", 
         "id": "Foreground", 
-        "description": ""
+        "text": "Premier plan"
     }, 
     {
         "source": "Foreground Dim", 
-        "text": "Avant-plan dim", 
+        "description": "", 
         "id": "ForegroundDim", 
-        "description": ""
+        "text": "Avant-plan dim"
     }, 
     {
         "source": "Border", 
-        "text": "Fronti\u00e8re", 
+        "description": "", 
         "id": "Border", 
-        "description": ""
+        "text": "Fronti\u00e8re"
     }, 
     {
         "source": "Border Button", 
-        "text": "Bouton de bordure", 
+        "description": "", 
         "id": "BorderButton", 
-        "description": ""
+        "text": "Bouton de bordure"
     }, 
     {
         "source": "Trough", 
-        "text": "Creux", 
+        "description": "", 
         "id": "Trough", 
-        "description": ""
+        "text": "Creux"
     }, 
     {
         "source": "Button", 
-        "text": "Bouton", 
+        "description": "", 
         "id": "Button", 
-        "description": ""
+        "text": "Bouton"
     }, 
     {
         "source": "Hovered", 
-        "text": "Plan\u00e9", 
+        "description": "", 
         "id": "Hovered", 
-        "description": ""
+        "text": "Plan\u00e9"
     }, 
     {
         "source": "Pressed", 
-        "text": "Press\u00e9", 
+        "description": "", 
         "id": "Pressed", 
-        "description": ""
+        "text": "Press\u00e9"
     }, 
     {
         "source": "Checked", 
-        "text": "V\u00e9rifi\u00e9", 
+        "description": "", 
         "id": "Checked", 
-        "description": ""
+        "text": "V\u00e9rifi\u00e9"
     }, 
     {
         "source": "Text Focus", 
-        "text": "Focus du texte", 
+        "description": "", 
         "id": "TextFocus", 
-        "description": ""
+        "text": "Focus du texte"
     }, 
     {
         "source": "Tooltip Background", 
-        "text": "Fond d&#39;infobulle", 
+        "description": "", 
         "id": "TooltipBackground", 
-        "description": ""
+        "text": "Fond d&#39;infobulle"
     }, 
     {
         "source": "Tooltip Foreground", 
-        "text": "Info-bulle au premier plan", 
+        "description": "", 
         "id": "TooltipForeground", 
-        "description": ""
+        "text": "Info-bulle au premier plan"
     }, 
     {
         "source": "Overlay", 
-        "text": "Recouvrir", 
+        "description": "", 
         "id": "Overlay", 
-        "description": ""
+        "text": "Recouvrir"
     }, 
     {
         "source": "Overlay Light", 
-        "text": "Superposition de lumi\u00e8re", 
+        "description": "", 
         "id": "OverlayLight", 
-        "description": ""
+        "text": "Superposition de lumi\u00e8re"
     }, 
     {
         "source": "Shadow", 
-        "text": "Ombre", 
+        "description": "", 
         "id": "Shadow", 
-        "description": ""
+        "text": "Ombre"
     }, 
     {
         "source": "Handle", 
-        "text": "Manipuler", 
+        "description": "", 
         "id": "Handle", 
-        "description": ""
+        "text": "Manipuler"
     }, 
     {
         "source": "Margin", 
-        "text": "Marge", 
+        "description": "", 
         "id": "Margin", 
-        "description": ""
+        "text": "Marge"
     }, 
     {
         "source": "Margin Small", 
-        "text": "Marge petite", 
+        "description": "", 
         "id": "MarginSmall", 
-        "description": ""
+        "text": "Marge petite"
     }, 
     {
         "source": "Margin Large", 
-        "text": "Marge Large", 
+        "description": "", 
         "id": "MarginLarge", 
-        "description": ""
+        "text": "Marge Large"
     }, 
     {
         "source": "Margin Dialog", 
-        "text": "Dialogue de marge", 
+        "description": "", 
         "id": "MarginDialog", 
-        "description": ""
+        "text": "Dialogue de marge"
     }, 
     {
         "source": "Spacing", 
-        "text": "Espacement", 
+        "description": "", 
         "id": "Spacing", 
-        "description": ""
+        "text": "Espacement"
     }, 
     {
         "source": "Spacing Small", 
-        "text": "Espacement petit", 
+        "description": "", 
         "id": "SpacingSmall", 
-        "description": ""
+        "text": "Espacement petit"
     }, 
     {
         "source": "Spacing Large", 
-        "text": "Espacement Large", 
+        "description": "", 
         "id": "SpacingLarge", 
-        "description": ""
+        "text": "Espacement Large"
     }, 
     {
         "source": "Drag", 
-        "text": "Tra\u00eene", 
+        "description": "", 
         "id": "Drag", 
-        "description": ""
+        "text": "Tra\u00eene"
     }, 
     {
         "source": "Icon", 
-        "text": "Ic\u00f4ne", 
+        "description": "", 
         "id": "Icon", 
-        "description": ""
+        "text": "Ic\u00f4ne"
     }, 
     {
         "source": "Icon Small", 
-        "text": "Icon Small", 
+        "description": "", 
         "id": "IconSmall", 
-        "description": ""
+        "text": "Icon Small"
     }, 
     {
         "source": "Font Small", 
-        "text": "Police petite", 
+        "description": "", 
         "id": "FontSmall", 
-        "description": ""
+        "text": "Police petite"
     }, 
     {
         "source": "Font Medium", 
-        "text": "M\u00e9dium de police", 
+        "description": "", 
         "id": "FontMedium", 
-        "description": ""
+        "text": "M\u00e9dium de police"
     }, 
     {
         "source": "Font Large", 
-        "text": "Police Large", 
+        "description": "", 
         "id": "FontLarge", 
-        "description": ""
+        "text": "Police Large"
     }, 
     {
         "source": "Font Header", 
-        "text": "En-t\u00eate de police", 
+        "description": "", 
         "id": "FontHeader", 
-        "description": ""
+        "text": "En-t\u00eate de police"
     }, 
     {
         "source": "Font Title", 
-        "text": "Titre de la police", 
+        "description": "", 
         "id": "FontTitle", 
-        "description": ""
+        "text": "Titre de la police"
     }, 
     {
         "source": "Swatch", 
-        "text": "Swatch", 
+        "description": "", 
         "id": "Swatch", 
-        "description": ""
+        "text": "Swatch"
     }, 
     {
         "source": "Slider", 
-        "text": "Curseur", 
+        "description": "", 
         "id": "Slider", 
-        "description": ""
+        "text": "Curseur"
     }, 
     {
         "source": "Scroll Area", 
-        "text": "Zone de d\u00e9filement", 
+        "description": "", 
         "id": "ScrollArea", 
-        "description": ""
+        "text": "Zone de d\u00e9filement"
     }, 
     {
         "source": "Menu", 
-        "text": "Menu", 
+        "description": "", 
         "id": "Menu", 
-        "description": ""
+        "text": "Menu"
     }, 
     {
         "source": "Text Column", 
-        "text": "Colonne de texte", 
+        "description": "", 
         "id": "TextColumn", 
-        "description": ""
+        "text": "Colonne de texte"
     }, 
     {
         "source": "Text Column Large", 
-        "text": "Colonne de texte grande", 
+        "description": "", 
         "id": "TextColumnLarge", 
-        "description": ""
+        "text": "Colonne de texte grande"
     }, 
     {
         "source": "Search Box", 
-        "text": "Barre de recherche", 
+        "description": "", 
         "id": "SearchBox", 
-        "description": ""
+        "text": "Barre de recherche"
     }, 
     {
         "source": "Dialog", 
-        "text": "Dialogue", 
+        "description": "", 
         "id": "Dialog", 
-        "description": ""
+        "text": "Dialogue"
     }, 
     {
         "source": "Shadow Small", 
-        "text": "Ombre petite", 
+        "description": "", 
         "id": "ShadowSmall", 
-        "description": ""
+        "text": "Ombre petite"
     }, 
     {
         "source": "Tooltip Offset", 
-        "text": "D\u00e9calage d&#39;info-bulle", 
+        "description": "", 
         "id": "TooltipOffset", 
-        "description": ""
+        "text": "D\u00e9calage d&#39;info-bulle"
     }, 
     {
         "source": "Move", 
-        "text": "Bouge toi", 
+        "description": "", 
         "id": "Move", 
-        "description": ""
+        "text": "Bouge toi"
     }, 
     {
         "source": "Dark", 
-        "text": "Fonc\u00e9", 
+        "description": "", 
         "id": "Dark", 
-        "description": ""
+        "text": "Fonc\u00e9"
     }, 
     {
         "source": "Light", 
-        "text": "Lumi\u00e8re", 
+        "description": "", 
         "id": "Light", 
-        "description": ""
+        "text": "Lumi\u00e8re"
     }, 
     {
         "source": "Medium", 
-        "text": "Moyen", 
+        "description": "", 
         "id": "Medium", 
-        "description": ""
+        "text": "Moyen"
     }, 
     {
         "source": "Small", 
-        "text": "Petit", 
+        "description": "", 
         "id": "Small", 
-        "description": ""
+        "text": "Petit"
     }, 
     {
         "source": "Large", 
-        "text": "Grand", 
+        "description": "", 
         "id": "Large", 
-        "description": ""
+        "text": "Grand"
     }, 
     {
         "source": "Extra Large", 
-        "text": "Extra large", 
+        "description": "", 
         "id": "ExtraLarge", 
-        "description": ""
+        "text": "Extra large"
     }, 
     {
         "source": "Default", 
-        "text": "D\u00e9faut", 
+        "description": "", 
         "id": "Default", 
-        "description": ""
+        "text": "D\u00e9faut"
     }, 
     {
         "source": "Expand", 
-        "text": "D\u00e9velopper", 
+        "description": "", 
         "id": "Expand", 
-        "description": ""
+        "text": "D\u00e9velopper"
     }, 
     {
         "source": "Space", 
-        "text": "Espace", 
+        "description": "", 
         "id": "Space", 
-        "description": ""
+        "text": "Espace"
     }, 
     {
         "source": "Apostrophe", 
-        "text": "Apostrophe", 
+        "description": "", 
         "id": "Apostrophe", 
-        "description": ""
+        "text": "Apostrophe"
     }, 
     {
         "source": "Comma", 
-        "text": "virgule", 
+        "description": "", 
         "id": "Comma", 
-        "description": ""
+        "text": "virgule"
     }, 
     {
         "source": "Minus", 
-        "text": "Moins", 
+        "description": "", 
         "id": "Minus", 
-        "description": ""
+        "text": "Moins"
     }, 
     {
         "source": "Period", 
-        "text": "P\u00e9riode", 
+        "description": "", 
         "id": "Period", 
-        "description": ""
+        "text": "P\u00e9riode"
     }, 
     {
         "source": "Slash", 
-        "text": "Sabrer", 
+        "description": "", 
         "id": "Slash", 
-        "description": ""
+        "text": "Sabrer"
     }, 
     {
         "source": "0", 
-        "text": "0", 
+        "description": "", 
         "id": "0", 
-        "description": ""
+        "text": "0"
     }, 
     {
         "source": "1", 
-        "text": "1", 
+        "description": "", 
         "id": "1", 
-        "description": ""
+        "text": "1"
     }, 
     {
         "source": "2", 
-        "text": "2", 
+        "description": "", 
         "id": "2", 
-        "description": ""
+        "text": "2"
     }, 
     {
         "source": "3", 
-        "text": "3", 
+        "description": "", 
         "id": "3", 
-        "description": ""
+        "text": "3"
     }, 
     {
         "source": "4", 
-        "text": "4", 
+        "description": "", 
         "id": "4", 
-        "description": ""
+        "text": "4"
     }, 
     {
         "source": "5", 
-        "text": "5", 
+        "description": "", 
         "id": "5", 
-        "description": ""
+        "text": "5"
     }, 
     {
         "source": "6", 
-        "text": "6", 
+        "description": "", 
         "id": "6", 
-        "description": ""
+        "text": "6"
     }, 
     {
         "source": "7", 
-        "text": "7", 
+        "description": "", 
         "id": "7", 
-        "description": ""
+        "text": "7"
     }, 
     {
         "source": "8", 
-        "text": "8", 
+        "description": "", 
         "id": "8", 
-        "description": ""
+        "text": "8"
     }, 
     {
         "source": "9", 
-        "text": "9", 
+        "description": "", 
         "id": "9", 
-        "description": ""
+        "text": "9"
     }, 
     {
         "source": "Semicolon", 
-        "text": "Point-virgule", 
+        "description": "", 
         "id": "Semicolon", 
-        "description": ""
+        "text": "Point-virgule"
     }, 
     {
         "source": "Equal", 
-        "text": "\u00c9gal", 
+        "description": "", 
         "id": "Equal", 
-        "description": ""
+        "text": "\u00c9gal"
     }, 
     {
         "source": "A", 
-        "text": "UNE", 
+        "description": "", 
         "id": "A", 
-        "description": ""
+        "text": "UNE"
     }, 
     {
         "source": "B", 
-        "text": "B", 
+        "description": "", 
         "id": "B", 
-        "description": ""
+        "text": "B"
     }, 
     {
         "source": "C", 
-        "text": "C", 
+        "description": "", 
         "id": "C", 
-        "description": ""
+        "text": "C"
     }, 
     {
         "source": "D", 
-        "text": "r\u00e9", 
+        "description": "", 
         "id": "D", 
-        "description": ""
+        "text": "r\u00e9"
     }, 
     {
         "source": "E", 
-        "text": "et", 
+        "description": "", 
         "id": "E", 
-        "description": ""
+        "text": "et"
     }, 
     {
         "source": "F", 
-        "text": "F", 
+        "description": "", 
         "id": "F", 
-        "description": ""
+        "text": "F"
     }, 
     {
         "source": "G", 
-        "text": "g", 
+        "description": "", 
         "id": "G", 
-        "description": ""
+        "text": "g"
     }, 
     {
         "source": "H", 
-        "text": "H", 
+        "description": "", 
         "id": "H", 
-        "description": ""
+        "text": "H"
     }, 
     {
         "source": "I", 
-        "text": "je", 
+        "description": "", 
         "id": "I", 
-        "description": ""
+        "text": "je"
     }, 
     {
         "source": "J", 
-        "text": "J", 
+        "description": "", 
         "id": "J", 
-        "description": ""
+        "text": "J"
     }, 
     {
         "source": "K", 
-        "text": "K", 
+        "description": "", 
         "id": "K", 
-        "description": ""
+        "text": "K"
     }, 
     {
         "source": "L", 
-        "text": "L", 
+        "description": "", 
         "id": "L", 
-        "description": ""
+        "text": "L"
     }, 
     {
         "source": "M", 
-        "text": "M", 
+        "description": "", 
         "id": "M", 
-        "description": ""
+        "text": "M"
     }, 
     {
         "source": "N", 
-        "text": "N", 
+        "description": "", 
         "id": "N", 
-        "description": ""
+        "text": "N"
     }, 
     {
         "source": "O", 
-        "text": "O", 
+        "description": "", 
         "id": "O", 
-        "description": ""
+        "text": "O"
     }, 
     {
         "source": "P", 
-        "text": "P", 
+        "description": "", 
         "id": "P", 
-        "description": ""
+        "text": "P"
     }, 
     {
         "source": "Q", 
-        "text": "Q", 
+        "description": "", 
         "id": "Q", 
-        "description": ""
+        "text": "Q"
     }, 
     {
         "source": "R", 
-        "text": "R", 
+        "description": "", 
         "id": "R", 
-        "description": ""
+        "text": "R"
     }, 
     {
         "source": "S", 
-        "text": "S", 
+        "description": "", 
         "id": "S", 
-        "description": ""
+        "text": "S"
     }, 
     {
         "source": "T", 
-        "text": "T", 
+        "description": "", 
         "id": "T", 
-        "description": ""
+        "text": "T"
     }, 
     {
         "source": "U", 
-        "text": "U", 
+        "description": "", 
         "id": "U", 
-        "description": ""
+        "text": "U"
     }, 
     {
         "source": "V", 
-        "text": "V", 
+        "description": "", 
         "id": "V", 
-        "description": ""
+        "text": "V"
     }, 
     {
         "source": "W", 
-        "text": "la", 
+        "description": "", 
         "id": "W", 
-        "description": ""
+        "text": "la"
     }, 
     {
         "source": "X", 
-        "text": "X", 
+        "description": "", 
         "id": "X", 
-        "description": ""
+        "text": "X"
     }, 
     {
         "source": "Y", 
-        "text": "Y", 
+        "description": "", 
         "id": "Y", 
-        "description": ""
+        "text": "Y"
     }, 
     {
         "source": "Z", 
-        "text": "avec", 
+        "description": "", 
         "id": "Z", 
-        "description": ""
+        "text": "avec"
     }, 
     {
         "source": "Left Bracket", 
-        "text": "Support gauche", 
+        "description": "", 
         "id": "LeftBracket", 
-        "description": ""
+        "text": "Support gauche"
     }, 
     {
         "source": "Backslash", 
-        "text": "Barre oblique inverse", 
+        "description": "", 
         "id": "Backslash", 
-        "description": ""
+        "text": "Barre oblique inverse"
     }, 
     {
         "source": "Right Bracket", 
-        "text": "Support droit", 
+        "description": "", 
         "id": "RightBracket", 
-        "description": ""
+        "text": "Support droit"
     }, 
     {
         "source": "Grave Accent", 
-        "text": "Grave Accent", 
+        "description": "", 
         "id": "GraveAccent", 
-        "description": ""
+        "text": "Grave Accent"
     }, 
     {
         "source": "World 1", 
-        "text": "Monde 1", 
+        "description": "", 
         "id": "World1", 
-        "description": ""
+        "text": "Monde 1"
     }, 
     {
         "source": "World 2", 
-        "text": "Monde 2", 
+        "description": "", 
         "id": "World2", 
-        "description": ""
+        "text": "Monde 2"
     }, 
     {
         "source": "Escape", 
-        "text": "\u00c9chapper", 
+        "description": "", 
         "id": "Escape", 
-        "description": ""
+        "text": "\u00c9chapper"
     }, 
     {
         "source": "Enter", 
-        "text": "Entrer", 
+        "description": "", 
         "id": "Enter", 
-        "description": ""
+        "text": "Entrer"
     }, 
     {
         "source": "Tab", 
-        "text": "Languette", 
+        "description": "", 
         "id": "Tab", 
-        "description": ""
+        "text": "Languette"
     }, 
     {
         "source": "Backspace", 
-        "text": "Retour arri\u00e8re", 
+        "description": "", 
         "id": "Backspace", 
-        "description": ""
+        "text": "Retour arri\u00e8re"
     }, 
     {
         "source": "Insert", 
-        "text": "Ins\u00e9rer", 
+        "description": "", 
         "id": "Insert", 
-        "description": ""
+        "text": "Ins\u00e9rer"
     }, 
     {
         "source": "Delete", 
-        "text": "Effacer", 
+        "description": "", 
         "id": "Delete", 
-        "description": ""
+        "text": "Effacer"
     }, 
     {
         "source": "Right Arrow", 
-        "text": "Fl\u00e8che droite", 
+        "description": "", 
         "id": "RightArrow", 
-        "description": ""
+        "text": "Fl\u00e8che droite"
     }, 
     {
         "source": "Left Arrow", 
-        "text": "Fl\u00e8che gauche", 
+        "description": "", 
         "id": "LeftArrow", 
-        "description": ""
+        "text": "Fl\u00e8che gauche"
     }, 
     {
         "source": "Down Arrow", 
-        "text": "Fl\u00e8che vers le bas", 
+        "description": "", 
         "id": "DownArrow", 
-        "description": ""
+        "text": "Fl\u00e8che vers le bas"
     }, 
     {
         "source": "Up Arrow", 
-        "text": "Fl\u00e8che vers le haut", 
+        "description": "", 
         "id": "UpArrow", 
-        "description": ""
+        "text": "Fl\u00e8che vers le haut"
     }, 
     {
         "source": "Page Up", 
-        "text": "Page Up", 
+        "description": "", 
         "id": "PageUp", 
-        "description": ""
+        "text": "Page Up"
     }, 
     {
         "source": "Page Down", 
-        "text": "Bas de page", 
+        "description": "", 
         "id": "PageDown", 
-        "description": ""
+        "text": "Bas de page"
     }, 
     {
         "source": "Home", 
-        "text": "Accueil", 
+        "description": "", 
         "id": "Home", 
-        "description": ""
+        "text": "Accueil"
     }, 
     {
         "source": "End", 
-        "text": "Fin", 
+        "description": "", 
         "id": "End", 
-        "description": ""
+        "text": "Fin"
     }, 
     {
         "source": "Caps Lock", 
-        "text": "verrouillage des majuscules", 
+        "description": "", 
         "id": "CapsLock", 
-        "description": ""
+        "text": "verrouillage des majuscules"
     }, 
     {
         "source": "Scroll Lock", 
-        "text": "Verrouillage du d\u00e9filement", 
+        "description": "", 
         "id": "ScrollLock", 
-        "description": ""
+        "text": "Verrouillage du d\u00e9filement"
     }, 
     {
         "source": "Num Lock", 
-        "text": "Verrouillage num\u00e9rique", 
+        "description": "", 
         "id": "NumLock", 
-        "description": ""
+        "text": "Verrouillage num\u00e9rique"
     }, 
     {
         "source": "Print Screen", 
-        "text": "Capture d&#39;\u00e9cran", 
+        "description": "", 
         "id": "PrintScreen", 
-        "description": ""
+        "text": "Capture d&#39;\u00e9cran"
     }, 
     {
         "source": "F1", 
-        "text": "F1", 
+        "description": "", 
         "id": "F1", 
-        "description": ""
+        "text": "F1"
     }, 
     {
         "source": "F2", 
-        "text": "F2", 
+        "description": "", 
         "id": "F2", 
-        "description": ""
+        "text": "F2"
     }, 
     {
         "source": "F3", 
-        "text": "F3", 
+        "description": "", 
         "id": "F3", 
-        "description": ""
+        "text": "F3"
     }, 
     {
         "source": "F4", 
-        "text": "F4", 
+        "description": "", 
         "id": "F4", 
-        "description": ""
+        "text": "F4"
     }, 
     {
         "source": "F5", 
-        "text": "F5", 
+        "description": "", 
         "id": "F5", 
-        "description": ""
+        "text": "F5"
     }, 
     {
         "source": "F6", 
-        "text": "F6", 
+        "description": "", 
         "id": "F6", 
-        "description": ""
+        "text": "F6"
     }, 
     {
         "source": "F7", 
-        "text": "F7", 
+        "description": "", 
         "id": "F7", 
-        "description": ""
+        "text": "F7"
     }, 
     {
         "source": "F8", 
-        "text": "F8", 
+        "description": "", 
         "id": "F8", 
-        "description": ""
+        "text": "F8"
     }, 
     {
         "source": "F9", 
-        "text": "F9", 
+        "description": "", 
         "id": "F9", 
-        "description": ""
+        "text": "F9"
     }, 
     {
         "source": "F10", 
-        "text": "F10", 
+        "description": "", 
         "id": "F10", 
-        "description": ""
+        "text": "F10"
     }, 
     {
         "source": "F11", 
-        "text": "F11", 
+        "description": "", 
         "id": "F11", 
-        "description": ""
+        "text": "F11"
     }, 
     {
         "source": "F12", 
-        "text": "F12", 
+        "description": "", 
         "id": "F12", 
-        "description": ""
+        "text": "F12"
     }, 
     {
         "source": "F13", 
-        "text": "F13", 
+        "description": "", 
         "id": "F13", 
-        "description": ""
+        "text": "F13"
     }, 
     {
         "source": "F14", 
-        "text": "F14", 
+        "description": "", 
         "id": "F14", 
-        "description": ""
+        "text": "F14"
     }, 
     {
         "source": "F15", 
-        "text": "F15", 
+        "description": "", 
         "id": "F15", 
-        "description": ""
+        "text": "F15"
     }, 
     {
         "source": "F16", 
-        "text": "F16", 
+        "description": "", 
         "id": "F16", 
-        "description": ""
+        "text": "F16"
     }, 
     {
         "source": "F17", 
-        "text": "F17", 
+        "description": "", 
         "id": "F17", 
-        "description": ""
+        "text": "F17"
     }, 
     {
         "source": "F18", 
-        "text": "F18", 
+        "description": "", 
         "id": "F18", 
-        "description": ""
+        "text": "F18"
     }, 
     {
         "source": "F19", 
-        "text": "F19", 
+        "description": "", 
         "id": "F19", 
-        "description": ""
+        "text": "F19"
     }, 
     {
         "source": "F20", 
-        "text": "F20", 
+        "description": "", 
         "id": "F20", 
-        "description": ""
+        "text": "F20"
     }, 
     {
         "source": "F21", 
-        "text": "F21", 
+        "description": "", 
         "id": "F21", 
-        "description": ""
+        "text": "F21"
     }, 
     {
         "source": "F22", 
-        "text": "F22", 
+        "description": "", 
         "id": "F22", 
-        "description": ""
+        "text": "F22"
     }, 
     {
         "source": "F23", 
-        "text": "F23", 
+        "description": "", 
         "id": "F23", 
-        "description": ""
+        "text": "F23"
     }, 
     {
         "source": "F24", 
-        "text": "F24", 
+        "description": "", 
         "id": "F24", 
-        "description": ""
+        "text": "F24"
     }, 
     {
         "source": "F25", 
-        "text": "F25", 
+        "description": "", 
         "id": "F25", 
-        "description": ""
+        "text": "F25"
     }, 
     {
         "source": "Key Pad 0", 
-        "text": "Clavier 0", 
+        "description": "", 
         "id": "KeyPad0", 
-        "description": ""
+        "text": "Clavier 0"
     }, 
     {
         "source": "Key Pad 1", 
-        "text": "Clavier 1", 
+        "description": "", 
         "id": "KeyPad1", 
-        "description": ""
+        "text": "Clavier 1"
     }, 
     {
         "source": "Key Pad 2", 
-        "text": "Clavier 2", 
+        "description": "", 
         "id": "KeyPad2", 
-        "description": ""
+        "text": "Clavier 2"
     }, 
     {
         "source": "Key Pad 3", 
-        "text": "Clavier 3", 
+        "description": "", 
         "id": "KeyPad3", 
-        "description": ""
+        "text": "Clavier 3"
     }, 
     {
         "source": "Key Pad 4", 
-        "text": "Clavier 4", 
+        "description": "", 
         "id": "KeyPad4", 
-        "description": ""
+        "text": "Clavier 4"
     }, 
     {
         "source": "Key Pad 5", 
-        "text": "Clavier 5", 
+        "description": "", 
         "id": "KeyPad5", 
-        "description": ""
+        "text": "Clavier 5"
     }, 
     {
         "source": "Key Pad 6", 
-        "text": "Clavier 6", 
+        "description": "", 
         "id": "KeyPad6", 
-        "description": ""
+        "text": "Clavier 6"
     }, 
     {
         "source": "Key Pad 7", 
-        "text": "Clavier 7", 
+        "description": "", 
         "id": "KeyPad7", 
-        "description": ""
+        "text": "Clavier 7"
     }, 
     {
         "source": "Key Pad 8", 
-        "text": "Clavier 8", 
+        "description": "", 
         "id": "KeyPad8", 
-        "description": ""
+        "text": "Clavier 8"
     }, 
     {
         "source": "Key Pad 9", 
-        "text": "Clavier 9", 
+        "description": "", 
         "id": "KeyPad9", 
-        "description": ""
+        "text": "Clavier 9"
     }, 
     {
         "source": "Key Pad Decimal", 
-        "text": "D\u00e9cimale du clavier", 
+        "description": "", 
         "id": "KeyPadDecimal", 
-        "description": ""
+        "text": "D\u00e9cimale du clavier"
     }, 
     {
         "source": "Key Pad Divide", 
-        "text": "Clavier Diviser", 
+        "description": "", 
         "id": "KeyPadDivide", 
-        "description": ""
+        "text": "Clavier Diviser"
     }, 
     {
         "source": "Key Pad Multiply", 
-        "text": "Clavier Multiplier", 
+        "description": "", 
         "id": "KeyPadMultiply", 
-        "description": ""
+        "text": "Clavier Multiplier"
     }, 
     {
         "source": "Key Pad Substract", 
-        "text": "Soustraction clavier", 
+        "description": "", 
         "id": "KeyPadSubstract", 
-        "description": ""
+        "text": "Soustraction clavier"
     }, 
     {
         "source": "Key Pad Add", 
-        "text": "Key Pad Ajouter", 
+        "description": "", 
         "id": "KeyPadAdd", 
-        "description": ""
+        "text": "Key Pad Ajouter"
     }, 
     {
         "source": "Key Pad Enter", 
-        "text": "Clavier Entrer", 
+        "description": "", 
         "id": "KeyPadEnter", 
-        "description": ""
+        "text": "Clavier Entrer"
     }, 
     {
         "source": "Key Pad Equal", 
-        "text": "Clavier \u00e9gal", 
+        "description": "", 
         "id": "KeyPadEqual", 
-        "description": ""
+        "text": "Clavier \u00e9gal"
     }, 
     {
         "source": "Left Shift", 
-        "text": "D\u00e9calage \u00e0 gauche", 
+        "description": "", 
         "id": "LeftShift", 
-        "description": ""
+        "text": "D\u00e9calage \u00e0 gauche"
     }, 
     {
         "source": "Left Control", 
-        "text": "Contr\u00f4le gauche", 
+        "description": "", 
         "id": "LeftControl", 
-        "description": ""
+        "text": "Contr\u00f4le gauche"
     }, 
     {
         "source": "Left Alt", 
-        "text": "Alt gauche", 
+        "description": "", 
         "id": "LeftAlt", 
-        "description": ""
+        "text": "Alt gauche"
     }, 
     {
         "source": "Left Command", 
-        "text": "Commande de gauche", 
+        "description": "", 
         "id": "LeftCommand", 
-        "description": ""
+        "text": "Commande de gauche"
     }, 
     {
         "source": "Right Shift", 
-        "text": "D\u00e9calage droit", 
+        "description": "", 
         "id": "RightShift", 
-        "description": ""
+        "text": "D\u00e9calage droit"
     }, 
     {
         "source": "Right Control", 
-        "text": "Bon contr\u00f4le", 
+        "description": "", 
         "id": "RightControl", 
-        "description": ""
+        "text": "Bon contr\u00f4le"
     }, 
     {
         "source": "Right Alt", 
-        "text": "Alt droit", 
+        "description": "", 
         "id": "RightAlt", 
-        "description": ""
+        "text": "Alt droit"
     }, 
     {
         "source": "Right Command", 
-        "text": "Bon commandement", 
+        "description": "", 
         "id": "RightCommand", 
-        "description": ""
+        "text": "Bon commandement"
     }, 
     {
         "source": "Shift", 
-        "text": "D\u00e9calage", 
+        "description": "", 
         "id": "Shift", 
-        "description": ""
+        "text": "D\u00e9calage"
     }, 
     {
         "source": "Ctrl", 
-        "text": "Ctrl", 
+        "description": "", 
         "id": "Ctrl", 
-        "description": ""
+        "text": "Ctrl"
     }, 
     {
         "source": "Alt", 
-        "text": "tout", 
+        "description": "", 
         "id": "Alt", 
-        "description": ""
+        "text": "tout"
     }, 
     {
         "source": "Command", 
-        "text": "Commander", 
+        "description": "", 
         "id": "Command", 
-        "description": ""
+        "text": "Commander"
     }, 
     {
         "source": "Cached", 
-        "text": "Mis en cache", 
+        "description": "", 
         "id": "Cached", 
-        "description": ""
+        "text": "Mis en cache"
     }, 
     {
         "source": "Scrub", 
-        "text": "Frotter", 
+        "description": "", 
         "id": "Scrub", 
-        "description": ""
+        "text": "Frotter"
     }, 
     {
         "source": "Keyboard shortcut", 
-        "text": "Raccourci clavier", 
+        "description": "", 
         "id": "Keyboard shortcut", 
-        "description": ""
+        "text": "Raccourci clavier"
     }, 
     {
         "source": "Keyboard shortcuts", 
-        "text": "Raccourcis clavier", 
+        "description": "", 
         "id": "Keyboard shortcuts", 
+        "text": "Raccourcis clavier"
+    }, 
+    {
+        "source": "IconMini", 
+        "text": "IconMini", 
+        "id": "IconMini", 
         "description": ""
     }, 
     {
-        "id": "IconMini", 
-        "source": "IconMini", 
-        "description": "", 
-        "text": "IconMini"
-    }, 
-    {
-        "id": "SwatchSmall", 
         "source": "SwatchSmall", 
-        "description": "", 
-        "text": "SwatchSmall"
+        "text": "SwatchSmall", 
+        "id": "SwatchSmall", 
+        "description": ""
     }, 
     {
-        "id": "ScrollBar", 
         "source": "ScrollBar", 
-        "description": "", 
-        "text": "Barre de d\u00e9filement"
+        "text": "Barre de d\u00e9filement", 
+        "id": "ScrollBar", 
+        "description": ""
     }, 
     {
-        "id": "ScrollBarSmall", 
         "source": "ScrollBarSmall", 
-        "description": "", 
-        "text": "ScrollBarSmall"
+        "text": "ScrollBarSmall", 
+        "id": "ScrollBarSmall", 
+        "description": ""
     }, 
     {
-        "id": "Native", 
         "source": "Native", 
-        "description": "", 
-        "text": "Originaire de"
+        "text": "Originaire de", 
+        "id": "Native", 
+        "description": ""
     }, 
     {
-        "id": "16:9", 
         "source": "16:9", 
-        "description": "", 
-        "text": "16: 9"
+        "text": "16: 9", 
+        "id": "16:9", 
+        "description": ""
     }, 
     {
-        "id": "1.85", 
         "source": "1.85", 
-        "description": "", 
-        "text": "1,85"
+        "text": "1,85", 
+        "id": "1.85", 
+        "description": ""
     }, 
     {
-        "id": "2.35", 
         "source": "2.35", 
-        "description": "", 
-        "text": "2,35"
+        "text": "2,35", 
+        "id": "2.35", 
+        "description": ""
     }, 
     {
-        "id": "Reset the value.", 
         "source": "Reset the value.", 
-        "description": "", 
-        "text": "R\u00e9initialiser la valeur."
+        "text": "R\u00e9initialiser la valeur.", 
+        "id": "Reset the value.", 
+        "description": ""
     }, 
     {
         "source": "BelowRight", 
+        "text": "Ci-dessous", 
         "description": "", 
-        "id": "BelowRight", 
-        "text": "Ci-dessous"
+        "id": "BelowRight"
     }, 
     {
         "source": "BelowLeft", 
+        "text": "En bas \u00e0 gauche", 
         "description": "", 
-        "id": "BelowLeft", 
-        "text": "En bas \u00e0 gauche"
+        "id": "BelowLeft"
     }, 
     {
         "source": "AboveRight", 
+        "text": "En haut \u00e0 droite", 
         "description": "", 
-        "id": "AboveRight", 
-        "text": "En haut \u00e0 droite"
+        "id": "AboveRight"
     }, 
     {
         "source": "AboveLeft", 
+        "text": "Ci-dessus", 
         "description": "", 
-        "id": "AboveLeft", 
-        "text": "Ci-dessus"
+        "id": "AboveLeft"
     }
 ]

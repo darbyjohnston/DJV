@@ -40,88 +40,78 @@
         "description": ""
     }, 
     {
-        "text": "Set the color type", 
-        "id": "Color type widget tooltip", 
+        "text": "The file", 
+        "id": "The file", 
         "description": ""
     }, 
     {
-        "text": "L", 
-        "id": "L", 
+        "text": "cannot be read", 
+        "id": "cannot be read", 
         "description": ""
     }, 
     {
-        "text": "Color sliders luminance tooltip", 
-        "id": "Color sliders luminance tooltip", 
+        "text": "Last modification time", 
+        "id": "Last modification time", 
         "description": ""
     }, 
     {
-        "text": "A", 
-        "id": "A", 
+        "text": "Video track", 
+        "id": "Video track", 
         "description": ""
     }, 
     {
-        "text": "Color sliders alpha tooltip", 
-        "id": "Color sliders alpha tooltip", 
+        "text": "Name", 
+        "id": "Name", 
         "description": ""
     }, 
     {
-        "text": "H", 
-        "id": "H", 
+        "text": "Type", 
+        "id": "Type", 
         "description": ""
     }, 
     {
-        "text": "S", 
-        "id": "S", 
+        "text": "Speed", 
+        "id": "Speed", 
         "description": ""
     }, 
     {
-        "text": "V", 
-        "id": "V", 
+        "text": "FPS", 
+        "id": "FPS", 
         "description": ""
     }, 
     {
-        "text": "Color sliders hue tooltip", 
-        "id": "Color sliders hue tooltip", 
+        "text": "Duration", 
+        "id": "Duration", 
         "description": ""
     }, 
     {
-        "text": "Color sliders saturation tooltip", 
-        "id": "Color sliders saturation tooltip", 
+        "text": "frames", 
+        "id": "frames", 
         "description": ""
     }, 
     {
-        "text": "Color sliders value tooltip", 
-        "id": "Color sliders value tooltip", 
+        "text": "Audio track", 
+        "id": "Audio track", 
         "description": ""
     }, 
     {
-        "text": "R", 
-        "id": "R", 
+        "text": "Channels", 
+        "id": "Channels", 
         "description": ""
     }, 
     {
-        "text": "G", 
-        "id": "G", 
+        "text": "Sample rate", 
+        "id": "Sample rate", 
         "description": ""
     }, 
     {
-        "text": "B", 
-        "id": "B", 
+        "text": "kHz", 
+        "id": "kHz", 
         "description": ""
     }, 
     {
-        "text": "Color sliders red tooltip", 
-        "id": "Color sliders red tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Color sliders green tooltip", 
-        "id": "Color sliders green tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Color sliders blue tooltip", 
-        "id": "Color sliders blue tooltip", 
+        "text": "seconds", 
+        "id": "seconds", 
         "description": ""
     }, 
     {
@@ -132,6 +122,81 @@
     {
         "text": "Thread count", 
         "id": "Thread count", 
+        "description": ""
+    }, 
+    {
+        "text": "Show the file browser history", 
+        "id": "File browser history tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Shortcuts", 
+        "id": "Shortcuts", 
+        "description": ""
+    }, 
+    {
+        "text": "Add the current directory to the list of shortcuts", 
+        "id": "Add shortcut tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Edit the list of shortcuts", 
+        "id": "Edit shortcuts tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Tooltips", 
+        "id": "Tooltips", 
+        "description": ""
+    }, 
+    {
+        "text": "Enable tooltips", 
+        "id": "Enable tooltips", 
+        "description": ""
+    }, 
+    {
+        "text": "Current", 
+        "id": "Current", 
+        "description": ""
+    }, 
+    {
+        "text": "min", 
+        "id": "min", 
+        "description": ""
+    }, 
+    {
+        "text": "max", 
+        "id": "max", 
+        "description": ""
+    }, 
+    {
+        "text": "Threads", 
+        "id": "Threads", 
+        "description": ""
+    }, 
+    {
+        "text": "JPEG", 
+        "id": "JPEG", 
+        "description": ""
+    }, 
+    {
+        "text": "Compression quality", 
+        "id": "Compression quality", 
+        "description": ""
+    }, 
+    {
+        "text": "OpenEXR", 
+        "id": "OpenEXR", 
+        "description": ""
+    }, 
+    {
+        "text": "Channel grouping", 
+        "id": "Channel grouping", 
+        "description": ""
+    }, 
+    {
+        "text": "DWA compression level", 
+        "id": "DWA compression level", 
         "description": ""
     }, 
     {
@@ -350,171 +415,6 @@
         "description": ""
     }, 
     {
-        "text": "The file", 
-        "id": "The file", 
-        "description": ""
-    }, 
-    {
-        "text": "cannot be read", 
-        "id": "cannot be read", 
-        "description": ""
-    }, 
-    {
-        "text": "Last modification time", 
-        "id": "Last modification time", 
-        "description": ""
-    }, 
-    {
-        "text": "Video track", 
-        "id": "Video track", 
-        "description": ""
-    }, 
-    {
-        "text": "Name", 
-        "id": "Name", 
-        "description": ""
-    }, 
-    {
-        "text": "Type", 
-        "id": "Type", 
-        "description": ""
-    }, 
-    {
-        "text": "Speed", 
-        "id": "Speed", 
-        "description": ""
-    }, 
-    {
-        "text": "FPS", 
-        "id": "FPS", 
-        "description": ""
-    }, 
-    {
-        "text": "Duration", 
-        "id": "Duration", 
-        "description": ""
-    }, 
-    {
-        "text": "frames", 
-        "id": "frames", 
-        "description": ""
-    }, 
-    {
-        "text": "Audio track", 
-        "id": "Audio track", 
-        "description": ""
-    }, 
-    {
-        "text": "Channels", 
-        "id": "Channels", 
-        "description": ""
-    }, 
-    {
-        "text": "Sample rate", 
-        "id": "Sample rate", 
-        "description": ""
-    }, 
-    {
-        "text": "kHz", 
-        "id": "kHz", 
-        "description": ""
-    }, 
-    {
-        "text": "seconds", 
-        "id": "seconds", 
-        "description": ""
-    }, 
-    {
-        "text": "Show the file browser history", 
-        "id": "File browser history tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Shortcuts", 
-        "id": "Shortcuts", 
-        "description": ""
-    }, 
-    {
-        "text": "Add the current directory to the list of shortcuts", 
-        "id": "Add shortcut tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Edit the list of shortcuts", 
-        "id": "Edit shortcuts tooltip", 
-        "description": ""
-    }, 
-    {
-        "text": "Tooltips", 
-        "id": "Tooltips", 
-        "description": ""
-    }, 
-    {
-        "text": "Enable tooltips", 
-        "id": "Enable tooltips", 
-        "description": ""
-    }, 
-    {
-        "text": "Threads", 
-        "id": "Threads", 
-        "description": ""
-    }, 
-    {
-        "text": "JPEG", 
-        "id": "JPEG", 
-        "description": ""
-    }, 
-    {
-        "text": "Compression quality", 
-        "id": "Compression quality", 
-        "description": ""
-    }, 
-    {
-        "text": "Current", 
-        "id": "Current", 
-        "description": ""
-    }, 
-    {
-        "text": "min", 
-        "id": "min", 
-        "description": ""
-    }, 
-    {
-        "text": "max", 
-        "id": "max", 
-        "description": ""
-    }, 
-    {
-        "text": "OpenEXR", 
-        "id": "OpenEXR", 
-        "description": ""
-    }, 
-    {
-        "text": "Channel grouping", 
-        "id": "Channel grouping", 
-        "description": ""
-    }, 
-    {
-        "text": "DWA compression level", 
-        "id": "DWA compression level", 
-        "description": ""
-    }, 
-    {
-        "text": "Text", 
-        "id": "Text", 
-        "description": ""
-    }, 
-    {
-        "text": "Render 2D", 
-        "id": "Render 2D", 
-        "description": ""
-    }, 
-    {
-        "text": "Enable LCD text rendering", 
-        "id": "Enable LCD text rendering", 
-        "description": ""
-    }, 
-    {
         "text": "File Browser", 
         "id": "File Browser", 
         "description": ""
@@ -542,6 +442,121 @@
     {
         "text": "Data type", 
         "id": "Data type", 
+        "description": ""
+    }, 
+    {
+        "text": "Set the color type", 
+        "id": "Color type widget tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "L", 
+        "id": "L", 
+        "description": ""
+    }, 
+    {
+        "text": "Color sliders luminance tooltip", 
+        "id": "Color sliders luminance tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "A", 
+        "id": "A", 
+        "description": ""
+    }, 
+    {
+        "text": "Color sliders alpha tooltip", 
+        "id": "Color sliders alpha tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "H", 
+        "id": "H", 
+        "description": ""
+    }, 
+    {
+        "text": "S", 
+        "id": "S", 
+        "description": ""
+    }, 
+    {
+        "text": "V", 
+        "id": "V", 
+        "description": ""
+    }, 
+    {
+        "text": "Color sliders hue tooltip", 
+        "id": "Color sliders hue tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Color sliders saturation tooltip", 
+        "id": "Color sliders saturation tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Color sliders value tooltip", 
+        "id": "Color sliders value tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "R", 
+        "id": "R", 
+        "description": ""
+    }, 
+    {
+        "text": "G", 
+        "id": "G", 
+        "description": ""
+    }, 
+    {
+        "text": "B", 
+        "id": "B", 
+        "description": ""
+    }, 
+    {
+        "text": "Color sliders red tooltip", 
+        "id": "Color sliders red tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Color sliders green tooltip", 
+        "id": "Color sliders green tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Color sliders blue tooltip", 
+        "id": "Color sliders blue tooltip", 
+        "description": ""
+    }, 
+    {
+        "text": "Image", 
+        "id": "Image", 
+        "description": ""
+    }, 
+    {
+        "text": "Render 2D", 
+        "id": "Render 2D", 
+        "description": ""
+    }, 
+    {
+        "text": "Minify filter", 
+        "id": "Minify filter", 
+        "description": ""
+    }, 
+    {
+        "text": "Magnify filter", 
+        "id": "Magnify filter", 
+        "description": ""
+    }, 
+    {
+        "text": "Text", 
+        "id": "Text", 
+        "description": ""
+    }, 
+    {
+        "text": "Enable LCD text rendering", 
+        "id": "Enable LCD text rendering", 
         "description": ""
     }
 ]

@@ -1,122 +1,170 @@
 [
     {
         "source": "Nothing to convert", 
-        "text": "Nada para converter", 
+        "description": "", 
         "id": "Nothing to convert", 
-        "description": ""
+        "text": "Nada para converter"
     }, 
     {
         "source": "Cannot parse the option '-resize'", 
-        "text": "N\u00e3o \u00e9 poss\u00edvel analisar a op\u00e7\u00e3o &#39;-resize&#39;", 
+        "description": "", 
         "id": "Cannot parse the option '-resize'", 
-        "description": ""
+        "text": "N\u00e3o \u00e9 poss\u00edvel analisar a op\u00e7\u00e3o &#39;-resize&#39;"
     }, 
     {
         "source": "Usage: djv_convert (input) (output)", 
-        "text": "Uso: djv_convert (entrada) (sa\u00edda)", 
+        "description": "", 
         "id": "Usage: djv_convert (input) (output)", 
-        "description": ""
+        "text": "Uso: djv_convert (entrada) (sa\u00edda)"
     }, 
     {
         "source": " Usage:", 
-        "text": "Uso:", 
+        "description": "", 
         "id": " Usage:", 
-        "description": ""
+        "text": "Uso:"
     }, 
     {
         "source": "   djv_convert (input) (output) [option, ...]", 
-        "text": "djv_convert (entrada) (sa\u00edda) [op\u00e7\u00e3o, ...]", 
+        "description": "", 
         "id": "   djv_convert (input) (output) [option, ...]", 
-        "description": ""
+        "text": "djv_convert (entrada) (sa\u00edda) [op\u00e7\u00e3o, ...]"
     }, 
     {
         "source": " Options:", 
-        "text": "Op\u00e7\u00f5es:", 
+        "description": "", 
         "id": " Options:", 
-        "description": ""
+        "text": "Op\u00e7\u00f5es:"
     }, 
     {
         "source": "   -resize '(width) (height)'", 
-        "text": "-resize &#39;(largura) (altura)&#39;", 
+        "description": "", 
         "id": "   -resize '(width) (height)'", 
-        "description": ""
+        "text": "-resize &#39;(largura) (altura)&#39;"
     }, 
     {
         "source": "     Resize the image.", 
-        "text": "Redimensione a imagem.", 
+        "description": "", 
         "id": "     Resize the image.", 
-        "description": ""
+        "text": "Redimensione a imagem."
     }, 
     {
         "source": "   -readSeq", 
-        "text": "-readSeq", 
+        "description": "", 
         "id": "   -readSeq", 
-        "description": ""
+        "text": "-readSeq"
     }, 
     {
         "source": "     Interpret the input file name as a sequence.", 
-        "text": "Interprete o nome do arquivo de entrada como uma sequ\u00eancia.", 
+        "description": "", 
         "id": "     Interpret the input file name as a sequence.", 
-        "description": ""
+        "text": "Interprete o nome do arquivo de entrada como uma sequ\u00eancia."
     }, 
     {
         "source": "   -writeSeq", 
-        "text": "-writeSeq", 
+        "description": "", 
         "id": "   -writeSeq", 
-        "description": ""
+        "text": "-writeSeq"
     }, 
     {
         "source": "     Interpret the output file name as a sequence.", 
-        "text": "Interprete o nome do arquivo de sa\u00edda como uma sequ\u00eancia.", 
+        "description": "", 
         "id": "     Interpret the output file name as a sequence.", 
-        "description": ""
+        "text": "Interprete o nome do arquivo de sa\u00edda como uma sequ\u00eancia."
     }, 
     {
         "source": "   -readQueue (value)", 
-        "text": "   -readQueue (value)", 
+        "description": "", 
         "id": "   -readQueue (value)", 
-        "description": ""
+        "text": "   -readQueue (value)"
     }, 
     {
         "source": "     Set the size of the read queue.", 
-        "text": "Defina o tamanho da fila de leitura.", 
+        "description": "", 
         "id": "     Set the size of the read queue.", 
-        "description": ""
+        "text": "Defina o tamanho da fila de leitura."
     }, 
     {
         "source": "   -writeQueue (value)", 
-        "text": "-writeQueue (value)", 
+        "description": "", 
         "id": "   -writeQueue (value)", 
-        "description": ""
+        "text": "-writeQueue (value)"
     }, 
     {
         "source": "     Set the size of the write queue.", 
-        "text": "Defina o tamanho da fila de grava\u00e7\u00e3o.", 
+        "description": "", 
         "id": "     Set the size of the write queue.", 
-        "description": ""
+        "text": "Defina o tamanho da fila de grava\u00e7\u00e3o."
     }, 
     {
         "source": "   -readThreads (value)", 
-        "text": "-readThreads (valor)", 
+        "description": "", 
         "id": "   -readThreads (value)", 
-        "description": ""
+        "text": "-readThreads (valor)"
     }, 
     {
         "source": "     Set the number of threads for reading.", 
-        "text": "Defina o n\u00famero de threads para leitura.", 
+        "description": "", 
         "id": "     Set the number of threads for reading.", 
-        "description": ""
+        "text": "Defina o n\u00famero de threads para leitura."
     }, 
     {
         "source": "   -writeThreads (value)", 
-        "text": "-writeThreads (valor)", 
+        "description": "", 
         "id": "   -writeThreads (value)", 
-        "description": ""
+        "text": "-writeThreads (valor)"
     }, 
     {
         "source": "     Set the number of threads for writing.", 
-        "text": "Defina o n\u00famero de threads para grava\u00e7\u00e3o.", 
+        "description": "", 
         "id": "     Set the number of threads for writing.", 
+        "text": "Defina o n\u00famero de threads para grava\u00e7\u00e3o."
+    }, 
+    {
+        "source": "   -resize \\\"(width) (height)\\\"", 
+        "text": "-resize \\ &quot;(largura) (altura) \\&quot;", 
+        "id": "   -resize \\\"(width) (height)\\\"", 
+        "description": ""
+    }, 
+    {
+        "source": "   Resize the image.", 
+        "text": "Redimensione a imagem.", 
+        "id": "   Resize the image.", 
+        "description": ""
+    }, 
+    {
+        "source": "   Interpret the input file name as a sequence.", 
+        "text": "Interprete o nome do arquivo de entrada como uma sequ\u00eancia.", 
+        "id": "   Interpret the input file name as a sequence.", 
+        "description": ""
+    }, 
+    {
+        "source": "   Interpret the output file name as a sequence.", 
+        "text": "Interprete o nome do arquivo de sa\u00edda como uma sequ\u00eancia.", 
+        "id": "   Interpret the output file name as a sequence.", 
+        "description": ""
+    }, 
+    {
+        "source": "   Set the size of the read queue.", 
+        "text": "Defina o tamanho da fila de leitura.", 
+        "id": "   Set the size of the read queue.", 
+        "description": ""
+    }, 
+    {
+        "source": "   Set the size of the write queue.", 
+        "text": "Defina o tamanho da fila de grava\u00e7\u00e3o.", 
+        "id": "   Set the size of the write queue.", 
+        "description": ""
+    }, 
+    {
+        "source": "   Set the number of threads for reading.", 
+        "text": "Defina o n\u00famero de threads para leitura.", 
+        "id": "   Set the number of threads for reading.", 
+        "description": ""
+    }, 
+    {
+        "source": "   Set the number of threads for writing.", 
+        "text": "Defina o n\u00famero de threads para grava\u00e7\u00e3o.", 
+        "id": "   Set the number of threads for writing.", 
         "description": ""
     }
 ]

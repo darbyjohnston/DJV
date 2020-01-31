@@ -1,122 +1,170 @@
 [
     {
         "source": "Nothing to convert", 
-        "text": "\u4ec0\u4e48\u90fd\u6ca1\u6709\u8f6c\u6362", 
+        "description": "", 
         "id": "Nothing to convert", 
-        "description": ""
+        "text": "\u4ec0\u4e48\u90fd\u6ca1\u6709\u8f6c\u6362"
     }, 
     {
         "source": "Cannot parse the option '-resize'", 
-        "text": "\u65e0\u6cd5\u89e3\u6790\u9009\u9879&#39;-resize&#39;", 
+        "description": "", 
         "id": "Cannot parse the option '-resize'", 
-        "description": ""
+        "text": "\u65e0\u6cd5\u89e3\u6790\u9009\u9879&#39;-resize&#39;"
     }, 
     {
         "source": "Usage: djv_convert (input) (output)", 
-        "text": "\u7528\u6cd5\uff1adjv_convert\uff08\u8f93\u5165\uff09\uff08\u8f93\u51fa\uff09", 
+        "description": "", 
         "id": "Usage: djv_convert (input) (output)", 
-        "description": ""
+        "text": "\u7528\u6cd5\uff1adjv_convert\uff08\u8f93\u5165\uff09\uff08\u8f93\u51fa\uff09"
     }, 
     {
         "source": " Usage:", 
-        "text": "\u7528\u6cd5\uff1a", 
+        "description": "", 
         "id": " Usage:", 
-        "description": ""
+        "text": "\u7528\u6cd5\uff1a"
     }, 
     {
         "source": "   djv_convert (input) (output) [option, ...]", 
-        "text": "djv_convert\uff08\u8f93\u5165\uff09\uff08\u8f93\u51fa\uff09[\u9009\u9879\uff0c...]", 
+        "description": "", 
         "id": "   djv_convert (input) (output) [option, ...]", 
-        "description": ""
+        "text": "djv_convert\uff08\u8f93\u5165\uff09\uff08\u8f93\u51fa\uff09[\u9009\u9879\uff0c...]"
     }, 
     {
         "source": " Options:", 
-        "text": "\u9009\u9879\uff1a", 
+        "description": "", 
         "id": " Options:", 
-        "description": ""
+        "text": "\u9009\u9879\uff1a"
     }, 
     {
         "source": "   -resize '(width) (height)'", 
-        "text": "-resize&#39;\uff08\u5bbd\u5ea6\uff09\uff08\u9ad8\u5ea6\uff09&#39;", 
+        "description": "", 
         "id": "   -resize '(width) (height)'", 
-        "description": ""
+        "text": "-resize&#39;\uff08\u5bbd\u5ea6\uff09\uff08\u9ad8\u5ea6\uff09&#39;"
     }, 
     {
         "source": "     Resize the image.", 
-        "text": "\u8c03\u6574\u56fe\u50cf\u5927\u5c0f\u3002", 
+        "description": "", 
         "id": "     Resize the image.", 
-        "description": ""
+        "text": "\u8c03\u6574\u56fe\u50cf\u5927\u5c0f\u3002"
     }, 
     {
         "source": "   -readSeq", 
-        "text": "-readSeq", 
+        "description": "", 
         "id": "   -readSeq", 
-        "description": ""
+        "text": "-readSeq"
     }, 
     {
         "source": "     Interpret the input file name as a sequence.", 
-        "text": "\u5c06\u8f93\u5165\u6587\u4ef6\u540d\u89e3\u91ca\u4e3a\u4e00\u4e2a\u5e8f\u5217\u3002", 
+        "description": "", 
         "id": "     Interpret the input file name as a sequence.", 
-        "description": ""
+        "text": "\u5c06\u8f93\u5165\u6587\u4ef6\u540d\u89e3\u91ca\u4e3a\u4e00\u4e2a\u5e8f\u5217\u3002"
     }, 
     {
         "source": "   -writeSeq", 
-        "text": "-writeSeq", 
+        "description": "", 
         "id": "   -writeSeq", 
-        "description": ""
+        "text": "-writeSeq"
     }, 
     {
         "source": "     Interpret the output file name as a sequence.", 
-        "text": "\u5c06\u8f93\u51fa\u6587\u4ef6\u540d\u89e3\u91ca\u4e3a\u4e00\u4e2a\u5e8f\u5217\u3002", 
+        "description": "", 
         "id": "     Interpret the output file name as a sequence.", 
-        "description": ""
+        "text": "\u5c06\u8f93\u51fa\u6587\u4ef6\u540d\u89e3\u91ca\u4e3a\u4e00\u4e2a\u5e8f\u5217\u3002"
     }, 
     {
         "source": "   -readQueue (value)", 
-        "text": "-readQueue\uff08\u503c\uff09", 
+        "description": "", 
         "id": "   -readQueue (value)", 
-        "description": ""
+        "text": "-readQueue\uff08\u503c\uff09"
     }, 
     {
         "source": "     Set the size of the read queue.", 
-        "text": "\u8bbe\u7f6e\u8bfb\u53d6\u961f\u5217\u7684\u5927\u5c0f\u3002", 
+        "description": "", 
         "id": "     Set the size of the read queue.", 
-        "description": ""
+        "text": "\u8bbe\u7f6e\u8bfb\u53d6\u961f\u5217\u7684\u5927\u5c0f\u3002"
     }, 
     {
         "source": "   -writeQueue (value)", 
-        "text": "-writeQueue\uff08\u503c\uff09", 
+        "description": "", 
         "id": "   -writeQueue (value)", 
-        "description": ""
+        "text": "-writeQueue\uff08\u503c\uff09"
     }, 
     {
         "source": "     Set the size of the write queue.", 
-        "text": "\u8bbe\u7f6e\u5199\u961f\u5217\u7684\u5927\u5c0f\u3002", 
+        "description": "", 
         "id": "     Set the size of the write queue.", 
-        "description": ""
+        "text": "\u8bbe\u7f6e\u5199\u961f\u5217\u7684\u5927\u5c0f\u3002"
     }, 
     {
         "source": "   -readThreads (value)", 
-        "text": "-readThreads\uff08\u503c\uff09", 
+        "description": "", 
         "id": "   -readThreads (value)", 
-        "description": ""
+        "text": "-readThreads\uff08\u503c\uff09"
     }, 
     {
         "source": "     Set the number of threads for reading.", 
-        "text": "\u8bbe\u7f6e\u8981\u8bfb\u53d6\u7684\u7ebf\u7a0b\u6570\u3002", 
+        "description": "", 
         "id": "     Set the number of threads for reading.", 
-        "description": ""
+        "text": "\u8bbe\u7f6e\u8981\u8bfb\u53d6\u7684\u7ebf\u7a0b\u6570\u3002"
     }, 
     {
         "source": "   -writeThreads (value)", 
-        "text": "-writeThreads\uff08\u503c\uff09", 
+        "description": "", 
         "id": "   -writeThreads (value)", 
-        "description": ""
+        "text": "-writeThreads\uff08\u503c\uff09"
     }, 
     {
         "source": "     Set the number of threads for writing.", 
-        "text": "\u8bbe\u7f6e\u8981\u5199\u5165\u7684\u7ebf\u7a0b\u6570\u3002", 
+        "description": "", 
         "id": "     Set the number of threads for writing.", 
+        "text": "\u8bbe\u7f6e\u8981\u5199\u5165\u7684\u7ebf\u7a0b\u6570\u3002"
+    }, 
+    {
+        "source": "   -resize \\\"(width) (height)\\\"", 
+        "text": "-\u8c03\u6574\u5927\u5c0f\\\u201c\uff08\u5bbd\u5ea6\uff09\uff08\u9ad8\u5ea6\uff09\\\u201d", 
+        "id": "   -resize \\\"(width) (height)\\\"", 
+        "description": ""
+    }, 
+    {
+        "source": "   Resize the image.", 
+        "text": "\u8c03\u6574\u56fe\u50cf\u5927\u5c0f\u3002", 
+        "id": "   Resize the image.", 
+        "description": ""
+    }, 
+    {
+        "source": "   Interpret the input file name as a sequence.", 
+        "text": "\u5c06\u8f93\u5165\u6587\u4ef6\u540d\u89e3\u91ca\u4e3a\u4e00\u4e2a\u5e8f\u5217\u3002", 
+        "id": "   Interpret the input file name as a sequence.", 
+        "description": ""
+    }, 
+    {
+        "source": "   Interpret the output file name as a sequence.", 
+        "text": "\u5c06\u8f93\u51fa\u6587\u4ef6\u540d\u89e3\u91ca\u4e3a\u4e00\u4e2a\u5e8f\u5217\u3002", 
+        "id": "   Interpret the output file name as a sequence.", 
+        "description": ""
+    }, 
+    {
+        "source": "   Set the size of the read queue.", 
+        "text": "\u8bbe\u7f6e\u8bfb\u53d6\u961f\u5217\u7684\u5927\u5c0f\u3002", 
+        "id": "   Set the size of the read queue.", 
+        "description": ""
+    }, 
+    {
+        "source": "   Set the size of the write queue.", 
+        "text": "\u8bbe\u7f6e\u5199\u961f\u5217\u7684\u5927\u5c0f\u3002", 
+        "id": "   Set the size of the write queue.", 
+        "description": ""
+    }, 
+    {
+        "source": "   Set the number of threads for reading.", 
+        "text": "\u8bbe\u7f6e\u8981\u8bfb\u53d6\u7684\u7ebf\u7a0b\u6570\u3002", 
+        "id": "   Set the number of threads for reading.", 
+        "description": ""
+    }, 
+    {
+        "source": "   Set the number of threads for writing.", 
+        "text": "\u8bbe\u7f6e\u8981\u5199\u5165\u7684\u7ebf\u7a0b\u6570\u3002", 
+        "id": "   Set the number of threads for writing.", 
         "description": ""
     }
 ]

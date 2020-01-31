@@ -95,6 +95,16 @@
         "description": ""
     }, 
     {
+        "text": "Error reading the environment varible", 
+        "id": "Error reading the environment varible", 
+        "description": ""
+    }, 
+    {
+        "text": "Error reading the text file", 
+        "id": "Error reading the text file", 
+        "description": ""
+    }, 
+    {
         "text": "Parent Changed", 
         "id": "ParentChanged", 
         "description": ""
@@ -1315,36 +1325,6 @@
         "description": ""
     }, 
     {
-        "text": "Error reading the environment varible", 
-        "id": "Error reading the environment varible", 
-        "description": ""
-    }, 
-    {
-        "text": "Error reading the text file", 
-        "id": "Error reading the text file", 
-        "description": ""
-    }, 
-    {
-        "text": "Slow", 
-        "id": "Slow", 
-        "description": ""
-    }, 
-    {
-        "text": "Medium", 
-        "id": "Medium", 
-        "description": ""
-    }, 
-    {
-        "text": "Fast", 
-        "id": "Fast", 
-        "description": ""
-    }, 
-    {
-        "text": "Very Fast", 
-        "id": "VeryFast", 
-        "description": ""
-    }, 
-    {
         "text": "Home", 
         "id": "Home", 
         "description": ""
@@ -1382,6 +1362,26 @@
     {
         "text": "Sine", 
         "id": "Sine", 
+        "description": ""
+    }, 
+    {
+        "text": "Slow", 
+        "id": "Slow", 
+        "description": ""
+    }, 
+    {
+        "text": "Medium", 
+        "id": "Medium", 
+        "description": ""
+    }, 
+    {
+        "text": "Fast", 
+        "id": "Fast", 
+        "description": ""
+    }, 
+    {
+        "text": "Very Fast", 
+        "id": "VeryFast", 
         "description": ""
     }
 ]
