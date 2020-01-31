@@ -67,7 +67,7 @@ def run():
                     languageChanged = inItem['language'] != i['language']
                 else:
                     languageChanged = True
-                    i['language'] = itemLanguage
+                i['language'] = itemLanguage
             if textChanged or languageChanged:
                 if itemLanguage != 'en':
                     i['text'] = getTranslation(translateClient, inItem['text'], itemLanguage)
