@@ -691,6 +691,7 @@ namespace djv
                                     info.pixelAspectRatio = p.avFrame->sample_aspect_ratio.num / static_cast<float>(p.avFrame->sample_aspect_ratio.den);
                                 }
                                 image = Image::Image::create(info);
+                                image->setPluginName(pluginName);
                                 av_image_fill_arrays(
                                     p.avFrameRgb->data,
                                     p.avFrameRgb->linesize,
