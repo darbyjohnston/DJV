@@ -32,6 +32,7 @@
 #include <djvUI/Action.h>
 #include <djvUI/DrawUtil.h>
 #include <djvUI/EventSystem.h>
+#include <djvUI/ITooltipWidget.h>
 #include <djvUI/IconSystem.h>
 #include <djvUI/LayoutUtil.h>
 #include <djvUI/MenuButton.h>
@@ -80,7 +81,7 @@ namespace djv
                 void _buttonPressEvent(Event::ButtonPress &) override;
                 void _buttonReleaseEvent(Event::ButtonRelease &) override;
 
-                std::shared_ptr<Widget> _createTooltip(const glm::vec2 & pos) override;
+                std::shared_ptr<ITooltipWidget> _createTooltip(const glm::vec2 & pos) override;
 
                 void _initEvent(Event::Init &) override;
                 void _updateEvent(Event::Update &) override;
@@ -463,8 +464,9 @@ namespace djv
                 }
             }
 
-            std::shared_ptr<Widget> MenuWidget::_createTooltip(const glm::vec2 & pos)
+            std::shared_ptr<ITooltipWidget> MenuWidget::_createTooltip(const glm::vec2 & pos)
             {
+                std::shared_ptr<ITooltipWidget> out;
                 std::string text;
                 for (const auto & i : _items)
                 {
@@ -478,7 +480,12 @@ namespace djv
                         }
                     }
                 }
-                return !text.empty() ? _createTooltipDefault(text) : nullptr;
+                if (!text.empty())
+                {
+                    out = _createTooltipDefault();
+                    out->setTooltip(text);
+                }
+                return out;
             }
 
             void MenuWidget::_initEvent(Event::Init& event)

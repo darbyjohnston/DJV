@@ -27,52 +27,19 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#pragma once
+#include <djvUI/ITooltipWidget.h>
 
-#include <djvUI/Window.h>
+using namespace djv::Core;
 
 namespace djv
 {
-    namespace Core
+    namespace UI
     {
-        namespace FileSystem
-        {
-            class Path;
-    
-        } // namespace FileLSystem
-    } // namespce Core
+        ITooltipWidget::ITooltipWidget()
+        {}
 
-    namespace ViewApp
-    {
-        class MediaCanvas;
+        ITooltipWidget::~ITooltipWidget()
+        {}
 
-        //! This class provides the main window.
-        class MainWindow : public UI::Window
-        {
-            DJV_NON_COPYABLE(MainWindow);
-
-        protected:
-            void _init(const std::shared_ptr<Core::Context>&);
-            MainWindow();
-
-        public:
-            ~MainWindow() override;
-
-            static std::shared_ptr<MainWindow> create(const std::shared_ptr<Core::Context>&);
-
-            const std::shared_ptr<MediaCanvas>& getMediaCanvas() const;
-
-        protected:
-            void _dropEvent(Core::Event::Drop&) override;
-
-            void _initEvent(Core::Event::Init &) override;
-
-        private:
-            void _cacheUpdate();
-
-            DJV_PRIVATE();
-        };
-
-    } // namespace ViewApp
+    } // namespace UI
 } // namespace djv
-

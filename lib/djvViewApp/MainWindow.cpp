@@ -369,7 +369,7 @@ namespace djv
                         {
                             if (auto widget = weak.lock())
                             {
-                                widget->_p->cacheThermometerWidget->setPercentage(value);
+                                widget->_cacheUpdate();
                             }
                         });
                 }
@@ -441,10 +441,27 @@ namespace djv
             DJV_PRIVATE_PTR();
             p.mediaButton->setTooltip(_getText(DJV_TEXT("Media popup tooltip")));
             p.cachePopupWidget->setTooltip(_getText(DJV_TEXT("Memory cache tooltip")));
-            p.cacheThermometerWidget->setTooltip(_getText(DJV_TEXT("Memory cache thermometer tooltip")));
 #ifdef DJV_DEMO
             p.titleLabel->setText(_getText(DJV_TEXT("DJV 2.0.4")));
 #endif // DJV_DEMO
+            _cacheUpdate();
+        }
+
+        void MainWindow::_cacheUpdate()
+        {
+            DJV_PRIVATE_PTR();
+            if (auto context = getContext().lock())
+            {
+                if (auto fileSystem = context->getSystemT<FileSystem>())
+                {
+                    const float percentage = fileSystem->observeCachePercentage()->get();
+                    p.cacheThermometerWidget->setPercentage(percentage);
+                    std::stringstream ss;
+                    ss << _getText(DJV_TEXT("Memory cache thermometer tooltip")) << ": " <<
+                        static_cast<int>(percentage) << "%";
+                    p.cacheThermometerWidget->setTooltip(ss.str());
+                }
+            }
         }
 
     } // namespace ViewApp

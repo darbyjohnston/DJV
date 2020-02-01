@@ -57,6 +57,7 @@ namespace djv
     {
         class Action;
         class EventSystem;
+        class ITooltipWidget;
         class Tooltip;
         class Window;
 
@@ -239,8 +240,8 @@ namespace djv
             const std::map<Core::Event::PointerID, glm::vec2> _getPointerHover() const;
 
             std::string _getTooltipText() const;
-            std::shared_ptr<Widget> _createTooltipDefault(const std::string &);
-            virtual std::shared_ptr<Widget> _createTooltip(const glm::vec2 & pos);
+            std::shared_ptr<ITooltipWidget> _createTooltipDefault();
+            virtual std::shared_ptr<ITooltipWidget> _createTooltip(const glm::vec2 & pos);
 
         private:
             std::vector<std::shared_ptr<Widget> > _childWidgets;

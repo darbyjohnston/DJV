@@ -29,6 +29,7 @@
 
 #include <djvUIComponents/FileBrowserItemView.h>
 
+#include <djvUI/ITooltipWidget.h>
 #include <djvUI/IconSystem.h>
 
 #include <djvAV/AVSystem.h>
@@ -706,9 +707,10 @@ namespace djv
                 }
             }
 
-            std::shared_ptr<Widget> ItemView::_createTooltip(const glm::vec2 & pos)
+            std::shared_ptr<ITooltipWidget> ItemView::_createTooltip(const glm::vec2 & pos)
             {
                 DJV_PRIVATE_PTR();
+                std::shared_ptr<ITooltipWidget> out;
                 std::string text;
                 for (const auto & i : p.itemGeometry)
                 {
@@ -730,7 +732,12 @@ namespace djv
                         break;
                     }
                 }
-                return !text.empty() ? _createTooltipDefault(text) : nullptr;
+                if (!text.empty())
+                {
+                    out = _createTooltipDefault();
+                    out->setTooltip(text);
+                }
+                return out;
             }
 
             void ItemView::_initEvent(Event::Init & event)

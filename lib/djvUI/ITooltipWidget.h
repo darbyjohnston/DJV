@@ -29,50 +29,26 @@
 
 #pragma once
 
-#include <djvUI/Window.h>
+#include <djvUI/Widget.h>
 
 namespace djv
 {
-    namespace Core
+    namespace UI
     {
-        namespace FileSystem
+        //! This class provides an interface for tooltip widgets.
+        class ITooltipWidget : public Widget
         {
-            class Path;
-    
-        } // namespace FileLSystem
-    } // namespce Core
-
-    namespace ViewApp
-    {
-        class MediaCanvas;
-
-        //! This class provides the main window.
-        class MainWindow : public UI::Window
-        {
-            DJV_NON_COPYABLE(MainWindow);
+            DJV_NON_COPYABLE(ITooltipWidget);
 
         protected:
-            void _init(const std::shared_ptr<Core::Context>&);
-            MainWindow();
+            ITooltipWidget();
 
         public:
-            ~MainWindow() override;
+            ~ITooltipWidget() override = 0;
 
-            static std::shared_ptr<MainWindow> create(const std::shared_ptr<Core::Context>&);
-
-            const std::shared_ptr<MediaCanvas>& getMediaCanvas() const;
-
-        protected:
-            void _dropEvent(Core::Event::Drop&) override;
-
-            void _initEvent(Core::Event::Init &) override;
-
-        private:
-            void _cacheUpdate();
-
-            DJV_PRIVATE();
+            virtual void setTooltip(const std::string&) = 0;
         };
 
-    } // namespace ViewApp
+    } // namespace UI
 } // namespace djv
 
