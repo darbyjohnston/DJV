@@ -306,10 +306,10 @@
         "text": "Le fragment OpenGL shader ne peut pas \u00eatre cr\u00e9\u00e9."
     }, 
     {
-        "source": "The OpenGL framgent shader", 
+        "source": "The OpenGL fragment shader", 
         "description": "", 
-        "id": "The OpenGL framgent shader", 
-        "text": "Le shader OpenGL"
+        "id": "The OpenGL fragment shader", 
+        "text": "Le fragment shader OpenGL"
     }, 
     {
         "source": "The program", 

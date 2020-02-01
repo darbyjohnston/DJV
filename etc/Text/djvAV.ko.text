@@ -306,9 +306,9 @@
         "text": "OpenGL \uc870\uac01 \uc170\uc774\ub354\ub97c \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4."
     }, 
     {
-        "source": "The OpenGL framgent shader", 
+        "source": "The OpenGL fragment shader", 
         "description": "", 
-        "id": "The OpenGL framgent shader", 
+        "id": "The OpenGL fragment shader", 
         "text": "OpenGL \ud3ec\uc6cc\ub4dc \uc170\uc774\ub354"
     }, 
     {

@@ -2632,7 +2632,7 @@
         "description": ""
     }, 
     {
-        "source": "Show the wiew controls widget", 
+        "source": "Show the view controls widget", 
         "text": "wiew\u30b3\u30f3\u30c8\u30ed\u30fc\u30eb\u30a6\u30a3\u30b8\u30a7\u30c3\u30c8\u3092\u8868\u793a\u3059\u308b", 
         "id": "View controls widget tooltip", 
         "description": ""

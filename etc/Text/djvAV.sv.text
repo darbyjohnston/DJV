@@ -306,10 +306,10 @@
         "text": "OpenGL-fragmentsk\u00e4raren kan inte skapas."
     }, 
     {
-        "source": "The OpenGL framgent shader", 
+        "source": "The OpenGL fragment shader", 
         "description": "", 
-        "id": "The OpenGL framgent shader", 
-        "text": "The OpenGL framgent shader"
+        "id": "The OpenGL fragment shader", 
+        "text": "The OpenGL fragment shader"
     }, 
     {
         "source": "The program", 

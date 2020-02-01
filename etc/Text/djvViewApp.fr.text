@@ -2632,8 +2632,8 @@
         "description": ""
     }, 
     {
-        "source": "Show the wiew controls widget", 
         "text": "Afficher le widget Contr\u00f4les d&#39;affichage", 
+        "source": "Show the view controls widget", 
         "id": "View controls widget tooltip", 
         "description": ""
     }, 

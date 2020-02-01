@@ -2632,7 +2632,7 @@
         "text": "Steuerelemente anzeigen"
     }, 
     {
-        "source": "Show the wiew controls widget", 
+        "source": "Show the view controls widget", 
         "description": "", 
         "id": "View controls widget tooltip", 
         "text": "Zeigt das Widget mit den Wiew-Steuerelementen an"

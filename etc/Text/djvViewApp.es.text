@@ -2632,7 +2632,7 @@
         "description": ""
     }, 
     {
-        "source": "Show the wiew controls widget", 
+        "source": "Show the view controls widget", 
         "text": "Mostrar el widget de controles wiew", 
         "id": "View controls widget tooltip", 
         "description": ""
