@@ -169,6 +169,26 @@ namespace djv
                             const Imf::Channel* g = find(in, gName);
                             const Imf::Channel* b = find(in, bName);
                             const Imf::Channel* a = find(in, aName);
+                            if (!r)
+                            {
+                                rName = "red";
+                                r = find(in, rName);
+                            }
+                            if (!g)
+                            {
+                                gName = "green";
+                                g = find(in, gName);
+                            }
+                            if (!b)
+                            {
+                                bName = "blue";
+                                b = find(in, bName);
+                            }
+                            if (!a)
+                            {
+                                aName = "alpha";
+                                a = find(in, aName);
+                            }
                             if (r && g && b && a && compare({ *r, *g, *b, *a }))
                             {
                                 out.push_back(Layer({
