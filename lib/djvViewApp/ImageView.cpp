@@ -194,7 +194,7 @@ namespace djv
             DJV_PRIVATE_PTR();
             if (p.image->setIfChanged(value))
             {
-                _redraw();
+                _resize();
                 _textUpdate();
             }
         }
