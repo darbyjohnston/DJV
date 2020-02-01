@@ -56,6 +56,11 @@ namespace djv
 {
     namespace ViewApp
     {
+        namespace
+        {
+
+        } // namespace
+
         struct TimelineSlider::Private
         {
             std::shared_ptr<AV::Font::System> fontSystem;
@@ -92,10 +97,11 @@ namespace djv
             std::shared_ptr<ValueObserver<Frame::Index> > currentFrameObserver;
             std::shared_ptr<ValueObserver<bool> > pipObserver;
             std::shared_ptr<ValueObserver<AV::TimeUnits> > timeUnitsObserver;
-            BBox2f geometryPrev = BBox2f(0.F, 0.F, -1.F, -1.F);
+            glm::vec2 sizePrev = glm::vec2(0.F, 0.F);
             struct TimeTick
             {
-                BBox2f geometry;
+                glm::vec2 pos;
+                glm::vec2 size;
                 std::string text;
                 glm::vec2 textPos;
                 std::vector<std::shared_ptr<AV::Font::Glyph> > glyphs;
@@ -315,9 +321,10 @@ namespace djv
         {
             DJV_PRIVATE_PTR();
             const BBox2f& g = getGeometry();
-            if (p.geometryPrev != g)
+            const glm::vec2 size = g.getSize();
+            if (p.sizePrev != size)
             {
-                p.geometryPrev = g;
+                p.sizePrev = size;
                 if (auto context = getContext().lock())
                 {
                     const float w = g.w();
@@ -327,7 +334,7 @@ namespace djv
                     float x = g.min.x + m;
                     float x2 = x;
                     //! \bug Why the extra subtract by one here?
-                    float y = g.max.y - m - b * 6.F - p.fontMetrics.lineHeight + p.fontMetrics.ascender - 1.F;
+                    const float textY = size.y - m - b * 6.F - p.fontMetrics.lineHeight + p.fontMetrics.ascender - 1.F;
                     const float speedF = p.speed.toFloat();
                     auto avSystem = context->getSystemT<AV::AVSystem>();
                     const std::vector<std::pair<float, std::function<Frame::Index(size_t, float)> > > units =
@@ -337,7 +344,7 @@ namespace djv
                         { _getSecondLength(), [](size_t value, float speed) { return static_cast<Frame::Index>(value * speed); } },
                         { _getFrameLength(), [](size_t value, float speed) { return static_cast<Frame::Index>(value); } }
                     };
-                    p.timeTicks.clear();
+                    size_t timeTicksCount = 0;
                     for (const auto& i : units)
                     {
                         if (i.first < w)
@@ -348,17 +355,29 @@ namespace djv
                             {
                                 if (x >= x2)
                                 {
-                                    auto tick = std::shared_ptr<Private::TimeTick>(new Private::TimeTick);
-                                    tick->geometry = BBox2f(
-                                        x,
-                                        g.max.y - b * 6.F - p.fontMetrics.lineHeight,
-                                        b,
-                                        p.fontMetrics.lineHeight);
-                                    tick->text = avSystem->getLabel(p.sequence.getFrame(i.second(unit, speedF)), p.speed);
-                                    tick->textPos = glm::vec2(x + m, y);
-                                    tick->glyphsFuture = p.fontSystem->getGlyphs(tick->text, p.fontInfo);
-                                    p.timeTicks.push_back(tick);
+                                    std::shared_ptr<Private::TimeTick> tick;
+                                    if (timeTicksCount < p.timeTicks.size())
+                                    {
+                                        tick = p.timeTicks[timeTicksCount];
+                                    }
+                                    else
+                                    {
+                                        tick = std::shared_ptr<Private::TimeTick>(new Private::TimeTick);
+                                        p.timeTicks.push_back(tick);
+                                    }
+                                    tick->pos.x = x - g.min.x;
+                                    tick->pos.y = size.y - b * 6.F - p.fontMetrics.lineHeight;
+                                    tick->size.x = b;
+                                    tick->size.y = p.fontMetrics.lineHeight;
+                                    const std::string text = avSystem->getLabel(p.sequence.getFrame(i.second(unit, speedF)), p.speed);
+                                    if (text != tick->text)
+                                    {
+                                        tick->text = text;
+                                        tick->glyphsFuture = p.fontSystem->getGlyphs(tick->text, p.fontInfo);
+                                    }
+                                    tick->textPos = glm::vec2(x + m - g.min.x, textY);
                                     x2 = x + p.maxFrameLength + m * 2.F;
+                                    ++timeTicksCount;
                                 }
                                 ++unit;
                                 x = _frameToPos(i.second(unit, speedF));
@@ -366,6 +385,7 @@ namespace djv
                             break;
                         }
                     }
+                    p.timeTicks.resize(timeTicksCount);
                 }
             }
         }
@@ -391,10 +411,16 @@ namespace djv
                 std::vector<BBox2f> boxes;
                 for (const auto& tick : p.timeTicks)
                 {
-                    boxes.push_back(tick->geometry);
+                    boxes.push_back(BBox2f(
+                        floorf(g.min.x + tick->pos.x),
+                        floorf(g.min.y + tick->pos.y),
+                        ceilf(tick->size.x),
+                        ceilf(tick->size.y)));
                     if (tick->glyphs.size())
                     {
-                        render->drawText(tick->glyphs, glm::vec2(floorf(tick->textPos.x), floorf(tick->textPos.y)));
+                        render->drawText(
+                            tick->glyphs,
+                            glm::vec2(floorf(g.min.x + tick->textPos.x), floorf(g.min.y + tick->textPos.y)));
                     }
                 }
                 render->drawRects(boxes);
@@ -751,7 +777,7 @@ namespace djv
                 default: break;
                 }
                 p.maxFrameSizeFuture = p.fontSystem->measure(maxFrameText, p.fontInfo);
-                p.geometryPrev = BBox2f(0.F, 0.F, -1.F, -1.F);
+                p.sizePrev = glm::vec2(0.F, 0.F);
             }
         }
 
