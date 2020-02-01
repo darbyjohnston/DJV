@@ -3,7 +3,7 @@
         "source": "Cannot parse the value.", 
         "description": "", 
         "id": "Cannot parse the value.", 
-        "text": "Impossible d&#39;analyser la valeur."
+        "text": "Impossible d’analyser la valeur."
     }, 
     {
         "source": "The file", 
@@ -15,19 +15,19 @@
         "source": "cannot be opened", 
         "description": "", 
         "id": "cannot be opened", 
-        "text": "ne peut pas \u00eatre ouvert"
+        "text": "ne peut pas être ouvert"
     }, 
     {
         "source": "does not have any video or audio streams", 
         "description": "", 
         "id": "does not have any video or audio streams", 
-        "text": "n&#39;a pas de flux vid\u00e9o ou audio"
+        "text": "n’a aucun flux vidéo ou audio"
     }, 
     {
         "source": "does not match any video codecs", 
         "description": "", 
         "id": "does not match any video codecs", 
-        "text": "ne correspond \u00e0 aucun codec vid\u00e9o"
+        "text": "ne correspond à aucun codec vidéo"
     }, 
     {
         "source": "The audio format ", 
@@ -39,13 +39,13 @@
         "source": "is not supported", 
         "description": "", 
         "id": "is not supported", 
-        "text": "n&#39;est pas support\u00e9"
+        "text": "n’est pas supporté"
     }, 
     {
         "source": "does not match any audio codecs", 
         "description": "", 
         "id": "does not match any audio codecs", 
-        "text": "ne correspond \u00e0 aucun codec audio"
+        "text": "ne correspond à aucun codec audio"
     }, 
     {
         "source": "None", 
@@ -57,7 +57,7 @@
         "source": "Left", 
         "description": "", 
         "id": "Left", 
-        "text": "La gauche"
+        "text": "Gauche"
     }, 
     {
         "source": "Top", 
@@ -87,19 +87,19 @@
         "source": "Frames", 
         "description": "", 
         "id": "Frames", 
-        "text": "Cadres"
+        "text": "Images"
     }, 
     {
         "source": "Bad magic number.", 
         "description": "", 
         "id": "Bad magic number.", 
-        "text": "Mauvais chiffre magique."
+        "text": "Mauvais nombre magique."
     }, 
     {
         "source": "Unsupported file.", 
         "description": "", 
         "id": "Unsupported file.", 
-        "text": "Fichier non support\u00e9."
+        "text": "Fichier non supporté."
     }, 
     {
         "source": "Incomplete file.", 
@@ -111,13 +111,13 @@
         "source": "This plugin provides DPX image I/O.", 
         "description": "", 
         "id": "This plugin provides DPX image I/O.", 
-        "text": "Ce plugin fournit une image d\u2019entr\u00e9e / sortie DPX."
+        "text": "Ce plugin fournit les entrées-sorties d’image DPX."
     }, 
     {
         "source": "1.0", 
         "description": "", 
         "id": "1.0", 
-        "text": "1,0"
+        "text": "1.0"
     }, 
     {
         "source": "2.0", 
@@ -147,19 +147,19 @@
         "source": "Cannot open file.", 
         "description": "", 
         "id": "Cannot open file.", 
-        "text": "Ne peut pas ouvrir le fichier."
+        "text": "Impossible d’ouvrir le fichier."
     }, 
     {
         "source": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
         "description": "", 
         "id": "This plugin provides Portable Network Graphics (PNG) image I/O.", 
-        "text": "Ce plugin fournit des E / S d\u2019image PNG (Portable Network Graphics)."
+        "text": "Ce plugin fournit les entrées-sorties d’image PNG (Portable Network Graphics)."
     }, 
     {
         "source": "This plugin provides NetPBM image I/O.", 
         "description": "", 
         "id": "This plugin provides NetPBM image I/O.", 
-        "text": "Ce plugin fournit des E / S d\u2019image NetPBM."
+        "text": "Ce plugin fournit les entrées-sorties d’image NetPBM."
     }, 
     {
         "source": "ASCII", 
@@ -177,13 +177,13 @@
         "source": "Error reading scanline.", 
         "description": "", 
         "id": "Error reading scanline.", 
-        "text": "Erreur de lecture du scanline."
+        "text": "Erreur de lecture de la ligne de balayage."
     }, 
     {
         "source": "Unsupported image type.", 
         "description": "", 
         "id": "Unsupported image type.", 
-        "text": "Type d&#39;image non pris en charge."
+        "text": "Type d’image non pris en charge."
     }, 
     {
         "source": "Unknown", 
@@ -195,13 +195,13 @@
         "source": "Out of memory", 
         "description": "", 
         "id": "Out of memory", 
-        "text": "M\u00e9moire insuffisante"
+        "text": "Mémoire insuffisante"
     }, 
     {
         "source": "Invalid value", 
         "description": "", 
         "id": "Invalid value", 
-        "text": "valeur invalide"
+        "text": "Valeur invalide"
     }, 
     {
         "source": "Invalid enum", 
@@ -243,7 +243,7 @@
         "source": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
         "description": "", 
         "id": "This plugin provides Tagged Image File Format (TIFF) image I/O.", 
-        "text": "Ce plugin fournit une image d\u2019entr\u00e9e / sortie TIFF (Tagged Image File Format)."
+        "text": "Ce plugin fournit les entrées-sorties d’image TIFF (Tagged Image File Format)."
     }, 
     {
         "source": "RLE", 
@@ -261,31 +261,31 @@
         "source": "The OpenGL texture cannot be created.", 
         "description": "", 
         "id": "The OpenGL texture cannot be created.", 
-        "text": "La texture OpenGL ne peut pas \u00eatre cr\u00e9\u00e9e."
+        "text": "La texture OpenGL ne peut pas être créée."
     }, 
     {
         "source": "The OpenGL frame buffer cannot be created.", 
         "description": "", 
         "id": "The OpenGL frame buffer cannot be created.", 
-        "text": "Le tampon de trame OpenGL ne peut pas \u00eatre cr\u00e9\u00e9."
+        "text": "Le tampon de trame OpenGL ne peut pas être créé."
     }, 
     {
         "source": "The OpenGL frame buffer cannot be initialized.", 
         "description": "", 
         "id": "The OpenGL frame buffer cannot be initialized.", 
-        "text": "Le tampon de trame OpenGL ne peut pas \u00eatre initialis\u00e9."
+        "text": "Le tampon de trame OpenGL ne peut pas être initialisé."
     }, 
     {
         "source": "Error writing scanline.", 
         "description": "", 
         "id": "Error writing scanline.", 
-        "text": "Erreur lors de l&#39;\u00e9criture de scanline."
+        "text": "Erreur lors de l’écriture de la ligne de balayage."
     }, 
     {
         "source": "The OpenGL vertex shader cannot be created.", 
         "description": "", 
         "id": "The OpenGL vertex shader cannot be created.", 
-        "text": "Le vertex shader OpenGL ne peut pas \u00eatre cr\u00e9\u00e9."
+        "text": "Le vertex shader OpenGL ne peut pas être créé."
     }, 
     {
         "source": "The OpenGL vertex shader", 
@@ -297,13 +297,13 @@
         "source": "cannot be compiled", 
         "description": "", 
         "id": "cannot be compiled", 
-        "text": "ne peut pas \u00eatre compil\u00e9"
+        "text": "ne peut pas être compilé"
     }, 
     {
         "source": "The OpenGL fragment shader cannot be created.", 
         "description": "", 
         "id": "The OpenGL fragment shader cannot be created.", 
-        "text": "Le fragment OpenGL shader ne peut pas \u00eatre cr\u00e9\u00e9."
+        "text": "Le fragment shader OpenGL ne peut pas être créé."
     }, 
     {
         "source": "The OpenGL fragment shader", 
@@ -321,13 +321,13 @@
         "source": "cannot be linked", 
         "description": "", 
         "id": "cannot be linked", 
-        "text": "ne peut pas \u00eatre li\u00e9"
+        "text": "ne peut pas être lié"
     }, 
     {
         "source": "L U8", 
         "description": "", 
         "id": "L_U8", 
-        "text": "50 U8"
+        "text": "L U8"
     }, 
     {
         "source": "L U16", 
@@ -501,31 +501,31 @@
         "source": "The shader cannot be created", 
         "description": "", 
         "id": "The shader cannot be created", 
-        "text": "Le shader ne peut pas \u00eatre cr\u00e9\u00e9"
+        "text": "Le shader ne peut pas être créé"
     }, 
     {
         "source": "Cannot create GLFW window.", 
         "description": "", 
         "id": "Cannot create GLFW window.", 
-        "text": "Impossible de cr\u00e9er une fen\u00eatre GLFW."
+        "text": "Impossible de créer une fenêtre GLFW."
     }, 
     {
         "source": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
         "description": "", 
         "id": "This plugin provides Joint Photographic Experts Group (JPEG) image I/O.", 
-        "text": "Ce plugin fournit des E / S d\u2019images JPEG (Joint Photographic Experts Group)."
+        "text": "Ce plugin fournit les entrées-sorties d’image JPEG (Joint Photographic Experts Group)."
     }, 
     {
         "source": "This plugin provides OpenEXR file I/O.", 
         "description": "", 
         "id": "This plugin provides OpenEXR file I/O.", 
-        "text": "Ce plugin fournit le fichier OpenEXR I / O."
+        "text": "Ce plugin fournit les entrées-sorties d’image OpenEXR."
     }, 
     {
         "source": "Known", 
         "description": "", 
         "id": "Known", 
-        "text": "Connu"
+        "text": "Connue"
     }, 
     {
         "source": "All", 
@@ -543,7 +543,7 @@
         "source": "ZIP", 
         "description": "", 
         "id": "ZIP", 
-        "text": "ZIP *: FRAN\u00c7AIS"
+        "text": "ZIP"
     }, 
     {
         "source": "PIZ", 
@@ -585,19 +585,19 @@
         "source": "cannot be read", 
         "description": "", 
         "id": "cannot be read", 
-        "text": "ne peut pas \u00eatre lu"
+        "text": "ne peut pas être lu"
     }, 
     {
         "source": "cannot be written", 
         "description": "", 
         "id": "cannot be written", 
-        "text": "ne peut pas \u00eatre \u00e9crit"
+        "text": "ne peut pas être écrit"
     }, 
     {
         "source": "Float", 
         "description": "", 
         "id": "Float", 
-        "text": "Flotte"
+        "text": "Float"
     }, 
     {
         "source": "Double", 
@@ -627,37 +627,37 @@
         "source": "Float Planar", 
         "description": "", 
         "id": "Float Planar", 
-        "text": "Flotteur Planaire"
+        "text": "Float Planar"
     }, 
     {
         "source": "Double Planar", 
         "description": "", 
         "id": "Double Planar", 
-        "text": "Double planaire"
+        "text": "Double Planar"
     }, 
     {
         "source": "This plugin provides FFmpeg image and audio I/O.", 
         "description": "", 
         "id": "This plugin provides FFmpeg image and audio I/O.", 
-        "text": "Ce plugin fournit des E / S image et audio FFmpeg."
+        "text": "Ce plugin fournit les entrées-sorties d’image et d’audio via FFmpeg."
     }, 
     {
         "source": "The file cannot be opened.", 
         "description": "", 
         "id": "The file cannot be opened.", 
-        "text": "Le fichier ne peut pas \u00eatre ouvert."
+        "text": "Le fichier ne peut pas être ouvert."
     }, 
     {
         "source": "No image channels.", 
         "description": "", 
         "id": "No image channels.", 
-        "text": "Pas de canaux d&#39;image."
+        "text": "Pas de canaux d’image."
     }, 
     {
         "source": "Image channels must have the same size and bit depth.", 
         "description": "", 
         "id": "Image channels must have the same size and bit depth.", 
-        "text": "Les canaux d&#39;image doivent avoir la m\u00eame taille et la m\u00eame profondeur de bits."
+        "text": "Les canaux d’image doivent avoir la même taille et la même profondeur de bits."
     }, 
     {
         "source": "Unsupported bit depth.", 
@@ -669,25 +669,25 @@
         "source": "Line padding is unsupported.", 
         "description": "", 
         "id": "Line padding is unsupported.", 
-        "text": "Le remplissage de ligne n&#39;est pas pris en charge."
+        "text": "Le remplissage de ligne n’est pas pris en charge."
     }, 
     {
         "source": "Channel padding is unsupported.", 
         "description": "", 
         "id": "Channel padding is unsupported.", 
-        "text": "Le remplissage de canal n&#39;est pas pris en charge."
+        "text": "Le remplissage de canal n’est pas pris en charge."
     }, 
     {
         "source": "This plugin provides Cineon image I/O.", 
         "description": "", 
         "id": "This plugin provides Cineon image I/O.", 
-        "text": "Ce plugin fournit une image I / O Cineon."
+        "text": "Ce plugin fournit les entrées-sorties d’image Cineon."
     }, 
     {
         "source": "Default", 
         "description": "", 
         "id": "Default", 
-        "text": "D\u00e9faut"
+        "text": "Défaut"
     }, 
     {
         "id": "The audio format", 
@@ -705,61 +705,61 @@
         "source": "RtAudio cannot be initialized", 
         "description": "", 
         "id": "RtAudio cannot be initialized", 
-        "text": "RtAudio ne peut pas \u00eatre initialis\u00e9"
+        "text": "RtAudio ne peut pas être initialisé"
     }, 
     {
         "source": "File not supported.", 
         "description": "", 
         "id": "File not supported.", 
-        "text": "Fichier non support\u00e9."
+        "text": "Fichier non supporté."
     }, 
     {
         "source": "Error reading header.", 
         "description": "", 
         "id": "Error reading header.", 
-        "text": "Erreur de lecture de l&#39;en-t\u00eate."
+        "text": "Erreur de lecture de l’en-tête."
     }, 
     {
         "source": "Straight", 
         "description": "", 
         "id": "Straight", 
-        "text": "Tout droit"
+        "text": "Straight"
     }, 
     {
         "source": "Premultiplied", 
         "description": "", 
         "id": "Premultiplied", 
-        "text": "Pr\u00e9multipli\u00e9"
+        "text": "Prémultiplié"
     }, 
     {
         "source": "This plugin provides IFF image I/O.", 
         "description": "", 
         "id": "This plugin provides IFF image I/O.", 
-        "text": "Ce plugin fournit des E / S d&#39;images IFF."
+        "text": "Ce plugin fournit les entrées-sorties d’image IFF."
     }, 
     {
         "source": "Cannot initialize GLFW.", 
         "description": "", 
         "id": "Cannot initialize GLFW.", 
-        "text": "Impossible d&#39;initialiser GLFW."
+        "text": "Impossible d’initialiser GLFW."
     }, 
     {
         "source": "Cannot initialize GLAD.", 
         "description": "", 
         "id": "Cannot initialize GLAD.", 
-        "text": "Impossible d&#39;initialiser GLAD."
+        "text": "Impossible d’initialiser GLAD."
     }, 
     {
         "source": "This plugin provides RLA image I/O.", 
         "description": "", 
         "id": "This plugin provides RLA image I/O.", 
-        "text": "Ce plugin fournit des E / S d\u2019images RLA."
+        "text": "Ce plugin fournit les entrées-sorties d’image RLA."
     }, 
     {
         "source": "This plugin provides SGI image I/O.", 
         "description": "", 
         "id": "This plugin provides SGI image I/O.", 
-        "text": "Ce plugin fournit des E / S d\u2019image SGI."
+        "text": "Ce plugin fournit les entrées-sorties d’image SGI."
     }, 
     {
         "source": "Read error.", 
@@ -771,17 +771,17 @@
         "source": "This plugin provides Targa image I/O.", 
         "description": "", 
         "id": "This plugin provides Targa image I/O.", 
-        "text": "Ce plugin fournit une image d\u2019entr\u00e9e / sortie Targa."
+        "text": "Ce plugin fournit les entrées-sorties d’image Targa."
     }, 
     {
         "source": "Red", 
-        "text": "rouge", 
+        "text": "Rouge", 
         "id": "Red", 
         "description": ""
     }, 
     {
         "source": "Green", 
-        "text": "vert", 
+        "text": "Vert", 
         "id": "Green", 
         "description": ""
     }, 
@@ -817,7 +817,7 @@
     }, 
     {
         "source": "Linear", 
-        "text": "Lin\u00e9aire", 
+        "text": "Linéaire", 
         "id": "Linear", 
         "description": ""
     }
