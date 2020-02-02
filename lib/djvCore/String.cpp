@@ -447,60 +447,166 @@ namespace djv
 
             std::vector<std::string> getTestSentences()
             {
-                // Reference:
-                // - http://calfish.ucdavis.edu/species/?uid=1&ds=698
-                const std::vector<std::string> fishes =
+                // The Raven, by Edgar Allan Poe
+                const std::vector<std::string> text =
                 {
-                    DJV_TEXT("Speckled Dace are capable of living in an array of habitats from small springs or streams to large rivers and deep lakes."),
-                    DJV_TEXT("Speckled Dace prefer habitat that includes clear, well oxygenated water, with movement due to a current or waves."),
-                    DJV_TEXT("In addition the fish thrive in areas with deep cover or overhead protection from vegetation or woody debris."),
-                    DJV_TEXT("Speckled Dace predominantly occupy small streams of the second to third order where they feed and forage for aquatic insects."),
-                    DJV_TEXT("The species is very adaptable and is found in cold alpine lakes such as Lake Tahoe, but has also been able to survive adversity in temperatures at or above 31\u2103 with a dissolved oxygen concentration of 1 mg / L."),
-                    DJV_TEXT("In streams speckled dace swim along the bottom looking for small invertebrates while in lakes they are opportunistic feeders that may feed on zooplankton, algae, nymphs, or the resulting flying insects."),
-                    DJV_TEXT("Speckled Dace typically have a life span of three years, but may live 6 or more years, during which time females typically grow more rapidly than males."),
-                    DJV_TEXT("The fish become sexually mature in their second year and during the summer months the dace spawn."),
-                    DJV_TEXT("Stream dwellers spawn in riffles or gravely areas, while the lake inhabitants spawn in tributaries or in shallow shoreline regions."),
-                    DJV_TEXT("The embryos hatch in 6 days, and the larvae remain in the safety of the gravel for 7 - 8 days."),
-                    DJV_TEXT("The young fry then spend the early part of their lives in the shallow warm areas of the stream or lake where they hatched.")
+                    "Once upon a midnight dreary, while I pondered, weak and weary,",
+                    "Over many a quaint and curious volume of forgotten lore,",
+                    "While I nodded, nearly napping, suddenly there came a tapping,",
+                    "As of some one gently rapping, rapping at my chamber door.",
+                    "\"'T is some visiter,\" I muttered, \"tapping at my chamber door--",
+                    "                                          Only this, and nothing more.\"",
+                    "",
+                    "Ah, distinctly I remember it was in the bleak December,",
+                    "And each separate dying ember wrought its ghost upon the floor.",
+                    "Eagerly I wished the morrow:--vainly I had sought to borrow",
+                    "From my books surcease of sorrow--sorrow for the lost Lenore--",
+                    "For the rare and radiant maiden whom the angels name Lenore--",
+                    "                                          Nameless here for evermore.",
+                    "",
+                    "And the silken sad uncertain rustling of each purple curtain",
+                    "Thrilled me--filled me with fantastic terrors never felt before;",
+                    "So that now, to still the beating of my heart, I stood repeating",
+                    "\"'T is some visiter entreating entrance at my chamber door",
+                    "Some late visiter entreating entrance at my chamber door;--",
+                    "                                          This it is, and nothing more.\"",
+                    "",
+                    "Presently my soul grew stronger; hesitating then no longer,",
+                    "\"Sir,\" said I, \"or Madam, truly your forgiveness I implore;",
+                    "But the fact is I was napping, and so gently you came rapping,",
+                    "And so faintly you came tapping, tapping at my chamber door,",
+                    "That I scarce was sure I heard you\"--here I opened wide the door;--",
+                    "                                          Darkness there, and nothing more.",
+                    "",
+                    "Deep into that darkness peering, long I stood there wondering, fearing,",
+                    "Doubting, dreaming dreams no mortal ever dared to dream before;",
+                    "But the silence was unbroken, and the darkness gave no token,",
+                    "And the only word there spoken was the whispered word, \"Lenore!\"",
+                    "This I whispered, and an echo murmured back the word, \"Lenore!\"",
+                    "                                          Merely this and nothing more.",
+                    "",
+                    "Back into the chamber turning, all my soul within me burning,",
+                    "Soon again I heard a tapping, somewhat louder than before.",
+                    "\"Surely,\" said I, \"surely that is something at my window lattice;",
+                    "Let me see, then, what thereat is, and this mystery explore--",
+                    "Let my heart be still a moment and this mystery explore;--",
+                    "                                          'T is the wind and nothing more!\"",
+                    "",
+                    "Open here I flung the shutter, when, with many a flirt and flutter,",
+                    "In there stepped a stately Raven of the saintly days of yore.",
+                    "Not the least obeisance made he; not a minute stopped or stayed he;",
+                    "But, with mien of lord or lady, perched above my chamber door--",
+                    "Perched upon a bust of Pallas just above my chamber door--",
+                    "                                          Perched, and sat, and nothing more.",
+                    "",
+                    "Then this ebony bird beguiling my sad fancy into smiling,",
+                    "By the grave and stern decorum of the countenance it wore,",
+                    "\"Though thy crest be shorn and shaven, thou,\" I said, \"art sure no craven,",
+                    "Ghastly grim and ancient Raven wandering from the Nightly shore,--",
+                    "Tell me what thy lordly name is on the Night's Plutonian shore!\"",
+                    "                                          Quoth the Raven, \"Nevermore.\"",
+                    "",
+                    "Much I marvelled this ungainly fowl to hear discourse so plainly,",
+                    "Though its answer little meaning--little relevancy bore;",
+                    "For we cannot help agreeing that no living human being",
+                    "Ever yet was blessed with seeing bird above his chamber door--",
+                    "Bird or beast upon the sculptured bust above his chamber door,",
+                    "                                          With such name as \"Nevermore.\"",
+                    "",
+                    "But the Raven, sitting lonely on the placid bust, spoke only",
+                    "That one word, as if his soul in that one word he did outpour.",
+                    "Nothing further then he uttered--not a feather then he fluttered--",
+                    "Till I scarcely more than muttered, \"Other friends have flown before--",
+                    "On the morrow _he_ will leave me, as my hopes have flown before.\"",
+                    "                                          Then the bird said, \"Nevermore.\"",
+                    "",
+                    "Startled at the stillness broken by reply so aptly spoken,",
+                    "\"Doubtless,\" said I, \"what it utters is its only stock and store,",
+                    "Caught from some unhappy master whom unmerciful Disaster",
+                    "Followed fast and followed faster till his songs one burden bore--",
+                    "Till the dirges of his Hope that melancholy burden bore",
+                    "                                          Of 'Never--nevermore.'\"",
+                    "",
+                    "But the Raven still beguiling all my sad soul into smiling,",
+                    "Straight I wheeled a cushioned seat in front of bird and bust and door;",
+                    "Then, upon the velvet sinking, I betook myself to linking",
+                    "Fancy unto fancy, thinking what this ominous bird of yore--",
+                    "What this grim, ungainly, ghastly, gaunt and ominous bird of yore",
+                    "                                          Meant in croaking \"Nevermore.\"",
+                    "",
+                    "This I sat engaged in guessing, but no syllable expressing",
+                    "To the fowl whose fiery eyes now burned into my bosom's core;",
+                    "This and more I sat divining, with my head at ease reclining",
+                    "On the cushion's velvet lining that the lamplight gloated o'er,",
+                    "But whose velvet violet lining with the lamplight gloating o'er",
+                    "                                          _She_ shall press, ah, nevermore!",
+                    "",
+                    "Then, methought, the air grew denser, perfumed from an unseen censer",
+                    "Swung by seraphim whose foot-falls tinkled on the tufted floor.",
+                    "\"Wretch,\" I cried, \"thy God hath lent thee--by these angels he hath sent thee",
+                    "Respite--respite and nepenthe from thy memories of Lenore!",
+                    "Quaff, oh quaff this kind nepenthe, and forget this lost Lenore!\"",
+                    "                                          Quoth the Raven, \"Nevermore.\"",
+                    "",
+                    "\"Prophet!\" said I, \"thing of evil!--prophet still, if bird or devil!--",
+                    "Whether Tempter sent, or whether tempest tossed thee here ashore,",
+                    "Desolate yet all undaunted, on this desert land enchanted--",
+                    "On this home by Horror haunted--tell me truly, I implore--",
+                    "Is there--_is_ there balm in Gilead?--tell me--tell me, I implore!\"",
+                    "                                          Quoth the Raven, \"Nevermore.\"",
+                    "",
+                    "\"Prophet!\" said I, \"thing of evil--prophet still, if bird or devil!",
+                    "By that Heaven that bends above, us--by that God we both adore--",
+                    "Tell this soul with sorrow laden if, within the distant Aidenn,",
+                    "It shall clasp a sainted maiden whom the angels name Lenore--",
+                    "Clasp a rare and radiant maiden whom the angels name Lenore.\"",
+                    "                                          Quoth the Raven, \"Nevermore.\"",
+                    "",
+                    "\"Be that word our sign of parting, bird or fiend!\" I shrieked, upstarting--",
+                    "\"Get thee back into the tempest and the Night's Plutonian shore!",
+                    "Leave no black plume as a token of that lie thy soul hath spoken!",
+                    "Leave my loneliness unbroken!--quit the bust above my door!",
+                    "Take thy beak from out my heart, and take thy form from off my door!\"",
+                    "                                          Quoth the Raven, \"Nevermore.\"",
+                    "",
+                    "And the Raven, never flitting, still is sitting, still is sitting",
+                    "On the pallid bust of Pallas just above my chamber door;",
+                    "And his eyes have all the seeming of a demon's that is dreaming,",
+                    "And the lamplight o'er him streaming throws his shadow on the floor;",
+                    "And my soul from out that shadow that lies floating on the floor",
+                    "                                          Shall be lifted--nevermore!"
                 };
-                return fishes;
+                return text;
             }
 
             std::string getRandomSentence()
             {
                 const std::vector<std::string> data = getTestSentences();
-                const size_t size = data.size();
-                return data[Math::getRandom(static_cast<int>(size) - 1)];
+                const int size = static_cast<int>(data.size());
+                return data[Math::getRandom(size - 1)];
             }
 
             std::vector<std::string> getRandomSentences(size_t value)
             {
                 const std::vector<std::string> data = getTestSentences();
                 std::vector<std::string> out;
+                const int size = static_cast<int>(data.size());
+                int index = Math::getRandom(size - 1);
                 for (size_t i = 0; i < value; ++i)
                 {
-                    out.push_back(Math::getRandom(data));
+                    out.push_back(data[index]);
+                    ++index;
+                    if (index >= size)
+                    {
+                        index = 0;
+                    }
                 }
                 return out;
             }
 
             std::string getRandomText(size_t sentenceCount)
             {
-                const std::vector<std::string> data = getTestSentences();
-                std::vector<std::string> out;
-                size_t i = 0;
-                while (i < sentenceCount)
-                {
-                    std::vector<std::string> paragraph;
-                    size_t paragraphLineCount = Math::getRandom(2, 5);
-                    for (size_t j = 0; j < paragraphLineCount && i < sentenceCount; ++j, ++i)
-                    {
-                        const std::string & sentence = Math::getRandom(data);
-                        paragraph.push_back(sentence);
-                    }
-                    out.push_back(String::join(paragraph, " "));
-                }
-                return String::join(out, "\n\n");
+                return String::join(getRandomSentences(sentenceCount), "\n");
             }
 
         } // namespace String
