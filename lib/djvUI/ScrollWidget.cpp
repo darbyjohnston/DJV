@@ -55,7 +55,6 @@ namespace djv
         namespace
         {
             //! \todo Should this be configurable?
-            const size_t velocityTimeout            = 16;   // The timer resolution for velocity updates.
             const float  velocityDecay              = .5F;  // How quickly the velocity decays.
             const float  velocityStopDelta          = 5.F;  // The minimum amount of movement to stop the velocity.
             const size_t pointerAverageCount        = 5;    // The number of pointer samples to average.
@@ -732,7 +731,7 @@ namespace djv
             p.swipeTimer = Time::Timer::create(context);
             p.swipeTimer->setRepeating(true);
             p.swipeTimer->start(
-                std::chrono::milliseconds(velocityTimeout),
+                Time::getTime(Time::TimerValue::Fast),
                 [weak](const std::chrono::steady_clock::time_point&, const Time::Unit& value)
             {
                 if (auto widget = weak.lock())
@@ -741,7 +740,7 @@ namespace djv
                     glm::vec2 scrollPos(ceilf(pos.x + widget->_p->swipeVelocity.x), ceilf(pos.y + widget->_p->swipeVelocity.y));
                     if (widget->_p->scrollArea->setScrollPos(scrollPos))
                     {
-                        const float mult = value.count() / static_cast<float>(velocityTimeout);
+                        const float mult = value.count() / static_cast<float>(Time::getTime(Time::TimerValue::Fast).count());
                         const float decay = velocityDecay * mult;
                         if (widget->_p->swipeVelocity.x > 0.F)
                         {
