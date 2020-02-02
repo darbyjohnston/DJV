@@ -42,6 +42,11 @@ if(UNIX)
         PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/djv.sh
         DESTINATION ${DJV_INSTALL_BIN})
     if(CPACK_GENERATOR MATCHES "^RPM$" OR CPACK_GENERATOR MATCHES "^DEB$")
+        execute_process(
+            COMMAND ${CMAKE_COMMAND} -E create_symlink ${CPACK_PACKAGING_INSTALL_PREFIX}/${DJV_INSTALL_BIN}/djv.sh djv)
+        install(
+            FILES ${PROJECT_BINARY_DIR}/djv
+            DESTINATION /usr/bin)
         configure_file(
             ${PROJECT_SOURCE_DIR}/etc/Linux/djv.desktop.in
             ${PROJECT_BINARY_DIR}/etc/Linux/djv.desktop
