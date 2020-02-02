@@ -306,9 +306,9 @@
         "text": "Ekki er h\u00e6gt a\u00f0 b\u00faa til OpenGL brotskj\u00e1inn."
     }, 
     {
-        "source": "The OpenGL framgent shader", 
+        "source": "The OpenGL fragment shader", 
         "description": "", 
-        "id": "The OpenGL framgent shader", 
+        "id": "The OpenGL fragment shader", 
         "text": "The OpenGL \u00e1fram shader"
     }, 
     {

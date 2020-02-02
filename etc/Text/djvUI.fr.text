@@ -3,7 +3,7 @@
         "source": "Cannot parse the value.", 
         "description": "", 
         "id": "Cannot parse the value.", 
-        "text": "Impossible d&#39;analyser la valeur."
+        "text": "Impossible d’analyser la valeur."
     }, 
     {
         "source": "Horizontal", 
@@ -21,7 +21,7 @@
         "source": "Left", 
         "description": "", 
         "id": "Left", 
-        "text": "La gauche"
+        "text": "Gauche"
     }, 
     {
         "source": "Top", 
@@ -51,7 +51,7 @@
         "source": "Both", 
         "description": "", 
         "id": "Both", 
-        "text": "Tous les deux"
+        "text": "Les deux"
     }, 
     {
         "source": "Center", 
@@ -69,7 +69,7 @@
         "source": "Baseline", 
         "description": "", 
         "id": "Baseline", 
-        "text": "De base"
+        "text": "Baseline"
     }, 
     {
         "source": "Single", 
@@ -93,13 +93,13 @@
         "source": "Forward", 
         "description": "", 
         "id": "Forward", 
-        "text": "Vers l&#39;avant"
+        "text": "Vers l’avant"
     }, 
     {
         "source": "Reverse", 
         "description": "", 
         "id": "Reverse", 
-        "text": "Sens inverse"
+        "text": "Vers l’arrière"
     }, 
     {
         "source": "Push", 
@@ -129,19 +129,19 @@
         "source": "List", 
         "description": "", 
         "id": "List", 
-        "text": "liste"
+        "text": "Liste"
     }, 
     {
         "source": "Background", 
         "description": "", 
         "id": "Background", 
-        "text": "Contexte"
+        "text": "Arrière-plan"
     }, 
     {
         "source": "Background Header", 
         "description": "", 
         "id": "BackgroundHeader", 
-        "text": "En-t\u00eate de fond"
+        "text": "En-tête de fond"
     }, 
     {
         "source": "Background Bellows", 
@@ -153,7 +153,7 @@
         "source": "Background ToolBar", 
         "description": "", 
         "id": "BackgroundToolBar", 
-        "text": "Barre d&#39;outils de fond"
+        "text": "Barre d’outils du fond"
     }, 
     {
         "source": "Foreground", 
@@ -165,13 +165,13 @@
         "source": "Foreground Dim", 
         "description": "", 
         "id": "ForegroundDim", 
-        "text": "Avant-plan dim"
+        "text": "Atténuation avant-plan"
     }, 
     {
         "source": "Border", 
         "description": "", 
         "id": "Border", 
-        "text": "Fronti\u00e8re"
+        "text": "Bordure"
     }, 
     {
         "source": "Border Button", 
@@ -195,19 +195,19 @@
         "source": "Hovered", 
         "description": "", 
         "id": "Hovered", 
-        "text": "Plan\u00e9"
+        "text": "Survolé"
     }, 
     {
         "source": "Pressed", 
         "description": "", 
         "id": "Pressed", 
-        "text": "Press\u00e9"
+        "text": "Pressé"
     }, 
     {
         "source": "Checked", 
         "description": "", 
         "id": "Checked", 
-        "text": "V\u00e9rifi\u00e9"
+        "text": "Coché"
     }, 
     {
         "source": "Text Focus", 
@@ -219,13 +219,13 @@
         "source": "Tooltip Background", 
         "description": "", 
         "id": "TooltipBackground", 
-        "text": "Fond d&#39;infobulle"
+        "text": "Arrière-plan infobulle"
     }, 
     {
         "source": "Tooltip Foreground", 
         "description": "", 
         "id": "TooltipForeground", 
-        "text": "Info-bulle au premier plan"
+        "text": "Premier plan infobulle"
     }, 
     {
         "source": "Overlay", 
@@ -237,7 +237,7 @@
         "source": "Overlay Light", 
         "description": "", 
         "id": "OverlayLight", 
-        "text": "Superposition de lumi\u00e8re"
+        "text": "Superposition de lumière"
     }, 
     {
         "source": "Shadow", 
@@ -249,7 +249,7 @@
         "source": "Handle", 
         "description": "", 
         "id": "Handle", 
-        "text": "Manipuler"
+        "text": "Poignée"
     }, 
     {
         "source": "Margin", 
@@ -267,7 +267,7 @@
         "source": "Margin Large", 
         "description": "", 
         "id": "MarginLarge", 
-        "text": "Marge Large"
+        "text": "Marge grande"
     }, 
     {
         "source": "Margin Dialog", 
@@ -291,25 +291,25 @@
         "source": "Spacing Large", 
         "description": "", 
         "id": "SpacingLarge", 
-        "text": "Espacement Large"
+        "text": "Espacement grand"
     }, 
     {
         "source": "Drag", 
         "description": "", 
         "id": "Drag", 
-        "text": "Tra\u00eene"
+        "text": "Traîner"
     }, 
     {
         "source": "Icon", 
         "description": "", 
         "id": "Icon", 
-        "text": "Ic\u00f4ne"
+        "text": "Icône"
     }, 
     {
         "source": "Icon Small", 
         "description": "", 
         "id": "IconSmall", 
-        "text": "Icon Small"
+        "text": "Icône petite"
     }, 
     {
         "source": "Font Small", 
@@ -321,25 +321,25 @@
         "source": "Font Medium", 
         "description": "", 
         "id": "FontMedium", 
-        "text": "M\u00e9dium de police"
+        "text": "Police moyenne"
     }, 
     {
         "source": "Font Large", 
         "description": "", 
         "id": "FontLarge", 
-        "text": "Police Large"
+        "text": "Police grande"
     }, 
     {
         "source": "Font Header", 
         "description": "", 
         "id": "FontHeader", 
-        "text": "En-t\u00eate de police"
+        "text": "En-tête police"
     }, 
     {
         "source": "Font Title", 
         "description": "", 
         "id": "FontTitle", 
-        "text": "Titre de la police"
+        "text": "Titre police"
     }, 
     {
         "source": "Swatch", 
@@ -351,13 +351,13 @@
         "source": "Slider", 
         "description": "", 
         "id": "Slider", 
-        "text": "Curseur"
+        "text": "Slider"
     }, 
     {
         "source": "Scroll Area", 
         "description": "", 
         "id": "ScrollArea", 
-        "text": "Zone de d\u00e9filement"
+        "text": "Zone de défilement"
     }, 
     {
         "source": "Menu", 
@@ -399,25 +399,25 @@
         "source": "Tooltip Offset", 
         "description": "", 
         "id": "TooltipOffset", 
-        "text": "D\u00e9calage d&#39;info-bulle"
+        "text": "Décalage d’infobulle"
     }, 
     {
         "source": "Move", 
         "description": "", 
         "id": "Move", 
-        "text": "Bouge toi"
+        "text": "Déplacer"
     }, 
     {
         "source": "Dark", 
         "description": "", 
         "id": "Dark", 
-        "text": "Fonc\u00e9"
+        "text": "Foncée"
     }, 
     {
         "source": "Light", 
         "description": "", 
         "id": "Light", 
-        "text": "Lumi\u00e8re"
+        "text": "Claire"
     }, 
     {
         "source": "Medium", 
@@ -441,19 +441,19 @@
         "source": "Extra Large", 
         "description": "", 
         "id": "ExtraLarge", 
-        "text": "Extra large"
+        "text": "Très grand"
     }, 
     {
         "source": "Default", 
         "description": "", 
         "id": "Default", 
-        "text": "D\u00e9faut"
+        "text": "Défaut"
     }, 
     {
         "source": "Expand", 
         "description": "", 
         "id": "Expand", 
-        "text": "D\u00e9velopper"
+        "text": "Développer"
     }, 
     {
         "source": "Space", 
@@ -471,7 +471,7 @@
         "source": "Comma", 
         "description": "", 
         "id": "Comma", 
-        "text": "virgule"
+        "text": "Virgule"
     }, 
     {
         "source": "Minus", 
@@ -483,13 +483,13 @@
         "source": "Period", 
         "description": "", 
         "id": "Period", 
-        "text": "P\u00e9riode"
+        "text": "Point"
     }, 
     {
         "source": "Slash", 
         "description": "", 
         "id": "Slash", 
-        "text": "Sabrer"
+        "text": "Barre oblique"
     }, 
     {
         "source": "0", 
@@ -561,13 +561,13 @@
         "source": "Equal", 
         "description": "", 
         "id": "Equal", 
-        "text": "\u00c9gal"
+        "text": "Égal"
     }, 
     {
         "source": "A", 
         "description": "", 
         "id": "A", 
-        "text": "UNE"
+        "text": "A"
     }, 
     {
         "source": "B", 
@@ -585,13 +585,13 @@
         "source": "D", 
         "description": "", 
         "id": "D", 
-        "text": "r\u00e9"
+        "text": "D"
     }, 
     {
         "source": "E", 
         "description": "", 
         "id": "E", 
-        "text": "et"
+        "text": "E"
     }, 
     {
         "source": "F", 
@@ -603,7 +603,7 @@
         "source": "G", 
         "description": "", 
         "id": "G", 
-        "text": "g"
+        "text": "G"
     }, 
     {
         "source": "H", 
@@ -615,7 +615,7 @@
         "source": "I", 
         "description": "", 
         "id": "I", 
-        "text": "je"
+        "text": "I"
     }, 
     {
         "source": "J", 
@@ -699,7 +699,7 @@
         "source": "W", 
         "description": "", 
         "id": "W", 
-        "text": "la"
+        "text": "W"
     }, 
     {
         "source": "X", 
@@ -717,13 +717,13 @@
         "source": "Z", 
         "description": "", 
         "id": "Z", 
-        "text": "avec"
+        "text": "Z"
     }, 
     {
         "source": "Left Bracket", 
         "description": "", 
         "id": "LeftBracket", 
-        "text": "Support gauche"
+        "text": "Crochet ouvrant"
     }, 
     {
         "source": "Backslash", 
@@ -735,13 +735,13 @@
         "source": "Right Bracket", 
         "description": "", 
         "id": "RightBracket", 
-        "text": "Support droit"
+        "text": "Crochet fermant"
     }, 
     {
         "source": "Grave Accent", 
         "description": "", 
         "id": "GraveAccent", 
-        "text": "Grave Accent"
+        "text": "Accent grave"
     }, 
     {
         "source": "World 1", 
@@ -759,7 +759,7 @@
         "source": "Escape", 
         "description": "", 
         "id": "Escape", 
-        "text": "\u00c9chapper"
+        "text": "Échap"
     }, 
     {
         "source": "Enter", 
@@ -771,19 +771,19 @@
         "source": "Tab", 
         "description": "", 
         "id": "Tab", 
-        "text": "Languette"
+        "text": "Tabulation"
     }, 
     {
         "source": "Backspace", 
         "description": "", 
         "id": "Backspace", 
-        "text": "Retour arri\u00e8re"
+        "text": "Retour arrière"
     }, 
     {
         "source": "Insert", 
         "description": "", 
         "id": "Insert", 
-        "text": "Ins\u00e9rer"
+        "text": "Insérer"
     }, 
     {
         "source": "Delete", 
@@ -795,31 +795,31 @@
         "source": "Right Arrow", 
         "description": "", 
         "id": "RightArrow", 
-        "text": "Fl\u00e8che droite"
+        "text": "Flèche droite"
     }, 
     {
         "source": "Left Arrow", 
         "description": "", 
         "id": "LeftArrow", 
-        "text": "Fl\u00e8che gauche"
+        "text": "Flèche gauche"
     }, 
     {
         "source": "Down Arrow", 
         "description": "", 
         "id": "DownArrow", 
-        "text": "Fl\u00e8che vers le bas"
+        "text": "Flèche bas"
     }, 
     {
         "source": "Up Arrow", 
         "description": "", 
         "id": "UpArrow", 
-        "text": "Fl\u00e8che vers le haut"
+        "text": "Flèche haut"
     }, 
     {
         "source": "Page Up", 
         "description": "", 
         "id": "PageUp", 
-        "text": "Page Up"
+        "text": "Haut de page"
     }, 
     {
         "source": "Page Down", 
@@ -843,25 +843,25 @@
         "source": "Caps Lock", 
         "description": "", 
         "id": "CapsLock", 
-        "text": "verrouillage des majuscules"
+        "text": "Verrouillage majuscules"
     }, 
     {
         "source": "Scroll Lock", 
         "description": "", 
         "id": "ScrollLock", 
-        "text": "Verrouillage du d\u00e9filement"
+        "text": "Verrouillage défilement"
     }, 
     {
         "source": "Num Lock", 
         "description": "", 
         "id": "NumLock", 
-        "text": "Verrouillage num\u00e9rique"
+        "text": "Verrouillage numérique"
     }, 
     {
         "source": "Print Screen", 
         "description": "", 
         "id": "PrintScreen", 
-        "text": "Capture d&#39;\u00e9cran"
+        "text": "Capture d’écran"
     }, 
     {
         "source": "F1", 
@@ -1017,115 +1017,115 @@
         "source": "Key Pad 0", 
         "description": "", 
         "id": "KeyPad0", 
-        "text": "Clavier 0"
+        "text": "Pavé numérique 0"
     }, 
     {
         "source": "Key Pad 1", 
         "description": "", 
         "id": "KeyPad1", 
-        "text": "Clavier 1"
+        "text": "Pavé numérique 1"
     }, 
     {
         "source": "Key Pad 2", 
         "description": "", 
         "id": "KeyPad2", 
-        "text": "Clavier 2"
+        "text": "Pavé numérique 2"
     }, 
     {
         "source": "Key Pad 3", 
         "description": "", 
         "id": "KeyPad3", 
-        "text": "Clavier 3"
+        "text": "Pavé numérique 3"
     }, 
     {
         "source": "Key Pad 4", 
         "description": "", 
         "id": "KeyPad4", 
-        "text": "Clavier 4"
+        "text": "Pavé numérique 4"
     }, 
     {
         "source": "Key Pad 5", 
         "description": "", 
         "id": "KeyPad5", 
-        "text": "Clavier 5"
+        "text": "Pavé numérique 5"
     }, 
     {
         "source": "Key Pad 6", 
         "description": "", 
         "id": "KeyPad6", 
-        "text": "Clavier 6"
+        "text": "Pavé numérique 6"
     }, 
     {
         "source": "Key Pad 7", 
         "description": "", 
         "id": "KeyPad7", 
-        "text": "Clavier 7"
+        "text": "Pavé numérique 7"
     }, 
     {
         "source": "Key Pad 8", 
         "description": "", 
         "id": "KeyPad8", 
-        "text": "Clavier 8"
+        "text": "Pavé numérique 8"
     }, 
     {
         "source": "Key Pad 9", 
         "description": "", 
         "id": "KeyPad9", 
-        "text": "Clavier 9"
+        "text": "Pavé numérique 9"
     }, 
     {
         "source": "Key Pad Decimal", 
         "description": "", 
         "id": "KeyPadDecimal", 
-        "text": "D\u00e9cimale du clavier"
+        "text": "Pavé numérique point"
     }, 
     {
         "source": "Key Pad Divide", 
         "description": "", 
         "id": "KeyPadDivide", 
-        "text": "Clavier Diviser"
+        "text": "Pavé numérique diviser"
     }, 
     {
         "source": "Key Pad Multiply", 
         "description": "", 
         "id": "KeyPadMultiply", 
-        "text": "Clavier Multiplier"
+        "text": "Pavé numérique multiplier"
     }, 
     {
         "source": "Key Pad Substract", 
         "description": "", 
         "id": "KeyPadSubstract", 
-        "text": "Soustraction clavier"
+        "text": "Pavé numérique moins"
     }, 
     {
         "source": "Key Pad Add", 
         "description": "", 
         "id": "KeyPadAdd", 
-        "text": "Key Pad Ajouter"
+        "text": "Pavé numérique plus"
     }, 
     {
         "source": "Key Pad Enter", 
         "description": "", 
         "id": "KeyPadEnter", 
-        "text": "Clavier Entrer"
+        "text": "Pavé numérique entrer"
     }, 
     {
         "source": "Key Pad Equal", 
         "description": "", 
         "id": "KeyPadEqual", 
-        "text": "Clavier \u00e9gal"
+        "text": "Pavé numérique égal"
     }, 
     {
         "source": "Left Shift", 
         "description": "", 
         "id": "LeftShift", 
-        "text": "D\u00e9calage \u00e0 gauche"
+        "text": "Shift gauche"
     }, 
     {
         "source": "Left Control", 
         "description": "", 
         "id": "LeftControl", 
-        "text": "Contr\u00f4le gauche"
+        "text": "Contrôle gauche"
     }, 
     {
         "source": "Left Alt", 
@@ -1137,19 +1137,19 @@
         "source": "Left Command", 
         "description": "", 
         "id": "LeftCommand", 
-        "text": "Commande de gauche"
+        "text": "Commande gauche"
     }, 
     {
         "source": "Right Shift", 
         "description": "", 
         "id": "RightShift", 
-        "text": "D\u00e9calage droit"
+        "text": "Shift droit"
     }, 
     {
         "source": "Right Control", 
         "description": "", 
         "id": "RightControl", 
-        "text": "Bon contr\u00f4le"
+        "text": "Contrôle droit"
     }, 
     {
         "source": "Right Alt", 
@@ -1161,13 +1161,13 @@
         "source": "Right Command", 
         "description": "", 
         "id": "RightCommand", 
-        "text": "Bon commandement"
+        "text": "Commande droit"
     }, 
     {
         "source": "Shift", 
         "description": "", 
         "id": "Shift", 
-        "text": "D\u00e9calage"
+        "text": "Shift"
     }, 
     {
         "source": "Ctrl", 
@@ -1179,13 +1179,13 @@
         "source": "Alt", 
         "description": "", 
         "id": "Alt", 
-        "text": "tout"
+        "text": "Alt"
     }, 
     {
         "source": "Command", 
         "description": "", 
         "id": "Command", 
-        "text": "Commander"
+        "text": "Commande"
     }, 
     {
         "source": "Cached", 
@@ -1197,7 +1197,7 @@
         "source": "Scrub", 
         "description": "", 
         "id": "Scrub", 
-        "text": "Frotter"
+        "text": "Défiler"
     }, 
     {
         "source": "Keyboard shortcut", 
@@ -1225,7 +1225,7 @@
     }, 
     {
         "source": "ScrollBar", 
-        "text": "Barre de d\u00e9filement", 
+        "text": "Barre de défilement", 
         "id": "ScrollBar", 
         "description": ""
     }, 
@@ -1237,13 +1237,13 @@
     }, 
     {
         "source": "Native", 
-        "text": "Originaire de", 
+        "text": "Natif", 
         "id": "Native", 
         "description": ""
     }, 
     {
         "source": "16:9", 
-        "text": "16: 9", 
+        "text": "16:9", 
         "id": "16:9", 
         "description": ""
     }, 
@@ -1261,7 +1261,7 @@
     }, 
     {
         "source": "Reset the value.", 
-        "text": "R\u00e9initialiser la valeur.", 
+        "text": "Réinitialiser la valeur.", 
         "id": "Reset the value.", 
         "description": ""
     }, 
@@ -1273,13 +1273,13 @@
     }, 
     {
         "source": "BelowLeft", 
-        "text": "En bas \u00e0 gauche", 
+        "text": "En bas à gauche", 
         "description": "", 
         "id": "BelowLeft"
     }, 
     {
         "source": "AboveRight", 
-        "text": "En haut \u00e0 droite", 
+        "text": "En haut à droite", 
         "description": "", 
         "id": "AboveRight"
     }, 

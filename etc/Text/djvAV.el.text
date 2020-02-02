@@ -306,9 +306,9 @@
         "text": "\u0394\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03c5\u03bd\u03b1\u03c4\u03ae \u03b7 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03af\u03b1 \u03c4\u03bf\u03c5 shader \u03c4\u03bf\u03c5 \u03c4\u03bc\u03ae\u03bc\u03b1\u03c4\u03bf\u03c2 OpenGL."
     }, 
     {
-        "source": "The OpenGL framgent shader", 
+        "source": "The OpenGL fragment shader", 
         "description": "", 
-        "id": "The OpenGL framgent shader", 
+        "id": "The OpenGL fragment shader", 
         "text": "\u039f \u03c3\u03ba\u03b9\u03b1\u03c3\u03bc\u03cc\u03c2 \u03c4\u03bf\u03c5 OpenGL \u03c0\u03c1\u03bf\u03c2 \u03c4\u03b1 \u03b5\u03bc\u03c0\u03c1\u03cc\u03c2"
     }, 
     {

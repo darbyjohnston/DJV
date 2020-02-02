@@ -306,9 +306,9 @@
         "text": "OpenGL\u30d5\u30e9\u30b0\u30e1\u30f3\u30c8\u30b7\u30a7\u30fc\u30c0\u306f\u4f5c\u6210\u3067\u304d\u307e\u305b\u3093\u3002"
     }, 
     {
-        "source": "The OpenGL framgent shader", 
+        "source": "The OpenGL fragment shader", 
         "description": "", 
-        "id": "The OpenGL framgent shader", 
+        "id": "The OpenGL fragment shader", 
         "text": "OpenGL\u30d5\u30a9\u30ef\u30fc\u30c9\u30b7\u30a7\u30fc\u30c0"
     }, 
     {
