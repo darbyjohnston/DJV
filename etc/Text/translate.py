@@ -5,11 +5,12 @@
 
 import sys
 import json
-from google.cloud import translate
+from collections import OrderedDict 
+from google.cloud import translate_v2
 
 def getTranslation(translateClient, text, language):
     translation = translateClient.translate(text, target_language=language)
-    print text, "=", translation['translatedText']
+    print(text, "=", translation['translatedText'])
     return translation['translatedText']
 
 def run():
@@ -20,15 +21,15 @@ def run():
     language = sys.argv[3]
     
     # Read the input and output files.
-    inData = json.load(open(inFile))
+    inData = json.load(open(inFile), object_pairs_hook=OrderedDict)
     outData = []
     try:
-        outData = json.load(open(outFile))
+        outData = json.load(open(outFile), object_pairs_hook=OrderedDict)
     except:
         pass
 
     # Create the translation client.
-    translateClient = translate.Client()
+    translateClient = translate_v2.Client()
     
     for inItem in inData:
 
@@ -48,7 +49,7 @@ def run():
         if None == i:
 
             # The item doesn't exist in the output file, add it.
-            i = dict(inItem)
+            i = OrderedDict(inItem)
             if itemLanguage != 'en':
                 i['text'] = getTranslation(translateClient, inItem['text'], itemLanguage)
             else:
@@ -76,7 +77,7 @@ def run():
                 i['source'] = inItem['text']
 
     with open(outFile, 'w') as f:
-        json.dump(outData, f, indent = 4)
+        json.dump(outData, f, indent = 4, ensure_ascii=False)
     
 if __name__ == '__main__':
     run()
