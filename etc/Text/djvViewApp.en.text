@@ -802,6 +802,17 @@
         "description": ""
     }, 
     {
+        "text": "Damien Picard", 
+        "id": "Credits Damien Picard", 
+        "description": "",
+        "language": "en"
+    }, 
+    {
+        "text": "French translation updates", 
+        "id": "Credits Damien Picard Text", 
+        "description": ""
+    }, 
+    {
         "text": "unexpected GmbH, https://www.unexpected.de", 
         "id": "Sponsors unexpected", 
         "description": "",

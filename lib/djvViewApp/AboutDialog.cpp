@@ -70,7 +70,7 @@ namespace djv
             const std::vector<std::string> credits = 
             {
                 "Credits1", "Credits2", "Credits3", "Credits4", "Credits5",
-                "Credits6", "Credits7"
+                "Credits6", "Credits7", "Credits8"
             };
             for (const auto& i : credits)
             {
@@ -81,7 +81,7 @@ namespace djv
             const std::vector<std::string> creditsText = 
             {
                 "Credits1Text", "Credits2Text", "Credits3Text", "Credits4Text",
-                "Credits5Text", "Credits6Text", "Credits7Text"
+                "Credits5Text", "Credits6Text", "Credits7Text", "Credits8Text"
             };
             for (const auto& i : creditsText)
             {
@@ -192,6 +192,10 @@ namespace djv
             gridLayout->setGridPos(p.textBlocks["Credits7"], glm::ivec2(0, 6));
             gridLayout->addChild(p.textBlocks["Credits7Text"]);
             gridLayout->setGridPos(p.textBlocks["Credits7Text"], glm::ivec2(1, 6));
+            gridLayout->addChild(p.textBlocks["Credits8"]);
+            gridLayout->setGridPos(p.textBlocks["Credits8"], glm::ivec2(0, 7));
+            gridLayout->addChild(p.textBlocks["Credits8Text"]);
+            gridLayout->setGridPos(p.textBlocks["Credits8Text"], glm::ivec2(1, 7));
             vLayout->addChild(gridLayout);
             textLayout->addChild(vLayout);
 
@@ -331,6 +335,8 @@ namespace djv
             p.textBlocks["Credits6Text"]->setText(_getText(DJV_TEXT("Credits Jean-Francois Panisset Text")));
             p.textBlocks["Credits7"]->setText(_getText(DJV_TEXT("Credits Haryo Sukmawanto")));
             p.textBlocks["Credits7Text"]->setText(_getText(DJV_TEXT("Credits Haryo Sukmawanto Text")));
+            p.textBlocks["Credits8"]->setText(_getText(DJV_TEXT("Credits Damien Picard")));
+            p.textBlocks["Credits8Text"]->setText(_getText(DJV_TEXT("Credits Damien Picard Text")));
             p.textBlocks["Sponsors1"]->setText(_getText(DJV_TEXT("Sponsors unexpected")));
             p.textBlocks["License1"]->setText(_getText(DJV_TEXT("License 1")));
             p.textBlocks["License2"]->setText(_getText(DJV_TEXT("License 2")));
