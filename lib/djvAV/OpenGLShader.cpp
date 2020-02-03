@@ -88,7 +88,7 @@ namespace djv
                 {
                     glGetShaderInfoLog(_fragment, String::cStringLength, NULL, infoLog);
                     std::stringstream ss;
-                    ss << DJV_TEXT("The OpenGL framgent shader") << " '" << _shader->getFragmentName() << "' " <<
+                    ss << DJV_TEXT("The OpenGL fragment shader") << " '" << _shader->getFragmentName() << "' " <<
                         DJV_TEXT("cannot be compiled") << ". " << infoLog;
                     throw ShaderError(ss.str());
                 }
